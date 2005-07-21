@@ -71,6 +71,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     // Title parameters
     private static final Font TITLE_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
+    private static final Point TITLE_LOCATION = new Point( 40, 115 );
     
     // Chart parameters
     private static final double L = FourierConstants.L; // do not change!
@@ -102,6 +103,8 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     //----------------------------------------------------------------------------
     
     private FourierSeries _fourierSeries;
+    private PhetShapeGraphic _backgroundGraphic;
+    private PhetTextGraphic titleGraphic;
     private JButton _closeButton;
     private SumChart _chartGraphic;
     private SumEquation _mathGraphic;
@@ -135,20 +138,20 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         
         // Background
-        PhetShapeGraphic backgroundGraphic = new PhetShapeGraphic( component );
-        backgroundGraphic.setShape( new Rectangle( 0, 0, BACKGROUND_SIZE.width, BACKGROUND_SIZE.height ) );
-        backgroundGraphic.setPaint( BACKGROUND_COLOR );
-        backgroundGraphic.setStroke( BACKGROUND_STROKE );
-        backgroundGraphic.setBorderColor( BACKGROUND_BORDER_COLOR );
-        addGraphic( backgroundGraphic, BACKGROUND_LAYER );
-        backgroundGraphic.setLocation( 0, 0 );
+        _backgroundGraphic = new PhetShapeGraphic( component );
+        _backgroundGraphic.setShape( new Rectangle( 0, 0, BACKGROUND_SIZE.width, BACKGROUND_SIZE.height ) );
+        _backgroundGraphic.setPaint( BACKGROUND_COLOR );
+        _backgroundGraphic.setStroke( BACKGROUND_STROKE );
+        _backgroundGraphic.setBorderColor( BACKGROUND_BORDER_COLOR );
+        addGraphic( _backgroundGraphic, BACKGROUND_LAYER );
+        _backgroundGraphic.setLocation( 0, 0 );
         
         // Title
         String title = SimStrings.get( "SumGraph.title" );
-        PhetTextGraphic titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
+        titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
         titleGraphic.centerRegistrationPoint();
         titleGraphic.rotate( -( Math.PI / 2 ) );
-        titleGraphic.setLocation( 40, 115 );
+        titleGraphic.setLocation( TITLE_LOCATION );
         addGraphic( titleGraphic, TITLE_LAYER );
         
         // Chart
@@ -239,7 +242,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         
         // Interactivity
         {
-            backgroundGraphic.setIgnoreMouse( true );
+            _backgroundGraphic.setIgnoreMouse( true );
             titleGraphic.setIgnoreMouse( true );
             _chartGraphic.setIgnoreMouse( true );
             _mathGraphic.setIgnoreMouse( true );
@@ -368,6 +371,19 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
      */
     public JButton getCloseButton() {
         return _closeButton;
+    }
+    
+    /**
+     * Changes the height of this graphic by a specified amount,
+     * relative to it's "normal" height.
+     * 
+     * @param amount
+     */
+    public void warpHeight( int amount ) {
+        _backgroundGraphic.setShape( new Rectangle( 0, 0, BACKGROUND_SIZE.width, BACKGROUND_SIZE.height + amount ) );
+        _chartGraphic.setChartSize( CHART_SIZE.width, CHART_SIZE.height + amount );
+        titleGraphic.setLocation( TITLE_LOCATION.x, TITLE_LOCATION.y + (amount/2) );
+        setBoundsDirty();
     }
     
     //----------------------------------------------------------------------------
