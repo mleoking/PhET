@@ -22,10 +22,14 @@ public class SoundApplication extends PhetApplication {
         public SoundApplicationModel() {
             super( SimStrings.get( "SoundApplication.title" ),
                    SimStrings.get( "SoundApplication.description" ),
-                   SimStrings.get( "SoundApplication.version" ) );                   
+                   SimStrings.get( "SoundApplication.version" ),
+                   new FrameSetup.CenteredWithSize( 900, 750 ) );
+
+            // Must not be resizable, because the performance tanks when you make the
+            // window bigger. SHOULD BE FIXED!!!
+            getFrame().setResizable( false );
 
             // Specify the clock
-            //            this.setClock( new ThreadedClock( SoundConfig.s_timeStep, SoundConfig.s_waitTime, true ));
             this.setClock( new SwingTimerClock( SoundConfig.s_timeStep, SoundConfig.s_waitTime ) );
             this.setName( "sound" );
 
@@ -38,14 +42,7 @@ public class SoundApplication extends PhetApplication {
             this.setModules( new Module[]{singleSourceModule, measureModule,
                                           twoSourceIntereferenceModule, wallInterferenceModule,
                                           evacuatedBoxModule} );
-            //                        this.setModules( new Module[]{ evacuatedBoxModule  } );
-            //            this.setInitialModule( measureModule );
-            //            this.setInitialModule( twoSourceIntereferenceModule );
             this.setInitialModule( singleSourceModule );
-
-            // Create the frame setup
-            FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 900, 750 );
-            this.setFrameSetup( frameSetup );
         }
         
          public String getName() {

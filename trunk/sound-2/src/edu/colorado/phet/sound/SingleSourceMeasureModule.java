@@ -94,7 +94,9 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
     public void activate( PhetApplication app ) {
         super.activate( app );
         closkWasPausedOnActivate = clock.isPaused();
-        clock.setPaused( true );
+        if( !closkWasPausedOnActivate ) {
+            clock.setPaused( true );
+        }
         stopwatchDlg.setVisible( true );
     }
 

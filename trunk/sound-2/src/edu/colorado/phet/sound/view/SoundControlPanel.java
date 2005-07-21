@@ -9,7 +9,7 @@ package edu.colorado.phet.sound.view;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.view.PhetControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.SwingUtils;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.sound.SoundConfig;
 import edu.colorado.phet.sound.SoundModule;
 import edu.colorado.phet.sound.model.SoundModel;
@@ -38,7 +38,7 @@ public class SoundControlPanel extends PhetControlPanel {
 
     public void addPanel( JPanel panel ) {
         try {
-            SwingUtils.addGridBagComponent( soundControlPanel, panel,
+            GraphicsUtil.addGridBagComponent( soundControlPanel, panel,
                                               0, rowIdx++,
                                               1, 1,
                                               GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
@@ -74,12 +74,12 @@ public class SoundControlPanel extends PhetControlPanel {
                 throw new RuntimeException( "Type of parameter is invalid" );
             }
             try {
-                SwingUtils.addGridBagComponent( this, new FrequencyControlPanel( (SoundModel)module.getModel() ),
+                GraphicsUtil.addGridBagComponent( this, new FrequencyControlPanel( (SoundModel)module.getModel() ),
                                                   0, rowIdx++,
                                                   1, 1,
                                                   GridBagConstraints.NONE, GridBagConstraints.CENTER );
                 amplitudeControlPanel = new AmplitudeControlPanel( (SoundModel)module.getModel() );
-                SwingUtils.addGridBagComponent( this, amplitudeControlPanel,
+                GraphicsUtil.addGridBagComponent( this, amplitudeControlPanel,
                                                   0, rowIdx++,
                                                   1, 1,
                                                   GridBagConstraints.NONE, GridBagConstraints.CENTER );
