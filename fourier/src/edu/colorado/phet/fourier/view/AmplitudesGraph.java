@@ -116,7 +116,7 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
         backgroundGraphic.setLocation( 0, 0 );
         
         // Title
-        String title = SimStrings.get( "AmplitudesGraphic.title" );
+        String title = SimStrings.get( "AmplitudesGraph.title" );
         PhetTextGraphic titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
         titleGraphic.centerRegistrationPoint();
         titleGraphic.rotate( -( Math.PI / 2 ) );

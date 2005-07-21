@@ -14,6 +14,8 @@ package edu.colorado.phet.fourier.module;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 
 import javax.swing.event.MouseInputAdapter;
@@ -46,9 +48,11 @@ public class DiscreteModule extends FourierModule {
 
     // Rendering layers
     private static final double AMPLITUDES_LAYER = 1;
-    private static final double COMPONENTS_LAYER = 2;
+    private static final double HARMONICS_LAYER = 2;
     private static final double SUM_LAYER = 3;
-    private static final double TOOLS_LAYER = 4;
+    private static final double HARMONICS_CLOSED_LAYER = 4;
+    private static final double SUM_CLOSED_LAYER = 5;
+    private static final double TOOLS_LAYER = 6;
 
     // Locations
     private static final Point AMPLITUDES_LOCATION = new Point( 0, 0 );
@@ -74,7 +78,9 @@ public class DiscreteModule extends FourierModule {
     private FourierSeries _fourierSeries;
     private AmplitudesGraph _amplitudesGraph;
     private HarmonicsGraph _harmonicsGraph;
+    private GraphClosed _harmonicsGraphClosed;
     private SumGraph _sumGraph;
+    private GraphClosed _sumGraphClosed;
     private WavelengthTool _wavelengthTool;
     private PeriodTool _periodTool;
     private PeriodDisplay _periodDisplay;
@@ -122,12 +128,22 @@ public class DiscreteModule extends FourierModule {
         // Harmonics view
         _harmonicsGraph = new HarmonicsGraph( apparatusPanel, _fourierSeries );
         _harmonicsGraph.setLocation( HARMONICS_LOCATION );
-        apparatusPanel.addGraphic( _harmonicsGraph, COMPONENTS_LAYER );
+        apparatusPanel.addGraphic( _harmonicsGraph, HARMONICS_LAYER );
+        
+        // Harmonics view (collapsed)
+        _harmonicsGraphClosed = new GraphClosed( apparatusPanel, SimStrings.get( "HarmonicsGraph.title" ) );
+        _harmonicsGraphClosed.setLocation( HARMONICS_LOCATION );
+        apparatusPanel.addGraphic( _harmonicsGraphClosed, HARMONICS_CLOSED_LAYER );
         
         // Sum view
         _sumGraph = new SumGraph( apparatusPanel, _fourierSeries );
         _sumGraph.setLocation( SUM_LOCATION );
         apparatusPanel.addGraphic( _sumGraph, SUM_LAYER );
+        
+        // Sum view (collapsed)
+        _sumGraphClosed = new GraphClosed( apparatusPanel, SimStrings.get( "SumGraph.title" ) );
+        _sumGraphClosed.setLocation( SUM_LOCATION );
+        apparatusPanel.addGraphic( _sumGraphClosed, SUM_CLOSED_LAYER );
         
         // Wavelength Tool
         _wavelengthTool = new WavelengthTool( apparatusPanel, _fourierSeries.getHarmonic(0), _harmonicsGraph.getChart() );
@@ -177,6 +193,19 @@ public class DiscreteModule extends FourierModule {
         // Slider movement by the user
         _amplitudesGraph.addChangeListener( _controlPanel );
         
+        // Open/close buttons on graphs
+        {
+            ActionListener listener = new ActionListener() {
+                public void actionPerformed( ActionEvent event ) {
+                    handleOpenCloseButton( event );
+                }
+            };
+            _harmonicsGraph.getCloseButton().addActionListener( listener );
+            _harmonicsGraphClosed.getOpenButton().addActionListener( listener );
+            _sumGraph.getCloseButton().addActionListener( listener );
+            _sumGraphClosed.getOpenButton().addActionListener( listener );
+        }
+        
         reset();
         
         //----------------------------------------------------------------------------
@@ -210,6 +239,11 @@ public class DiscreteModule extends FourierModule {
         _harmonicsGraph.reset();
         _sumGraph.reset();
         
+        _harmonicsGraph.setVisible( true );
+        _harmonicsGraphClosed.setVisible( false );
+        _sumGraph.setVisible( true );
+        _sumGraphClosed.setVisible( false ); 
+        
         _wavelengthTool.setVisible( false );
         _wavelengthTool.setLocation( WAVELENGTH_TOOL_LOCATION );
         
@@ -220,6 +254,29 @@ public class DiscreteModule extends FourierModule {
         _periodDisplay.setLocation( PERIOD_DISPLAY_LOCATION );
         
         _controlPanel.reset();
+    }
+   
+    //----------------------------------------------------------------------------
+    // EventHandling
+    //----------------------------------------------------------------------------
+    
+    private void handleOpenCloseButton( ActionEvent event ) {
+        if ( event.getSource() == _harmonicsGraph.getCloseButton() ) {
+            _harmonicsGraph.setVisible( false );
+            _harmonicsGraphClosed.setVisible( true );
+        }
+        else if ( event.getSource() == _harmonicsGraphClosed.getOpenButton() ) {
+            _harmonicsGraph.setVisible( true );
+            _harmonicsGraphClosed.setVisible( false );
+        }
+        else if ( event.getSource() == _sumGraph.getCloseButton() ) {
+            _sumGraph.setVisible( false );
+            _sumGraphClosed.setVisible( true );
+        }
+        else if ( event.getSource() == _sumGraphClosed.getOpenButton() ) {
+            _sumGraph.setVisible( true );
+            _sumGraphClosed.setVisible( false );      
+        }
     }
     
     //----------------------------------------------------------------------------
