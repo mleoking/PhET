@@ -16,7 +16,7 @@ import javax.swing.event.ChangeListener;
 
 public class AutoFireCheckBox extends JCheckBox {
     public AutoFireCheckBox( final AutoFire autoFire ) {
-        super( "Auto-Fire" );
+        super( "Auto-Repeat" );
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 autoFire.setAutoFire( isSelected() );

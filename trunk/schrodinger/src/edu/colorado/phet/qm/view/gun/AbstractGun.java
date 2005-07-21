@@ -42,11 +42,15 @@ public abstract class AbstractGun extends GraphicLayerSet {
         return schrodingerPanel.getDiscreteModel();
     }
 
+    public int getControlOffsetY() {
+        return 50;
+    }
+
     public void setLocation( int x, int y ) {
         super.setLocation( x, y );
         double scaleX = schrodingerPanel.getGraphicTx().getScaleX();
         double scaleY = schrodingerPanel.getGraphicTx().getScaleY();
-        comboBox.setBounds( (int)( ( x - comboBox.getPreferredSize().width - 2 ) * scaleX ), (int)( y * scaleY ),
+        comboBox.setBounds( (int)( ( x - comboBox.getPreferredSize().width - 2 ) * scaleX ), (int)( ( y + getControlOffsetY() ) * scaleY ),
                             comboBox.getPreferredSize().width, comboBox.getPreferredSize().height );
         System.out.println( "comboBox.getLocation() = " + comboBox.getLocation() );
     }

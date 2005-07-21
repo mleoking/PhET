@@ -30,11 +30,13 @@ public class SingleParticleGun extends AbstractGun {
 
     public SingleParticleGun( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
-        fireOne = new JButton();
+        fireOne = new JButton( "Fire" );
+        fireOne.setFont( new Font( "Lucida Sans", Font.BOLD, 18 ) );
+        fireOne.setForeground( Color.red );
         fireOne.setMargin( new Insets( 2, 2, 2, 2 ) );
         try {
-            outIcon = new ImageIcon( ImageLoader.loadBufferedImage( "images/fire-50.gif" ) );
-            inIcon = new ImageIcon( ImageLoader.loadBufferedImage( "images/fire-in-50.gif" ) );
+            outIcon = new ImageIcon( ImageLoader.loadBufferedImage( "images/button-out-40.gif" ) );
+            inIcon = new ImageIcon( ImageLoader.loadBufferedImage( "images/button-in-40.gif" ) );
             fireOne.setIcon( outIcon );
             fireOne.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
         }
@@ -69,7 +71,7 @@ public class SingleParticleGun extends AbstractGun {
         PhetGraphic fireJC = PhetJComponent.newInstance( schrodingerPanel, fireOne );
         fireJC.setCursorHand();
         addGraphic( fireJC );
-        fireJC.setLocation( getGunImageGraphic().getWidth() + 2, 0 );
+        fireJC.setLocation( getGunImageGraphic().getWidth() + 2 + getFireButtonInsetDX(), getControlOffsetY() + 0 );
 
         setupObject( gunItems[0] );
         autoFire = new AutoFire( this, schrodingerPanel.getIntensityDisplay() );
@@ -77,6 +79,10 @@ public class SingleParticleGun extends AbstractGun {
         PhetGraphic autoJC = PhetJComponent.newInstance( schrodingerPanel, jcb );
         addGraphic( autoJC );
         autoJC.setLocation( fireJC.getX(), fireJC.getY() + fireJC.getHeight() + 5 );
+    }
+
+    private int getFireButtonInsetDX() {
+        return -50;
     }
 
     public void clearAndFire() {
