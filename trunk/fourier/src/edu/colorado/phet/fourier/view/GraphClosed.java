@@ -39,7 +39,7 @@ public class GraphClosed extends GraphicLayerSet {
     private static final double CONTROLS_LAYER = 3;
     
     // Background parameters
-    private static final Dimension BACKGROUND_SIZE = new Dimension( 735, 30 );
+    private static final Dimension BACKGROUND_SIZE = new Dimension( 715, 30 );
     private static final Color BACKGROUND_COLOR = new Color( 215, 215, 215 );
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;

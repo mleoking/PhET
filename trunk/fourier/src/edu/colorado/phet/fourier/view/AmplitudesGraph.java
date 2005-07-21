@@ -55,7 +55,7 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
     private static final double SLIDERS_LAYER = 4;
     
     // Background parameters
-    private static final Dimension BACKGROUND_SIZE = new Dimension( 735, 195 );
+    private static final Dimension BACKGROUND_SIZE = new Dimension( 715, 195 );
     private static final Color BACKGROUND_COLOR = new Color( 195, 195, 195 );
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
@@ -70,7 +70,7 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
     private static final double Y_MIN = -FourierConfig.MAX_HARMONIC_AMPLITUDE;
     private static final double Y_MAX = +FourierConfig.MAX_HARMONIC_AMPLITUDE;
     private static final Range2D CHART_RANGE = new Range2D( X_MIN, Y_MIN, X_MAX, Y_MAX );
-    private static final Dimension CHART_SIZE = new Dimension( 660, 130 );
+    private static final Dimension CHART_SIZE = new Dimension( 640, 130 );
     
     // Sliders parameters
     private static final int SLIDER_SPACING = 10; // space between sliders
