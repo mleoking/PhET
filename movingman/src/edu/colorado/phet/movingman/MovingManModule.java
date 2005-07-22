@@ -680,17 +680,9 @@ public class MovingManModule extends Module {
         plaf.apply();
         PhetLookAndFeel.setLookAndFeel();
 
-        String applicationLocale = System.getProperty( "javaws.locale" );
-        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-            Locale.setDefault( new Locale( applicationLocale ) );
-        }
-        String argsKey = "user.language=";
-        if( args.length > 0 && args[0].startsWith( argsKey ) ) {
-            String locale = args[0].substring( argsKey.length(), args[0].length() );
-            Locale.setDefault( new Locale( locale ) );
-        }
+        // Initialize localized strings
+        SimStrings.init( args, localizedStringsPath );
 
-        SimStrings.setStrings( localizedStringsPath );
         //Putting in swing thread avoids concurrentmodification exception in GraphicLayerSet.
         SwingUtilities.invokeAndWait( new Runnable() {
             public void run() {
