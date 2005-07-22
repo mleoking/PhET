@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+	!!! ATTENTION !!!
+
+If you can read this, you do not have a proper
+version of Java installed on your computer.
+
+If you have installed the PhET software on a local
+computer running Windows, click on the shortcut
+titled "Install Java 1.4.2". Otherwise, please go
+the "Simulations" page of the PhET web site and
+click on "Setup & Troubleshooting" for more
+information.
+
+-->
+<!-- JNLP File for SwingSet2 Demo Application -->
+<jnlp
+    spec="1.0+"
+    codebase="http://www.colorado.edu/physics/phet/simulations"
+    href="motion2d/motion2d_es.jnlp">
+    <information>
+        <title>Motion2d</title>
+        <vendor>PhET(tm)</vendor>
+        <homepage href="http://www.colorado.edu/physics/PHET/"/>
+        <description>Depicts velocity and acceleration of a particle.</description>
+        <description kind="short">A velocity and acceleration demo.</description>
+        <icon href="../Design/Assets/images/Phet-Kavli-logo.jpg"/>
+        <icon kind="splash" href="../Design/Assets/images/Phet-Kavli-logo.jpg"/>
+        <offline-allowed/>
+    </information>
+    <security>
+    </security>
+    <resources>
+        <j2se version="1.4+"/>
+        <jar href="motion2d/motion2d.jar"/>
+        <jar href="motion2d/Motion2dStrings_es.jar"/>
+        <jar href="motion2d/lib/phetcommon.jar"/>
+    </resources>
+    <application-desc main-class="edu.colorado.phet.motion2d.Motion2D">
+        <argument>user.language=es</argument>
+    </application-desc> >
+</jnlp>
