@@ -52,9 +52,9 @@ public class HighIntensityGun extends AbstractGun {
 
         addGraphic( onJC );
         addGraphic( intensityGraphic );
-        onJC.setLocation( getGunImageGraphic().getWidth() + 2, 0 );
+        onJC.setLocation( getGunImageGraphic().getWidth() + 2 + getFireButtonInsetDX(), 0 + getControlOffsetY() );
 
-        intensityGraphic.setLocation( getGunImageGraphic().getWidth() + 2, onJC.getY() + onJC.getHeight() + 4 );
+        intensityGraphic.setLocation( onJC.getX(), onJC.getY() + onJC.getHeight() + 4 );
         schrodingerPanel.getSchrodingerModule().getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 stepBeam();
@@ -72,10 +72,11 @@ public class HighIntensityGun extends AbstractGun {
         Electron e = new Electron( this, "Electrons", "images/electron-thumb.jpg" );
         Atom atom = new Atom( this, "Atoms", "images/atom-thumb.jpg" );
 
-        beams = new HighIntensityBeam[]{
+        HighIntensityBeam[] mybeams = new HighIntensityBeam[]{
             new PhotonBeam( this, photon ),
             new ParticleBeam( e ),
             new ParticleBeam( atom )};
+        setBeams( mybeams );
         final ImageComboBox imageComboBox = new ImageComboBox( beams );
         imageComboBox.setBorder( BorderFactory.createTitledBorder( "Gun Type" ) );
         imageComboBox.addItemListener( new ItemListener() {
@@ -87,7 +88,11 @@ public class HighIntensityGun extends AbstractGun {
         return imageComboBox;
     }
 
-    private void setupObject( HighIntensityBeam beam ) {
+    protected void setBeams( HighIntensityBeam[] mybeams ) {
+        this.beams = mybeams;
+    }
+
+    public void setupObject( HighIntensityBeam beam ) {
         if( beam != currentBeam ) {
             getDiscreteModel().clearWavefunction();
             if( currentBeam != null ) {

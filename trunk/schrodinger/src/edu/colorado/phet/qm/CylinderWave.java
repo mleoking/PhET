@@ -75,11 +75,15 @@ public class CylinderWave {
         waveSource.setWave( createPlaneWave( phase ) );
     }
 
-    private Wave createPlaneWave( double phase ) {
+    protected Wave createPlaneWave( double phase ) {
         final PlaneWave planeWave = new PlaneWave( momentum, getDiscreteModel().getGridWidth() );
         planeWave.setPhase( phase );
         planeWave.setMagnitude( waveMagnitude );
-        return new FlatDampedWave( planeWave, intensity * intensityScale );
+        return dampWave( planeWave, intensity * intensityScale );
+    }
+
+    protected Wave dampWave( PlaneWave planeWave, double totalIntensity ) {
+        return new FlatDampedWave( planeWave, totalIntensity );
     }
 
     private Rectangle createRectRegionForCylinder() {
@@ -97,5 +101,17 @@ public class CylinderWave {
 
     public void setIntensity( double intensity ) {
         this.intensity = intensity;
+    }
+
+    public double getMomentum() {
+        return momentum;
+    }
+
+    public double getMagnitude() {
+        return waveMagnitude;
+    }
+
+    public double getTotalIntensity() {
+        return intensity * intensityScale;
     }
 }

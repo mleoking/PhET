@@ -121,8 +121,9 @@ public class DetectorSheet extends GraphicLayerSet {
     }
 
     public void addBrightnessSlider() {
-        final ModelSlider brightnessModelSlider = new ModelSlider( "Screen Brightness", "", 0, 1, 0.2, new DecimalFormat( "0.000" ) );
-        brightnessModelSlider.setModelTicks( new double[]{0, 0.25, 0.5, 0.75, 1.0} );
+//        final ModelSlider brightnessModelSlider = new ModelSlider( "Screen Brightness", "", 0, 1, 0.2, new DecimalFormat( "0.000" ) );
+        final ModelSlider brightnessModelSlider = new ModelSlider( "Screen Brightness", "", 0, 0.5, 0.2, new DecimalFormat( "0.000" ) );
+        brightnessModelSlider.setModelTicks( new double[]{0, 0.25, 0.5} );
         PhetGraphic brightnessSliderGraphic = PhetJComponent.newInstance( schrodingerPanel, brightnessModelSlider );
         addGraphic( brightnessSliderGraphic );
         brightnessSliderGraphic.setLocation( saveGraphic.getX(), saveGraphic.getY() + saveGraphic.getHeight() + 10 );
@@ -160,7 +161,7 @@ public class DetectorSheet extends GraphicLayerSet {
     }
 
 
-    private void setBrightness( double value ) {
+    public void setBrightness( double value ) {
         this.brightness = value;
         setOpacity( toOpacity( brightness ) );
     }

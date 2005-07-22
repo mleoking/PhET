@@ -331,7 +331,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         return simulationPanel;
     }
 
-    SchrodingerPanel getSchrodingerPanel() {
+    public SchrodingerPanel getSchrodingerPanel() {
         return module.getSchrodingerPanel();
     }
 
