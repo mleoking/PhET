@@ -29,7 +29,7 @@ public class PhotonWave {
     public PhotonWave( SchrodingerModule module, DiscreteModel discreteModel ) {
         this.module = module;
         this.discreteModel = discreteModel;
-        this.waveSource = new CylinderSource( createRectRegionForCylinder(), createPlaneWave( phase ) );
+        this.waveSource = new CylinderSource( createRectRegionForCylinder(), createWave( phase ) );
         phaseUpdate = new ModelElement() {
             public void stepInTime( double dt ) {
                 updatePhase();
@@ -56,7 +56,6 @@ public class PhotonWave {
         while( module.getModel().containsModelElement( phaseUpdate ) ) {
             module.getModel().removeModelElement( phaseUpdate );
         }
-
     }
 
     public void setOn() {
@@ -72,22 +71,22 @@ public class PhotonWave {
     }
 
     private void updateWaveSource() {
-        waveSource.setWave( createPlaneWave( phase ) );
+        waveSource.setWave( createWave( phase ) );
     }
 
-    protected Wave createPlaneWave( double phase ) {
+    protected Wave createWave( double phase ) {
+        System.out.println( "creating photonwave, momentum=" + getMomentum() );
         final PlaneWave planeWave = new PlaneWave( momentum, getDiscreteModel().getGridWidth() );
         planeWave.setPhase( phase );
         planeWave.setMagnitude( waveMagnitude );
-        return dampWave( planeWave, intensity * intensityScale );
-    }
-
-    protected Wave dampWave( PlaneWave planeWave, double totalIntensity ) {
-        return new FlatDampedWave( planeWave, totalIntensity );
+        return new FlatDampedWave( planeWave, intensity * intensityScale );
     }
 
     private Rectangle createRectRegionForCylinder() {
-        Rectangle rectangle = new Rectangle( 0, getWavefunction().getHeight() - waveSourceHeight, getWavefunction().getWidth(), waveSourceHeight );
+        Rectangle rectangle = new Rectangle( 0, getWavefunction().getHeight() - waveSourceHeight,
+                                             getWavefunction().getWidth(), waveSourceHeight );
+//        Rectangle rectangle =new Rectangle( getWavefunction().getWidth()/4, getWavefunction().getHeight() - waveSourceHeight,
+//                               getWavefunction().getWidth()/2, waveSourceHeight );
         return rectangle;
     }
 
