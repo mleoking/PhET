@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view.gun;
 
-import edu.colorado.phet.qm.CylinderWave;
+import edu.colorado.phet.qm.PhotonWave;
 
 /**
  * User: Sam Reid
@@ -10,7 +10,7 @@ import edu.colorado.phet.qm.CylinderWave;
  * Copyright (c) Jul 8, 2005 by Sam Reid
  */
 public class PhotonBeam extends HighIntensityBeam {
-    private CylinderWave cylinderWave;
+    private PhotonWave photonWave;
     private AbstractGun abstractGun;
     private Photon photon;
     private AbstractGun.MomentumChangeListener colorChangeHandler;
@@ -19,12 +19,12 @@ public class PhotonBeam extends HighIntensityBeam {
         super( photon );
         this.photon = photon;
         this.abstractGun = highIntensityGun;
-        cylinderWave = createCylinderWave();
+        photonWave = createCylinderWave();
         super.setIntensityScale( 1.0 );
-        cylinderWave.setIntensity( super.getTotalIntensity() );
+        photonWave.setIntensity( super.getTotalIntensity() );
         photon.addMomentumChangeListerner( new AbstractGun.MomentumChangeListener() {
             public void momentumChanged( double val ) {
-                cylinderWave.setMomentum( val );
+                photonWave.setMomentum( val );
             }
         } );
 
@@ -35,11 +35,11 @@ public class PhotonBeam extends HighIntensityBeam {
         };
 
         photon.addMomentumChangeListerner( colorChangeHandler );
-        cylinderWave.setMomentum( photon.getStartPy() );
+        photonWave.setMomentum( photon.getStartPy() );
     }
 
-    protected CylinderWave createCylinderWave() {
-        return new CylinderWave( getGunGraphic().getSchrodingerModule(), getGunGraphic().getDiscreteModel() );
+    protected PhotonWave createCylinderWave() {
+        return new PhotonWave( getGunGraphic().getSchrodingerModule(), getGunGraphic().getDiscreteModel() );
     }
 
     private void handleColorChange() {
@@ -59,18 +59,18 @@ public class PhotonBeam extends HighIntensityBeam {
     public void setHighIntensityModeOn( boolean on ) {
         super.setHighIntensityModeOn( on );
         if( on ) {
-            cylinderWave.setOn();
+            photonWave.setOn();
             getGunGraphic().getSchrodingerPanel().setDisplayPhotonColor( getPhoton() );
         }
         else {
-            cylinderWave.setOff();
+            photonWave.setOff();
         }
     }
 
     public void setIntensity( double intensity ) {
         super.setIntensity( intensity );
-        if( cylinderWave != null ) {
-            cylinderWave.setIntensity( intensity );
+        if( photonWave != null ) {
+            photonWave.setIntensity( intensity );
         }
     }
 
