@@ -7,6 +7,9 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.qm.modules.intensity.IntensityModule;
+import edu.colorado.phet.qm.modules.mandel.MandelModule;
+import edu.colorado.phet.qm.modules.single.SingleParticleModule;
 
 /**
  * User: Sam Reid
@@ -25,7 +28,8 @@ public class SchrodingerApplication extends PhetApplication {
         PhetLookAndFeel.setLookAndFeel();
         SchrodingerModule singleParticleModel = new SingleParticleModule( getClock() );
         SchrodingerModule intensityModule = new IntensityModule( getClock() );
-        setModules( new Module[]{singleParticleModel, intensityModule} );
+        SchrodingerModule mandelModule = new MandelModule( getClock() );
+        setModules( new Module[]{singleParticleModel, intensityModule, mandelModule} );
     }
 
     private static AbstractClock createClock() {

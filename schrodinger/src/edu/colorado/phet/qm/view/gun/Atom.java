@@ -34,10 +34,10 @@ public class Atom extends GunParticle {
         gun.getSchrodingerModule().getDiscreteModel().setPropagatorModifiedRichardson();
 
         gun.addGraphic( massGraphic );
-        massGraphic.setLocation( -massGraphic.getWidth() - 2, gun.getComboBox().getHeight() + 2 );
+        massGraphic.setLocation( -massGraphic.getWidth() - 2, gun.getComboBox().getHeight() + getGunGraphic().getControlOffsetY() );
 
         gun.addGraphic( velocityGraphic );
-        velocityGraphic.setLocation( -velocityGraphic.getWidth() - 2, massGraphic.getY() + massGraphic.getHeight() + 2 );
+        velocityGraphic.setLocation( -velocityGraphic.getWidth() - 2, massGraphic.getY() + massGraphic.getHeight() );
     }
 
     public void deactivate( AbstractGun abstractGun ) {

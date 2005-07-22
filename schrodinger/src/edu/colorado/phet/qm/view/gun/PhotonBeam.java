@@ -19,7 +19,7 @@ public class PhotonBeam extends HighIntensityBeam {
         super( photon );
         this.photon = photon;
         this.abstractGun = highIntensityGun;
-        cylinderWave = new CylinderWave( getGunGraphic().getSchrodingerModule(), getGunGraphic().getDiscreteModel() );
+        cylinderWave = createCylinderWave();
         super.setIntensityScale( 1.0 );
         cylinderWave.setIntensity( super.getTotalIntensity() );
         photon.addMomentumChangeListerner( new AbstractGun.MomentumChangeListener() {
@@ -38,6 +38,10 @@ public class PhotonBeam extends HighIntensityBeam {
         cylinderWave.setMomentum( photon.getStartPy() );
     }
 
+    protected CylinderWave createCylinderWave() {
+        return new CylinderWave( getGunGraphic().getSchrodingerModule(), getGunGraphic().getDiscreteModel() );
+    }
+
     private void handleColorChange() {
         getGunGraphic().getSchrodingerModule().getDiscreteModel().clearWavefunction();
         getGunGraphic().getSchrodingerPanel().setDisplayPhotonColor( getPhoton() );
@@ -48,7 +52,7 @@ public class PhotonBeam extends HighIntensityBeam {
         return colorChangeHandler;
     }
 
-    private AbstractGun getGunGraphic() {
+    protected AbstractGun getGunGraphic() {
         return abstractGun;
     }
 

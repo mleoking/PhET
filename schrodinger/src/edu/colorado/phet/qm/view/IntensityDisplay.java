@@ -60,6 +60,14 @@ public class IntensityDisplay extends GraphicLayerSet {
         detectorSheet.setDisplayPhotonColor( photon );
     }
 
+    public void setHighIntensityMode() {
+        setMultiplier( 100 );
+        setProbabilityScaleFudgeFactor( 10 );
+        setOpacity( 6 );
+        setNormDecrement( 0.0 );
+        getDetectorSheet().addBrightnessSlider();
+    }
+
     public static interface Listener {
         void detectionOccurred();
     }

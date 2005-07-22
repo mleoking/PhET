@@ -81,9 +81,6 @@ public class SingleParticleGun extends AbstractGun {
         autoJC.setLocation( fireJC.getX(), fireJC.getY() + fireJC.getHeight() + 5 );
     }
 
-    private int getFireButtonInsetDX() {
-        return -50;
-    }
 
     public void clearAndFire() {
         clearWavefunction();

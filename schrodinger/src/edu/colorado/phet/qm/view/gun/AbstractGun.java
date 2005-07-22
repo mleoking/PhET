@@ -46,6 +46,10 @@ public abstract class AbstractGun extends GraphicLayerSet {
         return 50;
     }
 
+    public int getFireButtonInsetDX() {
+        return -50;
+    }
+
     public void setLocation( int x, int y ) {
         super.setLocation( x, y );
         double scaleX = schrodingerPanel.getGraphicTx().getScaleX();
@@ -92,7 +96,6 @@ public abstract class AbstractGun extends GraphicLayerSet {
     protected void setComboBox( JComboBox comboBox ) {
         this.comboBox = comboBox;
     }
-
 
     public static interface MomentumChangeListener {
         void momentumChanged( double val );

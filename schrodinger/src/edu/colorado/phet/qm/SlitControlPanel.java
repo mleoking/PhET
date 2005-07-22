@@ -2,6 +2,8 @@
 package edu.colorado.phet.qm;
 
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.qm.modules.intensity.IntensityModule;
+import edu.colorado.phet.qm.modules.intensity.IntensityPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
