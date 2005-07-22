@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<!-- JNLP File for PhET Sound Application --> 
+<jnlp 
+  spec="1.0+" 
+  codebase="http://www.colorado.edu/physics/phet/simulations" 
+  href="lasers/lasers_es.jnlp"> 
+  <information> 
+    <title>Lasers</title> 
+    <vendor>University of Colorado, Department of Physics</vendor> 
+    <homepage href="docs/help.html"/> 
+    <description>Lasers</description> 
+    <description kind="short">An interactive demonstration of how lasers work.</description> 
+    <icon href="icons/PhET.gif"/> 
+    <icon kind="splash" href="icons/PhET.gif"/> 
+    <offline-allowed/> 
+  </information> 
+  <resources> 
+    <j2se version="1.4"/> 
+    <jar href="lasers/lasers.jar"/>
+    <jar href="lasers/LasersStrings_es.jar"/>
+    <jar href="lasers/lib/phetcommon.jar"/> 
+    <jar href="lasers/lib/collision.jar"/> 
+    <jar href="lasers/lib/controls.jar"/> 
+    <jar href="lasers/lib/mechanics.jar"/> 
+  </resources> 
+  <application-desc main-class="edu.colorado.phet.lasers.LaserSimulation"> 
+	<argument>user.language=es</argument>	
+  </application-desc> 
+</jnlp> 
+
