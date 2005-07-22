@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.mandel;
 
-import edu.colorado.phet.qm.CylinderWave;
+import edu.colorado.phet.qm.PhotonWave;
 import edu.colorado.phet.qm.view.gun.Photon;
 import edu.colorado.phet.qm.view.gun.PhotonBeam;
 
@@ -20,7 +20,7 @@ public class PhotonMandelBeam extends PhotonBeam {
         this.mandelGun = mandelGun;
     }
 
-    protected CylinderWave createCylinderWave() {
+    protected PhotonWave createCylinderWave() {
         return new DoubleWave( getGunGraphic().getSchrodingerModule(), getGunGraphic().getDiscreteModel() );
     }
 

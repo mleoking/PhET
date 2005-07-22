@@ -15,19 +15,19 @@ import java.awt.event.ActionListener;
  */
 
 public class CylinderWaveCheckBox extends JCheckBox {
-    private CylinderWave cylinderWave;
+    private PhotonWave photonWave;
 
     public CylinderWaveCheckBox( SchrodingerModule module, DiscreteModel discreteModel ) {
         super( "Cylinder wave" );
-        cylinderWave = new CylinderWave( module, discreteModel );
+        photonWave = new PhotonWave( module, discreteModel );
 
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if( isSelected() ) {
-                    cylinderWave.setOn();
+                    photonWave.setOn();
                 }
                 else {
-                    cylinderWave.setOff();
+                    photonWave.setOff();
                 }
             }
         } );
