@@ -30,7 +30,7 @@ public class IntensityPanel extends SchrodingerPanel {
     public IntensityPanel( IntensityModule intensityModule ) {
         super( intensityModule );
         this.intensityModule = intensityModule;
-        HighIntensityGun gun = new HighIntensityGun( this );
+        HighIntensityGun gun = createGun();
         setGunGraphic( gun );
         getIntensityDisplay().setHighIntensityMode();
 
@@ -49,6 +49,11 @@ public class IntensityPanel extends SchrodingerPanel {
         getIntensityDisplay().getDetectorSheet().addFadeCheckBox();
 
         splitColorMap = new SplitColorMap( this.intensityModule.getSplitModel() );
+    }
+
+    protected HighIntensityGun createGun() {
+        HighIntensityGun gun = new HighIntensityGun( this );
+        return gun;
     }
 
     public SlitControlPanel getSlitControlPanel() {

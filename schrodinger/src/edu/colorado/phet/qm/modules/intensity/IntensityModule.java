@@ -32,7 +32,7 @@ public class IntensityModule extends SchrodingerModule {
         super( name, clock );
         splitModel = new SplitModel( 100, 100 );
         setDiscreteModel( splitModel );
-        intensityPanel = new IntensityPanel( this );
+        intensityPanel = createIntensityPanel();
         setSchrodingerPanel( intensityPanel );
         schrodingerControlPanel = new IntensityControlPanel( this );
         setSchrodingerControlPanel( schrodingerControlPanel );
@@ -49,6 +49,10 @@ public class IntensityModule extends SchrodingerModule {
                 }
             }
         } );
+    }
+
+    protected IntensityPanel createIntensityPanel() {
+        return new IntensityPanel( this );
     }
 
     public SplitModel getSplitModel() {

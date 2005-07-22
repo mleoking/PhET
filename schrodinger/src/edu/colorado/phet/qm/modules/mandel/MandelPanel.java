@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.modules.mandel;
 
 import edu.colorado.phet.qm.modules.intensity.IntensityPanel;
+import edu.colorado.phet.qm.view.gun.HighIntensityGun;
 
 /**
  * User: Sam Reid
@@ -16,7 +17,9 @@ public class MandelPanel extends IntensityPanel {
     public MandelPanel( MandelModule mandelModule ) {
         super( mandelModule );
         this.mandelModule = mandelModule;
+    }
 
-        setGunGraphic( new MandelGun( this ) );
+    protected HighIntensityGun createGun() {
+        return new MandelGun( this );
     }
 }

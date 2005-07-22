@@ -19,7 +19,8 @@ public class MandelDampedWave implements Wave {
 //    private double dxLattice = 4.0;
 //    private double dxLattice = 10;
 //    private double dxLattice = 2;
-    private double dxLattice = 4;
+
+    public static double dxLattice = 4;
 //    private int radiusForMax = 3;
 
     public MandelDampedWave( int x0, Wave wave, double intensity ) {
