@@ -18,7 +18,8 @@ public class DoubleWave extends PhotonWave {
         super( schrodingerModule, discreteModel );
     }
 
-    protected Wave createPlaneWave( double phase ) {
-        return new MandelWave( phase );
+    protected Wave createWave( double phase ) {
+        System.out.println( "Creating mandel wave, momentum=" + getMomentum() );
+        return new MandelWave( getMomentum(), phase );
     }
 }
