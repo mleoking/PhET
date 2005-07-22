@@ -75,7 +75,7 @@ public class PhotonWave {
     }
 
     protected Wave createWave( double phase ) {
-        System.out.println( "creating photonwave, momentum=" + getMomentum() );
+//        System.out.println( "creating photonwave, momentum=" + getMomentum() );
         final PlaneWave planeWave = new PlaneWave( momentum, getDiscreteModel().getGridWidth() );
         planeWave.setPhase( phase );
         planeWave.setMagnitude( waveMagnitude );
@@ -110,7 +110,7 @@ public class PhotonWave {
         return waveMagnitude;
     }
 
-    public double getTotalIntensity() {
-        return intensity * intensityScale;
+    public double getTotalWaveMagnitude() {
+        return waveMagnitude * intensity * intensityScale;
     }
 }

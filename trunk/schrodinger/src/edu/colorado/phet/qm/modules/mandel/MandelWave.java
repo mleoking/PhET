@@ -21,25 +21,24 @@ public class MandelWave implements Wave {
     private MandelDampedWave dampedRight;
     private double momentum;
     private double phase;
+    private double intensity;
 
-    public MandelWave( double momentum, double phase ) {
+    public MandelWave( int distFromLeft, double momentum, double phase, double dPhase, double intensity ) {
         this.momentum = momentum;
         this.phase = phase;
+        this.intensity = intensity;
 
-        int distFromLeft = 30;
-        leftWave = new PlaneWave2D( AbstractVector2D.Double.parseAngleAndMagnitude( momentum, Math.PI / 4 ), 100 );
+        leftWave = new PlaneWave2D( AbstractVector2D.Double.parseAngleAndMagnitude( momentum, 0 ), 100 );
         dampedLeft = new MandelDampedWave( distFromLeft, leftWave, getIntensity() );
         leftWave.setPhase( phase );
 
-        rightWave = new PlaneWave2D( AbstractVector2D.Double.parseAngleAndMagnitude( momentum, Math.PI / 8 ), 100 );
-//        rightWave.setPhase( phase + Math.PI );
-        rightWave.setPhase( phase );
-//        rightWave.setPhase( phase );
+        rightWave = new PlaneWave2D( AbstractVector2D.Double.parseAngleAndMagnitude( momentum, 0 ), 100 );
+        rightWave.setPhase( phase + dPhase );
         dampedRight = new MandelDampedWave( 100 - distFromLeft, rightWave, getIntensity() );
     }
 
     private double getIntensity() {
-        return 0.03;
+        return intensity;
     }
 
     public Complex getValue( int i, int j, double simulationTime ) {

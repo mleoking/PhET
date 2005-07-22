@@ -21,7 +21,7 @@ public class PhotonMandelBeam extends PhotonBeam {
     }
 
     protected PhotonWave createCylinderWave() {
-        return new DoubleWave( getGunGraphic().getSchrodingerModule(), getGunGraphic().getDiscreteModel() );
+        return new DoublePhotonWave( getGunGraphic().getSchrodingerModule(), getGunGraphic().getDiscreteModel() );
     }
 
 }
