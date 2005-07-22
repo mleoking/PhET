@@ -179,6 +179,15 @@ public class SingleAtomModule extends BaseLaserModule {
      */
     public void activate( PhetApplication app ) {
         super.activate( app );
+
+        // TODO: This fixed a race condition that caused the module to come up in 3 energy levels someetimes.
+        // This should either be fixed on its own, or revisited when the Discharge Lamps code is merged with Lasers
+        try {
+            Thread.sleep( 200 );
+        }
+        catch( InterruptedException e ) {
+            e.printStackTrace();
+        }
         laserControlPanel.setThreeEnergyLevels( this.threeEnergyLevels );
     }
 
