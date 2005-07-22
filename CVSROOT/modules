@@ -105,10 +105,13 @@ faradays-law faraday &phetcommon
 fourier fourier &phetcommon &charts
 
 # Radio Waves
-radio-waves emf
+radio-waves emf &phetcommon
+
+# Maze Game
+mazegame &phetcommon
 
 # The Ramp
 theramp theramp &phetcommon &charts
 
-#Schrodinger
+# Schrodinger
 schrodinger schrodinger &phetcommon
