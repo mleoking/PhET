@@ -108,7 +108,7 @@ fourier fourier &phetcommon &charts
 radio-waves emf &phetcommon
 
 # Maze Game
-mazegame &phetcommon
+mazegame mazegame &phetcommon
 
 # The Ramp
 theramp theramp &phetcommon &charts
