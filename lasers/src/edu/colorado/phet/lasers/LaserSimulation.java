@@ -32,7 +32,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Locale;
 
 public class LaserSimulation extends PhetApplication {
     private JDialog photoDlg;
@@ -93,17 +92,8 @@ public class LaserSimulation extends PhetApplication {
      * @param args
      */
     public static void main( String[] args ) {
-        String applicationLocale = System.getProperty( "javaws.locale" );
-        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-            Locale.setDefault( new Locale( applicationLocale ) );
-        }
-        String argsKey = "user.language=";
-        if( args.length > 0 && args[0].startsWith( argsKey ) ) {
-            String locale = args[0].substring( argsKey.length(), args[0].length() );
-            SimStrings.setLocale( new Locale( locale ) );
-        }
+        SimStrings.init( args, LaserConfig.localizedStringsPath );
 
-        SimStrings.setStrings( LaserConfig.localizedStringsPath );
         try {
             UIManager.setLookAndFeel( new LaserAppLookAndFeel() );
         }
