@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+	!!! ATTENTION !!!
+
+If you can read this, you do not have a proper
+version of Java installed on your computer.
+
+If you have installed the PhET software on a local
+computer running Windows, click on the shortcut
+titled "Install Java 1.4.2". Otherwise, please go
+the "Simulations" page of the PhET web site and
+click on "Setup & Troubleshooting" for more
+information.
+
+-->
+<!-- JNLP File for SwingSet2 Demo Application -->
+<jnlp spec="1.0+" codebase="http://www.colorado.edu/physics/phet/simulations" href="batteryvoltage/batteryvoltage_sp.jnlp"> 
+<information> 
+	<title>Battery Voltage</title> 
+	<vendor>PhET(tm)</vendor> 
+	<homepage href="http://www.colorado.edu/physics/PHET/" /> 
+	<description>Shows how a potential difference across a battery is maintained.</description> 
+	<description kind="short">Batteries and potential differences.</description> 
+	<icon href="../Design/Assets/images/Phet-Kavli-logo.jpg"/> 
+	<icon kind="splash" href="../Design/Assets/images/Phet-Kavli-logo.jpg"/> 
+	<offline-allowed /> 
+</information> 
+<security> 
+</security> 
+<resources> 
+	<j2se version="1.4+" /> 
+	<jar href="batteryvoltage/batteryVoltage-2.jar" /> 
+	<jar href="batteryvoltage/BatteryVoltageStrings_sp.jar" /> 
+</resources> 
+<application-desc main-class="edu.colorado.phet.batteryvoltage.BatteryApplet"> 
+	<argument>user.language=sp</argument>	
+</application-desc> 
+</jnlp>

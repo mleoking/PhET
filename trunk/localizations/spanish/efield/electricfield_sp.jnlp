@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+	!!! ATTENTION !!!
+
+If you can read this, you do not have a proper
+version of Java installed on your computer.
+
+If you have installed the PhET software on a local
+computer running Windows, click on the shortcut
+titled "Install Java 1.4.2". Otherwise, please go
+the "Simulations" page of the PhET web site and
+click on "Setup & Troubleshooting" for more
+information.
+
+-->
+<!-- JNLP File for SwingSet2 Demo Application -->
+<jnlp spec="1.0+" codebase="http://www.colorado.edu/physics/phet/simulations" href="electricfieldofdreams/electricfield_sp.jnlp"> 
+<information> 
+	<title>Electric Field</title> 
+	<vendor>PhET(tm)</vendor> 
+	<homepage href="http://www.colorado.edu/physics/PHET/" /> 
+	<description>Shows the electric field in the region of charges.</description> 
+	<description kind="short">Electric field display.</description> 
+	<icon href="../Design/Assets/images/Phet-Kavli-logo.jpg"/> 
+	<icon kind="splash" href="../Design/Assets/images/Phet-Kavli-logo.jpg"/> 
+	<offline-allowed /> 
+</information> 
+<security> 
+</security> 
+<resources> 
+	<j2se version="1.4+" /> 
+	<jar href="electricfieldofdreams/efield-2.jar" /> 
+	<jar href="electricfieldofdreams/ElectricFieldStrings_sp.jar" /> 
+</resources> 
+<applet-desc documentBase="http://www.colorado.edu/physics/phet/projects/efield" name="Electric Field" main-class="electron.electricField.FieldNode2" width="500" height="520"> 
+	<argument>user.language=sp</argument>	
+</applet-desc> 
+</jnlp>
