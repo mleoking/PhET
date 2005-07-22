@@ -29,7 +29,7 @@ ignorepath      (those elements of the ant classpath that should not be
     <property file="build.number"/>
 
     <!--  Set ant output directories. They get made if they don't exist -->
-    <property name="project_home" value="../.."/>
+    <property name="project_home" value=".."/>
     <property name="ant.output" value="${project_home}/ant_output"/>
     <property name="classes" location="${ant.output}/classes"/>
     <property name="jars" location="${ant.output}/jars"/>
@@ -37,13 +37,16 @@ ignorepath      (those elements of the ant classpath that should not be
     <property name="lib" location="${ant.output}/lib"/>
 
     <!-- Set current sister directories, for backup and release data. -->
-    <property name="development" location="${project_home}/development"/>
+    <property name="development" location="${project_home}"/>
     <property name="backup" location="${project_home}/backup"/>
     <property name="releases" location="${project_home}/releases"/>
 
     <!-- Set up child directories, for during the build.  -->
-    <property name="src" location="${project_home}/development/src"/>
-    <property name="data" location="${project_home}/development/data"/>
+    <property name="src" location="${project_home}/src"/>
+    <property name="common-src" location="${project_home}/common/src"/>
+    <property name="collision-src" location="${project_home}/collision/src"/>
+    <property name="data" location="${project_home}/data"/>
+    <property name="common-data" location="${project_home}/common/data"/>
 
     <description>
         Build File.
@@ -89,8 +92,7 @@ ignorepath      (those elements of the ant classpath that should not be
         description="compile the source ">
         <delete dir="${classes}"/>
         <mkdir dir="${classes}"/>
-        <javac srcdir="${src}" destdir="${classes}">
-        </javac>
+        <javac srcdir="${src}:${common-src}:${collision-src}" destdir="${classes}"/>
     </target>
 
     <target name="Generate Jar" depends="Compile"
@@ -102,6 +104,7 @@ ignorepath      (those elements of the ant classpath that should not be
         <jar destfile="${jars}/${distname}.jar">
             <fileset dir="${classes}"/>
             <fileset dir="${data}"/>
+            <fileset dir="${common-data}"/>
             <manifest>
                 <attribute name="Built-By" value="${user.name}"/>
                 <attribute name="version" value="${version}"/>
