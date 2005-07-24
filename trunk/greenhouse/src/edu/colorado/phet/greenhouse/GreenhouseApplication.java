@@ -23,7 +23,7 @@ import javax.swing.*;
 
 public class GreenhouseApplication extends PhetApplication {
     // Localization
-    public static final String localizedStringsPath = "localization/GreenHouseStrings";
+    public static final String localizedStringsPath = "localization/GreenhouseStrings";
 
     private static PhetApplication s_application;
 
@@ -46,23 +46,6 @@ public class GreenhouseApplication extends PhetApplication {
     public static void main( String[] args ) {
         SimStrings.init( args, localizedStringsPath );
 
-        // Log a few message at different severity levels
-//        PhetLookAndFeel lookAndFeel = new ClientPhetLookAndFeel();
-
-//        PhetLookAndFeel lookAndFeel = new ClientPhetLookAndFeel( new PhetLookAndFeelSpec() {
-//            public Color background = new Color( 220, 250, 220 );
-//            public Color buttonBackground = new Color( 210, 200, 250 );
-//            public Color controlTextColor = new Color( 20, 0, 80 );
-//        } );
-
-//        if( args.length > 0 ) {
-//            for( int i = 0; i < args.length; i++ ) {
-//                if( args[i].toLowerCase().equals( "-p" ) ) {
-//                    lookAndFeel = new LecturePhetLookAndFeel();
-//                }
-//            }
-//        }
-        
         Module greenhouseModule = new GreenhouseModule();
         Module greenhouseModule2 = new GlassPaneModule();
         Module[] modules = new Module[]{
