@@ -217,28 +217,4 @@ public abstract class RelativeLocationSetter {
     public static void follow( final PhetGraphic target, final PhetGraphic tomove, final RelativeLocationSetter rel ) {
         follow( new PhetGraphicTarget( target ), new MovablePhetGraphic( tomove ), rel );
     }
-
-    public static class RectangleTarget implements Target {
-        private Rectangle bounds;
-
-        public RectangleTarget( Rectangle bounds ) {
-            this.bounds = bounds;
-        }
-
-        public Rectangle getBounds() {
-            return new Rectangle( bounds );
-        }
-
-        public void addBoundsObserver( BoundsObserver boundsObserver ) {
-            //no-op for regular rectangles.
-        }
-
-        public void addVisibilityObserver( VisibilityObserver visibilityObserver ) {
-            //no-op
-        }
-
-        public boolean isVisible() {
-            return true;
-        }
-    }
 }
