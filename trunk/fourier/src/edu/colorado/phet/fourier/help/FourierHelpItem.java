@@ -16,10 +16,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 
 /**
@@ -29,11 +26,17 @@ import edu.colorado.phet.common.view.util.RectangleUtils;
  * @author Sam Reid, Chris Malley
  * @version $Revision$
  */
-public class FourierHelpItem extends CompositePhetGraphic {
+public class FourierHelpItem extends CompositePhetGraphic implements PhetGraphicListener {
     
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
+    
+    public static final int NONE = -1;
+    public static final int UP = 0;
+    public static final int DOWN = 1;
+    public static final int LEFT = 2;
+    public static final int RIGHT = 3;
     
     private static final double BACKGROUND_LAYER = 1;
     private static final double ARROW_LAYER = 2;
@@ -59,6 +62,10 @@ public class FourierHelpItem extends CompositePhetGraphic {
     
     private HTMLGraphic _textGraphic;
     private PhetShapeGraphic _backgroundGraphic;
+    private PhetShapeGraphic _arrowGraphic;
+    private int _direction;
+    private int _arrowLength;
+    private PhetGraphic _target;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -72,6 +79,11 @@ public class FourierHelpItem extends CompositePhetGraphic {
 
         _textGraphic = new HTMLGraphic( component, TEXT_FONT, html, TEXT_COLOR );
 
+        _arrowGraphic = new PhetShapeGraphic( component );
+        _arrowGraphic.setColor( ARROW_FILL_COLOR );
+        _arrowGraphic.setStroke( ARROW_STROKE );
+        _arrowGraphic.setBorderColor( ARROW_BORDER_COLOR );
+        
         _backgroundGraphic = new PhetShapeGraphic( component );
         Rectangle bounds = _textGraphic.getBounds();
         Rectangle b = RectangleUtils.expand( bounds, 4, 4 );
@@ -81,62 +93,138 @@ public class FourierHelpItem extends CompositePhetGraphic {
         _backgroundGraphic.setStroke( BACKGROUND_STROKE );
 
         addGraphic( _backgroundGraphic, BACKGROUND_LAYER );
+        addGraphic( _arrowGraphic, ARROW_LAYER );
         addGraphic( _textGraphic, TEXT_LAYER );
+        
+        _direction = NONE;
+        _target = null;
+        _arrowLength = 0;
     }
 
-    //----------------------------------------------------------------------------
-    // Arrows with targets
-    //----------------------------------------------------------------------------
-    
-    public void pointUpAt( PhetGraphic target, int arrowLength ) {
-        pointUp( arrowLength );
-        RelativeLocationSetter.follow( target, this, new RelativeLocationSetter.Bottom( 1 ) );
+    public void phetGraphicChanged( PhetGraphic phetGraphic ) {  
+        layout( _target, this, 1, _direction );
     }
 
-    public void pointDownAt( PhetGraphic target, int arrowLength ) {
-        pointDown( arrowLength );
-        RelativeLocationSetter.follow( target, this, new RelativeLocationSetter.Top( 1 ) );
-    }
-    
-    public void pointLeftAt( PhetGraphic target, int arrowLength ) {
-        pointLeft( arrowLength );
-        RelativeLocationSetter.follow( target, this, new RelativeLocationSetter.Right( 1 ) );
-    }
-    
-    public void pointRightAt( PhetGraphic target, int arrowLength ) {
-        pointRight( arrowLength );
-        RelativeLocationSetter.follow( target, this, new RelativeLocationSetter.Left( 1 ) );
+    public void phetGraphicVisibilityChanged( PhetGraphic phetGraphic ) {
+        this.setVisible( _target.isVisible() );
     }
     
     //----------------------------------------------------------------------------
-    // Arrows, no targets
+    // 
+    //----------------------------------------------------------------------------
+    
+    public void pointAt( PhetGraphic target, int direction, int arrowLength ) {
+        _target = target;
+        _direction = direction;
+        _arrowLength = arrowLength;
+        update();
+    }
+    
+    public void point( int direction, int arrowLength ) {
+        pointAt( null, direction, arrowLength );
+    }
+    
+    //----------------------------------------------------------------------------
+    // 
     //----------------------------------------------------------------------------
 
-    public void pointUp( int arrowLength ) {
-        Arrow arrow = new Arrow( new Point2D.Double(), new Point2D.Double( 0, -arrowLength ), ARROW_HEAD_WIDTH, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH );
-        PhetShapeGraphic arrowGraphic = new PhetShapeGraphic( getComponent(), arrow.getShape(), ARROW_FILL_COLOR, ARROW_STROKE, ARROW_BORDER_COLOR );
-        addGraphic( arrowGraphic, ARROW_LAYER );
-        new RelativeLocationSetter.Top().layout( _backgroundGraphic, arrowGraphic );
+    private void update() {
+        updateArrow();
+        updateTarget();
     }
+    
+    private void updateTarget() {
+        if ( _target != null ) {
+            switch ( _direction ) {
+            case UP:
+                RelativeLocationSetter.follow( _target, this, new RelativeLocationSetter.Bottom( 1 ) );
+                break;
+            case DOWN:
+                RelativeLocationSetter.follow( _target, this, new RelativeLocationSetter.Top( 1 ) );
+                break;
+            case LEFT:
+                RelativeLocationSetter.follow( _target, this, new RelativeLocationSetter.Right( 1 ) );
+                break;
+            case RIGHT:
+                RelativeLocationSetter.follow( _target, this, new RelativeLocationSetter.Left( 1 ) );
+                break;
+            default:
+                throw new IllegalArgumentException( "illegal direction: " + _direction );
+            }
+        }
+//        if ( _target != null ) {
+//            _target.addPhetGraphicListener( this );
+//            layout( _target, this, 1, _direction );
+//        }
+    }
+    
+    private void updateArrow() {
+        int x, y;
+        switch ( _direction ) {
+        case UP:
+            x = 0;
+            y = -_arrowLength;
+            break;
+        case DOWN:
+            x = 0;
+            y = _arrowLength;
+            break;
+        case LEFT:
+            x = -_arrowLength;
+            y = 0;
+            break;
+        case RIGHT:
+            x = _arrowLength;
+            y = 0;
+            break;
+        default:
+            throw new IllegalArgumentException( "illegal direction: " + _direction );
+        }
+        Arrow arrow = new Arrow( new Point2D.Double(), new Point2D.Double( x, y ), ARROW_HEAD_WIDTH, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH );
+        _arrowGraphic.setShape( arrow.getShape() );
+        layout( _backgroundGraphic, _arrowGraphic, 0, _direction );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Layout
+    //----------------------------------------------------------------------------
+    
+    private static void layout( PhetGraphic fixed, PhetGraphic moveable, int separation, int direction ) {
+        Rectangle targetBounds = fixed.getBounds();
+        Rectangle movableBounds = moveable.getBounds();
+        
+        Point connector;
+        int x, y;
+        switch ( direction ) {
+        case UP:
+            connector = RectangleUtils.getTopCenter( targetBounds );
+            x = connector.x - movableBounds.width / 2;
+            y = connector.y - movableBounds.height - separation;
+            break;
+        case DOWN:
+            connector = RectangleUtils.getBottomCenter( targetBounds );
+            x = connector.x - movableBounds.width / 2;
+            y = connector.y + separation;
+            break;
+        case LEFT:
+            connector = RectangleUtils.getLeftCenter( targetBounds );
+            x = connector.x - movableBounds.width - separation;
+            y = connector.y - movableBounds.height / 2;
+            break;
+        case RIGHT:
+            connector = RectangleUtils.getRightCenter( targetBounds );
+            x = connector.x + separation;
+            y = connector.y - movableBounds.height / 2;
+            break;
+        default:
+            throw new IllegalArgumentException( "illegal direction: " + direction );
+        }
 
-    private void pointDown( int arrowLength ) {
-        Arrow arrow = new Arrow( new Point2D.Double(), new Point2D.Double( 0, arrowLength ), ARROW_HEAD_WIDTH, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH );
-        PhetShapeGraphic arrowGraphic = new PhetShapeGraphic( getComponent(), arrow.getShape(), ARROW_FILL_COLOR, ARROW_STROKE, ARROW_BORDER_COLOR );
-        addGraphic( arrowGraphic, ARROW_LAYER );
-        new RelativeLocationSetter.Bottom().layout( _backgroundGraphic, arrowGraphic );
-    }
-    
-    public void pointLeft( int arrowLength ) {
-        Arrow arrow = new Arrow( new Point2D.Double(), new Point2D.Double( -arrowLength, 0 ), ARROW_HEAD_WIDTH, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH );
-        PhetShapeGraphic arrowGraphic = new PhetShapeGraphic( getComponent(), arrow.getShape(), ARROW_FILL_COLOR, ARROW_STROKE, ARROW_BORDER_COLOR );
-        addGraphic( arrowGraphic, ARROW_LAYER );
-        new RelativeLocationSetter.Left().layout( _backgroundGraphic, arrowGraphic );
-    }
-    
-    public void pointRight( int arrowLength ) {
-        Arrow arrow = new Arrow( new Point2D.Double(), new Point2D.Double( arrowLength, 0 ), ARROW_HEAD_WIDTH, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH );
-        PhetShapeGraphic arrowGraphic = new PhetShapeGraphic( getComponent(), arrow.getShape(), ARROW_FILL_COLOR, ARROW_STROKE, ARROW_BORDER_COLOR );
-        addGraphic( arrowGraphic, ARROW_LAYER );
-        new RelativeLocationSetter.Right().layout( _backgroundGraphic, arrowGraphic );
+        int origX = movableBounds.x;
+        int origY = movableBounds.y;
+        int dx = x - origX;
+        int dy = y - origY;
+        Point location = moveable.getLocation();
+        moveable.setLocation( location.x + dx, location.y + dy );
     }
 }
