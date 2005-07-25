@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.single;
 
+import edu.colorado.phet.qm.ModelDebugger;
 import edu.colorado.phet.qm.SchrodingerApplication;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.DiscreteModel;
@@ -19,7 +20,7 @@ public class SingleParticleModule extends SchrodingerModule {
 //        setDiscreteModel( new DiscreteModel( 40,40) );
         setSchrodingerPanel( new SingleParticlePanel( this ) );
         setSchrodingerControlPanel( new SingleParticleControlPanel( this ) );
-
+        getModel().addModelElement( new ModelDebugger( getClass() ) );
 //        getModel().addModelElement( new ModelElement() {
 //            public void stepInTime( double dt ) {
 //                System.out.println( "Stepped @ "+System.currentTimeMillis());

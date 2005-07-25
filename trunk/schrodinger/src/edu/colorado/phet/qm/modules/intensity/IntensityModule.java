@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.intensity;
 
+import edu.colorado.phet.qm.ModelDebugger;
 import edu.colorado.phet.qm.SchrodingerApplication;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
@@ -51,7 +52,7 @@ public class IntensityModule extends SchrodingerModule {
             }
         } );
 
-
+        getModel().addModelElement( new ModelDebugger( getClass() ) );
     }
 
     protected IntensityPanel createIntensityPanel() {

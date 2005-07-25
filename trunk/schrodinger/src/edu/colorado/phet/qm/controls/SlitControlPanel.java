@@ -29,15 +29,15 @@ public class SlitControlPanel extends VerticalLayoutPanel {
                 intensityModule.setLeftDetectorEnabled( leftSlit.isSelected() );
             }
         } );
-        add( leftSlit );
+//        add( leftSlit );
 
-        rightSlit = new JCheckBox( "Detector on right Slit" );
+        rightSlit = new JCheckBox( "Detector on Right Slit" );
         rightSlit.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 intensityModule.setRightDetectorEnabled( rightSlit.isSelected() );
             }
         } );
-        add( rightSlit );
+//        add( rightSlit );
 
         intensityModule.addListener( new IntensityModule.Adapter() {
             public void detectorsChanged() {
