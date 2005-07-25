@@ -55,6 +55,7 @@ CHARTS:
 - flatten static graphics elements
 
 PHETCOMMON:
+- bug: MouseEvent and KeyEvent source is always the apparatus panel, should be the "active unit"
 - bug: changes in a module's control panel causes the apparatus panel to change size and not repaint
 - bug: rendering hints should be appended, not replaced, by PhetGraphic
 - bug: PhetTextGraphic leaves screen turds when its text is exclusively Unicode
@@ -65,6 +66,12 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(7/25) - add help items to Discrete module
+(7/25) - add FourierHelpItem, based on forces1d.common.HelpItem2
+(7/25) - convert WiggleMeGraphic to be a ClockTickListener, so we don't have to add it to the model
+(7/25) - phetcommon: when a GraphicLayerSet's visibility changes, notify all children's listeners
+(7/25) - phetcommon: deprecated HelpManager.addHelpItem and removeHelpItem
+(7/25) - phetcommon: set selection state of Help menu item to match state of active module
 (7/25) - bugfix: turn off infinite waveform when user selects Wave Packet or Custom presets
 (7/25) - bugfix: turn off infinite waveform when user starts to edit a preset
 (7/25) - bugfix: infinite waveform gets out of sync when toggling "Show infinite..."
