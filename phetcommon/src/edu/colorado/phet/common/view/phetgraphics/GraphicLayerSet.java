@@ -577,4 +577,17 @@ public class GraphicLayerSet extends PhetGraphic {
 
         return bounds;
     }
+    
+    /*
+     * When a GraphicLayerSet's visibility changes, we need to also
+     * notify all of its children's listeners.
+     */
+    protected void fireVisibilityChanged() {
+        super.fireVisibilityChanged();
+        Iterator it = graphicMap.iterator();
+        while( it.hasNext() ) {
+            PhetGraphic graphic = (PhetGraphic)it.next();
+            graphic.fireVisibilityChanged();
+        }
+    }
 }
