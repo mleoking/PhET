@@ -3,6 +3,7 @@ package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.qm.phetcommon.ImageComboBox;
@@ -16,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.text.DecimalFormat;
 
 /**
  * User: Sam Reid
@@ -26,12 +28,11 @@ import java.awt.event.ItemListener;
 
 public class HighIntensityGun extends AbstractGun {
     private JCheckBox alwaysOnCheckBox;
-    private JSlider intensitySlider;
+    private ModelSlider intensitySlider;
     private boolean on = false;
     private HighIntensityBeam[] beams;
     private HighIntensityBeam currentBeam;
     private Photon photon;
-//    private Photon photon;
 
     public HighIntensityGun( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
@@ -41,14 +42,15 @@ public class HighIntensityGun extends AbstractGun {
                 setOn( alwaysOnCheckBox.isSelected() );
             }
         } );
-
-        intensitySlider = new JSlider( JSlider.HORIZONTAL, 0, 1000, 0 );
+        intensitySlider = new ModelSlider( "Intensity", "", 0, 1, 0, new DecimalFormat( "0.000" ) );
+        intensitySlider.setModelTicks( new double[]{0, 0.5, 1.0} );
+//        intensitySlider = new JSlider( JSlider.HORIZONTAL, 0, 1000, 0 );
         intensitySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 updateIntensity();
             }
         } );
-        intensitySlider.setBorder( BorderFactory.createTitledBorder( "Intensity" ) );
+//        intensitySlider.setBorder( BorderFactory.createTitledBorder( "Intensity" ) );
         PhetGraphic intensityGraphic = PhetJComponent.newInstance( schrodingerPanel, intensitySlider );
 
         PhetGraphic onJC = PhetJComponent.newInstance( schrodingerPanel, alwaysOnCheckBox );
@@ -108,7 +110,7 @@ public class HighIntensityGun extends AbstractGun {
     }
 
     private void updateIntensity() {
-        double intensity = new Function.LinearFunction( 0, 1000, 0, 1 ).evaluate( intensitySlider.getValue() );
+        double intensity = new Function.LinearFunction( 0, 1, 0, 1 ).evaluate( intensitySlider.getValue() );
         for( int i = 0; i < beams.length; i++ ) {
             beams[i].setIntensity( intensity );
         }

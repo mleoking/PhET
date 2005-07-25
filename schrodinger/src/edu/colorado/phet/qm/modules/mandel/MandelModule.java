@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.mandel;
 
+import edu.colorado.phet.qm.ModelDebugger;
 import edu.colorado.phet.qm.SchrodingerApplication;
 import edu.colorado.phet.qm.modules.intensity.IntensityModule;
 import edu.colorado.phet.qm.modules.intensity.IntensityPanel;
@@ -19,6 +20,7 @@ public class MandelModule extends IntensityModule {
         super( "Mandel Experiment", app );
 //        schrodingerPanel.getWavefunctionGraphic().setWavefunctionColorMap( new VisualColorMap( getSchrodingerPanel() ) );
         setControlPanel( new MandelControlPanel( this ) );
+        getModel().addModelElement( new ModelDebugger( getClass() ) );
     }
 
     protected IntensityPanel createIntensityPanel() {
