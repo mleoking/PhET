@@ -124,6 +124,9 @@ public class AmplitudeSlider extends GraphicLayerSet
     public AmplitudeSlider( Component component, Harmonic harmonic ) {
         super( component );
 
+        // Enable antialiasing for all children.
+        setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+
         // Model
         assert ( harmonic != null );
         _harmonic = harmonic;
@@ -215,9 +218,6 @@ public class AmplitudeSlider extends GraphicLayerSet
         addGraphic( _clickZoneGraphic, CLICK_ZONE_LAYER );
         addGraphic( _trackGraphic, TRACK_LAYER );
         addGraphic( _knobGraphic, KNOB_LAYER );
-
-        // Enable antialiasing for all children.
-        setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
 
         // Interested in changes to harmonic colors.
         HarmonicColors.getInstance().addHarmonicColorChangeListener( this );

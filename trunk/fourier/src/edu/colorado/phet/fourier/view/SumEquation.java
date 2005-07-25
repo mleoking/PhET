@@ -14,6 +14,7 @@ package edu.colorado.phet.fourier.view;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.RenderingHints;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
@@ -68,6 +69,9 @@ public class SumEquation extends CompositePhetGraphic {
      */
     public SumEquation( Component component ) {
         super( component );
+        
+        // Enable antialiasing for all children.
+        setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         
         _lhsGraphic = new HTMLGraphic( component, LHS_FONT, "", EQUATION_COLOR );
         addGraphic( _lhsGraphic );
