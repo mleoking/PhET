@@ -36,10 +36,18 @@ public class HelpManager extends GraphicLayerSet {
         super.setComponent( component );
     }
 
+    /**
+     * @deprecated use removeGraphic
+     * @param helpItem
+     */
     public void removeHelpItem( HelpItem helpItem ) {
         super.removeGraphic( helpItem );
     }
 
+    /**
+     * @deprecated use addGraphic
+     * @param helpItem
+     */
     public void addHelpItem( HelpItem item ) {
         super.addGraphic( item );
     }
