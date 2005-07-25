@@ -65,6 +65,7 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(7/25) - bugfix: turn off infinite waveform when user selects Wave Packet or Custom presets
 (7/25) - bugfix: turn off infinite waveform when user starts to edit a preset
 (7/25) - bugfix: infinite waveform gets out of sync when toggling "Show infinite..."
 (7/25) - increase the width of the graph background so there is no empty space to the right

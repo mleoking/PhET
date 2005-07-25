@@ -575,6 +575,10 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             ( preset != FourierConstants.PRESET_WAVE_PACKET && preset != FourierConstants.PRESET_CUSTOM );
         _showInfiniteCheckBox.setEnabled( showInfiniteEnabled );
         _showInfiniteCheckBox.setForeground( showInfiniteEnabled ? Color.BLACK : Color.GRAY );
+        if ( !showInfiniteEnabled ) {
+            _showInfiniteCheckBox.setSelected( false );
+            _sumGraph.setPresetEnabled( false );
+        }
         _fourierSeries.setPreset( preset );
     }
     
@@ -736,8 +740,6 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     public void stateChanged( ChangeEvent event ) {
         if ( event.getSource() instanceof AmplitudeSlider ) {
             _presetsComboBox.setSelectedKey( FourierConstants.PRESET_CUSTOM );
-            _showInfiniteCheckBox.setSelected( false );
-            _sumGraph.setPresetEnabled( false );
         }
     }
 }
