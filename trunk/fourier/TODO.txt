@@ -65,6 +65,8 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(7/25) - increase the width of the graph background so there is no empty space to the right
+(7/25) - resize the graphs to fill the apparatus panel whenever the apparatus panel resizes
 (7/21) - disable all modules except "Discrete" for AAPT
 (7/21) - fix horizontal alignment of amplitude slider knob
 (7/21) - charts: reposition the x-axis title when chart size is changed

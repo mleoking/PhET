@@ -13,6 +13,7 @@ package edu.colorado.phet.fourier.module;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,6 +25,7 @@ import javax.swing.event.MouseInputListener;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
+import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
@@ -41,7 +43,7 @@ import edu.colorado.phet.fourier.view.*;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class DiscreteModule extends FourierModule {
+public class DiscreteModule extends FourierModule implements ApparatusPanel2.ChangeListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -84,6 +86,7 @@ public class DiscreteModule extends FourierModule {
     private PeriodDisplay _periodDisplay;
     private DiscreteControlPanel _controlPanel;
     private AnimationCycleController _animationCycleController;
+    private Dimension _canvasSize;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -115,12 +118,14 @@ public class DiscreteModule extends FourierModule {
 
         // Apparatus Panel
         ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
+        _canvasSize = apparatusPanel.getSize();
         apparatusPanel.setBackground( APPARATUS_PANEL_BACKGROUND );
         setApparatusPanel( apparatusPanel );
+        apparatusPanel.addChangeListener( this );
         
         // Amplitudes view
         _amplitudesGraph = new AmplitudesGraph( apparatusPanel, _fourierSeries );
-        _amplitudesGraph.setLocation( 5, 5 );
+        _amplitudesGraph.setLocation( 0, 0 );
         apparatusPanel.addGraphic( _amplitudesGraph, AMPLITUDES_LAYER );
         
         // Harmonics view
@@ -193,7 +198,6 @@ public class DiscreteModule extends FourierModule {
             _harmonicsGraph.getCloseButton().addMouseInputListener( new MouseInputAdapter() {
                 public void mouseReleased( MouseEvent event ) {
                     _harmonicsGraph.setVisible( false );
-                    _harmonicsGraph.warpHeight( 0 );
                     _harmonicsGraphClosed.setVisible( true );
                     resizeGraphs();
                 }
@@ -212,7 +216,6 @@ public class DiscreteModule extends FourierModule {
             _sumGraph.getCloseButton().addMouseInputListener( new MouseInputAdapter() {
                 public void mouseReleased( MouseEvent event ) {
                     _sumGraph.setVisible( false );
-                    _sumGraph.warpHeight( 0 );
                     _sumGraphClosed.setVisible( true );
                     resizeGraphs();
                 }
@@ -265,9 +268,7 @@ public class DiscreteModule extends FourierModule {
         _harmonicsGraphClosed.setVisible( false );
         _sumGraph.setVisible( true );
         _sumGraphClosed.setVisible( false ); 
-        
-        _harmonicsGraph.warpHeight( 0 );
-        _sumGraph.warpHeight( 0 );
+        resizeGraphs();
         
         _harmonicsGraph.setLocation( _amplitudesGraph.getX(), _amplitudesGraph.getY() + _amplitudesGraph.getHeight() );
         _harmonicsGraphClosed.setLocation( _amplitudesGraph.getX(), _amplitudesGraph.getY() + _amplitudesGraph.getHeight() );
@@ -296,20 +297,23 @@ public class DiscreteModule extends FourierModule {
      * @param event
      */
     private void resizeGraphs() {
+
+        int canvasHeight = _canvasSize.height;
+        int availableHeight = canvasHeight - _amplitudesGraph.getHeight();
         
         if (  _harmonicsGraph.isVisible() && _sumGraph.isVisible() ) {
-            _harmonicsGraph.warpHeight( 0 );
-            _sumGraph.warpHeight( 0 );
+            _harmonicsGraph.setHeight( availableHeight/2 );
+            _sumGraph.setHeight( availableHeight/2 );
             _sumGraph.setLocation( _amplitudesGraph.getX(), _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
             _sumGraphClosed.setLocation( _amplitudesGraph.getX(), _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
         }
         else if ( _harmonicsGraph.isVisible() ) {
-            _harmonicsGraph.warpHeight( _sumGraph.getHeight() - _sumGraphClosed.getHeight() );
+            _harmonicsGraph.setHeight( availableHeight - _sumGraphClosed.getHeight() );
             _sumGraph.setLocation( _amplitudesGraph.getX(), _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
             _sumGraphClosed.setLocation( _amplitudesGraph.getX(), _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
         }
         else if ( _sumGraph.isVisible() ) {
-            _sumGraph.warpHeight( _harmonicsGraph.getHeight() - _harmonicsGraphClosed.getHeight() );
+            _sumGraph.setHeight( availableHeight - _harmonicsGraphClosed.getHeight() );
             _sumGraph.setLocation( _amplitudesGraph.getX(), _harmonicsGraphClosed.getY() + _harmonicsGraphClosed.getHeight() );
             _sumGraphClosed.setLocation( _amplitudesGraph.getX(), _harmonicsGraphClosed.getY() + _harmonicsGraphClosed.getHeight() );
         }
@@ -317,6 +321,18 @@ public class DiscreteModule extends FourierModule {
             _sumGraph.setLocation( _amplitudesGraph.getX(), _harmonicsGraphClosed.getY() + _harmonicsGraphClosed.getHeight() );
             _sumGraphClosed.setLocation( _amplitudesGraph.getX(), _harmonicsGraphClosed.getY() + _harmonicsGraphClosed.getHeight() ); 
         }
+    }
+    
+    //----------------------------------------------------------------------------
+    // ApparatusPanel2.ChangeListener implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Redoes the layout whenever the apparatus panel's canvas size changes.
+     */
+    public void canvasSizeChanged( ChangeEvent event ) {
+        _canvasSize.setSize( event.getCanvasSize() );
+        resizeGraphs();
     }
     
     //----------------------------------------------------------------------------

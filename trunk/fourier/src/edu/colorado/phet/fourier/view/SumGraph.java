@@ -64,7 +64,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     private static final double MATH_LAYER = 5;
 
     // Background parameters
-    private static final Dimension BACKGROUND_SIZE = new Dimension( 715, 205 );
+    private static final Dimension BACKGROUND_SIZE = new Dimension( 800, 150 );
     private static final Color BACKGROUND_COLOR = new Color( 215, 215, 215 );
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
@@ -105,7 +105,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     
     private FourierSeries _fourierSeries;
     private PhetShapeGraphic _backgroundGraphic;
-    private PhetTextGraphic titleGraphic;
+    private PhetTextGraphic _titleGraphic;
     private PhetImageGraphic _closeButton;
     private SumChart _chartGraphic;
     private SumEquation _mathGraphic;
@@ -149,11 +149,11 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         
         // Title
         String title = SimStrings.get( "SumGraph.title" );
-        titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
-        titleGraphic.centerRegistrationPoint();
-        titleGraphic.rotate( -( Math.PI / 2 ) );
-        titleGraphic.setLocation( TITLE_LOCATION );
-        addGraphic( titleGraphic, TITLE_LAYER );
+        _titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
+        _titleGraphic.centerRegistrationPoint();
+        _titleGraphic.rotate( -( Math.PI / 2 ) );
+        _titleGraphic.setLocation( TITLE_LOCATION );
+        addGraphic( _titleGraphic, TITLE_LAYER );
         
         // Chart
         {
@@ -232,7 +232,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         // Interactivity
         {
             _backgroundGraphic.setIgnoreMouse( true );
-            titleGraphic.setIgnoreMouse( true );
+            _titleGraphic.setIgnoreMouse( true );
             _chartGraphic.setIgnoreMouse( true );
             _mathGraphic.setIgnoreMouse( true );
             
@@ -363,16 +363,19 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     }
     
     /**
-     * Changes the height of this graphic by a specified amount,
-     * relative to it's "normal" height.
+     * Sets the height of this graphic.
      * 
-     * @param amount
+     * @param height
      */
-    public void warpHeight( int amount ) {
-        _backgroundGraphic.setShape( new Rectangle( 0, 0, BACKGROUND_SIZE.width, BACKGROUND_SIZE.height + amount ) );
-        _chartGraphic.setChartSize( CHART_SIZE.width, CHART_SIZE.height + amount );
-        titleGraphic.setLocation( TITLE_LOCATION.x, TITLE_LOCATION.y + (amount/2) );
-        setBoundsDirty();
+    public void setHeight( int height ) {
+        int newHeight = BACKGROUND_SIZE.height;
+        if ( height > BACKGROUND_SIZE.height ) {
+            newHeight = height;
+            _backgroundGraphic.setShape( new Rectangle( 0, 0, BACKGROUND_SIZE.width, height ) );
+            _chartGraphic.setChartSize( CHART_SIZE.width, height - 70 );
+            _titleGraphic.setLocation( TITLE_LOCATION.x, height / 2 );
+            setBoundsDirty();
+        }
     }
     
     //----------------------------------------------------------------------------
