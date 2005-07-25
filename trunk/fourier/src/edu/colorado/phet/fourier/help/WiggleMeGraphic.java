@@ -14,8 +14,9 @@ package edu.colorado.phet.fourier.help;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.ClockTickEvent;
+import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
@@ -34,7 +35,7 @@ import edu.colorado.phet.fourier.util.Vector2D;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class WiggleMeGraphic extends GraphicLayerSet implements ModelElement {
+public class WiggleMeGraphic extends GraphicLayerSet implements ClockTickListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -80,8 +81,8 @@ public class WiggleMeGraphic extends GraphicLayerSet implements ModelElement {
     // Instance data
     //----------------------------------------------------------------------------
     
-    // The model, used to get clock ticks for animation
-    private BaseModel _model;
+    // Clock for animation
+    private AbstractClock _clock;
     // The text
     private PhetTextGraphic _textGraphic;
     // The width and height that the wiggle will travel.
@@ -104,14 +105,14 @@ public class WiggleMeGraphic extends GraphicLayerSet implements ModelElement {
     /**
      * Sole constructor.
      */
-    public WiggleMeGraphic( Component component, BaseModel model ) {
+    public WiggleMeGraphic( Component component, AbstractClock clock ) {
         super( component );
         
         RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         setRenderingHints( hints );
         
-        assert( model != null );
-        _model = model;
+        assert( clock != null );
+        _clock = clock;
         
         _textGraphic = new PhetTextGraphic( component, DEFAULT_TEXT_FONT, "", DEFAULT_TEXT_COLOR );
         
@@ -134,10 +135,10 @@ public class WiggleMeGraphic extends GraphicLayerSet implements ModelElement {
             _enabled = enabled;
             setVisible( _enabled );
             if ( _enabled ) {
-                _model.addModelElement( this );
+                _clock.addClockTickListener( this );
             }
             else {
-                _model.removeModelElement( this );
+                _clock.addClockTickListener( this );
             }
         }
     }
@@ -311,27 +312,24 @@ public class WiggleMeGraphic extends GraphicLayerSet implements ModelElement {
     }
     
     //----------------------------------------------------------------------------
-    // ModelElement implementation
+    // ClockTickListener implementation
     //----------------------------------------------------------------------------
     
     /*
-     * @see edu.colorado.phet.common.model.ModelElement#stepInTime(double)
-     * 
      * Steps the graphic through its wiggle cycle.
      */
-    public void stepInTime( double dt ) {
-        if ( _enabled ) {
-            double delta = dt / _cycleDuration;
-            if ( _direction == CLOCKWISE ) {
-                _cycles += delta;
-            }
-            else {
-                _cycles -= delta;
-            }
-            int x = (int) ( _startLocation.x + ( _range.width * Math.cos( _cycles ) ) );
-            int y = (int) ( _startLocation.y + ( _range.height * Math.sin( _cycles ) ) );
-            super.setLocation( x, y );
-            repaint();
+    public void clockTicked( ClockTickEvent event ) {
+        double dt = event.getDt();
+        double delta = dt / _cycleDuration;
+        if ( _direction == CLOCKWISE ) {
+            _cycles += delta;
         }
+        else {
+            _cycles -= delta;
+        }
+        int x = (int) ( _startLocation.x + ( _range.width * Math.cos( _cycles ) ) );
+        int y = (int) ( _startLocation.y + ( _range.height * Math.sin( _cycles ) ) );
+        super.setLocation( x, y );
+        repaint();
     }
 }

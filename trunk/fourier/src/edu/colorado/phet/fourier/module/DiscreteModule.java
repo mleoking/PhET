@@ -15,12 +15,9 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 
 import javax.swing.event.MouseInputAdapter;
-import javax.swing.event.MouseInputListener;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -31,6 +28,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.control.DiscreteControlPanel;
+import edu.colorado.phet.fourier.help.FourierHelpItem;
 import edu.colorado.phet.fourier.help.WiggleMeGraphic;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.util.Vector2D;
@@ -237,13 +235,59 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         // Help
         //----------------------------------------------------------------------------
         
-        addHelpItem( new HelpItem( apparatusPanel, "< Help goes here >", 200, 150 ) );//XXX to test help
-        
         // Wiggle Me
-        ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model );
+        ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, clock );
         wiggleMe.setLocation( WIGGLE_ME_LOCATION );
         apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
         wiggleMe.setEnabled( true );
+        
+        // Help Items
+        FourierHelpItem textfieldsToolHelp = new FourierHelpItem( apparatusPanel, "Enter numbers to change the amplitudes" );
+        textfieldsToolHelp.pointLeft( 15 );
+        textfieldsToolHelp.setVisible( true );
+        textfieldsToolHelp.setLocation( 195, 24 );
+        addHelpItem( textfieldsToolHelp );
+        
+        FourierHelpItem slidersToolHelp = new FourierHelpItem( apparatusPanel, "Drag black bars or just click where you want them to go" );
+        slidersToolHelp.pointUp( 15 );
+        slidersToolHelp.setVisible( true );
+        slidersToolHelp.setLocation( 90, 140 );
+        addHelpItem( slidersToolHelp );
+        
+        FourierHelpItem wavelengthToolHelp = new FourierHelpItem( apparatusPanel, "Draggable measuring tool" );
+        wavelengthToolHelp.pointUpAt( _wavelengthTool, 15 );
+        wavelengthToolHelp.setVisible( false );
+        addHelpItem( wavelengthToolHelp );
+        
+        FourierHelpItem periodToolHelp = new FourierHelpItem( apparatusPanel, "Draggable measuring tool" );
+        periodToolHelp.pointUpAt( _periodTool, 15 );
+        periodToolHelp.setVisible( false );
+        addHelpItem( periodToolHelp );
+        
+        FourierHelpItem periodDisplayHelp = new FourierHelpItem( apparatusPanel, "Draggable measuring tool" );
+        periodDisplayHelp.pointRightAt( _periodDisplay, 15 );
+        periodDisplayHelp.setVisible( false );
+        addHelpItem( periodDisplayHelp );
+        
+        FourierHelpItem harmonicsCloseButtonHelp = new FourierHelpItem( apparatusPanel, "Click to close" );
+        harmonicsCloseButtonHelp.pointLeftAt( _harmonicsGraph.getCloseButton(), 15 );
+        harmonicsCloseButtonHelp.setVisible( true );
+        addHelpItem( harmonicsCloseButtonHelp );
+        
+        FourierHelpItem harmonicsOpenButtonHelp = new FourierHelpItem( apparatusPanel, "Click to open" );
+        harmonicsOpenButtonHelp.pointLeftAt( _harmonicsGraphClosed.getOpenButton(), 15 );
+        harmonicsOpenButtonHelp.setVisible( false );
+        addHelpItem( harmonicsOpenButtonHelp );
+        
+        FourierHelpItem sumCloseButtonHelp = new FourierHelpItem( apparatusPanel, "Click to close" );
+        sumCloseButtonHelp.pointLeftAt( _sumGraph.getCloseButton(), 15 );
+        sumCloseButtonHelp.setVisible( true );
+        addHelpItem( sumCloseButtonHelp );
+        
+        FourierHelpItem sumOpenButtonHelp = new FourierHelpItem( apparatusPanel, "Click to open" );
+        sumOpenButtonHelp.pointLeftAt( _sumGraphClosed.getOpenButton(), 15 );
+        sumOpenButtonHelp.setVisible( false );
+        addHelpItem( sumOpenButtonHelp );
     }
     
     //----------------------------------------------------------------------------
@@ -350,8 +394,8 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
          * @param component
          * @param model
          */
-        public ThisWiggleMeGraphic( final Component component, BaseModel model ) {
-            super( component, model );
+        public ThisWiggleMeGraphic( final Component component, AbstractClock clock ) {
+            super( component, clock );
 
             setText( SimStrings.get( "DiscreteModule.wiggleMe" ), WIGGLE_ME_COLOR );
             addArrow( WiggleMeGraphic.TOP_CENTER, new Vector2D( 0, -30 ), WIGGLE_ME_COLOR );
@@ -359,7 +403,7 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
             setCycleDuration( 5 );
             setEnabled( true );
             
-            // Disable the wiggle me when the mouse is pressed.
+            // Disable the wiggle me when the mouse is pressed in the apparatus panel.
             component.addMouseListener( new MouseInputAdapter() { 
                 public void mousePressed( MouseEvent event ) {
                     // Disable
