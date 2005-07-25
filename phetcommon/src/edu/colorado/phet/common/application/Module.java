@@ -210,8 +210,8 @@ public class Module implements ClockTickListener {
      *
      * @param helpItem
      */
-    public void addHelpItem( HelpItem helpItem ) {
-        helpManager.addHelpItem( helpItem );
+    public void addHelpItem( PhetGraphic helpItem ) {
+        helpManager.addGraphic( helpItem );
         if( controlPanel != null && controlPanel instanceof ControlPanel ) {
             ( (ControlPanel)controlPanel ).setHelpPanelEnabled( true );
         }
@@ -222,8 +222,8 @@ public class Module implements ClockTickListener {
      *
      * @param helpItem
      */
-    public void removeHelpItem( HelpItem helpItem ) {
-        helpManager.removeHelpItem( helpItem );
+    public void removeHelpItem( PhetGraphic helpItem ) {
+        helpManager.removeGraphic( helpItem );
         if( controlPanel != null && controlPanel instanceof ControlPanel && helpManager.getNumHelpItems() == 0 ) {
             ( (ControlPanel)controlPanel ).setHelpPanelEnabled( false );
         }
