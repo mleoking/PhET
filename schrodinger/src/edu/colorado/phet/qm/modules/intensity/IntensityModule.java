@@ -8,6 +8,7 @@ import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.SplitModel;
 import edu.colorado.phet.qm.view.DetectorGraphic;
 import edu.colorado.phet.qm.view.RestrictedDetectorGraphic;
+import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
 
 import java.util.ArrayList;
 
@@ -49,6 +50,8 @@ public class IntensityModule extends SchrodingerModule {
                 }
             }
         } );
+
+
     }
 
     protected IntensityPanel createIntensityPanel() {
@@ -89,6 +92,10 @@ public class IntensityModule extends SchrodingerModule {
             setDetectorEnabled( splitModel.getLeftDetector(), selected );
             notifyDetectorsChanged();
         }
+    }
+
+    public PhotonColorMap.ColorData getRootColor() {
+        return intensityPanel.getRootColor();
     }
 
     public static interface Listener {

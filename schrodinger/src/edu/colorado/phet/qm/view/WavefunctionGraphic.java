@@ -90,7 +90,6 @@ public class WavefunctionGraphic extends GraphicLayerSet {
 
     public void setWavefunctionColorMap( ColorMap painter ) {
         this.painter.setWavefunctionColorMap( painter );
-        //todo repaint
         repaintAll();
         imageGraphic.setBoundsDirty();
         imageGraphic.autorepaint();

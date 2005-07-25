@@ -3,6 +3,7 @@ package edu.colorado.phet.qm.view.colormaps;
 
 import edu.colorado.phet.qm.model.SplitModel;
 import edu.colorado.phet.qm.model.Wavefunction;
+import edu.colorado.phet.qm.modules.intensity.IntensityPanel;
 import edu.colorado.phet.qm.view.ColorMap;
 
 import java.awt.*;
@@ -19,8 +20,9 @@ public class SplitColorMap implements ColorMap {
     private PhotonColorMap.ColorData rootColor;
     private double intensityScale = 20;
 
-    public SplitColorMap( SplitModel splitModel ) {
+    public SplitColorMap( SplitModel splitModel, IntensityPanel panel ) {
         this.splitModel = splitModel;
+        setRootColor( panel.getRootColor() );
     }
 
     public Paint getPaint( int i, int k ) {

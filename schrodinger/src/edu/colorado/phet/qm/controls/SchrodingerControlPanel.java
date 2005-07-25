@@ -127,10 +127,10 @@ public class SchrodingerControlPanel extends ControlPanel {
 //        VerticalLayoutPanel boundaryPanel = createBoundaryPanel();
 //        addControlFullWidth( boundaryPanel );
 
-        VerticalLayoutPanel propagatorPanel = createPropagatorPanel();
-        AdvancedPanel advancedPropagatorPanel = new AdvancedPanel( "Propagators>>", "Hide Propagators<<" );
-        advancedPropagatorPanel.addControlFullWidth( propagatorPanel );
-        addControlFullWidth( advancedPropagatorPanel );
+//        VerticalLayoutPanel propagatorPanel = createPropagatorPanel();
+//        AdvancedPanel advancedPropagatorPanel = new AdvancedPanel( "Propagators>>", "Hide Propagators<<" );
+//        advancedPropagatorPanel.addControlFullWidth( propagatorPanel );
+//        addControlFullWidth( advancedPropagatorPanel );
 
 //        ModelElement ap = new AddParticle( module, getWaveSetup() );
 
@@ -252,7 +252,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         layoutPanel.setFillNone();
         layoutPanel.setBorder( BorderFactory.createTitledBorder( "Potential" ) );
 
-        JButton clear = new JButton( "Clear" );
+        JButton clear = new JButton( "Clear Potential Barriers" );
         clear.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 clearPotential();
@@ -265,13 +265,13 @@ public class SchrodingerControlPanel extends ControlPanel {
 //        VerticalLayoutPanel configureDoubleSlit = new ConfigureHorizontalSlitPanel( getDiscreteModel().getDoubleSlitPotential() );
 //        layoutPanel.add( configureDoubleSlit );
 
-        JButton slopingLeft = new JButton( "Add Slope" );
-        slopingLeft.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                addPotential( createSlopingPotential() );
-            }
-        } );
-        layoutPanel.add( slopingLeft );
+//        JButton slopingLeft = new JButton( "Add Slope" );
+//        slopingLeft.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                addPotential( createSlopingPotential() );
+//            }
+//        } );
+//        layoutPanel.add( slopingLeft );
 
         JButton newBarrier = new JButton( "Add Barrier" );
         newBarrier.addActionListener( new ActionListener() {

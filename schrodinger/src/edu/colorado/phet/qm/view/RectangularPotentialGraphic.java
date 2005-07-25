@@ -3,8 +3,12 @@ package edu.colorado.phet.qm.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SwingUtils;
+import edu.colorado.phet.qm.SchrodingerLookAndFeel;
+import edu.colorado.phet.qm.model.Potential;
 import edu.colorado.phet.qm.model.potentials.RectangularPotential;
 
 import javax.swing.*;
@@ -26,6 +30,7 @@ public class RectangularPotentialGraphic extends RectangleGraphic {
     private RectangularPotential potential;
     private DecimalFormat format = new DecimalFormat( "0.00" );
     private PhetTextGraphic potDisplay;
+    private PhetGraphic closeGraphic;
 
     public RectangularPotentialGraphic( SchrodingerPanel component, final RectangularPotential potential ) {
         super( component, potential, new Color( 255, 30, 0, 45 ) );
@@ -47,7 +52,21 @@ public class RectangularPotentialGraphic extends RectangleGraphic {
                 }
             }
         } );
+
+        JButton closeButton = SchrodingerLookAndFeel.createCloseButton();
+        closeButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                remove();
+            }
+        } );
+        closeGraphic = PhetJComponent.newInstance( component, closeButton );
+        addGraphic( closeGraphic );
+        closeGraphic.setLocation( -closeGraphic.getWidth() - 2, 0 );
         update();
+    }
+
+    private void remove() {
+        super.getSchrodingerPanel().getSchrodingerModule().removePotential( this );
     }
 
     private void changePotential() {
@@ -100,10 +119,16 @@ public class RectangularPotentialGraphic extends RectangleGraphic {
     private void update() {
         Rectangle modelRect = potential.getBounds();
         Rectangle viewRect = super.getViewRectangle( modelRect );
-        double probPercent = potential.getPotential();
-        String formatted = format.format( probPercent );
-        potDisplay.setText( formatted + " pJ" );
+//        double probPercent = potential.getPotential();
+//        String formatted = format.format( probPercent );
+//
+//        potDisplay.setText( formatted + " pJ" );
+        potDisplay.setText( "" );
         potDisplay.setLocation( (int)viewRect.getX(), (int)viewRect.getY() );
+        closeGraphic.setLocation( (int)viewRect.getX() - closeGraphic.getWidth() - 2, (int)viewRect.getY() );
     }
 
+    public Potential getPotential() {
+        return potential;
+    }
 }
