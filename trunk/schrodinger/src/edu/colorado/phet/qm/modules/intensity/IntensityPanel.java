@@ -49,6 +49,8 @@ public class IntensityPanel extends SchrodingerPanel {
         getIntensityDisplay().getDetectorSheet().addFadeCheckBox();
 
         splitColorMap = new SplitColorMap( this.intensityModule.getSplitModel() );
+
+        putBelow( getConfigureSlitButtonGraphic(), slitControlGraphic, 3 );
     }
 
     protected HighIntensityGun createGun() {
