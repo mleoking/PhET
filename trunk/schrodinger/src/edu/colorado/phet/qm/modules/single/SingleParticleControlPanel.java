@@ -41,7 +41,7 @@ public class SingleParticleControlPanel extends SchrodingerControlPanel {
         } );
         addControl( createDetectorArray );
 
-        final ModelSlider modelSlider = new ModelSlider( "Dectector prob-scale", "", 0, 100, 1 );
+        final ModelSlider modelSlider = new ModelSlider( "Dectector prob-scale", "", 0, 100, Detector.getProbabilityScaleFudgeFactor() );
         modelSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 Detector.setProbabilityScaleFudgeFactor( modelSlider.getValue() );

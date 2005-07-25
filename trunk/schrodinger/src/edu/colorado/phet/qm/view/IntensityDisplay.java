@@ -120,7 +120,8 @@ public class IntensityDisplay extends GraphicLayerSet {
 //        int y = (int)( random.nextDouble() * detectorHeight );
 //        return y;
 
-        int y = (int)( random.nextDouble() * detectorHeight * 0.6 );
+//        int y = (int)( random.nextDouble() * detectorHeight * 0.6 );
+        int y = (int)( random.nextDouble() * detectorHeight * 0.45 );
         return y;
     }
 
