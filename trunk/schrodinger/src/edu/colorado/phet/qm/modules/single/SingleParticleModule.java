@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.single;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.qm.SchrodingerApplication;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.DiscreteModel;
 
@@ -13,7 +13,7 @@ import edu.colorado.phet.qm.model.DiscreteModel;
  */
 
 public class SingleParticleModule extends SchrodingerModule {
-    public SingleParticleModule( AbstractClock clock ) {
+    public SingleParticleModule( SchrodingerApplication clock ) {
         super( "Single Particles", clock );
         setDiscreteModel( new DiscreteModel( 100, 100 ) );
 //        setDiscreteModel( new DiscreteModel( 40,40) );

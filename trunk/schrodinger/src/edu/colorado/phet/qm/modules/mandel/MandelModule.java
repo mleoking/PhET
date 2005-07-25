@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.mandel;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.qm.SchrodingerApplication;
 import edu.colorado.phet.qm.modules.intensity.IntensityModule;
 import edu.colorado.phet.qm.modules.intensity.IntensityPanel;
 
@@ -15,8 +15,8 @@ import edu.colorado.phet.qm.modules.intensity.IntensityPanel;
 public class MandelModule extends IntensityModule {
     private MandelPanel schrodingerPanel;
 
-    public MandelModule( AbstractClock clock ) {
-        super( "Mandel Experiment", clock );
+    public MandelModule( SchrodingerApplication app ) {
+        super( "Mandel Experiment", app );
 //        schrodingerPanel.getWavefunctionGraphic().setWavefunctionColorMap( new VisualColorMap( getSchrodingerPanel() ) );
         setControlPanel( new MandelControlPanel( this ) );
     }

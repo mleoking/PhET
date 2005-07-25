@@ -2,13 +2,9 @@
 package edu.colorado.phet.qm;
 
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.view.PhetLookAndFeel;
-import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.qm.controls.SchrodingerControlPanel;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
@@ -29,16 +25,18 @@ public class SchrodingerModule extends Module {
     private SchrodingerPanel schrodingerPanel;
     private DiscreteModel discreteModel;
     private SchrodingerControlPanel schrodingerControlPanel;
+    private SchrodingerApplication schrodingerApplication;
 
-    public SchrodingerModule( AbstractClock clock ) {
-        this( "Schrodinger Waves", clock );
-    }
+//    public SchrodingerModule( AbstractClock clock ) {
+//        this( "Schrodinger Waves", clock );
+//    }
 
     /**
      * @param clock
      */
-    public SchrodingerModule( String name, AbstractClock clock ) {
-        super( name, clock );
+    public SchrodingerModule( String name, SchrodingerApplication clock ) {
+        super( name, clock.getClock() );
+        this.schrodingerApplication = clock;
         setModel( new BaseModel() );
 
 
@@ -63,29 +61,12 @@ public class SchrodingerModule extends Module {
         addModelElement( discreteModel );
     }
 
-    protected void setupDefaultPanels() {
-        setSchrodingerPanel( new SchrodingerPanel( this ) );
-        setSchrodingerControlPanel( new SchrodingerControlPanel( this ) );
-    }
-
     public SchrodingerPanel getSchrodingerPanel() {
         return schrodingerPanel;
     }
 
     public DiscreteModel getDiscreteModel() {
         return discreteModel;
-    }
-
-    public static void main( String[] args ) {
-        PhetLookAndFeel.setLookAndFeel();
-        AbstractClock clock = new SwingTimerClock( 1, 30 );
-        PhetApplication phetApplication = new PhetApplication( args, "Schrodinger Equation",
-                                                               "Schrodinger Equation", "v0r0", clock,
-                                                               true, new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 800, 600 ) ) );
-        final SchrodingerModule module = new SchrodingerModule( clock );
-        phetApplication.setModules( new Module[]{module} );
-        phetApplication.startApplication();
-
     }
 
     public void reset() {
@@ -142,5 +123,9 @@ public class SchrodingerModule extends Module {
     protected void setSchrodingerControlPanel( SchrodingerControlPanel schrodingerControlPanel ) {
         setControlPanel( schrodingerControlPanel );
         this.schrodingerControlPanel = schrodingerControlPanel;
+    }
+
+    public PhetFrame getPhetFrame() {
+        return schrodingerApplication.getPhetFrame();
     }
 }

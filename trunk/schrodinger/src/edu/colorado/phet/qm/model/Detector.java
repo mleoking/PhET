@@ -15,7 +15,6 @@ import java.util.Random;
  */
 
 public class Detector extends RectangularObject {
-
     private double probability;
     private boolean enabled = true;
     private int numTimeStepsBetweenDetect = 10;
@@ -23,6 +22,7 @@ public class Detector extends RectangularObject {
     private static final Random random = new Random();
     private DiscreteModel discreteModel;
     private static double probabilityScaleFudgeFactor = 1.0;
+    private boolean oneShotDetection;
 
     public static void setProbabilityScaleFudgeFactor( double scale ) {
         probabilityScaleFudgeFactor = scale;
@@ -31,6 +31,7 @@ public class Detector extends RectangularObject {
     public Detector( DiscreteModel discreteModel, int x, int y, int width, int height ) {
         super( x, y, width, height );
         this.discreteModel = discreteModel;
+        this.oneShotDetection = discreteModel.getDetectorSet().isOneShotDetectors();
     }
 
     public void setDimension( int width, int height ) {
@@ -54,9 +55,6 @@ public class Detector extends RectangularObject {
             }
         }
         this.probability = runningSum;
-//        if( probability > 1.0 ) {
-//            probability = 1.0;
-//        }
         notifyObservers();//todo probabilty change event.
     }
 
@@ -100,19 +98,6 @@ public class Detector extends RectangularObject {
         }
     }
 
-//    private void zeroClassical() {
-//
-//        if( discreteModel.getPropagator() instanceof ClassicalWavePropagator ) {
-//            for( int i = getX(); i < getMaxX(); i++ ) {
-//                for( int j = getY(); j < getMaxY(); j++ ) {
-//                    if( wavefunction.containsLocation( i, j ) ) {
-//                        wavefunction.valueAt( i, j ).zero();
-//                    }
-//                }
-//            }
-//        }
-//    }
-
     public void zeroElsewhere( Wavefunction wavefunction ) {
         for( int i = 0; i < wavefunction.getWidth(); i++ ) {
             for( int j = 0; j < wavefunction.getHeight(); j++ ) {
@@ -137,13 +122,14 @@ public class Detector extends RectangularObject {
         timeSinceLast++;
     }
 
-
     public void fire( Wavefunction wavefunction, double norm ) {
         double prob = getProbability() * probabilityScaleFudgeFactor;
         double rand = random.nextDouble() * norm;//todo is this right?
         if( rand <= prob ) {
             grabWavefunction( wavefunction );
-            setEnabled( false );
+            if( oneShotDetection ) {
+                setEnabled( false );
+            }
         }
         else {
             expelWavefunction( wavefunction );
@@ -162,15 +148,12 @@ public class Detector extends RectangularObject {
                 zero( classicalWavePropagator.getLast2() );
             }
         }
-
         wavefunction.setMagnitude( mag );
     }
 
     private void grabWavefunction( Wavefunction wavefunction ) {
         zeroElsewhere( wavefunction );
         wavefunction.normalize();
-
-
         if( discreteModel.getPropagator() instanceof ClassicalWavePropagator ) {
             ClassicalWavePropagator classicalWavePropagator = (ClassicalWavePropagator)discreteModel.getPropagator();
             if( classicalWavePropagator.getLast2() != null ) {
@@ -193,5 +176,9 @@ public class Detector extends RectangularObject {
     public void setRect( Rectangle rectangle ) {
         setDimension( rectangle.width, rectangle.height );
         setLocation( rectangle.x, rectangle.y );
+    }
+
+    public void setOneShotDetection( boolean oneShotDetectors ) {
+        this.oneShotDetection = oneShotDetectors;
     }
 }
