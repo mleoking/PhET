@@ -21,11 +21,16 @@ public class Detector extends RectangularObject {
     private int timeSinceLast = 0;
     private static final Random random = new Random();
     private DiscreteModel discreteModel;
-    private static double probabilityScaleFudgeFactor = 1.0;
+    private static double probabilityScaleFudgeFactor = 5.0;
     private boolean oneShotDetection;
+
+    static {
+        setProbabilityScaleFudgeFactor( probabilityScaleFudgeFactor );
+    }
 
     public static void setProbabilityScaleFudgeFactor( double scale ) {
         probabilityScaleFudgeFactor = scale;
+        System.out.println( "probabilityScaleFudgeFactor = " + probabilityScaleFudgeFactor );
     }
 
     public Detector( DiscreteModel discreteModel, int x, int y, int width, int height ) {
@@ -180,5 +185,9 @@ public class Detector extends RectangularObject {
 
     public void setOneShotDetection( boolean oneShotDetectors ) {
         this.oneShotDetection = oneShotDetectors;
+    }
+
+    public static double getProbabilityScaleFudgeFactor() {
+        return probabilityScaleFudgeFactor;
     }
 }
