@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.qm.util.QMLogger;
 
 /**
  * User: Sam Reid
@@ -66,7 +67,7 @@ public class PhotonBeamParticle extends GunParticle {
 
             intensity += getIncrement();
             intensity = Math.max( intensity, 0 );
-            System.out.println( "this = " + this + ", setting intensity=" + intensity + ", mag=" + mag );
+            QMLogger.debug( "this = " + this + ", setting intensity=" + intensity + ", mag=" + mag );
             photonBeam.setIntensity( intensity );
 
             if( mag > 0.98 || ( ( this instanceof RampDown ) && intensity == 0 ) ) {
