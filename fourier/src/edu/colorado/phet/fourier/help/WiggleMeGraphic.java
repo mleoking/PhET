@@ -106,10 +106,15 @@ public class WiggleMeGraphic extends GraphicLayerSet implements ModelElement {
      */
     public WiggleMeGraphic( Component component, BaseModel model ) {
         super( component );
-        assert( model != null );
         
+        RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+        setRenderingHints( hints );
+        
+        assert( model != null );
         _model = model;
+        
         _textGraphic = new PhetTextGraphic( component, DEFAULT_TEXT_FONT, "", DEFAULT_TEXT_COLOR );
+        
         _range = new Dimension( DEFAULT_RANGE );
         _cycles = 0;
         _cycleDuration = DEFAULT_CYCLE_DURATION;
@@ -118,9 +123,6 @@ public class WiggleMeGraphic extends GraphicLayerSet implements ModelElement {
         _direction = CLOCKWISE;
         
         addGraphic( _textGraphic );
-        
-        RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-        setRenderingHints( hints );
     }
     
     //----------------------------------------------------------------------------

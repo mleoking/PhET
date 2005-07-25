@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.fourier.charts;
 
+import java.awt.*;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
@@ -69,6 +70,9 @@ public class FourierSumPlot extends LinePlot {
      */
     public FourierSumPlot( Component component, Chart chart, FourierSeries fourierSeries ) {
         super( component, chart );
+
+        // Enable antialiasing
+        setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
 
         _fourierSeries = fourierSeries;
  
