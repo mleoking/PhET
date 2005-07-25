@@ -35,6 +35,7 @@ public class SchrodingerPanel extends ApparatusPanel2 {
     private RulerGraphic rulerGraphic;
     private ArrayList detectorGraphics = new ArrayList();
     private PhetGraphic doubleSlitCheckBoxGraphic;
+    private PhetGraphic configureSlitButtonGraphic;
 
     public SchrodingerPanel( SchrodingerModule module ) {
         super( module.getClock() );
@@ -71,6 +72,11 @@ public class SchrodingerPanel extends ApparatusPanel2 {
         doubleSlitCheckBoxGraphic = PhetJComponent.newInstance( this, doubleSlitCheckBox );
         addGraphic( doubleSlitCheckBoxGraphic );
         doubleSlitCheckBoxGraphic.setLocation( getWavefunctionGraphic().getX() + getWavefunctionGraphic().getWidth(), getWavefunctionGraphic().getY() + getWavefunctionGraphic().getHeight() / 2 );
+
+        ConfigureSlitButton configureSlitButton = new ConfigureSlitButton( module.getPhetFrame(), getDiscreteModel().getDoubleSlitPotential() );
+        configureSlitButtonGraphic = PhetJComponent.newInstance( this, configureSlitButton );
+        addGraphic( configureSlitButtonGraphic );
+        configureSlitButtonGraphic.setLocation( doubleSlitCheckBoxGraphic.getX(), doubleSlitCheckBoxGraphic.getY() + doubleSlitCheckBoxGraphic.getHeight() + 2 );
     }
 
     protected PhetGraphic getDoubleSlitCheckBoxGraphic() {

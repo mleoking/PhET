@@ -212,6 +212,7 @@ public class DiscreteModel implements ModelElement {
 
     public void setOneShotDetectors( boolean oneShotDetectors ) {
         this.oneShotDetectors = oneShotDetectors;
+        detectorSet.setOneShotDetectors( oneShotDetectors );
     }
 
     public boolean isOneShotDetectors() {
@@ -311,6 +312,10 @@ public class DiscreteModel implements ModelElement {
 
     public boolean containsListener( Listener listener ) {
         return listeners.contains( listener );
+    }
+
+    public DetectorSet getDetectorSet() {
+        return detectorSet;
     }
 
     public static interface Listener {

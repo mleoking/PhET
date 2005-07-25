@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.intensity;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.qm.SchrodingerApplication;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
@@ -24,12 +24,12 @@ public class IntensityModule extends SchrodingerModule {
     private IntensityControlPanel schrodingerControlPanel;
     private ArrayList listeners = new ArrayList();
 
-    public IntensityModule( AbstractClock clock ) {
-        this( "High Intensity", clock );
+    public IntensityModule( SchrodingerApplication app ) {
+        this( "High Intensity", app );
     }
 
-    protected IntensityModule( String name, AbstractClock clock ) {
-        super( name, clock );
+    protected IntensityModule( String name, SchrodingerApplication app ) {
+        super( name, app );
         splitModel = new SplitModel( 100, 100 );
         setDiscreteModel( splitModel );
         intensityPanel = createIntensityPanel();

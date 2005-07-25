@@ -18,6 +18,7 @@ public class DetectorSet {
     private DiscreteModel.Listener listener;
     private Wavefunction wavefunction;
     private boolean autodetect = false;
+    private boolean oneShotDetectors = true;
 
     public DetectorSet( Wavefunction wavefunction ) {
         this.wavefunction = wavefunction;
@@ -48,6 +49,14 @@ public class DetectorSet {
 
     public boolean containsDetector( Detector detector ) {
         return detectors.contains( detector );
+    }
+
+    public void setOneShotDetectors( boolean oneShotDetectors ) {
+        this.oneShotDetectors = oneShotDetectors;
+        for( int i = 0; i < detectors.size(); i++ ) {
+            Detector detector = (Detector)detectors.get( i );
+            detector.setOneShotDetection( oneShotDetectors );
+        }
     }
 
     private static interface FireStrategy {
@@ -160,5 +169,9 @@ public class DetectorSet {
                 fireAllEnabledDetectors( new FireWhenReady() );
             }
         }
+    }
+
+    public boolean isOneShotDetectors() {
+        return oneShotDetectors;
     }
 }

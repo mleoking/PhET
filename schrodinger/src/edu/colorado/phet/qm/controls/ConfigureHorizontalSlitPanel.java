@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.controls;
 
-import edu.colorado.phet.common.view.AdvancedPanel;
+import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
 
 import javax.swing.*;
@@ -16,53 +16,59 @@ import java.awt.*;
  * Copyright (c) Jun 27, 2005 by Sam Reid
  */
 
-public class ConfigureHorizontalSlitPanel extends AdvancedPanel {
+public class ConfigureHorizontalSlitPanel extends VerticalLayoutPanel {
     private HorizontalDoubleSlit slit;
+    private boolean showPotentialValue;
 
     public ConfigureHorizontalSlitPanel( HorizontalDoubleSlit doubleSlitPotential ) {
-//        setBorder( BorderFactory.createTitledBorder( "Configure Slits" ) );
-        super( "Configure Slits>>", "Hide Slit Config<<" );
+        this( doubleSlitPotential, false );
+    }
+
+    public ConfigureHorizontalSlitPanel( HorizontalDoubleSlit doubleSlitPotential, boolean showPotentialValue ) {
         this.slit = doubleSlitPotential;
-        double pow = doubleSlitPotential.getPotential();
+        this.showPotentialValue = showPotentialValue;
+        addControls( slit );
+    }
 
-        SlitSpinner potentialSpinner = new SlitSpinner( "Potential",
-                                                        new SpinnerNumberModel( pow, 0, Double.POSITIVE_INFINITY, pow / 10 ),
-                                                        new ChangeHandler() {
-                                                            public void valueChanged( Number value ) {
-                                                                slit.setPotential( value.doubleValue() );
-                                                            }
-                                                        } );
-        addControlFullWidth( potentialSpinner );
-
-
-        SlitSpinner sizeSpinner = new SlitSpinner( "Size", new SpinnerNumberModel( doubleSlitPotential.getSlitSize(), 0, doubleSlitPotential.getGridWidth() / 2, 1 ), new ChangeHandler() {
+    private void addControls( final HorizontalDoubleSlit slit ) {
+        double pow = slit.getPotential();
+        if( showPotentialValue ) {
+            SlitSpinner potentialSpinner = new SlitSpinner( "Potential",
+                                                            new SpinnerNumberModel( pow, 0, Double.POSITIVE_INFINITY, pow / 10 ),
+                                                            new ChangeHandler() {
+                                                                public void valueChanged( Number value ) {
+                                                                    slit.setPotential( value.doubleValue() );
+                                                                }
+                                                            } );
+            addFullWidth( potentialSpinner );
+        }
+        SlitSpinner sizeSpinner = new SlitSpinner( "Size", new SpinnerNumberModel( slit.getSlitSize(), 0, slit.getGridWidth() / 2, 1 ), new ChangeHandler() {
             public void valueChanged( Number value ) {
                 slit.setSlitSize( value.intValue() );
             }
         } );
-        addControlFullWidth( sizeSpinner );
+        addFullWidth( sizeSpinner );
 
-        SlitSpinner sepSpinner = new SlitSpinner( "Separation", new SpinnerNumberModel( doubleSlitPotential.getSlitSeparation(), 0, doubleSlitPotential.getGridHeight(), 1 ), new ChangeHandler() {
+        SlitSpinner sepSpinner = new SlitSpinner( "Separation", new SpinnerNumberModel( slit.getSlitSeparation(), 0, slit.getGridHeight(), 1 ), new ChangeHandler() {
             public void valueChanged( Number value ) {
                 slit.setSlitSeparation( value.intValue() );
             }
         } );
-        addControlFullWidth( sepSpinner );
+        addFullWidth( sepSpinner );
 
-        SlitSpinner depth = new SlitSpinner( "Depth", new SpinnerNumberModel( doubleSlitPotential.getHeight(), 0, doubleSlitPotential.getGridHeight(), 1 ), new ChangeHandler() {
+        SlitSpinner depth = new SlitSpinner( "Depth", new SpinnerNumberModel( slit.getHeight(), 0, slit.getGridHeight(), 1 ), new ChangeHandler() {
             public void valueChanged( Number value ) {
                 slit.setHeight( value.intValue() );
             }
         } );
-        addControlFullWidth( depth );
+        addFullWidth( depth );
 
-        SlitSpinner yval = new SlitSpinner( "Y", new SpinnerNumberModel( doubleSlitPotential.getY(), 0, doubleSlitPotential.getGridHeight(), 1 ), new ChangeHandler() {
+        SlitSpinner yval = new SlitSpinner( "Y", new SpinnerNumberModel( slit.getY(), 0, slit.getGridHeight(), 1 ), new ChangeHandler() {
             public void valueChanged( Number value ) {
                 slit.setY( value.intValue() );
             }
         } );
-
-        addControlFullWidth( yval );
+        addFullWidth( yval );
     }
 
     private static interface ChangeHandler {

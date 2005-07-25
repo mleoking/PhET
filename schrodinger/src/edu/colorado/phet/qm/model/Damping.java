@@ -73,16 +73,8 @@ public class Damping extends DiscreteModel.Adapter {
      */
     private double getScaleFactor( int depth ) {
         return damp[depth];
-//        double scale = 1.0 - penetrationFraction;
-//        return scale;
     }
 
-    public double getDamping( Wavefunction wavefunction, int i, int k ) {
-        if( i < damp.length || k < damp.length || i > wavefunction.getWidth() - damp.length || k > wavefunction.getHeight() - damp.length ) {
-            return 1.0;
-        }
-        return 0.0;
-    }
 
     public int getDepth() {
         return damp.length;

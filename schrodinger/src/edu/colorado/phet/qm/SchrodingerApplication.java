@@ -26,9 +26,9 @@ public class SchrodingerApplication extends PhetApplication {
     public SchrodingerApplication( String[] args ) {
         super( args, TITLE, DESCRIPTION, VERSION, createClock(), true, createFrameSetup() );
         PhetLookAndFeel.setLookAndFeel();
-        SchrodingerModule singleParticleModel = new SingleParticleModule( getClock() );
-        SchrodingerModule intensityModule = new IntensityModule( getClock() );
-        SchrodingerModule mandelModule = new MandelModule( getClock() );
+        SchrodingerModule singleParticleModel = new SingleParticleModule( this );
+        SchrodingerModule intensityModule = new IntensityModule( this );
+        SchrodingerModule mandelModule = new MandelModule( this );
         setModules( new Module[]{singleParticleModel, intensityModule, mandelModule} );
 //        setModules( new Module[]{mandelModule} );
     }
