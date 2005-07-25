@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+	!!! ATTENTION !!!
+
+If you can read this, you do not have a proper
+version of Java installed on your computer.
+
+If you have installed the PhET software on a local
+computer running Windows, click on the shortcut
+titled "Install Java 1.4.2". Otherwise, please go
+the "Simulations" page of the PhET web site and
+click on "Setup & Troubleshooting" for more
+information.
+
+-->
+<jnlp
+    spec="1.0+"
+    codebase="http://www.colorado.edu/physics/phet/dev/nukes/v1r7"
+    href="nukes_es.jnlp">
+    <information>
+        <title>Nuclear Physics</title>
+        <vendor>PhET(tm)</vendor>
+        <homepage href="http://www.colorado.edu/physics/phet/"/>
+        <description>Nuclear Physics</description>
+        <icon href="../Design/Assets/images/Phet-Kavli-logo.jpg"/> 
+        <icon kind="splash" href="../Design/Assets/images/Phet-Kavli-logo.jpg"/> 
+        <offline-allowed/>
+    </information>
+
+    <resources>
+        <j2se version="1.4+"/>
+        <jar href="nuclear-physics_es.jar"/>
+        <jar href="NuclearPhysicsStrings_es.jar"/>
+        <jar href="lib/collision.jar"/>
+        <jar href="lib/mechanics.jar"/>
+        <jar href="lib/phetcommon_es.jar"/>
+	  <jar href="lib/smoothmetal.jar"/>
+    </resources>
+
+    <application-desc main-class="edu.colorado.phet.nuclearphysics.NuclearPhysicsApplication"> 
+        <argument>user.language=es</argument>	
+    </application-desc> 
+</jnlp>
