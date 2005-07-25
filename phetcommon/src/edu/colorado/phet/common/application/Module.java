@@ -44,6 +44,7 @@ public class Module implements ClockTickListener {
     String name;
     private AbstractClock clock;
     HelpManager helpManager;
+    private boolean helpEnabled;
 
     /**
      * @param name
@@ -54,6 +55,7 @@ public class Module implements ClockTickListener {
         this.clock = clock;
         SimStrings.setStrings( "localization/CommonStrings" );
         helpManager = new HelpManager();
+        helpEnabled = false;
     }
 
     /**
@@ -190,6 +192,7 @@ public class Module implements ClockTickListener {
      * @param h
      */
     public void setHelpEnabled( boolean h ) {
+        helpEnabled = h;
         helpManager.setHelpEnabled( apparatusPanel, h );
         if ( controlPanel instanceof ControlPanel ) {
             // If our control panel is a Phet control panel, then change the 
@@ -198,6 +201,10 @@ public class Module implements ClockTickListener {
         }
     }
 
+    public boolean isHelpEnabled() {
+        return helpEnabled;
+    }
+    
     /**
      * Adds an onscreen help item to the module
      *

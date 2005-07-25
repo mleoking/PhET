@@ -10,17 +10,15 @@
  */
 package edu.colorado.phet.common.view.components.menu;
 
-import edu.colorado.phet.common.application.ModuleEvent;
-import edu.colorado.phet.common.application.ModuleManager;
-import edu.colorado.phet.common.application.ModuleObserver;
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.util.VersionUtils;
-import edu.colorado.phet.common.view.util.SimStrings;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.application.*;
+import edu.colorado.phet.common.util.VersionUtils;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
  * HelpMenu
@@ -154,7 +152,11 @@ public class HelpMenu extends JMenu implements ModuleObserver {
     }
 
     public void activeModuleChanged( ModuleEvent event ) {
-        onscreenHelp.setEnabled( event.getModule() != null && event.getModule().hasHelp() );
+        Module module = event.getModule();
+        if ( module != null ) {
+            onscreenHelp.setEnabled( module.hasHelp() );
+            onscreenHelp.setSelected( module.isHelpEnabled() );
+        }
     }
 
     public void moduleRemoved( ModuleEvent event ) {
