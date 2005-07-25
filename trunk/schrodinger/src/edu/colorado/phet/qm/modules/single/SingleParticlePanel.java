@@ -24,8 +24,6 @@ public class SingleParticlePanel extends SchrodingerPanel {
         getIntensityDisplay().setProbabilityScaleFudgeFactor( 5 );
         getIntensityDisplay().setOpacity( 255 );
         getIntensityDisplay().setNormDecrement( 1.0 );
-
-
     }
 
     public void reset() {

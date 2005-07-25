@@ -5,6 +5,7 @@ import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.qm.phetcommon.ImageComboBox;
+import edu.colorado.phet.qm.phetcommon.WiggleMe;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 
 import javax.swing.*;
@@ -72,6 +73,14 @@ public class SingleParticleGun extends AbstractGun {
         fireJC.setCursorHand();
         addGraphic( fireJC );
         fireJC.setLocation( getGunImageGraphic().getWidth() + 2 + getFireButtonInsetDX(), getControlOffsetY() + 0 );
+
+        final WiggleMe wiggleMe = new WiggleMe( getSchrodingerPanel(), getSchrodingerPanel().getSchrodingerModule().getModel(), "Push the Button", fireJC );
+        schrodingerPanel.addGraphic( wiggleMe, Double.POSITIVE_INFINITY );
+        getSchrodingerPanel().addMouseListener( new MouseAdapter() {
+            public void mousePressed( MouseEvent e ) {
+                wiggleMe.setVisible( false );
+            }
+        } );
 
         setupObject( gunItems[0] );
         autoFire = new AutoFire( this, schrodingerPanel.getIntensityDisplay() );

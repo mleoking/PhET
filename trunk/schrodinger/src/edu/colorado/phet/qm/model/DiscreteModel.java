@@ -6,7 +6,6 @@ import edu.colorado.phet.qm.model.potentials.CompositePotential;
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
 import edu.colorado.phet.qm.model.propagators.ClassicalWavePropagator;
 import edu.colorado.phet.qm.model.propagators.ModifiedRichardsonPropagator;
-import edu.colorado.phet.qm.util.QMLogger;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -87,8 +86,7 @@ public class DiscreteModel implements ModelElement {
             getWavefunction().setMagnitudeDirty();
         }
         else {
-            QMLogger.debug( "skipping propagation: " + System.currentTimeMillis() );
-//            System.out.println( "skipping propagation: "+System.currentTimeMillis() );
+//            QMLogger.debug( "skipping propagation: " + System.currentTimeMillis() );
         }
         incrementTimeStep();
         finishedTimeStep();

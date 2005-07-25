@@ -12,11 +12,9 @@ import edu.colorado.phet.qm.model.Potential;
 import edu.colorado.phet.qm.model.potentials.RectangularPotential;
 
 import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 
 /**
@@ -31,6 +29,7 @@ public class RectangularPotentialGraphic extends RectangleGraphic {
     private DecimalFormat format = new DecimalFormat( "0.00" );
     private PhetTextGraphic potDisplay;
     private PhetGraphic closeGraphic;
+    private PhetGraphic editGraphic;
 
     public RectangularPotentialGraphic( SchrodingerPanel component, final RectangularPotential potential ) {
         super( component, potential, new Color( 255, 30, 0, 45 ) );
@@ -44,14 +43,14 @@ public class RectangularPotentialGraphic extends RectangleGraphic {
                 RectangularPotentialGraphic.this.update();
             }
         } );
-        super.getAreaGraphic().addMouseInputListener( new MouseInputAdapter() {
-            // implements java.awt.event.MouseListener
-            public void mousePressed( MouseEvent e ) {
-                if( SwingUtilities.isRightMouseButton( e ) ) {
-                    changePotential();
-                }
-            }
-        } );
+//        super.getAreaGraphic().addMouseInputListener( new MouseInputAdapter() {
+//            // implements java.awt.event.MouseListener
+//            public void mousePressed( MouseEvent e ) {
+//                if( SwingUtilities.isRightMouseButton( e ) ) {
+//                    changePotential();
+//                }
+//            }
+//        } );
 
         JButton closeButton = SchrodingerLookAndFeel.createCloseButton();
         closeButton.addActionListener( new ActionListener() {
@@ -62,6 +61,18 @@ public class RectangularPotentialGraphic extends RectangleGraphic {
         closeGraphic = PhetJComponent.newInstance( component, closeButton );
         addGraphic( closeGraphic );
         closeGraphic.setLocation( -closeGraphic.getWidth() - 2, 0 );
+
+        JButton editButton = new JButton( "Edit" );
+        editButton.setMargin( new Insets( 1, 1, 1, 1 ) );
+        editButton.setFont( new Font( "Lucida Sans", Font.PLAIN, 12 ) );
+        editButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                changePotential();
+            }
+        } );
+        editGraphic = PhetJComponent.newInstance( getSchrodingerPanel(), editButton );
+        addGraphic( editGraphic );
+
         update();
     }
 
@@ -72,14 +83,18 @@ public class RectangularPotentialGraphic extends RectangleGraphic {
     private void changePotential() {
         final JDialog dialog = new JDialog( (Frame)SwingUtilities.getWindowAncestor( getComponent() ), "Change Potential" );
         VerticalLayoutPanel content = new VerticalLayoutPanel();
+        JLabel explanation = new JLabel( "<html>Potentials are represented here<br>in base E (~2.7)<br>Press Apply after changing the value.</html>" );
+        content.addFullWidth( explanation );
+
         JTextField old = new JTextField();
         old.setBorder( BorderFactory.createTitledBorder( "Current Potential" ) );
-        old.setText( format.format( potential.getPotential() ) );
+        old.setText( format.format( Math.log( potential.getPotential() ) ) );
         old.setEditable( false );
 
         final JTextField newOne = new JTextField();
         newOne.setBorder( BorderFactory.createTitledBorder( "Change to" ) );
-        newOne.setText( format.format( potential.getPotential() ) );
+
+        newOne.setText( format.format( Math.log( potential.getPotential() ) ) );
         newOne.requestFocus();
         newOne.setSelectionStart( 0 );
         newOne.setSelectionEnd( newOne.getText().length() );
@@ -93,6 +108,7 @@ public class RectangularPotentialGraphic extends RectangleGraphic {
             public void actionPerformed( ActionEvent e ) {
                 try {
                     double newVal = Double.parseDouble( newOne.getText() );
+                    newVal = Math.pow( Math.E, newVal );
                     potential.setPotential( newVal );
                     update();
                 }
@@ -126,6 +142,7 @@ public class RectangularPotentialGraphic extends RectangleGraphic {
         potDisplay.setText( "" );
         potDisplay.setLocation( (int)viewRect.getX(), (int)viewRect.getY() );
         closeGraphic.setLocation( (int)viewRect.getX() - closeGraphic.getWidth() - 2, (int)viewRect.getY() );
+        editGraphic.setLocation( closeGraphic.getX(), closeGraphic.getY() + closeGraphic.getHeight() + 2 );
     }
 
     public Potential getPotential() {
