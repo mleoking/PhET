@@ -18,6 +18,8 @@ public class Wavefunction {
     private Complex[][] wavefunction;
 
     private ArrayList listeners = new ArrayList();
+    private double magnitude = 0.0;
+    private boolean magnitudeDirty = true;
 
     public Wavefunction( Wavefunction wavefunction ) {
         this( wavefunction.wavefunction );
@@ -65,6 +67,7 @@ public class Wavefunction {
                 }
             }
         }
+        setMagnitudeDirty();
     }
 
     public boolean containsLocation( int i, int k ) {
@@ -141,10 +144,17 @@ public class Wavefunction {
             System.out.println( "Error in probability normalization." );
 //            throw new RuntimeException( "Error in probability normalization." );
         }
+        setMagnitudeDirty();
     }
 
     public double getMagnitude() {
-//        System.out.println( "Get Magnitude @ t="+System.currentTimeMillis() );
+        if( magnitudeDirty ) {
+            this.magnitude = recomputeMagnitude();
+        }
+        return magnitude;
+    }
+
+    private double recomputeMagnitude() {//        System.out.println( "Get Magnitude @ t="+System.currentTimeMillis() );
         Complex runningSum = new Complex();
         for( int i = 0; i < getWidth(); i++ ) {
             for( int j = 0; j < getHeight(); j++ ) {
@@ -158,6 +168,7 @@ public class Wavefunction {
     }
 
     public void clear() {
+
         for( int i = 0; i < getWidth(); i++ ) {
             for( int j = 0; j < getHeight(); j++ ) {
                 if( valueAt( i, j ) == null ) {
@@ -168,7 +179,12 @@ public class Wavefunction {
                 }
             }
         }
+        setMagnitudeDirty();
         notifyCleared();
+    }
+
+    void setMagnitudeDirty() {
+        magnitudeDirty = true;
     }
 
     public void setSize( int width, int height ) {

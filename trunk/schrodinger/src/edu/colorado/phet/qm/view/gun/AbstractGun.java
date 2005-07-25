@@ -6,6 +6,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Potential;
+import edu.colorado.phet.qm.util.QMLogger;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 
 import javax.swing.*;
@@ -56,7 +57,7 @@ public abstract class AbstractGun extends GraphicLayerSet {
         double scaleY = schrodingerPanel.getGraphicTx().getScaleY();
         comboBox.setBounds( (int)( ( x - comboBox.getPreferredSize().width - 2 ) * scaleX ), (int)( ( y + getControlOffsetY() ) * scaleY ),
                             comboBox.getPreferredSize().width, comboBox.getPreferredSize().height );
-        System.out.println( "comboBox.getLocation() = " + comboBox.getLocation() );
+        QMLogger.debug( "comboBox.getLocation() = " + comboBox.getLocation() );
     }
 
     public void setVisible( boolean visible ) {

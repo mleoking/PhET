@@ -3,6 +3,7 @@ package edu.colorado.phet.qm.model;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.util.QMLogger;
 
 import java.awt.*;
 
@@ -40,7 +41,7 @@ public class PhotonWave {
     public void setMomentum( double momentum ) {
         this.momentum = momentum;
         dPhase = Math.abs( momentum );
-        System.out.println( "momentum = " + momentum + ", dPhase=" + dPhase );
+        QMLogger.debug( "momentum = " + momentum + ", dPhase=" + dPhase );
 
         updateWaveSource();
     }

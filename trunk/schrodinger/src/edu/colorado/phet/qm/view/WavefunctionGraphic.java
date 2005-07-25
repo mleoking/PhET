@@ -78,7 +78,7 @@ public class WavefunctionGraphic extends GraphicLayerSet {
         clear.setFont( new Font( "Lucida Sans", Font.BOLD, 10 ) );
         clear.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                schrodingerPanel.getDiscreteModel().clearWavefunction();
+                schrodingerPanel.clearWavefunction();
             }
         } );
         clearButton.setLocation( -clearButton.getWidth() - 2, clearButton.getHeight() );

@@ -32,4 +32,9 @@ public class SingleParticlePanel extends SchrodingerPanel {
         super.reset();
         abstractGun.reset();
     }
+
+    public void clearWavefunction() {
+        super.clearWavefunction();
+        abstractGun.reset();
+    }
 }
