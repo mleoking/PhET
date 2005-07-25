@@ -32,10 +32,10 @@ import java.io.IOException;
 
 public class SchrodingerControlPanel extends ControlPanel {
     private SchrodingerModule module;
-//    private ModelElement particleFirer;
     private CylinderWaveCheckBox cylinderWaveBox;
     private ClassicalWavePropagator classicalPropagator2ndOrder;
     private InitialConditionPanel initialConditionPanel;
+    private AdvancedPanel advancedPanel;
 
     public SchrodingerControlPanel( final SchrodingerModule module ) {
         super( module );
@@ -47,11 +47,11 @@ public class SchrodingerControlPanel extends ControlPanel {
             }
         } );
         addControl( reset );
-        initialConditionPanel = createInitialConditionPanel();
-        AdvancedPanel advancedIC = new AdvancedPanel( "Show>>", "Hide<<" );
-        advancedIC.addControlFullWidth( initialConditionPanel );
-        advancedIC.setBorder( BorderFactory.createTitledBorder( "Initial Conditions" ) );
-        advancedIC.addListener( new AdvancedPanel.Listener() {
+        this.initialConditionPanel = createInitialConditionPanel();
+        AdvancedPanel advancedICPanel = new AdvancedPanel( "Show>>", "Hide<<" );
+        advancedICPanel.addControlFullWidth( this.initialConditionPanel );
+        advancedICPanel.setBorder( BorderFactory.createTitledBorder( "Initial Conditions" ) );
+        advancedICPanel.addListener( new AdvancedPanel.Listener() {
             public void advancedPanelHidden( AdvancedPanel advancedPanel ) {
                 JFrame parent = (JFrame)SwingUtilities.getWindowAncestor( SchrodingerControlPanel.this );
                 parent.invalidate();
@@ -96,16 +96,19 @@ public class SchrodingerControlPanel extends ControlPanel {
             e.printStackTrace();
         }
 
+        advancedPanel = new AdvancedPanel( "Advanced>>", "Hide Advanced<<" );
+        addControlFullWidth( advancedPanel );
+
         VerticalLayoutPanel intensityScreen = new IntensityScreenPanel( this );
-        AdvancedPanel advancedIntensityScreen = new AdvancedPanel( "Screen Params>>", "Screen Params<<" );
+        AdvancedPanel advancedIntensityScreen = new AdvancedPanel( "Screen>>", "Screen<<" );
         advancedIntensityScreen.addControl( intensityScreen );
-        addControlFullWidth( advancedIntensityScreen );
+        advancedPanel.addControlFullWidth( advancedIntensityScreen );
 
 
         VerticalLayoutPanel simulationPanel = createSimulationPanel( module );
-        AdvancedPanel advSim = new AdvancedPanel( "Simulation >>", "Hide <<" );
+        AdvancedPanel advSim = new AdvancedPanel( "Simulation>>", "Hide Simulation<<" );
         advSim.addControlFullWidth( simulationPanel );
-        addControlFullWidth( advSim );
+        advancedPanel.addControlFullWidth( advSim );
 //        addControlFullWidth( simulationPanel );
 
         VerticalLayoutPanel potentialPanel = createPotentialPanel( module );
@@ -289,8 +292,7 @@ public class SchrodingerControlPanel extends ControlPanel {
     }
 
     private void clearPotential() {
-        module.getDiscreteModel().clearPotential();
-        getSchrodingerPanel().clearPotential();
+        module.clearPotential();
     }
 
     private Potential createSlopingPotential() {
@@ -346,5 +348,9 @@ public class SchrodingerControlPanel extends ControlPanel {
 
     public SchrodingerModule getModule() {
         return module;
+    }
+
+    public AdvancedPanel getAdvancedPanel() {
+        return advancedPanel;
     }
 }

@@ -39,4 +39,11 @@ public class AveragePropagator implements Propagator {
     public Propagator copy() {
         return new AveragePropagator();
     }
+
+    public void normalize() {
+
+    }
+
+    public void setWavefunctionNorm( double norm ) {
+    }
 }

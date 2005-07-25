@@ -27,10 +27,13 @@ public class DetectorGraphic extends RectangleGraphic {
     private PhetTextGraphic probDisplay;
     private PhetGraphic closeGraphic;
     private Color darkGreen;
+//    private static Color fill = new Color( 200, 180, 150, 65 );
+    private static Color fill = new Color( 200, 180, 150, 0 );
+//    private static Color fill = null;
 
     public DetectorGraphic( final SchrodingerPanel schrodingerPanel, final Detector detector ) {
 //        super( schrodingerPanel, detector, new Color( 0, 0, 0, 0 ) );
-        super( schrodingerPanel, detector, new Color( 200, 180, 150, 65 ) );
+        super( schrodingerPanel, detector, fill );
         this.detector = detector;
 
         darkGreen = new Color( 50, 230, 75 );

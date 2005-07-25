@@ -53,6 +53,7 @@ public class SchrodingerModule extends Module {
     }
 
     public void reset() {
+        clearPotential();
         discreteModel.reset();
         schrodingerPanel.reset();
     }
@@ -114,5 +115,10 @@ public class SchrodingerModule extends Module {
     public void removePotential( RectangularPotentialGraphic rectangularPotentialGraphic ) {
         getDiscreteModel().removePotential( rectangularPotentialGraphic.getPotential() );
         getSchrodingerPanel().removeGraphic( rectangularPotentialGraphic );
+    }
+
+    public void clearPotential() {
+        getDiscreteModel().clearPotential();
+        getSchrodingerPanel().clearPotential();
     }
 }

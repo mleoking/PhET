@@ -23,9 +23,13 @@ public class SchrodingerApplication extends PhetApplication {
     public static String DESCRIPTION = "Quantum Interference";
     public static String VERSION = "0.1";
 
+    static {
+        PhetLookAndFeel.setLookAndFeel();
+    }
+
     public SchrodingerApplication( String[] args ) {
         super( args, TITLE, DESCRIPTION, VERSION, createClock(), true, createFrameSetup() );
-        PhetLookAndFeel.setLookAndFeel();
+//        PhetLookAndFeel.setLookAndFeel();
         SchrodingerModule singleParticleModel = new SingleParticleModule( this );
         SchrodingerModule intensityModule = new IntensityModule( this );
         SchrodingerModule mandelModule = new MandelModule( this );

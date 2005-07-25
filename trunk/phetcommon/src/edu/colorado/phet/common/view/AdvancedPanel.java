@@ -80,6 +80,7 @@ public class AdvancedPanel extends VerticalLayoutPanel {
             Listener listener = (Listener)listeners.get( i );
             listener.advancedPanelShown( this );
         }
+        setBorder( BorderFactory.createRaisedBevelBorder() );
     }
 
     private void validateAll() {
@@ -110,6 +111,7 @@ public class AdvancedPanel extends VerticalLayoutPanel {
             Listener listener = (Listener)listeners.get( i );
             listener.advancedPanelHidden( this );
         }
+        setBorder( null );
     }
 
     ArrayList listeners = new ArrayList();

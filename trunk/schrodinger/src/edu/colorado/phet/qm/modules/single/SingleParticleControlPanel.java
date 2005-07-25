@@ -39,7 +39,7 @@ public class SingleParticleControlPanel extends SchrodingerControlPanel {
                 createDetectorArray();
             }
         } );
-        addControl( createDetectorArray );
+        getAdvancedPanel().addControl( createDetectorArray );
 
         final ModelSlider modelSlider = new ModelSlider( "Dectector prob-scale", "", 0, 100, Detector.getProbabilityScaleFudgeFactor() );
         modelSlider.addChangeListener( new ChangeListener() {
@@ -48,7 +48,7 @@ public class SingleParticleControlPanel extends SchrodingerControlPanel {
             }
         } );
         modelSlider.setModelTicks( new double[]{0, 50, 100} );
-        addControl( modelSlider );
+        getAdvancedPanel().addControlFullWidth( modelSlider );
 
         VerticalLayoutPanel colorPanel = createVisualizationPanel();
         addControlFullWidth( colorPanel );
