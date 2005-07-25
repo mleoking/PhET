@@ -61,6 +61,9 @@ public class GraphClosed extends GraphicLayerSet {
     public GraphClosed( Component component, String title ) {
         super( component );
         
+        // Enable antialiasing for all children.
+        setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+
         // Background
         PhetShapeGraphic backgroundGraphic = new PhetShapeGraphic( component );
         backgroundGraphic.setShape( new Rectangle( 0, 0, BACKGROUND_SIZE.width, BACKGROUND_SIZE.height ) );

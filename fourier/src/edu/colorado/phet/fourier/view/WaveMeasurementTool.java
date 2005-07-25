@@ -90,6 +90,9 @@ implements ApparatusPanel2.ChangeListener, Chart.Listener, HarmonicColorChangeLi
     public WaveMeasurementTool( Component component, String symbol, Harmonic harmonic, Chart chart ) {
         super( component );
 
+        // Enable antialiasing for all children.
+        setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+
         _harmonic = harmonic;
 
         _chart = chart;

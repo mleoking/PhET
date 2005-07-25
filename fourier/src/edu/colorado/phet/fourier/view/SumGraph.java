@@ -131,12 +131,12 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     public SumGraph( Component component, FourierSeries fourierSeries ) {
         super( component );
 
+        // Enable antialiasing for all children.
+        setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+        
         // Model
         _fourierSeries = fourierSeries;
         _fourierSeries.addObserver( this );
-        
-        // Enable antialiasing
-        setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         
         // Background
         _backgroundGraphic = new PhetShapeGraphic( component );

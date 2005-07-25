@@ -122,12 +122,12 @@ public class HarmonicsGraph extends GraphicLayerSet implements SimpleObserver, Z
     public HarmonicsGraph( Component component, FourierSeries fourierSeries ) {
         super( component );
 
+        // Enable antialiasing for all children.
+        setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+
         // Model
         _fourierSeries = fourierSeries;
         _fourierSeries.addObserver( this );
-
-        // Enable antialiasing
-        setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
 
         // Background
         _backgroundGraphic = new PhetShapeGraphic( component );
