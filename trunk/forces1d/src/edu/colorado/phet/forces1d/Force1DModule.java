@@ -32,7 +32,7 @@ import java.util.Arrays;
  * Copyright (c) Nov 12, 2004 by Sam Reid
  */
 public class Force1DModule extends Module {
-    public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/Force1d";
+    public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/Force1DStrings";
 //    public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/Force1d-test";
     private PhetLookAndFeel phetLookAndFeel;
     private Force1DModel forceModel;
