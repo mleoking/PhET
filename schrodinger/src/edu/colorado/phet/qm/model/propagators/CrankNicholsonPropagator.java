@@ -156,4 +156,10 @@ public class CrankNicholsonPropagator implements Propagator {
     public Propagator copy() {
         return new CrankNicholsonPropagator( deltaTime, wave, potential );
     }
+
+    public void normalize() {
+    }
+
+    public void setWavefunctionNorm( double norm ) {
+    }
 }

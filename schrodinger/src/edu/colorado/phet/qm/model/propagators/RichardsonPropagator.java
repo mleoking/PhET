@@ -187,6 +187,12 @@ public class RichardsonPropagator implements Propagator {
         return new RichardsonPropagator( deltaTime, wave, potential );
     }
 
+    public void normalize() {
+    }
+
+    public void setWavefunctionNorm( double norm ) {
+    }
+
     public double getEpsilon() {
         return epsilon;
     }

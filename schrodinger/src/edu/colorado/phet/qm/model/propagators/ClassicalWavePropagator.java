@@ -144,6 +144,24 @@ public class ClassicalWavePropagator implements Propagator {
         return new ClassicalWavePropagator( potential );
     }
 
+    public void normalize() {
+        if( last2 != null ) {
+            last2.normalize();
+        }
+        if( last != null ) {
+            last.normalize();
+        }
+    }
+
+    public void setWavefunctionNorm( double norm ) {
+        if( last2 != null ) {
+            last2.setMagnitude( norm );
+        }
+        if( last != null ) {
+            last.setMagnitude( norm );
+        }
+    }
+
     public void scale( double scale ) {
         if( last2 != null ) {
             last2.scale( scale );

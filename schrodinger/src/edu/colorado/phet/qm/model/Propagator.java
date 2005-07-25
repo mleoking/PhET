@@ -18,4 +18,8 @@ public interface Propagator {
     void setBoundaryCondition( int i, int k, Complex value );
 
     Propagator copy();
+
+    void normalize();
+
+    void setWavefunctionNorm( double norm );
 }

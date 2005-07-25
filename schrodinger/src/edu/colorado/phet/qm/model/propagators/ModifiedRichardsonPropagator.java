@@ -46,4 +46,7 @@ public class ModifiedRichardsonPropagator extends RichardsonPropagator {
     public Propagator copy() {
         return new ModifiedRichardsonPropagator( getEpsilon(), super.getWave(), super.getPotential() );
     }
+
+    public void normalize() {
+    }
 }

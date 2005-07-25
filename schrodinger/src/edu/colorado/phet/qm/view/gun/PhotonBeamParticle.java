@@ -14,7 +14,7 @@ public class PhotonBeamParticle extends GunParticle {
     private PhotonBeam photonBeam;
     private ModelElement rampUp;
     private ModelElement rampDown;
-    private ModelElement pauser;
+    private Pauser pauser;
 
     public PhotonBeamParticle( AbstractGun gun, String label, final PhotonBeam photonBeam ) {
         super( gun, label, photonBeam.getImageLocation() );
@@ -29,6 +29,7 @@ public class PhotonBeamParticle extends GunParticle {
         photonBeam.setIntensity( 0.0 );
         photonBeam.setHighIntensityModeOn( false );
         clearModelElements();
+        pauser.reset();
     }
 
     class Pauser implements ModelElement {
@@ -37,7 +38,7 @@ public class PhotonBeamParticle extends GunParticle {
 
         public void stepInTime( double dt ) {
             count++;
-            getDiscreteModel().getWavefunction().normalize();
+            getDiscreteModel().setWavefunctionNorm( 0.995 );
             if( count >= maxCount ) {
                 while( getSchrodingerModule().getModel().containsModelElement( this ) ) {
                     removeModelElement( this );
@@ -47,6 +48,10 @@ public class PhotonBeamParticle extends GunParticle {
                 count = 0;
             }
         }
+
+        public void reset() {
+            count = 0;
+        }
     }
 
     abstract class AbstractBeamAdder implements ModelElement {
@@ -54,7 +59,7 @@ public class PhotonBeamParticle extends GunParticle {
             double mag = getDiscreteModel().getWavefunction().getMagnitude();
 
             double intensity = photonBeam.getIntensity();
-            if( mag > 0.35 && this instanceof RampUp ) {
+            if( mag > 0.40 && this instanceof RampUp ) {
                 removeModelElement( this );
                 addModelElement( rampDown );
             }
@@ -64,10 +69,10 @@ public class PhotonBeamParticle extends GunParticle {
             System.out.println( "this = " + this + ", setting intensity=" + intensity + ", mag=" + mag );
             photonBeam.setIntensity( intensity );
 
-            if( mag > 0.93 ) {
+            if( mag > 0.98 || ( ( this instanceof RampDown ) && intensity == 0 ) ) {
+                getDiscreteModel().setWavefunctionNorm( 0.995 );
                 removeModelElement( this );
                 addModelElement( pauser );
-                getDiscreteModel().getWavefunction().normalize();
                 photonBeam.setIntensity( 0.0 );
             }
         }

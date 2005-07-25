@@ -199,7 +199,12 @@ public class DiscreteModel implements ModelElement {
     }
 
     public void clearPotential() {
+        boolean doubleSlitEnabled = isDoubleSlitEnabled();
         compositePotential.clear();
+        setDoubleSlitEnabled( false );
+        if( isDoubleSlitEnabled() != doubleSlitEnabled ) {
+            notifySlitStateChanged();
+        }
     }
 
     public double getSimulationTime() {
@@ -316,6 +321,16 @@ public class DiscreteModel implements ModelElement {
 
     public DetectorSet getDetectorSet() {
         return detectorSet;
+    }
+
+    public void normalizeWavefunction() {
+        wavefunction.normalize();
+        getPropagator().normalize();
+    }
+
+    public void setWavefunctionNorm( double norm ) {
+        wavefunction.setMagnitude( norm );
+        getPropagator().setWavefunctionNorm( norm );
     }
 
     public static interface Listener {
