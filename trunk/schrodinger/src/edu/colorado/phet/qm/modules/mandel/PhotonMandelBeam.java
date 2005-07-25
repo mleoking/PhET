@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.mandel;
 
-import edu.colorado.phet.qm.PhotonWave;
+import edu.colorado.phet.qm.model.PhotonWave;
 import edu.colorado.phet.qm.view.gun.Photon;
 import edu.colorado.phet.qm.view.gun.PhotonBeam;
 

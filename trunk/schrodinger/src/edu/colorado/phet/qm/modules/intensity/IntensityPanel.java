@@ -3,7 +3,7 @@ package edu.colorado.phet.qm.modules.intensity;
 
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.qm.SlitControlPanel;
+import edu.colorado.phet.qm.controls.SlitControlPanel;
 import edu.colorado.phet.qm.view.ColorMap;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.SmoothIntensityDisplay;

@@ -3,8 +3,8 @@ package edu.colorado.phet.qm.modules.single;
 
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
-import edu.colorado.phet.qm.DetectorPanel;
-import edu.colorado.phet.qm.SchrodingerControlPanel;
+import edu.colorado.phet.qm.controls.DetectorPanel;
+import edu.colorado.phet.qm.controls.SchrodingerControlPanel;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.view.ColorMap;
 import edu.colorado.phet.qm.view.colormaps.ImaginaryGrayColorMap;

@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.intensity;
 
-import edu.colorado.phet.qm.SchrodingerControlPanel;
-import edu.colorado.phet.qm.SlitControlPanel;
+import edu.colorado.phet.qm.controls.SchrodingerControlPanel;
+import edu.colorado.phet.qm.controls.SlitControlPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
