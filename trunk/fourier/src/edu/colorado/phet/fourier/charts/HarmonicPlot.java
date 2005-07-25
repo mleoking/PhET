@@ -13,6 +13,7 @@ package edu.colorado.phet.fourier.charts;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.RenderingHints;
 
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.SinePlot;
@@ -59,6 +60,9 @@ public class HarmonicPlot extends SinePlot implements SimpleObserver, HarmonicCo
     public HarmonicPlot( Component component, Chart chart ) {
         super( component, chart );
         
+        // Enable antialiasing
+        setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+
         _harmonic = null;
         _waveType = -1; // force an update
         setWaveType( DEFAULT_WAVE_TYPE );

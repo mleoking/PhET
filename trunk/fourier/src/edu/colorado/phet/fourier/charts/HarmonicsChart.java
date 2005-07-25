@@ -89,6 +89,9 @@ public class HarmonicsChart extends Chart {
     public HarmonicsChart( Component component, Range2D range, Dimension chartSize ) {
         super( component, range, chartSize );
         
+        // Enable antialiasing
+        setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+
         // X axis
         {
             getXAxis().setStroke( AXIS_STROKE );
