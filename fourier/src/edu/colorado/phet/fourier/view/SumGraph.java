@@ -118,7 +118,6 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     private int _xZoomLevel;
     private int _domain;
     private int _mathForm;
-    private boolean _presetEnabled;
     
     private int _previousNumberOfHarmonics;
     private int _previousPreset;
@@ -279,7 +278,6 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
             updateLabelsAndLines();
             updateZoomButtons();
             
-            _presetEnabled = false;
             _presetPlot.setVisible( false );
             _sineCosinePlot.setVisible( false );
         }
@@ -341,15 +339,22 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     }
     
     /**
-     * Turns visibility of the continuous preset waveform on/off.
+     * Turns visibility of the infinite preset waveform on/off.
      * 
      * @param enabled
      */
     public void setPresetEnabled( boolean enabled ) {
-        if ( enabled != _presetEnabled ) {
-            _presetEnabled = enabled;
-            _previousPreset = -1; // force an update
-            update();
+        if ( ! enabled ) {
+            _sineCosinePlot.setVisible( false );
+            _presetPlot.setVisible( false );
+        }
+        else {
+            if ( _fourierSeries.getPreset() == FourierConstants.PRESET_SINE_COSINE ) {
+                _sineCosinePlot.setVisible( true );
+            }
+            else {
+                _presetPlot.setVisible( true );
+            }
         }
     }
 
@@ -440,19 +445,6 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
                         copyPoints[i] = new Point2D.Double( points[i].getX(), points[i].getY() );
                     }
                     _presetPlot.getDataSet().addAllPoints( copyPoints );
-                    _presetPlot.setVisible( true );
-                }
-
-                // Visibility of preset's infinite waveform
-                _sineCosinePlot.setVisible( false );
-                _presetPlot.setVisible( false );
-                if ( _presetEnabled ) {
-                    if ( preset == FourierConstants.PRESET_SINE_COSINE ) {
-                        _sineCosinePlot.setVisible( true );
-                    }
-                    else {
-                        _presetPlot.setVisible( true );
-                    }
                 }
 
                 // Math
