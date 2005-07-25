@@ -76,7 +76,17 @@ public class SchrodingerPanel extends ApparatusPanel2 {
         ConfigureSlitButton configureSlitButton = new ConfigureSlitButton( module.getPhetFrame(), getDiscreteModel().getDoubleSlitPotential() );
         configureSlitButtonGraphic = PhetJComponent.newInstance( this, configureSlitButton );
         addGraphic( configureSlitButtonGraphic );
-        configureSlitButtonGraphic.setLocation( doubleSlitCheckBoxGraphic.getX(), doubleSlitCheckBoxGraphic.getY() + doubleSlitCheckBoxGraphic.getHeight() + 2 );
+        putBelow( getConfigureSlitButtonGraphic(), doubleSlitCheckBoxGraphic, 5 );
+//        configureSlitButtonGraphic.setLocation( doubleSlitCheckBoxGraphic.getX(), doubleSlitCheckBoxGraphic.getY() + doubleSlitCheckBoxGraphic.getHeight() + 2 );
+
+    }
+
+    protected PhetGraphic getConfigureSlitButtonGraphic() {
+        return configureSlitButtonGraphic;
+    }
+
+    protected void putBelow( PhetGraphic obj, PhetGraphic parent, int insetY ) {
+        obj.setLocation( parent.getX(), parent.getY() + parent.getHeight() + insetY );
     }
 
     protected PhetGraphic getDoubleSlitCheckBoxGraphic() {

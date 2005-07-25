@@ -249,6 +249,7 @@ public class SchrodingerControlPanel extends ControlPanel {
 
     private VerticalLayoutPanel createPotentialPanel( final SchrodingerModule module ) {
         VerticalLayoutPanel layoutPanel = new VerticalLayoutPanel();
+        layoutPanel.setFillNone();
         layoutPanel.setBorder( BorderFactory.createTitledBorder( "Potential" ) );
 
         JButton clear = new JButton( "Clear" );
@@ -261,8 +262,8 @@ public class SchrodingerControlPanel extends ControlPanel {
 
         final JCheckBox doubleSlit = new DoubleSlitCheckBox( getDiscreteModel() );
         layoutPanel.add( doubleSlit );
-        VerticalLayoutPanel configureDoubleSlit = new ConfigureHorizontalSlitPanel( getDiscreteModel().getDoubleSlitPotential() );
-        layoutPanel.add( configureDoubleSlit );
+//        VerticalLayoutPanel configureDoubleSlit = new ConfigureHorizontalSlitPanel( getDiscreteModel().getDoubleSlitPotential() );
+//        layoutPanel.add( configureDoubleSlit );
 
         JButton slopingLeft = new JButton( "Add Slope" );
         slopingLeft.addActionListener( new ActionListener() {
