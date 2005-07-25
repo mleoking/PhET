@@ -55,7 +55,7 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
     private static final double SLIDERS_LAYER = 4;
     
     // Background parameters
-    private static final Dimension BACKGROUND_SIZE = new Dimension( 715, 195 );
+    private static final Dimension BACKGROUND_SIZE = new Dimension( 800, 195 );
     private static final Color BACKGROUND_COLOR = new Color( 195, 195, 195 );
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
@@ -120,7 +120,7 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
         PhetTextGraphic titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
         titleGraphic.centerRegistrationPoint();
         titleGraphic.rotate( -( Math.PI / 2 ) );
-        titleGraphic.setLocation( 40, 115 );
+        titleGraphic.setLocation( 40, BACKGROUND_SIZE.height/2 );
         
         // Chart
         _chartGraphic = new AmplitudesChart( component, CHART_RANGE, CHART_SIZE );
