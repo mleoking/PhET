@@ -7,16 +7,14 @@ import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.qm.phetcommon.ImageComboBox;
+import edu.colorado.phet.qm.phetcommon.WiggleMe;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
 import java.text.DecimalFormat;
 
 /**
@@ -58,6 +56,14 @@ public class HighIntensityGun extends AbstractGun {
         addGraphic( onJC );
         addGraphic( intensityGraphic );
         onJC.setLocation( getGunImageGraphic().getWidth() + 2 + getFireButtonInsetDX(), 0 + getControlOffsetY() );
+
+        final WiggleMe wiggleMe = new WiggleMe( getSchrodingerPanel(), getSchrodingerPanel().getSchrodingerModule().getModel(), "Increase the Intensity", intensityGraphic );
+        schrodingerPanel.addGraphic( wiggleMe, Double.POSITIVE_INFINITY );
+        getSchrodingerPanel().addMouseListener( new MouseAdapter() {
+            public void mousePressed( MouseEvent e ) {
+                wiggleMe.setVisible( false );
+            }
+        } );
 
         intensityGraphic.setLocation( onJC.getX(), onJC.getY() + onJC.getHeight() + 4 );
         schrodingerPanel.getSchrodingerModule().getModel().addModelElement( new ModelElement() {
