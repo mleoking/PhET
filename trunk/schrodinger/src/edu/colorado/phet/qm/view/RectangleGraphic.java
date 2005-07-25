@@ -82,6 +82,10 @@ public class RectangleGraphic extends GraphicLayerSet {
         return schrodingerPanel.getWavefunctionGraphic().getNetTransform().createTransformedShape( gridRect ).getBounds();
     }
 
+    public SchrodingerPanel getSchrodingerPanel() {
+        return schrodingerPanel;
+    }
+
     private static interface LocationGetter {
         Point getLocation();
     }

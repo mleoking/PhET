@@ -26,12 +26,13 @@ public class IntensityPanel extends SchrodingerPanel {
     private PhetGraphic slitControlGraphic;
     private SlitControlPanel slitControlPanel;
     private SplitColorMap splitColorMap;
+    private HighIntensityGun highIntensityGun;
 
     public IntensityPanel( IntensityModule intensityModule ) {
         super( intensityModule );
         this.intensityModule = intensityModule;
-        HighIntensityGun gun = createGun();
-        setGunGraphic( gun );
+        highIntensityGun = createGun();
+        setGunGraphic( highIntensityGun );
         getIntensityDisplay().setHighIntensityMode();
 
 //        setSplitGraphics();
@@ -48,7 +49,7 @@ public class IntensityPanel extends SchrodingerPanel {
         getIntensityDisplay().getDetectorSheet().setFadeEnabled( true );
         getIntensityDisplay().getDetectorSheet().addFadeCheckBox();
 
-        splitColorMap = new SplitColorMap( this.intensityModule.getSplitModel() );
+        splitColorMap = new SplitColorMap( intensityModule.getSplitModel(), this );//this.intensityModule.getSplitModel() );
 
         putBelow( getConfigureSlitButtonGraphic(), slitControlGraphic, 3 );
     }
@@ -119,5 +120,9 @@ public class IntensityPanel extends SchrodingerPanel {
         if( splitColorMap != null ) {
             splitColorMap.setRootColor( photon == null ? null : new PhotonColorMap.ColorData( photon.getWavelengthNM() ) );
         }
+    }
+
+    public PhotonColorMap.ColorData getRootColor() {
+        return highIntensityGun.getRootColor();
     }
 }

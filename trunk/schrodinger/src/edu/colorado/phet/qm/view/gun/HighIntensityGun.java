@@ -7,6 +7,7 @@ import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.qm.phetcommon.ImageComboBox;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -29,6 +30,8 @@ public class HighIntensityGun extends AbstractGun {
     private boolean on = false;
     private HighIntensityBeam[] beams;
     private HighIntensityBeam currentBeam;
+    private Photon photon;
+//    private Photon photon;
 
     public HighIntensityGun( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
@@ -68,7 +71,7 @@ public class HighIntensityGun extends AbstractGun {
     }
 
     protected JComboBox initComboBox() {
-        Photon photon = new Photon( this, "Photons", "images/photon-thumb.jpg" );
+        photon = new Photon( this, "Photons", "images/photon-thumb.jpg" );
         Electron e = new Electron( this, "Electrons", "images/electron-thumb.jpg" );
         Atom atom = new Atom( this, "Atoms", "images/atom-thumb.jpg" );
 
@@ -120,4 +123,7 @@ public class HighIntensityGun extends AbstractGun {
         return on;
     }
 
+    public PhotonColorMap.ColorData getRootColor() {
+        return photon == null ? null : photon.getRootColor();
+    }
 }

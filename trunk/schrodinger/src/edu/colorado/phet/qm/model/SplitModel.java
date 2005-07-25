@@ -27,8 +27,6 @@ public class SplitModel extends DiscreteModel {
     private Propagator leftPropagator;
     private Propagator rightPropagator;
 
-//    private WaveSplitStrategy waveSplitStrategy;
-
     public SplitModel( int width, int height ) {
         this( width, height, createInitDT(), createInitWave() );
     }

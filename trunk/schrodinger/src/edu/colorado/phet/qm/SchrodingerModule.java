@@ -27,10 +27,6 @@ public class SchrodingerModule extends Module {
     private SchrodingerControlPanel schrodingerControlPanel;
     private SchrodingerApplication schrodingerApplication;
 
-//    public SchrodingerModule( AbstractClock clock ) {
-//        this( "Schrodinger Waves", clock );
-//    }
-
     /**
      * @param clock
      */
@@ -38,19 +34,6 @@ public class SchrodingerModule extends Module {
         super( name, clock.getClock() );
         this.schrodingerApplication = clock;
         setModel( new BaseModel() );
-
-
-//        setupDefaultPanels();
-
-        //        int numAdditionalDiscreteModels = 0;
-//        for( int i = 0; i < numAdditionalDiscreteModels; i++ ) {
-//            final DiscreteModel additionalModel = new DiscreteModel( 100, 100 );
-//            addModelElement( new ModelElement() {
-//                public void stepInTime( double dt ) {
-//                    additionalModel.stepInTime( dt );
-//                }
-//            } );
-//        }
     }
 
     protected void setDiscreteModel( DiscreteModel model ) {
@@ -72,7 +55,6 @@ public class SchrodingerModule extends Module {
     public void reset() {
         discreteModel.reset();
         schrodingerPanel.reset();
-
     }
 
     public void fireParticle( WaveSetup waveSetup ) {
@@ -101,7 +83,7 @@ public class SchrodingerModule extends Module {
 
     public void addPotential() {
         RectangularPotential rectangularPotential = new RectangularPotential( 5, 20, 10, 10 );
-        rectangularPotential.setPotential( 1000000.0 );
+        rectangularPotential.setPotential( Double.MAX_VALUE / 100.0 );
         discreteModel.addPotential( rectangularPotential );//todo should be a composite.
         RectangularPotentialGraphic rectangularPotentialGraphic = new RectangularPotentialGraphic( getSchrodingerPanel(), rectangularPotential );
         getSchrodingerPanel().addRectangularPotentialGraphic( rectangularPotentialGraphic );
@@ -127,5 +109,10 @@ public class SchrodingerModule extends Module {
 
     public PhetFrame getPhetFrame() {
         return schrodingerApplication.getPhetFrame();
+    }
+
+    public void removePotential( RectangularPotentialGraphic rectangularPotentialGraphic ) {
+        getDiscreteModel().removePotential( rectangularPotentialGraphic.getPotential() );
+        getSchrodingerPanel().removeGraphic( rectangularPotentialGraphic );
     }
 }
