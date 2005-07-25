@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm;
+package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;

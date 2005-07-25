@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm;
+package edu.colorado.phet.qm.modules.mandel;
 
 import edu.colorado.phet.qm.model.Complex;
 import edu.colorado.phet.qm.model.Wave;
@@ -11,13 +11,20 @@ import edu.colorado.phet.qm.model.Wave;
  * Copyright (c) Jul 8, 2005 by Sam Reid
  */
 
-public class DampedWave implements Wave {
+public class MandelDampedWave implements Wave {
     private Wave wave;
     private double intensity;
-    private int x0 = 50;//todo magick.
-    private double dxLattice = 4.0;
+//    private int x0 = 50;//todo magick.
+    private int x0;
+//    private double dxLattice = 4.0;
+//    private double dxLattice = 10;
+//    private double dxLattice = 2;
 
-    public DampedWave( Wave wave, double intensity ) {
+    public static double dxLattice = 4;
+//    private int radiusForMax = 3;
+
+    public MandelDampedWave( int x0, Wave wave, double intensity ) {
+        this.x0 = x0;
         this.wave = wave;
         this.intensity = intensity;
     }

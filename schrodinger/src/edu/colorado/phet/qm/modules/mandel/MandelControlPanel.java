@@ -3,7 +3,6 @@ package edu.colorado.phet.qm.modules.mandel;
 
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
-import edu.colorado.phet.qm.MandelDampedWave;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;

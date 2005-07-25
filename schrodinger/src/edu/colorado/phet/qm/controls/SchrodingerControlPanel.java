@@ -1,8 +1,7 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm;
+package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.HorizontalLayoutPanel;
@@ -10,10 +9,10 @@ import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphicListener;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.*;
 import edu.colorado.phet.qm.model.potentials.SimpleGradientPotential;
 import edu.colorado.phet.qm.model.propagators.*;
-import edu.colorado.phet.qm.phetcommon.IntegralModelElement;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 
 import javax.swing.*;
@@ -33,7 +32,7 @@ import java.io.IOException;
 
 public class SchrodingerControlPanel extends ControlPanel {
     private SchrodingerModule module;
-    private ModelElement particleFirer;
+//    private ModelElement particleFirer;
     private CylinderWaveCheckBox cylinderWaveBox;
     private ClassicalWavePropagator classicalPropagator2ndOrder;
     private InitialConditionPanel initialConditionPanel;
@@ -133,9 +132,9 @@ public class SchrodingerControlPanel extends ControlPanel {
         advancedPropagatorPanel.addControlFullWidth( propagatorPanel );
         addControlFullWidth( advancedPropagatorPanel );
 
-        ModelElement ap = new AddParticle( module, getWaveSetup() );
+//        ModelElement ap = new AddParticle( module, getWaveSetup() );
 
-        particleFirer = new IntegralModelElement( ap, 32 );
+//        particleFirer = new IntegralModelElement( ap, 32 );
 
         final JSlider speed = new JSlider( JSlider.HORIZONTAL, 0, 1000, (int)( 1000 * 0.1 ) );
         speed.setBorder( BorderFactory.createTitledBorder( "Classical Wave speed" ) );

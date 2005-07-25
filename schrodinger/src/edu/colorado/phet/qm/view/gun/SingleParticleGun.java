@@ -4,7 +4,6 @@ package edu.colorado.phet.qm.view.gun;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.qm.AutoFire;
 import edu.colorado.phet.qm.phetcommon.ImageComboBox;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 
@@ -27,6 +26,7 @@ public class SingleParticleGun extends AbstractGun {
     private AutoFire autoFire;
     private ImageIcon outIcon;
     private ImageIcon inIcon;
+    private PhotonBeamParticle photonBeamParticle;
 
     public SingleParticleGun( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
@@ -117,10 +117,11 @@ public class SingleParticleGun extends AbstractGun {
         }
     }
 
+
     protected JComboBox initComboBox() {
         Photon photon = new Photon( this, "Photons", "images/photon-thumb.jpg" );
         PhotonBeam photonBeam = new PhotonBeam( this, photon );
-        PhotonBeamParticle photonBeamParticle = new PhotonBeamParticle( this, "Photons", photonBeam );
+        photonBeamParticle = new PhotonBeamParticle( this, "Photons", photonBeam );
 
         gunItems = new GunParticle[]{
 //            new Photon( this, "Photons", "images/photon-thumb.jpg" ),
@@ -159,5 +160,9 @@ public class SingleParticleGun extends AbstractGun {
     public void setLocation( int x, int y ) {
         super.setLocation( x, y );
         setupObject( currentObject );
+    }
+
+    public void reset() {
+        photonBeamParticle.reset();
     }
 }

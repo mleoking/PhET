@@ -1,8 +1,7 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm;
+package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.qm.view.IntensityDisplay;
-import edu.colorado.phet.qm.view.gun.SingleParticleGun;
 
 /**
  * User: Sam Reid

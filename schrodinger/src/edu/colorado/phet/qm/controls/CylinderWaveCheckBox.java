@@ -1,7 +1,9 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm;
+package edu.colorado.phet.qm.controls;
 
+import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.DiscreteModel;
+import edu.colorado.phet.qm.model.PhotonWave;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

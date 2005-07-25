@@ -1,8 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view.gun;
 
-import edu.colorado.phet.qm.AutoFire;
-
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;

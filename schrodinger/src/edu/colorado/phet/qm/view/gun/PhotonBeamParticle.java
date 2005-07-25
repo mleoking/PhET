@@ -25,6 +25,12 @@ public class PhotonBeamParticle extends GunParticle {
         photonBeam.getPhoton().removeMomentumChangeListener( photonBeam.getColorChangeHandler() );
     }
 
+    public void reset() {
+        photonBeam.setIntensity( 0.0 );
+        photonBeam.setHighIntensityModeOn( false );
+        clearModelElements();
+    }
+
     class Pauser implements ModelElement {
         int count = 0;
         int maxCount = 20;
@@ -67,19 +73,15 @@ public class PhotonBeamParticle extends GunParticle {
         }
 
         abstract double getIncrement();
-
     }
 
     class RampUp extends AbstractBeamAdder {
-
         double getIncrement() {
             return 0.05;
         }
-
     }
 
     class RampDown extends AbstractBeamAdder {
-
         double getIncrement() {
             return -0.05;
         }
@@ -95,13 +97,17 @@ public class PhotonBeamParticle extends GunParticle {
 
     public void fireParticle() {
         getGunGraphic().getSchrodingerPanel().setDisplayPhotonColor( photonBeam.getPhoton() );
-        removeModelElement( rampUp );
-        removeModelElement( rampDown );
-        removeModelElement( pauser );
+        clearModelElements();
         photonBeam.setHighIntensityModeOn( true );
         photonBeam.setIntensity( 0 );
         //wait until norm >1.0, then normalize & stop. (maybe ramp down?)
         addModelElement( rampUp );
+    }
+
+    private void clearModelElements() {
+        removeModelElement( rampUp );
+        removeModelElement( rampDown );
+        removeModelElement( pauser );
     }
 
     public void setup( AbstractGun abstractGun ) {
