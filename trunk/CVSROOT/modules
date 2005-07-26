@@ -124,3 +124,6 @@ motion2d motion2d
 
 # Localizations
 localizations localizations
+
+# Battery-Resistance
+battery-resistance ohm1d
