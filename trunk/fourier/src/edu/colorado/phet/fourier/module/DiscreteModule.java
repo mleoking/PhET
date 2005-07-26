@@ -229,8 +229,6 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
              } );
         }
         
-        reset();
-        
         //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------
@@ -252,17 +250,14 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         
         FourierHelpItem wavelengthToolHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.wavelengthTool" ) );
         wavelengthToolHelp.pointAt( _wavelengthTool, FourierHelpItem.DOWN, 15 );
-        wavelengthToolHelp.setVisible( false );
         addHelpItem( wavelengthToolHelp );
         
         FourierHelpItem periodToolHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.periodTool" ) );
         periodToolHelp.pointAt( _periodTool, FourierHelpItem.DOWN, 15 );
-        periodToolHelp.setVisible( false );
         addHelpItem( periodToolHelp );
         
         FourierHelpItem periodDisplayHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.periodDisplay" ) );
         periodDisplayHelp.pointAt( _periodDisplay, FourierHelpItem.RIGHT, 15 );
-        periodDisplayHelp.setVisible( false );
         addHelpItem( periodDisplayHelp );
         
         FourierHelpItem harmonicsCloseButtonHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.closeHarmonics" ) );
@@ -271,7 +266,6 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         
         FourierHelpItem harmonicsOpenButtonHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.openHarmonics" ) );
         harmonicsOpenButtonHelp.pointAt( _harmonicsGraphClosed.getOpenButton(), FourierHelpItem.LEFT, 15 );
-        harmonicsOpenButtonHelp.setVisible( false );
         addHelpItem( harmonicsOpenButtonHelp );
         
         FourierHelpItem sumCloseButtonHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.closeSum" ) );
@@ -298,6 +292,12 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         FourierHelpItem autoScaleHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.autoScale" ) );
         autoScaleHelp.pointAt( _sumGraph.getAutoScaleControl(), FourierHelpItem.RIGHT, 15 );
         addHelpItem( autoScaleHelp );
+        
+        //----------------------------------------------------------------------------
+        // Initialze the module state
+        //----------------------------------------------------------------------------
+        
+        reset();
     }
     
     //----------------------------------------------------------------------------
