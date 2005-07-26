@@ -6,13 +6,14 @@
  */
 package edu.colorado.phet.chart;
 
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.view.phetgraphics.*;
-
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+
+import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.view.phetgraphics.*;
 
 public class Chart extends GraphicLayerSet {
     private Component component;
@@ -112,7 +113,7 @@ public class Chart extends GraphicLayerSet {
         xAxisTitleGraphic = phetGraphic;
         xAxisTitleGraphic.setLocation( chartSize.width + 2, chartSize.height / 2 - xAxisTitleGraphic.getHeight() / 2 );
 //        xAxisTitleGraphic.setClippingDisabled( true );
-        addGraphic( xAxisTitleGraphic, Double.POSITIVE_INFINITY-1 );
+        addGraphic( xAxisTitleGraphic, ApparatusPanel.LAYER_TOP - 1 );
     }
 
     public void removeDataSetGraphic( DataSetGraphic dataSetGraphic ) {
