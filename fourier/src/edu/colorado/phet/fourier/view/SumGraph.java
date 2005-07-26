@@ -119,6 +119,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     private int _xZoomLevel;
     private int _domain;
     private int _mathForm;
+    private boolean _presetEnabled;
     
     private int _previousNumberOfHarmonics;
     private int _previousPreset;
@@ -294,6 +295,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         _previousNumberOfHarmonics = 0; // force an update
         _previousPreset = -1;
         _previousWaveType = -1;
+        _presetEnabled = false;
         update();
     }
     
@@ -363,18 +365,9 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
      * @param enabled
      */
     public void setPresetEnabled( boolean enabled ) {
-        if ( ! enabled ) {
-            _sineCosinePlot.setVisible( false );
-            _presetPlot.setVisible( false );
-        }
-        else {
-            if ( _fourierSeries.getPreset() == FourierConstants.PRESET_SINE_COSINE ) {
-                _sineCosinePlot.setVisible( true );
-            }
-            else {
-                _presetPlot.setVisible( true );
-            }
-        }
+        _presetEnabled = enabled;
+        _previousPreset = -1; // force update
+        update();
     }
 
     /**
@@ -464,6 +457,18 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
                         copyPoints[i] = new Point2D.Double( points[i].getX(), points[i].getY() );
                     }
                     _presetPlot.getDataSet().addAllPoints( copyPoints );
+                }
+                
+                // Preset visibility
+                _sineCosinePlot.setVisible( false );
+                _presetPlot.setVisible( false );
+                if ( _presetEnabled ) {
+                    if ( _fourierSeries.getPreset() == FourierConstants.PRESET_SINE_COSINE ) {
+                        _sineCosinePlot.setVisible( true );
+                    }
+                    else {
+                        _presetPlot.setVisible( true );
+                    }
                 }
 
                 // Math
