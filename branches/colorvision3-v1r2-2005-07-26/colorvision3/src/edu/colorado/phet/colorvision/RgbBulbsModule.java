@@ -193,12 +193,12 @@ public class RgbBulbsModule extends Module implements ChangeListener, VisibleCol
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         this.setApparatusPanel( apparatusPanel );
 
-        
-//        clock.addClockTickListener( new ClockTickListener() {
-//            public void clockTicked( AbstractClock c, double dt ) {
-//                apparatusPanel.repaint( apparatusPanel.getBounds() );
-//            }
-//        } );
+        // This fixes a problem with redrawing and leaving screen turds
+        clock.addClockTickListener( new ClockTickListener() {
+            public void clockTicked( AbstractClock c, double dt ) {
+                apparatusPanel.repaint( apparatusPanel.getBounds() );
+            }
+        } );
 
         // Person graphic
         PersonGraphic personGraphic = new PersonGraphic( apparatusPanel, PERSON_BACKGROUND_LAYER, PERSON_FOREGROUND_LAYER, _personModel );

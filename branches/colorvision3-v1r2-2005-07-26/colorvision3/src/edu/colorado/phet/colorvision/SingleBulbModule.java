@@ -31,6 +31,7 @@ import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -200,9 +201,16 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
         this.setControlPanel( _controlPanel );
 
         // Apparatus Panel
-        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( model, clock );
+        final ApparatusPanel2 apparatusPanel = new ApparatusPanel2( model, clock );
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         this.setApparatusPanel( apparatusPanel );
+
+        // This fixes a problem with redrawing and leaving screen turds
+        clock.addClockTickListener( new ClockTickListener() {
+            public void clockTicked( AbstractClock c, double dt ) {
+                apparatusPanel.repaint( apparatusPanel.getBounds() );
+            }
+        } );
 
         // Person graphic
         PersonGraphic personGraphic = new PersonGraphic( apparatusPanel, PERSON_BACKGROUND_LAYER, PERSON_FOREGROUND_LAYER, _personModel );
