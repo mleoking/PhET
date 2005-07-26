@@ -1,0 +1,31 @@
+Here's how to make resources (images & localized strings) visible at runtime:
+1. In Run dialog, Classpath tab, select User Entries, then "Advanced..."
+   Select "Add Folder" in advanced options, then select folder that
+   contains images & localization resources.
+  
+To create a JAR file for phetcommon or a simulation:
+1. Add the project's data directory to the project source path.
+   This will cause images & localization files to be copies to the output directory (bin).
+2. Export the project as a JAR.  Check the project name and select  
+   "Export all output folders for checked projects".  This will cause the 
+   contents of the output folder (bin) to be bundled into a JAR.
+3. Save the JAR file description so you can rebuild the JAR manually.
+
+
+Here's one way to gets CVS files loaded into a "development" subdirectory of 
+a project.  But there's a problem with this -- CVS doesn't see changes in some
+of the files after we go renaming folders.
+
+1. Create a Java project named "parent" with separate source and output folders.
+2. Checkout project "phetcommon" from CVS into project "parent".
+3. Rename folder "phetcommon" to "development"
+4. Rename "parent" to "phetcommon"
+5. Remove phetcommon/src
+6. In phetcommon project properties, remove phetcommon/src from build path.
+7. In phetcommon project properties, add phetcommon/development/src and 
+   test-src to build path.
+8. Add /Applications/eclipse-3.0.1/plugins/org.junit_3.8.1/junit.jar to
+   build path.
+9. Comment out line with executable="explorer" in Ant build file.
+10. clear ignorepath in build.properties
+11. Run Ant Build
