@@ -6,7 +6,6 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- add Help for Discrete module
 - with a single module, Fourier starts up with the module's apparatus panel magnified (something in DiscreteControlPanel)
 - hide wiggle me when user clicks anywhere
 - anti-aliasing of plots appears to be turned off
