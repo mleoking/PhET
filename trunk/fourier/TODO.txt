@@ -66,6 +66,9 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(7/26) - i18n of help items
+(7/26) - add additional help items to Discrete module
+(7/26) - remove all forces1d code from FourierHelpItem
 (7/25) - add help items to Discrete module
 (7/25) - add FourierHelpItem, based on forces1d.common.HelpItem2
 (7/25) - convert WiggleMeGraphic to be a ClockTickListener, so we don't have to add it to the model
