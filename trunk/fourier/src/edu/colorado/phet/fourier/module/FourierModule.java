@@ -12,8 +12,6 @@
 package edu.colorado.phet.fourier.module;
 
 import java.awt.Color;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -33,9 +31,9 @@ public abstract class FourierModule extends Module {
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
-    protected static final double DEBUG_LAYER = Double.MAX_VALUE - 1;
-    protected static final double HELP_LAYER = Double.MAX_VALUE;
+
+    public static final double HELP_LAYER = ApparatusPanel.LAYER_TOP;
+    public static final double DEBUG_LAYER = HELP_LAYER - 1;
     
     //----------------------------------------------------------------------------
     // Instance data
