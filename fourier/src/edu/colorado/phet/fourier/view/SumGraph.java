@@ -114,6 +114,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     private SinePlot _sineCosinePlot;
     private ZoomControl _horizontalZoomControl, _verticalZoomControl;
     private JCheckBox _autoScaleCheckBox;
+    private PhetGraphic _autoScaleGraphic;
     
     private int _xZoomLevel;
     private int _domain;
@@ -210,10 +211,10 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         {
             _autoScaleCheckBox = new JCheckBox( SimStrings.get( "SumGraph.autoScale" ) );
             _autoScaleCheckBox.setBackground( new Color( 255, 255, 255, 0 ) );
-            PhetGraphic autoScaleGraphic = PhetJComponent.newInstance( component, _autoScaleCheckBox );
-            addGraphic( autoScaleGraphic, CONTROLS_LAYER );
+            _autoScaleGraphic = PhetJComponent.newInstance( component, _autoScaleCheckBox );
+            addGraphic( _autoScaleGraphic, CONTROLS_LAYER );
             // Just below the vertical zoom control.
-            autoScaleGraphic.setLocation( _verticalZoomControl.getX(), 
+            _autoScaleGraphic.setLocation( _verticalZoomControl.getX(), 
                     _verticalZoomControl.getY() + _verticalZoomControl.getHeight() + 5 );
         } 
         
@@ -308,6 +309,24 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
      */
     public ZoomControl getHorizontalZoomControl() {
         return _horizontalZoomControl;
+    }
+    
+    /**
+     * Gets the vertical zoom control.
+     * 
+     * @return the vertical zoom control
+     */
+    public ZoomControl getVerticalZoomControl() {
+        return _verticalZoomControl;
+    }
+    
+    /**
+     * Gets the auto-scale control.
+     * 
+     * @param the auto-scale control
+     */
+    public PhetGraphic getAutoScaleControl() {
+        return _autoScaleGraphic;
     }
     
     /**
