@@ -44,10 +44,8 @@ public class FourierConstants {
     public static final String ZOOM_BACKGROUND_VERTICAL_IMAGE = IMAGES_DIRECTORY + "zoomBackgroundVertical.png";
     public static final String ZOOM_IN_BUTTON_IMAGE = IMAGES_DIRECTORY + "zoomInButton.png";
     public static final String ZOOM_IN_BUTTON_PRESSED_IMAGE = IMAGES_DIRECTORY + "zoomInButtonPressed.png";
-    public static final String ZOOM_IN_BUTTON_DISABLED_IMAGE = IMAGES_DIRECTORY + "zoomInButtonDisabled.png";
     public static final String ZOOM_OUT_BUTTON_IMAGE = IMAGES_DIRECTORY + "zoomOutButton.png";
     public static final String ZOOM_OUT_BUTTON_PRESSED_IMAGE = IMAGES_DIRECTORY + "zoomOutButtonPressed.png";
-    public static final String ZOOM_OUT_BUTTON_DISABLED_IMAGE = IMAGES_DIRECTORY + "zoomOutButtonDisabled.png";
     
     //----------------------------------------------------------------------------
     // Amplitude coefficients, precomputed for 11 harmonics
