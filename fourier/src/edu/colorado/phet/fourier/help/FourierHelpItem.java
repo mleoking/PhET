@@ -81,7 +81,10 @@ public class FourierHelpItem extends CompositePhetGraphic implements PhetGraphic
         // Enable antialiasing
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         
-        _textGraphic = new HTMLGraphic( component, TEXT_FONT, html, TEXT_COLOR );
+        _textGraphic = new HTMLGraphic( component );
+        _textGraphic.setFont( TEXT_FONT );
+        _textGraphic.setHTML( html );
+        _textGraphic.setColor( TEXT_COLOR );
         
         _backgroundGraphic = new PhetShapeGraphic( component );
         Rectangle bounds = _textGraphic.getBounds();
