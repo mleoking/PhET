@@ -325,15 +325,15 @@ public class HarmonicsGraph extends GraphicLayerSet implements SimpleObserver, Z
     // PhetGraphic overrides
     //----------------------------------------------------------------------------
 
-    public void setVisible( boolean visible ) {
-        if ( visible != isVisible() ) {
-            super.setVisible( visible );
-            if ( visible ) {
-                _previousNumberOfHarmonics = -1; // force an update
-                update();
-            }
-        }
-    }
+//    public void setVisible( boolean visible ) {
+//        if ( visible != isVisible() ) {
+//            super.setVisible( visible );
+//            if ( visible ) {
+//                _previousNumberOfHarmonics = -1; // force an update
+//                update();
+//            }
+//        }
+//    }
 
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
@@ -559,7 +559,7 @@ public class HarmonicsGraph extends GraphicLayerSet implements SimpleObserver, Z
      * @param event
      */
     public void animate( AnimationCycleEvent event ) {
-        if ( isVisible() && _domain == FourierConstants.DOMAIN_SPACE_AND_TIME ) {
+        if ( _domain == FourierConstants.DOMAIN_SPACE_AND_TIME ) {
             double cyclePoint = event.getCyclePoint();
             double startX = cyclePoint * L;
             for ( int i = 0; i < _harmonicPlots.size(); i++ ) {

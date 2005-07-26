@@ -6,14 +6,12 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- infinite waveform animation is out of sync when you minimize then maximize the Sum graph
 - chart draws plots on top of help items
 - anti-aliasing of plots appears to be turned off
 - hide wiggle me when user clicks anywhere
 - publish v1r0 with Discrete module only
 
 MEDIUM PRIORITY:
-- when maximizing a graph, it's animation is briefly shown out of sync
 - FourierHelp.pointAt(Point,...) doesn't actually point at the specific Point
 - add support for persistence
 - crashes after running for ~40 minutes (memory leak?)
@@ -66,6 +64,8 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(7/26) - when maximizing a graph, it's animation is briefly shown out of sync
+(7/26) - bugfix: infinite waveform animation is out of sync when you minimize then maximize the Sum graph
 (7/26) - bugfix: wrong infinite preset is shown (set preset to sine/cosine, select show infinite, change preset to square)
 v0r7...
 (7/26) - center slider help item on A4 slider on Windows
