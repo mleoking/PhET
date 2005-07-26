@@ -424,6 +424,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         _mathFormComboBox.setSelectedIndex( 0 );
         _mathFormComboBox.setEnabled( _showMathCheckBox.isSelected() );
         _expandSumCheckBox.setEnabled( _showMathCheckBox.isSelected() );
+        _expandSumCheckBox.setSelected( false );
+        _expandSumDialog.hide();
     }
     
     //----------------------------------------------------------------------------

@@ -10,7 +10,6 @@ HIGH PRIORITY:
 - with a single module, Fourier starts up with the module's apparatus panel magnified (something in DiscreteControlPanel)
 - hide wiggle me when user clicks anywhere
 - anti-aliasing of plots appears to be turned off
-- test Reset
 - publish v1r0 with Discrete module only
 
 MEDIUM PRIORITY:
@@ -66,6 +65,9 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(7/26) - test Reset in Discrete module
+(7/26) - charts: fix Charts so that x-axis title in not placed in the top layer
+(7/26) - phetcommon: fix behavior of HTMLGraphic when it is given a plain text string
 (7/26) - i18n of help items
 (7/26) - add additional help items to Discrete module
 (7/26) - remove all forces1d code from FourierHelpItem
