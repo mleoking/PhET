@@ -101,12 +101,16 @@ public class FourierHelpItem extends CompositePhetGraphic implements PhetGraphic
         _arrowLength = 0;
     }
 
-    public void phetGraphicChanged( PhetGraphic phetGraphic ) {  
-        layout( _target, this, 1, _direction );
+    //----------------------------------------------------------------------------
+    // PhetGraphicListener implementation
+    //----------------------------------------------------------------------------
+    
+    public void phetGraphicChanged( PhetGraphic phetGraphic ) {
+        updateTarget();
     }
 
     public void phetGraphicVisibilityChanged( PhetGraphic phetGraphic ) {
-        this.setVisible( _target.isVisible() );
+        setVisible( _target.isVisible() );
     }
     
     //----------------------------------------------------------------------------
@@ -114,10 +118,17 @@ public class FourierHelpItem extends CompositePhetGraphic implements PhetGraphic
     //----------------------------------------------------------------------------
     
     public void pointAt( PhetGraphic target, int direction, int arrowLength ) {
+        if ( _target != null ) {
+            _target.removePhetGraphicListener( this );
+        }
         _target = target;
+        if ( _target != null ) {
+            _target.addPhetGraphicListener( this );
+        }
         _direction = direction;
         _arrowLength = arrowLength;
-        update();
+        updateArrow();
+        updateTarget();
     }
     
     public void point( int direction, int arrowLength ) {
@@ -127,38 +138,32 @@ public class FourierHelpItem extends CompositePhetGraphic implements PhetGraphic
     //----------------------------------------------------------------------------
     // 
     //----------------------------------------------------------------------------
-
-    private void update() {
-        updateArrow();
-        updateTarget();
-    }
     
     private void updateTarget() {
         if ( _target != null ) {
+            int oppositeDirection;
             switch ( _direction ) {
             case UP:
-                RelativeLocationSetter.follow( _target, this, new RelativeLocationSetter.Bottom( 1 ) );
+                oppositeDirection = DOWN;
                 break;
             case DOWN:
-                RelativeLocationSetter.follow( _target, this, new RelativeLocationSetter.Top( 1 ) );
+                oppositeDirection = UP;
                 break;
             case LEFT:
-                RelativeLocationSetter.follow( _target, this, new RelativeLocationSetter.Right( 1 ) );
+                oppositeDirection = RIGHT;
                 break;
             case RIGHT:
-                RelativeLocationSetter.follow( _target, this, new RelativeLocationSetter.Left( 1 ) );
+                oppositeDirection = LEFT;
                 break;
             default:
                 throw new IllegalArgumentException( "illegal direction: " + _direction );
             }
+            layout( _target, this, 1, oppositeDirection );
         }
-//        if ( _target != null ) {
-//            _target.addPhetGraphicListener( this );
-//            layout( _target, this, 1, _direction );
-//        }
     }
     
     private void updateArrow() {
+        
         int x, y;
         switch ( _direction ) {
         case UP:
@@ -180,6 +185,7 @@ public class FourierHelpItem extends CompositePhetGraphic implements PhetGraphic
         default:
             throw new IllegalArgumentException( "illegal direction: " + _direction );
         }
+        
         Arrow arrow = new Arrow( new Point2D.Double(), new Point2D.Double( x, y ), ARROW_HEAD_WIDTH, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH );
         _arrowGraphic.setShape( arrow.getShape() );
         layout( _backgroundGraphic, _arrowGraphic, 0, _direction );
