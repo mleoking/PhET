@@ -366,8 +366,16 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
      */
     public void setPresetEnabled( boolean enabled ) {
         _presetEnabled = enabled;
-        _previousPreset = -1; // force update
-        update();
+        _sineCosinePlot.setVisible( false );
+        _presetPlot.setVisible( false );
+        if ( _presetEnabled ) {
+            if ( _fourierSeries.getPreset() == FourierConstants.PRESET_SINE_COSINE ) {
+                _sineCosinePlot.setVisible( true );
+            }
+            else {
+                _presetPlot.setVisible( true );
+            }
+        }
     }
 
     /**
@@ -392,20 +400,6 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
             _chartGraphic.setChartSize( CHART_SIZE.width, height - 70 );
             _titleGraphic.setLocation( TITLE_LOCATION.x, height / 2 );
             setBoundsDirty();
-        }
-    }
-    
-    //----------------------------------------------------------------------------
-    // PhetGraphic overrides
-    //----------------------------------------------------------------------------
-    
-    public void setVisible( boolean visible ) {
-        if ( visible != isVisible() ) {
-            super.setVisible( visible );
-            if ( visible ) {
-                _previousNumberOfHarmonics = -1; // force an update
-                update();
-            }
         }
     }
     
@@ -691,7 +685,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
      * @param event
      */
     public void animate( AnimationCycleEvent event ) {
-        if ( isVisible() && _domain == FourierConstants.DOMAIN_SPACE_AND_TIME ) {
+        if ( _domain == FourierConstants.DOMAIN_SPACE_AND_TIME ) {
                   
             /*
              * Sum animation.
