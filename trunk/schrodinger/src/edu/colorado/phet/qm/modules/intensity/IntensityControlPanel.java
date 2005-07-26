@@ -2,7 +2,6 @@
 package edu.colorado.phet.qm.modules.intensity;
 
 import edu.colorado.phet.qm.controls.SchrodingerControlPanel;
-import edu.colorado.phet.qm.controls.SlitControlPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -18,8 +17,8 @@ import java.awt.event.ActionListener;
 public class IntensityControlPanel extends SchrodingerControlPanel {
     public IntensityControlPanel( final IntensityModule intensityModule ) {
         super( intensityModule );
-        SlitControlPanel slitControlPanel = new SlitControlPanel( intensityModule );
-        addControl( slitControlPanel );
+//        SlitControlPanel slitControlPanel = new SlitControlPanel( intensityModule );
+//        addControl( slitControlPanel );
 
         final JCheckBox smoothCCD = new JCheckBox( "Smooth Screen Display", intensityModule.getIntensityPanel().isSmoothScreen() );
         smoothCCD.addActionListener( new ActionListener() {
