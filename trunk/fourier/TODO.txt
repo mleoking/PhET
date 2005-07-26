@@ -68,6 +68,7 @@ DONE:
 (7/26) - change close button to a "-" symbol, to go with the "+" on the open button
 (7/26) - change title to "Fourier - Making Waves"
 (7/26) - relabel, reposition and remove help items
+(7/26) - change color of help items to light transparent yellow
 v0r6...
 (7/26) - test Reset in Discrete module
 (7/26) - charts: fix Charts so that x-axis title in not placed in the top layer
