@@ -7,9 +7,9 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - chart draws plots on top of help items
+- anti-aliasing of plots appears to be turned off
 - with a single module, Fourier starts up with the module's apparatus panel magnified (something in DiscreteControlPanel)
 - hide wiggle me when user clicks anywhere
-- anti-aliasing of plots appears to be turned off
 - publish v1r0 with Discrete module only
 
 MEDIUM PRIORITY:
