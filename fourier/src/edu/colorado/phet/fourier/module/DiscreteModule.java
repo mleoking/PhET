@@ -242,52 +242,62 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         wiggleMe.setEnabled( true );
         
         // Help Items
-        FourierHelpItem textfieldsToolHelp = new FourierHelpItem( apparatusPanel, "Enter numbers to change the amplitudes" );
-        textfieldsToolHelp.point( FourierHelpItem.LEFT, 15 );
-        textfieldsToolHelp.setVisible( true );
-        textfieldsToolHelp.setLocation( 195, 24 );
-        addHelpItem( textfieldsToolHelp );
-        
-        FourierHelpItem slidersToolHelp = new FourierHelpItem( apparatusPanel, "Drag black bars or just click where you want them to go" );
-        slidersToolHelp.point( FourierHelpItem.UP, 15 );
-        slidersToolHelp.setVisible( true );
-        slidersToolHelp.setLocation( 90, 140 );
+        FourierHelpItem slidersToolHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.sliders" ) );
+        slidersToolHelp.pointAt( new Point( 90, 140 ), FourierHelpItem.UP, 15 );
         addHelpItem( slidersToolHelp );
         
-        FourierHelpItem wavelengthToolHelp = new FourierHelpItem( apparatusPanel, "Draggable measuring tool" );
-        wavelengthToolHelp.pointAt( _wavelengthTool, FourierHelpItem.UP, 15 );
+        FourierHelpItem textfieldsToolHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.textfields" ) );
+        textfieldsToolHelp.pointAt( new Point( 195, 24 ), FourierHelpItem.LEFT, 15 );
+        addHelpItem( textfieldsToolHelp );
+        
+        FourierHelpItem wavelengthToolHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.wavelengthTool" ) );
+        wavelengthToolHelp.pointAt( _wavelengthTool, FourierHelpItem.DOWN, 15 );
         wavelengthToolHelp.setVisible( false );
         addHelpItem( wavelengthToolHelp );
         
-        FourierHelpItem periodToolHelp = new FourierHelpItem( apparatusPanel, "Draggable measuring tool" );
-        periodToolHelp.pointAt( _periodTool, FourierHelpItem.UP, 15 );
+        FourierHelpItem periodToolHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.periodTool" ) );
+        periodToolHelp.pointAt( _periodTool, FourierHelpItem.DOWN, 15 );
         periodToolHelp.setVisible( false );
         addHelpItem( periodToolHelp );
         
-        FourierHelpItem periodDisplayHelp = new FourierHelpItem( apparatusPanel, "Draggable measuring tool" );
+        FourierHelpItem periodDisplayHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.periodDisplay" ) );
         periodDisplayHelp.pointAt( _periodDisplay, FourierHelpItem.RIGHT, 15 );
         periodDisplayHelp.setVisible( false );
         addHelpItem( periodDisplayHelp );
         
-        FourierHelpItem harmonicsCloseButtonHelp = new FourierHelpItem( apparatusPanel, "Click to close" );
+        FourierHelpItem harmonicsCloseButtonHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.closeHarmonics" ) );
         harmonicsCloseButtonHelp.pointAt( _harmonicsGraph.getCloseButton(), FourierHelpItem.LEFT, 15 );
-        harmonicsCloseButtonHelp.setVisible( true );
         addHelpItem( harmonicsCloseButtonHelp );
         
-        FourierHelpItem harmonicsOpenButtonHelp = new FourierHelpItem( apparatusPanel, "Click to open" );
+        FourierHelpItem harmonicsOpenButtonHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.openHarmonics" ) );
         harmonicsOpenButtonHelp.pointAt( _harmonicsGraphClosed.getOpenButton(), FourierHelpItem.LEFT, 15 );
         harmonicsOpenButtonHelp.setVisible( false );
         addHelpItem( harmonicsOpenButtonHelp );
         
-        FourierHelpItem sumCloseButtonHelp = new FourierHelpItem( apparatusPanel, "Click to close" );
+        FourierHelpItem sumCloseButtonHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.closeSum" ) );
         sumCloseButtonHelp.pointAt( _sumGraph.getCloseButton(), FourierHelpItem.LEFT, 15 );
-        sumCloseButtonHelp.setVisible( true );
         addHelpItem( sumCloseButtonHelp );
         
-        FourierHelpItem sumOpenButtonHelp = new FourierHelpItem( apparatusPanel, "Click to open" );
+        FourierHelpItem sumOpenButtonHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.openSum" ) );
         sumOpenButtonHelp.pointAt( _sumGraphClosed.getOpenButton(), FourierHelpItem.LEFT, 15 );
         sumOpenButtonHelp.setVisible( false );
         addHelpItem( sumOpenButtonHelp );
+        
+        FourierHelpItem hzoomHarmonicsHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.hzoomHarmonics" ) );
+        hzoomHarmonicsHelp.pointAt( _harmonicsGraph.getHorizontalZoomControl(), FourierHelpItem.RIGHT, 15 );
+        addHelpItem( hzoomHarmonicsHelp );
+        
+        FourierHelpItem hzoomSumHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.hzoomSum" ) );
+        hzoomSumHelp.pointAt( _sumGraph.getHorizontalZoomControl(), FourierHelpItem.RIGHT, 15 );
+        addHelpItem( hzoomSumHelp );
+        
+        FourierHelpItem vzoomSumHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.vzoomSum" ) );
+        vzoomSumHelp.pointAt( _sumGraph.getVerticalZoomControl(), FourierHelpItem.RIGHT, 15 );
+        addHelpItem( vzoomSumHelp );
+        
+        FourierHelpItem autoScaleHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.autoScale" ) );
+        autoScaleHelp.pointAt( _sumGraph.getAutoScaleControl(), FourierHelpItem.RIGHT, 15 );
+        addHelpItem( autoScaleHelp );
     }
     
     //----------------------------------------------------------------------------
