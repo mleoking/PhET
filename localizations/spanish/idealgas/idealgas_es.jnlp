@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+	!!! ATTENTION !!!
+
+If you can read this, you do not have a proper
+version of Java installed on your computer.
+
+If you have installed the PhET software on a local
+computer running Windows, click on the shortcut
+titled "Install Java 1.4.2". Otherwise, please go
+the "Simulations" page of the PhET web site and
+click on "Setup & Troubleshooting" for more
+information.
+
+-->
+<jnlp spec="1.0+" codebase="http://www.colorado.edu/physics/phet/simulations" href="idealgas/idealgas_es.jnlp">
+   <information> 
+    <title>Ideal Gas Law</title> 
+    <vendor>University of Colorado, Department of Physics</vendor> 
+    <homepage href="docs/help.html" /> 
+    <description>Ideal Gas Law</description> 
+    <description kind="short">A demo of the capabilities of the Swing Graphical User Interface.</description> 
+    <icon href="../Design/Assets/images/Phet-Kavli-logo.jpg"/> 
+    <icon kind="splash" href="../Design/Assets/images/Phet-Kavli-logo.jpg"/> 
+    <offline-allowed/> 
+  </information> 
+  <resources> 
+    <j2se version="1.4+" /> 
+    <jar href="idealgas/idealgas_es.jar" /> 
+    <jar href="idealgas/IdealGasStrings_es.jar" /> 
+    <jar href="idealgas/lib_es/phetcommon.jar"/> 
+    <jar href="idealgas/lib_es/mechanics.jar"/> 
+ </resources> 
+  <application-desc main-class="edu.colorado.phet.idealgas.IdealGasApplication" >
+        <argument>user.language=es</argument>
+  </application-desc> 
+</jnlp>

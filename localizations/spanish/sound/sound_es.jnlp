@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<!-- JNLP File for SwingSet2 Demo Application --> 
+<jnlp 
+  spec="1.0+" 
+  codebase="http://www.colorado.edu/physics/phet/simulations/" 
+  href="sound/sound_es.jnlp"> 
+  <information> 
+    <title>Sound</title> 
+    <vendor>University of Colorado, Department of Physics</vendor> 
+    <homepage href="docs/help.html"/> 
+    <description>Sound</description> 
+    <description kind="short">An interactive demonstration of how sound works.</description> 
+    <icon href="icons/PhET.gif"/> 
+    <icon kind="splash" href="icons/PhET.gif"/> 
+    <offline-allowed/> 
+  </information> 
+  <resources> 
+    <j2se version="1.4+"/> 
+    <jar href="sound/sound_es.jar"/> 
+    <jar href="sound/SoundStrings_es.jar"/> 
+    <jar href="common/CommonStrings_es.jar"/> 
+    <jar href="sound/lib/phetcommon_es.jar"/> 
+  </resources> 
+  <application-desc main-class="edu.colorado.phet.sound.SoundApplication">
+    <argument>user.language=es</argument>
+  </application-desc> 
+</jnlp> 
+
