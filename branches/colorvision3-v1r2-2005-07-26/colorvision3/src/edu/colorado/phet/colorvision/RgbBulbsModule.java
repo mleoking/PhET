@@ -36,6 +36,7 @@ import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
@@ -188,9 +189,16 @@ public class RgbBulbsModule extends Module implements ChangeListener, VisibleCol
         this.setControlPanel( new RgbBulbsControlPanel( this ) );
 
         // Apparatus Panel
-        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( model );
+        final ApparatusPanel2 apparatusPanel = new ApparatusPanel2( model );
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         this.setApparatusPanel( apparatusPanel );
+
+        
+//        clock.addClockTickListener( new ClockTickListener() {
+//            public void clockTicked( AbstractClock c, double dt ) {
+//                apparatusPanel.repaint( apparatusPanel.getBounds() );
+//            }
+//        } );
 
         // Person graphic
         PersonGraphic personGraphic = new PersonGraphic( apparatusPanel, PERSON_BACKGROUND_LAYER, PERSON_FOREGROUND_LAYER, _personModel );
