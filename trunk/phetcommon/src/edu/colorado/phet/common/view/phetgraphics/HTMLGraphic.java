@@ -23,9 +23,18 @@ public class HTMLGraphic extends CompositePhetGraphic {
         this( component, DEFAULT_FONT, "", DEFAULT_COLOR );
     }
     
+    /**
+     * Constructor.
+     * If the string provided is not in HTML format, then it is converted to HTML.
+     * 
+     * @param component
+     * @param font
+     * @param html
+     * @param color
+     */
     public HTMLGraphic( Component component, Font font, String html, Color color ) {
         super( component );
-        this.html = html;
+        this.html = makeHTML( html );
         this.font = font;
         this.color = color;
         imageGraphic = new PhetImageGraphic( component, null, 0, 0 );
@@ -33,8 +42,14 @@ public class HTMLGraphic extends CompositePhetGraphic {
         update();
     }
 
+    /**
+     * Sets the HTML string.
+     * If the string provided is not in HTML format, then it is converted to HTML.
+     * 
+     * @param html
+     */
     public void setHTML( String html ) {
-        this.html = html;
+        this.html = makeHTML( html );
         update();
     }
     
@@ -58,6 +73,21 @@ public class HTMLGraphic extends CompositePhetGraphic {
     public void setColor( Color color ) {
         this.color = color;
         update();
+    }
+    
+    /**
+     * Converts a plain text string to HTML.
+     * If the text string is already HTML, then it is simply returned.
+     * 
+     * @param s
+     * @return HTML
+     */
+    private String makeHTML( String s ) {
+        String htmlString = s;
+        if ( ! BasicHTML.isHTMLString( s ) ) {
+            htmlString = "<html>" + s + "</html>";
+        }
+        return htmlString;
     }
 
     public void update() {
