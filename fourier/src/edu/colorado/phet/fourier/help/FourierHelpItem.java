@@ -21,9 +21,9 @@ import edu.colorado.phet.common.view.util.RectangleUtils;
 
 /**
  * Help items for the Fourier simulation.
- * Adapted from some code in the Forces 1D simulation.
+ * Distantly related to some code in the Forces 1D simulation written by Sam Reid.
  *
- * @author Sam Reid, Chris Malley
+ * @author Chris Malley
  * @version $Revision$
  */
 public class FourierHelpItem extends CompositePhetGraphic implements PhetGraphicListener {
@@ -55,17 +55,21 @@ public class FourierHelpItem extends CompositePhetGraphic implements PhetGraphic
     private static final Color BACKGROUND_BORDER_COLOR = ARROW_BORDER_COLOR;
     private static final Stroke BACKGROUND_STROKE = ARROW_STROKE;
     private static final int BACKGROUND_CORNER_RADIUS = 15;
+    
+    private static final int ARROW_SEPARATION = 0;
+    private static final int TARGET_SEPARATION = 1;
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private HTMLGraphic _textGraphic;
     private PhetShapeGraphic _backgroundGraphic;
     private PhetShapeGraphic _arrowGraphic;
+    private HTMLGraphic _textGraphic;
+    
+    private PhetGraphic _target;
     private int _direction;
     private int _arrowLength;
-    private PhetGraphic _target;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -76,13 +80,8 @@ public class FourierHelpItem extends CompositePhetGraphic implements PhetGraphic
         
         // Enable antialiasing
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-
+        
         _textGraphic = new HTMLGraphic( component, TEXT_FONT, html, TEXT_COLOR );
-
-        _arrowGraphic = new PhetShapeGraphic( component );
-        _arrowGraphic.setColor( ARROW_FILL_COLOR );
-        _arrowGraphic.setStroke( ARROW_STROKE );
-        _arrowGraphic.setBorderColor( ARROW_BORDER_COLOR );
         
         _backgroundGraphic = new PhetShapeGraphic( component );
         Rectangle bounds = _textGraphic.getBounds();
@@ -92,12 +91,17 @@ public class FourierHelpItem extends CompositePhetGraphic implements PhetGraphic
         _backgroundGraphic.setBorderColor( BACKGROUND_BORDER_COLOR );
         _backgroundGraphic.setStroke( BACKGROUND_STROKE );
 
+        _arrowGraphic = new PhetShapeGraphic( component );
+        _arrowGraphic.setColor( ARROW_FILL_COLOR );
+        _arrowGraphic.setStroke( ARROW_STROKE );
+        _arrowGraphic.setBorderColor( ARROW_BORDER_COLOR );      
+
         addGraphic( _backgroundGraphic, BACKGROUND_LAYER );
         addGraphic( _arrowGraphic, ARROW_LAYER );
         addGraphic( _textGraphic, TEXT_LAYER );
-        
-        _direction = NONE;
+       
         _target = null;
+        _direction = NONE;
         _arrowLength = 0;
     }
 
@@ -105,10 +109,20 @@ public class FourierHelpItem extends CompositePhetGraphic implements PhetGraphic
     // PhetGraphicListener implementation
     //----------------------------------------------------------------------------
     
+    /**
+     * Updates the layout when the target graphic changes.
+     * 
+     * @param phetGraphic
+     */
     public void phetGraphicChanged( PhetGraphic phetGraphic ) {
         updateTarget();
     }
 
+    /**
+     * Updates visibility when the target's visibility changes.
+     * 
+     * @param phetGraphic
+     */
     public void phetGraphicVisibilityChanged( PhetGraphic phetGraphic ) {
         setVisible( _target.isVisible() );
     }
@@ -117,7 +131,16 @@ public class FourierHelpItem extends CompositePhetGraphic implements PhetGraphic
     // 
     //----------------------------------------------------------------------------
     
+    /**
+     * Points at a target graphic.
+     * 
+     * @param target
+     * @param direction
+     * @param arrowLength
+     */
     public void pointAt( PhetGraphic target, int direction, int arrowLength ) {
+        assert( isValidDirection( direction ) );
+        
         if ( _target != null ) {
             _target.removePhetGraphicListener( this );
         }
@@ -131,14 +154,35 @@ public class FourierHelpItem extends CompositePhetGraphic implements PhetGraphic
         updateTarget();
     }
     
-    public void point( int direction, int arrowLength ) {
-        pointAt( null, direction, arrowLength );
+    /**
+     * Points at a location (a Point).
+     * 
+     * @param point
+     * @param direction
+     * @param arrowLength
+     */
+    public void pointAt( Point point, int direction, int arrowLength ) {
+        pointAt( (PhetGraphic) null, direction, arrowLength );
+        setLocation( point );
+    }
+    
+    /**
+     * Determines if a direction value is valid.
+     * 
+     * @param direction
+     * @return  true or false
+     */
+    public boolean isValidDirection( int direction ) {
+        return ( direction == UP || direction == DOWN || direction == LEFT || direction == RIGHT );
     }
     
     //----------------------------------------------------------------------------
     // 
     //----------------------------------------------------------------------------
     
+    /**
+     * Updates the layout of the help item in relation to the target.
+     */
     private void updateTarget() {
         if ( _target != null ) {
             int oppositeDirection;
@@ -158,10 +202,13 @@ public class FourierHelpItem extends CompositePhetGraphic implements PhetGraphic
             default:
                 throw new IllegalArgumentException( "illegal direction: " + _direction );
             }
-            layout( _target, this, 1, oppositeDirection );
+            layout( _target, this, oppositeDirection, TARGET_SEPARATION );
         }
     }
     
+    /**
+     * Updates the arrow.
+     */
     private void updateArrow() {
         
         int x, y;
@@ -188,14 +235,25 @@ public class FourierHelpItem extends CompositePhetGraphic implements PhetGraphic
         
         Arrow arrow = new Arrow( new Point2D.Double(), new Point2D.Double( x, y ), ARROW_HEAD_WIDTH, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH );
         _arrowGraphic.setShape( arrow.getShape() );
-        layout( _backgroundGraphic, _arrowGraphic, 0, _direction );
+        layout( _backgroundGraphic, _arrowGraphic, _direction, ARROW_SEPARATION );
     }
     
     //----------------------------------------------------------------------------
     // Layout
     //----------------------------------------------------------------------------
     
-    private static void layout( PhetGraphic fixed, PhetGraphic moveable, int separation, int direction ) {
+    /**
+     * Performs a relative layout of two graphics.  
+     * The "fixed" graphic does not move.
+     * The "moveable" graphic is repositioned relative to the fixed graphic's
+     * location and the specified direction.
+     * 
+     * @param fixed
+     * @param moveable
+     * @param direction
+     * @param separation
+     */
+    private static void layout( PhetGraphic fixed, PhetGraphic moveable, int direction, int separation ) {
         Rectangle targetBounds = fixed.getBounds();
         Rectangle movableBounds = moveable.getBounds();
         
