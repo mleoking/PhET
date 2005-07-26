@@ -12,6 +12,7 @@ HIGH PRIORITY:
 - publish v1r0 with Discrete module only
 
 MEDIUM PRIORITY:
+- FourierHelp.pointAt(Point,...) doesn't actually point at the specific Point
 - add support for persistence
 - crashes after running for ~40 minutes (memory leak?)
 - something is hammering the processor when the sim should be idle
@@ -63,6 +64,7 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(7/26) - center slider help item on A4 slider on Windows
 (7/26) - make disabled zoom buttons part of the zoom control background image
 (7/26) - change close button to a "-" symbol, to go with the "+" on the open button
 (7/26) - change title to "Fourier - Making Waves"
