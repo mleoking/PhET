@@ -64,10 +64,10 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+v0r7...
 (7/26) - when maximizing a graph, it's animation is briefly shown out of sync
 (7/26) - bugfix: infinite waveform animation is out of sync when you minimize then maximize the Sum graph
 (7/26) - bugfix: wrong infinite preset is shown (set preset to sine/cosine, select show infinite, change preset to square)
-v0r7...
 (7/26) - center slider help item on A4 slider on Windows
 (7/26) - make disabled zoom buttons part of the zoom control background image
 (7/26) - change close button to a "-" symbol, to go with the "+" on the open button
