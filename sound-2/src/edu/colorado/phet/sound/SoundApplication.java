@@ -55,8 +55,7 @@ public class SoundApplication extends PhetApplication {
     }
 
     public static void main( String[] args ) {
-        SimStrings.setStrings( SoundConfig.localizedStringsPath );
-//        SimStrings.init( args, SoundConfig.localizedStringsPath );
+        SimStrings.init( args, SoundConfig.localizedStringsPath );
 
         PhetApplication app = new SoundApplication();
         app.startApplication();
