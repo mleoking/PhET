@@ -241,7 +241,7 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         
         // Help Items
         FourierHelpItem slidersToolHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.sliders" ) );
-        slidersToolHelp.pointAt( new Point( 90, 155 ), FourierHelpItem.UP, 30 );
+        slidersToolHelp.pointAt( new Point( 75, 155 ), FourierHelpItem.UP, 30 );
         addHelpItem( slidersToolHelp );
         
         FourierHelpItem textfieldsToolHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.textfields" ) );
