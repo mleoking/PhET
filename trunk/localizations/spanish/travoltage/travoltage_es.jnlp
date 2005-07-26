@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+	!!! ATTENTION !!!
+
+If you can read this, you do not have a proper
+version of Java installed on your computer.
+
+If you have installed the PhET software on a local
+computer running Windows, click on the shortcut
+titled "Install Java 1.4.2". Otherwise, please go
+the "Simulations" page of the PhET web site and
+click on "Setup & Troubleshooting" for more
+information.
+
+-->
+<!-- JNLP File for SwingSet2 Demo Application -->
+<jnlp spec="1.0+" 
+	codebase="http://www.colorado.edu/physics/phet/simulations" 
+	href="travoltage/travoltage_es.jnlp"> 
+<information> 
+<title>Travoltage</title> 
+<vendor>PhET(tm)</vendor> 
+<homepage href="http://www.colorado.edu/physics/PHET/" /> 
+<description>Build up and discharge static electricity.</description> 
+<description kind="short">Build up static electricity.</description> 
+<icon href="../Design/Assets/images/Phet-Kavli-logo.jpg"/> 
+<icon kind="splash" href="../Design/Assets/images/Phet-Kavli-logo.jpg"/> 
+<offline-allowed /> 
+</information> 
+<security> 
+</security> 
+<resources> 
+<j2se version="1.4+" /> 
+	<jar href="travoltage/travoltage.jar" /> 
+	<jar href="travoltage/TravoltageStrings_es.jar" /> 
+</resources> 
+<application-desc main-class="edu.colorado.phet.travoltage.TravoltageApplet"> 
+	<argument>user.language=es</argument>
+</application-desc> 
+</jnlp>
