@@ -22,7 +22,7 @@ LOW PRIORITY:
 - PeriodDisplay is an observer of its harmonic, should it be?
 - get rid of Vector2D if it continues to be used only by WiggleMeGraphic
 - break up DiscreteControlPanel into subpanels that can be reused in other modules
-- refactor superclass out of HarmonicsGraphic and SumGraphic (and AmplitudeGraphic?)
+- refactor 9chart config?) out of HarmonicsChart, SumChart and AmplitudesChart
 - waveform anti-aliasing/stroke visually changes when you start to drag wavelength/period tools
 - smaller font for equation subscripts
 - Help
@@ -36,8 +36,6 @@ OPTIMIZATIONS:
 - is allocation of AnimationCycleEvents inefficient?
 - SumGraph.update does a lot of Point allocation
 - reduce startup time
-- make disabled zoom buttons part of the zoom control background image
-- rewrite ZoomControl to use static shapes instead of images
 - flatten static elements
 - setIgnoreMouse
 
@@ -65,6 +63,7 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(7/26) - make disabled zoom buttons part of the zoom control background image
 (7/26) - change close button to a "-" symbol, to go with the "+" on the open button
 (7/26) - change title to "Fourier - Making Waves"
 (7/26) - relabel, reposition and remove help items
@@ -312,6 +311,7 @@ sandbox-2005-05-10...
 (3/30) - set up basic application framework
 
 REJECTED:
+(7/26) - rewrite ZoomControl to use static shapes instead of images (waste of time)
 (7/14) - restructure things so that all Harmonics and HarmonicPlots are preallocated, but only relevant ones are used (diminishing returns)
 (7/8) - FourierSeries model should not have a preset and waveType properties (this is OK)
 (6/21) - make graph titles prettier (no one asked for this)

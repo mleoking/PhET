@@ -49,8 +49,8 @@ public class ZoomControl extends GraphicLayerSet {
     //----------------------------------------------------------------------------
     
     private int _orientation;
-    private PhetImageGraphic _inButton, _inButtonPressed, _inButtonDisabled;
-    private PhetImageGraphic _outButton, _outButtonPressed, _outButtonDisabled;
+    private PhetImageGraphic _inButton, _inButtonPressed;
+    private PhetImageGraphic _outButton, _outButtonPressed;
     private EventListenerList _listenerList;
     
     //----------------------------------------------------------------------------
@@ -72,29 +72,21 @@ public class ZoomControl extends GraphicLayerSet {
 
         _inButton = new PhetImageGraphic( component, FourierConstants.ZOOM_IN_BUTTON_IMAGE );
         _inButtonPressed = new PhetImageGraphic( component, FourierConstants.ZOOM_IN_BUTTON_PRESSED_IMAGE );
-        _inButtonDisabled = new PhetImageGraphic( component, FourierConstants.ZOOM_IN_BUTTON_DISABLED_IMAGE );
         _inButton.setLocation( IN_LOCATION );
         _inButtonPressed.setLocation( IN_LOCATION );
-        _inButtonDisabled.setLocation( IN_LOCATION );
         addGraphic( _inButton );
         addGraphic( _inButtonPressed );
-        addGraphic( _inButtonDisabled );
         
         _outButton = new PhetImageGraphic( component, FourierConstants.ZOOM_OUT_BUTTON_IMAGE );
         _outButtonPressed = new PhetImageGraphic( component, FourierConstants.ZOOM_OUT_BUTTON_PRESSED_IMAGE );
-        _outButtonDisabled = new PhetImageGraphic( component, FourierConstants.ZOOM_OUT_BUTTON_DISABLED_IMAGE );
         _outButton.setLocation( OUT_LOCATION );
         _outButtonPressed.setLocation( OUT_LOCATION );
-        _outButtonDisabled.setLocation( OUT_LOCATION );
         addGraphic( _outButton );
         addGraphic( _outButtonPressed );
-        addGraphic( _outButtonDisabled );
         
         // Interactivity
         {
             background.setIgnoreMouse( true );
-            _inButtonDisabled.setIgnoreMouse( true );
-            _outButtonDisabled.setIgnoreMouse( true );
             
             _inButton.setCursorHand();
             _inButtonPressed.setCursorHand();
@@ -110,9 +102,7 @@ public class ZoomControl extends GraphicLayerSet {
         
         // Initial visibility
         _inButtonPressed.setVisible( false );
-        _inButtonDisabled.setVisible( false );
         _outButtonPressed.setVisible( false );
-        _outButtonDisabled.setVisible( false );
         
         _listenerList = new EventListenerList();
     }
@@ -122,12 +112,10 @@ public class ZoomControl extends GraphicLayerSet {
     //----------------------------------------------------------------------------
     
     public void setZoomInEnabled( boolean enabled ) {
-        _inButtonDisabled.setVisible( !enabled );
         _inButton.setVisible( enabled );
     }
     
     public void setZoomOutEnabled( boolean enabled ) {
-        _outButtonDisabled.setVisible( !enabled );
         _outButton.setVisible( enabled );
     }
     
@@ -172,13 +160,13 @@ public class ZoomControl extends GraphicLayerSet {
     
         public void mousePressed( MouseEvent event ) {
             if ( _inButton.getBounds().contains( event.getPoint() ) ) {
-                if ( ! _inButtonDisabled.isVisible() ) {
+                if ( ! _inButtonPressed.isVisible() ) {
                     _inButtonPressed.setVisible( true );
                     _inPressed = true;
                 }
             }
             else if ( _outButton.getBounds().contains( event.getPoint() ) ) {
-                if ( ! _outButtonDisabled.isVisible() ) {
+                if ( ! _outButtonPressed.isVisible() ) {
                     _outButtonPressed.setVisible( true );
                     _outPressed = true;
                 }    
