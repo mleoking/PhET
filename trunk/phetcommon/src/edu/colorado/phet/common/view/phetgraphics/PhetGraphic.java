@@ -819,6 +819,10 @@ public abstract class PhetGraphic {
     public void addPhetGraphicListener( PhetGraphicListener phetGraphicListener ) {
         listeners.add( phetGraphicListener );
     }
+    
+    public void removePhetGraphicListener( PhetGraphicListener phetGraphicListener ) {
+        listeners.remove( phetGraphicListener );
+    }
 
     /**
      * Notifies registered Observers that this PhetGraphic has changed.
