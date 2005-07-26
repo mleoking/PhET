@@ -8,7 +8,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 - chart draws plots on top of help items
 - anti-aliasing of plots appears to be turned off
-- with a single module, Fourier starts up with the module's apparatus panel magnified (something in DiscreteControlPanel)
 - hide wiggle me when user clicks anywhere
 - publish v1r0 with Discrete module only
 
@@ -18,6 +17,7 @@ MEDIUM PRIORITY:
 - something is hammering the processor when the sim should be idle
 
 LOW PRIORITY:
+- with a single module, Fourier starts up with the module's apparatus panel magnified (something in DiscreteControlPanel)
 - FourierSumPlot should be an observer of its FourierSeries
 - PeriodDisplay is an observer of its harmonic, should it be?
 - get rid of Vector2D if it continues to be used only by WiggleMeGraphic
