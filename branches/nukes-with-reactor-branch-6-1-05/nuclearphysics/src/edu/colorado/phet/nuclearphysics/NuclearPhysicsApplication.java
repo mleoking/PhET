@@ -35,8 +35,8 @@ public class NuclearPhysicsApplication extends PhetApplication {
     }
 
     public static void main( String[] args ) {
-        SimStrings.setStrings( localizedStringsPath );
-//        SimStrings.init( args, localizedStringsPath );
+//        SimStrings.setStrings( localizedStringsPath );
+        SimStrings.init( args, localizedStringsPath );
 
         try {
             UIManager.setLookAndFeel( new NuclearAppLookAndFeel() );
