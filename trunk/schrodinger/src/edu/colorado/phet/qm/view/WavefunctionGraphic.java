@@ -11,8 +11,8 @@ import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.model.operators.PxValue;
 import edu.colorado.phet.qm.model.operators.XValue;
 import edu.colorado.phet.qm.model.operators.YValue;
-import edu.colorado.phet.qm.view.colormaps.MagnitudeColorMap;
-import edu.colorado.phet.qm.view.colormaps.MagnitudeInGrayscale;
+import edu.colorado.phet.qm.view.colormaps.*;
+import edu.colorado.phet.qm.view.gun.Photon;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,14 +45,19 @@ public class WavefunctionGraphic extends GraphicLayerSet {
     private PhetGraphic borderGraphic;
 //    private MagnitudeInGrayscale grayscaleMap;
     private MagnitudeColorMap magnitudeColorMap;
+    private MagnitudeColorMap realColorMap;
+    private MagnitudeColorMap imagColorMap;
 
     public WavefunctionGraphic( final SchrodingerPanel schrodingerPanel ) {
         this.schrodingerPanel = schrodingerPanel;
 
         colorGrid = createColorGrid();
 
-        MagnitudeInGrayscale grayscaleMap = new MagnitudeInGrayscale( schrodingerPanel );
-        magnitudeColorMap = new MagnitudeColorMap( schrodingerPanel, grayscaleMap, null, grayscaleMap );
+        magnitudeColorMap = new MagnitudeColorMap( schrodingerPanel, new MagnitudeInGrayscale( schrodingerPanel ), new WaveValueAccessor.Magnitude() );
+        realColorMap = new MagnitudeColorMap( schrodingerPanel, new RealGrayColorMap( schrodingerPanel ), new WaveValueAccessor.Real() );
+        imagColorMap = new MagnitudeColorMap( schrodingerPanel, new ImaginaryGrayColorMap( schrodingerPanel ), new WaveValueAccessor.Imag() );
+
+
         painter = new DefaultPainter( schrodingerPanel, magnitudeColorMap );
         colorGrid.colorize( painter );
 
@@ -180,11 +185,21 @@ public class WavefunctionGraphic extends GraphicLayerSet {
         return imageGraphic.getX();
     }
 
-//    public MagnitudeInGrayscale getGrayscaleMap() {
-//        return grayscaleMap;
-//    }
-
-    public MagnitudeColorMap getMagnitudeMap() {
+    public MagnitudeColorMap getMagnitudeColorMap() {
         return magnitudeColorMap;
+    }
+
+    public MagnitudeColorMap getRealColorMap() {
+        return realColorMap;
+    }
+
+    public MagnitudeColorMap getImagColorMap() {
+        return imagColorMap;
+    }
+
+    public void setPhoton( Photon photon ) {
+        magnitudeColorMap.setPhoton( photon );
+        realColorMap.setPhoton( photon );
+        imagColorMap.setPhoton( photon );
     }
 }

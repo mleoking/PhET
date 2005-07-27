@@ -20,6 +20,7 @@ import java.awt.*;
 public class PhotonColorMap implements ColorMap {
     private SchrodingerPanel schrodingerPanel;
     private Photon photon;
+    private WaveValueAccessor waveValueAccessor;
     private double intensityScale = 20;
     private ColorData rootColor;
 
@@ -41,15 +42,16 @@ public class PhotonColorMap implements ColorMap {
         }
     }
 
-    public PhotonColorMap( SchrodingerPanel schrodingerPanel, final Photon photon ) {
+    public PhotonColorMap( SchrodingerPanel schrodingerPanel, final Photon photon, WaveValueAccessor waveValueAccessor ) {
         this.schrodingerPanel = schrodingerPanel;
         this.photon = photon;
+        this.waveValueAccessor = waveValueAccessor;
         this.rootColor = new ColorData( photon.getWavelengthNM() );
     }
 
     public Paint getPaint( int i, int k ) {
         Wavefunction wavefunction = schrodingerPanel.getDiscreteModel().getWavefunction();
-        double abs = wavefunction.valueAt( i, k ).abs() * intensityScale;
+        double abs = waveValueAccessor.getValue( wavefunction, i, k ) * intensityScale;
         if( abs > 1 ) {
             abs = 1;
         }
