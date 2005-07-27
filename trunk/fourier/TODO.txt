@@ -64,6 +64,11 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+v1r00...
+(7/28) - add version number to title
+(7/28) - add left & right insets to control panels
+(7/28) - add space between subpanels in Discrete control panel
+(7/28) - bugfix: visibility of wavelength & period tools is incorrectly changed when number of harmonics is changed
 v0r7...
 (7/26) - when maximizing a graph, it's animation is briefly shown out of sync
 (7/26) - bugfix: infinite waveform animation is out of sync when you minimize then maximize the Sum graph
