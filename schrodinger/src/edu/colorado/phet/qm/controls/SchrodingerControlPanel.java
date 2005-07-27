@@ -253,7 +253,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         layoutPanel.setFillNone();
         layoutPanel.setBorder( BorderFactory.createTitledBorder( "Potential" ) );
 
-        JButton clear = new JButton( "Clear All" );
+        JButton clear = new JButton( "Remove All" );
         clear.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 clearPotential();
