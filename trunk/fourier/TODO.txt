@@ -65,6 +65,7 @@ PHETCOMMON:
 
 DONE:
 v1r00...
+(7/28) - change title back to "Fourier: Making Waves"
 (7/28) - add version number to title
 (7/28) - add left & right insets to control panels
 (7/28) - add space between subpanels in Discrete control panel
