@@ -10,14 +10,6 @@
  */
 package edu.colorado.phet.common.view;
 
-import java.awt.GridLayout;
-import java.awt.HeadlessException;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.IOException;
-
-import javax.swing.*;
-
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.ModuleManager;
@@ -28,6 +20,12 @@ import edu.colorado.phet.common.view.components.menu.HelpMenu;
 import edu.colorado.phet.common.view.components.menu.PhetFileMenu;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SwingUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 /**
  * PhetFrame
@@ -261,6 +259,7 @@ public class PhetFrame extends JFrame {
 
     /**
      * Adds a menu item to the File menu, just before the Exit menu item.
+     *
      * @param menuItem
      */
     public void addFileMenuItem( JMenuItem menuItem ) {
@@ -269,6 +268,7 @@ public class PhetFrame extends JFrame {
 
     /**
      * Removes a menu item from the File menu
+     *
      * @param menuItem
      */
     public void removeFileMenuItem( JMenuItem menuItem ) {
@@ -281,6 +281,7 @@ public class PhetFrame extends JFrame {
 
     /**
      * Sets a specified menu in the leftmost postition of the menu bar
+     *
      * @param defaultFileMenu
      */
     public void setFileMenu( PhetFileMenu defaultFileMenu ) {
@@ -293,6 +294,7 @@ public class PhetFrame extends JFrame {
 
     /**
      * Returns the leftmost menu on the menu bar
+     *
      * @return
      */
     private PhetFileMenu getFileMenu() {
@@ -302,11 +304,11 @@ public class PhetFrame extends JFrame {
         }
         return null;
     }
-    
+
     public HelpMenu getHelpMenu() {
         return helpMenu;
     }
-    
+
     /**
      * Adds the "Debug" menu to the menu bar.
      */
@@ -316,14 +318,18 @@ public class PhetFrame extends JFrame {
             addMenu( debugMenu );
         }
     }
-    
+
     /**
      * Gets the debug menu.
      * Clients can use this to add new items to the menu.
-     * 
+     *
      * @return DebugMenu
      */
     public DebugMenu getDebugMenu() {
         return debugMenu;
+    }
+
+    public void removeMenu( JMenu menu ) {
+        getJMenuBar().remove( menu );
     }
 }
