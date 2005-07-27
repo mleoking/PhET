@@ -120,9 +120,9 @@ public class FourierApplication extends PhetApplication {
 //        laf.apply();
         
         // Get stuff needed to initialize the application model.
-        String title = SimStrings.get( "FourierApplication.title" );
+        String title = SimStrings.get( "FourierApplication.title" ) + " (" + FourierConfig.APP_VERSION + ")";
         String description = SimStrings.get( "FourierApplication.description" );
-        String version = FourierConfig.APP_VERSION;
+        String version = FourierConfig.APP_VERSION + " (" + FourierConfig.APP_BUILD + ")";
         int width = FourierConfig.APP_FRAME_WIDTH;
         int height = FourierConfig.APP_FRAME_HEIGHT;
         FrameSetup frameSetup = new FrameSetup.CenteredWithSize( width, height );
