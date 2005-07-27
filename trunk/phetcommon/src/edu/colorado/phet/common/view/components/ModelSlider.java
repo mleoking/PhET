@@ -89,7 +89,7 @@ public class ModelSlider extends JPanel {
         createSlider();
 
         titleLabel = new JLabel( title );
-        Font titleFont = new Font( "Lucida Sans", Font.BOLD, 14 );
+        Font titleFont = new Font( "Lucida Sans", Font.BOLD, 12 );
         titleLabel.setFont( titleFont );
 
         unitsReadout = new JTextField( " " + this.units );
