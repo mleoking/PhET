@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm;
 
 import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.PhetFrame;
@@ -26,14 +27,27 @@ public class SchrodingerModule extends Module {
     private DiscreteModel discreteModel;
     private SchrodingerControlPanel schrodingerControlPanel;
     private SchrodingerApplication schrodingerApplication;
+    private SchrodingerMenu menu;
 
     /**
-     * @param clock
+     * @param schrodingerApplication
      */
-    public SchrodingerModule( String name, SchrodingerApplication clock ) {
-        super( name, clock.getClock() );
-        this.schrodingerApplication = clock;
+    public SchrodingerModule( String name, SchrodingerApplication schrodingerApplication ) {
+        super( name, schrodingerApplication.getClock() );
+        this.schrodingerApplication = schrodingerApplication;
         setModel( new BaseModel() );
+        menu = new SchrodingerMenu( this );
+
+    }
+
+    public void activate( PhetApplication app ) {
+        super.activate( app );
+        app.getPhetFrame().addMenu( menu );
+    }
+
+    public void deactivate( PhetApplication app ) {
+        super.deactivate( app );
+        app.getPhetFrame().removeMenu( menu );
     }
 
     protected void setDiscreteModel( DiscreteModel model ) {

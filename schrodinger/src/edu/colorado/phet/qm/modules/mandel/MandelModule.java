@@ -17,7 +17,7 @@ public class MandelModule extends IntensityModule {
     private MandelPanel schrodingerPanel;
 
     public MandelModule( SchrodingerApplication app ) {
-        super( "Mandel Experiment", app );
+        super( "2 Lasers", app );
 //        schrodingerPanel.getWavefunctionGraphic().setWavefunctionColorMap( new VisualColorMap( getSchrodingerPanel() ) );
         setControlPanel( new MandelControlPanel( this ) );
         getModel().addModelElement( new ModelDebugger( getClass() ) );

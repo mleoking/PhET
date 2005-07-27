@@ -35,6 +35,7 @@ public class SchrodingerPanel extends ApparatusPanel2 {
     private ArrayList detectorGraphics = new ArrayList();
     private PhetGraphic doubleSlitPanelGraphic;
     private DoubleSlitPanel doubleSlitPanel;
+    private Photon photon;
 //    private PhetGraphic doubleSlitCheckBoxGraphic;
 //    private PhetGraphic configureSlitButtonGraphic;
 
@@ -209,6 +210,7 @@ public class SchrodingerPanel extends ApparatusPanel2 {
     }
 
     public void setDisplayPhotonColor( Photon photon ) {
+        this.photon = photon;
         getWavefunctionGraphic().setPhoton( photon );
 //        getWavefunctionGraphic().getMagnitudeColorMap().setPhoton( photon );
         getIntensityDisplay().setDisplayPhotonColor( photon );
@@ -216,5 +218,13 @@ public class SchrodingerPanel extends ApparatusPanel2 {
 
     public void clearWavefunction() {
         getDiscreteModel().clearWavefunction();
+    }
+
+    public void setFadeEnabled( boolean selected ) {
+        getIntensityDisplay().setFadeEnabled( selected );
+    }
+
+    public Photon getDisplayPhotonColor() {
+        return photon;
     }
 }

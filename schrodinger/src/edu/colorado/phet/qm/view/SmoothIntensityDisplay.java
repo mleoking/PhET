@@ -6,6 +6,7 @@ import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Wavefunction;
+import edu.colorado.phet.qm.view.gun.Photon;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -22,6 +23,7 @@ public class SmoothIntensityDisplay {
     private double[] histogram;
     private boolean fadeEnabled = true;
     private PhetShapeGraphic backgroundGraphic;
+    private Photon photon;
 
     public SmoothIntensityDisplay( IntensityDisplay intensityDisplay ) {
         this.intensityDisplay = intensityDisplay;
@@ -75,11 +77,20 @@ public class SmoothIntensityDisplay {
     }
 
     private Color toColorBlackBackground( double x ) {
-        float v = (float)( x / 10.0 );
-        v = (float)MathUtil.clamp( 0, v, 1.0 );
+        if( photon == null ) {
+            float v = (float)( x / 10.0 );
+            v = (float)MathUtil.clamp( 0, v, 1.0 );
 //        Color color = new Color( 0.0f, 0, v );
-        Color color = new Color( v * 0.8f, v * 0.8f, v );
-        return color;
+            Color color = new Color( v * 0.8f, v * 0.8f, v );
+            return color;
+        }
+        else {
+            float v = (float)( x / 10.0 );
+            v = (float)MathUtil.clamp( 0, v, 1.0 );
+            Color root = photon.getRootColor().toColor( v );
+//            Color color = new Color( v * 0.8f, v * 0.8f, v );
+            return root;
+        }
     }
 
     private Color toColorLightBackground( double x ) {
@@ -128,5 +139,9 @@ public class SmoothIntensityDisplay {
 
     public void setFadeEnabled( boolean fadeEnabled ) {
         this.fadeEnabled = fadeEnabled;
+    }
+
+    public void setPhotonColor( Photon photon ) {
+        this.photon = photon;
     }
 }

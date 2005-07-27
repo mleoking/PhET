@@ -62,6 +62,7 @@ public class IntensityPanel extends SchrodingerPanel {
 
         setControlsEnabled( getDoubleSlitPanel().isDoubleSlitEnabled() );
 //        putBelow( getDoubleSlitPanelGraphic(), slitControlGraphic, 3 );
+        setDisplayPhotonColor( super.getDisplayPhotonColor() );
     }
 
     private void setControlsEnabled( boolean doubleSlitEnabled ) {
@@ -134,9 +135,17 @@ public class IntensityPanel extends SchrodingerPanel {
         if( splitColorMap != null ) {
             splitColorMap.setRootColor( photon == null ? null : new PhotonColorMap.ColorData( photon.getWavelengthNM() ) );
         }
+        if( smoothIntensityDisplay != null ) {
+            smoothIntensityDisplay.setPhotonColor( photon );
+        }
     }
 
     public PhotonColorMap.ColorData getRootColor() {
         return highIntensityGun.getRootColor();
+    }
+
+    public void setFadeEnabled( boolean selected ) {
+        super.setFadeEnabled( selected );
+        smoothIntensityDisplay.setFadeEnabled( selected );
     }
 }

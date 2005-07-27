@@ -139,7 +139,8 @@ public class DetectorSheet extends GraphicLayerSet {
         final JCheckBox fadeEnabled = new JCheckBox( "Fade", true );
         fadeEnabled.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                setFadeEnabled( fadeEnabled.isSelected() );
+                schrodingerPanel.setFadeEnabled( fadeEnabled.isSelected() );
+//                setFadeEnabled( fadeEnabled.isSelected() );
             }
         } );
         PhetGraphic phetGraphic = PhetJComponent.newInstance( schrodingerPanel, fadeEnabled );
