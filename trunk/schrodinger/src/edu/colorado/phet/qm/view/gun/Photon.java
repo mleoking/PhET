@@ -35,7 +35,8 @@ public class Photon extends GunParticle {
         getGunGraphic().getSchrodingerPanel().setDisplayPhotonColor( this );
         abstractGun.getSchrodingerModule().getDiscreteModel().setPropagatorClassical();
         abstractGun.addGraphic( wavelengthSliderGraphic );
-        wavelengthSliderGraphic.setLocation( -wavelengthSliderGraphic.getWidth() - 2, abstractGun.getControlOffsetY() + abstractGun.getComboBox().getPreferredSize().height + 2 );
+        wavelengthSliderGraphic.setLocation( -wavelengthSliderGraphic.getWidth() - 2,
+                                             abstractGun.getControlOffsetY() + abstractGun.getComboBox().getPreferredSize().height + 2 + 20 );
     }
 
     public void deactivate( AbstractGun abstractGun ) {
