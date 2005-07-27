@@ -196,7 +196,8 @@ public class SchrodingerPanel extends ApparatusPanel2 {
     }
 
     public void setDisplayPhotonColor( Photon photon ) {
-        getWavefunctionGraphic().getMagnitudeMap().setPhoton( photon );
+        getWavefunctionGraphic().setPhoton( photon );
+//        getWavefunctionGraphic().getMagnitudeColorMap().setPhoton( photon );
         getIntensityDisplay().setDisplayPhotonColor( photon );
     }
 

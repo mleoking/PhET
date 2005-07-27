@@ -16,16 +16,17 @@ import java.awt.*;
 
 public class MagnitudeColorMap implements ColorMap {
     private SchrodingerPanel schrodingerPanel;
-    private MagnitudeInGrayscale magnitudeInGrayscale;
+    private ColorMap magnitudeInGrayscale;
     private PhotonColorMap photonColorMap;
 
     private ColorMap currentMap;
+    private WaveValueAccessor waveValueAccessor;
 
-    public MagnitudeColorMap( SchrodingerPanel schrodingerPanel, MagnitudeInGrayscale magnitudeInGrayscale, PhotonColorMap photonColorMap, ColorMap currentMap ) {
+    public MagnitudeColorMap( SchrodingerPanel schrodingerPanel, ColorMap grayscaleMap, WaveValueAccessor waveValueAccessor ) {
         this.schrodingerPanel = schrodingerPanel;
-        this.magnitudeInGrayscale = magnitudeInGrayscale;
-        this.photonColorMap = photonColorMap;
-        this.currentMap = currentMap;
+        this.magnitudeInGrayscale = grayscaleMap;
+        this.currentMap = grayscaleMap;
+        this.waveValueAccessor = waveValueAccessor;
     }
 
     public void setGrayscale() {
@@ -42,7 +43,7 @@ public class MagnitudeColorMap implements ColorMap {
 
     public void setPhoton( Photon photon ) {
         if( photon != null ) {
-            this.photonColorMap = new PhotonColorMap( schrodingerPanel, photon );
+            this.photonColorMap = new PhotonColorMap( schrodingerPanel, photon, waveValueAccessor );
             currentMap = photonColorMap;
         }
         else {

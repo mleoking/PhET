@@ -7,8 +7,8 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShadowTextGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +28,7 @@ public class WiggleMe extends CompositePhetGraphic {
     private Vector2D.Double oscillationAxis;//axis along which the wiggle me moves.
     private Target target;
     private PhetShapeGraphic phetShapeGraphic;
-    private PhetShadowTextGraphic textGraphic;
+    private PhetTextGraphic textGraphic;
     private ModelElement tickListener;
     private BaseModel clock;
 
@@ -48,7 +48,7 @@ public class WiggleMe extends CompositePhetGraphic {
         Color foreGroundColor = new Color( 79, 47, 204 );
         Color shadowColor = new Color( 6, 0, 44 );
 //        textGraphic = new ShadowHTMLGraphic( component, text, font, foreGroundColor, dx, dy, shadowColor );
-        textGraphic = new PhetShadowTextGraphic( component, font, text, foreGroundColor, dx, dy, shadowColor );
+        textGraphic = new PhetTextGraphic( component, font, text, foreGroundColor );
         addGraphic( textGraphic );
 
         textGraphic.setLocation( 0, 0 );

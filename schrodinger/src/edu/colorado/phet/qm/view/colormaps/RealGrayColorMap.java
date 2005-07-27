@@ -7,9 +7,6 @@ import edu.colorado.phet.qm.view.SchrodingerPanel;
 
 import java.awt.*;
 
-/**
- * From http://www.physics.brocku.ca/www/faculty/sternin/teaching/mirrors/qm/packet/WaveMap.java
- */
 public class RealGrayColorMap implements ColorMap {
     private SchrodingerPanel schrodingerPanel;
     public double colorScale = 12;

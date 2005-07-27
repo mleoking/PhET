@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view.gun;
 
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
@@ -35,6 +36,9 @@ public class SingleParticleGun extends AbstractGun {
         fireOne.setFont( new Font( "Lucida Sans", Font.BOLD, 18 ) );
         fireOne.setForeground( Color.red );
         fireOne.setMargin( new Insets( 2, 2, 2, 2 ) );
+
+        addButtonEnableDisable();
+
         try {
             outIcon = new ImageIcon( ImageLoader.loadBufferedImage( "images/button-out-40.gif" ) );
             inIcon = new ImageIcon( ImageLoader.loadBufferedImage( "images/button-in-40.gif" ) );
@@ -90,10 +94,25 @@ public class SingleParticleGun extends AbstractGun {
         autoJC.setLocation( fireJC.getX(), fireJC.getY() + fireJC.getHeight() + 5 );
     }
 
+    private void addButtonEnableDisable() {
+        getSchrodingerModule().getModel().addModelElement( new ModelElement() {
+            public void stepInTime( double dt ) {
+                double magnitude = getSchrodingerModule().getDiscreteModel().getWavefunction().getMagnitude();
+                if( magnitude == 0 ) {
+                    fireOne.setEnabled( true );
+                }
+                else {
+                    fireOne.setEnabled( false );
+                }
+            }
+        } );
+    }
+
 
     public void clearAndFire() {
         clearWavefunction();
         fireParticle();
+        fireOne.setEnabled( false );
     }
 
     private void clearWavefunction() {

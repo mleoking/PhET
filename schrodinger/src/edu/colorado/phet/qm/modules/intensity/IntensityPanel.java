@@ -100,7 +100,7 @@ public class IntensityPanel extends SchrodingerPanel {
     }
 
     public void setNormalGraphics() {
-        setColorMap( getWavefunctionGraphic().getMagnitudeMap() );
+        setColorMap( getWavefunctionGraphic().getMagnitudeColorMap() );
     }
 
     public boolean isSmoothScreen() {
