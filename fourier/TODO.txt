@@ -6,8 +6,8 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- chart draws plots on top of help items
-- anti-aliasing of plots appears to be turned off
+- chart draws plots on top of help items (Mac only?)
+- anti-aliasing of plots gets turned off
 - hide wiggle me when user clicks anywhere
 - publish v1r0 with Discrete module only
 
