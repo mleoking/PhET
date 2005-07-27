@@ -55,4 +55,10 @@ public class SlitControlPanel extends VerticalLayoutPanel {
         intensityModule.setRightDetectorEnabled( rightSlit.isSelected() );
         intensityModule.setLeftDetectorEnabled( leftSlit.isSelected() );
     }
+
+    public void setEnabled( boolean enabled ) {
+        super.setEnabled( enabled );
+        leftSlit.setEnabled( enabled );
+        rightSlit.setEnabled( enabled );
+    }
 }

@@ -17,8 +17,8 @@ import java.awt.event.ActionListener;
 public class DoubleSlitCheckBox extends JCheckBox {
     private DiscreteModel discreteModel;
 
-    public DoubleSlitCheckBox( final DiscreteModel discreteModel ) {
-        super( "Double Slit", discreteModel.isDoubleSlitEnabled() );
+    public DoubleSlitCheckBox( String title, final DiscreteModel discreteModel ) {
+        super( title, discreteModel.isDoubleSlitEnabled() );
         this.discreteModel = discreteModel;
 
         addActionListener( new ActionListener() {
