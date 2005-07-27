@@ -63,6 +63,7 @@ public class SchrodingerPanel extends ApparatusPanel2 {
 
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
+//                setReferenceSize( 600, 600 );
                 setReferenceSize( 600, 600 );
                 abstractGun.componentResized( e );
             }
@@ -77,7 +78,7 @@ public class SchrodingerPanel extends ApparatusPanel2 {
         doubleSlitPanel = new DoubleSlitPanel( getDiscreteModel() );
         doubleSlitPanelGraphic = PhetJComponent.newInstance( this, doubleSlitPanel );
         addGraphic( doubleSlitPanelGraphic );
-        doubleSlitPanelGraphic.setLocation( getWavefunctionGraphic().getX() + getWavefunctionGraphic().getWidth() - 40, getWavefunctionGraphic().getY() + getWavefunctionGraphic().getHeight() / 2 - doubleSlitPanelGraphic.getHeight() / 2 );
+        doubleSlitPanelGraphic.setLocation( getWavefunctionGraphic().getX() + getWavefunctionGraphic().getWidth() - 40, getWavefunctionGraphic().getY() + getWavefunctionGraphic().getHeight() / 2 - doubleSlitPanelGraphic.getHeight() / 2 + 35 );
 
 //        DoubleSlitCheckBox doubleSlitCheckBox = new DoubleSlitCheckBox( getDiscreteModel() );
 //        doubleSlitCheckBoxGraphic = PhetJComponent.newInstance( this, doubleSlitCheckBox );

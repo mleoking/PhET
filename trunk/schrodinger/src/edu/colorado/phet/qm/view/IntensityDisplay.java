@@ -63,9 +63,10 @@ public class IntensityDisplay extends GraphicLayerSet {
     public void setHighIntensityMode() {
         setMultiplier( 100 );
         setProbabilityScaleFudgeFactor( 10 );
-        setOpacity( 6 );
+//        setOpacity( 6 );
         setNormDecrement( 0.0 );
-        getDetectorSheet().addBrightnessSlider();
+        getDetectorSheet().setHighIntensityMode();
+//        getDetectorSheet().addBrightnessSlider();
     }
 
     public void setFadeEnabled( boolean selected ) {

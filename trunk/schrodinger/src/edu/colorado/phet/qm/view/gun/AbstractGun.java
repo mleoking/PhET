@@ -10,6 +10,7 @@ import edu.colorado.phet.qm.util.QMLogger;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ComponentEvent;
 
 /**
@@ -29,12 +30,22 @@ public abstract class AbstractGun extends GraphicLayerSet {
         this.schrodingerPanel = schrodingerPanel;
 //        gunImageGraphic = new PhetImageGraphic( getComponent(), "images/laser.gif" );
 //        gunImageGraphic = new PhetImageGraphic( getComponent(), "images/raygun3-scaled.gif" );
-        gunImageGraphic = new PhetImageGraphic( getComponent(), "images/raygun3-200x160-scaled-matt.gif" );
-        gunImageGraphic.setLocation( -10, 35 );
+        String imageResourceName = getGunImageResource();
+        gunImageGraphic = new PhetImageGraphic( getComponent(), imageResourceName );
+        gunImageGraphic.setLocation( getOrigGunLocation() );
         addGraphic( gunImageGraphic );
         this.comboBox = initComboBox();
         schrodingerPanel.add( comboBox );
         setVisible( true );
+    }
+
+    protected String getGunImageResource() {
+        String imageResourceName = "images/raygun3-200x160-scaled-matt.gif";
+        return imageResourceName;
+    }
+
+    protected Point getOrigGunLocation() {
+        return new Point( -10, 35 );
     }
 
     protected abstract JComboBox initComboBox();
@@ -92,7 +103,6 @@ public abstract class AbstractGun extends GraphicLayerSet {
     public SchrodingerPanel getSchrodingerPanel() {
         return schrodingerPanel;
     }
-
 
     protected void setComboBox( JComboBox comboBox ) {
         this.comboBox = comboBox;

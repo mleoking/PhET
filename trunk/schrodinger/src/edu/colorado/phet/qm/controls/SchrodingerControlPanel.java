@@ -40,13 +40,7 @@ public class SchrodingerControlPanel extends ControlPanel {
     public SchrodingerControlPanel( final SchrodingerModule module ) {
         super( module );
         this.module = module;
-        JButton reset = new JButton( "Reset" );
-        reset.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.reset();
-            }
-        } );
-        addControl( reset );
+
         this.initialConditionPanel = createInitialConditionPanel();
         AdvancedPanel advancedICPanel = new AdvancedPanel( "Show>>", "Hide<<" );
         advancedICPanel.addControlFullWidth( this.initialConditionPanel );
@@ -70,12 +64,12 @@ public class SchrodingerControlPanel extends ControlPanel {
             }
         } );
         try {
-            HorizontalLayoutPanel hoPan = new HorizontalLayoutPanel();
+            HorizontalLayoutPanel rulerPanel = new HorizontalLayoutPanel();
 
             final JCheckBox ruler = new JCheckBox( "Ruler" );
             ImageIcon icon = new ImageIcon( ImageLoader.loadBufferedImage( "images/ruler-thumb.jpg" ) );
-            hoPan.add( ruler );
-            hoPan.add( new JLabel( icon ) );
+            rulerPanel.add( ruler );
+            rulerPanel.add( new JLabel( icon ) );
             getSchrodingerPanel().getRulerGraphic().addPhetGraphicListener( new PhetGraphicListener() {
                 public void phetGraphicChanged( PhetGraphic phetGraphic ) {
                 }
@@ -90,14 +84,14 @@ public class SchrodingerControlPanel extends ControlPanel {
                     getSchrodingerPanel().setRulerVisible( ruler.isSelected() );
                 }
             } );
-            addControl( hoPan );
+//            addControl( rulerPanel );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
 
         advancedPanel = new AdvancedPanel( "Advanced>>", "Hide Advanced<<" );
-        addControlFullWidth( advancedPanel );
+//        addControlFullWidth( advancedPanel );
 
         VerticalLayoutPanel intensityScreen = new IntensityScreenPanel( this );
         AdvancedPanel advancedIntensityScreen = new AdvancedPanel( "Screen>>", "Screen<<" );
@@ -113,6 +107,8 @@ public class SchrodingerControlPanel extends ControlPanel {
 
         VerticalLayoutPanel potentialPanel = createPotentialPanel( module );
         addControlFullWidth( potentialPanel );
+
+
 
 //        JButton addParticle = new JButton( "Add Particle" );
 //        addParticle.addActionListener( new ActionListener() {
@@ -148,6 +144,8 @@ public class SchrodingerControlPanel extends ControlPanel {
                 classicalPropagator2ndOrder.setSpeed( x );
             }
         } );
+
+
     }
 
     private WaveSetup getWaveSetup() {
@@ -255,16 +253,16 @@ public class SchrodingerControlPanel extends ControlPanel {
         layoutPanel.setFillNone();
         layoutPanel.setBorder( BorderFactory.createTitledBorder( "Potential" ) );
 
-        JButton clear = new JButton( "Clear Potential Barriers" );
+        JButton clear = new JButton( "Clear All" );
         clear.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 clearPotential();
             }
         } );
-        layoutPanel.add( clear );
 
-        final JCheckBox doubleSlit = new DoubleSlitCheckBox( "Double Slit", getDiscreteModel() );
-        layoutPanel.add( doubleSlit );
+
+//        final JCheckBox doubleSlit = new DoubleSlitCheckBox( "Double Slit", getDiscreteModel() );
+//        layoutPanel.add( doubleSlit );
 //        VerticalLayoutPanel configureDoubleSlit = new ConfigureHorizontalSlitPanel( getDiscreteModel().getDoubleSlitPotential() );
 //        layoutPanel.add( configureDoubleSlit );
 
@@ -283,6 +281,7 @@ public class SchrodingerControlPanel extends ControlPanel {
             }
         } );
         layoutPanel.add( newBarrier );
+        layoutPanel.add( clear );
 
         return layoutPanel;
     }
@@ -352,5 +351,15 @@ public class SchrodingerControlPanel extends ControlPanel {
 
     public AdvancedPanel getAdvancedPanel() {
         return advancedPanel;
+    }
+
+    protected void addResetButton() {
+        JButton reset = new JButton( "Reset" );
+        reset.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.reset();
+            }
+        } );
+        addControl( reset );
     }
 }

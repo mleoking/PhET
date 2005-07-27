@@ -34,6 +34,7 @@ public class SchrodingerApplication extends PhetApplication {
         SchrodingerModule intensityModule = new IntensityModule( this );
         SchrodingerModule mandelModule = new MandelModule( this );
         setModules( new Module[]{singleParticleModel, intensityModule, mandelModule} );
+//        setModules( new Module[]{ intensityModule} );
 //        setModules( new Module[]{mandelModule} );
     }
 

@@ -86,7 +86,7 @@ public class WavefunctionGraphic extends GraphicLayerSet {
                 schrodingerPanel.clearWavefunction();
             }
         } );
-        clearButton.setLocation( -clearButton.getWidth() - 2, clearButton.getHeight() );
+        clearButton.setLocation( -clearButton.getWidth() - 2, imageGraphic.getHeight() - clearButton.getHeight() );
     }
 
     public int getWaveformWidth() {
