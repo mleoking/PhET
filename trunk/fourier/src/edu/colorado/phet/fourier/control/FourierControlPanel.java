@@ -12,6 +12,7 @@
 package edu.colorado.phet.fourier.control;
 
 import java.awt.Cursor;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -60,6 +61,7 @@ public abstract class FourierControlPanel extends ControlPanel {
      */
     public FourierControlPanel( FourierModule module ) {
         super( module );
+        getControlPane().setInsets( new Insets( 0, 3, 0, 3 ) );
         _module = module;
     }
     
