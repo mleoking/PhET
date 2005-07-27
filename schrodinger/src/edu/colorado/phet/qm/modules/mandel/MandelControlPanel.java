@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.mandel;
 
-import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
+import edu.colorado.phet.qm.modules.intensity.IntensityControlPanel;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -14,7 +14,7 @@ import javax.swing.event.ChangeListener;
  * Copyright (c) Jul 22, 2005 by Sam Reid
  */
 
-public class MandelControlPanel extends ControlPanel {
+public class MandelControlPanel extends IntensityControlPanel {
     public MandelControlPanel( MandelModule mandelModule ) {
         super( mandelModule );
         final ModelSlider modelSlider = new ModelSlider( "Wave Dist from wall.", "", 0, 50, DoublePhotonWave.insetX );
@@ -25,7 +25,6 @@ public class MandelControlPanel extends ControlPanel {
             }
         } );
 
-        addControlFullWidth( modelSlider );
 
         final ModelSlider dPhase = new ModelSlider( "Delta Phase", "", 0, Math.PI * 2, DoublePhotonWave.dPhase );
         dPhase.addChangeListener( new ChangeListener() {
@@ -33,7 +32,6 @@ public class MandelControlPanel extends ControlPanel {
                 DoublePhotonWave.dPhase = dPhase.getValue();
             }
         } );
-        addControlFullWidth( dPhase );
 
         final ModelSlider dSigma = new ModelSlider( "Wave Width", "", 1, 12, MandelDampedWave.dxLattice );
         dSigma.addChangeListener( new ChangeListener() {
@@ -41,6 +39,11 @@ public class MandelControlPanel extends ControlPanel {
                 MandelDampedWave.dxLattice = dSigma.getValue();
             }
         } );
-        addControlFullWidth( dSigma );
+
+//        addControlFullWidth( modelSlider );
+//        addControlFullWidth( dPhase );
+//        addControlFullWidth( dSigma );
+
+
     }
 }

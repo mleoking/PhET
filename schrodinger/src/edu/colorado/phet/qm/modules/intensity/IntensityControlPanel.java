@@ -26,7 +26,7 @@ public class IntensityControlPanel extends SchrodingerControlPanel {
                 intensityModule.getIntensityPanel().setSmoothScreen( smoothCCD.isSelected() );
             }
         } );
-        addControl( smoothCCD );
+//        addControl( smoothCCD );
 
         final JCheckBox fading = new JCheckBox( "Fade Smooth Screen", intensityModule.getIntensityPanel().getSmoothIntensityDisplay().isFadeEnabled() );
         fading.addActionListener( new ActionListener() {
@@ -34,6 +34,7 @@ public class IntensityControlPanel extends SchrodingerControlPanel {
                 intensityModule.getIntensityPanel().getSmoothIntensityDisplay().setFadeEnabled( fading.isSelected() );
             }
         } );
+        super.addResetButton();
 //        addControl( fading );
     }
 

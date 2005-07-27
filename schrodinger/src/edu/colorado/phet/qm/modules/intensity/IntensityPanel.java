@@ -55,14 +55,19 @@ public class IntensityPanel extends SchrodingerPanel {
         addGraphic( slitControlGraphic );
         slitControlGraphic.setLocation( ds.getX(), ds.getY() + ds.getHeight() + 5 );
 
-        getIntensityDisplay().getDetectorSheet().setFadeEnabled( true );
-        getIntensityDisplay().getDetectorSheet().addFadeCheckBox();
+//        getIntensityDisplay().getDetectorSheet().setFadeEnabled( true );
+//        getIntensityDisplay().getDetectorSheet().addFadeCheckBox();
+//        getIntensityDisplay().getDetectorSheet().setHighIntensityMode();
 
         splitColorMap = new SplitColorMap( intensityModule.getSplitModel(), this );//this.intensityModule.getSplitModel() );
-
         setControlsEnabled( getDoubleSlitPanel().isDoubleSlitEnabled() );
 //        putBelow( getDoubleSlitPanelGraphic(), slitControlGraphic, 3 );
         setDisplayPhotonColor( super.getDisplayPhotonColor() );
+        getIntensityDisplay().getDetectorSheet().getDetectorSheetPanel().setBrightness();
+    }
+
+    public PhetGraphic getSlitControlGraphic() {
+        return slitControlGraphic;
     }
 
     private void setControlsEnabled( boolean doubleSlitEnabled ) {

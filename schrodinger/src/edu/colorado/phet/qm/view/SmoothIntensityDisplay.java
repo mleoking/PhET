@@ -24,6 +24,7 @@ public class SmoothIntensityDisplay {
     private boolean fadeEnabled = true;
     private PhetShapeGraphic backgroundGraphic;
     private Photon photon;
+    private double brightness = 1.0f;
 
     public SmoothIntensityDisplay( IntensityDisplay intensityDisplay ) {
         this.intensityDisplay = intensityDisplay;
@@ -77,18 +78,15 @@ public class SmoothIntensityDisplay {
     }
 
     private Color toColorBlackBackground( double x ) {
+        float v = (float)( x / 10.0 );
+        v *= brightness;
+        v = (float)MathUtil.clamp( 0, v, 1.0 );
         if( photon == null ) {
-            float v = (float)( x / 10.0 );
-            v = (float)MathUtil.clamp( 0, v, 1.0 );
-//        Color color = new Color( 0.0f, 0, v );
             Color color = new Color( v * 0.8f, v * 0.8f, v );
             return color;
         }
         else {
-            float v = (float)( x / 10.0 );
-            v = (float)MathUtil.clamp( 0, v, 1.0 );
             Color root = photon.getRootColor().toColor( v );
-//            Color color = new Color( v * 0.8f, v * 0.8f, v );
             return root;
         }
     }
@@ -143,5 +141,11 @@ public class SmoothIntensityDisplay {
 
     public void setPhotonColor( Photon photon ) {
         this.photon = photon;
+    }
+
+    public void setBrightness( double brightness ) {
+        Function.LinearFunction linearFunction = new Function.LinearFunction( 0, 0.1, 0, 1 );
+        this.brightness = linearFunction.evaluate( brightness );
+//        this.brightness=brightness;
     }
 }
