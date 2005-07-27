@@ -43,7 +43,13 @@ public class MandelGun extends HighIntensityGun {
                 setupObject( beams[index] );
             }
         } );
+        imageComboBox.setVisible( false );
         return imageComboBox;
+    }
+
+    public void setVisible( boolean visible ) {
+        super.setVisible( visible );
+        getComboBox().setVisible( false );
     }
 
 }

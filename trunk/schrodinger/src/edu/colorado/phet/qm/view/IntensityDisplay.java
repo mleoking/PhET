@@ -68,6 +68,10 @@ public class IntensityDisplay extends GraphicLayerSet {
         getDetectorSheet().addBrightnessSlider();
     }
 
+    public void setFadeEnabled( boolean selected ) {
+        detectorSheet.setFadeEnabled( selected );
+    }
+
     public static interface Listener {
         void detectionOccurred();
     }

@@ -50,12 +50,11 @@ public class HighIntensityGun extends AbstractGun {
         } );
 //        intensitySlider.setBorder( BorderFactory.createTitledBorder( "Intensity" ) );
         PhetGraphic intensityGraphic = PhetJComponent.newInstance( schrodingerPanel, intensitySlider );
+        PhetGraphic onCheckboxGraphic = PhetJComponent.newInstance( schrodingerPanel, alwaysOnCheckBox );
 
-        PhetGraphic onJC = PhetJComponent.newInstance( schrodingerPanel, alwaysOnCheckBox );
-
-        addGraphic( onJC );
+        addGraphic( onCheckboxGraphic );
         addGraphic( intensityGraphic );
-        onJC.setLocation( getGunImageGraphic().getWidth() + 2 + getFireButtonInsetDX(), 0 + getControlOffsetY() );
+        intensityGraphic.setLocation( getGunImageGraphic().getWidth() + 2 + getFireButtonInsetDX(), 0 + getControlOffsetY() );
 
         final WiggleMe wiggleMe = new WiggleMe( getSchrodingerPanel(), getSchrodingerPanel().getSchrodingerModule().getModel(), "Increase the Intensity", intensityGraphic );
         schrodingerPanel.addGraphic( wiggleMe, Double.POSITIVE_INFINITY );
@@ -65,7 +64,7 @@ public class HighIntensityGun extends AbstractGun {
             }
         } );
 
-        intensityGraphic.setLocation( onJC.getX(), onJC.getY() + onJC.getHeight() + 4 );
+        onCheckboxGraphic.setLocation( intensityGraphic.getX() + intensityGraphic.getWidth() / 2 - onCheckboxGraphic.getWidth() / 2, intensityGraphic.getY() + intensityGraphic.getHeight() + 4 );
         schrodingerPanel.getSchrodingerModule().getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 stepBeam();

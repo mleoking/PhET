@@ -28,8 +28,8 @@ public class SingleParticleControlPanel extends SchrodingerControlPanel {
         VerticalLayoutPanel detectorPanel = new DetectorPanel( singleParticleModule );
         addControlFullWidth( detectorPanel );
 
-        VerticalLayoutPanel exp = createExpectationPanel();
-        addControlFullWidth( exp );
+//        VerticalLayoutPanel exp = createExpectationPanel();
+//        addControlFullWidth( exp );
 
         JButton createDetectorArray = new JButton( "Create Detector Array" );
         createDetectorArray.addActionListener( new ActionListener() {
@@ -105,7 +105,6 @@ public class SingleParticleControlPanel extends SchrodingerControlPanel {
 
         }
     }
-
 
     private VerticalLayoutPanel createExpectationPanel() {
         VerticalLayoutPanel lay = new ObservablePanel( getSchrodingerPanel() );
