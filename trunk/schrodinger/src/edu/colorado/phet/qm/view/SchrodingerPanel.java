@@ -6,7 +6,6 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.qm.SchrodingerModule;
-import edu.colorado.phet.qm.controls.DoubleSlitCheckBox;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.phetcommon.RulerGraphic;
@@ -34,8 +33,14 @@ public class SchrodingerPanel extends ApparatusPanel2 {
     private IntensityDisplay intensityDisplay;
     private RulerGraphic rulerGraphic;
     private ArrayList detectorGraphics = new ArrayList();
-    private PhetGraphic doubleSlitCheckBoxGraphic;
-    private PhetGraphic configureSlitButtonGraphic;
+    private PhetGraphic doubleSlitPanelGraphic;
+    private DoubleSlitPanel doubleSlitPanel;
+//    private PhetGraphic doubleSlitCheckBoxGraphic;
+//    private PhetGraphic configureSlitButtonGraphic;
+
+    public DoubleSlitPanel getDoubleSlitPanel() {
+        return doubleSlitPanel;
+    }
 
     public SchrodingerPanel( SchrodingerModule module ) {
         super( module.getClock() );
@@ -68,30 +73,38 @@ public class SchrodingerPanel extends ApparatusPanel2 {
             }
         } );
 
-        DoubleSlitCheckBox doubleSlitCheckBox = new DoubleSlitCheckBox( getDiscreteModel() );
-        doubleSlitCheckBoxGraphic = PhetJComponent.newInstance( this, doubleSlitCheckBox );
-        addGraphic( doubleSlitCheckBoxGraphic );
-        doubleSlitCheckBoxGraphic.setLocation( getWavefunctionGraphic().getX() + getWavefunctionGraphic().getWidth(), getWavefunctionGraphic().getY() + getWavefunctionGraphic().getHeight() / 2 );
+        doubleSlitPanel = new DoubleSlitPanel( getDiscreteModel() );
+        doubleSlitPanelGraphic = PhetJComponent.newInstance( this, doubleSlitPanel );
+        addGraphic( doubleSlitPanelGraphic );
+        doubleSlitPanelGraphic.setLocation( getWavefunctionGraphic().getX() + getWavefunctionGraphic().getWidth() - 40, getWavefunctionGraphic().getY() + getWavefunctionGraphic().getHeight() / 2 - doubleSlitPanelGraphic.getHeight() / 2 );
 
-        ConfigureSlitButton configureSlitButton = new ConfigureSlitButton( module.getPhetFrame(), getDiscreteModel().getDoubleSlitPotential() );
-        configureSlitButtonGraphic = PhetJComponent.newInstance( this, configureSlitButton );
-        addGraphic( configureSlitButtonGraphic );
-        putBelow( getConfigureSlitButtonGraphic(), doubleSlitCheckBoxGraphic, 5 );
+//        DoubleSlitCheckBox doubleSlitCheckBox = new DoubleSlitCheckBox( getDiscreteModel() );
+//        doubleSlitCheckBoxGraphic = PhetJComponent.newInstance( this, doubleSlitCheckBox );
+//        addGraphic( doubleSlitCheckBoxGraphic );
+//        doubleSlitCheckBoxGraphic.setLocation( getWavefunctionGraphic().getX() + getWavefunctionGraphic().getWidth(), getWavefunctionGraphic().getY() + getWavefunctionGraphic().getHeight() / 2 );
+//
+//        ConfigureSlitButton configureSlitButton = new ConfigureSlitButton( module.getPhetFrame(), getDiscreteModel().getDoubleSlitPotential() );
+//        configureSlitButtonGraphic = PhetJComponent.newInstance( this, configureSlitButton );
+//        addGraphic( configureSlitButtonGraphic );
+//        putBelow( getConfigureSlitButtonGraphic(), doubleSlitCheckBoxGraphic, 5 );
 //        configureSlitButtonGraphic.setLocation( doubleSlitCheckBoxGraphic.getX(), doubleSlitCheckBoxGraphic.getY() + doubleSlitCheckBoxGraphic.getHeight() + 2 );
 
     }
 
-    protected PhetGraphic getConfigureSlitButtonGraphic() {
-        return configureSlitButtonGraphic;
+//    protected PhetGraphic getConfigureSlitButtonGraphic() {
+//        return doubleSlitPanelGraphic;
+//    }
+    public PhetGraphic getDoubleSlitPanelGraphic() {
+        return doubleSlitPanelGraphic;
     }
 
     protected void putBelow( PhetGraphic obj, PhetGraphic parent, int insetY ) {
         obj.setLocation( parent.getX(), parent.getY() + parent.getHeight() + insetY );
     }
 
-    protected PhetGraphic getDoubleSlitCheckBoxGraphic() {
-        return doubleSlitCheckBoxGraphic;
-    }
+//    protected PhetGraphic getDoubleSlitCheckBoxGraphic() {
+//        return doubleSlitCheckBoxGraphic;
+//    }
 
     protected void updateScreen() {
         intensityDisplay.tryDetecting();

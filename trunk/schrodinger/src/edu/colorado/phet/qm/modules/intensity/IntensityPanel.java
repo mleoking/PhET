@@ -12,6 +12,9 @@ import edu.colorado.phet.qm.view.colormaps.SplitColorMap;
 import edu.colorado.phet.qm.view.gun.HighIntensityGun;
 import edu.colorado.phet.qm.view.gun.Photon;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /**
  * User: Sam Reid
  * Date: Jul 7, 2005
@@ -40,7 +43,13 @@ public class IntensityPanel extends SchrodingerPanel {
         smoothIntensityDisplay = new SmoothIntensityDisplay( getIntensityDisplay() );
         setSmoothScreen( false );
 
-        PhetGraphic ds = getDoubleSlitCheckBoxGraphic();
+        PhetGraphic ds = getDoubleSlitPanelGraphic();
+        getDoubleSlitPanel().addDoubleSlitCheckBoxListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                setControlsEnabled( getDoubleSlitPanel().isDoubleSlitEnabled() );
+            }
+        } );
+
         slitControlPanel = new SlitControlPanel( intensityModule );
         slitControlGraphic = PhetJComponent.newInstance( this, slitControlPanel );
         addGraphic( slitControlGraphic );
@@ -51,7 +60,12 @@ public class IntensityPanel extends SchrodingerPanel {
 
         splitColorMap = new SplitColorMap( intensityModule.getSplitModel(), this );//this.intensityModule.getSplitModel() );
 
-        putBelow( getConfigureSlitButtonGraphic(), slitControlGraphic, 3 );
+        setControlsEnabled( getDoubleSlitPanel().isDoubleSlitEnabled() );
+//        putBelow( getDoubleSlitPanelGraphic(), slitControlGraphic, 3 );
+    }
+
+    private void setControlsEnabled( boolean doubleSlitEnabled ) {
+        slitControlPanel.setEnabled( doubleSlitEnabled );
     }
 
     protected HighIntensityGun createGun() {
