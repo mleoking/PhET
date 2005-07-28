@@ -63,7 +63,7 @@ public class SignalApplet extends JApplet {
         SimStrings.init( args, localizedStringsPath );
         
         SignalApplet.applet = false;
-        JFrame f = new JFrame();
+        JFrame f = new JFrame( SimStrings.get( "SignalCircuitApplication.title" ));
         f.setContentPane( new SignalApplet() );
         f.setSize( new Dimension( 850, 435 ) );
         f.setVisible( true );

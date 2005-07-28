@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<jnlp 
+  spec="1.0+" 
+  codebase="http://www.colorado.edu/physics/phet/simulations"
+  href="signalcircuit/signalcircuit_es.jnlp"> 
+  <information> 
+    <title>Signal Circuit</title> 
+    <vendor>University of Colorado, Department of Physics</vendor> 
+    <homepage href="http://www.colorado.edu/physics/phet"/> 
+    <description>Shows the propagation of a signal through an electrical circuit.</description>  
+    <description kind="short">Shows the propagation of an electrical signal.</description>  
+    <icon href="icons/PhET.gif"/> 
+    <icon kind="splash" href="icons/PhET.gif"/> 
+    <offline-allowed/> 
+  </information> 
+
+  <security>
+  </security>
+
+  <resources> 
+    <j2se version="1.4+"/> 
+    <jar href="signalcircuit/signalcircuit.jar"/> 
+
+  </resources> 
+
+  <application-desc main-class="edu.colorado.phet.signal.SignalApplet"> 
+    <argument>user.language=es</argument>
+  </application>
+</jnlp> 
