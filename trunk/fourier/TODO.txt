@@ -9,7 +9,7 @@ HIGH PRIORITY:
 - add support for persistence
 - chart draws plots on top of help items (Mac only?)
 - anti-aliasing of plots gets turned off
-- hide wiggle me when user clicks anywhere
+- wiggle me isn't hidden when user clicks in the control panel
 - publish v1r0 with Discrete module only
 
 MEDIUM PRIORITY:
