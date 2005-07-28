@@ -40,7 +40,7 @@ public class FourierApplication extends PhetApplication {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final boolean TEST_ONE_MODULE = true;
+    private static final boolean TEST_ONE_MODULE = false;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -122,7 +122,7 @@ public class FourierApplication extends PhetApplication {
         // Get stuff needed to initialize the application model.
         String title = SimStrings.get( "FourierApplication.title" );
         String description = SimStrings.get( "FourierApplication.description" );
-        String version = Version.NUMBER;
+        String version = Version.BUILD; //Version.NUMBER;
         int width = FourierConfig.APP_FRAME_WIDTH;
         int height = FourierConfig.APP_FRAME_HEIGHT;
         FrameSetup frameSetup = new FrameSetup.CenteredWithSize( width, height );

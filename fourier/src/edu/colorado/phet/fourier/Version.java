@@ -21,7 +21,7 @@ package edu.colorado.phet.fourier;
 public class Version {
   
     public static final String NUMBER = "1.0";
-    public static final String BUILD = "fourier-v1r0-2005-07-27";
+    public static final String BUILD = "fourier-sandbox-2005-07-29";
     
     /* This class is not intended for instantiation. */
     private Version() {}
