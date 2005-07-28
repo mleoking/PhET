@@ -42,6 +42,10 @@ public class SchrodingerControlPanel extends ControlPanel {
         this.module = module;
 
         this.initialConditionPanel = createInitialConditionPanel();
+//        JPanel spacer=new JPanel( );
+//        spacer.setPreferredSize( new Dimension( 100,1) );
+//        addFullWidth( spacer );
+        
         AdvancedPanel advancedICPanel = new AdvancedPanel( "Show>>", "Hide<<" );
         advancedICPanel.addControlFullWidth( this.initialConditionPanel );
         advancedICPanel.setBorder( BorderFactory.createTitledBorder( "Initial Conditions" ) );
