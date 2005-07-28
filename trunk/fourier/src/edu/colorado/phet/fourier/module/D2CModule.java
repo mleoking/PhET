@@ -19,6 +19,7 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.control.D2CControlPanel;
+import edu.colorado.phet.fourier.help.FourierHelpItem;
 
 
 /**
@@ -93,6 +94,11 @@ public class D2CModule extends FourierModule {
         //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------
+        
+        // Help Items
+        FourierHelpItem someHelp = new FourierHelpItem( apparatusPanel, "Hang on, help is coming soon" );
+        someHelp.setLocation( 200, 200 );
+        addHelpItem( someHelp );
     }
     
     //----------------------------------------------------------------------------
