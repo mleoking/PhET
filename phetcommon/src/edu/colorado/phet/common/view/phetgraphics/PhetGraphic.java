@@ -251,20 +251,20 @@ public abstract class PhetGraphic {
     public RenderingHints getRenderingHints() {
         return renderingHints;
     }
-  
+
     public void setClip( Shape clip ) {
         this.clip = clip;
     }
-    
+
     public Shape getClip() {
         return clip;
     }
 
     /**
      * Updates the graphics state to include changes that are specific for this graphic.
-     * Subclasses should call this method in their paint method, immediately after 
+     * Subclasses should call this method in their paint method, immediately after
      * calling saveGraphicsState.
-     * 
+     *
      * @param g2
      */
     protected void updateGraphicsState( Graphics2D g2 ) {
@@ -819,7 +819,7 @@ public abstract class PhetGraphic {
     public void addPhetGraphicListener( PhetGraphicListener phetGraphicListener ) {
         listeners.add( phetGraphicListener );
     }
-    
+
     public void removePhetGraphicListener( PhetGraphicListener phetGraphicListener ) {
         listeners.remove( phetGraphicListener );
     }
@@ -1027,7 +1027,7 @@ public abstract class PhetGraphic {
      * @param cursor the cursor
      */
     public void setCursor( Cursor cursor ) {
-        if( cursor == null && cursorControl != null ) {
+        if( cursorControl != null ) {
             removeCursor();
         }
         if( cursorControl == null ) {
@@ -1048,6 +1048,7 @@ public abstract class PhetGraphic {
      */
     public void removeCursor() {
         removeMouseInputListener( cursorControl );
+        cursorControl = null;
     }
     
     //----------------------------------------------------------------------------
