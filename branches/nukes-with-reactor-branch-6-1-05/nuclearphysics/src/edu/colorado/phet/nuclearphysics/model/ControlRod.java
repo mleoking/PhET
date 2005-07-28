@@ -17,6 +17,7 @@ import edu.colorado.phet.nuclearphysics.controller.ControlledFissionModule;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RectangularShape;
 import java.util.EventListener;
 import java.util.EventObject;
 import java.util.List;
@@ -120,6 +121,11 @@ public class ControlRod implements ModelElement {
 
     public void setAbsorptionProbability( double probability ) {
         this.absoprtionProbability = probability;
+    }
+
+    public Point2D getLocation() {
+        return new Point2D.Double( rep.getBounds2D().getMinX() + rep.getBounds2D().getWidth() / 2,
+                                   rep.getBounds2D().getMinY() );
     }
 
     public class ChangeEvent extends EventObject {

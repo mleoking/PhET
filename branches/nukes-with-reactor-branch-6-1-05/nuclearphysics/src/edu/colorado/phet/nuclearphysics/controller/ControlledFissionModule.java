@@ -122,12 +122,17 @@ public class ControlledFissionModule extends ChainReactionModule {
         VesselBackgroundPanel vesselBackgroundPanel = new VesselBackgroundPanel( getPhysicalPanel(), vessel );
         getPhysicalPanel().addOriginCenteredGraphic( vesselBackgroundPanel, ApparatusPanel.LAYER_DEFAULT - 1 );
 
-        // Add control rods. In case we are in a reset, get rid of the old ones first
+        // Add control rods. In case we are in a reset, get rid of the old ones first.
+        // If it's not a reset, set the location of the rods to be at the top of the
+        // vessel. If it is a reset, set the new rods to be at the same height as the
+        // old ones
+        double controlRodPositionY = vessel.getChannels()[0].getMinY();
         for( int i = 0; controlRods != null && i < controlRods.length; i++ ) {
             ControlRod controlRod = controlRods[i];
             getModel().removeModelElement( controlRod );
+            controlRodPositionY = controlRod.getLocation().getY();
         }
-        controlRods = createControlRods( VERTICAL, vessel );
+        controlRods = createControlRods( controlRodPositionY, vessel );
         controlRodGroupGraphic = new ControlRodGroupGraphic( getPhysicalPanel(),
                                                              controlRods,
                                                              vessel,
@@ -154,28 +159,27 @@ public class ControlledFissionModule extends ChainReactionModule {
     /**
      * Creates a control rod for each channel in the specified vessel
      *
-     * @param orientation
+     * @param yMin   The y position of the top of the rod
      * @param vessel
      * @return
      */
-    private ControlRod[] createControlRods( int orientation, Vessel vessel ) {
+    private ControlRod[] createControlRods( double yMin, Vessel vessel ) {
         ControlRod[] rods = new ControlRod[vessel.getNumControlRodChannels()];
         NuclearPhysicsModel model = (NuclearPhysicsModel)getModel();
-        if( orientation == VERTICAL ) {
-            Rectangle2D[] channels = vessel.getChannels();
-            for( int i = 0; i < channels.length; i++ ) {
-                Rectangle2D channel = channels[i];
-                // The computation of the x coordinate may look funny. Here's why it's the way it is: The rod is
-                // specified by its centerline, rather than its corner. The second offset of half the channel width
-                // is there to make all the rods evenly spaced within the vessel.
-                rods[i] = new ControlRod( new Point2D.Double( channel.getMinX() + ( channel.getWidth() ) / 2,
-                                                              channel.getMinY() ),
-                                          new Point2D.Double( channel.getMinX() + channel.getWidth() / 2,
-                                                              channel.getMaxY() ), channel.getWidth(),
-                                          model,
-                                          rodAbsorptionProbability );
-                model.addModelElement( rods[i] );
-            }
+        Rectangle2D[] channels = vessel.getChannels();
+        for( int i = 0; i < channels.length; i++ ) {
+            Rectangle2D channel = channels[i];
+            // The computation of the x coordinate may look funny. Here's why it's the way it is: The rod is
+            // specified by its centerline, rather than its corner. The second offset of half the channel width
+            // is there to make all the rods evenly spaced within the vessel.
+            rods[i] = new ControlRod( new Point2D.Double( channel.getMinX() + ( channel.getWidth() ) / 2,
+                                                          yMin ),
+//                                                          channel.getMinY() ),
+                                      new Point2D.Double( channel.getMinX() + channel.getWidth() / 2,
+                                                          yMin + ( channel.getMaxY() - channel.getMinY()) ), channel.getWidth(),
+                                      model,
+                                      rodAbsorptionProbability );
+            model.addModelElement( rods[i] );
         }
         return rods;
     }
