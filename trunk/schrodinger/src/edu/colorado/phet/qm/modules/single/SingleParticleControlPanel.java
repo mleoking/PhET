@@ -66,7 +66,7 @@ public class SingleParticleControlPanel extends SchrodingerControlPanel {
         JRadioButton realGray = createVisualizationButton( "Real Part", getSchrodingerPanel().getWavefunctionGraphic().getRealColorMap(), false, buttonGroup );
         colorPanel.addFullWidth( realGray );
 
-        JRadioButton complexGray = createVisualizationButton( "Imaginary Part", getSchrodingerPanel().getWavefunctionGraphic().getImagColorMap(), false, buttonGroup );
+        JRadioButton complexGray = createVisualizationButton( "Imaginary Part        ", getSchrodingerPanel().getWavefunctionGraphic().getImagColorMap(), false, buttonGroup );
         colorPanel.addFullWidth( complexGray );
 
         JRadioButton visualTM = createVisualizationButton( "Phase Color", new VisualColorMap( getSchrodingerPanel() ), false, buttonGroup );
