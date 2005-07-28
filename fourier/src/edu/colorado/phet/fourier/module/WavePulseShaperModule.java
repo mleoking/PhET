@@ -20,6 +20,7 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.control.FourierControlPanel;
 import edu.colorado.phet.fourier.control.WavePulseShaperControlPanel;
+import edu.colorado.phet.fourier.help.FourierHelpItem;
 
 
 /**
@@ -93,6 +94,11 @@ public class WavePulseShaperModule extends FourierModule {
         //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------
+        
+        // Help Items
+        FourierHelpItem someHelp = new FourierHelpItem( apparatusPanel, "Hang on, help is coming soon" );
+        someHelp.setLocation( 200, 250 );
+        addHelpItem( someHelp );
     }
     
     //----------------------------------------------------------------------------

@@ -6,6 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- add support for persistence
 - chart draws plots on top of help items (Mac only?)
 - anti-aliasing of plots gets turned off
 - hide wiggle me when user clicks anywhere
@@ -14,7 +15,6 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 - relocate the Help on the text fields in Discrete module
 - FourierHelp.pointAt(Point,...) doesn't actually point at the specific Point
-- add support for persistence
 - crashes after running for ~40 minutes (memory leak?)
 - something is hammering the processor when the sim should be idle
 
@@ -65,6 +65,7 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(7/29) - add a dummy help item to each incomplete module, so that Help button is visible
 (7/29) - change "Minimizes this graph" to "Minimize this graph"
 (7/29) - move all version information to Version class
 (7/29) - remove build tag from version in FourierApplication, will need to get it in there some other way
