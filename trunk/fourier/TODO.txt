@@ -14,7 +14,8 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - relocate the Help on the text fields in Discrete module
-- FourierHelp.pointAt(Point,...) doesn't actually point at the specific Point
+- bug: FourierHelp.pointAt(Point,...) doesn't actually point at the specific Point
+- add more arrow options to FourierHelp
 - crashes after running for ~40 minutes (memory leak?)
 - something is hammering the processor when the sim should be idle
 
@@ -24,8 +25,8 @@ LOW PRIORITY:
 - PeriodDisplay is an observer of its harmonic, should it be?
 - get rid of Vector2D if it continues to be used only by WiggleMeGraphic
 - break up DiscreteControlPanel into subpanels that can be reused in other modules
-- refactor 9chart config?) out of HarmonicsChart, SumChart and AmplitudesChart
-- waveform anti-aliasing/stroke visually changes when you start to drag wavelength/period tools
+- refactor chart config out of HarmonicsChart, SumChart and AmplitudesChart
+- grayed out waveforms anti-aliasing/stroke visually changes when you start to drag wavelength/period tools
 - smaller font for equation subscripts
 - Help
 - MegaHelp
