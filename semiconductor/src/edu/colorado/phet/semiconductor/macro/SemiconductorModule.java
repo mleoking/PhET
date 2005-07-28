@@ -63,7 +63,7 @@ import java.util.Locale;
  */
 public class SemiconductorModule extends Module implements Graphic {
     // Localization
-    public static final String localizedStringsPath = "localization/SemiConductorStrings";
+    public static final String localizedStringsPath = "localization/SemiconductorsStrings";
 
     CircuitSection circuitSection;
     EnergySection energySection;
