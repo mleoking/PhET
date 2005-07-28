@@ -12,6 +12,7 @@ HIGH PRIORITY:
 - publish v1r0 with Discrete module only
 
 MEDIUM PRIORITY:
+- relocate the Help on the text fields in Discrete module
 - FourierHelp.pointAt(Point,...) doesn't actually point at the specific Point
 - add support for persistence
 - crashes after running for ~40 minutes (memory leak?)
@@ -64,6 +65,10 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(7/29) - change "Minimizes this graph" to "Minimize this graph"
+(7/29) - move all version information to Version class
+(7/29) - remove build tag from version in FourierApplication, will need to get it in there some other way
+(7/29) - phetcommon: add the version number to the titlebar
 v1r00...
 (7/28) - change title back to "Fourier: Making Waves"
 (7/28) - add version number to title
