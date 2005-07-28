@@ -17,6 +17,10 @@ import java.util.Vector;
 
 /**
  * SimStrings
+ * <p>
+ * Manages strings for simulations so that they can be localized. All methods are static.
+ * <p>
+ * Call setStrings() for each resource bundle of strings that a simulation needs to access.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -27,23 +31,27 @@ public class SimStrings {
     private static Vector stringsPaths;
     private static Locale localizedLocale;
 
+    static {
+        SimStrings.setStrings( "localization/CommonStrings" );
+    }
+
     /**
      * Initialize application localization.
-     * 
-     * @param args the commandline arguments that were passed to main
+     *
+     * @param args       the commandline arguments that were passed to main
      * @param bundleName the base name of the resource bundle containing localized strings
      */
     public static void init( String[] args, String bundleName ) {
         // Get the default locale from property javaws.locale.
         String applicationLocale = System.getProperty( "javaws.locale" );
-        if ( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
             SimStrings.setLocale( new Locale( applicationLocale ) );
         }
 
         // Override default locale using "user.language=" command line argument.
         String argsKey = "user.language=";
-        for ( int i = 0; i < args.length; i++ ) {
-            if ( args[i].startsWith( argsKey ) ) {
+        for( int i = 0; i < args.length; i++ ) {
+            if( args[i].startsWith( argsKey ) ) {
                 String locale = args[i].substring( argsKey.length(), args[i].length() );
                 SimStrings.setLocale( new Locale( locale ) );
                 break;
