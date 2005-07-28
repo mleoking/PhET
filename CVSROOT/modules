@@ -127,3 +127,6 @@ localizations localizations
 
 # Battery-Resistance
 battery-resistance ohm1d
+
+# Semiconductors
+semiconductor semiconductor
