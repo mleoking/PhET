@@ -55,7 +55,7 @@ public class PhetFrame extends JFrame {
     public PhetFrame( PhetApplication application, String title, final AbstractClock clock, FrameSetup frameSetup,
                       boolean useClockControlPanel, ModuleManager moduleManager,
                       String description, String version ) throws HeadlessException {
-        super( title );
+        super( title + " (" + version + ")" );
         this.application = application;
         this.frameSetup = frameSetup;
 
