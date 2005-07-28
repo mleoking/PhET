@@ -29,7 +29,7 @@ public class RectangularPotentialGraphic extends RectangleGraphic {
     private DecimalFormat format = new DecimalFormat( "0.00" );
     private PhetTextGraphic potDisplay;
     private PhetGraphic closeGraphic;
-    private PhetGraphic editGraphic;
+//    private PhetGraphic editGraphic;
 
     public RectangularPotentialGraphic( SchrodingerPanel component, final RectangularPotential potential ) {
         super( component, potential, new Color( 255, 30, 0, 45 ) );
@@ -62,16 +62,16 @@ public class RectangularPotentialGraphic extends RectangleGraphic {
         addGraphic( closeGraphic );
         closeGraphic.setLocation( -closeGraphic.getWidth() - 2, 0 );
 
-        JButton editButton = new JButton( "Edit" );
-        editButton.setMargin( new Insets( 1, 1, 1, 1 ) );
-        editButton.setFont( new Font( "Lucida Sans", Font.PLAIN, 12 ) );
-        editButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                changePotential();
-            }
-        } );
-        editGraphic = PhetJComponent.newInstance( getSchrodingerPanel(), editButton );
-        addGraphic( editGraphic );
+//        JButton editButton = new JButton( "Edit" );
+//        editButton.setMargin( new Insets( 1, 1, 1, 1 ) );
+//        editButton.setFont( new Font( "Lucida Sans", Font.PLAIN, 12 ) );
+//        editButton.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                changePotential();
+//            }
+//        } );
+//        editGraphic = PhetJComponent.newInstance( getSchrodingerPanel(), editButton );
+//        addGraphic( editGraphic );
 
         update();
     }
@@ -142,7 +142,7 @@ public class RectangularPotentialGraphic extends RectangleGraphic {
         potDisplay.setText( "" );
         potDisplay.setLocation( (int)viewRect.getX(), (int)viewRect.getY() );
         closeGraphic.setLocation( (int)viewRect.getX() - closeGraphic.getWidth() - 2, (int)viewRect.getY() );
-        editGraphic.setLocation( closeGraphic.getX(), closeGraphic.getY() + closeGraphic.getHeight() + 2 );
+//        editGraphic.setLocation( closeGraphic.getX(), closeGraphic.getY() + closeGraphic.getHeight() + 2 );
     }
 
     public Potential getPotential() {

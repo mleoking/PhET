@@ -98,6 +98,7 @@ public class WavefunctionGraphic extends GraphicLayerSet {
         repaintAll();
         imageGraphic.setBoundsDirty();
         imageGraphic.autorepaint();
+        schrodingerPanel.paintImmediately( 0, 0, schrodingerPanel.getWidth(), schrodingerPanel.getHeight() );
     }
 
     public boolean isDisplayXExpectation() {

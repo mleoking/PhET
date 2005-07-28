@@ -57,7 +57,7 @@ public class SingleParticleControlPanel extends SchrodingerControlPanel {
 
     private VerticalLayoutPanel createVisualizationPanel() {
         VerticalLayoutPanel colorPanel = new VerticalLayoutPanel();
-        colorPanel.setBorder( BorderFactory.createTitledBorder( "Color Scheme" ) );
+        colorPanel.setBorder( BorderFactory.createTitledBorder( "Wave Function Display" ) );
         ButtonGroup buttonGroup = new ButtonGroup();
 
         JRadioButton grayMag = createVisualizationButton( "Magnitude", getSchrodingerPanel().getWavefunctionGraphic().getMagnitudeColorMap(), true, buttonGroup );

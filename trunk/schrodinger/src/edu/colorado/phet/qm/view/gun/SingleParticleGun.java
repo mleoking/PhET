@@ -29,6 +29,7 @@ public class SingleParticleGun extends AbstractGun {
     private ImageIcon outIcon;
     private ImageIcon inIcon;
     private PhotonBeamParticle photonBeamParticle;
+    private PhetGraphic fireJC;
 
     public SingleParticleGun( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
@@ -50,30 +51,42 @@ public class SingleParticleGun extends AbstractGun {
         }
         fireOne.addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
-                fireOne.setIcon( inIcon );
+                if( fireButtonEnabled() ) {
+                    fireOne.setIcon( inIcon );
+                }
             }
 
             public void mouseReleased( MouseEvent e ) {
-                fireOne.setIcon( outIcon );
+                if( fireButtonEnabled() ) {
+                    fireOne.setIcon( outIcon );
+                }
             }
         } );
 
         fireOne.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                fireOne.setEnabled( false );
                 clearAndFire();
+                fireOne.setIcon( outIcon );
+                getGunImageGraphic().clearTransform();
+                getSchrodingerPanel().setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
             }
         } );
         fireOne.addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
-                getGunImageGraphic().clearTransform();
-                getGunImageGraphic().translate( 0, 10 );
+                if( fireButtonEnabled() ) {
+                    getGunImageGraphic().clearTransform();
+                    getGunImageGraphic().translate( 0, 10 );
+                }
             }
 
             public void mouseReleased( MouseEvent e ) {
-                getGunImageGraphic().clearTransform();
+                if( fireButtonEnabled() ) {
+                    getGunImageGraphic().clearTransform();
+                }
             }
         } );
-        PhetGraphic fireJC = PhetJComponent.newInstance( schrodingerPanel, fireOne );
+        fireJC = PhetJComponent.newInstance( schrodingerPanel, fireOne );
         fireJC.setCursorHand();
         addGraphic( fireJC );
         fireJC.setLocation( getGunImageGraphic().getWidth() + 2 + getFireButtonInsetDX(), getControlOffsetY() + 0 );
@@ -94,15 +107,27 @@ public class SingleParticleGun extends AbstractGun {
         autoJC.setLocation( fireJC.getX(), fireJC.getY() + fireJC.getHeight() + 5 );
     }
 
+    private boolean fireButtonEnabled() {
+        return fireOne.isEnabled();
+    }
+
     private void addButtonEnableDisable() {
         getSchrodingerModule().getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 double magnitude = getSchrodingerModule().getDiscreteModel().getWavefunction().getMagnitude();
                 if( magnitude == 0 ) {
-                    fireOne.setEnabled( true );
+                    if( !fireButtonEnabled() ) {
+                        fireOne.setEnabled( true );
+                        fireJC.setCursorHand();
+                    }
+
                 }
                 else {
-                    fireOne.setEnabled( false );
+                    if( fireButtonEnabled() ) {
+                        fireOne.setEnabled( false );
+                        fireJC.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+                    }
+
                 }
             }
         } );
