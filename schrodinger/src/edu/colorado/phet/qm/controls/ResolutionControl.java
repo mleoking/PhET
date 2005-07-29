@@ -23,7 +23,7 @@ public class ResolutionControl extends AdvancedPanel {
         super( "Resolution>>", "Resolution<<" );
         this.schrodingerControlPanel = schrodingerControlPanel;
 
-        JLabel screenSizeLabel = new JLabel( "Wave Area Size" );
+        JLabel screenSizeLabel = new JLabel( "Grid Resolution" );
         addControl( screenSizeLabel );
         int defaultWidth = 60;
         final JSpinner screenSize = new JSpinner( new SpinnerNumberModel( defaultWidth, 5, 200, 5 ) );
@@ -37,7 +37,7 @@ public class ResolutionControl extends AdvancedPanel {
         } );
         addControl( screenSize );
 
-        JLabel numSkip = new JLabel( "Frame Skip" );
+        JLabel numSkip = new JLabel( "Time Step" );
         addControl( numSkip );
         final JSpinner frameSkip = new JSpinner( new SpinnerNumberModel( WavefunctionGraphic.numIterationsBetwenScreenUpdate, 1, 20, 1 ) );
         frameSkip.addChangeListener( new ChangeListener() {
