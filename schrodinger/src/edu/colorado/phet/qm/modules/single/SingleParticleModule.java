@@ -16,6 +16,7 @@ import edu.colorado.phet.qm.model.DiscreteModel;
 public class SingleParticleModule extends SchrodingerModule {
     public SingleParticleModule( SchrodingerApplication clock ) {
         super( "Single Particles", clock );
+//        setDiscreteModel( new DiscreteModel( 100, 100 ) );
         setDiscreteModel( new DiscreteModel( 100, 100 ) );
 //        setDiscreteModel( new DiscreteModel( 40,40) );
         setSchrodingerPanel( new SingleParticlePanel( this ) );

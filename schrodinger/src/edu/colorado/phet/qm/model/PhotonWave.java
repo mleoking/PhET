@@ -80,7 +80,7 @@ public class PhotonWave {
         final PlaneWave planeWave = new PlaneWave( momentum, getDiscreteModel().getGridWidth() );
         planeWave.setPhase( phase );
         planeWave.setMagnitude( waveMagnitude );
-        return new FlatDampedWave( planeWave, intensity * intensityScale );
+        return new FlatDampedWave( planeWave, intensity * intensityScale, getDiscreteModel().getGridWidth() );
     }
 
     private Rectangle createRectRegionForCylinder() {

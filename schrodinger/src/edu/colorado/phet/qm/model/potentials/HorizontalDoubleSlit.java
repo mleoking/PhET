@@ -25,6 +25,17 @@ public class HorizontalDoubleSlit implements Potential {
     private Rectangle leftSlit;
     private Rectangle rightSlit;
 
+    public void reset( int gridWidth, int gridHeight, int y, int height, int slitSize, int slitSeparation, double potential ) {
+        this.gridWidth = gridWidth;
+        this.gridHeight = gridHeight;
+        this.y = y;
+        this.height = height;
+        this.slitSize = slitSize;
+        this.slitSeparation = slitSeparation;
+        this.potential = potential;
+        update();
+    }
+
     public static interface Listener {
         public void slitChanged();
     }

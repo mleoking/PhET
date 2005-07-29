@@ -189,6 +189,7 @@ public class Wavefunction {
 
     public void setSize( int width, int height ) {
         wavefunction = new Complex[width][height];
+        clear();
     }
 
     public Wavefunction copy() {

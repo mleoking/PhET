@@ -228,4 +228,9 @@ public class SchrodingerPanel extends ApparatusPanel2 {
     public Photon getDisplayPhotonColor() {
         return photon;
     }
+
+    public void setWaveSize( int width, int height ) {
+        wavefunctionGraphic.setWaveSize( width, height );
+        intensityDisplay.setWaveSize( width, height );
+    }
 }

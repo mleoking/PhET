@@ -18,6 +18,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 /**
@@ -29,7 +30,7 @@ import java.awt.image.BufferedImage;
 
 public class WavefunctionGraphic extends GraphicLayerSet {
 
-    private int numIterationsBetwenScreenUpdate = 1;
+    public static int numIterationsBetwenScreenUpdate = 1;
 
     private boolean displayXExpectation;
     private boolean displayYExpectation;
@@ -47,6 +48,7 @@ public class WavefunctionGraphic extends GraphicLayerSet {
     private MagnitudeColorMap magnitudeColorMap;
     private MagnitudeColorMap realColorMap;
     private MagnitudeColorMap imagColorMap;
+    private double wavefunctionScale = 1.0;
 
     public WavefunctionGraphic( final SchrodingerPanel schrodingerPanel ) {
         this.schrodingerPanel = schrodingerPanel;
@@ -202,5 +204,18 @@ public class WavefunctionGraphic extends GraphicLayerSet {
         magnitudeColorMap.setPhoton( photon );
         realColorMap.setPhoton( photon );
         imagColorMap.setPhoton( photon );
+    }
+
+    public void setWaveSize( int width, int height ) {
+        colorGrid.setModelSize( width, height );
+        imageGraphic.setImage( colorGrid.getBufferedImage() );
+        double aspectRatio = colorGrid.getBufferedImage().getWidth() / ( (double)colorGridWidth );
+        imageGraphic.setTransform( new AffineTransform() );
+        wavefunctionScale = 1.0 / aspectRatio;
+        imageGraphic.scale( wavefunctionScale );
+    }
+
+    public double getWaveImageScaleX() {
+        return wavefunctionScale;
     }
 }

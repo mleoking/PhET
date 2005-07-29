@@ -20,13 +20,14 @@ public class MandelDampedWave implements Wave {
 //    private double dxLattice = 10;
 //    private double dxLattice = 2;
 
-    public static double dxLattice = 4;
+    private double dxLattice = 4;
 //    private int radiusForMax = 3;
 
-    public MandelDampedWave( int x0, Wave wave, double intensity ) {
+    public MandelDampedWave( int x0, Wave wave, double intensity, int waveWidth ) {
         this.x0 = x0;
         this.wave = wave;
         this.intensity = intensity;
+        this.dxLattice = 4 * waveWidth / 100.0;
     }
 
     public Complex getValue( int i, int j, double simulationTime ) {

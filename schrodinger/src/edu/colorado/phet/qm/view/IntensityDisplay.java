@@ -73,6 +73,9 @@ public class IntensityDisplay extends GraphicLayerSet {
         detectorSheet.setFadeEnabled( selected );
     }
 
+    public void setWaveSize( int width, int height ) {
+    }
+
     public static interface Listener {
         void detectionOccurred();
     }
@@ -96,16 +99,18 @@ public class IntensityDisplay extends GraphicLayerSet {
 //        double randOffsetY = 2 * ( random.nextDouble() - 0.5 ) * screenGridWidth;
 //        System.out.println( "randOffsetY = " + randOffsetY );
         double randOffsetX = 0;
-        if( random.nextDouble() < 0.33 ) {
+        if( random.nextDouble() < 1.0 ) {
+            int randAmount = random.nextInt( 4 ) + 1;
             if( random.nextBoolean() ) {
-                randOffsetX = 1;
+                randOffsetX = -randAmount;
             }
             else {
-                randOffsetX = -1;
+                randOffsetX = randAmount;
             }
         }
 
         int x = (int)( linearFunction.evaluate( pt.x ) + randOffsetX );
+        x *= getWavePanelScale();
         int y = getDetectY();
 
 //        System.out.println( "x = " + x );
@@ -113,6 +118,10 @@ public class IntensityDisplay extends GraphicLayerSet {
         detectorSheet.addDetectionEvent( x, y );
 
 //        notifyDetection();
+    }
+
+    private double getWavePanelScale() {
+        return getSchrodingerPanel().getWavefunctionGraphic().getWaveImageScaleX();
     }
 
 

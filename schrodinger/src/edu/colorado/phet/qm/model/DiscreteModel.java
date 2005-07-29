@@ -339,6 +339,15 @@ public class DiscreteModel implements ModelElement {
         getPropagator().setWavefunctionNorm( norm );
     }
 
+    public void setWaveSize( int width, int height ) {
+        setGridSpacing( width, height );
+        double potentialValue = Double.MAX_VALUE / 1000;
+        doubleSlitPotential.reset( getGridWidth(),
+                                   getGridHeight(),
+                                   (int)( getGridHeight() * 0.4 ), 3, 8, 13, potentialValue );
+        clearWavefunction();
+    }
+
     public static interface Listener {
         void finishedTimeStep( DiscreteModel model );
 

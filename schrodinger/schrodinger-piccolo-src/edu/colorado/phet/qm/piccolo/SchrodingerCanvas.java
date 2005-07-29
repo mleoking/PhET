@@ -11,6 +11,7 @@ import edu.umd.cs.piccolo.util.PPaintContext;
 
 import javax.swing.*;
 import java.awt.geom.Point2D;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * User: Sam Reid
@@ -71,11 +72,27 @@ public class SchrodingerCanvas extends PSwingCanvas {
                     catch( InterruptedException e ) {
                         e.printStackTrace();
                     }
+
                     discreteModel.stepInTime( 1.0 );
+
+
                 }
             }
         } );
-
+        t.setPriority( Thread.MIN_PRIORITY );
+        try {
+            SwingUtilities.invokeAndWait( new Runnable() {
+                public void run() {
+                    Thread.currentThread().setPriority( Thread.MAX_PRIORITY );
+                }
+            } );
+        }
+        catch( InterruptedException e ) {
+            e.printStackTrace();
+        }
+        catch( InvocationTargetException e ) {
+            e.printStackTrace();
+        }
         SchrodingerCanvas schrodingerCanvas = new SchrodingerCanvas( discreteModel );
         schrodingerCanvas.setDefaultRenderQuality( PPaintContext.LOW_QUALITY_RENDERING );
         JFrame frame = new JFrame();
