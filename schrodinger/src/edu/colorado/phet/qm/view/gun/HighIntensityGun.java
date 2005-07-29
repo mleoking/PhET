@@ -31,6 +31,7 @@ public class HighIntensityGun extends AbstractGun {
     private HighIntensityBeam[] beams;
     private HighIntensityBeam currentBeam;
     private Photon photon;
+    private static final double MAX_INTENSITY_READOUT = 40;
 
     public HighIntensityGun( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
@@ -40,8 +41,9 @@ public class HighIntensityGun extends AbstractGun {
                 setOn( alwaysOnCheckBox.isSelected() );
             }
         } );
-        intensitySlider = new ModelSlider( "Intensity", "", 0, 1, 0, new DecimalFormat( "0.000" ) );
-        intensitySlider.setModelTicks( new double[]{0, 0.5, 1.0} );
+        intensitySlider = new ModelSlider( "Intensity ( particles/second )", "", 0, MAX_INTENSITY_READOUT, 0, new DecimalFormat( "0.000" ) );
+//        intensitySlider.setModelTicks( new double[]{0, 0.5, 1.0} );
+        intensitySlider.setModelTicks( new double[]{0, 10, 20, 30, 40} );
 //        intensitySlider = new JSlider( JSlider.HORIZONTAL, 0, 1000, 0 );
         intensitySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -116,7 +118,9 @@ public class HighIntensityGun extends AbstractGun {
     }
 
     private void updateIntensity() {
-        double intensity = new Function.LinearFunction( 0, 1, 0, 1 ).evaluate( intensitySlider.getValue() );
+        double intensity = new Function.LinearFunction( 0, MAX_INTENSITY_READOUT, 0, 1 ).evaluate( intensitySlider.getValue() );
+
+        System.out.println( "slidervalue=" + intensitySlider.getValue() + ", intensity = " + intensity );
         for( int i = 0; i < beams.length; i++ ) {
             beams[i].setIntensity( intensity );
         }

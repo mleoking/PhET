@@ -14,7 +14,6 @@ import edu.colorado.phet.qm.model.*;
 import edu.colorado.phet.qm.model.potentials.SimpleGradientPotential;
 import edu.colorado.phet.qm.model.propagators.*;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
-import edu.colorado.phet.qm.view.WavefunctionGraphic;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -150,29 +149,9 @@ public class SchrodingerControlPanel extends ControlPanel {
             }
         } );
 
+        ResolutionControl resolutionControl = new ResolutionControl( this );
+        addControl( resolutionControl );
 
-        JLabel screenSizeLabel = new JLabel( "Wave Area Size" );
-        addControl( screenSizeLabel );
-        final JSpinner screenSize = new JSpinner( new SpinnerNumberModel( 100, 5, 200, 5 ) );
-
-        screenSize.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                Integer value = (Integer)screenSize.getValue();
-                module.setWaveSize( value.intValue() );
-            }
-        } );
-        addControl( screenSize );
-
-        JLabel numSkip = new JLabel( "Frame Skip" );
-        addControl( numSkip );
-        final JSpinner frameSkip = new JSpinner( new SpinnerNumberModel( 1, 1, 20, 1 ) );
-        frameSkip.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                Integer val = (Integer)frameSkip.getValue();
-                WavefunctionGraphic.numIterationsBetwenScreenUpdate = val.intValue();
-            }
-        } );
-        addControl( frameSkip );
 
     }
 

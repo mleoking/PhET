@@ -32,7 +32,7 @@ public class IntensityModule extends SchrodingerModule {
 
     protected IntensityModule( String name, SchrodingerApplication app ) {
         super( name, app );
-        splitModel = new SplitModel( 100, 100 );
+        splitModel = new SplitModel();
         setDiscreteModel( splitModel );
         intensityPanel = createIntensityPanel();
         setSchrodingerPanel( intensityPanel );

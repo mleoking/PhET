@@ -119,7 +119,13 @@ public class DetectorSheet extends GraphicLayerSet {
         return image;
     }
 
+    DetectionIntensityCounter detectionIntensityCounter = new DetectionIntensityCounter();
+
+
     public void addDetectionEvent( int x, int y ) {
+        if( detectionIntensityCounter != null ) {
+            detectionIntensityCounter.addDetectionEvent();
+        }
 //        System.out.println( "add detect, x="+x+", y="+y+", opacity = " + opacity );
         detectorSheetPanel.setClearButtonVisible( true );
 
