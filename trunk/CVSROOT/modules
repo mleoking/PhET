@@ -130,3 +130,6 @@ battery-resistance ohm1d
 
 # Semiconductors
 semiconductor semiconductor
+
+# Energy conservation
+energyconservation energyconservation
