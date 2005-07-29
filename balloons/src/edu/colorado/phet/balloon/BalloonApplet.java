@@ -192,7 +192,8 @@ public class BalloonApplet extends JApplet implements IHelp {
         controlPanel.add( resetBtn );
         controlPanel.add( buttonPanel );
 
-        JCheckBox twoBalloons = new JCheckBox( "Two Balloons", false );
+        JCheckBox twoBalloons = new JCheckBox( SimStrings.get( "BalloonApplet.TwoBalloons"), false );
+//        JCheckBox twoBalloons = new JCheckBox( "Two Balloons", false );
         twoBalloons.addActionListener( new TwoBalloonsHandler( twoBalloons, blueBalloon ) );
 
         SetBalloonCharge sbc = ( new SetBalloonCharge( chargedBalloonBtn, bPainter, showNoCharges, showDiff, showAllCharges ) );
@@ -311,7 +312,7 @@ public class BalloonApplet extends JApplet implements IHelp {
         isApplet = false;
         BalloonApplet ba = new BalloonApplet();
         ba.init();
-        JFrame jf = new JFrame( "Balloons!" );
+        JFrame jf = new JFrame( SimStrings.get( "BalloonApplet.Title" ));
         jf.addWindowListener( new Exit() );
         jf.setContentPane( ba );
         jf.setSize( PANEL_WIDTH, PANEL_HEIGHT + ba.controlPanel.getPreferredSize().height + 10 );
