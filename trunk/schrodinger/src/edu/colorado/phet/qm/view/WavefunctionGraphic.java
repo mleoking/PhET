@@ -30,7 +30,7 @@ import java.awt.image.BufferedImage;
 
 public class WavefunctionGraphic extends GraphicLayerSet {
 
-    public static int numIterationsBetwenScreenUpdate = 1;
+    public static int numIterationsBetwenScreenUpdate = 2;
 
     private boolean displayXExpectation;
     private boolean displayYExpectation;
@@ -48,7 +48,9 @@ public class WavefunctionGraphic extends GraphicLayerSet {
     private MagnitudeColorMap magnitudeColorMap;
     private MagnitudeColorMap realColorMap;
     private MagnitudeColorMap imagColorMap;
+//    private static final double WAVE_SIZE_SCALE = 1.25;
     private double wavefunctionScale = 1.0;
+
 
     public WavefunctionGraphic( final SchrodingerPanel schrodingerPanel ) {
         this.schrodingerPanel = schrodingerPanel;

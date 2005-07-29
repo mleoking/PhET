@@ -27,6 +27,10 @@ public class SplitModel extends DiscreteModel {
     private Propagator leftPropagator;
     private Propagator rightPropagator;
 
+    public SplitModel() {
+        this( DiscreteModel.DEFAULT_WIDTH, DiscreteModel.DEFAULT_WIDTH );
+    }
+
     public SplitModel( int width, int height ) {
         this( width, height, createInitDT(), createInitWave() );
     }

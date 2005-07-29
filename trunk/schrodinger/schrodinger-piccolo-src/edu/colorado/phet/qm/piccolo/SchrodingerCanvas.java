@@ -60,7 +60,7 @@ public class SchrodingerCanvas extends PSwingCanvas {
 
     public static void main( String[] args ) {
 
-        final DiscreteModel discreteModel = new DiscreteModel( 100, 100 );
+        final DiscreteModel discreteModel = new DiscreteModel();
         discreteModel.fireParticle( new WaveSetup( new GaussianWave( new Point2D.Double( 50, 50 ),
                                                                      new Vector2D.Double( 0, -0.8 ), 7 ) ) );
         Thread t = new Thread( new Runnable() {

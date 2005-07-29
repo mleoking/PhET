@@ -37,6 +37,12 @@ public class DiscreteModel implements ModelElement {
     private MeasurementScale measurementScale;
     private boolean doubleSlitEnabled;
 
+    public static final int DEFAULT_WIDTH = 100;
+
+    public DiscreteModel() {
+        this( DEFAULT_WIDTH, DEFAULT_WIDTH );
+    }
+
     public DiscreteModel( int width, int height ) {
         this( width, height, createInitDT(), createInitWave() );
     }
@@ -97,9 +103,10 @@ public class DiscreteModel implements ModelElement {
 //        HorizontalDoubleSlit doubleSlit = new HorizontalDoubleSlit( getGridWidth(),
 //                                                                    getGridHeight(),
 //                                                                    (int)( getGridWidth() * 0.4 ), 10, 5, 10, potentialValue );
+        double width = getGridWidth();
         HorizontalDoubleSlit doubleSlit = new HorizontalDoubleSlit( getGridWidth(),
                                                                     getGridHeight(),
-                                                                    (int)( getGridHeight() * 0.4 ), 3, 8, 13, potentialValue );
+                                                                    (int)( getGridHeight() * 0.4 ), 3, (int)( 8 * width / 100.0 ), (int)( 13 * width / 100.0 ), potentialValue );
         return doubleSlit;
     }
 
@@ -344,7 +351,7 @@ public class DiscreteModel implements ModelElement {
         double potentialValue = Double.MAX_VALUE / 1000;
         doubleSlitPotential.reset( getGridWidth(),
                                    getGridHeight(),
-                                   (int)( getGridHeight() * 0.4 ), 3, 8, 13, potentialValue );
+                                   (int)( getGridHeight() * 0.4 ), 3, (int)( 8 * width / 100.0 ), (int)( 13 * width / 100.0 ), potentialValue );
         clearWavefunction();
     }
 
