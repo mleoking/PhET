@@ -148,4 +148,5 @@ public class IntensityModule extends SchrodingerModule {
         splitModel.setSplitModel( splitMode );
         intensityPanel.setSplitMode( splitMode );
     }
+
 }

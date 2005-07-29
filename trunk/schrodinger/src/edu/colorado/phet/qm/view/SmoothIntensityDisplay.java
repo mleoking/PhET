@@ -68,13 +68,17 @@ public class SmoothIntensityDisplay {
         }
         for( int i = 0; i < histogram.length; i++ ) {
             Color color = toColorBlackBackground( histogram[i] );
-            int x = (int)modelViewTx.evaluate( i );
-            int x1 = (int)modelViewTx.evaluate( i + 1 );
+            int x = (int)( modelViewTx.evaluate( i ) * getWaveImageScaleX() );
+            int x1 = (int)( modelViewTx.evaluate( i + 1 ) * getWaveImageScaleX() );
             sheetGraphics.setColor( color );
             sheetGraphics.fillRect( x, 0, x1 - x, 100 );
         }
         backgroundGraphic.paint( sheetGraphics );
         intensityDisplay.getDetectorSheet().repaint();
+    }
+
+    private double getWaveImageScaleX() {
+        return getSchrodingerPanel().getWavefunctionGraphic().getWaveImageScaleX();
     }
 
     private Color toColorBlackBackground( double x ) {
@@ -147,5 +151,9 @@ public class SmoothIntensityDisplay {
         Function.LinearFunction linearFunction = new Function.LinearFunction( 0, 0.1, 0, 1 );
         this.brightness = linearFunction.evaluate( brightness );
 //        this.brightness=brightness;
+    }
+
+    public void setWaveSize( int width, int height ) {
+
     }
 }

@@ -71,6 +71,7 @@ public class HighIntensityGun extends AbstractGun {
             }
         } );
         setupObject( beams[0] );
+        setOn( true );
     }
 
     private void stepBeam() {
@@ -121,7 +122,7 @@ public class HighIntensityGun extends AbstractGun {
         }
     }
 
-    private void setOn( boolean on ) {
+    public void setOn( boolean on ) {
         this.on = on;
         currentBeam.setHighIntensityModeOn( on );
     }

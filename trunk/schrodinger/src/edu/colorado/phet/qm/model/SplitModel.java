@@ -203,4 +203,12 @@ public class SplitModel extends DiscreteModel {
         double both = lhs + rhs;
         return both;
     }
+
+    public void setWaveSize( int width, int height ) {
+        super.setWaveSize( width, height );
+        leftWavefunction.setSize( width, height );
+        rightWavefunction.setSize( width, height );
+        leftPropagator.reset();
+        rightPropagator.reset();
+    }
 }

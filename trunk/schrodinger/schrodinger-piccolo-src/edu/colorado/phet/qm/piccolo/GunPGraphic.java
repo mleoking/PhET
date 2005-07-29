@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.piccolo;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.piccolo.WiggleMe;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -48,7 +49,9 @@ public class GunPGraphic extends PNode {
         addChild( autoRepeatGraphic );
         autoRepeatGraphic.setOffset( fireButtonGraphic.getFullBounds().getX(), fireButtonGraphic.getFullBounds().getMaxY() );
 
-
+        WiggleMe wiggleMe = new WiggleMe( "Push the Button" );
+        addChild( wiggleMe );
+        wiggleMe.setOscillating( true );
     }
 
 }

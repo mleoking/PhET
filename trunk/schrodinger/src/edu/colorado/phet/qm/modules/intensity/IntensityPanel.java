@@ -153,4 +153,10 @@ public class IntensityPanel extends SchrodingerPanel {
         super.setFadeEnabled( selected );
         smoothIntensityDisplay.setFadeEnabled( selected );
     }
+
+    public void setWaveSize( int width, int height ) {
+        super.setWaveSize( width, height );
+        smoothIntensityDisplay.setWaveSize( width, height );
+        highIntensityGun.setOn( highIntensityGun.isOn() );
+    }
 }

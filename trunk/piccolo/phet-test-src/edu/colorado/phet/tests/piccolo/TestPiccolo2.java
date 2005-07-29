@@ -1,13 +1,10 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.tests.piccolo;
 
-import edu.colorado.phet.piccolo.BoundGraphic;
 import edu.colorado.phet.piccolo.Connector;
-import edu.colorado.phet.piccolo.HTMLGraphic;
-import edu.colorado.phet.piccolo.Oscillate;
+import edu.colorado.phet.piccolo.WiggleMe;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PLayer;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -58,15 +55,15 @@ public class TestPiccolo2 {
 
         pText.addChild( child );
 
-        PNode root = new PNode();
-        HTMLGraphic htmlGraphic = new HTMLGraphic( "<html> MY HTML<br>so there<sup>2</html>" );
-        BoundGraphic htmlBound = new BoundGraphic( htmlGraphic );
-        htmlBound.setPaint( Color.yellow );
-        root.addChild( htmlBound );
-        root.addChild( htmlGraphic );
-        layer.addChild( root );
-//        htmlGraphic.translate( 5, 100 );
-        htmlGraphic.repaint();
+//        PNode wiggleRoot = new PNode();
+//        HTMLGraphic htmlGraphic = new HTMLGraphic( "<html> MY HTML<br>so there<sup>2</html>" );
+//        BoundGraphic htmlBound = new BoundGraphic( htmlGraphic );
+//        htmlBound.setPaint( Color.yellow );
+//        wiggleRoot.addChild( htmlBound );
+//        wiggleRoot.addChild( htmlGraphic );
+//        layer.addChild( wiggleRoot );
+////        htmlGraphic.translate( 5, 100 );
+//        htmlGraphic.repaint();
 
         PPath p3 = new PPath( new Ellipse2D.Double( 0, 0, 45, 65 ) );
         p3.setPaint( Color.blue );
@@ -74,12 +71,18 @@ public class TestPiccolo2 {
         p3.setStrokePaint( Color.black );
         p3.setOffset( 200, 10 );
         layer.addChild( p3 );
+//
+//        Oscillate oscillate = new Oscillate( wiggleRoot );
+//        oscillate.setStartTime( System.currentTimeMillis() );
+//        p3.getRoot().addActivity( oscillate );
+//        layer.getRoot().addActivity( oscillate );
 
-        Oscillate oscillate = new Oscillate( root );
-        oscillate.setStartTime( System.currentTimeMillis() );
-        layer.getRoot().addActivity( oscillate );
 
-        Connector connector = new Connector( text2, htmlBound );
+        WiggleMe wiggleMe = new WiggleMe( "Wiggle This!" );
+        layer.addChild( wiggleMe );
+        wiggleMe.setOscillating( true );
+
+        Connector connector = new Connector( text2, wiggleMe );
         layer.getRoot().addActivity( connector.getConnectActivity() );
         connector.setStroke( new BasicStroke( 2, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 2, new float[]{10, 5}, 0 ) );
         layer.addChild( 0, connector );

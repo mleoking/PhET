@@ -20,9 +20,13 @@ public class FlatDampedWave implements Wave {
     private double dxLattice = 7;
     private int radiusForMax = 3;
 
-    public FlatDampedWave( Wave wave, double intensity ) {
+    public FlatDampedWave( Wave wave, double intensity, int width ) {
+//        System.out.println( "width = " + width );
         this.wave = wave;
         this.intensity = intensity;
+        this.x0 = width / 2;
+        this.dxLattice = 7 * width / 100.0;
+        this.radiusForMax = (int)( 3 * width / 100.0 );
     }
 
     public Complex getValue( int i, int j, double simulationTime ) {

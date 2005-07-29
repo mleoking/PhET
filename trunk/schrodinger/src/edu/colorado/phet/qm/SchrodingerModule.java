@@ -135,4 +135,9 @@ public class SchrodingerModule extends Module {
         getDiscreteModel().clearPotential();
         getSchrodingerPanel().clearPotential();
     }
+
+    public void setWaveSize( int size ) {
+        getDiscreteModel().setWaveSize( size, size );
+        getSchrodingerPanel().setWaveSize( size, size );
+    }
 }
