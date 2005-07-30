@@ -90,7 +90,7 @@ public class BuoyancyApplication extends PhetApplication {
             e.printStackTrace();
         }
 
-        SimStrings.setStrings( IdealGasConfig.localizedStringsPath );
+        SimStrings.init( args, IdealGasConfig.localizedStringsPath );
         new BuoyancyApplication( args ).startApplication();
     }
 }
