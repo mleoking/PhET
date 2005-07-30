@@ -128,12 +128,13 @@ public class EnergyHistogramDialog extends JDialog {
     }
 
     String inRangeIndicator = " ";
-    String outOfRangeIndicator = "!";
+//    String outOfRangeIndicator = "!";
+    String outOfRangeIndicator = "»";
     JLabel energyOutOfRangeIndicator = new JLabel( outOfRangeIndicator );
     JLabel speedOutOfRangeIndicator = new JLabel( outOfRangeIndicator );
     JLabel heavySpeciesSpeedOutOfRangeIndicator = new JLabel( outOfRangeIndicator );
     JLabel lightSpeciesSpeedOutOfRangeIndicator = new JLabel( outOfRangeIndicator );
-    JLabel outOfRangeIndicatorLegend1 = new JLabel( "!");
+    JLabel outOfRangeIndicatorLegend1 = new JLabel( outOfRangeIndicator );
     JLabel outOfRangeIndicatorLegend2 = new JLabel( " - Indicates data out of range");
 
 
@@ -168,6 +169,14 @@ public class EnergyHistogramDialog extends JDialog {
 
         heavySpeedLabel = new JLabel( SimStrings.get( "EnergyHistorgramDialog.Heavy_Speed_label" ) );
         lightSpeedLabel = new JLabel( SimStrings.get( "EnergyHistorgramDialog.Light_Speed_label" ) );
+
+        Font outOfRangeIndicatorFont = new Font( "Lucida Sans", Font.BOLD, 30 );
+//        energyOutOfRangeIndicator.setFont( outOfRangeIndicatorFont );
+//        speedOutOfRangeIndicator.setFont( outOfRangeIndicatorFont );
+//        heavySpeciesSpeedOutOfRangeIndicator.setFont( outOfRangeIndicatorFont );
+//        lightSpeciesSpeedOutOfRangeIndicator.setFont( outOfRangeIndicatorFont );
+
+
         Container contentPane = getContentPane();
 
         // Upper histogram
