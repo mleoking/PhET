@@ -18,6 +18,7 @@ import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.*;
@@ -46,6 +47,11 @@ public class ControlledFissionModule extends ChainReactionModule {
     private static final double CONTROL_ROD_LAYER = VESSEL_LAYER - 1;
     private static final double refWidth = 700;
     private static final double refHeight = 300;
+
+    private static final double DEAFULT_U235_ABSORPTION_PROB = 0.75;
+    private static final double DEAFULT_U238_ABSORPTION_PROB = 0.25;
+    private static final double DEAFULT_ROD_ABSORPTION_PROB = 1.0;
+    private static final double DEFAULT_INTER_NUCLEAR_SPACING = 2.5;
 
     private static NucleusGraphic ng2;
     private static BufferedImage u235Img;
@@ -77,6 +83,8 @@ public class ControlledFissionModule extends ChainReactionModule {
     private double rodAbsorptionProbability = 1;
     private DevelopmentControlDialog developmentControlDialog;
     private PeriodicNeutronGun periodicNeutronGun;
+    private int DEFAULT_NUM_NEUTRONS_FIRED = 2;
+    private int DEFAULT_NUM_CONTROLS_RODS = 5;
 
     // TODO: clean up when refactoring is done
     public void setContainmentEnabled( boolean b ) {
@@ -88,11 +96,27 @@ public class ControlledFissionModule extends ChainReactionModule {
      * @param clock
      */
     public ControlledFissionModule( AbstractClock clock ) {
-        super( "Controlled Reaction", clock );
+        super( SimStrings.get( "ModuleTitle.ControlledReaction" ), clock );
 
         // Set up the control panel
         super.addControlPanelElement( new ControlledChainReactionControlPanel( this ) );
         init( getClock() );
+
+        setParameterDefaults();
+    }
+
+    /**
+     * Sets the values of various parameters so that a sustained reaction will proceed when the
+     * control rods are 1/2 in, and things will run away when the rods are all the way out.
+     */
+    private void setParameterDefaults() {
+        setNumNeutronsFired( DEFAULT_NUM_NEUTRONS_FIRED );
+        setNumControlRods( DEFAULT_NUM_CONTROLS_RODS );
+        setU235AbsorptionProbability( DEAFULT_U235_ABSORPTION_PROB );
+        setU238AbsorptionProbability( DEAFULT_U238_ABSORPTION_PROB );
+        setRodAbsorptionProbability( DEAFULT_ROD_ABSORPTION_PROB );
+        setInterNucleusSpacing( DEFAULT_INTER_NUCLEAR_SPACING );
+        createNuclei();
     }
 
     private void init( AbstractClock clock ) {
@@ -176,7 +200,7 @@ public class ControlledFissionModule extends ChainReactionModule {
                                                           yMin ),
 //                                                          channel.getMinY() ),
                                       new Point2D.Double( channel.getMinX() + channel.getWidth() / 2,
-                                                          yMin + ( channel.getMaxY() - channel.getMinY()) ), channel.getWidth(),
+                                                          yMin + ( channel.getMaxY() - channel.getMinY() ) ), channel.getWidth(),
                                       model,
                                       rodAbsorptionProbability );
             model.addModelElement( rods[i] );

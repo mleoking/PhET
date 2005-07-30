@@ -123,6 +123,7 @@ public class DevelopmentControlDialog extends JDialog {
             nucleusSpacingSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     module.setInterNucleusSpacing( nucleusSpacingSlider.getModelValue() );
+                    System.out.println( "nucleusSpacingSlider.getModelValue()  = " + nucleusSpacingSlider.getModelValue() );
                 }
             } );
             nucleusSpacingSlider.setMajorTickSpacing( 1 );

@@ -11,7 +11,8 @@ public class Config {
 
     //    public static PotentialProfile u235PotentialProfile = new PotentialProfile( 500, 250, 75 );
     //    public static double AlphaLocationUncertaintySigmaFactor = 0.34;
-    public static double AlphaLocationUncertaintySigmaFactor = 0.333;
+    public static double AlphaLocationUncertaintySigmaFactor = 0.3;
+//    public static double AlphaLocationUncertaintySigmaFactor = 0.333;
 
     public static final double neutronSpeed = 6;
     public static final double fissionDisplacementVelocity = 2;

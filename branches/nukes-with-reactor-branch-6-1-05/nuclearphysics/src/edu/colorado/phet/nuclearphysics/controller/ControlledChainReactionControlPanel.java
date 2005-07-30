@@ -11,8 +11,6 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -96,12 +94,12 @@ public class ControlledChainReactionControlPanel extends JPanel {
 
         // A check box to bring up the debug panel
         // create the dialog with the developers' controls
-        final JCheckBox debugPanelCB = new JCheckBox( SimStrings.get( "AdvancedControls.ShowControls" ) );
-        debugPanelCB.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                module.setDevelopmentControlDialog( debugPanelCB.isSelected() );
-            }
-        } );
-        add( debugPanelCB, gbcCenter );
+//        final JCheckBox debugPanelCB = new JCheckBox( SimStrings.get( "AdvancedControls.ShowControls" ) );
+//        debugPanelCB.addChangeListener( new ChangeListener() {
+//            public void stateChanged( ChangeEvent e ) {
+//                module.setDevelopmentControlDialog( debugPanelCB.isSelected() );
+//            }
+//        } );
+//        add( debugPanelCB, gbcCenter );
     }
 }
