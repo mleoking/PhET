@@ -38,7 +38,10 @@ public class EnergyHistogramDialog extends JDialog {
     // Bin count beyond which the energyHistogram will clip
     private int initialEnergyClippingLevel = 50;
     private int initialSpeedClippingLevel = 20;
-    private double maxSpeed = 150;
+    // Upper bounds for histograms
+//    private double maxKineticEnergy = 50E3;
+    private double maxKineticEnergy = 150E3;
+    private double maxSpeed = 200;
     private Histogram speedHistogram;
     private Histogram heavySpeedHistogram;
     private Histogram lightSpeedHistogram;
@@ -69,7 +72,7 @@ public class EnergyHistogramDialog extends JDialog {
         } );
 
         // Create the histograms
-        energyHistogram = new Histogram( 200, 150, 0, 100E3 * 1.01, 20, initialEnergyClippingLevel * averagingRatio, new Color( 0, 0, 0 ) );
+        energyHistogram = new Histogram( 200, 150, 0, maxKineticEnergy * 1.01, 20, initialEnergyClippingLevel * averagingRatio, new Color( 0, 0, 0 ) );
         speedHistogram = new Histogram( 200, 150, 0, maxSpeed * 1.01, 20, initialSpeedClippingLevel * averagingRatio, new Color( 0, 0, 0 ) );
         heavySpeedHistogram = new Histogram( 200, 150, 0, maxSpeed * 1.01, 20, initialSpeedClippingLevel * averagingRatio, new Color( 20, 0, 200 ) );
         lightSpeedHistogram = new Histogram( 200, 150, 0, maxSpeed * 1.01, 20, initialSpeedClippingLevel * averagingRatio, new Color( 200, 0, 20 ) );
@@ -124,29 +127,67 @@ public class EnergyHistogramDialog extends JDialog {
         repaint();
     }
 
+    String inRangeIndicator = " ";
+    String outOfRangeIndicator = "!";
+    JLabel energyOutOfRangeIndicator = new JLabel( outOfRangeIndicator );
+    JLabel speedOutOfRangeIndicator = new JLabel( outOfRangeIndicator );
+    JLabel heavySpeciesSpeedOutOfRangeIndicator = new JLabel( outOfRangeIndicator );
+    JLabel lightSpeciesSpeedOutOfRangeIndicator = new JLabel( outOfRangeIndicator );
+    JLabel outOfRangeIndicatorLegend1 = new JLabel( "!");
+    JLabel outOfRangeIndicatorLegend2 = new JLabel( " - Indicates data out of range");
+
+
+    public void paint( Graphics g ) {
+        energyOutOfRangeIndicator.setText( energyHistogram.hasDataOutOfRange() ? outOfRangeIndicator : inRangeIndicator );
+        energyOutOfRangeIndicator.setForeground( Color.red );
+        speedOutOfRangeIndicator.setText( speedHistogram.hasDataOutOfRange() ? outOfRangeIndicator : inRangeIndicator );
+        speedOutOfRangeIndicator.setForeground( Color.red );
+        lightSpeciesSpeedOutOfRangeIndicator.setText( lightSpeedHistogram.hasDataOutOfRange() ? outOfRangeIndicator : inRangeIndicator );
+        lightSpeciesSpeedOutOfRangeIndicator.setForeground( Color.red );
+        heavySpeciesSpeedOutOfRangeIndicator.setText( heavySpeedHistogram.hasDataOutOfRange() ? outOfRangeIndicator : inRangeIndicator );
+        heavySpeciesSpeedOutOfRangeIndicator.setForeground( Color.red );
+
+        outOfRangeIndicatorLegend1.setForeground( Color.red );
+
+        super.paint( g );
+    }
+
     /**
      *
      */
     private void layoutComponents() {
+        Insets defaultInsets = new Insets( 0, 0, 0, 0 );
+        Insets xAxisTitleInsets = new Insets( 0, 0, 12, 0 );
+        Insets outOfBoundsAnnunciatorInsets = new Insets( 0, 0, 12, 25 );
+
         this.getContentPane().setLayout( new GridBagLayout() );
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                          GridBagConstraints.CENTER,
                                                          GridBagConstraints.NONE,
-                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+                                                         defaultInsets, 0, 0 );
 
         heavySpeedLabel = new JLabel( SimStrings.get( "EnergyHistorgramDialog.Heavy_Speed_label" ) );
         lightSpeedLabel = new JLabel( SimStrings.get( "EnergyHistorgramDialog.Light_Speed_label" ) );
-
         Container contentPane = getContentPane();
+
         // Upper histogram
         gbc.gridx = 0;
         contentPane.add( new RotatedTextLabel(), gbc );
         gbc.gridx = 1;
+        gbc.gridwidth = 1;
         contentPane.add( energyHistogram, gbc );
         gbc.gridy++;
+        gbc.gridwidth = 1;
+        gbc.insets = xAxisTitleInsets;
         contentPane.add( new JLabel( SimStrings.get( "EnergyHistorgramDialog.Energy_Distribution" ) ), gbc );
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.gridx++;
+        gbc.insets = outOfBoundsAnnunciatorInsets;
+        contentPane.add( energyOutOfRangeIndicator, gbc );
 
         // Second histogram
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = defaultInsets;
         gbc.gridx = 0;
         gbc.gridy++;
         contentPane.add( new RotatedTextLabel(), gbc );
@@ -154,9 +195,14 @@ public class EnergyHistogramDialog extends JDialog {
         contentPane.add( speedHistogram, gbc );
         contentPane.add( new RotatedTextLabel(), gbc );
         gbc.gridy++;
+        gbc.insets = xAxisTitleInsets;
         contentPane.add( new JLabel( SimStrings.get( "EnergyHistorgramDialog.Speed_Distribution" ) ), gbc );
+        gbc.gridx++;
+        gbc.insets = outOfBoundsAnnunciatorInsets;
+        contentPane.add( speedOutOfRangeIndicator, gbc );
 
         // Details histograms
+        gbc.insets = defaultInsets;
         gbc.gridy++;
         gbc.gridx = 0;
         heavySpeedYLabel = new RotatedTextLabel();
@@ -164,7 +210,13 @@ public class EnergyHistogramDialog extends JDialog {
         gbc.gridx = 1;
         contentPane.add( heavySpeedHistogram, gbc );
         gbc.gridy++;
+        gbc.insets = xAxisTitleInsets;
         contentPane.add( heavySpeedLabel, gbc );
+        gbc.gridx++;
+        gbc.insets = outOfBoundsAnnunciatorInsets;
+        contentPane.add( heavySpeciesSpeedOutOfRangeIndicator, gbc );
+
+        gbc.insets = defaultInsets;
         gbc.gridy++;
         gbc.gridx = 0;
         lightSpeedYLabel = new RotatedTextLabel();
@@ -172,11 +224,26 @@ public class EnergyHistogramDialog extends JDialog {
         gbc.gridx = 1;
         contentPane.add( lightSpeedHistogram, gbc );
         gbc.gridy++;
+        gbc.insets = xAxisTitleInsets;
         contentPane.add( lightSpeedLabel, gbc );
+        gbc.gridx++;
+        gbc.insets = outOfBoundsAnnunciatorInsets;
+        contentPane.add( lightSpeciesSpeedOutOfRangeIndicator, gbc );
 
-        // Details button
+        // Legend and Details button
+        gbc.gridy++;
+        gbc.gridx = 0;
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets( 0, 25, 0,0 );
+        contentPane.add( outOfRangeIndicatorLegend1, gbc );
+        gbc.gridx++;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = defaultInsets;
+        outOfRangeIndicatorLegend1.setForeground( Color.black );
+        contentPane.add( outOfRangeIndicatorLegend2, gbc );
         gbc.gridy++;
         gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.CENTER;
         gbc.insets = new Insets( 10, 10, 10, 10 );
         contentPane.add( detailsBtn, gbc );
     }

@@ -1,14 +1,27 @@
-/**
- * Class: Histogram
- * Class: edu.colorado.phet.graphics
- * User: Ron LeMaster
- * Date: Jan 18, 2004
- * Time: 1:55:47 PM
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.instrumentation;
 
 import javax.swing.*;
 import java.awt.*;
+
+/**
+ * Histogram
+ * <p>
+ * The graphical representation of a histogram. The data for the histogram itself is maintained
+ * in an instance of HistogramModel, which is contained in a Histogram
+ *
+ * @author Ron LeMaster
+ * @version $Revision$
+ */
 
 public class Histogram extends JPanel {
 
@@ -48,8 +61,23 @@ public class Histogram extends JPanel {
 
     public void paintComponent( Graphics g ) {
         Graphics2D g2 = (Graphics2D)g;
+
+        // Paint the background
         g2.setColor( Color.WHITE );
         g2.fillRect( plotULC.x, plotULC.y, displayWidth, displayHeight );
+
+        // Draw gray horizontal lines at evenly spaced intervals
+        int lineSpacing = 20;
+        int numLines = displayHeight / lineSpacing;
+        g2.setColor( new Color( 230, 230, 230 ) );
+        g2.setStroke( new BasicStroke( 1 ) );
+        int y = displayHeight + plotULC.y;
+        for ( int i = 0; y > plotULC.y; i++ ) {
+            y = displayHeight + plotULC.y - lineSpacing * i * maxBuckHeight / clippingLevel;
+            g2.drawLine( plotULC.x, y, plotULC.x + displayWidth, y );
+        }
+
+        // Draw the histogram bars
         g2.setColor( color );
         for( int i = 0; i < model.getNumIntervals(); i++ ) {
             int value = model.valueAt( i );
@@ -69,7 +97,13 @@ public class Histogram extends JPanel {
      * @param datum
      */
     public void add( double datum ) {
-        model.add( datum );
+        int datumCharacteristic = model.add( datum );
+        switch( datumCharacteristic ){
+            case HistogramModel.BELOW_RANGE:
+                break;
+            case HistogramModel.ABOVE_RANGE:
+                break;
+        }
     }
 
     /**
@@ -88,24 +122,25 @@ public class Histogram extends JPanel {
         model.clear();
     }
 
+    /**
+     * Tells is some data that has been added to the histogram is out
+     * of its range
+     * @return
+     */
+    public boolean hasDataOutOfRange() {
+        return model.isDataOutOfRange();
+    }
 
+    /**
+     * Small test program
+     * @param args
+     */
     public static void main( String[] args ) {
         Histogram histogram = new Histogram( 300, 100, 0, 10, 100, 10, Color.green );
 
         for( int i = 0; i < 500; i++ ) {
             histogram.add( Math.random() * 10 );
         }
-//        histogram.add( .5 );
-//        histogram.add( .5 );
-//        histogram.add( .5 );
-//        histogram.add( 2 );
-//        histogram.add( 2 );
-//        histogram.add( 4.4 );
-//        histogram.add( 4.3 );
-//        histogram.add( 6 );
-//        histogram.add( 6 );
-//        histogram.add( 6 );
-//        histogram.add( 6 );
 
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
