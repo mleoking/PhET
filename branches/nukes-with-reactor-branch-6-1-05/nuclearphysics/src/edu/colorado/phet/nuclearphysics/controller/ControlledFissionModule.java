@@ -25,6 +25,7 @@ import edu.colorado.phet.nuclearphysics.view.*;
 
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -85,6 +86,7 @@ public class ControlledFissionModule extends ChainReactionModule {
     private PeriodicNeutronGun periodicNeutronGun;
     private int DEFAULT_NUM_NEUTRONS_FIRED = 2;
     private int DEFAULT_NUM_CONTROLS_RODS = 5;
+    private ArrayList neutronLaunchers;
 
     // TODO: clean up when refactoring is done
     public void setContainmentEnabled( boolean b ) {
@@ -120,6 +122,10 @@ public class ControlledFissionModule extends ChainReactionModule {
     }
 
     private void init( AbstractClock clock ) {
+
+        //  Create the list for the nuetron launchers
+        neutronLaunchers = new ArrayList();
+
         // set the SCALE of the physical panel so we can fit more nuclei in it
         getPhysicalPanel().setScale( SCALE );
         vesselWidth = refWidth / SCALE;
@@ -255,7 +261,7 @@ public class ControlledFissionModule extends ChainReactionModule {
         Point2D[] locations = vessel.getInitialNucleusLocations( nCols );
         for( int i = 0; i < locations.length; i++ ) {
             Point2D location = locations[i];
-            Nucleus nucleus = new Uranium235( location, getModel() );
+            Nucleus nucleus = new Uranium235( location, (NuclearPhysicsModel)getModel() );
             u235Nuclei.add( nucleus );
             addNucleus( nucleus );
 
@@ -373,11 +379,20 @@ public class ControlledFissionModule extends ChainReactionModule {
     //----------------------------------------------------------------
 
     /**
-     * Extends superclass behavior to recompute the launch parameters each time a neutron is fired
+     * Extends superclass behavior to recompute the launch parameters each time a neutron is fired. Launch
+     * points must be in different inter-rod chambers
      */
     public void fireNeutron() {
+        ArrayList chambersUsed = new ArrayList();
         for( int i = 0; i < numNeutronsFired; i++ ) {
-            computeNeutronLaunchParams();
+            Integer chamberIdx = null;
+            int j = 0;
+            do {
+                computeNeutronLaunchParams();
+                chamberIdx = new Integer( vessel.getChamberIdx( neutronLaunchPoint.getX() ) );
+            } while( vessel.getNumControlRodChannels() > numNeutronsFired &&
+                     chambersUsed.contains( chamberIdx ) );
+            chambersUsed.add( chamberIdx );
             super.fireNeutron();
         }
     }
@@ -402,7 +417,9 @@ public class ControlledFissionModule extends ChainReactionModule {
         products.getDaughter2().setVelocity( 0, 0 );
 
         // Delay for a fixed time before we actually release the neutron
-        getModel().addModelElement( new NeutronLauncher( getModel(), products ) );
+        NeutronLauncher neutronLauncher = new NeutronLauncher( getModel(), products );
+        neutronLaunchers.add( neutronLauncher );
+        getModel().addModelElement( neutronLauncher );
 
 //        super.fission( products );
     }
@@ -418,6 +435,13 @@ public class ControlledFissionModule extends ChainReactionModule {
 
     public void stop() {
         super.stop();
+
+        // Remove  all the neutron launchers from the model
+        for( int i = 0; i < neutronLaunchers.size(); i++ ) {
+            NeutronLauncher neutronLauncher = (NeutronLauncher)neutronLaunchers.get( i );
+            getModel().removeModelElement( neutronLauncher );
+        }
+
         getModel().removeModelElement( vessel );
         for( int i = 0; i < controlRods.length; i++ ) {
             ControlRod controlRod = controlRods[i];

@@ -20,6 +20,7 @@ import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -99,7 +100,7 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
         Nucleus nucleus = null;
         Point2D.Double location = findLocationForNewNucleus();
         if( location != null ) {
-            nucleus = new Uranium235( location, getModel() );
+            nucleus = new Uranium235( location, (NuclearPhysicsModel)getModel() );
             u235Nuclei.add( nucleus );
             addNucleus( nucleus );
         }
@@ -227,6 +228,14 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
         u239Nuclei.clear();
         u235Nuclei.clear();
         u238Nuclei.clear();
+
+
+        List nuclearModelElements = ( (NuclearPhysicsModel)getModel() ).getNuclearModelElements();
+        while( nuclearModelElements.size() > 0 ) {
+            ModelElement modelElement = (ModelElement)nuclearModelElements.get( 0 );
+            getModel().removeModelElement( modelElement );
+        }
+        return;
     }
 
     //----------------------------------------------------------------

@@ -69,7 +69,7 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
     }
 
     public void start() {
-        nucleus = new Uranium235( new Point2D.Double( 0, 0 ), getModel() );
+        nucleus = new Uranium235( new Point2D.Double( 0, 0 ), (NuclearPhysicsModel)getModel() );
         nucleus.setPotential( nucleus.getPotentialProfile().getWellPotential() );
         setNucleus( nucleus );
         setUraniumNucleus( nucleus );

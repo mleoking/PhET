@@ -7,7 +7,6 @@
 package edu.colorado.phet.nuclearphysics.model;
 
 import edu.colorado.phet.common.math.MathUtil;
-import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.view.Cesium;
 
@@ -26,6 +25,8 @@ public class Uranium235 extends Nucleus {
     private static double ABSORPTION_PROBABILITY = 1;
     // Regulates how fast the profile rises when fission occurs
     private static final int morphSpeedFactor = 2;
+    // Location to put neutrons until they can be removed from the model
+    public static final Point2D HoldingAreaCoord = new Point2D.Double( Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY );
     //    private static final int morphSpeedFactor = 5;
 
 
@@ -42,11 +43,11 @@ public class Uranium235 extends Nucleus {
     private int morphTargetNeutrons;
     private int morphTargetProtons;
     private Neutron fissionInstigatingNeutron;
-    private BaseModel model;
+    private NuclearPhysicsModel model;
     private boolean doMorph = false;
     private double jiggleOrgX;
 
-    public Uranium235( Point2D position, BaseModel model ) {
+    public Uranium235( Point2D position, NuclearPhysicsModel model ) {
         super( position, 92, 143 );
         this.model = model;
         for( int i = 0; i < alphaParticles.length; i++ ) {
@@ -82,10 +83,11 @@ public class Uranium235 extends Nucleus {
             // Move the neutron way, way away so it doesn't show and doesn't
             // cause another fission event. It will be destroyed later. Do it
             // twice so the neutron's previous position gets set to the same thing
-            neutron.setPosition( 100E3, 100E3 );
-            neutron.setPosition( 100E3, 100E3 );
+            neutron.setPosition( HoldingAreaCoord.getX(), HoldingAreaCoord.getY() );
+            neutron.setPosition( HoldingAreaCoord.getX(), HoldingAreaCoord.getY() );
             neutron.setVelocity( 0, 0 );
 
+            neutron.leaveSystem();
             model.removeModelElement( neutron );
 
             // Make note of the x coordinate of the nucleus, so we can keep the jiggling

@@ -10,10 +10,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.nuclearphysics.model.Containment;
-import edu.colorado.phet.nuclearphysics.model.FissionProducts;
-import edu.colorado.phet.nuclearphysics.model.Nucleus;
-import edu.colorado.phet.nuclearphysics.model.Uranium235;
+import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.ContainmentGraphic;
 
 import java.awt.*;
@@ -90,7 +87,7 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
     public void start() {
         // Add a bunch of nuclei, including one in the middle that we can fire a
         // neutron at
-        Uranium235 centralNucleus = new Uranium235( new Point2D.Double(), getModel() );
+        Uranium235 centralNucleus = new Uranium235( new Point2D.Double(), (NuclearPhysicsModel)getModel() );
         getModel().addModelElement( centralNucleus );
         u235Nuclei.add( centralNucleus );
         addNucleus( centralNucleus );

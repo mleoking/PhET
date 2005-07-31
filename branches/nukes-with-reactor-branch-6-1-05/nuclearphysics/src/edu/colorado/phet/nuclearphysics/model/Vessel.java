@@ -46,6 +46,7 @@ public class Vessel implements ModelElement, FissionListener, ScalarDataRecorder
     private Rectangle2D[] rodChannels;
     private NuclearPhysicsModel model;
     private ScalarDataRecorder temperatureRecorder;
+//    private boolean simulatesInfiniteSize = false;
     private boolean simulatesInfiniteSize = true;
 
     /**
@@ -207,16 +208,35 @@ public class Vessel implements ModelElement, FissionListener, ScalarDataRecorder
         for( int i = 0; i < modelElements.size(); i++ ) {
             ModelElement modelElement = (ModelElement)modelElements.get( i );
             if( modelElement instanceof Neutron ) {
-                Neutron neutron = (Neutron)modelElement;
+                final Neutron neutron = (Neutron)modelElement;
                 if( !this.contains( neutron.getPosition() ) ) {
-                    if( simulatesInfiniteSize && neutron.getPosition().getX() != 100000 ) {
-                        if( neutron.getPosition().getX() < this.getX() ) {
-                            System.out.println( "$$$" );
-                        }
-                        double dx = ( neutron.getPosition().getX() - this.getX() ) % this.getWidth();
+                    // If we are simulating an infinite vessel, wrap the position of the neutron modulo
+                    // the bounds of the inter-control-rod-channel chamber it is in.
+
+                    // The check in the following line, neutron.getPosition().getX() != 100000,
+                    // is there because when U235 fissions, it puts neutrons a great distance
+                    // away to get them out of the vessel until it can deal with them later. It's
+                    // a hack that we have to deal with here
+                    if( simulatesInfiniteSize
+                        && neutron.getPosition().getX() != Uranium235.HoldingAreaCoord.getX()
+                        && neutron.getPosition().getY() != Uranium235.HoldingAreaCoord.getY() ) {
+
+                        // Figure out which chamber the neutron was in
+                        double chamberWidth = this.getWidth() / ( this.rodChannels.length + 1 );
+                        int chamberIdx = getChamberIdx( neutron.getPositionPrev().getX() );
+                        // Wrap the x coordinate
+                        double chamberLocX = this.getX() + chamberIdx * chamberWidth;
+                        double dx = ( neutron.getPosition().getX() - chamberLocX ) % chamberWidth;
+                        double x = dx > 0 ? dx + chamberLocX : dx + chamberLocX;
+
+                        // Wrap the y coordinate
                         double dy = ( neutron.getPosition().getY() - this.getY() ) % this.getHeight();
-                        double x = dx > 0 ? dx + this.getX() : dx + this.getX() + this.getWidth();
                         double y = dy > 0 ? dy + this.getY() : dy + this.getY() + this.getHeight();
+
+                        // Subtle: Set the position of the neutron twice, so the collision detectionn mechanism
+                        // won't think the neutron has collided with the nuclei between it's old position and
+                        // its new one, as it wraps
+                        neutron.setPosition( x, y );
                         neutron.setPosition( x, y );
                     }
                     else {
@@ -225,6 +245,18 @@ public class Vessel implements ModelElement, FissionListener, ScalarDataRecorder
                 }
             }
         }
+    }
+
+    /**
+     * Returns the index of the inter-rod chamber for a specified x coordinate
+     *
+     * @param x
+     * @return
+     */
+    public int getChamberIdx( double x ) {
+        double chamberWidth = this.getWidth() / ( this.rodChannels.length + 1 );
+        int chamberIdx = (int)( ( x - this.getX() ) / chamberWidth );
+        return chamberIdx;
     }
 
     //----------------------------------------------------------------

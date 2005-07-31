@@ -68,11 +68,11 @@ public class NeutronGraphic extends ParticleGraphic implements ImageObserver {
         g.draw( circle );
 
         g.setTransform( orgTx );
-        
-        g.setColor( Color.red);
+
+        g.setColor( Color.red );
         if( myParticle != null ) {
-        g.drawLine( (int)myParticle.getPositionPrev().getX(), (int)myParticle.getPositionPrev().getY(),
-                    (int)myParticle.getPosition().getX(), (int)myParticle.getPosition().getY());
+            g.drawLine( (int)myParticle.getPositionPrev().getX(), (int)myParticle.getPositionPrev().getY(),
+                        (int)myParticle.getPosition().getX(), (int)myParticle.getPosition().getY() );
         }
 
     }
