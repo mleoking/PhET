@@ -104,55 +104,63 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
     }
 
     public synchronized void paint( Graphics2D g2 ) {
-        //        GraphicsUtil.setAntiAliasingOn( g2 );
+        // When the app starts up, there is an intermittent exception that
+        // gets thrown from something that's called here. This sometimes results
+        // in the control panel coming up blank. By catching the exception and
+        // eating it, the control panel always comes up properly
+        try {
 
-        AffineTransform orgTx = g2.getTransform();
-        g2.transform( atx );
+            AffineTransform orgTx = g2.getTransform();
+            g2.transform( atx );
 
-        Color color = fieldSense == FORCE_ON_ELECTRON ? arrowRed : arrowGreen;
+            Color color = fieldSense == FORCE_ON_ELECTRON ? arrowRed : arrowGreen;
 
-        if( fieldDisplayType == EmfPanel.CURVE_WITH_VECTORS ) {
-            g2.setColor( color );
-            g2.setStroke( hollowArrowStroke );
-            for( int i = 0; i < arrows.size(); i++ ) {
-                Arrow arrow = (Arrow)arrows.get( i );
-                g2.draw( arrow.getShape() );
-            }
-        }
-
-        if( fieldDisplayType == EmfPanel.CURVE
-            || fieldDisplayType == EmfPanel.CURVE_WITH_VECTORS ) {
-            g2.setColor( curveColor );
-            g2.setStroke( curveStroke );
-            g2.draw( negPath );
-            g2.draw( posPath );
-        }
-
-        if( fieldDisplayType == EmfPanel.FULL_FIELD ) {
-            for( int i = 0; i < latticePts.length; i++ ) {
-                Vector2D f = latticePts[i].field.scale( fieldSense );
-                double l = f.getMagnitude();
-                if( l > 3 ) {
-                    double theta = f.getAngle();
-                    Arrow arrow = new Arrow( new Point2D.Double( -l / 2, 0 ), new Point2D.Double( l / 2, 0 ),
-                                             maxArrowHeadWidth,
-                                             maxArrowHeadWidth, 3, 0.5, true );
-                    AffineTransform orgTx2 = g2.getTransform();
-                    AffineTransform tx = latticePts[i].tx;
-                    tx.setToTranslation( latticePts[i].location.getX(), latticePts[i].location.getY() );
-                    tx.rotate( theta );
-                    g2.transform( tx );
-
-                    g2.setColor( color );
+            if( fieldDisplayType == EmfPanel.CURVE_WITH_VECTORS ) {
+                g2.setColor( color );
+                g2.setStroke( hollowArrowStroke );
+                for( int i = 0; i < arrows.size(); i++ ) {
+                    Arrow arrow = (Arrow)arrows.get( i );
                     g2.draw( arrow.getShape() );
-                    // GraphicsUtil.setAlpha( g2, 0.5 );
-                    g2.fill( arrow.getShape() );
-                    GraphicsUtil.setAlpha( g2, 1 );
-                    g2.setTransform( orgTx2 );
                 }
             }
+
+            if( fieldDisplayType == EmfPanel.CURVE
+                || fieldDisplayType == EmfPanel.CURVE_WITH_VECTORS ) {
+                g2.setColor( curveColor );
+                g2.setStroke( curveStroke );
+                g2.draw( negPath );
+                g2.draw( posPath );
+            }
+
+            if( fieldDisplayType == EmfPanel.FULL_FIELD ) {
+                for( int i = 0; i < latticePts.length; i++ ) {
+                    Vector2D f = latticePts[i].field.scale( fieldSense );
+                    double l = f.getMagnitude();
+                    if( l > 3 ) {
+                        double theta = f.getAngle();
+                        Arrow arrow = new Arrow( new Point2D.Double( -l / 2, 0 ), new Point2D.Double( l / 2, 0 ),
+                                                 maxArrowHeadWidth,
+                                                 maxArrowHeadWidth, 3, 0.5, true );
+                        AffineTransform orgTx2 = g2.getTransform();
+                        AffineTransform tx = latticePts[i].tx;
+                        tx.setToTranslation( latticePts[i].location.getX(), latticePts[i].location.getY() );
+                        tx.rotate( theta );
+                        g2.transform( tx );
+
+                        g2.setColor( color );
+                        g2.draw( arrow.getShape() );
+                        // GraphicsUtil.setAlpha( g2, 0.5 );
+                        g2.fill( arrow.getShape() );
+                        GraphicsUtil.setAlpha( g2, 1 );
+                        g2.setTransform( orgTx2 );
+                    }
+                }
+            }
+            g2.setTransform( orgTx );
         }
-        g2.setTransform( orgTx );
+        catch( java.lang.InternalError e ) {
+            System.out.println( "Caught Internal Error: " + e.getMessage() );
+        }
     }
 
     private void evaluateFieldPt( FieldPt fieldPt ) {
