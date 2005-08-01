@@ -2,11 +2,13 @@
 package edu.colorado.phet.qm.piccolo;
 
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
+import edu.colorado.phet.common.view.PhetLookAndFeel;
+import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.GaussianWave;
 import edu.colorado.phet.qm.model.WaveSetup;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
 import javax.swing.*;
@@ -20,7 +22,7 @@ import java.lang.reflect.InvocationTargetException;
  * Copyright (c) Jul 28, 2005 by Sam Reid
  */
 
-public class SchrodingerCanvas extends PSwingCanvas {
+public class SchrodingerCanvas extends PhetPCanvas {
     private DiscreteModel discreteModel;
     private WavefunctionPGraphic wavefunctionPGraphic;
     private GunPGraphic gunPGraphic;
@@ -59,10 +61,10 @@ public class SchrodingerCanvas extends PSwingCanvas {
     }
 
     public static void main( String[] args ) {
-
+        PhetLookAndFeel.setLookAndFeel();
         final DiscreteModel discreteModel = new DiscreteModel();
         discreteModel.fireParticle( new WaveSetup( new GaussianWave( new Point2D.Double( 50, 50 ),
-                                                                     new Vector2D.Double( 0, -0.8 ), 7 ) ) );
+                                                                     new Vector2D.Double( 0, -0.9 ), 7 ) ) );
         Thread t = new Thread( new Runnable() {
             public void run() {
                 while( true ) {
@@ -72,13 +74,35 @@ public class SchrodingerCanvas extends PSwingCanvas {
                     catch( InterruptedException e ) {
                         e.printStackTrace();
                     }
-
                     discreteModel.stepInTime( 1.0 );
-
-
                 }
             }
         } );
+
+        PActivity pActivity = new PActivity( -1, 30 ) {
+            protected void activityStep( long elapsedTime ) {
+                super.activityStep( elapsedTime );
+                discreteModel.stepInTime( 1.0 );
+            }
+        };
+
+
+//        enhancePriorities( t );
+        SchrodingerCanvas schrodingerCanvas = new SchrodingerCanvas( discreteModel );
+//        schrodingerCanvas.setDebugRegionManagement( true );
+        schrodingerCanvas.setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        frame.setContentPane( schrodingerCanvas );
+
+//        t.start();
+        discreteModel.setWaveSize( 60, 60 );
+        schrodingerCanvas.getRoot().addActivity( pActivity );
+        frame.setSize( 800, 800 );
+        frame.setVisible( true );
+    }
+
+    private static void enhancePriorities( Thread t ) {
         t.setPriority( Thread.MIN_PRIORITY );
         try {
             SwingUtilities.invokeAndWait( new Runnable() {
@@ -93,15 +117,5 @@ public class SchrodingerCanvas extends PSwingCanvas {
         catch( InvocationTargetException e ) {
             e.printStackTrace();
         }
-        SchrodingerCanvas schrodingerCanvas = new SchrodingerCanvas( discreteModel );
-        schrodingerCanvas.setDefaultRenderQuality( PPaintContext.LOW_QUALITY_RENDERING );
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setContentPane( schrodingerCanvas );
-
-        t.start();
-
-        frame.setSize( 800, 800 );
-        frame.setVisible( true );
     }
 }

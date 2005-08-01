@@ -4,6 +4,8 @@ package edu.colorado.phet.qm.piccolo;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.WiggleMe;
 import edu.colorado.phet.piccolo.pswing.PSwing;
+import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -39,7 +41,7 @@ public class GunPGraphic extends PNode {
         PBounds fullBounds = wavefunctionPGraphic.getFullBounds();
         setOffset( fullBounds.getWidth() / 2 - gunImage.getFullBounds().getWidth() / 2, fullBounds.getMaxY() - gunInsetY );
 
-        FireButton fireButton = new FireButton();
+        FireButton fireButton = new FireButton( this );
         PSwing fireButtonGraphic = new PSwing( schrodingerCanvas, fireButton );
         addChild( fireButtonGraphic );
         fireButtonGraphic.setOffset( gunImage.getFullBounds().getWidth(), 5 );
@@ -52,6 +54,18 @@ public class GunPGraphic extends PNode {
         WiggleMe wiggleMe = new WiggleMe( "Push the Button" );
         addChild( wiggleMe );
         wiggleMe.setOscillating( true );
+
+//        PGunParticle gunParticle=new PhotonBeamParticle( );
     }
 
+    public DiscreteModel getDiscreteModel() {
+        return schrodingerCanvas.getDiscreteModel();
+    }
+
+    public void fireParticle() {
+    }
+
+    public SchrodingerModule getSchrodingerModule() {
+        return null;
+    }
 }

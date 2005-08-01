@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.tests.piccolo;
 
-import edu.colorado.phet.piccolo.Connector;
+import edu.colorado.phet.piccolo.ConnectorGraphic;
 import edu.colorado.phet.piccolo.WiggleMe;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PLayer;
@@ -82,10 +82,10 @@ public class TestPiccolo2 {
         layer.addChild( wiggleMe );
         wiggleMe.setOscillating( true );
 
-        Connector connector = new Connector( text2, wiggleMe );
-        layer.getRoot().addActivity( connector.getConnectActivity() );
-        connector.setStroke( new BasicStroke( 2, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 2, new float[]{10, 5}, 0 ) );
-        layer.addChild( 0, connector );
+        ConnectorGraphic connectorGraphic = new ConnectorGraphic( text2, wiggleMe );
+        layer.getRoot().addActivity( connectorGraphic.getConnectActivity() );
+        connectorGraphic.setStroke( new BasicStroke( 2, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 2, new float[]{10, 5}, 0 ) );
+        layer.addChild( 0, connectorGraphic );
 
 //        BoundGraphic boundGraphic = new BoundGraphic( htmlGraphic );
 //        layer.addChild( boundGraphic );
