@@ -81,30 +81,31 @@ public class RampPlotSet {
     }
 
     private void initTest() {
-        TimePlotSuite energyPlot = createTimePlotSuite( new Range2D( 0, -20000, 20, 20000 ), "Energy", 400, 200 );
+        //todo piccolo
+//        TimePlotSuite energyPlot = createTimePlotSuite( new Range2D( 0, -20000, 20, 20000 ), "Energy", 400, 200 );
+//
+//        ValueAccessor.TotalEnergy totalEnergy = new ValueAccessor.TotalEnergy( getLookAndFeel() );
+//        addTimeSeries( energyPlot, totalEnergy, totalEnergy.getColor(), "10000.00" );
+//
+//        ValueAccessor.ThermalEnergy thermalEnergy = new ValueAccessor.ThermalEnergy( getLookAndFeel() );
+//        addTimeSeries( energyPlot, thermalEnergy, thermalEnergy.getColor(), "10000.00" );
+//
+//        ValueAccessor.PotentialEnergy potentialEnergy = new ValueAccessor.PotentialEnergy( getLookAndFeel() );
+//        addTimeSeries( energyPlot, potentialEnergy, potentialEnergy.getColor(), "10000.00" );
+//
+//        ValueAccessor.KineticEnergy kineticEnergy = new ValueAccessor.KineticEnergy( getLookAndFeel() );
+//        addTimeSeries( energyPlot, kineticEnergy, kineticEnergy.getColor(), "10000.00" );
+//
+//        TimePlotSuite workPlot = createTimePlotSuite( new Range2D( 0, -20000, 20, 20000 ), "Work", 620, 200 );
+//
+//        ValueAccessor.AppliedWork appliedWork = new ValueAccessor.AppliedWork( getLookAndFeel() );
+//        addTimeSeries( workPlot, appliedWork, appliedWork.getColor(), "10000.00" );
+//
+//        ValueAccessor.FrictiveWork frictiveWork = new ValueAccessor.FrictiveWork( getLookAndFeel() );
+//        addTimeSeries( workPlot, frictiveWork, frictiveWork.getColor(), "10000.00" );
 
-        ValueAccessor.TotalEnergy totalEnergy = new ValueAccessor.TotalEnergy( getLookAndFeel() );
-        addTimeSeries( energyPlot, totalEnergy, totalEnergy.getColor(), "10000.00" );
-
-        ValueAccessor.ThermalEnergy thermalEnergy = new ValueAccessor.ThermalEnergy( getLookAndFeel() );
-        addTimeSeries( energyPlot, thermalEnergy, thermalEnergy.getColor(), "10000.00" );
-
-        ValueAccessor.PotentialEnergy potentialEnergy = new ValueAccessor.PotentialEnergy( getLookAndFeel() );
-        addTimeSeries( energyPlot, potentialEnergy, potentialEnergy.getColor(), "10000.00" );
-
-        ValueAccessor.KineticEnergy kineticEnergy = new ValueAccessor.KineticEnergy( getLookAndFeel() );
-        addTimeSeries( energyPlot, kineticEnergy, kineticEnergy.getColor(), "10000.00" );
-
-        TimePlotSuite workPlot = createTimePlotSuite( new Range2D( 0, -20000, 20, 20000 ), "Work", 620, 200 );
-
-        ValueAccessor.AppliedWork appliedWork = new ValueAccessor.AppliedWork( getLookAndFeel() );
-        addTimeSeries( workPlot, appliedWork, appliedWork.getColor(), "10000.00" );
-
-        ValueAccessor.FrictiveWork frictiveWork = new ValueAccessor.FrictiveWork( getLookAndFeel() );
-        addTimeSeries( workPlot, frictiveWork, frictiveWork.getColor(), "10000.00" );
-
-        module.getRampPanel().addGraphic( energyPlot, 10 );
-        module.getRampPanel().addGraphic( workPlot, 11 );
+//        module.getRampPanel().addGraphic( energyPlot);//todo PICCOLO
+//        module.getRampPanel().addGraphic( workPlot);
     }
 
     private RampLookAndFeel getLookAndFeel() {

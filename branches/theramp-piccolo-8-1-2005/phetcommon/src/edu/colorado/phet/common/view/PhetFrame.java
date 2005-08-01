@@ -11,14 +11,14 @@
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.application.ApplicationModel;
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.application.ModuleManager;
 import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.application.ModuleManager;
+import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.components.menu.HelpMenu;
 import edu.colorado.phet.common.view.components.menu.PhetFileMenu;
-import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.view.util.SwingUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -186,10 +186,11 @@ public class PhetFrame extends JFrame {
         if( modules.length == 1 ) {
             apparatusPanelContainer = new JPanel();
             apparatusPanelContainer.setLayout( new GridLayout( 1, 1 ) );
-            if( modules[0].getApparatusPanel() == null ) {
+            if( modules[0].getPhetPCanvas() == null ) {
                 throw new RuntimeException( "Null Apparatus Panel in Module: " + modules[0].getName() );
             }
-            apparatusPanelContainer.add( modules[0].getApparatusPanel() );
+//            apparatusPanelContainer.add( modules[0].getApparatusPanel() );
+            apparatusPanelContainer.add( modules[0].getPhetPCanvas() );
         }
         else {
             apparatusPanelContainer = new TabbedApparatusPanelContainer( application );
@@ -257,6 +258,7 @@ public class PhetFrame extends JFrame {
 
     /**
      * Adds a menu item to the File menu, just before the Exit menu item.
+     *
      * @param menuItem
      */
     public void addFileMenuItem( JMenuItem menuItem ) {
@@ -265,6 +267,7 @@ public class PhetFrame extends JFrame {
 
     /**
      * Removes a menu item from the File menu
+     *
      * @param menuItem
      */
     public void removeFileMenuItem( JMenuItem menuItem ) {
@@ -277,6 +280,7 @@ public class PhetFrame extends JFrame {
 
     /**
      * Sets a specified menu in the leftmost postition of the menu bar
+     *
      * @param defaultFileMenu
      */
     public void setFileMenu( PhetFileMenu defaultFileMenu ) {
@@ -289,6 +293,7 @@ public class PhetFrame extends JFrame {
 
     /**
      * Returns the leftmost menu on the menu bar
+     *
      * @return
      */
     private PhetFileMenu getFileMenu() {

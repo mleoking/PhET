@@ -72,7 +72,7 @@ public class PerpendicularArrowSet extends AbstractArrowSet {
         addForceArrowGraphic( wallArrowGraphic );
 
         addForceArrowGraphic( totalArrowGraphic );
-        setIgnoreMouse( true );
+        //setIgnoreMouse( true );
     }
 
 }

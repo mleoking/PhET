@@ -2,9 +2,9 @@
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.theramp.model.RampModel;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -16,18 +16,20 @@ import java.text.DecimalFormat;
  * Copyright (c) May 30, 2005 by Sam Reid
  */
 
-public class SpeedReadoutGraphic extends CompositePhetGraphic implements ModelElement {
+public class SpeedReadoutGraphic extends PNode implements ModelElement {
     private DecimalFormat format = new DecimalFormat( "0.00" );
-    public PhetTextGraphic phetTextGraphic;
+    public PText phetTextGraphic;
     private RampModel rampModel;
 
     public SpeedReadoutGraphic( Component component, RampModel rampModel ) {
-        super( component );
+        super();
         this.rampModel = rampModel;
         Font font = new Font( "Lucida Sans", Font.BOLD, 28 );
-        phetTextGraphic = new PhetTextGraphic( component, font, "", Color.black );
-        addGraphic( phetTextGraphic );
-        setIgnoreMouse( true );
+//        phetTextGraphic = new PhetTextGraphic( component, font, "", Color.black );
+        phetTextGraphic = new PText( "" );
+        phetTextGraphic.setFont( font );
+        addChild( phetTextGraphic );
+        //setIgnoreMouse( true );
     }
 
     public void stepInTime( double dt ) {

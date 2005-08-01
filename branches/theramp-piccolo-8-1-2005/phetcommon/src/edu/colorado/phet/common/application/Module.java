@@ -20,9 +20,9 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.help.HelpManager;
-import edu.colorado.phet.common.view.help.HelpPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.piccolo.PhetPCanvas;
 
 import javax.swing.*;
 
@@ -44,9 +44,9 @@ public class Module implements ClockTickListener {
     String name;
     private AbstractClock clock;
     HelpManager helpManager;
+    private PhetPCanvas phetPCanvas;
 
     /**
-     *
      * @param name
      * @param clock
      */
@@ -58,8 +58,8 @@ public class Module implements ClockTickListener {
     }
 
     /**
-     * @deprecated
      * @param name
+     * @deprecated
      */
     protected Module( String name ) {
         this( name, null );
@@ -164,7 +164,7 @@ public class Module implements ClockTickListener {
     public boolean moduleIsWellFormed() {
         boolean result = true;
         result &= this.getModel() != null;
-        result &= this.getApparatusPanel() != null;
+        result &= this.getPhetPCanvas() != null;
         return result;
     }
 
@@ -244,6 +244,7 @@ public class Module implements ClockTickListener {
     /**
      * Any module that wants to do some graphics updating that isn't handled through
      * model element/observer mechanisms can overide this method
+     *
      * @param event
      */
     public void updateGraphics( ClockTickEvent event ) {
@@ -255,10 +256,10 @@ public class Module implements ClockTickListener {
     //----------------------------------------------------------------
 
     public void clockTicked( ClockTickEvent event ) {
-        getApparatusPanel().handleUserInput();
+//        getApparatusPanel().handleUserInput();
         model.clockTicked( event );
-        updateGraphics( event );
-        getApparatusPanel().paint();
+//        updateGraphics( event );
+//        getApparatusPanel().paint();
     }
 
     ////////////////////////////////////////////////////////////////
@@ -321,4 +322,11 @@ public class Module implements ClockTickListener {
 //        // Force a repaint on the apparatus panel
 //        getApparatusPanel().repaint();
 //    }
+    public PhetPCanvas getPhetPCanvas() {
+        return phetPCanvas;
+    }
+
+    public void setPhetPCanvas( PhetPCanvas phetPCanvas ) {
+        this.phetPCanvas = phetPCanvas;
+    }
 }

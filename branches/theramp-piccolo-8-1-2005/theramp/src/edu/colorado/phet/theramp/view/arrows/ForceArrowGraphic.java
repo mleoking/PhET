@@ -5,16 +5,14 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.phetgraphics.ShadowHTMLGraphic;
-import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.piccolo.HTMLGraphic;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.view.BlockGraphic;
 import edu.colorado.phet.theramp.view.RampUtil;
 import edu.colorado.phet.theramp.view.RampWorld;
 import edu.colorado.phet.theramp.view.SurfaceGraphic;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -25,7 +23,7 @@ import java.awt.geom.Point2D;
  * Time: 8:22:35 PM
  * Copyright (c) Feb 13, 2005 by Sam Reid
  */
-public class ForceArrowGraphic extends CompositePhetGraphic {
+public class ForceArrowGraphic extends PNode {
     private double arrowTailWidth = 30;
     private double arrowHeadHeight = 55;
 
@@ -33,8 +31,8 @@ public class ForceArrowGraphic extends CompositePhetGraphic {
     private Color color;
     private int dy;
     private AbstractArrowSet.ForceComponent forceComponent;
-    private ShadowHTMLGraphic textGraphic;
-    private PhetShapeGraphic shapeGraphic;
+    private HTMLGraphic textGraphic;
+    private PPath shapeGraphic;
     private final Font font = new Font( "Lucida Sans", Font.BOLD, 14 );
     private Arrow lastArrow;
     private BlockGraphic blockGraphic;
@@ -53,7 +51,7 @@ public class ForceArrowGraphic extends CompositePhetGraphic {
     public ForceArrowGraphic( Component component, String name, Color color,
                               int dy, AbstractArrowSet.ForceComponent forceComponent,
                               BlockGraphic blockGraphic, String sub ) {
-        super( component );
+        super();
         this.blockGraphic = blockGraphic;
         this.name = name;
         this.baseColor = color;
@@ -66,11 +64,14 @@ public class ForceArrowGraphic extends CompositePhetGraphic {
         this.color = color;
         this.dy = dy;
         this.forceComponent = forceComponent;
-        textGraphic = new ShadowHTMLGraphic( component, name, font, Color.black, 1, 1, Color.yellow );
-        shapeGraphic = new PhetShapeGraphic( component, null, color, new BasicStroke( 1 ), Color.black );
-        addGraphic( shapeGraphic );
-        addGraphic( textGraphic );
-        setIgnoreMouse( true );
+        textGraphic = new HTMLGraphic( name );
+        //, font, Color.black, 1, 1, Color.yellow
+//        shapeGraphic = new PhetShapeGraphic( component, null, color, new BasicStroke( 1 ), Color.black );
+        shapeGraphic = new PPath( null );
+
+        addChild( shapeGraphic );
+        addChild( textGraphic );
+        //setIgnoreMouse( true );
         update();
     }
 
@@ -98,27 +99,29 @@ public class ForceArrowGraphic extends CompositePhetGraphic {
             System.out.println( "rampWorld = " + rampWorld );
             return;
         }
-        Point viewCtr = RectangleUtils.getCenter( blockGraphic.getObjectGraphic().getBoundsInAncestor( rampWorld ) );
+        Point2D viewCtr = blockGraphic.getBounds().getCenter2D();
+//                RectangleUtils.getCenter( blockGraphic.getObjectGraphic().getBoundsInAncestor( rampWorld ) );
         viewCtr = translate( viewCtr );
-        Point2D.Double tail = new Point2D.Double( viewCtr.x, viewCtr.y );
+        Point2D.Double tail = new Point2D.Double( viewCtr.getX(), viewCtr.getY() );
         Point2D tip = new Vector2D.Double( force.getX(), force.getY() ).getDestination( tail );
         Arrow forceArrow = new Arrow( tail, tip, arrowHeadHeight, arrowHeadHeight, arrowTailWidth, 0.5, false );
 
         Shape forceArrowShape = forceArrow.getShape();
         if( this.lastArrow == null || !this.lastArrow.equals( forceArrow ) ) {
-            shapeGraphic.setShape( forceArrowShape );
+            shapeGraphic.setPathTo( forceArrowShape );
 
             Shape forceArrowBody = forceArrow.getTailShape();
             double tgHeight = textGraphic.getHeight();
             double arrowHeight = forceArrowBody.getBounds().getHeight();
             double y = forceArrowBody.getBounds().getY() + arrowHeight / 2 - tgHeight / 2;
-            textGraphic.setLocation( forceArrowBody.getBounds().x, (int)y );
+//            textGraphic.setLocation( forceArrowBody.getBounds().x, (int)y );
+            textGraphic.setOffset( forceArrowBody.getBounds().x, (int)y );
         }
         this.lastArrow = forceArrow;
     }
 
     private RampWorld getRampWorld() {
-        PhetGraphic parent = getParent();
+        PNode parent = getParent();
         while( parent != null ) {
             if( parent instanceof RampWorld ) {
                 return (RampWorld)parent;
@@ -128,12 +131,12 @@ public class ForceArrowGraphic extends CompositePhetGraphic {
         return null;
     }
 
-    private Point translate( Point viewCtr ) {
+    private Point2D.Double translate( Point2D viewCtr ) {
         SurfaceGraphic surfaceGraphic = blockGraphic.getCurrentSurfaceGraphic();
         double viewAngle = surfaceGraphic.getViewAngle();
 //        System.out.println( "viewAngle = " + viewAngle );
         Point offset = new Point( (int)( Math.sin( viewAngle ) * dy ), (int)( Math.cos( viewAngle ) * dy ) );
-        return new Point( viewCtr.x + offset.x, viewCtr.y - offset.y );
+        return new Point2D.Double( viewCtr.getX() + offset.x, viewCtr.getY() - offset.y );
     }
 
     public String getName() {

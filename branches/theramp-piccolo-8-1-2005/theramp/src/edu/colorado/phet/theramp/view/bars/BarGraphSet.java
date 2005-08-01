@@ -2,16 +2,13 @@
 package edu.colorado.phet.theramp.view.bars;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShadowTextGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.theramp.common.BarGraphic2D;
 import edu.colorado.phet.theramp.model.RampModel;
 import edu.colorado.phet.theramp.model.ValueAccessor;
 import edu.colorado.phet.theramp.view.RampLookAndFeel;
 import edu.colorado.phet.theramp.view.RampPanel;
+import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
 
@@ -22,7 +19,7 @@ import java.awt.*;
  * Copyright (c) Jun 6, 2005 by Sam Reid
  */
 
-public class BarGraphSet extends CompositePhetGraphic {
+public class BarGraphSet extends PNode {
     private RampPanel rampPanel;
     private RampModel rampModel;
     public ModelViewTransform1D transform1D;
@@ -35,7 +32,7 @@ public class BarGraphSet extends CompositePhetGraphic {
     public int topY;
 
     public BarGraphSet( RampPanel rampPanel, RampModel rampModel, String title ) {
-        super( rampPanel );
+        super();
         this.rampPanel = rampPanel;
         this.rampModel = rampModel;
         transform1D = new ModelViewTransform1D( 0, 300, 0, 3 );
@@ -46,7 +43,8 @@ public class BarGraphSet extends CompositePhetGraphic {
         sep = width + dw;
         PhetShadowTextGraphic phetShadowTextGraphic = new PhetShadowTextGraphic( rampPanel, new Font( "Lucida Sans", Font.BOLD, 22 ), title, Color.black, 1, 1, Color.gray );
         phetShadowTextGraphic.translate( 5, topY + 10 );
-        addGraphic( phetShadowTextGraphic, 100 );
+        //todo piccolo
+//        addChild( phetShadowTextGraphic, 100 );
     }
 
     protected RampLookAndFeel getLookAndFeel() {
@@ -62,18 +60,20 @@ public class BarGraphSet extends CompositePhetGraphic {
     }
 
     public void setAccessors( ValueAccessor[] workAccess ) {
-        for( int i = 0; i < workAccess.length; i++ ) {
-            final ValueAccessor accessor = workAccess[i];
-            final BarGraphic2D barGraphic = new BarGraphic2D( getComponent(), accessor.getName(), transform1D,
-                                                              accessor.getValue( rampModel ), ( i ) * sep + dw, width, y, dx, dy, accessor.getColor() );
-            addClockTickListener( new ClockTickListener() {
-                public void clockTicked( ClockTickEvent event ) {
-                    barGraphic.setValue( accessor.getValue( rampModel ) );
-                }
-            } );
-            addGraphic( barGraphic );
-        }
-        PhetShapeGraphic energyBackground = new PhetShapeGraphic( getComponent(), new Rectangle( 0, topY, 5 * 2 + getWidth(), 1000 ), Color.white, new BasicStroke(), Color.black );
-        addGraphic( energyBackground, -10 );
+        //todo piccolo
+//        for( int i = 0; i < workAccess.length; i++ ) {
+//            final ValueAccessor accessor = workAccess[i];
+//            final BarGraphic2D barGraphic = new BarGraphic2D( getComponent(), accessor.getName(), transform1D,
+//                                                              accessor.getValue( rampModel ), ( i ) * sep + dw, width, y, dx, dy, accessor.getColor() );
+//            addClockTickListener( new ClockTickListener() {
+//                public void clockTicked( ClockTickEvent event ) {
+//                    barGraphic.setValue( accessor.getValue( rampModel ) );
+//                }
+//            } );
+//            addChild( barGraphic );
+//        }
+        //todo piccolo
+//        PhetShapeGraphic energyBackground = new PhetShapeGraphic( getComponent(), new Rectangle( 0, topY, 5 * 2 + getWidth(), 1000 ), Color.white, new BasicStroke(), Color.black );
+//        addChild( energyBackground);
     }
 }

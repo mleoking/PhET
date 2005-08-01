@@ -70,7 +70,7 @@ public class CartesianArrowSet extends AbstractArrowSet {
         addForceArrowGraphic( wallArrowGraphic );
 
         addForceArrowGraphic( totalArrowGraphic );
-        setIgnoreMouse( true );
+        //setIgnoreMouse( true );
     }
 
 }

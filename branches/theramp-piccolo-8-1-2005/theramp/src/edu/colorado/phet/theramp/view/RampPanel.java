@@ -1,15 +1,15 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.view;
 
-import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.BasicGraphicsSetup;
+import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.RampObject;
 import edu.colorado.phet.theramp.view.bars.BarGraphSuite;
-import edu.colorado.phet.theramp.view.panzoom.PanZoomKeyListener;
+import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * User: Sam Reid
@@ -18,7 +18,7 @@ import java.awt.event.*;
  * Copyright (c) Feb 11, 2005 by Sam Reid
  */
 
-public class RampPanel extends ApparatusPanel2 {
+public class RampPanel extends PhetPCanvas {
     private RampModule module;
     private RampLookAndFeel rampLookAndFeel;
     private BarGraphSuite barGraphSuite;
@@ -31,47 +31,48 @@ public class RampPanel extends ApparatusPanel2 {
     }
 
     public RampPanel( RampModule module ) {
-        super( module.getClock() );
+        super();
         this.module = module;
         rampLookAndFeel = new RampLookAndFeel();
 
-        addGraphicsSetup( new BasicGraphicsSetup() );
+//        addChildsSetup( new BasicGraphicsSetup() );
         setBackground( new Color( 240, 200, 255 ) );
 
         rampWorld = new RampWorld( this, module, this );
         double rampWorldScale = 1.0;
-        rampWorld.scale( rampWorldScale, rampWorldScale );
+        rampWorld.scale( rampWorldScale );
         rampWorld.translate( 0, -30 );
-        addGraphic( rampWorld );
+        addChild( rampWorld );
 
         barGraphSuite = new BarGraphSuite( this, module.getRampModel() );
-        addGraphic( new OverheatButton( this, module.getRampModel(), barGraphSuite.getMaxDisplayableEnergy() ) );
+        addChild( new OverheatButton( this, module.getRampModel(), barGraphSuite.getMaxDisplayableEnergy() ) );
 
 //        barGraphSet.scale( 0.93, 0.93 );
-        barGraphSuite.scale( 0.82, 0.82 );
-        barGraphSuite.setLocation( getDefaultRenderingSize().width - barGraphSuite.getWidth() - 1, barGraphSuite.getY() );
+        barGraphSuite.scale( 0.82 );
+        barGraphSuite.setOffset( getDefaultRenderingSize().width - barGraphSuite.getWidth() - 1, barGraphSuite.getY() );
 
-        addGraphic( barGraphSuite );
+        addChild( barGraphSuite );
 
-        KeyListener listener = new PanZoomKeyListener( this, getDefaultRenderingSize() );
-        addKeyListener( listener );
+        //todo piccolo
+//        KeyListener listener = new PanZoomKeyListener( this, getDefaultRenderingSize() );
+//        addKeyListener( listener );
 
-        addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-                setReferenceSize( getDefaultRenderingSize() );//my special little rendering size.//TODO add this method to AP2
-                requestFocus();
-            }
-        } );
-        removePanelResizeHandler();
+//        addComponentListener( new ComponentAdapter() {
+//            public void componentResized( ComponentEvent e ) {
+//                setReferenceSize( getDefaultRenderingSize() );//my special little rendering size.//TODO add this method to AP2
+//                requestFocus();
+//            }
+//        } );
+//        removePanelResizeHandler();
 
         timeGraphic = new TimeGraphic( this, module.getTimeSeriesModel() );
-        timeGraphic.setLocation( 60, 60 );
-        addGraphic( timeGraphic, 100 );
+        timeGraphic.setOffset( 60, 60 );
+        addChild( timeGraphic );
         module.getModel().addModelElement( timeGraphic );
 
         velocityGraphic = new SpeedReadoutGraphic( this, module.getRampModel() );
-        velocityGraphic.setLocation( timeGraphic.getX(), timeGraphic.getY() + timeGraphic.getHeight() + 20 );
-        addGraphic( velocityGraphic );
+        velocityGraphic.setOffset( timeGraphic.getX(), timeGraphic.getY() + timeGraphic.getHeight() + 20 );
+        addChild( velocityGraphic );
         module.getModel().addModelElement( velocityGraphic );
 
         requestFocus();
@@ -82,6 +83,16 @@ public class RampPanel extends ApparatusPanel2 {
         } );
 
         addMouseListener( new UserAddingEnergyHandler( module ) );
+
+//        setPanEventHandler();
+        addInputEventListener( getPanEventHandler() );
+        addInputEventListener( getZoomEventHandler() );
+
+        setDebugRegionManagement( true );
+    }
+
+    private void addChild( PNode pNode ) {
+        addGraphic( pNode );
     }
 
     private void updateArrowSetGraphics() {

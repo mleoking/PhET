@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.common.application;
 
-import edu.colorado.phet.common.util.persistence.*;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.util.persistence.*;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 
 import javax.swing.*;
@@ -20,8 +20,6 @@ import java.awt.geom.*;
 import java.beans.*;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Arrays;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -67,7 +65,7 @@ public class ModuleManager {
     public boolean moduleIsWellFormed( Module module ) {
         boolean result = true;
         result &= module.getModel() != null;
-        result &= module.getApparatusPanel() != null;
+        result &= module.getPhetPCanvas() != null;
         return result;
     }
 
@@ -110,7 +108,7 @@ public class ModuleManager {
     private void forceSetActiveModule( Module module ) {
         deactivate();
         activate( module );
-        moduleObserverProxy.activeModuleChanged(  new ModuleEvent( this, module ) );
+        moduleObserverProxy.activeModuleChanged( new ModuleEvent( this, module ) );
     }
 
     private void activate( Module module ) {
@@ -255,10 +253,11 @@ public class ModuleManager {
 
     /**
      * Returns the an array of the modules the module manager manages
+     *
      * @return
      */
     public Module[] getModules() {
-        Module[] moduleArray = new Module[ this.modules.size() ];
+        Module[] moduleArray = new Module[this.modules.size()];
         for( int i = 0; i < modules.size(); i++ ) {
             Module module = (Module)modules.get( i );
             moduleArray[i] = module;
