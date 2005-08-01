@@ -15,16 +15,17 @@ import java.awt.geom.Point2D;
  * Copyright (c) Jul 15, 2005 by Sam Reid
  */
 
-public class Connector extends PPath {
+public class ConnectorGraphic extends PPath {
 
     private PNode src;
     private PNode dst;
     private StayConnected connectActivity;
 
-    public Connector( PNode src, PNode dst ) {
+    public ConnectorGraphic( PNode src, PNode dst ) {
         this.src = src;
         this.dst = dst;
         connectActivity = new StayConnected();//todo make this automatically start & stop.
+        //todo even better update only when src or dst changes.
     }
 
     public StayConnected getConnectActivity() {

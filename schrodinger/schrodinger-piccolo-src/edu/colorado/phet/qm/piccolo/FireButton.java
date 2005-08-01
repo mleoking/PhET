@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.piccolo;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.qm.model.DiscreteModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,9 +22,12 @@ import java.io.IOException;
 public class FireButton extends JButton {
     private ImageIcon outIcon;
     private ImageIcon inIcon;
+//    private SchrodingerCanvas schrodingerCanvas;
+    private GunPGraphic gunPGraphic;
 
-    public FireButton() {
+    public FireButton( GunPGraphic gunPGraphic ) {
         super( "Fire" );
+        this.gunPGraphic = gunPGraphic;
 
         setFont( new Font( "Lucida Sans", Font.BOLD, 18 ) );
         setForeground( Color.red );
@@ -78,6 +82,21 @@ public class FireButton extends JButton {
     }
 
     private void clearAndFire() {
+        clearWavefunction();
+        fireParticle();
+        setEnabled( false );
+    }
+
+    private void clearWavefunction() {
+        getDiscreteModel().clearWavefunction();
+    }
+
+    private DiscreteModel getDiscreteModel() {
+        return gunPGraphic.getDiscreteModel();
+    }
+
+    public void fireParticle() {
+        gunPGraphic.fireParticle();
     }
 
     private boolean fireButtonEnabled() {
