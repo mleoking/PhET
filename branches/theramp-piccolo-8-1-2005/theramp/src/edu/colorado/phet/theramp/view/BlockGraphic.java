@@ -14,10 +14,10 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.event.PInputEventListener;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.util.PBounds;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -87,8 +87,13 @@ public class BlockGraphic extends PNode {
         PInputEventListener dragHandler = new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent e ) {
                 super.mouseDragged( e );
-                Point2D ctr = getCenter();
-                double dx = e.getPosition().getX() - ctr.getX();
+//                Point2D ctr = getCenter();
+                double x = e.getPositionRelativeTo( graphic ).getX();
+//                double x = e.getPositionRelativeTo( BlockGraphic.this ).getX();
+                double ctrX = graphic.getBounds().getCenterX();
+                double dx = x - ctrX;
+
+//                System.out.println( "x=" + x + ", ctrX=" + ctrX + ", dx = " + dx );
                 double appliedForce = dx / RampModule.FORCE_LENGTH_SCALE;
                 model.setAppliedForce( appliedForce );
                 module.record();
@@ -101,21 +106,6 @@ public class BlockGraphic extends PNode {
         };
         addInputEventListener( dragHandler );
         addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
-//        addInputEventListener( new Cursor);
-//        MouseInputAdapter mia = new MouseInputAdapter() {
-//            public void mouseDragged( MouseEvent e ) {
-//                Point2D ctr = getCenter();
-//                double dx = e.getPoint().x - ctr.getX();
-//                double appliedForce = dx / RampModule.FORCE_LENGTH_SCALE;
-//                model.setAppliedForce( appliedForce );
-//                module.record();
-//            }
-//
-//            // implements java.awt.event.MouseListener
-//            public void mouseReleased( MouseEvent e ) {
-//                model.setAppliedForce( 0.0 );
-//            }
-//        };
 
         //todo piccolo add thresholded drag adapter.
 //        this.mouseListener = new ThresholdedDragAdapter( mia, 10, 0, 1000 );
@@ -128,21 +118,12 @@ public class BlockGraphic extends PNode {
 
     }
 
-    public Point2D getCenter() {
-        return getBounds().getCenter2D();
-//        Point2D ctr = graphic.getNetTransform().transform( new Point2D.Double( graphic.getBounds().getWidth() / 2, graphic.getBounds().getHeight() / 2 ), null );
-//        return new Point( (int)ctr.getX(), (int)ctr.getY() );
-    }
-
     public void updateBlock() {
-//        setAutorepaint( false );
-
         double mass = block.getMass();
         double scale = rampObject.getScale();
 
         double preferredMass = rampObject.getMass();
         double sy = scale * mass / preferredMass;
-//        System.out.println( "sy = " + sy );
         AffineTransform transform = createTransform( scale, sy );
         transform.concatenate( AffineTransform.getScaleInstance( scale, sy ) );
         transform.concatenate( AffineTransform.getTranslateInstance( 0, getOffsetYPlease() ) );
@@ -223,5 +204,9 @@ public class BlockGraphic extends PNode {
 
     public PImage getObjectGraphic() {
         return graphic;
+    }
+
+    public PBounds getBlockBounds() {
+        return graphic.getFullBounds();
     }
 }

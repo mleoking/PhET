@@ -1,17 +1,13 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.piccolo;
 
-import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDebug;
-import edu.umd.cs.piccolo.util.PPaintContext;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
 
 /**
  * User: Sam Reid
@@ -101,50 +97,50 @@ public class PhetPCanvas extends PSwingCanvas {
         PDebug.debugFullBounds = debugFullBounds;
     }
 
-    public void paintComponent( Graphics g ) {
-        PDebug.startProcessingOutput();
-
-        Graphics2D g2 = (Graphics2D)g.create();
-        g2.setColor( getBackground() );
-        g2.fillRect( 0, 0, getWidth(), getHeight() );
-
-        // create new paint context and set render quality to lowest common
-        // denominator render quality.
-        PPaintContext paintContext = new PPaintContext( g2 );
-//        if( getInteracting() || getAnimating() ) {
-//            if( interactingRenderQuality < animatingRenderQuality ) {
-//                paintContext.setRenderQuality( interactingRenderQuality );
-//            }
-//            else {
-//                paintContext.setRenderQuality( animatingRenderQuality );
-//            }
+//    public void paintComponent( Graphics g ) {
+//        PDebug.startProcessingOutput();
+//
+//        Graphics2D g2 = (Graphics2D)g.create();
+//        g2.setColor( getBackground() );
+//        g2.fillRect( 0, 0, getWidth(), getHeight() );
+//
+//        // create new paint context and set render quality to lowest common
+//        // denominator render quality.
+//        PPaintContext paintContext = new PPaintContext( g2 );
+////        if( getInteracting() || getAnimating() ) {
+////            if( interactingRenderQuality < animatingRenderQuality ) {
+////                paintContext.setRenderQuality( interactingRenderQuality );
+////            }
+////            else {
+////                paintContext.setRenderQuality( animatingRenderQuality );
+////            }
+////        }
+////        else {
+////            paintContext.setRenderQuality( defaultRenderQuality );
+////        }
+//
+//        // paint piccolo
+//        boolean doubleBufferMe = false;
+//        if( doubleBufferMe ) {
+//            Image image = getCamera().toImage( getWidth(), getHeight(), getBackground() );
+//            BufferedImage bufferedImage = BufferedImageUtils.toBufferedImage( image );
+//            PPaintContext bufferedContext = new PPaintContext( bufferedImage.createGraphics() );
+//            getCamera().fullPaint( bufferedContext );
+//            g2.drawRenderedImage( bufferedImage, new AffineTransform() );
 //        }
 //        else {
-//            paintContext.setRenderQuality( defaultRenderQuality );
+//            getCamera().fullPaint( paintContext );
 //        }
-
-        // paint piccolo
-        boolean doubleBufferMe = false;
-        if( doubleBufferMe ) {
-            Image image = getCamera().toImage( getWidth(), getHeight(), getBackground() );
-            BufferedImage bufferedImage = BufferedImageUtils.toBufferedImage( image );
-            PPaintContext bufferedContext = new PPaintContext( bufferedImage.createGraphics() );
-            getCamera().fullPaint( bufferedContext );
-            g2.drawRenderedImage( bufferedImage, new AffineTransform() );
-        }
-        else {
-            getCamera().fullPaint( paintContext );
-        }
-
-//        // if switched state from animating to not animating invalidate the entire
-//        // screen so that it will be drawn with the default instead of animating
-//        // render quality.
-//        if( !getAnimating() && animatingOnLastPaint ) {
-//            repaint();
-//        }
-//        animatingOnLastPaint = getAnimating();
-
-        PDebug.endProcessingOutput( g2 );
-    }
+//
+////        // if switched state from animating to not animating invalidate the entire
+////        // screen so that it will be drawn with the default instead of animating
+////        // render quality.
+////        if( !getAnimating() && animatingOnLastPaint ) {
+////            repaint();
+////        }
+////        animatingOnLastPaint = getAnimating();
+//
+//        PDebug.endProcessingOutput( g2 );
+//    }
 
 }

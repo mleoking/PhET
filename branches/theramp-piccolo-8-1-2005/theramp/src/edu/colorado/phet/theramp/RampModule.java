@@ -6,10 +6,10 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockTickEvent;
+import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.model.RampModel;
 import edu.colorado.phet.theramp.timeseries.RampTimeSeriesModel;
@@ -64,9 +64,11 @@ public class RampModule extends Module {
         setObject( rampObjects[0] );
 
         rampMediaPanel = new TimeSeriesPlaybackPanel( rampTimeSeriesModel );
-    }
-
-    private void setApparatusPanel( PhetPCanvas phetPCanvas ) {
+        clock.addClockTickListener( new ClockTickListener() {
+            public void clockTicked( ClockTickEvent event ) {
+                updateGraphics( event );
+            }
+        } );
     }
 
     public void updateGraphics( ClockTickEvent event ) {

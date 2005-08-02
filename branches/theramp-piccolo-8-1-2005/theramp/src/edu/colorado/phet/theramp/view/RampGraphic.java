@@ -28,19 +28,12 @@ public class RampGraphic extends SurfaceGraphic {
         arrowGraphic = createArrowGraphic();
         addChild( arrowGraphic );
 
-        //todo piccolo
         getSurfaceGraphic().addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
                 arrowGraphic.setVisible( false );
             }
         } );
-//        getSurfaceGraphic().addMouseInputListener( new MouseInputAdapter() {
-//            // implements java.awt.event.MouseMotionListener
-//            public void mouseDragged( MouseEvent e ) {
-////                System.out.println( "RampGraphic.mouseDragged" );
-//                arrowGraphic.setVisible( false );
-//            }
-//        } );
+
         updateArrowGraphic();
     }
 
@@ -61,6 +54,8 @@ public class RampGraphic extends SurfaceGraphic {
         image = BufferedImageUtils.rescaleYMaintainAspectRatio( null, image, 100 );
         PImage phetImageGraphic = new PImage( image );
         //phetImageGraphic.setIgnoreMouse( true );
+        phetImageGraphic.setPickable( false );
+        phetImageGraphic.setChildrenPickable( false );
         return phetImageGraphic;
     }
 }

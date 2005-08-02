@@ -5,7 +5,7 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
-import edu.colorado.phet.piccolo.HTMLGraphic;
+import edu.colorado.phet.piccolo.ShadowHTMLGraphic;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.view.BlockGraphic;
 import edu.colorado.phet.theramp.view.RampUtil;
@@ -31,7 +31,7 @@ public class ForceArrowGraphic extends PNode {
     private Color color;
     private int dy;
     private AbstractArrowSet.ForceComponent forceComponent;
-    private HTMLGraphic textGraphic;
+    private ShadowHTMLGraphic textGraphic;
     private PPath shapeGraphic;
     private final Font font = new Font( "Lucida Sans", Font.BOLD, 14 );
     private Arrow lastArrow;
@@ -59,15 +59,18 @@ public class ForceArrowGraphic extends PNode {
         if( sub != null && !sub.trim().equals( "" ) ) {
             name = "<html>" + name + "<sub>" + sub + "</sub></html>";
         }
-//        color = RampUtil.transparify( color, 128 );
-        color = RampUtil.transparify( color, 175 );
-        this.color = color;
+        this.color = RampUtil.transparify( baseColor, 128 );
+//        color = RampUtil.transparify( color, 175 );
         this.dy = dy;
         this.forceComponent = forceComponent;
-        textGraphic = new HTMLGraphic( name );
+        textGraphic = new ShadowHTMLGraphic( name );
         //, font, Color.black, 1, 1, Color.yellow
 //        shapeGraphic = new PhetShapeGraphic( component, null, color, new BasicStroke( 1 ), Color.black );
+        textGraphic.setColor( Color.black );
+        textGraphic.setShadowColor( Color.yellow );
+
         shapeGraphic = new PPath( null );
+        shapeGraphic.setPaint( this.color );
 
         addChild( shapeGraphic );
         addChild( textGraphic );
@@ -99,9 +102,9 @@ public class ForceArrowGraphic extends PNode {
             System.out.println( "rampWorld = " + rampWorld );
             return;
         }
-        Point2D viewCtr = blockGraphic.getBounds().getCenter2D();
-//                RectangleUtils.getCenter( blockGraphic.getObjectGraphic().getBoundsInAncestor( rampWorld ) );
-        viewCtr = translate( viewCtr );
+//        System.out.println( "blockGraphic.getBounds() = " + blockGraphic.getBlockBounds() );
+        Point2D viewCtr = blockGraphic.getBlockBounds().getCenter2D();
+
         Point2D.Double tail = new Point2D.Double( viewCtr.getX(), viewCtr.getY() );
         Point2D tip = new Vector2D.Double( force.getX(), force.getY() ).getDestination( tail );
         Arrow forceArrow = new Arrow( tail, tip, arrowHeadHeight, arrowHeadHeight, arrowTailWidth, 0.5, false );
@@ -118,6 +121,8 @@ public class ForceArrowGraphic extends PNode {
             textGraphic.setOffset( forceArrowBody.getBounds().x, (int)y );
         }
         this.lastArrow = forceArrow;
+        setPickable( false );
+        setChildrenPickable( false );
     }
 
     private RampWorld getRampWorld() {

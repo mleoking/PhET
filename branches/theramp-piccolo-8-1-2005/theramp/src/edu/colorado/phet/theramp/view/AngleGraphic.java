@@ -28,7 +28,7 @@ public class AngleGraphic extends PNode {
         this.surfaceGraphic = surfaceGraphic;
         phetShapeGraphic = new PPath( null );
         phetShapeGraphic.setStroke( new BasicStroke( 2 ) );
-        phetShapeGraphic.setPaint( Color.black );
+        phetShapeGraphic.setStrokePaint( Color.black );
 //        phetShapeGraphic = new PhetShapeGraphic( getComponent(), null, new BasicStroke( 2 ), Color.black );
         label = new HTMLGraphic( "test" );
 //        label = new ShadowHTMLGraphic( getComponent(), "test", new Font( "Lucida Sans", 0, 14 ), Color.black, 1, 1, Color.gray );
@@ -55,6 +55,7 @@ public class AngleGraphic extends PNode {
         phetShapeGraphic.setPathTo( arc );
 
         //todo PICCOLO
+        label.setOffset( arc.getBounds().getMaxX(), arc.getBounds().getY() + arc.getBounds().getHeight() / 2 + 20 );
 //        label.setLocation( RectangleUtils.getRightCenter( phetShapeGraphic.getBoundsInAncestor( getRampWorld() ) ) );
 //        label.setLocation( label.getLocation().x, label.getLocation().y + surfaceGraphic.getImageHeight() + 5 );
         label.setHtml( "" + getAngleMessage() );

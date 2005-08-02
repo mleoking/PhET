@@ -65,6 +65,8 @@ public class SurfaceGraphic extends PNode {
         Paint bookFill = createBookFill();
 //        bookStackGraphic = new PhetShapeGraphic( getComponent(), null, bookFill );
         bookStackGraphic = new PPath( null );
+        bookStackGraphic.setStrokePaint( null );
+        bookStackGraphic.setStroke( null );
         bookStackGraphic.setPaint( bookFill );
 
 //        filledShapeGraphic = new PhetShapeGraphic( getComponent(), null, Color.lightGray );

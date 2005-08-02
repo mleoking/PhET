@@ -46,19 +46,21 @@ public class RampWorld extends PNode {
         Surface ramp = rampModel.getRamp();
         rampGraphic = new RampGraphic( rampPanel, ramp );
         earthGraphic = new EarthGraphic( rampPanel, this );
-        addChild( earthGraphic );
-
         skyGraphic = new SkyGraphic( rampPanel, this );
-        addChild( skyGraphic );
-
-
-        addChild( rampGraphic );
-
         groundGraphic = new FloorGraphic( rampPanel, rampModel.getGround() );
-//        groundGraphic.//setIgnoreMouse( true );
+        blockGraphic = new BlockGraphic( module, rampPanel, rampGraphic, groundGraphic, rampModel.getBlock(), module.getRampObjects()[0] );
+        rightBarrierGraphic = new RightBarrierGraphic( rampPanel, rampPanel, rampGraphic );
+        leftBarrierGraphic = new LeftBarrierGraphic( rampPanel, rampPanel, groundGraphic );
+
+
+        addChild( skyGraphic );
+        addChild( earthGraphic );
+        addChild( rampGraphic );
         addChild( groundGraphic );
 
-        blockGraphic = new BlockGraphic( module, rampPanel, rampGraphic, groundGraphic, rampModel.getBlock(), module.getRampObjects()[0] );
+        addChild( leftBarrierGraphic );
+        addChild( rightBarrierGraphic );
+
         addChild( blockGraphic );
 
         cartesian = new CartesianArrowSet( rampPanel, getBlockGraphic() );
@@ -94,11 +96,6 @@ public class RampWorld extends PNode {
 //        measuringTape.setVisible( false );
 //        addChild( measuringTape );
 
-        rightBarrierGraphic = new RightBarrierGraphic( rampPanel, rampPanel, rampGraphic );
-        addChild( rightBarrierGraphic );
-
-        leftBarrierGraphic = new LeftBarrierGraphic( rampPanel, rampPanel, groundGraphic );
-        addChild( leftBarrierGraphic );
     }
 
     void updateArrowSetGraphics() {
