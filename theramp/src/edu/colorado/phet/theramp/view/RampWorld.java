@@ -1,13 +1,11 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.view;
 
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.theramp.RampModule;
-import edu.colorado.phet.theramp.common.MeasuringTape;
 import edu.colorado.phet.theramp.model.RampModel;
 import edu.colorado.phet.theramp.model.Surface;
 import edu.colorado.phet.theramp.view.arrows.*;
+import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -23,7 +21,7 @@ import java.util.ArrayList;
  * Copyright (c) Jun 1, 2005 by Sam Reid
  */
 
-public class RampWorld extends GraphicLayerSet {
+public class RampWorld extends PNode {
     private ArrayList arrowSets = new ArrayList();
     private SurfaceGraphic rampGraphic;
     private BlockGraphic blockGraphic;
@@ -37,23 +35,33 @@ public class RampWorld extends GraphicLayerSet {
     private EarthGraphic earthGraphic;
     private SkyGraphic skyGraphic;
     private SurfaceGraphic groundGraphic;
-    private MeasuringTape measuringTape;
+    //todo piccolo
+//    private MeasuringTape measuringTape;
     private RightBarrierGraphic rightBarrierGraphic;
     private LeftBarrierGraphic leftBarrierGraphic;
 
-    public RampWorld( Component component, RampModule module, RampPanel rampPanel ) {
-        super( component );
+    public RampWorld( RampModule module, RampPanel rampPanel ) {
+        super();
         RampModel rampModel = module.getRampModel();
         Surface ramp = rampModel.getRamp();
         rampGraphic = new RampGraphic( rampPanel, ramp );
-        addGraphic( rampGraphic );
-
+        earthGraphic = new EarthGraphic( rampPanel, this );
+        skyGraphic = new SkyGraphic( rampPanel, this );
         groundGraphic = new FloorGraphic( rampPanel, rampModel.getGround() );
-        groundGraphic.setIgnoreMouse( true );
-        addGraphic( groundGraphic );
-
         blockGraphic = new BlockGraphic( module, rampPanel, rampGraphic, groundGraphic, rampModel.getBlock(), module.getRampObjects()[0] );
-        addGraphic( blockGraphic, 2 );
+        rightBarrierGraphic = new RightBarrierGraphic( rampPanel, rampPanel, rampGraphic );
+        leftBarrierGraphic = new LeftBarrierGraphic( rampPanel, rampPanel, groundGraphic );
+
+
+        addChild( skyGraphic );
+        addChild( earthGraphic );
+        addChild( rampGraphic );
+        addChild( groundGraphic );
+
+        addChild( leftBarrierGraphic );
+        addChild( rightBarrierGraphic );
+
+        addChild( blockGraphic );
 
         cartesian = new CartesianArrowSet( rampPanel, getBlockGraphic() );
         perp = new PerpendicularArrowSet( rampPanel, getBlockGraphic() );
@@ -72,32 +80,22 @@ public class RampWorld extends GraphicLayerSet {
         yArrowSet.setVisible( false );
 
         potentialEnergyZeroGraphic = new PotentialEnergyZeroGraphic( rampPanel, rampModel, this );
-        addGraphic( potentialEnergyZeroGraphic, 100 );
+        addChild( potentialEnergyZeroGraphic );
 
         try {
             leanerGraphic = new LeanerGraphic( rampPanel, blockGraphic.getObjectGraphic(), this );
-            addGraphic( leanerGraphic, 102 );
+            addChild( leanerGraphic );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
 
-        earthGraphic = new EarthGraphic( rampPanel, this );
-        addGraphic( earthGraphic, -1 );
+        //todo piccolo
+//        measuringTape = new MeasuringTape( rampPanel, rampGraphic.getScreenTransform(),
+//                                           RectangleUtils.getCenter2D( rampGraphic.getScreenTransform().getModelBounds() ) );
+//        measuringTape.setVisible( false );
+//        addChild( measuringTape );
 
-        skyGraphic = new SkyGraphic( rampPanel, this );
-        addGraphic( skyGraphic, -2 );
-
-        measuringTape = new MeasuringTape( rampPanel, rampGraphic.getScreenTransform(),
-                                           RectangleUtils.getCenter2D( rampGraphic.getScreenTransform().getModelBounds() ) );
-        measuringTape.setVisible( false );
-        addGraphic( measuringTape, 100 );
-
-        rightBarrierGraphic = new RightBarrierGraphic( rampPanel, rampPanel, rampGraphic );
-        addGraphic( rightBarrierGraphic, 1 );
-
-        leftBarrierGraphic = new LeftBarrierGraphic( rampPanel, rampPanel, groundGraphic );
-        addGraphic( leftBarrierGraphic, 1 );
     }
 
     void updateArrowSetGraphics() {
@@ -132,23 +130,23 @@ public class RampWorld extends GraphicLayerSet {
     }
 
     public boolean isCartesianVisible() {
-        return cartesian.isVisible();
+        return cartesian.getVisible();
     }
 
     public boolean isParallelVisible() {
-        return parallel.isVisible();
+        return parallel.getVisible();
     }
 
     public boolean isPerpendicularVisible() {
-        return perp.isVisible();
+        return perp.getVisible();
     }
 
     public boolean isXVisible() {
-        return xArrowSet.isVisible();
+        return xArrowSet.getVisible();
     }
 
     public boolean isYVisible() {
-        return yArrowSet.isVisible();
+        return yArrowSet.getVisible();
     }
 
     public SurfaceGraphic getRampGraphic() {
@@ -166,7 +164,7 @@ public class RampWorld extends GraphicLayerSet {
     }
 
     private void addArrowSet( AbstractArrowSet arrowSet ) {
-        addGraphic( arrowSet, 3 );
+        addChild( arrowSet );
         arrowSets.add( arrowSet );
     }
 
@@ -182,7 +180,7 @@ public class RampWorld extends GraphicLayerSet {
         return v.y;
     }
 
-    public Point convertToWorld( Point screenPt ) {
+    public Point convertToWorld( Point2D screenPt ) {
         AffineTransform affineTransform = getTransform();
         Point2D out = null;
         try {
@@ -195,6 +193,7 @@ public class RampWorld extends GraphicLayerSet {
     }
 
     public void setMeasureTapeVisible( boolean visible ) {
-        measuringTape.setVisible( visible );
+        //todo piccolo
+//        measuringTape.setVisible( visible );
     }
 }

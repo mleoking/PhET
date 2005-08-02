@@ -5,15 +5,19 @@ import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.theramp.model.Surface;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 
 import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -26,62 +30,76 @@ import java.text.DecimalFormat;
  * Copyright (c) Feb 11, 2005 by Sam Reid
  */
 
-public class SurfaceGraphic extends GraphicLayerSet {
+public class SurfaceGraphic extends PNode {
     private RampPanel rampPanel;
     private Surface ramp;
     private ModelViewTransform2D screenTransform;
     private double viewAngle;
-    private PhetImageGraphic surfaceGraphic;
-    private PhetShapeGraphic floorGraphic;
-    private PhetShapeGraphic bookStackGraphic;
+    private PImage surfaceGraphic;
+    private PPath floorGraphic;
+    private PPath bookStackGraphic;
     private int surfaceStrokeWidth = 12;
-    private PhetShapeGraphic filledShapeGraphic;
+    private PPath filledShapeGraphic;
     private RampTickSetGraphic rampTickSetGraphic;
-    private PhetShadowTextGraphic heightReadoutGraphic;
+    private PText heightReadoutGraphic;
     private AngleGraphic angleGraphic;
     private BufferedImage texture;
 
     public SurfaceGraphic( final RampPanel rampPanel, final Surface ramp ) {
-        super( rampPanel );
+        super();
         this.rampPanel = rampPanel;
         this.ramp = ramp;
         screenTransform = new ModelViewTransform2D( new Rectangle2D.Double( -10, 0, 20, 10 ), new Rectangle( -50, -50, 800, 400 ) );
 
         Stroke stroke = new BasicStroke( 6.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
-        surfaceGraphic = new PhetImageGraphic( rampPanel, "images/wood5.png" );
-        floorGraphic = new PhetShapeGraphic( getComponent(), null, stroke, Color.black );
+        try {
+            surfaceGraphic = new PImage( ImageLoader.loadBufferedImage( "images/wood5.png" ) );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+//        floorGraphic = new PhetShapeGraphic( getComponent(), null, stroke, Color.black );
+        floorGraphic = new PPath( null, stroke );
+        floorGraphic.setStrokePaint( Color.black );
+
         Paint bookFill = createBookFill();
-        bookStackGraphic = new PhetShapeGraphic( getComponent(), null, bookFill );
-        filledShapeGraphic = new PhetShapeGraphic( getComponent(), null, Color.lightGray );
-        addGraphic( filledShapeGraphic );
+//        bookStackGraphic = new PhetShapeGraphic( getComponent(), null, bookFill );
+        bookStackGraphic = new PPath( null );
+        bookStackGraphic.setStrokePaint( null );
+        bookStackGraphic.setStroke( null );
+        bookStackGraphic.setPaint( bookFill );
+
+//        filledShapeGraphic = new PhetShapeGraphic( getComponent(), null, Color.lightGray );
+        filledShapeGraphic = new PPath();
+        filledShapeGraphic.setPaint( Color.lightGray );
+        addChild( filledShapeGraphic );
         filledShapeGraphic.setVisible( false );
-        addGraphic( floorGraphic );
-        addGraphic( bookStackGraphic );
-        addGraphic( surfaceGraphic );
+        addChild( floorGraphic );
+        addChild( bookStackGraphic );
+        addChild( surfaceGraphic );
 
-        heightReadoutGraphic = new PhetShadowTextGraphic( rampPanel, new Font( "Lucida Sans", 0, 14 ), "h=0.0 m", Color.black, 1, 1, Color.gray );
-        addGraphic( heightReadoutGraphic );
+//        heightReadoutGraphic = new PText( rampPanel, new Font( "Lucida Sans", 0, 14 ), "h=0.0 m", Color.black, 1, 1, Color.gray );
+        heightReadoutGraphic = new PText( "h=0.0 m" );
+        addChild( heightReadoutGraphic );
 
-        surfaceGraphic.addMouseInputListener( new MouseInputAdapter() {
-            // implements java.awt.event.MouseMotionListener
-            public void mouseDragged( MouseEvent e ) {
-                SurfaceGraphic.this.mouseDragged( e );
+        surfaceGraphic.addInputEventListener( new PBasicInputEventHandler() {
+            public void mouseDragged( PInputEvent event ) {
+                SurfaceGraphic.this.mouseDragged( event );
             }
         } );
-        bookStackGraphic.addMouseInputListener( new MouseInputAdapter() {
-            // implements java.awt.event.MouseMotionListener
-            public void mouseDragged( MouseEvent e ) {
-                SurfaceGraphic.this.mouseDragged( e );
+        bookStackGraphic.addInputEventListener( new PBasicInputEventHandler() {
+            public void mouseDragged( PInputEvent event ) {
+                SurfaceGraphic.this.mouseDragged( event );
             }
         } );
-        bookStackGraphic.setCursorHand();
-        surfaceGraphic.setCursorHand();
+        surfaceGraphic.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
+        bookStackGraphic.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
 
         rampTickSetGraphic = new RampTickSetGraphic( this );
-        addGraphic( rampTickSetGraphic, 10 );
+        addChild( rampTickSetGraphic );
 
         angleGraphic = new AngleGraphic( this );
-        addGraphic( angleGraphic, 15 );
+        addChild( angleGraphic );
 
         updateRamp();
         ramp.addObserver( new SimpleObserver() {
@@ -91,12 +109,12 @@ public class SurfaceGraphic extends GraphicLayerSet {
         } );
     }
 
-    public PhetShadowTextGraphic getHeightReadoutGraphic() {
+    public PText getHeightReadoutGraphic() {
         return heightReadoutGraphic;
     }
 
-    private void mouseDragged( MouseEvent e ) {
-        Point pt = e.getPoint();
+    private void mouseDragged( PInputEvent pie ) {
+        Point2D pt = pie.getPosition();//e.getPoint();
         pt = getRampWorld().convertToWorld( pt );
         Vector2D.Double vec = new Vector2D.Double( getViewOrigin(), pt );
         double angle = -vec.getAngle();
@@ -108,7 +126,6 @@ public class SurfaceGraphic extends GraphicLayerSet {
     private RampWorld getRampWorld() {
         return rampPanel.getRampWorld();
     }
-
 
     private Point getEndLocation() {
         return getViewLocation( ramp.getLocation( ramp.getLength() ) );
@@ -130,7 +147,7 @@ public class SurfaceGraphic extends GraphicLayerSet {
 
     }
 
-    public PhetGraphic getSurfaceGraphic() {
+    public PImage getSurfaceGraphic() {
         return surfaceGraphic;
     }
 
@@ -170,28 +187,30 @@ public class SurfaceGraphic extends GraphicLayerSet {
 //        double origLength = new Vector2D.Double( origSurface.getP1(), origSurface.getP2() ).getMagnitude();
 //        Line2D line = RampUtil.getInstanceForLength( origSurface, origLength * 4 );
 //        surfaceGraphic.setShape( line );
-        surfaceGraphic.setAutorepaint( false );
-        surfaceGraphic.setLocation( getViewOrigin() );
-        surfaceGraphic.setTransform( new AffineTransform() );
-        surfaceGraphic.rotate( viewAngle );
+
+//        surfaceGraphic.setAutorepaint( false );
+        surfaceGraphic.setOffset( getViewOrigin() );
+//        surfaceGraphic.setTransform( new AffineTransform() );
+        surfaceGraphic.setRotation( viewAngle );
 //        double rampLength = 10;//meters
 //        ramp.getLocation( 10);
 //        getViewLocation( ramp.getLocation( rampLength ) );
 
         //todo scale the graphic to fit the length.
-        double cur_im_width_model = screenTransform.viewToModelDifferentialX( surfaceGraphic.getImage().getWidth() );
+        double cur_im_width_model = screenTransform.viewToModelDifferentialX( surfaceGraphic.getImage().getWidth( null ) );
 
-        surfaceGraphic.scale( ramp.getLength() / cur_im_width_model );
+        surfaceGraphic.setScale( ramp.getLength() / cur_im_width_model );
+        System.out.println( "surfaceGraphic.getGlobalFullBounds() = " + surfaceGraphic.getGlobalFullBounds() );
 //        surfaceGraphic.setAutorepaint( true );
-        surfaceGraphic.repaint();
+//        surfaceGraphic.repaint();
 
         Point p2 = new Point( viewDst.x, viewOrigin.y );
         Line2D.Double floor = new Line2D.Double( viewOrigin, p2 );
-        floorGraphic.setShape( null );
+        floorGraphic.setPathTo( new Rectangle() );
 
 //        GeneralPath jackShape = createJackLine();
         Shape jackShape = createJackArea();
-        bookStackGraphic.setShape( jackShape );
+        bookStackGraphic.setPathTo( jackShape );
         bookStackGraphic.setPaint( createBookFill() );
         bookStackGraphic.setVisible( ramp.getAngle() * 360 / 2 / Math.PI < 85 );
 
@@ -199,9 +218,9 @@ public class SurfaceGraphic extends GraphicLayerSet {
         path.lineTo( floor.getP2() );
         path.lineTo( viewDst );
         path.closePath();
-        filledShapeGraphic.setShape( path.getGeneralPath() );
+        filledShapeGraphic.setPathTo( path.getGeneralPath() );
 
-        heightReadoutGraphic.setLocation( (int)( jackShape.getBounds().getMaxX() + 5 ), jackShape.getBounds().y );
+        heightReadoutGraphic.setOffset( (int)( jackShape.getBounds().getMaxX() + 5 ), jackShape.getBounds().y );
         double height = ramp.getHeight();
         String heightStr = new DecimalFormat( "0.0" ).format( height );
         heightReadoutGraphic.setText( "h=" + heightStr + " m" );
@@ -215,12 +234,8 @@ public class SurfaceGraphic extends GraphicLayerSet {
         Point rampStart = getViewLocation( ramp.getLocation( 0 ) );
         Point rampEnd = getViewLocation( ramp.getLocation( ramp.getLength() ) );
 
-        Rectangle rect = new Rectangle( rampEnd.x - texture.getWidth() / 2, (int)( rampEnd.y + surfaceGraphic.getImage().getHeight() * 0.75 ), texture.getWidth(), rampStart.y - rampEnd.y );
-//        System.out.println( "rect = " + rect );
+        Rectangle rect = new Rectangle( rampEnd.x - texture.getWidth() / 2, (int)( rampEnd.y + surfaceGraphic.getImage().getHeight( null ) * 0.75 ), texture.getWidth(), rampStart.y - rampEnd.y );
         return rect;
-//        DoubleGeneralPath path = new DoubleGeneralPath( new Point( rampEnd.x, rampStart.y ) );
-//        path.lineTo( new Point( rampEnd.x, rampEnd.y ) );
-//        return path.getGeneralPath();
     }
 
     GeneralPath createJackLine() {
@@ -275,6 +290,6 @@ public class SurfaceGraphic extends GraphicLayerSet {
     }
 
     public int getImageHeight() {
-        return surfaceGraphic.getImage().getHeight();
+        return surfaceGraphic.getImage().getHeight( null );
     }
 }

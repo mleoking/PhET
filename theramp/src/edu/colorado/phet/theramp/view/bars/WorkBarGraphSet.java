@@ -22,7 +22,5 @@ public class WorkBarGraphSet extends BarGraphSet {
             new ValueAccessor.AppliedWork( getLookAndFeel() )
         };
         super.setAccessors( workAccess );
-//        PhetShapeGraphic workBackground = new PhetShapeGraphic( getComponent(), new Rectangle(  5, topY, 5 * 2 + workWidth, 1000 ), new Color( 240, 250, 245 ), new BasicStroke(), Color.black );
-//        addGraphic( workBackground, -10 );
     }
 }

@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.view;
 
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -17,24 +17,24 @@ import java.util.ArrayList;
  * Copyright (c) May 6, 2005 by Sam Reid
  */
 
-public class RampTickSetGraphic extends CompositePhetGraphic {
+public class RampTickSetGraphic extends PNode {
     private SurfaceGraphic surfaceGraphic;
     private ArrayList tickGraphics = new ArrayList();
 
     public RampTickSetGraphic( SurfaceGraphic surfaceGraphic ) {
-        super( surfaceGraphic.getComponent() );
+        super();
         this.surfaceGraphic = surfaceGraphic;
         for( int i = 0; i <= surfaceGraphic.getSurface().getLength(); i++ ) {
             double x = i;
             addTickGraphic( x );
         }
-        setIgnoreMouse( true );
+        //setIgnoreMouse( true );
     }
 
     private void addTickGraphic( double x ) {
-        RampTickSetGraphic.TickGraphic tickGraphic = new TickGraphic( getComponent(), x );
+        RampTickSetGraphic.TickGraphic tickGraphic = new TickGraphic( x );
         tickGraphics.add( tickGraphic );
-        addGraphic( tickGraphic );
+        addChild( tickGraphic );
     }
 
     public void update() {
@@ -44,21 +44,24 @@ public class RampTickSetGraphic extends CompositePhetGraphic {
         }
     }
 
-    public class TickGraphic extends CompositePhetGraphic {
+    public class TickGraphic extends PNode {
         private double x;
-        private PhetShapeGraphic phetShapeGraphic;
+        private PPath phetShapeGraphic;
 
-        public TickGraphic( Component component, double x ) {
-            super( component );
+        public TickGraphic( double x ) {
+            super();
             this.x = x;
-            phetShapeGraphic = new PhetShapeGraphic( component, new Line2D.Double( 0, 0, 0, 7 ), new BasicStroke( 2 ), Color.black );
-            addGraphic( phetShapeGraphic );
+//            phetShapeGraphic = new PhetShapeGraphic( component, new Line2D.Double( 0, 0, 0, 7 ), new BasicStroke( 2 ), Color.black );
+            phetShapeGraphic = new PPath( new Line2D.Double( 0, 0, 0, 7 ) );
+            phetShapeGraphic.setStroke( new BasicStroke( 2 ) );
+            phetShapeGraphic.setPaint( Color.black );
+            addChild( phetShapeGraphic );
             update();
         }
 
         public void update() {
             Point2D loc = surfaceGraphic.getSurface().getLocation( x );
-            setLocation( surfaceGraphic.getViewLocation( loc ) );
+            setOffset( surfaceGraphic.getViewLocation( loc ) );
             setTransform( new AffineTransform() );
             rotate( surfaceGraphic.getViewAngle() );
         }

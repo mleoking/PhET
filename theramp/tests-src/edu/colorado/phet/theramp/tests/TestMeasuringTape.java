@@ -7,13 +7,8 @@ import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.theramp.common.MeasuringTape;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -34,9 +29,10 @@ public class TestMeasuringTape {
         } );
         apparatusPanel2.addGraphicsSetup( new BasicGraphicsSetup() );
         clock.start();
-        MeasuringTape measuringTape = new MeasuringTape( apparatusPanel2, new ModelViewTransform2D( new Rectangle2D.Double( 0, 0, 10, 10 ), new Rectangle( 0, 0, 600, 600 ) ), new Point2D.Double( 5, 5 ) );
-        apparatusPanel2.addGraphic( measuringTape );
-        measuringTape.setLocation( 100, 100 );
+        //todo piccolo
+//        MeasuringTape measuringTape = new MeasuringTape( apparatusPanel2, new ModelViewTransform2D( new Rectangle2D.Double( 0, 0, 10, 10 ), new Rectangle( 0, 0, 600, 600 ) ), new Point2D.Double( 5, 5 ) );
+//        apparatusPanel2.addGraphic( measuringTape );
+//        measuringTape.setLocation( 100, 100 );
 
         JFrame frame = new JFrame( "" );
         frame.setContentPane( apparatusPanel2 );

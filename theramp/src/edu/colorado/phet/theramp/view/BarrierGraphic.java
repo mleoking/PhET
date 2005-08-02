@@ -2,11 +2,13 @@
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -15,17 +17,22 @@ import java.awt.geom.AffineTransform;
  * Copyright (c) May 30, 2005 by Sam Reid
  */
 
-public abstract class BarrierGraphic extends CompositePhetGraphic {
+public abstract class BarrierGraphic extends PNode {
     private RampPanel rampPanel;
     private SurfaceGraphic surfaceGraphic;
-    public PhetImageGraphic imageGraphic;
+    public PImage imageGraphic;
 
     public BarrierGraphic( Component component, RampPanel rampPanel, SurfaceGraphic surfaceGraphic ) {
-        super( component );
+        super();
         this.rampPanel = rampPanel;
         this.surfaceGraphic = surfaceGraphic;
-        imageGraphic = new PhetImageGraphic( component, "images/barrier2.jpg" );
-        addGraphic( imageGraphic );
+        try {
+            imageGraphic = new PImage( ImageLoader.loadBufferedImage( "images/barrier2.jpg" ) );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        addChild( imageGraphic );
         surfaceGraphic.getSurface().addObserver( new SimpleObserver() {
             public void update() {
                 BarrierGraphic.this.update();
@@ -35,11 +42,11 @@ public abstract class BarrierGraphic extends CompositePhetGraphic {
     }
 
     private AffineTransform createTransform( double position, double scaleX, double fracSize ) {
-        return surfaceGraphic.createTransform( position, new Dimension( (int)( imageGraphic.getImage().getWidth() * scaleX ), (int)( imageGraphic.getImage().getHeight() * fracSize ) ) );
+        return surfaceGraphic.createTransform( position, new Dimension( (int)( imageGraphic.getImage().getWidth( null ) * scaleX ), (int)( imageGraphic.getImage().getHeight( null ) * fracSize ) ) );
     }
 
     private void update() {
-        setAutorepaint( false );
+//        setAutorepaint( false );
         AffineTransform transform = createTransform( getBarrierPosition(), 1, 1 );
         transform.concatenate( AffineTransform.getTranslateInstance( 0, getYOffset() ) );
         transform.concatenate( AffineTransform.getTranslateInstance( getOffsetX(), 0 ) );
@@ -51,9 +58,9 @@ public abstract class BarrierGraphic extends CompositePhetGraphic {
 
     protected abstract double getBarrierPosition();
 
-    private double getYOffset() {
-        return 5;
-    }
+//    private double getYOffset() {
+//        return 5;
+//    }
 
     public RampPanel getRampPanel() {
         return rampPanel;

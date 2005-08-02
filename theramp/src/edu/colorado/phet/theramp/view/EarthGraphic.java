@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.view;
 
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
 
@@ -13,8 +13,8 @@ import java.awt.*;
  * Copyright (c) May 8, 2005 by Sam Reid
  */
 
-public class EarthGraphic extends CompositePhetGraphic {
-    private PhetShapeGraphic phetShapeGraphic;
+public class EarthGraphic extends PNode {
+    private PPath phetShapeGraphic;
     private RampPanel rampPanel;
     private RampWorld rampWorld;
 
@@ -22,13 +22,14 @@ public class EarthGraphic extends CompositePhetGraphic {
         this.rampPanel = rampPanel;
         this.rampWorld = rampWorld;
         Color earthGreen = new Color( 83, 175, 38 );
-        phetShapeGraphic = new PhetShapeGraphic( rampPanel, null, earthGreen, new BasicStroke( 1 ), Color.black );
-        addGraphic( phetShapeGraphic );
+//        phetShapeGraphic = new PhetShapeGraphic( rampPanel, null, earthGreen, new BasicStroke( 1 ), Color.black );
+        phetShapeGraphic = new PPath( null );
+        addChild( phetShapeGraphic );
         update();
     }
 
     private void update() {
-        phetShapeGraphic.setShape( createShape() );
+        phetShapeGraphic.setPathTo( createShape() );
     }
 
     private Shape createShape() {
