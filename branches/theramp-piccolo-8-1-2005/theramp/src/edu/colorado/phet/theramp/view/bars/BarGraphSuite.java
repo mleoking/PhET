@@ -31,8 +31,10 @@ public class BarGraphSuite extends PNode {
         energyBarGraphSet = new EnergyBarGraphSet( rampPanel, rampModel );
         addChild( workBarGraphSet );
         addChild( energyBarGraphSet );
-        energyBarGraphSet.translate( workBarGraphSet.getWidth() + 10, 0 );
-        //setIgnoreMouse( true );
+
+        energyBarGraphSet.translate( workBarGraphSet.getFullBounds().getWidth() + 10, 0 );
+        setPickable( false );
+        setChildrenPickable( false );
     }
 
     public void setLocation( Point p ) {

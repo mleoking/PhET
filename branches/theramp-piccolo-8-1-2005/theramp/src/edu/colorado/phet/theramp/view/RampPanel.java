@@ -49,22 +49,10 @@ public class RampPanel extends PhetPCanvas {
         addChild( new OverheatButton( this, module.getRampModel(), barGraphSuite.getMaxDisplayableEnergy() ) );
 
 //        barGraphSet.scale( 0.93, 0.93 );
-        barGraphSuite.scale( 0.82 );
-        barGraphSuite.setOffset( getDefaultRenderingSize().width - barGraphSuite.getWidth() - 1, barGraphSuite.getY() );
+        barGraphSuite.scale( 0.80 );
+        barGraphSuite.setOffset( getDefaultRenderingSize().width - barGraphSuite.getFullBounds().getWidth() - 1, barGraphSuite.getY() );
 
         addChild( barGraphSuite );
-
-        //todo piccolo
-//        KeyListener listener = new PanZoomKeyListener( this, getDefaultRenderingSize() );
-//        addKeyListener( listener );
-
-//        addComponentListener( new ComponentAdapter() {
-//            public void componentResized( ComponentEvent e ) {
-//                setReferenceSize( getDefaultRenderingSize() );//my special little rendering size.//TODO add this method to AP2
-//                requestFocus();
-//            }
-//        } );
-//        removePanelResizeHandler();
 
         timeGraphic = new TimeGraphic( this, module.getTimeSeriesModel() );
         timeGraphic.setOffset( 60, 60 );

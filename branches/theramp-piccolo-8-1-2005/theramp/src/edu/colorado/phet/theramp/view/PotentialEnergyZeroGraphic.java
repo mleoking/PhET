@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.view;
 
+import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.theramp.model.RampModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -41,12 +42,7 @@ public class PotentialEnergyZeroGraphic extends PNode {
                 changeZeroPoint( event );
             }
         } );
-        //todo piccolo
-//        addTranslationListener( new TranslationListener() {
-//            public void translationOccurred( TranslationEvent translationEvent ) {
-//                changeZeroPoint( translationEvent );
-//            }
-//        } );
+
         RampModel.Listener listener = new RampModel.Listener() {
             public void appliedForceChanged() {
             }
@@ -67,15 +63,17 @@ public class PotentialEnergyZeroGraphic extends PNode {
 //        label.setLocation( 10, -label.getHeight() - 4 );
 //        label.setLocation( 10, 0);//-label.getHeight() - 4 );
 //        label.setLocation( 10, (int)( label.getHeight()*.075 ) );//-label.getHeight() - 4 );
-        label.setOffset( 10, label.getHeight() - 15 );//-label.getHeight() - 4 );
+        label.setOffset( 10, label.getHeight() );//-label.getHeight() - 4 );
 //        listener.zeroPointChanged();
         updateLabel();
+
+        addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
     }
 
     private void updateLabel() {
         String str = new DecimalFormat( "0.0" ).format( rampModel.getZeroPointY() );
-//        label.setText( "h=0.0 @ y=" + str );
-        label.setText( "y=0.0" );
+        label.setText( "h=0.0 @ y=" + str );
+//        label.setText( "y=0.0" );
     }
 
     private void changeZeroPoint( PInputEvent pEvent ) {
