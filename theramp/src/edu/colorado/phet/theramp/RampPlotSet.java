@@ -126,7 +126,7 @@ public class RampPlotSet {
 
     private TimePlotSuitePNode createTimePlotSuitePNode( Range2D range, String name, int y, int height ) {
         TimeSeriesModel timeSeriesModel = module.getTimeSeriesModel();
-        TimePlotSuitePNode timePlotSuitePNode = new TimePlotSuitePNode( range, name, timeSeriesModel );
+        TimePlotSuitePNode timePlotSuitePNode = new TimePlotSuitePNode( module.getPhetPCanvas(), range, name, timeSeriesModel );
         timePlotSuitePNode.setOffset( 0, y );
         return timePlotSuitePNode;
     }

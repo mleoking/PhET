@@ -41,6 +41,7 @@ public class TimeSeriesPNode {
     private void dataAdded() {
         TimePoint pt = series.getLastPoint();
         //draw into the buffered image
+        plotSuite.addPoint( pt.getTime(), pt.getValue() );
 
 //        plotSuite.
     }
