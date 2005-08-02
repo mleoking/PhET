@@ -767,6 +767,13 @@ public abstract class Plot implements AxisChangeListener,
         drawBackgroundImage(g2, area);
     }
 
+    /**Necessary to facilitate computation of data within the plot.*/
+    Rectangle2D.Double dataArea=null;
+
+    public Rectangle2D.Double getDataArea() {
+        return dataArea;
+    }
+
     /**
      * Fills the specified area with the background paint.
      * 
@@ -774,6 +781,7 @@ public abstract class Plot implements AxisChangeListener,
      * @param area  the area.
      */
     protected void fillBackground(Graphics2D g2, Rectangle2D area) {
+        this.dataArea = new Rectangle2D.Double( area.getX(), area.getY(), area.getWidth(), area.getHeight() );
         if (this.backgroundPaint != null) {
             Composite originalComposite = g2.getComposite();
             g2.setComposite(
