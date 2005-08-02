@@ -102,6 +102,12 @@ public class RampModule extends Module {
         catch( InvocationTargetException e ) {
             e.printStackTrace();
         }
+
+//        clock.addClockTickListener( new ClockTickListener() {
+//            public void clockTicked( ClockTickEvent event ) {
+//                module.getPhetPCanvas().paintImmediately();
+//            }
+//        } );
 //        RepaintDebugGraphic.enable( module.getApparatusPanel(), clock );
 
     }

@@ -14,7 +14,6 @@ import java.util.ArrayList;
  */
 
 public abstract class TimeSeriesModel implements ClockTickListener {
-
     private ArrayList listeners = new ArrayList();
     private boolean paused = true;
 
@@ -79,10 +78,6 @@ public abstract class TimeSeriesModel implements ClockTickListener {
     public PlaybackMode getPlaybackMode() {
         return playbackMode;
     }
-
-//    public ModelElement getMainModelElement() {
-//        return mainModelElement;
-//    }
 
     public static double getTimeScale() {
         return TIME_SCALE;

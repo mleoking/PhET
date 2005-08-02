@@ -160,4 +160,29 @@ public class PhetPCanvas extends PSwingCanvas {
 //        PDebug.endProcessingOutput( g2 );
 //    }
 
+//    public void repaint( long tm, int x, int y, int width, int height ) {
+////        super.repaint( tm, x, y, width, height );
+//    }
+//
+//    public void repaint( PBounds bounds ) {
+////        super.repaint( bounds );
+//    }
+//
+//    public void repaint( Rectangle r ) {
+////        super.repaint( r );
+//    }
+//
+//    public void repaint() {
+////        super.repaint();
+//    }
+//
+//    public void repaint( int x, int y, int width, int height ) {
+////        super.repaint( x, y, width, height );
+//    }
+//
+//    public void repaint( long tm ) {
+////        super.repaint( tm );
+//    }
+
+
 }

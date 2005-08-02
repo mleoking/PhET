@@ -16,13 +16,13 @@ import java.awt.*;
 public class VerticalTextGraphic extends PNode {
     private Font font;
     private String text;
-    private Paint color;
+//    private Paint color;
 
     public VerticalTextGraphic( Font font, String text, Color color, Color outline ) {
         super();
         this.font = font;
         this.text = text;
-        this.color = color;
+//        this.color = color;
 //        PhetShadowTextGraphic phetTextGraphic = new PhetShadowTextGraphic( component, font, text, color, 1, 1, outline );
 //        ShadowHTMLGraphic phetTextGraphic = new ShadowHTMLGraphic( component, text, font, color, 1, 1, outline );
         ShadowHTMLGraphic phetTextGraphic = new ShadowHTMLGraphic( text );//, font, color, 1, 1, outline );
@@ -32,7 +32,7 @@ public class VerticalTextGraphic extends PNode {
 //        PhetOutlineTextGraphic phetTextGraphic = new PhetOutlineTextGraphic( component, font, text, color, new BasicStroke( 1 ), outline );
 
         double h = phetTextGraphic.getFullBounds().getHeight();
-        phetTextGraphic.translate( -h / 2 + 4, 0 );
+        phetTextGraphic.translate( -h / 2 + 4, -10 );
         phetTextGraphic.rotate( -Math.PI / 2 );
 
         addChild( phetTextGraphic );
