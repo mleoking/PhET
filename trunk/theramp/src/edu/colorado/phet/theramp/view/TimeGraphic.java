@@ -2,9 +2,9 @@
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -16,19 +16,20 @@ import java.text.DecimalFormat;
  * Copyright (c) May 30, 2005 by Sam Reid
  */
 
-public class TimeGraphic extends CompositePhetGraphic implements ModelElement {
+public class TimeGraphic extends PNode implements ModelElement {
     private TimeSeriesModel timeModel;
     private DecimalFormat format = new DecimalFormat( "0.00" );
-    public PhetTextGraphic phetTextGraphic;
+    public PText phetTextGraphic;
 
     public TimeGraphic( Component component, TimeSeriesModel clock ) {
-        super( component );
+        super();
         this.timeModel = clock;
         Font font = new Font( "Lucida Sans", Font.BOLD, 28 );
-        phetTextGraphic = new PhetTextGraphic( component, font, "", Color.black );
-        addGraphic( phetTextGraphic );
+        phetTextGraphic = new PText( "" );
+        phetTextGraphic.setFont( font );
+        addChild( phetTextGraphic );
         stepInTime( 0.0 );
-        setIgnoreMouse( true );
+        //setIgnoreMouse( true );
     }
 
     public void stepInTime( double dt ) {

@@ -1,11 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.view;
 
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.phetgraphics.ShadowHTMLGraphic;
-import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.piccolo.HTMLGraphic;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
 import java.awt.geom.Arc2D;
@@ -20,18 +18,22 @@ import java.text.DecimalFormat;
  * Copyright (c) May 8, 2005 by Sam Reid
  */
 
-public class AngleGraphic extends CompositePhetGraphic {
+public class AngleGraphic extends PNode {
     private SurfaceGraphic surfaceGraphic;
-    private PhetShapeGraphic phetShapeGraphic;
-    private ShadowHTMLGraphic label;
+    private PPath phetShapeGraphic;
+    private HTMLGraphic label;
 
     public AngleGraphic( SurfaceGraphic surfaceGraphic ) {
-        super( surfaceGraphic.getComponent() );
+        super();
         this.surfaceGraphic = surfaceGraphic;
-        phetShapeGraphic = new PhetShapeGraphic( getComponent(), null, new BasicStroke( 2 ), Color.black );
-        label = new ShadowHTMLGraphic( getComponent(), "test", new Font( "Lucida Sans", 0, 14 ), Color.black, 1, 1, Color.gray );
-        addGraphic( phetShapeGraphic );
-        addGraphic( label );
+        phetShapeGraphic = new PPath( null );
+        phetShapeGraphic.setStroke( new BasicStroke( 2 ) );
+        phetShapeGraphic.setStrokePaint( Color.black );
+//        phetShapeGraphic = new PhetShapeGraphic( getComponent(), null, new BasicStroke( 2 ), Color.black );
+        label = new HTMLGraphic( "test" );
+//        label = new ShadowHTMLGraphic( getComponent(), "test", new Font( "Lucida Sans", 0, 14 ), Color.black, 1, 1, Color.gray );
+        addChild( phetShapeGraphic );
+        addChild( label );
         update();
     }
 
@@ -50,15 +52,17 @@ public class AngleGraphic extends CompositePhetGraphic {
         double extent = surfaceGraphic.getSurface().getAngle() * 180 / Math.PI;
         extent = Math.max( extent, 0.00001 );
         Arc2D.Double arc = new Arc2D.Double( ellipseBounds, 0, extent, Arc2D.OPEN );
-        phetShapeGraphic.setShape( arc );
+        phetShapeGraphic.setPathTo( arc );
 
-        label.setLocation( RectangleUtils.getRightCenter( phetShapeGraphic.getBoundsInAncestor( getRampWorld() ) ) );
-        label.setLocation( label.getLocation().x, label.getLocation().y + surfaceGraphic.getImageHeight() + 5 );
-        label.setHTML( "" + getAngleMessage() );
+        //todo PICCOLO
+        label.setOffset( arc.getBounds().getMaxX(), arc.getBounds().getY() + arc.getBounds().getHeight() / 2 + 20 );
+//        label.setLocation( RectangleUtils.getRightCenter( phetShapeGraphic.getBoundsInAncestor( getRampWorld() ) ) );
+//        label.setLocation( label.getLocation().x, label.getLocation().y + surfaceGraphic.getImageHeight() + 5 );
+        label.setHtml( "" + getAngleMessage() );
     }
 
     private RampWorld getRampWorld() {
-        PhetGraphic parent = getParent();
+        PNode parent = getParent();
         while( parent != null ) {
             if( parent instanceof RampWorld ) {
                 return (RampWorld)parent;

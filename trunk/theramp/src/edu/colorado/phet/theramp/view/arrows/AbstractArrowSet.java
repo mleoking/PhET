@@ -2,8 +2,8 @@
 package edu.colorado.phet.theramp.view.arrows;
 
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.theramp.view.BlockGraphic;
+import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Copyright (c) Feb 13, 2005 by Sam Reid
  */
 
-public class AbstractArrowSet extends CompositePhetGraphic {
+public class AbstractArrowSet extends PNode {
     public static final String APPLIED = "Applied";
     public static final String TOTAL = "Total";
     public static final String FRICTION = "Friction";
@@ -33,7 +33,7 @@ public class AbstractArrowSet extends CompositePhetGraphic {
     }
 
     public AbstractArrowSet( Component component, BlockGraphic blockGraphic ) {
-        super( component );
+        super();
         this.blockGraphic = blockGraphic;
     }
 
@@ -42,12 +42,12 @@ public class AbstractArrowSet extends CompositePhetGraphic {
     }
 
     protected void addForceArrowGraphic( ForceArrowGraphic forceArrowGraphic ) {
-        addGraphic( forceArrowGraphic );
+        addChild( forceArrowGraphic );
         graphics.add( forceArrowGraphic );
     }
 
     public void updateGraphics() {
-        if( isVisible() ) {
+        if( getVisible() ) {
             for( int i = 0; i < graphics.size(); i++ ) {
                 ForceArrowGraphic forceArrowGraphic = (ForceArrowGraphic)graphics.get( i );
                 forceArrowGraphic.update();

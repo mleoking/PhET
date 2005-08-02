@@ -81,7 +81,7 @@ public class YArrowSet extends AbstractArrowSet {
         forceArrowGraphic.setPaint( createYPaint( forceArrowGraphic ) );
         wallArrowGraphic.setPaint( createYPaint( wallArrowGraphic ) );
         totalArrowGraphic.setPaint( createYPaint( totalArrowGraphic ) );
-        setIgnoreMouse( true );
+        //setIgnoreMouse( true );
     }
 
     private Paint createYPaint( ForceArrowGraphic arrowGraphic ) {

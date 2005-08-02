@@ -2,14 +2,13 @@
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphicListener;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.FrameSequence;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.model.RampModel;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -23,9 +22,9 @@ import java.io.IOException;
  * Copyright (c) Dec 6, 2004 by Sam Reid
  */
 
-public class LeanerGraphic extends PhetImageGraphic {
+public class LeanerGraphic extends PImage {
     private FrameSequence animation;
-    private PhetGraphic target;
+    private PNode target;
     private RampWorld rampWorld;
     private double max = 3000.0;
     private FrameSequence flippedAnimation;
@@ -34,8 +33,8 @@ public class LeanerGraphic extends PhetImageGraphic {
     private RampPanel rampPanel;
     private double modelLocation;
 
-    public LeanerGraphic( final RampPanel rampPanel, final PhetGraphic target, RampWorld rampWorld ) throws IOException {
-        super( rampPanel, (BufferedImage)null );
+    public LeanerGraphic( final RampPanel rampPanel, final PNode target, RampWorld rampWorld ) throws IOException {
+        super();
         this.target = target;
         this.rampWorld = rampWorld;
         this.module = rampPanel.getRampModule();
@@ -49,22 +48,23 @@ public class LeanerGraphic extends PhetImageGraphic {
         flippedAnimation = new FrameSequence( flipped );
         super.setImage( animation.getFrame( 0 ) );
         final long startTime = System.currentTimeMillis();
-        target.addPhetGraphicListener( new PhetGraphicListener() {
-            public void phetGraphicChanged( PhetGraphic phetGraphic ) {
-                long dt = System.currentTimeMillis() - startTime;
-                if( getAppliedForce() != 0 ) {
-                    update();
-                }
-                if( dt < 5000 ) {
-                    update();
-                }
-            }
-
-            public void phetGraphicVisibilityChanged( PhetGraphic phetGraphic ) {
-                setVisible( phetGraphic.isVisible() );
-            }
-
-        } );
+        //todo piccolo
+//        target.addPhetGraphicListener( new PhetGraphicListener() {
+//            public void phetGraphicChanged( PhetGraphic phetGraphic ) {
+//                long dt = System.currentTimeMillis() - startTime;
+//                if( getAppliedForce() != 0 ) {
+//                    update();
+//                }
+//                if( dt < 5000 ) {
+//                    update();
+//                }
+//            }
+//
+//            public void phetGraphicVisibilityChanged( PhetGraphic phetGraphic ) {
+//                setVisible( phetGraphic.isVisible() );
+//            }
+//
+//        } );
         module.getRampModel().addListener( new RampModel.Listener() {
             public void appliedForceChanged() {
                 update();
@@ -81,7 +81,7 @@ public class LeanerGraphic extends PhetImageGraphic {
                 LeanerGraphic.this.updateTransform();
             }
         } );
-        setIgnoreMouse( true );
+        //setIgnoreMouse( true );
         update();
 
     }
@@ -152,11 +152,11 @@ public class LeanerGraphic extends PhetImageGraphic {
 
     private void updateTransform() {
 //        AffineTransform tx = rampPanel.getRampGraphic().createTransform( modelLocation, new Dimension( getFrame().getWidth(), getFrame().getHeight() ) );
-        AffineTransform tx = rampWorld.getBlockGraphic().getCurrentSurfaceGraphic().createTransform( modelLocation, new Dimension( getFrame().getWidth(), getFrame().getHeight() ) );
+        AffineTransform tx = rampWorld.getBlockGraphic().getCurrentSurfaceGraphic().createTransform( modelLocation, new Dimension( getFrame().getWidth( null ), getFrame().getHeight( null ) ) );
         setTransform( tx );
     }
 
-    private BufferedImage getFrame() {
+    private Image getFrame() {
         return getImage();
     }
 }

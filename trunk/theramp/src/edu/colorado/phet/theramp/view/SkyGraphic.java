@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.view;
 
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
 
@@ -13,22 +13,23 @@ import java.awt.*;
  * Copyright (c) May 8, 2005 by Sam Reid
  */
 
-public class SkyGraphic extends CompositePhetGraphic {
+public class SkyGraphic extends PNode {
     private RampPanel rampPanel;
     private RampWorld rampWorld;
-    private PhetShapeGraphic phetShapeGraphic;
+    private PPath phetShapeGraphic;
 
     public SkyGraphic( RampPanel rampPanel, RampWorld rampWorld ) {
         this.rampPanel = rampPanel;
         this.rampWorld = rampWorld;
         Color lightBlue = new Color( 165, 220, 252 );
-        phetShapeGraphic = new PhetShapeGraphic( rampPanel, null, lightBlue );
-        addGraphic( phetShapeGraphic );
+        phetShapeGraphic = new PPath();
+        phetShapeGraphic.setPaint( lightBlue );
+        addChild( phetShapeGraphic );
         update();
     }
 
     private void update() {
-        phetShapeGraphic.setShape( createShape() );
+        phetShapeGraphic.setPathTo( createShape() );
     }
 
     private Shape createShape() {

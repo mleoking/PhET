@@ -80,7 +80,7 @@ public class XArrowSet extends AbstractArrowSet {
         forceArrowGraphic.setPaint( createXPaint( forceArrowGraphic ) );
         wallArrowGraphic.setPaint( createXPaint( wallArrowGraphic ) );
         totalArrowGraphic.setPaint( createXPaint( totalArrowGraphic ) );
-        setIgnoreMouse( true );
+        //setIgnoreMouse( true );
     }
 
     private Paint createXPaint( ForceArrowGraphic arrowGraphic ) {

@@ -1,9 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.view.bars;
 
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.theramp.model.RampModel;
 import edu.colorado.phet.theramp.view.RampPanel;
+import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -16,7 +16,7 @@ import java.awt.image.BufferedImage;
  * Copyright (c) Feb 12, 2005 by Sam Reid
  */
 
-public class BarGraphSuite extends CompositePhetGraphic {
+public class BarGraphSuite extends PNode {
     private RampPanel rampPanel;
     private RampModel rampModel;
 
@@ -24,23 +24,25 @@ public class BarGraphSuite extends CompositePhetGraphic {
     private BarGraphSet energyBarGraphSet;
 
     public BarGraphSuite( RampPanel rampPanel, final RampModel rampModel ) {
-        super( rampPanel );
+        super();
         this.rampPanel = rampPanel;
         this.rampModel = rampModel;
         workBarGraphSet = new WorkBarGraphSet( rampPanel, rampModel );
         energyBarGraphSet = new EnergyBarGraphSet( rampPanel, rampModel );
-        addGraphic( workBarGraphSet );
-        addGraphic( energyBarGraphSet );
-        energyBarGraphSet.translate( workBarGraphSet.getWidth() + 10, 0 );
-        setIgnoreMouse( true );
+        addChild( workBarGraphSet );
+        addChild( energyBarGraphSet );
+
+        energyBarGraphSet.translate( workBarGraphSet.getFullBounds().getWidth() + 10, 0 );
+        setPickable( false );
+        setChildrenPickable( false );
     }
 
     public void setLocation( Point p ) {
-        super.setLocation( p );
+        super.setOffset( p );
     }
 
     public void setLocation( int x, int y ) {
-        super.setLocation( x, y );
+        super.setOffset( x, y );
     }
 
     private Paint toEnergyPaint( Color color ) {

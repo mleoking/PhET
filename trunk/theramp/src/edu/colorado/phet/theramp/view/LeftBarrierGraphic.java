@@ -16,7 +16,7 @@ public class LeftBarrierGraphic extends BarrierGraphic {
     }
 
     protected int getOffsetX() {
-        return -imageGraphic.getImage().getWidth() / 2;
+        return -imageGraphic.getImage().getWidth( null ) / 2;
     }
 
     protected double getBarrierPosition() {

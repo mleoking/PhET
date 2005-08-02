@@ -2,21 +2,22 @@
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.RampObject;
-import edu.colorado.phet.theramp.common.LocationDebugGraphic;
 import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.model.Ramp;
 import edu.colorado.phet.theramp.model.RampModel;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.event.PInputEventListener;
+import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.util.PBounds;
 
-import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -27,20 +28,20 @@ import java.io.IOException;
  * Copyright (c) Feb 11, 2005 by Sam Reid
  */
 
-public class BlockGraphic extends GraphicLayerSet {
+public class BlockGraphic extends PNode {
     private RampModule module;
     private RampPanel rampPanel;
     private SurfaceGraphic rampGraphic;
     private SurfaceGraphic groundGraphic;
     private Block block;
-    private PhetImageGraphic graphic;
+    private PImage graphic;
     private ThresholdedDragAdapter mouseListener;
-    private LocationDebugGraphic locationDebugGraphic;
+//    private LocationDebugGraphic locationDebugGraphic;
     private RampObject rampObject;
-    private PhetImageGraphic wheelGraphic;
+    private PImage wheelGraphic;
 
     public BlockGraphic( final RampModule module, RampPanel rampPanel, SurfaceGraphic rampGraphic, SurfaceGraphic groundGraphic, Block block, RampObject rampObject ) {
-        super( rampPanel );
+        super();
         this.module = module;
         this.rampPanel = rampPanel;
         this.rampGraphic = rampGraphic;
@@ -50,16 +51,21 @@ public class BlockGraphic extends GraphicLayerSet {
 
         final RampModel model = module.getRampModel();
 
-        wheelGraphic = new PhetImageGraphic( getComponent(), "images/skateboard.png" );
+        try {
+            wheelGraphic = new PImage( ImageLoader.loadBufferedImage( "images/skateboard.png" ) );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
         wheelGraphic.setVisible( false );
-        addGraphic( wheelGraphic );
+        addChild( wheelGraphic );
 
-        graphic = new PhetImageGraphic( getComponent() );
-        graphic.setCursorHand();
-        addGraphic( graphic );
+        graphic = new PImage();
+        //graphic.setCursorHand();
+        addChild( graphic );
         setObject( rampObject );
 
-        locationDebugGraphic = new LocationDebugGraphic( getComponent(), 10 );
+//        locationDebugGraphic = new LocationDebugGraphic( getComponent(), 10 );
         block.addListener( new Block.Adapter() {
             public void positionChanged() {
                 updateBlock();
@@ -78,24 +84,32 @@ public class BlockGraphic extends GraphicLayerSet {
             }
         } );
 
-        MouseInputAdapter mia = new MouseInputAdapter() {
-            public void mouseDragged( MouseEvent e ) {
-                Point ctr = getCenter();
-                double dx = e.getPoint().x - ctr.x;
+        PInputEventListener dragHandler = new PBasicInputEventHandler() {
+            public void mouseDragged( PInputEvent e ) {
+                super.mouseDragged( e );
+//                Point2D ctr = getCenter();
+                double x = e.getPositionRelativeTo( graphic ).getX();
+//                double x = e.getPositionRelativeTo( BlockGraphic.this ).getX();
+                double ctrX = graphic.getBounds().getCenterX();
+                double dx = x - ctrX;
+
+//                System.out.println( "x=" + x + ", ctrX=" + ctrX + ", dx = " + dx );
                 double appliedForce = dx / RampModule.FORCE_LENGTH_SCALE;
                 model.setAppliedForce( appliedForce );
                 module.record();
             }
 
-            // implements java.awt.event.MouseListener
-            public void mouseReleased( MouseEvent e ) {
+            public void mouseReleased( PInputEvent event ) {
+                super.mouseReleased( event );
                 model.setAppliedForce( 0.0 );
             }
         };
+        addInputEventListener( dragHandler );
+        addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
 
-        this.mouseListener = new ThresholdedDragAdapter( mia, 10, 0, 1000 );
-        graphic.addMouseInputListener( this.mouseListener );
-        setCursorHand();
+        //todo piccolo add thresholded drag adapter.
+//        this.mouseListener = new ThresholdedDragAdapter( mia, 10, 0, 1000 );
+
         rampGraphic.getSurface().addObserver( new SimpleObserver() {
             public void update() {
                 updateBlock();
@@ -104,27 +118,19 @@ public class BlockGraphic extends GraphicLayerSet {
 
     }
 
-    public Point getCenter() {
-        Point2D ctr = graphic.getNetTransform().transform( new Point2D.Double( graphic.getBounds().getWidth() / 2, graphic.getBounds().getHeight() / 2 ), null );
-        return new Point( (int)ctr.getX(), (int)ctr.getY() );
-    }
-
     public void updateBlock() {
-        setAutorepaint( false );
-
         double mass = block.getMass();
         double scale = rampObject.getScale();
 
         double preferredMass = rampObject.getMass();
         double sy = scale * mass / preferredMass;
-//        System.out.println( "sy = " + sy );
         AffineTransform transform = createTransform( scale, sy );
         transform.concatenate( AffineTransform.getScaleInstance( scale, sy ) );
-        transform.concatenate( AffineTransform.getTranslateInstance( 0, getYOffset() ) );
+        transform.concatenate( AffineTransform.getTranslateInstance( 0, getOffsetYPlease() ) );
         graphic.setTransform( transform );
         if( isFrictionless() ) {
             wheelGraphic.setVisible( true );
-            AffineTransform wheelTx = createTransform( block.getPositionInSurface(), 1.0, 1.0, wheelGraphic.getImage().getWidth(), wheelGraphic.getImage().getHeight() );
+            AffineTransform wheelTx = createTransform( block.getPositionInSurface(), 1.0, 1.0, wheelGraphic.getImage().getWidth( null ), wheelGraphic.getImage().getHeight( null ) );
 //            wheelTx.concatenate( AffineTransform.getScaleInstance( scale, sy ) );
 //            wheelTx.concatenate( AffineTransform.getTranslateInstance( 0, getYOffset() ) );
             wheelGraphic.setTransform( wheelTx );
@@ -141,7 +147,7 @@ public class BlockGraphic extends GraphicLayerSet {
         return block.getStaticFriction() == 0 || block.getKineticFriction() == 0;
     }
 
-    private double getYOffset() {
+    private double getOffsetYPlease() {
         if( isFrictionless() ) {
             return rampObject.getYOffset() - getSkateboardHeight();
         }
@@ -151,7 +157,7 @@ public class BlockGraphic extends GraphicLayerSet {
     }
 
     private double getSkateboardHeight() {
-        return wheelGraphic.getImage().getHeight();
+        return wheelGraphic.getImage().getHeight( null );
     }
 
     private AffineTransform createTransform( double x, double scaleX, double fracSize, int imageWidth, int imageHeight ) {
@@ -160,7 +166,7 @@ public class BlockGraphic extends GraphicLayerSet {
 
     private AffineTransform createTransform( double scaleX, double fracSize ) {
 //        return rampGraphic.createTransform( block.getPosition(), new Dimension( (int)( graphic.getImage().getWidth() * scaleX ), (int)( graphic.getImage().getHeight() * fracSize ) ) );
-        return getCurrentSurfaceGraphic().createTransform( block.getPositionInSurface(), new Dimension( (int)( graphic.getImage().getWidth() * scaleX ), (int)( graphic.getImage().getHeight() * fracSize ) ) );
+        return getCurrentSurfaceGraphic().createTransform( block.getPositionInSurface(), new Dimension( (int)( graphic.getImage().getWidth( null ) * scaleX ), (int)( graphic.getImage().getHeight( null ) * fracSize ) ) );
     }
 
     private void setImage( BufferedImage image ) {
@@ -169,7 +175,7 @@ public class BlockGraphic extends GraphicLayerSet {
     }
 
     public int getObjectWidthView() {
-        return (int)( graphic.getImage().getWidth() * rampObject.getScale() );//TODO scaling will hurt this.
+        return (int)( graphic.getImage().getWidth( null ) * rampObject.getScale() );//TODO scaling will hurt this.
     }
 
     public Block getBlock() {
@@ -196,7 +202,11 @@ public class BlockGraphic extends GraphicLayerSet {
         }
     }
 
-    public PhetGraphic getObjectGraphic() {
+    public PImage getObjectGraphic() {
         return graphic;
+    }
+
+    public PBounds getBlockBounds() {
+        return graphic.getFullBounds();
     }
 }

@@ -6,9 +6,9 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockTickEvent;
+import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
-import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.model.RampModel;
@@ -55,7 +55,7 @@ public class RampModule extends Module {
 //            new RampObject( "images/ollie.gif", "Sleepy Dog", 0.5, 30, 0.1, 0.1, 0.35 ),
         };
         rampPanel = new RampPanel( this );
-        setApparatusPanel( rampPanel );
+        super.setPhetPCanvas( rampPanel );
 
         rampPlotSet = new RampPlotSet( this );
 
@@ -64,6 +64,11 @@ public class RampModule extends Module {
         setObject( rampObjects[0] );
 
         rampMediaPanel = new TimeSeriesPlaybackPanel( rampTimeSeriesModel );
+        clock.addClockTickListener( new ClockTickListener() {
+            public void clockTicked( ClockTickEvent event ) {
+                updateGraphics( event );
+            }
+        } );
     }
 
     public void updateGraphics( ClockTickEvent event ) {
@@ -97,7 +102,7 @@ public class RampModule extends Module {
         catch( InvocationTargetException e ) {
             e.printStackTrace();
         }
-        RepaintDebugGraphic.enable( module.getApparatusPanel(), clock );
+//        RepaintDebugGraphic.enable( module.getApparatusPanel(), clock );
 
     }
 

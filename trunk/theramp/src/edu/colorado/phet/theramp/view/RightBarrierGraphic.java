@@ -16,7 +16,7 @@ public class RightBarrierGraphic extends BarrierGraphic {
     }
 
     protected int getOffsetX() {
-        return imageGraphic.getImage().getWidth() / 2;
+        return imageGraphic.getImage().getWidth( getRampPanel() ) / 2;
     }
 
     protected double getBarrierPosition() {
