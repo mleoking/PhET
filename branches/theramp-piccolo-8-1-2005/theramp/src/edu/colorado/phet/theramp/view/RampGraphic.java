@@ -5,6 +5,8 @@ import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.theramp.model.Surface;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import java.awt.*;
@@ -27,6 +29,11 @@ public class RampGraphic extends SurfaceGraphic {
         addChild( arrowGraphic );
 
         //todo piccolo
+        getSurfaceGraphic().addInputEventListener( new PBasicInputEventHandler() {
+            public void mouseDragged( PInputEvent event ) {
+                arrowGraphic.setVisible( false );
+            }
+        } );
 //        getSurfaceGraphic().addMouseInputListener( new MouseInputAdapter() {
 //            // implements java.awt.event.MouseMotionListener
 //            public void mouseDragged( MouseEvent e ) {

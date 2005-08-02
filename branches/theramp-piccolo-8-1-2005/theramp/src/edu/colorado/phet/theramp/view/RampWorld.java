@@ -35,20 +35,28 @@ public class RampWorld extends PNode {
     private EarthGraphic earthGraphic;
     private SkyGraphic skyGraphic;
     private SurfaceGraphic groundGraphic;
+    //todo piccolo
 //    private MeasuringTape measuringTape;
     private RightBarrierGraphic rightBarrierGraphic;
     private LeftBarrierGraphic leftBarrierGraphic;
 
-    public RampWorld( Component component, RampModule module, RampPanel rampPanel ) {
+    public RampWorld( RampModule module, RampPanel rampPanel ) {
         super();
         RampModel rampModel = module.getRampModel();
         Surface ramp = rampModel.getRamp();
         rampGraphic = new RampGraphic( rampPanel, ramp );
+        earthGraphic = new EarthGraphic( rampPanel, this );
+        addChild( earthGraphic );
+
+        skyGraphic = new SkyGraphic( rampPanel, this );
+        addChild( skyGraphic );
+
+
         addChild( rampGraphic );
 
         groundGraphic = new FloorGraphic( rampPanel, rampModel.getGround() );
-        groundGraphic.//setIgnoreMouse( true );
-                addChild( groundGraphic );
+//        groundGraphic.//setIgnoreMouse( true );
+        addChild( groundGraphic );
 
         blockGraphic = new BlockGraphic( module, rampPanel, rampGraphic, groundGraphic, rampModel.getBlock(), module.getRampObjects()[0] );
         addChild( blockGraphic );
@@ -79,12 +87,6 @@ public class RampWorld extends PNode {
         catch( IOException e ) {
             e.printStackTrace();
         }
-
-        earthGraphic = new EarthGraphic( rampPanel, this );
-        addChild( earthGraphic );
-
-        skyGraphic = new SkyGraphic( rampPanel, this );
-        addChild( skyGraphic );
 
         //todo piccolo
 //        measuringTape = new MeasuringTape( rampPanel, rampGraphic.getScreenTransform(),
@@ -181,7 +183,7 @@ public class RampWorld extends PNode {
         return v.y;
     }
 
-    public Point convertToWorld( Point screenPt ) {
+    public Point convertToWorld( Point2D screenPt ) {
         AffineTransform affineTransform = getTransform();
         Point2D out = null;
         try {

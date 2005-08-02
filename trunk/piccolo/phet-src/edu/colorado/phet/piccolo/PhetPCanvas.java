@@ -78,7 +78,11 @@ public class PhetPCanvas extends PSwingCanvas {
     }
 
     private void setRenderingSize() {
-        this.renderingSize = new Dimension( getSize() );
+        setRenderingSize( getSize() );
+    }
+
+    public void setRenderingSize( Dimension dim ) {
+        this.renderingSize = new Dimension( dim );
     }
 
     public void addGraphic( PNode graphic ) {
@@ -120,7 +124,7 @@ public class PhetPCanvas extends PSwingCanvas {
 //        }
 
         // paint piccolo
-        boolean doubleBufferMe = true;
+        boolean doubleBufferMe = false;
         if( doubleBufferMe ) {
             Image image = getCamera().toImage( getWidth(), getHeight(), getBackground() );
             BufferedImage bufferedImage = BufferedImageUtils.toBufferedImage( image );
@@ -131,7 +135,6 @@ public class PhetPCanvas extends PSwingCanvas {
         else {
             getCamera().fullPaint( paintContext );
         }
-
 
 //        // if switched state from animating to not animating invalidate the entire
 //        // screen so that it will be drawn with the default instead of animating

@@ -2,17 +2,20 @@
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.RampObject;
 import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.model.Ramp;
 import edu.colorado.phet.theramp.model.RampModel;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.event.PInputEventListener;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
@@ -48,7 +51,12 @@ public class BlockGraphic extends PNode {
 
         final RampModel model = module.getRampModel();
 
-        wheelGraphic = new PImage( "images/skateboard.png" );
+        try {
+            wheelGraphic = new PImage( ImageLoader.loadBufferedImage( "images/skateboard.png" ) );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
         wheelGraphic.setVisible( false );
         addChild( wheelGraphic );
 
@@ -76,25 +84,42 @@ public class BlockGraphic extends PNode {
             }
         } );
 
-        MouseInputAdapter mia = new MouseInputAdapter() {
-            public void mouseDragged( MouseEvent e ) {
+        PInputEventListener dragHandler = new PBasicInputEventHandler() {
+            public void mouseDragged( PInputEvent e ) {
+                super.mouseDragged( e );
                 Point2D ctr = getCenter();
-                double dx = e.getPoint().x - ctr.getX();
+                double dx = e.getPosition().getX() - ctr.getX();
                 double appliedForce = dx / RampModule.FORCE_LENGTH_SCALE;
                 model.setAppliedForce( appliedForce );
                 module.record();
             }
 
-            // implements java.awt.event.MouseListener
-            public void mouseReleased( MouseEvent e ) {
+            public void mouseReleased( PInputEvent event ) {
+                super.mouseReleased( event );
                 model.setAppliedForce( 0.0 );
             }
         };
+        addInputEventListener( dragHandler );
+        addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
+//        addInputEventListener( new Cursor);
+//        MouseInputAdapter mia = new MouseInputAdapter() {
+//            public void mouseDragged( MouseEvent e ) {
+//                Point2D ctr = getCenter();
+//                double dx = e.getPoint().x - ctr.getX();
+//                double appliedForce = dx / RampModule.FORCE_LENGTH_SCALE;
+//                model.setAppliedForce( appliedForce );
+//                module.record();
+//            }
+//
+//            // implements java.awt.event.MouseListener
+//            public void mouseReleased( MouseEvent e ) {
+//                model.setAppliedForce( 0.0 );
+//            }
+//        };
 
-        this.mouseListener = new ThresholdedDragAdapter( mia, 10, 0, 1000 );
-        //todo piccolo
-//        graphic.addMouseInputListener( this.mouseListener );
-        //setCursorHand();
+        //todo piccolo add thresholded drag adapter.
+//        this.mouseListener = new ThresholdedDragAdapter( mia, 10, 0, 1000 );
+
         rampGraphic.getSurface().addObserver( new SimpleObserver() {
             public void update() {
                 updateBlock();

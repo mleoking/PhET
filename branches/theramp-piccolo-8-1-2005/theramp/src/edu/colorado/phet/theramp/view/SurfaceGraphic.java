@@ -7,15 +7,17 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.theramp.model.Surface;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -78,21 +80,18 @@ public class SurfaceGraphic extends PNode {
         heightReadoutGraphic = new PText( "h=0.0 m" );
         addChild( heightReadoutGraphic );
 
-        //todo piccolo
-//        surfaceGraphic.addMouseInputListener( new MouseInputAdapter() {
-//            // implements java.awt.event.MouseMotionListener
-//            public void mouseDragged( MouseEvent e ) {
-//                SurfaceGraphic.this.mouseDragged( e );
-//            }
-//        } );
-//        bookStackGraphic.addMouseInputListener( new MouseInputAdapter() {
-//            // implements java.awt.event.MouseMotionListener
-//            public void mouseDragged( MouseEvent e ) {
-//                SurfaceGraphic.this.mouseDragged( e );
-//            }
-//        } );
-//        bookStackGraphic.setCursorHand();
-//        surfaceGraphic.setCursorHand();
+        surfaceGraphic.addInputEventListener( new PBasicInputEventHandler() {
+            public void mouseDragged( PInputEvent event ) {
+                SurfaceGraphic.this.mouseDragged( event );
+            }
+        } );
+        bookStackGraphic.addInputEventListener( new PBasicInputEventHandler() {
+            public void mouseDragged( PInputEvent event ) {
+                SurfaceGraphic.this.mouseDragged( event );
+            }
+        } );
+        surfaceGraphic.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
+        bookStackGraphic.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
 
         rampTickSetGraphic = new RampTickSetGraphic( this );
         addChild( rampTickSetGraphic );
@@ -112,8 +111,8 @@ public class SurfaceGraphic extends PNode {
         return heightReadoutGraphic;
     }
 
-    private void mouseDragged( MouseEvent e ) {
-        Point pt = e.getPoint();
+    private void mouseDragged( PInputEvent pie ) {
+        Point2D pt = pie.getPosition();//e.getPoint();
         pt = getRampWorld().convertToWorld( pt );
         Vector2D.Double vec = new Vector2D.Double( getViewOrigin(), pt );
         double angle = -vec.getAngle();
@@ -125,7 +124,6 @@ public class SurfaceGraphic extends PNode {
     private RampWorld getRampWorld() {
         return rampPanel.getRampWorld();
     }
-
 
     private Point getEndLocation() {
         return getViewLocation( ramp.getLocation( ramp.getLength() ) );
@@ -190,8 +188,8 @@ public class SurfaceGraphic extends PNode {
 
 //        surfaceGraphic.setAutorepaint( false );
         surfaceGraphic.setOffset( getViewOrigin() );
-        surfaceGraphic.setTransform( new AffineTransform() );
-        surfaceGraphic.rotate( viewAngle );
+//        surfaceGraphic.setTransform( new AffineTransform() );
+        surfaceGraphic.setRotation( viewAngle );
 //        double rampLength = 10;//meters
 //        ramp.getLocation( 10);
 //        getViewLocation( ramp.getLocation( rampLength ) );
@@ -199,9 +197,10 @@ public class SurfaceGraphic extends PNode {
         //todo scale the graphic to fit the length.
         double cur_im_width_model = screenTransform.viewToModelDifferentialX( surfaceGraphic.getImage().getWidth( null ) );
 
-        surfaceGraphic.scale( ramp.getLength() / cur_im_width_model );
+        surfaceGraphic.setScale( ramp.getLength() / cur_im_width_model );
+        System.out.println( "surfaceGraphic.getGlobalFullBounds() = " + surfaceGraphic.getGlobalFullBounds() );
 //        surfaceGraphic.setAutorepaint( true );
-        surfaceGraphic.repaint();
+//        surfaceGraphic.repaint();
 
         Point p2 = new Point( viewDst.x, viewOrigin.y );
         Line2D.Double floor = new Line2D.Double( viewOrigin, p2 );
@@ -234,11 +233,7 @@ public class SurfaceGraphic extends PNode {
         Point rampEnd = getViewLocation( ramp.getLocation( ramp.getLength() ) );
 
         Rectangle rect = new Rectangle( rampEnd.x - texture.getWidth() / 2, (int)( rampEnd.y + surfaceGraphic.getImage().getHeight( null ) * 0.75 ), texture.getWidth(), rampStart.y - rampEnd.y );
-//        System.out.println( "rect = " + rect );
         return rect;
-//        DoubleGeneralPath path = new DoubleGeneralPath( new Point( rampEnd.x, rampStart.y ) );
-//        path.lineTo( new Point( rampEnd.x, rampEnd.y ) );
-//        return path.getGeneralPath();
     }
 
     GeneralPath createJackLine() {

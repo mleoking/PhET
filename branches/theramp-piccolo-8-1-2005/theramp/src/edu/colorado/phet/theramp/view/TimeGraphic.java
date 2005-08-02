@@ -26,6 +26,7 @@ public class TimeGraphic extends PNode implements ModelElement {
         this.timeModel = clock;
         Font font = new Font( "Lucida Sans", Font.BOLD, 28 );
         phetTextGraphic = new PText( "" );
+        phetTextGraphic.setFont( font );
         addChild( phetTextGraphic );
         stepInTime( 0.0 );
         //setIgnoreMouse( true );

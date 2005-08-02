@@ -32,13 +32,14 @@ public class RampPanel extends PhetPCanvas {
 
     public RampPanel( RampModule module ) {
         super();
+        setRenderingSize( getDefaultRenderingSize() );
         this.module = module;
         rampLookAndFeel = new RampLookAndFeel();
 
 //        addChildsSetup( new BasicGraphicsSetup() );
         setBackground( new Color( 240, 200, 255 ) );
 
-        rampWorld = new RampWorld( this, module, this );
+        rampWorld = new RampWorld( module, this );
         double rampWorldScale = 1.0;
         rampWorld.scale( rampWorldScale );
         rampWorld.translate( 0, -30 );
@@ -85,10 +86,26 @@ public class RampPanel extends PhetPCanvas {
         addMouseListener( new UserAddingEnergyHandler( module ) );
 
 //        setPanEventHandler();
-        addInputEventListener( getPanEventHandler() );
+//        addInputEventListener( getPanEventHandler() );
         addInputEventListener( getZoomEventHandler() );
 
-        setDebugRegionManagement( true );
+//        module.getModel().addModelElement( new ModelElement() {
+//            public void stepInTime( double dt ) {
+//                PCamera cam=getCamera();
+////                System.out.println( "cam = " + cam );
+////                System.out.println( "cam.getTransform() = " + cam.getTransform() );
+////                System.out.println( "cam.getOffset() = " + cam.getOffset() );
+////                System.out.println( "cam.getScale() = " + cam.getScale() );
+//
+////                System.out.println( "cam.getViewScale() = " + cam.getViewScale() );
+////                System.out.println( "cam.getViewTransform() = " + cam.getViewTransform() );
+//
+//            }
+//        } );
+        getCamera().setViewScale( 0.3 );
+        getCamera().setViewOffset( 9, 81 );
+
+//        setDebugRegionManagement( true );
     }
 
     private void addChild( PNode pNode ) {
