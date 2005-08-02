@@ -6,7 +6,7 @@ import edu.colorado.phet.theramp.model.RampModel;
 import edu.colorado.phet.theramp.model.ValueAccessor;
 import edu.colorado.phet.theramp.view.RampLookAndFeel;
 import edu.colorado.phet.timeseries.TimeSeries;
-import edu.colorado.phet.timeseries.plot.PlotDeviceSeries;
+import edu.colorado.phet.timeseries.TimeSeriesModel;
 import edu.colorado.phet.timeseries.plot.TimePlot;
 import edu.colorado.phet.timeseries.plot.TimePlotSuite;
 
@@ -39,10 +39,10 @@ public class RampPlotSet {
     private static class DataUnit {
         private ValueAccessor valueAccessor;
         private TimeSeries timeSeries;
-        private PlotDeviceSeries plotDeviceSeries;
-        private TimePlotSuite timePlotSuite;
+        private TimePlotSuitePNode plotDeviceSeries;
+        private TimeSeriesPNode timePlotSuite;
 
-        public DataUnit( ValueAccessor valueAccessor, TimeSeries timeSeries, PlotDeviceSeries plotDeviceSeries, TimePlotSuite timePlotSuite ) {
+        public DataUnit( ValueAccessor valueAccessor, TimeSeries timeSeries, TimePlotSuitePNode plotDeviceSeries, TimeSeriesPNode timePlotSuite ) {
             this.valueAccessor = valueAccessor;
             this.timeSeries = timeSeries;
             this.plotDeviceSeries = plotDeviceSeries;
@@ -65,12 +65,6 @@ public class RampPlotSet {
         }
     }
 
-    public void addTimeSeries( TimePlotSuite timePlotSuite, ValueAccessor valueAccessor, Color color, String justifyString ) {
-        TimeSeries series = new TimeSeries();
-        PlotDeviceSeries plotDeviceSeries = new PlotDeviceSeries( timePlotSuite.getPlotDevice(), series, color, valueAccessor.getName(), getStroke(), getFont(), valueAccessor.getUnits(), justifyString );
-        timePlotSuite.addPlotDeviceData( plotDeviceSeries );
-        dataUnits.add( new DataUnit( valueAccessor, series, plotDeviceSeries, timePlotSuite ) );
-    }
 
     private Font getFont() {
         return new Font( "Lucida Sans", Font.BOLD, 12 );
@@ -82,10 +76,10 @@ public class RampPlotSet {
 
     private void initTest() {
         //todo piccolo
-//        TimePlotSuite energyPlot = createTimePlotSuite( new Range2D( 0, -20000, 20, 20000 ), "Energy", 400, 200 );
+        TimePlotSuitePNode energyPlot = createTimePlotSuitePNode( new Range2D( 0, -20000, 20, 20000 ), "Energy", 450, 200 );
 //
-//        ValueAccessor.TotalEnergy totalEnergy = new ValueAccessor.TotalEnergy( getLookAndFeel() );
-//        addTimeSeries( energyPlot, totalEnergy, totalEnergy.getColor(), "10000.00" );
+        ValueAccessor.TotalEnergy totalEnergy = new ValueAccessor.TotalEnergy( getLookAndFeel() );
+        addTimeSeries( energyPlot, totalEnergy, totalEnergy.getColor(), "10000.00" );
 //
 //        ValueAccessor.ThermalEnergy thermalEnergy = new ValueAccessor.ThermalEnergy( getLookAndFeel() );
 //        addTimeSeries( energyPlot, thermalEnergy, thermalEnergy.getColor(), "10000.00" );
@@ -104,12 +98,37 @@ public class RampPlotSet {
 //        ValueAccessor.FrictiveWork frictiveWork = new ValueAccessor.FrictiveWork( getLookAndFeel() );
 //        addTimeSeries( workPlot, frictiveWork, frictiveWork.getColor(), "10000.00" );
 
-//        module.getRampPanel().addGraphic( energyPlot);//todo PICCOLO
+        module.getRampPanel().addGraphic( energyPlot );//todo PICCOLO
 //        module.getRampPanel().addGraphic( workPlot);
+    }
+
+
+//    public void addTimeSeries( TimePlotSuite timePlotSuite, ValueAccessor valueAccessor, Color color, String justifyString ) {
+//        TimeSeries series = new TimeSeries();
+//        PlotDeviceSeries plotDeviceSeries = new PlotDeviceSeries( timePlotSuite.getPlotDevice(), series, color, valueAccessor.getName(), getStroke(), getFont(), valueAccessor.getUnits(), justifyString );
+//        timePlotSuite.addPlotDeviceData( plotDeviceSeries );
+//        dataUnits.add( new DataUnit( valueAccessor, series, plotDeviceSeries, timePlotSuite ) );
+//    }
+
+    private void addTimeSeries( TimePlotSuitePNode energyPlot, ValueAccessor valueAccessor, Color color, String justifyString ) {
+        TimeSeries series = new TimeSeries();
+        TimeSeriesPNode timeSeriesPNode = new TimeSeriesPNode( energyPlot, series, valueAccessor, color, justifyString );
+        energyPlot.addTimeSeries( timeSeriesPNode );
+
+//        PlotDeviceSeries plotDeviceSeries = new PlotDeviceSeries( timePlotSuite.getPlotDevice(), series, color, valueAccessor.getName(), getStroke(), getFont(), valueAccessor.getUnits(), justifyString );
+//        timePlotSuite.addPlotDeviceData( plotDeviceSeries );
+        dataUnits.add( new DataUnit( valueAccessor, series, energyPlot, timeSeriesPNode ) );
     }
 
     private RampLookAndFeel getLookAndFeel() {
         return module.getRampPanel().getLookAndFeel();
+    }
+
+    private TimePlotSuitePNode createTimePlotSuitePNode( Range2D range, String name, int y, int height ) {
+        TimeSeriesModel timeSeriesModel = module.getTimeSeriesModel();
+        TimePlotSuitePNode timePlotSuitePNode = new TimePlotSuitePNode( range, name, timeSeriesModel );
+        timePlotSuitePNode.setOffset( 0, y );
+        return timePlotSuitePNode;
     }
 
     private TimePlotSuite createTimePlotSuite( Range2D range, String name, int y, int height ) {

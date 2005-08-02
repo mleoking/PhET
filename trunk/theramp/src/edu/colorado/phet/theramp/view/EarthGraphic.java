@@ -24,6 +24,7 @@ public class EarthGraphic extends PNode {
         Color earthGreen = new Color( 83, 175, 38 );
 //        phetShapeGraphic = new PhetShapeGraphic( rampPanel, null, earthGreen, new BasicStroke( 1 ), Color.black );
         phetShapeGraphic = new PPath( null );
+        phetShapeGraphic.setPaint( earthGreen );
         addChild( phetShapeGraphic );
         update();
     }

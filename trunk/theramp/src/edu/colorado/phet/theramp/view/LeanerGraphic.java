@@ -82,6 +82,9 @@ public class LeanerGraphic extends PImage {
             }
         } );
         //setIgnoreMouse( true );
+
+        setPickable( false );
+        setChildrenPickable( false );
         update();
 
     }

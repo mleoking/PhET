@@ -35,6 +35,8 @@ public class BarGraphSuite extends PNode {
         energyBarGraphSet.translate( workBarGraphSet.getFullBounds().getWidth() + 10, 0 );
         setPickable( false );
         setChildrenPickable( false );
+
+//        PBoundsHandle.addStickyBoundsHandlesTo( this ,rampPanel.getCamera() );
     }
 
     public void setLocation( Point p ) {

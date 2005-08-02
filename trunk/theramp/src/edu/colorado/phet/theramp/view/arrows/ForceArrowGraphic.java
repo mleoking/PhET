@@ -64,8 +64,6 @@ public class ForceArrowGraphic extends PNode {
         this.dy = dy;
         this.forceComponent = forceComponent;
         textGraphic = new ShadowHTMLGraphic( name );
-        //, font, Color.black, 1, 1, Color.yellow
-//        shapeGraphic = new PhetShapeGraphic( component, null, color, new BasicStroke( 1 ), Color.black );
         textGraphic.setColor( Color.black );
         textGraphic.setShadowColor( Color.yellow );
 

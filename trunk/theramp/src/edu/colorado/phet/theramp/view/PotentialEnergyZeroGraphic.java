@@ -65,9 +65,9 @@ public class PotentialEnergyZeroGraphic extends PNode {
 //        label.setLocation( 10, (int)( label.getHeight()*.075 ) );//-label.getHeight() - 4 );
         label.setOffset( 10, label.getHeight() );//-label.getHeight() - 4 );
 //        listener.zeroPointChanged();
-        updateLabel();
-
         addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
+        updateLabel();
+        rampModel.setZeroPointY( 0.0 );
     }
 
     private void updateLabel() {
