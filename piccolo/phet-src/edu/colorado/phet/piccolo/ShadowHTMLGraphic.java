@@ -33,4 +33,9 @@ public class ShadowHTMLGraphic extends PNode {
     public void setShadowColor( Color yellow ) {
         shadow.setColor( yellow );
     }
+
+    public void setFont( Font font ) {
+        htmlGraphic.setFont( font );
+        shadow.setFont( font );
+    }
 }

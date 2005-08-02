@@ -6,8 +6,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDebug;
 
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.*;
 
 /**
  * User: Sam Reid
@@ -29,6 +28,24 @@ public class PhetPCanvas extends PSwingCanvas {
 
         l = new ResizeAdapter();
         addComponentListener( l );
+        addMouseListener( new MouseAdapter() {
+            public void mousePressed( MouseEvent e ) {
+                requestFocus();
+            }
+        } );
+        addKeyListener( new KeyListener() {
+            public void keyPressed( KeyEvent e ) {
+            }
+
+            public void keyReleased( KeyEvent e ) {
+                if( e.getKeyCode() == KeyEvent.VK_D ) {
+                    PDebug.debugRegionManagement = !PDebug.debugRegionManagement;
+                }
+            }
+
+            public void keyTyped( KeyEvent e ) {
+            }
+        } );
     }
 
     protected class ResizeAdapter extends ComponentAdapter {

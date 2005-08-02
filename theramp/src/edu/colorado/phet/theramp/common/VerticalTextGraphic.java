@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.common;
 
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.ShadowHTMLGraphic;
+import edu.colorado.phet.piccolo.ShadowHTMLGraphic;
+import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
 
@@ -13,25 +13,29 @@ import java.awt.*;
  * Copyright (c) Feb 12, 2005 by Sam Reid
  */
 
-public class VerticalTextGraphic extends CompositePhetGraphic {
+public class VerticalTextGraphic extends PNode {
     private Font font;
     private String text;
     private Paint color;
 
-    public VerticalTextGraphic( Component component, Font font, String text, Color color, Color outline ) {
-        super( component );
+    public VerticalTextGraphic( Font font, String text, Color color, Color outline ) {
+        super();
         this.font = font;
         this.text = text;
         this.color = color;
 //        PhetShadowTextGraphic phetTextGraphic = new PhetShadowTextGraphic( component, font, text, color, 1, 1, outline );
-        ShadowHTMLGraphic phetTextGraphic = new ShadowHTMLGraphic( component, text, font, color, 1, 1, outline );
+//        ShadowHTMLGraphic phetTextGraphic = new ShadowHTMLGraphic( component, text, font, color, 1, 1, outline );
+        ShadowHTMLGraphic phetTextGraphic = new ShadowHTMLGraphic( text );//, font, color, 1, 1, outline );
+        phetTextGraphic.setColor( color );
+        phetTextGraphic.setShadowColor( outline );
+        phetTextGraphic.setFont( font );
 //        PhetOutlineTextGraphic phetTextGraphic = new PhetOutlineTextGraphic( component, font, text, color, new BasicStroke( 1 ), outline );
 
-        int h = phetTextGraphic.getHeight();
-        phetTextGraphic.translate( 0, h / 2 + 4 );
+        double h = phetTextGraphic.getFullBounds().getHeight();
+        phetTextGraphic.translate( -h / 2 + 4, 0 );
         phetTextGraphic.rotate( -Math.PI / 2 );
 
-        addGraphic( phetTextGraphic );
+        addChild( phetTextGraphic );
     }
 
     public String getText() {
