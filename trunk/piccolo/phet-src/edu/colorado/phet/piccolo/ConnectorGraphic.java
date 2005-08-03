@@ -8,6 +8,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.nodes.PPath;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 /**
@@ -79,6 +80,9 @@ public class ConnectorGraphic extends PPath {
         AbstractVector2D vector = new Vector2D.Double( r1c, r2c );
         vector = vector.getInstanceOfMagnitude( Math.max( vector.getMagnitude() - 50, 100 ) );
         Arrow arrow = new Arrow( r1c, vector.getDestination( r1c ), 30, 30, 5, 1.0, true );
+
+        GradientPaint gradientPaint = new GradientPaint( r1c, Color.blue, r2c, Color.red, false );
+        setPaint( gradientPaint );
         setPathTo( arrow.getShape() );
 //        Line2D.Double aShape = new Line2D.Double( r1c, r2c );
 //        setPathTo( aShape );
