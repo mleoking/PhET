@@ -2,10 +2,16 @@
 package edu.colorado.phet.theramp;
 
 import edu.colorado.phet.chart.Range2D;
+import edu.colorado.phet.common.view.graphics.transforms.LinearTransform2D;
+import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
+import edu.colorado.phet.timeseries.TimeSeriesModelListenerAdapter;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -37,17 +43,103 @@ public class TimePlotSuitePNode extends PNode {
     private XYPlot plot;
     private BufferedImage bufferedImage;
     private PImage child;
+    private JFreeChart chart;
+    private int chartHeight;
+    private PPath cursor;
 
-    public TimePlotSuitePNode( PCanvas pCanvas, Range2D range, String name, TimeSeriesModel timeSeriesModel, int height ) {
+    public TimePlotSuitePNode( PCanvas pCanvas, Range2D range, String name, final TimeSeriesModel timeSeriesModel, int height ) {
         this.pCanvas = pCanvas;
         this.range = range;
+        this.chartHeight = height;
         this.timeSeriesModel = timeSeriesModel;
         dataset = createDataset();
-        JFreeChart chart = createChart( range, dataset, name );
+        chart = createChart( range, dataset, name );
         this.plot = (XYPlot)chart.getPlot();
-        bufferedImage = chart.createBufferedImage( 800, height );
-        child = new PImage( bufferedImage );
+        child = new PImage();
+        updateImage();
         addChild( child );
+        timeSeriesModel.addPlaybackTimeChangeListener( new TimeSeriesModel.PlaybackTimeListener() {
+            public void timeChanged() {
+                cursor.setVisible( true );
+                double time = timeSeriesModel.getPlaybackTime();
+                Point2D imageLoc = toImageLocation( time, 0 );
+                cursor.setOffset( imageLoc );
+            }
+        } );
+        timeSeriesModel.addListener( new TimeSeriesModelListenerAdapter() {
+            public void recordingStarted() {
+                hideCursor();
+            }
+
+            public void recordingPaused() {
+                showCursor();
+            }
+
+            public void recordingFinished() {
+                showCursor();
+            }
+
+            public void playbackStarted() {
+                showCursor();
+            }
+
+            public void playbackPaused() {
+                showCursor();
+            }
+
+            public void playbackFinished() {
+                showCursor();
+            }
+
+            public void reset() {
+                hideCursor();
+            }
+
+            public void rewind() {
+                showCursor();
+            }
+        } );
+        Rectangle2D d = getDataArea();
+        int cursorWidth = 6;
+        cursor = new PPath( new Rectangle2D.Double( -cursorWidth / 2, -d.getHeight() / 2, cursorWidth, d.getHeight() ) );
+        cursor.setVisible( false );
+        cursor.setStroke( new BasicStroke( 1 ) );
+        cursor.setPaint( new Color( 0, 0, 0, 0 ) );
+
+        cursor.addInputEventListener( new PBasicInputEventHandler() {
+            public void mouseDragged( PInputEvent event ) {
+                double viewTime = event.getPosition().getX();
+                Point2D out = toLinearFunction().getInverseTransform().transform( new Point2D.Double( viewTime, 0 ), null );
+
+                double t = out.getX();
+                if( t < 0 ) {
+                    t = 0;
+                }
+                else if( t > timeSeriesModel.getRecordTime() ) {
+                    t = timeSeriesModel.getRecordTime();
+                }
+                timeSeriesModel.setReplayTime( t );
+                System.out.println( "out = " + out );
+//                double dx = event.getDelta().getWidth();
+
+            }
+        } );
+//        cursor.setStroke( new BasicStroke( 1,BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER,1.0f,new float[]{8,4},0) );
+        cursor.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
+        addChild( cursor );
+    }
+
+    private void showCursor() {
+        cursor.setVisible( true );
+    }
+
+    private void hideCursor() {
+        cursor.setVisible( false );
+    }
+
+    private void updateImage() {
+        bufferedImage = chart.createBufferedImage( 800, chartHeight );
+        child.setImage( bufferedImage );
     }
 
     private static JFreeChart createChart( Range2D range, XYDataset dataset, String title ) {
@@ -90,7 +182,8 @@ public class TimePlotSuitePNode extends PNode {
     }
 
     public void reset() {
-        System.out.println( "TODO" );
+        updateImage();
+//        System.out.println( "reset image" );
     }
 
     public BufferedImage getChartImage() {
@@ -99,6 +192,14 @@ public class TimePlotSuitePNode extends PNode {
 
     public Rectangle2D getDataArea() {
         return plot.getDataArea();
+    }
+
+    public LinearTransform2D toLinearFunction() {
+        Point2D modelPoint0 = new Point2D.Double( 0, 0 );
+        Point2D modelPoint1 = new Point2D.Double( 1, 1 );
+        Point2D viewPt1 = toImageLocation( modelPoint0.getX(), modelPoint0.getY() );
+        Point2D viewPt2 = toImageLocation( modelPoint1.getX(), modelPoint1.getY() );
+        return new LinearTransform2D( modelPoint0, modelPoint1, viewPt1, viewPt2 );
     }
 
     public Point2D toImageLocation( double x, double y ) {

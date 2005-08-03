@@ -189,4 +189,8 @@ public class RampModule extends Module {
     public void setMass( double value ) {
         rampModel.setMass( value );
     }
+
+    public RampPlotSet getRampPlotSet() {
+        return rampPlotSet;
+    }
 }

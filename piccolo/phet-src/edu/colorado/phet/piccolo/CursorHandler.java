@@ -19,6 +19,8 @@ public class CursorHandler extends PBasicInputEventHandler {
     public static final Cursor HAND = Cursor.getPredefinedCursor( Cursor.HAND_CURSOR );
     public static final Cursor DEFAULT = Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR );
     public static final Cursor CROSSHAIR = Cursor.getPredefinedCursor( Cursor.CROSSHAIR_CURSOR );
+    private boolean dragging = false;
+    private boolean entered = false;
 
     public CursorHandler( int cursorType ) {
         this( Cursor.getPredefinedCursor( cursorType ) );
@@ -34,7 +36,21 @@ public class CursorHandler extends PBasicInputEventHandler {
     }
 
     public void mouseEntered( PInputEvent event ) {
+        entered = true;
         getComponent( event ).setCursor( cursor );
+    }
+
+    public void mouseDragged( PInputEvent event ) {
+        dragging = true;
+        getComponent( event ).setCursor( cursor );
+    }
+
+    public void mouseReleased( PInputEvent event ) {
+        dragging = false;
+        if( !entered ) {
+            getComponent( event ).setCursor( defaultCursor );
+        }
+        super.mouseReleased( event );
     }
 
     private Component getComponent( PInputEvent event ) {
@@ -42,6 +58,9 @@ public class CursorHandler extends PBasicInputEventHandler {
     }
 
     public void mouseExited( PInputEvent event ) {
-        getComponent( event ).setCursor( defaultCursor );
+        entered = false;
+        if( !dragging ) {
+            getComponent( event ).setCursor( defaultCursor );
+        }
     }
 }

@@ -27,7 +27,7 @@ public class TimeSeriesPNode {
     private String justifyString;
     private TimeSeries series;
     private Point2D.Double lastScreenPoint;
-    private int strokeSize;
+    private int strokeSize = 3;
     private BasicStroke s;
     private Color transparentColor;
 
@@ -46,7 +46,6 @@ public class TimeSeriesPNode {
                 reset();
             }
         } );
-        strokeSize = 4;
         s = new BasicStroke( strokeSize );
         transparentColor = RampUtil.transparify( color, 120 );
     }
@@ -64,11 +63,8 @@ public class TimeSeriesPNode {
 
         if( lastScreenPoint != null ) {
             Line2D.Double screenLine = new Line2D.Double( lastScreenPoint, screenPoint );
-//            graphics2D.setComposite( AlphaComposite.Xor );
             graphics2D.setColor( transparentColor );
-
             graphics2D.setClip( plotSuite.getDataArea() );
-
 
             graphics2D.setStroke( s );
             graphics2D.draw( screenLine );
@@ -83,6 +79,6 @@ public class TimeSeriesPNode {
 
 
     public void reset() {
-        System.out.println( "TODO" );
+        lastScreenPoint = null;
     }
 }
