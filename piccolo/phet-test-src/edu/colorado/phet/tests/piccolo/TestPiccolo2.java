@@ -78,7 +78,7 @@ public class TestPiccolo2 {
 //        layer.getRoot().addActivity( oscillate );
 
 
-        WiggleMe wiggleMe = new WiggleMe( "Wiggle This!" );
+        WiggleMe wiggleMe = new WiggleMe( "Wiggle This!", 0, 0 );
         layer.addChild( wiggleMe );
         wiggleMe.setOscillating( true );
 

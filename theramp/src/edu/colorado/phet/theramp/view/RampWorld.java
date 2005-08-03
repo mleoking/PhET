@@ -1,7 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.view;
 
+import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.theramp.RampModule;
+import edu.colorado.phet.theramp.common.MeasuringTape;
 import edu.colorado.phet.theramp.model.RampModel;
 import edu.colorado.phet.theramp.model.Surface;
 import edu.colorado.phet.theramp.view.arrows.*;
@@ -36,7 +38,7 @@ public class RampWorld extends PNode {
     private SkyGraphic skyGraphic;
     private SurfaceGraphic groundGraphic;
     //todo piccolo
-//    private MeasuringTape measuringTape;
+    private MeasuringTape measuringTape;
     private RightBarrierGraphic rightBarrierGraphic;
     private LeftBarrierGraphic leftBarrierGraphic;
 
@@ -91,10 +93,10 @@ public class RampWorld extends PNode {
         }
 
         //todo piccolo
-//        measuringTape = new MeasuringTape( rampPanel, rampGraphic.getScreenTransform(),
-//                                           RectangleUtils.getCenter2D( rampGraphic.getScreenTransform().getModelBounds() ) );
-//        measuringTape.setVisible( false );
-//        addChild( measuringTape );
+        measuringTape = new MeasuringTape( rampPanel, rampGraphic.getScreenTransform(),
+                                           RectangleUtils.getCenter2D( rampGraphic.getScreenTransform().getModelBounds() ) );
+        measuringTape.setVisible( false );
+        addChild( measuringTape );
 
     }
 
@@ -194,6 +196,6 @@ public class RampWorld extends PNode {
 
     public void setMeasureTapeVisible( boolean visible ) {
         //todo piccolo
-//        measuringTape.setVisible( visible );
+        measuringTape.setVisible( visible );
     }
 }

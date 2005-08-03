@@ -3,6 +3,7 @@ package edu.colorado.phet.theramp;
 
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.theramp.model.ValueAccessor;
+import edu.colorado.phet.theramp.view.RampUtil;
 import edu.colorado.phet.timeseries.TimePoint;
 import edu.colorado.phet.timeseries.TimeSeries;
 
@@ -26,6 +27,9 @@ public class TimeSeriesPNode {
     private String justifyString;
     private TimeSeries series;
     private Point2D.Double lastScreenPoint;
+    private int strokeSize;
+    private BasicStroke s;
+    private Color transparentColor;
 
     public TimeSeriesPNode( TimePlotSuitePNode plotSuite, TimeSeries series, ValueAccessor valueAccessor, Color color, String justifyString ) {
         this.plotSuite = plotSuite;
@@ -42,6 +46,9 @@ public class TimeSeriesPNode {
                 reset();
             }
         } );
+        strokeSize = 4;
+        s = new BasicStroke( strokeSize );
+        transparentColor = RampUtil.transparify( color, 120 );
     }
 
     private void dataAdded() {
@@ -57,14 +64,17 @@ public class TimeSeriesPNode {
 
         if( lastScreenPoint != null ) {
             Line2D.Double screenLine = new Line2D.Double( lastScreenPoint, screenPoint );
-            graphics2D.setColor( color );
+//            graphics2D.setComposite( AlphaComposite.Xor );
+            graphics2D.setColor( transparentColor );
 
             graphics2D.setClip( plotSuite.getDataArea() );
-            graphics2D.setStroke( new BasicStroke( 2 ) );
+
+
+            graphics2D.setStroke( s );
             graphics2D.draw( screenLine );
 
             Rectangle2D bounds = screenLine.getBounds2D();
-            bounds = RectangleUtils.expand( bounds, 2, 2 );
+            bounds = RectangleUtils.expand( bounds, strokeSize / 2 + 2, strokeSize / 2 + 2 );
             plotSuite.repaintImage( bounds );
         }
 

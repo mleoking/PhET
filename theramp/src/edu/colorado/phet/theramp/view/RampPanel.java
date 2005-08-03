@@ -1,7 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.view;
 
+import edu.colorado.phet.piccolo.ConnectorGraphic;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.piccolo.WiggleMe;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.RampObject;
 import edu.colorado.phet.theramp.view.bars.BarGraphSuite;
@@ -74,26 +76,62 @@ public class RampPanel extends PhetPCanvas {
         addMouseListener( new UserAddingEnergyHandler( module ) );
 
 //        setPanEventHandler();
-//        addInputEventListener( getPanEventHandler() );
+
         addInputEventListener( getZoomEventHandler() );
 
+
+//        addInputEventListener( getPanEventHandler() );
 //        module.getModel().addModelElement( new ModelElement() {
 //            public void stepInTime( double dt ) {
-//                PCamera cam=getCamera();
-////                System.out.println( "cam = " + cam );
-////                System.out.println( "cam.getTransform() = " + cam.getTransform() );
-////                System.out.println( "cam.getOffset() = " + cam.getOffset() );
-////                System.out.println( "cam.getScale() = " + cam.getScale() );
-//
-////                System.out.println( "cam.getViewScale() = " + cam.getViewScale() );
-////                System.out.println( "cam.getViewTransform() = " + cam.getViewTransform() );
-//
+//                PCamera cam = getCamera();
+//                System.out.println( "cam.getViewTransform() = " + cam.getViewTransform() );
+//                System.out.println( "cam.getViewScale() = " + cam.getViewScale() );
+//                Point2D viewOffset = new Point2D.Double( cam.getViewTransform().getTranslateX(), cam.getViewTransform().getTranslateY() );
+//                System.out.println( "viewOffset = " + viewOffset );
 //            }
 //        } );
-        getCamera().setViewScale( 0.3 );
-        getCamera().setViewOffset( 9, 81 );
 
-//        setDebugRegionManagement( true );
+        //find parameters you like:
+//cam.getViewScale() = 0.969001148105626
+//viewOffset = Point2D.Double[23.0, -21.0]
+        //then set them here.
+        getCamera().setViewScale( 0.969001148105626 );
+        getCamera().setViewOffset( 23.0, -21.0 );
+
+
+        final WiggleMe wiggleMe = new WiggleMe( "<html>Apply a Force<br>to the Filing Cabinet</html>", 450, 350 );
+        final ConnectorGraphic connectorGraphic = new ConnectorGraphic( wiggleMe, getBlockGraphic().getObjectGraphic() );
+        getLayer().getRoot().addActivity( connectorGraphic.getConnectActivity() );
+//        connectorGraphic.setStroke( new BasicStroke( 2, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 2, new float[]{10, 5}, 0 ) );
+        connectorGraphic.setStroke( new BasicStroke( 2, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 2 ) );//, new float[]{10, 5}, 0 ) );
+        connectorGraphic.setPaint( new GradientPaint( 0, 0, Color.red, 1000, 0, Color.blue, false ) );
+        connectorGraphic.setPickable( false );
+        connectorGraphic.setChildrenPickable( false );
+
+
+        wiggleMe.setPickable( false );
+        wiggleMe.setChildrenPickable( false );
+        getLayer().addChild( connectorGraphic );
+        getLayer().addChild( wiggleMe );
+        wiggleMe.ensureActivityCorrect();
+//        wiggleMe.setOffset( 800,800);
+//        Timer t = new Timer( 30, new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                System.out.println( "wiggleMe.getFullBounds() = " + wiggleMe.getFullBounds() );
+//                System.out.println( "getBlockGraphic().getFullBounds() = " + getBlockGraphic().getFullBounds() );
+//            }
+//        } );
+//        t.start();
+        addMouseListener( new MouseAdapter() {
+            public void mousePressed( MouseEvent e ) {
+                wiggleMe.setVisible( false );
+                getLayer().removeChild( wiggleMe );
+                getLayer().getRoot().getActivityScheduler().removeActivity( connectorGraphic.getConnectActivity() );
+                getLayer().removeChild( connectorGraphic );
+                removeMouseListener( this );
+            }
+        } );
+        getLayer().setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
     }
 
     private void addChild( PNode pNode ) {

@@ -76,7 +76,11 @@ public class RampPlotSet {
 
     private void initTest() {
         //todo piccolo
-        TimePlotSuitePNode energyPlot = createTimePlotSuitePNode( new Range2D( 0, -20000, 20, 20000 ), "Energy", 450, 200 );
+        int plotY = 440;
+        int plotHeight = 210;
+        int plotInset = 2;
+        int range = 30000;
+        TimePlotSuitePNode energyPlot = createTimePlotSuitePNode( new Range2D( 0, -range, 20, range ), "Energy", plotY, plotHeight );
 //
         ValueAccessor.TotalEnergy totalEnergy = new ValueAccessor.TotalEnergy( getLookAndFeel() );
         addTimeSeries( energyPlot, totalEnergy, totalEnergy.getColor(), "10000.00" );
@@ -90,16 +94,24 @@ public class RampPlotSet {
         ValueAccessor.KineticEnergy kineticEnergy = new ValueAccessor.KineticEnergy( getLookAndFeel() );
         addTimeSeries( energyPlot, kineticEnergy, kineticEnergy.getColor(), "10000.00" );
 //
-//        TimePlotSuite workPlot = createTimePlotSuite( new Range2D( 0, -20000, 20, 20000 ), "Work", 620, 200 );
-//
-//        ValueAccessor.AppliedWork appliedWork = new ValueAccessor.AppliedWork( getLookAndFeel() );
-//        addTimeSeries( workPlot, appliedWork, appliedWork.getColor(), "10000.00" );
-//
-//        ValueAccessor.FrictiveWork frictiveWork = new ValueAccessor.FrictiveWork( getLookAndFeel() );
-//        addTimeSeries( workPlot, frictiveWork, frictiveWork.getColor(), "10000.00" );
 
-        module.getRampPanel().addGraphic( energyPlot );//todo PICCOLO
-//        module.getRampPanel().addGraphic( workPlot);
+        TimePlotSuitePNode workPlot = createTimePlotSuitePNode( new Range2D( 0, -range, 20, range ), "Work", plotY + plotHeight + plotInset, plotHeight );
+//        TimePlotSuite workPlot = createTimePlotSuite( new Range2D( 0, -range, 20, range ), "Work", 620, 200 );
+//
+        ValueAccessor.AppliedWork appliedWork = new ValueAccessor.AppliedWork( getLookAndFeel() );
+        addTimeSeries( workPlot, appliedWork, appliedWork.getColor(), "10000.00" );
+//
+        ValueAccessor.FrictiveWork frictiveWork = new ValueAccessor.FrictiveWork( getLookAndFeel() );
+        addTimeSeries( workPlot, frictiveWork, frictiveWork.getColor(), "10000.00" );
+
+        ValueAccessor.TotalWork totalWork = new ValueAccessor.TotalWork( getLookAndFeel() );
+        addTimeSeries( workPlot, totalWork, totalWork.getColor(), "10000.00" );
+
+        ValueAccessor.GravityWork gravityWork = new ValueAccessor.GravityWork( getLookAndFeel() );
+        addTimeSeries( workPlot, gravityWork, gravityWork.getColor(), "10000.00" );
+
+        module.getRampPanel().addGraphic( energyPlot );
+        module.getRampPanel().addGraphic( workPlot );
     }
 
     private void addTimeSeries( TimePlotSuitePNode energyPlot, ValueAccessor valueAccessor, Color color, String justifyString ) {
@@ -116,7 +128,7 @@ public class RampPlotSet {
 
     private TimePlotSuitePNode createTimePlotSuitePNode( Range2D range, String name, int y, int height ) {
         TimeSeriesModel timeSeriesModel = module.getTimeSeriesModel();
-        TimePlotSuitePNode timePlotSuitePNode = new TimePlotSuitePNode( module.getPhetPCanvas(), range, name, timeSeriesModel );
+        TimePlotSuitePNode timePlotSuitePNode = new TimePlotSuitePNode( module.getPhetPCanvas(), range, name, timeSeriesModel, height );
         timePlotSuitePNode.setOffset( 0, y );
         return timePlotSuitePNode;
     }

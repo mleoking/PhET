@@ -256,6 +256,7 @@ public class RampControlPanel extends ControlPanel {
         }
         else {
             setFriction( 0.0 );
+            module.record();
         }
     }
 

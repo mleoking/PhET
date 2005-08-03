@@ -20,18 +20,37 @@ public class WiggleMe extends PNode {
     private PActivity oscillate;
     boolean oscillating = false;
 
-    public WiggleMe( String message ) {
+    public WiggleMe( String message, int x, int y ) {
         this.message = message;
         if( !message.startsWith( "<html>" ) ) {
             message = "<html>" + message + "</html>";
         }
         HTMLGraphic htmlGraphic = new HTMLGraphic( message );
-        BoundGraphic htmlBound = new BoundGraphic( htmlGraphic );
+        BoundGraphic htmlBound = new BoundGraphic( htmlGraphic, 2, 2 );
         htmlBound.setPaint( Color.yellow );
         addChild( htmlBound );
         addChild( htmlGraphic );
 
-        oscillate = new Oscillate( this );
+        oscillate = new Oscillate( this, x, y );
+        setOscillating( true );
+
+//        addPropertyChangeListener( PROPERTY_VISIBLE, new PropertyChangeListener() {
+//            public void propertyChange( PropertyChangeEvent evt ) {
+//                ensureActivityCorrect();
+//            }
+//        } );
+//        add
+    }
+
+    public void setVisible( boolean isVisible ) {
+        super.setVisible( isVisible );
+        if( isVisible ) {
+            setOscillating( true );
+        }
+        else {
+            setOscillating( false );
+        }
+        ensureActivityCorrect();
     }
 
     public void setOscillating( boolean b ) {
@@ -44,7 +63,7 @@ public class WiggleMe extends PNode {
         super.paint( paintContext );
     }
 
-    private void ensureActivityCorrect() {
+    public void ensureActivityCorrect() {
         if( rootSchedulerExists() ) {
             if( oscillating && !isActivityRunning() ) {
                 addActivity();
@@ -72,7 +91,9 @@ public class WiggleMe extends PNode {
     }
 
     private boolean rootSchedulerExists() {
-        return !( getRoot() == null || getRoot().getActivityScheduler() == null );
+        boolean ex = !( getRoot() == null || getRoot().getActivityScheduler() == null );
+//        System.out.println( "ex = " + ex );
+        return ex;
     }
 
     private void addActivity() {
