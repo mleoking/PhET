@@ -21,6 +21,7 @@ public class Battery extends CircuitComponent {
 //    public static final double DEFAULT_INTERNAL_RESISTANCE = 4.5;
 //    public static final double DEFAULT_INTERNAL_RESISTANCE = 0.01;
     public static final double DEFAULT_INTERNAL_RESISTANCE = 0.001;
+//    public static final double DEFAULT_INTERNAL_RESISTANCE = 0.1;
 
     public Battery( double voltage, double internalResistance ) {
         this( new Point2D.Double(), new Vector2D.Double(), 1, 1, new KirkhoffListener() {
