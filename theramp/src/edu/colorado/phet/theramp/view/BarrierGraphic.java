@@ -58,10 +58,6 @@ public abstract class BarrierGraphic extends PNode {
 
     protected abstract double getBarrierPosition();
 
-//    private double getYOffset() {
-//        return 5;
-//    }
-
     public RampPanel getRampPanel() {
         return rampPanel;
     }

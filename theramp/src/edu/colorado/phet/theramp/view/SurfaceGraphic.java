@@ -200,7 +200,7 @@ public class SurfaceGraphic extends PNode {
         double cur_im_width_model = screenTransform.viewToModelDifferentialX( surfaceGraphic.getImage().getWidth( null ) );
 
         surfaceGraphic.setScale( ramp.getLength() / cur_im_width_model );
-        System.out.println( "surfaceGraphic.getGlobalFullBounds() = " + surfaceGraphic.getGlobalFullBounds() );
+//        System.out.println( "surfaceGraphic.getGlobalFullBounds() = " + surfaceGraphic.getGlobalFullBounds() );
 //        surfaceGraphic.setAutorepaint( true );
 //        surfaceGraphic.repaint();
 

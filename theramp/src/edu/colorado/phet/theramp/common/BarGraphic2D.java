@@ -63,7 +63,7 @@ public class BarGraphic2D extends PNode {
 
     public void setValue( double value ) {
         if( value != this.value && Math.abs( value ) != Math.abs( this.value ) ) {
-            System.out.println( "value = " + value + ", oldValue=" + this.value );
+//            System.out.println( "value = " + value + ", oldValue=" + this.value );
 
             this.value = value;
             if( value < 0 ) {

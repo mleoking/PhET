@@ -81,14 +81,14 @@ public class RampPlotSet {
         ValueAccessor.TotalEnergy totalEnergy = new ValueAccessor.TotalEnergy( getLookAndFeel() );
         addTimeSeries( energyPlot, totalEnergy, totalEnergy.getColor(), "10000.00" );
 //
-//        ValueAccessor.ThermalEnergy thermalEnergy = new ValueAccessor.ThermalEnergy( getLookAndFeel() );
-//        addTimeSeries( energyPlot, thermalEnergy, thermalEnergy.getColor(), "10000.00" );
+        ValueAccessor.ThermalEnergy thermalEnergy = new ValueAccessor.ThermalEnergy( getLookAndFeel() );
+        addTimeSeries( energyPlot, thermalEnergy, thermalEnergy.getColor(), "10000.00" );
 //
-//        ValueAccessor.PotentialEnergy potentialEnergy = new ValueAccessor.PotentialEnergy( getLookAndFeel() );
-//        addTimeSeries( energyPlot, potentialEnergy, potentialEnergy.getColor(), "10000.00" );
+        ValueAccessor.PotentialEnergy potentialEnergy = new ValueAccessor.PotentialEnergy( getLookAndFeel() );
+        addTimeSeries( energyPlot, potentialEnergy, potentialEnergy.getColor(), "10000.00" );
 //
-//        ValueAccessor.KineticEnergy kineticEnergy = new ValueAccessor.KineticEnergy( getLookAndFeel() );
-//        addTimeSeries( energyPlot, kineticEnergy, kineticEnergy.getColor(), "10000.00" );
+        ValueAccessor.KineticEnergy kineticEnergy = new ValueAccessor.KineticEnergy( getLookAndFeel() );
+        addTimeSeries( energyPlot, kineticEnergy, kineticEnergy.getColor(), "10000.00" );
 //
 //        TimePlotSuite workPlot = createTimePlotSuite( new Range2D( 0, -20000, 20, 20000 ), "Work", 620, 200 );
 //
@@ -102,21 +102,11 @@ public class RampPlotSet {
 //        module.getRampPanel().addGraphic( workPlot);
     }
 
-
-//    public void addTimeSeries( TimePlotSuite timePlotSuite, ValueAccessor valueAccessor, Color color, String justifyString ) {
-//        TimeSeries series = new TimeSeries();
-//        PlotDeviceSeries plotDeviceSeries = new PlotDeviceSeries( timePlotSuite.getPlotDevice(), series, color, valueAccessor.getName(), getStroke(), getFont(), valueAccessor.getUnits(), justifyString );
-//        timePlotSuite.addPlotDeviceData( plotDeviceSeries );
-//        dataUnits.add( new DataUnit( valueAccessor, series, plotDeviceSeries, timePlotSuite ) );
-//    }
-
     private void addTimeSeries( TimePlotSuitePNode energyPlot, ValueAccessor valueAccessor, Color color, String justifyString ) {
         TimeSeries series = new TimeSeries();
         TimeSeriesPNode timeSeriesPNode = new TimeSeriesPNode( energyPlot, series, valueAccessor, color, justifyString );
         energyPlot.addTimeSeries( timeSeriesPNode );
 
-//        PlotDeviceSeries plotDeviceSeries = new PlotDeviceSeries( timePlotSuite.getPlotDevice(), series, color, valueAccessor.getName(), getStroke(), getFont(), valueAccessor.getUnits(), justifyString );
-//        timePlotSuite.addPlotDeviceData( plotDeviceSeries );
         dataUnits.add( new DataUnit( valueAccessor, series, energyPlot, timeSeriesPNode ) );
     }
 
