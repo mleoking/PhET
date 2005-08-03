@@ -9,10 +9,9 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.XYItemRenderer;
-import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -39,28 +38,23 @@ public class TimePlotSuitePNode extends PNode {
     private BufferedImage bufferedImage;
     private PImage child;
 
-    public TimePlotSuitePNode( PCanvas pCanvas, Range2D range, String name, TimeSeriesModel timeSeriesModel ) {
+    public TimePlotSuitePNode( PCanvas pCanvas, Range2D range, String name, TimeSeriesModel timeSeriesModel, int height ) {
         this.pCanvas = pCanvas;
         this.range = range;
         this.timeSeriesModel = timeSeriesModel;
         dataset = createDataset();
-        JFreeChart chart = createChart( dataset, name );
+        JFreeChart chart = createChart( range, dataset, name );
         this.plot = (XYPlot)chart.getPlot();
-        bufferedImage = chart.createBufferedImage( 800, 300 );
+        bufferedImage = chart.createBufferedImage( 800, height );
         child = new PImage( bufferedImage );
         addChild( child );
     }
 
-    private static JFreeChart createChart( XYDataset dataset, String title ) {
+    private static JFreeChart createChart( Range2D range, XYDataset dataset, String title ) {
         JFreeChart chart = ChartFactory.createXYLineChart( title,
-                                                           "Time (seconds)", // x-axis label
-                                                           "Energy", // y-axis label
-                                                           dataset, // data
-                                                           PlotOrientation.VERTICAL,
-                                                           true, // create legend?
-                                                           false, // generate tooltips?
-                                                           false               // generate URLs?
-        );
+                                                           "", // x-axis label
+                                                           "", // y-axis label
+                                                           dataset, PlotOrientation.VERTICAL, false, false, false );
 
         chart.setBackgroundPaint( Color.lightGray );
 
@@ -69,30 +63,26 @@ public class TimePlotSuitePNode extends PNode {
         plot.setDomainGridlinePaint( Color.gray );
         plot.setRangeGridlinePaint( Color.gray );
         plot.setAxisOffset( new RectangleInsets( 5.0, 5.0, 5.0, 5.0 ) );
+
+        NumberAxis xAxis = new NumberAxis( "Time (seconds)" );
+        xAxis.setAutoRange( false );
+        xAxis.setRange( range.getMinX(), range.getMaxX() );
+        plot.setDomainAxis( xAxis );
+
+        NumberAxis yAxis = new NumberAxis( "Energy (Joules)" );
+        yAxis.setAutoRange( false );
+        yAxis.setRange( range.getMinY(), range.getMaxY() );
+        plot.setRangeAxis( yAxis );
+
         plot.setDomainCrosshairVisible( true );
         plot.setRangeCrosshairVisible( true );
 
-        XYItemRenderer r = plot.getRenderer();
-        if( r instanceof XYLineAndShapeRenderer ) {
-            XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer)r;
-
-            renderer.setDefaultShapesVisible( true );
-            renderer.setDefaultShapesFilled( true );
-
-//            renderer.setDefaultShapesVisible( false );
-//            renderer.setDefaultShapesFilled( false );
-//            renderer.setBaseStroke( new BasicStroke( 2));
-            renderer.setStroke( new BasicStroke( 3 ) );
-        }
         return chart;
-
     }
 
     private static XYDataset createDataset() {
         XYSeries xySeries = new XYSeries( new Integer( 0 ) );
         XYDataset xyDataset = new XYSeriesCollection( xySeries );
-        xySeries.add( 0, 0 );
-        xySeries.add( 20, 30000 );
         return xyDataset;
     }
 

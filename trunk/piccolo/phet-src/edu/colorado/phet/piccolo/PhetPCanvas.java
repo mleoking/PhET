@@ -102,6 +102,10 @@ public class PhetPCanvas extends PSwingCanvas {
         getLayer().addChild( graphic );
     }
 
+    public void removeChild( PNode graphic ) {
+        getLayer().removeChild( graphic );
+    }
+
     public void setDebugRegionManagement( boolean debugRegionManagement ) {
         PDebug.debugRegionManagement = debugRegionManagement;
     }

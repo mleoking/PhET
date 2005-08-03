@@ -5,10 +5,10 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
-import edu.colorado.phet.piccolo.ShadowHTMLGraphic;
+import edu.colorado.phet.piccolo.BoundGraphic;
+import edu.colorado.phet.piccolo.HTMLGraphic;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.view.BlockGraphic;
-import edu.colorado.phet.theramp.view.RampUtil;
 import edu.colorado.phet.theramp.view.RampWorld;
 import edu.colorado.phet.theramp.view.SurfaceGraphic;
 import edu.umd.cs.piccolo.PNode;
@@ -24,14 +24,16 @@ import java.awt.geom.Point2D;
  * Copyright (c) Feb 13, 2005 by Sam Reid
  */
 public class ForceArrowGraphic extends PNode {
-    private double arrowTailWidth = 30;
-    private double arrowHeadHeight = 55;
+    private double arrowTailWidth = 8;
+    private double arrowHeadHeight = 16;
+//    private double arrowTailWidth = 30;
+//    private double arrowHeadHeight = 55;
 
     private String name;
     private Color color;
     private int dy;
     private AbstractArrowSet.ForceComponent forceComponent;
-    private ShadowHTMLGraphic textGraphic;
+    private HTMLGraphic textGraphic;
     private PPath shapeGraphic;
     private final Font font = new Font( "Lucida Sans", Font.BOLD, 14 );
     private Arrow lastArrow;
@@ -59,18 +61,24 @@ public class ForceArrowGraphic extends PNode {
         if( sub != null && !sub.trim().equals( "" ) ) {
             name = "<html>" + name + "<sub>" + sub + "</sub></html>";
         }
-        this.color = RampUtil.transparify( baseColor, 128 );
+//        this.color = RampUtil.transparify( baseColor, 128 );
+//        this.color = RampUtil.transparify( baseColor, 128 );
+        this.color = baseColor;
 //        color = RampUtil.transparify( color, 175 );
         this.dy = dy;
         this.forceComponent = forceComponent;
-        textGraphic = new ShadowHTMLGraphic( name );
+        textGraphic = new HTMLGraphic( name );
         textGraphic.setColor( Color.black );
-        textGraphic.setShadowColor( Color.yellow );
+//        textGraphic.setShadowColor( Color.yellow );
 
         shapeGraphic = new PPath( null );
         shapeGraphic.setPaint( this.color );
 
         addChild( shapeGraphic );
+
+        BoundGraphic boundGraphic = new BoundGraphic( textGraphic, 2, 2 );
+        boundGraphic.setPaint( Color.yellow );
+        addChild( boundGraphic );
         addChild( textGraphic );
         //setIgnoreMouse( true );
         update();
@@ -116,7 +124,7 @@ public class ForceArrowGraphic extends PNode {
             double arrowHeight = forceArrowBody.getBounds().getHeight();
             double y = forceArrowBody.getBounds().getY() + arrowHeight / 2 - tgHeight / 2;
 //            textGraphic.setLocation( forceArrowBody.getBounds().x, (int)y );
-            textGraphic.setOffset( forceArrowBody.getBounds().x, (int)y );
+            textGraphic.setOffset( forceArrowBody.getBounds().x, (int)y + 15 );
         }
         this.lastArrow = forceArrow;
         setPickable( false );

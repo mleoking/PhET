@@ -1,11 +1,13 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.piccolo;
 
+import edu.colorado.phet.common.math.AbstractVector2D;
+import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.nodes.PPath;
 
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 /**
@@ -57,13 +59,13 @@ public class ConnectorGraphic extends PPath {
 
         // First get the center of each rectangle in the
         // local coordinate system of each rectangle.
-        Point2D r1c = src.getBounds().getCenter2D();
-        Point2D r2c = dst.getBounds().getCenter2D();
+        Point2D r1c = src.getFullBounds().getCenter2D();
+        Point2D r2c = dst.getFullBounds().getCenter2D();
 
         // Next convert that center point for each rectangle
         // into global coordinate system.
-        src.localToGlobal( r1c );
-        dst.localToGlobal( r2c );
+        src.getParent().localToGlobal( r1c );
+        dst.getParent().localToGlobal( r2c );
 
         // Now that the centers are in global coordinates they
         // can be converted into the local coordinate system
@@ -74,9 +76,13 @@ public class ConnectorGraphic extends PPath {
         // Finish by setting the endpoints of the line to
         // the center points of the rectangles, now that those
         // center points are in the local coordinate system of the line.
-        Line2D.Double aShape = new Line2D.Double( r1c, r2c );
-//        System.out.println( "aShape = " + aShape.getP1()+",-> "+aShape.getP2() );
-        setPathTo( aShape );
+        AbstractVector2D vector = new Vector2D.Double( r1c, r2c );
+        vector = vector.getInstanceOfMagnitude( Math.max( vector.getMagnitude() - 50, 100 ) );
+        Arrow arrow = new Arrow( r1c, vector.getDestination( r1c ), 30, 30, 5, 1.0, true );
+        setPathTo( arrow.getShape() );
+//        Line2D.Double aShape = new Line2D.Double( r1c, r2c );
+//        setPathTo( aShape );
+        //        System.out.println( "aShape = " + aShape.getP1()+",-> "+aShape.getP2() );
 
         repaint();
     }

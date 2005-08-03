@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.piccolo;
 
+import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -18,9 +19,17 @@ import java.beans.PropertyChangeListener;
 
 public class BoundGraphic extends PPath {
     private PNode src;
+    private int dx;
+    private int dy;
 
     public BoundGraphic( PNode src ) {
+        this( src, 0, 0 );
+    }
+
+    public BoundGraphic( PNode src, int dx, int dy ) {
         this.src = src;
+        this.dx = dx;
+        this.dy = dy;
         PropertyChangeListener listener = new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 update();
@@ -45,8 +54,9 @@ public class BoundGraphic extends PPath {
         // Finish by setting the endpoints of the line to
         // the center points of the rectangles, now that those
         // center points are in the local coordinate system of the line.
-        Rectangle2D.Double rect = new Rectangle2D.Double();
+        Rectangle2D rect = new Rectangle2D.Double();
         rect.setFrameFromCenter( r1c, r2c );
+        rect = RectangleUtils.expand( rect, dx, dy );
         super.setPathTo( rect );
         repaint();
     }

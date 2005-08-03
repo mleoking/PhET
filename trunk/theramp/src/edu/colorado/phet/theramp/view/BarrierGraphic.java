@@ -20,7 +20,7 @@ import java.io.IOException;
 public abstract class BarrierGraphic extends PNode {
     private RampPanel rampPanel;
     private SurfaceGraphic surfaceGraphic;
-    public PImage imageGraphic;
+    protected PImage imageGraphic;
 
     public BarrierGraphic( Component component, RampPanel rampPanel, SurfaceGraphic surfaceGraphic ) {
         super();
