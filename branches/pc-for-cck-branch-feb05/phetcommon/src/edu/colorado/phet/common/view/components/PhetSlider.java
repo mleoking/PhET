@@ -248,7 +248,7 @@ public class PhetSlider extends JPanel {
             val = max;
         }
         transform = new ModelViewTx1D( min, max, SLIDER_MIN, SLIDER_MAX );
-        setValue( val );
+        setValue( val, true );
 
     }
 
@@ -280,6 +280,7 @@ public class PhetSlider extends JPanel {
 
     public void commitEdit() throws IllegalValueException {
         String text = PhetSlider.this.textField.getText();
+        text = text.replace( ',', '.' );
         try {
             double value = Double.parseDouble( text );
             if( value >= min && value <= max ) {
@@ -353,14 +354,24 @@ public class PhetSlider extends JPanel {
     }
 
     public void setValue( double value ) {
-        if( value == this.value ) {
+        setValue( value, false );
+//        if( value == this.value ) {
+//            return;
+//        }
+//        else{
+//            setValue(value,true);
+//        }
+    }
+
+    private void setValue( double value, boolean forceChange ) {
+        if( value == this.value && !forceChange ) {
             return;
         }
         if( value >= min && value <= max ) {
             String string = formatter.format( value );
-
+            string = string.replace( ',', '.' );
             double newValue = Double.parseDouble( string );
-            if( this.value == newValue ) {
+            if( this.value == newValue && !forceChange ) {
                 return;
             }
 
