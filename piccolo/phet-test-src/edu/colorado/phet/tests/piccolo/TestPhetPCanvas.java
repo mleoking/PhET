@@ -27,7 +27,7 @@ public class TestPhetPCanvas {
         PPath path = new PPath( new Rectangle( 400, 400, 100, 100 ), new BasicStroke( 3 ) );
         path.setPaint( Color.blue );
         path.setStrokePaint( Color.black );
-        phetPCanvas.addGraphic( path );
+        phetPCanvas.addChild( path );
 
     }
 

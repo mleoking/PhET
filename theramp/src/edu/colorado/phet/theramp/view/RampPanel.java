@@ -7,11 +7,13 @@ import edu.colorado.phet.piccolo.WiggleMe;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.RampObject;
 import edu.colorado.phet.theramp.view.bars.BarGraphSuite;
-import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -132,11 +134,20 @@ public class RampPanel extends PhetPCanvas {
             }
         } );
         getLayer().setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+
+        getLayer().addInputEventListener( new PBasicInputEventHandler() {
+            public void mouseMoved( PInputEvent event ) {
+                super.mouseMoved( event );
+                System.out.println( "event = " + event );
+                Point2D position = event.getPosition();
+                System.out.println( "position = " + position );
+            }
+        } );
     }
 
-    private void addChild( PNode pNode ) {
-        addGraphic( pNode );
-    }
+//    private void addChild( PNode pNode ) {
+//        addGraphic( pNode );
+//    }
 
     private void updateArrowSetGraphics() {
         rampWorld.updateArrowSetGraphics();

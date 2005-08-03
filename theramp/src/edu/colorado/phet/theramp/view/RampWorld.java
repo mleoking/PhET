@@ -36,7 +36,7 @@ public class RampWorld extends PNode {
     private LeanerGraphic leanerGraphic;
     private EarthGraphic earthGraphic;
     private SkyGraphic skyGraphic;
-    private SurfaceGraphic groundGraphic;
+    private FloorGraphic groundGraphic;
     //todo piccolo
     private MeasuringTape measuringTape;
     private RightBarrierGraphic rightBarrierGraphic;
@@ -50,6 +50,7 @@ public class RampWorld extends PNode {
         earthGraphic = new EarthGraphic( rampPanel, this );
         skyGraphic = new SkyGraphic( rampPanel, this );
         groundGraphic = new FloorGraphic( rampPanel, rampModel.getGround() );
+//        BoundGraphic groundBounds=new BoundGraphic( groundGraphic,2,2);
         blockGraphic = new BlockGraphic( module, rampPanel, rampGraphic, groundGraphic, rampModel.getBlock(), module.getRampObjects()[0] );
         rightBarrierGraphic = new RightBarrierGraphic( rampPanel, rampPanel, rampGraphic );
         leftBarrierGraphic = new LeftBarrierGraphic( rampPanel, rampPanel, groundGraphic );
@@ -97,7 +98,8 @@ public class RampWorld extends PNode {
                                            RectangleUtils.getCenter2D( rampGraphic.getScreenTransform().getModelBounds() ) );
         measuringTape.setVisible( false );
         addChild( measuringTape );
-
+//        groundBounds.setPaint( Color.blue);
+//        addChild( groundBounds);
     }
 
     void updateArrowSetGraphics() {
@@ -197,5 +199,17 @@ public class RampWorld extends PNode {
     public void setMeasureTapeVisible( boolean visible ) {
         //todo piccolo
         measuringTape.setVisible( visible );
+    }
+
+    public FloorGraphic getGroundGraphic() {
+        return groundGraphic;
+    }
+
+    public LeftBarrierGraphic getLeftBarrierGraphic() {
+        return leftBarrierGraphic;
+    }
+
+    public RightBarrierGraphic getRightBarrierGraphic() {
+        return rightBarrierGraphic;
     }
 }

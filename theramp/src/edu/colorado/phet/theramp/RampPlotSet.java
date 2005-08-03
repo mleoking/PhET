@@ -110,8 +110,8 @@ public class RampPlotSet {
         ValueAccessor.GravityWork gravityWork = new ValueAccessor.GravityWork( getLookAndFeel() );
         addTimeSeries( workPlot, gravityWork, gravityWork.getColor(), "10000.00" );
 
-        module.getRampPanel().addGraphic( energyPlot );
-        module.getRampPanel().addGraphic( workPlot );
+        module.getRampPanel().addChild( energyPlot );
+        module.getRampPanel().addChild( workPlot );
     }
 
     private void addTimeSeries( TimePlotSuitePNode energyPlot, ValueAccessor valueAccessor, Color color, String justifyString ) {
