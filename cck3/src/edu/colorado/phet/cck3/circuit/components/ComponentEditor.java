@@ -3,6 +3,7 @@ package edu.colorado.phet.cck3.circuit.components;
 
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.*;
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.view.components.PhetSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
@@ -185,22 +186,37 @@ public abstract class ComponentEditor extends JDialog {
             if( module.getParameters().hugeRangeOnBatteries() ) {
 
                 final JCheckBox hugeRange = new JCheckBox( SimStrings.get( "ComponentEditor.MoreVoltsCheckBox" ), false );
-                hugeRange.addChangeListener( new ChangeListener() {
-                    public void stateChanged( ChangeEvent e ) {
-                        if( hugeRange.isSelected() ) {
-                            BatteryEditor.super.slider.setRange( 0, 100000 );
-                            BatteryEditor.super.slider.setPaintLabels( false );
-                        }
-                        else {
-                            BatteryEditor.super.slider.setRange( 0, 100 );
-                            BatteryEditor.super.slider.setPaintLabels( true );
-                        }
+                hugeRange.addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+//                            System.out.println( "hugeRange.isSelected() = " + hugeRange.isSelected() );
+                        setHugeRange( hugeRange.isSelected() );
                     }
                 } );
                 super.contentPane.add( hugeRange );
                 super.pack();
             }
 
+        }
+
+        private PhetSlider getSlider() {
+            return super.slider;
+        }
+
+        private void setHugeRange( boolean hugeRange ) {
+            PhetSlider slider = getSlider();
+            double origValue = slider.getValue();
+            if( hugeRange ) {
+                int max = 100000;
+                slider.setRange( 0, max );
+                slider.setPaintLabels( false );
+                slider.setValue( MathUtil.clamp( 0, origValue, max ) );
+            }
+            else {
+                int max = 100;
+                slider.setRange( 0, max );
+                slider.setPaintLabels( true );
+                slider.setValue( MathUtil.clamp( 0, origValue, max ) );
+            }
         }
 
         protected void doChange( double value ) {
@@ -247,7 +263,7 @@ public abstract class ComponentEditor extends JDialog {
         public BatteryResistanceEditor( CCK3Module module, Battery element, Component parent, Circuit circuit ) {
             super( module, SimStrings.get( "ComponentEditor.BatteryResistanceTitle" ),
                    element, parent, SimStrings.get( "ComponentEditor.BatteryResistanceName" ),
-                   SimStrings.get( "ComponentEditor.BatteryResistanceUnits" ), CCK3Module.MIN_RESISTANCE, 9, element.getInteralResistance(), circuit );
+                   SimStrings.get( "ComponentEditor.BatteryResistanceUnits" ), 0, 9, element.getInteralResistance(), circuit );
             this.battery = element;
         }
 
@@ -256,6 +272,7 @@ public abstract class ComponentEditor extends JDialog {
                 value = CCK3Module.MIN_RESISTANCE;
             }
 //            super.element.setResistance( value );
+//            System.out.println( "set battery internal resistance= " + value );
             battery.setInternalResistance( value );
         }
     }
