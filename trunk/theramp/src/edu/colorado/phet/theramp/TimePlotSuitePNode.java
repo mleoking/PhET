@@ -2,7 +2,6 @@
 package edu.colorado.phet.theramp;
 
 import edu.colorado.phet.chart.Range2D;
-import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -20,7 +19,6 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
 
 import java.awt.*;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -105,37 +103,29 @@ public class TimePlotSuitePNode extends PNode {
         System.out.println( "TODO" );
     }
 
-    Point2D.Double lastScreenPoint = null;
+    public BufferedImage getChartImage() {
+        return bufferedImage;
+    }
 
-    public void addPoint( double x1, double y1 ) {
-//        System.out.println( "x1 = " + x1 + ", y1=" + y1 );
+    public Rectangle2D getDataArea() {
+        return plot.getDataArea();
+    }
 
-        Graphics2D graphics2D = bufferedImage.createGraphics();
-
-        // calculate the data area...
+    public Point2D toImageLocation( double x, double y ) {
         Rectangle2D dataArea = plot.getDataArea();
         if( dataArea == null ) {
             throw new RuntimeException( "Null data area" );
         }
 
-        double transX1 = plot.getDomainAxisForDataset( 0 ).valueToJava2D( x1, dataArea, plot.getDomainAxisEdge() );
-        double transY1 = plot.getRangeAxisForDataset( 0 ).valueToJava2D( y1, dataArea, plot.getRangeAxisEdge() );
+        double transX1 = plot.getDomainAxisForDataset( 0 ).valueToJava2D( x, dataArea, plot.getDomainAxisEdge() );
+        double transY1 = plot.getRangeAxisForDataset( 0 ).valueToJava2D( y, dataArea, plot.getRangeAxisEdge() );
         Point2D.Double pt = new Point2D.Double( transX1, transY1 );
-//        System.out.println( "pt = " + pt );
+        return pt;
+    }
 
-        if( lastScreenPoint != null ) {
-            Line2D.Double screenLine = new Line2D.Double( lastScreenPoint, pt );
-            graphics2D.setColor( Color.blue );
-
-            graphics2D.setClip( dataArea );
-            graphics2D.setStroke( new BasicStroke( 2 ) );
-            graphics2D.draw( screenLine );
-
-            Rectangle2D bounds = screenLine.getBounds2D();
-            bounds = RectangleUtils.expand( bounds, 1, 1 );
+    public void repaintImage( Rectangle2D bounds ) {
+        if( bounds.intersects( getDataArea() ) ) {
             child.repaintFrom( new PBounds( bounds ), child );
         }
-
-        lastScreenPoint = new Point2D.Double( pt.getX(), pt.getY() );
     }
 }

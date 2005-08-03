@@ -41,7 +41,7 @@ public class RampTimeSeriesModel extends TimeSeriesModel {
     }
 
     public void setReplayTime( double requestedTime ) {
-        System.out.println( "RampTimeSeriesModel.setReplayTime: " + requestedTime );
+//        System.out.println( "RampTimeSeriesModel.setReplayTime: " + requestedTime );
         super.setReplayTime( requestedTime );
 
         ObjectTimePoint value = series.getValueForTime( requestedTime );

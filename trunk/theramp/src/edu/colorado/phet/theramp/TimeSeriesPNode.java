@@ -1,11 +1,16 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp;
 
+import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.theramp.model.ValueAccessor;
 import edu.colorado.phet.timeseries.TimePoint;
 import edu.colorado.phet.timeseries.TimeSeries;
 
 import java.awt.*;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 
 /**
  * User: Sam Reid
@@ -20,6 +25,7 @@ public class TimeSeriesPNode {
     private Color color;
     private String justifyString;
     private TimeSeries series;
+    private Point2D.Double lastScreenPoint;
 
     public TimeSeriesPNode( TimePlotSuitePNode plotSuite, TimeSeries series, ValueAccessor valueAccessor, Color color, String justifyString ) {
         this.plotSuite = plotSuite;
@@ -40,11 +46,31 @@ public class TimeSeriesPNode {
 
     private void dataAdded() {
         TimePoint pt = series.getLastPoint();
-        //draw into the buffered image
-        plotSuite.addPoint( pt.getTime(), pt.getValue() );
-
-//        plotSuite.
+        addPoint( pt );
     }
+
+    private void addPoint( TimePoint at ) {
+        BufferedImage bufferedImage = plotSuite.getChartImage();
+        Graphics2D graphics2D = bufferedImage.createGraphics();
+
+        Point2D screenPoint = plotSuite.toImageLocation( at.getTime(), at.getValue() );
+
+        if( lastScreenPoint != null ) {
+            Line2D.Double screenLine = new Line2D.Double( lastScreenPoint, screenPoint );
+            graphics2D.setColor( color );
+
+            graphics2D.setClip( plotSuite.getDataArea() );
+            graphics2D.setStroke( new BasicStroke( 2 ) );
+            graphics2D.draw( screenLine );
+
+            Rectangle2D bounds = screenLine.getBounds2D();
+            bounds = RectangleUtils.expand( bounds, 2, 2 );
+            plotSuite.repaintImage( bounds );
+        }
+
+        lastScreenPoint = new Point2D.Double( screenPoint.getX(), screenPoint.getY() );
+    }
+
 
     public void reset() {
         System.out.println( "TODO" );
