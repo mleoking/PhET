@@ -6,4 +6,5 @@
 :rem
 
 set JAVA_HOME=C:\j2sdk1.4.2_06
-C:\ant\apache-ant-1.5.3-1\bin\ant -buildfile C:\PhET\i18n\localizations\spanish\translation-jar.xml -Dlanguage-id=%1 -Dinput-file=%2
+
+jar cvf %2_%1.jar %2_%1.properties 
