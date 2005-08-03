@@ -107,6 +107,8 @@ public class SurfaceGraphic extends PNode {
                 updateRamp();
             }
         } );
+
+
     }
 
     public PText getHeightReadoutGraphic() {

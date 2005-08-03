@@ -144,7 +144,12 @@ public class RampModule extends Module {
     }
 
     public void clearHeat() {
-        rampModel.clearHeat();
+        cueFirefighter();
+//        rampModel.clearHeat();
+    }
+
+    public void cueFirefighter() {
+        new FireDog( this ).putOutFire();
     }
 
     public static interface Listener {

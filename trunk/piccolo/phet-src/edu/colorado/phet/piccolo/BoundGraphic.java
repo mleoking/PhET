@@ -42,11 +42,8 @@ public class BoundGraphic extends PPath {
 
         // First get the center of each rectangle in the
         // local coordinate system of each rectangle.
-        Point2D r1c = src.getBounds().getCenter2D();
-        Point2D r2c = new Point2D.Double( src.getBounds().getMaxX(), src.getBounds().getMaxY() );
-
-        src.localToGlobal( r1c );
-        src.localToGlobal( r2c );
+        Point2D r1c = src.getGlobalFullBounds().getCenter2D();
+        Point2D r2c = new Point2D.Double( src.getGlobalFullBounds().getMaxX(), src.getGlobalFullBounds().getMaxY() );
 
         this.globalToLocal( r1c );
         this.globalToLocal( r2c );

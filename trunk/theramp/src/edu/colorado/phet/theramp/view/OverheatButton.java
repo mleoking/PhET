@@ -23,7 +23,7 @@ public class OverheatButton extends PNode {
     private double max;
     private RampPanel rampPanel;
 
-    public OverheatButton( RampPanel rampPanel, final RampModel rampModel, double maxDisplayableEnergy ) {
+    public OverheatButton( final RampPanel rampPanel, final RampModel rampModel, double maxDisplayableEnergy ) {
         super();
         this.rampModel = rampModel;
         this.rampPanel = rampPanel;
@@ -34,7 +34,7 @@ public class OverheatButton extends PNode {
         JButton overheat = new JButton( "Remove Heat" );
         overheat.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                rampModel.clearHeat();
+                rampPanel.getRampModule().clearHeat();
             }
         } );
         PSwing buttonGraphic = new PSwing( rampPanel, overheat );

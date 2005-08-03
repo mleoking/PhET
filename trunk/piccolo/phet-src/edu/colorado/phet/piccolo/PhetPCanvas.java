@@ -98,7 +98,7 @@ public class PhetPCanvas extends PSwingCanvas {
         this.renderingSize = new Dimension( dim );
     }
 
-    public void addGraphic( PNode graphic ) {
+    public void addChild( PNode graphic ) {
         getLayer().addChild( graphic );
     }
 
