@@ -59,10 +59,10 @@ public class LinearTransform2D {
      * @param vp2 The point in the view frame that corresponds to mp2 in the model reference frame
      */
     public LinearTransform2D( Point2D mp1, Point2D mp2,
-                              Point vp1, Point vp2 ) {
+                              Point2D vp1, Point2D vp2 ) {
         Rectangle2D.Double mr = new Rectangle2D.Double( mp1.getX(), mp1.getY(), 0, 0 );
         mr.add( mp2 );
-        Rectangle vr = new Rectangle( vp1.x, vp1.y, 0, 0 );
+        Rectangle2D vr = new Rectangle2D.Double( vp1.getX(), vp1.getY(), 0, 0 );
         vr.add( vp2 );
         setSourceBounds( mr );
         setDestinationBounds( vr );
