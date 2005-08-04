@@ -32,7 +32,7 @@ public class BarGraphSuite extends PNode {
         addChild( workBarGraphSet );
         addChild( energyBarGraphSet );
 
-        energyBarGraphSet.translate( workBarGraphSet.getFullBounds().getWidth() + 10, 0 );
+        energyBarGraphSet.translate( workBarGraphSet.getFullBounds().getWidth() + 0, 0 );
         setPickable( false );
         setChildrenPickable( false );
 
