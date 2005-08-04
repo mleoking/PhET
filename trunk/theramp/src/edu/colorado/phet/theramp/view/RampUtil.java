@@ -29,4 +29,8 @@ public class RampUtil {
         Point2D newStart = halfNew.getScaledInstance( -1 ).getDestination( halfwayPoint );
         return new Line2D.Double( newStart, newEnd );
     }
+
+    public static Color inverseColor( Color color ) {
+        return new Color( 255 - color.getRed(), 255 - color.getGreen(), 255 - color.getBlue() );
+    }
 }

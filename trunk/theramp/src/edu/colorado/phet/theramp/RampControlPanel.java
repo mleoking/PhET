@@ -7,6 +7,7 @@ import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.view.RampPanel;
+import edu.colorado.phet.theramp.view.RampUtil;
 import edu.colorado.phet.theramp.view.arrows.AbstractArrowSet;
 
 import javax.swing.*;
@@ -197,17 +198,36 @@ public class RampControlPanel extends ControlPanel {
                 frictionless.setSelected( false );
             }
         } );
-
-
         addControl( frictionless );
-
 
         massSlider = createMassSlider();
         addControl( massSlider );
 
+        GraphButtonSet graphButtonSet = new GraphButtonSet();
+        addControl( graphButtonSet );
 //        addControl( createModelSelector() );
     }
 
+    class GraphButtonSet extends VerticalLayoutPanel {
+        public GraphButtonSet() {
+            setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Graphs" ) );
+            for( int i = 0; i < module.getRampPlotSet().numDataUnits(); i++ ) {
+                final RampPlotSet.DataUnit unit = module.getRampPlotSet().dataUnitAt( i );
+                final JCheckBox checkBox = new JCheckBox( unit.getName(), true );
+
+                Color reverse = RampUtil.inverseColor( unit.getColor() );
+                checkBox.setBackground( unit.getColor() );
+                checkBox.setForeground( Color.black );
+                checkBox.setFont( new Font( "Lucida Sans", Font.BOLD, 16 ) );
+                super.addFullWidth( checkBox );
+                checkBox.addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        unit.setVisible( checkBox.isSelected() );
+                    }
+                } );
+            }
+        }
+    }
 
     private Component createModelSelector() {
         VerticalLayoutPanel panel = new VerticalLayoutPanel();

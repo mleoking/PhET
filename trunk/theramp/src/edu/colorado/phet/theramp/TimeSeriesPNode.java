@@ -30,6 +30,7 @@ public class TimeSeriesPNode {
     private int strokeSize = 3;
     private BasicStroke s;
     private Color transparentColor;
+    private boolean visible = true;
 
     public TimeSeriesPNode( TimePlotSuitePNode plotSuite, TimeSeries series, ValueAccessor valueAccessor, Color color, String justifyString ) {
         this.plotSuite = plotSuite;
@@ -46,7 +47,7 @@ public class TimeSeriesPNode {
                 reset();
             }
         } );
-        s = new BasicStroke( strokeSize );
+        s = new BasicStroke( strokeSize, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f );
         transparentColor = RampUtil.transparify( color, 120 );
     }
 
@@ -62,23 +63,37 @@ public class TimeSeriesPNode {
         Point2D screenPoint = plotSuite.toImageLocation( at.getTime(), at.getValue() );
 
         if( lastScreenPoint != null ) {
-            Line2D.Double screenLine = new Line2D.Double( lastScreenPoint, screenPoint );
-            graphics2D.setColor( transparentColor );
-            graphics2D.setClip( plotSuite.getDataArea() );
+            if( visible ) {
+                Line2D.Double screenLine = new Line2D.Double( lastScreenPoint, screenPoint );
+                graphics2D.setColor( transparentColor );
+                graphics2D.setClip( plotSuite.getDataArea() );
 
-            graphics2D.setStroke( s );
-            graphics2D.draw( screenLine );
+                graphics2D.setStroke( s );
+                graphics2D.draw( screenLine );
 
-            Rectangle2D bounds = screenLine.getBounds2D();
-            bounds = RectangleUtils.expand( bounds, strokeSize / 2 + 2, strokeSize / 2 + 2 );
-            plotSuite.repaintImage( bounds );
+                Rectangle2D bounds = screenLine.getBounds2D();
+                bounds = RectangleUtils.expand( bounds, strokeSize / 2 + 2, strokeSize / 2 + 2 );
+                plotSuite.repaintImage( bounds );
+            }
         }
 
         lastScreenPoint = new Point2D.Double( screenPoint.getX(), screenPoint.getY() );
     }
 
-
     public void reset() {
         lastScreenPoint = null;
+    }
+
+    public void setVisible( boolean visible ) {
+        this.visible = visible;
+    }
+
+    public void repaintAll() {
+        if( visible ) {
+            lastScreenPoint = null;
+            for( int i = 0; i < series.numPoints(); i++ ) {
+                addPoint( series.pointAt( i ) );
+            }
+        }
     }
 }

@@ -31,6 +31,7 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -52,6 +53,7 @@ public class TimePlotSuitePNode extends PNode {
     private PPath cursor;
     private PNode minButNode;
     private PNode maxButNode;
+    private ArrayList series = new ArrayList();
 
     public TimePlotSuitePNode( PSwingCanvas pCanvas, Range2D range, String name, final TimeSeriesModel timeSeriesModel, int height ) {
         this.pCanvas = pCanvas;
@@ -220,6 +222,7 @@ public class TimePlotSuitePNode extends PNode {
     }
 
     public void addTimeSeries( TimeSeriesPNode timeSeriesPNode ) {
+        series.add( timeSeriesPNode );
     }
 
     public void reset() {
@@ -258,6 +261,14 @@ public class TimePlotSuitePNode extends PNode {
     public void repaintImage( Rectangle2D bounds ) {
         if( bounds.intersects( getDataArea() ) ) {
             child.repaintFrom( new PBounds( bounds ), child );
+        }
+    }
+
+    public void repaintAll() {
+        reset();
+        for( int i = 0; i < series.size(); i++ ) {
+            TimeSeriesPNode timeSeriesPNode = (TimeSeriesPNode)series.get( i );
+            timeSeriesPNode.repaintAll();
         }
     }
 }

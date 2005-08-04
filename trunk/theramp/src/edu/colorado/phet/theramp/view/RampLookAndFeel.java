@@ -20,10 +20,12 @@ public class RampLookAndFeel {
     private final Color myGreen = new Color( 0.0f, 0.8f, 0.1f );
     private final Color lightBlue = new Color( 160, 220, 255 );
 
-    private Color appliedForceColor = Color.yellow;
+//    private Color appliedForceColor = Color.yellow;
+    private Color appliedForceColor = new Color( 180, 180, 12 );//my yellow
     private Color netForceColor = myGreen;
     private Color frictionForceColor = Color.red;
-    private Color weightColor = lightBlue;//used to be Color.blue
+//    private Color weightColor = lightBlue;//used to be Color.blue
+    private Color weightColor = new Color( 50, 130, 215 );
     private Color normalColor = Color.magenta;
     private Color wallForceColor = Color.orange;
 
