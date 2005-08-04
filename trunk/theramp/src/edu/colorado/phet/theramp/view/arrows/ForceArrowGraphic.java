@@ -24,10 +24,8 @@ import java.awt.geom.Point2D;
  * Copyright (c) Feb 13, 2005 by Sam Reid
  */
 public class ForceArrowGraphic extends PNode {
-    private double arrowTailWidth = 8;
-    private double arrowHeadHeight = 16;
-//    private double arrowTailWidth = 30;
-//    private double arrowHeadHeight = 55;
+    private double arrowTailWidth = 6;
+    private double arrowHeadHeight = 12;
 
     private String name;
     private Color color;
@@ -43,6 +41,7 @@ public class ForceArrowGraphic extends PNode {
     private String sub;
     private static final double THRESHOLD = 10E-8;
     private Color baseColor;
+    private double verticalOffset = 0;
 
     public ForceArrowGraphic( Component component, String name, Color color,
                               int dy, AbstractArrowSet.ForceComponent forceComponent,
@@ -54,6 +53,9 @@ public class ForceArrowGraphic extends PNode {
                               int dy, AbstractArrowSet.ForceComponent forceComponent,
                               BlockGraphic blockGraphic, String sub ) {
         super();
+        if( name.equals( AbstractArrowSet.TOTAL ) ) {
+            verticalOffset = 20;
+        }
         this.blockGraphic = blockGraphic;
         this.name = name;
         this.baseColor = color;
@@ -61,15 +63,11 @@ public class ForceArrowGraphic extends PNode {
         if( sub != null && !sub.trim().equals( "" ) ) {
             name = "<html>" + name + "<sub>" + sub + "</sub></html>";
         }
-//        this.color = RampUtil.transparify( baseColor, 128 );
-//        this.color = RampUtil.transparify( baseColor, 128 );
         this.color = baseColor;
-//        color = RampUtil.transparify( color, 175 );
         this.dy = dy;
         this.forceComponent = forceComponent;
         textGraphic = new HTMLGraphic( name );
         textGraphic.setColor( Color.black );
-//        textGraphic.setShadowColor( Color.yellow );
 
         shapeGraphic = new PPath( null );
         shapeGraphic.setPaint( this.color );
@@ -77,7 +75,7 @@ public class ForceArrowGraphic extends PNode {
         addChild( shapeGraphic );
 
         BoundGraphic boundGraphic = new BoundGraphic( textGraphic, 2, 2 );
-        boundGraphic.setPaint( Color.yellow );
+        boundGraphic.setPaint( Color.white );
         addChild( boundGraphic );
         addChild( textGraphic );
         //setIgnoreMouse( true );
@@ -111,14 +109,14 @@ public class ForceArrowGraphic extends PNode {
 //        System.out.println( "blockGraphic.getBounds() = " + blockGraphic.getBlockBounds() );
         Point2D viewCtr = blockGraphic.getBlockBounds().getCenter2D();
 
-        Point2D.Double tail = new Point2D.Double( viewCtr.getX(), viewCtr.getY() );
+        Point2D tail = new Point2D.Double( viewCtr.getX(), viewCtr.getY() );
+        tail = offsetTail( tail );
         Point2D tip = new Vector2D.Double( force.getX(), force.getY() ).getDestination( tail );
         Arrow forceArrow = new Arrow( tail, tip, arrowHeadHeight, arrowHeadHeight, arrowTailWidth, 0.5, false );
 
         Shape forceArrowShape = forceArrow.getShape();
         if( this.lastArrow == null || !this.lastArrow.equals( forceArrow ) ) {
             shapeGraphic.setPathTo( forceArrowShape );
-
             Shape forceArrowBody = forceArrow.getTailShape();
             double tgHeight = textGraphic.getHeight();
             double arrowHeight = forceArrowBody.getBounds().getHeight();
@@ -129,6 +127,13 @@ public class ForceArrowGraphic extends PNode {
         this.lastArrow = forceArrow;
         setPickable( false );
         setChildrenPickable( false );
+    }
+
+    private Point2D offsetTail( Point2D tail ) {
+        double viewAngle = blockGraphic.getCurrentSurfaceGraphic().getViewAngle();
+        AbstractVector2D v = Vector2D.Double.parseAngleAndMagnitude( verticalOffset, viewAngle );
+        v = v.getNormalVector();
+        return v.getDestination( tail );
     }
 
     private RampWorld getRampWorld() {
@@ -165,5 +170,13 @@ public class ForceArrowGraphic extends PNode {
 
     public Color getBaseColor() {
         return baseColor;
+    }
+
+    public double getVerticalOffset() {
+        return verticalOffset;
+    }
+
+    public void setVerticalOffset( double verticalOffset ) {
+        this.verticalOffset = verticalOffset;
     }
 }

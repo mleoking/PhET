@@ -54,6 +54,11 @@ public class FireDog extends PNode {
         return globalToLocal( r2 ).getMaxY();
     }
 
+    private double getRampX() {
+        Rectangle2D r2 = module.getRampPanel().getRampWorld().getRampGraphic().getGlobalFullBounds();
+        return globalToLocal( r2 ).getMaxY();
+    }
+
     private double getFloorYOrig() {
         FloorGraphic floorGraphic = module.getRampPanel().getRampWorld().getGroundGraphic();
 
@@ -62,14 +67,19 @@ public class FireDog extends PNode {
     }
 
     private class PutOutFire extends PActivity {
+        private double randomInset;
 
         public PutOutFire() {
-            super( 3000 );
+            super( -1 );
+            randomInset = random.nextGaussian() * 45;
         }
 
         protected void activityStep( long elapsedTime ) {
             super.activityStep( elapsedTime );
             FireDog.this.translate( 5, 0 );
+            if( FireDog.this.getOffset().getX() > FireDog.this.getRampX() - randomInset ) {
+                terminate();
+            }
         }
 
         protected void activityFinished() {

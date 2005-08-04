@@ -4,9 +4,10 @@ package edu.colorado.phet.theramp;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.view.graphics.transforms.LinearTransform2D;
 import edu.colorado.phet.piccolo.CursorHandler;
+import edu.colorado.phet.piccolo.pswing.PSwing;
+import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
 import edu.colorado.phet.timeseries.TimeSeriesModelListenerAdapter;
-import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -23,7 +24,10 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -36,7 +40,7 @@ import java.awt.image.BufferedImage;
  */
 
 public class TimePlotSuitePNode extends PNode {
-    private PCanvas pCanvas;
+    private PSwingCanvas pCanvas;
     private Range2D range;
     private TimeSeriesModel timeSeriesModel;
     private XYDataset dataset;
@@ -46,8 +50,10 @@ public class TimePlotSuitePNode extends PNode {
     private JFreeChart chart;
     private int chartHeight;
     private PPath cursor;
+    private PNode minButNode;
+    private PNode maxButNode;
 
-    public TimePlotSuitePNode( PCanvas pCanvas, Range2D range, String name, final TimeSeriesModel timeSeriesModel, int height ) {
+    public TimePlotSuitePNode( PSwingCanvas pCanvas, Range2D range, String name, final TimeSeriesModel timeSeriesModel, int height ) {
         this.pCanvas = pCanvas;
         this.range = range;
         this.chartHeight = height;
@@ -127,6 +133,41 @@ public class TimePlotSuitePNode extends PNode {
 //        cursor.setStroke( new BasicStroke( 1,BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER,1.0f,new float[]{8,4},0) );
         cursor.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         addChild( cursor );
+
+        JButton minBut = new JButton( "Minimize" );
+        minBut.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                setMinimized( true );
+            }
+        } );
+        minBut.setMargin( new Insets( 2, 2, 2, 2 ) );
+        minButNode = new PSwing( pCanvas, minBut );
+        addChild( minButNode );
+
+        JButton maximize = new JButton( "Maximize" );
+        maximize.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                setMinimized( false );
+            }
+        } );
+        maxButNode = new PSwing( pCanvas, maximize );
+        addChild( maxButNode );
+//        maxButNode.setVisible( false );
+        setMinimized( false );
+    }
+
+    private void setMinimized( boolean minimized ) {
+        minButNode.setVisible( !minimized );
+        cursor.setVisible( !minimized );
+        child.setVisible( !minimized );
+
+        if( minimized ) {
+            addChild( maxButNode );
+        }
+        else if( isAncestorOf( maxButNode ) ) {
+            removeChild( maxButNode );
+        }
+//        maxButNode.setVisible( minimized );
     }
 
     private void showCursor() {
