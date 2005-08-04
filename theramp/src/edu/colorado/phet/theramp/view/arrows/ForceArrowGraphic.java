@@ -120,11 +120,11 @@ public class ForceArrowGraphic extends PNode {
         Shape forceArrowShape = forceArrow.getShape();
         if( this.lastArrow == null || !this.lastArrow.equals( forceArrow ) ) {
             shapeGraphic.setPathTo( forceArrowShape );
-            Shape forceArrowBody = forceArrow.getTailShape();
-            double tgHeight = textGraphic.getHeight();
-            double arrowHeight = forceArrowBody.getBounds().getHeight();
+//            Shape forceArrowBody = forceArrow.getTailShape();
+//            double tgHeight = textGraphic.getHeight();
+//            double arrowHeight = forceArrowBody.getBounds().getHeight();
 
-            double y = forceArrowBody.getBounds().getY() + arrowHeight / 2 - tgHeight / 2;
+//            double y = forceArrowBody.getBounds().getY() + arrowHeight / 2 - tgHeight / 2;
 //            textGraphic.setOffset( forceArrowBody.getBounds().x, (int)y + 15 );
             AbstractVector2D dstVector = force.getInstanceOfMagnitude( force.getMagnitude() + 30 );
             Point2D dest = dstVector.getDestination( tail );
