@@ -24,8 +24,8 @@ import java.awt.geom.Point2D;
  * Copyright (c) Feb 13, 2005 by Sam Reid
  */
 public class ForceArrowGraphic extends PNode {
-    private double arrowTailWidth = 6;
-    private double arrowHeadHeight = 12;
+    private double arrowTailWidth = 4;
+    private double arrowHeadHeight = 14;
 
     private String name;
     private Color color;
@@ -55,6 +55,9 @@ public class ForceArrowGraphic extends PNode {
         super();
         if( name.equals( AbstractArrowSet.TOTAL ) ) {
             verticalOffset = 20;
+        }
+        if( name.equals( AbstractArrowSet.WALL ) ) {
+            verticalOffset = -20;
         }
         this.blockGraphic = blockGraphic;
         this.name = name;
@@ -111,7 +114,7 @@ public class ForceArrowGraphic extends PNode {
 
         Point2D tail = new Point2D.Double( viewCtr.getX(), viewCtr.getY() );
         tail = offsetTail( tail );
-        Point2D tip = new Vector2D.Double( force.getX(), force.getY() ).getDestination( tail );
+        Point2D tip = force.getDestination( tail );
         Arrow forceArrow = new Arrow( tail, tip, arrowHeadHeight, arrowHeadHeight, arrowTailWidth, 0.5, false );
 
         Shape forceArrowShape = forceArrow.getShape();
@@ -120,9 +123,13 @@ public class ForceArrowGraphic extends PNode {
             Shape forceArrowBody = forceArrow.getTailShape();
             double tgHeight = textGraphic.getHeight();
             double arrowHeight = forceArrowBody.getBounds().getHeight();
+
             double y = forceArrowBody.getBounds().getY() + arrowHeight / 2 - tgHeight / 2;
-//            textGraphic.setLocation( forceArrowBody.getBounds().x, (int)y );
-            textGraphic.setOffset( forceArrowBody.getBounds().x, (int)y + 15 );
+//            textGraphic.setOffset( forceArrowBody.getBounds().x, (int)y + 15 );
+            AbstractVector2D dstVector = force.getInstanceOfMagnitude( force.getMagnitude() + 30 );
+            Point2D dest = dstVector.getDestination( tail );
+            textGraphic.setOffset( dest.getX() - textGraphic.getFullBounds().getWidth() / 2, dest.getY() - textGraphic.getFullBounds().getHeight() / 2 );
+
         }
         this.lastArrow = forceArrow;
         setPickable( false );
