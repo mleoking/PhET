@@ -37,11 +37,9 @@ public class BarGraphic2D extends PNode {
         rectangle3DGraphic.setPaint( paint );
         rectangle3DGraphic.setStroke( new BasicStroke( 1 ) );
         rectangle3DGraphic.setStrokePaint( Color.black );
-        //, paint, new BasicStroke( 1 ), Color.black );
 
-        Color lightBlue = new Color( 240, 225, 255 );
-//        label = new VerticalTextGraphic( component, new Font( "Lucida Sans", Font.BOLD, 20 ), text, lightBlue, Color.black );
-        label = new VerticalTextGraphic( new Font( "Lucida Sans", Font.BOLD, 21 ), text, Color.black, lightBlue );
+        Color textColor = new Color( 240, 225, 255 );
+        label = new VerticalTextGraphic( new Font( "Lucida Sans", Font.BOLD, 21 ), text, Color.black, textColor );
         addChild( rectangle3DGraphic );
 
         addChild( label );
@@ -53,18 +51,12 @@ public class BarGraphic2D extends PNode {
     private void updateBar() {
         int height = computeHeight();
         Rectangle rect = new Rectangle( x, y - height, width, height );
-//        label.setLocation( rect.x + 5, (int)( 5 + rect.getMaxY() + label.getHeight() ) );
-//        if (label.getText().equalsIgnoreCase( "kinetic")){
-//        System.out.println( "Name=" + label.getText() + ", y=" + y + ", labelHeight=" + label.getHeight() );
-//        }
         label.setOffset( rect.x + 7 - labelWidth, (int)( 5 + y + labelHeight ) );
         rectangle3DGraphic.setPathTo( rect );
     }
 
     public void setValue( double value ) {
         if( value != this.value && Math.abs( value ) != Math.abs( this.value ) ) {
-//            System.out.println( "value = " + value + ", oldValue=" + this.value );
-
             this.value = value;
             if( value < 0 ) {
                 rectangle3DGraphic.setOffset( 0, -computeHeight() );//a big hack to make negative values work.

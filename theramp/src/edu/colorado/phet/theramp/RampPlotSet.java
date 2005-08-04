@@ -36,23 +36,27 @@ public class RampPlotSet {
         }
     }
 
-    private static class DataUnit {
+    public int numDataUnits() {
+        return dataUnits.size();
+    }
+
+    public static class DataUnit {
         private ValueAccessor valueAccessor;
         private TimeSeries timeSeries;
         private TimePlotSuitePNode plotDeviceSeries;
-        private TimeSeriesPNode timePlotSuite;
+        private TimeSeriesPNode seriesGraphic;
 
         public DataUnit( ValueAccessor valueAccessor, TimeSeries timeSeries, TimePlotSuitePNode plotDeviceSeries, TimeSeriesPNode timePlotSuite ) {
             this.valueAccessor = valueAccessor;
             this.timeSeries = timeSeries;
             this.plotDeviceSeries = plotDeviceSeries;
-            this.timePlotSuite = timePlotSuite;
+            this.seriesGraphic = timePlotSuite;
         }
 
         public void reset() {
             timeSeries.reset();
             plotDeviceSeries.reset();
-            timePlotSuite.reset();
+            seriesGraphic.reset();
         }
 
         public void updatePlot( RampModel state, double recordTime ) {
@@ -62,6 +66,19 @@ public class RampPlotSet {
 
         public void repaintBackground() {
 //            timePlotSuite.getPlotDevice().reset();
+        }
+
+        public String getName() {
+            return valueAccessor.getName();
+        }
+
+        public void setVisible( boolean selected ) {
+            seriesGraphic.setVisible( selected );
+            plotDeviceSeries.repaintAll();
+        }
+
+        public Color getColor() {
+            return valueAccessor.getColor();
         }
     }
 
@@ -155,7 +172,7 @@ public class RampPlotSet {
         }
     }
 
-    private DataUnit dataUnitAt( int i ) {
+    public DataUnit dataUnitAt( int i ) {
         return (DataUnit)dataUnits.get( i );
     }
 }

@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.view.bars;
 
+import edu.colorado.phet.common.math.ModelViewTransform1D;
 import edu.colorado.phet.theramp.model.RampModel;
 import edu.colorado.phet.theramp.view.RampPanel;
 import edu.umd.cs.piccolo.PNode;
@@ -22,19 +23,25 @@ public class BarGraphSuite extends PNode {
 
     private BarGraphSet workBarGraphSet;
     private BarGraphSet energyBarGraphSet;
+    private ModelViewTransform1D transform1D;
 
     public BarGraphSuite( RampPanel rampPanel, final RampModel rampModel ) {
         super();
         this.rampPanel = rampPanel;
         this.rampModel = rampModel;
-        workBarGraphSet = new WorkBarGraphSet( rampPanel, rampModel );
-        energyBarGraphSet = new EnergyBarGraphSet( rampPanel, rampModel );
+
+        transform1D = new ModelViewTransform1D( 0, 300, 0, 3 );
+        workBarGraphSet = new WorkBarGraphSet( rampPanel, rampModel, transform1D );
+        energyBarGraphSet = new EnergyBarGraphSet( rampPanel, rampModel, transform1D );
+
+
         addChild( workBarGraphSet );
         addChild( energyBarGraphSet );
 
         energyBarGraphSet.translate( workBarGraphSet.getFullBounds().getWidth() + 0, 0 );
         setPickable( false );
         setChildrenPickable( false );
+
 
 //        PBoundsHandle.addStickyBoundsHandlesTo( this ,rampPanel.getCamera() );
     }
