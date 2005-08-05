@@ -21,6 +21,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * User: Sam Reid
@@ -124,7 +125,7 @@ public class RampModule extends Module {
 //            }
 //        } );
 
-
+        System.out.println( "new Date( ) = " + new Date() );
     }
 
     public RampPanel getRampPanel() {

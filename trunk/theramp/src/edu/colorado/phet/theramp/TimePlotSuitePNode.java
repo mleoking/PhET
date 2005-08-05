@@ -15,6 +15,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolo.util.PPaintContext;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
@@ -56,6 +57,8 @@ public class TimePlotSuitePNode extends PNode {
     private PNode minButNode;
     private PNode maxButNode;
     private ArrayList series = new ArrayList();
+//    private static final double SCALE = 1.3;
+    private static final double SCALE = 1.0;///0.6750861079219312;
 
     public TimePlotSuitePNode( PSwingCanvas pCanvas, Range2D range, String name, final TimeSeriesModel timeSeriesModel, int height ) {
         this.pCanvas = pCanvas;
@@ -182,6 +185,7 @@ public class TimePlotSuitePNode extends PNode {
             removeChild( maxButNode );
         }
 //        maxButNode.setVisible( minimized );
+        child.setScale( SCALE );
     }
 
     private void showCursor() {
@@ -193,7 +197,7 @@ public class TimePlotSuitePNode extends PNode {
     }
 
     private void updateImage() {
-        bufferedImage = chart.createBufferedImage( 800, chartHeight );
+        bufferedImage = chart.createBufferedImage( (int)(800/SCALE), (int)( chartHeight/SCALE ) );
         child.setImage( bufferedImage );
     }
 

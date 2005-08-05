@@ -22,21 +22,21 @@ public class ShadowHTMLGraphic extends PNode {
         shadow = new HTMLGraphic( html );
         shadow.setColor( Color.black );
 
-        computeBuffer();
+//        computeBuffer();
 
-//        addChild( shadow );
-//        addChild( htmlGraphic );
+        addChild( shadow );
+        addChild( htmlGraphic );
 
         shadow.setOffset( 1, 1 );
     }
 
     private void computeBuffer() {
-        PNode buffer = new PNodeCache();
-        buffer.addChild( shadow );
-        buffer.addChild( htmlGraphic );
-        removeAllChildren();
-
-        addChild( buffer );
+//        PNode buffer = new PNodeCache();
+//        buffer.addChild( shadow );
+//        buffer.addChild( htmlGraphic );
+//        removeAllChildren();
+//
+//        addChild( buffer );
     }
 
     public void setColor( Color baseColor ) {
