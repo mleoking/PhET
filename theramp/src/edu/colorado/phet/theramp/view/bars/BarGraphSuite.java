@@ -2,7 +2,7 @@
 package edu.colorado.phet.theramp.view.bars;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
-import edu.colorado.phet.theramp.model.RampModel;
+import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.view.RampPanel;
 import edu.umd.cs.piccolo.PNode;
 
@@ -19,20 +19,20 @@ import java.awt.image.BufferedImage;
 
 public class BarGraphSuite extends PNode {
     private RampPanel rampPanel;
-    private RampModel rampModel;
+    private RampPhysicalModel rampPhysicalModel;
 
     private BarGraphSet workBarGraphSet;
     private BarGraphSet energyBarGraphSet;
     private ModelViewTransform1D transform1D;
 
-    public BarGraphSuite( RampPanel rampPanel, final RampModel rampModel ) {
+    public BarGraphSuite( RampPanel rampPanel, final RampPhysicalModel rampPhysicalModel ) {
         super();
         this.rampPanel = rampPanel;
-        this.rampModel = rampModel;
+        this.rampPhysicalModel = rampPhysicalModel;
 
         transform1D = new ModelViewTransform1D( 0, 300, 0, 3 );
-        workBarGraphSet = new WorkBarGraphSet( rampPanel, rampModel, transform1D );
-        energyBarGraphSet = new EnergyBarGraphSet( rampPanel, rampModel, transform1D );
+        workBarGraphSet = new WorkBarGraphSet( rampPanel, rampPhysicalModel, transform1D );
+        energyBarGraphSet = new EnergyBarGraphSet( rampPanel, rampPhysicalModel, transform1D );
 
 
         addChild( workBarGraphSet );

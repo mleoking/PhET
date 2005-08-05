@@ -11,13 +11,14 @@ import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.theramp.model.Block;
-import edu.colorado.phet.theramp.model.RampModel;
-import edu.colorado.phet.theramp.timeseries.RampTimeSeriesModel;
+import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.view.RampPanel;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
 import edu.colorado.phet.timeseries.TimeSeriesPlaybackPanel;
 
 import javax.swing.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
@@ -33,42 +34,42 @@ public class RampModule extends Module {
     private RampModel rampModel;
     private RampControlPanel rampControlPanel;
     private RampObject[] rampObjects;
-//    public static final double FORCE_LENGTH_SCALE = 0.15;//1.0;
-    public static final double FORCE_LENGTH_SCALE = 0.1;//1.0;
-    private RampTimeSeriesModel rampTimeSeriesModel;
     private TimeSeriesPlaybackPanel rampMediaPanel;
-    private RampPlotSet rampPlotSet;
+
     private ArrayList listeners = new ArrayList();
+
+    public static final double FORCE_LENGTH_SCALE = 0.1;//1.0;
 
     public RampModule( AbstractClock clock ) {
         super( "The Ramp", clock );
         setModel( new BaseModel() );
-        rampModel = new RampModel();
-        rampModel.reset();
-        rampTimeSeriesModel = new RampTimeSeriesModel( this );
-        clock.addClockTickListener( rampTimeSeriesModel );
+        rampModel = new RampModel( this, clock );
         rampObjects = new RampObject[]{
-            new RampObject( "images/cabinet.gif", "File Cabinet", 0.8, 100, 0.3, 0.2, 0.4 ),
-            new RampObject( "images/fridge.gif", "Refrigerator", 0.35, 400, 0.7, 0.5, 0.4 ),
-            new RampObject( "images/crate.gif", "Crate", 0.8, 300, 0.2, 0.2, 0.3 ),
-            new RampObject( "images/piano.png", "Piano", 0.8, 225, 0.6, 0.6, 0.8, 20 ),
+                new RampObject( "images/cabinet.gif", "File Cabinet", 0.8, 100, 0.3, 0.2, 0.4 ),
+                new RampObject( "images/fridge.gif", "Refrigerator", 0.35, 400, 0.7, 0.5, 0.4 ),
+                new RampObject( "images/crate.gif", "Crate", 0.8, 300, 0.2, 0.2, 0.3 ),
+                new RampObject( "images/piano.png", "Piano", 0.8, 225, 0.6, 0.6, 0.8, 20 ),
 //            new RampObject( "images/ollie.gif", "Sleepy Dog", 0.5, 30, 0.1, 0.1, 0.35 ),
         };
         rampPanel = new RampPanel( this );
         super.setPhetPCanvas( rampPanel );
 
-        rampPlotSet = new RampPlotSet( this );
 
         rampControlPanel = new RampControlPanel( this );
         setControlPanel( rampControlPanel );
         setObject( rampObjects[0] );
 
-        rampMediaPanel = new TimeSeriesPlaybackPanel( rampTimeSeriesModel );
+        rampMediaPanel = new TimeSeriesPlaybackPanel( getRampTimeSeriesModel() );
         clock.addClockTickListener( new ClockTickListener() {
             public void clockTicked( ClockTickEvent event ) {
                 updateGraphics( event );
             }
         } );
+        rampModel.getBlock().addListener( new CollisionHandler( this ) );
+    }
+
+    private TimeSeriesModel getRampTimeSeriesModel() {
+        return rampModel.getRampTimeSeriesModel();
     }
 
     public void updateGraphics( ClockTickEvent event ) {
@@ -88,11 +89,25 @@ public class RampModule extends Module {
         application.setModules( new Module[]{module} );
         application.getPhetFrame().getBasicPhetPanel().setAppControlPanel( module.rampMediaPanel );
         application.startApplication();
-//        module.updateGraphics( new ClockTickEvent( clock, 0 ) );
         try {
             SwingUtilities.invokeAndWait( new Runnable() {
                 public void run() {
-                    module.reset();
+                    module.doReset();
+                    module.getPhetPCanvas().addComponentListener( new ComponentListener() {
+                        public void componentHidden( ComponentEvent e ) {
+                        }
+
+                        public void componentMoved( ComponentEvent e ) {
+                        }
+
+                        public void componentResized( ComponentEvent e ) {
+                            System.out.println( "module.getApparatusPanel().getSize( ) = " + module.getPhetPCanvas().getSize() );
+                        }
+
+                        public void componentShown( ComponentEvent e ) {
+                            System.out.println( "module.getApparatusPanel().getSize( ) = " + module.getPhetPCanvas().getSize() );
+                        }
+                    } );
                 }
             } );
         }
@@ -108,7 +123,7 @@ public class RampModule extends Module {
 //                module.getPhetPCanvas().paintImmediately();
 //            }
 //        } );
-//        RepaintDebugGraphic.enable( module.getApparatusPanel(), clock );
+
 
     }
 
@@ -116,14 +131,28 @@ public class RampModule extends Module {
         return rampPanel;
     }
 
-    public RampModel getRampModel() {
+    public RampPhysicalModel getRampPhysicalModel() {
+        return getRampModel().getRampPhysicalModel();
+    }
+
+    private RampModel getRampModel() {
         return rampModel;
     }
 
     public void reset() {
-        rampTimeSeriesModel.reset();
+        if( resetDialogOk() ) {
+            doReset();
+        }
+    }
+
+    private boolean resetDialogOk() {
+        int answer = JOptionPane.showConfirmDialog( getApparatusPanel(), "Are you sure you'd like to reset?", "Confirm Reset", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE );
+        return answer == JOptionPane.OK_OPTION;
+    }
+
+    private void doReset() {
         rampModel.reset();
-        rampPlotSet.reset();
+        rampPanel.reset();
     }
 
     public void setObject( RampObject rampObject ) {
@@ -140,7 +169,7 @@ public class RampModule extends Module {
     }
 
     public Block getBlock() {
-        return rampModel.getBlock();
+        return getRampModel().getBlock();
     }
 
     public void clearHeat() {
@@ -152,6 +181,10 @@ public class RampModule extends Module {
         new FireDog( this ).putOutFire();
     }
 
+    public void setAppliedForce( double appliedForce ) {
+        getRampModel().setAppliedForce( appliedForce );
+    }
+
     public static interface Listener {
         void objectChanged();
     }
@@ -161,18 +194,15 @@ public class RampModule extends Module {
     }
 
     public void record() {
-        rampTimeSeriesModel.setRecordMode();
-        rampTimeSeriesModel.setPaused( false );
+        rampModel.record();
     }
 
     public void playback() {
-        rampTimeSeriesModel.setPlaybackMode();
-        rampTimeSeriesModel.setPaused( false );
+        rampModel.playback();
     }
 
     public void repaintBackground() {
-        System.out.println( "RampModule.repaintBackground: NOOP" );
-        rampPlotSet.repaintBackground();
+        rampPanel.repaintBackground();
     }
 
     public void setCursorsVisible( boolean b ) {
@@ -180,22 +210,26 @@ public class RampModule extends Module {
     }
 
     public void updateModel( double dt ) {
-        getRampModel().stepInTime( dt );
+        getRampPhysicalModel().stepInTime( dt );
     }
 
-    public void updatePlots( RampModel state, double recordTime ) {
-        rampPlotSet.updatePlots( state, recordTime );
+    public void updatePlots( RampPhysicalModel state, double recordTime ) {
+        getRampPlotSet().updatePlots( state, recordTime );
     }
 
     public TimeSeriesModel getTimeSeriesModel() {
-        return rampTimeSeriesModel;
+        return getRampModel().getRampTimeSeriesModel();
     }
 
     public void setMass( double value ) {
-        rampModel.setMass( value );
+        getRampModel().setMass( value );
     }
 
     public RampPlotSet getRampPlotSet() {
-        return rampPlotSet;
+        return rampPanel.getRampPlotSet();
+    }
+
+    public RampControlPanel getRampControlPanel() {
+        return rampControlPanel;
     }
 }

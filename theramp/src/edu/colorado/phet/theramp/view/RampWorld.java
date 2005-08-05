@@ -4,7 +4,7 @@ package edu.colorado.phet.theramp.view;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.common.MeasuringTape;
-import edu.colorado.phet.theramp.model.RampModel;
+import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.model.Surface;
 import edu.colorado.phet.theramp.view.arrows.*;
 import edu.umd.cs.piccolo.PNode;
@@ -33,7 +33,7 @@ public class RampWorld extends PNode {
     private XArrowSet xArrowSet;
     private YArrowSet yArrowSet;
     private PotentialEnergyZeroGraphic potentialEnergyZeroGraphic;
-    private LeanerGraphic leanerGraphic;
+    private PusherGraphic pusherGraphic;
     private EarthGraphic earthGraphic;
     private SkyGraphic skyGraphic;
     private FloorGraphic groundGraphic;
@@ -44,14 +44,14 @@ public class RampWorld extends PNode {
 
     public RampWorld( RampModule module, RampPanel rampPanel ) {
         super();
-        RampModel rampModel = module.getRampModel();
-        Surface ramp = rampModel.getRamp();
+        RampPhysicalModel rampPhysicalModel = module.getRampPhysicalModel();
+        Surface ramp = rampPhysicalModel.getRamp();
         rampGraphic = new RampGraphic( rampPanel, ramp );
         earthGraphic = new EarthGraphic( rampPanel, this );
         skyGraphic = new SkyGraphic( rampPanel, this );
-        groundGraphic = new FloorGraphic( rampPanel, rampModel.getGround() );
+        groundGraphic = new FloorGraphic( rampPanel, rampPhysicalModel.getGround() );
 //        BoundGraphic groundBounds=new BoundGraphic( groundGraphic,2,2);
-        blockGraphic = new BlockGraphic( module, rampPanel, rampGraphic, groundGraphic, rampModel.getBlock(), module.getRampObjects()[0] );
+        blockGraphic = new BlockGraphic( module, rampPanel, rampGraphic, groundGraphic, rampPhysicalModel.getBlock(), module.getRampObjects()[0] );
         rightBarrierGraphic = new RightBarrierGraphic( rampPanel, rampPanel, rampGraphic );
         leftBarrierGraphic = new LeftBarrierGraphic( rampPanel, rampPanel, groundGraphic );
 
@@ -82,12 +82,12 @@ public class RampWorld extends PNode {
         xArrowSet.setVisible( false );
         yArrowSet.setVisible( false );
 
-        potentialEnergyZeroGraphic = new PotentialEnergyZeroGraphic( rampPanel, rampModel, this );
+        potentialEnergyZeroGraphic = new PotentialEnergyZeroGraphic( rampPanel, rampPhysicalModel, this );
         addChild( potentialEnergyZeroGraphic );
 
         try {
-            leanerGraphic = new LeanerGraphic( rampPanel, blockGraphic.getObjectGraphic(), this );
-            addChild( leanerGraphic );
+            pusherGraphic = new PusherGraphic( rampPanel, blockGraphic.getObjectGraphic(), this );
+            addChild( pusherGraphic );
         }
         catch( IOException e ) {
             e.printStackTrace();

@@ -21,10 +21,10 @@ public class UserAddingEnergyHandler extends MouseAdapter {
     }
 
     public void mousePressed( MouseEvent e ) {
-        module.getRampModel().setUserIsAddingEnergy( true );
+        module.getRampPhysicalModel().setUserIsAddingEnergy( true );
     }
 
     public void mouseReleased( MouseEvent e ) {
-        module.getRampModel().setUserIsAddingEnergy( false );
+        module.getRampPhysicalModel().setUserIsAddingEnergy( false );
     }
 }

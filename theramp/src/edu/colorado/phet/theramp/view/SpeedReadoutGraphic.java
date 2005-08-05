@@ -2,7 +2,7 @@
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.theramp.model.RampModel;
+import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -19,11 +19,11 @@ import java.text.DecimalFormat;
 public class SpeedReadoutGraphic extends PNode implements ModelElement {
     private DecimalFormat format = new DecimalFormat( "0.00" );
     public PText phetTextGraphic;
-    private RampModel rampModel;
+    private RampPhysicalModel rampPhysicalModel;
 
-    public SpeedReadoutGraphic( Component component, RampModel rampModel ) {
+    public SpeedReadoutGraphic( Component component, RampPhysicalModel rampPhysicalModel ) {
         super();
-        this.rampModel = rampModel;
+        this.rampPhysicalModel = rampPhysicalModel;
         Font font = new Font( "Lucida Sans", Font.BOLD, 28 );
 //        phetTextGraphic = new PhetTextGraphic( component, font, "", Color.black );
         phetTextGraphic = new PText( "" );
@@ -33,7 +33,7 @@ public class SpeedReadoutGraphic extends PNode implements ModelElement {
     }
 
     public void stepInTime( double dt ) {
-        double value = rampModel.getBlock().getVelocity();
+        double value = rampPhysicalModel.getBlock().getVelocity();
         String text = format.format( value ) + " meters/second";
         phetTextGraphic.setText( text );
     }

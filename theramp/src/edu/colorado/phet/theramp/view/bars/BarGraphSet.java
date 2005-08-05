@@ -7,7 +7,7 @@ import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.piccolo.ShadowHTMLGraphic;
 import edu.colorado.phet.theramp.common.BarGraphic2D;
-import edu.colorado.phet.theramp.model.RampModel;
+import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.model.ValueAccessor;
 import edu.colorado.phet.theramp.view.RampLookAndFeel;
 import edu.colorado.phet.theramp.view.RampPanel;
@@ -28,7 +28,7 @@ import java.awt.geom.Rectangle2D;
 
 public class BarGraphSet extends PNode {
     private RampPanel rampPanel;
-    private RampModel rampModel;
+    private RampPhysicalModel rampPhysicalModel;
     private ModelViewTransform1D transform1D;
     private int y;
     private int barWidth;
@@ -42,9 +42,9 @@ public class BarGraphSet extends PNode {
     private PPath energyBackground;
     private YAxis yAxis;
 
-    public BarGraphSet( RampPanel rampPanel, RampModel rampModel, String title, ModelViewTransform1D transform1D ) {
+    public BarGraphSet( RampPanel rampPanel, RampPhysicalModel rampPhysicalModel, String title, ModelViewTransform1D transform1D ) {
         this.rampPanel = rampPanel;
-        this.rampModel = rampModel;
+        this.rampPhysicalModel = rampPhysicalModel;
         this.transform1D = transform1D;
         topY = (int)( rampPanel.getRampBaseY() * 0.82 ) + 120;
         y = 750;
@@ -110,11 +110,11 @@ public class BarGraphSet extends PNode {
         for( int i = 0; i < workAccess.length; i++ ) {
             final ValueAccessor accessor = workAccess[i];
             final BarGraphic2D barGraphic = new BarGraphic2D( accessor.getName(), transform1D,
-                                                              accessor.getValue( rampModel ), i * sep + dw, barWidth
+                                                              accessor.getValue( rampPhysicalModel ), i * sep + dw, barWidth
                                                               , y, dx, dy, accessor.getColor() );
             addClockTickListener( new ClockTickListener() {
                 public void clockTicked( ClockTickEvent event ) {
-                    barGraphic.setValue( accessor.getValue( rampModel ) );
+                    barGraphic.setValue( accessor.getValue( rampPhysicalModel ) );
                 }
             } );
             addChild( barGraphic );

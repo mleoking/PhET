@@ -6,7 +6,7 @@ import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.FrameSequence;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.theramp.RampModule;
-import edu.colorado.phet.theramp.model.RampModel;
+import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -22,7 +22,7 @@ import java.io.IOException;
  * Copyright (c) Dec 6, 2004 by Sam Reid
  */
 
-public class LeanerGraphic extends PImage {
+public class PusherGraphic extends PImage {
     private FrameSequence animation;
     private PNode target;
     private RampWorld rampWorld;
@@ -33,7 +33,7 @@ public class LeanerGraphic extends PImage {
     private RampPanel rampPanel;
     private double modelLocation;
 
-    public LeanerGraphic( final RampPanel rampPanel, final PNode target, RampWorld rampWorld ) throws IOException {
+    public PusherGraphic( final RampPanel rampPanel, final PNode target, RampWorld rampWorld ) throws IOException {
         super();
         this.target = target;
         this.rampWorld = rampWorld;
@@ -65,7 +65,7 @@ public class LeanerGraphic extends PImage {
 //            }
 //
 //        } );
-        module.getRampModel().addListener( new RampModel.Listener() {
+        module.getRampPhysicalModel().addListener( new RampPhysicalModel.Listener() {
             public void appliedForceChanged() {
                 update();
             }
@@ -76,21 +76,18 @@ public class LeanerGraphic extends PImage {
             public void stepFinished() {
             }
         } );
-        module.getRampModel().getRamp().addObserver( new SimpleObserver() {
+        module.getRampPhysicalModel().getRamp().addObserver( new SimpleObserver() {
             public void update() {
-                LeanerGraphic.this.updateTransform();
+                PusherGraphic.this.updateTransform();
             }
         } );
-        //setIgnoreMouse( true );
-
         setPickable( false );
         setChildrenPickable( false );
         update();
-
     }
 
     private double getAppliedForce() {
-        return module.getRampModel().getAppliedForce().getParallelComponent();
+        return module.getRampPhysicalModel().getAppliedForce().getParallelComponent();
     }
 
     private BufferedImage getFrame( boolean facingRight ) {

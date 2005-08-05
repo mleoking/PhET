@@ -2,7 +2,7 @@
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.piccolo.CursorHandler;
-import edu.colorado.phet.theramp.model.RampModel;
+import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -21,16 +21,16 @@ import java.text.DecimalFormat;
  */
 
 public class PotentialEnergyZeroGraphic extends PNode {
-    private RampModel rampModel;
+    private RampPhysicalModel rampPhysicalModel;
     private RampWorld rampWorld;
     private RampPanel rampPanel;
     private PPath phetShapeGraphic;
     private PText label;
 
-    public PotentialEnergyZeroGraphic( RampPanel component, final RampModel rampModel, final RampWorld rampWorld ) {
+    public PotentialEnergyZeroGraphic( RampPanel component, final RampPhysicalModel rampPhysicalModel, final RampWorld rampWorld ) {
         super();
         this.rampPanel = component;
-        this.rampModel = rampModel;
+        this.rampPhysicalModel = rampPhysicalModel;
         this.rampWorld = rampWorld;
 //        phetShapeGraphic = new PhetShapeGraphic( component, new Line2D.Double( 0, 0, 1000, 0 ),new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1, new float[]{20, 20}, 0 ), Color.black );
         phetShapeGraphic = new PPath( new Line2D.Double( 0, 0, 1000, 0 ), new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1, new float[]{20, 20}, 0 ) );
@@ -43,19 +43,19 @@ public class PotentialEnergyZeroGraphic extends PNode {
             }
         } );
 
-        RampModel.Listener listener = new RampModel.Listener() {
+        RampPhysicalModel.Listener listener = new RampPhysicalModel.Listener() {
             public void appliedForceChanged() {
             }
 
             public void zeroPointChanged() {
-                setOffset( 0, rampWorld.getRampGraphic().getScreenTransform().modelToViewY( rampModel.getZeroPointY() ) );
+                setOffset( 0, rampWorld.getRampGraphic().getScreenTransform().modelToViewY( rampPhysicalModel.getZeroPointY() ) );
                 updateLabel();
             }
 
             public void stepFinished() {
             }
         };
-        rampModel.addListener( listener );
+        rampPhysicalModel.addListener( listener );
 
         //setCursorHand();
         label = new PText( "h=???" );
@@ -67,11 +67,11 @@ public class PotentialEnergyZeroGraphic extends PNode {
 //        listener.zeroPointChanged();
         addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         updateLabel();
-        rampModel.setZeroPointY( 0.0 );
+        rampPhysicalModel.setZeroPointY( 0.0 );
     }
 
     private void updateLabel() {
-        String str = new DecimalFormat( "0.0" ).format( rampModel.getZeroPointY() );
+        String str = new DecimalFormat( "0.0" ).format( rampPhysicalModel.getZeroPointY() );
         label.setText( "h=0.0 @ y=" + str );
 //        label.setText( "y=0.0" );
     }
@@ -79,6 +79,6 @@ public class PotentialEnergyZeroGraphic extends PNode {
     private void changeZeroPoint( PInputEvent pEvent ) {
         Point pt = rampWorld.convertToWorld( pEvent.getPosition() );
         double zeroPointY = rampPanel.getRampGraphic().getScreenTransform().viewToModelY( pt.y );
-        rampModel.setZeroPointY( zeroPointY );
+        rampPhysicalModel.setZeroPointY( zeroPointY );
     }
 }

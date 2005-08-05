@@ -21,16 +21,22 @@ public class Ramp extends Surface {
         return new Ramp( getAngle(), getLength(), getOrigin().getX(), getOrigin().getY(), getDistanceOffset() );
     }
 
-    public void applyBoundaryConditions( RampModel rampModel, Block block ) {
+    public boolean applyBoundaryConditions( RampPhysicalModel rampPhysicalModel, Block block ) {
         if( block.getPositionInSurface() < 0 ) {
-            block.setSurface( rampModel.getGround() );
-            block.setPositionInSurface( rampModel.getGround().getLength() );
+            block.setSurface( rampPhysicalModel.getGround() );
+            double overshoot = -block.getPositionInSurface();
+            if( overshoot > rampPhysicalModel.getGround().getLength() ) {
+                overshoot = rampPhysicalModel.getGround().getLength();
+            }
+            block.setPositionInSurface( rampPhysicalModel.getGround().getLength() - overshoot );
         }
         else if( block.getPositionInSurface() > getLength() ) {
             block.setPositionInSurface( getLength() );
             block.setVelocity( 0.0 );
             super.notifyCollision();
+            return true;
         }
+        return false;
     }
 
     public double getWallForce( double sumOtherForces, Block block ) {

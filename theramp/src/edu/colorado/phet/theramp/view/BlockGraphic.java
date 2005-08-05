@@ -8,7 +8,7 @@ import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.RampObject;
 import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.model.Ramp;
-import edu.colorado.phet.theramp.model.RampModel;
+import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -49,7 +49,7 @@ public class BlockGraphic extends PNode {
         this.block = block;
         this.rampObject = rampObject;
 
-        final RampModel model = module.getRampModel();
+        final RampPhysicalModel physicalModel = module.getRampPhysicalModel();
 
         try {
             wheelGraphic = new PImage( ImageLoader.loadBufferedImage( "images/skateboard.png" ) );
@@ -95,13 +95,13 @@ public class BlockGraphic extends PNode {
 
 //                System.out.println( "x=" + x + ", ctrX=" + ctrX + ", dx = " + dx );
                 double appliedForce = dx / RampModule.FORCE_LENGTH_SCALE;
-                model.setAppliedForce( appliedForce );
+                physicalModel.setAppliedForce( appliedForce );
                 module.record();
             }
 
             public void mouseReleased( PInputEvent event ) {
                 super.mouseReleased( event );
-                model.setAppliedForce( 0.0 );
+                physicalModel.setAppliedForce( 0.0 );
             }
         };
         addInputEventListener( dragHandler );

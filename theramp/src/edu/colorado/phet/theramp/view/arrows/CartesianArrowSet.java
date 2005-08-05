@@ -2,7 +2,7 @@
 package edu.colorado.phet.theramp.view.arrows;
 
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.theramp.model.RampModel;
+import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.view.BlockGraphic;
 import edu.colorado.phet.theramp.view.RampLookAndFeel;
 import edu.colorado.phet.theramp.view.RampPanel;
@@ -20,44 +20,40 @@ public class CartesianArrowSet extends AbstractArrowSet {
         super( rampPanel, blockGraphic );
         RampLookAndFeel ralf = new RampLookAndFeel();
 
-        final RampModel rampModel = rampPanel.getRampModule().getRampModel();
+        final RampPhysicalModel rampPhysicalModel = rampPanel.getRampModule().getRampPhysicalModel();
         ForceArrowGraphic forceArrowGraphic = new ForceArrowGraphic( rampPanel, AbstractArrowSet.APPLIED, ralf.getAppliedForceColor(), 0, new ForceComponent() {
             public Vector2D getForce() {
-                RampModel.ForceVector appliedForce = rampModel.getAppliedForce();
-                return appliedForce;
+                return rampPhysicalModel.getAppliedForce();
             }
         }, getBlockGraphic() );
 
         ForceArrowGraphic totalArrowGraphic = new ForceArrowGraphic( rampPanel, TOTAL, ralf.getNetForceColor(), getDefaultOffsetDY(), new ForceComponent() {
             public Vector2D getForce() {
-                RampModel.ForceVector totalForce = rampModel.getTotalForce();
-                return totalForce;
+                return rampPhysicalModel.getTotalForce();
             }
         }, getBlockGraphic() );
 
         ForceArrowGraphic frictionArrowGraphic = new ForceArrowGraphic( rampPanel, FRICTION, ralf.getFrictionForceColor(), 0, new ForceComponent() {
             public Vector2D getForce() {
-                RampModel.ForceVector totalForce = rampModel.getFrictionForce();
-                return totalForce;
+                return rampPhysicalModel.getFrictionForce();
             }
         }, getBlockGraphic() );
 
         ForceArrowGraphic gravityArrowGraphic = new ForceArrowGraphic( rampPanel, WEIGHT, ralf.getWeightColor(), 0, new ForceComponent() {
             public Vector2D getForce() {
-                RampModel.ForceVector totalForce = rampModel.getGravityForce();
-                return totalForce;
+                return rampPhysicalModel.getGravityForce();
             }
         }, getBlockGraphic() );
 
         ForceArrowGraphic normalArrowGraphic = new ForceArrowGraphic( rampPanel, NORMAL, ralf.getNormalColor(), 0, new ForceComponent() {
             public Vector2D getForce() {
-                return rampModel.getNormalForce();
+                return rampPhysicalModel.getNormalForce();
             }
         }, getBlockGraphic() );
 
         ForceArrowGraphic wallArrowGraphic = new ForceArrowGraphic( rampPanel, WALL, ralf.getWallForceColor(), getDefaultOffsetDY(), new ForceComponent() {
             public Vector2D getForce() {
-                return rampModel.getWallForce();
+                return rampPhysicalModel.getWallForce();
             }
         }, getBlockGraphic() );
 

@@ -6,14 +6,13 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.WiggleMe;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.RampObject;
+import edu.colorado.phet.theramp.RampPlotSet;
 import edu.colorado.phet.theramp.view.bars.BarGraphSuite;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -28,10 +27,15 @@ public class RampPanel extends PhetPCanvas {
     private BarGraphSuite barGraphSuite;
     private TimeGraphic timeGraphic;
     private SpeedReadoutGraphic velocityGraphic;
-    public RampWorld rampWorld;
+    private RampWorld rampWorld;
+    private RampPlotSet rampPlotSet;
+
+//    private static final Dimension ORIG_RENDER_SIZE = new Dimension( 1061, 871 );
+    private static final Dimension ORIG_RENDER_SIZE = new Dimension( 1061, 871 );
+    //width=803,height=588
 
     public Dimension getDefaultRenderingSize() {
-        return new Dimension( 1061, 871 );
+        return ORIG_RENDER_SIZE;
     }
 
     public RampPanel( RampModule module ) {
@@ -39,9 +43,7 @@ public class RampPanel extends PhetPCanvas {
         setRenderingSize( getDefaultRenderingSize() );
         this.module = module;
         rampLookAndFeel = new RampLookAndFeel();
-
-//        addChildsSetup( new BasicGraphicsSetup() );
-        setBackground( new Color( 240, 200, 255 ) );
+//        setBackground( new Color( 240, 200, 255 ) );
 
         rampWorld = new RampWorld( module, this );
         double rampWorldScale = 1.0;
@@ -49,10 +51,9 @@ public class RampPanel extends PhetPCanvas {
         rampWorld.translate( 0, -30 );
         addChild( rampWorld );
 
-        barGraphSuite = new BarGraphSuite( this, module.getRampModel() );
-        addChild( new OverheatButton( this, module.getRampModel(), barGraphSuite.getMaxDisplayableEnergy() ) );
+        barGraphSuite = new BarGraphSuite( this, module.getRampPhysicalModel() );
+        addChild( new OverheatButton( this, module.getRampPhysicalModel(), barGraphSuite.getMaxDisplayableEnergy() ) );
 
-//        barGraphSet.scale( 0.93, 0.93 );
         barGraphSuite.scale( 0.80 );
         barGraphSuite.setOffset( getDefaultRenderingSize().width - barGraphSuite.getFullBounds().getWidth() - 1, barGraphSuite.getY() );
 
@@ -63,7 +64,7 @@ public class RampPanel extends PhetPCanvas {
         addChild( timeGraphic );
         module.getModel().addModelElement( timeGraphic );
 
-        velocityGraphic = new SpeedReadoutGraphic( this, module.getRampModel() );
+        velocityGraphic = new SpeedReadoutGraphic( this, module.getRampPhysicalModel() );
         velocityGraphic.setOffset( timeGraphic.getX(), timeGraphic.getY() + timeGraphic.getHeight() + 20 );
         addChild( velocityGraphic );
         module.getModel().addModelElement( velocityGraphic );
@@ -80,7 +81,6 @@ public class RampPanel extends PhetPCanvas {
 //        setPanEventHandler();
 
         addInputEventListener( getZoomEventHandler() );
-
 
 //        addInputEventListener( getPanEventHandler() );
 //        module.getModel().addModelElement( new ModelElement() {
@@ -100,7 +100,6 @@ public class RampPanel extends PhetPCanvas {
         getCamera().setViewScale( 0.969001148105626 );
         getCamera().setViewOffset( 23.0, -21.0 );
 
-
         final WiggleMe wiggleMe = new WiggleMe( "<html>Apply a Force<br>to the Filing Cabinet</html>", 450, 350 );
         final ConnectorGraphic connectorGraphic = new ConnectorGraphic( wiggleMe, getBlockGraphic().getObjectGraphic() );
         getLayer().getRoot().addActivity( connectorGraphic.getConnectActivity() );
@@ -109,7 +108,6 @@ public class RampPanel extends PhetPCanvas {
         connectorGraphic.setPaint( new GradientPaint( 0, 0, Color.red, 1000, 0, Color.blue, false ) );
         connectorGraphic.setPickable( false );
         connectorGraphic.setChildrenPickable( false );
-
 
         wiggleMe.setPickable( false );
         wiggleMe.setChildrenPickable( false );
@@ -135,19 +133,24 @@ public class RampPanel extends PhetPCanvas {
         } );
         getLayer().setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
 
-        getLayer().addInputEventListener( new PBasicInputEventHandler() {
-            public void mouseMoved( PInputEvent event ) {
-                super.mouseMoved( event );
-                System.out.println( "event = " + event );
-                Point2D position = event.getPosition();
-                System.out.println( "position = " + position );
-            }
-        } );
-    }
+//        getLayer().addInputEventListener( new PBasicInputEventHandler() {
+//            public void mouseMoved( PInputEvent event ) {
+//                super.mouseMoved( event );
+////                System.out.println( "event = " + event );
+//                Point2D position = event.getPosition();
+////                System.out.println( "position = " + position );
+//            }
+//        } );
 
-//    private void addChild( PNode pNode ) {
-//        addGraphic( pNode );
-//    }
+        rampPlotSet = new RampPlotSet( module, this );
+        addChild( rampPlotSet );
+
+        PNode appliedForceControl = new AppliedForceControl( module, this );
+        appliedForceControl.setOffset( rampPlotSet.getFullBounds().getX(), rampPlotSet.getFullBounds().getY() );
+        addChild( appliedForceControl );
+
+//        appliedForceControl.setOffset( )
+    }
 
     private void updateArrowSetGraphics() {
         rampWorld.updateArrowSetGraphics();
@@ -249,5 +252,18 @@ public class RampPanel extends PhetPCanvas {
 
     public void setWorkBarsVisible( boolean selected ) {
         barGraphSuite.setWorkBarsVisible( selected );
+    }
+
+    public void reset() {
+        rampPlotSet.reset();
+    }
+
+    public void repaintBackground() {
+        System.out.println( "RampModule.repaintBackground: NOOP" );
+        rampPlotSet.repaintBackground();
+    }
+
+    public RampPlotSet getRampPlotSet() {
+        return rampPlotSet;
     }
 }

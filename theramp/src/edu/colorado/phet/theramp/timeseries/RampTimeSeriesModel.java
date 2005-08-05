@@ -2,8 +2,9 @@
 package edu.colorado.phet.theramp.timeseries;
 
 import edu.colorado.phet.common.model.clock.ClockTickEvent;
+import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.theramp.RampModule;
-import edu.colorado.phet.theramp.model.RampModel;
+import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.timeseries.ObjectTimePoint;
 import edu.colorado.phet.timeseries.ObjectTimeSeries;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
@@ -33,7 +34,7 @@ public class RampTimeSeriesModel extends TimeSeriesModel {
 
     public void updateModel( ClockTickEvent clockEvent ) {
         rampModule.updateModel( clockEvent.getDt() );
-        RampModel state = rampModule.getRampModel().getState();
+        RampPhysicalModel state = rampModule.getRampPhysicalModel().getState();
 //        timeSeries.addPoint( state, time );
         series.addPoint( state, getRecordTime() );
         rampModule.updatePlots( state, getRecordTime() );
@@ -46,9 +47,9 @@ public class RampTimeSeriesModel extends TimeSeriesModel {
 
         ObjectTimePoint value = series.getValueForTime( requestedTime );
         if( value != null ) {
-            RampModel v = (RampModel)value.getValue();
+            RampPhysicalModel v = (RampPhysicalModel)value.getValue();
             if( v != null ) {
-                rampModule.getRampModel().setState( v );
+                rampModule.getRampPhysicalModel().setState( v );
             }
         }
     }
@@ -57,6 +58,10 @@ public class RampTimeSeriesModel extends TimeSeriesModel {
         super.reset();
         series.reset();
         rampModule.getRampPlotSet().reset();
+    }
+
+    protected ApparatusPanel getApparatusPanel() {
+        return rampModule.getApparatusPanel();
     }
 
 }
