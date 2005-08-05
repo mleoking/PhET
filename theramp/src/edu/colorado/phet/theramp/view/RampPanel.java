@@ -97,7 +97,8 @@ public class RampPanel extends PhetPCanvas {
 //cam.getViewScale() = 0.969001148105626
 //viewOffset = Point2D.Double[23.0, -21.0]
         //then set them here.
-        getCamera().setViewScale( 0.969001148105626 );
+//        getCamera().setViewScale( 0.969001148105626 );
+        getCamera().setViewScale( 1.0);
         getCamera().setViewOffset( 23.0, -21.0 );
 
         final WiggleMe wiggleMe = new WiggleMe( "<html>Apply a Force<br>to the Filing Cabinet</html>", 450, 350 );
