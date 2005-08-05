@@ -139,8 +139,7 @@ public class SurfaceGraphic extends PNode {
 //            Point rampEnd = getViewLocation( ramp.getLocation( ramp.getLength() * 0.8 ) );
             Point rampEnd = getEndLocation();
 //            System.out.println( "texture = " + texture );
-            final TexturePaint paint = new TexturePaint( texture, new Rectangle2D.Double( rampEnd.x - texture.getWidth() / 2, rampEnd.y, texture.getWidth(), texture.getHeight() ) );
-            return paint;
+            return new TexturePaint( texture, new Rectangle2D.Double( rampEnd.x - texture.getWidth() / 2, rampEnd.y, texture.getWidth(), texture.getHeight() ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -174,8 +173,7 @@ public class SurfaceGraphic extends PNode {
 
     private Point getViewOrigin() {
         Point2D modelOrigin = ramp.getOrigin();
-        final Point viewOrigin = screenTransform.modelToView( modelOrigin );
-        return viewOrigin;
+        return screenTransform.modelToView( modelOrigin );
     }
 
     private void updateRamp() {
@@ -236,8 +234,7 @@ public class SurfaceGraphic extends PNode {
         Point rampStart = getViewLocation( ramp.getLocation( 0 ) );
         Point rampEnd = getViewLocation( ramp.getLocation( ramp.getLength() ) );
 
-        Rectangle rect = new Rectangle( rampEnd.x - texture.getWidth() / 2, (int)( rampEnd.y + surfaceGraphic.getImage().getHeight( null ) * 0.75 ), texture.getWidth(), rampStart.y - rampEnd.y );
-        return rect;
+        return new Rectangle( rampEnd.x - texture.getWidth() / 2, (int)( rampEnd.y + surfaceGraphic.getImage().getHeight( null ) * 0.75 ), texture.getWidth(), rampStart.y - rampEnd.y );
     }
 
     GeneralPath createJackLine() {
@@ -266,9 +263,8 @@ public class SurfaceGraphic extends PNode {
     }
 
     public Point getViewLocation( Point2D location ) {
-        Point viewLoc = getScreenTransform().modelToView( location );
 //        return getRampWorld().convertToWorld( viewLoc );
-        return viewLoc;
+        return getScreenTransform().modelToView( location );
     }
 
     public Point getViewLocation( double rampDist ) {

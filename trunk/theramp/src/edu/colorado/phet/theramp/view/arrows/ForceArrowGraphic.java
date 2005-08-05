@@ -82,6 +82,8 @@ public class ForceArrowGraphic extends PNode {
         addChild( boundGraphic );
         addChild( textGraphic );
         //setIgnoreMouse( true );
+        setPickable( false );
+        setChildrenPickable( false );
         update();
     }
 
@@ -92,9 +94,6 @@ public class ForceArrowGraphic extends PNode {
     public void update() {
         AbstractVector2D force = new ImmutableVector2D.Double( forceComponent.getForce() );
         force = force.getScaledInstance( RampModule.FORCE_LENGTH_SCALE );
-//        if( name.equals( AbstractArrowSet.TOTAL ) ) {
-//            System.out.println( "force = " + force );
-//        }
         if( force.getMagnitude() <= THRESHOLD ) {
             setVisible( false );
             nonZero = false;
@@ -102,7 +101,7 @@ public class ForceArrowGraphic extends PNode {
         }
         else {
             nonZero = true;
-            setVisible( true && userVisible );
+            setVisible( userVisible );
         }
         RampWorld rampWorld = getRampWorld();
         if( rampWorld == null ) {
@@ -110,30 +109,26 @@ public class ForceArrowGraphic extends PNode {
             return;
         }
 //        System.out.println( "blockGraphic.getBounds() = " + blockGraphic.getBlockBounds() );
-        Point2D viewCtr = blockGraphic.getBlockBounds().getCenter2D();
+        Point2D blockCenter = blockGraphic.getBlockBounds().getCenter2D();
 
-        Point2D tail = new Point2D.Double( viewCtr.getX(), viewCtr.getY() );
-        tail = offsetTail( tail );
-        Point2D tip = force.getDestination( tail );
-        Arrow forceArrow = new Arrow( tail, tip, arrowHeadHeight, arrowHeadHeight, arrowTailWidth, 0.5, false );
+        Point2D arrowTail = new Point2D.Double( blockCenter.getX(), blockCenter.getY() );
+        arrowTail = offsetTail( arrowTail );
+        Point2D tip = force.getDestination( arrowTail );
 
+        Arrow forceArrow = new Arrow( arrowTail, tip, arrowHeadHeight, arrowHeadHeight, arrowTailWidth, 0.5, false );
         Shape forceArrowShape = forceArrow.getShape();
+
+//        if (getName().toLowerCase().indexOf("applied" )>=0){
+//            System.out.println( "forceComponent.getForce() = " + forceComponent.getForce() );
+//        }
+
         if( this.lastArrow == null || !this.lastArrow.equals( forceArrow ) ) {
             shapeGraphic.setPathTo( forceArrowShape );
-//            Shape forceArrowBody = forceArrow.getTailShape();
-//            double tgHeight = textGraphic.getHeight();
-//            double arrowHeight = forceArrowBody.getBounds().getHeight();
-
-//            double y = forceArrowBody.getBounds().getY() + arrowHeight / 2 - tgHeight / 2;
-//            textGraphic.setOffset( forceArrowBody.getBounds().x, (int)y + 15 );
             AbstractVector2D dstVector = force.getInstanceOfMagnitude( force.getMagnitude() + 30 );
-            Point2D dest = dstVector.getDestination( tail );
+            Point2D dest = dstVector.getDestination( arrowTail );
             textGraphic.setOffset( dest.getX() - textGraphic.getFullBounds().getWidth() / 2, dest.getY() - textGraphic.getFullBounds().getHeight() / 2 );
-
         }
         this.lastArrow = forceArrow;
-        setPickable( false );
-        setChildrenPickable( false );
     }
 
     private Point2D offsetTail( Point2D tail ) {

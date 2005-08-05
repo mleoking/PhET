@@ -8,6 +8,7 @@ import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
+import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.timeseries.TimeSeries;
@@ -127,6 +128,10 @@ public class TestTimeSeries {
         }
 
         public void setCursorsVisible( boolean b ) {
+        }
+
+        protected ApparatusPanel getApparatusPanel() {
+            return null;
         }
 
         public void updateModel( ClockTickEvent clEvent ) {

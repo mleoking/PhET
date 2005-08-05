@@ -26,8 +26,8 @@ public class Block {
         listeners.add( listener );
     }
 
-    public Block copyState( RampModel original, RampModel newModel ) {
-        Block dataBlock = new Block( surface == original.getRamp() ? newModel.getRamp() : newModel.getGround() );
+    public Block copyState( RampPhysicalModel original, RampPhysicalModel newPhysicalModel ) {
+        Block dataBlock = new Block( surface == original.getRamp() ? newPhysicalModel.getRamp() : newPhysicalModel.getGround() );
         dataBlock.mass = mass;
         dataBlock.positionInSurface = positionInSurface;
         dataBlock.velocity = velocity;
@@ -48,11 +48,25 @@ public class Block {
     }
 
     public void setSurface( Surface surface ) {
-        this.surface = surface;
+        if( this.surface != surface ) {
+            this.surface = surface;
+            notifySurfaceChanged();
+        }
+    }
+
+    private void notifySurfaceChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.surfaceChanged();
+        }
     }
 
     public Surface getSurface() {
         return surface;
+    }
+
+    public double getMomentum() {
+        return mass * velocity;
     }
 
     public static interface Listener {
@@ -63,6 +77,10 @@ public class Block {
         void kineticFrictionChanged();
 
         void massChanged();
+
+        void surfaceChanged();
+
+        void collisionOccurred( Collision collision );
     }
 
     public static class Adapter implements Listener {
@@ -77,6 +95,12 @@ public class Block {
         }
 
         public void massChanged() {
+        }
+
+        public void surfaceChanged() {
+        }
+
+        public void collisionOccurred( Collision collision ) {
         }
     }
 
@@ -120,7 +144,8 @@ public class Block {
         this.acceleration = acceleration;
     }
 
-    public void stepInTime( RampModel rampModel, double dt ) {
+    public void stepInTime( RampPhysicalModel rampPhysicalModel, double dt ) {
+        Block copy = copyState( rampPhysicalModel, rampPhysicalModel );
         double origPosition = positionInSurface;
         double origVelocity = velocity;
         double accValue = acceleration;
@@ -141,24 +166,41 @@ public class Block {
 //        System.out.println( "dE="+dE+", origEnergy = " + origEnergy+", finalEnergy="+finalEnergy );
 
         //boundary conditions.
-        applyBoundaryConditions( rampModel );
+        applyBoundaryConditions( copy, rampPhysicalModel, dt );
 
         if( positionInSurface != origPosition ) {
             notifyPositionChanged();
         }
     }
 
-    private void applyBoundaryConditions( RampModel rampModel ) {
-        surface.applyBoundaryConditions( rampModel, this );
-        if( positionInSurface < 0 ) {
-            positionInSurface = 0;
-            velocity = 0;
-            //todo fire a collision.
+    private void applyBoundaryConditions( Block copy, RampPhysicalModel rampPhysicalModel, double dt ) {
+        boolean collided = surface.applyBoundaryConditions( rampPhysicalModel, this );
+//        if( positionInSurface < 0 ) {
+//            positionInSurface = 0;
+//            velocity = 0;
+//            //todo fire a collision.
+//            Collision collision = new Collision( copy, this, rampPhysicalModel );
+//            notifyCollision( collision );
+//        }
+//        else if( positionInSurface > surface.getLength() ) {
+//            positionInSurface = surface.getLength();
+//            velocity = 0;
+//            //todo fire a collision.
+//            Collision collision = new Collision( copy, this, rampPhysicalModel );
+//            notifyCollision( collision );
+//        }
+//        else {
+        if( collided ) {
+            Collision collision = new Collision( copy, this, rampPhysicalModel, dt );
+            notifyCollision( collision );
+//            }
         }
-        else if( positionInSurface > surface.getLength() ) {
-            positionInSurface = surface.getLength();
-            velocity = 0;
-            //todo fire a collision.
+    }
+
+    private void notifyCollision( Collision collision ) {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.collisionOccurred( collision );
         }
     }
 

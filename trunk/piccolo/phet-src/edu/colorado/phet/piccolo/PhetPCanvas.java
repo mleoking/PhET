@@ -78,7 +78,7 @@ public class PhetPCanvas extends PSwingCanvas {
         double scale = sx < sy ? sx : sy;
 //        System.out.println( "sx = " + sx + ", sy=" + sy + ", scale=" + scale );
         double cameraViewScale = getCamera().getViewScale();
-        System.out.println( "scale=" + scale );
+//        System.out.println( "scale=" + scale );
         getCamera().scaleView( scale / cameraViewScale );
     }
 

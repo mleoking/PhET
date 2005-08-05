@@ -28,7 +28,7 @@ public abstract class ValueAccessor {
         this.color = color;
     }
 
-    public abstract double getValue( RampModel rampModel );
+    public abstract double getValue( RampPhysicalModel rampPhysicalModel );
 
     public Color getColor() {
         return color;
@@ -47,8 +47,8 @@ public abstract class ValueAccessor {
             super( "Total", rampLookAndFeel.getTotalEnergyColor() );
         }
 
-        public double getValue( RampModel rampModel ) {
-            return rampModel.getTotalEnergy();
+        public double getValue( RampPhysicalModel rampPhysicalModel ) {
+            return rampPhysicalModel.getTotalEnergy();
         }
     }
 
@@ -58,8 +58,8 @@ public abstract class ValueAccessor {
             super( "Kinetic", rampLookAndFeel.getKineticEnergyColor() );
         }
 
-        public double getValue( RampModel rampModel ) {
-            return rampModel.getBlock().getKineticEnergy();
+        public double getValue( RampPhysicalModel rampPhysicalModel ) {
+            return rampPhysicalModel.getBlock().getKineticEnergy();
         }
     }
 
@@ -68,8 +68,8 @@ public abstract class ValueAccessor {
             super( "Potential", rampLookAndFeel.getPotentialEnergyColor() );
         }
 
-        public double getValue( RampModel rampModel ) {
-            return rampModel.getPotentialEnergy();
+        public double getValue( RampPhysicalModel rampPhysicalModel ) {
+            return rampPhysicalModel.getPotentialEnergy();
         }
     }
 
@@ -78,8 +78,8 @@ public abstract class ValueAccessor {
             super( "Thermal", rampLookAndFeel.getThermalEnergyColor() );
         }
 
-        public double getValue( RampModel rampModel ) {
-            return rampModel.getThermalEnergy();
+        public double getValue( RampPhysicalModel rampPhysicalModel ) {
+            return rampPhysicalModel.getThermalEnergy();
         }
     }
 
@@ -88,8 +88,8 @@ public abstract class ValueAccessor {
             super( "Applied", rampLookAndFeel.getAppliedWorkColor() );
         }
 
-        public double getValue( RampModel rampModel ) {
-            return rampModel.getAppliedWork();
+        public double getValue( RampPhysicalModel rampPhysicalModel ) {
+            return rampPhysicalModel.getAppliedWork();
         }
     }
 
@@ -98,8 +98,8 @@ public abstract class ValueAccessor {
             super( "Friction", rampLookAndFeel.getFrictionWorkColor() );
         }
 
-        public double getValue( RampModel rampModel ) {
-            return rampModel.getFrictiveWork();
+        public double getValue( RampPhysicalModel rampPhysicalModel ) {
+            return rampPhysicalModel.getFrictiveWork();
         }
     }
 
@@ -108,8 +108,8 @@ public abstract class ValueAccessor {
             super( "Gravity", rampLookAndFeel.getGravityWorkColor() );
         }
 
-        public double getValue( RampModel rampModel ) {
-            return rampModel.getGravityWork();
+        public double getValue( RampPhysicalModel rampPhysicalModel ) {
+            return rampPhysicalModel.getGravityWork();
         }
     }
 
@@ -118,8 +118,8 @@ public abstract class ValueAccessor {
             super( "Net", rampLookAndFeel.getTotalWorkColor() );
         }
 
-        public double getValue( RampModel rampModel ) {
-            return rampModel.getTotalWork();
+        public double getValue( RampPhysicalModel rampPhysicalModel ) {
+            return rampPhysicalModel.getTotalWork();
         }
     }
 

@@ -2,7 +2,7 @@
 package edu.colorado.phet.theramp.view.arrows;
 
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.theramp.model.RampModel;
+import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.view.BlockGraphic;
 import edu.colorado.phet.theramp.view.RampLookAndFeel;
 import edu.colorado.phet.theramp.view.RampPanel;
@@ -24,44 +24,44 @@ public class XArrowSet extends AbstractArrowSet {
         super( component, blockGraphic );
         RampLookAndFeel ralf = new RampLookAndFeel();
         String sub = "x";
-        final RampModel rampModel = component.getRampModule().getRampModel();
+        final RampPhysicalModel rampPhysicalModel = component.getRampModule().getRampPhysicalModel();
         ForceArrowGraphic forceArrowGraphic = new ForceArrowGraphic( component, APPLIED, ralf.getAppliedForceColor(), 0, new ForceComponent() {
             public Vector2D getForce() {
-                RampModel.ForceVector appliedForce = rampModel.getAppliedForce();
+                RampPhysicalModel.ForceVector appliedForce = rampPhysicalModel.getAppliedForce();
                 return appliedForce.toXVector();
             }
         }, getBlockGraphic(), sub );
 
         ForceArrowGraphic totalArrowGraphic = new ForceArrowGraphic( component, TOTAL, ralf.getNetForceColor(), getDefaultOffsetDY(), new ForceComponent() {
             public Vector2D getForce() {
-                RampModel.ForceVector totalForce = rampModel.getTotalForce();
+                RampPhysicalModel.ForceVector totalForce = rampPhysicalModel.getTotalForce();
                 return totalForce.toXVector();
             }
         }, getBlockGraphic(), sub );
 
         ForceArrowGraphic frictionArrowGraphic = new ForceArrowGraphic( component, FRICTION, ralf.getFrictionForceColor(), 0, new ForceComponent() {
             public Vector2D getForce() {
-                RampModel.ForceVector totalForce = rampModel.getFrictionForce();
+                RampPhysicalModel.ForceVector totalForce = rampPhysicalModel.getFrictionForce();
                 return totalForce.toXVector();
             }
         }, getBlockGraphic(), sub );
 
         ForceArrowGraphic gravityArrowGraphic = new ForceArrowGraphic( component, WEIGHT, ralf.getWeightColor(), 0, new ForceComponent() {
             public Vector2D getForce() {
-                RampModel.ForceVector totalForce = rampModel.getGravityForce();
+                RampPhysicalModel.ForceVector totalForce = rampPhysicalModel.getGravityForce();
                 return totalForce.toXVector();
             }
         }, getBlockGraphic(), sub );
 
         ForceArrowGraphic normalArrowGraphic = new ForceArrowGraphic( component, NORMAL, ralf.getNormalColor(), 0, new ForceComponent() {
             public Vector2D getForce() {
-                RampModel.ForceVector totalForce = rampModel.getNormalForce();
+                RampPhysicalModel.ForceVector totalForce = rampPhysicalModel.getNormalForce();
                 return totalForce.toXVector();
             }
         }, getBlockGraphic(), sub );
         ForceArrowGraphic wallArrowGraphic = new ForceArrowGraphic( component, WALL, ralf.getWallForceColor(), getDefaultOffsetDY(), new ForceComponent() {
             public Vector2D getForce() {
-                RampModel.ForceVector totalForce = rampModel.getWallForce();
+                RampPhysicalModel.ForceVector totalForce = rampPhysicalModel.getWallForce();
                 return totalForce.toXVector();
             }
         }, getBlockGraphic(), sub );
@@ -84,14 +84,19 @@ public class XArrowSet extends AbstractArrowSet {
     }
 
     private Paint createXPaint( ForceArrowGraphic arrowGraphic ) {
-        BufferedImage texture = new BufferedImage( 10, 10, BufferedImage.TYPE_INT_ARGB );
+        int imageWidth = 5;
+        int imageHeight = imageWidth;
+        BufferedImage texture = new BufferedImage( imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB );//todo could fail for mac.
         Graphics2D graphics2D = texture.createGraphics();
-        graphics2D.setColor( new Color( 255, 255, 255, 0 ) );
-        graphics2D.fillRect( 0, 0, 10, 10 );
-        graphics2D.setStroke( new BasicStroke( 5 ) );
+        Color background = new Color( 255, 255, 255 );
+
+        graphics2D.setColor( background );
+        graphics2D.fillRect( 0, 0, imageWidth, imageHeight );
+
         graphics2D.setColor( arrowGraphic.getBaseColor() );
-        graphics2D.drawLine( 0, 5, 10, 5 );
-        TexturePaint texturePaint = new TexturePaint( texture, new Rectangle2D.Double( 0, 0, texture.getWidth(), texture.getHeight() ) );
-        return texturePaint;
+        int stripeSize = 3;
+        graphics2D.fillRect( 0, 0, stripeSize, imageHeight );
+        return new TexturePaint( texture, new Rectangle2D.Double( 0, 0, texture.getWidth(), texture.getHeight() ) );
     }
+
 }

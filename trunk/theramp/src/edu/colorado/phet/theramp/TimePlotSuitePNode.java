@@ -3,6 +3,7 @@ package edu.colorado.phet.theramp;
 
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.view.graphics.transforms.LinearTransform2D;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
@@ -31,6 +32,7 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -136,17 +138,27 @@ public class TimePlotSuitePNode extends PNode {
         cursor.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         addChild( cursor );
 
-        JButton minBut = new JButton( "Minimize" );
-        minBut.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                setMinimized( true );
-            }
-        } );
-        minBut.setMargin( new Insets( 2, 2, 2, 2 ) );
-        minButNode = new PSwing( pCanvas, minBut );
-        addChild( minButNode );
+//        JButton minBut = new JButton( "Minimize" );
+        JButton minBut = null;
+        try {
+            minBut = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "images/min15.jpg" ) ) );
+            minBut.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    setMinimized( true );
+                }
 
-        JButton maximize = new JButton( "Maximize" );
+            } );
+            minBut.setMargin( new Insets( 2, 2, 2, 2 ) );
+            minButNode = new PSwing( pCanvas, minBut );
+            addChild( minButNode );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+
+
+        JButton maximize = new JButton( "Maximize " + name + " Graph" );
+        minBut.setMargin( new Insets( 2, 2, 2, 2 ) );
         maximize.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setMinimized( false );
@@ -186,7 +198,8 @@ public class TimePlotSuitePNode extends PNode {
     }
 
     private static JFreeChart createChart( Range2D range, XYDataset dataset, String title ) {
-        JFreeChart chart = ChartFactory.createXYLineChart( title,
+//        JFreeChart chart = ChartFactory.createXYLineChart( title,
+        JFreeChart chart = ChartFactory.createXYLineChart( "",
                                                            "", // x-axis label
                                                            "", // y-axis label
                                                            dataset, PlotOrientation.VERTICAL, false, false, false );
@@ -199,7 +212,8 @@ public class TimePlotSuitePNode extends PNode {
         plot.setRangeGridlinePaint( Color.gray );
         plot.setAxisOffset( new RectangleInsets( 5.0, 5.0, 5.0, 5.0 ) );
 
-        NumberAxis xAxis = new NumberAxis( "Time (seconds)" );
+//        NumberAxis xAxis = new NumberAxis( "Time (seconds)" );
+        NumberAxis xAxis = new NumberAxis();
         xAxis.setAutoRange( false );
         xAxis.setRange( range.getMinX(), range.getMaxX() );
         plot.setDomainAxis( xAxis );

@@ -46,7 +46,6 @@ public class RampControlPanel extends ControlPanel {
         } );
         addControl( jb );
 
-
         JButton clearHeat = new JButton( "Clear Heat" );
         addControl( clearHeat );
         clearHeat.addActionListener( new ActionListener() {
@@ -239,12 +238,12 @@ public class RampControlPanel extends ControlPanel {
         constrained.setSelected( true );
         emergent.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.getRampModel().setStepStrategyEmergent();
+                module.getRampPhysicalModel().setStepStrategyEmergent();
             }
         } );
         constrained.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.getRampModel().setStepStrategyConstrained();
+                module.getRampPhysicalModel().setStepStrategyConstrained();
             }
         } );
         ButtonGroup buttonGroup = new ButtonGroup();
@@ -262,7 +261,7 @@ public class RampControlPanel extends ControlPanel {
                 module.setMass( value );
             }
         } );
-        module.getRampModel().getBlock().addListener( new Block.Adapter() {
+        module.getRampPhysicalModel().getBlock().addListener( new Block.Adapter() {
             public void massChanged() {
                 ms.setValue( module.getBlock().getMass() );
             }
@@ -285,12 +284,12 @@ public class RampControlPanel extends ControlPanel {
         kineticFriction.setModelTicks( ticks );
         kineticFriction.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                module.getRampModel().getBlock().setKineticFriction( kineticFriction.getValue() );
+                module.getRampPhysicalModel().getBlock().setKineticFriction( kineticFriction.getValue() );
             }
         } );
-        module.getRampModel().getBlock().addListener( new Block.Adapter() {
+        module.getRampPhysicalModel().getBlock().addListener( new Block.Adapter() {
             public void kineticFrictionChanged() {
-                kineticFriction.setValue( module.getRampModel().getBlock().getKineticFriction() );
+                kineticFriction.setValue( module.getRampPhysicalModel().getBlock().getKineticFriction() );
             }
         } );
         return kineticFriction;
@@ -300,12 +299,12 @@ public class RampControlPanel extends ControlPanel {
         final ModelSlider staticFriction = new ModelSlider( "Static Friction", "", 0, 1.5, 0.5 );
         staticFriction.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                module.getRampModel().getBlock().setStaticFriction( staticFriction.getValue() );
+                module.getRampPhysicalModel().getBlock().setStaticFriction( staticFriction.getValue() );
             }
         } );
-        module.getRampModel().getBlock().addListener( new Block.Adapter() {
+        module.getRampPhysicalModel().getBlock().addListener( new Block.Adapter() {
             public void staticFrictionChanged() {
-                staticFriction.setValue( module.getRampModel().getBlock().getStaticFriction() );
+                staticFriction.setValue( module.getRampPhysicalModel().getBlock().getStaticFriction() );
             }
         } );
         staticFriction.setModelTicks( ticks );
@@ -313,8 +312,8 @@ public class RampControlPanel extends ControlPanel {
     }
 
     private void setFriction( double f ) {
-        module.getRampModel().getBlock().setStaticFriction( f );
-        module.getRampModel().getBlock().setKineticFriction( f );
+        module.getRampPhysicalModel().getBlock().setStaticFriction( f );
+        module.getRampPhysicalModel().getBlock().setKineticFriction( f );
     }
 
     private ModelSlider createFrictionSlider( double[] ticks, final RampModule module ) {
@@ -324,14 +323,14 @@ public class RampControlPanel extends ControlPanel {
                 setFriction( frictionSlider.getValue() );
             }
         } );
-        module.getRampModel().getBlock().addListener( new Block.Adapter() {
+        module.getRampPhysicalModel().getBlock().addListener( new Block.Adapter() {
             public void staticFrictionChanged() {
-                frictionSlider.setValue( module.getRampModel().getBlock().getStaticFriction() );
+                frictionSlider.setValue( module.getRampPhysicalModel().getBlock().getStaticFriction() );
 //                frictionSlider.setValue( module.getRampModel().getBlock().getStaticFriction() );
             }
 
             public void kineticFrictionChanged() {
-                frictionSlider.setValue( module.getRampModel().getBlock().getStaticFriction() );
+                frictionSlider.setValue( module.getRampPhysicalModel().getBlock().getStaticFriction() );
             }
         } );
         frictionSlider.setModelTicks( ticks );

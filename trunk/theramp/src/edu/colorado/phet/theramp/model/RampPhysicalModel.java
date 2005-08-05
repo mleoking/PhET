@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * Copyright (c) Feb 11, 2005 by Sam Reid
  */
 
-public class RampModel implements ModelElement, Surface.CollisionListener {
+public class RampPhysicalModel implements ModelElement, Surface.CollisionListener {
     private Surface ground;
     private Surface ramp;
     private Block block;
@@ -41,19 +41,13 @@ public class RampModel implements ModelElement, Surface.CollisionListener {
     private SimpleObservable keObservers = new SimpleObservable();
     private double lastTick;
 
-
     ModelElement stepStrategy;
     private double originalBlockKE;
 
-//    private double lastPotentialEnergy;
-//    private double lastTotalEnergy;
-//    private double lastRampAngle = 0.0;
+    private RampPhysicalModel lastState;
+    private double appliedForceSetValue = 0.0;
 
-    private RampModel lastState;
-
-//    private double rampAngleSavValue;
-
-    public RampModel() {
+    public RampPhysicalModel() {
         ramp = new Ramp( Math.PI / 32, 15.0 );
         ramp.addCollisionListener( this );
         ground = new Ground( 0, 6, -6, 0, 0 );
@@ -66,11 +60,12 @@ public class RampModel implements ModelElement, Surface.CollisionListener {
         frictionForce = new ForceVector();
         appliedForce = new ForceVector();
         normalForce = new ForceVector();
-//        setStepStrategy( new RampModel.OriginalStepCode() );
-        setStepStrategy( new RampModel.NewStepCode() );
+        setStepStrategy( new RampPhysicalModel.NewStepCode() );
         setupForces();
-//        reset();
-//        lastState = getState();
+    }
+
+    private void doSurfaceChange() {
+        setAppliedForce( appliedForceSetValue );
     }
 
     public void setStepStrategy( ModelElement stepStrategy ) {
@@ -91,6 +86,7 @@ public class RampModel implements ModelElement, Surface.CollisionListener {
 
     public void stepInTime( double dt ) {
         stepStrategy.stepInTime( dt );
+        doSurfaceChange();
     }
 
     /**
@@ -104,7 +100,7 @@ public class RampModel implements ModelElement, Surface.CollisionListener {
             dt = currentTimeSeconds() - lastTick;
             dt = MathUtil.clamp( 1 / 30.0, dt, 1 / 5.0 );
 //            RampModel orig = lastState;
-            RampModel beforeNewton = getState();
+            RampPhysicalModel beforeNewton = getState();
 
             setupForces();
             updateBlock( dt );
@@ -152,7 +148,7 @@ public class RampModel implements ModelElement, Surface.CollisionListener {
         return getBlock().getKineticEnergy();
     }
 
-    private double getAppliedWorkDifferential( RampModel beforeNewton ) {
+    private double getAppliedWorkDifferential( RampPhysicalModel beforeNewton ) {
         double blockDX = getBlockPosition() - beforeNewton.getBlockPosition();
         double workDueToAppliedForce = getAppliedForce().getParallelComponent() * blockDX;
 
@@ -188,6 +184,10 @@ public class RampModel implements ModelElement, Surface.CollisionListener {
         totalForce.setParallel( netForce );
     }
 
+    public void setWallForce( double wallForce ) {
+        this.wallForce.setParallel( wallForce );
+    }
+
     private double getBlockPosition() {
         return getBlock().getPosition();
     }
@@ -210,6 +210,7 @@ public class RampModel implements ModelElement, Surface.CollisionListener {
     }
 
     public void setAppliedForce( double appliedForce ) {
+        this.appliedForceSetValue = appliedForce;
         this.appliedForce.setParallel( appliedForce );
         notifyAppliedForceChanged();
     }
@@ -266,6 +267,7 @@ public class RampModel implements ModelElement, Surface.CollisionListener {
         peObservers.notifyObservers();
         keObservers.notifyObservers();
         lastState = getState();
+        appliedForceSetValue = 0.0;
         setupForces();
         initWorks();
     }
@@ -312,7 +314,6 @@ public class RampModel implements ModelElement, Surface.CollisionListener {
     public Surface getGround() {
         return ground;
     }
-
 
     private Surface getSurface() {
         return block.getSurface();
@@ -362,16 +363,14 @@ public class RampModel implements ModelElement, Surface.CollisionListener {
         public double getParallelComponent() {
 //            AbstractVector2D dir = Vector2D.Double.parseAngleAndMagnitude( 1, -ramp.getAngle() );
             AbstractVector2D dir = Vector2D.Double.parseAngleAndMagnitude( 1, -getSurface().getAngle() );
-            double result = dir.dot( this );
-            return result;
+            return dir.dot( this );
         }
 
         public double getPerpendicularComponent() {
 //            AbstractVector2D dir = Vector2D.Double.parseAngleAndMagnitude( 1, -ramp.getAngle() );
             AbstractVector2D dir = Vector2D.Double.parseAngleAndMagnitude( 1, -getSurface().getAngle() );
             dir = dir.getNormalVector();
-            double result = dir.dot( this );
-            return result;
+            return dir.dot( this );
         }
 
         public void setPerpendicular( double perpendicularComponent ) {
@@ -425,8 +424,8 @@ public class RampModel implements ModelElement, Surface.CollisionListener {
         void stepFinished();
     }
 
-    public RampModel getState() {
-        RampModel copy = new RampModel();
+    public RampPhysicalModel getState() {
+        RampPhysicalModel copy = new RampPhysicalModel();
         copy.ramp = ramp.copyState();
         copy.ground = ground.copyState();
         copy.block = block.copyState( this, copy );
@@ -442,10 +441,11 @@ public class RampModel implements ModelElement, Surface.CollisionListener {
         copy.gravityWork = gravityWork;
         copy.zeroPointY = zeroPointY;
         copy.thermalEnergy = thermalEnergy;
+        copy.appliedForceSetValue = appliedForceSetValue;
         return copy;
     }
 
-    public void setState( RampModel state ) {
+    public void setState( RampPhysicalModel state ) {
         ramp.setState( state.getRamp() );
         block.setState( state.getBlock() );
         wallForce.setState( state.wallForce );
@@ -460,7 +460,7 @@ public class RampModel implements ModelElement, Surface.CollisionListener {
         gravityWork = state.gravityWork;
         zeroPointY = state.zeroPointY;
         thermalEnergy = state.thermalEnergy;
-
+        appliedForceSetValue = state.appliedForceSetValue;
         //todo notify observers.
     }
 

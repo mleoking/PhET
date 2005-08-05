@@ -2,7 +2,7 @@
 package edu.colorado.phet.theramp.view.bars;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
-import edu.colorado.phet.theramp.model.RampModel;
+import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.model.ValueAccessor;
 import edu.colorado.phet.theramp.view.RampPanel;
 
@@ -14,8 +14,8 @@ import edu.colorado.phet.theramp.view.RampPanel;
  */
 
 public class WorkBarGraphSet extends BarGraphSet {
-    public WorkBarGraphSet( RampPanel rampPanel, RampModel rampModel, ModelViewTransform1D transform1D ) {
-        super( rampPanel, rampModel, "Work", transform1D );
+    public WorkBarGraphSet( RampPanel rampPanel, RampPhysicalModel rampPhysicalModel, ModelViewTransform1D transform1D ) {
+        super( rampPanel, rampPhysicalModel, "Work", transform1D );
         ValueAccessor[] workAccess = new ValueAccessor[]{
             new ValueAccessor.TotalWork( getLookAndFeel() ),
             new ValueAccessor.GravityWork( getLookAndFeel() ),

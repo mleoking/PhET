@@ -18,11 +18,11 @@ public class RampTimeModel implements ClockTickListener {
     private Mode recordMode = new Record();
     private Mode ignoreMode = new Ignore();
     private Mode playbackMode = new Playback();
-    private RampModel model;
+    private RampPhysicalModel physicalModel;
     private Mode mode;
 
-    public RampTimeModel( RampModel model ) {
-        this.model = model;
+    public RampTimeModel( RampPhysicalModel physicalModel ) {
+        this.physicalModel = physicalModel;
         mode = ignoreMode;
     }
 
@@ -36,8 +36,8 @@ public class RampTimeModel implements ClockTickListener {
     class Record extends Mode {
 
         public void clockTicked( ClockTickEvent event ) {
-            model.stepInTime( event.getDt() );
-            RampModel state = model.getState();
+            physicalModel.stepInTime( event.getDt() );
+            RampPhysicalModel state = physicalModel.getState();
             timeSlices.add( state );
             System.out.println( "timeSlices.size() = " + timeSlices.size() );
         }
@@ -53,8 +53,8 @@ public class RampTimeModel implements ClockTickListener {
             if( timeSlices.size() > 0 ) {
                 System.out.println( "index = " + index );
 
-                RampModel state = (RampModel)timeSlices.get( index );
-                model.setState( state );
+                RampPhysicalModel state = (RampPhysicalModel)timeSlices.get( index );
+                physicalModel.setState( state );
                 index++;
             }
         }
@@ -63,7 +63,7 @@ public class RampTimeModel implements ClockTickListener {
     class Ignore extends Mode {
 
         public void clockTicked( ClockTickEvent event ) {
-            model.stepInTime( event.getDt() );
+            physicalModel.stepInTime( event.getDt() );
         }
     }
 

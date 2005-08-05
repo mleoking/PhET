@@ -196,7 +196,7 @@ public class FireDog extends PNode {
             if( particle.getPosition().getY() > getFloorY() ) {
                 getRampPanel().removeChild( this );
                 waterDrops.remove( this );
-                module.getRampModel().clearHeat();
+                module.getRampPhysicalModel().clearHeat();
             }
         }
     }
