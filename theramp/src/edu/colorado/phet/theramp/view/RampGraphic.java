@@ -3,6 +3,7 @@ package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.theramp.model.Surface;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -33,6 +34,11 @@ public class RampGraphic extends SurfaceGraphic {
                 arrowGraphic.setVisible( false );
             }
         } );
+        getSurface().addObserver( new SimpleObserver() {
+            public void update() {
+                arrowGraphic.setVisible( false );
+            }
+        } );
 
         updateArrowGraphic();
     }
@@ -43,7 +49,7 @@ public class RampGraphic extends SurfaceGraphic {
     }
 
     private PNode createArrowGraphic() {
-        String imageResourceName = "images/arrow-2.png";
+        String imageResourceName = "images/arrow-2.gif";
         BufferedImage image = null;
         try {
             image = ImageLoader.loadBufferedImage( imageResourceName );

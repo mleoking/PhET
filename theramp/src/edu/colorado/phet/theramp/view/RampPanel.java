@@ -4,6 +4,7 @@ package edu.colorado.phet.theramp.view;
 import edu.colorado.phet.piccolo.ConnectorGraphic;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.WiggleMe;
+import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.RampObject;
 import edu.colorado.phet.theramp.RampPlotSet;
@@ -98,7 +99,7 @@ public class RampPanel extends PhetPCanvas {
 //viewOffset = Point2D.Double[23.0, -21.0]
         //then set them here.
 //        getCamera().setViewScale( 0.969001148105626 );
-        getCamera().setViewScale( 1.0);
+        getCamera().setViewScale( 1.0 );
         getCamera().setViewOffset( 23.0, -21.0 );
 
         final WiggleMe wiggleMe = new WiggleMe( "<html>Apply a Force<br>to the Filing Cabinet</html>", 450, 350 );
@@ -146,17 +147,19 @@ public class RampPanel extends PhetPCanvas {
         rampPlotSet = new RampPlotSet( module, this );
         addChild( rampPlotSet );
 
-        PNode appliedForceControl = new AppliedForceControl( module, this );
-        appliedForceControl.setOffset( rampPlotSet.getFullBounds().getX(), rampPlotSet.getFullBounds().getY() );
-        addChild( appliedForceControl );
+//        PNode appliedForceControl = new AppliedForceControl( module, this );
+//        appliedForceControl.setOffset( rampPlotSet.getFullBounds().getX(), rampPlotSet.getFullBounds().getY() );
+//        addChild( appliedForceControl );
 
+//        PNode initialConditions = new PSwing( this, new InitialConditionPanel( module ) );
+//        initialConditions.setOffset( appliedForceControl.getFullBounds().getMaxX(),appliedForceControl.getFullBounds().getY());
+//        addChild( initialConditions );
 //        appliedForceControl.setOffset( )
     }
 
     private void updateArrowSetGraphics() {
         rampWorld.updateArrowSetGraphics();
     }
-
 
     public RampModule getRampModule() {
         return module;

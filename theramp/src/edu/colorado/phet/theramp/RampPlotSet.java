@@ -142,7 +142,7 @@ public class RampPlotSet extends PNode {
 
     private TimePlotSuitePNode createTimePlotSuitePNode( Range2D range, String name, int y, int height ) {
         TimeSeriesModel timeSeriesModel = module.getTimeSeriesModel();
-        TimePlotSuitePNode timePlotSuitePNode = new TimePlotSuitePNode(getRampPanel(), range, name, timeSeriesModel, height );
+        TimePlotSuitePNode timePlotSuitePNode = new TimePlotSuitePNode(module, getRampPanel(), range, name, timeSeriesModel, height );
         timePlotSuitePNode.setOffset( 0, y );
         return timePlotSuitePNode;
     }

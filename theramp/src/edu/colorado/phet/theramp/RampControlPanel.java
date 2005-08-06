@@ -8,6 +8,7 @@ import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.view.RampPanel;
 import edu.colorado.phet.theramp.view.RampUtil;
+import edu.colorado.phet.theramp.view.InitialConditionPanel;
 import edu.colorado.phet.theramp.view.arrows.AbstractArrowSet;
 
 import javax.swing.*;
@@ -203,9 +204,21 @@ public class RampControlPanel extends ControlPanel {
         addControl( massSlider );
 
         GraphButtonSet graphButtonSet = new GraphButtonSet();
-        addControl( graphButtonSet );
+        addAdvancedControl(graphButtonSet, "Graphs");
+//        addControl( graphButtonSet );
 //        addControl( createModelSelector() );
+
+        JPanel controls=new InitialConditionPanel( module );
+        addAdvancedControl( controls, "Controls");
+//        addControl( controls );
     }
+
+    private void addAdvancedControl( JPanel panel, String name ) {
+        AdvancedPanel advancedPanel=new AdvancedPanel( name+">>",name+"<<");
+        advancedPanel.addControlFullWidth( panel );
+        addControlFullWidth( advancedPanel );
+    }
+
 
     class GraphButtonSet extends VerticalLayoutPanel {
         public GraphButtonSet() {
