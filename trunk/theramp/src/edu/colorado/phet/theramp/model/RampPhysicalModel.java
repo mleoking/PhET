@@ -64,7 +64,7 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
         setupForces();
     }
 
-    private void doSurfaceChange() {
+    private void updateAppliedForceValue() {
         setAppliedForce( appliedForceSetValue );
     }
 
@@ -86,7 +86,7 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
 
     public void stepInTime( double dt ) {
         stepStrategy.stepInTime( dt );
-        doSurfaceChange();
+        updateAppliedForceValue();
     }
 
     /**
@@ -168,7 +168,7 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
         block.stepInTime( this, dt ); //could fire a collision event.
     }
 
-    private void setupForces() {
+    public void setupForces() {
         gravityForce.setX( 0 );
         gravityForce.setY( gravity * block.getMass() );
         double fa = block.getFrictionForce( gravity, appliedForce.getParallelComponent() + gravityForce.getParallelComponent() );
@@ -182,6 +182,8 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
 
         this.wallForce.setParallel( wallForce );
         totalForce.setParallel( netForce );
+
+        updateAppliedForceValue();
     }
 
     public void setWallForce( double wallForce ) {
@@ -350,6 +352,41 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
         thermalEnergy = 0.0;
         frictiveWork = 0.0;
         initWorks();
+    }
+
+    public double getRampAngle() {
+        return getRamp().getAngle();
+    }
+
+    public void setRampAngle( double angle ) {
+        getRamp().setAngle( angle );
+    }
+
+    public double getGlobalMaxPosition() {
+        return getGround().getLength() + getRamp().getLength();
+    }
+
+    public double getGlobalMinPosition() {
+        return 0;
+    }
+
+    public double getGlobalBlockPosition() {
+        return block.getPosition();
+    }
+
+    public void setGlobalBlockPosition( double position ) {
+        if( position <= getGround().getLength() ) {
+            block.setSurface( getGround() );
+            block.setPositionInSurface( position );
+        }
+        else {
+            block.setSurface( getRamp() );
+            block.setPositionInSurface( position - getGround().getLength() );
+        }
+    }
+
+    public double getAppliedForceScalar() {
+        return appliedForceSetValue;
     }
 
     public class ForceVector extends Vector2D.Double {

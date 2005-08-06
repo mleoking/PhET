@@ -44,6 +44,7 @@ import java.util.ArrayList;
  */
 
 public class TimePlotSuitePNode extends PNode {
+    private RampModule module;
     private PSwingCanvas pCanvas;
     private Range2D range;
     private TimeSeriesModel timeSeriesModel;
@@ -60,7 +61,8 @@ public class TimePlotSuitePNode extends PNode {
 //    private static final double SCALE = 1.3;
     private static final double SCALE = 1.0;///0.6750861079219312;
 
-    public TimePlotSuitePNode( PSwingCanvas pCanvas, Range2D range, String name, final TimeSeriesModel timeSeriesModel, int height ) {
+    public TimePlotSuitePNode( RampModule module, PSwingCanvas pCanvas, Range2D range, String name, final TimeSeriesModel timeSeriesModel, int height ) {
+        this.module = module;
         this.pCanvas = pCanvas;
         this.range = range;
         this.chartHeight = height;
@@ -68,8 +70,16 @@ public class TimePlotSuitePNode extends PNode {
         dataset = createDataset();
         chart = createChart( range, dataset, name );
         this.plot = (XYPlot)chart.getPlot();
+//        child = new MagicPImage( new MagicPImage.ImageSource() {
+//            public Image newImage( int width ) {
+//                bufferedImage = chart.createBufferedImage( width, width / 4 );
+//                return bufferedImage;
+//            }
+//        }, 800 );
+
         child = new PImage();
         updateImage();
+
         addChild( child );
         timeSeriesModel.addPlaybackTimeChangeListener( new TimeSeriesModel.PlaybackTimeListener() {
             public void timeChanged() {
@@ -184,6 +194,10 @@ public class TimePlotSuitePNode extends PNode {
         else if( isAncestorOf( maxButNode ) ) {
             removeChild( maxButNode );
         }
+        for( int i = 0; i < series.size(); i++ ) {
+            TimeSeriesPNode node = (TimeSeriesPNode)series.get( i );
+            node.getReadoutGraphic().setVisible( !minimized );
+        }
 //        maxButNode.setVisible( minimized );
         child.setScale( SCALE );
     }
@@ -192,12 +206,16 @@ public class TimePlotSuitePNode extends PNode {
         cursor.setVisible( true );
     }
 
+    protected void paint( PPaintContext paintContext ) {
+        super.paint( paintContext );
+    }
+
     private void hideCursor() {
         cursor.setVisible( false );
     }
 
     private void updateImage() {
-        bufferedImage = chart.createBufferedImage( (int)(800/SCALE), (int)( chartHeight/SCALE ) );
+        bufferedImage = chart.createBufferedImage( (int)( 800 / SCALE ), (int)( chartHeight / SCALE ) );
         child.setImage( bufferedImage );
     }
 
@@ -222,7 +240,7 @@ public class TimePlotSuitePNode extends PNode {
         xAxis.setRange( range.getMinX(), range.getMaxX() );
         plot.setDomainAxis( xAxis );
 
-        NumberAxis yAxis = new NumberAxis( "Energy (Joules)" );
+        NumberAxis yAxis = new NumberAxis( title+" (Joules)" );
         yAxis.setAutoRange( false );
         yAxis.setRange( range.getMinY(), range.getMaxY() );
         plot.setRangeAxis( yAxis );
@@ -240,7 +258,10 @@ public class TimePlotSuitePNode extends PNode {
     }
 
     public void addTimeSeries( TimeSeriesPNode timeSeriesPNode ) {
+        PNode readoutGraphic = timeSeriesPNode.getReadoutGraphic();
+        readoutGraphic.setOffset( getDataArea().getX() + 5, getDataArea().getY() + getDataArea().getHeight() / 2.0 + ( readoutGraphic.getHeight() + 1 ) * series.size() + 5 );
         series.add( timeSeriesPNode );
+        addChild( readoutGraphic );
     }
 
     public void reset() {
@@ -288,5 +309,9 @@ public class TimePlotSuitePNode extends PNode {
             TimeSeriesPNode timeSeriesPNode = (TimeSeriesPNode)series.get( i );
             timeSeriesPNode.repaintAll();
         }
+    }
+
+    public RampModule getRampModule() {
+        return module;
     }
 }

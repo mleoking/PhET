@@ -47,7 +47,7 @@ public class RampModule extends Module {
         rampModel = new RampModel( this, clock );
         rampObjects = new RampObject[]{
                 new RampObject( "images/cabinet.gif", "File Cabinet", 0.8, 100, 0.3, 0.2, 0.4 ),
-                new RampObject( "images/fridge.gif", "Refrigerator", 0.35, 400, 0.7, 0.5, 0.4 ),
+                new RampObject( "images/fridge.gif", "Refrigerator", 0.35, 175, 0.7, 0.5, 0.4 ),
                 new RampObject( "images/crate.gif", "Crate", 0.8, 300, 0.2, 0.2, 0.3 ),
                 new RampObject( "images/piano.png", "Piano", 0.8, 225, 0.6, 0.6, 0.8, 20 ),
 //            new RampObject( "images/ollie.gif", "Sleepy Dog", 0.5, 30, 0.1, 0.1, 0.35 ),
@@ -63,6 +63,7 @@ public class RampModule extends Module {
         rampMediaPanel = new TimeSeriesPlaybackPanel( getRampTimeSeriesModel() );
         clock.addClockTickListener( new ClockTickListener() {
             public void clockTicked( ClockTickEvent event ) {
+                getRampPhysicalModel().setupForces();
                 updateGraphics( event );
             }
         } );
@@ -184,6 +185,31 @@ public class RampModule extends Module {
 
     public void setAppliedForce( double appliedForce ) {
         getRampModel().setAppliedForce( appliedForce );
+    }
+
+    public double getRampAngle() {
+        return getRampPhysicalModel().getRampAngle();
+    }
+
+    public void setRampAngle( double value ) {
+        getRampPhysicalModel().setRampAngle(value);
+    }
+
+    public double getGlobalMinPosition() {
+        return getRampPhysicalModel().getGlobalMinPosition();
+    }
+
+    public double getGlobalMaxPosition() {
+        return getRampPhysicalModel().getGlobalMaxPosition();
+//        return getRampPhysicalModel().getGround().getLength()+getRampPhysicalModel().getRamp().getLength();
+    }
+
+    public double getGlobalBlockPosition() {
+        return getRampPhysicalModel().getGlobalBlockPosition();
+    }
+
+    public void setGlobalBlockPosition( double position ) {
+        getRampPhysicalModel().setGlobalBlockPosition(position);
     }
 
     public static interface Listener {

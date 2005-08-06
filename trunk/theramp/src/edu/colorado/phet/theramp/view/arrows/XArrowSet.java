@@ -67,24 +67,17 @@ public class XArrowSet extends AbstractArrowSet {
         }, getBlockGraphic(), sub );
         addForceArrowGraphic( gravityArrowGraphic );
         addForceArrowGraphic( normalArrowGraphic );
-
         addForceArrowGraphic( frictionArrowGraphic );
         addForceArrowGraphic( forceArrowGraphic );
         addForceArrowGraphic( wallArrowGraphic );
-
         addForceArrowGraphic( totalArrowGraphic );
 
-        gravityArrowGraphic.setPaint( createXPaint( gravityArrowGraphic ) );
-        normalArrowGraphic.setPaint( createXPaint( normalArrowGraphic ) );
-        frictionArrowGraphic.setPaint( createXPaint( frictionArrowGraphic ) );
-        forceArrowGraphic.setPaint( createXPaint( forceArrowGraphic ) );
-        wallArrowGraphic.setPaint( createXPaint( wallArrowGraphic ) );
-        totalArrowGraphic.setPaint( createXPaint( totalArrowGraphic ) );
-        //setIgnoreMouse( true );
+        setPickable( false );
+        setChildrenPickable( false );
     }
 
     private Paint createXPaint( ForceArrowGraphic arrowGraphic ) {
-        int imageWidth = 5;
+        int imageWidth = 6;
         int imageHeight = imageWidth;
         BufferedImage texture = new BufferedImage( imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB );//todo could fail for mac.
         Graphics2D graphics2D = texture.createGraphics();
@@ -94,9 +87,14 @@ public class XArrowSet extends AbstractArrowSet {
         graphics2D.fillRect( 0, 0, imageWidth, imageHeight );
 
         graphics2D.setColor( arrowGraphic.getBaseColor() );
-        int stripeSize = 3;
+        int stripeSize = 2;
         graphics2D.fillRect( 0, 0, stripeSize, imageHeight );
         return new TexturePaint( texture, new Rectangle2D.Double( 0, 0, texture.getWidth(), texture.getHeight() ) );
+    }
+
+    protected void addForceArrowGraphic( ForceArrowGraphic forceArrowGraphic ) {
+        super.addForceArrowGraphic( forceArrowGraphic );
+        forceArrowGraphic.setPaint( createXPaint( forceArrowGraphic ) );
     }
 
 }

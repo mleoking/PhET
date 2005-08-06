@@ -2,16 +2,20 @@
 package edu.colorado.phet.theramp;
 
 import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.model.ValueAccessor;
 import edu.colorado.phet.theramp.view.RampUtil;
 import edu.colorado.phet.timeseries.TimePoint;
 import edu.colorado.phet.timeseries.TimeSeries;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.text.DecimalFormat;
 
 /**
  * User: Sam Reid
@@ -31,6 +35,8 @@ public class TimeSeriesPNode {
     private BasicStroke s;
     private Color transparentColor;
     private boolean visible = true;
+    private PText readoutGraphic;
+    private DecimalFormat decimalFormat;
 
     public TimeSeriesPNode( TimePlotSuitePNode plotSuite, TimeSeries series, ValueAccessor valueAccessor, Color color, String justifyString ) {
         this.plotSuite = plotSuite;
@@ -49,11 +55,29 @@ public class TimeSeriesPNode {
         } );
         s = new BasicStroke( strokeSize, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f );
         transparentColor = RampUtil.transparify( color, 120 );
+        readoutGraphic = new PText();
+        readoutGraphic.setTextPaint( color );
+        readoutGraphic.setFont( new Font( "Lucida Sans",Font.BOLD, 12) );
+        decimalFormat = new DecimalFormat( "0.00");
+        updateReadout();
+    }
+
+    private void updateReadout() {
+        updateReadout( valueAccessor.getValue( getRampPhysicalModel() ) );
+    }
+
+    private RampPhysicalModel getRampPhysicalModel() {
+        return plotSuite.getRampModule().getRampPhysicalModel();
+    }
+
+    private void updateReadout( double value ) {
+        readoutGraphic.setText( "" + valueAccessor.getName() + " = " + decimalFormat.format( value)+ " " + valueAccessor.getUnits() );
     }
 
     private void dataAdded() {
         TimePoint pt = series.getLastPoint();
         addPoint( pt );
+        updateReadout( pt.getValue() );
     }
 
     private void addPoint( TimePoint at ) {
@@ -82,10 +106,12 @@ public class TimeSeriesPNode {
 
     public void reset() {
         lastScreenPoint = null;
+        updateReadout( );
     }
 
     public void setVisible( boolean visible ) {
         this.visible = visible;
+        readoutGraphic.setVisible( visible );
     }
 
     public void repaintAll() {
@@ -95,5 +121,9 @@ public class TimeSeriesPNode {
                 addPoint( series.pointAt( i ) );
             }
         }
+    }
+
+    public PNode getReadoutGraphic() {
+        return readoutGraphic;
     }
 }

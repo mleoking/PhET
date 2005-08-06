@@ -4,6 +4,7 @@ package edu.colorado.phet.theramp.view;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.theramp.RampModule;
+import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.event.ChangeEvent;
@@ -32,6 +33,17 @@ public class AppliedForceControl extends PNode {
         modelSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 module.setAppliedForce( modelSlider.getValue() );
+            }
+        } );
+        module.getRampPhysicalModel().addListener( new RampPhysicalModel.Listener() {
+            public void appliedForceChanged() {
+                modelSlider.setValue( module.getRampPhysicalModel().getAppliedForceScalar());
+            }
+
+            public void zeroPointChanged() {
+            }
+
+            public void stepFinished() {
             }
         } );
     }

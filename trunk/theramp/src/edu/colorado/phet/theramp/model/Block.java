@@ -81,6 +81,8 @@ public class Block {
         void surfaceChanged();
 
         void collisionOccurred( Collision collision );
+
+        void velocityChanged();
     }
 
     public static class Adapter implements Listener {
@@ -101,6 +103,9 @@ public class Block {
         }
 
         public void collisionOccurred( Collision collision ) {
+        }
+
+        public void velocityChanged() {
         }
     }
 
@@ -171,29 +176,23 @@ public class Block {
         if( positionInSurface != origPosition ) {
             notifyPositionChanged();
         }
+        if (velocity!=origVelocity){
+            notifyVelocityChanged();
+        }
+    }
+
+    private void notifyVelocityChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.velocityChanged();
+        }
     }
 
     private void applyBoundaryConditions( Block copy, RampPhysicalModel rampPhysicalModel, double dt ) {
         boolean collided = surface.applyBoundaryConditions( rampPhysicalModel, this );
-//        if( positionInSurface < 0 ) {
-//            positionInSurface = 0;
-//            velocity = 0;
-//            //todo fire a collision.
-//            Collision collision = new Collision( copy, this, rampPhysicalModel );
-//            notifyCollision( collision );
-//        }
-//        else if( positionInSurface > surface.getLength() ) {
-//            positionInSurface = surface.getLength();
-//            velocity = 0;
-//            //todo fire a collision.
-//            Collision collision = new Collision( copy, this, rampPhysicalModel );
-//            notifyCollision( collision );
-//        }
-//        else {
         if( collided ) {
             Collision collision = new Collision( copy, this, rampPhysicalModel, dt );
             notifyCollision( collision );
-//            }
         }
     }
 
