@@ -36,6 +36,7 @@ import edu.umd.cs.piccolo.util.PPaintContext;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -170,22 +171,31 @@ public class PImage extends PNode {
                 g2.translate( -b.x, -b.y );
             }
             else {
-//                AffineTransform tx=g2.getTransform();
-//                g2.setTransform( new AffineTransform( ) );
-//                g2.scale(1.2,1.2);
+//                boolean renderScaleFree = true;
+                boolean renderScaleFree = false;
+                if( renderScaleFree ) {
+//                    g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
+//                    g2.setRenderingHint( RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED );
+//                    g2.setRenderingHint( RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED );
+//                    g2.setRenderingHint( RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED );
+
+                    AffineTransform tx = g2.getTransform();
+                    g2.setTransform( new AffineTransform() );
+                    g2.drawImage( image, (int)tx.getTranslateX(), (int)tx.getTranslateY(), null );
+                    g2.setTransform( tx );
+                }
+                else {
 //                g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
 //                g2.setRenderingHint( RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED );
 //                g2.setRenderingHint( RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED );
 //                g2.setRenderingHint( RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED );
 
-                g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
-                g2.setRenderingHint( RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY );
-                g2.setRenderingHint( RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY );
-                g2.setRenderingHint( RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY );
-//				g2.drawImage(image, (int)tx.getTranslateX(), (int)tx.getTranslateY(), null);
-                g2.drawImage( image, 0, 0, null );
-//				g2.drawRenderedImage((RenderedImage)image, new AffineTransform( ) );
-//                g2.setTransform( tx);
+//                    g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
+//                    g2.setRenderingHint( RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY );
+//                    g2.setRenderingHint( RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY );
+//                    g2.setRenderingHint( RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY );
+                    g2.drawImage( image, 0, 0, null );
+                }
             }
         }
     }
