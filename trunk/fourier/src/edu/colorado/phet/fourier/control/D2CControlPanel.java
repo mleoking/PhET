@@ -16,10 +16,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
-import java.util.Hashtable;
 
 import javax.swing.JCheckBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
@@ -28,11 +26,11 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConstants;
-import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.control.sliders.K1SpacingSlider;
 import edu.colorado.phet.fourier.control.sliders.KWidthSlider;
 import edu.colorado.phet.fourier.control.sliders.XWidthSlider;
 import edu.colorado.phet.fourier.module.FourierModule;
+import edu.colorado.phet.fourier.view.D2CAmplitudesGraph;
 
 
 
@@ -60,7 +58,7 @@ public class D2CControlPanel extends FourierControlPanel {
     //----------------------------------------------------------------------------
 
     // Things to be controlled.
-    //XXX
+    private D2CAmplitudesGraph _amplitudesGraph;
 
     // UI components
     private FourierComboBox _domainComboBox;
@@ -82,9 +80,13 @@ public class D2CControlPanel extends FourierControlPanel {
      * Sole constructor.
      * 
      * @param module
+     * @param amplitudesGraph
      */
-    public D2CControlPanel( FourierModule module ) {
+    public D2CControlPanel( FourierModule module, D2CAmplitudesGraph amplitudesGraph ) {
         super( module );
+        
+        assert( amplitudesGraph != null );
+        _amplitudesGraph = amplitudesGraph;
         
         // Set the control panel's minimum width.
         String widthString = SimStrings.get( "D2CControlPanel.width" );
@@ -194,6 +196,11 @@ public class D2CControlPanel extends FourierControlPanel {
     }
     
     public void reset() {
+        
+        _domainComboBox.setSelectedKey( FourierConstants.DOMAIN_SPACE );
+        
+        _amplitudesGraph.setDomain( FourierConstants.DOMAIN_SPACE );
+        
         _k1SpacingSlider.setValue( 2 * Math.PI );
         _kWidthSlider.setValue( 3 * Math.PI );
         _xWidthSlider.setValue( 1 / ( 3 * Math.PI ) );
@@ -278,7 +285,9 @@ public class D2CControlPanel extends FourierControlPanel {
     }
     
     private void handleDomain() {
-        System.out.println( "domain=" + _domainComboBox.getSelectedItem() );//XXX
+        int domain = _domainComboBox.getSelectedKey();
+        System.out.println( "domain=" + domain );//XXX
+        _amplitudesGraph.setDomain( domain );
     }
     
     private void handleWaveType() {
