@@ -116,6 +116,18 @@ public abstract class AbstractFourierSlider extends JPanel implements ChangeList
     }
     
     /**
+     * Sets the format used to format the label.
+     * See MessageFormat.
+     * 
+     * @param format
+     */
+    public void setFormat( String format ) {
+        assert( format != null );
+        _format = format;
+        updateLabel();
+    }
+    
+    /**
      * Gets the format used to format the label.
      * See MessageFormat.
      * 

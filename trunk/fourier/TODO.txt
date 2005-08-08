@@ -67,6 +67,7 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(8/8) - update labels on controls when domain is changed (k->omega, x->t, mm->ms)
 (8/8) - add basic chart (no data) for Amplitudes view in D2C module
 (8/8) - charts: LabelTable labels on horizontal (bottom) tick marks were overlapping the tick marks
 (8/8) - charts: add Axis.setMajorLabels and setMinorLabels

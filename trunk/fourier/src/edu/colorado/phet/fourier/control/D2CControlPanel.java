@@ -198,8 +198,7 @@ public class D2CControlPanel extends FourierControlPanel {
     public void reset() {
         
         _domainComboBox.setSelectedKey( FourierConstants.DOMAIN_SPACE );
-        
-        _amplitudesGraph.setDomain( FourierConstants.DOMAIN_SPACE );
+        handleDomain();
         
         _k1SpacingSlider.setValue( 2 * Math.PI );
         _kWidthSlider.setValue( 3 * Math.PI );
@@ -287,7 +286,19 @@ public class D2CControlPanel extends FourierControlPanel {
     private void handleDomain() {
         int domain = _domainComboBox.getSelectedKey();
         System.out.println( "domain=" + domain );//XXX
+        
         _amplitudesGraph.setDomain( domain );
+        
+        if ( domain == FourierConstants.DOMAIN_SPACE ) {
+            _k1SpacingSlider.setFormat( SimStrings.get( "K1SpacingSlider.format.space" ) );
+            _kWidthSlider.setFormat( SimStrings.get( "KWidthSlider.format.space" ) );
+            _xWidthSlider.setFormat( SimStrings.get( "XWidthSlider.format.space" ) );
+        }
+        else if ( domain == FourierConstants.DOMAIN_TIME ) {
+            _k1SpacingSlider.setFormat( SimStrings.get( "K1SpacingSlider.format.time" ) );
+            _kWidthSlider.setFormat( SimStrings.get( "KWidthSlider.format.time" ) );
+            _xWidthSlider.setFormat( SimStrings.get( "XWidthSlider.format.time" ) );   
+        }
     }
     
     private void handleWaveType() {
