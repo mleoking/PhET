@@ -51,7 +51,7 @@ public class K1SpacingSlider extends AbstractFourierSlider {
      * Sole constructor.
      */
     public K1SpacingSlider() {
-        super( SimStrings.get( "K1SpacingSlider.format" ) );
+        super( SimStrings.get( "K1SpacingSlider.format.space" ) );
         
         // Min/max are the indicies of the VALUES array.
         getSlider().setMinimum( 0 );

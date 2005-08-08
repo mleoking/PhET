@@ -61,7 +61,7 @@ public class KWidthSlider extends AbstractFourierSlider {
      * Sole constructor.
      */
     public KWidthSlider() {
-        super( SimStrings.get( "KWidthSlider.format" ) );
+        super( SimStrings.get( "KWidthSlider.format.space" ) );
         
         getSlider().setMinimum( (int)( MIN_WIDTH * MULTIPLIER) );
         getSlider().setMaximum( (int)( MAX_WIDTH * MULTIPLIER ) );

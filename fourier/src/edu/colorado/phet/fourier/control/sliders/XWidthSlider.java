@@ -61,7 +61,7 @@ public class XWidthSlider extends AbstractFourierSlider {
      * Sole constructor.
      */
     public XWidthSlider() {
-        super( SimStrings.get( "XWidthSlider.format" ) );
+        super( SimStrings.get( "XWidthSlider.format.space" ) );
         
         getSlider().setMinimum( (int)( MIN_WIDTH * MULTIPLIER) );
         getSlider().setMaximum( (int)( MAX_WIDTH * MULTIPLIER ) );
