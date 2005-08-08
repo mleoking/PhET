@@ -3,14 +3,13 @@
 ===============================================================================
 
 IN PROGRESS:
-
+- flesh out Amplitudes view in D2C module
 
 HIGH PRIORITY:
 - add support for persistence
 - chart draws plots on top of help items (Mac only?)
 - anti-aliasing of plots gets turned off
 - wiggle me isn't hidden when user clicks in the control panel
-- publish v1r0 with Discrete module only
 
 MEDIUM PRIORITY:
 - relocate the Help on the text fields in Discrete module
@@ -51,6 +50,8 @@ CLEANUP:
 - fix all javadoc warnings and errors
 
 CHARTS:
+- bug: x axis title (as set via Chart.setXAxisTitle) does not stay aligned with x axis
+- bug: there is no y axis title (Chart.setYAxisTitle)
 - Chart.addGraphic needs a layer argument
 - flatten static graphics elements
 
@@ -66,12 +67,16 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(8/8) - add basic chart (no data) for Amplitudes view in D2C module
+(8/8) - charts: LabelTable labels on horizontal (bottom) tick marks were overlapping the tick marks
+(8/8) - charts: add Axis.setMajorLabels and setMinorLabels
+(8/8) - charts: javadoc confusing methods in Chart
 (7/29) - add a dummy help item to each incomplete module, so that Help button is visible
 (7/29) - change "Minimizes this graph" to "Minimize this graph"
 (7/29) - move all version information to Version class
 (7/29) - remove build tag from version in FourierApplication, will need to get it in there some other way
 (7/29) - phetcommon: add the version number to the titlebar
-v1r00...
+v1r0...
 (7/28) - change title back to "Fourier: Making Waves"
 (7/28) - add version number to title
 (7/28) - add left & right insets to control panels

@@ -156,7 +156,7 @@ public class FourierApplication extends PhetApplication {
                     wavePulseShapeModule,
                     soundModule
                     } );
-            app.setInitialModule( discreteModule );
+            app.setInitialModule( d2cModule );
         }
         
         // Start the application.
