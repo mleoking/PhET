@@ -190,6 +190,14 @@ public class Axis extends GraphicLayerSet {
         minorTicks.setSpacing( x );
     }
 
+    public void setMajorLabels( LabelTable labelTable ) {
+        majorTicks.setLabels( labelTable );
+    }
+
+    public void setMinorLabels( LabelTable labelTable ) {
+        minorTicks.setLabels( labelTable );
+    }
+    
     public static class AxisTicks extends AbstractTicks {
 
         public AxisTicks( Chart chart, Orientation orientation, Stroke stroke, Color color, double tickSpacing ) {
