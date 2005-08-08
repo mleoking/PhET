@@ -283,10 +283,32 @@ public class Chart extends GraphicLayerSet {
         }
     }
 
+    /** 
+     * This method is poorly named.
+     * It gets the ticks that go along the left (vertical) edge of the chart.
+     * It does not get the ticks whose orientation is horizontal.
+     * <p>
+     * Note that the Y-axis also has its own set of tick marks that
+     * may draw on top of these tick marks if the origin is too close
+     * to the left edge of the chart.
+     * 
+     * @return
+     */
     public TickMarkSet getVerticalTicks() {
         return verticalTicks;
     }
 
+    /** 
+     * This method is poorly named.
+     * It gets the ticks that go along the bottom (horizontal) edge of the chart.
+     * It does not get the ticks whose orientation is horizontal.
+     * <p>
+     * Note that the X-axis also has its own set of tick marks that
+     * may draw on top of these tick marks if the origin is too close
+     * to the bottom edge of the chart.
+     * 
+     * @return
+     */
     public TickMarkSet getHorizontalTicks() {
         return horizontalTicks;
     }
@@ -321,10 +343,20 @@ public class Chart extends GraphicLayerSet {
         return transform;
     }
 
+    /**
+     * Gets the grid lines whose orientation is vertical.
+     * 
+     * @return
+     */
     public GridLineSet getVerticalGridlines() {
         return verticalGridlines;
     }
 
+    /**
+     * Gets the grid lines whose orientation is horizontal.
+     * 
+     * @return
+     */
     public GridLineSet getHorizonalGridlines() {
         return horizonalGridlines;
     }
