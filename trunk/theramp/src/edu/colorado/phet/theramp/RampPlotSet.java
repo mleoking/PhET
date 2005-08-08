@@ -26,12 +26,13 @@ public class RampPlotSet extends PNode {
     private ArrayList dataUnits = new ArrayList();
     private TimePlotSuitePNode energyPlot;
     private TimePlotSuitePNode workPlot;
+    private int plotY;
 
     public RampPlotSet( RampModule module, RampPanel rampPanel ) {
         this.module = module;
         this.rampPanel = rampPanel;
 
-        int plotY = 440;
+        plotY = 440;
         int plotHeight = 210;
         int plotInset = 2;
         int range = 30000;
@@ -63,10 +64,82 @@ public class RampPlotSet extends PNode {
         ValueAccessor.GravityWork gravityWork = new ValueAccessor.GravityWork( getLookAndFeel() );
         addTimeSeries( workPlot, gravityWork, gravityWork.getColor(), "10000.00" );
 
-        addChild( energyPlot);
-        addChild( workPlot);
+        addChild( energyPlot );
+        addChild( workPlot );
 //        getRampPanel().addChild( energyPlot );
 //        getRampPanel().addChild( workPlot );
+        TimePlotSuitePNode.Listener listener = new TimePlotSuitePNode.Listener() {
+            public void minimizeStateChanged() {
+                invalidateLayout();
+            }
+        };
+        energyPlot.addListener( listener );
+        workPlot.addListener( listener );
+        invalidateLayout();
+    }
+
+    static class VariablePlotItem implements LayoutSet.VariableLayoutItem {
+        private TimePlotSuitePNode plot;
+
+        public VariablePlotItem( TimePlotSuitePNode plot ) {
+            this.plot = plot;
+        }
+
+        public void setOffset( double offset ) {
+            plot.setOffset( 0, offset );
+        }
+
+        public void setSize( double size ) {
+            plot.setChartSize( TimePlotSuitePNode.DEFAULT_CHART_WIDTH, (int)size );
+        }
+
+        public void setVisible( boolean b ) {
+            if( !b ) {
+                System.out.println( "Chart too small to be shown, needs error handling." );
+            }
+//            plot.setVisible( b );
+        }
+    }
+
+    static class FixedPlotItem extends LayoutSet.FixedLayoutItem {
+        private TimePlotSuitePNode plot;
+
+        public FixedPlotItem( TimePlotSuitePNode plot ) {
+            super( plot.getButtonHeight() );
+            this.plot = plot;
+        }
+
+        public void setOffset( double offset ) {
+            plot.setOffset( 0, offset );
+        }
+    }
+
+    protected void layoutChildren() {
+        int availableHeight = 420;
+
+        super.layoutChildren();
+        LayoutSet layoutSet = new LayoutSet();
+        layoutSet.addItem( toPlotLayoutItem( energyPlot ) );
+        layoutSet.addItem( toPlotLayoutItem( workPlot ) );
+        layoutSet.layout( plotY, availableHeight );
+//        LayoutUtil layoutUtil = new LayoutUtil();
+//        layoutUtil.layout( new LayoutUtil.LayoutItem[]{} );
+//        energyPlot.setOffset( 0, plotY );
+//        workPlot.setOffset( 0, energyPlot.getOffset().getY() + energyPlot.getVisibleHeight() );
+
+//        if( energyPlot.isMinimized() && workPlot.isMinimized() ) {
+//            energyPlot.setOffset( 0, plotY );
+//            workPlot.setOffset( 0, energyPlot.getFullBounds().getY() + energyPlot.getButtonHeight() );
+//        }
+    }
+
+    private LayoutSet.LayoutItem toPlotLayoutItem( TimePlotSuitePNode plot ) {
+        if( plot.isMinimized() ) {
+            return new FixedPlotItem( plot );
+        }
+        else {
+            return new VariablePlotItem( plot );
+        }
     }
 
     public void repaintBackground() {
@@ -142,7 +215,7 @@ public class RampPlotSet extends PNode {
 
     private TimePlotSuitePNode createTimePlotSuitePNode( Range2D range, String name, int y, int height ) {
         TimeSeriesModel timeSeriesModel = module.getTimeSeriesModel();
-        TimePlotSuitePNode timePlotSuitePNode = new TimePlotSuitePNode(module, getRampPanel(), range, name, timeSeriesModel, height );
+        TimePlotSuitePNode timePlotSuitePNode = new TimePlotSuitePNode( module, getRampPanel(), range, name, timeSeriesModel, height );
         timePlotSuitePNode.setOffset( 0, y );
         return timePlotSuitePNode;
     }
