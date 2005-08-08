@@ -111,7 +111,7 @@ public abstract class AbstractTicks extends AbstractGrid {
         int y = getHorizontalTickY();
 
         PhetGraphic labelGraphic = labelTable.get( gridLineX );
-        labelGraphic.setLocation( x - labelGraphic.getWidth() / 2, y + tickHeight / 2 );
+        labelGraphic.setLocation( x - labelGraphic.getWidth() / 2, y + tickHeight + 1 );
         return labelGraphic;
     }
 
