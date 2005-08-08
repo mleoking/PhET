@@ -153,7 +153,9 @@ public class PusherGraphic extends PImage {
     private void updateTransform() {
 //        AffineTransform tx = rampPanel.getRampGraphic().createTransform( modelLocation, new Dimension( getFrame().getWidth(), getFrame().getHeight() ) );
         AffineTransform tx = rampWorld.getBlockGraphic().getCurrentSurfaceGraphic().createTransform( modelLocation, new Dimension( getFrame().getWidth( null ), getFrame().getHeight( null ) ) );
-        setTransform( tx );
+//        if (!tx.equals( getTransformReference())){
+        setTransform( tx );//!!working
+//        }
     }
 
     private Image getFrame() {

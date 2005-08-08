@@ -9,6 +9,7 @@ import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
 import edu.colorado.phet.timeseries.TimeSeriesModelListenerAdapter;
+import edu.colorado.phet.theramp.common.MagicPImage3;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -59,7 +60,12 @@ public class TimePlotSuitePNode extends PNode {
     private PNode maxButNode;
     private ArrayList series = new ArrayList();
 //    private static final double SCALE = 1.3;
-    private static final double SCALE = 1.0;///0.6750861079219312;
+//    private static final double SCALE = 1.0;///0.6750861079219312;
+    private boolean minimized = false;
+    private ArrayList listeners = new ArrayList();
+
+    public static final int DEFAULT_CHART_WIDTH = 800;
+    private int chartWidth = DEFAULT_CHART_WIDTH;
 
     public TimePlotSuitePNode( RampModule module, PSwingCanvas pCanvas, Range2D range, String name, final TimeSeriesModel timeSeriesModel, int height ) {
         this.module = module;
@@ -78,6 +84,7 @@ public class TimePlotSuitePNode extends PNode {
 //        }, 800 );
 
         child = new PImage();
+//        child = new MagicPImage3();
         updateImage();
 
         addChild( child );
@@ -180,10 +187,21 @@ public class TimePlotSuitePNode extends PNode {
         maxButNode = new PSwing( pCanvas, maximize );
         addChild( maxButNode );
 //        maxButNode.setVisible( false );
-        setMinimized( false );
+        forceMinimized( false );
     }
 
     private void setMinimized( boolean minimized ) {
+        if( this.minimized != minimized ) {
+            this.minimized = minimized;
+            forceMinimized( minimized );
+            for( int i = 0; i < listeners.size(); i++ ) {
+                Listener listener = (Listener)listeners.get( i );
+                listener.minimizeStateChanged();
+            }
+        }
+    }
+
+    private void forceMinimized( boolean minimized ) {
         minButNode.setVisible( !minimized );
         cursor.setVisible( !minimized );
         child.setVisible( !minimized );
@@ -199,7 +217,11 @@ public class TimePlotSuitePNode extends PNode {
             node.getReadoutGraphic().setVisible( !minimized );
         }
 //        maxButNode.setVisible( minimized );
-        child.setScale( SCALE );
+//        child.setScale( SCALE );
+    }
+
+    public boolean isMinimized() {
+        return minimized;
     }
 
     private void showCursor() {
@@ -207,6 +229,8 @@ public class TimePlotSuitePNode extends PNode {
     }
 
     protected void paint( PPaintContext paintContext ) {
+//        System.out.println( "paintContext.getScale() = " + paintContext.getScale() );
+//        paintContext.getGraphics().scale( 1.0/paintContext.getScale(),1.0/paintContext.getScale());
         super.paint( paintContext );
     }
 
@@ -214,8 +238,23 @@ public class TimePlotSuitePNode extends PNode {
         cursor.setVisible( false );
     }
 
+    public void setChartSize( int chartWidth, int chartHeight ) {
+        if (this.chartWidth!=chartWidth||this.chartHeight!=chartHeight){
+        this.chartWidth = chartWidth;
+        this.chartHeight = chartHeight;
+        repaintAll();
+        updateCursorSize();
+        }
+    }
+
+    private void updateCursorSize() {
+        Rectangle2D d = getDataArea();
+        int cursorWidth = 6;
+        cursor.setPathTo( new Rectangle2D.Double( -cursorWidth / 2, -d.getHeight() / 2, cursorWidth, d.getHeight() ) );
+    }
+
     private void updateImage() {
-        bufferedImage = chart.createBufferedImage( (int)( 800 / SCALE ), (int)( chartHeight / SCALE ) );
+        bufferedImage = chart.createBufferedImage( chartWidth, chartHeight );
         child.setImage( bufferedImage );
     }
 
@@ -240,7 +279,7 @@ public class TimePlotSuitePNode extends PNode {
         xAxis.setRange( range.getMinX(), range.getMaxX() );
         plot.setDomainAxis( xAxis );
 
-        NumberAxis yAxis = new NumberAxis( title+" (Joules)" );
+        NumberAxis yAxis = new NumberAxis( title + " (Joules)" );
         yAxis.setAutoRange( false );
         yAxis.setRange( range.getMinY(), range.getMaxY() );
         plot.setRangeAxis( yAxis );
@@ -313,5 +352,27 @@ public class TimePlotSuitePNode extends PNode {
 
     public RampModule getRampModule() {
         return module;
+    }
+
+    public double getButtonHeight() {
+        return minButNode.getHeight();
+    }
+
+    public double getVisibleHeight() {
+        if( isMinimized() ) {
+            return getButtonHeight();
+        }
+        else {
+            return getFullBounds().getHeight();
+        }
+
+    }
+
+    public static interface Listener {
+        void minimizeStateChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
     }
 }

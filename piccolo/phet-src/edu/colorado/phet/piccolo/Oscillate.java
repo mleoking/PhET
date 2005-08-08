@@ -17,26 +17,26 @@ import java.beans.PropertyChangeListener;
 public class Oscillate extends PActivity {
     private double frequencyHz = 3.5;
     private PNode target;
-    private int x;
-    private int y;
+    private double x;
+    private double y;
     private double amplitude = 25;
 
-    public Oscillate( final PNode target, int x, int y ) {
+    public Oscillate( final PNode target, double x, double y ) {
         super( -1 );
         this.target = target;
         this.x = x;
         this.y = y;
-        target.addPropertyChangeListener( PNode.PROPERTY_VISIBLE, new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent evt ) {
-                System.out.println( "evt = " + evt );
-                if( target.getVisible() ) {
-                    target.getRoot().addActivity( Oscillate.this );
-                }
-                else {
-                    terminate();
-                }
-            }
-        } );
+//        target.addPropertyChangeListener( PNode.PROPERTY_VISIBLE, new PropertyChangeListener() {
+//            public void propertyChange( PropertyChangeEvent evt ) {
+//                System.out.println( "evt = " + evt );
+//                if( target.getVisible() ) {
+//                    target.getRoot().addActivity( Oscillate.this );
+//                }
+//                else {
+//                    terminate();
+//                }
+//            }
+//        } );
     }
 
     public Oscillate( PNode target, int x, int y, double amplitude, double frequencyHz ) {

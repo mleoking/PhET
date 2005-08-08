@@ -263,7 +263,7 @@ public class RampPanel extends PhetPCanvas {
     }
 
     public void repaintBackground() {
-        System.out.println( "RampModule.repaintBackground: NOOP" );
+//        System.out.println( "RampModule.repaintBackground: NOOP" );
         rampPlotSet.repaintBackground();
     }
 

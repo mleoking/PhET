@@ -41,6 +41,9 @@ public class PhetPCanvas extends PSwingCanvas {
                 if( e.getKeyCode() == KeyEvent.VK_D ) {
                     PDebug.debugRegionManagement = !PDebug.debugRegionManagement;
                 }
+                else if( e.getKeyCode() == KeyEvent.VK_S ) {
+                    identityScale();
+                }
             }
 
             public void keyTyped( KeyEvent e ) {
@@ -78,8 +81,14 @@ public class PhetPCanvas extends PSwingCanvas {
         double scale = sx < sy ? sx : sy;
 //        System.out.println( "sx = " + sx + ", sy=" + sy + ", scale=" + scale );
         double cameraViewScale = getCamera().getViewScale();
-//        System.out.println( "scale=" + scale );
+        System.out.println( "scale=" + scale );
         getCamera().scaleView( scale / cameraViewScale );
+    }
+
+    public void identityScale() {
+        double cameraViewScale = getCamera().getViewScale();
+        System.out.println( "scale=" + 1.0 );
+        getCamera().scaleView( 1.0 / cameraViewScale );
     }
 
     private double getScaleY() {
