@@ -33,13 +33,13 @@ public class FireDog extends PNode {
         this.module = module;
         try {
             image = new PImage( ImageLoader.loadBufferedImage( "images/firedog.gif" ) );
+//            image = new BoidGraphic(module.getPhetPCanvas() );// ImageLoader.loadBufferedImage( "images/firedog.gif" ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
 
         addChild( image );
-
         initImage();
     }
 
@@ -172,6 +172,9 @@ public class FireDog extends PNode {
                     e.printStackTrace();
                 }
             }
+
+//            PNode boid=new BoidGraphic( getRampPanel() );
+//            addChild( boid);
             PImage pimage = new PImage( dropImage );
             addChild( pimage );
 

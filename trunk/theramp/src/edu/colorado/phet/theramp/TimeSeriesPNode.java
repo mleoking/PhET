@@ -38,7 +38,7 @@ public class TimeSeriesPNode {
     private PText readoutGraphic;
     private DecimalFormat decimalFormat;
 
-    public TimeSeriesPNode( TimePlotSuitePNode plotSuite, TimeSeries series, ValueAccessor valueAccessor, Color color, String justifyString ) {
+    public TimeSeriesPNode( TimePlotSuitePNode plotSuite, TimeSeries series, ValueAccessor valueAccessor, Color color,String justifyString) {
         this.plotSuite = plotSuite;
         this.series = series;
         this.valueAccessor = valueAccessor;
@@ -57,7 +57,7 @@ public class TimeSeriesPNode {
         transparentColor = RampUtil.transparify( color, 120 );
         readoutGraphic = new PText();
         readoutGraphic.setTextPaint( color );
-        readoutGraphic.setFont( new Font( "Lucida Sans",Font.BOLD, 12) );
+        readoutGraphic.setFont( new Font( "Lucida Sans",Font.BOLD, 10) );
         decimalFormat = new DecimalFormat( "0.00");
         updateReadout();
     }

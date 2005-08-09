@@ -389,6 +389,22 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
         return appliedForceSetValue;
     }
 
+    public double getParallelFrictionForce() {
+        return frictionForce.getParallelComponent();
+    }
+
+    public double getParallelAppliedForce() {
+        return appliedForce.getParallelComponent();
+    }
+
+    public double getParallelWeightForce() {
+        return gravityForce.getParallelComponent();
+    }
+
+    public double getParallelWallForce() {
+        return wallForce.getParallelComponent();
+    }
+
     public class ForceVector extends Vector2D.Double {
 
         public void setParallel( double parallel ) {

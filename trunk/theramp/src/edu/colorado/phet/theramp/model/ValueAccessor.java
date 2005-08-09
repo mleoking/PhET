@@ -135,4 +135,51 @@ public abstract class ValueAccessor {
         }
     }
 
+    public static abstract class ParallelForceAccessor extends ValueAccessor {
+
+        protected ParallelForceAccessor( String name, Color color ) {
+            super( name, "Newtons", "N", color );
+        }
+
+    }
+
+    public static class ParallelFrictionAccessor extends ParallelForceAccessor {
+        public ParallelFrictionAccessor( RampLookAndFeel rampLookAndFeel ) {
+            super( "Parallel Friction", rampLookAndFeel.getFrictionForceColor() );
+        }
+
+        public double getValue( RampPhysicalModel rampPhysicalModel ) {
+            return rampPhysicalModel.getParallelFrictionForce();
+        }
+    }
+
+    public static class ParallelAppliedAccessor extends ParallelForceAccessor {
+        public ParallelAppliedAccessor( RampLookAndFeel lookAndFeel ) {
+            super( "Parallel Applied Force", lookAndFeel.getAppliedForceColor() );
+        }
+
+        public double getValue( RampPhysicalModel rampPhysicalModel ) {
+            return rampPhysicalModel.getParallelAppliedForce();
+        }
+    }
+
+    public static class ParallelGravityAccessor extends ParallelForceAccessor {
+        public ParallelGravityAccessor( RampLookAndFeel lookAndFeel ) {
+            super( "Parallel Gravity Force", lookAndFeel.getWeightColor() );
+        }
+
+        public double getValue( RampPhysicalModel rampPhysicalModel ) {
+            return rampPhysicalModel.getParallelWeightForce();
+        }
+    }
+
+    public static class ParallelWallForceAccessor extends ParallelForceAccessor {
+        public ParallelWallForceAccessor( RampLookAndFeel rampLookAndFeel ) {
+            super( "Parallel Wall Force", rampLookAndFeel.getWallForceColor() );
+        }
+
+        public double getValue( RampPhysicalModel rampPhysicalModel ) {
+            return rampPhysicalModel.getParallelWallForce();
+        }
+    }
 }

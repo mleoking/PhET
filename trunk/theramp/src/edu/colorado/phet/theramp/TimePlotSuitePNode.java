@@ -9,7 +9,6 @@ import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
 import edu.colorado.phet.timeseries.TimeSeriesModelListenerAdapter;
-import edu.colorado.phet.theramp.common.MagicPImage3;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -52,15 +51,13 @@ public class TimePlotSuitePNode extends PNode {
     private XYDataset dataset;
     private XYPlot plot;
     private BufferedImage bufferedImage;
-    private PImage child;
+    private PImage chartGraphic;
     private JFreeChart chart;
     private int chartHeight;
     private PPath cursor;
     private PNode minButNode;
     private PNode maxButNode;
     private ArrayList series = new ArrayList();
-//    private static final double SCALE = 1.3;
-//    private static final double SCALE = 1.0;///0.6750861079219312;
     private boolean minimized = false;
     private ArrayList listeners = new ArrayList();
 
@@ -83,18 +80,18 @@ public class TimePlotSuitePNode extends PNode {
 //            }
 //        }, 800 );
 
-        child = new PImage();
+        chartGraphic = new PImage();
 //        child = new MagicPImage3();
         updateImage();
 
-        addChild( child );
+        addChild( chartGraphic );
         timeSeriesModel.addPlaybackTimeChangeListener( new TimeSeriesModel.PlaybackTimeListener() {
             public void timeChanged() {
                 cursor.setVisible( true );
-                double time = timeSeriesModel.getPlaybackTime();
-                Point2D imageLoc = toImageLocation( time, 0 );
-                cursor.setOffset( imageLoc );
+                updateCursorLocation();
             }
+
+
         } );
         timeSeriesModel.addListener( new TimeSeriesModelListenerAdapter() {
             public void recordingStarted() {
@@ -170,6 +167,7 @@ public class TimePlotSuitePNode extends PNode {
             } );
             minBut.setMargin( new Insets( 2, 2, 2, 2 ) );
             minButNode = new PSwing( pCanvas, minBut );
+            minButNode.setOffset( 1,1);
             addChild( minButNode );
         }
         catch( IOException e ) {
@@ -190,7 +188,13 @@ public class TimePlotSuitePNode extends PNode {
         forceMinimized( false );
     }
 
-    private void setMinimized( boolean minimized ) {
+    private void updateCursorLocation() {
+        double time = timeSeriesModel.getPlaybackTime();
+        Point2D imageLoc = toImageLocation( time, 0 );
+        cursor.setOffset( imageLoc );
+    }
+
+    public void setMinimized( boolean minimized ) {
         if( this.minimized != minimized ) {
             this.minimized = minimized;
             forceMinimized( minimized );
@@ -201,23 +205,31 @@ public class TimePlotSuitePNode extends PNode {
         }
     }
 
-    private void forceMinimized( boolean minimized ) {
-        minButNode.setVisible( !minimized );
-        cursor.setVisible( !minimized );
-        child.setVisible( !minimized );
+    private void setHasChild( boolean hasChild, PNode child ) {
+        if( hasChild && !this.isAncestorOf( child ) ) {
+            addChild( child );
+        }
+        else if( !hasChild && this.isAncestorOf( child ) ) {
+            removeChild( child );
+        }
 
-        if( minimized ) {
-            addChild( maxButNode );
+    }
+
+    private void forceMinimized( boolean minimized ) {
+
+        setHasChild( !minimized, chartGraphic );
+        setHasChild( !minimized, cursor );
+        setHasChild( minimized, maxButNode );
+        setHasChild( !minimized, minButNode );
+        for( int i = 0; i < series.size(); i++ ) {
+            TimeSeriesPNode node = (TimeSeriesPNode)series.get( i );
+            setHasChild( !minimized, node.getReadoutGraphic() );
         }
-        else if( isAncestorOf( maxButNode ) ) {
-            removeChild( maxButNode );
-        }
+        updateCursor();
         for( int i = 0; i < series.size(); i++ ) {
             TimeSeriesPNode node = (TimeSeriesPNode)series.get( i );
             node.getReadoutGraphic().setVisible( !minimized );
         }
-//        maxButNode.setVisible( minimized );
-//        child.setScale( SCALE );
     }
 
     public boolean isMinimized() {
@@ -239,12 +251,27 @@ public class TimePlotSuitePNode extends PNode {
     }
 
     public void setChartSize( int chartWidth, int chartHeight ) {
-        if (this.chartWidth!=chartWidth||this.chartHeight!=chartHeight){
-        this.chartWidth = chartWidth;
-        this.chartHeight = chartHeight;
-        repaintAll();
-        updateCursorSize();
+        if( this.chartWidth != chartWidth || this.chartHeight != chartHeight ) {
+            this.chartWidth = chartWidth;
+            this.chartHeight = chartHeight;
+            repaintAll();
+            updateCursor();
+            invalidateLayout();
         }
+    }
+
+    protected void layoutChildren() {
+        super.layoutChildren();
+        for( int i = 0; i < series.size(); i++ ) {
+            TimeSeriesPNode timeSeriesPNode = (TimeSeriesPNode)series.get( i );
+            PNode readoutGraphic = timeSeriesPNode.getReadoutGraphic();
+            readoutGraphic.setOffset( getDataArea().getX() + 5, getDataArea().getY() + getDataArea().getHeight() / 2.0 + ( readoutGraphic.getHeight() + 1 ) * i );
+        }
+    }
+
+    private void updateCursor() {
+        updateCursorSize();
+        updateCursorLocation();
     }
 
     private void updateCursorSize() {
@@ -255,7 +282,15 @@ public class TimePlotSuitePNode extends PNode {
 
     private void updateImage() {
         bufferedImage = chart.createBufferedImage( chartWidth, chartHeight );
-        child.setImage( bufferedImage );
+        drawBorder( bufferedImage );
+        chartGraphic.setImage( bufferedImage );
+    }
+
+    private void drawBorder( BufferedImage bufferedImage ) {
+        Graphics2D graphics2D = bufferedImage.createGraphics();
+        graphics2D.setStroke( new BasicStroke() );
+        graphics2D.setColor( Color.black );
+        graphics2D.drawRect( 0, 0, bufferedImage.getWidth() - 1, bufferedImage.getHeight() - 1 );
     }
 
     private static JFreeChart createChart( Range2D range, XYDataset dataset, String title ) {
@@ -298,9 +333,10 @@ public class TimePlotSuitePNode extends PNode {
 
     public void addTimeSeries( TimeSeriesPNode timeSeriesPNode ) {
         PNode readoutGraphic = timeSeriesPNode.getReadoutGraphic();
-        readoutGraphic.setOffset( getDataArea().getX() + 5, getDataArea().getY() + getDataArea().getHeight() / 2.0 + ( readoutGraphic.getHeight() + 1 ) * series.size() + 5 );
+//        readoutGraphic.setOffset( getDataArea().getX() + 5, getDataArea().getY() + getDataArea().getHeight() / 2.0 + ( readoutGraphic.getHeight() + 1 ) * series.size() + 5 );
         series.add( timeSeriesPNode );
         addChild( readoutGraphic );
+        invalidateLayout();
     }
 
     public void reset() {
@@ -313,7 +349,13 @@ public class TimePlotSuitePNode extends PNode {
     }
 
     public Rectangle2D getDataArea() {
-        return plot.getDataArea();
+        Rectangle2D r = plot.getDataArea();
+        if( r == null ) {
+            throw new RuntimeException( "Null data area." );
+        }
+        else {
+            return r;
+        }
     }
 
     public LinearTransform2D toLinearFunction() {
@@ -338,7 +380,7 @@ public class TimePlotSuitePNode extends PNode {
 
     public void repaintImage( Rectangle2D bounds ) {
         if( bounds.intersects( getDataArea() ) ) {
-            child.repaintFrom( new PBounds( bounds ), child );
+            chartGraphic.repaintFrom( new PBounds( bounds ), chartGraphic );
         }
     }
 
