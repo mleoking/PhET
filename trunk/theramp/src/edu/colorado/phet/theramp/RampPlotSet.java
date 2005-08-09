@@ -6,6 +6,8 @@ import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.model.ValueAccessor;
 import edu.colorado.phet.theramp.view.RampLookAndFeel;
 import edu.colorado.phet.theramp.view.RampPanel;
+import edu.colorado.phet.theramp.view.plot.TimePlotSuitePNode;
+import edu.colorado.phet.theramp.view.plot.TimeSeriesPNode;
 import edu.colorado.phet.timeseries.TimeSeries;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
 import edu.umd.cs.piccolo.PNode;
@@ -79,7 +81,7 @@ public class RampPlotSet extends PNode {
         addChild( workPlot );
         addChild( parallelForcePlot );
         parallelForcePlot.setMinimized( true );
-        
+
 //        getRampPanel().addChild( energyPlot );
 //        getRampPanel().addChild( workPlot );
         TimePlotSuitePNode.Listener listener = new TimePlotSuitePNode.Listener() {
@@ -90,6 +92,12 @@ public class RampPlotSet extends PNode {
         energyPlot.addListener( listener );
         workPlot.addListener( listener );
         invalidateLayout();
+    }
+
+    public void minimizeAll() {
+        energyPlot.setMinimized( true );
+        workPlot.setMinimized( true );
+        parallelForcePlot.setMinimized( true );
     }
 
     static class VariablePlotItem implements LayoutSet.VariableLayoutItem {

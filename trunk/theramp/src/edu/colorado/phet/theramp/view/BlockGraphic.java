@@ -12,7 +12,6 @@ import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.event.PInputEventListener;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
 
@@ -84,7 +83,7 @@ public class BlockGraphic extends PNode {
             }
         } );
 
-        PInputEventListener dragHandler = new PBasicInputEventHandler() {
+        PBasicInputEventHandler dragHandler = new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent e ) {
                 super.mouseDragged( e );
 //                Point2D ctr = getCenter();
@@ -104,11 +103,12 @@ public class BlockGraphic extends PNode {
                 physicalModel.setAppliedForce( 0.0 );
             }
         };
-        addInputEventListener( dragHandler );
-        addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
 
-        //todo piccolo add thresholded drag adapter.
-//        this.mouseListener = new ThresholdedDragAdapter( mia, 10, 0, 1000 );
+        ThresholdedPDragAdapter thresholdedPDragAdapter = new ThresholdedPDragAdapter( dragHandler, 10, 0, 1000 );
+
+//        addInputEventListener( dragHandler );
+        addInputEventListener( thresholdedPDragAdapter );
+        addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
 
         rampGraphic.getSurface().addObserver( new SimpleObserver() {
             public void update() {

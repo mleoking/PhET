@@ -7,9 +7,7 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.view.PhetLookAndFeel;
-import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.view.RampPanel;
@@ -17,11 +15,7 @@ import edu.colorado.phet.timeseries.TimeSeriesModel;
 import edu.colorado.phet.timeseries.TimeSeriesPlaybackPanel;
 
 import javax.swing.*;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * User: Sam Reid
@@ -40,9 +34,11 @@ public class RampModule extends Module {
     private ArrayList listeners = new ArrayList();
 
     public static final double FORCE_LENGTH_SCALE = 0.1;//1.0;
+    private PhetFrame phetFrame;
 
-    public RampModule( AbstractClock clock ) {
+    public RampModule( PhetFrame phetFrame, AbstractClock clock ) {
         super( "The Ramp", clock );
+        this.phetFrame = phetFrame;
         setModel( new BaseModel() );
         rampModel = new RampModel( this, clock );
         rampObjects = new RampObject[]{
@@ -52,11 +48,10 @@ public class RampModule extends Module {
                 new RampObject( "images/piano.png", "Piano", 0.8, 225, 0.6, 0.6, 0.8, 20 ),
 //            new RampObject( "images/ollie.gif", "Sleepy Dog", 0.5, 30, 0.1, 0.1, 0.35 ),
         };
-        rampPanel = new RampPanel( this );
+        rampPanel = createRampPanel();
         super.setPhetPCanvas( rampPanel );
 
-
-        rampControlPanel = new RampControlPanel( this );
+        rampControlPanel = createRampControlPanel();
         setControlPanel( rampControlPanel );
         setObject( rampObjects[0] );
 
@@ -70,63 +65,35 @@ public class RampModule extends Module {
         rampModel.getBlock().addListener( new CollisionHandler( this ) );
     }
 
+    protected RampControlPanel createRampControlPanel() {
+        return new AdvancedRampControlPanel( this );
+    }
+
+    protected RampPanel createRampPanel() {
+        return new RampPanel( this );
+    }
+
     private TimeSeriesModel getRampTimeSeriesModel() {
         return rampModel.getRampTimeSeriesModel();
+    }
+
+    public void activate( PhetApplication app ) {
+        super.activate( app );
+        getPhetFrame().getBasicPhetPanel().setAppControlPanel( rampMediaPanel );
+    }
+
+    private PhetFrame getPhetFrame() {
+        return phetFrame;
+    }
+
+    public void deactivate( PhetApplication app ) {
+        super.deactivate( app );
+        getPhetFrame().getBasicPhetPanel().setAppControlPanel( new JLabel( "This space for rent." ) );
     }
 
     public void updateGraphics( ClockTickEvent event ) {
         super.updateGraphics( event );
         rampPanel.updateGraphics();
-    }
-
-    public static void main( String[] args ) {
-        PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
-        phetLookAndFeel.apply();
-        PhetLookAndFeel.setLookAndFeel();
-        SwingTimerClock clock = new SwingTimerClock( 1.0 / 30.0, 30 );
-        FrameSetup frameSetup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 600, 600 ) );
-        PhetApplication application = new PhetApplication( args, "The Ramp", "Ramp Application", "0", clock, true, frameSetup );
-        final RampModule module = new RampModule( clock );
-
-        application.setModules( new Module[]{module} );
-        application.getPhetFrame().getBasicPhetPanel().setAppControlPanel( module.rampMediaPanel );
-        application.startApplication();
-        try {
-            SwingUtilities.invokeAndWait( new Runnable() {
-                public void run() {
-                    module.doReset();
-                    module.getPhetPCanvas().addComponentListener( new ComponentListener() {
-                        public void componentHidden( ComponentEvent e ) {
-                        }
-
-                        public void componentMoved( ComponentEvent e ) {
-                        }
-
-                        public void componentResized( ComponentEvent e ) {
-                            System.out.println( "module.getApparatusPanel().getSize( ) = " + module.getPhetPCanvas().getSize() );
-                        }
-
-                        public void componentShown( ComponentEvent e ) {
-                            System.out.println( "module.getApparatusPanel().getSize( ) = " + module.getPhetPCanvas().getSize() );
-                        }
-                    } );
-                }
-            } );
-        }
-        catch( InterruptedException e ) {
-            e.printStackTrace();
-        }
-        catch( InvocationTargetException e ) {
-            e.printStackTrace();
-        }
-
-//        clock.addClockTickListener( new ClockTickListener() {
-//            public void clockTicked( ClockTickEvent event ) {
-//                module.getPhetPCanvas().paintImmediately();
-//            }
-//        } );
-
-        System.out.println( "new Date( ) = " + new Date() );
     }
 
     public RampPanel getRampPanel() {
@@ -152,7 +119,7 @@ public class RampModule extends Module {
         return answer == JOptionPane.OK_OPTION;
     }
 
-    private void doReset() {
+    public void doReset() {
         rampModel.reset();
         rampPanel.reset();
     }
@@ -176,7 +143,6 @@ public class RampModule extends Module {
 
     public void clearHeat() {
         cueFirefighter();
-//        rampModel.clearHeat();
     }
 
     public void cueFirefighter() {
@@ -192,7 +158,7 @@ public class RampModule extends Module {
     }
 
     public void setRampAngle( double value ) {
-        getRampPhysicalModel().setRampAngle(value);
+        getRampPhysicalModel().setRampAngle( value );
     }
 
     public double getGlobalMinPosition() {
@@ -201,7 +167,6 @@ public class RampModule extends Module {
 
     public double getGlobalMaxPosition() {
         return getRampPhysicalModel().getGlobalMaxPosition();
-//        return getRampPhysicalModel().getGround().getLength()+getRampPhysicalModel().getRamp().getLength();
     }
 
     public double getGlobalBlockPosition() {
@@ -209,7 +174,7 @@ public class RampModule extends Module {
     }
 
     public void setGlobalBlockPosition( double position ) {
-        getRampPhysicalModel().setGlobalBlockPosition(position);
+        getRampPhysicalModel().setGlobalBlockPosition( position );
     }
 
     public static interface Listener {
@@ -230,10 +195,6 @@ public class RampModule extends Module {
 
     public void repaintBackground() {
         rampPanel.repaintBackground();
-    }
-
-    public void setCursorsVisible( boolean b ) {
-        System.out.println( "RampModule.setCursorsVisible: NOOP" );
     }
 
     public void updateModel( double dt ) {

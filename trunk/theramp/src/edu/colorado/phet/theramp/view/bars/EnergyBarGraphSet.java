@@ -20,6 +20,6 @@ public class EnergyBarGraphSet extends BarGraphSet {
             new ValueAccessor.KineticEnergy( super.getLookAndFeel() ), new ValueAccessor.PotentialEnergy( getLookAndFeel() ),
             new ValueAccessor.ThermalEnergy( getLookAndFeel() ), new ValueAccessor.TotalEnergy( getLookAndFeel() )
         };
-        setAccessors( energyAccess );
+        finishInit( energyAccess );
     }
 }

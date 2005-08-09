@@ -28,10 +28,6 @@ public class RampTimeSeriesModel extends TimeSeriesModel {
         rampModule.repaintBackground();
     }
 
-    public void setCursorsVisible( boolean b ) {
-        rampModule.setCursorsVisible( b );
-    }
-
     public void updateModel( ClockTickEvent clockEvent ) {
         rampModule.updateModel( clockEvent.getDt() );
         RampPhysicalModel state = rampModule.getRampPhysicalModel().getState();

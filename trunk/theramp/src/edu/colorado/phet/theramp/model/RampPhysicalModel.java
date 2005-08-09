@@ -8,6 +8,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.theramp.RampObject;
+import edu.colorado.phet.theramp.view.SurfaceGraphic;
 
 import java.util.ArrayList;
 
@@ -403,6 +404,14 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
 
     public double getParallelWallForce() {
         return wallForce.getParallelComponent();
+    }
+
+    public Surface getSurfaceGraphic( double modelLocation ) {
+        if (modelLocation<=ground.getLength()){
+            return ground;
+        }else{
+            return ramp;
+        }
     }
 
     public class ForceVector extends Vector2D.Double {

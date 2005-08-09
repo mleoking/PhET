@@ -39,8 +39,8 @@ public class BarGraphSuite extends PNode {
         addChild( energyBarGraphSet );
 
         energyBarGraphSet.translate( workBarGraphSet.getFullBounds().getWidth() + 0, 0 );
-        setPickable( false );
-        setChildrenPickable( false );
+//        setPickable( false );
+//        setChildrenPickable( false );
 
 
 //        PBoundsHandle.addStickyBoundsHandlesTo( this ,rampPanel.getCamera() );
@@ -71,11 +71,11 @@ public class BarGraphSuite extends PNode {
     }
 
     public void setEnergyBarsVisible( boolean selected ) {
-        energyBarGraphSet.setVisible( selected );
+        energyBarGraphSet.setMinimized( !selected );
     }
 
     public void setWorkBarsVisible( boolean selected ) {
-        workBarGraphSet.setVisible( selected );
+        workBarGraphSet.setMinimized( !selected );
     }
 
     public double getMaxDisplayableEnergy() {

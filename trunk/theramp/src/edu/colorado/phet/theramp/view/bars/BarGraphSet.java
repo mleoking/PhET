@@ -5,7 +5,9 @@ import edu.colorado.phet.common.math.ModelViewTransform1D;
 import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.ShadowHTMLGraphic;
+import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.theramp.common.BarGraphic2D;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.model.ValueAccessor;
@@ -14,10 +16,15 @@ import edu.colorado.phet.theramp.view.RampPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -41,6 +48,9 @@ public class BarGraphSet extends PNode {
     private XAxis xAxis;
     private PPath energyBackground;
     private YAxis yAxis;
+    private PSwing minButNode;
+    private PNode maximizeButton;
+    private ArrayList barGraphics = new ArrayList();
 
     public BarGraphSet( RampPanel rampPanel, RampPhysicalModel rampPhysicalModel, String title, ModelViewTransform1D transform1D ) {
         this.rampPanel = rampPanel;
@@ -55,8 +65,63 @@ public class BarGraphSet extends PNode {
         titleGraphic.setColor( Color.black );
         titleGraphic.setShadowColor( Color.blue );
         titleGraphic.setFont( new Font( "Lucida Sans", Font.BOLD, 22 ) );
-        titleGraphic.setOffset( 5, topY + 10 );
 
+//        addMinimizeButton();
+        JButton max = new JButton( ""+title );
+        max.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                setMinimized( false );
+            }
+        } );
+        maximizeButton = new PSwing( rampPanel, max );
+
+    }
+
+
+    private void setHasChild( boolean hasChild, PNode child ) {
+        if( hasChild && !this.isAncestorOf( child ) ) {
+            addChild( child );
+        }
+        else if( !hasChild && this.isAncestorOf( child ) ) {
+            removeChild( child );
+        }
+
+    }
+
+    protected void addMinimizeButton() {
+        JButton minBut = null;
+        try {
+            minBut = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "images/min15.jpg" ) ) );
+            minBut.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    setMinimized( true );
+                }
+            } );
+            minBut.setMargin( new Insets( 2, 2, 2, 2 ) );
+            minButNode = new PSwing( rampPanel, minBut );
+            minButNode.setOffset( 5, topY + 10 );
+            addChild( minButNode );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        titleGraphic.setOffset( minButNode.getFullBounds().getMaxX() + 2, topY + 10 );
+
+        maximizeButton.setOffset( minButNode.getOffset() );
+    }
+
+    public void setMinimized( boolean minimized ) {
+        setHasChild( !minimized, this.energyBackground );
+        setHasChild( !minimized, this.xAxis );
+        setHasChild( !minimized, this.yAxis );
+        for( int i = 0; i < barGraphics.size(); i++ ) {
+            BarGraphic2D barGraphic2D = (BarGraphic2D)barGraphics.get( i );
+            setHasChild( !minimized, barGraphic2D );
+        }
+        setHasChild( !minimized, this.minButNode );
+        setHasChild( !minimized, titleGraphic );
+
+        setHasChild( minimized, maximizeButton );
     }
 
     private class XAxis extends PNode {
@@ -94,7 +159,7 @@ public class BarGraphSet extends PNode {
         rampPanel.getRampModule().getClock().addClockTickListener( clockTickListener );
     }
 
-    public void setAccessors( ValueAccessor[] workAccess ) {
+    protected void finishInit( ValueAccessor[] workAccess ) {
         int w = workAccess.length * ( sep + dw ) - sep;
         System.out.println( "width = " + barWidth );
         energyBackground = new PPath( new Rectangle2D.Double( 0, topY, 5 * 2 + w, 1000 ) );
@@ -111,15 +176,22 @@ public class BarGraphSet extends PNode {
             final ValueAccessor accessor = workAccess[i];
             final BarGraphic2D barGraphic = new BarGraphic2D( accessor.getName(), transform1D,
                                                               accessor.getValue( rampPhysicalModel ), i * sep + dw, barWidth
-                                                              , y, dx, dy, accessor.getColor() );
+                    , y, dx, dy, accessor.getColor() );
             addClockTickListener( new ClockTickListener() {
                 public void clockTicked( ClockTickEvent event ) {
                     barGraphic.setValue( accessor.getValue( rampPhysicalModel ) );
                 }
             } );
-            addChild( barGraphic );
+
+            addBarGraphic( barGraphic );
         }
 
         addChild( titleGraphic );
+        addMinimizeButton();
+    }
+
+    private void addBarGraphic( BarGraphic2D barGraphic ) {
+        addChild( barGraphic );
+        barGraphics.add( barGraphic );
     }
 }

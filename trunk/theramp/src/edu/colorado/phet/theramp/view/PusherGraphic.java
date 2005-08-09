@@ -47,7 +47,7 @@ public class PusherGraphic extends PImage {
         }
         flippedAnimation = new FrameSequence( flipped );
         super.setImage( animation.getFrame( 0 ) );
-        final long startTime = System.currentTimeMillis();
+//        final long startTime = System.currentTimeMillis();
         //todo piccolo
 //        target.addPhetGraphicListener( new PhetGraphicListener() {
 //            public void phetGraphicChanged( PhetGraphic phetGraphic ) {
@@ -123,7 +123,9 @@ public class PusherGraphic extends PImage {
             facingRight = false;
         }
         BufferedImage frame = getFrame( facingRight );
-        setImage( frame );
+        if( frame != getImage() ) {
+            setImage( frame );
+        }
 
         double modelWidthObject = rampWorld.getBlockWidthModel();
         double modelWidthLeaner = rampWorld.getModelWidth( frame.getWidth() );
@@ -147,15 +149,28 @@ public class PusherGraphic extends PImage {
     }
 
     private double getBlockLocation() {
-        return rampWorld.getBlockGraphic().getBlock().getPositionInSurface();
+        return rampWorld.getBlockGraphic().getBlock().getPosition();
     }
 
     private void updateTransform() {
-//        AffineTransform tx = rampPanel.getRampGraphic().createTransform( modelLocation, new Dimension( getFrame().getWidth(), getFrame().getHeight() ) );
-        AffineTransform tx = rampWorld.getBlockGraphic().getCurrentSurfaceGraphic().createTransform( modelLocation, new Dimension( getFrame().getWidth( null ), getFrame().getHeight( null ) ) );
-//        if (!tx.equals( getTransformReference())){
-        setTransform( tx );//!!working
-//        }
+        double positionInSurface=getPositionInSurface();
+        AffineTransform tx = getSurfaceGraphic().createTransform( positionInSurface, new Dimension( getFrame().getWidth( null ), getFrame().getHeight( null ) ) );
+        if( !getTransform().equals( tx ) ) {
+            setTransform( tx );//!!working
+        }
+    }
+
+    private double getPositionInSurface() {
+        if (getSurfaceGraphic()==rampWorld.getGroundGraphic()){
+            return modelLocation;
+        }else{
+            return modelLocation-rampWorld.getGroundGraphic().getSurface().getLength();
+        }
+    }
+
+    private SurfaceGraphic getSurfaceGraphic() {
+        return rampWorld.getSurfaceGraphic( modelLocation );
+//        return rampWorld.getBlockGraphic().getCurrentSurfaceGraphic();
     }
 
     private Image getFrame() {

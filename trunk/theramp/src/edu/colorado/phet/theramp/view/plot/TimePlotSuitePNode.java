@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.theramp;
+package edu.colorado.phet.theramp.view.plot;
 
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.view.graphics.transforms.LinearTransform2D;
@@ -7,6 +7,7 @@ import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
+import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
 import edu.colorado.phet.timeseries.TimeSeriesModelListenerAdapter;
 import edu.umd.cs.piccolo.PNode;
@@ -63,6 +64,8 @@ public class TimePlotSuitePNode extends PNode {
 
     public static final int DEFAULT_CHART_WIDTH = 800;
     private int chartWidth = DEFAULT_CHART_WIDTH;
+    private PSwing zoomInGraphic;
+    private PSwing zoomOutGraphic;
 
     public TimePlotSuitePNode( RampModule module, PSwingCanvas pCanvas, Range2D range, String name, final TimeSeriesModel timeSeriesModel, int height ) {
         this.module = module;
@@ -73,16 +76,8 @@ public class TimePlotSuitePNode extends PNode {
         dataset = createDataset();
         chart = createChart( range, dataset, name );
         this.plot = (XYPlot)chart.getPlot();
-//        child = new MagicPImage( new MagicPImage.ImageSource() {
-//            public Image newImage( int width ) {
-//                bufferedImage = chart.createBufferedImage( width, width / 4 );
-//                return bufferedImage;
-//            }
-//        }, 800 );
-
         chartGraphic = new PImage();
-//        child = new MagicPImage3();
-        updateImage();
+        updateChartBuffer();
 
         addChild( chartGraphic );
         timeSeriesModel.addPlaybackTimeChangeListener( new TimeSeriesModel.PlaybackTimeListener() {
@@ -167,7 +162,7 @@ public class TimePlotSuitePNode extends PNode {
             } );
             minBut.setMargin( new Insets( 2, 2, 2, 2 ) );
             minButNode = new PSwing( pCanvas, minBut );
-            minButNode.setOffset( 1,1);
+            minButNode.setOffset( 1, 1 );
             addChild( minButNode );
         }
         catch( IOException e ) {
@@ -175,7 +170,7 @@ public class TimePlotSuitePNode extends PNode {
         }
 
 
-        JButton maximize = new JButton( "Maximize " + name + " Graph" );
+        JButton maximize = new JButton( name + " Graph" );
         minBut.setMargin( new Insets( 2, 2, 2, 2 ) );
         maximize.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -184,8 +179,61 @@ public class TimePlotSuitePNode extends PNode {
         } );
         maxButNode = new PSwing( pCanvas, maximize );
         addChild( maxButNode );
+
+        double maxVisibleRange = getMaxRangeValue();
+
+        try {
+            final ZoomButton zoomIn = new ZoomButton( new ImageIcon( ImageLoader.loadBufferedImage( "images/icons/glass-20-plus.gif" ) ),
+                                                      -5000, -500, 100, maxVisibleRange * 2, maxVisibleRange, "Zoom In" );
+
+            zoomInGraphic = new PSwing( pCanvas, zoomIn );
+            addChild( zoomInGraphic );
+
+            final ZoomButton zoomOut = new ZoomButton( new ImageIcon( ImageLoader.loadBufferedImage( "images/icons/glass-20-minus.gif" ) ),
+                                                       5000, 500, 100, maxVisibleRange * 2, maxVisibleRange, "Zoom Out" );
+            zoomOut.addListener( new ZoomButton.Listener() {
+                public void zoomChanged() {
+                    double rangeY = zoomOut.getValue();
+                    setChartRange( 0, -rangeY, 20, rangeY );
+                    zoomIn.setValue( rangeY );
+                }
+            } );
+            zoomOutGraphic = new PSwing( pCanvas, zoomOut );
+            addChild( zoomOutGraphic );
+
+            zoomIn.addListener( new ZoomButton.Listener() {
+                public void zoomChanged() {
+                    double rangeY = zoomIn.getValue();
+                    setChartRange( 0, -rangeY, 20, rangeY );
+                    zoomOut.setValue( rangeY );
+                }
+            } );
+//            this.zoomInButton.setOffset( getDataArea().getX(), getDataArea().getY() );
+//            this.zoomOutGraphic.setOffset( zoomInButton.getOffset().getX(), zoomInButton.getOffset().getY() + zoomInButton.getFullBounds().getHeight() );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+
+        invalidateLayout();
+
 //        maxButNode.setVisible( false );
         forceMinimized( false );
+    }
+
+    private double getMaxRangeValue() {
+        return plot.getRangeAxis().getUpperBound();
+    }
+
+
+    private void setChartRange( int tMin, double yMin, int tMax, double yMax ) {
+        Range2D range = new Range2D( tMin, yMin, tMax, yMax );
+        this.range = range;
+
+        plot.getRangeAxis().setRange( yMin, yMax );
+        plot.getDomainAxis().setRange( tMin, tMax );
+        updateChartBuffer();
+        repaintAll();
     }
 
     private void updateCursorLocation() {
@@ -221,6 +269,9 @@ public class TimePlotSuitePNode extends PNode {
         setHasChild( !minimized, cursor );
         setHasChild( minimized, maxButNode );
         setHasChild( !minimized, minButNode );
+        setHasChild( !minimized, zoomInGraphic );
+        setHasChild( !minimized, zoomOutGraphic );
+
         for( int i = 0; i < series.size(); i++ ) {
             TimeSeriesPNode node = (TimeSeriesPNode)series.get( i );
             setHasChild( !minimized, node.getReadoutGraphic() );
@@ -267,6 +318,9 @@ public class TimePlotSuitePNode extends PNode {
             PNode readoutGraphic = timeSeriesPNode.getReadoutGraphic();
             readoutGraphic.setOffset( getDataArea().getX() + 5, getDataArea().getY() + getDataArea().getHeight() / 2.0 + ( readoutGraphic.getHeight() + 1 ) * i );
         }
+
+        zoomInGraphic.setOffset( getDataArea().getX(), getDataArea().getY() );
+        zoomOutGraphic.setOffset( zoomInGraphic.getOffset().getX(), zoomInGraphic.getOffset().getY() + zoomInGraphic.getFullBounds().getHeight() );
     }
 
     private void updateCursor() {
@@ -280,7 +334,7 @@ public class TimePlotSuitePNode extends PNode {
         cursor.setPathTo( new Rectangle2D.Double( -cursorWidth / 2, -d.getHeight() / 2, cursorWidth, d.getHeight() ) );
     }
 
-    private void updateImage() {
+    private void updateChartBuffer() {
         bufferedImage = chart.createBufferedImage( chartWidth, chartHeight );
         drawBorder( bufferedImage );
         chartGraphic.setImage( bufferedImage );
@@ -309,6 +363,7 @@ public class TimePlotSuitePNode extends PNode {
         plot.setAxisOffset( new RectangleInsets( 5.0, 5.0, 5.0, 5.0 ) );
 
 //        NumberAxis xAxis = new NumberAxis( "Time (seconds)" );
+
         NumberAxis xAxis = new NumberAxis();
         xAxis.setAutoRange( false );
         xAxis.setRange( range.getMinX(), range.getMaxX() );
@@ -340,7 +395,7 @@ public class TimePlotSuitePNode extends PNode {
     }
 
     public void reset() {
-        updateImage();
+        updateChartBuffer();
 //        System.out.println( "reset image" );
     }
 

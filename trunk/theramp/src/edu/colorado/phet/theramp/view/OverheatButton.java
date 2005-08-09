@@ -4,6 +4,8 @@ package edu.colorado.phet.theramp.view;
 import edu.colorado.phet.piccolo.ShadowHTMLGraphic;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
+import edu.colorado.phet.theramp.RampModule;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;
@@ -23,13 +25,13 @@ public class OverheatButton extends PNode {
     private double max;
     private RampPanel rampPanel;
 
-    public OverheatButton( final RampPanel rampPanel, final RampPhysicalModel rampPhysicalModel, double maxDisplayableEnergy ) {
+    public OverheatButton( final RampPanel rampPanel, final RampPhysicalModel rampPhysicalModel, double maxDisplayableEnergy, RampModule module ) {
         super();
         this.rampPhysicalModel = rampPhysicalModel;
         this.rampPanel = rampPanel;
         ShadowHTMLGraphic shadowHTMLGraphic = new ShadowHTMLGraphic( "Warning: overheated." );
         shadowHTMLGraphic.setColor( Color.red );
-        shadowHTMLGraphic.setFont( new Font( "Lucida Sans", Font.BOLD, 24 ) );
+        shadowHTMLGraphic.setFont( new Font( "Lucida Sans", Font.BOLD, 22 ) );
         addChild( shadowHTMLGraphic );
         JButton overheat = new JButton( "Remove Heat" );
         overheat.addActionListener( new ActionListener() {
@@ -40,17 +42,23 @@ public class OverheatButton extends PNode {
         PSwing buttonGraphic = new PSwing( rampPanel, overheat );
         buttonGraphic.setOffset( 0, shadowHTMLGraphic.getHeight() );
         addChild( buttonGraphic );
-        rampPhysicalModel.addListener( new RampPhysicalModel.Listener() {
-            public void appliedForceChanged() {
-            }
-
-            public void zeroPointChanged() {
-            }
-
-            public void stepFinished() {
+//        rampPhysicalModel.addListener( new RampPhysicalModel.Listener() {
+//            public void appliedForceChanged() {
+//            }
+//
+//            public void zeroPointChanged() {
+//            }
+//
+//            public void stepFinished() {
+//                update();
+//            }
+//        } );
+        module.getModel().addModelElement( new ModelElement() {
+            public void stepInTime( double dt ) {
                 update();
             }
         } );
+
         this.max = maxDisplayableEnergy * 0.8;
         update();
 
