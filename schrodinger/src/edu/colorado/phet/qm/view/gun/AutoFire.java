@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view.gun;
 
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.qm.view.IntensityDisplay;
 
 /**
@@ -14,16 +15,39 @@ public class AutoFire implements IntensityDisplay.Listener {
     private SingleParticleGun gunGraphic;
     private IntensityDisplay intensityDisplay;
     private boolean autoFire = false;
+    private ModelElement element;
+    private static final double THRESHOLD = 0.01;
+    private long lastFire = 0;
 
     public AutoFire( SingleParticleGun gunGraphic, IntensityDisplay intensityDisplay ) {
         this.gunGraphic = gunGraphic;
         this.intensityDisplay = intensityDisplay;
         intensityDisplay.addListener( this );
+        element = new ModelElement() {
+            public void stepInTime( double dt ) {
+                checkDetection();
+            }
+
+        };
+    }
+
+    private void checkDetection() {
+        System.out.println( "gunGraphic.getSchrodingerModule().getDiscreteModel().getWavefunction().getMagnitude() = " + gunGraphic.getSchrodingerModule().getDiscreteModel().getWavefunction().getMagnitude() );
+        if( gunGraphic.getSchrodingerModule().getDiscreteModel().getWavefunction().getMagnitude() < THRESHOLD ) {
+            if( System.currentTimeMillis() - lastFire > 500 ) {
+                fire();
+            }
+        }
+    }
+
+    private void fire() {
+        gunGraphic.clearAndFire();
+        lastFire = System.currentTimeMillis();
     }
 
     public void detectionOccurred() {
         if( autoFire ) {
-            gunGraphic.clearAndFire();
+            fire();
         }
     }
 
@@ -36,9 +60,14 @@ public class AutoFire implements IntensityDisplay.Listener {
             this.autoFire = autoFire;
             if( this.autoFire ) {
                 if( intensityDisplay.getSchrodingerPanel().getDiscreteModel().getWavefunction().getMagnitude() == 0 ) {
-                    gunGraphic.clearAndFire();
+                    fire();
                 }
+                gunGraphic.getSchrodingerModule().getModel().addModelElement( element );
+            }
+            else {
+                gunGraphic.getSchrodingerModule().getModel().removeModelElement( element );
             }
         }
+
     }
 }
