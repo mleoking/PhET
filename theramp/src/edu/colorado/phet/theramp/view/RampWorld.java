@@ -41,9 +41,11 @@ public class RampWorld extends PNode {
     private MeasuringTape measuringTape;
     private RightBarrierGraphic rightBarrierGraphic;
     private LeftBarrierGraphic leftBarrierGraphic;
+    private RampModule module;
 
     public RampWorld( RampModule module, RampPanel rampPanel ) {
         super();
+        this.module = module;
         RampPhysicalModel rampPhysicalModel = module.getRampPhysicalModel();
         Surface ramp = rampPhysicalModel.getRamp();
         rampGraphic = new RampGraphic( rampPanel, ramp );
@@ -211,5 +213,18 @@ public class RampWorld extends PNode {
 
     public RightBarrierGraphic getRightBarrierGraphic() {
         return rightBarrierGraphic;
+    }
+
+    public SurfaceGraphic getSurfaceGraphic( double modelLocation ) {
+        return getSurfaceGraphic( module.getRampPhysicalModel().getSurfaceGraphic( modelLocation ) );
+    }
+
+    private SurfaceGraphic getSurfaceGraphic( Surface surface ) {
+        if( surface == groundGraphic.getSurface() ) {
+            return groundGraphic;
+        }
+        else {
+            return rampGraphic;
+        }
     }
 }

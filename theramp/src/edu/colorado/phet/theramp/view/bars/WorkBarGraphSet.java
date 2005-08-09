@@ -22,6 +22,6 @@ public class WorkBarGraphSet extends BarGraphSet {
             new ValueAccessor.FrictiveWork( getLookAndFeel() ),
             new ValueAccessor.AppliedWork( getLookAndFeel() )
         };
-        super.setAccessors( workAccess );
+        super.finishInit( workAccess );
     }
 }

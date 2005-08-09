@@ -53,7 +53,7 @@ public class RampPanel extends PhetPCanvas {
         addChild( rampWorld );
 
         barGraphSuite = new BarGraphSuite( this, module.getRampPhysicalModel() );
-        addChild( new OverheatButton( this, module.getRampPhysicalModel(), barGraphSuite.getMaxDisplayableEnergy() ) );
+        addChild( new OverheatButton( this, module.getRampPhysicalModel(), barGraphSuite.getMaxDisplayableEnergy(), module ) );
 
         barGraphSuite.scale( 0.80 );
         barGraphSuite.setOffset( getDefaultRenderingSize().width - barGraphSuite.getFullBounds().getWidth() - 1, barGraphSuite.getY() );
@@ -147,14 +147,17 @@ public class RampPanel extends PhetPCanvas {
         rampPlotSet = new RampPlotSet( module, this );
         addChild( rampPlotSet );
 
-//        PNode appliedForceControl = new AppliedForceControl( module, this );
-//        appliedForceControl.setOffset( rampPlotSet.getFullBounds().getX(), rampPlotSet.getFullBounds().getY() );
-//        addChild( appliedForceControl );
+        PNode appliedForceControl = new AppliedForceControl( module, this );
+        appliedForceControl.setOffset( rampPlotSet.getFullBounds().getX(), rampPlotSet.getFullBounds().getY() - appliedForceControl.getFullBounds().getHeight() );
+        addChild( appliedForceControl );
+
+        PNode goPauseClear = new PSwing( this, new GoPauseClearPanel( module.getTimeSeriesModel() ) );
+        goPauseClear.setOffset( appliedForceControl.getFullBounds().getMaxX(), appliedForceControl.getFullBounds().getY() );
+        addChild( goPauseClear );
 
 //        PNode initialConditions = new PSwing( this, new InitialConditionPanel( module ) );
 //        initialConditions.setOffset( appliedForceControl.getFullBounds().getMaxX(),appliedForceControl.getFullBounds().getY());
 //        addChild( initialConditions );
-//        appliedForceControl.setOffset( )
     }
 
     private void updateArrowSetGraphics() {
@@ -256,6 +259,11 @@ public class RampPanel extends PhetPCanvas {
 
     public void setWorkBarsVisible( boolean selected ) {
         barGraphSuite.setWorkBarsVisible( selected );
+    }
+
+    public void setAllBarsMinimized( boolean visible ) {
+        setEnergyBarsVisible( visible );
+        setWorkBarsVisible( visible );
     }
 
     public void reset() {

@@ -20,10 +20,10 @@ import java.io.IOException;
  */
 
 public class ObjectComboBox extends JComboBox {
-    private RampControlPanel controlPanel;
+    private AdvancedRampControlPanel controlPanel;
     private static Font font = new Font( "Lucida Sans", Font.BOLD, 10 );
 
-    public ObjectComboBox( final RampObject[] rampObjects, final RampControlPanel controlPanel ) {
+    public ObjectComboBox( final RampObject[] rampObjects, final AdvancedRampControlPanel controlPanel ) {
         super( toLabelArray( rampObjects, controlPanel ) );
         setRenderer( new ComboBoxRenderer() );
         this.controlPanel = controlPanel;

@@ -1,10 +1,11 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.theramp;
+package edu.colorado.phet.theramp.view.plot;
 
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.model.ValueAccessor;
 import edu.colorado.phet.theramp.view.RampUtil;
+import edu.colorado.phet.theramp.view.plot.TimePlotSuitePNode;
 import edu.colorado.phet.timeseries.TimePoint;
 import edu.colorado.phet.timeseries.TimeSeries;
 import edu.umd.cs.piccolo.PNode;

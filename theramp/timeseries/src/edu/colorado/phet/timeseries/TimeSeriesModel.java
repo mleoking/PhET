@@ -59,8 +59,6 @@ public abstract class TimeSeriesModel implements ClockTickListener {
 
     public abstract void repaintBackground();
 
-    public abstract void setCursorsVisible( boolean b );
-
     public PhetTimer getRecordTimer() {
         return recordMode.getTimer();
     }
