@@ -35,7 +35,7 @@ antutil antutil
 #
 
 # Charts
-charts charts &phetcommon
+charts charts
 
 # Collisions 
 collision collision
