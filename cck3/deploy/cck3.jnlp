@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+
+	!!! ATTENTION !!!
+
+If you can read this, you do not have a proper
+version of Java installed on your computer.
+
+If you have installed the PhET software on a local
+computer running Windows, click on the shortcut
+titled "Install Java 1.4.2". Otherwise, please go
+the "Simulations" page of the PhET web site and
+click on "Setup & Troubleshooting" for more
+information.
+
+-->
 <jnlp
     spec="1.0+"
     codebase="http://www.colorado.edu/physics/phet/projects/cck/v21"
@@ -27,5 +42,5 @@
     </resources>
 
     <application-desc main-class="edu.colorado.phet.cck3.CCK3Module">
-    </application>
+    </application-desc>
 </jnlp>
