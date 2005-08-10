@@ -532,7 +532,7 @@ public class IdealGasModule extends Module {
         return pump;
     }
 
-    public Thermometer getThermomenter() {
+    public Thermometer getThermometer() {
         return thermometer;
     }
 

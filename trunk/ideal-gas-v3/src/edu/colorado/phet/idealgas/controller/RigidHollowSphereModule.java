@@ -60,7 +60,7 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
         box.setMinimumWidth( sphere.getRadius() * 3 );
 
         int thermometerHeight = 100;
-        Thermometer thermometer = getThermomenter();
+        Thermometer thermometer = getThermometer();
         thermometer.setLocation( new Point2D.Double( box.getMaxX() - 30, box.getMinY() - thermometerHeight ) );
 
         new AddModelElementCmd( getIdealGasModel(), sphere ).doIt();
