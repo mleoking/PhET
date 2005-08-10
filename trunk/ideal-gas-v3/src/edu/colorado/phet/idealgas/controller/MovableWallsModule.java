@@ -86,9 +86,6 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         createCurve();
         createCurveAdjuster();
 
-        // Make box non-resizable
-//        getBoxGraphic().setIgnoreMouse( true );
-
         // Remove the Wiggle-me
         getApparatusPanel().removeGraphic( wiggleMeGraphic );
 
@@ -345,6 +342,9 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         // collision detection that is virtually intractable otherewise. Trust me.
         getModel().addModelElement( verticalWall );
         addGraphic( verticalWallGraphic, s_verticalWallLayer );
+
+        // Add a listener to the two floors that will keep the top of the vertical wall from getting lower than
+        // the tops of the floors.
 
         // Set the region for the walls
         setWallBounds();
