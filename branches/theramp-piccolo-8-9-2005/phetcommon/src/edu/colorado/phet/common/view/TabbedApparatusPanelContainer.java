@@ -45,11 +45,11 @@ public class TabbedApparatusPanelContainer extends JTabbedPane implements Module
     //----------------------------------------------------------------
 
     public void moduleRemoved( ModuleEvent event ) {
-        remove( event.getModule().getApparatusPanel() );
+        remove( event.getModule().getPhetPCanvas()  );
     }
 
     public void moduleAdded( ModuleEvent event ) {
-        addTab( event.getModule().getName(), event.getModule().getApparatusPanel() );
+        addTab( event.getModule().getName(), event.getModule().getPhetPCanvas());
     }
 
     public void activeModuleChanged( ModuleEvent event ) {
