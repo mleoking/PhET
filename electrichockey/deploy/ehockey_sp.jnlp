@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+
+	!!! ATTENTION !!!
+
+If you can read this, you do not have a proper
+version of Java installed on your computer.
+
+If you have installed the PhET software on a local
+computer running Windows, click on the shortcut
+titled "Install Java 1.4.2". Otherwise, please go
+the "Simulations" page of the PhET web site and
+click on "Setup & Troubleshooting" for more
+information.
+
+-->
 <jnlp
     spec="1.0+"
     codebase="http://www.colorado.edu/physics/phet/simulations/"
-    href="electrichockey/ehockey.jnlp">
+    href="electrichockey/ehockey_sp.jnlp">
     <information>
         <title>Electric Hockey</title>
         <vendor>PhET</vendor>
@@ -17,6 +32,9 @@
     <resources>
         <j2se version="1.4+"/>
         <jar href="electrichockey/ehockey.jar"/>
+        <jar href="electrichockey/HockeyStrings_sp.jar"/>
     </resources>
-    <application-desc main-class="edu.colorado.phet.ehockey.Hockey"/>
+    <application-desc main-class="edu.colorado.phet.ehockey.HockeyModule">
+        <argument>user.language=sp</argument>
+    </application-desc>
 </jnlp>
