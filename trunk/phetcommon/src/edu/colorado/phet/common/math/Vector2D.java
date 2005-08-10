@@ -195,7 +195,7 @@ public interface Vector2D extends AbstractVector2D {
         }
 
         public String toString() {
-            return "Vector2D.Double[" + getX() + ", " + getY() + "]";
+            return "Vector2D.Float[" + getX() + ", " + getY() + "]";
         }
     }
 
