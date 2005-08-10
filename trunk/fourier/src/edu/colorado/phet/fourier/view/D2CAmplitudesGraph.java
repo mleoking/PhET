@@ -96,6 +96,10 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     private static final Stroke MAJOR_GRIDLINE_STROKE = new BasicStroke( 0.25f );
     private static final Stroke MINOR_GRIDLINE_STROKE = new BasicStroke( 0.25f );
     
+    // Bars in the chart
+    private static final int BAR_DARKEST_GRAY = 50; //dark gray
+    private static final int BAR_LIGHTEST_GRAY = 220;  // light gray
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -230,20 +234,6 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
             _chartGraphic.getHorizonalGridlines().setMinorGridlinesVisible( false );
         }
         
-        //XXX test BarPlot
-        {
-            BarPlot barPlot = new BarPlot( component, _chartGraphic );
-            barPlot.setBarWidth( 10 );
-            barPlot.setFillColor( Color.GREEN );
-            barPlot.setBorderColor( Color.RED );
-            barPlot.setStroke( new BasicStroke(3f) );
-            _chartGraphic.addDataSetGraphic( barPlot );
-            
-            DataSet dataSet = barPlot.getDataSet();
-            dataSet.addPoint( new Point2D.Double( 2 * Math.PI, 0.75 ) );
-            dataSet.addPoint( new Point2D.Double( 4 * Math.PI, 0.50 ) );
-        }
-        
         // Interactivity
         setIgnoreMouse( true ); // nothing in this view is interactive
         
@@ -270,13 +260,22 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     //
     //----------------------------------------------------------------------------
     
+    /**
+     * Sets the domain.
+     * This changes the label on the x axis.
+     * 
+     * @param domain DOMAIN_SPACE or DOMAIN_TIME
+     * @throws IllegalArgumentException if the domain is invalid or not supported
+     */
     public void setDomain( int domain ) {
-        assert( FourierConstants.isValidDomain( domain ) );
         if ( domain == FourierConstants.DOMAIN_SPACE ) {
             _xAxisTitleGraphic.setHTML( _xTitleSpace );
         }
         else if ( domain == FourierConstants.DOMAIN_TIME ) {
             _xAxisTitleGraphic.setHTML( _xTitleTime );
+        }
+        else {
+            throw new IllegalArgumentException( "unsupported domain: " + domain );
         }
     }
     
@@ -286,9 +285,50 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     
     /**
      * Synchronizes the view with the model.
+     * Called when the wave packet notifies us that it has been changed.
      */
     public void update() {
-        // The wave packet has changed.
+        
         System.out.println( "D2CAmplitudesGraph.update" ); //XXX
+        
+        _chartGraphic.removeAllDataSetGraphics();
+        
+        double k1 = _wavePacket.getK1();
+        if ( k1 > 0 ) {
+            
+            double k0 = X_MAX / 2;
+            double dk = _wavePacket.getDeltaK();
+            int numberOfComponents = (int) ( X_MAX / k1 ); //XXX not correct
+            int deltaColor = ( BAR_DARKEST_GRAY - BAR_LIGHTEST_GRAY ) / numberOfComponents;
+            
+            // Add a bar for each component.
+            for ( int i = 0; i < numberOfComponents; i++ ) {
+
+                // Compute the bar color (grayscale).
+                int r = BAR_DARKEST_GRAY - ( i * deltaColor );
+                int g = BAR_DARKEST_GRAY - ( i * deltaColor );
+                int b = BAR_DARKEST_GRAY - ( i * deltaColor );
+                Color barColor = new Color( r, g, b );
+                
+                // Compute the width of the bar.
+                double barWidth = Math.PI / 4; //XXX not correct
+                
+                // Compute the bar graphic.
+                BarPlot barPlot = new BarPlot( getComponent(), _chartGraphic );
+                barPlot.setBarWidth( barWidth );
+                barPlot.setFillColor( barColor );
+                _chartGraphic.addDataSetGraphic( barPlot );
+
+                // Set the bar's position (kn) and height (An).
+                double kn = ( i + 1 ) * Math.PI / 2; //XXX not correct
+                double An = GaussianWavePacket.getAmplitude( kn, k0, dk ) * k1; //XXX not correct
+                DataSet dataSet = barPlot.getDataSet();
+                dataSet.addPoint( new Point2D.Double( kn, An ) );
+                System.out.println( "A" + (i+1) + "=" + An );//XXX
+            }
+        }
+        else {
+            //XXX do something else when k1=0
+        }
     }
 }
