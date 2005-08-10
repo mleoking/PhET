@@ -90,7 +90,7 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
         add( particleControlsPanel, gbc );
 
         // Add miscellaneous controls (gravity, particle interactions, etc.
-        idealGasModel.getGravity().setAmt( IdealGasConfig.MAX_GRAVITY/ 2 );
+//        idealGasModel.getGravity().setAmt( IdealGasConfig.MAX_GRAVITY/ 2 );
 //        this.add( miscPanel, gbc );
 
         // Add the reset and measurement panel buttons
