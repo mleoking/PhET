@@ -18,7 +18,7 @@ information.
 <jnlp
     spec="1.0+"
     codebase="http://www.colorado.edu/physics/phet/simulations"
-    href="faraday/faraday.jnlp">
+    href="faraday/faraday_sp.jnlp">
     <information>
         <title>Faraday's Electromagnetic Lab</title>
         <vendor>University of Colorado, Department of Physics</vendor>
@@ -32,7 +32,11 @@ information.
     <resources>
         <j2se version="1.4+"/>
         <jar href="faraday/faraday.jar"/>
+        <jar href="faraday/FaradayStrings_sp.jar"/>
+        <jar href="common/CommonStrings_es.jar"/>
         <jar href="faraday/lib/phetcommon.jar"/>
     </resources>
-    <application-desc main-class="edu.colorado.phet.faraday.FaradayApplication"/>
+    <application-desc main-class="edu.colorado.phet.faraday.FaradayApplication">
+        <argument>user.language=sp</argument>
+    </application-desc>
 </jnlp>
