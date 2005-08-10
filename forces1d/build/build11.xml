@@ -1,7 +1,7 @@
 <project name="General Ant Build Script" default="Publish Executables" basedir=".">
 
     <!--  Set ant output directories.  -->
-    <property name="ant.output" value="../ant_output-forces1d"/>
+    <property name="ant.output" value="ant_output-forces1d"/>
     <property name="ant.classes" location="${ant.output}/classes"/>
     <property name="ant.jars" location="${ant.output}/jars"/>
     <property name="ant.javadoc" location="${ant.output}/javadoc"/>
@@ -17,8 +17,8 @@
     <property name="data" location="data"/>
 
     <property file="build.properties"/>
-    <property file="local.build.properties"/>
-    <property file="build.time.stamp" location="${data}"/>
+<!--    <property file="local.build.properties"/>-->
+<!--    <property file="build.time.stamp" location="${data}"/>-->
 
     <property name="build.number.txt" value="${data}/${distname}.build.number"/>
     <property name="timestamp.name" value="${data}/${distname}.build.time.stamp"/>
@@ -79,7 +79,7 @@
     <target name="Compile" depends="init, Build Dependencies, Clean"
         description="compile the source ">
         <mkdir dir="${ant.classes}"/>
-        <javac srcdir="${src}" classpath="${ant.lib}/phetcommon.jar;${ant.lib}/charts.jar;${ant.lib}/smoothmetal.jar" destdir="${ant.classes}"/>
+        <javac srcdir="${src}" classpath="lib/phetcommon.jar;lib/charts.jar;lib/smoothmetal.jar" destdir="${ant.classes}"/>
         <!--        <javac srcdir="${src}" classpath="${ant.lib}/phetcommon.jar;${ant.lib}/charts.jar;lib/smoothmetal.jar" destdir="${ant.classes}"/>-->
         <!--    Uncomment the following line to add test classes to the output jar.    -->
         <!--        <javac srcdir="${tests-src}" destdir="${classes}"/>-->
@@ -144,15 +144,15 @@
     </target>
 
     <target name="Build Dependencies" depends="init, Clean">
-        <property file="${build.number.txt}"/>
-        <mkdir dir="${ant.lib}"/>
-        <ant antfile="${phetcommon.build.file}" target="Generate Jar" inheritall="false">
-            <property name="jardest" value="${ant.lib}/phetcommon.jar"/>
-        </ant>
-        <echo message="Using: ${phetcommon.build.file}"></echo>
-        <ant antfile="${charts.build.file}" target="Generate Jar" inheritall="false">
-            <property name="jardest" value="${ant.lib}/charts.jar"/>
-        </ant>
+<!--        <property file="${build.number.txt}"/>-->
+<!--        <mkdir dir="${ant.lib}"/>-->
+<!--        <ant antfile="${phetcommon.build.file}" target="Generate Jar" inheritall="false">-->
+<!--            <property name="jardest" value="${ant.lib}/phetcommon.jar"/>-->
+<!--        </ant>-->
+<!--        <echo message="Using: ${phetcommon.build.file}"></echo>-->
+<!--        <ant antfile="${charts.build.file}" target="Generate Jar" inheritall="false">-->
+<!--            <property name="jardest" value="${ant.lib}/charts.jar"/>-->
+<!--        </ant>-->
     </target>
 
 </project>
