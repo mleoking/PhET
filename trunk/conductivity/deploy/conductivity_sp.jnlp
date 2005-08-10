@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 
 	!!! ATTENTION !!!
@@ -14,33 +14,24 @@ click on "Setup & Troubleshooting" for more
 information.
 
 -->
-<jnlp
-    spec="1.0+"
-    codebase="http://www.colorado.edu/physics/phet/simulations"
-    href="conductivity/conductivity.jnlp">
+
+<jnlp spec="1.0+" codebase="http://www.colorado.edu/physics/phet/simulations" href="conductivity/conductivity_sp.jnlp">
     <information>
         <title>Conductivity</title>
         <vendor>University of Colorado, Department of Physics</vendor>
-        <homepage href="http://www.colorado.edu/physics/phet"/>
+        <homepage href="docs/help.html"/>
         <description>Conductivity</description>
         <description kind="short">Metals, Insulators and Photoconductors</description>
-        <icon href="icons/PhET.gif"/>
-        <icon kind="splash" href="icons/PhET.gif"/>
-        <offline-allowed/>
+        <icon href="../Design/Assets/images/Phet-Kavli-logo.jpg"/>
+        <icon kind="splash" href="../Design/Assets/images/Phet-Kavli-logo.jpg"/>
     </information>
-
-    <security>
-    </security>
-
     <resources>
         <j2se version="1.4+"/>
         <jar href="conductivity/conductivity.jar"/>
-
+        <jar href="conductivity/ConductivityStrings_sp.jar"/>
+        <jar href="conductivity/lib/phetcommon.jar"/>
     </resources>
-
-    <application-desc main-class="edu.colorado.phet.semiconductor.macro.MacroModule"> 
-        <!-- uncomment to specify user language
-          <argument>user.language=test</argument>
-        -->
+    <application-desc main-class="edu.colorado.phet.semiconductor.macro.MacroModule">
+        <argument>user.language=sp</argument>
     </application-desc>
 </jnlp>
