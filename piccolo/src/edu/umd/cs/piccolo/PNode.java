@@ -1666,10 +1666,12 @@ public class PNode implements Cloneable, Serializable, Printable {
      * @param theta the amount to rotate by in radians
      */
     public void rotateAboutPoint( double theta, double x, double y ) {
-        getTransformReference( true ).rotate( theta, x, y );
-        invalidatePaint();
-        invalidateFullBounds();
-        firePropertyChange( PROPERTY_CODE_TRANSFORM, PROPERTY_TRANSFORM, null, transform );
+        if( theta != 0 ) {
+            getTransformReference( true ).rotate( theta, x, y );
+            invalidatePaint();
+            invalidateFullBounds();
+            firePropertyChange( PROPERTY_CODE_TRANSFORM, PROPERTY_TRANSFORM, null, transform );
+        }
     }
 
     /**
@@ -1750,10 +1752,12 @@ public class PNode implements Cloneable, Serializable, Printable {
      * @param scale the amount to scale by
      */
     public void scaleAboutPoint( double scale, double x, double y ) {
-        getTransformReference( true ).scaleAboutPoint( scale, x, y );
-        invalidatePaint();
-        invalidateFullBounds();
-        firePropertyChange( PROPERTY_CODE_TRANSFORM, PROPERTY_TRANSFORM, null, transform );
+        if( scale != 1.0 ) {
+            getTransformReference( true ).scaleAboutPoint( scale, x, y );
+            invalidatePaint();
+            invalidateFullBounds();
+            firePropertyChange( PROPERTY_CODE_TRANSFORM, PROPERTY_TRANSFORM, null, transform );
+        }
     }
 
     /**
@@ -1833,10 +1837,12 @@ public class PNode implements Cloneable, Serializable, Printable {
      * @param y amount of y offset
      */
     public void setOffset( double x, double y ) {
-        getTransformReference( true ).setOffset( x, y );
-        invalidatePaint();
-        invalidateFullBounds();
-        firePropertyChange( PROPERTY_CODE_TRANSFORM, PROPERTY_TRANSFORM, null, transform );
+        if( getOffset().getX() != x || getOffset().getY() != y ) {//SRR
+            getTransformReference( true ).setOffset( x, y );
+            invalidatePaint();
+            invalidateFullBounds();
+            firePropertyChange( PROPERTY_CODE_TRANSFORM, PROPERTY_TRANSFORM, null, transform );
+        }
     }
 
     /**
@@ -2029,16 +2035,18 @@ public class PNode implements Cloneable, Serializable, Printable {
      * @param newTransform the new transform value
      */
     public void setTransform( AffineTransform newTransform ) {
+        AffineTransform origTx = getTransform();
         if( newTransform == null ) {
             transform = null;
         }
         else {
             getTransformReference( true ).setTransform( newTransform );
         }
-
-        invalidatePaint();
-        invalidateFullBounds();
-        firePropertyChange( PROPERTY_CODE_TRANSFORM, PROPERTY_TRANSFORM, null, transform );
+        if( !origTx.equals( getTransform()  ) ) {
+            invalidatePaint();
+            invalidateFullBounds();
+            firePropertyChange( PROPERTY_CODE_TRANSFORM, PROPERTY_TRANSFORM, null, transform );
+        }
     }
 
     //****************************************************************
