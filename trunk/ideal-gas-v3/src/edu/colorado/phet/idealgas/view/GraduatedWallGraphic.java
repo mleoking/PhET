@@ -27,13 +27,36 @@ public class GraduatedWallGraphic extends WallGraphic {
     private Color backgroundColor = new Color( 230, 230, 40 );
     private Stroke minorTickStroke = new BasicStroke( 1f );
     private Stroke majorTickStroke = new BasicStroke( 1f );
+    private Wall wall;
 
     public GraduatedWallGraphic( Wall wall, Component component, Paint fill, Paint borderPaint, int translationDirection ) {
         super( wall, component, fill, borderPaint, translationDirection );
+        this.wall = wall;
+        setCursor( new Cursor( Cursor.N_RESIZE_CURSOR ));
     }
 
     public GraduatedWallGraphic( Wall wall, Component component, Paint fill, int translationDirection ) {
         super( wall, component, fill, translationDirection );
+        setCursor( new Cursor( Cursor.N_RESIZE_CURSOR ));
+    }
+
+    /**
+     * Wall only should respond to the mouse if it is on the top edge of the wall
+     * @param x
+     * @param y
+     * @return
+     */
+    public boolean contains( int x, int y ) {
+        return( wall.getBounds().contains( x, y ) && Math.abs( y - wall.getBounds().getMinY()) < 5 );
+    }
+
+    /**
+     * Wall only should respond to the mouse if it is on the top edge of the wall
+     * @param point
+     * @return
+     */
+    public boolean contains( Point point ) {
+        return this.contains( point.x, point.y );
     }
 
     /**

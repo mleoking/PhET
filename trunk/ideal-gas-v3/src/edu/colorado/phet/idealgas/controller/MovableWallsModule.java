@@ -219,7 +219,7 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
 
 
     /**
-     * Make the curve that coverse the walls
+     * Make the curve that covers the walls
      * <pre>
      *                       p5
      *                     /----\

@@ -19,7 +19,6 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -91,8 +90,8 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
             addTranslationListener( new EastWestTranslator( wall ) );
         }
 
-        // Add a listener that will manage the type of cursor shown
-        component.addMouseMotionListener( new CursorManager() );
+        // Set the cursor when the wall is moused
+        setCursorHand();
 
         // Add a listener that will detect if the user wants to resize the wall
         component.addMouseListener( new ResizingDetector( wall ) );
@@ -282,64 +281,6 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
             isResizingWest = false;
             isResizingNorth = false;
             isResizingSouth = false;
-        }
-    }
-
-    /**
-     * Sets the cursor to the proper one depending on where the mouse is
-     */
-    private class CursorManager implements MouseMotionListener {
-        private Cursor currentCursor = Cursor.getDefaultCursor();
-
-        public void mouseDragged( MouseEvent e ) {
-            // noop
-        }
-
-        public void mouseMoved( MouseEvent e ) {
-            Point mouseLoc = e.getPoint();
-            if( contains( mouseLoc.x, mouseLoc.y ) ) {
-
-                // Highlight the wall when it's painted
-                if( isWallHighlightedByMouse ) {
-                    setHighlightWall( true );
-                }
-
-                // If the wall is resizable and the cursor is on or near its border, give it the
-                // correct double-arrow cursor. Otherwise, if the wall is movable make the cursor a hand.
-                if( isResizable ) {
-                    double minX = getBounds().getMinX();
-                    double maxX = getBounds().getMaxX();
-                    double minY = getBounds().getMinY();
-                    double maxY = getBounds().getMaxY();
-
-                    if( Math.abs( mouseLoc.y - minY ) <= hotSpotRadius && isResizableNorth ) {
-                        currentCursor = Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR );
-                    }
-                    else if( Math.abs( mouseLoc.y - maxY ) <= hotSpotRadius && isResizableSouth ) {
-                        currentCursor = Cursor.getPredefinedCursor( Cursor.S_RESIZE_CURSOR );
-                    }
-                    else if( Math.abs( mouseLoc.x - minX ) <= hotSpotRadius && isResizableWest ) {
-                        currentCursor = Cursor.getPredefinedCursor( Cursor.W_RESIZE_CURSOR );
-                    }
-                    else if( Math.abs( mouseLoc.x - maxX ) <= hotSpotRadius && isResizableEast ) {
-                        currentCursor = Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR );
-                    }
-                    else if( isMovable ) {
-                        currentCursor = Cursor.getPredefinedCursor( Cursor.HAND_CURSOR );
-                    }
-                }
-                else {
-                    currentCursor = Cursor.getPredefinedCursor( Cursor.HAND_CURSOR );
-                }
-                getComponent().setCursor( currentCursor );
-            } // if( contains( mouseLoc.x, mouseLoc.y ) ) {
-
-            // If the mouse isn't in the bounds of the wall, don't highlight the wall, and
-            // make sure the cursor is correct
-            else {
-                getComponent().setCursor( Cursor.getDefaultCursor() );
-                setHighlightWall( false );
-            }
         }
     }
 }
