@@ -61,8 +61,9 @@ public class RampTickSetGraphic extends PNode {
 
         public void update() {
             Point2D loc = surfaceGraphic.getSurface().getLocation( x );
-            setOffset( surfaceGraphic.getViewLocation( loc ) );
+
             setTransform( new AffineTransform() );
+            setOffset( surfaceGraphic.getViewLocation( loc ) );
             rotate( surfaceGraphic.getViewAngle() );
         }
     }

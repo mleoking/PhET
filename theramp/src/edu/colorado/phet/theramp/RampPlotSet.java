@@ -30,13 +30,15 @@ public class RampPlotSet extends PNode {
     private TimePlotSuitePNode workPlot;
     private int plotY;
     private TimePlotSuitePNode parallelForcePlot;
+    private int availableHeight = 260;
 
     public RampPlotSet( RampModule module, RampPanel rampPanel ) {
         this.module = module;
         this.rampPanel = rampPanel;
 
-        plotY = 440;
-        int plotHeight = 210;
+//        plotY = 440;
+        plotY = 329;
+        int plotHeight = 80;
         int plotInset = 2;
         int range = 30000;
         energyPlot = createTimePlotSuitePNode( new Range2D( 0, -range, 20, range ), "Energy", plotY, plotHeight );
@@ -137,7 +139,7 @@ public class RampPlotSet extends PNode {
     }
 
     protected void layoutChildren() {
-        int availableHeight = 420;
+
 
         super.layoutChildren();
         LayoutSet layoutSet = new LayoutSet();

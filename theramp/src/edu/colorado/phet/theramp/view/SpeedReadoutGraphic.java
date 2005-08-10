@@ -30,6 +30,7 @@ public class SpeedReadoutGraphic extends PNode implements ModelElement {
         phetTextGraphic.setFont( font );
         addChild( phetTextGraphic );
         //setIgnoreMouse( true );
+
     }
 
     public void stepInTime( double dt ) {

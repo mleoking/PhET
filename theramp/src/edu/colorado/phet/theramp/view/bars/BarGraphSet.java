@@ -56,8 +56,9 @@ public class BarGraphSet extends PNode {
         this.rampPanel = rampPanel;
         this.rampPhysicalModel = rampPhysicalModel;
         this.transform1D = transform1D;
-        topY = (int)( rampPanel.getRampBaseY() * 0.82 ) + 120;
-        y = 750;
+//        topY = (int)( rampPanel.getRampBaseY() * 0.82 ) + 120;
+        topY = (int)( rampPanel.getRampBaseY() * 0.82 ) + 35;
+        y = 550;
         barWidth = 23;
         dw = 10;
         sep = barWidth + dw;
@@ -73,6 +74,7 @@ public class BarGraphSet extends PNode {
                 setMinimized( false );
             }
         } );
+        max.setFont( new Font( "Lucida Sans",Font.BOLD, 20) );
         maximizeButton = new PSwing( rampPanel, max );
 
     }

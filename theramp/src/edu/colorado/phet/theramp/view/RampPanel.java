@@ -14,6 +14,7 @@ import edu.umd.cs.piccolo.PNode;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 /**
  * User: Sam Reid
@@ -32,7 +33,12 @@ public class RampPanel extends PhetPCanvas {
     private RampPlotSet rampPlotSet;
 
 //    private static final Dimension ORIG_RENDER_SIZE = new Dimension( 1061, 871 );
-    private static final Dimension ORIG_RENDER_SIZE = new Dimension( 1061, 871 );
+//    private static final Dimension ORIG_RENDER_SIZE = new Dimension( 1061, 871 );
+//    private static final Dimension ORIG_RENDER_SIZE = new Dimension( 1032, 686 );
+    private static final Dimension ORIG_RENDER_SIZE = new Dimension( 786,562);
+    public static Dimension getDefaultRenderSize(){
+        return new Dimension( ORIG_RENDER_SIZE );
+    }
     //width=803,height=588
 
     public Dimension getDefaultRenderingSize() {
@@ -42,21 +48,39 @@ public class RampPanel extends PhetPCanvas {
     public RampPanel( RampModule module ) {
         super();
         setRenderingSize( getDefaultRenderingSize() );
+        addMouseListener( new MouseListener() {
+            public void mouseClicked( MouseEvent e ) {
+            }
+
+            public void mouseEntered( MouseEvent e ) {
+            }
+
+            public void mouseExited( MouseEvent e ) {
+            }
+
+            public void mousePressed( MouseEvent e ) {
+                System.out.println( "getSize( ) = " + getSize() );
+            }
+
+            public void mouseReleased( MouseEvent e ) {
+            }
+        } );
         this.module = module;
         rampLookAndFeel = new RampLookAndFeel();
 //        setBackground( new Color( 240, 200, 255 ) );
 
         rampWorld = new RampWorld( module, this );
-        double rampWorldScale = 1.0;
+//        double rampWorldScale = 1.0;
+        double rampWorldScale = 0.7;
         rampWorld.scale( rampWorldScale );
-        rampWorld.translate( 0, -30 );
+        rampWorld.translate( 0, -50 );
         addChild( rampWorld );
 
         barGraphSuite = new BarGraphSuite( this, module.getRampPhysicalModel() );
         addChild( new OverheatButton( this, module.getRampPhysicalModel(), barGraphSuite.getMaxDisplayableEnergy(), module ) );
 
         barGraphSuite.scale( 0.80 );
-        barGraphSuite.setOffset( getDefaultRenderingSize().width - barGraphSuite.getFullBounds().getWidth() - 1, barGraphSuite.getY() );
+        barGraphSuite.setOffset( getDefaultRenderingSize().width - barGraphSuite.getFullBounds().getWidth() - 20, barGraphSuite.getY() + 20 );
 
         addChild( barGraphSuite );
 
@@ -102,7 +126,7 @@ public class RampPanel extends PhetPCanvas {
         getCamera().setViewScale( 1.0 );
         getCamera().setViewOffset( 23.0, -21.0 );
 
-        final WiggleMe wiggleMe = new WiggleMe( "<html>Apply a Force<br>to the Filing Cabinet</html>", 450, 350 );
+        final WiggleMe wiggleMe = new WiggleMe( "<html>Apply a Force<br>to the Filing Cabinet</html>", (int)( ORIG_RENDER_SIZE.getWidth()/2-50 ), 350 );
         final ConnectorGraphic connectorGraphic = new ConnectorGraphic( wiggleMe, getBlockGraphic().getObjectGraphic() );
         getLayer().getRoot().addActivity( connectorGraphic.getConnectActivity() );
 //        connectorGraphic.setStroke( new BasicStroke( 2, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 2, new float[]{10, 5}, 0 ) );
@@ -154,6 +178,10 @@ public class RampPanel extends PhetPCanvas {
         PNode goPauseClear = new PSwing( this, new GoPauseClearPanel( module.getTimeSeriesModel() ) );
         goPauseClear.setOffset( appliedForceControl.getFullBounds().getMaxX(), appliedForceControl.getFullBounds().getY() );
         addChild( goPauseClear );
+
+//        FreeBodyDiagram freeBodyDiagram = new FreeBodyDiagram( this, module );
+//        freeBodyDiagram.setOffset( 200, 200 );
+//        addChild( freeBodyDiagram );
 
 //        PNode initialConditions = new PSwing( this, new InitialConditionPanel( module ) );
 //        initialConditions.setOffset( appliedForceControl.getFullBounds().getMaxX(),appliedForceControl.getFullBounds().getY());

@@ -33,8 +33,6 @@ public class BarGraphSuite extends PNode {
         transform1D = new ModelViewTransform1D( 0, 300, 0, 3 );
         workBarGraphSet = new WorkBarGraphSet( rampPanel, rampPhysicalModel, transform1D );
         energyBarGraphSet = new EnergyBarGraphSet( rampPanel, rampPhysicalModel, transform1D );
-
-
         addChild( workBarGraphSet );
         addChild( energyBarGraphSet );
 
@@ -46,13 +44,13 @@ public class BarGraphSuite extends PNode {
 //        PBoundsHandle.addStickyBoundsHandlesTo( this ,rampPanel.getCamera() );
     }
 
-    public void setLocation( Point p ) {
-        super.setOffset( p );
-    }
-
-    public void setLocation( int x, int y ) {
-        super.setOffset( x, y );
-    }
+//    public void setLocation( Point p ) {
+//        super.setOffset( p );
+//    }
+//
+//    public void setLocation( int x, int y ) {
+//        super.setOffset( x, y );
+//    }
 
     private Paint toEnergyPaint( Color color ) {
         int imageSize = 10;

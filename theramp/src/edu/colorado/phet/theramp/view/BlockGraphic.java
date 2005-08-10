@@ -33,7 +33,7 @@ public class BlockGraphic extends PNode {
     private SurfaceGraphic rampGraphic;
     private SurfaceGraphic groundGraphic;
     private Block block;
-    private PImage graphic;
+    private PImage imageGraphic;
     private ThresholdedDragAdapter mouseListener;
 //    private LocationDebugGraphic locationDebugGraphic;
     private RampObject rampObject;
@@ -56,12 +56,12 @@ public class BlockGraphic extends PNode {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        wheelGraphic.setVisible( false );
-        addChild( wheelGraphic );
+//        wheelGraphic.setVisible( false );
+//        addChild( wheelGraphic );
 
-        graphic = new PImage();
+        imageGraphic = new PImage();
         //graphic.setCursorHand();
-        addChild( graphic );
+        addChild( imageGraphic );
         setObject( rampObject );
 
 //        locationDebugGraphic = new LocationDebugGraphic( getComponent(), 10 );
@@ -87,9 +87,9 @@ public class BlockGraphic extends PNode {
             public void mouseDragged( PInputEvent e ) {
                 super.mouseDragged( e );
 //                Point2D ctr = getCenter();
-                double x = e.getPositionRelativeTo( graphic ).getX();
+                double x = e.getPositionRelativeTo( imageGraphic ).getX();
 //                double x = e.getPositionRelativeTo( BlockGraphic.this ).getX();
-                double ctrX = graphic.getBounds().getCenterX();
+                double ctrX = imageGraphic.getBounds().getCenterX();
                 double dx = x - ctrX;
 
 //                System.out.println( "x=" + x + ", ctrX=" + ctrX + ", dx = " + dx );
@@ -127,8 +127,11 @@ public class BlockGraphic extends PNode {
         AffineTransform transform = createTransform( scale, sy );
         transform.concatenate( AffineTransform.getScaleInstance( scale, sy ) );
         transform.concatenate( AffineTransform.getTranslateInstance( 0, getOffsetYPlease() ) );
-        graphic.setTransform( transform );
+        imageGraphic.setTransform( transform );
         if( isFrictionless() ) {
+            if( !isAncestorOf( wheelGraphic ) ) {
+                addChild( 0,wheelGraphic );
+            }
             wheelGraphic.setVisible( true );
             AffineTransform wheelTx = createTransform( block.getPositionInSurface(), 1.0, 1.0, wheelGraphic.getImage().getWidth( null ), wheelGraphic.getImage().getHeight( null ) );
 //            wheelTx.concatenate( AffineTransform.getScaleInstance( scale, sy ) );
@@ -137,7 +140,10 @@ public class BlockGraphic extends PNode {
 //            this.graphic.setVisible( false );
         }
         else {
-            wheelGraphic.setVisible( false );
+            if( isAncestorOf( wheelGraphic ) ) {
+                removeChild( wheelGraphic );
+            }
+//            wheelGraphic.setVisible( false );
 //            this.graphic.setVisible( true );
         }
         repaint();
@@ -166,16 +172,16 @@ public class BlockGraphic extends PNode {
 
     private AffineTransform createTransform( double scaleX, double fracSize ) {
 //        return rampGraphic.createTransform( block.getPosition(), new Dimension( (int)( graphic.getImage().getWidth() * scaleX ), (int)( graphic.getImage().getHeight() * fracSize ) ) );
-        return getCurrentSurfaceGraphic().createTransform( block.getPositionInSurface(), new Dimension( (int)( graphic.getImage().getWidth( null ) * scaleX ), (int)( graphic.getImage().getHeight( null ) * fracSize ) ) );
+        return getCurrentSurfaceGraphic().createTransform( block.getPositionInSurface(), new Dimension( (int)( imageGraphic.getImage().getWidth( null ) * scaleX ), (int)( imageGraphic.getImage().getHeight( null ) * fracSize ) ) );
     }
 
     private void setImage( BufferedImage image ) {
-        graphic.setImage( image );
+        imageGraphic.setImage( image );
         updateBlock();
     }
 
     public int getObjectWidthView() {
-        return (int)( graphic.getImage().getWidth( null ) * rampObject.getScale() );//TODO scaling will hurt this.
+        return (int)( imageGraphic.getImage().getWidth( null ) * rampObject.getScale() );//TODO scaling will hurt this.
     }
 
     public Block getBlock() {
@@ -203,10 +209,10 @@ public class BlockGraphic extends PNode {
     }
 
     public PImage getObjectGraphic() {
-        return graphic;
+        return imageGraphic;
     }
 
     public PBounds getBlockBounds() {
-        return graphic.getFullBounds();
+        return imageGraphic.getFullBounds();
     }
 }

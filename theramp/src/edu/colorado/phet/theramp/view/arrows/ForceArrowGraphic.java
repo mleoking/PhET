@@ -24,7 +24,7 @@ import java.awt.geom.Point2D;
  * Copyright (c) Feb 13, 2005 by Sam Reid
  */
 public class ForceArrowGraphic extends PNode {
-    private double arrowTailWidth = 4;
+    private double arrowTailWidth = 7;
     private double arrowHeadHeight = 14;
 
     private String name;
@@ -33,7 +33,7 @@ public class ForceArrowGraphic extends PNode {
     private AbstractArrowSet.ForceComponent forceComponent;
     private HTMLGraphic textGraphic;
     private PPath shapeGraphic;
-    private final Font font = new Font( "Lucida Sans", Font.BOLD, 14 );
+    private final Font font = new Font( "Lucida Sans", Font.BOLD, 18 );
     private Arrow lastArrow;
     private BlockGraphic blockGraphic;
     private boolean userVisible = true;
@@ -42,6 +42,7 @@ public class ForceArrowGraphic extends PNode {
     private static final double THRESHOLD = 10E-8;
     private Color baseColor;
     private double verticalOffset = 0;
+    private int textOffset=42;
 
     public ForceArrowGraphic( Component component, String name, Color color,
                               int dy, AbstractArrowSet.ForceComponent forceComponent,
@@ -54,10 +55,10 @@ public class ForceArrowGraphic extends PNode {
                               BlockGraphic blockGraphic, String sub ) {
         super();
         if( name.equals( AbstractArrowSet.TOTAL ) ) {
-            verticalOffset = 20;
+            verticalOffset = 30;
         }
         if( name.equals( AbstractArrowSet.WALL ) ) {
-            verticalOffset = -20;
+            verticalOffset = -30;
         }
         this.blockGraphic = blockGraphic;
         this.name = name;
@@ -70,6 +71,7 @@ public class ForceArrowGraphic extends PNode {
         this.dy = dy;
         this.forceComponent = forceComponent;
         textGraphic = new HTMLGraphic( name );
+        textGraphic.setFont( font);
         textGraphic.setColor( Color.black );
 
         shapeGraphic = new PPath( null );
@@ -124,7 +126,8 @@ public class ForceArrowGraphic extends PNode {
 
         if( this.lastArrow == null || !this.lastArrow.equals( forceArrow ) ) {
             shapeGraphic.setPathTo( forceArrowShape );
-            AbstractVector2D dstVector = force.getInstanceOfMagnitude( force.getMagnitude() + 30 );
+
+            AbstractVector2D dstVector = force.getInstanceOfMagnitude( force.getMagnitude() + textOffset );
             Point2D dest = dstVector.getDestination( arrowTail );
             textGraphic.setOffset( dest.getX() - textGraphic.getFullBounds().getWidth() / 2, dest.getY() - textGraphic.getFullBounds().getHeight() / 2 );
         }
