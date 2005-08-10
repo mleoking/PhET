@@ -82,18 +82,24 @@ public class DataSet {
     }
 
     /**
-     * Observer is the interface implemented by clients who 
+     * Observer is the interface implemented by clients who
      * want to be notified about changes to the data set.
      */
     public interface Observer {
-        
-        /** Called when the associated data set is cleared. */
+
+        /**
+         * Called when the associated data set is cleared.
+         */
         void cleared();
-        
-        /** Called when a single point is added to the data set. */
+
+        /**
+         * Called when a single point is added to the data set.
+         */
         void pointAdded( Point2D point );
 
-        /** Called when a set of points is added to the data set. */
+        /**
+         * Called when a set of points is added to the data set.
+         */
         void pointsAdded( Point2D[] points );
     }
 
@@ -137,7 +143,7 @@ public class DataSet {
     public void addObserver( Observer observer ) {
         observers.add( observer );
     }
-    
+
     public void removeObserver( Observer observer ) {
         observers.remove( observer );
     }
@@ -145,7 +151,7 @@ public class DataSet {
     public void removeAllObserver() {
         observers.clear();
     }
-    
+
     public String toString() {
         return dataPoints.toString();
     }

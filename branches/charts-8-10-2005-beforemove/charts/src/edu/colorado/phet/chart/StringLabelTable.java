@@ -11,15 +11,13 @@
 
 package edu.colorado.phet.chart;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
-
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+
+import java.awt.*;
 
 
 /**
- * StringLabelTable is a specialization of LabelTable that 
+ * StringLabelTable is a specialization of LabelTable that
  * allows you to specify chart labels as Strings.  For each
  * String, it generates a PhetTextGraphic.
  *
@@ -31,13 +29,13 @@ public class StringLabelTable extends LabelTable {
     private Component _component;
     private Font _font;
     private Color _color;
-    
+
     /**
      * Sole constructor.
-     * 
+     *
      * @param component the parent Component
-     * @param font the font used for all labels
-     * @param color the color used for all labels
+     * @param font      the font used for all labels
+     * @param color     the color used for all labels
      */
     public StringLabelTable( Component component, Font font, Color color ) {
         super();
@@ -45,10 +43,10 @@ public class StringLabelTable extends LabelTable {
         _font = font;
         _color = color;
     }
-    
+
     /**
      * Adds a value/label pair to the label table.
-     * 
+     *
      * @param value
      * @param label
      */

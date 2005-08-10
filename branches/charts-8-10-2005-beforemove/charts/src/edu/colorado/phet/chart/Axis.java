@@ -152,7 +152,7 @@ public class Axis extends GraphicLayerSet {
     public void setMajorTickSpacing( double x ) {
         majorTicks.setSpacing( x );
     }
-    
+
     public void setMinorTickFont( Font font ) {
         minorTicks.setFont( font );
     }
@@ -197,7 +197,7 @@ public class Axis extends GraphicLayerSet {
     public void setMinorLabels( LabelTable labelTable ) {
         minorTicks.setLabels( labelTable );
     }
-    
+
     public static class AxisTicks extends AbstractTicks {
 
         public AxisTicks( Chart chart, Orientation orientation, Stroke stroke, Color color, double tickSpacing ) {

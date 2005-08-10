@@ -15,9 +15,9 @@ information.
 
 -->
 <jnlp
-    spec="1.0+"
-    codebase="http://www.colorado.edu/physics/phet/projects/"
-    href="chart/v1/testchart.jnlp">
+        spec="1.0+"
+        codebase="http://www.colorado.edu/physics/phet/projects/"
+        href="chart/v1/testchart.jnlp">
     <information>
         <title>Chart Test</title>
         <vendor>PhET(tm)</vendor>

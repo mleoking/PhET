@@ -50,8 +50,11 @@ public class ScatterPlot extends DataSetGraphic {
     }
 
     public void pointsAdded( Point2D[] points ) {
-        //todo not implemented yet
-        throw new RuntimeException( "Not implemented yet." );
+        //todo This implementation is non-optimal
+        for( int i = 0; i < points.length; i++ ) {
+            Point2D point = points[i];
+            pointAdded( point );
+        }
     }
 
     public static class CircleFactory implements ScatterPaintFactory {

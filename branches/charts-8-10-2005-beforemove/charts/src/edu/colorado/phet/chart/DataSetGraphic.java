@@ -29,7 +29,7 @@ public abstract class DataSetGraphic extends GraphicLayerSet implements DataSet.
             this.dataSet.addObserver( this );
         }
     }
-    
+
     public DataSet getDataSet() {
         return dataSet;
     }

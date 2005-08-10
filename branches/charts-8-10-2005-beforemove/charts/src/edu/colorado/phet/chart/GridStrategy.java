@@ -112,7 +112,6 @@ public interface GridStrategy {
     }
 }
 
-
 //    private static double[] getGridLinesSlowButCorrectVersion( double origin, double min, double max, double spacing ) {
 //        ArrayList results = new ArrayList();
 //        for( double currentPoint = origin; currentPoint <= max; currentPoint += spacing ) {

@@ -88,7 +88,6 @@ public class HorizontalCursor extends PhetGraphic {
         this.maxX = maxX;
     }
 
-
 //    public void setVisible( boolean visible ) {
 //        this.visible = visible;
 //    }

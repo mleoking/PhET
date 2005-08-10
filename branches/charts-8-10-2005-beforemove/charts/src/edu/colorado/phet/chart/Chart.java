@@ -6,14 +6,14 @@
  */
 package edu.colorado.phet.chart;
 
+import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.view.phetgraphics.*;
+
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.view.phetgraphics.*;
 
 public class Chart extends GraphicLayerSet {
     private Component component;
@@ -133,9 +133,9 @@ public class Chart extends GraphicLayerSet {
     }
 
     public DataSetGraphic[] getDataSetGraphics() {
-        return (DataSetGraphic[]) dataSetGraphics.toArray( new DataSetGraphic[0] );
+        return (DataSetGraphic[])dataSetGraphics.toArray( new DataSetGraphic[0] );
     }
-    
+
     public void setVerticalTitle( String title, Color color, Font verticalTitleFont ) {
         //todo implement me.
         this.title.setHtml( title );
@@ -192,7 +192,7 @@ public class Chart extends GraphicLayerSet {
     public void removeListener( Listener listener ) {
         listeners.remove( listener );
     }
-    
+
     public static class TickMarkSet extends CompositePhetGraphic {
         private GridTicks majorTicks;
         private GridTicks minorTicks;
@@ -283,30 +283,30 @@ public class Chart extends GraphicLayerSet {
         }
     }
 
-    /** 
+    /**
      * This method is poorly named.
      * It gets the ticks that go along the left (vertical) edge of the chart.
      * It does not get the ticks whose orientation is horizontal.
-     * <p>
+     * <p/>
      * Note that the Y-axis also has its own set of tick marks that
      * may draw on top of these tick marks if the origin is too close
      * to the left edge of the chart.
-     * 
+     *
      * @return
      */
     public TickMarkSet getVerticalTicks() {
         return verticalTicks;
     }
 
-    /** 
+    /**
      * This method is poorly named.
      * It gets the ticks that go along the bottom (horizontal) edge of the chart.
      * It does not get the ticks whose orientation is horizontal.
-     * <p>
+     * <p/>
      * Note that the X-axis also has its own set of tick marks that
      * may draw on top of these tick marks if the origin is too close
      * to the bottom edge of the chart.
-     * 
+     *
      * @return
      */
     public TickMarkSet getHorizontalTicks() {
@@ -345,7 +345,7 @@ public class Chart extends GraphicLayerSet {
 
     /**
      * Gets the grid lines whose orientation is vertical.
-     * 
+     *
      * @return
      */
     public GridLineSet getVerticalGridlines() {
@@ -354,7 +354,7 @@ public class Chart extends GraphicLayerSet {
 
     /**
      * Gets the grid lines whose orientation is horizontal.
-     * 
+     *
      * @return
      */
     public GridLineSet getHorizonalGridlines() {
@@ -365,7 +365,7 @@ public class Chart extends GraphicLayerSet {
      * Sets the chart's range.
      * The chart copies the provided Range object, so that any subsequency
      * changes to that object do not affect the chart.
-     * 
+     *
      * @param range
      */
     public void setRange( Range2D range ) {
@@ -377,13 +377,13 @@ public class Chart extends GraphicLayerSet {
 
     /**
      * Gets a copy of the chart's range.
-     * 
+     *
      * @return the range
      */
     public Range2D getRange() {
         return new Range2D( range );
     }
-    
+
     public Range2D getDataRange() {
         if( numDataSetGraphics() == 0 ) {
             return null;
@@ -440,7 +440,7 @@ public class Chart extends GraphicLayerSet {
     public Point transform( double x, double y ) {
         return transform( new Point2D.Double( x, y ) );
     }
-    
+
     public Point2D transformDouble( Point2D point ) {
         if( point == null ) {
             throw new RuntimeException( "Null point" );
@@ -514,11 +514,11 @@ public class Chart extends GraphicLayerSet {
     public int transformX( double gridLineX ) {
         return transform( new Point2D.Double( gridLineX, 0 ) ).x;
     }
-  
+
     public double transformXDouble( double gridLineX ) {
         return transformDouble( new Point2D.Double( gridLineX, 0 ) ).getX();
     }
-    
+
     public double transformYDouble( double gridLineY ) {
         return transformDouble( new Point2D.Double( 0, gridLineY ) ).getY();
     }
