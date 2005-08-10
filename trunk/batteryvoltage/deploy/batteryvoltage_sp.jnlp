@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 
 	!!! ATTENTION !!!
@@ -14,33 +14,26 @@ click on "Setup & Troubleshooting" for more
 information.
 
 -->
-<jnlp
-    spec="1.0+"
-    codebase="http://www.colorado.edu/physics/phet/simulations"
-    href="batteryvoltage/batteryvoltage.jnlp">
+<!-- JNLP File for SwingSet2 Demo Application -->
+<jnlp spec="1.0+" codebase="http://www.colorado.edu/physics/phet/simulations" href="batteryvoltage/batteryvoltage_sp.jnlp">
     <information>
         <title>Battery Voltage</title>
-        <vendor>University of Colorado, Department of Physics</vendor>
-        <homepage href="http://www.colorado.edu/physics/phet"/>
+        <vendor>PhET(tm)</vendor>
+        <homepage href="http://www.colorado.edu/physics/PHET/"/>
         <description>Shows how a potential difference across a battery is maintained.</description>
         <description kind="short">Batteries and potential differences.</description>
-        <icon href="icons/PhET.gif"/>
-        <icon kind="splash" href="icons/PhET.gif"/>
+        <icon href="../Design/Assets/images/Phet-Kavli-logo.jpg"/>
+        <icon kind="splash" href="../Design/Assets/images/Phet-Kavli-logo.jpg"/>
         <offline-allowed/>
     </information>
-
-    <security>
+    <security> 
     </security>
-
     <resources>
         <j2se version="1.4+"/>
-        <jar href="batteryvoltage/batteryvoltage.jar"/>
-
+        <jar href="batteryvoltage/batteryVoltage-2.jar"/>
+        <jar href="batteryvoltage/BatteryVoltageStrings_sp.jar"/>
     </resources>
-
-    <application-desc main-class="edu.colorado.phet.batteryvoltage.BatteryApplet"> 
-        <!-- uncomment to specify user language
-          <argument>user.language=test</argument>
-        -->
-    </application>
+    <application-desc main-class="edu.colorado.phet.batteryvoltage.BatteryApplet">
+        <argument>user.language=sp</argument>
+    </application-desc>
 </jnlp>

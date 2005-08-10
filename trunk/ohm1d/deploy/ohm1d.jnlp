@@ -1,31 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+
+	!!! ATTENTION !!!
+
+If you can read this, you do not have a proper
+version of Java installed on your computer.
+
+If you have installed the PhET software on a local
+computer running Windows, click on the shortcut
+titled "Install Java 1.4.2". Otherwise, please go
+the "Simulations" page of the PhET web site and
+click on "Setup & Troubleshooting" for more
+information.
+
+-->
 <jnlp
-  spec="1.0+"
-  codebase="http://www.colorado.edu/physics/phet/simulations"
-  href="ohm1d/ohm1d.jnlp">
-  <information>
-    <title>Battery Resistance</title> 
-    <vendor>University of Colorado, Department of Physics</vendor> 
-    <homepage href="http://www.colorado.edu/physics/phet"/> 
-    <description>Shows how Ohm's Law works.</description> 
-    <description kind="short">A demo of Ohm's law.</description>
-    <icon href="icons/PhET.gif"/> 
-    <icon kind="splash" href="icons/PhET.gif"/> 
-    <offline-allowed/>
-  </information>
+    spec="1.0+"
+    codebase="http://www.colorado.edu/physics/phet/simulations"
+    href="ohm1d/ohm1d.jnlp">
+    <information>
+        <title>Battery Resistance</title>
+        <vendor>University of Colorado, Department of Physics</vendor>
+        <homepage href="http://www.colorado.edu/physics/phet"/>
+        <description>Shows how Ohm's Law works.</description>
+        <description kind="short">A demo of Ohm's law.</description>
+        <icon href="icons/PhET.gif"/>
+        <icon kind="splash" href="icons/PhET.gif"/>
+        <offline-allowed/>
+    </information>
 
-  <security>
-  </security>
+    <security>
+    </security>
 
-  <resources>
-    <j2se version="1.4+"/>
-    <jar href="ohm1d/ohm1d.jar"/>
+    <resources>
+        <j2se version="1.4+"/>
+        <jar href="ohm1d/ohm1d.jar"/>
 
-  </resources>
+    </resources>
 
-  <application-desc main-class="phet.ohm1d.volt.Ohm1dModule"> 
-  <!-- uncomment to specify user language
-    <argument>user.language=test</argument>
-  -->
-  </application>
+    <application-desc main-class="phet.ohm1d.volt.Ohm1dModule"> 
+        <!-- uncomment to specify user language
+          <argument>user.language=test</argument>
+        -->
+    </application-desc>
 </jnlp>
