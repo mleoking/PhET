@@ -138,6 +138,17 @@ public abstract class AbstractFourierSlider extends JPanel implements ChangeList
     }
 
     /**
+     * Determine whether the slider value is being adjusted.
+     * The result is true if the user is dragging the slider
+     * but has not yet released it.
+     * 
+     * @return true or false
+     */
+    public boolean isAdjusting() {
+        return _slider.getValueIsAdjusting();
+    }
+    
+    /**
      * Updates the label when the slider value changes.
      */
     protected abstract void updateLabel();
