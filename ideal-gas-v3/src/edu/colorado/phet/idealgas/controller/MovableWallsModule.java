@@ -71,7 +71,7 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         setControlPanel( controlPanel );
         controlPanel.add( new AdvancedIdealGasControlPanel( this,
                                                             SimStrings.get( "AdvancedModule.Particle_Type_A" ),
-                                                            SimStrings.get( "AdvancedModule.Particle_Type_B" )));
+                                                            SimStrings.get( "AdvancedModule.Particle_Type_B" ) ) );
 
         // Add a collision expert for the walls and particles
         getIdealGasModel().addCollisionExpert( new SphereWallExpert( getIdealGasModel() ) );
@@ -242,12 +242,12 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         Point2D p2 = new Point2D.Double( leftFloorBounds.getMaxX() - filletRadius, leftFloorBounds.getMinY() );
         Point2D p5 = new Point2D.Double( verticalWallBounds.getMinX() + verticalWallBounds.getWidth() / 2, verticalWallBounds.getMinY() );
         double dx = p5.getX() - p2.getX();
-        Point2D c5A = new Point2D.Double( p2.getX() + dx * 3 /4, p2.getY() );
+        Point2D c5A = new Point2D.Double( p2.getX() + dx * 3 / 4, p2.getY() );
         Point2D c5B = new Point2D.Double( p5.getX() - dx / 2, p5.getY() );
         Point2D c5 = new Point2D.Double( verticalWallBounds.getMinX(), verticalWallBounds.getMinY() );
         Point2D p9 = new Point2D.Double( rightFloorBounds.getMinX() + filletRadius, rightFloorBounds.getMinY() );
         Point2D c9A = new Point2D.Double( p5.getX() + dx / 2, p5.getY() );
-        Point2D c9B = new Point2D.Double( p9.getX() - dx * 3/4, p9.getY() );
+        Point2D c9B = new Point2D.Double( p9.getX() - dx * 3 / 4, p9.getY() );
         Point2D p10 = new Point2D.Double( rightFloorBounds.getMaxX(), rightFloorBounds.getMinY() );
         Point2D p11 = new Point2D.Double( boxBounds.getMaxX(), boxBounds.getMaxY() );
         Point2D p12 = new Point2D.Double( boxBounds.getMinX(), boxBounds.getMaxY() );
@@ -275,6 +275,11 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
 
         Box2D box = super.getBox();
 
+        // Make the box bigger
+        double dx = box.getMinX() / 2;
+        double dy = box.getMinY() / 3;
+        box.setBounds( box.getMinX() - dx, box.getMinY() - dy, box.getMaxX() + dx, box.getMaxY() );
+
         // Create the lower vertical wall
         verticalWall = new Wall( new Rectangle2D.Double( box.getCorner1X() + box.getWidth() / 2 - wallThickness / 2,
                                                          box.getCorner1Y() + box.getHeight() / 3,
@@ -287,8 +292,8 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
                                                                 box.getHeight() ) );
         verticalWall.setFixupStrategy( new VerticalWallFixupStrategy() );
         WallGraphic verticalWallGraphic = new GraduatedWallGraphic( verticalWall, getApparatusPanel(),
-                                                                 Color.gray, Color.black,
-                                                                 WallGraphic.NONE );
+                                                                    Color.gray, Color.black,
+                                                                    WallGraphic.NONE );
         // Only the top edge of the vertical call should be movable
         verticalWallGraphic.setResizableEast( false );
         verticalWallGraphic.setResizableWest( false );
@@ -346,6 +351,9 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         // Add a listener to the two floors that will keep the top of the vertical wall from getting lower than
         // the tops of the floors.
 
+        // Make the box bigger
+
+
         // Set the region for the walls
         setWallBounds();
     }
@@ -398,7 +406,7 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
     // Implementation of abstract methods
     //----------------------------------------------------------------
     public Pump[] getPumps() {
-        return new Pump[] { getPump(), reactantsPump, productsPump };        
+        return new Pump[]{getPump(), reactantsPump, productsPump};
     }
 
     //-----------------------------------------------------------------
