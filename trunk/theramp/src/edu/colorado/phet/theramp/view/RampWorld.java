@@ -37,7 +37,6 @@ public class RampWorld extends PNode {
     private EarthGraphic earthGraphic;
     private SkyGraphic skyGraphic;
     private FloorGraphic groundGraphic;
-    //todo piccolo
     private MeasuringTape measuringTape;
     private RightBarrierGraphic rightBarrierGraphic;
     private LeftBarrierGraphic leftBarrierGraphic;
@@ -62,10 +61,8 @@ public class RampWorld extends PNode {
         addChild( earthGraphic );
         addChild( rampGraphic );
         addChild( groundGraphic );
-
         addChild( leftBarrierGraphic );
         addChild( rightBarrierGraphic );
-
         addChild( blockGraphic );
 
         cartesian = new CartesianArrowSet( rampPanel, getBlockGraphic() );
@@ -95,11 +92,12 @@ public class RampWorld extends PNode {
             e.printStackTrace();
         }
 
-        //todo piccolo
         measuringTape = new MeasuringTape( rampPanel, rampGraphic.getScreenTransform(),
                                            RectangleUtils.getCenter2D( rampGraphic.getScreenTransform().getModelBounds() ) );
         measuringTape.setVisible( false );
         addChild( measuringTape );
+
+
 //        groundBounds.setPaint( Color.blue);
 //        addChild( groundBounds);
     }

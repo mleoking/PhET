@@ -26,6 +26,14 @@ public class HTMLGraphic extends PNode {
         update();
     }
 
+    public HTMLGraphic(String html,Font font,Color color){
+        this.html=html;
+        label=new JLabel( html);
+        setFont( font );
+        setColor( color );
+        update();
+    }
+
     public Font getFont() {
         return font;
     }
@@ -61,6 +69,7 @@ public class HTMLGraphic extends PNode {
         htmlView = BasicHTML.createHTMLView( label, html );
         alloc = new Rectangle( label.getPreferredSize() );
         setBounds( label.getBounds() );
+        repaint();
     }
 
     protected void paint( PPaintContext paintContext ) {

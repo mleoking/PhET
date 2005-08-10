@@ -2,6 +2,7 @@
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.piccolo.HTMLGraphic;
+import edu.colorado.phet.theramp.common.LucidaSansFont;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -31,6 +32,7 @@ public class AngleGraphic extends PNode {
         phetShapeGraphic.setStrokePaint( Color.black );
 //        phetShapeGraphic = new PhetShapeGraphic( getComponent(), null, new BasicStroke( 2 ), Color.black );
         label = new HTMLGraphic( "test" );
+        label.setFont( new LucidaSansFont( 14));
 //        label = new ShadowHTMLGraphic( getComponent(), "test", new Font( "Lucida Sans", 0, 14 ), Color.black, 1, 1, Color.gray );
         addChild( phetShapeGraphic );
         addChild( label );
@@ -59,6 +61,7 @@ public class AngleGraphic extends PNode {
 //        label.setLocation( RectangleUtils.getRightCenter( phetShapeGraphic.getBoundsInAncestor( getRampWorld() ) ) );
 //        label.setLocation( label.getLocation().x, label.getLocation().y + surfaceGraphic.getImageHeight() + 5 );
         label.setHtml( "" + getAngleMessage() );
+
     }
 
     private RampWorld getRampWorld() {

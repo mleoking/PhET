@@ -62,7 +62,7 @@ public class TimePlotSuitePNode extends PNode {
     private boolean minimized = false;
     private ArrayList listeners = new ArrayList();
 
-    public static final int DEFAULT_CHART_WIDTH = 800;
+    public static final int DEFAULT_CHART_WIDTH = 500;
     private int chartWidth = DEFAULT_CHART_WIDTH;
     private PSwing zoomInGraphic;
     private PSwing zoomOutGraphic;
@@ -77,6 +77,7 @@ public class TimePlotSuitePNode extends PNode {
         chart = createChart( range, dataset, name );
         this.plot = (XYPlot)chart.getPlot();
         chartGraphic = new PImage();
+        chartGraphic.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
         updateChartBuffer();
 
         addChild( chartGraphic );
@@ -321,6 +322,8 @@ public class TimePlotSuitePNode extends PNode {
 
         zoomInGraphic.setOffset( getDataArea().getX(), getDataArea().getY() );
         zoomOutGraphic.setOffset( zoomInGraphic.getOffset().getX(), zoomInGraphic.getOffset().getY() + zoomInGraphic.getFullBounds().getHeight() );
+
+        System.out.println( System.currentTimeMillis()+", Layout Children" );
     }
 
     private void updateCursor() {

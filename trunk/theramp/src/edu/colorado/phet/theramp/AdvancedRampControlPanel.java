@@ -4,7 +4,9 @@ package edu.colorado.phet.theramp;
 import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.theramp.model.Block;
+import edu.colorado.phet.theramp.view.FreeBodyDiagram;
 import edu.colorado.phet.theramp.view.InitialConditionPanel;
 import edu.colorado.phet.theramp.view.RampPanel;
 import edu.colorado.phet.theramp.view.RampUtil;
@@ -156,6 +158,14 @@ public class AdvancedRampControlPanel extends RampControlPanel {
 
         JPanel controls = new InitialConditionPanel( module );
         addAdvancedControl( controls, "Controls" );
+
+        AdvancedPanel fbdPanel = new AdvancedPanel( "Free Body Diagram>>", "Free Body Diagram<<" );
+        FreeBodyDiagram freeBodyDiagram = new FreeBodyDiagram( rampPanel, module );
+        PhetPCanvas phetPCanvas = new PhetPCanvas();
+        phetPCanvas.setPreferredSize( new Dimension( 200,200) );
+        phetPCanvas.addChild( freeBodyDiagram );
+        fbdPanel.addControlFullWidth( phetPCanvas );
+        addControlFullWidth( fbdPanel );
     }
 
     private void addAdvancedControl( JPanel panel, String name ) {

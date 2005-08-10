@@ -8,6 +8,7 @@ import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.CursorHandler;
+import edu.colorado.phet.theramp.common.LucidaSansFont;
 import edu.colorado.phet.theramp.model.Surface;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -44,6 +45,7 @@ public class SurfaceGraphic extends PNode {
     private PText heightReadoutGraphic;
     private AngleGraphic angleGraphic;
     private BufferedImage texture;
+    private Rectangle lastJackShape = null;
 
     public SurfaceGraphic( final RampPanel rampPanel, final Surface ramp ) {
         super();
@@ -72,14 +74,16 @@ public class SurfaceGraphic extends PNode {
 //        filledShapeGraphic = new PhetShapeGraphic( getComponent(), null, Color.lightGray );
         filledShapeGraphic = new PPath();
         filledShapeGraphic.setPaint( Color.lightGray );
-        addChild( filledShapeGraphic );
         filledShapeGraphic.setVisible( false );
+
+        addChild( filledShapeGraphic );
         addChild( floorGraphic );
         addChild( bookStackGraphic );
         addChild( surfaceGraphic );
 
 //        heightReadoutGraphic = new PText( rampPanel, new Font( "Lucida Sans", 0, 14 ), "h=0.0 m", Color.black, 1, 1, Color.gray );
         heightReadoutGraphic = new PText( "h=0.0 m" );
+        heightReadoutGraphic.setFont( new LucidaSansFont( 18, true ) );
         addChild( heightReadoutGraphic );
 
         surfaceGraphic.addInputEventListener( new PBasicInputEventHandler() {
@@ -206,13 +210,16 @@ public class SurfaceGraphic extends PNode {
 
         Point p2 = new Point( viewDst.x, viewOrigin.y );
         Line2D.Double floor = new Line2D.Double( viewOrigin, p2 );
-        floorGraphic.setPathTo( new Rectangle() );
+//        floorGraphic.setPathTo( null );//todo what's the floor graphic?
 
 //        GeneralPath jackShape = createJackLine();
-        Shape jackShape = createJackArea();
-        bookStackGraphic.setPathTo( jackShape );
-        bookStackGraphic.setPaint( createBookFill() );
-        bookStackGraphic.setVisible( ramp.getAngle() * 360 / 2 / Math.PI < 85 );
+        Rectangle jackShape = createJackArea();
+        if( lastJackShape == null || !jackShape.equals( lastJackShape ) ) {
+            bookStackGraphic.setPathTo( jackShape );
+            bookStackGraphic.setPaint( createBookFill() );
+            bookStackGraphic.setVisible( ramp.getAngle() * 360 / 2 / Math.PI < 85 );
+            lastJackShape = jackShape;
+        }
 
         DoubleGeneralPath path = new DoubleGeneralPath( viewOrigin );
         path.lineTo( floor.getP2() );
@@ -230,7 +237,7 @@ public class SurfaceGraphic extends PNode {
 
     }
 
-    private Shape createJackArea() {
+    private Rectangle createJackArea() {
         Point rampStart = getViewLocation( ramp.getLocation( 0 ) );
         Point rampEnd = getViewLocation( ramp.getLocation( ramp.getLength() ) );
 

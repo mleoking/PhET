@@ -60,6 +60,7 @@ public class PotentialEnergyZeroGraphic extends PNode {
         //setCursorHand();
         label = new PText( "h=???" );
         addChild( label );
+        label.setFont( new Font( "Lucida Sans",Font.BOLD, 18) );
 //        label.setLocation( 10, -label.getHeight() - 4 );
 //        label.setLocation( 10, 0);//-label.getHeight() - 4 );
 //        label.setLocation( 10, (int)( label.getHeight()*.075 ) );//-label.getHeight() - 4 );

@@ -47,6 +47,7 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
 
     private RampPhysicalModel lastState;
     private double appliedForceSetValue = 0.0;
+    private static final double INIT_ANGLE = 0.0;
 
     public RampPhysicalModel() {
         ramp = new Ramp( Math.PI / 32, 15.0 );
@@ -262,7 +263,7 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
         block.setPositionInSurface( 10.0 );
         block.setAcceleration( 0.0 );
         block.setVelocity( 0.0 );
-        ramp.setAngle( Math.PI / 16 );
+        ramp.setAngle( INIT_ANGLE);
         appliedWork = 0;
         frictiveWork = 0;
         gravityWork = 0;

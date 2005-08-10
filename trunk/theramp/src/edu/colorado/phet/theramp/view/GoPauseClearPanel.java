@@ -69,7 +69,7 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
                 module.confirmAndApplyReset();
             }
         } );
-        module.addListener( new TimeSeriesModelListenerAdapter()  {
+        module.addListener( new TimeSeriesModelListenerAdapter() {
             public void recordingStarted() {
                 setButtons( false, true, true );
             }
@@ -109,6 +109,7 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
             super.invalidate();
             super.validate();
             super.doLayout();
+            super.repaint();
             itsAGoButton = false;
         }
         else {
@@ -117,10 +118,18 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
             super.invalidate();
             super.validate();
             super.doLayout();
+            super.repaint();
             itsAGoButton = true;
         }
 
         resetButton.setEnabled( reset );
+        repaintComponents();
+    }
+
+    private void repaintComponents() {
+        goPauseButton.repaint();
+        resetButton.repaint();
+        repaint();
     }
 
     public JButton getGoPauseButton() {
@@ -128,7 +137,7 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
     }
 
     static class ControlButton extends JButton {
-        static Font font = new Font( "Lucida Sans",Font.BOLD, 14);
+        static Font font = new Font( "Lucida Sans", Font.BOLD, 14 );
 
         public ControlButton( String text ) {
             super( text );

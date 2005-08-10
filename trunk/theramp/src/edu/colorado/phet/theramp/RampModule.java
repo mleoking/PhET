@@ -36,8 +36,12 @@ public class RampModule extends Module {
     public static final double FORCE_LENGTH_SCALE = 0.1;//1.0;
     private PhetFrame phetFrame;
 
-    public RampModule( PhetFrame phetFrame, AbstractClock clock ) {
-        super( "The Ramp", clock );
+    public RampModule( PhetFrame frame, AbstractClock clock ) {
+        this( "More Features", frame, clock );
+    }
+
+    public RampModule( String name, PhetFrame phetFrame, AbstractClock clock ) {
+        super( name, clock );
         this.phetFrame = phetFrame;
         setModel( new BaseModel() );
         rampModel = new RampModel( this, clock );

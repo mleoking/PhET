@@ -51,7 +51,7 @@ public abstract class BarrierGraphic extends PNode {
         transform.concatenate( AffineTransform.getTranslateInstance( 0, getYOffset() ) );
         transform.concatenate( AffineTransform.getTranslateInstance( getOffsetX(), 0 ) );
         imageGraphic.setTransform( transform );
-        repaint();
+//        repaint();
     }
 
     protected abstract int getOffsetX();
