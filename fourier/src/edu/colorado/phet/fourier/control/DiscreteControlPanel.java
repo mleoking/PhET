@@ -476,7 +476,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         
         public void stateChanged( ChangeEvent event ) {
             if ( event.getSource() == _numberOfHarmonicsSlider ) {
-                if ( !_numberOfHarmonicsSlider.getSlider().getValueIsAdjusting() ) {
+                if ( !_numberOfHarmonicsSlider.isAdjusting() ) {
                     handleNumberOfHarmonics();
                 }
             }

@@ -28,7 +28,7 @@ import edu.colorado.phet.fourier.MathStrings;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class KWidthSlider extends AbstractFourierSlider {
+public class DeltaKSlider extends AbstractFourierSlider {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -60,8 +60,8 @@ public class KWidthSlider extends AbstractFourierSlider {
     /**
      * Sole constructor.
      */
-    public KWidthSlider() {
-        super( SimStrings.get( "KWidthSlider.format.space" ) );
+    public DeltaKSlider() {
+        super( SimStrings.get( "DeltaKSlider.format.space" ) );
         
         getSlider().setMinimum( (int)( MIN_WIDTH * MULTIPLIER) );
         getSlider().setMaximum( (int)( MAX_WIDTH * MULTIPLIER ) );

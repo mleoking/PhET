@@ -12,12 +12,11 @@
 package edu.colorado.phet.fourier.view;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import edu.colorado.phet.chart.Chart;
-import edu.colorado.phet.chart.Range2D;
-import edu.colorado.phet.chart.StringLabelTable;
+import edu.colorado.phet.chart.*;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
@@ -27,7 +26,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.MathStrings;
-import edu.colorado.phet.fourier.model.FourierSeries;
+import edu.colorado.phet.fourier.model.GaussianWavePacket;
 
 
 /**
@@ -101,7 +100,7 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     // Instance data
     //----------------------------------------------------------------------------
     
-    private FourierSeries _fourierSeries;
+    private GaussianWavePacket _wavePacket;
     private Chart _chartGraphic;
     private HTMLGraphic _xAxisTitleGraphic;
     private int _previousNumberOfHarmonics;
@@ -117,15 +116,15 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
      * @param component the parent Component
      * @param fourierSeries the model that this graphic controls
      */
-    public D2CAmplitudesGraph( Component component, FourierSeries fourierSeries ) {
+    public D2CAmplitudesGraph( Component component, GaussianWavePacket wavePacket ) {
         super( component );
 
         // Enable antialiasing
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         
         // Model
-        _fourierSeries = fourierSeries;
-        _fourierSeries.addObserver( this );
+        _wavePacket = wavePacket;
+        _wavePacket.addObserver( this );
         
         // Background
         PhetShapeGraphic backgroundGraphic = new PhetShapeGraphic( component );
@@ -231,6 +230,20 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
             _chartGraphic.getHorizonalGridlines().setMinorGridlinesVisible( false );
         }
         
+        //XXX test BarPlot
+        {
+            BarPlot barPlot = new BarPlot( component, _chartGraphic );
+            barPlot.setBarWidth( 10 );
+            barPlot.setFillColor( Color.GREEN );
+            barPlot.setBorderColor( Color.RED );
+            barPlot.setStroke( new BasicStroke(3f) );
+            _chartGraphic.addDataSetGraphic( barPlot );
+            
+            DataSet dataSet = barPlot.getDataSet();
+            dataSet.addPoint( new Point2D.Double( 2 * Math.PI, 0.75 ) );
+            dataSet.addPoint( new Point2D.Double( 4 * Math.PI, 0.50 ) );
+        }
+        
         // Interactivity
         setIgnoreMouse( true ); // nothing in this view is interactive
         
@@ -241,8 +254,8 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
      * Call this method prior to releasing all references to an object of this type.
      */
     public void cleanup() {
-        _fourierSeries.removeObserver( this );
-        _fourierSeries = null;
+        _wavePacket.removeObserver( this );
+        _wavePacket = null;
     }
     
     /**
@@ -275,10 +288,7 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
      * Synchronizes the view with the model.
      */
     public void update() {
-        int numberOfHarmonics = _fourierSeries.getNumberOfHarmonics();
-        if ( numberOfHarmonics != _previousNumberOfHarmonics ) {
-            // XXX
-            _previousNumberOfHarmonics = numberOfHarmonics;
-        }
+        // The wave packet has changed.
+        System.out.println( "D2CAmplitudesGraph.update" ); //XXX
     }
 }

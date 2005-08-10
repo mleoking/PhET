@@ -28,7 +28,7 @@ import edu.colorado.phet.fourier.MathStrings;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class K1SpacingSlider extends AbstractFourierSlider {
+public class K1Slider extends AbstractFourierSlider {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -50,8 +50,8 @@ public class K1SpacingSlider extends AbstractFourierSlider {
     /**
      * Sole constructor.
      */
-    public K1SpacingSlider() {
-        super( SimStrings.get( "K1SpacingSlider.format.space" ) );
+    public K1Slider() {
+        super( SimStrings.get( "K1Slider.format.space" ) );
         
         // Min/max are the indicies of the VALUES array.
         getSlider().setMinimum( 0 );
