@@ -69,12 +69,14 @@ abstract public class AdvancedModule extends IdealGasModule {
     public AdvancedModule( AbstractClock clock, String s, PChemModel model ) {
         super( clock, s, model );
         init();
+        model.getGravity().setAmt( IdealGasConfig.MAX_GRAVITY/ 2 );
     }
 
     /**
      *
      */
     private void init() {
+
 
         // Enable the stopwatch
         setStopwatchEnabled( true );
