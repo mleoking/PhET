@@ -56,12 +56,14 @@ public class BarPlot extends DataSetGraphic {
     
     /**
      * Constructs a BarPlot with default properties.
+     * The bars are black with no border.
      * 
-     * @param component
-     * @param chart
+     * @param component     parent Component
+     * @param chart         chart that this plot is associated with
+     * @param barWidth      width of the bars, in model coordinates
      */
-    public BarPlot( Component component, Chart chart ) {
-        this( component, chart, 5, Color.GRAY, Color.BLACK, new BasicStroke( 1f ) );
+    public BarPlot( Component component, Chart chart, double barWidth ) {
+        this( component, chart, barWidth, Color.BLACK, null /* borderColor */, null /* stroke */ );
     }
     
     /**
