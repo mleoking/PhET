@@ -19,12 +19,15 @@ import javax.swing.*;
 import java.awt.event.*;
 
 /**
- * MeasurementTools
+ * MeasurementToolsControls
+ * <p/>
+ * A set of static Swing component classes for enabling and disabling various
+ * measurement tools
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class MeasurementTools {
+public class MeasurementToolsControls {
 
     //----------------------------------------------------------------
     // Check boxes
@@ -63,7 +66,9 @@ public class MeasurementTools {
                         }
                     };
                     JDialog dlg = module.setHistogramDlgEnabled( isSelected() );
-                    dlg.addWindowListener( windowListener );
+                    if( dlg != null ) {
+                        dlg.addWindowListener( windowListener );
+                    }
                 }
             } );
         }
