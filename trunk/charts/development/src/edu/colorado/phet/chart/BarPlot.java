@@ -19,6 +19,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphicListener;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
 
@@ -70,13 +72,24 @@ public class BarPlot extends DataSetGraphic {
      * @param borderColor
      * @param stroke
      */
-    public BarPlot( Component component, Chart chart, double barWidth, Color fillColor, Color borderColor, Stroke stroke ) {
+    public BarPlot( Component component, final Chart chart, double barWidth, Color fillColor, Color borderColor, Stroke stroke ) {
         super( component, chart, new DataSet() );
         _barWidth = barWidth;
         _fillColor = fillColor;
         _borderColor = borderColor;
         _stroke = stroke;
         _points = new ArrayList();
+        
+        // Clip to the chart boundary, and change the clip when the chart changes.
+        setClip( chart.getChartBounds() );
+        chart.addPhetGraphicListener( new PhetGraphicListener() {
+            public void phetGraphicChanged( PhetGraphic phetGraphic ) {
+                setClip( chart.getChartBounds() );
+            }
+
+            public void phetGraphicVisibilityChanged( PhetGraphic phetGraphic ) {
+            }
+        } );
     }
 
     //----------------------------------------------------------------------------
