@@ -125,6 +125,7 @@ public class IdealGasModule extends Module {
     private double yDiag = 497 + IdealGasConfig.Y_BASE_OFFSET;
     private Color boxColor = new Color( 180, 180, 180 );
     private Random random = new Random();
+    private PressureDialGauge pressureGauge;
 
 
 
@@ -237,9 +238,9 @@ public class IdealGasModule extends Module {
         gaugeSlice.setY( box.getMinY() + 50 );
         box.setGaugeSlice( gaugeSlice );
         idealGasModel.addModelElement( gaugeSlice );
-        PressureDialGauge pressureGauge = new PressureDialGauge( box, getApparatusPanel(),
-                                                                 new Point( (int)box.getMaxX(),
-                                                                            (int)gaugeSlice.getY() ) );
+        pressureGauge = new PressureDialGauge( box, getApparatusPanel(),
+                                               new Point( (int)box.getMaxX(),
+                                                          (int)gaugeSlice.getY() ) );
         addGraphic( pressureGauge, IdealGasConfig.MOLECULE_LAYER );
 
         // Add the thermometer
@@ -668,6 +669,18 @@ public class IdealGasModule extends Module {
             frame.getClockControlPanel().remove( stopwatchPanel );
             frame.getClockControlPanel().revalidate();
             visibleInstruments.remove( stopwatchPanel );
+        }
+    }
+
+    /**
+     * Enable/disable the pressure gauge
+     */
+    public void setPressureGaugeVisible( boolean isVisible ) {
+        if( isVisible ) {
+            getApparatusPanel().addGraphic( pressureGauge );
+        }
+        else {
+            getApparatusPanel().removeGraphic( pressureGauge );
         }
     }
 

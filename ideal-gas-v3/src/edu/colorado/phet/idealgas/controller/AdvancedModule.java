@@ -24,6 +24,7 @@ import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.Box2DGraphic;
 import edu.colorado.phet.idealgas.view.HeavySpeciesGraphic;
+import edu.colorado.phet.idealgas.view.LightSpeciesGraphic;
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;
@@ -32,6 +33,8 @@ import java.awt.geom.Rectangle2D;
 
 /**
  * AdvancedModule
+ * <p>
+ * This module shows a reversible reaction with a potential energy barrier between the reactants
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -68,7 +71,13 @@ abstract public class AdvancedModule extends IdealGasModule {
         init();
     }
 
+    /**
+     *
+     */
     private void init() {
+
+        // Disable the pressure gauge
+        setPressureGaugeVisible( false );
 
         // We can only use the top pressure-sensing slice because we don't know where the
         // floors will be
@@ -81,6 +90,11 @@ abstract public class AdvancedModule extends IdealGasModule {
         // Set the two types of particles so they are the same mass and radius
         LightSpecies.setMoleculeMass( HeavySpecies.getMoleculeMass() );
         LightSpecies.setMoleculeRadius( HeavySpecies.getMoleculeRadius() );
+
+        // Set the colors of the particles. Note that calling this method sets the
+        // scale transform for the images to 1.
+        HeavySpeciesGraphic.setColor( COLOR_A );
+        LightSpeciesGraphic.setColor( COLOR_B );
 
         // Make the walls of the box black
         Color boxColor = new Color( 120, 120, 120 );
