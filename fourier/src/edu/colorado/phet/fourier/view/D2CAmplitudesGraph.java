@@ -314,9 +314,10 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
                 double barWidth = Math.PI / 4; //XXX not correct
                 
                 // Compute the bar graphic.
-                BarPlot barPlot = new BarPlot( getComponent(), _chartGraphic );
-                barPlot.setBarWidth( barWidth );
+                BarPlot barPlot = new BarPlot( getComponent(), _chartGraphic, barWidth );
                 barPlot.setFillColor( barColor );
+                barPlot.setBorderColor( Color.BLACK );
+                barPlot.setStroke( new BasicStroke( 1f ) );
                 _chartGraphic.addDataSetGraphic( barPlot );
 
                 // Set the bar's position (kn) and height (An).
