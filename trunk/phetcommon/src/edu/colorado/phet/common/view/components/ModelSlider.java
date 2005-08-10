@@ -438,4 +438,7 @@ public class ModelSlider extends JPanel {
         slider.setLabelTable( labelTable );
     }
 
+    public JSlider getSlider() {
+        return slider;
+    }
 }
