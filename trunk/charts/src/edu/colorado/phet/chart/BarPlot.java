@@ -25,10 +25,12 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
 
 /**
- * BarPlot is used by Chart to draw a bar graph.
- * Each point in the BarPlot's data set corresponds a bar.
- * Each bar extends from y=0 to the bar's y value.
+ * BarPlot is used by Chart to draw a set of bars in a bar graph.
  * <p>
+ * Each point in the BarPlot's data set corresponds a bar.
+ * The x coordinate is the bar's position.
+ * The y coordinate is the bar's height.
+ * All bars are anchored at y=0.
  * For example, the point (50,100) defines a bar at x=50
  * that extends from y=0 to y=100.
  *
@@ -41,10 +43,10 @@ public class BarPlot extends DataSetGraphic {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private double _barWidth; // width of the bars
-    private Color _fillColor; // color used to fill the bar
-    private Color _borderColor; // color used for the bars' borders
-    private Stroke _stroke; // stroke used to draw the bars' borders
+    private double _barWidth;
+    private Color _fillColor;
+    private Color _borderColor;
+    private Stroke _stroke;
 
     private ArrayList _points; // array of Point2D
     
@@ -65,12 +67,12 @@ public class BarPlot extends DataSetGraphic {
     /**
      * Constructs a BarPlot with specific properties.
      * 
-     * @param component
-     * @param chart
-     * @param barWidth
-     * @param fillColor
-     * @param borderColor
-     * @param stroke
+     * @param component     parent Component
+     * @param chart         chart that this plot is associated with
+     * @param barWidth      width of the bars, in model coordinates
+     * @param fillColor     color used to fill the bars
+     * @param borderColor   color used for the bars' borders
+     * @param stroke        stroke used to draw the bars' borders
      */
     public BarPlot( Component component, final Chart chart, double barWidth, Color fillColor, Color borderColor, Stroke stroke ) {
         super( component, chart, new DataSet() );
