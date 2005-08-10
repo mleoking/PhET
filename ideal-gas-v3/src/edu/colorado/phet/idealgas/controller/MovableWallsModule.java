@@ -27,6 +27,7 @@ import edu.colorado.phet.idealgas.view.GraduatedWallGraphic;
 import edu.colorado.phet.idealgas.view.HeavySpeciesGraphic;
 import edu.colorado.phet.idealgas.view.LightSpeciesGraphic;
 import edu.colorado.phet.idealgas.view.WallGraphic;
+import edu.colorado.phet.instrumentation.Thermometer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -279,6 +280,9 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         double dx = box.getMinX() / 2;
         double dy = box.getMinY() / 3;
         box.setBounds( box.getMinX() - dx, box.getMinY() - dy, box.getMaxX() + dx, box.getMaxY() );
+
+        Thermometer thermometer = getThermometer();
+        thermometer.setLocation( (int)(box.getMinX() + box.getWidth() / 2), thermometer.getY() );
 
         // Create the lower vertical wall
         verticalWall = new Wall( new Rectangle2D.Double( box.getCorner1X() + box.getWidth() / 2 - wallThickness / 2,
