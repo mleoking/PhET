@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.ToggleButton;
 import edu.colorado.phet.idealgas.model.Pump;
@@ -21,6 +20,8 @@ import java.awt.*;
 
 /**
  * ToolPanel
+ * <p>
+ * A JPanel with controls for enabling/disabling the measurement tools
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -61,13 +62,11 @@ public class ToolPanel extends JPanel {
                                    SimStrings.get( "IdealGasControlPanel.Measurement_Tools_off" ) ) {
             public void onAction() {
                 toolsPanel.setVisible( true );
-//                ((ControlPanel)module.getControlPanel()).resizeControlPane();
                 module.getControlPanel().revalidate();
             }
 
             public void offAction() {
                 toolsPanel.setVisible( false );
-//                ((ControlPanel)module.getControlPanel()).resizeControlPane();
                 module.getControlPanel().revalidate();
             }
         };
@@ -76,12 +75,12 @@ public class ToolPanel extends JPanel {
         topLevelGbc.insets = buttonInsets;
         add( button, topLevelGbc );
 
-        toolsPanel.add( new MeasurementTools.PressureSliceControl( module ), toolsPanelInternalGbc );
-        toolsPanel.add( new MeasurementTools.RulerControl( module ), toolsPanelInternalGbc );
-        toolsPanel.add( new MeasurementTools.SpeciesMonitorControl( module ), toolsPanelInternalGbc );
-        toolsPanel.add( new MeasurementTools.StopwatchControl( module ), toolsPanelInternalGbc );
-        toolsPanel.add( new MeasurementTools.HistogramControlPanel( module ), advToolsPanelInternalGbc );
-        toolsPanel.add( new MeasurementTools.CmLinesControl( module ), advToolsPanelInternalGbc );
+        toolsPanel.add( new MeasurementToolsControls.PressureSliceControl( module ), toolsPanelInternalGbc );
+        toolsPanel.add( new MeasurementToolsControls.RulerControl( module ), toolsPanelInternalGbc );
+        toolsPanel.add( new MeasurementToolsControls.SpeciesMonitorControl( module ), toolsPanelInternalGbc );
+        toolsPanel.add( new MeasurementToolsControls.StopwatchControl( module ), toolsPanelInternalGbc );
+        toolsPanel.add( new MeasurementToolsControls.HistogramControlPanel( module ), advToolsPanelInternalGbc );
+        toolsPanel.add( new MeasurementToolsControls.CmLinesControl( module ), advToolsPanelInternalGbc );
         toolsPanel.setBorder( BorderFactory.createEtchedBorder() );
         toolsPanel.setVisible( false );
         topLevelGbc.insets = optionInsets;
@@ -109,7 +108,7 @@ public class ToolPanel extends JPanel {
         add( advButton, topLevelGbc );
 
         advToolPanel = new JPanel( new GridBagLayout() );
-        advToolPanel.add( new MeasurementTools.ParticleInteractionControl( module.getIdealGasModel() ), advToolsPanelInternalGbc );
+        advToolPanel.add( new MeasurementToolsControls.ParticleInteractionControl( module.getIdealGasModel() ), advToolsPanelInternalGbc );
         Pump[] pumps = new Pump[]{module.getPump()};
         advToolPanel.add( new InputTemperatureControlPanel( module, pumps ), advToolsPanelInternalGbc );
         advToolPanel.setBorder( BorderFactory.createEtchedBorder() );
@@ -120,7 +119,5 @@ public class ToolPanel extends JPanel {
         topLevelGbc.fill = GridBagConstraints.HORIZONTAL;
         topLevelGbc.gridy++;
         add( advToolPanel, topLevelGbc );
-
-
     }
 }

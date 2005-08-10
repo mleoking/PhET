@@ -41,7 +41,6 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
 
     private NumberFormat gravityFormat = NumberFormat.getInstance();
     private JTextField gravityTF;
-//    private JCheckBox gravityOnCB;
     private JSlider gravitySlider;
     private JPanel gravityControlPanel;
     private IdealGasModule module;
@@ -56,6 +55,12 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
     private String rightParticlesLabel;
 
 
+    /**
+     *
+     * @param module
+     * @param leftParticlesLabel
+     * @param rightParticlesLabel
+     */
     public AdvancedIdealGasControlPanel( IdealGasModule module, String leftParticlesLabel, String rightParticlesLabel ) {
         super();
         this.module = module;
@@ -68,7 +73,7 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
 
     private void init() {
         // Create the component panels
-        makeMiscControls();
+//        makeMiscControls();
         makeButtonPanel();
         makeParticlesControls();
 
@@ -85,7 +90,8 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
         add( particleControlsPanel, gbc );
 
         // Add miscellaneous controls (gravity, particle interactions, etc.
-        this.add( miscPanel, gbc );
+        idealGasModel.getGravity().setAmt( IdealGasConfig.MAX_GRAVITY/ 2 );
+//        this.add( miscPanel, gbc );
 
         // Add the reset and measurement panel buttons
         this.add( buttonPanel, gbc );
@@ -161,8 +167,8 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
                                                          GridBagConstraints.CENTER,
                                                          GridBagConstraints.HORIZONTAL,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
-        JPanel gravityControls = gravityControls();
-        miscPanel.add( gravityControls, gbc );
+//        JPanel gravityControls = gravityControls();
+//        miscPanel.add( gravityControls, gbc );
     }
 
     /**
@@ -180,9 +186,12 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
         } );
 
         // Measurement tools button
-        ToggleButton measurementDlgBtn = new MeasurementDialogButton();
-        measurementDlgBtn.setAlignmentX( JButton.CENTER_ALIGNMENT );
-        measurementDlgBtn.setBackground( new Color( 255, 255, 120 ) );
+//        ToggleButton measurementDlgBtn = new MeasurementDialogButton();
+//        measurementDlgBtn.setAlignmentX( JButton.CENTER_ALIGNMENT );
+//        measurementDlgBtn.setBackground( new Color( 255, 255, 120 ) );
+        JPanel measurementToolsPanel = new JPanel( new GridLayout( 2, 1 ));
+        measurementToolsPanel.add( new MeasurementToolsControls.SpeciesMonitorControl( module ) );
+        measurementToolsPanel.add( new MeasurementToolsControls.HistogramControlPanel( module ) );
 
         // Put them on the button panel
         buttonPanel = new JPanel( new GridBagLayout() );
@@ -190,8 +199,9 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
                                                          1, 1, 1, 1,
                                                          GridBagConstraints.CENTER, GridBagConstraints.NONE,
                                                          new Insets( 2, 2, 2, 2 ), 0, 0 );
+        buttonPanel.add( measurementToolsPanel, gbc );
         buttonPanel.add( resetBtn, gbc );
-        buttonPanel.add( measurementDlgBtn, gbc );
+//        buttonPanel.add( measurementDlgBtn, gbc );
         buttonPanel.revalidate();
     }
 
@@ -238,7 +248,7 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
     }
 
     public void setGravity( double amt ) {
-        this.gravitySlider.setValue( (int)amt );
+//        this.gravitySlider.setValue( (int)amt );
     }
 
     public void addComponent( Component component ) {

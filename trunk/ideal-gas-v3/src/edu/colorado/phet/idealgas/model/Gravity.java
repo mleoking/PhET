@@ -42,7 +42,13 @@ public class Gravity implements ModelElement {
         this.acceleration = new Vector2D.Double( 0, amt );
         double change = acceleration.getMagnitude() - oldAmt;
 //        fireEvent( new ChangeEvent( this, change ) );
+
+        try{
         listenerProxy.gravityChanged( new ChangeEvent( this, change ) );
+        }
+        catch( java.lang.reflect.UndeclaredThrowableException e ) {
+            System.out.println( "e = " + e );
+        }
     }
 
 
