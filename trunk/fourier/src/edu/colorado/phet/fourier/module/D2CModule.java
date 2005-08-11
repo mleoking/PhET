@@ -55,6 +55,7 @@ public class D2CModule extends FourierModule {
     // Gaussian wave packet
     private static final double WAVE_PACKET_SPACING = 2 * Math.PI;
     private static final double WAVE_PACKET_WIDTH = 6 * Math.PI;
+    private static final double WAVE_PACKET_CENTER = 12 * Math.PI;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -86,7 +87,7 @@ public class D2CModule extends FourierModule {
         this.setModel( model );
         
         // Gaussian wave packet
-        _wavePacket = new GaussianWavePacket( WAVE_PACKET_SPACING, WAVE_PACKET_WIDTH );
+        _wavePacket = new GaussianWavePacket( WAVE_PACKET_SPACING, WAVE_PACKET_WIDTH, WAVE_PACKET_CENTER );
         
         //----------------------------------------------------------------------------
         // View

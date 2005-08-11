@@ -100,6 +100,8 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     private static final int BAR_DARKEST_GRAY = 50; //dark gray
     private static final int BAR_LIGHTEST_GRAY = 220;  // light gray
     
+    private static final double MAGIC_NUMBER = 22 * Math.PI; //XXX
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -296,10 +298,13 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         double k1 = _wavePacket.getK1();
         if ( k1 > 0 ) {
             
-            double k0 = X_MAX / 2;
+            double k0 = _wavePacket.getK0();
             double dk = _wavePacket.getDeltaK();
-            int numberOfComponents = (int) ( X_MAX / k1 ); //XXX not correct
+            int numberOfComponents = (int) ( MAGIC_NUMBER / k1 ); //XXX semantics of MAGIC_NUMBER ?
             int deltaColor = ( BAR_DARKEST_GRAY - BAR_LIGHTEST_GRAY ) / numberOfComponents;
+            
+            // Width of the bars is slightly less than the spacing k1.
+            double barWidth = k1 - ( k1 * 0.25 );
             
             // Add a bar for each component.
             for ( int i = 0; i < numberOfComponents; i++ ) {
@@ -310,9 +315,6 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
                 int b = BAR_DARKEST_GRAY - ( i * deltaColor );
                 Color barColor = new Color( r, g, b );
                 
-                // Compute the width of the bar.
-                double barWidth = Math.PI / 4; //XXX not correct
-                
                 // Compute the bar graphic.
                 BarPlot barPlot = new BarPlot( getComponent(), _chartGraphic, barWidth );
                 barPlot.setFillColor( barColor );
@@ -321,11 +323,10 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
                 _chartGraphic.addDataSetGraphic( barPlot );
 
                 // Set the bar's position (kn) and height (An).
-                double kn = ( i + 1 ) * Math.PI / 2; //XXX not correct
-                double An = GaussianWavePacket.getAmplitude( kn, k0, dk ) * k1; //XXX not correct
+                double kn = ( i + 1 ) * k1;
+                double An = GaussianWavePacket.getAmplitude( kn, k0, dk ) * k1;
                 DataSet dataSet = barPlot.getDataSet();
                 dataSet.addPoint( new Point2D.Double( kn, An ) );
-                System.out.println( "A" + (i+1) + "=" + An );//XXX
             }
         }
         else {
