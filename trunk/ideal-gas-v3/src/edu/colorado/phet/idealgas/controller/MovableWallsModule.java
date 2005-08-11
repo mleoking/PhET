@@ -38,6 +38,9 @@ import java.awt.geom.Rectangle2D;
 
 /**
  * MovableWallsModule
+ * <p/>
+ * Has a center vertical wall whose height is adjustable, and vertically movable floors
+ * on either side of it. The module is used to model revisible reactions.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -50,7 +53,6 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
 
     private static double s_verticalWallLayer = 1000;
 
-
     //----------------------------------------------------------------
     // Instance fields and methods
     //----------------------------------------------------------------
@@ -62,6 +64,7 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
     private Pump reactantsPump;
     private Pump productsPump;
     private Rectangle2D boxBounds;
+
 
     /**
      * @param clock
@@ -135,7 +138,6 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
             }
         } );
 
-
         JButton backupButton = new JButton( "Backup" );
 //        getControlPanel().add( backupButton );
         backupButton.addActionListener( new ActionListener() {
@@ -160,76 +162,6 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         leftFloor.addChangeListener( listener );
         rightFloor.addChangeListener( listener );
     }
-
-    /**
-     * Make the curve that coverse the walls
-     * <pre>
-     *                      p5 p6
-     *                     /----\
-     *                  p4 |    | p7
-     *                     |    |
-     *    p1               |p3  | p8
-     *     |--------------/     \----------| p10
-     *     |             p2      p9        |
-     *     |                               |
-     * p12 |-------------------------------| p11
-     * </pre>
-     */
-    private void createCurve1() {
-        DoubleGeneralPath energyCurve = new DoubleGeneralPath();
-        Rectangle2D leftFloorBounds = leftFloor.getBounds();
-        Rectangle2D rightFloorBounds = rightFloor.getBounds();
-        Rectangle2D verticalWallBounds = verticalWall.getBounds();
-        Rectangle2D boxBounds = getBox().getBoundsInternal();
-        double filletRadius = verticalWall.getBounds().getWidth() / 2;
-
-        // Create path points (p<n>) and control points (c<n>)
-        Point2D p1 = new Point2D.Double( leftFloorBounds.getMinX(), leftFloorBounds.getMinY() );
-        Point2D p2 = new Point2D.Double( leftFloorBounds.getMaxX() - filletRadius, leftFloorBounds.getMinY() );
-        Point2D c3 = new Point2D.Double( leftFloorBounds.getMaxX(), leftFloorBounds.getMinY() );
-//        double p3y = Math.max( leftFloorBounds.getMinY() - filletRadius, (leftFloorBounds.getMinY() + verticalWallBounds.getMinY() ) / 2);
-//        Point2D p3 = new Point2D.Double( leftFloorBounds.getMaxX(), p3y );
-        Point2D p3 = new Point2D.Double( leftFloorBounds.getMaxX(), leftFloorBounds.getMinY() - filletRadius );
-//        double p4y = Math.min( p3y, leftFloorBounds.getMinY() - filletRadius );
-//        Point2D p4 = new Point2D.Double( verticalWallBounds.getMinX(), p4y );
-        Point2D p4 = new Point2D.Double( verticalWallBounds.getMinX(), verticalWallBounds.getMinY() + filletRadius );
-        Point2D c4 = new Point2D.Double( verticalWallBounds.getMinX(), verticalWallBounds.getMinY() );
-        Point2D p5 = new Point2D.Double( verticalWallBounds.getMinX() + filletRadius, verticalWallBounds.getMinY() );
-        Point2D c5 = new Point2D.Double( verticalWallBounds.getMinX(), verticalWallBounds.getMinY() );
-        Point2D p6 = new Point2D.Double( verticalWallBounds.getMaxX() - filletRadius, verticalWallBounds.getMinY() );
-        Point2D p7 = new Point2D.Double( verticalWallBounds.getMaxX(), verticalWallBounds.getMinY() + filletRadius );
-        Point2D c7 = new Point2D.Double( verticalWallBounds.getMaxX(), verticalWallBounds.getMinY() );
-        Point2D p8 = new Point2D.Double( rightFloorBounds.getMinX(), rightFloorBounds.getMinY() - filletRadius );
-        Point2D c8 = new Point2D.Double( rightFloorBounds.getMinX(), rightFloorBounds.getMinY() );
-        Point2D p9 = new Point2D.Double( rightFloorBounds.getMinX() + filletRadius, rightFloorBounds.getMinY() );
-        Point2D c9 = new Point2D.Double( rightFloorBounds.getMinX(), rightFloorBounds.getMinY() );
-        Point2D p10 = new Point2D.Double( rightFloorBounds.getMaxX(), rightFloorBounds.getMinY() );
-        Point2D p11 = new Point2D.Double( boxBounds.getMaxX(), boxBounds.getMaxY() );
-        Point2D p12 = new Point2D.Double( boxBounds.getMinX(), boxBounds.getMaxY() );
-
-        energyCurve.moveTo( p1 );
-        energyCurve.lineTo( p2 );
-        energyCurve.quadTo( c3.getX(), c3.getY(), p3.getX(), p3.getY() );
-        energyCurve.lineTo( p4 );
-        energyCurve.quadTo( c5.getX(), c5.getY(), p5.getX(), p5.getY() );
-        energyCurve.lineTo( p6 );
-        energyCurve.quadTo( c7.getX(), c7.getY(), p7.getX(), p7.getY() );
-        energyCurve.lineTo( p8 );
-        energyCurve.quadTo( c9.getX(), c9.getY(), p9.getX(), p9.getY() );
-        energyCurve.lineTo( p10 );
-        energyCurve.lineTo( p11 );
-        energyCurve.lineTo( p12 );
-        energyCurve.closePath();
-
-        Color borderColor = Color.cyan;
-        Color fill = new Color( 255, 255, 255, 160 );
-        energyCurveGraphic = new PhetShapeGraphic( getApparatusPanel(), energyCurve.getGeneralPath(),
-                                                   fill, new BasicStroke( 2f ), borderColor );
-        energyCurveGraphic.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-        energyCurveGraphic.setIgnoreMouse( true );
-        getApparatusPanel().addGraphic( energyCurveGraphic, s_verticalWallLayer + 10 );
-    }
-
 
     /**
      * Make the curve that covers the walls
@@ -299,7 +231,7 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
 
         Box2D box = super.getBox();
 
-        // Make the box bigger
+        // Make the box bigger than the default size
         double dx = box.getMinX() / 2;
         double dy = box.getMinY() / 3;
         double x0 = box.getMinX() - dx;
