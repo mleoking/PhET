@@ -23,7 +23,13 @@ import java.util.EventListener;
 import java.util.EventObject;
 
 /**
- *
+ * Pump
+ * <p/>
+ * A source of gas molecules that has an EnergyStrategy. The EnergyStrategy determines
+ * what the kinetic energy of new gas molecules produced by the pump will be.
+ * <p/>
+ * EnergyStrategy is an inner interface, with a couple of implementations, also inner
+ * to the Pump class.
  */
 public class Pump extends SimpleObservable implements GasSource {
 
@@ -145,6 +151,7 @@ public class Pump extends SimpleObservable implements GasSource {
 
     /**
      * Sets the default species of gas that will be produced by the pump
+     *
      * @param currentGasSpecies
      */
     public void setCurrentGasSpecies( Class currentGasSpecies ) {
@@ -157,6 +164,7 @@ public class Pump extends SimpleObservable implements GasSource {
 
     /**
      * Set the strategy that will be used to set the energy of particles produced by the pump
+     *
      * @param pumpingEnergyStrategy
      */
     public void setPumpingEnergyStrategy( PumpingEnergyStrategy pumpingEnergyStrategy ) {
@@ -165,6 +173,7 @@ public class Pump extends SimpleObservable implements GasSource {
 
     /**
      * Sets the minimum and maximum angles for the velocity of particles produced by the pump
+     *
      * @param minTheta
      * @param maxTheta
      */
@@ -206,7 +215,7 @@ public class Pump extends SimpleObservable implements GasSource {
             System.out.println( "vSq <= 0 in PumpMoleculeCmd.createMolecule" );
         }
         float v = vSq > 0 ? (float)Math.sqrt( vSq ) : 10;
-        double theta = Math.random() * (maxTheta - minTheta ) + minTheta;
+        double theta = Math.random() * ( maxTheta - minTheta ) + minTheta;
 
         float xV = v * (float)Math.cos( theta );
         float yV = v * (float)Math.sin( theta );
