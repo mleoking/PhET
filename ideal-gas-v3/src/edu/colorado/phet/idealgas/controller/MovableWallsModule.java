@@ -61,6 +61,7 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
     private PhetShapeGraphic energyCurveGraphic;
     private Pump reactantsPump;
     private Pump productsPump;
+    private Rectangle2D boxBounds;
 
     /**
      * @param clock
@@ -268,6 +269,14 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         getApparatusPanel().addGraphic( energyCurveGraphic, s_verticalWallLayer + 10 );
     }
 
+    /**
+     * Sets the size of the box
+     */
+    private void setBoxSize() {
+        Box2D box = super.getBox();
+        box.setBounds( boxBounds.getMinX(), boxBounds.getMinY(),
+                       boxBounds.getMaxX(), boxBounds.getMaxY() );
+    }
 
     /**
      *
@@ -279,7 +288,12 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         // Make the box bigger
         double dx = box.getMinX() / 2;
         double dy = box.getMinY() / 3;
-        box.setBounds( box.getMinX() - dx, box.getMinY() - dy, box.getMaxX() + dx, box.getMaxY() );
+        double x0 = box.getMinX() - dx;
+        double y0 = box.getMinY() - dy;
+        double boxWidth = box.getMaxX() + dx - x0;
+        double boxHeight = box.getMaxY() - y0;
+        boxBounds = new Rectangle2D.Double( x0, y0, boxWidth, boxHeight );
+        setBoxSize();
 
         Thermometer thermometer = getThermometer();
         thermometer.setLocation( (int)(box.getMinX() + box.getWidth() / 2), thermometer.getY() );
@@ -387,6 +401,15 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
                                                               boxBounds.getMaxY() - verticalWallBounds.getMinY() ) );
     }
 
+
+    //----------------------------------------------------------------
+    // Reset
+    //----------------------------------------------------------------
+
+    public void reset() {
+        super.reset();
+        setBoxSize();
+    }
 
     //----------------------------------------------------------------
     // Model manipulation

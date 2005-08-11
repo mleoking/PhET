@@ -77,7 +77,6 @@ abstract public class AdvancedModule extends IdealGasModule {
      */
     private void init() {
 
-
         // Enable the stopwatch
         setStopwatchEnabled( true );
 
