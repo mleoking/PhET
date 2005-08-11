@@ -56,7 +56,6 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
 
 
     /**
-     *
      * @param module
      * @param leftParticlesLabel
      * @param rightParticlesLabel
@@ -102,10 +101,11 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
 
     /**
      * Sets the labels used for the particles in the left and right portions of the box
+     *
      * @param leftParticlesLabel
      * @param rightParticlesLabel
      */
-    protected void setParticlesLabels( String leftParticlesLabel, String rightParticlesLabel ){
+    protected void setParticlesLabels( String leftParticlesLabel, String rightParticlesLabel ) {
         this.leftParticlesLabel = leftParticlesLabel;
         this.rightParticlesLabel = rightParticlesLabel;
     }
@@ -130,7 +130,7 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
         particleControlsPanel.add( speciesButtonPanel, particleControlsGbc );
 
         // Add control for temperature at which particles are introduced
-        JLabel tempLbl = new JLabel( SimStrings.get( "AdvancedControlPanel.Particle_Temperature"));
+        JLabel tempLbl = new JLabel( SimStrings.get( "AdvancedControlPanel.Particle_Temperature" ) );
         particleControlsGbc.insets = new Insets( 10, 10, 10, 10 );
         particleControlsGbc.gridwidth = 1;
         particleControlsGbc.gridx = 0;
@@ -148,13 +148,29 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
         // Changes the temperature at which particles are pumped into the box
         tempSpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                double temp = ((Double)tempSpinner.getValue()).doubleValue() * IdealGasConfig.TEMPERATURE_SCALE_FACTOR * hackConst;
-                Pump[] pumps = ((AdvancedModule)getModule()).getPumps();
-                for( int i = 0; i < pumps.length; i++ ) {
-                    pumps[i].setPumpingEnergyStrategy( new Pump.FixedEnergyStrategy( temp ));
-                }
+                double temp = ( (Double)tempSpinner.getValue() ).doubleValue() * IdealGasConfig.TEMPERATURE_SCALE_FACTOR * hackConst;
+                setPumpTemperatures( temp );
+//                Pump[] pumps = ( (AdvancedModule)getModule() ).getPumps();
+//                for( int i = 0; i < pumps.length; i++ ) {
+//                    pumps[i].setPumpingEnergyStrategy( new Pump.FixedEnergyStrategy( temp ) );
+//                }
             }
         } );
+        double temp = ( (Double)tempSpinner.getValue() ).doubleValue() * IdealGasConfig.TEMPERATURE_SCALE_FACTOR * hackConst;
+        setPumpTemperatures( temp );
+    }
+
+    /**
+     * Sets the pumping strategy and temperature for all pumps in the system
+     */
+    private void setPumpTemperatures( double temperature ) {
+        System.out.println( "temperature = " + temperature );
+        Pump[] pumps = ( (AdvancedModule)getModule() ).getPumps();
+        for( int i = 0; i < pumps.length; i++ ) {
+            if( pumps[i] != null ) {
+                pumps[i].setPumpingEnergyStrategy( new Pump.FixedEnergyStrategy( temperature ) );
+            }
+        }
     }
 
     /**
@@ -189,7 +205,7 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
 //        ToggleButton measurementDlgBtn = new MeasurementDialogButton();
 //        measurementDlgBtn.setAlignmentX( JButton.CENTER_ALIGNMENT );
 //        measurementDlgBtn.setBackground( new Color( 255, 255, 120 ) );
-        JPanel measurementToolsPanel = new JPanel( new GridLayout( 2, 1 ));
+        JPanel measurementToolsPanel = new JPanel( new GridLayout( 2, 1 ) );
         measurementToolsPanel.add( new MeasurementToolsControls.SpeciesMonitorControl( module ) );
         measurementToolsPanel.add( new MeasurementToolsControls.HistogramControlPanel( module ) );
 
