@@ -67,6 +67,7 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(8/11) - fix computation of amplitudes in D2C
 (8/10) - charts: BarPlot.setBarWidth should take width in model coordinates
 (8/10) - charts: fix clipping in BarPlot so that bars aren't drawn outside the chart
 (8/9) - add GaussianWavePacket to model, wire into D2C control panel

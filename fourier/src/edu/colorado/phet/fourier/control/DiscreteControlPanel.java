@@ -38,6 +38,9 @@ import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
 import edu.colorado.phet.fourier.module.FourierModule;
 import edu.colorado.phet.fourier.view.*;
+import edu.colorado.phet.fourier.view.tools.PeriodDisplay;
+import edu.colorado.phet.fourier.view.tools.PeriodTool;
+import edu.colorado.phet.fourier.view.tools.WavelengthTool;
 
 
 /**

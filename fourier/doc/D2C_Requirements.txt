@@ -143,11 +143,13 @@ Amplitudes view
 - k0 = 12pi
 - number of components = 22pi / k1
 - kn=n*k1
--  A(k,k0,deltak) = exp[ -(k-k0)^2 / (2 * (deltak^2) )  ] / (deltak * sqrt( 2pi ))
+- A(k,k0,deltak) = exp[ -(k-k0)^2 / (2 * (deltak^2) )  ] / (deltak * sqrt( 2pi ))
+- F(x,dx) = exp( -(x^2) / (2 * (dx^2) ) )
 
 Q: semantics and significance of the value 22pi
 Q: do you want to be able to shift k0 ?
 Q: should amplitudes be multiplied by k1 before display in amplitudes graph ?
 Q: should amplitudes graph vertically autoscale ?
 Q: should the x-axis scale go from 0...25pi so that we can see all components ?
+Q: many bars are so small that you can't see them, and they are using grayscale values
 

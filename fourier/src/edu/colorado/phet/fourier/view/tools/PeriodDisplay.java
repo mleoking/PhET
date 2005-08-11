@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.fourier.view;
+package edu.colorado.phet.fourier.view.tools;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -27,6 +27,9 @@ import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.event.*;
 import edu.colorado.phet.fourier.model.Harmonic;
+import edu.colorado.phet.fourier.view.AnimationCycleController;
+import edu.colorado.phet.fourier.view.HarmonicColors;
+import edu.colorado.phet.fourier.view.SubscriptedSymbol;
 import edu.colorado.phet.fourier.view.AnimationCycleController.AnimationCycleEvent;
 import edu.colorado.phet.fourier.view.AnimationCycleController.AnimationCycleListener;
 

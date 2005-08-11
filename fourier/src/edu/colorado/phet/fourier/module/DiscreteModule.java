@@ -33,6 +33,9 @@ import edu.colorado.phet.fourier.help.WiggleMeGraphic;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.util.Vector2D;
 import edu.colorado.phet.fourier.view.*;
+import edu.colorado.phet.fourier.view.tools.PeriodDisplay;
+import edu.colorado.phet.fourier.view.tools.PeriodTool;
+import edu.colorado.phet.fourier.view.tools.WavelengthTool;
 
 
 /**
