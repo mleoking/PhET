@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.fourier.view;
+package edu.colorado.phet.fourier.view.tools;
 
 import java.awt.Component;
 
@@ -19,17 +19,17 @@ import edu.colorado.phet.fourier.model.Harmonic;
 
 
 /**
- * PeriodTool is the tool used to measure the period of a harmonic 
- * in the time domain.
+ * WavelengthTool is the tool used to measure the length of a harmonic
+ * in the space domain.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class PeriodTool extends WaveMeasurementTool {
+public class WavelengthTool extends WaveMeasurementTool {
 
-    private static final String SYMBOL = String.valueOf( MathStrings.C_PERIOD );
+    private static final String SYMBOL = String.valueOf( MathStrings.C_WAVELENGTH );
     
-    public PeriodTool( Component component, Harmonic harmonic, Chart chart ) {
+    public WavelengthTool( Component component, Harmonic harmonic, Chart chart ) {
         super( component, SYMBOL, harmonic, chart );
     }
 }
