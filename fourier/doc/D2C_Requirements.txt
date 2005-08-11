@@ -140,11 +140,14 @@ Amplitudes view
 - k1 affects the number of components; the width of the wave packet is unchanged
 - k1 can be set to one of the following values: 0, pi/4, pi/2, pi, 2pi (rad/mm or rad/ms)
 - when k1=0, the bars fill the area under the continuous curve
-- k0 = 11pi
+- k0 = 12pi
 - number of components = 22pi / k1
+- kn=n*k1
 -  A(k,k0,deltak) = exp[ -(k-k0)^2 / (2 * (deltak^2) )  ] / (deltak * sqrt( 2pi ))
 
-Q: How do I determine the number of components?
-Q: How do I determine the values of kn (for n=1...#components)? Do I add/subtract from k0?
-Q: Is k0 really 11pi ?
-Q: Does changing deltaK (or deltaX) change both the width of the wave packet and the number of components?
+Q: semantics and significance of the value 22pi
+Q: do you want to be able to shift k0 ?
+Q: should amplitudes be multiplied by k1 before display in amplitudes graph ?
+Q: should amplitudes graph vertically autoscale ?
+Q: should the x-axis scale go from 0...25pi so that we can see all components ?
+
