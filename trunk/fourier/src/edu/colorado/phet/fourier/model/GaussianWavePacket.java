@@ -28,6 +28,7 @@ public class GaussianWavePacket extends SimpleObservable {
     
     private double _spacing;
     private double _width;
+    private double _center;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -38,10 +39,12 @@ public class GaussianWavePacket extends SimpleObservable {
      * 
      * @param spacing spacing between components, in radians/mm
      * @param width width, measured at half the packet height, in radians/mm
+     * @param center the center point of the packet, in radians/mm
      */
-    public GaussianWavePacket( double spacing, double width ) {
+    public GaussianWavePacket( double spacing, double width, double center ) {
         _spacing = spacing;
         _width = width;
+        _center = center;
     }
     
     //----------------------------------------------------------------------------
@@ -83,10 +86,31 @@ public class GaussianWavePacket extends SimpleObservable {
         return _width;
     }
     
+    /**
+     * Gets the center point of the wave packet.
+     * 
+     * @param center the center point, in radians/mm
+     */
+    public void setCenter( double center ) {
+        if ( center != _center ) {
+            _center = center;
+            notifyObservers();
+        }
+    }
+    
+    public double getCenter() {
+        return _center;
+    }
+    
     //----------------------------------------------------------------------------
     // Convenience accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * k1 is the spacing.
+     * 
+     * @param k1
+     */
     public void setK1( double k1 ) {
         setSpacing( k1 );
     }
@@ -95,6 +119,11 @@ public class GaussianWavePacket extends SimpleObservable {
         return getSpacing();
     }
     
+    /**
+     * 2 * dk is the width.
+     * 
+     * @param dk
+     */
     public void setDeltaK( double deltaK ) {
         setWidth( 2 * deltaK );
     }
@@ -103,12 +132,30 @@ public class GaussianWavePacket extends SimpleObservable {
         return ( getWidth() / 2 );
     }
     
+    /**
+     * dx * dk = 1
+     * 
+     * @param deltaX
+     */
     public void setDeltaX( double deltaX ) { 
         setDeltaK( 1 / deltaX );
     }
     
     public double getDeltaX() {
         return ( 1 / getDeltaK() );
+    }
+    
+    /**
+     * k0 is the center point.
+     * 
+     * @param k0
+     */
+    public void setK0( double k0 ) {
+        setCenter( k0 );
+    }
+    
+    public double getK0() {
+        return getCenter();
     }
     
     //----------------------------------------------------------------------------
