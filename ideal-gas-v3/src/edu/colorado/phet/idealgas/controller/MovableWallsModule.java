@@ -69,14 +69,9 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
     public MovableWallsModule( final AbstractClock clock ) {
         super( clock, "<html><center>Potential Energy<br>Surface</center></html>", new PChemModel( clock.getDt() ) );
 
-        ControlPanel controlPanel = new ControlPanel( this );
-        setControlPanel( controlPanel );
-        controlPanel.add( new AdvancedIdealGasControlPanel( this,
-                                                            SimStrings.get( "AdvancedModule.Particle_Type_A" ),
-                                                            SimStrings.get( "AdvancedModule.Particle_Type_B" ) ) );
-
-        // Add a collision expert for the walls and particles
-        getIdealGasModel().addCollisionExpert( new SphereWallExpert( getIdealGasModel() ) );
+        //----------------------------------------------------------------
+        // Model
+        //----------------------------------------------------------------
 
         // Create a pump for each side of the box
         reactantsPump = new Pump( this, getBox(), getPumpingEnergyStrategy() );
@@ -84,7 +79,31 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         productsPump = new Pump( this, getBox(), getPumpingEnergyStrategy() );
         productsPump.setDispersionAngle( 0, Math.PI * 2 );
 
+        // Create the movable floors and vertical wall
         createWalls();
+
+        // Add a collision expert for the walls and particles
+        getIdealGasModel().addCollisionExpert( new SphereWallExpert( getIdealGasModel() ) );
+
+        // Hook the model up to the vertical wall so it will know when it has moved
+        PChemModel pchemModel = (PChemModel)getModel();
+        pchemModel.setVerticalWall( verticalWall );
+        pchemModel.addListener( this );
+
+        //----------------------------------------------------------------
+        // Controls. This must be done after the model is set up
+        //----------------------------------------------------------------
+
+        ControlPanel controlPanel = new ControlPanel( this );
+        setControlPanel( controlPanel );
+        controlPanel.add( new AdvancedIdealGasControlPanel( this,
+                                                            SimStrings.get( "AdvancedModule.Particle_Type_A" ),
+                                                            SimStrings.get( "AdvancedModule.Particle_Type_B" ) ) );
+
+        //----------------------------------------------------------------
+        // View
+        //----------------------------------------------------------------
+
         createCurve();
         createCurveAdjuster();
 
@@ -97,11 +116,6 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         // Remove the mannequin graphic and the box door
         getApparatusPanel().removeGraphic( getPusher() );
         getApparatusPanel().removeGraphic( getBoxDoorGraphic() );
-
-        // Hook the model up to the vertical wall so it will know when it has moved
-        PChemModel pchemModel = (PChemModel)getModel();
-        pchemModel.setVerticalWall( verticalWall );
-        pchemModel.addListener( this );
 
         // Add counters for the number of particles on either side of the vertical wall
         addParticleCounters( SimStrings.get( "AdvancedModule.Particle_Type_A" ),
@@ -296,7 +310,7 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         setBoxSize();
 
         Thermometer thermometer = getThermometer();
-        thermometer.setLocation( (int)(box.getMinX() + box.getWidth() / 2), thermometer.getY() );
+        thermometer.setLocation( (int)( box.getMinX() + box.getWidth() / 2 ), thermometer.getY() );
 
         // Create the lower vertical wall
         verticalWall = new Wall( new Rectangle2D.Double( box.getCorner1X() + box.getWidth() / 2 - wallThickness / 2,
