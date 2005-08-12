@@ -93,8 +93,8 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     private static final boolean MINOR_GRIDLINES_ENABLED = false;
     private static final Color MAJOR_GRIDLINE_COLOR = Color.BLACK;
     private static final Color MINOR_GRIDLINE_COLOR = Color.BLACK;
-    private static final Stroke MAJOR_GRIDLINE_STROKE = new BasicStroke( 0.25f );
-    private static final Stroke MINOR_GRIDLINE_STROKE = new BasicStroke( 0.25f );
+    private static final Stroke MAJOR_GRIDLINE_STROKE = new BasicStroke( 0.1f );
+    private static final Stroke MINOR_GRIDLINE_STROKE = new BasicStroke( 0.1f );
     
     // Bars in the chart
     private static final int BAR_DARKEST_GRAY = 0; //dark gray
@@ -302,7 +302,6 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
             
             // Number of components
             int numberOfComponents = (int)( 2 * k0 / k1 ) - 1;
-            System.out.println( "number of components = " + numberOfComponents );//XXX
             
             // Change in grayscale value between bars.
             int deltaColor = ( BAR_DARKEST_GRAY - BAR_LIGHTEST_GRAY ) / numberOfComponents;
@@ -340,20 +339,24 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
                 }
             }
             
-            System.out.println( "max amplitude = " + maxAmplitude );//XXX
-            updateChartRange( maxAmplitude );
+//            System.out.println( "number of components = " + numberOfComponents );//XXX
+//            System.out.println( "max amplitude = " + maxAmplitude );//XXX
+            
+            autoscale( maxAmplitude );
         }
         else {
             //XXX do something else when k1=0
         }
     }
     
-    private void updateChartRange( double maxAmplitude ) {
-        
-        Range2D range = _chartGraphic.getRange();
-        range.setMaxY( maxAmplitude );
-        _chartGraphic.setRange( range ); 
-        
+    /*
+     * Updates the chart's range, tick marks and gridlines to match 
+     * the new maximum amplitude.
+     * 
+     * @param maxY
+     */
+    private void autoscale( double maxY ) {
+
         double majorSpacing = 0;
         double minorSpacing = 0;
         NumberFormat majorNumberFormat;
@@ -363,29 +366,29 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
          * These values were set via trial-&-error.  
          * Good luck changing them.
          */
-        if ( maxAmplitude > 2 ) {
+        if ( maxY > 2 ) {
             majorSpacing = 1.0;
             minorSpacing = 0.1;
             majorNumberFormat = new DecimalFormat( "0.#" );
         }
-        else if ( maxAmplitude > 0.5 ) {
+        else if ( maxY > 1 ) {
             majorSpacing = 0.5;
             minorSpacing = 0.1;
             majorNumberFormat = new DecimalFormat( "#.#" );
-        }
-        else if ( maxAmplitude > 0.1 ) {
+        }      
+        else if ( maxY > 0.2 ) {
             majorSpacing = 0.1;
             minorSpacing = 0.05;
             majorNumberFormat = new DecimalFormat( ".##" );
         }
-        else if ( maxAmplitude > 0.05 ) {
+        else if ( maxY > 0.1 ) {
             majorSpacing = 0.05;
             minorSpacing = 0.01;
             majorNumberFormat = new DecimalFormat( ".##" );
         }
-        else if ( maxAmplitude > 0.01 ) {
+        else if ( maxY > 0.02 ) {
             majorSpacing = 0.01;
-            minorSpacing = 0.005; 
+            minorSpacing = 0.005;
             majorNumberFormat = new DecimalFormat( ".###" );
         }
         else {
@@ -394,10 +397,32 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
             majorNumberFormat = new DecimalFormat( ".###" );
         }
         
-        _chartGraphic.getVerticalTicks().setMajorNumberFormat( majorNumberFormat );
-        _chartGraphic.getVerticalTicks().setMajorTickSpacing( majorSpacing );
-        _chartGraphic.getVerticalTicks().setMinorTickSpacing( minorSpacing );
-        _chartGraphic.getHorizonalGridlines().setMajorTickSpacing( majorSpacing );
-
+        /*
+         * The order in which we change the range, tick marks and gridlines is
+         * important.  If we're not careful, we may end up generating a huge 
+         * number of ticks gridlines based on old/new settings.
+         */
+        Range2D range = _chartGraphic.getRange();
+        if ( maxY > range.getMaxY() ) {
+            
+            _chartGraphic.getVerticalTicks().setMajorNumberFormat( majorNumberFormat );
+            _chartGraphic.getVerticalTicks().setMajorTickSpacing( majorSpacing );
+            _chartGraphic.getVerticalTicks().setMinorTickSpacing( minorSpacing );
+            _chartGraphic.getHorizonalGridlines().setMajorTickSpacing( majorSpacing );
+            _chartGraphic.getHorizonalGridlines().setMajorTickSpacing( minorSpacing );
+            
+            range.setMaxY( maxY );
+            _chartGraphic.setRange( range );    
+        }
+        else {
+            range.setMaxY( maxY );
+            _chartGraphic.setRange( range ); 
+            
+            _chartGraphic.getVerticalTicks().setMajorNumberFormat( majorNumberFormat );
+            _chartGraphic.getVerticalTicks().setMajorTickSpacing( majorSpacing );
+            _chartGraphic.getVerticalTicks().setMinorTickSpacing( minorSpacing );
+            _chartGraphic.getHorizonalGridlines().setMajorTickSpacing( majorSpacing );
+            _chartGraphic.getHorizonalGridlines().setMajorTickSpacing( minorSpacing );
+        }
     }
 }
