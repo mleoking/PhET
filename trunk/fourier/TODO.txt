@@ -7,14 +7,14 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - constrain movement of k1 and deltak measurement tools to D2C amplitudes graph
-- bug: D2C amplitudes graph draws on top of tools (Mac only?)
-- bug: dragging tools over top of chart causes weird aliasing artifacts
-- add support for persistence
-- bug: chart draws plots on top of help items (Mac only?)
+- bug: D2C amplitudes graph draws on top of tools (Mac only)
+- bug: dragging tools over top of chart causes weird aliasing artifacts (Mac only)
+- bug: chart draws plots on top of help items (Mac only)
 - bug: anti-aliasing of plots gets turned off
 - wiggle me isn't hidden when user clicks in the control panel
 
 MEDIUM PRIORITY:
+- add support for persistence
 - relocate the Help on the text fields in Discrete module
 - bug: FourierHelp.pointAt(Point,...) doesn't actually point at the specific Point
 - add more arrow options to FourierHelp
