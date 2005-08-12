@@ -42,27 +42,17 @@ import edu.colorado.phet.fourier.view.SubscriptedSymbol;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class WaveMeasurementTool extends CompositePhetGraphic
-implements ApparatusPanel2.ChangeListener, Chart.Listener, HarmonicColorChangeListener {
+public class WaveMeasurementTool extends MeasurementTool
+implements Chart.Listener, HarmonicColorChangeListener {
 
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-
-    private static final double BAR_LAYER = 1;
-    private static final double SYMBOL_LAYER = 2;
-
-    // The symbol
+    
+    // The symbolic label
     private static final Color SYMBOL_COLOR = Color.BLACK;
     private static final Font SYMBOL_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 16 );
     private static final int SYMBOL_Y_OFFSET = -16;
-    
-    // The horizontal bar
-    private static final Stroke BAR_STROKE = new BasicStroke( 1f );
-    private static final Color BAR_BORDER_COLOR = Color.BLACK;
-    private static final float END_WIDTH = 1;
-    private static final float END_HEIGHT = 10;
-    private static final float LINE_HEIGHT = 4; // must be < END_HEIGHT !
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -71,9 +61,6 @@ implements ApparatusPanel2.ChangeListener, Chart.Listener, HarmonicColorChangeLi
     private Chart _chart;
     private String _symbol;
     private SubscriptedSymbol _symbolGraphic;
-    private PhetShapeGraphic _barGraphic;
-    private GeneralPath _barPath;
-    private FourierDragHandler _dragHandler;
     private Harmonic _harmonic;
     private EventListenerList _listenerList;
 
@@ -92,9 +79,6 @@ implements ApparatusPanel2.ChangeListener, Chart.Listener, HarmonicColorChangeLi
     public WaveMeasurementTool( Component component, String symbol, Harmonic harmonic, Chart chart ) {
         super( component );
 
-        // Enable antialiasing for all children.
-        setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-
         _harmonic = harmonic;
 
         _chart = chart;
@@ -103,23 +87,9 @@ implements ApparatusPanel2.ChangeListener, Chart.Listener, HarmonicColorChangeLi
         // Label
         _symbol = symbol;
         _symbolGraphic = new SubscriptedSymbol( component, _symbol, "n", SYMBOL_FONT, SYMBOL_COLOR );
-        _symbolGraphic.setLocation( 0, SYMBOL_Y_OFFSET );
-        addGraphic( _symbolGraphic, SYMBOL_LAYER );
-
-        // Path
-        _barPath = new GeneralPath();
-        _barGraphic = new PhetShapeGraphic( component );
-        _barGraphic.setShape( _barPath );
-        _barGraphic.setStroke( BAR_STROKE );
-        _barGraphic.setBorderColor( BAR_BORDER_COLOR );
-        _barGraphic.centerRegistrationPoint();
-        _barGraphic.setLocation( 0, 0 );
-        addGraphic( _barGraphic, BAR_LAYER );
+        setLabel( _symbolGraphic, SYMBOL_Y_OFFSET );
 
         // Interactivity
-        _dragHandler = new FourierDragHandler( this );
-        setCursorHand();
-        addMouseInputListener( _dragHandler );
         addMouseInputListener( new MouseFocusListener() );
         _listenerList = new EventListenerList();
 
@@ -154,7 +124,7 @@ implements ApparatusPanel2.ChangeListener, Chart.Listener, HarmonicColorChangeLi
         String subscript = String.valueOf( harmonic.getOrder() + 1 );
         _symbolGraphic.setLabel( _symbol, subscript );
         Color color = HarmonicColors.getInstance().getColor( harmonic );
-        _barGraphic.setPaint( color );
+        setFillColor( color );
         updateSize();
     }
 
@@ -163,48 +133,17 @@ implements ApparatusPanel2.ChangeListener, Chart.Listener, HarmonicColorChangeLi
      * and the chart's range.
      */
     private void updateSize() {
-        assert ( END_HEIGHT > LINE_HEIGHT );
 
         // The harmonic's cycle length, in model coordinates.
         double cycleLength = FourierConstants.L / ( _harmonic.getOrder() + 1 );
         
         // Convert the cycle length to view coordinates.
-        Point2D p1 = _chart.transform( 0, 0 );
-        Point2D p2 = _chart.transform( cycleLength, 0 );
+        Point2D p1 = _chart.transformDouble( 0, 0 );
+        Point2D p2 = _chart.transformDouble( cycleLength, 0 );
         float width = (float) ( p2.getX() - p1.getX() );
 
-        // Adjust the path to the cycle length.
-        _barPath.reset();
-        _barPath.moveTo( 0, 0 );
-        _barPath.lineTo( END_WIDTH, 0 );
-        _barPath.lineTo( END_WIDTH, END_HEIGHT / 2f - LINE_HEIGHT / 2f );
-        _barPath.lineTo( width - END_WIDTH, END_HEIGHT / 2f - LINE_HEIGHT / 2f );
-        _barPath.lineTo( width - END_WIDTH, 0 );
-        _barPath.lineTo( width, 0 );
-        _barPath.lineTo( width, END_HEIGHT );
-        _barPath.lineTo( width - END_WIDTH, END_HEIGHT );
-        _barPath.lineTo( width - END_WIDTH, END_HEIGHT / 2f + LINE_HEIGHT / 2f );
-        _barPath.lineTo( END_WIDTH, END_HEIGHT / 2f + LINE_HEIGHT / 2f );
-        _barPath.lineTo( END_WIDTH, END_HEIGHT );
-        _barPath.lineTo( 0, END_HEIGHT );
-        _barPath.closePath();
-
-        // Refresh the graphics
-        _barGraphic.setShapeDirty();
-        _barGraphic.centerRegistrationPoint();
-    }
-
-    //----------------------------------------------------------------------------
-    // ApparatusPanel2.ChangeListener implementation
-    //----------------------------------------------------------------------------
-
-    /**
-     * Informs the mouse handler of changes to the apparatus panel size.
-     * 
-     * @param event
-     */
-    public void canvasSizeChanged( ApparatusPanel2.ChangeEvent event ) {
-        _dragHandler.setDragBounds( 0, 0, event.getCanvasSize().width, event.getCanvasSize().height );
+        // Adjust the tool to match the cycle length.
+        setToolWidth( width );
     }
 
     //----------------------------------------------------------------------------
@@ -212,9 +151,9 @@ implements ApparatusPanel2.ChangeListener, Chart.Listener, HarmonicColorChangeLi
     //----------------------------------------------------------------------------
 
     /**
-     * Invokes when the chart's range changes.
+     * Invoked when the chart's range changes.
      * 
-     * @param chart the chart the changed
+     * @param chart the chart that changed
      */
     public void transformChanged( Chart chart ) {
         updateSize();
@@ -274,7 +213,7 @@ implements ApparatusPanel2.ChangeListener, Chart.Listener, HarmonicColorChangeLi
     public void harmonicColorChanged( HarmonicColorChangeEvent e ) {
         if ( e.getOrder() == _harmonic.getOrder() ) {
             Color color = HarmonicColors.getInstance().getColor( _harmonic );
-            _barGraphic.setPaint( color );
+            setFillColor( color );
         }
     }
     
