@@ -6,9 +6,12 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- constrain movement of k1 and deltak measurement tools to D2C amplitudes graph
+- bug: D2C amplitudes graph draws on top of tools (Mac only?)
+- bug: dragging tools over top of chart causes weird aliasing artifacts
 - add support for persistence
-- chart draws plots on top of help items (Mac only?)
-- anti-aliasing of plots gets turned off
+- bug: chart draws plots on top of help items (Mac only?)
+- bug: anti-aliasing of plots gets turned off
 - wiggle me isn't hidden when user clicks in the control panel
 
 MEDIUM PRIORITY:
