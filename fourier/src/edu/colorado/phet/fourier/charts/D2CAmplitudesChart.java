@@ -228,7 +228,6 @@ public class D2CAmplitudesChart extends Chart {
             getVerticalTicks().setMajorTickSpacing( majorSpacing );
             getVerticalTicks().setMinorTickSpacing( minorSpacing );
             getHorizonalGridlines().setMajorTickSpacing( majorSpacing );
-            getHorizonalGridlines().setMajorTickSpacing( minorSpacing );
             
             range.setMaxY( maxY );
             setRange( range );    
@@ -241,7 +240,6 @@ public class D2CAmplitudesChart extends Chart {
             getVerticalTicks().setMajorTickSpacing( majorSpacing );
             getVerticalTicks().setMinorTickSpacing( minorSpacing );
             getHorizonalGridlines().setMajorTickSpacing( majorSpacing );
-            getHorizonalGridlines().setMajorTickSpacing( minorSpacing );
         }
     }
 }
