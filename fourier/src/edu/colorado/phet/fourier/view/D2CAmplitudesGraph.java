@@ -192,9 +192,6 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
             
             // Width of the bars is slightly less than the spacing k1.
             double barWidth = k1 - ( k1 * 0.25 );
-            if ( k1 == 0 ) {
-                barWidth = k1;
-            }
             
             double maxAmplitude = 0;
             double k0 = _wavePacket.getK0();
