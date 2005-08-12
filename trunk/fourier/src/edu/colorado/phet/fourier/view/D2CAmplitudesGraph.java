@@ -72,6 +72,7 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     
     // Tools
     private static final Font TOOL_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 16 );
+    private static final Color TOOL_COLOR = Color.RED;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -133,20 +134,20 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         addGraphic( _chartGraphic, CHART_LAYER );       
         
         // Spacing measurement tool
-        _spacingToolLabelGraphic = new HTMLGraphic( component,TOOL_FONT, "", Color.BLACK );
+        _spacingToolLabelGraphic = new HTMLGraphic( component,TOOL_FONT, "", TOOL_COLOR );
         _spacingToolLabelGraphic.centerRegistrationPoint();
         _spacingTool = new MeasurementTool( component );
-        _spacingTool.setFillColor( Color.BLACK );
+        _spacingTool.setFillColor( TOOL_COLOR );
         _spacingTool.setStroke( null );
         _spacingTool.setLabel( _spacingToolLabelGraphic, -15 );
         _spacingTool.setLocation( 590, 120 );
         addGraphic( _spacingTool, TOOL_LAYER );
         
         // Width measurement tool
-        _widthToolLabelGraphic = new HTMLGraphic( component,TOOL_FONT, "", Color.BLACK  );
+        _widthToolLabelGraphic = new HTMLGraphic( component,TOOL_FONT, "", TOOL_COLOR  );
         _widthToolLabelGraphic.centerRegistrationPoint();
         _widthTool = new MeasurementTool( component );
-        _widthTool.setFillColor( Color.BLACK );
+        _widthTool.setFillColor( TOOL_COLOR );
         _widthTool.setStroke( null );
         _widthTool.setLabel( _widthToolLabelGraphic, -15 );
         _widthTool.setLocation( 540, 60  );
