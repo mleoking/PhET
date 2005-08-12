@@ -102,6 +102,13 @@ public class GaussianWavePacket extends SimpleObservable {
         return _center;
     }
     
+    /**
+     * Gets the number of components in the wave packet.
+     */
+    public int getNumberOfComponents() {
+        return (int)( 2 * _center / _spacing ) - 1;
+    }
+    
     //----------------------------------------------------------------------------
     // Convenience accessors
     //----------------------------------------------------------------------------

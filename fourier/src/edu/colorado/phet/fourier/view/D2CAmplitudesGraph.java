@@ -297,11 +297,8 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         double k1 = _wavePacket.getK1();
         if ( k1 > 0 ) {
             
-            double k0 = _wavePacket.getK0();
-            double dk = _wavePacket.getDeltaK();
-            
             // Number of components
-            int numberOfComponents = (int)( 2 * k0 / k1 ) - 1;
+            int numberOfComponents = _wavePacket.getNumberOfComponents();
             
             // Change in grayscale value between bars.
             int deltaColor = ( BAR_DARKEST_GRAY - BAR_LIGHTEST_GRAY ) / numberOfComponents;
@@ -313,6 +310,8 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
             }
             
             double maxAmplitude = 0;
+            double k0 = _wavePacket.getK0();
+            double dk = _wavePacket.getDeltaK();
             
             // Add a bar for each component.
             for ( int i = 0; i < numberOfComponents; i++ ) {
