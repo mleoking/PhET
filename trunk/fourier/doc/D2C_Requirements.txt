@@ -148,7 +148,8 @@ Amplitudes view
 - for each value of k, bar displayed = k1 * A(k,k0,deltak)
 
 
+Q: is k0 half the packet width or the center point (they are different things)
 Q: do you want to be able to shift k0 ?
 Q: should amplitudes graph vertically autoscale ?
 Q: many bars are so small that you can't see them, and they are using grayscale values
-
+Q: n=(2*k0/k1)-1 doesn't really work when we start moving k0 around, does it? 
