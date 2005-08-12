@@ -137,7 +137,8 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         _spacingToolLabelGraphic.centerRegistrationPoint();
         _spacingTool = new MeasurementTool( component );
         _spacingTool.setFillColor( Color.BLACK );
-        _spacingTool.setLabel( _spacingToolLabelGraphic, -30 );
+        _spacingTool.setStroke( null );
+        _spacingTool.setLabel( _spacingToolLabelGraphic, -15 );
         _spacingTool.setLocation( 590, 120 );
         addGraphic( _spacingTool, TOOL_LAYER );
         
@@ -146,7 +147,8 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         _widthToolLabelGraphic.centerRegistrationPoint();
         _widthTool = new MeasurementTool( component );
         _widthTool.setFillColor( Color.BLACK );
-        _widthTool.setLabel( _widthToolLabelGraphic, -30 );
+        _widthTool.setStroke( null );
+        _widthTool.setLabel( _widthToolLabelGraphic, -15 );
         _widthTool.setLocation( 540, 60  );
         addGraphic( _widthTool, TOOL_LAYER );
         
@@ -198,6 +200,8 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         else {
             throw new IllegalArgumentException( "unsupported domain: " + domain );
         }
+        _spacingToolLabelGraphic.centerRegistrationPoint();
+        _widthToolLabelGraphic.centerRegistrationPoint();
     }
     
     //----------------------------------------------------------------------------
