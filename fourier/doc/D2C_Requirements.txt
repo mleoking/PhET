@@ -147,7 +147,7 @@ Amplitudes view
 - F(x,dx) = exp( -(x^2) / (2 * (dx^2) ) )
 - for each value of k, bar displayed = k1 * A(k,k0,deltak)
 
-
+Q: how to compute the shape of the continuous curve?
 Q: is k0 half the packet width or the center point (they are different things)
 Q: do you want to be able to shift k0 ?
 Q: should amplitudes graph vertically autoscale ?

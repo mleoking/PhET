@@ -67,6 +67,8 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(8/12) - first pass at adding k1 and deltak measurement tools to D2C
+(8/12) - more drawing of measurement tools into a more generic class (MeasurementTool)
 (8/12) - autoscale the D2C amplitudes graph
 (8/11) - fix computation of amplitudes in D2C
 (8/10) - charts: BarPlot.setBarWidth should take width in model coordinates
