@@ -268,14 +268,12 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         // Spacing measurement tool.
         {
             float width = (float) _chartGraphic.transformXDouble( k1 );
-            System.out.println( "spacing tool width = " + width );//XXX
             _spacingTool.setToolWidth( width );
         }
         
         // Width measurement tool 
         {
             float width = (float) ( 2 * _chartGraphic.transformXDouble( dk ) );
-            System.out.println( "packet width tool width = " + width );//XXX
             _widthTool.setToolWidth( width );
         }
     }
