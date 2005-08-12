@@ -10,5 +10,6 @@
     </manifest>
     <selectedElements exportClassFiles="false" exportOutputFolder="true" exportJavaFiles="false">
         <javaElement handleIdentifier="=colorvision3"/>
+        <javaElement handleIdentifier="=phetcommon-branch"/>
     </selectedElements>
 </jardesc>

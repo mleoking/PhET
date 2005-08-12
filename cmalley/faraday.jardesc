@@ -10,5 +10,6 @@
     </manifest>
     <selectedElements exportClassFiles="false" exportOutputFolder="true" exportJavaFiles="false">
         <javaElement handleIdentifier="=faraday"/>
+        <javaElement handleIdentifier="=phetcommon"/>
     </selectedElements>
 </jardesc>

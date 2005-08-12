@@ -10,5 +10,7 @@
     </manifest>
     <selectedElements exportClassFiles="false" exportOutputFolder="true" exportJavaFiles="false">
         <javaElement handleIdentifier="=fourier"/>
+        <javaElement handleIdentifier="=charts"/>
+        <javaElement handleIdentifier="=phetcommon"/>
     </selectedElements>
 </jardesc>
