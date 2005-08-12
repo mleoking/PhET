@@ -3,7 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
-- flesh out Amplitudes view in D2C module
+
 
 HIGH PRIORITY:
 - add support for persistence
@@ -67,6 +67,7 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(8/12) - autoscale the D2C amplitudes graph
 (8/11) - fix computation of amplitudes in D2C
 (8/10) - charts: BarPlot.setBarWidth should take width in model coordinates
 (8/10) - charts: fix clipping in BarPlot so that bars aren't drawn outside the chart

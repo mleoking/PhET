@@ -126,7 +126,7 @@ The wave packet in k space (Ampltiudes graph) and the Fourier transform of that 
 ******************************************************
 
 Amplitudes view
-- x range is 0 to 22pi, and stays constant
+- x range is 0 to 24pi, and stays constant
 - x axis is labeled at 2pi intervals, tick marks at pi/2 intervals
 - y range is 0 to 1 (may adjust later), labeled at 0.2 intervals, tick marks at 0.1 intervals
 - the y axis is labeled "An"
@@ -141,15 +141,14 @@ Amplitudes view
 - k1 can be set to one of the following values: 0, pi/4, pi/2, pi, 2pi (rad/mm or rad/ms)
 - when k1=0, the bars fill the area under the continuous curve
 - k0 = 12pi
-- number of components = 22pi / k1
+- number of components = ( 2 * k0 / k1 ) - 1
 - kn=n*k1
 - A(k,k0,deltak) = exp[ -(k-k0)^2 / (2 * (deltak^2) )  ] / (deltak * sqrt( 2pi ))
 - F(x,dx) = exp( -(x^2) / (2 * (dx^2) ) )
+- for each value of k, bar displayed = k1 * A(k,k0,deltak)
 
-Q: semantics and significance of the value 22pi
+
 Q: do you want to be able to shift k0 ?
-Q: should amplitudes be multiplied by k1 before display in amplitudes graph ?
 Q: should amplitudes graph vertically autoscale ?
-Q: should the x-axis scale go from 0...25pi so that we can see all components ?
 Q: many bars are so small that you can't see them, and they are using grayscale values
 
