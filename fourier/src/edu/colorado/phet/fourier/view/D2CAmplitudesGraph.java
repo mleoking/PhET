@@ -19,6 +19,7 @@ import edu.colorado.phet.chart.DataSet;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -26,6 +27,7 @@ import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.charts.D2CAmplitudesChart;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
+import edu.colorado.phet.fourier.view.tools.MeasurementTool;
 
 
 /**
@@ -44,6 +46,7 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     private static final double BACKGROUND_LAYER = 1;
     private static final double TITLE_LAYER = 2;
     private static final double CHART_LAYER = 3;
+    private static final double TOOL_LAYER = 4;
     
     // Background parameters
     private static final Dimension BACKGROUND_SIZE = new Dimension( 800, 195 );
@@ -67,6 +70,9 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     private static final int BAR_DARKEST_GRAY = 0; //dark gray
     private static final int BAR_LIGHTEST_GRAY = 230;  // light gray
     
+    // Tools
+    private static final Font TOOL_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 16 );
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -74,6 +80,10 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     private GaussianWavePacket _wavePacket;
     private D2CAmplitudesChart _chartGraphic;
     private String _xTitleSpace, _xTitleTime;
+    private MeasurementTool _spacingTool;
+    private HTMLGraphic _spacingToolLabelGraphic;
+    private MeasurementTool _widthTool;
+    private HTMLGraphic _widthToolLabelGraphic;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -120,10 +130,29 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         _chartGraphic.setXAxisTitle( _xTitleSpace );
         _chartGraphic.setRegistrationPoint( 0, CHART_SIZE.height / 2 ); // at the chart's origin
         _chartGraphic.setLocation( 60, 15 + (CHART_SIZE.height / 2) );
-        addGraphic( _chartGraphic, CHART_LAYER );        
+        addGraphic( _chartGraphic, CHART_LAYER );       
+        
+        // Spacing measurement tool
+        _spacingToolLabelGraphic = new HTMLGraphic( component,TOOL_FONT, "", Color.BLACK );
+        _spacingToolLabelGraphic.centerRegistrationPoint();
+        _spacingTool = new MeasurementTool( component );
+        _spacingTool.setFillColor( Color.BLACK );
+        _spacingTool.setLabel( _spacingToolLabelGraphic, -30 );
+        _spacingTool.setLocation( 590, 120 );
+        addGraphic( _spacingTool, TOOL_LAYER );
+        
+        // Width measurement tool
+        _widthToolLabelGraphic = new HTMLGraphic( component,TOOL_FONT, "", Color.BLACK  );
+        _widthToolLabelGraphic.centerRegistrationPoint();
+        _widthTool = new MeasurementTool( component );
+        _widthTool.setFillColor( Color.BLACK );
+        _widthTool.setLabel( _widthToolLabelGraphic, -30 );
+        _widthTool.setLocation( 540, 60  );
+        addGraphic( _widthTool, TOOL_LAYER );
         
         // Interactivity
-        setIgnoreMouse( true ); // nothing in this view is interactive
+        titleGraphic.setIgnoreMouse( true );
+        _chartGraphic.setIgnoreMouse( true );
         
         reset();
     }
@@ -141,7 +170,7 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
      */
     public void reset() {
         update();
-        _chartGraphic.setXAxisTitle( _xTitleSpace );
+        setDomain( FourierConstants.DOMAIN_SPACE );
     }
 
     //----------------------------------------------------------------------------
@@ -150,7 +179,7 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     
     /**
      * Sets the domain.
-     * This changes the label on the chart's x axis.
+     * Changes various labels on the chart, tools, etc.
      * 
      * @param domain DOMAIN_SPACE or DOMAIN_TIME
      * @throws IllegalArgumentException if the domain is invalid or not supported
@@ -158,9 +187,13 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     public void setDomain( int domain ) {
         if ( domain == FourierConstants.DOMAIN_SPACE ) {
             _chartGraphic.setXAxisTitle( _xTitleSpace );
+            _spacingToolLabelGraphic.setHTML( "<html>k<sub>1</sub></html>" );
+            _widthToolLabelGraphic.setHTML( "<html>2\u0394k</html>" );
         }
         else if ( domain == FourierConstants.DOMAIN_TIME ) {
             _chartGraphic.setXAxisTitle( _xTitleTime );
+            _spacingToolLabelGraphic.setHTML( "<html>\u03C9<sub>1</sub></html>" );
+            _widthToolLabelGraphic.setHTML( "<html>2\u0394\u03C9</html>" );
         }
         else {
             throw new IllegalArgumentException( "unsupported domain: " + domain );
@@ -182,6 +215,9 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         _chartGraphic.removeAllDataSetGraphics();
         
         double k1 = _wavePacket.getK1();
+        double k0 = _wavePacket.getK0();
+        double dk = _wavePacket.getDeltaK();
+        
         if ( k1 > 0 ) {
             
             // Number of components
@@ -194,8 +230,6 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
             double barWidth = k1 - ( k1 * 0.25 );
             
             double maxAmplitude = 0;
-            double k0 = _wavePacket.getK0();
-            double dk = _wavePacket.getDeltaK();
             
             // Add a bar for each component.
             for ( int i = 0; i < numberOfComponents; i++ ) {
@@ -229,6 +263,20 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         }
         else {
             //XXX do something else when k1=0
+        }
+        
+        // Spacing measurement tool.
+        {
+            float width = (float) _chartGraphic.transformXDouble( k1 );
+            System.out.println( "spacing tool width = " + width );//XXX
+            _spacingTool.setToolWidth( width );
+        }
+        
+        // Width measurement tool 
+        {
+            float width = (float) ( 2 * _chartGraphic.transformXDouble( dk ) );
+            System.out.println( "packet width tool width = " + width );//XXX
+            _widthTool.setToolWidth( width );
         }
     }
 
