@@ -104,9 +104,16 @@ public class GaussianWavePacket extends SimpleObservable {
     
     /**
      * Gets the number of components in the wave packet.
+     * If the spacing is zero, then Integer.MAX_VALUE is returned.
      */
     public int getNumberOfComponents() {
-        return (int)( 2 * _center / _spacing ) - 1;
+        int numberOfComponents;
+        if ( _spacing == 0 ) {
+            return Integer.MAX_VALUE;
+        }
+        else {
+            return (int)( 2 * _center / _spacing ) - 1;
+        }
     }
     
     //----------------------------------------------------------------------------
