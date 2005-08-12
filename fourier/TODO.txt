@@ -3,6 +3,8 @@
 ===============================================================================
 
 IN PROGRESS:
+- separate k0 and center point in GaussianWavePacket model (not the same thing)
+- plan for having to shift center point
 
 
 HIGH PRIORITY:
@@ -70,6 +72,8 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(8/12) - set color of D2C measurement tools to a dark red
+sandbox...
 (8/12) - first pass at adding k1 and deltak measurement tools to D2C
 (8/12) - more drawing of measurement tools into a more generic class (MeasurementTool)
 (8/12) - autoscale the D2C amplitudes graph
