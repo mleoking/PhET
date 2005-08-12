@@ -122,6 +122,24 @@ public class MeasurementTool extends CompositePhetGraphic implements ApparatusPa
     }
     
     /**
+     * Sets the border color of the measurement bar.
+     * 
+     * @param color
+     */
+    public void setBorderColor( Color color ) {
+        _barGraphic.setBorderColor( color );
+    }
+    
+    /**
+     * Sets the stroke of the measurement bar.
+     * 
+     * @param stroke
+     */
+    public void setStroke( Stroke stroke ) {
+        _barGraphic.setStroke( stroke );
+    }
+    
+    /**
      * Updates the width of the tool.
      */
     public void setToolWidth( float width ) {
