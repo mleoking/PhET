@@ -58,7 +58,7 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     
     // Chart parameters
     private static final double X_MIN = 0;
-    private static final double X_MAX = 22 * Math.PI;
+    private static final double X_MAX = 24 * Math.PI;
     private static final double Y_MIN = 0;
     private static final double Y_MAX = 1;
     private static final Range2D CHART_RANGE = new Range2D( X_MIN, Y_MIN, X_MAX, Y_MAX );
@@ -97,10 +97,8 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     private static final Stroke MINOR_GRIDLINE_STROKE = new BasicStroke( 0.25f );
     
     // Bars in the chart
-    private static final int BAR_DARKEST_GRAY = 50; //dark gray
-    private static final int BAR_LIGHTEST_GRAY = 220;  // light gray
-    
-    private static final double MAGIC_NUMBER = 22 * Math.PI; //XXX
+    private static final int BAR_DARKEST_GRAY = 0; //dark gray
+    private static final int BAR_LIGHTEST_GRAY = 230;  // light gray
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -189,6 +187,7 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
                 xAxisLabels.put( 18 * Math.PI, "18" + MathStrings.C_PI );
                 xAxisLabels.put( 20 * Math.PI, "20" + MathStrings.C_PI );
                 xAxisLabels.put( 22 * Math.PI, "22" + MathStrings.C_PI );
+                xAxisLabels.put( 24 * Math.PI, "24" + MathStrings.C_PI );
                 _chartGraphic.getHorizontalTicks().setMajorLabels( xAxisLabels );
             }
             
@@ -300,11 +299,21 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
             
             double k0 = _wavePacket.getK0();
             double dk = _wavePacket.getDeltaK();
-            int numberOfComponents = (int) ( MAGIC_NUMBER / k1 ); //XXX semantics of MAGIC_NUMBER ?
+            
+            // Number of components
+            int numberOfComponents = (int)( 2 * k0 / k1 ) - 1;
+            System.out.println( "number of components = " + numberOfComponents );//XXX
+            
+            // Change in grayscale value between bars.
             int deltaColor = ( BAR_DARKEST_GRAY - BAR_LIGHTEST_GRAY ) / numberOfComponents;
             
             // Width of the bars is slightly less than the spacing k1.
             double barWidth = k1 - ( k1 * 0.25 );
+            if ( k1 == 0 ) {
+                barWidth = k1;
+            }
+            
+            double maxAmplitude = 0;
             
             // Add a bar for each component.
             for ( int i = 0; i < numberOfComponents; i++ ) {
@@ -318,8 +327,6 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
                 // Compute the bar graphic.
                 BarPlot barPlot = new BarPlot( getComponent(), _chartGraphic, barWidth );
                 barPlot.setFillColor( barColor );
-                barPlot.setBorderColor( Color.BLACK );
-                barPlot.setStroke( new BasicStroke( 1f ) );
                 _chartGraphic.addDataSetGraphic( barPlot );
 
                 // Set the bar's position (kn) and height (An).
@@ -327,10 +334,70 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
                 double An = GaussianWavePacket.getAmplitude( kn, k0, dk ) * k1;
                 DataSet dataSet = barPlot.getDataSet();
                 dataSet.addPoint( new Point2D.Double( kn, An ) );
+                
+                if ( An > maxAmplitude ) {
+                    maxAmplitude = An;
+                }
             }
+            
+            System.out.println( "max amplitude = " + maxAmplitude );//XXX
+            updateChartRange( maxAmplitude );
         }
         else {
             //XXX do something else when k1=0
         }
+    }
+    
+    private void updateChartRange( double maxAmplitude ) {
+        
+        Range2D range = _chartGraphic.getRange();
+        range.setMaxY( maxAmplitude );
+        _chartGraphic.setRange( range ); 
+        
+        double majorSpacing = 0;
+        double minorSpacing = 0;
+        NumberFormat majorNumberFormat;
+        
+        /*
+         * Set the tick marks and gridlines based on the max amplitude.
+         * These values were set via trial-&-error.  
+         * Good luck changing them.
+         */
+        if ( maxAmplitude > 2 ) {
+            majorSpacing = 1.0;
+            minorSpacing = 0.1;
+            majorNumberFormat = new DecimalFormat( "0.#" );
+        }
+        else if ( maxAmplitude > 0.5 ) {
+            majorSpacing = 0.5;
+            minorSpacing = 0.1;
+            majorNumberFormat = new DecimalFormat( "#.#" );
+        }
+        else if ( maxAmplitude > 0.1 ) {
+            majorSpacing = 0.1;
+            minorSpacing = 0.05;
+            majorNumberFormat = new DecimalFormat( ".##" );
+        }
+        else if ( maxAmplitude > 0.05 ) {
+            majorSpacing = 0.05;
+            minorSpacing = 0.01;
+            majorNumberFormat = new DecimalFormat( ".##" );
+        }
+        else if ( maxAmplitude > 0.01 ) {
+            majorSpacing = 0.01;
+            minorSpacing = 0.005; 
+            majorNumberFormat = new DecimalFormat( ".###" );
+        }
+        else {
+            majorSpacing = 0.005;
+            minorSpacing = 0.001; 
+            majorNumberFormat = new DecimalFormat( ".###" );
+        }
+        
+        _chartGraphic.getVerticalTicks().setMajorNumberFormat( majorNumberFormat );
+        _chartGraphic.getVerticalTicks().setMajorTickSpacing( majorSpacing );
+        _chartGraphic.getVerticalTicks().setMinorTickSpacing( minorSpacing );
+        _chartGraphic.getHorizonalGridlines().setMajorTickSpacing( majorSpacing );
+
     }
 }
