@@ -1,9 +1,12 @@
-/**
- * Class: EnergyHistogramDialog
- * Class: edu.colorado.phet.idealgas.graphics
- * User: Ron LeMaster
- * Date: Jan 19, 2004
- * Time: 9:19:30 AM
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.idealgas.view.monitors;
 
@@ -27,9 +30,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A non-modal dialog that shows histograms of energy and average speed of the particles in an IdealGasModel.
+ * A non-modal dialog that shows histograms of energy and average speed of the particles in
+ * an IdealGasModel.
  */
 public class EnergyHistogramDialog extends JDialog {
+
+    //----------------------------------------------------------------
+    // Instance fields
+    //----------------------------------------------------------------
 
     private Histogram energyHistogram;
     // Number of energyHistogram updates between times it will be displayed and then
@@ -39,7 +47,6 @@ public class EnergyHistogramDialog extends JDialog {
     private int initialEnergyClippingLevel = 50;
     private int initialSpeedClippingLevel = 20;
     // Upper bounds for histograms
-//    private double maxKineticEnergy = 50E3;
     private double maxKineticEnergy = 150E3;
     private double maxSpeed = 200;
     private Histogram speedHistogram;
@@ -54,6 +61,23 @@ public class EnergyHistogramDialog extends JDialog {
     private RotatedTextLabel lightSpeedYLabel;
     private Updater updater;
 
+    // Out-of-range indicator fields
+    private String inRangeIndicator = "  ";
+    private String outOfRangeIndicator = "»";
+    private JLabel energyOutOfRangeIndicator = new JLabel( outOfRangeIndicator );
+    private JLabel speedOutOfRangeIndicator = new JLabel( outOfRangeIndicator );
+    private JLabel heavySpeciesSpeedOutOfRangeIndicator = new JLabel( outOfRangeIndicator );
+    private JLabel lightSpeciesSpeedOutOfRangeIndicator = new JLabel( outOfRangeIndicator );
+    private JLabel outOfRangeIndicatorLegend1 = new JLabel( outOfRangeIndicator );
+    private JLabel outOfRangeIndicatorLegend2 = new JLabel(
+            new String( " - ").concat( SimStrings.get( "EnergyHistorgramDialog.OutOfRangeIndicatorLegend")));
+    private Font outOfRangeIndicatorFont;
+    private String[] speedDetailsLegends = new String[] {
+        SimStrings.get( "EnergyHistorgramDialog.Heavy_Speed_label" ),
+        SimStrings.get( "EnergyHistorgramDialog.Light_Speed_label" )
+    };
+
+
     /**
      * @param owner
      * @param model
@@ -62,8 +86,6 @@ public class EnergyHistogramDialog extends JDialog {
         super( owner );
         this.model = model;
         this.setTitle( SimStrings.get( "EnergyHistorgramDialog.Title" ) );
-//        this.setUndecorated( true );
-//        this.getRootPane().setWindowDecorationStyle( JRootPane.PLAIN_DIALOG );
         this.setResizable( false );
         addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
@@ -110,6 +132,18 @@ public class EnergyHistogramDialog extends JDialog {
         updater.start();
     }
 
+    /**
+     * Allows a client to set the names of the individual species as they are shown on the
+     * details histograms
+     */
+    public void setSpeedDetailsLegends( String[] legends, Color[] colors ) {
+        speedDetailsLegends = legends;
+        heavySpeedLabel.setText( legends[0] );
+        lightSpeedLabel.setText( legends[1] );
+        heavySpeedHistogram.setColor( colors[0] );
+        lightSpeedHistogram.setColor( colors[1] );
+    }
+
     private void hideShowDetails() {
         heavySpeedHistogram.setVisible( showDetails );
         heavySpeedLabel.setVisible( showDetails );
@@ -127,28 +161,16 @@ public class EnergyHistogramDialog extends JDialog {
         repaint();
     }
 
-    String inRangeIndicator = " ";
-//    String outOfRangeIndicator = "!";
-    String outOfRangeIndicator = "»";
-    JLabel energyOutOfRangeIndicator = new JLabel( outOfRangeIndicator );
-    JLabel speedOutOfRangeIndicator = new JLabel( outOfRangeIndicator );
-    JLabel heavySpeciesSpeedOutOfRangeIndicator = new JLabel( outOfRangeIndicator );
-    JLabel lightSpeciesSpeedOutOfRangeIndicator = new JLabel( outOfRangeIndicator );
-    JLabel outOfRangeIndicatorLegend1 = new JLabel( outOfRangeIndicator );
-    JLabel outOfRangeIndicatorLegend2 = new JLabel( " - Indicates data out of range");
-
-
+    /**
+     *
+     * @param g
+     */
     public void paint( Graphics g ) {
+        // Determine if the out of range indicator should be displayed
         energyOutOfRangeIndicator.setText( energyHistogram.hasDataOutOfRange() ? outOfRangeIndicator : inRangeIndicator );
-        energyOutOfRangeIndicator.setForeground( Color.red );
         speedOutOfRangeIndicator.setText( speedHistogram.hasDataOutOfRange() ? outOfRangeIndicator : inRangeIndicator );
-        speedOutOfRangeIndicator.setForeground( Color.red );
         lightSpeciesSpeedOutOfRangeIndicator.setText( lightSpeedHistogram.hasDataOutOfRange() ? outOfRangeIndicator : inRangeIndicator );
-        lightSpeciesSpeedOutOfRangeIndicator.setForeground( Color.red );
         heavySpeciesSpeedOutOfRangeIndicator.setText( heavySpeedHistogram.hasDataOutOfRange() ? outOfRangeIndicator : inRangeIndicator );
-        heavySpeciesSpeedOutOfRangeIndicator.setForeground( Color.red );
-
-        outOfRangeIndicatorLegend1.setForeground( Color.red );
 
         super.paint( g );
     }
@@ -159,7 +181,7 @@ public class EnergyHistogramDialog extends JDialog {
     private void layoutComponents() {
         Insets defaultInsets = new Insets( 0, 0, 0, 0 );
         Insets xAxisTitleInsets = new Insets( 0, 0, 12, 0 );
-        Insets outOfBoundsAnnunciatorInsets = new Insets( 0, 0, 12, 25 );
+        Insets outOfBoundsAnnunciatorInsets = new Insets( 0, 0, 12, 20 );
 
         this.getContentPane().setLayout( new GridBagLayout() );
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
@@ -167,19 +189,15 @@ public class EnergyHistogramDialog extends JDialog {
                                                          GridBagConstraints.NONE,
                                                          defaultInsets, 0, 0 );
 
-        heavySpeedLabel = new JLabel( SimStrings.get( "EnergyHistorgramDialog.Heavy_Speed_label" ) );
-        lightSpeedLabel = new JLabel( SimStrings.get( "EnergyHistorgramDialog.Light_Speed_label" ) );
-
-        Font outOfRangeIndicatorFont = new Font( "Lucida Sans", Font.BOLD, 30 );
-//        energyOutOfRangeIndicator.setFont( outOfRangeIndicatorFont );
-//        speedOutOfRangeIndicator.setFont( outOfRangeIndicatorFont );
-//        heavySpeciesSpeedOutOfRangeIndicator.setFont( outOfRangeIndicatorFont );
-//        lightSpeciesSpeedOutOfRangeIndicator.setFont( outOfRangeIndicatorFont );
-
-
-        Container contentPane = getContentPane();
+        // Set the legends for the speed histograms for individual species
+        heavySpeedLabel = new JLabel( speedDetailsLegends[0] );
+        lightSpeedLabel = new JLabel( speedDetailsLegends[1] );
 
         // Upper histogram
+        outOfRangeIndicatorFont = new Font( "Lucida Sans", Font.BOLD, 30 );
+        Container contentPane = getContentPane();
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = defaultInsets;
         gbc.gridx = 0;
         contentPane.add( new RotatedTextLabel(), gbc );
         gbc.gridx = 1;
@@ -190,8 +208,9 @@ public class EnergyHistogramDialog extends JDialog {
         gbc.insets = xAxisTitleInsets;
         contentPane.add( new JLabel( SimStrings.get( "EnergyHistorgramDialog.Energy_Distribution" ) ), gbc );
         gbc.anchor = GridBagConstraints.WEST;
-        gbc.gridx++;
+        gbc.gridx = 2;
         gbc.insets = outOfBoundsAnnunciatorInsets;
+        energyOutOfRangeIndicator.setForeground( Color.red );
         contentPane.add( energyOutOfRangeIndicator, gbc );
 
         // Second histogram
@@ -206,8 +225,9 @@ public class EnergyHistogramDialog extends JDialog {
         gbc.gridy++;
         gbc.insets = xAxisTitleInsets;
         contentPane.add( new JLabel( SimStrings.get( "EnergyHistorgramDialog.Speed_Distribution" ) ), gbc );
-        gbc.gridx++;
+        gbc.gridx = 2;
         gbc.insets = outOfBoundsAnnunciatorInsets;
+        speedOutOfRangeIndicator.setForeground( Color.red );
         contentPane.add( speedOutOfRangeIndicator, gbc );
 
         // Details histograms
@@ -223,6 +243,7 @@ public class EnergyHistogramDialog extends JDialog {
         contentPane.add( heavySpeedLabel, gbc );
         gbc.gridx++;
         gbc.insets = outOfBoundsAnnunciatorInsets;
+        heavySpeciesSpeedOutOfRangeIndicator.setForeground( Color.red );
         contentPane.add( heavySpeciesSpeedOutOfRangeIndicator, gbc );
 
         gbc.insets = defaultInsets;
@@ -237,6 +258,7 @@ public class EnergyHistogramDialog extends JDialog {
         contentPane.add( lightSpeedLabel, gbc );
         gbc.gridx++;
         gbc.insets = outOfBoundsAnnunciatorInsets;
+        lightSpeciesSpeedOutOfRangeIndicator.setForeground( Color.red );
         contentPane.add( lightSpeciesSpeedOutOfRangeIndicator, gbc );
 
         // Legend and Details button
@@ -244,11 +266,12 @@ public class EnergyHistogramDialog extends JDialog {
         gbc.gridx = 0;
         gbc.anchor = GridBagConstraints.EAST;
         gbc.insets = new Insets( 0, 25, 0,0 );
+        outOfRangeIndicatorLegend1.setForeground( Color.red );
         contentPane.add( outOfRangeIndicatorLegend1, gbc );
         gbc.gridx++;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = defaultInsets;
-        outOfRangeIndicatorLegend1.setForeground( Color.black );
+        outOfRangeIndicatorLegend2.setForeground( Color.black );
         contentPane.add( outOfRangeIndicatorLegend2, gbc );
         gbc.gridy++;
         gbc.gridx = 1;
@@ -257,9 +280,9 @@ public class EnergyHistogramDialog extends JDialog {
         contentPane.add( detailsBtn, gbc );
     }
 
-    //
+    //----------------------------------------------------------------
     // Inner classes
-    //
+    //----------------------------------------------------------------
 
     /**
      * A thread that updates the client objects that record attributes of objects in the

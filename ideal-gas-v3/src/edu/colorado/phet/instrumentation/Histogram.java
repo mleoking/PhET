@@ -59,6 +59,17 @@ public class Histogram extends JPanel {
         setPreferredSize( new Dimension( plotULC.x * 2 + displayWidth, plotULC.y * 2 + displayHeight ) );
     }
 
+    /**
+     * Sets the color of the bars
+     */
+    public void setColor( Color color ) {
+        this.color = color;
+    }
+    
+    /**
+     *
+     * @param g
+     */
     public void paintComponent( Graphics g ) {
         Graphics2D g2 = (Graphics2D)g;
 

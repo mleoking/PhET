@@ -512,6 +512,10 @@ public class IdealGasModule extends Module {
         }
     }
 
+    //----------------------------------------------------------------
+    // Getters and setters
+    //----------------------------------------------------------------
+
     protected PressureSensingBox getBox() {
         return box;
     }
