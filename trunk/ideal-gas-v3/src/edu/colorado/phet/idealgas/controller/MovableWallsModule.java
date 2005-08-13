@@ -24,6 +24,8 @@ import edu.colorado.phet.idealgas.view.GraduatedWallGraphic;
 import edu.colorado.phet.idealgas.view.HeavySpeciesGraphic;
 import edu.colorado.phet.idealgas.view.LightSpeciesGraphic;
 import edu.colorado.phet.idealgas.view.WallGraphic;
+import edu.colorado.phet.idealgas.view.monitors.EnergyHistogramDialog;
+import edu.colorado.phet.idealgas.view.monitors.SpeciesMonitorDialog;
 import edu.colorado.phet.instrumentation.Thermometer;
 
 import javax.swing.*;
@@ -142,7 +144,19 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
                 getModel().stepInTime( -clock.getDt() );
             }
         } );
+    }
 
+    public JDialog setHistogramDlgEnabled( boolean histogramDlgEnabled ) {
+        EnergyHistogramDialog dlg = (EnergyHistogramDialog)super.setHistogramDlgEnabled( histogramDlgEnabled );
+        dlg.setSpeedDetailsLegends( new String[] { "Speed: A", "Speed: B" },
+                                    new Color[] { COLOR_A, COLOR_B });
+        return dlg;
+    }
+
+    public JDialog setSpeciesMonitorDlgEnabled( boolean isEnabled ) {
+        SpeciesMonitorDialog dlg = (SpeciesMonitorDialog)super.setSpeciesMonitorDlgEnabled( isEnabled );
+        dlg.setSpeciesPanelTitles( new String[] { "A" , "B" } );
+        return dlg;
     }
 
     /**

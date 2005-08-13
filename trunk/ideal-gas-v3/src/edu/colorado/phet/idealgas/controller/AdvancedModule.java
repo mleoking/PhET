@@ -142,14 +142,15 @@ abstract public class AdvancedModule extends IdealGasModule {
         // Add a pair of arrows that point from one character to the other
         double arrowThickness = 2;
         double headMultiplier = 5;
-        Arrow lrArrow = new Arrow( new Point2D.Double( leftTextGraphic.getLocation().x + 50, leftTextGraphic.getLocation().y - 20 ),
-                                   new Point2D.Double( rightTextGraphic.getLocation().x - 50, rightTextGraphic.getLocation().y - 20 ),
+        Arrow lrArrow = new Arrow( new Point2D.Double( leftTextGraphic.getLocation().x + 100, leftTextGraphic.getLocation().y - 20 ),
+                                   new Point2D.Double( rightTextGraphic.getLocation().x - 100, rightTextGraphic.getLocation().y - 20 ),
                                    arrowThickness * headMultiplier, arrowThickness * headMultiplier, arrowThickness );
-        Arrow rlArrow = new Arrow( new Point2D.Double( rightTextGraphic.getLocation().x - 50, rightTextGraphic.getLocation().y - 0  ),
-                                   new Point2D.Double( leftTextGraphic.getLocation().x + 50, leftTextGraphic.getLocation().y - 0  ),
+        Arrow rlArrow = new Arrow( new Point2D.Double( rightTextGraphic.getLocation().x - 100, rightTextGraphic.getLocation().y - 0  ),
+                                   new Point2D.Double( leftTextGraphic.getLocation().x + 100, leftTextGraphic.getLocation().y - 0  ),
                                    arrowThickness * headMultiplier, arrowThickness * headMultiplier, arrowThickness );
-        addGraphic( new PhetShapeGraphic( getApparatusPanel(), lrArrow.getShape(), Color.black ), IdealGasConfig.READOUT_LAYER );
-        addGraphic( new PhetShapeGraphic( getApparatusPanel(), rlArrow.getShape(), Color.black ), IdealGasConfig.READOUT_LAYER );
+        Color arrowColor = new Color( 200, 200, 200 );
+        addGraphic( new PhetShapeGraphic( getApparatusPanel(), lrArrow.getShape(), arrowColor ), IdealGasConfig.READOUT_LAYER );
+        addGraphic( new PhetShapeGraphic( getApparatusPanel(), rlArrow.getShape(), arrowColor ), IdealGasConfig.READOUT_LAYER );
     }
 
     /**

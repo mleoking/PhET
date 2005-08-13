@@ -1,9 +1,12 @@
+/* Copyright 2003-2004, University of Colorado */
+
 /*
- * Class: IdealGasMonitorPanel
- * Package: edu.colorado.phet.graphicaldomain.idealgas
- *
- * Created by: Ron LeMaster
- * Date: Oct 30, 2002
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.idealgas.view.monitors;
 
@@ -35,6 +38,8 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
     private double s_aveSpeedReadoutFactor = 10 * s_screenToModelFactor;
 
 
+    private int sampleCnt;
+    private double runningAveSpeed;
     private Class speciesClass;
     private JTextField numParticlesTF;
     private NumberFormat aveSpeedFormat = NumberFormat.getInstance();
@@ -57,8 +62,7 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
         }
 
         this.setPreferredSize( new Dimension( 410, 60 ) );
-        Border border = new TitledBorder( speciesName );
-        this.setBorder( border );
+        setTitle( speciesName );
 
         // Set up the readout for the number of gas molecules
         this.add( new JLabel( SimStrings.get( "GasSpeciesMonitorPanel.Number_of_Gas_Molecules" ) + ": " ) );
@@ -77,6 +81,14 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
 
         // Hook up to the model
         model.addObserver( this );
+    }
+
+    /**
+     * Sets the title for the dialog
+     */
+    public void setTitle( String title ) {
+        Border border = new TitledBorder( title );
+        this.setBorder( border );
     }
 
     /**
@@ -124,13 +136,4 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
         }
     }
 
-    private int sampleCnt;
-    private double runningAveSpeed;
-
-    /**
-     *
-     */
-    public void paintComponent( Graphics graphics ) {
-        super.paintComponent( graphics );
-    }
 }

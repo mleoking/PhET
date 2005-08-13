@@ -1,8 +1,12 @@
-/**
- * Class: Thermometer
- * Package: edu.colorado.phet.instrumentation
- * Author: Another Guy
- * Date: Sep 29, 2004
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.instrumentation;
 
@@ -44,17 +48,28 @@ public class Thermometer extends PhetGraphic {
     private Rectangle2D boundingRect;
     private Font font = new Font( "Lucida Sans", Font.BOLD, 10 );
     private FontMetrics fontMetrics;
-    private int rectBorderThickness = 3;
+    private double rectBorderThickness = 2;
     private RoundRectangle2D.Double readoutRect = new RoundRectangle2D.Double();
     private RoundRectangle2D.Double innerRect = new RoundRectangle2D.Double();
     private BasicStroke rectStroke = new BasicStroke( 3 );
-    private BasicStroke columnStroke = new BasicStroke( 1 );
+    private float columnStrokeWidth = 1.5f;
+    private BasicStroke columnStroke = new BasicStroke( columnStrokeWidth );
     private Color rectColor = Color.yellow;
     private int readoutWidth;
     private float readoutRectStrokeWidth = 0.5f;
     private BasicStroke readoutRectStroke = new BasicStroke( readoutRectStrokeWidth );
+    private BasicStroke oneStroke;
 
 
+    /**
+     * @param component
+     * @param location
+     * @param maxScreenLevel
+     * @param thickness
+     * @param isVertical
+     * @param minLevel
+     * @param maxLevel
+     */
     public Thermometer( Component component, Point2D.Double location, double maxScreenLevel, double thickness,
                         boolean isVertical, double minLevel, double maxLevel ) {
         super( component );
@@ -76,6 +91,9 @@ public class Thermometer extends PhetGraphic {
         super.setIgnoreMouse( true );
     }
 
+    /**
+     * @param location
+     */
     public void setLocation( Point2D.Double location ) {
         gauge.setLocation( location );
         this.location.setLocation( location );
@@ -100,14 +118,15 @@ public class Thermometer extends PhetGraphic {
         int yLoc = Math.max( (int)( location.getY() + maxScreenLevel - readoutHeight - value * scale ),
                              (int)( location.getY() - readoutHeight ) );
 
-        readoutRect.setRoundRect( location.getX() + thickness,
+        readoutRect.setRoundRect( location.getX() + thickness + columnStrokeWidth * 2,
                                   yLoc - rectBorderThickness,
                                   readoutWidth + rectBorderThickness * 2,
                                   readoutHeight + rectBorderThickness * 2,
                                   4, 4 );
-        innerRect.setRoundRect( location.getX() + thickness + 3,
+        innerRect.setRoundRect( location.getX() + thickness + columnStrokeWidth * 2 + rectBorderThickness,
                                 yLoc,
-                                readoutWidth, readoutHeight,
+                                readoutWidth,
+                                readoutHeight,
                                 4, 4 );
 
         g.setColor( rectColor );
@@ -117,15 +136,17 @@ public class Thermometer extends PhetGraphic {
         g.setStroke( readoutRectStroke );
         g.draw( readoutRect );
         g.setColor( rectColor );
-        g.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 0.3f ) );
         g.fill( readoutRect );
-        g.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1 ) );
+
         g.setColor( Color.white );
         g.fill( innerRect );
+        oneStroke = new BasicStroke( 1 );
+        g.setStroke( oneStroke );
+        g.setColor( Color.black );
+        g.draw( innerRect );
 
         double v = Double.isNaN( value ) ? 0 : value / 1000;
         String temperatureStr = formatter.format( v ) + "K";
-//        String temperatureStr = formatter.format( v ) + '\u00b0' + "K";
         g.setColor( Color.black );
         int strLocY = (int)innerRect.getMinY() + fontMetrics.getHeight();
         g.drawString( temperatureStr, (int)innerRect.getMaxX() - 5 - fontMetrics.stringWidth( temperatureStr ), strLocY );
@@ -137,6 +158,10 @@ public class Thermometer extends PhetGraphic {
         g.fill( bulb );
         g.setColor( s_outlineColor );
         g.draw( bulb );
+        Rectangle2D r = new Rectangle.Double( gauge.getBounds().getMinX() + columnStrokeWidth, gauge.getBounds().getMaxY() - 2,
+                                              gauge.getBounds().getWidth() - columnStrokeWidth, 4 );
+        g.setColor( s_color );
+        g.fill( r );
 
         // Debug
 //        g.setColor( Color.green );
