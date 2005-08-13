@@ -11,6 +11,7 @@
 package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.collision.SphereWallExpert;
+import edu.colorado.phet.collision.VerticalBarrier;
 import edu.colorado.phet.collision.VerticalWallFixupStrategy;
 import edu.colorado.phet.collision.Wall;
 import edu.colorado.phet.common.math.Vector2D;
@@ -104,7 +105,7 @@ public class DiffusionModule extends AdvancedModule {
 
     private void createWalls( final Box2D box ) {
         // Create the lower vertical wall
-        verticalWall = new Wall( new Rectangle2D.Double( box.getCorner1X() + box.getWidth() / 2 - wallThickness / 2,
+        verticalWall = new VerticalBarrier( new Rectangle2D.Double( box.getCorner1X() + box.getWidth() / 2 - wallThickness / 2,
                                                       box.getCorner1Y() + box.getHeight() * 2 / 3,
                                                       wallThickness, box.getHeight() * 1 / 3 ),
                               box.getBoundsInternal() );

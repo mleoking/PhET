@@ -10,10 +10,7 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.collision.FloorFixupStrategy;
-import edu.colorado.phet.collision.SphereWallExpert;
-import edu.colorado.phet.collision.VerticalWallFixupStrategy;
-import edu.colorado.phet.collision.Wall;
+import edu.colorado.phet.collision.*;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ControlPanel;
@@ -245,7 +242,8 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         thermometer.setLocation( (int)( box.getMinX() + box.getWidth() / 2 ), thermometer.getY() );
 
         // Create the lower vertical wall
-        verticalWall = new Wall( new Rectangle2D.Double( box.getCorner1X() + box.getWidth() / 2 - wallThickness / 2,
+        verticalWall = new VerticalBarrier( new Rectangle2D.Double( box.getCorner1X() + box.getWidth() / 2 - wallThickness / 2,
+//        verticalWall = new Wall( new Rectangle2D.Double( box.getCorner1X() + box.getWidth() / 2 - wallThickness / 2,
                                                          box.getCorner1Y() + box.getHeight() / 3,
                                                          wallThickness, box.getHeight() * 2 / 3 ),
                                  box.getBoundsInternal() );
@@ -264,7 +262,7 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         verticalWallGraphic.setResizableSouth( false );
         verticalWallGraphic.setMovable( false );
         verticalWallGraphic.setIsResizable( true );
-        verticalWall.addChangeListener( new LowerWallChangeListener() );
+        verticalWall.addChangeListener( new VerticalWallChangeListener() );
 
         // Use an invisible paint for the floors
         Color invisiblePaint = new Color( 0, 0, 0, 0 );
@@ -314,8 +312,14 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
 
         // Add a listener to the two floors that will keep the top of the vertical wall from getting lower than
         // the tops of the floors.
+        rightFloor.addChangeListener( new VerticalWallLimitSetter() );
+        leftFloor.addChangeListener( new VerticalWallLimitSetter() );
 
-        // Make the box bigger
+        // Set the minimum height of the vertical wall. It should not be able to get below
+        // the top of either of the floors
+        double minHeight = Math.max( getBox().getMaxY() - leftFloor.getBounds().getMinY(),
+                                     getBox().getMaxY() - rightFloor.getBounds().getMinY());
+        verticalWall.setMinHeight( minHeight );
 
 
         // Set the region for the walls
@@ -386,10 +390,24 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
     // Event handling
     //-----------------------------------------------------------------
 
-    private class LowerWallChangeListener implements Wall.ChangeListener {
+    private class VerticalWallChangeListener implements Wall.ChangeListener {
         public void wallChanged( Wall.ChangeEvent event ) {
             setWallBounds();
             setParticleCounterRegions();
+        }
+    }
+
+    private class VerticalWallLimitSetter implements Wall.ChangeListener {
+
+        public VerticalWallLimitSetter() {
+        }
+
+        public void wallChanged( Wall.ChangeEvent event ) {
+            double currMinHt = verticalWall.getMinHeight();
+            double leftFloorMinY = getBox().getMaxY() - leftFloor.getBounds().getMinY();
+            double rightFloorMinY = getBox().getMaxY() - rightFloor.getBounds().getMinY();
+            double minHt = Math.max(  leftFloorMinY, rightFloorMinY );
+            verticalWall.setMinHeight( minHt );
         }
     }
 

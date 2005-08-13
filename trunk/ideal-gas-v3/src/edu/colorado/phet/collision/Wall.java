@@ -95,7 +95,6 @@ public class Wall extends CollidableBody {
             return;
         }
 
-
         // Constrain the wall to be within the movement bounds, and maintain minimum dimensions
         double minX = Math.max( Math.min( bounds.getMinX(), movementBounds.getMaxX() ), movementBounds.getMinX() );
         double minY = Math.max( Math.min( bounds.getMinY(), movementBounds.getMaxY() ), movementBounds.getMinY() );
@@ -108,7 +107,6 @@ public class Wall extends CollidableBody {
 
     //I just changed this to return a new object
     public Rectangle2D getBounds() {
-//        return rep;
         return new Rectangle2D.Double( rep.getX(), rep.getY(), rep.getWidth(), rep.getHeight() );
     }
 

@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.collision.Wall;
+import edu.colorado.phet.collision.VerticalBarrier;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.SimpleObserver;
@@ -46,7 +46,7 @@ abstract public class AdvancedModule extends IdealGasModule {
     public static final Color COLOR_A = new Color( 0, 150, 0 );
 
     private static Font readoutFont = new Font( "Lucida sans", Font.BOLD, 12 );
-    protected Wall verticalWall;
+    protected VerticalBarrier verticalWall;
     private ParticleCounter leftRegionParticleCounter;
     private ParticleCounter rightRegionParticleCounter;
     private Color orgLightColor;
