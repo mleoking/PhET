@@ -50,10 +50,10 @@ public class PhotoelectricModel extends DischargeLampModel {
     private double defaultBeamWavelength = 400;
     private double beamMaxPhotonsPerSecond = 20;
     double beamHeight = 50;
-    private double beamSourceToTargetDist = 200;
-    private double beamAngle = Math.toRadians( 30 + 180 );
+    private double beamSourceToTargetDist = 300;
+    private double beamAngle = Math.toRadians( 40 + 180 );
     private Point2D beamLocation = new Point2D.Double( DischargeLampsConfig.CATHODE_LOCATION.getX() + Math.cos( beamAngle + Math.PI ) * beamSourceToTargetDist,
-                                                       DischargeLampsConfig.CATHODE_LOCATION.getX() - Math.sin( beamAngle + Math.PI ) * beamSourceToTargetDist );
+                                                       DischargeLampsConfig.CATHODE_LOCATION.getY() - Math.sin( beamAngle + Math.PI ) * beamSourceToTargetDist );
 
     //----------------------------------------------------------------
     // Contructors and initialization
@@ -123,5 +123,9 @@ public class PhotoelectricModel extends DischargeLampModel {
     //----------------------------------------------------------------
     public PhotoelectricTarget getTarget() {
         return target;
+    }
+
+    public CollimatedBeam getBeam() {
+        return beam;
     }
 }

@@ -17,6 +17,7 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.model.*;
 import edu.colorado.phet.dischargelamps.view.DischargeLampEnergyLevelMonitorPanel;
@@ -25,6 +26,7 @@ import edu.colorado.phet.dischargelamps.view.SpectrometerGraphic;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
+import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.atom.GroundState;
 import edu.colorado.phet.lasers.view.ResonatingCavityGraphic;
@@ -38,6 +40,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.geom.Ellipse2D;
 import java.awt.image.AffineTransformOp;
 import java.text.DecimalFormat;
 import java.util.Random;
@@ -89,6 +92,15 @@ public class PhotoelectricModule extends BaseLaserModule implements ElectronSour
         PhotoelectricModel model = new PhotoelectricModel();
         setModel( model );
         setControlPanel( new ControlPanel( this ) );
+
+        // Add a graphic for the beam
+        CollimatedBeam beam = model.getBeam();
+        PhetShapeGraphic beamIndicator = new PhetShapeGraphic( getApparatusPanel(),
+                                                               new Ellipse2D.Double(beam.getPosition().getX(),
+                                                                                    beam.getPosition().getY(),
+                                                                                    10,10),
+                                                               Color.red );
+        getApparatusPanel().addGraphic( beamIndicator, 10000 );
 
         // Add the battery and wire graphic
         addCircuitGraphic( apparatusPanel );
