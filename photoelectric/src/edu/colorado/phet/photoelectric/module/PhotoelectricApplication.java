@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.photoelectric;
+package edu.colorado.phet.photoelectric.module;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.application.Module;
