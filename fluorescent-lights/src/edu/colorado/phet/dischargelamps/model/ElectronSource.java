@@ -31,9 +31,6 @@ public class ElectronSource extends Electrode {
     private double electronsPerSecond;
     private double timeSincelastElectronEmitted;
 
-//    private Point2D p1;
-//    private Point2D p2;
-
     private BaseModel model;
     private double sinkPotential;
 
@@ -47,8 +44,6 @@ public class ElectronSource extends Electrode {
     public ElectronSource( BaseModel model, Point2D p1, Point2D p2 ) {
         super( p1, p2 );
         this.model = model;
-//        this.p1 = p1;
-//        this.p2 = p2;
     }
 
     /**

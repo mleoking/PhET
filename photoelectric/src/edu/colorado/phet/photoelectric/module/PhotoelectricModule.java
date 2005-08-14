@@ -18,6 +18,7 @@ import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.*;
 import edu.colorado.phet.dischargelamps.view.DischargeLampEnergyLevelMonitorPanel;
@@ -30,9 +31,11 @@ import edu.colorado.phet.lasers.model.atom.GroundState;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.PhotonEmittedEvent;
 import edu.colorado.phet.lasers.model.photon.PhotonEmittedListener;
+import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.view.PhotonGraphic;
 import edu.colorado.phet.lasers.view.ResonatingCavityGraphic;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
+import edu.colorado.phet.photoelectric.model.PhotoelectricTarget;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -44,6 +47,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 import java.util.Random;
 
@@ -99,6 +103,10 @@ public class PhotoelectricModule extends BaseLaserModule implements ElectronSour
         setModel( model );
         setControlPanel( new ControlPanel( this ) );
 
+        //----------------------------------------------------------------
+        // View
+        //----------------------------------------------------------------
+
         // Add a graphic for the beam
         CollimatedBeam beam = model.getBeam();
         PhetShapeGraphic beamIndicator = new PhetShapeGraphic( getApparatusPanel(),
@@ -108,13 +116,14 @@ public class PhotoelectricModule extends BaseLaserModule implements ElectronSour
                                                                Color.red );
         getApparatusPanel().addGraphic( beamIndicator, 10000 );
 
-        // Add a listener that will produce photon graphics for the beam
-        beam.addPhotonEmittedListener( new PhotonEmittedListener() {
-            public void photonEmittedEventOccurred( PhotonEmittedEvent event ) {
-                PhotonGraphic pg = PhotonGraphic.getInstance( getApparatusPanel(), event.getPhoton() );
-                getApparatusPanel().addGraphic( pg );
-            }
-        } );
+        // Add a listener that will produce photon graphics for the beam, and for each photon emitted,
+        // add a listener that will remove the PhotonGraphic from the apparatus panel
+        beam.addPhotonEmittedListener( new PhotonGraphicManager() );
+
+        // Add a listener to the target plate that will create electron graphics when electrons
+        // are produced, and remove them when they the electrons leave the system.
+        PhotoelectricTarget target = model.getTarget();
+        target.addListener( new ElectronGraphicManager() );
 
         // Add the battery and wire graphic
         addCircuitGraphic( apparatusPanel );
@@ -172,7 +181,7 @@ public class PhotoelectricModule extends BaseLaserModule implements ElectronSour
 
     /**
      * Computes the scale to be applied to externally created graphics.
-     * <p/>
+     * <p>
      * Scale is determined by specifying a distance in the external graphics that should
      * be the same as the distance between two point on the screen.
      *
@@ -189,8 +198,15 @@ public class PhotoelectricModule extends BaseLaserModule implements ElectronSour
      */
     private void addCircuitGraphic( ApparatusPanel apparatusPanel ) {
         PhetImageGraphic circuitGraphic = new PhetImageGraphic( getApparatusPanel(), "images/battery-w-wires-2.png" );
+        AffineTransform flipVertical = AffineTransform.getScaleInstance( 1, -1 );
+        flipVertical.translate(0, -circuitGraphic.getImage().getHeight( ));
+        AffineTransformOp flipVerticalOp = new AffineTransformOp( flipVertical, AffineTransformOp.TYPE_BILINEAR );
+        BufferedImage flippedImg = flipVerticalOp.filter( circuitGraphic.getImage(), null );
+        circuitGraphic.setImage( flippedImg );
+
         scaleImageGraphic( circuitGraphic );
-        circuitGraphic.setRegistrationPoint( (int)( 124 * externalGraphicsScale ), (int)( 340 * externalGraphicsScale ) );
+        circuitGraphic.setRegistrationPoint( (int)( 124 * externalGraphicsScale ),
+                                             (int)( 110 * externalGraphicsScale ) );
         circuitGraphic.setLocation( DischargeLampsConfig.CATHODE_LOCATION );
         apparatusPanel.addGraphic( circuitGraphic, DischargeLampsConfig.CIRCUIT_LAYER );
     }
@@ -332,33 +348,10 @@ public class PhotoelectricModule extends BaseLaserModule implements ElectronSour
     //----------------------------------------------------------------
 
     /**
-     * Returns a typed reference to the model
-     *
-     * @return
-     */
-    protected DischargeLampModel getDischargeLampModel() {
-        return (DischargeLampModel)getModel();
-    }
-
-    /**
-     * @return
-     */
-    protected ResonatingCavity getTube() {
-        return tube;
-    }
-
-    /**
      * @return
      */
     protected ModelSlider getCurrentSlider() {
         return currentSlider;
-    }
-
-    /**
-     * @return
-     */
-    protected Spectrometer getSpectrometer() {
-        return spectrometer;
     }
 
 
@@ -377,28 +370,6 @@ public class PhotoelectricModule extends BaseLaserModule implements ElectronSour
 
     protected ElectronSource getCathode() {
         return cathode;
-    }
-
-
-    protected AtomicState[] createAtomicStates( int numEnergyLevels ) {
-        AtomicState[] states = new AtomicState[numEnergyLevels];
-        double minVisibleEnergy = -13.6;
-        double maxVisibleEnergy = -0.3;
-//        double minVisibleEnergy = Photon.wavelengthToEnergy( Photon.DEEP_RED );
-//        double maxVisibleEnergy = Photon.wavelengthToEnergy( Photon.BLUE );
-        double dE = states.length > 2 ? ( maxVisibleEnergy - minVisibleEnergy ) / ( states.length - 2 ) : 0;
-
-        states[0] = new GroundState();
-        states[0].setEnergyLevel( minVisibleEnergy );
-        for( int i = 1; i < states.length; i++ ) {
-            states[i] = new AtomicState();
-            states[i].setMeanLifetime( DischargeLampAtom.DEFAULT_STATE_LIFETIME );
-            states[i].setEnergyLevel( minVisibleEnergy + ( i - 1 ) * dE );
-            states[i].setNextLowerEnergyState( states[i - 1] );
-            states[i - 1].setNextHigherEnergyState( states[i] );
-        }
-        states[states.length - 1].setNextHigherEnergyState( AtomicState.MaxEnergyState.instance() );
-        return states;
     }
 
     //-----------------------------------------------------------------
@@ -423,6 +394,48 @@ public class PhotoelectricModule extends BaseLaserModule implements ElectronSour
                 getApparatusPanel().removeGraphic( graphic );
                 anode.removeListener( this );
             }
+        }
+    }
+
+    //----------------------------------------------------------------
+    // Inner classes for event handling
+    //----------------------------------------------------------------
+
+    /**
+     * Creates, adds and removes graphics for electrons
+     */
+    private class ElectronGraphicManager implements ElectronSource.ElectronProductionListener {
+        public void electronProduced( ElectronSource.ElectronProductionEvent event ) {
+            Electron electron = event.getElectron();
+            final ElectronGraphic eg = new ElectronGraphic( getApparatusPanel(), electron );
+            getApparatusPanel().addGraphic( eg );
+
+            electron.addChangeListener( new Electron.ChangeListener() {
+                public void leftSystem( Electron.ChangeEvent changeEvent ) {
+                    getApparatusPanel().removeGraphic( eg );
+                }
+
+                public void energyChanged( Electron.ChangeEvent changeEvent ) {
+                    // noop
+                }
+            } );
+        }
+    }
+
+    /**
+     * Creates, adds and removes graphics for photons
+     */
+    private class PhotonGraphicManager implements PhotonEmittedListener {
+        public void photonEmittedEventOccurred( PhotonEmittedEvent event ) {
+            Photon photon = event.getPhoton();
+            final PhotonGraphic pg = PhotonGraphic.getInstance( getApparatusPanel(), photon );
+            getApparatusPanel().addGraphic( pg );
+
+            photon.addLeftSystemListener( new Photon.LeftSystemEventListener() {
+                public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
+                    getApparatusPanel().removeGraphic( pg );
+                }
+            } );
         }
     }
 }

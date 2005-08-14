@@ -63,6 +63,7 @@ public class ElectronSink extends Electrode implements ElectronSource.ElectronPr
                 model.removeModelElement( electron );
                 electronAbsorptionListenerProxy.electronAbsorbed( new ElectronAbsorptionEvent( this, electron ) );
                 electron.leaveSystem();
+                electrons.remove( electron );
             }
         }
     }

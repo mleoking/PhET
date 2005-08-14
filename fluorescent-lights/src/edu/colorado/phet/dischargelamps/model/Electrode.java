@@ -42,6 +42,10 @@ public abstract class Electrode extends Particle {
         stateChangeListenerProxy.stateChanged( new StateChangeEvent( this ) );
     }
 
+    protected void setEndpoints( Point2D[] points) {
+        endpoints = points;
+    }
+    
     public Point2D[] getEndpoints() {
         return endpoints;
     }
