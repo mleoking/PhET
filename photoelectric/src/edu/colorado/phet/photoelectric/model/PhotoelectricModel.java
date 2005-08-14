@@ -48,7 +48,7 @@ public class PhotoelectricModel extends DischargeLampModel {
     // Beam specification
     private CollimatedBeam beam;
     private double defaultBeamWavelength = 400;
-    private double beamMaxPhotonsPerSecond = 20;
+    private double beamMaxPhotonsPerSecond = 200;
     double beamHeight = 50;
     private double beamSourceToTargetDist = 300;
     private double beamAngle = Math.toRadians( 40 + 180 );
@@ -67,6 +67,8 @@ public class PhotoelectricModel extends DischargeLampModel {
                                    100.0, new Vector2D.Double( Math.cos( beamAngle ), Math.sin( beamAngle ) ),
                                    beamMaxPhotonsPerSecond, 0 );
         addModelElement( beam );
+        beam.setPhotonsPerSecond( beamMaxPhotonsPerSecond );
+        beam.setEnabled( true );
     }
 
 

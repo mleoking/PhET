@@ -11,7 +11,6 @@
 package edu.colorado.phet.photoelectric.module;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
@@ -19,16 +18,19 @@ import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.*;
 import edu.colorado.phet.dischargelamps.view.DischargeLampEnergyLevelMonitorPanel;
 import edu.colorado.phet.dischargelamps.view.ElectronGraphic;
 import edu.colorado.phet.dischargelamps.view.SpectrometerGraphic;
-import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
-import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.atom.GroundState;
+import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
+import edu.colorado.phet.lasers.model.photon.PhotonEmittedEvent;
+import edu.colorado.phet.lasers.model.photon.PhotonEmittedListener;
+import edu.colorado.phet.lasers.view.PhotonGraphic;
 import edu.colorado.phet.lasers.view.ResonatingCavityGraphic;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 
@@ -39,8 +41,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 import java.awt.image.AffineTransformOp;
 import java.text.DecimalFormat;
 import java.util.Random;
@@ -88,6 +90,10 @@ public class PhotoelectricModule extends BaseLaserModule implements ElectronSour
         apparatusPanel.setBackground( Color.white );
         setApparatusPanel( apparatusPanel );
 
+        //----------------------------------------------------------------
+        // Model
+        //----------------------------------------------------------------
+
         // Set up the model
         PhotoelectricModel model = new PhotoelectricModel();
         setModel( model );
@@ -101,6 +107,14 @@ public class PhotoelectricModule extends BaseLaserModule implements ElectronSour
                                                                                     10,10),
                                                                Color.red );
         getApparatusPanel().addGraphic( beamIndicator, 10000 );
+
+        // Add a listener that will produce photon graphics for the beam
+        beam.addPhotonEmittedListener( new PhotonEmittedListener() {
+            public void photonEmittedEventOccurred( PhotonEmittedEvent event ) {
+                PhotonGraphic pg = PhotonGraphic.getInstance( getApparatusPanel(), event.getPhoton() );
+                getApparatusPanel().addGraphic( pg );
+            }
+        } );
 
         // Add the battery and wire graphic
         addCircuitGraphic( apparatusPanel );
