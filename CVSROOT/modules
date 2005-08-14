@@ -135,4 +135,7 @@ semiconductor semiconductor
 energyconservation energyconservation
 
 # Photoelectric effect
-photoelectric photoelectric &phetcommon &mechanics &collision &lasers &controls
+photoelectric photoelectric &dischargelamps
+
+#Discharge lamps
+dischargelamps dischargelamps &phetcommon &mechanics &collision &lasers &controls
