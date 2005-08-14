@@ -183,7 +183,7 @@ public class SingleAtomModule extends BaseLaserModule {
         // TODO: This fixed a race condition that caused the module to come up in 3 energy levels someetimes.
         // This should either be fixed on its own, or revisited when the Discharge Lamps code is merged with Lasers
         try {
-            Thread.sleep( 200 );
+            Thread.sleep( 1000 );
         }
         catch( InterruptedException e ) {
             e.printStackTrace();

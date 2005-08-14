@@ -36,9 +36,7 @@ public class DischargeLampsApp extends PhetApplication {
                SimStrings.get( "DischargeLampsApplication.title" ),
                "0.01",
                new SwingTimerClock( DischargeLampsConfig.DT, DischargeLampsConfig.FPS, AbstractClock.FRAMES_PER_SECOND ),
-               true,
-               new String[]{DischargeLampsConfig.localizedStringsPath,
-                            LaserConfig.localizedStringsPath} );
+               true );
 
         // Determine the resolution of the screen
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -71,8 +69,14 @@ public class DischargeLampsApp extends PhetApplication {
         SimStrings.setStrings( DischargeLampsConfig.localizedStringsPath );
         SimStrings.setStrings( LaserConfig.localizedStringsPath );
 
+        long t1 = System.currentTimeMillis();
         DischargeLampsApp app = new DischargeLampsApp( args );
+        long t2 = System.currentTimeMillis();
         app.startApplication();
+        long t3 = System.currentTimeMillis();
+        System.out.println( "t1 = " + t1 );
+        System.out.println( "t2 = " + t2 );
+        System.out.println( "t3 = " + t3 );
     }
 
 }
