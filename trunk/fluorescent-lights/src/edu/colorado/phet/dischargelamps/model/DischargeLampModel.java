@@ -98,6 +98,14 @@ public class DischargeLampModel extends LaserModel implements Electrode.StateCha
         }
     }
 
+    //----------------------------------------------------------------
+    // Getters and setters
+    //----------------------------------------------------------------
+
+    protected ElectronSink getAnode() {
+        return anode;
+    }
+    
     private void setElectronAcceleration( double potentialDiff ) {
         electronAcceleration.setComponents( potentialDiff / 10, 0 );
     }

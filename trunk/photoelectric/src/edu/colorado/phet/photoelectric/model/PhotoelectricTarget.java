@@ -37,11 +37,21 @@ public class PhotoelectricTarget extends ElectronSource {
     }
 
     /**
+     *
+     * @param p1
+     * @param p2
+     */
+    public void setEndpoints( Point2D p1, Point2D p2 ) {
+        line = new Line2D.Double( p1, p2 );
+        super.setEndpoints( new Point2D[] { p1, p2 } );
+    }
+
+    /**
      * Produces an electron of appropriate energy if the specified photon has enough energy.
      * @param photon
      */
     public void handlePhotonCollision( Photon photon ) {
-        System.out.println( "Electron produced" );
+        super.produceElectron();
     }
 
     /**

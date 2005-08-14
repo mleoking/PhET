@@ -20,6 +20,8 @@ import edu.colorado.phet.dischargelamps.model.Electrode;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
+import edu.colorado.phet.lasers.model.photon.PhotonEmittedListener;
+import edu.colorado.phet.lasers.model.photon.PhotonEmittedEvent;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -43,7 +45,10 @@ public class PhotoelectricModel extends DischargeLampModel {
     //----------------------------------------------------------------
 
     private List photons = new ArrayList();
+
+    // Target specification
     private PhotoelectricTarget target;
+    private double defaultTargetPotential = 1.5;
 
     // Beam specification
     private CollimatedBeam beam;
@@ -51,9 +56,9 @@ public class PhotoelectricModel extends DischargeLampModel {
     private double beamMaxPhotonsPerSecond = 200;
     double beamHeight = 50;
     private double beamSourceToTargetDist = 300;
-    private double beamAngle = Math.toRadians( 40 + 180 );
+    private double beamAngle = Math.toRadians( 130 );
     private Point2D beamLocation = new Point2D.Double( DischargeLampsConfig.CATHODE_LOCATION.getX() + Math.cos( beamAngle + Math.PI ) * beamSourceToTargetDist,
-                                                       DischargeLampsConfig.CATHODE_LOCATION.getY() - Math.sin( beamAngle + Math.PI ) * beamSourceToTargetDist );
+                                                       DischargeLampsConfig.CATHODE_LOCATION.getY() + Math.sin( beamAngle + Math.PI ) * beamSourceToTargetDist );
 
     //----------------------------------------------------------------
     // Contructors and initialization
@@ -61,14 +66,23 @@ public class PhotoelectricModel extends DischargeLampModel {
 
     public PhotoelectricModel() {
 
-        // Photon beam
-
+        // Create a photon beam and add a listener that will add the photons it produces to the model
+        Vector2D beamDirection = new Vector2D.Double( Math.cos( beamAngle ), Math.sin( beamAngle ) );
         beam = new CollimatedBeam( defaultBeamWavelength, beamLocation, beamHeight,
                                    100.0, new Vector2D.Double( Math.cos( beamAngle ), Math.sin( beamAngle ) ),
                                    beamMaxPhotonsPerSecond, 0 );
         addModelElement( beam );
         beam.setPhotonsPerSecond( beamMaxPhotonsPerSecond );
         beam.setEnabled( true );
+        beam.addPhotonEmittedListener( new PhotonEmittedListener() {
+            public void photonEmittedEventOccurred( PhotonEmittedEvent event ) {
+                addModelElement( event.getPhoton() );
+            }
+        } );
+
+        // Create the target plate. Give it meaningless endpoints. They will be set later
+        target = new PhotoelectricTarget( this, new Point2D.Double( ), new Point2D.Double( ) );
+        target.setPotential( defaultTargetPotential );
     }
 
 
@@ -83,21 +97,15 @@ public class PhotoelectricModel extends DischargeLampModel {
         }
         if( modelElement instanceof ElectronSource ) {
             Electrode electrode = (Electrode)modelElement;
-            target = new PhotoelectricTarget( this, electrode.getEndpoints()[0], electrode.getEndpoints()[1] );
+            target.setEndpoints(electrode.getEndpoints()[0], electrode.getEndpoints()[1]  );
+        }
+
+        // Add the anode as a listener so it can track electrons
+        if( modelElement instanceof ElectronSink ) {
+            ElectronSink electronSink = (ElectronSink)modelElement;
+            target.addListener( electronSink );
         }
         super.addModelElement( modelElement );
-    }
-
-    /**
-     * Tracks photons
-     *
-     * @param modelElement
-     */
-    public void removeModelElement( ModelElement modelElement ) {
-        if( modelElement instanceof Photon ) {
-            photons.remove( modelElement );
-        }
-        super.removeModelElement( modelElement );
     }
 
     /**
@@ -115,7 +123,8 @@ public class PhotoelectricModel extends DischargeLampModel {
             // and remove the photon from the model
             if( target.isHitByPhoton( photon ) ) {
                 target.handlePhotonCollision( photon );
-                removeModelElement( photon );
+                photon.removeFromSystem();
+                photons.remove( photon );
             }
         }
     }

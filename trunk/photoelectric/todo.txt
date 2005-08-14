@@ -1,0 +1,4 @@
+- ElectronSource adds electrons to the model. CollimatedBeam does not. They should both work the same way.
+
+- Many of the model elements that are being created in the contructors for modules should be made in the
+constructors for the models. That would help the sequencing of how things are created.
