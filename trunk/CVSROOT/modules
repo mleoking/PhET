@@ -133,3 +133,6 @@ semiconductor semiconductor
 
 # Energy conservation
 energyconservation energyconservation
+
+# Photoelectric effect
+photoelectric photoelectric &phetcommon &mechanics &collision &lasers &controls
