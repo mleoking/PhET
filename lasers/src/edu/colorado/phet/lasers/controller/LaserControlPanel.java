@@ -37,9 +37,10 @@ public class LaserControlPanel extends ControlPanel {
 //        addDebugControls( module );
     }
 
-    public void addControl( Component component ) {
+    public Component addControl( Component component ) {
         gbc.gridy++;
         laserControlPane.add( component, gbc );
+        return component;
     }
 
     /**

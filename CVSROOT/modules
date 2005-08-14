@@ -138,4 +138,4 @@ energyconservation energyconservation
 photoelectric photoelectric &dischargelamps
 
 #Discharge lamps
-dischargelamps dischargelamps &phetcommon &mechanics &collision &lasers &controls
+dischargelamps fluorescent-lights &phetcommon &mechanics &collision &lasers &controls
