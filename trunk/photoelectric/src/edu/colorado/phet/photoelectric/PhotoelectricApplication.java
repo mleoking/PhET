@@ -15,8 +15,7 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.dischargelamps.MigrationModule;
-import edu.colorado.phet.dischargelamps.PhotoelectricModule;
+import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
 
 /**
  * PhotoelectricApplication
@@ -53,8 +52,7 @@ public class PhotoelectricApplication extends PhetApplication {
                true,
                frameSetup );
 
-        setModules( new Module[] { new MigrationModule( "miration", this.getClock() ),
-            new PhotoelectricModule( this.getClock() ) } );
+        setModules(new Module[] { new PhotoelectricModule( this.getClock() ) } );
     }
 
 
