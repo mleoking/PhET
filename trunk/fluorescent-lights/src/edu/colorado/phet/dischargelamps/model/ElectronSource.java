@@ -31,8 +31,8 @@ public class ElectronSource extends Electrode {
     private double electronsPerSecond;
     private double timeSincelastElectronEmitted;
 
-    private Point2D p1;
-    private Point2D p2;
+//    private Point2D p1;
+//    private Point2D p2;
 
     private BaseModel model;
     private double sinkPotential;
@@ -45,9 +45,10 @@ public class ElectronSource extends Electrode {
      * @param p2    The other endpoint of the line
      */
     public ElectronSource( BaseModel model, Point2D p1, Point2D p2 ) {
+        super( p1, p2 );
         this.model = model;
-        this.p1 = p1;
-        this.p2 = p2;
+//        this.p1 = p1;
+//        this.p2 = p2;
     }
 
     /**
@@ -76,6 +77,8 @@ public class ElectronSource extends Electrode {
             electron = new Electron();
 
             // Determine where the electron will be emitted from
+            Point2D p1 = getEndpoints()[0];
+            Point2D p2 = getEndpoints()[1];
             double x = random.nextDouble() * ( p2.getX() - p1.getX() ) + p1.getX();
             double y = random.nextDouble() * ( p2.getY() - p1.getY() ) + p1.getY();
             electron.setPosition( x, y );
@@ -110,6 +113,9 @@ public class ElectronSource extends Electrode {
      * @param newLength
      */
     public void setLength( double newLength ) {
+        Point2D p1 = getEndpoints()[0];
+        Point2D p2 = getEndpoints()[1];
+        
         double currLength = p1.distance( p2 );
         double ratio = newLength / currLength;
         p1.setLocation( getPosition().getX() + ( p1.getX() - getPosition().getX() ) * ratio,

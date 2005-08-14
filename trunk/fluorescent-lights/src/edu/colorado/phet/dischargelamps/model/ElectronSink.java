@@ -28,8 +28,8 @@ import java.util.List;
  */
 public class ElectronSink extends Electrode implements ElectronSource.ElectronProductionListener {
 
-    private Point2D p1;
-    private Point2D p2;
+//    private Point2D p1;
+//    private Point2D p2;
 
     private BaseModel model;
     private List electrons = new ArrayList();
@@ -43,9 +43,8 @@ public class ElectronSink extends Electrode implements ElectronSource.ElectronPr
      * @param p2    The other endpoint of the line
      */
     public ElectronSink( BaseModel model, Point2D p1, Point2D p2 ) {
+        super( p1, p2 );
         this.model = model;
-        this.p1 = p1;
-        this.p2 = p2;
         this.line = new Line2D.Double( p1, p2 );
     }
 
