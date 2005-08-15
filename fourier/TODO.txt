@@ -3,19 +3,20 @@
 ===============================================================================
 
 IN PROGRESS:
-- separate k0 and center point in GaussianWavePacket model (not the same thing)
-- plan for having to shift GaussianWavePacket center point
-
+- D2C Sum view is not in the correct initial position
 
 HIGH PRIORITY:
-- Hamornics equation in Discrete module has no '=', D2C has "F(x) ="
+- should the user be able to shift the GaussianWavePacket center point?
+- k1 and deltak tools go under other graphs because they are children of the D2CAmplitudesGraph
+- should equation above Harmonics views start with "F(x)=" ?
 - bug: D2C amplitudes graph draws on top of tools (Mac only)
 - bug: dragging tools over top of chart causes weird aliasing artifacts (Mac only)
 - bug: chart draws plots on top of help items (Mac only)
-- bug: anti-aliasing of plots gets turned off
-- wiggle me isn't hidden when user clicks in the control panel
 
 MEDIUM PRIORITY:
+- separate k0 and center point in GaussianWavePacket model (not the same thing)
+- bug: anti-aliasing of plots gets turned off
+- wiggle me isn't hidden when user clicks in the control panel
 - constrain movement of k1 and deltak measurement tools to D2C amplitudes graph
 - add support for persistence
 - relocate the Help on the text fields in Discrete module
