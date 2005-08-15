@@ -320,20 +320,6 @@ public class HarmonicsGraph extends GraphicLayerSet implements SimpleObserver, Z
             setBoundsDirty();
         }
     }
-    
-    //----------------------------------------------------------------------------
-    // PhetGraphic overrides
-    //----------------------------------------------------------------------------
-
-//    public void setVisible( boolean visible ) {
-//        if ( visible != isVisible() ) {
-//            super.setVisible( visible );
-//            if ( visible ) {
-//                _previousNumberOfHarmonics = -1; // force an update
-//                update();
-//            }
-//        }
-//    }
 
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
