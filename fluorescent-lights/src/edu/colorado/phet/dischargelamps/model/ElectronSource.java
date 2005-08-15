@@ -126,6 +126,10 @@ public class ElectronSource extends Electrode {
     private EventChannel listenerChannel = new EventChannel( ElectronProductionListener.class );
     private ElectronProductionListener electronProductionListenerProxy = (ElectronProductionListener)listenerChannel.getListenerProxy();
 
+    protected ElectronProductionListener getElectronProductionListenerProxy() {
+        return electronProductionListenerProxy;
+    }
+
     public interface ElectronProductionListener extends EventListener {
         void electronProduced( ElectronProductionEvent event );
     }
