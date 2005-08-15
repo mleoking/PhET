@@ -76,6 +76,7 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+v1r0b1...
 (8/15) - make new subclasses for the D2C module's Harmonics and Sum charts, too many differences with Discrete module
 (8/15) - add wait cursor to D2C control panel
 (8/15) - compute and display the D2C harmonics
