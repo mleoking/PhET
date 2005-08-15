@@ -8,3 +8,12 @@ constructors for the models. That would help the sequencing of how things are cr
 - BeamCurtainGraphic points downward by default, and has a hack for rotating it.
 
 - The rotated beam doesn't look right. Try an angle of 170 deg. to see.
+
+
+Issues
+------
+- Energy isn't right in the model. I can only get electrons when the target is sodium
+- There seems to be a ceiling on the max rate of electrons that can be produced
+- Target should change color when material changes
+
+- change color of target as material changes
