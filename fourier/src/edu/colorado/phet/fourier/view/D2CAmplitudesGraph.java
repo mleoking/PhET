@@ -26,8 +26,7 @@ import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.charts.D2CAmplitudesChart;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
-import edu.colorado.phet.fourier.view.tools.WavePacketSpacingTool;
-import edu.colorado.phet.fourier.view.tools.WavePacketWidthTool;
+import edu.colorado.phet.fourier.view.tools.MeasurementTool;
 
 
 /**
@@ -70,6 +69,10 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     private static final int BAR_DARKEST_GRAY = 0; //dark gray
     private static final int BAR_LIGHTEST_GRAY = 230;  // light gray
     
+    // Tools
+    private static final Font TOOL_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 16 );
+    private static final Color TOOL_COLOR = Color.RED;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -77,8 +80,8 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     private GaussianWavePacket _wavePacket;
     private D2CAmplitudesChart _chartGraphic;
     private String _xTitleSpace, _xTitleTime;
-    private WavePacketSpacingTool _spacingTool;
-    private WavePacketWidthTool _widthTool;
+    private MeasurementTool _spacingTool;
+    private MeasurementTool _widthTool;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -128,12 +131,18 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         addGraphic( _chartGraphic, CHART_LAYER );       
         
         // Spacing measurement tool
-        _spacingTool = new WavePacketSpacingTool( component );
+        _spacingTool = new MeasurementTool( component );
+        _spacingTool.setLabelFont( TOOL_FONT );
+        _spacingTool.setLabelColor( TOOL_COLOR );
+        _spacingTool.setFillColor( TOOL_COLOR );
         _spacingTool.setLocation( 590, 120 );
         addGraphic( _spacingTool, TOOL_LAYER );
         
         // Width measurement tool
-        _widthTool = new WavePacketWidthTool( component );
+        _widthTool = new MeasurementTool( component );
+        _widthTool.setLabelFont( TOOL_FONT );
+        _widthTool.setLabelColor( TOOL_COLOR );
+        _widthTool.setFillColor( TOOL_COLOR );
         _widthTool.setLocation( 540, 60  );
         addGraphic( _widthTool, TOOL_LAYER );
         

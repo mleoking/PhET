@@ -11,9 +11,7 @@
 
 package edu.colorado.phet.fourier.control;
 
-import java.awt.*;
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.event.*;
@@ -26,7 +24,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
@@ -37,10 +34,12 @@ import edu.colorado.phet.fourier.control.sliders.DefaultFourierSlider;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
 import edu.colorado.phet.fourier.module.FourierModule;
-import edu.colorado.phet.fourier.view.*;
-import edu.colorado.phet.fourier.view.tools.PeriodDisplay;
-import edu.colorado.phet.fourier.view.tools.PeriodTool;
-import edu.colorado.phet.fourier.view.tools.WavelengthTool;
+import edu.colorado.phet.fourier.view.AmplitudeSlider;
+import edu.colorado.phet.fourier.view.AnimationCycleController;
+import edu.colorado.phet.fourier.view.HarmonicsGraph;
+import edu.colorado.phet.fourier.view.SumGraph;
+import edu.colorado.phet.fourier.view.tools.HarmonicMeasurementTool;
+import edu.colorado.phet.fourier.view.tools.HarmonicPeriodDisplay;
 
 
 /**
@@ -65,9 +64,9 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     private FourierSeries _fourierSeries;
     private HarmonicsGraph _harmonicsGraph;
     private SumGraph _sumGraph;
-    private WavelengthTool _wavelengthTool;
-    private PeriodTool _periodTool;
-    private PeriodDisplay _periodDisplay;
+    private HarmonicMeasurementTool _wavelengthTool;
+    private HarmonicMeasurementTool _periodTool;
+    private HarmonicPeriodDisplay _periodDisplay;
     private AnimationCycleController _animationCycleController;
 
     // UI components
@@ -109,9 +108,9 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             FourierSeries fourierSeries, 
             HarmonicsGraph harmonicsGraph, 
             SumGraph sumGraph,
-            WavelengthTool wavelengthTool,
-            PeriodTool periodTool,
-            PeriodDisplay periodDisplay,
+            HarmonicMeasurementTool wavelengthTool,
+            HarmonicMeasurementTool periodTool,
+            HarmonicPeriodDisplay periodDisplay,
             AnimationCycleController animationCycleController ) {
         
         super( module );
@@ -210,7 +209,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
                 
                 // Choices
                 _showWavelengthChoices = new ArrayList();
-                String wavelengthSymbol = "" + MathStrings.C_WAVELENGTH;
+                char wavelengthSymbol = MathStrings.C_WAVELENGTH;
                 for ( int i = 0; i < FourierConfig.MAX_HARMONICS; i++ ) {
                     String choice = "<html>" + wavelengthSymbol + "<sub>" + ( i + 1 ) + "</sub></html>";
                     _showWavelengthChoices.add( choice );
@@ -232,7 +231,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
                 
                 // Choices
                 _showPeriodChoices = new ArrayList();
-                String periodSymbol = "" + MathStrings.C_PERIOD;
+                char periodSymbol = MathStrings.C_PERIOD;
                 for ( int i = 0; i < FourierConfig.MAX_HARMONICS; i++ ) {
                     String choice = "<html>" + periodSymbol + "<sub>" + ( i + 1 ) + "</sub></html>";
                     _showPeriodChoices.add( choice );

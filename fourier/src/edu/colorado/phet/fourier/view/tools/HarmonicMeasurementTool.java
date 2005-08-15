@@ -13,26 +13,24 @@ package edu.colorado.phet.fourier.view.tools;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
 import javax.swing.event.EventListenerList;
 import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.chart.Chart;
-import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
-import edu.colorado.phet.fourier.event.*;
+import edu.colorado.phet.fourier.event.HarmonicColorChangeEvent;
+import edu.colorado.phet.fourier.event.HarmonicColorChangeListener;
+import edu.colorado.phet.fourier.event.HarmonicFocusEvent;
+import edu.colorado.phet.fourier.event.HarmonicFocusListener;
 import edu.colorado.phet.fourier.model.Harmonic;
 import edu.colorado.phet.fourier.view.HarmonicColors;
-import edu.colorado.phet.fourier.view.SubscriptedSymbol;
 
 
 /**
- * WaveMeasurementTool is a graphical tool used to visually measure the 
+ * HarmonicMeasurementTool is a graphical tool used to visually measure the 
  * some aspect of a wave.  It is interested in a specific 
  * Harmonic, and adjusts its size to match the width of one cycle
  * of that harmonic.  It also adjusts its size to match the range of 
@@ -42,25 +40,27 @@ import edu.colorado.phet.fourier.view.SubscriptedSymbol;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class WaveMeasurementTool extends MeasurementTool
+public class HarmonicMeasurementTool extends MeasurementTool
 implements Chart.Listener, HarmonicColorChangeListener {
 
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
-    // The symbolic label
-    private static final Color SYMBOL_COLOR = Color.BLACK;
-    private static final Font SYMBOL_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 16 );
-    private static final int SYMBOL_Y_OFFSET = -16;
+    // The label
+    private static final Color LABEL_COLOR = Color.BLACK;
+    private static final Font LABEL_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 16 );
 
+    // The bar
+    private static final Stroke BAR_STROKE = new BasicStroke( 1f );
+    private static final Color BAR_BORDER_COLOR = Color.BLACK;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
     private Chart _chart;
     private String _symbol;
-    private SubscriptedSymbol _symbolGraphic;
     private Harmonic _harmonic;
     private EventListenerList _listenerList;
 
@@ -69,26 +69,31 @@ implements Chart.Listener, HarmonicColorChangeListener {
     //----------------------------------------------------------------------------
 
     /**
-     * Sole constructor.
+     * Constructor.
      * 
      * @param component
      * @param symbol
      * @param harmonic
      * @param chart
      */
-    public WaveMeasurementTool( Component component, String symbol, Harmonic harmonic, Chart chart ) {
+    public HarmonicMeasurementTool( Component component, String symbol, Harmonic harmonic, Chart chart ) {
         super( component );
 
+        _symbol = symbol;
+        
         _harmonic = harmonic;
 
         _chart = chart;
         _chart.addListener( this );
 
         // Label
-        _symbol = symbol;
-        _symbolGraphic = new SubscriptedSymbol( component, _symbol, "n", SYMBOL_FONT, SYMBOL_COLOR );
-        setLabel( _symbolGraphic, SYMBOL_Y_OFFSET );
+        setLabelColor( LABEL_COLOR );
+        setLabelFont( LABEL_FONT );
 
+        // Bar
+        setBorderColor( BAR_BORDER_COLOR );
+        setStroke( BAR_STROKE );
+        
         // Interactivity
         addMouseInputListener( new MouseFocusListener() );
         _listenerList = new EventListenerList();
@@ -97,6 +102,10 @@ implements Chart.Listener, HarmonicColorChangeListener {
         HarmonicColors.getInstance().addHarmonicColorChangeListener( this );
         
         updateSize();
+    }
+    
+    public HarmonicMeasurementTool( Component component, char symbol, Harmonic harmonic, Chart chart ) {
+        this( component, String.valueOf( symbol ), harmonic, chart );
     }
 
     /**
@@ -122,7 +131,7 @@ implements Chart.Listener, HarmonicColorChangeListener {
     public void setHarmonic( Harmonic harmonic ) {
         _harmonic = harmonic;
         String subscript = String.valueOf( harmonic.getOrder() + 1 );
-        _symbolGraphic.setLabel( _symbol, subscript );
+        setLabel( "<html>" + _symbol + "<sub>" + subscript + "</sub></html>" );
         Color color = HarmonicColors.getInstance().getColor( harmonic );
         setFillColor( color );
         updateSize();
