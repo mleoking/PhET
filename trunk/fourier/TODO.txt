@@ -8,6 +8,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- Hamornics equation in Discrete module has no '=', D2C has "F(x) ="
 - bug: D2C amplitudes graph draws on top of tools (Mac only)
 - bug: dragging tools over top of chart causes weird aliasing artifacts (Mac only)
 - bug: chart draws plots on top of help items (Mac only)
