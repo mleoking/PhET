@@ -15,6 +15,7 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
 
 /**
@@ -29,6 +30,7 @@ public class PhotoelectricApplication extends PhetApplication {
     // Class data
     //----------------------------------------------------------------
 
+    static private String resourceBundleName = "localization/PhotoelectricStrings";
     static private String title = "The Photoelectric Effect";
     static private String description = "An exploration of the photoelectric effect";
     static private String version = "0.01";
@@ -57,6 +59,7 @@ public class PhotoelectricApplication extends PhetApplication {
 
 
     public static void main( String[] args ) {
+        SimStrings.init( args, resourceBundleName );
         new PhotoelectricApplication( args ).startApplication();
     }
 }

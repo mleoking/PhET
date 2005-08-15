@@ -81,8 +81,10 @@ public class PhotoelectricModel extends DischargeLampModel {
         } );
 
         // Create the target plate. Give it meaningless endpoints. They will be set later
-        target = new PhotoelectricTarget( this, new Point2D.Double( ), new Point2D.Double( ) );
+        target = new PhotoelectricTarget( this, DischargeLampsConfig.CATHODE_LINE.getP1(),
+                                      DischargeLampsConfig.CATHODE_LINE.getP2() );
         target.setPotential( defaultTargetPotential );
+        addModelElement( target );
     }
 
 
