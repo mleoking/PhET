@@ -47,7 +47,8 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver {
     private static final double MATH_LAYER = 5;
     
     // Background parameters
-    private static final Dimension BACKGROUND_SIZE = new Dimension( 800, 200 );
+    private static final int MIN_HEIGHT = 150;
+    private static final Dimension BACKGROUND_SIZE = new Dimension( 800, MIN_HEIGHT );
     private static final Color BACKGROUND_COLOR = new Color( 215, 215, 215 );
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
@@ -224,9 +225,7 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver {
      * @param height
      */
     public void setHeight( int height ) {
-        int newHeight = BACKGROUND_SIZE.height;
-        if ( height > BACKGROUND_SIZE.height ) {
-            newHeight = height;
+        if ( height >= MIN_HEIGHT ) {
             _backgroundGraphic.setShape( new Rectangle( 0, 0, BACKGROUND_SIZE.width, height ) );
             _chartGraphic.setChartSize( CHART_SIZE.width, height - 70 );
             _titleGraphic.setLocation( TITLE_LOCATION.x, height / 2 );

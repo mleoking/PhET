@@ -47,7 +47,8 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
     private static final double MATH_LAYER = 5;
     
     // Background parameters
-    private static final Dimension BACKGROUND_SIZE = new Dimension( 800, 200 );
+    private static final int MIN_HEIGHT = 150;
+    private static final Dimension BACKGROUND_SIZE = new Dimension( 800, MIN_HEIGHT );
     private static final Color BACKGROUND_COLOR = new Color( 215, 215, 215 );
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
@@ -81,6 +82,7 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
     private HarmonicsChart _chartGraphic;
     private HarmonicsEquation _mathGraphic;
     private String _xTitleSpace, _xTitleTime;
+    private int _domain;
 
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -120,7 +122,7 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
         
         // Chart
         _chartGraphic = new HarmonicsChart( component, CHART_RANGE, CHART_SIZE );
-        addGraphic( _chartGraphic, CHART_LAYER );
+//        addGraphic( _chartGraphic, CHART_LAYER );
         _chartGraphic.setRegistrationPoint( 0, CHART_SIZE.height / 2 ); // at the chart's origin
         _chartGraphic.setLocation( 60, 50 + ( CHART_SIZE.height / 2 ) );
         _xTitleSpace = SimStrings.get( "D2CHarmonicsGraph.xTitleSpace" );
@@ -178,8 +180,8 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
      * Resets to the initial state.
      */
     public void reset() {
-        update();
         setDomain( FourierConstants.DOMAIN_SPACE );
+        update();
     }
     
     //----------------------------------------------------------------------------
@@ -197,25 +199,15 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
     
     /**
      * Sets the domain.
-     * Changes various labels on the chart, tools, etc.
+     * Changes various labels on the chart, tools, formulas, etc.
      * 
      * @param domain DOMAIN_SPACE or DOMAIN_TIME
      * @throws IllegalArgumentException if the domain is invalid or not supported
      */
     public void setDomain( int domain ) {
-        if ( domain == FourierConstants.DOMAIN_SPACE ) {
-            _chartGraphic.setXAxisTitle( _xTitleSpace );
-            _mathGraphic.setForm( domain, FourierConstants.MATH_FORM_WAVE_NUMBER );
-            _mathGraphic.centerRegistrationPoint();
-        }
-        else if ( domain == FourierConstants.DOMAIN_TIME ) {
-            _chartGraphic.setXAxisTitle( _xTitleTime );
-            _mathGraphic.setForm( domain, FourierConstants.MATH_FORM_ANGULAR_FREQUENCY );
-            _mathGraphic.centerRegistrationPoint();
-        }
-        else {
-            throw new IllegalArgumentException( "unsupported domain: " + domain );
-        }
+        _domain = domain;
+        updateMath();
+        updateAxisTitles();
     }
     
     /**
@@ -233,9 +225,7 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
      * @param height
      */
     public void setHeight( int height ) {
-        int newHeight = BACKGROUND_SIZE.height;
-        if ( height > BACKGROUND_SIZE.height ) {
-            newHeight = height;
+        if ( height >= MIN_HEIGHT ) {
             _backgroundGraphic.setShape( new Rectangle( 0, 0, BACKGROUND_SIZE.width, height ) );
             _chartGraphic.setChartSize( CHART_SIZE.width, height - 70 );
             _titleGraphic.setLocation( TITLE_LOCATION.x, height / 2 );
@@ -258,5 +248,25 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
         _chartGraphic.removeAllDataSetGraphics();
 
         //XXX
+    }
+    
+    private void updateMath() {
+        int numberOfHarmonics = _wavePacket.getNumberOfComponents();
+        if ( _domain == FourierConstants.DOMAIN_SPACE ) {
+            _mathGraphic.setForm( _domain, FourierConstants.MATH_FORM_WAVE_NUMBER );
+        }
+        else if ( _domain == FourierConstants.DOMAIN_TIME ) {
+            _mathGraphic.setForm( _domain, FourierConstants.MATH_FORM_ANGULAR_FREQUENCY );
+        }
+        _mathGraphic.centerRegistrationPoint();
+    }
+    
+    private void updateAxisTitles() {
+        if ( _domain == FourierConstants.DOMAIN_SPACE ) {
+            _chartGraphic.setXAxisTitle( _xTitleSpace );
+        }
+        else if ( _domain == FourierConstants.DOMAIN_TIME ) {
+            _chartGraphic.setXAxisTitle( _xTitleTime );
+        }
     }
 }
