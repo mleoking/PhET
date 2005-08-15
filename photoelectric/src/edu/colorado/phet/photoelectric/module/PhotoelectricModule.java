@@ -20,6 +20,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.*;
 import edu.colorado.phet.dischargelamps.view.DischargeLampEnergyLevelMonitorPanel;
@@ -42,13 +43,18 @@ import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * DischargeLampModule
@@ -73,6 +79,8 @@ public class PhotoelectricModule extends BaseLaserModule {
     // An ElectronSink that absorbs electrons if they come back and hit the target
     // TODO: get this into the PhotoelectronTarget class
     private ElectronSink targetSink;
+    private PhetImageGraphic cathodeGraphic;
+
 
     /**
      * Constructor
@@ -107,6 +115,8 @@ public class PhotoelectricModule extends BaseLaserModule {
             target.addListener( targetSink );
         }
 
+        // Set the default work function for the target
+        model.getTarget().setWorkFunction( PhotoelectricTarget.workFunctions.get( PhotoelectricTarget.SODIUM ) );
         // Add the tube
         addTube( model, getApparatusPanel() );
 
@@ -123,15 +133,15 @@ public class PhotoelectricModule extends BaseLaserModule {
             BufferedImage lampImg = ImageLoader.loadBufferedImage( PhotoelectricConfig.LAMP_IMAGE_FILE );
             // Make the lens on the lamp the same size as the beam
             AffineTransform scaleTx = AffineTransform.getScaleInstance( 100.0 / lampImg.getWidth(),
-                                                                        beam.getWidth() / lampImg.getHeight( ));
+                                                                        beam.getWidth() / lampImg.getHeight() );
             AffineTransformOp scaleTxOp = new AffineTransformOp( scaleTx, AffineTransformOp.TYPE_BILINEAR );
             lampImg = scaleTxOp.filter( lampImg, null );
 
 
-            Point2D rp = new Point2D.Double( lampImg.getWidth(), lampImg.getHeight() / 2);
+            Point2D rp = new Point2D.Double( lampImg.getWidth(), lampImg.getHeight() / 2 );
             AffineTransform atx = AffineTransform.getRotateInstance( beam.getAngle(), rp.getX(), rp.getY() );
 
-            LampGraphic lampGraphic = new LampGraphic( beam, getApparatusPanel(), lampImg, atx);
+            LampGraphic lampGraphic = new LampGraphic( beam, getApparatusPanel(), lampImg, atx );
             // todo: this is positioned with hard numbers. Fix it
             lampGraphic.setLocation( (int)beam.getPosition().getX() - 80, (int)beam.getPosition().getY() );
             getApparatusPanel().addGraphic( lampGraphic );
@@ -253,13 +263,46 @@ public class PhotoelectricModule extends BaseLaserModule {
     private void addControls() {
         final CollimatedBeam beam = getPhotoelectricModel().getBeam();
 
+        //----------------------------------------------------------------
+        // Target controls
+        //----------------------------------------------------------------
+
+        JPanel targetControlPnl = new JPanel( new GridLayout( 1, 1 ) );
+        targetControlPnl.setBorder( new TitledBorder( "Target" ) );
+        getControlPanel().add( targetControlPnl );
+        final JComboBox targetMaterial = new JComboBox( PhotoelectricTarget.workFunctions.keySet().toArray() );
+        targetControlPnl.add( targetMaterial );
+        final PhotoelectricTarget target = getPhotoelectricModel().getTarget();
+        targetMaterial.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                target.setMaterial( targetMaterial.getSelectedItem() );
+                BufferedImage bImg = cathodeGraphic.getImage();
+                HashMap lut = new HashMap( );
+                lut.put( PhotoelectricTarget.COPPER, new Color( 200, 220, 100));
+                lut.put( PhotoelectricTarget.MAGNESIUM, new Color( 100, 220, 100));
+                lut.put( PhotoelectricTarget.SODIUM, new Color( 240, 240, 50));
+                lut.put( PhotoelectricTarget.ZINC, new Color( 240, 240, 240));
+                MakeDuotoneImageOp imgOp = new MakeDuotoneImageOp( (Color)lut.get( targetMaterial.getSelectedItem()));
+//                cathodeGraphic.setImage( imgOp.filter( bImg,null ));
+            }
+        } );
+        target.setMaterial( targetMaterial.getSelectedItem() );
+
+        //----------------------------------------------------------------
+        // Beam controls
+        //----------------------------------------------------------------
+
+        JPanel beamControlPnl = new JPanel( new GridLayout( 2, 1 ) );
+        beamControlPnl.setBorder( new TitledBorder( "Lamp" ) );
+        getControlPanel().add( beamControlPnl );
+
         // A slider for the wavelength
         final ModelSlider wavelengthSlider = new ModelSlider( SimStrings.get( "Control.Wavelength" ), "nm",
                                                               LaserConfig.MIN_WAVELENGTH, LaserConfig.MAX_WAVELENGTH,
                                                               ( LaserConfig.MIN_WAVELENGTH + LaserConfig.MAX_WAVELENGTH ) / 2 );
         wavelengthSlider.setPreferredSize( new Dimension( 250, 100 ) );
         beam.setWavelength( wavelengthSlider.getValue() );
-        ( (ControlPanel)getControlPanel() ).add( wavelengthSlider );
+        beamControlPnl.add( wavelengthSlider );
         wavelengthSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 beam.setWavelength( wavelengthSlider.getValue() );
@@ -272,12 +315,16 @@ public class PhotoelectricModule extends BaseLaserModule {
                                                                  beam.getMaxPhotonsPerSecond() / 2 );
         beamIntensitySlider.setPreferredSize( new Dimension( 250, 100 ) );
         beam.setPhotonsPerSecond( beamIntensitySlider.getValue() / 2 );
-        ( (ControlPanel)getControlPanel() ).add( beamIntensitySlider );
+        beamControlPnl.add( beamIntensitySlider );
         beamIntensitySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 beam.setPhotonsPerSecond( beamIntensitySlider.getValue() );
             }
         } );
+
+        //----------------------------------------------------------------
+        // Battery controls
+        //----------------------------------------------------------------
 
         // A slider for the battery voltage
         final ModelSlider batterySlider = new ModelSlider( SimStrings.get( "Control.BatteryVoltageLabel" ),
@@ -363,7 +410,7 @@ public class PhotoelectricModule extends BaseLaserModule {
      */
     private void addCathodeGraphic( PhotoelectricModel model, ApparatusPanel apparatusPanel ) {
         cathode = model.getTarget();
-        PhetImageGraphic cathodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode-2.png" );
+        cathodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode-2.png" );
 
         // Make the graphic the right size
         double scaleX = 1;

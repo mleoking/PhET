@@ -71,7 +71,7 @@ public class PhotoelectricModel extends DischargeLampModel {
         Point2D beamLocation = new Point2D.Double( DischargeLampsConfig.CATHODE_LOCATION.getX() + Math.cos( alpha ) * beamSourceToTargetDist
                                                    + beamHeight / 2 * Math.sin( alpha ),
                                                    ( DischargeLampsConfig.CATHODE_LOCATION.getY() - beamHeight / 2 ) + Math.sin( alpha ) * beamSourceToTargetDist
-        + beamHeight / 2 * Math.cos(alpha));
+                                                   + beamHeight / 2 * Math.cos( alpha ) );
         beam = new CollimatedBeam( defaultBeamWavelength, beamLocation, beamHeight,
                                    beamHeight, new Vector2D.Double( Math.cos( beamAngle ), Math.sin( beamAngle ) ),
                                    beamMaxPhotonsPerSecond, 0 );
