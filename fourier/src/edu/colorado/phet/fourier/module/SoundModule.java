@@ -88,8 +88,6 @@ public class SoundModule extends FourierModule {
         _controlPanel = new SoundControlPanel( this );
         _controlPanel.addResetButton();
         setControlPanel( _controlPanel );
-
-        reset();
         
         //----------------------------------------------------------------------------
         // Help
@@ -99,6 +97,12 @@ public class SoundModule extends FourierModule {
         FourierHelpItem someHelp = new FourierHelpItem( apparatusPanel, "Hang on, help is coming soon" );
         someHelp.setLocation( 200, 300 );
         addHelpItem( someHelp );
+        
+        //----------------------------------------------------------------------------
+        // Initialze the module state
+        //----------------------------------------------------------------------------
+        
+        reset();
     }
     
     //----------------------------------------------------------------------------

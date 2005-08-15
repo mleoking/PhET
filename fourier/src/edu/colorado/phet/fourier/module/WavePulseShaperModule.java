@@ -88,8 +88,6 @@ public class WavePulseShaperModule extends FourierModule {
         _controlPanel = new WavePulseShaperControlPanel( this );
         _controlPanel.addResetButton();
         setControlPanel( _controlPanel );
-
-        reset();
         
         //----------------------------------------------------------------------------
         // Help
@@ -99,6 +97,12 @@ public class WavePulseShaperModule extends FourierModule {
         FourierHelpItem someHelp = new FourierHelpItem( apparatusPanel, "Hang on, help is coming soon" );
         someHelp.setLocation( 200, 250 );
         addHelpItem( someHelp );
+        
+        //----------------------------------------------------------------------------
+        // Initialze the module state
+        //----------------------------------------------------------------------------
+        
+        reset();
     }
     
     //----------------------------------------------------------------------------
