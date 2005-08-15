@@ -18,39 +18,32 @@ import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.*;
 import edu.colorado.phet.dischargelamps.view.DischargeLampEnergyLevelMonitorPanel;
 import edu.colorado.phet.dischargelamps.view.ElectronGraphic;
 import edu.colorado.phet.dischargelamps.view.SpectrometerGraphic;
-import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
-import edu.colorado.phet.lasers.model.atom.AtomicState;
-import edu.colorado.phet.lasers.model.atom.GroundState;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
+import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.model.photon.PhotonEmittedEvent;
 import edu.colorado.phet.lasers.model.photon.PhotonEmittedListener;
-import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.view.PhotonGraphic;
 import edu.colorado.phet.lasers.view.ResonatingCavityGraphic;
+import edu.colorado.phet.lasers.view.BeamCurtainGraphic;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 import edu.colorado.phet.photoelectric.model.PhotoelectricTarget;
 
-import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.text.DecimalFormat;
-import java.util.Random;
 
 /**
  * DischargeLampModule
@@ -125,6 +118,9 @@ public class PhotoelectricModule extends BaseLaserModule {
                                                                                      10, 10 ),
                                                                Color.red );
         getApparatusPanel().addGraphic( beamIndicator, 10000 );
+
+        BeamCurtainGraphic beamCurtainGraphic = new BeamCurtainGraphic( getApparatusPanel(), beam );
+        getApparatusPanel().addGraphic( beamCurtainGraphic );
 
         // Add a listener that will produce photon graphics for the beam, and for each photon emitted,
         // add a listener that will remove the PhotonGraphic from the apparatus panel
