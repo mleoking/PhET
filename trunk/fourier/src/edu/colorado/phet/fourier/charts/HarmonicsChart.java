@@ -172,7 +172,7 @@ public class HarmonicsChart extends Chart {
     }
     
     public void setXAxisTitle( char c ) {
-        setXAxisTitle( "" + c );
+        setXAxisTitle( String.valueOf( c ) );
     }
     
     //----------------------------------------------------------------------------
