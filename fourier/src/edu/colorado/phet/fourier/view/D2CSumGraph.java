@@ -22,6 +22,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.charts.D2CSumChart;
 import edu.colorado.phet.fourier.charts.SumChart;
 import edu.colorado.phet.fourier.control.ZoomControl;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
@@ -59,8 +60,8 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver {
     private static final Point TITLE_LOCATION = new Point( 40, 115 );
     
     // Chart parameters
-    private static final double X_MIN = -2;
-    private static final double X_MAX = 2;
+    private static final double X_MIN = -1;
+    private static final double X_MAX = 1;
     private static final double Y_MIN = -1;
     private static final double Y_MAX = 1;
     private static final Range2D CHART_RANGE = new Range2D( X_MIN, Y_MIN, X_MAX, Y_MAX );
@@ -79,7 +80,7 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver {
     private PhetTextGraphic _titleGraphic;
     private PhetImageGraphic _closeButton;
     private ZoomControl _horizontalZoomControl;
-    private SumChart _chartGraphic;
+    private D2CSumChart _chartGraphic;
     private SumEquation _mathGraphic;
     private String _xTitleSpace, _xTitleTime;
     private int _domain;
@@ -121,7 +122,7 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver {
         addGraphic( _titleGraphic, TITLE_LAYER );
         
         // Chart
-        _chartGraphic = new SumChart( component, CHART_RANGE, CHART_SIZE );
+        _chartGraphic = new D2CSumChart( component, CHART_RANGE, CHART_SIZE );
         addGraphic( _chartGraphic, CHART_LAYER );
         _chartGraphic.setRegistrationPoint( 0, CHART_SIZE.height / 2 ); // at the chart's origin
         _chartGraphic.setLocation( 60, 50 + ( CHART_SIZE.height / 2 ) );
