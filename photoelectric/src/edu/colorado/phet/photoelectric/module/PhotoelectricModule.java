@@ -25,6 +25,7 @@ import edu.colorado.phet.dischargelamps.view.DischargeLampEnergyLevelMonitorPane
 import edu.colorado.phet.dischargelamps.view.ElectronGraphic;
 import edu.colorado.phet.dischargelamps.view.SpectrometerGraphic;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
+import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.atom.GroundState;
@@ -57,7 +58,7 @@ import java.util.Random;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class PhotoelectricModule extends BaseLaserModule implements ElectronSource.ElectronProductionListener {
+public class PhotoelectricModule extends BaseLaserModule {
 
 //    public static boolean DEBUG = true;
     public static boolean DEBUG = false;
@@ -72,12 +73,10 @@ public class PhotoelectricModule extends BaseLaserModule implements ElectronSour
     // AffineTransformOp that will scale graphics created in external applications so they appear
     // properly on the screen
     private AffineTransformOp externalGraphicScaleOp;
-    private ResonatingCavity tube;
     private ModelSlider currentSlider;
     private static final double SPECTROMETER_LAYER = 1000;
     private Spectrometer spectrometer;
     // The states in which the atoms can be
-    private Random random = new Random();
     private SpectrometerGraphic spectrometerGraphic;
 
     /**
@@ -102,6 +101,7 @@ public class PhotoelectricModule extends BaseLaserModule implements ElectronSour
         PhotoelectricModel model = new PhotoelectricModel();
         setModel( model );
         setControlPanel( new ControlPanel( this ) );
+        model.getTarget().addListener( new CathodeListener() );
 
         //----------------------------------------------------------------
         // View
@@ -110,9 +110,9 @@ public class PhotoelectricModule extends BaseLaserModule implements ElectronSour
         // Add a graphic for the beam
         CollimatedBeam beam = model.getBeam();
         PhetShapeGraphic beamIndicator = new PhetShapeGraphic( getApparatusPanel(),
-                                                               new Ellipse2D.Double(beam.getPosition().getX(),
-                                                                                    beam.getPosition().getY(),
-                                                                                    10,10),
+                                                               new Ellipse2D.Double( beam.getPosition().getX(),
+                                                                                     beam.getPosition().getY(),
+                                                                                     10, 10 ),
                                                                Color.red );
         getApparatusPanel().addGraphic( beamIndicator, 10000 );
 
@@ -128,8 +128,8 @@ public class PhotoelectricModule extends BaseLaserModule implements ElectronSour
         // Add the battery and wire graphic
         addCircuitGraphic( apparatusPanel );
 
-        // Add the cathode to the model
-        addCathode( model, apparatusPanel );
+        // Add a graphic for the target plate
+        addCathodeGraphic( model, apparatusPanel );
 
         // Add the anode to the model
         addAnode( model, apparatusPanel, cathode );
@@ -143,8 +143,19 @@ public class PhotoelectricModule extends BaseLaserModule implements ElectronSour
         // Add the spectrometer
         addSpectrometer();
 
+        //----------------------------------------------------------------
+        // Controls
+        //----------------------------------------------------------------
+
         // Set up the control panel
         addControls();
+    }
+
+    /**
+     * Returns a typed reference to the model
+     */
+    private PhotoelectricModel getPhotoelectricModel() {
+        return (PhotoelectricModel)getModel();
     }
 
     /**
@@ -181,7 +192,7 @@ public class PhotoelectricModule extends BaseLaserModule implements ElectronSour
 
     /**
      * Computes the scale to be applied to externally created graphics.
-     * <p>
+     * <p/>
      * Scale is determined by specifying a distance in the external graphics that should
      * be the same as the distance between two point on the screen.
      *
@@ -199,7 +210,7 @@ public class PhotoelectricModule extends BaseLaserModule implements ElectronSour
     private void addCircuitGraphic( ApparatusPanel apparatusPanel ) {
         PhetImageGraphic circuitGraphic = new PhetImageGraphic( getApparatusPanel(), "images/battery-w-wires-2.png" );
         AffineTransform flipVertical = AffineTransform.getScaleInstance( 1, -1 );
-        flipVertical.translate(0, -circuitGraphic.getImage().getHeight( ));
+        flipVertical.translate( 0, -circuitGraphic.getImage().getHeight() );
         AffineTransformOp flipVerticalOp = new AffineTransformOp( flipVertical, AffineTransformOp.TYPE_BILINEAR );
         BufferedImage flippedImg = flipVerticalOp.filter( circuitGraphic.getImage(), null );
         circuitGraphic.setImage( flippedImg );
@@ -216,8 +227,22 @@ public class PhotoelectricModule extends BaseLaserModule implements ElectronSour
      */
     private void addControls() {
 
+        // A slider for the wavelength
+        final ModelSlider wavelengthSlider = new ModelSlider( SimStrings.get( "Control.Wavelength" ), "nm",
+                                                              LaserConfig.MIN_WAVELENGTH, LaserConfig.MAX_WAVELENGTH,
+                                                              ( LaserConfig.MIN_WAVELENGTH + LaserConfig.MAX_WAVELENGTH ) / 2 );
+        wavelengthSlider.setPreferredSize( new Dimension( 250, 100 ) );
+        ( (ControlPanel)getControlPanel() ).add( wavelengthSlider );
+        wavelengthSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                getPhotoelectricModel().getBeam().setWavelength( wavelengthSlider.getValue() );
+            }
+        } );
+        getPhotoelectricModel().getBeam().setWavelength( wavelengthSlider.getValue() );
+
         // A slider for the battery voltage
-        final ModelSlider batterySlider = new ModelSlider( "Battery Voltage", "V", 0, .1, 0.05 );
+        final ModelSlider batterySlider = new ModelSlider( SimStrings.get( "Control.BatteryVoltageLabel" ),
+                                                           "V", -0.05, 0.05, 0 );
         batterySlider.setPreferredSize( new Dimension( 250, 100 ) );
         ControlPanel controlPanel = (ControlPanel)getControlPanel();
         controlPanel.add( batterySlider );
@@ -228,28 +253,6 @@ public class PhotoelectricModule extends BaseLaserModule implements ElectronSour
             }
         } );
         cathode.setPotential( batterySlider.getValue() );
-
-        // A slider for the battery current
-        currentSlider = new ModelSlider( "Electron Production Rate", "electrons/msec",
-                                         0, 0.3, 0, new DecimalFormat( "0.00#" ) );
-        currentSlider.setPreferredSize( new Dimension( 250, 100 ) );
-        controlPanel.add( currentSlider );
-        currentSlider.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                cathode.setCurrent( currentSlider.getValue() );
-            }
-        } );
-
-
-        // Add a button to show/hide the spectrometer
-        final JCheckBox spectrometerCB = new JCheckBox( SimStrings.get( "ControlPanel.SpectrometerButtonLabel" ) );
-        spectrometerCB.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                spectrometerGraphic.setVisible( spectrometerCB.isSelected() );
-            }
-        } );
-        getControlPanel().add( spectrometerCB );
-        spectrometerGraphic.setVisible( spectrometerCB.isSelected() );
     }
 
     /**
@@ -271,7 +274,6 @@ public class PhotoelectricModule extends BaseLaserModule implements ElectronSour
         model.addModelElement( tube );
         ResonatingCavityGraphic tubeGraphic = new ResonatingCavityGraphic( getApparatusPanel(), tube );
         apparatusPanel.addGraphic( tubeGraphic, DischargeLampsConfig.TUBE_LAYER );
-        this.tube = tube;
     }
 
     /**
@@ -320,14 +322,8 @@ public class PhotoelectricModule extends BaseLaserModule implements ElectronSour
      * @param model
      * @param apparatusPanel
      */
-    private void addCathode( PhotoelectricModel model, ApparatusPanel apparatusPanel ) {
-        cathode = new ElectronSource( model,
-                                      DischargeLampsConfig.CATHODE_LINE.getP1(),
-                                      DischargeLampsConfig.CATHODE_LINE.getP2() );
-        model.addModelElement( cathode );
-        cathode.addListener( this );
-        cathode.setElectronsPerSecond( 0 );
-        cathode.setPosition( DischargeLampsConfig.CATHODE_LOCATION );
+    private void addCathodeGraphic( PhotoelectricModel model, ApparatusPanel apparatusPanel ) {
+        cathode = model.getTarget();
         PhetImageGraphic cathodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode-2.png" );
 
         // Make the graphic the right size
@@ -368,9 +364,6 @@ public class PhotoelectricModule extends BaseLaserModule implements ElectronSour
         anode.addListener( new AbsorptionElectronAbsorptionListener( electron, graphic ) );
     }
 
-    protected ElectronSource getCathode() {
-        return cathode;
-    }
 
     //-----------------------------------------------------------------
     // Inner classes
@@ -436,6 +429,18 @@ public class PhotoelectricModule extends BaseLaserModule implements ElectronSour
                     getApparatusPanel().removeGraphic( pg );
                 }
             } );
+        }
+    }
+
+    private class CathodeListener implements ElectronSource.ElectronProductionListener {
+
+        public void electronProduced( ElectronSource.ElectronProductionEvent event ) {
+            Electron electron = event.getElectron();
+
+            // Create a graphic for the electron
+            ElectronGraphic graphic = new ElectronGraphic( getApparatusPanel(), electron );
+            getApparatusPanel().addGraphic( graphic, DischargeLampsConfig.ELECTRON_LAYER );
+            anode.addListener( new AbsorptionElectronAbsorptionListener( electron, graphic ) );
         }
     }
 }
