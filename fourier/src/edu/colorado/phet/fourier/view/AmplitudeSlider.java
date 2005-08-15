@@ -147,7 +147,7 @@ public class AmplitudeSlider extends GraphicLayerSet
             String label = "<html>" + symbol + "<sub>" + subscript + "</sub></html>";
             _labelGraphic = new HTMLGraphic( component, LABEL_FONT, label, LABEL_COLOR );
             _labelGraphic.centerRegistrationPoint();
-            _labelGraphic.setLocation( 0, 0 );
+            _labelGraphic.setLocation( 0, 0 ); // will be set in update
         }
         
         // Value
@@ -159,7 +159,7 @@ public class AmplitudeSlider extends GraphicLayerSet
             _valueGraphic = PhetJComponent.newInstance( component, _valueTextField );
             _valueGraphic.setName( "AmplitudeSlider.value" );
             _valueGraphic.centerRegistrationPoint();
-            _valueGraphic.setLocation( 0, 0 );
+            _valueGraphic.setLocation( 0, 0 ); // will be set in update
         }
 
         // Click Zone
@@ -194,7 +194,7 @@ public class AmplitudeSlider extends GraphicLayerSet
             _knobGraphic.setShape( _knobRectangle );
             _knobGraphic.setPaint( KNOB_FILL_COLOR );
             _knobGraphic.centerRegistrationPoint();
-            _knobGraphic.setLocation( 0, 0 );
+            _knobGraphic.setLocation( 0, 0 ); // will be set in update
         }
         
         // Interactivity
