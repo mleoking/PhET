@@ -134,7 +134,6 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         _widthTool.setLabelFont( TOOL_FONT );
         _widthTool.setLabelColor( TOOL_COLOR );
         _widthTool.setFillColor( TOOL_COLOR );
-        _widthTool.setLocation( 540, 40  );
         addGraphic( _widthTool, TOOL_LAYER );
         
         // Spacing measurement tool
@@ -142,7 +141,6 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         _spacingTool.setLabelFont( TOOL_FONT );
         _spacingTool.setLabelColor( TOOL_COLOR );
         _spacingTool.setFillColor( TOOL_COLOR );
-        _spacingTool.setLocation( 590, 140 );
         addGraphic( _spacingTool, TOOL_LAYER );
         
         // Interactivity
@@ -164,6 +162,8 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
      * Resets to the initial state.
      */
     public void reset() {
+        _widthTool.setLocation( 540, 40  );
+        _spacingTool.setLocation( 590, 140 );
         update();
         setDomain( FourierConstants.DOMAIN_SPACE );
     }
