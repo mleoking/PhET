@@ -20,7 +20,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Line2D;
 
 /**
- *
+ * An electrode is a line between two endpoints. Its location is considered to be the
+ * midpoint between the two endpoints
  */
 public abstract class Electrode extends Particle {
     private double potential;
@@ -29,8 +30,7 @@ public abstract class Electrode extends Particle {
     private Point2D[] endpoints = new Point2D[2];
 
     protected Electrode( Point2D p1, Point2D p2 ) {
-        endpoints[0] = p1;
-        endpoints[1] = p2;
+        setEndpoints( new Point2D[] {p1, p2 } );
     }
 
     public double getPotential() {
@@ -44,6 +44,7 @@ public abstract class Electrode extends Particle {
 
     protected void setEndpoints( Point2D[] points) {
         endpoints = points;
+        setPosition( (endpoints[0].getX() + endpoints[1].getX() )/ 2, (endpoints[0].getY() + endpoints[1].getY() )/ 2 );
     }
     
     public Point2D[] getEndpoints() {
