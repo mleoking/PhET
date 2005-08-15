@@ -91,7 +91,6 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
      * Sole constructor.
      * 
      * @param component the parent Component
-     * @param fourierSeries the model that this graphic controls
      * @param wavePacket the Gaussian wave packet being displayed
      */
     public D2CAmplitudesGraph( Component component, GaussianWavePacket wavePacket ) {
