@@ -76,6 +76,10 @@ public class CollimatedBeam extends Particle implements PhotonSource {
         this.velocity = new Vector2D.Double( direction ).normalize().scale( Photon.SPEED );
     }
 
+    //----------------------------------------------------------------
+    // Getters and setters
+    //----------------------------------------------------------------
+
     /**
      * @return fanout in degrees
      */
@@ -101,6 +105,10 @@ public class CollimatedBeam extends Particle implements PhotonSource {
 
     public void setDirection( Vector2D.Double direction ) {
         this.velocity = new Vector2D.Double( direction ).normalize().scale( Photon.SPEED );
+    }
+
+    public double getAngle() {
+        return velocity.getAngle();
     }
 
     public double getHeight() {

@@ -18,6 +18,7 @@ import edu.colorado.phet.lasers.model.photon.PhotonSource;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.AffineTransform;
 
 /**
  * Class: BlueBeamGraphic
@@ -69,6 +70,16 @@ public class BeamCurtainGraphic extends PhetShapeGraphic implements PhotonSource
         path.closePath();
         beamArea = path;
         setShape( beamArea );
+
+        // If the beam is not vertical downward, then rotate the shape so it points in the direction
+        // the beam is going
+        if( beam.getAngle() != 0 ) {
+            double theta = beam.getAngle() - Math.PI / 2;
+            setShape( AffineTransform.getRotateInstance( theta,
+                                                         beam.getPosition().getX(),
+                                                         beam.getPosition().getY() ).createTransformedShape( beamArea ));
+        }
+
         setPaint( actualColor );
         setBoundsDirty();
         repaint();
