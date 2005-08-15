@@ -16,11 +16,11 @@ import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.event.FourierDragHandler;
-import edu.colorado.phet.fourier.view.SubscriptedSymbol;
 
 
 /**
@@ -41,17 +41,19 @@ public class MeasurementTool extends CompositePhetGraphic implements ApparatusPa
     private static final double LABEL_LAYER = 2;
     
     // The horizontal bar
-    private static final Stroke BAR_STROKE = new BasicStroke( 1f );
-    private static final Color BAR_BORDER_COLOR = Color.BLACK;
     private static final float END_WIDTH = 1;
     private static final float END_HEIGHT = 10;
     private static final float LINE_HEIGHT = 4; // must be < END_HEIGHT !
+       
+    // The label
+    private static final Font LABEL_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 16 );
+    private static final Color LABEL_COLOR = Color.BLACK;
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private PhetGraphic _labelGraphic;
+    private HTMLGraphic _labelGraphic;
     private PhetShapeGraphic _barGraphic;
     private GeneralPath _barPath;
     private FourierDragHandler _dragHandler;
@@ -72,14 +74,13 @@ public class MeasurementTool extends CompositePhetGraphic implements ApparatusPa
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
 
         // Label
-        _labelGraphic = null;  // set using setLabel
+        _labelGraphic = new HTMLGraphic( component, LABEL_FONT, "?", LABEL_COLOR );
+        addGraphic( _labelGraphic, LABEL_LAYER );
         
         // Bar path
         _barPath = new GeneralPath();
         _barGraphic = new PhetShapeGraphic( component );
         _barGraphic.setShape( _barPath );
-        _barGraphic.setStroke( BAR_STROKE );
-        _barGraphic.setBorderColor( BAR_BORDER_COLOR );
         _barGraphic.centerRegistrationPoint();
         _barGraphic.setLocation( 0, 0 );
         addGraphic( _barGraphic, BAR_LAYER );
@@ -95,21 +96,35 @@ public class MeasurementTool extends CompositePhetGraphic implements ApparatusPa
     //----------------------------------------------------------------------------
     
     /**
-     * Sets the label on the tool.
-     * The label is a PhetGraphic so that you can label the tool with anything.
+     * Sets the label, which should be in HTML format.
      * 
-     * @param labelGraphic
-     * @param yOffset
+     * @param html
      */
-    public void setLabel( PhetGraphic labelGraphic, int yOffset ) {
-        if ( _labelGraphic != null ) {
-            removeGraphic( _labelGraphic );
-        }
-        _labelGraphic = labelGraphic;
-        if ( _labelGraphic != null ) {
-            addGraphic( _labelGraphic, LABEL_LAYER );
-            _labelGraphic.setLocation( 0, yOffset );
-        }
+    public void setLabel( String html ) {
+        _labelGraphic.setHTML( html );
+        _labelGraphic.centerRegistrationPoint();
+        // center the label above the tool
+        int x = 0;
+        int y = -( ( _labelGraphic.getHeight() / 2 ) + 4 );
+        _labelGraphic.setLocation( x, y );
+    }
+    
+    /**
+     * Sets the color of the label.
+     * 
+     * @param color
+     */
+    public void setLabelColor( Color color ) {
+        _labelGraphic.setColor( color );
+    }
+    
+    /**
+     * Sets the font of label.
+     * 
+     * @param font
+     */
+    public void setLabelFont( Font font ) {
+        _labelGraphic.setFont( font );
     }
     
     /**

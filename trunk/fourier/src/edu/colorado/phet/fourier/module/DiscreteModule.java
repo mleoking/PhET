@@ -23,19 +23,18 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
-import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.control.DiscreteControlPanel;
 import edu.colorado.phet.fourier.help.FourierHelpItem;
 import edu.colorado.phet.fourier.help.WiggleMeGraphic;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.util.Vector2D;
 import edu.colorado.phet.fourier.view.*;
-import edu.colorado.phet.fourier.view.tools.PeriodDisplay;
-import edu.colorado.phet.fourier.view.tools.PeriodTool;
-import edu.colorado.phet.fourier.view.tools.WavelengthTool;
+import edu.colorado.phet.fourier.view.tools.HarmonicMeasurementTool;
+import edu.colorado.phet.fourier.view.tools.HarmonicPeriodDisplay;
 
 
 /**
@@ -82,9 +81,9 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
     private GraphClosed _harmonicsGraphClosed;
     private SumGraph _sumGraph;
     private GraphClosed _sumGraphClosed;
-    private WavelengthTool _wavelengthTool;
-    private PeriodTool _periodTool;
-    private PeriodDisplay _periodDisplay;
+    private HarmonicMeasurementTool _wavelengthTool;
+    private HarmonicMeasurementTool _periodTool;
+    private HarmonicPeriodDisplay _periodDisplay;
     private DiscreteControlPanel _controlPanel;
     private AnimationCycleController _animationCycleController;
     private Dimension _canvasSize;
@@ -146,17 +145,19 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         apparatusPanel.addGraphic( _sumGraphClosed, SUM_CLOSED_LAYER );
         
         // Wavelength Tool
-        _wavelengthTool = new WavelengthTool( apparatusPanel, _fourierSeries.getHarmonic(0), _harmonicsGraph.getChart() );
+        _wavelengthTool = new HarmonicMeasurementTool( apparatusPanel, MathStrings.C_WAVELENGTH,
+                _fourierSeries.getHarmonic(0), _harmonicsGraph.getChart() );
         apparatusPanel.addGraphic( _wavelengthTool, TOOLS_LAYER );
         apparatusPanel.addChangeListener( _wavelengthTool );
         
         // Period Tool
-        _periodTool = new PeriodTool( apparatusPanel, _fourierSeries.getHarmonic(0), _harmonicsGraph.getChart() );
+        _periodTool = new HarmonicMeasurementTool( apparatusPanel, MathStrings.C_PERIOD,
+                _fourierSeries.getHarmonic(0), _harmonicsGraph.getChart() );
         apparatusPanel.addGraphic( _periodTool, TOOLS_LAYER );
         apparatusPanel.addChangeListener( _periodTool );
         
         // Period Display
-        _periodDisplay = new PeriodDisplay( apparatusPanel, _fourierSeries.getHarmonic(0) );
+        _periodDisplay = new HarmonicPeriodDisplay( apparatusPanel, _fourierSeries.getHarmonic(0) );
         apparatusPanel.addGraphic( _periodDisplay, TOOLS_LAYER );
         apparatusPanel.addChangeListener( _periodDisplay );
         

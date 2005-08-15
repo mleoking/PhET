@@ -4,11 +4,10 @@
 
 IN PROGRESS:
 - separate k0 and center point in GaussianWavePacket model (not the same thing)
-- plan for having to shift center point
+- plan for having to shift GaussianWavePacket center point
 
 
 HIGH PRIORITY:
-- constrain movement of k1 and deltak measurement tools to D2C amplitudes graph
 - bug: D2C amplitudes graph draws on top of tools (Mac only)
 - bug: dragging tools over top of chart causes weird aliasing artifacts (Mac only)
 - bug: chart draws plots on top of help items (Mac only)
@@ -16,6 +15,7 @@ HIGH PRIORITY:
 - wiggle me isn't hidden when user clicks in the control panel
 
 MEDIUM PRIORITY:
+- constrain movement of k1 and deltak measurement tools to D2C amplitudes graph
 - add support for persistence
 - relocate the Help on the text fields in Discrete module
 - bug: FourierHelp.pointAt(Point,...) doesn't actually point at the specific Point
@@ -72,6 +72,7 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(8/15) - refactor measurement tools into separate classes that encapsulate the "look" of the tool
 (8/12) - set color of D2C measurement tools to a dark red
 sandbox...
 (8/12) - first pass at adding k1 and deltak measurement tools to D2C

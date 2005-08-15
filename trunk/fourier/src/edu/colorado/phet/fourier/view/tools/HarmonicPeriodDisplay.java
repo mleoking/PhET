@@ -22,20 +22,19 @@ import javax.swing.event.MouseInputAdapter;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.event.*;
 import edu.colorado.phet.fourier.model.Harmonic;
-import edu.colorado.phet.fourier.view.AnimationCycleController;
 import edu.colorado.phet.fourier.view.HarmonicColors;
-import edu.colorado.phet.fourier.view.SubscriptedSymbol;
 import edu.colorado.phet.fourier.view.AnimationCycleController.AnimationCycleEvent;
 import edu.colorado.phet.fourier.view.AnimationCycleController.AnimationCycleListener;
 
 
 /**
- * PeriodDisplay is used to display the period time of a harmonic 
+ * HarmonicPeriodDisplay is used to display the period time of a harmonic 
  * in "space & time" domain.  The period is shown using a pie chart
  * that gradually fills in a clockwise direction.  The harmonic 
  * begins a cycle when the pie is empty, and complete a cycle when
@@ -45,7 +44,7 @@ import edu.colorado.phet.fourier.view.AnimationCycleController.AnimationCycleLis
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class PeriodDisplay extends CompositePhetGraphic 
+public class HarmonicPeriodDisplay extends CompositePhetGraphic 
   implements ApparatusPanel2.ChangeListener, SimpleObserver, HarmonicColorChangeListener, AnimationCycleListener {
 
     //----------------------------------------------------------------------------
@@ -54,12 +53,12 @@ public class PeriodDisplay extends CompositePhetGraphic
     
     private static final double PIE_LAYER = 1;
     private static final double RING_LAYER = 2;
-    private static final double SYMBOL_LAYER = 3;
+    private static final double LABEL_LAYER = 3;
     
-    private static final Color SYMBOL_COLOR = Color.BLACK;
-    private static final Font SYMBOL_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 16 );
-    private static final int SYMBOL_X_OFFSET = 30;
-    private static final int SYMBOL_Y_OFFSET = 0;
+    private static final Color LABEL_COLOR = Color.BLACK;
+    private static final Font LABEL_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 16 );
+    private static final int LABEL_X_OFFSET = 30;
+    private static final int LABEL_Y_OFFSET = 0;
     
     private static final int RING_DIAMETER = 30;
     private static final Color RING_CENTER_COLOR = new Color( 255,255,255,0 ); // transparent
@@ -76,7 +75,7 @@ public class PeriodDisplay extends CompositePhetGraphic
     //----------------------------------------------------------------------------
     
     private Harmonic _harmonic;
-    private SubscriptedSymbol _symbolGraphic;
+    private HTMLGraphic _labelGraphic;
     private PhetShapeGraphic _pieGraphic;
     private Arc2D _pieArc;
     private FourierDragHandler _dragHandler;
@@ -94,17 +93,18 @@ public class PeriodDisplay extends CompositePhetGraphic
      * @param symbol
      * @param harmonic
      */
-    public PeriodDisplay( Component component, Harmonic harmonic ) {
+    public HarmonicPeriodDisplay( Component component, Harmonic harmonic ) {
         super( component );
         
         // Enable antialiasing for all children.
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         
-        // Symbol
-        _symbolGraphic = new SubscriptedSymbol( component, PERIOD_SYMBOL, "n", SYMBOL_FONT, SYMBOL_COLOR );
-        _symbolGraphic.setLocation( SYMBOL_X_OFFSET, SYMBOL_Y_OFFSET );
-        addGraphic( _symbolGraphic, SYMBOL_LAYER );
+        // Label
+        _labelGraphic = new HTMLGraphic( component, LABEL_FONT, "?", LABEL_COLOR );
+        _labelGraphic.setLocation( LABEL_X_OFFSET, LABEL_Y_OFFSET );
+        addGraphic( _labelGraphic, LABEL_LAYER );
         
+        // Ring around the pie
         PhetShapeGraphic ringGraphic = new PhetShapeGraphic( component );
         ringGraphic.setShape( new Ellipse2D.Double( -RING_DIAMETER/2, -RING_DIAMETER/2, RING_DIAMETER, RING_DIAMETER ) );
         ringGraphic.setPaint( RING_CENTER_COLOR );
@@ -112,6 +112,7 @@ public class PeriodDisplay extends CompositePhetGraphic
         ringGraphic.setStroke( RING_STROKE );
         addGraphic( ringGraphic, RING_LAYER );
         
+        // The pie
         _pieGraphic = new PhetShapeGraphic( component );
         _pieArc = new Arc2D.Double( Arc2D.PIE );
         _pieGraphic.setShape( _pieArc );
@@ -170,7 +171,8 @@ public class PeriodDisplay extends CompositePhetGraphic
      */
     private void updateSubscript() {
         String subscript = String.valueOf( _harmonic.getOrder() + 1 );
-        _symbolGraphic.setLabel( PERIOD_SYMBOL, subscript );
+        _labelGraphic.setHTML( "<html>" + PERIOD_SYMBOL + "<sub>" + subscript + "</sub></html>" );
+        _labelGraphic.centerRegistrationPoint();
     }
     
     /*
