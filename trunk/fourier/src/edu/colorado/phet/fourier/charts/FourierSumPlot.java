@@ -277,7 +277,7 @@ public class FourierSumPlot extends LinePlot {
      * @return the corresponding view x coordinate
      */
     private double modelToViewX( double x ) {
-        return getChart().transform( x, 0 ).getX();
+        return getChart().transformXDouble( x );
     }
     
     //----------------------------------------------------------------------------
