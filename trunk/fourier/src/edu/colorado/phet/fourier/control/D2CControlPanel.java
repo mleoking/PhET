@@ -327,8 +327,10 @@ public class D2CControlPanel extends FourierControlPanel {
         
         // Update the wave packet if the user is done dragging the slider.
         if ( !_k1Slider.isAdjusting() ) {
+            setWaitCursorEnabled( true );
             double k1 = _k1Slider.getValue();
             _wavePacket.setK1( k1 );
+            setWaitCursorEnabled( false );
         }
     }
     
@@ -336,6 +338,9 @@ public class D2CControlPanel extends FourierControlPanel {
      * Handles changes to the "delta k" slider.
      */
     private void handleDeltaK() {
+        
+        setWaitCursorEnabled( true );
+        
         double deltaK = _deltaKSlider.getValue();
         
         // Update the delta x slider.
@@ -347,12 +352,17 @@ public class D2CControlPanel extends FourierControlPanel {
         if ( !_deltaKSlider.isAdjusting() ) {
             _wavePacket.setDeltaK( deltaK );
         }
+        
+        setWaitCursorEnabled( false );
     }
    
     /*
      * Handles changes to the "delta x" slider.
      */
     private void handleDeltaX() {
+        
+        setWaitCursorEnabled( true );
+        
         double deltaX = _deltaXSlider.getValue();
         
         // Update the delta k slider.
@@ -364,5 +374,7 @@ public class D2CControlPanel extends FourierControlPanel {
         if ( !_deltaXSlider.isAdjusting() ) {
             _wavePacket.setDeltaX( deltaX );
         }
+        
+        setWaitCursorEnabled( false );
     }
 }

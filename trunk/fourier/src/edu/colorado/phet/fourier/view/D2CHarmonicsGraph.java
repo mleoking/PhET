@@ -22,9 +22,12 @@ import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.charts.D2CHarmonicsChart;
+import edu.colorado.phet.fourier.charts.HarmonicPlot;
 import edu.colorado.phet.fourier.charts.HarmonicsChart;
 import edu.colorado.phet.fourier.control.ZoomControl;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
+import edu.colorado.phet.fourier.model.Harmonic;
 
 
 /**
@@ -59,8 +62,8 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
     private static final Point TITLE_LOCATION = new Point( 40, 115 );
     
     // Chart parameters
-    private static final double X_MIN = -2;
-    private static final double X_MAX = 2;
+    private static final double X_MIN = -1;
+    private static final double X_MAX = 1;
     private static final double Y_MIN = -1;
     private static final double Y_MAX = 1;
     private static final Range2D CHART_RANGE = new Range2D( X_MIN, Y_MIN, X_MAX, Y_MAX );
@@ -69,6 +72,8 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
     // Harmonics in the chart
     private static final int HARMONIC_DARKEST_GRAY = 0; //dark gray
     private static final int HARMONIC_LIGHTEST_GRAY = 230;  // light gray
+    private static final Stroke HARMONIC_STROKE = new BasicStroke( 1f );
+    private static final double L = 1;  // period of the fundamental harmonic
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -79,7 +84,7 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
     private PhetTextGraphic _titleGraphic;
     private PhetImageGraphic _closeButton;
     private ZoomControl _horizontalZoomControl;
-    private HarmonicsChart _chartGraphic;
+    private D2CHarmonicsChart _chartGraphic;
     private HarmonicsEquation _mathGraphic;
     private String _xTitleSpace, _xTitleTime;
     private int _domain;
@@ -121,7 +126,7 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
         addGraphic( _titleGraphic, TITLE_LAYER );
         
         // Chart
-        _chartGraphic = new HarmonicsChart( component, CHART_RANGE, CHART_SIZE );
+        _chartGraphic = new D2CHarmonicsChart( component, CHART_RANGE, CHART_SIZE );
         addGraphic( _chartGraphic, CHART_LAYER );
         _chartGraphic.setRegistrationPoint( 0, CHART_SIZE.height / 2 ); // at the chart's origin
         _chartGraphic.setLocation( 60, 50 + ( CHART_SIZE.height / 2 ) );
@@ -234,6 +239,24 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
     }
     
     //----------------------------------------------------------------------------
+    // PhetGraphic overrides
+    //----------------------------------------------------------------------------
+    
+    /**
+     * When this graphic becomes visible, update it.
+     * 
+     * @param visible
+     */
+    public void setVisible( boolean visible ) {
+        if ( visible != super.isVisible() ) {
+            super.setVisible( visible );
+            if ( visible ) {
+                update();
+            }
+        }
+    }
+    
+    //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
     
@@ -245,9 +268,59 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
         
         System.out.println( "D2CHarmonicsChart.update" ); //XXX
         
-        _chartGraphic.removeAllDataSetGraphics();
+        if ( isVisible() ) {
+            
+            _chartGraphic.removeAllDataSetGraphics();
 
-        //XXX
+            double dk = _wavePacket.getDeltaK();
+            double k0 = _wavePacket.getK0();
+            double k1 = _wavePacket.getK1();
+            int numberOfHarmonics = _wavePacket.getNumberOfComponents();
+
+            if ( numberOfHarmonics < Integer.MAX_VALUE ) {
+                
+                // Change in grayscale value between bars.
+                int deltaColor = ( HARMONIC_DARKEST_GRAY - HARMONIC_LIGHTEST_GRAY ) / numberOfHarmonics;
+
+                double maxAmplitude = 0;
+
+                // Re-populate the chart such that the fundamental's graphic is in the foreground.
+                for ( int i = numberOfHarmonics - 1; i >= 0; i-- ) {
+
+                    // Compute the amplitude
+                    double kn = ( i + 1 ) * k1;
+                    double An = k1 * GaussianWavePacket.getAmplitude( kn, k0, dk );
+                    Harmonic harmonic = new Harmonic( i );
+                    harmonic.setAmplitude( An );
+                    if ( Math.abs( An ) > maxAmplitude ) {
+                        maxAmplitude = Math.abs( An );
+                    }
+
+                    // Compute the bar color (grayscale).
+                    int r = HARMONIC_DARKEST_GRAY - ( i * deltaColor );
+                    int g = HARMONIC_DARKEST_GRAY - ( i * deltaColor );
+                    int b = HARMONIC_DARKEST_GRAY - ( i * deltaColor );
+                    Color harmonicColor = new Color( r, g, b );
+
+                    // Harmonic waveform graphic
+                    HarmonicPlot harmonicPlot = new HarmonicPlot( getComponent(), _chartGraphic );
+                    harmonicPlot.setHarmonic( harmonic );
+                    harmonicPlot.setPeriod( L / ( i + 1 ) );
+                    harmonicPlot.setPixelsPerPoint( 1 );
+                    harmonicPlot.setStroke( HARMONIC_STROKE );
+                    harmonicPlot.setBorderColor( harmonicColor );
+                    harmonicPlot.setStartX( 0 );
+
+                    _chartGraphic.addDataSetGraphic( harmonicPlot );
+                }
+
+                // Autoscale the vertical axis.
+                _chartGraphic.autoscaleY( maxAmplitude );
+            }
+            else {
+                //XXX do something else for infinite # of harmonics
+            }
+        }
     }
     
     private void updateMath() {
