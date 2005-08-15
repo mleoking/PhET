@@ -29,6 +29,7 @@ import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -97,7 +98,7 @@ public class AmplitudeSlider extends GraphicLayerSet
     
     private Harmonic _harmonic;
     private Dimension _maxSize;
-    private SubscriptedSymbol _labelGraphic;
+    private HTMLGraphic _labelGraphic;
     private PhetGraphic _valueGraphic;
     private JTextField _valueTextField;
     private NumberFormat _valueFormatter;
@@ -141,9 +142,11 @@ public class AmplitudeSlider extends GraphicLayerSet
 
         // Label (An)
         {
-            String symbol = "" + MathStrings.C_AMPLITUDE;
+            char symbol = MathStrings.C_AMPLITUDE;
             String subscript = String.valueOf( _harmonic.getOrder() + 1 );
-            _labelGraphic = new SubscriptedSymbol( component, symbol, subscript, LABEL_FONT, LABEL_COLOR );
+            String label = "<html>" + symbol + "<sub>" + subscript + "</sub></html>";
+            _labelGraphic = new HTMLGraphic( component, LABEL_FONT, label, LABEL_COLOR );
+            _labelGraphic.centerRegistrationPoint();
             _labelGraphic.setLocation( 0, 0 );
         }
         
