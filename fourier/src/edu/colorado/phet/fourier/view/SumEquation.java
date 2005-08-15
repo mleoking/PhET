@@ -122,6 +122,8 @@ public class SumEquation extends CompositePhetGraphic {
     
     /**
      * Sets the form of the equation.
+     * If numberOfHarmonics is Integer.MAX_VALUE, then the number
+     * will be replaced with the Unicode symbol for infinity.
      * 
      * @param domain
      * @param mathForm
@@ -142,7 +144,12 @@ public class SumEquation extends CompositePhetGraphic {
         // Set the text.
         _lhsGraphic.setHTML( "<html>" + lhsString + " = </html>" );   
         _rhsGraphic.setHTML( "<html>" + rhsString + "</html>" );
-        _upperRangeGraphic.setText( String.valueOf( numberOfHarmonics ) );
+        if ( numberOfHarmonics < Integer.MAX_VALUE ) {
+            _upperRangeGraphic.setText( String.valueOf( numberOfHarmonics ) );
+        }
+        else {
+            _upperRangeGraphic.setText( String.valueOf( MathStrings.C_INFINITY ) );
+        }
         
         /*
          * Adjust locations so that things are aligned properly.
