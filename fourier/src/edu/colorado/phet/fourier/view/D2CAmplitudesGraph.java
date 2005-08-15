@@ -19,7 +19,6 @@ import edu.colorado.phet.chart.DataSet;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -27,7 +26,8 @@ import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.charts.D2CAmplitudesChart;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
-import edu.colorado.phet.fourier.view.tools.MeasurementTool;
+import edu.colorado.phet.fourier.view.tools.WavePacketSpacingTool;
+import edu.colorado.phet.fourier.view.tools.WavePacketWidthTool;
 
 
 /**
@@ -70,10 +70,6 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     private static final int BAR_DARKEST_GRAY = 0; //dark gray
     private static final int BAR_LIGHTEST_GRAY = 230;  // light gray
     
-    // Tools
-    private static final Font TOOL_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 16 );
-    private static final Color TOOL_COLOR = Color.RED;
-    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -81,10 +77,8 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     private GaussianWavePacket _wavePacket;
     private D2CAmplitudesChart _chartGraphic;
     private String _xTitleSpace, _xTitleTime;
-    private MeasurementTool _spacingTool;
-    private HTMLGraphic _spacingToolLabelGraphic;
-    private MeasurementTool _widthTool;
-    private HTMLGraphic _widthToolLabelGraphic;
+    private WavePacketSpacingTool _spacingTool;
+    private WavePacketWidthTool _widthTool;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -134,22 +128,12 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         addGraphic( _chartGraphic, CHART_LAYER );       
         
         // Spacing measurement tool
-        _spacingToolLabelGraphic = new HTMLGraphic( component,TOOL_FONT, "", TOOL_COLOR );
-        _spacingToolLabelGraphic.centerRegistrationPoint();
-        _spacingTool = new MeasurementTool( component );
-        _spacingTool.setFillColor( TOOL_COLOR );
-        _spacingTool.setStroke( null );
-        _spacingTool.setLabel( _spacingToolLabelGraphic, -15 );
+        _spacingTool = new WavePacketSpacingTool( component );
         _spacingTool.setLocation( 590, 120 );
         addGraphic( _spacingTool, TOOL_LAYER );
         
         // Width measurement tool
-        _widthToolLabelGraphic = new HTMLGraphic( component,TOOL_FONT, "", TOOL_COLOR  );
-        _widthToolLabelGraphic.centerRegistrationPoint();
-        _widthTool = new MeasurementTool( component );
-        _widthTool.setFillColor( TOOL_COLOR );
-        _widthTool.setStroke( null );
-        _widthTool.setLabel( _widthToolLabelGraphic, -15 );
+        _widthTool = new WavePacketWidthTool( component );
         _widthTool.setLocation( 540, 60  );
         addGraphic( _widthTool, TOOL_LAYER );
         
@@ -190,19 +174,17 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     public void setDomain( int domain ) {
         if ( domain == FourierConstants.DOMAIN_SPACE ) {
             _chartGraphic.setXAxisTitle( _xTitleSpace );
-            _spacingToolLabelGraphic.setHTML( "<html>k<sub>1</sub></html>" );
-            _widthToolLabelGraphic.setHTML( "<html>2\u0394k</html>" );
+            _spacingTool.setLabel( "<html>k<sub>1</sub></html>" );
+            _widthTool.setLabel( "<html>2\u0394k</html>" );
         }
         else if ( domain == FourierConstants.DOMAIN_TIME ) {
             _chartGraphic.setXAxisTitle( _xTitleTime );
-            _spacingToolLabelGraphic.setHTML( "<html>\u03C9<sub>1</sub></html>" );
-            _widthToolLabelGraphic.setHTML( "<html>2\u0394\u03C9</html>" );
+            _spacingTool.setLabel( "<html>\u03C9<sub>1</sub></html>" );
+            _widthTool.setLabel( "<html>2\u0394\u03C9</html>" );
         }
         else {
             throw new IllegalArgumentException( "unsupported domain: " + domain );
         }
-        _spacingToolLabelGraphic.centerRegistrationPoint();
-        _widthToolLabelGraphic.centerRegistrationPoint();
     }
     
     //----------------------------------------------------------------------------
