@@ -28,9 +28,6 @@ import java.util.List;
  */
 public class ElectronSink extends Electrode implements ElectronSource.ElectronProductionListener {
 
-//    private Point2D p1;
-//    private Point2D p2;
-
     private BaseModel model;
     private List electrons = new ArrayList();
     private Line2D.Double line;

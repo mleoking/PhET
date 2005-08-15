@@ -78,6 +78,7 @@ public class PhotoelectricModule extends BaseLaserModule {
     private Spectrometer spectrometer;
     // The states in which the atoms can be
     private SpectrometerGraphic spectrometerGraphic;
+    private ElectronSink targetSink;
 
     /**
      * Constructor
@@ -102,6 +103,15 @@ public class PhotoelectricModule extends BaseLaserModule {
         setModel( model );
         setControlPanel( new ControlPanel( this ) );
         model.getTarget().addListener( new CathodeListener() );
+
+        // Add an electron sink in the same place as the target plate, to absorb electrons
+        // TODO: refactor this into the model. Prefereably into the PhotoelectricPlate or Electrode class
+        {
+            PhotoelectricTarget target = model.getTarget();
+            targetSink = new ElectronSink( model, target.getEndpoints()[0], target.getEndpoints()[1] );
+            model.addModelElement( targetSink );
+            target.addListener( targetSink );
+        }
 
         //----------------------------------------------------------------
         // View
@@ -140,8 +150,6 @@ public class PhotoelectricModule extends BaseLaserModule {
         // Add the tube
         addTube( model, apparatusPanel );
 
-        // Add the spectrometer
-        addSpectrometer();
 
         //----------------------------------------------------------------
         // Controls
@@ -156,18 +164,6 @@ public class PhotoelectricModule extends BaseLaserModule {
      */
     private PhotoelectricModel getPhotoelectricModel() {
         return (PhotoelectricModel)getModel();
-    }
-
-    /**
-     * Adds the spectrometer and its graphic
-     */
-    private void addSpectrometer() {
-        spectrometer = new Spectrometer();
-        spectrometerGraphic = new SpectrometerGraphic( getApparatusPanel(), spectrometer );
-        addGraphic( spectrometerGraphic, SPECTROMETER_LAYER );
-        int centerX = ( DischargeLampsConfig.ANODE_LOCATION.x + DischargeLampsConfig.CATHODE_LOCATION.x ) / 2;
-        spectrometerGraphic.setLocation( centerX, 450 );
-        spectrometerGraphic.setRegistrationPoint( spectrometerGraphic.getWidth() / 2, 0 );
     }
 
     /**
@@ -350,21 +346,6 @@ public class PhotoelectricModule extends BaseLaserModule {
         return currentSlider;
     }
 
-
-    //----------------------------------------------------------------
-    // Interface implementations
-    //----------------------------------------------------------------
-
-    public void electronProduced( ElectronSource.ElectronProductionEvent event ) {
-        Electron electron = event.getElectron();
-
-        // Create a graphic for the electron
-        ElectronGraphic graphic = new ElectronGraphic( getApparatusPanel(), electron );
-        getApparatusPanel().addGraphic( graphic, DischargeLampsConfig.ELECTRON_LAYER );
-        anode.addListener( new AbsorptionElectronAbsorptionListener( electron, graphic ) );
-    }
-
-
     //-----------------------------------------------------------------
     // Inner classes
     //-----------------------------------------------------------------
@@ -440,7 +421,12 @@ public class PhotoelectricModule extends BaseLaserModule {
             // Create a graphic for the electron
             ElectronGraphic graphic = new ElectronGraphic( getApparatusPanel(), electron );
             getApparatusPanel().addGraphic( graphic, DischargeLampsConfig.ELECTRON_LAYER );
-            anode.addListener( new AbsorptionElectronAbsorptionListener( electron, graphic ) );
+
+            // Add a listener to the electron sinks that will remove the graphics when electrons
+            // are absorbed
+            AbsorptionElectronAbsorptionListener listener = new AbsorptionElectronAbsorptionListener( electron, graphic );
+            anode.addListener( listener );
+            targetSink.addListener( listener );
         }
     }
 }
