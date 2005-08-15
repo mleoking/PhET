@@ -26,12 +26,14 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConstants;
-import edu.colorado.phet.fourier.control.sliders.K1Slider;
 import edu.colorado.phet.fourier.control.sliders.DeltaKSlider;
 import edu.colorado.phet.fourier.control.sliders.DeltaXSlider;
+import edu.colorado.phet.fourier.control.sliders.K1Slider;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
 import edu.colorado.phet.fourier.module.FourierModule;
 import edu.colorado.phet.fourier.view.D2CAmplitudesGraph;
+import edu.colorado.phet.fourier.view.D2CHarmonicsGraph;
+import edu.colorado.phet.fourier.view.D2CSumGraph;
 
 
 
@@ -61,6 +63,8 @@ public class D2CControlPanel extends FourierControlPanel {
     // Things to be controlled.
     private GaussianWavePacket _wavePacket;
     private D2CAmplitudesGraph _amplitudesGraph;
+    private D2CHarmonicsGraph _harmonicsGraph;
+    private D2CSumGraph _sumGraph;
 
     // UI components
     private FourierComboBox _domainComboBox;
@@ -86,15 +90,24 @@ public class D2CControlPanel extends FourierControlPanel {
      * @param module
      * @param wavePacket
      * @param amplitudesGraph
+     * @param harmonicsGraph
      */
-    public D2CControlPanel( FourierModule module, GaussianWavePacket wavePacket, D2CAmplitudesGraph amplitudesGraph ) {
+    public D2CControlPanel( FourierModule module, 
+            GaussianWavePacket wavePacket, 
+            D2CAmplitudesGraph amplitudesGraph,
+            D2CHarmonicsGraph harmonicsGraph,
+            D2CSumGraph sumGraph ) {
         super( module );
         
         assert( wavePacket != null );
         assert( amplitudesGraph != null );
+        assert( harmonicsGraph != null );
+        assert( sumGraph != null );
         
         _wavePacket = wavePacket;
         _amplitudesGraph = amplitudesGraph;
+        _harmonicsGraph = harmonicsGraph;
+        _sumGraph = sumGraph;
         
         // Set the control panel's minimum width.
         String widthString = SimStrings.get( "D2CControlPanel.width" );
@@ -276,6 +289,8 @@ public class D2CControlPanel extends FourierControlPanel {
         int domain = _domainComboBox.getSelectedKey();
         
         _amplitudesGraph.setDomain( domain );
+        _harmonicsGraph.setDomain( domain );
+        _sumGraph.setDomain( domain );
         
         if ( domain == FourierConstants.DOMAIN_SPACE ) {
             _k1Slider.setFormat( SimStrings.get( "K1Slider.format.space" ) );
