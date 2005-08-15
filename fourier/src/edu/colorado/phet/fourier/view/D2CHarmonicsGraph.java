@@ -64,7 +64,7 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
     private static final double Y_MIN = -1;
     private static final double Y_MAX = 1;
     private static final Range2D CHART_RANGE = new Range2D( X_MIN, Y_MIN, X_MAX, Y_MAX );
-    private static final Dimension CHART_SIZE = new Dimension( 540, 135 );
+    private static final Dimension CHART_SIZE = new Dimension( 540, 100 );
     
     // Harmonics in the chart
     private static final int HARMONIC_DARKEST_GRAY = 0; //dark gray
@@ -122,7 +122,7 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
         
         // Chart
         _chartGraphic = new HarmonicsChart( component, CHART_RANGE, CHART_SIZE );
-//        addGraphic( _chartGraphic, CHART_LAYER );
+        addGraphic( _chartGraphic, CHART_LAYER );
         _chartGraphic.setRegistrationPoint( 0, CHART_SIZE.height / 2 ); // at the chart's origin
         _chartGraphic.setLocation( 60, 50 + ( CHART_SIZE.height / 2 ) );
         _xTitleSpace = SimStrings.get( "D2CHarmonicsGraph.xTitleSpace" );
