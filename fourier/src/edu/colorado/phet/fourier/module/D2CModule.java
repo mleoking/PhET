@@ -264,14 +264,6 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
             _sumGraph.setLocation( _amplitudesGraph.getX(), _harmonicsGraphClosed.getY() + _harmonicsGraphClosed.getHeight() );
             _sumGraphClosed.setLocation( _amplitudesGraph.getX(), _harmonicsGraphClosed.getY() + _harmonicsGraphClosed.getHeight() ); 
         }
-        
-        System.out.println( "canvasHeight = " + canvasHeight );//XXX
-        System.out.println( "amplitudesHeight = " + _amplitudesGraph.getHeight() );//XXX
-        System.out.println( "availableHeight = " + availableHeight );//XXX
-        System.out.println( "harmonics height = " + _harmonicsGraph.getHeight() );//XXX
-        System.out.println( "harmonics location = " + _harmonicsGraph.getLocation() );//XXX
-        System.out.println( "sum location = " + _sumGraph.getLocation() );//XXX
-        System.out.println( "sum height = " + _sumGraph.getHeight() );//XXX
     }
     
     //----------------------------------------------------------------------------
