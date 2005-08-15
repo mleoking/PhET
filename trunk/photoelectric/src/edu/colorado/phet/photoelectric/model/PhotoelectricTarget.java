@@ -15,6 +15,7 @@ import edu.colorado.phet.dischargelamps.model.ElectronSink;
 import edu.colorado.phet.dischargelamps.model.Electron;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.geom.Point2D;
@@ -63,6 +64,11 @@ public class PhotoelectricTarget extends ElectronSource {
         double y = random.nextDouble() * ( p2.getY() - p1.getY() ) + p1.getY();
         electron.setPosition( x, y );
         getElectronProductionListenerProxy().electronProduced( new ElectronProductionEvent( this, electron ) );
+
+        // The location of the electron is coincident with where the photon hit the plate
+        Point2D p = MathUtil.getLineSegmentsIntersection( line.getP1(), line.getP2(),
+                                              photon.getPosition(), photon.getPositionPrev() );
+        electron.setPosition( p );
 
         // todo: this velocity needs to be set with an algorithm that takes into account the energy of
         // the photon

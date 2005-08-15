@@ -54,12 +54,10 @@ public class PhotoelectricModel extends DischargeLampModel {
     private CollimatedBeam beam;
     private double defaultBeamWavelength = 400;
     private double beamMaxPhotonsPerSecond = 200;
-    double beamHeight = 50;
+    double beamHeight = 80;
     private double beamSourceToTargetDist = 300;
 //    private double beamAngle = Math.toRadians( 0 );
     private double beamAngle = Math.toRadians( 130 );
-    private Point2D beamLocation = new Point2D.Double( DischargeLampsConfig.CATHODE_LOCATION.getX() + Math.cos( beamAngle + Math.PI ) * beamSourceToTargetDist,
-                                                       DischargeLampsConfig.CATHODE_LOCATION.getY() - beamHeight / 2 + Math.sin( beamAngle + Math.PI ) * beamSourceToTargetDist );
 
     //----------------------------------------------------------------
     // Contructors and initialization
@@ -67,10 +65,15 @@ public class PhotoelectricModel extends DischargeLampModel {
 
     public PhotoelectricModel() {
 
+        // todo: this isn't correct. The rotated beam doesn't look right. Try an angle of 170 deg. to see.
         // Create a photon beam and add a listener that will add the photons it produces to the model
-        Vector2D beamDirection = new Vector2D.Double( Math.cos( beamAngle ), Math.sin( beamAngle ) );
+        double alpha = beamAngle - Math.PI;
+        Point2D beamLocation = new Point2D.Double( DischargeLampsConfig.CATHODE_LOCATION.getX() + Math.cos( alpha ) * beamSourceToTargetDist
+                                                   + beamHeight / 2 * Math.sin( alpha ),
+                                                   ( DischargeLampsConfig.CATHODE_LOCATION.getY() - beamHeight / 2 ) + Math.sin( alpha ) * beamSourceToTargetDist
+        + beamHeight / 2 * Math.cos(alpha));
         beam = new CollimatedBeam( defaultBeamWavelength, beamLocation, beamHeight,
-                                   100.0, new Vector2D.Double( Math.cos( beamAngle ), Math.sin( beamAngle ) ),
+                                   beamHeight, new Vector2D.Double( Math.cos( beamAngle ), Math.sin( beamAngle ) ),
                                    beamMaxPhotonsPerSecond, 0 );
         addModelElement( beam );
         beam.setPhotonsPerSecond( beamMaxPhotonsPerSecond );
@@ -83,7 +86,7 @@ public class PhotoelectricModel extends DischargeLampModel {
 
         // Create the target plate. 
         target = new PhotoelectricTarget( this, DischargeLampsConfig.CATHODE_LINE.getP1(),
-                                      DischargeLampsConfig.CATHODE_LINE.getP2() );
+                                          DischargeLampsConfig.CATHODE_LINE.getP2() );
         target.setPotential( defaultTargetPotential );
         target.addListener( new ElectronSource.ElectronProductionListener() {
             public void electronProduced( ElectronSource.ElectronProductionEvent event ) {
@@ -105,7 +108,7 @@ public class PhotoelectricModel extends DischargeLampModel {
         }
         if( modelElement instanceof ElectronSource ) {
             Electrode electrode = (Electrode)modelElement;
-            target.setEndpoints(electrode.getEndpoints()[0], electrode.getEndpoints()[1]  );
+            target.setEndpoints( electrode.getEndpoints()[0], electrode.getEndpoints()[1] );
         }
 
         // Add the anode as a listener so it can track electrons
