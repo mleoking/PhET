@@ -129,21 +129,21 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         _chartGraphic.setLocation( 60, 15 + (CHART_SIZE.height / 2) );
         addGraphic( _chartGraphic, CHART_LAYER );       
         
-        // Spacing measurement tool
-        _spacingTool = new MeasurementTool( component );
-        _spacingTool.setLabelFont( TOOL_FONT );
-        _spacingTool.setLabelColor( TOOL_COLOR );
-        _spacingTool.setFillColor( TOOL_COLOR );
-        _spacingTool.setLocation( 590, 120 );
-        addGraphic( _spacingTool, TOOL_LAYER );
-        
         // Width measurement tool
         _widthTool = new MeasurementTool( component );
         _widthTool.setLabelFont( TOOL_FONT );
         _widthTool.setLabelColor( TOOL_COLOR );
         _widthTool.setFillColor( TOOL_COLOR );
-        _widthTool.setLocation( 540, 60  );
+        _widthTool.setLocation( 540, 40  );
         addGraphic( _widthTool, TOOL_LAYER );
+        
+        // Spacing measurement tool
+        _spacingTool = new MeasurementTool( component );
+        _spacingTool.setLabelFont( TOOL_FONT );
+        _spacingTool.setLabelColor( TOOL_COLOR );
+        _spacingTool.setFillColor( TOOL_COLOR );
+        _spacingTool.setLocation( 590, 140 );
+        addGraphic( _spacingTool, TOOL_LAYER );
         
         // Interactivity
         titleGraphic.setIgnoreMouse( true );
@@ -169,7 +169,7 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     }
 
     //----------------------------------------------------------------------------
-    //
+    // Accessors
     //----------------------------------------------------------------------------
     
     /**
@@ -193,6 +193,24 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         else {
             throw new IllegalArgumentException( "unsupported domain: " + domain );
         }
+    }
+    
+    /**
+     * Gets a reference to the spacing measurement tool.
+     * 
+     * @return MeasurementTool
+     */
+    public MeasurementTool getSpacingTool() {
+        return _spacingTool;
+    }
+    
+    /**
+     * Gets a reference to the width measurement tool.
+     * 
+     * @return MeasurementTool
+     */
+    public MeasurementTool getWidthTool() {
+        return _widthTool;
     }
     
     //----------------------------------------------------------------------------
