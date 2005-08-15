@@ -79,6 +79,7 @@ DONE:
 (8/15) - make new subclasses for the D2C module's Harmonics and Sum charts, too many differences with Discrete module
 (8/15) - add wait cursor to D2C control panel
 (8/15) - compute and display the D2C harmonics
+(8/15) - added help items to D2C module
 (8/15) - replace all uses of SubscriptedSymbol with HTMLGraphic
 (8/15) - rename PeriodDisplay -> HarmonicPeriodDisplay
 (8/15) - rename WaveMeasurementTool -> HarmonicMeasurementTool
