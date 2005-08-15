@@ -3,6 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
+- chart: Chart reports a huge bounds when it contains no data set graphics
 - D2C Sum view is not in the correct initial position
 
 HIGH PRIORITY:
@@ -59,6 +60,7 @@ CLEANUP:
 CHARTS:
 - bug: x axis title (as set via Chart.setXAxisTitle) does not stay aligned with x axis
 - bug: there is no y axis title (Chart.setYAxisTitle)
+- bug: integer precision model-view transforms are still used in many places
 - Chart.addGraphic needs a layer argument
 - flatten static graphics elements
 

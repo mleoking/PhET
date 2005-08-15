@@ -64,7 +64,7 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver {
     private static final double Y_MIN = -1;
     private static final double Y_MAX = 1;
     private static final Range2D CHART_RANGE = new Range2D( X_MIN, Y_MIN, X_MAX, Y_MAX );
-    private static final Dimension CHART_SIZE = new Dimension( 540, 135 );
+    private static final Dimension CHART_SIZE = new Dimension( 540, 100 );
     
     // Harmonics in the chart
     private static final int HARMONIC_DARKEST_GRAY = 0; //dark gray
