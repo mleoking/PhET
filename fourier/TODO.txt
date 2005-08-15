@@ -72,6 +72,11 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(8/15) - replace all uses of SubscriptedSymbol with HTMLGraphic
+(8/15) - rename PeriodDisplay -> HarmonicPeriodDisplay
+(8/15) - rename WaveMeasurementTool -> HarmonicMeasurementTool
+(8/15) - remove subclasses of WaveMeasurementTool
+(8/15) - make MeasurementTool use an HTMLGraphic for its label, add setLabel method
 (8/15) - refactor measurement tools into separate classes that encapsulate the "look" of the tool
 (8/12) - set color of D2C measurement tools to a dark red
 sandbox...
