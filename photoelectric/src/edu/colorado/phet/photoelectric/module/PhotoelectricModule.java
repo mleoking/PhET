@@ -59,14 +59,13 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
+import java.awt.geom.*;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * PhotoelectricModule
@@ -89,6 +88,14 @@ public class PhotoelectricModule extends BaseLaserModule {
     static private final double BEAM_LAYER = 900;
     static private final double ELECTRON_LAYER = 900;
 
+    static private HashMap TARGET_COLORS = new HashMap( );
+    static{
+        TARGET_COLORS.put( PhotoelectricTarget.COPPER, new Color( 210, 130, 30 ));
+        TARGET_COLORS.put( PhotoelectricTarget.MAGNESIUM, new Color( 130, 150, 170 ));
+        TARGET_COLORS.put( PhotoelectricTarget.SODIUM, new Color( 230, 220, 100 ));
+        TARGET_COLORS.put( PhotoelectricTarget.ZINC, new Color( 200, 200, 200 ));
+    }
+
 //    public static boolean DEBUG = true;
     public static boolean DEBUG = false;
 
@@ -97,7 +104,7 @@ public class PhotoelectricModule extends BaseLaserModule {
     //----------------------------------------------------------------
 
     private ElectronSink anode;
-    private ElectronSource targetPlate;
+    private PhotoelectricTarget targetPlate;
 
     // The scale to apply to graphics created in external applications so they appear properly
     // on the screen
@@ -108,7 +115,6 @@ public class PhotoelectricModule extends BaseLaserModule {
     // An ElectronSink that absorbs electrons if they come back and hit the target
     // TODO: get this into the PhotoelectronTarget class
     private ElectronSink targetSink;
-    private PhetImageGraphic cathodeGraphic;
     private BeamCurtainGraphic beamGraphic;
     private PhotonGraphicManager photonGraphicManager;
 
@@ -149,7 +155,7 @@ public class PhotoelectricModule extends BaseLaserModule {
         }
 
         // Set the default work function for the target
-        model.getTarget().setWorkFunction( PhotoelectricTarget.workFunctions.get( PhotoelectricTarget.SODIUM ) );
+        model.getTarget().setWorkFunction( PhotoelectricTarget.WORK_FUNCTIONS.get( PhotoelectricTarget.SODIUM ) );
         // Add the tube
         addTube( model, getApparatusPanel() );
 
@@ -179,10 +185,10 @@ public class PhotoelectricModule extends BaseLaserModule {
             getApparatusPanel().addGraphic( lampGraphic, LAMP_LAYER );
 
             // Put a mask behind the lamp graphic to hide the beam or photons that start behind it
-            Rectangle mask = new Rectangle( 0, 0, lampImg.getWidth(), lampImg.getHeight( ));
+            Rectangle mask = new Rectangle( 0, 0, lampImg.getWidth(), lampImg.getHeight() );
             PhetShapeGraphic maskGraphic = new PhetShapeGraphic( getApparatusPanel(),
                                                                  mask,
-                                                                 getApparatusPanel().getBackground());
+                                                                 getApparatusPanel().getBackground() );
             maskGraphic.setTransform( atx );
             maskGraphic.setLocation( lampGraphic.getLocation() );
             getApparatusPanel().addGraphic( maskGraphic, LAMP_LAYER - 1 );
@@ -208,7 +214,7 @@ public class PhotoelectricModule extends BaseLaserModule {
         addCircuitGraphic( apparatusPanel );
 
         // Add a graphic for the target plate
-        addCathodeGraphic( model, apparatusPanel );
+        addTargetGraphic( model, apparatusPanel );
 
         // Add the anode to the model
         addAnode( model, apparatusPanel, targetPlate );
@@ -343,21 +349,39 @@ public class PhotoelectricModule extends BaseLaserModule {
      * @param model
      * @param apparatusPanel
      */
-    private void addCathodeGraphic( PhotoelectricModel model, ApparatusPanel apparatusPanel ) {
+    private void addTargetGraphic( PhotoelectricModel model, ApparatusPanel apparatusPanel ) {
         targetPlate = model.getTarget();
-        cathodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode-2.png" );
+        PhetImageGraphic targetGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode-2.png" );
 
         // Make the graphic the right size
         double scaleX = 1;
-        double scaleY = DischargeLampsConfig.CATHODE_LENGTH / cathodeGraphic.getImage().getHeight();
+        double scaleY = DischargeLampsConfig.CATHODE_LENGTH / targetGraphic.getImage().getHeight();
         AffineTransformOp scaleOp = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, scaleY ),
                                                            AffineTransformOp.TYPE_BILINEAR );
-        cathodeGraphic.setImage( scaleOp.filter( cathodeGraphic.getImage(), null ) );
-        cathodeGraphic.setRegistrationPoint( (int)cathodeGraphic.getBounds().getWidth(),
-                                             (int)cathodeGraphic.getBounds().getHeight() / 2 );
+        targetGraphic.setImage( scaleOp.filter( targetGraphic.getImage(), null ) );
+        targetGraphic.setRegistrationPoint( (int)targetGraphic.getBounds().getWidth(),
+                                            (int)targetGraphic.getBounds().getHeight() / 2 );
 
-        cathodeGraphic.setLocation( DischargeLampsConfig.CATHODE_LOCATION );
-        apparatusPanel.addGraphic( cathodeGraphic, CIRCUIT_LAYER );
+        targetGraphic.setLocation( DischargeLampsConfig.CATHODE_LOCATION );
+        apparatusPanel.addGraphic( targetGraphic, CIRCUIT_LAYER );
+
+        // Add a layer on top of the electrode to represent the target material
+        double materialOffsetY = 10;
+        double materialThickness = 3;
+        Rectangle2D material = new Rectangle2D.Double( targetGraphic.getBounds().getMaxX(),
+                                                       targetGraphic.getBounds().getMinY() + materialOffsetY,
+                                                       materialThickness,
+                                                       targetGraphic.getBounds().getHeight() - 2 * materialOffsetY );
+        Color color = (Color)TARGET_COLORS.get( targetPlate.getMaterial() );
+        final PhetShapeGraphic targetMaterialGraphic = new PhetShapeGraphic( getApparatusPanel(), material, color );
+        getApparatusPanel().addGraphic( targetMaterialGraphic, CIRCUIT_LAYER );
+
+        // Add a listener to the target that will set the proper color if the material changes
+        targetPlate.addMaterialChangeListener( new PhotoelectricTarget.MaterialChangeListener() {
+            public void materialChanged( PhotoelectricTarget.MaterialChangeEvent event ) {
+                targetMaterialGraphic.setPaint( (Paint)TARGET_COLORS.get( targetPlate.getMaterial() ));
+            }
+        } );
     }
 
     /**
@@ -373,20 +397,12 @@ public class PhotoelectricModule extends BaseLaserModule {
         JPanel targetControlPnl = new JPanel( new GridLayout( 1, 1 ) );
         targetControlPnl.setBorder( new TitledBorder( "Target" ) );
         getControlPanel().add( targetControlPnl );
-        final JComboBox targetMaterial = new JComboBox( PhotoelectricTarget.workFunctions.keySet().toArray() );
+        final JComboBox targetMaterial = new JComboBox( PhotoelectricTarget.WORK_FUNCTIONS.keySet().toArray() );
         targetControlPnl.add( targetMaterial );
         final PhotoelectricTarget target = getPhotoelectricModel().getTarget();
         targetMaterial.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 target.setMaterial( targetMaterial.getSelectedItem() );
-                BufferedImage bImg = cathodeGraphic.getImage();
-                HashMap lut = new HashMap();
-                lut.put( PhotoelectricTarget.COPPER, new Color( 200, 220, 100 ) );
-                lut.put( PhotoelectricTarget.MAGNESIUM, new Color( 100, 220, 100 ) );
-                lut.put( PhotoelectricTarget.SODIUM, new Color( 240, 240, 50 ) );
-                lut.put( PhotoelectricTarget.ZINC, new Color( 240, 240, 240 ) );
-                MakeDuotoneImageOp imgOp = new MakeDuotoneImageOp( (Color)lut.get( targetMaterial.getSelectedItem() ) );
-//                cathodeGraphic.setImage( imgOp.filter( bImg,null ));
             }
         } );
         target.setMaterial( targetMaterial.getSelectedItem() );

@@ -16,12 +16,12 @@ import edu.colorado.phet.dischargelamps.model.Electron;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Line2D;
-import java.util.Random;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * PhotoelectricTarget
@@ -39,17 +39,25 @@ public class PhotoelectricTarget extends ElectronSource {
     static public final double ELECTRON_MASS = 9.11E-31;
     static private final double SPEED_SCALE_FACTOR = 5E-16;
     static private final double MINIMUM_SPEED = 0.1;
-    static public final HashMap workFunctions = new HashMap();
+
     static public final Object ZINC = new String( "Zinc" );
     static public final Object COPPER = new String( "Copper" );
     static public final Object SODIUM = new String( "Sodium" );
     static public final Object MAGNESIUM = new String( "Magnesium" );
-
+    static public final HashSet MATERIALS = new HashSet( );
     static {
-        workFunctions.put( ZINC, new Double( 4.3 ) );
-        workFunctions.put( COPPER, new Double( 4.7 ) );
-        workFunctions.put( SODIUM, new Double( 2.3 ) );
-        workFunctions.put( MAGNESIUM, new Double( 3.7 ) );
+        MATERIALS.add( ZINC );
+        MATERIALS.add( COPPER );
+        MATERIALS.add( SODIUM );
+        MATERIALS.add( MAGNESIUM );
+    }
+
+    static public final HashMap WORK_FUNCTIONS = new HashMap();
+    static {
+        WORK_FUNCTIONS.put( ZINC, new Double( 4.3 ) );
+        WORK_FUNCTIONS.put( COPPER, new Double( 4.7 ) );
+        WORK_FUNCTIONS.put( SODIUM, new Double( 2.3 ) );
+        WORK_FUNCTIONS.put( MAGNESIUM, new Double( 3.7 ) );
     }
 
     //----------------------------------------------------------------
@@ -61,6 +69,7 @@ public class PhotoelectricTarget extends ElectronSource {
     private Line2D line;
     // The work function for the target material
     private double workFunction;
+    private Object targetMaterial;
 
     /**
      * @param model
@@ -149,9 +158,48 @@ public class PhotoelectricTarget extends ElectronSource {
     }
 
     public void setMaterial( Object material ) {
-        if( !workFunctions.keySet().contains(  material )) {
+        this.targetMaterial = material;
+        if( !WORK_FUNCTIONS.keySet().contains(  material )) {
             throw new RuntimeException( "Invalid parameter");
         }
-        setWorkFunction( workFunctions.get( material ));
+        setWorkFunction( WORK_FUNCTIONS.get( material ));
+        materialChangeListenerProxy.materialChanged( new MaterialChangeEvent( this ) );
+    }
+
+    public Object getMaterial() {
+        return targetMaterial;
+    }
+
+    //----------------------------------------------------------------
+    // Event and listener definitions
+    //----------------------------------------------------------------
+    public class MaterialChangeEvent extends EventObject {
+        public MaterialChangeEvent( Object source ) {
+            super( source );
+        }
+
+        public PhotoelectricTarget getPhotoelectricTarget() {
+            return (PhotoelectricTarget)getSource();
+        }
+
+        public Object getMaterial() {
+            return getPhotoelectricTarget().getMaterial();
+        }
+    }
+
+    public interface MaterialChangeListener extends EventListener {
+        void materialChanged( MaterialChangeEvent event );
+    }
+
+    private EventChannel materialChangeEventChannel = new EventChannel( MaterialChangeListener.class );
+    private MaterialChangeListener materialChangeListenerProxy =
+            (MaterialChangeListener)materialChangeEventChannel.getListenerProxy();
+
+    public void addMaterialChangeListener( MaterialChangeListener listener ) {
+        materialChangeEventChannel.addListener( listener );
+    }
+
+    public void removeMaterialChangeListener( MaterialChangeListener listener ) {
+        materialChangeEventChannel.removeListener( listener );
     }
 }
