@@ -18,6 +18,10 @@ import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
 
+import javax.swing.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 /**
  * PhotoelectricApplication
  *
@@ -54,7 +58,18 @@ public class PhotoelectricApplication extends PhetApplication {
                true,
                frameSetup );
 
-        setModules(new Module[] { new PhotoelectricModule( this.getClock() ) } );
+        final PhotoelectricModule photoelectricModule = new PhotoelectricModule( this.getClock() );
+        setModules(new Module[] { photoelectricModule } );
+
+        JMenu optionsMenu = new JMenu( SimStrings.get("Menu.Options") );
+        final JCheckBoxMenuItem photonMI = new JCheckBoxMenuItem( "Show photons" );
+        photonMI.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                photoelectricModule.setPhotonViewEnabled( photonMI.isSelected() );
+            }
+        } );
+        optionsMenu.add( photonMI );
+        getPhetFrame().addMenu( optionsMenu );
     }
 
 

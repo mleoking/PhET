@@ -49,6 +49,11 @@ public class Electron extends SphericalBody implements Collidable {
         setRadius( ELECTRON_RADIUS );
     }
 
+    public Electron( double x, double y ) {
+        this();
+        setPosition( x, y );
+    }
+
     public void setPosition( double x, double y ) {
         collidableAdapter.updatePosition();
         super.setPosition( x, y );

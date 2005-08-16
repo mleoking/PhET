@@ -21,7 +21,7 @@ ignorepath      (those elements of the ant classpath that should not be
 
 -->
 
-<project name="General Ant Build Script" default="Release With Lib" basedir=".">
+<project name="General Ant Build Script" default="Generate Jar" basedir=".">
 
     <!-- Project specific properties   -->
     <property file="build.properties"/>
@@ -90,12 +90,12 @@ ignorepath      (those elements of the ant classpath that should not be
         <delete dir="${classes}"/>
         <mkdir dir="${classes}"/>
         <javac srcdir="${src}" destdir="${classes}" classpath="${addl-classpath}">
-            <src path="../dischargelamps/src"/>
-            <src path="../dischargelamps/lasers/src"/>
-            <src path="../dischargelamps/phetcommon/src"/>
-            <src path="../dischargelamps/mechanics/src"/>
-            <src path="../dischargelamps/collision/src"/>
-            <src path="../dischargelamps/controls/src"/>
+            <src path="${project_home}/dischargelamps/src"/>
+            <src path="${project_home}/dischargelamps/lasers/src"/>
+            <src path="${project_home}/dischargelamps/phetcommon/src"/>
+            <src path="${project_home}/dischargelamps/mechanics/src"/>
+            <src path="${project_home}/dischargelamps/collision/src"/>
+            <src path="${project_home}/dischargelamps/controls/src"/>
         </javac>
     </target>
 
@@ -109,6 +109,10 @@ ignorepath      (those elements of the ant classpath that should not be
         <jar destfile="${jars}/${distname}.jar">
             <fileset dir="${classes}"/>
             <fileset dir="${data}"/>
+            <fileset dir="${project_home}/dischargelamps/data"/>
+            <fileset dir="${project_home}/dischargelamps/lasers/data"/>
+            <fileset dir="${project_home}/dischargelamps/phetcommon/data"/>
+            <fileset dir="${project_home}/dischargelamps/controls/data"/>
             <manifest>
                 <attribute name="Built-By" value="${user.name}"/>
                 <attribute name="version" value="${version}"/>
