@@ -23,8 +23,9 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.charts.D2CSumChart;
-import edu.colorado.phet.fourier.charts.SumChart;
 import edu.colorado.phet.fourier.control.ZoomControl;
+import edu.colorado.phet.fourier.event.ZoomEvent;
+import edu.colorado.phet.fourier.event.ZoomListener;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
 
 
@@ -34,7 +35,7 @@ import edu.colorado.phet.fourier.model.GaussianWavePacket;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver {
+public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, ZoomListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -60,12 +61,14 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver {
     private static final Point TITLE_LOCATION = new Point( 40, 115 );
     
     // Chart parameters
-    private static final double X_MIN = -1;
-    private static final double X_MAX = 1;
-    private static final double Y_MIN = -1;
-    private static final double Y_MAX = 1;
-    private static final Range2D CHART_RANGE = new Range2D( X_MIN, Y_MIN, X_MAX, Y_MAX );
+    private static final double L = 1;  // period of the fundamental harmonic
+    private static final double X_RANGE_START = L;
+    private static final double X_RANGE_MIN = ( L / 2 );
+    private static final double X_RANGE_MAX = ( 2 * L );
+    private static final double Y_RANGE_START = 1;
+    private static final Range2D CHART_RANGE = new Range2D( -X_RANGE_START, -Y_RANGE_START, X_RANGE_START, Y_RANGE_START );
     private static final Dimension CHART_SIZE = new Dimension( 540, 100 );
+    
     
     // Harmonics in the chart
     private static final int HARMONIC_DARKEST_GRAY = 0; //dark gray
@@ -84,6 +87,7 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver {
     private SumEquation _mathGraphic;
     private String _xTitleSpace, _xTitleTime;
     private int _domain;
+    private int _xZoomLevel;
 
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -163,6 +167,8 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver {
             _chartGraphic.setIgnoreMouse( true );
             _mathGraphic.setIgnoreMouse( true );
 
+            _horizontalZoomControl.addZoomListener( this );
+            
             _closeButton.setCursorHand();
         }
         
@@ -181,8 +187,11 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver {
      * Resets to the initial state.
      */
     public void reset() {
-        update();
         setDomain( FourierConstants.DOMAIN_SPACE );
+        _xZoomLevel = 0;
+        _chartGraphic.setRange( CHART_RANGE );
+        updateZoomButtons();
+        update();
     }
     
     //----------------------------------------------------------------------------
@@ -231,6 +240,85 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver {
             _chartGraphic.setChartSize( CHART_SIZE.width, height - 70 );
             _titleGraphic.setLocation( TITLE_LOCATION.x, height / 2 );
             setBoundsDirty();
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // ZoomListener implementation
+    //----------------------------------------------------------------------------
+
+    /**
+     * Invokes when a zoom of the chart has been performed.
+     * 
+     * @param event
+     */
+    public void zoomPerformed( ZoomEvent event ) {
+        int zoomType = event.getZoomType();
+        if ( zoomType == ZoomEvent.HORIZONTAL_ZOOM_IN || zoomType == ZoomEvent.HORIZONTAL_ZOOM_OUT ) {
+            handleHorizontalZoom( zoomType );
+        }
+        else {
+            throw new IllegalArgumentException( "unexpected event: " + event );
+        }
+    }
+    
+    /*
+     * Handles horizontal zooming.
+     * 
+     * @param zoomType indicates the type of zoom
+     */
+    private void handleHorizontalZoom( int zoomType ) {
+
+        // Adjust the zoom level.
+        if ( zoomType == ZoomEvent.HORIZONTAL_ZOOM_IN ) {
+            _xZoomLevel++;
+        }
+        else {
+            _xZoomLevel--;
+        }
+
+        // Obtuse sqrt(2) zoom factor, immune to numeric precision errors 
+        double zoomFactor = Math.pow( 2, Math.abs( _xZoomLevel ) / 2.0 );
+
+        // Adjust the chart's horizontal range.
+        Range2D range = _chartGraphic.getRange();
+        double xRange;
+        if ( _xZoomLevel == 0 ) {
+            xRange = X_RANGE_START;
+        }
+        else if ( _xZoomLevel > 0 ) {
+            xRange = X_RANGE_START / zoomFactor;
+        }
+        else {
+            xRange = X_RANGE_START * zoomFactor;
+        }
+        range.setMaxX( xRange );
+        range.setMinX( -xRange );
+        _chartGraphic.setRange( range );
+
+        updateZoomButtons();
+    }
+
+    /*
+     * Enables and disables zoom buttons based on the current
+     * zoom levels and range of the chart.
+     */
+    private void updateZoomButtons() {
+
+        Range2D range = _chartGraphic.getRange();
+
+        // Horizontal buttons
+        if ( range.getMaxX() >= X_RANGE_MAX ) {
+            _horizontalZoomControl.setZoomOutEnabled( false );
+            _horizontalZoomControl.setZoomInEnabled( true );
+        }
+        else if ( range.getMaxX() <= X_RANGE_MIN ) {
+            _horizontalZoomControl.setZoomOutEnabled( true );
+            _horizontalZoomControl.setZoomInEnabled( false );
+        }
+        else {
+            _horizontalZoomControl.setZoomOutEnabled( true );
+            _horizontalZoomControl.setZoomInEnabled( true );
         }
     }
     
