@@ -38,6 +38,7 @@ public class PhotoelectricTarget extends ElectronSource {
     //----------------------------------------------------------------
     static public final double ELECTRON_MASS = 9.11E-31;
     static private final double SPEED_SCALE_FACTOR = 5E-16;
+    static private final double MINIMUM_SPEED = 0.1;
     static public final HashMap workFunctions = new HashMap();
     static public final Object ZINC = new String( "Zinc" );
     static public final Object COPPER = new String( "Copper" );
@@ -99,12 +100,26 @@ public class PhotoelectricTarget extends ElectronSource {
             electron.setPosition( p.getX() + 1, p.getY() );
 
             // Determine the speed of the new electron
-            double speed = Math.sqrt( 2 * de / ELECTRON_MASS ) * SPEED_SCALE_FACTOR;
+            double speed = determineNewElectronSpeed( de );
             electron.setVelocity( speed, 0 );
 
             // Tell all the listeners
             getElectronProductionListenerProxy().electronProduced( new ElectronProductionEvent( this, electron ) );
         }
+    }
+
+    /**
+     * Determines the initial speed of an electron that is kicked off the target by a photon
+     * @param energy
+     * @return
+     */
+    private double determineNewElectronSpeed( double energy ) {
+        double maxSpeed = Math.sqrt( 2 * energy / ELECTRON_MASS ) * SPEED_SCALE_FACTOR;
+
+        // Speed is randomly distributed between the max speed and a minimum speed.
+        double speed = maxSpeed * random.nextDouble();
+        speed = Math.max( speed, MINIMUM_SPEED );
+        return speed;
     }
 
     /**
