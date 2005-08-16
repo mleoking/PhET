@@ -76,6 +76,7 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+sandbox...
 (8/16) - implement Sum waveform in D2C
 (8/16) - implement sine/cosine control in D2C
 (8/16) - implement horizontal zoom controls in D2C
