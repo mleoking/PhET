@@ -121,6 +121,18 @@ public class MathUtil {
     }
 
     /**
+     * Tells if two double values are equal, within a specified tolerance
+     *
+     * @param x
+     * @param y
+     * @param eps The tolerance to be applied to the equality test
+     * @return true if the two values are within epsilon of each other (exclusive).
+     */
+    public static boolean isApproxEqual( double x, double y, double eps ) {
+        return Math.abs( x - y ) < eps;
+    }
+
+    /**
      * Determines the position of a point that is the reflection of a specified point across a line.
      *
      * @param p
@@ -155,10 +167,10 @@ public class MathUtil {
      * Computes the intersection of two line segments. Algorithm taked from Paul Bourke, 1989:
      * http://astronomy.swin.edu.au/~pbourke/geometry/lineline2d/
      *
-     * @param p1
-     * @param p2
-     * @param p3
-     * @param p4
+     * @param p1 One endpoint of line 1
+     * @param p2 The other endpoint of line 1
+     * @param p3 One endpoint of line 2
+     * @param p4 The other endpoint of line 2
      * @return the intersection of two line segments.
      */
     public static Point2D.Double getLineSegmentsIntersection( Point2D p1, Point2D p2,
@@ -251,10 +263,22 @@ public class MathUtil {
      * Computes the intersection of two lines. Algorithm taked from Paul Bourke, 1989:
      * http://astronomy.swin.edu.au/~pbourke/geometry/lineline2d/
      *
-     * @param p1
-     * @param p2
-     * @param p3
-     * @param p4
+     * @param l1
+     * @param l2
+     * @return the intersection of two lines.
+     */
+    public static Point2D.Double getLinesIntersection( Line2D l1, Line2D l2 ) {
+        return getLinesIntersection( l1.getP1(), l1.getP2(), l2.getP1(), l2.getP2() );
+    }
+
+    /**
+     * Computes the intersection of two lines. Algorithm taked from Paul Bourke, 1989:
+     * http://astronomy.swin.edu.au/~pbourke/geometry/lineline2d/
+     *
+     * @param p1 A point on line 1
+     * @param p2 A point on line 1
+     * @param p3 A point on line 2
+     * @param p4 A point on line 2
      * @return the intersection of two lines.
      */
     public static Point2D.Double getLinesIntersection( Point2D p1, Point2D p2,
