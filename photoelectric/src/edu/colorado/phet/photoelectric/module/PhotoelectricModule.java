@@ -21,6 +21,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.*;
 import edu.colorado.phet.dischargelamps.view.DischargeLampEnergyLevelMonitorPanel;
@@ -152,7 +153,8 @@ public class PhotoelectricModule extends BaseLaserModule {
 
         // Add a listener that will produce photon graphics for the beam, and for each photon emitted,
         // add a listener that will remove the PhotonGraphic from the apparatus panel
-        beam.addPhotonEmittedListener( new PhotonGraphicManager() );
+        final PhotonGraphicManager photonGraphicManager = new PhotonGraphicManager();
+        beam.addPhotonEmittedListener( photonGraphicManager );
 
         // Add a listener to the target plate that will create electron graphics when electrons
         // are produced, and remove them when they the electrons leave the system.
@@ -181,6 +183,14 @@ public class PhotoelectricModule extends BaseLaserModule {
         //----------------------------------------------------------------
         // Debug
         //----------------------------------------------------------------
+        final JCheckBoxMenuItem photonMI = new JCheckBoxMenuItem( "Show photons" );
+        photonMI.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                photonGraphicManager.setEnabled( photonMI.isSelected() );
+            }
+        } );
+
+        PhetApplication.instance().getPhetFrame().getDebugMenu().add(photonMI );
         if( DEBUG ) {
             PhetShapeGraphic beamIndicator = new PhetShapeGraphic( getApparatusPanel(),
                                                                    new Ellipse2D.Double( beam.getPosition().getX(),
@@ -298,7 +308,7 @@ public class PhotoelectricModule extends BaseLaserModule {
 
         // A slider for the wavelength
         final ModelSlider wavelengthSlider = new ModelSlider( SimStrings.get( "Control.Wavelength" ), "nm",
-                                                              LaserConfig.MIN_WAVELENGTH, LaserConfig.MAX_WAVELENGTH,
+                                                              LaserConfig.MIN_WAVELENGTH / 3, LaserConfig.MAX_WAVELENGTH,
                                                               ( LaserConfig.MIN_WAVELENGTH + LaserConfig.MAX_WAVELENGTH ) / 2 );
         wavelengthSlider.setPreferredSize( new Dimension( 250, 100 ) );
         beam.setWavelength( wavelengthSlider.getValue() );
