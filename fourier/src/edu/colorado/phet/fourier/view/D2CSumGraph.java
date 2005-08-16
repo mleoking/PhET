@@ -23,10 +23,14 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.charts.D2CSumChart;
+import edu.colorado.phet.fourier.charts.FourierSumPlot;
+import edu.colorado.phet.fourier.charts.HarmonicPlot;
 import edu.colorado.phet.fourier.control.ZoomControl;
 import edu.colorado.phet.fourier.event.ZoomEvent;
 import edu.colorado.phet.fourier.event.ZoomListener;
+import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
+import edu.colorado.phet.fourier.model.Harmonic;
 
 
 /**
@@ -69,10 +73,10 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
     private static final Range2D CHART_RANGE = new Range2D( -X_RANGE_START, -Y_RANGE_START, X_RANGE_START, Y_RANGE_START );
     private static final Dimension CHART_SIZE = new Dimension( 540, 100 );
     
-    
-    // Harmonics in the chart
-    private static final int HARMONIC_DARKEST_GRAY = 0; //dark gray
-    private static final int HARMONIC_LIGHTEST_GRAY = 230;  // light gray
+    // Sum waveform
+    private static final Stroke SUM_STROKE = new BasicStroke( 1f );
+    private static final Color SUM_COLOR = Color.BLACK;
+    private static final double SUM_PIXELS_PER_POINT = 1;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -89,6 +93,8 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
     private int _domain;
     private int _waveType;
     private int _xZoomLevel;
+    private FourierSeries _fourierSeries;
+    private FourierSumPlot _sumPlot;
 
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -133,6 +139,18 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
         _chartGraphic.setLocation( 60, 50 + ( CHART_SIZE.height / 2 ) );
         _xTitleSpace = SimStrings.get( "D2CSumGraph.xTitleSpace" );
         _xTitleTime = SimStrings.get( "D2CSumGraph.xTitleTime" );
+        
+        // Fourier series
+        _fourierSeries = new FourierSeries( 1, 440 ); //XXX
+        _fourierSeries.setPreset( FourierConstants.PRESET_CUSTOM );
+        
+        // Fourier sum plot
+        _sumPlot = new FourierSumPlot( component, _chartGraphic, _fourierSeries );
+        _sumPlot.setPeriod( L );
+        _sumPlot.setPixelsPerPoint( SUM_PIXELS_PER_POINT );
+        _sumPlot.setStroke( SUM_STROKE );
+        _sumPlot.setBorderColor( SUM_COLOR );
+        _chartGraphic.addDataSetGraphic( _sumPlot );
         
         // Close button
         _closeButton = new PhetImageGraphic( component, FourierConstants.CLOSE_BUTTON_IMAGE );
@@ -184,6 +202,10 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
         _wavePacket = null;
     }
     
+    //----------------------------------------------------------------------------
+    // Reset
+    //----------------------------------------------------------------------------
+    
     /**
      * Resets to the initial state.
      */
@@ -229,7 +251,7 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
     public void setWaveType( int waveType ) {
         assert( FourierConstants.isValidWaveType( waveType ) );
         _waveType = waveType;
-        update();
+        _fourierSeries.setWaveType( _waveType );
     }
     
     /**
@@ -344,11 +366,42 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
      */
     public void update() {
         
-        System.out.println( "D2CHarmonicsChart.update" ); //XXX
+        System.out.println( "D2CSumGraph.update" ); //XXX
         
-        _chartGraphic.removeAllDataSetGraphics();
-
         updateMath(); // ...in case the number of components has changed
+
+        double dk = _wavePacket.getDeltaK();
+        double k0 = _wavePacket.getK0();
+        double k1 = _wavePacket.getK1();
+        int numberOfHarmonics = _wavePacket.getNumberOfComponents();
+        
+        if ( numberOfHarmonics < Integer.MAX_VALUE ) {
+            
+            _fourierSeries.setNumberOfHarmonics( numberOfHarmonics );
+
+            // Adjust the Fourier series to match the wave packet
+            for ( int i = 0; i < numberOfHarmonics; i++ ) {
+
+                // Compute the ith amplitude
+                double kn = ( i + 1 ) * k1;
+                double An = GaussianWavePacket.getAmplitude( kn, k0, dk );
+                
+                // Adjust the ith harmonic
+                _fourierSeries.getHarmonic( i ).setAmplitude( An );
+            }
+            
+            _sumPlot.updateDataSet();
+            
+//            _chartGraphic.autoscaleY( _sumPlot.getMaxAmplitude() );//XXX
+        }
+        else {
+            //XXX do something else for infinite # of harmonics
+            for ( int i = 0; i < _fourierSeries.getNumberOfHarmonics(); i++ ) {
+                _fourierSeries.getHarmonic( i ).setAmplitude( 0 );
+            }
+            _sumPlot.updateDataSet();
+        }
+
     }
 
     private void updateMath() {
