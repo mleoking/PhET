@@ -188,6 +188,10 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
         _wavePacket = null;
     }
     
+    //----------------------------------------------------------------------------
+    // Reset
+    //----------------------------------------------------------------------------
+    
     /**
      * Resets to the initial state.
      */
@@ -367,7 +371,7 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
      */
     public void update() {
         
-        System.out.println( "D2CHarmonicsChart.update" ); //XXX
+        System.out.println( "D2CHarmonicsGraph.update" ); //XXX
         
         if ( isVisible() ) {
             
