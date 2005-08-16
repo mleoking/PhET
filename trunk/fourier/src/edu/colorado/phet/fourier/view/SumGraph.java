@@ -419,6 +419,9 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
             if ( _autoScaleCheckBox.isSelected() ) {
                 Range2D range = _chartGraphic.getRange();
                 double maxAmplitude = _sumPlot.getMaxAmplitude();
+                if ( maxAmplitude < FourierConfig.MAX_HARMONIC_AMPLITUDE ) {
+                    maxAmplitude = FourierConfig.MAX_HARMONIC_AMPLITUDE;
+                }
                 if ( maxAmplitude != range.getMaxY() ) {
                     range.setMinY( -maxAmplitude );
                     range.setMaxY( +maxAmplitude );
