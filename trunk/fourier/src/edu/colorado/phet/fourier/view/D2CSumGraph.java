@@ -87,6 +87,7 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
     private SumEquation _mathGraphic;
     private String _xTitleSpace, _xTitleTime;
     private int _domain;
+    private int _waveType;
     private int _xZoomLevel;
 
     //----------------------------------------------------------------------------
@@ -188,6 +189,7 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
      */
     public void reset() {
         setDomain( FourierConstants.DOMAIN_SPACE );
+        _waveType = FourierConstants.WAVE_TYPE_SINE;
         _xZoomLevel = 0;
         _chartGraphic.setRange( CHART_RANGE );
         updateZoomButtons();
@@ -212,12 +214,22 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
      * Changes various labels on the chart, tools, formulas, etc.
      * 
      * @param domain DOMAIN_SPACE or DOMAIN_TIME
-     * @throws IllegalArgumentException if the domain is invalid or not supported
      */
     public void setDomain( int domain ) {
         _domain = domain;
         updateMath();
         updateAxisTitles();
+    }
+    
+    /**
+     * Sets the wave type.
+     * 
+     * @param waveType WAVE_TYPE_SINE or WAVE_TYPE_COSINE
+     */
+    public void setWaveType( int waveType ) {
+        assert( FourierConstants.isValidWaveType( waveType ) );
+        _waveType = waveType;
+        update();
     }
     
     /**

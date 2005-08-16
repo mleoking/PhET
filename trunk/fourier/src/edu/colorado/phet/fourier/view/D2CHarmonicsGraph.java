@@ -91,6 +91,7 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
     private HarmonicsEquation _mathGraphic;
     private String _xTitleSpace, _xTitleTime;
     private int _domain;
+    private int _waveType;
     private int _xZoomLevel;
 
     //----------------------------------------------------------------------------
@@ -192,6 +193,7 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
      */
     public void reset() {
         setDomain( FourierConstants.DOMAIN_SPACE );
+        _waveType = FourierConstants.WAVE_TYPE_SINE;
         _xZoomLevel = 0;
         _chartGraphic.setRange( CHART_RANGE );
         updateZoomButtons();
@@ -216,12 +218,23 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
      * Changes various labels on the chart, tools, formulas, etc.
      * 
      * @param domain DOMAIN_SPACE or DOMAIN_TIME
-     * @throws IllegalArgumentException if the domain is invalid or not supported
      */
     public void setDomain( int domain ) {
+        assert( FourierConstants.isValidDomain( domain ) );
         _domain = domain;
         updateMath();
         updateAxisTitles();
+    }
+    
+    /**
+     * Sets the wave type.
+     * 
+     * @param waveType WAVE_TYPE_SINE or WAVE_TYPE_COSINE
+     */
+    public void setWaveType( int waveType ) {
+        assert( FourierConstants.isValidWaveType( waveType ) );
+        _waveType = waveType;
+        update();
     }
     
     /**
@@ -394,6 +407,7 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
                     HarmonicPlot harmonicPlot = new HarmonicPlot( getComponent(), _chartGraphic );
                     harmonicPlot.setHarmonic( harmonic );
                     harmonicPlot.setPeriod( L / ( i + 1 ) );
+                    harmonicPlot.setWaveType( _waveType );
                     harmonicPlot.setPixelsPerPoint( 1 );
                     harmonicPlot.setStroke( HARMONIC_STROKE );
                     harmonicPlot.setBorderColor( harmonicColor );
