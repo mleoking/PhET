@@ -385,7 +385,7 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
 
                 // Compute the ith amplitude
                 double kn = ( i + 1 ) * k1;
-                double An = GaussianWavePacket.getAmplitude( kn, k0, dk );
+                double An = k1 * GaussianWavePacket.getAmplitude( kn, k0, dk );
                 
                 // Adjust the ith harmonic
                 _fourierSeries.getHarmonic( i ).setAmplitude( An );
@@ -393,7 +393,7 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
             
             _sumPlot.updateDataSet();
             
-//            _chartGraphic.autoscaleY( _sumPlot.getMaxAmplitude() );//XXX
+            _chartGraphic.autoscaleY( _sumPlot.getMaxAmplitude() );//XXX
         }
         else {
             //XXX do something else for infinite # of harmonics
