@@ -70,8 +70,10 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     private static final int BAR_LIGHTEST_GRAY = 230;  // light gray
     
     // Tools
-    private static final Font TOOL_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 16 );
-    private static final Color TOOL_COLOR = Color.RED;
+    private static final Font TOOL_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 16 );
+    private static final Color TOOL_FILL_COLOR = new Color( 0, 175, 0 );
+    private static final Color TOOL_BORDER_COLOR = Color.WHITE;
+    private static final Stroke TOOL_STROKE = new BasicStroke( 0.5f );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -132,15 +134,19 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         // Width measurement tool
         _widthTool = new MeasurementTool( component );
         _widthTool.setLabelFont( TOOL_FONT );
-        _widthTool.setLabelColor( TOOL_COLOR );
-        _widthTool.setFillColor( TOOL_COLOR );
+        _widthTool.setLabelColor( TOOL_FILL_COLOR );
+        _widthTool.setFillColor( TOOL_FILL_COLOR );
+        _widthTool.setBorderColor( TOOL_BORDER_COLOR );
+        _widthTool.setStroke( TOOL_STROKE );
         addGraphic( _widthTool, TOOL_LAYER );
         
         // Spacing measurement tool
         _spacingTool = new MeasurementTool( component );
         _spacingTool.setLabelFont( TOOL_FONT );
-        _spacingTool.setLabelColor( TOOL_COLOR );
-        _spacingTool.setFillColor( TOOL_COLOR );
+        _spacingTool.setLabelColor( TOOL_FILL_COLOR );
+        _spacingTool.setFillColor( TOOL_FILL_COLOR );
+        _spacingTool.setBorderColor( TOOL_BORDER_COLOR );
+        _spacingTool.setStroke( TOOL_STROKE );
         addGraphic( _spacingTool, TOOL_LAYER );
         
         // Interactivity
