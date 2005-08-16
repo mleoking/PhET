@@ -223,7 +223,7 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
      */
     public void update() {
         
-        System.out.println( "D2CAmplitudesChart.update" ); //XXX
+        System.out.println( "D2CAmplitudesGraph.update" ); //XXX
         
         _chartGraphic.removeAllDataSetGraphics();
         
