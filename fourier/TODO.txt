@@ -7,6 +7,10 @@ IN PROGRESS:
 - D2C Sum view is not in the correct initial position
 
 HIGH PRIORITY:
+- when k1=0, change equation in D2C Sum graph
+- when k1=0, change tools to lamda1=0 and k1=0 (change MeasurementTool class to do this when width is zero)
+- autoscale & vertical zoom controls in D2C ?
+- memory leak in D2C module, freezes with wait cursor
 - should the user be able to shift the GaussianWavePacket center point?
 - k1 and deltak tools go under other graphs because they are children of the D2CAmplitudesGraph
 - should equation above Harmonics views start with "F(x)=" ?
@@ -77,6 +81,7 @@ PHETCOMMON:
 
 DONE:
 sandbox...
+(8/16) - use a lighter stroke for the axes in D2C charts
 (8/16) - change measurement tools in D2C to bold font, green fill, white stroke
 (8/16) - enable autoscaling of D2C Sum graph
 sandbox...
