@@ -58,8 +58,6 @@ public class PhotoelectricTarget extends ElectronSource {
     private Random random = new Random();
     // The line segment defined by the target
     private Line2D line;
-    // The siulation clock's dt
-    private double dt;
     // The work function for the target material
     private double workFunction;
 
@@ -91,29 +89,18 @@ public class PhotoelectricTarget extends ElectronSource {
 
         double de = photon.getEnergy() - workFunction;
         if( de > 0 ) {
-            Electron electron = new Electron();
+//            Electron electron = new Electron();
 
             // Determine where the electron will be emitted from
-            Point2D p1 = getEndpoints()[0];
-            Point2D p2 = getEndpoints()[1];
-            double x = random.nextDouble() * ( p2.getX() - p1.getX() ) + p1.getX();
-            double y = random.nextDouble() * ( p2.getY() - p1.getY() ) + p1.getY();
-            electron.setPosition( x, y );
-
             // The location of the electron is coincident with where the photon hit the plate
             Point2D p = MathUtil.getLineSegmentsIntersection( line.getP1(), line.getP2(),
                                                               photon.getPosition(), photon.getPositionPrev() );
-            electron.setPosition( p );
+            Electron electron = new Electron( p.getX() + 1, p.getY() );
+            electron.setPosition( p.getX() + 1, p.getY() );
 
-            // todo: this velocity needs to be set with an algorithm that takes into account the energy of
-            // the photon
-//            electron.setVelocity( 1, 0 );
+            // Determine the speed of the new electron
             double speed = Math.sqrt( 2 * de / ELECTRON_MASS ) * SPEED_SCALE_FACTOR;
             electron.setVelocity( speed, 0 );
-
-            // Give it a step so we don't absorb it immediately. If we don't, we'll think that the electron has
-            // collided with the plate, and absorb it.
-            electron.stepInTime( dt );
 
             // Tell all the listeners
             getElectronProductionListenerProxy().electronProduced( new ElectronProductionEvent( this, electron ) );
@@ -130,16 +117,6 @@ public class PhotoelectricTarget extends ElectronSource {
         boolean result = line.intersectsLine( photon.getPosition().getX(), photon.getPosition().getY(),
                                               photon.getPositionPrev().getX(), photon.getPositionPrev().getY() );
         return result;
-    }
-
-    /**
-     * This is a hack just to get the clock's dt.
-     *
-     * @param dt
-     */
-    public void stepInTime( double dt ) {
-        this.dt = dt;
-        super.stepInTime( dt );
     }
 
     //----------------------------------------------------------------
