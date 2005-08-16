@@ -77,6 +77,9 @@ PHETCOMMON:
 
 DONE:
 sandbox...
+(8/16) - change measurement tools in D2C to bold font, green fill, white stroke
+(8/16) - enable autoscaling of D2C Sum graph
+sandbox...
 (8/16) - implement Sum waveform in D2C
 (8/16) - implement sine/cosine control in D2C
 (8/16) - implement horizontal zoom controls in D2C
