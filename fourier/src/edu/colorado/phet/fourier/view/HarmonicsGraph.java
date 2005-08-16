@@ -456,13 +456,13 @@ public class HarmonicsGraph extends GraphicLayerSet implements SimpleObserver, Z
         Range2D range = _chartGraphic.getRange();
         double xRange;
         if ( _xZoomLevel == 0 ) {
-            xRange = ( L / 2 );
+            xRange = X_RANGE_START;
         }
         else if ( _xZoomLevel > 0 ) {
-            xRange = ( L / 2 ) / zoomFactor;
+            xRange = X_RANGE_START / zoomFactor;
         }
         else {
-            xRange = ( L / 2 ) * zoomFactor;
+            xRange = X_RANGE_START * zoomFactor;
         }
         range.setMaxX( xRange );
         range.setMinX( -xRange );
