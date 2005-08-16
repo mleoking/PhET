@@ -56,13 +56,16 @@ public class PhotoelectricModel extends DischargeLampModel {
     private double beamMaxPhotonsPerSecond = 200;
     double beamHeight = 80;
     private double beamSourceToTargetDist = 300;
-//    private double beamAngle = Math.toRadians( 0 );
     private double beamAngle = Math.toRadians( 130 );
+    private double beamFanout = Math.toRadians( 5 );
 
     //----------------------------------------------------------------
     // Contructors and initialization
     //----------------------------------------------------------------
 
+    /**
+     *
+     */
     public PhotoelectricModel() {
 
         // todo: this isn't correct. The rotated beam doesn't look right. Try an angle of 170 deg. to see.
@@ -74,7 +77,7 @@ public class PhotoelectricModel extends DischargeLampModel {
                                                    + beamHeight / 2 * Math.cos( alpha ) );
         beam = new CollimatedBeam( defaultBeamWavelength, beamLocation, beamHeight,
                                    beamHeight, new Vector2D.Double( Math.cos( beamAngle ), Math.sin( beamAngle ) ),
-                                   beamMaxPhotonsPerSecond, 0 );
+                                   beamMaxPhotonsPerSecond, beamFanout );
         addModelElement( beam );
         beam.setPhotonsPerSecond( beamMaxPhotonsPerSecond );
         beam.setEnabled( true );
@@ -95,7 +98,6 @@ public class PhotoelectricModel extends DischargeLampModel {
         } );
         addModelElement( target );
     }
-
 
     /**
      * Tracks special classes of model elements
@@ -143,6 +145,7 @@ public class PhotoelectricModel extends DischargeLampModel {
     //----------------------------------------------------------------
     // Getters and setters 
     //----------------------------------------------------------------
+
     public PhotoelectricTarget getTarget() {
         return target;
     }
