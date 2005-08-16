@@ -31,6 +31,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.Electrode;
 import edu.colorado.phet.dischargelamps.model.Electron;
@@ -62,6 +63,7 @@ import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Line2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -75,8 +77,19 @@ import java.util.HashMap;
  */
 public class PhotoelectricModule extends BaseLaserModule {
 
+    //----------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------
+
+    static private final int BEAM_VIEW = 1;
+    static private final int PHOTON_VIEW = 2;
+
 //    public static boolean DEBUG = true;
     public static boolean DEBUG = false;
+
+    //----------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------
 
     private ElectronSink anode;
     private ElectronSource targetPlate;
@@ -93,6 +106,8 @@ public class PhotoelectricModule extends BaseLaserModule {
     private PhetImageGraphic cathodeGraphic;
     private BeamCurtainGraphic beamGraphic;
     private PhotonGraphicManager photonGraphicManager;
+
+    private int viewType = BEAM_VIEW;
 
 
     /**
@@ -162,8 +177,11 @@ public class PhotoelectricModule extends BaseLaserModule {
             e.printStackTrace();
         }
 
-        // Add a listener that will produce photon graphics for the beam, and for each photon emitted,
-        // add a listener that will remove the PhotonGraphic from the apparatus panel
+        // Add a listener that will place photons right next to the plate when we are in beam view mode
+        beam.addPhotonEmittedListener( new PhotonPlacementManager() );
+
+        // Add a listener that will produce photon graphics for the beam and take them away when the photons
+        // leave the system
         photonGraphicManager = new PhotonGraphicManager();
         beam.addPhotonEmittedListener( photonGraphicManager );
 
@@ -277,9 +295,9 @@ public class PhotoelectricModule extends BaseLaserModule {
     private void addControls() {
         final CollimatedBeam beam = getPhotoelectricModel().getBeam();
 
-//----------------------------------------------------------------
-// Target controls
-//----------------------------------------------------------------
+        //----------------------------------------------------------------
+        // Target controls
+        //----------------------------------------------------------------
 
         JPanel targetControlPnl = new JPanel( new GridLayout( 1, 1 ) );
         targetControlPnl.setBorder( new TitledBorder( "Target" ) );
@@ -302,15 +320,15 @@ public class PhotoelectricModule extends BaseLaserModule {
         } );
         target.setMaterial( targetMaterial.getSelectedItem() );
 
-//----------------------------------------------------------------
-// Beam controls
-//----------------------------------------------------------------
+        //----------------------------------------------------------------
+        // Beam controls
+        //----------------------------------------------------------------
 
         JPanel beamControlPnl = new JPanel( new GridLayout( 2, 1 ) );
         beamControlPnl.setBorder( new TitledBorder( "Lamp" ) );
         getControlPanel().add( beamControlPnl );
 
-// A slider for the wavelength
+        // A slider for the wavelength
         final ModelSlider wavelengthSlider = new ModelSlider( SimStrings.get( "Control.Wavelength" ), "nm",
                                                               LaserConfig.MIN_WAVELENGTH / 3, LaserConfig.MAX_WAVELENGTH,
                                                               ( LaserConfig.MIN_WAVELENGTH + LaserConfig.MAX_WAVELENGTH ) / 2 );
@@ -323,7 +341,7 @@ public class PhotoelectricModule extends BaseLaserModule {
             }
         } );
 
-// A slider for the beam intensity
+        // A slider for the beam intensity
         final ModelSlider beamIntensitySlider = new ModelSlider( SimStrings.get( "Intensity" ), "",
                                                                  0, beam.getMaxPhotonsPerSecond(),
                                                                  beam.getMaxPhotonsPerSecond() / 2 );
@@ -336,11 +354,11 @@ public class PhotoelectricModule extends BaseLaserModule {
             }
         } );
 
-//----------------------------------------------------------------
-// Battery controls
-//----------------------------------------------------------------
+        //----------------------------------------------------------------
+        // Battery controls
+        //----------------------------------------------------------------
 
-// A slider for the battery voltage
+        // A slider for the battery voltage
         final ModelSlider batterySlider = new ModelSlider( SimStrings.get( "Control.BatteryVoltageLabel" ),
                                                            "V", -0.05, 0.05, 0 );
         batterySlider.setPreferredSize( new Dimension( 250, 100 ) );
@@ -403,7 +421,7 @@ public class PhotoelectricModule extends BaseLaserModule {
         this.anode.setPosition( DischargeLampsConfig.ANODE_LOCATION );
         PhetImageGraphic anodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode-2.png" );
 
-// Make the graphic the right size
+        // Make the graphic the right size
         double scaleX = 1;
         double scaleY = DischargeLampsConfig.CATHODE_LENGTH / anodeGraphic.getImage().getHeight();
         AffineTransformOp scaleOp = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, scaleY ),
@@ -426,7 +444,7 @@ public class PhotoelectricModule extends BaseLaserModule {
         targetPlate = model.getTarget();
         cathodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode-2.png" );
 
-// Make the graphic the right size
+        // Make the graphic the right size
         double scaleX = 1;
         double scaleY = DischargeLampsConfig.CATHODE_LENGTH / cathodeGraphic.getImage().getHeight();
         AffineTransformOp scaleOp = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, scaleY ),
@@ -477,9 +495,30 @@ public class PhotoelectricModule extends BaseLaserModule {
         }
     }
 
-//----------------------------------------------------------------
-// Inner classes for event handling
-//----------------------------------------------------------------
+    //----------------------------------------------------------------
+    // Inner classes for event handling
+    //----------------------------------------------------------------
+
+    /**
+     * Modifies the initial placement of photons to be very near the target when we're in
+     * beam view. This prevents the delay in response of the target when the wavelength or
+     * intensity of the beam is changed.
+     */
+    private class PhotonPlacementManager implements PhotonEmittedListener {
+        public void photonEmittedEventOccurred( PhotonEmittedEvent event ) {
+            if( viewType == BEAM_VIEW ) {
+                Photon photon = event.getPhoton();
+                Line2D photonPath = new Line2D.Double( photon.getPosition().getX(),
+                                                       photon.getPosition().getY(),
+                                                       photon.getPosition().getX() + photon.getVelocity().getX(),
+                                                       photon.getPosition().getY() + photon.getVelocity().getY() );
+                Point2D p = MathUtil.getLinesIntersection( photonPath.getP1(), photonPath.getP2(),
+                                                           targetPlate.getEndpoints()[0], targetPlate.getEndpoints()[1] );
+                photon.setPosition( p.getX() - photon.getVelocity().getX(),
+                                      p.getY() - photon.getVelocity().getY() );
+            }
+        }
+    }
 
     /**
      * Creates, adds and removes graphics for electrons
@@ -510,6 +549,9 @@ public class PhotoelectricModule extends BaseLaserModule {
 
         public void setEnabled( boolean enabled ) {
             isEnabled = enabled;
+
+            // Set the view state for the entire module
+            viewType = isEnabled ? PHOTON_VIEW : BEAM_VIEW;
         }
 
         public void photonEmittedEventOccurred( PhotonEmittedEvent event ) {
