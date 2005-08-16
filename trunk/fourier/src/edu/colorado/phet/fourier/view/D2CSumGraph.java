@@ -252,6 +252,7 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
         assert( FourierConstants.isValidWaveType( waveType ) );
         _waveType = waveType;
         _fourierSeries.setWaveType( _waveType );
+        _sumPlot.updateDataSet();
     }
     
     /**
