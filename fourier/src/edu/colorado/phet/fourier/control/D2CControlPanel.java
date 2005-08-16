@@ -308,8 +308,9 @@ public class D2CControlPanel extends FourierControlPanel {
      * Handles changes to the wave type combo box.
      */
     private void handleWaveType() {
-        System.out.println( "wave type=" + _waveTypeComboBox.getSelectedItem() );//XXX
-        //XXX implement
+        int waveType = _waveTypeComboBox.getSelectedKey();
+        _harmonicsGraph.setWaveType( waveType );
+        _sumGraph.setWaveType( waveType );
     }
     
     /*
