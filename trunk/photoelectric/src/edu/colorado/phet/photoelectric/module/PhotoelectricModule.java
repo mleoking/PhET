@@ -20,7 +20,7 @@
  */
 package edu.colorado.phet.photoelectric.module;
 
-import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
@@ -31,7 +31,6 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.Electrode;
 import edu.colorado.phet.dischargelamps.model.Electron;
@@ -62,8 +61,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -83,6 +82,12 @@ public class PhotoelectricModule extends BaseLaserModule {
 
     static private final int BEAM_VIEW = 1;
     static private final int PHOTON_VIEW = 2;
+
+    static private final double TUBE_LAYER = 2000;
+    static private final double CIRCUIT_LAYER = TUBE_LAYER - 1;
+    static private final double LAMP_LAYER = 1000;
+    static private final double BEAM_LAYER = 900;
+    static private final double ELECTRON_LAYER = 900;
 
 //    public static boolean DEBUG = true;
     public static boolean DEBUG = false;
@@ -156,7 +161,7 @@ public class PhotoelectricModule extends BaseLaserModule {
         // Add a graphic for the beam
         CollimatedBeam beam = model.getBeam();
         beamGraphic = new BeamCurtainGraphic( getApparatusPanel(), beam );
-        getApparatusPanel().addGraphic( beamGraphic );
+        getApparatusPanel().addGraphic( beamGraphic, BEAM_LAYER );
         try {
             BufferedImage lampImg = ImageLoader.loadBufferedImage( PhotoelectricConfig.LAMP_IMAGE_FILE );
             // Make the lens on the lamp the same size as the beam
@@ -171,7 +176,16 @@ public class PhotoelectricModule extends BaseLaserModule {
             LampGraphic lampGraphic = new LampGraphic( beam, getApparatusPanel(), lampImg, atx );
             // todo: this is positioned with hard numbers. Fix it
             lampGraphic.setLocation( (int)beam.getPosition().getX() - 80, (int)beam.getPosition().getY() );
-            getApparatusPanel().addGraphic( lampGraphic );
+            getApparatusPanel().addGraphic( lampGraphic, LAMP_LAYER );
+
+            // Put a mask behind the lamp graphic to hide the beam or photons that start behind it
+            Rectangle mask = new Rectangle( 0, 0, lampImg.getWidth(), lampImg.getHeight( ));
+            PhetShapeGraphic maskGraphic = new PhetShapeGraphic( getApparatusPanel(),
+                                                                 mask,
+                                                                 getApparatusPanel().getBackground());
+            maskGraphic.setTransform( atx );
+            maskGraphic.setLocation( lampGraphic.getLocation() );
+            getApparatusPanel().addGraphic( maskGraphic, LAMP_LAYER - 1 );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -201,6 +215,13 @@ public class PhotoelectricModule extends BaseLaserModule {
 
         // Set the targetPlate to listen for potential changes relative to the anode
         hookCathodeToAnode();
+
+        // Put a mask over the part of the light beam that is to the left of the target
+        Rectangle mask = new Rectangle( 0, 0, DischargeLampsConfig.CATHODE_LOCATION.x, 2000 );
+        PhetShapeGraphic maskGraphic = new PhetShapeGraphic( getApparatusPanel(),
+                                                             mask,
+                                                             getApparatusPanel().getBackground() );
+        getApparatusPanel().addGraphic( maskGraphic, BEAM_LAYER + 1 );
 
         //----------------------------------------------------------------
         // Controls
@@ -238,40 +259,6 @@ public class PhotoelectricModule extends BaseLaserModule {
     }
 
     /**
-     * Scales an image graphic so it appears properly on the screen. This method depends on the image used by the
-     * graphic to have been created at the same scale as the battery-wires graphic. The scale is based on the
-     * distance between the electrodes in that image and the screen distance between the electrodes specified
-     * in the configuration file.
-     *
-     * @param imageGraphic
-     */
-    private void scaleImageGraphic( PhetImageGraphic imageGraphic ) {
-        if( externalGraphicScaleOp == null ) {
-            int cathodeAnodeScreenDistance = 550;
-            determineExternalGraphicScale( DischargeLampsConfig.ANODE_LOCATION,
-                                           DischargeLampsConfig.CATHODE_LOCATION,
-                                           cathodeAnodeScreenDistance );
-            AffineTransform scaleTx = AffineTransform.getScaleInstance( externalGraphicsScale, externalGraphicsScale );
-            externalGraphicScaleOp = new AffineTransformOp( scaleTx, AffineTransformOp.TYPE_BILINEAR );
-        }
-        imageGraphic.setImage( externalGraphicScaleOp.filter( imageGraphic.getImage(), null ) );
-    }
-
-    /**
-     * Computes the scale to be applied to externally created graphics.
-     * <p/>
-     * Scale is determined by specifying a distance in the external graphics that should
-     * be the same as the distance between two point on the screen.
-     *
-     * @param p1
-     * @param p2
-     * @param externalGraphicDist
-     */
-    private void determineExternalGraphicScale( Point p1, Point p2, int externalGraphicDist ) {
-        externalGraphicsScale = p1.distance( p2 ) / externalGraphicDist;
-    }
-
-    /**
      * @param apparatusPanel
      */
     private void addCircuitGraphic( ApparatusPanel apparatusPanel ) {
@@ -286,7 +273,91 @@ public class PhotoelectricModule extends BaseLaserModule {
         circuitGraphic.setRegistrationPoint( (int)( 124 * externalGraphicsScale ),
                                              (int)( 110 * externalGraphicsScale ) );
         circuitGraphic.setLocation( DischargeLampsConfig.CATHODE_LOCATION );
-        apparatusPanel.addGraphic( circuitGraphic, DischargeLampsConfig.CIRCUIT_LAYER );
+        apparatusPanel.addGraphic( circuitGraphic, CIRCUIT_LAYER );
+    }
+
+    /**
+     * Creates the tube, adds it to the model and creates a graphic for it
+     *
+     * @param model
+     * @param apparatusPanel
+     */
+    private void addTube( PhotoelectricModel model, ApparatusPanel apparatusPanel ) {
+        double x = DischargeLampsConfig.CATHODE_LOCATION.getX() - DischargeLampsConfig.ELECTRODE_INSETS.left;
+        double y = DischargeLampsConfig.CATHODE_LOCATION.getY() - DischargeLampsConfig.CATHODE_LENGTH / 2
+                   - DischargeLampsConfig.ELECTRODE_INSETS.top;
+        double length = DischargeLampsConfig.ANODE_LOCATION.getX() - DischargeLampsConfig.CATHODE_LOCATION.getX()
+                        + DischargeLampsConfig.ELECTRODE_INSETS.left + DischargeLampsConfig.ELECTRODE_INSETS.right;
+        double height = DischargeLampsConfig.CATHODE_LENGTH
+                        + DischargeLampsConfig.ELECTRODE_INSETS.top + DischargeLampsConfig.ELECTRODE_INSETS.bottom;
+        Point2D tubeLocation = new Point2D.Double( x, y );
+        ResonatingCavity tube = new ResonatingCavity( tubeLocation, length, height );
+        model.addModelElement( tube );
+        ResonatingCavityGraphic tubeGraphic = new ResonatingCavityGraphic( getApparatusPanel(), tube );
+        apparatusPanel.addGraphic( tubeGraphic, TUBE_LAYER );
+    }
+
+    /**
+     * Creates a listener that manages the production rate of the targetPlate based on its potential
+     * relative to the anode
+     */
+    private void hookCathodeToAnode() {
+        anode.addStateChangeListener( new Electrode.StateChangeListener() {
+            public void stateChanged( Electrode.StateChangeEvent event ) {
+                double anodePotential = event.getElectrode().getPotential();
+                targetPlate.setSinkPotential( anodePotential );
+            }
+        } );
+    }
+
+    /**
+     * @param model
+     * @param apparatusPanel
+     * @param cathode
+     */
+    private void addAnode( PhotoelectricModel model, ApparatusPanel apparatusPanel, ElectronSource cathode ) {
+        ElectronSink anode = new ElectronSink( model,
+                                               DischargeLampsConfig.ANODE_LINE.getP1(),
+                                               DischargeLampsConfig.ANODE_LINE.getP2() );
+        model.addModelElement( anode );
+        this.anode = anode;
+        this.anode.setPosition( DischargeLampsConfig.ANODE_LOCATION );
+        PhetImageGraphic anodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode-2.png" );
+
+        // Make the graphic the right size
+        double scaleX = 1;
+        double scaleY = DischargeLampsConfig.CATHODE_LENGTH / anodeGraphic.getImage().getHeight();
+        AffineTransformOp scaleOp = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, scaleY ),
+                                                           AffineTransformOp.TYPE_BILINEAR );
+        anodeGraphic.setImage( scaleOp.filter( anodeGraphic.getImage(), null ) );
+        anodeGraphic.setRegistrationPoint( (int)anodeGraphic.getBounds().getWidth(),
+                                           (int)anodeGraphic.getBounds().getHeight() / 2 );
+
+        anodeGraphic.setRegistrationPoint( 0, (int)anodeGraphic.getBounds().getHeight() / 2 );
+        anodeGraphic.setLocation( DischargeLampsConfig.ANODE_LOCATION );
+        apparatusPanel.addGraphic( anodeGraphic, CIRCUIT_LAYER );
+        cathode.addListener( anode );
+    }
+
+    /**
+     * @param model
+     * @param apparatusPanel
+     */
+    private void addCathodeGraphic( PhotoelectricModel model, ApparatusPanel apparatusPanel ) {
+        targetPlate = model.getTarget();
+        cathodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode-2.png" );
+
+        // Make the graphic the right size
+        double scaleX = 1;
+        double scaleY = DischargeLampsConfig.CATHODE_LENGTH / cathodeGraphic.getImage().getHeight();
+        AffineTransformOp scaleOp = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, scaleY ),
+                                                           AffineTransformOp.TYPE_BILINEAR );
+        cathodeGraphic.setImage( scaleOp.filter( cathodeGraphic.getImage(), null ) );
+        cathodeGraphic.setRegistrationPoint( (int)cathodeGraphic.getBounds().getWidth(),
+                                             (int)cathodeGraphic.getBounds().getHeight() / 2 );
+
+        cathodeGraphic.setLocation( DischargeLampsConfig.CATHODE_LOCATION );
+        apparatusPanel.addGraphic( cathodeGraphic, CIRCUIT_LAYER );
     }
 
     /**
@@ -373,93 +444,47 @@ public class PhotoelectricModule extends BaseLaserModule {
         } );
     }
 
+    //----------------------------------------------------------------
+    // Utility methods
+    //----------------------------------------------------------------
+
     /**
-     * Creates the tube, adds it to the model and creates a graphic for it
+     * Scales an image graphic so it appears properly on the screen. This method depends on the image used by the
+     * graphic to have been created at the same scale as the battery-wires graphic. The scale is based on the
+     * distance between the electrodes in that image and the screen distance between the electrodes specified
+     * in the configuration file.
      *
-     * @param model
-     * @param apparatusPanel
+     * @param imageGraphic
      */
-    private void addTube( PhotoelectricModel model, ApparatusPanel apparatusPanel ) {
-        double x = DischargeLampsConfig.CATHODE_LOCATION.getX() - DischargeLampsConfig.ELECTRODE_INSETS.left;
-        double y = DischargeLampsConfig.CATHODE_LOCATION.getY() - DischargeLampsConfig.CATHODE_LENGTH / 2
-                   - DischargeLampsConfig.ELECTRODE_INSETS.top;
-        double length = DischargeLampsConfig.ANODE_LOCATION.getX() - DischargeLampsConfig.CATHODE_LOCATION.getX()
-                        + DischargeLampsConfig.ELECTRODE_INSETS.left + DischargeLampsConfig.ELECTRODE_INSETS.right;
-        double height = DischargeLampsConfig.CATHODE_LENGTH
-                        + DischargeLampsConfig.ELECTRODE_INSETS.top + DischargeLampsConfig.ELECTRODE_INSETS.bottom;
-        Point2D tubeLocation = new Point2D.Double( x, y );
-        ResonatingCavity tube = new ResonatingCavity( tubeLocation, length, height );
-        model.addModelElement( tube );
-        ResonatingCavityGraphic tubeGraphic = new ResonatingCavityGraphic( getApparatusPanel(), tube );
-        apparatusPanel.addGraphic( tubeGraphic, DischargeLampsConfig.TUBE_LAYER );
+    private void scaleImageGraphic( PhetImageGraphic imageGraphic ) {
+        if( externalGraphicScaleOp == null ) {
+            int cathodeAnodeScreenDistance = 550;
+            determineExternalGraphicScale( DischargeLampsConfig.ANODE_LOCATION,
+                                           DischargeLampsConfig.CATHODE_LOCATION,
+                                           cathodeAnodeScreenDistance );
+            AffineTransform scaleTx = AffineTransform.getScaleInstance( externalGraphicsScale, externalGraphicsScale );
+            externalGraphicScaleOp = new AffineTransformOp( scaleTx, AffineTransformOp.TYPE_BILINEAR );
+        }
+        imageGraphic.setImage( externalGraphicScaleOp.filter( imageGraphic.getImage(), null ) );
     }
 
     /**
-     * Creates a listener that manages the production rate of the targetPlate based on its potential
-     * relative to the anode
+     * Computes the scale to be applied to externally created graphics.
+     * <p/>
+     * Scale is determined by specifying a distance in the external graphics that should
+     * be the same as the distance between two point on the screen.
+     *
+     * @param p1
+     * @param p2
+     * @param externalGraphicDist
      */
-    private void hookCathodeToAnode() {
-        anode.addStateChangeListener( new Electrode.StateChangeListener() {
-            public void stateChanged( Electrode.StateChangeEvent event ) {
-                double anodePotential = event.getElectrode().getPotential();
-                targetPlate.setSinkPotential( anodePotential );
-            }
-        } );
+    private void determineExternalGraphicScale( Point p1, Point p2, int externalGraphicDist ) {
+        externalGraphicsScale = p1.distance( p2 ) / externalGraphicDist;
     }
 
-    /**
-     * @param model
-     * @param apparatusPanel
-     * @param cathode
-     */
-    private void addAnode( PhotoelectricModel model, ApparatusPanel apparatusPanel, ElectronSource cathode ) {
-        ElectronSink anode = new ElectronSink( model,
-                                               DischargeLampsConfig.ANODE_LINE.getP1(),
-                                               DischargeLampsConfig.ANODE_LINE.getP2() );
-        model.addModelElement( anode );
-        this.anode = anode;
-        this.anode.setPosition( DischargeLampsConfig.ANODE_LOCATION );
-        PhetImageGraphic anodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode-2.png" );
-
-        // Make the graphic the right size
-        double scaleX = 1;
-        double scaleY = DischargeLampsConfig.CATHODE_LENGTH / anodeGraphic.getImage().getHeight();
-        AffineTransformOp scaleOp = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, scaleY ),
-                                                           AffineTransformOp.TYPE_BILINEAR );
-        anodeGraphic.setImage( scaleOp.filter( anodeGraphic.getImage(), null ) );
-        anodeGraphic.setRegistrationPoint( (int)anodeGraphic.getBounds().getWidth(),
-                                           (int)anodeGraphic.getBounds().getHeight() / 2 );
-
-        anodeGraphic.setRegistrationPoint( 0, (int)anodeGraphic.getBounds().getHeight() / 2 );
-        anodeGraphic.setLocation( DischargeLampsConfig.ANODE_LOCATION );
-        apparatusPanel.addGraphic( anodeGraphic, DischargeLampsConfig.CIRCUIT_LAYER );
-        cathode.addListener( anode );
-    }
-
-    /**
-     * @param model
-     * @param apparatusPanel
-     */
-    private void addCathodeGraphic( PhotoelectricModel model, ApparatusPanel apparatusPanel ) {
-        targetPlate = model.getTarget();
-        cathodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode-2.png" );
-
-        // Make the graphic the right size
-        double scaleX = 1;
-        double scaleY = DischargeLampsConfig.CATHODE_LENGTH / cathodeGraphic.getImage().getHeight();
-        AffineTransformOp scaleOp = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, scaleY ),
-                                                           AffineTransformOp.TYPE_BILINEAR );
-        cathodeGraphic.setImage( scaleOp.filter( cathodeGraphic.getImage(), null ) );
-        cathodeGraphic.setRegistrationPoint( (int)cathodeGraphic.getBounds().getWidth(),
-                                             (int)cathodeGraphic.getBounds().getHeight() / 2 );
-
-        cathodeGraphic.setLocation( DischargeLampsConfig.CATHODE_LOCATION );
-        apparatusPanel.addGraphic( cathodeGraphic, DischargeLampsConfig.CIRCUIT_LAYER );
-    }
-
-//----------------------------------------------------------------
-// State/mode setters
-//----------------------------------------------------------------
+    //----------------------------------------------------------------
+    // State/mode setters
+    //----------------------------------------------------------------
 
     /**
      * Toggles the view of the light between beam view and photon view
@@ -515,7 +540,7 @@ public class PhotoelectricModule extends BaseLaserModule {
                 Point2D p = MathUtil.getLinesIntersection( photonPath.getP1(), photonPath.getP2(),
                                                            targetPlate.getEndpoints()[0], targetPlate.getEndpoints()[1] );
                 photon.setPosition( p.getX() - photon.getVelocity().getX(),
-                                      p.getY() - photon.getVelocity().getY() );
+                                    p.getY() - photon.getVelocity().getY() );
             }
         }
     }
@@ -558,7 +583,7 @@ public class PhotoelectricModule extends BaseLaserModule {
             if( isEnabled ) {
                 Photon photon = event.getPhoton();
                 final PhotonGraphic pg = PhotonGraphic.getInstance( getApparatusPanel(), photon );
-                getApparatusPanel().addGraphic( pg );
+                getApparatusPanel().addGraphic( pg, BEAM_LAYER );
 
                 photon.addLeftSystemListener( new Photon.LeftSystemEventListener() {
                     public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
@@ -570,6 +595,9 @@ public class PhotoelectricModule extends BaseLaserModule {
         }
     }
 
+    /**
+     * Creates, adds, and removes graphics for electrons
+     */
     private class CathodeListener implements ElectronSource.ElectronProductionListener {
 
         public void electronProduced( ElectronSource.ElectronProductionEvent event ) {
@@ -577,7 +605,7 @@ public class PhotoelectricModule extends BaseLaserModule {
 
             // Create a graphic for the electron
             ElectronGraphic graphic = new ElectronGraphic( getApparatusPanel(), electron );
-            getApparatusPanel().addGraphic( graphic, DischargeLampsConfig.ELECTRON_LAYER );
+            getApparatusPanel().addGraphic( graphic, ELECTRON_LAYER );
 
             // Add a listener to the electron sinks that will remove the graphics when electrons
             // are absorbed
