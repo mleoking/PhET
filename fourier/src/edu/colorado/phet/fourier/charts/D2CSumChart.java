@@ -175,4 +175,80 @@ public class D2CSumChart extends Chart {
     public void setXAxisTitle( char c ) {
         setXAxisTitle( "" + c );
     }
+    
+    /**
+     * Rescales the Y-axis range, tick marks and gridlines.
+     * 
+     * @param maxY
+     */
+    public void autoscaleY( double maxY ) {
+
+        double majorSpacing = 0;
+        double minorSpacing = 0;
+        NumberFormat majorNumberFormat;
+        
+        /*
+         * Set the tick marks and gridlines based on the max amplitude.
+         * These values were set via trial-&-error.  
+         * Good luck changing them.
+         */
+        if ( maxY > 2 ) {
+            majorSpacing = 1.0;
+            minorSpacing = 0.1;
+            majorNumberFormat = new DecimalFormat( "0.#" );
+        }
+        else if ( maxY > 1 ) {
+            majorSpacing = 0.5;
+            minorSpacing = 0.1;
+            majorNumberFormat = new DecimalFormat( "#.#" );
+        }      
+        else if ( maxY > 0.2 ) {
+            majorSpacing = 0.1;
+            minorSpacing = 0.05;
+            majorNumberFormat = new DecimalFormat( ".##" );
+        }
+        else if ( maxY > 0.1 ) {
+            majorSpacing = 0.05;
+            minorSpacing = 0.01;
+            majorNumberFormat = new DecimalFormat( ".##" );
+        }
+        else if ( maxY > 0.02 ) {
+            majorSpacing = 0.01;
+            minorSpacing = 0.005;
+            majorNumberFormat = new DecimalFormat( ".###" );
+        }
+        else {
+            majorSpacing = 0.005;
+            minorSpacing = 0.001; 
+            majorNumberFormat = new DecimalFormat( ".###" );
+        }
+        
+        /*
+         * The order in which we change the range, tick marks and gridlines is
+         * important.  If we're not careful, we may end up generating a huge 
+         * number of ticks gridlines based on old/new settings.
+         */
+        Range2D range = getRange();
+        if ( maxY > range.getMaxY() ) {
+            
+            getVerticalTicks().setMajorNumberFormat( majorNumberFormat );
+            getVerticalTicks().setMajorTickSpacing( majorSpacing );
+            getVerticalTicks().setMinorTickSpacing( minorSpacing );
+            getHorizonalGridlines().setMajorTickSpacing( majorSpacing );
+            
+            range.setMaxY( maxY );
+            range.setMinY( -maxY );
+            setRange( range );    
+        }
+        else {
+            range.setMaxY( maxY );
+            range.setMinY( -maxY );
+            setRange( range ); 
+            
+            getVerticalTicks().setMajorNumberFormat( majorNumberFormat );
+            getVerticalTicks().setMajorTickSpacing( majorSpacing );
+            getVerticalTicks().setMinorTickSpacing( minorSpacing );
+            getHorizonalGridlines().setMajorTickSpacing( majorSpacing );
+        }
+    }
 }
