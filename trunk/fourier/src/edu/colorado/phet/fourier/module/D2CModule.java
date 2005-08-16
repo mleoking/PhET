@@ -138,6 +138,10 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         _controlPanel.addResetButton();
         setControlPanel( _controlPanel );
 
+        // Link horizontal zoom controls
+        _harmonicsGraph.getHorizontalZoomControl().addZoomListener( _sumGraph );
+        _sumGraph.getHorizontalZoomControl().addZoomListener( _harmonicsGraph );
+        
         // Open/close buttons on graphs
         {
             // Harmonics close

@@ -13,6 +13,7 @@ package edu.colorado.phet.fourier.view;
 
 import java.awt.*;
 
+import edu.colorado.phet.chart.LabelTable;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
@@ -22,10 +23,12 @@ import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.charts.D2CHarmonicsChart;
 import edu.colorado.phet.fourier.charts.HarmonicPlot;
-import edu.colorado.phet.fourier.charts.HarmonicsChart;
 import edu.colorado.phet.fourier.control.ZoomControl;
+import edu.colorado.phet.fourier.event.ZoomEvent;
+import edu.colorado.phet.fourier.event.ZoomListener;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
 import edu.colorado.phet.fourier.model.Harmonic;
 
@@ -36,7 +39,7 @@ import edu.colorado.phet.fourier.model.Harmonic;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver {
+public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver, ZoomListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -62,18 +65,18 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
     private static final Point TITLE_LOCATION = new Point( 40, 115 );
     
     // Chart parameters
-    private static final double X_MIN = -1;
-    private static final double X_MAX = 1;
-    private static final double Y_MIN = -1;
-    private static final double Y_MAX = 1;
-    private static final Range2D CHART_RANGE = new Range2D( X_MIN, Y_MIN, X_MAX, Y_MAX );
+    private static final double L = 1;  // period of the fundamental harmonic
+    private static final double X_RANGE_START = L;
+    private static final double X_RANGE_MIN = ( L / 2 );
+    private static final double X_RANGE_MAX = ( 2 * L );
+    private static final double Y_RANGE_START = 1;
+    private static final Range2D CHART_RANGE = new Range2D( -X_RANGE_START, -Y_RANGE_START, X_RANGE_START, Y_RANGE_START );
     private static final Dimension CHART_SIZE = new Dimension( 540, 100 );
     
     // Harmonics in the chart
     private static final int HARMONIC_DARKEST_GRAY = 0; //dark gray
     private static final int HARMONIC_LIGHTEST_GRAY = 230;  // light gray
-    private static final Stroke HARMONIC_STROKE = new BasicStroke( 1f );
-    private static final double L = 1;  // period of the fundamental harmonic
+    private static final Stroke HARMONIC_STROKE = new BasicStroke( 1f ); 
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -88,6 +91,7 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
     private HarmonicsEquation _mathGraphic;
     private String _xTitleSpace, _xTitleTime;
     private int _domain;
+    private int _xZoomLevel;
 
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -166,6 +170,8 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
             _titleGraphic.setIgnoreMouse( true );
             _chartGraphic.setIgnoreMouse( true );
             _mathGraphic.setIgnoreMouse( true );
+            
+            _horizontalZoomControl.addZoomListener( this );
 
             _closeButton.setCursorHand();
         }
@@ -186,6 +192,9 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
      */
     public void reset() {
         setDomain( FourierConstants.DOMAIN_SPACE );
+        _xZoomLevel = 0;
+        _chartGraphic.setRange( CHART_RANGE );
+        updateZoomButtons();
         update();
     }
     
@@ -253,6 +262,85 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
             if ( visible ) {
                 update();
             }
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // ZoomListener implementation
+    //----------------------------------------------------------------------------
+
+    /**
+     * Invokes when a zoom of the chart has been performed.
+     * 
+     * @param event
+     */
+    public void zoomPerformed( ZoomEvent event ) {
+        int zoomType = event.getZoomType();
+        if ( zoomType == ZoomEvent.HORIZONTAL_ZOOM_IN || zoomType == ZoomEvent.HORIZONTAL_ZOOM_OUT ) {
+            handleHorizontalZoom( zoomType );
+        }
+        else {
+            throw new IllegalArgumentException( "unexpected event: " + event );
+        }
+    }
+    
+    /*
+     * Handles horizontal zooming.
+     * 
+     * @param zoomType indicates the type of zoom
+     */
+    private void handleHorizontalZoom( int zoomType ) {
+
+        // Adjust the zoom level.
+        if ( zoomType == ZoomEvent.HORIZONTAL_ZOOM_IN ) {
+            _xZoomLevel++;
+        }
+        else {
+            _xZoomLevel--;
+        }
+
+        // Obtuse sqrt(2) zoom factor, immune to numeric precision errors 
+        double zoomFactor = Math.pow( 2, Math.abs( _xZoomLevel ) / 2.0 );
+
+        // Adjust the chart's horizontal range.
+        Range2D range = _chartGraphic.getRange();
+        double xRange;
+        if ( _xZoomLevel == 0 ) {
+            xRange = X_RANGE_START;
+        }
+        else if ( _xZoomLevel > 0 ) {
+            xRange = X_RANGE_START / zoomFactor;
+        }
+        else {
+            xRange = X_RANGE_START * zoomFactor;
+        }
+        range.setMaxX( xRange );
+        range.setMinX( -xRange );
+        _chartGraphic.setRange( range );
+
+        updateZoomButtons();
+    }
+
+    /*
+     * Enables and disables zoom buttons based on the current
+     * zoom levels and range of the chart.
+     */
+    private void updateZoomButtons() {
+
+        Range2D range = _chartGraphic.getRange();
+
+        // Horizontal buttons
+        if ( range.getMaxX() >= X_RANGE_MAX ) {
+            _horizontalZoomControl.setZoomOutEnabled( false );
+            _horizontalZoomControl.setZoomInEnabled( true );
+        }
+        else if ( range.getMaxX() <= X_RANGE_MIN ) {
+            _horizontalZoomControl.setZoomOutEnabled( true );
+            _horizontalZoomControl.setZoomInEnabled( false );
+        }
+        else {
+            _horizontalZoomControl.setZoomOutEnabled( true );
+            _horizontalZoomControl.setZoomInEnabled( true );
         }
     }
     
