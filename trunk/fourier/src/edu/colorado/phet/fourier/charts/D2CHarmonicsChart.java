@@ -37,7 +37,7 @@ public class D2CHarmonicsChart extends Chart {
     
     // Axis parameter
     private static final Color AXIS_COLOR = Color.BLACK;
-    private static final Stroke AXIS_STROKE = new BasicStroke( 2f );
+    private static final Stroke AXIS_STROKE = new BasicStroke( 0.5f );
     private static final Font AXIS_TITLE_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 16 );
     private static final Color AXIS_TITLE_COLOR = Color.BLACK;
     
