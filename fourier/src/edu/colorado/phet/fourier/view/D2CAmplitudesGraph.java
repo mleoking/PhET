@@ -80,6 +80,7 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     private D2CAmplitudesChart _chartGraphic;
     private LinePlot _continuousWaveformGraphic;
     private boolean _continuousEnabled;
+    private GeneralPathPlot _gradientPlot;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -123,6 +124,12 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         _chartGraphic.setRegistrationPoint( 0, CHART_SIZE.height / 2 ); // at the chart's origin
         _chartGraphic.setLocation( 60, 15 + (CHART_SIZE.height / 2) );
         addGraphic( _chartGraphic, CHART_LAYER );
+        
+        // Gradient-filled waveform
+        Color darkestColor = new Color( BAR_DARKEST_GRAY, BAR_DARKEST_GRAY, BAR_DARKEST_GRAY );
+        Color lightestColor = new Color( BAR_LIGHTEST_GRAY, BAR_LIGHTEST_GRAY, BAR_LIGHTEST_GRAY );
+        GradientPaint gradient = new GradientPaint( 0, 0, darkestColor, CHART_SIZE.width, 0, lightestColor );
+        _gradientPlot = new GeneralPathPlot( getComponent(), _chartGraphic, gradient );
         
         // Continuous waveform
         _continuousWaveformGraphic = new LinePlot( component, _chartGraphic );
@@ -228,85 +235,11 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         _chartGraphic.removeAllDataSetGraphics();
         
         double k1 = _wavePacket.getK1();
-        double k0 = _wavePacket.getK0();
-        double dk = _wavePacket.getDeltaK();
-        
         if ( k1 > 0 ) {
-            
-            // Number of components
-            int numberOfComponents = _wavePacket.getNumberOfComponents();
-            
-            // Change in grayscale value between bars.
-            int deltaColor = ( BAR_DARKEST_GRAY - BAR_LIGHTEST_GRAY ) / numberOfComponents;
-            
-            // Width of the bars is slightly less than the spacing k1.
-            double barWidth = k1 - ( k1 * 0.25 );
-            
-            double maxAmplitude = 0;
-            
-            // Add a bar for each component.
-            for ( int i = 0; i < numberOfComponents; i++ ) {
-
-                // Compute the bar color (grayscale).
-                int r = BAR_DARKEST_GRAY - ( i * deltaColor );
-                int g = BAR_DARKEST_GRAY - ( i * deltaColor );
-                int b = BAR_DARKEST_GRAY - ( i * deltaColor );
-                Color barColor = new Color( r, g, b );
-                
-                // Compute the bar graphic.
-                BarPlot barPlot = new BarPlot( getComponent(), _chartGraphic, barWidth );
-                barPlot.setFillColor( barColor );
-                _chartGraphic.addDataSetGraphic( barPlot );
-
-                // Set the bar's position (kn) and height (An).
-                double kn = ( i + 1 ) * k1;
-                double An = GaussianWavePacket.getAmplitude( kn, k0, dk ) * k1;
-                DataSet dataSet = barPlot.getDataSet();
-                dataSet.addPoint( new Point2D.Double( kn, An ) );
-                
-                if ( An > maxAmplitude ) {
-                    maxAmplitude = An;
-                }
-            }
-            
-//            System.out.println( "number of components = " + numberOfComponents );//XXX
-//            System.out.println( "max amplitude = " + maxAmplitude );//XXX
-            
-            _chartGraphic.autoscaleY( maxAmplitude );
+            addBarPlots();
         }
         else {
-            double maxAmplitude = 0;
-            
-            GeneralPathPlot plot = new GeneralPathPlot( getComponent(), _chartGraphic );
-            _chartGraphic.addDataSetGraphic( plot );
-            
-            Color darkestColor = new Color( BAR_DARKEST_GRAY, BAR_DARKEST_GRAY, BAR_DARKEST_GRAY );
-            Color lightestColor = new Color( BAR_LIGHTEST_GRAY, BAR_LIGHTEST_GRAY, BAR_LIGHTEST_GRAY );
-            GradientPaint gradient = new GradientPaint( 0, 0, darkestColor, CHART_SIZE.width, 0, lightestColor );
-            plot.setFillPaint( gradient );
-            DataSet dataSet = plot.getDataSet();
-            dataSet.clear();
-            
-            // Compute the points that approximate the waveform.
-            double k = X_MIN;
-            ArrayList points = new ArrayList(); // array of Point2D
-            points.add( new Point2D.Double( k, 0 ) );
-            while ( k <= X_MAX + Math.PI ) {
-                double amplitude = GaussianWavePacket.getAmplitude( k, k0, dk );
-                points.add( new Point2D.Double( k, amplitude ) );
-                k += CONTINUOUS_STEP;
-                
-                if ( amplitude > maxAmplitude ) {
-                    maxAmplitude = amplitude;
-                }
-            }
-            points.add( new Point2D.Double( k, 0 ) );
-            System.out.println( "# points = " + points.size() );//XXX
-
-            // Add the points to the data set.
-            dataSet.addPoints( (Point2D.Double[]) points.toArray( new Point2D.Double[points.size()] ) );
-            
-            _chartGraphic.autoscaleY( maxAmplitude );
+            addGeneralPathPlot();
         }
         
         // Update the continuous waveform display if it's enabled.
@@ -316,8 +249,99 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         }
     }
     
-    /**
-     * Updates the continuous waveform display.
+    //----------------------------------------------------------------------------
+    // Methods that construct the chart's data set graphics
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Adds a set of BarPlots that represent the discrete components 
+     * of the wave packet.
+     */
+    private void addBarPlots() {
+        
+        double k1 = _wavePacket.getK1();
+        double k0 = _wavePacket.getK0();
+        double dk = _wavePacket.getDeltaK();
+
+        // Number of components
+        int numberOfComponents = _wavePacket.getNumberOfComponents();
+
+        // Change in grayscale value between bars.
+        int deltaColor = ( BAR_DARKEST_GRAY - BAR_LIGHTEST_GRAY ) / numberOfComponents;
+
+        // Width of the bars is slightly less than the spacing k1.
+        double barWidth = k1 - ( k1 * 0.25 );
+
+        double maxAmplitude = 0;
+
+        // Add a bar for each component.
+        for ( int i = 0; i < numberOfComponents; i++ ) {
+
+            // Compute the bar color (grayscale).
+            int r = BAR_DARKEST_GRAY - ( i * deltaColor );
+            int g = BAR_DARKEST_GRAY - ( i * deltaColor );
+            int b = BAR_DARKEST_GRAY - ( i * deltaColor );
+            Color barColor = new Color( r, g, b );
+
+            // Compute the bar graphic.
+            BarPlot barPlot = new BarPlot( getComponent(), _chartGraphic, barWidth );
+            barPlot.setFillColor( barColor );
+            _chartGraphic.addDataSetGraphic( barPlot );
+
+            // Set the bar's position (kn) and height (An).
+            double kn = ( i + 1 ) * k1;
+            double An = GaussianWavePacket.getAmplitude( kn, k0, dk ) * k1;
+            DataSet dataSet = barPlot.getDataSet();
+            dataSet.addPoint( new Point2D.Double( kn, An ) );
+
+            if ( An > maxAmplitude ) {
+                maxAmplitude = An;
+            }
+        }
+
+        _chartGraphic.autoscaleY( maxAmplitude );
+        
+        //            System.out.println( "number of components = " + numberOfComponents );//XXX
+        //            System.out.println( "max amplitude = " + maxAmplitude );//XXX
+    }
+    
+    /*
+     * Populates a GeneralPathPlot that displays the continuous waveform as a 
+     * shape that is filled with a gradient.
+     */
+    private void addGeneralPathPlot() {
+        
+        DataSet dataSet = _gradientPlot.getDataSet();
+        dataSet.clear();
+        
+        // Compute the points that approximate the waveform.
+        double k0 = _wavePacket.getK0();
+        double dk = _wavePacket.getDeltaK();
+        double maxAmplitude = 0;
+        double k = X_MIN;
+        ArrayList points = new ArrayList(); // array of Point2D
+        points.add( new Point2D.Double( k, 0 ) );
+        while ( k <= X_MAX + Math.PI ) {
+            double amplitude = GaussianWavePacket.getAmplitude( k, k0, dk );
+            points.add( new Point2D.Double( k, amplitude ) );
+            k += CONTINUOUS_STEP;
+            
+            if ( amplitude > maxAmplitude ) {
+                maxAmplitude = amplitude;
+            }
+        }
+        points.add( new Point2D.Double( k, 0 ) );
+        System.out.println( "# points = " + points.size() );//XXX
+
+        // Add the points to the data set.
+        dataSet.addPoints( (Point2D.Double[]) points.toArray( new Point2D.Double[points.size()] ) );
+        
+        _chartGraphic.addDataSetGraphic( _gradientPlot );
+        _chartGraphic.autoscaleY( maxAmplitude );
+    }
+    
+    /*
+     * Populates a LinePlot with a set of points that approximate the continuous waveform.
      */
     private void updateContinuous() {
         System.out.println( "D2CAmplitudesGraph.updateContinuous" );//XXX
