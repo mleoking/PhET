@@ -21,13 +21,13 @@ import edu.colorado.phet.fourier.model.GaussianWavePacket;
 
 
 /**
- * WavePacketMeasurementTool is the abstract base class for all tools
+ * AbstractWavePacketMeasurementTool is the abstract base class for all tools
  * used to measure Gaussian wave packets.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public abstract class WavePacketMeasurementTool extends MeasurementTool implements SimpleObserver, Chart.Listener {
+public abstract class AbstractWavePacketMeasurementTool extends MeasurementTool implements SimpleObserver, Chart.Listener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -60,7 +60,7 @@ public abstract class WavePacketMeasurementTool extends MeasurementTool implemen
      * @param wavePacket
      * @param chart
      */
-    public WavePacketMeasurementTool( Component component, GaussianWavePacket wavePacket, Chart chart ) {
+    public AbstractWavePacketMeasurementTool( Component component, GaussianWavePacket wavePacket, Chart chart ) {
         super( component );
         
         assert( wavePacket != null );
@@ -144,7 +144,7 @@ public abstract class WavePacketMeasurementTool extends MeasurementTool implemen
      * Updates the tool to match the current state of the wave packet,
      * chart and domain.
      */
-    public abstract void updateTool();
+    protected abstract void updateTool();
     
     //----------------------------------------------------------------------------
     // SimpleObserver implementation

@@ -38,8 +38,9 @@ import edu.colorado.phet.fourier.view.AmplitudeSlider;
 import edu.colorado.phet.fourier.view.AnimationCycleController;
 import edu.colorado.phet.fourier.view.HarmonicsGraph;
 import edu.colorado.phet.fourier.view.SumGraph;
-import edu.colorado.phet.fourier.view.tools.HarmonicMeasurementTool;
 import edu.colorado.phet.fourier.view.tools.HarmonicPeriodDisplay;
+import edu.colorado.phet.fourier.view.tools.HarmonicPeriodTool;
+import edu.colorado.phet.fourier.view.tools.HarmonicWavelengthTool;
 
 
 /**
@@ -64,8 +65,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     private FourierSeries _fourierSeries;
     private HarmonicsGraph _harmonicsGraph;
     private SumGraph _sumGraph;
-    private HarmonicMeasurementTool _wavelengthTool;
-    private HarmonicMeasurementTool _periodTool;
+    private HarmonicWavelengthTool _wavelengthTool;
+    private HarmonicPeriodTool _periodTool;
     private HarmonicPeriodDisplay _periodDisplay;
     private AnimationCycleController _animationCycleController;
 
@@ -108,8 +109,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             FourierSeries fourierSeries, 
             HarmonicsGraph harmonicsGraph, 
             SumGraph sumGraph,
-            HarmonicMeasurementTool wavelengthTool,
-            HarmonicMeasurementTool periodTool,
+            HarmonicWavelengthTool wavelengthTool,
+            HarmonicPeriodTool periodTool,
             HarmonicPeriodDisplay periodDisplay,
             AnimationCycleController animationCycleController ) {
         

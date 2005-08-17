@@ -25,7 +25,7 @@ import edu.colorado.phet.fourier.model.GaussianWavePacket;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class WavePacketDeltaKTool extends WavePacketMeasurementTool {
+public class WavePacketDeltaKTool extends AbstractWavePacketMeasurementTool {
 
     /**
      * Sole constructor.
@@ -38,7 +38,7 @@ public class WavePacketDeltaKTool extends WavePacketMeasurementTool {
     }
 
     //----------------------------------------------------------------------------
-    // WavePacketMeasurementTool implementation
+    // AbstractWavePacketMeasurementTool implementation
     //----------------------------------------------------------------------------
     
     /**
