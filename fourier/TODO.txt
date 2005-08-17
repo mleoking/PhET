@@ -3,13 +3,12 @@
 ===============================================================================
 
 IN PROGRESS:
-- chart: Chart reports a huge bounds when it contains no data set graphics
-- D2C Sum view is not in the correct initial position
 
 HIGH PRIORITY:
+- implement D2C "Show continuous" checkbox
+- implement k=0 in D2CAmplitudes graph (fill the area under continuous curve with gradient)
 - when k1 = 0, change equation to an integral above D2CSumGraph
 - when k1 != 0 show sum equation from +-infinity above D2CSumGraph 
-- implement D2C "Show continuous" checkbox
 - memory leak in D2C module, freezes with wait cursor
 - add ability to shift k0
 
@@ -59,6 +58,7 @@ CLEANUP:
 - fix all javadoc warnings and errors
 
 CHARTS:
+- bug: Chart.getBounds is incorrect when the chart contains no data set graphics
 - bug: x axis title (as set via Chart.setXAxisTitle) does not stay aligned with x axis
 - bug: there is no y axis title (Chart.setYAxisTitle)
 - bug: integer precision model-view transforms are still used in many places
@@ -77,6 +77,7 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(8/17) - refactored fourier.tools classes so that there are symmetrical abstract base classes
 (8/17) - when k1=0, hide chart in D2C graph and replace with "Cannot draw infinite number of components"
 (8/17) - constrain k1 and deltaK tools to stay within the D2CAmplitudesGraph
 (8/17) - place k1 and deltaK measurement tools directly on the apparatus panel, instead of inside D2CAmplitudesGraph

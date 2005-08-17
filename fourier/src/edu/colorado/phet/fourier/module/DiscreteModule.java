@@ -33,8 +33,10 @@ import edu.colorado.phet.fourier.help.WiggleMeGraphic;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.util.Vector2D;
 import edu.colorado.phet.fourier.view.*;
-import edu.colorado.phet.fourier.view.tools.HarmonicMeasurementTool;
+import edu.colorado.phet.fourier.view.tools.AbstractHarmonicMeasurementTool;
 import edu.colorado.phet.fourier.view.tools.HarmonicPeriodDisplay;
+import edu.colorado.phet.fourier.view.tools.HarmonicPeriodTool;
+import edu.colorado.phet.fourier.view.tools.HarmonicWavelengthTool;
 
 
 /**
@@ -81,8 +83,8 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
     private GraphClosed _harmonicsGraphClosed;
     private SumGraph _sumGraph;
     private GraphClosed _sumGraphClosed;
-    private HarmonicMeasurementTool _wavelengthTool;
-    private HarmonicMeasurementTool _periodTool;
+    private HarmonicWavelengthTool _wavelengthTool;
+    private HarmonicPeriodTool _periodTool;
     private HarmonicPeriodDisplay _periodDisplay;
     private DiscreteControlPanel _controlPanel;
     private AnimationCycleController _animationCycleController;
@@ -145,13 +147,13 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         apparatusPanel.addGraphic( _sumGraphClosed, SUM_CLOSED_LAYER );
         
         // Wavelength Tool
-        _wavelengthTool = new HarmonicMeasurementTool( apparatusPanel, MathStrings.C_WAVELENGTH,
+        _wavelengthTool = new HarmonicWavelengthTool( apparatusPanel,
                 _fourierSeries.getHarmonic(0), _harmonicsGraph.getChart() );
         apparatusPanel.addGraphic( _wavelengthTool, TOOLS_LAYER );
         apparatusPanel.addChangeListener( _wavelengthTool );
         
         // Period Tool
-        _periodTool = new HarmonicMeasurementTool( apparatusPanel, MathStrings.C_PERIOD,
+        _periodTool = new HarmonicPeriodTool( apparatusPanel,
                 _fourierSeries.getHarmonic(0), _harmonicsGraph.getChart() );
         apparatusPanel.addGraphic( _periodTool, TOOLS_LAYER );
         apparatusPanel.addChangeListener( _periodTool );

@@ -13,14 +13,12 @@ package edu.colorado.phet.fourier.view.tools;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Point2D;
 
 import javax.swing.event.EventListenerList;
 import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.fourier.FourierConfig;
-import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.event.HarmonicColorChangeEvent;
 import edu.colorado.phet.fourier.event.HarmonicColorChangeListener;
 import edu.colorado.phet.fourier.event.HarmonicFocusEvent;
@@ -30,7 +28,7 @@ import edu.colorado.phet.fourier.view.HarmonicColors;
 
 
 /**
- * HarmonicMeasurementTool is a graphical tool used to visually measure the 
+ * AbstractHarmonicMeasurementTool is a graphical tool used to visually measure the 
  * some aspect of a wave.  It is interested in a specific 
  * Harmonic, and adjusts its size to match the width of one cycle
  * of that harmonic.  It also adjusts its size to match the range of 
@@ -40,7 +38,7 @@ import edu.colorado.phet.fourier.view.HarmonicColors;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class HarmonicMeasurementTool extends MeasurementTool
+public abstract class AbstractHarmonicMeasurementTool extends MeasurementTool
 implements Chart.Listener, HarmonicColorChangeListener {
 
     //----------------------------------------------------------------------------
@@ -72,14 +70,11 @@ implements Chart.Listener, HarmonicColorChangeListener {
      * Constructor.
      * 
      * @param component
-     * @param symbol
      * @param harmonic
      * @param chart
      */
-    public HarmonicMeasurementTool( Component component, String symbol, Harmonic harmonic, Chart chart ) {
+    public AbstractHarmonicMeasurementTool( Component component, Harmonic harmonic, Chart chart ) {
         super( component );
-
-        _symbol = symbol;
         
         _harmonic = harmonic;
 
@@ -101,11 +96,7 @@ implements Chart.Listener, HarmonicColorChangeListener {
         // Interested in color changes.
         HarmonicColors.getInstance().addHarmonicColorChangeListener( this );
         
-        updateSize();
-    }
-    
-    public HarmonicMeasurementTool( Component component, char symbol, Harmonic harmonic, Chart chart ) {
-        this( component, String.valueOf( symbol ), harmonic, chart );
+        updateTool();
     }
 
     /**
@@ -130,30 +121,35 @@ implements Chart.Listener, HarmonicColorChangeListener {
      */
     public void setHarmonic( Harmonic harmonic ) {
         _harmonic = harmonic;
-        String subscript = String.valueOf( harmonic.getOrder() + 1 );
-        setLabel( "<html>" + _symbol + "<sub>" + subscript + "</sub></html>" );
-        Color color = HarmonicColors.getInstance().getColor( harmonic );
-        setFillColor( color );
-        updateSize();
+        updateTool();
     }
 
-    /*
-     * Updates the size of the bar to correspond to the harmonic's order
-     * and the chart's range.
+    /**
+     * Gets the harmonic associated with the tool.
+     * 
+     * @return Harmonic
      */
-    private void updateSize() {
-
-        // The harmonic's cycle length, in model coordinates.
-        double cycleLength = FourierConstants.L / ( _harmonic.getOrder() + 1 );
-        
-        // Convert the cycle length to view coordinates.
-        Point2D p1 = _chart.transformDouble( 0, 0 );
-        Point2D p2 = _chart.transformDouble( cycleLength, 0 );
-        float width = (float) ( p2.getX() - p1.getX() );
-
-        // Adjust the tool to match the cycle length.
-        setToolWidth( width );
+    protected Harmonic getHarmonic() {
+        return _harmonic;
     }
+
+    /**
+     * Gets the chart associated with this tool.
+     * 
+     * @return Chart
+     */
+    protected Chart getChart() {
+        return _chart;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Abstract interface
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Updates the tool to match the current state of the harmonic and chart.
+     */
+    protected abstract void updateTool();
 
     //----------------------------------------------------------------------------
     // Chart.Listener implementation
@@ -165,7 +161,7 @@ implements Chart.Listener, HarmonicColorChangeListener {
      * @param chart the chart that changed
      */
     public void transformChanged( Chart chart ) {
-        updateSize();
+        updateTool();
     }
 
     //----------------------------------------------------------------------------
