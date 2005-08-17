@@ -80,6 +80,7 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(8/17) - constrain k1 and deltaK tools to stay within the D2CAmplitudesGraph
 (8/17) - place k1 and deltaK measurement tools directly on the apparatus panel, instead of inside D2CAmplitudesGraph
 (8/17) - moved k1 and deltaK measurement tools into their own subclasses that observe a wave packet and a chart
 (8/17) - change D2C measurement tools to say "X=0" when their value is zero
