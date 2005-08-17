@@ -34,6 +34,8 @@ import edu.colorado.phet.fourier.module.FourierModule;
 import edu.colorado.phet.fourier.view.D2CAmplitudesGraph;
 import edu.colorado.phet.fourier.view.D2CHarmonicsGraph;
 import edu.colorado.phet.fourier.view.D2CSumGraph;
+import edu.colorado.phet.fourier.view.tools.WavePacketDeltaKTool;
+import edu.colorado.phet.fourier.view.tools.WavePacketSpacingTool;
 
 
 
@@ -65,6 +67,8 @@ public class D2CControlPanel extends FourierControlPanel {
     private D2CAmplitudesGraph _amplitudesGraph;
     private D2CHarmonicsGraph _harmonicsGraph;
     private D2CSumGraph _sumGraph;
+    private WavePacketSpacingTool _spacingTool;
+    private WavePacketDeltaKTool _deltaKTool;
 
     // UI components
     private FourierComboBox _domainComboBox;
@@ -96,18 +100,24 @@ public class D2CControlPanel extends FourierControlPanel {
             GaussianWavePacket wavePacket, 
             D2CAmplitudesGraph amplitudesGraph,
             D2CHarmonicsGraph harmonicsGraph,
-            D2CSumGraph sumGraph ) {
+            D2CSumGraph sumGraph,
+            WavePacketSpacingTool spacingTool,
+            WavePacketDeltaKTool deltaKTool ) {
         super( module );
         
         assert( wavePacket != null );
         assert( amplitudesGraph != null );
         assert( harmonicsGraph != null );
         assert( sumGraph != null );
+        assert( spacingTool != null );
+        assert( deltaKTool != null );
         
         _wavePacket = wavePacket;
         _amplitudesGraph = amplitudesGraph;
         _harmonicsGraph = harmonicsGraph;
         _sumGraph = sumGraph;
+        _spacingTool = spacingTool;
+        _deltaKTool = deltaKTool;
         
         // Set the control panel's minimum width.
         String widthString = SimStrings.get( "D2CControlPanel.width" );
@@ -291,6 +301,8 @@ public class D2CControlPanel extends FourierControlPanel {
         _amplitudesGraph.setDomain( domain );
         _harmonicsGraph.setDomain( domain );
         _sumGraph.setDomain( domain );
+        _spacingTool.setDomain( domain );
+        _deltaKTool.setDomain( domain );
         
         if ( domain == FourierConstants.DOMAIN_SPACE ) {
             _k1Slider.setFormat( SimStrings.get( "K1Slider.format.space" ) );

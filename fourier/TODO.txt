@@ -80,6 +80,12 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(8/17) - place k1 and deltaK measurement tools directly on the apparatus panel, instead of inside D2CAmplitudesGraph
+(8/17) - moved k1 and deltaK measurement tools into their own subclasses that observe a wave packet and a chart
+(8/17) - change D2C measurement tools to say "X=0" when their value is zero
+(8/17) - make bar disappear when measurement tool width is 0
+(8/17) - change D2C measurement tools to yellow, black stroke, black text, translucent white background
+(8/17) - add optional background to measurement tool labels
 sandbox...
 (8/16) - use a lighter stroke for the axes in D2C charts
 (8/16) - change measurement tools in D2C to bold font, green fill, white stroke

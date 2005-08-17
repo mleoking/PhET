@@ -15,6 +15,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.chart.BarPlot;
+import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.DataSet;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
@@ -45,7 +46,6 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     private static final double BACKGROUND_LAYER = 1;
     private static final double TITLE_LAYER = 2;
     private static final double CHART_LAYER = 3;
-    private static final double TOOL_LAYER = 4;
     
     // Background parameters
     private static final Dimension BACKGROUND_SIZE = new Dimension( 800, 195 );
@@ -69,14 +69,6 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     private static final int BAR_DARKEST_GRAY = 0; //dark gray
     private static final int BAR_LIGHTEST_GRAY = 230;  // light gray
     
-    // Tools
-    private static final Font TOOL_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 16 );
-    private static final Color TOOL_LABEL_COLOR = Color.BLACK;
-    private static final Color TOOL_FILL_COLOR = Color.YELLOW;
-    private static final Color TOOL_BORDER_COLOR = Color.BLACK;
-    private static final Stroke TOOL_STROKE = new BasicStroke( 1f );
-    private static final Color TOOL_BACKGROUND_COLOR = new Color(255,255,255,150); // translucent white
-    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -84,8 +76,6 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     private GaussianWavePacket _wavePacket;
     private D2CAmplitudesChart _chartGraphic;
     private String _xTitleSpace, _xTitleTime;
-    private MeasurementTool _spacingTool;
-    private MeasurementTool _widthTool;
     private int _domain;
     
     //----------------------------------------------------------------------------
@@ -134,26 +124,6 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         _chartGraphic.setLocation( 60, 15 + (CHART_SIZE.height / 2) );
         addGraphic( _chartGraphic, CHART_LAYER );       
         
-        // Width measurement tool
-        _widthTool = new MeasurementTool( component );
-        _widthTool.setLabelFont( TOOL_FONT );
-        _widthTool.setLabelColor( TOOL_LABEL_COLOR );
-        _widthTool.setFillColor( TOOL_FILL_COLOR );
-        _widthTool.setBorderColor( TOOL_BORDER_COLOR );
-        _widthTool.setStroke( TOOL_STROKE );
-        _widthTool.setLabelBackground( TOOL_BACKGROUND_COLOR );
-        addGraphic( _widthTool, TOOL_LAYER );
-        
-        // Spacing measurement tool
-        _spacingTool = new MeasurementTool( component );
-        _spacingTool.setLabelFont( TOOL_FONT );
-        _spacingTool.setLabelColor( TOOL_LABEL_COLOR );
-        _spacingTool.setFillColor( TOOL_FILL_COLOR );
-        _spacingTool.setBorderColor( TOOL_BORDER_COLOR );
-        _spacingTool.setStroke( TOOL_STROKE );
-        _spacingTool.setLabelBackground( TOOL_BACKGROUND_COLOR );
-        addGraphic( _spacingTool, TOOL_LAYER );
-        
         // Interactivity
         titleGraphic.setIgnoreMouse( true );
         _chartGraphic.setIgnoreMouse( true );
@@ -173,10 +143,8 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
      * Resets to the initial state.
      */
     public void reset() {
-        _widthTool.setLocation( 540, 40  );
-        _spacingTool.setLocation( 590, 140 );
-        update();
         setDomain( FourierConstants.DOMAIN_SPACE );
+        update();
     }
 
     //----------------------------------------------------------------------------
@@ -188,31 +156,20 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
      * Changes various labels on the chart, tools, etc.
      * 
      * @param domain DOMAIN_SPACE or DOMAIN_TIME
-     * @throws IllegalArgumentException if the domain is invalid or not supported
      */
     public void setDomain( int domain ) {
         _domain = domain;
         assert( FourierConstants.isValidDomain( domain ) );
         updateAxisTitles();
-        updateToolLabels();
     }
     
     /**
-     * Gets a reference to the spacing measurement tool.
+     * Gets a reference to the chart.
      * 
-     * @return MeasurementTool
-     */
-    public MeasurementTool getSpacingTool() {
-        return _spacingTool;
-    }
-    
-    /**
-     * Gets a reference to the width measurement tool.
-     * 
-     * @return MeasurementTool
-     */
-    public MeasurementTool getWidthTool() {
-        return _widthTool;
+     * @return Chart
+     */    
+    public Chart getChart() {
+        return _chartGraphic;
     }
     
     //----------------------------------------------------------------------------
@@ -279,20 +236,6 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         else {
             //XXX do something else when k1=0
         }
-        
-        // Spacing measurement tool.
-        {
-            float width = (float) _chartGraphic.transformXDouble( k1 );
-            _spacingTool.setToolWidth( width );
-        }
-        
-        // Width measurement tool 
-        {
-            float width = (float) ( 2 * _chartGraphic.transformXDouble( dk ) );
-            _widthTool.setToolWidth( width );
-        }
-        
-        updateToolLabels();
     }
     
     private void updateAxisTitles() {
@@ -301,28 +244,6 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         }
         else if ( _domain == FourierConstants.DOMAIN_TIME ) {
             _chartGraphic.setXAxisTitle( _xTitleTime );
-        }
-    }
-
-    private void updateToolLabels() { 
-        double k1 = _wavePacket.getK1();
-        if ( _domain == FourierConstants.DOMAIN_SPACE ) {
-            _widthTool.setLabel( "<html>2\u0394k</html>" );
-            if ( k1 == 0 ) {
-                _spacingTool.setLabel( "<html>k<sub>1</sub>=0</html>" );
-            }
-            else {
-                _spacingTool.setLabel( "<html>k<sub>1</sub></html>" );
-            }
-        }
-        else if ( _domain == FourierConstants.DOMAIN_TIME ) {
-            _widthTool.setLabel( "<html>2\u0394\u03C9</html>" );
-            if ( k1 == 0 ) {
-                _spacingTool.setLabel( "<html>\u03C9<sub>1</sub>=0</html>" );
-            }
-            else {
-                _spacingTool.setLabel( "<html>\u03C9<sub>1</sub></html>" );
-            }     
         }
     }
 }
