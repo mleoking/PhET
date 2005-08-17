@@ -88,6 +88,10 @@ public class PhetShapeGraphic extends PhetGraphic {
     public Paint getBorder() {
         return border;
     }
+    
+    public Paint getBorderPaint() {
+        return border;
+    }
 
     public void setBorderPaint( Paint border ) {
         this.border = border;
