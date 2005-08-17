@@ -54,7 +54,8 @@ public class PhotoelectricModel extends DischargeLampModel {
     private CollimatedBeam beam;
     private double defaultBeamWavelength = 400;
     private double beamMaxPhotonsPerSecond = 200;
-    double beamHeight = 80;
+    private double beamWidth = 80;
+    private double beamHeight = 100;
     private double beamSourceToTargetDist = 300;
     private double beamAngle = Math.toRadians( 130 );
     private double beamFanout = Math.toRadians( 5 );
@@ -75,9 +76,13 @@ public class PhotoelectricModel extends DischargeLampModel {
                                                    + beamHeight / 2 * Math.sin( alpha ),
                                                    ( DischargeLampsConfig.CATHODE_LOCATION.getY() - beamHeight / 2 ) + Math.sin( alpha ) * beamSourceToTargetDist
                                                    + beamHeight / 2 * Math.cos( alpha ) );
-        beam = new CollimatedBeam( defaultBeamWavelength, beamLocation, beamHeight,
-                                   beamHeight, new Vector2D.Double( Math.cos( beamAngle ), Math.sin( beamAngle ) ),
-                                   beamMaxPhotonsPerSecond, beamFanout );
+        beam = new CollimatedBeam( defaultBeamWavelength,
+                                   beamLocation,
+                                   beamHeight,
+                                   beamWidth,
+                                   new Vector2D.Double( Math.cos( beamAngle ), Math.sin( beamAngle ) ),
+                                   beamMaxPhotonsPerSecond,
+                                   beamFanout );
         addModelElement( beam );
         beam.setPhotonsPerSecond( beamMaxPhotonsPerSecond );
         beam.setEnabled( true );

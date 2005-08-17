@@ -60,6 +60,7 @@ public class BeamCurtainGraphic extends PhetShapeGraphic implements PhotonSource
         actualColor = getActualColor( baseColor, level );
 
         GeneralPath path = new GeneralPath();
+        // todo: this next line is all screwed up.
         double beamDepth = getComponent().getHeight() - beam.getBounds().getY();
         path.moveTo( (float)beam.getBounds().getMinX(), (float)beam.getBounds().getMinY() );
         path.lineTo( (float)beam.getBounds().getMaxX(), (float)beam.getBounds().getMinY() );

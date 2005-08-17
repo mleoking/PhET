@@ -29,7 +29,7 @@ import java.util.List;
 public class ElectronSink extends Electrode implements ElectronSource.ElectronProductionListener {
 
     private BaseModel model;
-    private List electrons = new ArrayList();
+//    private List electrons = new ArrayList();
     private Line2D.Double line;
 
     /**
@@ -53,6 +53,7 @@ public class ElectronSink extends Electrode implements ElectronSource.ElectronPr
     public void stepInTime( double dt ) {
 
         // Look for electrons that should be absorbed
+        List electrons = Electron.getInstances();
         for( int i = 0; i < electrons.size(); i++ ) {
             Electron electron = (Electron)electrons.get( i );
             if( line.intersectsLine( electron.getPosition().getX(), electron.getPosition().getY(),
@@ -103,6 +104,6 @@ public class ElectronSink extends Electrode implements ElectronSource.ElectronPr
     // ElectronSource.StateChangeListener implementation
     //-----------------------------------------------------------------
     public void electronProduced( ElectronSource.ElectronProductionEvent event ) {
-        electrons.add( event.getElectron() );
+//        electrons.add( event.getElectron() );
     }
 }
