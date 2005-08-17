@@ -74,6 +74,10 @@ public class DataSet {
     }
 
     public void addAllPoints( Point2D[] pts ) {
+        addPoints( pts );
+    }
+    
+    public void addPoints( Point2D[] pts ) {
         dataPoints.addAll( Arrays.asList( pts ) );
         for( int i = 0; i < observers.size(); i++ ) {
             Observer observer = (Observer)observers.get( i );
