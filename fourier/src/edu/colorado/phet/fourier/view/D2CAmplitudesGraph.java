@@ -75,8 +75,6 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     
     private GaussianWavePacket _wavePacket;
     private D2CAmplitudesChart _chartGraphic;
-    private String _xTitleSpace, _xTitleTime;
-    private int _domain;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -117,9 +115,6 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         
         // Chart
         _chartGraphic = new D2CAmplitudesChart( component, CHART_RANGE, CHART_SIZE );
-        _xTitleSpace = SimStrings.get( "D2CAmplitudesGraph.xTitleSpace" );
-        _xTitleTime = SimStrings.get( "D2CAmplitudesGraph.xTitleTime" );
-        _chartGraphic.setXAxisTitle( _xTitleSpace );
         _chartGraphic.setRegistrationPoint( 0, CHART_SIZE.height / 2 ); // at the chart's origin
         _chartGraphic.setLocation( 60, 15 + (CHART_SIZE.height / 2) );
         addGraphic( _chartGraphic, CHART_LAYER );       
@@ -153,14 +148,23 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     
     /**
      * Sets the domain.
-     * Changes various labels on the chart, tools, etc.
+     * Changes the x axis label on the chart.
      * 
      * @param domain DOMAIN_SPACE or DOMAIN_TIME
+     * @throws IllegalArgumentException if domain is invalid or not supported
      */
     public void setDomain( int domain ) {
-        _domain = domain;
         assert( FourierConstants.isValidDomain( domain ) );
-        updateAxisTitles();
+        // update the x axis title
+        if ( domain == FourierConstants.DOMAIN_SPACE ) {
+            _chartGraphic.setXAxisTitle( SimStrings.get( "D2CAmplitudesGraph.xTitleSpace" ) );
+        }
+        else if ( domain == FourierConstants.DOMAIN_TIME ) {
+            _chartGraphic.setXAxisTitle( SimStrings.get( "D2CAmplitudesGraph.xTitleTime" ) );
+        }
+        else {
+            throw new IllegalArgumentException( "invalid or unsupported domain: " + domain );
+        }
     }
     
     /**
@@ -235,15 +239,6 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         }
         else {
             //XXX do something else when k1=0
-        }
-    }
-    
-    private void updateAxisTitles() {
-        if ( _domain == FourierConstants.DOMAIN_SPACE ) {
-            _chartGraphic.setXAxisTitle( _xTitleSpace );
-        }
-        else if ( _domain == FourierConstants.DOMAIN_TIME ) {
-            _chartGraphic.setXAxisTitle( _xTitleTime );
         }
     }
 }
