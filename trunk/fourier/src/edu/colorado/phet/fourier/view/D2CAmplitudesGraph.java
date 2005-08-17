@@ -13,11 +13,9 @@ package edu.colorado.phet.fourier.view;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
-import edu.colorado.phet.chart.BarPlot;
-import edu.colorado.phet.chart.Chart;
-import edu.colorado.phet.chart.DataSet;
-import edu.colorado.phet.chart.Range2D;
+import edu.colorado.phet.chart.*;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
@@ -27,7 +25,6 @@ import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.charts.D2CAmplitudesChart;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
-import edu.colorado.phet.fourier.view.tools.MeasurementTool;
 
 
 /**
@@ -69,12 +66,19 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     private static final int BAR_DARKEST_GRAY = 0; //dark gray
     private static final int BAR_LIGHTEST_GRAY = 230;  // light gray
     
+    // Continuous waveform
+    private static final double CONTINUOUS_STEP = Math.PI / 10; // about one value for every 2 pixels
+    private static final Color CONTINUOUS_COLOR = Color.BLACK;
+    private static final Stroke CONTINUOUS_STROKE = new BasicStroke( 2f );
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private GaussianWavePacket _wavePacket;
     private D2CAmplitudesChart _chartGraphic;
+    private LinePlot _continuousWaveformGraphic;
+    private boolean _continuousEnabled;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -117,7 +121,13 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         _chartGraphic = new D2CAmplitudesChart( component, CHART_RANGE, CHART_SIZE );
         _chartGraphic.setRegistrationPoint( 0, CHART_SIZE.height / 2 ); // at the chart's origin
         _chartGraphic.setLocation( 60, 15 + (CHART_SIZE.height / 2) );
-        addGraphic( _chartGraphic, CHART_LAYER );       
+        addGraphic( _chartGraphic, CHART_LAYER );
+        
+        // Continuous waveform
+        _continuousWaveformGraphic = new LinePlot( component, _chartGraphic );
+        _continuousWaveformGraphic.setBorderColor( CONTINUOUS_COLOR );
+        _continuousWaveformGraphic.setStroke( CONTINUOUS_STROKE );
+        _continuousWaveformGraphic.setDataSet( new DataSet() );
         
         // Interactivity
         titleGraphic.setIgnoreMouse( true );
@@ -138,6 +148,7 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
      * Resets to the initial state.
      */
     public void reset() {
+        _continuousEnabled = false;
         setDomain( FourierConstants.DOMAIN_SPACE );
         update();
     }
@@ -174,6 +185,31 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
      */    
     public Chart getChart() {
         return _chartGraphic;
+    }
+    
+    /**
+     * Turns the continuous waveform display on and off.
+     * 
+     * @param enabled
+     */
+    public void setContinuousEnabled( boolean enabled ) {
+        _continuousEnabled = enabled;
+        if ( enabled ) {
+            updateContinuous();
+            _chartGraphic.addDataSetGraphic( _continuousWaveformGraphic );
+        }
+        else {
+            _chartGraphic.removeDataSetGraphic( _continuousWaveformGraphic );
+        }
+    }
+    
+    /**
+     * Is the continuous waveform display enabled?
+     * 
+     * @return true or false
+     */
+    public boolean isContinuousEnabled() {
+        return _continuousEnabled;
     }
     
     //----------------------------------------------------------------------------
@@ -240,5 +276,42 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         else {
             //XXX do something else when k1=0
         }
+        
+        // Update the continuous waveform display if it's enabled.
+        if ( _continuousEnabled ) {
+            updateContinuous();
+            _chartGraphic.addDataSetGraphic( _continuousWaveformGraphic );
+        }
+    }
+    
+    /**
+     * Updates the continuous waveform display.
+     */
+    private void updateContinuous() {
+        System.out.println( "D2CAmplitudesGraph.updateContinuous" );//XXX
+        
+        // Clear the data set.
+        DataSet dataSet = _continuousWaveformGraphic.getDataSet();
+        dataSet.clear();
+
+        // Get various wave packet parameters that we'll need to compute the amplitude values.
+        double dk = _wavePacket.getDeltaK();
+        double k0 = _wavePacket.getK0();
+        double k1 = _wavePacket.getK1();
+        
+        // Compute the points that approximate the waveform.
+        double k = X_MIN;
+        ArrayList points = new ArrayList(); // array of Point2D
+        while ( k <= X_MAX + Math.PI ) {
+            double amplitude = GaussianWavePacket.getAmplitude( k, k0, dk );
+            if ( k1 != 0 ) {
+                amplitude *= k1;
+            }
+            points.add( new Point2D.Double( k, amplitude ) );
+            k += CONTINUOUS_STEP;
+        }
+        
+        // Add the points to the data set.
+        dataSet.addPoints( (Point2D.Double[]) points.toArray( new Point2D.Double[points.size()] ) );
     }
 }

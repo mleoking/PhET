@@ -228,6 +228,8 @@ public class D2CControlPanel extends FourierControlPanel {
     
     public void reset() {
         
+        _continuousCheckBox.setSelected( _amplitudesGraph.isContinuousEnabled() );
+        
         _domainComboBox.setSelectedKey( FourierConstants.DOMAIN_SPACE );
         handleDomain();
         
@@ -329,8 +331,7 @@ public class D2CControlPanel extends FourierControlPanel {
      * Handles changes to the "continuous" check box.
      */
     private void handleContinuous() {
-        System.out.println( "continuous=" + _continuousCheckBox.isSelected() );//XXX
-        //XXX implement
+        _amplitudesGraph.setContinuousEnabled( _continuousCheckBox.isSelected() );
     }
     
     /*
