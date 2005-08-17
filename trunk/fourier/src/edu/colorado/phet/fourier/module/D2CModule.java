@@ -139,10 +139,12 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         
         // Spacing (k1) measurement tool
         _spacingTool = new WavePacketSpacingTool( apparatusPanel, _wavePacket, _amplitudesGraph.getChart() );
+        _spacingTool.setDragBounds( _amplitudesGraph.getChart().getBounds() );
         apparatusPanel.addGraphic( _spacingTool, TOOLS_LAYER );
         
         // Delta k (dk) measurement tool
         _deltaKTool = new WavePacketDeltaKTool( apparatusPanel, _wavePacket, _amplitudesGraph.getChart() );
+        _deltaKTool.setDragBounds( _amplitudesGraph.getChart().getBounds() );
         apparatusPanel.addGraphic( _deltaKTool, TOOLS_LAYER );
         
         //----------------------------------------------------------------------------
