@@ -42,6 +42,8 @@ public class StopwatchPanel extends JPanel implements ClockTickListener, ClockSt
     private double runningTime = 0;
     private boolean isRunning = false;
     private JLabel timeUnitsLabel;
+    private JButton startStopBtn;
+    private StartStopActionListener startStopActionListener;
 
     /**
      * @param model
@@ -53,7 +55,7 @@ public class StopwatchPanel extends JPanel implements ClockTickListener, ClockSt
     /**
      * @param model
      * @param timeUnits
-     * @param scaleFactor     Time scale factor
+     * @param scaleFactor Time scale factor
      */
     public StopwatchPanel( BaseModel model, String timeUnits, double scaleFactor ) {
 
@@ -77,8 +79,9 @@ public class StopwatchPanel extends JPanel implements ClockTickListener, ClockSt
         startStopStr = new String[2];
         startStopStr[0] = "Start";
         startStopStr[1] = "Stop";
-        JButton startStopBtn = new JButton( startStopStr[0] );
-        startStopBtn.addActionListener( new StartStopActionListener( startStopBtn ) );
+        startStopBtn = new JButton( startStopStr[0] );
+        startStopActionListener = new StartStopActionListener();
+        startStopBtn.addActionListener( startStopActionListener );
 
         // Reset button
         resetBtn = new JButton( "Reset" );
@@ -114,7 +117,7 @@ public class StopwatchPanel extends JPanel implements ClockTickListener, ClockSt
     }
 
     public void setTimeUnits( String timeUnits ) {
-        timeUnitsLabel.setText( timeUnits );        
+        timeUnitsLabel.setText( timeUnits );
     }
 
     public boolean isClockPanelVisible() {
@@ -123,6 +126,9 @@ public class StopwatchPanel extends JPanel implements ClockTickListener, ClockSt
 
     public void reset() {
         resetClock();
+        if( isRunning ) {
+            startStopActionListener.actionPerformed( null );
+        }
     }
 
     /**
@@ -130,11 +136,9 @@ public class StopwatchPanel extends JPanel implements ClockTickListener, ClockSt
      * when buttons are clicked
      */
     private class StartStopActionListener implements ActionListener {
-        JButton startStopBtn;
         int startStopState = 0;
 
-        public StartStopActionListener( JButton startStopBtn ) {
-            this.startStopBtn = startStopBtn;
+        public StartStopActionListener() {
         }
 
         public void actionPerformed( ActionEvent e ) {
