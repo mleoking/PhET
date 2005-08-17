@@ -69,6 +69,15 @@ public class FourierDragHandler extends MouseInputAdapter {
         }
         _dragBounds.setBounds( x, y, width, height );
     }
+    
+    /**
+     * Sets the drag bounds.
+     * 
+     * @param r
+     */
+    public void setDragBounds( Rectangle r ) {
+        setDragBounds( r.x, r.y, r.width, r.height );
+    }
 
     //----------------------------------------------------------------------------
     // MouseInputAdapter overrides
