@@ -94,7 +94,7 @@ public class DebugMenu extends JMenu {
                         if( isSelected() ) {
                             LineGrid grid = new LineGrid( appPanel2, 100, 100, new Color( 0, 128, 0 ) );
                             appPanelsToGrids.put( appPanel2, grid );
-                            appPanel2.addGraphic( grid );
+                            appPanel2.addGraphic( grid, Double.MAX_VALUE );
                             appPanel.repaint();
                         }
                         else {
