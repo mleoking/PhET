@@ -16,6 +16,10 @@ import edu.colorado.phet.idealgas.model.PressureSensingBox;
 import java.awt.*;
 import java.io.IOException;
 
+/**
+ * An animated stack of images of a mannequin. It either changes its angle
+ * of lean, or walks
+ */
 public class Mannequin extends PhetGraphic implements SimpleObserver {
     private static float s_leaningManStateChangeScaleFactor = 1.75F;
 
@@ -38,8 +42,6 @@ public class Mannequin extends PhetGraphic implements SimpleObserver {
         try {
             pusher = new FrameSequence( IdealGasConfig.PUSHER_ANIMATION_IMAGE_FILE_PREFIX, IdealGasConfig.PUSHER_ANIMATION_IMAGE_FILE_TYPE, IdealGasConfig.NUM_PUSHER_ANIMATION_FRAMES );
             leaner = new FrameSequence( IdealGasConfig.LEANER_ANIMATION_IMAGE_FILE_PREFIX, IdealGasConfig.PUSHER_ANIMATION_IMAGE_FILE_TYPE, IdealGasConfig.NUM_LEANER_ANIMATION_FRAMES );
-//            pusher = new FrameSequence( IdealGasConfig.PUSHER_ANIMATION_IMAGE_FILE_PREFIX, IdealGasConfig.NUM_PUSHER_ANIMATION_FRAMES );
-//            leaner = new FrameSequence( IdealGasConfig.LEANER_ANIMATION_IMAGE_FILE_PREFIX, IdealGasConfig.NUM_LEANER_ANIMATION_FRAMES );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -65,9 +67,7 @@ public class Mannequin extends PhetGraphic implements SimpleObserver {
 
     public void update() {
         int offsetX = -(int)Box2DGraphic.s_thickness + 3;
-//        int offsetX = -( (int)Box2DGraphic.s_thickness + 4);
         int offsetY = (int)Box2DGraphic.s_thickness;
-//        int offsetY = (int)Box2DGraphic.s_thickness + 6;
 
         int nextLocationX = (int)box.getMinX() - currPusherFrame.getHeight( null ) + offsetX;
         boolean wallMoving = nextLocationX != location.x;
@@ -97,9 +97,8 @@ public class Mannequin extends PhetGraphic implements SimpleObserver {
                 }
                 // todo: replace hard-coded number here
                 int frameNum = (int)Math.min( ( newPressure / IdealGasConfig.MAX_GAUGE_PRESSURE ) * leaner.getNumFrames(), leaner.getNumFrames() - 1 );
-//                int frameNum = (int)Math.min( ( newPressure / 120 ) * leaner.getNumFrames(), leaner.getNumFrames() - 1 );
                 currLeanerFrame = leaner.getFrame( frameNum );
-                if( model.isConstantVolume() ) {
+                if( model.isConstantVolume() || model.isConstantNone() ) {
                     currFrame = currLeanerFrame;
                     setBoundsDirty();
                     repaint();

@@ -97,6 +97,16 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
         return constantProperty == CONSTANT_PRESSURE;
     }
 
+    public boolean isConstantTemperature() {
+        return constantProperty == CONSTANT_TEMPERATURE;
+    }
+
+    public boolean isConstantNone() {
+        return !( isConstantPressure()
+                  || isConstantTemperature()
+                  || isConstantVolume() );
+    }
+
     public void setConstantProperty( int constantProperty ) {
         switch( constantProperty ) {
             case CONSTANT_NONE:
@@ -113,6 +123,7 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
                 SphereBoxCollision.setWorkDoneByMovingWall( false );
                 break;
             case CONSTANT_TEMPERATURE:
+                box.setVolumeFixed( false );
                 double t = getTemperature();
                 this.targetTemperature = !Double.isNaN( t ) ? t : IdealGasModel.DEFAULT_ENERGY;
                 SphereBoxCollision.setWorkDoneByMovingWall( true );
