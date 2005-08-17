@@ -24,6 +24,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.charts.D2CAmplitudesChart;
+import edu.colorado.phet.fourier.charts.GeneralPathPlot;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
 
 
@@ -274,7 +275,38 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
             _chartGraphic.autoscaleY( maxAmplitude );
         }
         else {
-            //XXX do something else when k1=0
+            double maxAmplitude = 0;
+            
+            GeneralPathPlot plot = new GeneralPathPlot( getComponent(), _chartGraphic );
+            _chartGraphic.addDataSetGraphic( plot );
+            
+            Color darkestColor = new Color( BAR_DARKEST_GRAY, BAR_DARKEST_GRAY, BAR_DARKEST_GRAY );
+            Color lightestColor = new Color( BAR_LIGHTEST_GRAY, BAR_LIGHTEST_GRAY, BAR_LIGHTEST_GRAY );
+            GradientPaint gradient = new GradientPaint( 0, 0, darkestColor, CHART_SIZE.width, 0, lightestColor );
+            plot.setFillPaint( gradient );
+            DataSet dataSet = plot.getDataSet();
+            dataSet.clear();
+            
+            // Compute the points that approximate the waveform.
+            double k = X_MIN;
+            ArrayList points = new ArrayList(); // array of Point2D
+            points.add( new Point2D.Double( k, 0 ) );
+            while ( k <= X_MAX + Math.PI ) {
+                double amplitude = GaussianWavePacket.getAmplitude( k, k0, dk );
+                points.add( new Point2D.Double( k, amplitude ) );
+                k += CONTINUOUS_STEP;
+                
+                if ( amplitude > maxAmplitude ) {
+                    maxAmplitude = amplitude;
+                }
+            }
+            points.add( new Point2D.Double( k, 0 ) );
+            System.out.println( "# points = " + points.size() );//XXX
+
+            // Add the points to the data set.
+            dataSet.addPoints( (Point2D.Double[]) points.toArray( new Point2D.Double[points.size()] ) );
+            
+            _chartGraphic.autoscaleY( maxAmplitude );
         }
         
         // Update the continuous waveform display if it's enabled.
