@@ -13,17 +13,12 @@ package edu.colorado.phet.fourier.view;
 
 import java.awt.*;
 
-import edu.colorado.phet.chart.LabelTable;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
-import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.charts.D2CHarmonicsChart;
 import edu.colorado.phet.fourier.charts.HarmonicPlot;
 import edu.colorado.phet.fourier.control.ZoomControl;
@@ -48,9 +43,10 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
     // Layers
     private static final double BACKGROUND_LAYER = 1;
     private static final double TITLE_LAYER = 2;
-    private static final double CHART_LAYER = 3;
-    private static final double CONTROLS_LAYER = 4;
-    private static final double MATH_LAYER = 5;
+    private static final double MESSAGE_LAYER = 3;
+    private static final double CHART_LAYER = 4;
+    private static final double CONTROLS_LAYER = 5;
+    private static final double MATH_LAYER = 6;
     
     // Background parameters
     private static final int MIN_HEIGHT = 150;
@@ -63,6 +59,10 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
     private static final Font TITLE_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
     private static final Point TITLE_LOCATION = new Point( 40, 115 );
+    
+    // Message parameters
+    private static final Font MESSAGE_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 16 );
+    private static final Color MESSAGE_COLOR = Color.RED;
     
     // Chart parameters
     private static final double L = 1;  // period of the fundamental harmonic
@@ -93,6 +93,7 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
     private int _domain;
     private int _waveType;
     private int _xZoomLevel;
+    private HTMLGraphic _cannotShowGraphic;
 
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -137,6 +138,13 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
         _chartGraphic.setLocation( 60, 50 + ( CHART_SIZE.height / 2 ) );
         _xTitleSpace = SimStrings.get( "D2CHarmonicsGraph.xTitleSpace" );
         _xTitleTime = SimStrings.get( "D2CHarmonicsGraph.xTitleTime" );
+        
+        // "Cannot show" message 
+        String message = SimStrings.get( "D2CHarmonicsGraph.cannotShow" );
+        _cannotShowGraphic = new HTMLGraphic( component, MESSAGE_FONT, message, MESSAGE_COLOR );
+        addGraphic( _cannotShowGraphic, MESSAGE_LAYER );
+        _cannotShowGraphic.setRegistrationPoint( 0, _cannotShowGraphic.getHeight()/2 ); // left center
+        _cannotShowGraphic.setLocation( 125, BACKGROUND_SIZE.height/2 );
         
         // Close button
         _closeButton = new PhetImageGraphic( component, FourierConstants.CLOSE_BUTTON_IMAGE );
@@ -260,6 +268,7 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
             _backgroundGraphic.setShape( new Rectangle( 0, 0, BACKGROUND_SIZE.width, height ) );
             _chartGraphic.setChartSize( CHART_SIZE.width, height - 70 );
             _titleGraphic.setLocation( TITLE_LOCATION.x, height / 2 );
+            _cannotShowGraphic.setLocation( 125, height / 2 );
             setBoundsDirty();
         }
     }
@@ -377,12 +386,18 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
             
             _chartGraphic.removeAllDataSetGraphics();
 
-            double dk = _wavePacket.getDeltaK();
-            double k0 = _wavePacket.getK0();
             double k1 = _wavePacket.getK1();
+            double k0 = _wavePacket.getK0();
+            double dk = _wavePacket.getDeltaK();
+
             int numberOfHarmonics = _wavePacket.getNumberOfComponents();
 
             if ( numberOfHarmonics < Integer.MAX_VALUE ) {
+                
+                _chartGraphic.setVisible( true );
+                _horizontalZoomControl.setVisible( true );
+                _mathGraphic.setVisible( true );
+                _cannotShowGraphic.setVisible( false );
                 
                 // Change in grayscale value between bars.
                 int deltaColor = ( HARMONIC_DARKEST_GRAY - HARMONIC_LIGHTEST_GRAY ) / numberOfHarmonics;
@@ -424,7 +439,10 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
                 _chartGraphic.autoscaleY( maxAmplitude );
             }
             else {
-                //XXX do something else for infinite # of harmonics
+                _chartGraphic.setVisible( false );
+                _horizontalZoomControl.setVisible( false );
+                _mathGraphic.setVisible( false );
+                _cannotShowGraphic.setVisible( true );
             }
         }
     }

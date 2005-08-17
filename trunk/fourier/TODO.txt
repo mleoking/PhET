@@ -7,30 +7,27 @@ IN PROGRESS:
 - D2C Sum view is not in the correct initial position
 
 HIGH PRIORITY:
-- when k1=0, change equation in D2C Sum graph
-- when k1=0, change tools to lamda1=0 and k1=0 (change MeasurementTool class to do this when width is zero)
-- autoscale & vertical zoom controls in D2C ?
+- when k1 = 0, change equation to an integral above D2CSumGraph
+- when k1 != 0 show sum equation from +-infinity above D2CSumGraph 
+- implement D2C "Show continuous" checkbox
 - memory leak in D2C module, freezes with wait cursor
-- should the user be able to shift the GaussianWavePacket center point?
-- k1 and deltak tools go under other graphs because they are children of the D2CAmplitudesGraph
-- should equation above Harmonics views start with "F(x)=" ?
-- bug: D2C amplitudes graph draws on top of tools (Mac only)
-- bug: dragging tools over top of chart causes weird aliasing artifacts (Mac only)
-- bug: chart draws plots on top of help items (Mac only)
+- add ability to shift k0
 
 MEDIUM PRIORITY:
 - separate k0 and center point in GaussianWavePacket model (not the same thing)
 - bug: anti-aliasing of plots gets turned off
+- bug: D2C amplitudes graph draws on top of tools (Mac only)
+- bug: dragging tools over top of chart causes weird aliasing artifacts (Mac only)
+- bug: chart draws plots on top of help items (Mac only)
 - wiggle me isn't hidden when user clicks in the control panel
-- constrain movement of k1 and deltak measurement tools to D2C amplitudes graph
 - add support for persistence
-- relocate the Help on the text fields in Discrete module
 - bug: FourierHelp.pointAt(Point,...) doesn't actually point at the specific Point
 - add more arrow options to FourierHelp
-- crashes after running for ~40 minutes (memory leak?)
+- Discrete module crashes after running for ~40 minutes (memory leak?)
 - something is hammering the processor when the sim should be idle
 
 LOW PRIORITY:
+- relocate the Help on the text fields in Discrete module
 - with a single module, Fourier starts up with the module's apparatus panel magnified (something in DiscreteControlPanel)
 - FourierSumPlot should be an observer of its FourierSeries
 - PeriodDisplay is an observer of its harmonic, should it be?
@@ -80,6 +77,7 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(8/17) - when k1=0, hide chart in D2C graph and replace with "Cannot draw infinite number of components"
 (8/17) - constrain k1 and deltaK tools to stay within the D2CAmplitudesGraph
 (8/17) - place k1 and deltaK measurement tools directly on the apparatus panel, instead of inside D2CAmplitudesGraph
 (8/17) - moved k1 and deltaK measurement tools into their own subclasses that observe a wave packet and a chart
