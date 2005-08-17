@@ -29,9 +29,8 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
 
 /**
- * ShapePlot is used by Chart to draw a shape on a chart.
- * The shape is defined by a set of points that plot a 
- * GeneralPath.
+ * GeneralPathPlot is used by Chart to draw a GeneralPath on a chart.
+ * The GeneralPath is defined by a set of data points.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -58,6 +57,18 @@ public class GeneralPathPlot extends DataSetGraphic {
      */
     public GeneralPathPlot( Component component, Chart chart ) {
         this( component, chart, Color.BLACK /* fillPaint */, null /* borderPaint */, null /* stroke */ );
+    }
+    
+    /**
+     * Constructs a GeneralPathPlot with specified properties.
+     * The shape is filled with a specified paint, but has no border.
+     * 
+     * @param component     parent Component
+     * @param chart         chart that this plot is associated with
+     * @param fillPaint     paint used to fill the path
+     */
+    public GeneralPathPlot( Component component, Chart chart, Paint fillPaint ) {
+        this( component, chart, fillPaint, null /* borderPaint */, null /* stroke */ );
     }
     
     /**
