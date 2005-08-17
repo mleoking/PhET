@@ -71,9 +71,11 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     
     // Tools
     private static final Font TOOL_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 16 );
-    private static final Color TOOL_FILL_COLOR = new Color( 0, 175, 0 );
-    private static final Color TOOL_BORDER_COLOR = Color.WHITE;
-    private static final Stroke TOOL_STROKE = new BasicStroke( 0.5f );
+    private static final Color TOOL_LABEL_COLOR = Color.BLACK;
+    private static final Color TOOL_FILL_COLOR = Color.YELLOW;
+    private static final Color TOOL_BORDER_COLOR = Color.BLACK;
+    private static final Stroke TOOL_STROKE = new BasicStroke( 1f );
+    private static final Color TOOL_BACKGROUND_COLOR = new Color(255,255,255,150); // translucent white
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -84,6 +86,7 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     private String _xTitleSpace, _xTitleTime;
     private MeasurementTool _spacingTool;
     private MeasurementTool _widthTool;
+    private int _domain;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -134,19 +137,21 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         // Width measurement tool
         _widthTool = new MeasurementTool( component );
         _widthTool.setLabelFont( TOOL_FONT );
-        _widthTool.setLabelColor( TOOL_FILL_COLOR );
+        _widthTool.setLabelColor( TOOL_LABEL_COLOR );
         _widthTool.setFillColor( TOOL_FILL_COLOR );
         _widthTool.setBorderColor( TOOL_BORDER_COLOR );
         _widthTool.setStroke( TOOL_STROKE );
+        _widthTool.setLabelBackground( TOOL_BACKGROUND_COLOR );
         addGraphic( _widthTool, TOOL_LAYER );
         
         // Spacing measurement tool
         _spacingTool = new MeasurementTool( component );
         _spacingTool.setLabelFont( TOOL_FONT );
-        _spacingTool.setLabelColor( TOOL_FILL_COLOR );
+        _spacingTool.setLabelColor( TOOL_LABEL_COLOR );
         _spacingTool.setFillColor( TOOL_FILL_COLOR );
         _spacingTool.setBorderColor( TOOL_BORDER_COLOR );
         _spacingTool.setStroke( TOOL_STROKE );
+        _spacingTool.setLabelBackground( TOOL_BACKGROUND_COLOR );
         addGraphic( _spacingTool, TOOL_LAYER );
         
         // Interactivity
@@ -186,19 +191,10 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
      * @throws IllegalArgumentException if the domain is invalid or not supported
      */
     public void setDomain( int domain ) {
-        if ( domain == FourierConstants.DOMAIN_SPACE ) {
-            _chartGraphic.setXAxisTitle( _xTitleSpace );
-            _spacingTool.setLabel( "<html>k<sub>1</sub></html>" );
-            _widthTool.setLabel( "<html>2\u0394k</html>" );
-        }
-        else if ( domain == FourierConstants.DOMAIN_TIME ) {
-            _chartGraphic.setXAxisTitle( _xTitleTime );
-            _spacingTool.setLabel( "<html>\u03C9<sub>1</sub></html>" );
-            _widthTool.setLabel( "<html>2\u0394\u03C9</html>" );
-        }
-        else {
-            throw new IllegalArgumentException( "unsupported domain: " + domain );
-        }
+        _domain = domain;
+        assert( FourierConstants.isValidDomain( domain ) );
+        updateAxisTitles();
+        updateToolLabels();
     }
     
     /**
@@ -295,6 +291,38 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
             float width = (float) ( 2 * _chartGraphic.transformXDouble( dk ) );
             _widthTool.setToolWidth( width );
         }
+        
+        updateToolLabels();
+    }
+    
+    private void updateAxisTitles() {
+        if ( _domain == FourierConstants.DOMAIN_SPACE ) {
+            _chartGraphic.setXAxisTitle( _xTitleSpace );
+        }
+        else if ( _domain == FourierConstants.DOMAIN_TIME ) {
+            _chartGraphic.setXAxisTitle( _xTitleTime );
+        }
     }
 
+    private void updateToolLabels() { 
+        double k1 = _wavePacket.getK1();
+        if ( _domain == FourierConstants.DOMAIN_SPACE ) {
+            _widthTool.setLabel( "<html>2\u0394k</html>" );
+            if ( k1 == 0 ) {
+                _spacingTool.setLabel( "<html>k<sub>1</sub>=0</html>" );
+            }
+            else {
+                _spacingTool.setLabel( "<html>k<sub>1</sub></html>" );
+            }
+        }
+        else if ( _domain == FourierConstants.DOMAIN_TIME ) {
+            _widthTool.setLabel( "<html>2\u0394\u03C9</html>" );
+            if ( k1 == 0 ) {
+                _spacingTool.setLabel( "<html>\u03C9<sub>1</sub>=0</html>" );
+            }
+            else {
+                _spacingTool.setLabel( "<html>\u03C9<sub>1</sub></html>" );
+            }     
+        }
+    }
 }
