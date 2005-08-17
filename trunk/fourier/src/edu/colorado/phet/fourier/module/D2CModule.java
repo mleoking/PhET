@@ -13,6 +13,7 @@ package edu.colorado.phet.fourier.module;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 
 import javax.swing.event.MouseInputAdapter;
@@ -29,6 +30,8 @@ import edu.colorado.phet.fourier.view.D2CAmplitudesGraph;
 import edu.colorado.phet.fourier.view.D2CHarmonicsGraph;
 import edu.colorado.phet.fourier.view.D2CSumGraph;
 import edu.colorado.phet.fourier.view.GraphClosed;
+import edu.colorado.phet.fourier.view.tools.WavePacketDeltaKTool;
+import edu.colorado.phet.fourier.view.tools.WavePacketSpacingTool;
 
 
 /**
@@ -59,6 +62,10 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
     private static final double WAVE_PACKET_WIDTH = 6 * Math.PI;
     private static final double WAVE_PACKET_CENTER = 12 * Math.PI;
     
+    // Tools
+    private static final Point SPACING_TOOL_LOCATION = new Point( 590, 140 );
+    private static final Point DELTA_K_TOOL_LOCATION = new Point( 540, 40 );
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -71,6 +78,8 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
     private GraphClosed _sumGraphClosed;
     private D2CControlPanel _controlPanel;
     private Dimension _canvasSize;
+    private WavePacketSpacingTool _spacingTool;
+    private WavePacketDeltaKTool _deltaKTool;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -128,12 +137,22 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         _sumGraphClosed = new GraphClosed( apparatusPanel, SimStrings.get( "D2CSumGraph.title" ) );
         apparatusPanel.addGraphic( _sumGraphClosed, SUM_CLOSED_LAYER );
         
+        // Spacing (k1) measurement tool
+        _spacingTool = new WavePacketSpacingTool( apparatusPanel, _wavePacket, _amplitudesGraph.getChart() );
+        apparatusPanel.addGraphic( _spacingTool, TOOLS_LAYER );
+        
+        // Delta k (dk) measurement tool
+        _deltaKTool = new WavePacketDeltaKTool( apparatusPanel, _wavePacket, _amplitudesGraph.getChart() );
+        apparatusPanel.addGraphic( _deltaKTool, TOOLS_LAYER );
+        
         //----------------------------------------------------------------------------
         // Control
         //----------------------------------------------------------------------------
 
         // Control Panel
-        _controlPanel = new D2CControlPanel( this, _wavePacket, _amplitudesGraph, _harmonicsGraph, _sumGraph );
+        _controlPanel = new D2CControlPanel( this, _wavePacket, 
+                _amplitudesGraph, _harmonicsGraph, _sumGraph,
+                _spacingTool, _deltaKTool );
         _controlPanel.addVerticalSpace( 20 );
         _controlPanel.addResetButton();
         setControlPanel( _controlPanel );
@@ -190,11 +209,11 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         addHelpItem( harmonicsCloseButtonHelp );
         
         FourierHelpItem spacingToolHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "D2CModule.help.spacingTool" ) );
-        spacingToolHelp.pointAt( _amplitudesGraph.getSpacingTool(), FourierHelpItem.UP, 15 );
+        spacingToolHelp.pointAt( _spacingTool, FourierHelpItem.UP, 15 );
         addHelpItem( spacingToolHelp );
         
         FourierHelpItem kWidthToolHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "D2CModule.help.widthTool" ) );
-        kWidthToolHelp.pointAt( _amplitudesGraph.getWidthTool(), FourierHelpItem.UP, 15 );
+        kWidthToolHelp.pointAt( _deltaKTool, FourierHelpItem.UP, 15 );
         addHelpItem( kWidthToolHelp );
         
         //----------------------------------------------------------------------------
@@ -230,6 +249,9 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         _harmonicsGraphClosed.setLocation( _amplitudesGraph.getX(), _amplitudesGraph.getY() + _amplitudesGraph.getHeight() );
         _sumGraph.setLocation( _amplitudesGraph.getX(), _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
         _sumGraphClosed.setLocation( _amplitudesGraph.getX(), _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
+        
+        _spacingTool.setLocation( SPACING_TOOL_LOCATION );
+        _deltaKTool.setLocation( DELTA_K_TOOL_LOCATION );
         
         _controlPanel.reset();
     }
