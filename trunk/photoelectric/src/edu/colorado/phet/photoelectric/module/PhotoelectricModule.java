@@ -92,7 +92,7 @@ public class PhotoelectricModule extends BaseLaserModule {
     static{
         TARGET_COLORS.put( PhotoelectricTarget.COPPER, new Color( 210, 130, 30 ));
         TARGET_COLORS.put( PhotoelectricTarget.MAGNESIUM, new Color( 130, 150, 170 ));
-        TARGET_COLORS.put( PhotoelectricTarget.SODIUM, new Color( 230, 220, 100 ));
+        TARGET_COLORS.put( PhotoelectricTarget.SODIUM, new Color( 160, 180, 160 ));
         TARGET_COLORS.put( PhotoelectricTarget.ZINC, new Color( 200, 200, 200 ));
     }
 
