@@ -92,6 +92,9 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         pchemModel.setVerticalWall( verticalWall );
         pchemModel.addListener( this );
 
+        // Set the gravity
+        getIdealGasModel().getGravity().setAmt( IdealGasConfig.MAX_GRAVITY/ 2 );
+
         //----------------------------------------------------------------
         // Controls. This must be done after the model is set up
         //----------------------------------------------------------------
@@ -108,6 +111,9 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
 
         createCurve();
         createCurveAdjuster();
+
+        // Set the time units on the stopwatch
+        getStopwatchPanel().setTimeUnits( SimStrings.get("MovableWallsModule.StopwatchTimeUnits" ));
 
         // Remove the Wiggle-me
         getApparatusPanel().removeGraphic( wiggleMeGraphic );
