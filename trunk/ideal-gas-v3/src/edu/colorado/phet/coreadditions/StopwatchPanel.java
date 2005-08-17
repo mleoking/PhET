@@ -41,6 +41,7 @@ public class StopwatchPanel extends JPanel implements ClockTickListener, ClockSt
     private double scaleFactor = 1;
     private double runningTime = 0;
     private boolean isRunning = false;
+    private JLabel timeUnitsLabel;
 
     /**
      * @param model
@@ -92,7 +93,8 @@ public class StopwatchPanel extends JPanel implements ClockTickListener, ClockSt
         add( startStopBtn );
         add( resetBtn );
         add( clockTF );
-        add( new JLabel( timeUnits ) );
+        timeUnitsLabel = new JLabel( timeUnits );
+        add( timeUnitsLabel );
 
         // Clear the clock
         resetClock();
@@ -111,6 +113,10 @@ public class StopwatchPanel extends JPanel implements ClockTickListener, ClockSt
         setVisible( isVisible );
     }
 
+    public void setTimeUnits( String timeUnits ) {
+        timeUnitsLabel.setText( timeUnits );        
+    }
+
     public boolean isClockPanelVisible() {
         return isVisible();
     }
@@ -119,6 +125,10 @@ public class StopwatchPanel extends JPanel implements ClockTickListener, ClockSt
         resetClock();
     }
 
+    /**
+     * Private inner class that manages the state of the stopwatch
+     * when buttons are clicked
+     */
     private class StartStopActionListener implements ActionListener {
         JButton startStopBtn;
         int startStopState = 0;
