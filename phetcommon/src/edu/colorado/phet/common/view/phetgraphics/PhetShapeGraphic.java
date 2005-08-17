@@ -127,6 +127,10 @@ public class PhetShapeGraphic extends PhetGraphic {
     public void setColor( Color color ) {
         setPaint( color );
     }
+    
+    public Paint getPaint() {
+        return this.fill;
+    }
 
     /*
      * Computes and caches the stroked shape.

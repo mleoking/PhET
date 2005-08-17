@@ -70,9 +70,17 @@ public class HTMLGraphic extends CompositePhetGraphic {
         update();
     }
 
+    public Font getFont() {
+        return font;
+    }
+    
     public void setColor( Color color ) {
         this.color = color;
         update();
+    }
+    
+    public Color getColor() {
+        return color;
     }
     
     /**
