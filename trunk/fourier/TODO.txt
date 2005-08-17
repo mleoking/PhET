@@ -75,6 +75,7 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+1.0.2 ...
 (8/17) - implement k=0 in D2CAmplitudes graph (fill the area under continuous curve with gradient)
 (8/17) - implement D2C "Show continuous" checkbox
 (8/17) - refactored fourier.tools classes so that there are symmetrical abstract base classes
