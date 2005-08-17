@@ -223,6 +223,15 @@ public class MeasurementTool extends CompositePhetGraphic implements ApparatusPa
         _barGraphic.centerRegistrationPoint();
     }
 
+    /**
+     * Sets the drag bounds for this tool.
+     * 
+     * @param bounds
+     */
+    public void setDragBounds( Rectangle bounds ) {
+        _dragHandler.setDragBounds( bounds );
+    }
+    
     //----------------------------------------------------------------------------
     // ApparatusPanel2.ChangeListener implementation
     //----------------------------------------------------------------------------
