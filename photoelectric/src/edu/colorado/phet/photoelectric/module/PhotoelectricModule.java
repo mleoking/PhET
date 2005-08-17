@@ -29,8 +29,8 @@ import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.Electrode;
 import edu.colorado.phet.dischargelamps.model.Electron;
@@ -59,13 +59,13 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.geom.*;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Collection;
-import java.util.Iterator;
 
 /**
  * PhotoelectricModule
@@ -116,8 +116,8 @@ public class PhotoelectricModule extends BaseLaserModule {
     // TODO: get this into the PhotoelectronTarget class
     private ElectronSink targetSink;
     private BeamCurtainGraphic beamGraphic;
-    private PhotonGraphicManager photonGraphicManager;
-
+    // Flag for type of beam view: either photon or solid beam
+//    private int viewType = PHOTON_VIEW;
     private int viewType = BEAM_VIEW;
 
 
@@ -159,51 +159,20 @@ public class PhotoelectricModule extends BaseLaserModule {
         // Add the tube
         addTube( model, getApparatusPanel() );
 
-
         //----------------------------------------------------------------
         // View
         //----------------------------------------------------------------
+        CollimatedBeam beam = model.getBeam();
 
         // Add a graphic for the beam
-        CollimatedBeam beam = model.getBeam();
-        beamGraphic = new BeamCurtainGraphic( getApparatusPanel(), beam );
-        getApparatusPanel().addGraphic( beamGraphic, BEAM_LAYER );
-        try {
-            BufferedImage lampImg = ImageLoader.loadBufferedImage( PhotoelectricConfig.LAMP_IMAGE_FILE );
-            // Make the lens on the lamp the same size as the beam
-            AffineTransform scaleTx = AffineTransform.getScaleInstance( 100.0 / lampImg.getWidth(),
-                                                                        beam.getWidth() / lampImg.getHeight() );
-            AffineTransformOp scaleTxOp = new AffineTransformOp( scaleTx, AffineTransformOp.TYPE_BILINEAR );
-            lampImg = scaleTxOp.filter( lampImg, null );
-
-            Point2D rp = new Point2D.Double( lampImg.getWidth(), lampImg.getHeight() / 2 );
-            AffineTransform atx = AffineTransform.getRotateInstance( beam.getAngle(), rp.getX(), rp.getY() );
-
-            LampGraphic lampGraphic = new LampGraphic( beam, getApparatusPanel(), lampImg, atx );
-            // todo: this is positioned with hard numbers. Fix it
-            lampGraphic.setLocation( (int)beam.getPosition().getX() - 80, (int)beam.getPosition().getY() );
-            getApparatusPanel().addGraphic( lampGraphic, LAMP_LAYER );
-
-            // Put a mask behind the lamp graphic to hide the beam or photons that start behind it
-            Rectangle mask = new Rectangle( 0, 0, lampImg.getWidth(), lampImg.getHeight() );
-            PhetShapeGraphic maskGraphic = new PhetShapeGraphic( getApparatusPanel(),
-                                                                 mask,
-                                                                 getApparatusPanel().getBackground() );
-            maskGraphic.setTransform( atx );
-            maskGraphic.setLocation( lampGraphic.getLocation() );
-            getApparatusPanel().addGraphic( maskGraphic, LAMP_LAYER - 1 );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        addBeamGraphic( beam );
 
         // Add a listener that will place photons right next to the plate when we are in beam view mode
         beam.addPhotonEmittedListener( new PhotonPlacementManager() );
 
         // Add a listener that will produce photon graphics for the beam and take them away when the photons
         // leave the system
-        photonGraphicManager = new PhotonGraphicManager();
-        beam.addPhotonEmittedListener( photonGraphicManager );
+        beam.addPhotonEmittedListener( new PhotonGraphicManager() );
 
         // Add a listener to the target plate that will create electron graphics when electrons
         // are produced, and remove them when they the electrons leave the system.
@@ -237,6 +206,17 @@ public class PhotoelectricModule extends BaseLaserModule {
         addControls();
 
         //----------------------------------------------------------------
+        // Total hack to get beam to look right when things come up. This should
+        // be removed when BeamCurtainGraphic.update() is fixed
+        //----------------------------------------------------------------
+        getApparatusPanel().addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                CollimatedBeam beam = getPhotoelectricModel().getBeam();
+                beam.setPhotonsPerSecond( beam.getPhotonsPerSecond() );
+            }
+        } );
+
+        //----------------------------------------------------------------
         // Debug
         //----------------------------------------------------------------
 
@@ -254,6 +234,43 @@ public class PhotoelectricModule extends BaseLaserModule {
                                                                                            10, 10 ),
                                                                      Color.red );
             getApparatusPanel().addGraphic( cathodIndicator, 10000 );
+        }
+    }
+
+    /**
+     *
+     * @param beam
+     */
+    private void addBeamGraphic( CollimatedBeam beam ) {
+        beamGraphic = new BeamCurtainGraphic( getApparatusPanel(), beam );
+        getApparatusPanel().addGraphic( beamGraphic, BEAM_LAYER );
+        try {
+            BufferedImage lampImg = ImageLoader.loadBufferedImage( PhotoelectricConfig.LAMP_IMAGE_FILE );
+            // Make the lens on the lamp the same size as the beam
+            AffineTransform scaleTx = AffineTransform.getScaleInstance( 100.0 / lampImg.getWidth(),
+                                                                        beam.getWidth() / lampImg.getHeight() );
+            AffineTransformOp scaleTxOp = new AffineTransformOp( scaleTx, AffineTransformOp.TYPE_BILINEAR );
+            lampImg = scaleTxOp.filter( lampImg, null );
+
+            Point2D rp = new Point2D.Double( lampImg.getWidth(), lampImg.getHeight() / 2 );
+            AffineTransform atx = AffineTransform.getRotateInstance( beam.getAngle(), rp.getX(), rp.getY() );
+
+            LampGraphic lampGraphic = new LampGraphic( beam, getApparatusPanel(), lampImg, atx );
+            // todo: this is positioned with hard numbers. Fix it
+            lampGraphic.setLocation( (int)beam.getPosition().getX() - 90, (int)beam.getPosition().getY() );
+            getApparatusPanel().addGraphic( lampGraphic, LAMP_LAYER );
+
+            // Put a mask behind the lamp graphic to hide the beam or photons that start behind it
+            Rectangle mask = new Rectangle( 0, 0, lampImg.getWidth(), lampImg.getHeight() );
+            PhetShapeGraphic maskGraphic = new PhetShapeGraphic( getApparatusPanel(),
+                                                                 mask,
+                                                                 getApparatusPanel().getBackground() );
+            maskGraphic.setTransform( atx );
+            maskGraphic.setLocation( lampGraphic.getLocation() );
+            getApparatusPanel().addGraphic( maskGraphic, LAMP_LAYER - 1 );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
         }
     }
 
@@ -366,8 +383,8 @@ public class PhotoelectricModule extends BaseLaserModule {
         apparatusPanel.addGraphic( targetGraphic, CIRCUIT_LAYER );
 
         // Add a layer on top of the electrode to represent the target material
-        double materialOffsetY = 10;
-        double materialThickness = 3;
+        double materialOffsetY = 5;
+        double materialThickness = 7;
         Rectangle2D material = new Rectangle2D.Double( targetGraphic.getBounds().getMaxX(),
                                                        targetGraphic.getBounds().getMinY() + materialOffsetY,
                                                        materialThickness,
@@ -433,7 +450,7 @@ public class PhotoelectricModule extends BaseLaserModule {
                                                                  0, beam.getMaxPhotonsPerSecond(),
                                                                  beam.getMaxPhotonsPerSecond() / 2 );
         beamIntensitySlider.setPreferredSize( new Dimension( 250, 100 ) );
-        beam.setPhotonsPerSecond( beamIntensitySlider.getValue() / 2 );
+        beam.setPhotonsPerSecond( beamIntensitySlider.getValue() );
         beamControlPnl.add( beamIntensitySlider );
         beamIntensitySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -508,12 +525,13 @@ public class PhotoelectricModule extends BaseLaserModule {
      * @param isEnabled
      */
     public void setPhotonViewEnabled( boolean isEnabled ) {
-        photonGraphicManager.setEnabled( isEnabled );
+        viewType = isEnabled ? PHOTON_VIEW : BEAM_VIEW;
+        beamGraphic.setVisible( !isEnabled );
     }
 
-//-----------------------------------------------------------------
-// Inner classes
-//-----------------------------------------------------------------
+    //----------------------------------------------------------------
+    // Inner classes for event handling
+    //----------------------------------------------------------------
 
     /**
      * Listens for the absorption of an electron. When such an event happens,
@@ -535,10 +553,6 @@ public class PhotoelectricModule extends BaseLaserModule {
             }
         }
     }
-
-    //----------------------------------------------------------------
-    // Inner classes for event handling
-    //----------------------------------------------------------------
 
     /**
      * Modifies the initial placement of photons to be very near the target when we're in
@@ -586,17 +600,9 @@ public class PhotoelectricModule extends BaseLaserModule {
      * Creates, adds and removes graphics for photons
      */
     private class PhotonGraphicManager implements PhotonEmittedListener {
-        private boolean isEnabled;
-
-        public void setEnabled( boolean enabled ) {
-            isEnabled = enabled;
-
-            // Set the view state for the entire module
-            viewType = isEnabled ? PHOTON_VIEW : BEAM_VIEW;
-        }
 
         public void photonEmittedEventOccurred( PhotonEmittedEvent event ) {
-            if( isEnabled ) {
+            if( viewType == PHOTON_VIEW ) {
                 Photon photon = event.getPhoton();
                 final PhotonGraphic pg = PhotonGraphic.getInstance( getApparatusPanel(), photon );
                 getApparatusPanel().addGraphic( pg, BEAM_LAYER );
@@ -607,7 +613,6 @@ public class PhotoelectricModule extends BaseLaserModule {
                     }
                 } );
             }
-            beamGraphic.setVisible( !isEnabled );
         }
     }
 

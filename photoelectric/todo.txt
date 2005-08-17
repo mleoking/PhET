@@ -9,11 +9,15 @@ constructors for the models. That would help the sequencing of how things are cr
 
 - The rotated beam doesn't look right. Try an angle of 170 deg. to see.
 
+- ElectronSink doesn't need to be an ElectronSourceListener, or whatever it is.
 
 Issues
 ------
-- Energy isn't right in the model. I can only get electrons when the target is sodium
 - There seems to be a ceiling on the max rate of electrons that can be produced
-- Target should change color when material changes
+- Make fanout an attribute of CollimatedBeam, and make photons fan out
+- Problem with initial view of beam graphic is in the determination of beamDepth in BeamCurtainGraphic.update(). When
+it's fixed, get rid of hack in PhotoelectricModule constructor
 
-- change color of target as material changes
+- CollimatedBeam is screwed up. The direction parameter conflicts with the bounds, width and height, vertical and
+horizontal, etc.
+

@@ -99,8 +99,6 @@ public class PhotoelectricTarget extends ElectronSource {
 
         double de = photon.getEnergy() - workFunction;
         if( de > 0 ) {
-//            Electron electron = new Electron();
-
             // Determine where the electron will be emitted from
             // The location of the electron is coincident with where the photon hit the plate
             Point2D p = MathUtil.getLineSegmentsIntersection( line.getP1(), line.getP2(),

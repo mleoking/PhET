@@ -21,6 +21,8 @@ import edu.colorado.phet.lasers.model.PhysicsUtil;
 import java.awt.geom.Point2D;
 import java.util.EventListener;
 import java.util.EventObject;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Electron
@@ -30,29 +32,54 @@ import java.util.EventObject;
  */
 public class Electron extends SphericalBody implements Collidable {
 
+    //----------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------
+
     // A fudge factor that makes the energy of an electron enough to stimulate an atom
     // only if it is moving fast enough
     private static double ENERGY_FUDGE_FACTOR = 1E12;
-//    private static double ENERGY_FUDGE_FACTOR = 1E-6;
-
     // Mass of an electron, in kg
     private static final double ELECTRON_MASS = 9.11E-31 * ENERGY_FUDGE_FACTOR;
     // Radius of an electron. An arbitrary dimension based on how it looks on the screen
     private static final double ELECTRON_RADIUS = 2;
+    // List of instances
+    private static List instances = new ArrayList();
+
+    //----------------------------------------------------------------
+    // Class methods
+    //----------------------------------------------------------------
+    public static List getInstances() {
+        return instances;
+    }
+
+    //----------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------
 
     private CollidableAdapter collidableAdapter;
+
+    //----------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------
 
     public Electron() {
         super( DischargeLampsConfig.ELECTRON_RADIUS );
         collidableAdapter = new CollidableAdapter( this );
         setMass( ELECTRON_MASS );
         setRadius( ELECTRON_RADIUS );
+
+        instances.add( this );
     }
 
     public Electron( double x, double y ) {
         this();
         setPosition( x, y );
     }
+
+    //----------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------
 
     public void setPosition( double x, double y ) {
         collidableAdapter.updatePosition();
@@ -106,13 +133,13 @@ public class Electron extends SphericalBody implements Collidable {
 
         // compute the speed of the electron
         double sNew = Math.sqrt( 2 * ke / getMass() );
-//        double sNew = Math.sqrt( 2 * e / getMass() );
         double sCurr = getVelocity().getMagnitude();
         setVelocity( getVelocity().scale( sNew / sCurr ) );
         changeListenerProxy.energyChanged( new ChangeEvent( this ) );
     }
 
     public void leaveSystem() {
+        instances.remove( this );
         changeListenerProxy.leftSystem( new ChangeEvent( this ) );
     }
 
