@@ -13,6 +13,7 @@ package edu.colorado.phet.fourier.view.tools;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
@@ -37,31 +38,38 @@ public class MeasurementTool extends CompositePhetGraphic implements ApparatusPa
     //----------------------------------------------------------------------------
 
     // Graphics layers
-    private static final double BAR_LAYER = 1;
-    private static final double LABEL_LAYER = 2;
-    
+    private static final double BACKGROUND_LAYER = 1;
+    private static final double BAR_LAYER = 2;
+    private static final double LABEL_LAYER = 3;
+
     // The horizontal bar
-    private static final float END_WIDTH = 1;
-    private static final float END_HEIGHT = 10;
+    private static final float END_WIDTH = 2;
+    private static final float END_HEIGHT = 15;
     private static final float LINE_HEIGHT = 4; // must be < END_HEIGHT !
-       
+
     // The label
     private static final Font LABEL_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 16 );
     private static final Color LABEL_COLOR = Color.BLACK;
-    
+
+    // label background
+    private static final int LABEL_BACKGROUND_MARGIN = 2;
+    private static final int LABEL_BACKGROUND_CORNER_RADIUS = 3;
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private HTMLGraphic _labelGraphic;
+    private PhetShapeGraphic _labelBackgroundGraphic;
+    private RoundRectangle2D _labelBackgroundShape;
     private PhetShapeGraphic _barGraphic;
     private GeneralPath _barPath;
     private FourierDragHandler _dragHandler;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Constructor.
      * 
@@ -69,14 +77,21 @@ public class MeasurementTool extends CompositePhetGraphic implements ApparatusPa
      */
     public MeasurementTool( Component component ) {
         super( component );
-        
+
         // Enable antialiasing for all children.
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+
+        // Label background
+        _labelBackgroundShape = new RoundRectangle2D.Double();
+        _labelBackgroundGraphic = new PhetShapeGraphic( component );
+        _labelBackgroundGraphic.setShape( _labelBackgroundShape );
+        addGraphic( _labelBackgroundGraphic, BACKGROUND_LAYER );
 
         // Label
         _labelGraphic = new HTMLGraphic( component, LABEL_FONT, "?", LABEL_COLOR );
         addGraphic( _labelGraphic, LABEL_LAYER );
-        
+        handleLabelSizeChange();
+
         // Bar path
         _barPath = new GeneralPath();
         _barGraphic = new PhetShapeGraphic( component );
@@ -94,7 +109,23 @@ public class MeasurementTool extends CompositePhetGraphic implements ApparatusPa
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
+
+    public void setLabelBackground( Color color ) {
+        _labelBackgroundGraphic.setColor( color );
+    }
+
+    private void handleLabelSizeChange() {
+        // Adjust the size of the label's background.
+        if ( _labelBackgroundGraphic.getPaint() != null ) {
+            int w = _labelGraphic.getWidth() + LABEL_BACKGROUND_MARGIN;
+            int h = _labelGraphic.getHeight() + LABEL_BACKGROUND_MARGIN;
+            _labelBackgroundShape.setRoundRect( 0, 0, w, h, LABEL_BACKGROUND_CORNER_RADIUS, LABEL_BACKGROUND_CORNER_RADIUS );
+            _labelBackgroundGraphic.setShapeDirty();
+            _labelBackgroundGraphic.centerRegistrationPoint();
+            _labelBackgroundGraphic.setLocation( _labelGraphic.getLocation() );
+        }
+    }
+
     /**
      * Sets the label, which should be in HTML format.
      * 
@@ -107,8 +138,9 @@ public class MeasurementTool extends CompositePhetGraphic implements ApparatusPa
         int x = 0;
         int y = -( ( _labelGraphic.getHeight() / 2 ) + 4 );
         _labelGraphic.setLocation( x, y );
+        handleLabelSizeChange();
     }
-    
+
     /**
      * Sets the color of the label.
      * 
@@ -117,7 +149,7 @@ public class MeasurementTool extends CompositePhetGraphic implements ApparatusPa
     public void setLabelColor( Color color ) {
         _labelGraphic.setColor( color );
     }
-    
+
     /**
      * Sets the font of label.
      * 
@@ -125,8 +157,9 @@ public class MeasurementTool extends CompositePhetGraphic implements ApparatusPa
      */
     public void setLabelFont( Font font ) {
         _labelGraphic.setFont( font );
+        handleLabelSizeChange();
     }
-    
+
     /**
      * Sets the fill color of the measurement bar.
      * 
@@ -135,7 +168,7 @@ public class MeasurementTool extends CompositePhetGraphic implements ApparatusPa
     public void setFillColor( Color color ) {
         _barGraphic.setColor( color );
     }
-    
+
     /**
      * Sets the border color of the measurement bar.
      * 
@@ -144,7 +177,7 @@ public class MeasurementTool extends CompositePhetGraphic implements ApparatusPa
     public void setBorderColor( Color color ) {
         _barGraphic.setBorderColor( color );
     }
-    
+
     /**
      * Sets the stroke of the measurement bar.
      * 
@@ -153,34 +186,43 @@ public class MeasurementTool extends CompositePhetGraphic implements ApparatusPa
     public void setStroke( Stroke stroke ) {
         _barGraphic.setStroke( stroke );
     }
-    
+
     /**
      * Updates the width of the tool.
+     * 
+     * @param width
+     * @throws IllegalArgumentException if width < 0
      */
     public void setToolWidth( float width ) {
         assert ( END_HEIGHT > LINE_HEIGHT );
 
+        if ( width < 0 ) {
+            throw new IllegalArgumentException( "width must be >= 0 : " + width );
+        }
+
         // Recompute the bar path.
         _barPath.reset();
-        _barPath.moveTo( 0, 0 );
-        _barPath.lineTo( END_WIDTH, 0 );
-        _barPath.lineTo( END_WIDTH, END_HEIGHT / 2f - LINE_HEIGHT / 2f );
-        _barPath.lineTo( width - END_WIDTH, END_HEIGHT / 2f - LINE_HEIGHT / 2f );
-        _barPath.lineTo( width - END_WIDTH, 0 );
-        _barPath.lineTo( width, 0 );
-        _barPath.lineTo( width, END_HEIGHT );
-        _barPath.lineTo( width - END_WIDTH, END_HEIGHT );
-        _barPath.lineTo( width - END_WIDTH, END_HEIGHT / 2f + LINE_HEIGHT / 2f );
-        _barPath.lineTo( END_WIDTH, END_HEIGHT / 2f + LINE_HEIGHT / 2f );
-        _barPath.lineTo( END_WIDTH, END_HEIGHT );
-        _barPath.lineTo( 0, END_HEIGHT );
-        _barPath.closePath();
+        if ( width > 0 ) {
+            _barPath.moveTo( 0, 0 );
+            _barPath.lineTo( END_WIDTH, 0 );
+            _barPath.lineTo( END_WIDTH, END_HEIGHT / 2f - LINE_HEIGHT / 2f );
+            _barPath.lineTo( width - END_WIDTH, END_HEIGHT / 2f - LINE_HEIGHT / 2f );
+            _barPath.lineTo( width - END_WIDTH, 0 );
+            _barPath.lineTo( width, 0 );
+            _barPath.lineTo( width, END_HEIGHT );
+            _barPath.lineTo( width - END_WIDTH, END_HEIGHT );
+            _barPath.lineTo( width - END_WIDTH, END_HEIGHT / 2f + LINE_HEIGHT / 2f );
+            _barPath.lineTo( END_WIDTH, END_HEIGHT / 2f + LINE_HEIGHT / 2f );
+            _barPath.lineTo( END_WIDTH, END_HEIGHT );
+            _barPath.lineTo( 0, END_HEIGHT );
+            _barPath.closePath();
+        }
 
         // Refresh the graphics
         _barGraphic.setShapeDirty();
         _barGraphic.centerRegistrationPoint();
     }
-    
+
     //----------------------------------------------------------------------------
     // ApparatusPanel2.ChangeListener implementation
     //----------------------------------------------------------------------------
