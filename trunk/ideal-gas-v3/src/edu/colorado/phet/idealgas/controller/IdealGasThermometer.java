@@ -39,12 +39,5 @@ class IdealGasThermometer extends Thermometer implements SimpleObserver {
             super.setBoundsDirty();
             repaint();
         }
-
-        //DEBUG
-//        averager.update( newTemperature );
     }
-
-    // TODO: remove after debug
-    private Averager averager = new Averager( "aveTemp = " );
-
 }
