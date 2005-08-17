@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- implement D2C "Show continuous" checkbox
 - implement k=0 in D2CAmplitudes graph (fill the area under continuous curve with gradient)
 - when k1 = 0, change equation to an integral above D2CSumGraph
 - when k1 != 0 show sum equation from +-infinity above D2CSumGraph 
@@ -77,6 +76,7 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(8/17) - implement D2C "Show continuous" checkbox
 (8/17) - refactored fourier.tools classes so that there are symmetrical abstract base classes
 (8/17) - when k1=0, hide chart in D2C graph and replace with "Cannot draw infinite number of components"
 (8/17) - constrain k1 and deltaK tools to stay within the D2CAmplitudesGraph
