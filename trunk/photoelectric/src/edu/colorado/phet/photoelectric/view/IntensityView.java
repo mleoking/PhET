@@ -12,6 +12,7 @@ package edu.colorado.phet.photoelectric.view;
 
 import edu.colorado.phet.photoelectric.model.Ammeter;
 import edu.colorado.phet.photoelectric.model.util.ScalarDataRecorder;
+import edu.colorado.phet.photoelectric.model.util.BeamIntensityMeter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,22 +24,21 @@ import java.text.DecimalFormat;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class AmmeterView extends JPanel {
+public class IntensityView extends JPanel {
 
-    private JTextField currentTF;
+    private JTextField intensityTF;
     private DecimalFormat format = new DecimalFormat( "#0.0000" );
 
-    public AmmeterView( final Ammeter ammeter ) {
-        JPanel currentPanel = new JPanel( new GridLayout( 1, 2 ));
-        currentPanel.add( new JLabel( "Current: "));
-        currentTF = new JTextField( 10 );
-        currentPanel.add( currentTF );
-        add( currentPanel );
+    public IntensityView( final BeamIntensityMeter beamIntensityMeter ) {
+        setLayout( new GridLayout( 1, 2 ));
+        add( new JLabel( "Intensity: "));
+        intensityTF = new JTextField( 10 );
+        add( intensityTF );
 
-        ammeter.addUpdateListener( new ScalarDataRecorder.UpdateListener() {
+        beamIntensityMeter.addUpdateListener( new ScalarDataRecorder.UpdateListener() {
             public void update( ScalarDataRecorder.UpdateEvent event ) {
-                double current = ammeter.getCurrent();
-                currentTF.setText( format.format( current ));
+                double current = beamIntensityMeter.getIntesity();
+                intensityTF.setText( format.format( current ));
             }
         } );
     }

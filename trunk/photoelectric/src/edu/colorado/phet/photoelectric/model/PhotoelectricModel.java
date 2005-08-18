@@ -12,6 +12,7 @@ package edu.colorado.phet.photoelectric.model;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.dischargelamps.model.ElectronSource;
 import edu.colorado.phet.dischargelamps.model.ElectronSink;
@@ -22,6 +23,7 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.PhotonEmittedListener;
 import edu.colorado.phet.lasers.model.photon.PhotonEmittedEvent;
+import edu.colorado.phet.photoelectric.model.util.BeamIntensityMeter;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -48,7 +50,10 @@ public class PhotoelectricModel extends DischargeLampModel {
 
     // Target specification
     private PhotoelectricTarget target;
-    private double defaultTargetPotential = 1.5;
+    private double defaultTargetPotential = 0;
+
+    // Right-hand plate
+    private ElectronSink rightHandPlate;
 
     // Beam specification
     private CollimatedBeam beam;
@@ -59,6 +64,9 @@ public class PhotoelectricModel extends DischargeLampModel {
     private double beamSourceToTargetDist = 300;
     private double beamAngle = Math.toRadians( 130 );
     private double beamFanout = Math.toRadians( 5 );
+    private Ammeter ammeter;
+    private BeamIntensityMeter beamIntensityMeter;
+
 
     //----------------------------------------------------------------
     // Contructors and initialization
@@ -67,7 +75,7 @@ public class PhotoelectricModel extends DischargeLampModel {
     /**
      *
      */
-    public PhotoelectricModel() {
+    public PhotoelectricModel( AbstractClock clock ) {
 
         // todo: this isn't correct. The rotated beam doesn't look right. Try an angle of 170 deg. to see.
         // Create a photon beam and add a listener that will add the photons it produces to the model
@@ -102,6 +110,32 @@ public class PhotoelectricModel extends DischargeLampModel {
             }
         } );
         addModelElement( target );
+
+        // Create the right-hand plate
+        rightHandPlate = new ElectronSink( this,
+                                                       DischargeLampsConfig.ANODE_LINE.getP1(),
+                                                       DischargeLampsConfig.ANODE_LINE.getP2() );
+        this.addModelElement( rightHandPlate );
+
+        //----------------------------------------------------------------
+        // Intrumentation
+        //----------------------------------------------------------------
+
+        // Add an ammeter to the right-hand-plate
+        ammeter = new Ammeter( clock );
+        getRightHandPlate().addListener( new ElectronSink.ElectronAbsorptionListener() {
+            public void electronAbsorbed( ElectronSink.ElectronAbsorptionEvent event ) {
+                ammeter.recordElectron();
+            }
+        } );
+
+        // Add an intensity meter for the beam
+        beamIntensityMeter = new BeamIntensityMeter( clock );
+        getBeam().addPhotonEmittedListener( new PhotonEmittedListener() {
+            public void photonEmittedEventOccurred( PhotonEmittedEvent event ) {
+                beamIntensityMeter.recordPhoton();
+            }
+        } );
     }
 
     /**
@@ -157,5 +191,17 @@ public class PhotoelectricModel extends DischargeLampModel {
 
     public CollimatedBeam getBeam() {
         return beam;
+    }
+
+    public ElectronSink getRightHandPlate() {
+        return rightHandPlate;
+    }
+
+    public Ammeter getAmmeter() {
+        return ammeter;
+    }
+
+    public BeamIntensityMeter getBeamIntensityMeter() {
+        return beamIntensityMeter;
     }
 }
