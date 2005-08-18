@@ -154,11 +154,11 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         apparatusPanel.addGraphic( _deltaKTool, TOOLS_LAYER );
         
         // Delta x (dx,dt) measurement tool
-        _deltaXTool = new WavePacketDeltaXTool( apparatusPanel, _wavePacket, _amplitudesGraph.getChart() );
+        _deltaXTool = new WavePacketDeltaXTool( apparatusPanel, _wavePacket, _sumGraph.getChart() );
         apparatusPanel.addGraphic( _deltaXTool, TOOLS_LAYER );
         
         // Period (lamda1,T1) measurement tool
-        _periodTool = new WavePacketPeriodTool( apparatusPanel, _wavePacket, _amplitudesGraph.getChart() );
+        _periodTool = new WavePacketPeriodTool( apparatusPanel, _wavePacket, _sumGraph.getChart() );
         apparatusPanel.addGraphic( _periodTool, TOOLS_LAYER );
         
         //----------------------------------------------------------------------------
