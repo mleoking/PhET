@@ -50,10 +50,13 @@ public class WavePacketPeriodTool extends AbstractWavePacketMeasurementTool {
         
         // The current value that we're measuring.
         double k1 = getWavePacket().getK1();
-        double period = 2 * Math.PI / k1;
+        double period = 0;
+        if ( k1 > 0 ) {
+            period = 2 * Math.PI / k1;
+        }
         
         // Set the tool's bar width.
-        float width = (float) getChart().transformXDouble( period );
+        float width = (float) ( getChart().transformXDouble( period ) - getChart().transformXDouble( 0 ) );
         setToolWidth( width );
         
         // Set the tool's label.
