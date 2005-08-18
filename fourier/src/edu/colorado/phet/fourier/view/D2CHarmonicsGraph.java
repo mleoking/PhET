@@ -65,9 +65,9 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
     private static final Color MESSAGE_COLOR = Color.RED;
     
     // Chart parameters
-    private static final double X_RANGE_START = 1;
-    private static final double X_RANGE_MIN = 0.5;
-    private static final double X_RANGE_MAX = 2;
+    public static final double X_RANGE_START = 2;
+    public static final double X_RANGE_MIN = 0.5;
+    public static final double X_RANGE_MAX = 8;
     private static final double Y_RANGE_START = 1;
     private static final Range2D CHART_RANGE = new Range2D( -X_RANGE_START, -Y_RANGE_START, X_RANGE_START, Y_RANGE_START );
     private static final Dimension CHART_SIZE = new Dimension( 540, 100 );
@@ -339,10 +339,29 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
         else {
             xRange = X_RANGE_START * zoomFactor;
         }
-        range.setMaxX( xRange );
-        range.setMinX( -xRange );
-        _chartGraphic.setRange( range );
 
+        /*
+         * The order in which we change the tick marks is important.  
+         * If we're not careful, we may end up generating a huge 
+         * number of ticks based on old/new settings.
+         */
+        if ( xRange > 3 ) {
+            _chartGraphic.getHorizontalTicks().setMinorTicksVisible( false );
+            _chartGraphic.getHorizontalTicks().setMajorTickSpacing( 1 );
+            
+            range.setMaxX( xRange );
+            range.setMinX( -xRange );
+            _chartGraphic.setRange( range );    
+        }
+        else {
+            range.setMaxX( xRange );
+            range.setMinX( -xRange );
+            _chartGraphic.setRange( range );  
+            
+            _chartGraphic.getHorizontalTicks().setMinorTicksVisible( true );
+            _chartGraphic.getHorizontalTicks().setMajorTickSpacing( 0.5 );
+        }
+        
         updateZoomButtons();
     }
 
