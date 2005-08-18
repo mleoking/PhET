@@ -260,6 +260,7 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     private void addBarPlots() {
         
         double k1 = _wavePacket.getK1();
+        assert( k1 > 0 );
         double k0 = _wavePacket.getK0();
         double dk = _wavePacket.getDeltaK();
 
