@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- add 2dx and lambda1 measurement tools to D2C
+- bug: width of lambda1 measurement tools isn't correct
 - when k1 = 0, change equation to an integral above D2CSumGraph
 - when k1 != 0 show sum equation from +-infinity above D2CSumGraph 
 - memory leak in D2C module, freezes with wait cursor
@@ -76,6 +76,7 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(8/18) - set period for D2C harmonics and sum as 2pi/k1
 (8/18) - add 2dx and lamda1 measurement tools
 (8/18) - used symbolic constants for all symbols in measurement tools
 1.0.2 ...
