@@ -10,6 +10,7 @@ HIGH PRIORITY:
 - when 2dx gets to be just a few pixels, peaks of the waveform in Sum graph are chopped off
 - memory leak in D2C module, freezes with wait cursor
 - add ability to shift k0
+- moving measurement tools becomes unresponsive when k1=pi/4
 
 MEDIUM PRIORITY:
 - separate k0 and center point in GaussianWavePacket model (not the same thing)
