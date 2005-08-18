@@ -76,6 +76,7 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(8/18) - make the x axis in D2C harmonics and sum zoomable from 0.5-8
 (8/18) - set period for D2C harmonics and sum as 2pi/k1
 (8/18) - add 2dx and lamda1 measurement tools
 (8/18) - used symbolic constants for all symbols in measurement tools
