@@ -30,21 +30,26 @@ public class MathStrings {
     // Math symbol characters
     //----------------------------------------------------------------------------
     
-    public static char C_AMPLITUDE         = 'A';
-    public static char C_ANGULAR_FREQUENCY = '\u03C9'; // omega
+    // Greek characters
     public static char C_DELTA             = '\u0394';
+    public static char C_LAMDA             = '\u03BB';
+    public static char C_OMEGA             = '\u03C9';
+    public static char C_PI                = '\u03c0';
+    public static char C_SIGMA             = '\u03a3';
+    
+    // Symbols
+    public static char C_AMPLITUDE         = 'A';
+    public static char C_ANGULAR_FREQUENCY = C_OMEGA;
     public static char C_FREQUENCY         = 'f';
     public static char C_INFINITY          = '\u221E';
     public static char C_INTEGRAL          = '\u222b';
     public static char C_LENGTH            = 'L';
     public static char C_MODE              = 'n';
     public static char C_PERIOD            = 'T';
-    public static char C_PI                = '\u03c0';
-    public static char C_SIGMA             = '\u03a3';
     public static char C_SPACE             = 'x';
     public static char C_SQUARE_ROOT       = '\u221a';
     public static char C_TIME              = 't';
-    public static char C_WAVELENGTH        = '\u03BB'; // lamda
+    public static char C_WAVELENGTH        = C_LAMDA;
     public static char C_WAVE_NUMBER       = 'k';
     
     //----------------------------------------------------------------------------
