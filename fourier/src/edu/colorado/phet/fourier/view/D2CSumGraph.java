@@ -13,6 +13,7 @@ package edu.colorado.phet.fourier.view;
 
 import java.awt.*;
 
+import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
@@ -65,10 +66,9 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
     private static final Point TITLE_LOCATION = new Point( 40, 115 );
     
     // Chart parameters
-    private static final double L = 1;  // period of the fundamental harmonic
-    private static final double X_RANGE_START = L;
-    private static final double X_RANGE_MIN = ( L / 2 );
-    private static final double X_RANGE_MAX = ( 2 * L );
+    private static final double X_RANGE_START = 1;
+    private static final double X_RANGE_MIN = 0.5;
+    private static final double X_RANGE_MAX = 2;
     private static final double Y_RANGE_START = 1;
     private static final Range2D CHART_RANGE = new Range2D( -X_RANGE_START, -Y_RANGE_START, X_RANGE_START, Y_RANGE_START );
     private static final Dimension CHART_SIZE = new Dimension( 540, 100 );
@@ -146,7 +146,6 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
         
         // Fourier sum plot
         _sumPlot = new FourierSumPlot( component, _chartGraphic, _fourierSeries );
-        _sumPlot.setPeriod( L );
         _sumPlot.setPixelsPerPoint( SUM_PIXELS_PER_POINT );
         _sumPlot.setStroke( SUM_STROKE );
         _sumPlot.setBorderColor( SUM_COLOR );
@@ -229,6 +228,15 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
      */
     public ZoomControl getHorizontalZoomControl() {
         return _horizontalZoomControl;
+    }
+    
+    /**
+     * Gets a reference to the chart.
+     * 
+     * @return Chart
+     */    
+    public Chart getChart() {
+        return _chartGraphic;
     }
     
     /**
@@ -391,6 +399,7 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
                 _fourierSeries.getHarmonic( i ).setAmplitude( An );
             }
             
+            _sumPlot.setPeriod( 2 * Math.PI / k1 );
             _sumPlot.updateDataSet();
             
             _chartGraphic.autoscaleY( _sumPlot.getMaxAmplitude() );//XXX
