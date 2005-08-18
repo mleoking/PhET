@@ -49,8 +49,12 @@ import edu.colorado.phet.lasers.view.LampGraphic;
 import edu.colorado.phet.lasers.view.PhotonGraphic;
 import edu.colorado.phet.lasers.view.ResonatingCavityGraphic;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
+import edu.colorado.phet.photoelectric.PhotoelectricApplication;
+import edu.colorado.phet.photoelectric.view.AmmeterView;
+import edu.colorado.phet.photoelectric.view.IntensityView;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 import edu.colorado.phet.photoelectric.model.PhotoelectricTarget;
+import edu.colorado.phet.photoelectric.model.Ammeter;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -88,12 +92,13 @@ public class PhotoelectricModule extends BaseLaserModule {
     static private final double BEAM_LAYER = 900;
     static private final double ELECTRON_LAYER = 900;
 
-    static private HashMap TARGET_COLORS = new HashMap( );
-    static{
-        TARGET_COLORS.put( PhotoelectricTarget.COPPER, new Color( 210, 130, 30 ));
-        TARGET_COLORS.put( PhotoelectricTarget.MAGNESIUM, new Color( 130, 150, 170 ));
-        TARGET_COLORS.put( PhotoelectricTarget.SODIUM, new Color( 160, 180, 160 ));
-        TARGET_COLORS.put( PhotoelectricTarget.ZINC, new Color( 200, 200, 200 ));
+    static private HashMap TARGET_COLORS = new HashMap();
+
+    static {
+        TARGET_COLORS.put( PhotoelectricTarget.COPPER, new Color( 210, 130, 30 ) );
+        TARGET_COLORS.put( PhotoelectricTarget.MAGNESIUM, new Color( 130, 150, 170 ) );
+        TARGET_COLORS.put( PhotoelectricTarget.SODIUM, new Color( 160, 180, 160 ) );
+        TARGET_COLORS.put( PhotoelectricTarget.ZINC, new Color( 200, 200, 200 ) );
     }
 
 //    public static boolean DEBUG = true;
@@ -124,12 +129,13 @@ public class PhotoelectricModule extends BaseLaserModule {
     /**
      * Constructor
      *
-     * @param clock
+     * @param application
      */
-    public PhotoelectricModule( AbstractClock clock ) {
-        super( "Photoelectric Effect", clock );
+    public PhotoelectricModule( PhotoelectricApplication application ) {
+        super( "Photoelectric Effect", application.getClock() );
 
         // Set up the basic stuff
+        AbstractClock clock = application.getClock();
         ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
         apparatusPanel.setPaintStrategy( ApparatusPanel2.OFFSCREEN_BUFFER_STRATEGY );
         apparatusPanel.setBackground( Color.white );
@@ -140,7 +146,7 @@ public class PhotoelectricModule extends BaseLaserModule {
         //----------------------------------------------------------------
 
         // Set up the model
-        PhotoelectricModel model = new PhotoelectricModel();
+        PhotoelectricModel model = new PhotoelectricModel( clock );
         setModel( model );
         setControlPanel( new ControlPanel( this ) );
         model.getTarget().addListener( new CathodeListener() );
@@ -220,6 +226,26 @@ public class PhotoelectricModule extends BaseLaserModule {
         // Debug
         //----------------------------------------------------------------
 
+        // Add options menu item that will show current
+        JMenu optionsMenu = application.getOptionsMenu();
+        final JCheckBoxMenuItem currentDisplayMI = new JCheckBoxMenuItem( "Show meters" );
+        optionsMenu.add( currentDisplayMI );
+
+        final JDialog meterDlg = new JDialog( PhetApplication.instance().getPhetFrame(), false );
+
+        final AmmeterView ammeterView = new AmmeterView( getPhotoelectricModel().getAmmeter() );
+        final IntensityView intensityView = new IntensityView( getPhotoelectricModel().getBeamIntensityMeter() );
+        JPanel meterPanel = new JPanel( new GridLayout( 2, 1 ) );
+        meterDlg.setContentPane( meterPanel );
+        meterPanel.add( ammeterView );
+        meterPanel.add( intensityView );
+        meterDlg.pack();
+        currentDisplayMI.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                meterDlg.setVisible( currentDisplayMI.isSelected() );
+            }
+        } );
+
         // Draw red dots on the beam source location and the middle of the target plate
         if( DEBUG ) {
             PhetShapeGraphic beamIndicator = new PhetShapeGraphic( getApparatusPanel(),
@@ -238,7 +264,6 @@ public class PhotoelectricModule extends BaseLaserModule {
     }
 
     /**
-     *
      * @param beam
      */
     private void addBeamGraphic( CollimatedBeam beam ) {
@@ -339,11 +364,7 @@ public class PhotoelectricModule extends BaseLaserModule {
      * @param cathode
      */
     private void addAnode( PhotoelectricModel model, ApparatusPanel apparatusPanel, ElectronSource cathode ) {
-        ElectronSink anode = new ElectronSink( model,
-                                               DischargeLampsConfig.ANODE_LINE.getP1(),
-                                               DischargeLampsConfig.ANODE_LINE.getP2() );
-        model.addModelElement( anode );
-        this.anode = anode;
+        this.anode = getPhotoelectricModel().getRightHandPlate();
         this.anode.setPosition( DischargeLampsConfig.ANODE_LOCATION );
         PhetImageGraphic anodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode-2.png" );
 
@@ -396,7 +417,7 @@ public class PhotoelectricModule extends BaseLaserModule {
         // Add a listener to the target that will set the proper color if the material changes
         targetPlate.addMaterialChangeListener( new PhotoelectricTarget.MaterialChangeListener() {
             public void materialChanged( PhotoelectricTarget.MaterialChangeEvent event ) {
-                targetMaterialGraphic.setPaint( (Paint)TARGET_COLORS.get( targetPlate.getMaterial() ));
+                targetMaterialGraphic.setPaint( (Paint)TARGET_COLORS.get( targetPlate.getMaterial() ) );
             }
         } );
     }

@@ -25,11 +25,15 @@ import java.awt.event.ActionEvent;
 /**
  * ScalarDataRecorder
  * <p/>
- * Records by logging events in which a scalar data is
- * recorded at specific time intervals.
+ * Records by logging scalar data with time stamps. At periodic intervals,
+ * the recorder computes simple statistics on the data it has recorded, and sends update
+ * events to listeners.
  * <p/>
- * The recorder maintains an internal thread that computes the "dataTotal"
- * at intervals specified by the timeWindow. The default timeWindow is 5 ms.
+ * Each time statistics are computed, data with timestamps older than a specified age,
+ * the simulationTimeWindow, are thrown out.
+ * <p/>
+ * The recorder starts when its clientUpdateInterval is specified, either in a constructor
+ * or in a call to setClientUpdateInterval()
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -44,19 +48,30 @@ public class ScalarDataRecorder {
     private double timeWindow;
     private double timeSpanOfEntries;
     private AbstractClock clock;
+    private PeriodicDataComputer periodicDataComputer;
 
     /**
-     * @param clock        The simulation clock whose elapsed time is used to compute rates
-     * @param updatePeriod The period, in real time msec, between which the data statistics
-     *                     are updated
-     * @param timeWindow   The sliding window during which data entries are kept. As they
-     *                     age out of the window, they are discarded from the recorder. The
-     *                     units are simulation clock ticks
+     * @param clock
      */
-    public ScalarDataRecorder( AbstractClock clock, int updatePeriod, int timeWindow ) {
+    public ScalarDataRecorder( AbstractClock clock ) {
         this.clock = clock;
-        this.timeWindow = timeWindow;
-        new PeriodicDataComputer( updatePeriod ).start();
+    }
+
+    /**
+     * @param clock                The simulation clock whose elapsed time is used to compute rates
+     * @param clientUpdateInterval The period, in real time msec, between which the data statistics
+     *                             are updated
+     * @param simulationTimeWindow The sliding window during which data entries are kept. As they
+     *                             age out of the window, they are discarded from the recorder. The
+     *                             units are simulation clock ticks
+     */
+    public ScalarDataRecorder( AbstractClock clock,
+                               int clientUpdateInterval,
+                               int simulationTimeWindow ) {
+        this.clock = clock;
+        this.timeWindow = simulationTimeWindow;
+        periodicDataComputer = new PeriodicDataComputer( clientUpdateInterval );
+        periodicDataComputer.start();
     }
 
     public void clear() {
@@ -71,8 +86,24 @@ public class ScalarDataRecorder {
         return dataAverage;
     }
 
+    public int getNumEntries() {
+        return this.dataRecord.size();
+    }
+
     public double getTimeWindow() {
         return timeWindow;
+    }
+
+    public void setTimeWindow( double timeWindow ) {
+        this.timeWindow = timeWindow;
+    }
+
+    public void setClientUpdateInterval( int clientUpdateInterval ) {
+        if( periodicDataComputer != null ) {
+            periodicDataComputer.stop();
+        }
+        periodicDataComputer = new PeriodicDataComputer( clientUpdateInterval );
+        periodicDataComputer.start();
     }
 
     /**
@@ -121,14 +152,6 @@ public class ScalarDataRecorder {
         dataRecord.add( entry );
     }
 
-    public int getNumEntries() {
-        return this.dataRecord.size();
-    }
-
-    public void setTimeWindow( double timeWindow ) {
-        this.timeWindow = timeWindow;
-    }
-
 
     //----------------------------------------------------------------
     // Inner classes
@@ -164,8 +187,8 @@ public class ScalarDataRecorder {
         Timer timer;
         AbstractClock clock;
 
-        public PeriodicDataComputer( int updatePeriod ) {
-            this.timer = new Timer( updatePeriod, new ActionListener() {
+        PeriodicDataComputer( int clientUpdateInterval ) {
+            this.timer = new Timer( clientUpdateInterval, new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     computeDataStatistics();
                     synchronized( updateListenerChannel ) {
@@ -175,13 +198,17 @@ public class ScalarDataRecorder {
             } );
         }
 
-        public void start() {
+        void start() {
             timer.start();
+        }
+
+        void stop() {
+            timer.stop();
         }
     }
 
     //----------------------------------------------------------------
-    // Events
+    // Events and listeners
     //----------------------------------------------------------------
     public class UpdateEvent extends EventObject {
         public UpdateEvent( Object source ) {

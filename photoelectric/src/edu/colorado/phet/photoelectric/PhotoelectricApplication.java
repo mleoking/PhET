@@ -43,6 +43,7 @@ public class PhotoelectricApplication extends PhetApplication {
     // Clock specification
     public static final double DT = 12;
     public static final int FPS = 25;
+    private JMenu optionsMenu;
 
     //----------------------------------------------------------------
     // Instance data
@@ -58,10 +59,11 @@ public class PhotoelectricApplication extends PhetApplication {
                true,
                frameSetup );
 
-        final PhotoelectricModule photoelectricModule = new PhotoelectricModule( this.getClock() );
+        optionsMenu = new JMenu( SimStrings.get("Menu.Options") );
+
+        final PhotoelectricModule photoelectricModule = new PhotoelectricModule( this );
         setModules(new Module[] { photoelectricModule } );
 
-        JMenu optionsMenu = new JMenu( SimStrings.get("Menu.Options") );
         final JCheckBoxMenuItem photonMI = new JCheckBoxMenuItem( "Show photons" );
         photonMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -70,6 +72,10 @@ public class PhotoelectricApplication extends PhetApplication {
         } );
         optionsMenu.add( photonMI );
         getPhetFrame().addMenu( optionsMenu );
+    }
+
+    public JMenu getOptionsMenu() {
+        return optionsMenu;
     }
 
 

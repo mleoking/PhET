@@ -43,15 +43,6 @@ public class Electron extends SphericalBody implements Collidable {
     private static final double ELECTRON_MASS = 9.11E-31 * ENERGY_FUDGE_FACTOR;
     // Radius of an electron. An arbitrary dimension based on how it looks on the screen
     private static final double ELECTRON_RADIUS = 2;
-    // List of instances
-    private static List instances = new ArrayList();
-
-    //----------------------------------------------------------------
-    // Class methods
-    //----------------------------------------------------------------
-    public static List getInstances() {
-        return instances;
-    }
 
     //----------------------------------------------------------------
     // Instance data
@@ -68,8 +59,6 @@ public class Electron extends SphericalBody implements Collidable {
         collidableAdapter = new CollidableAdapter( this );
         setMass( ELECTRON_MASS );
         setRadius( ELECTRON_RADIUS );
-
-        instances.add( this );
     }
 
     public Electron( double x, double y ) {
@@ -139,7 +128,6 @@ public class Electron extends SphericalBody implements Collidable {
     }
 
     public void leaveSystem() {
-        instances.remove( this );
         changeListenerProxy.leftSystem( new ChangeEvent( this ) );
     }
 

@@ -29,8 +29,8 @@ import java.util.List;
 public class ElectronSink extends Electrode implements ElectronSource.ElectronProductionListener {
 
     private BaseModel model;
-//    private List electrons = new ArrayList();
     private Line2D.Double line;
+    private List electrons = new ArrayList( );
 
     /**
      * Absorbs electrons along a line between two points
@@ -53,7 +53,6 @@ public class ElectronSink extends Electrode implements ElectronSource.ElectronPr
     public void stepInTime( double dt ) {
 
         // Look for electrons that should be absorbed
-        List electrons = Electron.getInstances();
         for( int i = 0; i < electrons.size(); i++ ) {
             Electron electron = (Electron)electrons.get( i );
             if( line.intersectsLine( electron.getPosition().getX(), electron.getPosition().getY(),
@@ -62,6 +61,9 @@ public class ElectronSink extends Electrode implements ElectronSource.ElectronPr
                 electronAbsorptionListenerProxy.electronAbsorbed( new ElectronAbsorptionEvent( this, electron ) );
                 electron.leaveSystem();
                 electrons.remove( electron );
+            }
+            else if( electron.getPosition().getX() > line.getX1() && line.getX1() > 300  ) {
+                System.out.println( "!!!!" );
             }
         }
     }
@@ -104,6 +106,16 @@ public class ElectronSink extends Electrode implements ElectronSource.ElectronPr
     // ElectronSource.StateChangeListener implementation
     //-----------------------------------------------------------------
     public void electronProduced( ElectronSource.ElectronProductionEvent event ) {
-//        electrons.add( event.getElectron() );
+        final Electron electron = event.getElectron();
+        electrons.add( electron );
+        electron.addChangeListener( new Electron.ChangeListener() {
+            public void leftSystem( Electron.ChangeEvent changeEvent ) {
+                electrons.remove( electron );
+            }
+
+            public void energyChanged( Electron.ChangeEvent changeEvent ) {
+                //noop
+            }
+        } );
     }
 }
