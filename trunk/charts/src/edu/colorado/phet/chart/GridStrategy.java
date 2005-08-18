@@ -89,7 +89,8 @@ public interface GridStrategy {
         private static double[] getGridLinesSlowButCorrectVersion( double origin, double min, double max, double spacing ) {
             int n = (int)Math.ceil( ( max - min ) / spacing );
             if( n > 100 ) {
-                new RuntimeException( "Lots of gridlines coming up, n=" + n ).printStackTrace();
+                System.out.println( "WARNING: GridStrategy.Relative.getGridLinesSlowButCorrectVersion - large number of gridlines: " + n );
+//                new RuntimeException( "Lots of gridlines coming up, n=" + n ).printStackTrace();
             }
             ArrayList results = new ArrayList();
             for( double currentPoint = origin; currentPoint <= max; currentPoint += spacing ) {
