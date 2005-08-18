@@ -411,6 +411,9 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
 
     private void addContinuousPlot() {
         
+        // F(x) = exp( -(x^2) / (2 * (deltax^2)) ) * sin(k0*x)
+        
+        //XXX This should probably be implemented as a GaussianWavePacketPlot that observers a GaussianWavePacket
     }
     
     private void addFourierSeriesPlot() {
