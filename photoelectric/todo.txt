@@ -21,3 +21,5 @@ it's fixed, get rid of hack in PhotoelectricModule constructor
 - CollimatedBeam is screwed up. The direction parameter conflicts with the bounds, width and height, vertical and
 horizontal, etc.
 
+
+- Calibrate the volts according to Sam's note
