@@ -35,6 +35,8 @@ import edu.colorado.phet.fourier.view.D2CAmplitudesGraph;
 import edu.colorado.phet.fourier.view.D2CHarmonicsGraph;
 import edu.colorado.phet.fourier.view.D2CSumGraph;
 import edu.colorado.phet.fourier.view.tools.WavePacketDeltaKTool;
+import edu.colorado.phet.fourier.view.tools.WavePacketDeltaXTool;
+import edu.colorado.phet.fourier.view.tools.WavePacketPeriodTool;
 import edu.colorado.phet.fourier.view.tools.WavePacketSpacingTool;
 
 
@@ -69,6 +71,8 @@ public class D2CControlPanel extends FourierControlPanel {
     private D2CSumGraph _sumGraph;
     private WavePacketSpacingTool _spacingTool;
     private WavePacketDeltaKTool _deltaKTool;
+    private WavePacketDeltaXTool _deltaXTool;
+    private WavePacketPeriodTool _periodTool;
 
     // UI components
     private FourierComboBox _domainComboBox;
@@ -102,7 +106,10 @@ public class D2CControlPanel extends FourierControlPanel {
             D2CHarmonicsGraph harmonicsGraph,
             D2CSumGraph sumGraph,
             WavePacketSpacingTool spacingTool,
-            WavePacketDeltaKTool deltaKTool ) {
+            WavePacketDeltaKTool deltaKTool,
+            WavePacketDeltaXTool deltaXTool,
+            WavePacketPeriodTool periodTool ) {
+        
         super( module );
         
         assert( wavePacket != null );
@@ -111,6 +118,8 @@ public class D2CControlPanel extends FourierControlPanel {
         assert( sumGraph != null );
         assert( spacingTool != null );
         assert( deltaKTool != null );
+        assert( deltaXTool != null );
+        assert( periodTool != null );
         
         _wavePacket = wavePacket;
         _amplitudesGraph = amplitudesGraph;
@@ -118,6 +127,8 @@ public class D2CControlPanel extends FourierControlPanel {
         _sumGraph = sumGraph;
         _spacingTool = spacingTool;
         _deltaKTool = deltaKTool;
+        _deltaXTool = deltaXTool;
+        _periodTool = periodTool;
         
         // Set the control panel's minimum width.
         String widthString = SimStrings.get( "D2CControlPanel.width" );
@@ -305,6 +316,8 @@ public class D2CControlPanel extends FourierControlPanel {
         _sumGraph.setDomain( domain );
         _spacingTool.setDomain( domain );
         _deltaKTool.setDomain( domain );
+        _deltaXTool.setDomain( domain );
+        _periodTool.setDomain( domain );
         
         if ( domain == FourierConstants.DOMAIN_SPACE ) {
             _k1Slider.setFormat( SimStrings.get( "K1Slider.format.space" ) );

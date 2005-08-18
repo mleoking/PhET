@@ -20,13 +20,13 @@ import edu.colorado.phet.fourier.model.GaussianWavePacket;
 
 
 /**
- * WavePacketSpacingTool is the tool used for measuring the spacing (k1)
+ * WavePacketPeriodTool is the tool used for measuring the period (lamda or T)
  * of a Gaussian wave packet.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class WavePacketSpacingTool extends AbstractWavePacketMeasurementTool {
+public class WavePacketPeriodTool extends AbstractWavePacketMeasurementTool {
 
     /**
      * Sole constructor.
@@ -34,7 +34,7 @@ public class WavePacketSpacingTool extends AbstractWavePacketMeasurementTool {
      * @param component
      * @param wavePacket
      */
-    public WavePacketSpacingTool( Component component, GaussianWavePacket wavePacket, Chart chart ) {
+    public WavePacketPeriodTool( Component component, GaussianWavePacket wavePacket, Chart chart ) {
         super( component, wavePacket, chart );
     }
 
@@ -50,31 +50,32 @@ public class WavePacketSpacingTool extends AbstractWavePacketMeasurementTool {
         
         // The current value that we're measuring.
         double k1 = getWavePacket().getK1();
+        double period = 2 * Math.PI / k1;
         
         // Set the tool's bar width.
-        float width = (float) getChart().transformXDouble( k1 );
+        float width = (float) getChart().transformXDouble( period );
         setToolWidth( width );
         
         // Set the tool's label.
         int domain = getDomain();
         if ( domain == FourierConstants.DOMAIN_SPACE ) {
             if ( k1 == 0 ) {
-                // k1=0
-                setLabel( "<html>k<sub>1</sub>=0</html>" );
+                // lamda1=infinity
+                setLabel( "<html>" + MathStrings.C_LAMDA + "<sub>1</sub>=" + MathStrings.C_INFINITY + "</html>" );
             }
             else {
-                // k1
-                setLabel( "<html>k<sub>1</sub></html>" );
+                // lamda1
+                setLabel( "<html>" + MathStrings.C_LAMDA + "<sub>1</sub></html>" );
             }
         }
         else if ( domain == FourierConstants.DOMAIN_TIME ) {
             if ( k1 == 0 ) {
-                // w1=0
-                setLabel( "<html>" + MathStrings.C_OMEGA + "<sub>1</sub>=0</html>" );
+                // T1=infinity
+                setLabel( "<html>" + MathStrings.C_PERIOD + "<sub>1</sub>=" + MathStrings.C_INFINITY + "</html>" );
             }
             else {
-                // w1
-                setLabel( "<html>" + MathStrings.C_OMEGA + "<sub>1</sub></html>" );
+                // T1
+                setLabel( "<html>" + MathStrings.C_PERIOD + "<sub>1</sub></html>" );
             }     
         }
     }

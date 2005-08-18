@@ -15,6 +15,7 @@ import java.awt.Component;
 
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
 
 
@@ -57,10 +58,12 @@ public class WavePacketDeltaKTool extends AbstractWavePacketMeasurementTool {
         // Set the tool's label.
         int domain = getDomain();
         if ( domain == FourierConstants.DOMAIN_SPACE ) {
-            setLabel( "<html>2\u0394k</html>" );
+            // 2dk
+            setLabel( "<html>2" + MathStrings.C_DELTA + "k</html>" );
         }
         else if ( domain == FourierConstants.DOMAIN_TIME ) {
-            setLabel( "<html>2\u0394\u03C9</html>" );     
+            //2dw
+            setLabel( "<html>2" + MathStrings.C_DELTA + MathStrings.C_OMEGA + "</html>" );     
         }
     }
 
