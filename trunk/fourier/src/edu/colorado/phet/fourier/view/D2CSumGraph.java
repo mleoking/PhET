@@ -88,7 +88,7 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
     private PhetImageGraphic _closeButton;
     private ZoomControl _horizontalZoomControl;
     private D2CSumChart _chartGraphic;
-    private SumEquation _mathGraphic;
+    private D2CSumEquation _mathGraphic;
     private String _xTitleSpace, _xTitleTime;
     private int _domain;
     private int _waveType;
@@ -169,12 +169,12 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
 
         // Math
         {
-            _mathGraphic = new SumEquation( component );
+            _mathGraphic = new D2CSumEquation( component );
             addGraphic( _mathGraphic, MATH_LAYER );
             _mathGraphic.centerRegistrationPoint();
             // Location is above the center of the chart.
             int x = _chartGraphic.getX() + ( CHART_SIZE.width / 2 );
-            int y = 28;
+            int y = 30;
             _mathGraphic.setLocation( x, y );
         }
         
@@ -434,13 +434,8 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
     }
 
     private void updateMath() {
-        int numberOfHarmonics = _wavePacket.getNumberOfComponents();
-        if ( _domain == FourierConstants.DOMAIN_SPACE ) {
-            _mathGraphic.setForm( _domain, FourierConstants.MATH_FORM_WAVE_NUMBER, numberOfHarmonics );
-        }
-        else if ( _domain == FourierConstants.DOMAIN_TIME ) {
-            _mathGraphic.setForm( _domain, FourierConstants.MATH_FORM_ANGULAR_FREQUENCY, numberOfHarmonics );
-        }
+        boolean infinity = ( _wavePacket.getK1() == 0 );
+        _mathGraphic.setForm( _domain, infinity );
         _mathGraphic.centerRegistrationPoint();
     }
     
