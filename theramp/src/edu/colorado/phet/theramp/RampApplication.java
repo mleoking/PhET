@@ -31,20 +31,6 @@ public class RampApplication extends PhetApplication {
         super( args, TITLE, DESCRIPTION, VERSION, clock, false, frameSetup );
         simpleRampModule = new SimpleRampModule( getPhetFrame(), clock );
         advancedFeatureModule = new RampModule( getPhetFrame(), clock );
-//        try {
-//            SwingUtilities.invokeAndWait( new Runnable() {
-//                public void run() {
-        simpleRampModule.doReset();
-        advancedFeatureModule.doReset();
-//                }
-//            } );
-//        }
-//        catch( InterruptedException e ) {
-//            e.printStackTrace();
-//        }
-//        catch( InvocationTargetException e ) {
-//            e.printStackTrace();
-//        }
         setModules( new Module[]{simpleRampModule, advancedFeatureModule} );
     }
 
@@ -56,12 +42,12 @@ public class RampApplication extends PhetApplication {
                     phetLookAndFeel.apply();
                     PhetLookAndFeel.setLookAndFeel();
                     SwingTimerClock clock = new SwingTimerClock( 1.0 / 30.0, 30 );
-                    FrameSetup frameSetup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 600, 600 ) );
+                    FrameSetup frameSetup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 800, 600 ) );
 //                    FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024,768);
 //                    FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
                     final RampApplication application = new RampApplication( args, clock, frameSetup );
                     application.startApplication();
-                    System.out.println( "getSize() = " + application.simpleRampModule.getPhetPCanvas().getSize( ));
+                    System.out.println( "getSize() = " + application.simpleRampModule.getPhetPCanvas().getSize() );
                 }
             } );
         }

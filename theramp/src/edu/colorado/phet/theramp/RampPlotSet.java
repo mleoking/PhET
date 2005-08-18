@@ -1,13 +1,13 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp;
 
-import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.model.ValueAccessor;
 import edu.colorado.phet.theramp.view.RampLookAndFeel;
 import edu.colorado.phet.theramp.view.RampPanel;
 import edu.colorado.phet.theramp.view.plot.TimePlotSuitePNode;
 import edu.colorado.phet.theramp.view.plot.TimeSeriesPNode;
+import edu.colorado.phet.theramp.common.Range2D;
 import edu.colorado.phet.timeseries.TimeSeries;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
 import edu.umd.cs.piccolo.PNode;

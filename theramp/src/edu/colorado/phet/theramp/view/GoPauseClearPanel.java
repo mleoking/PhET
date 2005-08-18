@@ -4,6 +4,7 @@ package edu.colorado.phet.theramp.view;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.theramp.timeseries.RampTimeSeriesModel;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
 import edu.colorado.phet.timeseries.TimeSeriesModelListenerAdapter;
 
@@ -106,24 +107,35 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
             goPauseButton.setText( "Pause" );
 //            goPauseButton.setText( "" );
             goPauseButton.setIcon( pauseIcon );
-            super.invalidate();
-            super.validate();
-            super.doLayout();
-            super.repaint();
+            paintAll();
             itsAGoButton = false;
         }
         else {
             goPauseButton.setText( "      Go!" );
             goPauseButton.setIcon( goIcon );
-            super.invalidate();
-            super.validate();
-            super.doLayout();
-            super.repaint();
+            paintAll();
             itsAGoButton = true;
         }
 
         resetButton.setEnabled( reset );
         repaintComponents();
+    }
+
+    private void paintAll() {
+        super.invalidate();
+        super.validate();
+        super.doLayout();
+        super.repaint();
+        goPauseButton.repaint();
+        resetButton.repaint();
+        resetButton.repaint( 0, 0, resetButton.getWidth(), resetButton.getHeight() );
+        if( module instanceof RampTimeSeriesModel ) {
+            RampTimeSeriesModel rampTimeSeriesModel = (RampTimeSeriesModel)module;
+            if( rampTimeSeriesModel.getRampModule() != null && rampTimeSeriesModel.getRampModule().getRampPanel() != null ) {
+                System.out.println( "rampTimeSeriesModel = " + rampTimeSeriesModel );
+                rampTimeSeriesModel.getRampModule().getRampPanel().repaint();
+            }
+        }
     }
 
     private void repaintComponents() {
