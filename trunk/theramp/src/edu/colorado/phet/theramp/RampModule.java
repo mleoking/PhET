@@ -67,6 +67,7 @@ public class RampModule extends Module {
             }
         } );
         rampModel.getBlock().addListener( new CollisionHandler( this ) );
+        doReset();
     }
 
     protected RampControlPanel createRampControlPanel() {

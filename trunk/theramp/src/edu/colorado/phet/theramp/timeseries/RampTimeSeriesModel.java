@@ -60,4 +60,8 @@ public class RampTimeSeriesModel extends TimeSeriesModel {
         return rampModule.getApparatusPanel();
     }
 
+    public RampModule getRampModule() {
+        return rampModule;
+    }
+
 }

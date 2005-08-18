@@ -21,10 +21,9 @@ public class TimeGraphic extends PNode implements ModelElement {
     private DecimalFormat format = new DecimalFormat( "0.00" );
     public PText phetTextGraphic;
 
-    public TimeGraphic( Component component, TimeSeriesModel clock ) {
-        super();
+    public TimeGraphic( TimeSeriesModel clock ) {
         this.timeModel = clock;
-        Font font = new Font( "Lucida Sans", Font.BOLD, 28 );
+        Font font = new Font( "Lucida Sans", Font.BOLD, 22 );
         phetTextGraphic = new PText( "" );
         phetTextGraphic.setFont( font );
         addChild( phetTextGraphic );

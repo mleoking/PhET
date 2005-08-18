@@ -35,11 +35,11 @@ public class RampPanel extends PhetPCanvas {
 //    private static final Dimension ORIG_RENDER_SIZE = new Dimension( 1061, 871 );
 //    private static final Dimension ORIG_RENDER_SIZE = new Dimension( 1061, 871 );
 //    private static final Dimension ORIG_RENDER_SIZE = new Dimension( 1032, 686 );
-    private static final Dimension ORIG_RENDER_SIZE = new Dimension( 786,562);
-    public static Dimension getDefaultRenderSize(){
+    private static final Dimension ORIG_RENDER_SIZE = new Dimension( 786, 562 );
+
+    public static Dimension getDefaultRenderSize() {
         return new Dimension( ORIG_RENDER_SIZE );
     }
-    //width=803,height=588
 
     public Dimension getDefaultRenderingSize() {
         return ORIG_RENDER_SIZE;
@@ -84,13 +84,13 @@ public class RampPanel extends PhetPCanvas {
 
         addChild( barGraphSuite );
 
-        timeGraphic = new TimeGraphic( this, module.getTimeSeriesModel() );
+        timeGraphic = new TimeGraphic( module.getTimeSeriesModel() );
         timeGraphic.setOffset( 60, 60 );
         addChild( timeGraphic );
         module.getModel().addModelElement( timeGraphic );
 
-        velocityGraphic = new SpeedReadoutGraphic( this, module.getRampPhysicalModel() );
-        velocityGraphic.setOffset( timeGraphic.getX(), timeGraphic.getY() + timeGraphic.getHeight() + 20 );
+        velocityGraphic = new SpeedReadoutGraphic( module.getRampPhysicalModel() );
+        velocityGraphic.setOffset( timeGraphic.getX(), timeGraphic.getY() + timeGraphic.getHeight() + 10);
         addChild( velocityGraphic );
         module.getModel().addModelElement( velocityGraphic );
 
@@ -126,37 +126,7 @@ public class RampPanel extends PhetPCanvas {
         getCamera().setViewScale( 1.0 );
         getCamera().setViewOffset( 23.0, -21.0 );
 
-        final WiggleMe wiggleMe = new WiggleMe( "<html>Apply a Force<br>to the Filing Cabinet</html>", (int)( ORIG_RENDER_SIZE.getWidth()/2-50 ), 350 );
-        final ConnectorGraphic connectorGraphic = new ConnectorGraphic( wiggleMe, getBlockGraphic().getObjectGraphic() );
-        getLayer().getRoot().addActivity( connectorGraphic.getConnectActivity() );
-//        connectorGraphic.setStroke( new BasicStroke( 2, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 2, new float[]{10, 5}, 0 ) );
-        connectorGraphic.setStroke( new BasicStroke( 2, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 2 ) );//, new float[]{10, 5}, 0 ) );
-        connectorGraphic.setPaint( new GradientPaint( 0, 0, Color.red, 1000, 0, Color.blue, false ) );
-        connectorGraphic.setPickable( false );
-        connectorGraphic.setChildrenPickable( false );
 
-        wiggleMe.setPickable( false );
-        wiggleMe.setChildrenPickable( false );
-        getLayer().addChild( connectorGraphic );
-        getLayer().addChild( wiggleMe );
-        wiggleMe.ensureActivityCorrect();
-//        wiggleMe.setOffset( 800,800);
-//        Timer t = new Timer( 30, new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                System.out.println( "wiggleMe.getFullBounds() = " + wiggleMe.getFullBounds() );
-//                System.out.println( "getBlockGraphic().getFullBounds() = " + getBlockGraphic().getFullBounds() );
-//            }
-//        } );
-//        t.start();
-        addMouseListener( new MouseAdapter() {
-            public void mousePressed( MouseEvent e ) {
-                wiggleMe.setVisible( false );
-                getLayer().removeChild( wiggleMe );
-                getLayer().getRoot().getActivityScheduler().removeActivity( connectorGraphic.getConnectActivity() );
-                getLayer().removeChild( connectorGraphic );
-                removeMouseListener( this );
-            }
-        } );
         getLayer().setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
 
 //        getLayer().addInputEventListener( new PBasicInputEventHandler() {
@@ -179,13 +149,32 @@ public class RampPanel extends PhetPCanvas {
         goPauseClear.setOffset( appliedForceControl.getFullBounds().getMaxX(), appliedForceControl.getFullBounds().getY() );
         addChild( goPauseClear );
 
-//        FreeBodyDiagram freeBodyDiagram = new FreeBodyDiagram( this, module );
-//        freeBodyDiagram.setOffset( 200, 200 );
-//        addChild( freeBodyDiagram );
+        addWiggleMe();
+    }
 
-//        PNode initialConditions = new PSwing( this, new InitialConditionPanel( module ) );
-//        initialConditions.setOffset( appliedForceControl.getFullBounds().getMaxX(),appliedForceControl.getFullBounds().getY());
-//        addChild( initialConditions );
+    private void addWiggleMe() {
+        final WiggleMe wiggleMe = new WiggleMe( "<html>Apply a Force<br>to the Filing Cabinet</html>", (int)( ORIG_RENDER_SIZE.getWidth() / 2 - 50 ), 350 );
+        final ConnectorGraphic connectorGraphic = new ConnectorGraphic( wiggleMe, getBlockGraphic().getObjectGraphic() );
+        getLayer().getRoot().addActivity( connectorGraphic.getConnectActivity() );
+        connectorGraphic.setStroke( new BasicStroke( 2, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 2 ) );//, new float[]{10, 5}, 0 ) );
+        connectorGraphic.setPaint( new GradientPaint( 0, 0, Color.red, 1000, 0, Color.blue, false ) );
+        connectorGraphic.setPickable( false );
+        connectorGraphic.setChildrenPickable( false );
+
+        wiggleMe.setPickable( false );
+        wiggleMe.setChildrenPickable( false );
+        getLayer().addChild( connectorGraphic );
+        getLayer().addChild( wiggleMe );
+        wiggleMe.ensureActivityCorrect();
+        addMouseListener( new MouseAdapter() {
+            public void mousePressed( MouseEvent e ) {
+                wiggleMe.setVisible( false );
+                getLayer().removeChild( wiggleMe );
+                getLayer().getRoot().getActivityScheduler().removeActivity( connectorGraphic.getConnectActivity() );
+                getLayer().removeChild( connectorGraphic );
+                removeMouseListener( this );
+            }
+        } );
     }
 
     private void updateArrowSetGraphics() {
@@ -299,7 +288,6 @@ public class RampPanel extends PhetPCanvas {
     }
 
     public void repaintBackground() {
-//        System.out.println( "RampModule.repaintBackground: NOOP" );
         rampPlotSet.repaintBackground();
     }
 
