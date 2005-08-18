@@ -65,10 +65,9 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
     private static final Color MESSAGE_COLOR = Color.RED;
     
     // Chart parameters
-    private static final double L = 1;  // period of the fundamental harmonic
-    private static final double X_RANGE_START = L;
-    private static final double X_RANGE_MIN = ( L / 2 );
-    private static final double X_RANGE_MAX = ( 2 * L );
+    private static final double X_RANGE_START = 1;
+    private static final double X_RANGE_MIN = 0.5;
+    private static final double X_RANGE_MAX = 2;
     private static final double Y_RANGE_START = 1;
     private static final Range2D CHART_RANGE = new Range2D( -X_RANGE_START, -Y_RANGE_START, X_RANGE_START, Y_RANGE_START );
     private static final Dimension CHART_SIZE = new Dimension( 540, 100 );
@@ -403,6 +402,8 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
                 int deltaColor = ( HARMONIC_DARKEST_GRAY - HARMONIC_LIGHTEST_GRAY ) / numberOfHarmonics;
 
                 double maxAmplitude = 0;
+                
+                double fundamentalPeriod = 2 * Math.PI / k1;
 
                 // Re-populate the chart such that the fundamental's graphic is in the foreground.
                 for ( int i = numberOfHarmonics - 1; i >= 0; i-- ) {
@@ -425,7 +426,7 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
                     // Harmonic waveform graphic
                     HarmonicPlot harmonicPlot = new HarmonicPlot( getComponent(), _chartGraphic );
                     harmonicPlot.setHarmonic( harmonic );
-                    harmonicPlot.setPeriod( L / ( i + 1 ) );
+                    harmonicPlot.setPeriod( fundamentalPeriod / ( i + 1 ) );
                     harmonicPlot.setWaveType( _waveType );
                     harmonicPlot.setPixelsPerPoint( 1 );
                     harmonicPlot.setStroke( HARMONIC_STROKE );
