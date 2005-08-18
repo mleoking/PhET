@@ -5,7 +5,9 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-
+- D2C sum plot for k1=0 (infinite # components)
+- fix y-axis ticks and labels on D2C Sum and Components graphs as they autoscale
+- when 2dx gets to be just a few pixels, peaks of the waveform in Sum graph are chopped off
 - memory leak in D2C module, freezes with wait cursor
 - add ability to shift k0
 
