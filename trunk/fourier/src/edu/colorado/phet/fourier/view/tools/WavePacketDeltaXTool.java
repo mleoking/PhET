@@ -20,13 +20,13 @@ import edu.colorado.phet.fourier.model.GaussianWavePacket;
 
 
 /**
- * WavePacketSpacingTool is the tool used for measuring the spacing (k1)
- * of a Gaussian wave packet.
+ * WavePacketDeltaXTool is the tool used for measuring the delta x (or t)
+ * of a Gaussian wave packet in x space.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class WavePacketSpacingTool extends AbstractWavePacketMeasurementTool {
+public class WavePacketDeltaXTool extends AbstractWavePacketMeasurementTool {
 
     /**
      * Sole constructor.
@@ -34,7 +34,7 @@ public class WavePacketSpacingTool extends AbstractWavePacketMeasurementTool {
      * @param component
      * @param wavePacket
      */
-    public WavePacketSpacingTool( Component component, GaussianWavePacket wavePacket, Chart chart ) {
+    public WavePacketDeltaXTool( Component component, GaussianWavePacket wavePacket, Chart chart ) {
         super( component, wavePacket, chart );
     }
 
@@ -49,33 +49,21 @@ public class WavePacketSpacingTool extends AbstractWavePacketMeasurementTool {
     public void updateTool() {
         
         // The current value that we're measuring.
-        double k1 = getWavePacket().getK1();
+        double dx = getWavePacket().getDeltaX();
         
         // Set the tool's bar width.
-        float width = (float) getChart().transformXDouble( k1 );
+        float width = (float) ( 2 * getChart().transformXDouble( dx ) );
         setToolWidth( width );
         
         // Set the tool's label.
         int domain = getDomain();
         if ( domain == FourierConstants.DOMAIN_SPACE ) {
-            if ( k1 == 0 ) {
-                // k1=0
-                setLabel( "<html>k<sub>1</sub>=0</html>" );
-            }
-            else {
-                // k1
-                setLabel( "<html>k<sub>1</sub></html>" );
-            }
+            // 2dx
+            setLabel( "<html>2" + MathStrings.C_DELTA + MathStrings.C_SPACE + "</html>" );
         }
         else if ( domain == FourierConstants.DOMAIN_TIME ) {
-            if ( k1 == 0 ) {
-                // w1=0
-                setLabel( "<html>" + MathStrings.C_OMEGA + "<sub>1</sub>=0</html>" );
-            }
-            else {
-                // w1
-                setLabel( "<html>" + MathStrings.C_OMEGA + "<sub>1</sub></html>" );
-            }     
+            // 2dt
+            setLabel( "<html>2" + MathStrings.C_DELTA + MathStrings.C_TIME + "</html>" );     
         }
     }
 

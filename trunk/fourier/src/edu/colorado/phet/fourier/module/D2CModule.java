@@ -31,6 +31,8 @@ import edu.colorado.phet.fourier.view.D2CHarmonicsGraph;
 import edu.colorado.phet.fourier.view.D2CSumGraph;
 import edu.colorado.phet.fourier.view.GraphClosed;
 import edu.colorado.phet.fourier.view.tools.WavePacketDeltaKTool;
+import edu.colorado.phet.fourier.view.tools.WavePacketDeltaXTool;
+import edu.colorado.phet.fourier.view.tools.WavePacketPeriodTool;
 import edu.colorado.phet.fourier.view.tools.WavePacketSpacingTool;
 
 
@@ -65,6 +67,8 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
     // Tools
     private static final Point SPACING_TOOL_LOCATION = new Point( 590, 140 );
     private static final Point DELTA_K_TOOL_LOCATION = new Point( 540, 40 );
+    private static final Point DELTA_X_TOOL_LOCATION = new Point( 520, 580 );
+    private static final Point PERIOD_TOOL_LOCATION = new Point( 500, 500 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -80,6 +84,8 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
     private Dimension _canvasSize;
     private WavePacketSpacingTool _spacingTool;
     private WavePacketDeltaKTool _deltaKTool;
+    private WavePacketDeltaXTool _deltaXTool;
+    private WavePacketPeriodTool _periodTool;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -137,15 +143,23 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         _sumGraphClosed = new GraphClosed( apparatusPanel, SimStrings.get( "D2CSumGraph.title" ) );
         apparatusPanel.addGraphic( _sumGraphClosed, SUM_CLOSED_LAYER );
         
-        // Spacing (k1) measurement tool
+        // Spacing (k1,w1) measurement tool
         _spacingTool = new WavePacketSpacingTool( apparatusPanel, _wavePacket, _amplitudesGraph.getChart() );
         _spacingTool.setDragBounds( _amplitudesGraph.getChart().getBounds() );
         apparatusPanel.addGraphic( _spacingTool, TOOLS_LAYER );
         
-        // Delta k (dk) measurement tool
+        // Delta k (dk,dw) measurement tool
         _deltaKTool = new WavePacketDeltaKTool( apparatusPanel, _wavePacket, _amplitudesGraph.getChart() );
         _deltaKTool.setDragBounds( _amplitudesGraph.getChart().getBounds() );
         apparatusPanel.addGraphic( _deltaKTool, TOOLS_LAYER );
+        
+        // Delta x (dx,dt) measurement tool
+        _deltaXTool = new WavePacketDeltaXTool( apparatusPanel, _wavePacket, _amplitudesGraph.getChart() );
+        apparatusPanel.addGraphic( _deltaXTool, TOOLS_LAYER );
+        
+        // Period (lamda1,T1) measurement tool
+        _periodTool = new WavePacketPeriodTool( apparatusPanel, _wavePacket, _amplitudesGraph.getChart() );
+        apparatusPanel.addGraphic( _periodTool, TOOLS_LAYER );
         
         //----------------------------------------------------------------------------
         // Control
@@ -154,7 +168,7 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         // Control Panel
         _controlPanel = new D2CControlPanel( this, _wavePacket, 
                 _amplitudesGraph, _harmonicsGraph, _sumGraph,
-                _spacingTool, _deltaKTool );
+                _spacingTool, _deltaKTool, _deltaXTool, _periodTool );
         _controlPanel.addVerticalSpace( 20 );
         _controlPanel.addResetButton();
         setControlPanel( _controlPanel );
@@ -218,6 +232,14 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         kWidthToolHelp.pointAt( _deltaKTool, FourierHelpItem.UP, 15 );
         addHelpItem( kWidthToolHelp );
         
+        FourierHelpItem xWidthToolHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "D2CModule.help.widthTool" ) );
+        xWidthToolHelp.pointAt( _deltaXTool, FourierHelpItem.UP, 15 );
+        addHelpItem( xWidthToolHelp );
+        
+        FourierHelpItem periodToolHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "D2CModule.help.widthTool" ) );
+        periodToolHelp.pointAt( _periodTool, FourierHelpItem.UP, 15 );
+        addHelpItem( periodToolHelp );
+        
         //----------------------------------------------------------------------------
         // Initialze the module state
         //----------------------------------------------------------------------------
@@ -254,6 +276,8 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         
         _spacingTool.setLocation( SPACING_TOOL_LOCATION );
         _deltaKTool.setLocation( DELTA_K_TOOL_LOCATION );
+        _deltaXTool.setLocation( DELTA_X_TOOL_LOCATION );
+        _periodTool.setLocation( PERIOD_TOOL_LOCATION );
         
         _controlPanel.reset();
     }
