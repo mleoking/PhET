@@ -52,7 +52,7 @@ public class WavePacketDeltaXTool extends AbstractWavePacketMeasurementTool {
         double dx = getWavePacket().getDeltaX();
         
         // Set the tool's bar width.
-        float width = (float) ( 2 * getChart().transformXDouble( dx ) );
+        float width = (float) ( 2 * ( getChart().transformXDouble( dx ) - getChart().transformXDouble( 0 ) ) );
         setToolWidth( width );
         
         // Set the tool's label.
