@@ -64,7 +64,7 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
                 }
             }
         } );
-        resetButton = new ControlButton( SimStrings.get( "Reset" ) );
+        resetButton = new ControlButton( SimStrings.get( "Clear" ) );
         resetButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.confirmAndApplyReset();
@@ -149,7 +149,8 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
     }
 
     static class ControlButton extends JButton {
-        static Font font = new Font( "Lucida Sans", Font.BOLD, 14 );
+//        static Font font = new Font( "Lucida Sans", Font.BOLD, 14 );
+        private static Font font = RampFontSet.getFontSet().getNormalButtonFont();
 
         public ControlButton( String text ) {
             super( text );

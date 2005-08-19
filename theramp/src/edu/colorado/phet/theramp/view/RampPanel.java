@@ -77,10 +77,9 @@ public class RampPanel extends PhetPCanvas {
         addChild( rampWorld );
 
         barGraphSuite = new BarGraphSuite( this, module.getRampPhysicalModel() );
-        addChild( new OverheatButton( this, module.getRampPhysicalModel(), barGraphSuite.getMaxDisplayableEnergy(), module ) );
-
-        barGraphSuite.scale( 0.80 );
+//        barGraphSuite.scale( 0.80 );
         barGraphSuite.setOffset( getDefaultRenderingSize().width - barGraphSuite.getFullBounds().getWidth() - 20, barGraphSuite.getY() + 20 );
+        addChild( new OverheatButton( this, module.getRampPhysicalModel(), barGraphSuite.getMaxDisplayableEnergy(), module ) );
 
         addChild( barGraphSuite );
 
@@ -90,7 +89,7 @@ public class RampPanel extends PhetPCanvas {
         module.getModel().addModelElement( timeGraphic );
 
         velocityGraphic = new SpeedReadoutGraphic( module.getRampPhysicalModel() );
-        velocityGraphic.setOffset( timeGraphic.getX(), timeGraphic.getY() + timeGraphic.getHeight() + 10);
+        velocityGraphic.setOffset( timeGraphic.getX(), timeGraphic.getFullBounds().getMaxY() + 5 );
         addChild( velocityGraphic );
         module.getModel().addModelElement( velocityGraphic );
 

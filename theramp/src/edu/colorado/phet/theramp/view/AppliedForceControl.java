@@ -66,5 +66,7 @@ public class AppliedForceControl extends PNode {
 //                module.setAppliedForce( 0.0);
             }
         } );
+
+        scale( 0.75);//todo fix the size?  See Wendy.
     }
 }
