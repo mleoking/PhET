@@ -2,13 +2,13 @@
 package edu.colorado.phet.theramp.view.plot;
 
 import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.piccolo.ShadowPText;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.model.ValueAccessor;
 import edu.colorado.phet.theramp.view.RampUtil;
 import edu.colorado.phet.timeseries.TimePoint;
 import edu.colorado.phet.timeseries.TimeSeries;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
@@ -35,7 +35,7 @@ public class TimeSeriesPNode {
     private BasicStroke s;
     private Color transparentColor;
     private boolean visible = true;
-    private PText readoutGraphic;
+    private ShadowPText readoutGraphic;
     private DecimalFormat decimalFormat;
 
     public TimeSeriesPNode( TimePlotSuitePNode plotSuite, TimeSeries series, ValueAccessor valueAccessor, Color color, String justifyString ) {
@@ -55,7 +55,9 @@ public class TimeSeriesPNode {
         } );
         s = new BasicStroke( strokeSize, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f );
         transparentColor = RampUtil.transparify( color, 120 );
-        readoutGraphic = new PText();
+        readoutGraphic = new ShadowPText();
+        readoutGraphic.setShadowOffset( 0.65,0.65);
+        readoutGraphic.setShadowColor(Color.darkGray);
         readoutGraphic.setTextPaint( color );
         readoutGraphic.setFont( new Font( "Lucida Sans", Font.BOLD, 10 ) );
         decimalFormat = new DecimalFormat( "0.00" );

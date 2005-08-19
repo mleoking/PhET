@@ -8,6 +8,7 @@ import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
 import edu.colorado.phet.theramp.RampModule;
+import edu.colorado.phet.theramp.common.LucidaSansFont;
 import edu.colorado.phet.theramp.common.Range2D;
 import edu.colorado.phet.theramp.view.RampFontSet;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
@@ -17,6 +18,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PPaintContext;
 import org.jfree.chart.ChartFactory;
@@ -27,7 +29,6 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.ui.RectangleInsets;
 
 import javax.swing.*;
 import java.awt.*;
@@ -64,11 +65,12 @@ public class TimePlotSuitePNode extends PNode {
     private boolean minimized = false;
     private ArrayList listeners = new ArrayList();
 
-    public static final int DEFAULT_CHART_WIDTH = 500;
+//    public static final int DEFAULT_CHART_WIDTH = 500;
+    public static final int DEFAULT_CHART_WIDTH = 535;
     private int chartWidth = DEFAULT_CHART_WIDTH;
     private PSwing zoomInGraphic;
     private PSwing zoomOutGraphic;
-    private int zoomButtonHeight = 18;
+    private int zoomButtonHeight = 17;
 
     public TimePlotSuitePNode( RampModule module, PSwingCanvas pCanvas, Range2D range, String name, final TimeSeriesModel timeSeriesModel, int height ) {
         this.module = module;
@@ -238,11 +240,9 @@ public class TimePlotSuitePNode extends PNode {
         return plot.getRangeAxis().getUpperBound();
     }
 
-
     private void setChartRange( int tMin, double yMin, int tMax, double yMax ) {
         Range2D range = new Range2D( tMin, yMin, tMax, yMax );
         this.range = range;
-
         plot.getRangeAxis().setRange( yMin, yMax );
         plot.getDomainAxis().setRange( tMin, tMax );
         updateChartBuffer();
@@ -329,7 +329,7 @@ public class TimePlotSuitePNode extends PNode {
         for( int i = 0; i < series.size(); i++ ) {
             TimeSeriesPNode timeSeriesPNode = (TimeSeriesPNode)series.get( i );
             PNode readoutGraphic = timeSeriesPNode.getReadoutGraphic();
-            readoutGraphic.setOffset( getDataArea().getX() + 5, getDataArea().getY() + getDataArea().getHeight() / 2.0 + ( readoutGraphic.getHeight() + 1 ) * i );
+            readoutGraphic.setOffset( getDataArea().getX() + 5, getDataArea().getY() + getDataArea().getHeight() / 2.0 + ( readoutGraphic.getFullBounds().getHeight() + 1 ) * i );
         }
 
         zoomInGraphic.setOffset( getDataArea().getX(), getDataArea().getY() );
@@ -351,8 +351,25 @@ public class TimePlotSuitePNode extends PNode {
 
     private void updateChartBuffer() {
         bufferedImage = chart.createBufferedImage( chartWidth, chartHeight );
-        drawBorder( bufferedImage );
+        decorateBuffer();
+
         chartGraphic.setImage( bufferedImage );
+    }
+
+    private void decorateBuffer() {
+        drawInPlotAxis();
+        drawBorder( bufferedImage );
+    }
+
+    private void drawInPlotAxis() {
+        Graphics2D g2 = bufferedImage.createGraphics();
+        for( int t = 6; t <= 20; t += 2 ) {
+            Point2D imagLoc = toImageLocation( t, 0 );
+            PText text = new PText( "" + t );
+            text.setOffset( imagLoc.getX() - text.getWidth() / 2, imagLoc.getY() );
+            text.setFont( new LucidaSansFont( 10 ) );
+            text.fullPaint( new PPaintContext( g2 ) );
+        }
     }
 
     private void drawBorder( BufferedImage bufferedImage ) {
@@ -363,7 +380,6 @@ public class TimePlotSuitePNode extends PNode {
     }
 
     private static JFreeChart createChart( Range2D range, XYDataset dataset, String title ) {
-//        JFreeChart chart = ChartFactory.createXYLineChart( title,
         JFreeChart chart = ChartFactory.createXYLineChart( "",
                                                            "", // x-axis label
                                                            "", // y-axis label
@@ -375,19 +391,20 @@ public class TimePlotSuitePNode extends PNode {
         plot.setBackgroundPaint( Color.white );
         plot.setDomainGridlinePaint( Color.gray );
         plot.setRangeGridlinePaint( Color.gray );
-        plot.setAxisOffset( new RectangleInsets( 5.0, 5.0, 5.0, 5.0 ) );
-
-//        NumberAxis xAxis = new NumberAxis( "Time (seconds)" );
+//        plot.setAxisOffset( new RectangleInsets( 5.0, 5.0, 5.0, 5.0 ) );
 
         NumberAxis xAxis = new NumberAxis();
         xAxis.setAutoRange( false );
         xAxis.setRange( range.getMinX(), range.getMaxX() );
+        xAxis.setTickLabelsVisible( false );
         plot.setDomainAxis( xAxis );
 
-        NumberAxis yAxis = new NumberAxis( title + " (Joules)" );
+//        NumberAxis yAxis = new NumberAxis( title + " (Joules)" );
+        NumberAxis yAxis = new NumberAxis( title );
         yAxis.setAutoRange( false );
         yAxis.setRange( range.getMinY(), range.getMaxY() );
         plot.setRangeAxis( yAxis );
+
 
         plot.setDomainCrosshairVisible( true );
         plot.setRangeCrosshairVisible( true );

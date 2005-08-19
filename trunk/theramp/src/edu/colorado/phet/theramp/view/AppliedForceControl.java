@@ -67,6 +67,6 @@ public class AppliedForceControl extends PNode {
             }
         } );
 
-        scale( 0.75);//todo fix the size?  See Wendy.
+        scale( 0.65);//todo fix the size?  See Wendy.
     }
 }
