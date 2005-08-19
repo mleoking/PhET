@@ -18,7 +18,6 @@ import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.help.HelpManager;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -37,14 +36,15 @@ import javax.swing.*;
  */
 public class Module implements ClockTickListener {
 
-    BaseModel model;
-    ApparatusPanel apparatusPanel;
-    JPanel controlPanel;
-    JPanel monitorPanel;
-    String name;
+    private BaseModel model;
+    private ApparatusPanel apparatusPanel;
+    private JPanel controlPanel;
+    private JPanel monitorPanel;
+    private String name;
     private AbstractClock clock;
-    HelpManager helpManager;
+    private HelpManager helpManager;
     private PhetPCanvas phetPCanvas;
+    private boolean helpEnabled;
 
     /**
      * @param name
@@ -55,6 +55,7 @@ public class Module implements ClockTickListener {
         this.clock = clock;
         SimStrings.setStrings( "localization/CommonStrings" );
         helpManager = new HelpManager();
+        helpEnabled = false;
     }
 
     /**
@@ -191,7 +192,17 @@ public class Module implements ClockTickListener {
      * @param h
      */
     public void setHelpEnabled( boolean h ) {
+        helpEnabled = h;
         helpManager.setHelpEnabled( apparatusPanel, h );
+        if( controlPanel instanceof ControlPanel ) {
+            // If our control panel is a Phet control panel, then change the
+            // state of its Help button.
+            ( (ControlPanel)controlPanel ).setHelpEnabled( h );
+        }
+    }
+
+    public boolean isHelpEnabled() {
+        return helpEnabled;
     }
 
     /**
@@ -199,8 +210,8 @@ public class Module implements ClockTickListener {
      *
      * @param helpItem
      */
-    public void addHelpItem( HelpItem helpItem ) {
-        helpManager.addHelpItem( helpItem );
+    public void addHelpItem( PhetGraphic helpItem ) {
+        helpManager.addGraphic( helpItem );
         if( controlPanel != null && controlPanel instanceof ControlPanel ) {
             ( (ControlPanel)controlPanel ).setHelpPanelEnabled( true );
         }
@@ -211,8 +222,8 @@ public class Module implements ClockTickListener {
      *
      * @param helpItem
      */
-    public void removeHelpItem( HelpItem helpItem ) {
-        helpManager.removeHelpItem( helpItem );
+    public void removeHelpItem( PhetGraphic helpItem ) {
+        helpManager.removeGraphic( helpItem );
         if( controlPanel != null && controlPanel instanceof ControlPanel && helpManager.getNumHelpItems() == 0 ) {
             ( (ControlPanel)controlPanel ).setHelpPanelEnabled( false );
         }
@@ -269,7 +280,6 @@ public class Module implements ClockTickListener {
     public BaseModel getModel() {
         return model;
     }
-
 
 //    public void setState( StateDescriptor stateDescriptor ) {
 //        stateDescriptor.setState( this );
