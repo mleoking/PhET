@@ -22,7 +22,7 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 public class Ammeter extends ScalarDataRecorder {
 
     private int clientUpdateInterval = 500;
-    private int simulationTimeWindow = 1000;
+    private int simulationTimeWindow = 5000;
 
     public Ammeter( AbstractClock clock ) {
         super( clock );

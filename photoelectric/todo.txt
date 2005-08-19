@@ -23,3 +23,13 @@ horizontal, etc.
 
 
 - Calibrate the volts according to Sam's note
+
+
+Charts
+------
+Need much better documentation.
+    - better examples
+    - explanation of how Chart class works
+    - LinePlot.setBorderColor() is a very misleading name
+    - If you try to plot data that is out of range, you get nothing at all
+    - Sam has inner classes in the middle of the outer class' code. At least he did in DataSet.  

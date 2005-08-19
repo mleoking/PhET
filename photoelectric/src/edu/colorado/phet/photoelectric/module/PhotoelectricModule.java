@@ -52,6 +52,8 @@ import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 import edu.colorado.phet.photoelectric.PhotoelectricApplication;
 import edu.colorado.phet.photoelectric.view.AmmeterView;
 import edu.colorado.phet.photoelectric.view.IntensityView;
+import edu.colorado.phet.photoelectric.view.CurrentVsVoltageGraph;
+import edu.colorado.phet.photoelectric.view.GraphWindow;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 import edu.colorado.phet.photoelectric.model.PhotoelectricTarget;
 import edu.colorado.phet.photoelectric.model.Ammeter;
@@ -124,6 +126,7 @@ public class PhotoelectricModule extends BaseLaserModule {
     // Flag for type of beam view: either photon or solid beam
 //    private int viewType = PHOTON_VIEW;
     private int viewType = BEAM_VIEW;
+    private CurrentVsVoltageGraph currentVsVoltageGraph;
 
 
     /**
@@ -203,6 +206,14 @@ public class PhotoelectricModule extends BaseLaserModule {
                                                              mask,
                                                              getApparatusPanel().getBackground() );
         getApparatusPanel().addGraphic( maskGraphic, BEAM_LAYER + 1 );
+
+        // Create current vs voltage graph
+        GraphWindow graphWindow = new GraphWindow( application.getPhetFrame(), getApparatusPanel(), clock );
+        graphWindow.setVisible( true );
+        currentVsVoltageGraph = graphWindow.getCurrentVsVoltageGraph();
+//        currentVsVoltageGraph.addDataPoint( .01, .06, 400 );
+//        currentVsVoltageGraph.addDataPoint( .04, .06, 400 );
+
 
         //----------------------------------------------------------------
         // Controls
@@ -496,6 +507,25 @@ public class PhotoelectricModule extends BaseLaserModule {
                 anode.setPotential( 0 );
             }
         } );
+
+
+        //----------------------------------------------------------------
+        // Plot button
+        //----------------------------------------------------------------
+        final JButton plotBtn = new JButton( "Plot" );
+        plotBtn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                double voltage = batterySlider.getValue();
+                double current = getPhotoelectricModel().getAmmeter().getCurrent();
+                double wavelength = wavelengthSlider.getValue();
+                System.out.println( "voltage = " + voltage );
+                System.out.println( "current = " + current );
+                System.out.println( "wavelength = " + wavelength );
+                currentVsVoltageGraph.addDataPoint( voltage, current, wavelength );
+            }
+        } );
+        controlPanel.add( plotBtn );
+
     }
 
     //----------------------------------------------------------------
