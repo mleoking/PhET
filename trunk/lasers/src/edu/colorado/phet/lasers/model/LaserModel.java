@@ -50,8 +50,6 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
     private ArrayList photons = new ArrayList();
     private ArrayList atoms = new ArrayList();
     private ArrayList mirrors = new ArrayList();
-    private PartialMirror rightMirror;
-    private PartialMirror leftMirror;
     private CollisionMechanism collisionMechanism;
     private int numPhotons;
 
