@@ -9,6 +9,7 @@ package edu.colorado.phet.chart;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class DataSet {
     private ArrayList dataPoints = new ArrayList();
@@ -16,6 +17,18 @@ public class DataSet {
 
     public Point2D pointAt( int i ) {
         return (Point2D)dataPoints.get( i );
+    }
+
+    protected List getDataPoints() {
+        return dataPoints;
+    }
+
+    protected void setDataPoints( ArrayList list ) {
+        dataPoints = list;
+    }
+
+    protected ArrayList getObservers() {
+        return observers;
     }
 
     public int size() {
@@ -85,28 +98,6 @@ public class DataSet {
         }
     }
 
-    /**
-     * Observer is the interface implemented by clients who
-     * want to be notified about changes to the data set.
-     */
-    public interface Observer {
-
-        /**
-         * Called when the associated data set is cleared.
-         */
-        void cleared();
-
-        /**
-         * Called when a single point is added to the data set.
-         */
-        void pointAdded( Point2D point );
-
-        /**
-         * Called when a set of points is added to the data set.
-         */
-        void pointsAdded( Point2D[] points );
-    }
-
     public boolean isValid( Point2D dataPoint ) {
         if( dataPoint == null ) {
             return false;
@@ -123,7 +114,7 @@ public class DataSet {
             throw new RuntimeException( "Null data Point" );
         }
 
-// Iterate over observers
+        // Iterate over observers
         dataPoints.add( dataPoint );
         notifyObservers( dataPoint );
     }
@@ -158,5 +149,29 @@ public class DataSet {
 
     public String toString() {
         return dataPoints.toString();
+    }
+
+
+
+    /**
+     * Observer is the interface implemented by clients who
+     * want to be notified about changes to the data set.
+     */
+    public interface Observer {
+
+        /**
+         * Called when the associated data set is cleared.
+         */
+        void cleared();
+
+        /**
+         * Called when a single point is added to the data set.
+         */
+        void pointAdded( Point2D point );
+
+        /**
+         * Called when a set of points is added to the data set.
+         */
+        void pointsAdded( Point2D[] points );
     }
 }
