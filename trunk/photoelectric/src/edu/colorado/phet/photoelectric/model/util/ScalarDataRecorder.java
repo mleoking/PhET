@@ -49,6 +49,8 @@ public class ScalarDataRecorder {
     private double timeSpanOfEntries;
     private AbstractClock clock;
     private PeriodicDataComputer periodicDataComputer;
+    private double minVal;
+    private double maxVal;
 
     /**
      * @param clock
@@ -78,17 +80,59 @@ public class ScalarDataRecorder {
         dataRecord.removeAll( dataRecord );
     }
 
-    public double getDataTotal() {
-        return dataTotal;
+    /**
+     * Computes various statistics on the data collected during the last
+     * simulation time window. Data older than that is discarded from the
+     * record.
+     */
+    protected synchronized void computeDataStatistics() {
+        double currTime = clock.getRunningTime();
+
+        // Remove entries from the data record that have aged out of the time window
+        if( dataRecord.size() > 0 ) {
+            double startTime = ( (DataRecordEntry)dataRecord.get( 0 ) ).getTime();
+            while( dataRecord.size() > 0 && currTime - startTime > timeWindow ) {
+                dataRecord.remove( 0 );
+                if( dataRecord.size() > 0 ) {
+                    startTime = ( (DataRecordEntry)dataRecord.get( 0 ) ).getTime();
+                }
+            }
+        }
+
+        dataTotal = 0;
+        minVal = Double.MAX_VALUE;
+        maxVal = Double.MIN_VALUE;
+        for( int i = 0; i < dataRecord.size(); i++ ) {
+            DataRecordEntry entry = (DataRecordEntry)dataRecord.get( i );
+            dataTotal += entry.getValue();
+
+            // Track the range of the entries
+            minVal = minVal > entry.getValue() ? entry.getValue() : minVal;
+            maxVal = maxVal < entry.getValue() ? entry.getValue() : maxVal;
+        }
+        dataAverage = 0;
+        if( dataRecord.size() > 0 ) {
+            // Get the time span of the entries
+            double timeOfFirstEntry = ( (DataRecordEntry)dataRecord.get( 0 ) ).getTime();
+            double timeOfLastEntry = ( (DataRecordEntry)dataRecord.get( dataRecord.size() - 1 ) ).getTime();
+            timeSpanOfEntries = timeOfLastEntry - timeOfFirstEntry;
+
+            // Compute the average of the entries
+            dataAverage = dataTotal / dataRecord.size();
+        }
     }
 
-    public double getDataAverage() {
-        return dataAverage;
+    /**
+     *
+     */
+    public synchronized void addDataRecordEntry( double value ) {
+        DataRecordEntry entry = new DataRecordEntry( clock.getRunningTime(), value );
+        dataRecord.add( entry );
     }
 
-    public int getNumEntries() {
-        return this.dataRecord.size();
-    }
+    //----------------------------------------------------------------
+    // Setters and getters for recording parameters
+    //----------------------------------------------------------------
 
     public double getTimeWindow() {
         return timeWindow;
@@ -106,9 +150,38 @@ public class ScalarDataRecorder {
         periodicDataComputer.start();
     }
 
+    //----------------------------------------------------------------
+    // Getters for statistics of the data collected in the last call
+    // computeDataStatistices
+    //----------------------------------------------------------------
+
+    /**
+     * Returns the total of the data collected in the simulation time window
+     * @return
+     */
+    public double getDataTotal() {
+        return dataTotal;
+    }
+
+    /**
+     * Returns the aveage of the data collected in the simulation time window
+     * @return
+     */
+    public double getDataAverage() {
+        return dataAverage;
+    }
+
+    /**
+     * Returns the avearage of the data collected in the simulation time window
+     * @return
+     */
+    public int getNumEntries() {
+        return this.dataRecord.size();
+    }
+
     /**
      * Reports the time, in msec, between the first and last data entries
-     * used in the last call to computeDataStatistics()
+     * used in the simulation time window
      *
      * @return
      */
@@ -116,42 +189,21 @@ public class ScalarDataRecorder {
         return timeSpanOfEntries;
     }
 
-    private synchronized void computeDataStatistics() {
-        double currTime = clock.getRunningTime();
-
-        // Remove entries from the data record that have aged out of the time window
-        if( dataRecord.size() > 0 ) {
-            double startTime = ( (DataRecordEntry)dataRecord.get( 0 ) ).getTime();
-            while( dataRecord.size() > 0 && currTime - startTime > timeWindow ) {
-                dataRecord.remove( 0 );
-                if( dataRecord.size() > 0 ) {
-                    startTime = ( (DataRecordEntry)dataRecord.get( 0 ) ).getTime();
-                }
-            }
-        }
-
-        dataTotal = 0;
-        for( int i = 0; i < dataRecord.size(); i++ ) {
-            DataRecordEntry entry = (DataRecordEntry)dataRecord.get( i );
-            dataTotal += entry.getValue();
-        }
-        dataAverage = 0;
-        if( dataRecord.size() > 0 ) {
-            double timeOfFirstEntry = ( (DataRecordEntry)dataRecord.get( 0 ) ).getTime();
-            double timeOfLastEntry = ( (DataRecordEntry)dataRecord.get( dataRecord.size() - 1 ) ).getTime();
-            timeSpanOfEntries = timeOfLastEntry - timeOfFirstEntry;
-            dataAverage = dataTotal / dataRecord.size();
-        }
+    /**
+     * Returns the minimum value recorded in the simulation time window
+     * @return
+     */
+    public double getMinVal() {
+        return minVal;
     }
 
     /**
-     *
+     * Returns the minimum value recorded in the simulation time window
+     * @return
      */
-    public synchronized void addDataRecordEntry( double value ) {
-        DataRecordEntry entry = new DataRecordEntry( clock.getRunningTime(), value );
-        dataRecord.add( entry );
+    public double getMaxVal() {
+        return maxVal;
     }
-
 
     //----------------------------------------------------------------
     // Inner classes

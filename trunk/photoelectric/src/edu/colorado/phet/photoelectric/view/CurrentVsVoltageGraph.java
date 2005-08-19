@@ -12,6 +12,7 @@ package edu.colorado.phet.photoelectric.view;
 
 import edu.colorado.phet.chart.*;
 import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.common.view.ApparatusPanel2;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -29,17 +30,18 @@ public class CurrentVsVoltageGraph extends Chart {
     static private Range2D range = new Range2D( -0.07, 0, 0.07, 0.2 );
     static Dimension chartSize = new Dimension( 200, 150 );
 
+    // A map of data sets, keyed by the wavelength each corresponds to
     private HashMap wavelengthToDataSetMap = new HashMap();
-    private DataSet data;
 
     public CurrentVsVoltageGraph( Component component ) {
         super( component, range, chartSize );
 
-        data = new DataSet();
-        data.addPoint( .01, .02 );
-        data.addPoint( .03, .03 );
-        LinePlot plot = new LinePlot( component, this, data );
-        this.addDataSetGraphic( plot );
+        // Test data
+//        DataSet data = new DataSet();
+//        data.addPoint( .01, .02 );
+//        data.addPoint( .03, .03 );
+//        LinePlot plot = new LinePlot( component, this, data );
+//        this.addDataSetGraphic( plot );
     }
 
     /**
@@ -59,10 +61,12 @@ public class CurrentVsVoltageGraph extends Chart {
             dataSet = new SortedDataSet();
             wavelengthToDataSetMap.put( wavelengthObj, dataSet );
             LinePlot plot = new LinePlot( getComponent(), this, dataSet );
+            ScatterPlot points = new ScatterPlot( getComponent(), this, dataSet );
             Color color = VisibleColor.wavelengthToColor( wavelength );
             color = Color.red;
             plot.setBorderColor( color);
             this.addDataSetGraphic( plot );
+            this.addDataSetGraphic( points );
         }
         return dataSet;
     }
