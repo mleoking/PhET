@@ -4,6 +4,7 @@ package edu.colorado.phet.theramp;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.theramp.view.FloorGraphic;
 import edu.colorado.phet.theramp.view.RampPanel;
 import edu.umd.cs.piccolo.PNode;
@@ -14,6 +15,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -32,7 +34,9 @@ public class FireDog extends PNode {
     public FireDog( RampModule module ) {
         this.module = module;
         try {
-            image = new PImage( ImageLoader.loadBufferedImage( "images/firedog.gif" ) );
+            BufferedImage newImage = ImageLoader.loadBufferedImage( "images/firedog.gif" );
+            newImage=BufferedImageUtils.rescaleYMaintainAspectRatio( null,newImage, 100);
+            image = new PImage( newImage );
 //            image = new BoidGraphic(module.getPhetPCanvas() );// ImageLoader.loadBufferedImage( "images/firedog.gif" ) );
         }
         catch( IOException e ) {
@@ -165,8 +169,8 @@ public class FireDog extends PNode {
 
             if( dropImage == null ) {
                 try {
-                    dropImage = ImageLoader.loadBufferedImage( "images/drop32.gif" );
-                    dropImage = BufferedImageUtils.rescaleYMaintainAspectRatio( null, dropImage, 14 );
+                    dropImage = ImageLoader.loadBufferedImage( "images/drop.gif" );
+//                    dropImage = BufferedImageUtils.rescaleYMaintainAspectRatio( null, dropImage, 14 );
                 }
                 catch( IOException e ) {
                     e.printStackTrace();
@@ -179,13 +183,14 @@ public class FireDog extends PNode {
             addChild( pimage );
 
 
-            Point2D point = new Point2D.Double( image.getGlobalFullBounds().getMaxX(), image.getGlobalFullBounds().getCenterY() );
+            Point2D point = new Point2D.Double( image.getGlobalFullBounds().getMaxX(), image.getGlobalFullBounds().getCenterY()+20 );
 
             particle.setPosition( globalToLocal( point ) );
             double dx = random.nextGaussian() * 30;
             double dy = random.nextGaussian() * 20;
             particle.setVelocity( 200.0 + dx, -120 - dy );
             particle.setAcceleration( 0, 200 );
+            setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
         }
 
         public void propagate( double dt ) {
@@ -195,12 +200,20 @@ public class FireDog extends PNode {
         }
 
         private void update() {
+            setTransform( new AffineTransform( ) );
             setOffset( particle.getPosition() );
+
+            Vector2D v=particle.getVelocity();
+            double angle=v.getAngle();
+
+            rotate( angle-Math.PI/2 );
             if( particle.getPosition().getY() > getFloorY() ) {
                 getRampPanel().removeChild( this );
                 waterDrops.remove( this );
                 module.getRampPhysicalModel().clearHeat();
             }
+
+
         }
     }
 

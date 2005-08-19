@@ -6,7 +6,6 @@ import edu.colorado.phet.timeseries.TimeSeriesModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
-import java.awt.*;
 import java.text.DecimalFormat;
 
 /**
@@ -23,9 +22,9 @@ public class TimeGraphic extends PNode implements ModelElement {
 
     public TimeGraphic( TimeSeriesModel clock ) {
         this.timeModel = clock;
-        Font font = new Font( "Lucida Sans", Font.BOLD, 22 );
+//        Font font = new Font( "Lucida Sans", Font.BOLD, 22 );
         phetTextGraphic = new PText( "" );
-        phetTextGraphic.setFont( font );
+        phetTextGraphic.setFont( RampFontSet.getFontSet().getTimeReadoutFont() );
         addChild( phetTextGraphic );
         stepInTime( 0.0 );
         //setIgnoreMouse( true );

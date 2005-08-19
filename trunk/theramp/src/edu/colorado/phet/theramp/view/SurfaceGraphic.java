@@ -139,7 +139,8 @@ public class SurfaceGraphic extends PNode {
 
     private Paint createBookFill() {
         try {
-            texture = ImageLoader.loadBufferedImage( "images/bookstack3.png" );
+//            texture = ImageLoader.loadBufferedImage( "images/bookstack3.png" );
+            texture = ImageLoader.loadBufferedImage( "images/bookstack3.gif" );
 //            Point rampEnd = getViewLocation( ramp.getLocation( ramp.getLength() * 0.8 ) );
             Point rampEnd = getEndLocation();
 //            System.out.println( "texture = " + texture );

@@ -10,7 +10,6 @@ import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -35,6 +34,7 @@ public class OverheatButton extends PNode {
         shadowHTMLGraphic.setFont( new Font( "Lucida Sans", Font.BOLD, 22 ) );
         addChild( shadowHTMLGraphic );
         JButton overheat = new JButton( "Remove Heat" );
+        overheat.setFont( RampFontSet.getFontSet().getNormalButtonFont() );
         overheat.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 rampPanel.getRampModule().clearHeat();
@@ -62,7 +62,7 @@ public class OverheatButton extends PNode {
 //            Point2D viewLoc=rampPanel.getRampGraphic().
 //            setOffset( viewLocation.x, viewLocation.y + 10 );
 
-            setOffset( RampPanel.getDefaultRenderSize().width/2, 50);
+            setOffset( RampPanel.getDefaultRenderSize().width / 2, 50 );
         }
         else if( rampPhysicalModel.getThermalEnergy() < max ) {
             setVisible( false );

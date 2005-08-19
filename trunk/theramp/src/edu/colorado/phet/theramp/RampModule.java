@@ -16,6 +16,8 @@ import edu.colorado.phet.timeseries.TimeSeriesPlaybackPanel;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 
 /**
  * User: Sam Reid
@@ -33,7 +35,8 @@ public class RampModule extends Module {
 
     private ArrayList listeners = new ArrayList();
 
-    public static final double FORCE_LENGTH_SCALE = 0.1;//1.0;
+//    public static final double FORCE_LENGTH_SCALE = 0.1;//1.0;
+    public static final double FORCE_LENGTH_SCALE = 0.06;//1.0;
     private PhetFrame phetFrame;
 
     public RampModule( PhetFrame frame, AbstractClock clock ) {
@@ -52,6 +55,7 @@ public class RampModule extends Module {
                 new RampObject( "images/piano.png", "Piano", 0.8, 225, 0.6, 0.6, 0.8, 20 ),
 //            new RampObject( "images/ollie.gif", "Sleepy Dog", 0.5, 30, 0.1, 0.1, 0.35 ),
         };
+        sort( rampObjects );
         rampPanel = createRampPanel();
         super.setPhetPCanvas( rampPanel );
 
@@ -68,6 +72,16 @@ public class RampModule extends Module {
         } );
         rampModel.getBlock().addListener( new CollisionHandler( this ) );
         doReset();
+    }
+
+    private void sort( RampObject[] rampObjects ) {
+        Arrays.sort( rampObjects, new Comparator() {
+            public int compare( Object o1, Object o2 ) {
+                RampObject a = (RampObject)o1;
+                RampObject b = (RampObject)o2;
+                return Double.compare( a.getMass(), b.getMass() );
+            }
+        } );
     }
 
     protected RampControlPanel createRampControlPanel() {

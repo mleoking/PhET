@@ -5,7 +5,6 @@ import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.model.ValueAccessor;
 import edu.colorado.phet.theramp.view.RampUtil;
-import edu.colorado.phet.theramp.view.plot.TimePlotSuitePNode;
 import edu.colorado.phet.timeseries.TimePoint;
 import edu.colorado.phet.timeseries.TimeSeries;
 import edu.umd.cs.piccolo.PNode;
@@ -39,7 +38,7 @@ public class TimeSeriesPNode {
     private PText readoutGraphic;
     private DecimalFormat decimalFormat;
 
-    public TimeSeriesPNode( TimePlotSuitePNode plotSuite, TimeSeries series, ValueAccessor valueAccessor, Color color,String justifyString) {
+    public TimeSeriesPNode( TimePlotSuitePNode plotSuite, TimeSeries series, ValueAccessor valueAccessor, Color color, String justifyString ) {
         this.plotSuite = plotSuite;
         this.series = series;
         this.valueAccessor = valueAccessor;
@@ -58,9 +57,12 @@ public class TimeSeriesPNode {
         transparentColor = RampUtil.transparify( color, 120 );
         readoutGraphic = new PText();
         readoutGraphic.setTextPaint( color );
-        readoutGraphic.setFont( new Font( "Lucida Sans",Font.BOLD, 10) );
-        decimalFormat = new DecimalFormat( "0.00");
+        readoutGraphic.setFont( new Font( "Lucida Sans", Font.BOLD, 10 ) );
+        decimalFormat = new DecimalFormat( "0.00" );
         updateReadout();
+
+        readoutGraphic.setPickable( false );
+        readoutGraphic.setChildrenPickable( false );
     }
 
     private void updateReadout() {
@@ -72,7 +74,7 @@ public class TimeSeriesPNode {
     }
 
     private void updateReadout( double value ) {
-        readoutGraphic.setText( "" + valueAccessor.getName() + " = " + decimalFormat.format( value)+ " " + valueAccessor.getUnits() );
+        readoutGraphic.setText( "" + valueAccessor.getName() + " = " + decimalFormat.format( value ) + " " + valueAccessor.getUnits() );
     }
 
     private void dataAdded() {
@@ -107,7 +109,7 @@ public class TimeSeriesPNode {
 
     public void reset() {
         lastScreenPoint = null;
-        updateReadout( );
+        updateReadout();
     }
 
     public void setVisible( boolean visible ) {

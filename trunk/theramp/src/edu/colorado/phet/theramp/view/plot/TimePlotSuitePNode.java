@@ -2,12 +2,14 @@
 package edu.colorado.phet.theramp.view.plot;
 
 import edu.colorado.phet.common.view.graphics.transforms.LinearTransform2D;
+import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.common.Range2D;
+import edu.colorado.phet.theramp.view.RampFontSet;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
 import edu.colorado.phet.timeseries.TimeSeriesModelListenerAdapter;
 import edu.umd.cs.piccolo.PNode;
@@ -66,6 +68,7 @@ public class TimePlotSuitePNode extends PNode {
     private int chartWidth = DEFAULT_CHART_WIDTH;
     private PSwing zoomInGraphic;
     private PSwing zoomOutGraphic;
+    private int zoomButtonHeight = 18;
 
     public TimePlotSuitePNode( RampModule module, PSwingCanvas pCanvas, Range2D range, String name, final TimeSeriesModel timeSeriesModel, int height ) {
         this.module = module;
@@ -172,6 +175,7 @@ public class TimePlotSuitePNode extends PNode {
 
 
         JButton maximize = new JButton( name + " Graph" );
+        maximize.setFont( RampFontSet.getFontSet().getNormalButtonFont() );
         minBut.setMargin( new Insets( 2, 2, 2, 2 ) );
         maximize.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -184,13 +188,13 @@ public class TimePlotSuitePNode extends PNode {
         double maxVisibleRange = getMaxRangeValue();
 
         try {
-            final ZoomButton zoomIn = new ZoomButton( new ImageIcon( ImageLoader.loadBufferedImage( "images/icons/glass-20-plus.gif" ) ),
+            final ZoomButton zoomIn = new ZoomButton( new ImageIcon( loadZoomInImage() ),
                                                       -5000, -500, 100, maxVisibleRange * 2, maxVisibleRange, "Zoom In" );
 
             zoomInGraphic = new PSwing( pCanvas, zoomIn );
             addChild( zoomInGraphic );
 
-            final ZoomButton zoomOut = new ZoomButton( new ImageIcon( ImageLoader.loadBufferedImage( "images/icons/glass-20-minus.gif" ) ),
+            final ZoomButton zoomOut = new ZoomButton( new ImageIcon( loadZoomOutImage() ),
                                                        5000, 500, 100, maxVisibleRange * 2, maxVisibleRange, "Zoom Out" );
             zoomOut.addListener( new ZoomButton.Listener() {
                 public void zoomChanged() {
@@ -220,6 +224,14 @@ public class TimePlotSuitePNode extends PNode {
 
 //        maxButNode.setVisible( false );
         forceMinimized( false );
+    }
+
+    private BufferedImage loadZoomInImage() throws IOException {
+        return BufferedImageUtils.rescaleYMaintainAspectRatio( ImageLoader.loadBufferedImage( "images/icons/glass-20-plus.gif" ), zoomButtonHeight );
+    }
+
+    private BufferedImage loadZoomOutImage() throws IOException {
+        return BufferedImageUtils.rescaleYMaintainAspectRatio( ImageLoader.loadBufferedImage( "images/icons/glass-20-minus.gif" ), zoomButtonHeight );
     }
 
     private double getMaxRangeValue() {
@@ -323,7 +335,7 @@ public class TimePlotSuitePNode extends PNode {
         zoomInGraphic.setOffset( getDataArea().getX(), getDataArea().getY() );
         zoomOutGraphic.setOffset( zoomInGraphic.getOffset().getX(), zoomInGraphic.getOffset().getY() + zoomInGraphic.getFullBounds().getHeight() );
 
-        System.out.println( System.currentTimeMillis()+", Layout Children" );
+        System.out.println( System.currentTimeMillis() + ", Layout Children" );
     }
 
     private void updateCursor() {

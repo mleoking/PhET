@@ -23,9 +23,9 @@ public class SpeedReadoutGraphic extends PNode implements ModelElement {
 
     public SpeedReadoutGraphic( RampPhysicalModel rampPhysicalModel ) {
         this.rampPhysicalModel = rampPhysicalModel;
-        Font font = new Font( "Lucida Sans", Font.BOLD, 22 );
+//        Font font = new Font( "Lucida Sans", Font.BOLD, 22 );
         phetTextGraphic = new PText( "" );
-        phetTextGraphic.setFont( font );
+        phetTextGraphic.setFont( RampFontSet.getFontSet().getSpeedReadoutFont());
         addChild( phetTextGraphic );
     }
 

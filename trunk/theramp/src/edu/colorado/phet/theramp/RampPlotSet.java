@@ -31,6 +31,7 @@ public class RampPlotSet extends PNode {
     private int plotY;
     private TimePlotSuitePNode parallelForcePlot;
     private int availableHeight = 260;
+//    private int availableHeight = 300;
 
     public RampPlotSet( RampModule module, RampPanel rampPanel ) {
         this.module = module;

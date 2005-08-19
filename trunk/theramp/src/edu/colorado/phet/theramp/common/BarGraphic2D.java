@@ -2,6 +2,7 @@
 package edu.colorado.phet.theramp.common;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
+import edu.colorado.phet.theramp.view.RampFontSet;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -39,7 +40,7 @@ public class BarGraphic2D extends PNode {
         rectangle3DGraphic.setStrokePaint( Color.black );
 
         Color textColor = new Color( 240, 225, 255 );
-        label = new VerticalTextGraphic( new Font( "Lucida Sans", Font.BOLD, 21 ), text, Color.black, textColor );
+        label = new VerticalTextGraphic( RampFontSet.getFontSet().getBarFont(), text, Color.black, textColor );
         addChild( rectangle3DGraphic );
 
         addChild( label );
@@ -51,7 +52,9 @@ public class BarGraphic2D extends PNode {
     private void updateBar() {
         int height = computeHeight();
         Rectangle rect = new Rectangle( x, y - height, width, height );
-        label.setOffset( rect.x + 7 - labelWidth, (int)( 5 + y + labelHeight ) );
+//        label.setOffset( rect.x + 7 - labelWidth, (int)( 5 + y + labelHeight ) );
+        label.setOffset( rect.x + 2 - labelWidth, (int)( 5 + y + labelHeight ) );
+//        label.setOffset( rect.x + 7 - labelWidth, (int)( y + labelHeight ) );
         rectangle3DGraphic.setPathTo( rect );
     }
 

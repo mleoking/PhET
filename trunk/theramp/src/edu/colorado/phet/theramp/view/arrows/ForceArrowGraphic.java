@@ -11,6 +11,7 @@ import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.view.BlockGraphic;
 import edu.colorado.phet.theramp.view.RampWorld;
 import edu.colorado.phet.theramp.view.SurfaceGraphic;
+import edu.colorado.phet.theramp.view.RampFontSet;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -33,7 +34,8 @@ public class ForceArrowGraphic extends PNode {
     private AbstractArrowSet.ForceComponent forceComponent;
     private HTMLGraphic textGraphic;
     private PPath shapeGraphic;
-    private final Font font = new Font( "Lucida Sans", Font.BOLD, 18 );
+//    private final Font font = new Font( "Lucida Sans", Font.BOLD, 18 );
+    private final Font font = RampFontSet.getFontSet().getForceArrowLabelFont();
     private Arrow lastArrow;
     private BlockGraphic blockGraphic;
     private boolean userVisible = true;
@@ -42,7 +44,8 @@ public class ForceArrowGraphic extends PNode {
     private static final double THRESHOLD = 10E-8;
     private Color baseColor;
     private double verticalOffset = 0;
-    private int textOffset=42;
+//    private int textOffset=42;
+    private int textOffset=30;
 
     public ForceArrowGraphic( Component component, String name, Color color,
                               int dy, AbstractArrowSet.ForceComponent forceComponent,
