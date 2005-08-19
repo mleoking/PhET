@@ -15,10 +15,7 @@ import edu.colorado.phet.common.util.EventChannel;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.EventListener;
-import java.util.EventObject;
-import java.util.List;
+import java.util.*;
 
 /**
  * ElectronSource
@@ -30,7 +27,7 @@ public class ElectronSink extends Electrode implements ElectronSource.ElectronPr
 
     private BaseModel model;
     private Line2D.Double line;
-    private List electrons = new ArrayList( );
+    private List electrons = new ArrayList();
 
     /**
      * Absorbs electrons along a line between two points
@@ -62,8 +59,8 @@ public class ElectronSink extends Electrode implements ElectronSource.ElectronPr
                 electron.leaveSystem();
                 electrons.remove( electron );
             }
-            else if( electron.getPosition().getX() > line.getX1() && line.getX1() > 300  ) {
-                System.out.println( "!!!!" );
+            else if( electron.getPosition().getX() > line.getX1() && line.getX1() > 300 ) {
+//                System.out.println( "!!!!" );
             }
         }
     }
