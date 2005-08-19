@@ -27,8 +27,9 @@ public class GraphWindow extends JDialog {
 
     public GraphWindow( Frame frame, Component component, AbstractClock clock ) {
         super( frame, false );
-        currentVsVoltageGraph = new CurrentVsVoltageGraph( component );
         ApparatusPanel2 graphPanel = new ApparatusPanel2( clock );
+        graphPanel.setUseOffscreenBuffer( true );
+        currentVsVoltageGraph = new CurrentVsVoltageGraph( graphPanel );
         graphPanel.setPreferredSize( new Dimension( 300, 200 ) );
         setContentPane( graphPanel );
         currentVsVoltageGraph.setLocation( (int)( graphPanel.getPreferredSize().getWidth() - currentVsVoltageGraph.getWidth()) / 2,

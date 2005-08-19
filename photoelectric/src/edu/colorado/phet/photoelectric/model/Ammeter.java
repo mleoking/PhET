@@ -31,6 +31,7 @@ public class Ammeter extends ScalarDataRecorder {
     }
 
     public double getCurrent() {
+        computeDataStatistics();
         double current = getDataTotal() / getTimeSpanOfEntries();
         if( Double.isNaN( current ) || Double.isInfinite( current )) {
             current = 0;
