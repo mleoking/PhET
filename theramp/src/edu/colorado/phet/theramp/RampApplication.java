@@ -40,13 +40,15 @@ public class RampApplication extends PhetApplication {
                 public void run() {
                     PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
                     phetLookAndFeel.apply();
-                    PhetLookAndFeel.setLookAndFeel();
+                    PhetLookAndFeel.setLookAndFeel();//todo this misses the better l&f in 1.5
                     SwingTimerClock clock = new SwingTimerClock( 1.0 / 30.0, 30 );
                     FrameSetup frameSetup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 800, 600 ) );
 //                    FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024,768);
 //                    FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
                     final RampApplication application = new RampApplication( args, clock, frameSetup );
                     application.startApplication();
+                    //workaround for 1.4.1, in which applying maxextent to an invisible frame does nothing.
+                    new FrameSetup.MaxExtent().initialize( application.getPhetFrame() );
                     System.out.println( "getSize() = " + application.simpleRampModule.getPhetPCanvas().getSize() );
                 }
             } );
