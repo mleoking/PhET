@@ -19,14 +19,14 @@ import java.beans.PropertyChangeListener;
 
 public class BoundGraphic extends PPath {
     private PNode src;
-    private int dx;
-    private int dy;
+    private double dx;
+    private double dy;
 
     public BoundGraphic( PNode src ) {
         this( src, 0, 0 );
     }
 
-    public BoundGraphic( PNode src, int dx, int dy ) {
+    public BoundGraphic( PNode src, double dx, double dy ) {
         this.src = src;
         this.dx = dx;
         this.dy = dy;

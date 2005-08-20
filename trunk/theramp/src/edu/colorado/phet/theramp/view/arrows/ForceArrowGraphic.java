@@ -46,6 +46,9 @@ public class ForceArrowGraphic extends PNode {
     private double verticalOffset = 0;
 //    private int textOffset=42;
     private int textOffset=30;
+    private int boundGraphicInsetX=2;
+//    private double boundGraphicInsetY=0.5;
+    private double boundGraphicInsetY=0;
 
     public ForceArrowGraphic( Component component, String name, Color color,
                               int dy, AbstractArrowSet.ForceComponent forceComponent,
@@ -82,7 +85,7 @@ public class ForceArrowGraphic extends PNode {
 
         addChild( shapeGraphic );
 
-        BoundGraphic boundGraphic = new BoundGraphic( textGraphic, 2, 2 );
+        BoundGraphic boundGraphic = new BoundGraphic( textGraphic, boundGraphicInsetX,boundGraphicInsetY);
         boundGraphic.setPaint( Color.white );
         addChild( boundGraphic );
         addChild( textGraphic );
