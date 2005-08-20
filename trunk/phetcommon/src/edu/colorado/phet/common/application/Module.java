@@ -271,7 +271,7 @@ public class Module implements ClockTickListener {
         getApparatusPanel().handleUserInput();
         model.clockTicked( event );
         updateGraphics( event );
-        getApparatusPanel().paint();
+//        getApparatusPanel().paint();
     }
 
     ////////////////////////////////////////////////////////////////

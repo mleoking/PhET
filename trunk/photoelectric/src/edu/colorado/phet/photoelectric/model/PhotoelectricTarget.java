@@ -16,6 +16,7 @@ import edu.colorado.phet.dischargelamps.model.Electron;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
@@ -43,21 +44,17 @@ public class PhotoelectricTarget extends ElectronSource {
     static public final Object ZINC = new String( "Zinc" );
     static public final Object COPPER = new String( "Copper" );
     static public final Object SODIUM = new String( "Sodium" );
-    static public final Object MAGNESIUM = new String( "Magnesium" );
-    static public final HashSet MATERIALS = new HashSet( );
-    static {
-        MATERIALS.add( ZINC );
-        MATERIALS.add( COPPER );
-        MATERIALS.add( SODIUM );
-        MATERIALS.add( MAGNESIUM );
-    }
+    static public final Object PLATINUM = new String( "Platinum" );
+    static public final Object MAGNESIUM = new String( "???" );
 
     static public final HashMap WORK_FUNCTIONS = new HashMap();
+
     static {
         WORK_FUNCTIONS.put( ZINC, new Double( 4.3 ) );
         WORK_FUNCTIONS.put( COPPER, new Double( 4.7 ) );
         WORK_FUNCTIONS.put( SODIUM, new Double( 2.3 ) );
         WORK_FUNCTIONS.put( MAGNESIUM, new Double( 3.7 ) );
+        WORK_FUNCTIONS.put( PLATINUM, new Double( 6.3 ) );
     }
 
     //----------------------------------------------------------------
@@ -95,10 +92,13 @@ public class PhotoelectricTarget extends ElectronSource {
      *
      * @param photon
      */
+    boolean done;
     public void handlePhotonCollision( Photon photon ) {
 
         double de = photon.getEnergy() - workFunction;
         if( de > 0 ) {
+
+            if( !done) { //done = true;
             // Determine where the electron will be emitted from
             // The location of the electron is coincident with where the photon hit the plate
             Point2D p = MathUtil.getLineSegmentsIntersection( line.getP1(), line.getP2(),
@@ -109,14 +109,27 @@ public class PhotoelectricTarget extends ElectronSource {
             // Determine the speed of the new electron
             double speed = determineNewElectronSpeed( de );
             electron.setVelocity( speed, 0 );
+//            Vector2D velocity = determineNewElectronVelocity( de );
+//            electron.setVelocity( velocity );
 
             // Tell all the listeners
             getElectronProductionListenerProxy().electronProduced( new ElectronProductionEvent( this, electron ) );
         }
+        }
+    }
+
+    private Vector2D determineNewElectronVelocity( double energy ) {
+        double speed = determineNewElectronSpeed( energy );
+        double dispersionAngle = Math.PI / 2;
+        double angle = random.nextDouble() * dispersionAngle - dispersionAngle / 2;
+        double vx = speed * Math.cos( angle );
+        double vy = speed * Math.sin( angle );
+        return new Vector2D.Double( vx, vy );
     }
 
     /**
      * Determines the initial speed of an electron that is kicked off the target by a photon
+     *
      * @param energy
      * @return
      */
@@ -149,18 +162,18 @@ public class PhotoelectricTarget extends ElectronSource {
     }
 
     public void setWorkFunction( Object workFunction ) {
-        if( !( workFunction instanceof Double )) {
+        if( !( workFunction instanceof Double ) ) {
             throw new RuntimeException( "Invalid parameter type" );
         }
-        setWorkFunction( ((Double)workFunction).doubleValue() );
+        setWorkFunction( ( (Double)workFunction ).doubleValue() );
     }
 
     public void setMaterial( Object material ) {
         this.targetMaterial = material;
-        if( !WORK_FUNCTIONS.keySet().contains(  material )) {
-            throw new RuntimeException( "Invalid parameter");
+        if( !WORK_FUNCTIONS.keySet().contains( material ) ) {
+            throw new RuntimeException( "Invalid parameter" );
         }
-        setWorkFunction( WORK_FUNCTIONS.get( material ));
+        setWorkFunction( WORK_FUNCTIONS.get( material ) );
         materialChangeListenerProxy.materialChanged( new MaterialChangeEvent( this ) );
     }
 

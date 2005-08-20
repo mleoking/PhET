@@ -12,6 +12,8 @@ package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphics2D;
@@ -49,7 +51,11 @@ import java.util.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ApparatusPanel2 extends ApparatusPanel {
+public class ApparatusPanel2 extends ApparatusPanel implements ClockTickListener {
+
+    //----------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------
 
     private static final boolean DEBUG_OUTPUT_ENABLED = false;
 
@@ -57,6 +63,10 @@ public class ApparatusPanel2 extends ApparatusPanel {
     public static final int DEFAULT_PAINT_STRATEGY = 1;
     public static final int OFFSCREEN_BUFFER_STRATEGY = 2;
     public static final int OFFSCREEN_BUFFER__DIRTY_REGION_STRATEGY = 3;
+
+    //----------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------
 
     private TransformManager transformManager;
     private PaintStrategy paintStrategy;
@@ -68,6 +78,10 @@ public class ApparatusPanel2 extends ApparatusPanel {
     private PanelResizeHandler panelResizeHandler;
     private MouseProcessor mouseProcessor;
     private AbstractClock clock;
+
+    //----------------------------------------------------------------
+    // Constructors and initilization
+    //----------------------------------------------------------------
 
     /**
      * Creates a new ApparatusPanel2, observing the specified clock for paused-ness.
@@ -103,7 +117,10 @@ public class ApparatusPanel2 extends ApparatusPanel {
     }
 
     protected void init( AbstractClock clock ) {
+        // Attach ourself to the clock
         this.clock = clock;
+        clock.addClockTickListener( this );
+
         // The following lines use a mouse processor in the model loop
         mouseProcessor = new MouseProcessor( getGraphic(), clock );
         this.addMouseListener( mouseProcessor );
@@ -118,111 +135,8 @@ public class ApparatusPanel2 extends ApparatusPanel {
         scaledComponentLayout = new ScaledComponentLayout( this );
     }
 
-    public void removePanelResizeHandler() {
-        removeComponentListener( panelResizeHandler );
-    }
-
-    public void setPaintStrategyDisjoint() {
-        paintStrategy = new DisjointRectanglePaintStrategy( this );
-    }
-
-    public void setPaintStrategy( int strategy ) {
-        switch( strategy ) {
-            case DEFAULT_PAINT_STRATEGY:
-                paintStrategy = new DefaultPaintStrategy( this );
-                break;
-            case OFFSCREEN_BUFFER_STRATEGY:
-                paintStrategy = new OffscreenBufferStrategy( this );
-                break;
-            case OFFSCREEN_BUFFER__DIRTY_REGION_STRATEGY:
-                paintStrategy = new OffscreenBufferDirtyRegion( this );
-                break;
-            default:
-                throw new RuntimeException( "Invalid paint strategy specified" );
-        }
-    }
-
     public TransformManager getTransformManager() {
         return transformManager;
-    }
-
-    /**
-     * Paints the panel. Exactly how this is depends on if an offscreen buffer is being used,
-     * or the union of dirty rectangles.
-     */
-    public void paint() {
-        paintStrategy.paintImmediately();
-    }
-
-    /**
-     * Sets the reference size for this panel. If the panel resizes after this, it will scale its graphicsTx using
-     * its current size in relation to the reference size.
-     * <p/>
-     * This should be called as soon as the application knows that the apparatus panel is at its reference size.
-     */
-    public void setReferenceSize() {
-        transformManager.setReferenceSize();
-        scaledComponentLayout.saveSwingComponentCoordinates( 1.0 );
-        setScale( 1.0 );
-
-        // TODO: moved this here from init(). Decide whether it should stay here or move back
-//        panelResizeHandler = new PanelResizeHandler();
-//        this.addComponentListener( panelResizeHandler );
-
-
-        // Set the canvas size
-        determineCanvasSize();
-
-        if( DEBUG_OUTPUT_ENABLED ) {
-            System.out.println( "ApparatusPanel2.setReferenceBounds: referenceBounds=" + transformManager.getReferenceBounds() );
-        }
-    }
-
-    /**
-     * Explicitly sets the apparatus panel's reference size to a specific dimension.
-     *
-     * @param renderingSize
-     */
-    public void setReferenceSize( Dimension renderingSize ) {
-        setReferenceSize( renderingSize.width, renderingSize.height );
-    }
-
-    /**
-     * Explicitly sets the apparatus panel's reference size to a specific dimension.     *
-     *
-     * @param width
-     * @param height
-     */
-    public void setReferenceSize( int width, int height ) {
-        transformManager.setReferenceSize( width, height );
-        scaledComponentLayout.saveSwingComponentCoordinates( 1.0 );
-    }
-
-    /**
-     * Tells if we are using an offscreen buffer or dirty rectangles
-     *
-     * @return
-     */
-    public boolean isUseOffscreenBuffer() {
-        return paintStrategy instanceof OffscreenBufferStrategy;
-    }
-
-    /**
-     * Specifies whether the panel is to paint to an offscreen buffer, then paint the buffer,
-     * or paint using dirty rectangles.
-     * This method chooses between the DefaultPaintStrategy and teh OffscreenBufferStrategy.
-     *
-     * @param useOffscreenBuffer
-     */
-    public void setUseOffscreenBuffer( boolean useOffscreenBuffer ) {
-        this.paintStrategy = useOffscreenBuffer ? new OffscreenBufferStrategy( this ) : (PaintStrategy)new DefaultPaintStrategy( this );
-        // Todo: Determine if the following two lines help or not
-//        setOpaque( useOffscreenBuffer );
-        setDoubleBuffered( !useOffscreenBuffer );
-    }
-
-    public void setUseOffscreenBufferDirtyRegion() {
-        this.paintStrategy = new OffscreenBufferDirtyRegion( this );
     }
 
     /**
@@ -268,6 +182,61 @@ public class ApparatusPanel2 extends ApparatusPanel {
     //-------------------------------------------------------------------------
     // Rendering
     //-------------------------------------------------------------------------
+
+    public void setPaintStrategy( int strategy ) {
+        switch( strategy ) {
+            case DEFAULT_PAINT_STRATEGY:
+                paintStrategy = new DefaultPaintStrategy( this );
+                break;
+            case OFFSCREEN_BUFFER_STRATEGY:
+                paintStrategy = new OffscreenBufferStrategy( this );
+                break;
+            case OFFSCREEN_BUFFER__DIRTY_REGION_STRATEGY:
+                paintStrategy = new OffscreenBufferDirtyRegion( this );
+                break;
+            default:
+                throw new RuntimeException( "Invalid paint strategy specified" );
+        }
+    }
+
+    public void setPaintStrategyDisjoint() {
+        paintStrategy = new DisjointRectanglePaintStrategy( this );
+    }
+
+    /**
+     * Tells if we are using an offscreen buffer or dirty rectangles
+     *
+     * @return
+     */
+    public boolean isUseOffscreenBuffer() {
+        return paintStrategy instanceof OffscreenBufferStrategy;
+    }
+
+    /**
+     * Specifies whether the panel is to paint to an offscreen buffer, then paint the buffer,
+     * or paint using dirty rectangles.
+     * This method chooses between the DefaultPaintStrategy and teh OffscreenBufferStrategy.
+     *
+     * @param useOffscreenBuffer
+     */
+    public void setUseOffscreenBuffer( boolean useOffscreenBuffer ) {
+        this.paintStrategy = useOffscreenBuffer ? new OffscreenBufferStrategy( this ) : (PaintStrategy)new DefaultPaintStrategy( this );
+        // Todo: Determine if the following two lines help or not
+//        setOpaque( useOffscreenBuffer );
+        setDoubleBuffered( !useOffscreenBuffer );
+    }
+
+    public void setUseOffscreenBufferDirtyRegion() {
+        this.paintStrategy = new OffscreenBufferDirtyRegion( this );
+    }
+
+    /**
+     * Paints the panel. Exactly how this is depends on if an offscreen buffer is being used,
+     * or the union of dirty rectangles.
+     */
+    public void paint() {
+        paintStrategy.paintImmediately();
+    }
 
     /**
      * @deprecated Use Paint();
@@ -398,6 +367,49 @@ public class ApparatusPanel2 extends ApparatusPanel {
     //-----------------------------------------------------------------
     // Resizing and scaling
     //-----------------------------------------------------------------
+
+    public void removePanelResizeHandler() {
+        removeComponentListener( panelResizeHandler );
+    }
+
+    /**
+     * Sets the reference size for this panel. If the panel resizes after this, it will scale its graphicsTx using
+     * its current size in relation to the reference size.
+     * <p/>
+     * This should be called as soon as the application knows that the apparatus panel is at its reference size.
+     */
+    public void setReferenceSize() {
+        transformManager.setReferenceSize();
+        scaledComponentLayout.saveSwingComponentCoordinates( 1.0 );
+        setScale( 1.0 );
+
+        // Set the canvas size
+        determineCanvasSize();
+
+        if( DEBUG_OUTPUT_ENABLED ) {
+            System.out.println( "ApparatusPanel2.setReferenceBounds: referenceBounds=" + transformManager.getReferenceBounds() );
+        }
+    }
+
+    /**
+     * Explicitly sets the apparatus panel's reference size to a specific dimension.
+     *
+     * @param renderingSize
+     */
+    public void setReferenceSize( Dimension renderingSize ) {
+        setReferenceSize( renderingSize.width, renderingSize.height );
+    }
+
+    /**
+     * Explicitly sets the apparatus panel's reference size to a specific dimension.
+     *
+     * @param width
+     * @param height
+     */
+    public void setReferenceSize( int width, int height ) {
+        transformManager.setReferenceSize( width, height );
+        scaledComponentLayout.saveSwingComponentCoordinates( 1.0 );
+    }
 
     private class PanelResizeHandler extends ComponentAdapter {
 
@@ -559,6 +571,14 @@ public class ApparatusPanel2 extends ApparatusPanel {
         }
     }
 
+    //----------------------------------------------------------------
+    // Implementation of ClockTickListener
+    //----------------------------------------------------------------
+
+    public void clockTicked( ClockTickEvent event ) {
+        paint();
+    }
+
     //-----------------------------------------------------------------
     // Event-related classes
     //-----------------------------------------------------------------
@@ -640,7 +660,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
             //TODO this works great, without the full-screen, but relies on having rectangles.
             apparatusPanel2.paintDirtyRectanglesImmediately();
         }
-
     }
 
     /**

@@ -12,22 +12,26 @@ package edu.colorado.phet.photoelectric.view;
 
 import edu.colorado.phet.chart.*;
 import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.common.view.ApparatusPanel2;
+import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 
 import java.awt.*;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * CurrentVsVoltageGraph
  * <p/>
  * A Chart that shows plots of current against voltage, parameterized by wavelength.
+ * A separated data set is maintained for each wavelength
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
 public class CurrentVsVoltageGraph extends Chart {
 
-    static private Range2D range = new Range2D( -0.07, 0, 0.07, 0.2 );
+    static private Range2D range = new Range2D( PhotoelectricModel.MIN_VOLTAGE * 1.2, 0,
+                                                PhotoelectricModel.MAX_VOLTAGE * 1.2, 0.2 );
     static Dimension chartSize = new Dimension( 200, 150 );
 
     // A map of data sets, keyed by the wavelength each corresponds to
@@ -35,13 +39,6 @@ public class CurrentVsVoltageGraph extends Chart {
 
     public CurrentVsVoltageGraph( Component component ) {
         super( component, range, chartSize );
-
-        // Test data
-//        DataSet data = new DataSet();
-//        data.addPoint( .01, .02 );
-//        data.addPoint( .03, .03 );
-//        LinePlot plot = new LinePlot( component, this, data );
-//        this.addDataSetGraphic( plot );
     }
 
     /**
@@ -81,5 +78,18 @@ public class CurrentVsVoltageGraph extends Chart {
     public void addDataPoint( double voltage, double current, double wavelength ) {
         DataSet dataSet = getWavelengthDataset( wavelength );
         dataSet.addPoint( voltage, current );
+    }
+
+    /**
+     * Removes all the data from the graph
+     */
+    public void clearData() {
+        Collection dataSets = wavelengthToDataSetMap.values();
+        for( Iterator iterator = dataSets.iterator(); iterator.hasNext(); ) {
+            DataSet dataSet = (DataSet)iterator.next();
+            dataSet.clear();
+        }
+        wavelengthToDataSetMap.clear();
+        repaint();
     }
 }

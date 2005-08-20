@@ -50,6 +50,7 @@ import edu.colorado.phet.lasers.view.PhotonGraphic;
 import edu.colorado.phet.lasers.view.ResonatingCavityGraphic;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 import edu.colorado.phet.photoelectric.PhotoelectricApplication;
+import edu.colorado.phet.photoelectric.controller.AmmeterDataCollector;
 import edu.colorado.phet.photoelectric.view.AmmeterView;
 import edu.colorado.phet.photoelectric.view.IntensityView;
 import edu.colorado.phet.photoelectric.view.CurrentVsVoltageGraph;
@@ -82,7 +83,7 @@ import java.util.HashMap;
 public class PhotoelectricModule extends BaseLaserModule {
 
     //----------------------------------------------------------------
-    // Class data
+    // Class data 
     //----------------------------------------------------------------
 
     static private final int BEAM_VIEW = 1;
@@ -101,6 +102,7 @@ public class PhotoelectricModule extends BaseLaserModule {
         TARGET_COLORS.put( PhotoelectricTarget.MAGNESIUM, new Color( 130, 150, 170 ) );
         TARGET_COLORS.put( PhotoelectricTarget.SODIUM, new Color( 160, 180, 160 ) );
         TARGET_COLORS.put( PhotoelectricTarget.ZINC, new Color( 200, 200, 200 ) );
+        TARGET_COLORS.put( PhotoelectricTarget.PLATINUM, new Color( 203, 230, 230 ) );
     }
 
 //    public static boolean DEBUG = true;
@@ -124,7 +126,6 @@ public class PhotoelectricModule extends BaseLaserModule {
     private ElectronSink targetSink;
     private BeamCurtainGraphic beamGraphic;
     // Flag for type of beam view: either photon or solid beam
-//    private int viewType = PHOTON_VIEW;
     private int viewType = BEAM_VIEW;
     private CurrentVsVoltageGraph currentVsVoltageGraph;
 
@@ -160,18 +161,18 @@ public class PhotoelectricModule extends BaseLaserModule {
             PhotoelectricTarget target = model.getTarget();
             targetSink = new ElectronSink( model, target.getEndpoints()[0], target.getEndpoints()[1] );
             model.addModelElement( targetSink );
-            target.addListener( targetSink );
         }
 
         // Set the default work function for the target
         model.getTarget().setWorkFunction( PhotoelectricTarget.WORK_FUNCTIONS.get( PhotoelectricTarget.SODIUM ) );
-        // Add the tube
-        addTube( model, getApparatusPanel() );
 
         //----------------------------------------------------------------
         // View
         //----------------------------------------------------------------
         CollimatedBeam beam = model.getBeam();
+
+        // Add a graphic for the tube
+        addTubeGraphic( model, getApparatusPanel() );
 
         // Add a graphic for the beam
         addBeamGraphic( beam );
@@ -194,8 +195,8 @@ public class PhotoelectricModule extends BaseLaserModule {
         // Add a graphic for the target plate
         addTargetGraphic( model, apparatusPanel );
 
-        // Add the anode to the model
-        addAnode( model, apparatusPanel, targetPlate );
+        // Add a graphic for the anode
+        addAnodeGraphic( model, apparatusPanel );
 
         // Set the targetPlate to listen for potential changes relative to the anode
         hookCathodeToAnode();
@@ -211,9 +212,6 @@ public class PhotoelectricModule extends BaseLaserModule {
         GraphWindow graphWindow = new GraphWindow( application.getPhetFrame(), getApparatusPanel(), clock );
         graphWindow.setVisible( true );
         currentVsVoltageGraph = graphWindow.getCurrentVsVoltageGraph();
-//        currentVsVoltageGraph.addDataPoint( .01, .06, 400 );
-//        currentVsVoltageGraph.addDataPoint( .04, .06, 400 );
-
 
         //----------------------------------------------------------------
         // Controls
@@ -341,17 +339,18 @@ public class PhotoelectricModule extends BaseLaserModule {
      * @param model
      * @param apparatusPanel
      */
-    private void addTube( PhotoelectricModel model, ApparatusPanel apparatusPanel ) {
-        double x = DischargeLampsConfig.CATHODE_LOCATION.getX() - DischargeLampsConfig.ELECTRODE_INSETS.left;
-        double y = DischargeLampsConfig.CATHODE_LOCATION.getY() - DischargeLampsConfig.CATHODE_LENGTH / 2
-                   - DischargeLampsConfig.ELECTRODE_INSETS.top;
-        double length = DischargeLampsConfig.ANODE_LOCATION.getX() - DischargeLampsConfig.CATHODE_LOCATION.getX()
-                        + DischargeLampsConfig.ELECTRODE_INSETS.left + DischargeLampsConfig.ELECTRODE_INSETS.right;
-        double height = DischargeLampsConfig.CATHODE_LENGTH
-                        + DischargeLampsConfig.ELECTRODE_INSETS.top + DischargeLampsConfig.ELECTRODE_INSETS.bottom;
-        Point2D tubeLocation = new Point2D.Double( x, y );
-        ResonatingCavity tube = new ResonatingCavity( tubeLocation, length, height );
-        model.addModelElement( tube );
+    private void addTubeGraphic( PhotoelectricModel model, ApparatusPanel apparatusPanel ) {
+//        double x = DischargeLampsConfig.CATHODE_LOCATION.getX() - DischargeLampsConfig.ELECTRODE_INSETS.left;
+//        double y = DischargeLampsConfig.CATHODE_LOCATION.getY() - DischargeLampsConfig.CATHODE_LENGTH / 2
+//                   - DischargeLampsConfig.ELECTRODE_INSETS.top;
+//        double length = DischargeLampsConfig.ANODE_LOCATION.getX() - DischargeLampsConfig.CATHODE_LOCATION.getX()
+//                        + DischargeLampsConfig.ELECTRODE_INSETS.left + DischargeLampsConfig.ELECTRODE_INSETS.right;
+//        double height = DischargeLampsConfig.CATHODE_LENGTH
+//                        + DischargeLampsConfig.ELECTRODE_INSETS.top + DischargeLampsConfig.ELECTRODE_INSETS.bottom;
+//        Point2D tubeLocation = new Point2D.Double( x, y );
+//        ResonatingCavity tube = new ResonatingCavity( tubeLocation, length, height );
+//        model.addModelElement( tube );
+        ResonatingCavity tube = model.getTube();
         ResonatingCavityGraphic tubeGraphic = new ResonatingCavityGraphic( getApparatusPanel(), tube );
         apparatusPanel.addGraphic( tubeGraphic, TUBE_LAYER );
     }
@@ -372,10 +371,9 @@ public class PhotoelectricModule extends BaseLaserModule {
     /**
      * @param model
      * @param apparatusPanel
-     * @param cathode
      */
-    private void addAnode( PhotoelectricModel model, ApparatusPanel apparatusPanel, ElectronSource cathode ) {
-        this.anode = getPhotoelectricModel().getRightHandPlate();
+    private void addAnodeGraphic( PhotoelectricModel model, ApparatusPanel apparatusPanel ) {
+        this.anode = model.getRightHandPlate();
         this.anode.setPosition( DischargeLampsConfig.ANODE_LOCATION );
         PhetImageGraphic anodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode-2.png" );
 
@@ -391,7 +389,6 @@ public class PhotoelectricModule extends BaseLaserModule {
         anodeGraphic.setRegistrationPoint( 0, (int)anodeGraphic.getBounds().getHeight() / 2 );
         anodeGraphic.setLocation( DischargeLampsConfig.ANODE_LOCATION );
         apparatusPanel.addGraphic( anodeGraphic, CIRCUIT_LAYER );
-        cathode.addListener( anode );
     }
 
     /**
@@ -496,7 +493,7 @@ public class PhotoelectricModule extends BaseLaserModule {
 
         // A slider for the battery voltage
         final ModelSlider batterySlider = new ModelSlider( SimStrings.get( "Control.BatteryVoltageLabel" ),
-                                                           "V", -0.05, 0.05, 0 );
+                                                           "V", PhotoelectricModel.MIN_VOLTAGE, PhotoelectricModel.MAX_VOLTAGE, 0 );
         batterySlider.setPreferredSize( new Dimension( 250, 100 ) );
         ControlPanel controlPanel = (ControlPanel)getControlPanel();
         controlPanel.add( batterySlider );
@@ -516,15 +513,23 @@ public class PhotoelectricModule extends BaseLaserModule {
         plotBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 double voltage = batterySlider.getValue();
-                double current = getPhotoelectricModel().getAmmeter().getCurrent();
+                Ammeter ammeter = getPhotoelectricModel().getAmmeter();
+                AmmeterDataCollector ammeterReader = new AmmeterDataCollector( (Frame)SwingUtilities.getRoot( plotBtn ),
+                                                                               ammeter, getClock() );
+                double current = ammeterReader.getCurrent();
                 double wavelength = wavelengthSlider.getValue();
-                System.out.println( "voltage = " + voltage );
-                System.out.println( "current = " + current );
-                System.out.println( "wavelength = " + wavelength );
                 currentVsVoltageGraph.addDataPoint( voltage, current, wavelength );
             }
         } );
         controlPanel.add( plotBtn );
+
+        final JButton clearPlotBtn = new JButton( "Clear" );
+        clearPlotBtn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                currentVsVoltageGraph.clearData();
+            }
+        } );
+        controlPanel.add( clearPlotBtn );
 
     }
 

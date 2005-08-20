@@ -55,6 +55,8 @@ public class CollimatedBeam extends Particle implements PhotonSource {
     private boolean isEnabled;
     // Angle at which the beam fans out, in radians
     private double fanout = 0;
+    // Flag to determine if photon production is Gaussian or fixed
+    private boolean isPhotonProductionGaussian = false;
 
 
     /**
@@ -151,26 +153,6 @@ public class CollimatedBeam extends Particle implements PhotonSource {
         return wavelength;
     }
 
-    public void stepInTime( double dt ) {
-        super.stepInTime( dt );
-
-        // Produce photons
-        if( isEnabled() ) {
-            timeSinceLastPhotonProduced += dt;
-            if( nextTimeToProducePhoton < timeSinceLastPhotonProduced ) {
-                timeSinceLastPhotonProduced = 0;
-                // Set the photon's velocity to a randomized angle
-                double angle = angleGenerator.nextDouble() * ( fanout / 2 ) * ( angleGenerator.nextBoolean() ? 1 : -1 );
-                Vector2D photonVelocity = new Vector2D.Double( velocity ).rotate( angle );
-                final Photon newPhoton = Photon.create( this.getWavelength(),
-                                                        new Point2D.Double( genPositionX(), genPositionY() ),
-                                                        photonVelocity );
-                photonEmittedListenerProxy.photonEmittedEventOccurred( new PhotonEmittedEvent( this, newPhoton ) );
-                nextTimeToProducePhoton = getNextTimeToProducePhoton();
-            }
-        }
-    }
-
     public boolean isEnabled() {
         return isEnabled;
     }
@@ -178,6 +160,35 @@ public class CollimatedBeam extends Particle implements PhotonSource {
     public void setEnabled( boolean enabled ) {
         isEnabled = enabled;
         timeSinceLastPhotonProduced = 0;
+    }
+
+    //----------------------------------------------------------------
+    // Time-dependent behavior
+    //----------------------------------------------------------------
+
+    public void stepInTime( double dt ) {
+        super.stepInTime( dt );
+
+        // Produce photons
+        if( isEnabled() ) {
+            timeSinceLastPhotonProduced += dt;
+            if( nextTimeToProducePhoton < timeSinceLastPhotonProduced ) {
+
+                int nPhotons = (int)( timeSinceLastPhotonProduced * getPhotonsPerSecond() / 1E3 );
+//                System.out.println( "nPhotons = " + nPhotons );
+                for( int i = 0; i < nPhotons; i++ ) {
+                    // Set the photon's velocity to a randomized angle
+                    double angle = angleGenerator.nextDouble() * ( fanout / 2 ) * ( angleGenerator.nextBoolean() ? 1 : -1 );
+                    Vector2D photonVelocity = new Vector2D.Double( velocity ).rotate( angle );
+                    final Photon newPhoton = Photon.create( this.getWavelength(),
+                                                            new Point2D.Double( genPositionX(), genPositionY() ),
+                                                            photonVelocity );
+                    photonEmittedListenerProxy.photonEmittedEventOccurred( new PhotonEmittedEvent( this, newPhoton ) );
+                }
+                nextTimeToProducePhoton = getNextTimeToProducePhoton();
+                timeSinceLastPhotonProduced = 0;
+            }
+        }
     }
 
     private double genPositionY() {
@@ -199,8 +210,8 @@ public class CollimatedBeam extends Particle implements PhotonSource {
     }
 
     private double getNextTimeToProducePhoton() {
-        double temp = ( gaussianGenerator.nextGaussian() + 1.0 );
-        temp = 1;
+        double temp = isPhotonProductionGaussian ? ( gaussianGenerator.nextGaussian() + 1.0 )
+                      : 1;
         return temp / ( photonsPerSecond / 1000 );
     }
 
