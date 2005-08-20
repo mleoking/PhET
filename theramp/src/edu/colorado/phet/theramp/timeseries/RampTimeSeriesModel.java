@@ -35,7 +35,7 @@ public class RampTimeSeriesModel extends TimeSeriesModel {
 
 //        timeSeries.addPoint( state, time );
         if( getRecordTime() <= RampModule.MAX_TIME && !recordedLastTime ) {
-            System.out.println( "getRecordTime() = " + getRecordTime() );
+//            System.out.println( "getRecordTime() = " + getRecordTime() );
             RampPhysicalModel state = rampModule.getRampPhysicalModel().getState();
             series.addPoint( state, getRecordTime() );
             rampModule.updatePlots( state, getRecordTime() );
