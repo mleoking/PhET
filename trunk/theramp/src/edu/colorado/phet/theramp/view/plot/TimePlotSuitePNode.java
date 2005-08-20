@@ -201,7 +201,7 @@ public class TimePlotSuitePNode extends PNode {
             zoomOut.addListener( new ZoomButton.Listener() {
                 public void zoomChanged() {
                     double rangeY = zoomOut.getValue();
-                    setChartRange( 0, -rangeY, 20, rangeY );
+                    setChartRange( 0, -rangeY, RampModule.MAX_TIME, rangeY );
                     zoomIn.setValue( rangeY );
                 }
             } );
@@ -211,7 +211,7 @@ public class TimePlotSuitePNode extends PNode {
             zoomIn.addListener( new ZoomButton.Listener() {
                 public void zoomChanged() {
                     double rangeY = zoomIn.getValue();
-                    setChartRange( 0, -rangeY, 20, rangeY );
+                    setChartRange( 0, -rangeY, RampModule.MAX_TIME, rangeY );
                     zoomOut.setValue( rangeY );
                 }
             } );
@@ -363,7 +363,7 @@ public class TimePlotSuitePNode extends PNode {
 
     private void drawInPlotAxis() {
         Graphics2D g2 = bufferedImage.createGraphics();
-        for( int t = 6; t <= 20; t += 2 ) {
+        for( int t = 6; t <= RampModule.MAX_TIME; t += 2 ) {
             Point2D imagLoc = toImageLocation( t, 0 );
             PText text = new PText( "" + t );
             text.setOffset( imagLoc.getX() - text.getWidth() / 2, imagLoc.getY() );
@@ -397,6 +397,7 @@ public class TimePlotSuitePNode extends PNode {
         xAxis.setAutoRange( false );
         xAxis.setRange( range.getMinX(), range.getMaxX() );
         xAxis.setTickLabelsVisible( false );
+        xAxis.setTickMarksVisible( false );
         plot.setDomainAxis( xAxis );
 
 //        NumberAxis yAxis = new NumberAxis( title + " (Joules)" );
@@ -404,7 +405,6 @@ public class TimePlotSuitePNode extends PNode {
         yAxis.setAutoRange( false );
         yAxis.setRange( range.getMinY(), range.getMaxY() );
         plot.setRangeAxis( yAxis );
-
 
         plot.setDomainCrosshairVisible( true );
         plot.setRangeCrosshairVisible( true );

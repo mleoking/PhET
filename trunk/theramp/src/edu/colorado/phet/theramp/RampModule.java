@@ -38,6 +38,9 @@ public class RampModule extends Module {
 //    public static final double FORCE_LENGTH_SCALE = 0.1;//1.0;
     public static final double FORCE_LENGTH_SCALE = 0.06;//1.0;
     private PhetFrame phetFrame;
+//    public static final int MAX_TIME = 20;
+    public static final int MAX_TIME = 30;
+//    public static final int MAX_TIME = 2;
 
     public RampModule( PhetFrame frame, AbstractClock clock ) {
         this( "More Features", frame, clock );

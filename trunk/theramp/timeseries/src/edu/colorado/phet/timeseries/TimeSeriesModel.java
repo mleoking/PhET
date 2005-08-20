@@ -25,11 +25,12 @@ public abstract class TimeSeriesModel implements ClockTickListener {
 
     public static double TIME_SCALE = 1.0;// for dynamic model.
     private static boolean dynamicTime;
-    private double maxAllowedTime = 20;
+    private double maxAllowedTime;
 
-    public TimeSeriesModel() {
+    public TimeSeriesModel(double maxAllowedTime) {
         recordMode = new RecordMode( this );
         playbackMode = new PlaybackMode( this );
+        this.maxAllowedTime=maxAllowedTime;
     }
 
     public boolean isPaused() {
@@ -195,7 +196,6 @@ public abstract class TimeSeriesModel implements ClockTickListener {
             this.mode = mode;
             this.mode.initialize();
             System.out.println( "Changed mode to: " + mode.getName() );
-
         }
     }
 
@@ -232,8 +232,8 @@ public abstract class TimeSeriesModel implements ClockTickListener {
     }
 
     public void recordingFinished() {
-        setPaused( true );
-        fireFinishedRecording();
+//        setPaused( true );
+//        fireFinishedRecording();
     }
 
     public abstract void updateModel( ClockTickEvent clockEvent );

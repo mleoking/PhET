@@ -38,6 +38,7 @@ public class BlockGraphic extends PNode {
 //    private LocationDebugGraphic locationDebugGraphic;
     private RampObject rampObject;
     private PImage wheelGraphic;
+    private double viewScale = 0.5;
 
     public BlockGraphic( final RampModule module, RampPanel rampPanel, SurfaceGraphic rampGraphic, SurfaceGraphic groundGraphic, Block block, RampObject rampObject ) {
         super();
@@ -93,7 +94,7 @@ public class BlockGraphic extends PNode {
                 double dx = x - ctrX;
 
 //                System.out.println( "x=" + x + ", ctrX=" + ctrX + ", dx = " + dx );
-                double appliedForce = dx / RampModule.FORCE_LENGTH_SCALE;
+                double appliedForce = dx / RampModule.FORCE_LENGTH_SCALE * viewScale;
                 physicalModel.setAppliedForce( appliedForce );
                 module.record();
             }
@@ -130,7 +131,7 @@ public class BlockGraphic extends PNode {
         imageGraphic.setTransform( transform );
         if( isFrictionless() ) {
             if( !isAncestorOf( wheelGraphic ) ) {
-                addChild( 0,wheelGraphic );
+                addChild( 0, wheelGraphic );
             }
             wheelGraphic.setVisible( true );
             AffineTransform wheelTx = createTransform( block.getPositionInSurface(), 1.0, 1.0, wheelGraphic.getImage().getWidth( null ), wheelGraphic.getImage().getHeight( null ) );
