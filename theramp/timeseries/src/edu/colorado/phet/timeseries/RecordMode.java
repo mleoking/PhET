@@ -27,29 +27,6 @@ public class RecordMode extends Mode {
         timeSeriesModel.repaintBackground();
     }
 
-//    public void stepInTime( double dt ) {
-//        double recorderTime = timer.getTime();
-//        double maxTime = timeSeriesModel.getMaxAllowedTime();
-//        if( !timeSeriesModel.isPaused() ) {
-//            if( recorderTime >= maxTime ) {
-//                timeSeriesModel.recordingFinished();
-//                return;
-//            }
-//
-//            double newTime = recorderTime + dt;// * timer.getTimerScale();
-//            if( newTime > maxTime ) {
-//                dt = ( maxTime - recorderTime );// / timer.getTimerScale();
-//            }
-//            timer.stepInTime( dt, maxTime );//this could go over the max.
-//            timeSeriesModel.updateModel( dt );
-//
-//            if( newTime >= maxTime ) {
-//                timeSeriesModel.recordingFinished();
-//                return;
-//            }
-//        }
-//    }
-
     public void reset() {
         timer.reset();
     }
@@ -59,6 +36,32 @@ public class RecordMode extends Mode {
     }
 
     public void clockTicked( ClockTickEvent event ) {
+        double dt = event.getDt();
+        double recorderTime = timer.getTime();
+        double maxTime = timeSeriesModel.getMaxAllowedTime();
+        if( !timeSeriesModel.isPaused() ) {
+//            System.out.println( "System.currentTimeMillis() = " + System.currentTimeMillis() );
+//            if( recorderTime >= maxTime ) {
+//                timeSeriesModel.recordingFinished();
+//                return;
+//            }
+
+            double newTime = recorderTime + dt;// * timer.getTimerScale();
+            if( newTime > maxTime ) {
+                dt = ( maxTime - recorderTime );// / timer.getTimerScale();
+            }
+            timer.stepInTime( dt, maxTime );//this could go over the max.
+
+            timeSeriesModel.updateModel( event );
+
+//            if( newTime >= maxTime ) {
+//                timeSeriesModel.recordingFinished();
+//                return;
+//            }
+        }
+    }
+
+    public void clockTickedORIG( ClockTickEvent event ) {
         double dt = event.getDt();
         double recorderTime = timer.getTime();
         double maxTime = timeSeriesModel.getMaxAllowedTime();

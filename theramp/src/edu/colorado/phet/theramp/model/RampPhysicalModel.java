@@ -87,6 +87,7 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
     }
 
     public void stepInTime( double dt ) {
+//        System.out.println( "@"+System.currentTimeMillis() +"dt = " + dt );
         stepStrategy.stepInTime( dt );
         updateAppliedForceValue();
     }

@@ -42,7 +42,7 @@ public class RampPlotSet extends PNode {
         int plotHeight = 80;
         int plotInset = 2;
         int range = 30000;
-        energyPlot = createTimePlotSuitePNode( new Range2D( 0, -range, 20, range ), "Energy", plotY, plotHeight );
+        energyPlot = createTimePlotSuitePNode( new Range2D( 0, -range, RampModule.MAX_TIME, range ), "Energy", plotY, plotHeight );
 
         ValueAccessor.TotalEnergy totalEnergy = new ValueAccessor.TotalEnergy( getLookAndFeel() );
         addTimeSeries( energyPlot, totalEnergy, "10000.00" );
@@ -56,7 +56,7 @@ public class RampPlotSet extends PNode {
         ValueAccessor.KineticEnergy kineticEnergy = new ValueAccessor.KineticEnergy( getLookAndFeel() );
         addTimeSeries( energyPlot, kineticEnergy, "10000.00" );
 
-        workPlot = createTimePlotSuitePNode( new Range2D( 0, -range, 20, range ), "Work", plotY + plotHeight + plotInset, plotHeight );
+        workPlot = createTimePlotSuitePNode( new Range2D( 0, -range, RampModule.MAX_TIME, range ), "Work", plotY + plotHeight + plotInset, plotHeight );
 
         ValueAccessor.AppliedWork appliedWork = new ValueAccessor.AppliedWork( getLookAndFeel() );
         addTimeSeries( workPlot, appliedWork, "10000.00" );
@@ -70,7 +70,7 @@ public class RampPlotSet extends PNode {
         ValueAccessor.GravityWork gravityWork = new ValueAccessor.GravityWork( getLookAndFeel() );
         addTimeSeries( workPlot, gravityWork, "10000.00" );
 
-        parallelForcePlot = createTimePlotSuitePNode( new Range2D( 0, -1000, 20, 1000 ), "Parallel Forces", plotY + plotHeight * 2 + plotInset, plotHeight );
+        parallelForcePlot = createTimePlotSuitePNode( new Range2D( 0, -1000, RampModule.MAX_TIME, 1000 ), "Parallel Forces", plotY + plotHeight * 2 + plotInset, plotHeight );
         ValueAccessor.ParallelForceAccessor parallelFriction = new ValueAccessor.ParallelFrictionAccessor( getLookAndFeel() );
         addTimeSeries( parallelForcePlot, parallelFriction, "10000.00" );
         ValueAccessor.ParallelForceAccessor parallelApplied = new ValueAccessor.ParallelAppliedAccessor( getLookAndFeel() );

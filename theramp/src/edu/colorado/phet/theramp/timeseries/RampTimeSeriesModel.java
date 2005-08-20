@@ -19,8 +19,10 @@ import edu.colorado.phet.timeseries.TimeSeriesModel;
 public class RampTimeSeriesModel extends TimeSeriesModel {
     private RampModule rampModule;
     private ObjectTimeSeries series = new ObjectTimeSeries();
+    private boolean recordedLastTime = false;
 
     public RampTimeSeriesModel( RampModule rampModule ) {
+        super( RampModule.MAX_TIME );
         this.rampModule = rampModule;
     }
 
@@ -30,10 +32,17 @@ public class RampTimeSeriesModel extends TimeSeriesModel {
 
     public void updateModel( ClockTickEvent clockEvent ) {
         rampModule.updateModel( clockEvent.getDt() );
-        RampPhysicalModel state = rampModule.getRampPhysicalModel().getState();
+
 //        timeSeries.addPoint( state, time );
-        series.addPoint( state, getRecordTime() );
-        rampModule.updatePlots( state, getRecordTime() );
+        if( getRecordTime() <= RampModule.MAX_TIME && !recordedLastTime ) {
+            System.out.println( "getRecordTime() = " + getRecordTime() );
+            RampPhysicalModel state = rampModule.getRampPhysicalModel().getState();
+            series.addPoint( state, getRecordTime() );
+            rampModule.updatePlots( state, getRecordTime() );
+            if( getRecordTime() >= RampModule.MAX_TIME ) {
+                recordedLastTime = true;
+            }
+        }
 //        System.out.println( "series.numPoints() = " + series.numPoints() + ", running Time=" + clockEvent.getClock().getRunningTime() );
     }
 
@@ -54,6 +63,7 @@ public class RampTimeSeriesModel extends TimeSeriesModel {
         super.reset();
         series.reset();
         rampModule.getRampPlotSet().reset();
+        recordedLastTime=false;
     }
 
     protected ApparatusPanel getApparatusPanel() {
