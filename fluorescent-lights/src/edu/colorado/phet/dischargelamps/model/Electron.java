@@ -32,6 +32,10 @@ import java.util.ArrayList;
  */
 public class Electron extends SphericalBody implements Collidable {
 
+    public void stepInTime( double dt ) {
+        super.stepInTime( dt );
+    }
+
     //----------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------

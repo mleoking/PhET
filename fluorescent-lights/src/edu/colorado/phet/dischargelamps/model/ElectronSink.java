@@ -28,6 +28,8 @@ public class ElectronSink extends Electrode implements ElectronSource.ElectronPr
     private BaseModel model;
     private Line2D.Double line;
     private List electrons = new ArrayList();
+    // A utility list for electrons that are to be removed at each time step
+    private ArrayList removeList = new ArrayList();
 
     /**
      * Absorbs electrons along a line between two points
@@ -56,13 +58,31 @@ public class ElectronSink extends Electrode implements ElectronSource.ElectronPr
                                      electron.getPositionPrev().getX(), electron.getPositionPrev().getY() ) ) {
                 model.removeModelElement( electron );
                 electronAbsorptionListenerProxy.electronAbsorbed( new ElectronAbsorptionEvent( this, electron ) );
-                electron.leaveSystem();
-                electrons.remove( electron );
+//                electron.leaveSystem();
+                removeList.add( electron );
+//                electrons.remove( electron );
+                if( electron.getPosition().getX() > 600 && !removeList.contains( electron ) ) {
+                    System.out.println( "***" );
+                }
             }
-            else if( electron.getPosition().getX() > line.getX1() && line.getX1() > 300 ) {
-//                System.out.println( "!!!!" );
+
+            // Hack to remove electrons that have skipped past the anode undetected
+            else if( electron.getPosition().getX() > 600 ) {
+                System.out.println( "!!!!  " + electron.getPosition().getX() + "   " + electron.getPositionPrev().getX() );
+                System.out.println( "line = " + line.getX1() );
+                System.out.println( "this = " + this );
+                System.out.println( "$$$$" );
+//                electronAbsorptionListenerProxy.electronAbsorbed( new ElectronAbsorptionEvent( this, electron ) );
+//                electron.leaveSystem();
+//                electrons.remove( electron );
             }
         }
+        for( Iterator iterator = removeList.iterator(); iterator.hasNext(); ) {
+            Electron electron = (Electron)iterator.next();
+            electron.leaveSystem();
+        }
+        electrons.removeAll( removeList );
+        removeList.clear();
     }
 
     //----------------------------------------------------------------
@@ -104,15 +124,21 @@ public class ElectronSink extends Electrode implements ElectronSource.ElectronPr
     //-----------------------------------------------------------------
     public void electronProduced( ElectronSource.ElectronProductionEvent event ) {
         final Electron electron = event.getElectron();
-        electrons.add( electron );
-        electron.addChangeListener( new Electron.ChangeListener() {
-            public void leftSystem( Electron.ChangeEvent changeEvent ) {
-                electrons.remove( electron );
-            }
 
-            public void energyChanged( Electron.ChangeEvent changeEvent ) {
-                //noop
-            }
-        } );
+        if( electrons.contains( electron ) ) {
+            System.out.println( "&&&&& " + electron );
+        }
+        electrons.add( electron );
+        electron.addChangeListener( new ElectronRemover() );
+    }
+
+    private class ElectronRemover implements Electron.ChangeListener {
+        public void leftSystem( Electron.ChangeEvent changeEvent ) {
+            electrons.remove( changeEvent.getElectrion() );
+        }
+
+        public void energyChanged( Electron.ChangeEvent changeEvent ) {
+            //noop
+        }
     }
 }
