@@ -107,7 +107,7 @@ import java.io.Serializable;
 /**
  * <b>ZSwing</b> is a Visual Component wrapper used to add
  * Swing Components to a Jazz ZCanvas.
- * <P>
+ * <p/>
  * Example: adding a swing JButton to a ZCanvas:
  * <pre>
  *     ZCanvas canvas = new ZCanvas();
@@ -135,7 +135,7 @@ import java.io.Serializable;
  *       </pre>
  * <p/>
  * NOTE: ZSwing is not properly ZSerializable, but it is java.io.Serializable.
- * <P>
+ * <p/>
  * <b>Warning:</b> Serialized and ZSerialized objects of this class will not be
  * compatible with future Jazz releases. The current serialization support is
  * appropriate for short term storage or RMI between applications running the
@@ -181,6 +181,11 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
     private static final AffineTransform IDENTITY = new AffineTransform();
     private PSwingCanvas PSwingCanvas;
     private static PBounds TEMP_REPAINT_BOUNDS2 = new PBounds();
+    private static boolean highQualityRender = false;
+
+    public static void setHighQualityRender( boolean highQuality ) {
+        highQualityRender = highQuality;
+    }
 
     /**
      * Constructs a new visual component wrapper for the Swing component
@@ -293,7 +298,13 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
             bufferedGraphics.clipRect( 0, 0, component.getWidth(), component.getHeight() );
         }
         Graphics2D bufferedGraphics = buffer.createGraphics();
-//        bufferedGraphics.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+
+        //optionally prepare buffered graphics for better rendering.
+        if( highQualityRender ) {
+            bufferedGraphics.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+            bufferedGraphics.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
+        }
+
         component.paint( bufferedGraphics );
 //        g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         Object origHint = g2.getRenderingHint( RenderingHints.KEY_INTERPOLATION );
@@ -310,6 +321,7 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
     }
 
     //todo enable region repainting.
+
     /**
      * Repaints the specified portion of this visual component
      * Note that the input parameter may be modified as a result of this call.
