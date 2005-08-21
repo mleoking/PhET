@@ -20,4 +20,6 @@ public class PhotoelectricConfig {
 
     public static final String IMAGE_DIRECTORY = "images/";
     public static final String LAMP_IMAGE_FILE = IMAGE_DIRECTORY + "flashlight.png";    
+    public static final String SLIDER_KNOB_IMAGE = IMAGE_DIRECTORY + "sliderKnob.png";
+    public static final String SLIDER_KNOB_HIGHLIGHT_IMAGE = IMAGE_DIRECTORY + "sliderKnobHighlight.png";
 }

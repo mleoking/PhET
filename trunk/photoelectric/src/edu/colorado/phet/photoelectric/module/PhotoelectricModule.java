@@ -51,6 +51,8 @@ import edu.colorado.phet.lasers.view.ResonatingCavityGraphic;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 import edu.colorado.phet.photoelectric.PhotoelectricApplication;
 import edu.colorado.phet.photoelectric.controller.AmmeterDataCollector;
+import edu.colorado.phet.photoelectric.controller.GraphicSlider;
+import edu.colorado.phet.photoelectric.controller.PhotoelectricSlider;
 import edu.colorado.phet.photoelectric.view.AmmeterView;
 import edu.colorado.phet.photoelectric.view.IntensityView;
 import edu.colorado.phet.photoelectric.view.CurrentVsVoltageGraph;
@@ -91,6 +93,7 @@ public class PhotoelectricModule extends BaseLaserModule {
 
     static private final double TUBE_LAYER = 2000;
     static private final double CIRCUIT_LAYER = TUBE_LAYER - 1;
+    static private final double SLIDER_LAYER = CIRCUIT_LAYER + 1;
     static private final double LAMP_LAYER = 1000;
     static private final double BEAM_LAYER = 900;
     static private final double ELECTRON_LAYER = 900;
@@ -220,6 +223,30 @@ public class PhotoelectricModule extends BaseLaserModule {
         // Set up the control panel
         addControls();
 
+        // Add a slider for the battery
+        GraphicSlider batterySlider = new GraphicSlider( getApparatusPanel() );
+        batterySlider = new PhotoelectricSlider( getApparatusPanel(), 100 /* track length */ );
+        addGraphic( batterySlider, SLIDER_LAYER );
+
+        batterySlider.setMinimum( (int)-( PhotoelectricModel.MIN_VOLTAGE ) );
+        batterySlider.setMaximum( (int)( PhotoelectricModel.MAX_VOLTAGE ) );
+        batterySlider.setValue( (int)( getPhotoelectricModel().getAnodePotential() * PhotoelectricModel.MAX_VOLTAGE ) );
+        batterySlider.addTick( batterySlider.getMinimum() );
+        batterySlider.addTick( batterySlider.getMaximum() );
+        batterySlider.addTick( 0 );
+
+        batterySlider.centerRegistrationPoint();
+        // TODO: locate the slider symbolically
+        batterySlider.setLocation( 400, 400 );
+        final GraphicSlider batterySlider1 = batterySlider;
+        batterySlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                int voltage = batterySlider1.getValue();
+                getPhotoelectricModel().getRightHandPlate().setPotential( voltage / PhotoelectricModel.MAX_VOLTAGE );
+            }
+        } );
+
+
         //----------------------------------------------------------------
         // Total hack to get beam to look right when things come up. This should
         // be removed when BeamCurtainGraphic.update() is fixed
@@ -340,16 +367,6 @@ public class PhotoelectricModule extends BaseLaserModule {
      * @param apparatusPanel
      */
     private void addTubeGraphic( PhotoelectricModel model, ApparatusPanel apparatusPanel ) {
-//        double x = DischargeLampsConfig.CATHODE_LOCATION.getX() - DischargeLampsConfig.ELECTRODE_INSETS.left;
-//        double y = DischargeLampsConfig.CATHODE_LOCATION.getY() - DischargeLampsConfig.CATHODE_LENGTH / 2
-//                   - DischargeLampsConfig.ELECTRODE_INSETS.top;
-//        double length = DischargeLampsConfig.ANODE_LOCATION.getX() - DischargeLampsConfig.CATHODE_LOCATION.getX()
-//                        + DischargeLampsConfig.ELECTRODE_INSETS.left + DischargeLampsConfig.ELECTRODE_INSETS.right;
-//        double height = DischargeLampsConfig.CATHODE_LENGTH
-//                        + DischargeLampsConfig.ELECTRODE_INSETS.top + DischargeLampsConfig.ELECTRODE_INSETS.bottom;
-//        Point2D tubeLocation = new Point2D.Double( x, y );
-//        ResonatingCavity tube = new ResonatingCavity( tubeLocation, length, height );
-//        model.addModelElement( tube );
         ResonatingCavity tube = model.getTube();
         ResonatingCavityGraphic tubeGraphic = new ResonatingCavityGraphic( getApparatusPanel(), tube );
         apparatusPanel.addGraphic( tubeGraphic, TUBE_LAYER );

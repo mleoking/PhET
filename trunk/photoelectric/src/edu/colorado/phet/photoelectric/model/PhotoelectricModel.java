@@ -161,16 +161,6 @@ public class PhotoelectricModel extends DischargeLampModel {
      */
     public void addModelElement( ModelElement modelElement ) {
 
-        // Track all the photons
-//        if( modelElement instanceof Photon ) {
-//            photons.add( modelElement );
-//        }
-//
-//        // Track all the electrons
-//        if( modelElement instanceof Electron ) {
-//            electrons.add( modelElement );
-//        }
-
         // If the model element is an ElectronSource, add all the known ElectronSinks
         // to it as listeners
         if( modelElement instanceof ElectronSource ) {
@@ -193,20 +183,6 @@ public class PhotoelectricModel extends DischargeLampModel {
             }
         }
         super.addModelElement( modelElement );
-    }
-
-    public void removeModelElement( ModelElement modelElement ) {
-        // Track all the photons
-//        if( modelElement instanceof Photon ) {
-//            photons.remove( modelElement );
-//        }
-//
-//        // Track all the electrons
-//        if( modelElement instanceof Electron ) {
-//            electrons.remove( modelElement );
-//        }
-
-        super.removeModelElement( modelElement );
     }
 
     /**
@@ -262,6 +238,10 @@ public class PhotoelectricModel extends DischargeLampModel {
 
     public BeamIntensityMeter getBeamIntensityMeter() {
         return beamIntensityMeter;
+    }
+
+    public double getAnodePotential() {
+        return rightHandPlate.getPotential() - target.getPotential() ;
     }
 
     //----------------------------------------------------------------
