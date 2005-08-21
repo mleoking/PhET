@@ -19,10 +19,35 @@ public class ScatterPlot extends DataSetGraphic {
     private GraphicLayerSet points;
     private ScatterPaintFactory scatterPaintFactory;
 
+    /**
+     * Creates a scatter plot with blue circles as markers, 3 pixels in diameter
+     * @param component
+     * @param chart
+     * @param dataSet
+     */
     public ScatterPlot( Component component, Chart chart, DataSet dataSet ) {
         this( component, chart, dataSet, new ScatterPlot.CircleFactory( component, Color.blue, 3 ) );
     }
 
+    /**
+     * Creates a scatter plot with circles as markers of a specified color and radius
+     * @param component
+     * @param chart
+     * @param dataSet
+     * @param color
+     * @param markerRadius
+     */
+    public ScatterPlot( Component component, Chart chart, DataSet dataSet, Color color, int markerRadius ) {
+        this( component, chart, dataSet, new ScatterPlot.CircleFactory( component, color, markerRadius ) );
+    }
+
+    /**
+     * Creates a scatter plot with markers defined by a specified ScatterPaintFactory
+     * @param component
+     * @param chart
+     * @param dataSet
+     * @param scatterPaintFactory
+     */
     public ScatterPlot( Component component, Chart chart, DataSet dataSet, ScatterPaintFactory scatterPaintFactory ) {
         super( component, chart, dataSet );
         this.scatterPaintFactory = scatterPaintFactory;
