@@ -41,7 +41,9 @@ public class PhotoelectricApplication extends PhetApplication {
     static private FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 680 );
 
     // Clock specification
-    public static final double DT = 12;
+    public static final double DT = 25;
+//    public static final double DT = 50;
+//    public static final double DT = 12;
     public static final int FPS = 25;
     private JMenu optionsMenu;
 

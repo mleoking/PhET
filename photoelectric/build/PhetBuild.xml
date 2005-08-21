@@ -96,6 +96,7 @@ ignorepath      (those elements of the ant classpath that should not be
             <src path="${project_home}/dischargelamps/mechanics/src"/>
             <src path="${project_home}/dischargelamps/collision/src"/>
             <src path="${project_home}/dischargelamps/controls/src"/>
+            <src path="${project_home}/charts/src"/>
         </javac>
     </target>
 

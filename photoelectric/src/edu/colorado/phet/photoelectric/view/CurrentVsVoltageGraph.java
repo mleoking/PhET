@@ -57,11 +57,16 @@ public class CurrentVsVoltageGraph extends Chart {
         if( wavelengthToDataSetMap.get( wavelengthObj ) == null ) {
             dataSet = new SortedDataSet();
             wavelengthToDataSetMap.put( wavelengthObj, dataSet );
-            LinePlot plot = new LinePlot( getComponent(), this, dataSet );
-            ScatterPlot points = new ScatterPlot( getComponent(), this, dataSet );
             Color color = VisibleColor.wavelengthToColor( wavelength );
-            color = Color.red;
-            plot.setBorderColor( color);
+            // For some reason, [r,g,b] = [0,0,0] doesn't work for the Charts plot
+            if( color.getRed() == 0 && color.getGreen() == 0 && color.getBlue() == 0 ) {
+                color = new Color( 1, 1, 11);
+            }
+            LinePlot plot = new LinePlot( getComponent(), this, dataSet );
+            ScatterPlot points = new ScatterPlot( getComponent(), this, dataSet, color, 2 );
+
+            plot.setBorderColor( color );
+            plot.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
             this.addDataSetGraphic( plot );
             this.addDataSetGraphic( points );
         }
