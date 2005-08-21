@@ -92,6 +92,15 @@ public class LinePlot extends DataSetGraphic {
         phetShapeGraphic.setBorderColor( color );
     }
 
+    /**
+     * Sets the Color used to stroke the plot.
+     *
+     * @param color
+     */
+    public void setStrokeColor( Color color ) {
+        phetShapeGraphic.setBorderColor( color );
+    }
+
     //----------------------------------------------------------------------------
     // DataSetGraphic implementation
     //----------------------------------------------------------------------------
