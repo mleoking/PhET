@@ -83,6 +83,7 @@ public class D2CAmplitudesChart extends Chart {
 
             // Axis title
             _xAxisTitleGraphic = new HTMLGraphic( component, AXIS_TITLE_FONT, "", AXIS_TITLE_COLOR );
+            _xAxisTitleGraphic.setRegistrationPoint( 0, _xAxisTitleGraphic.getHeight() ); // lower left corner
             setXAxisTitle( _xAxisTitleGraphic );
             
             // Major ticks with labels
