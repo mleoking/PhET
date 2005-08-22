@@ -434,17 +434,21 @@ public class Chart extends GraphicLayerSet {
     public void setBackground( Paint background ) {
         this.backgroundGraphic.setPaint( background );
     }
-
-    public void addDataSetGraphic( DataSetGraphic dataSetGraphic ) {
+    
+    public void addDataSetGraphic( DataSetGraphic dataSetGraphic, double layer ) {
         if( dataSetGraphic.getChart() == null || dataSetGraphic.getChart() == this ) {
             dataSetGraphics.add( dataSetGraphic );
-            compositeDataSetGraphic.addGraphic( dataSetGraphic );
+            compositeDataSetGraphic.addGraphic( dataSetGraphic, layer );
         }
         else {
             throw new RuntimeException( "DataSetGraphic was associated with the wrong Chart instance." );
         }
     }
 
+    public void addDataSetGraphic( DataSetGraphic dataSetGraphic ) {
+        addDataSetGraphic( dataSetGraphic, 0 );
+    }
+    
     public Component getComponent() {
         return component;
     }
