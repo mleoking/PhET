@@ -194,33 +194,13 @@ public class D2CSumChart extends Chart {
          */
         if ( maxY > 2 ) {
             majorSpacing = 1.0;
-            minorSpacing = 0.1;
-            majorNumberFormat = new DecimalFormat( "0.#" );
-        }
-        else if ( maxY > 1 ) {
+            minorSpacing = 0.5;
+            majorNumberFormat = new DecimalFormat( "#.#" );
+        }    
+        else {
             majorSpacing = 0.5;
             minorSpacing = 0.1;
-            majorNumberFormat = new DecimalFormat( "#.#" );
-        }      
-        else if ( maxY > 0.2 ) {
-            majorSpacing = 0.1;
-            minorSpacing = 0.05;
             majorNumberFormat = new DecimalFormat( ".##" );
-        }
-        else if ( maxY > 0.1 ) {
-            majorSpacing = 0.05;
-            minorSpacing = 0.01;
-            majorNumberFormat = new DecimalFormat( ".##" );
-        }
-        else if ( maxY > 0.02 ) {
-            majorSpacing = 0.01;
-            minorSpacing = 0.005;
-            majorNumberFormat = new DecimalFormat( ".###" );
-        }
-        else {
-            majorSpacing = 0.005;
-            minorSpacing = 0.001; 
-            majorNumberFormat = new DecimalFormat( ".###" );
         }
         
         /*
