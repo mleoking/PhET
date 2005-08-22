@@ -25,13 +25,12 @@ import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.charts.D2CSumChart;
 import edu.colorado.phet.fourier.charts.FourierSumPlot;
-import edu.colorado.phet.fourier.charts.HarmonicPlot;
+import edu.colorado.phet.fourier.charts.GaussianWavePacketPlot;
 import edu.colorado.phet.fourier.control.ZoomControl;
 import edu.colorado.phet.fourier.event.ZoomEvent;
 import edu.colorado.phet.fourier.event.ZoomListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
-import edu.colorado.phet.fourier.model.Harmonic;
 
 
 /**
@@ -78,6 +77,11 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
     private static final Color SUM_COLOR = Color.BLACK;
     private static final double SUM_PIXELS_PER_POINT = 1;
     
+    // Gaussian wave packet waveform
+    private static final Stroke WAVE_PACKET_STROKE = SUM_STROKE;
+    private static final Color WAVE_PACKET_COLOR = SUM_COLOR;
+    private static final double WAVE_PACKET_PIXELS_PER_POINT = SUM_PIXELS_PER_POINT;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -94,6 +98,7 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
     private int _xZoomLevel;
     private FourierSeries _fourierSeries;
     private FourierSumPlot _sumPlot;
+    private GaussianWavePacketPlot _wavePacketPlot;
 
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -145,7 +150,13 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
         _sumPlot = new FourierSumPlot( component, _chartGraphic, _fourierSeries );
         _sumPlot.setPixelsPerPoint( SUM_PIXELS_PER_POINT );
         _sumPlot.setStroke( SUM_STROKE );
-        _sumPlot.setBorderColor( SUM_COLOR );
+        _sumPlot.setStrokeColor( SUM_COLOR );
+        
+        // Gaussian wave packet plot
+        _wavePacketPlot = new GaussianWavePacketPlot( component, _chartGraphic );
+        _wavePacketPlot.setPixelsPerPoint( WAVE_PACKET_PIXELS_PER_POINT );
+        _wavePacketPlot.setStroke( WAVE_PACKET_STROKE );
+        _wavePacketPlot.setStrokeColor( WAVE_PACKET_COLOR );
         
         // Close button
         _closeButton = new PhetImageGraphic( component, FourierConstants.CLOSE_BUTTON_IMAGE );
@@ -257,6 +268,7 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
         _waveType = waveType;
         _fourierSeries.setWaveType( _waveType );
         _sumPlot.updateDataSet();
+        _wavePacketPlot.setWaveType( _waveType );
     }
     
     /**
@@ -409,13 +421,9 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
     // Methods that update graphics
     //----------------------------------------------------------------------------
 
-    private void addContinuousPlot() {
-        
-        // F(x) = exp( -(x^2) / (2 * (deltax^2)) ) * sin(k0*x)
-        
-        //XXX This should probably be implemented as a GaussianWavePacketPlot that observers a GaussianWavePacket
-    }
-    
+    /*
+     * Adds a plot of the Fourier series that corresponds to the wave packet.
+     */
     private void addFourierSeriesPlot() {
         
         double k1 = _wavePacket.getK1();
@@ -445,12 +453,30 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
         _chartGraphic.autoscaleY( _sumPlot.getMaxAmplitude() ); 
     }
     
+    /*
+     * Adds a continuous waveform that corresponds to the wave packet.
+     */
+    private void addContinuousPlot() {
+        
+        _wavePacketPlot.setK0( _wavePacket.getK0() );
+        _wavePacketPlot.setDeltaX( _wavePacket.getDeltaX() );
+        
+        _chartGraphic.addDataSetGraphic( _wavePacketPlot );
+        _chartGraphic.autoscaleY( _wavePacketPlot.getMaxAmplitude() );
+    }
+    
+    /*
+     * Updates the math equation that appears above the graph.
+     */
     private void updateMath() {
         boolean infinity = ( _wavePacket.getK1() == 0 );
         _mathGraphic.setForm( _domain, infinity );
         _mathGraphic.centerRegistrationPoint();
     }
     
+    /*
+     * Update the titles on the axes.
+     */
     private void updateAxisTitles() {
         if ( _domain == FourierConstants.DOMAIN_SPACE ) {
             _chartGraphic.setXAxisTitle( SimStrings.get( "D2CSumGraph.xTitleSpace" ) );
