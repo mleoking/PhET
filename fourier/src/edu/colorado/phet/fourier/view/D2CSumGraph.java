@@ -265,10 +265,10 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
      */
     public void setWaveType( int waveType ) {
         assert( FourierConstants.isValidWaveType( waveType ) );
-        _waveType = waveType;
-        _fourierSeries.setWaveType( _waveType );
-        _sumPlot.updateDataSet();
-        _wavePacketPlot.setWaveType( _waveType );
+        if ( waveType != _waveType ) {
+            _waveType = waveType;
+            update();
+        }
     }
     
     /**
@@ -434,6 +434,7 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
         int numberOfHarmonics = _wavePacket.getNumberOfComponents();
 
         _fourierSeries.setNumberOfHarmonics( numberOfHarmonics );
+        _fourierSeries.setWaveType( _waveType );
 
         // Adjust the Fourier series to match the wave packet
         for ( int i = 0; i < numberOfHarmonics; i++ ) {
@@ -460,6 +461,7 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
         
         _wavePacketPlot.setK0( _wavePacket.getK0() );
         _wavePacketPlot.setDeltaX( _wavePacket.getDeltaX() );
+        _wavePacketPlot.setWaveType( _waveType );
         
         _chartGraphic.addDataSetGraphic( _wavePacketPlot );
         _chartGraphic.autoscaleY( _wavePacketPlot.getMaxAmplitude() );

@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- switching between sines and cosines doesn't autoscale y-axis
 - fix y-axis ticks and labels on D2C Sum and Components graphs as they autoscale
 - when 2dx gets to be just a few pixels, peaks of the waveform in Sum graph are chopped off
 - memory leak in D2C module, freezes with wait cursor
@@ -77,6 +76,7 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(8/21) - bugfix: autoscale y axis on D2C Sum graph when switching between sines and cosines wave types
 (8/21) - add GaussianWavePacketPlot to D2C Sum graph
 (8/21) - implement GaussianWavePacketPlot for plotting a continuos gaussian wave packet
 (8/18) - when k1 = 0, change equation to an integral above D2CSumGraph
