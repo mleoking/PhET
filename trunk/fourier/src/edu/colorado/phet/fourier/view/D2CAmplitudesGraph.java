@@ -332,7 +332,6 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
             }
         }
         points.add( new Point2D.Double( k, 0 ) );
-        System.out.println( "# points = " + points.size() );//XXX
 
         // Add the points to the data set.
         dataSet.addPoints( (Point2D.Double[]) points.toArray( new Point2D.Double[points.size()] ) );
