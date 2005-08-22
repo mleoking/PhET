@@ -185,22 +185,22 @@ public class D2CHarmonicsChart extends Chart {
          * These values were set via trial-&-error.  
          * Good luck changing them.
          */
-        if ( maxY > 2 ) {
+        if ( maxY > 1 ) {
             majorSpacing = 1.0;
-            minorSpacing = 0.1;
-            majorNumberFormat = new DecimalFormat( "0.#" );
-        }
-        else if ( maxY > 1 ) {
-            majorSpacing = 0.5;
-            minorSpacing = 0.1;
+            minorSpacing = 0.5;
             majorNumberFormat = new DecimalFormat( "#.#" );
-        }      
+        }    
+        else if ( maxY > 0.5 ) {
+            majorSpacing = 0.2;
+            minorSpacing = 0.1;
+            majorNumberFormat = new DecimalFormat( ".##" );
+        }
         else if ( maxY > 0.2 ) {
             majorSpacing = 0.1;
             minorSpacing = 0.05;
             majorNumberFormat = new DecimalFormat( ".##" );
         }
-        else if ( maxY > 0.1 ) {
+        else if ( maxY > 0.05 ) {
             majorSpacing = 0.05;
             minorSpacing = 0.01;
             majorNumberFormat = new DecimalFormat( ".##" );
