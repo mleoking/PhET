@@ -19,16 +19,14 @@ public class DataSet {
         return (Point2D)dataPoints.get( i );
     }
 
-    protected List getDataPoints() {
+    protected ArrayList getDataPoints() {
         return dataPoints;
     }
 
-    protected void setDataPoints( ArrayList list ) {
-        dataPoints = list;
-    }
-
-    protected ArrayList getObservers() {
-        return observers;
+    protected void setDataPoints( ArrayList dataPoints ) {
+        clear();
+        Point2D[] points = (Point2D[]) dataPoints.toArray( new Point2D.Double[ dataPoints.size() ] );
+        addPoints( points );
     }
 
     public int size() {
@@ -86,6 +84,9 @@ public class DataSet {
         return (Point2D[])dataPoints.toArray( new Point2D[0] );
     }
 
+    /**
+     * @deprectated use addPoints
+     */
     public void addAllPoints( Point2D[] pts ) {
         addPoints( pts );
     }

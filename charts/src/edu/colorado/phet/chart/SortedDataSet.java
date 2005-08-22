@@ -11,6 +11,8 @@
 package edu.colorado.phet.chart;
 
 import java.awt.geom.Point2D;
+import java.util.*;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -28,34 +30,17 @@ public class SortedDataSet extends DataSet {
     private static Comparator comparator = new SortedDataSetComparator();
 
     public void addPoints( Point2D[] pts ) {
-        super.addPoints( pts );
-        List dataPoints = super.getDataPoints();
+        ArrayList dataPoints = super.getDataPoints();
+        dataPoints.addAll( Arrays.asList( pts ) );
         Collections.sort( dataPoints, comparator );
-        notifyObservers( dataPoints );
+        setDataPoints( dataPoints );
     }
 
-    public void addPoint( double x, double y ) {
-        super.addPoint( x, y );
-        List dataPoints = super.getDataPoints();
+    public void addPoint( Point2D pt ) {
+        ArrayList dataPoints = super.getDataPoints();
+        dataPoints.add( pt );
         Collections.sort( dataPoints, comparator );
-        notifyObservers( dataPoints );
-    }
-
-    /**
-     * Tells all DataSetGraphic observers to clear their data, then to add all the
-     * data points. This is needed because their default behavior is optimized to
-     * not redraw data that it has already drawn.
-     * @param dataPoints
-     */
-    private void notifyObservers( List dataPoints ) {
-        List observers = super.getObservers();
-        for( int i = 0; i < observers.size(); i++ ) {
-            Observer observer = (Observer)observers.get( i );
-            if( observer instanceof DataSetGraphic ) {
-                observer.cleared();
-                observer.pointsAdded( (Point2D[])dataPoints.toArray(new Point2D[dataPoints.size()]) );
-            }
-        }
+        setDataPoints( dataPoints );
     }
 
     //----------------------------------------------------------------
