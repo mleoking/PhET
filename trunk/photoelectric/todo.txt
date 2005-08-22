@@ -1,3 +1,10 @@
+Model
+-----
+-The voltage scale factor is in the PhotoelectricModel class right now. Should it be set up somewhere
+else, and should we understand where it comes from?
+
+- Define SplinePlot for Charts
+
 - Make ElectronTracker and PhotonTracker top-level classes, so they can be used by other classes. In fact,
 make them ModelElementTracker, and add the events to ModelElement.
 
@@ -20,13 +27,9 @@ Issues
 - Make fanout an attribute of CollimatedBeam, and make photons fan out
 - Problem with initial view of beam graphic is in the determination of beamDepth in BeamCurtainGraphic.update(). When
 it's fixed, get rid of hack in PhotoelectricModule constructor
-
 - CollimatedBeam is screwed up. The direction parameter conflicts with the bounds, width and height, vertical and
 horizontal, etc.
-
-
 - Calibrate the volts according to Sam's note
-
 
 Charts
 ------
@@ -37,8 +40,6 @@ Need much better documentation.
     - If you try to plot data that is out of range, you get nothing at all
     - Sam has inner classes in the middle of the outer class' code. At least he did in DataSet.
 
-
-ApparatusPanel2
----------------
-    - Since it now has a clock, have it register itself as a clock tick listener and call repaint(),
-    so the Module doesn't have to.
+Electrode Potential and Electron movement
+-----------------------------------------
+This is handled in the DischargeLampModel class, in setElectronAcceleration().
