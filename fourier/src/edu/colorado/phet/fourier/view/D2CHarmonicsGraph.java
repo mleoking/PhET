@@ -88,7 +88,6 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
     private ZoomControl _horizontalZoomControl;
     private D2CHarmonicsChart _chartGraphic;
     private HarmonicsEquation _mathGraphic;
-    private String _xTitleSpace, _xTitleTime;
     private int _domain;
     private int _waveType;
     private int _xZoomLevel;
@@ -135,8 +134,6 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
         addGraphic( _chartGraphic, CHART_LAYER );
         _chartGraphic.setRegistrationPoint( 0, CHART_SIZE.height / 2 ); // at the chart's origin
         _chartGraphic.setLocation( 60, 50 + ( CHART_SIZE.height / 2 ) );
-        _xTitleSpace = SimStrings.get( "D2CHarmonicsGraph.xTitleSpace" );
-        _xTitleTime = SimStrings.get( "D2CHarmonicsGraph.xTitleTime" );
         
         // "Cannot show" message 
         String message = SimStrings.get( "D2CHarmonicsGraph.cannotShow" );
@@ -467,6 +464,9 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
         }
     }
     
+    /*
+     * Updates the math equation that appears above the graph.
+     */
     private void updateMath() {
         int numberOfHarmonics = _wavePacket.getNumberOfComponents();
         if ( _domain == FourierConstants.DOMAIN_SPACE ) {
@@ -478,12 +478,15 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
         _mathGraphic.centerRegistrationPoint();
     }
     
+    /*
+     * Update the titles on the axes.
+     */
     private void updateAxisTitles() {
         if ( _domain == FourierConstants.DOMAIN_SPACE ) {
-            _chartGraphic.setXAxisTitle( _xTitleSpace );
+            _chartGraphic.setXAxisTitle( SimStrings.get( "D2CHarmonicsGraph.xTitleSpace" ) );
         }
         else if ( _domain == FourierConstants.DOMAIN_TIME ) {
-            _chartGraphic.setXAxisTitle( _xTitleTime );
+            _chartGraphic.setXAxisTitle( SimStrings.get( "D2CHarmonicsGraph.xTitleTime" ) );
         }
     }
 }
