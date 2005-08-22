@@ -36,32 +36,63 @@ import java.util.Set;
 public class ModelSlider extends JPanel {
     private JTextField textField;
     private JSlider slider;
-//    private Function modelViewTransform;//goes from model to view
     private ModelViewTransform1D modelViewTransform;
     private String units;
-    private NumberFormat formatter;
+    private NumberFormat textFieldFormat;
+    // Format for the numbers that appear below the JSlider
+    private NumberFormat sliderLabelFormat;
     private static final int SLIDER_MAX = 100000000;
     private static final int SLIDER_MIN = 0;
     private double min;
     private double max;
     private double initialValue;
     private ArrayList listeners = new ArrayList();
-    private double value = Double.NaN;//to force an update at the end of the constructor.
+    private double value = Double.NaN;  //to force an update at the end of the constructor.
     private int numMajorTicks;
     private int numMinorTicks;
     private JLabel titleLabel;
     private JTextField unitsReadout;
     private String title;
 
+    //-----------------------------------------------------------------
+    // Constructors and initialization
+    //-----------------------------------------------------------------
+
+    /**
+     * Creates a ModelSlider with a default DecimalFormat
+     * @param title
+     * @param units
+     * @param min
+     * @param max
+     * @param initial
+     */
     public ModelSlider( String title, String units, final double min, final double max, double initial ) {
         this( title, units, min, max, initial, new DecimalFormat( "0.0#" ) );
     }
 
+    /**
+     * Creates a ModelSlider with a specified DecimalFormat
+     * @param title
+     * @param units
+     * @param min
+     * @param max
+     * @param initialValue
+     * @param formatter
+     */
     public ModelSlider( String title, String units, final double min, final double max,
                         double initialValue, NumberFormat formatter ) {
         init( min, max, formatter, units, initialValue, title );
     }
 
+    /**
+     *
+     * @param min
+     * @param max
+     * @param formatter
+     * @param units
+     * @param initialValue
+     * @param title
+     */
     private void init( final double min, final double max, NumberFormat formatter, String units, double initialValue, String title ) {
 
         // In case this has been called in response to a change in some characteristic, remove all the items in the
@@ -73,7 +104,8 @@ public class ModelSlider extends JPanel {
         this.title = title;
         this.min = min;
         this.max = max;
-        this.formatter = formatter;
+        this.textFieldFormat = formatter;
+        this.sliderLabelFormat = formatter;
         this.units = units;
         this.modelViewTransform = new ModelViewTransform1D( min, max, SLIDER_MIN, SLIDER_MAX );
         this.initialValue = initialValue;
@@ -83,7 +115,7 @@ public class ModelSlider extends JPanel {
 
         setLayout( new GridBagLayout() );
         setBorder( BorderFactory.createEtchedBorder() );
-        this.textField = createTextField();
+        createTextField();
         textField.setHorizontalAlignment( JTextField.RIGHT );
 
         createSlider();
@@ -115,75 +147,9 @@ public class ModelSlider extends JPanel {
         setValue( initialValue );
     }
 
-    public void setTitleFont( Font titleFont ) {
-        titleLabel.setFont( titleFont );
-    }
-
-    public JLabel getTitleLabel() {
-        return titleLabel;
-    }
-
-    public JTextField getTextField() {
-        return textField;
-    }
-
-    public JTextField getUnitsReadout() {
-        return unitsReadout;
-    }
-
-    public void setEnabled( boolean enabled ) {
-        super.setEnabled( enabled );
-        slider.setEnabled( enabled );
-        textField.setEnabled( enabled );
-        unitsReadout.setEnabled( enabled );
-        titleLabel.setEnabled( enabled );
-    }
-
-    public void requestSliderFocus() {
-        slider.requestFocus();
-    }
-
-    public void setNumMajorTicks( int numMajorTicks ) {
-        this.numMajorTicks = numMajorTicks;
-        relabelSlider();
-    }
-
-    public void setNumMinorTicks( int numMinorTicks ) {
-        this.numMinorTicks = numMinorTicks;
-        relabelSlider();
-    }
-
-    private void relabelSlider() {
-        int dMajor = SLIDER_MAX / ( numMajorTicks - 1 );
-        int dMinor = SLIDER_MAX / ( numMinorTicks - 1 );
-        Font labelFont = new Font( "Lucida Sans", 0, 10 );
-        Hashtable table = new Hashtable();
-        for( int value = 0; value <= SLIDER_MAX; value += dMajor ) {
-            double modelValue = modelViewTransform.viewToModel( value );
-            JLabel label = new JLabel( formatter.format( modelValue ) );
-            label.setFont( labelFont );
-            table.put( new Integer( value ), label );
-        }
-        slider.setLabelTable( table );
-
-        slider.setMajorTickSpacing( dMajor );
-        slider.setMinorTickSpacing( dMinor );
-    }
-
-    public void setModelLabels( Hashtable modelLabels ) {
-        Hashtable viewLabels = new Hashtable();
-        Set keys = modelLabels.keySet();
-        Iterator it = keys.iterator();
-        while( it.hasNext() ) {
-            Object o = (Object)it.next();
-            Number modelValue = (Number)o;
-            double v = modelValue.doubleValue();
-            int viewValue = modelViewTransform.modelToView( v );
-            viewLabels.put( new Integer( viewValue ), modelLabels.get( o ) );
-        }
-        slider.setLabelTable( viewLabels );
-    }
-
+    /**
+     * Creates the JSlider for this object
+     */
     private void createSlider() {
         int initSliderValue = modelViewTransform.modelToView( initialValue );
         if( initSliderValue < SLIDER_MIN || initSliderValue > SLIDER_MAX ) {
@@ -209,23 +175,10 @@ public class ModelSlider extends JPanel {
         relabelSlider();
     }
 
-    public void setPaintTicks( boolean paintTicks ) {
-        slider.setPaintTicks( paintTicks );
-    }
-
-    public void setPaintLabels( boolean paintLabels ) {
-        slider.setPaintLabels( paintLabels );
-    }
-
-    private void fireStateChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ChangeListener changeListener = (ChangeListener)listeners.get( i );
-            ChangeEvent ce = new ChangeEvent( this );
-            changeListener.stateChanged( ce );
-        }
-    }
-
-    private JTextField createTextField() {
+    /**
+     * Creates the JTextField for this object
+     */
+    private void createTextField() {
         JTextField textField = new JTextField( 8 );
         textField.addFocusListener( new FocusAdapter() {
             public void focusGained( FocusEvent e ) {
@@ -245,8 +198,142 @@ public class ModelSlider extends JPanel {
                 }
             }
         } );
+        this.textField = textField;
+    }
 
+    /**
+     * Computes the numbers that appear directly below the slider, formats them, and adds
+     * them as labels to the slider. Also lays out the tick marks
+     */
+    private void relabelSlider() {
+        int dMajor = SLIDER_MAX / ( numMajorTicks - 1 );
+        int dMinor = SLIDER_MAX / ( numMinorTicks - 1 );
+        Font labelFont = new Font( "Lucida Sans", 0, 10 );
+        Hashtable table = new Hashtable();
+        for( int value = 0; value <= SLIDER_MAX; value += dMajor ) {
+            double modelValue = modelViewTransform.viewToModel( value );
+            JLabel label = new JLabel( sliderLabelFormat.format( modelValue ) );
+            label.setFont( labelFont );
+            table.put( new Integer( value ), label );
+        }
+        slider.setLabelTable( table );
+
+        slider.setMajorTickSpacing( dMajor );
+        slider.setMinorTickSpacing( dMinor );
+    }
+
+    public void requestSliderFocus() {
+        slider.requestFocus();
+    }
+
+    //-----------------------------------------------------------------
+    // Setters and getters
+    //-----------------------------------------------------------------
+
+    public void setEnabled( boolean enabled ) {
+        super.setEnabled( enabled );
+        slider.setEnabled( enabled );
+        textField.setEnabled( enabled );
+        unitsReadout.setEnabled( enabled );
+        titleLabel.setEnabled( enabled );
+    }
+
+    public void setTitleFont( Font titleFont ) {
+        titleLabel.setFont( titleFont );
+        relabelSlider();
+    }
+
+    public void setSliderLabelFormat( NumberFormat sliderLabelFormat ) {
+        this.sliderLabelFormat = sliderLabelFormat;
+        relabelSlider();
+    }
+
+    public JLabel getTitleLabel() {
+        return titleLabel;
+    }
+
+    public JTextField getTextField() {
         return textField;
+    }
+
+    public JTextField getUnitsReadout() {
+        return unitsReadout;
+    }
+
+    public void setNumMajorTicks( int numMajorTicks ) {
+        this.numMajorTicks = numMajorTicks;
+        relabelSlider();
+    }
+
+    public void setMajorTickSpacing( double spacing ) {
+        int numTicks = (int)(( this.max - this.min ) / spacing ) + 1;
+        setNumMajorTicks( numTicks );
+    }
+
+    public void setNumMinorTicks( int numMinorTicks ) {
+        this.numMinorTicks = numMinorTicks;
+        relabelSlider();
+    }
+
+    public void setModelTicks( double[] ticks ) {
+        Hashtable table = new Hashtable();
+        for( int i = 0; i < ticks.length; i++ ) {
+            double tick = ticks[i];
+            table.put( new Double( tick ), new JLabel( tick + "" ) );
+        }
+        setModelLabels( table );
+        relabelSlider();
+    }
+
+    public void setModelLabels( Hashtable modelLabels ) {
+        Hashtable viewLabels = new Hashtable();
+        Set keys = modelLabels.keySet();
+        Iterator it = keys.iterator();
+        while( it.hasNext() ) {
+            Object o = (Object)it.next();
+            Number modelValue = (Number)o;
+            double v = modelValue.doubleValue();
+            int viewValue = modelViewTransform.modelToView( v );
+            viewLabels.put( new Integer( viewValue ), modelLabels.get( o ) );
+        }
+        slider.setLabelTable( viewLabels );
+        relabelSlider();
+    }
+
+    public void setPaintTicks( boolean paintTicks ) {
+        slider.setPaintTicks( paintTicks );
+        relabelSlider();
+    }
+
+    public void setPaintLabels( boolean paintLabels ) {
+        slider.setPaintLabels( paintLabels );
+        relabelSlider();
+    }
+
+    public void setRange( double min, double max ) {
+        double val = getValue();
+        this.min = min;
+        this.max = max;
+        if( val < min ) {
+            val = min;
+        }
+        if( val > max ) {
+            val = max;
+        }
+        modelViewTransform = new ModelViewTransform1D( min, max, SLIDER_MIN, SLIDER_MAX );
+        setValue( val );
+    }
+
+    public void setMaximum( double max ) {
+        init( min, max, textFieldFormat, units, initialValue, title );
+    }
+
+    private void fireStateChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            ChangeListener changeListener = (ChangeListener)listeners.get( i );
+            ChangeEvent ce = new ChangeEvent( this );
+            changeListener.stateChanged( ce );
+        }
     }
 
     public boolean testCommit() {
@@ -264,36 +351,9 @@ public class ModelSlider extends JPanel {
                                                  + ", " + maximum + "=" + ive.getMax() + "\n" + youentered + ": "
                                                  + ive.getValue(), description, JOptionPane.ERROR_MESSAGE );
             double value = getValue();
-            textField.setText( formatter.format( value ) );
+            textField.setText( textFieldFormat.format( value ) );
             return false;
         }
-    }
-
-    public void setRange( double min, double max ) {
-        double val = getValue();
-        this.min = min;
-        this.max = max;
-        if( val < min ) {
-            val = min;
-        }
-        if( val > max ) {
-            val = max;
-        }
-        modelViewTransform = new ModelViewTransform1D( min, max, SLIDER_MIN, SLIDER_MAX );
-        setValue( val );
-    }
-
-    public void setModelTicks( double[] ticks ) {
-        Hashtable table = new Hashtable();
-        for( int i = 0; i < ticks.length; i++ ) {
-            double tick = ticks[i];
-            table.put( new Double( tick ), new JLabel( tick + "" ) );
-        }
-        setModelLabels( table );
-    }
-
-    public void setMaximum( double max ) {
-        init( min, max, formatter, units, initialValue, title );
     }
 
     public static class IllegalValueException extends Exception {
@@ -401,14 +461,16 @@ public class ModelSlider extends JPanel {
             return;
         }
         if( value >= min && value <= max ) {
-            String string = formatter.format( value );
+            String string = textFieldFormat.format( value );
 
-            double newValue = Double.parseDouble( string );
-            if( this.value == newValue ) {
+//            double newValue = Double.parseDouble( string );
+            if( this.value == value ) {
+//            if( this.value == newValue ) {
                 return;
             }
 
-            this.value = newValue;
+            this.value = value;
+//            this.value = newValue;
             textField.setText( string );
             int sliderValue = modelViewTransform.modelToView( value );
             if( sliderValue != slider.getValue() ) {
