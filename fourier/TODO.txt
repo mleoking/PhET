@@ -16,7 +16,6 @@ MEDIUM PRIORITY:
 - bug: D2C amplitudes graph draws on top of tools (Mac only)
 - bug: dragging tools over top of chart causes weird aliasing artifacts (Mac only)
 - bug: chart draws plots on top of help items (Mac only)
-- wiggle me isn't hidden when user clicks in the control panel
 - add support for persistence
 - bug: FourierHelp.pointAt(Point,...) doesn't actually point at the specific Point
 - add more arrow options to FourierHelp
@@ -24,6 +23,7 @@ MEDIUM PRIORITY:
 - something is hammering the processor when the sim should be idle
 
 LOW PRIORITY:
+- wiggle me isn't hidden when user clicks in the control panel
 - relocate the Help on the text fields in Discrete module
 - with a single module, Fourier starts up with the module's apparatus panel magnified (something in DiscreteControlPanel)
 - FourierSumPlot should be an observer of its FourierSeries
@@ -58,7 +58,6 @@ CLEANUP:
 CHARTS:
 - bug: Chart.getBounds is incorrect when the chart contains no data set graphics
 - bug: integer precision model-view transforms are still used in many places
-- Chart.addGraphic needs a layer argument
 - flatten static graphics elements
 
 PHETCOMMON:
@@ -73,6 +72,8 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+1.0.4 ...
+(8/21) - charts: add Chart.addDataSetGraphic(DataSetGraphic graphic, double layer)
 (8/21) - set proper registration points for all axis labels in all modules
 (8/21) - fix x axis title (as set via Chart.setXAxisTitle) so that it stays aligned with x axis
 (8/21) - charts: add missing method for setting y axis title: Chart.setYAxisTitle
@@ -80,6 +81,7 @@ DONE:
 (8/21) - bugfix: autoscale y axis on D2C Sum graph when switching between sines and cosines wave types
 (8/21) - add GaussianWavePacketPlot to D2C Sum graph
 (8/21) - implement GaussianWavePacketPlot for plotting a continuos gaussian wave packet
+1.0.3 ...
 (8/18) - when k1 = 0, change equation to an integral above D2CSumGraph
 (8/18) - when k1 != 0 show sum equation from +-infinity above D2CSumGraph 
 (8/18) - make the x axis in D2C harmonics and sum zoomable from 0.5-8
