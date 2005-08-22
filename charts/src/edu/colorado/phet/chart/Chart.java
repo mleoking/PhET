@@ -38,6 +38,7 @@ public class Chart extends GraphicLayerSet {
     private HTMLGraphic title;
     private Dimension chartSize;
     private PhetGraphic xAxisTitleGraphic;
+    private PhetGraphic yAxisTitleGraphic;
 
     /**
      * @param component
@@ -106,14 +107,38 @@ public class Chart extends GraphicLayerSet {
         addGraphic( title );
     }
 
+    /**
+     * Sets the title label that appears on the x axis.
+     * The title will be place to the right of the chart,
+     * and the title's registration point will be aligned 
+     * with the x axis.
+     * 
+     * @param phetGraphic
+     */
     public void setXAxisTitle( PhetGraphic phetGraphic ) {
         if( xAxisTitleGraphic != null ) {
             removeGraphic( xAxisTitleGraphic );
         }
         xAxisTitleGraphic = phetGraphic;
-        xAxisTitleGraphic.setLocation( chartSize.width + 2, chartSize.height / 2 - xAxisTitleGraphic.getHeight() / 2 );
-//        xAxisTitleGraphic.setClippingDisabled( true );
+        xAxisTitleGraphic.setLocation( chartSize.width + 2, (int) transformYDouble( 0 ) ); // aligned with x axis
         addGraphic( xAxisTitleGraphic, ApparatusPanel.LAYER_TOP - 1 );
+    }
+    
+    /**
+     * Sets the title label that appears on the y axis.
+     * The title will be place to the right of the chart,
+     * and the title's registration point will be aligned 
+     * with the y axis.
+     * 
+     * @param phetGraphic
+     */
+    public void setYAxisTitle( PhetGraphic phetGraphic ) {
+        if( yAxisTitleGraphic != null ) {
+            removeGraphic( yAxisTitleGraphic );
+        }
+        yAxisTitleGraphic = phetGraphic;
+        yAxisTitleGraphic.setLocation( (int) transformXDouble( 0 ), -2 ); // aligned with y axis
+        addGraphic( yAxisTitleGraphic, ApparatusPanel.LAYER_TOP - 1 );
     }
 
     public void removeDataSetGraphic( DataSetGraphic dataSetGraphic ) {
@@ -470,11 +495,19 @@ public class Chart extends GraphicLayerSet {
 
     public void setChartSize( int width, int height ) {
         this.chartSize = new Dimension( width, height );
-        xAxisTitleGraphic.setLocation( chartSize.width + 2, chartSize.height / 2 - xAxisTitleGraphic.getHeight() / 2 );
         Rectangle viewBounds = new Rectangle( chartSize );
         backgroundGraphic.setShape( viewBounds );
         frameGraphic.setShape( viewBounds );
         transform.setViewBounds( viewBounds );
+        
+        // Update the axis title after the transform has been adjusted.
+        if ( xAxisTitleGraphic != null ) {
+            xAxisTitleGraphic.setLocation( chartSize.width + 2, (int) transformYDouble( 0 ) ); // aligned with x axis
+        }
+        if ( yAxisTitleGraphic != null ) {
+            yAxisTitleGraphic.setLocation( (int) transformXDouble( 0 ), -2 ); // aligned with y axis
+        }
+        
         fireTransformChanged();
         setBoundsDirty();
         autorepaint();
