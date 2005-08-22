@@ -47,6 +47,8 @@ public class PhotoelectricModel extends DischargeLampModel {
 
     public static double MIN_VOLTAGE = -0.03;
     public static double MAX_VOLTAGE = 0.03;
+    public static double MIN_WAVELENGTH = 100;
+    public static double MAX_WAVELENGTH = 600;
 
     //----------------------------------------------------------------
     // Instance data
