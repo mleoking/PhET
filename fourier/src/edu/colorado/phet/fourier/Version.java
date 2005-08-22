@@ -22,7 +22,7 @@ public class Version {
   
     public static final String NUMBER = "1.0.4";
 //    public static final String NUMBER = "sandbox";
-    public static final String BUILD = "fourier-1-0-4-2005-08-18";
+    public static final String BUILD = "fourier-1-0-4-2005-08-22";
     
     /* This class is not intended for instantiation. */
     private Version() {}
