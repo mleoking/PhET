@@ -30,6 +30,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.Electrode;
@@ -75,6 +76,7 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
+import java.text.DecimalFormat;
 
 /**
  * PhotoelectricModule
@@ -131,6 +133,7 @@ public class PhotoelectricModule extends BaseLaserModule {
     // Flag for type of beam view: either photon or solid beam
     private int viewType = BEAM_VIEW;
     private CurrentVsVoltageGraph currentVsVoltageGraph;
+    private PhetImageGraphic circuitGraphic;
 
 
     /**
@@ -224,27 +227,27 @@ public class PhotoelectricModule extends BaseLaserModule {
         addControls();
 
         // Add a slider for the battery
-        GraphicSlider batterySlider = new GraphicSlider( getApparatusPanel() );
-        batterySlider = new PhotoelectricSlider( getApparatusPanel(), 100 /* track length */ );
-        addGraphic( batterySlider, SLIDER_LAYER );
+//        GraphicSlider batterySlider = new GraphicSlider( getApparatusPanel() );
+//        batterySlider = new PhotoelectricSlider( getApparatusPanel(), 100 /* track length */ );
+//        addGraphic( batterySlider, SLIDER_LAYER );
 
-        batterySlider.setMinimum( (int)-( PhotoelectricModel.MIN_VOLTAGE ) );
-        batterySlider.setMaximum( (int)( PhotoelectricModel.MAX_VOLTAGE ) );
-        batterySlider.setValue( (int)( getPhotoelectricModel().getAnodePotential() * PhotoelectricModel.MAX_VOLTAGE ) );
-        batterySlider.addTick( batterySlider.getMinimum() );
-        batterySlider.addTick( batterySlider.getMaximum() );
-        batterySlider.addTick( 0 );
+//        batterySlider.setMinimum( (int)-( PhotoelectricModel.MIN_VOLTAGE ) );
+//        batterySlider.setMaximum( (int)( PhotoelectricModel.MAX_VOLTAGE ) );
+//        batterySlider.setValue( (int)( getPhotoelectricModel().getAnodePotential() * PhotoelectricModel.MAX_VOLTAGE ) );
+//        batterySlider.addTick( batterySlider.getMinimum() );
+//        batterySlider.addTick( batterySlider.getMaximum() );
+//        batterySlider.addTick( 0 );
 
-        batterySlider.centerRegistrationPoint();
+//        batterySlider.centerRegistrationPoint();
         // TODO: locate the slider symbolically
-        batterySlider.setLocation( 400, 400 );
-        final GraphicSlider batterySlider1 = batterySlider;
-        batterySlider.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                int voltage = batterySlider1.getValue();
-                getPhotoelectricModel().getRightHandPlate().setPotential( voltage / PhotoelectricModel.MAX_VOLTAGE );
-            }
-        } );
+//        batterySlider.setLocation( 400, 400 );
+//        final GraphicSlider batterySlider1 = batterySlider;
+//        batterySlider.addChangeListener( new ChangeListener() {
+//            public void stateChanged( ChangeEvent e ) {
+//                int voltage = batterySlider1.getValue();
+//                getPhotoelectricModel().getRightHandPlate().setPotential( voltage / PhotoelectricModel.MAX_VOLTAGE );
+//            }
+//        } );
 
 
         //----------------------------------------------------------------
@@ -346,7 +349,7 @@ public class PhotoelectricModule extends BaseLaserModule {
      * @param apparatusPanel
      */
     private void addCircuitGraphic( ApparatusPanel apparatusPanel ) {
-        PhetImageGraphic circuitGraphic = new PhetImageGraphic( getApparatusPanel(), "images/battery-w-wires-2.png" );
+        circuitGraphic = new PhetImageGraphic( getApparatusPanel(), "images/battery-w-wires-2.png" );
         AffineTransform flipVertical = AffineTransform.getScaleInstance( 1, -1 );
         flipVertical.translate( 0, -circuitGraphic.getImage().getHeight() );
         AffineTransformOp flipVerticalOp = new AffineTransformOp( flipVertical, AffineTransformOp.TYPE_BILINEAR );
@@ -479,9 +482,13 @@ public class PhotoelectricModule extends BaseLaserModule {
         getControlPanel().add( beamControlPnl );
 
         // A slider for the wavelength
-        final ModelSlider wavelengthSlider = new ModelSlider( SimStrings.get( "Control.Wavelength" ), "nm",
-                                                              LaserConfig.MIN_WAVELENGTH / 3, LaserConfig.MAX_WAVELENGTH,
-                                                              ( LaserConfig.MIN_WAVELENGTH + LaserConfig.MAX_WAVELENGTH ) / 2 );
+        final ModelSlider wavelengthSlider = new ModelSlider( SimStrings.get( "Control.Wavelength" ),
+                                                              "nm",
+                                                              PhotoelectricModel.MIN_WAVELENGTH,
+                                                              PhotoelectricModel.MAX_WAVELENGTH,
+                                                              ( PhotoelectricModel.MIN_WAVELENGTH + PhotoelectricModel.MAX_WAVELENGTH ) / 2);
+        wavelengthSlider.setMajorTickSpacing( 100 );
+        wavelengthSlider.setSliderLabelFormat( new DecimalFormat( "#"));
         wavelengthSlider.setPreferredSize( new Dimension( 250, 100 ) );
         beam.setWavelength( wavelengthSlider.getValue() );
         beamControlPnl.add( wavelengthSlider );
@@ -496,6 +503,7 @@ public class PhotoelectricModule extends BaseLaserModule {
                                                                  0, beam.getMaxPhotonsPerSecond(),
                                                                  beam.getMaxPhotonsPerSecond() / 2 );
         beamIntensitySlider.setPreferredSize( new Dimension( 250, 100 ) );
+        beamIntensitySlider.setPaintLabels( false );
         beam.setPhotonsPerSecond( beamIntensitySlider.getValue() );
         beamControlPnl.add( beamIntensitySlider );
         beamIntensitySlider.addChangeListener( new ChangeListener() {
@@ -509,9 +517,17 @@ public class PhotoelectricModule extends BaseLaserModule {
         //----------------------------------------------------------------
 
         // A slider for the battery voltage
+        DecimalFormat voltageFormat = new DecimalFormat( "0.000");
         final ModelSlider batterySlider = new ModelSlider( SimStrings.get( "Control.BatteryVoltageLabel" ),
-                                                           "V", PhotoelectricModel.MIN_VOLTAGE, PhotoelectricModel.MAX_VOLTAGE, 0 );
+                                                           "V",
+                                                           PhotoelectricModel.MIN_VOLTAGE,
+                                                           PhotoelectricModel.MAX_VOLTAGE,
+                                                           0,
+                                                           voltageFormat );
         batterySlider.setPreferredSize( new Dimension( 250, 100 ) );
+        batterySlider.setNumMajorTicks( 7 );
+        batterySlider.setNumMinorTicksPerMajorTick( 2 );
+        batterySlider.setSliderLabelFormat( new DecimalFormat( "0.00"));
         ControlPanel controlPanel = (ControlPanel)getControlPanel();
         controlPanel.add( batterySlider );
         targetPlate.setPotential( batterySlider.getValue() );
@@ -519,6 +535,13 @@ public class PhotoelectricModule extends BaseLaserModule {
             public void stateChanged( ChangeEvent e ) {
                 targetPlate.setPotential( batterySlider.getValue() );
                 anode.setPotential( 0 );
+
+                if( targetPlate.getPotential() < 0 ) {
+                    BufferedImage bImg = circuitGraphic.getImage();
+                    circuitGraphic.setImage( BufferedImageUtils.flipX( bImg ) );
+                    circuitGraphic.setBoundsDirty();
+                    circuitGraphic.repaint();
+                }
             }
         } );
 
