@@ -169,6 +169,7 @@ public class HarmonicsChart extends Chart {
      */
     public void setXAxisTitle( String title ) {
         _xAxisTitleGraphic.setText( title );
+        _xAxisTitleGraphic.setRegistrationPoint( 0, -_xAxisTitleGraphic.getHeight() / 2 ); // left center
     }
     
     public void setXAxisTitle( char c ) {

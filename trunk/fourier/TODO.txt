@@ -57,8 +57,6 @@ CLEANUP:
 
 CHARTS:
 - bug: Chart.getBounds is incorrect when the chart contains no data set graphics
-- bug: x axis title (as set via Chart.setXAxisTitle) does not stay aligned with x axis
-- bug: there is no y axis title (Chart.setYAxisTitle)
 - bug: integer precision model-view transforms are still used in many places
 - Chart.addGraphic needs a layer argument
 - flatten static graphics elements
@@ -75,6 +73,9 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(8/21) - set proper registration points for all axis labels in all modules
+(8/21) - fix x axis title (as set via Chart.setXAxisTitle) so that it stays aligned with x axis
+(8/21) - charts: add missing method for setting y axis title: Chart.setYAxisTitle
 (8/21) - change y-axis ticks and labels on all D2C graphs as they autoscale, so that labels aren't cramped
 (8/21) - bugfix: autoscale y axis on D2C Sum graph when switching between sines and cosines wave types
 (8/21) - add GaussianWavePacketPlot to D2C Sum graph
