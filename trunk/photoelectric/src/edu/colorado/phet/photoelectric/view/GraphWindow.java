@@ -76,6 +76,7 @@ public class GraphWindow extends JDialog {
         return panel;
     }
 
+    
     private JPanel createCurrentVsIntensityPanel() {
 
         // Make the panel with the graph
