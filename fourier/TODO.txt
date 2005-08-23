@@ -70,6 +70,7 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(8/23) - move x-axis titles to the right 4 pixels in D2C Components and Sum graphs
 (8/23) - wire k0 slider control to model
 (8/23) - modify GaussianWavePacket model so that center point can be changed
 (8/23) - reorganize D2C control panel so that everything still fits without scrolling
