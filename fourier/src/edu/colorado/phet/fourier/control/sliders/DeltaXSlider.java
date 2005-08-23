@@ -34,11 +34,11 @@ public class DeltaXSlider extends AbstractFourierSlider {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final String VALUE_FORMAT = "#.##";
+    private static final String VALUE_FORMAT = "#.###";
     
-    // x-space width is from 1/5PI to 1
-    private static final double MIN_WIDTH = 1 / ( Math.PI * 5 );
-    private static final double MAX_WIDTH = 1.0;
+    // dx = 1/dk
+    private static final double MIN_WIDTH = 1 / DeltaKSlider.MAX_WIDTH;
+    private static final double MAX_WIDTH = 1 / DeltaKSlider.MIN_WIDTH;
     
     /*
      * The width values are doubles, but JSlider deals with integers.
@@ -75,7 +75,7 @@ public class DeltaXSlider extends AbstractFourierSlider {
         getSlider().setInverted( true );
         
         Hashtable labelTable = new Hashtable();
-        labelTable.put( new Integer( (int)( MAX_WIDTH * MULTIPLIER ) ), new JLabel( ".06" ) );
+        labelTable.put( new Integer( (int)( MAX_WIDTH * MULTIPLIER ) ), new JLabel( ".08" ) );
         labelTable.put( new Integer( (int)( ( MIN_WIDTH + .8 ) * MULTIPLIER ) ), new JLabel( ".2" ) );
         labelTable.put( new Integer( (int)( ( MIN_WIDTH + .6 ) * MULTIPLIER ) ), new JLabel( ".4" ) );
         labelTable.put( new Integer( (int)( ( MIN_WIDTH + .4 ) * MULTIPLIER ) ), new JLabel( ".6" ) );
@@ -113,6 +113,9 @@ public class DeltaXSlider extends AbstractFourierSlider {
         int sliderValue = getSlider().getValue();
         // Careful - remember that the slider is inverted!
         double xWidth = ( ( (MAX_WIDTH + MIN_WIDTH) * MULTIPLIER ) - sliderValue ) / MULTIPLIER;
+        if ( xWidth > MAX_WIDTH ) {
+            xWidth = MAX_WIDTH; // adjust for rounding error
+        }
         return xWidth;
     }
     
