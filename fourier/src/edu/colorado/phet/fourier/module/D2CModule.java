@@ -267,6 +267,8 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         
         _wavePacket.setSpacing( WAVE_PACKET_SPACING );
         _wavePacket.setWidth( WAVE_PACKET_WIDTH );
+        _wavePacket.setCenter( WAVE_PACKET_CENTER );
+        _wavePacket.setSignificantWidth( WAVE_PACKET_SIGNIFICANT_WIDTH );
         
         _amplitudesGraph.reset();
         _harmonicsGraph.reset();
