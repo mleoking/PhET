@@ -233,10 +233,6 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         // Help
         //----------------------------------------------------------------------------
         
-        FourierHelpItem harmonicsCloseButtonHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "D2CModule.help.closeHarmonics" ) );
-        harmonicsCloseButtonHelp.pointAt( _harmonicsGraph.getCloseButton(), FourierHelpItem.LEFT, 15 );
-        addHelpItem( harmonicsCloseButtonHelp );
-        
         FourierHelpItem spacingToolHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "D2CModule.help.spacingTool" ) );
         spacingToolHelp.pointAt( _spacingTool, FourierHelpItem.UP, 15 );
         addHelpItem( spacingToolHelp );
