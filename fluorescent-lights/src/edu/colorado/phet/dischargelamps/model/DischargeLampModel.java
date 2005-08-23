@@ -117,7 +117,7 @@ public class DischargeLampModel extends LaserModel implements Electrode.StateCha
         cathode.addStateChangeListener( this );
    }
 
-    protected ElectronSink getAnode() {
+    public ElectronSink getAnode() {
         return anode;
     }
     

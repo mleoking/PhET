@@ -12,6 +12,7 @@ import edu.colorado.phet.common.view.phetgraphics.*;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.AffineTransform;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
@@ -123,7 +124,25 @@ public class Chart extends GraphicLayerSet {
         xAxisTitleGraphic.setLocation( chartSize.width + 2, (int) transformYDouble( 0 ) ); // aligned with x axis
         addGraphic( xAxisTitleGraphic, ApparatusPanel.LAYER_TOP - 1 );
     }
-    
+
+    /**
+     * Sets the title label that appears on the x axis.
+     * The title will be place to the right of the chart,
+     * and the title's registration point will be aligned
+     * with the x axis.
+     *
+     * @param phetGraphic
+     */
+    public void setXAxisTitle( PhetGraphic phetGraphic, boolean underGraph ) {
+        if( xAxisTitleGraphic != null ) {
+            removeGraphic( xAxisTitleGraphic );
+        }
+        xAxisTitleGraphic = phetGraphic;
+        xAxisTitleGraphic.setLocation( (int) transformX( (range.getMaxX() + range.getMinX() ) / 2 ),
+                                       (int) transformY ( range.getMinY()) + 15 );
+        addGraphic( xAxisTitleGraphic, ApparatusPanel.LAYER_TOP - 1 );
+    }
+
     /**
      * Sets the title label that appears on the y axis.
      * The title will be place to the right of the chart,
@@ -138,6 +157,28 @@ public class Chart extends GraphicLayerSet {
         }
         yAxisTitleGraphic = phetGraphic;
         yAxisTitleGraphic.setLocation( (int) transformXDouble( 0 ), -2 ); // aligned with y axis
+        addGraphic( yAxisTitleGraphic, ApparatusPanel.LAYER_TOP - 1 );
+    }
+
+    /**
+     * Sets the title label that appears on the y axis.
+     * The title will be place to the right of the chart,
+     * and the title's registration point will be aligned
+     * with the y axis.
+     *
+     * @param phetGraphic
+     */
+    public void setYAxisTitle( PhetGraphic phetGraphic, boolean leftOfGraph ) {
+        if( yAxisTitleGraphic != null ) {
+            removeGraphic( yAxisTitleGraphic );
+        }
+        yAxisTitleGraphic = phetGraphic;
+        AffineTransform at = new AffineTransform();
+        at.rotate( -Math.PI / 2.0 );
+        at.translate( -yAxisTitleGraphic.getBounds().getWidth(), -15);
+        yAxisTitleGraphic.transform( at );
+
+        yAxisTitleGraphic.setLocation( (int) transformXDouble( getRange().getMinX() ), 10 );
         addGraphic( yAxisTitleGraphic, ApparatusPanel.LAYER_TOP - 1 );
     }
 
