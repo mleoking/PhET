@@ -55,21 +55,21 @@ public class Chart extends GraphicLayerSet {
         this( component, range, chartSize, getDefaultMinor( range.getWidth() ), getDefaultMajor( range.getWidth() ), getDefaultMinor( range.getHeight() ), getDefaultMajor( range.getHeight() ) );
     }
 
-    private static int getDefaultMinor( double range ) {
+    private static double getDefaultMinor( double range ) {
         if( range < 20 ) {
             return 1;
         }
         else {
             double defaultNumTicks = 20;
-            return (int)( range / defaultNumTicks );
+            return range / defaultNumTicks;
         }
     }
 
-    private static int getDefaultMajor( double range ) {
+    private static double getDefaultMajor( double range ) {
         return getDefaultMinor( range ) * 2;
     }
 
-    public Chart( Component component, Range2D range, Dimension chartSize, int horizMinorSpacing, int horizMajorSpacing, int vertMinorSpacing, int vertMajorSpacing ) {
+    public Chart( Component component, Range2D range, Dimension chartSize, double horizMinorSpacing, double horizMajorSpacing, double vertMinorSpacing, double vertMajorSpacing ) {
         super( component );
 //        System.out.println( "horizMinorSpacing = " + horizMinorSpacing );
 //        System.out.println( "horizMajorSpacing = " + horizMajorSpacing );
