@@ -29,6 +29,7 @@ public class GaussianWavePacket extends SimpleObservable {
     private double _spacing;
     private double _width;
     private double _center;
+    private double _significantWidth;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -40,11 +41,13 @@ public class GaussianWavePacket extends SimpleObservable {
      * @param spacing spacing between components, in radians/mm
      * @param width width, measured at half the packet height, in radians/mm
      * @param center the center point of the packet, in radians/mm
+     * @param significantWidth the width over which we consider components to be significant, in radians/mm
      */
-    public GaussianWavePacket( double spacing, double width, double center ) {
+    public GaussianWavePacket( double spacing, double width, double center, double significantWidth ) {
         _spacing = spacing;
         _width = width;
         _center = center;
+        _significantWidth = significantWidth;
     }
     
     //----------------------------------------------------------------------------
@@ -112,8 +115,19 @@ public class GaussianWavePacket extends SimpleObservable {
             return Integer.MAX_VALUE;
         }
         else {
-            return (int)( 2 * _center / _spacing ) - 1;
+            return (int)( _significantWidth / _spacing ) - 1;
         }
+    }
+    
+    public void setSignificantWidth( double significantWidth ) {
+        if ( significantWidth != _significantWidth ) {
+            _significantWidth = significantWidth;
+            notifyObservers();
+        }
+    }
+    
+    public double getSignificantWidth() {
+        return _significantWidth;
     }
     
     //----------------------------------------------------------------------------

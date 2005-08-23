@@ -370,8 +370,7 @@ public class D2CControlPanel extends FourierControlPanel {
         if ( !_k0Slider.isAdjusting() ) {
             setWaitCursorEnabled( true );
             double k0 = _k0Slider.getValue();
-            System.out.println( "k0 = " + k0 );//XXX
-//            _wavePacket.setK0( k0 );
+            _wavePacket.setK0( k0 );
             setWaitCursorEnabled( false );
         }
     }

@@ -63,6 +63,7 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
     private static final double WAVE_PACKET_SPACING = 2 * Math.PI;
     private static final double WAVE_PACKET_WIDTH = 6 * Math.PI;
     private static final double WAVE_PACKET_CENTER = 12 * Math.PI;
+    private static final double WAVE_PACKET_SIGNIFICANT_WIDTH = 24 * Math.PI;
     
     // Tools
     private static final Point SPACING_TOOL_LOCATION = new Point( 590, 140 );
@@ -109,7 +110,9 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         this.setModel( model );
         
         // Gaussian wave packet
-        _wavePacket = new GaussianWavePacket( WAVE_PACKET_SPACING, WAVE_PACKET_WIDTH, WAVE_PACKET_CENTER );
+        _wavePacket = new GaussianWavePacket( 
+                WAVE_PACKET_SPACING, WAVE_PACKET_WIDTH, 
+                WAVE_PACKET_CENTER, WAVE_PACKET_SIGNIFICANT_WIDTH );
         
         //----------------------------------------------------------------------------
         // View
