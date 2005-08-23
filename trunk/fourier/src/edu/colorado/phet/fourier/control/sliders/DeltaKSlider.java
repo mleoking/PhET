@@ -36,9 +36,9 @@ public class DeltaKSlider extends AbstractFourierSlider {
     
     private static final String VALUE_FORMAT = "#.##";
 
-    // k-space width is from 1 to 5pi
-    private static final double MIN_WIDTH = 1;
-    private static final double MAX_WIDTH = 5 * Math.PI;
+    // k-space width is from 1 to 4pi
+    public static final double MIN_WIDTH = 1;
+    public static final double MAX_WIDTH = 4 * Math.PI;
     
     /*
      * The width values are doubles, but JSlider deals with integers.
@@ -76,11 +76,10 @@ public class DeltaKSlider extends AbstractFourierSlider {
         
         Hashtable labelTable = new Hashtable();
         labelTable.put( new Integer( (int)( MAX_WIDTH * MULTIPLIER ) ), new JLabel( "1" ) );
-        labelTable.put( new Integer( (int)( ( MIN_WIDTH + (4 * Math.PI) ) * MULTIPLIER ) ), new JLabel( "" + MathStrings.C_PI ) );
-        labelTable.put( new Integer( (int)( ( MIN_WIDTH + (3 * Math.PI) ) * MULTIPLIER ) ), new JLabel( "2" + MathStrings.C_PI ) );
-        labelTable.put( new Integer( (int)( ( MIN_WIDTH + (2 * Math.PI) ) * MULTIPLIER ) ), new JLabel( "3" + MathStrings.C_PI ) );
-        labelTable.put( new Integer( (int)( ( MIN_WIDTH + (1 * Math.PI) ) * MULTIPLIER ) ), new JLabel( "4" + MathStrings.C_PI ) );
-        labelTable.put( new Integer( (int)( MIN_WIDTH * MULTIPLIER ) ), new JLabel( "5" + MathStrings.C_PI ) );
+        labelTable.put( new Integer( (int)( ( MIN_WIDTH + (3 * Math.PI) ) * MULTIPLIER ) ), new JLabel( "" + MathStrings.C_PI ) );
+        labelTable.put( new Integer( (int)( ( MIN_WIDTH + (2 * Math.PI) ) * MULTIPLIER ) ), new JLabel( "2" + MathStrings.C_PI ) );
+        labelTable.put( new Integer( (int)( ( MIN_WIDTH + (1 * Math.PI) ) * MULTIPLIER ) ), new JLabel( "3" + MathStrings.C_PI ) );
+        labelTable.put( new Integer( (int)( MIN_WIDTH * MULTIPLIER ) ), new JLabel( "4" + MathStrings.C_PI ) );
         getSlider().setLabelTable( labelTable );
         getSlider().setPaintLabels( true );
         
