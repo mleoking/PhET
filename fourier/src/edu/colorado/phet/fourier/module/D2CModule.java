@@ -14,6 +14,7 @@ package edu.colorado.phet.fourier.module;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 
 import javax.swing.event.MouseInputAdapter;
@@ -156,12 +157,21 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         _deltaKTool.setDragBounds( _amplitudesGraph.getChart().getBounds() );
         apparatusPanel.addGraphic( _deltaKTool, TOOLS_LAYER );
         
+        // Drag bounds for the x-space tools
+        int x = 0;
+        int y = _amplitudesGraph.getHeight();
+        int w = 700;
+        int h = 425;
+        Rectangle xToolsDragBounds = new Rectangle( x, y, w, h );
+        
         // Delta x (dx,dt) measurement tool
         _deltaXTool = new WavePacketDeltaXTool( apparatusPanel, _wavePacket, _sumGraph.getChart() );
+        _deltaXTool.setDragBounds( xToolsDragBounds );
         apparatusPanel.addGraphic( _deltaXTool, TOOLS_LAYER );
         
         // Period (lamda1,T1) measurement tool
         _periodTool = new WavePacketPeriodTool( apparatusPanel, _wavePacket, _sumGraph.getChart() );
+        _periodTool.setDragBounds( xToolsDragBounds );
         apparatusPanel.addGraphic( _periodTool, TOOLS_LAYER );
         
         //----------------------------------------------------------------------------
