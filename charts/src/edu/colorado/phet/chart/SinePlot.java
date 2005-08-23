@@ -85,9 +85,8 @@ public class SinePlot extends LinePlot {
      * @param period
      */
     public void setPeriod( double period ) {
-        assert( period >= 0 );
         if( period < 0 ) {
-            throw new IllegalArgumentException( "period must be >= 0" );
+            throw new IllegalArgumentException( "period must be >= 0 : " + period );
         }
         if( period != _period ) {
             _period = period;
@@ -195,7 +194,9 @@ public class SinePlot extends LinePlot {
      * @param pixelsPerPoint
      */
     public void setPixelsPerPoint( double pixelsPerPoint ) {
-        assert( pixelsPerPoint >= 1 );
+        if ( pixelsPerPoint < 1 ) {
+            throw new IllegalArgumentException( "pixelsPerPoint must be >= 1 : " + pixelsPerPoint );
+        }
         if( pixelsPerPoint != _pixelsPerPoint ) {
             _pixelsPerPoint = pixelsPerPoint;
             updateDataSet();
