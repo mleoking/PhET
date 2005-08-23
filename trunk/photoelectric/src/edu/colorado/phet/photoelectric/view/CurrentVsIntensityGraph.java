@@ -63,10 +63,13 @@ public class CurrentVsIntensityGraph extends Chart {
         horizontalGls.setMajorGridlinesColor( new Color( 200, 200, 200 ));
 
         GridLineSet verticalGls = this.getVerticalGridlines();
-        verticalGls.setMinorTickSpacing( 100 );
+        verticalGls.setMajorTickSpacing( 100 );
         verticalGls.setMajorGridlinesColor( new Color( 200, 200, 200 ));
 
-        Color color = Color.green;
+//        super.setXAxisTitle(  new PhetTextGraphic( component, titleFont, "Light Intensity", Color.black ), true );
+//        super.setYAxisTitle(  new PhetTextGraphic( component, titleFont, "Current", Color.black ), true );
+
+        Color color = new Color( 0, 180, 0 );
         ScatterPlot points = new ScatterPlot( getComponent(), this, dataSet, color, 4 );
         this.addDataSetGraphic( points );
 

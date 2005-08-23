@@ -39,6 +39,8 @@ Need much better documentation.
     - LinePlot.setBorderColor() is a very misleading name
     - If you try to plot data that is out of range, you get nothing at all
     - Sam has inner classes in the middle of the outer class' code. At least he did in DataSet.
+    - Pukes if you try to have an x axis run from a larger value on the left to a smaller value
+    on the right.
 
 Electrode Potential and Electron movement
 -----------------------------------------

@@ -16,6 +16,7 @@ import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
+import edu.colorado.phet.chart.Chart;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,85 +29,147 @@ import java.awt.geom.AffineTransform;
  * @version $Revision$
  */
 public class GraphWindow extends JDialog {
+
+    private static final int graphInsetX = 40;
+    private static final int graphInsetY = 20;
+
     private CurrentVsVoltageGraph2 currentVsVoltageGraph;
     private CurrentVsIntensityGraph currentVsIntensityGraph;
+    private EnergyVsFrequencyGraph energyVsFrequencyGraph;
     private AbstractClock clock;
     private PhotoelectricModel model;
+    private JPanel currentVsVoltagePanel;
+    private JPanel currentVsIntensityPanel;
+    private JPanel energyVsFrequencyPanel;
 
-    public GraphWindow( Frame frame, Component component, AbstractClock clock, PhotoelectricModel model ) {
+    //----------------------------------------------------------------
+    // Constructors and initialization
+    //----------------------------------------------------------------
+
+    public GraphWindow( Frame frame, AbstractClock clock, PhotoelectricModel model ) {
         super( frame, false );
+
+        setUndecorated( true );
+        getRootPane().setWindowDecorationStyle( JRootPane.PLAIN_DIALOG );
+
         this.clock = clock;
         this.model = model;
-        getContentPane().setLayout( new GridLayout( 2,1 ));
-        getContentPane().add( createCurrentVsVoltagePanel() );
-        getContentPane().add( createCurrentVsIntensityPanel() );
+        getContentPane().setLayout( new GridBagLayout() );
+        GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1,
+                                                         GridBagConstraints.CENTER, GridBagConstraints.NONE,
+                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+        getContentPane().add( createCurrentVsVoltagePanel(), gbc );
+        getContentPane().add( createCurrentVsIntensityPanel(), gbc );
+        getContentPane().add( createEnergyVsFrequencyPanel(), gbc );
         pack();
     }
 
-    public CurrentVsVoltageGraph2 getCurrentVsVoltageGraph() {
-        return currentVsVoltageGraph;
-    }
-
+    /**
+     * @return
+     */
     private JPanel createCurrentVsVoltagePanel() {
 
-        // Make the panel with the graph
+        // Make the currentVsVoltagePanel with the graph
         ApparatusPanel2 graphPanel = new ApparatusPanel2( clock );
         graphPanel.setUseOffscreenBuffer( true );
         graphPanel.setDisplayBorder( false );
-        currentVsVoltageGraph = new CurrentVsVoltageGraph2( graphPanel );
+        currentVsVoltageGraph = new CurrentVsVoltageGraph2( graphPanel, model );
         graphPanel.setPreferredSize( new Dimension( 300, 200 ) );
         graphPanel.setSize( new Dimension( 300, 200 ) );
-        currentVsVoltageGraph.setLocation( (int)( graphPanel.getPreferredSize().getWidth() - currentVsVoltageGraph.getWidth()) / 2,
-                                           (int)( graphPanel.getPreferredSize().getHeight() - currentVsVoltageGraph.getHeight()) / 2);
+        currentVsVoltageGraph.setLocation( graphInsetX, graphInsetY );
         graphPanel.addGraphic( currentVsVoltageGraph );
 
-        // Lay out a panel with titles for the graph
+        // Lay out a currentVsVoltagePanel with titles for the graph
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                          GridBagConstraints.CENTER,
                                                          GridBagConstraints.NONE,
-                                                         new Insets( 0,0,0,0),0,0 );
-        JPanel panel = new JPanel( new GridBagLayout( ));
-
-        gbc.gridx = 0;
-        panel.add( new RotatedTextLabel( "Current" ), gbc );
-        gbc.gridx = 1;
-        panel.add( graphPanel, gbc );
-        gbc.gridy++;
-        panel.add( new JLabel( SimStrings.get( "Voltage" ) ), gbc );
-        return panel;
+                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+        currentVsVoltagePanel = makeGraphPanel( graphPanel, "Voltage", "Current" );
+        return currentVsVoltagePanel;
     }
 
-    
+    /**
+     * @return
+     */
     private JPanel createCurrentVsIntensityPanel() {
 
-        // Make the panel with the graph
+        // Make the currentVsIntensityPanel with the graph
         ApparatusPanel2 graphPanel = new ApparatusPanel2( clock );
         graphPanel.setUseOffscreenBuffer( true );
         graphPanel.setDisplayBorder( false );
-        currentVsIntensityGraph= new CurrentVsIntensityGraph( graphPanel, model );
+        currentVsIntensityGraph = new CurrentVsIntensityGraph( graphPanel, model );
         graphPanel.setPreferredSize( new Dimension( 300, 200 ) );
         graphPanel.setSize( new Dimension( 300, 200 ) );
-        currentVsIntensityGraph.setLocation( (int)( graphPanel.getPreferredSize().getWidth() - currentVsVoltageGraph.getWidth()) / 2,
-                                           (int)( graphPanel.getPreferredSize().getHeight() - currentVsVoltageGraph.getHeight()) / 2);
+        currentVsIntensityGraph.setLocation( graphInsetX, graphInsetY );
         graphPanel.addGraphic( currentVsIntensityGraph );
 
+        currentVsIntensityPanel = makeGraphPanel( graphPanel, "Intensity", "Current" );
+        return currentVsIntensityPanel;
+    }
+
+    /**
+     * @return
+     */
+    private JPanel createEnergyVsFrequencyPanel() {
+
+        // Make the currentVsIntensityPanel with the graph
+        ApparatusPanel2 graphPanel = new ApparatusPanel2( clock );
+        graphPanel.setUseOffscreenBuffer( true );
+        graphPanel.setDisplayBorder( false );
+        energyVsFrequencyGraph = new EnergyVsFrequencyGraph( graphPanel, model );
+        graphPanel.setPreferredSize( new Dimension( 300, 200 ) );
+        graphPanel.setSize( new Dimension( 300, 200 ) );
+        energyVsFrequencyGraph.setLocation( graphInsetX, graphInsetY );
+        graphPanel.addGraphic( energyVsFrequencyGraph );
+
+        energyVsFrequencyPanel = makeGraphPanel( graphPanel, "Frequency", "Electron Energy" );
+        return energyVsFrequencyPanel;
+    }
+
+    /**
+     *
+     * @param graphPanel
+     * @param xAxisLabel
+     * @param yAxisLabel
+     * @return
+     */
+    private JPanel makeGraphPanel( JPanel graphPanel, String xAxisLabel, String yAxisLabel ) {
         // Lay out a panel with titles for the graph
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                          GridBagConstraints.CENTER,
                                                          GridBagConstraints.NONE,
-                                                         new Insets( 0,0,0,0),0,0 );
-        JPanel panel = new JPanel( new GridBagLayout( ));
+                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+        JPanel panel = new JPanel( new GridBagLayout() );
 
         gbc.gridx = 0;
-        panel.add( new RotatedTextLabel( "Current" ), gbc );
+        panel.add( new RotatedTextLabel( yAxisLabel ), gbc );
         gbc.gridx = 1;
         panel.add( graphPanel, gbc );
         gbc.gridy++;
-        panel.add( new JLabel( SimStrings.get( "Intensity" ) ), gbc );
+        panel.add( new JLabel( xAxisLabel ), gbc );
+        panel.setVisible( false );
         return panel;
+
     }
 
+    //----------------------------------------------------------------
+    // Setters for visibility of graphs
+    //----------------------------------------------------------------
 
+    public void setCurrentVsVoltageVisible( boolean isVisible ) {
+        currentVsVoltagePanel.setVisible( isVisible );
+        pack();
+    }
+
+    public void setCurrentVsIntensityVisible( boolean isVisible ) {
+        currentVsIntensityPanel.setVisible( isVisible );
+        pack();
+    }
+
+    public void setEnergyVsFrequency( boolean isVisible ) {
+        energyVsFrequencyPanel.setVisible( isVisible );
+        pack();
+    }
 
     //----------------------------------------------------------------
     // Misc inner classes

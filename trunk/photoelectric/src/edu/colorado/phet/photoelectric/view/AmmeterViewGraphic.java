@@ -29,23 +29,31 @@ import java.text.DecimalFormat;
 public class AmmeterViewGraphic extends CompositePhetGraphic {
 //public class AmmeterViewGraphic extends CompositePhetGraphic {
 
-    private Font font = new Font( "Lucida Sans", Font.PLAIN, 12 );
-    private PhetShapeGraphic background;
+    private Font font = new Font( "Lucida Sans", Font.BOLD, 14 );
+    private PhetShapeGraphic background1;
+    private PhetShapeGraphic background2;
     private PhetTextGraphic currentLabel;
     private PhetTextGraphic currentTF;
     private DecimalFormat format = new DecimalFormat( "#0.0000" );
 
     public AmmeterViewGraphic( Component component, final Ammeter ammeter ) {
-        background = new PhetShapeGraphic( component,
-                                           new Rectangle( 105, 20 ),
+        background1 = new PhetShapeGraphic( component,
+                                           new Rectangle( 120, 20 ),
                                            Color.white,
                                            new BasicStroke( 1f ),
                                            Color.black );
+        background2 = new PhetShapeGraphic( component,
+                                           new Rectangle( 130, 30 ),
+                                           Color.yellow,
+                                           new BasicStroke( 1f ),
+                                           Color.black );
+        background2.setRegistrationPoint( 5, 5 );
         currentLabel = new PhetTextGraphic( component, font, "Current: ", Color.black );
         currentLabel.setLocation( 5, 5 );
         currentTF = new PhetTextGraphic( component, font, "0.0000", Color.black );
-        currentTF.setLocation( 55, 5 );
-        this.addGraphic( background );
+        currentTF.setLocation( 65, 5 );
+        this.addGraphic( background2 );
+        this.addGraphic( background1 );
         this.addGraphic( currentLabel );
         this.addGraphic( currentTF );
 
