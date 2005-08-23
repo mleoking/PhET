@@ -300,7 +300,7 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
             }
         }
 
-        _chartGraphic.autoscaleY( maxAmplitude );
+        _chartGraphic.autoscaleY( maxAmplitude * FourierConfig.AUTOSCALE_PERCENTAGE );
         
         //            System.out.println( "number of components = " + numberOfComponents );//XXX
         //            System.out.println( "max amplitude = " + maxAmplitude );//XXX
@@ -337,7 +337,7 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         dataSet.addPoints( (Point2D.Double[]) points.toArray( new Point2D.Double[points.size()] ) );
         
         _chartGraphic.addDataSetGraphic( _gradientPlot );
-        _chartGraphic.autoscaleY( maxAmplitude );
+        _chartGraphic.autoscaleY( maxAmplitude * FourierConfig.AUTOSCALE_PERCENTAGE );
     }
     
     /*

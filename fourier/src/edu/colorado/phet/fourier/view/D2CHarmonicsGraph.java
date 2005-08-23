@@ -453,7 +453,7 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
                 }
 
                 // Autoscale the vertical axis.
-                _chartGraphic.autoscaleY( maxAmplitude );
+                _chartGraphic.autoscaleY( maxAmplitude * FourierConfig.AUTOSCALE_PERCENTAGE );
             }
             else {
                 _chartGraphic.setVisible( false );

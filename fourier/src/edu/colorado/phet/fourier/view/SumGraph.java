@@ -418,7 +418,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
             // If auto scaling is enabled, adjust the vertical scale to fit the curve.
             if ( _autoScaleCheckBox.isSelected() ) {
                 Range2D range = _chartGraphic.getRange();
-                double maxAmplitude = _sumPlot.getMaxAmplitude();
+                double maxAmplitude = _sumPlot.getMaxAmplitude() * FourierConfig.AUTOSCALE_PERCENTAGE;
                 if ( maxAmplitude < FourierConfig.MAX_HARMONIC_AMPLITUDE ) {
                     maxAmplitude = FourierConfig.MAX_HARMONIC_AMPLITUDE;
                 }
