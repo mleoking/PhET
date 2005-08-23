@@ -72,14 +72,18 @@ public class DischargeLampModel extends LaserModel implements Electrode.StateCha
             electron.setAcceleration( getElectronAcceleration() );
             electrons.add( electron );
         }
-        if( modelElement instanceof ElectronSource ) {
-            cathode = (ElectronSource)modelElement;
-            cathode.addStateChangeListener( this );
-        }
-        if( modelElement instanceof ElectronSink ) {
-            anode = (ElectronSink)modelElement;
-            anode.addStateChangeListener( this );
-        }
+
+        // TODO: The DischargeLamps simulation may count on these lines being here.
+        // break. It should be taken out, and DischargeLamps should use setAnode() and
+        // setcathode()
+//        if( modelElement instanceof ElectronSource ) {
+//            cathode = (ElectronSource)modelElement;
+//            cathode.addStateChangeListener( this );
+//        }
+//        if( modelElement instanceof ElectronSink ) {
+//            anode = (ElectronSink)modelElement;
+//            anode.addStateChangeListener( this );
+//        }
     }
 
     /**
@@ -102,12 +106,24 @@ public class DischargeLampModel extends LaserModel implements Electrode.StateCha
     // Getters and setters
     //----------------------------------------------------------------
 
+
+    public void setAnode( ElectronSink anode ) {
+        this.anode = anode;
+        anode.addStateChangeListener( this );
+    }
+
+    public void setCathode( ElectronSource cathode ) {
+        this.cathode = cathode;
+        cathode.addStateChangeListener( this );
+   }
+
     protected ElectronSink getAnode() {
         return anode;
     }
     
-    private void setElectronAcceleration( double potentialDiff ) {
-        electronAcceleration.setComponents( potentialDiff / 10, 0 );
+    protected void setElectronAcceleration( double potentialDiff ) {
+        double cathodeToAnodeDist = anode.getPosition().distance( cathode.getPosition() );
+        electronAcceleration.setComponents( potentialDiff / cathodeToAnodeDist, 0 );
     }
 
     private Vector2D getElectronAcceleration() {

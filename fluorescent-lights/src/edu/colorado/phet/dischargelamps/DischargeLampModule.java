@@ -272,6 +272,7 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
                                                DischargeLampsConfig.ANODE_LINE.getP1(),
                                                DischargeLampsConfig.ANODE_LINE.getP2() );
         model.addModelElement( anode );
+        model.setAnode( anode );
         this.anode = anode;
         this.anode.setPosition( DischargeLampsConfig.ANODE_LOCATION );
         PhetImageGraphic anodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode-2.png" );
@@ -300,6 +301,7 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
                                       DischargeLampsConfig.CATHODE_LINE.getP1(),
                                       DischargeLampsConfig.CATHODE_LINE.getP2() );
         model.addModelElement( cathode );
+        model.setCathode( cathode );
         cathode.addListener( this );
         cathode.setElectronsPerSecond( 0 );
         cathode.setPosition( DischargeLampsConfig.CATHODE_LOCATION );

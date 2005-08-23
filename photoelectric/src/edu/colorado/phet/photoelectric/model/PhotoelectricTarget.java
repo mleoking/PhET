@@ -67,6 +67,9 @@ public class PhotoelectricTarget extends ElectronSource {
     // The work function for the target material
     private double workFunction;
     private Object targetMaterial;
+    // The strategy that determines the speed of emitted electrons
+    private InitialElectronSpeedStrategy initialElectronSpeedStrategy = new
+            InitialElectronSpeedStrategy.Uniform( SPEED_SCALE_FACTOR );
 
     /**
      * @param model
@@ -92,13 +95,11 @@ public class PhotoelectricTarget extends ElectronSource {
      *
      * @param photon
      */
-    boolean done;
     public void handlePhotonCollision( Photon photon ) {
 
         double de = photon.getEnergy() - workFunction;
         if( de > 0 ) {
 
-            if( !done) { //done = true;
             // Determine where the electron will be emitted from
             // The location of the electron is coincident with where the photon hit the plate
             Point2D p = MathUtil.getLineSegmentsIntersection( line.getP1(), line.getP2(),
@@ -107,39 +108,28 @@ public class PhotoelectricTarget extends ElectronSource {
             electron.setPosition( p.getX() + 1, p.getY() );
 
             // Determine the speed of the new electron
-            double speed = determineNewElectronSpeed( de );
-            electron.setVelocity( speed, 0 );
-//            Vector2D velocity = determineNewElectronVelocity( de );
-//            electron.setVelocity( velocity );
+            Vector2D velocity = determineNewElectronVelocity( de );
+            electron.setVelocity( velocity );
 
             // Tell all the listeners
             getElectronProductionListenerProxy().electronProduced( new ElectronProductionEvent( this, electron ) );
         }
-        }
-    }
-
-    private Vector2D determineNewElectronVelocity( double energy ) {
-        double speed = determineNewElectronSpeed( energy );
-        double dispersionAngle = Math.PI / 2;
-        double angle = random.nextDouble() * dispersionAngle - dispersionAngle / 2;
-        double vx = speed * Math.cos( angle );
-        double vy = speed * Math.sin( angle );
-        return new Vector2D.Double( vx, vy );
     }
 
     /**
-     * Determines the initial speed of an electron that is kicked off the target by a photon
+     * Used if electrons can be emitted through a range of
      *
      * @param energy
      * @return
      */
-    private double determineNewElectronSpeed( double energy ) {
-        double maxSpeed = Math.sqrt( 2 * energy / ELECTRON_MASS ) * SPEED_SCALE_FACTOR;
+    private Vector2D determineNewElectronVelocity( double energy ) {
 
-        // Speed is randomly distributed between the max speed and a minimum speed.
-        double speed = maxSpeed * random.nextDouble();
-        speed = Math.max( speed, MINIMUM_SPEED );
-        return speed;
+        double speed = initialElectronSpeedStrategy.determineNewElectronSpeed( energy );
+        double dispersionAngle = 0;
+        double angle = random.nextDouble() * dispersionAngle - dispersionAngle / 2;
+        double vx = speed * Math.cos( angle );
+        double vy = speed * Math.sin( angle );
+        return new Vector2D.Double( vx, vy );
     }
 
     /**
@@ -179,6 +169,15 @@ public class PhotoelectricTarget extends ElectronSource {
 
     public Object getMaterial() {
         return targetMaterial;
+    }
+
+    public void setUniformInitialElectronSpeedStrategy() {
+        this.initialElectronSpeedStrategy = new InitialElectronSpeedStrategy.Uniform( SPEED_SCALE_FACTOR );
+    }
+
+    public void setRandomizedInitialElectronSpeedStrategy() {
+        this.initialElectronSpeedStrategy = new InitialElectronSpeedStrategy.Randomized( SPEED_SCALE_FACTOR,
+                                                                                         MINIMUM_SPEED );
     }
 
     //----------------------------------------------------------------

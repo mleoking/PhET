@@ -14,6 +14,7 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.dischargelamps.model.*;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.lasers.model.photon.Photon;
@@ -21,11 +22,10 @@ import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.PhotonEmittedListener;
 import edu.colorado.phet.lasers.model.photon.PhotonEmittedEvent;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
+import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.photoelectric.model.util.BeamIntensityMeter;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
@@ -45,10 +45,15 @@ public class PhotoelectricModel extends DischargeLampModel {
     // Class data
     //----------------------------------------------------------------
 
-    public static double MIN_VOLTAGE = -0.03;
-    public static double MAX_VOLTAGE = 0.03;
+    // Factor to make voltage across electrodes display properly calibrated
+    public static final double VOLTAGE_SCALE_FACTOR = 1;
+//    public static final double VOLTAGE_SCALE_FACTOR = 0.2865;
+
+    public static double MIN_VOLTAGE = -8;
+    public static double MAX_VOLTAGE = 8;
     public static double MIN_WAVELENGTH = 100;
     public static double MAX_WAVELENGTH = 600;
+    public static double MAX_PHOTONS_PER_SECOND = 500;
 
     //----------------------------------------------------------------
     // Instance data
@@ -70,8 +75,7 @@ public class PhotoelectricModel extends DischargeLampModel {
     // Beam specification
     private CollimatedBeam beam;
     private double defaultBeamWavelength = 400;
-    private double beamMaxPhotonsPerSecond = 500;
-//    private double beamMaxPhotonsPerSecond = 200;
+//    private double MAX_PHOTONS_PER_SECOND = 200;
     private double beamWidth = 80;
     private double beamHeight = 100;
     private double beamSourceToTargetDist = 300;
@@ -80,6 +84,9 @@ public class PhotoelectricModel extends DischargeLampModel {
     private Ammeter ammeter;
     private BeamIntensityMeter beamIntensityMeter;
     private ResonatingCavity tube;
+    private double current;
+    private double voltage;
+    private double wavelength;
 
     //----------------------------------------------------------------
     // Contructors and initialization
@@ -102,10 +109,10 @@ public class PhotoelectricModel extends DischargeLampModel {
                                    beamHeight,
                                    beamWidth,
                                    new Vector2D.Double( Math.cos( beamAngle ), Math.sin( beamAngle ) ),
-                                   beamMaxPhotonsPerSecond,
+                                   MAX_PHOTONS_PER_SECOND,
                                    beamFanout );
         addModelElement( beam );
-        beam.setPhotonsPerSecond( beamMaxPhotonsPerSecond );
+        beam.setPhotonsPerSecond( MAX_PHOTONS_PER_SECOND );
         beam.setEnabled( true );
         beam.addPhotonEmittedListener( new PhotonTracker() );
 
@@ -121,6 +128,10 @@ public class PhotoelectricModel extends DischargeLampModel {
         addModelElement( target );
         target.setPotential( defaultTargetPotential );
         target.addListener( new ElectronTracker() );
+
+        // Tell the parent model who the anode and cathode are
+        super.setAnode( rightHandPlate );
+        super.setCathode( target );
 
         // Create the tube
         double x = DischargeLampsConfig.CATHODE_LOCATION.getX() - DischargeLampsConfig.ELECTRODE_INSETS.left;
@@ -204,6 +215,20 @@ public class PhotoelectricModel extends DischargeLampModel {
             }
         }
 
+        // Check for changes is state, and notify listeners of changes
+        if( getCurrent() != current ) {
+            current = getCurrent();
+            changeListenerProxy.currentChanged( new ChangeEvent( this ) );
+        }
+        if( getVoltage() != voltage ) {
+            voltage = getVoltage();
+            changeListenerProxy.voltageChanged( new ChangeEvent( this ) );
+        }
+        if( beam.getWavelength() != wavelength ) {
+            wavelength = beam.getWavelength();
+            changeListenerProxy.wavelengthChanged( new ChangeEvent( this ) );
+        }
+
         // Check for electrons that get out of the tube (Only matters if the
         // electrons leave the target at an angle)
         for( int i = 0; i < electrons.size(); i++ ) {
@@ -246,6 +271,35 @@ public class PhotoelectricModel extends DischargeLampModel {
         return rightHandPlate.getPotential() - target.getPotential() ;
     }
 
+    public double getVoltage() {
+        return -getAnodePotential();
+    }
+
+    /**
+     * Tells the current as a function of the photon rate of the beam and the work function
+     * of the target material.
+     * @return
+     */
+    public double getCurrent() {
+        double photonEnergy = PhysicsUtil.wavelengthToEnergy( beam.getWavelength() );
+        double workFunction = ((Double)PhotoelectricTarget.WORK_FUNCTIONS.get( target.getMaterial() )).doubleValue();
+
+        // If the energy of an electron is greater than the voltage across the plates, we get a current
+        // equal to the number of photons per second. (We assume there is one electron for every photon).
+        // Otherwise, there is no current
+        double electronEnergy = photonEnergy - workFunction;
+        double current = electronEnergy > -getVoltage() ? beam.getPhotonsPerSecond() : 0;
+        return current;
+    }
+
+    public double getWavelength() {
+        return getBeam().getWavelength();
+    }
+
+    protected void setElectronAcceleration( double potentialDiff ) {
+        super.setElectronAcceleration( potentialDiff * 0.2865 );
+    }
+
     //----------------------------------------------------------------
     // Listeners for tracking the creation and destruction of
     // certain model elements
@@ -285,6 +339,48 @@ public class PhotoelectricModel extends DischargeLampModel {
 
         public void energyChanged( Electron.ChangeEvent changeEvent ) {
             // noop
+        }
+    }
+
+    //-----------------------------------------------------------------
+    // Events and listeners
+    //-----------------------------------------------------------------
+
+    private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
+    private ChangeListener changeListenerProxy =(ChangeListener)changeEventChannel.getListenerProxy();
+
+    public void addChangeListener( ChangeListener listener ) {
+        changeEventChannel.addListener( listener );
+    }
+
+    public void removeChangeListener( ChangeListener listener ) {
+        changeEventChannel.removeListener( listener );
+    }
+
+    public class ChangeEvent extends EventObject {
+        public ChangeEvent( Object source ) {
+            super( source );
+        }
+
+        public PhotoelectricModel getPhotoelectricModel() {
+            return (PhotoelectricModel)getSource();
+        }
+    }
+
+    public interface ChangeListener extends EventListener {
+        void currentChanged( ChangeEvent event );
+        void voltageChanged( ChangeEvent event );
+        void wavelengthChanged( ChangeEvent event );
+    }
+
+    public static class ChangeListenerAdapter implements ChangeListener {
+        public void currentChanged( ChangeEvent event ) {
+        }
+
+        public void voltageChanged( ChangeEvent event ) {
+        }
+
+        public void wavelengthChanged( ChangeEvent event ) {
         }
     }
 }

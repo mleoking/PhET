@@ -65,7 +65,6 @@ public class PhotoelectricSlider extends GraphicSlider {
     public PhotoelectricSlider( Component component, int trackLength, int trackWidth, Color trackColor ) {
         super( component );
 
-        assert trackLength > 0 ;
 
         // Background - none
 

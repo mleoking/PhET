@@ -8,37 +8,26 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-/* Copyright 2003-2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.photoelectric.module;
 
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.view.phetcomponents.PhetJPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.Electrode;
 import edu.colorado.phet.dischargelamps.model.Electron;
 import edu.colorado.phet.dischargelamps.model.ElectronSink;
 import edu.colorado.phet.dischargelamps.model.ElectronSource;
 import edu.colorado.phet.dischargelamps.view.ElectronGraphic;
-import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
@@ -49,21 +38,19 @@ import edu.colorado.phet.lasers.view.BeamCurtainGraphic;
 import edu.colorado.phet.lasers.view.LampGraphic;
 import edu.colorado.phet.lasers.view.PhotonGraphic;
 import edu.colorado.phet.lasers.view.ResonatingCavityGraphic;
-import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 import edu.colorado.phet.photoelectric.PhotoelectricApplication;
+import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 import edu.colorado.phet.photoelectric.controller.AmmeterDataCollector;
-import edu.colorado.phet.photoelectric.controller.GraphicSlider;
-import edu.colorado.phet.photoelectric.controller.PhotoelectricSlider;
-import edu.colorado.phet.photoelectric.view.AmmeterView;
-import edu.colorado.phet.photoelectric.view.IntensityView;
-import edu.colorado.phet.photoelectric.view.CurrentVsVoltageGraph;
-import edu.colorado.phet.photoelectric.view.GraphWindow;
+import edu.colorado.phet.photoelectric.model.Ammeter;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 import edu.colorado.phet.photoelectric.model.PhotoelectricTarget;
-import edu.colorado.phet.photoelectric.model.Ammeter;
+import edu.colorado.phet.photoelectric.view.*;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
@@ -75,8 +62,8 @@ import java.awt.geom.*;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.HashMap;
 import java.text.DecimalFormat;
+import java.util.HashMap;
 
 /**
  * PhotoelectricModule
@@ -132,7 +119,8 @@ public class PhotoelectricModule extends BaseLaserModule {
     private BeamCurtainGraphic beamGraphic;
     // Flag for type of beam view: either photon or solid beam
     private int viewType = BEAM_VIEW;
-    private CurrentVsVoltageGraph currentVsVoltageGraph;
+    private CurrentVsVoltageGraph2 currentVsVoltageGraph;
+//    private CurrentVsVoltageGraph currentVsVoltageGraph;
     private PhetImageGraphic circuitGraphic;
 
 
@@ -159,7 +147,7 @@ public class PhotoelectricModule extends BaseLaserModule {
         PhotoelectricModel model = new PhotoelectricModel( clock );
         setModel( model );
         setControlPanel( new ControlPanel( this ) );
-        model.getTarget().addListener( new CathodeListener() );
+//        model.getTarget().addListener( new CathodeListener() );
 
         // Add an electron sink in the same place as the target plate, to absorb electrons
         // TODO: refactor this into the model. Prefereably into the PhotoelectricPlate or Electrode class
@@ -215,9 +203,34 @@ public class PhotoelectricModule extends BaseLaserModule {
         getApparatusPanel().addGraphic( maskGraphic, BEAM_LAYER + 1 );
 
         // Create current vs voltage graph
-        GraphWindow graphWindow = new GraphWindow( application.getPhetFrame(), getApparatusPanel(), clock );
+        GraphWindow graphWindow = new GraphWindow( application.getPhetFrame(),
+                                                   getApparatusPanel(),
+                                                   clock,
+                                                   getPhotoelectricModel() );
         graphWindow.setVisible( true );
         currentVsVoltageGraph = graphWindow.getCurrentVsVoltageGraph();
+//        currentVsVoltageGraph = graphWindow.getCurrentVsVoltageGraph();
+//        currentVsVoltageGraph.setMode( CurrentVsVoltageGraph.ANALYTICAL_SPOT );
+        getPhotoelectricModel().addChangeListener( new PhotoelectricModel.ChangeListenerAdapter() {
+            public void currentChanged( PhotoelectricModel.ChangeEvent event ) {
+                currentVsVoltageGraph.addDataPoint( getPhotoelectricModel().getVoltage(),
+                                                    getPhotoelectricModel().getCurrent() / 2000 ,
+                                                    getPhotoelectricModel().getWavelength() );
+            }
+
+            public void voltageChanged( PhotoelectricModel.ChangeEvent event ) {
+                currentVsVoltageGraph.addDataPoint( getPhotoelectricModel().getVoltage(),
+                                                    getPhotoelectricModel().getCurrent() / 2000 ,
+                                                    getPhotoelectricModel().getWavelength() );
+            }
+
+            public void wavelengthChanged( PhotoelectricModel.ChangeEvent event ) {
+                currentVsVoltageGraph.addDataPoint( getPhotoelectricModel().getVoltage(),
+                                                    getPhotoelectricModel().getCurrent() / 2000 ,
+                                                    getPhotoelectricModel().getWavelength() );
+            }
+        } );
+
 
         //----------------------------------------------------------------
         // Controls
@@ -284,6 +297,51 @@ public class PhotoelectricModule extends BaseLaserModule {
                 meterDlg.setVisible( currentDisplayMI.isSelected() );
             }
         } );
+
+        final AmmeterView ammeterView2 = new AmmeterView( getPhotoelectricModel().getAmmeter(), false );
+        ammeterView2.setBorder( (LineBorder)BorderFactory.createLineBorder(Color.black) );
+//        PhetJPanel pjp = new PhetJPanel( getApparatusPanel(), ammeterView2 );
+//        pjp.setLocation( DischargeLampsConfig.ANODE_LOCATION.x + 50, DischargeLampsConfig.ANODE_LOCATION.y );
+//        getApparatusPanel().addGraphic( pjp, CIRCUIT_LAYER + 1 );
+
+//        JPanel wrapperPanel = new JPanel();
+//        wrapperPanel.setBounds( DischargeLampsConfig.ANODE_LOCATION.x + 50, DischargeLampsConfig.ANODE_LOCATION.y,
+//                                60, 20 );
+//        wrapperPanel.add( ammeterView2 );
+//        getApparatusPanel().add( wrapperPanel );
+        AmmeterViewGraphic avg = new AmmeterViewGraphic( getApparatusPanel(), getPhotoelectricModel().getAmmeter() );
+        avg.setLocation( DischargeLampsConfig.ANODE_LOCATION.x + 40, DischargeLampsConfig.ANODE_LOCATION.y );
+        getApparatusPanel().addGraphic( avg, CIRCUIT_LAYER + 1);
+
+
+
+        // Add an option to randomize the electron velocities
+        final JRadioButtonMenuItem uniformSpeedOption = new JRadioButtonMenuItem( "Uniform electron speeds" );
+        optionsMenu.addSeparator();
+        optionsMenu.add( uniformSpeedOption );
+        uniformSpeedOption.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if( uniformSpeedOption.isSelected() ) {
+                    getPhotoelectricModel().getTarget().setUniformInitialElectronSpeedStrategy();
+                }
+            }
+        } );
+        final JRadioButtonMenuItem randomizedSpeedOption = new JRadioButtonMenuItem( "Randomized electron speeds" );
+        optionsMenu.add( randomizedSpeedOption );
+        randomizedSpeedOption.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if( randomizedSpeedOption.isSelected() ) {
+                    getPhotoelectricModel().getTarget().setRandomizedInitialElectronSpeedStrategy();
+                }
+            }
+        } );
+        optionsMenu.addSeparator();
+        ButtonGroup speedOptionBtnGrp = new ButtonGroup();
+        speedOptionBtnGrp.add( uniformSpeedOption );
+        speedOptionBtnGrp.add( randomizedSpeedOption );
+        uniformSpeedOption.setSelected( true );
+
+
 
         // Draw red dots on the beam source location and the middle of the target plate
         if( DEBUG ) {
@@ -394,7 +452,7 @@ public class PhotoelectricModule extends BaseLaserModule {
      */
     private void addAnodeGraphic( PhotoelectricModel model, ApparatusPanel apparatusPanel ) {
         this.anode = model.getRightHandPlate();
-        this.anode.setPosition( DischargeLampsConfig.ANODE_LOCATION );
+//        this.anode.setPosition( DischargeLampsConfig.ANODE_LOCATION );
         PhetImageGraphic anodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode-2.png" );
 
         // Make the graphic the right size
@@ -486,9 +544,9 @@ public class PhotoelectricModule extends BaseLaserModule {
                                                               "nm",
                                                               PhotoelectricModel.MIN_WAVELENGTH,
                                                               PhotoelectricModel.MAX_WAVELENGTH,
-                                                              ( PhotoelectricModel.MIN_WAVELENGTH + PhotoelectricModel.MAX_WAVELENGTH ) / 2);
+                                                              ( PhotoelectricModel.MIN_WAVELENGTH + PhotoelectricModel.MAX_WAVELENGTH ) / 2 );
         wavelengthSlider.setMajorTickSpacing( 100 );
-        wavelengthSlider.setSliderLabelFormat( new DecimalFormat( "#"));
+        wavelengthSlider.setSliderLabelFormat( new DecimalFormat( "#" ) );
         wavelengthSlider.setPreferredSize( new Dimension( 250, 100 ) );
         beam.setWavelength( wavelengthSlider.getValue() );
         beamControlPnl.add( wavelengthSlider );
@@ -500,8 +558,8 @@ public class PhotoelectricModule extends BaseLaserModule {
 
         // A slider for the beam intensity
         final ModelSlider beamIntensitySlider = new ModelSlider( SimStrings.get( "Intensity" ), "",
-                                                                 0, beam.getMaxPhotonsPerSecond(),
-                                                                 beam.getMaxPhotonsPerSecond() / 2 );
+                                                                 0, PhotoelectricModel.MAX_PHOTONS_PER_SECOND,
+                                                                 PhotoelectricModel.MAX_PHOTONS_PER_SECOND / 2 );
         beamIntensitySlider.setPreferredSize( new Dimension( 250, 100 ) );
         beamIntensitySlider.setPaintLabels( false );
         beam.setPhotonsPerSecond( beamIntensitySlider.getValue() );
@@ -517,7 +575,7 @@ public class PhotoelectricModule extends BaseLaserModule {
         //----------------------------------------------------------------
 
         // A slider for the battery voltage
-        DecimalFormat voltageFormat = new DecimalFormat( "0.000");
+        DecimalFormat voltageFormat = new DecimalFormat( "0.000" );
         final ModelSlider batterySlider = new ModelSlider( SimStrings.get( "Control.BatteryVoltageLabel" ),
                                                            "V",
                                                            PhotoelectricModel.MIN_VOLTAGE,
@@ -527,21 +585,21 @@ public class PhotoelectricModule extends BaseLaserModule {
         batterySlider.setPreferredSize( new Dimension( 250, 100 ) );
         batterySlider.setNumMajorTicks( 7 );
         batterySlider.setNumMinorTicksPerMajorTick( 2 );
-        batterySlider.setSliderLabelFormat( new DecimalFormat( "0.00"));
+        batterySlider.setSliderLabelFormat( new DecimalFormat( "0.00" ) );
         ControlPanel controlPanel = (ControlPanel)getControlPanel();
         controlPanel.add( batterySlider );
-        targetPlate.setPotential( batterySlider.getValue() );
+        targetPlate.setPotential( batterySlider.getValue() * PhotoelectricModel.VOLTAGE_SCALE_FACTOR );
         batterySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                targetPlate.setPotential( batterySlider.getValue() );
+                targetPlate.setPotential( batterySlider.getValue() * PhotoelectricModel.VOLTAGE_SCALE_FACTOR );
                 anode.setPotential( 0 );
 
-                if( targetPlate.getPotential() < 0 ) {
-                    BufferedImage bImg = circuitGraphic.getImage();
-                    circuitGraphic.setImage( BufferedImageUtils.flipX( bImg ) );
-                    circuitGraphic.setBoundsDirty();
-                    circuitGraphic.repaint();
-                }
+//                if( targetPlate.getPotential() < 0 ) {
+//                    BufferedImage bImg = circuitGraphic.getImage();
+//                    circuitGraphic.setImage( BufferedImageUtils.flipX( bImg ) );
+//                    circuitGraphic.setBoundsDirty();
+//                    circuitGraphic.repaint();
+//                }
             }
         } );
 
@@ -549,27 +607,27 @@ public class PhotoelectricModule extends BaseLaserModule {
         //----------------------------------------------------------------
         // Plot button
         //----------------------------------------------------------------
-        final JButton plotBtn = new JButton( "Plot" );
-        plotBtn.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                double voltage = batterySlider.getValue();
-                Ammeter ammeter = getPhotoelectricModel().getAmmeter();
-                AmmeterDataCollector ammeterReader = new AmmeterDataCollector( (Frame)SwingUtilities.getRoot( plotBtn ),
-                                                                               ammeter, getClock() );
-                double current = ammeterReader.getCurrent();
-                double wavelength = wavelengthSlider.getValue();
-                currentVsVoltageGraph.addDataPoint( voltage, current, wavelength );
-            }
-        } );
-        controlPanel.add( plotBtn );
-
-        final JButton clearPlotBtn = new JButton( "Clear" );
-        clearPlotBtn.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                currentVsVoltageGraph.clearData();
-            }
-        } );
-        controlPanel.add( clearPlotBtn );
+//        final JButton plotBtn = new JButton( "Plot" );
+//        plotBtn.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                double voltage = batterySlider.getValue();
+//                Ammeter ammeter = getPhotoelectricModel().getAmmeter();
+//                AmmeterDataCollector ammeterReader = new AmmeterDataCollector( (Frame)SwingUtilities.getRoot( plotBtn ),
+//                                                                               ammeter, getClock() );
+//                double current = ammeterReader.getCurrent();
+//                double wavelength = wavelengthSlider.getValue();
+//                currentVsVoltageGraph.addDataPoint( voltage, current, wavelength );
+//            }
+//        } );
+//        controlPanel.add( plotBtn );
+//
+//        final JButton clearPlotBtn = new JButton( "Clear" );
+//        clearPlotBtn.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                currentVsVoltageGraph.clearData();
+//            }
+//        } );
+//        controlPanel.add( clearPlotBtn );
 
     }
 
@@ -630,27 +688,6 @@ public class PhotoelectricModule extends BaseLaserModule {
     //----------------------------------------------------------------
 
     /**
-     * Listens for the absorption of an electron. When such an event happens,
-     * its graphic is taken off the apparatus panel
-     */
-    private class AbsorptionElectronAbsorptionListener implements ElectronSink.ElectronAbsorptionListener {
-        private Electron electron;
-        private ElectronGraphic graphic;
-
-        AbsorptionElectronAbsorptionListener( Electron electron, ElectronGraphic graphic ) {
-            this.electron = electron;
-            this.graphic = graphic;
-        }
-
-        public void electronAbsorbed( ElectronSink.ElectronAbsorptionEvent event ) {
-            if( event.getElectron() == electron ) {
-                getApparatusPanel().removeGraphic( graphic );
-                anode.removeListener( this );
-            }
-        }
-    }
-
-    /**
      * Modifies the initial placement of photons to be very near the target when we're in
      * beam view. This prevents the delay in response of the target when the wavelength or
      * intensity of the beam is changed.
@@ -678,7 +715,7 @@ public class PhotoelectricModule extends BaseLaserModule {
         public void electronProduced( ElectronSource.ElectronProductionEvent event ) {
             Electron electron = event.getElectron();
             final ElectronGraphic eg = new ElectronGraphic( getApparatusPanel(), electron );
-            getApparatusPanel().addGraphic( eg );
+            getApparatusPanel().addGraphic( eg, ELECTRON_LAYER );
 
             electron.addChangeListener( new Electron.ChangeListener() {
                 public void leftSystem( Electron.ChangeEvent changeEvent ) {
@@ -711,25 +748,4 @@ public class PhotoelectricModule extends BaseLaserModule {
             }
         }
     }
-
-    /**
-     * Creates, adds, and removes graphics for electrons
-     */
-    private class CathodeListener implements ElectronSource.ElectronProductionListener {
-
-        public void electronProduced( ElectronSource.ElectronProductionEvent event ) {
-            Electron electron = event.getElectron();
-
-            // Create a graphic for the electron
-            ElectronGraphic graphic = new ElectronGraphic( getApparatusPanel(), electron );
-            getApparatusPanel().addGraphic( graphic, ELECTRON_LAYER );
-
-            // Add a listener to the electron sinks that will remove the graphics when electrons
-            // are absorbed
-            AbsorptionElectronAbsorptionListener listener = new AbsorptionElectronAbsorptionListener( electron, graphic );
-            anode.addListener( listener );
-            targetSink.addListener( listener );
-        }
-    }
-
 }
