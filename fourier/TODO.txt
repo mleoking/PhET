@@ -72,15 +72,17 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(8/23) - reorganize D2C control panel so that everything still fits without scrolling
+(8/23) - add k0 control to D2C control panel, nto connected to model
 1.0.4 ...
-(8/21) - charts: add Chart.addDataSetGraphic(DataSetGraphic graphic, double layer)
-(8/21) - set proper registration points for all axis labels in all modules
-(8/21) - fix x axis title (as set via Chart.setXAxisTitle) so that it stays aligned with x axis
-(8/21) - charts: add missing method for setting y axis title: Chart.setYAxisTitle
-(8/21) - change y-axis ticks and labels on all D2C graphs as they autoscale, so that labels aren't cramped
-(8/21) - bugfix: autoscale y axis on D2C Sum graph when switching between sines and cosines wave types
-(8/21) - add GaussianWavePacketPlot to D2C Sum graph
-(8/21) - implement GaussianWavePacketPlot for plotting a continuos gaussian wave packet
+(8/22) - charts: add Chart.addDataSetGraphic(DataSetGraphic graphic, double layer)
+(8/22) - set proper registration points for all axis labels in all modules
+(8/22) - fix x axis title (as set via Chart.setXAxisTitle) so that it stays aligned with x axis
+(8/22) - charts: add missing method for setting y axis title: Chart.setYAxisTitle
+(8/22) - change y-axis ticks and labels on all D2C graphs as they autoscale, so that labels aren't cramped
+(8/22) - bugfix: autoscale y axis on D2C Sum graph when switching between sines and cosines wave types
+(8/22) - add GaussianWavePacketPlot to D2C Sum graph
+(8/22) - implement GaussianWavePacketPlot for plotting a continuos gaussian wave packet
 1.0.3 ...
 (8/18) - when k1 = 0, change equation to an integral above D2CSumGraph
 (8/18) - when k1 != 0 show sum equation from +-infinity above D2CSumGraph 
