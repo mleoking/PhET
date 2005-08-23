@@ -7,11 +7,9 @@ IN PROGRESS:
 HIGH PRIORITY:
 - when 2dx gets to be just a few pixels, peaks of the waveform in Sum graph are chopped off
 - memory leak in D2C module, freezes with wait cursor
-- add ability to shift k0
 - moving measurement tools becomes unresponsive when k1=pi/4
 
 MEDIUM PRIORITY:
-- separate k0 and center point in GaussianWavePacket model (not the same thing)
 - bug: anti-aliasing of plots gets turned off
 - bug: D2C amplitudes graph draws on top of tools (Mac only)
 - bug: dragging tools over top of chart causes weird aliasing artifacts (Mac only)
@@ -72,6 +70,8 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(8/23) - wire k0 slider control to model
+(8/23) - modify GaussianWavePacket model so that center point can be changed
 (8/23) - reorganize D2C control panel so that everything still fits without scrolling
 (8/23) - add k0 control to D2C control panel, nto connected to model
 1.0.4 ...
