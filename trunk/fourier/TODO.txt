@@ -7,8 +7,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 - remove help item from D2C components graph minimize button
 - add a message to D2C components graph "Minimize this graph to improve performance".
-- constrain dragging of x-space tools to Components and Sum graphs
-
 - when 2dx gets to be just a few pixels, peaks of the waveform in Sum graph are chopped off
 - memory leak in D2C module, freezes with wait cursor
 - moving measurement tools becomes unresponsive when k1=pi/4
@@ -74,6 +72,7 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(8/23) - constrain dragging of x-space tools to Components and Sum graphs
 (8/23) - add a small amount (5%) to maxAmplitude when autoscaling
 (8/23) - move x-axis titles to the right 4 pixels in D2C Components and Sum graphs
 (8/23) - wire k0 slider control to model
