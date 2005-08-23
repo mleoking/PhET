@@ -24,21 +24,41 @@ import java.util.Iterator;
  * <p/>
  * A Chart that shows plots of current against voltage, parameterized by wavelength.
  * A separated data set is maintained for each wavelength
+ * <p/>
+ * The graph operates in two modes. In the EMPIRICAL_LINE mode, the graph displays line plots
+ * In the ANALYTICAL_SPOT mode, the graph displays a single spot a a specified point.
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
 public class CurrentVsVoltageGraph extends Chart {
 
+    //-----------------------------------------------------------------
+    // Class data
+    //-----------------------------------------------------------------
     static private Range2D range = new Range2D( PhotoelectricModel.MIN_VOLTAGE * 1.2, 0,
                                                 PhotoelectricModel.MAX_VOLTAGE * 1.2, 0.2 );
     static Dimension chartSize = new Dimension( 200, 150 );
 
+    static public final Object EMPIRICAL_LINE = new Object();
+    static public final Object ANALYTICAL_SPOT = new Object();
+
+    //-----------------------------------------------------------------
+    // Instance data
+    //-----------------------------------------------------------------
+
     // A map of data sets, keyed by the wavelength each corresponds to
     private HashMap wavelengthToDataSetMap = new HashMap();
+    // The mode in which the graph operates
+    private Object mode;
+
+    //-----------------------------------------------------------------
+    // Instance methods
+    //-----------------------------------------------------------------
 
     public CurrentVsVoltageGraph( Component component ) {
         super( component, range, chartSize );
+
     }
 
     /**
@@ -60,7 +80,7 @@ public class CurrentVsVoltageGraph extends Chart {
             Color color = VisibleColor.wavelengthToColor( wavelength );
             // For some reason, [r,g,b] = [0,0,0] doesn't work for the Charts plot
             if( color.getRed() == 0 && color.getGreen() == 0 && color.getBlue() == 0 ) {
-                color = new Color( 1, 1, 11);
+                color = new Color( 1, 1, 11 );
             }
             LinePlot plot = new LinePlot( getComponent(), this, dataSet );
             ScatterPlot points = new ScatterPlot( getComponent(), this, dataSet, color, 2 );
@@ -82,6 +102,9 @@ public class CurrentVsVoltageGraph extends Chart {
      */
     public void addDataPoint( double voltage, double current, double wavelength ) {
         DataSet dataSet = getWavelengthDataset( wavelength );
+        if( mode == ANALYTICAL_SPOT ) {
+            dataSet.clear();
+        }
         dataSet.addPoint( voltage, current );
     }
 
@@ -96,5 +119,9 @@ public class CurrentVsVoltageGraph extends Chart {
         }
         wavelengthToDataSetMap.clear();
         repaint();
+    }
+
+    public void setMode( Object mode ) {
+        this.mode = mode;
     }
 }

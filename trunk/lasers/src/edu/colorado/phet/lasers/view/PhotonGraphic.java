@@ -294,6 +294,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
 
     private void init( Component component, Photon photon ) {
         this.setComponent( component );
+        this.setIgnoreMouse( true );
         this.photon = photon;
         this.color = VisibleColor.wavelengthToColor( photon.getWavelength() );
         photon.addObserver( this );

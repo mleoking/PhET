@@ -43,8 +43,14 @@ public class ElectronGraphic extends PhetImageGraphic implements SimpleObserver 
         }
     }
 
+    /**
+     *
+     * @param component
+     * @param electron
+     */
     public ElectronGraphic( Component component, Electron electron ) {
         super( component );
+        this.setIgnoreMouse( true );
         this.electron = electron;
         electron.addObserver( this );
         setImage( IMAGE );

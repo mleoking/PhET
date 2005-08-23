@@ -29,9 +29,14 @@ public class AmmeterView extends JPanel {
     private DecimalFormat format = new DecimalFormat( "#0.0000" );
 
     public AmmeterView( final Ammeter ammeter ) {
-        JPanel currentPanel = new JPanel( new GridLayout( 1, 2 ));
+        this(ammeter, true );
+    }
+
+    public AmmeterView( final Ammeter ammeter, boolean horizontal ) {
+        LayoutManager layout = horizontal ? new GridLayout( 1, 2 ) : new GridLayout( 2, 1 );
+        JPanel currentPanel = new JPanel( layout );
         currentPanel.add( new JLabel( "Current: "));
-        currentTF = new JTextField( 10 );
+        currentTF = new JTextField( 6 );
         currentPanel.add( currentTF );
         add( currentPanel );
 

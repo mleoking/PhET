@@ -16,6 +16,7 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
 
 import javax.swing.*;
@@ -41,9 +42,7 @@ public class PhotoelectricApplication extends PhetApplication {
     static private FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 680 );
 
     // Clock specification
-    public static final double DT = 18;
-//    public static final double DT = 50;
-//    public static final double DT = 12;
+    public static final double DT = 12;
     public static final int FPS = 25;
     private JMenu optionsMenu;
 
@@ -61,11 +60,13 @@ public class PhotoelectricApplication extends PhetApplication {
                true,
                frameSetup );
 
+        // Get a reference to the Options menu. The module will need it
         optionsMenu = new JMenu( SimStrings.get("Menu.Options") );
 
         final PhotoelectricModule photoelectricModule = new PhotoelectricModule( this );
         setModules(new Module[] { photoelectricModule } );
 
+        // Add an option to show photons
         final JCheckBoxMenuItem photonMI = new JCheckBoxMenuItem( "Show photons" );
         photonMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

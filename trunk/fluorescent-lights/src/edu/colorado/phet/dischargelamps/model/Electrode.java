@@ -51,6 +51,14 @@ public abstract class Electrode extends Particle {
         return endpoints;
     }
 
+    public void setPosition( double x, double y ) {
+        super.setPosition( x, y );
+    }
+
+    public void setPosition( Point2D position ) {
+        super.setPosition( position );
+    }
+
     //-----------------------------------------------------------------
     // Event and listener definitions
     //-----------------------------------------------------------------
