@@ -36,9 +36,9 @@ public class EnergyVsFrequencyGraph extends Chart {
     //-----------------------------------------------------------------
     // Class data
     //-----------------------------------------------------------------
-    static private Range2D range = new Range2D( PhysicsUtil.wavelengthToFrequency( PhotoelectricModel.MAX_WAVELENGTH ) * 1.2,
+    static private Range2D range = new Range2D( PhysicsUtil.wavelengthToFrequency( PhotoelectricModel.MAX_WAVELENGTH ),
                                                 0,
-                                                PhysicsUtil.wavelengthToFrequency( PhotoelectricModel.MIN_WAVELENGTH ) * 1.2,
+                                                PhysicsUtil.wavelengthToFrequency( PhotoelectricModel.MIN_WAVELENGTH ),
                                                 PhysicsUtil.wavelengthToEnergy( PhotoelectricModel.MIN_WAVELENGTH));
     static private Dimension chartSize = new Dimension( 200, 150 );
 
