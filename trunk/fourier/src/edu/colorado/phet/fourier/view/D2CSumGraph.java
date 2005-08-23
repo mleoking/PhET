@@ -451,7 +451,7 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
         _sumPlot.updateDataSet();
 
         _chartGraphic.addDataSetGraphic( _sumPlot );
-        _chartGraphic.autoscaleY( _sumPlot.getMaxAmplitude() ); 
+        _chartGraphic.autoscaleY( _sumPlot.getMaxAmplitude() * FourierConfig.AUTOSCALE_PERCENTAGE );
     }
     
     /*
@@ -464,7 +464,7 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
         _wavePacketPlot.setWaveType( _waveType );
         
         _chartGraphic.addDataSetGraphic( _wavePacketPlot );
-        _chartGraphic.autoscaleY( _wavePacketPlot.getMaxAmplitude() );
+        _chartGraphic.autoscaleY( _wavePacketPlot.getMaxAmplitude() * FourierConfig.AUTOSCALE_PERCENTAGE );
     }
     
     /*
