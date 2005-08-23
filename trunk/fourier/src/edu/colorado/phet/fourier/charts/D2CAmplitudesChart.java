@@ -83,7 +83,6 @@ public class D2CAmplitudesChart extends Chart {
 
             // Axis title
             _xAxisTitleGraphic = new HTMLGraphic( component, AXIS_TITLE_FONT, "", AXIS_TITLE_COLOR );
-            _xAxisTitleGraphic.setRegistrationPoint( 0, _xAxisTitleGraphic.getHeight() ); // lower left corner
             setXAxisTitle( _xAxisTitleGraphic );
             
             // Major ticks with labels
@@ -168,6 +167,7 @@ public class D2CAmplitudesChart extends Chart {
      */
     public void setXAxisTitle( String title ) {
         _xAxisTitleGraphic.setHTML( title );
+        _xAxisTitleGraphic.setRegistrationPoint( -2, _xAxisTitleGraphic.getHeight() ); // lower left corner
     }
       
     /**
