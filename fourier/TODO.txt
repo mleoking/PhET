@@ -70,6 +70,7 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+1.0.5 ...
 (8/23) - add a message to D2C components graph "Minimize this graph to improve performance".
 (8/23) - remove help item from D2C components graph minimize button
 (8/23) - constrain dragging of x-space tools to Components and Sum graphs
