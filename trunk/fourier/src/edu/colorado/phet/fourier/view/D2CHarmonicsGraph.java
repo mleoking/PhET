@@ -61,8 +61,10 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
     private static final Point TITLE_LOCATION = new Point( 40, 115 );
     
     // Message parameters
-    private static final Font MESSAGE_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 16 );
-    private static final Color MESSAGE_COLOR = Color.RED;
+    private static final Font CANNOT_SHOW_MESSAGE_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 16 );
+    private static final Color CANNOT_SHOW_MESSAGE_COLOR = Color.RED;
+    private static final Font MINIMIZE_MESSAGE_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 12 );
+    private static final Color MINIMIZE_MESSAGE_COLOR = Color.RED;
     
     // Chart parameters
     public static final double X_RANGE_START = 2;
@@ -134,19 +136,30 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
         addGraphic( _chartGraphic, CHART_LAYER );
         _chartGraphic.setRegistrationPoint( 0, CHART_SIZE.height / 2 ); // at the chart's origin
         _chartGraphic.setLocation( 60, 50 + ( CHART_SIZE.height / 2 ) );
-        
+            
         // "Cannot show" message 
-        String message = SimStrings.get( "D2CHarmonicsGraph.cannotShow" );
-        _cannotShowGraphic = new HTMLGraphic( component, MESSAGE_FONT, message, MESSAGE_COLOR );
-        addGraphic( _cannotShowGraphic, MESSAGE_LAYER );
-        _cannotShowGraphic.setRegistrationPoint( 0, _cannotShowGraphic.getHeight()/2 ); // left center
-        _cannotShowGraphic.setLocation( 125, BACKGROUND_SIZE.height/2 );
+        {
+            String message = SimStrings.get( "D2CHarmonicsGraph.cannotShow" );
+            _cannotShowGraphic = new HTMLGraphic( component, CANNOT_SHOW_MESSAGE_FONT, message, CANNOT_SHOW_MESSAGE_COLOR );
+            addGraphic( _cannotShowGraphic, MESSAGE_LAYER );
+            _cannotShowGraphic.setRegistrationPoint( 0, _cannotShowGraphic.getHeight() / 2 ); // left center
+            _cannotShowGraphic.setLocation( 125, BACKGROUND_SIZE.height / 2 );
+        }
         
         // Close button
         _closeButton = new PhetImageGraphic( component, FourierConstants.CLOSE_BUTTON_IMAGE );
         addGraphic( _closeButton, CONTROLS_LAYER );
         _closeButton.centerRegistrationPoint();
         _closeButton.setLocation( (_closeButton.getWidth()/2) + 10, _closeButton.getHeight()/2 + 5 );
+        
+        // "Minimize" message
+        {
+            String message = SimStrings.get( "D2CHarmonicsGraph.minimize" );
+            HTMLGraphic minimizeGraphic = new HTMLGraphic( component, MINIMIZE_MESSAGE_FONT, message, MINIMIZE_MESSAGE_COLOR );
+            addGraphic( minimizeGraphic, MESSAGE_LAYER );
+            minimizeGraphic.setRegistrationPoint( 0, minimizeGraphic.getHeight()/2 ); // left center
+            minimizeGraphic.setLocation( _closeButton.getX() + _closeButton.getWidth()/2 + 10, _closeButton.getY() + 5 );
+        }
         
         // Zoom controls
         {
