@@ -6,6 +6,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - flatten chart in D2CComponentsGraph, refresh when the wave packet changes
+- add An, Ak (k1=0), Aw (w1=0) equation above D2C amplitudes graph
 - add wait cursor to graph maximize buttons
 - when 2dx gets to be just a few pixels, peaks of the waveform in Sum graph are chopped off
 - memory leak in D2C module, freezes with wait cursor
@@ -72,6 +73,10 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(8/24) - add equation above D2CAmplitudesGraph
+(8/24) - fix BoundsDebugger so that it draws the correct location when no directly on the apparatus panel
+(8/24) - phetcommon: fix PhetFlattenedGraphic.flatten so that it assumes bounds are dirty
+(8/24) - phetcommon: fix PhetGraphic.rebuildBounds
 (8/24) - add wait cursor to Reset buttons
 (8/24) - setIgnoreMouse for all non-interactive graphics in D2C module
 1.0.5 ...

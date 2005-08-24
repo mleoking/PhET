@@ -67,8 +67,8 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
     private static final double WAVE_PACKET_SIGNIFICANT_WIDTH = 24 * Math.PI;
     
     // Tools
+    private static final Point DELTA_K_TOOL_LOCATION = new Point( 540, 60 );
     private static final Point SPACING_TOOL_LOCATION = new Point( 590, 140 );
-    private static final Point DELTA_K_TOOL_LOCATION = new Point( 540, 40 );
     private static final Point DELTA_X_TOOL_LOCATION = new Point( 520, 580 );
     private static final Point PERIOD_TOOL_LOCATION = new Point( 500, 500 );
     
