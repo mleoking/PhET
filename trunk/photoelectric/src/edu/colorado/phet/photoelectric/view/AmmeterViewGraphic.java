@@ -35,7 +35,7 @@ public class AmmeterViewGraphic extends CompositePhetGraphic {
     private PhetShapeGraphic background2;
     private PhetTextGraphic currentLabel;
     private PhetTextGraphic currentTF;
-    private DecimalFormat format = new DecimalFormat( "#0.00" );
+    private DecimalFormat format = new DecimalFormat( "#0.000" );
 
     public AmmeterViewGraphic( Component component, final Ammeter ammeter, final PhotoelectricModel model ) {
         background1 = new PhetShapeGraphic( component,
@@ -51,8 +51,8 @@ public class AmmeterViewGraphic extends CompositePhetGraphic {
         background2.setRegistrationPoint( 5, 5 );
         currentLabel = new PhetTextGraphic( component, font, "Current: ", Color.black );
         currentLabel.setLocation( 5, 5 );
-        currentTF = new PhetTextGraphic( component, font, "0.00", Color.black );
-        currentTF.setLocation( 65, 5 );
+        currentTF = new PhetTextGraphic( component, font, "0.000", Color.black );
+        currentTF.setLocation( 75, 5 );
         this.addGraphic( background2 );
         this.addGraphic( background1 );
         this.addGraphic( currentLabel );

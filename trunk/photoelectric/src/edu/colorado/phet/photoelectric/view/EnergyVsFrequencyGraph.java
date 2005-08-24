@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 import edu.colorado.phet.photoelectric.model.PhotoelectricTarget;
+import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 import edu.colorado.phet.lasers.model.PhysicsUtil;
 
 import java.awt.*;
@@ -67,7 +68,7 @@ public class EnergyVsFrequencyGraph extends Chart {
         this.getXAxis().setNumberFormat( new DecimalFormat( "0.#E0" ));
 
         Color color = Color.blue;
-        ScatterPlot points = new ScatterPlot( getComponent(), this, dataSet, color, 4 );
+        ScatterPlot points = new ScatterPlot( getComponent(), this, dataSet, color, PhotoelectricConfig.GRAPH_DOT_RADIUS );
         this.addDataSetGraphic( points );
 
         model.addChangeListener( new PhotoelectricModel.ChangeListenerAdapter() {
