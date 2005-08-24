@@ -18,11 +18,13 @@ import java.util.ArrayList;
 import edu.colorado.phet.chart.*;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.charts.D2CAmplitudesChart;
 import edu.colorado.phet.fourier.charts.GeneralPathPlot;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
@@ -44,6 +46,7 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     private static final double BACKGROUND_LAYER = 1;
     private static final double TITLE_LAYER = 2;
     private static final double CHART_LAYER = 3;
+    private static final double MATH_LAYER = 4;
     
     // Background parameters
     private static final Dimension BACKGROUND_SIZE = new Dimension( 800, 195 );
@@ -61,7 +64,7 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     private static final double Y_MIN = 0;
     private static final double Y_MAX = 1; // this changes dynamically
     private static final Range2D CHART_RANGE = new Range2D( X_MIN, Y_MIN, X_MAX, Y_MAX );
-    private static final Dimension CHART_SIZE = new Dimension( 575, 160 );
+    private static final Dimension CHART_SIZE = new Dimension( 575, 140 );
     
     // Bars in the chart
     private static final int BAR_DARKEST_GRAY = 0; //dark gray
@@ -72,6 +75,10 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     private static final Color CONTINUOUS_COLOR = Color.BLACK;
     private static final Stroke CONTINUOUS_STROKE = new BasicStroke( 2f );
     
+    // Math equation
+    private static final Font MATH_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 20 );
+    private static final Color MATH_COLOR = Color.BLACK;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -81,6 +88,8 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     private LinePlot _continuousWaveformGraphic;
     private boolean _continuousEnabled;
     private GeneralPathPlot _gradientPlot;
+    private HTMLGraphic _mathGraphic;
+    private int _domain;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -122,7 +131,7 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         // Chart
         _chartGraphic = new D2CAmplitudesChart( component, CHART_RANGE, CHART_SIZE );
         _chartGraphic.setRegistrationPoint( 0, CHART_SIZE.height / 2 ); // at the chart's origin
-        _chartGraphic.setLocation( 60, 15 + (CHART_SIZE.height / 2) );
+        _chartGraphic.setLocation( 60, 35 + (CHART_SIZE.height / 2) );
         addGraphic( _chartGraphic, CHART_LAYER );
         
         // Gradient-filled waveform
@@ -136,6 +145,17 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         _continuousWaveformGraphic.setBorderColor( CONTINUOUS_COLOR );
         _continuousWaveformGraphic.setStroke( CONTINUOUS_STROKE );
         _continuousWaveformGraphic.setDataSet( new DataSet() );
+        
+        // Math equation
+        {
+            _mathGraphic = new HTMLGraphic( component, MATH_FONT, "", MATH_COLOR );
+            addGraphic( _mathGraphic, MATH_LAYER );
+            _mathGraphic.centerRegistrationPoint();
+            // Location is above the center of the chart.
+            int x = _chartGraphic.getX() + ( CHART_SIZE.width / 2 );
+            int y = 15;
+            _mathGraphic.setLocation( x, y );
+        }
         
         // Interactivity
         setIgnoreMouse( true );  // nothing is interactive in this view
@@ -166,23 +186,15 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     
     /**
      * Sets the domain.
-     * Changes the x axis label on the chart.
+     * Changes various labels on the chart, tools, formulas, etc.
      * 
      * @param domain DOMAIN_SPACE or DOMAIN_TIME
-     * @throws IllegalArgumentException if domain is invalid or not supported
      */
     public void setDomain( int domain ) {
         assert( FourierConstants.isValidDomain( domain ) );
-        // update the x axis title
-        if ( domain == FourierConstants.DOMAIN_SPACE ) {
-            _chartGraphic.setXAxisTitle( SimStrings.get( "D2CAmplitudesGraph.xTitleSpace" ) );
-        }
-        else if ( domain == FourierConstants.DOMAIN_TIME ) {
-            _chartGraphic.setXAxisTitle( SimStrings.get( "D2CAmplitudesGraph.xTitleTime" ) );
-        }
-        else {
-            throw new IllegalArgumentException( "invalid or unsupported domain: " + domain );
-        }
+        _domain = domain;
+        updateMath();
+        updateAxisTitles();
     }
     
     /**
@@ -230,6 +242,8 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     public void update() {
         
         System.out.println( "D2CAmplitudesGraph.update" ); //XXX
+        
+        updateMath(); // ...in case k1 has changed
         
         _chartGraphic.removeAllDataSetGraphics();
         
@@ -368,5 +382,38 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         
         // Add the points to the data set.
         dataSet.addPoints( (Point2D.Double[]) points.toArray( new Point2D.Double[points.size()] ) );
+    }
+    
+    /*
+     * Updates the math equation that appears above the graph.
+     */
+    private void updateMath() {
+        if ( _wavePacket.getK1() != 0 ) {
+            // A(n)
+            _mathGraphic.setHTML( "<html>A(n)</html>" );
+        }
+        else {
+            if ( _domain == FourierConstants.DOMAIN_SPACE ) {
+                // A(k)
+                _mathGraphic.setHTML( "<html>A(k)</html>" );
+            }
+            else if ( _domain == FourierConstants.DOMAIN_TIME ) {
+                // A(w)
+                _mathGraphic.setHTML( "<html>A(" + MathStrings.C_OMEGA + ")</html>" );
+            }
+        }
+        _mathGraphic.centerRegistrationPoint();
+    }
+    
+    /*
+     * Update the titles on the axes.
+     */
+    private void updateAxisTitles() {
+        if ( _domain == FourierConstants.DOMAIN_SPACE ) {
+            _chartGraphic.setXAxisTitle( SimStrings.get( "D2CAmplitudesGraph.xTitleSpace" ) );
+        }
+        else if ( _domain == FourierConstants.DOMAIN_TIME ) {
+            _chartGraphic.setXAxisTitle( SimStrings.get( "D2CAmplitudesGraph.xTitleTime" ) );
+        }
     }
 }
