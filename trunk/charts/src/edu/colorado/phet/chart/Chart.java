@@ -1,8 +1,12 @@
-/**
- * Class: Chart
- * Package: edu.colorado.phet.chart
- * Author: Another Guy
- * Date: Sep 15, 2004
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.chart;
 
@@ -122,24 +126,6 @@ public class Chart extends GraphicLayerSet {
         }
         xAxisTitleGraphic = phetGraphic;
         xAxisTitleGraphic.setLocation( chartSize.width + 2, (int) transformYDouble( 0 ) ); // aligned with x axis
-        addGraphic( xAxisTitleGraphic, ApparatusPanel.LAYER_TOP - 1 );
-    }
-
-    /**
-     * Sets the title label that appears on the x axis.
-     * The title will be place to the right of the chart,
-     * and the title's registration point will be aligned
-     * with the x axis.
-     *
-     * @param phetGraphic
-     */
-    public void setXAxisTitle( PhetGraphic phetGraphic, boolean underGraph ) {
-        if( xAxisTitleGraphic != null ) {
-            removeGraphic( xAxisTitleGraphic );
-        }
-        xAxisTitleGraphic = phetGraphic;
-        xAxisTitleGraphic.setLocation( (int) transformX( (range.getMaxX() + range.getMinX() ) / 2 ),
-                                       (int) transformY ( range.getMinY()) + 15 );
         addGraphic( xAxisTitleGraphic, ApparatusPanel.LAYER_TOP - 1 );
     }
 
