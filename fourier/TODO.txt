@@ -3,10 +3,9 @@
 ===============================================================================
 
 IN PROGRESS:
+- flatten chart in D2CComponentsGraph, refresh when the wave packet changes
 
 HIGH PRIORITY:
-- flatten chart in D2CComponentsGraph, refresh when the wave packet changes
-- add An, Ak (k1=0), Aw (w1=0) equation above D2C amplitudes graph
 - add wait cursor to graph maximize buttons
 - when 2dx gets to be just a few pixels, peaks of the waveform in Sum graph are chopped off
 - memory leak in D2C module, freezes with wait cursor
