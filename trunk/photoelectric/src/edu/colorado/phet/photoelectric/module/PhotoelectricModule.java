@@ -194,7 +194,6 @@ public class PhotoelectricModule extends BaseLaserModule {
 //        batterySlider.addTick( 0 );
 
 //        batterySlider.centerRegistrationPoint();
-        // TODO: locate the slider symbolically
 //        batterySlider.setLocation( 400, 400 );
 //        final GraphicSlider batterySlider1 = batterySlider;
 //        batterySlider.addChangeListener( new ChangeListener() {
