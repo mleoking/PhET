@@ -10,23 +10,26 @@
  */
 package edu.colorado.phet.common.view.phetgraphics;
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.Stack;
+
+import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
+import javax.swing.event.MouseInputAdapter;
+import javax.swing.event.MouseInputListener;
+
 import edu.colorado.phet.common.view.graphics.mousecontrols.CompositeMouseInputListener;
 import edu.colorado.phet.common.view.graphics.mousecontrols.CursorControl;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationHandler;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.RectangleUtils;
-
-import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
-import javax.swing.event.MouseInputListener;
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.geom.AffineTransform;
-import java.util.ArrayList;
-import java.util.Stack;
 
 /**
  * PhetGraphic is the base class for all PhET graphics.
@@ -674,6 +677,19 @@ public abstract class PhetGraphic {
         if( newBounds != null ) {
             lastBounds.setBounds( bounds );
             bounds.setBounds( newBounds );
+        }
+        else {
+            /* BUG FIX:
+             * If determineBounds returned null, then we can't just leave the bounds
+             * in a "stale" state.  It would probably make sense for getBounds()
+             * to return null if a graphic has no bounds, but that would likely 
+             * break existing code.  So we'll set the bounds to be a zero-dimension
+             * rectangle located at the graphic's transformed location.
+             */ 
+            AffineTransform transform = getNetTransform();
+            Point2D transformedLocation = new Point2D.Double();
+            transform.transform( getLocation(), transformedLocation );
+            bounds.setBounds( (int) transformedLocation.getX(), (int) transformedLocation.getY(), 0, 0 );
         }
     }
 
