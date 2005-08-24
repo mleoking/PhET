@@ -289,7 +289,9 @@ public class PhotoelectricModule extends BaseLaserModule {
 //        getApparatusPanel().add( wrapperPanel );
 
         // Slap an ammeter on the circuit, near the anode
-        AmmeterViewGraphic avg = new AmmeterViewGraphic( getApparatusPanel(), getPhotoelectricModel().getAmmeter() );
+        AmmeterViewGraphic avg = new AmmeterViewGraphic( getApparatusPanel(),
+                                                         getPhotoelectricModel().getAmmeter(),
+                                                         getPhotoelectricModel() );
         avg.setLocation( DischargeLampsConfig.ANODE_LOCATION.x- 80, DischargeLampsConfig.ANODE_LOCATION.y + 218 );
         getApparatusPanel().addGraphic( avg, CIRCUIT_LAYER + 1);
 
@@ -432,7 +434,6 @@ public class PhotoelectricModule extends BaseLaserModule {
      */
     private void addAnodeGraphic( PhotoelectricModel model, ApparatusPanel apparatusPanel ) {
         this.anode = model.getRightHandPlate();
-//        this.anode.setPosition( DischargeLampsConfig.ANODE_LOCATION );
         PhetImageGraphic anodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode-2.png" );
 
         // Make the graphic the right size
@@ -481,8 +482,8 @@ public class PhotoelectricModule extends BaseLaserModule {
         getApparatusPanel().addGraphic( targetMaterialGraphic, CIRCUIT_LAYER );
 
         // Add a listener to the target that will set the proper color if the material changes
-        targetPlate.addMaterialChangeListener( new PhotoelectricTarget.MaterialChangeListener() {
-            public void materialChanged( PhotoelectricTarget.MaterialChangeEvent event ) {
+        model.addChangeListener( new PhotoelectricModel.ChangeListenerAdapter()  {
+            public void targetMaterialChanged( PhotoelectricModel.ChangeEvent event ) {
                 targetMaterialGraphic.setPaint( (Paint)TARGET_COLORS.get( targetPlate.getMaterial() ) );
             }
         } );

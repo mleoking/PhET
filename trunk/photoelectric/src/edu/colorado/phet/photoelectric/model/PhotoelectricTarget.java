@@ -108,7 +108,7 @@ public class PhotoelectricTarget extends ElectronSource {
             // Offset the electron to the right of the plate. This does two things. 1) It keeps the plate from
             // thinking the electron hit it in the electron's first time step, and keeps multiple electrons
             // emitted in a single time step from lining up vertically, which doesn't look right
-            double offset = 1 + random.nextDouble() * electron.getRadius() * 8 ;
+            double offset = 1 + random.nextDouble() * electron.getRadius() * 8;
             electron.setPosition( p.getX() + offset, p.getY() );
 
             // Determine the speed of the new electron
@@ -187,33 +187,33 @@ public class PhotoelectricTarget extends ElectronSource {
     //----------------------------------------------------------------
     // Event and listener definitions
     //----------------------------------------------------------------
-    public class MaterialChangeEvent extends EventObject {
-        public MaterialChangeEvent( Object source ) {
+    class MaterialChangeEvent extends EventObject {
+        MaterialChangeEvent( Object source ) {
             super( source );
         }
 
-        public PhotoelectricTarget getPhotoelectricTarget() {
+        PhotoelectricTarget getPhotoelectricTarget() {
             return (PhotoelectricTarget)getSource();
         }
 
-        public Object getMaterial() {
+        Object getMaterial() {
             return getPhotoelectricTarget().getMaterial();
         }
     }
 
     public interface MaterialChangeListener extends EventListener {
-        void materialChanged( MaterialChangeEvent event );
+        public void materialChanged( MaterialChangeEvent event );
     }
 
     private EventChannel materialChangeEventChannel = new EventChannel( MaterialChangeListener.class );
     private MaterialChangeListener materialChangeListenerProxy =
             (MaterialChangeListener)materialChangeEventChannel.getListenerProxy();
 
-    public void addMaterialChangeListener( MaterialChangeListener listener ) {
+    void addMaterialChangeListener( MaterialChangeListener listener ) {
         materialChangeEventChannel.addListener( listener );
     }
 
-    public void removeMaterialChangeListener( MaterialChangeListener listener ) {
+    void removeMaterialChangeListener( MaterialChangeListener listener ) {
         materialChangeEventChannel.removeListener( listener );
     }
 }

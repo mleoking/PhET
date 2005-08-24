@@ -21,6 +21,7 @@ import java.awt.*;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.text.DecimalFormat;
 
 /**
  * CurrentVsVoltageGraph
@@ -40,6 +41,8 @@ public class EnergyVsFrequencyGraph extends Chart {
                                                 0,
                                                 PhysicsUtil.wavelengthToFrequency( PhotoelectricModel.MIN_WAVELENGTH ),
                                                 PhysicsUtil.wavelengthToEnergy( PhotoelectricModel.MIN_WAVELENGTH));
+    static private double xSpacing = ( range.getMaxX() - range.getMinX() ) / 6;
+    static private double ySpacing = ( range.getMaxY() - range.getMinY() ) / 10;
     static private Dimension chartSize = new Dimension( 200, 150 );
 
     //-----------------------------------------------------------------
@@ -53,26 +56,23 @@ public class EnergyVsFrequencyGraph extends Chart {
     //-----------------------------------------------------------------
 
     public EnergyVsFrequencyGraph( Component component, final PhotoelectricModel model ) {
-        super( component, range, chartSize );
+        super( component, range, chartSize, xSpacing, xSpacing, 2, 2 );
 
         GridLineSet horizontalGls = this.getHorizonalGridlines();
-        horizontalGls.setMajorTickSpacing( 1E14 );
-//        horizontalGls.setMajorTickSpacing( 0.25 );
         horizontalGls.setMajorGridlinesColor( new Color( 200, 200, 200 ));
-//        Axis xAxis = new Axis( this);
-
 
         GridLineSet verticalGls = this.getVerticalGridlines();
-        verticalGls.setMajorTickSpacing( 1E14 );
         verticalGls.setMajorGridlinesColor( new Color( 200, 200, 200 ));
+
+        this.getXAxis().setNumberFormat( new DecimalFormat( "0.#E0" ));
 
         Color color = Color.blue;
         ScatterPlot points = new ScatterPlot( getComponent(), this, dataSet, color, 4 );
         this.addDataSetGraphic( points );
 
-        model.addChangeListener( new PhotoelectricModel.ChangeListener() {
-            public void currentChanged( PhotoelectricModel.ChangeEvent event ) {
-                // noop
+        model.addChangeListener( new PhotoelectricModel.ChangeListenerAdapter() {
+            public void targetMaterialChanged( PhotoelectricModel.ChangeEvent event ) {
+                updateGraph( model );
             }
 
             public void voltageChanged( PhotoelectricModel.ChangeEvent event ) {
