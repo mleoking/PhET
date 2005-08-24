@@ -154,6 +154,14 @@ public class Electron extends SphericalBody implements Collidable {
         void energyChanged( ChangeEvent changeEvent );
     }
 
+    public static class ChangeListenerAdapter implements ChangeListener {
+        public void leftSystem( ChangeEvent changeEvent ) {
+        }
+
+        public void energyChanged( ChangeEvent changeEvent ) {
+        }
+    }
+
     private EventChannel listenerChannel = new EventChannel( ChangeListener.class );
     private ChangeListener changeListenerProxy = (ChangeListener)listenerChannel.getListenerProxy();
 

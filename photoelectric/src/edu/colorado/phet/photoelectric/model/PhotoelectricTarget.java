@@ -27,7 +27,10 @@ import java.util.*;
 /**
  * PhotoelectricTarget
  * <p/>
- * The plate in the photoelectric model that is bombarded with light
+ * The plate in the photoelectric model that is bombarded with light. It is primarilly
+ * an ElectronSource, but it also adds an ElectronSink to the model that removes electrons
+ * that are bent back into it when the battery voltage is high enough to prevent the
+ * electrons emitted from the target from reaching the anode.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -79,6 +82,9 @@ public class PhotoelectricTarget extends ElectronSource {
     public PhotoelectricTarget( BaseModel model, Point2D p1, Point2D p2 ) {
         super( model, p1, p2 );
         line = new Line2D.Double( p1, p2 );
+
+        ElectronSink targetSink = new ElectronSink( model, getEndpoints()[0], getEndpoints()[1] );
+        model.addModelElement( targetSink );
     }
 
     /**

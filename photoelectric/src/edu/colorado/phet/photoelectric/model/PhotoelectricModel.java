@@ -83,7 +83,6 @@ public class PhotoelectricModel extends DischargeLampModel {
     // Beam specification
     private CollimatedBeam beam;
     private double defaultBeamWavelength = 400;
-//    private double MAX_PHOTONS_PER_SECOND = 200;
     private double beamWidth = 80;
     private double beamHeight = 100;
     private double beamSourceToTargetDist = 300;
@@ -139,6 +138,14 @@ public class PhotoelectricModel extends DischargeLampModel {
         target.addMaterialChangeListener( new PhotoelectricTarget.MaterialChangeListener() {
             public void materialChanged( PhotoelectricTarget.MaterialChangeEvent event ) {
                 changeListenerProxy.targetMaterialChanged( new ChangeEvent( this ) );
+            }
+        } );
+
+        // Add a listener that will notify the target it if the anode's potential changes        
+        rightHandPlate.addStateChangeListener( new Electrode.StateChangeListener() {
+            public void stateChanged( Electrode.StateChangeEvent event ) {
+                double anodePotential = event.getElectrode().getPotential();
+                target.setSinkPotential( anodePotential );
             }
         } );
 
@@ -245,8 +252,8 @@ public class PhotoelectricModel extends DischargeLampModel {
         // Check for electrons that get out of the tube (Only matters if the
         // electrons leave the target at an angle)
         for( int i = 0; i < electrons.size(); i++ ) {
-            Electron electron = (Electron)electrons.get(i);
-            if( !tube.getBounds().contains( electron.getPosition() )) {
+            Electron electron = (Electron)electrons.get( i );
+            if( !tube.getBounds().contains( electron.getPosition() ) ) {
                 electron.leaveSystem();
             }
         }
@@ -281,7 +288,7 @@ public class PhotoelectricModel extends DischargeLampModel {
     }
 
     public double getAnodePotential() {
-        return rightHandPlate.getPotential() - target.getPotential() ;
+        return rightHandPlate.getPotential() - target.getPotential();
     }
 
     public double getVoltage() {
@@ -291,11 +298,12 @@ public class PhotoelectricModel extends DischargeLampModel {
     /**
      * Tells the current as a function of the photon rate of the beam and the work function
      * of the target material.
+     *
      * @return
      */
     public double getCurrent() {
         double photonEnergy = PhysicsUtil.wavelengthToEnergy( beam.getWavelength() );
-        double workFunction = ((Double)PhotoelectricTarget.WORK_FUNCTIONS.get( target.getMaterial() )).doubleValue();
+        double workFunction = ( (Double)PhotoelectricTarget.WORK_FUNCTIONS.get( target.getMaterial() ) ).doubleValue();
 
         // If the energy of an electron is greater than the voltage across the plates, we get a current
         // equal to the number of photons per second. (We assume there is one electron for every photon).
@@ -360,7 +368,7 @@ public class PhotoelectricModel extends DischargeLampModel {
     //-----------------------------------------------------------------
 
     private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
-    private ChangeListener changeListenerProxy =(ChangeListener)changeEventChannel.getListenerProxy();
+    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
 
     public void addChangeListener( ChangeListener listener ) {
         changeEventChannel.addListener( listener );
@@ -382,8 +390,11 @@ public class PhotoelectricModel extends DischargeLampModel {
 
     public interface ChangeListener extends EventListener {
         void currentChanged( ChangeEvent event );
+
         void voltageChanged( ChangeEvent event );
+
         void wavelengthChanged( ChangeEvent event );
+
         void targetMaterialChanged( ChangeEvent event );
     }
 
