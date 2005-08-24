@@ -56,18 +56,13 @@ public class CurrentVsIntensityGraph extends Chart {
     //-----------------------------------------------------------------
 
     public CurrentVsIntensityGraph( Component component, final PhotoelectricModel model ) {
-        super( component, range, chartSize );
+        super( component, range, chartSize, 50, 100, 50, 100  );
 
         GridLineSet horizontalGls = this.getHorizonalGridlines();
-        horizontalGls.setMajorTickSpacing( 100 );
         horizontalGls.setMajorGridlinesColor( new Color( 200, 200, 200 ));
 
         GridLineSet verticalGls = this.getVerticalGridlines();
-        verticalGls.setMajorTickSpacing( 100 );
         verticalGls.setMajorGridlinesColor( new Color( 200, 200, 200 ));
-
-//        super.setXAxisTitle(  new PhetTextGraphic( component, titleFont, "Light Intensity", Color.black ), true );
-//        super.setYAxisTitle(  new PhetTextGraphic( component, titleFont, "Current", Color.black ), true );
 
         Color color = new Color( 0, 180, 0 );
         ScatterPlot points = new ScatterPlot( getComponent(), this, dataSet, color, 4 );

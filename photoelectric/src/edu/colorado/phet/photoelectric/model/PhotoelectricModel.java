@@ -15,6 +15,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.dischargelamps.model.*;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.lasers.model.photon.Photon;
@@ -26,8 +27,10 @@ import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.photoelectric.model.util.BeamIntensityMeter;
 
 import java.util.*;
+import java.util.List;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.*;
 
 /**
  * PhotoelectricModel
@@ -52,7 +55,7 @@ public class PhotoelectricModel extends DischargeLampModel {
     public static double MIN_VOLTAGE = -8;
     public static double MAX_VOLTAGE = 8;
     public static double MIN_WAVELENGTH = 100;
-    public static double MAX_WAVELENGTH = 600;
+    public static double MAX_WAVELENGTH = 700;
     public static double MAX_PHOTONS_PER_SECOND = 500;
 
     //----------------------------------------------------------------
@@ -128,6 +131,11 @@ public class PhotoelectricModel extends DischargeLampModel {
         addModelElement( target );
         target.setPotential( defaultTargetPotential );
         target.addListener( new ElectronTracker() );
+        target.addMaterialChangeListener( new PhotoelectricTarget.MaterialChangeListener() {
+            public void materialChanged( PhotoelectricTarget.MaterialChangeEvent event ) {
+                changeListenerProxy.targetMaterialChanged( new ChangeEvent( this ) );
+            }
+        } );
 
         // Tell the parent model who the anode and cathode are
         super.setAnode( rightHandPlate );
@@ -371,6 +379,7 @@ public class PhotoelectricModel extends DischargeLampModel {
         void currentChanged( ChangeEvent event );
         void voltageChanged( ChangeEvent event );
         void wavelengthChanged( ChangeEvent event );
+        void targetMaterialChanged( ChangeEvent event );
     }
 
     public static class ChangeListenerAdapter implements ChangeListener {
@@ -381,6 +390,9 @@ public class PhotoelectricModel extends DischargeLampModel {
         }
 
         public void wavelengthChanged( ChangeEvent event ) {
+        }
+
+        public void targetMaterialChanged( ChangeEvent event ) {
         }
     }
 }

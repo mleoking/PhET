@@ -79,12 +79,7 @@ public class GraphWindow extends JDialog {
         currentVsVoltageGraph.setLocation( graphInsetX, graphInsetY );
         graphPanel.addGraphic( currentVsVoltageGraph );
 
-        // Lay out a currentVsVoltagePanel with titles for the graph
-        GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-                                                         GridBagConstraints.CENTER,
-                                                         GridBagConstraints.NONE,
-                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
-        currentVsVoltagePanel = makeGraphPanel( graphPanel, "Voltage", "Current" );
+        currentVsVoltagePanel = makeGraphPanel( graphPanel, "Battery Voltage", "Current" );
         return currentVsVoltagePanel;
     }
 
@@ -184,7 +179,7 @@ public class GraphWindow extends JDialog {
         public RotatedTextLabel( String label ) {
             super( null );
             this.label = "   " + label;
-            setPreferredSize( new Dimension( 20, 150 ) );
+            setPreferredSize( new Dimension( 25, 150 ) );
         }
 
         public void paint( Graphics g ) {

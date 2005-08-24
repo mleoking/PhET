@@ -18,6 +18,7 @@ import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.common.view.ControlPanel;
 
 import javax.swing.*;
@@ -28,6 +29,9 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.text.DecimalFormat;
+import java.util.Collection;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * PhotoelectricControlPanel
@@ -50,7 +54,21 @@ public class PhotoelectricControlPanel {
         JPanel targetControlPnl = new JPanel( new GridLayout( 1, 1 ) );
         targetControlPnl.setBorder( new TitledBorder( "Target" ) );
         controlPanel.addControl( targetControlPnl );
-        final JComboBox targetMaterial = new JComboBox( PhotoelectricTarget.WORK_FUNCTIONS.keySet().toArray() );
+
+        // Put the materials in the desired order. Sodium should be at the top, and the "mystery material",
+        // magnesium, should be at the end
+        ArrayList selectionList = new ArrayList( );
+        selectionList.add( PhotoelectricTarget.SODIUM );
+        Collection materials = PhotoelectricTarget.WORK_FUNCTIONS.keySet();
+        for( Iterator iterator = materials.iterator(); iterator.hasNext(); ) {
+            Object obj = (Object)iterator.next();
+            if( obj != PhotoelectricTarget.SODIUM && obj != PhotoelectricTarget.MAGNESIUM ) {
+                selectionList.add( obj );
+            }
+        }
+        selectionList.add(PhotoelectricTarget.MAGNESIUM);
+
+        final JComboBox targetMaterial = new JComboBox( selectionList.toArray() );
         targetControlPnl.add( targetMaterial );
         final PhotoelectricTarget target = model.getTarget();
         targetMaterial.addActionListener( new ActionListener() {
@@ -73,7 +91,7 @@ public class PhotoelectricControlPanel {
                                                               "nm",
                                                               PhotoelectricModel.MIN_WAVELENGTH,
                                                               PhotoelectricModel.MAX_WAVELENGTH,
-                                                              ( PhotoelectricModel.MIN_WAVELENGTH + PhotoelectricModel.MAX_WAVELENGTH ) / 2 );
+                                                              400 );
         wavelengthSlider.setMajorTickSpacing( 100 );
         wavelengthSlider.setSliderLabelFormat( new DecimalFormat( "#" ) );
         wavelengthSlider.setPreferredSize( new Dimension( 250, 100 ) );
