@@ -103,7 +103,9 @@ public abstract class FourierControlPanel extends ControlPanel {
         JButton resetButton = new JButton( SimStrings.get( "Reset.button" ) );
         resetButton.addActionListener( new ActionListener() { 
             public void actionPerformed( ActionEvent e ) {
+                setWaitCursorEnabled( true );
                 _module.reset();
+                setWaitCursorEnabled( false );
             }
         } );
         addControl( resetButton );
