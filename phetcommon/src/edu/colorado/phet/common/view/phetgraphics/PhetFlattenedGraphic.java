@@ -126,6 +126,10 @@ public class PhetFlattenedGraphic extends PhetImageGraphic {
      */
     public void flatten() {
 
+        // Assume that the bounds need to be recomputed.
+        // The client may be calling flatten after changing a child graphic via a reference.
+        _graphicLayerSet.setBoundsDirty();
+        
         // Determine the translation required to get all graphics drawn into the buffer.
         double xOffset = getBounds().x - _graphicLayerSet.getBounds().x;
         double yOffset = getBounds().y - _graphicLayerSet.getBounds().y;
