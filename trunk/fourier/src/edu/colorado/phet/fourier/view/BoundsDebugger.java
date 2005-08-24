@@ -154,9 +154,11 @@ public class BoundsDebugger extends PhetGraphic {
         while ( e.hasMoreElements() ) {
             PhetGraphic graphic = (PhetGraphic) e.nextElement();
             if ( bounds == null ) {
-                bounds = new Rectangle();
+                bounds = new Rectangle( graphic.getBounds() );
             }
-            bounds.union( graphic.getBounds() );
+            else {
+                bounds.union( graphic.getBounds() );
+            }
         }
         return bounds;
     }
