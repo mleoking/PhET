@@ -42,7 +42,7 @@ public class EnergyVsFrequencyGraph extends Chart {
                                                 0,
                                                 PhysicsUtil.wavelengthToFrequency( PhotoelectricModel.MIN_WAVELENGTH ),
                                                 PhysicsUtil.wavelengthToEnergy( PhotoelectricModel.MIN_WAVELENGTH));
-    static private double xSpacing = ( range.getMaxX() - range.getMinX() ) / 6;
+    static private double xSpacing = ( range.getMaxX() - range.getMinX() ) / 4;
     static private double ySpacing = ( range.getMaxY() - range.getMinY() ) / 10;
     static private Dimension chartSize = new Dimension( 200, 150 );
 
@@ -64,6 +64,8 @@ public class EnergyVsFrequencyGraph extends Chart {
 
         GridLineSet verticalGls = this.getVerticalGridlines();
         verticalGls.setMajorGridlinesColor( new Color( 200, 200, 200 ));
+
+        getHorizontalTicks().setMajorNumberFormat( new DecimalFormat( "0.#E0" ));
 
         this.getXAxis().setNumberFormat( new DecimalFormat( "0.#E0" ));
 

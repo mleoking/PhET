@@ -56,17 +56,13 @@ public class CurrentVsVoltageGraph2 extends Chart {
         super( component, range, chartSize, 2, 2, 2, 2 );
 
         GridLineSet horizontalGls = this.getHorizonalGridlines();
-//        horizontalGls.setMajorTickSpacing( 0.025 );
         horizontalGls.setMajorGridlinesColor( new Color( 200, 200, 200 ) );
 
         GridLineSet verticalGls = this.getVerticalGridlines();
-//        verticalGls.setMajorTickSpacing( 2.0 );
-//        verticalGls.setMinorTickSpacing( 2.0 );
         verticalGls.setMajorGridlinesColor( new Color( 200, 200, 200 ) );
 
-//        super.setVerticalTitle( "Current", Color.black, titleFont );
-//        super.setXAxisTitle(  new PhetTextGraphic( component, titleFont, "Voltage", Color.black ), true );
-//        super.setYAxisTitle(  new PhetTextGraphic( component, titleFont, "Current", Color.black ), true );
+        getYAxis().setMajorTickLabelsVisible( false );
+
         Color color = Color.red;
         ScatterPlot points = new ScatterPlot( getComponent(), this, dataSet, color, PhotoelectricConfig.GRAPH_DOT_RADIUS );
         this.addDataSetGraphic( points );
