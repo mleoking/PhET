@@ -309,7 +309,8 @@ public class PhotoelectricModel extends DischargeLampModel {
         // equal to the number of photons per second. (We assume there is one electron for every photon).
         // Otherwise, there is no current
         double electronEnergy = photonEnergy - workFunction;
-        double current = electronEnergy > -getVoltage() ? beam.getPhotonsPerSecond() : 0;
+        double retardingVoltage = getVoltage() < 0 ? -getVoltage() : 0;
+        double current = electronEnergy > retardingVoltage ? beam.getPhotonsPerSecond() : 0;
         return current * CURRENT_JIMMY_FACTOR;
     }
 
