@@ -153,9 +153,9 @@ public class PhotoelectricControlPanel {
         // Graph options
         //----------------------------------------------------------------
 
-        final JCheckBox currentVsVoltageCB = new JCheckBox( "Current vs voltage" );
-        final JCheckBox currentVsIntensityCB = new JCheckBox( "Current vs beam intensity" );
-        final JCheckBox energyVsFrequencyCB = new JCheckBox( "Electron energy vs beam frequency" );
+        final JCheckBox currentVsVoltageCB = new JCheckBox( "Current vs battery voltage" );
+        final JCheckBox currentVsIntensityCB = new JCheckBox( "Current vs light intensity" );
+        final JCheckBox energyVsFrequencyCB = new JCheckBox( "Electron energy vs light frequency" );
         currentVsVoltageCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 graphWindow.setCurrentVsVoltageVisible( currentVsVoltageCB.isSelected() );

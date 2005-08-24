@@ -104,7 +104,7 @@ public class GraphWindow extends JDialog {
         currentVsIntensityGraph.setLocation( graphInsetX, graphInsetY );
         graphPanel.addGraphic( currentVsIntensityGraph );
 
-        currentVsIntensityPanel = makeGraphPanel( graphPanel, "Intensity", "Current" );
+        currentVsIntensityPanel = makeGraphPanel( graphPanel, "Light Intensity", "Current" );
         return currentVsIntensityPanel;
     }
 
@@ -123,7 +123,7 @@ public class GraphWindow extends JDialog {
         energyVsFrequencyGraph.setLocation( graphInsetX, graphInsetY );
         graphPanel.addGraphic( energyVsFrequencyGraph );
 
-        energyVsFrequencyPanel = makeGraphPanel( graphPanel, "Frequency", "Electron Energy" );
+        energyVsFrequencyPanel = makeGraphPanel( graphPanel, "Light Frequency", "Electron Energy" );
         return energyVsFrequencyPanel;
     }
 
@@ -202,7 +202,6 @@ public class GraphWindow extends JDialog {
             at.setToRotation( -Math.PI / 2.0, x, y );
             g2.transform( at );
             g2.setFont( myFont );
-//            g2.setFont( font );
             g2.drawString( label, x, y );
             gs.restoreGraphics();
         }
