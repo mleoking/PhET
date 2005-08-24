@@ -1,6 +1,8 @@
 package edu.colorado.phet.fourier.view;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
@@ -187,12 +189,20 @@ public class BoundsDebugger extends PhetGraphic {
                     g2.draw( bounds );
                 }
                 
-                // Draw a cross, centered at the graphic's location.
                 if ( isLocationEnabled() ) {
+                    
+                    // Convert the graphic's location to screen coordinates.
+                    AffineTransform transform = getNetTransform();
+                    Point2D transformedLocation = new Point2D.Double();
+                    transform.transform( location, transformedLocation );
+                    int x = (int) transformedLocation.getX();
+                    int y = (int) transformedLocation.getY();
+                    
+                    // Draw a cross, centered at the graphic's location.
                     g2.setStroke( _locationStroke );
                     g2.setPaint( s.locationColor );
-                    g2.drawLine( location.x, location.y - _locationSize.height/2, location.x, location.y + _locationSize.height/2 );
-                    g2.drawLine( location.x - _locationSize.width/2, location.y, location.x + _locationSize.width/2, location.y );
+                    g2.drawLine( x, y - _locationSize.height/2, x, y + _locationSize.height/2 );
+                    g2.drawLine( x - _locationSize.width/2, y, x + _locationSize.width/2, y );
                 }
             }
             restoreGraphicsState();
