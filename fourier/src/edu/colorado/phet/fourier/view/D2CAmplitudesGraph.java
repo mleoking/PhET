@@ -138,8 +138,7 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         _continuousWaveformGraphic.setDataSet( new DataSet() );
         
         // Interactivity
-        titleGraphic.setIgnoreMouse( true );
-        _chartGraphic.setIgnoreMouse( true );
+        setIgnoreMouse( true );  // nothing is interactive in this view
         
         reset();
     }

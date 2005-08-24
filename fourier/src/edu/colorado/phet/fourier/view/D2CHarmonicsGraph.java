@@ -136,16 +136,14 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
         addGraphic( _chartGraphic, CHART_LAYER );
         _chartGraphic.setRegistrationPoint( 0, CHART_SIZE.height / 2 ); // at the chart's origin
         _chartGraphic.setLocation( 60, 50 + ( CHART_SIZE.height / 2 ) );
-            
+
         // "Cannot show" message 
-        {
-            String message = SimStrings.get( "D2CHarmonicsGraph.cannotShow" );
-            _cannotShowGraphic = new HTMLGraphic( component, CANNOT_SHOW_MESSAGE_FONT, message, CANNOT_SHOW_MESSAGE_COLOR );
-            addGraphic( _cannotShowGraphic, MESSAGE_LAYER );
-            _cannotShowGraphic.setRegistrationPoint( 0, _cannotShowGraphic.getHeight() / 2 ); // left center
-            _cannotShowGraphic.setLocation( 125, BACKGROUND_SIZE.height / 2 );
-        }
-        
+        String cannotShowMessage = SimStrings.get( "D2CHarmonicsGraph.cannotShow" );
+        _cannotShowGraphic = new HTMLGraphic( component, CANNOT_SHOW_MESSAGE_FONT, cannotShowMessage, CANNOT_SHOW_MESSAGE_COLOR );
+        addGraphic( _cannotShowGraphic, MESSAGE_LAYER );
+        _cannotShowGraphic.setRegistrationPoint( 0, _cannotShowGraphic.getHeight() / 2 ); // left center
+        _cannotShowGraphic.setLocation( 125, BACKGROUND_SIZE.height / 2 );
+
         // Close button
         _closeButton = new PhetImageGraphic( component, FourierConstants.CLOSE_BUTTON_IMAGE );
         addGraphic( _closeButton, CONTROLS_LAYER );
@@ -153,13 +151,11 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
         _closeButton.setLocation( (_closeButton.getWidth()/2) + 10, _closeButton.getHeight()/2 + 5 );
         
         // "Minimize" message
-        {
-            String message = SimStrings.get( "D2CHarmonicsGraph.minimize" );
-            HTMLGraphic minimizeGraphic = new HTMLGraphic( component, MINIMIZE_MESSAGE_FONT, message, MINIMIZE_MESSAGE_COLOR );
-            addGraphic( minimizeGraphic, MESSAGE_LAYER );
-            minimizeGraphic.setRegistrationPoint( 0, minimizeGraphic.getHeight()/2 ); // left center
-            minimizeGraphic.setLocation( _closeButton.getX() + _closeButton.getWidth()/2 + 10, _closeButton.getY() + 5 );
-        }
+        String minimizeMessage = SimStrings.get( "D2CHarmonicsGraph.minimize" );
+        HTMLGraphic minimizeGraphic = new HTMLGraphic( component, MINIMIZE_MESSAGE_FONT, minimizeMessage, MINIMIZE_MESSAGE_COLOR );
+        addGraphic( minimizeGraphic, MESSAGE_LAYER );
+        minimizeGraphic.setRegistrationPoint( 0, minimizeGraphic.getHeight() / 2 ); // left center
+        minimizeGraphic.setLocation( _closeButton.getX() + _closeButton.getWidth() / 2 + 10, _closeButton.getY() + 5 );
         
         // Zoom controls
         {
@@ -188,6 +184,8 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
             _titleGraphic.setIgnoreMouse( true );
             _chartGraphic.setIgnoreMouse( true );
             _mathGraphic.setIgnoreMouse( true );
+            _cannotShowGraphic.setIgnoreMouse( true );
+            minimizeGraphic.setIgnoreMouse( true );
             
             _horizontalZoomControl.addZoomListener( this );
 
