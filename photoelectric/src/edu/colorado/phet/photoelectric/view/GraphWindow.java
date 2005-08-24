@@ -53,7 +53,7 @@ public class GraphWindow extends JDialog {
         // Set up the defaultFont we want
         JLabel dummyLabel = new JLabel();
         Font defaultFont = dummyLabel.getFont();
-        myFont = new Font( defaultFont.getFontName(), defaultFont.getStyle(), defaultFont.getSize() + 2 );
+        myFont = new Font( defaultFont.getFontName(), defaultFont.getStyle(), defaultFont.getSize() + 4 );
 
         setUndecorated( true );
         getRootPane().setWindowDecorationStyle( JRootPane.PLAIN_DIALOG );

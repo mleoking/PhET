@@ -48,6 +48,10 @@ public class PhotoelectricModel extends DischargeLampModel {
     // Class data
     //----------------------------------------------------------------
 
+    // Factor to make the analytically reported current different than the photons-per-sec
+    // that come from the beam
+    public static double CURRENT_JIMMY_FACTOR = 0.015;
+
     // Factor to make voltage across electrodes display properly calibrated
     public static final double VOLTAGE_SCALE_FACTOR = 1;
 //    public static final double VOLTAGE_SCALE_FACTOR = 0.2865;
@@ -57,6 +61,7 @@ public class PhotoelectricModel extends DischargeLampModel {
     public static double MIN_WAVELENGTH = 100;
     public static double MAX_WAVELENGTH = 700;
     public static double MAX_PHOTONS_PER_SECOND = 500;
+    public static double MAX_CURRENT = MAX_PHOTONS_PER_SECOND * CURRENT_JIMMY_FACTOR;
 
     //----------------------------------------------------------------
     // Instance data
@@ -297,7 +302,7 @@ public class PhotoelectricModel extends DischargeLampModel {
         // Otherwise, there is no current
         double electronEnergy = photonEnergy - workFunction;
         double current = electronEnergy > -getVoltage() ? beam.getPhotonsPerSecond() : 0;
-        return current;
+        return current * CURRENT_JIMMY_FACTOR;
     }
 
     public double getWavelength() {

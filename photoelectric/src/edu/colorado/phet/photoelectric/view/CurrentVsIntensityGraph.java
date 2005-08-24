@@ -14,6 +14,7 @@ import edu.colorado.phet.chart.*;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
+import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 import edu.colorado.phet.lasers.model.photon.PhotonSource;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 
@@ -41,7 +42,8 @@ public class CurrentVsIntensityGraph extends Chart {
     //-----------------------------------------------------------------
     static private Range2D range = new Range2D( 0, 0,
                                                 PhotoelectricModel.MAX_PHOTONS_PER_SECOND * 1.1,
-                                                PhotoelectricModel.MAX_PHOTONS_PER_SECOND * 1.1 );
+                                                PhotoelectricModel.MAX_CURRENT * 1.1 );
+//                                                PhotoelectricModel.MAX_PHOTONS_PER_SECOND * 1.1 );
     static private Dimension chartSize = new Dimension( 200, 150 );
     static private Font titleFont = new Font( "Lucide Sans", Font.PLAIN, 12 );
 
@@ -56,7 +58,7 @@ public class CurrentVsIntensityGraph extends Chart {
     //-----------------------------------------------------------------
 
     public CurrentVsIntensityGraph( Component component, final PhotoelectricModel model ) {
-        super( component, range, chartSize, 50, 100, 50, 100  );
+        super( component, range, chartSize, 50, 100, 1, 1  );
 
         GridLineSet horizontalGls = this.getHorizonalGridlines();
         horizontalGls.setMajorGridlinesColor( new Color( 200, 200, 200 ));
@@ -65,7 +67,7 @@ public class CurrentVsIntensityGraph extends Chart {
         verticalGls.setMajorGridlinesColor( new Color( 200, 200, 200 ));
 
         Color color = new Color( 0, 180, 0 );
-        ScatterPlot points = new ScatterPlot( getComponent(), this, dataSet, color, 4 );
+        ScatterPlot points = new ScatterPlot( getComponent(), this, dataSet, color, PhotoelectricConfig.GRAPH_DOT_RADIUS );
         this.addDataSetGraphic( points );
 
         model.getBeam().addRateChangeListener( new PhotonSource.RateChangeListener() {
