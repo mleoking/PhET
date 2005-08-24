@@ -32,6 +32,7 @@ public class GraphWindow extends JDialog {
 
     private static final int graphInsetX = 40;
     private static final int graphInsetY = 20;
+    private static Font myFont;
 
     private CurrentVsVoltageGraph2 currentVsVoltageGraph;
     private CurrentVsIntensityGraph currentVsIntensityGraph;
@@ -48,6 +49,11 @@ public class GraphWindow extends JDialog {
 
     public GraphWindow( Frame frame, AbstractClock clock, PhotoelectricModel model ) {
         super( frame, false );
+
+        // Set up the defaultFont we want
+        JLabel dummyLabel = new JLabel();
+        Font defaultFont = dummyLabel.getFont();
+        myFont = new Font( defaultFont.getFontName(), defaultFont.getStyle(), defaultFont.getSize() + 2 );
 
         setUndecorated( true );
         getRootPane().setWindowDecorationStyle( JRootPane.PLAIN_DIALOG );
@@ -141,7 +147,9 @@ public class GraphWindow extends JDialog {
         gbc.gridx = 1;
         panel.add( graphPanel, gbc );
         gbc.gridy++;
-        panel.add( new JLabel( xAxisLabel ), gbc );
+        JLabel label = new JLabel( xAxisLabel );
+        label.setFont( myFont );
+        panel.add( label, gbc );
         panel.setVisible( false );
         return panel;
 
@@ -187,12 +195,14 @@ public class GraphWindow extends JDialog {
             GraphicsState gs = new GraphicsState( g2 );
             JLabel dummyLabel = new JLabel();
             Font font = dummyLabel.getFont();
+            Font f = new Font( font.getFontName(), font.getStyle(), font.getSize() + 2 );
             int x = 20;
             int y = 150;
             AffineTransform at = new AffineTransform();
             at.setToRotation( -Math.PI / 2.0, x, y );
             g2.transform( at );
-            g2.setFont( font );
+            g2.setFont( myFont );
+//            g2.setFont( font );
             g2.drawString( label, x, y );
             gs.restoreGraphics();
         }
