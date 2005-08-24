@@ -16,12 +16,9 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.phetcomponents.PhetJPanel;
-import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.Electrode;
 import edu.colorado.phet.dischargelamps.model.Electron;
@@ -40,20 +37,15 @@ import edu.colorado.phet.lasers.view.PhotonGraphic;
 import edu.colorado.phet.lasers.view.ResonatingCavityGraphic;
 import edu.colorado.phet.photoelectric.PhotoelectricApplication;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
-import edu.colorado.phet.photoelectric.controller.AmmeterDataCollector;
 import edu.colorado.phet.photoelectric.controller.PhotoelectricControlPanel;
-import edu.colorado.phet.photoelectric.model.Ammeter;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 import edu.colorado.phet.photoelectric.model.PhotoelectricTarget;
-import edu.colorado.phet.photoelectric.view.*;
+import edu.colorado.phet.photoelectric.view.AmmeterView;
+import edu.colorado.phet.photoelectric.view.AmmeterViewGraphic;
+import edu.colorado.phet.photoelectric.view.GraphWindow;
+import edu.colorado.phet.photoelectric.view.IntensityView;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -63,7 +55,6 @@ import java.awt.geom.*;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.HashMap;
 
 /**
@@ -120,9 +111,10 @@ public class PhotoelectricModule extends BaseLaserModule {
     private BeamCurtainGraphic beamGraphic;
     // Flag for type of beam view: either photon or solid beam
     private int viewType = BEAM_VIEW;
-    private CurrentVsVoltageGraph2 currentVsVoltageGraph;
-//    private CurrentVsVoltageGraph currentVsVoltageGraph;
+    // WE have two circuit images, one for each orientation of the battery
     private PhetImageGraphic circuitGraphic;
+    private BufferedImage circuitImageA;
+    private BufferedImage circuitImageB;
 
 
     /**
@@ -148,7 +140,6 @@ public class PhotoelectricModule extends BaseLaserModule {
         PhotoelectricModel model = new PhotoelectricModel( clock );
         setModel( model );
         setControlPanel( new ControlPanel( this ) );
-//        model.getTarget().addListener( new CathodeListener() );
 
         // Add an electron sink in the same place as the target plate, to absorb electrons
         // TODO: refactor this into the model. Prefereably into the PhotoelectricPlate or Electrode class
@@ -209,6 +200,9 @@ public class PhotoelectricModule extends BaseLaserModule {
                                                    getPhotoelectricModel() );
         graphWindow.setVisible( false );
 
+        // Add a listener to the model that will flip the battery image when the voltage
+        // changes sign
+        model.addChangeListener( new BatteryImageFlipper() );
 
         //----------------------------------------------------------------
         // Controls
@@ -292,8 +286,8 @@ public class PhotoelectricModule extends BaseLaserModule {
         AmmeterViewGraphic avg = new AmmeterViewGraphic( getApparatusPanel(),
                                                          getPhotoelectricModel().getAmmeter(),
                                                          getPhotoelectricModel() );
-        avg.setLocation( DischargeLampsConfig.ANODE_LOCATION.x- 80, DischargeLampsConfig.ANODE_LOCATION.y + 218 );
-        getApparatusPanel().addGraphic( avg, CIRCUIT_LAYER + 1);
+        avg.setLocation( DischargeLampsConfig.ANODE_LOCATION.x - 100, DischargeLampsConfig.ANODE_LOCATION.y + 188 );
+        getApparatusPanel().addGraphic( avg, CIRCUIT_LAYER + 1 );
 
 
 
@@ -389,14 +383,27 @@ public class PhotoelectricModule extends BaseLaserModule {
      * @param apparatusPanel
      */
     private void addCircuitGraphic( ApparatusPanel apparatusPanel ) {
-        circuitGraphic = new PhetImageGraphic( getApparatusPanel(), "images/battery-w-wires-2.png" );
-        AffineTransform flipVertical = AffineTransform.getScaleInstance( 1, -1 );
-        flipVertical.translate( 0, -circuitGraphic.getImage().getHeight() );
-        AffineTransformOp flipVerticalOp = new AffineTransformOp( flipVertical, AffineTransformOp.TYPE_BILINEAR );
-        BufferedImage flippedImg = flipVerticalOp.filter( circuitGraphic.getImage(), null );
-        circuitGraphic.setImage( flippedImg );
+        try {
+            circuitImageA = ImageLoader.loadBufferedImage( "images/circuit-A.png" );
+            circuitImageB = ImageLoader.loadBufferedImage( "images/circuit-B.png" );
+            circuitImageA = scaleImage( circuitImageA );
+            circuitImageB = scaleImage( circuitImageB );
 
-        scaleImageGraphic( circuitGraphic );
+            circuitGraphic = new PhetImageGraphic( getApparatusPanel() );
+            circuitGraphic.setImage( circuitImageA );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+//        circuitGraphic = new PhetImageGraphic( getApparatusPanel(), "images/circuit-A.png" );
+//        AffineTransform flipVertical = AffineTransform.getScaleInstance( 1, -1 );
+//        flipVertical.translate( 0, -circuitGraphic.getImage().getHeight() );
+//        AffineTransformOp flipVerticalOp = new AffineTransformOp( flipVertical, AffineTransformOp.TYPE_BILINEAR );
+//        BufferedImage flippedImg = flipVerticalOp.filter( circuitGraphic.getImage(), null );
+//        circuitGraphic.setImage( flippedImg );
+
+//        scaleImageGraphic( circuitGraphic );
+
         circuitGraphic.setRegistrationPoint( (int)( 124 * externalGraphicsScale ),
                                              (int)( 110 * externalGraphicsScale ) );
         circuitGraphic.setLocation( DischargeLampsConfig.CATHODE_LOCATION );
@@ -482,7 +489,7 @@ public class PhotoelectricModule extends BaseLaserModule {
         getApparatusPanel().addGraphic( targetMaterialGraphic, CIRCUIT_LAYER );
 
         // Add a listener to the target that will set the proper color if the material changes
-        model.addChangeListener( new PhotoelectricModel.ChangeListenerAdapter()  {
+        model.addChangeListener( new PhotoelectricModel.ChangeListenerAdapter() {
             public void targetMaterialChanged( PhotoelectricModel.ChangeEvent event ) {
                 targetMaterialGraphic.setPaint( (Paint)TARGET_COLORS.get( targetPlate.getMaterial() ) );
             }
@@ -511,6 +518,26 @@ public class PhotoelectricModule extends BaseLaserModule {
             externalGraphicScaleOp = new AffineTransformOp( scaleTx, AffineTransformOp.TYPE_BILINEAR );
         }
         imageGraphic.setImage( externalGraphicScaleOp.filter( imageGraphic.getImage(), null ) );
+    }
+
+    /**
+     * Scales a BufferedImage so it appears properly on the screen. This method depends on the image used by the
+     * graphic to have been created at the same scale as the battery-wires graphic. The scale is based on the
+     * distance between the electrodes in that image and the screen distance between the electrodes specified
+     * in the configuration file.
+     *
+     * @param image
+     */
+    private BufferedImage scaleImage( BufferedImage image ) {
+        if( externalGraphicScaleOp == null ) {
+            int cathodeAnodeScreenDistance = 550;
+            determineExternalGraphicScale( DischargeLampsConfig.ANODE_LOCATION,
+                                           DischargeLampsConfig.CATHODE_LOCATION,
+                                           cathodeAnodeScreenDistance );
+            AffineTransform scaleTx = AffineTransform.getScaleInstance( externalGraphicsScale, externalGraphicsScale );
+            externalGraphicScaleOp = new AffineTransformOp( scaleTx, AffineTransformOp.TYPE_BILINEAR );
+        }
+        return externalGraphicScaleOp.filter( image, null );
     }
 
     /**
@@ -544,6 +571,19 @@ public class PhotoelectricModule extends BaseLaserModule {
     //----------------------------------------------------------------
     // Inner classes for event handling
     //----------------------------------------------------------------
+
+    private class BatteryImageFlipper extends  PhotoelectricModel.ChangeListenerAdapter {
+        public void voltageChanged( PhotoelectricModel.ChangeEvent event ) {
+            PhotoelectricModel model = event.getPhotoelectricModel();
+            if( model.getVoltage() > 0 && circuitGraphic.getImage() != circuitImageA ) {
+                circuitGraphic.setImage( circuitImageA );
+            }
+            else if(model.getVoltage() < 0 && circuitGraphic.getImage() != circuitImageB ) {
+                circuitGraphic.setImage( circuitImageB );
+            }
+        }
+    }
+
 
     /**
      * Modifies the initial placement of photons to be very near the target when we're in
