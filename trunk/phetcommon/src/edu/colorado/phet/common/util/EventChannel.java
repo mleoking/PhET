@@ -172,6 +172,10 @@ public class EventChannel implements InvocationHandler {
         catch( InvocationTargetException ite ) {
             throw new InvocationTargetException( ite, "target = " + target );
         }
+        catch ( Throwable t ) {
+            System.out.println( "t = " + t  );
+            throw new Throwable( t );
+        }
         return null;
     }
 }
