@@ -146,28 +146,6 @@ public class Chart extends GraphicLayerSet {
         addGraphic( yAxisTitleGraphic, ApparatusPanel.LAYER_TOP - 1 );
     }
 
-    /**
-     * Sets the title label that appears on the y axis.
-     * The title will be place to the right of the chart,
-     * and the title's registration point will be aligned
-     * with the y axis.
-     *
-     * @param phetGraphic
-     */
-    public void setYAxisTitle( PhetGraphic phetGraphic, boolean leftOfGraph ) {
-        if( yAxisTitleGraphic != null ) {
-            removeGraphic( yAxisTitleGraphic );
-        }
-        yAxisTitleGraphic = phetGraphic;
-        AffineTransform at = new AffineTransform();
-        at.rotate( -Math.PI / 2.0 );
-        at.translate( -yAxisTitleGraphic.getBounds().getWidth(), -15);
-        yAxisTitleGraphic.transform( at );
-
-        yAxisTitleGraphic.setLocation( (int) transformXDouble( getRange().getMinX() ), 10 );
-        addGraphic( yAxisTitleGraphic, ApparatusPanel.LAYER_TOP - 1 );
-    }
-
     public void removeDataSetGraphic( DataSetGraphic dataSetGraphic ) {
         dataSetGraphics.remove( dataSetGraphic );
         compositeDataSetGraphic.removeGraphic( dataSetGraphic );
