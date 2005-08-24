@@ -70,23 +70,17 @@ public class CurrentVsVoltageGraph2 extends Chart {
         model.addChangeListener( new PhotoelectricModel.ChangeListenerAdapter() {
             public void currentChanged( PhotoelectricModel.ChangeEvent event ) {
                 addDataPoint( model.getVoltage(),
-                              model.getCurrent(),
-//                              model.getCurrent() / 2000,
-                              model.getWavelength() );
+                              model.getCurrent() );
             }
 
             public void voltageChanged( PhotoelectricModel.ChangeEvent event ) {
                 addDataPoint( model.getVoltage(),
-                              model.getCurrent(),
-//                              model.getCurrent() / 2000,
-                              model.getWavelength() );
+                              model.getCurrent() );
             }
 
             public void wavelengthChanged( PhotoelectricModel.ChangeEvent event ) {
                 addDataPoint( model.getVoltage(),
-                              model.getCurrent(),
-//                              model.getCurrent() / 2000,
-                              model.getWavelength() );
+                              model.getCurrent());
             }
         } );
     }
@@ -96,9 +90,8 @@ public class CurrentVsVoltageGraph2 extends Chart {
      *
      * @param voltage
      * @param current
-     * @param wavelength
      */
-    public void addDataPoint( double voltage, double current, double wavelength ) {
+    public void addDataPoint( double voltage, double current ) {
         dataSet.clear();
         dataSet.addPoint( voltage, current );
     }
