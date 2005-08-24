@@ -89,8 +89,6 @@ public class PhotoelectricModule extends BaseLaserModule {
     // properly on the screen
     private AffineTransformOp externalGraphicScaleOp;
     // An ElectronSink that absorbs electrons if they come back and hit the target
-    // TODO: get this into the PhotoelectronTarget class
-    private ElectronSink targetSink;
     private BeamCurtainGraphic beamGraphic;
     // Flag for type of beam view: either photon or solid beam
     private int viewType = BEAM_VIEW;
