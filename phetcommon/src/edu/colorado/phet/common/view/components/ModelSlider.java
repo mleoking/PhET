@@ -38,6 +38,7 @@ public class ModelSlider extends JPanel {
     private JSlider slider;
     private ModelViewTransform1D modelViewTransform;
     private String units;
+    private Font titleFont = new Font( "Lucida Sans", Font.BOLD, 12 );
     private NumberFormat textFieldFormat;
     // Format for the numbers that appear below the JSlider
     private NumberFormat sliderLabelFormat;
@@ -121,7 +122,6 @@ public class ModelSlider extends JPanel {
         createSlider();
 
         titleLabel = new JLabel( title );
-        Font titleFont = new Font( "Lucida Sans", Font.BOLD, 12 );
         titleLabel.setFont( titleFont );
 
         unitsReadout = new JTextField( " " + this.units );
@@ -463,14 +463,14 @@ public class ModelSlider extends JPanel {
         if( value >= min && value <= max ) {
             String string = textFieldFormat.format( value );
 
-//            double newValue = Double.parseDouble( string );
-            if( this.value == value ) {
-//            if( this.value == newValue ) {
+            double newValue = Double.parseDouble( string );
+//            if( this.value == value ) {
+            if( this.value == newValue ) {
                 return;
             }
 
-            this.value = value;
-//            this.value = newValue;
+//            this.value = value;
+            this.value = newValue;
             textField.setText( string );
             int sliderValue = modelViewTransform.modelToView( value );
             if( sliderValue != slider.getValue() ) {
