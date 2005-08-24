@@ -12,9 +12,8 @@
 package edu.colorado.phet.common.view.phetgraphics;
 
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
 
@@ -134,14 +133,22 @@ public class PhetFlattenedGraphic extends PhetImageGraphic {
         // Draw into the buffer, preserving alpha.
         int width = _graphicLayerSet.getWidth();
         int height = _graphicLayerSet.getHeight();
-        BufferedImage bufferedImage = new BufferedImage( width, height, BufferedImage.TYPE_INT_ARGB );
-        Graphics2D g2 = bufferedImage.createGraphics();
-        g2.setRenderingHints( getRenderingHints() );
-        g2.translate( xOffset, yOffset );
-        _graphicLayerSet.paint( g2 );
+        if ( width > 0 && height > 0 ) {
+            BufferedImage bufferedImage = new BufferedImage( width, height, BufferedImage.TYPE_INT_ARGB );
+            Graphics2D g2 = bufferedImage.createGraphics();
+            RenderingHints hints = getRenderingHints();
+            if ( hints != null ) {
+                g2.setRenderingHints( getRenderingHints() );
+            }
+            g2.translate( xOffset, yOffset );
+            _graphicLayerSet.paint( g2 );
 
-        // Set the image.
-        setImage( bufferedImage );
+            // Set the image.
+            setImage( bufferedImage );
+        }
+        else {
+            setImage( null );
+        }
 
         // Adjust the registration point so that the image appears at the 
         // same screen location as it would if the graphics were not flattened.
