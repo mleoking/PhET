@@ -158,6 +158,7 @@ public class PhotoelectricControlPanel {
         final JCheckBox energyVsFrequencyCB = new JCheckBox( "Electron energy vs light frequency" );
         currentVsVoltageCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                graphWindow.clearCurrentVsVoltage();
                 graphWindow.setCurrentVsVoltageVisible( currentVsVoltageCB.isSelected() );
                 graphWindow.setVisible( currentVsVoltageCB.isSelected()
                                         || currentVsIntensityCB.isSelected()
@@ -166,6 +167,7 @@ public class PhotoelectricControlPanel {
         } );
         currentVsIntensityCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                graphWindow.clearCurrentVsIntensity();
                 graphWindow.setCurrentVsIntensityVisible( currentVsIntensityCB.isSelected() );
                 graphWindow.setVisible( currentVsVoltageCB.isSelected()
                                         || currentVsIntensityCB.isSelected()
@@ -174,6 +176,7 @@ public class PhotoelectricControlPanel {
         } );
         energyVsFrequencyCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                graphWindow.clearEnergyVsFrequency();
                 graphWindow.setEnergyVsFrequency( energyVsFrequencyCB.isSelected() );
                 graphWindow.setVisible( currentVsVoltageCB.isSelected()
                                         || currentVsIntensityCB.isSelected()
@@ -210,7 +213,7 @@ public class PhotoelectricControlPanel {
 //        final JButton clearPlotBtn = new JButton( "Clear" );
 //        clearPlotBtn.addActionListener( new ActionListener() {
 //            public void actionPerformed( ActionEvent e ) {
-//                currentVsVoltageGraph.clearData();
+//                currentVsVoltageGraph.clearLinePlot();
 //            }
 //        } );
 //        controlPanel.add( clearPlotBtn );

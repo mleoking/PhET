@@ -56,7 +56,7 @@ public class PhotoelectricModel extends DischargeLampModel {
     public static double MIN_VOLTAGE = -8;
     public static double MAX_VOLTAGE = 8;
     public static double MIN_WAVELENGTH = 100;
-    public static double MAX_WAVELENGTH = 700;
+    public static double MAX_WAVELENGTH = 800;
     public static double MAX_PHOTONS_PER_SECOND = 500;
     public static double MAX_CURRENT = MAX_PHOTONS_PER_SECOND * CURRENT_JIMMY_FACTOR;
 
@@ -319,9 +319,12 @@ public class PhotoelectricModel extends DischargeLampModel {
      */
     public double getStoppingVoltage() {
         double photonEnergy = PhysicsUtil.wavelengthToEnergy( beam.getWavelength() );
-        double workFunction = ( (Double)PhotoelectricTarget.WORK_FUNCTIONS.get( target.getMaterial() ) ).doubleValue();
-        double stoppingVoltage = workFunction - photonEnergy;
+        double stoppingVoltage = getWorkFunction() - photonEnergy;
         return stoppingVoltage;
+    }
+
+    public double getWorkFunction() {
+        return ( (Double)PhotoelectricTarget.WORK_FUNCTIONS.get( target.getMaterial() ) ).doubleValue();
     }
 
     public double getWavelength() {
