@@ -126,6 +126,9 @@ public class PhetFlattenedGraphic extends PhetImageGraphic {
      */
     public void flatten() {
 
+        // Do all of the flattening with the origin at the upper left corner.
+        setRegistrationPoint( 0, 0 );
+        
         // Assume that the bounds need to be recomputed.
         // The client may be calling flatten after changing a child graphic via a reference.
         _graphicLayerSet.setBoundsDirty();
