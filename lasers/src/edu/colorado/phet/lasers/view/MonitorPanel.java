@@ -8,9 +8,11 @@ package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.model.clock.AbstractClock;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -36,7 +38,8 @@ public class MonitorPanel extends ApparatusPanel {
     private EnergyLevelGraphic elg;
 
 
-    protected MonitorPanel() {
+    protected MonitorPanel(AbstractClock clock ) {
+        super( clock );
 //        setLayout( null );
     }
 

@@ -97,6 +97,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
      *
      */
     public LaserEnergyLevelMonitorPanel( BaseLaserModule module, AbstractClock clock ) {
+        super( clock);
 
         this.module = module;
         model = module.getLaserModel();

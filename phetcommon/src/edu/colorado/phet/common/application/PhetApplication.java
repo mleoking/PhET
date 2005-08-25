@@ -26,6 +26,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.*;
 import java.io.IOException;
 
 /**
@@ -40,10 +41,10 @@ import java.io.IOException;
  * </code>
  * <p/>
  * The application's PhetFrame is created by the constructor, and a new one will be created
- * if setFrameSetup() is called later.
+ * if createPhetFrame() is called later.
  * <p/>
  * A FrameSetup can either be specified in the constructor
- * or later, in a call to setFrameSetup().
+ * or later, in a call to createPhetFrame().
  * <p/>
  * If no initial module is specified, the module with index 0 in the array sent
  * to setModules() is used.
@@ -95,9 +96,7 @@ public class PhetApplication {
         this.description = description;
         this.version = version;
         this.useClockControlPanel = useClockControlPanel;
-        if( frameSetup != null ) {
-            setFrameSetup( frameSetup );
-        }
+        createPhetFrame( frameSetup );
 
         // Handle command line arguments
         parseArgs( args );
@@ -151,6 +150,9 @@ public class PhetApplication {
         setInitialModule( descriptor.getInitialModule() );
 
         s_instance = this;
+
+        // Create the PhetFrame
+        createPhetFrame( null );
 
         // Handle command line arguments
         parseArgs( args );
@@ -211,7 +213,11 @@ public class PhetApplication {
      *
      * @param frameSetup
      */
-    public void setFrameSetup( FrameSetup frameSetup ) {
+    public void createPhetFrame( FrameSetup frameSetup ) {
+        if( frameSetup == null ) {
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            frameSetup = new FrameSetup.CenteredWithSize( screenSize.width, screenSize.height - 50 );
+        }
         phetFrame = new PhetFrame( this, title, clock, frameSetup, useClockControlPanel, moduleManager, description, version );
         PhetJComponent.init( phetFrame );
     }

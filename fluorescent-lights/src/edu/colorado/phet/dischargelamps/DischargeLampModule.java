@@ -20,7 +20,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.control.AtomTypeChooser;
 import edu.colorado.phet.dischargelamps.model.*;
 import edu.colorado.phet.dischargelamps.view.DischargeLampAtomGraphic;
-import edu.colorado.phet.dischargelamps.view.DischargeLampEnergyLevelMonitorPanel;
+import edu.colorado.phet.dischargelamps.view.DischargeLampEnergyMonitorPanel2;
 import edu.colorado.phet.dischargelamps.view.ElectronGraphic;
 import edu.colorado.phet.dischargelamps.view.SpectrometerGraphic;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
@@ -28,12 +28,10 @@ import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
-import edu.colorado.phet.lasers.model.atom.GroundState;
 import edu.colorado.phet.lasers.view.AtomGraphic;
 import edu.colorado.phet.lasers.view.ResonatingCavityGraphic;
 
 import javax.swing.*;
-import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
@@ -55,12 +53,20 @@ import java.util.Random;
  */
 public class DischargeLampModule extends BaseLaserModule implements ElectronSource.ElectronProductionListener {
 
+    //----------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------
+
 //    public static boolean DEBUG = true;
     public static boolean DEBUG = false;
 
+    //----------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------
+
     private ElectronSink anode;
     private ElectronSource cathode;
-    private DischargeLampEnergyLevelMonitorPanel elmp;
+//    private DischargeLampEnergyLevelMonitorPanel elmp;
 
     // The scale to apply to graphics created in external applications so they appear properly
     // on the screen
@@ -77,6 +83,10 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
     private DischargeLampEnergyMonitorPanel2 energyLevelsMonitorPanel;
     private Random random = new Random();
     private SpectrometerGraphic spectrometerGraphic;
+
+    //----------------------------------------------------------------
+    // Constructors and initialization
+    //----------------------------------------------------------------
 
     /**
      * Constructor
@@ -96,7 +106,7 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
         DischargeLampModel model = new DischargeLampModel();
         setModel( model );
         setControlPanel( new ControlPanel( this ) );
-        atomicStates = createAtomicStates( numEnergyLevels );
+        atomicStates = new AtomicStateFactory().createAtomicStates( numEnergyLevels );
 
         // Add the battery and wire graphic
         addCircuitGraphic( apparatusPanel );
@@ -187,10 +197,12 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
         getControlPanel().add( atomTypeComboBox );
 
         // A slider for the battery voltage
-        final ModelSlider batterySlider = new ModelSlider( "Battery Voltage", "V", 0, .1, 0.05 );
+        double maxVoltage = 5;
+        final ModelSlider batterySlider = new ModelSlider( "Battery Voltage", "V", 0, maxVoltage, maxVoltage / 2 );
+//        final ModelSlider batterySlider = new ModelSlider( "Battery Voltage", "V", 0, .1, 0.05 );
         batterySlider.setPreferredSize( new Dimension( 250, 100 ) );
         ControlPanel controlPanel = (ControlPanel)getControlPanel();
-        controlPanel.add( batterySlider );
+        controlPanel.addControl( batterySlider );
         batterySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 cathode.setPotential( batterySlider.getValue() );
@@ -203,7 +215,10 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
         currentSlider = new ModelSlider( "Electron Production Rate", "electrons/msec",
                                          0, 0.3, 0, new DecimalFormat( "0.00#" ) );
         currentSlider.setPreferredSize( new Dimension( 250, 100 ) );
-        controlPanel.add( currentSlider );
+        currentSlider.setMajorTickSpacing( 0.1 );
+//        currentSlider.setNumMajorTicks( 4 );
+//        currentSlider.setNumMinorTicksPerMajorTick( 1 );
+        controlPanel.addControl( currentSlider );
         currentSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 cathode.setCurrent( currentSlider.getValue() );
@@ -214,6 +229,7 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
         // panel that does have one, so it gets laid out properly
         energyLevelsMonitorPanel = new DischargeLampEnergyMonitorPanel2( this, getClock(),
                                                                          atomicStates, 150, 300 );
+
         getControlPanel().add( energyLevelsMonitorPanel );
 
         // Add a button to show/hide the spectrometer
@@ -332,7 +348,7 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
         ArrayList atoms = new ArrayList();
         Rectangle2D tubeBounds = tube.getBounds();
 
-        atomicStates = createAtomicStates( numEnergyLevels );
+        atomicStates = new AtomicStateFactory().createAtomicStates( numEnergyLevels );
 
         for( int i = 0; i < numAtoms; i++ ) {
             atom = new DischargeLampAtom( (LaserModel)getModel(), atomicStates );
@@ -413,7 +429,8 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
             Atom atom = (Atom)atoms.get( i );
             atom.setStates( atomicStates );
         }
-        elmp.setEnergyLevels( atomicStates );
+        energyLevelsMonitorPanel.setEnergyLevels( atomicStates );
+//        elmp.setEnergyLevels( atomicStates );
     }
 
     //----------------------------------------------------------------
@@ -433,27 +450,31 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
         return cathode;
     }
 
-
-    protected AtomicState[] createAtomicStates( int numEnergyLevels ) {
-        AtomicState[] states = new AtomicState[numEnergyLevels];
-        double minVisibleEnergy = -13.6;
-        double maxVisibleEnergy = -0.3;
-//        double minVisibleEnergy = Photon.wavelengthToEnergy( Photon.DEEP_RED );
-//        double maxVisibleEnergy = Photon.wavelengthToEnergy( Photon.BLUE );
-        double dE = states.length > 2 ? ( maxVisibleEnergy - minVisibleEnergy ) / ( states.length - 2 ) : 0;
-
-        states[0] = new GroundState();
-        states[0].setEnergyLevel( minVisibleEnergy );
-        for( int i = 1; i < states.length; i++ ) {
-            states[i] = new AtomicState();
-            states[i].setMeanLifetime( DischargeLampAtom.DEFAULT_STATE_LIFETIME );
-            states[i].setEnergyLevel( minVisibleEnergy + ( i - 1 ) * dE );
-            states[i].setNextLowerEnergyState( states[i - 1] );
-            states[i - 1].setNextHigherEnergyState( states[i] );
-        }
-        states[states.length - 1].setNextHigherEnergyState( AtomicState.MaxEnergyState.instance() );
-        return states;
+    public AtomicState[] getAtomicStates() {
+        return atomicStates;
     }
+
+
+//    protected AtomicState[] createAtomicStates( int numEnergyLevels ) {
+//        AtomicState[] states = new AtomicState[numEnergyLevels];
+//        double minVisibleEnergy = -13.6;
+//        double maxVisibleEnergy = -0.3;
+////        double minVisibleEnergy = Photon.wavelengthToEnergy( Photon.DEEP_RED );
+////        double maxVisibleEnergy = Photon.wavelengthToEnergy( Photon.BLUE );
+//        double dE = states.length > 2 ? ( maxVisibleEnergy - minVisibleEnergy ) / ( states.length - 2 ) : 0;
+//
+//        states[0] = new GroundState();
+//        states[0].setEnergyLevel( minVisibleEnergy );
+//        for( int i = 1; i < states.length; i++ ) {
+//            states[i] = new AtomicState();
+//            states[i].setMeanLifetime( DischargeLampAtom.DEFAULT_STATE_LIFETIME );
+//            states[i].setEnergyLevel( minVisibleEnergy + ( i - 1 ) * dE );
+//            states[i].setNextLowerEnergyState( states[i - 1] );
+//            states[i - 1].setNextHigherEnergyState( states[i] );
+//        }
+//        states[states.length - 1].setNextHigherEnergyState( AtomicState.MaxEnergyState.instance() );
+//        return states;
+//    }
 
     //-----------------------------------------------------------------
     // Inner classes
@@ -483,48 +504,48 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
     /**
      * Wrapper for EnergyLevelMonitorPanel that adds some extra controls
      */
-    protected class DischargeLampEnergyMonitorPanel2 extends JPanel {
-
-        public DischargeLampEnergyMonitorPanel2( BaseLaserModule module, AbstractClock clock,
-                                                 AtomicState[] atomicStates,
-                                                 int panelWidth, int panelHeight ) {
-            super( new GridBagLayout() );
-            elmp = new DischargeLampEnergyLevelMonitorPanel( module, clock, atomicStates, panelWidth, panelHeight );
-            elmp.setBorder( new EtchedBorder() );
-            GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
-                                                             GridBagConstraints.CENTER,
-                                                             GridBagConstraints.NONE,
-                                                             new Insets( 0, 10, 0, 10 ), 0, 0 );
-            this.add( elmp, gbc );
-
-            // Add the spinner that controls the number of energy levels
-            final JSpinner numLevelsSpinner = new JSpinner( new SpinnerNumberModel( DischargeLampsConfig.NUM_ENERGY_LEVELS, 2,
-                                                                                    DischargeLampsConfig.MAX_NUM_ENERGY_LEVELS,
-                                                                                    1 ) );
-
-            // Add a listener that will create the number of atomic states specified by the spinner, and apply them
-            // to all the existing atoms
-            numLevelsSpinner.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    AtomicState[] atomicStates = createAtomicStates( ( (Integer)numLevelsSpinner.getValue() ).intValue() );
-                    setAtomicStates( atomicStates );
-                }
-            } );
-            gbc.gridy = 1;
-            gbc.anchor = GridBagConstraints.CENTER;
-            this.add( numLevelsSpinner, gbc );
-        }
-
-        public void addElectron( Electron electron ) {
-            elmp.addElectron( electron );
-        }
-
-        public void reset() {
-            elmp.setEnergyLevels( atomicStates );
-        }
-
-        public void addAtom( Atom atom ) {
-            elmp.addAtom( atom );
-        }
-    }
+//    protected class DischargeLampEnergyMonitorPanel2 extends JPanel {
+//
+//        public DischargeLampEnergyMonitorPanel2( BaseLaserModule module, AbstractClock clock,
+//                                                 AtomicState[] atomicStates,
+//                                                 int panelWidth, int panelHeight ) {
+//            super( new GridBagLayout() );
+//            elmp = new DischargeLampEnergyLevelMonitorPanel( module, clock, atomicStates, panelWidth, panelHeight );
+//            elmp.setBorder( new EtchedBorder() );
+//            GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
+//                                                             GridBagConstraints.CENTER,
+//                                                             GridBagConstraints.NONE,
+//                                                             new Insets( 0, 10, 0, 10 ), 0, 0 );
+//            this.add( elmp, gbc );
+//
+//            // Add the spinner that controls the number of energy levels
+//            final JSpinner numLevelsSpinner = new JSpinner( new SpinnerNumberModel( DischargeLampsConfig.NUM_ENERGY_LEVELS, 2,
+//                                                                                    DischargeLampsConfig.MAX_NUM_ENERGY_LEVELS,
+//                                                                                    1 ) );
+//
+//            // Add a listener that will create the number of atomic states specified by the spinner, and apply them
+//            // to all the existing atoms
+//            numLevelsSpinner.addChangeListener( new ChangeListener() {
+//                public void stateChanged( ChangeEvent e ) {
+//                    AtomicState[] atomicStates = createAtomicStates( ( (Integer)numLevelsSpinner.getValue() ).intValue() );
+//                    setAtomicStates( atomicStates );
+//                }
+//            } );
+//            gbc.gridy = 1;
+//            gbc.anchor = GridBagConstraints.CENTER;
+//            this.add( numLevelsSpinner, gbc );
+//        }
+//
+//        public void addElectron( Electron electron ) {
+//            elmp.addElectron( electron );
+//        }
+//
+//        public void reset() {
+//            elmp.setEnergyLevels( atomicStates );
+//        }
+//
+//        public void addAtom( Atom atom ) {
+//            elmp.addAtom( atom );
+//        }
+//    }
 }

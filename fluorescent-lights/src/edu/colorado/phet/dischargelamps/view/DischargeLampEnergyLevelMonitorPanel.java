@@ -34,6 +34,8 @@ import edu.colorado.phet.lasers.view.MonitorPanel;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ContainerListener;
+import java.awt.event.ContainerEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -107,11 +109,16 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
     // The strategy to use for picking the color of atom graphics and energy level lines
     private EnergyLevelGraphic.ColorStrategy colorStrategy = new EnergyLevelGraphic.BlackStrategy();
 
+    //----------------------------------------------------------------
+    // Constructors and initialization
+    //----------------------------------------------------------------
+
     /**
      *
      */
     public DischargeLampEnergyLevelMonitorPanel( BaseLaserModule module, AbstractClock clock, AtomicState[] atomicStates,
                                                  int panelWidth, int panelHeight ) {
+        super( clock );
         model = (DischargeLampModel)module.getLaserModel();
 
         // Determine locations and dimensions
@@ -129,7 +136,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         setEnergyLevels( atomicStates );
 
         // Set up the counters for the number of atoms in each state
-        initializeStateCounters();
+//        initializeStateCounters();
 
         // Add listeners to all the atoms in the model
         addAtomListeners();
@@ -137,6 +144,27 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         // Set up the event handlers we need
         this.addComponentListener( new PanelResizer() );
     }
+
+    private void initializeStateCounters() {
+        atoms = model.getAtoms();
+        numAtomsInState.clear();
+        // Make the map of atomic states to the number of atoms in each state
+        for( int i = 0; i < atomicStates.length; i++ ) {
+            numAtomsInState.put( atomicStates[i], new Integer( 0 ) );
+        }
+        // Populate the map we just made, and add ourself as a listener to each atom
+        for( int i = 0; i < atoms.size(); i++ ) {
+            Atom atom = (Atom)atoms.get( i );
+            Integer num = (Integer)numAtomsInState.get( atom.getCurrState() );            
+//            int n = ( (Integer)numAtomsInState.get( atom.getCurrState() ) ).intValue();
+            if( num != null ) {
+                numAtomsInState.put( atom.getCurrState(), new Integer( num.intValue() + 1 ) );
+            }
+        }
+        invalidate();
+        repaint();
+    }
+
 
     /**
      * Adjusts the layout of the panel
@@ -150,6 +178,12 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         energyYTx = new ModelViewTransform1D( maxEnergy, groundStateEnergy,
 //        energyYTx = new ModelViewTransform1D( AtomicState.maxEnergy, -AtomicState.groundStateEnergy,
                                               (int)bounds.getBounds().getMinY() + headingOffsetY, (int)bounds.getBounds().getMaxY() );
+        System.out.println( "maxEnergy = " + maxEnergy );
+        System.out.println( "groundStateEnergy = " + groundStateEnergy );
+        System.out.println( "(int)bounds.getBounds().getMinY() = " + (int)bounds.getBounds().getMinY() );
+        System.out.println( "headingOffsetY = " + headingOffsetY );
+        System.out.println( "(int)bounds.getBounds().getMaxY() = " + (int)bounds.getBounds().getMaxY() );
+
         for( int i = 0; i < levelGraphics.length; i++ ) {
             levelGraphics[i].update( energyYTx );
         }
@@ -209,7 +243,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
             this.addGraphic( levelGraphics[i] );
         }
 
-        // Set the width of the panel so it can show all the atoms. 20 gives us a margin for the level icon        
+        // Set the width of the panel so it can show all the atoms. 20 gives us a margin for the level icon
         int width = Math.max( this.minPanelWidth, levelLineLength + levelLineOriginX + 35 );
 //        int width = Math.max( this.minPanelWidth, levelLineLength + levelLineOriginX + 10 );
         setPreferredSize( new Dimension( width, (int)panelHeight ) );
@@ -219,26 +253,6 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         initializeStateCounters();
 
         revalidate();
-        repaint();
-    }
-
-    private void initializeStateCounters() {
-        atoms = model.getAtoms();
-        numAtomsInState.clear();
-        // Make the map of atomic states to the number of atoms in each state
-        for( int i = 0; i < atomicStates.length; i++ ) {
-            numAtomsInState.put( atomicStates[i], new Integer( 0 ) );
-        }
-        // Populate the map we just made, and add ourself as a listener to each atom
-        for( int i = 0; i < atoms.size(); i++ ) {
-            Atom atom = (Atom)atoms.get( i );
-            Integer num = (Integer)numAtomsInState.get( atom.getCurrState() );            
-//            int n = ( (Integer)numAtomsInState.get( atom.getCurrState() ) ).intValue();
-            if( num != null ) {
-                numAtomsInState.put( atom.getCurrState(), new Integer( num.intValue() + 1 ) );
-            }
-        }
-        invalidate();
         repaint();
     }
 
@@ -279,11 +293,18 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         // todo: cache Color instances to improve performance
         for( int i = 0; i < atomicStates.length; i++ ) {
             Color c = colorStrategy.getColor( atomicStates[i] );
-            if( numAtomsInState.get( atomicStates[i] ) == null ) {
-                System.out.println( "DischargeLampEnergyLevelMonitorPanel.paintComponent" );
+
+            // todo: figure out why we need this try block
+            try {
+                Integer numAtoms = (Integer)numAtomsInState.get( atomicStates[i] );
+                if( numAtoms != null ) {
+                    int n = numAtoms.intValue();
+                    drawAtomsInLevel( g2, c, levelGraphics[i], n );
+                }
             }
-            int n = ( (Integer)numAtomsInState.get( atomicStates[i] ) ).intValue();
-            drawAtomsInLevel( g2, c, levelGraphics[i], n );
+            catch( NullPointerException npe ) {
+                System.out.println( "#$%#@$%" );
+            }
         }
 
         gs.restoreGraphics();

@@ -54,7 +54,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicSt
      * @param width
      * @param isAdjustable
      */
-    public EnergyLevelGraphic( final Component component, AtomicState atomicState, Color color, double xLoc, double width,
+    public EnergyLevelGraphic( Component component, AtomicState atomicState, Color color, double xLoc, double width,
                                boolean isAdjustable ) {
         super( null );
 
@@ -141,6 +141,8 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicSt
             atomicState.setEnergyLevel( newEnergy );
 //            atomicState.setEnergyLevel( Photon.wavelengthToEnergy( newWavelength ) );
             atomicState.determineEmittedPhotonWavelength();
+
+            update( energyYTx );
         }
     }
 
@@ -191,6 +193,8 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicSt
                                     arrowHeadWd, arrowHeadWd, tailWd );
             }
             boundingRect = determineBoundsInternal();
+            boundingRect = getComponent().getBounds();
+            System.out.println( "boundingRect = " + boundingRect );
             setBoundsDirty();
             repaint();
         }
@@ -233,7 +237,11 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicSt
             g.setColor( color );
             g.fill( levelLine );
 
+
+
             super.paint( g );
+            g.setColor( Color.green );
+                g.fill( boundingRect );
 
             restoreGraphicsState();
         }

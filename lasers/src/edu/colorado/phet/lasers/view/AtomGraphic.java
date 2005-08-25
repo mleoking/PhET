@@ -57,6 +57,7 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
     public AtomGraphic( Component component, Atom atom ) {
         super( component );
         this.atom = atom;
+        this.setIgnoreMouse( true );
         atom.addObserver( this );
         atom.addChangeListener( this );
 
