@@ -58,7 +58,7 @@ public class ApparatusPanel extends JPanel {
 
     protected ApparatusPanel( Object obj ) {
         super( null );
-        this.graphic = new GraphicLayerSet( this );
+        setGraphic( new GraphicLayerSet( this ));
     }
 
     public ApparatusPanel() {
