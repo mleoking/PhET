@@ -93,7 +93,7 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         pchemModel.addListener( this );
 
         // Set the gravity
-        getIdealGasModel().getGravity().setAmt( IdealGasConfig.MAX_GRAVITY/ 2 );
+        getIdealGasModel().getGravity().setAmt( IdealGasConfig.MAX_GRAVITY / 2 );
 
         //----------------------------------------------------------------
         // Controls. This must be done after the model is set up
@@ -113,7 +113,7 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         createCurveAdjuster();
 
         // Set the time units on the stopwatch
-        getStopwatchPanel().setTimeUnits( SimStrings.get("MovableWallsModule.StopwatchTimeUnits" ));
+        getStopwatchPanel().setTimeUnits( SimStrings.get( "MovableWallsModule.StopwatchTimeUnits" ) );
 
         // Remove the Wiggle-me
         getApparatusPanel().removeGraphic( wiggleMeGraphic );
@@ -154,14 +154,14 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
 
     public JDialog setHistogramDlgEnabled( boolean histogramDlgEnabled ) {
         EnergyHistogramDialog dlg = (EnergyHistogramDialog)super.setHistogramDlgEnabled( histogramDlgEnabled );
-        dlg.setSpeedDetailsLegends( new String[] { "Speed: A", "Speed: B" },
-                                    new Color[] { COLOR_A, COLOR_B });
+        dlg.setSpeedDetailsLegends( new String[]{"Speed: A", "Speed: B"},
+                                    new Color[]{COLOR_A, COLOR_B} );
         return dlg;
     }
 
     public JDialog setSpeciesMonitorDlgEnabled( boolean isEnabled ) {
         SpeciesMonitorDialog dlg = (SpeciesMonitorDialog)super.setSpeciesMonitorDlgEnabled( isEnabled );
-        dlg.setSpeciesPanelTitles( new String[] { "A" , "B" } );
+        dlg.setSpeciesPanelTitles( new String[]{"A", "B"} );
         return dlg;
     }
 
@@ -262,11 +262,12 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         thermometer.setLocation( (int)( box.getMinX() + box.getWidth() / 2 ), thermometer.getY() );
 
         // Create the lower vertical wall
+        double wallHeight = 125;
+        double topOfWallY = box.getCorner2Y() - wallHeight;
         verticalWall = new VerticalBarrier( new Rectangle2D.Double( box.getCorner1X() + box.getWidth() / 2 - wallThickness / 2,
-//        verticalWall = new Wall( new Rectangle2D.Double( box.getCorner1X() + box.getWidth() / 2 - wallThickness / 2,
-                                                         box.getCorner1Y() + box.getHeight() / 3,
-                                                         wallThickness, box.getHeight() * 2 / 3 ),
-                                 box.getBoundsInternal() );
+                                                                    topOfWallY,
+                                                                    wallThickness, wallHeight ),
+                                            box.getBoundsInternal() );
         verticalWall.setMinimumWidth( wallThickness );
         verticalWall.setMovementBounds( new Rectangle2D.Double( box.getCorner1X() + wallThickness,
                                                                 box.getCorner1Y(),
@@ -288,7 +289,7 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         Color invisiblePaint = new Color( 0, 0, 0, 0 );
 
         // Create the left movable floor
-        leftFloor = new Wall( new Rectangle2D.Double( box.getCorner1X(), box.getCorner2Y() - 60,
+        leftFloor = new Wall( new Rectangle2D.Double( box.getCorner1X(), box.getCorner2Y() - 75,
                                                       verticalWall.getBounds().getMinX() - box.getCorner1X(),
                                                       wallThickness ),
                               box.getBoundsInternal() );
@@ -338,7 +339,7 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         // Set the minimum height of the vertical wall. It should not be able to get below
         // the top of either of the floors
         double minHeight = Math.max( getBox().getMaxY() - leftFloor.getBounds().getMinY(),
-                                     getBox().getMaxY() - rightFloor.getBounds().getMinY());
+                                     getBox().getMaxY() - rightFloor.getBounds().getMinY() );
         verticalWall.setMinHeight( minHeight );
 
 
@@ -426,7 +427,7 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
             double currMinHt = verticalWall.getMinHeight();
             double leftFloorMinY = getBox().getMaxY() - leftFloor.getBounds().getMinY();
             double rightFloorMinY = getBox().getMaxY() - rightFloor.getBounds().getMinY();
-            double minHt = Math.max(  leftFloorMinY, rightFloorMinY );
+            double minHt = Math.max( leftFloorMinY, rightFloorMinY );
             verticalWall.setMinHeight( minHt );
         }
     }
