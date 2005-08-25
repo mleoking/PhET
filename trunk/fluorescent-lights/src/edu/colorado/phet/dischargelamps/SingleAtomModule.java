@@ -14,6 +14,8 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.dischargelamps.model.Electron;
+import edu.colorado.phet.dischargelamps.model.AtomicStateFactory;
+import edu.colorado.phet.dischargelamps.view.DischargeLampEnergyMonitorPanel2;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
@@ -73,7 +75,7 @@ public class SingleAtomModule extends DischargeLampModule {
 
         // Add a button for firing a single electron. This also tells the energy level panel that if an
         // electron has been produced
-        final MultipleAtomModule.DischargeLampEnergyMonitorPanel2 elmp = super.getEneregyLevelsMonitorPanel();
+        final DischargeLampEnergyMonitorPanel2 elmp = super.getEneregyLevelsMonitorPanel();
         final JButton singleShotBtn = new JButton( "Fire electron" );
         singleShotBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -139,7 +141,7 @@ public class SingleAtomModule extends DischargeLampModule {
     private void addAtom( ResonatingCavity tube, int numEnergyLevels ) {
         Rectangle2D tubeBounds = tube.getBounds();
 
-        AtomicState[] states = createAtomicStates( numEnergyLevels );
+        AtomicState[] states = new AtomicStateFactory().createAtomicStates( numEnergyLevels );
         atom = new DischargeLampAtom( (LaserModel)getModel(), states );
         atom.setPosition( tubeBounds.getX() + tubeBounds.getWidth() / 2,
                           tubeBounds.getY() + tubeBounds.getHeight() / 2 );

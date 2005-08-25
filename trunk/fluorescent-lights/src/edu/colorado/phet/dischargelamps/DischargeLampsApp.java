@@ -27,6 +27,7 @@ import java.awt.*;
  * @version $Revision$
  */
 public class DischargeLampsApp extends PhetApplication {
+    static private FrameSetup frameSetup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 1024, 768 ) );
 
     /**
      * @param args
@@ -36,27 +37,28 @@ public class DischargeLampsApp extends PhetApplication {
                SimStrings.get( "DischargeLampsApplication.title" ),
                "0.01",
                new SwingTimerClock( DischargeLampsConfig.DT, DischargeLampsConfig.FPS, AbstractClock.FRAMES_PER_SECOND ),
-               true );
+               true,
+               frameSetup );
 
         // Determine the resolution of the screen
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
-        if( dim.getWidth() == 1024 || dim.getHeight() == 768 ) {
-            frameSetup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 1024, 768 ) );
-        }
-        setFrameSetup( frameSetup );
+//        frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
+//        if( dim.getWidth() == 1024 || dim.getHeight() == 768 ) {
+//            frameSetup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 1024, 768 ) );
+//        }
+//        createPhetFrame( frameSetup );
 
         DischargeLampModule singleAtomModule = new SingleAtomModule( SimStrings.get( "ModuleTitle.SingleAtomModule" ),
                                                                      getClock(),
                                                                      DischargeLampsConfig.NUM_ENERGY_LEVELS );
 
         double maxSpeed = 0.1;
-        DischargeLampModule multipleAtomModule = new MultipleAtomModule( SimStrings.get( "ModuleTitle.MultipleAtomModule" ),
-                                                                         getClock(), 30,
-                                                                         DischargeLampsConfig.NUM_ENERGY_LEVELS,
-                                                                         maxSpeed );
+//        DischargeLampModule multipleAtomModule = new MultipleAtomModule( SimStrings.get( "ModuleTitle.MultipleAtomModule" ),
+//                                                                         getClock(), 30,
+//                                                                         DischargeLampsConfig.NUM_ENERGY_LEVELS,
+//                                                                         maxSpeed );
         setModules( new Module[]{singleAtomModule,
-                                 multipleAtomModule} );
+                                 /*multipleAtomModule*/} );
         setInitialModule( singleAtomModule );
     }
 
