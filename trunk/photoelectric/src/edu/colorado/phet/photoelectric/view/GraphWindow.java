@@ -67,6 +67,9 @@ public class GraphWindow extends JDialog {
         getContentPane().add( createCurrentVsVoltagePanel(), gbc );
         getContentPane().add( createCurrentVsIntensityPanel(), gbc );
         getContentPane().add( createEnergyVsFrequencyPanel(), gbc );
+        gbc.gridwidth = 2;
+        gbc.insets = new Insets( 15, 0, 5, 0 );
+        getContentPane().add( new JLabel( "*AU = arbitrary units"), gbc );
         pack();
     }
 
@@ -85,7 +88,7 @@ public class GraphWindow extends JDialog {
         currentVsVoltageGraph.setLocation( graphInsetX, graphInsetY );
         graphPanel.addGraphic( currentVsVoltageGraph );
 
-        currentVsVoltagePanel = makeGraphPanel( graphPanel, "Battery Voltage", "Current" );
+        currentVsVoltagePanel = makeGraphPanel( graphPanel, "Battery Voltage (V)", "Current (AU*)" );
         return currentVsVoltagePanel;
     }
 
@@ -104,7 +107,7 @@ public class GraphWindow extends JDialog {
         currentVsIntensityGraph.setLocation( graphInsetX, graphInsetY );
         graphPanel.addGraphic( currentVsIntensityGraph );
 
-        currentVsIntensityPanel = makeGraphPanel( graphPanel, "Light Intensity", "Current" );
+        currentVsIntensityPanel = makeGraphPanel( graphPanel, "Light Intensity (AU*)", "Current (AU*)" );
         return currentVsIntensityPanel;
     }
 
@@ -123,7 +126,7 @@ public class GraphWindow extends JDialog {
         energyVsFrequencyGraph.setLocation( graphInsetX, graphInsetY );
         graphPanel.addGraphic( energyVsFrequencyGraph );
 
-        energyVsFrequencyPanel = makeGraphPanel( graphPanel, "Light Frequency", "Electron Energy" );
+        energyVsFrequencyPanel = makeGraphPanel( graphPanel, "Light Frequency (Hz)", "Electron Energy (eV)" );
         return energyVsFrequencyPanel;
     }
 
@@ -172,6 +175,18 @@ public class GraphWindow extends JDialog {
     public void setEnergyVsFrequency( boolean isVisible ) {
         energyVsFrequencyPanel.setVisible( isVisible );
         pack();
+    }
+
+    public void clearEnergyVsFrequency() {
+        energyVsFrequencyGraph.clearLinePlot();
+    }
+
+    public void clearCurrentVsVoltage() {
+        currentVsVoltageGraph.clearLinePlot();
+    }
+
+    public void clearCurrentVsIntensity() {
+        currentVsIntensityGraph.clearLinePlot();
     }
 
     //----------------------------------------------------------------

@@ -41,9 +41,8 @@ public class CurrentVsIntensityGraph extends Chart {
     // Class data
     //-----------------------------------------------------------------
     static private Range2D range = new Range2D( 0, 0,
-                                                PhotoelectricModel.MAX_PHOTONS_PER_SECOND * 1.1,
-                                                PhotoelectricModel.MAX_CURRENT * 1.1 );
-//                                                PhotoelectricModel.MAX_PHOTONS_PER_SECOND * 1.1 );
+                                                PhotoelectricModel.MAX_PHOTONS_PER_SECOND ,
+                                                PhotoelectricModel.MAX_CURRENT);
     static private Dimension chartSize = new Dimension( 200, 150 );
     static private Font titleFont = new Font( "Lucide Sans", Font.PLAIN, 12 );
 
@@ -94,6 +93,10 @@ public class CurrentVsIntensityGraph extends Chart {
             public void targetMaterialChanged( PhotoelectricModel.ChangeEvent event ) {
                 lineDataSet.clear();
             }
+
+            public void beamIntensityChanged( PhotoelectricModel.ChangeEvent event ) {
+                addDataPoint( model.getBeam().getPhotonsPerSecond(), model.getCurrent() );
+            }
         });
     }
 
@@ -110,9 +113,9 @@ public class CurrentVsIntensityGraph extends Chart {
     }
 
     /**
-     * Removes all the data from the graph
+     * Removes the line plot from the graph
      */
-    public void clearData() {
-        dotDataSet.clear();
+    public void clearLinePlot() {
+        lineDataSet.clear();
     }
 }

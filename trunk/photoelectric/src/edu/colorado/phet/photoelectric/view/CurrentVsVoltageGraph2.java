@@ -35,9 +35,9 @@ public class CurrentVsVoltageGraph2 extends Chart {
     //-----------------------------------------------------------------
     // Class data
     //-----------------------------------------------------------------
-    static private Range2D range = new Range2D( PhotoelectricModel.MIN_VOLTAGE * 1.1,
+    static private Range2D range = new Range2D( PhotoelectricModel.MIN_VOLTAGE,
                                                 0,
-                                                PhotoelectricModel.MAX_VOLTAGE * 1.1,
+                                                PhotoelectricModel.MAX_VOLTAGE,
                                                 PhotoelectricModel.MAX_CURRENT );
     static private Dimension chartSize = new Dimension( 200, 150 );
     static private Font titleFont = new Font( "Lucide Sans", Font.BOLD, 14 );
@@ -50,6 +50,8 @@ public class CurrentVsVoltageGraph2 extends Chart {
     private DataSet dotDataSet = new DataSet();
     private DataSet lineDataSet = new DataSet();
     private double stoppingVoltage;
+    private double lastVoltageRecorded;
+    private double lastCurrentRecorded;
 
     //-----------------------------------------------------------------
     // Instance methods
@@ -96,6 +98,7 @@ public class CurrentVsVoltageGraph2 extends Chart {
             }
 
             public void targetMaterialChanged( PhotoelectricModel.ChangeEvent event ) {
+                stoppingVoltage = model.getStoppingVoltage();
                 lineDataSet.clear();
             }
         } );
@@ -121,25 +124,23 @@ public class CurrentVsVoltageGraph2 extends Chart {
     public void addLineDataPoint( double voltage, double current ) {
         // Have to do som efancy steppin' here to keep the crossover across the
         // stopping voltage from looking bad
-        if(( lastVoltage < stoppingVoltage) && (voltage > stoppingVoltage )) {
+        if(( lastVoltageRecorded < stoppingVoltage) && (voltage > stoppingVoltage )) {
             lineDataSet.addPoint( stoppingVoltage, 0 );
             lineDataSet.addPoint( stoppingVoltage, current );
         }
-        else if(( lastVoltage > stoppingVoltage) && (voltage < stoppingVoltage )) {
-            lineDataSet.addPoint( stoppingVoltage, lastCurrent );
+        else if(( lastVoltageRecorded > stoppingVoltage) && (voltage < stoppingVoltage )) {
+            lineDataSet.addPoint( stoppingVoltage, lastCurrentRecorded );
             lineDataSet.addPoint( stoppingVoltage, current );
         }
         lineDataSet.addPoint( voltage, current );
-        lastVoltage = voltage;
-        lastCurrent = current;
+        lastVoltageRecorded = voltage;
+        lastCurrentRecorded = current;
     }
-    private double lastVoltage;
-    private double lastCurrent;
 
     /**
-     * Removes all the data from the graph
+     * Removes the line plot from the graph
      */
-    public void clearData() {
-        dotDataSet.clear();
+    public void clearLinePlot() {
+        lineDataSet.clear();
     }
 }

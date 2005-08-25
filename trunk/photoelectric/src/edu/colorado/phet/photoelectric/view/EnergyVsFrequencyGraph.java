@@ -38,12 +38,12 @@ public class EnergyVsFrequencyGraph extends Chart {
     //-----------------------------------------------------------------
     // Class data
     //-----------------------------------------------------------------
-    static private Range2D range = new Range2D( PhysicsUtil.wavelengthToFrequency( PhotoelectricModel.MAX_WAVELENGTH ),
+    static private Range2D range = new Range2D( 0,
+//    static private Range2D range = new Range2D( PhysicsUtil.wavelengthToFrequency( PhotoelectricModel.MAX_WAVELENGTH ),
                                                 0,
                                                 PhysicsUtil.wavelengthToFrequency( PhotoelectricModel.MIN_WAVELENGTH ),
                                                 PhysicsUtil.wavelengthToEnergy( PhotoelectricModel.MIN_WAVELENGTH));
     static private double xSpacing = ( range.getMaxX() - range.getMinX() ) / 4;
-    static private double ySpacing = ( range.getMaxY() - range.getMinY() ) / 10;
     static private Dimension chartSize = new Dimension( 200, 150 );
 
     //-----------------------------------------------------------------
@@ -52,6 +52,8 @@ public class EnergyVsFrequencyGraph extends Chart {
 
     private DataSet dotDataSet = new DataSet();
     private DataSet lineDataSet = new DataSet();
+    private double kneeFrequency;
+    private double lastFrequencyRecorded;
 
     //-----------------------------------------------------------------
     // Instance methods
@@ -81,11 +83,13 @@ public class EnergyVsFrequencyGraph extends Chart {
 
         model.addChangeListener( new PhotoelectricModel.ChangeListenerAdapter() {
             public void targetMaterialChanged( PhotoelectricModel.ChangeEvent event ) {
+                kneeFrequency = determineKneeFrequency( model );
                 lineDataSet.clear();
                 updateGraph( model );
             }
 
             public void voltageChanged( PhotoelectricModel.ChangeEvent event ) {
+                kneeFrequency = determineKneeFrequency( model );
                 updateGraph( model);
             }
 
@@ -93,6 +97,10 @@ public class EnergyVsFrequencyGraph extends Chart {
                 updateGraph( model);
             }
         } );
+    }
+
+    private double determineKneeFrequency( PhotoelectricModel model ) {
+        return PhysicsUtil.wavelengthToFrequency( PhysicsUtil.energyToWavelength( model.getWorkFunction() ));
     }
 
     private void updateGraph( PhotoelectricModel model ) {
@@ -111,13 +119,22 @@ public class EnergyVsFrequencyGraph extends Chart {
     public void addDataPoint( double frequency, double energy ) {
         dotDataSet.clear();
         dotDataSet.addPoint( frequency, energy );
+
+        if( lastFrequencyRecorded < kneeFrequency && frequency > kneeFrequency ) {
+            lineDataSet.addPoint( kneeFrequency, 0 );
+        }
+        else if(lastFrequencyRecorded > kneeFrequency && frequency < kneeFrequency ) {
+            lineDataSet.addPoint( kneeFrequency, 0 );
+        }
+
         lineDataSet.addPoint( frequency, energy );
+        lastFrequencyRecorded = frequency;
     }
 
     /**
-     * Removes all the data from the graph
+     * Removes line plot from the graph
      */
-    public void clearData() {
-        dotDataSet.clear();
+    public void clearLinePlot() {
+        lineDataSet.clear();
     }
 }
