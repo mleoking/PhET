@@ -202,7 +202,7 @@ public class PhotoelectricControlPanel {
 //                                                                               ammeter, getClock() );
 //                double current = ammeterReader.getCurrent();
 //                double wavelength = wavelengthSlider.getValue();
-//                currentVsVoltageGraph.addDataPoint( voltage, current, wavelength );
+//                currentVsVoltageGraph.addDotDataPoint( voltage, current, wavelength );
 //            }
 //        } );
 //        controlPanel.add( plotBtn );

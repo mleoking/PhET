@@ -51,7 +51,8 @@ public class CurrentVsIntensityGraph extends Chart {
     // Instance data
     //-----------------------------------------------------------------
 
-    private DataSet dataSet = new DataSet();
+    private DataSet dotDataSet = new DataSet();
+    private DataSet lineDataSet = new DataSet();
 
     //-----------------------------------------------------------------
     // Instance methods
@@ -67,21 +68,33 @@ public class CurrentVsIntensityGraph extends Chart {
         verticalGls.setMajorGridlinesColor( new Color( 200, 200, 200 ));
 
         Color color = new Color( 0, 180, 0 );
-        ScatterPlot points = new ScatterPlot( getComponent(), this, dataSet, color, PhotoelectricConfig.GRAPH_DOT_RADIUS );
-        this.addDataSetGraphic( points );
+        Color lineColor = new Color( color.getRed(), color.getGreen(), color.getBlue(), 80 );
+        LinePlot lines = new LinePlot( getComponent(), this, lineDataSet, new BasicStroke( 3f ), lineColor );
+        lines.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+        this.addDataSetGraphic( lines );
 
-        model.getBeam().addRateChangeListener( new PhotonSource.RateChangeListener() {
-            public void rateChangeOccurred( CollimatedBeam.RateChangeEvent event ) {
-                addDataPoint( event.getRate(), model.getCurrent() );
-            }
-        } );
+        ScatterPlot points = new ScatterPlot( getComponent(), this, dotDataSet, color, PhotoelectricConfig.GRAPH_DOT_RADIUS );
+        this.addDataSetGraphic( points );
 
         model.addChangeListener( new PhotoelectricModel.ChangeListenerAdapter() {
             public void currentChanged( PhotoelectricModel.ChangeEvent event ) {
-                addDataPoint( model.getBeam().getPhotonsPerSecond(),
-                              model.getCurrent() );
+                addDataPoint( model.getBeam().getPhotonsPerSecond(), model.getCurrent() );
             }
-        } );
+
+            public void voltageChanged( PhotoelectricModel.ChangeEvent event ) {
+                lineDataSet.clear();
+                addDataPoint( model.getBeam().getPhotonsPerSecond(), model.getCurrent() );
+            }
+
+            public void wavelengthChanged( PhotoelectricModel.ChangeEvent event ) {
+                lineDataSet.clear();
+                addDataPoint( model.getBeam().getPhotonsPerSecond(), model.getCurrent() );
+            }
+
+            public void targetMaterialChanged( PhotoelectricModel.ChangeEvent event ) {
+                lineDataSet.clear();
+            }
+        });
     }
 
     /**
@@ -91,14 +104,15 @@ public class CurrentVsIntensityGraph extends Chart {
      * @param current
      */
     public void addDataPoint( double intensity, double current ) {
-        dataSet.clear();
-        dataSet.addPoint( intensity, current );
+        dotDataSet.clear();
+        dotDataSet.addPoint( intensity, current );
+        lineDataSet.addPoint( intensity, current );
     }
 
     /**
      * Removes all the data from the graph
      */
     public void clearData() {
-        dataSet.clear();
+        dotDataSet.clear();
     }
 }
