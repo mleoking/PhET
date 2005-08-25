@@ -38,15 +38,18 @@ public class CurrentVsVoltageGraph2 extends Chart {
     static private Range2D range = new Range2D( PhotoelectricModel.MIN_VOLTAGE * 1.1,
                                                 0,
                                                 PhotoelectricModel.MAX_VOLTAGE * 1.1,
-                                                PhotoelectricModel.MAX_CURRENT  );
+                                                PhotoelectricModel.MAX_CURRENT );
     static private Dimension chartSize = new Dimension( 200, 150 );
     static private Font titleFont = new Font( "Lucide Sans", Font.BOLD, 14 );
+    private static final double PLOT_LAYER = 1E15;
 
     //-----------------------------------------------------------------
     // Instance data
     //-----------------------------------------------------------------
 
-    private DataSet dataSet = new DataSet();
+    private DataSet dotDataSet = new DataSet();
+    private DataSet lineDataSet = new DataSet();
+    private double stoppingVoltage;
 
     //-----------------------------------------------------------------
     // Instance methods
@@ -64,23 +67,36 @@ public class CurrentVsVoltageGraph2 extends Chart {
         getYAxis().setMajorTickLabelsVisible( false );
 
         Color color = Color.red;
-        ScatterPlot points = new ScatterPlot( getComponent(), this, dataSet, color, PhotoelectricConfig.GRAPH_DOT_RADIUS );
-        this.addDataSetGraphic( points );
+        Color lineColor = new Color( color.getRed(), color.getGreen(), color.getBlue(), 80 );
+        LinePlot lines = new LinePlot( getComponent(), this, lineDataSet, new BasicStroke( 3f ), lineColor );
+        lines.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+        this.addDataSetGraphic( lines, PLOT_LAYER );
+        ScatterPlot points = new ScatterPlot( getComponent(), this, dotDataSet, color, PhotoelectricConfig.GRAPH_DOT_RADIUS );
+        this.addDataSetGraphic( points, PLOT_LAYER );
 
         model.addChangeListener( new PhotoelectricModel.ChangeListenerAdapter() {
             public void currentChanged( PhotoelectricModel.ChangeEvent event ) {
-                addDataPoint( model.getVoltage(),
-                              model.getCurrent() );
+                addDotDataPoint( model.getVoltage(), model.getCurrent() );
             }
 
             public void voltageChanged( PhotoelectricModel.ChangeEvent event ) {
-                addDataPoint( model.getVoltage(),
-                              model.getCurrent() );
+                stoppingVoltage = model.getStoppingVoltage();
+                addDotDataPoint( model.getVoltage(), model.getCurrent() );
+                addLineDataPoint( model.getVoltage(), model.getCurrent() );
             }
 
             public void wavelengthChanged( PhotoelectricModel.ChangeEvent event ) {
-                addDataPoint( model.getVoltage(),
-                              model.getCurrent());
+                stoppingVoltage = model.getStoppingVoltage();
+                lineDataSet.clear();
+                addDotDataPoint( model.getVoltage(), model.getCurrent() );
+            }
+
+            public void beamIntensityChanged( PhotoelectricModel.ChangeEvent event ) {
+                lineDataSet.clear();
+            }
+
+            public void targetMaterialChanged( PhotoelectricModel.ChangeEvent event ) {
+                lineDataSet.clear();
             }
         } );
     }
@@ -91,15 +107,39 @@ public class CurrentVsVoltageGraph2 extends Chart {
      * @param voltage
      * @param current
      */
-    public void addDataPoint( double voltage, double current ) {
-        dataSet.clear();
-        dataSet.addPoint( voltage, current );
+    public void addDotDataPoint( double voltage, double current ) {
+        dotDataSet.clear();
+        dotDataSet.addPoint( voltage, current );
     }
+
+    /**
+     * Adds a data point for a specified wavelength
+     *
+     * @param voltage
+     * @param current
+     */
+    public void addLineDataPoint( double voltage, double current ) {
+        // Have to do som efancy steppin' here to keep the crossover across the
+        // stopping voltage from looking bad
+        if(( lastVoltage < stoppingVoltage) && (voltage > stoppingVoltage )) {
+            lineDataSet.addPoint( stoppingVoltage, 0 );
+            lineDataSet.addPoint( stoppingVoltage, current );
+        }
+        else if(( lastVoltage > stoppingVoltage) && (voltage < stoppingVoltage )) {
+            lineDataSet.addPoint( stoppingVoltage, lastCurrent );
+            lineDataSet.addPoint( stoppingVoltage, current );
+        }
+        lineDataSet.addPoint( voltage, current );
+        lastVoltage = voltage;
+        lastCurrent = current;
+    }
+    private double lastVoltage;
+    private double lastCurrent;
 
     /**
      * Removes all the data from the graph
      */
     public void clearData() {
-        dataSet.clear();
+        dotDataSet.clear();
     }
 }

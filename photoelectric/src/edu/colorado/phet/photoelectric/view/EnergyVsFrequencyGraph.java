@@ -50,7 +50,8 @@ public class EnergyVsFrequencyGraph extends Chart {
     // Instance data
     //-----------------------------------------------------------------
 
-    private DataSet dataSet = new DataSet();
+    private DataSet dotDataSet = new DataSet();
+    private DataSet lineDataSet = new DataSet();
 
     //-----------------------------------------------------------------
     // Instance methods
@@ -70,11 +71,17 @@ public class EnergyVsFrequencyGraph extends Chart {
         this.getXAxis().setNumberFormat( new DecimalFormat( "0.#E0" ));
 
         Color color = Color.blue;
-        ScatterPlot points = new ScatterPlot( getComponent(), this, dataSet, color, PhotoelectricConfig.GRAPH_DOT_RADIUS );
+        Color lineColor = new Color( color.getRed(), color.getGreen(), color.getBlue(), 80 );
+        LinePlot lines = new LinePlot( getComponent(), this, lineDataSet, new BasicStroke( 3f ), lineColor );
+        lines.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+        this.addDataSetGraphic( lines );
+
+        ScatterPlot points = new ScatterPlot( getComponent(), this, dotDataSet, color, PhotoelectricConfig.GRAPH_DOT_RADIUS );
         this.addDataSetGraphic( points );
 
         model.addChangeListener( new PhotoelectricModel.ChangeListenerAdapter() {
             public void targetMaterialChanged( PhotoelectricModel.ChangeEvent event ) {
+                lineDataSet.clear();
                 updateGraph( model );
             }
 
@@ -102,14 +109,15 @@ public class EnergyVsFrequencyGraph extends Chart {
      * @param energy
      */
     public void addDataPoint( double frequency, double energy ) {
-        dataSet.clear();
-        dataSet.addPoint( frequency, energy );
+        dotDataSet.clear();
+        dotDataSet.addPoint( frequency, energy );
+        lineDataSet.addPoint( frequency, energy );
     }
 
     /**
      * Removes all the data from the graph
      */
     public void clearData() {
-        dataSet.clear();
+        dotDataSet.clear();
     }
 }

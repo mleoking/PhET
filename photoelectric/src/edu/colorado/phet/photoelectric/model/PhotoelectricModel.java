@@ -18,10 +18,7 @@ import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.dischargelamps.model.*;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.lasers.model.photon.Photon;
-import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
-import edu.colorado.phet.lasers.model.photon.PhotonEmittedListener;
-import edu.colorado.phet.lasers.model.photon.PhotonEmittedEvent;
+import edu.colorado.phet.lasers.model.photon.*;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.photoelectric.model.util.BeamIntensityMeter;
@@ -122,6 +119,11 @@ public class PhotoelectricModel extends DischargeLampModel {
         beam.setPhotonsPerSecond( MAX_PHOTONS_PER_SECOND );
         beam.setEnabled( true );
         beam.addPhotonEmittedListener( new PhotonTracker() );
+        beam.addRateChangeListener( new PhotonSource.RateChangeListener() {
+            public void rateChangeOccurred( CollimatedBeam.RateChangeEvent event ) {
+                changeListenerProxy.beamIntensityChanged( new ChangeEvent( this ) );
+            }
+        } );
 
         // Create the right-hand plate
         rightHandPlate = new ElectronSink( this,
@@ -302,16 +304,24 @@ public class PhotoelectricModel extends DischargeLampModel {
      * @return
      */
     public double getCurrent() {
-        double photonEnergy = PhysicsUtil.wavelengthToEnergy( beam.getWavelength() );
-        double workFunction = ( (Double)PhotoelectricTarget.WORK_FUNCTIONS.get( target.getMaterial() ) ).doubleValue();
-
-        // If the energy of an electron is greater than the voltage across the plates, we get a current
+        // If the stopping voltage is less than the voltage across the plates, we get a current
         // equal to the number of photons per second. (We assume there is one electron for every photon).
         // Otherwise, there is no current
-        double electronEnergy = photonEnergy - workFunction;
-        double retardingVoltage = getVoltage() < 0 ? -getVoltage() : 0;
-        double current = electronEnergy > retardingVoltage ? beam.getPhotonsPerSecond() : 0;
+        double retardingVoltage = getVoltage() < 0 ? getVoltage() : 0;
+        double current = getStoppingVoltage() < retardingVoltage ? beam.getPhotonsPerSecond() : 0;
         return current * CURRENT_JIMMY_FACTOR;
+    }
+
+    /**
+     * Returns the stopping voltage for electrons kicked off the current target material
+     * by the current wavelength of light
+     * @return
+     */
+    public double getStoppingVoltage() {
+        double photonEnergy = PhysicsUtil.wavelengthToEnergy( beam.getWavelength() );
+        double workFunction = ( (Double)PhotoelectricTarget.WORK_FUNCTIONS.get( target.getMaterial() ) ).doubleValue();
+        double stoppingVoltage = workFunction - photonEnergy;
+        return stoppingVoltage;
     }
 
     public double getWavelength() {
@@ -397,6 +407,8 @@ public class PhotoelectricModel extends DischargeLampModel {
         void wavelengthChanged( ChangeEvent event );
 
         void targetMaterialChanged( ChangeEvent event );
+
+        void beamIntensityChanged( ChangeEvent event );
     }
 
     public static class ChangeListenerAdapter implements ChangeListener {
@@ -410,6 +422,9 @@ public class PhotoelectricModel extends DischargeLampModel {
         }
 
         public void targetMaterialChanged( ChangeEvent event ) {
+        }
+
+        public void beamIntensityChanged( ChangeEvent event ) {
         }
     }
 }
