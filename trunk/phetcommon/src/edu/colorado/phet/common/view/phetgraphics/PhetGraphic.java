@@ -669,13 +669,40 @@ public abstract class PhetGraphic {
     }
 
     /*
-     * Used by syncBounds, this method sets changes the value of the bounds
-     * member only if the bounds have actually changed.
+     * Recomputes the graphic's bounds.  
+     * 
+     * Notes:
+     * (1) Before recomputing the bounds, the bounds are copied into lastBounds.
+     * (2) If a clip is set, the clip is applied to the bounds.
+     * (3) If the bounds are null, the bounds are set to a zero-dimension 
+     *     rectangle located at the graphic's screen location.
      */
     private void rebuildBounds() {
+        
+        // Save the current bounds
+        lastBounds.setBounds( bounds );
+        
+        // Ask the implementing subclass to compute its bounds.
         Rectangle newBounds = determineBounds();
+        
+        // Apply clipping
+        if ( clip != null && newBounds != null ) {
+            Rectangle clipBounds = clip.getBounds();
+            /* WORKAROUND:
+             * Rectangle.intersection doesn't work as advertised when the
+             * rectangles don't intersect, so check for intersection using
+             * Rectangle.intersects before calling Rectangle.intersection.
+             */
+            if ( newBounds.intersects( clipBounds ) ) {
+                newBounds = newBounds.intersection( clipBounds );
+            }
+            else {
+                newBounds = null;
+            }
+        }
+        
+        // Set the new bounds
         if( newBounds != null ) {
-            lastBounds.setBounds( bounds );
             bounds.setBounds( newBounds );
         }
         else {
