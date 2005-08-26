@@ -42,7 +42,9 @@ ignorepath      (those elements of the ant classpath that should not be
     <property name="releases" location="${project_home}/releases"/>
 
     <!-- Set up child directories, for during the build.  -->
-    <property name="src" location="${development}/src"/>
+    <property name="src" location="${src-dirs}"/>
+<!--    <property name="src" location="${development}/src"/>-->
+<!--    <property name="data" location="${data-dirs}"/>-->
     <property name="data" location="${development}/data"/>
 
     <description>
@@ -103,6 +105,9 @@ ignorepath      (those elements of the ant classpath that should not be
         <jar destfile="${jars}/${distname}.jar">
             <fileset dir="${classes}"/>
             <fileset dir="${data}"/>
+            <fileset dir="${development}/controls/data"/>
+            <fileset dir="${development}/lasers/data"/>
+            <fileset dir="${development}/phetcommon/data"/>
             <manifest>
                 <attribute name="Built-By" value="${user.name}"/>
                 <attribute name="version" value="${version}"/>
