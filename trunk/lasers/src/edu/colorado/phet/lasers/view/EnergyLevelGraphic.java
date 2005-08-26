@@ -23,6 +23,7 @@ import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.photon.Photon;
+import edu.colorado.phet.lasers.model.PhysicsUtil;
 
 import java.awt.*;
 import java.awt.geom.Area;
@@ -134,7 +135,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
             double newEnergy = Math.max( Math.min( atomicState.getNextHigherEnergyState().getEnergyLevel() - minEnergyDifference,
                                                    atomicState.getEnergyLevel() + energyChange ),
                                          atomicState.getNextLowerEnergyState().getEnergyLevel() + minEnergyDifference );
-            double newWavelength = Photon.energyToWavelength( newEnergy );
+            double newWavelength = PhysicsUtil.energyToWavelength( newEnergy );
             // The +1 and -1 are needed to make sure that floating point errors don't put the energy
             // and wavelength out of range
             newWavelength = Math.min( Math.max( newWavelength, LaserConfig.MIN_WAVELENGTH + 1 ),

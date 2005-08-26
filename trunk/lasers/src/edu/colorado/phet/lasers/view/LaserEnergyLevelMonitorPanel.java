@@ -23,6 +23,7 @@ import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
 import edu.colorado.phet.lasers.model.LaserModel;
+import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
@@ -396,11 +397,11 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         CollimatedBeam beam = (CollimatedBeam)event.getSource();
         if( beam == model.getPumpingBeam() ) {
             pumpBeamWavelength = beam.getWavelength();
-            pumpBeamEnergy = Photon.wavelengthToEnergy( pumpBeamWavelength );
+            pumpBeamEnergy = PhysicsUtil.wavelengthToEnergy( pumpBeamWavelength );
         }
         if( beam == model.getSeedBeam() ) {
             seedBeamWavelength = beam.getWavelength();
-            seedBeamEnergy = Photon.wavelengthToEnergy( seedBeamWavelength );
+            seedBeamEnergy = PhysicsUtil.wavelengthToEnergy( seedBeamWavelength );
         }
         updateSquiggles();
     }
@@ -473,7 +474,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         }
 
         private void checkForMatch() {
-            if( Math.abs( Photon.wavelengthToEnergy( collimatedBeam.getWavelength() ) - atomicState.getEnergyLevel() )
+            if( Math.abs( PhysicsUtil.wavelengthToEnergy( collimatedBeam.getWavelength() ) - atomicState.getEnergyLevel() )
                 <= LaserConfig.ENERGY_TOLERANCE ) {
                 if( !matched ) {
                     flashGraphic();
