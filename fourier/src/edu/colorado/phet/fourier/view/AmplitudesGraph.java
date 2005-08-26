@@ -12,8 +12,6 @@
 package edu.colorado.phet.fourier.view;
 
 import java.awt.*;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import javax.swing.event.ChangeEvent;
@@ -23,14 +21,13 @@ import javax.swing.event.EventListenerList;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.view.phetgraphics.PhetFlattenedGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.fourier.FourierConfig;
-import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.charts.AmplitudesChart;
+import edu.colorado.phet.fourier.charts.FlattenedChart;
 import edu.colorado.phet.fourier.event.HarmonicFocusEvent;
 import edu.colorado.phet.fourier.event.HarmonicFocusListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
@@ -51,7 +48,9 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     // Layers
-    private static final double FLATTENED_LAYER = 1;
+    private static final double BACKGROUND_LAYER = 1;
+    private static final double TITLE_LAYER = 2;
+    private static final double CHART_LAYER = 3;
     private static final double SLIDERS_LAYER = 4;
     
     // Background parameters
@@ -80,7 +79,7 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     private FourierSeries _fourierSeries;
-    private AmplitudesChart _chartGraphic;
+    private FlattenedChart _flattenedChart;
     private GraphicLayerSet _slidersGraphic;
     private ArrayList _sliders; // array of AmplitudeSlider
     private EventListenerList _listenerList;
@@ -114,6 +113,7 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
         backgroundGraphic.setStroke( BACKGROUND_STROKE );
         backgroundGraphic.setBorderColor( BACKGROUND_BORDER_COLOR );
         backgroundGraphic.setLocation( 0, 0 );
+        addGraphic( backgroundGraphic, BACKGROUND_LAYER );
         
         // Title
         String title = SimStrings.get( "AmplitudesGraph.title" );
@@ -121,21 +121,21 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
         titleGraphic.centerRegistrationPoint();
         titleGraphic.rotate( -( Math.PI / 2 ) );
         titleGraphic.setLocation( 40, BACKGROUND_SIZE.height/2 );
+        addGraphic( titleGraphic, TITLE_LAYER );
         
-        // Chart
-        _chartGraphic = new AmplitudesChart( component, CHART_RANGE, CHART_SIZE );
-        _chartGraphic.setRegistrationPoint( 0, CHART_SIZE.height / 2 ); // at the chart's origin
-        _chartGraphic.setLocation( 60, 50 + (CHART_SIZE.height / 2) );
-        
-        // Flatten all of the static graphics.
-        PhetFlattenedGraphic flattenedGraphic = new PhetFlattenedGraphic( component );
-        addGraphic( flattenedGraphic, FLATTENED_LAYER );
-        flattenedGraphic.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-        flattenedGraphic.addGraphic( backgroundGraphic );
-        flattenedGraphic.addGraphic( titleGraphic );
-        flattenedGraphic.addGraphic( _chartGraphic );
-        flattenedGraphic.flatten();
-        flattenedGraphic.setLocation( 0, 0 );
+        // Flattened Chart
+        {
+            AmplitudesChart chartGraphic = new AmplitudesChart( component, CHART_RANGE, CHART_SIZE );
+            chartGraphic.setLocation( 0, 0 );
+            chartGraphic.setRegistrationPoint( 0, 0 );
+
+            int xOffset = 25; // distance between the left edge and the chart's origin.
+            int yOffset = 0;
+            _flattenedChart = new FlattenedChart( component, chartGraphic, xOffset, yOffset );
+            addGraphic( _flattenedChart, CHART_LAYER );
+            _flattenedChart.setRegistrationPoint( xOffset, CHART_SIZE.height / 2 ); // at the chart's origin
+            _flattenedChart.setLocation( 60, 50 + ( CHART_SIZE.height / 2 ) - yOffset );
+        }
         
         // Container for amplitude sliders -- sliders to be added in update.
         _slidersGraphic = new GraphicLayerSet( component );
@@ -143,7 +143,11 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
         
         // Interactivity
         {
-            flattenedGraphic.setIgnoreMouse( true );
+            backgroundGraphic.setIgnoreMouse( true );
+            titleGraphic.setIgnoreMouse( true );
+            _flattenedChart.setIgnoreMouse( true );
+            
+            // sliders handle their own interactivity
         }
         
         // Misc initialization
@@ -214,8 +218,8 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
                 slider.setMaxSize( barWidth, CHART_SIZE.height );
 
                 // Slider location.
-                int x = _chartGraphic.getLocation().x + ( ( i + 1 ) * SLIDER_SPACING ) + ( i * barWidth ) + ( barWidth / 2 );
-                int y = _chartGraphic.getLocation().y;
+                int x = _flattenedChart.getLocation().x + ( ( i + 1 ) * SLIDER_SPACING ) + ( i * barWidth ) + ( barWidth / 2 );
+                int y = _flattenedChart.getLocation().y;
                 slider.setLocation( x, y );
                 
                 _previousNumberOfHarmonics = numberOfHarmonics;
