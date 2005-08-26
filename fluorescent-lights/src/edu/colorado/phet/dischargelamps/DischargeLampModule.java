@@ -198,7 +198,8 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
 
         // A slider for the battery voltage
         double maxVoltage = 5;
-        final ModelSlider batterySlider = new ModelSlider( "Battery Voltage", "V", 0, maxVoltage, maxVoltage / 2 );
+        final ModelSlider batterySlider = new ModelSlider( "Battery Voltage", "V", -maxVoltage, maxVoltage, maxVoltage / 2 );
+//        final ModelSlider batterySlider = new ModelSlider( "Battery Voltage", "V", 0, maxVoltage, maxVoltage / 2 );
 //        final ModelSlider batterySlider = new ModelSlider( "Battery Voltage", "V", 0, .1, 0.05 );
         batterySlider.setPreferredSize( new Dimension( 250, 100 ) );
         ControlPanel controlPanel = (ControlPanel)getControlPanel();
@@ -420,7 +421,6 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
     protected DischargeLampEnergyMonitorPanel2 getEneregyLevelsMonitorPanel() {
         return energyLevelsMonitorPanel;
     }
-
 
     public void setAtomicStates( AtomicState[] atomicStates ) {
         this.atomicStates = atomicStates;

@@ -331,6 +331,14 @@ public class AtomicState {
         void meanLifetimechanged( Event event );
     }
 
+    static public class ChangeListenerAdapter implements Listener {
+        public void energyLevelChanged( Event event ) {
+        }
+
+        public void meanLifetimechanged( Event event ) {
+        }
+    }
+
     public void addListener( Listener listener ) {
         listenerChannel.addListener( listener );
     }
