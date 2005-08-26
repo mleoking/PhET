@@ -18,6 +18,7 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
@@ -139,7 +140,6 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
             newWavelength = Math.min( Math.max( newWavelength, LaserConfig.MIN_WAVELENGTH + 1 ),
                                       LaserConfig.MAX_WAVELENGTH - 1 );
             atomicState.setEnergyLevel( newEnergy );
-//            atomicState.setEnergyLevel( Photon.wavelengthToEnergy( newWavelength ) );
             atomicState.determineEmittedPhotonWavelength();
         }
     }
@@ -148,7 +148,6 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
      * The graphic class itself
      */
     private class EnergyLevelRep extends CompositePhetGraphic {
-//    private class EnergyLevelRep extends PhetGraphic {
 
         private Rectangle2D levelLine = new Rectangle2D.Double();
         private double thickness = 2;
@@ -160,11 +159,13 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
         protected EnergyLevelRep( Component component ) {
             super( component );
             color = VisibleColor.wavelengthToColor( atomicState.getWavelength() );
+            PhetShapeGraphic lineGraphic = new PhetShapeGraphic( component, levelLine, color );
+            lineGraphic.setVisible( true );
+            addGraphic( lineGraphic);
         }
 
         private void update() {
             color = colorStrategy.getColor( atomicState );
-//            color = VisibleColor.wavelengthToColor( atomicState.getWavelength() );
 
             // We need to create a new color that can't be transparent. VisibleColor will return
             // an "invisible" color with RGB = 0,0,0 if the wavelenght is not visible. And since our
@@ -204,11 +205,9 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
                 Area a = new Area( arrow1.getShape() );
                 a.add( new Area( arrow2.getShape() ) );
                 a.add( new Area( levelLine ) );
-                System.out.println( "a = " + a );
                 return a.getBounds();
             }
             else {
-                System.out.println( "levelLine.getBounds() = " + levelLine.getBounds() );
                 return levelLine.getBounds();
             }
         }
@@ -234,10 +233,10 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
             }
             g.setColor( color );
             g.fill( levelLine );
-
-
-            g.setColor(  Color.green );
-            g.draw( determineBounds() );
+//
+//
+//            g.setColor(  Color.green );
+//            g.draw( determineBounds() );
             super.paint( g );
 
             restoreGraphicsState();
