@@ -20,6 +20,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.charts.D2CHarmonicsChart;
+import edu.colorado.phet.fourier.charts.FlattenedChart;
 import edu.colorado.phet.fourier.charts.HarmonicPlot;
 import edu.colorado.phet.fourier.control.ZoomControl;
 import edu.colorado.phet.fourier.event.ZoomEvent;
@@ -94,6 +95,7 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
     private int _waveType;
     private int _xZoomLevel;
     private HTMLGraphic _cannotShowGraphic;
+    private FlattenedChart _flattenedChart;
 
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -131,12 +133,20 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
         _titleGraphic.setLocation( 40, BACKGROUND_SIZE.height/2 );
         addGraphic( _titleGraphic, TITLE_LAYER );
         
-        // Chart
-        _chartGraphic = new D2CHarmonicsChart( component, CHART_RANGE, CHART_SIZE );
-        addGraphic( _chartGraphic, CHART_LAYER );
-        _chartGraphic.setRegistrationPoint( 0, CHART_SIZE.height / 2 ); // at the chart's origin
-        _chartGraphic.setLocation( 60, 50 + ( CHART_SIZE.height / 2 ) );
+        // Flattened Chart
+        {
+            _chartGraphic = new D2CHarmonicsChart( component, CHART_RANGE, CHART_SIZE );
+            _chartGraphic.setRegistrationPoint( 0, 0 );
+            _chartGraphic.setLocation( 0, 0 );
 
+            int xOffset = 25; // distance between the left edge and the chart's origin.
+            int yOffset = 0;
+            _flattenedChart = new FlattenedChart( component, _chartGraphic, xOffset, yOffset );
+            addGraphic( _flattenedChart, CHART_LAYER );
+            _flattenedChart.setRegistrationPoint( xOffset, CHART_SIZE.height / 2 ); // at the chart's origin
+            _flattenedChart.setLocation( 60, 50 + ( CHART_SIZE.height / 2 ) - yOffset );
+        }
+        
         // "Cannot show" message 
         String cannotShowMessage = SimStrings.get( "D2CHarmonicsGraph.cannotShow" );
         _cannotShowGraphic = new HTMLGraphic( component, CANNOT_SHOW_MESSAGE_FONT, cannotShowMessage, CANNOT_SHOW_MESSAGE_COLOR );
@@ -161,10 +171,7 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
         {
             _horizontalZoomControl = new ZoomControl( component, ZoomControl.HORIZONTAL );
             addGraphic( _horizontalZoomControl, CONTROLS_LAYER );
-            // Location is aligned with top-right edge of chart.
-            int x = _chartGraphic.getX() + CHART_SIZE.width + 20;
-            int y = _chartGraphic.getY() - ( CHART_SIZE.height / 2 );
-            _horizontalZoomControl.setLocation( x, y );
+            _horizontalZoomControl.setLocation( 620, 50 );
         }
 
         // Math
@@ -172,17 +179,14 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
             _mathGraphic = new HarmonicsEquation( component );
             addGraphic( _mathGraphic, MATH_LAYER );
             _mathGraphic.centerRegistrationPoint();
-            // Location is above the center of the chart.
-            int x = _chartGraphic.getX() + ( CHART_SIZE.width / 2 );
-            int y = 28;
-            _mathGraphic.setLocation( x, y );
+            _mathGraphic.setLocation( 330, 28 );
         }
         
         // Interactivity
         {
             _backgroundGraphic.setIgnoreMouse( true );
             _titleGraphic.setIgnoreMouse( true );
-            _chartGraphic.setIgnoreMouse( true );
+            _flattenedChart.setIgnoreMouse( true );
             _mathGraphic.setIgnoreMouse( true );
             _cannotShowGraphic.setIgnoreMouse( true );
             minimizeGraphic.setIgnoreMouse( true );
@@ -215,6 +219,7 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
         _waveType = FourierConstants.WAVE_TYPE_SINE;
         _xZoomLevel = 0;
         _chartGraphic.setRange( CHART_RANGE );
+        refreshChart();
         updateZoomButtons();
         update();
     }
@@ -273,9 +278,12 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
     public void setHeight( int height ) {
         if ( height >= MIN_HEIGHT ) {
             _backgroundGraphic.setShape( new Rectangle( 0, 0, BACKGROUND_SIZE.width, height ) );
-            _chartGraphic.setChartSize( CHART_SIZE.width, height - 70 );
             _titleGraphic.setLocation( TITLE_LOCATION.x, height / 2 );
             _cannotShowGraphic.setLocation( 125, height / 2 );
+            
+            _chartGraphic.setChartSize( CHART_SIZE.width, height - 70 );
+            refreshChart();
+            
             setBoundsDirty();
         }
     }
@@ -370,6 +378,7 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
             _chartGraphic.getHorizontalTicks().setMajorTickSpacing( 0.5 );
         }
         
+        refreshChart();
         updateZoomButtons();
     }
 
@@ -420,7 +429,7 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
 
             if ( numberOfHarmonics < Integer.MAX_VALUE ) {
                 
-                _chartGraphic.setVisible( true );
+                _flattenedChart.setVisible( true );
                 _horizontalZoomControl.setVisible( true );
                 _mathGraphic.setVisible( true );
                 _cannotShowGraphic.setVisible( false );
@@ -465,9 +474,11 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
 
                 // Autoscale the vertical axis.
                 _chartGraphic.autoscaleY( maxAmplitude * FourierConfig.AUTOSCALE_PERCENTAGE );
+                
+                refreshChart();
             }
             else {
-                _chartGraphic.setVisible( false );
+                _flattenedChart.setVisible( false );
                 _horizontalZoomControl.setVisible( false );
                 _mathGraphic.setVisible( false );
                 _cannotShowGraphic.setVisible( true );
@@ -499,5 +510,10 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
         else if ( _domain == FourierConstants.DOMAIN_TIME ) {
             _chartGraphic.setXAxisTitle( SimStrings.get( "D2CHarmonicsGraph.xTitleTime" ) );
         }
+        refreshChart();
+    }
+    
+    private void refreshChart() {
+        _flattenedChart.flatten();
     }
 }
