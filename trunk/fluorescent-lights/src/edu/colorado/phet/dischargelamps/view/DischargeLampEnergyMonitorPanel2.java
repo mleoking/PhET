@@ -18,6 +18,7 @@ import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.DischargeLampModule;
 import edu.colorado.phet.dischargelamps.model.Electron;
 import edu.colorado.phet.dischargelamps.model.AtomicStateFactory;
+import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
@@ -35,14 +36,22 @@ import java.awt.*;
  */
 public class DischargeLampEnergyMonitorPanel2 extends JPanel {
     private DischargeLampEnergyLevelMonitorPanel elmp;
-    private DischargeLampModule module;
+    private DischargeLampModel model;
 
-    public DischargeLampEnergyMonitorPanel2( final DischargeLampModule module, AbstractClock clock,
+    /**
+     *
+     * @param model
+     * @param clock
+     * @param atomicStates
+     * @param panelWidth
+     * @param panelHeight
+     */
+    public DischargeLampEnergyMonitorPanel2( final DischargeLampModel model, AbstractClock clock,
                                              AtomicState[] atomicStates,
                                              int panelWidth, int panelHeight ) {
         super( new GridBagLayout() );
-        this.module = module;
-        elmp = new DischargeLampEnergyLevelMonitorPanel( module, clock, atomicStates, panelWidth, panelHeight );
+        this.model = model;
+        elmp = new DischargeLampEnergyLevelMonitorPanel( model, clock, atomicStates, panelWidth, panelHeight );
         elmp.setBorder( new EtchedBorder() );
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
                                                          GridBagConstraints.CENTER,
@@ -59,8 +68,7 @@ public class DischargeLampEnergyMonitorPanel2 extends JPanel {
         // to all the existing atoms
         numLevelsSpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                AtomicState[] atomicStates = new AtomicStateFactory().createAtomicStates( ( (Integer)numLevelsSpinner.getValue() ).intValue() );
-                module.setAtomicStates( atomicStates );
+                model.setNumAtomicEnergyLevels( ((Integer)numLevelsSpinner.getValue() ).intValue() );
             }
         } );
 //        AtomicState[] defaultAtomicStates = new AtomicStateFactory().createAtomicStates( ( (Integer)numLevelsSpinner.getValue() ).intValue() );
@@ -75,7 +83,7 @@ public class DischargeLampEnergyMonitorPanel2 extends JPanel {
     }
 
     public void reset() {
-        elmp.setEnergyLevels( module.getAtomicStates() );
+        elmp.setEnergyLevels( model.getAtomicStates() );
     }
 
     public void addAtom( Atom atom ) {

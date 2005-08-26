@@ -23,7 +23,6 @@ import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.dischargelamps.model.Electron;
-import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
@@ -35,8 +34,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.ContainerListener;
-import java.awt.event.ContainerEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -94,6 +91,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
     private ModelViewTransform1D energyYTx;
     // The offset by which all the graphic elements must be placed, caused by the heading text
     private int headingOffsetY = 20;
+    private int footerOffsetY = 20;
     private AtomicState[] atomicStates;
     private List atoms;
     private HashMap numAtomsInState = new HashMap();
@@ -116,11 +114,16 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
 
     /**
      *
+     * @param model
+     * @param clock
+     * @param atomicStates
+     * @param panelWidth
+     * @param panelHeight
      */
-    public DischargeLampEnergyLevelMonitorPanel( BaseLaserModule module, AbstractClock clock, AtomicState[] atomicStates,
+    public DischargeLampEnergyLevelMonitorPanel( DischargeLampModel model, AbstractClock clock, AtomicState[] atomicStates,
                                                  int panelWidth, int panelHeight ) {
         super( clock );
-        model = (DischargeLampModel)module.getLaserModel();
+        this.model = model;
 
         model.addChangeListener( new DischargeLampModel.ChangeListener() {
             public void energyLevelsChanged( DischargeLampModel.ChangeEvent event ) {
@@ -178,19 +181,12 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
      */
     private void adjustPanel() {
         // The area in which the energy levels will be displayed
-        Rectangle2D bounds = new Rectangle2D.Double( getBounds().getMinX(), getBounds().getMinY() + 10,
-                                                     getBounds().getWidth(), getBounds().getHeight() - 30 );
+        Rectangle2D bounds = new Rectangle2D.Double( 0, 0, getPreferredSize().getWidth(), getPreferredSize().getHeight() );
 
         // Set the model-to-view transform so that there will be a reasonable margin below the zero point
         energyYTx = new ModelViewTransform1D( maxEnergy, groundStateEnergy,
-//        energyYTx = new ModelViewTransform1D( AtomicState.maxEnergy, -AtomicState.groundStateEnergy,
-                                              (int)bounds.getBounds().getMinY() + headingOffsetY, (int)bounds.getBounds().getMaxY() );
-        System.out.println( "maxEnergy = " + maxEnergy );
-        System.out.println( "groundStateEnergy = " + groundStateEnergy );
-        System.out.println( "(int)bounds.getBounds().getMinY() = " + (int)bounds.getBounds().getMinY() );
-        System.out.println( "headingOffsetY = " + headingOffsetY );
-        System.out.println( "(int)bounds.getBounds().getMaxY() = " + (int)bounds.getBounds().getMaxY() );
-
+                                              (int)bounds.getBounds().getMinY() + headingOffsetY,
+                                              (int)bounds.getBounds().getMaxY() - footerOffsetY );
         for( int i = 0; i < levelGraphics.length; i++ ) {
             levelGraphics[i].update( energyYTx );
         }

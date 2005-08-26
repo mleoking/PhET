@@ -14,3 +14,7 @@ DiscahrgeLampModule
 To do
 -----
 both the model and each atom have atomicStates[]. They should only be in one place.
+
+Move creation of the tube to the model
+
+When voltage is reversed, produce electrons from right-hand plate
