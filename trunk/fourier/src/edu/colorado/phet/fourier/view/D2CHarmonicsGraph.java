@@ -96,6 +96,7 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
     private int _xZoomLevel;
     private HTMLGraphic _cannotShowGraphic;
     private FlattenedChart _flattenedChart;
+    private boolean _updateRequired;
 
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -222,6 +223,7 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
         refreshChart();
         updateZoomButtons();
         update();
+        _updateRequired = false;
     }
     
     //----------------------------------------------------------------------------
@@ -300,7 +302,7 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
     public void setVisible( boolean visible ) {
         if ( visible != super.isVisible() ) {
             super.setVisible( visible );
-            if ( visible ) {
+            if ( visible && _updateRequired ) {
                 update();
             }
         }
@@ -417,7 +419,11 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
         
         System.out.println( "D2CHarmonicsGraph.update" ); //XXX
         
+        _updateRequired = true;
+        
         if ( isVisible() ) {
+            
+            _updateRequired = false;
             
             _chartGraphic.removeAllDataSetGraphics();
 
