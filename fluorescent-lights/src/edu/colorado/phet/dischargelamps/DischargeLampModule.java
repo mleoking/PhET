@@ -48,7 +48,7 @@ import java.util.Random;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class DischargeLampModule extends BaseLaserModule /*implements ElectronSource.ElectronProductionListener*/ {
+public class DischargeLampModule extends BaseLaserModule {
 
     //----------------------------------------------------------------
     // Class data
@@ -64,7 +64,6 @@ public class DischargeLampModule extends BaseLaserModule /*implements ElectronSo
 
     private ElectronSink anode;
     private ElectronSource cathode;
-//    private DischargeLampEnergyLevelMonitorPanel elmp;
 
     // The scale to apply to graphics created in external applications so they appear properly
     // on the screen
@@ -76,7 +75,6 @@ public class DischargeLampModule extends BaseLaserModule /*implements ElectronSo
     private ModelSlider currentSlider;
     private Spectrometer spectrometer;
     // The states in which the atoms can be
-//    private AtomicState[] atomicStates;
     private DischargeLampEnergyMonitorPanel2 energyLevelsMonitorPanel;
     private Random random = new Random();
     private SpectrometerGraphic spectrometerGraphic;
@@ -108,23 +106,15 @@ public class DischargeLampModule extends BaseLaserModule /*implements ElectronSo
         anode = model.getAnode();
         spectrometer = model.getSpectrometer();
 
-        // Add the battery and wire graphic
+        // Add graphics
         addCircuitGraphic( apparatusPanel );
-
-        // Add the cathode to the model
         addCathodeGraphic( apparatusPanel );
-
-        // Add the anode to the model
         addAnodeGraphic( apparatusPanel, cathode );
-
-        // Set the cathode to listen for potential changes relative to the anode
-        hookCathodeToAnode();
+        addSpectrometerGraphic();
 
         // Add the tube
         addTube( model, apparatusPanel );
 
-        // Add the spectrometer
-        addSpectrometer();
 
         // Set up the control panel
         addControls();
@@ -133,7 +123,7 @@ public class DischargeLampModule extends BaseLaserModule /*implements ElectronSo
     /**
      * Adds the spectrometer and its graphic
      */
-    private void addSpectrometer() {
+    private void addSpectrometerGraphic() {
         spectrometerGraphic = new SpectrometerGraphic( getApparatusPanel(), spectrometer );
         addGraphic( spectrometerGraphic, SPECTROMETER_LAYER );
         int centerX = ( DischargeLampsConfig.ANODE_LOCATION.x + DischargeLampsConfig.CATHODE_LOCATION.x ) / 2;
@@ -198,8 +188,6 @@ public class DischargeLampModule extends BaseLaserModule /*implements ElectronSo
         // A slider for the battery voltage
         double maxVoltage = 5;
         final ModelSlider batterySlider = new ModelSlider( "Battery Voltage", "V", -maxVoltage, maxVoltage, maxVoltage / 2 );
-//        final ModelSlider batterySlider = new ModelSlider( "Battery Voltage", "V", 0, maxVoltage, maxVoltage / 2 );
-//        final ModelSlider batterySlider = new ModelSlider( "Battery Voltage", "V", 0, .1, 0.05 );
         batterySlider.setPreferredSize( new Dimension( 250, 100 ) );
         ControlPanel controlPanel = (ControlPanel)getControlPanel();
         controlPanel.addControl( batterySlider );
@@ -216,8 +204,6 @@ public class DischargeLampModule extends BaseLaserModule /*implements ElectronSo
                                          0, 0.3, 0, new DecimalFormat( "0.00#" ) );
         currentSlider.setPreferredSize( new Dimension( 250, 100 ) );
         currentSlider.setMajorTickSpacing( 0.1 );
-//        currentSlider.setNumMajorTicks( 4 );
-//        currentSlider.setNumMinorTicksPerMajorTick( 1 );
         controlPanel.addControl( currentSlider );
         currentSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -227,7 +213,7 @@ public class DischargeLampModule extends BaseLaserModule /*implements ElectronSo
 
         // Add an energy level monitor panel. Note that the panel has a null layout, so we have to put it in a
         // panel that does have one, so it gets laid out properly
-        energyLevelsMonitorPanel = new DischargeLampEnergyMonitorPanel2( this, getClock(),
+        energyLevelsMonitorPanel = new DischargeLampEnergyMonitorPanel2( getDischargeLampModel(), getClock(),
                                                                          getDischargeLampModel().getAtomicStates(),
                                                                          150,
                                                                          300 );
