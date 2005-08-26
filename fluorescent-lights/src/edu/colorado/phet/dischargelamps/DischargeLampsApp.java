@@ -42,13 +42,6 @@ public class DischargeLampsApp extends PhetApplication {
                frameSetup );
 
         // Determine the resolution of the screen
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-//        frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
-//        if( dim.getWidth() == 1024 || dim.getHeight() == 768 ) {
-//            frameSetup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 1024, 768 ) );
-//        }
-//        createPhetFrame( frameSetup );
-
         DischargeLampModule singleAtomModule = new SingleAtomModule( SimStrings.get( "ModuleTitle.SingleAtomModule" ),
                                                                      getClock(),
                                                                      DischargeLampsConfig.NUM_ENERGY_LEVELS );
@@ -72,14 +65,8 @@ public class DischargeLampsApp extends PhetApplication {
         SimStrings.setStrings( DischargeLampsConfig.localizedStringsPath );
         SimStrings.setStrings( LaserConfig.localizedStringsPath );
 
-        long t1 = System.currentTimeMillis();
         DischargeLampsApp app = new DischargeLampsApp( args );
-        long t2 = System.currentTimeMillis();
         app.startApplication();
-        long t3 = System.currentTimeMillis();
-        System.out.println( "t1 = " + t1 );
-        System.out.println( "t2 = " + t2 );
-        System.out.println( "t3 = " + t3 );
     }
 
 }

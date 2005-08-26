@@ -113,15 +113,82 @@ public class DischargeLampModule extends BaseLaserModule {
         addSpectrometerGraphic();
 
         // Add the tube
-        addTube( model, apparatusPanel );
+        addTubeGraphic( apparatusPanel );
 
 
         // Set up the control panel
         addControls();
     }
 
+
     /**
-     * Adds the spectrometer and its graphic
+     * Creates the tube, adds it to the model and creates a graphic for it
+     *
+     * @param apparatusPanel
+     */
+    private void addTubeGraphic( ApparatusPanel apparatusPanel ) {
+        ResonatingCavity tube = getDischargeLampModel().getTube();
+        ResonatingCavityGraphic tubeGraphic = new ResonatingCavityGraphic( getApparatusPanel(), tube );
+        apparatusPanel.addGraphic( tubeGraphic, DischargeLampsConfig.TUBE_LAYER );
+        this.tube = tube;
+    }
+
+    /**
+     * @param apparatusPanel
+     * @param cathode
+     */
+    private void addAnodeGraphic( ApparatusPanel apparatusPanel, ElectronSource cathode ) {
+        PhetImageGraphic anodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode-2.png" );
+
+        // Make the graphic the right size
+        double scaleX = 1;
+        double scaleY = DischargeLampsConfig.CATHODE_LENGTH / anodeGraphic.getImage().getHeight();
+        AffineTransformOp scaleOp = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, scaleY ),
+                                                           AffineTransformOp.TYPE_BILINEAR );
+        anodeGraphic.setImage( scaleOp.filter( anodeGraphic.getImage(), null ) );
+        anodeGraphic.setRegistrationPoint( (int)anodeGraphic.getBounds().getWidth(),
+                                           (int)anodeGraphic.getBounds().getHeight() / 2 );
+
+        anodeGraphic.setRegistrationPoint( 0, (int)anodeGraphic.getBounds().getHeight() / 2 );
+        anodeGraphic.setLocation( DischargeLampsConfig.ANODE_LOCATION );
+        apparatusPanel.addGraphic( anodeGraphic, DischargeLampsConfig.CIRCUIT_LAYER );
+    }
+
+    /**
+     * @param apparatusPanel
+     */
+    private void addCathodeGraphic( ApparatusPanel apparatusPanel ) {
+        cathode.addListener( new ElectronGraphicManager( apparatusPanel ) );
+        cathode.setElectronsPerSecond( 0 );
+        cathode.setPosition( DischargeLampsConfig.CATHODE_LOCATION );
+        PhetImageGraphic cathodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode-2.png" );
+
+        // Make the graphic the right size
+        double scaleX = 1;
+        double scaleY = DischargeLampsConfig.CATHODE_LENGTH / cathodeGraphic.getImage().getHeight();
+        AffineTransformOp scaleOp = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, scaleY ),
+                                                           AffineTransformOp.TYPE_BILINEAR );
+        cathodeGraphic.setImage( scaleOp.filter( cathodeGraphic.getImage(), null ) );
+        cathodeGraphic.setRegistrationPoint( (int)cathodeGraphic.getBounds().getWidth(),
+                                             (int)cathodeGraphic.getBounds().getHeight() / 2 );
+
+        cathodeGraphic.setLocation( DischargeLampsConfig.CATHODE_LOCATION );
+        apparatusPanel.addGraphic( cathodeGraphic, DischargeLampsConfig.CIRCUIT_LAYER );
+    }
+
+    /**
+     * @param apparatusPanel
+     */
+    private void addCircuitGraphic( ApparatusPanel apparatusPanel ) {
+        PhetImageGraphic circuitGraphic = new PhetImageGraphic( getApparatusPanel(), "images/battery-w-wires-2.png" );
+        scaleImageGraphic( circuitGraphic );
+        circuitGraphic.setRegistrationPoint( (int)( 124 * externalGraphicsScale ), (int)( 340 * externalGraphicsScale ) );
+        circuitGraphic.setLocation( DischargeLampsConfig.CATHODE_LOCATION );
+        apparatusPanel.addGraphic( circuitGraphic, DischargeLampsConfig.CIRCUIT_LAYER );
+    }
+
+    /**
+     * Adds the spectrometer graphic
      */
     private void addSpectrometerGraphic() {
         spectrometerGraphic = new SpectrometerGraphic( getApparatusPanel(), spectrometer );
@@ -166,17 +233,6 @@ public class DischargeLampModule extends BaseLaserModule {
     }
 
     /**
-     * @param apparatusPanel
-     */
-    private void addCircuitGraphic( ApparatusPanel apparatusPanel ) {
-        PhetImageGraphic circuitGraphic = new PhetImageGraphic( getApparatusPanel(), "images/battery-w-wires-2.png" );
-        scaleImageGraphic( circuitGraphic );
-        circuitGraphic.setRegistrationPoint( (int)( 124 * externalGraphicsScale ), (int)( 340 * externalGraphicsScale ) );
-        circuitGraphic.setLocation( DischargeLampsConfig.CATHODE_LOCATION );
-        apparatusPanel.addGraphic( circuitGraphic, DischargeLampsConfig.CIRCUIT_LAYER );
-    }
-
-    /**
      * Sets up the control panel
      */
     private void addControls() {
@@ -217,7 +273,6 @@ public class DischargeLampModule extends BaseLaserModule {
                                                                          getDischargeLampModel().getAtomicStates(),
                                                                          150,
                                                                          300 );
-
         getControlPanel().add( energyLevelsMonitorPanel );
 
         // Add a button to show/hide the spectrometer
@@ -230,87 +285,6 @@ public class DischargeLampModule extends BaseLaserModule {
         getControlPanel().add( spectrometerCB );
         spectrometerGraphic.setVisible( spectrometerCB.isSelected() );
     }
-
-    /**
-     * Creates the tube, adds it to the model and creates a graphic for it
-     *
-     * @param model
-     * @param apparatusPanel
-     */
-    private void addTube( DischargeLampModel model, ApparatusPanel apparatusPanel ) {
-        double x = DischargeLampsConfig.CATHODE_LOCATION.getX() - DischargeLampsConfig.ELECTRODE_INSETS.left;
-        double y = DischargeLampsConfig.CATHODE_LOCATION.getY() - DischargeLampsConfig.CATHODE_LENGTH / 2
-                   - DischargeLampsConfig.ELECTRODE_INSETS.top;
-        double length = DischargeLampsConfig.ANODE_LOCATION.getX() - DischargeLampsConfig.CATHODE_LOCATION.getX()
-                        + DischargeLampsConfig.ELECTRODE_INSETS.left + DischargeLampsConfig.ELECTRODE_INSETS.right;
-        double height = DischargeLampsConfig.CATHODE_LENGTH
-                        + DischargeLampsConfig.ELECTRODE_INSETS.top + DischargeLampsConfig.ELECTRODE_INSETS.bottom;
-        Point2D tubeLocation = new Point2D.Double( x, y );
-        ResonatingCavity tube = new ResonatingCavity( tubeLocation, length, height );
-        model.addModelElement( tube );
-        ResonatingCavityGraphic tubeGraphic = new ResonatingCavityGraphic( getApparatusPanel(), tube );
-        apparatusPanel.addGraphic( tubeGraphic, DischargeLampsConfig.TUBE_LAYER );
-        this.tube = tube;
-    }
-
-    /**
-     * Creates a listener that manages the production rate of the cathode based on its potential
-     * relative to the anode
-     */
-    private void hookCathodeToAnode() {
-        anode.addStateChangeListener( new Electrode.StateChangeListener() {
-            public void stateChanged( Electrode.StateChangeEvent event ) {
-                double anodePotential = event.getElectrode().getPotential();
-                cathode.setSinkPotential( anodePotential );
-            }
-        } );
-    }
-
-    /**
-     * @param apparatusPanel
-     * @param cathode
-     */
-    private void addAnodeGraphic( ApparatusPanel apparatusPanel, ElectronSource cathode ) {
-        this.anode.setPosition( DischargeLampsConfig.ANODE_LOCATION );
-        PhetImageGraphic anodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode-2.png" );
-
-        // Make the graphic the right size
-        double scaleX = 1;
-        double scaleY = DischargeLampsConfig.CATHODE_LENGTH / anodeGraphic.getImage().getHeight();
-        AffineTransformOp scaleOp = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, scaleY ),
-                                                           AffineTransformOp.TYPE_BILINEAR );
-        anodeGraphic.setImage( scaleOp.filter( anodeGraphic.getImage(), null ) );
-        anodeGraphic.setRegistrationPoint( (int)anodeGraphic.getBounds().getWidth(),
-                                           (int)anodeGraphic.getBounds().getHeight() / 2 );
-
-        anodeGraphic.setRegistrationPoint( 0, (int)anodeGraphic.getBounds().getHeight() / 2 );
-        anodeGraphic.setLocation( DischargeLampsConfig.ANODE_LOCATION );
-        apparatusPanel.addGraphic( anodeGraphic, DischargeLampsConfig.CIRCUIT_LAYER );
-        cathode.addListener( anode );
-    }
-
-    /**
-     * @param apparatusPanel
-     */
-    private void addCathodeGraphic( ApparatusPanel apparatusPanel ) {
-        cathode.addListener( new ElectronGraphicManager( apparatusPanel ) );
-        cathode.setElectronsPerSecond( 0 );
-        cathode.setPosition( DischargeLampsConfig.CATHODE_LOCATION );
-        PhetImageGraphic cathodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode-2.png" );
-
-        // Make the graphic the right size
-        double scaleX = 1;
-        double scaleY = DischargeLampsConfig.CATHODE_LENGTH / cathodeGraphic.getImage().getHeight();
-        AffineTransformOp scaleOp = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, scaleY ),
-                                                           AffineTransformOp.TYPE_BILINEAR );
-        cathodeGraphic.setImage( scaleOp.filter( cathodeGraphic.getImage(), null ) );
-        cathodeGraphic.setRegistrationPoint( (int)cathodeGraphic.getBounds().getWidth(),
-                                             (int)cathodeGraphic.getBounds().getHeight() / 2 );
-
-        cathodeGraphic.setLocation( DischargeLampsConfig.CATHODE_LOCATION );
-        apparatusPanel.addGraphic( cathodeGraphic, DischargeLampsConfig.CIRCUIT_LAYER );
-    }
-
 
     /**
      * Adds some atoms and their graphics
@@ -396,17 +370,7 @@ public class DischargeLampModule extends BaseLaserModule {
         return energyLevelsMonitorPanel;
     }
 
-    public void setAtomicStates( AtomicState[] atomicStates ) {
-        getDischargeLampModel().setNumAtomicEnergyLevels( atomicStates.length );
-//        getDischargeLampModel().setAtomicEnergyStates( atomicStates );
-        energyLevelsMonitorPanel.setEnergyLevels( atomicStates );
-    }
-
     protected ElectronSource getCathode() {
         return cathode;
-    }
-
-    public AtomicState[] getAtomicStates() {
-        return getDischargeLampModel().getAtomicStates();
     }
 }
