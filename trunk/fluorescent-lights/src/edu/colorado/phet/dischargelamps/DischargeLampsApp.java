@@ -27,7 +27,8 @@ import java.awt.*;
  * @version $Revision$
  */
 public class DischargeLampsApp extends PhetApplication {
-    static private FrameSetup frameSetup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 1024, 768 ) );
+    static private FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
+//    static private FrameSetup frameSetup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 1024, 768 ) );
 
     /**
      * @param args

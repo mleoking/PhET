@@ -32,7 +32,7 @@ import java.awt.geom.Rectangle2D;
  * An interactive graphic that represents an energy level for a type of atom. It can be moved up and down with the
  * mouse, and it's range of movement is limited by the energy levels of the next higher and next lower energy states.
  */
-public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicState.Listener {
+public class EnergyLevelGraphic extends CompositePhetGraphic {
     private AtomicState atomicState;
     private boolean isAdjustable;
     private Color color;
@@ -60,7 +60,10 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicSt
 
         this.atomicState = atomicState;
         this.isAdjustable = isAdjustable;
-        atomicState.addListener( this );
+
+        // Add a listener that will track changes in the atomic state
+        atomicState.addListener( new AtomicStateChangeListener() );
+
         this.color = color;
         this.xLoc = xLoc;
         this.width = width;
@@ -104,20 +107,17 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicSt
     }
 
     //----------------------------------------------------------------
-    // AtomicState.Listener implementation
-    //----------------------------------------------------------------
-
-    public void energyLevelChanged( AtomicState.Event event ) {
-        energyLevelRep.update();
-    }
-
-    public void meanLifetimechanged( AtomicState.Event event ) {
-        //noop
-    }
-
-    //----------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------
+
+    /**
+     * Updates the graphic when the energy level of the atomic state changes
+     */
+    private class AtomicStateChangeListener extends AtomicState.ChangeListenerAdapter {
+        public void energyLevelChanged( AtomicState.Event event ) {
+            energyLevelRep.update();
+        }
+    }
 
     /**
      * Inner class that handles translation of the graphic
@@ -141,8 +141,6 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicSt
             atomicState.setEnergyLevel( newEnergy );
 //            atomicState.setEnergyLevel( Photon.wavelengthToEnergy( newWavelength ) );
             atomicState.determineEmittedPhotonWavelength();
-
-            update( energyYTx );
         }
     }
 
@@ -193,8 +191,6 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicSt
                                     arrowHeadWd, arrowHeadWd, tailWd );
             }
             boundingRect = determineBoundsInternal();
-            boundingRect = getComponent().getBounds();
-            System.out.println( "boundingRect = " + boundingRect );
             setBoundsDirty();
             repaint();
         }
@@ -204,13 +200,15 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicSt
         }
 
         private Rectangle determineBoundsInternal() {
-            if( arrow1 != null ) {
+            if( arrow1 != null && arrowsEnabled ) {
                 Area a = new Area( arrow1.getShape() );
                 a.add( new Area( arrow2.getShape() ) );
                 a.add( new Area( levelLine ) );
+                System.out.println( "a = " + a );
                 return a.getBounds();
             }
             else {
+                System.out.println( "levelLine.getBounds() = " + levelLine.getBounds() );
                 return levelLine.getBounds();
             }
         }
@@ -238,10 +236,9 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicSt
             g.fill( levelLine );
 
 
-
+            g.setColor(  Color.green );
+            g.draw( determineBounds() );
             super.paint( g );
-            g.setColor( Color.green );
-                g.fill( boundingRect );
 
             restoreGraphicsState();
         }
