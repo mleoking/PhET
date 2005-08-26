@@ -26,6 +26,7 @@ import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.charts.D2CAmplitudesChart;
+import edu.colorado.phet.fourier.charts.FlattenedChart;
 import edu.colorado.phet.fourier.charts.GeneralPathPlot;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
 
@@ -85,6 +86,7 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     
     private GaussianWavePacket _wavePacket;
     private D2CAmplitudesChart _chartGraphic;
+    private FlattenedChart _flattenedChart;
     private LinePlot _continuousWaveformGraphic;
     private boolean _continuousEnabled;
     private GeneralPathPlot _gradientPlot;
@@ -128,11 +130,19 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         titleGraphic.setLocation( 40, BACKGROUND_SIZE.height/2 );
         addGraphic( titleGraphic, TITLE_LAYER );
         
-        // Chart
-        _chartGraphic = new D2CAmplitudesChart( component, CHART_RANGE, CHART_SIZE );
-        _chartGraphic.setRegistrationPoint( 0, CHART_SIZE.height / 2 ); // at the chart's origin
-        _chartGraphic.setLocation( 60, 35 + (CHART_SIZE.height / 2) );
-        addGraphic( _chartGraphic, CHART_LAYER );
+        // Flattened Chart
+        {
+            _chartGraphic = new D2CAmplitudesChart( component, CHART_RANGE, CHART_SIZE );
+            _chartGraphic.setRegistrationPoint( 0, 0 );
+            _chartGraphic.setLocation( 0, 0 );
+            
+            int xOffset = 25;
+            int yOffset = 0;
+            _flattenedChart = new FlattenedChart( component, _chartGraphic, xOffset, yOffset );
+            addGraphic( _flattenedChart, CHART_LAYER );
+            _flattenedChart.setRegistrationPoint( xOffset, CHART_SIZE.height / 2 ); // at the chart's origin
+            _flattenedChart.setLocation( 60, 35 + ( CHART_SIZE.height / 2 ) );
+        }
         
         // Gradient-filled waveform
         Color darkestColor = new Color( BAR_DARKEST_GRAY, BAR_DARKEST_GRAY, BAR_DARKEST_GRAY );
@@ -151,10 +161,7 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
             _mathGraphic = new HTMLGraphic( component, MATH_FONT, "", MATH_COLOR );
             addGraphic( _mathGraphic, MATH_LAYER );
             _mathGraphic.centerRegistrationPoint();
-            // Location is above the center of the chart.
-            int x = _chartGraphic.getX() + ( CHART_SIZE.width / 2 );
-            int y = 15;
-            _mathGraphic.setLocation( x, y );
+            _mathGraphic.setLocation( 350, 15 );
         }
         
         // Interactivity
@@ -220,6 +227,7 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         else {
             _chartGraphic.removeDataSetGraphic( _continuousWaveformGraphic );
         }
+        refreshChart();
     }
     
     /**
@@ -260,6 +268,8 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
             updateContinuous();
             _chartGraphic.addDataSetGraphic( _continuousWaveformGraphic );
         }
+        
+        refreshChart();
     }
     
     //----------------------------------------------------------------------------
@@ -415,5 +425,10 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         else if ( _domain == FourierConstants.DOMAIN_TIME ) {
             _chartGraphic.setXAxisTitle( SimStrings.get( "D2CAmplitudesGraph.xTitleTime" ) );
         }
+        refreshChart();
+    }
+    
+    private void refreshChart() {
+        _flattenedChart.flatten();
     }
 }
