@@ -25,8 +25,10 @@ import java.util.Arrays;
  */
 public class ElementProperties {
     private double[] energyLevels;
+    private String name;
 
-    protected ElementProperties( double[] energyLevels ) {
+    protected ElementProperties( String name, double[] energyLevels ) {
+        this.name = name;
         this.energyLevels = energyLevels;
     }
 
@@ -54,5 +56,9 @@ public class ElementProperties {
         }
         AtomicState.linkStates( states );
         return states;
+    }
+
+    public String toString() {
+        return name;
     }
 }

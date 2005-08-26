@@ -31,6 +31,7 @@ import edu.colorado.phet.lasers.model.atom.GroundState;
 import edu.colorado.phet.lasers.view.EnergyLevelGraphic;
 import edu.colorado.phet.lasers.view.MonitorPanel;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -397,7 +398,11 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
                     catch( InterruptedException e ) {
                         e.printStackTrace();
                     }
-                    removeGraphic( squiggle );
+                    SwingUtilities.invokeLater( new Runnable() {
+                        public void run() {
+                            removeGraphic( squiggle );
+                        }
+                    } );
                 }
             };
             Thread t = new Thread( r );

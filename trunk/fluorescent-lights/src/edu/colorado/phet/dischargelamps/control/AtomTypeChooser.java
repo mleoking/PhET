@@ -12,9 +12,7 @@ package edu.colorado.phet.dischargelamps.control;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.DischargeLampModule;
-import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
-import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
-import edu.colorado.phet.dischargelamps.model.HydrogenProperties;
+import edu.colorado.phet.dischargelamps.model.*;
 import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.atom.GroundState;
@@ -38,7 +36,7 @@ public class AtomTypeChooser extends JPanel {
                                                              GridBagConstraints.NONE,
                                                              new Insets( 0, 10, 0, 10 ), 0, 0 );
 
-    public AtomTypeChooser( DischargeLampModel model ) {
+    public AtomTypeChooser( final DischargeLampModel model ) {
         super( new GridBagLayout() );
 
         JLabel label = new JLabel( SimStrings.get( "ControlPanel.AtomTypeButtonLabel" ) );
@@ -47,15 +45,20 @@ public class AtomTypeChooser extends JPanel {
 
         JComboBox comboBox = new JComboBox();
 
-        comboBox.addItem( new DefaultAtomItem( model ) );
-        comboBox.addItem( new HydrogenItem( model ) );
-        comboBox.addItem( new NeonItem( model ) );
+        comboBox.addItem( new DefaultElementProperties() );
+        comboBox.addItem( new HydrogenProperties() );
+        comboBox.addItem( new NeonProperties() );
+//        comboBox.addItem( new DefaultAtomItem( model ) );
+//        comboBox.addItem( new HydrogenItem( model ) );
+//        comboBox.addItem( new NeonItem( model ) );
         comboBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 JComboBox cb = (JComboBox)e.getSource();
                 // Get the selected item and tell it to do its thing
-                AtomTypeItem item = (AtomTypeItem)cb.getSelectedItem();
-                item.select();
+                ElementProperties selection = (ElementProperties)cb.getSelectedItem();
+                model.setAtomicElement( selection );
+//                AtomTypeItem item = (AtomTypeItem)cb.getSelectedItem();
+//                item.select();
             }
         } );
 

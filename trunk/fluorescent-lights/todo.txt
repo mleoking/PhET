@@ -8,4 +8,9 @@ AtomicStateFactory
     changed computation of energies on line 41, in constructor
 
 DiscahrgeLampModule
-    increased max voltage to 5 from 0.1     
+    increased max voltage to 5 from 0.1
+
+
+To do
+-----
+both the model and each atom have atomicStates[]. They should only be in one place.

@@ -16,17 +16,14 @@ package edu.colorado.phet.dischargelamps.model;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class HydrogenProperties extends ElementProperties {
+public class DefaultElementProperties extends ElementProperties {
     private static double[] energyLevels = {
         -13.6,
-        -3.4,
-        -1.511,
-        -0.850,
-        -0.544,
-        -0.378};
+        -0.378
+    };
 
-    public HydrogenProperties() {
-        super( "Hydrogen", energyLevels );
+    public DefaultElementProperties() {
+        super( "Default", energyLevels );
     }
 }
 
