@@ -15,6 +15,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.photon.Photon;
+import edu.colorado.phet.lasers.model.PhysicsUtil;
 
 import java.awt.geom.Point2D;
 import java.util.EventListener;
@@ -31,8 +32,8 @@ public class AtomicState {
 
     static public final double minWavelength = Photon.BLUE - 20;
     static public final double maxWavelength = Photon.GRAY;
-    static public final double minEnergy = Photon.wavelengthToEnergy( maxWavelength );
-    static public final double maxEnergy = Photon.wavelengthToEnergy( minWavelength );
+    static public final double minEnergy = PhysicsUtil.wavelengthToEnergy( maxWavelength );
+    static public final double maxEnergy = PhysicsUtil.wavelengthToEnergy( minWavelength );
     static protected double s_collisionLikelihood = 1;
     static protected final double wavelengthTolerance = 10;
     //        static protected double s_collisionLikelihood = 0.2;
@@ -68,7 +69,7 @@ public class AtomicState {
 
     public void setEnergyLevel( double energyLevel ) {
         this.energyLevel = energyLevel;
-        this.wavelength = Photon.energyToWavelength( energyLevel );
+        this.wavelength = PhysicsUtil.energyToWavelength( energyLevel );
         listenerProxy.energyLevelChanged( new Event( this ) );
     }
 
@@ -84,11 +85,11 @@ public class AtomicState {
      * @return
      */
     public double determineEmittedPhotonWavelength( AtomicState nextState ) {
-        double energy1 = Photon.wavelengthToEnergy( this.getWavelength() );
-        double energy2 = Photon.wavelengthToEnergy( nextState.getWavelength() );
+        double energy1 = PhysicsUtil.wavelengthToEnergy( this.getWavelength() );
+        double energy2 = PhysicsUtil.wavelengthToEnergy( nextState.getWavelength() );
 
         // todo: This was changed in discharge atom model
-        double emittedWavelength = Math.min( Photon.energyToWavelength( energy1 - energy2 ),
+        double emittedWavelength = Math.min( PhysicsUtil.energyToWavelength( energy1 - energy2 ),
 //        double emittedWavelength = Math.min( Photon.energyToWavelength( energy1 - energy2 + AtomicState.minEnergy ),
                                              AtomicState.maxWavelength );
         return emittedWavelength;
@@ -101,11 +102,11 @@ public class AtomicState {
      * @return
      */
     public double determineEmittedPhotonWavelength() {
-        double energy1 = Photon.wavelengthToEnergy( this.getWavelength() );
-        double energy2 = Photon.wavelengthToEnergy( this.getNextLowerEnergyState().getWavelength() );
+        double energy1 = PhysicsUtil.wavelengthToEnergy( this.getWavelength() );
+        double energy2 = PhysicsUtil.wavelengthToEnergy( this.getNextLowerEnergyState().getWavelength() );
 
         // todo: this isn't right. It doesn't work for upper to middle transitions
-        double emittedWavelength = Math.min( Photon.energyToWavelength( energy1 - energy2 + AtomicState.minEnergy ),
+        double emittedWavelength = Math.min( PhysicsUtil.energyToWavelength( energy1 - energy2 + AtomicState.minEnergy ),
                                              AtomicState.maxWavelength );
         return emittedWavelength;
     }
@@ -257,7 +258,7 @@ public class AtomicState {
         }
 
         public double getEnergyLevel() {
-            return Photon.wavelengthToEnergy( getWavelength() );
+            return PhysicsUtil.wavelengthToEnergy( getWavelength() );
         }
     }
 

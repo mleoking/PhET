@@ -14,6 +14,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.lasers.model.LaserModel;
+import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.EventObject;
 import java.util.EventListener;
+import java.awt.geom.Point2D;
 
 /**
  * FluorescentLightModel
@@ -43,24 +45,43 @@ public class DischargeLampModel extends LaserModel {
     private ElectronSink anode;
     private Spectrometer spectrometer;
     private Vector2D electronAcceleration = new Vector2D.Double();
+    private ResonatingCavity tube;
 
 
     public DischargeLampModel() {
         // This is the place to set the mean lifetime for the various atomic states
 //        MiddleEnergyState.instance().setMeanLifetime( .00001 );
 
+        // Make the cathode
         cathode = new ElectronSource( this,
                                       DischargeLampsConfig.CATHODE_LINE.getP1(),
                                       DischargeLampsConfig.CATHODE_LINE.getP2() );
         addModelElement( cathode );
         cathode.addStateChangeListener( new ElectrodeStateChangeListener() );
 
+        // Make the anode
         anode = new ElectronSink( this,
                                   DischargeLampsConfig.ANODE_LINE.getP1(),
                                   DischargeLampsConfig.ANODE_LINE.getP2() );
         anode.addStateChangeListener( new ElectrodeStateChangeListener() );
         addModelElement( anode );
 
+        // Hook them together
+        cathode.addListener( anode );
+
+        // Make the discharge tube
+        double x = DischargeLampsConfig.CATHODE_LOCATION.getX() - DischargeLampsConfig.ELECTRODE_INSETS.left;
+        double y = DischargeLampsConfig.CATHODE_LOCATION.getY() - DischargeLampsConfig.CATHODE_LENGTH / 2
+                   - DischargeLampsConfig.ELECTRODE_INSETS.top;
+        double length = DischargeLampsConfig.ANODE_LOCATION.getX() - DischargeLampsConfig.CATHODE_LOCATION.getX()
+                        + DischargeLampsConfig.ELECTRODE_INSETS.left + DischargeLampsConfig.ELECTRODE_INSETS.right;
+        double height = DischargeLampsConfig.CATHODE_LENGTH
+                        + DischargeLampsConfig.ELECTRODE_INSETS.top + DischargeLampsConfig.ELECTRODE_INSETS.bottom;
+        Point2D tubeLocation = new Point2D.Double( x, y );
+        tube = new ResonatingCavity( tubeLocation, length, height );
+        addModelElement( tube );
+
+        // Make the spectrometer
         spectrometer = new Spectrometer();
     }
 
@@ -170,6 +191,10 @@ public class DischargeLampModel extends LaserModel {
 
     public ElectronSink getAnode() {
         return anode;
+    }
+
+    public ResonatingCavity getTube() {
+        return tube;
     }
 
     public Spectrometer getSpectrometer() {

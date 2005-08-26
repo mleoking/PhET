@@ -10,6 +10,7 @@
  */
 package edu.colorado.phet.lasers.model.atom;
 
+import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 /**
@@ -21,6 +22,6 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 public class HighEnergyState extends AtomicState {
 
     public HighEnergyState() {
-        setEnergyLevel( Photon.wavelengthToEnergy( Photon.BLUE ) );
+        setEnergyLevel( PhysicsUtil.wavelengthToEnergy( Photon.BLUE ) );
     }
 }

@@ -55,18 +55,6 @@ public class Photon extends Particle implements Collidable {
     // laser cavity
     static private Rectangle2D stimulationBounds;
 
-    public static double energyToWavelength( double energy ) {
-        return PhysicsUtil.energyToWavelength( energy );
-//        return PLANCK * PhysicsUtil.LIGHT_SPEED / energy;
-//        return PLANCK / energy;
-    }
-
-    public static double wavelengthToEnergy( double wavelength ) {
-        return PhysicsUtil.wavelengthToEnergy( wavelength );
-//        return PLANCK * PhysicsUtil.LIGHT_SPEED / wavelength;
-//        return PLANCK / wavelength;
-    }
-
     // Free pool of photons. We do this so we don't have to use the heap
     // at run-time
     static private int freePoolSize = 2000;
@@ -174,7 +162,7 @@ public class Photon extends Particle implements Collidable {
     }
 
     public double getEnergy() {
-        return wavelengthToEnergy( wavelength );
+        return PhysicsUtil.wavelengthToEnergy( wavelength );
     }
 
     public boolean hasCollidedWithAtom( Atom atom ) {
