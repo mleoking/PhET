@@ -192,7 +192,7 @@ public class DischargeLampModule extends BaseLaserModule /*implements ElectronSo
     private void addControls() {
 
         // A combo box for atom types
-        JComponent atomTypeComboBox = new AtomTypeChooser( this );
+        JComponent atomTypeComboBox = new AtomTypeChooser( getDischargeLampModel() );
         getControlPanel().add( atomTypeComboBox );
 
         // A slider for the battery voltage

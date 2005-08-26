@@ -12,6 +12,7 @@ package edu.colorado.phet.dischargelamps.model;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
@@ -19,6 +20,8 @@ import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.EventObject;
+import java.util.EventListener;
 
 /**
  * FluorescentLightModel
@@ -26,7 +29,7 @@ import java.util.List;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class DischargeLampModel extends LaserModel implements Electrode.StateChangeListener {
+public class DischargeLampModel extends LaserModel {
 
     //-----------------------------------------------------------------
     // Instance data
@@ -50,13 +53,13 @@ public class DischargeLampModel extends LaserModel implements Electrode.StateCha
                                       DischargeLampsConfig.CATHODE_LINE.getP1(),
                                       DischargeLampsConfig.CATHODE_LINE.getP2() );
         addModelElement( cathode );
-        setCathode( cathode );
+        cathode.addStateChangeListener( new ElectrodeStateChangeListener() );
 
         anode = new ElectronSink( this,
                                   DischargeLampsConfig.ANODE_LINE.getP1(),
                                   DischargeLampsConfig.ANODE_LINE.getP2() );
+        anode.addStateChangeListener( new ElectrodeStateChangeListener() );
         addModelElement( anode );
-        setAnode( anode );
 
         spectrometer = new Spectrometer();
     }
@@ -138,23 +141,25 @@ public class DischargeLampModel extends LaserModel implements Electrode.StateCha
         }
     }
 
-    // Todo: Get rid of this. The clients of this should not be making atomic states
-    public void setAtomicEnergyStates( AtomicState[] atomicStates ) {
-        this.atomicStates = atomicStates;
+    public void setAtomicElement( ElementProperties elementProperties ) {
+        for( int i = 0; i < atoms.size(); i++ ) {
+            DischargeLampAtom atom = (DischargeLampAtom)atoms.get( i );
+            atom.setElementProperties( elementProperties );
+        }
+        changeListenerProxy.energyLevelsChanged( new ChangeEvent( this ) );
+    }
+
+    public void setAtomicStates( AtomicState[] states ) {
+        atomicStates = states;
         for( int i = 0; i < atoms.size(); i++ ) {
             Atom atom = (Atom)atoms.get( i );
             atom.setStates( atomicStates );
         }
     }
 
-    public void setAnode( ElectronSink anode ) {
-        this.anode = anode;
-        anode.addStateChangeListener( this );
-    }
 
-    public void setCathode( ElectronSource cathode ) {
-        this.cathode = cathode;
-        cathode.addStateChangeListener( this );
+    public AtomicState[] getAtomicStates() {
+        return atomicStates;
     }
 
     public ElectronSource getCathode() {
@@ -189,20 +194,54 @@ public class DischargeLampModel extends LaserModel implements Electrode.StateCha
 
     /**
      * Handles changes in the electrode potentials
-     *
-     * @param event
      */
-    public void stateChanged( Electrode.StateChangeEvent event ) {
-        double potentialDiff = cathode.getPotential() - anode.getPotential();
-        setElectronAcceleration( potentialDiff );
-        for( int i = 0; i < electrons.size(); i++ ) {
-            Electron electron = (Electron)electrons.get( i );
-            electron.setAcceleration( getElectronAcceleration() );
+    private class ElectrodeStateChangeListener implements Electrode.StateChangeListener {
+        public void stateChanged( Electrode.StateChangeEvent event ) {
+            double potentialDiff = cathode.getPotential() - anode.getPotential();
+            setElectronAcceleration( potentialDiff );
+            for( int i = 0; i < electrons.size(); i++ ) {
+                Electron electron = (Electron)electrons.get( i );
+                electron.setAcceleration( getElectronAcceleration() );
+            }
+        }
+
+        public AtomicState[] getAtomicStates() {
+            return atomicStates;
         }
     }
 
-    public AtomicState[] getAtomicStates() {
-        return atomicStates;
+    //----------------------------------------------------------------
+    // Event and listener definitions
+    //----------------------------------------------------------------
+
+    public class ChangeEvent extends EventObject {
+        public ChangeEvent( Object source ) {
+            super( source );
+        }
+
+        public DischargeLampModel getDischargeLampModelDischargeLampModel() {
+            return (DischargeLampModel)getSource();
+        }
+    }
+
+    public interface ChangeListener extends EventListener {
+         void energyLevelsChanged( ChangeEvent event );
+    }
+
+    public class ChangeListenerAdapter implements ChangeListener {
+        public void energyLevelsChanged( ChangeEvent event ) {
+        }
+    }
+
+    private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
+    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+
+    public void addChangeListener( ChangeListener listener ) {
+        changeEventChannel.addListener( listener );
+    }
+
+    public void removeChangeListener( ChangeListener listener ) {
+        changeEventChannel.removeListener( listener );
     }
 }
 

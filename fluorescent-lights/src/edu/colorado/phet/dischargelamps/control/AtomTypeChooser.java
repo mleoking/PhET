@@ -13,6 +13,8 @@ package edu.colorado.phet.dischargelamps.control;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.DischargeLampModule;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
+import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
+import edu.colorado.phet.dischargelamps.model.HydrogenProperties;
 import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.atom.GroundState;
@@ -36,7 +38,7 @@ public class AtomTypeChooser extends JPanel {
                                                              GridBagConstraints.NONE,
                                                              new Insets( 0, 10, 0, 10 ), 0, 0 );
 
-    public AtomTypeChooser( DischargeLampModule module ) {
+    public AtomTypeChooser( DischargeLampModel model ) {
         super( new GridBagLayout() );
 
         JLabel label = new JLabel( SimStrings.get( "ControlPanel.AtomTypeButtonLabel" ) );
@@ -45,9 +47,9 @@ public class AtomTypeChooser extends JPanel {
 
         JComboBox comboBox = new JComboBox();
 
-        comboBox.addItem( new DefaultAtomItem( module ) );
-        comboBox.addItem( new HydrogenItem( module ) );
-        comboBox.addItem( new NeonItem( module ) );
+        comboBox.addItem( new DefaultAtomItem( model ) );
+        comboBox.addItem( new HydrogenItem( model ) );
+        comboBox.addItem( new NeonItem( model ) );
         comboBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 JComboBox cb = (JComboBox)e.getSource();
@@ -67,7 +69,7 @@ public class AtomTypeChooser extends JPanel {
     //----------------------------------------------------------------
 
     abstract private class AtomTypeItem {
-        private DischargeLampModule module;
+        DischargeLampModel model;
 
         //----------------------------------------------------------------
         // Abstract methods
@@ -75,12 +77,12 @@ public class AtomTypeChooser extends JPanel {
 
         abstract protected double[] getEnergies();
 
-        protected AtomTypeItem( DischargeLampModule module ) {
-            this.module = module;
+        protected AtomTypeItem( DischargeLampModel model ) {
+            this.model = model;
         }
 
         void select() {
-            module.setAtomicStates( this.getStates() );
+            model.setAtomicStates( this.getStates() );
         }
 
         private AtomicState[] getStates() {
@@ -110,8 +112,8 @@ public class AtomTypeChooser extends JPanel {
         private double[] energies = new double[]{-13.6,
                                                  -0.378};
 
-        public DefaultAtomItem( DischargeLampModule module ) {
-            super( module );
+        public DefaultAtomItem( DischargeLampModel model ) {
+            super( model );
         }
 
         public String toString() {
@@ -131,8 +133,8 @@ public class AtomTypeChooser extends JPanel {
                                                  -0.544,
                                                  -0.378};
 
-        public HydrogenItem( DischargeLampModule module ) {
-            super( module );
+        public HydrogenItem( DischargeLampModel model ) {
+            super( model );
         }
 
         public String toString() {
@@ -141,6 +143,10 @@ public class AtomTypeChooser extends JPanel {
 
         protected double[] getEnergies() {
             return energies;
+        }
+
+        void select() {
+            model.setAtomicElement( new HydrogenProperties() );
         }
     }
 
@@ -152,8 +158,8 @@ public class AtomTypeChooser extends JPanel {
                                                  -0.544,
                                                  -0.378};
 
-        public NeonItem( DischargeLampModule module ) {
-            super( module );
+        public NeonItem( DischargeLampModel model ) {
+            super( model );
         }
 
         public String toString() {

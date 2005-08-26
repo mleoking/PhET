@@ -34,6 +34,8 @@ public class DischargeLampAtom extends Atom {
     private EnergyAbsorptionStrategy energyAbsorptionStrategy = new FiftyPercentAbsorptionStrategy();
 //    private EnergyEmissionStrategy energyEmissionStrategy = new FiftyPercentEnergyEmissionStrategy();
 
+    private ElementProperties elementProperties;
+
     /**
      * @param model
      * @param states
@@ -68,5 +70,10 @@ public class DischargeLampAtom extends Atom {
     public AtomicState getEnergyStateAfterEmission() {
         return energyEmissionStrategy.emitEnergy( this );
 //        return getStates()[0];
+    }
+
+    public void setElementProperties( ElementProperties elementProperties ) {
+        this.elementProperties = elementProperties;
+        super.setStates( elementProperties.getStates() );
     }
 }
