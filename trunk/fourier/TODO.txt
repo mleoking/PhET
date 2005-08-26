@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- optimize memory allocation
 - add wait cursor to graph maximize buttons
 - when 2dx gets to be just a few pixels, peaks of the waveform in Sum graph are chopped off
 - memory leak in D2C module, freezes with wait cursor
@@ -70,11 +71,13 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
-(8/25) - update D2CHarmonicsGraph when it becomes visible only if model has changed
-(8/25) - flatten Amplitudes chart in Discrete module
-(8/25) - flatten all charts in D2C module
-(8/25) - create FlattenedChart for flattening charts
-(8/25) - phetcommon: delete PhetFlattenedGraphic
+1.0.6 ...
+(8/26) - update D2CHarmonicsGraph when it becomes visible only if model has changed
+(8/26) - flatten Amplitudes chart in Discrete module
+(8/26) - flatten all charts in D2C module
+(8/26) - create FlattenedChart for flattening charts
+(8/26) - phetcommon: delete PhetFlattenedGraphic
+(8/25) - phetcommon: tried to debug PhetFlattenedGraphic, failed
 (8/24) - add equation above D2CAmplitudesGraph
 (8/24) - fix BoundsDebugger so that it draws the correct location when no directly on the apparatus panel
 (8/24) - phetcommon: fix PhetFlattenedGraphic.flatten so that it assumes bounds are dirty
