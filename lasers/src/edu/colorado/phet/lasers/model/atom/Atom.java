@@ -319,9 +319,4 @@ public class Atom extends SolidSphere {
     public void removePhotonEmittedListener( PhotonEmittedListener listener ) {
         photonEventChannel.removeListener( listener );
     }
-
-    /**
-     * Properties change events
-     */
-    
 }

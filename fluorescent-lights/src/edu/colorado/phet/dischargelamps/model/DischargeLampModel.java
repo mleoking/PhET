@@ -142,6 +142,7 @@ public class DischargeLampModel extends LaserModel {
     }
 
     public void setAtomicElement( ElementProperties elementProperties ) {
+        atomicStates = elementProperties.getStates();
         for( int i = 0; i < atoms.size(); i++ ) {
             DischargeLampAtom atom = (DischargeLampAtom)atoms.get( i );
             atom.setElementProperties( elementProperties );
