@@ -121,6 +121,12 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         super( clock );
         model = (DischargeLampModel)module.getLaserModel();
 
+        model.addChangeListener( new DischargeLampModel.ChangeListener() {
+            public void energyLevelsChanged( DischargeLampModel.ChangeEvent event ) {
+                setEnergyLevels( event.getDischargeLampModelDischargeLampModel().getAtomicStates() );
+            }
+        } );
+
         // Determine locations and dimensions
 //        this.minPanelWidth = panelWidth;
         this.panelHeight = panelHeight;

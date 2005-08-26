@@ -57,7 +57,7 @@ public class DischargeLampControlPanel {
 //                                         0, 0.3, 0, new DecimalFormat( "0.00#" ) );
 //        currentSlider.setPreferredSize( new Dimension( 250, 100 ) );
 //        currentSlider.setMajorTickSpacing( 0.1 );
-////        currentSlider.setNumMajorTicks( 4 );
+////        currentSlider.setNumMajorTicks( 4 );              C
 ////        currentSlider.setNumMinorTicksPerMajorTick( 1 );
 //        controlPanel.addControl( currentSlider );
 //        currentSlider.addChangeListener( new ChangeListener() {
