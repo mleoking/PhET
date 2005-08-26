@@ -168,10 +168,15 @@ public class PlotDevice extends GraphicLayerSet {
     }
 
     private BufferedImage testResize( BufferedImage image, double fraction ) {
-        if( Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 ) {
+        if( isLowResolution() ) {
+//            image = BufferedImageUtils.rescaleYMaintainAspectRatio( getComponent(), image, (int)( image.getHeight() * fraction ) );
             image = BufferedImageUtils.rescaleYMaintainAspectRatio( getComponent(), image, (int)( image.getHeight() * fraction ) );
         }
         return image;
+    }
+
+    private boolean isLowResolution() {
+        return Toolkit.getDefaultToolkit().getScreenSize().width <= 1024;
     }
 
     private PhetGraphic createMinimizeButton() {
@@ -240,10 +245,22 @@ public class PlotDevice extends GraphicLayerSet {
 
     public class ZoomPanel extends GraphicLayerSet {
         public ZoomPanel( final PlotDevice plotDevice ) throws IOException {
-            BufferedImage imPlus = ImageLoader.loadBufferedImage( "images/icons/glass-20-plus.gif" );
-            imPlus = testResize( imPlus, 0.9 );
-            BufferedImage imgMinus = ImageLoader.loadBufferedImage( "images/icons/glass-20-minus.gif" );
-            imgMinus = testResize( imgMinus, 0.9 );
+//            BufferedImage imPlus = ImageLoader.loadBufferedImage( "images/icons/glass-20-plus.gif" );
+//            imPlus = testResize( imPlus, 0.8 );
+//            BufferedImage imgMinus = ImageLoader.loadBufferedImage( "images/icons/glass-20-minus.gif" );
+//            imgMinus = testResize( imgMinus, 0.8 );
+
+            BufferedImage imPlus = ImageLoader.loadBufferedImage( "images/icons/plus-tiny.gif" );
+            BufferedImage imgMinus = ImageLoader.loadBufferedImage( "images/icons/minus-tiny.gif" );
+
+            if( isHighResolution() ) {
+                imPlus = ImageLoader.loadBufferedImage( "images/icons/glass-20-plus.gif" );
+                imgMinus = ImageLoader.loadBufferedImage( "images/icons/glass-20-minus.gif" );
+            }
+//            imPlus = testResize( imPlus, 0.8 );
+
+//            imgMinus = testResize( imgMinus, 0.8 );
+
             final double smooth = 1;
             ActionListener smoothPos = new ValueChange( smooth, 0, 100 );
             ActionListener smoothNeg = new ValueChange( -smooth, 0, 100 );
@@ -261,6 +278,11 @@ public class PlotDevice extends GraphicLayerSet {
             addGraphic( g );
         }
 
+
+    }
+
+    private boolean isHighResolution() {
+        return !isLowResolution();
     }
 
     public void setPaintYLines( double[] lines ) {
@@ -320,6 +342,8 @@ public class PlotDevice extends GraphicLayerSet {
             super( icon );
             addMouseListener( new RepeatClicker( hold, click ) );
             setToolTipText( tooltip );
+            setForeground( Color.white );
+            setBackground( Color.white );
         }
     }
 
