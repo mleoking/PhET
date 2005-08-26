@@ -14,6 +14,8 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.Atom;
+import edu.colorado.phet.lasers.model.atom.AtomicState;
+import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,17 +27,38 @@ import java.util.List;
  * @version $Revision$
  */
 public class DischargeLampModel extends LaserModel implements Electrode.StateChangeListener {
+
+    //-----------------------------------------------------------------
+    // Instance data
+    //-----------------------------------------------------------------
     private List atoms = new ArrayList();
+    private int numEnergyLevels;
+    private AtomicState[] atomicStates;
     private List electrons = new ArrayList();
     private ElectronAtomCollisionExpert electronAtomCollisionExpert = new ElectronAtomCollisionExpert();
     private ElectronSource cathode;
     private ElectronSink anode;
+    private Spectrometer spectrometer;
     private Vector2D electronAcceleration = new Vector2D.Double();
 
 
     public DischargeLampModel() {
         // This is the place to set the mean lifetime for the various atomic states
 //        MiddleEnergyState.instance().setMeanLifetime( .00001 );
+
+        cathode = new ElectronSource( this,
+                                      DischargeLampsConfig.CATHODE_LINE.getP1(),
+                                      DischargeLampsConfig.CATHODE_LINE.getP2() );
+        addModelElement( cathode );
+        setCathode( cathode );
+
+        anode = new ElectronSink( this,
+                                  DischargeLampsConfig.ANODE_LINE.getP1(),
+                                  DischargeLampsConfig.ANODE_LINE.getP2() );
+        addModelElement( anode );
+        setAnode( anode );
+
+        spectrometer = new Spectrometer();
     }
 
     /**
@@ -106,6 +129,23 @@ public class DischargeLampModel extends LaserModel implements Electrode.StateCha
     // Getters and setters
     //----------------------------------------------------------------
 
+    public void setNumAtomicEnergyLevels( int numLevels ) {
+        numEnergyLevels = numLevels;
+        atomicStates = new AtomicStateFactory().createAtomicStates( numLevels );
+        for( int i = 0; i < atoms.size(); i++ ) {
+            Atom atom = (Atom)atoms.get( i );
+            atom.setStates( atomicStates );
+        }
+    }
+
+    // Todo: Get rid of this. The clients of this should not be making atomic states
+    public void setAtomicEnergyStates( AtomicState[] atomicStates ) {
+        this.atomicStates = atomicStates;
+        for( int i = 0; i < atoms.size(); i++ ) {
+            Atom atom = (Atom)atoms.get( i );
+            atom.setStates( atomicStates );
+        }
+    }
 
     public void setAnode( ElectronSink anode ) {
         this.anode = anode;
@@ -115,12 +155,20 @@ public class DischargeLampModel extends LaserModel implements Electrode.StateCha
     public void setCathode( ElectronSource cathode ) {
         this.cathode = cathode;
         cathode.addStateChangeListener( this );
-   }
+    }
+
+    public ElectronSource getCathode() {
+        return cathode;
+    }
 
     public ElectronSink getAnode() {
         return anode;
     }
-    
+
+    public Spectrometer getSpectrometer() {
+        return spectrometer;
+    }
+
     protected void setElectronAcceleration( double potentialDiff ) {
         double cathodeToAnodeDist = anode.getPosition().distance( cathode.getPosition() );
         electronAcceleration.setComponents( potentialDiff / cathodeToAnodeDist, 0 );
@@ -151,6 +199,10 @@ public class DischargeLampModel extends LaserModel implements Electrode.StateCha
             Electron electron = (Electron)electrons.get( i );
             electron.setAcceleration( getElectronAcceleration() );
         }
+    }
+
+    public AtomicState[] getAtomicStates() {
+        return atomicStates;
     }
 }
 

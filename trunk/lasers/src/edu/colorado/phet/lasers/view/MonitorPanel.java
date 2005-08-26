@@ -40,7 +40,6 @@ public class MonitorPanel extends ApparatusPanel {
 
     protected MonitorPanel(AbstractClock clock ) {
         super( clock );
-//        setLayout( null );
     }
 
     protected void paintComponent( Graphics g ) {
