@@ -17,6 +17,7 @@ import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
+import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
@@ -180,7 +181,7 @@ public abstract class WaveGraphic extends PhetGraphic implements ModelElement, A
 
 
     public void energyLevelChanged( AtomicState.Event event ) {
-        double lambda = Photon.energyToWavelength( event.getEnergy() );
+        double lambda = PhysicsUtil.energyToWavelength( event.getEnergy() );
         color = VisibleColor.wavelengthToColor( lambda );
     }
 
