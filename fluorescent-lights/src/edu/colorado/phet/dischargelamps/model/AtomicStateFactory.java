@@ -25,13 +25,9 @@ public class AtomicStateFactory {
         AtomicState[] states = new AtomicState[numEnergyLevels];
         double minVisibleEnergy = -13.6;
         double maxVisibleEnergy = -0.3;
-//        double minVisibleEnergy = Photon.wavelengthToEnergy( Photon.DEEP_RED );
-//        double maxVisibleEnergy = Photon.wavelengthToEnergy( Photon.BLUE );
 
         // Determine the spacing of energy levels
-        double dE = states.length > 2 ? ( maxVisibleEnergy - minVisibleEnergy ) / ( states.length - 2 ) :
-             ( maxVisibleEnergy - minVisibleEnergy ) * 2 / 3 ;
-//        dE = states.length > 2 ? ( maxVisibleEnergy - minVisibleEnergy ) / ( states.length - 2 ) : 0;
+        double dE = ( maxVisibleEnergy - minVisibleEnergy ) / ( states.length - 1 );
 
         states[0] = new GroundState();
         states[0].setEnergyLevel( minVisibleEnergy );

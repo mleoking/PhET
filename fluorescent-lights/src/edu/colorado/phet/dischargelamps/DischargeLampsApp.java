@@ -54,12 +54,12 @@ public class DischargeLampsApp extends PhetApplication {
                                                                      DischargeLampsConfig.NUM_ENERGY_LEVELS );
 
         double maxSpeed = 0.1;
-//        DischargeLampModule multipleAtomModule = new MultipleAtomModule( SimStrings.get( "ModuleTitle.MultipleAtomModule" ),
-//                                                                         getClock(), 30,
-//                                                                         DischargeLampsConfig.NUM_ENERGY_LEVELS,
-//                                                                         maxSpeed );
+        DischargeLampModule multipleAtomModule = new MultipleAtomModule( SimStrings.get( "ModuleTitle.MultipleAtomModule" ),
+                                                                         getClock(), 30,
+                                                                         DischargeLampsConfig.NUM_ENERGY_LEVELS,
+                                                                         maxSpeed );
         setModules( new Module[]{singleAtomModule,
-                                 /*multipleAtomModule*/} );
+                                 multipleAtomModule } );
         setInitialModule( singleAtomModule );
     }
 

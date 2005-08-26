@@ -116,6 +116,10 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
         energyRepRad = Math.pow( energyRatio, ringThicknessExponent )
                        * ( imageGraphic.getImage().getWidth() / 2 ) + groundStateRingThickness;
 
+        if( Double.isNaN( energyRepRad) ) {
+            System.out.println( "$$$$$" );
+        }
+
         energyRep = new Ellipse2D.Double( 0, 0, energyRepRad * 2, energyRepRad * 2 );
         if( state.getWavelength() == Photon.GRAY ) {
             energyRepColor = Color.darkGray;
@@ -139,6 +143,7 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
     public void paint( Graphics2D g2 ) {
         saveGraphicsState( g2 );
         GraphicsUtil.setAntiAliasingOn( g2 );
+
         super.paint( g2 );
 
         // Debug: draws a dot at the center of the atom
