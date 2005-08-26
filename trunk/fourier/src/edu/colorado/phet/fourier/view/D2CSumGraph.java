@@ -24,6 +24,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.charts.D2CSumChart;
+import edu.colorado.phet.fourier.charts.FlattenedChart;
 import edu.colorado.phet.fourier.charts.FourierSumPlot;
 import edu.colorado.phet.fourier.charts.GaussianWavePacketPlot;
 import edu.colorado.phet.fourier.control.ZoomControl;
@@ -92,6 +93,7 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
     private PhetImageGraphic _closeButton;
     private ZoomControl _horizontalZoomControl;
     private D2CSumChart _chartGraphic;
+    private FlattenedChart _flattenedChart;
     private D2CSumEquation _mathGraphic;
     private int _domain;
     private int _waveType;
@@ -137,10 +139,18 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
         addGraphic( _titleGraphic, TITLE_LAYER );
         
         // Chart
-        _chartGraphic = new D2CSumChart( component, CHART_RANGE, CHART_SIZE );
-        addGraphic( _chartGraphic, CHART_LAYER );
-        _chartGraphic.setRegistrationPoint( 0, CHART_SIZE.height / 2 ); // at the chart's origin
-        _chartGraphic.setLocation( 60, 50 + ( CHART_SIZE.height / 2 ) );
+        {
+            _chartGraphic = new D2CSumChart( component, CHART_RANGE, CHART_SIZE );
+            _chartGraphic.setRegistrationPoint( 0, 0 );
+            _chartGraphic.setLocation( 0, 0 );
+
+            int xOffset = 25;
+            int yOffset = 0;
+            _flattenedChart = new FlattenedChart( component, _chartGraphic, xOffset, yOffset );
+            addGraphic( _flattenedChart, CHART_LAYER );
+            _flattenedChart.setRegistrationPoint( xOffset, CHART_SIZE.height / 2 ); // at the chart's origin
+            _flattenedChart.setLocation( 60, 50 + ( CHART_SIZE.height / 2 ) );
+        }
         
         // Fourier series
         _fourierSeries = new FourierSeries( 1, 440 ); //XXX
@@ -168,10 +178,7 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
         {
             _horizontalZoomControl = new ZoomControl( component, ZoomControl.HORIZONTAL );
             addGraphic( _horizontalZoomControl, CONTROLS_LAYER );
-            // Location is aligned with top-right edge of chart.
-            int x = _chartGraphic.getX() + CHART_SIZE.width + 20;
-            int y = _chartGraphic.getY() - ( CHART_SIZE.height / 2 );
-            _horizontalZoomControl.setLocation( x, y );
+            _horizontalZoomControl.setLocation( 620, 50 );
         }
 
         // Math
@@ -179,10 +186,7 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
             _mathGraphic = new D2CSumEquation( component );
             addGraphic( _mathGraphic, MATH_LAYER );
             _mathGraphic.centerRegistrationPoint();
-            // Location is above the center of the chart.
-            int x = _chartGraphic.getX() + ( CHART_SIZE.width / 2 );
-            int y = 30;
-            _mathGraphic.setLocation( x, y );
+            _mathGraphic.setLocation( 330, 30 );
         }
         
         // Interactivity
@@ -220,6 +224,7 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
         _waveType = FourierConstants.WAVE_TYPE_SINE;
         _xZoomLevel = 0;
         _chartGraphic.setRange( CHART_RANGE );
+        refreshChart();
         updateZoomButtons();
         update();
     }
@@ -288,8 +293,11 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
     public void setHeight( int height ) {
         if ( height >= MIN_HEIGHT ) {
             _backgroundGraphic.setShape( new Rectangle( 0, 0, BACKGROUND_SIZE.width, height ) );
-            _chartGraphic.setChartSize( CHART_SIZE.width, height - 70 );
             _titleGraphic.setLocation( TITLE_LOCATION.x, height / 2 );
+            
+            _chartGraphic.setChartSize( CHART_SIZE.width, height - 70 );
+            refreshChart();
+            
             setBoundsDirty();
         }
     }
@@ -366,6 +374,7 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
             _chartGraphic.getHorizontalTicks().setMajorTickSpacing( 0.5 );
         }
 
+        refreshChart();
         updateZoomButtons();
     }
 
@@ -415,6 +424,8 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
         else {
             addContinuousPlot();
         }
+        
+        refreshChart();
     }
     
     //----------------------------------------------------------------------------
@@ -486,5 +497,10 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
         else if ( _domain == FourierConstants.DOMAIN_TIME ) {
             _chartGraphic.setXAxisTitle( SimStrings.get( "D2CSumGraph.xTitleTime" ) );
         }
+        refreshChart();
+    }
+    
+    private void refreshChart() {
+        _flattenedChart.flatten();
     }
 }
