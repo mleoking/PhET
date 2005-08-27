@@ -139,3 +139,6 @@ photoelectric photoelectric &dischargelamps &charts
 
 #Discharge lamps
 dischargelamps fluorescent-lights &phetcommon &mechanics &collision &lasers &controls
+
+#Piccolo
+piccolo piccolo &phetcommon
