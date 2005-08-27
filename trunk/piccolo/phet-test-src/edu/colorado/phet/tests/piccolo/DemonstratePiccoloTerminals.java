@@ -54,6 +54,9 @@ public class DemonstratePiccoloTerminals {
         image.setOffset( 100, 50 );
         image.rotateInPlace( Math.PI / 16 );
         piccoloCanvas.getLayer().addChild( image );
+
+//        piccoloCanvas.setPanEventHandler( null);
+//        piccoloCanvas.setZoomEventHandler( null);
     }
 
     public static void main( String[] args ) throws IOException {
