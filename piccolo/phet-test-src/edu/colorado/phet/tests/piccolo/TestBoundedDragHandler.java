@@ -47,17 +47,18 @@ public class TestBoundedDragHandler {
         PText pText = new PText( "Hello Piccolo" );
         piccoloCanvas.getLayer().addChild( pText );
         pText.setOffset( 100, 100 );
-        pText.addInputEventListener( new BoundedDragHandler( rectangleBounds ) );
+        pText.addInputEventListener( new BoundedDragHandler( path ) );
         pText.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
-//        pText.rotate( Math.PI/8);
+        pText.rotate( Math.PI/4);
+        pText.setPaint( Color.green );
 //       pText.scale(3);
 
-
         piccoloCanvas.getLayer().scale( 0.5 );
+
         PBounds pathBounds=path.getGlobalFullBounds();
         System.out.println( "pathBounds[global] = " + pathBounds );
         piccoloCanvas.setPanEventHandler( null );
-        piccoloCanvas.setZoomEventHandler( null );
+//        piccoloCanvas.setZoomEventHandler( null );
     }
 
     public static void main( String[] args ) throws IOException {
