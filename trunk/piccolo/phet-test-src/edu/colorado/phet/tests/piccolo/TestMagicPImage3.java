@@ -3,7 +3,6 @@ package edu.colorado.phet.tests.piccolo;
 
 import edu.colorado.phet.piccolo.Oscillate;
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.theramp.common.MagicPImage3;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
