@@ -47,10 +47,12 @@ public class TestConstrainedDragHandler {
         piccoloCanvas.getLayer().addChild( pText );
         pText.setOffset( 100, 100 );
         pText.addInputEventListener( new ConstrainedDragHandler( rectangleBounds ) );
-        pText.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR) );
+        pText.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
 //        pText.rotate( Math.PI/8);
 //       pText.scale(3);
 
+
+        piccoloCanvas.getLayer().scale( 0.5 );
         piccoloCanvas.setPanEventHandler( null );
         piccoloCanvas.setZoomEventHandler( null );
     }
