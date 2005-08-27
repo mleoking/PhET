@@ -4,6 +4,7 @@ package edu.colorado.phet.tests.piccolo;
 import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.piccolo.CursorHandler;
 import edu.umd.cs.piccolo.PCanvas;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -18,11 +19,11 @@ import java.io.IOException;
  * Copyright (c) Aug 26, 2005 by Sam Reid
  */
 
-public class TestConstrainedDragHandler {
+public class TestBoundedDragHandler {
     private JFrame frame;
     private PCanvas piccoloCanvas;
 
-    public TestConstrainedDragHandler() throws IOException {
+    public TestBoundedDragHandler() throws IOException {
 
         //Initialize Frame
         frame = new JFrame( "Simple Piccolo Test" );
@@ -46,19 +47,21 @@ public class TestConstrainedDragHandler {
         PText pText = new PText( "Hello Piccolo" );
         piccoloCanvas.getLayer().addChild( pText );
         pText.setOffset( 100, 100 );
-        pText.addInputEventListener( new ConstrainedDragHandler( rectangleBounds ) );
+        pText.addInputEventListener( new BoundedDragHandler( rectangleBounds ) );
         pText.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
 //        pText.rotate( Math.PI/8);
 //       pText.scale(3);
 
 
         piccoloCanvas.getLayer().scale( 0.5 );
+        PBounds pathBounds=path.getGlobalFullBounds();
+        System.out.println( "pathBounds[global] = " + pathBounds );
         piccoloCanvas.setPanEventHandler( null );
         piccoloCanvas.setZoomEventHandler( null );
     }
 
     public static void main( String[] args ) throws IOException {
-        new TestConstrainedDragHandler().start();
+        new TestBoundedDragHandler().start();
     }
 
     private void start() {

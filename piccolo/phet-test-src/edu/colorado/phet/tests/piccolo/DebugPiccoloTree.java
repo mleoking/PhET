@@ -24,7 +24,6 @@ public class DebugPiccoloTree {
         PPath child = new PPath( new Rectangle2D.Double( 0, 0, 10, 10 ) );
         child.addChild( new PText("Child of rect"));
         pCanvas.getLayer().addChild( child );
-
     }
 
     private void printTree( PNode root, String pre ) {

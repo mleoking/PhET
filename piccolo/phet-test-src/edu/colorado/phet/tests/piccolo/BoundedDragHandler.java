@@ -12,11 +12,11 @@ import java.awt.geom.Rectangle2D;
  * Doesn't yet work if there is a transform on the target node itself.
  */
 
-public class ConstrainedDragHandler extends PBasicInputEventHandler {
+public class BoundedDragHandler extends PBasicInputEventHandler {
     private Rectangle2D globalBounds;//work in global coordinate frame for generality.
     private Point2D relativeClickPoint;
 
-    public ConstrainedDragHandler( Rectangle2D globalBounds ) {
+    public BoundedDragHandler( Rectangle2D globalBounds ) {
         this.globalBounds = globalBounds;
     }
 
