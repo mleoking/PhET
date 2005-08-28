@@ -13,10 +13,8 @@ package edu.colorado.phet.common.view.util;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.ColorModel;
-import java.awt.image.IndexColorModel;
+import java.awt.geom.AffineTransform;
+import java.awt.image.*;
 
 /**
  * Class: ColorFromWavelength
@@ -103,9 +101,7 @@ public class MakeDuotoneImageOp implements BufferedImageOp {
      * @return
      */
     public BufferedImage createCompatibleDestImage( BufferedImage src, ColorModel destCM ) {
-        BufferedImage bi = new BufferedImage( src.getWidth(), src.getHeight(),
-                                              src.getType(), (IndexColorModel)destCM );
-        return bi;
+        return new AffineTransformOp( new AffineTransform( ),AffineTransformOp.TYPE_NEAREST_NEIGHBOR ).createCompatibleDestImage( src, destCM );
     }
 
     /**
