@@ -1,9 +1,10 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.tests.piccolo;
+package edu.colorado.phet.tests.piccolo.experimental.tests;
 
 import edu.colorado.phet.piccolo.OscillateActivity;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.tests.piccolo.experimental.MagicPImage3;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
