@@ -70,17 +70,18 @@ public class FireDog extends PNode {
         return r2;
     }
 
-    private class PutOutFire extends PActivity {
+    private class MoveToFire extends PActivity {
         private double randomInset;
+        private double runToFireSpeed = 23;
 
-        public PutOutFire() {
+        public MoveToFire() {
             super( -1 );
             randomInset = random.nextGaussian() * 45;
         }
 
         protected void activityStep( long elapsedTime ) {
             super.activityStep( elapsedTime );
-            FireDog.this.translate( 5, 0 );
+            FireDog.this.translate( runToFireSpeed, 0 );
             if( FireDog.this.getOffset().getX() > FireDog.this.getRampX() - randomInset ) {
                 terminate();
             }
@@ -105,6 +106,7 @@ public class FireDog extends PNode {
         protected void activityStep( long elapsedTime ) {
             super.activityStep( elapsedTime );
             double dt = lastTime == -1 ? getStepRate() / 1000.0 : ( elapsedTime - lastTime ) / 1000.0;
+            dt *= 1.3;
             for( int i = 0; i < waterDrops.size(); i++ ) {
                 WaterDrop waterDrop = (WaterDrop)waterDrops.get( i );
                 waterDrop.propagate( dt );
@@ -116,7 +118,6 @@ public class FireDog extends PNode {
         }
     }
 
-
     private void addWaterDrop() {
         WaterDrop waterDrop = new WaterDrop();
         getRampPanel().addChild( waterDrop );
@@ -126,7 +127,7 @@ public class FireDog extends PNode {
     private class ExpelWater extends PActivity {
 
         public ExpelWater() {
-            super( 4000 );
+            super( 1000 );
         }
 
         protected void activityStep( long elapsedTime ) {
@@ -211,14 +212,12 @@ public class FireDog extends PNode {
                 waterDrops.remove( this );
                 module.getRampPhysicalModel().clearHeat();
             }
-
-
         }
     }
 
     public void putOutFire() {
         getRampPanel().addChild( this );
-        getRampPanel().getRoot().addActivity( new PutOutFire() );
+        getRampPanel().getRoot().addActivity( new MoveToFire() );
     }
 
     private RampPanel getRampPanel() {

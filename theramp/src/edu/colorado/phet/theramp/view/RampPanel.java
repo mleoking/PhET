@@ -9,6 +9,7 @@ import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.RampObject;
 import edu.colorado.phet.theramp.RampPlotSet;
 import edu.colorado.phet.theramp.view.bars.BarGraphSuite;
+import edu.colorado.phet.tests.piccolo.StickyPNode;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
@@ -140,18 +141,20 @@ public class RampPanel extends PhetPCanvas {
         rampPlotSet = new RampPlotSet( module, this );
         addChild( rampPlotSet );
 
-        PNode appliedForceControl = new AppliedForceControl( module, this );
+//        PNode appliedForceControl = new AppliedForceControl( module, this );
+        PNode appliedForceControl = new StickyPNode( new AppliedForceControl( module, this ));
         appliedForceControl.setOffset( rampPlotSet.getFullBounds().getX(), rampPlotSet.getFullBounds().getY() - appliedForceControl.getFullBounds().getHeight() );
         addChild( appliedForceControl );
 
-        PNode goPauseClear = new PSwing( this, new GoPauseClearPanel( module.getTimeSeriesModel() ) );
+//        PNode goPauseClear = new PSwing( this, new GoPauseClearPanel( module.getTimeSeriesModel() ) );
+        PNode goPauseClear = new StickyPNode( new PSwing( this, new GoPauseClearPanel( module.getTimeSeriesModel() ) ));
         goPauseClear.setOffset( appliedForceControl.getFullBounds().getMaxX(), appliedForceControl.getFullBounds().getY() );
         addChild( goPauseClear );
 
-        addWiggleMe();
+        
     }
 
-    private void addWiggleMe() {
+    protected void addWiggleMe() {
         final WiggleMe wiggleMe = new WiggleMe( "<html>Apply a Force<br>to the Filing Cabinet</html>", (int)( ORIG_RENDER_SIZE.getWidth() / 2 - 50 ), 350 );
         final ConnectorGraphic connectorGraphic = new ConnectorGraphic( wiggleMe, getBlockGraphic().getObjectGraphic() );
         getLayer().getRoot().addActivity( connectorGraphic.getConnectActivity() );

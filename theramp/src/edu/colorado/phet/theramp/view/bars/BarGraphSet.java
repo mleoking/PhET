@@ -59,10 +59,10 @@ public class BarGraphSet extends PNode {
         this.rampPhysicalModel = rampPhysicalModel;
         this.transform1D = transform1D;
 //        topY = (int)( rampPanel.getRampBaseY() * 0.82 ) + 120;
-        topY = ((int)( rampPanel.getRampBaseY() * 0.82 ) + 35)*scale;
-        y = 550*scale;
+        topY = ( (int)( rampPanel.getRampBaseY() * 0.82 ) + 35 ) * scale;
+        y = 550 * scale;
 //        barWidth = 23 * scale;
-        barWidth = 15* scale;
+        barWidth = 15 * scale;
         dw = 10 * scale;
         sep = barWidth + dw;
         titleGraphic = new ShadowHTMLGraphic( title );
@@ -170,10 +170,10 @@ public class BarGraphSet extends PNode {
         System.out.println( "width = " + barWidth );
         background = new PPath( new Rectangle2D.Double( 0, topY, 5 * 2 + w, 1000 ) );
 //        background.setPaint( Color.white );
-        background.setPaint( null);
+        background.setPaint( null );
         background.setStroke( new BasicStroke() );
 //        background.setStrokePaint( Color.black );
-        background.setStrokePaint( null);
+        background.setStrokePaint( null );
         addChild( background );
         xAxis = new XAxis();
         addChild( xAxis );

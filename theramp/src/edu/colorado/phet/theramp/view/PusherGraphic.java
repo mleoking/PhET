@@ -90,11 +90,11 @@ public class PusherGraphic extends PImage {
                 lastDX = dx;
                 lastAppliedForce = getAppliedForce();
             }
-
-
         };
         module.getModel().addModelElement( runOver );
         lastDX = getBlockDx();
+
+        modelLocation=getSurfaceGraphic().getSurface().getLength()/2.0;
     }
 
 

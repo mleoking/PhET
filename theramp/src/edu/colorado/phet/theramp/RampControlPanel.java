@@ -64,7 +64,6 @@ public class RampControlPanel extends ControlPanel {
         }
         else {
             setFriction( 0.0 );
-            getModule().record();
         }
     }
 
@@ -95,7 +94,6 @@ public class RampControlPanel extends ControlPanel {
 //        }
     }
 
-
     protected void setFriction( double f ) {
         getModule().getRampPhysicalModel().getBlock().setStaticFriction( f );
         getModule().getRampPhysicalModel().getBlock().setKineticFriction( f );
@@ -106,11 +104,18 @@ public class RampControlPanel extends ControlPanel {
         frictionless.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setFrictionEnabled( !frictionless.isSelected() );
+                getModule().record();
             }
         } );
+//        getModule().addListener( new RampModule.Listener() {
+//            public void objectChanged() {
+//                frictionless.setSelected( false );
+//            }
+//        } );
+
         getModule().addListener( new RampModule.Listener() {
             public void objectChanged() {
-                frictionless.setSelected( false );
+                setFrictionEnabled( !frictionless.isSelected() );
             }
         } );
         return frictionless;
@@ -121,7 +126,7 @@ public class RampControlPanel extends ControlPanel {
     }
 
 
-    protected void addWorkEnergyBarGraphControls(  ) {
+    protected void addWorkEnergyBarGraphControls() {
         final JCheckBox energyBars = new JCheckBox( "Energy", true );
         energyBars.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
