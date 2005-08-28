@@ -19,8 +19,8 @@ public class ArrowConnectorGraphic extends ConnectorGraphic {
     private double tailWidth;
     private double fractionalHeadHeight;
     private boolean scaleTailToo;
-    private int distFromTarget;
-    private int minLength;
+    private int distFromTarget = 50;
+    private int minLength = 100;
 
     public ArrowConnectorGraphic( PNode src, PNode dst ) {
         this( src, dst, 30, 30, 5, 1.0, true );
@@ -37,8 +37,6 @@ public class ArrowConnectorGraphic extends ConnectorGraphic {
 
     protected void updateShape( Point2D r1c, Point2D r2c ) {
         AbstractVector2D vector = new Vector2D.Double( r1c, r2c );
-        distFromTarget = 50;
-        minLength = 100;
         vector = vector.getInstanceOfMagnitude( Math.max( vector.getMagnitude() - distFromTarget, minLength ) );
         Arrow arrow = new Arrow( r1c, vector.getDestination( r1c ), headHeight, headWidth, tailWidth, fractionalHeadHeight, scaleTailToo );
 

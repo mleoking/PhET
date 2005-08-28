@@ -3,7 +3,7 @@ package edu.umd.cs.piccolo.examples;
 
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
-import edu.colorado.phet.tests.piccolo.TestPiccolo2;
+import edu.colorado.phet.tests.piccolo.TestWiggleMe;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -39,7 +39,7 @@ public class PSwingExample extends PFrame {
 
         final PText pText = new PText( "Hello PhET\nTesting" );
         pCanvas.getLayer().addChild( pText );
-        pText.addInputEventListener( new TestPiccolo2.DragBehavior() );
+//        pText.addInputEventListener( new TestWiggleMe.DragBehavior() );
         JFrame frame = this;
 //        pCanvas.getCamera().translateView( 50, 50 );
 

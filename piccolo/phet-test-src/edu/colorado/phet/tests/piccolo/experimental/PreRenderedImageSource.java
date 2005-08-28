@@ -1,7 +1,8 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.tests.piccolo;
+package edu.colorado.phet.tests.piccolo.experimental;
 
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
+import edu.colorado.phet.tests.piccolo.experimental.MagicPImage3;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

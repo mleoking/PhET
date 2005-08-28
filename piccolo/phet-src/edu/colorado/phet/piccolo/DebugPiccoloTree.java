@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.tests.piccolo;
+package edu.colorado.phet.piccolo;
 
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -9,10 +9,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 import java.awt.geom.Rectangle2D;
 
 /**
- * User: Sam Reid
- * Date: Aug 27, 2005
- * Time: 10:09:05 AM
- * Copyright (c) Aug 27, 2005 by Sam Reid
+ * Prints the piccolo tree.
  */
 
 public class DebugPiccoloTree {
@@ -22,7 +19,7 @@ public class DebugPiccoloTree {
         pCanvas = new PCanvas();
         pCanvas.getLayer().addChild( new PText( "Hello" ) );
         PPath child = new PPath( new Rectangle2D.Double( 0, 0, 10, 10 ) );
-        child.addChild( new PText("Child of rect"));
+        child.addChild( new PText( "Child of rect" ) );
         pCanvas.getLayer().addChild( child );
     }
 

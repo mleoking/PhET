@@ -17,7 +17,7 @@ import java.awt.*;
  * Copyright (c) Jul 7, 2005 by Sam Reid
  */
 
-public class TestPiccolo {
+public class TestActivities {
     static long lastElapsedTime = 0;
     static double totalAngle = 0;
 

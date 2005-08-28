@@ -14,10 +14,7 @@ import java.awt.geom.Ellipse2D;
 import java.io.IOException;
 
 /**
- * User: Sam Reid
- * Date: Aug 26, 2005
- * Time: 9:16:40 PM
- * Copyright (c) Aug 26, 2005 by Sam Reid
+ * A simple demonstration to depict the three piccolo terminals & usage.
  */
 
 public class DemonstratePiccoloTerminals {

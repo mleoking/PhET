@@ -5,8 +5,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -47,6 +47,11 @@ public class ConnectorGraphic extends PPath {
 
         // First get the center of each rectangle in the
         // local coordinate system of each rectangle.
+        if( source == null || source.getFullBounds() == null ||
+            destination == null || destination.getFullBounds() == null ||
+            source.getParent() == null || destination.getParent() == null ) {
+            return;
+        }
         Point2D r1c = source.getFullBounds().getCenter2D();
         Point2D r2c = destination.getFullBounds().getCenter2D();
 
@@ -69,7 +74,7 @@ public class ConnectorGraphic extends PPath {
     }
 
     protected void updateShape( Point2D r1c, Point2D r2c ) {
-        setPathTo( new Line2D.Double(r1c,r2c ));
+        setPathTo( new Line2D.Double( r1c, r2c ) );
     }
 
     public PNode getSource() {
