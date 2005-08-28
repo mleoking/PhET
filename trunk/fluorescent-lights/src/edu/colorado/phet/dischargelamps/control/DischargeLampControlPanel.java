@@ -39,8 +39,8 @@ public class DischargeLampControlPanel {
 //        controlPanel.addControl( atomTypeComboBox );
 //
 //        // A slider for the battery voltage
-//        double maxVoltage = 5;
-//        final ModelSlider batterySlider = new ModelSlider( "Battery Voltage", "V", 0, maxVoltage, maxVoltage / 2 );
+//        double MAX_VOLTAGE = 5;
+//        final ModelSlider batterySlider = new ModelSlider( "Battery Voltage", "V", 0, MAX_VOLTAGE, MAX_VOLTAGE / 2 );
 ////        final ModelSlider batterySlider = new ModelSlider( "Battery Voltage", "V", 0, .1, 0.05 );
 //        batterySlider.setPreferredSize( new Dimension( 250, 100 ) );
 //        controlPanel.addControl( batterySlider );
