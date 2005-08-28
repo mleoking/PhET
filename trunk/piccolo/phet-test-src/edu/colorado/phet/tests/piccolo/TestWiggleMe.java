@@ -1,10 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.tests.piccolo;
 
-import edu.colorado.phet.piccolo.ArrowConnectorGraphic;
-import edu.colorado.phet.piccolo.ConnectorGraphic;
-import edu.colorado.phet.piccolo.HTMLGraphic;
-import edu.colorado.phet.piccolo.WiggleMe;
+import edu.colorado.phet.piccolo.*;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PLayer;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
@@ -53,7 +50,7 @@ public class TestWiggleMe {
 
         pText.addChild( child );
 
-        HTMLGraphic htmlGraphic = new HTMLGraphic( "<html> MY HTML<br>so there<sup>2</html>" );
+        HTMLGraphic htmlGraphic = new HTMLGraphic( "<html>MY HTML<br>is awesome<sup>2</html>" );
         pCanvas.getLayer().addChild( htmlGraphic );
         htmlGraphic.setOffset( 200, 150 );
 
@@ -76,6 +73,8 @@ public class TestWiggleMe {
         pCanvas.invalidate();
         pCanvas.validate();
         pCanvas.repaint();
+
+        new DebugPiccoloTree().printTree( pCanvas.getRoot() );
     }
 
 }
