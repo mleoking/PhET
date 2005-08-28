@@ -47,24 +47,94 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
             System.out.println( "newPoint = " + newPoint );
             pickedNode.setGlobalTranslation( newPoint );
 
+
+            System.out.println( "pickedNode.getGlobalFullBounds().getMaxX() = " + pickedNode.getGlobalFullBounds().getMaxX() );
+            System.out.println( "boundingNode.getGlobalFullBounds().getMaxX() = " + boundingNode.getGlobalFullBounds().getMaxX() );
+
             if( !boundingNode.getGlobalFullBounds().contains( event.getPickedNode().getGlobalFullBounds() ) ) {
                 double newX = pickedNode.getGlobalTranslation().getX();
                 double newY = pickedNode.getGlobalTranslation().getY();
-                if( pickedNode.getGlobalFullBounds().getX() < boundingNode.getX() ) {
-                    newX = boundingNode.getGlobalFullBounds().getX();
+
+//                AffineTransform affineTransform = new AffineTransform( pickedNode.getTransform() );
+//                affineTransform.setTransform( affineTransform.getScaleX(), affineTransform.getShearY(), affineTransform.getShearX(), affineTransform.getScaleY(), 0, 0 );
+//                Point2D offset = affineTransform.transform( new Point( 0, 0 ), null );
+//                System.out.println( "offset = " + offset );
+//                AffineTransform at = new AffineTransform( pickedNode.getGlobalScale(), 0, 0, pickedNode.getGlobalScale(), 0, 0 );
+
+                if( pickedNode.getGlobalFullBounds().getX() < boundingNode.getFullBounds().getX() ) {
+                    //let's take data and fit (to account for scale, rotation & shear)
+                    double x0 = pickedNode.getGlobalTranslation().getX();
+                    double y0 = pickedNode.getGlobalFullBounds().getMinX();
+
+                    pickedNode.setGlobalTranslation( new Point2D.Double( pickedNode.getGlobalTranslation().getX() - 1, pickedNode.getGlobalTranslation().getY() ) );
+                    double x1 = pickedNode.getGlobalTranslation().getX();
+                    double y1 = pickedNode.getGlobalFullBounds().getMinX();
+
+                    double slope = ( y0 - y1 ) / ( x0 - x1 );
+                    double intercept = y0 - slope * x0;
+
+                    double desiredY = boundingNode.getGlobalFullBounds().getMinX();
+                    double requiredGlobalOffset = ( desiredY - intercept ) / slope;
+
+                    newX = requiredGlobalOffset;
                 }
-                if( pickedNode.getGlobalFullBounds().getY() < boundingNode.getY() ) {
-                    newY = boundingNode.getGlobalFullBounds().getY();
+                if( pickedNode.getGlobalFullBounds().getY() < boundingNode.getFullBounds().getY() ) {
+
+                    //let's take data and fit (to account for scale, rotation & shear)
+                    double x0 = pickedNode.getGlobalTranslation().getY();
+                    double y0 = pickedNode.getGlobalFullBounds().getMinY();
+
+                    pickedNode.setGlobalTranslation( new Point2D.Double( pickedNode.getGlobalTranslation().getX(), pickedNode.getGlobalTranslation().getY() - 1 ) );
+                    double x1 = pickedNode.getGlobalTranslation().getY();
+                    double y1 = pickedNode.getGlobalFullBounds().getMinY();
+
+                    double slope = ( y0 - y1 ) / ( x0 - x1 );
+                    double intercept = y0 - slope * x0;
+
+                    double desiredY = boundingNode.getGlobalFullBounds().getMinY();
+                    double requiredGlobalOffset = ( desiredY - intercept ) / slope;
+
+                    newY = requiredGlobalOffset;
                 }
                 if( pickedNode.getGlobalFullBounds().getMaxX() > boundingNode.getGlobalFullBounds().getMaxX() ) {
-                    newX = boundingNode.getGlobalFullBounds().getMaxX() - pickedNode.getGlobalFullBounds().getWidth();
+                    //let's take data and fit (to account for scale, rotation & shear)
+                    double x0 = pickedNode.getGlobalTranslation().getX();
+                    double y0 = pickedNode.getGlobalFullBounds().getMaxX();
+
+                    pickedNode.setGlobalTranslation( new Point2D.Double( pickedNode.getGlobalTranslation().getX() - 1, pickedNode.getGlobalTranslation().getY() ) );
+                    double x1 = pickedNode.getGlobalTranslation().getX();
+                    double y1 = pickedNode.getGlobalFullBounds().getMaxX();
+
+                    double slope = ( y0 - y1 ) / ( x0 - x1 );
+                    double intercept = y0 - slope * x0;
+
+                    double desiredY = boundingNode.getGlobalFullBounds().getMaxX();
+                    double requiredGlobalOffset = ( desiredY - intercept ) / slope;
+
+                    newX = requiredGlobalOffset;
                 }
                 if( pickedNode.getGlobalFullBounds().getMaxY() > boundingNode.getGlobalFullBounds().getMaxY() ) {
-                    newY = boundingNode.getGlobalFullBounds().getMaxY() - pickedNode.getGlobalFullBounds().getHeight();
+                    //let's take data and fit (to account for scale, rotation & shear)
+                    double x0 = pickedNode.getGlobalTranslation().getY();
+                    double y0 = pickedNode.getGlobalFullBounds().getMaxY();
+
+                    pickedNode.setGlobalTranslation( new Point2D.Double( pickedNode.getGlobalTranslation().getX(), pickedNode.getGlobalTranslation().getY() - 1 ) );
+                    double x1 = pickedNode.getGlobalTranslation().getY();
+                    double y1 = pickedNode.getGlobalFullBounds().getMaxY();
+
+                    double slope = ( y0 - y1 ) / ( x0 - x1 );
+                    double intercept = y0 - slope * x0;
+
+                    double desiredY = boundingNode.getGlobalFullBounds().getMaxY();
+                    double requiredGlobalOffset = ( desiredY - intercept ) / slope;
+
+                    newY = requiredGlobalOffset;
                 }
                 Point2D rollbackPoint = new Point2D.Double( newX, newY );
+//                Point2D fullRollbackPoint = new Point2D.Double( newX - offset.getX(), newY - offset.getY() );
                 System.out.println( "rollbackPoint = " + rollbackPoint );
                 event.getPickedNode().setGlobalTranslation( rollbackPoint );
+//                event.getPickedNode().setOffset( rollbackPoint );
             }
         }
     }
