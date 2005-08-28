@@ -10,6 +10,7 @@ import edu.colorado.phet.tests.piccolo.experimental.StickyPNode;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.RampObject;
 import edu.colorado.phet.theramp.RampPlotSet;
+import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.view.bars.BarGraphSuite;
 import edu.umd.cs.piccolo.PNode;
 
@@ -82,6 +83,24 @@ public class RampPanel extends PhetPCanvas {
 //        barGraphSuite.scale( 0.80 );
         barGraphSuite.setOffset( getDefaultRenderingSize().width - barGraphSuite.getFullBounds().getWidth() - 20, barGraphSuite.getY() + 20 );
         addChild( new OverheatButton( this, module.getRampPhysicalModel(), barGraphSuite.getMaxDisplayableEnergy(), module ) );
+        getRampModule().getRampPhysicalModel().addListener( new RampPhysicalModel.Listener() {
+            public void appliedForceChanged() {
+            }
+
+            public void zeroPointChanged() {
+            }
+
+            public void stepFinished() {
+                if( getRampModule().getRampPhysicalModel().getThermalEnergy() >= barGraphSuite.getMaxDisplayableEnergy() ) {
+                    //colorize heat.
+                    rampWorld.setHeatColor(true);
+                }
+                else {
+                    rampWorld.setHeatColor(false);
+                }
+            }
+        } );
+
 
         addChild( barGraphSuite );
 
