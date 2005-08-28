@@ -8,7 +8,6 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.theramp.RampObject;
-import edu.colorado.phet.theramp.view.SurfaceGraphic;
 
 import java.util.ArrayList;
 
@@ -215,9 +214,12 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
     }
 
     public void setAppliedForce( double appliedForce ) {
+//        double origAppliedForce=appliedForceSetValue;
         this.appliedForceSetValue = appliedForce;
-        this.appliedForce.setParallel( appliedForce );
-        notifyAppliedForceChanged();
+        this.appliedForce.setParallel( appliedForce );//could be different, even if applied force set value is same.
+//        if( origAppliedForce!= appliedForce ) {
+            notifyAppliedForceChanged();//todo: to ensure graphics update, could be fixed later.
+//        }
     }
 
     private void notifyAppliedForceChanged() {
@@ -264,7 +266,7 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
         block.setPositionInSurface( 10.0 );
         block.setAcceleration( 0.0 );
         block.setVelocity( 0.0 );
-        ramp.setAngle( INIT_ANGLE);
+        ramp.setAngle( INIT_ANGLE );
         appliedWork = 0;
         frictiveWork = 0;
         gravityWork = 0;
@@ -409,9 +411,10 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
     }
 
     public Surface getSurfaceGraphic( double modelLocation ) {
-        if (modelLocation<=ground.getLength()){
+        if( modelLocation <= ground.getLength() ) {
             return ground;
-        }else{
+        }
+        else {
             return ramp;
         }
     }

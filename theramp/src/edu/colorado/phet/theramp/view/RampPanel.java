@@ -1,15 +1,16 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.view;
 
+import edu.colorado.phet.piccolo.ArrowConnectorGraphic;
 import edu.colorado.phet.piccolo.ConnectorGraphic;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.WiggleMe;
 import edu.colorado.phet.piccolo.pswing.PSwing;
+import edu.colorado.phet.tests.piccolo.experimental.StickyPNode;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.RampObject;
 import edu.colorado.phet.theramp.RampPlotSet;
 import edu.colorado.phet.theramp.view.bars.BarGraphSuite;
-import edu.colorado.phet.tests.piccolo.StickyPNode;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
@@ -142,22 +143,23 @@ public class RampPanel extends PhetPCanvas {
         addChild( rampPlotSet );
 
 //        PNode appliedForceControl = new AppliedForceControl( module, this );
-        PNode appliedForceControl = new StickyPNode( new AppliedForceControl( module, this ));
-        appliedForceControl.setOffset( rampPlotSet.getFullBounds().getX(), rampPlotSet.getFullBounds().getY() - appliedForceControl.getFullBounds().getHeight() );
-        addChild( appliedForceControl );
+//        PNode appliedForceControl = new StickyPNode( new AppliedForceControl( module, this ));
 
 //        PNode goPauseClear = new PSwing( this, new GoPauseClearPanel( module.getTimeSeriesModel() ) );
-        PNode goPauseClear = new StickyPNode( new PSwing( this, new GoPauseClearPanel( module.getTimeSeriesModel() ) ));
-        goPauseClear.setOffset( appliedForceControl.getFullBounds().getMaxX(), appliedForceControl.getFullBounds().getY() );
+        PNode goPauseClear = new StickyPNode( new PSwing( this, new GoPauseClearPanel( module.getTimeSeriesModel() ) ) );
+//        goPauseClear.setOffset( appliedForceControl.getFullBounds().getMaxX(), appliedForceControl.getFullBounds().getY() );
+        goPauseClear.setOffset( rampPlotSet.getFullBounds().getX(), rampPlotSet.getFullBounds().getY() - goPauseClear.getFullBounds().getHeight() );
         addChild( goPauseClear );
 
-        
+        PNode appliedForceControl = new StickyPNode( new AppliedForceSimpleControl( module, this ) );
+        appliedForceControl.setOffset( rampPlotSet.getFullBounds().getX(), goPauseClear.getFullBounds().getY() - appliedForceControl.getFullBounds().getHeight() );
+        addChild( appliedForceControl );
     }
 
     protected void addWiggleMe() {
         final WiggleMe wiggleMe = new WiggleMe( "<html>Apply a Force<br>to the Filing Cabinet</html>", (int)( ORIG_RENDER_SIZE.getWidth() / 2 - 50 ), 350 );
-        final ConnectorGraphic connectorGraphic = new ConnectorGraphic( wiggleMe, getBlockGraphic().getObjectGraphic() );
-        getLayer().getRoot().addActivity( connectorGraphic.getConnectActivity() );
+        final ConnectorGraphic connectorGraphic = new ArrowConnectorGraphic( wiggleMe, getBlockGraphic().getObjectGraphic() );
+//        getLayer().getRoot().addActivity( connectorGraphic.getConnectActivity() );
         connectorGraphic.setStroke( new BasicStroke( 2, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 2 ) );//, new float[]{10, 5}, 0 ) );
         connectorGraphic.setPaint( new GradientPaint( 0, 0, Color.red, 1000, 0, Color.blue, false ) );
         connectorGraphic.setPickable( false );
@@ -172,7 +174,7 @@ public class RampPanel extends PhetPCanvas {
             public void mousePressed( MouseEvent e ) {
                 wiggleMe.setVisible( false );
                 getLayer().removeChild( wiggleMe );
-                getLayer().getRoot().getActivityScheduler().removeActivity( connectorGraphic.getConnectActivity() );
+//                getLayer().getRoot().getActivityScheduler().removeActivity( connectorGraphic.getConnectActivity() );
                 getLayer().removeChild( connectorGraphic );
                 removeMouseListener( this );
             }
