@@ -27,7 +27,7 @@
  * Piccolo was written at the Human-Computer Interaction Laboratory www.cs.umd.edu/hcil by Jesse Grosjean
  * under the supervision of Ben Bederson. The Piccolo website is www.cs.umd.edu/hcil/piccolo.
  */
-package edu.colorado.phet.piccolo;
+package edu.colorado.phet.tests.piccolo;
 
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -40,6 +40,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
+ * Attempt to maintain image size.
  */
 public class PFixedImage extends PImage {
 

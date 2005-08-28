@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.tests.piccolo;
 
-import edu.colorado.phet.piccolo.Oscillate;
+import edu.colorado.phet.piccolo.OscillateActivity;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.umd.cs.piccolo.PNode;
@@ -26,7 +26,7 @@ public class TestMagicPImage3 extends PhetPCanvas {
     public TestMagicPImage3() {
         for( int i = 0; i < 100; i++ ) {
             PNode node = toPImage();
-            Oscillate oscillate = new Oscillate( node, random.nextDouble() * 600, random.nextDouble() * 600 );
+            OscillateActivity oscillate = new OscillateActivity( node, random.nextDouble() * 600, random.nextDouble() * 600 );
             getLayer().addChild( node );
             getRoot().addActivity( oscillate );
         }

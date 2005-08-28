@@ -6,10 +6,7 @@ import edu.umd.cs.piccolo.PNode;
 import java.awt.*;
 
 /**
- * User: Sam Reid
- * Date: Aug 2, 2005
- * Time: 12:07:41 AM
- * Copyright (c) Aug 2, 2005 by Sam Reid
+ * Draws html text with a drop shadow.
  */
 
 public class ShadowHTMLGraphic extends PNode {

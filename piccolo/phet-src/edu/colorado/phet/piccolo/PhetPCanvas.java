@@ -3,31 +3,27 @@ package edu.colorado.phet.piccolo;
 
 import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.util.PDebug;
 
 import java.awt.*;
 import java.awt.event.*;
 
 /**
- * User: Sam Reid
- * Date: Aug 1, 2005
- * Time: 7:55:07 AM
- * Copyright (c) Aug 1, 2005 by Sam Reid
- * <p/>
- * Adds support for maintenance of aspect ratio,
+ * Piccolo canvas extension that provides support for maintenance of aspect ratio,
  * and convenience methods for usage.
  */
 
 public class PhetPCanvas extends PSwingCanvas {
     private Dimension renderingSize = null;
-    private ComponentAdapter l;
+    private ComponentAdapter resizeAdapter;
 
     public PhetPCanvas() {
         removeInputEventListener( getZoomEventHandler() );
         removeInputEventListener( getPanEventHandler() );
 
-        l = new ResizeAdapter();
-        addComponentListener( l );
+        resizeAdapter = new ResizeAdapter();
+        addComponentListener( resizeAdapter );
         addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 requestFocus();
@@ -107,6 +103,13 @@ public class PhetPCanvas extends PSwingCanvas {
         this.renderingSize = new Dimension( dim );
     }
 
+    /*
+    Convenience methods.
+    */
+    public void addChild( int layer, PNode graphic ) {
+        getLayer().addChild( layer, graphic );
+    }
+
     public void addChild( PNode graphic ) {
         getLayer().addChild( graphic );
     }
@@ -127,75 +130,12 @@ public class PhetPCanvas extends PSwingCanvas {
         PDebug.debugFullBounds = debugFullBounds;
     }
 
-//    public void paintComponent( Graphics g ) {
-//        PDebug.startProcessingOutput();
-//
-//        Graphics2D g2 = (Graphics2D)g.create();
-//        g2.setColor( getBackground() );
-//        g2.fillRect( 0, 0, getWidth(), getHeight() );
-//
-//        // create new paint context and set render quality to lowest common
-//        // denominator render quality.
-//        PPaintContext paintContext = new PPaintContext( g2 );
-////        if( getInteracting() || getAnimating() ) {
-////            if( interactingRenderQuality < animatingRenderQuality ) {
-////                paintContext.setRenderQuality( interactingRenderQuality );
-////            }
-////            else {
-////                paintContext.setRenderQuality( animatingRenderQuality );
-////            }
-////        }
-////        else {
-////            paintContext.setRenderQuality( defaultRenderQuality );
-////        }
-//
-//        // paint piccolo
-//        boolean doubleBufferMe = false;
-//        if( doubleBufferMe ) {
-//            Image image = getCamera().toImage( getWidth(), getHeight(), getBackground() );
-//            BufferedImage bufferedImage = BufferedImageUtils.toBufferedImage( image );
-//            PPaintContext bufferedContext = new PPaintContext( bufferedImage.createGraphics() );
-//            getCamera().fullPaint( bufferedContext );
-//            g2.drawRenderedImage( bufferedImage, new AffineTransform() );
-//        }
-//        else {
-//            getCamera().fullPaint( paintContext );
-//        }
-//
-////        // if switched state from animating to not animating invalidate the entire
-////        // screen so that it will be drawn with the default instead of animating
-////        // render quality.
-////        if( !getAnimating() && animatingOnLastPaint ) {
-////            repaint();
-////        }
-////        animatingOnLastPaint = getAnimating();
-//
-//        PDebug.endProcessingOutput( g2 );
-//    }
+    public void addActivity( PActivity activity ) {
+        getRoot().addActivity( activity );
+    }
 
-//    public void repaint( long tm, int x, int y, int width, int height ) {
-////        super.repaint( tm, x, y, width, height );
-//    }
-//
-//    public void repaint( PBounds bounds ) {
-////        super.repaint( bounds );
-//    }
-//
-//    public void repaint( Rectangle r ) {
-////        super.repaint( r );
-//    }
-//
-//    public void repaint() {
-////        super.repaint();
-//    }
-//
-//    public void repaint( int x, int y, int width, int height ) {
-////        super.repaint( x, y, width, height );
-//    }
-//
-//    public void repaint( long tm ) {
-////        super.repaint( tm );
-//    }
-
+    public void removeActivity( PActivity activity ) {
+        getRoot().getActivityScheduler().removeActivity( activity );
+    }
 
 }

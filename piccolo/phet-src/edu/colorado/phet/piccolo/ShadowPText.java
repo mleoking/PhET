@@ -7,10 +7,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 import java.awt.*;
 
 /**
- * User: Sam Reid
- * Date: Aug 19, 2005
- * Time: 3:18:08 PM
- * Copyright (c) Aug 19, 2005 by Sam Reid
+ * Draws piccolo text with a shadow.
  */
 
 public class ShadowPText extends PNode {

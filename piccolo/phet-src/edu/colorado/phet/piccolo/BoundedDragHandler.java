@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.tests.piccolo;
+package edu.colorado.phet.piccolo;
 
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -8,7 +8,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import java.awt.geom.Point2D;
 
 /**
- * Doesn't yet work if there is a transform on the target node itself.
+ * Drag behavior that ensures the dragged object stays inside the specified bounds.
+ * The bounds must be rectangular, and this fails with rotated bounds.
  */
 
 public class BoundedDragHandler extends PBasicInputEventHandler {
@@ -44,12 +45,11 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
 
             Point2D pt = getGlobalClickPoint( event );
             Point2D newPoint = new Point2D.Double( pt.getX() - relativeClickPoint.getX(), pt.getY() - relativeClickPoint.getY() );
-            System.out.println( "newPoint = " + newPoint );
+//            System.out.println( "newPoint = " + newPoint );
             pickedNode.setGlobalTranslation( newPoint );
 
-
-            System.out.println( "pickedNode.getGlobalFullBounds().getMaxX() = " + pickedNode.getGlobalFullBounds().getMaxX() );
-            System.out.println( "boundingNode.getGlobalFullBounds().getMaxX() = " + boundingNode.getGlobalFullBounds().getMaxX() );
+//            System.out.println( "pickedNode.getGlobalFullBounds().getMaxX() = " + pickedNode.getGlobalFullBounds().getMaxX() );
+//            System.out.println( "boundingNode.getGlobalFullBounds().getMaxX() = " + boundingNode.getGlobalFullBounds().getMaxX() );
 
             if( !boundingNode.getGlobalFullBounds().contains( event.getPickedNode().getGlobalFullBounds() ) ) {
                 double newX = pickedNode.getGlobalTranslation().getX();
@@ -75,7 +75,7 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
                     double x1 = pickedNode.getGlobalTranslation().getY();
                     double y1 = pickedNode.getGlobalFullBounds().getMinY();
 
-                    newY=fitLinear( x0,y0, x1, y1, boundingNode.getGlobalFullBounds().getMinY() );
+                    newY = fitLinear( x0, y0, x1, y1, boundingNode.getGlobalFullBounds().getMinY() );
                 }
                 if( pickedNode.getGlobalFullBounds().getMaxX() > boundingNode.getGlobalFullBounds().getMaxX() ) {
                     //let's take data and fit (to account for scale, rotation & shear)
@@ -85,7 +85,7 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
                     pickedNode.setGlobalTranslation( new Point2D.Double( pickedNode.getGlobalTranslation().getX() - 1, pickedNode.getGlobalTranslation().getY() ) );
                     double x1 = pickedNode.getGlobalTranslation().getX();
                     double y1 = pickedNode.getGlobalFullBounds().getMaxX();
-                    newX=fitLinear( x0,y0, x1, y1, boundingNode.getGlobalFullBounds().getMaxX());
+                    newX = fitLinear( x0, y0, x1, y1, boundingNode.getGlobalFullBounds().getMaxX() );
                 }
                 if( pickedNode.getGlobalFullBounds().getMaxY() > boundingNode.getGlobalFullBounds().getMaxY() ) {
                     //let's take data and fit (to account for scale, rotation & shear)
@@ -95,7 +95,7 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
                     pickedNode.setGlobalTranslation( new Point2D.Double( pickedNode.getGlobalTranslation().getX(), pickedNode.getGlobalTranslation().getY() - 1 ) );
                     double x1 = pickedNode.getGlobalTranslation().getY();
                     double y1 = pickedNode.getGlobalFullBounds().getMaxY();
-                    newY=fitLinear( x0, y0, x1, y1, boundingNode.getGlobalFullBounds().getMaxY() );
+                    newY = fitLinear( x0, y0, x1, y1, boundingNode.getGlobalFullBounds().getMaxY() );
                 }
                 Point2D rollbackPoint = new Point2D.Double( newX, newY );
 //                Point2D fullRollbackPoint = new Point2D.Double( newX - offset.getX(), newY - offset.getY() );
@@ -106,8 +106,8 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
         }
     }
 
+    /* There is probably a more readable way to do this.*/
     private double fitLinear( double x0, double y0, double x1, double y1, double minX ) {
-
         double slope = ( y0 - y1 ) / ( x0 - x1 );
         double intercept = y0 - slope * x0;
 
