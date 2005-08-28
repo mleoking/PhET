@@ -19,7 +19,7 @@ public class SimpleRampPanel extends RampPanel {
 
         getRampPlotSet().minimizeAll();
         setAllBarsMinimized( false );
+        addWiggleMe();
     }
-
 
 }

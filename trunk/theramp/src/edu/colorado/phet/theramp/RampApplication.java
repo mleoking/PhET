@@ -7,6 +7,7 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.tests.piccolo.DebugPiccoloTree;
 
 import javax.swing.*;
 import java.lang.reflect.InvocationTargetException;
@@ -50,6 +51,7 @@ public class RampApplication extends PhetApplication {
                     //workaround for 1.4.1, in which applying maxextent to an invisible frame does nothing.
                     new FrameSetup.MaxExtent().initialize( application.getPhetFrame() );
                     System.out.println( "getSize() = " + application.simpleRampModule.getPhetPCanvas().getSize() );
+                    new DebugPiccoloTree().debugTree( application.advancedFeatureModule.getRampPanel() );
                 }
             } );
         }

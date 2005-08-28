@@ -30,7 +30,7 @@ public class BarGraphSuite extends PNode {
         this.rampPanel = rampPanel;
         this.rampPhysicalModel = rampPhysicalModel;
 
-        transform1D = new ModelViewTransform1D( 0, 300, 0, 3 );
+        transform1D = new ModelViewTransform1D( 0, 600, 0, 3 );
         workBarGraphSet = new WorkBarGraphSet( rampPanel, rampPhysicalModel, transform1D );
         energyBarGraphSet = new EnergyBarGraphSet( rampPanel, rampPhysicalModel, transform1D );
         addChild( workBarGraphSet );

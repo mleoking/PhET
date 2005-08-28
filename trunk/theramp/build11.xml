@@ -1,7 +1,7 @@
 <project name="General Ant Build Script" default="Publish Executables" basedir=".">
 
     <!--  Set ant output directories.  -->
-    <property name="ant.output" value="../ant_output-forces1d"/>
+    <property name="ant.output" value="../ant_output-theramp"/>
     <property name="ant.classes" location="${ant.output}/classes"/>
     <property name="ant.jars" location="${ant.output}/jars"/>
     <property name="ant.javadoc" location="${ant.output}/javadoc"/>
@@ -33,57 +33,21 @@
         <tstamp/>
     </target>
 
-    <target name="Backup Source" depends="init">
-        <mkdir dir="${backup}"/>
-        <tstamp>
-            <format property="backup.time" pattern="d-MMMM-yyyy h-mmaa" locale="en" timezone="MST"></format>
-        </tstamp>
-        <property name="location" value="${backup}/${distname}_src_${backup.time}"/>
-
-        <mkdir dir="${location}/theramp/src"/>
-        <copy todir="${location}/theramp/src">
-            <fileset dir="${src}"/>
-        </copy>
-
-        <mkdir dir="${location}/charts/src"/>
-        <copy todir="${location}/charts/src">
-            <fileset dir="charts/development/src"/>
-        </copy>
-
-        <mkdir dir="${location}/phetcommon/src"/>
-        <copy todir="${location}/phetcommon/src">
-            <fileset dir="phetcommon/src"/>
-        </copy>
-
-        <exec dir="${backup}" executable="${explorer}">
-            <arg line="${backup}"/>
-        </exec>
-
-    </target>
-
-    <target name="Backup All" depends="init">
-        <mkdir dir="${backup}"/>
-        <tstamp>
-            <format property="backup.time" pattern="d-MMMM-yyyy h-mmaa" locale="en" timezone="MST"></format>
-        </tstamp>
-        <mkdir dir="${backup}/${distname}_dev_${backup.time}"/>
-        <copy todir="${backup}/${distname}_dev_${backup.time}">
-            <fileset dir="${basedir}"/>
-        </copy>
-    </target>
-
     <target name="Clean"
-        description="clean up">
+            description="clean up">
         <delete dir="${ant.classes}"/>
         <delete dir="${ant.jars}"/>
         <delete dir="${ant.javadoc}"/>
         <delete dir="${ant.lib}"/>
     </target>
 
-    <target name="Compile" depends="init, Build Dependencies, Clean"
-        description="compile the source ">
+    <target name="Compile" depends="init, Clean"
+            description="compile the source ">
         <mkdir dir="${ant.classes}"/>
-        <javac srcdir="${src}:timeseries/src" classpath="${ant.lib}/phetcommon.jar;${ant.lib}/charts.jar;${ant.lib}/smoothmetal.jar" destdir="${ant.classes}"/>
+        <javac srcdir="${src}:timeseries/src:piccolo/src:piccolo/phet-src:piccolo/extras:phetcommon/src:jfreechart/source"
+               excludes="edu/umd/cs/piccolox/swt/*.java,edu/colorado/phet/timeseries/plot/*.java"
+               classpath="jfreechart/lib/jcommon-1.0.0-rc1.jar:jfreechart/lib/gnujaxp.jar:jfreechart/lib/junit.jar:jfreechart/lib/servlet.jar"
+               destdir="${ant.classes}"/>
         <!--    Uncomment the following line to add test classes to the output jar.    -->
         <!--        <javac srcdir="${tests-src}" destdir="${classes}"/>-->
     </target>
@@ -97,7 +61,7 @@
     </target>
 
     <target name="Generate Jar" depends="Compile"
-        description="generate the distribution">
+            description="generate the distribution">
         <!-- Create the distribution directory -->
         <delete dir="${ant.jars}"/>
         <mkdir dir="${ant.jars}"/>
@@ -106,24 +70,19 @@
         <jar destfile="${ant.jars}/${distname}.jar">
             <fileset dir="${ant.classes}"/>
             <fileset dir="${data}"/>
+            <fileset dir="jfreechart/source">
+                <include name="**/*.properties"/>
+            </fileset>
+            <fileset dir="phetcommon/data"></fileset>
+
             <manifest>
                 <attribute name="Main-Class" value="${main.class}"/>
             </manifest>
         </jar>
     </target>
 
-    <target name="Javadoc">
-        <delete dir="${ant.javadoc}"/>
-        <javadoc destdir="${ant.javadoc}" author="true" version="true" use="true">
-            <packageset dir="src" defaultexcludes="yes">
-            </packageset>
-            <bottom><![CDATA[<i>Copyright &#169; 2005 PhET. All Rights Reserved.</i>]]></bottom>
-            <link href="http://java.sun.com/products/jdk/1.4/docs/api/"/>
-        </javadoc>
-    </target>
-
     <target name="Publish Executables" depends="Generate Jar"
-        description="generate executables, jar files, lib files, a batchfile">
+            description="generate executables, jar files, lib files, a batchfile">
         <mkdir dir="${releases}"/>
         <property file="${build.number.txt}"/>
         <property name="destdir" value="${releases}\${distname}${version}_exec-build-${build.number}"/>
@@ -138,25 +97,14 @@
         </copy>
         <mkdir dir="${destdir}/lib"/>
         <copy todir="${destdir}/lib">
-            <fileset dir="${ant.lib}"/>
+            <!--<fileset dir="${ant.lib}"/>-->
+            <fileset dir="jfreechart/lib">
+                <exclude name="jfreechart-1.0.0-rc1.jar"/>
+            </fileset>
         </copy>
         <exec dir="${destdir}" executable="${explorer}">
             <arg line="${destdir}"/>
         </exec>
-    </target>
-
-    <target name="Build Dependencies" depends="init, Clean">
-        <property file="${build.number.txt}"/>
-        <mkdir dir="${ant.lib}"/>
-        <ant antfile="${phetcommon.build.file}" target="Generate Jar" inheritall="false">
-            <property name="jardest" value="${ant.lib}/phetcommon.jar"/>
-        </ant>
-        <ant antfile="${phetcommon.build.file}" target="Copy Lib" inheritall="false">
-            <property name="libdest" value="${ant.lib}"/>
-        </ant>
-        <ant antfile="${charts.build.file}" target="Generate Jar" inheritall="false">
-            <property name="jardest" value="${ant.lib}/charts.jar"/>
-        </ant>
     </target>
 
 </project>

@@ -9,10 +9,9 @@ import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.*;
-import java.text.DecimalFormat;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.text.DecimalFormat;
 
 /**
  * User: Sam Reid
@@ -40,7 +39,7 @@ public class AppliedForceControl extends PNode {
         } );
         module.getRampPhysicalModel().addListener( new RampPhysicalModel.Listener() {
             public void appliedForceChanged() {
-                modelSlider.setValue( module.getRampPhysicalModel().getAppliedForceScalar());
+                modelSlider.setValue( module.getRampPhysicalModel().getAppliedForceScalar() );
             }
 
             public void zeroPointChanged() {
@@ -67,6 +66,6 @@ public class AppliedForceControl extends PNode {
             }
         } );
 
-        scale( 0.65);//todo fix the size?  See Wendy.
+//        scale( 0.65 );//todo fix the size?  See Wendy.
     }
 }
