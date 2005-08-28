@@ -5,46 +5,33 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
- * User: Sam Reid
- * Date: Jul 15, 2005
- * Time: 1:45:27 PM
- * Copyright (c) Jul 15, 2005 by Sam Reid
+ * Shows a Line connection between two PNodes.
  */
 
 public class ConnectorGraphic extends PPath {
 
     private PNode src;
     private PNode dst;
-    private StayConnected connectActivity;
 
     public ConnectorGraphic( PNode src, PNode dst ) {
         this.src = src;
         this.dst = dst;
-        connectActivity = new StayConnected();//todo make this automatically start & stop.
-        //todo even better update only when src or dst changes.
-    }
-
-    public StayConnected getConnectActivity() {
-        return connectActivity;
-    }
-
-    class StayConnected extends PActivity {
-
-        public StayConnected() {
-            super( -1 );
-        }
-
-        protected void activityStep( long elapsedTime ) {
-            super.activityStep( elapsedTime );
-            update();
-        }
+        PropertyChangeListener changeHandler = new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                update();
+            }
+        };
+        src.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, changeHandler );
+        dst.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, changeHandler );
+        update();
     }
 
     private void update() {
@@ -81,7 +68,7 @@ public class ConnectorGraphic extends PPath {
         vector = vector.getInstanceOfMagnitude( Math.max( vector.getMagnitude() - 50, 100 ) );
         Arrow arrow = new Arrow( r1c, vector.getDestination( r1c ), 30, 30, 5, 1.0, true );
 
-        GradientPaint gradientPaint = new GradientPaint( r1c, Color.blue, r2c, Color.red, false );
+        GradientPaint gradientPaint = new GradientPaint( r1c, Color.blue, vector.getDestination( r1c ), Color.red, false );
         setPaint( gradientPaint );
         setPathTo( arrow.getShape() );
 //        Line2D.Double aShape = new Line2D.Double( r1c, r2c );
