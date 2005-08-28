@@ -3,6 +3,7 @@ package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.RampObject;
@@ -39,6 +40,7 @@ public class BlockGraphic extends PNode {
     private RampObject rampObject;
     private PImage wheelGraphic;
     private double viewScale = 0.5;
+//    private HeatGraphic heatGraphic;
 
     public BlockGraphic( final RampModule module, RampPanel rampPanel, SurfaceGraphic rampGraphic, SurfaceGraphic groundGraphic, Block block, RampObject rampObject ) {
         super();
@@ -215,5 +217,22 @@ public class BlockGraphic extends PNode {
 
     public PBounds getBlockBounds() {
         return imageGraphic.getFullBounds();
+    }
+
+    public void paintRed() {
+        System.out.println( "BlockGraphic.paintRed" );
+        MakeDuotoneImageOp duotone = new MakeDuotoneImageOp( Color.red );
+        BufferedImage dest = duotone.filter( (BufferedImage)imageGraphic.getImage(), null );
+        imageGraphic.setImage( dest );
+    }
+
+    public void restoreOriginalImage() {
+        System.out.println( "BlockGraphic.restoreOriginalImage" );
+        try {
+            setImage( rampObject.getImage() );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
     }
 }

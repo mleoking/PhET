@@ -7,6 +7,7 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.theramp.common.LucidaSansFont;
 import edu.colorado.phet.theramp.model.Surface;
@@ -55,7 +56,7 @@ public class SurfaceGraphic extends PNode {
 
         Stroke stroke = new BasicStroke( 6.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
         try {
-            surfaceGraphic = new PImage( ImageLoader.loadBufferedImage( "images/wood5.png" ) );
+            surfaceGraphic = new PImage( loadRampImage());
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -115,6 +116,10 @@ public class SurfaceGraphic extends PNode {
 
     }
 
+    private BufferedImage loadRampImage() throws IOException {
+        return ImageLoader.loadBufferedImage( "images/wood5.png" ) ;
+    }
+
     public PText getHeightReadoutGraphic() {
         return heightReadoutGraphic;
     }
@@ -159,6 +164,19 @@ public class SurfaceGraphic extends PNode {
 
     public AngleGraphic getAngleGraphic() {
         return angleGraphic;
+    }
+
+    public void paintRed() {
+        surfaceGraphic.setImage( new MakeDuotoneImageOp( new Color( 255,0,0,32) ).filter( (BufferedImage)surfaceGraphic.getImage(), null));
+    }
+
+    public void restoreOriginalImage() {
+        try {
+            surfaceGraphic.setImage( loadRampImage() );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
     }
 
     public static class ImageDebugFrame extends JFrame {

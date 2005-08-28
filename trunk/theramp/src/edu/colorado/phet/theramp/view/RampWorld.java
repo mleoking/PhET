@@ -10,6 +10,7 @@ import edu.colorado.phet.theramp.view.arrows.*;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
@@ -96,7 +97,6 @@ public class RampWorld extends PNode {
                                            RectangleUtils.getCenter2D( rampGraphic.getScreenTransform().getModelBounds() ) );
         measuringTape.setVisible( false );
         addChild( measuringTape );
-
 
 //        groundBounds.setPaint( Color.blue);
 //        addChild( groundBounds);
@@ -225,4 +225,30 @@ public class RampWorld extends PNode {
             return rampGraphic;
         }
     }
+
+    public void setHeatColor( boolean heatColor ) {
+        if (heatColor==this.heatColor){
+            return;
+        }else{
+            this.heatColor=heatColor;
+            if (!heatColor){
+                restoreOriginalImages();
+            }
+            else{
+                paintImagesRed();
+            }
+        }
+    }
+
+    private void paintImagesRed() {
+        blockGraphic.paintRed();
+        rampGraphic.paintRed();
+    }
+
+    private void restoreOriginalImages() {
+        blockGraphic.restoreOriginalImage();
+        rampGraphic.restoreOriginalImage();
+    }
+
+    boolean heatColor=false;
 }
