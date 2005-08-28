@@ -21,11 +21,11 @@ import java.io.IOException;
  * Copyright (c) Aug 26, 2005 by Sam Reid
  */
 
-public class TestBoundedDragHandler {
+public class TestBoundedDragHandler2 {
     private JFrame frame;
     private PCanvas piccoloCanvas;
 
-    public TestBoundedDragHandler() throws IOException {
+    public TestBoundedDragHandler2() throws IOException {
 
         //Initialize Frame
         frame = new JFrame( "Simple Piccolo Test" );
@@ -57,6 +57,8 @@ public class TestBoundedDragHandler {
 
         piccoloCanvas.getLayer().scale( 0.5 );
 
+        piccoloCanvas.getLayer().rotateAboutPoint( Math.PI/5,piccoloCanvas.getLayer().getFullBounds().getWidth()/2,piccoloCanvas.getLayer().getFullBounds().getHeight()/2);
+
         PBounds pathBounds = path.getGlobalFullBounds();
         System.out.println( "pathBounds[global] = " + pathBounds );
         piccoloCanvas.setPanEventHandler( null );
@@ -72,7 +74,7 @@ public class TestBoundedDragHandler {
     }
 
     public static void main( String[] args ) throws IOException {
-        new TestBoundedDragHandler().start();
+        new TestBoundedDragHandler2().start();
     }
 
     private void start() {

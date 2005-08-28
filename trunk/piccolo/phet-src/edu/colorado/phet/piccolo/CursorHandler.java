@@ -7,15 +7,13 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import java.awt.*;
 
 /**
- * User: Sam Reid
- * Date: Aug 1, 2005
- * Time: 10:30:27 PM
- * Copyright (c) Aug 1, 2005 by Sam Reid
+ * Changes the mouse to a different cursor on entrance.
+ * //todo should this save the state of the mouse before entrance, for restore on exit?
  */
 
 public class CursorHandler extends PBasicInputEventHandler {
     private Cursor cursor;
-    private Cursor defaultCursor;
+    private Cursor defaultCursor;//the cursor to return to on exit.
     public static final Cursor HAND = Cursor.getPredefinedCursor( Cursor.HAND_CURSOR );
     public static final Cursor DEFAULT = Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR );
     public static final Cursor CROSSHAIR = Cursor.getPredefinedCursor( Cursor.CROSSHAIR_CURSOR );

@@ -4,9 +4,6 @@ package edu.colorado.phet.piccolo;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
 /**
  * User: Sam Reid
  * Date: Jul 15, 2005
@@ -14,32 +11,18 @@ import java.beans.PropertyChangeListener;
  * Copyright (c) Jul 15, 2005 by Sam Reid
  */
 
-public class Oscillate extends PActivity {
+public class OscillateActivity extends PActivity {
     private double frequencyHz = 3.5;
     private PNode target;
     private double x;
     private double y;
     private double amplitude = 25;
 
-    public Oscillate( final PNode target, double x, double y ) {
-        super( -1 );
-        this.target = target;
-        this.x = x;
-        this.y = y;
-//        target.addPropertyChangeListener( PNode.PROPERTY_VISIBLE, new PropertyChangeListener() {
-//            public void propertyChange( PropertyChangeEvent evt ) {
-//                System.out.println( "evt = " + evt );
-//                if( target.getVisible() ) {
-//                    target.getRoot().addActivity( Oscillate.this );
-//                }
-//                else {
-//                    terminate();
-//                }
-//            }
-//        } );
+    public OscillateActivity( final PNode target, double x, double y ) {
+        this( target, x, y, 25, 3.5 );
     }
 
-    public Oscillate( PNode target, int x, int y, double amplitude, double frequencyHz ) {
+    public OscillateActivity( PNode target, double x, double y, double amplitude, double frequencyHz ) {
         super( -1 );
         this.x = x;
         this.y = y;

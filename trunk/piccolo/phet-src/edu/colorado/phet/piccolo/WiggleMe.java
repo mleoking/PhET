@@ -31,7 +31,7 @@ public class WiggleMe extends PNode {
         addChild( htmlBound );
         addChild( htmlGraphic );
 
-        oscillate = new Oscillate( this, x, y );
+        oscillate = new OscillateActivity( this, x, y );
         setOscillating( true );
 
 //        addPropertyChangeListener( PROPERTY_VISIBLE, new PropertyChangeListener() {

@@ -2,10 +2,11 @@
 package edu.colorado.phet.tests.piccolo;
 
 import edu.colorado.phet.piccolo.ConnectorGraphic;
+import edu.colorado.phet.piccolo.HTMLGraphic;
 import edu.colorado.phet.piccolo.WiggleMe;
+import edu.colorado.phet.piccolo.ArrowConnectorGraphic;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PLayer;
-import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -32,7 +33,7 @@ public class TestPiccolo2 {
         final PText pText = new PText( "Hello PhET\nTesting" );
 
         layer.addChild( pText );
-        pText.addInputEventListener( new DragBehavior() );
+//        pText.addInputEventListener( new DragBehavior() );
         JFrame frame = new JFrame( "Test Piccolo" );
         pCanvas.getCamera().translateView( 50, 50 );
 
@@ -56,14 +57,16 @@ public class TestPiccolo2 {
         pText.addChild( child );
 
 //        PNode wiggleRoot = new PNode();
-//        HTMLGraphic htmlGraphic = new HTMLGraphic( "<html> MY HTML<br>so there<sup>2</html>" );
+        HTMLGraphic htmlGraphic = new HTMLGraphic( "<html> MY HTML<br>so there<sup>2</html>" );
 //        BoundGraphic htmlBound = new BoundGraphic( htmlGraphic );
 //        htmlBound.setPaint( Color.yellow );
 //        wiggleRoot.addChild( htmlBound );
 //        wiggleRoot.addChild( htmlGraphic );
 //        layer.addChild( wiggleRoot );
-////        htmlGraphic.translate( 5, 100 );
+//        htmlGraphic.translate( 5, 100 );
 //        htmlGraphic.repaint();
+        pCanvas.getLayer().addChild( htmlGraphic );
+        htmlGraphic.setOffset( 200, 150 );
 
         PPath p3 = new PPath( new Ellipse2D.Double( 0, 0, 45, 65 ) );
         p3.setPaint( Color.blue );
@@ -77,14 +80,13 @@ public class TestPiccolo2 {
 //        p3.getRoot().addActivity( oscillate );
 //        layer.getRoot().addActivity( oscillate );
 
-
         WiggleMe wiggleMe = new WiggleMe( "Wiggle This!", 0, 0 );
         layer.addChild( wiggleMe );
         wiggleMe.setOscillating( true );
 
-        ConnectorGraphic connectorGraphic = new ConnectorGraphic( text2, wiggleMe );
-        layer.getRoot().addActivity( connectorGraphic.getConnectActivity() );
-        connectorGraphic.setStroke( new BasicStroke( 2, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 2, new float[]{10, 5}, 0 ) );
+//        ConnectorGraphic connectorGraphic = new ConnectorGraphic( text2, wiggleMe );
+        ConnectorGraphic connectorGraphic=new ArrowConnectorGraphic( wiggleMe,text2 );
+//        connectorGraphic.setStroke( new BasicStroke( 2, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 2, new float[]{10, 5}, 0 ) );
         layer.addChild( 0, connectorGraphic );
 
 //        BoundGraphic boundGraphic = new BoundGraphic( htmlGraphic );
@@ -97,7 +99,4 @@ public class TestPiccolo2 {
 //        PDebug.debugRegionManagement = true;
     }
 
-    public static class DragBehavior extends PDragEventHandler {
-
-    }
 }

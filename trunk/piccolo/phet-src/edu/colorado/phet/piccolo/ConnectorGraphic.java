@@ -1,14 +1,12 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.piccolo;
 
-import edu.colorado.phet.common.math.AbstractVector2D;
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.Line2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -18,12 +16,12 @@ import java.beans.PropertyChangeListener;
 
 public class ConnectorGraphic extends PPath {
 
-    private PNode src;
-    private PNode dst;
+    private PNode source;
+    private PNode destination;
 
     public ConnectorGraphic( PNode src, PNode dst ) {
-        this.src = src;
-        this.dst = dst;
+        this.source = src;
+        this.destination = dst;
         PropertyChangeListener changeHandler = new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 update();
@@ -32,6 +30,8 @@ public class ConnectorGraphic extends PPath {
         src.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, changeHandler );
         dst.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, changeHandler );
         update();
+//        setPaint( Color.black );
+        setStrokePaint( Color.black );
     }
 
     private void update() {
@@ -47,13 +47,13 @@ public class ConnectorGraphic extends PPath {
 
         // First get the center of each rectangle in the
         // local coordinate system of each rectangle.
-        Point2D r1c = src.getFullBounds().getCenter2D();
-        Point2D r2c = dst.getFullBounds().getCenter2D();
+        Point2D r1c = source.getFullBounds().getCenter2D();
+        Point2D r2c = destination.getFullBounds().getCenter2D();
 
         // Next convert that center point for each rectangle
         // into global coordinate system.
-        src.getParent().localToGlobal( r1c );
-        dst.getParent().localToGlobal( r2c );
+        source.getParent().localToGlobal( r1c );
+        destination.getParent().localToGlobal( r2c );
 
         // Now that the centers are in global coordinates they
         // can be converted into the local coordinate system
@@ -64,17 +64,19 @@ public class ConnectorGraphic extends PPath {
         // Finish by setting the endpoints of the line to
         // the center points of the rectangles, now that those
         // center points are in the local coordinate system of the line.
-        AbstractVector2D vector = new Vector2D.Double( r1c, r2c );
-        vector = vector.getInstanceOfMagnitude( Math.max( vector.getMagnitude() - 50, 100 ) );
-        Arrow arrow = new Arrow( r1c, vector.getDestination( r1c ), 30, 30, 5, 1.0, true );
-
-        GradientPaint gradientPaint = new GradientPaint( r1c, Color.blue, vector.getDestination( r1c ), Color.red, false );
-        setPaint( gradientPaint );
-        setPathTo( arrow.getShape() );
-//        Line2D.Double aShape = new Line2D.Double( r1c, r2c );
-//        setPathTo( aShape );
-        //        System.out.println( "aShape = " + aShape.getP1()+",-> "+aShape.getP2() );
-
+        updateShape( r1c, r2c );
         repaint();
+    }
+
+    protected void updateShape( Point2D r1c, Point2D r2c ) {
+        setPathTo( new Line2D.Double(r1c,r2c ));
+    }
+
+    public PNode getSource() {
+        return source;
+    }
+
+    public PNode getDestination() {
+        return destination;
     }
 }
