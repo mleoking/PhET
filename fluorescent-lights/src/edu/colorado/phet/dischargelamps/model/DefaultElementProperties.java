@@ -23,7 +23,7 @@ public class DefaultElementProperties extends ElementProperties {
     };
 
     public DefaultElementProperties() {
-        super( "Default", energyLevels );
+        super( "Configurable", energyLevels );
     }
 }
 

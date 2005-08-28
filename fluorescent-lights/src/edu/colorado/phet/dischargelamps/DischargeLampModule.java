@@ -242,8 +242,11 @@ public class DischargeLampModule extends BaseLaserModule {
         getControlPanel().add( atomTypeComboBox );
 
         // A slider for the battery voltage
-        double maxVoltage = 5;
-        final ModelSlider batterySlider = new ModelSlider( "Battery Voltage", "V", -maxVoltage, maxVoltage, maxVoltage / 2 );
+        final ModelSlider batterySlider = new ModelSlider( "Battery Voltage",
+                                                           "V",
+                                                           -DischargeLampModel.MAX_VOLTAGE,
+                                                           DischargeLampModel.MAX_VOLTAGE,
+                                                           DischargeLampModel.MAX_VOLTAGE * 0.66 );
         batterySlider.setPreferredSize( new Dimension( 250, 100 ) );
         ControlPanel controlPanel = (ControlPanel)getControlPanel();
         controlPanel.addControl( batterySlider );
@@ -256,10 +259,12 @@ public class DischargeLampModule extends BaseLaserModule {
         cathode.setPotential( batterySlider.getValue() );
 
         // A slider for the battery current
+        double maxCurrent = 0.3;
         currentSlider = new ModelSlider( "Electron Production Rate", "electrons/msec",
-                                         0, 0.3, 0, new DecimalFormat( "0.00#" ) );
-        currentSlider.setPreferredSize( new Dimension( 250, 100 ) );
+                                         0, maxCurrent, 0, new DecimalFormat( "0.000" ) );
         currentSlider.setMajorTickSpacing( 0.1 );
+        currentSlider.setNumMinorTicksPerMajorTick( 2 );
+        currentSlider.setPreferredSize( new Dimension( 250, 100 ) );
         controlPanel.addControl( currentSlider );
         currentSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

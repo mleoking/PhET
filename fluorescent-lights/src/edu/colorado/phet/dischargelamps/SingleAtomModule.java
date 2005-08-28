@@ -12,6 +12,7 @@ package edu.colorado.phet.dischargelamps;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.components.ModelSlider;
+import edu.colorado.phet.common.view.util.RadioButtonSelector;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.dischargelamps.model.Electron;
 import edu.colorado.phet.dischargelamps.model.AtomicStateFactory;
@@ -52,9 +53,6 @@ public class SingleAtomModule extends DischargeLampModule {
 
         // Add module-specific controls
         addControls();
-
-        // Set the current control to an appropriate maximum value
-        getCurrentSlider().setMaximum( 0.01 );
     }
 
     /**
@@ -65,6 +63,9 @@ public class SingleAtomModule extends DischargeLampModule {
         // Put the current slider in a set of controls with the Fire button
         final ModelSlider currentSlider = getCurrentSlider();
         getControlPanel().remove( currentSlider );
+        double maxCurrent = 0.01;
+        getCurrentSlider().setMaximum( maxCurrent );
+        getCurrentSlider().setValue( maxCurrent / 2 );
 
         JPanel electronProductionControlPanel = new JPanel( new GridBagLayout() );
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
@@ -87,20 +88,18 @@ public class SingleAtomModule extends DischargeLampModule {
         } );
         JRadioButton continuousRB = new JRadioButton( new AbstractAction( "Continuous" ) {
             public void actionPerformed( ActionEvent e ) {
-                currentSlider.setVisible( true );
-                getCathode().setElectronsPerSecond( currentSlider.getValue() );
-                singleShotBtn.setVisible( false );
+                setContinuousElectronProduction( currentSlider, singleShotBtn );
             }
         } );
         JRadioButton singleShotRB = new JRadioButton( new AbstractAction( "Single" ) {
             public void actionPerformed( ActionEvent e ) {
-                currentSlider.setVisible( false );
-                getCathode().setElectronsPerSecond( 0 );
-                singleShotBtn.setVisible( true );
+                setSingleShotElectronProduction( currentSlider, singleShotBtn );
             }
         } );
         electronProductionBtnGrp.add( continuousRB );
         electronProductionBtnGrp.add( singleShotRB );
+        singleShotRB.setSelected( true );
+        setSingleShotElectronProduction( currentSlider, singleShotBtn );
 
         JPanel rbPanel = new JPanel();
         rbPanel.add( singleShotRB );
@@ -130,6 +129,29 @@ public class SingleAtomModule extends DischargeLampModule {
             }
         } );
         getControlPanel().add( slowMotionCB );
+    }
+
+    /**
+     * Sets the simulation to fire single electrons when the "Fire" button is pressed
+     * @param currentSlider
+     * @param singleShotBtn
+     */
+    private void setSingleShotElectronProduction( ModelSlider currentSlider, JButton singleShotBtn ) {
+        currentSlider.setVisible( false );
+        getCathode().setElectronsPerSecond( 0 );
+        singleShotBtn.setVisible( true );
+    }
+
+    /**
+     * Sets the simulation to fire electrons continuously at a rate determined by the
+     * "Electron Production Rate" slider
+     * @param currentSlider
+     * @param singleShotBtn
+     */
+    private void setContinuousElectronProduction( ModelSlider currentSlider, JButton singleShotBtn ) {
+        currentSlider.setVisible( true );
+        getCathode().setElectronsPerSecond( currentSlider.getValue() );
+        singleShotBtn.setVisible( false );
     }
 
     /**
@@ -163,4 +185,5 @@ public class SingleAtomModule extends DischargeLampModule {
         atom.addPhotonEmittedListener( getSpectrometer() );
         getEneregyLevelsMonitorPanel().reset();
     }
+
 }

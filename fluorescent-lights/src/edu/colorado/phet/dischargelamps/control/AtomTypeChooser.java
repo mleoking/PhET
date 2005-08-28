@@ -45,22 +45,19 @@ public class AtomTypeChooser extends JPanel {
 
         JComboBox comboBox = new JComboBox();
 
-        comboBox.addItem( new DefaultElementProperties() );
         comboBox.addItem( new HydrogenProperties() );
         comboBox.addItem( new NeonProperties() );
-//        comboBox.addItem( new DefaultAtomItem( model ) );
-//        comboBox.addItem( new HydrogenItem( model ) );
-//        comboBox.addItem( new NeonItem( model ) );
+        comboBox.addItem( new DefaultElementProperties() );
         comboBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 JComboBox cb = (JComboBox)e.getSource();
                 // Get the selected item and tell it to do its thing
                 ElementProperties selection = (ElementProperties)cb.getSelectedItem();
                 model.setAtomicElement( selection );
-//                AtomTypeItem item = (AtomTypeItem)cb.getSelectedItem();
-//                item.select();
             }
         } );
+        ElementProperties selection = (ElementProperties)comboBox.getSelectedItem();
+        model.setAtomicElement( selection );
 
         gbc.anchor = GridBagConstraints.WEST;
         gbc.gridx = 1;

@@ -34,10 +34,15 @@ import java.awt.geom.Point2D;
 public class DischargeLampModel extends LaserModel {
 
     //-----------------------------------------------------------------
+    // Class data 
+    //-----------------------------------------------------------------
+    public static final double MAX_VOLTAGE = 10;
+
+
+    //-----------------------------------------------------------------
     // Instance data
     //-----------------------------------------------------------------
     private List atoms = new ArrayList();
-    private int numEnergyLevels;
     private AtomicState[] atomicStates;
     private List electrons = new ArrayList();
     private ElectronAtomCollisionExpert electronAtomCollisionExpert = new ElectronAtomCollisionExpert();
@@ -154,7 +159,6 @@ public class DischargeLampModel extends LaserModel {
     //----------------------------------------------------------------
 
     public void setNumAtomicEnergyLevels( int numLevels ) {
-        numEnergyLevels = numLevels;
         atomicStates = new AtomicStateFactory().createAtomicStates( numLevels );
         for( int i = 0; i < atoms.size(); i++ ) {
             Atom atom = (Atom)atoms.get( i );
