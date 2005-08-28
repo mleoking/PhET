@@ -54,13 +54,6 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
             if( !boundingNode.getGlobalFullBounds().contains( event.getPickedNode().getGlobalFullBounds() ) ) {
                 double newX = pickedNode.getGlobalTranslation().getX();
                 double newY = pickedNode.getGlobalTranslation().getY();
-
-//                AffineTransform affineTransform = new AffineTransform( pickedNode.getTransform() );
-//                affineTransform.setTransform( affineTransform.getScaleX(), affineTransform.getShearY(), affineTransform.getShearX(), affineTransform.getScaleY(), 0, 0 );
-//                Point2D offset = affineTransform.transform( new Point( 0, 0 ), null );
-//                System.out.println( "offset = " + offset );
-//                AffineTransform at = new AffineTransform( pickedNode.getGlobalScale(), 0, 0, pickedNode.getGlobalScale(), 0, 0 );
-
                 if( pickedNode.getGlobalFullBounds().getX() < boundingNode.getFullBounds().getX() ) {
                     //let's take data and fit (to account for scale, rotation & shear)
                     double x0 = pickedNode.getGlobalTranslation().getX();
@@ -70,13 +63,7 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
                     double x1 = pickedNode.getGlobalTranslation().getX();
                     double y1 = pickedNode.getGlobalFullBounds().getMinX();
 
-                    double slope = ( y0 - y1 ) / ( x0 - x1 );
-                    double intercept = y0 - slope * x0;
-
-                    double desiredY = boundingNode.getGlobalFullBounds().getMinX();
-                    double requiredGlobalOffset = ( desiredY - intercept ) / slope;
-
-                    newX = requiredGlobalOffset;
+                    newX = fitLinear( x0, y0, x1, y1, boundingNode.getGlobalFullBounds().getMinX() );
                 }
                 if( pickedNode.getGlobalFullBounds().getY() < boundingNode.getFullBounds().getY() ) {
 
@@ -88,13 +75,7 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
                     double x1 = pickedNode.getGlobalTranslation().getY();
                     double y1 = pickedNode.getGlobalFullBounds().getMinY();
 
-                    double slope = ( y0 - y1 ) / ( x0 - x1 );
-                    double intercept = y0 - slope * x0;
-
-                    double desiredY = boundingNode.getGlobalFullBounds().getMinY();
-                    double requiredGlobalOffset = ( desiredY - intercept ) / slope;
-
-                    newY = requiredGlobalOffset;
+                    newY=fitLinear( x0,y0, x1, y1, boundingNode.getGlobalFullBounds().getMinY() );
                 }
                 if( pickedNode.getGlobalFullBounds().getMaxX() > boundingNode.getGlobalFullBounds().getMaxX() ) {
                     //let's take data and fit (to account for scale, rotation & shear)
@@ -104,14 +85,7 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
                     pickedNode.setGlobalTranslation( new Point2D.Double( pickedNode.getGlobalTranslation().getX() - 1, pickedNode.getGlobalTranslation().getY() ) );
                     double x1 = pickedNode.getGlobalTranslation().getX();
                     double y1 = pickedNode.getGlobalFullBounds().getMaxX();
-
-                    double slope = ( y0 - y1 ) / ( x0 - x1 );
-                    double intercept = y0 - slope * x0;
-
-                    double desiredY = boundingNode.getGlobalFullBounds().getMaxX();
-                    double requiredGlobalOffset = ( desiredY - intercept ) / slope;
-
-                    newX = requiredGlobalOffset;
+                    newX=fitLinear( x0,y0, x1, y1, boundingNode.getGlobalFullBounds().getMaxX());
                 }
                 if( pickedNode.getGlobalFullBounds().getMaxY() > boundingNode.getGlobalFullBounds().getMaxY() ) {
                     //let's take data and fit (to account for scale, rotation & shear)
@@ -121,14 +95,7 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
                     pickedNode.setGlobalTranslation( new Point2D.Double( pickedNode.getGlobalTranslation().getX(), pickedNode.getGlobalTranslation().getY() - 1 ) );
                     double x1 = pickedNode.getGlobalTranslation().getY();
                     double y1 = pickedNode.getGlobalFullBounds().getMaxY();
-
-                    double slope = ( y0 - y1 ) / ( x0 - x1 );
-                    double intercept = y0 - slope * x0;
-
-                    double desiredY = boundingNode.getGlobalFullBounds().getMaxY();
-                    double requiredGlobalOffset = ( desiredY - intercept ) / slope;
-
-                    newY = requiredGlobalOffset;
+                    newY=fitLinear( x0, y0, x1, y1, boundingNode.getGlobalFullBounds().getMaxY() );
                 }
                 Point2D rollbackPoint = new Point2D.Double( newX, newY );
 //                Point2D fullRollbackPoint = new Point2D.Double( newX - offset.getX(), newY - offset.getY() );
@@ -137,6 +104,17 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
 //                event.getPickedNode().setOffset( rollbackPoint );
             }
         }
+    }
+
+    private double fitLinear( double x0, double y0, double x1, double y1, double minX ) {
+
+        double slope = ( y0 - y1 ) / ( x0 - x1 );
+        double intercept = y0 - slope * x0;
+
+        double desiredY = minX;
+        double requiredGlobalOffset = ( desiredY - intercept ) / slope;
+
+        return requiredGlobalOffset;
     }
 
     public void mouseReleased( PInputEvent event ) {
