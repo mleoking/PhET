@@ -202,7 +202,7 @@ public class GraphWindow extends JDialog {
         public RotatedTextLabel( String label ) {
             super( null );
             this.label = "   " + label;
-            setPreferredSize( new Dimension( 25, 150 ) );
+            setPreferredSize( new Dimension( 25, 170 ) );
         }
 
         public void paint( Graphics g ) {
@@ -212,7 +212,7 @@ public class GraphWindow extends JDialog {
             Font font = dummyLabel.getFont();
             Font f = new Font( font.getFontName(), font.getStyle(), font.getSize() + 2 );
             int x = 20;
-            int y = 150;
+            int y = 170;
             AffineTransform at = new AffineTransform();
             at.setToRotation( -Math.PI / 2.0, x, y );
             g2.transform( at );
