@@ -40,7 +40,7 @@ public class Plate extends Electrode {
         return source;
     }
 
-    public void setLength( double l ) {
+    public void setEmittingLength( double l ) {
         source.setLength( l );
     }
 

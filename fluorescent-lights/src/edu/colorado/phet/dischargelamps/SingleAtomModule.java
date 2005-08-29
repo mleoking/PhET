@@ -49,8 +49,8 @@ public class SingleAtomModule extends DischargeLampModule {
         addAtom( getTube(), numEnergyLevels );
 
         // Make the area from which the cathode emits electrons very small
-        getDischargeLampModel().getLeftHandPlate().setLength( 1 );
-//        super.getCathode().setLength( 1 );
+        getDischargeLampModel().getLeftHandPlate().setEmittingLength( 1 );
+        getDischargeLampModel().getRightHandPlate().setEmittingLength( 1 );
 
         // Add module-specific controls
         addControls();
