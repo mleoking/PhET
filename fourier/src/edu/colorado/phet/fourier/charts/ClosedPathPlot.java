@@ -90,17 +90,6 @@ public class ClosedPathPlot extends DataSetGraphic {
         _pathShape = new GeneralPath();
         _pathGraphic = new PhetShapeGraphic( component, _pathShape, fillPaint, stroke, borderPaint );
         addGraphic( _pathGraphic );
-        
-        // Clip to the chart boundary, and change the clip when the chart changes.
-        setClip( chart.getChartBounds() );
-        chart.addPhetGraphicListener( new PhetGraphicListener() {
-            public void phetGraphicChanged( PhetGraphic phetGraphic ) {
-                setClip( chart.getChartBounds() );
-            }
-
-            public void phetGraphicVisibilityChanged( PhetGraphic phetGraphic ) {
-            }
-        } );
     }
 
     //----------------------------------------------------------------------------
