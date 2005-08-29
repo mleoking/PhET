@@ -76,8 +76,11 @@ public class HarmonicPlot extends SinePlot implements SimpleObserver, HarmonicCo
      * Call this method prior to releasing all references to an object of this type.
      */
     public void cleanup() {
-        _harmonic.removeObserver( this );
-        _harmonic = null;
+        super.cleanup();
+        if ( _harmonic != null ) {
+            _harmonic.removeObserver( this );
+            _harmonic = null;
+        }
         HarmonicColors.getInstance().removeHarmonicColorChangeListener( this );
     }
     
