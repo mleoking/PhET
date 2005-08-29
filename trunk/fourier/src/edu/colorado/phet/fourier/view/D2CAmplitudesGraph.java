@@ -295,9 +295,7 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
 
         // Width of the bars is slightly less than the spacing k1.
         double barWidth = k1 - ( k1 * 0.25 );
-
-        double maxAmplitude = 0;
-
+        
         // Add a bar for each component.
         for ( int i = 0; i < numberOfComponents; i++ ) {
 
@@ -317,16 +315,11 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
             double An = GaussianWavePacket.getAmplitude( kn, k0, dk ) * k1;
             DataSet dataSet = barPlot.getDataSet();
             dataSet.addPoint( new Point2D.Double( kn, An ) );
-
-            if ( An > maxAmplitude ) {
-                maxAmplitude = An;
-            }
         }
 
+        // Scale the y axis so based on the center point's amplitude.
+        double maxAmplitude = GaussianWavePacket.getAmplitude( k0, k0, dk ) * k1;
         _chartGraphic.autoscaleY( maxAmplitude * FourierConfig.AUTOSCALE_PERCENTAGE );
-        
-        //            System.out.println( "number of components = " + numberOfComponents );//XXX
-        //            System.out.println( "max amplitude = " + maxAmplitude );//XXX
     }
     
     /*
@@ -367,7 +360,6 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
      * Populates a LinePlot with a set of points that approximate the continuous waveform.
      */
     private void updateContinuous() {
-        System.out.println( "D2CAmplitudesGraph.updateContinuous" );//XXX
         
         // Clear the data set.
         DataSet dataSet = _continuousWaveformGraphic.getDataSet();
