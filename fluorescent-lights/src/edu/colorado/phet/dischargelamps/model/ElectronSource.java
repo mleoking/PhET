@@ -12,6 +12,7 @@ package edu.colorado.phet.dischargelamps.model;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.math.Vector2D;
 
 import java.awt.geom.Point2D;
 import java.util.EventListener;
@@ -31,7 +32,7 @@ public class ElectronSource extends Electrode {
     private double electronsPerSecond;
     private double timeSincelastElectronEmitted;
 
-    private BaseModel model;
+    private DischargeLampModel model;
     private double sinkPotential;
 
     /**
@@ -41,7 +42,7 @@ public class ElectronSource extends Electrode {
      * @param p1    One endpoint of the line
      * @param p2    The other endpoint of the line
      */
-    public ElectronSource( BaseModel model, Point2D p1, Point2D p2 ) {
+    public ElectronSource( DischargeLampModel model, Point2D p1, Point2D p2 ) {
         super( p1, p2 );
         this.model = model;
     }
@@ -76,7 +77,8 @@ public class ElectronSource extends Electrode {
             Point2D p2 = getEndpoints()[1];
             double x = random.nextDouble() * ( p2.getX() - p1.getX() ) + p1.getX();
             double y = random.nextDouble() * ( p2.getY() - p1.getY() ) + p1.getY();
-            electron.setPosition( x, y );
+            Vector2D direction = model.getElectronAcceleration();
+            electron.setPosition( x + direction.getX(), y + direction.getY() );
             model.addModelElement( electron );
             electronProductionListenerProxy.electronProduced( new ElectronProductionEvent( this, electron ) );
         }

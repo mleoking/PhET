@@ -49,7 +49,8 @@ public class SingleAtomModule extends DischargeLampModule {
         addAtom( getTube(), numEnergyLevels );
 
         // Make the area from which the cathode emits electrons very small
-        super.getCathode().setLength( 1 );
+        getDischargeLampModel().getLeftHandPlate().setLength( 1 );
+//        super.getCathode().setLength( 1 );
 
         // Add module-specific controls
         addControls();
@@ -80,7 +81,7 @@ public class SingleAtomModule extends DischargeLampModule {
         final JButton singleShotBtn = new JButton( "Fire electron" );
         singleShotBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                Electron electron = getCathode().produceElectron();
+                Electron electron = getDischargeLampModel().getLeftHandPlate().produceElectron();
                 if( electron != null ) {
                     elmp.addElectron( electron );
                 }
@@ -138,7 +139,7 @@ public class SingleAtomModule extends DischargeLampModule {
      */
     private void setSingleShotElectronProduction( ModelSlider currentSlider, JButton singleShotBtn ) {
         currentSlider.setVisible( false );
-        getCathode().setElectronsPerSecond( 0 );
+        getDischargeLampModel().getLeftHandPlate().setCurrent( 0 );
         singleShotBtn.setVisible( true );
     }
 
@@ -150,7 +151,7 @@ public class SingleAtomModule extends DischargeLampModule {
      */
     private void setContinuousElectronProduction( ModelSlider currentSlider, JButton singleShotBtn ) {
         currentSlider.setVisible( true );
-        getCathode().setElectronsPerSecond( currentSlider.getValue() );
+        getDischargeLampModel().getLeftHandPlate().setCurrent( currentSlider.getValue() );
         singleShotBtn.setVisible( false );
     }
 
