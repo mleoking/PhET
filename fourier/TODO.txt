@@ -71,6 +71,7 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(8/29) - always scale D2C amplitudes graph based on max amplitude of continuous waveform
 1.0.6 ...
 (8/26) - update D2CHarmonicsGraph when it becomes visible only if model has changed
 (8/26) - flatten Amplitudes chart in Discrete module
