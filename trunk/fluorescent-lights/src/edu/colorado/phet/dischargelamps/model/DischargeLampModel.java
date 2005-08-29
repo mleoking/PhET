@@ -44,15 +44,17 @@ public class DischargeLampModel extends LaserModel {
     //-----------------------------------------------------------------
     private List atoms = new ArrayList();
     private AtomicState[] atomicStates;
-    private List electrons = new ArrayList();
+    private ArrayList electrons = new ArrayList();
+    private ArrayList electronSources = new ArrayList( );
+    private ArrayList electronSinks = new ArrayList( );
     private ElectronAtomCollisionExpert electronAtomCollisionExpert = new ElectronAtomCollisionExpert();
     private Spectrometer spectrometer;
     private Vector2D electronAcceleration = new Vector2D.Double();
     private ResonatingCavity tube;
     private Plate leftHandPlate;
     private Plate rightHandPlate;
-    private ArrayList electronSources = new ArrayList( );
-    private ArrayList electronSinks = new ArrayList( );
+    private HeatingElement leftHandHeatingElement;
+    private HeatingElement rightHandHeatingElement;
     private double current;
 
 
@@ -60,17 +62,25 @@ public class DischargeLampModel extends LaserModel {
         // This is the place to set the mean lifetime for the various atomic states
 //        MiddleEnergyState.instance().setMeanLifetime( .00001 );
 
-        // Make the cathode
+        // Make the plates
         leftHandPlate = new Plate( this,
                                       DischargeLampsConfig.CATHODE_LINE.getP1(),
                                       DischargeLampsConfig.CATHODE_LINE.getP2() );
         leftHandPlate.addStateChangeListener( new ElectrodeStateChangeListener() );
 
-        // Make the anode
         rightHandPlate = new Plate( this,
                                   DischargeLampsConfig.ANODE_LINE.getP1(),
                                   DischargeLampsConfig.ANODE_LINE.getP2() );
         rightHandPlate.addStateChangeListener( new ElectrodeStateChangeListener() );
+
+        // Make the heating elements
+        leftHandHeatingElement = new HeatingElement();
+        leftHandHeatingElement.setPosition( DischargeLampsConfig.CATHODE_LOCATION.getX(),
+                                            DischargeLampsConfig.CATHODE_LOCATION.getY() );
+        rightHandHeatingElement = new HeatingElement();
+        rightHandHeatingElement.setPosition( DischargeLampsConfig.ANODE_LOCATION.getX(),
+                                            DischargeLampsConfig.ANODE_LOCATION.getY() );
+
 
         // Make the discharge tube
         double x = DischargeLampsConfig.CATHODE_LOCATION.getX() - DischargeLampsConfig.ELECTRODE_INSETS.left;
@@ -218,6 +228,8 @@ public class DischargeLampModel extends LaserModel {
         if( leftHandPlate.getPotential() > rightHandPlate.getPotential() ) {
             leftHandPlate.setCurrent( value );
             rightHandPlate.setCurrent( 0 );
+
+            leftHandHeatingElement.setTemperature( 255 * value / 0.01 );
         }
         else {
             rightHandPlate.setCurrent( value );
@@ -231,6 +243,14 @@ public class DischargeLampModel extends LaserModel {
 
     public Plate getRightHandPlate() {
         return rightHandPlate;
+    }
+
+    public HeatingElement getLeftHandHeatingElement() {
+        return leftHandHeatingElement;
+    }
+
+    public HeatingElement getRightHandHeatingElement() {
+        return rightHandHeatingElement;
     }
 
     //-----------------------------------------------------------------

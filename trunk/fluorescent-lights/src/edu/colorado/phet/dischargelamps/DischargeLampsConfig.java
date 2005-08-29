@@ -50,6 +50,7 @@ public class DischargeLampsConfig {
     // Images
     public static final String IMAGE_FILE_DIRECTORY = "images";
     public static final String ELECTRON_IMAGE_FILE_NAME = IMAGE_FILE_DIRECTORY + "/" + "electron.gif";
+    public static final String HEATING_ELEMENT_FILE_NAME = IMAGE_FILE_DIRECTORY + "/" + "coil-2.png"; 
 
     // Assigned graphic layers
     public static final double TUBE_LAYER = 110;
