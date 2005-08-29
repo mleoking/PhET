@@ -18,11 +18,11 @@ import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.control.AtomTypeChooser;
-import edu.colorado.phet.dischargelamps.model.*;
-import edu.colorado.phet.dischargelamps.view.DischargeLampAtomGraphic;
-import edu.colorado.phet.dischargelamps.view.DischargeLampEnergyMonitorPanel2;
-import edu.colorado.phet.dischargelamps.view.ElectronGraphicManager;
-import edu.colorado.phet.dischargelamps.view.SpectrometerGraphic;
+import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
+import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
+import edu.colorado.phet.dischargelamps.model.Plate;
+import edu.colorado.phet.dischargelamps.model.Spectrometer;
+import edu.colorado.phet.dischargelamps.view.*;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
@@ -113,12 +113,37 @@ public class DischargeLampModule extends BaseLaserModule {
         addCathodeGraphic( apparatusPanel );
         addAnodeGraphic( apparatusPanel );
         addSpectrometerGraphic();
+        addHeatingElementGraphics();
+
 
         // Add the tube
         addTubeGraphic( apparatusPanel );
 
         // Set up the control panel
         addControls();
+    }
+
+    /**
+     * Adds the graphics for the heating elements
+     */
+    private void addHeatingElementGraphics() {
+        HeatingElementGraphic leftHeatingElementGraphic = new HeatingElementGraphic( getApparatusPanel(), true );
+        getApparatusPanel().addGraphic( leftHeatingElementGraphic );
+        Point leftHandGraphicLocation = new Point( (int)model.getLeftHandHeatingElement().getPosition().getX()
+                                                   - leftHeatingElementGraphic.getImage().getWidth() - 25,
+                                                   (int)model.getLeftHandHeatingElement().getPosition().getY()
+                                                   - leftHeatingElementGraphic.getImage().getHeight() / 2 );
+        leftHeatingElementGraphic.setLocation( leftHandGraphicLocation );
+
+        HeatingElementGraphic rightHeatingElementGraphic = new HeatingElementGraphic( getApparatusPanel(), false );
+        getApparatusPanel().addGraphic( rightHeatingElementGraphic );
+        Point rightHandGraphicLocation = new Point( (int)model.getRightHandHeatingElement().getPosition().getX() + 25,
+                                                (int)model.getRightHandHeatingElement().getPosition().getY()
+                                                - leftHeatingElementGraphic.getImage().getHeight() / 2 );
+        rightHeatingElementGraphic.setLocation( rightHandGraphicLocation );
+
+        model.getLeftHandHeatingElement().addChangeListener( leftHeatingElementGraphic );
+        model.getRightHandHeatingElement().addChangeListener( rightHeatingElementGraphic );
     }
 
 
@@ -350,7 +375,6 @@ public class DischargeLampModule extends BaseLaserModule {
 
     /**
      * Returns a typed reference to the model
-     *
      */
     protected DischargeLampModel getDischargeLampModel() {
         return (DischargeLampModel)getModel();
