@@ -56,17 +56,6 @@ public class LinePlot extends DataSetGraphic {
         phetShapeGraphic = new PhetShapeGraphic( getComponent(), generalPath, stroke, paint );
         addGraphic( phetShapeGraphic );
 
-        // Clip to the chart boundary, and change the clip when the chart changes.
-        setClip( chart.getChartBounds() );
-        chart.addPhetGraphicListener( new PhetGraphicListener() {
-            public void phetGraphicChanged( PhetGraphic phetGraphic ) {
-                setClip( chart.getChartBounds() );
-            }
-
-            public void phetGraphicVisibilityChanged( PhetGraphic phetGraphic ) {
-            }
-        } );
-
         addAllPoints();
     }
 
