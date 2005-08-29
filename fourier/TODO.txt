@@ -5,19 +5,20 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- display at full-screen resolution on start up?
-- top part of bar on ends of measurement tools overlap label when bar width is small
-- add wait cursor to graph maximize buttons
 - when 2dx gets to be just a few pixels, peaks of the waveform in Sum graph are chopped off
+- add wait cursor to graph maximize buttons
+- add wait cursor to zoom control buttons
+- top part of bar on ends of measurement tools overlap label when bar width is small
 - 'e' in "Drag me" wiggle me doesn't move with it
+- display at full-screen resolution on start up?
 
 MEDIUM PRIORITY:
+- add support for persistence
 - bug: anti-aliasing of plots gets turned off
 - bug: D2C amplitudes graph draws on top of tools (Mac only)
 - bug: dragging tools over top of chart causes weird aliasing artifacts (Mac only)
 - bug: chart draws plots on top of help items (Mac only)
-- add support for persistence
-- bug: FourierHelp.pointAt(Point,...) doesn't actually point at the specific Point
+- bug: FourierHelp.pointAt(Point,...) doesn't actually point at the specified Point
 - add more arrow options to FourierHelp
 - Discrete module crashes after running for ~40 minutes (memory leak?)
 - something is hammering the processor when the sim should be idle
@@ -25,7 +26,6 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 - wiggle me isn't hidden when user clicks in the control panel
 - relocate the Help on the text fields in Discrete module
-- with a single module, Fourier starts up with the module's apparatus panel magnified (something in DiscreteControlPanel)
 - FourierSumPlot should be an observer of its FourierSeries
 - PeriodDisplay is an observer of its harmonic, should it be?
 - get rid of Vector2D if it continues to be used only by WiggleMeGraphic
@@ -428,6 +428,7 @@ sandbox-2005-05-10...
 (3/30) - set up basic application framework
 
 REJECTED:
+(8/29) - with a single module, Fourier starts up with the module's apparatus panel magnified (sim will not be single module)
 (7/26) - rewrite ZoomControl to use static shapes instead of images (waste of time)
 (7/14) - restructure things so that all Harmonics and HarmonicPlots are preallocated, but only relevant ones are used (diminishing returns)
 (7/8) - FourierSeries model should not have a preset and waveType properties (this is OK)
