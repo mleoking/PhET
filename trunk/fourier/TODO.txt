@@ -72,6 +72,8 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(8/29) - complete the implementation of ClosedPathPlot
+(8/29) - fix memory leak with HarmonicPlot in D2CHarmonicsGraph
 (8/29) - always scale D2C amplitudes graph based on max amplitude of continuous waveform
 1.0.6 ...
 (8/26) - update D2CHarmonicsGraph when it becomes visible only if model has changed
