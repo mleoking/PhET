@@ -27,7 +27,7 @@ import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.charts.D2CAmplitudesChart;
 import edu.colorado.phet.fourier.charts.FlattenedChart;
-import edu.colorado.phet.fourier.charts.GeneralPathPlot;
+import edu.colorado.phet.fourier.charts.ClosedPathPlot;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
 
 
@@ -89,7 +89,7 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
     private FlattenedChart _flattenedChart;
     private LinePlot _continuousWaveformGraphic;
     private boolean _continuousEnabled;
-    private GeneralPathPlot _gradientPlot;
+    private ClosedPathPlot _gradientPlot;
     private HTMLGraphic _mathGraphic;
     private int _domain;
     
@@ -148,7 +148,7 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         Color darkestColor = new Color( BAR_DARKEST_GRAY, BAR_DARKEST_GRAY, BAR_DARKEST_GRAY );
         Color lightestColor = new Color( BAR_LIGHTEST_GRAY, BAR_LIGHTEST_GRAY, BAR_LIGHTEST_GRAY );
         GradientPaint gradient = new GradientPaint( 0, 0, darkestColor, CHART_SIZE.width, 0, lightestColor );
-        _gradientPlot = new GeneralPathPlot( getComponent(), _chartGraphic, gradient );
+        _gradientPlot = new ClosedPathPlot( getComponent(), _chartGraphic, gradient );
         
         // Continuous waveform
         _continuousWaveformGraphic = new LinePlot( component, _chartGraphic );

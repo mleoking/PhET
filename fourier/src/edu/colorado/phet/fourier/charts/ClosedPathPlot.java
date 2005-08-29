@@ -29,13 +29,14 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
 
 /**
- * GeneralPathPlot is used by Chart to draw a GeneralPath on a chart.
- * The GeneralPath is defined by a set of data points.
+ * ClosedPathPlot is used by Chart to draw a closed path on a chart.
+ * The closed path is defined by a set of data points.
+ * The shape defined by the closed path can be filled and stroked.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class GeneralPathPlot extends DataSetGraphic {
+public class ClosedPathPlot extends DataSetGraphic {
    
     //----------------------------------------------------------------------------
     // Instance data
@@ -43,36 +44,37 @@ public class GeneralPathPlot extends DataSetGraphic {
     
     private PhetShapeGraphic _pathGraphic;
     private GeneralPath _pathShape;
+    private ArrayList _points;  // array of Point2D
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
     /**
-     * Constructs a GeneralPathPlot with default properties.
+     * Constructs a ClosedPathPlot with default properties.
      * The shape is filled with a solid black, and has no border.
      * 
      * @param component     parent Component
      * @param chart         chart that this plot is associated with
      */
-    public GeneralPathPlot( Component component, Chart chart ) {
+    public ClosedPathPlot( Component component, Chart chart ) {
         this( component, chart, Color.BLACK /* fillPaint */, null /* borderPaint */, null /* stroke */ );
     }
     
     /**
-     * Constructs a GeneralPathPlot with specified properties.
+     * Constructs a ClosedPathPlot with specified properties.
      * The shape is filled with a specified paint, but has no border.
      * 
      * @param component     parent Component
      * @param chart         chart that this plot is associated with
      * @param fillPaint     paint used to fill the path
      */
-    public GeneralPathPlot( Component component, Chart chart, Paint fillPaint ) {
+    public ClosedPathPlot( Component component, Chart chart, Paint fillPaint ) {
         this( component, chart, fillPaint, null /* borderPaint */, null /* stroke */ );
     }
     
     /**
-     * Constructs a GeneralPathPlot with specific properties.
+     * Constructs a ClosedPathPlot with specific properties.
      * 
      * @param component     parent Component
      * @param chart         chart that this plot is associated with
@@ -80,8 +82,10 @@ public class GeneralPathPlot extends DataSetGraphic {
      * @param borderPaint   paint used to stroke the path
      * @param stroke        stroke used to stroke the path
      */
-    public GeneralPathPlot( Component component, final Chart chart, Paint fillPaint, Paint borderPaint, Stroke stroke ) {
+    public ClosedPathPlot( Component component, final Chart chart, Paint fillPaint, Paint borderPaint, Stroke stroke ) {
         super( component, chart, new DataSet() );
+        
+        _points = new ArrayList();
         
         _pathShape = new GeneralPath();
         _pathGraphic = new PhetShapeGraphic( component, _pathShape, fillPaint, stroke, borderPaint );
@@ -179,31 +183,53 @@ public class GeneralPathPlot extends DataSetGraphic {
      * Effectively causes the plot to erase itself.
      */
     public void cleared() {
-        _pathShape.reset();
-        _pathGraphic.setShapeDirty();
+        _points.clear();
+        updatePath();
     }
 
     /**
-     * Not implemented.
-     * Do not add points one at a time for this graphic's data set!
+     * Called when one point is added to the data set.
+     * Clients should not call this method directly.
+     * <p>
+     * This method results in the path being rebuilt.
+     * If adding many points, it is more efficient to add
+     * them to the data set using DataSet.addPoints.
      * 
-     * @throws UnsupportedOperationException if you call this method
+     * @param point
      */
     public void pointAdded( Point2D point ) {
-        throw new  UnsupportedOperationException( "pointAdded is not supported" ); 
+        _points.add( point );
+        updatePath();
     }
 
     /**
-     * Called when a set of points is added to the associateds data set.
+     * Called when a set of points is added to the data set.
      * Clients should not call this method directly.
-     * The plot is redrawn after all the points have been added.
      * 
      * @param points
      */
     public void pointsAdded( Point2D[] points ) {
+        for ( int i = 0; i < points.length; i++ ) {
+            _points.add( points[i] );
+        }
+        updatePath();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Path construction
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Updates the path to math the current set of points.
+     */
+    private void updatePath() {
+        
+        // Reset the path
         _pathShape.reset();
-        for( int i = 0; i < points.length; i++ ) {
-            Point2D modelPoint = points[i];
+        
+        // Connect the points with line segments
+        for( int i = 0; i < _points.size(); i++ ) {
+            Point2D modelPoint = (Point2D)_points.get( i );
             Point2D viewPoint = getChart().transformDouble( modelPoint );
             if ( i == 0 ) {
                 _pathShape.moveTo( (float) viewPoint.getX(), (float) viewPoint.getY() );
@@ -212,7 +238,13 @@ public class GeneralPathPlot extends DataSetGraphic {
                 _pathShape.lineTo( (float) viewPoint.getX(), (float) viewPoint.getY() );
             }
         }
-        _pathShape.closePath();
+        
+        // Close the path
+        if ( _points.size() > 1 ) {
+            _pathShape.closePath();      
+        }
+        
+        // Force the graphic to update
         _pathGraphic.setShapeDirty();
     }
 }

@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- charts: fix memory leak with Chart's PhetGraphicListeners
 - optimize memory allocation
 - add wait cursor to graph maximize buttons
 - when 2dx gets to be just a few pixels, peaks of the waveform in Sum graph are chopped off
