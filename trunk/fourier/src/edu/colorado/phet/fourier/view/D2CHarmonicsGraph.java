@@ -430,7 +430,7 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
             DataSetGraphic[] dataSetGraphics = _chartGraphic.getDataSetGraphics();
             for ( int i = 0; i < dataSetGraphics.length; i++ ) {
                 if ( dataSetGraphics[i] instanceof HarmonicPlot ) {
-                    ( (HarmonicPlot) dataSetGraphics[i]).cleanup();
+                    dataSetGraphics[i].cleanup();
                 }
             }
             

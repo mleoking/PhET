@@ -253,6 +253,15 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
         
         updateMath(); // ...in case k1 has changed
         
+        // Clean up any existing BarPlots
+        DataSetGraphic[] dataSetGraphics = _chartGraphic.getDataSetGraphics();
+        for ( int i = 0; i < dataSetGraphics.length; i++ ) {
+            if ( dataSetGraphics[i] instanceof BarPlot ) {
+                dataSetGraphics[i].cleanup();
+            }
+        }
+        
+        // Remove all plots from the chart.
         _chartGraphic.removeAllDataSetGraphics();
         
         double k1 = _wavePacket.getK1();
