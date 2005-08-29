@@ -58,24 +58,19 @@ public class ElectronSink extends Electrode implements ElectronSource.ElectronPr
                                      electron.getPositionPrev().getX(), electron.getPositionPrev().getY() ) ) {
                 model.removeModelElement( electron );
                 electronAbsorptionListenerProxy.electronAbsorbed( new ElectronAbsorptionEvent( this, electron ) );
-//                electron.leaveSystem();
                 removeList.add( electron );
-//                electrons.remove( electron );
-                if( electron.getPosition().getX() > 600 && !removeList.contains( electron ) ) {
-                    System.out.println( "***" );
-                }
             }
 
             // Hack to remove electrons that have skipped past the anode undetected
-            else if( electron.getPosition().getX() > 600 ) {
-                System.out.println( "!!!!  " + electron.getPosition().getX() + "   " + electron.getPositionPrev().getX() );
-                System.out.println( "line = " + line.getX1() );
-                System.out.println( "this = " + this );
-                System.out.println( "$$$$" );
-//                electronAbsorptionListenerProxy.electronAbsorbed( new ElectronAbsorptionEvent( this, electron ) );
-//                electron.leaveSystem();
-//                electrons.remove( electron );
-            }
+//            else if( electron.getPosition().getX() > 600 ) {
+//                System.out.println( "!!!!  " + electron.getPosition().getX() + "   " + electron.getPositionPrev().getX() );
+//                System.out.println( "line = " + line.getX1() );
+//                System.out.println( "this = " + this );
+//                System.out.println( "$$$$" );
+////                electronAbsorptionListenerProxy.electronAbsorbed( new ElectronAbsorptionEvent( this, electron ) );
+////                electron.leaveSystem();
+////                electrons.remove( electron );
+//            }
         }
         for( Iterator iterator = removeList.iterator(); iterator.hasNext(); ) {
             Electron electron = (Electron)iterator.next();
