@@ -5,11 +5,11 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- charts: fix memory leak with Chart's PhetGraphicListeners
-- optimize memory allocation
+- display at full-screen resolution on start up?
+- top part of bar on ends of measurement tools overlap label when bar width is small
 - add wait cursor to graph maximize buttons
 - when 2dx gets to be just a few pixels, peaks of the waveform in Sum graph are chopped off
-- memory leak in D2C module, freezes with wait cursor
+- 'e' in "Drag me" wiggle me doesn't move with it
 
 MEDIUM PRIORITY:
 - bug: anti-aliasing of plots gets turned off
@@ -72,6 +72,9 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(8/29) - call cleanup on any DataSetGraphics before releasing their references
+(8/29) - charts: add DataSetGraphic.cleanup to fix memory leak with Chart's PhetGraphicListeners
+(8/29) - charts: move clipping code to DataSetGraphic base class instead of handling it in every subclass
 (8/29) - complete the implementation of ClosedPathPlot
 (8/29) - fix memory leak with HarmonicPlot in D2CHarmonicsGraph
 (8/29) - always scale D2C amplitudes graph based on max amplitude of continuous waveform
