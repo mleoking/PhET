@@ -6,11 +6,13 @@
  */
 package edu.colorado.phet.chart;
 
+import java.awt.Component;
+
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphicListener;
 
-import java.awt.*;
-
-public abstract class DataSetGraphic extends GraphicLayerSet implements DataSet.Observer {
+public abstract class DataSetGraphic extends GraphicLayerSet implements DataSet.Observer, PhetGraphicListener {
     private DataSet dataSet;
     private Chart chart;
 
@@ -18,8 +20,26 @@ public abstract class DataSetGraphic extends GraphicLayerSet implements DataSet.
         super( component );
         this.chart = chart;
         setDataSet( dataSet );
+        
+        // Clip to the chart boundary, and change the clip when the chart changes.
+        setClip( chart.getChartBounds() );
+        chart.addPhetGraphicListener( this );
     }
 
+    /**
+     * Call this method before releasing all references to an object of this type.
+     * If you don't call this, you will have created a memory leak.
+     * The object should not be used after calling this method.
+     */
+    public void cleanup() {
+        chart.removePhetGraphicListener( this );
+        chart = null;
+        if ( dataSet != null ) {
+            dataSet.removeObserver( this );
+            dataSet = null;
+        }
+    }
+    
     public void setDataSet( DataSet dataSet ) {
         if( dataSet != this.dataSet ) {
             if( this.dataSet != null ) {
@@ -49,4 +69,21 @@ public abstract class DataSetGraphic extends GraphicLayerSet implements DataSet.
      * Called when the associated Chart's size or range changes.
      */
     public abstract void transformChanged();
+    
+    //----------------------------------------------------------------------------
+    // PhetGraphicListener implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Keeps the graphic clipped to the chart.
+     */
+    public void phetGraphicChanged( PhetGraphic phetGraphic ) {
+        setClip( chart.getChartBounds() );
+    }
+
+    /**
+     * Does nothing.
+     */
+    public void phetGraphicVisibilityChanged( PhetGraphic phetGraphic ) {
+    }
 }

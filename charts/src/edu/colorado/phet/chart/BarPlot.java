@@ -83,17 +83,6 @@ public class BarPlot extends DataSetGraphic {
         _borderColor = borderColor;
         _stroke = stroke;
         _points = new ArrayList();
-        
-        // Clip to the chart boundary, and change the clip when the chart changes.
-        setClip( chart.getChartBounds() );
-        chart.addPhetGraphicListener( new PhetGraphicListener() {
-            public void phetGraphicChanged( PhetGraphic phetGraphic ) {
-                setClip( chart.getChartBounds() );
-            }
-
-            public void phetGraphicVisibilityChanged( PhetGraphic phetGraphic ) {
-            }
-        } );
     }
 
     //----------------------------------------------------------------------------
