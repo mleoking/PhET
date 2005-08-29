@@ -46,8 +46,6 @@ public class DischargeLampModel extends LaserModel {
     private AtomicState[] atomicStates;
     private List electrons = new ArrayList();
     private ElectronAtomCollisionExpert electronAtomCollisionExpert = new ElectronAtomCollisionExpert();
-//    private ElectronSource cathode;
-//    private ElectronSink anode;
     private Spectrometer spectrometer;
     private Vector2D electronAcceleration = new Vector2D.Double();
     private ResonatingCavity tube;
@@ -55,6 +53,7 @@ public class DischargeLampModel extends LaserModel {
     private Plate rightHandPlate;
     private ArrayList electronSources = new ArrayList( );
     private ArrayList electronSinks = new ArrayList( );
+    private double current;
 
 
     public DischargeLampModel() {
@@ -65,29 +64,13 @@ public class DischargeLampModel extends LaserModel {
         leftHandPlate = new Plate( this,
                                       DischargeLampsConfig.CATHODE_LINE.getP1(),
                                       DischargeLampsConfig.CATHODE_LINE.getP2() );
-//        addModelElement( cathode );
         leftHandPlate.addStateChangeListener( new ElectrodeStateChangeListener() );
-
-//        cathode = new ElectronSource( this,
-//                                      DischargeLampsConfig.CATHODE_LINE.getP1(),
-//                                      DischargeLampsConfig.CATHODE_LINE.getP2() );
-//        addModelElement( cathode );
-//        cathode.addStateChangeListener( new ElectrodeStateChangeListener() );
 
         // Make the anode
         rightHandPlate = new Plate( this,
                                   DischargeLampsConfig.ANODE_LINE.getP1(),
                                   DischargeLampsConfig.ANODE_LINE.getP2() );
         rightHandPlate.addStateChangeListener( new ElectrodeStateChangeListener() );
-//        addModelElement( anode );
-//        anode = new ElectronSink( this,
-//                                  DischargeLampsConfig.ANODE_LINE.getP1(),
-//                                  DischargeLampsConfig.ANODE_LINE.getP2() );
-//        anode.addStateChangeListener( new ElectrodeStateChangeListener() );
-//        addModelElement( anode );
-
-        // Hook them together
-//        cathode.addListener( anode );
 
         // Make the discharge tube
         double x = DischargeLampsConfig.CATHODE_LOCATION.getX() - DischargeLampsConfig.ELECTRODE_INSETS.left;
@@ -157,18 +140,6 @@ public class DischargeLampModel extends LaserModel {
                 source.addListener( sink );
             }
         }
-
-        // TODO: The DischargeLamps simulation may count on these lines being here.
-        // break. It should be taken out, and DischargeLamps should use setAnode() and
-        // setcathode()
-//        if( modelElement instanceof ElectronSource ) {
-//            cathode = (ElectronSource)modelElement;
-//            cathode.addStateChangeListener( this );
-//        }
-//        if( modelElement instanceof ElectronSink ) {
-//            anode = (ElectronSink)modelElement;
-//            anode.addStateChangeListener( this );
-//        }
     }
 
     /**
@@ -217,20 +188,8 @@ public class DischargeLampModel extends LaserModel {
         }
     }
 
-
     public AtomicState[] getAtomicStates() {
         return atomicStates;
-    }
-
-    // todo: rewrite this to be lefthand plate and right hand plate
-    public ElectronSource getCathode() {
-        return leftHandPlate.getSource();
-//        return cathode;
-    }
-
-    public ElectronSink getAnode() {
-        return rightHandPlate.getSink();
-//        return anode;
     }
 
     public ResonatingCavity getTube() {
@@ -243,7 +202,6 @@ public class DischargeLampModel extends LaserModel {
 
     protected void setElectronAcceleration( double potentialDiff ) {
         double plateToPlateDist = rightHandPlate.getPosition().distance( leftHandPlate.getPosition() );
-//        double plateToPlateDist = anode.getPosition().distance( cathode.getPosition() );
         electronAcceleration.setComponents( potentialDiff / plateToPlateDist, 0 );
     }
 
@@ -256,11 +214,14 @@ public class DischargeLampModel extends LaserModel {
     }
 
     public void setCurrent( double value ) {
+        this.current = value;
         if( leftHandPlate.getPotential() > rightHandPlate.getPotential() ) {
             leftHandPlate.setCurrent( value );
+            rightHandPlate.setCurrent( 0 );
         }
         else {
             rightHandPlate.setCurrent( value );
+            leftHandPlate.setCurrent( 0 );
         }
     }
 
@@ -280,14 +241,18 @@ public class DischargeLampModel extends LaserModel {
      * Handles changes in the electrode potentials
      */
     private class ElectrodeStateChangeListener implements Electrode.StateChangeListener {
-        public void stateChanged( Electrode.StateChangeEvent event ) {
+        public void potentialChanged( Electrode.StateChangeEvent event ) {
             double potentialDiff = leftHandPlate.getPotential() - rightHandPlate.getPotential();
-//            double potentialDiff = cathode.getPotential() - anode.getPotential();
+
+            // Determine the acceleration that electrons will experience
             setElectronAcceleration( potentialDiff );
             for( int i = 0; i < electrons.size(); i++ ) {
                 Electron electron = (Electron)electrons.get( i );
                 electron.setAcceleration( getElectronAcceleration() );
             }
+
+            // Calling setCurrent() ensures that the current flows in the correct direction
+            setCurrent( current );
         }
 
         public AtomicState[] getAtomicStates() {

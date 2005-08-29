@@ -28,12 +28,10 @@ import java.util.Random;
 public class ElectronSource extends Electrode {
 
     private Random random = new Random( System.currentTimeMillis() );
-
     private double electronsPerSecond;
     private double timeSincelastElectronEmitted;
-
     private DischargeLampModel model;
-    private double sinkPotential;
+    private Plate plate;
 
     /**
      * Emits electrons along a line between two points
@@ -42,9 +40,10 @@ public class ElectronSource extends Electrode {
      * @param p1    One endpoint of the line
      * @param p2    The other endpoint of the line
      */
-    public ElectronSource( DischargeLampModel model, Point2D p1, Point2D p2 ) {
+    public ElectronSource( DischargeLampModel model, Point2D p1, Point2D p2, Plate plate ) {
         super( p1, p2 );
         this.model = model;
+        this.plate = plate;
     }
 
     /**
@@ -69,7 +68,8 @@ public class ElectronSource extends Electrode {
      */
     public Electron produceElectron() {
         Electron electron = null;
-        if( this.getPotential() - sinkPotential > 0 ) {
+        if( plate.getPotential() > 0 ) {
+//        if( sourcePotential > sinkPotential ) {
             electron = new Electron();
 
             // Determine where the electron will be emitted from
@@ -94,10 +94,6 @@ public class ElectronSource extends Electrode {
 
     public void setElectronsPerSecond( double electronsPerSecond ) {
         this.electronsPerSecond = electronsPerSecond;
-    }
-
-    public void setSinkPotential( double sinkPotential ) {
-        this.sinkPotential = sinkPotential;
     }
 
     public void setCurrent( double current ) {

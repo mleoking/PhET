@@ -10,13 +10,12 @@
  */
 package edu.colorado.phet.dischargelamps.model;
 
-import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.dischargelamps.view.ElectronGraphicManager;
-
 import java.awt.geom.Point2D;
 
 /**
  * Plate
+ * <p>
+ * A composite Electrode that comprises an ElectronSource and an ElectronSink
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -27,11 +26,10 @@ public class Plate extends Electrode {
 
     public Plate( DischargeLampModel model, Point2D p1, Point2D p2 ) {
         super( p1, p2 );
-        source = new ElectronSource( model, p1, p2 );
+        source = new ElectronSource( model, p1, p2, this );
         model.addModelElement( source );
         sink = new ElectronSink( model, p1, p2 );
         model.addModelElement( sink );
-
     }
 
     public void setCurrent( double current ) {
@@ -42,31 +40,15 @@ public class Plate extends Electrode {
         return source;
     }
 
-    public ElectronSink getSink() {
-        return sink;
-    }
-
-    public void addStateChangeListener( StateChangeListener listener ) {
-//        super.addStateChangeListener( listener );
-        source.addStateChangeListener( listener );
-        sink.addStateChangeListener( listener );
-    }
-
-    public void addElectronProductionListener( ElectronSource.ElectronProductionListener listener ) {
-        source.addListener( listener );
-    }
-
     public void setLength( double l ) {
         source.setLength( l );
     }
 
-    public void setPotential( double potential ) {
-        source.setPotential( potential );
-        sink.setPotential( potential );
-        super.setPotential( potential );
-    }
-
     public Electron produceElectron() {
         return source.produceElectron();
+    }
+
+    public void addElectronProductionListener( ElectronSource.ElectronProductionListener listener ) {
+        source.addListener( listener );
     }
 }

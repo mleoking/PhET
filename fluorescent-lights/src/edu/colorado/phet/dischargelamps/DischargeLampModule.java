@@ -64,9 +64,6 @@ public class DischargeLampModule extends BaseLaserModule {
     // Instance data
     //----------------------------------------------------------------
 
-//    private ElectronSink anode;
-//    private ElectronSource cathode;
-
     // The scale to apply to graphics created in external applications so they appear properly
     // on the screen
     private double externalGraphicsScale;
@@ -109,20 +106,16 @@ public class DischargeLampModule extends BaseLaserModule {
         setModel( model );
         setControlPanel( new ControlPanel( this ) );
         model.setNumAtomicEnergyLevels( 2 );
-//        cathode = model.getCathode();
-//        anode = model.getAnode();
         spectrometer = model.getSpectrometer();
 
         // Add graphics
         addCircuitGraphic( apparatusPanel );
         addCathodeGraphic( apparatusPanel );
         addAnodeGraphic( apparatusPanel );
-//        addAnodeGraphic( apparatusPanel, cathode );
         addSpectrometerGraphic();
 
         // Add the tube
         addTubeGraphic( apparatusPanel );
-
 
         // Set up the control panel
         addControls();
@@ -145,7 +138,6 @@ public class DischargeLampModule extends BaseLaserModule {
      * @param apparatusPanel
      */
     private void addAnodeGraphic( ApparatusPanel apparatusPanel ) {
-//    private void addAnodeGraphic( ApparatusPanel apparatusPanel, ElectronSource cathode ) {
         PhetImageGraphic anodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode-2.png" );
 
         // Make the graphic the right size
@@ -167,9 +159,7 @@ public class DischargeLampModule extends BaseLaserModule {
      */
     private void addCathodeGraphic( ApparatusPanel apparatusPanel ) {
         leftHandPlate.addElectronProductionListener( new ElectronGraphicManager( apparatusPanel ) );
-//        cathode.addListener( new ElectronGraphicManager( apparatusPanel ) );
-//        cathode.setElectronsPerSecond( 0 );
-//        cathode.setPosition( DischargeLampsConfig.CATHODE_LOCATION );
+        rightHandPlate.addElectronProductionListener( new ElectronGraphicManager( apparatusPanel ) );
         PhetImageGraphic cathodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode-2.png" );
 
         // Make the graphic the right size
@@ -262,28 +252,30 @@ public class DischargeLampModule extends BaseLaserModule {
         controlPanel.addControl( batterySlider );
         batterySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                leftHandPlate.setPotential( batterySlider.getValue() );
-                rightHandPlate.setPotential( 0 );
-//                cathode.setPotential( batterySlider.getValue() );
-//                anode.setPotential( 0 );
+                double voltage = batterySlider.getValue();
+                if( voltage > 0 ) {
+                    leftHandPlate.setPotential( voltage );
+                    rightHandPlate.setPotential( 0 );
+                }
+                else {
+                    leftHandPlate.setPotential( 0 );
+                    rightHandPlate.setPotential( -voltage );
+                }
             }
         } );
         leftHandPlate.setPotential( batterySlider.getValue() );
         rightHandPlate.setPotential( 0 );
-//        cathode.setPotential( batterySlider.getValue() );
 
         // A slider for the battery current
         double maxCurrent = 0.3;
         currentSlider = new ModelSlider( "Electron Production Rate", "electrons/msec",
                                          0, maxCurrent, 0, new DecimalFormat( "0.000" ) );
         currentSlider.setMajorTickSpacing( maxCurrent );
-//        currentSlider.setNumMinorTicksPerMajorTick( 2 );
         currentSlider.setPreferredSize( new Dimension( 250, 100 ) );
         controlPanel.addControl( currentSlider );
         currentSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 model.setCurrent( currentSlider.getValue() );
-//                cathode.setCurrent( currentSlider.getValue() );
             }
         } );
 
@@ -388,8 +380,4 @@ public class DischargeLampModule extends BaseLaserModule {
     protected DischargeLampEnergyMonitorPanel2 getEneregyLevelsMonitorPanel() {
         return energyLevelsMonitorPanel;
     }
-
-//    protected ElectronSource getCathode() {
-//        return cathode;
-//    }
 }
