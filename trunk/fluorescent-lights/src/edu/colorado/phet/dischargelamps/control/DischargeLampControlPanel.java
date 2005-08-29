@@ -45,7 +45,7 @@ public class DischargeLampControlPanel {
 //        batterySlider.setPreferredSize( new Dimension( 250, 100 ) );
 //        controlPanel.addControl( batterySlider );
 //        batterySlider.addChangeListener( new ChangeListener() {
-//            public void stateChanged( ChangeEvent e ) {
+//            public void potentialChanged( ChangeEvent e ) {
 //                module.getCathode().setPotential( batterySlider.getValue() );
 //                module.getAnode().setPotential( 0 );
 //            }
@@ -61,7 +61,7 @@ public class DischargeLampControlPanel {
 ////        currentSlider.setNumMinorTicksPerMajorTick( 1 );
 //        controlPanel.addControl( currentSlider );
 //        currentSlider.addChangeListener( new ChangeListener() {
-//            public void stateChanged( ChangeEvent e ) {
+//            public void potentialChanged( ChangeEvent e ) {
 //                module.getCathode().setCurrent( currentSlider.getValue() );
 //            }
 //        } );

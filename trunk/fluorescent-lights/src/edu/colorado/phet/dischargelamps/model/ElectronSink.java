@@ -60,17 +60,6 @@ public class ElectronSink extends Electrode implements ElectronSource.ElectronPr
                 electronAbsorptionListenerProxy.electronAbsorbed( new ElectronAbsorptionEvent( this, electron ) );
                 removeList.add( electron );
             }
-
-            // Hack to remove electrons that have skipped past the anode undetected
-//            else if( electron.getPosition().getX() > 600 ) {
-//                System.out.println( "!!!!  " + electron.getPosition().getX() + "   " + electron.getPositionPrev().getX() );
-//                System.out.println( "line = " + line.getX1() );
-//                System.out.println( "this = " + this );
-//                System.out.println( "$$$$" );
-////                electronAbsorptionListenerProxy.electronAbsorbed( new ElectronAbsorptionEvent( this, electron ) );
-////                electron.leaveSystem();
-////                electrons.remove( electron );
-//            }
         }
         for( Iterator iterator = removeList.iterator(); iterator.hasNext(); ) {
             Electron electron = (Electron)iterator.next();
@@ -119,21 +108,13 @@ public class ElectronSink extends Electrode implements ElectronSource.ElectronPr
     //-----------------------------------------------------------------
     public void electronProduced( ElectronSource.ElectronProductionEvent event ) {
         final Electron electron = event.getElectron();
-
-        if( electrons.contains( electron ) ) {
-            System.out.println( "&&&&& " + electron );
-        }
         electrons.add( electron );
         electron.addChangeListener( new ElectronRemover() );
     }
 
-    private class ElectronRemover implements Electron.ChangeListener {
+    private class ElectronRemover extends Electron.ChangeListenerAdapter {
         public void leftSystem( Electron.ChangeEvent changeEvent ) {
             electrons.remove( changeEvent.getElectrion() );
-        }
-
-        public void energyChanged( Electron.ChangeEvent changeEvent ) {
-            //noop
         }
     }
 }
