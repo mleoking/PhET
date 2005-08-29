@@ -13,6 +13,7 @@ package edu.colorado.phet.fourier.view;
 
 import java.awt.*;
 
+import edu.colorado.phet.chart.DataSetGraphic;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.*;
@@ -425,6 +426,15 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
             
             _updateRequired = false;
             
+            // Clean up any existing HarmonicPlots
+            DataSetGraphic[] dataSetGraphics = _chartGraphic.getDataSetGraphics();
+            for ( int i = 0; i < dataSetGraphics.length; i++ ) {
+                if ( dataSetGraphics[i] instanceof HarmonicPlot ) {
+                    ( (HarmonicPlot) dataSetGraphics[i]).cleanup();
+                }
+            }
+            
+            // Remove all plots from the chart.
             _chartGraphic.removeAllDataSetGraphics();
 
             double k1 = _wavePacket.getK1();
