@@ -20,9 +20,9 @@ package edu.colorado.phet.fourier;
  */
 public class Version {
   
-    public static final String NUMBER = "1.0.6";
+    public static final String NUMBER = "1.0.7";
 //    public static final String NUMBER = "sandbox";
-    public static final String BUILD = "fourier-1-0-6-2005-08-25";
+    public static final String BUILD = "fourier-1-0-7-2005-08-30";
     
     /* This class is not intended for instantiation. */
     private Version() {}
