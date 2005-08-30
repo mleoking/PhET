@@ -321,6 +321,14 @@ public class DischargeLampModule extends BaseLaserModule {
         } );
         getControlPanel().add( spectrometerCB );
         spectrometerGraphic.setVisible( spectrometerCB.isSelected() );
+
+        final JCheckBox squiggleCB = new JCheckBox( "Show squiggles" );
+        squiggleCB.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                energyLevelsMonitorPanel.setSquigglesEnabled( squiggleCB.isSelected() );
+            }
+        } );
+        getControlPanel().add( squiggleCB );
     }
 
     /**

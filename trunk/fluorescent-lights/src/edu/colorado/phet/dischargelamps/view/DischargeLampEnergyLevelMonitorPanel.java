@@ -108,6 +108,8 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
     // The strategy to use for picking the color of atom graphics and energy level lines
     private EnergyLevelGraphic.ColorStrategy colorStrategy = new EnergyLevelGraphic.BlackStrategy();
 
+    private boolean squigglesEnabled;
+
     //----------------------------------------------------------------
     // Constructors and initialization
     //----------------------------------------------------------------
@@ -204,6 +206,14 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         numAtoms++;
         int n = ( (Integer)numAtomsInState.get( atom.getCurrState() ) ).intValue();
         numAtomsInState.put( atom.getCurrState(), new Integer( n + 1 ) );
+    }
+
+    /**
+     *
+     * @param squigglesEnabled
+     */
+    public void setSquigglesEnabled( boolean squigglesEnabled ) {
+        this.squigglesEnabled = squigglesEnabled;
     }
 
     /**
@@ -377,7 +387,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
 
         // Display a squiggle to show the transition. Remove it after a bried time
         double dE = prevState.getEnergyLevel() - currState.getEnergyLevel();
-        if( dE > 0 ) {
+        if( squigglesEnabled && dE > 0 ) {
             double wavelength = PhysicsUtil.energyToWavelength( dE );
             // We need to get the absolute value here because positive energy transforms to a negative number when
             // mapped to screen coordinates in the Y direction.

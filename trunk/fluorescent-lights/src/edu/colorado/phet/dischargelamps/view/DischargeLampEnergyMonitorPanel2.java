@@ -93,4 +93,8 @@ public class DischargeLampEnergyMonitorPanel2 extends JPanel {
     public void setEnergyLevels( AtomicState[] atomicStates ) {
         elmp.setEnergyLevels( atomicStates );
     }
+
+    public void setSquigglesEnabled( boolean selected ) {
+        elmp.setSquigglesEnabled( selected );
+    }
 }
