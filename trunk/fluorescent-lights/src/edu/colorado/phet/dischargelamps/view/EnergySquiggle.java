@@ -66,6 +66,12 @@ public class EnergySquiggle extends PhetImageGraphic {
         int kPrev = height / 2;
         int iPrev = 0;
         Color c = VisibleColor.wavelengthToColor( wavelength );
+        if( c.getRed() == 0 && c.getGreen() == 0 & c.getBlue() == 0 ) {
+            c = Color.black;
+        }
+
+        System.out.println( "c.getRed() = " + c.getRed() + "\t" + c.getGreen() + "\t" + c.getBlue() );
+
         double freqFactor = 15 * wavelength / 680;
         for( int i = 0; i < actualLength - arrowHeight * 2; i++ ) {
             int k = (int)( Math.sin( phaseAngle + i * Math.PI * 2 / freqFactor ) * height / 2 + height / 2 );
