@@ -95,6 +95,11 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     private ArrayList _timeMathFormChoices;
     private ArrayList _spaceAndTimeMathFormChoices;
     
+    private int _mathFormKeySpace;
+    private int _mathFormKeyTime;
+    private int _mathFormKeySpaceAndTime;
+    private EventListener _eventListener;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -301,19 +306,19 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
                 // Choices
                 {
                     _spaceMathFormChoices = new ArrayList();
-                    _spaceMathFormChoices.add( new FourierComboBox.Choice( FourierConstants.MATH_FORM_WAVE_NUMBER, SimStrings.get( "mathForm.waveNumber" ) ) );
                     _spaceMathFormChoices.add( new FourierComboBox.Choice( FourierConstants.MATH_FORM_WAVELENGTH, SimStrings.get( "mathForm.wavelength" ) ) );
+                    _spaceMathFormChoices.add( new FourierComboBox.Choice( FourierConstants.MATH_FORM_WAVE_NUMBER, SimStrings.get( "mathForm.waveNumber" ) ) );
                     _spaceMathFormChoices.add( new FourierComboBox.Choice( FourierConstants.MATH_FORM_MODE, SimStrings.get( "mathForm.mode" ) ) );
 
                     _timeMathFormChoices = new ArrayList();
+                    _timeMathFormChoices.add( new FourierComboBox.Choice( FourierConstants.MATH_FORM_PERIOD, SimStrings.get( "mathForm.period" ) ) );
                     _timeMathFormChoices.add( new FourierComboBox.Choice( FourierConstants.MATH_FORM_ANGULAR_FREQUENCY, SimStrings.get( "mathForm.angularFrequency" ) ) );
                     _timeMathFormChoices.add( new FourierComboBox.Choice( FourierConstants.MATH_FORM_FREQUENCY, SimStrings.get( "mathForm.frequency" ) ) );
-                    _timeMathFormChoices.add( new FourierComboBox.Choice( FourierConstants.MATH_FORM_PERIOD, SimStrings.get( "mathForm.period" ) ) );
                     _timeMathFormChoices.add( new FourierComboBox.Choice( FourierConstants.MATH_FORM_MODE, SimStrings.get( "mathForm.mode" ) ) );
 
                     _spaceAndTimeMathFormChoices = new ArrayList();
-                    _spaceAndTimeMathFormChoices.add( new FourierComboBox.Choice( FourierConstants.MATH_FORM_WAVE_NUMBER_AND_ANGULAR_FREQUENCY, SimStrings.get( "mathForm.waveNumberAndAngularFrequency" ) ) );
                     _spaceAndTimeMathFormChoices.add( new FourierComboBox.Choice( FourierConstants.MATH_FORM_WAVELENGTH_AND_PERIOD, SimStrings.get( "mathForm.wavelengthAndPeriod" ) ) );
+                    _spaceAndTimeMathFormChoices.add( new FourierComboBox.Choice( FourierConstants.MATH_FORM_WAVE_NUMBER_AND_ANGULAR_FREQUENCY, SimStrings.get( "mathForm.waveNumberAndAngularFrequency" ) ) );
                     _spaceAndTimeMathFormChoices.add( new FourierComboBox.Choice( FourierConstants.MATH_FORM_MODE, SimStrings.get( "mathForm.mode" ) ) );
                 }
 
@@ -349,25 +354,25 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         
         // Wire up event handling (after setting state with reset).
         {
-            EventListener listener = new EventListener();
+            _eventListener = new EventListener();
             // WindowListeners
-            _expandSumDialog.addWindowListener( listener );
+            _expandSumDialog.addWindowListener( _eventListener );
             // ActionListeners
-            _showInfiniteCheckBox.addActionListener( listener );
-            _wavelengthToolCheckBox.addActionListener( listener );
-            _periodToolCheckBox.addActionListener( listener );
-            _showMathCheckBox.addActionListener( listener );
-            _expandSumCheckBox.addActionListener( listener );
-            _expandSumDialog.getCloseButton().addActionListener( listener );
+            _showInfiniteCheckBox.addActionListener( _eventListener );
+            _wavelengthToolCheckBox.addActionListener( _eventListener );
+            _periodToolCheckBox.addActionListener( _eventListener );
+            _showMathCheckBox.addActionListener( _eventListener );
+            _expandSumCheckBox.addActionListener( _eventListener );
+            _expandSumDialog.getCloseButton().addActionListener( _eventListener );
             // ChangeListeners
-            _numberOfHarmonicsSlider.addChangeListener( listener );
+            _numberOfHarmonicsSlider.addChangeListener( _eventListener );
             // ItemListeners
-            _domainComboBox.addItemListener( listener );
-            _presetsComboBox.addItemListener( listener );
-            _waveTypeComboBox.addItemListener( listener );
-            _wavelengthToolComboBox.addItemListener( listener );
-            _periodToolComboBox.addItemListener( listener );
-            _mathFormComboBox.addItemListener( listener );
+            _domainComboBox.addItemListener( _eventListener );
+            _presetsComboBox.addItemListener( _eventListener );
+            _waveTypeComboBox.addItemListener( _eventListener );
+            _wavelengthToolComboBox.addItemListener( _eventListener );
+            _periodToolComboBox.addItemListener( _eventListener );
+            _mathFormComboBox.addItemListener( _eventListener );
         }    
     }
 
@@ -425,13 +430,18 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         _numberOfHarmonicsSlider.setValue( _fourierSeries.getNumberOfHarmonics() );
         
         // Math Mode
-        _showMathCheckBox.setSelected( false );
-        _mathFormComboBox.setChoices( _spaceMathFormChoices );
-        _mathFormComboBox.setSelectedIndex( 0 );
-        _mathFormComboBox.setEnabled( _showMathCheckBox.isSelected() );
-        _expandSumCheckBox.setEnabled( _showMathCheckBox.isSelected() );
-        _expandSumCheckBox.setSelected( false );
-        _expandSumDialog.hide();
+        {
+            _mathFormKeySpace = FourierConstants.MATH_FORM_WAVELENGTH;
+            _mathFormKeyTime = FourierConstants.MATH_FORM_PERIOD;
+            _mathFormKeySpaceAndTime = FourierConstants.MATH_FORM_WAVELENGTH_AND_PERIOD;
+            _showMathCheckBox.setSelected( false );
+            _mathFormComboBox.setChoices( _spaceMathFormChoices );
+            _mathFormComboBox.setSelectedKey( _mathFormKeySpace );
+            _mathFormComboBox.setEnabled( _showMathCheckBox.isSelected() );
+            _expandSumCheckBox.setEnabled( _showMathCheckBox.isSelected() );
+            _expandSumCheckBox.setSelected( false );
+            _expandSumDialog.hide();
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -524,8 +534,10 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         
         switch ( domain ) {
         case FourierConstants.DOMAIN_SPACE:
+            _mathFormComboBox.removeItemListener( _eventListener );
             _mathFormComboBox.setChoices( _spaceMathFormChoices );
-            _mathFormComboBox.setSelectedIndex( 0 );
+            _mathFormComboBox.addItemListener( _eventListener );
+            _mathFormComboBox.setSelectedKey( _mathFormKeySpace );
             _wavelengthToolCheckBox.setEnabled( true );
             _wavelengthToolComboBox.setEnabled( _wavelengthToolCheckBox.isSelected() );
             _wavelengthTool.setVisible( _wavelengthToolCheckBox.isSelected() );
@@ -536,8 +548,10 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             _animationCycleController.setEnabled( false );
             break;
         case FourierConstants.DOMAIN_TIME:
+            _mathFormComboBox.removeItemListener( _eventListener );
             _mathFormComboBox.setChoices( _timeMathFormChoices );
-            _mathFormComboBox.setSelectedIndex( 0 );
+            _mathFormComboBox.addItemListener( _eventListener );
+            _mathFormComboBox.setSelectedKey( _mathFormKeyTime );
             _wavelengthToolCheckBox.setEnabled( false );
             _wavelengthToolComboBox.setEnabled( false );
             _wavelengthTool.setVisible( false );
@@ -548,8 +562,10 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             _animationCycleController.setEnabled( false );
             break;
         case FourierConstants.DOMAIN_SPACE_AND_TIME:
+            _mathFormComboBox.removeItemListener( _eventListener );
             _mathFormComboBox.setChoices( _spaceAndTimeMathFormChoices );
-            _mathFormComboBox.setSelectedIndex( 0 );
+            _mathFormComboBox.addItemListener( _eventListener );
+            _mathFormComboBox.setSelectedKey( _mathFormKeySpaceAndTime );
             _wavelengthToolCheckBox.setEnabled( true );
             _wavelengthToolComboBox.setEnabled( _wavelengthToolCheckBox.isSelected() );
             _wavelengthTool.setVisible( _wavelengthToolCheckBox.isSelected() );
@@ -717,6 +733,15 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         _harmonicsGraph.setDomainAndMathForm( domain, mathForm );
         _sumGraph.setDomainAndMathForm( domain, mathForm );
         _expandSumDialog.setDomainAndMathForm( domain, mathForm );
+        if ( domain == FourierConstants.DOMAIN_SPACE ) {
+            _mathFormKeySpace = mathForm;
+        }
+        else if ( domain == FourierConstants.DOMAIN_TIME ) {
+            _mathFormKeyTime = mathForm;
+        }
+        else {
+            _mathFormKeySpaceAndTime = mathForm;
+        }
     }
     
     private void handleExpandSum() {
