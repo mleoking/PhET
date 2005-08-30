@@ -61,7 +61,7 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
     private static final Color APPARATUS_BACKGROUND = new Color( 240, 255, 255 );
     
     // Gaussian wave packet
-    private static final double WAVE_PACKET_SPACING = 2 * Math.PI;
+    private static final double WAVE_PACKET_SPACING = Math.PI;
     private static final double WAVE_PACKET_WIDTH = 6 * Math.PI;
     private static final double WAVE_PACKET_CENTER = 12 * Math.PI;
     private static final double WAVE_PACKET_SIGNIFICANT_WIDTH = 24 * Math.PI;
