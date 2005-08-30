@@ -71,7 +71,7 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
-(8/30) - math form selection for a domain is remembered
+(8/30) - preserve the Math Form selection for each domain
 (8/30) - change the default selections for Math Form in Discrete panel to "Wavelength" and "Period"
 1.0.7 ...
 (8/30) - change "look" of measurement tools so that ends don't overlap label
