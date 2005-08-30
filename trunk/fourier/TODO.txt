@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- remove dead code in MeasurementTool
 - change equation to "cos" when switching to "cosines"
 - make D2CHarmonicsGraphic closed by default
 - euation above D2CAmplitudesGraph should be A(n) for k1=0, An for k1!=0
@@ -75,6 +74,7 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(8/30) - remove dead code in MeasurementTool
 (8/30) - preserve the Math Form selection for each domain
 (8/30) - change the default selections for Math Form in Discrete panel to "Wavelength" and "Period"
 1.0.7 ...

@@ -43,7 +43,7 @@ public class MeasurementTool extends CompositePhetGraphic implements ApparatusPa
     private static final double LABEL_LAYER = 3;
 
     // The horizontal bar
-    private static final float END_WIDTH = 2;
+    private static final float END_WIDTH = 3;
     private static final float END_HEIGHT = 15;
     private static final float LINE_HEIGHT = 4; // must be < END_HEIGHT !
 
@@ -200,37 +200,31 @@ public class MeasurementTool extends CompositePhetGraphic implements ApparatusPa
             throw new IllegalArgumentException( "width must be >= 0 : " + width );
         }
 
-        // Recompute the bar path.
+        // 
+        // Recompute the bar path, which looks like this.
+        // The points are numbered.
+        // The center is at 'c', the center of the horizontal bar.
+        //
+        //   1----------------------------------2
+        //   |                c                 |
+        //   |   5--------------------------4   |
+        //   |  /                            \  |
+        //   | /                              \ |
+        //   6/                                \3
+        //
         _barPath.reset();
         if ( width > 0 ) {
-//            _barPath.moveTo( 0, 0 );
-//            _barPath.lineTo( END_WIDTH, 0 );
-//            _barPath.lineTo( END_WIDTH, END_HEIGHT / 2f - LINE_HEIGHT / 2f );
-//            _barPath.lineTo( width - END_WIDTH, END_HEIGHT / 2f - LINE_HEIGHT / 2f );
-//            _barPath.lineTo( width - END_WIDTH, 0 );
-//            _barPath.lineTo( width, 0 );
-//            _barPath.lineTo( width, END_HEIGHT );
-//            _barPath.lineTo( width - END_WIDTH, END_HEIGHT );
-//            _barPath.lineTo( width - END_WIDTH, END_HEIGHT / 2f + LINE_HEIGHT / 2f );
-//            _barPath.lineTo( END_WIDTH, END_HEIGHT / 2f + LINE_HEIGHT / 2f );
-//            _barPath.lineTo( END_WIDTH, END_HEIGHT );
-//            _barPath.lineTo( 0, END_HEIGHT );
-//            _barPath.closePath();
-            float endWidth = 3;
-            float endHeight = END_HEIGHT;
-            float lineHeight = LINE_HEIGHT;
-            _barPath.moveTo( -width/2, -lineHeight/2 );
-            _barPath.lineTo( width/2, -lineHeight/2 );
-            _barPath.lineTo( width/2, -lineHeight/2 + endHeight );
-            _barPath.lineTo( width/2 - endWidth, lineHeight/2 );
-            _barPath.lineTo( -width/2 + endWidth, lineHeight/2 );
-            _barPath.lineTo( -width/2, -lineHeight/2 + endHeight );
+            _barPath.moveTo( -width/2, -LINE_HEIGHT/2 );
+            _barPath.lineTo( width/2, -LINE_HEIGHT/2 );
+            _barPath.lineTo( width/2, -LINE_HEIGHT/2 + END_HEIGHT );
+            _barPath.lineTo( width/2 - END_WIDTH, LINE_HEIGHT/2 );
+            _barPath.lineTo( -width/2 + END_WIDTH, LINE_HEIGHT/2 );
+            _barPath.lineTo( -width/2, -LINE_HEIGHT/2 + END_HEIGHT );
             _barPath.closePath();
         }
 
         // Refresh the graphics
         _barGraphic.setShapeDirty();
-//        _barGraphic.centerRegistrationPoint();
     }
 
     /**
