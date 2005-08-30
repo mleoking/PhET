@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- remove the clock controls for the D2C module
 - sometimes starts up with nothing but a small black rectangle in upper left corner of play area
 - when 2dx gets to be just a few pixels, peaks of the waveform in Sum graph are chopped off
 - add wait cursor to graph maximize buttons
@@ -58,6 +59,7 @@ CHARTS:
 - flatten static graphics elements
 
 PHETCOMMON:
+- bug: when sim is paused, changes to the control panel don't appear until the cursor moves into the apparatus panel
 - bug: MouseEvent and KeyEvent source is always the apparatus panel, should be the "active unit"
 - bug: changes in a module's control panel causes the apparatus panel to change size and not repaint
 - bug: rendering hints should be appended, not replaced, by PhetGraphic
