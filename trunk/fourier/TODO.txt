@@ -19,7 +19,6 @@ MEDIUM PRIORITY:
 - bug: chart draws plots on top of help items (Mac only)
 - bug: FourierHelp.pointAt(Point,...) doesn't actually point at the specified Point
 - add more arrow options to FourierHelp
-- Discrete module crashes after running for ~40 minutes (memory leak?)
 - something is hammering the processor when the sim should be idle
 
 LOW PRIORITY:
@@ -28,8 +27,7 @@ LOW PRIORITY:
 - FourierSumPlot should be an observer of its FourierSeries
 - PeriodDisplay is an observer of its harmonic, should it be?
 - get rid of Vector2D if it continues to be used only by WiggleMeGraphic
-- break up DiscreteControlPanel into subpanels that can be reused in other modules
-- refactor chart config out of HarmonicsChart, SumChart and AmplitudesChart
+- break up control panels into reusable subpanels
 - grayed out waveforms anti-aliasing/stroke visually changes when you start to drag wavelength/period tools
 - smaller font for equation subscripts
 - Help
@@ -437,6 +435,7 @@ sandbox-2005-05-10...
 (3/30) - set up basic application framework
 
 REJECTED:
+(8/30) - refactor chart config out of HarmonicsChart, SumChart and AmplitudesChart (each chart is different)
 (8/29) - with a single module, Fourier starts up with the module's apparatus panel magnified (sim will not be single module)
 (7/26) - rewrite ZoomControl to use static shapes instead of images (waste of time)
 (7/14) - restructure things so that all Harmonics and HarmonicPlots are preallocated, but only relevant ones are used (diminishing returns)
