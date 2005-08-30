@@ -274,8 +274,8 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         _harmonicsGraph.reset();
         _sumGraph.reset();
         
-        _harmonicsGraph.setVisible( true );
-        _harmonicsGraphClosed.setVisible( false );
+        _harmonicsGraph.setVisible( false );
+        _harmonicsGraphClosed.setVisible( true );
         _sumGraph.setVisible( true );
         _sumGraphClosed.setVisible( false ); 
         resizeGraphs();
