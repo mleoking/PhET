@@ -71,6 +71,7 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+1.0.8 ...
 (8/30) - change all equations to "cos" when switching to "cosines"
 (8/30) - equation above D2CAmplitudesGraph should be An for all cases in which k1!=0
 (8/30) - make D2CHarmonicsGraphic closed by default
