@@ -8,7 +8,6 @@ HIGH PRIORITY:
 - change equation to "cos" when switching to "cosines"
 - make D2CHarmonicsGraphic closed by default
 - euation above D2CAmplitudesGraph should be A(n) for k1=0, An for k1!=0
-- set default k1 to pi
 - when 2dx gets to be just a few pixels, peaks of the waveform in Sum graph are chopped off
 - add wait cursor to graph maximize buttons
 - add wait cursor to zoom control buttons
@@ -74,6 +73,7 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(8/30) - set default k1 to pi
 (8/30) - remove dead code in MeasurementTool
 (8/30) - preserve the Math Form selection for each domain
 (8/30) - change the default selections for Math Form in Discrete panel to "Wavelength" and "Period"
