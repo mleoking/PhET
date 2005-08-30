@@ -5,10 +5,10 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- remove dead code in MeasurementTool
 - when 2dx gets to be just a few pixels, peaks of the waveform in Sum graph are chopped off
 - add wait cursor to graph maximize buttons
 - add wait cursor to zoom control buttons
-- top part of bar on ends of measurement tools overlap label when bar width is small
 - display at full-screen resolution on start up?
 
 MEDIUM PRIORITY:
@@ -71,6 +71,7 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(8/30) - change "look" of measurement tools so that ends don't overlap label
 (8/30) - 'e' in "Drag me" wiggle me doesn't move with it (hack: add a space on end)
 (8/29) - call cleanup on any DataSetGraphics before releasing their references
 (8/29) - charts: add DataSetGraphic.cleanup to fix memory leak with Chart's PhetGraphicListeners
