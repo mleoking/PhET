@@ -13,13 +13,17 @@ package edu.colorado.phet.dischargelamps;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.util.RadioButtonSelector;
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.dischargelamps.model.Electron;
 import edu.colorado.phet.dischargelamps.model.AtomicStateFactory;
+import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.dischargelamps.view.DischargeLampEnergyMonitorPanel2;
+import edu.colorado.phet.dischargelamps.view.CollisionEnergyIndicator;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
+import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.view.AtomGraphic;
 
 import javax.swing.*;
@@ -38,6 +42,11 @@ import java.awt.geom.Rectangle2D;
  */
 public class SingleAtomModule extends DischargeLampModule {
     private DischargeLampAtom atom;
+    private double maxCurrent;
+
+    //----------------------------------------------------------------
+    // Constructors and initialization
+    //----------------------------------------------------------------
 
     /**
      * Constructor
@@ -57,14 +66,28 @@ public class SingleAtomModule extends DischargeLampModule {
     }
 
     /**
+     *
+     * @param app
+     */
+    public void activate( PhetApplication app ) {
+        super.activate( app );
+        ((DischargeLampModel)getModel()).setMaxCurrent( maxCurrent );
+    }
+
+    /**
      * todo: clean this up
      */
     private void addControls() {
+        final DischargeLampEnergyMonitorPanel2 elmp = super.getEneregyLevelsMonitorPanel();
+
+        CollisionEnergyIndicator graphic = new CollisionEnergyIndicator( elmp.getElmp(), this );
+        elmp.getElmp().addGraphic( graphic);
+        graphic.update();
 
         // Put the current slider in a set of controls with the Fire button
         final ModelSlider currentSlider = getCurrentSlider();
         getControlPanel().remove( currentSlider );
-        double maxCurrent = 0.01;
+        maxCurrent = 0.01;
         getCurrentSlider().setMaximum( maxCurrent );
         getCurrentSlider().setValue( maxCurrent / 2 );
 
@@ -77,7 +100,6 @@ public class SingleAtomModule extends DischargeLampModule {
 
         // Add a button for firing a single electron. This also tells the energy level panel that if an
         // electron has been produced
-        final DischargeLampEnergyMonitorPanel2 elmp = super.getEneregyLevelsMonitorPanel();
         final JButton singleShotBtn = new JButton( "Fire electron" );
         singleShotBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -187,4 +209,11 @@ public class SingleAtomModule extends DischargeLampModule {
         getEneregyLevelsMonitorPanel().reset();
     }
 
+    /**
+     *
+     * @return
+     */
+    public Atom getAtom() {
+        return atom;
+    }
 }
