@@ -161,7 +161,7 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
             _mathGraphic = new HTMLGraphic( component, MATH_FONT, "", MATH_COLOR );
             addGraphic( _mathGraphic, MATH_LAYER );
             _mathGraphic.centerRegistrationPoint();
-            _mathGraphic.setLocation( 350, 15 );
+            _mathGraphic.setLocation( 350, 17 );
         }
         
         // Interactivity

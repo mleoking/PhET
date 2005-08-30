@@ -152,13 +152,15 @@ public class MathStrings {
      * 
      * @param domain
      * @param mathForm
+     * @param waveType
      * @throws IllegalArgumentException if the an illegal combination of args is provided
      * @return the term format string
      */
-    public static String getTerm( int domain, int mathForm ) {
+    public static String getTerm( int domain, int mathForm, int waveType ) {
         
         assert( FourierConstants.isValidDomain( domain ) );
         assert( FourierConstants.isValidMathForm( mathForm ) );
+        assert( FourierConstants.isValidWaveType( waveType ) );
         
         String term = null;
         
@@ -214,6 +216,11 @@ public class MathStrings {
         if ( term == null ) {
             throw new IllegalArgumentException( 
                     "illegal combination of domain (" + domain + ") " + "and math form (" + mathForm + ")" );
+        }
+        
+        // All of the equations are in terms of sine.  Do we need to change to cosine?
+        if ( waveType == FourierConstants.WAVE_TYPE_COSINE ) {
+            term = term.replaceAll( "sin\\(", "cos(" );
         }
         
         return term;

@@ -468,9 +468,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
                 }
 
                 // Math
-                if ( _previousNumberOfHarmonics != numberOfHarmonics ) {
-                    updateMath();
-                }
+                updateMath();
 
                 _previousNumberOfHarmonics = numberOfHarmonics;
                 _previousPreset = preset;
@@ -671,7 +669,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
      * Updates the math equation that appears above the chart.
      */
     private void updateMath() {
-        _mathGraphic.setForm( _domain, _mathForm, _fourierSeries.getNumberOfHarmonics() );
+        _mathGraphic.setForm( _domain, _mathForm, _fourierSeries.getNumberOfHarmonics(), _fourierSeries.getWaveType() );
         _mathGraphic.centerRegistrationPoint();
     }
     

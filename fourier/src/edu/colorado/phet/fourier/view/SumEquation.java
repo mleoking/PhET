@@ -113,7 +113,7 @@ public class SumEquation extends CompositePhetGraphic {
             }
         }
         
-        setForm( FourierConstants.DOMAIN_SPACE, FourierConstants.MATH_FORM_WAVE_NUMBER, 1 );
+        setForm( FourierConstants.DOMAIN_SPACE, FourierConstants.MATH_FORM_WAVE_NUMBER, 1, FourierConstants.WAVE_TYPE_SINE );
     }
     
     //----------------------------------------------------------------------------
@@ -128,15 +128,17 @@ public class SumEquation extends CompositePhetGraphic {
      * @param domain
      * @param mathForm
      * @param numberOfHarmonics
+     * @param waveType
      */
-    public void setForm( int domain, int mathForm, int numberOfHarmonics ) {
+    public void setForm( int domain, int mathForm, int numberOfHarmonics, int waveType ) {
         
         assert( FourierConstants.isValidDomain( domain ) );
         assert( FourierConstants.isValidMathForm( mathForm ) );
+        assert( FourierConstants.isValidWaveType( waveType ) );
     
         // Get the strings for the domain & math form.
         String lhsString = MathStrings.getFunction( domain );;
-        String rhsFormat = MathStrings.getTerm( domain, mathForm );
+        String rhsFormat = MathStrings.getTerm( domain, mathForm, waveType );
         String coefficientString = MathStrings.getCoefficient();
         Object[] args = { coefficientString, "n" };
         String rhsString = MessageFormat.format( rhsFormat, args );

@@ -15,7 +15,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.RenderingHints;
-import java.text.MessageFormat;
 
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
@@ -154,7 +153,7 @@ public class D2CSumEquation extends CompositePhetGraphic {
             }
         }
         
-        setForm( FourierConstants.DOMAIN_SPACE, false );
+        setForm( FourierConstants.DOMAIN_SPACE, false, FourierConstants.WAVE_TYPE_COSINE );
     }
     
     //----------------------------------------------------------------------------
@@ -167,8 +166,9 @@ public class D2CSumEquation extends CompositePhetGraphic {
      * 
      * @param domain
      * @param numberOfHarmonics
+     * @param waveType
      */
-    public void setForm( int domain, boolean infinity ) {
+    public void setForm( int domain, boolean infinity, int waveType ) {
     
         _summationGraphic.setVisible( !infinity );
         _integralGraphic.setVisible( infinity );
@@ -209,6 +209,12 @@ public class D2CSumEquation extends CompositePhetGraphic {
             else {
                 throw new IllegalArgumentException( "invalid or unsupported domain: " + domain );
             }
+        }
+        
+        // The equations are in terms of sine.  Do we need to change to cosine?
+        if ( waveType == FourierConstants.WAVE_TYPE_COSINE ) {
+            // sin -> cos
+            rhsHTML = rhsHTML.replaceAll( "sin\\(", "cos(" );
         }
         
         // Set the text.

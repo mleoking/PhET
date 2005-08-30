@@ -262,6 +262,7 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
         assert( FourierConstants.isValidWaveType( waveType ) );
         _waveType = waveType;
         update();
+        updateMath();
     }
     
     /**
@@ -508,10 +509,10 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
     private void updateMath() {
         int numberOfHarmonics = _wavePacket.getNumberOfComponents();
         if ( _domain == FourierConstants.DOMAIN_SPACE ) {
-            _mathGraphic.setForm( _domain, FourierConstants.MATH_FORM_WAVE_NUMBER );
+            _mathGraphic.setForm( _domain, FourierConstants.MATH_FORM_WAVE_NUMBER, _waveType );
         }
         else if ( _domain == FourierConstants.DOMAIN_TIME ) {
-            _mathGraphic.setForm( _domain, FourierConstants.MATH_FORM_ANGULAR_FREQUENCY );
+            _mathGraphic.setForm( _domain, FourierConstants.MATH_FORM_ANGULAR_FREQUENCY, _waveType );
         }
         _mathGraphic.centerRegistrationPoint();
     }

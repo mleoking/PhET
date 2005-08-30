@@ -189,7 +189,7 @@ public class ExpandSumDialog extends JDialog implements SimpleObserver {
         // function on the left side of the equation
         String function = MathStrings.getFunction( _domain ); 
         // format of one term in the expansion
-        String termFormat = MathStrings.getTerm( _domain, _mathForm );
+        String termFormat = MathStrings.getTerm( _domain, _mathForm, _fourierSeries.getWaveType() );
         
         // Build the equation, in HTML format.
         StringBuffer buffer = new StringBuffer( "<html>" );
