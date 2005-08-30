@@ -400,8 +400,8 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
      */
     private void updateMath() {
         if ( _wavePacket.getK1() != 0 ) {
-            // A(n)
-            _mathGraphic.setHTML( "<html>A(n)</html>" );
+            // An
+            _mathGraphic.setHTML( "<html>A<sub>n</sub></html>" );
         }
         else {
             if ( _domain == FourierConstants.DOMAIN_SPACE ) {
