@@ -273,6 +273,7 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
         if ( waveType != _waveType ) {
             _waveType = waveType;
             update();
+            updateMath();
         }
     }
     
@@ -483,7 +484,7 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
      */
     private void updateMath() {
         boolean infinity = ( _wavePacket.getK1() == 0 );
-        _mathGraphic.setForm( _domain, infinity );
+        _mathGraphic.setForm( _domain, infinity, _waveType );
         _mathGraphic.centerRegistrationPoint();
     }
     

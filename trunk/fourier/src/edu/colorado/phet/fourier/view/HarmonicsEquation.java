@@ -54,7 +54,7 @@ public class HarmonicsEquation extends HTMLGraphic {
         // Enable antialiasing
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
 
-        setForm( FourierConstants.DOMAIN_SPACE, FourierConstants.MATH_FORM_WAVE_NUMBER );
+        setForm( FourierConstants.DOMAIN_SPACE, FourierConstants.MATH_FORM_WAVE_NUMBER, FourierConstants.WAVE_TYPE_SINE );
     }
     
     //----------------------------------------------------------------------------
@@ -67,14 +67,16 @@ public class HarmonicsEquation extends HTMLGraphic {
      * 
      * @param domain
      * @param mathForm
+     * @param waveType
      */
-    public void setForm( int domain, int mathForm ) {
+    public void setForm( int domain, int mathForm, int waveType ) {
         
         assert( FourierConstants.isValidDomain( domain ) );
         assert( FourierConstants.isValidMathForm( mathForm ) );
+        assert( FourierConstants.isValidWaveType( waveType ) );
         
         // Example: An sin( kn x )
-        String termFormat = MathStrings.getTerm( domain, mathForm );
+        String termFormat = MathStrings.getTerm( domain, mathForm, waveType );
         String coefficientString = MathStrings.getCoefficient();
         Object[] args = { coefficientString, "n" };
         String termString = MessageFormat.format( termFormat, args );

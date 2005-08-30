@@ -367,6 +367,7 @@ public class HarmonicsGraph extends GraphicLayerSet implements SimpleObserver, Z
                     _previousPreset = preset;
                     _previousWaveType = waveType;
                 }
+                updateMath();
             }
         }
     }
@@ -529,7 +530,7 @@ public class HarmonicsGraph extends GraphicLayerSet implements SimpleObserver, Z
      * Updates the math equation that appears above the graph.
      */
     private void updateMath() {
-        _mathGraphic.setForm( _domain, _mathForm );
+        _mathGraphic.setForm( _domain, _mathForm, _fourierSeries.getWaveType() );
         _mathGraphic.centerRegistrationPoint();
     }
 
