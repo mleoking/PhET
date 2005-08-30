@@ -681,10 +681,12 @@ public class CCK3ControlPanel extends JPanel {
             Insets insets = new Insets( 0, 0, 0, 0 );
             constraints = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0 );
             setLayout( new GridBagLayout() );
-            double minResistivitySliderValue = 0.01;
+//            double minResistivitySliderValue = 0.01;
+//            double minResistivitySliderValue = 0.01;
             resistivitySlider = new PhetSlider( SimStrings.get( "CCK3ControlPanel.WireResistivitySlider" ),
                                                 SimStrings.get( "CCK3ControlPanel.WireResistivitySliderMeasure" ),
-                                                minResistivitySliderValue, 1, module.getResistivityManager().getResistivity(), new DecimalFormat( "0.00" ) );
+                                                CCK3Module.ResistivityManager.DEFAULT_RESISTIVITY, 1, module.getResistivityManager().getResistivity(),
+                                                new DecimalFormat( "0.0000000" ) );
             resistivitySlider.setBorder( null );
             resistivitySlider.getTitleLabel().setFont( CCKLookAndFeel.getFont() );
             resistivitySlider.setNumMajorTicks( 5 );
@@ -699,6 +701,7 @@ public class CCK3ControlPanel extends JPanel {
             resistivitySlider.setExtremumLabels( lowLabel, highLabel );
             resistivitySlider.getTextField().setVisible( false );
             resistivitySlider.getUnitsReadout().setVisible( false );
+
             constraints.fill = GridBagConstraints.HORIZONTAL;
             addMe( resistivitySlider );
             constraints.fill = GridBagConstraints.NONE;
