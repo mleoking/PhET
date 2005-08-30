@@ -81,7 +81,7 @@ public class FourierComboBox extends JPanel {
         _comboBox.addItemListener( listener );
     }
  
-    public void removeitemListener( ItemListener listener ) {
+    public void removeItemListener( ItemListener listener ) {
         _comboBox.removeItemListener( listener );
     }
     
