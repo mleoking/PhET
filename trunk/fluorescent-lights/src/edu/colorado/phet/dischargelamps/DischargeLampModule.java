@@ -17,6 +17,7 @@ import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.dischargelamps.control.AtomTypeChooser;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
@@ -80,6 +81,7 @@ public class DischargeLampModule extends BaseLaserModule {
     private DischargeLampModel model;
     private Plate leftHandPlate;
     private Plate rightHandPlate;
+    private double maxCurrent;
 
     //----------------------------------------------------------------
     // Constructors and initialization
@@ -123,6 +125,11 @@ public class DischargeLampModule extends BaseLaserModule {
         addControls();
     }
 
+    public void activate( PhetApplication app ) {
+        super.activate( app );
+        model.setMaxCurrent( maxCurrent );
+    }
+
     /**
      * Adds the graphics for the heating elements
      */
@@ -144,6 +151,9 @@ public class DischargeLampModule extends BaseLaserModule {
 
         model.getLeftHandHeatingElement().addChangeListener( leftHeatingElementGraphic );
         model.getRightHandHeatingElement().addChangeListener( rightHeatingElementGraphic );
+
+        leftHandPlate.addElectronProductionListener( new ElectronGraphicManager( getApparatusPanel() ) );
+        rightHandPlate.addElectronProductionListener( new ElectronGraphicManager( getApparatusPanel() ) );
     }
 
 
@@ -163,7 +173,9 @@ public class DischargeLampModule extends BaseLaserModule {
      * @param apparatusPanel
      */
     private void addAnodeGraphic( ApparatusPanel apparatusPanel ) {
-        PhetImageGraphic anodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode-2.png" );
+        PlateGraphic anodeGraphic = new PlateGraphic( getApparatusPanel() );
+        model.getRightHandHeatingElement().addChangeListener( anodeGraphic );
+//        PhetImageGraphic anodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode-2.png" );
 
         // Make the graphic the right size
         double scaleX = 1;
@@ -177,15 +189,19 @@ public class DischargeLampModule extends BaseLaserModule {
         anodeGraphic.setRegistrationPoint( 0, (int)anodeGraphic.getBounds().getHeight() / 2 );
         anodeGraphic.setLocation( DischargeLampsConfig.ANODE_LOCATION );
         apparatusPanel.addGraphic( anodeGraphic, DischargeLampsConfig.CIRCUIT_LAYER );
+
     }
 
     /**
      * @param apparatusPanel
      */
     private void addCathodeGraphic( ApparatusPanel apparatusPanel ) {
-        leftHandPlate.addElectronProductionListener( new ElectronGraphicManager( apparatusPanel ) );
-        rightHandPlate.addElectronProductionListener( new ElectronGraphicManager( apparatusPanel ) );
-        PhetImageGraphic cathodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode-2.png" );
+        PlateGraphic cathodeGraphic = new PlateGraphic( getApparatusPanel() );
+        model.getLeftHandHeatingElement().addChangeListener( cathodeGraphic );
+
+//        leftHandPlate.addElectronProductionListener( new ElectronGraphicManager( apparatusPanel ) );
+//        rightHandPlate.addElectronProductionListener( new ElectronGraphicManager( apparatusPanel ) );
+//        PhetImageGraphic cathodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode-2.png" );
 
         // Make the graphic the right size
         double scaleX = 1;
@@ -278,21 +294,14 @@ public class DischargeLampModule extends BaseLaserModule {
         batterySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 double voltage = batterySlider.getValue();
-                if( voltage > 0 ) {
-                    leftHandPlate.setPotential( voltage );
-                    rightHandPlate.setPotential( 0 );
-                }
-                else {
-                    leftHandPlate.setPotential( 0 );
-                    rightHandPlate.setPotential( -voltage );
-                }
+                model.setVoltage( voltage );
             }
         } );
         leftHandPlate.setPotential( batterySlider.getValue() );
         rightHandPlate.setPotential( 0 );
 
         // A slider for the battery current
-        double maxCurrent = 0.3;
+        maxCurrent = 0.3;
         currentSlider = new ModelSlider( "Electron Production Rate", "electrons/msec",
                                          0, maxCurrent, 0, new DecimalFormat( "0.000" ) );
         currentSlider.setMajorTickSpacing( maxCurrent );

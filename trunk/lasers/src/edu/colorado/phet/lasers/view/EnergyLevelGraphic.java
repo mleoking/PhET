@@ -174,6 +174,8 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
             // is the best hack to use.
             color = new Color( color.getRed(), color.getGreen(), color.getBlue() );
             int y = (int)energyYTx.modelToView( atomicState.getEnergyLevel() );
+//            System.out.println( "atomicState.getEnergyLevel() = " + atomicState.getEnergyLevel() );
+//            System.out.println( "y = " + y );
             levelLine.setRect( xLoc, y - thickness / 2, width, thickness );
 
             if( levelIcon != null ) {

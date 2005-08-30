@@ -27,7 +27,7 @@ public class HeatingElement extends Particle {
 
     public void setTemperature( double temperature ) {
         this.temperature = temperature;
-        changeListenerProxy.temperatureChanged();
+        changeListenerProxy.temperatureChanged( new ChangeEvent( this ) );
     }
 
     public double getTemperature() {
@@ -51,7 +51,7 @@ public class HeatingElement extends Particle {
     }
 
     public interface ChangeListener extends EventListener {
-        public void temperatureChanged();
+        public void temperatureChanged( ChangeEvent event );
     }
 
     public void addChangeListener( ChangeListener listener ) {

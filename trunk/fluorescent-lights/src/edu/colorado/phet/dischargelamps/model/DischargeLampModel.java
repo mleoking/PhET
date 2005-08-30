@@ -56,9 +56,11 @@ public class DischargeLampModel extends LaserModel {
     private HeatingElement leftHandHeatingElement;
     private HeatingElement rightHandHeatingElement;
     private double current;
+    private double maxCurrent;
 
 
     public DischargeLampModel() {
+
         // This is the place to set the mean lifetime for the various atomic states
 //        MiddleEnergyState.instance().setMeanLifetime( .00001 );
 
@@ -223,17 +225,23 @@ public class DischargeLampModel extends LaserModel {
         return atoms;
     }
 
+    public void setMaxCurrent( double maxCurrent ) {
+        this.maxCurrent = maxCurrent;
+    }
+
     public void setCurrent( double value ) {
         this.current = value;
+        leftHandHeatingElement.setTemperature( 0 );
+        rightHandHeatingElement.setTemperature( 0 );
         if( leftHandPlate.getPotential() > rightHandPlate.getPotential() ) {
             leftHandPlate.setCurrent( value );
             rightHandPlate.setCurrent( 0 );
-
-            leftHandHeatingElement.setTemperature( 255 * value / 0.01 );
+            leftHandHeatingElement.setTemperature( 255 * value / maxCurrent );
         }
         else {
             rightHandPlate.setCurrent( value );
             leftHandPlate.setCurrent( 0 );
+            rightHandHeatingElement.setTemperature( 255 * value / maxCurrent );
         }
     }
 
@@ -251,6 +259,22 @@ public class DischargeLampModel extends LaserModel {
 
     public HeatingElement getRightHandHeatingElement() {
         return rightHandHeatingElement;
+    }
+
+    public void setVoltage( double voltage ) {
+        if( voltage > 0 ) {
+            leftHandPlate.setPotential( voltage );
+            rightHandPlate.setPotential( 0 );
+        }
+        else {
+            leftHandPlate.setPotential( 0 );
+            rightHandPlate.setPotential( -voltage );
+        }
+        changeListenerProxy.voltageChanged( new ChangeEvent( this ) );
+    }
+
+    public double getVoltage() {
+        return leftHandPlate.getPotential() - rightHandPlate.getPotential();
     }
 
     //-----------------------------------------------------------------
@@ -295,11 +319,15 @@ public class DischargeLampModel extends LaserModel {
     }
 
     public interface ChangeListener extends EventListener {
-         void energyLevelsChanged( ChangeEvent event );
+        void energyLevelsChanged( ChangeEvent event );
+        void voltageChanged( ChangeEvent event );
     }
 
     public class ChangeListenerAdapter implements ChangeListener {
         public void energyLevelsChanged( ChangeEvent event ) {
+        }
+
+        public void voltageChanged( ChangeEvent event ) {
         }
     }
 

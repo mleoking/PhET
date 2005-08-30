@@ -131,6 +131,9 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
             public void energyLevelsChanged( DischargeLampModel.ChangeEvent event ) {
                 setEnergyLevels( event.getDischargeLampModelDischargeLampModel().getAtomicStates() );
             }
+
+            public void voltageChanged( DischargeLampModel.ChangeEvent event ) {
+            }
         } );
 
         // Determine locations and dimensions
@@ -258,7 +261,6 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
 
         // Set the width of the panel so it can show all the atoms. 20 gives us a margin for the level icon
         int width = Math.max( this.minPanelWidth, levelLineLength + levelLineOriginX + 35 );
-//        int width = Math.max( this.minPanelWidth, levelLineLength + levelLineOriginX + 10 );
         setPreferredSize( new Dimension( width, (int)panelHeight ) );
         // Needed to set the energyYTx
         adjustPanel();
@@ -360,6 +362,10 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
             colorToAtomImage.put( color, atomImg );
         }
         return atomImg;
+    }
+
+    public ModelViewTransform1D getEnergyYTx() {
+        return energyYTx;
     }
 
     //----------------------------------------------------------------
@@ -480,17 +486,10 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
             state.setEnergyLevel( atomicStates[idx].getEnergyLevel() );
             state.setMeanLifetime( Double.MAX_VALUE );
             atom.setCurrState( state );
-//            atom.setCurrState( atomicStates[idx] );
             atom.setRadius( 5 );
             DischargeLampAtomGraphic atomGraphic = new DischargeLampAtomGraphic( DischargeLampEnergyLevelMonitorPanel.this,
                                                                                  atom );
             addGraphic( atomGraphic );
-
-//            String idxStr = idx == 0 ? "G" : Integer.toString( idx );
-//            PhetGraphic text = new PhetTextGraphic( DischargeLampEnergyLevelMonitorPanel.this,
-//                                 DischargeLampsConfig.defaultControlFont,
-//                                 idxStr, Color.black );
-//            addGraphic( text );
         }
     }
 }
