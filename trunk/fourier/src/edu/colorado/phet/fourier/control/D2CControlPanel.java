@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.fourier.control;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -187,7 +188,10 @@ public class D2CControlPanel extends FourierControlPanel {
         JPanel packetPanel = new JPanel();
         {
             String title = SimStrings.get( "D2CControlPanel.gaussianWavePacket" );
-            packetPanel.setBorder( new TitledBorder( title ) );
+            TitledBorder titledBorder = new TitledBorder( title );
+            Font font = titledBorder.getTitleFont();
+            titledBorder.setTitleFont( new Font( font.getName(), Font.BOLD, font.getSize() ) );
+            packetPanel.setBorder( titledBorder );
             
             // k1 (spacing)
             _k1Slider = new K1Slider();
