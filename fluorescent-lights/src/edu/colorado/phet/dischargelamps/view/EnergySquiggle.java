@@ -26,7 +26,12 @@ import java.awt.image.BufferedImage;
  * @version $Revision$
  */
 public class EnergySquiggle extends PhetImageGraphic {
+
+    //-----------------------------------------------------------------
+    // Class data and methods
+    //-----------------------------------------------------------------
     static public final int VERTICAL = 1, HORIZONTAL = 2;
+    static private boolean isEnabled;
 
     /**
      * @param component
