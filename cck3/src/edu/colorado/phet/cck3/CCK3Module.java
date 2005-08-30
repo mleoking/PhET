@@ -115,7 +115,7 @@ public class CCK3Module extends Module {
     public static final Color toolboxColor = new Color( 241, 241, 241 );
 
 //    private DecimalFormat decimalFormat = new DecimalFormat( "#0.00" );
-    private DecimalFormat decimalFormat = new DecimalFormat( "0.0##" );
+    private DecimalFormat decimalFormat = new DecimalFormat( "0.0#" );
     //    private DecimalFormat decimalFormat = new DecimalFormat( "#0.0000" ); //For debugging.
     private ResistivityManager resistivityManager;
     private boolean internalResistanceOn = false;
@@ -951,8 +951,8 @@ public class CCK3Module extends Module {
     public static class ResistivityManager extends CircuitListenerAdapter {
         private CCK3Module module;
         private Circuit circuit;
-//        private static double DEFAULT_RESISTIVITY = 0.0;
-        private static double DEFAULT_RESISTIVITY = 0.01;
+//        public static final double DEFAULT_RESISTIVITY = 0.01;
+        public static final double DEFAULT_RESISTIVITY = MIN_RESISTANCE;
         private double resistivity = DEFAULT_RESISTIVITY;
         private boolean enabled = true;
 
@@ -981,8 +981,16 @@ public class CCK3Module extends Module {
         private double getResistance( Branch b ) {
             double length = b.getLength();
             double resistance = length * resistivity;
-            resistance = Math.max( resistance, MIN_RESISTANCE );
-            return resistance;
+//            System.out.println( "resistance=" + resistance + ", min=" + MIN_RESISTANCE );
+            if( resistance < MIN_RESISTANCE ) {
+//                System.out.println( "Branch resistance was less than min, returning min." );//todo remove debug comment
+                return MIN_RESISTANCE;
+            }
+            else {
+                return resistance;
+            }
+//            resistance = Math.max( resistance, MIN_RESISTANCE );
+//            return resistance;
         }
 
         public boolean isEnabled() {
