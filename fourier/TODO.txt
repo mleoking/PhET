@@ -6,6 +6,10 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - remove dead code in MeasurementTool
+- change equation to "cos" when switching to "cosines"
+- make D2CHarmonicsGraphic closed by default
+- euation above D2CAmplitudesGraph should be A(n) for k1=0, An for k1!=0
+- set default k1 to pi
 - when 2dx gets to be just a few pixels, peaks of the waveform in Sum graph are chopped off
 - add wait cursor to graph maximize buttons
 - add wait cursor to zoom control buttons
