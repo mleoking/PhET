@@ -14,9 +14,11 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.util.RadioButtonSelector;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.dischargelamps.model.Electron;
 import edu.colorado.phet.dischargelamps.model.AtomicStateFactory;
+import edu.colorado.phet.dischargelamps.model.ElectronSource;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.dischargelamps.view.DischargeLampEnergyMonitorPanel2;
 import edu.colorado.phet.dischargelamps.view.CollisionEnergyIndicator;
@@ -42,7 +44,7 @@ import java.awt.geom.Rectangle2D;
  */
 public class SingleAtomModule extends DischargeLampModule {
     private DischargeLampAtom atom;
-    private double maxCurrent;
+    private double maxCurrent= 0.01;;
 
     //----------------------------------------------------------------
     // Constructors and initialization
@@ -57,6 +59,9 @@ public class SingleAtomModule extends DischargeLampModule {
         super( name, clock, numEnergyLevels );
         addAtom( getTube(), numEnergyLevels );
 
+        getDischargeLampModel().setElectronProductionMode( ElectronSource.SINGLE_SHOT_MODE );
+        getDischargeLampModel().setMaxCurrent( maxCurrent );
+
         // Make the area from which the cathode emits electrons very small
         getDischargeLampModel().getLeftHandPlate().setEmittingLength( 1 );
         getDischargeLampModel().getRightHandPlate().setEmittingLength( 1 );
@@ -69,10 +74,10 @@ public class SingleAtomModule extends DischargeLampModule {
      *
      * @param app
      */
-    public void activate( PhetApplication app ) {
-        super.activate( app );
-        ((DischargeLampModel)getModel()).setMaxCurrent( maxCurrent );
-    }
+//    public void activate( PhetApplication app ) {
+//        super.activate( app );
+//        ((DischargeLampModel)getModel()).setMaxCurrent( maxCurrent );
+//    }
 
     /**
      * todo: clean this up
@@ -87,7 +92,6 @@ public class SingleAtomModule extends DischargeLampModule {
         // Put the current slider in a set of controls with the Fire button
         final ModelSlider currentSlider = getCurrentSlider();
         getControlPanel().remove( currentSlider );
-        maxCurrent = 0.01;
         getCurrentSlider().setMaximum( maxCurrent );
         getCurrentSlider().setValue( maxCurrent / 2 );
 
@@ -163,6 +167,8 @@ public class SingleAtomModule extends DischargeLampModule {
         currentSlider.setVisible( false );
         getDischargeLampModel().getLeftHandPlate().setCurrent( 0 );
         singleShotBtn.setVisible( true );
+
+        getDischargeLampModel().setElectronProductionMode( ElectronSource.SINGLE_SHOT_MODE );
     }
 
     /**
@@ -175,6 +181,8 @@ public class SingleAtomModule extends DischargeLampModule {
         currentSlider.setVisible( true );
         getDischargeLampModel().getLeftHandPlate().setCurrent( currentSlider.getValue() );
         singleShotBtn.setVisible( false );
+
+        getDischargeLampModel().setElectronProductionMode( ElectronSource.CONTINUOUS_MODE );
     }
 
     /**

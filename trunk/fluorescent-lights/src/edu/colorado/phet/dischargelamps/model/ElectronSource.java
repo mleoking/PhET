@@ -18,6 +18,7 @@ import java.awt.geom.Point2D;
 import java.util.EventListener;
 import java.util.EventObject;
 import java.util.Random;
+import java.util.HashSet;
 
 /**
  * ElectronSource
@@ -27,11 +28,28 @@ import java.util.Random;
  */
 public class ElectronSource extends Electrode {
 
+    //-----------------------------------------------------------------
+    // Class data
+    //-----------------------------------------------------------------
+
+    public static Object SINGLE_SHOT_MODE = new Object();
+    public static Object CONTINUOUS_MODE = new Object();
+    private static HashSet electronProductionModes = new HashSet( );
+    static {
+        electronProductionModes.add( SINGLE_SHOT_MODE );
+        electronProductionModes.add( CONTINUOUS_MODE );
+    }
+
+    //-----------------------------------------------------------------
+    // Instance data
+    //-----------------------------------------------------------------
+
     private Random random = new Random( System.currentTimeMillis() );
     private double electronsPerSecond;
     private double timeSincelastElectronEmitted;
     private DischargeLampModel model;
     private Plate plate;
+    private Object electronProductionMode;
 
     /**
      * Emits electrons along a line between two points
@@ -57,7 +75,7 @@ public class ElectronSource extends Electrode {
         // Note that we only produce one electron at a time. Otherwise, we get a bunch of
         // electrons produced if the electronsPerSecond is suddently increased, especially
         // if it had been 0.
-        if( 1 / timeSincelastElectronEmitted < electronsPerSecond ) {
+        if( 1 / timeSincelastElectronEmitted < electronsPerSecond && electronProductionMode == CONTINUOUS_MODE ) {
             timeSincelastElectronEmitted = 0;
             produceElectron();
         }
@@ -69,7 +87,6 @@ public class ElectronSource extends Electrode {
     public Electron produceElectron() {
         Electron electron = null;
         if( plate.getPotential() > 0 ) {
-//        if( sourcePotential > sinkPotential ) {
             electron = new Electron();
 
             // Determine where the electron will be emitted from
@@ -117,6 +134,16 @@ public class ElectronSource extends Electrode {
                         getPosition().getY() + ( p2.getY() - getPosition().getY() ) * ratio );
     }
 
+    /**
+     *
+     * @param electronProductionMode
+     */
+    public void setElectronProductionMode( Object electronProductionMode ) {
+        if( !electronProductionModes.contains( electronProductionMode )) {
+            throw new RuntimeException( "Invalid parameter ");
+        }
+        this.electronProductionMode = electronProductionMode;
+    }
 
     //----------------------------------------------------------------
     // Event handling

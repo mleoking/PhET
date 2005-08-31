@@ -48,12 +48,15 @@ public class HeatingElementGraphic extends PhetImageGraphic implements HeatingEl
         }
     }
 
-    //----------------------------------------------------------------
-    // Implementation of listener interfaces
-    //----------------------------------------------------------------
-    public void temperatureChanged( HeatingElement.ChangeEvent event ) {
+    //-----------------------------------------------------------------
+    // Image filtering
+    //-----------------------------------------------------------------
 
-        double temperature = event.getHeatingElement().getTemperature();
+    /**
+     * Makes the image change from black to red, depending on the temperature of the heating element
+     * @param temperature
+     */
+    private void setFilteredImage( double temperature ) {
         BufferedImage newImg = baseImage;
         ColorModel cm = newImg.getColorModel();
         for( int x = 0; x < newImg.getWidth(); x++ ) {
@@ -70,12 +73,16 @@ public class HeatingElementGraphic extends PhetImageGraphic implements HeatingEl
         setImage( newImg );
     }
 
-    public static int getDuoToneRGB( int red, int green, int blue, int alpha, Color baseColor ) {
-        double gray = ( red + green + blue ) / ( 3 );
-        int newRed = (int)( (double)gray / 255 * (double)baseColor.getRed() );
-        int newGreen = (int)( (double)gray / 255 * (double)baseColor.getRed() );
-        int newBlue = (int)( (double)gray / 255 * (double)baseColor.getRed() );
-        int newRGB = alpha * 0x01000000 + newRed * 0x00010000 + newGreen * 0x000000100 + newBlue * 0x00000001;
-        return newRGB;
+    //----------------------------------------------------------------
+    // Implementation of listener interfaces
+    //----------------------------------------------------------------
+    public void temperatureChanged( HeatingElement.ChangeEvent event ) {
+        setFilteredImage( event.getHeatingElement().getTemperature() );
+    }
+
+    public void isEnabledChanged( HeatingElement.ChangeEvent event ) {
+        HeatingElement heatingElement = event.getHeatingElement();
+        double temperature = heatingElement.getIsEnabled() ? heatingElement.getTemperature() : 0;
+        setFilteredImage( temperature );
     }
 }

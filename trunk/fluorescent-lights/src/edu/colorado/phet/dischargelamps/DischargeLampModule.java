@@ -19,10 +19,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.dischargelamps.control.AtomTypeChooser;
-import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
-import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
-import edu.colorado.phet.dischargelamps.model.Plate;
-import edu.colorado.phet.dischargelamps.model.Spectrometer;
+import edu.colorado.phet.dischargelamps.model.*;
 import edu.colorado.phet.dischargelamps.view.*;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.LaserModel;
@@ -81,7 +78,8 @@ public class DischargeLampModule extends BaseLaserModule {
     private DischargeLampModel model;
     private Plate leftHandPlate;
     private Plate rightHandPlate;
-    private double maxCurrent;
+    private double maxCurrent = 0.3;
+
 
     //----------------------------------------------------------------
     // Constructors and initialization
@@ -103,6 +101,8 @@ public class DischargeLampModule extends BaseLaserModule {
 
         // Set up the model
         model = new DischargeLampModel();
+        model.setElectronProductionMode( ElectronSource.CONTINUOUS_MODE );
+        model.setMaxCurrent( maxCurrent );
         leftHandPlate = model.getLeftHandPlate();
         rightHandPlate = model.getRightHandPlate();
         setModel( model );
@@ -125,10 +125,11 @@ public class DischargeLampModule extends BaseLaserModule {
         addControls();
     }
 
-    public void activate( PhetApplication app ) {
-        super.activate( app );
-        model.setMaxCurrent( maxCurrent );
-    }
+//    public void activate( PhetApplication app ) {
+//        super.activate( app );
+//        model.setMaxCurrent( maxCurrent );
+////        model.setElectronProductionMode( ElectronSource.CONTINUOUS_MODE );
+//    }
 
     /**
      * Adds the graphics for the heating elements
@@ -145,8 +146,8 @@ public class DischargeLampModule extends BaseLaserModule {
         HeatingElementGraphic rightHeatingElementGraphic = new HeatingElementGraphic( getApparatusPanel(), false );
         getApparatusPanel().addGraphic( rightHeatingElementGraphic );
         Point rightHandGraphicLocation = new Point( (int)model.getRightHandHeatingElement().getPosition().getX() + 25,
-                                                (int)model.getRightHandHeatingElement().getPosition().getY()
-                                                - leftHeatingElementGraphic.getImage().getHeight() / 2 );
+                                                    (int)model.getRightHandHeatingElement().getPosition().getY()
+                                                    - leftHeatingElementGraphic.getImage().getHeight() / 2 );
         rightHeatingElementGraphic.setLocation( rightHandGraphicLocation );
 
         model.getLeftHandHeatingElement().addChangeListener( leftHeatingElementGraphic );
@@ -281,7 +282,7 @@ public class DischargeLampModule extends BaseLaserModule {
         JComponent atomTypeComboBox = new AtomTypeChooser( model );
         getControlPanel().add( atomTypeComboBox );
 
-        // A slider for the battery voltage
+// A slider for the battery voltage
         final ModelSlider batterySlider = new ModelSlider( "Battery Voltage",
                                                            "V",
                                                            -DischargeLampModel.MAX_VOLTAGE,
@@ -301,7 +302,6 @@ public class DischargeLampModule extends BaseLaserModule {
         rightHandPlate.setPotential( 0 );
 
         // A slider for the battery current
-        maxCurrent = 0.3;
         currentSlider = new ModelSlider( "Electron Production Rate", "electrons/msec",
                                          0, maxCurrent, 0, new DecimalFormat( "0.000" ) );
         currentSlider.setMajorTickSpacing( maxCurrent );
@@ -393,7 +393,7 @@ public class DischargeLampModule extends BaseLaserModule {
     /**
      * Returns a typed reference to the model
      */
-    protected DischargeLampModel getDischargeLampModel() {
+    protected DischargeLampModel getDischargeLampModel () {
         return (DischargeLampModel)getModel();
     }
 
