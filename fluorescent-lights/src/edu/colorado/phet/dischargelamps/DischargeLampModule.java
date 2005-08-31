@@ -116,20 +116,11 @@ public class DischargeLampModule extends BaseLaserModule {
         addAnodeGraphic( apparatusPanel );
         addSpectrometerGraphic();
         addHeatingElementGraphics();
-
-
-        // Add the tube
         addTubeGraphic( apparatusPanel );
 
         // Set up the control panel
         addControls();
     }
-
-//    public void activate( PhetApplication app ) {
-//        super.activate( app );
-//        model.setMaxCurrent( maxCurrent );
-////        model.setElectronProductionMode( ElectronSource.CONTINUOUS_MODE );
-//    }
 
     /**
      * Adds the graphics for the heating elements

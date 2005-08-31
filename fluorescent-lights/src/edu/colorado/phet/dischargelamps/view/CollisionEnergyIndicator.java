@@ -75,10 +75,13 @@ public class CollisionEnergyIndicator extends PhetShapeGraphic implements Discha
         }
         plateToAtomDist = emittingPlate.getPosition().distance( atom.getPosition() );
 
-        // The energy an electron has when it hits the atom is
+        // The energy an electron has when it hits the atom
         double electronEnergy = Math.abs(voltage) * ( plateToAtomDist / plateToPlateDist );
 
-        int y = energyYTx.modelToView( electronEnergy + atom.getGroundState().getEnergyLevel() );
+        double fudge = energyYTx.viewToModel( 1 ) * 6;
+//        int y = energyYTx.modelToView( fudge * (electronEnergy + atom.getGroundState().getEnergyLevel()  ));
+        int y = energyYTx.modelToView( electronEnergy );
+//        int y = energyYTx.modelToView( electronEnergy + atom.getGroundState().getEnergyLevel()  );
         System.out.println( "(electronEnergy + AtomicState.minEnergy)  = " + (electronEnergy + AtomicState.minEnergy)  );
         System.out.println( "electronEnergy = " + electronEnergy );
         System.out.println( "y = " + y );

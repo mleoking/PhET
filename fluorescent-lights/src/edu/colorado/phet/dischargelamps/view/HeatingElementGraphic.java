@@ -19,9 +19,7 @@ import edu.colorado.phet.dischargelamps.model.HeatingElement;
 
 import java.awt.*;
 import java.awt.color.ColorSpace;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorConvertOp;
-import java.awt.image.ColorModel;
+import java.awt.image.*;
 import java.io.IOException;
 
 /**
@@ -71,7 +69,23 @@ public class HeatingElementGraphic extends PhetImageGraphic implements HeatingEl
                 newImg.setRGB( x, y, newRGB );
             }
         }
+
+        // blur the coil as it gets hotter
+        float f = (1f/9f) * (float)(temperature / 255f);
+        float g = 1 - f;
+        float[] blurCoeffs = new float[] {
+            f, f, f,
+            f, g, f,
+            f, f, f
+        };
+        Kernel blurKernel = new Kernel( 3, 3, blurCoeffs );
+        ConvolveOp blurOp = new ConvolveOp( blurKernel, ConvolveOp.EDGE_NO_OP, new RenderingHints( RenderingHints.KEY_ANTIALIASING,
+                                                                                                   RenderingHints.VALUE_ANTIALIAS_ON) );
+        newImg = blurOp.filter( newImg, null );
+
         setImage( newImg );
+        setBoundsDirty();
+        repaint();
     }
 
     //----------------------------------------------------------------
