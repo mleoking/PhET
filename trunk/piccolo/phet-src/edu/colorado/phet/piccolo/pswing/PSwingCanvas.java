@@ -7,6 +7,7 @@ import edu.umd.cs.piccolo.util.PBounds;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -19,7 +20,7 @@ public class PSwingCanvas extends PCanvas {
     public static final String SWING_WRAPPER_KEY = "Swing Wrapper";
 
     private JComponent swingWrapper = new SwingWrapper();
-    private ZBasicRepaintManager zBasicRepaintManager = new ZBasicRepaintManager();
+    private static ZBasicRepaintManager zBasicRepaintManager = new ZBasicRepaintManager();
     private PSwingEventHandler swingEventHandler;
 
     public static class SwingWrapper extends JComponent {
@@ -33,8 +34,11 @@ public class PSwingCanvas extends PCanvas {
     public PSwingCanvas() {
         add( swingWrapper );
         RepaintManager.setCurrentManager( zBasicRepaintManager );
+        zBasicRepaintManager.swingWrappers.add(swingWrapper);//todo dirty code
+//        RepaintManager.setCurrentManager( new RepaintManager() );
 
         swingEventHandler = new PSwingEventHandler( this, getCamera() );//todo or maybe getCameraLayer()?
+//        swingEventHandler = new PSwingEventHandler( this, getRoot() );//todo or maybe getCameraLayer()?
         swingEventHandler.setActive( true );
     }
 
@@ -67,7 +71,10 @@ public class PSwingCanvas extends PCanvas {
      * causes an infinite loop.  So we introduce the restriction that no
      * repaints can be triggered by a call to paint.
      */
-    public class ZBasicRepaintManager extends RepaintManager {
+    public static class ZBasicRepaintManager extends RepaintManager {
+        ArrayList swingWrappers=new ArrayList( );
+
+
         // The components that are currently painting
         // This needs to be a vector for thread safety
         Vector paintingComponents = new Vector();
@@ -119,6 +126,7 @@ public class PSwingCanvas extends PCanvas {
          * @param h Height of the dirty region in the component
          */
         public synchronized void addDirtyRegion( JComponent c, int x, int y, final int w, final int h ) {
+//            System.out.println( "PSwingCanvas$ZBasicRepaintManager.addDirtyRegion, c="+c.getClass()+", rect=["+x+", "+y+", "+w+", " +", "+h+"], c="+c);
             boolean captureRepaint = false;
             JComponent capturedComponent = null;
             int captureX = x, captureY = y;
@@ -130,7 +138,8 @@ public class PSwingCanvas extends PCanvas {
             // be offset inside another component.
             for( Component comp = c; comp != null && isLightweight( comp ) && !captureRepaint; comp = comp.getParent() ) {
 
-                if( comp.getParent() == swingWrapper ) {
+//                if( comp.getParent() == swingWrapper ) {
+                if( swingWrappers.contains( comp.getParent()) ) {
                     if( comp instanceof JComponent ) {
                         captureRepaint = true;
                         capturedComponent = (JComponent)comp;
