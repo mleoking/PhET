@@ -174,45 +174,23 @@ public class DischargeLampModule extends BaseLaserModule {
      * @param apparatusPanel
      */
     private void addAnodeGraphic( ApparatusPanel apparatusPanel ) {
-        PlateGraphic anodeGraphic = new PlateGraphic( getApparatusPanel() );
+        PlateGraphic anodeGraphic = new PlateGraphic( getApparatusPanel(), DischargeLampsConfig.CATHODE_LENGTH );
         model.getRightHandHeatingElement().addChangeListener( anodeGraphic );
-//        PhetImageGraphic anodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode-2.png" );
-
-        // Make the graphic the right size
-        double scaleX = 1;
-        double scaleY = DischargeLampsConfig.CATHODE_LENGTH / anodeGraphic.getImage().getHeight();
-        AffineTransformOp scaleOp = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, scaleY ),
-                                                           AffineTransformOp.TYPE_BILINEAR );
-        anodeGraphic.setImage( scaleOp.filter( anodeGraphic.getImage(), null ) );
         anodeGraphic.setRegistrationPoint( (int)anodeGraphic.getBounds().getWidth(),
                                            (int)anodeGraphic.getBounds().getHeight() / 2 );
-
         anodeGraphic.setRegistrationPoint( 0, (int)anodeGraphic.getBounds().getHeight() / 2 );
         anodeGraphic.setLocation( DischargeLampsConfig.ANODE_LOCATION );
         apparatusPanel.addGraphic( anodeGraphic, DischargeLampsConfig.CIRCUIT_LAYER );
-
     }
 
     /**
      * @param apparatusPanel
      */
     private void addCathodeGraphic( ApparatusPanel apparatusPanel ) {
-        PlateGraphic cathodeGraphic = new PlateGraphic( getApparatusPanel() );
+        PlateGraphic cathodeGraphic = new PlateGraphic( getApparatusPanel(), DischargeLampsConfig.CATHODE_LENGTH );
         model.getLeftHandHeatingElement().addChangeListener( cathodeGraphic );
-
-//        leftHandPlate.addElectronProductionListener( new ElectronGraphicManager( apparatusPanel ) );
-//        rightHandPlate.addElectronProductionListener( new ElectronGraphicManager( apparatusPanel ) );
-//        PhetImageGraphic cathodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode-2.png" );
-
-        // Make the graphic the right size
-        double scaleX = 1;
-        double scaleY = DischargeLampsConfig.CATHODE_LENGTH / cathodeGraphic.getImage().getHeight();
-        AffineTransformOp scaleOp = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, scaleY ),
-                                                           AffineTransformOp.TYPE_BILINEAR );
-        cathodeGraphic.setImage( scaleOp.filter( cathodeGraphic.getImage(), null ) );
         cathodeGraphic.setRegistrationPoint( (int)cathodeGraphic.getBounds().getWidth(),
                                              (int)cathodeGraphic.getBounds().getHeight() / 2 );
-
         cathodeGraphic.setLocation( DischargeLampsConfig.CATHODE_LOCATION );
         apparatusPanel.addGraphic( cathodeGraphic, DischargeLampsConfig.CIRCUIT_LAYER );
     }
