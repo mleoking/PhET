@@ -19,10 +19,7 @@ import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.EventObject;
-import java.util.EventListener;
+import java.util.*;
 import java.awt.geom.Point2D;
 
 /**
@@ -37,7 +34,6 @@ public class DischargeLampModel extends LaserModel {
     // Class data 
     //-----------------------------------------------------------------
     public static final double MAX_VOLTAGE = 10;
-
 
     //-----------------------------------------------------------------
     // Instance data
@@ -55,6 +51,7 @@ public class DischargeLampModel extends LaserModel {
     private Plate rightHandPlate;
     private HeatingElement leftHandHeatingElement;
     private HeatingElement rightHandHeatingElement;
+    private boolean heatingElementsEnabled;
     private double current;
     private double maxCurrent;
 
@@ -100,6 +97,7 @@ public class DischargeLampModel extends LaserModel {
         spectrometer = new Spectrometer();
     }
 
+    
     /**
      * Detects and handles collisions between atoms and electrons
      *
@@ -233,15 +231,16 @@ public class DischargeLampModel extends LaserModel {
         this.current = value;
         leftHandHeatingElement.setTemperature( 0 );
         rightHandHeatingElement.setTemperature( 0 );
+        double temperature = 255 * value / maxCurrent;
         if( leftHandPlate.getPotential() > rightHandPlate.getPotential() ) {
             leftHandPlate.setCurrent( value );
             rightHandPlate.setCurrent( 0 );
-            leftHandHeatingElement.setTemperature( 255 * value / maxCurrent );
+            leftHandHeatingElement.setTemperature( temperature );
         }
         else {
             rightHandPlate.setCurrent( value );
             leftHandPlate.setCurrent( 0 );
-            rightHandHeatingElement.setTemperature( 255 * value / maxCurrent );
+            rightHandHeatingElement.setTemperature( temperature );
         }
     }
 
@@ -259,6 +258,24 @@ public class DischargeLampModel extends LaserModel {
 
     public HeatingElement getRightHandHeatingElement() {
         return rightHandHeatingElement;
+    }
+
+    private void setHeatingElementsEnabled( boolean heatingElementsEnabled ) {
+        leftHandHeatingElement.setIsEnabled( heatingElementsEnabled );
+        rightHandHeatingElement.setIsEnabled( heatingElementsEnabled );
+    }
+
+    /**
+     * Sets the electron production mode to continuous or single-shot. Also enables/disables
+     * the heating elements.
+     * @param electronProductionMode
+     */
+    public void setElectronProductionMode( Object electronProductionMode ) {
+        for( int i = 0; i < electronSources.size(); i++ ) {
+            ElectronSource electronSource = (ElectronSource)electronSources.get( i );
+            electronSource.setElectronProductionMode( electronProductionMode );
+        }
+        setHeatingElementsEnabled( electronProductionMode == ElectronSource.CONTINUOUS_MODE );
     }
 
     public void setVoltage( double voltage ) {

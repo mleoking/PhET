@@ -24,6 +24,7 @@ import java.util.EventListener;
  */
 public class HeatingElement extends Particle {
     private double temperature;
+    private boolean isEnabled;
 
     public void setTemperature( double temperature ) {
         this.temperature = temperature;
@@ -32,6 +33,15 @@ public class HeatingElement extends Particle {
 
     public double getTemperature() {
         return temperature;
+    }
+
+    public boolean getIsEnabled() {
+        return isEnabled;
+    }
+
+    public void setIsEnabled( boolean enabled ) {
+        this.isEnabled = enabled;
+        changeListenerProxy.isEnabledChanged( new ChangeEvent( this ) );
     }
 
     //----------------------------------------------------------------
@@ -52,6 +62,7 @@ public class HeatingElement extends Particle {
 
     public interface ChangeListener extends EventListener {
         public void temperatureChanged( ChangeEvent event );
+        public void isEnabledChanged( ChangeEvent event );
     }
 
     public void addChangeListener( ChangeListener listener ) {
