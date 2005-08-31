@@ -17,11 +17,11 @@ public class EarthGraphic extends PNode {
     private PPath phetShapeGraphic;
     private RampPanel rampPanel;
     private RampWorld rampWorld;
+    public static final Color earthGreen = new Color( 83, 175, 38 );
 
     public EarthGraphic( RampPanel rampPanel, RampWorld rampWorld ) {
         this.rampPanel = rampPanel;
         this.rampWorld = rampWorld;
-        Color earthGreen = new Color( 83, 175, 38 );
 //        phetShapeGraphic = new PhetShapeGraphic( rampPanel, null, earthGreen, new BasicStroke( 1 ), Color.black );
         phetShapeGraphic = new PPath( null );
         phetShapeGraphic.setPaint( earthGreen );

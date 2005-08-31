@@ -6,7 +6,6 @@ import edu.colorado.phet.piccolo.ConnectorGraphic;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.WiggleMe;
 import edu.colorado.phet.piccolo.pswing.PSwing;
-import edu.colorado.phet.tests.piccolo.experimental.StickyPNode;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.RampObject;
 import edu.colorado.phet.theramp.RampPlotSet;
@@ -39,6 +38,9 @@ public class RampPanel extends PhetPCanvas {
 //    private static final Dimension ORIG_RENDER_SIZE = new Dimension( 1061, 871 );
 //    private static final Dimension ORIG_RENDER_SIZE = new Dimension( 1032, 686 );
     private static final Dimension ORIG_RENDER_SIZE = new Dimension( 786, 562 );
+    public final PNode appliedForceControl;
+    public final PNode goPauseClear;
+    private boolean recursing = false;
 
     public static Dimension getDefaultRenderSize() {
         return new Dimension( ORIG_RENDER_SIZE );
@@ -93,10 +95,10 @@ public class RampPanel extends PhetPCanvas {
             public void stepFinished() {
                 if( getRampModule().getRampPhysicalModel().getThermalEnergy() >= barGraphSuite.getMaxDisplayableEnergy() ) {
                     //colorize heat.
-                    rampWorld.setHeatColor(true);
+                    rampWorld.setHeatColor( true );
                 }
                 else {
-                    rampWorld.setHeatColor(false);
+                    rampWorld.setHeatColor( false );
                 }
             }
         } );
@@ -159,24 +161,48 @@ public class RampPanel extends PhetPCanvas {
 //        } );
 
         rampPlotSet = new RampPlotSet( module, this );
-        addChild( rampPlotSet );
+        getCamera().addChild( rampPlotSet );
+//        addChild( rampPlotSet );
 
 //        PNode appliedForceControl = new AppliedForceControl( module, this );
 //        PNode appliedForceControl = new StickyPNode( new AppliedForceControl( module, this ));
 
 //        PNode goPauseClear = new PSwing( this, new GoPauseClearPanel( module.getTimeSeriesModel() ) );
-        PNode goPauseClear = new StickyPNode( new PSwing( this, new GoPauseClearPanel( module.getTimeSeriesModel() ) ) );
-//        goPauseClear.setOffset( appliedForceControl.getFullBounds().getMaxX(), appliedForceControl.getFullBounds().getY() );
-        goPauseClear.setOffset( rampPlotSet.getFullBounds().getX(), rampPlotSet.getFullBounds().getY() - goPauseClear.getFullBounds().getHeight() );
-        addChild( goPauseClear );
+//        PNode goPauseClear = new StickyPNode( new PSwing( this, new GoPauseClearPanel( module.getTimeSeriesModel() ) ) );
 
-        PNode appliedForceControl = new StickyPNode( new AppliedForceSimpleControl( module, this ) );
-        appliedForceControl.setOffset( rampPlotSet.getFullBounds().getX(), goPauseClear.getFullBounds().getY() - appliedForceControl.getFullBounds().getHeight() );
-        addChild( appliedForceControl );
+
+        appliedForceControl = new AppliedForceSimpleControl( module, this );
+        getCamera().addChild( appliedForceControl );
+
+        goPauseClear = new PSwing( this, new GoPauseClearPanel( module.getTimeSeriesModel() ) );
+        getCamera().addChild( goPauseClear );
+
+        relayoutChildren();
+        rampPlotSet.addListener( new RampPlotSet.Listener() {
+            public void layoutChanged() {
+                relayoutChildren();
+            }
+        } );
+    }
+
+    private void relayoutChildren() {
+        if( !recursing ) {
+            recursing = true;
+            //todo is this running continuously?
+            System.out.println( System.currentTimeMillis() + ": RampPanel.relayoutChildren" );
+
+            appliedForceControl.setOffset( rampPlotSet.getFullBounds().getX(),
+                                           rampPlotSet.getFullBounds().getY() - appliedForceControl.getFullBounds().getHeight() );
+            goPauseClear.setOffset( appliedForceControl.getFullBounds().getMaxX() + 2,
+                                    rampPlotSet.getFullBounds().getY() - goPauseClear.getFullBounds().getHeight() );
+            recursing = false;
+        }
     }
 
     protected void addWiggleMe() {
-        final WiggleMe wiggleMe = new WiggleMe( "<html>Apply a Force<br>to the Filing Cabinet</html>", (int)( ORIG_RENDER_SIZE.getWidth() / 2 - 50 ), 350 );
+        final WiggleMe wiggleMe = new WiggleMe( "<html>Apply a Force<br>" +
+                                                "to the Filing Cabinet</html>",
+                                                (int)( ORIG_RENDER_SIZE.getWidth() / 2 - 50 ), 350 );
         final ConnectorGraphic connectorGraphic = new ArrowConnectorGraphic( wiggleMe, getBlockGraphic().getObjectGraphic() );
 //        getLayer().getRoot().addActivity( connectorGraphic.getConnectActivity() );
         connectorGraphic.setStroke( new BasicStroke( 2, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 2 ) );//, new float[]{10, 5}, 0 ) );
@@ -186,15 +212,21 @@ public class RampPanel extends PhetPCanvas {
 
         wiggleMe.setPickable( false );
         wiggleMe.setChildrenPickable( false );
-        getLayer().addChild( connectorGraphic );
-        getLayer().addChild( wiggleMe );
+
+//        getLayer().addChild( connectorGraphic );
+//        getLayer().addChild( wiggleMe );
+
+        getCamera().addChild( connectorGraphic );
+        getCamera().addChild( wiggleMe );
         wiggleMe.ensureActivityCorrect();
         addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 wiggleMe.setVisible( false );
-                getLayer().removeChild( wiggleMe );
+                getCamera().removeChild( wiggleMe );
+                getCamera().removeChild( connectorGraphic );
+//                getLayer().removeChild( wiggleMe );
 //                getLayer().getRoot().getActivityScheduler().removeActivity( connectorGraphic.getConnectActivity() );
-                getLayer().removeChild( connectorGraphic );
+//                getLayer().removeChild( connectorGraphic );
                 removeMouseListener( this );
             }
         } );
@@ -316,5 +348,9 @@ public class RampPanel extends PhetPCanvas {
 
     public RampPlotSet getRampPlotSet() {
         return rampPlotSet;
+    }
+
+    public void maximizeForcePlot() {
+        rampPlotSet.maximizeForcePlot();
     }
 }
