@@ -44,7 +44,7 @@ import java.awt.geom.Rectangle2D;
  */
 public class SingleAtomModule extends DischargeLampModule {
     private DischargeLampAtom atom;
-    private double maxCurrent= 0.01;;
+    private double maxCurrent= 0.01;
 
     //----------------------------------------------------------------
     // Constructors and initialization
@@ -59,6 +59,7 @@ public class SingleAtomModule extends DischargeLampModule {
         super( name, clock, numEnergyLevels );
         addAtom( getTube(), numEnergyLevels );
 
+        // Set model parameters
         getDischargeLampModel().setElectronProductionMode( ElectronSource.SINGLE_SHOT_MODE );
         getDischargeLampModel().setMaxCurrent( maxCurrent );
 
@@ -70,14 +71,6 @@ public class SingleAtomModule extends DischargeLampModule {
         addControls();
     }
 
-    /**
-     *
-     * @param app
-     */
-//    public void activate( PhetApplication app ) {
-//        super.activate( app );
-//        ((DischargeLampModel)getModel()).setMaxCurrent( maxCurrent );
-//    }
 
     /**
      * todo: clean this up
