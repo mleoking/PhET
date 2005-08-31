@@ -13,6 +13,9 @@ import edu.colorado.phet.timeseries.TimeSeriesModel;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**
@@ -28,9 +31,10 @@ public class RampPlotSet extends PNode {
     private ArrayList dataUnits = new ArrayList();
     private TimePlotSuitePNode energyPlot;
     private TimePlotSuitePNode workPlot;
-    private int plotY;
     private TimePlotSuitePNode parallelForcePlot;
-    private int availableHeight = 260;
+//    private int availableHeight = 260;
+//    private int availableHeight = 400;
+    private static final double LAYOUT_X = 30;
 //    private int availableHeight = 300;
 
     public RampPlotSet( RampModule module, RampPanel rampPanel ) {
@@ -38,11 +42,11 @@ public class RampPlotSet extends PNode {
         this.rampPanel = rampPanel;
 
 //        plotY = 440;
-        plotY = 329;
+        int plotY = 400;
         int plotHeight = 80;
         int plotInset = 2;
         int range = 30000;
-        energyPlot = createTimePlotSuitePNode( new Range2D( 0, -range, RampModule.MAX_TIME, range ), "Energy", plotY, plotHeight ,false );
+        energyPlot = createTimePlotSuitePNode( new Range2D( 0, -range, RampModule.MAX_TIME, range ), "Energy", plotY, plotHeight, false );
 
         ValueAccessor.TotalEnergy totalEnergy = new ValueAccessor.TotalEnergy( getLookAndFeel() );
         addTimeSeries( energyPlot, totalEnergy, "10000.00" );
@@ -56,7 +60,7 @@ public class RampPlotSet extends PNode {
         ValueAccessor.KineticEnergy kineticEnergy = new ValueAccessor.KineticEnergy( getLookAndFeel() );
         addTimeSeries( energyPlot, kineticEnergy, "10000.00" );
 
-        workPlot = createTimePlotSuitePNode( new Range2D( 0, -range, RampModule.MAX_TIME, range ), "Work", plotY + plotHeight + plotInset, plotHeight,false  );
+        workPlot = createTimePlotSuitePNode( new Range2D( 0, -range, RampModule.MAX_TIME, range ), "Work", plotY + plotHeight + plotInset, plotHeight, false );
 
         ValueAccessor.AppliedWork appliedWork = new ValueAccessor.AppliedWork( getLookAndFeel() );
         addTimeSeries( workPlot, appliedWork, "10000.00" );
@@ -70,7 +74,7 @@ public class RampPlotSet extends PNode {
         ValueAccessor.GravityWork gravityWork = new ValueAccessor.GravityWork( getLookAndFeel() );
         addTimeSeries( workPlot, gravityWork, "10000.00" );
 
-        parallelForcePlot = createTimePlotSuitePNode( new Range2D( 0, -1000, RampModule.MAX_TIME, 1000 ), "Parallel Forces", plotY + plotHeight * 2 + plotInset, plotHeight ,true);
+        parallelForcePlot = createTimePlotSuitePNode( new Range2D( 0, -1000, RampModule.MAX_TIME, 1000 ), "Parallel Forces", plotY + plotHeight * 2 + plotInset, plotHeight, true );
         ValueAccessor.ParallelForceAccessor parallelFriction = new ValueAccessor.ParallelFrictionAccessor( getLookAndFeel() );
         addTimeSeries( parallelForcePlot, parallelFriction, "10000.00" );
         ValueAccessor.ParallelForceAccessor parallelApplied = new ValueAccessor.ParallelAppliedAccessor( getLookAndFeel() );
@@ -95,12 +99,32 @@ public class RampPlotSet extends PNode {
         energyPlot.addListener( listener );
         workPlot.addListener( listener );
         invalidateLayout();
+        rampPanel.addComponentListener( new ComponentListener() {
+            public void componentHidden( ComponentEvent e ) {
+
+            }
+
+            public void componentMoved( ComponentEvent e ) {
+            }
+
+            public void componentResized( ComponentEvent e ) {
+                invalidateLayout();
+            }
+
+            public void componentShown( ComponentEvent e ) {
+                invalidateLayout();
+            }
+        } );
     }
 
     public void minimizeAll() {
         energyPlot.setMinimized( true );
         workPlot.setMinimized( true );
         parallelForcePlot.setMinimized( true );
+    }
+
+    public void maximizeForcePlot() {
+        parallelForcePlot.setMinimized( false );
     }
 
     static class VariablePlotItem implements LayoutSet.VariableLayoutItem {
@@ -111,7 +135,7 @@ public class RampPlotSet extends PNode {
         }
 
         public void setOffset( double offset ) {
-            plot.setOffset( 0, offset );
+            plot.setOffset( LAYOUT_X, offset );
         }
 
         public void setSize( double size ) {
@@ -129,13 +153,14 @@ public class RampPlotSet extends PNode {
     static class FixedPlotItem extends LayoutSet.FixedLayoutItem {
         private TimePlotSuitePNode plot;
 
+
         public FixedPlotItem( TimePlotSuitePNode plot ) {
             super( plot.getButtonHeight() );
             this.plot = plot;
         }
 
         public void setOffset( double offset ) {
-            plot.setOffset( 0, offset );
+            plot.setOffset( LAYOUT_X, offset );
         }
     }
 
@@ -148,7 +173,7 @@ public class RampPlotSet extends PNode {
         layoutSet.addItem( toPlotLayoutItem( parallelForcePlot ) );
         layoutSet.addItem( toPlotLayoutItem( energyPlot ) );
         layoutSet.addItem( toPlotLayoutItem( workPlot ) );
-        layoutSet.layout( plotY, availableHeight );
+        layoutSet.layout( getLayoutStartY(), getAvailableHeight() );
 //        LayoutUtil layoutUtil = new LayoutUtil();
 //        layoutUtil.layout( new LayoutUtil.LayoutItem[]{} );
 //        energyPlot.setOffset( 0, plotY );
@@ -157,6 +182,69 @@ public class RampPlotSet extends PNode {
 //        if( energyPlot.isMinimized() && workPlot.isMinimized() ) {
 //            energyPlot.setOffset( 0, plotY );
 //            workPlot.setOffset( 0, energyPlot.getFullBounds().getY() + energyPlot.getButtonHeight() );
+//        }
+        notifyLayedOutChildren();
+    }
+
+    ArrayList listeners = new ArrayList();
+
+    private void notifyLayedOutChildren() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.layoutChanged();
+        }
+    }
+
+    public static interface Listener {
+
+        void layoutChanged();
+    }
+
+    static class Adapter implements Listener {
+
+        public void layoutChanged() {
+        }
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    private double getAvailableHeight() {
+        return rampPanel.getSize().height - getLayoutStartY();
+    }
+
+    //Todo; This was super tricky to figure out.   I'll email the chat list.
+    private double getLayoutStartY() {
+//        Point2D point = rampPanel.getRampWorld().getBlockGraphic().getGlobalFullBounds().getOrigin();
+        Point2D point = rampPanel.getRampWorld().getEarthGraphic().getGlobalFullBounds().getOrigin();
+        System.out.println( "point = " + point );
+        rampPanel.getCamera().globalToLocal( point );
+        System.out.println( "camera local: point = " + point );
+        rampPanel.getCamera().getViewTransform().transform( point, point );
+//        rampPanel.getCamera().localToView( point );
+//        System.out.println( "in view coordinates: " + point );
+////        try {
+////        PBounds groundBounds = rampPanel.getRampWorld().getPotentialEnergyZeroGraphic().getGlobalFullBounds();
+////            rampPanel.getCamera().globalToLocal( groundBounds );
+////        rampPanel.getCamera().parentToLocal( point );
+////            groundBounds = rampPanel.getCamera().getViewTransform().createTransformedShape( groundBounds ).getBounds2D();
+//        PNode myNode = new PNode();
+//        PCanvas pCanvas = new PCanvas();
+////        Point2D p = myNode.getGlobalFullBounds().getOrigin();
+////        pCanvas.getCamera().globalToLocal( p );
+////        pCanvas.getCamera().localToView( p );
+//
+//        Point2D p = myNode.getGlobalFullBounds().getOrigin();
+//        pCanvas.getCamera().globalToLocal( p );
+//        pCanvas.getCamera().getViewTransform().transform( p,p);
+
+        double offsetFromRamp = 100;
+        return point.getY() + offsetFromRamp;
+//        }
+//        catch( Exception e ) {
+//            e.printStackTrace( );
+//            return 0;
 //        }
     }
 

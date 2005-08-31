@@ -251,4 +251,12 @@ public class RampWorld extends PNode {
     }
 
     boolean heatColor=false;
+
+    public EarthGraphic getEarthGraphic() {
+        return earthGraphic;
+    }
+
+    public PotentialEnergyZeroGraphic getPotentialEnergyZeroGraphic() {
+        return potentialEnergyZeroGraphic;
+    }
 }

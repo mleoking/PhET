@@ -104,7 +104,7 @@ public class RampModule extends Module {
         getPhetFrame().getBasicPhetPanel().setAppControlPanel( rampMediaPanel );
     }
 
-    private PhetFrame getPhetFrame() {
+    public PhetFrame getPhetFrame() {
         return phetFrame;
     }
 
@@ -199,6 +199,10 @@ public class RampModule extends Module {
         getRampPhysicalModel().setGlobalBlockPosition( position );
     }
 
+    public boolean isRecording() {
+        return getRampTimeSeriesModel().isRecording();
+    }
+
     public static interface Listener {
         void objectChanged();
     }
@@ -242,4 +246,6 @@ public class RampModule extends Module {
     public RampControlPanel getRampControlPanel() {
         return rampControlPanel;
     }
+
+    
 }

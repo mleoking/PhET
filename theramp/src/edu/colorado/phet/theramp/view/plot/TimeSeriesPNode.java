@@ -56,10 +56,12 @@ public class TimeSeriesPNode {
         s = new BasicStroke( strokeSize, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f );
         transparentColor = RampUtil.transparify( color, 120 );
         readoutGraphic = new ShadowPText();
-        readoutGraphic.setShadowOffset( 0.65,0.65);
-        readoutGraphic.setShadowColor(Color.darkGray);
+        readoutGraphic.setShadowOffset( 1, 1 );
+        readoutGraphic.setShadowColor( Color.darkGray );
         readoutGraphic.setTextPaint( color );
-        readoutGraphic.setFont( new Font( "Lucida Sans", Font.BOLD, 10 ) );
+//        readoutGraphic.setFont( new Font( "Lucida Sans", Font.BOLD, 10 ) );
+//        readoutGraphic.setFont( new Font( "Lucida Sans", Font.PLAIN, 12) );
+        readoutGraphic.setFont( new Font( "Lucida Sans", Font.BOLD, 13 ) );
         decimalFormat = new DecimalFormat( "0.00" );
         updateReadout();
 

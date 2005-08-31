@@ -12,6 +12,7 @@ import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.common.LucidaSansFont;
 import edu.colorado.phet.theramp.common.Range2D;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
+import edu.colorado.phet.theramp.view.EarthGraphic;
 import edu.colorado.phet.theramp.view.RampFontSet;
 import edu.colorado.phet.theramp.view.RampLookAndFeel;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
@@ -28,6 +29,7 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
@@ -70,15 +72,18 @@ public class TimePlotSuitePNode extends PNode {
     private ArrayList listeners = new ArrayList();
 
 //    public static final int DEFAULT_CHART_WIDTH = 500;
-    public static final int DEFAULT_CHART_WIDTH = 535;
+    public static final int DEFAULT_CHART_WIDTH = 700;
     private int chartWidth = DEFAULT_CHART_WIDTH;
     private PSwing zoomInGraphic;
     private PSwing zoomOutGraphic;
     private int zoomButtonHeight = 17;
     private SliderGraphic slider;
     private int layoutCount = 0;
+    private double defaultMaxY;
 
-    public TimePlotSuitePNode( RampModule module, PSwingCanvas pCanvas, Range2D range, String name, final TimeSeriesModel timeSeriesModel, int height, boolean useSlider ) {
+    public TimePlotSuitePNode( RampModule module, PSwingCanvas pCanvas, Range2D range, String name,
+                               final TimeSeriesModel timeSeriesModel, int height, boolean useSlider ) {
+        this.defaultMaxY = range.getMaxY();
         this.module = module;
         this.pCanvas = pCanvas;
         this.range = range;
@@ -194,16 +199,17 @@ public class TimePlotSuitePNode extends PNode {
         addChild( maxButNode );
 
         double maxVisibleRange = getMaxRangeValue();
-
+        double dzPress=maxVisibleRange/10;
+        double dzHold=maxVisibleRange/100;
         try {
             final ZoomButton zoomIn = new ZoomButton( new ImageIcon( loadZoomInImage() ),
-                                                      -5000, -500, 100, maxVisibleRange * 2, maxVisibleRange, "Zoom In" );
+                                                      -dzPress, -dzHold, 100, maxVisibleRange * 4, maxVisibleRange, "Zoom In" );
 
             zoomInGraphic = new PSwing( pCanvas, zoomIn );
             addChild( zoomInGraphic );
 
             final ZoomButton zoomOut = new ZoomButton( new ImageIcon( loadZoomOutImage() ),
-                                                       5000, 500, 100, maxVisibleRange * 2, maxVisibleRange, "Zoom Out" );
+                                                       dzPress, dzHold, 100, maxVisibleRange * 4, maxVisibleRange, "Zoom Out" );
             zoomOut.addListener( new ZoomButton.Listener() {
                 public void zoomChanged() {
                     double rangeY = zoomOut.getValue();
@@ -281,6 +287,13 @@ public class TimePlotSuitePNode extends PNode {
                 this.sliderGraphic = sliderGraphic;
             }
 
+            public void mouseReleased( PInputEvent event ) {
+                super.mouseReleased( event );
+//                if( sliderGraphic.timePlotSuitePNode.getRampModule().isRecording() ) {
+//                    sliderGraphic.timePlotSuitePNode.getRampModule().getRampPhysicalModel().setAppliedForce( 0.0 );
+//                }
+            }
+
             public void mouseDragged( PInputEvent event ) {
                 super.mouseDragged( event );
                 Point2D pt = event.getPositionRelativeTo( sliderGraphic );
@@ -316,7 +329,9 @@ public class TimePlotSuitePNode extends PNode {
 
         public void dataAreaChanged( Rectangle2D area ) {
             if( !area.equals( rect ) ) {
-                rect = new Rectangle2D.Double( insetX, area.getY(), width, area.getHeight() );
+                int sliderOffsetDX = 30;
+                rect = new Rectangle2D.Double( insetX - sliderOffsetDX, area.getY(), width, area.getHeight() );
+
                 setPathTo( rect );
 //            thumb.setOffset( rect.getX(), rect.getY() + rect.getHeight() / 2 );
                 update();
@@ -328,7 +343,7 @@ public class TimePlotSuitePNode extends PNode {
 //        return new PPath(new Rectangle(0,0,50,200));
         Rectangle2D.Double dataArea = plot.getDataArea();
         SliderGraphic pPath = new SliderGraphic( dataArea, this );
-        pPath.setPaint( new Color( 0, 0, 255, 75) );
+        pPath.setPaint( new Color( 0, 0, 255, 75 ) );
         return pPath;
     }
 
@@ -354,8 +369,33 @@ public class TimePlotSuitePNode extends PNode {
         this.range = range;
         plot.getRangeAxis().setRange( yMin, yMax );
         plot.getDomainAxis().setRange( tMin, tMax );
+
         updateChartBuffer();
         repaintAll();
+    }
+
+    private void updateGridlines() {
+
+        plot.clearDomainMarkers();
+        plot.addDomainMarker( new ValueMarker( 5, Color.lightGray, new BasicStroke( 1 ) ) );
+        plot.addDomainMarker( new ValueMarker( 10, Color.lightGray, new BasicStroke( 1 ) ) );
+        plot.addDomainMarker( new ValueMarker( 15, Color.lightGray, new BasicStroke( 1 ) ) );
+        plot.addDomainMarker( new ValueMarker( 20, Color.lightGray, new BasicStroke( 1 ) ) );
+        plot.addDomainMarker( new ValueMarker( 25, Color.lightGray, new BasicStroke( 1 ) ) );
+
+//        double maxY = defaultMaxY;
+        for( double y = defaultMaxY / 4; y < plot.getRangeAxis().getRange().getUpperBound(); y += defaultMaxY / 4 ) {
+            plot.addRangeMarker( new ValueMarker( y, Color.lightGray, new BasicStroke( 1 ) ) );
+        }
+        for( double y = -defaultMaxY / 4; y > plot.getRangeAxis().getRange().getLowerBound(); y -= defaultMaxY / 4 ) {
+            plot.addRangeMarker( new ValueMarker( y, Color.lightGray, new BasicStroke( 1 ) ) );
+        }
+//        plot.addRangeMarker( new ValueMarker( maxY * 0.75, Color.lightGray, new BasicStroke( 1 ) ) );
+//        plot.addRangeMarker( new ValueMarker( maxY * 0.5, Color.lightGray, new BasicStroke( 1 ) ) );
+//        plot.addRangeMarker( new ValueMarker( maxY * 0.25, Color.lightGray, new BasicStroke( 1 ) ) );
+//        plot.addRangeMarker( new ValueMarker( maxY * -0.25, Color.lightGray, new BasicStroke( 1 ) ) );
+//        plot.addRangeMarker( new ValueMarker( maxY * -0.5, Color.lightGray, new BasicStroke( 1 ) ) );
+//        plot.addRangeMarker( new ValueMarker( maxY * -0.75, Color.lightGray, new BasicStroke( 1 ) ) );
     }
 
     private void updateCursorLocation() {
@@ -442,13 +482,15 @@ public class TimePlotSuitePNode extends PNode {
         for( int i = 0; i < series.size(); i++ ) {
             TimeSeriesPNode timeSeriesPNode = (TimeSeriesPNode)series.get( i );
             PNode readoutGraphic = timeSeriesPNode.getReadoutGraphic();
-            readoutGraphic.setOffset( getDataArea().getX() + 5, getDataArea().getY() + getDataArea().getHeight() / 2.0 + ( readoutGraphic.getFullBounds().getHeight() + 1 ) * i );
+//            readoutGraphic.setOffset( getDataArea().getX() + 5, getDataArea().getY() + getDataArea().getHeight() / 2.0 + ( readoutGraphic.getFullBounds().getHeight() + 1 ) * i );
+            readoutGraphic.setOffset( getDataArea().getX() + 5,
+                                      getDataArea().getY() + 4 + ( readoutGraphic.getFullBounds().getHeight() + 1 ) * i );
         }
 
-        zoomInGraphic.setOffset( getDataArea().getX(), getDataArea().getY() );
+        zoomInGraphic.setOffset( 5 + getDataArea().getX(), getDataArea().getMaxY() - zoomOutGraphic.getFullBounds().getHeight() - zoomInGraphic.getFullBounds().getHeight() - 2 );
         zoomOutGraphic.setOffset( zoomInGraphic.getOffset().getX(), zoomInGraphic.getOffset().getY() + zoomInGraphic.getFullBounds().getHeight() );
 
-        System.out.println( System.currentTimeMillis() + ", Layout Children" );
+//        System.out.println( System.currentTimeMillis() + ", Layout Children" );
         layoutCount++;
         if( layoutCount > 100 ) {
             System.out.println( "layoutCount = " + layoutCount );
@@ -456,6 +498,7 @@ public class TimePlotSuitePNode extends PNode {
         if( slider != null ) {
             slider.dataAreaChanged( getDataArea() );
         }
+        minButNode.setOffset( getDataArea().getMaxX() - minButNode.getFullBounds().getWidth() - 2, 0 + 2 );
     }
 
     private void updateCursor() {
@@ -470,6 +513,7 @@ public class TimePlotSuitePNode extends PNode {
     }
 
     private void updateChartBuffer() {
+        updateGridlines();
         bufferedImage = chart.createBufferedImage( chartWidth, chartHeight );
         decorateBuffer();
 
@@ -478,12 +522,12 @@ public class TimePlotSuitePNode extends PNode {
 
     private void decorateBuffer() {
         drawInPlotAxis();
-        drawBorder( bufferedImage );
+//        drawBorder( bufferedImage );
     }
 
     private void drawInPlotAxis() {
         Graphics2D g2 = bufferedImage.createGraphics();
-        for( int t = 6; t <= RampModule.MAX_TIME; t += 2 ) {
+        for( int t = 2; t < RampModule.MAX_TIME; t += 2 ) {
             Point2D imagLoc = toImageLocation( t, 0 );
             PText text = new PText( "" + t );
             text.setOffset( imagLoc.getX() - text.getWidth() / 2, imagLoc.getY() );
@@ -505,19 +549,26 @@ public class TimePlotSuitePNode extends PNode {
                                                            "", // y-axis label
                                                            dataset, PlotOrientation.VERTICAL, false, false, false );
 
-        chart.setBackgroundPaint( Color.lightGray );
+        chart.setBackgroundPaint( EarthGraphic.earthGreen );
 
         XYPlot plot = (XYPlot)chart.getPlot();
         plot.setBackgroundPaint( Color.white );
-        plot.setDomainGridlinePaint( Color.gray );
-        plot.setRangeGridlinePaint( Color.gray );
+//        plot.setDomainGridlinePaint( Color.gray );
+        plot.setDomainGridlinesVisible( false );
+//        plot.setDomainTickBandPaint( Color.black );
+//        plot.setDomainAxes( new ValueAxis[]{new NumberAxis( )} );
+//        plot.setDomainAxes( new ValueAxis[]{new NumberAxis( )} );
+
+//        plot.setRangeGridlinePaint( Color.gray );
+        plot.setRangeGridlinesVisible( false );
 //        plot.setAxisOffset( new RectangleInsets( 5.0, 5.0, 5.0, 5.0 ) );
 
         NumberAxis xAxis = new NumberAxis();
         xAxis.setAutoRange( false );
         xAxis.setRange( range.getMinX(), range.getMaxX() );
         xAxis.setTickLabelsVisible( false );
-        xAxis.setTickMarksVisible( false );
+//        xAxis.setTickMarksVisible( false );
+        xAxis.setTickMarksVisible( true );
         plot.setDomainAxis( xAxis );
 
 //        NumberAxis yAxis = new NumberAxis( title + " (Joules)" );
@@ -528,6 +579,7 @@ public class TimePlotSuitePNode extends PNode {
 
         plot.setDomainCrosshairVisible( true );
         plot.setRangeCrosshairVisible( true );
+
 
         return chart;
     }
