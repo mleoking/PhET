@@ -54,9 +54,10 @@ public class HeatingElementGraphic extends PhetImageGraphic implements HeatingEl
 
     /**
      * Makes the image change from black to red, depending on the temperature of the heating element
-     * @param temperature
+     * @param heatingElement
      */
-    private void setFilteredImage( double temperature ) {
+    private void setFilteredImage( HeatingElement heatingElement) {
+        double temperature = heatingElement.getIsEnabled() ? heatingElement.getTemperature() : 0;
         BufferedImage newImg = baseImage;
         ColorModel cm = newImg.getColorModel();
         for( int x = 0; x < newImg.getWidth(); x++ ) {
@@ -77,12 +78,10 @@ public class HeatingElementGraphic extends PhetImageGraphic implements HeatingEl
     // Implementation of listener interfaces
     //----------------------------------------------------------------
     public void temperatureChanged( HeatingElement.ChangeEvent event ) {
-        setFilteredImage( event.getHeatingElement().getTemperature() );
+        setFilteredImage( event.getHeatingElement() );
     }
 
     public void isEnabledChanged( HeatingElement.ChangeEvent event ) {
-        HeatingElement heatingElement = event.getHeatingElement();
-        double temperature = heatingElement.getIsEnabled() ? heatingElement.getTemperature() : 0;
-        setFilteredImage( temperature );
+        setFilteredImage( event.getHeatingElement() );
     }
 }

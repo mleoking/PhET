@@ -76,9 +76,10 @@ public class PlateGraphic extends PhetImageGraphic implements HeatingElement.Cha
 
     /**
      * Makes the image change from black to red, depending on the temperature of the heating element
-     * @param temperature
+     * @param heatingElement
      */
-    private void setFilteredImage( double temperature ) {
+    private void setFilteredImage( HeatingElement heatingElement ) {
+        double temperature = heatingElement.getIsEnabled() ? heatingElement.getTemperature() : 0;
         for( int i = 0; i < 256; i++ ) {
             redLut[i] = (short)temperature;
         }
@@ -94,12 +95,10 @@ public class PlateGraphic extends PhetImageGraphic implements HeatingElement.Cha
     //----------------------------------------------------------------
 
     public void temperatureChanged( HeatingElement.ChangeEvent event ) {
-        setFilteredImage( event.getHeatingElement().getTemperature() );
+        setFilteredImage( event.getHeatingElement() );
     }
 
     public void isEnabledChanged( HeatingElement.ChangeEvent event ) {
-        HeatingElement heatingElement = event.getHeatingElement();
-        double temperature = heatingElement.getIsEnabled() ? heatingElement.getTemperature() : 0;
-        setFilteredImage( temperature );
+        setFilteredImage( event.getHeatingElement() );
     }
 }
