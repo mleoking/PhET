@@ -21,6 +21,9 @@ import java.awt.image.BufferedImage;
 
 /**
  * EnergySquiggle
+ * <p>
+ * A sine wave with arrows at each end that is meant to show something about the wavelength
+ * and color associated with an amount of energy
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -31,7 +34,6 @@ public class EnergySquiggle extends PhetImageGraphic {
     // Class data and methods
     //-----------------------------------------------------------------
     static public final int VERTICAL = 1, HORIZONTAL = 2;
-    static private boolean isEnabled;
 
     /**
      * @param component
@@ -75,9 +77,8 @@ public class EnergySquiggle extends PhetImageGraphic {
             c = Color.black;
         }
 
-        System.out.println( "c.getRed() = " + c.getRed() + "\t" + c.getGreen() + "\t" + c.getBlue() );
-
-        double freqFactor = 15 * wavelength / 680;
+        double renderedWavelength = Math.max( wavelength, VisibleColor.MIN_WAVELENGTH / 2);
+        double freqFactor = 15 * renderedWavelength / 680;
         for( int i = 0; i < actualLength - arrowHeight * 2; i++ ) {
             int k = (int)( Math.sin( phaseAngle + i * Math.PI * 2 / freqFactor ) * height / 2 + height / 2 );
             for( int j = 0; j < height; j++ ) {

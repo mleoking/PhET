@@ -15,6 +15,12 @@ import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
+import edu.colorado.phet.common.util.EventChannel;
+
+import javax.swing.*;
+import java.util.EventObject;
+import java.util.EventListener;
+import java.awt.geom.Point2D;
 
 /**
  * Extends Atom class from the Laser simulation in that it knows how to collide with
@@ -24,9 +30,7 @@ public class DischargeLampAtom extends Atom {
 
     // The time that an atom spends in any one state before dropping to a lower one (except for
     // the ground state)
-//    public static final double DEFAULT_STATE_LIFETIME = 500;
     public static final double DEFAULT_STATE_LIFETIME = ( DischargeLampsConfig.DT / DischargeLampsConfig.FPS ) * 100;
-//    public static final double DEFAULT_STATE_LIFETIME = DischargeLampsConfig.DT * 6;
 
 //    private EnergyAbsorptionStrategy energyAbsorptionStrategy = new HighestStateAbsorptionStrategy();
     private EnergyEmissionStrategy energyEmissionStrategy = new HydrogenEnergyEmissionStrategy();
@@ -69,7 +73,6 @@ public class DischargeLampAtom extends Atom {
      */
     public AtomicState getEnergyStateAfterEmission() {
         return energyEmissionStrategy.emitEnergy( this );
-//        return getStates()[0];
     }
 
     public void setElementProperties( ElementProperties elementProperties ) {

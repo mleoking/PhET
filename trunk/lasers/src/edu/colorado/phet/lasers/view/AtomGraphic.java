@@ -49,6 +49,7 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
     private PhetImageGraphic imageGraphic;
     private double energyRepRad;
     private double groundStateRingThickness;
+    private double baseImageRad;
 
     /**
      * @param component
@@ -72,13 +73,15 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
         AffineTransform atx = AffineTransform.getScaleInstance( scale, scale );
         AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
         BufferedImage bi = atxOp.filter( image, null );
+        baseImageRad = bi.getWidth() / 2;
 
         imageGraphic = new PhetImageGraphic( component, bi );
         imageGraphic.setRegistrationPoint( imageGraphic.getHeight() / 2, imageGraphic.getHeight() / 2 );
         addGraphic( imageGraphic, 2 );
 
-        energyGraphic = new PhetShapeGraphic( component, energyRep, energyRepColor );
+        energyGraphic = new PhetShapeGraphic( component, energyRep, energyRepColor, new BasicStroke( 1 ), Color.black );
         energyRepRad = ( imageGraphic.getImage().getWidth() / 2 ) + groundStateRingThickness;
+
         energyRep = new Ellipse2D.Double( 0, 0, energyRepRad * 2, energyRepRad * 2 );
         addGraphic( energyGraphic, 1 );
         determineEnergyRadiusAndColor();
@@ -105,16 +108,25 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
      */
     private void determineEnergyRadiusAndColor() {
         AtomicState state = atom.getCurrState();
+        AtomicState groundState = atom.getStates()[0];
 
         // Determine the color and thickness of the colored ring that represents the energy
-        groundStateRingThickness = 5;
+        groundStateRingThickness = 3;
+        double f = 0.3;
+//        groundStateRingThickness = 5;
         // used to scale the thickness of the ring so it changes size a reasonable amount through the visible range
         double ringThicknessExponent = 0.15;
-        double energyRatio = state.getEnergyLevel() / atom.getGroundState().getEnergyLevel();
+        double energyDif = state.getEnergyLevel() - atom.getGroundState().getEnergyLevel();
+//        double energyRatio = state.getEnergyLevel() / atom.getGroundState().getEnergyLevel();
 //        double energyRatio = state.getEnergyLevel() / AtomicState.minEnergy;
 
-        energyRepRad = Math.pow( energyRatio, ringThicknessExponent )
-                       * ( imageGraphic.getImage().getWidth() / 2 ) + groundStateRingThickness;
+//        double e0 = ( baseImageRad * groundState.getEnergyLevel() ) / ( baseImageRad + groundStateRingThickness );
+//        double energyRatio = ( state.getEnergyLevel() - e0 ) / ( groundState.getEnergyLevel() - e0 );
+        energyRepRad = ( energyDif * f ) + groundStateRingThickness + baseImageRad;
+
+//        energyRepRad = Math.pow( energyRatio, ringThicknessExponent )
+//                       * ( imageGraphic.getImage().getWidth() / 2 ) + groundStateRingThickness;
+//
 
         if( Double.isNaN( energyRepRad) ) {
             System.out.println( "$$$$$" );
@@ -208,7 +220,10 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
 
     public void stateChanged( Atom.ChangeEvent event ) {
         determineEnergyRadiusAndColor();
-//        update();
+    }
+
+    public void positionChanged( Atom.ChangeEvent event ) {
+        // noop
     }
 }
 

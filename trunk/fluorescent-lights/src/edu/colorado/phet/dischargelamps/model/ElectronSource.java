@@ -11,6 +11,7 @@
 package edu.colorado.phet.dischargelamps.model;
 
 import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.math.Vector2D;
 
@@ -26,7 +27,7 @@ import java.util.HashSet;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ElectronSource extends Electrode {
+public class ElectronSource implements ModelElement {
 
     //-----------------------------------------------------------------
     // Class data
@@ -48,6 +49,8 @@ public class ElectronSource extends Electrode {
     private double electronsPerSecond;
     private double timeSincelastElectronEmitted;
     private DischargeLampModel model;
+    private Point2D p1;
+    private Point2D p2;
     private Plate plate;
     private Object electronProductionMode;
 
@@ -59,8 +62,9 @@ public class ElectronSource extends Electrode {
      * @param p2    The other endpoint of the line
      */
     public ElectronSource( DischargeLampModel model, Point2D p1, Point2D p2, Plate plate ) {
-        super( p1, p2 );
         this.model = model;
+        this.p1 = p1;
+        this.p2 = p2;
         this.plate = plate;
     }
 
@@ -90,8 +94,6 @@ public class ElectronSource extends Electrode {
             electron = new Electron();
 
             // Determine where the electron will be emitted from
-            Point2D p1 = getEndpoints()[0];
-            Point2D p2 = getEndpoints()[1];
             double x = random.nextDouble() * ( p2.getX() - p1.getX() ) + p1.getX();
             double y = random.nextDouble() * ( p2.getY() - p1.getY() ) + p1.getY();
             Vector2D direction = model.getElectronAcceleration();
@@ -123,15 +125,13 @@ public class ElectronSource extends Electrode {
      * @param newLength
      */
     public void setLength( double newLength ) {
-        Point2D p1 = getEndpoints()[0];
-        Point2D p2 = getEndpoints()[1];
-        
+        double x0 = (p1.getX() + p2.getX()) / 2;
+        double y0 = (p1.getY() + p2.getY()) / 2;
+
         double currLength = p1.distance( p2 );
         double ratio = newLength / currLength;
-        p1.setLocation( getPosition().getX() + ( p1.getX() - getPosition().getX() ) * ratio,
-                        getPosition().getY() + ( p1.getY() - getPosition().getY() ) * ratio );
-        p2.setLocation( getPosition().getX() + ( p2.getX() - getPosition().getX() ) * ratio,
-                        getPosition().getY() + ( p2.getY() - getPosition().getY() ) * ratio );
+        p1.setLocation( x0 + ( p1.getX() - x0 ) * ratio, y0 + ( p1.getY() - y0 ) * ratio );
+        p2.setLocation( x0 + ( p2.getX() - x0 ) * ratio, y0 + ( p2.getY() - y0 ) * ratio );
     }
 
     /**

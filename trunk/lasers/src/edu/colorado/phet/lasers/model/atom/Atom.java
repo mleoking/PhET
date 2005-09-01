@@ -20,6 +20,7 @@ import edu.colorado.phet.lasers.model.photon.PhotonEmittedListener;
 
 import java.util.EventListener;
 import java.util.EventObject;
+import java.awt.geom.Point2D;
 
 /**
  *
@@ -156,6 +157,25 @@ public class Atom extends SolidSphere {
     }
 
     /**
+     * Extend parent class behavior to add notification of listeners
+     * @param x
+     * @param y
+     */
+    public void setPosition( double x, double y ) {
+        super.setPosition( x, y );
+        changeListenerProxy.positionChanged( new ChangeEvent( this, null, null ) );
+    }
+
+    /**
+     * Extend parent class behavior to add notification of listeners
+     * @param position
+     */
+    public void setPosition( Point2D position ) {
+        super.setPosition( position );
+        changeListenerProxy.positionChanged( new ChangeEvent( this, null, null ) );
+    }
+
+    /**
      * Sets the energy currState of the atom. If this is a currState from which the atom can spontanteously
      * change, a StateLifetimeManager is instatiated to control the change.
      *
@@ -263,6 +283,15 @@ public class Atom extends SolidSphere {
 
     public interface ChangeListener extends EventListener {
         void stateChanged( ChangeEvent event );
+        void positionChanged( ChangeEvent event );
+    }
+
+    static public class ChangeListenerAdapter implements ChangeListener {
+        public void stateChanged( ChangeEvent event ) {
+        }
+
+        public void positionChanged( ChangeEvent event ) {
+        }
     }
 
     private EventChannel stateChangeChannel = new EventChannel( ChangeListener.class );

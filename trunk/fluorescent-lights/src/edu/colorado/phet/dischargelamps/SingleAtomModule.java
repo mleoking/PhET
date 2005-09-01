@@ -13,6 +13,7 @@ package edu.colorado.phet.dischargelamps;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.util.RadioButtonSelector;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
@@ -44,8 +45,9 @@ import java.awt.geom.Rectangle2D;
  */
 public class SingleAtomModule extends DischargeLampModule {
     private DischargeLampAtom atom;
-    private double maxCurrent= 0.01;
+    private double maxCurrent = 0.01;
     private CollisionEnergyIndicator collisionEnergyIndicatorGraphic;
+    private JPanel collisionIndicatorLegendPanel;
 
     //----------------------------------------------------------------
     // Constructors and initialization
@@ -79,22 +81,30 @@ public class SingleAtomModule extends DischargeLampModule {
     private void addControls() {
         final DischargeLampEnergyMonitorPanel2 elmp = super.getEneregyLevelsMonitorPanel();
 
+        // Add the indicator for what energy an electron will have when it hits the atom
         collisionEnergyIndicatorGraphic = new CollisionEnergyIndicator( elmp.getElmp(), this );
-        elmp.getElmp().addGraphic( collisionEnergyIndicatorGraphic);
+        elmp.getElmp().addGraphic( collisionEnergyIndicatorGraphic );
         collisionEnergyIndicatorGraphic.update();
+
+        // A legend for the collision energy indicator
+        {
+            collisionIndicatorLegendPanel = new JPanel( new GridBagLayout() );
+            GridBagConstraints gbc = new GridBagConstraints( GridBagConstraints.RELATIVE, 0,
+                                                             1, 1, 1, 1, GridBagConstraints.EAST, GridBagConstraints.NONE,
+                                                             new Insets( 5, 5, 5, 5 ), 0, 0 );
+            JLabel label = new JLabel( "- - -" );
+            label.setForeground( Color.red );
+            JLabel label2 = new JLabel( "<html>Energy electron will have<br>when it hits atom" );
+            collisionIndicatorLegendPanel.add( label, gbc );
+            gbc.anchor = GridBagConstraints.WEST;
+            collisionIndicatorLegendPanel.add( label2, gbc );
+        }
 
         // Put the current slider in a set of controls with the Fire button
         final ModelSlider currentSlider = getCurrentSlider();
         getControlPanel().remove( currentSlider );
         getCurrentSlider().setMaximum( maxCurrent );
         getCurrentSlider().setValue( maxCurrent / 2 );
-
-        JPanel electronProductionControlPanel = new JPanel( new GridBagLayout() );
-        GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
-                                                         GridBagConstraints.CENTER,
-                                                         GridBagConstraints.NONE,
-                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
-        ButtonGroup electronProductionBtnGrp = new ButtonGroup();
 
         // Add a button for firing a single electron. This also tells the energy level panel that if an
         // electron has been produced
@@ -117,27 +127,39 @@ public class SingleAtomModule extends DischargeLampModule {
                 setSingleShotElectronProduction( currentSlider, singleShotBtn );
             }
         } );
+        ButtonGroup electronProductionBtnGrp = new ButtonGroup();
         electronProductionBtnGrp.add( continuousRB );
         electronProductionBtnGrp.add( singleShotRB );
         singleShotRB.setSelected( true );
         setSingleShotElectronProduction( currentSlider, singleShotBtn );
 
-        JPanel rbPanel = new JPanel();
-        rbPanel.add( singleShotRB );
-        rbPanel.add( continuousRB );
-        electronProductionControlPanel.add( rbPanel, gbc );
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.gridy = 1;
-        gbc.gridx = 0;
-        electronProductionControlPanel.add( singleShotBtn, gbc );
-        electronProductionControlPanel.add( currentSlider, gbc );
+        {
+            JPanel electronProductionControlPanel = new JPanel( new GridBagLayout() );
+            GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
+                                                             GridBagConstraints.CENTER,
+                                                             GridBagConstraints.NONE,
+                                                             new Insets( 0, 0, 0, 0 ), 0, 0 );
+            JPanel rbPanel = new JPanel();
+            rbPanel.add( singleShotRB );
+            rbPanel.add( continuousRB );
+            electronProductionControlPanel.add( rbPanel, gbc );
+            gbc.anchor = GridBagConstraints.CENTER;
+            gbc.gridy = 1;
+            gbc.gridx = 0;
+            electronProductionControlPanel.add( singleShotBtn, gbc );
+            electronProductionControlPanel.add( currentSlider, gbc );
 
-        singleShotRB.setSelected( true );
-        currentSlider.setVisible( false );
-        getControlPanel().add( electronProductionControlPanel );
+            singleShotRB.setSelected( true );
+            currentSlider.setVisible( false );
+            getControlPanel().add( electronProductionControlPanel );
 
-        getControlPanel().add( elmp );
+            getControlPanel().add( elmp );
+        }
 
+        // Add the panel with the legend for the collision indicator
+        getControlPanel().add( collisionIndicatorLegendPanel );
+
+        // Slow motion check box
         JCheckBox slowMotionCB = new JCheckBox( new AbstractAction( "Run in slow motion" ) {
             public void actionPerformed( ActionEvent e ) {
                 JCheckBox cb = (JCheckBox)e.getSource();
@@ -154,6 +176,7 @@ public class SingleAtomModule extends DischargeLampModule {
 
     /**
      * Sets the simulation to fire single electrons when the "Fire" button is pressed
+     *
      * @param currentSlider
      * @param singleShotBtn
      */
@@ -162,12 +185,15 @@ public class SingleAtomModule extends DischargeLampModule {
         getDischargeLampModel().getLeftHandPlate().setCurrent( 0 );
         singleShotBtn.setVisible( true );
         collisionEnergyIndicatorGraphic.setVisible( true );
+        collisionIndicatorLegendPanel.setVisible( true );
         getDischargeLampModel().setElectronProductionMode( ElectronSource.SINGLE_SHOT_MODE );
+        super.setHeatingElementsVisible( false );
     }
 
     /**
      * Sets the simulation to fire electrons continuously at a rate determined by the
      * "Electron Production Rate" slider
+     *
      * @param currentSlider
      * @param singleShotBtn
      */
@@ -176,7 +202,9 @@ public class SingleAtomModule extends DischargeLampModule {
         getDischargeLampModel().getLeftHandPlate().setCurrent( currentSlider.getValue() );
         singleShotBtn.setVisible( false );
         collisionEnergyIndicatorGraphic.setVisible( false );
+        collisionIndicatorLegendPanel.setVisible( false );
         getDischargeLampModel().setElectronProductionMode( ElectronSource.CONTINUOUS_MODE );
+        super.setHeatingElementsVisible( true );
     }
 
     /**
@@ -211,7 +239,6 @@ public class SingleAtomModule extends DischargeLampModule {
     }
 
     /**
-     *
      * @return
      */
     public Atom getAtom() {
