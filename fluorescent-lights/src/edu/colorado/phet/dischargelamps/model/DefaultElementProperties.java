@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.dischargelamps.model;
 
+import edu.colorado.phet.lasers.model.atom.AtomicState;
+
 /**
  * HydrogenProperties
  *
@@ -22,8 +24,14 @@ public class DefaultElementProperties extends ElementProperties {
         -0.378
     };
 
-    public DefaultElementProperties() {
+    public DefaultElementProperties( int numEnergyLevels ) {
         super( "Configurable", energyLevels );
+        AtomicState[] states = new AtomicStateFactory().createAtomicStates( numEnergyLevels );
+        double[] newEnergyLevels = new double[numEnergyLevels];
+        for( int i = 0; i < newEnergyLevels.length; i++ ) {
+            newEnergyLevels[i] = states[i].getEnergyLevel();
+        }
+        setEnergyLevels( newEnergyLevels );
     }
 }
 
