@@ -10,15 +10,14 @@
  */
 package edu.colorado.phet.dischargelamps.view;
 
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.math.ModelViewTransform1D;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.dischargelamps.SingleAtomModule;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.dischargelamps.model.Plate;
-import edu.colorado.phet.dischargelamps.SingleAtomModule;
 import edu.colorado.phet.lasers.model.atom.Atom;
-import edu.colorado.phet.lasers.model.atom.AtomicState;
+import edu.colorado.phet.lasers.model.atom.GroundState;
 
-import javax.sound.sampled.Line;
 import java.awt.*;
 import java.awt.geom.Line2D;
 
@@ -78,14 +77,11 @@ public class CollisionEnergyIndicator extends PhetShapeGraphic implements Discha
         // The energy an electron has when it hits the atom
         double electronEnergy = Math.abs(voltage) * ( plateToAtomDist / plateToPlateDist );
 
-        double fudge = energyYTx.viewToModel( 1 ) * 6;
-//        int y = energyYTx.modelToView( fudge * (electronEnergy + atom.getGroundState().getEnergyLevel()  ));
-        int y = energyYTx.modelToView( electronEnergy );
-//        int y = energyYTx.modelToView( electronEnergy + atom.getGroundState().getEnergyLevel()  );
-        System.out.println( "(electronEnergy + AtomicState.minEnergy)  = " + (electronEnergy + AtomicState.minEnergy)  );
-        System.out.println( "electronEnergy = " + electronEnergy );
-        System.out.println( "y = " + y );
-        setLocation( 0, Math.max( y, 20 ));
+        // This factor converts
+        double fudge = 5.67;
+        new GroundState().getEnergyLevel();
+        int y = energyYTx.modelToView( ( electronEnergy * fudge) + model.getAtomicStates()[0].getEnergyLevel() );
+        setLocation( 0, Math.max( y, 5 ));
         setBoundsDirty();
         repaint();
     }

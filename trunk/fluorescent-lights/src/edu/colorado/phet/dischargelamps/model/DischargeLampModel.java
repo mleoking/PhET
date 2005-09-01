@@ -125,7 +125,8 @@ public class DischargeLampModel extends LaserModel {
     public void addModelElement( ModelElement modelElement ) {
         super.addModelElement( modelElement );
         if( modelElement instanceof Atom ) {
-            atoms.add( modelElement );
+            Atom atom = (Atom)modelElement;
+            atoms.add( atom );
         }
         if( modelElement instanceof Electron ) {
             Electron electron = (Electron)modelElement;
@@ -182,7 +183,7 @@ public class DischargeLampModel extends LaserModel {
     }
 
     public void setAtomicElement( ElementProperties elementProperties ) {
-        atomicStates = elementProperties.getStates();
+        setAtomicStates( elementProperties.getStates() );
         for( int i = 0; i < atoms.size(); i++ ) {
             DischargeLampAtom atom = (DischargeLampAtom)atoms.get( i );
             atom.setElementProperties( elementProperties );

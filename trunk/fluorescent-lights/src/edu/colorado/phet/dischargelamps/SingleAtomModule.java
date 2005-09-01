@@ -45,6 +45,7 @@ import java.awt.geom.Rectangle2D;
 public class SingleAtomModule extends DischargeLampModule {
     private DischargeLampAtom atom;
     private double maxCurrent= 0.01;
+    private CollisionEnergyIndicator collisionEnergyIndicatorGraphic;
 
     //----------------------------------------------------------------
     // Constructors and initialization
@@ -57,7 +58,7 @@ public class SingleAtomModule extends DischargeLampModule {
      */
     protected SingleAtomModule( String name, AbstractClock clock, int numEnergyLevels ) {
         super( name, clock, numEnergyLevels );
-        addAtom( getTube(), numEnergyLevels );
+        addAtom( getTube() );
 
         // Set model parameters
         getDischargeLampModel().setElectronProductionMode( ElectronSource.SINGLE_SHOT_MODE );
@@ -78,9 +79,9 @@ public class SingleAtomModule extends DischargeLampModule {
     private void addControls() {
         final DischargeLampEnergyMonitorPanel2 elmp = super.getEneregyLevelsMonitorPanel();
 
-        CollisionEnergyIndicator graphic = new CollisionEnergyIndicator( elmp.getElmp(), this );
-        elmp.getElmp().addGraphic( graphic);
-        graphic.update();
+        collisionEnergyIndicatorGraphic = new CollisionEnergyIndicator( elmp.getElmp(), this );
+        elmp.getElmp().addGraphic( collisionEnergyIndicatorGraphic);
+        collisionEnergyIndicatorGraphic.update();
 
         // Put the current slider in a set of controls with the Fire button
         final ModelSlider currentSlider = getCurrentSlider();
@@ -160,7 +161,7 @@ public class SingleAtomModule extends DischargeLampModule {
         currentSlider.setVisible( false );
         getDischargeLampModel().getLeftHandPlate().setCurrent( 0 );
         singleShotBtn.setVisible( true );
-
+        collisionEnergyIndicatorGraphic.setVisible( true );
         getDischargeLampModel().setElectronProductionMode( ElectronSource.SINGLE_SHOT_MODE );
     }
 
@@ -174,7 +175,7 @@ public class SingleAtomModule extends DischargeLampModule {
         currentSlider.setVisible( true );
         getDischargeLampModel().getLeftHandPlate().setCurrent( currentSlider.getValue() );
         singleShotBtn.setVisible( false );
-
+        collisionEnergyIndicatorGraphic.setVisible( false );
         getDischargeLampModel().setElectronProductionMode( ElectronSource.CONTINUOUS_MODE );
     }
 
@@ -182,12 +183,11 @@ public class SingleAtomModule extends DischargeLampModule {
      * Adds some atoms and their graphics
      *
      * @param tube
-     * @param numEnergyLevels
      */
-    private void addAtom( ResonatingCavity tube, int numEnergyLevels ) {
+    private void addAtom( ResonatingCavity tube ) {
         Rectangle2D tubeBounds = tube.getBounds();
 
-        AtomicState[] states = new AtomicStateFactory().createAtomicStates( numEnergyLevels );
+        AtomicState[] states = getDischargeLampModel().getAtomicStates();
         atom = new DischargeLampAtom( (LaserModel)getModel(), states );
         atom.setPosition( tubeBounds.getX() + tubeBounds.getWidth() / 2,
                           tubeBounds.getY() + tubeBounds.getHeight() / 2 );
