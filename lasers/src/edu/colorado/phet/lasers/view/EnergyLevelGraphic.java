@@ -236,12 +236,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
             }
             g.setColor( color );
             g.fill( levelLine );
-//
-//
-//            g.setColor(  Color.green );
-//            g.draw( determineBounds() );
             super.paint( g );
-
             restoreGraphicsState();
         }
 

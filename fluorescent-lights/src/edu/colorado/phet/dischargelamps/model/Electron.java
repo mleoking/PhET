@@ -143,7 +143,7 @@ public class Electron extends SphericalBody implements Collidable {
             super( source );
         }
 
-        public Electron getElectrion() {
+        public Electron getElectron() {
             return (Electron)getSource();
         }
     }

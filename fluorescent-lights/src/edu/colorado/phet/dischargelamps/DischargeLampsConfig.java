@@ -58,6 +58,8 @@ public class DischargeLampsConfig {
     public static final double ELECTRON_LAYER = CIRCUIT_LAYER + 1;
 
     // Clock specification
+    private static double fudge = 5.67;
+//    public static final double DT = 12 / fudge;
     public static final double DT = 12;
     public static final int FPS = 25;
 

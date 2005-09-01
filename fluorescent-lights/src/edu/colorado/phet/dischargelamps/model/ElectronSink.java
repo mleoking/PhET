@@ -114,7 +114,7 @@ public class ElectronSink extends Electrode implements ElectronSource.ElectronPr
 
     private class ElectronRemover extends Electron.ChangeListenerAdapter {
         public void leftSystem( Electron.ChangeEvent changeEvent ) {
-            electrons.remove( changeEvent.getElectrion() );
+            electrons.remove( changeEvent.getElectron() );
         }
     }
 }

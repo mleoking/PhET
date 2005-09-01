@@ -37,6 +37,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
@@ -115,7 +116,6 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
     //----------------------------------------------------------------
 
     /**
-     *
      * @param model
      * @param clock
      * @param atomicStates
@@ -150,9 +150,6 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         // Create a horizontal line for each energy level, then add them to the panel
         setEnergyLevels( atomicStates );
 
-        // Set up the counters for the number of atoms in each state
-//        initializeStateCounters();
-
         // Add listeners to all the atoms in the model
         addAtomListeners();
 
@@ -171,7 +168,6 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         for( int i = 0; i < atoms.size(); i++ ) {
             Atom atom = (Atom)atoms.get( i );
             Integer num = (Integer)numAtomsInState.get( atom.getCurrState() );            
-//            int n = ( (Integer)numAtomsInState.get( atom.getCurrState() ) ).intValue();
             if( num != null ) {
                 numAtomsInState.put( atom.getCurrState(), new Integer( num.intValue() + 1 ) );
             }
@@ -212,7 +208,6 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
     }
 
     /**
-     *
      * @param squigglesEnabled
      */
     public void setSquigglesEnabled( boolean squigglesEnabled ) {
@@ -322,6 +317,13 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
             }
         }
 
+        // For debug. Draws lines on the panel 1eV apart
+//        g2.setColor( Color.green );
+//        for( double e = -13; e <= 0; e++ ) {
+//            Line2D l = new Line2D.Double( 0, energyYTx.modelToView( e ), 50, energyYTx.modelToView( e ) );
+//            g2.draw( l );
+//        }
+
         gs.restoreGraphics();
     }
 
@@ -364,6 +366,11 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         return atomImg;
     }
 
+    /**
+     * Returns the tranform that converts energy levels to y coordinates in the panel
+     *
+     * @return
+     */
     public ModelViewTransform1D getEnergyYTx() {
         return energyYTx;
     }
@@ -436,7 +443,9 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
     public void addElectron( Electron electron ) {
         electron.addChangeListener( this );
         electronGraphic = new PhetImageGraphic( this, DischargeLampsConfig.ELECTRON_IMAGE_FILE_NAME );
-        int yLoc = (int)energyYTx.modelToView( electron.getEnergy() );
+        // The -10 is a hack to get the electron to be even with everything else on the panel. I can't figure
+        // out why I need it
+        int yLoc = (int)energyYTx.modelToView( electron.getEnergy() + groundStateEnergy ) - 10;
         electronGraphic.setLocation( electronXLoc, yLoc );
         addGraphic( electronGraphic );
     }
@@ -448,7 +457,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
      */
     public void leftSystem( Electron.ChangeEvent changeEvent ) {
         removeGraphic( electronGraphic );
-        changeEvent.getElectrion().removeListener( this );
+        changeEvent.getElectron().removeListener( this );
     }
 
     /**
@@ -457,9 +466,12 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
      * @param changeEvent
      */
     public void energyChanged( Electron.ChangeEvent changeEvent ) {
-        int yLoc = (int)energyYTx.modelToView( changeEvent.getElectrion().getEnergy() + groundStateEnergy );
-//        int yLoc = (int)energyYTx.modelToView( changeEvent.getElectrion().getEnergy() );
+
+        // The -10 is a hack to get the electron to be even with everything else on the panel. I can't figure
+        // out why I need it
+        int yLoc = (int)energyYTx.modelToView( changeEvent.getElectron().getEnergy() + groundStateEnergy ) - 10;
         electronGraphic.setLocation( electronXLoc, yLoc );
+        electronGraphic.setBoundsDirty();
         electronGraphic.repaint();
     }
 
