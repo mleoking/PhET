@@ -38,9 +38,13 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
     //----------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------
+
     private static final boolean DEBUG = false;
     private static String s_imageName = LaserConfig.ATOM_IMAGE_FILE;
 
+    //----------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------
 
     private Atom atom;
     private Color energyRepColor;
@@ -80,11 +84,7 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
         addGraphic( imageGraphic, 2 );
 
         energyGraphic = new PhetShapeGraphic( component, energyRep, energyRepColor, new BasicStroke( 1 ), Color.black );
-        energyRepRad = ( imageGraphic.getImage().getWidth() / 2 ) + groundStateRingThickness;
-
-        energyRep = new Ellipse2D.Double( 0, 0, energyRepRad * 2, energyRepRad * 2 );
         addGraphic( energyGraphic, 1 );
-        determineEnergyRadiusAndColor();
         update();
     }
 
@@ -92,7 +92,7 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
      * Sets the location of the graphic, and determines the color and radius of the halo
      */
     public void update() {
-//        determineEnergyRadiusAndColor();
+        determineEnergyRadiusAndColor();
         setLocation( (int)( atom.getPosition().getX() ),
                      (int)( atom.getPosition().getY() ) );
         setBoundsDirty();
@@ -108,7 +108,6 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
      */
     private void determineEnergyRadiusAndColor() {
         AtomicState state = atom.getCurrState();
-        AtomicState groundState = atom.getStates()[0];
 
         // Determine the color and thickness of the colored ring that represents the energy
         groundStateRingThickness = 3;
@@ -128,11 +127,7 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
 //                       * ( imageGraphic.getImage().getWidth() / 2 ) + groundStateRingThickness;
 //
 
-        if( Double.isNaN( energyRepRad) ) {
-            System.out.println( "$$$$$" );
-        }
-
-        energyRep = new Ellipse2D.Double( 0, 0, energyRepRad * 2, energyRepRad * 2 );
+        energyRep = new Ellipse2D.Double( -energyRepRad, -energyRepRad, energyRepRad * 2, energyRepRad * 2 );
         if( state.getWavelength() == Photon.GRAY ) {
             energyRepColor = Color.darkGray;
         }
@@ -144,9 +139,6 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
         }
         energyGraphic.setShape( energyRep );
         energyGraphic.setColor( energyRepColor );
-        energyGraphic.setRegistrationPoint( (int)energyRepRad, (int)energyRepRad );
-        setBoundsDirty();
-        repaint();
     }
 
     /**
@@ -160,6 +152,9 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
 
         // Debug: draws a dot at the center of the atom
         if( DEBUG ) {
+            g2.setColor( Color.GREEN );
+            g2.fillArc( (int)getLocation().getX() - 2,
+                        (int)getLocation().getY() - 2, 4, 4, 0, 360 );
             g2.setColor( Color.RED );
             g2.drawArc( (int)atom.getPosition().getX() - 2, (int)atom.getPosition().getY() - 2, 4, 4, 0, 360 );
         }
@@ -219,7 +214,7 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
     //----------------------------------------------------------------
 
     public void stateChanged( Atom.ChangeEvent event ) {
-        determineEnergyRadiusAndColor();
+        update();
     }
 
     public void positionChanged( Atom.ChangeEvent event ) {
