@@ -51,9 +51,9 @@ public class DischargeLampModel extends LaserModel {
     private Plate rightHandPlate;
     private HeatingElement leftHandHeatingElement;
     private HeatingElement rightHandHeatingElement;
-    private boolean heatingElementsEnabled;
     private double current;
     private double maxCurrent;
+    private ElementProperties elementProperties;
 
 
     public DischargeLampModel() {
@@ -182,21 +182,14 @@ public class DischargeLampModel extends LaserModel {
         changeListenerProxy.energyLevelsChanged( new ChangeEvent( this ) );
     }
 
-    public void setAtomicElement( ElementProperties elementProperties ) {
-        setAtomicStates( elementProperties.getStates() );
+    public void setElementProperties( ElementProperties elementProperties ) {
+        this.elementProperties = elementProperties;
+        atomicStates = elementProperties.getStates();
         for( int i = 0; i < atoms.size(); i++ ) {
             DischargeLampAtom atom = (DischargeLampAtom)atoms.get( i );
             atom.setElementProperties( elementProperties );
         }
         changeListenerProxy.energyLevelsChanged( new ChangeEvent( this ) );
-    }
-
-    public void setAtomicStates( AtomicState[] states ) {
-        atomicStates = states;
-        for( int i = 0; i < atoms.size(); i++ ) {
-            Atom atom = (Atom)atoms.get( i );
-            atom.setStates( atomicStates );
-        }
     }
 
     public AtomicState[] getAtomicStates() {
@@ -222,6 +215,10 @@ public class DischargeLampModel extends LaserModel {
 
     public List getAtoms() {
         return atoms;
+    }
+
+    public ElementProperties getElementProperties() {
+        return elementProperties;
     }
 
     public void setMaxCurrent( double maxCurrent ) {
@@ -341,7 +338,7 @@ public class DischargeLampModel extends LaserModel {
         void voltageChanged( ChangeEvent event );
     }
 
-    public class ChangeListenerAdapter implements ChangeListener {
+    static public class ChangeListenerAdapter implements ChangeListener {
         public void energyLevelsChanged( ChangeEvent event ) {
         }
 
