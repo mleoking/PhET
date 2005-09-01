@@ -52,9 +52,10 @@ public class HeatingElementGraphic extends PhetImageGraphic implements HeatingEl
 
     /**
      * Makes the image change from black to red, depending on the temperature of the heating element
+     *
      * @param heatingElement
      */
-    private void setFilteredImage( HeatingElement heatingElement) {
+    private void setFilteredImage( HeatingElement heatingElement ) {
         double temperature = heatingElement.getIsEnabled() ? heatingElement.getTemperature() : 0;
         BufferedImage newImg = baseImage;
         ColorModel cm = newImg.getColorModel();
@@ -71,16 +72,21 @@ public class HeatingElementGraphic extends PhetImageGraphic implements HeatingEl
         }
 
         // blur the coil as it gets hotter
-        float f = (1f/9f) * (float)(temperature / 255f);
-        float g = 1 - f;
-        float[] blurCoeffs = new float[] {
-            f, f, f,
-            f, g, f,
-            f, f, f
+//        float e = 0;
+        float e = ( 1f / 32f ) * (float)( temperature / 255f );
+        float f = ( 1f / 9f ) * (float)( temperature / 255f );
+        float g = 1 - f - e;
+        float[] blurCoeffs = new float[]{
+            e, e, e, e, e,
+            e, f, f, f, e,
+            e, f, g, f, e,
+            e, f, f, f, e,
+            e, e, e, e, e,
         };
-        Kernel blurKernel = new Kernel( 3, 3, blurCoeffs );
+        Kernel blurKernel = new Kernel( 5, 5, blurCoeffs );
+//        Kernel blurKernel = new Kernel( 3, 3, blurCoeffs );
         ConvolveOp blurOp = new ConvolveOp( blurKernel, ConvolveOp.EDGE_NO_OP, new RenderingHints( RenderingHints.KEY_ANTIALIASING,
-                                                                                                   RenderingHints.VALUE_ANTIALIAS_ON) );
+                                                                                                   RenderingHints.VALUE_ANTIALIAS_ON ) );
         newImg = blurOp.filter( newImg, null );
 
         setImage( newImg );

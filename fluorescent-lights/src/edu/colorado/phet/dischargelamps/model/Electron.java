@@ -33,7 +33,9 @@ import java.util.ArrayList;
 public class Electron extends SphericalBody implements Collidable {
 
     public void stepInTime( double dt ) {
+        double x0 = super.getPosition().getX();
         super.stepInTime( dt );
+        double x1 = super.getPosition().getX();
     }
 
     //----------------------------------------------------------------

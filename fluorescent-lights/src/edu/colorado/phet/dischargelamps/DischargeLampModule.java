@@ -79,6 +79,7 @@ public class DischargeLampModule extends BaseLaserModule {
     private Plate leftHandPlate;
     private Plate rightHandPlate;
     private double maxCurrent = 0.3;
+    private HeatingElementGraphic[] heatingElementGraphics = new HeatingElementGraphic[2];
 
 
     //----------------------------------------------------------------
@@ -129,17 +130,17 @@ public class DischargeLampModule extends BaseLaserModule {
         HeatingElementGraphic leftHeatingElementGraphic = new HeatingElementGraphic( getApparatusPanel(), true );
         getApparatusPanel().addGraphic( leftHeatingElementGraphic );
         Point leftHandGraphicLocation = new Point( (int)model.getLeftHandHeatingElement().getPosition().getX()
-                                                   - leftHeatingElementGraphic.getImage().getWidth() - 25,
-                                                   (int)model.getLeftHandHeatingElement().getPosition().getY()
-                                                   - leftHeatingElementGraphic.getImage().getHeight() / 2 );
+                                                   - leftHeatingElementGraphic.getImage().getWidth() - 30,
+                                                   (int)model.getLeftHandHeatingElement().getPosition().getY() - 80 );
         leftHeatingElementGraphic.setLocation( leftHandGraphicLocation );
 
         HeatingElementGraphic rightHeatingElementGraphic = new HeatingElementGraphic( getApparatusPanel(), false );
         getApparatusPanel().addGraphic( rightHeatingElementGraphic );
-        Point rightHandGraphicLocation = new Point( (int)model.getRightHandHeatingElement().getPosition().getX() + 25,
-                                                    (int)model.getRightHandHeatingElement().getPosition().getY()
-                                                    - leftHeatingElementGraphic.getImage().getHeight() / 2 );
+        Point rightHandGraphicLocation = new Point( (int)model.getRightHandHeatingElement().getPosition().getX() + 30,
+                                                    (int)model.getRightHandHeatingElement().getPosition().getY() - 80 );
         rightHeatingElementGraphic.setLocation( rightHandGraphicLocation );
+        heatingElementGraphics[0] = leftHeatingElementGraphic;
+        heatingElementGraphics[1] = rightHeatingElementGraphic;
 
         model.getLeftHandHeatingElement().addChangeListener( leftHeatingElementGraphic );
         model.getRightHandHeatingElement().addChangeListener( rightHeatingElementGraphic );
@@ -147,7 +148,6 @@ public class DischargeLampModule extends BaseLaserModule {
         leftHandPlate.addElectronProductionListener( new ElectronGraphicManager( getApparatusPanel() ) );
         rightHandPlate.addElectronProductionListener( new ElectronGraphicManager( getApparatusPanel() ) );
     }
-
 
     /**
      * Creates the tube, adds it to the model and creates a graphic for it
@@ -190,8 +190,11 @@ public class DischargeLampModule extends BaseLaserModule {
      * @param apparatusPanel
      */
     private void addCircuitGraphic( ApparatusPanel apparatusPanel ) {
-        PhetImageGraphic circuitGraphic = new PhetImageGraphic( getApparatusPanel(), "images/battery-w-wires-2.png" );
-        scaleImageGraphic( circuitGraphic );
+        CircuitGraphic circuitGraphic = new CircuitGraphic( apparatusPanel, getExternalGraphicScaleOp() );
+        model.addChangeListener( circuitGraphic );
+//        PhetImageGraphic circuitGraphic = new PhetImageGraphic( getApparatusPanel(),
+//                                                                DischargeLampsConfig.POSITIVE_CIRCUIT_IMAGE_FILE_NAME );
+//        scaleImageGraphic( circuitGraphic );
         circuitGraphic.setRegistrationPoint( (int)( 124 * externalGraphicsScale ), (int)( 340 * externalGraphicsScale ) );
         circuitGraphic.setLocation( DischargeLampsConfig.CATHODE_LOCATION );
         apparatusPanel.addGraphic( circuitGraphic, DischargeLampsConfig.CIRCUIT_LAYER );
@@ -217,6 +220,16 @@ public class DischargeLampModule extends BaseLaserModule {
      * @param imageGraphic
      */
     private void scaleImageGraphic( PhetImageGraphic imageGraphic ) {
+        getExternalGraphicScaleOp();
+        imageGraphic.setImage( externalGraphicScaleOp.filter( imageGraphic.getImage(), null ) );
+    }
+
+    /**
+     * Returns an AffineTransformOp that will scale BufferedImages to the dimensions of the
+     * apparatus panel
+     * @return
+     */
+    private AffineTransformOp getExternalGraphicScaleOp() {
         if( externalGraphicScaleOp == null ) {
             int cathodeAnodeScreenDistance = 550;
             determineExternalGraphicScale( DischargeLampsConfig.ANODE_LOCATION,
@@ -225,7 +238,7 @@ public class DischargeLampModule extends BaseLaserModule {
             AffineTransform scaleTx = AffineTransform.getScaleInstance( externalGraphicsScale, externalGraphicsScale );
             externalGraphicScaleOp = new AffineTransformOp( scaleTx, AffineTransformOp.TYPE_BILINEAR );
         }
-        imageGraphic.setImage( externalGraphicScaleOp.filter( imageGraphic.getImage(), null ) );
+        return externalGraphicScaleOp;
     }
 
     /**
@@ -251,7 +264,7 @@ public class DischargeLampModule extends BaseLaserModule {
         JComponent atomTypeComboBox = new AtomTypeChooser( model );
         getControlPanel().add( atomTypeComboBox );
 
-// A slider for the battery voltage
+        // A slider for the battery voltage
         final ModelSlider batterySlider = new ModelSlider( "Battery Voltage",
                                                            "V",
                                                            -DischargeLampModel.MAX_VOLTAGE,
@@ -358,6 +371,17 @@ public class DischargeLampModule extends BaseLaserModule {
     //----------------------------------------------------------------
     // Getters and setters
     //----------------------------------------------------------------
+
+    /**
+     *
+     * @param isVisible
+     */
+    protected void setHeatingElementsVisible( boolean isVisible ) {
+        for( int i = 0; i < heatingElementGraphics.length; i++ ) {
+            HeatingElementGraphic graphic = heatingElementGraphics[i];
+            graphic.setVisible( isVisible );
+        }
+    }
 
     /**
      * Returns a typed reference to the model

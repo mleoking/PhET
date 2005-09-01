@@ -12,9 +12,12 @@ package edu.colorado.phet.dischargelamps.view;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.dischargelamps.SingleAtomModule;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.dischargelamps.model.Plate;
+import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.GroundState;
 
@@ -27,7 +30,8 @@ import java.awt.geom.Line2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class CollisionEnergyIndicator extends PhetShapeGraphic implements DischargeLampModel.ChangeListener {
+public class CollisionEnergyIndicator extends PhetShapeGraphic implements DischargeLampModel.ChangeListener,
+                                                                          Atom.ChangeListener {
 
     private static Shape line = new Line2D.Double( 0,0,100, 0);
     private static Stroke stroke;
@@ -50,9 +54,16 @@ public class CollisionEnergyIndicator extends PhetShapeGraphic implements Discha
         model = (DischargeLampModel)module.getModel();
         model.addChangeListener( this );
         atom = module.getAtom();
+        atom.addChangeListener( this );
         this.energyYTx = elmp.getEnergyYTx();
         energyYTx.addListener( new ModelViewTransform1D.Observer() {
             public void transformChanged( ModelViewTransform1D transform ) {
+                update();
+            }
+        } );
+
+        module.getClock().addClockTickListener( new ClockTickListener() {
+            public void clockTicked( ClockTickEvent event ) {
                 update();
             }
         } );
@@ -72,7 +83,7 @@ public class CollisionEnergyIndicator extends PhetShapeGraphic implements Discha
         else {
             emittingPlate = model.getRightHandPlate();
         }
-        plateToAtomDist = emittingPlate.getPosition().distance( atom.getPosition() );
+        plateToAtomDist = emittingPlate.getPosition().distance( atom.getPosition() ) - atom.getRadius();
 
         // The energy an electron has when it hits the atom
         double electronEnergy = Math.abs(voltage) * ( plateToAtomDist / plateToPlateDist );
@@ -95,6 +106,18 @@ public class CollisionEnergyIndicator extends PhetShapeGraphic implements Discha
     }
 
     public void voltageChanged( DischargeLampModel.ChangeEvent event ) {
+        update();
+    }
+
+    //----------------------------------------------------------------
+    // DischargeLampAtom.ChangeListener implementation
+    //----------------------------------------------------------------
+
+    public void stateChanged( Atom.ChangeEvent event ) {
+        // noop
+    }
+
+    public void positionChanged( DischargeLampAtom.ChangeEvent event ) {
         update();
     }
 }

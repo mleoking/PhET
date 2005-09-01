@@ -404,7 +404,8 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
             double wavelength = PhysicsUtil.energyToWavelength( dE );
             // We need to get the absolute value here because positive energy transforms to a negative number when
             // mapped to screen coordinates in the Y direction.
-            int length = Math.abs( energyYTx.modelToView( dE ) );
+            int length = Math.abs( energyYTx.modelToView( prevState.getEnergyLevel() )
+                                   - energyYTx.modelToView( currState.getEnergyLevel() ));
             final EnergySquiggle squiggle = new EnergySquiggle( this, wavelength, 0, length, 10,
                                                                 EnergySquiggle.VERTICAL );
             squiggle.setLocation( 50, energyYTx.modelToView( prevState.getEnergyLevel() ) );
@@ -429,6 +430,10 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         }
         invalidate();
         repaint();
+    }
+
+    public void positionChanged( Atom.ChangeEvent event ) {
+        // noop
     }
 
     //----------------------------------------------------------------

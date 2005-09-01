@@ -11,6 +11,7 @@
 package edu.colorado.phet.dischargelamps.model;
 
 import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;
 
 import java.awt.geom.Line2D;
@@ -23,7 +24,7 @@ import java.util.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ElectronSink extends Electrode implements ElectronSource.ElectronProductionListener {
+public class ElectronSink implements ModelElement, ElectronSource.ElectronProductionListener {
 
     private BaseModel model;
     private Line2D.Double line;
@@ -39,7 +40,6 @@ public class ElectronSink extends Electrode implements ElectronSource.ElectronPr
      * @param p2    The other endpoint of the line
      */
     public ElectronSink( BaseModel model, Point2D p1, Point2D p2 ) {
-        super( p1, p2 );
         this.model = model;
         this.line = new Line2D.Double( p1, p2 );
     }

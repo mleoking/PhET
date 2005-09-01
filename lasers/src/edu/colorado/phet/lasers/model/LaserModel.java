@@ -467,7 +467,7 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
     /**
      * Keeps track of number of atoms in each state
      */
-    private class AtomChangeListener implements Atom.ChangeListener {
+    private class AtomChangeListener extends Atom.ChangeListenerAdapter {
 
         public void stateChanged( Atom.ChangeEvent event ) {
             AtomicState prevState = event.getPrevState();
