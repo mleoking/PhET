@@ -53,122 +53,14 @@ public class AtomTypeChooser extends JPanel {
                 JComboBox cb = (JComboBox)e.getSource();
                 // Get the selected item and tell it to do its thing
                 ElementProperties selection = (ElementProperties)cb.getSelectedItem();
-                model.setAtomicElement( selection );
+                model.setElementProperties( selection );
             }
         } );
         ElementProperties selection = (ElementProperties)comboBox.getSelectedItem();
-        model.setAtomicElement( selection );
+        model.setElementProperties( selection );
 
         gbc.anchor = GridBagConstraints.WEST;
         gbc.gridx = 1;
         this.add( comboBox, gbc );
     }
-
-    //----------------------------------------------------------------
-    // Inner classes
-    //----------------------------------------------------------------
-
-    abstract private class AtomTypeItem {
-        DischargeLampModel model;
-
-        //----------------------------------------------------------------
-        // Abstract methods
-        //----------------------------------------------------------------
-
-        abstract protected double[] getEnergies();
-
-        protected AtomTypeItem( DischargeLampModel model ) {
-            this.model = model;
-        }
-
-        void select() {
-            model.setAtomicStates( this.getStates() );
-        }
-
-        private AtomicState[] getStates() {
-            // Copy the energies into a new array, sort and normalize them
-            double[] energies = new double[getEnergies().length];
-            for( int i = 0; i < energies.length; i++ ) {
-                energies[i] = getEnergies()[i];
-            }
-            Arrays.sort( energies );
-
-            AtomicState[] states = new AtomicState[energies.length];
-            states[0] = new GroundState();
-            states[0].setEnergyLevel( energies[0] );
-            double eBlue = PhysicsUtil.wavelengthToEnergy( Photon.BLUE );
-            for( int i = 1; i < states.length; i++ ) {
-                states[i] = new AtomicState();
-                double energy = ( energies[i] );
-                states[i].setEnergyLevel( energy );
-                states[i].setMeanLifetime( DischargeLampAtom.DEFAULT_STATE_LIFETIME );
-            }
-            AtomicState.linkStates( states );
-            return states;
-        }
-    }
-
-    private class DefaultAtomItem extends AtomTypeItem {
-        private double[] energies = new double[]{-13.6,
-                                                 -0.378};
-
-        public DefaultAtomItem( DischargeLampModel model ) {
-            super( model );
-        }
-
-        public String toString() {
-            return "Default Atom";
-        }
-
-        protected double[] getEnergies() {
-            return energies;
-        }
-    }
-
-    private class HydrogenItem extends AtomTypeItem {
-        private double[] energies = new double[]{-13.6,
-                                                 -3.4,
-                                                 -1.511,
-                                                 -0.850,
-                                                 -0.544,
-                                                 -0.378};
-
-        public HydrogenItem( DischargeLampModel model ) {
-            super( model );
-        }
-
-        public String toString() {
-            return "Hydrogen";
-        }
-
-        protected double[] getEnergies() {
-            return energies;
-        }
-
-        void select() {
-            model.setAtomicElement( new HydrogenProperties() );
-        }
-    }
-
-    private class NeonItem extends AtomTypeItem {
-        private double[] energies = new double[]{-13.6,
-                                                 -3.4,
-                                                 -1.511,
-                                                 -0.850,
-                                                 -0.544,
-                                                 -0.378};
-
-        public NeonItem( DischargeLampModel model ) {
-            super( model );
-        }
-
-        public String toString() {
-            return "Neon";
-        }
-
-        protected double[] getEnergies() {
-            return energies;
-        }
-    }
-
 }
