@@ -32,6 +32,10 @@ public class ElementProperties {
         this.energyLevels = energyLevels;
     }
 
+    protected void setEnergyLevels(  double[] energyLevels ) {
+        this.energyLevels = energyLevels;
+    }
+    
     public double[] getEnergyLevels() {
         return energyLevels;
     }

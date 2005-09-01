@@ -34,6 +34,7 @@ public class DischargeLampModel extends LaserModel {
     // Class data 
     //-----------------------------------------------------------------
     public static final double MAX_VOLTAGE = 10;
+    public static final int MAX_STATES = 6;
 
     //-----------------------------------------------------------------
     // Instance data
@@ -60,6 +61,8 @@ public class DischargeLampModel extends LaserModel {
 
         // This is the place to set the mean lifetime for the various atomic states
 //        MiddleEnergyState.instance().setMeanLifetime( .00001 );
+
+        atomicStates = new AtomicStateFactory().createAtomicStates( 2 );
 
         // Make the plates
         leftHandPlate = new Plate( this,
@@ -174,7 +177,7 @@ public class DischargeLampModel extends LaserModel {
     //----------------------------------------------------------------
 
     public void setNumAtomicEnergyLevels( int numLevels ) {
-        atomicStates = new AtomicStateFactory().createAtomicStates( numLevels );
+        atomicStates = new AtomicStateFactory().createAtomicStates( numLevels, atomicStates );
         for( int i = 0; i < atoms.size(); i++ ) {
             Atom atom = (Atom)atoms.get( i );
             atom.setStates( atomicStates );
