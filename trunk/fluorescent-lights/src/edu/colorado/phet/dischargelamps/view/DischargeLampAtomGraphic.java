@@ -47,7 +47,7 @@ public class DischargeLampAtomGraphic extends AtomGraphic implements Atom.Change
         this.atom = atom;
         getEnergyGraphic().setStroke( new BasicStroke( 0.5f ));
         getEnergyGraphic().setBorderColor( Color.black );
-        numberGraphic = new PhetTextGraphic( component, DischargeLampsConfig.defaultControlFont, "", Color.white );
+        numberGraphic = new PhetTextGraphic( component, DischargeLampsConfig.DEFAULT_CONTROL_FONT, "", Color.white );
         numberGraphic.setJustification( PhetTextGraphic.CENTER );
         setNumberGraphicText();
         addGraphic( numberGraphic, 1000 );

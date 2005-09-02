@@ -37,7 +37,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
@@ -176,23 +175,6 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         repaint();
     }
 
-
-    /**
-     * Adjusts the layout of the panel
-     */
-    private void adjustPanel() {
-        // The area in which the energy levels will be displayed
-        Rectangle2D bounds = new Rectangle2D.Double( 0, 0, getPreferredSize().getWidth(), getPreferredSize().getHeight() );
-
-        // Set the model-to-view transform so that there will be a reasonable margin below the zero point
-        energyYTx = new ModelViewTransform1D( maxEnergy, groundStateEnergy,
-                                              (int)bounds.getBounds().getMinY() + headingOffsetY,
-                                              (int)bounds.getBounds().getMaxY() - footerOffsetY );
-        for( int i = 0; i < levelGraphics.length; i++ ) {
-            levelGraphics[i].update( energyYTx );
-        }
-    }
-
     /**
      * Adds a graphic to the panel for the specified atom, and adds the panel to the atom
      * as a state change listener. Adjusts the length of the line to be long enough to hold
@@ -290,6 +272,22 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
     //----------------------------------------------------------------
 
     /**
+     * Adjusts the layout of the panel
+     */
+    private void adjustPanel() {
+        // The area in which the energy levels will be displayed
+        Rectangle2D bounds = new Rectangle2D.Double( 0, 0, getPreferredSize().getWidth(), getPreferredSize().getHeight() );
+
+        // Set the model-to-view transform so that there will be a reasonable margin below the zero point
+        energyYTx = new ModelViewTransform1D( maxEnergy, groundStateEnergy,
+                                              (int)bounds.getBounds().getMinY() + headingOffsetY,
+                                              (int)bounds.getBounds().getMaxY() - footerOffsetY );
+        for( int i = 0; i < levelGraphics.length; i++ ) {
+            levelGraphics[i].update( energyYTx );
+        }
+    }
+
+    /**
      * @param graphics
      */
     protected void paintComponent( Graphics graphics ) {
@@ -316,14 +314,6 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
                 System.out.println( "#$%#@$%" );
             }
         }
-
-        // For debug. Draws lines on the panel 1eV apart
-//        g2.setColor( Color.green );
-//        for( double e = -13; e <= 0; e++ ) {
-//            Line2D l = new Line2D.Double( 0, energyYTx.modelToView( e ), 50, energyYTx.modelToView( e ) );
-//            g2.draw( l );
-//        }
-
         gs.restoreGraphics();
     }
 
