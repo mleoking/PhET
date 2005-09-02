@@ -8,8 +8,6 @@ HIGH PRIORITY:
 - remove the clock controls for the D2C module
 - sometimes starts up with nothing but a small black rectangle in upper left corner of play area
 - when 2dx gets to be just a few pixels, peaks of the waveform in Sum graph are chopped off
-- add wait cursor to graph maximize buttons
-- add wait cursor to zoom control buttons
 - display at full-screen resolution on start up?
 
 MEDIUM PRIORITY:
@@ -71,6 +69,10 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(9/2) - move definition of wait cursor to FourierConfig
+(9/2) - add wait cursor to graph maximize buttons
+(9/2) - add wait cursor to zoom control buttons
+(9/2) - add missing call to super(component) in ZoomControl constructor
 1.0.9 ...
 (8/31) - change order of presets in Discrete module per Sam M's request
 1.0.8 ...

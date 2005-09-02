@@ -12,11 +12,13 @@
 package edu.colorado.phet.fourier.module;
 
 import java.awt.Color;
+import java.awt.Cursor;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.view.BoundsDebugger;
 
 
@@ -40,6 +42,7 @@ public abstract class FourierModule extends Module {
     //----------------------------------------------------------------------------
     
     private BoundsDebugger _debuggerGraphic;
+    private Cursor _saveCursor;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -63,6 +66,26 @@ public abstract class FourierModule extends Module {
      * Resets the module to its initial state.
      */
     public abstract void reset();
+    
+    //----------------------------------------------------------------
+    // Cursor control methods
+    //----------------------------------------------------------------
+    
+    /**
+     * Turns the wait cursor on and off.
+     * 
+     * @param enabled true or false
+     */
+    public void setWaitCursorEnabled( boolean enabled ) {
+        ApparatusPanel apparatusPanel = getApparatusPanel();
+        if ( enabled ) {
+            _saveCursor = apparatusPanel.getCursor();
+            apparatusPanel.setCursor( FourierConfig.WAIT_CURSOR );
+        }
+        else if ( _saveCursor != null ) {
+            apparatusPanel.setCursor( _saveCursor );
+        }
+    }
     
     //----------------------------------------------------------------------------
     // Debugging
