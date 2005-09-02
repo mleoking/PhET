@@ -25,6 +25,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.module.FourierModule;
 
 
@@ -136,7 +137,7 @@ public abstract class FourierControlPanel extends ControlPanel {
         PhetFrame frame = PhetApplication.instance().getPhetFrame();
         if ( enabled ) {
             _saveCursor = frame.getCursor();
-            frame.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
+            frame.setCursor( FourierConfig.WAIT_CURSOR );
         }
         else if ( _saveCursor != null ) {
             frame.setCursor( _saveCursor );

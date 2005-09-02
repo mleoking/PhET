@@ -12,6 +12,7 @@
 package edu.colorado.phet.fourier.control;
 
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 
@@ -44,6 +45,8 @@ public class ZoomControl extends GraphicLayerSet {
     private static final Point IN_LOCATION = new Point( 31, 13 );
     private static final Point OUT_LOCATION = new Point( 3, 13 );
     
+    private static final Cursor WAIT_CURSOR = FourierConfig.WAIT_CURSOR;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -58,6 +61,7 @@ public class ZoomControl extends GraphicLayerSet {
     //----------------------------------------------------------------------------
     
     public ZoomControl( Component component, int orientation ) {
+        super( component );
         
         _orientation = orientation;
         
@@ -178,6 +182,10 @@ public class ZoomControl extends GraphicLayerSet {
                 _inButtonPressed.setVisible( false );
                 _inPressed = false;
                 if ( _inButtonPressed.getBounds().contains( event.getPoint() ) ) {
+                    // Set the wait cursor
+                    Cursor saveCursor = getComponent().getCursor();
+                    getComponent().setCursor( WAIT_CURSOR );
+                    // Handle the event
                     int zoomType;
                     if ( _orientation == HORIZONTAL ) {
                         fireZoomEvent( ZoomEvent.HORIZONTAL_ZOOM_IN );
@@ -185,18 +193,26 @@ public class ZoomControl extends GraphicLayerSet {
                     else {
                         fireZoomEvent( ZoomEvent.VERTICAL_ZOOM_IN );
                     }
+                    // Restore the cursor
+                    getComponent().setCursor( saveCursor );
                 }
             }
             else if ( _outPressed ) {
                 _outButtonPressed.setVisible( false );
                 _outPressed = false;
                 if ( _outButtonPressed.getBounds().contains( event.getPoint() ) ) {
+                    // Set the wait cursor
+                    Cursor saveCursor = getComponent().getCursor();
+                    getComponent().setCursor( WAIT_CURSOR );
+                    // Handle the event
                     if ( _orientation == HORIZONTAL ) {
                         fireZoomEvent( ZoomEvent.HORIZONTAL_ZOOM_OUT );
                     }
                     else {
                         fireZoomEvent( ZoomEvent.VERTICAL_ZOOM_OUT );
                     }
+                    // Restore the cursor
+                    getComponent().setCursor( saveCursor );
                 }    
             }
         }

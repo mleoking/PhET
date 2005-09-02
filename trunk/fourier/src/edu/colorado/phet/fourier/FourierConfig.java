@@ -11,6 +11,8 @@
 
 package edu.colorado.phet.fourier;
 
+import java.awt.Cursor;
+
 
 /**
  * FourierConfig contains global configuration values.
@@ -77,5 +79,11 @@ public class FourierConfig {
     //----------------------------------------------------------------------------
     
     public static final double AUTOSCALE_PERCENTAGE = 1.05;
+    
+    //----------------------------------------------------------------------------
+    // Cursors
+    //----------------------------------------------------------------------------
+    
+    public static final Cursor WAIT_CURSOR = Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR );
 
 }

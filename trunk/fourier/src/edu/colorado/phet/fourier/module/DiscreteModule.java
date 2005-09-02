@@ -212,7 +212,9 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
                 public void mouseReleased( MouseEvent event ) {
                     _harmonicsGraph.setVisible( true );
                     _harmonicsGraphClosed.setVisible( false );
+                    setWaitCursorEnabled( true );
                     resizeGraphs();
+                    setWaitCursorEnabled( false );
                 }
              } );
             
@@ -230,7 +232,9 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
                 public void mouseReleased( MouseEvent event ) {
                     _sumGraph.setVisible( true );
                     _sumGraphClosed.setVisible( false );
+                    setWaitCursorEnabled( true );
                     resizeGraphs();
+                    setWaitCursorEnabled( false );
                 }
              } );
         }
