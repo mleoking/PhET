@@ -30,6 +30,7 @@ import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.view.AtomGraphic;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -90,54 +91,62 @@ public class SingleAtomModule extends DischargeLampModule {
         getCurrentSlider().setMaximum( maxCurrent );
         getCurrentSlider().setValue( maxCurrent / 2 );
 
-        // Add a button for firing a single electron. This also tells the energy level panel that if an
-        // electron has been produced
-        final JButton singleShotBtn = new JButton( "Fire electron" );
-        singleShotBtn.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                Electron electron = getDischargeLampModel().getLeftHandPlate().produceElectron();
-                if( electron != null ) {
-                    elmp.addElectron( electron );
-                }
-            }
-        } );
-        JRadioButton continuousRB = new JRadioButton( new AbstractAction( "Continuous" ) {
-            public void actionPerformed( ActionEvent e ) {
-                setContinuousElectronProduction( currentSlider, singleShotBtn );
-            }
-        } );
-        JRadioButton singleShotRB = new JRadioButton( new AbstractAction( "Single" ) {
-            public void actionPerformed( ActionEvent e ) {
-                setSingleShotElectronProduction( currentSlider, singleShotBtn );
-            }
-        } );
-        ButtonGroup electronProductionBtnGrp = new ButtonGroup();
-        electronProductionBtnGrp.add( continuousRB );
-        electronProductionBtnGrp.add( singleShotRB );
-        singleShotRB.setSelected( true );
-        setSingleShotElectronProduction( currentSlider, singleShotBtn );
-
         {
-            JPanel electronProductionControlPanel = new JPanel( new GridBagLayout() );
-            GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
-                                                             GridBagConstraints.CENTER,
-                                                             GridBagConstraints.NONE,
-                                                             new Insets( 0, 0, 0, 0 ), 0, 0 );
-            JPanel rbPanel = new JPanel();
-            rbPanel.add( singleShotRB );
-            rbPanel.add( continuousRB );
-            electronProductionControlPanel.add( rbPanel, gbc );
-            gbc.anchor = GridBagConstraints.CENTER;
-            gbc.gridy = 1;
-            gbc.gridx = 0;
-            electronProductionControlPanel.add( singleShotBtn, gbc );
-            electronProductionControlPanel.add( currentSlider, gbc );
-
+//            JPanel electronProductionPanel = new JPanel( new GridBagLayout() );
+//            GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+//                                                             GridBagConstraints.CENTER,
+//                                                             GridBagConstraints.NONE,
+//                                                             new Insets( 0, 0, 0, 0 ), 0, 0 );
+            // Add a button for firing a single electron. This also tells the energy level panel that if an
+            // electron has been produced
+            final JButton singleShotBtn = new JButton( "Fire electron" );
+            singleShotBtn.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    Electron electron = getDischargeLampModel().getLeftHandPlate().produceElectron();
+                    if( electron != null ) {
+                        elmp.addElectron( electron );
+                    }
+                }
+            } );
+            JRadioButton continuousRB = new JRadioButton( new AbstractAction( "Continuous" ) {
+                public void actionPerformed( ActionEvent e ) {
+                    setContinuousElectronProduction( currentSlider, singleShotBtn );
+                }
+            } );
+            JRadioButton singleShotRB = new JRadioButton( new AbstractAction( "Single" ) {
+                public void actionPerformed( ActionEvent e ) {
+                    setSingleShotElectronProduction( currentSlider, singleShotBtn );
+                }
+            } );
+            ButtonGroup electronProductionBtnGrp = new ButtonGroup();
+            electronProductionBtnGrp.add( continuousRB );
+            electronProductionBtnGrp.add( singleShotRB );
             singleShotRB.setSelected( true );
-            currentSlider.setVisible( false );
-            getControlPanel().add( electronProductionControlPanel );
+            setSingleShotElectronProduction( currentSlider, singleShotBtn );
 
-            getControlPanel().add( elmp );
+            {
+                JPanel electronProductionControlPanel = new JPanel( new GridBagLayout() );
+                electronProductionControlPanel.setBorder( new TitledBorder( "Electron Production" ) );
+                GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
+                                                                 GridBagConstraints.CENTER,
+                                                                 GridBagConstraints.NONE,
+                                                                 new Insets( 0, 0, 0, 0 ), 0, 0 );
+                JPanel rbPanel = new JPanel();
+                rbPanel.add( singleShotRB );
+                rbPanel.add( continuousRB );
+                electronProductionControlPanel.add( rbPanel, gbc );
+                gbc.anchor = GridBagConstraints.CENTER;
+                gbc.gridy = 1;
+                gbc.gridx = 0;
+                electronProductionControlPanel.add( singleShotBtn, gbc );
+                electronProductionControlPanel.add( currentSlider, gbc );
+
+                singleShotRB.setSelected( true );
+                currentSlider.setVisible( false );
+                getControlPanel().add( electronProductionControlPanel );
+
+                getControlPanel().add( elmp );
+            }
         }
 
         // Slow motion check box
