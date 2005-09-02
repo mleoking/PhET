@@ -81,7 +81,6 @@ public class DischargeLampModule extends BaseLaserModule {
     private double maxCurrent = 0.3;
     private HeatingElementGraphic[] heatingElementGraphics = new HeatingElementGraphic[2];
 
-
     //----------------------------------------------------------------
     // Constructors and initialization
     //----------------------------------------------------------------
@@ -192,9 +191,6 @@ public class DischargeLampModule extends BaseLaserModule {
     private void addCircuitGraphic( ApparatusPanel apparatusPanel ) {
         CircuitGraphic circuitGraphic = new CircuitGraphic( apparatusPanel, getExternalGraphicScaleOp() );
         model.addChangeListener( circuitGraphic );
-//        PhetImageGraphic circuitGraphic = new PhetImageGraphic( getApparatusPanel(),
-//                                                                DischargeLampsConfig.POSITIVE_CIRCUIT_IMAGE_FILE_NAME );
-//        scaleImageGraphic( circuitGraphic );
         circuitGraphic.setRegistrationPoint( (int)( 124 * externalGraphicsScale ), (int)( 340 * externalGraphicsScale ) );
         circuitGraphic.setLocation( DischargeLampsConfig.CATHODE_LOCATION );
         apparatusPanel.addGraphic( circuitGraphic, DischargeLampsConfig.CIRCUIT_LAYER );
