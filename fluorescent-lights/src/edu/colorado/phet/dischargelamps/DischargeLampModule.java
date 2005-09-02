@@ -265,11 +265,12 @@ public class DischargeLampModule extends BaseLaserModule {
         getControlPanel().add( atomTypeComboBox );
 
         // A slider for the battery voltage
+        double defaultVoltage = 5;
         final ModelSlider batterySlider = new ModelSlider( "Battery Voltage",
                                                            "V",
                                                            -DischargeLampModel.MAX_VOLTAGE,
                                                            DischargeLampModel.MAX_VOLTAGE,
-                                                           DischargeLampModel.MAX_VOLTAGE * 0.66 );
+                                                           defaultVoltage );
         batterySlider.setPreferredSize( new Dimension( 250, 100 ) );
         batterySlider.setMajorTickSpacing( DischargeLampModel.MAX_VOLTAGE / 2 );
         ControlPanel controlPanel = (ControlPanel)getControlPanel();
@@ -295,8 +296,7 @@ public class DischargeLampModule extends BaseLaserModule {
             }
         } );
 
-        // Add an energy level monitor panel. Note that the panel has a null layout, so we have to put it in a
-        // panel that does have one, so it gets laid out properly
+        // Add an energy level monitor panel.
         energyLevelsMonitorPanel = new DischargeLampEnergyMonitorPanel2( model, getClock(),
                                                                          model.getAtomicStates(),
                                                                          150,

@@ -35,7 +35,6 @@ public class MonitorPanel extends ApparatusPanel {
     protected int numMiddleLevel;
     protected int numHighLevel;
     private String yAxisLabel = SimStrings.get( "MonitorPanel.YAxislabel" );
-    private EnergyLevelGraphic elg;
 
 
     protected MonitorPanel(AbstractClock clock ) {

@@ -47,7 +47,6 @@ public class SingleAtomModule extends DischargeLampModule {
     private DischargeLampAtom atom;
     private double maxCurrent = 0.01;
     private CollisionEnergyIndicator collisionEnergyIndicatorGraphic;
-    private JPanel collisionIndicatorLegendPanel;
 
     //----------------------------------------------------------------
     // Constructors and initialization
@@ -83,22 +82,7 @@ public class SingleAtomModule extends DischargeLampModule {
 
         // Add the indicator for what energy an electron will have when it hits the atom
         collisionEnergyIndicatorGraphic = new CollisionEnergyIndicator( elmp.getElmp(), this );
-        elmp.getElmp().addGraphic( collisionEnergyIndicatorGraphic );
-        collisionEnergyIndicatorGraphic.update();
-
-        // A legend for the collision energy indicator
-        {
-            collisionIndicatorLegendPanel = new JPanel( new GridBagLayout() );
-            GridBagConstraints gbc = new GridBagConstraints( GridBagConstraints.RELATIVE, 0,
-                                                             1, 1, 1, 1, GridBagConstraints.EAST, GridBagConstraints.NONE,
-                                                             new Insets( 5, 5, 5, 5 ), 0, 0 );
-            JLabel label = new JLabel( "- - -" );
-            label.setForeground( Color.red );
-            JLabel label2 = new JLabel( "<html>Energy electron will have<br>when it hits atom" );
-            collisionIndicatorLegendPanel.add( label, gbc );
-            gbc.anchor = GridBagConstraints.WEST;
-            collisionIndicatorLegendPanel.add( label2, gbc );
-        }
+        elmp.getElmp().addGraphic( collisionEnergyIndicatorGraphic, -1 );
 
         // Put the current slider in a set of controls with the Fire button
         final ModelSlider currentSlider = getCurrentSlider();
@@ -156,9 +140,6 @@ public class SingleAtomModule extends DischargeLampModule {
             getControlPanel().add( elmp );
         }
 
-        // Add the panel with the legend for the collision indicator
-        getControlPanel().add( collisionIndicatorLegendPanel );
-
         // Slow motion check box
         JCheckBox slowMotionCB = new JCheckBox( new AbstractAction( "Run in slow motion" ) {
             public void actionPerformed( ActionEvent e ) {
@@ -172,6 +153,8 @@ public class SingleAtomModule extends DischargeLampModule {
             }
         } );
         getControlPanel().add( slowMotionCB );
+
+        elmp.getElmp().setPreferredSize( new Dimension( 200, 300 ) );
     }
 
     /**
@@ -185,7 +168,6 @@ public class SingleAtomModule extends DischargeLampModule {
         getDischargeLampModel().getLeftHandPlate().setCurrent( 0 );
         singleShotBtn.setVisible( true );
         collisionEnergyIndicatorGraphic.setVisible( true );
-        collisionIndicatorLegendPanel.setVisible( true );
         getDischargeLampModel().setElectronProductionMode( ElectronSource.SINGLE_SHOT_MODE );
         super.setHeatingElementsVisible( false );
     }
@@ -202,7 +184,6 @@ public class SingleAtomModule extends DischargeLampModule {
         getDischargeLampModel().getLeftHandPlate().setCurrent( currentSlider.getValue() );
         singleShotBtn.setVisible( false );
         collisionEnergyIndicatorGraphic.setVisible( false );
-        collisionIndicatorLegendPanel.setVisible( false );
         getDischargeLampModel().setElectronProductionMode( ElectronSource.CONTINUOUS_MODE );
         super.setHeatingElementsVisible( true );
     }

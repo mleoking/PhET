@@ -84,7 +84,7 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
     private void addButtons( Component component, final Spectrometer spectrometer ) {
         // Add start/stop button
         final PhetButton startStopBtn = new PhetButton( component, "Start" );
-        startStopBtn.setFont( DischargeLampsConfig.defaultControlFont );
+        startStopBtn.setFont( DischargeLampsConfig.DEFAULT_CONTROL_FONT );
         startStopBtn.addActionListener( new ActionListener() {
             private boolean start = true;
 
@@ -107,7 +107,7 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
 
         // Add reset button
         PhetButton resetBtn = new PhetButton( component, "Reset" );
-        resetBtn.setFont( DischargeLampsConfig.defaultControlFont );
+        resetBtn.setFont( DischargeLampsConfig.DEFAULT_CONTROL_FONT );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 spectrometer.reset();

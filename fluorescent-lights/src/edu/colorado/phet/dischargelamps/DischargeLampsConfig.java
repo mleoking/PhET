@@ -68,5 +68,5 @@ public class DischargeLampsConfig {
     // Scale factors
     public static final double MODEL_TO_VIEW_DIST_FACTOR = 1E12;
     // Fonts
-    public static final Font defaultControlFont = new Font( "Lucida sans", Font.BOLD, 10 );
+    public static final Font DEFAULT_CONTROL_FONT = new Font( "Lucida sans", Font.BOLD, 10 );
 }
