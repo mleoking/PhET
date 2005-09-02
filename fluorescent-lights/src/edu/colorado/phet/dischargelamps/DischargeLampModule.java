@@ -223,6 +223,7 @@ public class DischargeLampModule extends BaseLaserModule {
     /**
      * Returns an AffineTransformOp that will scale BufferedImages to the dimensions of the
      * apparatus panel
+     *
      * @return
      */
     private AffineTransformOp getExternalGraphicScaleOp() {
@@ -299,23 +300,28 @@ public class DischargeLampModule extends BaseLaserModule {
                                                                          300 );
         getControlPanel().add( energyLevelsMonitorPanel );
 
-        // Add a button to show/hide the spectrometer
-        final JCheckBox spectrometerCB = new JCheckBox( SimStrings.get( "ControlPanel.SpectrometerButtonLabel" ) );
-        spectrometerCB.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                spectrometerGraphic.setVisible( spectrometerCB.isSelected() );
-            }
-        } );
-        getControlPanel().add( spectrometerCB );
-        spectrometerGraphic.setVisible( spectrometerCB.isSelected() );
+        // Panel with check boxes
+        {
+            JPanel checkBoxPanel = new JPanel( new GridLayout( 1, 2 ) );
+            // Add a button to show/hide the spectrometer
+            final JCheckBox spectrometerCB = new JCheckBox( SimStrings.get( "ControlPanel.SpectrometerButtonLabel" ) );
+            spectrometerCB.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    spectrometerGraphic.setVisible( spectrometerCB.isSelected() );
+                }
+            } );
+            checkBoxPanel.add( spectrometerCB );
+            spectrometerGraphic.setVisible( spectrometerCB.isSelected() );
 
-        final JCheckBox squiggleCB = new JCheckBox( "Show squiggles" );
-        squiggleCB.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                energyLevelsMonitorPanel.setSquigglesEnabled( squiggleCB.isSelected() );
-            }
-        } );
-        getControlPanel().add( squiggleCB );
+            final JCheckBox squiggleCB = new JCheckBox( "Squiggles" );
+            squiggleCB.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    energyLevelsMonitorPanel.setSquigglesEnabled( squiggleCB.isSelected() );
+                }
+            } );
+            checkBoxPanel.add( squiggleCB );
+            getControlPanel().add( checkBoxPanel );
+        }
     }
 
     /**
@@ -369,7 +375,6 @@ public class DischargeLampModule extends BaseLaserModule {
     //----------------------------------------------------------------
 
     /**
-     *
      * @param isVisible
      */
     protected void setHeatingElementsVisible( boolean isVisible ) {
@@ -382,7 +387,7 @@ public class DischargeLampModule extends BaseLaserModule {
     /**
      * Returns a typed reference to the model
      */
-    protected DischargeLampModel getDischargeLampModel () {
+    protected DischargeLampModel getDischargeLampModel() {
         return (DischargeLampModel)getModel();
     }
 
