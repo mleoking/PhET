@@ -66,6 +66,7 @@ PHETCOMMON:
 - bug: PhetJComponent tab traversal doesn't work if component is invisible or has been removed
 - all of the text graphics classes should be combined into PhetTextGraphic
 - add the ability to attach help items to phetgraphics
+- feature: make "has clock control" a per-Module property
 
 DONE:
 (9/2) - move definition of wait cursor to FourierConfig
