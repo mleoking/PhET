@@ -8,6 +8,7 @@ HIGH PRIORITY:
 - remove the clock controls for the D2C module
 - sometimes starts up with nothing but a small black rectangle in upper left corner of play area
 - when 2dx gets to be just a few pixels, peaks of the waveform in Sum graph are chopped off
+- add sound to Discrete module
 
 MEDIUM PRIORITY:
 - add support for persistence
