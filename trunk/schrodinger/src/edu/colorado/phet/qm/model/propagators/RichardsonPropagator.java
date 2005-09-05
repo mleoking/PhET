@@ -12,14 +12,13 @@ import edu.colorado.phet.qm.model.*;
  * *****************************************************
  */
 
-public class RichardsonPropagator implements Propagator {
+public class RichardsonPropagator extends Propagator {
     private double simulationTime;
 
     private double deltaTime;
     private int timeStep;
 
     private Wave wave;
-    private Potential potential;
 
     private double hbar, mass, epsilon;
     private Complex alpha;
@@ -29,10 +28,11 @@ public class RichardsonPropagator implements Propagator {
 
     protected Wavefunction copy;
 
-    public RichardsonPropagator( double TAU, Wave wave, Potential potential ) {
+    public RichardsonPropagator( DiscreteModel discreteModel, double TAU, Wave wave, Potential potential ) {
+        super( discreteModel, potential );
         this.deltaTime = TAU;
         this.wave = wave;
-        this.potential = potential;
+        setPotential( potential );
         simulationTime = 0.0;
         timeStep = 0;
         hbar = 1;
@@ -160,7 +160,7 @@ public class RichardsonPropagator implements Propagator {
     protected void applyPotential( Wavefunction w ) {//todo ignore damping region
         for( int i = 1; i < w.getWidth() - 1; i++ ) {
             for( int j = 1; j < w.getHeight() - 1; j++ ) {
-                double pot = potential.getPotential( i, j, timeStep );
+                double pot = getPotential().getPotential( i, j, timeStep );
                 potTemp.setValue( Math.cos( pot * deltaTime / hbar ), -Math.sin( pot * deltaTime / hbar ) );
                 waveTemp.setValue( w.valueAt( i, j ) );
                 w.valueAt( i, j ).setToProduct( waveTemp, potTemp );
@@ -184,7 +184,7 @@ public class RichardsonPropagator implements Propagator {
     }
 
     public Propagator copy() {
-        return new RichardsonPropagator( deltaTime, wave, potential );
+        return new RichardsonPropagator( getDiscreteModel(), deltaTime, wave, getPotential() );
     }
 
     public void normalize() {
@@ -201,7 +201,4 @@ public class RichardsonPropagator implements Propagator {
         return wave;
     }
 
-    public Potential getPotential() {
-        return potential;
-    }
 }

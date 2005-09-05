@@ -7,7 +7,7 @@ import edu.colorado.phet.qm.model.*;
 /* Use Crank-Nicholson/Cayley algorithm...               */
 /* Stable, Norm Conserving.     Li Ju. May.3,1995        */
 
-public class CrankNicholsonPropagator implements Propagator {
+public class CrankNicholsonPropagator extends Propagator {
     private double simulationTime;
 
     private double deltaTime;
@@ -16,18 +16,19 @@ public class CrankNicholsonPropagator implements Propagator {
     private static final Complex TWO = new Complex( 2, 0 );
     private static final Complex MINUS_ONE = new Complex( -1, 0 );
     private Wave wave;
-    private Potential potential;
+//    private Potential potential;
 
-    public CrankNicholsonPropagator( double TAU, Wave wave, Potential potential ) {
+    public CrankNicholsonPropagator( DiscreteModel discreteModel, double TAU, Wave wave, Potential potential ) {
+        super( discreteModel, potential );
         this.deltaTime = TAU;
         this.wave = wave;
-        this.potential = potential;
+//        setPotential( potential );
         simulationTime = 0.0;
         timeStep = 0;
     }
 
     private double getPotential( int i, int j ) {
-        return potential.getPotential( i, j, timeStep );
+        return getPotential().getPotential( i, j, timeStep );
     }
 
     public void propagate( Wavefunction w ) {
@@ -139,9 +140,9 @@ public class CrankNicholsonPropagator implements Propagator {
         this.deltaTime = deltaTime;
     }
 
-    public void setPotential( Potential potential ) {
-        this.potential = potential;
-    }
+//    public void setPotential( Potential potential ) {
+//        this.potential = potential;
+//    }
 
     public double getSimulationTime() {
         return simulationTime;
@@ -154,7 +155,7 @@ public class CrankNicholsonPropagator implements Propagator {
     }
 
     public Propagator copy() {
-        return new CrankNicholsonPropagator( deltaTime, wave, potential );
+        return new CrankNicholsonPropagator( getDiscreteModel(), deltaTime, wave, getPotential() );
     }
 
     public void normalize() {

@@ -164,19 +164,19 @@ public class SchrodingerControlPanel extends ControlPanel {
         layoutPanel.setBorder( BorderFactory.createTitledBorder( "Propagator" ) );
         ButtonGroup buttonGroup = new ButtonGroup();
 
-        JRadioButton richardson = createPropagatorButton( buttonGroup, "Richardson", new RichardsonPropagator( getDiscreteModel().getDeltaTime(), getDiscreteModel().getBoundaryCondition(), getDiscreteModel().getPotential() ) );
+        JRadioButton richardson = createPropagatorButton( buttonGroup, "Richardson", new RichardsonPropagator( getDiscreteModel(), getDiscreteModel().getDeltaTime(), getDiscreteModel().getBoundaryCondition(), getDiscreteModel().getPotential() ) );
         layoutPanel.add( richardson );
 
-        JRadioButton modified = createPropagatorButton( buttonGroup, "Modified Richardson", new ModifiedRichardsonPropagator( getDiscreteModel().getDeltaTime(), getDiscreteModel().getBoundaryCondition(), getDiscreteModel().getPotential() ) );
+        JRadioButton modified = createPropagatorButton( buttonGroup, "Modified Richardson", new ModifiedRichardsonPropagator( getDiscreteModel(), getDiscreteModel().getDeltaTime(), getDiscreteModel().getBoundaryCondition(), getDiscreteModel().getPotential() ) );
         layoutPanel.add( modified );
 
-        JRadioButton crank = createPropagatorButton( buttonGroup, "Crank-Nicholson?", new CrankNicholsonPropagator( getDiscreteModel().getDeltaTime(), getDiscreteModel().getBoundaryCondition(), getDiscreteModel().getPotential() ) );
+        JRadioButton crank = createPropagatorButton( buttonGroup, "Crank-Nicholson?", new CrankNicholsonPropagator( getDiscreteModel(), getDiscreteModel().getDeltaTime(), getDiscreteModel().getBoundaryCondition(), getDiscreteModel().getPotential() ) );
         layoutPanel.add( crank );
 
-        JRadioButton light = createPropagatorButton( buttonGroup, "Avg", new AveragePropagator() );
+        JRadioButton light = createPropagatorButton( buttonGroup, "Avg", new AveragePropagator( getDiscreteModel(), getDiscreteModel().getPotential() ) );
         layoutPanel.add( light );
 
-        classicalPropagator2ndOrder = new ClassicalWavePropagator( getDiscreteModel(),getDiscreteModel().getPotential() );
+        classicalPropagator2ndOrder = new ClassicalWavePropagator( getDiscreteModel(), getDiscreteModel().getPotential() );
         JRadioButton lap = createPropagatorButton( buttonGroup, "finite difference", classicalPropagator2ndOrder );
         layoutPanel.add( lap );
         lap.addActionListener( new ActionListener() {

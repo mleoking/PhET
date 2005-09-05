@@ -6,20 +6,51 @@ package edu.colorado.phet.qm.model;
  * Time: 10:34:28 PM
  * Copyright (c) Jun 15, 2005 by Sam Reid
  */
-public interface Propagator {
-    public void propagate( Wavefunction w );
+public abstract class Propagator {
+    private double simulationTime;
+    private double deltaTime;
+    private Potential potential;
+    private DiscreteModel discreteModel;
 
-    void setDeltaTime( double deltaTime );
+    protected Propagator( DiscreteModel discreteModel, Potential potential ) {
+        this.discreteModel = discreteModel;
+        this.potential = potential;
+    }
 
-    double getSimulationTime();
+    public abstract void propagate( Wavefunction w );
 
-    void reset();
+    public void setDeltaTime( double deltaTime ) {
+        this.deltaTime = deltaTime;
+    }
 
-    void setBoundaryCondition( int i, int k, Complex value );
+    public double getSimulationTime() {
+        return simulationTime;
+    }
 
-    Propagator copy();
+    public abstract void reset();
 
-    void normalize();
+    public abstract void setBoundaryCondition( int i, int k, Complex value );
 
-    void setWavefunctionNorm( double norm );
+    public abstract Propagator copy();
+
+    public abstract void normalize();
+
+    public abstract void setWavefunctionNorm( double norm );
+
+    public void setPotential( Potential potential ) {
+        this.potential = potential;
+    }
+
+    public double getDeltaTime() {
+        return deltaTime;
+    }
+
+    public Potential getPotential() {
+        return potential;
+    }
+
+    public DiscreteModel getDiscreteModel() {
+        return discreteModel;
+    }
+
 }
