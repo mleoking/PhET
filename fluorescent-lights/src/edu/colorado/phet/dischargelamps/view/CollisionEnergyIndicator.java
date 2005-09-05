@@ -89,6 +89,8 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
                 update();
             }
         } );
+
+        update();
     }
 
     private void update() {

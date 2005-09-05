@@ -158,21 +158,27 @@ public class Atom extends SolidSphere {
 
     /**
      * Extend parent class behavior to add notification of listeners
+     *
      * @param x
      * @param y
      */
     public void setPosition( double x, double y ) {
         super.setPosition( x, y );
-        changeListenerProxy.positionChanged( new ChangeEvent( this, null, null ) );
+        if( getPosition().getX() != getPositionPrev().getX() || getPosition().getY() != getPositionPrev().getY() ) {
+            changeListenerProxy.positionChanged( new ChangeEvent( this, null, null ) );
+        }
     }
 
     /**
      * Extend parent class behavior to add notification of listeners
+     *
      * @param position
      */
     public void setPosition( Point2D position ) {
         super.setPosition( position );
-        changeListenerProxy.positionChanged( new ChangeEvent( this, null, null ) );
+        if( getPosition().getX() != getPositionPrev().getX() || getPosition().getY() != getPositionPrev().getY() ) {
+            changeListenerProxy.positionChanged( new ChangeEvent( this, null, null ) );
+        }
     }
 
     /**
@@ -283,6 +289,7 @@ public class Atom extends SolidSphere {
 
     public interface ChangeListener extends EventListener {
         void stateChanged( ChangeEvent event );
+
         void positionChanged( ChangeEvent event );
     }
 

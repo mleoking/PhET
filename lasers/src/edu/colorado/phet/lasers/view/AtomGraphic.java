@@ -63,7 +63,7 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
         super( component );
         this.atom = atom;
         this.setIgnoreMouse( true );
-        atom.addObserver( this );
+//        atom.addObserver( this );
         atom.addChangeListener( this );
 
         BufferedImage image = null;
@@ -93,6 +93,8 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
      */
     public void update() {
         determineEnergyRadiusAndColor();
+
+//        System.out.println( "atom.getPosition() = " + atom.getPosition() );
         setLocation( (int)( atom.getPosition().getX() ),
                      (int)( atom.getPosition().getY() ) );
         setBoundsDirty();
@@ -189,6 +191,10 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
                     double xNew = Math.max( Math.min( bounds.getMaxX(), xCurr + dx ), bounds.getMinX() );
                     double yNew = Math.max( Math.min( bounds.getMaxY(), yCurr + dy ), bounds.getMinY() );
 
+                    System.out.println( "dx = " + dx );
+                    System.out.println( "dy = " + dy );
+//                    System.out.println( "xNew = " + xNew );
+//                    System.out.println( "yNew = " + yNew );
                     atom.setPosition( xNew, yNew );
                 }
             } );
@@ -218,7 +224,7 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
     }
 
     public void positionChanged( Atom.ChangeEvent event ) {
-        // noop
+        update();
     }
 }
 

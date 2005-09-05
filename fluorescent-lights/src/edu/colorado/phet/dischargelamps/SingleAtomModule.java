@@ -102,7 +102,13 @@ public class SingleAtomModule extends DischargeLampModule {
             final JButton singleShotBtn = new JButton( "Fire electron" );
             singleShotBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    Electron electron = getDischargeLampModel().getLeftHandPlate().produceElectron();
+                    Electron electron = null;
+                    if( getDischargeLampModel().getVoltage() > 0 ) {
+                        electron = getDischargeLampModel().getLeftHandPlate().produceElectron();
+                    }
+                    else if( getDischargeLampModel().getVoltage() < 0 ) {
+                        electron = getDischargeLampModel().getRightHandPlate().produceElectron();
+                    }
                     if( electron != null ) {
                         elmp.addElectron( electron );
                     }
@@ -126,7 +132,7 @@ public class SingleAtomModule extends DischargeLampModule {
 
             {
                 JPanel electronProductionControlPanel = new JPanel( new GridBagLayout() );
-                electronProductionControlPanel.setBorder( new TitledBorder( "Electron Production" ) );
+//                electronProductionControlPanel.setBorder( new TitledBorder( "Electron Production" ) );
                 GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
                                                                  GridBagConstraints.CENTER,
                                                                  GridBagConstraints.NONE,
@@ -224,7 +230,6 @@ public class SingleAtomModule extends DischargeLampModule {
         atomGraphic.setIsMouseable( true, atomBounds );
         atomGraphic.setCursorHand();
 
-        atom.addPhotonEmittedListener( getSpectrometer() );
         getEneregyLevelsMonitorPanel().reset();
     }
 
