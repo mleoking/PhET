@@ -115,7 +115,7 @@ public class SingleParticleGun extends AbstractGun {
         getSchrodingerModule().getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 double magnitude = getSchrodingerModule().getDiscreteModel().getWavefunction().getMagnitude();
-                if( magnitude == 0 ) {
+                if( magnitude <= AutoFire.THRESHOLD ) {
                     if( !fireButtonEnabled() ) {
                         fireOne.setEnabled( true );
                         fireJC.setCursorHand();

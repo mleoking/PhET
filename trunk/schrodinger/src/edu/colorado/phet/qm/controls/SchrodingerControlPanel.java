@@ -369,4 +369,14 @@ public class SchrodingerControlPanel extends ControlPanel {
         } );
         addControl( reset );
     }
+
+    public void addSlitCheckbox() {
+        final JCheckBox absorbtiveSlit = new JCheckBox( "Slit Absorption", getDiscreteModel().isSlitAbsorptive() );
+        absorbtiveSlit.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                getDiscreteModel().setSlitAbsorptive( absorbtiveSlit.isSelected() );
+            }
+        } );
+        addControl( absorbtiveSlit );
+    }
 }
