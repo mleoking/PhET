@@ -18,6 +18,7 @@ import java.util.ArrayList;
  */
 
 public class DiscreteModel implements ModelElement {
+    private Wavefunction sourceWave;
     private Wavefunction wavefunction;
     private CompositePotential compositePotential;
 
@@ -52,6 +53,7 @@ public class DiscreteModel implements ModelElement {
         this.deltaTime = deltaTime;
         this.wave = wave;
         wavefunction = new Wavefunction( width, height );
+        sourceWave = new Wavefunction( width, height );
         detectorSet = new DetectorSet( wavefunction );
         initter = new WaveSetup( wave );
         initter.initialize( wavefunction );
@@ -88,6 +90,8 @@ public class DiscreteModel implements ModelElement {
     protected void step() {
         beforeTimeStep();
         if( getWavefunction().getMagnitude() > 0 ) {
+            getPropagator().set
+            getPropagator().propagate( sourceWave );
             getPropagator().propagate( getWavefunction() );
             getWavefunction().setMagnitudeDirty();
         }
@@ -100,9 +104,6 @@ public class DiscreteModel implements ModelElement {
 
     private HorizontalDoubleSlit createDoubleSlit() {
         double potentialValue = Double.MAX_VALUE / 1000;
-//        HorizontalDoubleSlit doubleSlit = new HorizontalDoubleSlit( getGridWidth(),
-//                                                                    getGridHeight(),
-//                                                                    (int)( getGridWidth() * 0.4 ), 10, 5, 10, potentialValue );
         double width = getGridWidth();
         HorizontalDoubleSlit doubleSlit = new HorizontalDoubleSlit( getGridWidth(),
                                                                     getGridHeight(),
@@ -134,6 +135,7 @@ public class DiscreteModel implements ModelElement {
     }
 
     public void reset() {
+        sourceWave.clear();
         wavefunction.clear();
         detectorSet.reset();
         propagator.reset();
@@ -169,6 +171,7 @@ public class DiscreteModel implements ModelElement {
         Wavefunction particle = new Wavefunction( getGridWidth(), getGridHeight() );
         waveSetup.initialize( particle );
         wavefunction.add( particle );
+        sourceWave.add( particle );
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
             listener.particleFired( this );
@@ -178,6 +181,7 @@ public class DiscreteModel implements ModelElement {
     public void setGridSpacing( int nx, int ny ) {
         if( nx != getGridWidth() || ny != getGridHeight() ) {
             wavefunction.setSize( nx, ny );
+            sourceWave.setSize( nx, ny );
             initter.initialize( wavefunction );
             notifySizeChanged();
         }
@@ -279,6 +283,7 @@ public class DiscreteModel implements ModelElement {
 
     public void clearWavefunction() {
         wavefunction.clear();
+        sourceWave.clear();
         propagator.reset();
     }
 
@@ -289,6 +294,7 @@ public class DiscreteModel implements ModelElement {
             double newMagnitude = magnitude - normDecrement;
             double scale = newMagnitude <= 0.0 ? 0.0 : newMagnitude / magnitude;
             wavefunction.scale( scale );
+            sourceWave.scale( scale );
             if( propagator instanceof ClassicalWavePropagator ) {
                 ClassicalWavePropagator classicalWavePropagator = (ClassicalWavePropagator)propagator;
                 classicalWavePropagator.scale( scale );
@@ -338,11 +344,13 @@ public class DiscreteModel implements ModelElement {
 
     public void normalizeWavefunction() {
         wavefunction.normalize();
+        sourceWave.normalize();
         getPropagator().normalize();
     }
 
     public void setWavefunctionNorm( double norm ) {
         wavefunction.setMagnitude( norm );
+        sourceWave.setMagnitude( norm );
         getPropagator().setWavefunctionNorm( norm );
     }
 
