@@ -70,7 +70,6 @@ public class DischargeLampModule extends BaseLaserModule {
     private AffineTransformOp externalGraphicScaleOp;
     private ResonatingCavity tube;
     private ModelSlider currentSlider;
-    private Spectrometer spectrometer;
     // The states in which the atoms can be
     private DischargeLampEnergyMonitorPanel2 energyLevelsMonitorPanel;
     private Random random = new Random();
@@ -108,7 +107,6 @@ public class DischargeLampModule extends BaseLaserModule {
         setModel( model );
         setControlPanel( new ControlPanel( this ) );
         model.setNumAtomicEnergyLevels( 2 );
-        spectrometer = model.getSpectrometer();
 
         // Add graphics
         addCircuitGraphic( apparatusPanel );
@@ -200,7 +198,7 @@ public class DischargeLampModule extends BaseLaserModule {
      * Adds the spectrometer graphic
      */
     private void addSpectrometerGraphic() {
-        spectrometerGraphic = new SpectrometerGraphic( getApparatusPanel(), spectrometer );
+        spectrometerGraphic = new SpectrometerGraphic( getApparatusPanel(), model.getSpectrometer() );
         addGraphic( spectrometerGraphic, SPECTROMETER_LAYER );
         int centerX = ( DischargeLampsConfig.ANODE_LOCATION.x + DischargeLampsConfig.CATHODE_LOCATION.x ) / 2;
         spectrometerGraphic.setLocation( centerX, 450 );
@@ -261,6 +259,30 @@ public class DischargeLampModule extends BaseLaserModule {
         JComponent atomTypeComboBox = new AtomTypeChooser( model );
         getControlPanel().add( atomTypeComboBox );
 
+        // Panel with check boxes
+        {
+            JPanel checkBoxPanel = new JPanel( new GridLayout( 1, 2 ) );
+            // Add a button to show/hide the spectrometer
+            final JCheckBox spectrometerCB = new JCheckBox( SimStrings.get( "ControlPanel.SpectrometerButtonLabel" ) );
+            spectrometerCB.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    spectrometerGraphic.setVisible( spectrometerCB.isSelected() );
+                    model.getSpectrometer().start();
+                }
+            } );
+            checkBoxPanel.add( spectrometerCB );
+            spectrometerGraphic.setVisible( spectrometerCB.isSelected() );
+
+            final JCheckBox squiggleCB = new JCheckBox( "Squiggles" );
+            squiggleCB.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    energyLevelsMonitorPanel.setSquigglesEnabled( squiggleCB.isSelected() );
+                }
+            } );
+            checkBoxPanel.add( squiggleCB );
+            getControlPanel().add( checkBoxPanel );
+        }
+
         // A slider for the battery voltage
         double defaultVoltage = 5;
         final ModelSlider batterySlider = new ModelSlider( "Battery Voltage",
@@ -299,29 +321,6 @@ public class DischargeLampModule extends BaseLaserModule {
                                                                          150,
                                                                          300 );
         getControlPanel().add( energyLevelsMonitorPanel );
-
-        // Panel with check boxes
-        {
-            JPanel checkBoxPanel = new JPanel( new GridLayout( 1, 2 ) );
-            // Add a button to show/hide the spectrometer
-            final JCheckBox spectrometerCB = new JCheckBox( SimStrings.get( "ControlPanel.SpectrometerButtonLabel" ) );
-            spectrometerCB.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    spectrometerGraphic.setVisible( spectrometerCB.isSelected() );
-                }
-            } );
-            checkBoxPanel.add( spectrometerCB );
-            spectrometerGraphic.setVisible( spectrometerCB.isSelected() );
-
-            final JCheckBox squiggleCB = new JCheckBox( "Squiggles" );
-            squiggleCB.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    energyLevelsMonitorPanel.setSquigglesEnabled( squiggleCB.isSelected() );
-                }
-            } );
-            checkBoxPanel.add( squiggleCB );
-            getControlPanel().add( checkBoxPanel );
-        }
     }
 
     /**
@@ -345,7 +344,6 @@ public class DischargeLampModule extends BaseLaserModule {
                               (float)( Math.random() - 0.5 ) * maxSpeed );
             atoms.add( atom );
             addAtom( atom );
-            atom.addPhotonEmittedListener( getSpectrometer() );
         }
         energyLevelsMonitorPanel.reset();
     }
@@ -403,13 +401,6 @@ public class DischargeLampModule extends BaseLaserModule {
      */
     protected ModelSlider getCurrentSlider() {
         return currentSlider;
-    }
-
-    /**
-     * @return
-     */
-    protected Spectrometer getSpectrometer() {
-        return spectrometer;
     }
 
     protected DischargeLampEnergyMonitorPanel2 getEneregyLevelsMonitorPanel() {

@@ -83,7 +83,6 @@ public class DischargeLampModel extends LaserModel {
         rightHandHeatingElement.setPosition( DischargeLampsConfig.ANODE_LOCATION.getX(),
                                             DischargeLampsConfig.ANODE_LOCATION.getY() );
 
-
         // Make the discharge tube
         double x = DischargeLampsConfig.CATHODE_LOCATION.getX() - DischargeLampsConfig.ELECTRODE_INSETS.left;
         double y = DischargeLampsConfig.CATHODE_LOCATION.getY() - DischargeLampsConfig.CATHODE_LENGTH / 2
@@ -96,7 +95,7 @@ public class DischargeLampModel extends LaserModel {
         tube = new ResonatingCavity( tubeLocation, length, height );
         addModelElement( tube );
 
-        // Make the spectrometer
+        // Make the spectrometer.
         spectrometer = new Spectrometer();
     }
 
@@ -130,6 +129,7 @@ public class DischargeLampModel extends LaserModel {
         if( modelElement instanceof Atom ) {
             Atom atom = (Atom)modelElement;
             atoms.add( atom );
+            atom.addPhotonEmittedListener( getSpectrometer() );
         }
         if( modelElement instanceof Electron ) {
             Electron electron = (Electron)modelElement;
@@ -315,10 +315,6 @@ public class DischargeLampModel extends LaserModel {
 
             // Calling setCurrent() ensures that the current flows in the correct direction
             setCurrent( current );
-        }
-
-        public AtomicState[] getAtomicStates() {
-            return atomicStates;
         }
     }
 

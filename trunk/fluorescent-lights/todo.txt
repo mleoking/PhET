@@ -1,20 +1,23 @@
-Important changes after Photoelectric simulation
---------------------------------------------------
-
-DischargeLampModel.addModelElement().
-    Block of code commented out
-
-AtomicStateFactory
-    changed computation of energies on line 41, in constructor
-
-DiscahrgeLampModule
-    increased max voltage to 5 from 0.1
-
-
 To do
------
+=====
 both the model and each atom have atomicStates[]. They should only be in one place.
 
-Move creation of the tube to the model
+Photons disappear as soon as they get past the left edge of the ciruit.
+Simulation slows and waits while sliders are being moved
+Number under electron production rate slider need formatting
 
-When voltage is reversed, produce electrons from right-hand plate
+Spectrometer
+------------
+Cut legs off the heater filaments
+checkboxes on multiple atom panel are in different place than on single atom panel
+
+
+Done
+====
+9-5-06
+------
+Single-shot works when voltage < 0.
+Default simulation speed is half of what it was.
+Spectrometer should come up running -
+    What do you want to happen when it is hidden and re-shown? Should it continue to run, stop, or reset?
+    Add lines to spectrometer showing UV and IR off-scale points. Add photons to these bins.
