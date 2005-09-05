@@ -2,9 +2,6 @@
 package edu.colorado.phet.qm.model.propagators;
 
 import edu.colorado.phet.qm.model.*;
-import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
-
-import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -15,16 +12,13 @@ import java.awt.*;
  * See: http://www.mtnmath.com/whatth/node47.html
  */
 
-public class ClassicalWavePropagator implements Propagator {
+public class ClassicalWavePropagator extends Propagator {
     private Wavefunction last2;
     private Wavefunction last;
     private double speed = 0.4;
-    private DiscreteModel discreteModel;
-    private Potential potential;
 
     public ClassicalWavePropagator( DiscreteModel discreteModel, Potential potential ) {
-        this.discreteModel = discreteModel;
-        this.potential = potential;
+        super( discreteModel, potential );
     }
 
     public double getSpeed() {
@@ -61,7 +55,7 @@ public class ClassicalWavePropagator implements Propagator {
         for( int i = 1; i < w.getWidth() - 1; i++ ) {
             for( int j = 1; j < w.getHeight() - 1; j++ ) {
 
-                if( potential.getPotential( i, j, 0 ) != 0 ) {
+                if( getPotential().getPotential( i, j, 0 ) != 0 ) {
                     w.setValue( i, j, 0, 0 );
                 }
                 else {
@@ -71,16 +65,10 @@ public class ClassicalWavePropagator implements Propagator {
                     neigh.add( last( i, j + 1 ) );
                     neigh.add( last( i, j - 1 ) );
 
-//                    neigh.add( last( i, j ).times( -4 ) );
                     Complex lastVal = last( i, j );
                     neigh.add( lastVal.getReal() * -4, lastVal.getImaginary() * -4 );
-//                    neigh.setValue( )
-                    neigh.scale( 0.25 );
-//                    Complex neigh = neigh;
 
-//                    Complex val = new Complex( last.valueAt( i, j ).getReal() * 2 - last2.valueAt( i, j ).getReal() + neigh.getReal(),
-//                                               last.valueAt( i, j ).getImaginary() * 2 - last2.valueAt( i, j ).getImaginary() + neigh.getImaginary() );
-//                    //                    w.setValue( i, j, val );
+                    neigh.scale( 0.25 );
                     w.setValue( i, j,
                                 last.valueAt( i, j ).getReal() * 2 - last2.valueAt( i, j ).getReal() + neigh.getReal(),
                                 last.valueAt( i, j ).getImaginary() * 2 - last2.valueAt( i, j ).getImaginary() + neigh.getImaginary() );
@@ -94,75 +82,8 @@ public class ClassicalWavePropagator implements Propagator {
         dampVertical( w, 0, +1 );
         dampVertical( w, w.getWidth() - 1, -1 );
 
-//        dampHorizontalInternal( w, w.getHeight() / 2, +1 );
-//        dampHorizontal( w, w.getHeight() / 2 , +1 );
-//        dampHorizontal( w, w.getHeight() / 2 + 2, +1 );
-//
-//        dampHorizontal( w, w.getHeight() / 2, +1 );
-//        dampHorizontal( w, w.getHeight() / 2 + 1, +1 );
-//        dampHorizontal( w, w.getHeight() / 2 + 2, +1 );
-//        dampHorizontal( w,w.getHeight()/2+2,+1 );
-
-//        dampVertical( w,w.getWidth()/2,1);
-//
-//        dampBarrier( w );
-//        dampRect( w );
-//        dampRect( last );
-//        dampRect( last2 );
-
-
         last.copyTo( last2 );
         w.copyTo( last );
-    }
-
-    private void dampRect( Wavefunction w ) {
-        int halfWidth = w.getWidth() / 2;
-        int h = 30;
-//        double[] damping = new double[]{0.999, 0.95, 0.9, 0.8};
-        double[] damping = new double[]{0.999, 0.99, 0.98, 0.95, 0.8, 0.5};
-        for( int i = w.getWidth() / 2 - halfWidth; i < w.getWidth() / 2 + halfWidth; i++ ) {
-            for( int j = 0; j < damping.length; j++ ) {
-                int y = h - j;
-//                double v = damping[damping.length - 1 - j];
-                double v = damping[j];
-                Complex x = w.valueAt( i, y );
-                double scale = v;
-//                double scale = 0.92;
-                w.setValue( i, y, x.getReal() * scale, x.getImaginary() * scale );
-            }
-        }
-    }
-
-    private void dampBarrier( Wavefunction w ) {
-        if( getDiscreteModel().isDoubleSlitEnabled() ) {
-            HorizontalDoubleSlit horizontalDoubleSlit = getDiscreteModel().getDoubleSlitPotential();
-            Rectangle[] r = horizontalDoubleSlit.getBlockAreas();
-
-            for( int i = 0; i < r.length; i++ ) {
-                Rectangle rectangle = r[i];
-                System.out.println( "rectangle = " + rectangle );
-                dampRect( w, rectangle );
-
-            }
-
-        }
-        dampRect( w, new Rectangle( w.getWidth() / 2, w.getHeight() / 2, w.getWidth() / 8, w.getHeight() / 8 ) );
-    }
-
-    private void dampRect( Wavefunction w, Rectangle r ) {
-        int y = r.y + r.height;
-        for( int x = r.x; x < r.x + r.width; x++ ) {
-//            w.setValue( x, y, last2.valueAt( x, y + 1 ) );
-            w.setValue( x, y, last2.valueAt( x, y - 1 ) );
-        }
-    }
-
-    private void dampHorizontalInternal( Wavefunction wavefunction, int j, int dj ) {
-        for( int i = 0; i < wavefunction.getWidth(); i++ ) {
-//            wavefunction.setValue( i, j, last2.valueAt( i, j + dj ) );
-            wavefunction.setValue( i, j, last.valueAt( i, j + 2 ) );
-            wavefunction.setValue( i, j, last2.valueAt( i, j + 1 ) );
-        }
     }
 
     private void dampHorizontal( Wavefunction wavefunction, int j, int dj ) {
@@ -180,7 +101,7 @@ public class ClassicalWavePropagator implements Propagator {
     private Complex ZERO = new Complex();
 
     private Complex last( int i, int j ) {
-        if( potential.getPotential( i, j, 0 ) == 0 ) {
+        if( getPotential().getPotential( i, j, 0 ) == 0 ) {
             return last.valueAt( i, j );
         }
         else {
@@ -210,11 +131,7 @@ public class ClassicalWavePropagator implements Propagator {
     }
 
     public Propagator copy() {
-        return new ClassicalWavePropagator( getDiscreteModel(), potential );
-    }
-
-    private DiscreteModel getDiscreteModel() {
-        return discreteModel;
+        return new ClassicalWavePropagator( getDiscreteModel(), getPotential() );
     }
 
     public void normalize() {

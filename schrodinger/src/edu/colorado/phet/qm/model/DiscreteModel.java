@@ -3,6 +3,7 @@ package edu.colorado.phet.qm.model;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.qm.model.potentials.CompositePotential;
+import edu.colorado.phet.qm.model.potentials.ConstantPotential;
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
 import edu.colorado.phet.qm.model.propagators.ClassicalWavePropagator;
 import edu.colorado.phet.qm.model.propagators.ModifiedRichardsonPropagator;
@@ -57,11 +58,11 @@ public class DiscreteModel implements ModelElement {
         detectorSet = new DetectorSet( wavefunction );
         initter = new WaveSetup( wave );
         initter.initialize( wavefunction );
-        propagator = new ModifiedRichardsonPropagator( deltaTime, wave, compositePotential );
+        propagator = new ModifiedRichardsonPropagator( this, deltaTime, wave, compositePotential );
         addListener( detectorSet.getListener() );
 
         damping = new Damping();
-        addListener( damping );
+//        addListener( damping );
 
         doubleSlitPotential = createDoubleSlit();
         measurementScale = new MeasurementScale( getGridWidth(), 1.0 );
@@ -80,7 +81,7 @@ public class DiscreteModel implements ModelElement {
     }
 
     public void setPropagatorModifiedRichardson() {
-        setPropagator( new ModifiedRichardsonPropagator( deltaTime, wave, compositePotential ) );
+        setPropagator( new ModifiedRichardsonPropagator( this, deltaTime, wave, compositePotential ) );
     }
 
     public void setPropagatorClassical() {
@@ -89,17 +90,55 @@ public class DiscreteModel implements ModelElement {
 
     protected void step() {
         beforeTimeStep();
-        if( getWavefunction().getMagnitude() > 0 ) {
-            getPropagator().set
-            getPropagator().propagate( sourceWave );
-            getPropagator().propagate( getWavefunction() );
-            getWavefunction().setMagnitudeDirty();
-        }
-        else {
-//            QMLogger.debug( "skipping propagation: " + System.currentTimeMillis() );
-        }
+        getPropagationStrategy().step();
         incrementTimeStep();
         finishedTimeStep();
+    }
+
+    class PropagateNormal implements PropagationStrategy {
+
+        public void step() {
+            if( getWavefunction().getMagnitude() > 0 ) {
+                getPropagator().propagate( getWavefunction() );
+                getWavefunction().setMagnitudeDirty();
+                damping.damp( wavefunction );
+            }
+        }
+    }
+
+    class PropagateBoth implements PropagationStrategy {
+        public void step() {
+            if( getWavefunction().getMagnitude() > 0 ) {
+                getPropagator().setPotential( new ConstantPotential( 0 ) );
+                getPropagator().propagate( sourceWave );
+                getPropagator().setPotential( getPotential() );
+                getPropagator().propagate( getWavefunction() );
+                copySourceToActual();
+
+                getWavefunction().setMagnitudeDirty();
+                damping.damp( wavefunction );
+                damping.damp( sourceWave );
+            }
+        }
+    }
+
+    interface PropagationStrategy {
+        void step();
+    }
+
+    private PropagationStrategy getPropagationStrategy() {
+//        return new PropagateNormal();
+        return new PropagateBoth();
+//        return null;
+    }
+
+    private void copySourceToActual() {
+        int maxy = getDoubleSlitPotential().getY() + getDoubleSlitPotential().getHeight();
+        for( int y = maxy; y < sourceWave.getHeight(); y++ ) {
+            for( int x = 0; x < sourceWave.getWidth(); x++ ) {
+                getWavefunction().setValue( x, y, sourceWave.valueAt( x, y ) );
+            }
+        }
     }
 
     private HorizontalDoubleSlit createDoubleSlit() {

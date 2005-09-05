@@ -14,8 +14,8 @@ import edu.colorado.phet.qm.model.*;
 
 public class ModifiedRichardsonPropagator extends RichardsonPropagator {
 
-    public ModifiedRichardsonPropagator( double TAU, Wave wave, Potential potential ) {
-        super( TAU, wave, potential );
+    public ModifiedRichardsonPropagator( DiscreteModel discreteModel, double TAU, Wave wave, Potential potential ) {
+        super( discreteModel, TAU, wave, potential );
     }
 
     protected Complex createAlpha() {
@@ -44,7 +44,7 @@ public class ModifiedRichardsonPropagator extends RichardsonPropagator {
     }
 
     public Propagator copy() {
-        return new ModifiedRichardsonPropagator( getEpsilon(), super.getWave(), super.getPotential() );
+        return new ModifiedRichardsonPropagator( getDiscreteModel(), getEpsilon(), super.getWave(), super.getPotential() );
     }
 
     public void normalize() {
