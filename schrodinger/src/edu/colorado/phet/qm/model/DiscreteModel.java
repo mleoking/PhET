@@ -82,7 +82,7 @@ public class DiscreteModel implements ModelElement {
     }
 
     public void setPropagatorClassical() {
-        setPropagator( new ClassicalWavePropagator( compositePotential ) );
+        setPropagator( new ClassicalWavePropagator( this, compositePotential ) );
     }
 
     protected void step() {
