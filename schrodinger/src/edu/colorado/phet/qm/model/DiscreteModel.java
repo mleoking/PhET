@@ -120,12 +120,9 @@ public class DiscreteModel implements ModelElement {
     class PropagateBoth implements PropagationStrategy {
         public void step() {
             if( getWavefunction().getMagnitude() > 0 ) {
-//                getPropagator().setPotential( new ConstantPotential( 0 ) );
                 sourcePropagator.propagate( sourceWave );
-//                getPropagator().propagate( sourceWave );
-//                getPropagator().setPotential( getPotential() );
-                getPropagator().propagate( getWavefunction() );
                 copySourceToActual();
+                getPropagator().propagate( getWavefunction() );
 
                 getWavefunction().setMagnitudeDirty();
                 damping.damp( wavefunction );
@@ -145,13 +142,11 @@ public class DiscreteModel implements ModelElement {
         else {
             return new PropagateNormal();
         }
-//        return new PropagateNormal();
-//        return new PropagateBoth();
-//        return null;
     }
 
     private void copySourceToActual() {
         int maxy = getDoubleSlitPotential().getY() + getDoubleSlitPotential().getHeight();
+//        int maxy = getDoubleSlitPotential().getY();
         for( int y = maxy; y < sourceWave.getHeight(); y++ ) {
             for( int x = 0; x < sourceWave.getWidth(); x++ ) {
                 copySourceToActual( x, y );
