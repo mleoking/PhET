@@ -16,7 +16,7 @@ public class AutoFire implements IntensityDisplay.Listener {
     private IntensityDisplay intensityDisplay;
     private boolean autoFire = false;
     private ModelElement element;
-    private static final double THRESHOLD = 0.01;
+    public static final double THRESHOLD = 0.015;
     private long lastFire = 0;
 
     public AutoFire( SingleParticleGun gunGraphic, IntensityDisplay intensityDisplay ) {

@@ -34,6 +34,7 @@ public class IntensityControlPanel extends SchrodingerControlPanel {
                 intensityModule.getIntensityPanel().getSmoothIntensityDisplay().setFadeEnabled( fading.isSelected() );
             }
         } );
+        super.addSlitCheckbox();
         super.addResetButton();
 //        addControl( fading );
     }

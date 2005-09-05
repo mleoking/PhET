@@ -102,4 +102,8 @@ public class FireButton extends JButton {
     private boolean fireButtonEnabled() {
         return isEnabled();
     }
+
+    public void setEnabled( boolean b ) {
+        super.setEnabled( b );
+    }
 }

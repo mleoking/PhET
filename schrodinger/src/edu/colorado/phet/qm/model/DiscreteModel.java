@@ -20,9 +20,10 @@ import java.util.ArrayList;
 
 public class DiscreteModel implements ModelElement {
     private Wavefunction sourceWave;
+    private Propagator sourcePropagator;
+
     private Wavefunction wavefunction;
     private CompositePotential compositePotential;
-
     private Propagator propagator;
     private int timeStep;
     private double deltaTime;
@@ -40,6 +41,7 @@ public class DiscreteModel implements ModelElement {
     private boolean doubleSlitEnabled;
 
     public static final int DEFAULT_WIDTH = 100;
+    private boolean slitAbsorptive = true;
 
     public DiscreteModel() {
         this( DEFAULT_WIDTH, DEFAULT_WIDTH );
@@ -59,6 +61,7 @@ public class DiscreteModel implements ModelElement {
         initter = new WaveSetup( wave );
         initter.initialize( wavefunction );
         propagator = new ModifiedRichardsonPropagator( this, deltaTime, wave, compositePotential );
+        sourcePropagator = new ModifiedRichardsonPropagator( this, deltaTime, wave, compositePotential );
         addListener( detectorSet.getListener() );
 
         damping = new Damping();
@@ -95,6 +98,14 @@ public class DiscreteModel implements ModelElement {
         finishedTimeStep();
     }
 
+    public void setSlitAbsorptive( boolean slitAbsorptive ) {
+        this.slitAbsorptive = slitAbsorptive;
+    }
+
+    public boolean isSlitAbsorptive() {
+        return slitAbsorptive;
+    }
+
     class PropagateNormal implements PropagationStrategy {
 
         public void step() {
@@ -109,9 +120,10 @@ public class DiscreteModel implements ModelElement {
     class PropagateBoth implements PropagationStrategy {
         public void step() {
             if( getWavefunction().getMagnitude() > 0 ) {
-                getPropagator().setPotential( new ConstantPotential( 0 ) );
-                getPropagator().propagate( sourceWave );
-                getPropagator().setPotential( getPotential() );
+//                getPropagator().setPotential( new ConstantPotential( 0 ) );
+                sourcePropagator.propagate( sourceWave );
+//                getPropagator().propagate( sourceWave );
+//                getPropagator().setPotential( getPotential() );
                 getPropagator().propagate( getWavefunction() );
                 copySourceToActual();
 
@@ -127,8 +139,14 @@ public class DiscreteModel implements ModelElement {
     }
 
     private PropagationStrategy getPropagationStrategy() {
+        if( slitAbsorptive ) {
+            return new PropagateBoth();
+        }
+        else {
+            return new PropagateNormal();
+        }
 //        return new PropagateNormal();
-        return new PropagateBoth();
+//        return new PropagateBoth();
 //        return null;
     }
 
@@ -136,9 +154,23 @@ public class DiscreteModel implements ModelElement {
         int maxy = getDoubleSlitPotential().getY() + getDoubleSlitPotential().getHeight();
         for( int y = maxy; y < sourceWave.getHeight(); y++ ) {
             for( int x = 0; x < sourceWave.getWidth(); x++ ) {
-                getWavefunction().setValue( x, y, sourceWave.valueAt( x, y ) );
+                copySourceToActual( x, y );
             }
         }
+    }
+
+    private void copySourceToActual( int x, int y ) {
+        if( getPropagator() instanceof ClassicalWavePropagator && sourcePropagator instanceof ClassicalWavePropagator ) {
+            ClassicalWavePropagator classicalWavePropagator = (ClassicalWavePropagator)getPropagator();
+            ClassicalWavePropagator classicalSource = (ClassicalWavePropagator)sourcePropagator;
+            if( classicalWavePropagator.getLast() != null && classicalSource.getLast() != null ) {
+                classicalWavePropagator.getLast().setValue( x, y, classicalSource.getLast().valueAt( x, y ) );
+            }
+            if( classicalWavePropagator.getLast2() != null && classicalSource.getLast2() != null ) {
+                classicalWavePropagator.getLast2().setValue( x, y, classicalSource.getLast2().valueAt( x, y ) );
+            }
+        }
+        wavefunction.setValue( x, y, sourceWave.valueAt( x, y ) );
     }
 
     private HorizontalDoubleSlit createDoubleSlit() {
@@ -178,6 +210,7 @@ public class DiscreteModel implements ModelElement {
         wavefunction.clear();
         detectorSet.reset();
         propagator.reset();
+        sourcePropagator.reset();
     }
 
     public int getGridWidth() {
@@ -240,6 +273,7 @@ public class DiscreteModel implements ModelElement {
     public void setDeltaTime( double t ) {
         this.deltaTime = t;
         propagator.setDeltaTime( deltaTime );
+        sourcePropagator.setDeltaTime( deltaTime );
     }
 
     public void addDetector( Detector detector ) {
@@ -282,6 +316,8 @@ public class DiscreteModel implements ModelElement {
 
     public void setPropagator( Propagator propagator ) {
         this.propagator = propagator;
+        sourcePropagator = propagator.copy();
+        sourcePropagator.setPotential( new ConstantPotential( 0 ) );
     }
 
     public Propagator getPropagator() {
@@ -324,6 +360,7 @@ public class DiscreteModel implements ModelElement {
         wavefunction.clear();
         sourceWave.clear();
         propagator.reset();
+        sourcePropagator.reset();
     }
 
     public void reduceWavefunctionNorm( double normDecrement ) {
@@ -371,6 +408,7 @@ public class DiscreteModel implements ModelElement {
     public void setBoundaryCondition( int i, int k, Complex value ) {
         getWavefunction().setValue( i, k, value );
         propagator.setBoundaryCondition( i, k, value );
+        sourcePropagator.setBoundaryCondition( i, k, value );
     }
 
     public boolean containsListener( Listener listener ) {
