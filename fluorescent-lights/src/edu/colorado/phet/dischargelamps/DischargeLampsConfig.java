@@ -50,7 +50,7 @@ public class DischargeLampsConfig {
     // Images
     public static final String IMAGE_FILE_DIRECTORY = "images";
     public static final String ELECTRON_IMAGE_FILE_NAME = IMAGE_FILE_DIRECTORY + "/" + "electron.gif";
-    public static final String HEATING_ELEMENT_FILE_NAME = IMAGE_FILE_DIRECTORY + "/" + "coil-2.png";
+    public static final String HEATING_ELEMENT_FILE_NAME = IMAGE_FILE_DIRECTORY + "/" + "coil-2b.png";
     public static final String POSITIVE_CIRCUIT_IMAGE_FILE_NAME = IMAGE_FILE_DIRECTORY + "/" + "battery-w-wires-2.png";
     public static final String NEGATIVE_CIRCUIT_IMAGE_FILE_NAME = IMAGE_FILE_DIRECTORY + "/" + "battery-w-wires-2a.png";
     public static final String SPECTROMETER_IMAGE_FILE_NAME = IMAGE_FILE_DIRECTORY + "/" + "spectrometer-panel.png";
@@ -65,7 +65,7 @@ public class DischargeLampsConfig {
     private static double fudge = 5.67;
 //    public static final double DT = 12 / fudge;
 //    public static final double DT = 12;
-    public static final double DT = 6;
+    public static double DT = 12;
     public static final int FPS = 25;
 
     // Scale factors
