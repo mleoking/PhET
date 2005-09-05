@@ -1,6 +1,10 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.model;
 
+import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
+
+import java.awt.*;
+
 /**
  * User: Sam Reid
  * Date: Jun 23, 2005
@@ -13,11 +17,34 @@ public class Damping extends DiscreteModel.Adapter {
 //    private double[] damp = new double[]{0.99, 0.98, 0.95, 0.92, 0.85, 0.8,0.5,0.1};
 //    private double[] damp = new double[]{0.999, 0.99, 0.98, 0.97, 0.95, 0.9, 0.5, 0.1};
     private double[] damp = new double[]{0.999, 0.995, 0.99, 0.975, 0.95, 0.925, 0.9, 0.85, 0.7, 0.3};
+//    private double[] wallDamp = new double[]{0.999, 0.995, 0.99, 0.975, 0.95, 0.925, 0.9, 0.85, 0.7, 0.3};
 //    private double[] damp = new double[]{0.999, 0.99, 0.95, 0.9, 0.85, 0.8, 0.7,0.6,0.5};
 //    private double[] damp = new double[]{0.99, 0.5};//, 0.96, 0.9, 0.8, 0.7, 0.6, 0.5,0.3,0.1};
 
     public void finishedTimeStep( DiscreteModel model ) {
         damp( model.getWavefunction() );
+//        dampBarrier( model );
+    }
+
+    private void dampBarrier( DiscreteModel model ) {
+        model.getWavefunction();
+        HorizontalDoubleSlit horizontalDoubleSlit = model.getDoubleSlitPotential();
+        Rectangle[] blockAreas = horizontalDoubleSlit.getBlockAreas();
+        for( int i = 0; i < blockAreas.length; i++ ) {
+            Rectangle blockArea = blockAreas[i];
+            dampArea( model, blockArea );
+        }
+    }
+
+    private void dampArea( DiscreteModel model, Rectangle blockArea ) {
+        Wavefunction wavefunction = model.getWavefunction();
+        for( int x = blockArea.x; x < blockArea.x + blockArea.width; x++ ) {
+            for( int j = 0; j < damp.length && j < blockArea.height; j++ ) {
+                int y = blockArea.y + j;
+//                System.out.println( "x=" + x + ", y = " + y + ", damp=" + damp[j] );
+                wavefunction.valueAt( x, y ).scale( damp[damp.length -j- 1] );
+            }
+        }
     }
 
     public void damp( Wavefunction wavefunction ) {

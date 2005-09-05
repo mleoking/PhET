@@ -36,6 +36,7 @@ public class HorizontalDoubleSlit implements Potential {
         update();
     }
 
+
     public static interface Listener {
         public void slitChanged();
     }
@@ -111,6 +112,8 @@ public class HorizontalDoubleSlit implements Potential {
 
     private void createDoubleSlit( int gridWidth, int gridHeight,
                                    int y, int height, int slitSize, int slitSeparation, double potential ) {
+//        potential=0.001;//TODO short circuit
+//        height=10;
         CompositePotential compositePotential = new CompositePotential();
         int barWidth = ( gridWidth - 2 * slitSize - slitSeparation ) / 2;
 
@@ -161,5 +164,14 @@ public class HorizontalDoubleSlit implements Potential {
 
     public Rectangle[] getSlitAreas() {
         return new Rectangle[]{new Rectangle( leftSlit ), new Rectangle( rightSlit )};
+    }
+
+    public Rectangle[] getBlockAreas() {
+        int y = leftSlit.y+1;
+        int height = leftSlit.height;
+        Rectangle leftBlock = new Rectangle( 0, y, leftSlit.x, height );
+        Rectangle centerBlock = new Rectangle( leftSlit.x + leftSlit.width, y, rightSlit.x - leftSlit.x - leftSlit.width, height );
+        Rectangle rightBlock = new Rectangle( rightSlit.x + rightSlit.width, y, gridWidth - rightSlit.x - rightSlit.width, height );
+        return new Rectangle[]{leftBlock, centerBlock, rightBlock};
     }
 }
