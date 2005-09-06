@@ -142,14 +142,14 @@ public class FourierApplication extends PhetApplication {
         else {
             DiscreteModule discreteModule = new DiscreteModule( clock );
             D2CModule d2cModule = new D2CModule( clock );
-            WavePulseShaperModule wavePulseShapeModule = new WavePulseShaperModule( clock );
-            SoundModule soundModule = new SoundModule( clock );
+//            WavePulseShaperModule wavePulseShapeModule = new WavePulseShaperModule( clock );
+//            SoundModule soundModule = new SoundModule( clock );
             
             app.setModules( new Module[] { 
                     discreteModule, 
                     d2cModule,  
-                    wavePulseShapeModule,
-                    soundModule
+//                    wavePulseShapeModule,
+//                    soundModule
                     } );
             app.setInitialModule( discreteModule );
         }
