@@ -71,6 +71,8 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/6) - bugfix: adjust flattened charts so that y-axis labels are not clipped
+(9/6) - add a bit of space (5%) above and below Harmonics waveforms in Discrete module
 (9/2) - move definition of wait cursor to FourierConfig
 (9/2) - add wait cursor to graph maximize buttons
 (9/2) - add wait cursor to zoom control buttons
