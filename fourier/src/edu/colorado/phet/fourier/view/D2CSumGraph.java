@@ -145,11 +145,11 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
             _chartGraphic.setLocation( 0, 0 );
 
             int xOffset = 25;
-            int yOffset = 0;
+            int yOffset = 25;
             _flattenedChart = new FlattenedChart( component, _chartGraphic, xOffset, yOffset );
             addGraphic( _flattenedChart, CHART_LAYER );
-            _flattenedChart.setRegistrationPoint( xOffset, CHART_SIZE.height / 2 ); // at the chart's origin
-            _flattenedChart.setLocation( 60, 50 + ( CHART_SIZE.height / 2 ) );
+            _flattenedChart.setRegistrationPoint( 0, 0 ); // upper left
+            _flattenedChart.setLocation( 60 - xOffset, 50 - yOffset );
         }
         
         // Fourier series

@@ -71,8 +71,8 @@ public class FlattenedChart extends PhetImageGraphic {
      */
     public void flatten() {
         _chart.setBoundsDirty();
-        int width = _chart.getWidth();
-        int height = _chart.getHeight();
+        int width = _chart.getWidth() + _xOffset;
+        int height = _chart.getHeight() + _yOffset;
         if ( width > 0 && height > 0 ) {
             BufferedImage bufferedImage = new BufferedImage( width, height, BufferedImage.TYPE_INT_ARGB );
             Graphics2D g2 = bufferedImage.createGraphics();
