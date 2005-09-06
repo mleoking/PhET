@@ -87,6 +87,37 @@ public class MathUtil {
      * @return The roots of the equation, if not imaginary. Otherwise,
      *         returns NaN
      */
+    public static double[] quadraticRoots( double[] quadRoots, double a, double b, double c ) {
+        double sqrt = (float)Math.sqrt( ( b * b ) - 4 * a * c );
+
+        quadRoots[0] = ( -b + sqrt ) / ( 2 * a );
+        quadRoots[1] = ( -b - sqrt ) / ( 2 * a );
+        return quadRoots;
+    }
+
+    /**
+     * Computes the roots of a quadratic equation
+     *
+     * @param a
+     * @param b
+     * @param c
+     * @return the roots of a quadratic equation
+     */
+    public static double[] quadraticRoots( double a, double b, double c ) {
+        double[] roots = new double[2];
+        return quadraticRoots( roots, a, b, c );
+    }
+
+    /**
+     * Finds the roots of a quadratic equation.
+     *
+     * @param quadRoots An array in which the roots are to be returned
+     * @param a
+     * @param b
+     * @param c
+     * @return The roots of the equation, if not imaginary. Otherwise,
+     *         returns NaN
+     */
     public static float[] quadraticRoots( float[] quadRoots, float a, float b, float c ) {
         float sqrt = (float)Math.sqrt( ( b * b ) - 4 * a * c );
 

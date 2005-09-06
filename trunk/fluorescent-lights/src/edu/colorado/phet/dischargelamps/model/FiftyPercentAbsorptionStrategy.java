@@ -27,7 +27,7 @@ import java.util.Random;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class FiftyPercentAbsorptionStrategy implements EnergyAbsorptionStrategy {
+public class FiftyPercentAbsorptionStrategy extends EnergyAbsorptionStrategy {
 
     private static Random random = new Random();
 
@@ -41,6 +41,7 @@ public class FiftyPercentAbsorptionStrategy implements EnergyAbsorptionStrategy 
     public void collideWithElectron( Atom atom, Electron electron ) {
         AtomicState[] states = atom.getStates();
         AtomicState currState = atom.getCurrState();
+        double electronEnergy = getElectronEnergyAtCollision( atom, electron );
 
         // Find the index of the current state
         int currStateIdx = 0;
@@ -54,7 +55,8 @@ public class FiftyPercentAbsorptionStrategy implements EnergyAbsorptionStrategy 
         // by more than the energy of the electron
         int highestPossibleNewStateIdx = currStateIdx + 1;
         for( ; highestPossibleNewStateIdx < states.length; highestPossibleNewStateIdx++ ) {
-            if( states[highestPossibleNewStateIdx].getEnergyLevel() - currState.getEnergyLevel() > electron.getEnergy() ) {
+            if( states[highestPossibleNewStateIdx].getEnergyLevel() - currState.getEnergyLevel() > electronEnergy ) {
+//            if( states[highestPossibleNewStateIdx].getEnergyLevel() - currState.getEnergyLevel() > electron.getEnergy() ) {
                 break;
             }
         }
@@ -78,7 +80,8 @@ public class FiftyPercentAbsorptionStrategy implements EnergyAbsorptionStrategy 
             // in energy between the new state and the old state
             double energyDiff = newState.getEnergyLevel() - currState.getEnergyLevel();
             atom.setCurrState( newState );
-            electron.setEnergy( electron.getEnergy() - energyDiff );
+            electron.setEnergy( electronEnergy - energyDiff );
+//            electron.setEnergy( electron.getEnergy() - energyDiff );
         }
     }
 }
