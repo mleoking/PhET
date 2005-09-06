@@ -39,6 +39,7 @@ public class DischargeLampEnergyMonitorPanel2 extends JPanel {
     private DischargeLampEnergyLevelMonitorPanel elmp;
     private DischargeLampModel model;
     private JSpinner numLevelsSpinner;
+    private JPanel spinnerPanel;
 
     /**
      * @param model
@@ -73,10 +74,22 @@ public class DischargeLampEnergyMonitorPanel2 extends JPanel {
                 model.setNumAtomicEnergyLevels( ( (Integer)numLevelsSpinner.getValue() ).intValue() );
             }
         } );
-        setSpinnerVisibility( model );
+
+        spinnerPanel = new JPanel( new GridBagLayout() );
+        JLabel spinnerLabel = new JLabel( "# of levels");
+        GridBagConstraints gbc2 = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
+                                                         GridBagConstraints.CENTER,
+                                                         GridBagConstraints.NONE,
+                                                         new Insets( 4, 2, 4, 2 ), 0, 0 );
+        gbc2.anchor = GridBagConstraints.EAST;
+        spinnerPanel.add( spinnerLabel, gbc2 );
+        gbc2.gridx = 1;
+        gbc2.anchor = GridBagConstraints.WEST;
+        spinnerPanel.add( numLevelsSpinner, gbc2 );
         gbc.gridy = 1;
         gbc.anchor = GridBagConstraints.CENTER;
-        this.add( numLevelsSpinner, gbc );
+        this.add( spinnerPanel, gbc );
+        setSpinnerVisibility( model );
     }
 
     public void addElectron( Electron electron ) {
@@ -107,10 +120,12 @@ public class DischargeLampEnergyMonitorPanel2 extends JPanel {
 
     private void setSpinnerVisibility( DischargeLampModel model ) {
         if( model.getElementProperties() instanceof DefaultElementProperties ) {
-            numLevelsSpinner.setVisible( true );
+            spinnerPanel.setVisible( true );
+//            numLevelsSpinner.setVisible( true );
         }
         else {
-            numLevelsSpinner.setVisible( false );
+            spinnerPanel.setVisible( false );
+//            numLevelsSpinner.setVisible( false );
         }
     }
 

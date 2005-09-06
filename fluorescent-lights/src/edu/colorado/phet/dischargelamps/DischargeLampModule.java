@@ -320,7 +320,7 @@ public class DischargeLampModule extends BaseLaserModule {
         // Add an energy level monitor panel.
         energyLevelsMonitorPanel = new DischargeLampEnergyMonitorPanel2( model, getClock(),
                                                                          model.getAtomicStates(),
-                                                                         150,
+                                                                         200,
                                                                          300 );
         getControlPanel().add( energyLevelsMonitorPanel );
     }
