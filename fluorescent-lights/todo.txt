@@ -4,18 +4,31 @@ both the model and each atom have atomicStates[]. They should only be in one pla
 
 Photons disappear as soon as they get past the left edge of the ciruit.
 Simulation slows and waits while sliders are being moved
+
+
 Number under electron production rate slider need formatting
 
-Spectrometer
-------------
-Cut legs off the heater filaments
-checkboxes on multiple atom panel are in different place than on single atom panel
+Put scale on the spectrometer
+    300-800nm is visible
+    left is "far UV", right is "far IR"
+    UV line looks white
 
+Sometimes single electron stimulates atom at level higher than it's collision energy
+Spectrometer should clear every time it is shown
 
 Done
 ====
-9-5-06
+9-6-05
 ------
+Fixed problem with multiple electron graphics on the energy monitor panel
+Squiggles should be on by default on single atom module
+"Collision energy" indicator should always show on single atom module
+
+
+9-5-05
+------
+checkboxes on multiple atom panel are in different place than on single atom panel
+Cut legs off the heater filaments
 Single-shot works when voltage < 0.
 Default simulation speed is half of what it was.
 Spectrometer should come up running -

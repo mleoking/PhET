@@ -106,7 +106,6 @@ public class DischargeLampModel extends LaserModel {
      * @param dt
      */
     public void stepInTime( double dt ) {
-        super.stepInTime( dt );
 
         // Check for collisions between electrons and atoms
         for( int i = 0; i < atoms.size(); i++ ) {
@@ -116,6 +115,7 @@ public class DischargeLampModel extends LaserModel {
                 electronAtomCollisionExpert.detectAndDoCollision( atom, electron );
             }
         }
+        super.stepInTime( dt );
     }
 
     /**

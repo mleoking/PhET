@@ -79,6 +79,7 @@ public class DischargeLampModule extends BaseLaserModule {
     private Plate rightHandPlate;
     private double maxCurrent = 0.3;
     private HeatingElementGraphic[] heatingElementGraphics = new HeatingElementGraphic[2];
+    private JCheckBox squiggleCB;
 
     //----------------------------------------------------------------
     // Constructors and initialization
@@ -267,13 +268,14 @@ public class DischargeLampModule extends BaseLaserModule {
             spectrometerCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     spectrometerGraphic.setVisible( spectrometerCB.isSelected() );
+                    model.getSpectrometer().reset();
                     model.getSpectrometer().start();
                 }
             } );
             checkBoxPanel.add( spectrometerCB );
             spectrometerGraphic.setVisible( spectrometerCB.isSelected() );
 
-            final JCheckBox squiggleCB = new JCheckBox( "Squiggles" );
+            squiggleCB = new JCheckBox( "Squiggles" );
             squiggleCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     energyLevelsMonitorPanel.setSquigglesEnabled( squiggleCB.isSelected() );
@@ -403,7 +405,18 @@ public class DischargeLampModule extends BaseLaserModule {
         return currentSlider;
     }
 
+    /**
+     * @return
+     */
     protected DischargeLampEnergyMonitorPanel2 getEneregyLevelsMonitorPanel() {
         return energyLevelsMonitorPanel;
+    }
+
+    /**
+     * @param enabled
+     */
+    public void setSquigglesEnabled( boolean enabled ) {
+        squiggleCB.setSelected( true );
+        energyLevelsMonitorPanel.setSquigglesEnabled( squiggleCB.isSelected() );
     }
 }
