@@ -130,8 +130,8 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         // Add a listener that will catch changes in the energy levels
         model.addChangeListener( new DischargeLampModel.ChangeListenerAdapter() {
             public void energyLevelsChanged( DischargeLampModel.ChangeEvent event ) {
-                setEnergyLevels( event.getDischargeLampModelDischargeLampModel().getAtomicStates() );
-                setEnergyLevelsMovable( event.getDischargeLampModelDischargeLampModel().getElementProperties().isLevelsMovable() );
+                setEnergyLevels( event.getDischargeLampModel().getAtomicStates() );
+                setEnergyLevelsMovable( event.getDischargeLampModel().getElementProperties().isLevelsMovable() );
             }
         } );
 

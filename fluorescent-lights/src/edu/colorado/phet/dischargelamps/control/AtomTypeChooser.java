@@ -47,7 +47,7 @@ public class AtomTypeChooser extends JPanel {
 
         comboBox.addItem( new HydrogenProperties() );
 //        comboBox.addItem( new NeonProperties() );
-        comboBox.addItem( new DefaultElementProperties( 2 ) );
+        comboBox.addItem( new ConfigurableElementProperties( 2, model ) );
         comboBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 JComboBox cb = (JComboBox)e.getSource();
