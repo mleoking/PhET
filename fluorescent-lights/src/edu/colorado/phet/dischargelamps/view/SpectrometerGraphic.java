@@ -30,6 +30,7 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.text.DecimalFormat;
 
 /**
  * SpectrometerGraphic
@@ -46,10 +47,13 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
     private int imageDisplayWidth = 410;
 
     private PhetImageGraphic backgroundPanel;
+//    private Point displayOrigin = new Point( 50, 115 );
     private Point displayOrigin = new Point( 15, 115 );
     private int displayHeight = 100;
+//    private int displayWidth = 565;
     private int displayWidth = 600;
-    private int horizontalDisplayMargin = 30;
+    private int horizontalDisplayMargin = 80;
+//    private int horizontalDisplayMargin = 30;
     private ArrayList photonMarkers = new ArrayList();
     private double minWavelength = 300; // nm
     private double maxWavelength = 800; // nm
@@ -86,36 +90,82 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
 
         addButtons( component, spectrometer );
         addUvIRIndicators();
+        addScale();
+        addTitle();
 
         setCursorHand();
         addTranslationListener( new DefaultTranslator( this ) );
     }
 
+    private void addScale() {
+        DecimalFormat wavelengthFormat = new DecimalFormat( "000" );
+        Line2D minorTickMarkShape = new Line2D.Double( 0, 0, 0, 2 );
+        Line2D majorTickMarkShape = new Line2D.Double( 0, 0, 0, 5 );
+        double minorTickSpacing = 10;
+        double majorTickSpacing = 100;
+        for( double wavelength = minWavelength; wavelength <= maxWavelength; wavelength += minorTickSpacing ) {
+            double xLoc = xLocForWavelength( wavelength ) + displayOrigin.getX() + PhotonMarker.indicatorWidth / 2;
+            Line2D tickMarkShape = minorTickMarkShape;
+
+            // Is this a major tick mark?
+            if( (int)wavelength % (int)majorTickSpacing == 0 ) {
+                String label = wavelengthFormat.format( wavelength );
+                PhetTextGraphic labelGraphic = new PhetTextGraphic( getComponent(),
+                                                                    DischargeLampsConfig.DEFAULT_CONTROL_FONT,
+                                                                    label,
+                                                                    Color.white,
+                                                                    (int)( xLoc - 10 ),
+                                                                    (int)( displayOrigin.getY() + 15 ) );
+                addGraphic( labelGraphic );
+                tickMarkShape = majorTickMarkShape;
+            }
+
+            PhetShapeGraphic tickMark = new PhetShapeGraphic( getComponent(), tickMarkShape, Color.white, new BasicStroke( 1 ), Color.white );
+            tickMark.setLocation( (int)xLoc, (int)( displayOrigin.getY() + 4 ) );
+            addGraphic( tickMark );
+
+        }
+    }
+
+    private void addTitle() {
+        String units = "Wavelength (nanometers)";
+        double xLoc = xLocForWavelength( (minWavelength + maxWavelength) / 2 ) - 50;
+        PhetTextGraphic unitsGraphic = new PhetTextGraphic( getComponent(),
+                                                            DischargeLampsConfig.DEFAULT_CONTROL_FONT,
+                                                            units,
+                                                            Color.white,
+                                                            (int)xLoc,
+                                                            (int)( displayOrigin.getY() + 30 ) );
+        addGraphic( unitsGraphic );
+    }
+
     private void addUvIRIndicators() {
         double xLocUv = xLocForWavelength( minWavelength ) + displayOrigin.getX() + PhotonMarker.indicatorWidth;
         Line2D uvLine = new Line2D.Double( xLocUv, displayOrigin.getY(), xLocUv, displayOrigin.getY() - displayHeight );
-        PhetShapeGraphic uvLineGraphic = new PhetShapeGraphic( getComponent(), uvLine, UV_COLOR, new BasicStroke( 1 ), Color.white );
-        addGraphic( uvLineGraphic );
+        PhetShapeGraphic uvLineGraphic = new PhetShapeGraphic( getComponent(), uvLine, UV_COLOR, new BasicStroke( 1 ), UV_COLOR );
+//        addGraphic( uvLineGraphic );
 
         PhetTextGraphic uvText = new PhetTextGraphic( getComponent(),
                                                       DischargeLampsConfig.DEFAULT_CONTROL_FONT,
-                                                      "<- UV",
-                                                      UV_COLOR,
-                                                      (int)( xLocUv - 30 ),
-                                                      (int)( displayOrigin.getY() + 12 ) );
+                                                      "<- far UV",
+                                                      Color.white,
+                                                      (int)( xLocUv - 80 ),
+                                                      (int)( displayOrigin.getY() + 15 ) );
+//                                                      (int)( displayOrigin.getY() + 35 ) );
         addGraphic( uvText );
 
         double xLocIr = xLocForWavelength( maxWavelength ) + displayOrigin.getX();
         Line2D irLine = new Line2D.Double( xLocIr, displayOrigin.getY(), xLocIr, displayOrigin.getY() - displayHeight );
-        PhetShapeGraphic irLineGraphic = new PhetShapeGraphic( getComponent(), irLine, UV_COLOR, new BasicStroke( 1 ), Color.white );
-        addGraphic( irLineGraphic, 1000 );
+        PhetShapeGraphic irLineGraphic = new PhetShapeGraphic( getComponent(), irLine, UV_COLOR, new BasicStroke( 1 ), UV_COLOR );
+//        addGraphic( irLineGraphic );
 
         PhetTextGraphic irText = new PhetTextGraphic( getComponent(),
                                                       DischargeLampsConfig.DEFAULT_CONTROL_FONT,
-                                                      "IR ->",
-                                                      UV_COLOR,
-                                                      (int)( xLocIr ),
-                                                      (int)( displayOrigin.getY() + 12 ) );
+                                                      "far IR ->",
+                                                      Color.white,
+                                                      (int)( xLocIr + 30),
+                                                      (int)( displayOrigin.getY() + 15 ) );
+//                                                      (int)( displayOrigin.getY() + 35 ) );
         addGraphic( irText );
 
     }
@@ -141,7 +191,9 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
             }
         } );
         addGraphic( startStopBtn );
-        startStopBtn.setLocation( 40, (int)( backgroundPanel.getSize().height - 3 ) );
+        int xLocStartButton = 40;
+//        int xLocStartButton = 280;
+        startStopBtn.setLocation( xLocStartButton, (int)( backgroundPanel.getSize().height ) );
         startStopBtn.setRegistrationPoint( 0, startStopBtn.getHeight() );
 
         // Add reset button
@@ -153,7 +205,7 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
             }
         } );
         addGraphic( resetBtn );
-        resetBtn.setLocation( 40 + startStopBtn.getWidth() + 10, (int)( backgroundPanel.getSize().height - 3 ) );
+        resetBtn.setLocation( xLocStartButton + startStopBtn.getWidth() + 10, (int)( backgroundPanel.getSize().height ) );
         resetBtn.setRegistrationPoint( 0, resetBtn.getHeight() );
     }
 

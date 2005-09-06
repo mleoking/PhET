@@ -44,6 +44,8 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
     // This transform controls the y location of the line
     private ModelViewTransform1D energyYTx;
     private boolean arrowsEnabled = true;
+    // The fewest pixels that will be allowed between energy levels;
+    private int minPixelsBetweenLevels = EnergyLifetimeSlider.sliderHeight;
 
     // Strategy for setting to color of this energy level graphic
     private ColorStrategy colorStrategy = new VisibleColorStrategy();
@@ -99,6 +101,10 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
         energyLevelRep.setLevelIcon( levelIcon );
     }
 
+    public void setMinPixelsBetweenLevels( int minPixelsBetweenLevels ) {
+        this.minPixelsBetweenLevels = minPixelsBetweenLevels;
+    }
+
     /**
      * Sets the strategy used to pick the color for the graphic
      *
@@ -125,7 +131,6 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
      * Inner class that handles translation of the graphic
      */
     private class EnergyLevelTranslator implements TranslationListener {
-        private int minPixelsBetweenLevels = EnergyLifetimeSlider.sliderHeight;
 
         public void translationOccurred( TranslationEvent translationEvent ) {
             int dy = translationEvent.getDy();
