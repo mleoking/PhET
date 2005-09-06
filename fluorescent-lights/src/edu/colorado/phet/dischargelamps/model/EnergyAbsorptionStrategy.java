@@ -11,6 +11,9 @@
 package edu.colorado.phet.dischargelamps.model;
 
 import edu.colorado.phet.lasers.model.atom.Atom;
+import edu.colorado.phet.lasers.model.PhysicsUtil;
+import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.math.MathUtil;
 
 import java.util.Random;
 
@@ -20,8 +23,35 @@ import java.util.Random;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public interface EnergyAbsorptionStrategy {
-    public void collideWithElectron( Atom atom, Electron electron );
+public abstract class EnergyAbsorptionStrategy {
+
+    abstract public void collideWithElectron( Atom atom, Electron electron );
+
+    /**
+     * Returns the kinetic energy of an electron at the time it collides with an atom. It does this
+     * by computing the actual time of collision, then the speed of the electron at that time.
+     *
+     * @param atom
+     * @param electron
+     * @return
+     */
+    public static double getElectronEnergyAtCollision( Atom atom, Electron electron ) {
+        double prevDistSq = electron.getPositionPrev().distanceSq( atom.getPosition() );
+        double atomRadSq = ( atom.getRadius() + electron.getRadius() ) * ( atom.getRadius() + electron.getRadius() );
+        double collisionDist = Math.sqrt( prevDistSq ) - Math.sqrt( atomRadSq );
+        double a = electron.getAcceleration().getMagnitude() / 2;
+        double b = electron.getVelocityPrev().getMagnitude();
+        double c = -collisionDist;
+        double[] roots = MathUtil.quadraticRoots( a, b, c );
+        double t = roots[0] >= 0 ? roots[0] : roots[1];
+        if( t < 0 || Double.isNaN( t ) || Double.isInfinite( t ) ) {
+            throw new RuntimeException( "no non-negative t" );
+        }
+        double v = electron.getVelocityPrev().getMagnitude() + electron.getAcceleration().getMagnitude() * t;
+        double energy = v * v * electron.getMass() / 2 * PhysicsUtil.EV_PER_JOULE;
+        return energy;
+    }
+
 
     /**
      * Utility class that sets an electron's direction of travel to a random
@@ -37,4 +67,5 @@ public interface EnergyAbsorptionStrategy {
             electron.getVelocity().rotate( theta );
         }
     }
+
 }

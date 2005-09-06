@@ -62,6 +62,8 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
 
     public SpectrometerGraphic( Component component, final Spectrometer spectrometer ) {
         super( component );
+
+        setIgnoreMouse( true );
         spectrometer.addChangeListener( this );
 
         BufferedImage spectrometerImage = null;

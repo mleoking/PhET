@@ -54,8 +54,6 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
         float strokeThickness = 1;
         Shape line = new Line2D.Double( 25, 0, 110, 0 );
         Paint paint = Color.red;
-//        Stroke stroke = new BasicStroke( strokeThickness, BasicStroke.CAP_BUTT,
-//                                         BasicStroke.JOIN_MITER, miterLimit, dashPattern, dashPhase );
         Stroke stroke = new BasicStroke( strokeThickness );
         PhetShapeGraphic lineGraphic = new PhetShapeGraphic( elmp, line, stroke, paint );
         addGraphic( lineGraphic );

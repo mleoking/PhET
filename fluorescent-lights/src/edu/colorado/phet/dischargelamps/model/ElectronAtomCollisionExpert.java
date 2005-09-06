@@ -50,6 +50,8 @@ public class ElectronAtomCollisionExpert implements CollisionExpert {
             double distSq = electron.getPosition().distanceSq( atom.getPosition() );
             double atomRadSq = ( atom.getRadius() + electron.getRadius() ) * ( atom.getRadius() + electron.getRadius() );
             if( distSq <= atomRadSq && prevDistSq > atomRadSq ) {
+
+                System.out.println( "electron.getEnergy() = " + electron.getEnergy() );
                 atom.collideWithElectron( electron );
             }
         }

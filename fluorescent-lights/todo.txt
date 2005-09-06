@@ -13,8 +13,7 @@ Put scale on the spectrometer
     left is "far UV", right is "far IR"
     UV line looks white
 
-Sometimes single electron stimulates atom at level higher than it's collision energy
-Spectrometer should clear every time it is shown
+Atom halos not right on multiple atom panel
 
 Done
 ====
@@ -23,6 +22,9 @@ Done
 Fixed problem with multiple electron graphics on the energy monitor panel
 Squiggles should be on by default on single atom module
 "Collision energy" indicator should always show on single atom module
+Spectrometer should clear every time it is shown
+Sometimes single electron stimulates atom at level higher than it's collision energy
+Spectrometer shouldn't be movable
 
 
 9-5-05

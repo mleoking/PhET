@@ -24,7 +24,7 @@ import java.util.Random;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class DefaultAbsorptionStrategy implements EnergyAbsorptionStrategy {
+public class DefaultAbsorptionStrategy extends EnergyAbsorptionStrategy {
 
     Random random = new Random();
 
@@ -38,6 +38,7 @@ public class DefaultAbsorptionStrategy implements EnergyAbsorptionStrategy {
     public void collideWithElectron( Atom atom, Electron electron ) {
         AtomicState[] states = atom.getStates();
         AtomicState currState = atom.getCurrState();
+        double electronEnergy = getElectronEnergyAtCollision( atom, electron );
 
         // Find the index of the current state
         int currStateIdx = 0;
@@ -51,7 +52,7 @@ public class DefaultAbsorptionStrategy implements EnergyAbsorptionStrategy {
         // by more than the energy of the electron
         int highestPossibleNewStateIdx = currStateIdx + 1;
         for( ; highestPossibleNewStateIdx < states.length; highestPossibleNewStateIdx++ ) {
-            if( states[highestPossibleNewStateIdx].getEnergyLevel() - currState.getEnergyLevel() > electron.getEnergy() ) {
+            if( states[highestPossibleNewStateIdx].getEnergyLevel() - currState.getEnergyLevel() > electronEnergy ) {
                 break;
             }
         }
@@ -68,7 +69,7 @@ public class DefaultAbsorptionStrategy implements EnergyAbsorptionStrategy {
             // in energy between the new state and the old state
             double energyDiff = newState.getEnergyLevel() - currState.getEnergyLevel();
             atom.setCurrState( newState );
-            electron.setEnergy( electron.getEnergy() - energyDiff );
+            electron.setEnergy( electronEnergy - energyDiff );
         }
     }
 }
