@@ -51,8 +51,10 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
     private int displayWidth = 600;
     private int horizontalDisplayMargin = 30;
     private ArrayList photonMarkers = new ArrayList();
-    private double minWavelength = Photon.MIN_VISIBLE_WAVELENGTH;
-    private double maxWavelength = Photon.MAX_VISIBLE_WAVELENGTH;
+    private double minWavelength = 300; // nm
+    private double maxWavelength = 800; // nm
+//    private double minWavelength = Photon.MIN_VISIBLE_WAVELENGTH;
+//    private double maxWavelength = Photon.MAX_VISIBLE_WAVELENGTH;
 
     //----------------------------------------------------------------
     // Constructor and initialization
@@ -176,8 +178,6 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
     public void countChanged( Spectrometer.CountChangeEvent eventCount ) {
         // Determine the y location for the wavelength of the photon in the event
         double wavelength = eventCount.getWavelength();
-        double indicatorWidth = 2.5;
-        double indicatorHeight = 1.5;
 
         // Min wavelength displays on the left
         int wavelengthLoc = xLocForWavelength( wavelength );

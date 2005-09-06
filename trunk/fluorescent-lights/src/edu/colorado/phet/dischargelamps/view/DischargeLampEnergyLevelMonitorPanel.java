@@ -15,6 +15,7 @@ import edu.colorado.phet.common.math.ModelViewTransform1D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
@@ -47,8 +48,7 @@ import java.util.Map;
  * A panel that displays graphics for energy levels and squiggles for the energy of the photons in collimated beams.
  * A disc is drawn on the energy levels for each atom in that state.
  */
-public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implements Atom.ChangeListener,
-                                                                                  Electron.ChangeListener {
+public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implements Atom.ChangeListener {
 
     //----------------------------------------------------------------
     // Class data
@@ -95,7 +95,6 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
     private AtomicState[] atomicStates;
     private List atoms;
     private HashMap numAtomsInState = new HashMap();
-    private PhetImageGraphic electronGraphic;
     private int electronXLoc;
     private int levelLineOffsetX = 20;
     private int numAtoms;
@@ -436,38 +435,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
      * @param electron
      */
     public void addElectron( Electron electron ) {
-        electron.addChangeListener( this );
-        electronGraphic = new PhetImageGraphic( this, DischargeLampsConfig.ELECTRON_IMAGE_FILE_NAME );
-        // The -10 is a hack to get the electron to be even with everything else on the panel. I can't figure
-        // out why I need it
-        int yLoc = (int)energyYTx.modelToView( electron.getEnergy() + groundStateEnergy ) - 10;
-        electronGraphic.setLocation( electronXLoc, yLoc );
-        addGraphic( electronGraphic );
-    }
-
-    /**
-     * Implementation of Electron.ChangeListener
-     *
-     * @param changeEvent
-     */
-    public void leftSystem( Electron.ChangeEvent changeEvent ) {
-        removeGraphic( electronGraphic );
-        changeEvent.getElectron().removeListener( this );
-    }
-
-    /**
-     * Implementation of Electron.ChangeListener
-     *
-     * @param changeEvent
-     */
-    public void energyChanged( Electron.ChangeEvent changeEvent ) {
-
-        // The -10 is a hack to get the electron to be even with everything else on the panel. I can't figure
-        // out why I need it
-        int yLoc = (int)energyYTx.modelToView( changeEvent.getElectron().getEnergy() + groundStateEnergy ) - 10;
-        electronGraphic.setLocation( electronXLoc, yLoc );
-        electronGraphic.setBoundsDirty();
-        electronGraphic.repaint();
+        new ElectronGraphicManager( electron );
     }
 
     //----------------------------------------------------------------
@@ -497,6 +465,35 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
             DischargeLampAtomGraphic atomGraphic = new DischargeLampAtomGraphic( DischargeLampEnergyLevelMonitorPanel.this,
                                                                                  atom );
             addGraphic( atomGraphic );
+        }
+    }
+
+    private class ElectronGraphicManager implements Electron.ChangeListener {
+        PhetGraphic electronGraphic;
+
+        public ElectronGraphicManager( Electron electron ) {
+            electronGraphic = new PhetImageGraphic( DischargeLampEnergyLevelMonitorPanel.this,
+                                                    DischargeLampsConfig.ELECTRON_IMAGE_FILE_NAME );
+            // The -10 is a hack to get the electron to be even with everything else on the panel. I can't figure
+            // out why I need it
+            int yLoc = (int)energyYTx.modelToView( electron.getEnergy() + groundStateEnergy ) - 10;
+            electronGraphic.setLocation( electronXLoc, yLoc );
+            addGraphic( electronGraphic );
+
+            electron.addChangeListener( this );
+        }
+
+        public void leftSystem( Electron.ChangeEvent changeEvent ) {
+            removeGraphic( electronGraphic );
+        }
+
+        public void energyChanged( Electron.ChangeEvent changeEvent ) {
+            // The -10 is a hack to get the electron to be even with everything else on the panel. I can't figure
+            // out why I need it
+            int yLoc = (int)energyYTx.modelToView( changeEvent.getElectron().getEnergy() + groundStateEnergy ) - 10;
+            electronGraphic.setLocation( electronXLoc, yLoc );
+            electronGraphic.setBoundsDirty();
+            electronGraphic.repaint();
         }
     }
 }

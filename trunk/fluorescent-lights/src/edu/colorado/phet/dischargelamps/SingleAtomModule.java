@@ -14,6 +14,7 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.util.RadioButtonSelector;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
@@ -72,6 +73,10 @@ public class SingleAtomModule extends DischargeLampModule {
 
         // Add module-specific controls
         addControls();
+
+
+        setSquigglesEnabled( true );
+
     }
 
 
@@ -182,7 +187,7 @@ public class SingleAtomModule extends DischargeLampModule {
         currentSlider.setVisible( false );
         getDischargeLampModel().getLeftHandPlate().setCurrent( 0 );
         singleShotBtn.setVisible( true );
-        collisionEnergyIndicatorGraphic.setVisible( true );
+//        collisionEnergyIndicatorGraphic.setVisible( true );
         getDischargeLampModel().setElectronProductionMode( ElectronSource.SINGLE_SHOT_MODE );
         super.setHeatingElementsVisible( false );
     }
@@ -198,7 +203,7 @@ public class SingleAtomModule extends DischargeLampModule {
         currentSlider.setVisible( true );
         getDischargeLampModel().getLeftHandPlate().setCurrent( currentSlider.getValue() );
         singleShotBtn.setVisible( false );
-        collisionEnergyIndicatorGraphic.setVisible( false );
+//        collisionEnergyIndicatorGraphic.setVisible( false );
         getDischargeLampModel().setElectronProductionMode( ElectronSource.CONTINUOUS_MODE );
         super.setHeatingElementsVisible( true );
     }
