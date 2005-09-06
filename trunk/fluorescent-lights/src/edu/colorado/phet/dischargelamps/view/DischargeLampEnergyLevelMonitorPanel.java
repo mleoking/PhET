@@ -127,19 +127,18 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         super( clock );
         this.model = model;
 
-        model.addChangeListener( new DischargeLampModel.ChangeListener() {
+        // Add a listener that will catch changes in the energy levels
+        model.addChangeListener( new DischargeLampModel.ChangeListenerAdapter() {
             public void energyLevelsChanged( DischargeLampModel.ChangeEvent event ) {
                 setEnergyLevels( event.getDischargeLampModelDischargeLampModel().getAtomicStates() );
                 setEnergyLevelsMovable( event.getDischargeLampModelDischargeLampModel().getElementProperties().isLevelsMovable() );
-            }
-
-            public void voltageChanged( DischargeLampModel.ChangeEvent event ) {
             }
         } );
 
         // Determine locations and dimensions
 //        this.minPanelWidth = panelWidth;
         this.panelHeight = panelHeight;
+        this.minPanelWidth = panelWidth;
         setPreferredSize( new Dimension( (int)panelWidth, (int)panelHeight ) );
         this.origin = new Point( 25, panelHeight - 30 );
         this.levelLineOriginX = (int)origin.getX() + levelLineOffsetX;

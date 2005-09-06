@@ -13,6 +13,7 @@ Done
 ====
 9-6-05
 ------
+Added label to the spinner for the configurable atom
 Hydrogen energy levels aren't movable
 Configurable energy levels can be moved within 3 pixels of each other
 Fixed problem with multiple electron graphics on the energy monitor panel
