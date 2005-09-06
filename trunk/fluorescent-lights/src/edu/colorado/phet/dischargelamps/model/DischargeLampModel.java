@@ -327,7 +327,7 @@ public class DischargeLampModel extends LaserModel {
             super( source );
         }
 
-        public DischargeLampModel getDischargeLampModelDischargeLampModel() {
+        public DischargeLampModel getDischargeLampModel() {
             return (DischargeLampModel)getSource();
         }
     }

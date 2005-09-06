@@ -6,6 +6,7 @@ Photons disappear as soon as they get past the left edge of the ciruit.
 Simulation slows and waits while sliders are being moved
 
 
+Counter in spectrometer for off-scale photons
 Number under electron production rate slider need formatting
 Atom halos not right on multiple atom panel
 

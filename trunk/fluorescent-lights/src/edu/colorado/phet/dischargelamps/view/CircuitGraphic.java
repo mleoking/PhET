@@ -57,14 +57,14 @@ public class CircuitGraphic extends PhetImageGraphic implements DischargeLampMod
     }
 
     public void voltageChanged( DischargeLampModel.ChangeEvent event ) {
-        if( event.getDischargeLampModelDischargeLampModel().getVoltage() > 0
+        if( event.getDischargeLampModel().getVoltage() > 0
             && currImage != positiveVoltageImage ) {
             currImage = positiveVoltageImage;
             setImage( currImage );
             setBoundsDirty();
             repaint();
         }
-        if( event.getDischargeLampModelDischargeLampModel().getVoltage() < 0
+        if( event.getDischargeLampModel().getVoltage() < 0
             && currImage != negativeVoltageImage ) {
             currImage = negativeVoltageImage;
             setImage( currImage );

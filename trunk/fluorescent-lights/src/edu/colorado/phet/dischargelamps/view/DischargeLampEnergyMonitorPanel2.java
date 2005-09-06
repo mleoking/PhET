@@ -19,7 +19,7 @@ import edu.colorado.phet.dischargelamps.DischargeLampModule;
 import edu.colorado.phet.dischargelamps.model.Electron;
 import edu.colorado.phet.dischargelamps.model.AtomicStateFactory;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
-import edu.colorado.phet.dischargelamps.model.DefaultElementProperties;
+import edu.colorado.phet.dischargelamps.model.ConfigurableElementProperties;
 
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
@@ -119,7 +119,7 @@ public class DischargeLampEnergyMonitorPanel2 extends JPanel {
     }
 
     private void setSpinnerVisibility( DischargeLampModel model ) {
-        if( model.getElementProperties() instanceof DefaultElementProperties ) {
+        if( model.getElementProperties() instanceof ConfigurableElementProperties ) {
             spinnerPanel.setVisible( true );
 //            numLevelsSpinner.setVisible( true );
         }
@@ -135,7 +135,7 @@ public class DischargeLampEnergyMonitorPanel2 extends JPanel {
 
     private class SpinnerManager extends DischargeLampModel.ChangeListenerAdapter {
         public void energyLevelsChanged( DischargeLampModel.ChangeEvent event ) {
-            setSpinnerVisibility( event.getDischargeLampModelDischargeLampModel() );
+            setSpinnerVisibility( event.getDischargeLampModel() );
         }
     }
 }
