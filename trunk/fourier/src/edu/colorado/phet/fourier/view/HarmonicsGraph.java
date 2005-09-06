@@ -78,7 +78,7 @@ public class HarmonicsGraph extends GraphicLayerSet implements SimpleObserver, Z
     private static final double X_RANGE_START = ( L / 2 );
     private static final double X_RANGE_MIN = ( L / 4 );
     private static final double X_RANGE_MAX = ( 2 * L );
-    private static final double Y_RANGE_START = FourierConfig.MAX_HARMONIC_AMPLITUDE;
+    private static final double Y_RANGE_START = FourierConfig.MAX_HARMONIC_AMPLITUDE + ( 0.05 * FourierConfig.MAX_HARMONIC_AMPLITUDE );
     private static final Range2D CHART_RANGE = new Range2D( -X_RANGE_START, -Y_RANGE_START, X_RANGE_START, Y_RANGE_START );
     private static final Dimension CHART_SIZE = new Dimension( 540, 135 );
 
