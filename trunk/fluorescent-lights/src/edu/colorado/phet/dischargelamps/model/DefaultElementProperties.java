@@ -32,6 +32,8 @@ public class DefaultElementProperties extends ElementProperties {
             newEnergyLevels[i] = states[i].getEnergyLevel();
         }
         setEnergyLevels( newEnergyLevels );
+
+        setLevelsMovable( true );
     }
 }
 

@@ -85,6 +85,7 @@ public class DischargeLampEnergyMonitorPanel2 extends JPanel {
 
     public void reset() {
         elmp.setEnergyLevels( model.getAtomicStates() );
+        elmp.setEnergyLevelsMovable( model.getElementProperties().isLevelsMovable() );
     }
 
     public void addAtom( Atom atom ) {
@@ -93,6 +94,7 @@ public class DischargeLampEnergyMonitorPanel2 extends JPanel {
 
     public void setEnergyLevels( AtomicState[] atomicStates ) {
         elmp.setEnergyLevels( atomicStates );
+        elmp.setEnergyLevelsMovable( model.getElementProperties().isLevelsMovable() );
     }
 
     public void setSquigglesEnabled( boolean selected ) {

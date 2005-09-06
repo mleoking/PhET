@@ -26,6 +26,7 @@ import java.util.Arrays;
 public class ElementProperties {
     private double[] energyLevels;
     private String name;
+    private boolean levelsMovable;
 
     protected ElementProperties( String name, double[] energyLevels ) {
         this.name = name;
@@ -38,6 +39,14 @@ public class ElementProperties {
     
     public double[] getEnergyLevels() {
         return energyLevels;
+    }
+
+    public boolean isLevelsMovable() {
+        return levelsMovable;
+    }
+
+    public void setLevelsMovable( boolean levelsMovable ) {
+        this.levelsMovable = levelsMovable;
     }
 
     public AtomicState[] getStates() {

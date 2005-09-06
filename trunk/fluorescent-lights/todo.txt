@@ -7,24 +7,25 @@ Simulation slows and waits while sliders are being moved
 
 
 Number under electron production rate slider need formatting
-
-Put scale on the spectrometer
-    300-800nm is visible
-    left is "far UV", right is "far IR"
-    UV line looks white
-
 Atom halos not right on multiple atom panel
 
 Done
 ====
 9-6-05
 ------
+Hydrogen energy levels aren't movable
+Configurable energy levels can be moved within 3 pixels of each other
 Fixed problem with multiple electron graphics on the energy monitor panel
 Squiggles should be on by default on single atom module
 "Collision energy" indicator should always show on single atom module
 Spectrometer should clear every time it is shown
 Sometimes single electron stimulates atom at level higher than it's collision energy
 Spectrometer shouldn't be movable
+Removed neon from atom type selection list
+Put scale on the spectrometer
+    300-800nm is visible
+    left is "far UV", right is "far IR"
+    UV line looks white
 
 
 9-5-05

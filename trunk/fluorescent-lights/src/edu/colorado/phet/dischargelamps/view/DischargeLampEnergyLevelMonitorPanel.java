@@ -99,6 +99,8 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
     private int levelLineOffsetX = 20;
     private int numAtoms;
     private double atomGraphicOverlap = 0.3;
+    // Minimum space between energy levels (in pixels)
+    private int minEnergyLevelSpacing = 3;
 
     // The minimum energy and maximum energies of the states we are representing
     private double groundStateEnergy = Double.MAX_VALUE;
@@ -128,6 +130,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         model.addChangeListener( new DischargeLampModel.ChangeListener() {
             public void energyLevelsChanged( DischargeLampModel.ChangeEvent event ) {
                 setEnergyLevels( event.getDischargeLampModelDischargeLampModel().getAtomicStates() );
+                setEnergyLevelsMovable( event.getDischargeLampModelDischargeLampModel().getElementProperties().isLevelsMovable() );
             }
 
             public void voltageChanged( DischargeLampModel.ChangeEvent event ) {
@@ -147,6 +150,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
 
         // Create a horizontal line for each energy level, then add them to the panel
         setEnergyLevels( atomicStates );
+        setEnergyLevelsMovable( model.getElementProperties().isLevelsMovable() );
 
         // Add listeners to all the atoms in the model
         addAtomListeners();
@@ -196,6 +200,17 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
     }
 
     /**
+     *
+     * @param movable
+     */
+    public void setEnergyLevelsMovable( boolean movable ) {
+        for( int i = 0; i < levelGraphics.length; i++ ) {
+            EnergyLevelGraphic levelGraphic = levelGraphics[i];
+            levelGraphic.setIgnoreMouse( !movable );
+        }
+    }
+
+    /**
      * @param atomicStates
      */
     public void setEnergyLevels( AtomicState[] atomicStates ) {
@@ -232,6 +247,8 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
             levelGraphics[i].setColorStrategy( this.colorStrategy );
             // Add an icon to the level
             levelGraphics[i].setLevelIcon( new LevelIcon( this, i ) );
+            // Set the minimum distance this graphic must have between it and the ones next to it
+            levelGraphics[i].setMinPixelsBetweenLevels( minEnergyLevelSpacing );
             this.addGraphic( levelGraphics[i] );
         }
 
