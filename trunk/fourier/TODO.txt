@@ -68,6 +68,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/7) - phetcommon: debug a problem introduced into ApparatusPanel that duplicates all MouseEvents
 1.0.10 ...
 (9/7) - delete disabled zoom button images that were made irrelevant on 7/26
 (9/7) - fix javadoc for renamed classes
