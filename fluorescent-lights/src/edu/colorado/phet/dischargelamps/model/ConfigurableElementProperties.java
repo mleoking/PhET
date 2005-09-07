@@ -26,6 +26,11 @@ public class ConfigurableElementProperties extends ElementProperties {
 
     public ConfigurableElementProperties( int numEnergyLevels, DischargeLampModel model ) {
         super( "Configurable", energyLevels );
+        model.addChangeListener( new LevelChangeHandler() );
+        setNumEnergyLevels( numEnergyLevels );
+    }
+
+    public void setNumEnergyLevels( int numEnergyLevels ) {
         AtomicState[] states = new AtomicStateFactory().createAtomicStates( numEnergyLevels );
         double[] newEnergyLevels = new double[numEnergyLevels];
         for( int i = 0; i < newEnergyLevels.length; i++ ) {
@@ -33,17 +38,19 @@ public class ConfigurableElementProperties extends ElementProperties {
         }
         setEnergyLevels( newEnergyLevels );
         setLevelsMovable( true );
-        model.addChangeListener( new LevelChangeHandler() );
     }
+
 
     private class LevelChangeHandler extends DischargeLampModel.ChangeListenerAdapter {
         public void energyLevelsChanged( DischargeLampModel.ChangeEvent event ) {
-            AtomicState[] states = event.getDischargeLampModel().getAtomicStates();
-            double[] newEnergyLevels = new double[states.length];
-            for( int i = 0; i < states.length; i++ ) {
-                newEnergyLevels[i] = states[i].getEnergyLevel();
+            if( event.getDischargeLampModel().getElementProperties() == ConfigurableElementProperties.this ) {
+                AtomicState[] states = event.getDischargeLampModel().getAtomicStates();
+                double[] newEnergyLevels = new double[states.length];
+                for( int i = 0; i < states.length; i++ ) {
+                    newEnergyLevels[i] = states[i].getEnergyLevel();
+                }
+                setEnergyLevels( newEnergyLevels );
             }
-            setEnergyLevels( newEnergyLevels );
         }
     }
 }
