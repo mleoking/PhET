@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.fourier.view;
+package edu.colorado.phet.fourier.view.discrete;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -26,12 +26,12 @@ import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.fourier.FourierConfig;
-import edu.colorado.phet.fourier.charts.AmplitudesChart;
 import edu.colorado.phet.fourier.charts.FlattenedChart;
 import edu.colorado.phet.fourier.event.HarmonicFocusEvent;
 import edu.colorado.phet.fourier.event.HarmonicFocusListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
+import edu.colorado.phet.fourier.view.AmplitudeSlider;
 
 
 /**
@@ -126,7 +126,7 @@ public class DiscreteAmplitudesView extends GraphicLayerSet implements SimpleObs
         
         // Flattened Chart
         {
-            AmplitudesChart chartGraphic = new AmplitudesChart( component, CHART_RANGE, CHART_SIZE );
+            DiscreteAmplitudesChart chartGraphic = new DiscreteAmplitudesChart( component, CHART_RANGE, CHART_SIZE );
             chartGraphic.setLocation( 0, 0 );
             chartGraphic.setRegistrationPoint( 0, 0 );
 

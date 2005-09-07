@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.fourier.charts;
+package edu.colorado.phet.fourier.view.d2c;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -24,12 +24,12 @@ import edu.colorado.phet.fourier.FourierConstants;
 
 
 /**
- * D2CHarmonicsChart
+ * D2CSumChart
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class D2CHarmonicsChart extends Chart {
+public class D2CSumChart extends Chart {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -53,6 +53,12 @@ public class D2CHarmonicsChart extends Chart {
     private static final Font MINOR_TICK_FONT = MAJOR_TICK_FONT;
     private static final Color MINOR_TICK_COLOR = MAJOR_TICK_COLOR;
     
+    // Gridline parameters
+    private static final Color MAJOR_GRIDLINE_COLOR = Color.BLACK;
+    private static final Stroke MAJOR_GRIDLINE_STROKE = new BasicStroke( 0.25f );
+    private static final Color MINOR_GRIDLINE_COLOR = Color.BLACK;
+    private static final Stroke MINOR_GRIDLINE_STROKE = new BasicStroke( 0.25f );
+    
     // X Axis parameters
     private static final double L = 1;
     private static final double X_MAJOR_TICK_SPACING = 0.5;
@@ -61,19 +67,20 @@ public class D2CHarmonicsChart extends Chart {
     // Y Axis parameters
     private static final double Y_MAJOR_TICK_SPACING = 0.5;
     private static final double Y_MINOR_TICK_SPACING = 0.1;
-    
+  
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private PhetTextGraphic _xAxisTitleGraphic;
+    private String _xAxisTitleTime, _xAxisTitleSpace;
     private StringLabelTable _spaceLabels1, _spaceLabels2;
     private StringLabelTable _timeLabels1, _timeLabels2;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sole constructor.
      * 
@@ -81,7 +88,7 @@ public class D2CHarmonicsChart extends Chart {
      * @param range
      * @param chartSize
      */
-    public D2CHarmonicsChart( Component component, Range2D range, Dimension chartSize ) {
+    public D2CSumChart( Component component, Range2D range, Dimension chartSize ) {
         super( component, range, chartSize );
         
         // Enable antialiasing
@@ -91,41 +98,41 @@ public class D2CHarmonicsChart extends Chart {
         {
             getXAxis().setStroke( AXIS_STROKE );
             getXAxis().setColor( AXIS_COLOR );
-            
+
             // Title
             _xAxisTitleGraphic = new PhetTextGraphic( component, AXIS_TITLE_FONT, "", AXIS_TITLE_COLOR );
             setXAxisTitle( _xAxisTitleGraphic );
-
+            
             // No ticks or labels on the axis
             getXAxis().setMajorTicksVisible( false );
             getXAxis().setMajorTickLabelsVisible( false );
             getXAxis().setMinorTicksVisible( false );
             getXAxis().setMinorTickLabelsVisible( false );
-
+            
             // Major ticks with labels below the chart
             getHorizontalTicks().setMajorTicksVisible( true );
             getHorizontalTicks().setMajorTickLabelsVisible( true );
             getHorizontalTicks().setMajorTickSpacing( X_MAJOR_TICK_SPACING );
             getHorizontalTicks().setMajorTickStroke( MAJOR_TICK_STROKE );
             getHorizontalTicks().setMajorTickFont( MAJOR_TICK_FONT );
-            
+
             // Minor ticks, no labels below the chart
             getHorizontalTicks().setMinorTicksVisible( true );
             getHorizontalTicks().setMinorTickLabelsVisible( false );
             getHorizontalTicks().setMinorTickSpacing( X_MINOR_TICK_SPACING );
             getHorizontalTicks().setMinorTickStroke( MINOR_TICK_STROKE );
             getHorizontalTicks().setMinorTickFont( MINOR_TICK_FONT );
-
-            // No vertical grid lines
+            
+            // No vertical gridlines
             getVerticalGridlines().setMajorGridlinesVisible( false );
             getVerticalGridlines().setMinorGridlinesVisible( false );
         }
-
+        
         // Y axis
         {
             getYAxis().setStroke( AXIS_STROKE );
             getYAxis().setColor( AXIS_COLOR );
-
+            
             // No ticks or labels on the axis
             getYAxis().setMajorTicksVisible( false );
             getYAxis().setMajorTickLabelsVisible( false );
@@ -143,7 +150,7 @@ public class D2CHarmonicsChart extends Chart {
             getVerticalTicks().setMajorTickStroke( MAJOR_TICK_STROKE );
             getVerticalTicks().setMajorTickFont( MAJOR_TICK_FONT );
 
-            // No minor ticks.
+            // No minor ticks
             getVerticalTicks().setMinorTicksVisible( false );
             
             // No horizontal gridlines
@@ -151,11 +158,11 @@ public class D2CHarmonicsChart extends Chart {
             getHorizonalGridlines().setMinorGridlinesVisible( false );
         }
     }
-
+    
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-   
+
     /**
      * Sets the title on the x axis.
      * 
@@ -167,7 +174,7 @@ public class D2CHarmonicsChart extends Chart {
     }
     
     public void setXAxisTitle( char c ) {
-        setXAxisTitle( String.valueOf( c ) );
+        setXAxisTitle( "" + c );
     }
     
     /**
@@ -186,35 +193,15 @@ public class D2CHarmonicsChart extends Chart {
          * These values were set via trial-&-error.  
          * Good luck changing them.
          */
-        if ( maxY > 1 ) {
+        if ( maxY > 2 ) {
             majorSpacing = 1.0;
             minorSpacing = 0.5;
             majorNumberFormat = new DecimalFormat( "#.#" );
         }    
-        else if ( maxY > 0.5 ) {
-            majorSpacing = 0.2;
+        else {
+            majorSpacing = 0.5;
             minorSpacing = 0.1;
             majorNumberFormat = new DecimalFormat( ".##" );
-        }
-        else if ( maxY > 0.2 ) {
-            majorSpacing = 0.1;
-            minorSpacing = 0.05;
-            majorNumberFormat = new DecimalFormat( ".##" );
-        }
-        else if ( maxY > 0.05 ) {
-            majorSpacing = 0.05;
-            minorSpacing = 0.01;
-            majorNumberFormat = new DecimalFormat( ".##" );
-        }
-        else if ( maxY > 0.02 ) {
-            majorSpacing = 0.01;
-            minorSpacing = 0.005;
-            majorNumberFormat = new DecimalFormat( ".###" );
-        }
-        else {
-            majorSpacing = 0.005;
-            minorSpacing = 0.001; 
-            majorNumberFormat = new DecimalFormat( ".###" );
         }
         
         /*

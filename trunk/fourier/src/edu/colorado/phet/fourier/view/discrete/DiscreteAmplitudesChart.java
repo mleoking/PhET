@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.fourier.charts;
+package edu.colorado.phet.fourier.view.discrete;
 
 import java.awt.*;
 import java.awt.Component;
@@ -30,7 +30,7 @@ import edu.colorado.phet.fourier.MathStrings;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class AmplitudesChart extends Chart {
+public class DiscreteAmplitudesChart extends Chart {
 
     // Axis parameters
     private static final Color AXIS_COLOR = Color.BLACK;
@@ -64,7 +64,7 @@ public class AmplitudesChart extends Chart {
      * @param range
      * @param chartSize
      */
-    public AmplitudesChart( Component component, Range2D range, Dimension chartSize ) {
+    public DiscreteAmplitudesChart( Component component, Range2D range, Dimension chartSize ) {
         super( component, range, chartSize );
         
         // X axis

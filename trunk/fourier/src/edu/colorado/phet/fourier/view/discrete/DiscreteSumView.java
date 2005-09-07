@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.fourier.view;
+package edu.colorado.phet.fourier.view.discrete;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -35,11 +35,11 @@ import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.charts.FourierSumPlot;
-import edu.colorado.phet.fourier.charts.SumChart;
 import edu.colorado.phet.fourier.control.ZoomControl;
 import edu.colorado.phet.fourier.event.ZoomEvent;
 import edu.colorado.phet.fourier.event.ZoomListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
+import edu.colorado.phet.fourier.view.AnimationCycleController;
 import edu.colorado.phet.fourier.view.AnimationCycleController.AnimationCycleEvent;
 import edu.colorado.phet.fourier.view.AnimationCycleController.AnimationCycleListener;
 
@@ -109,7 +109,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
     private PhetShapeGraphic _backgroundGraphic;
     private PhetTextGraphic _titleGraphic;
     private PhetImageGraphic _closeButton;
-    private SumChart _chartGraphic;
+    private DiscreteSumChart _chartGraphic;
     private DiscreteSumEquation _mathGraphic;
     private FourierSumPlot _sumPlot;
     private LinePlot _presetPlot;
@@ -160,7 +160,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
         
         // Chart
         {
-            _chartGraphic = new SumChart( component, CHART_RANGE, CHART_SIZE );
+            _chartGraphic = new DiscreteSumChart( component, CHART_RANGE, CHART_SIZE );
             addGraphic( _chartGraphic, CHART_LAYER );
             _chartGraphic.setRegistrationPoint( 0, CHART_SIZE.height / 2 ); // at the chart's origin
             _chartGraphic.setLocation( 60, 50 + ( CHART_SIZE.height / 2 ) );

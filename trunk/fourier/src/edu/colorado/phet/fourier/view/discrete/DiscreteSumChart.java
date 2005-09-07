@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.fourier.charts;
+package edu.colorado.phet.fourier.view.discrete;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -24,12 +24,12 @@ import edu.colorado.phet.fourier.FourierConstants;
 
 
 /**
- * HarmonicsChart
+ * SumChart
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class HarmonicsChart extends Chart {
+public class DiscreteSumChart extends Chart {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -59,26 +59,28 @@ public class HarmonicsChart extends Chart {
     private static final Color MINOR_GRIDLINE_COLOR = Color.BLACK;
     private static final Stroke MINOR_GRIDLINE_STROKE = new BasicStroke( 0.25f );
     
-    // X Axis parameters
+    // X axis
     private static final double L = FourierConstants.L; // do not change!
     private static final double X_MAJOR_TICK_SPACING = ( L / 4 );
     private static final double X_MINOR_TICK_SPACING = ( L / 8 );
 
-    // Y Axis parameters
-    private static final double Y_MAJOR_TICK_SPACING = 0.5;
-    
+    // Y axis
+    private static final double Y_MAJOR_TICK_SPACING = 5.0;
+    private static final double Y_MINOR_TICK_SPACING = 1.0;
+  
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private PhetTextGraphic _xAxisTitleGraphic;
+    private String _xAxisTitleTime, _xAxisTitleSpace;
     private StringLabelTable _spaceLabels1, _spaceLabels2;
     private StringLabelTable _timeLabels1, _timeLabels2;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sole constructor.
      * 
@@ -86,7 +88,7 @@ public class HarmonicsChart extends Chart {
      * @param range
      * @param chartSize
      */
-    public HarmonicsChart( Component component, Range2D range, Dimension chartSize ) {
+    public DiscreteSumChart( Component component, Range2D range, Dimension chartSize ) {
         super( component, range, chartSize );
         
         // Enable antialiasing
@@ -96,17 +98,17 @@ public class HarmonicsChart extends Chart {
         {
             getXAxis().setStroke( AXIS_STROKE );
             getXAxis().setColor( AXIS_COLOR );
-            
+
             // Title
             _xAxisTitleGraphic = new PhetTextGraphic( component, AXIS_TITLE_FONT, "", AXIS_TITLE_COLOR );
             setXAxisTitle( _xAxisTitleGraphic );
-
+            
             // No ticks or labels on the axis
             getXAxis().setMajorTicksVisible( false );
             getXAxis().setMajorTickLabelsVisible( false );
             getXAxis().setMinorTicksVisible( false );
             getXAxis().setMinorTickLabelsVisible( false );
-
+            
             // Major ticks with labels below the chart
             getHorizontalTicks().setMajorTicksVisible( true );
             getHorizontalTicks().setMajorTickLabelsVisible( true );
@@ -127,12 +129,12 @@ public class HarmonicsChart extends Chart {
             getVerticalGridlines().setMinorGridlinesColor( MINOR_GRIDLINE_COLOR );
             getVerticalGridlines().setMinorGridlinesStroke( MINOR_GRIDLINE_STROKE );
         }
-
+        
         // Y axis
         {
             getYAxis().setStroke( AXIS_STROKE );
             getYAxis().setColor( AXIS_COLOR );
-
+            
             // No ticks or labels on the axis
             getYAxis().setMajorTicksVisible( false );
             getYAxis().setMajorTickLabelsVisible( false );
@@ -155,13 +157,19 @@ public class HarmonicsChart extends Chart {
             getHorizonalGridlines().setMajorTickSpacing( Y_MAJOR_TICK_SPACING );
             getHorizonalGridlines().setMajorGridlinesColor( MAJOR_GRIDLINE_COLOR );
             getHorizonalGridlines().setMajorGridlinesStroke( MAJOR_GRIDLINE_STROKE );
+
+            // Horizontal gridlines for minor ticks
+            getHorizonalGridlines().setMinorGridlinesVisible( true );
+            getHorizonalGridlines().setMinorTickSpacing( Y_MINOR_TICK_SPACING );
+            getHorizonalGridlines().setMinorGridlinesColor( MINOR_GRIDLINE_COLOR );
+            getHorizonalGridlines().setMinorGridlinesStroke( MINOR_GRIDLINE_STROKE );
         }
     }
-
+    
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-   
+
     /**
      * Sets the title on the x axis.
      * 
@@ -173,7 +181,7 @@ public class HarmonicsChart extends Chart {
     }
     
     public void setXAxisTitle( char c ) {
-        setXAxisTitle( String.valueOf( c ) );
+        setXAxisTitle( "" + c );
     }
     
     //----------------------------------------------------------------------------
@@ -257,5 +265,4 @@ public class HarmonicsChart extends Chart {
         }
         return _timeLabels2;
     }
-
 }
