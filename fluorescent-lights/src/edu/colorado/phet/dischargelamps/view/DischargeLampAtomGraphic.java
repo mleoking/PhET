@@ -11,6 +11,7 @@
 package edu.colorado.phet.dischargelamps.view;
 
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShadowTextGraphic;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.lasers.model.PhysicsUtil;
@@ -47,7 +48,10 @@ public class DischargeLampAtomGraphic extends AtomGraphic implements Atom.Change
         this.atom = atom;
         getEnergyGraphic().setStroke( new BasicStroke( 0.5f ));
         getEnergyGraphic().setBorderColor( Color.black );
-        numberGraphic = new PhetTextGraphic( component, DischargeLampsConfig.DEFAULT_CONTROL_FONT, "", Color.white );
+        Font font = new Font( DischargeLampsConfig.DEFAULT_CONTROL_FONT.getName(),
+                              DischargeLampsConfig.DEFAULT_CONTROL_FONT.getStyle(),
+                              DischargeLampsConfig.DEFAULT_CONTROL_FONT.getSize() + 8 );
+        numberGraphic = new PhetTextGraphic( component, font, "", Color.white, -1, -2 );
         numberGraphic.setJustification( PhetTextGraphic.CENTER );
         setNumberGraphicText();
         addGraphic( numberGraphic, 1000 );

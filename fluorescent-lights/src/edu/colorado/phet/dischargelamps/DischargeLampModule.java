@@ -297,20 +297,16 @@ public class DischargeLampModule extends BaseLaserModule {
         }
 
         // A slider for the battery voltage
-        double defaultVoltage = 5;
-        final double voltageCalibrationFactor = 2.6331;
+        double defaultVoltage = 25;
+        final double voltageCalibrationFactor = 2.6331 * 2;
         final ModelSlider batterySlider = new ModelSlider( "Battery Voltage",
                                                            "V",
-                                                           -25, 25,
-//                                                           -DischargeLampModel.MAX_VOLTAGE * voltageCalibrationFactor,
-//                                                           DischargeLampModel.MAX_VOLTAGE * voltageCalibrationFactor,
-                                                           defaultVoltage  * voltageCalibrationFactor );
-        batterySlider.setMajorTickSpacing( 5 );
+                                                           -30, 30,
+                                                           defaultVoltage );
+        batterySlider.setMajorTickSpacing( 10 );
         batterySlider.setNumMinorTicksPerMajorTick( 1 );
-//        batterySlider.setNumMinorTicks( 2 );
-        batterySlider.setPaintLabels( false );
+        batterySlider.setSliderLabelFormat( new DecimalFormat( "##") );
         batterySlider.setPreferredSize( new Dimension( 250, 100 ) );
-//        batterySlider.setMajorTickSpacing( DischargeLampModel.MAX_VOLTAGE * voltageCalibrationFactor / 2 );
         ControlPanel controlPanel = (ControlPanel)getControlPanel();
         controlPanel.addControl( batterySlider );
         batterySlider.addChangeListener( new ChangeListener() {
@@ -319,13 +315,13 @@ public class DischargeLampModule extends BaseLaserModule {
                 model.setVoltage( voltage );
             }
         } );
-        leftHandPlate.setPotential( batterySlider.getValue() );
-        rightHandPlate.setPotential( 0 );
+        double voltage = batterySlider.getValue() / voltageCalibrationFactor;
+        model.setVoltage( voltage );
 
         // A slider for the battery current
         currentSlider = new ModelSlider( "Electron Production Rate", "electrons/sec",
                                          0, maxCurrent, 0, new DecimalFormat( "0.000" ) );
-        currentSlider.setMajorTickSpacing( maxCurrent / 5 );
+        currentSlider.setMajorTickSpacing( maxCurrent / 3 );
         batterySlider.setNumMinorTicksPerMajorTick( 1 );
         currentSlider.setPaintLabels( false );
         currentSlider.setPreferredSize( new Dimension( 250, 100 ) );

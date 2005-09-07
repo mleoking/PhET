@@ -97,11 +97,6 @@ public class SingleAtomModule extends DischargeLampModule {
         getCurrentSlider().setValue( maxCurrent / 2 );
 
         {
-//            JPanel electronProductionPanel = new JPanel( new GridBagLayout() );
-//            GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-//                                                             GridBagConstraints.CENTER,
-//                                                             GridBagConstraints.NONE,
-//                                                             new Insets( 0, 0, 0, 0 ), 0, 0 );
             // Add a button for firing a single electron. This also tells the energy level panel that if an
             // electron has been produced
             final JButton singleShotBtn = new JButton( "Fire electron" );
