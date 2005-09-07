@@ -444,6 +444,7 @@ sandbox-2005-05-10...
 (5/9) - amplitude sliders for harmonics
 (5/9) - HarmonicSeries control panel
 (5/9) - models for Harmonic and HarmonicSeries
+(5/9) - ********* DEVELOPMENT BEGINS *********
 (4/26) - add fourier to CVS loginfo and modules files
 (3/30) - set up basic application framework
 
