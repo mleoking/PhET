@@ -60,7 +60,7 @@ public class GaussianWavePacketPlot extends LinePlot {
      * @param component
      * @param chart
      */
-    public GaussianWavePacketPlot( Component component, D2CSumChart chart ) {
+    public GaussianWavePacketPlot( Component component, Chart chart ) {
         super( component, chart );
 
         // Enable antialiasing
