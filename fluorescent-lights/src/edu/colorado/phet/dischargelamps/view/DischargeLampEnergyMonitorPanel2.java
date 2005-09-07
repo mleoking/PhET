@@ -126,11 +126,9 @@ public class DischargeLampEnergyMonitorPanel2 extends JPanel {
     private void setSpinnerVisibility( DischargeLampModel model ) {
         if( model.getElementProperties() instanceof ConfigurableElementProperties ) {
             spinnerPanel.setVisible( true );
-//            numLevelsSpinner.setVisible( true );
         }
         else {
             spinnerPanel.setVisible( false );
-//            numLevelsSpinner.setVisible( false );
         }
     }
 

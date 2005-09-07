@@ -19,6 +19,7 @@ import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.view.AtomGraphic;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -39,23 +40,26 @@ public class DischargeLampAtomGraphic extends AtomGraphic implements Atom.Change
     PhetTextGraphic numberGraphic;
 
     /**
-     *
      * @param component
      * @param atom
      */
     public DischargeLampAtomGraphic( Component component, Atom atom ) {
         super( component, atom );
         this.atom = atom;
-        getEnergyGraphic().setStroke( new BasicStroke( 0.5f ));
+        getEnergyGraphic().setStroke( new BasicStroke( 0.5f ) );
         getEnergyGraphic().setBorderColor( Color.black );
         Font font = new Font( DischargeLampsConfig.DEFAULT_CONTROL_FONT.getName(),
                               DischargeLampsConfig.DEFAULT_CONTROL_FONT.getStyle(),
                               DischargeLampsConfig.DEFAULT_CONTROL_FONT.getSize() + 8 );
+        // Put the number graphic in the middle of the atom graphic
         numberGraphic = new PhetTextGraphic( component, font, "", Color.white, -1, -2 );
         numberGraphic.setJustification( PhetTextGraphic.CENTER );
         setNumberGraphicText();
         addGraphic( numberGraphic, 1000 );
+
+        determineEnergyRadiusAndColor();
         getEnergyGraphic().setColor( energyRepColorStrategy.getColor( atom ) );
+        update();
     }
 
     /**
@@ -69,6 +73,17 @@ public class DischargeLampAtomGraphic extends AtomGraphic implements Atom.Change
         numberGraphic.setText( numStr );
     }
 
+    /**
+     * Overrides parent class behavior to prevent it determining the color of
+     * the energy rep.
+     */
+    public void update() {
+        setLocation( (int)( getAtom().getPosition().getX() ),
+                     (int)( getAtom().getPosition().getY() ) );
+        setBoundsDirty();
+        repaint();
+    }
+
     //----------------------------------------------------------------
     // Atom.ChangeListener implementation
     //----------------------------------------------------------------
@@ -76,36 +91,16 @@ public class DischargeLampAtomGraphic extends AtomGraphic implements Atom.Change
     /**
      * Sets the color for the representation of the atom's energy level when the atom's state
      * changes
+     *
      * @param event
      */
-    public void stateChanged( Atom.ChangeEvent event ) {
-        super.stateChanged( event );
-
-        // TODO: go through this a clean it up
-        double dE = event.getPrevState().getEnergyLevel() - event.getCurrState().getEnergyLevel();
-        Color energyRepColor = null;
-        if( dE > 0 ) {
-            double wavelength = PhysicsUtil.energyToWavelength( event.getPrevState().getEnergyLevel() );
-            if( wavelength == Photon.GRAY ) {
-                energyRepColor = Color.darkGray;
-            }
-            else {
-                energyRepColor = energyRepColorStrategy.getColor( atom );
-                if( energyRepColor.equals( VisibleColor.INVISIBLE ) ) {
-                    energyRepColor = Color.darkGray;
-                }
-            }
-            new ColorChanger().start();
-        }
-        else {
-            energyRepColor = energyRepColorStrategy.getColor( atom );
-//            energyRepColor = Color.darkGray;
-        }
-        getEnergyGraphic().setColor( energyRepColor );
-
+    public void stateChanged( final Atom.ChangeEvent event ) {
+        // Let the superclass determine the radius of the energy representation, then override
+        // its choice of color
+        determineEnergyRadiusAndColor();
+        getEnergyGraphic().setColor( energyRepColorStrategy.getColor( atom ) );
         setNumberGraphicText();
-        setBoundsDirty();
-        repaint();
+        update();
     }
 
     //----------------------------------------------------------------
@@ -123,11 +118,23 @@ public class DischargeLampAtomGraphic extends AtomGraphic implements Atom.Change
             catch( InterruptedException e ) {
                 e.printStackTrace();
             }
-            getEnergyGraphic().setColor( energyRepColorStrategy.getColor( atom ) );
+//            getEnergyGraphic().setColor( energyRepColorStrategy.getColor( atom ) );
             setBoundsDirty();
             repaint();
         }
     }
+
+    private int getStateIdx( Atom atom ) {
+        int stateIdx = -1;
+        for( int i = 0; i < atom.getStates().length; i++ ){
+            if( atom.getCurrState() == atom.getStates()[i] ) {
+                stateIdx = i;
+                break;
+            }
+        }
+        return stateIdx;
+    }
+
 
     /**
      * Picks a Color to represent the energy level of an atom
@@ -166,7 +173,15 @@ public class DischargeLampAtomGraphic extends AtomGraphic implements Atom.Change
 //            int idx = (int)( grayScale.length * ( ( atom.getCurrState().getEnergyLevel() - Photon.wavelengthToEnergy( Photon.MAX_VISIBLE_WAVELENGTH ) ) /
 //                                     ( Photon.wavelengthToEnergy( Photon.MIN_VISIBLE_WAVELENGTH ) - Photon.wavelengthToEnergy( ( Photon.MAX_VISIBLE_WAVELENGTH ) ) ) ) );
             idx = Math.min( Math.max( 0, idx ), grayScale.length - 1 );
+
+            int stateIdx = getStateIdx( atom );
+//            System.out.println( "stateIdx = " + stateIdx + "\tidx = " + idx + "\tcolor = " + grayScale[idx] );
+
+//            if( atom.getCurrState() != atom.getStates()[0] && grayScale[idx].equals( Color.black ) ) {
+//                System.out.println( "!!!!!" );
+//            }
             return grayScale[idx];
         }
+
     }
 }

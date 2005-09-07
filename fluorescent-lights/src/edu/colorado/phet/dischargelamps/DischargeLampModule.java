@@ -17,7 +17,6 @@ import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.dischargelamps.control.AtomTypeChooser;
 import edu.colorado.phet.dischargelamps.model.*;
 import edu.colorado.phet.dischargelamps.view.*;
@@ -57,6 +56,9 @@ public class DischargeLampModule extends BaseLaserModule {
 //    public static boolean DEBUG = true;
     public static boolean DEBUG = false;
     private static final double SPECTROMETER_LAYER = 1000;
+    public static final double voltageCalibrationFactor = 5.64;
+//    public static final double voltageCalibrationFactor = 5.656;
+//    public static final double voltageCalibrationFactor = 5.78;
 
     //----------------------------------------------------------------
     // Instance data
@@ -114,7 +116,7 @@ public class DischargeLampModule extends BaseLaserModule {
         // Create the element properties we will use
         configurableElement = new ConfigurableElementProperties( 2, model );
         ElementProperties hydrogen = new HydrogenProperties();
-        elementProperties = new ElementProperties[] {
+        elementProperties = new ElementProperties[]{
             hydrogen,
             configurableElement
         };
@@ -298,14 +300,15 @@ public class DischargeLampModule extends BaseLaserModule {
 
         // A slider for the battery voltage
         double defaultVoltage = 25;
-        final double voltageCalibrationFactor = 2.6331 * 2;
+
+//        final double voltageCalibrationFactor = 5.8049;
         final ModelSlider batterySlider = new ModelSlider( "Battery Voltage",
                                                            "V",
                                                            -30, 30,
                                                            defaultVoltage );
         batterySlider.setMajorTickSpacing( 10 );
         batterySlider.setNumMinorTicksPerMajorTick( 1 );
-        batterySlider.setSliderLabelFormat( new DecimalFormat( "##") );
+        batterySlider.setSliderLabelFormat( new DecimalFormat( "##" ) );
         batterySlider.setPreferredSize( new Dimension( 250, 100 ) );
         ControlPanel controlPanel = (ControlPanel)getControlPanel();
         controlPanel.addControl( batterySlider );
@@ -378,6 +381,7 @@ public class DischargeLampModule extends BaseLaserModule {
         getApparatusPanel().removeGraphic( graphic );
         atom.removeChangeListener( graphic );
         graphic = new DischargeLampAtomGraphic( getApparatusPanel(), atom );
+        // Put some of the atoms in a layer above the circuit, and some below
         getApparatusPanel().addGraphic( graphic, DischargeLampsConfig.CIRCUIT_LAYER - 1 );
         if( random.nextBoolean() ) {
             getApparatusPanel().removeGraphic( graphic );

@@ -62,6 +62,7 @@ public class DischargeLampAtom extends Atom {
      * @param electron
      */
     public void collideWithElectron( Electron electron ) {
+        System.out.println( "electron.getEnergy() = " + electron.getEnergy() );
         energyAbsorptionStrategy.collideWithElectron( this, electron );
     }
 

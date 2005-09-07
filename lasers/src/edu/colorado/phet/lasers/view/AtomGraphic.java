@@ -63,7 +63,6 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
         super( component );
         this.atom = atom;
         this.setIgnoreMouse( true );
-//        atom.addObserver( this );
         atom.addChangeListener( this );
 
         BufferedImage image = null;
@@ -93,8 +92,6 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
      */
     public void update() {
         determineEnergyRadiusAndColor();
-
-//        System.out.println( "atom.getPosition() = " + atom.getPosition() );
         setLocation( (int)( atom.getPosition().getX() ),
                      (int)( atom.getPosition().getY() ) );
         setBoundsDirty();
@@ -108,19 +105,17 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
     /**
      * Determines the radius and color of the ring that represents the energy state of the atom
      */
-    private void determineEnergyRadiusAndColor() {
+    protected void determineEnergyRadiusAndColor() {
         AtomicState state = atom.getCurrState();
 
         // Determine the color and thickness of the colored ring that represents the energy
         groundStateRingThickness = 3;
         double f = 0.3;
-//        groundStateRingThickness = 5;
         // used to scale the thickness of the ring so it changes size a reasonable amount through the visible range
         double ringThicknessExponent = 0.15;
         double energyDif = state.getEnergyLevel() - atom.getGroundState().getEnergyLevel();
 //        double energyRatio = state.getEnergyLevel() / atom.getGroundState().getEnergyLevel();
 //        double energyRatio = state.getEnergyLevel() / AtomicState.minEnergy;
-
 //        double e0 = ( baseImageRad * groundState.getEnergyLevel() ) / ( baseImageRad + groundStateRingThickness );
 //        double energyRatio = ( state.getEnergyLevel() - e0 ) / ( groundState.getEnergyLevel() - e0 );
         energyRepRad = ( energyDif * f ) + groundStateRingThickness + baseImageRad;
@@ -190,11 +185,6 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
                     double yCurr = getLocation().getY();
                     double xNew = Math.max( Math.min( bounds.getMaxX(), xCurr + dx ), bounds.getMinX() );
                     double yNew = Math.max( Math.min( bounds.getMaxY(), yCurr + dy ), bounds.getMinY() );
-
-                    System.out.println( "dx = " + dx );
-                    System.out.println( "dy = " + dy );
-//                    System.out.println( "xNew = " + xNew );
-//                    System.out.println( "yNew = " + yNew );
                     atom.setPosition( xNew, yNew );
                 }
             } );
