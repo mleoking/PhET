@@ -43,12 +43,13 @@ import edu.colorado.phet.fourier.view.AnimationCycleController.AnimationCycleLis
 
 
 /**
- * HarmonicsGraph graphs a collection of harmonic waveforms.
+ * DiscreteHarmonicsView is the "Harmonics" view in the "Discrete" module.
+ * It displays a collection of harmonic waveforms.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class HarmonicsGraph extends GraphicLayerSet implements SimpleObserver, ZoomListener, HarmonicFocusListener, AnimationCycleListener {
+public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObserver, ZoomListener, HarmonicFocusListener, AnimationCycleListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -120,7 +121,7 @@ public class HarmonicsGraph extends GraphicLayerSet implements SimpleObserver, Z
      * @param component the parent Component
      * @param fourierSeries the Fourier series that this view displays
      */
-    public HarmonicsGraph( Component component, FourierSeries fourierSeries ) {
+    public DiscreteHarmonicsView( Component component, FourierSeries fourierSeries ) {
         super( component );
 
         // Enable antialiasing for all children.

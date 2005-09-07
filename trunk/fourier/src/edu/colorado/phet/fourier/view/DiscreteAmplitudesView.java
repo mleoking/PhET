@@ -35,13 +35,14 @@ import edu.colorado.phet.fourier.model.Harmonic;
 
 
 /**
- * AmplitudesGraph is the control interface for setting the amplitudes
+ * DiscreteAmplitudesView is "Amplitudes" view in the "Discrete" module.
+ * It provides the control interface for setting the amplitudes
  * of the harmonics in a Fourier series.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
+public class DiscreteAmplitudesView extends GraphicLayerSet implements SimpleObserver {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -96,7 +97,7 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
      * @param component the parent Component
      * @param fourierSeries the model that this graphic controls
      */
-    public AmplitudesGraph( Component component, FourierSeries fourierSeries ) {
+    public DiscreteAmplitudesView( Component component, FourierSeries fourierSeries ) {
         super( component );
 
         // Enable antialiasing

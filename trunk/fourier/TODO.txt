@@ -29,9 +29,7 @@ LOW PRIORITY:
 - break up control panels into reusable subpanels
 - grayed out waveforms anti-aliasing/stroke visually changes when you start to drag wavelength/period tools
 - smaller font for equation subscripts
-- Help
 - MegaHelp
-- Wiggle Mes
 
 NEW FEATURES:
 
@@ -70,6 +68,8 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/7) - rename classes to indicate what module they are in, change "Graph" to "View"
+(9/7) - charts: allow fractional values in SinePlot.setPixelsPerPoint
 (9/7) - bugfix: increase precision of D2C sum waveform so that all peaks are the same height
 (9/6) - hide features that won't be 2.0 release
 (9/6) - bugfix: adjust flattened charts so that y-axis labels are not clipped

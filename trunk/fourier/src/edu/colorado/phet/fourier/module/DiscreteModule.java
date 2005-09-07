@@ -78,10 +78,10 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
     //----------------------------------------------------------------------------
     
     private FourierSeries _fourierSeries;
-    private AmplitudesGraph _amplitudesGraph;
-    private HarmonicsGraph _harmonicsGraph;
+    private DiscreteAmplitudesView _amplitudesGraph;
+    private DiscreteHarmonicsView _harmonicsGraph;
     private GraphClosed _harmonicsGraphClosed;
-    private SumGraph _sumGraph;
+    private DiscreteSumView _sumGraph;
     private GraphClosed _sumGraphClosed;
     private HarmonicWavelengthTool _wavelengthTool;
     private HarmonicPeriodTool _periodTool;
@@ -126,12 +126,12 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         apparatusPanel.addChangeListener( this );
         
         // Amplitudes view
-        _amplitudesGraph = new AmplitudesGraph( apparatusPanel, _fourierSeries );
+        _amplitudesGraph = new DiscreteAmplitudesView( apparatusPanel, _fourierSeries );
         _amplitudesGraph.setLocation( 0, 0 );
         apparatusPanel.addGraphic( _amplitudesGraph, AMPLITUDES_LAYER );
         
         // Harmonics view
-        _harmonicsGraph = new HarmonicsGraph( apparatusPanel, _fourierSeries );
+        _harmonicsGraph = new DiscreteHarmonicsView( apparatusPanel, _fourierSeries );
         apparatusPanel.addGraphic( _harmonicsGraph, HARMONICS_LAYER );
         
         // Harmonics view (collapsed)
@@ -139,7 +139,7 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         apparatusPanel.addGraphic( _harmonicsGraphClosed, HARMONICS_CLOSED_LAYER );
         
         // Sum view
-        _sumGraph = new SumGraph( apparatusPanel, _fourierSeries );
+        _sumGraph = new DiscreteSumView( apparatusPanel, _fourierSeries );
         apparatusPanel.addGraphic( _sumGraph, SUM_LAYER );
         
         // Sum view (collapsed)

@@ -32,12 +32,13 @@ import edu.colorado.phet.fourier.model.GaussianWavePacket;
 
 
 /**
- * D2CAmplitudesGraph is the Amplitudes view in the "Discrete To Continuous" module.
+ * D2CAmplitudesView is the "Amplitudes" view in the "Discrete To Continuous" module.
+ * It displays the amplitudes of a Gaussian wave packet's components in k space.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
+public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -103,7 +104,7 @@ public class D2CAmplitudesGraph extends GraphicLayerSet implements SimpleObserve
      * @param component the parent Component
      * @param wavePacket the Gaussian wave packet being displayed
      */
-    public D2CAmplitudesGraph( Component component, GaussianWavePacket wavePacket ) {
+    public D2CAmplitudesView( Component component, GaussianWavePacket wavePacket ) {
         super( component );
 
         // Enable antialiasing
