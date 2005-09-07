@@ -68,6 +68,8 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/7) - rename Chart subclasses to indicate which module they go with, put them under fourier.view instead of fourier.charts
+(9/7) - create fourier.view.discrete and fourier.view.d2c packages for view classes that are module specific
 (9/7) - rename classes to indicate what module they are in, change "Graph" to "View"
 (9/7) - charts: allow fractional values in SinePlot.setPixelsPerPoint
 (9/7) - bugfix: increase precision of D2C sum waveform so that all peaks are the same height
