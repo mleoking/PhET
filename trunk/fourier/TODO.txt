@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- default module's apparatus panel visibly reconfigures itself during startup
 - sometimes starts up with nothing but a small black rectangle in upper-left corner of play area
 - hangs after extended play (memory leak?)
 - remove the clock controls for the D2C module
@@ -68,6 +69,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/7) - set default height of Discrete views close to what they'll actually be so that resizing is less obvious
 (9/7) - phetcommon: fix ApparatusPanel2 so that its scale isn't set to a negative number
 (9/7) - phetcommon: fix a problem introduced into ApparatusPanel that duplicates all MouseEvents
 1.0.10 ...
