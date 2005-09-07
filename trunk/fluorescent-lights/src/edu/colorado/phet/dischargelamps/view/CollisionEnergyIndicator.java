@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.SingleAtomModule;
+import edu.colorado.phet.dischargelamps.DischargeLampModule;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.dischargelamps.model.Plate;
@@ -110,7 +111,8 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
         double electronEnergy = Math.abs( voltage ) * ( plateToAtomDist / plateToPlateDist );
 
         // This factor converts
-        double fudge = 5.67;
+        double fudge = DischargeLampModule.voltageCalibrationFactor;
+//        double fudge = 5.67;
         new GroundState().getEnergyLevel();
         int y = energyYTx.modelToView( ( electronEnergy * fudge ) + model.getAtomicStates()[0].getEnergyLevel() );
         setLocation( 0, y );

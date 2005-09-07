@@ -492,7 +492,8 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
                                                     DischargeLampsConfig.ELECTRON_IMAGE_FILE_NAME );
             // The -10 is a hack to get the electron to be even with everything else on the panel. I can't figure
             // out why I need it
-            int yLoc = (int)energyYTx.modelToView( electron.getEnergy() + groundStateEnergy ) - 10;
+            int yLoc = (int)energyYTx.modelToView( electron.getEnergy() + groundStateEnergy );
+//            int yLoc = (int)energyYTx.modelToView( electron.getEnergy() + groundStateEnergy ) - 10;
             electronGraphic.setLocation( electronXLoc, yLoc );
             addGraphic( electronGraphic );
 

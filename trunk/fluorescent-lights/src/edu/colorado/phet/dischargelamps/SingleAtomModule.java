@@ -74,9 +74,7 @@ public class SingleAtomModule extends DischargeLampModule {
         // Add module-specific controls
         addControls();
 
-
         setSquigglesEnabled( true );
-
     }
 
 
