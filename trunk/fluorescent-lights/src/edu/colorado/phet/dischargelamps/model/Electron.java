@@ -42,12 +42,8 @@ public class Electron extends SphericalBody implements Collidable {
     // Class data
     //----------------------------------------------------------------
 
-    // A fudge factor that makes the energy of an electron enough to stimulate an atom
-    // only if it is moving fast enough
-//    private static double ENERGY_FUDGE_FACTOR = 1;
-    private static double ENERGY_FUDGE_FACTOR = 1E12;
     // Mass of an electron, in kg
-    private static final double ELECTRON_MASS = 9.11E-31 * ENERGY_FUDGE_FACTOR;
+    private static final double ELECTRON_MASS = 9.11E-31;// * PIXELS_PER_NM;
     // Radius of an electron. An arbitrary dimension based on how it looks on the screen
     private static final double ELECTRON_RADIUS = 2;
 
@@ -113,7 +109,7 @@ public class Electron extends SphericalBody implements Collidable {
      * @return
      */
     public double getEnergy() {
-        double ke = getVelocity().getMagnitudeSq() * getMass() / 2;
+        double ke = DischargeLampsConfig.PIXELS_PER_NM * DischargeLampsConfig.PIXELS_PER_NM * getVelocity().getMagnitudeSq() * getMass() / 2;
         double ev = ke * PhysicsUtil.EV_PER_JOULE;
         return ev;
     }

@@ -14,6 +14,7 @@ import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 
 import java.util.Random;
 
@@ -48,7 +49,7 @@ public abstract class EnergyAbsorptionStrategy {
             throw new RuntimeException( "no non-negative t" );
         }
         double v = electron.getVelocityPrev().getMagnitude() + electron.getAcceleration().getMagnitude() * t;
-        double energy = v * v * electron.getMass() / 2 * PhysicsUtil.EV_PER_JOULE;
+        double energy = DischargeLampsConfig.PIXELS_PER_NM * DischargeLampsConfig.PIXELS_PER_NM * v * v * electron.getMass() / 2 * PhysicsUtil.EV_PER_JOULE;
         return energy;
     }
 

@@ -6,15 +6,16 @@ Photons disappear as soon as they get past the left edge of the ciruit.
 Simulation slows and waits while sliders are being moved
 
 
+Combine the voltageCalibrationFactor and PIXELS_TO_NM
 Get voltageCalibrationFactor out of DischargeLampModule
 Counter in spectrometer for off-scale photons
-Number under electron production rate slider need formatting
-Atom halos not right on multiple atom panel
 
 Done
 ====
 9-6-05
 ------
+Number under electron production rate slider need formatting
+Atom halos not right on multiple atom panel
 Calibrated the voltage
 When you switch between hydrogen and the configurable atom, the configurable atom maintains its state
 Added label to the spinner for the configurable atom
