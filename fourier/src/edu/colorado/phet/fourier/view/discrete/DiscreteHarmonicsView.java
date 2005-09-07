@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.fourier.view;
+package edu.colorado.phet.fourier.view.discrete;
 
 import java.awt.*;
 import java.io.IOException;
@@ -30,7 +30,6 @@ import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.charts.HarmonicPlot;
-import edu.colorado.phet.fourier.charts.HarmonicsChart;
 import edu.colorado.phet.fourier.control.ZoomControl;
 import edu.colorado.phet.fourier.event.HarmonicFocusEvent;
 import edu.colorado.phet.fourier.event.HarmonicFocusListener;
@@ -38,6 +37,9 @@ import edu.colorado.phet.fourier.event.ZoomEvent;
 import edu.colorado.phet.fourier.event.ZoomListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
+import edu.colorado.phet.fourier.view.AnimationCycleController;
+import edu.colorado.phet.fourier.view.HarmonicColors;
+import edu.colorado.phet.fourier.view.HarmonicsEquation;
 import edu.colorado.phet.fourier.view.AnimationCycleController.AnimationCycleEvent;
 import edu.colorado.phet.fourier.view.AnimationCycleController.AnimationCycleListener;
 
@@ -98,7 +100,7 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
     private PhetShapeGraphic _backgroundGraphic;
     private PhetTextGraphic _titleGraphic;
     private PhetImageGraphic _closeButton;
-    private HarmonicsChart _chartGraphic;
+    private DiscreteHarmonicsChart _chartGraphic;
     private ZoomControl _horizontalZoomControl;
     private HarmonicsEquation _mathGraphic;
     private ArrayList _harmonicPlots; // array of HarmonicPlot
@@ -150,7 +152,7 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
 
         // Chart
         {
-            _chartGraphic = new HarmonicsChart( component, CHART_RANGE, CHART_SIZE );
+            _chartGraphic = new DiscreteHarmonicsChart( component, CHART_RANGE, CHART_SIZE );
             addGraphic( _chartGraphic, CHART_LAYER );
             _chartGraphic.setRegistrationPoint( 0, CHART_SIZE.height / 2 ); // at the chart's origin
             _chartGraphic.setLocation( 60, 50 + ( CHART_SIZE.height / 2 ) );

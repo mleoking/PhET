@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.fourier.charts;
+package edu.colorado.phet.fourier.view.d2c;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -18,158 +18,158 @@ import java.text.NumberFormat;
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.chart.StringLabelTable;
-import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.fourier.FourierConfig;
-import edu.colorado.phet.fourier.MathStrings;
+import edu.colorado.phet.fourier.FourierConstants;
 
 
 /**
- * D2CAmplitudesChart is the chart in the "Discrete to Continuous" amplitudes view.
+ * D2CHarmonicsChart
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class D2CAmplitudesChart extends Chart {
+public class D2CHarmonicsChart extends Chart {
 
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
-    // Axis parameters
+    // Axis parameter
     private static final Color AXIS_COLOR = Color.BLACK;
-    private static final Stroke AXIS_STROKE = new BasicStroke( 1f );
-    private static final Font AXIS_TITLE_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 12 );
+    private static final Stroke AXIS_STROKE = new BasicStroke( 0.5f );
+    private static final Font AXIS_TITLE_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 16 );
     private static final Color AXIS_TITLE_COLOR = Color.BLACK;
     
-    // X axis 
-    private static final double X_MAJOR_TICK_SPACING = 2 * Math.PI;
-    private static final double X_MINOR_TICK_SPACING = Math.PI / 2;
-    private static final Stroke X_MAJOR_TICK_STROKE = new BasicStroke( 1f );
-    private static final Stroke X_MINOR_TICK_STROKE = new BasicStroke( 0.5f );
-    private static final Font X_MAJOR_TICK_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 12 );
+    // Range labels
+    private static final boolean RANGE_LABELS_VISIBLE = false;
+    private static final NumberFormat RANGE_LABELS_FORMAT = new DecimalFormat( "0.00" );
     
-    // Y axis
-    private static final double Y_MAJOR_TICK_SPACING = 0.2;
+    // Tick Mark parameter
+    private static final Stroke MAJOR_TICK_STROKE = new BasicStroke( 1f );
+    private static final Font MAJOR_TICK_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 12 );
+    private static final Color MAJOR_TICK_COLOR = Color.BLACK;
+    private static final Stroke MINOR_TICK_STROKE = MAJOR_TICK_STROKE;
+    private static final Font MINOR_TICK_FONT = MAJOR_TICK_FONT;
+    private static final Color MINOR_TICK_COLOR = MAJOR_TICK_COLOR;
+    
+    // X Axis parameters
+    private static final double L = 1;
+    private static final double X_MAJOR_TICK_SPACING = 0.5;
+    private static final double X_MINOR_TICK_SPACING = 0.1;
+
+    // Y Axis parameters
+    private static final double Y_MAJOR_TICK_SPACING = 0.5;
     private static final double Y_MINOR_TICK_SPACING = 0.1;
-    private static final Stroke Y_MAJOR_TICK_STROKE = new BasicStroke( 1f );
-    private static final Stroke Y_MINOR_TICK_STROKE = new BasicStroke( 0.5f );
-    private static final Font Y_MAJOR_TICK_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 12 );
-    
-    // Gridlines
-    private static final boolean MAJOR_GRIDLINES_ENABLED = true;
-    private static final boolean MINOR_GRIDLINES_ENABLED = false;
-    private static final Color MAJOR_GRIDLINE_COLOR = Color.BLACK;
-    private static final Color MINOR_GRIDLINE_COLOR = Color.BLACK;
-    private static final Stroke MAJOR_GRIDLINE_STROKE = new BasicStroke( 0.1f );
-    private static final Stroke MINOR_GRIDLINE_STROKE = new BasicStroke( 0.1f );
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private HTMLGraphic _xAxisTitleGraphic;
+    private PhetTextGraphic _xAxisTitleGraphic;
+    private StringLabelTable _spaceLabels1, _spaceLabels2;
+    private StringLabelTable _timeLabels1, _timeLabels2;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public D2CAmplitudesChart( Component component, Range2D range, Dimension chartSize ) {
+    /**
+     * Sole constructor.
+     * 
+     * @param component
+     * @param range
+     * @param chartSize
+     */
+    public D2CHarmonicsChart( Component component, Range2D range, Dimension chartSize ) {
         super( component, range, chartSize );
         
+        // Enable antialiasing
+        setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+
         // X axis
         {
             getXAxis().setStroke( AXIS_STROKE );
             getXAxis().setColor( AXIS_COLOR );
-
-            // Axis title
-            _xAxisTitleGraphic = new HTMLGraphic( component, AXIS_TITLE_FONT, "", AXIS_TITLE_COLOR );
+            
+            // Title
+            _xAxisTitleGraphic = new PhetTextGraphic( component, AXIS_TITLE_FONT, "", AXIS_TITLE_COLOR );
             setXAxisTitle( _xAxisTitleGraphic );
-            
-            // Major ticks with labels
-            {
-                getXAxis().setMajorTicksVisible( false );
-                getHorizontalTicks().setMajorTicksVisible( true );
-                getHorizontalTicks().setMajorTickLabelsVisible( true );
-                getHorizontalTicks().setMajorTickSpacing( X_MAJOR_TICK_SPACING );
-                getHorizontalTicks().setMajorTickStroke( X_MAJOR_TICK_STROKE );
-                getHorizontalTicks().setMajorTickFont( X_MAJOR_TICK_FONT );
-                // Symbolic labels
-                StringLabelTable xAxisLabels = new StringLabelTable( getComponent(), X_MAJOR_TICK_FONT, Color.BLACK );
-                xAxisLabels.put( 0, "0" );
-                xAxisLabels.put( 2 * Math.PI, "2" + MathStrings.C_PI );
-                xAxisLabels.put( 4 * Math.PI, "4" + MathStrings.C_PI );
-                xAxisLabels.put( 6 * Math.PI, "6" + MathStrings.C_PI );
-                xAxisLabels.put( 8 * Math.PI, "8" + MathStrings.C_PI );
-                xAxisLabels.put( 10 * Math.PI, "10" + MathStrings.C_PI );
-                xAxisLabels.put( 12 * Math.PI, "12" + MathStrings.C_PI );
-                xAxisLabels.put( 14 * Math.PI, "14" + MathStrings.C_PI );
-                xAxisLabels.put( 16 * Math.PI, "16" + MathStrings.C_PI );
-                xAxisLabels.put( 18 * Math.PI, "18" + MathStrings.C_PI );
-                xAxisLabels.put( 20 * Math.PI, "20" + MathStrings.C_PI );
-                xAxisLabels.put( 22 * Math.PI, "22" + MathStrings.C_PI );
-                xAxisLabels.put( 24 * Math.PI, "24" + MathStrings.C_PI );
-                getHorizontalTicks().setMajorLabels( xAxisLabels );
-            }
-            
-            // Minor ticks with no labels
+
+            // No ticks or labels on the axis
+            getXAxis().setMajorTicksVisible( false );
+            getXAxis().setMajorTickLabelsVisible( false );
             getXAxis().setMinorTicksVisible( false );
+            getXAxis().setMinorTickLabelsVisible( false );
+
+            // Major ticks with labels below the chart
+            getHorizontalTicks().setMajorTicksVisible( true );
+            getHorizontalTicks().setMajorTickLabelsVisible( true );
+            getHorizontalTicks().setMajorTickSpacing( X_MAJOR_TICK_SPACING );
+            getHorizontalTicks().setMajorTickStroke( MAJOR_TICK_STROKE );
+            getHorizontalTicks().setMajorTickFont( MAJOR_TICK_FONT );
+            
+            // Minor ticks, no labels below the chart
             getHorizontalTicks().setMinorTicksVisible( true );
             getHorizontalTicks().setMinorTickLabelsVisible( false );
             getHorizontalTicks().setMinorTickSpacing( X_MINOR_TICK_SPACING );
-            getHorizontalTicks().setMinorTickStroke( X_MINOR_TICK_STROKE );
-            
-            // No major gridlines
+            getHorizontalTicks().setMinorTickStroke( MINOR_TICK_STROKE );
+            getHorizontalTicks().setMinorTickFont( MINOR_TICK_FONT );
+
+            // No vertical grid lines
             getVerticalGridlines().setMajorGridlinesVisible( false );
-          
-            // No minor gridlines
             getVerticalGridlines().setMinorGridlinesVisible( false );
         }
-        
+
         // Y axis
         {
             getYAxis().setStroke( AXIS_STROKE );
             getYAxis().setColor( AXIS_COLOR );
-            
-            // Major ticks with labels
+
+            // No ticks or labels on the axis
             getYAxis().setMajorTicksVisible( false );
+            getYAxis().setMajorTickLabelsVisible( false );
+            getYAxis().setMinorTicksVisible( false );
+            getYAxis().setMinorTickLabelsVisible( false );
+
+            // Range labels
+            getVerticalTicks().setRangeLabelsVisible( RANGE_LABELS_VISIBLE );
+            getVerticalTicks().setRangeLabelsNumberFormat( RANGE_LABELS_FORMAT );
+            
+            // Major ticks with labels to the left of the chart
             getVerticalTicks().setMajorTicksVisible( true );
             getVerticalTicks().setMajorTickLabelsVisible( true );
             getVerticalTicks().setMajorTickSpacing( Y_MAJOR_TICK_SPACING );
-            getVerticalTicks().setMajorTickStroke( Y_MAJOR_TICK_STROKE );
-            getVerticalTicks().setMajorTickFont( Y_MAJOR_TICK_FONT );
+            getVerticalTicks().setMajorTickStroke( MAJOR_TICK_STROKE );
+            getVerticalTicks().setMajorTickFont( MAJOR_TICK_FONT );
 
-            // Minor ticks with no labels
-            getYAxis().setMinorTicksVisible( false );
-            getVerticalTicks().setMinorTicksVisible( true );
-            getVerticalTicks().setMinorTickLabelsVisible( false );
-            getVerticalTicks().setMinorTickSpacing( Y_MINOR_TICK_SPACING );
-            getVerticalTicks().setMinorTickStroke( Y_MINOR_TICK_STROKE );
+            // No minor ticks.
+            getVerticalTicks().setMinorTicksVisible( false );
             
-            // Major gridlines
-            getHorizonalGridlines().setMajorGridlinesVisible( true );
-            getHorizonalGridlines().setMajorTickSpacing( Y_MAJOR_TICK_SPACING );
-            getHorizonalGridlines().setMajorGridlinesColor( MAJOR_GRIDLINE_COLOR );
-            getHorizonalGridlines().setMajorGridlinesStroke( MAJOR_GRIDLINE_STROKE );
-
-            // No minor gridlines
+            // No horizontal gridlines
+            getHorizonalGridlines().setMajorGridlinesVisible( false );
             getHorizonalGridlines().setMinorGridlinesVisible( false );
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
+   
     /**
-     * Sets the X axis title.
+     * Sets the title on the x axis.
      * 
      * @param title
      */
     public void setXAxisTitle( String title ) {
-        _xAxisTitleGraphic.setHTML( title );
-        _xAxisTitleGraphic.setRegistrationPoint( -2, _xAxisTitleGraphic.getHeight() ); // lower left corner
+        _xAxisTitleGraphic.setText( title );
+        _xAxisTitleGraphic.setRegistrationPoint( -4, -_xAxisTitleGraphic.getHeight() / 2 ); // left center
     }
-      
+    
+    public void setXAxisTitle( char c ) {
+        setXAxisTitle( String.valueOf( c ) );
+    }
+    
     /**
      * Rescales the Y-axis range, tick marks and gridlines.
      * 
@@ -231,10 +231,12 @@ public class D2CAmplitudesChart extends Chart {
             getHorizonalGridlines().setMajorTickSpacing( majorSpacing );
             
             range.setMaxY( maxY );
+            range.setMinY( -maxY );
             setRange( range );    
         }
         else {
             range.setMaxY( maxY );
+            range.setMinY( -maxY );
             setRange( range ); 
             
             getVerticalTicks().setMajorNumberFormat( majorNumberFormat );

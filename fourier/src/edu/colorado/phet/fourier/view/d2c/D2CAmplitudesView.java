@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.fourier.view;
+package edu.colorado.phet.fourier.view.d2c;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -25,7 +25,6 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.MathStrings;
-import edu.colorado.phet.fourier.charts.D2CAmplitudesChart;
 import edu.colorado.phet.fourier.charts.FlattenedChart;
 import edu.colorado.phet.fourier.charts.ClosedPathPlot;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
