@@ -42,7 +42,7 @@ public class FiftyPercentAbsorptionStrategy extends EnergyAbsorptionStrategy {
         AtomicState[] states = atom.getStates();
         AtomicState currState = atom.getCurrState();
         double electronEnergy = getElectronEnergyAtCollision( atom, electron );
-        System.out.println( "electronEnergy = " + electronEnergy );
+//        System.out.println( "electronEnergy = " + electronEnergy );
 
         // Find the index of the current state
         int currStateIdx = 0;
@@ -57,7 +57,6 @@ public class FiftyPercentAbsorptionStrategy extends EnergyAbsorptionStrategy {
         int highestPossibleNewStateIdx = currStateIdx + 1;
         for( ; highestPossibleNewStateIdx < states.length; highestPossibleNewStateIdx++ ) {
             if( states[highestPossibleNewStateIdx].getEnergyLevel() - currState.getEnergyLevel() > electronEnergy ) {
-//            if( states[highestPossibleNewStateIdx].getEnergyLevel() - currState.getEnergyLevel() > electron.getEnergy() ) {
                 break;
             }
         }
@@ -82,7 +81,6 @@ public class FiftyPercentAbsorptionStrategy extends EnergyAbsorptionStrategy {
             double energyDiff = newState.getEnergyLevel() - currState.getEnergyLevel();
             atom.setCurrState( newState );
             electron.setEnergy( electronEnergy - energyDiff );
-//            electron.setEnergy( electron.getEnergy() - energyDiff );
         }
     }
 }

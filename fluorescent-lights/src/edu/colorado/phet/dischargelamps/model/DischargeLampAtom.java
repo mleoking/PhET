@@ -38,7 +38,6 @@ public class DischargeLampAtom extends Atom {
     private EnergyAbsorptionStrategy energyAbsorptionStrategy = new FiftyPercentAbsorptionStrategy();
 //    private EnergyEmissionStrategy energyEmissionStrategy = new FiftyPercentEnergyEmissionStrategy();
 
-    private ElementProperties elementProperties;
 
     /**
      * @param model
@@ -62,7 +61,7 @@ public class DischargeLampAtom extends Atom {
      * @param electron
      */
     public void collideWithElectron( Electron electron ) {
-        System.out.println( "electron.getEnergy() = " + electron.getEnergy() );
+//        System.out.println( "electron.getEnergy() = " + electron.getEnergy() );
         energyAbsorptionStrategy.collideWithElectron( this, electron );
     }
 
@@ -77,7 +76,6 @@ public class DischargeLampAtom extends Atom {
     }
 
     public void setElementProperties( ElementProperties elementProperties ) {
-        this.elementProperties = elementProperties;
         super.setStates( elementProperties.getStates() );
     }
 }

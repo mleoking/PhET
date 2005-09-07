@@ -72,4 +72,6 @@ public class DischargeLampsConfig {
     public static final double MODEL_TO_VIEW_DIST_FACTOR = 1E12;
     // Fonts
     public static final Font DEFAULT_CONTROL_FONT = new Font( "Lucida sans", Font.BOLD, 10 );
+    // Factor that scales pixels to real dimensional units
+   public static double PIXELS_PER_NM = 1E6;
 }
