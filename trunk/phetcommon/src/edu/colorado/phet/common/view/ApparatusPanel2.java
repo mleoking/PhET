@@ -420,12 +420,14 @@ public class ApparatusPanel2 extends ApparatusPanel implements ClockTickListener
             else {
                 // Setup the affine transforms for graphics and mouse events
                 Rectangle referenceBounds = transformManager.getReferenceBounds();
-                double sx = getWidth() / referenceBounds.getWidth();
-                double sy = getHeight() / referenceBounds.getHeight();
-                // Using a single scale factor keeps the aspect ratio constant
-                double s = Math.min( sx, sy );
-                setScale( s );
-                determineCanvasSize();
+                if( !referenceBounds.isEmpty() ) {
+                    double sx = getWidth() / referenceBounds.getWidth();
+                    double sy = getHeight() / referenceBounds.getHeight();
+                    // Using a single scale factor keeps the aspect ratio constant
+                    double s = Math.min( sx, sy );
+                    setScale( s );
+                    determineCanvasSize();
+                }
             }
             paintStrategy.componentResized();
         }
