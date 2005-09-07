@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- when 2dx gets to be just a few pixels, peaks of the waveform in Sum graph are chopped off
 - crashes after extended play (memory leak?)
 - sometimes starts up with nothing but a small black rectangle in upper left corner of play area
 - remove the clock controls for the D2C module
@@ -71,6 +70,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/7) - bugfix: increase precision of D2C sum waveform so that all peaks are the same height
 (9/6) - hide features that won't be 2.0 release
 (9/6) - bugfix: adjust flattened charts so that y-axis labels are not clipped
 (9/6) - add a bit of space (5%) above and below Harmonics waveforms in Discrete module
