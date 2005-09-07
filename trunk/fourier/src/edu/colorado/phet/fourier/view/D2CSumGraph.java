@@ -76,7 +76,7 @@ public class D2CSumGraph extends GraphicLayerSet implements SimpleObserver, Zoom
     // Sum waveform
     private static final Stroke SUM_STROKE = new BasicStroke( 1f );
     private static final Color SUM_COLOR = Color.BLACK;
-    private static final double SUM_PIXELS_PER_POINT = 1;
+    private static final double SUM_PIXELS_PER_POINT = 0.25;
     
     // Gaussian wave packet waveform
     private static final Stroke WAVE_PACKET_STROKE = SUM_STROKE;
