@@ -68,6 +68,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/7) - delete disabled zoom button images that were made irrelevant on 7/26
 (9/7) - fix javadoc for renamed classes
 (9/7) - rename Chart subclasses to indicate which module they go with, put them under fourier.view instead of fourier.charts
 (9/7) - create fourier.view.discrete and fourier.view.d2c packages for view classes that are module specific
