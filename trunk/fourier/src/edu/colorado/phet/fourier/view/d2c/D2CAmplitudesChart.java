@@ -24,7 +24,7 @@ import edu.colorado.phet.fourier.MathStrings;
 
 
 /**
- * D2CAmplitudesChart is the chart in the "Discrete to Continuous" amplitudes view.
+ * D2CAmplitudesChart is the "Amplitudes" chart in the "Discrete to Continuous" (D2C) module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

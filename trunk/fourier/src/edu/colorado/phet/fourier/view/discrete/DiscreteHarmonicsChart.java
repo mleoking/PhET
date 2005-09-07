@@ -24,7 +24,7 @@ import edu.colorado.phet.fourier.FourierConstants;
 
 
 /**
- * HarmonicsChart
+ * DiscreteHarmonicsChart is the "Harmonics" chart in the Discrete module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

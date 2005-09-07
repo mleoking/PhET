@@ -24,7 +24,7 @@ import edu.colorado.phet.fourier.FourierConstants;
 
 
 /**
- * D2CSumChart
+ * D2CSumChart is the "Sum" chart in the "Discrete to Continous" (D2C) module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

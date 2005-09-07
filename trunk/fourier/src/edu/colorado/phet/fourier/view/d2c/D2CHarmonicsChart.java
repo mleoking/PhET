@@ -24,7 +24,7 @@ import edu.colorado.phet.fourier.FourierConstants;
 
 
 /**
- * D2CHarmonicsChart
+ * D2CHarmonicsChart is the "Components" chart in the "Discrete to Continuous" (D2C) module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

@@ -24,7 +24,7 @@ import edu.colorado.phet.fourier.FourierConstants;
 
 
 /**
- * SumChart
+ * DiscreteSumChart is the Sum chart in the Discrete module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
