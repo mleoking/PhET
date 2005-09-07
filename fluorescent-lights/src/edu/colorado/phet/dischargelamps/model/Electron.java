@@ -84,7 +84,7 @@ public class Electron extends SphericalBody implements Collidable {
     }
 
     public void setVelocity( Vector2D velocity ) {
-        collidableAdapter.updateVelocity();
+//        collidableAdapter.updateVelocity();   Don't need this because super c
         super.setVelocity( velocity );
         changeListenerProxy.energyChanged( new ChangeEvent( this ) );
     }
@@ -125,7 +125,7 @@ public class Electron extends SphericalBody implements Collidable {
         // compute the speed of the electron
         double sNew = Math.sqrt( 2 * ke / getMass() );
         double sCurr = getVelocity().getMagnitude();
-        setVelocity( getVelocity().scale( sNew / sCurr ) );
+        setVelocity( getVelocity().scale( sNew / sCurr / DischargeLampsConfig.PIXELS_PER_NM ) );
         changeListenerProxy.energyChanged( new ChangeEvent( this ) );
     }
 
