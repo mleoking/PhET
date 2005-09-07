@@ -113,7 +113,8 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
         double fudge = 5.67;
         new GroundState().getEnergyLevel();
         int y = energyYTx.modelToView( ( electronEnergy * fudge ) + model.getAtomicStates()[0].getEnergyLevel() );
-        setLocation( 0, Math.max( y, 5 ) );
+        setLocation( 0, y );
+//        setLocation( 0, Math.max( y, 5 ) );
         setBoundsDirty();
         repaint();
     }
