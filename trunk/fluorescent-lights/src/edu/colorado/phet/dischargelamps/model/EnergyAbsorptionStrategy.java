@@ -42,6 +42,7 @@ public abstract class EnergyAbsorptionStrategy {
         double collisionDist = Math.sqrt( prevDistSq ) - Math.sqrt( atomRadSq );
         double a = electron.getAcceleration().getMagnitude() / 2;
         double b = electron.getVelocityPrev().getMagnitude();
+
         double c = -collisionDist;
         double[] roots = MathUtil.quadraticRoots( a, b, c );
         double t = roots[0] >= 0 ? roots[0] : roots[1];
