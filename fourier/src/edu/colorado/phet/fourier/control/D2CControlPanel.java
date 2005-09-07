@@ -33,9 +33,9 @@ import edu.colorado.phet.fourier.control.sliders.K0Slider;
 import edu.colorado.phet.fourier.control.sliders.K1Slider;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
 import edu.colorado.phet.fourier.module.FourierModule;
-import edu.colorado.phet.fourier.view.D2CAmplitudesGraph;
-import edu.colorado.phet.fourier.view.D2CHarmonicsGraph;
-import edu.colorado.phet.fourier.view.D2CSumGraph;
+import edu.colorado.phet.fourier.view.D2CAmplitudesView;
+import edu.colorado.phet.fourier.view.D2CHarmonicsView;
+import edu.colorado.phet.fourier.view.D2CSumView;
 import edu.colorado.phet.fourier.view.tools.WavePacketDeltaKTool;
 import edu.colorado.phet.fourier.view.tools.WavePacketDeltaXTool;
 import edu.colorado.phet.fourier.view.tools.WavePacketPeriodTool;
@@ -70,9 +70,9 @@ public class D2CControlPanel extends FourierControlPanel {
 
     // Things to be controlled.
     private GaussianWavePacket _wavePacket;
-    private D2CAmplitudesGraph _amplitudesGraph;
-    private D2CHarmonicsGraph _harmonicsGraph;
-    private D2CSumGraph _sumGraph;
+    private D2CAmplitudesView _amplitudesGraph;
+    private D2CHarmonicsView _harmonicsGraph;
+    private D2CSumView _sumGraph;
     private WavePacketSpacingTool _spacingTool;
     private WavePacketDeltaKTool _deltaKTool;
     private WavePacketDeltaXTool _deltaXTool;
@@ -107,9 +107,9 @@ public class D2CControlPanel extends FourierControlPanel {
      */
     public D2CControlPanel( FourierModule module, 
             GaussianWavePacket wavePacket, 
-            D2CAmplitudesGraph amplitudesGraph,
-            D2CHarmonicsGraph harmonicsGraph,
-            D2CSumGraph sumGraph,
+            D2CAmplitudesView amplitudesGraph,
+            D2CHarmonicsView harmonicsGraph,
+            D2CSumView sumGraph,
             WavePacketSpacingTool spacingTool,
             WavePacketDeltaKTool deltaKTool,
             WavePacketDeltaXTool deltaXTool,

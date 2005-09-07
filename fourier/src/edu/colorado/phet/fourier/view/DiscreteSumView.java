@@ -45,12 +45,13 @@ import edu.colorado.phet.fourier.view.AnimationCycleController.AnimationCycleLis
 
 
 /**
- * SumGraph
+ * DiscreteSumView is the "Sum" view in the "Discrete" module.
+ * It displays the sum of a Fourier series.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomListener, AnimationCycleListener {
+public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, ZoomListener, AnimationCycleListener {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -109,7 +110,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     private PhetTextGraphic _titleGraphic;
     private PhetImageGraphic _closeButton;
     private SumChart _chartGraphic;
-    private SumEquation _mathGraphic;
+    private DiscreteSumEquation _mathGraphic;
     private FourierSumPlot _sumPlot;
     private LinePlot _presetPlot;
     private SinePlot _sineCosinePlot;
@@ -130,7 +131,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     // Constructors & finalizers
     //----------------------------------------------------------------------------
     
-    public SumGraph( Component component, FourierSeries fourierSeries ) {
+    public DiscreteSumView( Component component, FourierSeries fourierSeries ) {
         super( component );
 
         // Enable antialiasing for all children.
@@ -222,7 +223,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         
         // Math
         {
-            _mathGraphic = new SumEquation( component );
+            _mathGraphic = new DiscreteSumEquation( component );
             addGraphic( _mathGraphic, MATH_LAYER );
             _mathGraphic.centerRegistrationPoint();
             // Location is above the center of the chart.

@@ -26,7 +26,8 @@ import edu.colorado.phet.fourier.MathStrings;
 
 
 /**
- * SumEquation is the equation that appears about the Sum graph.
+ * DiscreteSumEquation is the equation that appears about the Sum graph
+ * in the Discrete module.
  * <p>
  * NOTE!  The locations for children of this composite graphic
  * were arrived at via trial-&-error.  If you change fonts, you
@@ -36,7 +37,7 @@ import edu.colorado.phet.fourier.MathStrings;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class SumEquation extends CompositePhetGraphic {
+public class DiscreteSumEquation extends CompositePhetGraphic {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -67,7 +68,7 @@ public class SumEquation extends CompositePhetGraphic {
      * 
      * @param component
      */
-    public SumEquation( Component component ) {
+    public DiscreteSumEquation( Component component ) {
         super( component );
         
         // Enable antialiasing for all children.

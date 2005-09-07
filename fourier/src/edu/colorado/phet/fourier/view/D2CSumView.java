@@ -13,30 +13,35 @@ package edu.colorado.phet.fourier.view;
 
 import java.awt.*;
 
-import edu.colorado.phet.chart.DataSetGraphic;
+import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.phetgraphics.*;
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
-import edu.colorado.phet.fourier.charts.D2CHarmonicsChart;
+import edu.colorado.phet.fourier.charts.D2CSumChart;
 import edu.colorado.phet.fourier.charts.FlattenedChart;
-import edu.colorado.phet.fourier.charts.HarmonicPlot;
+import edu.colorado.phet.fourier.charts.FourierSumPlot;
+import edu.colorado.phet.fourier.charts.GaussianWavePacketPlot;
 import edu.colorado.phet.fourier.control.ZoomControl;
 import edu.colorado.phet.fourier.event.ZoomEvent;
 import edu.colorado.phet.fourier.event.ZoomListener;
+import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
-import edu.colorado.phet.fourier.model.Harmonic;
 
 
 /**
- * D2CHarmonicsGraph
+ * D2CSumView is the "Sum" view in the "Discrete to Continuous" module.
+ * It displays the Fourier sum of a Gaussian wave packet.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver, ZoomListener {
+public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -45,10 +50,9 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
     // Layers
     private static final double BACKGROUND_LAYER = 1;
     private static final double TITLE_LAYER = 2;
-    private static final double MESSAGE_LAYER = 3;
-    private static final double CHART_LAYER = 4;
-    private static final double CONTROLS_LAYER = 5;
-    private static final double MATH_LAYER = 6;
+    private static final double CHART_LAYER = 3;
+    private static final double CONTROLS_LAYER = 4;
+    private static final double MATH_LAYER = 5;
     
     // Background parameters
     private static final int MIN_HEIGHT = 150;
@@ -62,24 +66,23 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
     private static final Color TITLE_COLOR = Color.BLUE;
     private static final Point TITLE_LOCATION = new Point( 40, 115 );
     
-    // Message parameters
-    private static final Font CANNOT_SHOW_MESSAGE_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 16 );
-    private static final Color CANNOT_SHOW_MESSAGE_COLOR = Color.RED;
-    private static final Font MINIMIZE_MESSAGE_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 12 );
-    private static final Color MINIMIZE_MESSAGE_COLOR = Color.RED;
-    
     // Chart parameters
-    public static final double X_RANGE_START = 2;
-    public static final double X_RANGE_MIN = 0.5;
-    public static final double X_RANGE_MAX = 8;
+    private static final double X_RANGE_START = D2CHarmonicsView.X_RANGE_START;
+    private static final double X_RANGE_MIN = D2CHarmonicsView.X_RANGE_MIN;
+    private static final double X_RANGE_MAX = D2CHarmonicsView.X_RANGE_MAX;
     private static final double Y_RANGE_START = 1;
     private static final Range2D CHART_RANGE = new Range2D( -X_RANGE_START, -Y_RANGE_START, X_RANGE_START, Y_RANGE_START );
     private static final Dimension CHART_SIZE = new Dimension( 540, 100 );
     
-    // Harmonics in the chart
-    private static final int HARMONIC_DARKEST_GRAY = 0; //dark gray
-    private static final int HARMONIC_LIGHTEST_GRAY = 230;  // light gray
-    private static final Stroke HARMONIC_STROKE = new BasicStroke( 1f ); 
+    // Sum waveform
+    private static final Stroke SUM_STROKE = new BasicStroke( 1f );
+    private static final Color SUM_COLOR = Color.BLACK;
+    private static final double SUM_PIXELS_PER_POINT = 0.25;
+    
+    // Gaussian wave packet waveform
+    private static final Stroke WAVE_PACKET_STROKE = SUM_STROKE;
+    private static final Color WAVE_PACKET_COLOR = SUM_COLOR;
+    private static final double WAVE_PACKET_PIXELS_PER_POINT = SUM_PIXELS_PER_POINT;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -90,14 +93,15 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
     private PhetTextGraphic _titleGraphic;
     private PhetImageGraphic _closeButton;
     private ZoomControl _horizontalZoomControl;
-    private D2CHarmonicsChart _chartGraphic;
-    private HarmonicsEquation _mathGraphic;
+    private D2CSumChart _chartGraphic;
+    private FlattenedChart _flattenedChart;
+    private D2CSumEquation _mathGraphic;
     private int _domain;
     private int _waveType;
     private int _xZoomLevel;
-    private HTMLGraphic _cannotShowGraphic;
-    private FlattenedChart _flattenedChart;
-    private boolean _updateRequired;
+    private FourierSeries _fourierSeries;
+    private FourierSumPlot _sumPlot;
+    private GaussianWavePacketPlot _wavePacketPlot;
 
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -108,7 +112,7 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
      * @param component the parent Component
      * @param wavePacket the Gaussian wave packet being displayed
      */
-    public D2CHarmonicsGraph( Component component, GaussianWavePacket wavePacket ) {
+    public D2CSumView( Component component, GaussianWavePacket wavePacket ) {
         super( component );
 
         // Enable antialiasing
@@ -128,20 +132,20 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
         addGraphic( _backgroundGraphic, BACKGROUND_LAYER );
         
         // Title
-        String title = SimStrings.get( "D2CHarmonicsGraph.title" );
+        String title = SimStrings.get( "D2CSumGraph.title" );
         _titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
         _titleGraphic.centerRegistrationPoint();
         _titleGraphic.rotate( -( Math.PI / 2 ) );
         _titleGraphic.setLocation( 40, BACKGROUND_SIZE.height/2 );
         addGraphic( _titleGraphic, TITLE_LAYER );
         
-        // Flattened Chart
+        // Chart
         {
-            _chartGraphic = new D2CHarmonicsChart( component, CHART_RANGE, CHART_SIZE );
+            _chartGraphic = new D2CSumChart( component, CHART_RANGE, CHART_SIZE );
             _chartGraphic.setRegistrationPoint( 0, 0 );
             _chartGraphic.setLocation( 0, 0 );
 
-            int xOffset = 25; // distance between the left edge and the chart's origin.
+            int xOffset = 25;
             int yOffset = 25;
             _flattenedChart = new FlattenedChart( component, _chartGraphic, xOffset, yOffset );
             addGraphic( _flattenedChart, CHART_LAYER );
@@ -149,25 +153,27 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
             _flattenedChart.setLocation( 60 - xOffset, 50 - yOffset );
         }
         
-        // "Cannot show" message 
-        String cannotShowMessage = SimStrings.get( "D2CHarmonicsGraph.cannotShow" );
-        _cannotShowGraphic = new HTMLGraphic( component, CANNOT_SHOW_MESSAGE_FONT, cannotShowMessage, CANNOT_SHOW_MESSAGE_COLOR );
-        addGraphic( _cannotShowGraphic, MESSAGE_LAYER );
-        _cannotShowGraphic.setRegistrationPoint( 0, _cannotShowGraphic.getHeight() / 2 ); // left center
-        _cannotShowGraphic.setLocation( 125, BACKGROUND_SIZE.height / 2 );
-
+        // Fourier series
+        _fourierSeries = new FourierSeries( 1, 440 ); //XXX
+        _fourierSeries.setPreset( FourierConstants.PRESET_CUSTOM );
+        
+        // Fourier sum plot
+        _sumPlot = new FourierSumPlot( component, _chartGraphic, _fourierSeries );
+        _sumPlot.setPixelsPerPoint( SUM_PIXELS_PER_POINT );
+        _sumPlot.setStroke( SUM_STROKE );
+        _sumPlot.setStrokeColor( SUM_COLOR );
+        
+        // Gaussian wave packet plot
+        _wavePacketPlot = new GaussianWavePacketPlot( component, _chartGraphic );
+        _wavePacketPlot.setPixelsPerPoint( WAVE_PACKET_PIXELS_PER_POINT );
+        _wavePacketPlot.setStroke( WAVE_PACKET_STROKE );
+        _wavePacketPlot.setStrokeColor( WAVE_PACKET_COLOR );
+        
         // Close button
         _closeButton = new PhetImageGraphic( component, FourierConstants.CLOSE_BUTTON_IMAGE );
         addGraphic( _closeButton, CONTROLS_LAYER );
         _closeButton.centerRegistrationPoint();
         _closeButton.setLocation( (_closeButton.getWidth()/2) + 10, _closeButton.getHeight()/2 + 5 );
-        
-        // "Minimize" message
-        String minimizeMessage = SimStrings.get( "D2CHarmonicsGraph.minimize" );
-        HTMLGraphic minimizeGraphic = new HTMLGraphic( component, MINIMIZE_MESSAGE_FONT, minimizeMessage, MINIMIZE_MESSAGE_COLOR );
-        addGraphic( minimizeGraphic, MESSAGE_LAYER );
-        minimizeGraphic.setRegistrationPoint( 0, minimizeGraphic.getHeight() / 2 ); // left center
-        minimizeGraphic.setLocation( _closeButton.getX() + _closeButton.getWidth() / 2 + 10, _closeButton.getY() + 5 );
         
         // Zoom controls
         {
@@ -178,23 +184,21 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
 
         // Math
         {
-            _mathGraphic = new HarmonicsEquation( component );
+            _mathGraphic = new D2CSumEquation( component );
             addGraphic( _mathGraphic, MATH_LAYER );
             _mathGraphic.centerRegistrationPoint();
-            _mathGraphic.setLocation( 330, 28 );
+            _mathGraphic.setLocation( 330, 30 );
         }
         
         // Interactivity
         {
             _backgroundGraphic.setIgnoreMouse( true );
             _titleGraphic.setIgnoreMouse( true );
-            _flattenedChart.setIgnoreMouse( true );
+            _chartGraphic.setIgnoreMouse( true );
             _mathGraphic.setIgnoreMouse( true );
-            _cannotShowGraphic.setIgnoreMouse( true );
-            minimizeGraphic.setIgnoreMouse( true );
-            
-            _horizontalZoomControl.addZoomListener( this );
 
+            _horizontalZoomControl.addZoomListener( this );
+            
             _closeButton.setCursorHand();
         }
         
@@ -224,7 +228,6 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
         refreshChart();
         updateZoomButtons();
         update();
-        _updateRequired = false;
     }
     
     //----------------------------------------------------------------------------
@@ -241,13 +244,21 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
     }
     
     /**
+     * Gets a reference to the chart.
+     * 
+     * @return Chart
+     */    
+    public Chart getChart() {
+        return _chartGraphic;
+    }
+    
+    /**
      * Sets the domain.
      * Changes various labels on the chart, tools, formulas, etc.
      * 
      * @param domain DOMAIN_SPACE or DOMAIN_TIME
      */
     public void setDomain( int domain ) {
-        assert( FourierConstants.isValidDomain( domain ) );
         _domain = domain;
         updateMath();
         updateAxisTitles();
@@ -260,9 +271,11 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
      */
     public void setWaveType( int waveType ) {
         assert( FourierConstants.isValidWaveType( waveType ) );
-        _waveType = waveType;
-        update();
-        updateMath();
+        if ( waveType != _waveType ) {
+            _waveType = waveType;
+            update();
+            updateMath();
+        }
     }
     
     /**
@@ -283,30 +296,11 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
         if ( height >= MIN_HEIGHT ) {
             _backgroundGraphic.setShape( new Rectangle( 0, 0, BACKGROUND_SIZE.width, height ) );
             _titleGraphic.setLocation( TITLE_LOCATION.x, height / 2 );
-            _cannotShowGraphic.setLocation( 125, height / 2 );
             
             _chartGraphic.setChartSize( CHART_SIZE.width, height - 70 );
             refreshChart();
             
             setBoundsDirty();
-        }
-    }
-    
-    //----------------------------------------------------------------------------
-    // PhetGraphic overrides
-    //----------------------------------------------------------------------------
-    
-    /**
-     * When this graphic becomes visible, update it.
-     * 
-     * @param visible
-     */
-    public void setVisible( boolean visible ) {
-        if ( visible != super.isVisible() ) {
-            super.setVisible( visible );
-            if ( visible && _updateRequired ) {
-                update();
-            }
         }
     }
     
@@ -359,7 +353,7 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
         else {
             xRange = X_RANGE_START * zoomFactor;
         }
-
+        
         /*
          * The order in which we change the tick marks is important.  
          * If we're not careful, we may end up generating a huge 
@@ -381,7 +375,7 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
             _chartGraphic.getHorizontalTicks().setMinorTicksVisible( true );
             _chartGraphic.getHorizontalTicks().setMajorTickSpacing( 0.5 );
         }
-        
+
         refreshChart();
         updateZoomButtons();
     }
@@ -419,101 +413,79 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
      */
     public void update() {
         
-        System.out.println( "D2CHarmonicsGraph.update" ); //XXX
+        System.out.println( "D2CSumGraph.update" ); //XXX
         
-        _updateRequired = true;
+        updateMath(); // ...in case the number of components has changed
+
+        _chartGraphic.removeAllDataSetGraphics();
         
-        if ( isVisible() ) {
-            
-            _updateRequired = false;
-            
-            // Clean up any existing HarmonicPlots
-            DataSetGraphic[] dataSetGraphics = _chartGraphic.getDataSetGraphics();
-            for ( int i = 0; i < dataSetGraphics.length; i++ ) {
-                if ( dataSetGraphics[i] instanceof HarmonicPlot ) {
-                    dataSetGraphics[i].cleanup();
-                }
-            }
-            
-            // Remove all plots from the chart.
-            _chartGraphic.removeAllDataSetGraphics();
-
-            double k1 = _wavePacket.getK1();
-            double k0 = _wavePacket.getK0();
-            double dk = _wavePacket.getDeltaK();
-
-            int numberOfHarmonics = _wavePacket.getNumberOfComponents();
-
-            if ( numberOfHarmonics < Integer.MAX_VALUE ) {
-                
-                _flattenedChart.setVisible( true );
-                _horizontalZoomControl.setVisible( true );
-                _mathGraphic.setVisible( true );
-                _cannotShowGraphic.setVisible( false );
-                
-                // Change in grayscale value between bars.
-                int deltaColor = ( HARMONIC_DARKEST_GRAY - HARMONIC_LIGHTEST_GRAY ) / numberOfHarmonics;
-
-                double maxAmplitude = 0;
-                
-                double fundamentalPeriod = 2 * Math.PI / k1;
-
-                // Re-populate the chart such that the fundamental's graphic is in the foreground.
-                for ( int i = numberOfHarmonics - 1; i >= 0; i-- ) {
-
-                    // Compute the amplitude
-                    double kn = ( i + 1 ) * k1;
-                    double An = k1 * GaussianWavePacket.getAmplitude( kn, k0, dk );
-                    Harmonic harmonic = new Harmonic( i );
-                    harmonic.setAmplitude( An );
-                    if ( Math.abs( An ) > maxAmplitude ) {
-                        maxAmplitude = Math.abs( An );
-                    }
-
-                    // Compute the bar color (grayscale).
-                    int r = HARMONIC_DARKEST_GRAY - ( i * deltaColor );
-                    int g = HARMONIC_DARKEST_GRAY - ( i * deltaColor );
-                    int b = HARMONIC_DARKEST_GRAY - ( i * deltaColor );
-                    Color harmonicColor = new Color( r, g, b );
-
-                    // Harmonic waveform graphic
-                    HarmonicPlot harmonicPlot = new HarmonicPlot( getComponent(), _chartGraphic );
-                    harmonicPlot.setHarmonic( harmonic );
-                    harmonicPlot.setPeriod( fundamentalPeriod / ( i + 1 ) );
-                    harmonicPlot.setWaveType( _waveType );
-                    harmonicPlot.setPixelsPerPoint( 1 );
-                    harmonicPlot.setStroke( HARMONIC_STROKE );
-                    harmonicPlot.setBorderColor( harmonicColor );
-                    harmonicPlot.setStartX( 0 );
-
-                    _chartGraphic.addDataSetGraphic( harmonicPlot );
-                }
-
-                // Autoscale the vertical axis.
-                _chartGraphic.autoscaleY( maxAmplitude * FourierConfig.AUTOSCALE_PERCENTAGE );
-                
-                refreshChart();
-            }
-            else {
-                _flattenedChart.setVisible( false );
-                _horizontalZoomControl.setVisible( false );
-                _mathGraphic.setVisible( false );
-                _cannotShowGraphic.setVisible( true );
-            }
+        double k1 = _wavePacket.getK1();
+        if ( k1 > 0 ) {
+            addFourierSeriesPlot();
         }
+        else {
+            addContinuousPlot();
+        }
+        
+        refreshChart();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Methods that update graphics
+    //----------------------------------------------------------------------------
+
+    /*
+     * Adds a plot of the Fourier series that corresponds to the wave packet.
+     */
+    private void addFourierSeriesPlot() {
+        
+        double k1 = _wavePacket.getK1();
+        assert( k1 > 0 );
+        double dk = _wavePacket.getDeltaK();
+        double k0 = _wavePacket.getK0();
+
+        int numberOfHarmonics = _wavePacket.getNumberOfComponents();
+
+        _fourierSeries.setNumberOfHarmonics( numberOfHarmonics );
+        _fourierSeries.setWaveType( _waveType );
+
+        // Adjust the Fourier series to match the wave packet
+        for ( int i = 0; i < numberOfHarmonics; i++ ) {
+
+            // Compute the ith amplitude
+            double kn = ( i + 1 ) * k1;
+            double An = k1 * GaussianWavePacket.getAmplitude( kn, k0, dk );
+
+            // Adjust the ith harmonic
+            _fourierSeries.getHarmonic( i ).setAmplitude( An );
+        }
+
+        _sumPlot.setPeriod( 2 * Math.PI / k1 );
+        _sumPlot.updateDataSet();
+
+        _chartGraphic.addDataSetGraphic( _sumPlot );
+        _chartGraphic.autoscaleY( _sumPlot.getMaxAmplitude() * FourierConfig.AUTOSCALE_PERCENTAGE );
+    }
+    
+    /*
+     * Adds a continuous waveform that corresponds to the wave packet.
+     */
+    private void addContinuousPlot() {
+        
+        _wavePacketPlot.setK0( _wavePacket.getK0() );
+        _wavePacketPlot.setDeltaX( _wavePacket.getDeltaX() );
+        _wavePacketPlot.setWaveType( _waveType );
+        
+        _chartGraphic.addDataSetGraphic( _wavePacketPlot );
+        _chartGraphic.autoscaleY( _wavePacketPlot.getMaxAmplitude() * FourierConfig.AUTOSCALE_PERCENTAGE );
     }
     
     /*
      * Updates the math equation that appears above the graph.
      */
     private void updateMath() {
-        int numberOfHarmonics = _wavePacket.getNumberOfComponents();
-        if ( _domain == FourierConstants.DOMAIN_SPACE ) {
-            _mathGraphic.setForm( _domain, FourierConstants.MATH_FORM_WAVE_NUMBER, _waveType );
-        }
-        else if ( _domain == FourierConstants.DOMAIN_TIME ) {
-            _mathGraphic.setForm( _domain, FourierConstants.MATH_FORM_ANGULAR_FREQUENCY, _waveType );
-        }
+        boolean infinity = ( _wavePacket.getK1() == 0 );
+        _mathGraphic.setForm( _domain, infinity, _waveType );
         _mathGraphic.centerRegistrationPoint();
     }
     
@@ -522,10 +494,10 @@ public class D2CHarmonicsGraph extends GraphicLayerSet implements SimpleObserver
      */
     private void updateAxisTitles() {
         if ( _domain == FourierConstants.DOMAIN_SPACE ) {
-            _chartGraphic.setXAxisTitle( SimStrings.get( "D2CHarmonicsGraph.xTitleSpace" ) );
+            _chartGraphic.setXAxisTitle( SimStrings.get( "D2CSumGraph.xTitleSpace" ) );
         }
         else if ( _domain == FourierConstants.DOMAIN_TIME ) {
-            _chartGraphic.setXAxisTitle( SimStrings.get( "D2CHarmonicsGraph.xTitleTime" ) );
+            _chartGraphic.setXAxisTitle( SimStrings.get( "D2CSumGraph.xTitleTime" ) );
         }
         refreshChart();
     }

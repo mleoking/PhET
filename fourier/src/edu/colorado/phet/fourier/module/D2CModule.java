@@ -27,9 +27,9 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.control.D2CControlPanel;
 import edu.colorado.phet.fourier.help.FourierHelpItem;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
-import edu.colorado.phet.fourier.view.D2CAmplitudesGraph;
-import edu.colorado.phet.fourier.view.D2CHarmonicsGraph;
-import edu.colorado.phet.fourier.view.D2CSumGraph;
+import edu.colorado.phet.fourier.view.D2CAmplitudesView;
+import edu.colorado.phet.fourier.view.D2CHarmonicsView;
+import edu.colorado.phet.fourier.view.D2CSumView;
 import edu.colorado.phet.fourier.view.GraphClosed;
 import edu.colorado.phet.fourier.view.tools.WavePacketDeltaKTool;
 import edu.colorado.phet.fourier.view.tools.WavePacketDeltaXTool;
@@ -77,9 +77,9 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
     //----------------------------------------------------------------------------
     
     private GaussianWavePacket _wavePacket;
-    private D2CAmplitudesGraph _amplitudesGraph;
-    private D2CHarmonicsGraph _harmonicsGraph;
-    private D2CSumGraph _sumGraph;
+    private D2CAmplitudesView _amplitudesGraph;
+    private D2CHarmonicsView _harmonicsGraph;
+    private D2CSumView _sumGraph;
     private GraphClosed _harmonicsGraphClosed;
     private GraphClosed _sumGraphClosed;
     private D2CControlPanel _controlPanel;
@@ -127,12 +127,12 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         apparatusPanel.addChangeListener( this );
 
         // Amplitudes view
-        _amplitudesGraph = new D2CAmplitudesGraph( apparatusPanel, _wavePacket );
+        _amplitudesGraph = new D2CAmplitudesView( apparatusPanel, _wavePacket );
         _amplitudesGraph.setLocation( 0, 0 );
         apparatusPanel.addGraphic( _amplitudesGraph, AMPLITUDES_LAYER );
         
         // Harmonics view
-        _harmonicsGraph = new D2CHarmonicsGraph( apparatusPanel, _wavePacket );
+        _harmonicsGraph = new D2CHarmonicsView( apparatusPanel, _wavePacket );
         apparatusPanel.addGraphic( _harmonicsGraph, HARMONICS_LAYER );
         
         // Harmonics view (collapsed)
@@ -140,7 +140,7 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         apparatusPanel.addGraphic( _harmonicsGraphClosed, HARMONICS_CLOSED_LAYER );
         
         // Sum view
-        _sumGraph = new D2CSumGraph( apparatusPanel, _wavePacket );
+        _sumGraph = new D2CSumView( apparatusPanel, _wavePacket );
         apparatusPanel.addGraphic( _sumGraph, SUM_LAYER );
         
         // Sum view (collapsed)
