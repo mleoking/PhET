@@ -25,7 +25,7 @@ import edu.colorado.phet.fourier.MathStrings;
 
 
 /**
- * AmplitudeChart
+ * DiscreteAmplitudesChart is the "Amplitudes" chart in the Discrete module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
