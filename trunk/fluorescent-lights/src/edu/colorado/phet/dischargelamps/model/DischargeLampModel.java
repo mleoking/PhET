@@ -173,17 +173,8 @@ public class DischargeLampModel extends LaserModel {
     }
 
     //----------------------------------------------------------------
-    // Getters and setters
+    // Atomic states and energy levels
     //----------------------------------------------------------------
-
-    public void setNumAtomicEnergyLevels( int numLevels ) {
-        atomicStates = new AtomicStateFactory().createAtomicStates( numLevels, atomicStates );
-        for( int i = 0; i < atoms.size(); i++ ) {
-            Atom atom = (Atom)atoms.get( i );
-            atom.setStates( atomicStates );
-        }
-        changeListenerProxy.energyLevelsChanged( new ChangeEvent( this ) );
-    }
 
     public void setElementProperties( ElementProperties elementProperties ) {
         this.elementProperties = elementProperties;
@@ -195,9 +186,17 @@ public class DischargeLampModel extends LaserModel {
         changeListenerProxy.energyLevelsChanged( new ChangeEvent( this ) );
     }
 
+    public ElementProperties getElementProperties() {
+        return elementProperties;
+    }
+
     public AtomicState[] getAtomicStates() {
         return atomicStates;
     }
+
+    //----------------------------------------------------------------
+    // Getters and setters
+    //----------------------------------------------------------------
 
     public ResonatingCavity getTube() {
         return tube;
@@ -218,10 +217,6 @@ public class DischargeLampModel extends LaserModel {
 
     public List getAtoms() {
         return atoms;
-    }
-
-    public ElementProperties getElementProperties() {
-        return elementProperties;
     }
 
     public void setMaxCurrent( double maxCurrent ) {

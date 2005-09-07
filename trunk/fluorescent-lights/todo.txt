@@ -6,6 +6,7 @@ Photons disappear as soon as they get past the left edge of the ciruit.
 Simulation slows and waits while sliders are being moved
 
 
+Get voltageCalibrationFactor out of DischargeLampModule
 Counter in spectrometer for off-scale photons
 Number under electron production rate slider need formatting
 Atom halos not right on multiple atom panel
@@ -14,20 +15,21 @@ Done
 ====
 9-6-05
 ------
+Calibrated the voltage
+When you switch between hydrogen and the configurable atom, the configurable atom maintains its state
 Added label to the spinner for the configurable atom
 Hydrogen energy levels aren't movable
 Configurable energy levels can be moved within 3 pixels of each other
 Fixed problem with multiple electron graphics on the energy monitor panel
-Squiggles should be on by default on single atom module
+Squiggles are on by default on single atom module
 "Collision energy" indicator should always show on single atom module
-Spectrometer should clear every time it is shown
-Sometimes single electron stimulates atom at level higher than it's collision energy
-Spectrometer shouldn't be movable
+Spectrometer clears every time it is shown
+Single electron no longer stimulates atom at level higher than it's collision energy
+Spectrometer isn't be movable
 Removed neon from atom type selection list
 Put scale on the spectrometer
     300-800nm is visible
     left is "far UV", right is "far IR"
-    UV line looks white
 
 
 9-5-05

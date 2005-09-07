@@ -36,18 +36,18 @@ public class AtomTypeChooser extends JPanel {
                                                              GridBagConstraints.NONE,
                                                              new Insets( 0, 10, 0, 10 ), 0, 0 );
 
-    public AtomTypeChooser( final DischargeLampModel model ) {
+    public AtomTypeChooser( final DischargeLampModel model, ElementProperties[] elementProperties ) {
         super( new GridBagLayout() );
 
         JLabel label = new JLabel( SimStrings.get( "ControlPanel.AtomTypeButtonLabel" ) );
         gbc.anchor = GridBagConstraints.EAST;
         this.add( label, gbc );
 
-        JComboBox comboBox = new JComboBox();
+        JComboBox comboBox = new JComboBox( elementProperties );
 
-        comboBox.addItem( new HydrogenProperties() );
+//        comboBox.addItem( new HydrogenProperties() );
 //        comboBox.addItem( new NeonProperties() );
-        comboBox.addItem( new ConfigurableElementProperties( 2, model ) );
+//        comboBox.addItem( new ConfigurableElementProperties( 2, model ) );
         comboBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 JComboBox cb = (JComboBox)e.getSource();

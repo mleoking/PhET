@@ -62,22 +62,25 @@ public class DischargeLampModule extends BaseLaserModule {
     // Instance data
     //----------------------------------------------------------------
 
+    private ResonatingCavity tube;
+    // The states in which the atoms can be
+    private Random random = new Random();
+    private DischargeLampModel model;
+    private Plate leftHandPlate;
+    private Plate rightHandPlate;
+    private double maxCurrent = 0.3;
+    private ElementProperties[] elementProperties;
+    private ConfigurableElementProperties configurableElement;
+
     // The scale to apply to graphics created in external applications so they appear properly
     // on the screen
     private double externalGraphicsScale;
     // AffineTransformOp that will scale graphics created in external applications so they appear
     // properly on the screen
     private AffineTransformOp externalGraphicScaleOp;
-    private ResonatingCavity tube;
     private ModelSlider currentSlider;
-    // The states in which the atoms can be
     private DischargeLampEnergyMonitorPanel2 energyLevelsMonitorPanel;
-    private Random random = new Random();
     private SpectrometerGraphic spectrometerGraphic;
-    private DischargeLampModel model;
-    private Plate leftHandPlate;
-    private Plate rightHandPlate;
-    private double maxCurrent = 0.3;
     private HeatingElementGraphic[] heatingElementGraphics = new HeatingElementGraphic[2];
     private JCheckBox squiggleCB;
 
@@ -107,7 +110,14 @@ public class DischargeLampModule extends BaseLaserModule {
         rightHandPlate = model.getRightHandPlate();
         setModel( model );
         setControlPanel( new ControlPanel( this ) );
-        model.setNumAtomicEnergyLevels( 2 );
+
+        // Create the element properties we will use
+        configurableElement = new ConfigurableElementProperties( 2, model );
+        ElementProperties hydrogen = new HydrogenProperties();
+        elementProperties = new ElementProperties[] {
+            hydrogen,
+            configurableElement
+        };
 
         // Add graphics
         addCircuitGraphic( apparatusPanel );
@@ -257,7 +267,8 @@ public class DischargeLampModule extends BaseLaserModule {
     private void addControls() {
 
         // A combo box for atom types
-        JComponent atomTypeComboBox = new AtomTypeChooser( model );
+
+        JComponent atomTypeComboBox = new AtomTypeChooser( model, elementProperties );
         getControlPanel().add( atomTypeComboBox );
 
         // Panel with check boxes
@@ -287,18 +298,24 @@ public class DischargeLampModule extends BaseLaserModule {
 
         // A slider for the battery voltage
         double defaultVoltage = 5;
+        final double voltageCalibrationFactor = 2.6331;
         final ModelSlider batterySlider = new ModelSlider( "Battery Voltage",
                                                            "V",
-                                                           -DischargeLampModel.MAX_VOLTAGE,
-                                                           DischargeLampModel.MAX_VOLTAGE,
-                                                           defaultVoltage );
+                                                           -25, 25,
+//                                                           -DischargeLampModel.MAX_VOLTAGE * voltageCalibrationFactor,
+//                                                           DischargeLampModel.MAX_VOLTAGE * voltageCalibrationFactor,
+                                                           defaultVoltage  * voltageCalibrationFactor );
+        batterySlider.setMajorTickSpacing( 5 );
+        batterySlider.setNumMinorTicksPerMajorTick( 1 );
+//        batterySlider.setNumMinorTicks( 2 );
+        batterySlider.setPaintLabels( false );
         batterySlider.setPreferredSize( new Dimension( 250, 100 ) );
-        batterySlider.setMajorTickSpacing( DischargeLampModel.MAX_VOLTAGE / 2 );
+//        batterySlider.setMajorTickSpacing( DischargeLampModel.MAX_VOLTAGE * voltageCalibrationFactor / 2 );
         ControlPanel controlPanel = (ControlPanel)getControlPanel();
         controlPanel.addControl( batterySlider );
         batterySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                double voltage = batterySlider.getValue();
+                double voltage = batterySlider.getValue() / voltageCalibrationFactor;
                 model.setVoltage( voltage );
             }
         } );
@@ -306,9 +323,11 @@ public class DischargeLampModule extends BaseLaserModule {
         rightHandPlate.setPotential( 0 );
 
         // A slider for the battery current
-        currentSlider = new ModelSlider( "Electron Production Rate", "electrons/msec",
+        currentSlider = new ModelSlider( "Electron Production Rate", "electrons/sec",
                                          0, maxCurrent, 0, new DecimalFormat( "0.000" ) );
-        currentSlider.setMajorTickSpacing( maxCurrent );
+        currentSlider.setMajorTickSpacing( maxCurrent / 5 );
+        batterySlider.setNumMinorTicksPerMajorTick( 1 );
+        currentSlider.setPaintLabels( false );
         currentSlider.setPreferredSize( new Dimension( 250, 100 ) );
         controlPanel.addControl( currentSlider );
         currentSlider.addChangeListener( new ChangeListener() {
@@ -321,7 +340,8 @@ public class DischargeLampModule extends BaseLaserModule {
         energyLevelsMonitorPanel = new DischargeLampEnergyMonitorPanel2( model, getClock(),
                                                                          model.getAtomicStates(),
                                                                          200,
-                                                                         300 );
+                                                                         300,
+                                                                         configurableElement );
         getControlPanel().add( energyLevelsMonitorPanel );
     }
 
