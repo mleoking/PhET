@@ -155,7 +155,7 @@ public class GaussianWavePacketPlot extends LinePlot {
      * @param pixelsPerPoint
      */
     public void setPixelsPerPoint( double pixelsPerPoint ) {
-        assert( pixelsPerPoint >= 1 );
+        assert( pixelsPerPoint > 0 );
         if( pixelsPerPoint != _pixelsPerPoint ) {
             _pixelsPerPoint = pixelsPerPoint;
             updateDataSet();
