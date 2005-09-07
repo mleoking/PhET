@@ -191,11 +191,12 @@ public class SinePlot extends LinePlot {
     /**
      * Sets the number of pixels per data point.
      *
-     * @param pixelsPerPoint
+     * @param pixelsPerPoint any value > 0
+     * @throws IllegalArgumentException if pixelsPerPoint is not > 0
      */
     public void setPixelsPerPoint( double pixelsPerPoint ) {
-        if ( pixelsPerPoint < 1 ) {
-            throw new IllegalArgumentException( "pixelsPerPoint must be >= 1 : " + pixelsPerPoint );
+        if ( ! ( pixelsPerPoint > 0 ) ) {
+            throw new IllegalArgumentException( "pixelsPerPoint must be > 0 : " + pixelsPerPoint );
         }
         if( pixelsPerPoint != _pixelsPerPoint ) {
             _pixelsPerPoint = pixelsPerPoint;
