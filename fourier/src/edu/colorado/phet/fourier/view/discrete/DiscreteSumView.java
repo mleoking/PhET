@@ -66,7 +66,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
 
     // Background parameters
     private static final int MIN_HEIGHT = 150;
-    private static final Dimension BACKGROUND_SIZE = new Dimension( 800, MIN_HEIGHT );
+    private static final Dimension BACKGROUND_SIZE = new Dimension( 800, 216 );
     private static final Color BACKGROUND_COLOR = new Color( 215, 215, 215 );
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
