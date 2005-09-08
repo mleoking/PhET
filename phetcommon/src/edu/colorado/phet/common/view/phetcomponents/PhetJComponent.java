@@ -468,6 +468,7 @@ public class PhetJComponent extends PhetGraphic {
     public static class PhetJComponentRepaintManager extends RepaintManager {
         private Hashtable table = new Hashtable();//key=JComponent, value=PhetJComponent.
         private static ArrayList dirty = new ArrayList();
+        private boolean tooManyDirty = false;
 
         public synchronized void addDirtyRegion( JComponent c, int x, int y, int w, int h ) {
             super.addDirtyRegion( c, x, y, w, h );
@@ -477,8 +478,10 @@ public class PhetJComponent extends PhetGraphic {
                 if( c.getComponentCount() == 0 && !inRecursiveLoopOfDeath ) {
                     if( !dirty.contains( c ) ) {
                         dirty.add( phetJComponent );
-                        if( dirty.size() > 1000 ) {
+                        if( dirty.size() > 1000 && !tooManyDirty ) {
+                            // This stack trace will only be printed once, as a warning.
                             new RuntimeException( "Too many dirty components: " + dirty.size() ).printStackTrace();
+                            tooManyDirty = true;
                         }
                     }
                 }
