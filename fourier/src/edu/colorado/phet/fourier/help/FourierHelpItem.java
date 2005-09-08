@@ -167,8 +167,20 @@ public class FourierHelpItem extends CompositePhetGraphic implements PhetGraphic
      * @param arrowLength
      */
     public void pointAt( Point point, int direction, int arrowLength ) {
+        pointAt( point.x, point.y, direction, arrowLength );
+    }
+    
+    /**
+     * Points at a location (xy coordinates).
+     * 
+     * @param x
+     * @param y
+     * @param direction
+     * @param arrowLength
+     */
+    public void pointAt( int x, int y, int direction, int arrowLength ) {
         pointAt( (PhetGraphic) null, direction, arrowLength );
-        setLocation( point );
+        setLocation( x, y );
     }
     
     /**
@@ -238,7 +250,7 @@ public class FourierHelpItem extends CompositePhetGraphic implements PhetGraphic
             throw new IllegalArgumentException( "illegal direction: " + _direction );
         }
         
-        Arrow arrow = new Arrow( new Point2D.Double(), new Point2D.Double( x, y ), ARROW_HEAD_WIDTH, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH );
+        Arrow arrow = new Arrow( new Point2D.Double( 0, 0 ), new Point2D.Double( x, y ), ARROW_HEAD_WIDTH, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH );
         _arrowGraphic.setShape( arrow.getShape() );
         layout( _backgroundGraphic, _arrowGraphic, _direction, ARROW_SEPARATION );
     }
