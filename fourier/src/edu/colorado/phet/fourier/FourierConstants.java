@@ -38,8 +38,8 @@ public class FourierConstants {
     //----------------------------------------------------------------------------
 
     private static final String IMAGES_DIRECTORY = "images/";
-    public static final String CLOSE_BUTTON_IMAGE = IMAGES_DIRECTORY + "closeButton.png";
-    public static final String OPEN_BUTTON_IMAGE = IMAGES_DIRECTORY + "openButton.png";
+    public static final String MAXIMIZE_BUTTON_IMAGE = IMAGES_DIRECTORY + "maximizeButton.png";
+    public static final String MINIMIZE_BUTTON_IMAGE = IMAGES_DIRECTORY + "minimizeButton.png";
     public static final String ZOOM_BACKGROUND_HORIZONTAL_IMAGE = IMAGES_DIRECTORY + "zoomBackgroundHorizontal.png";
     public static final String ZOOM_BACKGROUND_VERTICAL_IMAGE = IMAGES_DIRECTORY + "zoomBackgroundVertical.png";
     public static final String ZOOM_IN_BUTTON_IMAGE = IMAGES_DIRECTORY + "zoomInButton.png";
