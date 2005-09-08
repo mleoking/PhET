@@ -441,6 +441,7 @@ public class ApparatusPanel2 extends ApparatusPanel implements ClockTickListener
         boolean changed = transformManager.determineCanvasSize();
         if( changed ) {
             changeListenerProxy.canvasSizeChanged( new ApparatusPanel2.ChangeEvent( ApparatusPanel2.this ) );
+            paint();
         }
     }
 
