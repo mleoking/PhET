@@ -6,7 +6,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - phetcommon: need to call PhetJComponent.PhetJComponentRepaintManager.updateGraphics and ApparatusPanel.repaint when clock is paused
-- hangs after extended play (memory leak?)
+- hangs after extended play (~30 minutes)
 - remove the clock controls for the D2C module
 - add sound to Discrete module
 
@@ -21,6 +21,7 @@ MEDIUM PRIORITY:
 - something is hammering the processor when the sim should be idle
 
 LOW PRIORITY:
+- wiggle me uses the module's clock, so it stops moving when clock is paused
 - wiggle me isn't hidden when user clicks in the control panel
 - relocate the Help on the text fields in Discrete module
 - FourierSumPlot should be an observer of its FourierSeries
@@ -68,6 +69,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/8) - phetcommon: print a stack trace in PhetJComponent only the first time that we reach excessive # of dirty components
 (9/8) - rename close->minimize, open->maximize on buttons/methods/variables/images
 (9/8) - change GraphClosed to MinimizedView
 (9/8) - rename member data in modules, Graph -> View
