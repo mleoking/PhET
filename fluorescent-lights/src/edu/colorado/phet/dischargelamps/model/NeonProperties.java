@@ -27,7 +27,9 @@ public class NeonProperties extends ElementProperties {
     };
 
     public NeonProperties() {
-        super( "Neon", energyLevels );
+        super( "Neon", energyLevels,
+               new HydrogenEnergyEmissionStrategy(),
+               new FiftyPercentAbsorptionStrategy() );
     }
 }
 

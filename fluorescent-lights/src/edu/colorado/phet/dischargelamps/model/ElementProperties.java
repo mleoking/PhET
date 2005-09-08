@@ -28,10 +28,16 @@ public class ElementProperties {
     private String name;
     private boolean levelsMovable;
     private AtomicState[] states;
+    private EnergyEmissionStrategy energyEmissionStrategy;
+    private EnergyAbsorptionStrategy energyAbsorptionStrategy;
 
-    protected ElementProperties( String name, double[] energyLevels ) {
+    protected ElementProperties( String name, double[] energyLevels, 
+                                 EnergyEmissionStrategy energyEmissionStrategy,
+                                 EnergyAbsorptionStrategy energyAbsorptionStrategy ) {
         this.name = name;
         this.energyLevels = energyLevels;
+        this.energyEmissionStrategy = energyEmissionStrategy;
+        this.energyAbsorptionStrategy = energyAbsorptionStrategy;
         initStates();
     }
 
@@ -44,6 +50,14 @@ public class ElementProperties {
             this.energyLevels = energyLevels;
             updateStates();
         }
+    }
+
+    public EnergyEmissionStrategy getEnergyEmissionStrategy() {
+        return energyEmissionStrategy;
+    }
+
+    public EnergyAbsorptionStrategy getEnergyAbsorptionStrategy() {
+        return energyAbsorptionStrategy;
     }
 
     public double[] getEnergyLevels() {

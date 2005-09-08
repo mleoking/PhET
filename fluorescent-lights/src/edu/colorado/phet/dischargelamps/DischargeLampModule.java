@@ -358,6 +358,7 @@ public class DischargeLampModule extends BaseLaserModule {
         AtomicState[] atomicStates = model.getAtomicStates();
 
         for( int i = 0; i < numAtoms; i++ ) {
+//            atom = new DischargeLampAtom( (LaserModel)getModel(), model.getElementProperties() );
             atom = new DischargeLampAtom( (LaserModel)getModel(), atomicStates );
             atom.setPosition( ( tubeBounds.getX() + ( Math.random() ) * ( tubeBounds.getWidth() - atom.getRadius() * 4 ) + atom.getRadius() * 2 ),
                               ( tubeBounds.getY() + ( Math.random() ) * ( tubeBounds.getHeight() - atom.getRadius() * 4 ) ) + atom.getRadius() * 2 );
