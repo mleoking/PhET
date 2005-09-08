@@ -36,16 +36,22 @@ public class Spectrometer implements PhotonEmittedListener {
         return ( count != null ? count.intValue() : 0 );
     }
 
+    public boolean isRunning() {
+        return isRunning;
+    }
+
     public void stop() {
         isRunning = false;
+        changeListenerProxy.stopped( new StateChangeEvent( this ) );
     }
 
     public void start() {
         isRunning = true;
+        changeListenerProxy.started( new StateChangeEvent( this ) );
     }
 
     public void reset() {
-        changeListenerProxy.reset();
+        changeListenerProxy.reset( new StateChangeEvent( this ) );
         wavelengthToPhotonNumberMap.clear();
     }
 
@@ -90,7 +96,11 @@ public class Spectrometer implements PhotonEmittedListener {
     public interface ChangeListener extends EventListener {
         void countChanged( CountChangeEvent eventCount );
 
-        void reset();
+        void started( StateChangeEvent event );
+
+        void stopped( StateChangeEvent event );
+
+        void reset( StateChangeEvent event );
     }
 
     public class CountChangeEvent extends EventObject {
@@ -107,6 +117,16 @@ public class Spectrometer implements PhotonEmittedListener {
 
         public double getPhotonCount() {
             return ( (Spectrometer)getSource() ).getCountAtWavelength( wavelength );
+        }
+    }
+
+    public class StateChangeEvent extends EventObject {
+        public StateChangeEvent( Object source ) {
+            super( source );
+        }
+
+        public Spectrometer getSpectrometer() {
+            return (Spectrometer)getSource();
         }
     }
 }
