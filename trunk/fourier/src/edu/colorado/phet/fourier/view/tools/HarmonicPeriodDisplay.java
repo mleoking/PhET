@@ -19,7 +19,6 @@ import java.awt.geom.Ellipse2D;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.MouseInputAdapter;
 
-import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
@@ -45,7 +44,7 @@ import edu.colorado.phet.fourier.view.AnimationCycleController.AnimationCycleLis
  * @version $Revision$
  */
 public class HarmonicPeriodDisplay extends CompositePhetGraphic 
-  implements ApparatusPanel2.ChangeListener, SimpleObserver, HarmonicColorChangeListener, AnimationCycleListener {
+  implements ApparatusPanel2.ChangeListener, HarmonicColorChangeListener, AnimationCycleListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -138,7 +137,6 @@ public class HarmonicPeriodDisplay extends CompositePhetGraphic
      * Call this method prior to releasing all references to an object of this type.
      */
     public void cleanup() {
-        _harmonic.removeObserver( this );
         HarmonicColors.getInstance().removeHarmonicColorChangeListener( this );
     }
     
@@ -155,11 +153,7 @@ public class HarmonicPeriodDisplay extends CompositePhetGraphic
     public void setHarmonic( Harmonic harmonic ) {
         assert( harmonic != null );
         
-        if ( _harmonic != null ) {
-            _harmonic.removeObserver( this );
-        }
         _harmonic = harmonic;
-        _harmonic.addObserver( this );
         
         updateSubscript();
         updateColor();
@@ -190,19 +184,6 @@ public class HarmonicPeriodDisplay extends CompositePhetGraphic
         _pieArc.setArc( -RING_DIAMETER/2, -RING_DIAMETER/2, RING_DIAMETER, RING_DIAMETER, PIE_START_ANGLE, -(_pieAngle), Arc2D.PIE );
         _pieGraphic.setShape( _pieArc );
         _pieGraphic.setShapeDirty();
-    }
-    
-    //----------------------------------------------------------------------------
-    // SimpleObserver implementation
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Synchronizes the view with the model.
-     */
-    public void update() {
-        if ( isVisible() ) {
-            updatePie();
-        }
     }
     
     //----------------------------------------------------------------------------

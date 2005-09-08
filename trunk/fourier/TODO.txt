@@ -24,11 +24,9 @@ LOW PRIORITY:
 - wiggle me isn't hidden when user clicks in the control panel
 - relocate the Help on the text fields in Discrete module
 - FourierSumPlot should be an observer of its FourierSeries
-- PeriodDisplay is an observer of its harmonic, should it be?
 - get rid of Vector2D if it continues to be used only by WiggleMeGraphic
 - break up control panels into reusable subpanels
 - grayed out waveforms anti-aliasing/stroke visually changes when you start to drag wavelength/period tools
-- smaller font for equation subscripts
 - MegaHelp
 
 NEW FEATURES:
@@ -68,6 +66,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/8) - HarmonicPeriodDisplay should not be an observer of its harmonic, does nothing
 (9/8) - bugfix: FourierHelp.pointAt(Point,...) doesn't actually point at the specified Point
 (9/8) - make help items ignore the mouse so that you can used controls that are underneath them
 (9/8) - phetcommon: print a stack trace in PhetJComponent only the first time that we reach excessive # of dirty components
@@ -466,6 +465,7 @@ sandbox-2005-05-10...
 (3/30) - set up basic application framework
 
 REJECTED:
+(9/8) - smaller font for equation subscripts (fine as is)
 (8/30) - display at full-screen resolution on start up? (per Carl as status meeting)
 (8/30) - refactor chart config out of HarmonicsChart, SumChart and AmplitudesChart (each chart is different)
 (8/29) - with a single module, Fourier starts up with the module's apparatus panel magnified (sim will not be single module)
