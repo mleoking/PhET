@@ -81,11 +81,11 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
     //----------------------------------------------------------------------------
     
     private FourierSeries _fourierSeries;
-    private DiscreteAmplitudesView _amplitudesGraph;
-    private DiscreteHarmonicsView _harmonicsGraph;
-    private GraphClosed _harmonicsGraphClosed;
-    private DiscreteSumView _sumGraph;
-    private GraphClosed _sumGraphClosed;
+    private DiscreteAmplitudesView _amplitudesView;
+    private DiscreteHarmonicsView _harmonicsView;
+    private MinimizedView _harmonicsMinimizedView;
+    private DiscreteSumView _sumView;
+    private MinimizedView _sumMinimizedView;
     private HarmonicWavelengthTool _wavelengthTool;
     private HarmonicPeriodTool _periodTool;
     private HarmonicPeriodDisplay _periodDisplay;
@@ -129,35 +129,35 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         apparatusPanel.addChangeListener( this );
         
         // Amplitudes view
-        _amplitudesGraph = new DiscreteAmplitudesView( apparatusPanel, _fourierSeries );
-        _amplitudesGraph.setLocation( 0, 0 );
-        apparatusPanel.addGraphic( _amplitudesGraph, AMPLITUDES_LAYER );
+        _amplitudesView = new DiscreteAmplitudesView( apparatusPanel, _fourierSeries );
+        _amplitudesView.setLocation( 0, 0 );
+        apparatusPanel.addGraphic( _amplitudesView, AMPLITUDES_LAYER );
         
         // Harmonics view
-        _harmonicsGraph = new DiscreteHarmonicsView( apparatusPanel, _fourierSeries );
-        apparatusPanel.addGraphic( _harmonicsGraph, HARMONICS_LAYER );
+        _harmonicsView = new DiscreteHarmonicsView( apparatusPanel, _fourierSeries );
+        apparatusPanel.addGraphic( _harmonicsView, HARMONICS_LAYER );
         
-        // Harmonics view (collapsed)
-        _harmonicsGraphClosed = new GraphClosed( apparatusPanel, SimStrings.get( "HarmonicsGraph.title" ) );
-        apparatusPanel.addGraphic( _harmonicsGraphClosed, HARMONICS_CLOSED_LAYER );
+        // Harmonics view (minimized)
+        _harmonicsMinimizedView = new MinimizedView( apparatusPanel, SimStrings.get( "HarmonicsGraph.title" ) );
+        apparatusPanel.addGraphic( _harmonicsMinimizedView, HARMONICS_CLOSED_LAYER );
         
         // Sum view
-        _sumGraph = new DiscreteSumView( apparatusPanel, _fourierSeries );
-        apparatusPanel.addGraphic( _sumGraph, SUM_LAYER );
+        _sumView = new DiscreteSumView( apparatusPanel, _fourierSeries );
+        apparatusPanel.addGraphic( _sumView, SUM_LAYER );
         
-        // Sum view (collapsed)
-        _sumGraphClosed = new GraphClosed( apparatusPanel, SimStrings.get( "SumGraph.title" ) );
-        apparatusPanel.addGraphic( _sumGraphClosed, SUM_CLOSED_LAYER );
+        // Sum view (minimized)
+        _sumMinimizedView = new MinimizedView( apparatusPanel, SimStrings.get( "SumGraph.title" ) );
+        apparatusPanel.addGraphic( _sumMinimizedView, SUM_CLOSED_LAYER );
         
         // Wavelength Tool
         _wavelengthTool = new HarmonicWavelengthTool( apparatusPanel,
-                _fourierSeries.getHarmonic(0), _harmonicsGraph.getChart() );
+                _fourierSeries.getHarmonic(0), _harmonicsView.getChart() );
         apparatusPanel.addGraphic( _wavelengthTool, TOOLS_LAYER );
         apparatusPanel.addChangeListener( _wavelengthTool );
         
         // Period Tool
         _periodTool = new HarmonicPeriodTool( apparatusPanel,
-                _fourierSeries.getHarmonic(0), _harmonicsGraph.getChart() );
+                _fourierSeries.getHarmonic(0), _harmonicsView.getChart() );
         apparatusPanel.addGraphic( _periodTool, TOOLS_LAYER );
         apparatusPanel.addChangeListener( _periodTool );
         
@@ -169,8 +169,8 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         // Animation controller
         _animationCycleController = new AnimationCycleController( FourierConfig.ANIMATION_STEPS_PER_CYCLE );
         clock.addClockTickListener( _animationCycleController );
-        _animationCycleController.addAnimationCycleListener( _harmonicsGraph );
-        _animationCycleController.addAnimationCycleListener( _sumGraph );
+        _animationCycleController.addAnimationCycleListener( _harmonicsView );
+        _animationCycleController.addAnimationCycleListener( _sumView );
         _animationCycleController.addAnimationCycleListener( _periodDisplay );
         
         //----------------------------------------------------------------------------
@@ -179,7 +179,7 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         
         // Control Panel
         _controlPanel = new DiscreteControlPanel( this, 
-                _fourierSeries, _harmonicsGraph, _sumGraph, 
+                _fourierSeries, _harmonicsView, _sumView, 
                 _wavelengthTool, _periodTool, _periodDisplay,
                 _animationCycleController );
         _controlPanel.addVerticalSpace( 20 );
@@ -187,56 +187,56 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         setControlPanel( _controlPanel );
         
         // Link horizontal zoom controls
-        _harmonicsGraph.getHorizontalZoomControl().addZoomListener( _sumGraph );
-        _sumGraph.getHorizontalZoomControl().addZoomListener( _harmonicsGraph );
+        _harmonicsView.getHorizontalZoomControl().addZoomListener( _sumView );
+        _sumView.getHorizontalZoomControl().addZoomListener( _harmonicsView );
         
         // Harmonic hightlighting
-        _amplitudesGraph.addHarmonicFocusListener( _harmonicsGraph );
-        _wavelengthTool.addHarmonicFocusListener( _harmonicsGraph );
-        _periodTool.addHarmonicFocusListener( _harmonicsGraph );
-        _periodDisplay.addHarmonicFocusListener( _harmonicsGraph );
+        _amplitudesView.addHarmonicFocusListener( _harmonicsView );
+        _wavelengthTool.addHarmonicFocusListener( _harmonicsView );
+        _periodTool.addHarmonicFocusListener( _harmonicsView );
+        _periodDisplay.addHarmonicFocusListener( _harmonicsView );
         
         // Slider movement by the user
-        _amplitudesGraph.addChangeListener( _controlPanel );
+        _amplitudesView.addChangeListener( _controlPanel );
         
-        // Open/close buttons on graphs
+        // Minimize/maximize buttons on views
         {
-            // Harmonics close
-            _harmonicsGraph.getCloseButton().addMouseInputListener( new MouseInputAdapter() {
+            // Harmonics minimize
+            _harmonicsView.getMinimizeButton().addMouseInputListener( new MouseInputAdapter() {
                 public void mouseReleased( MouseEvent event ) {
-                    _harmonicsGraph.setVisible( false );
-                    _harmonicsGraphClosed.setVisible( true );
-                    resizeGraphs();
+                    _harmonicsView.setVisible( false );
+                    _harmonicsMinimizedView.setVisible( true );
+                    layoutViews();
                 }
              } );
             
-            // Harmonics open
-            _harmonicsGraphClosed.getOpenButton().addMouseInputListener( new MouseInputAdapter() {
+            // Harmonics maximize
+            _harmonicsMinimizedView.getMaximizeButton().addMouseInputListener( new MouseInputAdapter() {
                 public void mouseReleased( MouseEvent event ) {
-                    _harmonicsGraph.setVisible( true );
-                    _harmonicsGraphClosed.setVisible( false );
+                    _harmonicsView.setVisible( true );
+                    _harmonicsMinimizedView.setVisible( false );
                     setWaitCursorEnabled( true );
-                    resizeGraphs();
+                    layoutViews();
                     setWaitCursorEnabled( false );
                 }
              } );
             
-            // Sum close
-            _sumGraph.getCloseButton().addMouseInputListener( new MouseInputAdapter() {
+            // Sum minimize
+            _sumView.getMinimizeButton().addMouseInputListener( new MouseInputAdapter() {
                 public void mouseReleased( MouseEvent event ) {
-                    _sumGraph.setVisible( false );
-                    _sumGraphClosed.setVisible( true );
-                    resizeGraphs();
+                    _sumView.setVisible( false );
+                    _sumMinimizedView.setVisible( true );
+                    layoutViews();
                 }
              } );
             
-            // Sum open
-            _sumGraphClosed.getOpenButton().addMouseInputListener( new MouseInputAdapter() {
+            // Sum maximize
+            _sumMinimizedView.getMaximizeButton().addMouseInputListener( new MouseInputAdapter() {
                 public void mouseReleased( MouseEvent event ) {
-                    _sumGraph.setVisible( true );
-                    _sumGraphClosed.setVisible( false );
+                    _sumView.setVisible( true );
+                    _sumMinimizedView.setVisible( false );
                     setWaitCursorEnabled( true );
-                    resizeGraphs();
+                    layoutViews();
                     setWaitCursorEnabled( false );
                 }
              } );
@@ -261,9 +261,9 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         textfieldsToolHelp.pointAt( new Point( 195, 24 ), FourierHelpItem.LEFT, 15 );
         addHelpItem( textfieldsToolHelp );
         
-        FourierHelpItem harmonicsCloseButtonHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.closeHarmonics" ) );
-        harmonicsCloseButtonHelp.pointAt( _harmonicsGraph.getCloseButton(), FourierHelpItem.LEFT, 15 );
-        addHelpItem( harmonicsCloseButtonHelp );
+        FourierHelpItem harmonicsMinimizeButtonHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.minimize" ) );
+        harmonicsMinimizeButtonHelp.pointAt( _harmonicsView.getMinimizeButton(), FourierHelpItem.LEFT, 15 );
+        addHelpItem( harmonicsMinimizeButtonHelp );
         
         FourierHelpItem wavelengthToolHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.wavelengthTool" ) );
         wavelengthToolHelp.pointAt( _wavelengthTool, FourierHelpItem.UP, 15 );
@@ -301,20 +301,15 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         _fourierSeries.setPreset( FourierConstants.PRESET_SINE_COSINE );
         _fourierSeries.setWaveType( FourierConstants.WAVE_TYPE_SINE );
         
-        _amplitudesGraph.reset();
-        _harmonicsGraph.reset();
-        _sumGraph.reset();
+        _amplitudesView.reset();
+        _harmonicsView.reset();
+        _sumView.reset();
         
-        _harmonicsGraph.setVisible( true );
-        _harmonicsGraphClosed.setVisible( false );
-        _sumGraph.setVisible( true );
-        _sumGraphClosed.setVisible( false ); 
-        resizeGraphs();
-        
-        _harmonicsGraph.setLocation( _amplitudesGraph.getX(), _amplitudesGraph.getY() + _amplitudesGraph.getHeight() );
-        _harmonicsGraphClosed.setLocation( _amplitudesGraph.getX(), _amplitudesGraph.getY() + _amplitudesGraph.getHeight() );
-        _sumGraph.setLocation( _amplitudesGraph.getX(), _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
-        _sumGraphClosed.setLocation( _amplitudesGraph.getX(), _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
+        _harmonicsView.setVisible( true );
+        _harmonicsMinimizedView.setVisible( false );
+        _sumView.setVisible( true );
+        _sumMinimizedView.setVisible( false ); 
+        layoutViews();
         
         _wavelengthTool.setVisible( false );
         _wavelengthTool.setLocation( WAVELENGTH_TOOL_LOCATION );
@@ -333,34 +328,38 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
     //----------------------------------------------------------------------------
     
     /*
-     * Resizes and repositions the graphs based on which ones are visible.
+     * Resizes and repositions the views based on which ones are visible.
      * 
      * @param event
      */
-    private void resizeGraphs() {
+    private void layoutViews() {
 
         int canvasHeight = _canvasSize.height;
-        int availableHeight = canvasHeight - _amplitudesGraph.getHeight();
+        int availableHeight = canvasHeight - _amplitudesView.getHeight();
         
-        if (  _harmonicsGraph.isVisible() && _sumGraph.isVisible() ) {
-            _harmonicsGraph.setHeight( availableHeight/2 );
-            _sumGraph.setHeight( availableHeight/2 );
-            _sumGraph.setLocation( _amplitudesGraph.getX(), _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
-            _sumGraphClosed.setLocation( _amplitudesGraph.getX(), _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
+        if ( _harmonicsView.isVisible() && _sumView.isVisible() ) {
+            // Both maximized
+            _harmonicsView.setHeight( availableHeight/2 );
+            _harmonicsView.setLocation( _amplitudesView.getX(), _amplitudesView.getY() + _amplitudesView.getHeight() );
+            _sumView.setHeight( availableHeight/2 );
+            _sumView.setLocation( _amplitudesView.getX(), _harmonicsView.getY() + _harmonicsView.getHeight() );
         }
-        else if ( _harmonicsGraph.isVisible() ) {
-            _harmonicsGraph.setHeight( availableHeight - _sumGraphClosed.getHeight() );
-            _sumGraph.setLocation( _amplitudesGraph.getX(), _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
-            _sumGraphClosed.setLocation( _amplitudesGraph.getX(), _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
+        else if ( _harmonicsView.isVisible() ) {
+            // Harmonics maximized
+            _harmonicsView.setHeight( availableHeight - _sumMinimizedView.getHeight() );
+            _harmonicsView.setLocation( _amplitudesView.getX(), _amplitudesView.getY() + _amplitudesView.getHeight() );
+            _sumMinimizedView.setLocation( _amplitudesView.getX(), _harmonicsView.getY() + _harmonicsView.getHeight() );
         }
-        else if ( _sumGraph.isVisible() ) {
-            _sumGraph.setHeight( availableHeight - _harmonicsGraphClosed.getHeight() );
-            _sumGraph.setLocation( _amplitudesGraph.getX(), _harmonicsGraphClosed.getY() + _harmonicsGraphClosed.getHeight() );
-            _sumGraphClosed.setLocation( _amplitudesGraph.getX(), _harmonicsGraphClosed.getY() + _harmonicsGraphClosed.getHeight() );
+        else if ( _sumView.isVisible() ) {
+            // Sum maximized
+            _harmonicsMinimizedView.setLocation( _amplitudesView.getX(), _amplitudesView.getY() + _amplitudesView.getHeight() );
+            _sumView.setHeight( availableHeight - _harmonicsMinimizedView.getHeight() );
+            _sumView.setLocation( _amplitudesView.getX(), _harmonicsMinimizedView.getY() + _harmonicsMinimizedView.getHeight() );
         }
         else {
-            _sumGraph.setLocation( _amplitudesGraph.getX(), _harmonicsGraphClosed.getY() + _harmonicsGraphClosed.getHeight() );
-            _sumGraphClosed.setLocation( _amplitudesGraph.getX(), _harmonicsGraphClosed.getY() + _harmonicsGraphClosed.getHeight() ); 
+            // Both minimized
+            _harmonicsMinimizedView.setLocation( _amplitudesView.getX(), _amplitudesView.getY() + _amplitudesView.getHeight() );
+            _sumMinimizedView.setLocation( _amplitudesView.getX(), _harmonicsMinimizedView.getY() + _harmonicsMinimizedView.getHeight() );
         }
     }
     
@@ -373,7 +372,7 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
      */
     public void canvasSizeChanged( ChangeEvent event ) {
         _canvasSize.setSize( event.getCanvasSize() );
-        resizeGraphs();
+        layoutViews();
     }
     
     //----------------------------------------------------------------------------

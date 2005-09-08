@@ -108,7 +108,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
     private FourierSeries _fourierSeries;
     private PhetShapeGraphic _backgroundGraphic;
     private PhetTextGraphic _titleGraphic;
-    private PhetImageGraphic _closeButton;
+    private PhetImageGraphic _minimizeButton;
     private DiscreteSumChart _chartGraphic;
     private DiscreteSumEquation _mathGraphic;
     private FourierSumPlot _sumPlot;
@@ -189,10 +189,10 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
         }
         
         // Close button
-        _closeButton = new PhetImageGraphic( component, FourierConstants.CLOSE_BUTTON_IMAGE );
-        addGraphic( _closeButton, CONTROLS_LAYER );
-        _closeButton.centerRegistrationPoint();
-        _closeButton.setLocation( (_closeButton.getWidth()/2) + 10, _closeButton.getHeight()/2 + 5 );
+        _minimizeButton = new PhetImageGraphic( component, FourierConstants.MINIMIZE_BUTTON_IMAGE );
+        addGraphic( _minimizeButton, CONTROLS_LAYER );
+        _minimizeButton.centerRegistrationPoint();
+        _minimizeButton.setLocation( (_minimizeButton.getWidth()/2) + 10, _minimizeButton.getHeight()/2 + 5 );
         
         // Zoom controls
         {
@@ -239,7 +239,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
             _chartGraphic.setIgnoreMouse( true );
             _mathGraphic.setIgnoreMouse( true );
             
-            _closeButton.setCursorHand();
+            _minimizeButton.setCursorHand();
             
             _horizontalZoomControl.addZoomListener( this );
             _verticalZoomControl.addZoomListener( this );
@@ -381,12 +381,12 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
     }
 
     /**
-     * Gets a reference to the "close" button.
+     * Gets a reference to the "minimize" button.
      * 
-     * @return close button
+     * @return minimize button
      */
-    public PhetImageGraphic getCloseButton() {
-        return _closeButton;
+    public PhetImageGraphic getMinimizeButton() {
+        return _minimizeButton;
     }
     
     /**

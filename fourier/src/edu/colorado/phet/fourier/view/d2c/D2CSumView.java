@@ -90,7 +90,7 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
     private GaussianWavePacket _wavePacket;
     private PhetShapeGraphic _backgroundGraphic;
     private PhetTextGraphic _titleGraphic;
-    private PhetImageGraphic _closeButton;
+    private PhetImageGraphic _minimizeButton;
     private ZoomControl _horizontalZoomControl;
     private D2CSumChart _chartGraphic;
     private FlattenedChart _flattenedChart;
@@ -169,10 +169,10 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
         _wavePacketPlot.setStrokeColor( WAVE_PACKET_COLOR );
         
         // Close button
-        _closeButton = new PhetImageGraphic( component, FourierConstants.CLOSE_BUTTON_IMAGE );
-        addGraphic( _closeButton, CONTROLS_LAYER );
-        _closeButton.centerRegistrationPoint();
-        _closeButton.setLocation( (_closeButton.getWidth()/2) + 10, _closeButton.getHeight()/2 + 5 );
+        _minimizeButton = new PhetImageGraphic( component, FourierConstants.MINIMIZE_BUTTON_IMAGE );
+        addGraphic( _minimizeButton, CONTROLS_LAYER );
+        _minimizeButton.centerRegistrationPoint();
+        _minimizeButton.setLocation( (_minimizeButton.getWidth()/2) + 10, _minimizeButton.getHeight()/2 + 5 );
         
         // Zoom controls
         {
@@ -198,7 +198,7 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
 
             _horizontalZoomControl.addZoomListener( this );
             
-            _closeButton.setCursorHand();
+            _minimizeButton.setCursorHand();
         }
         
         reset();
@@ -278,12 +278,12 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
     }
     
     /**
-     * Gets a reference to the "close" button.
+     * Gets a reference to the "minimize" button.
      * 
-     * @return close button
+     * @return minimize button
      */
-    public PhetImageGraphic getCloseButton() {
-        return _closeButton;
+    public PhetImageGraphic getMinimizeButton() {
+        return _minimizeButton;
     }
     
     /**

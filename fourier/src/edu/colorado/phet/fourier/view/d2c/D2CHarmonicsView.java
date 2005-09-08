@@ -89,7 +89,7 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
     private GaussianWavePacket _wavePacket;
     private PhetShapeGraphic _backgroundGraphic;
     private PhetTextGraphic _titleGraphic;
-    private PhetImageGraphic _closeButton;
+    private PhetImageGraphic _minimizeButton;
     private ZoomControl _horizontalZoomControl;
     private D2CHarmonicsChart _chartGraphic;
     private HarmonicsEquation _mathGraphic;
@@ -158,17 +158,17 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
         _cannotShowGraphic.setLocation( 125, BACKGROUND_SIZE.height / 2 );
 
         // Close button
-        _closeButton = new PhetImageGraphic( component, FourierConstants.CLOSE_BUTTON_IMAGE );
-        addGraphic( _closeButton, CONTROLS_LAYER );
-        _closeButton.centerRegistrationPoint();
-        _closeButton.setLocation( (_closeButton.getWidth()/2) + 10, _closeButton.getHeight()/2 + 5 );
+        _minimizeButton = new PhetImageGraphic( component, FourierConstants.MINIMIZE_BUTTON_IMAGE );
+        addGraphic( _minimizeButton, CONTROLS_LAYER );
+        _minimizeButton.centerRegistrationPoint();
+        _minimizeButton.setLocation( (_minimizeButton.getWidth()/2) + 10, _minimizeButton.getHeight()/2 + 5 );
         
         // "Minimize" message
         String minimizeMessage = SimStrings.get( "D2CHarmonicsGraph.minimize" );
         HTMLGraphic minimizeGraphic = new HTMLGraphic( component, MINIMIZE_MESSAGE_FONT, minimizeMessage, MINIMIZE_MESSAGE_COLOR );
         addGraphic( minimizeGraphic, MESSAGE_LAYER );
         minimizeGraphic.setRegistrationPoint( 0, minimizeGraphic.getHeight() / 2 ); // left center
-        minimizeGraphic.setLocation( _closeButton.getX() + _closeButton.getWidth() / 2 + 10, _closeButton.getY() + 5 );
+        minimizeGraphic.setLocation( _minimizeButton.getX() + _minimizeButton.getWidth() / 2 + 10, _minimizeButton.getY() + 5 );
         
         // Zoom controls
         {
@@ -196,7 +196,7 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
             
             _horizontalZoomControl.addZoomListener( this );
 
-            _closeButton.setCursorHand();
+            _minimizeButton.setCursorHand();
         }
         
         reset();
@@ -267,12 +267,12 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
     }
     
     /**
-     * Gets a reference to the "close" button.
+     * Gets a reference to the "minimize" button.
      * 
-     * @return close button
+     * @return minimize button
      */
-    public PhetImageGraphic getCloseButton() {
-        return _closeButton;
+    public PhetImageGraphic getMinimizeButton() {
+        return _minimizeButton;
     }
     
     /**

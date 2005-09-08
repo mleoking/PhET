@@ -27,7 +27,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.control.D2CControlPanel;
 import edu.colorado.phet.fourier.help.FourierHelpItem;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
-import edu.colorado.phet.fourier.view.GraphClosed;
+import edu.colorado.phet.fourier.view.MinimizedView;
 import edu.colorado.phet.fourier.view.d2c.D2CAmplitudesView;
 import edu.colorado.phet.fourier.view.d2c.D2CHarmonicsView;
 import edu.colorado.phet.fourier.view.d2c.D2CSumView;
@@ -77,11 +77,11 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
     //----------------------------------------------------------------------------
     
     private GaussianWavePacket _wavePacket;
-    private D2CAmplitudesView _amplitudesGraph;
-    private D2CHarmonicsView _harmonicsGraph;
+    private D2CAmplitudesView _amplitudesView;
+    private D2CHarmonicsView _harmonicsView;
     private D2CSumView _sumGraph;
-    private GraphClosed _harmonicsGraphClosed;
-    private GraphClosed _sumGraphClosed;
+    private MinimizedView _harmonicsMinimizedView;
+    private MinimizedView _sumMinimizedView;
     private D2CControlPanel _controlPanel;
     private Dimension _canvasSize;
     private WavePacketSpacingTool _spacingTool;
@@ -127,39 +127,39 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         apparatusPanel.addChangeListener( this );
 
         // Amplitudes view
-        _amplitudesGraph = new D2CAmplitudesView( apparatusPanel, _wavePacket );
-        _amplitudesGraph.setLocation( 0, 0 );
-        apparatusPanel.addGraphic( _amplitudesGraph, AMPLITUDES_LAYER );
+        _amplitudesView = new D2CAmplitudesView( apparatusPanel, _wavePacket );
+        _amplitudesView.setLocation( 0, 0 );
+        apparatusPanel.addGraphic( _amplitudesView, AMPLITUDES_LAYER );
         
         // Harmonics view
-        _harmonicsGraph = new D2CHarmonicsView( apparatusPanel, _wavePacket );
-        apparatusPanel.addGraphic( _harmonicsGraph, HARMONICS_LAYER );
+        _harmonicsView = new D2CHarmonicsView( apparatusPanel, _wavePacket );
+        apparatusPanel.addGraphic( _harmonicsView, HARMONICS_LAYER );
         
-        // Harmonics view (collapsed)
-        _harmonicsGraphClosed = new GraphClosed( apparatusPanel, SimStrings.get( "D2CHarmonicsGraph.title" ) );
-        apparatusPanel.addGraphic( _harmonicsGraphClosed, HARMONICS_CLOSED_LAYER );
+        // Harmonics view (minimized)
+        _harmonicsMinimizedView = new MinimizedView( apparatusPanel, SimStrings.get( "D2CHarmonicsGraph.title" ) );
+        apparatusPanel.addGraphic( _harmonicsMinimizedView, HARMONICS_CLOSED_LAYER );
         
         // Sum view
         _sumGraph = new D2CSumView( apparatusPanel, _wavePacket );
         apparatusPanel.addGraphic( _sumGraph, SUM_LAYER );
         
-        // Sum view (collapsed)
-        _sumGraphClosed = new GraphClosed( apparatusPanel, SimStrings.get( "D2CSumGraph.title" ) );
-        apparatusPanel.addGraphic( _sumGraphClosed, SUM_CLOSED_LAYER );
+        // Sum view (minimized)
+        _sumMinimizedView = new MinimizedView( apparatusPanel, SimStrings.get( "D2CSumGraph.title" ) );
+        apparatusPanel.addGraphic( _sumMinimizedView, SUM_CLOSED_LAYER );
         
         // Spacing (k1,w1) measurement tool
-        _spacingTool = new WavePacketSpacingTool( apparatusPanel, _wavePacket, _amplitudesGraph.getChart() );
-        _spacingTool.setDragBounds( _amplitudesGraph.getChart().getBounds() );
+        _spacingTool = new WavePacketSpacingTool( apparatusPanel, _wavePacket, _amplitudesView.getChart() );
+        _spacingTool.setDragBounds( _amplitudesView.getChart().getBounds() );
         apparatusPanel.addGraphic( _spacingTool, TOOLS_LAYER );
         
         // Delta k (dk,dw) measurement tool
-        _deltaKTool = new WavePacketDeltaKTool( apparatusPanel, _wavePacket, _amplitudesGraph.getChart() );
-        _deltaKTool.setDragBounds( _amplitudesGraph.getChart().getBounds() );
+        _deltaKTool = new WavePacketDeltaKTool( apparatusPanel, _wavePacket, _amplitudesView.getChart() );
+        _deltaKTool.setDragBounds( _amplitudesView.getChart().getBounds() );
         apparatusPanel.addGraphic( _deltaKTool, TOOLS_LAYER );
         
         // Drag bounds for the x-space tools
         int x = 0;
-        int y = _amplitudesGraph.getHeight();
+        int y = _amplitudesView.getHeight();
         int w = 700;
         int h = 425;
         Rectangle xToolsDragBounds = new Rectangle( x, y, w, h );
@@ -180,52 +180,52 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
 
         // Control Panel
         _controlPanel = new D2CControlPanel( this, _wavePacket, 
-                _amplitudesGraph, _harmonicsGraph, _sumGraph,
+                _amplitudesView, _harmonicsView, _sumGraph,
                 _spacingTool, _deltaKTool, _deltaXTool, _periodTool );
         _controlPanel.addVerticalSpace( 20 );
         _controlPanel.addResetButton();
         setControlPanel( _controlPanel );
 
         // Link horizontal zoom controls
-        _harmonicsGraph.getHorizontalZoomControl().addZoomListener( _sumGraph );
-        _sumGraph.getHorizontalZoomControl().addZoomListener( _harmonicsGraph );
+        _harmonicsView.getHorizontalZoomControl().addZoomListener( _sumGraph );
+        _sumGraph.getHorizontalZoomControl().addZoomListener( _harmonicsView );
         
-        // Open/close buttons on graphs
+        // Minimize/maximize buttons on views
         {
-            // Harmonics close
-            _harmonicsGraph.getCloseButton().addMouseInputListener( new MouseInputAdapter() {
+            // Harmonics minimize
+            _harmonicsView.getMinimizeButton().addMouseInputListener( new MouseInputAdapter() {
                 public void mouseReleased( MouseEvent event ) {
-                    _harmonicsGraph.setVisible( false );
-                    _harmonicsGraphClosed.setVisible( true );
+                    _harmonicsView.setVisible( false );
+                    _harmonicsMinimizedView.setVisible( true );
                     resizeGraphs();
                 }
              } );
             
-            // Harmonics open
-            _harmonicsGraphClosed.getOpenButton().addMouseInputListener( new MouseInputAdapter() {
+            // Harmonics maximize
+            _harmonicsMinimizedView.getMaximizeButton().addMouseInputListener( new MouseInputAdapter() {
                 public void mouseReleased( MouseEvent event ) {
-                    _harmonicsGraph.setVisible( true );
-                    _harmonicsGraphClosed.setVisible( false );
+                    _harmonicsView.setVisible( true );
+                    _harmonicsMinimizedView.setVisible( false );
                     setWaitCursorEnabled( true );
                     resizeGraphs();
                     setWaitCursorEnabled( false );
                 }
              } );
             
-            // Sum close
-            _sumGraph.getCloseButton().addMouseInputListener( new MouseInputAdapter() {
+            // Sum minimize
+            _sumGraph.getMinimizeButton().addMouseInputListener( new MouseInputAdapter() {
                 public void mouseReleased( MouseEvent event ) {
                     _sumGraph.setVisible( false );
-                    _sumGraphClosed.setVisible( true );
+                    _sumMinimizedView.setVisible( true );
                     resizeGraphs();
                 }
              } );
             
-            // Sum open
-            _sumGraphClosed.getOpenButton().addMouseInputListener( new MouseInputAdapter() {
+            // Sum maximize
+            _sumMinimizedView.getMaximizeButton().addMouseInputListener( new MouseInputAdapter() {
                 public void mouseReleased( MouseEvent event ) {
                     _sumGraph.setVisible( true );
-                    _sumGraphClosed.setVisible( false );
+                    _sumMinimizedView.setVisible( false );
                     setWaitCursorEnabled( true );
                     resizeGraphs();
                     setWaitCursorEnabled( false );
@@ -274,20 +274,15 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         _wavePacket.setCenter( WAVE_PACKET_CENTER );
         _wavePacket.setSignificantWidth( WAVE_PACKET_SIGNIFICANT_WIDTH );
         
-        _amplitudesGraph.reset();
-        _harmonicsGraph.reset();
+        _amplitudesView.reset();
+        _harmonicsView.reset();
         _sumGraph.reset();
         
-        _harmonicsGraph.setVisible( false );
-        _harmonicsGraphClosed.setVisible( true );
+        _harmonicsView.setVisible( false );
+        _harmonicsMinimizedView.setVisible( true );
         _sumGraph.setVisible( true );
-        _sumGraphClosed.setVisible( false ); 
+        _sumMinimizedView.setVisible( false ); 
         resizeGraphs();
-        
-        _harmonicsGraph.setLocation( _amplitudesGraph.getX(), _amplitudesGraph.getY() + _amplitudesGraph.getHeight() );
-        _harmonicsGraphClosed.setLocation( _amplitudesGraph.getX(), _amplitudesGraph.getY() + _amplitudesGraph.getHeight() );
-        _sumGraph.setLocation( _amplitudesGraph.getX(), _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
-        _sumGraphClosed.setLocation( _amplitudesGraph.getX(), _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
         
         _spacingTool.setLocation( SPACING_TOOL_LOCATION );
         _deltaKTool.setLocation( DELTA_K_TOOL_LOCATION );
@@ -309,27 +304,27 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
     private void resizeGraphs() {
 
         int canvasHeight = _canvasSize.height;
-        int availableHeight = canvasHeight - _amplitudesGraph.getHeight();
+        int availableHeight = canvasHeight - _amplitudesView.getHeight();
         
-        if (  _harmonicsGraph.isVisible() && _sumGraph.isVisible() ) {
-            _harmonicsGraph.setHeight( availableHeight/2 );
+        if ( _harmonicsView.isVisible() && _sumGraph.isVisible() ) {
+            _harmonicsView.setHeight( availableHeight/2 );
+            _harmonicsView.setLocation( _amplitudesView.getX(), _amplitudesView.getY() + _amplitudesView.getHeight() );
             _sumGraph.setHeight( availableHeight/2 );
-            _sumGraph.setLocation( _amplitudesGraph.getX(), _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
-            _sumGraphClosed.setLocation( _amplitudesGraph.getX(), _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
+            _sumGraph.setLocation( _amplitudesView.getX(), _harmonicsView.getY() + _harmonicsView.getHeight() );
         }
-        else if ( _harmonicsGraph.isVisible() ) {
-            _harmonicsGraph.setHeight( availableHeight - _sumGraphClosed.getHeight() );
-            _sumGraph.setLocation( _amplitudesGraph.getX(), _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
-            _sumGraphClosed.setLocation( _amplitudesGraph.getX(), _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
+        else if ( _harmonicsView.isVisible() ) {
+            _harmonicsView.setHeight( availableHeight - _sumMinimizedView.getHeight() );
+            _harmonicsView.setLocation( _amplitudesView.getX(), _amplitudesView.getY() + _amplitudesView.getHeight() );
+            _sumMinimizedView.setLocation( _amplitudesView.getX(), _harmonicsView.getY() + _harmonicsView.getHeight() );
         }
         else if ( _sumGraph.isVisible() ) {
-            _sumGraph.setHeight( availableHeight - _harmonicsGraphClosed.getHeight() );
-            _sumGraph.setLocation( _amplitudesGraph.getX(), _harmonicsGraphClosed.getY() + _harmonicsGraphClosed.getHeight() );
-            _sumGraphClosed.setLocation( _amplitudesGraph.getX(), _harmonicsGraphClosed.getY() + _harmonicsGraphClosed.getHeight() );
+            _harmonicsMinimizedView.setLocation( _amplitudesView.getX(), _amplitudesView.getY() + _amplitudesView.getHeight() );
+            _sumGraph.setHeight( availableHeight - _harmonicsMinimizedView.getHeight() );
+            _sumGraph.setLocation( _amplitudesView.getX(), _harmonicsMinimizedView.getY() + _harmonicsMinimizedView.getHeight() );
         }
         else {
-            _sumGraph.setLocation( _amplitudesGraph.getX(), _harmonicsGraphClosed.getY() + _harmonicsGraphClosed.getHeight() );
-            _sumGraphClosed.setLocation( _amplitudesGraph.getX(), _harmonicsGraphClosed.getY() + _harmonicsGraphClosed.getHeight() ); 
+            _harmonicsMinimizedView.setLocation( _amplitudesView.getX(), _amplitudesView.getY() + _amplitudesView.getHeight() );
+            _sumMinimizedView.setLocation( _amplitudesView.getX(), _harmonicsMinimizedView.getY() + _harmonicsMinimizedView.getHeight() );
         }
     }
     

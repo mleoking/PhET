@@ -67,6 +67,10 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/8) - rename close->minimize, open->maximize on buttons/methods/variables/images
+(9/8) - change GraphClosed to MinimizedView
+(9/8) - rename member data in modules, Graph -> View
+(9/8) - fixed problem with laying out views when Reset button is pressed
 (9/8) - when disabling the wait cursor, don't try to restore the cursor, simply set the default cursor
 (9/8) - phetcommon: need to call paint whenever the size of ApparatusPanel2 changes
 (9/7) - set default height of Discrete views close to what they'll actually be so that resizing is less obvious
