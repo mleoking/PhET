@@ -6,6 +6,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - phetcommon: PhetJComponent's dirty components list continues to grow when clock is paused
+- phetcommon: when sim is paused, changes to the control panel don't appear until the cursor moves into the apparatus panel
 - hangs after extended play (~30 minutes)
 - remove the clock controls for the D2C module
 - add sound to Discrete module
@@ -53,7 +54,6 @@ CHARTS:
 - flatten static graphics elements
 
 PHETCOMMON:
-- bug: when sim is paused, changes to the control panel don't appear until the cursor moves into the apparatus panel
 - bug: MouseEvent and KeyEvent source is always the apparatus panel, should be the "active unit"
 - bug: changes in a module's control panel causes the apparatus panel to change size and not repaint
 - bug: rendering hints should be appended, not replaced, by PhetGraphic
@@ -465,7 +465,7 @@ sandbox-2005-05-10...
 (3/30) - set up basic application framework
 
 REJECTED:
-(9/8) - smaller font for equation subscripts (fine as is)
+(9/8) - smaller font for equation subscripts (fine as is, HTML tags to do this don't work)
 (8/30) - display at full-screen resolution on start up? (per Carl as status meeting)
 (8/30) - refactor chart config out of HarmonicsChart, SumChart and AmplitudesChart (each chart is different)
 (8/29) - with a single module, Fourier starts up with the module's apparatus panel magnified (sim will not be single module)
