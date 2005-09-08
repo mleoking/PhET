@@ -51,10 +51,10 @@ public class FourierHelpItem extends CompositePhetGraphic implements PhetGraphic
     private static final Font TEXT_FONT = new Font( "Lucida Sans", Font.PLAIN, 14 );
     private static final Color TEXT_COLOR = Color.BLACK;
     
-    private static final Color BACKGROUND_FILL_COLOR = ARROW_FILL_COLOR;
-    private static final Color BACKGROUND_BORDER_COLOR = ARROW_BORDER_COLOR;
-    private static final Stroke BACKGROUND_STROKE = ARROW_STROKE;
-    private static final int BACKGROUND_CORNER_RADIUS = 15;
+    private static final Color BUBBLE_FILL_COLOR = ARROW_FILL_COLOR;
+    private static final Color BUBBLE_BORDER_COLOR = ARROW_BORDER_COLOR;
+    private static final Stroke BUBBLE_STROKE = ARROW_STROKE;
+    private static final int BUBBLE_CORNER_RADIUS = 15;
     
     private static final int ARROW_SEPARATION = 0;
     private static final int TARGET_SEPARATION = 1;
@@ -63,11 +63,12 @@ public class FourierHelpItem extends CompositePhetGraphic implements PhetGraphic
     // Instance data
     //----------------------------------------------------------------------------
     
-    private PhetShapeGraphic _backgroundGraphic;
+    private PhetShapeGraphic _bubbleGraphic;
     private PhetShapeGraphic _arrowGraphic;
     private HTMLGraphic _textGraphic;
     
     private PhetGraphic _target;
+    private Point _point;
     private int _direction;
     private int _arrowLength;
     
@@ -86,24 +87,25 @@ public class FourierHelpItem extends CompositePhetGraphic implements PhetGraphic
         _textGraphic.setHTML( html );
         _textGraphic.setColor( TEXT_COLOR );
         
-        _backgroundGraphic = new PhetShapeGraphic( component );
+        _bubbleGraphic = new PhetShapeGraphic( component );
         Rectangle bounds = _textGraphic.getBounds();
         Rectangle b = RectangleUtils.expand( bounds, 4, 4 );
-        _backgroundGraphic.setShape( new RoundRectangle2D.Double( b.x, b.y, b.width, b.height, BACKGROUND_CORNER_RADIUS, BACKGROUND_CORNER_RADIUS ) );
-        _backgroundGraphic.setColor( BACKGROUND_FILL_COLOR );
-        _backgroundGraphic.setBorderColor( BACKGROUND_BORDER_COLOR );
-        _backgroundGraphic.setStroke( BACKGROUND_STROKE );
+        _bubbleGraphic.setShape( new RoundRectangle2D.Double( b.x, b.y, b.width, b.height, BUBBLE_CORNER_RADIUS, BUBBLE_CORNER_RADIUS ) );
+        _bubbleGraphic.setColor( BUBBLE_FILL_COLOR );
+        _bubbleGraphic.setBorderColor( BUBBLE_BORDER_COLOR );
+        _bubbleGraphic.setStroke( BUBBLE_STROKE );
 
         _arrowGraphic = new PhetShapeGraphic( component );
         _arrowGraphic.setColor( ARROW_FILL_COLOR );
         _arrowGraphic.setStroke( ARROW_STROKE );
         _arrowGraphic.setBorderColor( ARROW_BORDER_COLOR );      
 
-        addGraphic( _backgroundGraphic, BACKGROUND_LAYER );
+        addGraphic( _bubbleGraphic, BACKGROUND_LAYER );
         addGraphic( _arrowGraphic, ARROW_LAYER );
         addGraphic( _textGraphic, TEXT_LAYER );
        
         _target = null;
+        _point = null;
         _direction = NONE;
         _arrowLength = 0;
         
@@ -120,7 +122,7 @@ public class FourierHelpItem extends CompositePhetGraphic implements PhetGraphic
      * @param phetGraphic
      */
     public void phetGraphicChanged( PhetGraphic phetGraphic ) {
-        updateTarget();
+        setThisLocation();
     }
 
     /**
@@ -153,10 +155,12 @@ public class FourierHelpItem extends CompositePhetGraphic implements PhetGraphic
         if ( _target != null ) {
             _target.addPhetGraphicListener( this );
         }
+        
         _direction = direction;
         _arrowLength = arrowLength;
-        updateArrow();
-        updateTarget();
+        
+        setArrowLocation();
+        setThisLocation();
     }
     
     /**
@@ -179,8 +183,8 @@ public class FourierHelpItem extends CompositePhetGraphic implements PhetGraphic
      * @param arrowLength
      */
     public void pointAt( int x, int y, int direction, int arrowLength ) {
+        _point = new Point( x, y );
         pointAt( (PhetGraphic) null, direction, arrowLength );
-        setLocation( x, y );
     }
     
     /**
@@ -198,35 +202,9 @@ public class FourierHelpItem extends CompositePhetGraphic implements PhetGraphic
     //----------------------------------------------------------------------------
     
     /**
-     * Updates the layout of the help item in relation to the target.
+     * Updates the layout of the arrow in relation to the help bubble.
      */
-    private void updateTarget() {
-        if ( _target != null ) {
-            int oppositeDirection;
-            switch ( _direction ) {
-            case UP:
-                oppositeDirection = DOWN;
-                break;
-            case DOWN:
-                oppositeDirection = UP;
-                break;
-            case LEFT:
-                oppositeDirection = RIGHT;
-                break;
-            case RIGHT:
-                oppositeDirection = LEFT;
-                break;
-            default:
-                throw new IllegalArgumentException( "illegal direction: " + _direction );
-            }
-            layout( _target, this, oppositeDirection, TARGET_SEPARATION );
-        }
-    }
-    
-    /**
-     * Updates the arrow.
-     */
-    private void updateArrow() {
+    private void setArrowLocation() {
         
         int x, y;
         switch ( _direction ) {
@@ -252,7 +230,39 @@ public class FourierHelpItem extends CompositePhetGraphic implements PhetGraphic
         
         Arrow arrow = new Arrow( new Point2D.Double( 0, 0 ), new Point2D.Double( x, y ), ARROW_HEAD_WIDTH, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH );
         _arrowGraphic.setShape( arrow.getShape() );
-        layout( _backgroundGraphic, _arrowGraphic, _direction, ARROW_SEPARATION );
+        layout( _bubbleGraphic.getBounds(), _arrowGraphic, _direction, ARROW_SEPARATION );
+    }
+    
+    /**
+     * Updates the layout of this help item in relation to the target.
+     */
+    private void setThisLocation() {
+
+        int oppositeDirection;
+        switch ( _direction ) {
+        case UP:
+            oppositeDirection = DOWN;
+            break;
+        case DOWN:
+            oppositeDirection = UP;
+            break;
+        case LEFT:
+            oppositeDirection = RIGHT;
+            break;
+        case RIGHT:
+            oppositeDirection = LEFT;
+            break;
+        default:
+            throw new IllegalArgumentException( "illegal direction: " + _direction );
+        }
+
+        if ( _target != null ) {
+            layout( _target.getBounds(), this, oppositeDirection, TARGET_SEPARATION );
+        }
+        else if ( _point != null ) {
+            Rectangle pointBounds = new Rectangle( _point.x, _point.y, 1, 1 );
+            layout( pointBounds, this, oppositeDirection, 0 );
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -270,8 +280,8 @@ public class FourierHelpItem extends CompositePhetGraphic implements PhetGraphic
      * @param direction
      * @param separation
      */
-    private static void layout( PhetGraphic fixed, PhetGraphic moveable, int direction, int separation ) {
-        Rectangle targetBounds = fixed.getBounds();
+    private static void layout( Rectangle targetBounds, PhetGraphic moveable, int direction, int separation ) {
+
         Rectangle movableBounds = moveable.getBounds();
         
         Point connector;
