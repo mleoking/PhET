@@ -67,6 +67,8 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/8) - when disabling the wait cursor, don't try to restore the cursor, simply set the default cursor
+(9/8) - phetcommon: need to call paint whenever the size of ApparatusPanel2 changes
 (9/7) - set default height of Discrete views close to what they'll actually be so that resizing is less obvious
 (9/7) - phetcommon: fix ApparatusPanel2 so that its scale isn't set to a negative number
 (9/7) - phetcommon: fix a problem introduced into ApparatusPanel that duplicates all MouseEvents

@@ -84,6 +84,7 @@ public class FourierConfig {
     // Cursors
     //----------------------------------------------------------------------------
     
+    public static final Cursor DEFAULT_CURSOR = Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR );
     public static final Cursor WAIT_CURSOR = Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR );
 
 }

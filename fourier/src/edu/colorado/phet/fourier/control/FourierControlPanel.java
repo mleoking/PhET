@@ -49,7 +49,6 @@ public abstract class FourierControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
     
     private FourierModule _module; // module that this control panel is associated with
-    private Cursor _saveCursor;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -136,11 +135,10 @@ public abstract class FourierControlPanel extends ControlPanel {
     public void setWaitCursorEnabled( boolean enabled ) {
         PhetFrame frame = PhetApplication.instance().getPhetFrame();
         if ( enabled ) {
-            _saveCursor = frame.getCursor();
             frame.setCursor( FourierConfig.WAIT_CURSOR );
         }
-        else if ( _saveCursor != null ) {
-            frame.setCursor( _saveCursor );
+        else {
+            frame.setCursor( FourierConfig.DEFAULT_CURSOR );
         }
     }
 }

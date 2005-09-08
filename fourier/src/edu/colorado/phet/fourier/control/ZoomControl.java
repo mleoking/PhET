@@ -45,8 +45,6 @@ public class ZoomControl extends GraphicLayerSet {
     private static final Point IN_LOCATION = new Point( 31, 13 );
     private static final Point OUT_LOCATION = new Point( 3, 13 );
     
-    private static final Cursor WAIT_CURSOR = FourierConfig.WAIT_CURSOR;
-    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -183,8 +181,7 @@ public class ZoomControl extends GraphicLayerSet {
                 _inPressed = false;
                 if ( _inButtonPressed.getBounds().contains( event.getPoint() ) ) {
                     // Set the wait cursor
-                    Cursor saveCursor = getComponent().getCursor();
-                    getComponent().setCursor( WAIT_CURSOR );
+                    getComponent().setCursor( FourierConfig.WAIT_CURSOR );
                     // Handle the event
                     int zoomType;
                     if ( _orientation == HORIZONTAL ) {
@@ -194,7 +191,7 @@ public class ZoomControl extends GraphicLayerSet {
                         fireZoomEvent( ZoomEvent.VERTICAL_ZOOM_IN );
                     }
                     // Restore the cursor
-                    getComponent().setCursor( saveCursor );
+                    getComponent().setCursor( FourierConfig.DEFAULT_CURSOR );
                 }
             }
             else if ( _outPressed ) {
@@ -202,8 +199,7 @@ public class ZoomControl extends GraphicLayerSet {
                 _outPressed = false;
                 if ( _outButtonPressed.getBounds().contains( event.getPoint() ) ) {
                     // Set the wait cursor
-                    Cursor saveCursor = getComponent().getCursor();
-                    getComponent().setCursor( WAIT_CURSOR );
+                    getComponent().setCursor( FourierConfig.WAIT_CURSOR );
                     // Handle the event
                     if ( _orientation == HORIZONTAL ) {
                         fireZoomEvent( ZoomEvent.HORIZONTAL_ZOOM_OUT );
@@ -212,7 +208,7 @@ public class ZoomControl extends GraphicLayerSet {
                         fireZoomEvent( ZoomEvent.VERTICAL_ZOOM_OUT );
                     }
                     // Restore the cursor
-                    getComponent().setCursor( saveCursor );
+                    getComponent().setCursor( FourierConfig.DEFAULT_CURSOR );
                 }    
             }
         }
