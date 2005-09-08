@@ -210,6 +210,7 @@ public class SingleAtomModule extends DischargeLampModule {
         Rectangle2D tubeBounds = tube.getBounds();
 
         AtomicState[] states = getDischargeLampModel().getAtomicStates();
+//        atom = new DischargeLampAtom( (LaserModel)getModel(), getDischargeLampModel().getElementProperties() );
         atom = new DischargeLampAtom( (LaserModel)getModel(), states );
         atom.setPosition( tubeBounds.getX() + tubeBounds.getWidth() / 2,
                           tubeBounds.getY() + tubeBounds.getHeight() / 2 );

@@ -20,18 +20,21 @@ import edu.colorado.phet.lasers.model.atom.AtomicState;
  */
 public class ConfigurableElementProperties extends ElementProperties {
     private static double[] energyLevels = {
-        -13.6,
-        -0.378
+        -13.6
     };
 
     public ConfigurableElementProperties( int numEnergyLevels, DischargeLampModel model ) {
-        super( "Configurable", energyLevels );
+        super( "Configurable", energyLevels,
+               new ConfigurableAtomEnergyEmissionStrategy(),
+//               new HydrogenEnergyEmissionStrategy(),
+               new FiftyPercentAbsorptionStrategy() );
         model.addChangeListener( new LevelChangeHandler() );
         setNumEnergyLevels( numEnergyLevels );
     }
 
     public void setNumEnergyLevels( int numEnergyLevels ) {
-        AtomicState[] states = new AtomicStateFactory().createAtomicStates( numEnergyLevels );
+        AtomicState[] states = null;
+        states = new AtomicStateFactory().createAtomicStates( numEnergyLevels, getStates() );
         double[] newEnergyLevels = new double[numEnergyLevels];
         for( int i = 0; i < newEnergyLevels.length; i++ ) {
             newEnergyLevels[i] = states[i].getEnergyLevel();

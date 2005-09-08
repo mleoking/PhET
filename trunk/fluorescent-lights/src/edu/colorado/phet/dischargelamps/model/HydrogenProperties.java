@@ -26,7 +26,9 @@ public class HydrogenProperties extends ElementProperties {
         -0.378};
 
     public HydrogenProperties() {
-        super( "Hydrogen", energyLevels );
+        super( "Hydrogen", energyLevels,
+               new HydrogenEnergyEmissionStrategy(),
+               new FiftyPercentAbsorptionStrategy() );
     }
 }
 
