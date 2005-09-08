@@ -42,7 +42,6 @@ public class FiftyPercentAbsorptionStrategy extends EnergyAbsorptionStrategy {
         AtomicState[] states = atom.getStates();
         AtomicState currState = atom.getCurrState();
         double electronEnergy = getElectronEnergyAtCollision( atom, electron );
-//        System.out.println( "electronEnergy = " + electronEnergy );
 
         // Find the index of the current state
         int currStateIdx = 0;

@@ -40,10 +40,9 @@ public class DischargeLampModel extends LaserModel {
     // Instance data
     //-----------------------------------------------------------------
     private List atoms = new ArrayList();
-    private AtomicState[] atomicStates;
     private ArrayList electrons = new ArrayList();
-    private ArrayList electronSources = new ArrayList( );
-    private ArrayList electronSinks = new ArrayList( );
+    private ArrayList electronSources = new ArrayList();
+    private ArrayList electronSinks = new ArrayList();
     private ElectronAtomCollisionExpert electronAtomCollisionExpert = new ElectronAtomCollisionExpert();
     private Spectrometer spectrometer;
     private Vector2D electronAcceleration = new Vector2D.Double();
@@ -62,17 +61,15 @@ public class DischargeLampModel extends LaserModel {
         // This is the place to set the mean lifetime for the various atomic states
 //        MiddleEnergyState.instance().setMeanLifetime( .00001 );
 
-        atomicStates = new AtomicStateFactory().createAtomicStates( 2 );
-
         // Make the plates
         leftHandPlate = new Plate( this,
-                                      DischargeLampsConfig.CATHODE_LINE.getP1(),
-                                      DischargeLampsConfig.CATHODE_LINE.getP2() );
+                                   DischargeLampsConfig.CATHODE_LINE.getP1(),
+                                   DischargeLampsConfig.CATHODE_LINE.getP2() );
         leftHandPlate.addStateChangeListener( new ElectrodeStateChangeListener() );
 
         rightHandPlate = new Plate( this,
-                                  DischargeLampsConfig.ANODE_LINE.getP1(),
-                                  DischargeLampsConfig.ANODE_LINE.getP2() );
+                                    DischargeLampsConfig.ANODE_LINE.getP1(),
+                                    DischargeLampsConfig.ANODE_LINE.getP2() );
         rightHandPlate.addStateChangeListener( new ElectrodeStateChangeListener() );
 
         // Make the heating elements
@@ -81,7 +78,7 @@ public class DischargeLampModel extends LaserModel {
                                             DischargeLampsConfig.CATHODE_LOCATION.getY() );
         rightHandHeatingElement = new HeatingElement();
         rightHandHeatingElement.setPosition( DischargeLampsConfig.ANODE_LOCATION.getX(),
-                                            DischargeLampsConfig.ANODE_LOCATION.getY() );
+                                             DischargeLampsConfig.ANODE_LOCATION.getY() );
 
         // Make the discharge tube
         double x = DischargeLampsConfig.CATHODE_LOCATION.getX() - DischargeLampsConfig.ELECTRODE_INSETS.left;
@@ -99,7 +96,7 @@ public class DischargeLampModel extends LaserModel {
         spectrometer = new Spectrometer();
     }
 
-    
+
     /**
      * Detects and handles collisions between atoms and electrons
      *
@@ -178,12 +175,12 @@ public class DischargeLampModel extends LaserModel {
 
     public void setElementProperties( ElementProperties elementProperties ) {
         this.elementProperties = elementProperties;
-        atomicStates = elementProperties.getStates();
         for( int i = 0; i < atoms.size(); i++ ) {
             DischargeLampAtom atom = (DischargeLampAtom)atoms.get( i );
             atom.setElementProperties( elementProperties );
         }
         changeListenerProxy.energyLevelsChanged( new ChangeEvent( this ) );
+        return;
     }
 
     public ElementProperties getElementProperties() {
@@ -191,7 +188,7 @@ public class DischargeLampModel extends LaserModel {
     }
 
     public AtomicState[] getAtomicStates() {
-        return atomicStates;
+        return elementProperties.getStates();
     }
 
     //----------------------------------------------------------------
@@ -264,6 +261,7 @@ public class DischargeLampModel extends LaserModel {
     /**
      * Sets the electron production mode to continuous or single-shot. Also enables/disables
      * the heating elements.
+     *
      * @param electronProductionMode
      */
     public void setElectronProductionMode( Object electronProductionMode ) {
@@ -329,6 +327,7 @@ public class DischargeLampModel extends LaserModel {
 
     public interface ChangeListener extends EventListener {
         void energyLevelsChanged( ChangeEvent event );
+
         void voltageChanged( ChangeEvent event );
     }
 

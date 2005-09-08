@@ -59,6 +59,7 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
     private double maxWavelength = 800; // nm
 //    private double minWavelength = Photon.MIN_VISIBLE_WAVELENGTH;
 //    private double maxWavelength = Photon.MAX_VISIBLE_WAVELENGTH;
+    private boolean start = true;
 
     //----------------------------------------------------------------
     // Constructor and initialization
@@ -67,7 +68,7 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
     public SpectrometerGraphic( Component component, final Spectrometer spectrometer ) {
         super( component );
 
-        setIgnoreMouse( true );
+//        setIgnoreMouse( true );
         spectrometer.addChangeListener( this );
 
         BufferedImage spectrometerImage = null;
@@ -86,6 +87,7 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
         spectrometerImage = op.filter( spectrometerImage, null );
 
         backgroundPanel = new PhetImageGraphic( component, spectrometerImage );
+        backgroundPanel.setIgnoreMouse( true );
         addGraphic( backgroundPanel );
 
         addButtons( component, spectrometer );
@@ -117,11 +119,13 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
                                                                     (int)( xLoc - 10 ),
                                                                     (int)( displayOrigin.getY() + 15 ) );
                 addGraphic( labelGraphic );
+                labelGraphic.setIgnoreMouse( true );
                 tickMarkShape = majorTickMarkShape;
             }
 
             PhetShapeGraphic tickMark = new PhetShapeGraphic( getComponent(), tickMarkShape, Color.white, new BasicStroke( 1 ), Color.white );
             tickMark.setLocation( (int)xLoc, (int)( displayOrigin.getY() + 4 ) );
+            tickMark.setIgnoreMouse( true );
             addGraphic( tickMark );
 
         }
@@ -136,6 +140,7 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
                                                             Color.white,
                                                             (int)xLoc,
                                                             (int)( displayOrigin.getY() + 30 ) );
+        unitsGraphic.setIgnoreMouse( true );
         addGraphic( unitsGraphic );
     }
 
@@ -152,6 +157,7 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
                                                       (int)( xLocUv - 80 ),
                                                       (int)( displayOrigin.getY() + 15 ) );
 //                                                      (int)( displayOrigin.getY() + 35 ) );
+        uvText.setIgnoreMouse( true );
         addGraphic( uvText );
 
         double xLocIr = xLocForWavelength( maxWavelength ) + displayOrigin.getX();
@@ -166,6 +172,7 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
                                                       (int)( xLocIr + 30),
                                                       (int)( displayOrigin.getY() + 15 ) );
 //                                                      (int)( displayOrigin.getY() + 35 ) );
+        irText.setIgnoreMouse( true );
         addGraphic( irText );
 
     }
@@ -175,11 +182,10 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
         final PhetButton startStopBtn = new PhetButton( component, "Start" );
         startStopBtn.setFont( DischargeLampsConfig.DEFAULT_CONTROL_FONT );
         startStopBtn.addActionListener( new ActionListener() {
-            private boolean start = true;
 
             public void actionPerformed( ActionEvent e ) {
                 if( start ) {
-                    spectrometer.start();
+//                    spectrometer.start();
                     startStopBtn.setText( "Stop " );
                     start = false;
                 }
@@ -202,6 +208,9 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 spectrometer.reset();
+                spectrometer.stop();
+                startStopBtn.setText( "Start " );
+                start = true;
             }
         } );
         addGraphic( resetBtn );
@@ -257,6 +266,18 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
             setBoundsDirty();
             repaint();
         }
+    }
+
+    public void started( Spectrometer.CountChangeEvent eventCount ) {
+
+    }
+
+    public void stopped( Spectrometer.CountChangeEvent eventCount ) {
+
+    }
+
+    public void reset( Spectrometer.CountChangeEvent eventCount ) {
+
     }
 
     //----------------------------------------------------------------

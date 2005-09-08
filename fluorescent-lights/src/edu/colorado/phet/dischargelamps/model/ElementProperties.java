@@ -27,16 +27,25 @@ public class ElementProperties {
     private double[] energyLevels;
     private String name;
     private boolean levelsMovable;
+    private AtomicState[] states;
 
     protected ElementProperties( String name, double[] energyLevels ) {
         this.name = name;
         this.energyLevels = energyLevels;
+        initStates();
     }
 
-    protected void setEnergyLevels(  double[] energyLevels ) {
-        this.energyLevels = energyLevels;
+    protected void setEnergyLevels( double[] energyLevels ) {
+        if( energyLevels.length != states.length ) {
+            this.energyLevels = energyLevels;
+            initStates();
+        }
+        else {
+            this.energyLevels = energyLevels;
+            updateStates();
+        }
     }
-    
+
     public double[] getEnergyLevels() {
         return energyLevels;
     }
@@ -50,6 +59,26 @@ public class ElementProperties {
     }
 
     public AtomicState[] getStates() {
+        return states;
+    }
+
+    public String toString() {
+        return name;
+    }
+
+    private void initStates() {
+        states = new AtomicState[energyLevels.length];
+        states[0] = new GroundState();
+        states[0].setEnergyLevel( energyLevels[0] );
+        for( int i = 1; i < states.length; i++ ) {
+            states[i] = new AtomicState();
+            states[i].setEnergyLevel( 0 );
+        }
+        AtomicState.linkStates( states );
+        updateStates();
+    }
+
+    private void updateStates() {
         // Copy the energies into a new array, sort and normalize them
         double[] energies = new double[energyLevels.length];
         for( int i = 0; i < energies.length; i++ ) {
@@ -57,21 +86,11 @@ public class ElementProperties {
         }
         Arrays.sort( energies );
 
-        AtomicState[] states = new AtomicState[energies.length];
-        states[0] = new GroundState();
         states[0].setEnergyLevel( energies[0] );
-        double eBlue = PhysicsUtil.wavelengthToEnergy( Photon.BLUE );
         for( int i = 1; i < states.length; i++ ) {
-            states[i] = new AtomicState();
             double energy = ( energies[i] );
             states[i].setEnergyLevel( energy );
             states[i].setMeanLifetime( DischargeLampAtom.DEFAULT_STATE_LIFETIME );
         }
-        AtomicState.linkStates( states );
-        return states;
-    }
-
-    public String toString() {
-        return name;
     }
 }
