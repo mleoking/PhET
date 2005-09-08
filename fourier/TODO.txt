@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- phetcommon: need to call PhetJComponent.PhetJComponentRepaintManager.updateGraphics and ApparatusPanel.repaint when clock is paused
 - hangs after extended play (memory leak?)
 - remove the clock controls for the D2C module
 - add sound to Discrete module
