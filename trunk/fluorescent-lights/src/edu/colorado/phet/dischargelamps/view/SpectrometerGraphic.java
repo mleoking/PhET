@@ -60,6 +60,8 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
 //    private double minWavelength = Photon.MIN_VISIBLE_WAVELENGTH;
 //    private double maxWavelength = Photon.MAX_VISIBLE_WAVELENGTH;
     private boolean start = true;
+    protected PhetButton startStopBtn;
+    boolean startStopEnabled;
 
     //----------------------------------------------------------------
     // Constructor and initialization
@@ -97,6 +99,13 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
 
         setCursorHand();
         addTranslationListener( new DefaultTranslator( this ) );
+
+        if( spectrometer.isRunning() ) {
+            started( null );
+        }
+        else {
+            stopped( null );
+        }
     }
 
     private void addScale() {
@@ -133,7 +142,7 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
 
     private void addTitle() {
         String units = "Wavelength (nanometers)";
-        double xLoc = xLocForWavelength( (minWavelength + maxWavelength) / 2 ) - 50;
+        double xLoc = xLocForWavelength( ( minWavelength + maxWavelength ) / 2 ) - 50;
         PhetTextGraphic unitsGraphic = new PhetTextGraphic( getComponent(),
                                                             DischargeLampsConfig.DEFAULT_CONTROL_FONT,
                                                             units,
@@ -169,7 +178,7 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
                                                       DischargeLampsConfig.DEFAULT_CONTROL_FONT,
                                                       "far IR ->",
                                                       Color.white,
-                                                      (int)( xLocIr + 30),
+                                                      (int)( xLocIr + 30 ),
                                                       (int)( displayOrigin.getY() + 15 ) );
 //                                                      (int)( displayOrigin.getY() + 35 ) );
         irText.setIgnoreMouse( true );
@@ -179,20 +188,22 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
 
     private void addButtons( Component component, final Spectrometer spectrometer ) {
         // Add start/stop button
-        final PhetButton startStopBtn = new PhetButton( component, "Start" );
+        startStopBtn = new PhetButton( component, "Start" );
         startStopBtn.setFont( DischargeLampsConfig.DEFAULT_CONTROL_FONT );
         startStopBtn.addActionListener( new ActionListener() {
 
             public void actionPerformed( ActionEvent e ) {
-                if( start ) {
-//                    spectrometer.start();
-                    startStopBtn.setText( "Stop " );
-                    start = false;
+                if( startStopEnabled ) {
+                    startStopEnabled = false;
+                    if( start ) {
+                        spectrometer.start();
+                    }
+                    else {
+                        spectrometer.stop();
+                    }
                 }
                 else {
-                    spectrometer.stop();
-                    startStopBtn.setText( "Start " );
-                    start = true;
+                    startStopEnabled = true;
                 }
             }
         } );
@@ -209,8 +220,7 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
             public void actionPerformed( ActionEvent e ) {
                 spectrometer.reset();
                 spectrometer.stop();
-                startStopBtn.setText( "Start " );
-                start = true;
+                startStopEnabled = true;
             }
         } );
         addGraphic( resetBtn );
@@ -218,15 +228,8 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
         resetBtn.setRegistrationPoint( 0, resetBtn.getHeight() );
     }
 
-    public void reset() {
-        while( !photonMarkers.isEmpty() ) {
-            PhetGraphic graphic = (PhetGraphic)photonMarkers.get( 0 );
-            removeGraphic( graphic );
-            photonMarkers.remove( 0 );
-        }
-    }
-
     private int xLocForWavelength( double wavelength ) {
+        
         wavelength = Math.max( Math.min( wavelength, maxWavelength ), minWavelength );
         int wavelengthLoc = (int)( ( wavelength - minWavelength )
                                    / ( maxWavelength - minWavelength ) * ( displayWidth - horizontalDisplayMargin * 2 )
@@ -268,16 +271,22 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
         }
     }
 
-    public void started( Spectrometer.CountChangeEvent eventCount ) {
-
+    public void started( Spectrometer.StateChangeEvent eventCount ) {
+        startStopBtn.setText( "Stop " );
+        start = false;
     }
 
-    public void stopped( Spectrometer.CountChangeEvent eventCount ) {
-
+    public void stopped( Spectrometer.StateChangeEvent eventCount ) {
+        startStopBtn.setText( "Start " );
+        start = true;
     }
 
-    public void reset( Spectrometer.CountChangeEvent eventCount ) {
-
+    public void reset( Spectrometer.StateChangeEvent eventCount ) {
+        while( !photonMarkers.isEmpty() ) {
+            PhetGraphic graphic = (PhetGraphic)photonMarkers.get( 0 );
+            removeGraphic( graphic );
+            photonMarkers.remove( 0 );
+        }
     }
 
     //----------------------------------------------------------------
