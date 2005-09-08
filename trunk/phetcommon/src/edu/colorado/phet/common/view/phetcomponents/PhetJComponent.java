@@ -473,7 +473,8 @@ public class PhetJComponent extends PhetGraphic {
             super.addDirtyRegion( c, x, y, w, h );
             if( table.containsKey( c ) ) {
                 PhetJComponent phetJComponent = (PhetJComponent)table.get( c );
-                if( c.getComponentCount() == 0 && new Exception().getStackTrace().length < 75 ) {
+                boolean inRecursiveLoopOfDeath = ( new Exception().getStackTrace().length > 75 ); // HACK: ask Sam Reid why
+                if( c.getComponentCount() == 0 && !inRecursiveLoopOfDeath ) {
                     if( !dirty.contains( c ) ) {
                         dirty.add( phetJComponent );
                         if( dirty.size() > 1000 ) {
