@@ -99,7 +99,7 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
     private FourierSeries _fourierSeries;
     private PhetShapeGraphic _backgroundGraphic;
     private PhetTextGraphic _titleGraphic;
-    private PhetImageGraphic _closeButton;
+    private PhetImageGraphic _minimizeButton;
     private DiscreteHarmonicsChart _chartGraphic;
     private ZoomControl _horizontalZoomControl;
     private HarmonicsEquation _mathGraphic;
@@ -159,10 +159,10 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
         }
 
         // Close button
-        _closeButton = new PhetImageGraphic( component, FourierConstants.CLOSE_BUTTON_IMAGE );
-        addGraphic( _closeButton, CONTROLS_LAYER );
-        _closeButton.centerRegistrationPoint();
-        _closeButton.setLocation( (_closeButton.getWidth()/2) + 10, _closeButton.getHeight()/2 + 5 );
+        _minimizeButton = new PhetImageGraphic( component, FourierConstants.MINIMIZE_BUTTON_IMAGE );
+        addGraphic( _minimizeButton, CONTROLS_LAYER );
+        _minimizeButton.centerRegistrationPoint();
+        _minimizeButton.setLocation( (_minimizeButton.getWidth()/2) + 10, _minimizeButton.getHeight()/2 + 5 );
 
         // Zoom controls
         {
@@ -193,7 +193,7 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
             _mathGraphic.setIgnoreMouse( true );
             _horizontalZoomControl.addZoomListener( this );
 
-            _closeButton.setCursorHand();
+            _minimizeButton.setCursorHand();
         }
 
         // Misc initialization
@@ -301,12 +301,12 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
     }
 
     /**
-     * Gets a reference to the "close" button.
+     * Gets a reference to the "minimize" button.
      * 
-     * @return close button
+     * @return minimize button
      */
-    public PhetImageGraphic getCloseButton() {
-        return _closeButton;
+    public PhetImageGraphic getMinimizeButton() {
+        return _minimizeButton;
     }
 
     /**

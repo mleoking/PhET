@@ -22,12 +22,12 @@ import edu.colorado.phet.fourier.FourierConstants;
 
 
 /**
- * GraphClosed
+ * MinimizedView is the minimized version of a "view".
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class GraphClosed extends GraphicLayerSet {
+public class MinimizedView extends GraphicLayerSet {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -52,13 +52,13 @@ public class GraphClosed extends GraphicLayerSet {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private PhetImageGraphic _openButton;
+    private PhetImageGraphic _maximizeButton;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public GraphClosed( Component component, String title ) {
+    public MinimizedView( Component component, String title ) {
         super( component );
         
         // Enable antialiasing for all children.
@@ -79,21 +79,21 @@ public class GraphClosed extends GraphicLayerSet {
         titleGraphic.setRegistrationPoint( 0, titleGraphic.getHeight() / 2 ); // left center
         titleGraphic.setLocation( 45, 37 ); // right of button
         
-        // Open button
-        _openButton = new PhetImageGraphic( component, FourierConstants.OPEN_BUTTON_IMAGE );
-        addGraphic( _openButton, CONTROLS_LAYER );
-        _openButton.centerRegistrationPoint();
-        _openButton.setLocation( (_openButton.getWidth()/2) + 10, _openButton.getHeight()/2 + 5 );
+        // Maximize button
+        _maximizeButton = new PhetImageGraphic( component, FourierConstants.MAXIMIZE_BUTTON_IMAGE );
+        addGraphic( _maximizeButton, CONTROLS_LAYER );
+        _maximizeButton.centerRegistrationPoint();
+        _maximizeButton.setLocation( (_maximizeButton.getWidth()/2) + 10, _maximizeButton.getHeight()/2 + 5 );
         
         // Interactivity
-        _openButton.setCursorHand();
+        _maximizeButton.setCursorHand();
     }
     
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
     
-    public PhetImageGraphic getOpenButton() {
-        return _openButton;
+    public PhetImageGraphic getMaximizeButton() {
+        return _maximizeButton;
     }
 }
