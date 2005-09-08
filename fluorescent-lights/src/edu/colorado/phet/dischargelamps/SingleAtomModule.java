@@ -47,7 +47,8 @@ import java.awt.geom.Rectangle2D;
  */
 public class SingleAtomModule extends DischargeLampModule {
     private DischargeLampAtom atom;
-    private double maxCurrent = 0.01;
+    private double maxCurrent = 5;
+//    private double maxCurrent = 0.01;
     private CollisionEnergyIndicator collisionEnergyIndicatorGraphic;
 
     //----------------------------------------------------------------
@@ -92,7 +93,9 @@ public class SingleAtomModule extends DischargeLampModule {
         final ModelSlider currentSlider = getCurrentSlider();
         getControlPanel().remove( currentSlider );
         getCurrentSlider().setMaximum( maxCurrent );
-        getCurrentSlider().setValue( maxCurrent / 2 );
+        currentSlider.setMajorTickSpacing( 1 );
+        currentSlider.setNumMinorTicksPerMajorTick( 1 );
+        getCurrentSlider().setValue( 2 );
 
         {
             // Add a button for firing a single electron. This also tells the energy level panel that if an
@@ -194,7 +197,7 @@ public class SingleAtomModule extends DischargeLampModule {
      */
     private void setContinuousElectronProduction( ModelSlider currentSlider, JButton singleShotBtn ) {
         currentSlider.setVisible( true );
-        getDischargeLampModel().getLeftHandPlate().setCurrent( currentSlider.getValue() );
+        getDischargeLampModel().getLeftHandPlate().setCurrent( currentSlider.getValue() / currentDisplayFactor );
         singleShotBtn.setVisible( false );
 //        collisionEnergyIndicatorGraphic.setVisible( false );
         getDischargeLampModel().setElectronProductionMode( ElectronSource.CONTINUOUS_MODE );

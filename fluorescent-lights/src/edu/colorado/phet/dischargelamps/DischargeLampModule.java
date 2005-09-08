@@ -70,7 +70,9 @@ public class DischargeLampModule extends BaseLaserModule {
     private DischargeLampModel model;
     private Plate leftHandPlate;
     private Plate rightHandPlate;
-    private double maxCurrent = 0.3;
+    private double maxCurrent = 200;
+//    private double maxCurrent = 300;
+//    private double maxCurrent = 0.3;
     private ElementProperties[] elementProperties;
     private ConfigurableElementProperties configurableElement;
 
@@ -85,6 +87,7 @@ public class DischargeLampModule extends BaseLaserModule {
     private SpectrometerGraphic spectrometerGraphic;
     private HeatingElementGraphic[] heatingElementGraphics = new HeatingElementGraphic[2];
     private JCheckBox squiggleCB;
+    protected double currentDisplayFactor = 300;
 
     //----------------------------------------------------------------
     // Constructors and initialization
@@ -323,18 +326,20 @@ public class DischargeLampModule extends BaseLaserModule {
 
         // A slider for the battery current
         currentSlider = new ModelSlider( "Electron Production Rate", "electrons/sec",
-                                         0, maxCurrent, 0, new DecimalFormat( "0.000" ) );
-        currentSlider.setMajorTickSpacing( maxCurrent / 3 );
-        batterySlider.setNumMinorTicksPerMajorTick( 1 );
-        currentSlider.setPaintLabels( false );
+                                         0, maxCurrent, 0, new DecimalFormat( "########" ) );
+//                                         0, maxCurrent, 0, new DecimalFormat( "0.000" ) );
+        currentSlider.setMajorTickSpacing( 25 );
+//        currentSlider.setMajorTickSpacing( maxCurrent / 3 );
+        currentSlider.setNumMinorTicksPerMajorTick( 1 );
+        currentSlider.setPaintLabels( true );
         currentSlider.setPreferredSize( new Dimension( 250, 100 ) );
         controlPanel.addControl( currentSlider );
         currentSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                model.setCurrent( currentSlider.getValue() );
+                model.setCurrent( currentSlider.getValue(), 1 / currentDisplayFactor );
             }
         } );
-
+        currentSlider.setValue( 5 );
         // Add an energy level monitor panel.
         energyLevelsMonitorPanel = new DischargeLampEnergyMonitorPanel2( model, getClock(),
                                                                          model.getAtomicStates(),

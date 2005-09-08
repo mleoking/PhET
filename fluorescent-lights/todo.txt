@@ -5,6 +5,7 @@ both the model and each atom have atomicStates[]. They should only be in one pla
 Photons disappear as soon as they get past the left edge of the ciruit.
 Simulation slows and waits while sliders are being moved
 
+Fix the "currentDisplayFactor" hack in DischargeLampModule and SingleAtomModule
 
 Combine the voltageCalibrationFactor and PIXELS_TO_NM
 Get voltageCalibrationFactor out of DischargeLampModule

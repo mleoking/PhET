@@ -220,6 +220,10 @@ public class DischargeLampModel extends LaserModel {
         this.maxCurrent = maxCurrent;
     }
 
+    public void setCurrent( double value, double factor ) {
+        this.setCurrent( value * factor );    
+    }
+
     public void setCurrent( double value ) {
         this.current = value;
         leftHandHeatingElement.setTemperature( 0 );
