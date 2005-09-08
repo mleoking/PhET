@@ -42,7 +42,6 @@ public abstract class FourierModule extends Module {
     //----------------------------------------------------------------------------
     
     private BoundsDebugger _debuggerGraphic;
-    private Cursor _saveCursor;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -79,11 +78,10 @@ public abstract class FourierModule extends Module {
     public void setWaitCursorEnabled( boolean enabled ) {
         ApparatusPanel apparatusPanel = getApparatusPanel();
         if ( enabled ) {
-            _saveCursor = apparatusPanel.getCursor();
             apparatusPanel.setCursor( FourierConfig.WAIT_CURSOR );
         }
-        else if ( _saveCursor != null ) {
-            apparatusPanel.setCursor( _saveCursor );
+        else {
+            apparatusPanel.setCursor( FourierConfig.DEFAULT_CURSOR );
         }
     }
     
