@@ -106,6 +106,8 @@ public class FourierHelpItem extends CompositePhetGraphic implements PhetGraphic
         _target = null;
         _direction = NONE;
         _arrowLength = 0;
+        
+        setIgnoreMouse( true );
     }
     
     //----------------------------------------------------------------------------

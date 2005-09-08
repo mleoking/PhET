@@ -69,6 +69,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/8) - make help items ignore the mouse so that you can used controls that are underneath them
 (9/8) - phetcommon: print a stack trace in PhetJComponent only the first time that we reach excessive # of dirty components
 (9/8) - rename close->minimize, open->maximize on buttons/methods/variables/images
 (9/8) - change GraphClosed to MinimizedView
