@@ -274,15 +274,16 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         _wavePacket.setCenter( WAVE_PACKET_CENTER );
         _wavePacket.setSignificantWidth( WAVE_PACKET_SIGNIFICANT_WIDTH );
         
-        _amplitudesView.reset();
-        _harmonicsView.reset();
-        _sumView.reset();
-        
         _harmonicsView.setVisible( true );
         _harmonicsMinimizedView.setVisible( !_harmonicsView.isVisible() );
         _sumView.setVisible( true );
         _sumMinimizedView.setVisible( !_sumView.isVisible() ); 
         layoutViews();
+    
+        // Reset after doing layout, because some of these depend on visibility to reset properly.
+        _amplitudesView.reset();
+        _harmonicsView.reset();
+        _sumView.reset();
         
         _spacingTool.setLocation( SPACING_TOOL_LOCATION );
         _deltaKTool.setLocation( DELTA_K_TOOL_LOCATION );

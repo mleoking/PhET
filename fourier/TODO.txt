@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- D2C harmonics y-axis range is wrong when minimized then Reset
 - change D2C "Show continuous waveform" to "Show k-space envelope"
 - add D2C "Show x-space envelope" control
 - phetcommon: PhetJComponent's dirty components list continues to grow when clock is paused
@@ -69,6 +68,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/9) - bugfix: D2C harmonics y-axis range if Reset while minimized
 (9/9) - use verbose labels for math mode options in space-&-time, put label above combobox
 (9/9) - make "time" the default domain in Discrete and D2C modules
 (9/9) - initialize D2C with Harmonics graph maximized
