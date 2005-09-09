@@ -5,6 +5,11 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- add units to x-axis of Discrete amplitudes graph (no!)
+- make Discrete amplitude sliders 50% narrower (no!)
+- add ability to show multiple wavelength/period tools in Discrete module (no!)
+- replace D2C width tools with static graphics that indicate widths
+- add equations for Gaussian wave packet above D2C amplitudes graph (no!)
 - change D2C "Show continuous waveform" to "Show k-space envelope"
 - add D2C "Show x-space envelope" control
 - phetcommon: PhetJComponent's dirty components list continues to grow when clock is paused
