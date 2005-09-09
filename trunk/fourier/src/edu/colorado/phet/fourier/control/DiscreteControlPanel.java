@@ -301,7 +301,6 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             _showMathCheckBox = new JCheckBox( SimStrings.get( "DiscreteControlPanel.showMath" ) );
 
             // Math Forms
-            JLabel mathFormsLabel = new JLabel( SimStrings.get( "DiscreteControlPanel.mathForm" ) );
             {
                 // Choices
                 {
@@ -336,7 +335,6 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             int row = 0;
             layout.setAnchor( GridBagConstraints.WEST );
             layout.addComponent( _showMathCheckBox, row++, 0 );
-            layout.addComponent( mathFormsLabel, row++, 0 );
             layout.addComponent( _mathFormComboBox, row++, 0 );
             layout.addComponent( _expandSumCheckBox, row++, 0 );
             mathModePanel.setLayout( new BorderLayout() );
