@@ -306,9 +306,9 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         _sumView.reset();
         
         _harmonicsView.setVisible( true );
-        _harmonicsMinimizedView.setVisible( false );
+        _harmonicsMinimizedView.setVisible( !_harmonicsView.isVisible() );
         _sumView.setVisible( true );
-        _sumMinimizedView.setVisible( false ); 
+        _sumMinimizedView.setVisible( !_sumView.isVisible() ); 
         layoutViews();
         
         _wavelengthTool.setVisible( false );
