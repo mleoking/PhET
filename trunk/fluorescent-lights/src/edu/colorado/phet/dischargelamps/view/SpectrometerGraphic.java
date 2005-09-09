@@ -229,11 +229,20 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
     }
 
     private int xLocForWavelength( double wavelength ) {
-        
+        double orgWavelength = wavelength;
         wavelength = Math.max( Math.min( wavelength, maxWavelength ), minWavelength );
         int wavelengthLoc = (int)( ( wavelength - minWavelength )
                                    / ( maxWavelength - minWavelength ) * ( displayWidth - horizontalDisplayMargin * 2 )
                                    + horizontalDisplayMargin );
+
+        if( orgWavelength < minWavelength ) {
+            wavelengthLoc -= horizontalDisplayMargin * ( minWavelength - orgWavelength ) / minWavelength;
+//            wavelengthLoc -= 50;
+        }
+        if( orgWavelength > maxWavelength) {
+            wavelengthLoc += horizontalDisplayMargin * ( orgWavelength - maxWavelength) / orgWavelength;
+//            wavelengthLoc += 50;
+        }
         return wavelengthLoc;
     }
 

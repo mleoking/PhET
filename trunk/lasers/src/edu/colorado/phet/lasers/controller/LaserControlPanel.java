@@ -134,7 +134,7 @@ public class LaserControlPanel extends ControlPanel {
             panel.add( numPhotonsTF, gbc );
 
             DecimalFormat decFmt = new DecimalFormat( "#" );
-            final ModelSlider aveSlider = new ModelSlider( "Averaging period", "msec", 0, 10000, 0, decFmt );
+            final ModelSlider aveSlider = new ModelSlider( "Averaging period", "msec", 0, 10000, 0, decFmt, decFmt );
             aveSlider.setPaintLabels( false );
             aveSlider.setNumMajorTicks( 10 );
             aveSlider.addChangeListener( new ChangeListener() {
