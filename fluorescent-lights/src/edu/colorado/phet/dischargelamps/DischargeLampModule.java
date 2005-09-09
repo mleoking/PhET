@@ -217,7 +217,7 @@ public class DischargeLampModule extends BaseLaserModule {
         spectrometerGraphic = new SpectrometerGraphic( getApparatusPanel(), model.getSpectrometer() );
         addGraphic( spectrometerGraphic, SPECTROMETER_LAYER );
         int centerX = ( DischargeLampsConfig.ANODE_LOCATION.x + DischargeLampsConfig.CATHODE_LOCATION.x ) / 2;
-        spectrometerGraphic.setLocation( centerX, 450 );
+        spectrometerGraphic.setLocation( centerX, 430 );
         spectrometerGraphic.setRegistrationPoint( spectrometerGraphic.getWidth() / 2, 0 );
     }
 
