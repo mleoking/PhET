@@ -73,6 +73,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+1.0.11 ...
 (9/9) - bugfix: D2C harmonics y-axis range if Reset while minimized
 (9/9) - use verbose labels for math mode options in space-&-time, put label above combobox
 (9/9) - make "time" the default domain in Discrete and D2C modules
