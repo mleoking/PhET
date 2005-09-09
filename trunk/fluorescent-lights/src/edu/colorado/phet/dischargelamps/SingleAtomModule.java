@@ -36,6 +36,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
+import java.text.DecimalFormat;
 
 /**
  * SingleAtomModule
@@ -66,7 +67,7 @@ public class SingleAtomModule extends DischargeLampModule {
 
         // Set model parameters
         getDischargeLampModel().setElectronProductionMode( ElectronSource.SINGLE_SHOT_MODE );
-        getDischargeLampModel().setMaxCurrent( maxCurrent );
+        getDischargeLampModel().setMaxCurrent( maxCurrent / currentDisplayFactor );
 
         // Make the area from which the cathode emits electrons very small
         getDischargeLampModel().getLeftHandPlate().setEmittingLength( 1 );
@@ -92,7 +93,9 @@ public class SingleAtomModule extends DischargeLampModule {
         // Put the current slider in a set of controls with the Fire button
         final ModelSlider currentSlider = getCurrentSlider();
         getControlPanel().remove( currentSlider );
-        getCurrentSlider().setMaximum( maxCurrent );
+        currentSlider.setTextFieldFormat( new DecimalFormat( "#.00"));
+        currentSlider.setSliderLabelFormat( new DecimalFormat( "#" ));
+        currentSlider.setMaximum( maxCurrent );
         currentSlider.setMajorTickSpacing( 1 );
         currentSlider.setNumMinorTicksPerMajorTick( 1 );
         getCurrentSlider().setValue( 2 );

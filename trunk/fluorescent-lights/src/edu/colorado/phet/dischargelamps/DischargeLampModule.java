@@ -110,7 +110,7 @@ public class DischargeLampModule extends BaseLaserModule {
         // Set up the model
         model = new DischargeLampModel();
         model.setElectronProductionMode( ElectronSource.CONTINUOUS_MODE );
-        model.setMaxCurrent( maxCurrent );
+        model.setMaxCurrent( maxCurrent / currentDisplayFactor );
         leftHandPlate = model.getLeftHandPlate();
         rightHandPlate = model.getRightHandPlate();
         setModel( model );
@@ -326,9 +326,11 @@ public class DischargeLampModule extends BaseLaserModule {
 
         // A slider for the battery current
         currentSlider = new ModelSlider( "Electron Production Rate", "electrons/sec",
-                                         0, maxCurrent, 0, new DecimalFormat( "########" ) );
+                                         0, maxCurrent, 0 );
 //                                         0, maxCurrent, 0, new DecimalFormat( "0.000" ) );
-        currentSlider.setMajorTickSpacing( 25 );
+        currentSlider.setSliderLabelFormat( new DecimalFormat( "#" ));
+        currentSlider.setTextFieldFormat( new DecimalFormat( "#"));
+        currentSlider.setMajorTickSpacing( 50 );
 //        currentSlider.setMajorTickSpacing( maxCurrent / 3 );
         currentSlider.setNumMinorTicksPerMajorTick( 1 );
         currentSlider.setPaintLabels( true );
