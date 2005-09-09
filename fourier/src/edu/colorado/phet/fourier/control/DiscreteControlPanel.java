@@ -159,8 +159,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
 
                 // Choices
                 _domainChoices = new ArrayList();
-                _domainChoices.add( new FourierComboBox.Choice( FourierConstants.DOMAIN_SPACE, SimStrings.get( "domain.space" ) ) );
                 _domainChoices.add( new FourierComboBox.Choice( FourierConstants.DOMAIN_TIME, SimStrings.get( "domain.time" ) ) );
+                _domainChoices.add( new FourierComboBox.Choice( FourierConstants.DOMAIN_SPACE, SimStrings.get( "domain.space" ) ) );
                 _domainChoices.add( new FourierComboBox.Choice( FourierConstants.DOMAIN_SPACE_AND_TIME, SimStrings.get( "domain.spaceAndTime" ) ) );
 
                 // Function combo box
@@ -387,7 +387,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     public void reset() {
         
         // Domain
-        _domainComboBox.setSelectedKey( FourierConstants.DOMAIN_SPACE );
+        _domainComboBox.setSelectedKey( FourierConstants.DOMAIN_TIME );
         _animationCycleController.setEnabled( false );
         
         // Preset
@@ -435,8 +435,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             _mathFormKeyTime = FourierConstants.MATH_FORM_PERIOD;
             _mathFormKeySpaceAndTime = FourierConstants.MATH_FORM_WAVELENGTH_AND_PERIOD;
             _showMathCheckBox.setSelected( false );
-            _mathFormComboBox.setChoices( _spaceMathFormChoices );
-            _mathFormComboBox.setSelectedKey( _mathFormKeySpace );
+            _mathFormComboBox.setChoices( _timeMathFormChoices );
+            _mathFormComboBox.setSelectedKey( _mathFormKeyTime );
             _mathFormComboBox.setEnabled( _showMathCheckBox.isSelected() );
             _expandSumCheckBox.setEnabled( _showMathCheckBox.isSelected() );
             _expandSumCheckBox.setSelected( false );
