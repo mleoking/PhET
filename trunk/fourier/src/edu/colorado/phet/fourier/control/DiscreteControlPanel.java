@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.fourier.control;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
@@ -300,9 +301,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             _showMathCheckBox = new JCheckBox( SimStrings.get( "DiscreteControlPanel.showMath" ) );
 
             // Math Forms
+            JLabel mathFormsLabel = new JLabel( SimStrings.get( "DiscreteControlPanel.mathForm" ) );
             {
-                String label = SimStrings.get( "DiscreteControlPanel.mathForm" );
-
                 // Choices
                 {
                     _spaceMathFormChoices = new ArrayList();
@@ -323,19 +323,24 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
                 }
 
                 // Math form combo box
-                _mathFormComboBox = new FourierComboBox( label, _spaceMathFormChoices );
+                _mathFormComboBox = new FourierComboBox( "", _spaceMathFormChoices );
             }
             
             // Expand Sum
             _expandSumCheckBox = new JCheckBox( SimStrings.get( "DiscreteControlPanel.expandSum" ) );
             
             // Layout
-            EasyGridBagLayout layout = new EasyGridBagLayout( mathModePanel );
-            mathModePanel.setLayout( layout );
+            JPanel innerPanel = new JPanel();
+            EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
+            innerPanel.setLayout( layout );
             int row = 0;
+            layout.setAnchor( GridBagConstraints.WEST );
             layout.addComponent( _showMathCheckBox, row++, 0 );
+            layout.addComponent( mathFormsLabel, row++, 0 );
             layout.addComponent( _mathFormComboBox, row++, 0 );
             layout.addComponent( _expandSumCheckBox, row++, 0 );
+            mathModePanel.setLayout( new BorderLayout() );
+            mathModePanel.add( innerPanel, BorderLayout.WEST );
         }
         
         // Layout
