@@ -6,12 +6,12 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - replace D2C width tools with static graphics that indicate widths (red, double arrows)
+- change D2C "Show continuous waveform" to "Show k-space envelope"
+- add D2C "Show x-space envelope" control
 - add actual numbers to the x-axis of Discrete harmonics and sum graphs when math mode is off (no!)
 - make Discrete amplitude sliders 50% narrower (no!)
 - add ability to show multiple wavelength/period tools in Discrete module (no!)
 - add equations for Gaussian wave packet above D2C amplitudes graph (no!)
-- change D2C "Show continuous waveform" to "Show k-space envelope"
-- add D2C "Show x-space envelope" control
 - phetcommon: PhetJComponent's dirty components list continues to grow when clock is paused
 - phetcommon: when sim is paused, changes to the control panel don't appear until the cursor moves into the apparatus panel
 - hangs after extended play (~30 minutes)
