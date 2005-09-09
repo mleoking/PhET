@@ -36,6 +36,7 @@ public class MathStrings {
     public static char C_OMEGA             = '\u03C9';
     public static char C_PI                = '\u03c0';
     public static char C_SIGMA             = '\u03a3';
+    public static char C_SMALL_SIGMA       = '\u03c3';
     
     // Symbols
     public static char C_AMPLITUDE         = 'A';
