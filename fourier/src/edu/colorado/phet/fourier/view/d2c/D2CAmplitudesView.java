@@ -302,8 +302,8 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
         // Change in grayscale value between bars.
         int deltaColor = ( BAR_DARKEST_GRAY - BAR_LIGHTEST_GRAY ) / numberOfComponents;
 
-        // Width of the bars is slightly less than the spacing k1.
-        double barWidth = k1 - ( k1 * 0.25 );
+//        double barWidth = k1 - ( k1 * 0.25 ); // Variable width, slightly less than the spacing k1.
+        double barWidth = Math.PI/4 - ( Math.PI/4 * 0.25 ); // Fixed width, based on the smallest value of k1 being pi/4.
         
         // Add a bar for each component.
         for ( int i = 0; i < numberOfComponents; i++ ) {

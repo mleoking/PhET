@@ -5,6 +5,11 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- initialize D2C with Harmonics graph maximized
+- change "Show continuous waveform" to "Show k-space envelope"
+- add "Show x-space envelope" control
+- make "time" the default domain in Discrete and D2C modules
+- use verbose labels for math mode options in space-&-time, put label above combobox
 - phetcommon: PhetJComponent's dirty components list continues to grow when clock is paused
 - phetcommon: when sim is paused, changes to the control panel don't appear until the cursor moves into the apparatus panel
 - hangs after extended play (~30 minutes)
@@ -66,6 +71,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/9) - constant width for D2C amplitude bars
 (9/8) - HarmonicPeriodDisplay should not be an observer of its harmonic, does nothing
 (9/8) - bugfix: FourierHelp.pointAt(Point,...) doesn't actually point at the specified Point
 (9/8) - make help items ignore the mouse so that you can used controls that are underneath them
