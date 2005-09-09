@@ -59,11 +59,11 @@ public class WavePacketDeltaKTool extends AbstractWavePacketMeasurementTool {
         int domain = getDomain();
         if ( domain == FourierConstants.DOMAIN_SPACE ) {
             // 2dk
-            setLabel( "<html>2" + MathStrings.C_DELTA + "k</html>" );
+            setLabel( "<html>2\u03C3<sub>k</sub></html>" );
         }
         else if ( domain == FourierConstants.DOMAIN_TIME ) {
             //2dw
-            setLabel( "<html>2" + MathStrings.C_DELTA + MathStrings.C_OMEGA + "</html>" );     
+            setLabel( "<html>2\u03C3<sub>\u03C9</sub></html>" );     
         }
     }
 
