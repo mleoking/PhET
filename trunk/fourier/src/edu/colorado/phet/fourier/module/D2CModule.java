@@ -79,7 +79,7 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
     private GaussianWavePacket _wavePacket;
     private D2CAmplitudesView _amplitudesView;
     private D2CHarmonicsView _harmonicsView;
-    private D2CSumView _sumGraph;
+    private D2CSumView _sumView;
     private MinimizedView _harmonicsMinimizedView;
     private MinimizedView _sumMinimizedView;
     private D2CControlPanel _controlPanel;
@@ -140,8 +140,8 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         apparatusPanel.addGraphic( _harmonicsMinimizedView, HARMONICS_CLOSED_LAYER );
         
         // Sum view
-        _sumGraph = new D2CSumView( apparatusPanel, _wavePacket );
-        apparatusPanel.addGraphic( _sumGraph, SUM_LAYER );
+        _sumView = new D2CSumView( apparatusPanel, _wavePacket );
+        apparatusPanel.addGraphic( _sumView, SUM_LAYER );
         
         // Sum view (minimized)
         _sumMinimizedView = new MinimizedView( apparatusPanel, SimStrings.get( "D2CSumGraph.title" ) );
@@ -165,12 +165,12 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         Rectangle xToolsDragBounds = new Rectangle( x, y, w, h );
         
         // Delta x (dx,dt) measurement tool
-        _deltaXTool = new WavePacketDeltaXTool( apparatusPanel, _wavePacket, _sumGraph.getChart() );
+        _deltaXTool = new WavePacketDeltaXTool( apparatusPanel, _wavePacket, _sumView.getChart() );
         _deltaXTool.setDragBounds( xToolsDragBounds );
         apparatusPanel.addGraphic( _deltaXTool, TOOLS_LAYER );
         
         // Period (lamda1,T1) measurement tool
-        _periodTool = new WavePacketPeriodTool( apparatusPanel, _wavePacket, _sumGraph.getChart() );
+        _periodTool = new WavePacketPeriodTool( apparatusPanel, _wavePacket, _sumView.getChart() );
         _periodTool.setDragBounds( xToolsDragBounds );
         apparatusPanel.addGraphic( _periodTool, TOOLS_LAYER );
         
@@ -180,15 +180,15 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
 
         // Control Panel
         _controlPanel = new D2CControlPanel( this, _wavePacket, 
-                _amplitudesView, _harmonicsView, _sumGraph,
+                _amplitudesView, _harmonicsView, _sumView,
                 _spacingTool, _deltaKTool, _deltaXTool, _periodTool );
         _controlPanel.addVerticalSpace( 20 );
         _controlPanel.addResetButton();
         setControlPanel( _controlPanel );
 
         // Link horizontal zoom controls
-        _harmonicsView.getHorizontalZoomControl().addZoomListener( _sumGraph );
-        _sumGraph.getHorizontalZoomControl().addZoomListener( _harmonicsView );
+        _harmonicsView.getHorizontalZoomControl().addZoomListener( _sumView );
+        _sumView.getHorizontalZoomControl().addZoomListener( _harmonicsView );
         
         // Minimize/maximize buttons on views
         {
@@ -197,7 +197,7 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
                 public void mouseReleased( MouseEvent event ) {
                     _harmonicsView.setVisible( false );
                     _harmonicsMinimizedView.setVisible( true );
-                    resizeGraphs();
+                    layoutViews();
                 }
              } );
             
@@ -207,27 +207,27 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
                     _harmonicsView.setVisible( true );
                     _harmonicsMinimizedView.setVisible( false );
                     setWaitCursorEnabled( true );
-                    resizeGraphs();
+                    layoutViews();
                     setWaitCursorEnabled( false );
                 }
              } );
             
             // Sum minimize
-            _sumGraph.getMinimizeButton().addMouseInputListener( new MouseInputAdapter() {
+            _sumView.getMinimizeButton().addMouseInputListener( new MouseInputAdapter() {
                 public void mouseReleased( MouseEvent event ) {
-                    _sumGraph.setVisible( false );
+                    _sumView.setVisible( false );
                     _sumMinimizedView.setVisible( true );
-                    resizeGraphs();
+                    layoutViews();
                 }
              } );
             
             // Sum maximize
             _sumMinimizedView.getMaximizeButton().addMouseInputListener( new MouseInputAdapter() {
                 public void mouseReleased( MouseEvent event ) {
-                    _sumGraph.setVisible( true );
+                    _sumView.setVisible( true );
                     _sumMinimizedView.setVisible( false );
                     setWaitCursorEnabled( true );
-                    resizeGraphs();
+                    layoutViews();
                     setWaitCursorEnabled( false );
                 }
              } );
@@ -276,13 +276,13 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         
         _amplitudesView.reset();
         _harmonicsView.reset();
-        _sumGraph.reset();
+        _sumView.reset();
         
-        _harmonicsView.setVisible( false );
-        _harmonicsMinimizedView.setVisible( true );
-        _sumGraph.setVisible( true );
-        _sumMinimizedView.setVisible( false ); 
-        resizeGraphs();
+        _harmonicsView.setVisible( true );
+        _harmonicsMinimizedView.setVisible( !_harmonicsView.isVisible() );
+        _sumView.setVisible( true );
+        _sumMinimizedView.setVisible( !_sumView.isVisible() ); 
+        layoutViews();
         
         _spacingTool.setLocation( SPACING_TOOL_LOCATION );
         _deltaKTool.setLocation( DELTA_K_TOOL_LOCATION );
@@ -301,26 +301,26 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
      * 
      * @param event
      */
-    private void resizeGraphs() {
+    private void layoutViews() {
 
         int canvasHeight = _canvasSize.height;
         int availableHeight = canvasHeight - _amplitudesView.getHeight();
         
-        if ( _harmonicsView.isVisible() && _sumGraph.isVisible() ) {
+        if ( _harmonicsView.isVisible() && _sumView.isVisible() ) {
             _harmonicsView.setHeight( availableHeight/2 );
             _harmonicsView.setLocation( _amplitudesView.getX(), _amplitudesView.getY() + _amplitudesView.getHeight() );
-            _sumGraph.setHeight( availableHeight/2 );
-            _sumGraph.setLocation( _amplitudesView.getX(), _harmonicsView.getY() + _harmonicsView.getHeight() );
+            _sumView.setHeight( availableHeight/2 );
+            _sumView.setLocation( _amplitudesView.getX(), _harmonicsView.getY() + _harmonicsView.getHeight() );
         }
         else if ( _harmonicsView.isVisible() ) {
             _harmonicsView.setHeight( availableHeight - _sumMinimizedView.getHeight() );
             _harmonicsView.setLocation( _amplitudesView.getX(), _amplitudesView.getY() + _amplitudesView.getHeight() );
             _sumMinimizedView.setLocation( _amplitudesView.getX(), _harmonicsView.getY() + _harmonicsView.getHeight() );
         }
-        else if ( _sumGraph.isVisible() ) {
+        else if ( _sumView.isVisible() ) {
             _harmonicsMinimizedView.setLocation( _amplitudesView.getX(), _amplitudesView.getY() + _amplitudesView.getHeight() );
-            _sumGraph.setHeight( availableHeight - _harmonicsMinimizedView.getHeight() );
-            _sumGraph.setLocation( _amplitudesView.getX(), _harmonicsMinimizedView.getY() + _harmonicsMinimizedView.getHeight() );
+            _sumView.setHeight( availableHeight - _harmonicsMinimizedView.getHeight() );
+            _sumView.setLocation( _amplitudesView.getX(), _harmonicsMinimizedView.getY() + _harmonicsMinimizedView.getHeight() );
         }
         else {
             _harmonicsMinimizedView.setLocation( _amplitudesView.getX(), _amplitudesView.getY() + _amplitudesView.getHeight() );
@@ -337,6 +337,6 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
      */
     public void canvasSizeChanged( ChangeEvent event ) {
         _canvasSize.setSize( event.getCanvasSize() );
-        resizeGraphs();
+        layoutViews();
     }
 }
