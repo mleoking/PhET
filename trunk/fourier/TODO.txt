@@ -6,8 +6,8 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - D2C harmonics y-axis range is wrong when minimized then Reset
-- change "Show continuous waveform" to "Show k-space envelope"
-- add "Show x-space envelope" control
+- change D2C "Show continuous waveform" to "Show k-space envelope"
+- add D2C "Show x-space envelope" control
 - phetcommon: PhetJComponent's dirty components list continues to grow when clock is paused
 - phetcommon: when sim is paused, changes to the control panel don't appear until the cursor moves into the apparatus panel
 - hangs after extended play (~30 minutes)
