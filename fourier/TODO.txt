@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- initialize D2C with Harmonics graph maximized
+- D2C harmonics y-axis range is wrong when minimized then Reset
 - change "Show continuous waveform" to "Show k-space envelope"
 - add "Show x-space envelope" control
 - make "time" the default domain in Discrete and D2C modules
@@ -71,6 +71,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/9) - initialize D2C with Harmonics graph maximized
 (9/9) - constant width for D2C amplitude bars
 (9/8) - HarmonicPeriodDisplay should not be an observer of its harmonic, does nothing
 (9/8) - bugfix: FourierHelp.pointAt(Point,...) doesn't actually point at the specified Point
