@@ -68,7 +68,7 @@ public class ModelSlider extends JPanel {
      * @param initial
      */
     public ModelSlider( String title, String units, final double min, final double max, double initial ) {
-        this( title, units, min, max, initial, new DecimalFormat( "0.0#" ) );
+        this( title, units, min, max, initial, new DecimalFormat( "0.0#" ), new DecimalFormat( "0.0#" ) );
     }
 
     /**
@@ -78,23 +78,26 @@ public class ModelSlider extends JPanel {
      * @param min
      * @param max
      * @param initialValue
-     * @param formatter
+     * @param textFieldFormat
+     * @param sliderLabelFormat
      */
     public ModelSlider( String title, String units, final double min, final double max,
-                        double initialValue, NumberFormat formatter ) {
-        init( min, max, formatter, units, initialValue, title );
+                        double initialValue, NumberFormat textFieldFormat, NumberFormat sliderLabelFormat ) {
+        init( min, max, textFieldFormat, sliderLabelFormat, units, initialValue, title );
     }
 
     /**
      *
      * @param min
      * @param max
-     * @param formatter
+     * @param textFieldFormat
      * @param units
      * @param initialValue
      * @param title
      */
-    private void init( final double min, final double max, NumberFormat formatter, String units, double initialValue, String title ) {
+    private void init( final double min, final double max,
+                       NumberFormat textFieldFormat, NumberFormat sliderLabelFormat,
+                       String units, double initialValue, String title ) {
 
         // In case this has been called in response to a change in some characteristic, remove all the items in the
         // control
@@ -105,8 +108,8 @@ public class ModelSlider extends JPanel {
         this.title = title;
         this.min = min;
         this.max = max;
-        this.textFieldFormat = formatter;
-        this.sliderLabelFormat = formatter;
+        this.textFieldFormat = textFieldFormat;
+        this.sliderLabelFormat = sliderLabelFormat;
         this.units = units;
         this.modelViewTransform = new ModelViewTransform1D( min, max, SLIDER_MIN, SLIDER_MAX );
         this.initialValue = initialValue;
@@ -248,6 +251,10 @@ public class ModelSlider extends JPanel {
         relabelSlider();
     }
 
+    public void setTextFieldFormat( NumberFormat textFieldFormat ) {
+        this.textFieldFormat = textFieldFormat;
+    }
+
     public JLabel getTitleLabel() {
         return titleLabel;
     }
@@ -325,7 +332,7 @@ public class ModelSlider extends JPanel {
     }
 
     public void setMaximum( double max ) {
-        init( min, max, textFieldFormat, units, initialValue, title );
+        init( min, max, textFieldFormat, sliderLabelFormat, units, initialValue, title );
     }
 
     private void fireStateChanged() {
