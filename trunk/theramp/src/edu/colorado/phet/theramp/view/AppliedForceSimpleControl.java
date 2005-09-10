@@ -32,7 +32,7 @@ public class AppliedForceSimpleControl extends PNode {
         SpinnerNumberModel model = new SpinnerNumberModel( module.getRampPhysicalModel().getAppliedForceScalar(), -maxValue, maxValue, 100 );
 
         final JSpinner spinner = new JSpinner( model );
-        spinner.setEditor( new JSpinner.NumberEditor(spinner,"0.00"));
+        spinner.setEditor( new JSpinner.NumberEditor( spinner, "0.00" ) );
         horizontalLayoutPanel.add( spinner );
 
         PSwing pSwing = new PSwing( rampPanel, horizontalLayoutPanel );
@@ -45,8 +45,11 @@ public class AppliedForceSimpleControl extends PNode {
         } );
         module.getRampPhysicalModel().addListener( new RampPhysicalModel.Listener() {
             public void appliedForceChanged() {
-                spinner.setValue( new Double( module.getRampPhysicalModel().getAppliedForceScalar() ) );
-                repaint();
+                Double value = new Double( module.getRampPhysicalModel().getAppliedForceScalar() );
+                if( !spinner.getValue().equals( value ) ) {
+                    spinner.setValue( value );
+                    repaint();
+                }
             }
 
             public void zeroPointChanged() {

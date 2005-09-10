@@ -52,37 +52,34 @@ public class BarGraphSet extends PNode {
     private PSwing minButNode;
     private PNode maximizeButton;
     private ArrayList barGraphics = new ArrayList();
-    private double scale = 0.8;
+    private double scale = 1.0;
+//    private double scale = 0.8;
+    private boolean minimized = true;
 
     public BarGraphSet( RampPanel rampPanel, RampPhysicalModel rampPhysicalModel, String title, ModelViewTransform1D transform1D ) {
         this.rampPanel = rampPanel;
         this.rampPhysicalModel = rampPhysicalModel;
         this.transform1D = transform1D;
-//        topY = (int)( rampPanel.getRampBaseY() * 0.82 ) + 120;
-        topY = ( (int)( rampPanel.getRampBaseY() * 0.82 ) + 35 ) * scale;
-        y = 550 * scale;
-//        barWidth = 23 * scale;
-        barWidth = 15 * scale;
+//        topY = ( (int)( rampPanel.getRampBaseY() * 0.82 ) + 35 ) * scale;
+        topY = 0;
+        y = 450 * scale;
+        barWidth = 20 * scale;
         dw = 10 * scale;
         sep = barWidth + dw;
         titleGraphic = new ShadowHTMLGraphic( title );
         titleGraphic.setColor( Color.black );
         titleGraphic.setShadowColor( Color.blue );
-//        titleGraphic.setFont( new Font( "Lucida Sans", Font.BOLD, 22 ) );
         titleGraphic.setFont( RampFontSet.getFontSet().getBarGraphTitleFont() );
 
-//        addMinimizeButton();
         JButton max = new JButton( "" + title );
         max.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setMinimized( false );
             }
         } );
-//        max.setFont( new Font( "Lucida Sans",Font.BOLD, 20) );
         max.setFont( RampFontSet.getFontSet().getNormalButtonFont() );
         maximizeButton = new PSwing( rampPanel, max );
     }
-
 
     private void setHasChild( boolean hasChild, PNode child ) {
         if( hasChild && !this.isAncestorOf( child ) ) {
@@ -91,7 +88,6 @@ public class BarGraphSet extends PNode {
         else if( !hasChild && this.isAncestorOf( child ) ) {
             removeChild( child );
         }
-
     }
 
     protected void addMinimizeButton() {
@@ -117,6 +113,7 @@ public class BarGraphSet extends PNode {
     }
 
     public void setMinimized( boolean minimized ) {
+        this.minimized = minimized;
         setHasChild( !minimized, this.background );
         setHasChild( !minimized, this.xAxis );
         setHasChild( !minimized, this.yAxis );
@@ -128,6 +125,12 @@ public class BarGraphSet extends PNode {
         setHasChild( !minimized, titleGraphic );
 
         setHasChild( minimized, maximizeButton );
+
+        rampPanel.relayoutPiccolo();
+    }
+
+    public boolean isMinimized() {
+        return minimized;
     }
 
     private class XAxis extends PNode {
@@ -145,7 +148,6 @@ public class BarGraphSet extends PNode {
         public YAxis() {
             Point2D origin = new Point2D.Double( 0, y );
             Point2D dst = new Point2D.Double( 0, topY + 25 );
-//            Vector2D vector = new Vector2D.Double( 0, y - topY + 100 );
             Arrow arrow = new Arrow( origin, dst, 8, 8, 3 );
             PPath path = new PPath( arrow.getShape() );
             path.setPaint( Color.black );
@@ -169,10 +171,8 @@ public class BarGraphSet extends PNode {
         double w = workAccess.length * ( sep + dw ) - sep;
         System.out.println( "width = " + barWidth );
         background = new PPath( new Rectangle2D.Double( 0, topY, 5 * 2 + w, 1000 ) );
-//        background.setPaint( Color.white );
         background.setPaint( null );
         background.setStroke( new BasicStroke() );
-//        background.setStrokePaint( Color.black );
         background.setStrokePaint( null );
         addChild( background );
         xAxis = new XAxis();

@@ -26,13 +26,12 @@ public class RampFontSet {
     }
 
     public RampFontSet() {
-//        normalButtonFont = new LucidaSansFont( 10, true );
         normalButtonFont = new LucidaSansFont( 10 );
         barGraphTitleFont = new LucidaSansFont( 12, true );
         timeReadoutFont = new LucidaSansFont( 14, true );
         speedReadoutFont = timeReadoutFont;
         forceArrowLabelFont = new LucidaSansFont( 12, true );
-        barFont = new LucidaSansFont( 11, true );
+        barFont = new LucidaSansFont( 16, true );
     }
 
     public Font getNormalButtonFont() {
