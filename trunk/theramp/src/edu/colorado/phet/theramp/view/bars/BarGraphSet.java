@@ -11,6 +11,7 @@ import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.theramp.common.BarGraphic2D;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.model.ValueAccessor;
+import edu.colorado.phet.theramp.view.EarthGraphic;
 import edu.colorado.phet.theramp.view.RampFontSet;
 import edu.colorado.phet.theramp.view.RampLookAndFeel;
 import edu.colorado.phet.theramp.view.RampPanel;
@@ -78,6 +79,7 @@ public class BarGraphSet extends PNode {
             }
         } );
         max.setFont( RampFontSet.getFontSet().getNormalButtonFont() );
+        max.setBackground( EarthGraphic.earthGreen );
         maximizeButton = new PSwing( rampPanel, max );
     }
 

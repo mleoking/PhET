@@ -195,12 +195,13 @@ public class TimePlotSuitePNode extends PNode {
                 setMinimized( false );
             }
         } );
+        maximize.setBackground( EarthGraphic.earthGreen );
         maxButNode = new PSwing( pCanvas, maximize );
         addChild( maxButNode );
 
         double maxVisibleRange = getMaxRangeValue();
-        double dzPress=maxVisibleRange/10;
-        double dzHold=maxVisibleRange/100;
+        double dzPress = maxVisibleRange / 10;
+        double dzHold = maxVisibleRange / 100;
         try {
             final ZoomButton zoomIn = new ZoomButton( new ImageIcon( loadZoomInImage() ),
                                                       -dzPress, -dzHold, 100, maxVisibleRange * 4, maxVisibleRange, "Zoom In" );
