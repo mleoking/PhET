@@ -55,19 +55,19 @@ public class BarGraphSuite extends PNode {
         return p;
     }
 
-    public void setEnergyBarsVisible( boolean selected ) {
+    public void setEnergyBarsMaximized( boolean selected ) {
         energyBarGraphSet.setMinimized( !selected );
     }
 
-    public void setWorkBarsVisible( boolean selected ) {
+    public void setWorkBarsMaximized( boolean selected ) {
         workBarGraphSet.setMinimized( !selected );
     }
 
-    public boolean getEnergyBarsVisible() {
+    public boolean getEnergyBarsMaximized() {
         return !energyBarGraphSet.isMinimized();
     }
 
-    public boolean getWorkBarsVisible() {
+    public boolean getWorkBarsMaximized() {
         return !workBarGraphSet.isMinimized();
     }
 
@@ -76,6 +76,11 @@ public class BarGraphSuite extends PNode {
     }
 
     public boolean areBothMinimized() {
-        return ( !getWorkBarsVisible() ) && ( !getEnergyBarsVisible() );
+        return ( !getWorkBarsMaximized() ) && ( !getEnergyBarsMaximized() );
+    }
+
+    public void setBarChartHeight( double barChartHeight ) {
+        workBarGraphSet.setBarChartHeight( barChartHeight );
+        energyBarGraphSet.setBarChartHeight( barChartHeight );
     }
 }

@@ -18,6 +18,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 /**
@@ -35,7 +36,7 @@ public class FireDog extends PNode {
         this.module = module;
         try {
             BufferedImage newImage = ImageLoader.loadBufferedImage( "images/firedog.gif" );
-            newImage = BufferedImageUtils.rescaleYMaintainAspectRatio( null, newImage, 100 );
+            newImage = BufferedImageUtils.rescaleYMaintainAspectRatio( newImage, 100 );
             image = new PImage( newImage );
 //            image = new BoidGraphic(module.getPhetPCanvas() );// ImageLoader.loadBufferedImage( "images/firedog.gif" ) );
         }
@@ -49,11 +50,11 @@ public class FireDog extends PNode {
 
     private void initImage() {
         image.setTransform( new AffineTransform() );
-        double r2 = getFloorY();
-        image.setOffset( -image.getWidth(), r2 - image.getHeight() );
+        image.setOffset( -image.getWidth(), getFloorY() - image.getFullBounds().getHeight() + 3 );
+//        image.setOffset( -image.getWidth(), getFloorY() );
     }
 
-    private double getFloorY() {
+    private double getFloorYNew() {
         Rectangle2D r2 = module.getRampPanel().getRampWorld().getLeftBarrierGraphic().getGlobalFullBounds();
         return globalToLocal( r2 ).getMaxY();
     }
@@ -63,11 +64,34 @@ public class FireDog extends PNode {
         return globalToLocal( r2 ).getMaxY();
     }
 
-    private double getFloorYOrig() {
-        FloorGraphic floorGraphic = module.getRampPanel().getRampWorld().getGroundGraphic();
+    private double getFloorY() {
+        PNode earth = module.getRampPanel().getRampWorld().getEarthGraphic();
+        Point2D top = earth.getGlobalFullBounds().getOrigin();
+        globalToLocal( top );
+        localToParent( top );
+        return top.getY();
+    }
 
-        double r2 = globalToLocal( floorGraphic.getGlobalFullBounds() ).getMaxY();
-        return r2;
+    private double getFloorYTerrible() {
+        FloorGraphic floorGraphic = module.getRampPanel().getRampWorld().getGroundGraphic();
+        Point2D top = floorGraphic.getGlobalFullBounds().getOrigin();
+        module.getRampPanel().getCamera().globalToLocal( top );
+        module.getRampPanel().getCamera().localToView( top );
+        ArrayList hierarchy = new ArrayList();
+        PNode p = getParent();
+        while( p != module.getRampPanel().getCamera().getLayer( 0 ) ) {
+            hierarchy.add( p );
+            p = p.getParent();
+        }
+        Collections.reverse( hierarchy );
+        for( int i = 0; i < hierarchy.size(); i++ ) {
+            PNode pNode = (PNode)hierarchy.get( i );
+            pNode.parentToLocal( top );
+        }
+//        globalToLocal( top );
+//        localToParent( top );
+//        double r2 = globalToLocal( floorGraphic.getGlobalFullBounds() ).getMaxY();
+        return top.getY();
     }
 
     private class MoveToFire extends PActivity {
@@ -121,18 +145,21 @@ public class FireDog extends PNode {
     private void addWaterDrop() {
         WaterDrop waterDrop = new WaterDrop();
         getRampPanel().addChild( waterDrop );
+        waterDrop.finishInit();
         waterDrops.add( waterDrop );
     }
 
     private class ExpelWater extends PActivity {
 
         public ExpelWater() {
-            super( 1000 );
+            super( 1250 );
         }
 
         protected void activityStep( long elapsedTime ) {
             super.activityStep( elapsedTime );
             //fire a water particle.
+            addWaterDrop();
+            addWaterDrop();
             addWaterDrop();
         }
 
@@ -180,17 +207,24 @@ public class FireDog extends PNode {
             }
 
             PImage pimage = new PImage( dropImage );
-            pimage.scale( 0.3 );
+            pimage.scale( 0.35 );
             addChild( pimage );
 
-            Point2D point = new Point2D.Double( image.getGlobalFullBounds().getMaxX(), image.getGlobalFullBounds().getCenterY() + 20 );
-
-            particle.setPosition( globalToLocal( point ) );
+            fixLocation();
             double dx = random.nextGaussian() * 30;
             double dy = random.nextGaussian() * 20;
             particle.setVelocity( 200.0 + dx, -120 - dy );
             particle.setAcceleration( 0, 200 );
             setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
+        }
+
+        public void finishInit() {
+            fixLocation();
+        }
+
+        private void fixLocation() {
+            Point2D point = new Point2D.Double( image.getGlobalFullBounds().getMaxX(), image.getGlobalFullBounds().getCenterY() + 20 );
+            particle.setPosition( globalToLocal( point ) );
         }
 
         public void propagate( double dt ) {
@@ -217,7 +251,12 @@ public class FireDog extends PNode {
 
     public void putOutFire() {
         getRampPanel().addChild( this );
+        finishInit();
         getRampPanel().getRoot().addActivity( new MoveToFire() );
+    }
+
+    private void finishInit() {
+        initImage();
     }
 
     private RampPanel getRampPanel() {

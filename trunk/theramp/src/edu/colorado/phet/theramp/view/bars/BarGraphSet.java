@@ -22,6 +22,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -39,7 +40,7 @@ public class BarGraphSet extends PNode {
     private RampPanel rampPanel;
     private RampPhysicalModel rampPhysicalModel;
     private ModelViewTransform1D transform1D;
-    private double y;
+    private double barChartHeight;
     private double barWidth;
     private double dw;
     private double sep;
@@ -53,19 +54,16 @@ public class BarGraphSet extends PNode {
     private PSwing minButNode;
     private PNode maximizeButton;
     private ArrayList barGraphics = new ArrayList();
-    private double scale = 1.0;
-//    private double scale = 0.8;
-    private boolean minimized = true;
+    private boolean minimized = false;
 
     public BarGraphSet( RampPanel rampPanel, RampPhysicalModel rampPhysicalModel, String title, ModelViewTransform1D transform1D ) {
         this.rampPanel = rampPanel;
         this.rampPhysicalModel = rampPhysicalModel;
         this.transform1D = transform1D;
-//        topY = ( (int)( rampPanel.getRampBaseY() * 0.82 ) + 35 ) * scale;
         topY = 0;
-        y = 450 * scale;
-        barWidth = 20 * scale;
-        dw = 10 * scale;
+        barChartHeight = 450;
+        barWidth = 13;
+        dw = 7;
         sep = barWidth + dw;
         titleGraphic = new ShadowHTMLGraphic( title );
         titleGraphic.setColor( Color.black );
@@ -81,6 +79,16 @@ public class BarGraphSet extends PNode {
         max.setFont( RampFontSet.getFontSet().getNormalButtonFont() );
         max.setBackground( EarthGraphic.earthGreen );
         maximizeButton = new PSwing( rampPanel, max );
+    }
+
+    public void setBarChartHeight( double baselineY ) {
+        this.barChartHeight = baselineY;
+        xAxis.setBarChartHeight( baselineY );
+        yAxis.setBarChartHeight( baselineY );
+        for( int i = 0; i < barGraphics.size(); i++ ) {
+            BarGraphic2D barGraphic2D = (BarGraphic2D)barGraphics.get( i );
+            barGraphic2D.setBarHeight( baselineY );
+        }
     }
 
     private void setHasChild( boolean hasChild, PNode child ) {
@@ -136,24 +144,46 @@ public class BarGraphSet extends PNode {
     }
 
     private class XAxis extends PNode {
+        private PPath path;
+
         public XAxis() {
             int yValue = transform1D.modelToView( 0 );
             System.out.println( "yValue = " + yValue );
-            PPath path = new PPath( new Line2D.Double( 0, y, background.getFullBounds().getWidth(), y ) );
+            path = new PPath( createLinePath() );
             addChild( path );
             path.setStrokePaint( new Color( 255, 150, 150 ) );
             path.setStroke( new BasicStroke( 3 ) );
         }
+
+        private Line2D.Double createLinePath() {
+            return new Line2D.Double( 0, barChartHeight, background.getFullBounds().getWidth(), barChartHeight );
+        }
+
+        public void setBarChartHeight( double baselineY ) {
+            path.setPathTo( createLinePath() );
+        }
     }
 
     private class YAxis extends PNode {
+        private PPath path;
+
         public YAxis() {
-            Point2D origin = new Point2D.Double( 0, y );
-            Point2D dst = new Point2D.Double( 0, topY + 25 );
-            Arrow arrow = new Arrow( origin, dst, 8, 8, 3 );
-            PPath path = new PPath( arrow.getShape() );
+            GeneralPath shape = createShape();
+            path = new PPath( shape );
             path.setPaint( Color.black );
             addChild( path );
+        }
+
+        private GeneralPath createShape() {
+            Point2D origin = new Point2D.Double( 0, barChartHeight );
+            Point2D dst = new Point2D.Double( 0, topY + 25 );
+            Arrow arrow = new Arrow( origin, dst, 8, 8, 3 );
+            GeneralPath shape = arrow.getShape();
+            return shape;
+        }
+
+        public void setBarChartHeight( double baselineY ) {
+            path.setPathTo( createShape() );
         }
     }
 
@@ -161,8 +191,8 @@ public class BarGraphSet extends PNode {
         return rampPanel.getLookAndFeel();
     }
 
-    public double getMaxDisplayableEnergy() {
-        return Math.abs( transform1D.viewToModelDifferential( (int)( y - topY ) ) );
+    public double getMaxDisplayableEnergy() {//TODO! trace dependencies on this (nondynamic ones)
+        return Math.abs( transform1D.viewToModelDifferential( (int)( barChartHeight - topY ) ) );
     }
 
     protected void addClockTickListener( ClockTickListener clockTickListener ) {
@@ -172,7 +202,7 @@ public class BarGraphSet extends PNode {
     protected void finishInit( ValueAccessor[] workAccess ) {
         double w = workAccess.length * ( sep + dw ) - sep;
         System.out.println( "width = " + barWidth );
-        background = new PPath( new Rectangle2D.Double( 0, topY, 5 * 2 + w, 1000 ) );
+        background = new PPath( new Rectangle2D.Double( 0, topY, 2 + w, 1000 ) );
         background.setPaint( null );
         background.setStroke( new BasicStroke() );
         background.setStrokePaint( null );
@@ -186,7 +216,7 @@ public class BarGraphSet extends PNode {
             final ValueAccessor accessor = workAccess[i];
             final BarGraphic2D barGraphic = new BarGraphic2D( accessor.getName(), transform1D,
                                                               accessor.getValue( rampPhysicalModel ), (int)( i * sep + dw ), (int)barWidth,
-                                                              (int)y, dx, dy, accessor.getColor() );
+                                                              (int)barChartHeight, dx, dy, accessor.getColor() );
             addClockTickListener( new ClockTickListener() {
                 public void clockTicked( ClockTickEvent event ) {
                     barGraphic.setValue( accessor.getValue( rampPhysicalModel ) );

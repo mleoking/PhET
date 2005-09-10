@@ -17,8 +17,8 @@ public class SimpleRampPanel extends RampPanel {
         super( simpleRampModule );
         this.simpleRampModule = simpleRampModule;
 
-        getRampPlotSet().minimizeAll();
-        setAllBarsMinimized( false );
+        getRampPlotSet().minimizeAllPlots();
+        setAllBarsMinimized( true );
         addWiggleMe();
         super.maximizeForcePlot();
     }

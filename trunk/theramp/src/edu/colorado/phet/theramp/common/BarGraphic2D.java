@@ -75,4 +75,9 @@ public class BarGraphic2D extends PNode {
     private int computeHeight() {
         return transform1D.modelToView( value );
     }
+
+    public void setBarHeight( double baselineY ) {
+        this.y = (int)baselineY;
+        updateBar();
+    }
 }

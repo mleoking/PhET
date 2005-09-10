@@ -70,8 +70,6 @@ public class TimePlotSuitePNode extends PNode {
     private ArrayList series = new ArrayList();
     private boolean minimized = false;
     private ArrayList listeners = new ArrayList();
-
-//    public static final int DEFAULT_CHART_WIDTH = 500;
     public static final int DEFAULT_CHART_WIDTH = 700;
     private int chartWidth = DEFAULT_CHART_WIDTH;
     private PSwing zoomInGraphic;
@@ -147,7 +145,8 @@ public class TimePlotSuitePNode extends PNode {
 
         cursor.addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
-                double viewTime = event.getPosition().getX();
+//                double viewTime = event.getPosition().getX();
+                double viewTime = event.getPositionRelativeTo( TimePlotSuitePNode.this ).getX();
                 Point2D out = toLinearFunction().getInverseTransform().transform( new Point2D.Double( viewTime, 0 ), null );
 
                 double t = out.getX();
@@ -242,6 +241,14 @@ public class TimePlotSuitePNode extends PNode {
 
 //        maxButNode.setVisible( false );
         setMinimizedState( false );
+    }
+
+    public double getTopY() {
+        Point2D loc = isMinimized() ? maxButNode.getGlobalFullBounds().getOrigin() : chartGraphic.getGlobalFullBounds().getOrigin();
+        pCanvas.getCamera().globalToLocal( loc );
+//        pCanvas.getCamera().localToParent( loc );
+
+        return loc.getY();
     }
 
     static class SliderGraphic extends PPath {
@@ -469,6 +476,9 @@ public class TimePlotSuitePNode extends PNode {
     }
 
     public void setChartSize( int chartWidth, int chartHeight ) {
+        if( !( chartWidth > 0 && chartHeight > 0 ) ) {
+            throw new RuntimeException( "Illegal chart dimensions: " + chartWidth + ", " + chartHeight );
+        }
         if( this.chartWidth != chartWidth || this.chartHeight != chartHeight ) {
             this.chartWidth = chartWidth;
             this.chartHeight = chartHeight;
