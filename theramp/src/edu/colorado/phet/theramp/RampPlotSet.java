@@ -33,7 +33,7 @@ public class RampPlotSet extends PNode {
     private TimePlotSuitePNode workPlot;
     private TimePlotSuitePNode parallelForcePlot;
     private static final double LAYOUT_X = 30;
-    private int chartWidth = TimePlotSuitePNode.DEFAULT_CHART_WIDTH;
+//    private int chartWidth = TimePlotSuitePNode.DEFAULT_CHART_WIDTH;
 
     public RampPlotSet( RampModule module, RampPanel rampPanel ) {
         this.module = module;
@@ -113,7 +113,7 @@ public class RampPlotSet extends PNode {
         } );
     }
 
-    public void minimizeAll() {
+    public void minimizeAllPlots() {
         energyPlot.setMinimized( true );
         workPlot.setMinimized( true );
         parallelForcePlot.setMinimized( true );
@@ -121,6 +121,10 @@ public class RampPlotSet extends PNode {
 
     public void maximizeForcePlot() {
         parallelForcePlot.setMinimized( false );
+    }
+
+    public double getTopY() {
+        return parallelForcePlot.getTopY();
     }
 
     static class VariablePlotItem implements LayoutSet.VariableLayoutItem {
@@ -167,12 +171,13 @@ public class RampPlotSet extends PNode {
         LayoutSet layoutSet = new LayoutSet();
 
         int availableWidth = (int)getAvailableWidth();
+        if( availableWidth > 0 ) {
 
-        layoutSet.addItem( toPlotLayoutItem( availableWidth, parallelForcePlot ) );
-        layoutSet.addItem( toPlotLayoutItem( availableWidth, energyPlot ) );
-        layoutSet.addItem( toPlotLayoutItem( availableWidth, workPlot ) );
-        layoutSet.layout( getLayoutStartY(), getAvailableHeight() );
-
+            layoutSet.addItem( toPlotLayoutItem( availableWidth, parallelForcePlot ) );
+            layoutSet.addItem( toPlotLayoutItem( availableWidth, energyPlot ) );
+            layoutSet.addItem( toPlotLayoutItem( availableWidth, workPlot ) );
+            layoutSet.layout( getLayoutStartY(), getAvailableHeight() );
+        }
         notifyLayedOutChildren();
     }
 

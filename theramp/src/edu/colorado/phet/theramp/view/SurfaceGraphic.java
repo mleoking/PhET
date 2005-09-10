@@ -122,11 +122,24 @@ public class SurfaceGraphic extends PNode {
         return heightReadoutGraphic;
     }
 
-    private void mouseDragged( PInputEvent pie ) {
-        Point2D pt = pie.getPosition();//e.getPoint();
-        pt = getRampWorld().convertToWorld( pt );
-        Vector2D.Double vec = new Vector2D.Double( getViewOrigin(), pt );
+    private void mouseDragged( PInputEvent pInputEvent ) {
+        Point2D pt = pInputEvent.getCanvasPosition();
+//        Point2D o=getViewOrigin();
+        Point2D o = getViewOrigin();
+        localToGlobal( o );
+        rampPanel.getCamera().globalToLocal( o );
+//        Point2D pt = pInputEvent.getPositionRelativeTo( this );
+////        localToGlobal( pt );
+//        Point2D o = ramp.getOrigin();
+////        localToGlobal( o );
+////        pt = getRampWorld().convertToWorld( pt );
+//        System.out.println( "o = " + o );
+//        System.out.println( "pt = " + pt );
+        Vector2D.Double vec = new Vector2D.Double( o, pt );
+
+        System.out.println( "vec = " + vec );
         double angle = -vec.getAngle();
+        System.out.println( "angle = " + angle );
         angle = MathUtil.clamp( 0, angle, Math.PI / 2.0 );
         ramp.setAngle( angle );
         rampPanel.getRampModule().record();
@@ -203,33 +216,15 @@ public class SurfaceGraphic extends PNode {
         Point2D modelDst = ramp.getEndPoint();
         Point viewDst = screenTransform.modelToView( modelDst );
         viewAngle = Math.atan2( viewDst.y - viewOrigin.y, viewDst.x - viewOrigin.x );
-
-//        Line2D.Double origSurface = new Line2D.Double( viewOrigin, viewDst );
-//        double origLength = new Vector2D.Double( origSurface.getP1(), origSurface.getP2() ).getMagnitude();
-//        Line2D line = RampUtil.getInstanceForLength( origSurface, origLength * 4 );
-//        surfaceGraphic.setShape( line );
-
-//        surfaceGraphic.setAutorepaint( false );
         surfaceGraphic.setOffset( getViewOrigin() );
-//        surfaceGraphic.setTransform( new AffineTransform() );
         surfaceGraphic.setRotation( viewAngle );
-//        double rampLength = 10;//meters
-//        ramp.getLocation( 10);
-//        getViewLocation( ramp.getLocation( rampLength ) );
 
         //todo scale the graphic to fit the length.
         double cur_im_width_model = screenTransform.viewToModelDifferentialX( surfaceGraphic.getImage().getWidth( null ) );
 
         surfaceGraphic.setScale( ramp.getLength() / cur_im_width_model );
-//        System.out.println( "surfaceGraphic.getGlobalFullBounds() = " + surfaceGraphic.getGlobalFullBounds() );
-//        surfaceGraphic.setAutorepaint( true );
-//        surfaceGraphic.repaint();
-
         Point p2 = new Point( viewDst.x, viewOrigin.y );
         Line2D.Double floor = new Line2D.Double( viewOrigin, p2 );
-//        floorGraphic.setPathTo( null );//todo what's the floor graphic?
-
-//        GeneralPath jackShape = createJackLine();
         Rectangle jackShape = createJackArea();
         if( lastJackShape == null || !jackShape.equals( lastJackShape ) ) {
             bookStackGraphic.setPathTo( jackShape );

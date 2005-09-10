@@ -180,20 +180,37 @@ public class RampPanel extends PhetPCanvas {
         if( !recursing ) {
             recursing = true;
             //todo is this running continuously?
-//            System.out.println( System.currentTimeMillis() + ": RampPanel.relayoutChildren" );
-
-            appliedForceControl.setOffset( rampPlotSet.getFullBounds().getX(),
-                                           rampPlotSet.getFullBounds().getY() - appliedForceControl.getFullBounds().getHeight() );
-            double y = rampPlotSet.getFullBounds().getY() - goPauseClear.getFullBounds().getHeight();
+            System.out.println( System.currentTimeMillis() + ": RampPanel.relayoutChildren" );
+            double yOrig = rampPlotSet.getFullBounds().getY() - goPauseClear.getFullBounds().getHeight() - 2;
+//            System.out.println( "yOrig = " + yOrig );
+            double y = getChartTopY() - goPauseClear.getFullBounds().getHeight() - 2;
+//            System.out.println( "y = " + y );
+            if( y <= 0 ) {
+                y = yOrig;
+                System.out.println( "Reverting to orig bar y" );
+            }
+            else {
+//                System.out.println( "Using new value" );
+            }
+//            y=yOrig;
+            appliedForceControl.setOffset( rampPlotSet.getFullBounds().getX(), y );
             goPauseClear.setOffset( appliedForceControl.getFullBounds().getMaxX() + 2, y );
+            barGraphSuite.setOffset( getWidth() - barGraphSuite.getFullBounds().getWidth() - 5, y - 5 );
+            double maxY = ( getHeight() - barGraphSuite.getOffset().getY() ) * 0.8;
+            try {
+                barGraphSuite.setBarChartHeight( maxY );
+            }
+            catch( RuntimeException r ) {
+                r.printStackTrace();//todo sometimes fails drawing arrow.
+            }
 
-            double maxX = getWidth() - barGraphSuite.getFullBounds().getWidth();
-            barGraphSuite.setOffset( maxX - 5, y - 5 );
-
-//            barGraphSuite.setMaxY();
             rampPlotSet.layoutChildren();
             recursing = false;
         }
+    }
+
+    private double getChartTopY() {
+        return rampPlotSet.getTopY();
     }
 
     protected void addWiggleMe() {
@@ -322,16 +339,16 @@ public class RampPanel extends PhetPCanvas {
     }
 
     public void setEnergyBarsVisible( boolean selected ) {
-        barGraphSuite.setEnergyBarsVisible( selected );
+        barGraphSuite.setEnergyBarsMaximized( selected );
     }
 
     public void setWorkBarsVisible( boolean selected ) {
-        barGraphSuite.setWorkBarsVisible( selected );
+        barGraphSuite.setWorkBarsMaximized( selected );
     }
 
     public void setAllBarsMinimized( boolean visible ) {
-        setEnergyBarsVisible( visible );
-        setWorkBarsVisible( visible );
+        setEnergyBarsVisible( !visible );
+        setWorkBarsVisible( !visible );
     }
 
     public void reset() {

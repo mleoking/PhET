@@ -31,7 +31,7 @@ public class RampFontSet {
         timeReadoutFont = new LucidaSansFont( 14, true );
         speedReadoutFont = timeReadoutFont;
         forceArrowLabelFont = new LucidaSansFont( 12, true );
-        barFont = new LucidaSansFont( 16, true );
+        barFont = new LucidaSansFont( 12, true );
     }
 
     public Font getNormalButtonFont() {
