@@ -1,7 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.view;
 
-import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.components.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -26,7 +25,7 @@ public class GoPauseClearPanel extends HorizontalLayoutPanel {
     private TimeSeriesModel module;
 
     private JButton goPauseButton;
-    private JButton resetButton;
+    private JButton clearButton;
     private boolean itsAGoButton = true;
     private ImageIcon goIcon;
     private ImageIcon pauseIcon;
@@ -65,8 +64,10 @@ public class GoPauseClearPanel extends HorizontalLayoutPanel {
                 }
             }
         } );
-        resetButton = new ControlButton( SimStrings.get( "Clear" ) );
-        resetButton.addActionListener( new ActionListener() {
+        clearButton = new ControlButton( SimStrings.get( "Clear" ) );
+        clearButton.setBackground( EarthGraphic.earthGreen );
+        setBackground( EarthGraphic.earthGreen );
+        clearButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.confirmAndApplyReset();
             }
@@ -93,7 +94,7 @@ public class GoPauseClearPanel extends HorizontalLayoutPanel {
             }
         } );
         add( goPauseButton );
-        add( resetButton );
+        add( clearButton );
         setButtons( true, false, false );
     }
 
@@ -118,7 +119,7 @@ public class GoPauseClearPanel extends HorizontalLayoutPanel {
             itsAGoButton = true;
         }
 
-        resetButton.setEnabled( reset );
+        clearButton.setEnabled( reset );
         repaintComponents();
     }
 
@@ -128,8 +129,8 @@ public class GoPauseClearPanel extends HorizontalLayoutPanel {
         super.doLayout();
         super.repaint();
         goPauseButton.repaint();
-        resetButton.repaint();
-        resetButton.repaint( 0, 0, resetButton.getWidth(), resetButton.getHeight() );
+        clearButton.repaint();
+        clearButton.repaint( 0, 0, clearButton.getWidth(), clearButton.getHeight() );
         if( module instanceof RampTimeSeriesModel ) {
             RampTimeSeriesModel rampTimeSeriesModel = (RampTimeSeriesModel)module;
             if( rampTimeSeriesModel.getRampModule() != null && rampTimeSeriesModel.getRampModule().getRampPanel() != null ) {
@@ -141,7 +142,7 @@ public class GoPauseClearPanel extends HorizontalLayoutPanel {
 
     private void repaintComponents() {
         goPauseButton.repaint();
-        resetButton.repaint();
+        clearButton.repaint();
         repaint();
     }
 
@@ -156,6 +157,7 @@ public class GoPauseClearPanel extends HorizontalLayoutPanel {
         public ControlButton( String text ) {
             super( text );
             setFont( font );
+            setBackground( EarthGraphic.earthGreen );
         }
     }
 

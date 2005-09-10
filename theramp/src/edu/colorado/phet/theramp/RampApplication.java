@@ -42,6 +42,7 @@ public class RampApplication extends PhetApplication {
             SwingUtilities.invokeAndWait( new Runnable() {
                 public void run() {
                     PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
+//                    phetLookAndFeel.setBackgroundColor( EarthGraphic.earthGreen );
                     phetLookAndFeel.apply();
                     PhetLookAndFeel.setLookAndFeel();//todo this misses the better l&f in 1.5
                     SwingTimerClock clock = new SwingTimerClock( 1.0 / 30.0, 30 );
