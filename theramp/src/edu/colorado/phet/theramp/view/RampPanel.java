@@ -12,6 +12,7 @@ import edu.colorado.phet.theramp.RampPlotSet;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.view.bars.BarGraphSuite;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -34,10 +35,7 @@ public class RampPanel extends PhetPCanvas {
     private RampWorld rampWorld;
     private RampPlotSet rampPlotSet;
 
-//    private static final Dimension ORIG_RENDER_SIZE = new Dimension( 1061, 871 );
-//    private static final Dimension ORIG_RENDER_SIZE = new Dimension( 1061, 871 );
-//    private static final Dimension ORIG_RENDER_SIZE = new Dimension( 1032, 686 );
-    private static final Dimension ORIG_RENDER_SIZE = new Dimension( 786, 562 );
+    private static final Dimension ORIG_RENDER_SIZE = new Dimension( 1042, 818 );
     public final PNode appliedForceControl;
     public final PNode goPauseClear;
     private boolean recursing = false;
@@ -51,7 +49,6 @@ public class RampPanel extends PhetPCanvas {
     }
 
     public RampPanel( RampModule module ) {
-        super();
         setRenderingSize( getDefaultRenderingSize() );
         addMouseListener( new MouseListener() {
             public void mouseClicked( MouseEvent e ) {
@@ -72,19 +69,17 @@ public class RampPanel extends PhetPCanvas {
         } );
         this.module = module;
         rampLookAndFeel = new RampLookAndFeel();
-//        setBackground( new Color( 240, 200, 255 ) );
-
         rampWorld = new RampWorld( module, this );
-//        double rampWorldScale = 1.0;
-        double rampWorldScale = 0.7;
+
+        double rampWorldScale = 0.96;
         rampWorld.scale( rampWorldScale );
-        rampWorld.translate( 0, -50 );
+        rampWorld.translate( 0, -100 );
         addChild( rampWorld );
 
         barGraphSuite = new BarGraphSuite( this, module.getRampPhysicalModel() );
-//        barGraphSuite.scale( 0.80 );
         barGraphSuite.setOffset( getDefaultRenderingSize().width - barGraphSuite.getFullBounds().getWidth() - 20, barGraphSuite.getY() + 20 );
-        addChild( new OverheatButton( this, module.getRampPhysicalModel(), barGraphSuite.getMaxDisplayableEnergy(), module ) );
+        getCamera().addChild( barGraphSuite );
+
         getRampModule().getRampPhysicalModel().addListener( new RampPhysicalModel.Listener() {
             public void appliedForceChanged() {
             }
@@ -103,8 +98,7 @@ public class RampPanel extends PhetPCanvas {
             }
         } );
 
-
-        addChild( barGraphSuite );
+        addChild( new OverheatButton( this, module.getRampPhysicalModel(), barGraphSuite.getMaxDisplayableEnergy(), module ) );
 
         timeGraphic = new TimeGraphic( module.getTimeSeriesModel() );
         timeGraphic.setOffset( 60, 60 );
@@ -125,8 +119,6 @@ public class RampPanel extends PhetPCanvas {
 
         addMouseListener( new UserAddingEnergyHandler( module ) );
 
-//        setPanEventHandler();
-
         addInputEventListener( getZoomEventHandler() );
 
 //        addInputEventListener( getPanEventHandler() );
@@ -145,9 +137,8 @@ public class RampPanel extends PhetPCanvas {
 //viewOffset = Point2D.Double[23.0, -21.0]
         //then set them here.
 //        getCamera().setViewScale( 0.969001148105626 );
-        getCamera().setViewScale( 1.0 );
-        getCamera().setViewOffset( 23.0, -21.0 );
-
+//        getCamera().setViewScale( 1.0 );
+//        getCamera().setViewOffset( 23.0, -21.0 );
 
         getLayer().setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
 
@@ -162,39 +153,45 @@ public class RampPanel extends PhetPCanvas {
 
         rampPlotSet = new RampPlotSet( module, this );
         getCamera().addChild( rampPlotSet );
-//        addChild( rampPlotSet );
-
-//        PNode appliedForceControl = new AppliedForceControl( module, this );
-//        PNode appliedForceControl = new StickyPNode( new AppliedForceControl( module, this ));
-
-//        PNode goPauseClear = new PSwing( this, new GoPauseClearPanel( module.getTimeSeriesModel() ) );
-//        PNode goPauseClear = new StickyPNode( new PSwing( this, new GoPauseClearPanel( module.getTimeSeriesModel() ) ) );
-
-
         appliedForceControl = new AppliedForceSimpleControl( module, this );
         getCamera().addChild( appliedForceControl );
 
         goPauseClear = new PSwing( this, new GoPauseClearPanel( module.getTimeSeriesModel() ) );
         getCamera().addChild( goPauseClear );
 
-        relayoutChildren();
+        layoutChildren();
         rampPlotSet.addListener( new RampPlotSet.Listener() {
             public void layoutChanged() {
-                relayoutChildren();
+                layoutChildren();
             }
         } );
+//
+//        new Timer( 30, new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                System.out.println( "getSize( ) = " + getSize() );
+//            }
+//        } ).start();
+        setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
+        setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
+//        setZoomEventHandler( );
     }
 
-    private void relayoutChildren() {
+    private void layoutChildren() {
         if( !recursing ) {
             recursing = true;
             //todo is this running continuously?
-            System.out.println( System.currentTimeMillis() + ": RampPanel.relayoutChildren" );
+//            System.out.println( System.currentTimeMillis() + ": RampPanel.relayoutChildren" );
 
             appliedForceControl.setOffset( rampPlotSet.getFullBounds().getX(),
                                            rampPlotSet.getFullBounds().getY() - appliedForceControl.getFullBounds().getHeight() );
-            goPauseClear.setOffset( appliedForceControl.getFullBounds().getMaxX() + 2,
-                                    rampPlotSet.getFullBounds().getY() - goPauseClear.getFullBounds().getHeight() );
+            double y = rampPlotSet.getFullBounds().getY() - goPauseClear.getFullBounds().getHeight();
+            goPauseClear.setOffset( appliedForceControl.getFullBounds().getMaxX() + 2, y );
+
+            double maxX = getWidth() - barGraphSuite.getFullBounds().getWidth();
+            barGraphSuite.setOffset( maxX - 5, y - 5 );
+
+//            barGraphSuite.setMaxY();
+            rampPlotSet.layoutChildren();
             recursing = false;
         }
     }
@@ -203,7 +200,8 @@ public class RampPanel extends PhetPCanvas {
         final WiggleMe wiggleMe = new WiggleMe( "<html>Apply a Force<br>" +
                                                 "to the Filing Cabinet</html>",
                                                 (int)( ORIG_RENDER_SIZE.getWidth() / 2 - 50 ), 350 );
-        final ConnectorGraphic connectorGraphic = new ArrowConnectorGraphic( wiggleMe, getBlockGraphic().getObjectGraphic() );
+        final ConnectorGraphic connectorGraphic = new ArrowConnectorGraphic( getCamera(), wiggleMe, getBlockGraphic().getObjectGraphic() );
+//        final ConnectorGraphic connectorGraphic = new ConnectorGraphic( getCamera(), wiggleMe, getBlockGraphic().getObjectGraphic() );
 //        getLayer().getRoot().addActivity( connectorGraphic.getConnectActivity() );
         connectorGraphic.setStroke( new BasicStroke( 2, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 2 ) );//, new float[]{10, 5}, 0 ) );
         connectorGraphic.setPaint( new GradientPaint( 0, 0, Color.red, 1000, 0, Color.blue, false ) );
@@ -219,17 +217,15 @@ public class RampPanel extends PhetPCanvas {
         getCamera().addChild( connectorGraphic );
         getCamera().addChild( wiggleMe );
         wiggleMe.ensureActivityCorrect();
-        addMouseListener( new MouseAdapter() {
+        MouseAdapter wiggleMeDisappears = new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 wiggleMe.setVisible( false );
                 getCamera().removeChild( wiggleMe );
                 getCamera().removeChild( connectorGraphic );
-//                getLayer().removeChild( wiggleMe );
-//                getLayer().getRoot().getActivityScheduler().removeActivity( connectorGraphic.getConnectActivity() );
-//                getLayer().removeChild( connectorGraphic );
                 removeMouseListener( this );
             }
-        } );
+        };
+        addMouseListener( wiggleMeDisappears );
     }
 
     private void updateArrowSetGraphics() {
@@ -352,5 +348,20 @@ public class RampPanel extends PhetPCanvas {
 
     public void maximizeForcePlot() {
         rampPlotSet.maximizeForcePlot();
+    }
+
+    public double getChartLayoutMaxX() {
+        int insetX = 3;
+        if( barGraphSuite.areBothMinimized() ) {
+            return getSize().width - insetX;
+        }
+        else {
+            return barGraphSuite.getFullBounds().getX() - insetX;
+//            return getSize().width / 2;
+        }
+    }
+
+    public void relayoutPiccolo() {
+        layoutChildren();
     }
 }

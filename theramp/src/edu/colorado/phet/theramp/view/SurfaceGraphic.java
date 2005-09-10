@@ -56,7 +56,7 @@ public class SurfaceGraphic extends PNode {
 
         Stroke stroke = new BasicStroke( 6.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
         try {
-            surfaceGraphic = new PImage( loadRampImage());
+            surfaceGraphic = new PImage( loadRampImage() );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -112,12 +112,10 @@ public class SurfaceGraphic extends PNode {
                 updateRamp();
             }
         } );
-
-
     }
 
     private BufferedImage loadRampImage() throws IOException {
-        return ImageLoader.loadBufferedImage( "images/wood5.png" ) ;
+        return ImageLoader.loadBufferedImage( "images/wood5.png" );
     }
 
     public PText getHeightReadoutGraphic() {
@@ -167,7 +165,7 @@ public class SurfaceGraphic extends PNode {
     }
 
     public void paintRed() {
-        surfaceGraphic.setImage( new MakeDuotoneImageOp( new Color( 255,0,0,32) ).filter( (BufferedImage)surfaceGraphic.getImage(), null));
+        surfaceGraphic.setImage( new MakeDuotoneImageOp( new Color( 255, 0, 0, 32 ) ).filter( (BufferedImage)surfaceGraphic.getImage(), null ) );
     }
 
     public void restoreOriginalImage() {

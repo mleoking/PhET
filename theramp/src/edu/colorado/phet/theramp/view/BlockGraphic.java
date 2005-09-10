@@ -118,7 +118,7 @@ public class BlockGraphic extends PNode {
                 updateBlock();
             }
         } );
-
+        imageGraphic.setPaint( Color.black );
     }
 
     public void updateBlock() {

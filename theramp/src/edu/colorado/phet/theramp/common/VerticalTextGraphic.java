@@ -32,7 +32,12 @@ public class VerticalTextGraphic extends PNode {
 //        PhetOutlineTextGraphic phetTextGraphic = new PhetOutlineTextGraphic( component, font, text, color, new BasicStroke( 1 ), outline );
 
         double h = phetTextGraphic.getFullBounds().getHeight();
-        phetTextGraphic.translate( -h / 2 + 4, -10 );
+        System.out.println( "h = " + h );
+//        phetTextGraphic.translate( -h / 2 + 4, -10 );
+//        phetTextGraphic.translate( -h/2+8, -10 );
+        phetTextGraphic.translate( -3, -10 );
+//        phetTextGraphic.translate( -h / 2 + 4, -50);
+//        phetTextGraphic.translate( -h / 2 + 4, -13 );
         phetTextGraphic.rotate( -Math.PI / 2 );
 
         addChild( phetTextGraphic );

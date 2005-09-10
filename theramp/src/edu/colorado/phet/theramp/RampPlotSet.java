@@ -32,16 +32,12 @@ public class RampPlotSet extends PNode {
     private TimePlotSuitePNode energyPlot;
     private TimePlotSuitePNode workPlot;
     private TimePlotSuitePNode parallelForcePlot;
-//    private int availableHeight = 260;
-//    private int availableHeight = 400;
     private static final double LAYOUT_X = 30;
-//    private int availableHeight = 300;
+    private int chartWidth = TimePlotSuitePNode.DEFAULT_CHART_WIDTH;
 
     public RampPlotSet( RampModule module, RampPanel rampPanel ) {
         this.module = module;
         this.rampPanel = rampPanel;
-
-//        plotY = 440;
         int plotY = 400;
         int plotHeight = 80;
         int plotInset = 2;
@@ -129,9 +125,11 @@ public class RampPlotSet extends PNode {
 
     static class VariablePlotItem implements LayoutSet.VariableLayoutItem {
         private TimePlotSuitePNode plot;
+        private int width;
 
-        public VariablePlotItem( TimePlotSuitePNode plot ) {
+        public VariablePlotItem( TimePlotSuitePNode plot, int width ) {
             this.plot = plot;
+            this.width = width;
         }
 
         public void setOffset( double offset ) {
@@ -139,7 +137,7 @@ public class RampPlotSet extends PNode {
         }
 
         public void setSize( double size ) {
-            plot.setChartSize( TimePlotSuitePNode.DEFAULT_CHART_WIDTH, (int)size );
+            plot.setChartSize( width, (int)size );
         }
 
         public void setVisible( boolean b ) {
@@ -164,25 +162,17 @@ public class RampPlotSet extends PNode {
         }
     }
 
-    protected void layoutChildren() {
-
-
+    public void layoutChildren() {
         super.layoutChildren();
         LayoutSet layoutSet = new LayoutSet();
 
-        layoutSet.addItem( toPlotLayoutItem( parallelForcePlot ) );
-        layoutSet.addItem( toPlotLayoutItem( energyPlot ) );
-        layoutSet.addItem( toPlotLayoutItem( workPlot ) );
-        layoutSet.layout( getLayoutStartY(), getAvailableHeight() );
-//        LayoutUtil layoutUtil = new LayoutUtil();
-//        layoutUtil.layout( new LayoutUtil.LayoutItem[]{} );
-//        energyPlot.setOffset( 0, plotY );
-//        workPlot.setOffset( 0, energyPlot.getOffset().getY() + energyPlot.getVisibleHeight() );
+        int availableWidth = (int)getAvailableWidth();
 
-//        if( energyPlot.isMinimized() && workPlot.isMinimized() ) {
-//            energyPlot.setOffset( 0, plotY );
-//            workPlot.setOffset( 0, energyPlot.getFullBounds().getY() + energyPlot.getButtonHeight() );
-//        }
+        layoutSet.addItem( toPlotLayoutItem( availableWidth, parallelForcePlot ) );
+        layoutSet.addItem( toPlotLayoutItem( availableWidth, energyPlot ) );
+        layoutSet.addItem( toPlotLayoutItem( availableWidth, workPlot ) );
+        layoutSet.layout( getLayoutStartY(), getAvailableHeight() );
+
         notifyLayedOutChildren();
     }
 
@@ -214,56 +204,32 @@ public class RampPlotSet extends PNode {
         return rampPanel.getSize().height - getLayoutStartY();
     }
 
-    //Todo; This was super tricky to figure out.   I'll email the chat list.
-    private double getLayoutStartY() {
-//        Point2D point = rampPanel.getRampWorld().getBlockGraphic().getGlobalFullBounds().getOrigin();
-        Point2D point = rampPanel.getRampWorld().getEarthGraphic().getGlobalFullBounds().getOrigin();
-        System.out.println( "point = " + point );
-        rampPanel.getCamera().globalToLocal( point );
-        System.out.println( "camera local: point = " + point );
-        rampPanel.getCamera().getViewTransform().transform( point, point );
-//        rampPanel.getCamera().localToView( point );
-//        System.out.println( "in view coordinates: " + point );
-////        try {
-////        PBounds groundBounds = rampPanel.getRampWorld().getPotentialEnergyZeroGraphic().getGlobalFullBounds();
-////            rampPanel.getCamera().globalToLocal( groundBounds );
-////        rampPanel.getCamera().parentToLocal( point );
-////            groundBounds = rampPanel.getCamera().getViewTransform().createTransformedShape( groundBounds ).getBounds2D();
-//        PNode myNode = new PNode();
-//        PCanvas pCanvas = new PCanvas();
-////        Point2D p = myNode.getGlobalFullBounds().getOrigin();
-////        pCanvas.getCamera().globalToLocal( p );
-////        pCanvas.getCamera().localToView( p );
-//
-//        Point2D p = myNode.getGlobalFullBounds().getOrigin();
-//        pCanvas.getCamera().globalToLocal( p );
-//        pCanvas.getCamera().getViewTransform().transform( p,p);
-
-        double offsetFromRamp = 100;
-        return point.getY() + offsetFromRamp;
-//        }
-//        catch( Exception e ) {
-//            e.printStackTrace( );
-//            return 0;
-//        }
+    private double getAvailableWidth() {
+        return rampPanel.getChartLayoutMaxX() - LAYOUT_X;
+//        return rampPanel.getSize().width / 2;
+//        return TimePlotSuitePNode.DEFAULT_CHART_WIDTH;
     }
 
-    private LayoutSet.LayoutItem toPlotLayoutItem( TimePlotSuitePNode plot ) {
+    //Todo; This was super tricky to figure out.   I'll email the chat list.
+    //TODO: Just thought I'd mention it twice.
+    private double getLayoutStartY() {
+        Point2D point = rampPanel.getRampWorld().getEarthGraphic().getGlobalFullBounds().getOrigin();
+        rampPanel.getCamera().getViewTransform().transform( point, point );
+        return point.getY() + 80;
+    }
+
+    private LayoutSet.LayoutItem toPlotLayoutItem( int width, TimePlotSuitePNode plot ) {
         if( plot.isMinimized() ) {
             return new FixedPlotItem( plot );
         }
         else {
-            return new VariablePlotItem( plot );
+            return new VariablePlotItem( plot, width );
         }
     }
 
     public void repaintBackground() {
         energyPlot.repaintAll();
         workPlot.repaintAll();
-//        for( int i = 0; i < dataUnits.size(); i++ ) {
-//            DataUnit dataUnit = (DataUnit)dataUnits.get( i );
-//            dataUnit.repaintBackground();
-//        }
     }
 
     public int numDataUnits() {

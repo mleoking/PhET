@@ -16,5 +16,7 @@ public class FloorGraphic extends SurfaceGraphic {
         getSurfaceGraphic().setVisible( false );
         getAngleGraphic().setVisible( false );
         getHeightReadoutGraphic().setVisible( false );
+        setPickable( false );
+        setChildrenPickable( false );
     }
 }

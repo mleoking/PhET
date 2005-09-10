@@ -37,20 +37,7 @@ public class BarGraphSuite extends PNode {
         addChild( energyBarGraphSet );
 
         energyBarGraphSet.translate( workBarGraphSet.getFullBounds().getWidth() + 0, 0 );
-//        setPickable( false );
-//        setChildrenPickable( false );
-
-
-//        PBoundsHandle.addStickyBoundsHandlesTo( this ,rampPanel.getCamera() );
     }
-
-//    public void setLocation( Point p ) {
-//        super.setOffset( p );
-//    }
-//
-//    public void setLocation( int x, int y ) {
-//        super.setOffset( x, y );
-//    }
 
     private Paint toEnergyPaint( Color color ) {
         int imageSize = 10;
@@ -76,7 +63,19 @@ public class BarGraphSuite extends PNode {
         workBarGraphSet.setMinimized( !selected );
     }
 
+    public boolean getEnergyBarsVisible() {
+        return !energyBarGraphSet.isMinimized();
+    }
+
+    public boolean getWorkBarsVisible() {
+        return !workBarGraphSet.isMinimized();
+    }
+
     public double getMaxDisplayableEnergy() {
         return energyBarGraphSet.getMaxDisplayableEnergy();
+    }
+
+    public boolean areBothMinimized() {
+        return ( !getWorkBarsVisible() ) && ( !getEnergyBarsVisible() );
     }
 }
