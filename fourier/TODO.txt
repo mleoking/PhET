@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- merge ClockPauseHandler functionality into Module
 - replace D2C width tools with static graphics that indicate widths (red, double arrows)
 - change D2C "Show continuous waveform" to "Show k-space envelope"
 - add D2C "Show x-space envelope" control
