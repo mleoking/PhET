@@ -57,7 +57,7 @@ public abstract class FourierModule extends Module {
         super( title, clock );
 
         // Handle redrawing while the clock is paused.
-//        clock.addClockStateListener( new ClockPausedHandler( this ) );
+        clock.addClockStateListener( new ClockPausedHandler( this ) );
     }
 
     //----------------------------------------------------------------------------

@@ -11,8 +11,10 @@
 
 package edu.colorado.phet.fourier.module;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Timer;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.ClockStateEvent;
@@ -27,74 +29,52 @@ import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ClockPausedHandler implements ClockStateListener {
+public class ClockPausedHandler implements ClockStateListener, ActionListener {
 
-    private static long DEFAULT_DELAY = 0; // milliseconds
-    private static long DEFAULT_PERIOD = 500; // milliseconds
+    private static int DEFAULT_DELAY = 250; // milliseconds
     
     private Module _module;
-    private long _period;
     private Timer _timer;
-    private boolean _isRunning;
     
     /**
-     * Creates a ClockPausedHandler with a default period (500 ms).
+     * Creates a ClockPausedHandler with a default delay (500 ms).
      * 
      * @param module
      */
     public ClockPausedHandler( Module module ) {
-        this( module, DEFAULT_PERIOD );
+        this( module, DEFAULT_DELAY );
     }
     
     /**
-     * Creates a ClockPausedHandler with a specific period.
+     * Creates a ClockPausedHandler with a specific delay.
      * 
      * @param module
-     * @param period the period, in milliseconds
+     * @param delay the delay, in milliseconds
      */
-    public ClockPausedHandler( Module module, long period ) {
+    public ClockPausedHandler( Module module, int delay ) {
         _module = module;
-        _period = period;
-        _timer = null;
-        _isRunning = false;
+        _timer = new Timer( delay, this );
     }
     
     /**
-     * ClockStateListener implementation, called whenever the
-     * state of the clock changes.
+     * ClockStateListener implementation.
+     * Starts and stops the timer when the state of the clock changes.
      */
     public void stateChanged( ClockStateEvent event ) {
         if ( event.getIsPaused() ) {
-            startTimer();
+            _timer.start();
         }
         else {
-            stopTimer();
+            _timer.stop();
         }
     }
     
-    /*
-     * Starts a timer that periodically refreshes the apparatus panel and PhetJComponents.
+    /**
+     * ActionListener implementation.
+     * Redraws the apparatus panel and PhetJComponent each time the timer goes off.
      */
-    private void startTimer() {
-        TimerTask task = new TimerTask() {
-            public void run() {
-                PhetJComponent.getRepaintManager().updateGraphics();
-                _module.getApparatusPanel().paint();
-            }
-        };
-        _timer = new Timer();
-        _timer.schedule( task, DEFAULT_DELAY, _period );
-        _isRunning = true;
-    }
-    
-    /*
-     * Stops the timer.
-     */
-    private void stopTimer() {
-        if ( _timer != null ) {
-            _timer.cancel();
-            _timer = null;
-        }
-        _isRunning = false;
+    public void actionPerformed( ActionEvent event ) {
+        PhetJComponent.getRepaintManager().updateGraphics();
+        _module.getApparatusPanel().paint();
     }
 }
