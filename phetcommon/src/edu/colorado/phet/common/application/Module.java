@@ -45,6 +45,7 @@ public class Module implements ClockTickListener {
     private AbstractClock clock;
     HelpManager helpManager;
     private boolean helpEnabled;
+    private boolean isActive;
 
     /**
      * @param name
@@ -56,6 +57,9 @@ public class Module implements ClockTickListener {
         SimStrings.setStrings( "localization/CommonStrings" );
         helpManager = new HelpManager();
         helpEnabled = false;
+        
+        // Handle redrawing while the clock is paused.
+        clock.addClockStateListener( new ClockPausedHandler( this ) );
     }
 
     /**
@@ -150,6 +154,7 @@ public class Module implements ClockTickListener {
         app.getPhetFrame().getBasicPhetPanel().setControlPanel( this.getControlPanel() );
         app.getPhetFrame().getBasicPhetPanel().setMonitorPanel( this.getMonitorPanel() );
         app.addClockTickListener( this );
+        isActive = true;
     }
 
     /**
@@ -160,6 +165,16 @@ public class Module implements ClockTickListener {
      */
     public void deactivate( PhetApplication app ) {
         app.removeClockTickListener( this );
+        isActive = false;
+    }
+    
+    /**
+     * Is this module active?
+     * 
+     * @return true or false
+     */
+    public boolean isActive() {
+        return isActive;
     }
 
     public boolean moduleIsWellFormed() {
