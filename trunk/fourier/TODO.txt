@@ -5,11 +5,9 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- change default math form to "Frequency" in time domain
 - replace D2C width tools with static graphics that indicate widths (red, double arrows)
 - change D2C "Show continuous waveform" to "Show k-space envelope"
 - add D2C "Show x-space envelope" control
-- add actual numbers to the x-axis of Discrete harmonics and sum graphs when math mode is off (no!)
 - make Discrete amplitude sliders 50% narrower (no!)
 - add ability to show multiple wavelength/period tools in Discrete module (no!)
 - add equations for Gaussian wave packet above D2C amplitudes graph (no!)
@@ -74,7 +72,10 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
-(9/12) - move ClockPausedHandler to phetcommon, integrate into Module
+(9/12) - set the Discrete x-axis titles to "x (mm)" and "t (ms)"
+(9/12) - label the x-axis of Discrete harmonics and sum graphs with numbers when math mode is off (L=1, T=1)
+(9/12) - change default math form to "Frequency" in time domain
+(9/12) - phetcommon: move ClockPausedHandler to phetcommon, integrate into Module
 (9/12) - rewrite ClockPausedHandler to use javax.swing.Timer, to avoid sync problems
 1.0.11 ...
 (9/9) - change dk to sigma-sub-k, dx to sigma-sub-x, dw to sigma-sub-w, and dt to sigma-sub-t

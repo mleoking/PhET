@@ -268,6 +268,7 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
      */
     public void setMathEnabled( boolean enabled ) {
         _mathGraphic.setVisible( enabled );
+        updateLabelsAndLines();
     }
 
     /**
@@ -481,11 +482,11 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
      */
     private void updateLabelsAndLines() {
 
-        // X axis
-        {
+        // X axis labels
+        if ( _mathGraphic.isVisible() ) {
+            // If math mode is enabled, use symbolic labels.
             LabelTable labelTable = null;
             if ( _domain == FourierConstants.DOMAIN_TIME ) {
-                _chartGraphic.setXAxisTitle( MathStrings.C_TIME );
                 if ( _xZoomLevel > -3 ) {
                     labelTable = _chartGraphic.getTimeLabels1();
                 }
@@ -494,7 +495,6 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
                 }
             }
             else { /* DOMAIN_SPACE or DOMAIN_SPACE_AND_TIME */
-                _chartGraphic.setXAxisTitle( MathStrings.C_SPACE );
                 if ( _xZoomLevel > -3 ) {
                     labelTable = _chartGraphic.getSpaceLabels1();
                 }
@@ -503,6 +503,18 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
                 }
             }
             _chartGraphic.getHorizontalTicks().setMajorLabels( labelTable );
+        }
+        else {
+            // If math mode is disabled, use numeric labels.
+            _chartGraphic.getHorizontalTicks().setMajorLabels( null );
+        }
+        
+        // X axis title
+        if ( _domain == FourierConstants.DOMAIN_TIME ) {
+            _chartGraphic.setXAxisTitle( "t (ms)" );
+        }
+        else { /* DOMAIN_SPACE or DOMAIN_SPACE_AND_TIME */
+            _chartGraphic.setXAxisTitle( "x (mm)" );
         }
     }
 

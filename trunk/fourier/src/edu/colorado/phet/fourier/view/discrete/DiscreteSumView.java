@@ -207,7 +207,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
             addGraphic( _verticalZoomControl, CONTROLS_LAYER );
             // Just below the horizontal zoom control.
             _verticalZoomControl.setLocation( _horizontalZoomControl.getX(), 
-                    _horizontalZoomControl.getY() + _horizontalZoomControl.getHeight() + 5 );
+                    _horizontalZoomControl.getY() + _horizontalZoomControl.getHeight() + 45 );
         }
         
         // Auto Scale control
@@ -340,6 +340,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
      */
     public void setMathEnabled( boolean enabled ) {
         _mathGraphic.setVisible( enabled );
+        updateLabelsAndLines();
     }
     
     /**
@@ -584,11 +585,11 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
      */
     private void updateLabelsAndLines() {
 
-        // X axis
-        {
+        // X axis labels
+        if ( _mathGraphic.isVisible() ) {
+            // If math mode is enabled, use symbolic labels.
             LabelTable labelTable = null;
             if ( _domain == FourierConstants.DOMAIN_TIME ) {
-                _chartGraphic.setXAxisTitle( MathStrings.C_TIME );
                 if ( _xZoomLevel > -3 ) {
                     labelTable = _chartGraphic.getTimeLabels1();
                 }
@@ -597,7 +598,6 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
                 }
             }
             else { /* DOMAIN_SPACE or DOMAIN_SPACE_AND_TIME */
-                _chartGraphic.setXAxisTitle( MathStrings.C_SPACE );
                 if ( _xZoomLevel > -3 ) {
                     labelTable = _chartGraphic.getSpaceLabels1();
                 }
@@ -607,8 +607,20 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
             }
             _chartGraphic.getHorizontalTicks().setMajorLabels( labelTable );
         }
+        else {
+            // If math mode is disabled, use numeric labels.
+            _chartGraphic.getHorizontalTicks().setMajorLabels( null );
+        }
         
-        // Y axis
+        // X axis title
+        if ( _domain == FourierConstants.DOMAIN_TIME ) {
+            _chartGraphic.setXAxisTitle( "t (mm)" );
+        }
+        else { /* DOMAIN_SPACE or DOMAIN_SPACE_AND_TIME */
+            _chartGraphic.setXAxisTitle( "x (mm)" );
+        }
+        
+        // Y axis ticks and gridlines
         {
             Range2D range = _chartGraphic.getRange();
             double tickSpacing;
