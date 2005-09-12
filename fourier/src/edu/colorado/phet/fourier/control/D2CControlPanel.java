@@ -82,7 +82,8 @@ public class D2CControlPanel extends FourierControlPanel {
     private FourierComboBox _domainComboBox;
     private WavePacketSpacingSlider _spacingSlider;
     private WavePacketCenterSlider _centerSlider;
-    private JCheckBox _continuousCheckBox;
+    private JCheckBox _amplitudesEnvelopeCheckbox;
+    private JCheckBox _sumEnvelopeCheckbox;
     private WavePacketKWidthSlider _kWidthSlider;
     private WavePacketXWidthSlider _xWidthSlider;
     private FourierComboBox _waveTypeComboBox;
@@ -172,8 +173,9 @@ public class D2CControlPanel extends FourierControlPanel {
                 _waveTypeComboBox = new FourierComboBox( label, _waveTypeChoices );
             }
             
-            // Continuous checkbox
-            _continuousCheckBox = new JCheckBox( SimStrings.get( "D2CControlPanel.continuous" ) );
+            // Envelope checkboxes
+            _amplitudesEnvelopeCheckbox = new JCheckBox( SimStrings.get( "D2CControlPanel.kEnvelope" ) );
+            _sumEnvelopeCheckbox = new JCheckBox( SimStrings.get( "D2CControlPanel.xEnvelope" ) );
             
             // Layout
             EasyGridBagLayout layout = new EasyGridBagLayout( miscPanel );
@@ -181,7 +183,8 @@ public class D2CControlPanel extends FourierControlPanel {
             int row = 0;
             layout.addComponent( _domainComboBox, row++, 0 );
             layout.addComponent( _waveTypeComboBox, row++, 0 );
-            layout.addComponent( _continuousCheckBox, row++, 0 );
+            layout.addComponent( _amplitudesEnvelopeCheckbox, row++, 0 );
+            layout.addComponent( _sumEnvelopeCheckbox, row++, 0 );
         }
        
         // Packet width panel
@@ -228,7 +231,8 @@ public class D2CControlPanel extends FourierControlPanel {
             _listener = new EventListener();
             _domainComboBox.addItemListener( _listener );
             _spacingSlider.addChangeListener( _listener );
-            _continuousCheckBox.addActionListener( _listener );
+            _amplitudesEnvelopeCheckbox.addActionListener( _listener );
+            _sumEnvelopeCheckbox.addActionListener( _listener );
             _centerSlider.addChangeListener( _listener );
             _kWidthSlider.addChangeListener( _listener );
             _xWidthSlider.addChangeListener( _listener );
@@ -238,7 +242,8 @@ public class D2CControlPanel extends FourierControlPanel {
     
     public void reset() {
         
-        _continuousCheckBox.setSelected( _amplitudesGraph.isContinuousEnabled() );
+        _amplitudesEnvelopeCheckbox.setSelected( _amplitudesGraph.isEnvelopeEnabled() );
+        _sumEnvelopeCheckbox.setSelected( _sumGraph.isEnvelopeEnabled() );
         
         _domainComboBox.setSelectedKey( FourierConstants.DOMAIN_TIME );
         handleDomain();
@@ -262,8 +267,11 @@ public class D2CControlPanel extends FourierControlPanel {
         public EventListener() {}
 
         public void actionPerformed( ActionEvent event ) {
-            if ( event.getSource() == _continuousCheckBox ) {
-                handleContinuous();
+            if ( event.getSource() == _amplitudesEnvelopeCheckbox ) {
+                handleAmplitudeEnvelope();
+            }
+            else if ( event.getSource() == _sumEnvelopeCheckbox ) {
+                handleSumEnvelope();
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + event );
@@ -327,12 +335,16 @@ public class D2CControlPanel extends FourierControlPanel {
             _centerSlider.setFormat( SimStrings.get( "WavePacketCenterSlider.format.space" ) );
             _kWidthSlider.setFormat( SimStrings.get( "WavePacketKWidthSlider.format.space" ) );
             _xWidthSlider.setFormat( SimStrings.get( "WavePacketXWidthSlider.format.space" ) );
+            _amplitudesEnvelopeCheckbox.setLabel( SimStrings.get( "D2CControlPanel.kEnvelope" ) );
+            _sumEnvelopeCheckbox.setLabel( SimStrings.get( "D2CControlPanel.xEnvelope" ) );
         }
         else if ( domain == FourierConstants.DOMAIN_TIME ) {
             _spacingSlider.setFormat( SimStrings.get( "WavePacketSpacingSlider.format.time" ) );
             _centerSlider.setFormat( SimStrings.get( "WavePacketCenterSlider.format.time" ) );
             _kWidthSlider.setFormat( SimStrings.get( "WavePacketKWidthSlider.format.time" ) );
-            _xWidthSlider.setFormat( SimStrings.get( "WavePacketXWidthSlider.format.time" ) );   
+            _xWidthSlider.setFormat( SimStrings.get( "WavePacketXWidthSlider.format.time" ) );
+            _amplitudesEnvelopeCheckbox.setLabel( SimStrings.get( "D2CControlPanel.wEnvelope" ) );
+            _sumEnvelopeCheckbox.setLabel( SimStrings.get( "D2CControlPanel.tEnvelope" ) );
         }
     }
     
@@ -346,10 +358,17 @@ public class D2CControlPanel extends FourierControlPanel {
     }
     
     /*
-     * Handles changes to the "continuous" check box.
+     * Handles changes to the k-space envelope check box.
      */
-    private void handleContinuous() {
-        _amplitudesGraph.setContinuousEnabled( _continuousCheckBox.isSelected() );
+    private void handleAmplitudeEnvelope() {
+        _amplitudesGraph.setEnvelopeEnabled( _amplitudesEnvelopeCheckbox.isSelected() );
+    }
+    
+    /*
+     * Handles changes to the x-space envelope check box.
+     */
+    private void handleSumEnvelope() {
+//        _sumGraph.setContinuousEnabled( _xEnvelopeCheckBox.isSelected() );
     }
     
     /*

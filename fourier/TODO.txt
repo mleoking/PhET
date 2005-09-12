@@ -11,8 +11,6 @@ HIGH PRIORITY:
 - make Discrete amplitude sliders 50% narrower (no!)
 - add ability to show multiple wavelength/period tools in Discrete module (no!)
 - add equations for Gaussian wave packet above D2C amplitudes graph (no!)
-- phetcommon: PhetJComponent's dirty components list continues to grow when clock is paused
-- phetcommon: when sim is paused, changes to the control panel don't appear until the cursor moves into the apparatus panel
 - hangs after extended play (~30 minutes)
 - remove the clock controls for the D2C module
 - add sound to Discrete module
@@ -72,6 +70,9 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/12) - add "Show x-space envelope" control (not functional)
+(9/12) - change color of envelope to gray in D2C Ampltidues chart
+(9/12) - rename "Show continuous..." to "Show k-space envelope"
 (9/12) - rename classes/variables/comments/i18n to use more general terminology: dk->kWidth, dx->xWidth, k1->spacing, k0->center
 (9/12) - set the Discrete x-axis titles to "x (mm)" and "t (ms)"
 (9/12) - label the x-axis of Discrete harmonics and sum graphs with numbers when math mode is off (L=1, T=1)
