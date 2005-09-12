@@ -12,8 +12,12 @@
 package edu.colorado.phet.fourier.view.d2c;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 import edu.colorado.phet.chart.Chart;
+import edu.colorado.phet.chart.DataSet;
+import edu.colorado.phet.chart.LinePlot;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
@@ -83,6 +87,11 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
     private static final Color WAVE_PACKET_COLOR = SUM_COLOR;
     private static final double WAVE_PACKET_PIXELS_PER_POINT = SUM_PIXELS_PER_POINT;
     
+    // Envelope waveform
+    private static final double ENVELOPE_STEP = Math.PI / 10; // about one value for every 2 pixels
+    private static final Color ENVELOPE_COLOR = Color.LIGHT_GRAY;
+    private static final Stroke ENVELOPE_STROKE = new BasicStroke( 2f );
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -101,6 +110,8 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
     private FourierSeries _fourierSeries;
     private FourierSumPlot _sumPlot;
     private GaussianWavePacketPlot _wavePacketPlot;
+    private LinePlot _envelopeGraphic;
+    private boolean _envelopeEnabled;
 
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -168,6 +179,12 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
         _wavePacketPlot.setStroke( WAVE_PACKET_STROKE );
         _wavePacketPlot.setStrokeColor( WAVE_PACKET_COLOR );
         
+        // Envelope waveform
+        _envelopeGraphic = new LinePlot( component, _chartGraphic );
+        _envelopeGraphic.setBorderColor( ENVELOPE_COLOR );
+        _envelopeGraphic.setStroke( ENVELOPE_STROKE );
+        _envelopeGraphic.setDataSet( new DataSet() );
+        
         // Close button
         _minimizeButton = new PhetImageGraphic( component, FourierConstants.MINIMIZE_BUTTON_IMAGE );
         addGraphic( _minimizeButton, CONTROLS_LAYER );
@@ -220,6 +237,7 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
      * Resets to the initial state.
      */
     public void reset() {
+        _envelopeEnabled = false;
         setDomain( FourierConstants.DOMAIN_SPACE );
         _waveType = FourierConstants.WAVE_TYPE_SINE;
         _xZoomLevel = 0;
@@ -301,6 +319,32 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
             
             setBoundsDirty();
         }
+    }
+    
+    /**
+     * Turns the continuous waveform display on and off.
+     * 
+     * @param enabled
+     */
+    public void setEnvelopeEnabled( boolean enabled ) {
+        _envelopeEnabled = enabled;
+        if ( enabled ) {
+            updateEnvelope();
+            _chartGraphic.addDataSetGraphic( _envelopeGraphic );
+        }
+        else {
+            _chartGraphic.removeDataSetGraphic( _envelopeGraphic );
+        }
+        refreshChart();
+    }
+    
+    /**
+     * Is the envelope waveform display enabled?
+     * 
+     * @return true or false
+     */
+    public boolean isEnvelopeEnabled() {
+        return _envelopeEnabled;
     }
     
     //----------------------------------------------------------------------------
@@ -426,6 +470,12 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
             addContinuousPlot();
         }
         
+        // Update the envelope waveform display if it's enabled.
+        if ( _envelopeEnabled ) {
+            updateEnvelope();
+            _chartGraphic.addDataSetGraphic( _envelopeGraphic );
+        }
+        
         refreshChart();
     }
     
@@ -480,6 +530,28 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
     }
     
     /*
+     * Populates a LinePlot with a set of points that approximate the envelope waveform.
+     */
+    private void updateEnvelope() {
+        
+//        // Clear the data set.
+//        DataSet dataSet = _envelopeGraphic.getDataSet();
+//        dataSet.clear();
+//
+//        // Get various wave packet parameters that we'll need to compute the amplitude values.
+//        double dk = _wavePacket.getDeltaK();
+//        double k0 = _wavePacket.getK0();
+//        double k1 = _wavePacket.getK1();
+//        
+//        // Compute the points that approximate the waveform.
+//        ArrayList points = new ArrayList(); // array of Point2D
+//        //XXX compute Math.sqrt( F(x,sin)^2 + F(x,cos)^2 )
+//        
+//        // Add the points to the data set.
+//        dataSet.addPoints( (Point2D.Double[]) points.toArray( new Point2D.Double[points.size()] ) );
+    }
+    
+    /*
      * Updates the math equation that appears above the graph.
      */
     private void updateMath() {
@@ -501,6 +573,10 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
         refreshChart();
     }
     
+    /*
+     * Refreshes the chart.
+     * Call this after making any changes to the chart so that it is re-flattened.
+     */
     private void refreshChart() {
         _flattenedChart.flatten();
     }

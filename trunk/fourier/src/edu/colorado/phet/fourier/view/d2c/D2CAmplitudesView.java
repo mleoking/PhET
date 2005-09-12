@@ -71,10 +71,10 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
     private static final int BAR_DARKEST_GRAY = 0; //dark gray
     private static final int BAR_LIGHTEST_GRAY = 230;  // light gray
     
-    // Continuous waveform
-    private static final double CONTINUOUS_STEP = Math.PI / 10; // about one value for every 2 pixels
-    private static final Color CONTINUOUS_COLOR = Color.LIGHT_GRAY;
-    private static final Stroke CONTINUOUS_STROKE = new BasicStroke( 2f );
+    // Envelope waveform
+    private static final double ENVELOPE_STEP = Math.PI / 10; // about one value for every 2 pixels
+    private static final Color ENVELOPE_COLOR = Color.LIGHT_GRAY;
+    private static final Stroke ENVELOPE_STROKE = new BasicStroke( 2f );
     
     // Math equation
     private static final Font MATH_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 20 );
@@ -87,8 +87,8 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
     private GaussianWavePacket _wavePacket;
     private D2CAmplitudesChart _chartGraphic;
     private FlattenedChart _flattenedChart;
-    private LinePlot _continuousWaveformGraphic;
-    private boolean _continuousEnabled;
+    private LinePlot _envelopeGraphic;
+    private boolean _envelopeEnabled;
     private ClosedPathPlot _gradientPlot;
     private HTMLGraphic _mathGraphic;
     private int _domain;
@@ -150,11 +150,11 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
         GradientPaint gradient = new GradientPaint( 0, 0, darkestColor, CHART_SIZE.width, 0, lightestColor );
         _gradientPlot = new ClosedPathPlot( getComponent(), _chartGraphic, gradient );
         
-        // Continuous waveform
-        _continuousWaveformGraphic = new LinePlot( component, _chartGraphic );
-        _continuousWaveformGraphic.setBorderColor( CONTINUOUS_COLOR );
-        _continuousWaveformGraphic.setStroke( CONTINUOUS_STROKE );
-        _continuousWaveformGraphic.setDataSet( new DataSet() );
+        // Envelope waveform
+        _envelopeGraphic = new LinePlot( component, _chartGraphic );
+        _envelopeGraphic.setBorderColor( ENVELOPE_COLOR );
+        _envelopeGraphic.setStroke( ENVELOPE_STROKE );
+        _envelopeGraphic.setDataSet( new DataSet() );
         
         // Math equation
         {
@@ -182,7 +182,7 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
      * Resets to the initial state.
      */
     public void reset() {
-        _continuousEnabled = false;
+        _envelopeEnabled = false;
         setDomain( FourierConstants.DOMAIN_SPACE );
         update();
     }
@@ -214,29 +214,29 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
     }
     
     /**
-     * Turns the continuous waveform display on and off.
+     * Turns the envelope waveform display on and off.
      * 
      * @param enabled
      */
-    public void setContinuousEnabled( boolean enabled ) {
-        _continuousEnabled = enabled;
+    public void setEnvelopeEnabled( boolean enabled ) {
+        _envelopeEnabled = enabled;
         if ( enabled ) {
-            updateContinuous();
-            _chartGraphic.addDataSetGraphic( _continuousWaveformGraphic );
+            updateEnvelope();
+            _chartGraphic.addDataSetGraphic( _envelopeGraphic );
         }
         else {
-            _chartGraphic.removeDataSetGraphic( _continuousWaveformGraphic );
+            _chartGraphic.removeDataSetGraphic( _envelopeGraphic );
         }
         refreshChart();
     }
     
     /**
-     * Is the continuous waveform display enabled?
+     * Is the envelope waveform display enabled?
      * 
      * @return true or false
      */
-    public boolean isContinuousEnabled() {
-        return _continuousEnabled;
+    public boolean isEnvelopeEnabled() {
+        return _envelopeEnabled;
     }
     
     //----------------------------------------------------------------------------
@@ -272,10 +272,10 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
             addGeneralPathPlot();
         }
         
-        // Update the continuous waveform display if it's enabled.
-        if ( _continuousEnabled ) {
-            updateContinuous();
-            _chartGraphic.addDataSetGraphic( _continuousWaveformGraphic );
+        // Update the envelope waveform display if it's enabled.
+        if ( _envelopeEnabled ) {
+            updateEnvelope();
+            _chartGraphic.addDataSetGraphic( _envelopeGraphic );
         }
         
         refreshChart();
@@ -350,7 +350,7 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
         while ( k <= X_MAX + Math.PI ) {
             double amplitude = GaussianWavePacket.getAmplitude( k, k0, dk );
             points.add( new Point2D.Double( k, amplitude ) );
-            k += CONTINUOUS_STEP;
+            k += ENVELOPE_STEP;
             
             if ( amplitude > maxAmplitude ) {
                 maxAmplitude = amplitude;
@@ -366,12 +366,12 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
     }
     
     /*
-     * Populates a LinePlot with a set of points that approximate the continuous waveform.
+     * Populates a LinePlot with a set of points that approximate the envelope waveform.
      */
-    private void updateContinuous() {
+    private void updateEnvelope() {
         
         // Clear the data set.
-        DataSet dataSet = _continuousWaveformGraphic.getDataSet();
+        DataSet dataSet = _envelopeGraphic.getDataSet();
         dataSet.clear();
 
         // Get various wave packet parameters that we'll need to compute the amplitude values.
@@ -388,7 +388,7 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
                 amplitude *= k1;
             }
             points.add( new Point2D.Double( k, amplitude ) );
-            k += CONTINUOUS_STEP;
+            k += ENVELOPE_STEP;
         }
         
         // Add the points to the data set.
@@ -429,6 +429,10 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
         refreshChart();
     }
     
+    /*
+     * Refreshes the chart.
+     * Call this after making any changes to the chart so that it is re-flattened.
+     */
     private void refreshChart() {
         _flattenedChart.flatten();
     }
