@@ -5,7 +5,6 @@ import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.ApparatusPanel;
 
-import javax.swing.*;
 import java.util.ArrayList;
 
 /**
@@ -27,10 +26,10 @@ public abstract class TimeSeriesModel implements ClockTickListener {
     private static boolean dynamicTime;
     private double maxAllowedTime;
 
-    public TimeSeriesModel(double maxAllowedTime) {
+    public TimeSeriesModel( double maxAllowedTime ) {
         recordMode = new RecordMode( this );
         playbackMode = new PlaybackMode( this );
-        this.maxAllowedTime=maxAllowedTime;
+        this.maxAllowedTime = maxAllowedTime;
     }
 
     public boolean isPaused() {
@@ -183,10 +182,7 @@ public abstract class TimeSeriesModel implements ClockTickListener {
         }
     }
 
-    private boolean confirmReset() {
-        int answer = JOptionPane.showConfirmDialog( getApparatusPanel(), "Are you sure you'd like to clear?", "Confirm Clear", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE );
-        return answer == JOptionPane.OK_OPTION;
-    }
+    protected abstract boolean confirmReset();
 
     protected abstract ApparatusPanel getApparatusPanel();
 

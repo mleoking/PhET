@@ -159,14 +159,64 @@ public class AdvancedRampControlPanel extends RampControlPanel {
         JPanel controls = new InitialConditionPanel( module );
         addAdvancedControl( controls, "Controls" );
 
-        AdvancedPanel fbdPanel = new AdvancedPanel( "Free Body Diagram>>", "Free Body Diagram<<" );
-        FreeBodyDiagram freeBodyDiagram = new FreeBodyDiagram( rampPanel, module );
-        PhetPCanvas phetPCanvas = new PhetPCanvas();
-        phetPCanvas.setPreferredSize( new Dimension( 200,200) );
-        phetPCanvas.addChild( freeBodyDiagram );
-        fbdPanel.addControlFullWidth( phetPCanvas );
-        addControlFullWidth( fbdPanel );
+        {
+            PhetPCanvas controlPanelFBD = new PhetPCanvas();
+            controlPanelFBD.setPreferredSize( new Dimension( 200, 200 ) );
+            FreeBodyDiagram freeBodyDiagram = new FreeBodyDiagram( rampPanel, module, controlPanelFBD );
+            controlPanelFBD.addChild( freeBodyDiagram );
+
+            AdvancedPanel advancedFBDPanel = new AdvancedPanel( "Free Body Diagram>>", "Free Body Diagram<<" );
+//        FBDPanel fbdContent = new FBDPanel( freeBodyDiagram );
+            advancedFBDPanel.addControlFullWidth( controlPanelFBD );
+            addControlFullWidth( advancedFBDPanel );
+        }
+
+//        {
+//            final JDialog dialog = new JDialog( module.getPhetFrame(), false );
+//            PhetPCanvas dialogPanelFBD = new PhetPCanvas();
+//            dialogPanelFBD.setPreferredSize( new Dimension( 200, 200 ) );
+//            FreeBodyDiagram freeBodyDiagram = new FreeBodyDiagram( rampPanel, module, dialogPanelFBD );
+//            dialogPanelFBD.addChild( freeBodyDiagram );
+//            dialog.setContentPane( dialogPanelFBD );
+//            dialog.pack();
+//            dialog.show();
+//        }
+
+//
+
+//
+//        PNode windowizeButton = new PPath( new Rectangle( 0, 0, 50, 50 ) );
+//        windowizeButton.setPaint( Color.red );
+//        windowizeButton.addInputEventListener( new PBasicInputEventHandler() {
+//            public void mouseReleased( PInputEvent event ) {
+//                super.mouseReleased( event );
+//                dialog.setVisible( !dialog.isVisible() );
+////                if (dialog.isVisible()){
+////                    dialog.hide();
+////                }else{
+////
+////                }
+//            }
+//        } );
+//        freeBodyDiagram.addChild( windowizeButton );
+//        dialog.show();
+//        fbdPanel2.setDebugRegionManagement( true );
+////        fbdPanel2.setDebugRegionManagement( true );
+//        Timer timer=new Timer( 30,new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+////                fbdPanel2.paintImmediately( 0,0,fbdPanel2.getWidth(), fbdPanel2.getHeight() );
+////                fbdPanel2.repaint();// 0,0,fbdPanel2.getWidth(), fbdPanel2.getHeight() );
+//            }
+//        } );
+//        timer.start();
     }
+
+//    static class FBDPanel extends PhetPCanvas {
+//        public FBDPanel( FreeBodyDiagram freeBodyDiagram ) {
+//            setPreferredSize( new Dimension( 200, 200 ) );
+//            addChild( freeBodyDiagram );
+//        }
+//    }
 
     private void addAdvancedControl( JPanel panel, String name ) {
         AdvancedPanel advancedPanel = new AdvancedPanel( name + ">>", name + "<<" );

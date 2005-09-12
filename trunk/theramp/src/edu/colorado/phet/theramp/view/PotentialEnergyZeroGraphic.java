@@ -11,6 +11,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
 /**
@@ -60,7 +61,7 @@ public class PotentialEnergyZeroGraphic extends PNode {
         //setCursorHand();
         label = new PText( "h=???" );
         addChild( label );
-        label.setFont( new Font( "Lucida Sans",Font.BOLD, 18) );
+        label.setFont( new Font( "Lucida Sans", Font.BOLD, 18 ) );
 //        label.setLocation( 10, -label.getHeight() - 4 );
 //        label.setLocation( 10, 0);//-label.getHeight() - 4 );
 //        label.setLocation( 10, (int)( label.getHeight()*.075 ) );//-label.getHeight() - 4 );
@@ -78,8 +79,10 @@ public class PotentialEnergyZeroGraphic extends PNode {
     }
 
     private void changeZeroPoint( PInputEvent pEvent ) {
-        Point pt = rampWorld.convertToWorld( pEvent.getPosition() );
-        double zeroPointY = rampPanel.getRampGraphic().getScreenTransform().viewToModelY( pt.y );
+//        pEvent.getca
+//        Point pt = rampWorld.convertToWorld( pEvent.getPosition() );
+        Point2D pt = pEvent.getPositionRelativeTo( rampWorld );
+        double zeroPointY = rampPanel.getRampGraphic().getScreenTransform().viewToModelY( pt.getY() );
         rampPhysicalModel.setZeroPointY( zeroPointY );
     }
 }

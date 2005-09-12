@@ -38,7 +38,6 @@ public class FireDog extends PNode {
             BufferedImage newImage = ImageLoader.loadBufferedImage( "images/firedog.gif" );
             newImage = BufferedImageUtils.rescaleYMaintainAspectRatio( newImage, 100 );
             image = new PImage( newImage );
-//            image = new BoidGraphic(module.getPhetPCanvas() );// ImageLoader.loadBufferedImage( "images/firedog.gif" ) );
         }
         catch( IOException e ) {
             e.printStackTrace();

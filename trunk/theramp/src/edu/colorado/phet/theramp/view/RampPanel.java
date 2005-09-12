@@ -12,12 +12,14 @@ import edu.colorado.phet.theramp.RampPlotSet;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.view.bars.BarGraphSuite;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -380,5 +382,11 @@ public class RampPanel extends PhetPCanvas {
 
     public void relayoutPiccolo() {
         layoutChildren();
+    }
+
+    public Rectangle2D getClearButtonCanvasRect() {
+        PBounds rect = goPauseClear.getGlobalFullBounds();
+        getCamera().globalToLocal( rect );
+        return rect;
     }
 }

@@ -17,6 +17,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -46,9 +47,11 @@ public class FreeBodyDiagram extends PNode {
     private boolean userClicked = false;
     private RampPhysicalModel model;
     private RampPanel component;
+    private JComponent owner;
 
-    public FreeBodyDiagram( RampPanel component, final RampModule module ) {
+    public FreeBodyDiagram( RampPanel component, final RampModule module, JComponent owner ) {
         this.component = component;
+        this.owner = owner;
 //        super( component );
         this.model = module.getRampPhysicalModel();
         this.module = module;
@@ -128,16 +131,16 @@ public class FreeBodyDiagram extends PNode {
 
     private void updateXForces() {
 
-        Vector2D.Double af = new Vector2D.Double( model.getAppliedForce() .getScaledInstance( scale ) );
+        Vector2D.Double af = new Vector2D.Double( model.getAppliedForce().getScaledInstance( scale ) );
         appliedForce.setVector( af );
 
-        Vector2D.Double ff = new Vector2D.Double( model.getFrictionForce() .getScaledInstance( scale ) );
+        Vector2D.Double ff = new Vector2D.Double( model.getFrictionForce().getScaledInstance( scale ) );
         frictionForce.setVector( ff );
 
         AbstractVector2D net = new Vector2D.Double( model.getTotalForce().getScaledInstance( scale ) );
         netForce.setVector( net );
 
-        Vector2D.Double wf = new Vector2D.Double( model.getWallForce() .getScaledInstance( scale ) );
+        Vector2D.Double wf = new Vector2D.Double( model.getWallForce().getScaledInstance( scale ) );
         wallForce.setVector( wf );
     }
 
@@ -156,9 +159,12 @@ public class FreeBodyDiagram extends PNode {
     }
 
     public void updateAll() {
-        updateXForces();
-        updateMG();
-        axes.update();
+        if( owner.isVisible() ) {
+//        System.out.println( "FreeBodyDiagram.updateAll@"+System.currentTimeMillis() );
+            updateXForces();
+            updateMG();
+            axes.update();
+        }
     }
 
     public void setBounds( int x, int y, int width, int height ) {
