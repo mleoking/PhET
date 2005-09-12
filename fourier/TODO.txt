@@ -5,9 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- D2C envelopes should be behind other curves and thicker
 - replace D2C width tools with static graphics that indicate widths (red, double arrows)
-- change D2C "Show continuous waveform" to "Show k-space envelope"
-- add D2C "Show x-space envelope" control
 - make Discrete amplitude sliders 50% narrower (no!)
 - add ability to show multiple wavelength/period tools in Discrete module (no!)
 - add equations for Gaussian wave packet above D2C amplitudes graph (no!)
@@ -70,6 +69,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/12) - display x-space envelope in D2C Sum graph
 (9/12) - add "Show x-space envelope" control (not functional)
 (9/12) - change color of envelope to gray in D2C Ampltidues chart
 (9/12) - rename "Show continuous..." to "Show k-space envelope"
