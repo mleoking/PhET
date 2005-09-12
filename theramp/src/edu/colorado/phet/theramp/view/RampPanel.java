@@ -371,12 +371,21 @@ public class RampPanel extends PhetPCanvas {
 
     public double getChartLayoutMaxX() {
         int insetX = 3;
+        if( barGraphSuite.areBothMinimized() && false ) {
+            return getSize().width - insetX;
+        }
+        else {
+            return barGraphSuite.getFullBounds().getX() - insetX;
+        }
+    }
+
+    public double getChartLayoutMaxXORIG() {
+        int insetX = 3;
         if( barGraphSuite.areBothMinimized() ) {
             return getSize().width - insetX;
         }
         else {
             return barGraphSuite.getFullBounds().getX() - insetX;
-//            return getSize().width / 2;
         }
     }
 
