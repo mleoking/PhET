@@ -278,6 +278,18 @@ public class Module implements ClockTickListener {
         PhetJComponent.getRepaintManager().updateGraphics();
     }
 
+    /**
+     * Refreshes the Module.
+     * This is typically called by something else (eg, ClockPausedHandler) 
+     * while the clock is paused.
+     */
+    public void refresh() {
+        // Repaint all dirty PhetJComponents
+        PhetJComponent.getRepaintManager().updateGraphics();
+        // Paint the apparatus panel
+        apparatusPanel.paint();
+    }
+    
     //----------------------------------------------------------------
     // Main loop
     //----------------------------------------------------------------
