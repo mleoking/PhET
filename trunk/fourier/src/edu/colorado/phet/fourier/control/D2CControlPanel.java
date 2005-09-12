@@ -82,8 +82,8 @@ public class D2CControlPanel extends FourierControlPanel {
     private FourierComboBox _domainComboBox;
     private WavePacketSpacingSlider _spacingSlider;
     private WavePacketCenterSlider _centerSlider;
-    private JCheckBox _amplitudesEnvelopeCheckbox;
-    private JCheckBox _sumEnvelopeCheckbox;
+    private JCheckBox _amplitudesEnvelopeCheckBox;
+    private JCheckBox _sumEnvelopeCheckBox;
     private WavePacketKWidthSlider _kWidthSlider;
     private WavePacketXWidthSlider _xWidthSlider;
     private FourierComboBox _waveTypeComboBox;
@@ -174,8 +174,8 @@ public class D2CControlPanel extends FourierControlPanel {
             }
             
             // Envelope checkboxes
-            _amplitudesEnvelopeCheckbox = new JCheckBox( SimStrings.get( "D2CControlPanel.kEnvelope" ) );
-            _sumEnvelopeCheckbox = new JCheckBox( SimStrings.get( "D2CControlPanel.xEnvelope" ) );
+            _amplitudesEnvelopeCheckBox = new JCheckBox( SimStrings.get( "D2CControlPanel.kEnvelope" ) );
+            _sumEnvelopeCheckBox = new JCheckBox( SimStrings.get( "D2CControlPanel.xEnvelope" ) );
             
             // Layout
             EasyGridBagLayout layout = new EasyGridBagLayout( miscPanel );
@@ -183,8 +183,8 @@ public class D2CControlPanel extends FourierControlPanel {
             int row = 0;
             layout.addComponent( _domainComboBox, row++, 0 );
             layout.addComponent( _waveTypeComboBox, row++, 0 );
-            layout.addComponent( _amplitudesEnvelopeCheckbox, row++, 0 );
-            layout.addComponent( _sumEnvelopeCheckbox, row++, 0 );
+            layout.addComponent( _amplitudesEnvelopeCheckBox, row++, 0 );
+            layout.addComponent( _sumEnvelopeCheckBox, row++, 0 );
         }
        
         // Packet width panel
@@ -231,8 +231,8 @@ public class D2CControlPanel extends FourierControlPanel {
             _listener = new EventListener();
             _domainComboBox.addItemListener( _listener );
             _spacingSlider.addChangeListener( _listener );
-            _amplitudesEnvelopeCheckbox.addActionListener( _listener );
-            _sumEnvelopeCheckbox.addActionListener( _listener );
+            _amplitudesEnvelopeCheckBox.addActionListener( _listener );
+            _sumEnvelopeCheckBox.addActionListener( _listener );
             _centerSlider.addChangeListener( _listener );
             _kWidthSlider.addChangeListener( _listener );
             _xWidthSlider.addChangeListener( _listener );
@@ -242,8 +242,8 @@ public class D2CControlPanel extends FourierControlPanel {
     
     public void reset() {
         
-        _amplitudesEnvelopeCheckbox.setSelected( _amplitudesGraph.isEnvelopeEnabled() );
-        _sumEnvelopeCheckbox.setSelected( _sumGraph.isEnvelopeEnabled() );
+        _amplitudesEnvelopeCheckBox.setSelected( _amplitudesGraph.isEnvelopeEnabled() );
+        _sumEnvelopeCheckBox.setSelected( _sumGraph.isEnvelopeEnabled() );
         
         _domainComboBox.setSelectedKey( FourierConstants.DOMAIN_TIME );
         handleDomain();
@@ -267,10 +267,10 @@ public class D2CControlPanel extends FourierControlPanel {
         public EventListener() {}
 
         public void actionPerformed( ActionEvent event ) {
-            if ( event.getSource() == _amplitudesEnvelopeCheckbox ) {
+            if ( event.getSource() == _amplitudesEnvelopeCheckBox ) {
                 handleAmplitudeEnvelope();
             }
-            else if ( event.getSource() == _sumEnvelopeCheckbox ) {
+            else if ( event.getSource() == _sumEnvelopeCheckBox ) {
                 handleSumEnvelope();
             }
             else {
@@ -335,16 +335,16 @@ public class D2CControlPanel extends FourierControlPanel {
             _centerSlider.setFormat( SimStrings.get( "WavePacketCenterSlider.format.space" ) );
             _kWidthSlider.setFormat( SimStrings.get( "WavePacketKWidthSlider.format.space" ) );
             _xWidthSlider.setFormat( SimStrings.get( "WavePacketXWidthSlider.format.space" ) );
-            _amplitudesEnvelopeCheckbox.setLabel( SimStrings.get( "D2CControlPanel.kEnvelope" ) );
-            _sumEnvelopeCheckbox.setLabel( SimStrings.get( "D2CControlPanel.xEnvelope" ) );
+            _amplitudesEnvelopeCheckBox.setText( SimStrings.get( "D2CControlPanel.kEnvelope" ) );
+            _sumEnvelopeCheckBox.setText( SimStrings.get( "D2CControlPanel.xEnvelope" ) );
         }
         else if ( domain == FourierConstants.DOMAIN_TIME ) {
             _spacingSlider.setFormat( SimStrings.get( "WavePacketSpacingSlider.format.time" ) );
             _centerSlider.setFormat( SimStrings.get( "WavePacketCenterSlider.format.time" ) );
             _kWidthSlider.setFormat( SimStrings.get( "WavePacketKWidthSlider.format.time" ) );
             _xWidthSlider.setFormat( SimStrings.get( "WavePacketXWidthSlider.format.time" ) );
-            _amplitudesEnvelopeCheckbox.setLabel( SimStrings.get( "D2CControlPanel.wEnvelope" ) );
-            _sumEnvelopeCheckbox.setLabel( SimStrings.get( "D2CControlPanel.tEnvelope" ) );
+            _amplitudesEnvelopeCheckBox.setText( SimStrings.get( "D2CControlPanel.wEnvelope" ) );
+            _sumEnvelopeCheckBox.setText( SimStrings.get( "D2CControlPanel.tEnvelope" ) );
         }
     }
     
@@ -352,23 +352,29 @@ public class D2CControlPanel extends FourierControlPanel {
      * Handles changes to the wave type combo box.
      */
     private void handleWaveType() {
+        setWaitCursorEnabled( true );
         int waveType = _waveTypeComboBox.getSelectedKey();
         _harmonicsGraph.setWaveType( waveType );
         _sumGraph.setWaveType( waveType );
+        setWaitCursorEnabled( false );
     }
     
     /*
      * Handles changes to the k-space envelope check box.
      */
     private void handleAmplitudeEnvelope() {
-        _amplitudesGraph.setEnvelopeEnabled( _amplitudesEnvelopeCheckbox.isSelected() );
+        setWaitCursorEnabled( true );
+        _amplitudesGraph.setEnvelopeEnabled( _amplitudesEnvelopeCheckBox.isSelected() );
+        setWaitCursorEnabled( false );
     }
     
     /*
      * Handles changes to the x-space envelope check box.
      */
     private void handleSumEnvelope() {
-//        _sumGraph.setContinuousEnabled( _xEnvelopeCheckBox.isSelected() );
+        setWaitCursorEnabled( true );
+        _sumGraph.setEnvelopeEnabled( _sumEnvelopeCheckBox.isSelected() );
+        setWaitCursorEnabled( false );
     }
     
     /*

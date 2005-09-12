@@ -35,6 +35,7 @@ import edu.colorado.phet.fourier.event.ZoomEvent;
 import edu.colorado.phet.fourier.event.ZoomListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
+import edu.colorado.phet.fourier.model.Harmonic;
 
 
 /**
@@ -531,24 +532,59 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
     
     /*
      * Populates a LinePlot with a set of points that approximate the envelope waveform.
+     * We do this by using the data from 2 FourierPlots -- one for sine and one for cosine --
+     * and computing the following function:
+     * 
+     * F(x) = sqrt( s^2 + c^2 )
+     * where s is F(x) using sine, and c is F(x) using cosine
      */
     private void updateEnvelope() {
         
-//        // Clear the data set.
-//        DataSet dataSet = _envelopeGraphic.getDataSet();
-//        dataSet.clear();
-//
-//        // Get various wave packet parameters that we'll need to compute the amplitude values.
-//        double dk = _wavePacket.getDeltaK();
-//        double k0 = _wavePacket.getK0();
-//        double k1 = _wavePacket.getK1();
-//        
-//        // Compute the points that approximate the waveform.
-//        ArrayList points = new ArrayList(); // array of Point2D
-//        //XXX compute Math.sqrt( F(x,sin)^2 + F(x,cos)^2 )
-//        
-//        // Add the points to the data set.
-//        dataSet.addPoints( (Point2D.Double[]) points.toArray( new Point2D.Double[points.size()] ) );
+        // Clear the data set.
+        DataSet dataSet = _envelopeGraphic.getDataSet();
+        dataSet.clear();
+
+        // Create a copy of the fourier series that we already have, 
+        // but invert the wave type (sines or cosines).
+        FourierSeries fourierSeries = new FourierSeries();
+        {
+            fourierSeries.setPreset( FourierConstants.PRESET_CUSTOM );
+            fourierSeries.setNumberOfHarmonics( _fourierSeries.getNumberOfHarmonics() );
+            fourierSeries.setFundamentalFrequency( _fourierSeries.getFundamentalFrequency() );
+            for ( int i = 0; i < fourierSeries.getNumberOfHarmonics(); i++ ) {
+                Harmonic harmonic = _fourierSeries.getHarmonic( i );
+                fourierSeries.getHarmonic( i ).setAmplitude( harmonic.getAmplitude() );
+            }
+            if ( _fourierSeries.getWaveType() == FourierConstants.WAVE_TYPE_SINE ) {
+                fourierSeries.setWaveType( FourierConstants.WAVE_TYPE_COSINE );
+            }
+            else {
+                fourierSeries.setWaveType( FourierConstants.WAVE_TYPE_SINE );
+            }
+        }
+        
+        // Compute the data for the new Fourier series using a FourierPlot.
+        FourierSumPlot sumPlot = new FourierSumPlot( getComponent(), _chartGraphic, fourierSeries );
+        sumPlot.setPeriod( _sumPlot.getPeriod() );
+        sumPlot.setPixelsPerPoint( _sumPlot.getPixelsPerPoint() );
+        sumPlot.updateDataSet();
+        
+        // Get the data points for the sine and cosine plots.
+        Point2D[] points1 = _sumPlot.getDataSet().getPoints();
+        Point2D[] points2 = sumPlot.getDataSet().getPoints();
+        assert( points1.length == points2.length );
+        
+        // Compute the envelope
+        ArrayList envelopePoints = new ArrayList();
+        int numberOfPoints = Math.max( points1.length, points2.length );
+        for ( int i = 0; i < numberOfPoints; i++ ) {
+            double x = points1[ i ].getX();
+            double y = Math.sqrt( ( points1[i].getY() * points1[i].getY() ) + ( points2[i].getY() * points2[i].getY() ) );
+            envelopePoints.add( new Point2D.Double( x, y ) );
+        }
+        
+        // Add the envelope points to the data set.
+        dataSet.addPoints( (Point2D.Double[]) envelopePoints.toArray( new Point2D.Double[envelopePoints.size()] ) );
     }
     
     /*
