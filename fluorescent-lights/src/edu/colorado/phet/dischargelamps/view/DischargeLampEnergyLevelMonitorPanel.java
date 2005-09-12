@@ -287,7 +287,8 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
     //----------------------------------------------------------------
 
     /**
-     * Adjusts the layout of the panel
+     * Adjusts the ModelViewTranform1D that maps energies to pixels, and updates all the level graphics
+     * that use it
      */
     private void adjustPanel() {
         // The area in which the energy levels will be displayed
@@ -467,6 +468,9 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         }
     }
 
+    /**
+     * An icon that shows a small version of an atom with its enrgy level halo and text
+     */
     private class LevelIcon extends CompositePhetGraphic {
         public LevelIcon( Component component, int idx ) {
             super( component );
