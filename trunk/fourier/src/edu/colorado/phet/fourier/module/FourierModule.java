@@ -12,7 +12,6 @@
 package edu.colorado.phet.fourier.module;
 
 import java.awt.Color;
-import java.awt.Cursor;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -55,9 +54,6 @@ public abstract class FourierModule extends Module {
      */
     public FourierModule( String title, AbstractClock clock ) {
         super( title, clock );
-
-        // Handle redrawing while the clock is paused.
-        clock.addClockStateListener( new ClockPausedHandler( this ) );
     }
 
     //----------------------------------------------------------------------------

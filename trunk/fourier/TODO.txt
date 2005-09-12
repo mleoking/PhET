@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- merge ClockPauseHandler functionality into Module
 - replace D2C width tools with static graphics that indicate widths (red, double arrows)
 - change D2C "Show continuous waveform" to "Show k-space envelope"
 - add D2C "Show x-space envelope" control
@@ -74,6 +73,8 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/12) - move ClockPausedHandler to phetcommon, integrate into Module
+(9/12) - rewrite ClockPausedHandler to use javax.swing.Timer, to avoid sync problems
 1.0.11 ...
 (9/9) - change dk to sigma-sub-k, dx to sigma-sub-x, dw to sigma-sub-w, and dt to sigma-sub-t
 (9/9) - bugfix: D2C harmonics y-axis range if Reset while minimized
