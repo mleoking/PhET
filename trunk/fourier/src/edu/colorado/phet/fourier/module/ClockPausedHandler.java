@@ -23,21 +23,21 @@ import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 
 
 /**
- * ClockPausedHandler periodically refreshes a Module while the clock is paused.
- * While the clock is running, it does nothing.
+ * ClockPausedHandler periodically refreshes an active Module while the clock is paused.
+ * It does nothing if the clock is running or the Module is inactive.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ClockPausedHandler implements ClockStateListener, ActionListener {
+class ClockPausedHandler implements ClockStateListener, ActionListener {
 
-    private static int DEFAULT_DELAY = 250; // milliseconds
+    private static int DEFAULT_DELAY = 500; // time between refreshes, in milliseconds
     
-    private Module _module;
+    private Module _module; // the Module that we're associated with
     private Timer _timer;
     
     /**
-     * Creates a ClockPausedHandler with a default delay (500 ms).
+     * Creates a ClockPausedHandler with a default delay.
      * 
      * @param module
      */
@@ -62,19 +62,26 @@ public class ClockPausedHandler implements ClockStateListener, ActionListener {
      */
     public void stateChanged( ClockStateEvent event ) {
         if ( event.getIsPaused() ) {
+            // Start the timer while the clock is paused.
             _timer.start();
         }
         else {
+            // Stop the timer while the clock is running.
             _timer.stop();
         }
     }
     
     /**
      * ActionListener implementation.
-     * Redraws the apparatus panel and PhetJComponent each time the timer goes off.
+     * Anything that needs to be refreshed should be done here.
+     * The module will be refreshed only while it is active.
      */
     public void actionPerformed( ActionEvent event ) {
-        PhetJComponent.getRepaintManager().updateGraphics();
-        _module.getApparatusPanel().paint();
+        if ( _module.isActive() ) {
+            // Repaint all dirty PhetJComponents
+            PhetJComponent.getRepaintManager().updateGraphics();
+            // Paint the apparatus panel
+            _module.getApparatusPanel().paint();
+        }
     }
 }
