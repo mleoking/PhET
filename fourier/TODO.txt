@@ -69,6 +69,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/12) - add wait cursor to all controls in D2C control panel
 (9/12) - display x-space envelope in D2C Sum graph
 (9/12) - add "Show x-space envelope" control (not functional)
 (9/12) - change color of envelope to gray in D2C Ampltidues chart
