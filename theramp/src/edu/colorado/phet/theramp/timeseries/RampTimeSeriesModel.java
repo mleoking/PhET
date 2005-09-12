@@ -63,12 +63,20 @@ public class RampTimeSeriesModel extends TimeSeriesModel {
         super.reset();
         series.reset();
         rampModule.getRampPlotSet().reset();
-        recordedLastTime=false;
+        recordedLastTime = false;
+        rampModule.clearHeatSansFiredog();
     }
 
     protected ApparatusPanel getApparatusPanel() {
         return rampModule.getApparatusPanel();
     }
+
+    protected boolean confirmReset() {
+        return rampModule.resetDialogOk();
+//        int answer = JOptionPane.showConfirmDialog( getApparatusPanel(), "Are you sure you'd like to clear?", "Confirm Clear", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE );
+//        return answer == JOptionPane.OK_OPTION;
+    }
+
 
     public RampModule getRampModule() {
         return rampModule;

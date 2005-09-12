@@ -15,6 +15,9 @@ import edu.colorado.phet.timeseries.TimeSeriesModel;
 import edu.colorado.phet.timeseries.TimeSeriesPlaybackPanel;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -35,12 +38,9 @@ public class RampModule extends Module {
 
     private ArrayList listeners = new ArrayList();
 
-//    public static final double FORCE_LENGTH_SCALE = 0.1;//1.0;
     public static final double FORCE_LENGTH_SCALE = 0.06;//1.0;
     private PhetFrame phetFrame;
-//    public static final int MAX_TIME = 20;
     public static final int MAX_TIME = 30;
-//    public static final int MAX_TIME = 2;
 
     public RampModule( PhetFrame frame, AbstractClock clock ) {
         this( "More Features", frame, clock );
@@ -52,10 +52,10 @@ public class RampModule extends Module {
         setModel( new BaseModel() );
         rampModel = new RampModel( this, clock );
         rampObjects = new RampObject[]{
-                new RampObject( "images/cabinet.gif", "File Cabinet", 0.8, 100, 0.3, 0.2, 0.4 ),
-                new RampObject( "images/fridge.gif", "Refrigerator", 0.35, 175, 0.7, 0.5, 0.4 ),
-                new RampObject( "images/crate.gif", "Crate", 0.8, 300, 0.2, 0.2, 0.3 ),
-                new RampObject( "images/piano.png", "Piano", 0.8, 225, 0.6, 0.6, 0.8, 20 ),
+            new RampObject( "images/cabinet.gif", "File Cabinet", 0.8, 100, 0.3, 0.2, 0.4 ),
+            new RampObject( "images/fridge.gif", "Refrigerator", 0.35, 175, 0.7, 0.5, 0.4 ),
+            new RampObject( "images/crate.gif", "Crate", 0.8, 300, 0.2, 0.2, 0.3 ),
+            new RampObject( "images/piano.png", "Piano", 0.8, 225, 0.6, 0.6, 0.8, 20 ),
 //            new RampObject( "images/ollie.gif", "Sleepy Dog", 0.5, 30, 0.1, 0.1, 0.35 ),
         };
         sort( rampObjects );
@@ -136,14 +136,26 @@ public class RampModule extends Module {
         }
     }
 
-    private boolean resetDialogOk() {
-        int answer = JOptionPane.showConfirmDialog( getApparatusPanel(), "Are you sure you'd like to reset?", "Confirm Reset", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE );
-        return answer == JOptionPane.OK_OPTION;
+    public boolean resetDialogOk() {
+        JOptionPane pane = new JOptionPane( "Are you sure you'd like to clear?", JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION );
+
+        JDialog dialog = pane.createDialog( rampPanel, "Confirm Reset" );
+        pane.selectInitialValue();
+        Point loc = getPhetPCanvas().getLocationOnScreen();
+        Rectangle2D clearButton = getRampPanel().getClearButtonCanvasRect();
+        Point2D.Double offset = new Point2D.Double( clearButton.getMaxX(), clearButton.getY() );
+        dialog.setLocation( (int)( loc.x + offset.x ), (int)( loc.y + offset.y - dialog.getHeight() / 2 ) );
+
+        dialog.show();
+        dialog.dispose();
+
+        return pane.getValue().equals( new Integer( JOptionPane.OK_OPTION ) );
     }
 
     public void doReset() {
         rampModel.reset();
         rampPanel.reset();
+        setObject( rampObjects[0] );
     }
 
     public void setObject( RampObject rampObject ) {
@@ -165,6 +177,10 @@ public class RampModule extends Module {
 
     public void clearHeat() {
         cueFirefighter();
+    }
+
+    public void clearHeatSansFiredog() {
+        getRampPhysicalModel().clearHeat();
     }
 
     public void cueFirefighter() {
@@ -247,5 +263,5 @@ public class RampModule extends Module {
         return rampControlPanel;
     }
 
-    
+
 }
