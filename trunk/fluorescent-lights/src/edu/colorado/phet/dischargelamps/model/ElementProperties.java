@@ -30,6 +30,7 @@ public class ElementProperties {
     private AtomicState[] states;
     private EnergyEmissionStrategy energyEmissionStrategy;
     private EnergyAbsorptionStrategy energyAbsorptionStrategy;
+    private double meanStateLifetime;
 
     protected ElementProperties( String name, double[] energyLevels, 
                                  EnergyEmissionStrategy energyEmissionStrategy,
@@ -50,6 +51,14 @@ public class ElementProperties {
             this.energyLevels = energyLevels;
             updateStates();
         }
+    }
+
+    public double getMeanStateLifetime() {
+        return meanStateLifetime;
+    }
+
+    protected void setMeanStateLifetime( double meanStateLifetime ) {
+        this.meanStateLifetime = meanStateLifetime;
     }
 
     public EnergyEmissionStrategy getEnergyEmissionStrategy() {
@@ -104,7 +113,9 @@ public class ElementProperties {
         for( int i = 1; i < states.length; i++ ) {
             double energy = ( energies[i] );
             states[i].setEnergyLevel( energy );
-            states[i].setMeanLifetime( DischargeLampAtom.DEFAULT_STATE_LIFETIME );
+            meanStateLifetime = getMeanStateLifetime();
+//            meanStateLifetime = DischargeLampAtom.DEFAULT_STATE_LIFETIME;
+            states[i].setMeanLifetime( meanStateLifetime );
         }
     }
 }

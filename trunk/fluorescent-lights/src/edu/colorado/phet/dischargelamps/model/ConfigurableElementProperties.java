@@ -23,11 +23,14 @@ public class ConfigurableElementProperties extends ElementProperties {
         -13.6
     };
 
+    private double meanStateLifetime = 15;
+
     public ConfigurableElementProperties( int numEnergyLevels, DischargeLampModel model ) {
         super( "Configurable", energyLevels,
                new ConfigurableAtomEnergyEmissionStrategy(),
 //               new HydrogenEnergyEmissionStrategy(),
                new FiftyPercentAbsorptionStrategy() );
+        setMeanStateLifetime( meanStateLifetime );
         model.addChangeListener( new LevelChangeHandler() );
         setNumEnergyLevels( numEnergyLevels );
     }
