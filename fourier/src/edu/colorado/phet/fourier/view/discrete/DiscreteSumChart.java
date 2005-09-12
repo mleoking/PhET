@@ -116,6 +116,7 @@ public class DiscreteSumChart extends Chart {
             getHorizontalTicks().setMajorTickStroke( MAJOR_TICK_STROKE );
             getHorizontalTicks().setMajorTickFont( MAJOR_TICK_FONT );
             getHorizontalTicks().setMajorLabels( _spaceLabels1 );
+            getHorizontalTicks().setMajorNumberFormat( new DecimalFormat( "#.##" ) );
 
             // Vertical gridlines for major ticks.
             getVerticalGridlines().setMajorGridlinesVisible( true );
