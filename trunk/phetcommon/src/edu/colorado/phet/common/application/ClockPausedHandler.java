@@ -50,8 +50,8 @@ class ClockPausedHandler implements ClockStateListener, ActionListener {
 
     private static int DEFAULT_DELAY = 500; // time between refreshes, in milliseconds
     
-    private Module _module; // the Module that we're associated with
-    private Timer _timer;
+    private Module module; // the Module that we're associated with
+    private Timer timer;
     
     /**
      * Creates a ClockPausedHandler with a default delay.
@@ -69,8 +69,8 @@ class ClockPausedHandler implements ClockStateListener, ActionListener {
      * @param delay the delay, in milliseconds
      */
     public ClockPausedHandler( Module module, int delay ) {
-        _module = module;
-        _timer = new Timer( delay, this );
+        this.module = module;
+        timer = new Timer( delay, this );
     }
     
     /**
@@ -78,13 +78,13 @@ class ClockPausedHandler implements ClockStateListener, ActionListener {
      * Starts and stops the timer when the state of the clock changes.
      */
     public void stateChanged( ClockStateEvent event ) {
-        if ( event.getIsPaused() ) {
+        if( event.getIsPaused() ) {
             // Start the timer while the clock is paused.
-            _timer.start();
+            timer.start();
         }
         else {
             // Stop the timer while the clock is running.
-            _timer.stop();
+            timer.stop();
         }
     }
     
@@ -94,8 +94,8 @@ class ClockPausedHandler implements ClockStateListener, ActionListener {
      * The module will be refreshed only while it is active.
      */
     public void actionPerformed( ActionEvent event ) {
-        if ( event.getSource() == _timer && _module.isActive() ) {
-            _module.refresh();
+        if( event.getSource() == timer && module.isActive() ) {
+            module.refresh();
         }
     }
 }
