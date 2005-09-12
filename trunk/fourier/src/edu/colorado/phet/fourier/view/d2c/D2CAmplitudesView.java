@@ -73,7 +73,7 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
     
     // Continuous waveform
     private static final double CONTINUOUS_STEP = Math.PI / 10; // about one value for every 2 pixels
-    private static final Color CONTINUOUS_COLOR = Color.BLACK;
+    private static final Color CONTINUOUS_COLOR = Color.LIGHT_GRAY;
     private static final Stroke CONTINUOUS_STROKE = new BasicStroke( 2f );
     
     // Math equation
