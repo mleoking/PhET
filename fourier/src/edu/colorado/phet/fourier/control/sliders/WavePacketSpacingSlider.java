@@ -22,13 +22,13 @@ import edu.colorado.phet.fourier.MathStrings;
 
 
 /**
- * K1SpacingSlider is a slider for controlling th
- * spacing of harmonics in a Gaussian wave packet.
+ * WavePacketSpacingSlider is a slider for controlling the
+ * spacing (k1) of harmonics in a Gaussian wave packet.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class K1Slider extends AbstractFourierSlider {
+public class WavePacketSpacingSlider extends AbstractFourierSlider {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -50,8 +50,8 @@ public class K1Slider extends AbstractFourierSlider {
     /**
      * Sole constructor.
      */
-    public K1Slider() {
-        super( SimStrings.get( "K1Slider.format.space" ) );
+    public WavePacketSpacingSlider() {
+        super( SimStrings.get( "WavePacketSpacingSlider.format.space" ) );
         
         // Min/max are the indicies of the VALUES array.
         getSlider().setMinimum( 0 );

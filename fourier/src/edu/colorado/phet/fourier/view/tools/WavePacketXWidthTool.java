@@ -20,13 +20,13 @@ import edu.colorado.phet.fourier.model.GaussianWavePacket;
 
 
 /**
- * WavePacketDeltaXTool is the tool used for measuring the delta x (or t)
+ * WavePacketXWidthTool is the tool used for measuring the width
  * of a Gaussian wave packet in x space.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class WavePacketDeltaXTool extends AbstractWavePacketMeasurementTool {
+public class WavePacketXWidthTool extends AbstractWavePacketMeasurementTool {
 
     /**
      * Sole constructor.
@@ -34,7 +34,7 @@ public class WavePacketDeltaXTool extends AbstractWavePacketMeasurementTool {
      * @param component
      * @param wavePacket
      */
-    public WavePacketDeltaXTool( Component component, GaussianWavePacket wavePacket, Chart chart ) {
+    public WavePacketXWidthTool( Component component, GaussianWavePacket wavePacket, Chart chart ) {
         super( component, wavePacket, chart );
     }
 
@@ -58,11 +58,11 @@ public class WavePacketDeltaXTool extends AbstractWavePacketMeasurementTool {
         // Set the tool's label.
         int domain = getDomain();
         if ( domain == FourierConstants.DOMAIN_SPACE ) {
-            // 2dx
+            // 2 sigma sub-x
             setLabel( "<html>2\u03C3<sub>x</sub></html>" );
         }
         else if ( domain == FourierConstants.DOMAIN_TIME ) {
-            // 2dt
+            // 2 sigma sub-t
             setLabel( "<html>2\u03C3<sub>t</sub></html>" );     
         }
     }

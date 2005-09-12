@@ -22,13 +22,14 @@ import edu.colorado.phet.fourier.MathStrings;
 
 
 /**
- * XWidthSlider is a slider for controling the 
- * Gaussian wave packet width in x space.
+ * WavePacketXWidthSlider is a slider for controling the 
+ * Gaussian wave packet width in x space. This slider
+ * sets the value of <b>half</b> the width.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class DeltaXSlider extends AbstractFourierSlider {
+public class WavePacketXWidthSlider extends AbstractFourierSlider {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -37,8 +38,8 @@ public class DeltaXSlider extends AbstractFourierSlider {
     private static final String VALUE_FORMAT = "#.###";
     
     // dx = 1/dk
-    private static final double MIN_WIDTH = 1 / DeltaKSlider.MAX_WIDTH;
-    private static final double MAX_WIDTH = 1 / DeltaKSlider.MIN_WIDTH;
+    private static final double MIN_WIDTH = 1 / WavePacketKWidthSlider.MAX_WIDTH;
+    private static final double MAX_WIDTH = 1 / WavePacketKWidthSlider.MIN_WIDTH;
     
     /*
      * The width values are doubles, but JSlider deals with integers.
@@ -60,8 +61,8 @@ public class DeltaXSlider extends AbstractFourierSlider {
     /**
      * Sole constructor.
      */
-    public DeltaXSlider() {
-        super( SimStrings.get( "DeltaXSlider.format.space" ) );
+    public WavePacketXWidthSlider() {
+        super( SimStrings.get( "WavePacketXWidthSlider.format.space" ) );
         
         getSlider().setMinimum( (int)( MIN_WIDTH * MULTIPLIER) );
         getSlider().setMaximum( (int)( MAX_WIDTH * MULTIPLIER ) );

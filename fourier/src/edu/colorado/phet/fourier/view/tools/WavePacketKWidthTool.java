@@ -20,13 +20,13 @@ import edu.colorado.phet.fourier.model.GaussianWavePacket;
 
 
 /**
- * WavePacketDeltaKTool is the tool used for measuring the delta k (or omega)
+ * WavePacketKWidthTool is the tool used for measuring the width
  * of a Gaussian wave packet in k space.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class WavePacketDeltaKTool extends AbstractWavePacketMeasurementTool {
+public class WavePacketKWidthTool extends AbstractWavePacketMeasurementTool {
 
     /**
      * Sole constructor.
@@ -34,7 +34,7 @@ public class WavePacketDeltaKTool extends AbstractWavePacketMeasurementTool {
      * @param component
      * @param wavePacket
      */
-    public WavePacketDeltaKTool( Component component, GaussianWavePacket wavePacket, Chart chart ) {
+    public WavePacketKWidthTool( Component component, GaussianWavePacket wavePacket, Chart chart ) {
         super( component, wavePacket, chart );
     }
 
@@ -58,11 +58,11 @@ public class WavePacketDeltaKTool extends AbstractWavePacketMeasurementTool {
         // Set the tool's label.
         int domain = getDomain();
         if ( domain == FourierConstants.DOMAIN_SPACE ) {
-            // 2dk
+            // 2 sigma sub-k
             setLabel( "<html>2\u03C3<sub>k</sub></html>" );
         }
         else if ( domain == FourierConstants.DOMAIN_TIME ) {
-            //2dw
+            // 2 sigma sub-omega
             setLabel( "<html>2\u03C3<sub>\u03C9</sub></html>" );     
         }
     }
