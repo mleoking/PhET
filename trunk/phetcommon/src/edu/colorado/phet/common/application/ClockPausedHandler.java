@@ -36,6 +36,10 @@ import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
  * repainted, and the list of dirty compononents would grow excessively
  * (and unnecessarilty) large.
  * <p>
+ * Repainting the above things is handled by Module.refresh.
+ * If your Module needs to refresh other things, then override
+ * Module.refresh.
+ * <p>
  * Since "refreshing" the Module involves painting Swing components,
  * we use a javax.swing.Timer to avoid synchronization issues.
  *
@@ -91,10 +95,7 @@ class ClockPausedHandler implements ClockStateListener, ActionListener {
      */
     public void actionPerformed( ActionEvent event ) {
         if ( event.getSource() == _timer && _module.isActive() ) {
-            // Repaint all dirty PhetJComponents
-            PhetJComponent.getRepaintManager().updateGraphics();
-            // Paint the apparatus panel
-            _module.getApparatusPanel().paint();
+            _module.refresh();
         }
     }
 }
