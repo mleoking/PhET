@@ -72,6 +72,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/12) - rename classes/variables/comments/i18n to use more general terminology: dk->kWidth, dx->xWidth, k1->spacing, k0->center
 (9/12) - set the Discrete x-axis titles to "x (mm)" and "t (ms)"
 (9/12) - label the x-axis of Discrete harmonics and sum graphs with numbers when math mode is off (L=1, T=1)
 (9/12) - change default math form to "Frequency" in time domain

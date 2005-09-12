@@ -27,17 +27,17 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConstants;
-import edu.colorado.phet.fourier.control.sliders.DeltaKSlider;
-import edu.colorado.phet.fourier.control.sliders.DeltaXSlider;
-import edu.colorado.phet.fourier.control.sliders.K0Slider;
-import edu.colorado.phet.fourier.control.sliders.K1Slider;
+import edu.colorado.phet.fourier.control.sliders.WavePacketKWidthSlider;
+import edu.colorado.phet.fourier.control.sliders.WavePacketXWidthSlider;
+import edu.colorado.phet.fourier.control.sliders.WavePacketCenterSlider;
+import edu.colorado.phet.fourier.control.sliders.WavePacketSpacingSlider;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
 import edu.colorado.phet.fourier.module.FourierModule;
 import edu.colorado.phet.fourier.view.d2c.D2CAmplitudesView;
 import edu.colorado.phet.fourier.view.d2c.D2CHarmonicsView;
 import edu.colorado.phet.fourier.view.d2c.D2CSumView;
-import edu.colorado.phet.fourier.view.tools.WavePacketDeltaKTool;
-import edu.colorado.phet.fourier.view.tools.WavePacketDeltaXTool;
+import edu.colorado.phet.fourier.view.tools.WavePacketKWidthTool;
+import edu.colorado.phet.fourier.view.tools.WavePacketXWidthTool;
 import edu.colorado.phet.fourier.view.tools.WavePacketPeriodTool;
 import edu.colorado.phet.fourier.view.tools.WavePacketSpacingTool;
 
@@ -74,17 +74,17 @@ public class D2CControlPanel extends FourierControlPanel {
     private D2CHarmonicsView _harmonicsGraph;
     private D2CSumView _sumGraph;
     private WavePacketSpacingTool _spacingTool;
-    private WavePacketDeltaKTool _deltaKTool;
-    private WavePacketDeltaXTool _deltaXTool;
+    private WavePacketKWidthTool _kWidthTool;
+    private WavePacketXWidthTool _xWidthTool;
     private WavePacketPeriodTool _periodTool;
 
     // UI components
     private FourierComboBox _domainComboBox;
-    private K1Slider _k1Slider;
-    private K0Slider _k0Slider;
+    private WavePacketSpacingSlider _spacingSlider;
+    private WavePacketCenterSlider _centerSlider;
     private JCheckBox _continuousCheckBox;
-    private DeltaKSlider _deltaKSlider;
-    private DeltaXSlider _deltaXSlider;
+    private WavePacketKWidthSlider _kWidthSlider;
+    private WavePacketXWidthSlider _xWidthSlider;
     private FourierComboBox _waveTypeComboBox;
     
     // Choices
@@ -111,8 +111,8 @@ public class D2CControlPanel extends FourierControlPanel {
             D2CHarmonicsView harmonicsGraph,
             D2CSumView sumGraph,
             WavePacketSpacingTool spacingTool,
-            WavePacketDeltaKTool deltaKTool,
-            WavePacketDeltaXTool deltaXTool,
+            WavePacketKWidthTool kWidthTool,
+            WavePacketXWidthTool xWidthTool,
             WavePacketPeriodTool periodTool ) {
         
         super( module );
@@ -122,8 +122,8 @@ public class D2CControlPanel extends FourierControlPanel {
         assert( harmonicsGraph != null );
         assert( sumGraph != null );
         assert( spacingTool != null );
-        assert( deltaKTool != null );
-        assert( deltaXTool != null );
+        assert( kWidthTool != null );
+        assert( xWidthTool != null );
         assert( periodTool != null );
         
         _wavePacket = wavePacket;
@@ -131,8 +131,8 @@ public class D2CControlPanel extends FourierControlPanel {
         _harmonicsGraph = harmonicsGraph;
         _sumGraph = sumGraph;
         _spacingTool = spacingTool;
-        _deltaKTool = deltaKTool;
-        _deltaXTool = deltaXTool;
+        _kWidthTool = kWidthTool;
+        _xWidthTool = xWidthTool;
         _periodTool = periodTool;
         
         // Set the control panel's minimum width.
@@ -193,26 +193,26 @@ public class D2CControlPanel extends FourierControlPanel {
             titledBorder.setTitleFont( new Font( font.getName(), Font.BOLD, font.getSize() ) );
             packetPanel.setBorder( titledBorder );
             
-            // k1 (spacing)
-            _k1Slider = new K1Slider();
+            // spacing (k1)
+            _spacingSlider = new WavePacketSpacingSlider();
             
-            // k0 (center point)
-            _k0Slider = new K0Slider();
+            // center point (k0)
+            _centerSlider = new WavePacketCenterSlider();
             
-            // dk (k-space width)
-            _deltaKSlider = new DeltaKSlider();
+            // k-space width
+            _kWidthSlider = new WavePacketKWidthSlider();
 
-            // dx (x-space width)
-            _deltaXSlider = new DeltaXSlider();
+            // x-space width
+            _xWidthSlider = new WavePacketXWidthSlider();
             
             // Layout
             EasyGridBagLayout layout = new EasyGridBagLayout( packetPanel );
             packetPanel.setLayout( layout );
             int row = 0;
-            layout.addComponent( _k1Slider, row++, 0 );
-            layout.addComponent( _k0Slider, row++, 0 );
-            layout.addComponent( _deltaKSlider, row++, 0 );
-            layout.addComponent( _deltaXSlider, row++, 0 );
+            layout.addComponent( _spacingSlider, row++, 0 );
+            layout.addComponent( _centerSlider, row++, 0 );
+            layout.addComponent( _kWidthSlider, row++, 0 );
+            layout.addComponent( _xWidthSlider, row++, 0 );
         }
 
         // Layout
@@ -227,11 +227,11 @@ public class D2CControlPanel extends FourierControlPanel {
         {
             _listener = new EventListener();
             _domainComboBox.addItemListener( _listener );
-            _k1Slider.addChangeListener( _listener );
+            _spacingSlider.addChangeListener( _listener );
             _continuousCheckBox.addActionListener( _listener );
-            _k0Slider.addChangeListener( _listener );
-            _deltaKSlider.addChangeListener( _listener );
-            _deltaXSlider.addChangeListener( _listener );
+            _centerSlider.addChangeListener( _listener );
+            _kWidthSlider.addChangeListener( _listener );
+            _xWidthSlider.addChangeListener( _listener );
             _waveTypeComboBox.addItemListener( _listener );
         }
     }
@@ -243,10 +243,10 @@ public class D2CControlPanel extends FourierControlPanel {
         _domainComboBox.setSelectedKey( FourierConstants.DOMAIN_TIME );
         handleDomain();
         
-        _k1Slider.setValue( _wavePacket.getK1() );
-        _k0Slider.setValue( _wavePacket.getK0() );
-        _deltaKSlider.setValue( _wavePacket.getDeltaK() );
-        _deltaXSlider.setValue( _wavePacket.getDeltaX() );
+        _spacingSlider.setValue( _wavePacket.getK1() );
+        _centerSlider.setValue( _wavePacket.getK0() );
+        _kWidthSlider.setValue( _wavePacket.getDeltaK() );
+        _xWidthSlider.setValue( _wavePacket.getDeltaX() );
     }
     
     //----------------------------------------------------------------------------
@@ -272,17 +272,17 @@ public class D2CControlPanel extends FourierControlPanel {
         
         public void stateChanged( ChangeEvent event ) {
 
-            if ( event.getSource() == _k1Slider ) {
-                handleK1();
+            if ( event.getSource() == _spacingSlider ) {
+                handleSpacing();
             }
-            else if ( event.getSource() == _k0Slider ) {
-                handleK0();
+            else if ( event.getSource() == _centerSlider ) {
+                handleCenter();
             }
-            else if ( event.getSource() == _deltaKSlider ) {
-                handleDeltaK();
+            else if ( event.getSource() == _kWidthSlider ) {
+                handleKWidth();
             }
-            else if ( event.getSource() == _deltaXSlider ) {
-                handleDeltaX();
+            else if ( event.getSource() == _xWidthSlider ) {
+                handleXWidth();
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + event );
@@ -318,21 +318,21 @@ public class D2CControlPanel extends FourierControlPanel {
         _harmonicsGraph.setDomain( domain );
         _sumGraph.setDomain( domain );
         _spacingTool.setDomain( domain );
-        _deltaKTool.setDomain( domain );
-        _deltaXTool.setDomain( domain );
+        _kWidthTool.setDomain( domain );
+        _xWidthTool.setDomain( domain );
         _periodTool.setDomain( domain );
         
         if ( domain == FourierConstants.DOMAIN_SPACE ) {
-            _k1Slider.setFormat( SimStrings.get( "K1Slider.format.space" ) );
-            _k0Slider.setFormat( SimStrings.get( "K0Slider.format.space" ) );
-            _deltaKSlider.setFormat( SimStrings.get( "DeltaKSlider.format.space" ) );
-            _deltaXSlider.setFormat( SimStrings.get( "DeltaXSlider.format.space" ) );
+            _spacingSlider.setFormat( SimStrings.get( "WavePacketSpacingSlider.format.space" ) );
+            _centerSlider.setFormat( SimStrings.get( "WavePacketCenterSlider.format.space" ) );
+            _kWidthSlider.setFormat( SimStrings.get( "WavePacketKWidthSlider.format.space" ) );
+            _xWidthSlider.setFormat( SimStrings.get( "WavePacketXWidthSlider.format.space" ) );
         }
         else if ( domain == FourierConstants.DOMAIN_TIME ) {
-            _k1Slider.setFormat( SimStrings.get( "K1Slider.format.time" ) );
-            _k0Slider.setFormat( SimStrings.get( "K0Slider.format.time" ) );
-            _deltaKSlider.setFormat( SimStrings.get( "DeltaKSlider.format.time" ) );
-            _deltaXSlider.setFormat( SimStrings.get( "DeltaXSlider.format.time" ) );   
+            _spacingSlider.setFormat( SimStrings.get( "WavePacketSpacingSlider.format.time" ) );
+            _centerSlider.setFormat( SimStrings.get( "WavePacketCenterSlider.format.time" ) );
+            _kWidthSlider.setFormat( SimStrings.get( "WavePacketKWidthSlider.format.time" ) );
+            _xWidthSlider.setFormat( SimStrings.get( "WavePacketXWidthSlider.format.time" ) );   
         }
     }
     
@@ -353,48 +353,48 @@ public class D2CControlPanel extends FourierControlPanel {
     }
     
     /*
-     * Handles changes to the "k1" slider.
+     * Handles changes to the spacing (k1) slider.
      */
-    private void handleK1() {
+    private void handleSpacing() {
         
         // Update the wave packet if the user is done dragging the slider.
-        if ( !_k1Slider.isAdjusting() ) {
+        if ( !_spacingSlider.isAdjusting() ) {
             setWaitCursorEnabled( true );
-            double k1 = _k1Slider.getValue();
+            double k1 = _spacingSlider.getValue();
             _wavePacket.setK1( k1 );
             setWaitCursorEnabled( false );
         }
     }
     
     /*
-     * Handles changes to the "k0" slider.
+     * Handles changes to the center-point (k0) slider.
      */
-    private void handleK0() {
+    private void handleCenter() {
         // Update the wave packet if the user is done dragging the slider.
-        if ( !_k0Slider.isAdjusting() ) {
+        if ( !_centerSlider.isAdjusting() ) {
             setWaitCursorEnabled( true );
-            double k0 = _k0Slider.getValue();
+            double k0 = _centerSlider.getValue();
             _wavePacket.setK0( k0 );
             setWaitCursorEnabled( false );
         }
     }
     
     /*
-     * Handles changes to the "delta k" slider.
+     * Handles changes to the k-space width slider.
      */
-    private void handleDeltaK() {
+    private void handleKWidth() {
         
         setWaitCursorEnabled( true );
         
-        double deltaK = _deltaKSlider.getValue();
+        double deltaK = _kWidthSlider.getValue();
         
-        // Update the delta x slider.
-        _deltaXSlider.removeChangeListener( _listener );
-        _deltaXSlider.setValue( 1 / deltaK );
-        _deltaXSlider.addChangeListener( _listener );
+        // Update the slider.
+        _xWidthSlider.removeChangeListener( _listener );
+        _xWidthSlider.setValue( 1 / deltaK );
+        _xWidthSlider.addChangeListener( _listener );
         
         // Update the wave packet if the user is done dragging the slider.
-        if ( !_deltaKSlider.isAdjusting() ) {
+        if ( !_kWidthSlider.isAdjusting() ) {
             _wavePacket.setDeltaK( deltaK );
         }
         
@@ -402,21 +402,21 @@ public class D2CControlPanel extends FourierControlPanel {
     }
    
     /*
-     * Handles changes to the "delta x" slider.
+     * Handles changes to the x-space width slider.
      */
-    private void handleDeltaX() {
+    private void handleXWidth() {
         
         setWaitCursorEnabled( true );
         
-        double deltaX = _deltaXSlider.getValue();
+        double deltaX = _xWidthSlider.getValue();
         
-        // Update the delta k slider.
-        _deltaKSlider.removeChangeListener( _listener );
-        _deltaKSlider.setValue( 1 / deltaX );
-        _deltaKSlider.addChangeListener( _listener );
+        // Update the slider.
+        _kWidthSlider.removeChangeListener( _listener );
+        _kWidthSlider.setValue( 1 / deltaX );
+        _kWidthSlider.addChangeListener( _listener );
         
         // Update the wave packet if the user is done dragging the slider.
-        if ( !_deltaXSlider.isAdjusting() ) {
+        if ( !_xWidthSlider.isAdjusting() ) {
             _wavePacket.setDeltaX( deltaX );
         }
         

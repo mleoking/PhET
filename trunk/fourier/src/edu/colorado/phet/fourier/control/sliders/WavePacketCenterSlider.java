@@ -22,13 +22,13 @@ import edu.colorado.phet.fourier.MathStrings;
 
 
 /**
- * K0Slider is a slider for controlling the
- * center point of a Gaussian wave packet.
+ * WavePacketCenterSlider is a slider for controlling the
+ * center point (k0) of a Gaussian wave packet.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class K0Slider extends AbstractFourierSlider {
+public class WavePacketCenterSlider extends AbstractFourierSlider {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -50,8 +50,8 @@ public class K0Slider extends AbstractFourierSlider {
     /**
      * Sole constructor.
      */
-    public K0Slider() {
-        super( SimStrings.get( "K0Slider.format.space" ) );
+    public WavePacketCenterSlider() {
+        super( SimStrings.get( "WavePacketCenterSlider.format.space" ) );
         
         // Range is 900 to 1500, which will be mapped to 9pi to 15pi.
         getSlider().setMinimum( 9 * MULTIPLIER );

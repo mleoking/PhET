@@ -22,13 +22,14 @@ import edu.colorado.phet.fourier.MathStrings;
 
 
 /**
- * KWidthSlider is a slider for controling the 
- * Gaussian wave packet width in k space.
+ * WavePacketKWidthSlider is a slider for controling the 
+ * Gaussian wave packet width in k space. This slider
+ * sets the value of <b>half</b> the width.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class DeltaKSlider extends AbstractFourierSlider {
+public class WavePacketKWidthSlider extends AbstractFourierSlider {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -60,8 +61,8 @@ public class DeltaKSlider extends AbstractFourierSlider {
     /**
      * Sole constructor.
      */
-    public DeltaKSlider() {
-        super( SimStrings.get( "DeltaKSlider.format.space" ) );
+    public WavePacketKWidthSlider() {
+        super( SimStrings.get( "WavePacketKWidthSlider.format.space" ) );
         
         getSlider().setMinimum( (int)( MIN_WIDTH * MULTIPLIER) );
         getSlider().setMaximum( (int)( MAX_WIDTH * MULTIPLIER ) );
