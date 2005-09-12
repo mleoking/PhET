@@ -69,6 +69,9 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/12) - put envelopes behind other plots in charts
+(9/12) - use 4-pixel stroke for envelopes 
+(9/12) - fix x-space envelope so it works correctly when k1=0
 (9/12) - add wait cursor to all controls in D2C control panel
 (9/12) - display x-space envelope in D2C Sum graph
 (9/12) - add "Show x-space envelope" control (not functional)
