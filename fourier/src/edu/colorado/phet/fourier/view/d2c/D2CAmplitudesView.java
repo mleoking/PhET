@@ -74,7 +74,7 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
     // Envelope waveform
     private static final double ENVELOPE_STEP = Math.PI / 10; // about one value for every 2 pixels
     private static final Color ENVELOPE_COLOR = Color.LIGHT_GRAY;
-    private static final Stroke ENVELOPE_STROKE = new BasicStroke( 2f );
+    private static final Stroke ENVELOPE_STROKE = new BasicStroke( 4f );
     
     // Math equation
     private static final Font MATH_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 20 );
@@ -183,6 +183,7 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
      */
     public void reset() {
         _envelopeEnabled = false;
+        _envelopeGraphic.setVisible( _envelopeEnabled );
         setDomain( FourierConstants.DOMAIN_SPACE );
         update();
     }
@@ -222,11 +223,8 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
         _envelopeEnabled = enabled;
         if ( enabled ) {
             updateEnvelope();
-            _chartGraphic.addDataSetGraphic( _envelopeGraphic );
         }
-        else {
-            _chartGraphic.removeDataSetGraphic( _envelopeGraphic );
-        }
+        _envelopeGraphic.setVisible( enabled );
         refreshChart();
     }
     
@@ -263,6 +261,10 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
         
         // Remove all plots from the chart.
         _chartGraphic.removeAllDataSetGraphics();
+      
+        // Envelope needs to be behind everything else, so add it first.
+        _envelopeGraphic.setVisible( _envelopeEnabled );
+        _chartGraphic.addDataSetGraphic( _envelopeGraphic );
         
         double k1 = _wavePacket.getK1();
         if ( k1 > 0 ) {
@@ -271,11 +273,10 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
         else {
             addGeneralPathPlot();
         }
-        
+       
         // Update the envelope waveform display if it's enabled.
         if ( _envelopeEnabled ) {
             updateEnvelope();
-            _chartGraphic.addDataSetGraphic( _envelopeGraphic );
         }
         
         refreshChart();
