@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- change default math form to "Frequency" in time domain
 - replace D2C width tools with static graphics that indicate widths (red, double arrows)
 - change D2C "Show continuous waveform" to "Show k-space envelope"
 - add D2C "Show x-space envelope" control

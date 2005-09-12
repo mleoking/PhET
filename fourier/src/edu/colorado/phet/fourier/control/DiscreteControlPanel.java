@@ -310,9 +310,9 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
                     _spaceMathFormChoices.add( new FourierComboBox.Choice( FourierConstants.MATH_FORM_MODE, SimStrings.get( "mathForm.mode" ) ) );
 
                     _timeMathFormChoices = new ArrayList();
+                    _timeMathFormChoices.add( new FourierComboBox.Choice( FourierConstants.MATH_FORM_FREQUENCY, SimStrings.get( "mathForm.frequency" ) ) );
                     _timeMathFormChoices.add( new FourierComboBox.Choice( FourierConstants.MATH_FORM_PERIOD, SimStrings.get( "mathForm.period" ) ) );
                     _timeMathFormChoices.add( new FourierComboBox.Choice( FourierConstants.MATH_FORM_ANGULAR_FREQUENCY, SimStrings.get( "mathForm.angularFrequency" ) ) );
-                    _timeMathFormChoices.add( new FourierComboBox.Choice( FourierConstants.MATH_FORM_FREQUENCY, SimStrings.get( "mathForm.frequency" ) ) );
                     _timeMathFormChoices.add( new FourierComboBox.Choice( FourierConstants.MATH_FORM_MODE, SimStrings.get( "mathForm.mode" ) ) );
 
                     _spaceAndTimeMathFormChoices = new ArrayList();
@@ -435,7 +435,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         // Math Mode
         {
             _mathFormKeySpace = FourierConstants.MATH_FORM_WAVELENGTH;
-            _mathFormKeyTime = FourierConstants.MATH_FORM_PERIOD;
+            _mathFormKeyTime = FourierConstants.MATH_FORM_FREQUENCY;
             _mathFormKeySpaceAndTime = FourierConstants.MATH_FORM_WAVELENGTH_AND_PERIOD;
             _showMathCheckBox.setSelected( false );
             _mathFormComboBox.setChoices( _timeMathFormChoices );
