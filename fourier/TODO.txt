@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- D2C envelopes should be behind other curves and thicker
 - replace D2C width tools with static graphics that indicate widths (red, double arrows)
 - make Discrete amplitude sliders 50% narrower (no!)
 - add ability to show multiple wavelength/period tools in Discrete module (no!)
