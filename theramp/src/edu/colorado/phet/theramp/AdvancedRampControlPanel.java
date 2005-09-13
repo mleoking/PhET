@@ -163,7 +163,7 @@ public class AdvancedRampControlPanel extends RampControlPanel {
             PhetPCanvas controlPanelFBD = new PhetPCanvas();
             controlPanelFBD.setPreferredSize( new Dimension( 200, 200 ) );
             FreeBodyDiagram freeBodyDiagram = new FreeBodyDiagram( rampPanel, module, controlPanelFBD );
-            controlPanelFBD.addChild( freeBodyDiagram );
+            controlPanelFBD.addWorldChild( freeBodyDiagram );
 
             AdvancedPanel advancedFBDPanel = new AdvancedPanel( "Free Body Diagram>>", "Free Body Diagram<<" );
 //        FBDPanel fbdContent = new FBDPanel( freeBodyDiagram );
