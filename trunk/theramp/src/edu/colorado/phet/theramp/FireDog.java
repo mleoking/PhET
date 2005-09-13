@@ -5,7 +5,6 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.theramp.view.FloorGraphic;
 import edu.colorado.phet.theramp.view.RampPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
@@ -18,7 +17,6 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Random;
 
 /**
@@ -68,28 +66,6 @@ public class FireDog extends PNode {
         Point2D top = earth.getGlobalFullBounds().getOrigin();
         globalToLocal( top );
         localToParent( top );
-        return top.getY();
-    }
-
-    private double getFloorYTerrible() {
-        FloorGraphic floorGraphic = module.getRampPanel().getRampWorld().getGroundGraphic();
-        Point2D top = floorGraphic.getGlobalFullBounds().getOrigin();
-        module.getRampPanel().getCamera().globalToLocal( top );
-        module.getRampPanel().getCamera().localToView( top );
-        ArrayList hierarchy = new ArrayList();
-        PNode p = getParent();
-        while( p != module.getRampPanel().getCamera().getLayer( 0 ) ) {
-            hierarchy.add( p );
-            p = p.getParent();
-        }
-        Collections.reverse( hierarchy );
-        for( int i = 0; i < hierarchy.size(); i++ ) {
-            PNode pNode = (PNode)hierarchy.get( i );
-            pNode.parentToLocal( top );
-        }
-//        globalToLocal( top );
-//        localToParent( top );
-//        double r2 = globalToLocal( floorGraphic.getGlobalFullBounds() ).getMaxY();
         return top.getY();
     }
 
