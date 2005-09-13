@@ -5,6 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- add arrows to "width" graphics in D2C
+- vertical height of "width" graphics in D2C is wrong
 - replace D2C width tools with static graphics that indicate widths (red, double arrows)
 - make Discrete amplitude sliders 50% narrower (no!)
 - add ability to show multiple wavelength/period tools in Discrete module (no!)
@@ -68,6 +70,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/12) - First crack at static "width" graphics in D2C, sort of broken
 (9/12) - put envelopes behind other plots in charts
 (9/12) - use 4-pixel stroke for envelopes 
 (9/12) - fix x-space envelope so it works correctly when k1=0
