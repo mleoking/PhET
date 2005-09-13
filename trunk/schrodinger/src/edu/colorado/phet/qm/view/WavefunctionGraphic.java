@@ -30,7 +30,7 @@ import java.awt.image.BufferedImage;
 
 public class WavefunctionGraphic extends GraphicLayerSet {
 
-    public static int numIterationsBetwenScreenUpdate = 2;
+    public static int numIterationsBetwenScreenUpdate = 2;//TODO make this obvious at top level!
 
     private boolean displayXExpectation;
     private boolean displayYExpectation;

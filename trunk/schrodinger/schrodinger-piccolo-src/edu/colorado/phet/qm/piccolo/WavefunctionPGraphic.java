@@ -22,10 +22,14 @@ import java.awt.event.ActionListener;
 
 public class WavefunctionPGraphic extends PNode {
     private SchrodingerCanvas schrodingerCanvas;
+    private int nx;
+    private int ny;
     private PImage wavefunctionGraphic;
 
-    public WavefunctionPGraphic( SchrodingerCanvas schrodingerCanvas ) {
+    public WavefunctionPGraphic( SchrodingerCanvas schrodingerCanvas,int nx,int ny ) {
         this.schrodingerCanvas = schrodingerCanvas;
+        this.nx = nx;
+        this.ny = ny;
         wavefunctionGraphic = new PImage();
         schrodingerCanvas.getDiscreteModel().addListener( new DiscreteModel.Adapter() {
             public void finishedTimeStep( DiscreteModel model ) {
@@ -50,7 +54,7 @@ public class WavefunctionPGraphic extends PNode {
 
     private void update() {
         ColorMap colorMap = new PiccoloMagnitudeInGrayscale( getDiscreteModel() );
-        ColorGrid colorGrid = new ColorGrid( 600, 600, 100, 100 );
+        ColorGrid colorGrid = new ColorGrid( 600, 600, nx,ny );
         colorGrid.colorize( colorMap );
         wavefunctionGraphic.setImage( colorGrid.getBufferedImage() );
         repaint();

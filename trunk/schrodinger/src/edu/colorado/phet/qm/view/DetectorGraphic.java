@@ -67,8 +67,7 @@ public class DetectorGraphic extends RectangleGraphic {
     }
 
     private void update() {
-        Rectangle modelRect = detector.getBounds();
-        Rectangle viewRect = super.getViewRectangle( modelRect );
+        Rectangle viewRect = super.getViewRectangle( detector.getBounds() );
 
         double probPercent = detector.getProbability() * 100.0;
 //        System.out.println( "probPercent = " + probPercent );
