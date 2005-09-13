@@ -412,7 +412,9 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         
         // Wavelength Tool
         _wavelengthToolCheckBox.setSelected( false );
-        _wavelengthToolCheckBox.setEnabled( true );
+        _wavelengthToolCheckBox.setEnabled( 
+                _domainComboBox.getSelectedKey() == FourierConstants.DOMAIN_SPACE ||
+                _domainComboBox.getSelectedKey() == FourierConstants.DOMAIN_SPACE_AND_TIME );
         _wavelengthToolComboBox.setEnabled( _wavelengthToolCheckBox.isSelected() );
         _wavelengthToolComboBox.removeAllItems();
         for ( int i = 0; i < _fourierSeries.getNumberOfHarmonics(); i++ ) {
@@ -423,7 +425,9 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
 
         // Period Tool
         _periodToolCheckBox.setSelected( false );
-        _periodToolCheckBox.setEnabled( false );
+        _periodToolCheckBox.setEnabled( 
+                _domainComboBox.getSelectedKey() == FourierConstants.DOMAIN_TIME ||
+                _domainComboBox.getSelectedKey() == FourierConstants.DOMAIN_SPACE_AND_TIME );
         _periodToolComboBox.setEnabled( _periodToolCheckBox.isSelected() );
         _periodToolComboBox.removeAllItems();
         for ( int i = 0; i < _fourierSeries.getNumberOfHarmonics(); i++ ) {
