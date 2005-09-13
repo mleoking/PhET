@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.piccolo;
 
+import edu.colorado.phet.common.math.Vector2D;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PActivityScheduler;
@@ -31,15 +32,8 @@ public class WiggleMe extends PNode {
         addChild( htmlBound );
         addChild( htmlGraphic );
 
-        oscillate = new OscillateActivity( this, x, y );
+        oscillate = new OscillateActivity( this, x, y, new Vector2D.Double( 30, 0 ), 3.5 );
         setOscillating( true );
-
-//        addPropertyChangeListener( PROPERTY_VISIBLE, new PropertyChangeListener() {
-//            public void propertyChange( PropertyChangeEvent evt ) {
-//                ensureActivityCorrect();
-//            }
-//        } );
-//        add
     }
 
     public void setVisible( boolean isVisible ) {
@@ -92,7 +86,6 @@ public class WiggleMe extends PNode {
 
     private boolean rootSchedulerExists() {
         boolean ex = !( getRoot() == null || getRoot().getActivityScheduler() == null );
-//        System.out.println( "ex = " + ex );
         return ex;
     }
 

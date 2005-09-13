@@ -1,9 +1,12 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.tests.piccolo.experimental;
 
-import edu.umd.cs.piccolo.PNode;
-import edu.colorado.phet.piccolo.WiggleMe;
+import edu.colorado.phet.piccolo.ArrowConnectorGraphic;
 import edu.colorado.phet.piccolo.ConnectorGraphic;
+import edu.colorado.phet.piccolo.WiggleMe;
+import edu.umd.cs.piccolo.PNode;
+
+import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -12,12 +15,23 @@ import edu.colorado.phet.piccolo.ConnectorGraphic;
  * Copyright (c) Jul 28, 2005 by Sam Reid
  */
 
-public class TargetedWiggleMe extends WiggleMe {
+public class TargetedWiggleMe extends PNode {
+    private ConnectorGraphic connectorGraphic;
+    private WiggleMe wiggleMe;
+    private PNode target;
 
-    public TargetedWiggleMe( String message, int x, int y, PNode dest ) {
-        super( message, x, y );
+    public TargetedWiggleMe( String message, int x, int y, PNode target ) {
+        this.target = target;
+        wiggleMe = new WiggleMe( message, x, y );
 
-        ConnectorGraphic arrowConnectorGraphic = new ConnectorGraphic( this, dest );
-        addChild( arrowConnectorGraphic );
+        connectorGraphic = new ArrowConnectorGraphic( wiggleMe, target );
+        connectorGraphic.setStroke( new BasicStroke( 2, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 2 ) );
+        connectorGraphic.setPaint( new GradientPaint( 0, 0, Color.red, 1000, 0, Color.blue, false ) );
+        connectorGraphic.setPickable( false );
+        connectorGraphic.setChildrenPickable( false );
+        addChild( connectorGraphic );
+        addChild( wiggleMe );
+        setPickable( false );
+        setChildrenPickable( false );
     }
 }

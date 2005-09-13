@@ -17,8 +17,11 @@ import java.awt.event.*;
 public class PhetPCanvas extends PSwingCanvas {
     private Dimension renderingSize = null;
     private ComponentAdapter resizeAdapter;
+    private PhetRootPNode phetRootNode;//it's very difficult to have things point to each other when there is a camera layer between them.
 
     public PhetPCanvas() {
+        this.phetRootNode = new PhetRootPNode();
+        getLayer().addChild( phetRootNode );
         removeInputEventListener( getZoomEventHandler() );
         removeInputEventListener( getPanEventHandler() );
 
@@ -38,13 +41,23 @@ public class PhetPCanvas extends PSwingCanvas {
                     PDebug.debugRegionManagement = !PDebug.debugRegionManagement;
                 }
                 else if( e.getKeyCode() == KeyEvent.VK_S ) {
-                    identityScale();
+                    setWorldScaleIdentity();
                 }
             }
 
             public void keyTyped( KeyEvent e ) {
             }
         } );
+        addKeyListener( new PanZoomWorldKeyHandler( this ) );
+        requestFocus();
+    }
+
+    public PNode getWorldNode() {
+        return phetRootNode.getWorldNode();
+    }
+
+    public PNode getScreenNode() {
+        return phetRootNode.getScreenNode();
     }
 
     protected class ResizeAdapter extends ComponentAdapter {
@@ -75,16 +88,15 @@ public class PhetPCanvas extends PSwingCanvas {
         //use the smaller
 
         double scale = sx < sy ? sx : sy;
-//        System.out.println( "sx = " + sx + ", sy=" + sy + ", scale=" + scale );
-        double cameraViewScale = getCamera().getViewScale();
-        System.out.println( "scale=" + scale );
-        getCamera().scaleView( scale / cameraViewScale );
+        setWorldScale( scale );
     }
 
-    public void identityScale() {
-        double cameraViewScale = getCamera().getViewScale();
-        System.out.println( "scale=" + 1.0 );
-        getCamera().scaleView( 1.0 / cameraViewScale );
+    private void setWorldScale( double scale ) {
+        phetRootNode.setWorldScale( scale );
+    }
+
+    public void setWorldScaleIdentity() {
+        setWorldScale( 1.0 );
     }
 
     private double getScaleY() {
@@ -106,16 +118,24 @@ public class PhetPCanvas extends PSwingCanvas {
     /*
     Convenience methods.
     */
-    public void addChild( int layer, PNode graphic ) {
-        getLayer().addChild( layer, graphic );
+    public void addWorldChild( int layer, PNode graphic ) {
+        phetRootNode.addWorldChild( layer, graphic );
     }
 
-    public void addChild( PNode graphic ) {
-        getLayer().addChild( graphic );
+    public void addScreenChild( PNode node ) {
+        phetRootNode.addScreenChild( node );
     }
 
-    public void removeChild( PNode graphic ) {
-        getLayer().removeChild( graphic );
+    public void removeScreenChild( PNode node ) {
+        phetRootNode.removeScreenChild( node );
+    }
+
+    public void addWorldChild( PNode graphic ) {
+        phetRootNode.addWorldChild( graphic );
+    }
+
+    public void removeWorldChild( PNode graphic ) {
+        phetRootNode.removeWorldChild( graphic );
     }
 
     public void setDebugRegionManagement( boolean debugRegionManagement ) {
