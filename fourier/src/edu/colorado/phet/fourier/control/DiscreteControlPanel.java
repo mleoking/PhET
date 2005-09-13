@@ -84,6 +84,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     private JCheckBox _showMathCheckBox;
     private FourierComboBox _mathFormComboBox;
     private JCheckBox _expandSumCheckBox;
+    private JCheckBox _soundCheckBox;
     private ExpandSumDialog _expandSumDialog;
     
     // Choices
@@ -341,12 +342,17 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             mathModePanel.add( innerPanel, BorderLayout.WEST );
         }
         
+        // Sound
+        _soundCheckBox = new JCheckBox( SimStrings.get( "DiscreteControlPanel.sound" ) );
+        
         // Layout
         addFullWidth( functionsPanel );
         addVerticalSpace( 5 );
         addFullWidth( wavePropertiesPanel );
         addVerticalSpace( 5 );
         addFullWidth( mathModePanel );
+        addVerticalSpace( 5 );
+        addFullWidth( _soundCheckBox );
 
         // Dialogs
         Frame parentFrame = PhetApplication.instance().getPhetFrame();
@@ -367,6 +373,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             _showMathCheckBox.addActionListener( _eventListener );
             _expandSumCheckBox.addActionListener( _eventListener );
             _expandSumDialog.getCloseButton().addActionListener( _eventListener );
+            _soundCheckBox.addActionListener( _eventListener );
             // ChangeListeners
             _numberOfHarmonicsSlider.addChangeListener( _eventListener );
             // ItemListeners
@@ -445,6 +452,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             _expandSumCheckBox.setSelected( false );
             _expandSumDialog.hide();
         }
+        
+        _soundCheckBox.setSelected( false );
     }
     
     //----------------------------------------------------------------------------
@@ -484,6 +493,9 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             }
             else if ( event.getSource() == _expandSumDialog.getCloseButton() ) {
                 handleCloseExpandSumDialog();
+            }
+            else if ( event.getSource() == _soundCheckBox ) {
+                handleSound();
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + event );
@@ -759,6 +771,10 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     private void handleCloseExpandSumDialog() {
         _expandSumDialog.hide();
         _expandSumCheckBox.setSelected( false );
+    }
+    
+    private void handleSound() {
+        //XXX implement
     }
     
     /*
