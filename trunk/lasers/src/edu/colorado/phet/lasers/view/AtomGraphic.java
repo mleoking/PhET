@@ -205,6 +205,10 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
         return atom;
     }
 
+    protected PhetImageGraphic getImageGraphic() {
+        return imageGraphic;
+    }
+
     //----------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------

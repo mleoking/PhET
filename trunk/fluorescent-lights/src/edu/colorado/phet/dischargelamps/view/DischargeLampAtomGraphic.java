@@ -10,10 +10,7 @@
  */
 package edu.colorado.phet.dischargelamps.view;
 
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShadowTextGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
@@ -24,6 +21,8 @@ import edu.colorado.phet.lasers.view.AtomGraphic;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.font.FontRenderContext;
+import java.awt.font.TextLayout;
 import java.awt.image.BufferedImage;
 
 /**
@@ -68,6 +67,7 @@ public class DischargeLampAtomGraphic extends AtomGraphic implements Atom.Change
     // A number to be displayed in the middle of the atom
     PhetGraphic numberGraphic;
 //    PhetTextGraphic numberGraphic;
+    private Font font;
 
     /**
      * @param component
@@ -85,15 +85,15 @@ public class DischargeLampAtomGraphic extends AtomGraphic implements Atom.Change
 
         getEnergyGraphic().setStroke( new BasicStroke( 0.5f ) );
         getEnergyGraphic().setBorderColor( Color.black );
-        Font font = new Font( DischargeLampsConfig.DEFAULT_CONTROL_FONT.getName(),
-                              DischargeLampsConfig.DEFAULT_CONTROL_FONT.getStyle(),
-                              DischargeLampsConfig.DEFAULT_CONTROL_FONT.getSize() + 8 );
+        font = new Font( DischargeLampsConfig.DEFAULT_CONTROL_FONT.getName(),
+                                      DischargeLampsConfig.DEFAULT_CONTROL_FONT.getStyle(),
+                                      DischargeLampsConfig.DEFAULT_CONTROL_FONT.getSize() + 8 );
         // Put the number graphic in the middle of the atom graphic
         numberGraphic = characterGraphics[0];
 //        numberGraphic = new PhetTextGraphic( component, font, "", Color.white, -1, -2 );
 //        numberGraphic.setJustification( PhetTextGraphic.CENTER );
 //        setNumberGraphicText();
-//        addGraphic( numberGraphic, 1000 );
+        addGraphic( numberGraphic, 1000 );
 
         determineEnergyRadiusAndColor();
         getEnergyGraphic().setColor( energyRepColorStrategy.getColor( atom ) );
@@ -114,6 +114,16 @@ public class DischargeLampAtomGraphic extends AtomGraphic implements Atom.Change
         removeGraphic( numberGraphic );
         numberGraphic = characterGraphics[stateIdx];
         addGraphic( numberGraphic, 1000 );
+
+//        Graphics2D g2 = (Graphics2D)getImageGraphic().getImage().getGraphics();
+//        FontRenderContext frc = g2.getFontRenderContext();
+//        TextLayout tl = new TextLayout(numStr, font, frc);
+//        Shape outline = tl.getOutline(null);
+//        PhetShapeGraphic outlineGraphic = new PhetShapeGraphic( getComponent(), outline, Color.white, new BasicStroke( 1), Color.black );
+//        outlineGraphic.setRegistrationPoint( (int)outline.getBounds().getWidth()/2, -(int)outline.getBounds().getHeight()/2);
+//        outlineGraphic.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON) );
+//        addGraphic( outlineGraphic, 1001);
+
     }
 
     /**
