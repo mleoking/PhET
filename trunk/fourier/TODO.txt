@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- x-axis ticks and labeling should be consistent between D and D2C modules
 - peak of the D2C sum envelope should be used to scale the Sum graph
 - add arrows to "width" graphics in D2C
 - vertical height of "x-space width" graphic in D2C is wrong
