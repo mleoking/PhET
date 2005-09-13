@@ -11,13 +11,12 @@
 
 package edu.colorado.phet.fourier;
 
+import java.awt.Dimension;
 import java.io.IOException;
-
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.application.PhetStartupWindow;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.util.DebugMenu;
@@ -25,7 +24,8 @@ import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.control.OptionsMenu;
-import edu.colorado.phet.fourier.module.*;
+import edu.colorado.phet.fourier.module.D2CModule;
+import edu.colorado.phet.fourier.module.DiscreteModule;
 
 
 /**
@@ -114,6 +114,12 @@ public class FourierApplication extends PhetApplication {
         // Initialize localization.
         SimStrings.init( args, FourierConfig.LOCALIZATION_BUNDLE_BASENAME );
         
+        // Open progress window
+        String progressMessage = SimStrings.get( "FourierApplication.progress" );
+        PhetStartupWindow progressWindow = new PhetStartupWindow( progressMessage );
+        progressWindow.setIndeterminate( true );
+        progressWindow.setVisible( true );
+        
         // Get stuff needed to initialize the application model.
         String title = SimStrings.get( "FourierApplication.title" );
         String description = SimStrings.get( "FourierApplication.description" );
@@ -156,5 +162,7 @@ public class FourierApplication extends PhetApplication {
         
         // Start the application.
         app.startApplication();
+        
+        progressWindow.setVisible( false );
     }
 }
