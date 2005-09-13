@@ -244,7 +244,8 @@ public class TimePlotSuitePNode extends PNode {
     }
 
     public double getTopY() {
-        Point2D loc = isMinimized() ? maxButNode.getGlobalFullBounds().getOrigin() : chartGraphic.getGlobalFullBounds().getOrigin();
+        Point2D loc = isMinimized() ? maxButNode.getGlobalFullBounds().getOrigin() :
+                      chartGraphic.getGlobalFullBounds().getOrigin();
         pCanvas.getCamera().globalToLocal( loc );
 //        pCanvas.getCamera().localToParent( loc );
 

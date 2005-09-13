@@ -124,7 +124,7 @@ public class RampPanel extends PhetPCanvas {
 
         addMouseListener( new UserAddingEnergyHandler( module ) );
 
-        addInputEventListener( getZoomEventHandler() );
+//        addInputEventListener( getZoomEventHandler() );
 
 //        addInputEventListener( getPanEventHandler() );
 //        module.getModel().addModelElement( new ModelElement() {
@@ -229,7 +229,7 @@ public class RampPanel extends PhetPCanvas {
         final WiggleMe wiggleMe = new WiggleMe( "<html>Apply a Force<br>" +
                                                 "to the Filing Cabinet</html>",
                                                 (int)( ORIG_RENDER_SIZE.getWidth() / 2 - 50 ), 350 );
-        final ConnectorGraphic connectorGraphic = new ArrowConnectorGraphic( getCamera(), wiggleMe, getBlockGraphic().getObjectGraphic() );
+        final ConnectorGraphic connectorGraphic = new ArrowConnectorGraphic( wiggleMe, getBlockGraphic().getObjectGraphic() );
 //        final ConnectorGraphic connectorGraphic = new ConnectorGraphic( getCamera(), wiggleMe, getBlockGraphic().getObjectGraphic() );
 //        getLayer().getRoot().addActivity( connectorGraphic.getConnectActivity() );
         connectorGraphic.setStroke( new BasicStroke( 2, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 2 ) );//, new float[]{10, 5}, 0 ) );

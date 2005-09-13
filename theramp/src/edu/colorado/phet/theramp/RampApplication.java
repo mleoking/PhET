@@ -55,6 +55,7 @@ public class RampApplication extends PhetApplication {
                     new FrameSetup.MaxExtent().initialize( application.getPhetFrame() );
                     System.out.println( "getSize() = " + application.simpleRampModule.getPhetPCanvas().getSize() );
                     new DebugPiccoloTree().printTree( application.advancedFeatureModule.getRampPanel().getRoot() );
+                    application.getModuleManager().getActiveModule().getPhetPCanvas().requestFocus();
                 }
             } );
         }
