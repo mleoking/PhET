@@ -233,4 +233,9 @@ public class SchrodingerPanel extends ApparatusPanel2 {
         wavefunctionGraphic.setWaveSize( width, height );
         intensityDisplay.setWaveSize( width, height );
     }
+
+    public Rectangle waveAreaToScreen( Rectangle gridRect ) {
+        Rectangle screenRect = wavefunctionGraphic.getNetTransform().createTransformedShape( gridRect ).getBounds();
+        return screenRect;
+    }
 }

@@ -78,9 +78,16 @@ public class RectangleGraphic extends GraphicLayerSet {
     }
 
     public Rectangle getViewRectangle( Rectangle modelRect ) {
+//        return getColorGrid().getViewRectangle( modelRect );
         Rectangle gridRect = getColorGrid().getViewRectangle( modelRect );
-        return schrodingerPanel.getWavefunctionGraphic().getNetTransform().createTransformedShape( gridRect ).getBounds();
+        Rectangle bounds = schrodingerPanel.waveAreaToScreen( gridRect );
+        return bounds;
     }
+
+//    public Rectangle getViewRectangleORIG( Rectangle modelRect ) {
+//        Rectangle gridRect = getColorGrid().getViewRectangle( modelRect );
+//        return schrodingerPanel.getWavefunctionGraphic().getNetTransform().createTransformedShape( gridRect ).getBounds();
+//    }
 
     public SchrodingerPanel getSchrodingerPanel() {
         return schrodingerPanel;
