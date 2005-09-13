@@ -117,7 +117,7 @@ public class DiscreteAmplitudesView extends GraphicLayerSet implements SimpleObs
         addGraphic( backgroundGraphic, BACKGROUND_LAYER );
         
         // Title
-        String title = SimStrings.get( "AmplitudesGraph.title" );
+        String title = SimStrings.get( "DiscreteAmplitudesView.title" );
         PhetTextGraphic titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
         titleGraphic.centerRegistrationPoint();
         titleGraphic.rotate( -( Math.PI / 2 ) );

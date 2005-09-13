@@ -129,7 +129,7 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
         addGraphic( _backgroundGraphic, BACKGROUND_LAYER );
         
         // Title
-        String title = SimStrings.get( "D2CHarmonicsGraph.title" );
+        String title = SimStrings.get( "D2CHarmonicsView.title" );
         _titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
         _titleGraphic.centerRegistrationPoint();
         _titleGraphic.rotate( -( Math.PI / 2 ) );
@@ -151,7 +151,7 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
         }
         
         // "Cannot show" message 
-        String cannotShowMessage = SimStrings.get( "D2CHarmonicsGraph.cannotShow" );
+        String cannotShowMessage = SimStrings.get( "D2CHarmonicsView.cannotShow" );
         _cannotShowGraphic = new HTMLGraphic( component, CANNOT_SHOW_MESSAGE_FONT, cannotShowMessage, CANNOT_SHOW_MESSAGE_COLOR );
         addGraphic( _cannotShowGraphic, MESSAGE_LAYER );
         _cannotShowGraphic.setRegistrationPoint( 0, _cannotShowGraphic.getHeight() / 2 ); // left center
@@ -164,7 +164,7 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
         _minimizeButton.setLocation( (_minimizeButton.getWidth()/2) + 10, _minimizeButton.getHeight()/2 + 5 );
         
         // "Minimize" message
-        String minimizeMessage = SimStrings.get( "D2CHarmonicsGraph.minimize" );
+        String minimizeMessage = SimStrings.get( "D2CHarmonicsView.minimize" );
         HTMLGraphic minimizeGraphic = new HTMLGraphic( component, MINIMIZE_MESSAGE_FONT, minimizeMessage, MINIMIZE_MESSAGE_COLOR );
         addGraphic( minimizeGraphic, MESSAGE_LAYER );
         minimizeGraphic.setRegistrationPoint( 0, minimizeGraphic.getHeight() / 2 ); // left center
@@ -420,7 +420,7 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
      */
     public void update() {
         
-        System.out.println( "D2CHarmonicsGraph.update" ); //XXX
+        System.out.println( "D2CHarmonicsView.update" ); //XXX
         
         _updateRequired = true;
         
@@ -523,10 +523,10 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
      */
     private void updateAxisTitles() {
         if ( _domain == FourierConstants.DOMAIN_SPACE ) {
-            _chartGraphic.setXAxisTitle( SimStrings.get( "D2CHarmonicsGraph.xTitleSpace" ) );
+            _chartGraphic.setXAxisTitle( "x (mm)" );
         }
         else if ( _domain == FourierConstants.DOMAIN_TIME ) {
-            _chartGraphic.setXAxisTitle( SimStrings.get( "D2CHarmonicsGraph.xTitleTime" ) );
+            _chartGraphic.setXAxisTitle( "t (ms)" );
         }
         refreshChart();
     }
