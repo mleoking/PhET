@@ -17,6 +17,7 @@ import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 
 import javax.swing.*;
+import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -59,6 +60,7 @@ public class ApparatusPanel extends JPanel {
     protected ApparatusPanel( Object obj ) {
         super( null );
         this.graphic = new GraphicLayerSet( this );
+        setMouseAndKeyListeners( getGraphic().getMouseHandler(), getGraphic().getKeyAdapter() );
     }
 
     public ApparatusPanel() {
@@ -91,6 +93,13 @@ public class ApparatusPanel extends JPanel {
             }
         }
 
+        setMouseAndKeyListeners( getGraphic().getMouseHandler(), getGraphic().getKeyAdapter() );
+    }
+
+    /**
+     * Sets up mouse and key listeners
+     */
+    protected void setMouseAndKeyListeners( MouseInputListener mouseHandler, KeyListener keyAdapter ) {
         // Clear the old handlers
         MouseListener[] mouseListeners = this.getMouseListeners();
         for( int i = 0; i < mouseListeners.length; i++ ) {
@@ -109,9 +118,15 @@ public class ApparatusPanel extends JPanel {
         }
 
         // Add the new handlers
-        this.addMouseListener( newGraphic.getMouseHandler() );
-        this.addMouseMotionListener( newGraphic.getMouseHandler() );
-        this.addKeyListener( newGraphic.getKeyAdapter() );
+        this.addMouseListener( mouseHandler );
+        this.addMouseMotionListener( getGraphic().getMouseHandler() );
+        this.addKeyListener( keyAdapter );
+    }
+
+    protected void setHandlers( GraphicLayerSet.SwingAdapter mouseHandler, KeyListener keyAdapter ) {
+        this.addMouseListener( mouseHandler );
+        this.addMouseMotionListener( getGraphic().getMouseHandler() );
+        this.addKeyListener( keyAdapter );
     }
 
     public void addGraphicsSetup( GraphicsSetup setup ) {
