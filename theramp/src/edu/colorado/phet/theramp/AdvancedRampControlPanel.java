@@ -6,6 +6,7 @@ import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.theramp.model.Block;
+import edu.colorado.phet.theramp.model.RampObject;
 import edu.colorado.phet.theramp.view.FreeBodyDiagram;
 import edu.colorado.phet.theramp.view.InitialConditionPanel;
 import edu.colorado.phet.theramp.view.RampPanel;

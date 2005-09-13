@@ -1,11 +1,11 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.theramp;
+package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.theramp.view.RampPanel;
+import edu.colorado.phet.theramp.RampModule;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.nodes.PImage;

@@ -4,7 +4,7 @@ package edu.colorado.phet.theramp.view;
 import edu.colorado.phet.common.view.components.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.theramp.timeseries.RampTimeSeriesModel;
+import edu.colorado.phet.theramp.model.RampTimeSeriesModel;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
 import edu.colorado.phet.timeseries.TimeSeriesModelListenerAdapter;
 
