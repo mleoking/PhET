@@ -42,9 +42,6 @@ public class ArrowConnectorGraphic extends ConnectorGraphic {
 
         GradientPaint gradientPaint = new GradientPaint( r1c, Color.blue, vector.getDestination( r1c ), Color.red, false );
         setPaint( gradientPaint );
-//        Area area=new Area( arrow.getShape() );
-//        area.subtract( new Area(getSource().getGlobalFullBounds()));
-//        area.subtract( new Area( getDestination().getGlobalFullBounds() ) );
         setPathTo( arrow.getShape() );
     }
 }
