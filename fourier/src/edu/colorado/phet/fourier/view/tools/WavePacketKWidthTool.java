@@ -78,10 +78,13 @@ public class WavePacketKWidthTool extends AbstractWavePacketMeasurementTool {
         double k0 = getWavePacket().getK0();
         double k1 = getWavePacket().getK1();
         double modelX = k0 - ( 12 * Math.PI );
-        double modelY = 1 / ( dk * Math.sqrt( Math.E * 2 * Math.PI ) );
+        double modelY = GaussianWavePacket.getAmplitude( k0 + dk, k0, dk );
+        if ( k1 != 0 ) {
+            modelY = k1 * modelY;
+        }
         double viewX = getChart().transformXDouble( modelX );
-        double viewY = getChart().transformYDouble( modelY );
-        setLocation( (int)( _origin.getX() + viewX ), (int) ( _origin.getY() - viewY ) );
+        double viewY = getChart().transformYDouble( modelY ) - getChart().transformYDouble( 0 );
+        setLocation( (int)( _origin.getX() + viewX ), (int) ( _origin.getY() + viewY ) );
     }
 
 }

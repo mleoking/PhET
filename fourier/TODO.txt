@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- peak of the D2C sum envelope should be used to scale the Sum graph
 - add arrows to "width" graphics in D2C
 - vertical height of "width" graphics in D2C is wrong
 - replace D2C width tools with static graphics that indicate widths (red, double arrows)
@@ -71,6 +72,7 @@ PHETCOMMON:
 
 DONE:
 1.0.12 ...
+(9/12) - fixed vertical height of k-space width graphic
 (9/12) - First crack at static "width" graphics in D2C, sort of broken
 (9/12) - put envelopes behind other plots in charts
 (9/12) - use 4-pixel stroke for envelopes 
