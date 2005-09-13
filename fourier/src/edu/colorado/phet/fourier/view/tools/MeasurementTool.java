@@ -37,6 +37,10 @@ public class MeasurementTool extends CompositePhetGraphic implements ApparatusPa
     // Class data
     //----------------------------------------------------------------------------
 
+    // "Looks" for the tool
+    public static final int LOOK_CALIPERS = 0;
+    public static final int LOOK_ARROWS = 1;
+    
     // Graphics layers
     private static final double BACKGROUND_LAYER = 1;
     private static final double BAR_LAYER = 2;
@@ -65,6 +69,8 @@ public class MeasurementTool extends CompositePhetGraphic implements ApparatusPa
     private PhetShapeGraphic _barGraphic;
     private GeneralPath _barPath;
     private FourierDragHandler _dragHandler;
+    private int _look;
+    private float _width;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -93,6 +99,7 @@ public class MeasurementTool extends CompositePhetGraphic implements ApparatusPa
         handleLabelSizeChange();
 
         // Bar path
+        _look = LOOK_CALIPERS;
         _barPath = new GeneralPath();
         _barGraphic = new PhetShapeGraphic( component );
         _barGraphic.setShape( _barPath );
@@ -100,10 +107,10 @@ public class MeasurementTool extends CompositePhetGraphic implements ApparatusPa
         _barGraphic.setLocation( 0, 0 );
         addGraphic( _barGraphic, BAR_LAYER );
 
-        // Interactivity
-        setCursorHand();
-        _dragHandler = new FourierDragHandler( this );
-        addMouseInputListener( _dragHandler );
+        // Interactive by default
+        setDragEnabled( true );
+        
+        setToolWidth( 0f );
     }
 
     //----------------------------------------------------------------------------
@@ -195,45 +202,92 @@ public class MeasurementTool extends CompositePhetGraphic implements ApparatusPa
      */
     public void setToolWidth( float width ) {
         assert ( END_HEIGHT > LINE_HEIGHT );
-
         if ( width < 0 ) {
             throw new IllegalArgumentException( "width must be >= 0 : " + width );
         }
-
-        // 
-        // Recompute the bar path, which looks like this.
-        // The points are numbered.
-        // The center is at 'c', the center of the horizontal bar.
-        //
-        //   1----------------------------------2
-        //   |                c                 |
-        //   |   5--------------------------4   |
-        //   |  /                            \  |
-        //   | /                              \ |
-        //   6/                                \3
-        //
-        _barPath.reset();
-        if ( width > 0 ) {
-            _barPath.moveTo( -width/2, -LINE_HEIGHT/2 );
-            _barPath.lineTo( width/2, -LINE_HEIGHT/2 );
-            _barPath.lineTo( width/2, -LINE_HEIGHT/2 + END_HEIGHT );
-            _barPath.lineTo( width/2 - END_WIDTH, LINE_HEIGHT/2 );
-            _barPath.lineTo( -width/2 + END_WIDTH, LINE_HEIGHT/2 );
-            _barPath.lineTo( -width/2, -LINE_HEIGHT/2 + END_HEIGHT );
-            _barPath.closePath();
-        }
-
-        // Refresh the graphics
-        _barGraphic.setShapeDirty();
+        _width = width;
+        updatePath();
     }
-
+    
+    public void setLook( int look ) {
+        assert( look == LOOK_CALIPERS || look == LOOK_ARROWS );
+        _look = look;
+        setToolWidth( _width );
+    }
+    
+    public void setDragEnabled( boolean enabled ) {
+        if ( enabled ) {
+            setIgnoreMouse( false );
+            setCursorHand();
+            if ( _dragHandler == null ) {
+                _dragHandler = new FourierDragHandler( this );
+            }
+            addMouseInputListener( _dragHandler );
+        }
+        else {
+            setIgnoreMouse( true );
+            setCursor( Cursor.getDefaultCursor() );
+            if ( _dragHandler != null ) {
+                removeMouseInputListener( _dragHandler );
+            }
+        }
+    }
+    
     /**
      * Sets the drag bounds for this tool.
      * 
      * @param bounds
      */
     public void setDragBounds( Rectangle bounds ) {
-        _dragHandler.setDragBounds( bounds );
+        if ( _dragHandler != null ) {
+            _dragHandler.setDragBounds( bounds );
+        }
+    }
+
+    //----------------------------------------------------------------------------
+    // Graphics
+    //----------------------------------------------------------------------------
+    
+    private void updatePath() {
+        
+        // Clear the path
+        _barPath.reset();
+        
+        if ( _look == LOOK_CALIPERS ) {
+            if ( _width > 0 ) {
+                // 
+                // Draw a measurement "caliper" which looks like this.
+                // The points are numbered.
+                // The center is at 'c', the center of the horizontal bar.
+                //
+                //   1----------------------------------2
+                //   |                c                 |
+                //   |   5--------------------------4   |
+                //   |  /                            \  |
+                //   | /                              \ |
+                //   6/                                \3
+                //
+                _barPath.moveTo( -_width / 2, -LINE_HEIGHT / 2 );
+                _barPath.lineTo( _width / 2, -LINE_HEIGHT / 2 );
+                _barPath.lineTo( _width / 2, -LINE_HEIGHT / 2 + END_HEIGHT );
+                _barPath.lineTo( _width / 2 - END_WIDTH, LINE_HEIGHT / 2 );
+                _barPath.lineTo( -_width / 2 + END_WIDTH, LINE_HEIGHT / 2 );
+                _barPath.lineTo( -_width / 2, -LINE_HEIGHT / 2 + END_HEIGHT );
+                _barPath.closePath();
+            }
+        }
+        else if ( _look == LOOK_ARROWS ) {
+            if ( _width > 0 ) {
+                _barPath.moveTo( -_width / 2, -LINE_HEIGHT / 2 );
+                _barPath.lineTo( _width / 2, -LINE_HEIGHT / 2 );
+                _barPath.lineTo( _width / 2, LINE_HEIGHT / 2 );
+                _barPath.lineTo( -_width / 2, LINE_HEIGHT / 2 );
+                _barPath.closePath();
+            }
+        }
+        
+        // Refresh the graphics
+        _barGraphic.setShapeDirty();
     }
     
     //----------------------------------------------------------------------------
@@ -246,6 +300,8 @@ public class MeasurementTool extends CompositePhetGraphic implements ApparatusPa
      * @param event
      */
     public void canvasSizeChanged( ApparatusPanel2.ChangeEvent event ) {
-        _dragHandler.setDragBounds( 0, 0, event.getCanvasSize().width, event.getCanvasSize().height );
+        if ( _dragHandler != null ) {
+            _dragHandler.setDragBounds( 0, 0, event.getCanvasSize().width, event.getCanvasSize().height );
+        }
     }
 }

@@ -16,6 +16,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
 
 import javax.swing.event.MouseInputAdapter;
 
@@ -32,9 +33,9 @@ import edu.colorado.phet.fourier.view.d2c.D2CAmplitudesView;
 import edu.colorado.phet.fourier.view.d2c.D2CHarmonicsView;
 import edu.colorado.phet.fourier.view.d2c.D2CSumView;
 import edu.colorado.phet.fourier.view.tools.WavePacketKWidthTool;
-import edu.colorado.phet.fourier.view.tools.WavePacketXWidthTool;
 import edu.colorado.phet.fourier.view.tools.WavePacketPeriodTool;
 import edu.colorado.phet.fourier.view.tools.WavePacketSpacingTool;
+import edu.colorado.phet.fourier.view.tools.WavePacketXWidthTool;
 
 
 /**
@@ -67,10 +68,8 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
     private static final double WAVE_PACKET_SIGNIFICANT_WIDTH = 24 * Math.PI;
     
     // Tools
-    private static final Point K_WIDTH_TOOL_LOCATION = new Point( 540, 60 );
     private static final Point SPACING_TOOL_LOCATION = new Point( 590, 140 );
-    private static final Point X_WIDTH_TOOL_LOCATION = new Point( 520, 580 );
-    private static final Point PERIOD_TOOL_LOCATION = new Point( 500, 500 );
+    private static final Point PERIOD_TOOL_LOCATION = new Point( 440, 580 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -153,7 +152,8 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         apparatusPanel.addGraphic( _spacingTool, TOOLS_LAYER );
         
         // k-space width measurement tool
-        _kWidthTool = new WavePacketKWidthTool( apparatusPanel, _wavePacket, _amplitudesView.getChart() );
+        Point2D amplitudesChartOrigin = new Point2D.Double( 347, 175 ); // (12pi,0) on chart, in apparatus panel coordinates
+        _kWidthTool = new WavePacketKWidthTool( apparatusPanel, _wavePacket, _amplitudesView.getChart(), amplitudesChartOrigin );
         _kWidthTool.setDragBounds( _amplitudesView.getChart().getBounds() );
         apparatusPanel.addGraphic( _kWidthTool, TOOLS_LAYER );
         
@@ -165,7 +165,8 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         Rectangle xToolsDragBounds = new Rectangle( x, y, w, h );
         
         // x-space width measurement tool
-        _xWidthTool = new WavePacketXWidthTool( apparatusPanel, _wavePacket, _sumView.getChart() );
+        Point sumChartOrigin = new Point( 330, 540 ); // (0,0) on chart, in apparatus panel coordinates
+        _xWidthTool = new WavePacketXWidthTool( apparatusPanel, _wavePacket, _sumView.getChart(), sumChartOrigin );
         _xWidthTool.setDragBounds( xToolsDragBounds );
         apparatusPanel.addGraphic( _xWidthTool, TOOLS_LAYER );
         
@@ -286,8 +287,6 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         _sumView.reset();
         
         _spacingTool.setLocation( SPACING_TOOL_LOCATION );
-        _kWidthTool.setLocation( K_WIDTH_TOOL_LOCATION );
-        _xWidthTool.setLocation( X_WIDTH_TOOL_LOCATION );
         _periodTool.setLocation( PERIOD_TOOL_LOCATION );
         
         _controlPanel.reset();

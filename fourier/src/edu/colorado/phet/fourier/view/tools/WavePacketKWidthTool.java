@@ -11,11 +11,12 @@
 
 package edu.colorado.phet.fourier.view.tools;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.fourier.FourierConstants;
-import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
 
 
@@ -28,14 +29,21 @@ import edu.colorado.phet.fourier.model.GaussianWavePacket;
  */
 public class WavePacketKWidthTool extends AbstractWavePacketMeasurementTool {
 
+    private Point2D _origin;
+    
     /**
      * Sole constructor.
      * 
      * @param component
      * @param wavePacket
      */
-    public WavePacketKWidthTool( Component component, GaussianWavePacket wavePacket, Chart chart ) {
+    public WavePacketKWidthTool( Component component, GaussianWavePacket wavePacket, Chart chart, Point2D origin ) {
         super( component, wavePacket, chart );
+        _origin = new Point2D.Double( origin.getX(), origin.getY() );
+        setFillColor( Color.RED );
+        setLook( MeasurementTool.LOOK_ARROWS );
+        setDragEnabled( false );
+        updateTool();
     }
 
     //----------------------------------------------------------------------------
@@ -48,7 +56,7 @@ public class WavePacketKWidthTool extends AbstractWavePacketMeasurementTool {
      */
     public void updateTool() {
         
-        // The current value that we're measuring.
+        // The value that we're measuring.
         double dk = getWavePacket().getDeltaK();
         
         // Set the tool's bar width.
@@ -65,6 +73,15 @@ public class WavePacketKWidthTool extends AbstractWavePacketMeasurementTool {
             // 2 sigma sub-omega
             setLabel( "<html>2\u03C3<sub>\u03C9</sub></html>" );     
         }
+        
+        // Set the tool's location, relative to the origin.
+        double k0 = getWavePacket().getK0();
+        double k1 = getWavePacket().getK1();
+        double modelX = k0 - ( 12 * Math.PI );
+        double modelY = 1 / ( dk * Math.sqrt( Math.E * 2 * Math.PI ) );
+        double viewX = getChart().transformXDouble( modelX );
+        double viewY = getChart().transformYDouble( modelY );
+        setLocation( (int)( _origin.getX() + viewX ), (int) ( _origin.getY() - viewY ) );
     }
 
 }
