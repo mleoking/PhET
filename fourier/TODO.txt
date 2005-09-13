@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- wrong tool control is enabled in Discrete module for default "time" domain
 - x-space width is wrong in D2C
 - relocate the Help on the text fields in Discrete module, put below text fields
 - investigate what MegaHelp button will do to control panel, will it add scrollbars?
@@ -78,6 +77,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/13) - enable correct Discrete measurement tool controls based on the default domain
 (9/13) - add sound button to Discrete control panel so we can see what the space issues are
 (9/13) - fixed vertical height of "x-space width" graphic in D2C 
 1.0.12 ...
