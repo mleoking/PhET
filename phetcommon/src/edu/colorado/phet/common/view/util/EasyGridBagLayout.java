@@ -80,7 +80,7 @@ public class EasyGridBagLayout extends GridBagLayout {
         _fill = DEFAULT_FILL;
         _ipadx = DEFAULT_IPADX;
         _ipady = DEFAULT_IPADY;
-        _insets = DEFAULT_INSETS;
+        _insets = new Insets( DEFAULT_INSETS.top, DEFAULT_INSETS.left, DEFAULT_INSETS.bottom, DEFAULT_INSETS.right );
         
         _panel = panel;
 
