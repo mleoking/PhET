@@ -22,11 +22,9 @@ import java.awt.event.ActionListener;
 
 public class OverheatButton extends PNode {
     private RampPhysicalModel rampPhysicalModel;
-    private double max;
     private RampPanel rampPanel;
 
-    public OverheatButton( final RampPanel rampPanel, final RampPhysicalModel rampPhysicalModel, double maxDisplayableEnergy, RampModule module ) {
-        super();
+    public OverheatButton( final RampPanel rampPanel, final RampPhysicalModel rampPhysicalModel, RampModule module ) {
         this.rampPhysicalModel = rampPhysicalModel;
         this.rampPanel = rampPanel;
         ShadowHTMLGraphic shadowHTMLGraphic = new ShadowHTMLGraphic( "Warning: overheated." );
@@ -48,17 +46,22 @@ public class OverheatButton extends PNode {
                 update();
             }
         } );
-
-        this.max = maxDisplayableEnergy * 0.8;
         update();
-
         buttonGraphic.setOffset( 0, shadowHTMLGraphic.getFullBounds().getHeight() + 5 );
     }
 
     private void update() {
+
+        double max = rampPanel.getOverheatEnergy();
+//        System.out.println( "<----OverheatButton.update" );
+//        System.out.println( "rampPhysicalModel.getThermalEnergy() = " + rampPhysicalModel.getThermalEnergy() );
+//        System.out.println( "max=" + max );
+//        System.out.println( "" );
         if( rampPhysicalModel.getThermalEnergy() >= max && !getVisible() ) {
             setVisible( true );
-            Point viewLocation = rampPanel.getRampGraphic().getViewLocation( 0 );
+            setPickable( true );
+            setChildrenPickable( true );
+//            Point viewLocation = rampPanel.getRampGraphic().getViewLocation( 0 );
 //            Point2D viewLoc=rampPanel.getRampGraphic().
 //            setOffset( viewLocation.x, viewLocation.y + 10 );
 
@@ -66,6 +69,8 @@ public class OverheatButton extends PNode {
         }
         else if( rampPhysicalModel.getThermalEnergy() < max ) {
             setVisible( false );
+            setPickable( false );
+            setChildrenPickable( false );
         }
     }
 }

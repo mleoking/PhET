@@ -76,11 +76,11 @@ public class RampPanel extends PhetPCanvas {
         double rampWorldScale = 0.96;
         rampWorld.scale( rampWorldScale );
         rampWorld.translate( 0, -100 );
-        addChild( rampWorld );
+        addWorldChild( rampWorld );
 
         barGraphSuite = new BarGraphSuite( this, module.getRampPhysicalModel() );
         barGraphSuite.setOffset( getDefaultRenderingSize().width - barGraphSuite.getFullBounds().getWidth() - 20, barGraphSuite.getY() + 20 );
-        getCamera().addChild( barGraphSuite );
+        addScreenChild( barGraphSuite );
 
         getRampModule().getRampPhysicalModel().addListener( new RampPhysicalModel.Listener() {
             public void appliedForceChanged() {
@@ -90,7 +90,10 @@ public class RampPanel extends PhetPCanvas {
             }
 
             public void stepFinished() {
-                if( getRampModule().getRampPhysicalModel().getThermalEnergy() >= barGraphSuite.getMaxDisplayableEnergy() ) {
+//                System.out.println( "<********RampPanel.stepFinished" );
+//                System.out.println( "getRampModule().getRampPhysicalModel().getThermalEnergy() = " + getRampModule().getRampPhysicalModel().getThermalEnergy() );
+//                System.out.println( "getOverheatEnergy() = " + getOverheatEnergy() );
+                if( getRampModule().getRampPhysicalModel().getThermalEnergy() >= getOverheatEnergy() ) {
                     //colorize heat.
                     rampWorld.setHeatColor( true );
                 }
@@ -100,16 +103,16 @@ public class RampPanel extends PhetPCanvas {
             }
         } );
 
-        addChild( new OverheatButton( this, module.getRampPhysicalModel(), barGraphSuite.getMaxDisplayableEnergy(), module ) );
+        addWorldChild( new OverheatButton( this, module.getRampPhysicalModel(), module ) );
 
         timeGraphic = new TimeGraphic( module.getTimeSeriesModel() );
         timeGraphic.setOffset( 60, 60 );
-        addChild( timeGraphic );
+        addWorldChild( timeGraphic );
         module.getModel().addModelElement( timeGraphic );
 
         velocityGraphic = new SpeedReadoutGraphic( module.getRampPhysicalModel() );
         velocityGraphic.setOffset( timeGraphic.getX(), timeGraphic.getFullBounds().getMaxY() + 5 );
-        addChild( velocityGraphic );
+        addWorldChild( velocityGraphic );
         module.getModel().addModelElement( velocityGraphic );
 
         requestFocus();
@@ -154,12 +157,15 @@ public class RampPanel extends PhetPCanvas {
 //        } );
 
         rampPlotSet = new RampPlotSet( module, this );
-        getCamera().addChild( rampPlotSet );
+        addScreenChild( rampPlotSet );
+//        getCamera().addChild( rampPlotSet );
         appliedForceControl = new AppliedForceSimpleControl( module, this );
-        getCamera().addChild( appliedForceControl );
+        addScreenChild( appliedForceControl );
+//        getCamera().addChild( appliedForceControl );
 
         goPauseClear = new PSwing( this, new GoPauseClearPanel( module.getTimeSeriesModel() ) );
-        getCamera().addChild( goPauseClear );
+        addScreenChild( goPauseClear );
+//        getCamera().addChild( goPauseClear );
 
         layoutChildren();
         rampPlotSet.addListener( new RampPlotSet.Listener() {
@@ -176,6 +182,10 @@ public class RampPanel extends PhetPCanvas {
         setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
         setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
 //        setZoomEventHandler( );
+    }
+
+    public double getOverheatEnergy() {
+        return barGraphSuite.getMaxDisplayableEnergy() * 0.82;
     }
 
     private void layoutChildren() {
@@ -232,15 +242,19 @@ public class RampPanel extends PhetPCanvas {
 
 //        getLayer().addChild( connectorGraphic );
 //        getLayer().addChild( wiggleMe );
-
-        getCamera().addChild( connectorGraphic );
-        getCamera().addChild( wiggleMe );
+        addScreenChild( connectorGraphic );
+//        getCamera().addChild( connectorGraphic );
+        addScreenChild( wiggleMe );
+//        getCamera().addChild( wiggleMe );
         wiggleMe.ensureActivityCorrect();
         MouseAdapter wiggleMeDisappears = new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
-                wiggleMe.setVisible( false );
-                getCamera().removeChild( wiggleMe );
-                getCamera().removeChild( connectorGraphic );
+//                wiggleMe.setVisible( false );
+//                connectorGraphic
+                removeScreenChild( wiggleMe );
+//                getCamera().removeChild( wiggleMe );
+                removeScreenChild( connectorGraphic );
+//                getCamera().removeChild( connectorGraphic );
                 removeMouseListener( this );
             }
         };

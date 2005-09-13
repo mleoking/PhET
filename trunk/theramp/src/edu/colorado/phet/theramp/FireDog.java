@@ -143,7 +143,7 @@ public class FireDog extends PNode {
 
     private void addWaterDrop() {
         WaterDrop waterDrop = new WaterDrop();
-        getRampPanel().addChild( waterDrop );
+        getRampPanel().addWorldChild( waterDrop );
         waterDrop.finishInit();
         waterDrops.add( waterDrop );
     }
@@ -181,7 +181,7 @@ public class FireDog extends PNode {
         }
 
         protected void activityFinished() {
-            getRampPanel().removeChild( FireDog.this );
+            getRampPanel().removeWorldChild( FireDog.this );
         }
     }
 
@@ -241,7 +241,7 @@ public class FireDog extends PNode {
 
             rotate( angle - Math.PI / 2 );
             if( particle.getPosition().getY() > getFloorY() ) {
-                getRampPanel().removeChild( this );
+                getRampPanel().removeWorldChild( this );
                 waterDrops.remove( this );
                 module.getRampPhysicalModel().clearHeat();
             }
@@ -249,7 +249,7 @@ public class FireDog extends PNode {
     }
 
     public void putOutFire() {
-        getRampPanel().addChild( this );
+        getRampPanel().addWorldChild( this );
         finishInit();
         getRampPanel().getRoot().addActivity( new MoveToFire() );
     }
