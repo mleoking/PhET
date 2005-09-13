@@ -4,6 +4,7 @@ package edu.colorado.phet.piccolo;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -30,5 +31,17 @@ public class TargetedWiggleMe extends PNode {
         addChild( wiggleMe );
         setPickable( false );
         setChildrenPickable( false );
+    }
+
+    public void setOscillationCenter( Point2D center ) {
+        wiggleMe.setOscillationCenter( center );
+    }
+
+    public PNode getWiggleMeNode() {
+        return wiggleMe;
+    }
+
+    public PNode getTarget() {
+        return target;
     }
 }

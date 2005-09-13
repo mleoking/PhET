@@ -3,11 +3,11 @@ package edu.colorado.phet.piccolo;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PActivityScheduler;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -18,7 +18,7 @@ import java.awt.*;
 
 public class WiggleMe extends PNode {
     private String message;
-    private PActivity oscillate;
+    private OscillateActivity oscillate;
     boolean oscillating = false;
 
     public WiggleMe( String message, int x, int y ) {
@@ -93,5 +93,9 @@ public class WiggleMe extends PNode {
         if( !getRoot().getActivityScheduler().getActivitiesReference().contains( oscillate ) ) {
             getRoot().getActivityScheduler().addActivity( oscillate );
         }
+    }
+
+    public void setOscillationCenter( Point2D center ) {
+        oscillate.setOscillationCenter( center );
     }
 }

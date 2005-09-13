@@ -177,9 +177,15 @@ public class BarGraphSet extends PNode {
         private GeneralPath createShape() {
             Point2D origin = new Point2D.Double( 0, barChartHeight );
             Point2D dst = new Point2D.Double( 0, topY + 25 );
-            Arrow arrow = new Arrow( origin, dst, 8, 8, 3 );
-            GeneralPath shape = arrow.getShape();
-            return shape;
+            try {
+                Arrow arrow = new Arrow( origin, dst, 8, 8, 3 );
+                GeneralPath shape = arrow.getShape();
+                return shape;
+            }
+            catch( RuntimeException re ) {
+                re.printStackTrace();
+                return new GeneralPath();
+            }
         }
 
         public void setBarChartHeight( double baselineY ) {
