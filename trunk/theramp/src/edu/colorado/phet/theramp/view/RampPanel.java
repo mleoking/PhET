@@ -17,6 +17,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -230,7 +231,12 @@ public class RampPanel extends PhetPCanvas {
 
         final TargetedWiggleMe wiggleMe = new TargetedWiggleMe( "<html>Apply a Force<br>" +
                                                                 "to the Filing Cabinet</html>",
-                                                                (int)( screenBounds.getCenterX() - 300 ), (int)( screenBounds.getCenterY() - 100 ), getBlockGraphic().getObjectGraphic() );
+//                                                                (int)( screenBounds.getCenterX() - 300 ), (int)( screenBounds.getCenterY() - 100 ),
+                                                                200, 100,
+                                                                getBlockGraphic().getObjectGraphic() );
+//        Point2D wiggleMeCenter = getWiggleMeCenter( wiggleMe );
+//        wiggleMe.setOscillationCenter( wiggleMeCenter );
+
         addScreenChild( wiggleMe );
 
         MouseAdapter wiggleMeDisappears = new MouseAdapter() {
@@ -240,6 +246,20 @@ public class RampPanel extends PhetPCanvas {
             }
         };
         addMouseListener( wiggleMeDisappears );
+    }
+
+    private Point2D getWiggleMeCenter( TargetedWiggleMe wiggleMe ) {
+        PBounds wigBounds = getCanvasBounds( wiggleMe );
+//        System.out.println( "wigBounds = " + wigBounds );
+        PBounds targetBounds = getCanvasBounds( wiggleMe.getTarget() );
+        Point2D center = new Point2D.Double( targetBounds.getX() - wigBounds.getWidth() - 100, targetBounds.getCenterY() - 100 );
+        return center;
+    }
+
+    private PBounds getCanvasBounds( PNode node ) {
+        PBounds bounds = node.getGlobalFullBounds();
+        getCamera().globalToLocal( bounds );
+        return bounds;
     }
 
     private void updateArrowSetGraphics() {

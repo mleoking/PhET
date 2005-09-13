@@ -38,4 +38,8 @@ public class OscillateActivity extends PActivity {
         Point2D location = amplitude.getScaledInstance( Math.sin( frequencyHz * t / 1000.0 ) ).getDestination( center );
         target.setOffset( location.getX(), location.getY() );
     }
+
+    public void setOscillationCenter( Point2D center ) {
+        this.center = center;
+    }
 }
