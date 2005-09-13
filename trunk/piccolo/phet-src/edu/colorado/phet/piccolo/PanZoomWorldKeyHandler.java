@@ -23,6 +23,8 @@ public class PanZoomWorldKeyHandler implements KeyListener {
     private PanEvent panLeft;
     private PanEvent panUp;
     private PanEvent panDown;
+    private ZoomEvent zoomIn;
+    private ZoomEvent zoomOut;
 
     public PanZoomWorldKeyHandler( PhetPCanvas phetPCanvas ) {
         this.phetPCanvas = phetPCanvas;
@@ -30,21 +32,13 @@ public class PanZoomWorldKeyHandler implements KeyListener {
         panLeft = new PanEvent( translateDX, 0 );
         panUp = new PanEvent( 0, translateDX );
         panDown = new PanEvent( 0, -translateDX );
+        zoomIn = new ZoomEvent( zoomScale );
+        zoomOut = new ZoomEvent( 1.0 / zoomScale );
     }
 
-    private class PanEvent extends PActivity {
-        private int dx;
-        private int dy;
-
-        public PanEvent( int dx, int dy ) {
+    private class PanZoomActivity extends PActivity {
+        public PanZoomActivity() {
             super( -1 );
-            this.dx = dx;
-            this.dy = dy;
-        }
-
-        protected void activityStep( long elapsedTime ) {
-            super.activityStep( elapsedTime );
-            translateWorld( dx, dy );
         }
 
         public void start() {
@@ -60,14 +54,43 @@ public class PanZoomWorldKeyHandler implements KeyListener {
         }
     }
 
+    private class PanEvent extends PanZoomActivity {
+        private int dx;
+        private int dy;
+
+        public PanEvent( int dx, int dy ) {
+            this.dx = dx;
+            this.dy = dy;
+        }
+
+        protected void activityStep( long elapsedTime ) {
+            super.activityStep( elapsedTime );
+            translateWorld( dx, dy );
+        }
+
+    }
+
+    private class ZoomEvent extends PanZoomActivity {
+        private double scale;
+
+        public ZoomEvent( double scale ) {
+            this.scale = scale;
+        }
+
+        protected void activityStep( long elapsedTime ) {
+            super.activityStep( elapsedTime );
+            zoomWorld( scale );
+        }
+    }
+
     public void keyPressed( KeyEvent e ) {
         if( e.isShiftDown() ) {
             switch( e.getKeyCode() ) {
                 case KeyEvent.VK_UP:
-                    zoomWorld( zoomScale );
+                    zoomIn.start();
                     break;
                 case KeyEvent.VK_DOWN:
-                    zoomWorld( 1.0 / zoomScale );
+                    zoomOut.start();
                     break;
                 default:
                     break;
@@ -86,6 +109,12 @@ public class PanZoomWorldKeyHandler implements KeyListener {
                     break;
                 case KeyEvent.VK_DOWN:
                     panDown.start();
+                    break;
+                case KeyEvent.VK_PAGE_UP:
+                    zoomIn.start();
+                    break;
+                case KeyEvent.VK_PAGE_DOWN:
+                    zoomOut.start();
                     break;
                 default:
                     break;
@@ -116,9 +145,17 @@ public class PanZoomWorldKeyHandler implements KeyListener {
                 break;
             case KeyEvent.VK_UP:
                 panUp.stop();
+                zoomIn.stop();
                 break;
             case KeyEvent.VK_DOWN:
                 panDown.stop();
+                zoomOut.stop();
+                break;
+            case KeyEvent.VK_PAGE_UP:
+                zoomIn.stop();
+                break;
+            case KeyEvent.VK_PAGE_DOWN:
+                zoomOut.stop();
                 break;
             default:
                 break;

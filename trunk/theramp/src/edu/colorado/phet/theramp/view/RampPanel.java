@@ -2,8 +2,8 @@
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.piccolo.TargetedWiggleMe;
 import edu.colorado.phet.piccolo.pswing.PSwing;
-import edu.colorado.phet.tests.piccolo.experimental.TargetedWiggleMe;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.RampObject;
 import edu.colorado.phet.theramp.RampPlotSet;

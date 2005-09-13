@@ -67,7 +67,7 @@ public class MeasuringTape extends PNode {
 
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mouseDragged( PInputEvent event ) {
-                    Dimension2D dx = event.getDelta();
+                    Dimension2D dx = getDelta( event );
                     translateAll( dx.getWidth(), dx.getHeight() );
                 }
             } );
@@ -82,6 +82,11 @@ public class MeasuringTape extends PNode {
         public PImage getImageGraphic() {
             return imageGraphic;
         }
+    }
+
+    private Dimension2D getDelta( PInputEvent event ) {
+        Dimension2D dx = event.getDeltaRelativeTo( this );
+        return dx;
     }
 
     private void translateAll( double dx, double dy ) {
@@ -141,7 +146,7 @@ public class MeasuringTape extends PNode {
             addChild( phetShapeGraphic );
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mouseDragged( PInputEvent event ) {
-                    Dimension2D dx = event.getDelta();
+                    Dimension2D dx = getDelta( event );
                     MeasuringTape.this.translateEndPoint( dx.getWidth(), dx.getHeight() );
                 }
             } );
