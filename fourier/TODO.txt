@@ -71,6 +71,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/12) - in math mode, make units on horizontal axis ("mm" or "ms") go away
 (9/12) - add space between charts and x-axis titles in Discrete module
 (9/12) - bugfix: in time mode, Discrete Sum x-axis should be "t (ms)"
 1.0.12 ...

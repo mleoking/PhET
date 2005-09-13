@@ -511,10 +511,20 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
         
         // X axis title
         if ( _domain == FourierConstants.DOMAIN_TIME ) {
-            _chartGraphic.setXAxisTitle( "t (ms)" );
+            if ( _mathGraphic.isVisible() ) {
+                _chartGraphic.setXAxisTitle( "t" );
+            }
+            else {
+                _chartGraphic.setXAxisTitle( "t (ms)" ); 
+            }
         }
         else { /* DOMAIN_SPACE or DOMAIN_SPACE_AND_TIME */
-            _chartGraphic.setXAxisTitle( "x (mm)" );
+            if ( _mathGraphic.isVisible() ) {
+                _chartGraphic.setXAxisTitle( "x" );
+            }
+            else {
+                _chartGraphic.setXAxisTitle( "x (mm)" );
+            }
         }
     }
 
