@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.theramp;
+package edu.colorado.phet.theramp.common;
 
 import java.util.ArrayList;
 

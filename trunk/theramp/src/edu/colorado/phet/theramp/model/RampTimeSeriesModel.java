@@ -1,10 +1,9 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.theramp.timeseries;
+package edu.colorado.phet.theramp.model;
 
 import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.theramp.RampModule;
-import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.timeseries.ObjectTimePoint;
 import edu.colorado.phet.timeseries.ObjectTimeSeries;
 import edu.colorado.phet.timeseries.TimeSeriesModel;

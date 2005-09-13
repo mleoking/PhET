@@ -7,7 +7,6 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.theramp.RampObject;
 
 import java.util.ArrayList;
 
@@ -218,7 +217,7 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
         this.appliedForceSetValue = appliedForce;
         this.appliedForce.setParallel( appliedForce );//could be different, even if applied force set value is same.
 //        if( origAppliedForce!= appliedForce ) {
-            notifyAppliedForceChanged();//todo: to ensure graphics update, could be fixed later.
+        notifyAppliedForceChanged();//todo: to ensure graphics update, could be fixed later.
 //        }
     }
 
