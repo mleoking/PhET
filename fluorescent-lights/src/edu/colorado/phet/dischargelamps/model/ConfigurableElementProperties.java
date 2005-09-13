@@ -23,7 +23,7 @@ public class ConfigurableElementProperties extends ElementProperties {
         -13.6
     };
 
-    private double meanStateLifetime = 15;
+    private double meanStateLifetime = DischargeLampAtom.DEFAULT_STATE_LIFETIME;
 
     public ConfigurableElementProperties( int numEnergyLevels, DischargeLampModel model ) {
         super( "Configurable", energyLevels,

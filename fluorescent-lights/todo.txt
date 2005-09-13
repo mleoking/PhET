@@ -8,6 +8,10 @@ Simulation slows and waits while sliders are being moved
 Fix the "currentDisplayFactor" hack in DischargeLampModule and SingleAtomModule
 fix "startStopEnabled" in spectrometer button handling. Why are we getting two events per press?
 
+sometimes atom doesn't appear in it's level on the monitor panel
+set deafult statelifetime to 100
+tie state lifetime to simulation clock, not system clock
+
 Combine the voltageCalibrationFactor and PIXELS_TO_NM
 Get voltageCalibrationFactor out of DischargeLampModule
 Counter in spectrometer for off-scale photons

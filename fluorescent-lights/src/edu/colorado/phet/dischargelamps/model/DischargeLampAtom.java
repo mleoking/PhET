@@ -30,6 +30,7 @@ public class DischargeLampAtom extends Atom {
 
     // The time that an atom spends in any one state before dropping to a lower one (except for
     // the ground state)
+//    public static final double DEFAULT_STATE_LIFETIME = ( DischargeLampsConfig.DT / DischargeLampsConfig.FPS ) * 300;
     public static final double DEFAULT_STATE_LIFETIME = ( DischargeLampsConfig.DT / DischargeLampsConfig.FPS ) * 100;
     private ElementProperties elementProperties;
 
@@ -76,12 +77,7 @@ public class DischargeLampAtom extends Atom {
      * @param electron
      */
     public void collideWithElectron( Electron electron ) {
-//        System.out.println( "electron.getEnergy() = " + electron.getEnergy() );
         energyAbsorptionStrategy.collideWithElectron( this, electron );
-
-//        if( elementProperties != null ) {
-//        elementProperties.getEnergyAbsorptionStrategy().collideWithElectron( this, electron );
-//        }
     }
 
     /**
@@ -91,16 +87,11 @@ public class DischargeLampAtom extends Atom {
      * @return
      */
     public AtomicState getEnergyStateAfterEmission() {
-//        return elementProperties.getEnergyEmissionStrategy().emitEnergy( this );
         return energyEmissionStrategy.emitEnergy( this );
     }
 
     public void setElementProperties( ElementProperties elementProperties ) {
-//        if( elementProperties == null ) {
-//            System.out.println( "$$$$$" );
-//        }
         this.elementProperties = elementProperties;
-
         this.energyAbsorptionStrategy = elementProperties.getEnergyAbsorptionStrategy();
         this.energyEmissionStrategy = elementProperties.getEnergyEmissionStrategy();
 

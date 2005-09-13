@@ -26,6 +26,7 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.model.PhysicsUtil;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -49,6 +50,10 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
 
     // Strategy for setting to color of this energy level graphic
     private ColorStrategy colorStrategy = new VisibleColorStrategy();
+
+    public void fireMousePressed( MouseEvent e ) {
+        super.fireMousePressed( e );
+    }
 
     /**
      * @param component
@@ -78,6 +83,8 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
             setCursorHand();
             addTranslationListener( new EnergyLevelTranslator() );
         }
+
+
     }
 
     public void update( ModelViewTransform1D tx ) {

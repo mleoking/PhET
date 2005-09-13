@@ -30,7 +30,7 @@ public class ElementProperties {
     private AtomicState[] states;
     private EnergyEmissionStrategy energyEmissionStrategy;
     private EnergyAbsorptionStrategy energyAbsorptionStrategy;
-    private double meanStateLifetime;
+    private double meanStateLifetime = DischargeLampAtom.DEFAULT_STATE_LIFETIME;
 
     protected ElementProperties( String name, double[] energyLevels, 
                                  EnergyEmissionStrategy energyEmissionStrategy,
@@ -40,6 +40,7 @@ public class ElementProperties {
         this.energyEmissionStrategy = energyEmissionStrategy;
         this.energyAbsorptionStrategy = energyAbsorptionStrategy;
         initStates();
+        setEnergyLevels( energyLevels );
     }
 
     protected void setEnergyLevels( double[] energyLevels ) {
