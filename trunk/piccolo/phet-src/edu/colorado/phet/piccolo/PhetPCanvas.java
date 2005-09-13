@@ -17,7 +17,8 @@ import java.awt.event.*;
 public class PhetPCanvas extends PSwingCanvas {
     private Dimension renderingSize = null;
     private ComponentAdapter resizeAdapter;
-    private PhetRootPNode phetRootNode;//it's very difficult to have things point to each other when there is a camera layer between them.
+    //it's very difficult to have things point to each other when there is a camera layer between them.   
+    private PhetRootPNode phetRootNode;
 
     public PhetPCanvas() {
         this.phetRootNode = new PhetRootPNode();
@@ -49,6 +50,7 @@ public class PhetPCanvas extends PSwingCanvas {
             }
         } );
         addKeyListener( new PanZoomWorldKeyHandler( this ) );
+        addKeyListener( new ShowControlsKeyHandler( this ) );
         requestFocus();
     }
 
@@ -158,4 +160,7 @@ public class PhetPCanvas extends PSwingCanvas {
         getRoot().getActivityScheduler().removeActivity( activity );
     }
 
+    public PhetRootPNode getPhetRootNode() {
+        return phetRootNode;
+    }
 }

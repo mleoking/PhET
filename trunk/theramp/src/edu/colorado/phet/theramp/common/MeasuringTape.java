@@ -29,10 +29,10 @@ public class MeasuringTape extends PNode {
     private ModelViewTransform2D modelViewTransform2D;
     private Point2D.Double modelSrc;
     private Point2D.Double modelDst;
-    public BodyGraphic bodyGraphic;
-    public TapeGraphic tapeGraphic;
-    public EndGraphic endGraphic;
-    public ReadoutGraphic readoutGraphic;
+    private BodyGraphic bodyGraphic;
+    private TapeGraphic tapeGraphic;
+    private EndGraphic endGraphic;
+    private ReadoutGraphic readoutGraphic;
 
     public MeasuringTape( Component component, ModelViewTransform2D modelViewTransform2D, Point2D.Double modelSrc ) {
         super();

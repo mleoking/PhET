@@ -4,7 +4,7 @@ package edu.colorado.phet.theramp;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
-import edu.colorado.phet.theramp.timeseries.RampTimeSeriesModel;
+import edu.colorado.phet.theramp.model.RampTimeSeriesModel;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
 
 /**
