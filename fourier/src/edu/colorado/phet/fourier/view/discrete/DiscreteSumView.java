@@ -614,7 +614,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
         
         // X axis title
         if ( _domain == FourierConstants.DOMAIN_TIME ) {
-            _chartGraphic.setXAxisTitle( "t (mm)" );
+            _chartGraphic.setXAxisTitle( "t (ms)" );
         }
         else { /* DOMAIN_SPACE or DOMAIN_SPACE_AND_TIME */
             _chartGraphic.setXAxisTitle( "x (mm)" );
