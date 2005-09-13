@@ -21,7 +21,6 @@ HIGH PRIORITY:
 - hangs after extended play (~30 minutes)
 - remove the clock controls for the D2C module
 - add sound to Discrete module
-- add a "loading" dialog
 
 MEDIUM PRIORITY:
 - add support for persistence
@@ -77,6 +76,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/13) - phetcommon: add PhetStartupWindow for displaying startup progress
 (9/13) - enable correct Discrete measurement tool controls based on the default domain
 (9/13) - add sound button to Discrete control panel so we can see what the space issues are
 (9/13) - fixed vertical height of "x-space width" graphic in D2C 
