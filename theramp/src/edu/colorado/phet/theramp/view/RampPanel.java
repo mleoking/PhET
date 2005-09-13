@@ -1,11 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.view;
 
-import edu.colorado.phet.piccolo.ArrowConnectorGraphic;
-import edu.colorado.phet.piccolo.ConnectorGraphic;
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.piccolo.WiggleMe;
 import edu.colorado.phet.piccolo.pswing.PSwing;
+import edu.colorado.phet.tests.piccolo.experimental.TargetedWiggleMe;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.RampObject;
 import edu.colorado.phet.theramp.RampPlotSet;
@@ -226,35 +224,18 @@ public class RampPanel extends PhetPCanvas {
     }
 
     protected void addWiggleMe() {
-        final WiggleMe wiggleMe = new WiggleMe( "<html>Apply a Force<br>" +
-                                                "to the Filing Cabinet</html>",
-                                                (int)( ORIG_RENDER_SIZE.getWidth() / 2 - 50 ), 350 );
-        final ConnectorGraphic connectorGraphic = new ArrowConnectorGraphic( wiggleMe, getBlockGraphic().getObjectGraphic() );
-//        final ConnectorGraphic connectorGraphic = new ConnectorGraphic( getCamera(), wiggleMe, getBlockGraphic().getObjectGraphic() );
-//        getLayer().getRoot().addActivity( connectorGraphic.getConnectActivity() );
-        connectorGraphic.setStroke( new BasicStroke( 2, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 2 ) );//, new float[]{10, 5}, 0 ) );
-        connectorGraphic.setPaint( new GradientPaint( 0, 0, Color.red, 1000, 0, Color.blue, false ) );
-        connectorGraphic.setPickable( false );
-        connectorGraphic.setChildrenPickable( false );
+        PNode target = getBlockGraphic().getObjectGraphic();
+        PBounds screenBounds = target.getGlobalFullBounds();
+        getCamera().globalToLocal( screenBounds );
 
-        wiggleMe.setPickable( false );
-        wiggleMe.setChildrenPickable( false );
-
-//        getLayer().addChild( connectorGraphic );
-//        getLayer().addChild( wiggleMe );
-        addScreenChild( connectorGraphic );
-//        getCamera().addChild( connectorGraphic );
+        final TargetedWiggleMe wiggleMe = new TargetedWiggleMe( "<html>Apply a Force<br>" +
+                                                                "to the Filing Cabinet</html>",
+                                                                (int)( screenBounds.getCenterX() - 300 ), (int)( screenBounds.getCenterY() - 100 ), getBlockGraphic().getObjectGraphic() );
         addScreenChild( wiggleMe );
-//        getCamera().addChild( wiggleMe );
-        wiggleMe.ensureActivityCorrect();
+
         MouseAdapter wiggleMeDisappears = new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
-//                wiggleMe.setVisible( false );
-//                connectorGraphic
                 removeScreenChild( wiggleMe );
-//                getCamera().removeChild( wiggleMe );
-                removeScreenChild( connectorGraphic );
-//                getCamera().removeChild( connectorGraphic );
                 removeMouseListener( this );
             }
         };
