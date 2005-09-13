@@ -178,7 +178,7 @@ public class DiscreteSumChart extends Chart {
      */
     public void setXAxisTitle( String title ) {
         _xAxisTitleGraphic.setText( title );
-        _xAxisTitleGraphic.setRegistrationPoint( 0, -_xAxisTitleGraphic.getHeight() / 2 ); // left center
+        _xAxisTitleGraphic.setRegistrationPoint( -4, -_xAxisTitleGraphic.getHeight() / 2 ); // left center
     }
     
     public void setXAxisTitle( char c ) {

@@ -74,7 +74,7 @@ public class DiscreteAmplitudesChart extends Chart {
 
             String xTitle = String.valueOf( MathStrings.C_MODE );
             PhetTextGraphic xAxisTitleGraphic = new PhetTextGraphic( component, AXIS_TITLE_FONT, xTitle, AXIS_TITLE_COLOR );
-            xAxisTitleGraphic.setRegistrationPoint( 0, -xAxisTitleGraphic.getHeight() / 2 ); // left center
+            xAxisTitleGraphic.setRegistrationPoint( -2, -xAxisTitleGraphic.getHeight() / 2 ); // left center
             setXAxisTitle( xAxisTitleGraphic );
             
             // No ticks, labels or gridlines
