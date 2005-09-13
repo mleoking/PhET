@@ -1,9 +1,6 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.tests.piccolo.experimental;
+package edu.colorado.phet.piccolo;
 
-import edu.colorado.phet.piccolo.ArrowConnectorGraphic;
-import edu.colorado.phet.piccolo.ConnectorGraphic;
-import edu.colorado.phet.piccolo.WiggleMe;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
