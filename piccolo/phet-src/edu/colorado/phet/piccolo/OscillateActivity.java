@@ -1,8 +1,11 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.piccolo;
 
+import edu.colorado.phet.common.math.Vector2D;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
+
+import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -14,18 +17,16 @@ import edu.umd.cs.piccolo.activities.PActivity;
 public class OscillateActivity extends PActivity {
     private double frequencyHz = 3.5;
     private PNode target;
-    private double x;
-    private double y;
-    private double amplitude = 25;
+    private Point2D center;
+    private Vector2D amplitude;
 
     public OscillateActivity( final PNode target, double x, double y ) {
-        this( target, x, y, 25, 3.5 );
+        this( target, x, y, new Vector2D.Double( 0, 25 ), 3.5 );
     }
 
-    public OscillateActivity( PNode target, double x, double y, double amplitude, double frequencyHz ) {
+    public OscillateActivity( PNode target, double x, double y, Vector2D amplitude, double frequencyHz ) {
         super( -1 );
-        this.x = x;
-        this.y = y;
+        this.center = new Point2D.Double( x, y );
         this.frequencyHz = frequencyHz;
         this.target = target;
         this.amplitude = amplitude;
@@ -34,7 +35,7 @@ public class OscillateActivity extends PActivity {
     protected void activityStep( long elapsedTime ) {
         super.activityStep( elapsedTime );
         long t = getStartTime() - elapsedTime;
-        double dy = amplitude * Math.sin( frequencyHz * t / 1000.0 );
-        target.setOffset( x, y + dy );
+        Point2D location = amplitude.getScaledInstance( Math.sin( frequencyHz * t / 1000.0 ) ).getDestination( center );
+        target.setOffset( location.getX(), location.getY() );
     }
 }
