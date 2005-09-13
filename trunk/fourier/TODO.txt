@@ -70,6 +70,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+1.0.12 ...
 (9/12) - First crack at static "width" graphics in D2C, sort of broken
 (9/12) - put envelopes behind other plots in charts
 (9/12) - use 4-pixel stroke for envelopes 
