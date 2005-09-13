@@ -72,13 +72,13 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+1.0.12 ...
 (9/12) - remove help from D2C width tools
 (9/12) - fix SimStrings keys to match renamed classes throughout
 (9/12) - move most axis titles out of SimStrings
 (9/12) - in math mode, make units on horizontal axis ("mm" or "ms") go away
 (9/12) - add space between charts and x-axis titles in Discrete module
 (9/12) - bugfix: in time mode, Discrete Sum x-axis should be "t (ms)"
-1.0.12 ...
 (9/12) - fixed vertical height of k-space width graphic
 (9/12) - First crack at static "width" graphics in D2C, sort of broken
 (9/12) - put envelopes behind other plots in charts
