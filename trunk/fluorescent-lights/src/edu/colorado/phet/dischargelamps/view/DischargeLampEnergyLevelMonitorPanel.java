@@ -20,6 +20,8 @@ import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
@@ -158,6 +160,9 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         this.addComponentListener( new PanelResizer() );
     }
 
+    /**
+     * Clears the map that maps states to the number of atoms in each, and repopulates it.
+     */
     private void initializeStateCounters() {
         atoms = model.getAtoms();
         numAtomsInState.clear();
@@ -165,7 +170,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         for( int i = 0; i < atomicStates.length; i++ ) {
             numAtomsInState.put( atomicStates[i], new Integer( 0 ) );
         }
-        // Populate the map we just made, and add ourself as a listener to each atom
+        // Populate the map we just made
         for( int i = 0; i < atoms.size(); i++ ) {
             Atom atom = (Atom)atoms.get( i );
             Integer num = (Integer)numAtomsInState.get( atom.getCurrState() );            
@@ -214,8 +219,6 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
      */
     public void setEnergyLevels( AtomicState[] atomicStates ) {
 
-        // TODO: this next bit of code can be done away with now that atom.getGroundState() and
-        // atom.getHighestEnergyState() are around
         // Find the minimum and maximum energy levels
         maxEnergy = Double.MIN_VALUE;
         groundStateEnergy = Double.MAX_VALUE;
@@ -249,6 +252,14 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
             // Set the minimum distance this graphic must have between it and the ones next to it
             levelGraphics[i].setMinPixelsBetweenLevels( minEnergyLevelSpacing );
             this.addGraphic( levelGraphics[i] );
+
+            // Add a listener that will reinitialize the map of states to the number of atoms in each.
+            // We need this because the state instances themselves may change when a level changes
+            levelGraphics[i].addTranslationListener( new TranslationListener() {
+                public void translationOccurred( TranslationEvent translationEvent ) {
+                    initializeStateCounters();
+                }
+            } );
         }
 
         // Set the width of the panel so it can show all the atoms. 20 gives us a margin for the level icon
@@ -323,6 +334,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
                 Integer numAtoms = (Integer)numAtomsInState.get( atomicStates[i] );
                 if( numAtoms != null ) {
                     int n = numAtoms.intValue();
+
                     drawAtomsInLevel( g2, c, levelGraphics[i], n );
                 }
             }
@@ -348,6 +360,9 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         atx.translate( line.getLinePosition().getX() - atomDiam / 2,
                        line.getLinePosition().getY() - atomDiam );
         atx.scale( scale, scale );
+
+//        System.out.println( "line.getLinePosition().getY() = " + line.getLinePosition().getY() );
+
         for( int i = 0; i < numInLevel; i++ ) {
             atx.translate( atomDiam * ( 1 - atomGraphicOverlap ) / scale, 0 );
             g2.drawRenderedImage( bi, atx );
@@ -517,4 +532,6 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
             electronGraphic.repaint();
         }
     }
+
+
 }

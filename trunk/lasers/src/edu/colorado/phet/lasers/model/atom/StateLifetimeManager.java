@@ -52,10 +52,6 @@ class StateLifetimeManager implements ModelElement {
         state = atom.getCurrState();
 
         // Get the lifetime for this state
-
-
-        System.out.println( " state.getMeanLifeTime() = " +  state.getMeanLifeTime() );
-
         if( atom.isStateLifetimeFixed() ) {
             // This line gives a fixed death time
             deathTime = state.getMeanLifeTime();
