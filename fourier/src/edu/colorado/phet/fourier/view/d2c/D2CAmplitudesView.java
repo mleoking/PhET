@@ -422,10 +422,10 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
      */
     private void updateAxisTitles() {
         if ( _domain == FourierConstants.DOMAIN_SPACE ) {
-            _chartGraphic.setXAxisTitle( "x (mm)" );
+            _chartGraphic.setXAxisTitle( SimStrings.get( "D2CAmplitudesView.xTitleSpace" ) );
         }
         else if ( _domain == FourierConstants.DOMAIN_TIME ) {
-            _chartGraphic.setXAxisTitle( "t (ms)" );
+            _chartGraphic.setXAxisTitle( SimStrings.get( "D2CAmplitudesView.xTitleTime" ) );
         }
         refreshChart();
     }
