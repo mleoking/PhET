@@ -77,7 +77,7 @@ public class WavePacketXWidthTool extends AbstractWavePacketMeasurementTool {
         
         // Set the tool's location, relative to the origin.
         double modelX = 0;
-        double modelY = 1 / ( dx * Math.sqrt( Math.E * 2 * Math.PI ) );
+        double modelY = 1 / Math.sqrt( Math.E );
         double viewX = getChart().transformXDouble( modelX ) - getChart().transformXDouble( 0 );
         double viewY = getChart().transformYDouble( modelY ) - getChart().transformYDouble( 0 );
         setLocation( (int)( _origin.getX() + viewX ), (int) ( _origin.getY() + viewY ) );
