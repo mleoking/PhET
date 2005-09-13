@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- remove help from width tools
 - peak of the D2C sum envelope should be used to scale the Sum graph
 - add arrows to "width" graphics in D2C
 - vertical height of "width" graphics in D2C is wrong
@@ -72,6 +71,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/12) - remove help from D2C width tools
 (9/12) - fix SimStrings keys to match renamed classes throughout
 (9/12) - move most axis titles out of SimStrings
 (9/12) - in math mode, make units on horizontal axis ("mm" or "ms") go away

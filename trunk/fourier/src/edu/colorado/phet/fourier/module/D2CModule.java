@@ -242,16 +242,8 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         spacingToolHelp.pointAt( _spacingTool, FourierHelpItem.UP, 15 );
         addHelpItem( spacingToolHelp );
         
-        FourierHelpItem kWidthToolHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "D2CModule.help.widthTool" ) );
-        kWidthToolHelp.pointAt( _kWidthTool, FourierHelpItem.UP, 15 );
-        addHelpItem( kWidthToolHelp );
-        
-        FourierHelpItem xWidthToolHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "D2CModule.help.widthTool" ) );
-        xWidthToolHelp.pointAt( _xWidthTool, FourierHelpItem.UP, 15 );
-        addHelpItem( xWidthToolHelp );
-        
-        FourierHelpItem periodToolHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "D2CModule.help.widthTool" ) );
-        periodToolHelp.pointAt( _periodTool, FourierHelpItem.UP, 15 );
+        FourierHelpItem periodToolHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "D2CModule.help.periodTool" ) );
+        periodToolHelp.pointAt( _periodTool, FourierHelpItem.DOWN, 15 );
         addHelpItem( periodToolHelp );
         
         //----------------------------------------------------------------------------
