@@ -143,7 +143,7 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
         addGraphic( _backgroundGraphic, BACKGROUND_LAYER );
 
         // Title
-        String title = SimStrings.get( "D2CSumGraph.title" );
+        String title = SimStrings.get( "D2CSumView.title" );
         _titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
         _titleGraphic.centerRegistrationPoint();
         _titleGraphic.rotate( -( Math.PI / 2 ) );
@@ -456,7 +456,7 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
      */
     public void update() {
 
-        System.out.println( "D2CSumGraph.update" ); //XXX
+        System.out.println( "D2CSumView.update" ); //XXX
 
         updateMath(); // ...in case the number of components has changed
 
@@ -627,10 +627,10 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
      */
     private void updateAxisTitles() {
         if ( _domain == FourierConstants.DOMAIN_SPACE ) {
-            _chartGraphic.setXAxisTitle( SimStrings.get( "D2CSumGraph.xTitleSpace" ) );
+            _chartGraphic.setXAxisTitle( "x (mm)" );
         }
         else if ( _domain == FourierConstants.DOMAIN_TIME ) {
-            _chartGraphic.setXAxisTitle( SimStrings.get( "D2CSumGraph.xTitleTime" ) );
+            _chartGraphic.setXAxisTitle( "t (ms)" );
         }
         refreshChart();
     }

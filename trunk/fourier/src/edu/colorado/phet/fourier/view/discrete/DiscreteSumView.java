@@ -151,7 +151,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
         _backgroundGraphic.setLocation( 0, 0 );
         
         // Title
-        String title = SimStrings.get( "SumGraph.title" );
+        String title = SimStrings.get( "DiscreteSumView.title" );
         _titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
         _titleGraphic.centerRegistrationPoint();
         _titleGraphic.rotate( -( Math.PI / 2 ) );
@@ -212,7 +212,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
         
         // Auto Scale control
         {
-            _autoScaleCheckBox = new JCheckBox( SimStrings.get( "SumGraph.autoScale" ) );
+            _autoScaleCheckBox = new JCheckBox( SimStrings.get( "DiscreteSumView.autoScale" ) );
             _autoScaleCheckBox.setBackground( new Color( 255, 255, 255, 0 ) );
             _autoScaleGraphic = PhetJComponent.newInstance( component, _autoScaleCheckBox );
             addGraphic( _autoScaleGraphic, CONTROLS_LAYER );

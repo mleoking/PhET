@@ -138,7 +138,7 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         apparatusPanel.addGraphic( _harmonicsView, HARMONICS_LAYER );
         
         // Harmonics view (minimized)
-        _harmonicsMinimizedView = new MinimizedView( apparatusPanel, SimStrings.get( "HarmonicsGraph.title" ) );
+        _harmonicsMinimizedView = new MinimizedView( apparatusPanel, SimStrings.get( "DiscreteHarmonicsView.title" ) );
         apparatusPanel.addGraphic( _harmonicsMinimizedView, HARMONICS_CLOSED_LAYER );
         
         // Sum view
@@ -146,7 +146,7 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         apparatusPanel.addGraphic( _sumView, SUM_LAYER );
         
         // Sum view (minimized)
-        _sumMinimizedView = new MinimizedView( apparatusPanel, SimStrings.get( "SumGraph.title" ) );
+        _sumMinimizedView = new MinimizedView( apparatusPanel, SimStrings.get( "DiscreteSumView.title" ) );
         apparatusPanel.addGraphic( _sumMinimizedView, SUM_CLOSED_LAYER );
         
         // Wavelength Tool
