@@ -92,6 +92,7 @@ public class PSwingEventHandler implements PInputEventListener {
     PSwingCanvas canvas;
 
     // Constructor that adds the mouse listeners to a
+
     /**
      * Constructs a new ZSwingEventHandler for the given canvas,
      * and a node that will recieve the mouse events.
@@ -243,15 +244,19 @@ public class PSwingEventHandler implements PInputEventListener {
                 if( grabNode.isDescendentOf( canvas.getRoot() ) ) {
                     pt = new Point2D.Double( e1.getX(), e1.getY() );
 //                    e1.getPath().getTopCamera().cameraToLocal( pt, grabNode );
+
+//                    System.out.println( "ClickPoint: pt = " + pt );
                     cameraToLocal( e1.getPath().getTopCamera(), pt, grabNode );
-                    prevPoint = (Point2D)pt.clone();
+//                    System.out.println( "CameraToLocal(pt)= " + pt );
+//                    prevPoint = (Point2D)pt.clone();
+                    prevPoint = new Point2D.Double( pt.getX(), pt.getY() );
 
                     // This is only partially fixed to find the deepest
                     // component at pt.  It needs to do something like
                     // package private method:
                     // Container.getMouseEventTarget(int,int,boolean)
                     comp = findComponentAt( swing.getComponent(), (int)pt.getX(), (int)pt.getY() );
-
+//                    System.out.println( "Found Component: comp = " + comp );
                     // We found the right component - but we need to
                     // get the offset to put the event in the component's
                     // coordinates
@@ -459,7 +464,6 @@ public class PSwingEventHandler implements PInputEventListener {
                 }
             }
 
-
             // This means mouseExited prevComponent and mouseEntered comp
             else if( prevComponent != comp ) {
                 MouseEvent e_temp = new MouseEvent( prevComponent,
@@ -554,6 +558,28 @@ public class PSwingEventHandler implements PInputEventListener {
     }
 
     private void cameraToLocal( PCamera topCamera, Point2D pt, PNode node ) {
+        boolean newWay = true;
+        if( newWay ) {
+
+            if( topCamera.isAncestorOf( node ) ) {
+//                System.out.println( "PSwingEventHandler.cameraToLocal, in camera" );
+                topCamera.localToGlobal( pt );
+//                System.out.println( "cam.toGlobal="+pt );
+                node.globalToLocal( pt );
+//                System.out.println( "node.globalToLocal: pt = " + pt );
+                return;
+            }
+
+//            System.out.println( "doing cam-to-local, node.getGlobalFullBounds() = " + node.getGlobalFullBounds() );
+//            topCamera.viewToLocal( pt );
+//            System.out.println( "topCamera.viewToLocal(pt) = " + pt );
+//            topCamera.localToGlobal( pt );
+//            System.out.println( "topCamera.localToGlobal(pt)=" + pt );
+//            node.globalToLocal( pt );
+//            System.out.println( "node.globalToLocal(pt)=" + pt );
+////            pt.setLocation( 5, 5 );
+//            return;
+        }
         AffineTransform inverse = null;
         try {
             inverse = topCamera.getViewTransform().createInverse();
