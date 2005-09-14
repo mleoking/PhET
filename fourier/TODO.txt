@@ -69,6 +69,8 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/14) - decrease vertical space above Reset buttons
+(9/14) - reorganize D2C control panel per Sam M's specification
 1.0.13 ...
 (9/13) - add MegaHelp button to see how it impacts layout of control panels
 (9/13) - change wave type controls from combo boxes to radio buttons
