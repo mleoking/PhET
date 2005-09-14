@@ -87,6 +87,7 @@ public class D2CControlPanel extends FourierControlPanel {
     private WavePacketKWidthSlider _kWidthSlider;
     private WavePacketXWidthSlider _xWidthSlider;
     private FourierComboBox _waveTypeComboBox;
+    private JCheckBox _showWidthsCheckBox;
     
     // Choices
     private ArrayList _domainChoices;
@@ -141,9 +142,13 @@ public class D2CControlPanel extends FourierControlPanel {
         int width = Integer.parseInt( widthString );
         setMinumumWidth( width );
 
-        JPanel miscPanel = new JPanel();
+        JPanel graphControlsPanel = new JPanel();
         {
-            miscPanel.setBorder( new TitledBorder( "" ) );
+            String title = SimStrings.get( "D2CControlPanel.graphControls" );
+            TitledBorder titledBorder = new TitledBorder( title );
+            Font font = titledBorder.getTitleFont();
+            titledBorder.setTitleFont( new Font( font.getName(), Font.BOLD, font.getSize() ) );
+            graphControlsPanel.setBorder( titledBorder );
             
             // Domain
             {
@@ -177,24 +182,28 @@ public class D2CControlPanel extends FourierControlPanel {
             _amplitudesEnvelopeCheckBox = new JCheckBox( SimStrings.get( "D2CControlPanel.kEnvelope" ) );
             _sumEnvelopeCheckBox = new JCheckBox( SimStrings.get( "D2CControlPanel.xEnvelope" ) );
             
+            // Show widths checkbox
+            _showWidthsCheckBox = new JCheckBox( SimStrings.get( "D2CControlPanel.showWidths" ) );
+            
             // Layout
-            EasyGridBagLayout layout = new EasyGridBagLayout( miscPanel );
-            miscPanel.setLayout( layout );
+            EasyGridBagLayout layout = new EasyGridBagLayout( graphControlsPanel );
+            graphControlsPanel.setLayout( layout );
             int row = 0;
             layout.addComponent( _domainComboBox, row++, 0 );
             layout.addComponent( _waveTypeComboBox, row++, 0 );
             layout.addComponent( _amplitudesEnvelopeCheckBox, row++, 0 );
             layout.addComponent( _sumEnvelopeCheckBox, row++, 0 );
+            layout.addComponent( _showWidthsCheckBox, row++, 0 );
         }
        
         // Packet width panel
-        JPanel packetPanel = new JPanel();
+        JPanel wavePacketControlsPanel = new JPanel();
         {
             String title = SimStrings.get( "D2CControlPanel.gaussianWavePacket" );
             TitledBorder titledBorder = new TitledBorder( title );
             Font font = titledBorder.getTitleFont();
             titledBorder.setTitleFont( new Font( font.getName(), Font.BOLD, font.getSize() ) );
-            packetPanel.setBorder( titledBorder );
+            wavePacketControlsPanel.setBorder( titledBorder );
             
             // spacing (k1)
             _spacingSlider = new WavePacketSpacingSlider();
@@ -209,8 +218,8 @@ public class D2CControlPanel extends FourierControlPanel {
             _xWidthSlider = new WavePacketXWidthSlider();
             
             // Layout
-            EasyGridBagLayout layout = new EasyGridBagLayout( packetPanel );
-            packetPanel.setLayout( layout );
+            EasyGridBagLayout layout = new EasyGridBagLayout( wavePacketControlsPanel );
+            wavePacketControlsPanel.setLayout( layout );
             int row = 0;
             layout.addComponent( _spacingSlider, row++, 0 );
             layout.addComponent( _centerSlider, row++, 0 );
@@ -219,9 +228,9 @@ public class D2CControlPanel extends FourierControlPanel {
         }
 
         // Layout
-        addFullWidth( miscPanel );
+        addFullWidth( wavePacketControlsPanel );
         addVerticalSpace( SPACE_BETWEEN_SUBPANELS );
-        addFullWidth( packetPanel );
+        addFullWidth( graphControlsPanel );
         
         // Set the state of the controls.
         reset();
@@ -233,6 +242,7 @@ public class D2CControlPanel extends FourierControlPanel {
             _spacingSlider.addChangeListener( _listener );
             _amplitudesEnvelopeCheckBox.addActionListener( _listener );
             _sumEnvelopeCheckBox.addActionListener( _listener );
+            _showWidthsCheckBox.addActionListener( _listener );
             _centerSlider.addChangeListener( _listener );
             _kWidthSlider.addChangeListener( _listener );
             _xWidthSlider.addChangeListener( _listener );
@@ -244,6 +254,7 @@ public class D2CControlPanel extends FourierControlPanel {
         
         _amplitudesEnvelopeCheckBox.setSelected( _amplitudesGraph.isEnvelopeEnabled() );
         _sumEnvelopeCheckBox.setSelected( _sumGraph.isEnvelopeEnabled() );
+        _showWidthsCheckBox.setSelected( true );
         
         _domainComboBox.setSelectedKey( FourierConstants.DOMAIN_SPACE );
         handleDomain();
@@ -272,6 +283,9 @@ public class D2CControlPanel extends FourierControlPanel {
             }
             else if ( event.getSource() == _sumEnvelopeCheckBox ) {
                 handleSumEnvelope();
+            }
+            else if ( event.getSource() == _showWidthsCheckBox ) {
+                handleShowWidths();
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + event );
@@ -446,5 +460,12 @@ public class D2CControlPanel extends FourierControlPanel {
         }
         
         setWaitCursorEnabled( false );
+    }
+    
+    /*
+     * Handles changes to the "Show widths" checkbox.
+     */
+    private void handleShowWidths() {
+        //XXX
     }
 }
