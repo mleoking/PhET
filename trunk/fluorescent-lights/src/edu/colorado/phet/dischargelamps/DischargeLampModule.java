@@ -57,8 +57,6 @@ public class DischargeLampModule extends BaseLaserModule {
     public static boolean DEBUG = false;
     private static final double SPECTROMETER_LAYER = 1000;
     public static final double voltageCalibrationFactor = 5.64;
-//    public static final double voltageCalibrationFactor = 5.656;
-//    public static final double voltageCalibrationFactor = 5.78;
 
     //----------------------------------------------------------------
     // Instance data
@@ -71,6 +69,7 @@ public class DischargeLampModule extends BaseLaserModule {
     private Plate leftHandPlate;
     private Plate rightHandPlate;
     private double maxCurrent = 200;
+    protected double currentDisplayFactor = 300;
 //    private double maxCurrent = 300;
 //    private double maxCurrent = 0.3;
     private ElementProperties[] elementProperties;
@@ -87,7 +86,6 @@ public class DischargeLampModule extends BaseLaserModule {
     private SpectrometerGraphic spectrometerGraphic;
     private HeatingElementGraphic[] heatingElementGraphics = new HeatingElementGraphic[2];
     private JCheckBox squiggleCB;
-    protected double currentDisplayFactor = 300;
 
     //----------------------------------------------------------------
     // Constructors and initialization
@@ -98,7 +96,7 @@ public class DischargeLampModule extends BaseLaserModule {
      *
      * @param clock
      */
-    protected DischargeLampModule( String name, AbstractClock clock, int numEnergyLevels ) {
+    protected DischargeLampModule( String name, AbstractClock clock ) {
         super( name, clock );
 
         // Set up the basic stuff
@@ -115,6 +113,14 @@ public class DischargeLampModule extends BaseLaserModule {
         rightHandPlate = model.getRightHandPlate();
         setModel( model );
         setControlPanel( new ControlPanel( this ) );
+
+        // Create a listener on the apparatus panel that will maintain the bounds of the model
+        // to be conformant with the panel
+        apparatusPanel.addChangeListener( new ApparatusPanel2.ChangeListener() {
+            public void canvasSizeChanged( ApparatusPanel2.ChangeEvent event ) {
+                model.setBounds( new Rectangle2D.Double( 0,0, event.getCanvasSize().getWidth(),  event.getCanvasSize().getHeight()));
+            }
+        } );
 
         // Create the element properties we will use
         configurableElement = new ConfigurableElementProperties( 2, model );
@@ -303,8 +309,6 @@ public class DischargeLampModule extends BaseLaserModule {
 
         // A slider for the battery voltage
         double defaultVoltage = 25;
-
-//        final double voltageCalibrationFactor = 5.8049;
         final ModelSlider batterySlider = new ModelSlider( "Battery Voltage",
                                                            "V",
                                                            -30, 30,
@@ -357,7 +361,7 @@ public class DischargeLampModule extends BaseLaserModule {
      * @param tube
      * @param numAtoms
      */
-    protected void addAtoms( ResonatingCavity tube, int numAtoms, int numEnergyLevels, double maxSpeed ) {
+    protected void addAtoms( ResonatingCavity tube, int numAtoms, double maxSpeed ) {
         DischargeLampAtom atom = null;
         ArrayList atoms = new ArrayList();
         Rectangle2D tubeBounds = tube.getBounds();

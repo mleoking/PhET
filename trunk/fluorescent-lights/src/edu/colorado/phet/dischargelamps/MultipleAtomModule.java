@@ -26,7 +26,7 @@ public class MultipleAtomModule extends DischargeLampModule {
      * @param clock
      */
     protected MultipleAtomModule( String name, AbstractClock clock, int numAtoms, int numEnergyLevels, double maxAtomSpeed ) {
-        super( name, clock, numEnergyLevels );
-        addAtoms( getTube(), numAtoms, numEnergyLevels, maxAtomSpeed );
+        super( name, clock );
+        addAtoms( getTube(), numAtoms, maxAtomSpeed );
     }
 }

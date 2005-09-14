@@ -2,14 +2,9 @@ To do
 =====
 both the model and each atom have atomicStates[]. They should only be in one place.
 
-Photons disappear as soon as they get past the left edge of the ciruit.
 Simulation slows and waits while sliders are being moved
 
 Fix the "currentDisplayFactor" hack in DischargeLampModule and SingleAtomModule
-fix "startStopEnabled" in spectrometer button handling. Why are we getting two events per press?
-
-set deafult statelifetime to 100
-tie state lifetime to simulation clock, not system clock
 
 Combine the voltageCalibrationFactor and PIXELS_TO_NM
 Get voltageCalibrationFactor out of DischargeLampModule
