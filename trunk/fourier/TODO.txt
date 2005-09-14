@@ -69,6 +69,8 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+1.0.14 ...
+(9/14) - phetcommon: fix bug in PhetApplication with old constructors
 (9/14) - sync with Ron's changes to ApparatusPanel and ApparatusPanel2's mouse/key handling
 (9/14) - phetcommon: internationalize PhetApplication.StartupDialog
 (9/14) - convert to PhetApplication.StartupDialog
