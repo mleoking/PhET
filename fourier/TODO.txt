@@ -71,6 +71,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/13) - fix subscript on D2C center control
 (9/13) - reorganize D2C control panel (my proposal)
 (9/13) - add dummy "Show widths" control to D2C
 (9/13) - hook up wiggle me to model so that it disappears when model changes
