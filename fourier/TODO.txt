@@ -5,6 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- change default # harmonics to 11
+- change default domain back to "space"
 - x-space width is wrong in D2C
 - investigate what MegaHelp button will do to control panel, will it add scrollbars?
 - add a "show widths" control to D2C control panel
@@ -15,8 +17,6 @@ HIGH PRIORITY:
 - peak of the D2C sum envelope should be used to scale the Sum graph
 - add arrows to "width" graphics in D2C
 - replace D2C width tools with static graphics that indicate widths (red, double arrows)
-- make Discrete amplitude sliders 50% narrower (no!)
-- add equations for Gaussian wave packet above D2C amplitudes graph (no!)
 - hangs after extended play (~30 minutes)
 - remove the clock controls for the D2C module
 - add sound to Discrete module
@@ -510,6 +510,8 @@ sandbox-2005-05-10...
 (3/30) - set up basic application framework
 
 REJECTED:
+(9/13) - add equations for Gaussian wave packet above D2C amplitudes graph (voted down by design team)
+(9/13) - make Discrete amplitude sliders 50% narrower (not needed)
 (9/13) - Discrete x-axis ticks and labeling should be consistent with D2C (zoom levels and symbolic labeling are different)
 (9/13) - add ability to show multiple wavelength/period tools in Discrete module (voted down)
 (9/8) - smaller font for equation subscripts (fine as is, HTML tags to do this don't work)
