@@ -69,6 +69,9 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/14) - sync with Ron's changes to ApparatusPanel and ApparatusPanel2's mouse/key handling
+(9/14) - phetcommon: internationalize PhetApplication.StartupDialog
+(9/14) - convert to PhetApplication.StartupDialog
 (9/14) - decrease vertical space above Reset buttons
 (9/14) - reorganize D2C control panel per Sam M's specification
 1.0.13 ...

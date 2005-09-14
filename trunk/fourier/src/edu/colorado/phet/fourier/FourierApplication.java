@@ -11,12 +11,10 @@
 
 package edu.colorado.phet.fourier;
 
-import java.awt.Dimension;
 import java.io.IOException;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.application.PhetStartupWindow;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.util.DebugMenu;
@@ -114,12 +112,6 @@ public class FourierApplication extends PhetApplication {
         // Initialize localization.
         SimStrings.init( args, FourierConfig.LOCALIZATION_BUNDLE_BASENAME );
         
-        // Open progress window
-        String startupMessage = SimStrings.get( "FourierApplication.starting" );
-        PhetStartupWindow startupWindow = new PhetStartupWindow( startupMessage );
-        startupWindow.setIndeterminate( true );
-        startupWindow.setVisible( true );
-        
         // Get stuff needed to initialize the application model.
         String title = SimStrings.get( "FourierApplication.title" );
         String description = SimStrings.get( "FourierApplication.description" );
@@ -162,7 +154,5 @@ public class FourierApplication extends PhetApplication {
         
         // Start the application.
         app.startApplication();
-        
-        startupWindow.setVisible( false );
     }
 }
