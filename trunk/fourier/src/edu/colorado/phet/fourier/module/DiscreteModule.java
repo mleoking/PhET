@@ -21,22 +21,22 @@ import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
-import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.control.DiscreteControlPanel;
 import edu.colorado.phet.fourier.help.FourierHelpItem;
 import edu.colorado.phet.fourier.help.WiggleMeGraphic;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.util.Vector2D;
-import edu.colorado.phet.fourier.view.*;
+import edu.colorado.phet.fourier.view.AnimationCycleController;
+import edu.colorado.phet.fourier.view.MinimizedView;
 import edu.colorado.phet.fourier.view.discrete.DiscreteAmplitudesView;
 import edu.colorado.phet.fourier.view.discrete.DiscreteHarmonicsView;
 import edu.colorado.phet.fourier.view.discrete.DiscreteSumView;
-import edu.colorado.phet.fourier.view.tools.AbstractHarmonicMeasurementTool;
 import edu.colorado.phet.fourier.view.tools.HarmonicPeriodDisplay;
 import edu.colorado.phet.fourier.view.tools.HarmonicPeriodTool;
 import edu.colorado.phet.fourier.view.tools.HarmonicWavelengthTool;
@@ -285,6 +285,9 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         //----------------------------------------------------------------------------
         
         reset();
+        
+        // Add the wiggle me observer after everything has been initialized.
+        _fourierSeries.addObserver( wiggleMe );
     }
     
     //----------------------------------------------------------------------------
@@ -382,15 +385,17 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
     /**
      * ThisWiggleMeGraphic is the wiggle me for this module.
      */
-    private static class ThisWiggleMeGraphic extends WiggleMeGraphic {
+    private static class ThisWiggleMeGraphic extends WiggleMeGraphic implements SimpleObserver {
 
+        private MouseInputAdapter _mouseListener;
+        
         /**
          * Sole constructor.
          * 
          * @param component
          * @param model
          */
-        public ThisWiggleMeGraphic( final Component component, AbstractClock clock ) {
+        public ThisWiggleMeGraphic( Component component, AbstractClock clock ) {
             super( component, clock );
 
             setText( SimStrings.get( "DiscreteModule.wiggleMe" ), WIGGLE_ME_COLOR );
@@ -398,16 +403,28 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
             setRange( 0, 10 );
             setCycleDuration( 5 );
             setEnabled( true );
-            
-            // Disable the wiggle me when the mouse is pressed in the apparatus panel.
-            component.addMouseListener( new MouseInputAdapter() { 
+
+            _mouseListener = new MouseInputAdapter() {
+                // Disable the wiggle me when the mouse is pressed in the apparatus panel.
                 public void mousePressed( MouseEvent event ) {
                     // Disable
                     setEnabled( false );
                     // Unwire
-                    component.removeMouseListener( this );
+                    getComponent().removeMouseListener( this );
                 }
-             } );
+            };
+
+            component.addMouseListener( _mouseListener );
+        }
+
+        /*
+         * Disable the wiggle me when the FourierSeries model changes.
+         */
+        public void update() {
+            // Disable
+            setEnabled( false );
+            // Unwire
+            getComponent().removeMouseListener( _mouseListener );
         }
     }
 }

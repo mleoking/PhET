@@ -8,7 +8,6 @@ HIGH PRIORITY:
 - x-space width is wrong in D2C
 - investigate what MegaHelp button will do to control panel, will it add scrollbars?
 - add a "show widths" control to D2C control panel
-- hook up wiggle me to model so that it disappears when model changes
 - bug: x-space width is in the wrong location when D2C Components graph is minimized
 - bug: x-space width shouldn't be visible when D2C Sum graph is minimized
 - charts: add ability to put a PhetGraphic on the chart at a specified x,y coordinate
@@ -73,6 +72,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/13) - hook up wiggle me to model so that it disappears when model changes
 (9/13) - change default # harmonics to 11
 (9/13) - change default domain back to "space"
 (9/13) - relocate the Help on the text fields in Discrete module, put below text fields
