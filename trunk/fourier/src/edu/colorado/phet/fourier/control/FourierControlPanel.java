@@ -41,9 +41,12 @@ public abstract class FourierControlPanel extends ControlPanel {
     // Class data
     //----------------------------------------------------------------------------
     
+    // Default insets used in all EasyGridBagLayouts
+    public static final Insets DEFAULT_INSETS = new Insets( 0, 0, 0, 0 );
+    
     // Default amount of vertical space, see addVerticalSpace
     private static final int DEFAULT_VERTICAL_SPACE = 8;
-    
+  
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
