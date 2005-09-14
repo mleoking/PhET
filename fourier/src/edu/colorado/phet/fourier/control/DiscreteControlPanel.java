@@ -52,12 +52,6 @@ import edu.colorado.phet.fourier.view.tools.HarmonicWavelengthTool;
  * @version $Revision$
  */
 public class DiscreteControlPanel extends FourierControlPanel implements ChangeListener {
-
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final int TITLED_BORDER_WIDTH = 1;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -146,29 +140,15 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         int width = Integer.parseInt( widthString );
         setMinumumWidth( width );
         
-        // Functions panel
-        JPanel functionsPanel = new JPanel();
+        // Preset Controls panel
+        JPanel presetControlsPanel = new JPanel();
         {
             //  Title
-            Border lineBorder = BorderFactory.createLineBorder( Color.BLACK, TITLED_BORDER_WIDTH );
-            String title = SimStrings.get( "DiscreteControlPanel.title.functions" );
-            TitledBorder titleBorder = BorderFactory.createTitledBorder( lineBorder, title );
-            functionsPanel.setBorder( titleBorder );
-            
-            // Domain
-            {
-                // Label
-                String label = SimStrings.get( "DiscreteControlPanel.domain" );
-
-                // Choices
-                _domainChoices = new ArrayList();
-                _domainChoices.add( new FourierComboBox.Choice( FourierConstants.DOMAIN_SPACE, SimStrings.get( "domain.space" ) ) );
-                _domainChoices.add( new FourierComboBox.Choice( FourierConstants.DOMAIN_TIME, SimStrings.get( "domain.time" ) ) );
-                _domainChoices.add( new FourierComboBox.Choice( FourierConstants.DOMAIN_SPACE_AND_TIME, SimStrings.get( "domain.spaceAndTime" ) ) );
-
-                // Function combo box
-                _domainComboBox = new FourierComboBox( label, _domainChoices );
-            }
+            String title = SimStrings.get( "DiscreteControlPanel.presetControls" );
+            TitledBorder titledBorder = new TitledBorder( title );
+            Font font = titledBorder.getTitleFont();
+            titledBorder.setTitleFont( new Font( font.getName(), Font.BOLD, font.getSize() ) );
+            presetControlsPanel.setBorder( titledBorder );
 
             // Presets
             {
@@ -186,34 +166,97 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
 
                 // Presets combo box
                 _presetsComboBox = new FourierComboBox( label, _presetChoices );
+            }        
+
+            // Number of harmonics
+            {
+                String format = SimStrings.get( "DiscreteControlPanel.numberOfHarmonics" );
+                _numberOfHarmonicsSlider = new DefaultFourierSlider( format );
+                _numberOfHarmonicsSlider.getSlider().setMaximum( FourierConfig.MAX_HARMONICS );
+                _numberOfHarmonicsSlider.getSlider().setMinimum( FourierConfig.MIN_HARMONICS );
+                _numberOfHarmonicsSlider.getSlider().setMajorTickSpacing( 2 );
+                _numberOfHarmonicsSlider.getSlider().setMinorTickSpacing( 1 );
+                _numberOfHarmonicsSlider.getSlider().setSnapToTicks( true );
+                _numberOfHarmonicsSlider.getSlider().setPaintLabels( true );
+                _numberOfHarmonicsSlider.getSlider().setPaintTicks( true );
             }
             
             // Show infinite...
             _showInfiniteCheckBox = new JCheckBox( SimStrings.get( "DiscreteControlPanel.showInfinite" ) );
             
             // Layout
-            EasyGridBagLayout layout = new EasyGridBagLayout( functionsPanel );
+            EasyGridBagLayout layout = new EasyGridBagLayout( presetControlsPanel );
             layout.setInsets( DEFAULT_INSETS );
-            functionsPanel.setLayout( layout );
+            presetControlsPanel.setLayout( layout );
             int row = 0;
             layout.addComponent( _presetsComboBox, row++, 0 );
+            layout.addFilledComponent( _numberOfHarmonicsSlider, row++, 0, GridBagConstraints.HORIZONTAL );
             layout.addComponent( _showInfiniteCheckBox, row++, 0 );
-            layout.addComponent( _domainComboBox, row++, 0 );
         }
         
-        // Wave Properties panel
-        JPanel wavePropertiesPanel = new JPanel();
+        // Graph Controls panel
+        JPanel graphControlsPanel = new JPanel();
         {
             //  Title
-            Border lineBorder = BorderFactory.createLineBorder( Color.BLACK, TITLED_BORDER_WIDTH );
-            String title = SimStrings.get( "DiscreteControlPanel.title.waveProperties" );
-            TitledBorder titleBorder = BorderFactory.createTitledBorder( lineBorder, title );
-            wavePropertiesPanel.setBorder( titleBorder );
+            String title = SimStrings.get( "DiscreteControlPanel.graphControls" );
+            TitledBorder titledBorder = new TitledBorder( title );
+            Font font = titledBorder.getTitleFont();
+            titledBorder.setTitleFont( new Font( font.getName(), Font.BOLD, font.getSize() ) );
+            graphControlsPanel.setBorder( titledBorder );
+                      
+            // Domain
+            {
+                // Label
+                String label = SimStrings.get( "DiscreteControlPanel.domain" );
+
+                // Choices
+                _domainChoices = new ArrayList();
+                _domainChoices.add( new FourierComboBox.Choice( FourierConstants.DOMAIN_SPACE, SimStrings.get( "domain.space" ) ) );
+                _domainChoices.add( new FourierComboBox.Choice( FourierConstants.DOMAIN_TIME, SimStrings.get( "domain.time" ) ) );
+                _domainChoices.add( new FourierComboBox.Choice( FourierConstants.DOMAIN_SPACE_AND_TIME, SimStrings.get( "domain.spaceAndTime" ) ) );
+
+                // Function combo box
+                _domainComboBox = new FourierComboBox( label, _domainChoices );
+            }
+
+            // Wave Type
+            {
+                // Label
+                String label = SimStrings.get( "DiscreteControlPanel.waveType" );
+                
+                // Choices
+                _waveTypeChoices = new ArrayList();
+                _waveTypeChoices.add( new FourierComboBox.Choice( FourierConstants.WAVE_TYPE_SINE, SimStrings.get( "waveType.sines" ) ) );
+                _waveTypeChoices.add( new FourierComboBox.Choice( FourierConstants.WAVE_TYPE_COSINE, SimStrings.get( "waveType.cosines" ) ) );
+                
+                // Wave Type combo box
+                _waveTypeComboBox = new FourierComboBox( label, _waveTypeChoices ); 
+            }
+            
+            // Layout
+            EasyGridBagLayout layout = new EasyGridBagLayout( graphControlsPanel );
+            layout.setInsets( DEFAULT_INSETS );
+            graphControlsPanel.setLayout( layout );
+            int row = 0;
+
+            layout.addComponent( _domainComboBox, row++, 0 );
+            layout.addComponent( _waveTypeComboBox, row++, 0 );
+        }
+        
+        // Tool Controls panel
+        JPanel toolControlsPanel = new JPanel();
+        {
+            //  Title
+            String title = SimStrings.get( "DiscreteControlPanel.toolControls" );
+            TitledBorder titledBorder = new TitledBorder( title );
+            Font font = titledBorder.getTitleFont();
+            titledBorder.setTitleFont( new Font( font.getName(), Font.BOLD, font.getSize() ) );
+            toolControlsPanel.setBorder( titledBorder );
             
             // Wavelength Tool
             JPanel wavelengthToolPanel = new JPanel();
             {
-                _wavelengthToolCheckBox = new JCheckBox( SimStrings.get( "DiscreteControlPanel.showWavelength" ) );
+                _wavelengthToolCheckBox = new JCheckBox( SimStrings.get( "DiscreteControlPanel.wavelengthTool" ) );
 
                 _wavelengthToolComboBox = new JComboBox();
                 
@@ -236,7 +279,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             // Period Tool
             JPanel periodToolPanel = new JPanel();
             {
-                _periodToolCheckBox = new JCheckBox( SimStrings.get( "DiscreteControlPanel.showPeriod" ) );
+                _periodToolCheckBox = new JCheckBox( SimStrings.get( "DiscreteControlPanel.periodTool" ) );
 
                 _periodToolComboBox = new JComboBox();
                 
@@ -255,41 +298,12 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
                 layout.addAnchoredComponent( _periodToolCheckBox, 0, 0, GridBagConstraints.EAST );
                 layout.addAnchoredComponent( _periodToolComboBox, 0, 1, GridBagConstraints.WEST );
             }
-            
-            // Wave Type
-            {
-                // Label
-                String label = SimStrings.get( "DiscreteControlPanel.waveType" );
-                
-                // Choices
-                _waveTypeChoices = new ArrayList();
-                _waveTypeChoices.add( new FourierComboBox.Choice( FourierConstants.WAVE_TYPE_SINE, SimStrings.get( "waveType.sines" ) ) );
-                _waveTypeChoices.add( new FourierComboBox.Choice( FourierConstants.WAVE_TYPE_COSINE, SimStrings.get( "waveType.cosines" ) ) );
-                
-                // Wave Type combo box
-                _waveTypeComboBox = new FourierComboBox( label, _waveTypeChoices ); 
-            }
 
-            // Number of harmonics
-            {
-                String format = SimStrings.get( "DiscreteControlPanel.numberOfHarmonics" );
-                _numberOfHarmonicsSlider = new DefaultFourierSlider( format );
-                _numberOfHarmonicsSlider.getSlider().setMaximum( FourierConfig.MAX_HARMONICS );
-                _numberOfHarmonicsSlider.getSlider().setMinimum( FourierConfig.MIN_HARMONICS );
-                _numberOfHarmonicsSlider.getSlider().setMajorTickSpacing( 2 );
-                _numberOfHarmonicsSlider.getSlider().setMinorTickSpacing( 1 );
-                _numberOfHarmonicsSlider.getSlider().setSnapToTicks( true );
-                _numberOfHarmonicsSlider.getSlider().setPaintLabels( true );
-                _numberOfHarmonicsSlider.getSlider().setPaintTicks( true );
-            }
-            
             // Layout
-            EasyGridBagLayout layout = new EasyGridBagLayout( wavePropertiesPanel );
+            EasyGridBagLayout layout = new EasyGridBagLayout( toolControlsPanel );
             layout.setInsets( DEFAULT_INSETS );
-            wavePropertiesPanel.setLayout( layout );
+            toolControlsPanel.setLayout( layout );
             int row = 0;
-            layout.addFilledComponent( _numberOfHarmonicsSlider, row++, 0, GridBagConstraints.HORIZONTAL );
-            layout.addComponent( _waveTypeComboBox, row++, 0 );
             layout.addComponent( wavelengthToolPanel, row++, 0 );
             layout.addComponent( periodToolPanel, row++, 0 );
         }
@@ -298,10 +312,11 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         JPanel mathModePanel = new JPanel();
         {
             //  Title
-            Border lineBorder = BorderFactory.createLineBorder( Color.BLACK, TITLED_BORDER_WIDTH );
-            String title = SimStrings.get( "DiscreteControlPanel.title.mathMode" );
-            TitledBorder titleBorder = BorderFactory.createTitledBorder( lineBorder, title );
-            mathModePanel.setBorder( titleBorder );
+            String title = SimStrings.get( "DiscreteControlPanel.mathMode" );
+            TitledBorder titledBorder = new TitledBorder( title );
+            Font font = titledBorder.getTitleFont();
+            titledBorder.setTitleFont( new Font( font.getName(), Font.BOLD, font.getSize() ) );
+            mathModePanel.setBorder( titledBorder );
             
             // Show Math
             _showMathCheckBox = new JCheckBox( SimStrings.get( "DiscreteControlPanel.showMath" ) );
@@ -348,17 +363,40 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             mathModePanel.add( innerPanel, BorderLayout.WEST );
         }
         
-        // Sound
-        _soundCheckBox = new JCheckBox( SimStrings.get( "DiscreteControlPanel.sound" ) );
+        JPanel audioControlsPanel = new JPanel();
+        {
+            //  Title
+            String title = SimStrings.get( "DiscreteControlPanel.audioControls" );
+            TitledBorder titledBorder = new TitledBorder( title );
+            Font font = titledBorder.getTitleFont();
+            titledBorder.setTitleFont( new Font( font.getName(), Font.BOLD, font.getSize() ) );
+            audioControlsPanel.setBorder( titledBorder );
+
+            // Sound
+            _soundCheckBox = new JCheckBox( SimStrings.get( "DiscreteControlPanel.sound" ) );
+
+            // Layout
+            JPanel innerPanel = new JPanel();
+            EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
+            layout.setInsets( DEFAULT_INSETS );
+            innerPanel.setLayout( layout );
+            int row = 0;
+            layout.setAnchor( GridBagConstraints.WEST );
+            layout.addComponent( _soundCheckBox, row++, 0 );
+            audioControlsPanel.setLayout( new BorderLayout() );
+            audioControlsPanel.add( innerPanel, BorderLayout.WEST );
+        }
         
         // Layout
-        addFullWidth( functionsPanel );
+        addFullWidth( presetControlsPanel );
         addVerticalSpace( 5 );
-        addFullWidth( wavePropertiesPanel );
+        addFullWidth( graphControlsPanel );
+        addVerticalSpace( 5 );
+        addFullWidth( toolControlsPanel );
         addVerticalSpace( 5 );
         addFullWidth( mathModePanel );
         addVerticalSpace( 5 );
-        addFullWidth( _soundCheckBox );
+        addFullWidth( audioControlsPanel );
 
         // Dialogs
         Frame parentFrame = PhetApplication.instance().getPhetFrame();

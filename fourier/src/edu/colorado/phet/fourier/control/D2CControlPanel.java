@@ -51,19 +51,6 @@ import edu.colorado.phet.fourier.view.tools.WavePacketXWidthTool;
  * @version $Revision$
  */
 public class D2CControlPanel extends FourierControlPanel {
-
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final int TITLED_BORDER_WIDTH = 1;
-    
-    private static final int SPACE_BETWEEN_SUBPANELS = 10;
-    
-    private static final int MIN_SPACING = 0;
-    private static final int MAX_SPACING = 100;
-    private static final int MIN_X_WIDTH = 0;
-    private static final int MAX_X_WIDTH = 100;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -232,7 +219,7 @@ public class D2CControlPanel extends FourierControlPanel {
 
         // Layout
         addFullWidth( wavePacketControlsPanel );
-        addVerticalSpace( SPACE_BETWEEN_SUBPANELS );
+        addVerticalSpace( 5 );
         addFullWidth( graphControlsPanel );
         
         // Set the state of the controls.
