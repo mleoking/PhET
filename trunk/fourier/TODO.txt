@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- remove vertical space between components in control panels
 - x-space width is wrong in D2C
 - investigate what MegaHelp button will do to control panel, will it add scrollbars?
 - add a "show widths" control to D2C control panel
