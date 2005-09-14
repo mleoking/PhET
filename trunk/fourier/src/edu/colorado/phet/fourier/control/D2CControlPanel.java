@@ -131,6 +131,74 @@ public class D2CControlPanel extends FourierControlPanel {
         int width = Integer.parseInt( widthString );
         setMinumumWidth( width );
 
+        // Spacing panel
+        JPanel spacingPanel = new JPanel();
+        {
+            String title = SimStrings.get( "D2CControlPanel.spacing" );
+            TitledBorder titledBorder = new TitledBorder( title );
+            Font font = titledBorder.getTitleFont();
+            titledBorder.setTitleFont( new Font( font.getName(), Font.BOLD, font.getSize() ) );
+            spacingPanel.setBorder( titledBorder );
+            
+            // spacing (k1)
+            _spacingSlider = new WavePacketSpacingSlider();
+
+            // amplitudes envelope ("Show continuous...")
+            _amplitudesEnvelopeCheckBox = new JCheckBox( SimStrings.get( "D2CControlPanel.kEnvelope" ) );
+            
+            // Layout
+            EasyGridBagLayout layout = new EasyGridBagLayout( spacingPanel );
+            layout.setInsets( DEFAULT_INSETS );
+            spacingPanel.setLayout( layout );
+            int row = 0;
+            layout.addComponent( _spacingSlider, row++, 0 );
+            layout.addComponent( _amplitudesEnvelopeCheckBox, row++, 0 );
+        }
+        
+        // Center Point panel
+        JPanel centerPanel = new JPanel();
+        {
+            String title = SimStrings.get( "D2CControlPanel.center" );
+            TitledBorder titledBorder = new TitledBorder( title );
+            Font font = titledBorder.getTitleFont();
+            titledBorder.setTitleFont( new Font( font.getName(), Font.BOLD, font.getSize() ) );
+            centerPanel.setBorder( titledBorder );
+
+            // center point (k0)
+            _centerSlider = new WavePacketCenterSlider();
+            
+            // Layout
+            EasyGridBagLayout layout = new EasyGridBagLayout( centerPanel );
+            layout.setInsets( DEFAULT_INSETS );
+            centerPanel.setLayout( layout );
+            int row = 0;
+            layout.addComponent( _centerSlider, row++, 0 );
+        }
+        
+        // Width panel
+        JPanel widthPanel = new JPanel();
+        {
+            String title = SimStrings.get( "D2CControlPanel.widthControls" );
+            TitledBorder titledBorder = new TitledBorder( title );
+            Font font = titledBorder.getTitleFont();
+            titledBorder.setTitleFont( new Font( font.getName(), Font.BOLD, font.getSize() ) );
+            widthPanel.setBorder( titledBorder );
+            
+            // k-space width
+            _kWidthSlider = new WavePacketKWidthSlider();
+
+            // x-space width
+            _xWidthSlider = new WavePacketXWidthSlider();
+            
+            // Layout
+            EasyGridBagLayout layout = new EasyGridBagLayout( widthPanel );
+            layout.setInsets( DEFAULT_INSETS );
+            widthPanel.setLayout( layout );
+            int row = 0;
+            layout.addComponent( _kWidthSlider, row++, 0 );
+            layout.addComponent( _xWidthSlider, row++, 0 );
+        }
+        
         JPanel graphControlsPanel = new JPanel();
         {
             String title = SimStrings.get( "D2CControlPanel.graphControls" );
@@ -175,8 +243,7 @@ public class D2CControlPanel extends FourierControlPanel {
                 layout.addComponent( _cosinesRadioButton, 0, 2 );
             }
             
-            // Envelope checkboxes
-            _amplitudesEnvelopeCheckBox = new JCheckBox( SimStrings.get( "D2CControlPanel.kEnvelope" ) );
+            // Sum envelope
             _sumEnvelopeCheckBox = new JCheckBox( SimStrings.get( "D2CControlPanel.xEnvelope" ) );
             
             // Show widths checkbox
@@ -189,46 +256,14 @@ public class D2CControlPanel extends FourierControlPanel {
             int row = 0;
             layout.addComponent( _domainComboBox, row++, 0 );
             layout.addComponent( waveTypePanel, row++, 0 );
-            layout.addComponent( _amplitudesEnvelopeCheckBox, row++, 0 );
             layout.addComponent( _sumEnvelopeCheckBox, row++, 0 );
             layout.addComponent( _showWidthsCheckBox, row++, 0 );
         }
-       
-        // Packet width panel
-        JPanel wavePacketControlsPanel = new JPanel();
-        {
-            String title = SimStrings.get( "D2CControlPanel.gaussianWavePacket" );
-            TitledBorder titledBorder = new TitledBorder( title );
-            Font font = titledBorder.getTitleFont();
-            titledBorder.setTitleFont( new Font( font.getName(), Font.BOLD, font.getSize() ) );
-            wavePacketControlsPanel.setBorder( titledBorder );
-            
-            // spacing (k1)
-            _spacingSlider = new WavePacketSpacingSlider();
-            
-            // center point (k0)
-            _centerSlider = new WavePacketCenterSlider();
-            
-            // k-space width
-            _kWidthSlider = new WavePacketKWidthSlider();
-
-            // x-space width
-            _xWidthSlider = new WavePacketXWidthSlider();
-            
-            // Layout
-            EasyGridBagLayout layout = new EasyGridBagLayout( wavePacketControlsPanel );
-            layout.setInsets( DEFAULT_INSETS );
-            wavePacketControlsPanel.setLayout( layout );
-            int row = 0;
-            layout.addComponent( _spacingSlider, row++, 0 );
-            layout.addComponent( _centerSlider, row++, 0 );
-            layout.addComponent( _kWidthSlider, row++, 0 );
-            layout.addComponent( _xWidthSlider, row++, 0 );
-        }
 
         // Layout
-        addFullWidth( wavePacketControlsPanel );
-        addVerticalSpace( 5 );
+        addFullWidth( spacingPanel );
+        addFullWidth( centerPanel );
+        addFullWidth( widthPanel );
         addFullWidth( graphControlsPanel );
         
         // Set the state of the controls.

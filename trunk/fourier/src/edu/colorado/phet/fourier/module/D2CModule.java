@@ -183,7 +183,6 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         _controlPanel = new D2CControlPanel( this, _wavePacket, 
                 _amplitudesView, _harmonicsView, _sumView,
                 _spacingTool, _kWidthTool, _xWidthTool, _periodTool );
-        _controlPanel.addVerticalSpace( 20 );
         _controlPanel.addResetButton();
         setControlPanel( _controlPanel );
 

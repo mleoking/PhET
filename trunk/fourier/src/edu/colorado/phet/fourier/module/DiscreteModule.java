@@ -182,7 +182,7 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
                 _fourierSeries, _harmonicsView, _sumView, 
                 _wavelengthTool, _periodTool, _periodDisplay,
                 _animationCycleController );
-        _controlPanel.addVerticalSpace( 20 );
+        _controlPanel.addVerticalSpace( 5 );
         _controlPanel.addResetButton();
         setControlPanel( _controlPanel );
         
