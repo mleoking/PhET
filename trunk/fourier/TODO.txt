@@ -69,6 +69,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+1.0.13 ...
 (9/13) - add MegaHelp button to see how it impacts layout of control panels
 (9/13) - change wave type controls from combo boxes to radio buttons
 (9/13) - reorganized all control panels the way I think they should be organized
