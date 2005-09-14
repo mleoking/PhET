@@ -21,12 +21,12 @@ import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.ImageLoader;
 
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import javax.swing.*;
+import java.awt.event.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
@@ -77,6 +77,7 @@ public class PhetApplication {
     private String description;
     private String version;
     private boolean useClockControlPanel;
+    private JDialog startupDlg;
 
     /**
      * @param args                 Command line args
@@ -89,6 +90,8 @@ public class PhetApplication {
      */
     public PhetApplication( String[] args, String title, String description, String version, AbstractClock clock,
                             boolean useClockControlPanel, FrameSetup frameSetup ) {
+
+
         s_instance = this;
         this.moduleManager = new ModuleManager( this );
         this.title = title;
@@ -97,6 +100,10 @@ public class PhetApplication {
         this.version = version;
         this.useClockControlPanel = useClockControlPanel;
         createPhetFrame( frameSetup );
+
+        // Put up a dialog that lets the user know that the simulation is starting up
+        startupDlg = new StartupDialog( getPhetFrame(), title );
+        startupDlg.show();
 
         // Handle command line arguments
         parseArgs( args );
@@ -188,6 +195,15 @@ public class PhetApplication {
         // at the proper size, but the ApparatusPanel2 has not yet gotten its resize event.
         phetFrame.addWindowFocusListener( new WindowAdapter() {
             public void windowGainedFocus( WindowEvent e ) {
+
+                // Get rid of the startup dialog and set the cursor to its normal form
+                if( startupDlg != null ) {
+                    startupDlg.setVisible( false );
+                    // To make sure the garbage collector will clean up the dialog. I'm
+                    // not sure this is necessary, but it can't hurt.
+                    startupDlg = null;
+                }
+
                 for( int i = 0; i < moduleManager.numModules(); i++ ) {
                     Module module = moduleManager.moduleAt( i );
                     ApparatusPanel panel = module.getApparatusPanel();
@@ -302,5 +318,53 @@ public class PhetApplication {
 
     public int numModules() {
         return moduleManager.numModules();
+    }
+
+    //-----------------------------------------------------------------
+    // Inner classes
+    //-----------------------------------------------------------------
+
+    /**
+     * A dialog that lets the user know "something is happening" while the
+     * application gets itself started.
+     */
+    public class StartupDialog extends JDialog {
+        private JLabel label;
+
+        public StartupDialog( Frame owner, String title ) throws HeadlessException {
+            super( owner, "Startup", false );
+            setUndecorated( true );
+            getRootPane().setWindowDecorationStyle( JRootPane.INFORMATION_DIALOG );
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            label = new JLabel( title + " is starting up" );
+            JProgressBar progressBar = new JProgressBar();
+            progressBar.setIndeterminate( true );
+            BufferedImage image = null;
+            try {
+                image = ImageLoader.loadBufferedImage( "images/Phet-Flatirons-logo-3-small.gif" );
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+            ImageIcon logo = new ImageIcon( image);
+
+            getContentPane().setLayout( new GridBagLayout() );
+            final GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+                                                                   GridBagConstraints.CENTER,
+                                                                   GridBagConstraints.NONE,
+                                                                   new Insets( 0,20,0,10), 0, 0 );
+            gbc.gridheight = 2;
+            getContentPane().add( new JLabel(logo), gbc );
+            gbc.gridx = 1;
+            gbc.gridheight = 1;
+            gbc.insets = new Insets( 40, 10, 10, 20 );
+            getContentPane().add( label, gbc );
+            gbc.gridy++;
+            gbc.insets = new Insets( 10, 10, 40, 20 );
+            getContentPane().add( progressBar, gbc );
+            pack();
+            setLocation( (int)( screenSize.getWidth() / 2 - getWidth() / 2 ),
+                         (int)( screenSize.getHeight() / 2 - getHeight() / 2 ) );
+        }
     }
 }
