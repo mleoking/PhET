@@ -12,6 +12,7 @@
 package edu.colorado.phet.fourier.control;
 
 import java.awt.Font;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -27,19 +28,19 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConstants;
-import edu.colorado.phet.fourier.control.sliders.WavePacketKWidthSlider;
-import edu.colorado.phet.fourier.control.sliders.WavePacketXWidthSlider;
 import edu.colorado.phet.fourier.control.sliders.WavePacketCenterSlider;
+import edu.colorado.phet.fourier.control.sliders.WavePacketKWidthSlider;
 import edu.colorado.phet.fourier.control.sliders.WavePacketSpacingSlider;
+import edu.colorado.phet.fourier.control.sliders.WavePacketXWidthSlider;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
 import edu.colorado.phet.fourier.module.FourierModule;
 import edu.colorado.phet.fourier.view.d2c.D2CAmplitudesView;
 import edu.colorado.phet.fourier.view.d2c.D2CHarmonicsView;
 import edu.colorado.phet.fourier.view.d2c.D2CSumView;
 import edu.colorado.phet.fourier.view.tools.WavePacketKWidthTool;
-import edu.colorado.phet.fourier.view.tools.WavePacketXWidthTool;
 import edu.colorado.phet.fourier.view.tools.WavePacketPeriodTool;
 import edu.colorado.phet.fourier.view.tools.WavePacketSpacingTool;
+import edu.colorado.phet.fourier.view.tools.WavePacketXWidthTool;
 
 
 
@@ -187,6 +188,7 @@ public class D2CControlPanel extends FourierControlPanel {
             
             // Layout
             EasyGridBagLayout layout = new EasyGridBagLayout( graphControlsPanel );
+            layout.setInsets( DEFAULT_INSETS );
             graphControlsPanel.setLayout( layout );
             int row = 0;
             layout.addComponent( _domainComboBox, row++, 0 );
@@ -219,6 +221,7 @@ public class D2CControlPanel extends FourierControlPanel {
             
             // Layout
             EasyGridBagLayout layout = new EasyGridBagLayout( wavePacketControlsPanel );
+            layout.setInsets( DEFAULT_INSETS );
             wavePacketControlsPanel.setLayout( layout );
             int row = 0;
             layout.addComponent( _spacingSlider, row++, 0 );

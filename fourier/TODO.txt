@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- remove vertical space between components in control panels
 - investigate what MegaHelp button will do to control panel, will it add scrollbars?
 - bug: x-space width is wrong in D2C
 - bug: x-space width is in the wrong location when D2C Components graph is minimized
@@ -71,6 +70,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/13) - remove vertical space between components in control panels by setting all EasyGridBagLayout insets to zero
 (9/13) - fix subscript on D2C center control
 (9/13) - reorganize D2C control panel (my proposal)
 (9/13) - add dummy "Show widths" control to D2C

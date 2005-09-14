@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.fourier.control;
 
+import java.awt.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Frame;
@@ -192,6 +193,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             
             // Layout
             EasyGridBagLayout layout = new EasyGridBagLayout( functionsPanel );
+            layout.setInsets( DEFAULT_INSETS );
             functionsPanel.setLayout( layout );
             int row = 0;
             layout.addComponent( _presetsComboBox, row++, 0 );
@@ -225,6 +227,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
 
                 // Layout
                 EasyGridBagLayout layout = new EasyGridBagLayout( wavelengthToolPanel );
+                layout.setInsets( DEFAULT_INSETS );
                 wavelengthToolPanel.setLayout( layout );
                 layout.addAnchoredComponent( _wavelengthToolCheckBox, 0, 0, GridBagConstraints.EAST );
                 layout.addAnchoredComponent( _wavelengthToolComboBox, 0, 1, GridBagConstraints.WEST );
@@ -247,6 +250,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
 
                 // Layout
                 EasyGridBagLayout layout = new EasyGridBagLayout( periodToolPanel );
+                layout.setInsets( DEFAULT_INSETS );
                 periodToolPanel.setLayout( layout );
                 layout.addAnchoredComponent( _periodToolCheckBox, 0, 0, GridBagConstraints.EAST );
                 layout.addAnchoredComponent( _periodToolComboBox, 0, 1, GridBagConstraints.WEST );
@@ -281,6 +285,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             
             // Layout
             EasyGridBagLayout layout = new EasyGridBagLayout( wavePropertiesPanel );
+            layout.setInsets( DEFAULT_INSETS );
             wavePropertiesPanel.setLayout( layout );
             int row = 0;
             layout.addFilledComponent( _numberOfHarmonicsSlider, row++, 0, GridBagConstraints.HORIZONTAL );
@@ -332,6 +337,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             // Layout
             JPanel innerPanel = new JPanel();
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
+            layout.setInsets( DEFAULT_INSETS );
             innerPanel.setLayout( layout );
             int row = 0;
             layout.setAnchor( GridBagConstraints.WEST );
