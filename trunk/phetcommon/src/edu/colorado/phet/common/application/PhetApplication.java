@@ -159,9 +159,8 @@ public class PhetApplication {
 
         s_instance = this;
 
-        // Create the PhetFrame
-        createPhetFrame( null );
-
+        PhetJComponent.init( phetFrame );
+        
         // Handle command line arguments
         parseArgs( args );
     }
@@ -329,7 +328,7 @@ public class PhetApplication {
      * A dialog that lets the user know "something is happening" while the
      * application gets itself started.
      */
-    public class StartupDialog extends JDialog {
+    private static class StartupDialog extends JDialog {
         private JLabel label;
 
         public StartupDialog( Frame owner, String title ) throws HeadlessException {
@@ -338,7 +337,7 @@ public class PhetApplication {
             getRootPane().setWindowDecorationStyle( JRootPane.INFORMATION_DIALOG );
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
             
-            String labelFormat = SimStrings.get( "PhetApplication.Startup.message" );
+            String labelFormat = SimStrings.get( "PhetApplication.StartupDialog.message" );
             Object[] args = { title };
             String labelString = MessageFormat.format( labelFormat, args );
             label = new JLabel( labelString );
