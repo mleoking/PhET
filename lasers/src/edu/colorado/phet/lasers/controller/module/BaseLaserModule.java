@@ -268,7 +268,6 @@ public class BaseLaserModule extends Module {
         a.add( new Area( mirrorFace ) );
         LaserCurtainGraphic internalLaserCurtainGraphic = new LaserCurtainGraphic( getApparatusPanel(),
                                                                                    a, laserModel,
-//                                                                                   cavityBounds, laserModel,
                                                                                    getLaserModel().getMiddleEnergyState(),
                                                                                    internalLaserCurtainOpacity );
         laserModel.addLaserListener( internalLaserCurtainGraphic );

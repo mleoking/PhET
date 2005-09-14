@@ -61,8 +61,8 @@ public class SingleAtomModule extends DischargeLampModule {
      *
      * @param clock
      */
-    protected SingleAtomModule( String name, AbstractClock clock, int numEnergyLevels ) {
-        super( name, clock, numEnergyLevels );
+    protected SingleAtomModule( String name, AbstractClock clock ) {
+        super( name, clock );
         addAtom( getTube() );
 
         // Set model parameters

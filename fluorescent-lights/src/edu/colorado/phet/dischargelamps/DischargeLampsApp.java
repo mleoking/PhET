@@ -46,8 +46,7 @@ public class DischargeLampsApp extends PhetApplication {
 
         // Determine the resolution of the screen
         DischargeLampModule singleAtomModule = new SingleAtomModule( SimStrings.get( "ModuleTitle.SingleAtomModule" ),
-                                                                     getClock(),
-                                                                     DischargeLampsConfig.NUM_ENERGY_LEVELS );
+                                                                     getClock() );
 
         double maxSpeed = 0.1;
         DischargeLampModule multipleAtomModule = new MultipleAtomModule( SimStrings.get( "ModuleTitle.MultipleAtomModule" ),
