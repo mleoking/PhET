@@ -70,6 +70,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/13) - change wave type controls from combo boxes to radio buttons
 (9/13) - reorganized all control panels the way I think they should be organized
 (9/13) - remove vertical space between components in control panels by setting all EasyGridBagLayout insets to zero
 (9/13) - fix subscript on D2C center control

@@ -74,7 +74,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     private JComboBox _wavelengthToolComboBox;
     private JCheckBox _periodToolCheckBox;
     private JComboBox _periodToolComboBox;
-    private FourierComboBox _waveTypeComboBox;
+    private JRadioButton _sinesRadioButton;
+    private JRadioButton _cosinesRadioButton;
     private AbstractFourierSlider _numberOfHarmonicsSlider;
     private JCheckBox _showMathCheckBox;
     private FourierComboBox _mathFormComboBox;
@@ -87,7 +88,6 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     private ArrayList _presetChoices;
     private ArrayList _showWavelengthChoices;
     private ArrayList _showPeriodChoices;
-    private ArrayList _waveTypeChoices;
     private ArrayList _spaceMathFormChoices;
     private ArrayList _timeMathFormChoices;
     private ArrayList _spaceAndTimeMathFormChoices;
@@ -220,17 +220,25 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             }
 
             // Wave Type
+            JPanel waveTypePanel = new JPanel();
             {
                 // Label
-                String label = SimStrings.get( "DiscreteControlPanel.waveType" );
+                JLabel label = new JLabel( SimStrings.get( "DiscreteControlPanel.waveType" ) );
                 
-                // Choices
-                _waveTypeChoices = new ArrayList();
-                _waveTypeChoices.add( new FourierComboBox.Choice( FourierConstants.WAVE_TYPE_SINE, SimStrings.get( "waveType.sines" ) ) );
-                _waveTypeChoices.add( new FourierComboBox.Choice( FourierConstants.WAVE_TYPE_COSINE, SimStrings.get( "waveType.cosines" ) ) );
+                // Radio buttons
+                _sinesRadioButton = new JRadioButton( SimStrings.get( "waveType.sines" ) );
+                _cosinesRadioButton = new JRadioButton( SimStrings.get( "waveType.cosines" ) );
+                ButtonGroup group = new ButtonGroup();
+                group.add( _sinesRadioButton );
+                group.add( _cosinesRadioButton );
                 
-                // Wave Type combo box
-                _waveTypeComboBox = new FourierComboBox( label, _waveTypeChoices ); 
+                // Layout
+                EasyGridBagLayout layout = new EasyGridBagLayout( waveTypePanel );
+                layout.setInsets( DEFAULT_INSETS );
+                waveTypePanel.setLayout( layout );
+                layout.addComponent( label, 0, 0 );
+                layout.addComponent( _sinesRadioButton, 0, 1 );
+                layout.addComponent( _cosinesRadioButton, 0, 2 );
             }
             
             // Layout
@@ -238,9 +246,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             layout.setInsets( DEFAULT_INSETS );
             graphControlsPanel.setLayout( layout );
             int row = 0;
-
             layout.addComponent( _domainComboBox, row++, 0 );
-            layout.addComponent( _waveTypeComboBox, row++, 0 );
+            layout.addComponent( waveTypePanel, row++, 0 );
         }
         
         // Tool Controls panel
@@ -418,12 +425,13 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             _expandSumCheckBox.addActionListener( _eventListener );
             _expandSumDialog.getCloseButton().addActionListener( _eventListener );
             _soundCheckBox.addActionListener( _eventListener );
+            _sinesRadioButton.addActionListener( _eventListener );
+            _cosinesRadioButton.addActionListener( _eventListener );
             // ChangeListeners
             _numberOfHarmonicsSlider.addChangeListener( _eventListener );
             // ItemListeners
             _domainComboBox.addItemListener( _eventListener );
             _presetsComboBox.addItemListener( _eventListener );
-            _waveTypeComboBox.addItemListener( _eventListener );
             _wavelengthToolComboBox.addItemListener( _eventListener );
             _periodToolComboBox.addItemListener( _eventListener );
             _mathFormComboBox.addItemListener( _eventListener );
@@ -482,7 +490,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         
         // Wave Type
         int waveType = _fourierSeries.getWaveType();
-        _waveTypeComboBox.setSelectedKey( waveType );
+        _sinesRadioButton.setSelected( waveType == FourierConstants.WAVE_TYPE_SINE );
         
         // Number of harmonics
         _numberOfHarmonicsSlider.setValue( _fourierSeries.getNumberOfHarmonics() );
@@ -557,6 +565,9 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             else if ( event.getSource() == _soundCheckBox ) {
                 handleSound();
             }
+            else if ( event.getSource() == _sinesRadioButton || event.getSource() == _cosinesRadioButton ) {
+                handleWaveType();
+            }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + event );
             }
@@ -586,9 +597,6 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
                 }
                 else if ( event.getSource() == _periodToolComboBox ) {
                     handlePeriodTool();
-                }
-                else if ( event.getSource() == _waveTypeComboBox.getComboBox() ) {
-                    handleWaveType();
                 }
                 else if ( event.getSource() == _mathFormComboBox.getComboBox() ) {
                     handleMathForm();
@@ -663,11 +671,10 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     
     private void handlePreset() {
         _animationCycleController.reset(); // do this first or preset animation will be out of sync!
-        int waveType = _waveTypeComboBox.getSelectedKey();
         int preset = _presetsComboBox.getSelectedKey();
-        if ( waveType == FourierConstants.WAVE_TYPE_COSINE && preset == FourierConstants.PRESET_SAWTOOTH ) {
+        if ( _cosinesRadioButton.isSelected() && preset == FourierConstants.PRESET_SAWTOOTH ) {
             showSawtoothCosinesErrorDialog();
-            _waveTypeComboBox.setSelectedKey( FourierConstants.WAVE_TYPE_SINE );
+            _sinesRadioButton.setSelected( true );
             _fourierSeries.setWaveType( FourierConstants.WAVE_TYPE_SINE );
         }
         boolean showInfiniteEnabled = 
@@ -719,14 +726,14 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     
     private void handleWaveType() {
         _animationCycleController.reset(); // do this first or preset animation will be out of sync!
-        int waveType = _waveTypeComboBox.getSelectedKey();
         int preset = _presetsComboBox.getSelectedKey();
-        if ( waveType == FourierConstants.WAVE_TYPE_COSINE && preset == FourierConstants.PRESET_SAWTOOTH ) {
+        if ( _cosinesRadioButton.isSelected() && preset == FourierConstants.PRESET_SAWTOOTH ) {
             showSawtoothCosinesErrorDialog();
-            _waveTypeComboBox.setSelectedKey( FourierConstants.WAVE_TYPE_SINE );
+            _sinesRadioButton.setSelected( true );
             _fourierSeries.setWaveType( FourierConstants.WAVE_TYPE_SINE );
         }
         else {
+            int waveType = ( _sinesRadioButton.isSelected() ? FourierConstants.WAVE_TYPE_SINE : FourierConstants.WAVE_TYPE_COSINE );
             _fourierSeries.setWaveType( waveType );
         }
     }

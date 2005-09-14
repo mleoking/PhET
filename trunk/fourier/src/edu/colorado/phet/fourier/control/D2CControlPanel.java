@@ -19,6 +19,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
+import javax.swing.*;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
@@ -74,12 +75,12 @@ public class D2CControlPanel extends FourierControlPanel {
     private JCheckBox _sumEnvelopeCheckBox;
     private WavePacketKWidthSlider _kWidthSlider;
     private WavePacketXWidthSlider _xWidthSlider;
-    private FourierComboBox _waveTypeComboBox;
+    private JRadioButton _sinesRadioButton;
+    private JRadioButton _cosinesRadioButton;
     private JCheckBox _showWidthsCheckBox;
     
     // Choices
     private ArrayList _domainChoices;
-    private ArrayList _waveTypeChoices;
     
     private EventListener _listener;
     
@@ -153,17 +154,25 @@ public class D2CControlPanel extends FourierControlPanel {
             }
 
             // Wave Type
+            JPanel waveTypePanel = new JPanel();
             {
                 // Label
-                String label = SimStrings.get( "D2CControlPanel.waveType" );
-
-                // Choices
-                _waveTypeChoices = new ArrayList();
-                _waveTypeChoices.add( new FourierComboBox.Choice( FourierConstants.WAVE_TYPE_SINE, SimStrings.get( "waveType.sines" ) ) );
-                _waveTypeChoices.add( new FourierComboBox.Choice( FourierConstants.WAVE_TYPE_COSINE, SimStrings.get( "waveType.cosines" ) ) );
-
-                // Wave Type combo box
-                _waveTypeComboBox = new FourierComboBox( label, _waveTypeChoices );
+                JLabel label = new JLabel( SimStrings.get( "DiscreteControlPanel.waveType" ) );
+                
+                // Radio buttons
+                _sinesRadioButton = new JRadioButton( SimStrings.get( "waveType.sines" ) );
+                _cosinesRadioButton = new JRadioButton( SimStrings.get( "waveType.cosines" ) );
+                ButtonGroup group = new ButtonGroup();
+                group.add( _sinesRadioButton );
+                group.add( _cosinesRadioButton );
+                
+                // Layout
+                EasyGridBagLayout layout = new EasyGridBagLayout( waveTypePanel );
+                layout.setInsets( DEFAULT_INSETS );
+                waveTypePanel.setLayout( layout );
+                layout.addComponent( label, 0, 0 );
+                layout.addComponent( _sinesRadioButton, 0, 1 );
+                layout.addComponent( _cosinesRadioButton, 0, 2 );
             }
             
             // Envelope checkboxes
@@ -179,7 +188,7 @@ public class D2CControlPanel extends FourierControlPanel {
             graphControlsPanel.setLayout( layout );
             int row = 0;
             layout.addComponent( _domainComboBox, row++, 0 );
-            layout.addComponent( _waveTypeComboBox, row++, 0 );
+            layout.addComponent( waveTypePanel, row++, 0 );
             layout.addComponent( _amplitudesEnvelopeCheckBox, row++, 0 );
             layout.addComponent( _sumEnvelopeCheckBox, row++, 0 );
             layout.addComponent( _showWidthsCheckBox, row++, 0 );
@@ -228,15 +237,19 @@ public class D2CControlPanel extends FourierControlPanel {
         // Wire up event handling (after setting state with reset).
         {
             _listener = new EventListener();
-            _domainComboBox.addItemListener( _listener );
-            _spacingSlider.addChangeListener( _listener );
+            // ActionListeners
             _amplitudesEnvelopeCheckBox.addActionListener( _listener );
             _sumEnvelopeCheckBox.addActionListener( _listener );
             _showWidthsCheckBox.addActionListener( _listener );
+            _sinesRadioButton.addActionListener( _listener );
+            _cosinesRadioButton.addActionListener( _listener );
+            // ChangeListeners
+            _spacingSlider.addChangeListener( _listener );
             _centerSlider.addChangeListener( _listener );
             _kWidthSlider.addChangeListener( _listener );
             _xWidthSlider.addChangeListener( _listener );
-            _waveTypeComboBox.addItemListener( _listener );
+            // ItemListeners
+            _domainComboBox.addItemListener( _listener );
         }
     }
     
@@ -248,6 +261,8 @@ public class D2CControlPanel extends FourierControlPanel {
         
         _domainComboBox.setSelectedKey( FourierConstants.DOMAIN_SPACE );
         handleDomain();
+        
+        _sinesRadioButton.setSelected( true );
         
         _spacingSlider.setValue( _wavePacket.getK1() );
         _centerSlider.setValue( _wavePacket.getK0() );
@@ -277,6 +292,9 @@ public class D2CControlPanel extends FourierControlPanel {
             else if ( event.getSource() == _showWidthsCheckBox ) {
                 handleShowWidths();
             }
+            else if ( event.getSource() == _sinesRadioButton || event.getSource() == _cosinesRadioButton ) {
+                handleWaveType();
+            }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + event );
             }
@@ -305,9 +323,6 @@ public class D2CControlPanel extends FourierControlPanel {
             if ( event.getStateChange() == ItemEvent.SELECTED ) {
                 if ( event.getSource() == _domainComboBox.getComboBox() ) {
                     handleDomain();
-                }
-                else if ( event.getSource() == _waveTypeComboBox.getComboBox() ) {
-                    handleWaveType();
                 }
                 else {
                     throw new IllegalArgumentException( "unexpected event: " + event );
@@ -357,7 +372,7 @@ public class D2CControlPanel extends FourierControlPanel {
      */
     private void handleWaveType() {
         setWaitCursorEnabled( true );
-        int waveType = _waveTypeComboBox.getSelectedKey();
+        int waveType = ( _sinesRadioButton.isSelected() ? FourierConstants.WAVE_TYPE_SINE : FourierConstants.WAVE_TYPE_COSINE );
         _harmonicsGraph.setWaveType( waveType );
         _sumGraph.setWaveType( waveType );
         setWaitCursorEnabled( false );
