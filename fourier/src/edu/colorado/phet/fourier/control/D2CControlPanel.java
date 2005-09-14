@@ -152,8 +152,8 @@ public class D2CControlPanel extends FourierControlPanel {
 
                 // Choices
                 _domainChoices = new ArrayList();
-                _domainChoices.add( new FourierComboBox.Choice( FourierConstants.DOMAIN_TIME, SimStrings.get( "domain.time" ) ) );
                 _domainChoices.add( new FourierComboBox.Choice( FourierConstants.DOMAIN_SPACE, SimStrings.get( "domain.space" ) ) );
+                _domainChoices.add( new FourierComboBox.Choice( FourierConstants.DOMAIN_TIME, SimStrings.get( "domain.time" ) ) );
  
                 // Function combo box
                 _domainComboBox = new FourierComboBox( label, _domainChoices );
@@ -245,7 +245,7 @@ public class D2CControlPanel extends FourierControlPanel {
         _amplitudesEnvelopeCheckBox.setSelected( _amplitudesGraph.isEnvelopeEnabled() );
         _sumEnvelopeCheckBox.setSelected( _sumGraph.isEnvelopeEnabled() );
         
-        _domainComboBox.setSelectedKey( FourierConstants.DOMAIN_TIME );
+        _domainComboBox.setSelectedKey( FourierConstants.DOMAIN_SPACE );
         handleDomain();
         
         _spacingSlider.setValue( _wavePacket.getK1() );
