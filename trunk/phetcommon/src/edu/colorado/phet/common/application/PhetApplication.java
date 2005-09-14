@@ -11,23 +11,24 @@
 
 package edu.colorado.phet.common.application;
 
-import edu.colorado.phet.common.model.clock.ClockTickListener;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.text.MessageFormat;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.util.DebugMenu;
-import edu.colorado.phet.common.util.VersionUtils;
+import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.ImageLoader;
-
-import javax.swing.*;
-import java.awt.event.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
  * The top-level class for all PhET applications.
@@ -336,7 +337,12 @@ public class PhetApplication {
             setUndecorated( true );
             getRootPane().setWindowDecorationStyle( JRootPane.INFORMATION_DIALOG );
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            label = new JLabel( title + " is starting up" );
+            
+            String labelFormat = SimStrings.get( "PhetApplication.Startup.message" );
+            Object[] args = { title };
+            String labelString = MessageFormat.format( labelFormat, args );
+            label = new JLabel( labelString );
+            
             JProgressBar progressBar = new JProgressBar();
             progressBar.setIndeterminate( true );
             BufferedImage image = null;
