@@ -115,10 +115,10 @@ public class FourierApplication extends PhetApplication {
         SimStrings.init( args, FourierConfig.LOCALIZATION_BUNDLE_BASENAME );
         
         // Open progress window
-        String progressMessage = SimStrings.get( "FourierApplication.progress" );
-        PhetStartupWindow progressWindow = new PhetStartupWindow( progressMessage );
-        progressWindow.setIndeterminate( true );
-        progressWindow.setVisible( true );
+        String startupMessage = SimStrings.get( "FourierApplication.starting" );
+        PhetStartupWindow startupWindow = new PhetStartupWindow( startupMessage );
+        startupWindow.setIndeterminate( true );
+        startupWindow.setVisible( true );
         
         // Get stuff needed to initialize the application model.
         String title = SimStrings.get( "FourierApplication.title" );
@@ -163,6 +163,6 @@ public class FourierApplication extends PhetApplication {
         // Start the application.
         app.startApplication();
         
-        progressWindow.setVisible( false );
+        startupWindow.setVisible( false );
     }
 }
