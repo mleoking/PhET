@@ -44,7 +44,7 @@ public class FourierHelpItem extends CompositePhetGraphic implements PhetGraphic
     
     private static final int ARROW_HEAD_WIDTH = 10;
     private static final int ARROW_TAIL_WIDTH = 3;
-    private static final Color ARROW_FILL_COLOR = new Color( 250, 250, 170, 200 );
+    private static final Color ARROW_FILL_COLOR = new Color( 250, 250, 170, 175 );
     private static final Color ARROW_BORDER_COLOR = Color.BLACK;
     private static final Stroke ARROW_STROKE = new BasicStroke( 1f );
     
