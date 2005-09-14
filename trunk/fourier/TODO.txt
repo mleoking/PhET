@@ -6,9 +6,8 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - remove vertical space between components in control panels
-- x-space width is wrong in D2C
 - investigate what MegaHelp button will do to control panel, will it add scrollbars?
-- add a "show widths" control to D2C control panel
+- bug: x-space width is wrong in D2C
 - bug: x-space width is in the wrong location when D2C Components graph is minimized
 - bug: x-space width shouldn't be visible when D2C Sum graph is minimized
 - charts: add ability to put a PhetGraphic on the chart at a specified x,y coordinate
