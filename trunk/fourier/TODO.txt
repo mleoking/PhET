@@ -6,7 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - change default # harmonics to 11
-- change default domain back to "space"
 - x-space width is wrong in D2C
 - investigate what MegaHelp button will do to control panel, will it add scrollbars?
 - add a "show widths" control to D2C control panel
@@ -75,6 +74,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/13) - change default domain back to "space"
 (9/13) - relocate the Help on the text fields in Discrete module, put below text fields
 (9/13) - make help bubbles more transparent
 (9/13) - phetcommon: add PhetStartupWindow for displaying startup progress
