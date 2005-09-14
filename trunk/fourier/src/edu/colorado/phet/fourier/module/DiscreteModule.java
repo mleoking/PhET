@@ -74,7 +74,7 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
     
     // Fourier Components
     private static final double FUNDAMENTAL_FREQUENCY = 440.0; // Hz
-    private static final int NUMBER_OF_HARMONICS = 7;
+    private static final int NUMBER_OF_HARMONICS = FourierConfig.MAX_HARMONICS;
   
     //----------------------------------------------------------------------------
     // Instance data

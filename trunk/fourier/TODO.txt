@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- change default # harmonics to 11
 - x-space width is wrong in D2C
 - investigate what MegaHelp button will do to control panel, will it add scrollbars?
 - add a "show widths" control to D2C control panel
@@ -74,14 +73,15 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/13) - change default # harmonics to 11
 (9/13) - change default domain back to "space"
 (9/13) - relocate the Help on the text fields in Discrete module, put below text fields
 (9/13) - make help bubbles more transparent
 (9/13) - phetcommon: add PhetStartupWindow for displaying startup progress
 (9/13) - enable correct Discrete measurement tool controls based on the default domain
 (9/13) - add sound button to Discrete control panel so we can see what the space issues are
-(9/13) - fixed vertical height of "x-space width" graphic in D2C 
 1.0.12 ...
+(9/13) - fixed vertical height of "x-space width" graphic in D2C 
 (9/12) - remove help from D2C width tools
 (9/12) - fix SimStrings keys to match renamed classes throughout
 (9/12) - move most axis titles out of SimStrings
