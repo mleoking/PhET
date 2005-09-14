@@ -35,7 +35,8 @@ public class ElectronSource implements ModelElement {
 
     public static Object SINGLE_SHOT_MODE = new Object();
     public static Object CONTINUOUS_MODE = new Object();
-    private static HashSet electronProductionModes = new HashSet( );
+    private static HashSet electronProductionModes = new HashSet();
+
     static {
         electronProductionModes.add( SINGLE_SHOT_MODE );
         electronProductionModes.add( CONTINUOUS_MODE );
@@ -79,7 +80,20 @@ public class ElectronSource implements ModelElement {
         // Note that we only produce one electron at a time. Otherwise, we get a bunch of
         // electrons produced if the electronsPerSecond is suddently increased, especially
         // if it had been 0.
-        if( 1 / timeSincelastElectronEmitted < electronsPerSecond && electronProductionMode == CONTINUOUS_MODE ) {
+        double period = 1 / electronsPerSecond;
+//        if( period % dt > dt / 2 ) {
+//            period += period % dt;
+//        }
+//        else {
+//            period -= period % dt;
+//        }
+
+        if( timeSincelastElectronEmitted > period && electronProductionMode == CONTINUOUS_MODE ) {
+//        if( 1 / timeSincelastElectronEmitted < electronsPerSecond && electronProductionMode == CONTINUOUS_MODE ) {
+//            System.out.println( "timeSincelastElectronEmitted = " + timeSincelastElectronEmitted );
+//            System.out.println( "period = " + period );
+//            timeSincelastElectronEmitted = ( timeSincelastElectronEmitted - ( 1 / electronsPerSecond ) ) % ( 1 / electronsPerSecond );
+//            System.out.println( "timeSincelastElectronEmitted B = " + timeSincelastElectronEmitted );
             timeSincelastElectronEmitted = 0;
             produceElectron();
         }
@@ -125,8 +139,8 @@ public class ElectronSource implements ModelElement {
      * @param newLength
      */
     public void setLength( double newLength ) {
-        double x0 = (p1.getX() + p2.getX()) / 2;
-        double y0 = (p1.getY() + p2.getY()) / 2;
+        double x0 = ( p1.getX() + p2.getX() ) / 2;
+        double y0 = ( p1.getY() + p2.getY() ) / 2;
 
         double currLength = p1.distance( p2 );
         double ratio = newLength / currLength;
@@ -135,12 +149,11 @@ public class ElectronSource implements ModelElement {
     }
 
     /**
-     *
      * @param electronProductionMode
      */
     public void setElectronProductionMode( Object electronProductionMode ) {
-        if( !electronProductionModes.contains( electronProductionMode )) {
-            throw new RuntimeException( "Invalid parameter ");
+        if( !electronProductionModes.contains( electronProductionMode ) ) {
+            throw new RuntimeException( "Invalid parameter " );
         }
         this.electronProductionMode = electronProductionMode;
     }
