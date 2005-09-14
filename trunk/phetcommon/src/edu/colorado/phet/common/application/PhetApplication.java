@@ -357,10 +357,10 @@ public class PhetApplication {
             getContentPane().add( new JLabel(logo), gbc );
             gbc.gridx = 1;
             gbc.gridheight = 1;
-            gbc.insets = new Insets( 40, 10, 10, 20 );
+            gbc.insets = new Insets( 20, 10, 10, 20 );
             getContentPane().add( label, gbc );
             gbc.gridy++;
-            gbc.insets = new Insets( 10, 10, 40, 20 );
+            gbc.insets = new Insets( 10, 10, 20, 20 );
             getContentPane().add( progressBar, gbc );
             pack();
             setLocation( (int)( screenSize.getWidth() / 2 - getWidth() / 2 ),
