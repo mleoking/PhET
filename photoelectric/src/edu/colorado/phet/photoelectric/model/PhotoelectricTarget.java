@@ -10,9 +10,7 @@
  */
 package edu.colorado.phet.photoelectric.model;
 
-import edu.colorado.phet.dischargelamps.model.ElectronSource;
-import edu.colorado.phet.dischargelamps.model.ElectronSink;
-import edu.colorado.phet.dischargelamps.model.Electron;
+import edu.colorado.phet.dischargelamps.model.*;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.math.MathUtil;
@@ -35,7 +33,8 @@ import java.util.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class PhotoelectricTarget extends ElectronSource {
+public class PhotoelectricTarget extends Plate {
+//public class PhotoelectricTarget extends ElectronSource {
 
     //----------------------------------------------------------------
     // Class data
@@ -79,12 +78,12 @@ public class PhotoelectricTarget extends ElectronSource {
      * @param p1
      * @param p2
      */
-    public PhotoelectricTarget( BaseModel model, Point2D p1, Point2D p2 ) {
+    public PhotoelectricTarget( DischargeLampModel model, Point2D p1, Point2D p2 ) {
         super( model, p1, p2 );
         line = new Line2D.Double( p1, p2 );
 
-        ElectronSink targetSink = new ElectronSink( model, getEndpoints()[0], getEndpoints()[1] );
-        model.addModelElement( targetSink );
+//        ElectronSink targetSink = new ElectronSink( model, getEndpoints()[0], getEndpoints()[1] );
+//        model.addModelElement( targetSink );
     }
 
     /**
@@ -122,7 +121,8 @@ public class PhotoelectricTarget extends ElectronSource {
             electron.setVelocity( velocity );
 
             // Tell all the listeners
-            getElectronProductionListenerProxy().electronProduced( new ElectronProductionEvent( this, electron ) );
+            getSource().getElectronProductionListenerProxy().electronProduced(
+                    new ElectronSource.ElectronProductionEvent( this, electron ) );
         }
     }
 
@@ -188,6 +188,10 @@ public class PhotoelectricTarget extends ElectronSource {
     public void setRandomizedInitialElectronSpeedStrategy() {
         this.initialElectronSpeedStrategy = new InitialElectronSpeedStrategy.Randomized( SPEED_SCALE_FACTOR,
                                                                                          MINIMUM_SPEED );
+    }
+
+    public void addListener( ElectronSource.ElectronProductionListener listener ) {
+        getSource().addListener( listener );
     }
 
     //----------------------------------------------------------------

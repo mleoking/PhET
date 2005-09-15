@@ -1,5 +1,7 @@
 Model
 -----
+- Make ElectronSource.ElectronProductionEvent a top level class
+
 -The voltage scale factor is in the PhotoelectricModel class right now. Should it be set up somewhere
 else, and should we understand where it comes from?
 

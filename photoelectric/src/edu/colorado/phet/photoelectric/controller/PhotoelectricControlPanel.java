@@ -128,6 +128,7 @@ public class PhotoelectricControlPanel {
                                                            PhotoelectricModel.MIN_VOLTAGE,
                                                            PhotoelectricModel.MAX_VOLTAGE,
                                                            0,
+                                                           voltageFormat,
                                                            voltageFormat );
         batterySlider.setPreferredSize( new Dimension( 250, 100 ) );
         batterySlider.setNumMajorTicks( 7 );
@@ -138,7 +139,7 @@ public class PhotoelectricControlPanel {
         batterySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 model.getTarget().setPotential( batterySlider.getValue() * PhotoelectricModel.VOLTAGE_SCALE_FACTOR );
-                model.getAnode().setPotential( 0 );
+                model.getRightHandPlate().setPotential( 0 );
 
 //                if( targetPlate.getPotential() < 0 ) {
 //                    BufferedImage bImg = circuitGraphic.getImage();

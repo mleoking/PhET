@@ -56,6 +56,9 @@ public class DischargeLampModel extends LaserModel {
     private ElementProperties elementProperties;
 
 
+    /**
+     *
+     */
     public DischargeLampModel() {
 
         // This is the place to set the mean lifetime for the various atomic states
@@ -203,9 +206,8 @@ public class DischargeLampModel extends LaserModel {
         return spectrometer;
     }
 
-    protected void setElectronAcceleration( double potentialDiff ) {
-        double plateToPlateDist = rightHandPlate.getPosition().distance( leftHandPlate.getPosition() );
-        electronAcceleration.setComponents( potentialDiff / plateToPlateDist, 0 );
+    protected void setElectronAcceleration( double potentialDiff, double plateSeparation ) {
+        electronAcceleration.setComponents( potentialDiff / plateSeparation, 0 );
     }
 
     public Vector2D getElectronAcceleration() {
@@ -241,8 +243,16 @@ public class DischargeLampModel extends LaserModel {
         }
     }
 
+    protected void setLeftHandPlate( Plate plate ) {
+        leftHandPlate = plate;
+    }
+
     public Plate getLeftHandPlate() {
         return leftHandPlate;
+    }
+
+    protected void setRightHandPlate( Plate plate ) {
+        rightHandPlate = plate;
     }
 
     public Plate getRightHandPlate() {
@@ -304,7 +314,7 @@ public class DischargeLampModel extends LaserModel {
             double potentialDiff = leftHandPlate.getPotential() - rightHandPlate.getPotential();
 
             // Determine the acceleration that electrons will experience
-            setElectronAcceleration( potentialDiff );
+            setElectronAcceleration( potentialDiff, leftHandPlate.getPosition().distance( rightHandPlate.getPosition() ) );
             for( int i = 0; i < electrons.size(); i++ ) {
                 Electron electron = (Electron)electrons.get( i );
                 electron.setAcceleration( getElectronAcceleration() );

@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.dischargelamps.model;
 
+import edu.colorado.phet.common.model.BaseModel;
+
 import java.awt.geom.Point2D;
 
 /**
@@ -50,5 +52,9 @@ public class Plate extends Electrode {
 
     public void addElectronProductionListener( ElectronSource.ElectronProductionListener listener ) {
         source.addListener( listener );
+    }
+
+    public void addElectronAbsorptionListener( ElectronSink.ElectronAbsorptionListener listener ) {
+        sink.addListener( listener );
     }
 }

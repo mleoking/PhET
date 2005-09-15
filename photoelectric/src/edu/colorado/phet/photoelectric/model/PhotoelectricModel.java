@@ -21,6 +21,7 @@ import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.lasers.model.photon.*;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.PhysicsUtil;
+import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.photoelectric.model.util.BeamIntensityMeter;
 
 import java.util.*;
@@ -39,6 +40,7 @@ import java.awt.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
+//public class PhotoelectricModel extends LaserModel {
 public class PhotoelectricModel extends DischargeLampModel {
 
     //----------------------------------------------------------------
@@ -75,7 +77,8 @@ public class PhotoelectricModel extends DischargeLampModel {
     private ArrayList electronSinks = new ArrayList();
 
     // Right-hand plate
-    private ElectronSink rightHandPlate;
+    private Plate rightHandPlate;
+//    private ElectronSink rightHandPlate;
 
     // Beam specification
     private CollimatedBeam beam;
@@ -87,7 +90,6 @@ public class PhotoelectricModel extends DischargeLampModel {
     private double beamFanout = Math.toRadians( 5 );
     private Ammeter ammeter;
     private BeamIntensityMeter beamIntensityMeter;
-    private ResonatingCavity tube;
     private double current;
     private double voltage;
     private double wavelength;
@@ -126,9 +128,9 @@ public class PhotoelectricModel extends DischargeLampModel {
         } );
 
         // Create the right-hand plate
-        rightHandPlate = new ElectronSink( this,
-                                           DischargeLampsConfig.ANODE_LINE.getP1(),
-                                           DischargeLampsConfig.ANODE_LINE.getP2() );
+        rightHandPlate = new Plate( this,
+                                    DischargeLampsConfig.ANODE_LINE.getP1(),
+                                    DischargeLampsConfig.ANODE_LINE.getP2() );
         this.addModelElement( rightHandPlate );
 
         // Create the target plate.
@@ -143,30 +145,13 @@ public class PhotoelectricModel extends DischargeLampModel {
             }
         } );
 
-        // Add a listener that will notify the target it if the anode's potential changes        
-        rightHandPlate.addStateChangeListener( new Electrode.StateChangeListener() {
-            public void stateChanged( Electrode.StateChangeEvent event ) {
-                double anodePotential = event.getElectrode().getPotential();
-                target.setSinkPotential( anodePotential );
-            }
-        } );
+        // Set the elements in the parent class that correspond to the target and reight-hand plate
+        setRightHandPlate( rightHandPlate );
+        setLeftHandPlate( target );
 
-        // Tell the parent model who the anode and cathode are
-        super.setAnode( rightHandPlate );
-        super.setCathode( target );
-
-        // Create the tube
-        double x = DischargeLampsConfig.CATHODE_LOCATION.getX() - DischargeLampsConfig.ELECTRODE_INSETS.left;
-        double y = DischargeLampsConfig.CATHODE_LOCATION.getY() - DischargeLampsConfig.CATHODE_LENGTH / 2
-                   - DischargeLampsConfig.ELECTRODE_INSETS.top;
-        double length = DischargeLampsConfig.ANODE_LOCATION.getX() - DischargeLampsConfig.CATHODE_LOCATION.getX()
-                        + DischargeLampsConfig.ELECTRODE_INSETS.left + DischargeLampsConfig.ELECTRODE_INSETS.right;
-        double height = DischargeLampsConfig.CATHODE_LENGTH
-                        + DischargeLampsConfig.ELECTRODE_INSETS.top + DischargeLampsConfig.ELECTRODE_INSETS.bottom;
-        Point2D tubeLocation = new Point2D.Double( x, y );
-        tube = new ResonatingCavity( tubeLocation, length, height );
-        addModelElement( tube );
-
+        // Add a listener that will notify the target it if the anode's potential changes
+        rightHandPlate.addStateChangeListener( new ElectrodeStateChangeListener() );
+        target.addStateChangeListener( new ElectrodeStateChangeListener() );
 
         //----------------------------------------------------------------
         // Intrumentation
@@ -174,7 +159,7 @@ public class PhotoelectricModel extends DischargeLampModel {
 
         // Add an ammeter to the right-hand-plate
         ammeter = new Ammeter( clock );
-        getRightHandPlate().addListener( new ElectronSink.ElectronAbsorptionListener() {
+        getRightHandPlate().addElectronAbsorptionListener( new ElectronSink.ElectronAbsorptionListener() {
             public void electronAbsorbed( ElectronSink.ElectronAbsorptionEvent event ) {
                 ammeter.recordElectron();
             }
@@ -187,37 +172,6 @@ public class PhotoelectricModel extends DischargeLampModel {
                 beamIntensityMeter.recordPhoton();
             }
         } );
-    }
-
-    /**
-     * Tracks special classes of model elements
-     *
-     * @param modelElement
-     */
-    public void addModelElement( ModelElement modelElement ) {
-
-        // If the model element is an ElectronSource, add all the known ElectronSinks
-        // to it as listeners
-        if( modelElement instanceof ElectronSource ) {
-            ElectronSource electronSource = (ElectronSource)modelElement;
-            electronSources.add( electronSource );
-            for( Iterator iterator = electronSinks.iterator(); iterator.hasNext(); ) {
-                ElectronSink electronSink = (ElectronSink)iterator.next();
-                electronSource.addListener( electronSink );
-            }
-        }
-
-        // If the model element is an ElectronSink, add it as a listener to all known
-        // ElectronSources
-        if( modelElement instanceof ElectronSink ) {
-            ElectronSink electronSink = (ElectronSink)modelElement;
-            electronSinks.add( electronSink );
-            for( Iterator iterator = electronSources.iterator(); iterator.hasNext(); ) {
-                ElectronSource electronSource = (ElectronSource)iterator.next();
-                electronSource.addListener( electronSink );
-            }
-        }
-        super.addModelElement( modelElement );
     }
 
     /**
@@ -255,7 +209,7 @@ public class PhotoelectricModel extends DischargeLampModel {
         // electrons leave the target at an angle)
         for( int i = 0; i < electrons.size(); i++ ) {
             Electron electron = (Electron)electrons.get( i );
-            if( !tube.getBounds().contains( electron.getPosition() ) ) {
+            if( !getTube().getBounds().contains( electron.getPosition() ) ) {
                 electron.leaveSystem();
             }
         }
@@ -265,10 +219,6 @@ public class PhotoelectricModel extends DischargeLampModel {
     // Getters and setters 
     //----------------------------------------------------------------
 
-    public ResonatingCavity getTube() {
-        return tube;
-    }
-
     public PhotoelectricTarget getTarget() {
         return target;
     }
@@ -277,7 +227,7 @@ public class PhotoelectricModel extends DischargeLampModel {
         return beam;
     }
 
-    public ElectronSink getRightHandPlate() {
+    public Plate getRightHandPlate() {
         return rightHandPlate;
     }
 
@@ -315,6 +265,7 @@ public class PhotoelectricModel extends DischargeLampModel {
     /**
      * Returns the stopping voltage for electrons kicked off the current target material
      * by the current wavelength of light
+     *
      * @return
      */
     public double getStoppingVoltage() {
@@ -332,7 +283,8 @@ public class PhotoelectricModel extends DischargeLampModel {
     }
 
     protected void setElectronAcceleration( double potentialDiff ) {
-        super.setElectronAcceleration( potentialDiff * 0.2865 );
+        super.setElectronAcceleration( potentialDiff * 0.2865,
+                                       target.getPosition().distance( rightHandPlate.getPosition() ));
     }
 
     //----------------------------------------------------------------
@@ -369,11 +321,27 @@ public class PhotoelectricModel extends DischargeLampModel {
         }
 
         public void leftSystem( Electron.ChangeEvent changeEvent ) {
-            electrons.remove( changeEvent.getElectrion() );
+            electrons.remove( changeEvent.getElectron() );
         }
 
         public void energyChanged( Electron.ChangeEvent changeEvent ) {
             // noop
+        }
+    }
+
+    private class ElectrodeStateChangeListener implements Electrode.StateChangeListener {
+        public void potentialChanged( Electrode.StateChangeEvent event ) {
+            double potentialDiff = target.getPotential() - rightHandPlate.getPotential();
+
+            // Determine the acceleration that electrons will experience
+            setElectronAcceleration( potentialDiff );
+            for( int i = 0; i < electrons.size(); i++ ) {
+                Electron electron = (Electron)electrons.get( i );
+                electron.setAcceleration( getElectronAcceleration() );
+            }
+
+            // Calling setCurrent() ensures that the current flows in the correct direction
+            setCurrent( current );
         }
     }
 
