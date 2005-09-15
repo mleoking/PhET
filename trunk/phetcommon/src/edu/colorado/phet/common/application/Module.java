@@ -25,6 +25,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * This class encapsulates the parts of an application that make up
@@ -295,10 +296,14 @@ public class Module implements ClockTickListener {
     //----------------------------------------------------------------
 
     public void clockTicked( ClockTickEvent event ) {
-        getApparatusPanel().handleUserInput();
+        handleUserInput();
         model.clockTicked( event );
         updateGraphics( event );
 //        getApparatusPanel().paint();
+    }
+
+    protected void handleUserInput() {
+        getApparatusPanel().handleUserInput();
     }
 
     ////////////////////////////////////////////////////////////////
@@ -361,4 +366,7 @@ public class Module implements ClockTickListener {
 //        // Force a repaint on the apparatus panel
 //        getApparatusPanel().repaint();
 //    }
+    public JComponent getSimulationPanel() {
+        return getApparatusPanel();
+    }
 }
