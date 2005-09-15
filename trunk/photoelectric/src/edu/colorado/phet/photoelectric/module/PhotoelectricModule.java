@@ -18,8 +18,10 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+import edu.colorado.phet.dischargelamps.view.PlateGraphic;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
@@ -379,14 +381,10 @@ public class PhotoelectricModule extends BaseLaserModule {
      * @param apparatusPanel
      */
     private void addAnodeGraphic( PhotoelectricModel model, ApparatusPanel apparatusPanel ) {
-        PhetImageGraphic anodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode-2.png" );
-
-        // Make the graphic the right size
-        double scaleX = 1;
-        double scaleY = DischargeLampsConfig.CATHODE_LENGTH / anodeGraphic.getImage().getHeight();
-        AffineTransformOp scaleOp = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, scaleY ),
-                                                           AffineTransformOp.TYPE_BILINEAR );
-        anodeGraphic.setImage( scaleOp.filter( anodeGraphic.getImage(), null ) );
+        PhetGraphic anodeGraphic = new PhotoelectricPlateGraphic( getApparatusPanel(),
+                                                                  DischargeLampsConfig.CATHODE_LENGTH,
+                                                                  model,
+                                                                  PhotoelectricPlateGraphic.POSITIVE );
         anodeGraphic.setRegistrationPoint( (int)anodeGraphic.getBounds().getWidth(),
                                            (int)anodeGraphic.getBounds().getHeight() / 2 );
 
@@ -401,14 +399,10 @@ public class PhotoelectricModule extends BaseLaserModule {
      */
     private void addTargetGraphic( PhotoelectricModel model, ApparatusPanel apparatusPanel ) {
         targetPlate = model.getTarget();
-        PhetImageGraphic targetGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode-2.png" );
-
-        // Make the graphic the right size
-        double scaleX = 1;
-        double scaleY = DischargeLampsConfig.CATHODE_LENGTH / targetGraphic.getImage().getHeight();
-        AffineTransformOp scaleOp = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, scaleY ),
-                                                           AffineTransformOp.TYPE_BILINEAR );
-        targetGraphic.setImage( scaleOp.filter( targetGraphic.getImage(), null ) );
+        PlateGraphic targetGraphic = new PhotoelectricPlateGraphic( getApparatusPanel(),
+                                                                    DischargeLampsConfig.CATHODE_LENGTH,
+                                                                    model,
+                                                                    PhotoelectricPlateGraphic.NEGATIVE );
         targetGraphic.setRegistrationPoint( (int)targetGraphic.getBounds().getWidth(),
                                             (int)targetGraphic.getBounds().getHeight() / 2 );
 

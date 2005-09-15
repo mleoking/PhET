@@ -16,6 +16,7 @@ import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.dischargelamps.model.HeatingElement;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -68,7 +69,6 @@ public class PlateGraphic extends CompositePhetGraphic implements HeatingElement
 
     public PlateGraphic( Component component, double plateLength ) {
         super( component );
-//        super( component, image );
 
         try {
             image = ImageLoader.loadBufferedImage( "images/electrode-2.png" );
@@ -91,11 +91,6 @@ public class PlateGraphic extends CompositePhetGraphic implements HeatingElement
         addGraphic( baseImageGraphic );
         addGraphic( thermalImageGraphic );
     }
-
-//    public void setImage( BufferedImage image ) {
-//        super.setImage( image );
-//        PlateGraphic.image = image;
-//    }
 
     //-----------------------------------------------------------------
     // Image filtering
