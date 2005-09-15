@@ -49,7 +49,7 @@ public class TabbedApparatusPanelContainer extends JTabbedPane implements Module
     }
 
     public void moduleAdded( ModuleEvent event ) {
-        addTab( event.getModule().getName(), event.getModule().getApparatusPanel() );
+        addTab( event.getModule().getName(), event.getModule().getSimulationPanel() );
     }
 
     public void activeModuleChanged( ModuleEvent event ) {

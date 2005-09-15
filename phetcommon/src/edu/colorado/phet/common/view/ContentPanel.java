@@ -244,10 +244,10 @@ public class ContentPanel extends JPanel {
         if( application.numModules() == 1 ) {
             JPanel apparatusPanelContainer = new JPanel();
             apparatusPanelContainer.setLayout( new GridLayout( 1, 1 ) );
-            if( application.moduleAt( 0 ).getApparatusPanel() == null ) {
-                throw new RuntimeException( "Null Apparatus Panel in Module: " + application.moduleAt( 0 ).getName() );
+            if( application.moduleAt( 0 ).getSimulationPanel() == null ) {
+                throw new RuntimeException( "Null Simulation Panel in Module: " + application.moduleAt( 0 ).getName() );
             }
-            apparatusPanelContainer.add( application.moduleAt( 0 ).getApparatusPanel() );
+            apparatusPanelContainer.add( application.moduleAt( 0 ).getSimulationPanel());
             return apparatusPanelContainer;
         }
         else {
