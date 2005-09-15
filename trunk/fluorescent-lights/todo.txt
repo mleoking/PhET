@@ -1,5 +1,10 @@
 To do
 =====
+near UV photons don't get recorded on the spectrometer
+
+Check for memory leaks, and possible slowdown with lots of photons. Cache them?
+
+
 both the model and each atom have atomicStates[]. They should only be in one place.
 
 Simulation slows and waits while sliders are being moved
@@ -12,6 +17,13 @@ Counter in spectrometer for off-scale photons
 
 Done
 ====
+
+9-14-05
+-------
+Fixed bug in which putting the voltage at 0 while there are electrons in the tube made
+all the electrons stop for good
+
+Change label of y axis in energy levels panel
 
 9-12-05
 ------

@@ -37,6 +37,7 @@ public abstract class EnergyAbsorptionStrategy {
      * @return
      */
     public static double getElectronEnergyAtCollision( Atom atom, Electron electron ) {
+        double energy = 0;
         double prevDistSq = electron.getPositionPrev().distanceSq( atom.getPosition() );
         double atomRadSq = ( atom.getRadius() + electron.getRadius() ) * ( atom.getRadius() + electron.getRadius() );
         double collisionDist = Math.sqrt( prevDistSq ) - Math.sqrt( atomRadSq );
@@ -47,10 +48,12 @@ public abstract class EnergyAbsorptionStrategy {
         double[] roots = MathUtil.quadraticRoots( a, b, c );
         double t = roots[0] >= 0 ? roots[0] : roots[1];
         if( t < 0 || Double.isNaN( t ) || Double.isInfinite( t ) ) {
-            throw new RuntimeException( "no non-negative t" );
+            energy = 0;
         }
-        double v = electron.getVelocityPrev().getMagnitude() + electron.getAcceleration().getMagnitude() * t;
-        double energy = DischargeLampsConfig.PIXELS_PER_NM * DischargeLampsConfig.PIXELS_PER_NM * v * v * electron.getMass() / 2 * PhysicsUtil.EV_PER_JOULE;
+        else {
+            double v = electron.getVelocityPrev().getMagnitude() + electron.getAcceleration().getMagnitude() * t;
+            energy = DischargeLampsConfig.PIXELS_PER_NM * DischargeLampsConfig.PIXELS_PER_NM * v * v * electron.getMass() / 2 * PhysicsUtil.EV_PER_JOULE;
+        }
         return energy;
     }
 
