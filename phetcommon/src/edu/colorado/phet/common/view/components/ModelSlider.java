@@ -61,6 +61,7 @@ public class ModelSlider extends JPanel {
 
     /**
      * Creates a ModelSlider with a default DecimalFormat
+     *
      * @param title
      * @param units
      * @param min
@@ -71,8 +72,14 @@ public class ModelSlider extends JPanel {
         this( title, units, min, max, initial, new DecimalFormat( "0.0#" ), new DecimalFormat( "0.0#" ) );
     }
 
+    public ModelSlider( String title, String units, final double min, final double max,
+                        double initialValue, NumberFormat textFieldFormat ) {
+        this( title, units, min, max, initialValue, textFieldFormat, textFieldFormat );
+    }
+
     /**
      * Creates a ModelSlider with a specified DecimalFormat
+     *
      * @param title
      * @param units
      * @param min
@@ -87,7 +94,6 @@ public class ModelSlider extends JPanel {
     }
 
     /**
-     *
      * @param min
      * @param max
      * @param textFieldFormat
@@ -273,7 +279,7 @@ public class ModelSlider extends JPanel {
     }
 
     public void setMajorTickSpacing( double spacing ) {
-        int numTicks = (int)(( this.max - this.min ) / spacing ) + 1;
+        int numTicks = (int)( ( this.max - this.min ) / spacing ) + 1;
         setNumMajorTicks( numTicks );
     }
 
