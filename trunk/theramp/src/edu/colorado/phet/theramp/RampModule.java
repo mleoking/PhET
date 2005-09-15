@@ -1,13 +1,13 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp;
 
-import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.PhetFrame;
+import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.model.RampModel;
 import edu.colorado.phet.theramp.model.RampObject;
@@ -32,7 +32,7 @@ import java.util.Comparator;
  * Copyright (c) Feb 11, 2005 by Sam Reid
  */
 
-public class RampModule extends Module {
+public class RampModule extends PiccoloModule {
     private RampPanel rampPanel;
     private RampModel rampModel;
     private RampControlPanel rampControlPanel;
