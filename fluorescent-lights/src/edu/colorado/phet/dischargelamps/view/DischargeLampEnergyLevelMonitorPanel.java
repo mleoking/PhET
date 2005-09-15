@@ -138,7 +138,6 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         } );
 
         // Determine locations and dimensions
-//        this.minPanelWidth = panelWidth;
         this.panelHeight = panelHeight;
         this.minPanelWidth = panelWidth;
         setPreferredSize( new Dimension( (int)panelWidth, (int)panelHeight ) );
@@ -173,7 +172,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         // Populate the map we just made
         for( int i = 0; i < atoms.size(); i++ ) {
             Atom atom = (Atom)atoms.get( i );
-            Integer num = (Integer)numAtomsInState.get( atom.getCurrState() );            
+            Integer num = (Integer)numAtomsInState.get( atom.getCurrState() );
             if( num != null ) {
                 numAtomsInState.put( atom.getCurrState(), new Integer( num.intValue() + 1 ) );
             }
@@ -204,7 +203,6 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
     }
 
     /**
-     *
      * @param movable
      */
     public void setEnergyLevelsMovable( boolean movable ) {
@@ -426,7 +424,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
             // We need to get the absolute value here because positive energy transforms to a negative number when
             // mapped to screen coordinates in the Y direction.
             int length = Math.abs( energyYTx.modelToView( prevState.getEnergyLevel() )
-                                   - energyYTx.modelToView( currState.getEnergyLevel() ));
+                                   - energyYTx.modelToView( currState.getEnergyLevel() ) );
             final EnergySquiggle squiggle = new EnergySquiggle( this, wavelength, 0, length, 10,
                                                                 EnergySquiggle.VERTICAL );
             squiggle.setLocation( 50, energyYTx.modelToView( prevState.getEnergyLevel() ) );
