@@ -20,7 +20,6 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.dischargelamps.model.ElectronSink;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;

@@ -164,7 +164,7 @@ public class ElectronSource implements ModelElement {
     private EventChannel listenerChannel = new EventChannel( ElectronProductionListener.class );
     private ElectronProductionListener electronProductionListenerProxy = (ElectronProductionListener)listenerChannel.getListenerProxy();
 
-    protected ElectronProductionListener getElectronProductionListenerProxy() {
+    public ElectronProductionListener getElectronProductionListenerProxy() {
         return electronProductionListenerProxy;
     }
 
@@ -175,7 +175,7 @@ public class ElectronSource implements ModelElement {
     /**
      * Event class for the production of electrons
      */
-    public class ElectronProductionEvent extends EventObject {
+    public static class ElectronProductionEvent extends EventObject {
         private Electron electron;
 
         public ElectronProductionEvent( Object source, Electron electron ) {
