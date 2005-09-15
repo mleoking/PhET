@@ -3,7 +3,6 @@ package edu.colorado.phet.theramp;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.application.PhetStartupWindow;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
@@ -25,7 +24,7 @@ public class RampApplication extends PhetApplication {
     private static final String VERSION = "1.0";
     private RampModule simpleRampModule;
     private RampModule advancedFeatureModule;
-    private static PhetStartupWindow startupWindow;
+//    private static PhetStartupWindow startupWindow;
 
     public RampApplication( String[] args, AbstractClock clock, FrameSetup frameSetup ) {
         super( args, TITLE, DESCRIPTION, VERSION, clock, false, frameSetup );
@@ -38,7 +37,7 @@ public class RampApplication extends PhetApplication {
 
     public static void main( final String[] args ) {
         long t0 = System.currentTimeMillis();
-        showSplash();
+//        showSplash();
         long dt = System.currentTimeMillis() - t0;
         System.out.println( "dt = " + dt );
 //        try {
@@ -65,21 +64,21 @@ public class RampApplication extends PhetApplication {
 //        catch( InvocationTargetException e ) {
 //            e.printStackTrace();
 //        }
-        hideSplash();
+//        hideSplash();
     }
 
-    private static void hideSplash() {
-        startupWindow.setVisible( false );
-//        SplashWindow.disposeSplash();
-    }
-
-    private static void showSplash() {
-
-        startupWindow = new PhetStartupWindow( "Starting The Ramp" );
-        startupWindow.setIndeterminate( true );
-        startupWindow.setVisible( true );
-
-//        SplashWindow.splash( RampApplication.class.getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" ) );
-    }
+//    private static void hideSplash() {
+//        startupWindow.setVisible( false );
+////        SplashWindow.disposeSplash();
+//    }
+//
+//    private static void showSplash() {
+//
+//        startupWindow = new PhetStartupWindow( "Starting The Ramp" );
+//        startupWindow.setIndeterminate( true );
+//        startupWindow.setVisible( true );
+//
+////        SplashWindow.splash( RampApplication.class.getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" ) );
+//    }
 
 }
