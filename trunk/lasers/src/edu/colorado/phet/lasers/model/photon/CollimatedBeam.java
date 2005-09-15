@@ -66,11 +66,11 @@ public class CollimatedBeam extends Particle implements PhotonSource {
      * @param width
      * @param direction
      * @param maxPhotonsPerSecond
-     * @param fanout              spread of beam, in degrees
+     * @param fanout              spread of beam, in radians
      */
     public CollimatedBeam( double wavelength, Point2D origin, double height, double width,
                            Vector2D direction, double maxPhotonsPerSecond, double fanout ) {
-        this.fanout = Math.toRadians( fanout );
+        this.fanout = fanout;
         this.wavelength = wavelength;
         this.maxPhotonsPerSecond = maxPhotonsPerSecond;
         this.bounds = new Rectangle2D.Double( origin.getX(), origin.getY(), width, height );
@@ -83,10 +83,10 @@ public class CollimatedBeam extends Particle implements PhotonSource {
     //----------------------------------------------------------------
 
     /**
-     * @return fanout in degrees
+     * @return fanout radians
      */
     public double getFanout() {
-        return Math.toDegrees( fanout );
+        return fanout;
     }
 
     /**
@@ -175,11 +175,12 @@ public class CollimatedBeam extends Particle implements PhotonSource {
             if( nextTimeToProducePhoton < timeSinceLastPhotonProduced ) {
 
                 int nPhotons = (int)( timeSinceLastPhotonProduced * getPhotonsPerSecond() / 1E3 );
-//                System.out.println( "nPhotons = " + nPhotons );
                 for( int i = 0; i < nPhotons; i++ ) {
                     // Set the photon's velocity to a randomized angle
                     double angle = angleGenerator.nextDouble() * ( fanout / 2 ) * ( angleGenerator.nextBoolean() ? 1 : -1 );
                     Vector2D photonVelocity = new Vector2D.Double( velocity ).rotate( angle );
+
+                    System.out.println( "angle = " + Math.toDegrees( angle ));
                     final Photon newPhoton = Photon.create( this.getWavelength(),
                                                             new Point2D.Double( genPositionX(), genPositionY() ),
                                                             photonVelocity );
