@@ -164,9 +164,11 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
     //----------------------------------------------------------------
 
     /**
-     * Determines if the atom can be moved with the mouse
+     * Determines if the atom can be moved with the mouse, and the bounds within
+     * which it can be moved
      *
      * @param isMouseable
+     * @param bounds
      */
     public void setIsMouseable( boolean isMouseable, final Rectangle2D bounds ) {
         setIgnoreMouse( !isMouseable );

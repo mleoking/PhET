@@ -18,6 +18,7 @@ import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.control.AtomTypeChooser;
+import edu.colorado.phet.dischargelamps.control.BatterySliderExp;
 import edu.colorado.phet.dischargelamps.model.*;
 import edu.colorado.phet.dischargelamps.view.*;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
@@ -136,9 +137,29 @@ public class DischargeLampModule extends BaseLaserModule {
         addSpectrometerGraphic();
         addHeatingElementGraphics();
         addTubeGraphic( apparatusPanel );
+        addBatteryGraphic();
 
         // Set up the control panel
         addControls();
+
+
+        BatterySliderExp bs = new BatterySliderExp( getApparatusPanel(), 50, 10, Color.white, model );
+        bs.setMinimum( (int) -( 30 ) );
+        bs.setMaximum( (int) ( 30 ) );
+        bs.setValue( (int) ( 0 ) );
+        bs.addTick( bs.getMinimum() );
+        bs.addTick( bs.getMaximum() );
+        bs.addTick( 0 );
+
+        bs.setLocation( (int)DischargeLampsConfig.CATHODE_LOCATION.getX() + 190, 60 );
+        getApparatusPanel().addGraphic( bs, DischargeLampsConfig.CIRCUIT_LAYER + 1 );
+
+    }
+
+    private void addBatteryGraphic( ) {
+        BatteryGraphic graphic = new BatteryGraphic( getApparatusPanel(), model.getBattery() );
+        graphic.setLocation( 150, 150 );
+        getApparatusPanel().addGraphic( graphic, 1E6 );
     }
 
     /**
