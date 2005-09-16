@@ -48,12 +48,13 @@ public class DischargeLampsConfig {
 
 
     // Images
-    public static final String IMAGE_FILE_DIRECTORY = "images";
-    public static final String ELECTRON_IMAGE_FILE_NAME = IMAGE_FILE_DIRECTORY + "/" + "electron.gif";
-    public static final String HEATING_ELEMENT_FILE_NAME = IMAGE_FILE_DIRECTORY + "/" + "coil-2b.png";
-    public static final String POSITIVE_CIRCUIT_IMAGE_FILE_NAME = IMAGE_FILE_DIRECTORY + "/" + "battery-w-wires-2.png";
-    public static final String NEGATIVE_CIRCUIT_IMAGE_FILE_NAME = IMAGE_FILE_DIRECTORY + "/" + "battery-w-wires-2a.png";
-    public static final String SPECTROMETER_IMAGE_FILE_NAME = IMAGE_FILE_DIRECTORY + "/" + "spectrometer-panel.png";
+    public static final String IMAGE_FILE_DIRECTORY = "images/";
+    public static final String ELECTRON_IMAGE_FILE_NAME = IMAGE_FILE_DIRECTORY + "electron.gif";
+    public static final String HEATING_ELEMENT_FILE_NAME = IMAGE_FILE_DIRECTORY + "coil-2b.png";
+    public static final String POSITIVE_CIRCUIT_IMAGE_FILE_NAME = IMAGE_FILE_DIRECTORY + "battery-w-wires-2.png";
+    public static final String NEGATIVE_CIRCUIT_IMAGE_FILE_NAME = IMAGE_FILE_DIRECTORY + "battery-w-wires-2a.png";
+    public static final String SPECTROMETER_IMAGE_FILE_NAME = IMAGE_FILE_DIRECTORY + "spectrometer-panel.png";
+    public static final String BATTERY_IMAGE = IMAGE_FILE_DIRECTORY + "battery.png";
 
 
     // Assigned graphic layers
@@ -73,7 +74,9 @@ public class DischargeLampsConfig {
     // Fonts
     public static final Font DEFAULT_CONTROL_FONT = new Font( "Lucida sans", Font.BOLD, 10 );
     // Factor that scales pixels to real dimensional units
-   public static double PIXELS_PER_NM = 1E6;
+    public static double PIXELS_PER_NM = 1E6;
     // Factor that converts volts on the control panel slider to real volts
     public static final double VOLTAGE_CALIBRATION_FACTOR = 5.64;
+    public static final String SLIDER_KNOB_IMAGE = IMAGE_FILE_DIRECTORY + "sliderKnob.png";
+    public static final String SLIDER_KNOB_HIGHLIGHT_IMAGE = IMAGE_FILE_DIRECTORY + "sliderKnobHighlight.png";
 }

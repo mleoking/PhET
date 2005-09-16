@@ -227,7 +227,7 @@ public class DischargeLampAtomGraphic extends AtomGraphic implements Atom.Change
 //                                     ( Photon.wavelengthToEnergy( Photon.MIN_VISIBLE_WAVELENGTH ) - Photon.wavelengthToEnergy( ( Photon.MAX_VISIBLE_WAVELENGTH ) ) ) ) );
             idx = Math.min( Math.max( 0, idx ), grayScale.length - 1 );
 
-            int stateIdx = getStateIdx( atom );
+//            int stateIdx = getStateIdx( atom );
 //            System.out.println( "stateIdx = " + stateIdx + "\tidx = " + idx + "\tcolor = " + grayScale[idx] );
 
 //            if( atom.getCurrState() != atom.getStates()[0] && grayScale[idx].equals( Color.black ) ) {

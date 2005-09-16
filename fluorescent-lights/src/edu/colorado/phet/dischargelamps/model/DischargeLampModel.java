@@ -33,7 +33,7 @@ public class DischargeLampModel extends LaserModel {
     //-----------------------------------------------------------------
     // Class data 
     //-----------------------------------------------------------------
-    public static final double MAX_VOLTAGE = 10;
+    public static final double MAX_VOLTAGE = 30;
     public static final int MAX_STATES = 6;
 
     //-----------------------------------------------------------------
@@ -51,6 +51,7 @@ public class DischargeLampModel extends LaserModel {
     private Plate rightHandPlate;
     private HeatingElement leftHandHeatingElement;
     private HeatingElement rightHandHeatingElement;
+    private Battery battery;
     private double current;
     private double maxCurrent;
     private ElementProperties elementProperties;
@@ -63,6 +64,14 @@ public class DischargeLampModel extends LaserModel {
 
         // This is the place to set the mean lifetime for the various atomic states
 //        MiddleEnergyState.instance().setMeanLifetime( .00001 );
+
+        // Make the battery
+        battery = new Battery( -MAX_VOLTAGE, MAX_VOLTAGE );
+        battery.addChangeListener( new Battery.ChangeListener() {
+            public void voltageChanged( Battery.ChangeEvent event ) {
+                setVoltage( event.getVoltageSource().getVoltage() );
+            }
+        } );
 
         // Make the plates
         leftHandPlate = new Plate( this,
@@ -243,6 +252,10 @@ public class DischargeLampModel extends LaserModel {
         }
     }
 
+    public Battery getBattery() {
+        return battery;
+    }
+
     protected void setLeftHandPlate( Plate plate ) {
         leftHandPlate = plate;
     }
@@ -287,6 +300,11 @@ public class DischargeLampModel extends LaserModel {
     }
 
     public void setVoltage( double voltage ) {
+
+        // Set the voltage of the battery
+//        battery.setVoltage( voltage );
+
+        // Set the potential of the plates
         if( voltage > 0 ) {
             leftHandPlate.setPotential( voltage );
             rightHandPlate.setPotential( 0 );
