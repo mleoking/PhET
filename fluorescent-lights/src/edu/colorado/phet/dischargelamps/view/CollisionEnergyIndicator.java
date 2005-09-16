@@ -111,12 +111,10 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
         double electronEnergy = Math.abs( voltage ) * ( plateToAtomDist / plateToPlateDist );
 
         // This factor converts
-        double fudge = DischargeLampModule.voltageCalibrationFactor;
-//        double fudge = 5.67;
         new GroundState().getEnergyLevel();
-        int y = energyYTx.modelToView( ( electronEnergy * fudge ) + model.getAtomicStates()[0].getEnergyLevel() );
+        int y = energyYTx.modelToView( ( electronEnergy * DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR )
+                                       + model.getAtomicStates()[0].getEnergyLevel() );
         setLocation( 0, y );
-//        setLocation( 0, Math.max( y, 5 ) );
         setBoundsDirty();
         repaint();
     }
