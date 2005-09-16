@@ -56,7 +56,6 @@ public class DischargeLampModule extends BaseLaserModule {
 //    public static boolean DEBUG = true;
     public static boolean DEBUG = false;
     private static final double SPECTROMETER_LAYER = 1000;
-    public static final double voltageCalibrationFactor = 5.64;
 
     //----------------------------------------------------------------
     // Instance data
@@ -321,11 +320,11 @@ public class DischargeLampModule extends BaseLaserModule {
         controlPanel.addControl( batterySlider );
         batterySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                double voltage = batterySlider.getValue() / voltageCalibrationFactor;
+                double voltage = batterySlider.getValue() / DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR;
                 model.setVoltage( voltage );
             }
         } );
-        double voltage = batterySlider.getValue() / voltageCalibrationFactor;
+        double voltage = batterySlider.getValue() / DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR;
         model.setVoltage( voltage );
 
         // A slider for the battery current

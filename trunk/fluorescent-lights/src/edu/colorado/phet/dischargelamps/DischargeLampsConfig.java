@@ -74,4 +74,6 @@ public class DischargeLampsConfig {
     public static final Font DEFAULT_CONTROL_FONT = new Font( "Lucida sans", Font.BOLD, 10 );
     // Factor that scales pixels to real dimensional units
    public static double PIXELS_PER_NM = 1E6;
+    // Factor that converts volts on the control panel slider to real volts
+    public static final double VOLTAGE_CALIBRATION_FACTOR = 5.64;
 }
