@@ -15,26 +15,32 @@ public class ColorGrid {
     private BufferedImage image;
     private int nx;
     private int ny;
-    private int width;
-    private int height;
+    private int maxWidth;
+    private int maxHeight;
 
-    public ColorGrid( int width, int height, int nx, int ny ) {
+    public ColorGrid( int maxWidth, int maxHeight, int nx, int ny ) {
         this.nx = nx;
         this.ny = ny;
-        this.width = width;
-        this.height = height;
+        this.maxWidth = maxWidth;
+        this.maxHeight = maxHeight;
         createImage();
     }
 
     private void createImage() {
         int imageWidth = nx * getBlockWidth();
         int imageHeight = ny * getBlockHeight();
+        if( imageWidth <= 0 ) {
+            imageWidth = 1;
+        }
+        if( imageHeight <= 0 ) {
+            imageHeight = 1;
+        }
         image = new BufferedImage( imageWidth, imageHeight, BufferedImage.TYPE_INT_RGB );
     }
 
-    public void setSize( int width, int height ) {
-        this.width = width;
-        this.height = height;
+    public void setMaxSize( int maxWidth, int maxHeight ) {
+        this.maxWidth = maxWidth;
+        this.maxHeight = maxHeight;
         createImage();
     }
 
@@ -50,22 +56,25 @@ public class ColorGrid {
         g2.setRenderingHint( RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF );
         int blockWidth = getBlockWidth();
         int blockHeight = getBlockHeight();
+
         for( int i = 0; i < nx; i++ ) {
             for( int k = 0; k < ny; k++ ) {
-                Paint p = colorMap.getPaint( i, k );
+                Paint p = colorMap.getColor( i, k );
                 g2.setPaint( p );
                 g2.fillRect( i * blockWidth, k * blockHeight, blockWidth, blockHeight );
             }
         }
+//        g2.setColor( Color.red );
+//        g2.fillRect( 0,0,image.getWidth( ),image.getHeight( ) );
     }
 
     public int getBlockHeight() {
-        int blockHeight = (int)( ( (double)height ) / ny );
+        int blockHeight = (int)( ( (double)maxHeight ) / ny );
         return blockHeight;
     }
 
     public int getBlockWidth() {
-        int blockWidth = (int)( ( (double)width ) / nx );
+        int blockWidth = (int)( ( (double)maxWidth ) / nx );
         return blockWidth;
     }
 

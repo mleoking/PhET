@@ -25,7 +25,7 @@ public class SplitColorMap implements ColorMap {
         setRootColor( panel.getRootColor() );
     }
 
-    public Paint getPaint( int i, int k ) {
+    public Paint getColor( int i, int k ) {
         Rectangle[] areas = splitModel.getDoubleSlitPotential().getSlitAreas();
         double abs = 0;
         if( !contains( areas, i, k ) ) {

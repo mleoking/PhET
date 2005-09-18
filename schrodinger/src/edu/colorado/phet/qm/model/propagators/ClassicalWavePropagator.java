@@ -84,6 +84,9 @@ public class ClassicalWavePropagator extends Propagator {
 
         last.copyTo( last2 );
         w.copyTo( last );
+        w.setMagnitudeDirty();
+        last.setMagnitudeDirty();
+        last2.setMagnitudeDirty();
     }
 
     private void dampHorizontal( Wavefunction wavefunction, int j, int dj ) {

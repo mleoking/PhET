@@ -181,23 +181,25 @@ public class SchrodingerScreenNode extends PNode {
     protected void layoutChildren() {
         super.layoutChildren();
 
-        double screenWidth = schrodingerPanel.getWidth();
-        double screenHeight = schrodingerPanel.getHeight();
-
-        wavefunctionGraphic.setTransform( new AffineTransform() );
-        wavefunctionGraphic.setOffset( 100, 100 );
-        double origWidth = wavefunctionGraphic.getFullBounds().getWidth();
-        double fracSize = 0.5;
+        int screenWidth = schrodingerPanel.getWidth();
+//        double screenHeight = schrodingerPanel.getHeight();
+        if( schrodingerPanel.getWidth() > 0 && schrodingerPanel.getHeight() > 0 ) {
+            System.out.println( "screenWidth = " + screenWidth );
+            wavefunctionGraphic.getColorGrid().setMaxSize( (int)( screenWidth * 0.6 ), (int)( screenWidth * 0.6 ) );
+            wavefunctionGraphic.setTransform( new AffineTransform() );
+            wavefunctionGraphic.setOffset( 50, 50 );
+//        double origWidth = wavefunctionGraphic.getFullBounds().getWidth();
+//        double fracSize = 0.5;
 //        wavefunctionGraphic.setScale( screenWidth / origWidth * fracSize );
-        intensityDisplay.setOffset( wavefunctionGraphic.getFullBounds().getX(),
-                                    wavefunctionGraphic.getFullBounds().getY() - intensityDisplay.getFullBounds().getHeight() / 2 );
-        abstractGun.setOffset( wavefunctionGraphic.getFullBounds().getCenterX() - abstractGun.getGunWidth() / 2 + 10,
-                               wavefunctionGraphic.getFullBounds().getMaxY() - getGunGraphicOffsetY() );
-        doubleSlitPanelGraphic.setOffset( wavefunctionGraphic.getFullBounds().getMaxX(),
-                                          wavefunctionGraphic.getFullBounds().getCenterY() );
-        clearButton.setOffset( wavefunctionGraphic.getFullBounds().getX() - clearButton.getFullBounds().getWidth(),
-                               wavefunctionGraphic.getFullBounds().getHeight() - clearButton.getHeight() );
-
+            intensityDisplay.setOffset( wavefunctionGraphic.getFullBounds().getX(),
+                                        wavefunctionGraphic.getFullBounds().getY() - intensityDisplay.getFullBounds().getHeight() / 2 );
+            abstractGun.setOffset( wavefunctionGraphic.getFullBounds().getCenterX() - abstractGun.getGunWidth() / 2 + 10,
+                                   wavefunctionGraphic.getFullBounds().getMaxY() - getGunGraphicOffsetY() );
+            doubleSlitPanelGraphic.setOffset( wavefunctionGraphic.getFullBounds().getMaxX(),
+                                              wavefunctionGraphic.getFullBounds().getCenterY() );
+            clearButton.setOffset( wavefunctionGraphic.getFullBounds().getX() - clearButton.getFullBounds().getWidth(),
+                                   wavefunctionGraphic.getFullBounds().getHeight() - clearButton.getHeight() );
+        }
     }
 
     public void removePotentialGraphic( RectangularPotentialGraphic rectangularPotentialGraphic ) {

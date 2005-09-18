@@ -57,6 +57,7 @@ public class PhotonBeamParticle extends GunParticle {
 
     abstract class AbstractBeamAdder implements ModelElement {
         public void stepInTime( double dt ) {
+            getDiscreteModel().getWavefunction().setMagnitudeDirty();
             double mag = getDiscreteModel().getWavefunction().getMagnitude();
 
             double intensity = photonBeam.getIntensity();

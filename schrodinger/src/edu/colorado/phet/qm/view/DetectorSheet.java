@@ -8,13 +8,14 @@ import edu.colorado.phet.qm.phetcommon.IntegralModelElement;
 import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
 import edu.colorado.phet.qm.view.gun.Photon;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.PRenderingHints;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * User: Sam Reid
@@ -26,8 +27,8 @@ import java.awt.image.BufferedImage;
 public class DetectorSheet extends PNode {
     private SchrodingerPanel schrodingerPanel;
 
-    private int width;
-    private int height;
+//    private int width;
+//    private int height;
     private PhetShapeGraphic backgroundGraphic;
     private BufferedImage bufferedImage;
     private PImage screenGraphic;
@@ -38,22 +39,28 @@ public class DetectorSheet extends PNode {
     private ImageFade imageFade;
     private boolean fadeEnabled = true;
     private DetectorSheetControlPanelPNode detectorSheetControlPanelPNode;
+    private DetectionIntensityCounter detectionIntensityCounter = new DetectionIntensityCounter();
+    private WavefunctionGraphic wavefunctionGraphic;
+    private int detectorSheetHeight;
+//    private int detectorSheetHeight;
 
-    public DetectorSheet( final SchrodingerPanel schrodingerPanel, int width, int height ) {
+    public DetectorSheet( final SchrodingerPanel schrodingerPanel, WavefunctionGraphic wavefunctionGraphic, final int detectorSheetHeight ) {
+        this.wavefunctionGraphic = wavefunctionGraphic;
+        this.detectorSheetHeight = detectorSheetHeight;
         this.schrodingerPanel = schrodingerPanel;
-        bufferedImage = new BufferedImage( width, height, BufferedImage.TYPE_INT_RGB );
+        bufferedImage = new BufferedImage( wavefunctionGraphic.getWavefunctionGraphicWidth(), detectorSheetHeight, BufferedImage.TYPE_INT_RGB );
         screenGraphic = new PImage( bufferedImage );
         addChild( screenGraphic );
 
-        backgroundGraphic = new PhetShapeGraphic( schrodingerPanel, new Rectangle( width, height ), Color.black, new BasicStroke( 3 ), Color.blue );
+        backgroundGraphic = new PhetShapeGraphic( schrodingerPanel, new Rectangle( wavefunctionGraphic.getWavefunctionGraphicWidth(), detectorSheetHeight ), Color.black, new BasicStroke( 3 ), Color.blue );
         backgroundGraphic.paint( bufferedImage.createGraphics() );
 
-        PRenderingHints renderingHints = new PRenderingHints();
-        renderingHints.putRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-        setRenderingHints( renderingHints );
+//        PRenderingHints renderingHints = new PRenderingHints();
+//        renderingHints.putRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+//        setRenderingHints( renderingHints );
 
-        this.width = width;
-        this.height = height;
+//        this.width = width;
+//        this.height = detectorSheetHeight;
 
         setBrightness( 1.0 );
         imageFade = new ImageFade();
@@ -67,13 +74,25 @@ public class DetectorSheet extends PNode {
         }, 1 );
         detectorSheetControlPanelPNode = new DetectorSheetControlPanelPNode( this );
         addChild( detectorSheetControlPanelPNode );
+        PropertyChangeListener changeListener = new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                bufferedImage = new BufferedImage( getWavefunctionGraphic().getWavefunctionGraphicWidth(), detectorSheetHeight, BufferedImage.TYPE_INT_RGB );
+                screenGraphic.setImage( bufferedImage );
+            }
+        };
+        wavefunctionGraphic.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, changeListener );
+        wavefunctionGraphic.addPropertyChangeListener( PNode.PROPERTY_BOUNDS, changeListener );
+    }
+
+    private WavefunctionGraphic getWavefunctionGraphic() {
+        return getSchrodingerPanel().getWavefunctionGraphic();
     }
 
     protected void layoutChildren() {
         detectorSheetControlPanelPNode.setOffset( screenGraphic.getFullBounds().getWidth(), 0 );
         screenGraphic.setTransform( new AffineTransform() );
         screenGraphic.getTransformReference( true ).shear( 0.45, 0 );
-        screenGraphic.translate( -13, 20 );
+        screenGraphic.translate( -30, 40 );
     }
 
     public void setFadeEnabled( boolean fade ) {
@@ -106,9 +125,6 @@ public class DetectorSheet extends PNode {
         return image;
     }
 
-    DetectionIntensityCounter detectionIntensityCounter = new DetectionIntensityCounter();
-
-
     public void addDetectionEvent( int x, int y ) {
         if( detectionIntensityCounter != null ) {
             detectionIntensityCounter.addDetectionEvent();
@@ -133,7 +149,7 @@ public class DetectorSheet extends PNode {
     }
 
     public void reset() {
-        bufferedImage = new BufferedImage( width, height, BufferedImage.TYPE_INT_RGB );
+        bufferedImage = new BufferedImage( wavefunctionGraphic.getWavefunctionGraphicWidth(), detectorSheetHeight, BufferedImage.TYPE_INT_RGB );
         backgroundGraphic.paint( bufferedImage.createGraphics() );
         screenGraphic.setImage( bufferedImage );
         detectorSheetControlPanelPNode.setClearButtonVisible( false );

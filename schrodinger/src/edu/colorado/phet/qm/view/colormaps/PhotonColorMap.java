@@ -49,7 +49,7 @@ public class PhotonColorMap implements ColorMap {
         this.rootColor = new ColorData( photon.getWavelengthNM() );
     }
 
-    public Paint getPaint( int i, int k ) {
+    public Paint getColor( int i, int k ) {
         Wavefunction wavefunction = schrodingerPanel.getDiscreteModel().getWavefunction();
         double abs = waveValueAccessor.getValue( wavefunction, i, k ) * intensityScale;
         if( abs > 1 ) {

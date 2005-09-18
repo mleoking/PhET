@@ -29,6 +29,11 @@ public class SchrodingerApplication extends PhetApplication {
         super( args, TITLE, DESCRIPTION, VERSION, createClock(), true, createFrameSetup() );
 //        PhetLookAndFeel.setLookAndFeel();
         SchrodingerModule singleParticleModel = new SingleParticleModule( this );
+//        singleParticleModel.getModel().addModelElement( new ModelElement() {
+//            public void stepInTime( double dt ) {
+//                System.out.println( "SchrodingerApplication.stepInTime" );
+//            }
+//        } );
         setModules( new Module[]{singleParticleModel} );
 
 //        SchrodingerModule singleParticleModel = new SingleParticleModule( this );
