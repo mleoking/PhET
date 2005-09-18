@@ -17,18 +17,12 @@ import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
  * Copyright (c) Jul 8, 2005 by Sam Reid
  */
 public class Photon extends GunParticle {
-//    private JSlider wavelength;
     private SRRWavelengthSlider wavelengthSliderGraphic;
     private double hbar = 1.0;
 
     public Photon( AbstractGun abstractGun, String label, String imageLocation ) {
         super( abstractGun, label, imageLocation );
-//        wavelength = new JSlider( JSlider.HORIZONTAL, 8, 500, 500 / 2 );
-//        wavelength.setBorder( BorderFactory.createTitledBorder( "Wavelength" ) );
-//        wavelengthSliderGraphic = PhetJComponent.newInstance( abstractGun.getComponent(), wavelength );
-//        wavelengthSliderGraphic=new SpectrumSlider( abstractGun.getSchrodingerPanel() );
         wavelengthSliderGraphic = new SRRWavelengthSlider( abstractGun.getSchrodingerPanel() );
-
     }
 
     public void setup( AbstractGun abstractGun ) {

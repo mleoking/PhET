@@ -11,7 +11,8 @@
 
 package edu.colorado.phet.qm.controls;
 
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.umd.cs.piccolo.PRenderingHints;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
@@ -24,14 +25,12 @@ import java.awt.geom.GeneralPath;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class SpectrumSliderKnob extends PhetShapeGraphic {
+public class SpectrumSliderKnob extends PPath {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
-    // Location of the knob's tip.
-//    private Point _location;
     // Size of the knob
     private Dimension _size;
     // Rotation angle
@@ -51,60 +50,24 @@ public class SpectrumSliderKnob extends PhetShapeGraphic {
      */
     public SpectrumSliderKnob( Component component, Dimension size, double angle ) {
 
-        super( component, null, null );
+        super();
 
 //        _location = new Point( 0, 0 );
         _size = new Dimension( size );
         _angle = angle;
 
         //  Request antialiasing.
-        RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-        super.setRenderingHints( hints );
+//        RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+        PRenderingHints pRenderingHints = new PRenderingHints();
+        pRenderingHints.putRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+        super.setRenderingHints( pRenderingHints );
 
         super.setPaint( Color.WHITE );
         super.setStroke( new BasicStroke( 1f ) );
-        super.setBorderColor( Color.BLACK );
+        super.setStrokePaint( Color.BLACK );
 
         updateShape();
     }
-
-    //----------------------------------------------------------------------------
-    // Accessors
-    //----------------------------------------------------------------------------
-
-//    /**
-//     * Sets the knob's location.
-//     *
-//     * @param location the location
-//     */
-//    public void setLocation( Point location ) {
-//
-//        super.translate( -_location.x, -_location.y );
-//        _location = new Point( location );
-//        super.translate( location.x, location.y );
-//        updateShape();
-//    }
-
-//    /**
-//     * Convenience method for setting the knob's location.
-//     *
-//     * @param x X coordinate
-//     * @param y Y coordinate
-//     */
-//    public void setLocation( int x, int y ) {
-//
-//        this.setLocation( new Point( x, y ) );
-//    }
-
-//    /**
-//     * Gets the knob's location.\
-//     *
-//     * @return the location
-//     */
-//    public Point getLocation() {
-//
-//        return new Point( _location );
-//    }
 
     /**
      * Sets the knob's size.
@@ -161,7 +124,6 @@ public class SpectrumSliderKnob extends PhetShapeGraphic {
 
         GeneralPath path = new GeneralPath();
 
-        // counterclockwise, starting at the tip
         path.moveTo( 0, 0 );
         path.lineTo( -0.5f * _size.width, 0.3f * _size.height );
         path.lineTo( -0.5f * _size.width, 1f * _size.height );
@@ -170,14 +132,7 @@ public class SpectrumSliderKnob extends PhetShapeGraphic {
         path.closePath();
         Shape shape = path;
 
-        // Rotate and translate.
-//        AffineTransform netTx = getNetTransform();
-//        AffineTransform transform = new AffineTransform();
-//        transform.translate( _location.x, _location.y );
-//        transform.rotate( _angle );
-//        shape = transform.createTransformedShape( shape );
-
-        super.setShape( shape );
+        super.setPathTo( shape );
     }
 
 }

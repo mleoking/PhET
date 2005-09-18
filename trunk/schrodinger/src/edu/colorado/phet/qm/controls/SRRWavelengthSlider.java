@@ -4,16 +4,18 @@ package edu.colorado.phet.qm.controls;
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.QuickTimer;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.piccolo.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -49,18 +51,34 @@ public class SRRWavelengthSlider extends PNode {
 
         spectrumSliderKnob = new SpectrumSliderKnob( component, new Dimension( 20, 20 ), 0 );
         //todo piccolo
-//        addChild( spectrumSliderKnob );
-        spectrumSliderKnob.setLocation( 0, image.getHeight() );
-        spectrumSliderKnob.setCursorHand();
-        spectrumSliderKnob.addTranslationListener( new TranslationListener() {
-            public void translationOccurred( TranslationEvent translationEvent ) {
-                int dx = translationEvent.getDx();
-                int newX = spectrumSliderKnob.getX() + dx;
-                newX = (int)MathUtil.clamp( 0, newX, image.getWidth() );
-                spectrumSliderKnob.setLocation( newX, image.getHeight() );
+        addChild( spectrumSliderKnob );
+        spectrumSliderKnob.setOffset( 0, image.getHeight() );
+        spectrumSliderKnob.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
+        //todo piccolo
+        spectrumSliderKnob.addInputEventListener( new PBasicInputEventHandler() {
+            public void mouseDragged( PInputEvent event ) {
+                super.mouseDragged( event );
+                Point2D pt = event.getPositionRelativeTo( SRRWavelengthSlider.this );
+                double newX = (int)MathUtil.clamp( 0, pt.getX(), image.getWidth() );
+                spectrumSliderKnob.setOffset( new Point2D.Double( newX, image.getHeight() ) );
+//                double dx = event.getDeltaRelativeTo( SRRWavelengthSlider.this ).getWidth();
+//                System.out.println( "dx = " + dx );
+//                double newX = spectrumSliderKnob.getFullBounds().getX() + dx;
+
+//                System.out.println( "newX = " + newX );
+//                spectrumSliderKnob.setOffset( new Point2D.Double( newX, image.getHeight() ) );
                 dragPointChanged();
             }
         } );
+//        spectrumSliderKnob.addTranslationListener( new TranslationListener() {
+//            public void translationOccurred( TranslationEvent translationEvent ) {
+//                int dx = translationEvent.getDx();
+//                int newX = spectrumSliderKnob.getX() + dx;
+//                newX = (int)MathUtil.clamp( 0, newX, image.getWidth() );
+//                spectrumSliderKnob.setLocation( newX, image.getHeight() );
+//                dragPointChanged();
+//            }
+//        } );
 
         PText phetTextGraphic = new PText( "Wavelength" );
         addChild( phetTextGraphic );
@@ -121,24 +139,24 @@ public class SRRWavelengthSlider extends PNode {
 //                startX = spectrumSliderKnob.getX();
 //            }
 //        } );
-        spectrumSliderKnob.setLocation( image.getWidth() / 2, image.getHeight() );
+        spectrumSliderKnob.setOffset( image.getWidth() / 2, image.getHeight() );
         dragPointChanged();
     }
 
     private void dragPointChanged() {
         double wavelength = getWavelength();
 //        System.out.println( "x = " + x + ", wav=" + wavelength );
-        spectrumSliderKnob.setColor( new VisibleColor( wavelength ) );
+        spectrumSliderKnob.setPaint( new VisibleColor( wavelength ) );
         ChangeEvent e = new ChangeEvent( this );
         for( int i = 0; i < listeners.size(); i++ ) {
             ChangeListener changeListener = (ChangeListener)listeners.get( i );
-
             changeListener.stateChanged( e );
         }
     }
 
     public double getWavelength() {
-        int x = spectrumSliderKnob.getX();
+//        double x = spectrumSliderKnob.getX();
+        double x = spectrumSliderKnob.getOffset().getX();
         double wavelength = linearFunction.evaluate( x );
         return wavelength;
     }

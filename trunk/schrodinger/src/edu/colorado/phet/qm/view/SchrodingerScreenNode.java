@@ -43,7 +43,6 @@ public class SchrodingerScreenNode extends PNode {
 
         doubleSlitPanel = new DoubleSlitPanel( getDiscreteModel() );
         doubleSlitPanelGraphic = new PSwing( schrodingerPanel, doubleSlitPanel );
-
         doubleSlitPanelGraphic.setOffset( getWavefunctionGraphic().getX() + getWavefunctionGraphic().getWidth() - 40, getWavefunctionGraphic().getY() + getWavefunctionGraphic().getHeight() / 2 - doubleSlitPanelGraphic.getHeight() / 2 + 35 );
 
         addChild( intensityDisplay );
@@ -108,7 +107,6 @@ public class SchrodingerScreenNode extends PNode {
     }
 
     public void clearPotential() {
-
         for( int i = 0; i < rectanglePotentialGraphics.size(); i++ ) {
             RectangularPotentialGraphic rectangularPotentialGraphic = (RectangularPotentialGraphic)rectanglePotentialGraphics.get( i );
             removeChild( rectangularPotentialGraphic );
@@ -155,5 +153,7 @@ public class SchrodingerScreenNode extends PNode {
         wavefunctionGraphic.setOffset( 100, 100 );
         abstractGun.setOffset( wavefunctionGraphic.getFullBounds().getX() + wavefunctionGraphic.getFullBounds().getWidth() / 2 - abstractGun.getGunWidth() / 2,
                                wavefunctionGraphic.getFullBounds().getY() + wavefunctionGraphic.getFullBounds().getHeight() - getGunGraphicOffsetY() );
+        doubleSlitPanelGraphic.setOffset( wavefunctionGraphic.getFullBounds().getMaxX(),
+                                          wavefunctionGraphic.getFullBounds().getCenterY() );
     }
 }
