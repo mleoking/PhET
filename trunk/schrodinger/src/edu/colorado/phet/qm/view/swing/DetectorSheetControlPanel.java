@@ -1,11 +1,14 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.view;
+package edu.colorado.phet.qm.view.swing;
 
 import edu.colorado.phet.common.view.components.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
-import edu.colorado.phet.piccolo.pswing.PSwing;
+import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.qm.modules.intensity.IntensityPanel;
+import edu.colorado.phet.qm.view.piccolo.DetectorSheet;
+import edu.colorado.phet.qm.view.piccolo.SavedScreenGraphic;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PBounds;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -13,6 +16,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 
 /**
@@ -22,7 +26,7 @@ import java.text.DecimalFormat;
  * Copyright (c) Jul 27, 2005 by Sam Reid
  */
 
-public class DetectorSheetControlPanelPNode extends PNode {
+public class DetectorSheetControlPanel extends VerticalLayoutPanel {
     private JButton clearButton;
     private Insets buttonInsets = new Insets( 2, 2, 2, 2 );
     private Font buttonFont = new Font( "Lucida Sans", Font.BOLD, 10 );
@@ -30,13 +34,9 @@ public class DetectorSheetControlPanelPNode extends PNode {
     private JButton saveScreenJButton;
     private ModelSlider brightnessModelSlider;
     private JCheckBox fadeEnabled;
-    private PSwing brightnessGraphic;
-    private PSwing fadeGraphic;
-    private PSwing display;
-    private PSwing saveClearGraphic;
     private HorizontalLayoutPanel displayPanel;
 
-    public DetectorSheetControlPanelPNode( final DetectorSheet detectorSheet ) {
+    public DetectorSheetControlPanel( final DetectorSheet detectorSheet ) {
         this.detectorSheet = detectorSheet;
         clearButton = new JButton( "Clear" );
         clearButton.setMargin( buttonInsets );
@@ -50,12 +50,10 @@ public class DetectorSheetControlPanelPNode extends PNode {
         saveScreenJButton = new JButton( "Save" );
         saveScreenJButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                //todo piccolo
-//                BufferedImage image = detectorSheet.copyScreen();
-//                SavedScreenGraphic savedScreenGraphic = new SavedScreenGraphic( getSchrodingerPanel(), image );
-//
-//                savedScreenGraphic.setLocation( 130, 130 );
-//                getSchrodingerPanel().addWorldChild( savedScreenGraphic );
+                BufferedImage image = detectorSheet.copyScreen();
+                SavedScreenGraphic savedScreenGraphic = new SavedScreenGraphic( getSchrodingerPanel(), image );
+                savedScreenGraphic.setOffset( 130, 130 );
+                getSchrodingerPanel().getScreenNode().addChild( savedScreenGraphic );
             }
         } );
         saveScreenJButton.setMargin( buttonInsets );
@@ -69,7 +67,6 @@ public class DetectorSheetControlPanelPNode extends PNode {
             }
         } );
         setBrightness();
-
 
         fadeEnabled = new JCheckBox( "Fade", true );
         fadeEnabled.addChangeListener( new ChangeListener() {
@@ -106,24 +103,10 @@ public class DetectorSheetControlPanelPNode extends PNode {
         saveClear.add( saveScreenJButton );
         saveClear.add( clearButton );
 
-        saveClearGraphic = new PSwing( getSchrodingerPanel(), saveClear );
-        brightnessGraphic = new PSwing( getSchrodingerPanel(), brightnessModelSlider );
-        fadeGraphic = new PSwing( getSchrodingerPanel(), fadeEnabled );
-
-        display = new PSwing( getSchrodingerPanel(), displayPanel );
-
-        addChild( saveClearGraphic );
-        addChild( brightnessGraphic );
-        addChild( fadeGraphic );
-        addChild( display );
-
-        putBelow( brightnessGraphic, saveClearGraphic, 1 );
-        fadeGraphic.setOffset( saveClearGraphic.getX() + saveClearGraphic.getWidth() + 2, saveClearGraphic.getY() + saveClearGraphic.getHeight() / 2 - fadeGraphic.getHeight() / 2 );
-        putBelow( display, brightnessGraphic, 1 );
-
-        brightnessGraphic.setVisible( false );
-        setFadeCheckBoxVisible( false );
-        display.setVisible( false );
+        saveClear.add( fadeEnabled );
+        add( saveClear );
+        add( brightnessModelSlider );
+        add( displayPanel );
     }
 
     public void setBrightness() {
@@ -147,7 +130,8 @@ public class DetectorSheetControlPanelPNode extends PNode {
         return null;
     }
 
-    protected void putBelow( PNode obj, PNode parent, int insetY ) {
+    protected void putBelow( PNode obj, PNode p, int insetY ) {
+        PBounds parent = p.getFullBounds();
         obj.setOffset( parent.getX(), parent.getY() + parent.getHeight() + insetY );
     }
 
@@ -164,14 +148,14 @@ public class DetectorSheetControlPanelPNode extends PNode {
     }
 
     public void setBrightnessSliderVisible( boolean b ) {
-        brightnessGraphic.setVisible( b );
+        brightnessModelSlider.setVisible( b );
     }
 
     public void setFadeCheckBoxVisible( boolean b ) {
-        fadeGraphic.setVisible( b );
+        fadeEnabled.setVisible( b );
     }
 
     public void setTypeControlVisible( boolean b ) {
-        display.setVisible( b );
+        displayPanel.setVisible( b );
     }
 }

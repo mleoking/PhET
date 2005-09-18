@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.view;
+package edu.colorado.phet.qm.view.piccolo;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;

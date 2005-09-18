@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.view;
+package edu.colorado.phet.qm.view.swing;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.piccolo.PhetPCanvas;
@@ -10,6 +10,7 @@ import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.phetcommon.RulerGraphic;
 import edu.colorado.phet.qm.view.gun.AbstractGun;
 import edu.colorado.phet.qm.view.gun.Photon;
+import edu.colorado.phet.qm.view.piccolo.*;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
 
 import java.awt.*;
@@ -51,9 +52,13 @@ public class SchrodingerPanel extends PhetPCanvas {
                 updateScreen();
             }
         } );
-        schrodingerScreenNode = new SchrodingerScreenNode( this );
+        schrodingerScreenNode = createScreenNode( module );
         setScreenNode( schrodingerScreenNode );
         setZoomEventHandler( new PZoomEventHandler() );
+    }
+
+    protected SchrodingerScreenNode createScreenNode( SchrodingerModule module ) {
+        return new SchrodingerScreenNode( this );
     }
 
 //    private void addWorldGraphic( PNode graphic, double layer ) {

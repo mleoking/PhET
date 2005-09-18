@@ -7,9 +7,9 @@ import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.SplitModel;
-import edu.colorado.phet.qm.view.DetectorGraphic;
-import edu.colorado.phet.qm.view.RestrictedDetectorGraphic;
 import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
+import edu.colorado.phet.qm.view.piccolo.DetectorGraphic;
+import edu.colorado.phet.qm.view.piccolo.RestrictedDetectorGraphic;
 
 import java.util.ArrayList;
 

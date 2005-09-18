@@ -2,8 +2,8 @@
 package edu.colorado.phet.qm.modules.single;
 
 import edu.colorado.phet.qm.SchrodingerModule;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.gun.SingleParticleGun;
+import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 
 /**
  * User: Sam Reid

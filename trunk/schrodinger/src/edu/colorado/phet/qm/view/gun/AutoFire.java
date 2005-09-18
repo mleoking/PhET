@@ -2,7 +2,7 @@
 package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.qm.view.IntensityDisplay;
+import edu.colorado.phet.qm.view.piccolo.IntensityDisplay;
 
 /**
  * User: Sam Reid

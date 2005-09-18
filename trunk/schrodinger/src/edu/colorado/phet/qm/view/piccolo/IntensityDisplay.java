@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.view;
+package edu.colorado.phet.qm.view.piccolo;
 
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.qm.SchrodingerModule;
@@ -7,6 +7,7 @@ import edu.colorado.phet.qm.model.DetectorSet;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.view.gun.Photon;
+import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;

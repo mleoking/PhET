@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.view;
+package edu.colorado.phet.qm.view.piccolo;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
@@ -7,6 +7,7 @@ import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.qm.phetcommon.IntegralModelElement;
 import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
 import edu.colorado.phet.qm.view.gun.Photon;
+import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PPaintContext;
@@ -27,8 +28,6 @@ import java.beans.PropertyChangeListener;
 public class DetectorSheet extends PNode {
     private SchrodingerPanel schrodingerPanel;
 
-//    private int width;
-//    private int height;
     private PhetShapeGraphic backgroundGraphic;
     private BufferedImage bufferedImage;
     private PImage screenGraphic;
@@ -42,7 +41,6 @@ public class DetectorSheet extends PNode {
     private DetectionIntensityCounter detectionIntensityCounter = new DetectionIntensityCounter();
     private WavefunctionGraphic wavefunctionGraphic;
     private int detectorSheetHeight;
-//    private int detectorSheetHeight;
 
     public DetectorSheet( final SchrodingerPanel schrodingerPanel, WavefunctionGraphic wavefunctionGraphic, final int detectorSheetHeight ) {
         this.wavefunctionGraphic = wavefunctionGraphic;
@@ -54,13 +52,6 @@ public class DetectorSheet extends PNode {
 
         backgroundGraphic = new PhetShapeGraphic( schrodingerPanel, new Rectangle( wavefunctionGraphic.getWavefunctionGraphicWidth(), detectorSheetHeight ), Color.black, new BasicStroke( 3 ), Color.blue );
         backgroundGraphic.paint( bufferedImage.createGraphics() );
-
-//        PRenderingHints renderingHints = new PRenderingHints();
-//        renderingHints.putRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-//        setRenderingHints( renderingHints );
-
-//        this.width = width;
-//        this.height = detectorSheetHeight;
 
         setBrightness( 1.0 );
         imageFade = new ImageFade();
@@ -89,10 +80,13 @@ public class DetectorSheet extends PNode {
     }
 
     protected void layoutChildren() {
-        detectorSheetControlPanelPNode.setOffset( screenGraphic.getFullBounds().getWidth(), 0 );
         screenGraphic.setTransform( new AffineTransform() );
         screenGraphic.getTransformReference( true ).shear( 0.45, 0 );
         screenGraphic.translate( -30, 40 );
+
+        detectorSheetControlPanelPNode.setOffset( screenGraphic.getFullBounds().getWidth(), screenGraphic.getFullBounds().getY() );
+//        detectorSheetControlPanelPNode.setOffset( 0, 0 );
+
     }
 
     public void setFadeEnabled( boolean fade ) {

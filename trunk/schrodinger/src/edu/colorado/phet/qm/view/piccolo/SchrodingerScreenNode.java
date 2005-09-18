@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.view;
+package edu.colorado.phet.qm.view.piccolo;
 
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.qm.SchrodingerModule;
@@ -7,6 +7,8 @@ import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.phetcommon.RulerGraphic;
 import edu.colorado.phet.qm.view.gun.AbstractGun;
+import edu.colorado.phet.qm.view.swing.DoubleSlitPanel;
+import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;

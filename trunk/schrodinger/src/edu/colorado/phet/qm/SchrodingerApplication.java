@@ -7,7 +7,7 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.qm.modules.single.SingleParticleModule;
+import edu.colorado.phet.qm.modules.intensity.IntensityModule;
 
 /**
  * User: Sam Reid
@@ -27,22 +27,17 @@ public class SchrodingerApplication extends PhetApplication {
 
     public SchrodingerApplication( String[] args ) {
         super( args, TITLE, DESCRIPTION, VERSION, createClock(), true, createFrameSetup() );
-//        PhetLookAndFeel.setLookAndFeel();
-        SchrodingerModule singleParticleModel = new SingleParticleModule( this );
-//        singleParticleModel.getModel().addModelElement( new ModelElement() {
-//            public void stepInTime( double dt ) {
-//                System.out.println( "SchrodingerApplication.stepInTime" );
-//            }
-//        } );
-        setModules( new Module[]{singleParticleModel} );
+//        SchrodingerModule singleParticleModel = new SingleParticleModule( this );
+//        setModules( new Module[]{singleParticleModel} );
+
+        SchrodingerModule intensityModule = new IntensityModule( this );
+        setModules( new Module[]{intensityModule} );
 
 //        SchrodingerModule singleParticleModel = new SingleParticleModule( this );
 //        SchrodingerModule intensityModule = new IntensityModule( this );
 //        SchrodingerModule mandelModule = new MandelModule( this );
 //        setModules( new Module[]{singleParticleModel, intensityModule, mandelModule} );
 
-//        setModules( new Module[]{ intensityModule} );
-//        setModules( new Module[]{mandelModule} );
     }
 
     private static AbstractClock createClock() {

@@ -4,7 +4,6 @@ package edu.colorado.phet.qm.view.colormaps;
 import edu.colorado.phet.qm.model.SplitModel;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.modules.intensity.IntensityPanel;
-import edu.colorado.phet.qm.view.ColorMap;
 
 import java.awt.*;
 
