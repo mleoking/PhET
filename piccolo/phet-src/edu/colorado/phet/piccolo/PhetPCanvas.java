@@ -62,6 +62,10 @@ public class PhetPCanvas extends PSwingCanvas {
         return phetRootNode.getScreenNode();
     }
 
+    public void setScreenNode( PNode screenNode ) {
+        phetRootNode.setScreenNode( screenNode );
+    }
+
     protected class ResizeAdapter extends ComponentAdapter {
         public void componentResized( ComponentEvent e ) {
             //use renderingSize to set zoom.
@@ -115,6 +119,10 @@ public class PhetPCanvas extends PSwingCanvas {
 
     public void setRenderingSize( Dimension dim ) {
         this.renderingSize = new Dimension( dim );
+    }
+
+    public void setRenderingSize( int width, int height ) {
+        setRenderingSize( new Dimension( width, height ) );
     }
 
     /*

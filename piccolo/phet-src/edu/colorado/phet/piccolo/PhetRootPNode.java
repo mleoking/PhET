@@ -65,4 +65,10 @@ public class PhetRootPNode extends PNode {
     public boolean containsScreenNode() {
         return getChildrenReference().contains( screenNode );
     }
+
+    public void setScreenNode( PNode screenNode ) {
+        removeChild( this.screenNode );
+        this.screenNode = screenNode;
+        addChild( screenNode );
+    }
 }
