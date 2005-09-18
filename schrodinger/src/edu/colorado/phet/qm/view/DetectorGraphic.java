@@ -2,11 +2,15 @@
 package edu.colorado.phet.qm.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.piccolo.pswing.PSwing;
+import edu.colorado.phet.qm.SchrodingerLookAndFeel;
 import edu.colorado.phet.qm.model.Detector;
 import edu.umd.cs.piccolo.nodes.PText;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 
 /**
@@ -20,14 +24,11 @@ public class DetectorGraphic extends RectangleGraphic {
     private Detector detector;
     private DecimalFormat format = new DecimalFormat( "0.00" );
     private PText probDisplay;
-    private PhetGraphic closeGraphic;
+    private PSwing closeGraphic;
     private Color darkGreen;
-//    private static Color fill = new Color( 200, 180, 150, 65 );
     private static Color fill = new Color( 200, 180, 150, 0 );
-//    private static Color fill = null;
 
     public DetectorGraphic( final SchrodingerPanel schrodingerPanel, final Detector detector ) {
-//        super( schrodingerPanel, detector, new Color( 0, 0, 0, 0 ) );
         super( schrodingerPanel, detector, fill );
         this.detector = detector;
 
@@ -44,15 +45,14 @@ public class DetectorGraphic extends RectangleGraphic {
             }
         } );
 
-        //todo piccolo
-//        JButton closeButton = SchrodingerLookAndFeel.createCloseButton();
-//        closeButton.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                schrodingerPanel.removeDetectorGraphic( DetectorGraphic.this );
-//            }
-//        } );
-//        closeGraphic = PhetJComponent.newInstance( schrodingerPanel, closeButton );
-//        addChild( closeGraphic );
+        JButton closeButton = SchrodingerLookAndFeel.createCloseButton();
+        closeButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                schrodingerPanel.removeDetectorGraphic( DetectorGraphic.this );
+            }
+        } );
+        closeGraphic = new PSwing( schrodingerPanel, closeButton );
+        addChild( closeGraphic );
 
         update();
     }
@@ -79,7 +79,7 @@ public class DetectorGraphic extends RectangleGraphic {
         else {
             probDisplay.setTextPaint( Color.gray );
         }
-        closeGraphic.setLocation( (int)( viewRect.getX() - closeGraphic.getWidth() ), (int)viewRect.getY() - closeGraphic.getHeight() );
+        closeGraphic.setOffset( (int)( viewRect.getX() - closeGraphic.getWidth() ), (int)viewRect.getY() - closeGraphic.getHeight() );
     }
 
     public Detector getDetector() {

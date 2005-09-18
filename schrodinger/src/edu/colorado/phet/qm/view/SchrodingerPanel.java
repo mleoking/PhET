@@ -29,8 +29,6 @@ public class SchrodingerPanel extends PhetPCanvas {
     private SchrodingerModule module;
     private Photon photon;
     private SchrodingerScreenNode schrodingerScreenNode;
-//    private PhetGraphic doubleSlitCheckBoxGraphic;
-//    private PhetGraphic configureSlitButtonGraphic;
 
     public DoubleSlitPanel getDoubleSlitPanel() {
         return schrodingerScreenNode.getDoubleSlitPanel();
@@ -43,7 +41,6 @@ public class SchrodingerPanel extends PhetPCanvas {
 
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-//                setReferenceSize( 600, 600 );
                 setRenderingSize( 600, 600 );
                 //todo piccolo
 //                abstractGun.componentResized( e );
@@ -175,12 +172,13 @@ public class SchrodingerPanel extends PhetPCanvas {
     public Rectangle waveAreaToScreen( Rectangle gridRect ) {
         //todo piccolo
         getWavefunctionGraphic().localToGlobal( gridRect );
+        getLayer().globalToLocal( gridRect );
         return gridRect;
 //        Rectangle screenRect = wavefunctionGraphic.getNetTransform().createTransformedShape( gridRect ).getBounds();
 //        return screenRect;
     }
 
     public void removePotentialGraphic( RectangularPotentialGraphic rectangularPotentialGraphic ) {
-        getWorldNode().removeChild( rectangularPotentialGraphic );
+        schrodingerScreenNode.removePotentialGraphic( rectangularPotentialGraphic );
     }
 }

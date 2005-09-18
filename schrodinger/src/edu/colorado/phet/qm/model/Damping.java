@@ -42,7 +42,7 @@ public class Damping extends DiscreteModel.Adapter {
             for( int j = 0; j < damp.length && j < blockArea.height; j++ ) {
                 int y = blockArea.y + j;
 //                System.out.println( "x=" + x + ", y = " + y + ", damp=" + damp[j] );
-                wavefunction.valueAt( x, y ).scale( damp[damp.length -j- 1] );
+                wavefunction.valueAt( x, y ).scale( damp[damp.length - j - 1] );
             }
         }
     }
