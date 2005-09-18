@@ -12,10 +12,12 @@
 package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.math.MathUtil;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.piccolo.CursorHandler;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PBounds;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -49,7 +51,7 @@ import java.io.IOException;
  * @version $Revision$
  */
 //public class SpectrumSlider extends GraphicLayerSet {
-public class SpectrumSlider extends CompositePhetGraphic {
+public class SpectrumSlider extends PNode {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -110,7 +112,7 @@ public class SpectrumSlider extends CompositePhetGraphic {
      */
     public SpectrumSlider( Component component ) {
 
-        super( component );
+        super();
 
         // Initialize instance data.
         _component = component;
@@ -128,9 +130,10 @@ public class SpectrumSlider extends CompositePhetGraphic {
         _knob = new SpectrumSliderKnob( component, DEFAULT_KNOB_SIZE, getRotationAngle() );
 
         // Initialize interactivity
-        super.addGraphic( _knob );
-        super.setCursorHand();
-        super.addMouseInputListener( new SpectrumSliderMouseInputListener() );
+        super.addChild( _knob );
+        super.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
+        //todo piccolo
+//        super.addMouseInputListener( new SpectrumSliderMouseInputListener() );
 
         // This call recalculates the location of all graphic elements.
         setLocation( 0, 0 );
@@ -363,22 +366,23 @@ public class SpectrumSlider extends CompositePhetGraphic {
         repaint();
     }
 
-    /**
-     * Gets the bounds.
-     *
-     * @return the bounds
-     */
-    public Rectangle getBounds() {
-
-        // Start with the spectrum graphic's bounds.
-        // Make a copy, so we don't accidentally change the graphic's bounds.
-        Rectangle bounds = new Rectangle( _spectrum.getBounds() );
-
-        // Add the knob's bounds.
-        bounds.add( _knob.getBounds() );
-
-        return bounds;
-    }
+    //todo piccolo
+//    /**
+//     * Gets the bounds.
+//     *
+//     * @return the bounds
+//     */
+//    public Rectangle getBounds() {
+//
+//        // Start with the spectrum graphic's bounds.
+//        // Make a copy, so we don't accidentally change the graphic's bounds.
+//        Rectangle bounds = new Rectangle( _spectrum.getBounds() );
+//
+//        // Add the knob's bounds.
+//        bounds.add( _knob.getBounds() );
+//
+//        return bounds;
+//    }
 
     /*
      * Overrides superclass implementation.
@@ -388,7 +392,7 @@ public class SpectrumSlider extends CompositePhetGraphic {
      */
     public void setVisible( boolean visible ) {
 
-        if( visible != super.isVisible() ) {
+        if( visible != super.getVisible() ) {
             super.setVisible( visible );
             repaint();
         }
@@ -402,7 +406,7 @@ public class SpectrumSlider extends CompositePhetGraphic {
      */
     public void setKnobBorderColor( Color color ) {
 
-        _knob.setBorderColor( color );
+        _knob.setStrokePaint( color );
         repaint();
     }
 
@@ -449,7 +453,7 @@ public class SpectrumSlider extends CompositePhetGraphic {
     private void updateUI() {
 
         Rectangle spectrumBounds = _spectrum.getBounds();
-        Rectangle knobBounds = _knob.getBounds();
+        PBounds knobBounds = _knob.getBounds();
         int x = _location.x;
         int y = _location.y;
 
@@ -494,13 +498,13 @@ public class SpectrumSlider extends CompositePhetGraphic {
         }
         else {
             double percent = 1 - ( _value - _minimum ) / (double)( _maximum - _minimum );
-            x = (int)_knob.getLocation().getX();
+            x = (int)_knob.getOffset().getX();
             y = (int)( percent * _dragBounds.height );
             x = _dragBounds.x;
             y = _dragBounds.y + (int)( percent * _dragBounds.height );
         }
 //        _knob.setLocation( x , y );
-        _knob.setLocation( x + (int)this.getLocation().getX(), y + (int)this.getLocation().getY() );
+        _knob.setOffset( x + (int)this.getLocation().getX(), y + (int)this.getLocation().getY() );
 
         // Set the knob's color.
         VisibleColor color = new VisibleColor( _value );
@@ -513,14 +517,15 @@ public class SpectrumSlider extends CompositePhetGraphic {
     // Rendering
     //----------------------------------------------------------------------------
 
-    /**
-     * Repaints the slider.
-     */
-    public void repaint() {
-
-        Rectangle r = getBounds();
-        _component.repaint( r.x, r.y, r.width, r.height );
-    }
+    //todo piccolo
+//    /**
+//     * Repaints the slider.
+//     */
+//    public void repaint() {
+//
+//        PBounds r = getBounds();
+//        _component.repaint( r.x, r.y, r.width, r.height );
+//    }
 
     /**
      * Draws the slider.
@@ -670,10 +675,10 @@ public class SpectrumSlider extends CompositePhetGraphic {
         public void mousePressed( MouseEvent event ) {
 
             if( _orientation == HORIZONTAL ) {
-                _mouseOffset = event.getX() - _knob.getLocation().x;
+                _mouseOffset = (int)( event.getX() - _knob.getOffset().getX() );
             }
             else {
-                _mouseOffset = event.getY() - _knob.getLocation().y;
+                _mouseOffset = (int)( event.getY() - _knob.getOffset().getY() );
             }
         }
     }
