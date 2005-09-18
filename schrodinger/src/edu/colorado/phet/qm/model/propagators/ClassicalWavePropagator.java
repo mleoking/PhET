@@ -4,11 +4,6 @@ package edu.colorado.phet.qm.model.propagators;
 import edu.colorado.phet.qm.model.*;
 
 /**
- * User: Sam Reid
- * Date: Jun 28, 2005
- * Time: 3:42:18 PM
- * Copyright (c) Jun 28, 2005 by Sam Reid
- * <p/>
  * See: http://www.mtnmath.com/whatth/node47.html
  */
 

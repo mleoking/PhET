@@ -47,7 +47,6 @@ public class PhotonBeam extends HighIntensityBeam {
         getGunGraphic().getSchrodingerPanel().setDisplayPhotonColor( getPhoton() );
     }
 
-
     public AbstractGun.MomentumChangeListener getColorChangeHandler() {
         return colorChangeHandler;
     }

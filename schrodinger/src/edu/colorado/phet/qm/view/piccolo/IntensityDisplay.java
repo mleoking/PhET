@@ -92,7 +92,7 @@ public class IntensityDisplay extends PNode {
     private void detectOne( Wavefunction sub ) {
 //        Function.LinearFunction linearFunction = getModelToViewTransform1d();
         Point pt = getCollapsePoint( sub );
-        System.out.println( "Collapse point: " + pt.x );
+//        System.out.println( "Collapse point: " + pt.x );
 
 //        double screenGridWidth = schrodingerModule.getSchrodingerPanel().getWavefunctionGraphic().getBlockWidth();
 //        double randOffsetY = 2 * ( random.nextDouble() - 0.5 ) * screenGridWidth;
@@ -109,9 +109,9 @@ public class IntensityDisplay extends PNode {
         }
 
         int x = (int)( getModelToViewTransform1d().evaluate( pt.x ) + randOffsetX );
-        System.out.println( "in panel coordinates: x = " + x );
+//        System.out.println( "in panel coordinates: x = " + x );
         x *= getWavePanelScale();
-        System.out.println( "Scaled: x=" + x );
+//        System.out.println( "Scaled: x=" + x );
         int y = getDetectY();
 
 //        System.out.println( "x = " + x );
