@@ -4,13 +4,12 @@ package edu.colorado.phet.qm.view;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.piccolo.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 
-import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
-import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -35,30 +34,21 @@ public class RectangleGraphic extends PNode {
         areaGraphic.setStroke( new BasicStroke( 1.0f ) );
         areaGraphic.setPaint( fill );
         addChild( areaGraphic );
-        //todo piccolo
-//        areaGraphic.addInputEventListener( new ContinuousDrag( new LocationGetter() {
-//            public Point getLocation() {
-//                return rectangularObject.getLocation();
-//            }
-//        } ) );
-        areaGraphic.addInputEventListener( new PDragEventHandler() {
-            public void mouseDragged( PInputEvent e ) {
-//                super.mouseDragged( e );
+        areaGraphic.addInputEventListener( new ContinuousDrag( new LocationGetter() {
+            public Point getLocation() {
+                return rectangularObject.getLocation();
             }
-        } );
+        } ) );
         areaGraphic.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
 
         resizeCorner = new PPath( new Rectangle( 0, 0, 10, 10 ) );
         resizeCorner.setPaint( Color.yellow );
         resizeCorner.setStroke( new BasicStroke( 1 ) );
         resizeCorner.setStrokePaint( Color.green );
-        //todo piccolo
-        addChild( resizeCorner );
-//        grabbablePart.addMouseInputListener( new CornerDrag() );
-//        grabbablePart.setCursorHand();
+        resizeCorner.addInputEventListener( new CornerDrag() );
+        resizeCorner.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
 
-//        probDisplay = new PhetTextGraphic( component, new Font( "Lucida Sans", Font.BOLD, 14 ), "", Color.red );
-//        addGraphic( probDisplay );
+        addChild( resizeCorner );
         rectangularObject.addObserver( new SimpleObserver() {
             public void update() {
                 RectangleGraphic.this.update();
@@ -88,16 +78,12 @@ public class RectangleGraphic extends PNode {
     }
 
     public Rectangle getViewRectangle( Rectangle modelRect ) {
-//        return getColorGrid().getViewRectangle( modelRect );
         Rectangle gridRect = getColorGrid().getViewRectangle( modelRect );
-        Rectangle bounds = schrodingerPanel.waveAreaToScreen( gridRect );
-        return bounds;
+        getSchrodingerPanel().getWavefunctionGraphic().localToGlobal( gridRect );
+        globalToLocal( gridRect );
+        localToParent( gridRect );
+        return gridRect;
     }
-
-//    public Rectangle getViewRectangleORIG( Rectangle modelRect ) {
-//        Rectangle gridRect = getColorGrid().getViewRectangle( modelRect );
-//        return schrodingerPanel.getWavefunctionGraphic().getNetTransform().createTransformedShape( gridRect ).getBounds();
-//    }
 
     public SchrodingerPanel getSchrodingerPanel() {
         return schrodingerPanel;
@@ -107,9 +93,9 @@ public class RectangleGraphic extends PNode {
         Point getLocation();
     }
 
-    public class ContinuousDrag extends MouseInputAdapter {
+    public class ContinuousDrag extends PBasicInputEventHandler {
         // implements java.awt.event.MouseListener
-        Point startLocation;
+        Point2D startLocation;
         Point origLoc;
         LocationGetter locationGetter;
 
@@ -117,26 +103,27 @@ public class RectangleGraphic extends PNode {
             this.locationGetter = locationGetter;
         }
 
-        public void mousePressed( MouseEvent e ) {
-            startLocation = new Point( e.getPoint() );
+        public void mousePressed( PInputEvent e ) {
+            startLocation = new Point2D.Double( e.getPosition().getX(), e.getPosition().getY() );
             origLoc = locationGetter.getLocation();
         }
 
+
         // implements java.awt.event.MouseListener
-        public void mouseReleased( MouseEvent e ) {
+        public void mouseReleased( PInputEvent e ) {
             startLocation = null;
             origLoc = null;
         }
 
         // implements java.awt.event.MouseMotionListener
-        public void mouseDragged( MouseEvent e ) {
+        public void mouseDragged( PInputEvent e ) {
             if( startLocation == null ) {
                 mousePressed( e );
             }
             else {
-                Point fin = e.getPoint();
+                Point2D fin = e.getPosition();
 
-                Point rel = new Point( fin.x - startLocation.x, fin.y - startLocation.y );
+                Point2D.Double rel = new Point2D.Double( fin.getX() - startLocation.getX(), fin.getY() - startLocation.getY() );
                 double dx = rel.x;
                 double dy = rel.y;
                 int modelDX = (int)( dx / getColorGrid().getBlockWidth() );
@@ -146,29 +133,28 @@ public class RectangleGraphic extends PNode {
         }
     }
 
-    public class CornerDrag extends MouseInputAdapter {
-        Point startLocation;
+    public class CornerDrag extends PBasicInputEventHandler {
+        Point2D.Double startLocation;
         Dimension origDim;
 
-
-        public void mousePressed( MouseEvent e ) {
-            startLocation = new Point( e.getPoint() );
+        public void mousePressed( PInputEvent e ) {
+            startLocation = new Point2D.Double( e.getPosition().getX(), e.getPosition().getY() );
             origDim = rectangularObject.getDimension();
         }
 
-        public void mouseReleased( MouseEvent e ) {
+        public void mouseReleased( PInputEvent e ) {
             startLocation = null;
             origDim = null;
         }
 
-        public void mouseDragged( MouseEvent e ) {
+        public void mouseDragged( PInputEvent e ) {
             if( startLocation == null ) {
                 mousePressed( e );
             }
             else {
-                Point fin = e.getPoint();
+                Point2D fin = e.getPosition();
 
-                Point rel = new Point( fin.x - startLocation.x, fin.y - startLocation.y );
+                Point2D.Double rel = new Point2D.Double( fin.getX() - startLocation.x, fin.getY() - startLocation.y );
                 double dx = rel.x;
                 double dy = rel.y;
 
