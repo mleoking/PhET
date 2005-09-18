@@ -9,8 +9,6 @@ import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.plaf.basic.ComboPopup;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 import java.util.Vector;
@@ -45,7 +43,7 @@ import java.util.Vector;
  */
 public class PComboBox extends JComboBox implements Serializable {
 
-    private MouseEvent currentEvent;
+//    private MouseEvent currentEvent;
     private PSwing pSwing;
     private PSwingCanvas canvas;
 
@@ -94,13 +92,6 @@ public class PComboBox extends JComboBox implements Serializable {
         setUI( new ZBasicComboBoxUI() );
     }
 
-    /**
-     * Stores the most recent mousePressed ZMouseEvent
-     */
-    private void setCurrentEvent( MouseEvent me ) {
-        currentEvent = me;
-    }
-
     public void setEnvironment( PSwing pSwing, PSwingCanvas canvas ) {
         this.pSwing = pSwing;
         this.canvas = canvas;
@@ -112,23 +103,6 @@ public class PComboBox extends JComboBox implements Serializable {
      * to create our PopupMenu rather than the default
      */
     class ZBasicComboBoxUI extends BasicComboBoxUI {
-        EventGrabber eg = new EventGrabber();
-
-        /**
-         * Add our listener to the front of the button's list
-         */
-        public void configureArrowButton() {
-            arrowButton.addMouseListener( eg );
-            super.configureArrowButton();
-        }
-
-        /**
-         * Add the listener to the front of the combo's list
-         */
-        protected void installListeners() {
-            comboBox.addMouseListener( eg );
-            super.installListeners();
-        }
 
         /**
          * Create our Popup instead of theirs
@@ -155,7 +129,7 @@ public class PComboBox extends JComboBox implements Serializable {
 
 
         /**
-         * Correctly computes the bounds for the Popup in Jazz if a
+         * Computes the bounds for the Popup in Jazz if a
          * ZMouseEvent has been received.  Otherwise, it uses the
          * default algorithm for placing the popup.
          *
@@ -166,29 +140,9 @@ public class PComboBox extends JComboBox implements Serializable {
          * @return The bounds for the PopupMenu
          */
         protected Rectangle computePopupBounds( int px, int py, int pw, int ph ) {
-            if( currentEvent != null ) {
-
-                Rectangle2D r = getNodeBoundsInCanvas();
-                Rectangle sup = super.computePopupBounds( px, py, pw, ph );
-                return new Rectangle( (int)r.getX(), (int)r.getMaxY(), (int)sup.getWidth(), (int)sup.getHeight() );
-            }
-            else {
-                return super.computePopupBounds( px, py, pw, ph );
-            }
-
-        }
-
-    }
-
-    /**
-     * Grabs mousePressed events to capture the appropriate node for this
-     * ComboBox
-     */
-    class EventGrabber extends MouseAdapter {
-        public void mousePressed( MouseEvent me ) {
-            if( me instanceof MouseEvent ) {
-                setCurrentEvent( (MouseEvent)me );
-            }
+            Rectangle2D r = getNodeBoundsInCanvas();
+            Rectangle sup = super.computePopupBounds( px, py, pw, ph );
+            return new Rectangle( (int)r.getX(), (int)r.getMaxY(), (int)sup.getWidth(), (int)sup.getHeight() );
         }
     }
 
