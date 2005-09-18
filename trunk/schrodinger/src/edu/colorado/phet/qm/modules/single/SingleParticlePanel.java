@@ -14,7 +14,6 @@ import edu.colorado.phet.qm.view.gun.SingleParticleGun;
 
 public class SingleParticlePanel extends SchrodingerPanel {
     private SingleParticleGun abstractGun;
-//    private AutoFire autoFire;
 
     public SingleParticlePanel( SchrodingerModule module ) {
         super( module );
@@ -24,25 +23,7 @@ public class SingleParticlePanel extends SchrodingerPanel {
         getIntensityDisplay().setProbabilityScaleFudgeFactor( 5 );
         getIntensityDisplay().setOpacity( 255 );
         getIntensityDisplay().setNormDecrement( 1.0 );
-
-//        BasicGraphicsSetup setup = new BasicGraphicsSetup();
-//        setup.setAntialias( false );
-//        setup.setNearestNeighborInterpolation( );
-//        setup.setRenderQuality( false );
-//        addGraphicsSetup( setup );
-
-//        addGraphicsSetup( new BasicGraphicsSetup() );
-//        RepaintDebugGraphic.enable( this, module.getClock() );
     }
-
-//    protected void paintComponent( Graphics graphics ) {
-//        Graphics2D g2 = (Graphics2D)graphics;
-//        g2.setRenderingHint( RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED );
-//        g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF );
-////        System.out.println( "g2.getRenderingHint( RenderingHints.KEY_INTERPOLATION ) = " + g2.getRenderingHint( RenderingHints.KEY_INTERPOLATION ) );
-////        g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, null);
-//        super.paintComponent( graphics );
-//    }
 
     public void reset() {
         super.reset();

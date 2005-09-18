@@ -24,38 +24,27 @@ import java.awt.image.BufferedImage;
  */
 
 public class DetectorSheet extends PNode {
+    private SchrodingerPanel schrodingerPanel;
+
     private int width;
     private int height;
     private PhetShapeGraphic backgroundGraphic;
     private BufferedImage bufferedImage;
     private PImage screenGraphic;
-
-    private SchrodingerPanel schrodingerPanel;
     private int opacity = 255;
-//    private Font buttonFont = new Font( "Lucida Sans", Font.BOLD, 10 );
-//    private Insets buttonInsets = new Insets( 2, 2, 2, 2 );
-//    private PhetGraphic saveGraphic;
     private double brightness;
     private IntegralModelElement fadeElement;
     private PhotonColorMap.ColorData rootColor = new PhotonColorMap.ColorData( VisibleColor.MIN_WAVELENGTH );
     private ImageFade imageFade;
     private boolean fadeEnabled = true;
-    private DetectorSheetPanel detectorSheetPanel;
-//    private PhetGraphic detectorSheetPanelGraphic;
+    private DetectorSheetControlPanelPNode detectorSheetControlPanelPNode;
 
     public DetectorSheet( final SchrodingerPanel schrodingerPanel, int width, int height ) {
-        super();
-
         this.schrodingerPanel = schrodingerPanel;
         bufferedImage = new BufferedImage( width, height, BufferedImage.TYPE_INT_RGB );
         screenGraphic = new PImage( bufferedImage );
-        screenGraphic.getTransform().shear( 0.45, 0 );
-
-        screenGraphic.translate( -13, 20 );
-
         addChild( screenGraphic );
 
-//        backgroundGraphic = new PhetShapeGraphic( schrodingerPanel, new Rectangle( width, height ), Color.white, new BasicStroke( 3 ), Color.black );
         backgroundGraphic = new PhetShapeGraphic( schrodingerPanel, new Rectangle( width, height ), Color.black, new BasicStroke( 3 ), Color.blue );
         backgroundGraphic.paint( bufferedImage.createGraphics() );
 
@@ -66,30 +55,25 @@ public class DetectorSheet extends PNode {
         this.width = width;
         this.height = height;
 
-
-//        PhetGraphic saveGraphic = PhetJComponent.newInstance( schrodingerPanel, saveScreenJButton );
-//        addGraphic( saveGraphic );
-//        saveGraphic.setLocation( screenGraphic.getWidth(), screenGraphic.getY() );
-//        this.saveGraphic = saveGraphic;
-//        this.saveGraphic.setVisible( false );
-
         setBrightness( 1.0 );
-
         imageFade = new ImageFade();
-
         fadeElement = new IntegralModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 if( fadeEnabled ) {
                     imageFade.fade( getBufferedImage() );
-//                    screenGraphic.setBoundsDirty();
                     screenGraphic.repaint();
                 }
             }
         }, 1 );
-        detectorSheetPanel = new DetectorSheetPanel( this );
-//        detectorSheetPanelGraphic = PhetJComponent.newInstance( schrodingerPanel, detectorSheetPanel );
-        detectorSheetPanel.setOffset( screenGraphic.getWidth(), 0 );
-        addChild( detectorSheetPanel );
+        detectorSheetControlPanelPNode = new DetectorSheetControlPanelPNode( this );
+        addChild( detectorSheetControlPanelPNode );
+    }
+
+    protected void layoutChildren() {
+        detectorSheetControlPanelPNode.setOffset( screenGraphic.getFullBounds().getWidth(), 0 );
+        screenGraphic.setTransform( new AffineTransform() );
+        screenGraphic.getTransformReference( true ).shear( 0.45, 0 );
+        screenGraphic.translate( -13, 20 );
     }
 
     public void setFadeEnabled( boolean fade ) {
@@ -130,7 +114,7 @@ public class DetectorSheet extends PNode {
             detectionIntensityCounter.addDetectionEvent();
         }
 //        System.out.println( "add detect, x="+x+", y="+y+", opacity = " + opacity );
-        detectorSheetPanel.setClearButtonVisible( true );
+        detectorSheetControlPanelPNode.setClearButtonVisible( true );
 
         setSaveButtonVisible( true );
         Graphics2D g2 = bufferedImage.createGraphics();
@@ -144,10 +128,6 @@ public class DetectorSheet extends PNode {
         repaint();
     }
 
-//    public void showSaveButton() {
-//        saveGraphic.setVisible( true );
-//    }
-
     public BufferedImage getBufferedImage() {
         return bufferedImage;
     }
@@ -156,7 +136,7 @@ public class DetectorSheet extends PNode {
         bufferedImage = new BufferedImage( width, height, BufferedImage.TYPE_INT_RGB );
         backgroundGraphic.paint( bufferedImage.createGraphics() );
         screenGraphic.setImage( bufferedImage );
-        detectorSheetPanel.setClearButtonVisible( false );
+        detectorSheetControlPanelPNode.setClearButtonVisible( false );
     }
 
     public int getOpacity() {
@@ -172,7 +152,7 @@ public class DetectorSheet extends PNode {
     }
 
     public void setSaveButtonVisible( boolean b ) {
-        detectorSheetPanel.setSaveButtonVisible( b );
+        detectorSheetControlPanelPNode.setSaveButtonVisible( b );
     }
 
     public void setDisplayPhotonColor( Photon photon ) {
@@ -184,21 +164,21 @@ public class DetectorSheet extends PNode {
     }
 
     private void addBrightnessSlider() {
-        detectorSheetPanel.setBrightnessSliderVisible( true );
+        detectorSheetControlPanelPNode.setBrightnessSliderVisible( true );
     }
 
     private void addFadeCheckBox() {
-        detectorSheetPanel.setFadeCheckBoxVisible( true );
+        detectorSheetControlPanelPNode.setFadeCheckBoxVisible( true );
     }
 
     public void setHighIntensityMode() {
         addBrightnessSlider();
         addFadeCheckBox();
-        detectorSheetPanel.setTypeControlVisible( true );
-        detectorSheetPanel.setBrightness();
+        detectorSheetControlPanelPNode.setTypeControlVisible( true );
+        detectorSheetControlPanelPNode.setBrightness();
     }
 
-    public DetectorSheetPanel getDetectorSheetPanel() {
-        return detectorSheetPanel;
+    public DetectorSheetControlPanelPNode getDetectorSheetPanel() {
+        return detectorSheetControlPanelPNode;
     }
 }
