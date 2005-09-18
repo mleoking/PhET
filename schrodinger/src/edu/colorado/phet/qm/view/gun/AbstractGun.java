@@ -1,17 +1,20 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view.gun;
 
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Potential;
 import edu.colorado.phet.qm.util.QMLogger;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -20,20 +23,27 @@ import java.awt.event.ComponentEvent;
  * Copyright (c) Jun 23, 2005 by Sam Reid
  */
 
-public abstract class AbstractGun extends GraphicLayerSet {
+public abstract class AbstractGun extends PNode {
     private SchrodingerPanel schrodingerPanel;
-    private PhetImageGraphic gunImageGraphic;
+    private PImage gunImageGraphic;
     private JComboBox comboBox;
 
     public AbstractGun( final SchrodingerPanel schrodingerPanel ) {
-        super( schrodingerPanel );
+        super();
         this.schrodingerPanel = schrodingerPanel;
 //        gunImageGraphic = new PhetImageGraphic( getComponent(), "images/laser.gif" );
 //        gunImageGraphic = new PhetImageGraphic( getComponent(), "images/raygun3-scaled.gif" );
         String imageResourceName = getGunImageResource();
-        gunImageGraphic = new PhetImageGraphic( getComponent(), imageResourceName );
-        gunImageGraphic.setLocation( getOrigGunLocation() );
-        addGraphic( gunImageGraphic );
+        BufferedImage image = null;
+        try {
+            image = ImageLoader.loadBufferedImage( imageResourceName );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        gunImageGraphic = new PImage( image );
+        gunImageGraphic.setOffset( getOrigGunLocation() );
+        addChild( gunImageGraphic );
         this.comboBox = initComboBox();
         schrodingerPanel.add( comboBox );
         setVisible( true );
@@ -63,9 +73,12 @@ public abstract class AbstractGun extends GraphicLayerSet {
     }
 
     public void setLocation( int x, int y ) {
-        super.setLocation( x, y );
-        double scaleX = schrodingerPanel.getGraphicTx().getScaleX();
-        double scaleY = schrodingerPanel.getGraphicTx().getScaleY();
+        super.setOffset( x, y );
+//        double scaleX = schrodingerPanel.getGraphicTx().getScaleX();
+//        double scaleY = schrodingerPanel.getGraphicTx().getScaleY();
+        //todo piccolo
+        double scaleX = 1.0;
+        double scaleY = 1.0;
         comboBox.setBounds( (int)( ( x - comboBox.getPreferredSize().width - 2 ) * scaleX ), (int)( ( y + getControlOffsetY() ) * scaleY ),
                             comboBox.getPreferredSize().width, comboBox.getPreferredSize().height );
         QMLogger.debug( "comboBox.getLocation() = " + comboBox.getLocation() );
@@ -76,11 +89,12 @@ public abstract class AbstractGun extends GraphicLayerSet {
         comboBox.setVisible( visible );
     }
 
-    public void componentResized( ComponentEvent e ) {
-        this.setLocation( getLocation() );//to fix combobox
-    }
+    //todo piccolo
+//    public void componentResized( ComponentEvent e ) {
+//        this.setLocation( getOffset());//to fix combobox
+//    }
 
-    public PhetImageGraphic getGunImageGraphic() {
+    public PImage getGunImageGraphic() {
         return gunImageGraphic;
     }
 
@@ -97,7 +111,7 @@ public abstract class AbstractGun extends GraphicLayerSet {
     }
 
     public int getGunWidth() {
-        return gunImageGraphic.getWidth();
+        return (int)gunImageGraphic.getFullBounds().getWidth();
     }
 
     public SchrodingerPanel getSchrodingerPanel() {
@@ -106,6 +120,10 @@ public abstract class AbstractGun extends GraphicLayerSet {
 
     protected void setComboBox( JComboBox comboBox ) {
         this.comboBox = comboBox;
+    }
+
+    public PSwingCanvas getComponent() {
+        return schrodingerPanel;
     }
 
     public static interface MomentumChangeListener {

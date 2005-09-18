@@ -2,12 +2,12 @@
 package edu.colorado.phet.qm.view;
 
 import edu.colorado.phet.common.math.Function;
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.DetectorSet;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.view.gun.Photon;
+import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -20,10 +20,11 @@ import java.util.Random;
  * Copyright (c) Jun 23, 2005 by Sam Reid
  */
 
-public class IntensityDisplay extends GraphicLayerSet {
+public class IntensityDisplay extends PNode {
     private SchrodingerModule schrodingerModule;
     private SchrodingerPanel schrodingerPanel;
     private int detectorHeight;
+    private WavefunctionGraphic wavefunctionGraphic;
     private Random random;
     private DetectorSheet detectorSheet;
     private int h = 2;
@@ -33,14 +34,15 @@ public class IntensityDisplay extends GraphicLayerSet {
     private int multiplier = 1;
     private ArrayList listeners = new ArrayList();
 
-    public IntensityDisplay( SchrodingerModule schrodingerModule, SchrodingerPanel schrodingerPanel, int detectorHeight ) {
+    public IntensityDisplay( SchrodingerModule schrodingerModule, SchrodingerPanel schrodingerPanel, int detectorHeight, WavefunctionGraphic wavefunctionGraphic ) {
         this.schrodingerModule = schrodingerModule;
         this.schrodingerPanel = schrodingerPanel;
         this.detectorHeight = detectorHeight;
+        this.wavefunctionGraphic = wavefunctionGraphic;
         this.random = new Random();
-        detectorSheet = new DetectorSheet( schrodingerPanel, getWidth(), detectorHeight );
-        addGraphic( detectorSheet );
-        detectorSheet.setLocation( schrodingerPanel.getWavefunctionGraphic().getX(), 0 );
+        detectorSheet = new DetectorSheet( schrodingerPanel, wavefunctionGraphic.getWavefunctionWidth(), detectorHeight );
+        addChild( detectorSheet );
+        detectorSheet.setOffset( wavefunctionGraphic.getX(), 0 );
     }
 
     public void tryDetecting() {
@@ -150,9 +152,9 @@ public class IntensityDisplay extends GraphicLayerSet {
         getDiscreteModel().reduceWavefunctionNorm( normDecrement );
     }
 
-    public int getWidth() {
-        return getSchrodingerPanel().getWavefunctionGraphic().getWavefunctionWidth();
-    }
+//    public int getWidth() {
+//        return getSchrodingerPanel().getWavefunctionGraphic().getWavefunctionWidth();
+//    }
 
     public Wavefunction getDetectionRegion() {
         return getDiscreteModel().getDetectionRegion( 0, getDetectionY(),

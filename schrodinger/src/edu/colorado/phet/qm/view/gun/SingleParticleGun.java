@@ -2,16 +2,15 @@
 package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.qm.phetcommon.ImageComboBox;
-import edu.colorado.phet.qm.phetcommon.WiggleMe;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.AffineTransform;
 import java.io.IOException;
 
 /**
@@ -29,7 +28,7 @@ public class SingleParticleGun extends AbstractGun {
     private ImageIcon outIcon;
     private ImageIcon inIcon;
     private PhotonBeamParticle photonBeamParticle;
-    private PhetGraphic fireJC;
+    private PSwing fireJC;
 
     public SingleParticleGun( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
@@ -68,43 +67,49 @@ public class SingleParticleGun extends AbstractGun {
                 fireOne.setEnabled( false );
                 clearAndFire();
                 fireOne.setIcon( outIcon );
-                getGunImageGraphic().clearTransform();
+                getGunImageGraphic().setTransform( new AffineTransform() );
                 getSchrodingerPanel().setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
             }
         } );
         fireOne.addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 if( fireButtonEnabled() ) {
-                    getGunImageGraphic().clearTransform();
+                    getGunImageGraphic().setTransform( new AffineTransform() );
                     getGunImageGraphic().translate( 0, 10 );
                 }
             }
 
             public void mouseReleased( MouseEvent e ) {
                 if( fireButtonEnabled() ) {
-                    getGunImageGraphic().clearTransform();
+                    getGunImageGraphic().setTransform( new AffineTransform() );
                 }
             }
         } );
-        fireJC = PhetJComponent.newInstance( schrodingerPanel, fireOne );
-        fireJC.setCursorHand();
-        addGraphic( fireJC );
-        fireJC.setLocation( getGunImageGraphic().getWidth() + 2 + getFireButtonInsetDX(), getControlOffsetY() + 0 );
+        fireJC = new PSwing( schrodingerPanel, fireOne );
+//        fireJC.setCursorHand();
+        addChild( fireJC );
+        fireJC.setOffset( getGunImageGraphic().getWidth() + 2 + getFireButtonInsetDX(), getControlOffsetY() + 0 );
 
-        final WiggleMe wiggleMe = new WiggleMe( getSchrodingerPanel(), getSchrodingerPanel().getSchrodingerModule().getModel(), "Push the Button", fireJC );
-        schrodingerPanel.addGraphic( wiggleMe, Double.POSITIVE_INFINITY );
-        getSchrodingerPanel().addMouseListener( new MouseAdapter() {
-            public void mousePressed( MouseEvent e ) {
-                wiggleMe.setVisible( false );
-            }
-        } );
+        //todo piccolo
+//        final WiggleMe wiggleMe = new WiggleMe( getSchrodingerPanel(), getSchrodingerPanel().getSchrodingerModule().getModel(), "Push the Button", fireJC );
+//        schrodingerPanel.addWorldChild( wiggleMe, Double.POSITIVE_INFINITY );
+//        getSchrodingerPanel().addMouseListener( new MouseAdapter() {
+//            public void mousePressed( MouseEvent e ) {
+//                wiggleMe.setVisible( false );
+//            }
+//        } );
 
         setupObject( gunItems[0] );
         autoFire = new AutoFire( this, schrodingerPanel.getIntensityDisplay() );
         JCheckBox jcb = new AutoFireCheckBox( autoFire );
-        PhetGraphic autoJC = PhetJComponent.newInstance( schrodingerPanel, jcb );
-        addGraphic( autoJC );
-        autoJC.setLocation( fireJC.getX(), fireJC.getY() + fireJC.getHeight() + 5 );
+        PSwing autoJC = new PSwing( schrodingerPanel, jcb );
+        addChild( autoJC );
+        autoJC.setOffset( fireJC.getX(), fireJC.getY() + fireJC.getHeight() + 5 );
+    }
+
+    protected void layoutChildren() {
+        super.layoutChildren();
+        fireJC.setOffset( getGunImageGraphic().getWidth() + 2 + getFireButtonInsetDX(), getControlOffsetY() + 0 );
     }
 
     private boolean fireButtonEnabled() {
@@ -118,14 +123,16 @@ public class SingleParticleGun extends AbstractGun {
                 if( magnitude <= AutoFire.THRESHOLD ) {
                     if( !fireButtonEnabled() ) {
                         fireOne.setEnabled( true );
-                        fireJC.setCursorHand();
+                        //todo piccolo
+//                        fireJC.setCursorHand();
                     }
 
                 }
                 else {
                     if( fireButtonEnabled() ) {
                         fireOne.setEnabled( false );
-                        fireJC.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+                        //todo piccolo
+//                        fireJC.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
                     }
 
                 }
@@ -169,7 +176,6 @@ public class SingleParticleGun extends AbstractGun {
             currentObject = particle;
         }
     }
-
 
     protected JComboBox initComboBox() {
         Photon photon = new Photon( this, "Photons", "images/photon-thumb.jpg" );

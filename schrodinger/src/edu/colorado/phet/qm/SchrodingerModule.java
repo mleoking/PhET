@@ -1,11 +1,11 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm;
 
-import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.PhetFrame;
+import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.qm.controls.SchrodingerControlPanel;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
@@ -22,7 +22,7 @@ import edu.colorado.phet.qm.view.SchrodingerPanel;
  * Copyright (c) Jun 10, 2005 by Sam Reid
  */
 
-public class SchrodingerModule extends Module {
+public class SchrodingerModule extends PiccoloModule {
     private SchrodingerPanel schrodingerPanel;
     private DiscreteModel discreteModel;
     private SchrodingerControlPanel schrodingerControlPanel;
@@ -113,7 +113,7 @@ public class SchrodingerModule extends Module {
     }
 
     protected void setSchrodingerPanel( SchrodingerPanel schrodingerPanel ) {
-        setApparatusPanel( schrodingerPanel );
+        setPhetPCanvas( schrodingerPanel );
         this.schrodingerPanel = schrodingerPanel;
     }
 
@@ -128,7 +128,7 @@ public class SchrodingerModule extends Module {
 
     public void removePotential( RectangularPotentialGraphic rectangularPotentialGraphic ) {
         getDiscreteModel().removePotential( rectangularPotentialGraphic.getPotential() );
-        getSchrodingerPanel().removeGraphic( rectangularPotentialGraphic );
+        getSchrodingerPanel().removePotentialGraphic( rectangularPotentialGraphic );
     }
 
     public void clearPotential() {

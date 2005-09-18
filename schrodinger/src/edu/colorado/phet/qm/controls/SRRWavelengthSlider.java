@@ -6,10 +6,10 @@ import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.QuickTimer;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PText;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -24,12 +24,12 @@ import java.util.ArrayList;
  * Copyright (c) Jul 18, 2005 by Sam Reid
  */
 
-public class SRRWavelengthSlider extends GraphicLayerSet {
+public class SRRWavelengthSlider extends PNode {
     private SpectrumSliderKnob spectrumSliderKnob;
     private Function.LinearFunction linearFunction;
 
     public SRRWavelengthSlider( Component component ) {
-        super( component );
+        super();
         double minWavelength = VisibleColor.MIN_WAVELENGTH;
         double maxWavelength = VisibleColor.MAX_WAVELENGTH;
 
@@ -44,10 +44,12 @@ public class SRRWavelengthSlider extends GraphicLayerSet {
             g2.fillRect( i, 0, 1, image.getHeight() );
         }
         System.out.println( "image construction time= " + quickTimer );
-        addGraphic( new PhetImageGraphic( component, image ) );
+        addChild( new PImage( image ) );
+
 
         spectrumSliderKnob = new SpectrumSliderKnob( component, new Dimension( 20, 20 ), 0 );
-        addGraphic( spectrumSliderKnob );
+        //todo piccolo
+//        addChild( spectrumSliderKnob );
         spectrumSliderKnob.setLocation( 0, image.getHeight() );
         spectrumSliderKnob.setCursorHand();
         spectrumSliderKnob.addTranslationListener( new TranslationListener() {
@@ -60,10 +62,11 @@ public class SRRWavelengthSlider extends GraphicLayerSet {
             }
         } );
 
-        PhetTextGraphic phetTextGraphic = new PhetTextGraphic( component, new Font( "Lucida Sans", Font.BOLD, 14 ), "Wavelength", Color.blue );
-        addGraphic( phetTextGraphic );
-        phetTextGraphic.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-        phetTextGraphic.setLocation( 0, -phetTextGraphic.getHeight() - 5 );
+        PText phetTextGraphic = new PText( "Wavelength" );
+        addChild( phetTextGraphic );
+        //todo piccolo
+//        phetTextGraphic.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+        phetTextGraphic.setOffset( 0, -phetTextGraphic.getHeight() - 5 );
 //        spectrumSliderKnob.addMouseInputListener( new MouseInputAdapter() {
 //            boolean dragging = false;
 //            Point startPoint = null;

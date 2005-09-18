@@ -2,8 +2,7 @@
 package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.math.Function;
-import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.piccolo.pswing.PSwing;
 
 import javax.swing.*;
 
@@ -15,34 +14,34 @@ import javax.swing.*;
  */
 public class Atom extends GunParticle {
     private JSlider mass;
-    private PhetGraphic massGraphic;
+    private PSwing massGraphic;
     private JSlider velocity;
-    private PhetGraphic velocityGraphic;
+    private PSwing velocityGraphic;
 
     public Atom( AbstractGun gun, String label, String imageLocation ) {
         super( gun, label, imageLocation );
         mass = new JSlider( JSlider.HORIZONTAL, 0, 1000, 1000 / 2 );
         mass.setBorder( BorderFactory.createTitledBorder( "Mass" ) );
-        massGraphic = PhetJComponent.newInstance( gun.getComponent(), mass );
+        massGraphic = new PSwing( gun.getComponent(), mass );
 
         velocity = new JSlider( JSlider.HORIZONTAL, 0, 1000, 1000 / 2 );
         velocity.setBorder( BorderFactory.createTitledBorder( "Velocity" ) );
-        velocityGraphic = PhetJComponent.newInstance( gun.getComponent(), velocity );
+        velocityGraphic = new PSwing( gun.getComponent(), velocity );
     }
 
     public void setup( AbstractGun gun ) {
         gun.getSchrodingerModule().getDiscreteModel().setPropagatorModifiedRichardson();
 
-        gun.addGraphic( massGraphic );
-        massGraphic.setLocation( -massGraphic.getWidth() - 2, gun.getComboBox().getHeight() + getGunGraphic().getControlOffsetY() );
+        gun.addChild( massGraphic );
+        massGraphic.setOffset( -massGraphic.getWidth() - 2, gun.getComboBox().getHeight() + getGunGraphic().getControlOffsetY() );
 
-        gun.addGraphic( velocityGraphic );
-        velocityGraphic.setLocation( -velocityGraphic.getWidth() - 2, massGraphic.getY() + massGraphic.getHeight() );
+        gun.addChild( velocityGraphic );
+        velocityGraphic.setOffset( -velocityGraphic.getWidth() - 2, massGraphic.getY() + massGraphic.getHeight() );
     }
 
     public void deactivate( AbstractGun abstractGun ) {
-        abstractGun.removeGraphic( massGraphic );
-        abstractGun.removeGraphic( velocityGraphic );
+        abstractGun.removeChild( massGraphic );
+        abstractGun.removeChild( velocityGraphic );
     }
 
     public double getStartPy() {

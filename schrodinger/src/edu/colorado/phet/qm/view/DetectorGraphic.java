@@ -2,16 +2,11 @@
 package edu.colorado.phet.qm.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.qm.SchrodingerLookAndFeel;
 import edu.colorado.phet.qm.model.Detector;
+import edu.umd.cs.piccolo.nodes.PText;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 
 /**
@@ -24,7 +19,7 @@ import java.text.DecimalFormat;
 public class DetectorGraphic extends RectangleGraphic {
     private Detector detector;
     private DecimalFormat format = new DecimalFormat( "0.00" );
-    private PhetTextGraphic probDisplay;
+    private PText probDisplay;
     private PhetGraphic closeGraphic;
     private Color darkGreen;
 //    private static Color fill = new Color( 200, 180, 150, 65 );
@@ -37,23 +32,27 @@ public class DetectorGraphic extends RectangleGraphic {
         this.detector = detector;
 
         darkGreen = new Color( 50, 230, 75 );
-        probDisplay = new PhetTextGraphic( schrodingerPanel, new Font( "Lucida Sans", Font.BOLD, 14 ), "", darkGreen );
-        probDisplay.setIgnoreMouse( true );
-        addGraphic( probDisplay );
+        probDisplay = new PText();
+        // todo piccolo
+        // schrodingerPanel, new Font( "Lucida Sans", Font.BOLD, 14 ), "", darkGreen
+        probDisplay.setPickable( false );
+        probDisplay.setChildrenPickable( false );
+        addChild( probDisplay );
         detector.addObserver( new SimpleObserver() {
             public void update() {
                 DetectorGraphic.this.update();
             }
         } );
 
-        JButton closeButton = SchrodingerLookAndFeel.createCloseButton();
-        closeButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                schrodingerPanel.removeDetectorGraphic( DetectorGraphic.this );
-            }
-        } );
-        closeGraphic = PhetJComponent.newInstance( schrodingerPanel, closeButton );
-        addGraphic( closeGraphic );
+        //todo piccolo
+//        JButton closeButton = SchrodingerLookAndFeel.createCloseButton();
+//        closeButton.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                schrodingerPanel.removeDetectorGraphic( DetectorGraphic.this );
+//            }
+//        } );
+//        closeGraphic = PhetJComponent.newInstance( schrodingerPanel, closeButton );
+//        addChild( closeGraphic );
 
         update();
     }
@@ -73,12 +72,12 @@ public class DetectorGraphic extends RectangleGraphic {
 //        System.out.println( "probPercent = " + probPercent );
         String formatted = format.format( probPercent );
         probDisplay.setText( formatted + " %" );
-        probDisplay.setLocation( (int)viewRect.getX(), (int)viewRect.getY() );
+        probDisplay.setOffset( (int)viewRect.getX(), (int)viewRect.getY() );
         if( detector.isEnabled() ) {
-            probDisplay.setColor( darkGreen );
+            probDisplay.setTextPaint( darkGreen );
         }
         else {
-            probDisplay.setColor( Color.gray );
+            probDisplay.setTextPaint( Color.gray );
         }
         closeGraphic.setLocation( (int)( viewRect.getX() - closeGraphic.getWidth() ), (int)viewRect.getY() - closeGraphic.getHeight() );
     }

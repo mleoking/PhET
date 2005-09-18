@@ -1,8 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.intensity;
 
-import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.qm.controls.SlitControlPanel;
 import edu.colorado.phet.qm.view.ColorMap;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
@@ -26,7 +25,7 @@ public class IntensityPanel extends SchrodingerPanel {
     private IntensityModule intensityModule;
     private SmoothIntensityDisplay smoothIntensityDisplay;
     private boolean smoothScreen = false;
-    private PhetGraphic slitControlGraphic;
+    private PSwing slitControlGraphic;
     private SlitControlPanel slitControlPanel;
     private SplitColorMap splitColorMap;
     private HighIntensityGun highIntensityGun;
@@ -43,7 +42,7 @@ public class IntensityPanel extends SchrodingerPanel {
         smoothIntensityDisplay = new SmoothIntensityDisplay( getIntensityDisplay() );
         setSmoothScreen( false );
 
-        PhetGraphic ds = getDoubleSlitPanelGraphic();
+        PSwing ds = getDoubleSlitPanelGraphic();
         getDoubleSlitPanel().addDoubleSlitCheckBoxListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setControlsEnabled( getDoubleSlitPanel().isDoubleSlitEnabled() );
@@ -51,9 +50,9 @@ public class IntensityPanel extends SchrodingerPanel {
         } );
 
         slitControlPanel = new SlitControlPanel( intensityModule );
-        slitControlGraphic = PhetJComponent.newInstance( this, slitControlPanel );
-        addGraphic( slitControlGraphic );
-        slitControlGraphic.setLocation( ds.getX(), ds.getY() + ds.getHeight() + 5 );
+        slitControlGraphic = new PSwing( this, slitControlPanel );
+        addWorldChild( slitControlGraphic );
+        slitControlGraphic.setOffset( ds.getX(), ds.getY() + ds.getHeight() + 5 );
 
 //        getIntensityDisplay().getDetectorSheet().setFadeEnabled( true );
 //        getIntensityDisplay().getDetectorSheet().addFadeCheckBox();
@@ -66,7 +65,7 @@ public class IntensityPanel extends SchrodingerPanel {
         getIntensityDisplay().getDetectorSheet().getDetectorSheetPanel().setBrightness();
     }
 
-    public PhetGraphic getSlitControlGraphic() {
+    public PSwing getSlitControlGraphic() {
         return slitControlGraphic;
     }
 

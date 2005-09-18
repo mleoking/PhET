@@ -51,7 +51,7 @@ public class GunPGraphic extends PNode {
         addChild( autoRepeatGraphic );
         autoRepeatGraphic.setOffset( fireButtonGraphic.getFullBounds().getX(), fireButtonGraphic.getFullBounds().getMaxY() );
 
-        WiggleMe wiggleMe = new WiggleMe( "Push the Button" );
+        WiggleMe wiggleMe = new WiggleMe( "Push the Button", 100, 100 );
         addChild( wiggleMe );
         wiggleMe.setOscillating( true );
 
