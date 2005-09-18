@@ -2,8 +2,8 @@
 package edu.colorado.phet.tests.piccolo;
 
 import edu.colorado.phet.common.view.util.SwingUtils;
-import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.piccolo.BoundedDragHandler;
+import edu.colorado.phet.piccolo.CursorHandler;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -49,6 +49,7 @@ public class TestBoundedDragHandler {
         final PText pText = new PText( "Hello Piccolo" );
         piccoloCanvas.getLayer().addChild( pText );
         pText.setOffset( 100, 100 );
+//        pText.addInputEventListener( new DefaultDragHandler() );
         pText.addInputEventListener( new BoundedDragHandler( path ) );
         pText.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         pText.rotate( Math.PI );
@@ -61,10 +62,10 @@ public class TestBoundedDragHandler {
         System.out.println( "pathBounds[global] = " + pathBounds );
         piccoloCanvas.setPanEventHandler( null );
 
-        PActivity pActivity=new PActivity( -1,2000){
+        PActivity pActivity = new PActivity( -1, 2000 ) {
             protected void activityStep( long elapsedTime ) {
                 super.activityStep( elapsedTime );
-                pText.rotateAboutPoint( Math.PI/32,pText.getWidth()/2,pText.getHeight()/2);
+                pText.rotateAboutPoint( Math.PI / 32, pText.getWidth() / 2, pText.getHeight() / 2 );
             }
         };
         piccoloCanvas.getRoot().addActivity( pActivity );
