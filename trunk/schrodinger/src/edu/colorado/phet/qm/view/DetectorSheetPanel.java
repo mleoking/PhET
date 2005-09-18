@@ -4,9 +4,9 @@ package edu.colorado.phet.qm.view;
 import edu.colorado.phet.common.view.components.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.qm.modules.intensity.IntensityPanel;
+import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -14,7 +14,6 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 
 /**
@@ -24,7 +23,7 @@ import java.text.DecimalFormat;
  * Copyright (c) Jul 27, 2005 by Sam Reid
  */
 
-public class DetectorSheetPanel extends GraphicLayerSet {
+public class DetectorSheetPanel extends PNode {
     private JButton clearButton;
     private Insets buttonInsets = new Insets( 2, 2, 2, 2 );
     private Font buttonFont = new Font( "Lucida Sans", Font.BOLD, 10 );
@@ -52,11 +51,12 @@ public class DetectorSheetPanel extends GraphicLayerSet {
         saveScreenJButton = new JButton( "Save" );
         saveScreenJButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                BufferedImage image = detectorSheet.copyScreen();
-                SavedScreenGraphic savedScreenGraphic = new SavedScreenGraphic( getSchrodingerPanel(), image );
-
-                savedScreenGraphic.setLocation( 130, 130 );
-                getSchrodingerPanel().addGraphic( savedScreenGraphic );
+                //todo piccolo
+//                BufferedImage image = detectorSheet.copyScreen();
+//                SavedScreenGraphic savedScreenGraphic = new SavedScreenGraphic( getSchrodingerPanel(), image );
+//
+//                savedScreenGraphic.setLocation( 130, 130 );
+//                getSchrodingerPanel().addWorldChild( savedScreenGraphic );
             }
         } );
         saveScreenJButton.setMargin( buttonInsets );
@@ -113,10 +113,11 @@ public class DetectorSheetPanel extends GraphicLayerSet {
 
         display = PhetJComponent.newInstance( getSchrodingerPanel(), displayPanel );
 
-        addGraphic( saveClearGraphic );
-        addGraphic( brightnessGraphic );
-        addGraphic( fadeGraphic );
-        addGraphic( display );
+        //todo piccolo
+//        addChild( saveClearGraphic );
+//        addChild( brightnessGraphic );
+//        addChild( fadeGraphic );
+//        addChild( display );
 
         putBelow( brightnessGraphic, saveClearGraphic, 1 );
         fadeGraphic.setLocation( saveClearGraphic.getX() + saveClearGraphic.getWidth() + 2, saveClearGraphic.getY() + saveClearGraphic.getHeight() / 2 - fadeGraphic.getHeight() / 2 );

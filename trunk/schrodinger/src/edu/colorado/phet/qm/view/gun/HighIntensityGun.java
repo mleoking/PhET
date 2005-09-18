@@ -4,17 +4,18 @@ package edu.colorado.phet.qm.view.gun;
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.components.ModelSlider;
-import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.qm.phetcommon.ImageComboBox;
-import edu.colorado.phet.qm.phetcommon.WiggleMe;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.text.DecimalFormat;
 
 /**
@@ -51,22 +52,23 @@ public class HighIntensityGun extends AbstractGun {
             }
         } );
 //        intensitySlider.setBorder( BorderFactory.createTitledBorder( "Intensity" ) );
-        PhetGraphic intensityGraphic = PhetJComponent.newInstance( schrodingerPanel, intensitySlider );
-        PhetGraphic onCheckboxGraphic = PhetJComponent.newInstance( schrodingerPanel, alwaysOnCheckBox );
+        PSwing intensityGraphic = new PSwing( schrodingerPanel, intensitySlider );
+        PSwing onCheckboxGraphic = new PSwing( schrodingerPanel, alwaysOnCheckBox );
 
-        addGraphic( onCheckboxGraphic );
-        addGraphic( intensityGraphic );
-        intensityGraphic.setLocation( getGunImageGraphic().getWidth() + 2 + getFireButtonInsetDX(), 0 + getControlOffsetY() );
+        addChild( onCheckboxGraphic );
+        addChild( intensityGraphic );
+        intensityGraphic.setOffset( getGunImageGraphic().getWidth() + 2 + getFireButtonInsetDX(), 0 + getControlOffsetY() );
 
-        final WiggleMe wiggleMe = new WiggleMe( getSchrodingerPanel(), getSchrodingerPanel().getSchrodingerModule().getModel(), "Increase the Intensity", intensityGraphic );
-        schrodingerPanel.addGraphic( wiggleMe, Double.POSITIVE_INFINITY );
-        getSchrodingerPanel().addMouseListener( new MouseAdapter() {
-            public void mousePressed( MouseEvent e ) {
-                wiggleMe.setVisible( false );
-            }
-        } );
+        //todo piccolo
+//        final WiggleMe wiggleMe = new WiggleMe( getSchrodingerPanel(), getSchrodingerPanel().getSchrodingerModule().getModel(), "Increase the Intensity", intensityGraphic );
+//        schrodingerPanel.addWorldChild( wiggleMe, Double.POSITIVE_INFINITY );
+//        getSchrodingerPanel().addMouseListener( new MouseAdapter() {
+//            public void mousePressed( MouseEvent e ) {
+//                wiggleMe.setVisible( false );
+//            }
+//        } );
 
-        onCheckboxGraphic.setLocation( intensityGraphic.getX() + intensityGraphic.getWidth() / 2 - onCheckboxGraphic.getWidth() / 2, intensityGraphic.getY() + intensityGraphic.getHeight() + 4 );
+        onCheckboxGraphic.setOffset( intensityGraphic.getX() + intensityGraphic.getWidth() / 2 - onCheckboxGraphic.getWidth() / 2, intensityGraphic.getY() + intensityGraphic.getHeight() + 4 );
         schrodingerPanel.getSchrodingerModule().getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 stepBeam();

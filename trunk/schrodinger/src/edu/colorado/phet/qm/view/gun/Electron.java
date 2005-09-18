@@ -2,8 +2,8 @@
 package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.math.Function;
-import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.piccolo.pswing.PSwing;
+import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;
 
@@ -14,7 +14,7 @@ import javax.swing.*;
  * Copyright (c) Jul 8, 2005 by Sam Reid
  */
 public class Electron extends GunParticle {
-    private PhetGraphic graphic;
+    private PNode graphic;
     private JSlider velocity;
     private double electronMass = 1.0;
 
@@ -22,19 +22,19 @@ public class Electron extends GunParticle {
         super( abstractGun, label, imageLocation );
         velocity = new JSlider( JSlider.HORIZONTAL, 0, 1000, 1000 / 2 );
         velocity.setBorder( BorderFactory.createTitledBorder( "Velocity" ) );
-        graphic = PhetJComponent.newInstance( abstractGun.getComponent(), velocity );
+        graphic = new PSwing( abstractGun.getSchrodingerPanel(), velocity );
     }
 
     public void setup( AbstractGun abstractGun ) {
         abstractGun.getSchrodingerModule().getDiscreteModel().setPropagatorModifiedRichardson();
 
-        abstractGun.addGraphic( graphic );
-        graphic.setLocation( -graphic.getWidth() - 2, abstractGun.getComboBox().getHeight() + 2 + abstractGun.getControlOffsetY() );
+        abstractGun.addChild( graphic );
+        graphic.setOffset( -graphic.getWidth() - 2, abstractGun.getComboBox().getHeight() + 2 + abstractGun.getControlOffsetY() );
     }
 
 
     public void deactivate( AbstractGun abstractGun ) {
-        abstractGun.removeGraphic( graphic );
+        abstractGun.removeChild( graphic );
     }
 
     public double getStartPy() {

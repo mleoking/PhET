@@ -1,13 +1,10 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view;
 
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
-import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.piccolo.pswing.PSwing;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,7 +20,7 @@ import java.io.IOException;
  * Copyright (c) Jul 8, 2005 by Sam Reid
  */
 
-public class SavedScreenGraphic extends GraphicLayerSet {
+public class SavedScreenGraphic extends PNode {
     private SchrodingerPanel schrodingerPanel;
     private BufferedImage image;
     private Insets m = new Insets( 2, 2, 2, 2 );
@@ -31,25 +28,26 @@ public class SavedScreenGraphic extends GraphicLayerSet {
     public SavedScreenGraphic( final SchrodingerPanel schrodingerPanel, BufferedImage image ) {
         this.schrodingerPanel = schrodingerPanel;
         this.image = image;
-        PhetImageGraphic imageGraphic = new PhetImageGraphic( schrodingerPanel, image );
-        addGraphic( imageGraphic );
-        addTranslationListener( new TranslationListener() {
-            public void translationOccurred( TranslationEvent translationEvent ) {
-                translate( translationEvent.getDx(), translationEvent.getDy() );
-            }
-        } );
-        setCursorHand();
+        PImage imageGraphic = new PImage( image );
+        addChild( imageGraphic );
+        //todo piccolo
+//        addTranslationListener( new TranslationListener() {
+//            public void translationOccurred( TranslationEvent translationEvent ) {
+//                translate( translationEvent.getDx(), translationEvent.getDy() );
+//            }
+//        } );
+//        setCursorHand();
 
         try {
             BufferedImage closeImage = ImageLoader.loadBufferedImage( "images/x-14.jpg" );
             JButton closeButton = new JButton( new ImageIcon( closeImage ) );
             closeButton.setMargin( m );
-            PhetGraphic button = PhetJComponent.newInstance( schrodingerPanel, closeButton );
-            addGraphic( button );
-            button.setLocation( -button.getWidth() - 2, 0 );
+            PSwing button = new PSwing( schrodingerPanel, closeButton );
+            addChild( button );
+            button.setOffset( -button.getWidth() - 2, 0 );
             closeButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    schrodingerPanel.removeGraphic( SavedScreenGraphic.this );
+                    schrodingerPanel.removeWorldChild( SavedScreenGraphic.this );
                 }
             } );
         }

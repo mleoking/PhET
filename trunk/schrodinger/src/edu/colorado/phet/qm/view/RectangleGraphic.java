@@ -2,8 +2,8 @@
 package edu.colorado.phet.qm.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
@@ -16,29 +16,33 @@ import java.awt.event.MouseEvent;
  * Copyright (c) Jun 11, 2005 by Sam Reid
  */
 
-public class RectangleGraphic extends GraphicLayerSet {
-    private PhetShapeGraphic areaGraphic;
+public class RectangleGraphic extends PNode {
+    private PPath areaGraphic;
     private SchrodingerPanel schrodingerPanel;
-    private PhetShapeGraphic grabbablePart;
+    private PPath grabbablePart;
     private RectangularObject rectangularObject;
 
     public RectangleGraphic( SchrodingerPanel component, final RectangularObject rectangularObject, Color fill ) {
-        super( component );
+        super();
         this.schrodingerPanel = component;
         this.rectangularObject = rectangularObject;
-        areaGraphic = new PhetShapeGraphic( component, null, fill, new BasicStroke( 1.0f ), Color.blue );//todo transparent green.
-        addGraphic( areaGraphic );
-        areaGraphic.addMouseInputListener( new ContinuousDrag( new LocationGetter() {
-            public Point getLocation() {
-                return rectangularObject.getLocation();
-            }
-        } ) );
-        areaGraphic.setCursorHand();
+        areaGraphic = new PPath();//todo transparent green.
+        // todo piccolo
+        // component, null, fill, new BasicStroke( 1.0f ), Color.blue
+        addChild( areaGraphic );
+//        areaGraphic.addi( new ContinuousDrag( new LocationGetter() {
+//            public Point getLocation() {
+//                return rectangularObject.getLocation();
+//            }
+//        } ) );
+//        areaGraphic.setCursorHand();
 
-        grabbablePart = new PhetShapeGraphic( component, new Rectangle( 0, 0, 10, 10 ), Color.yellow, new BasicStroke( 1 ), Color.green );
-        addGraphic( grabbablePart );
-        grabbablePart.addMouseInputListener( new CornerDrag() );
-        grabbablePart.setCursorHand();
+        grabbablePart = new PPath( new Rectangle( 0, 0, 10, 10 ) );
+        //todo piccolo
+        //, Color.yellow, new BasicStroke( 1 ), Color.green
+        addChild( grabbablePart );
+//        grabbablePart.addMouseInputListener( new CornerDrag() );
+//        grabbablePart.setCursorHand();
 
 //        probDisplay = new PhetTextGraphic( component, new Font( "Lucida Sans", Font.BOLD, 14 ), "", Color.red );
 //        addGraphic( probDisplay );
@@ -59,8 +63,8 @@ public class RectangleGraphic extends GraphicLayerSet {
 //        ColorGrid grid = getColorGrid();
 //        Rectangle viewRect = grid.getViewRectangle( modelRect );
         Rectangle viewRect = getViewRectangle( modelRect );
-        areaGraphic.setShape( viewRect );
-        grabbablePart.setLocation( (int)viewRect.getMaxX() - grabbablePart.getWidth() / 2, (int)viewRect.getMaxY() - grabbablePart.getHeight() / 2 );
+        areaGraphic.setPathTo( viewRect );
+        grabbablePart.setOffset( (int)viewRect.getMaxX() - grabbablePart.getWidth() / 2, (int)viewRect.getMaxY() - grabbablePart.getHeight() / 2 );
 
 //        double probPercent = rectangularObject.getProbability() * 100;
 //        String formatted = format.format( probPercent );
@@ -73,7 +77,7 @@ public class RectangleGraphic extends GraphicLayerSet {
         return grid;
     }
 
-    public PhetShapeGraphic getAreaGraphic() {
+    public PPath getAreaGraphic() {
         return areaGraphic;
     }
 

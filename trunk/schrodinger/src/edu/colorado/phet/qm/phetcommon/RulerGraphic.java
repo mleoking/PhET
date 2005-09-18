@@ -1,15 +1,10 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.phetcommon;
 
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
-import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.qm.SchrodingerLookAndFeel;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,36 +20,38 @@ import java.io.IOException;
  * Copyright (c) Jun 23, 2005 by Sam Reid
  */
 
-public class RulerGraphic extends GraphicLayerSet {
-    public PhetImageGraphic phetImageGraphic;
+public class RulerGraphic extends PNode {
+    public PImage phetImageGraphic;
     public BufferedImage horiz;
     public BufferedImage vert;
 
     public RulerGraphic( Component component ) {
-        super( component );
-        phetImageGraphic = new PhetImageGraphic( component, "images/10-nanometer-stick.png" );
-        horiz = phetImageGraphic.getImage();
-        vert = BufferedImageUtils.getRotatedImage( horiz, 3 * Math.PI / 2 );
-        addGraphic( phetImageGraphic );
+//        super( component );
 
-        JButton rotate = createRotateButton();
-        PhetGraphic rotateButton = PhetJComponent.newInstance( component, rotate );
-        addGraphic( rotateButton );
-        rotateButton.setCursorHand();
-        rotateButton.setLocation( -2 - rotateButton.getWidth(), 0 );
-
-        JButton closeButton = createCloseButton();
-        PhetGraphic closeGraphic = PhetJComponent.newInstance( component, closeButton );
-        addGraphic( closeGraphic );
-        closeGraphic.setCursorHand();
-        closeGraphic.setLocation( rotateButton.getX(), rotateButton.getY() + rotateButton.getHeight() + 2 );
-
-        setCursorHand();
-        addTranslationListener( new TranslationListener() {
-            public void translationOccurred( TranslationEvent translationEvent ) {
-                translate( translationEvent.getDx(), translationEvent.getDy() );
-            }
-        } );
+        //todo piccolo
+//        phetImageGraphic = new PImage("images/10-nanometer-stick.png" );
+//        horiz = phetImageGraphic.getImage();
+//        vert = BufferedImageUtils.getRotatedImage( horiz, 3 * Math.PI / 2 );
+//        addChild( phetImageGraphic );
+//
+//        JButton rotate = createRotateButton();
+//        PhetGraphic rotateButton = PhetJComponent.newInstance( component, rotate );
+//        addChild( rotateButton );
+//        rotateButton.setCursorHand();
+//        rotateButton.setLocation( -2 - rotateButton.getWidth(), 0 );
+//
+//        JButton closeButton = createCloseButton();
+//        PhetGraphic closeGraphic = PhetJComponent.newInstance( component, closeButton );
+//        addChild( closeGraphic );
+//        closeGraphic.setCursorHand();
+//        closeGraphic.setLocation( rotateButton.getX(), rotateButton.getY() + rotateButton.getHeight() + 2 );
+//
+//        setCursorHand();
+//        addTranslationListener( new TranslationListener() {
+//            public void translationOccurred( TranslationEvent translationEvent ) {
+//                translate( translationEvent.getDx(), translationEvent.getDy() );
+//            }
+//        } );
 
     }
 

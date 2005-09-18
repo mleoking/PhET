@@ -2,13 +2,15 @@
 package edu.colorado.phet.qm.view;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.qm.phetcommon.IntegralModelElement;
 import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
 import edu.colorado.phet.qm.view.gun.Photon;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.PRenderingHints;
+import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -21,12 +23,12 @@ import java.awt.image.BufferedImage;
  * Copyright (c) Jun 23, 2005 by Sam Reid
  */
 
-public class DetectorSheet extends GraphicLayerSet {
+public class DetectorSheet extends PNode {
     private int width;
     private int height;
     private PhetShapeGraphic backgroundGraphic;
     private BufferedImage bufferedImage;
-    private PhetImageGraphic screenGraphic;
+    private PImage screenGraphic;
 
     private SchrodingerPanel schrodingerPanel;
     private int opacity = 255;
@@ -42,22 +44,23 @@ public class DetectorSheet extends GraphicLayerSet {
 //    private PhetGraphic detectorSheetPanelGraphic;
 
     public DetectorSheet( final SchrodingerPanel schrodingerPanel, int width, int height ) {
-        super( schrodingerPanel );
+        super();
 
         this.schrodingerPanel = schrodingerPanel;
         bufferedImage = new BufferedImage( width, height, BufferedImage.TYPE_INT_RGB );
-        screenGraphic = new PhetImageGraphic( getComponent(), bufferedImage );
-//        screenGraphic.shear( 0.25, 0 );
-        screenGraphic.shear( 0.45, 0 );
+        screenGraphic = new PImage( bufferedImage );
+        screenGraphic.getTransform().shear( 0.45, 0 );
+
         screenGraphic.translate( -13, 20 );
 
-        addGraphic( screenGraphic );
+        addChild( screenGraphic );
 
 //        backgroundGraphic = new PhetShapeGraphic( schrodingerPanel, new Rectangle( width, height ), Color.white, new BasicStroke( 3 ), Color.black );
         backgroundGraphic = new PhetShapeGraphic( schrodingerPanel, new Rectangle( width, height ), Color.black, new BasicStroke( 3 ), Color.blue );
         backgroundGraphic.paint( bufferedImage.createGraphics() );
 
-        RenderingHints renderingHints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+        PRenderingHints renderingHints = new PRenderingHints();
+        renderingHints.putRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         setRenderingHints( renderingHints );
 
         this.width = width;
@@ -78,15 +81,15 @@ public class DetectorSheet extends GraphicLayerSet {
             public void stepInTime( double dt ) {
                 if( fadeEnabled ) {
                     imageFade.fade( getBufferedImage() );
-                    screenGraphic.setBoundsDirty();
+//                    screenGraphic.setBoundsDirty();
                     screenGraphic.repaint();
                 }
             }
         }, 1 );
         detectorSheetPanel = new DetectorSheetPanel( this );
 //        detectorSheetPanelGraphic = PhetJComponent.newInstance( schrodingerPanel, detectorSheetPanel );
-        detectorSheetPanel.setLocation( screenGraphic.getWidth(), 0 );
-        addGraphic( detectorSheetPanel );
+        detectorSheetPanel.setOffset( screenGraphic.getWidth(), 0 );
+        addChild( detectorSheetPanel );
     }
 
     public void setFadeEnabled( boolean fade ) {
@@ -133,10 +136,10 @@ public class DetectorSheet extends GraphicLayerSet {
         Graphics2D g2 = bufferedImage.createGraphics();
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         if( rootColor != null ) {
-            new ColoredDetectionGraphic( this, x, y, opacity, rootColor ).paint( g2 );
+            new ColoredDetectionGraphic( this, x, y, opacity, rootColor ).fullPaint( new PPaintContext( g2 ) );
         }
         else {
-            new DetectionGraphic( this, x, y, opacity ).paint( g2 );
+            new DetectionGraphic( this, x, y, opacity ).fullPaint( new PPaintContext( g2 ) );
         }
         repaint();
     }

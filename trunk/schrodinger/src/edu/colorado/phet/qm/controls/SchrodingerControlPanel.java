@@ -6,8 +6,6 @@ import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphicListener;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.*;
@@ -74,14 +72,15 @@ public class SchrodingerControlPanel extends ControlPanel {
             ImageIcon icon = new ImageIcon( ImageLoader.loadBufferedImage( "images/ruler-thumb.jpg" ) );
             rulerPanel.add( ruler );
             rulerPanel.add( new JLabel( icon ) );
-            getSchrodingerPanel().getRulerGraphic().addPhetGraphicListener( new PhetGraphicListener() {
-                public void phetGraphicChanged( PhetGraphic phetGraphic ) {
-                }
-
-                public void phetGraphicVisibilityChanged( PhetGraphic phetGraphic ) {
-                    ruler.setSelected( getSchrodingerPanel().getRulerGraphic().isVisible() );
-                }
-            } );
+            //TODO piccolo
+//            getSchrodingerPanel().getRulerGraphic().addPhetGraphicListener( new PhetGraphicListener() {
+//                public void phetGraphicChanged( PhetGraphic phetGraphic ) {
+//                }
+//
+//                public void phetGraphicVisibilityChanged( PhetGraphic phetGraphic ) {
+//                    ruler.setSelected( getSchrodingerPanel().getRulerGraphic().getVisible() );
+//                }
+//            } );
 
             ruler.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {

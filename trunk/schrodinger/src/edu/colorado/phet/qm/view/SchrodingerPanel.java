@@ -2,20 +2,20 @@
 package edu.colorado.phet.qm.view;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.phetcommon.RulerGraphic;
 import edu.colorado.phet.qm.view.gun.AbstractGun;
 import edu.colorado.phet.qm.view.gun.Photon;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PZoomEventHandler;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -24,48 +24,29 @@ import java.util.ArrayList;
  * Copyright (c) Jun 10, 2005 by Sam Reid
  */
 
-public class SchrodingerPanel extends ApparatusPanel2 {
+public class SchrodingerPanel extends PhetPCanvas {
     private DiscreteModel discreteModel;
     private SchrodingerModule module;
-    private WavefunctionGraphic wavefunctionGraphic;
-    private ArrayList rectanglePotentialGraphics = new ArrayList();
-    private AbstractGun abstractGun;
-    private IntensityDisplay intensityDisplay;
-    private RulerGraphic rulerGraphic;
-    private ArrayList detectorGraphics = new ArrayList();
-    private PhetGraphic doubleSlitPanelGraphic;
-    private DoubleSlitPanel doubleSlitPanel;
     private Photon photon;
+    private SchrodingerScreenNode schrodingerScreenNode;
 //    private PhetGraphic doubleSlitCheckBoxGraphic;
 //    private PhetGraphic configureSlitButtonGraphic;
 
     public DoubleSlitPanel getDoubleSlitPanel() {
-        return doubleSlitPanel;
+        return schrodingerScreenNode.getDoubleSlitPanel();
     }
 
     public SchrodingerPanel( SchrodingerModule module ) {
-        super( module.getClock() );
         setLayout( null );
         this.module = module;
         this.discreteModel = module.getDiscreteModel();
 
-        wavefunctionGraphic = new WavefunctionGraphic( this );
-        addGraphic( wavefunctionGraphic );
-        wavefunctionGraphic.setLocation( 100, 50 );
-
-        rulerGraphic = new RulerGraphic( this );
-        addGraphic( rulerGraphic, Double.POSITIVE_INFINITY );
-        rulerGraphic.setLocation( 20, 20 );
-        rulerGraphic.setVisible( false );
-
-        intensityDisplay = new IntensityDisplay( getSchrodingerModule(), this, 60 );
-        addGraphic( intensityDisplay, -1 );
-
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
 //                setReferenceSize( 600, 600 );
-                setReferenceSize( 600, 600 );
-                abstractGun.componentResized( e );
+                setRenderingSize( 600, 600 );
+                //todo piccolo
+//                abstractGun.componentResized( e );
             }
         } );
 
@@ -74,69 +55,37 @@ public class SchrodingerPanel extends ApparatusPanel2 {
                 updateScreen();
             }
         } );
-
-        doubleSlitPanel = new DoubleSlitPanel( getDiscreteModel() );
-        doubleSlitPanelGraphic = PhetJComponent.newInstance( this, doubleSlitPanel );
-        addGraphic( doubleSlitPanelGraphic );
-        doubleSlitPanelGraphic.setLocation( getWavefunctionGraphic().getX() + getWavefunctionGraphic().getWidth() - 40, getWavefunctionGraphic().getY() + getWavefunctionGraphic().getHeight() / 2 - doubleSlitPanelGraphic.getHeight() / 2 + 35 );
-
-//        DoubleSlitCheckBox doubleSlitCheckBox = new DoubleSlitCheckBox( getDiscreteModel() );
-//        doubleSlitCheckBoxGraphic = PhetJComponent.newInstance( this, doubleSlitCheckBox );
-//        addGraphic( doubleSlitCheckBoxGraphic );
-//        doubleSlitCheckBoxGraphic.setLocation( getWavefunctionGraphic().getX() + getWavefunctionGraphic().getWidth(), getWavefunctionGraphic().getY() + getWavefunctionGraphic().getHeight() / 2 );
-//
-//        ConfigureSlitButton configureSlitButton = new ConfigureSlitButton( module.getPhetFrame(), getDiscreteModel().getDoubleSlitPotential() );
-//        configureSlitButtonGraphic = PhetJComponent.newInstance( this, configureSlitButton );
-//        addGraphic( configureSlitButtonGraphic );
-//        putBelow( getConfigureSlitButtonGraphic(), doubleSlitCheckBoxGraphic, 5 );
-//        configureSlitButtonGraphic.setLocation( doubleSlitCheckBoxGraphic.getX(), doubleSlitCheckBoxGraphic.getY() + doubleSlitCheckBoxGraphic.getHeight() + 2 );
-
+        schrodingerScreenNode = new SchrodingerScreenNode( this );
+        setScreenNode( schrodingerScreenNode );
+        setZoomEventHandler( new PZoomEventHandler() );
     }
 
-//    protected PhetGraphic getConfigureSlitButtonGraphic() {
-//        return doubleSlitPanelGraphic;
-//    }
-    public PhetGraphic getDoubleSlitPanelGraphic() {
-        return doubleSlitPanelGraphic;
+    private void addWorldGraphic( PNode graphic, double layer ) {
+        addWorldGraphic( graphic );//todo layering
     }
 
-    protected void putBelow( PhetGraphic obj, PhetGraphic parent, int insetY ) {
-        obj.setLocation( parent.getX(), parent.getY() + parent.getHeight() + insetY );
+    private void addWorldGraphic( PNode graphic ) {
+        super.addWorldChild( graphic );
     }
 
-//    protected PhetGraphic getDoubleSlitCheckBoxGraphic() {
-//        return doubleSlitCheckBoxGraphic;
-//    }
+    public PSwing getDoubleSlitPanelGraphic() {
+        return schrodingerScreenNode.getDoubleSlitPanelGraphic();
+    }
 
     protected void updateScreen() {
-        intensityDisplay.tryDetecting();
+        getIntensityDisplay().tryDetecting();
     }
 
     protected void setGunGraphic( AbstractGun abstractGun ) {
-        if( abstractGun != null ) {
-            removeGraphic( abstractGun );
-        }
-        this.abstractGun = abstractGun;
-        addGraphic( abstractGun );
-        abstractGun.setLocation( wavefunctionGraphic.getX() + wavefunctionGraphic.getWidth() / 2 - abstractGun.getGunWidth() / 2,
-                                 wavefunctionGraphic.getY() + wavefunctionGraphic.getHeight() - getGunGraphicOffsetY() );
-    }
-
-    private int getGunGraphicOffsetY() {
-        return 50;
-    }
-
-    protected void paintComponent( Graphics graphics ) {
-        super.paintComponent( graphics );
-        paintChildren( graphics );//to enuse swing components are shown.
+        schrodingerScreenNode.setGunGraphic( abstractGun );
     }
 
     public void setRulerVisible( boolean rulerVisible ) {
-        rulerGraphic.setVisible( rulerVisible );
+        schrodingerScreenNode.setRulerVisible( rulerVisible );
     }
 
     public void reset() {
-        intensityDisplay.reset();
+        schrodingerScreenNode.reset();
     }
 
     public void updateGraphics() {
@@ -147,25 +96,23 @@ public class SchrodingerPanel extends ApparatusPanel2 {
     }
 
     public void addDetectorGraphic( DetectorGraphic detectorGraphic ) {
-        detectorGraphics.add( detectorGraphic );
-        addGraphic( detectorGraphic );
+        schrodingerScreenNode.addDetectorGraphic( detectorGraphic );
     }
 
     public void addRectangularPotentialGraphic( RectangularPotentialGraphic rectangularPotentialGraphic ) {
-        rectanglePotentialGraphics.add( rectangularPotentialGraphic );
-        addGraphic( rectangularPotentialGraphic );
+        schrodingerScreenNode.addRectangularPotentialGraphic( rectangularPotentialGraphic );
     }
 
     public void clearPotential() {
-        for( int i = 0; i < rectanglePotentialGraphics.size(); i++ ) {
-            RectangularPotentialGraphic rectangularPotentialGraphic = (RectangularPotentialGraphic)rectanglePotentialGraphics.get( i );
-            removeGraphic( rectangularPotentialGraphic );
-        }
-        rectanglePotentialGraphics.clear();
+        schrodingerScreenNode.clearPotential();
+    }
+
+    private void removeGraphic( PNode graphic ) {
+        removeWorldChild( graphic );
     }
 
     public WavefunctionGraphic getWavefunctionGraphic() {
-        return wavefunctionGraphic;
+        return schrodingerScreenNode.getWavefunctionGraphic();
     }
 
     public SchrodingerModule getSchrodingerModule() {
@@ -173,21 +120,19 @@ public class SchrodingerPanel extends ApparatusPanel2 {
     }
 
     public IntensityDisplay getIntensityDisplay() {
-        return intensityDisplay;
+        return schrodingerScreenNode.getIntensityDisplay();
     }
 
     public RulerGraphic getRulerGraphic() {
-        return rulerGraphic;
+        return schrodingerScreenNode.getRulerGraphic();
     }
 
     public AbstractGun getGunGraphic() {
-        return abstractGun;
+        return schrodingerScreenNode.getGunGraphic();
     }
 
     public void removeDetectorGraphic( DetectorGraphic detectorGraphic ) {
-        removeGraphic( detectorGraphic );
-        getDiscreteModel().removeDetector( detectorGraphic.getDetector() );
-        detectorGraphics.remove( detectorGraphic );
+        schrodingerScreenNode.removeDetectorGraphic( detectorGraphic );
     }
 
     public void addDetectorGraphic( Detector detector ) {
@@ -196,13 +141,7 @@ public class SchrodingerPanel extends ApparatusPanel2 {
     }
 
     public DetectorGraphic getDetectorGraphic( Detector detector ) {
-        for( int i = 0; i < detectorGraphics.size(); i++ ) {
-            DetectorGraphic detectorGraphic = (DetectorGraphic)detectorGraphics.get( i );
-            if( detectorGraphic.getDetector() == detector ) {
-                return detectorGraphic;
-            }
-        }
-        return null;
+        return schrodingerScreenNode.getDetectorGraphic( detector );
     }
 
     public void removeDetectorGraphic( Detector detector ) {
@@ -230,12 +169,18 @@ public class SchrodingerPanel extends ApparatusPanel2 {
     }
 
     public void setWaveSize( int width, int height ) {
-        wavefunctionGraphic.setWaveSize( width, height );
-        intensityDisplay.setWaveSize( width, height );
+        schrodingerScreenNode.setWaveSize( width, height );
     }
 
     public Rectangle waveAreaToScreen( Rectangle gridRect ) {
-        Rectangle screenRect = wavefunctionGraphic.getNetTransform().createTransformedShape( gridRect ).getBounds();
-        return screenRect;
+        //todo piccolo
+        getWavefunctionGraphic().localToGlobal( gridRect );
+        return gridRect;
+//        Rectangle screenRect = wavefunctionGraphic.getNetTransform().createTransformedShape( gridRect ).getBounds();
+//        return screenRect;
+    }
+
+    public void removePotentialGraphic( RectangularPotentialGraphic rectangularPotentialGraphic ) {
+        getWorldNode().removeChild( rectangularPotentialGraphic );
     }
 }

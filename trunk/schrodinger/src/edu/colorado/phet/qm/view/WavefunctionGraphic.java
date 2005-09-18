@@ -1,11 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view;
 
-import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.model.operators.PxValue;
@@ -13,6 +9,9 @@ import edu.colorado.phet.qm.model.operators.XValue;
 import edu.colorado.phet.qm.model.operators.YValue;
 import edu.colorado.phet.qm.view.colormaps.*;
 import edu.colorado.phet.qm.view.gun.Photon;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +27,7 @@ import java.awt.image.BufferedImage;
  * Copyright (c) Jun 30, 2005 by Sam Reid
  */
 
-public class WavefunctionGraphic extends GraphicLayerSet {
+public class WavefunctionGraphic extends PNode {
 
     public static int numIterationsBetwenScreenUpdate = 2;//TODO make this obvious at top level!
 
@@ -40,10 +39,10 @@ public class WavefunctionGraphic extends GraphicLayerSet {
     private int colorGridWidth = 400;
     private SchrodingerPanel schrodingerPanel;
     private DefaultPainter painter;
-    private PhetImageGraphic imageGraphic;
+    private PImage imageGraphic;
 
     private boolean displayPyExpectation = false;
-    private PhetGraphic borderGraphic;
+    private PPath borderGraphic;
 //    private MagnitudeInGrayscale grayscaleMap;
     private MagnitudeColorMap magnitudeColorMap;
     private MagnitudeColorMap realColorMap;
@@ -65,12 +64,14 @@ public class WavefunctionGraphic extends GraphicLayerSet {
         painter = new DefaultPainter( schrodingerPanel, magnitudeColorMap );
         colorGrid.colorize( painter );
 
-        imageGraphic = new PhetImageGraphic( schrodingerPanel );
-        addGraphic( imageGraphic );
+        imageGraphic = new PImage();
+        addChild( imageGraphic );
         imageGraphic.setImage( colorGrid.getBufferedImage() );
 
-        borderGraphic = new PhetShapeGraphic( schrodingerPanel, new Rectangle( colorGrid.getWidth(), colorGrid.getHeight() ), new BasicStroke( 2 ), Color.white );
-        addGraphic( borderGraphic );
+        borderGraphic = new PPath( new Rectangle( colorGrid.getWidth(), colorGrid.getHeight() ) );
+        //todo piccolo
+        //, new BasicStroke( 2 ), Color.white
+        addChild( borderGraphic );
 
         getDiscreteModel().addListener( new DiscreteModel.Adapter() {
             public void finishedTimeStep( DiscreteModel model ) {
@@ -82,26 +83,27 @@ public class WavefunctionGraphic extends GraphicLayerSet {
 
         JButton clear = new JButton( "<html>Clear<br>Wave</html>" );
         clear.setMargin( new Insets( 2, 2, 2, 2 ) );
-        PhetGraphic clearButton = PhetJComponent.newInstance( schrodingerPanel, clear );
-        addGraphic( clearButton );
+//        PhetGraphic clearButton = PhetJComponent.newInstance( schrodingerPanel, clear );
+        PSwing clearButton = new PSwing( schrodingerPanel, clear );
+        addChild( clearButton );
         clear.setFont( new Font( "Lucida Sans", Font.BOLD, 10 ) );
         clear.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 schrodingerPanel.clearWavefunction();
             }
         } );
-        clearButton.setLocation( -clearButton.getWidth() - 2, imageGraphic.getHeight() - clearButton.getHeight() );
+        clearButton.setOffset( -clearButton.getWidth() - 2, imageGraphic.getHeight() - clearButton.getHeight() );
     }
 
     public int getWaveformWidth() {
-        return imageGraphic.getWidth();
+        return (int)imageGraphic.getWidth();
     }
 
     public void setWavefunctionColorMap( ColorMap painter ) {
         this.painter.setWavefunctionColorMap( painter );
         repaintAll();
-        imageGraphic.setBoundsDirty();
-        imageGraphic.autorepaint();
+//        imageGraphic.setBoundsDirty();
+//        imageGraphic.autorepaint();
         schrodingerPanel.paintImmediately( 0, 0, schrodingerPanel.getWidth(), schrodingerPanel.getHeight() );
     }
 
@@ -145,8 +147,8 @@ public class WavefunctionGraphic extends GraphicLayerSet {
         colorGrid.colorize( painter );
         finishDrawing();
         imageGraphic.setImage( colorGrid.getBufferedImage() );
-        imageGraphic.setBoundsDirty();
-        imageGraphic.autorepaint();
+//        imageGraphic.setBoundsDirty();
+//        imageGraphic.autorepaint();
     }
 
     private void finishDrawing() {
@@ -187,7 +189,7 @@ public class WavefunctionGraphic extends GraphicLayerSet {
     }
 
     public int getWaveformX() {
-        return imageGraphic.getX();
+        return (int)imageGraphic.getX();
     }
 
     public MagnitudeColorMap getMagnitudeColorMap() {

@@ -18,6 +18,7 @@ public class RestrictedDetectorGraphic extends DetectorGraphic {
         setCloseButtonVisible( false );
         setPercentDisplayVisible( false );
         setResizeComponentVisible( false );
-        setIgnoreMouse( true );
+        setPickable( false );
+        setChildrenPickable( false );
     }
 }
