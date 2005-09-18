@@ -5,7 +5,7 @@ import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.piccolo.pswing.PSwing;
-import edu.colorado.phet.qm.phetcommon.ImageComboBox;
+import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
 import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
 import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 
@@ -82,7 +82,7 @@ public class HighIntensityGun extends AbstractGun {
         currentBeam.stepBeam();
     }
 
-    protected JComboBox initComboBox() {
+    protected ImagePComboBox initComboBox() {
         photon = new Photon( this, "Photons", "images/photon-thumb.jpg" );
         Electron e = new Electron( this, "Electrons", "images/electron-thumb.jpg" );
         Atom atom = new Atom( this, "Atoms", "images/atom-thumb.jpg" );
@@ -92,7 +92,7 @@ public class HighIntensityGun extends AbstractGun {
             new ParticleBeam( e ),
             new ParticleBeam( atom )};
         setBeams( mybeams );
-        final ImageComboBox imageComboBox = new ImageComboBox( beams );
+        final ImagePComboBox imageComboBox = new ImagePComboBox( beams );
         imageComboBox.setBorder( BorderFactory.createTitledBorder( "Gun Type" ) );
         imageComboBox.addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {

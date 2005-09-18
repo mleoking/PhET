@@ -4,7 +4,7 @@ package edu.colorado.phet.qm.view.gun;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.pswing.PSwing;
-import edu.colorado.phet.qm.phetcommon.ImageComboBox;
+import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
 import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 
 import javax.swing.*;
@@ -178,7 +178,7 @@ public class SingleParticleGun extends AbstractGun {
         }
     }
 
-    protected JComboBox initComboBox() {
+    protected ImagePComboBox initComboBox() {
         Photon photon = new Photon( this, "Photons", "images/photon-thumb.jpg" );
         PhotonBeam photonBeam = new PhotonBeam( this, photon );
         photonBeamParticle = new PhotonBeamParticle( this, "Photons", photonBeam );
@@ -200,7 +200,7 @@ public class SingleParticleGun extends AbstractGun {
 //            } );
 //        }
 
-        final ImageComboBox imageComboBox = new ImageComboBox( gunItems );
+        final ImagePComboBox imageComboBox = new ImagePComboBox( gunItems );
         imageComboBox.setBorder( BorderFactory.createTitledBorder( "Gun Type" ) );
         imageComboBox.addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {

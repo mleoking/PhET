@@ -18,9 +18,13 @@ import java.awt.geom.Ellipse2D;
 public class ColoredDetectionGraphic extends PNode {
 
     public ColoredDetectionGraphic( int x, int y, int opacity, PhotonColorMap.ColorData rootColor ) {
+        this( x, y, opacity, rootColor.toColor( 1.0 ) );
+    }
+
+    public ColoredDetectionGraphic( int x, int y, int opacity, Color sourceColor ) {
         int width = 6;
         int height = width;
-        Color sourceColor = rootColor.toColor( 1.0 );
+//        Color sourceColor = rootColor.toColor( 1.0 );
 //        System.out.println( "opacity = " + opacity );
         Color fill = new Color( sourceColor.getRed(), sourceColor.getGreen(), sourceColor.getBlue(), opacity );
         //50 per time step at transparency 4 looks good
@@ -30,5 +34,4 @@ public class ColoredDetectionGraphic extends PNode {
         addChild( pt );
         setOffset( x, y );
     }
-
 }
