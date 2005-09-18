@@ -2,10 +2,12 @@
 package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Potential;
+import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
 import edu.colorado.phet.qm.util.QMLogger;
 import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 import edu.umd.cs.piccolo.PNode;
@@ -25,8 +27,10 @@ import java.io.IOException;
 
 public abstract class AbstractGun extends PNode {
     private SchrodingerPanel schrodingerPanel;
+
     private PImage gunImageGraphic;
-    private JComboBox comboBox;
+    private ImagePComboBox comboBox;
+    private PSwing comboBoxGraphic;
 
     public AbstractGun( final SchrodingerPanel schrodingerPanel ) {
         super();
@@ -42,8 +46,16 @@ public abstract class AbstractGun extends PNode {
         initGunLocation();
         addChild( gunImageGraphic );
         this.comboBox = initComboBox();
-        schrodingerPanel.add( comboBox );
+
+        comboBoxGraphic = new PSwing( schrodingerPanel, comboBox );
+        comboBox.setEnvironment( comboBoxGraphic, schrodingerPanel );
+        addChild( comboBoxGraphic );
         setVisible( true );
+    }
+
+    protected void layoutChildren() {
+        super.layoutChildren();
+        comboBoxGraphic.setOffset( -100, 50 );
     }
 
     protected void initGunLocation() {
@@ -60,7 +72,7 @@ public abstract class AbstractGun extends PNode {
         return new Point( -10, 35 );
     }
 
-    protected abstract JComboBox initComboBox();
+    protected abstract ImagePComboBox initComboBox();
 
     public DiscreteModel getDiscreteModel() {
         return schrodingerPanel.getDiscreteModel();
@@ -120,9 +132,9 @@ public abstract class AbstractGun extends PNode {
         return schrodingerPanel;
     }
 
-    protected void setComboBox( JComboBox comboBox ) {
-        this.comboBox = comboBox;
-    }
+//    protected void setComboBox( JComboBox comboBox ) {
+//        this.comboBox = comboBox;
+//    }
 
     public PSwingCanvas getComponent() {
         return schrodingerPanel;

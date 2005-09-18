@@ -50,7 +50,7 @@ public class ImageComboBox extends JComboBox {
 //        setPreferredSize( new Dimension( maxWidth, getPreferredSize().height ) );
     }
 
-    private static ImageIcon[] toLabelArray( Item[] imageElements ) {
+    public static ImageIcon[] toLabelArray( Item[] imageElements ) {
         ImageIcon[] lab = new ImageIcon[imageElements.length];
         for( int i = 0; i < lab.length; i++ ) {
             BufferedImage image = null;
