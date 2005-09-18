@@ -40,7 +40,7 @@ public class IntensityDisplay extends PNode {
         this.detectorHeight = detectorHeight;
         this.wavefunctionGraphic = wavefunctionGraphic;
         this.random = new Random();
-        detectorSheet = new DetectorSheet( schrodingerPanel, wavefunctionGraphic.getWavefunctionWidth(), detectorHeight );
+        detectorSheet = new DetectorSheet( schrodingerPanel, wavefunctionGraphic, detectorHeight );
         addChild( detectorSheet );
         detectorSheet.setOffset( wavefunctionGraphic.getX(), 0 );
     }

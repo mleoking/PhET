@@ -37,8 +37,8 @@ public class MagnitudeColorMap implements ColorMap {
         currentMap = photonColorMap;
     }
 
-    public Paint getPaint( int i, int k ) {
-        return currentMap.getPaint( i, k );
+    public Paint getColor( int i, int k ) {
+        return currentMap.getColor( i, k );
     }
 
     public void setPhoton( Photon photon ) {

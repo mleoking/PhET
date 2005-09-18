@@ -45,16 +45,16 @@ public class Wavefunction {
 
     public Wavefunction( Complex[][] values ) {
         this.wavefunction = values;
+        setMagnitudeDirty();
     }
 
-    public void setMagnitude( double newScale ) {
-        double totalProbability = getMagnitude();
-        double scale = 1.0 / Math.sqrt( totalProbability );
-        scale( scale * Math.sqrt( newScale ) );
-
+    public void setMagnitude( double newMagnitude ) {
+        setMagnitudeDirty();
+        double origMagnitude = getMagnitude();
+        scale( Math.sqrt( newMagnitude ) / Math.sqrt( origMagnitude ) );
         double m = getMagnitude();//todo remove this after we're sure its working
-        if( Math.abs( m - newScale ) > 10E-6 ) {
-            throw new RuntimeException( "Normalization failed: requested=" + newScale + ", received=" + m );
+        if( Math.abs( m - newMagnitude ) > 10E-6 ) {
+            throw new RuntimeException( "Normalization failed: requested new magnitude=" + newMagnitude + ", received=" + m );
         }
     }
 
@@ -73,10 +73,6 @@ public class Wavefunction {
     public boolean containsLocation( int i, int k ) {
         return getBounds().contains( i, k );
     }
-
-//    public static boolean containsLocation( Complex[][] wavefunction, int i, int k ) {
-//        return i >= 0 && i < wavefunction.length && k >= 0 && k < wavefunction[0].length;
-//    }
 
     public static String toString( Complex[] complexes ) {
         return Arrays.asList( complexes ).toString();
@@ -109,6 +105,7 @@ public class Wavefunction {
 //                dest.setValue( i, j, new Complex( valueAt( i, j ) ) );
             }
         }
+        dest.setMagnitudeDirty();
     }
 
     public int getWidth() {
@@ -141,7 +138,7 @@ public class Wavefunction {
 
         double diff = 1.0 - postProb;
         if( !( Math.abs( diff ) < 0.0001 ) ) {
-            System.out.println( "Error in probability normalization." );
+            System.out.println( "Error in probability normalization, norm=" + postProb );
 //            throw new RuntimeException( "Error in probability normalization." );
         }
         setMagnitudeDirty();
@@ -149,7 +146,9 @@ public class Wavefunction {
 
     public double getMagnitude() {
         if( magnitudeDirty ) {
+//            System.out.println( "Wavefunction.getMagnitude" );
             this.magnitude = recomputeMagnitude();
+            magnitudeDirty = false;
         }
         return magnitude;
     }
@@ -183,13 +182,14 @@ public class Wavefunction {
         notifyCleared();
     }
 
-    void setMagnitudeDirty() {
+    public void setMagnitudeDirty() {
         magnitudeDirty = true;
     }
 
     public void setSize( int width, int height ) {
         wavefunction = new Complex[width][height];
         clear();
+
     }
 
     public Wavefunction copy() {
@@ -227,6 +227,7 @@ public class Wavefunction {
         else {
             throw new RuntimeException( "illegal arg dim" );
         }
+        setMagnitudeDirty();
     }
 
     public void setWavefunction( Wavefunction wavefunction ) {

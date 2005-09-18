@@ -20,7 +20,7 @@ public class VisualColorMap implements ColorMap {
         this.schrodingerPanel = schrodingerPanel;
     }
 
-    public Paint getPaint( int i, int k ) {
+    public Paint getColor( int i, int k ) {
         Wavefunction wavefunction = schrodingerPanel.getDiscreteModel().getWavefunction();
         Color color = toColor( wavefunction.valueAt( i, k ) );
         return color;

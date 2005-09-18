@@ -10,7 +10,6 @@ import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.phetcommon.RulerGraphic;
 import edu.colorado.phet.qm.view.gun.AbstractGun;
 import edu.colorado.phet.qm.view.gun.Photon;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
 
 import java.awt.*;
@@ -57,13 +56,13 @@ public class SchrodingerPanel extends PhetPCanvas {
         setZoomEventHandler( new PZoomEventHandler() );
     }
 
-    private void addWorldGraphic( PNode graphic, double layer ) {
-        addWorldGraphic( graphic );//todo layering
-    }
+//    private void addWorldGraphic( PNode graphic, double layer ) {
+//        addWorldGraphic( graphic );//todo layering
+//    }
 
-    private void addWorldGraphic( PNode graphic ) {
-        super.addWorldChild( graphic );
-    }
+//    private void addWorldGraphic( PNode graphic ) {
+//        super.addWorldChild( graphic );
+//    }
 
     public PSwing getDoubleSlitPanelGraphic() {
         return schrodingerScreenNode.getDoubleSlitPanelGraphic();
@@ -104,9 +103,9 @@ public class SchrodingerPanel extends PhetPCanvas {
         schrodingerScreenNode.clearPotential();
     }
 
-    private void removeGraphic( PNode graphic ) {
-        removeWorldChild( graphic );
-    }
+//    private void removeGraphic( PNode graphic ) {
+//        removeWorldChild( graphic );
+//    }
 
     public WavefunctionGraphic getWavefunctionGraphic() {
         return schrodingerScreenNode.getWavefunctionGraphic();

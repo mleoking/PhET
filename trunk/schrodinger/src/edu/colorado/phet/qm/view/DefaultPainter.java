@@ -33,8 +33,8 @@ public class DefaultPainter implements ColorMap {
         this.wavefunctionColorMap = wavefunctionColorMap;
     }
 
-    public Paint getPaint( int i, int k ) {
-        Paint paint = wavefunctionColorMap.getPaint( i, k );
+    public Paint getColor( int i, int k ) {
+        Paint paint = wavefunctionColorMap.getColor( i, k );
         Color color = toColor( paint );
         double potval = getPotential().getPotential( i, k, 0 );
         if( potval > 0 ) {
@@ -52,7 +52,12 @@ public class DefaultPainter implements ColorMap {
     }
 
     private Color toColor( Paint paint ) {
-        PaintContext context = paint.createContext( null, new Rectangle( 0, 0, 1, 1 ), new Rectangle2D.Double( 0, 0, 1, 1 ), new AffineTransform(), null );
+        if( paint instanceof Color ) {
+            return (Color)paint;
+        }
+        PaintContext context = paint.createContext( null, new Rectangle( 0, 0, 1, 1 ),
+                                                    new Rectangle2D.Double( 0, 0, 1, 1 ),
+                                                    new AffineTransform(), null );
         Raster raster = context.getRaster( 0, 0, 1, 1 );
         int[] co = raster.getPixel( 0, 0, (int[])null );
         Color color = new Color( co[0], co[1], co[2] );

@@ -9,5 +9,5 @@ import java.awt.*;
  * Copyright (c) Jun 9, 2005 by Sam Reid
  */
 public interface ColorMap {
-    Paint getPaint( int i, int k );
+    Paint getColor( int i, int k );
 }

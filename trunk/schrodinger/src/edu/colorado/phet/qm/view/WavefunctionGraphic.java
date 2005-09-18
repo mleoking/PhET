@@ -13,8 +13,9 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * User: Sam Reid
@@ -24,6 +25,7 @@ import java.awt.image.BufferedImage;
  */
 
 public class WavefunctionGraphic extends PNode {
+    private SchrodingerPanel schrodingerPanel;
 
     public static int numIterationsBetwenScreenUpdate = 2;//TODO make this obvious at top level!
     private boolean displayXExpectation;
@@ -31,16 +33,15 @@ public class WavefunctionGraphic extends PNode {
     private boolean displayCollapsePoint;
     private ColorGrid colorGrid;
     private int colorGridWidth = 400;
-    private SchrodingerPanel schrodingerPanel;
     private DefaultPainter painter;
-    private PImage imageGraphic;
-
     private boolean displayPyExpectation = false;
-    private PPath borderGraphic;
     private MagnitudeColorMap magnitudeColorMap;
     private MagnitudeColorMap realColorMap;
     private MagnitudeColorMap imagColorMap;
     private double wavefunctionScale = 1.0;
+
+    private PImage imageGraphic;
+    private PPath borderGraphic;
 
     public WavefunctionGraphic( final SchrodingerPanel schrodingerPanel ) {
         this.schrodingerPanel = schrodingerPanel;
@@ -51,7 +52,6 @@ public class WavefunctionGraphic extends PNode {
         realColorMap = new MagnitudeColorMap( schrodingerPanel, new RealGrayColorMap( schrodingerPanel ), new WaveValueAccessor.Real() );
         imagColorMap = new MagnitudeColorMap( schrodingerPanel, new ImaginaryGrayColorMap( schrodingerPanel ), new WaveValueAccessor.Imag() );
 
-
         painter = new DefaultPainter( schrodingerPanel, magnitudeColorMap );
         colorGrid.colorize( painter );
 
@@ -59,7 +59,7 @@ public class WavefunctionGraphic extends PNode {
         addChild( imageGraphic );
         imageGraphic.setImage( colorGrid.getBufferedImage() );
 
-        borderGraphic = new PPath( new Rectangle( colorGrid.getWidth(), colorGrid.getHeight() ) );
+        borderGraphic = new PPath( imageGraphic.getFullBounds() );
         borderGraphic.setStroke( new BasicStroke( 2 ) );
         borderGraphic.setStrokePaint( Color.white );
         addChild( borderGraphic );
@@ -76,6 +76,14 @@ public class WavefunctionGraphic extends PNode {
         setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
         imageGraphic.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF );
         imageGraphic.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
+
+        PropertyChangeListener pcl = new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                borderGraphic.setPathTo( imageGraphic.getFullBounds() );
+            }
+        };
+        imageGraphic.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, pcl );
+        imageGraphic.addPropertyChangeListener( PNode.PROPERTY_BOUNDS, pcl );
     }
 
     public int getWaveformWidth() {
@@ -163,7 +171,7 @@ public class WavefunctionGraphic extends PNode {
         return colorGrid.getBlockWidth();
     }
 
-    public int getWavefunctionWidth() {
+    public int getWavefunctionGraphicWidth() {
         return colorGrid.getWidth();
     }
 
@@ -189,13 +197,16 @@ public class WavefunctionGraphic extends PNode {
         imagColorMap.setPhoton( photon );
     }
 
+    //todo this was previously used to scale the wavefunction graphic.
     public void setWaveSize( int width, int height ) {
         colorGrid.setModelSize( width, height );
         imageGraphic.setImage( colorGrid.getBufferedImage() );
-        double aspectRatio = colorGrid.getBufferedImage().getWidth() / ( (double)colorGridWidth );
-        imageGraphic.setTransform( new AffineTransform() );
+        borderGraphic.setPathTo( imageGraphic.getFullBounds() );
+//        double aspectRatio = colorGrid.getBufferedImage().getWidth() / ( (double)colorGridWidth );
+//        imageGraphic.setTransform( new AffineTransform() );
 //
-        wavefunctionScale = 1.0 / aspectRatio;
+//        wavefunctionScale = 1.0 / aspectRatio;
+//        wavefunctionScale = 1.0 / aspectRatio;
 //        System.out.println( "wavefunctionScale = " + wavefunctionScale );
 //        imageGraphic.scale( wavefunctionScale );
     }
