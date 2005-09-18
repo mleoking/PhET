@@ -106,7 +106,7 @@ public class DiscreteModel implements ModelElement {
         return slitAbsorptive;
     }
 
-    class PropagateNormal implements PropagationStrategy {
+    class ReflectivePropagate implements PropagationStrategy {
 
         public void step() {
             if( getWavefunction().getMagnitude() > 0 ) {
@@ -117,8 +117,9 @@ public class DiscreteModel implements ModelElement {
         }
     }
 
-    class PropagateBoth implements PropagationStrategy {
+    class AbsorptivePropagate implements PropagationStrategy {
         public void step() {
+            getWavefunction().setMagnitudeDirty();
             if( getWavefunction().getMagnitude() > 0 ) {
                 sourcePropagator.propagate( sourceWave );
                 copySourceToActual();
@@ -137,10 +138,10 @@ public class DiscreteModel implements ModelElement {
 
     private PropagationStrategy getPropagationStrategy() {
         if( slitAbsorptive ) {
-            return new PropagateBoth();
+            return new AbsorptivePropagate();
         }
         else {
-            return new PropagateNormal();
+            return new ReflectivePropagate();
         }
     }
 

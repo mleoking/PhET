@@ -3,7 +3,6 @@ package edu.colorado.phet.qm.view.piccolo;
 
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.math.MathUtil;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.view.gun.Photon;
@@ -23,15 +22,15 @@ public class SmoothIntensityDisplay {
     private IntensityDisplay intensityDisplay;
     private double[] histogram;
     private boolean fadeEnabled = true;
-    private PhetShapeGraphic backgroundGraphic;
+//    private PhetShapeGraphic backgroundGraphic;
     private Photon photon;
     private double brightness = 1.0f;
 
     public SmoothIntensityDisplay( IntensityDisplay intensityDisplay ) {
         this.intensityDisplay = intensityDisplay;
         histogram = new double[getWavefunction().getWidth()];
-        backgroundGraphic = new PhetShapeGraphic( intensityDisplay.getSchrodingerPanel(), new Rectangle( intensityDisplay.getDetectorSheet().getBufferedImage().getWidth(),
-                                                                                                         intensityDisplay.getDetectorSheet().getBufferedImage().getHeight() ), new BasicStroke( 3 ), Color.blue );
+//        backgroundGraphic = new PhetShapeGraphic( intensityDisplay.getSchrodingerPanel(), new Rectangle( intensityDisplay.getDetectorSheet().getBufferedImage().getWidth(),
+//                                                                                                         intensityDisplay.getDetectorSheet().getBufferedImage().getHeight() ), new BasicStroke( 3 ), Color.blue );
     }
 
     private Wavefunction getWavefunction() {
@@ -74,7 +73,7 @@ public class SmoothIntensityDisplay {
             sheetGraphics.setColor( color );
             sheetGraphics.fillRect( x, 0, x1 - x, 100 );
         }
-        backgroundGraphic.paint( sheetGraphics );
+//        backgroundGraphic.paint( sheetGraphics );
         intensityDisplay.getDetectorSheet().repaint();
     }
 

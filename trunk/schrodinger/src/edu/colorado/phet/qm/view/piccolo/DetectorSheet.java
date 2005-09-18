@@ -2,7 +2,6 @@
 package edu.colorado.phet.qm.view.piccolo;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.qm.phetcommon.IntegralModelElement;
 import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
@@ -28,7 +27,7 @@ import java.beans.PropertyChangeListener;
 public class DetectorSheet extends PNode {
     private SchrodingerPanel schrodingerPanel;
 
-    private PhetShapeGraphic backgroundGraphic;
+//    private PhetShapeGraphic backgroundGraphic;
     private BufferedImage bufferedImage;
     private PImage screenGraphic;
     private int opacity = 255;
@@ -50,8 +49,8 @@ public class DetectorSheet extends PNode {
         screenGraphic = new PImage( bufferedImage );
         addChild( screenGraphic );
 
-        backgroundGraphic = new PhetShapeGraphic( schrodingerPanel, new Rectangle( wavefunctionGraphic.getWavefunctionGraphicWidth(), detectorSheetHeight ), Color.black, new BasicStroke( 3 ), Color.blue );
-        backgroundGraphic.paint( bufferedImage.createGraphics() );
+//        backgroundGraphic = new PhetShapeGraphic( schrodingerPanel, new Rectangle( wavefunctionGraphic.getWavefunctionGraphicWidth(), detectorSheetHeight ), Color.black, new BasicStroke( 3 ), Color.blue );
+//        backgroundGraphic.paint( bufferedImage.createGraphics() );
 
         setBrightness( 1.0 );
         imageFade = new ImageFade();
@@ -143,7 +142,7 @@ public class DetectorSheet extends PNode {
 
     public void reset() {
         bufferedImage = new BufferedImage( wavefunctionGraphic.getWavefunctionGraphicWidth(), detectorSheetHeight, BufferedImage.TYPE_INT_RGB );
-        backgroundGraphic.paint( bufferedImage.createGraphics() );
+//        backgroundGraphic.paint( bufferedImage.createGraphics() );
         screenGraphic.setImage( bufferedImage );
         detectorSheetControlPanelPNode.setClearButtonVisible( false );
     }
