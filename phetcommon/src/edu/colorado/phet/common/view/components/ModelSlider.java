@@ -295,7 +295,7 @@ public class ModelSlider extends JPanel {
             table.put( new Double( tick ), new JLabel( tick + "" ) );
         }
         setModelLabels( table );
-        relabelSlider();
+//        relabelSlider();
     }
 
     public void setModelLabels( Hashtable modelLabels ) {
@@ -310,7 +310,7 @@ public class ModelSlider extends JPanel {
             viewLabels.put( new Integer( viewValue ), modelLabels.get( o ) );
         }
         slider.setLabelTable( viewLabels );
-        relabelSlider();
+//        relabelSlider();
     }
 
     public void setPaintTicks( boolean paintTicks ) {
