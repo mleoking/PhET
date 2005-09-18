@@ -1,4 +1,4 @@
-package edu.colorado.phet.qm.view;
+package edu.colorado.phet.qm.util;
 
 import javax.swing.*;
 import java.awt.*;

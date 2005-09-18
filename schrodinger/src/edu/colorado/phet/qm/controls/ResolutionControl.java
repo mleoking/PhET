@@ -3,7 +3,7 @@ package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.qm.SchrodingerModule;
-import edu.colorado.phet.qm.view.WavefunctionGraphic;
+import edu.colorado.phet.qm.view.piccolo.WavefunctionGraphic;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

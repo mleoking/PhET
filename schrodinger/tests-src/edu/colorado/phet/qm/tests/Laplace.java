@@ -1,6 +1,6 @@
 package edu.colorado.phet.qm.tests;
 
-import edu.colorado.phet.qm.view.ImageDebugFrame;
+import edu.colorado.phet.qm.util.ImageDebugFrame;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,9 +1,13 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.view;
+package edu.colorado.phet.qm.view.piccolo;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.piccolo.pswing.PSwing;
+import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import javax.swing.*;
@@ -31,12 +35,13 @@ public class SavedScreenGraphic extends PNode {
         PImage imageGraphic = new PImage( image );
         addChild( imageGraphic );
         //todo piccolo
-//        addTranslationListener( new TranslationListener() {
-//            public void translationOccurred( TranslationEvent translationEvent ) {
-//                translate( translationEvent.getDx(), translationEvent.getDy() );
-//            }
-//        } );
-//        setCursorHand();
+        addInputEventListener( new PBasicInputEventHandler() {
+            public void mouseDragged( PInputEvent event ) {
+                super.mouseDragged( event );
+                translate( event.getDelta().width, event.getDelta().height );
+            }
+        } );
+        addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
 
         try {
             BufferedImage closeImage = ImageLoader.loadBufferedImage( "images/x-14.jpg" );
@@ -47,7 +52,7 @@ public class SavedScreenGraphic extends PNode {
             button.setOffset( -button.getWidth() - 2, 0 );
             closeButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    schrodingerPanel.removeWorldChild( SavedScreenGraphic.this );
+                    schrodingerPanel.getScreenNode().removeChild( SavedScreenGraphic.this );
                 }
             } );
         }

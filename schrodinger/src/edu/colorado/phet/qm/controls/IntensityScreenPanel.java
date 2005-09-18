@@ -3,7 +3,7 @@ package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.view.components.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
-import edu.colorado.phet.qm.view.IntensityDisplay;
+import edu.colorado.phet.qm.view.piccolo.IntensityDisplay;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

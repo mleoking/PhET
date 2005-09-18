@@ -2,7 +2,6 @@
 package edu.colorado.phet.qm.model;
 
 import edu.colorado.phet.qm.model.propagators.ClassicalWavePropagator;
-import edu.colorado.phet.qm.view.RectangularObject;
 
 import java.awt.*;
 import java.util.Random;

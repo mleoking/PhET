@@ -2,14 +2,16 @@
 package edu.colorado.phet.qm.modules.intensity;
 
 import edu.colorado.phet.piccolo.pswing.PSwing;
+import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.controls.SlitControlPanel;
-import edu.colorado.phet.qm.view.ColorMap;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
-import edu.colorado.phet.qm.view.SmoothIntensityDisplay;
+import edu.colorado.phet.qm.view.colormaps.ColorMap;
 import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
 import edu.colorado.phet.qm.view.colormaps.SplitColorMap;
 import edu.colorado.phet.qm.view.gun.HighIntensityGun;
 import edu.colorado.phet.qm.view.gun.Photon;
+import edu.colorado.phet.qm.view.piccolo.SchrodingerScreenNode;
+import edu.colorado.phet.qm.view.piccolo.SmoothIntensityDisplay;
+import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,8 +27,6 @@ public class IntensityPanel extends SchrodingerPanel {
     private IntensityModule intensityModule;
     private SmoothIntensityDisplay smoothIntensityDisplay;
     private boolean smoothScreen = false;
-    private PSwing slitControlGraphic;
-    private SlitControlPanel slitControlPanel;
     private SplitColorMap splitColorMap;
     private HighIntensityGun highIntensityGun;
 
@@ -37,40 +37,38 @@ public class IntensityPanel extends SchrodingerPanel {
         setGunGraphic( highIntensityGun );
         getIntensityDisplay().setHighIntensityMode();
 
-//        setSplitGraphics();
         setNormalGraphics();
         smoothIntensityDisplay = new SmoothIntensityDisplay( getIntensityDisplay() );
         setSmoothScreen( false );
 
-        PSwing ds = getDoubleSlitPanelGraphic();
+
         getDoubleSlitPanel().addDoubleSlitCheckBoxListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setControlsEnabled( getDoubleSlitPanel().isDoubleSlitEnabled() );
             }
         } );
 
-        slitControlPanel = new SlitControlPanel( intensityModule );
-        slitControlGraphic = new PSwing( this, slitControlPanel );
-        addWorldChild( slitControlGraphic );
-        slitControlGraphic.setOffset( ds.getX(), ds.getY() + ds.getHeight() + 5 );
-
-//        getIntensityDisplay().getDetectorSheet().setFadeEnabled( true );
-//        getIntensityDisplay().getDetectorSheet().addFadeCheckBox();
-//        getIntensityDisplay().getDetectorSheet().setHighIntensityMode();
 
         splitColorMap = new SplitColorMap( intensityModule.getSplitModel(), this );//this.intensityModule.getSplitModel() );
         setControlsEnabled( getDoubleSlitPanel().isDoubleSlitEnabled() );
-//        putBelow( getDoubleSlitPanelGraphic(), slitControlGraphic, 3 );
         setDisplayPhotonColor( super.getDisplayPhotonColor() );
         getIntensityDisplay().getDetectorSheet().getDetectorSheetPanel().setBrightness();
     }
 
+    public IntensityScreenNode getIntensityScreenNode() {
+        return (IntensityScreenNode)super.getScreenNode();
+    }
+
+    protected SchrodingerScreenNode createScreenNode( SchrodingerModule module ) {
+        return new IntensityScreenNode( module, this );
+    }
+
     public PSwing getSlitControlGraphic() {
-        return slitControlGraphic;
+        return getIntensityScreenNode().getSlitControlGraphic();
     }
 
     private void setControlsEnabled( boolean doubleSlitEnabled ) {
-        slitControlPanel.setEnabled( doubleSlitEnabled );
+        getSlitControlPanel().setEnabled( doubleSlitEnabled );
     }
 
     protected HighIntensityGun createGun() {
@@ -79,7 +77,7 @@ public class IntensityPanel extends SchrodingerPanel {
     }
 
     public SlitControlPanel getSlitControlPanel() {
-        return slitControlPanel;
+        return getIntensityScreenNode().getSlitControlPanel();
     }
 
     public void setSplitMode( boolean splitMode ) {
@@ -157,5 +155,9 @@ public class IntensityPanel extends SchrodingerPanel {
         super.setWaveSize( width, height );
         smoothIntensityDisplay.setWaveSize( width, height );
         highIntensityGun.setOn( highIntensityGun.isOn() );
+    }
+
+    public IntensityModule getIntensityModule() {
+        return intensityModule;
     }
 }

@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.view;
+package edu.colorado.phet.qm.view.piccolo;
 
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -20,13 +20,8 @@ public class DetectionGraphic extends PNode {
         super();
         int width = 6;
         int height = width;
-//        PhetShapeGraphic pt = new PhetShapeGraphic( getComponent(), new Ellipse2D.Double( -width / 2, -height / 2, width, height ), new Color( 150,150,255), new BasicStroke( 1 ), Color.black );
-//        Color fill = new Color( 100, 100, 255, 200 );
-//        Color fill = new Color( 100, 100, 255, 10);
         Color fill = new Color( 235, 230, 255, opacity );//50 per time step at transparency 4 looks good
-//        Color fill = new Color( 100, 100, 255, opacity );//50 per time step at transparency 4 looks good
         PPath pt = new PPath( new Ellipse2D.Double( -width / 2, -height / 2, width, height ) );
-//        , new BasicStroke( 1 ), Color.black );
         pt.setPaint( fill );
         addChild( pt );
         setOffset( x, y );

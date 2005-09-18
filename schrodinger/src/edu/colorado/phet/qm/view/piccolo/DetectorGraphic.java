@@ -1,10 +1,11 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.view;
+package edu.colorado.phet.qm.view.piccolo;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.qm.SchrodingerLookAndFeel;
 import edu.colorado.phet.qm.model.Detector;
+import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import javax.swing.*;
@@ -34,8 +35,8 @@ public class DetectorGraphic extends RectangleGraphic {
 
         darkGreen = new Color( 50, 230, 75 );
         probDisplay = new PText();
-        // todo piccolo
-        // schrodingerPanel, new Font( "Lucida Sans", Font.BOLD, 14 ), "", darkGreen
+        probDisplay.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
+        probDisplay.setTextPaint( darkGreen );
         probDisplay.setPickable( false );
         probDisplay.setChildrenPickable( false );
         addChild( probDisplay );

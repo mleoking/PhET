@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.view;
+package edu.colorado.phet.qm.view.swing;
 
 import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.qm.controls.ConfigureHorizontalSlitPanel;
