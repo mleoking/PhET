@@ -2,7 +2,10 @@
 package edu.colorado.phet.qm.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.piccolo.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 import javax.swing.event.MouseInputAdapter;
@@ -17,9 +20,10 @@ import java.awt.event.MouseEvent;
  */
 
 public class RectangleGraphic extends PNode {
-    private PPath areaGraphic;
     private SchrodingerPanel schrodingerPanel;
-    private PPath grabbablePart;
+
+    private PPath areaGraphic;
+    private PPath resizeCorner;
     private RectangularObject rectangularObject;
 
     public RectangleGraphic( SchrodingerPanel component, final RectangularObject rectangularObject, Color fill ) {
@@ -27,20 +31,29 @@ public class RectangleGraphic extends PNode {
         this.schrodingerPanel = component;
         this.rectangularObject = rectangularObject;
         areaGraphic = new PPath();//todo transparent green.
-        // todo piccolo
-        // component, null, fill, new BasicStroke( 1.0f ), Color.blue
+        areaGraphic.setStrokePaint( Color.blue );
+        areaGraphic.setStroke( new BasicStroke( 1.0f ) );
+        areaGraphic.setPaint( fill );
         addChild( areaGraphic );
-//        areaGraphic.addi( new ContinuousDrag( new LocationGetter() {
+        //todo piccolo
+//        areaGraphic.addInputEventListener( new ContinuousDrag( new LocationGetter() {
 //            public Point getLocation() {
 //                return rectangularObject.getLocation();
 //            }
 //        } ) );
-//        areaGraphic.setCursorHand();
+        areaGraphic.addInputEventListener( new PDragEventHandler() {
+            public void mouseDragged( PInputEvent e ) {
+//                super.mouseDragged( e );
+            }
+        } );
+        areaGraphic.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
 
-        grabbablePart = new PPath( new Rectangle( 0, 0, 10, 10 ) );
+        resizeCorner = new PPath( new Rectangle( 0, 0, 10, 10 ) );
+        resizeCorner.setPaint( Color.yellow );
+        resizeCorner.setStroke( new BasicStroke( 1 ) );
+        resizeCorner.setStrokePaint( Color.green );
         //todo piccolo
-        //, Color.yellow, new BasicStroke( 1 ), Color.green
-        addChild( grabbablePart );
+        addChild( resizeCorner );
 //        grabbablePart.addMouseInputListener( new CornerDrag() );
 //        grabbablePart.setCursorHand();
 
@@ -55,21 +68,14 @@ public class RectangleGraphic extends PNode {
     }
 
     public void setResizeComponentVisible( boolean visible ) {
-        this.grabbablePart.setVisible( visible );
+        this.resizeCorner.setVisible( visible );
     }
 
     private void update() {
         Rectangle modelRect = rectangularObject.getBounds();
-//        ColorGrid grid = getColorGrid();
-//        Rectangle viewRect = grid.getViewRectangle( modelRect );
         Rectangle viewRect = getViewRectangle( modelRect );
         areaGraphic.setPathTo( viewRect );
-        grabbablePart.setOffset( (int)viewRect.getMaxX() - grabbablePart.getWidth() / 2, (int)viewRect.getMaxY() - grabbablePart.getHeight() / 2 );
-
-//        double probPercent = rectangularObject.getProbability() * 100;
-//        String formatted = format.format( probPercent );
-//        probDisplay.setText( formatted + " %" );
-//        probDisplay.setLocation( (int)viewRect.getX(), (int)viewRect.getY() );
+        resizeCorner.setOffset( (int)viewRect.getMaxX() - resizeCorner.getWidth() / 2, (int)viewRect.getMaxY() - resizeCorner.getHeight() / 2 );
     }
 
     protected ColorGrid getColorGrid() {
@@ -137,7 +143,6 @@ public class RectangleGraphic extends PNode {
                 int modelDY = (int)( dy / getColorGrid().getBlockHeight() );
                 rectangularObject.setLocation( modelDX + origLoc.x, modelDY + origLoc.y );
             }
-
         }
     }
 

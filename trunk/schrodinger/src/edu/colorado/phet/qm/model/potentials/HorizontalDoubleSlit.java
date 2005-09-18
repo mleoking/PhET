@@ -167,7 +167,7 @@ public class HorizontalDoubleSlit implements Potential {
     }
 
     public Rectangle[] getBlockAreas() {
-        int y = leftSlit.y+1;
+        int y = leftSlit.y + 1;
         int height = leftSlit.height;
         Rectangle leftBlock = new Rectangle( 0, y, leftSlit.x, height );
         Rectangle centerBlock = new Rectangle( leftSlit.x + leftSlit.width, y, rightSlit.x - leftSlit.x - leftSlit.width, height );

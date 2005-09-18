@@ -12,6 +12,7 @@ import edu.colorado.phet.qm.view.gun.Photon;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,11 +31,9 @@ import java.awt.image.BufferedImage;
 public class WavefunctionGraphic extends PNode {
 
     public static int numIterationsBetwenScreenUpdate = 2;//TODO make this obvious at top level!
-
     private boolean displayXExpectation;
     private boolean displayYExpectation;
     private boolean displayCollapsePoint;
-
     private ColorGrid colorGrid;
     private int colorGridWidth = 400;
     private SchrodingerPanel schrodingerPanel;
@@ -43,13 +42,10 @@ public class WavefunctionGraphic extends PNode {
 
     private boolean displayPyExpectation = false;
     private PPath borderGraphic;
-//    private MagnitudeInGrayscale grayscaleMap;
     private MagnitudeColorMap magnitudeColorMap;
     private MagnitudeColorMap realColorMap;
     private MagnitudeColorMap imagColorMap;
-//    private static final double WAVE_SIZE_SCALE = 1.25;
     private double wavefunctionScale = 1.0;
-
 
     public WavefunctionGraphic( final SchrodingerPanel schrodingerPanel ) {
         this.schrodingerPanel = schrodingerPanel;
@@ -69,8 +65,8 @@ public class WavefunctionGraphic extends PNode {
         imageGraphic.setImage( colorGrid.getBufferedImage() );
 
         borderGraphic = new PPath( new Rectangle( colorGrid.getWidth(), colorGrid.getHeight() ) );
-        //todo piccolo
-        //, new BasicStroke( 2 ), Color.white
+        borderGraphic.setStroke( new BasicStroke( 2 ) );
+        borderGraphic.setStrokePaint( Color.white );
         addChild( borderGraphic );
 
         getDiscreteModel().addListener( new DiscreteModel.Adapter() {
@@ -83,7 +79,6 @@ public class WavefunctionGraphic extends PNode {
 
         JButton clear = new JButton( "<html>Clear<br>Wave</html>" );
         clear.setMargin( new Insets( 2, 2, 2, 2 ) );
-//        PhetGraphic clearButton = PhetJComponent.newInstance( schrodingerPanel, clear );
         PSwing clearButton = new PSwing( schrodingerPanel, clear );
         addChild( clearButton );
         clear.setFont( new Font( "Lucida Sans", Font.BOLD, 10 ) );
@@ -93,10 +88,17 @@ public class WavefunctionGraphic extends PNode {
             }
         } );
         clearButton.setOffset( -clearButton.getWidth() - 2, imageGraphic.getHeight() - clearButton.getHeight() );
+        setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF );
+        setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
     }
 
     public int getWaveformWidth() {
         return (int)imageGraphic.getWidth();
+    }
+
+    public void fullPaint( PPaintContext paintContext ) {
+//        paintContext.getGraphics().setRenderingHint( Render);
+        super.fullPaint( paintContext );
     }
 
     public void setWavefunctionColorMap( ColorMap painter ) {

@@ -29,7 +29,6 @@ public class ColorGrid {
     private void createImage() {
         int imageWidth = nx * getBlockWidth();
         int imageHeight = ny * getBlockHeight();
-//        image = new BufferedImage( width, height, BufferedImage.TYPE_INT_RGB );
         image = new BufferedImage( imageWidth, imageHeight, BufferedImage.TYPE_INT_RGB );
     }
 
@@ -103,6 +102,16 @@ public class ColorGrid {
 
     public void setModelSize( int nx, int ny ) {
         this.nx = nx;
+        this.ny = ny;
+        createImage();
+    }
+
+    public void setNx( int nx ) {
+        this.nx = nx;
+        createImage();
+    }
+
+    public void setNy( int ny ) {
         this.ny = ny;
         createImage();
     }
