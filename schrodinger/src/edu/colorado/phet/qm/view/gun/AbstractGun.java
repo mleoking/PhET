@@ -31,26 +31,28 @@ public abstract class AbstractGun extends PNode {
     public AbstractGun( final SchrodingerPanel schrodingerPanel ) {
         super();
         this.schrodingerPanel = schrodingerPanel;
-//        gunImageGraphic = new PhetImageGraphic( getComponent(), "images/laser.gif" );
-//        gunImageGraphic = new PhetImageGraphic( getComponent(), "images/raygun3-scaled.gif" );
         String imageResourceName = getGunImageResource();
-        BufferedImage image = null;
         try {
-            image = ImageLoader.loadBufferedImage( imageResourceName );
+            BufferedImage image = ImageLoader.loadBufferedImage( imageResourceName );
+            gunImageGraphic = new PImage( image );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
-        gunImageGraphic = new PImage( image );
-        gunImageGraphic.setOffset( getOrigGunLocation() );
+        initGunLocation();
         addChild( gunImageGraphic );
         this.comboBox = initComboBox();
         schrodingerPanel.add( comboBox );
         setVisible( true );
     }
 
+    protected void initGunLocation() {
+        gunImageGraphic.setOffset( getOrigGunLocation() );
+    }
+
     protected String getGunImageResource() {
-        String imageResourceName = "images/raygun3-200x160-scaled-matt.gif";
+//        String imageResourceName = "images/raygun3-200x160-scaled-matt.gif";
+        String imageResourceName = "images/raygun3-centerbarrel.gif";
         return imageResourceName;
     }
 

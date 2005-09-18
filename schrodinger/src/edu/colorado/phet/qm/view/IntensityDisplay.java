@@ -126,17 +126,12 @@ public class IntensityDisplay extends PNode {
         return getSchrodingerPanel().getWavefunctionGraphic().getWaveImageScaleX();
     }
 
-
     public Function.LinearFunction getModelToViewTransform1d() {
-        Function.LinearFunction linearFunction = new Function.LinearFunction( 0, getDiscreteModel().getGridWidth(), 0, getWidth() );
+        Function.LinearFunction linearFunction = new Function.LinearFunction( 0, getDiscreteModel().getGridWidth(), 0, getFullBounds().getWidth() );
         return linearFunction;
     }
 
     private int getDetectY() {
-//        int y = (int)( random.nextDouble() * detectorHeight );
-//        return y;
-
-//        int y = (int)( random.nextDouble() * detectorHeight * 0.6 );
         int y = (int)( random.nextDouble() * detectorHeight * 0.45 );
         return y;
     }

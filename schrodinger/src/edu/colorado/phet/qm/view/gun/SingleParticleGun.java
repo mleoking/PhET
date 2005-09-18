@@ -10,7 +10,6 @@ import edu.colorado.phet.qm.view.SchrodingerPanel;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.AffineTransform;
 import java.io.IOException;
 
 /**
@@ -67,21 +66,23 @@ public class SingleParticleGun extends AbstractGun {
                 fireOne.setEnabled( false );
                 clearAndFire();
                 fireOne.setIcon( outIcon );
-                getGunImageGraphic().setTransform( new AffineTransform() );
+//                getGunImageGraphic().setTransform( new AffineTransform() );
+                initGunLocation();
                 getSchrodingerPanel().setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
             }
         } );
         fireOne.addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 if( fireButtonEnabled() ) {
-                    getGunImageGraphic().setTransform( new AffineTransform() );
+                    initGunLocation();
                     getGunImageGraphic().translate( 0, 10 );
                 }
             }
 
             public void mouseReleased( MouseEvent e ) {
                 if( fireButtonEnabled() ) {
-                    getGunImageGraphic().setTransform( new AffineTransform() );
+                    initGunLocation();
+//                    getGunImageGraphic().setTransform( new AffineTransform() );
                 }
             }
         } );

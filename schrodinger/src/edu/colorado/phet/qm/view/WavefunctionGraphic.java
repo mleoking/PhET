@@ -1,7 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view;
 
-import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.model.operators.PxValue;
@@ -14,10 +13,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
@@ -77,17 +73,6 @@ public class WavefunctionGraphic extends PNode {
             }
         } );
 
-        JButton clear = new JButton( "<html>Clear<br>Wave</html>" );
-        clear.setMargin( new Insets( 2, 2, 2, 2 ) );
-        PSwing clearButton = new PSwing( schrodingerPanel, clear );
-        addChild( clearButton );
-        clear.setFont( new Font( "Lucida Sans", Font.BOLD, 10 ) );
-        clear.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                schrodingerPanel.clearWavefunction();
-            }
-        } );
-        clearButton.setOffset( -clearButton.getWidth() - 2, imageGraphic.getHeight() - clearButton.getHeight() );
         setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF );
         setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
     }

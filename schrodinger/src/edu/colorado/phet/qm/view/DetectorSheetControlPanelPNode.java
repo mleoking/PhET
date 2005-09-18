@@ -3,8 +3,7 @@ package edu.colorado.phet.qm.view;
 
 import edu.colorado.phet.common.view.components.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
-import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.qm.modules.intensity.IntensityPanel;
 import edu.umd.cs.piccolo.PNode;
 
@@ -23,7 +22,7 @@ import java.text.DecimalFormat;
  * Copyright (c) Jul 27, 2005 by Sam Reid
  */
 
-public class DetectorSheetPanel extends PNode {
+public class DetectorSheetControlPanelPNode extends PNode {
     private JButton clearButton;
     private Insets buttonInsets = new Insets( 2, 2, 2, 2 );
     private Font buttonFont = new Font( "Lucida Sans", Font.BOLD, 10 );
@@ -31,13 +30,13 @@ public class DetectorSheetPanel extends PNode {
     private JButton saveScreenJButton;
     private ModelSlider brightnessModelSlider;
     private JCheckBox fadeEnabled;
-    private PhetGraphic brightnessGraphic;
-    private PhetGraphic fadeGraphic;
-    private PhetGraphic display;
-    private PhetGraphic saveClearGraphic;
+    private PSwing brightnessGraphic;
+    private PSwing fadeGraphic;
+    private PSwing display;
+    private PSwing saveClearGraphic;
     private HorizontalLayoutPanel displayPanel;
 
-    public DetectorSheetPanel( final DetectorSheet detectorSheet ) {
+    public DetectorSheetControlPanelPNode( final DetectorSheet detectorSheet ) {
         this.detectorSheet = detectorSheet;
         clearButton = new JButton( "Clear" );
         clearButton.setMargin( buttonInsets );
@@ -107,20 +106,19 @@ public class DetectorSheetPanel extends PNode {
         saveClear.add( saveScreenJButton );
         saveClear.add( clearButton );
 
-        saveClearGraphic = PhetJComponent.newInstance( getSchrodingerPanel(), saveClear );
-        brightnessGraphic = PhetJComponent.newInstance( getSchrodingerPanel(), brightnessModelSlider );
-        fadeGraphic = PhetJComponent.newInstance( getSchrodingerPanel(), fadeEnabled );
+        saveClearGraphic = new PSwing( getSchrodingerPanel(), saveClear );
+        brightnessGraphic = new PSwing( getSchrodingerPanel(), brightnessModelSlider );
+        fadeGraphic = new PSwing( getSchrodingerPanel(), fadeEnabled );
 
-        display = PhetJComponent.newInstance( getSchrodingerPanel(), displayPanel );
+        display = new PSwing( getSchrodingerPanel(), displayPanel );
 
-        //todo piccolo
-//        addChild( saveClearGraphic );
-//        addChild( brightnessGraphic );
-//        addChild( fadeGraphic );
-//        addChild( display );
+        addChild( saveClearGraphic );
+        addChild( brightnessGraphic );
+        addChild( fadeGraphic );
+        addChild( display );
 
         putBelow( brightnessGraphic, saveClearGraphic, 1 );
-        fadeGraphic.setLocation( saveClearGraphic.getX() + saveClearGraphic.getWidth() + 2, saveClearGraphic.getY() + saveClearGraphic.getHeight() / 2 - fadeGraphic.getHeight() / 2 );
+        fadeGraphic.setOffset( saveClearGraphic.getX() + saveClearGraphic.getWidth() + 2, saveClearGraphic.getY() + saveClearGraphic.getHeight() / 2 - fadeGraphic.getHeight() / 2 );
         putBelow( display, brightnessGraphic, 1 );
 
         brightnessGraphic.setVisible( false );
@@ -149,8 +147,8 @@ public class DetectorSheetPanel extends PNode {
         return null;
     }
 
-    protected void putBelow( PhetGraphic obj, PhetGraphic parent, int insetY ) {
-        obj.setLocation( parent.getX(), parent.getY() + parent.getHeight() + insetY );
+    protected void putBelow( PNode obj, PNode parent, int insetY ) {
+        obj.setOffset( parent.getX(), parent.getY() + parent.getHeight() + insetY );
     }
 
     private SchrodingerPanel getSchrodingerPanel() {

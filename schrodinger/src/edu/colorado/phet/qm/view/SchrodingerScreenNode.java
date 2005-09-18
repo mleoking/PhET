@@ -9,6 +9,10 @@ import edu.colorado.phet.qm.phetcommon.RulerGraphic;
 import edu.colorado.phet.qm.view.gun.AbstractGun;
 import edu.umd.cs.piccolo.PNode;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
@@ -32,8 +36,9 @@ public class SchrodingerScreenNode extends PNode {
     private ArrayList detectorGraphics = new ArrayList();
     private PSwing doubleSlitPanelGraphic;
     private DoubleSlitPanel doubleSlitPanel;
+    private PSwing clearButton;
 
-    public SchrodingerScreenNode( SchrodingerPanel schrodingerPanel ) {
+    public SchrodingerScreenNode( final SchrodingerPanel schrodingerPanel ) {
         this.schrodingerPanel = schrodingerPanel;
         wavefunctionGraphic = new WavefunctionGraphic( schrodingerPanel );
         wavefunctionGraphic.setOffset( 100, 50 );
@@ -63,6 +68,18 @@ public class SchrodingerScreenNode extends PNode {
                 repaint();
             }
         } );
+
+        JButton clear = new JButton( "<html>Clear<br>Wave</html>" );
+        clear.setMargin( new Insets( 2, 2, 2, 2 ) );
+        clearButton = new PSwing( schrodingerPanel, clear );
+        addChild( clearButton );
+        clear.setFont( new Font( "Lucida Sans", Font.BOLD, 10 ) );
+        clear.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                schrodingerPanel.clearWavefunction();
+            }
+        } );
+
     }
 
     public WavefunctionGraphic getWavefunctionGraphic() {
@@ -171,12 +188,16 @@ public class SchrodingerScreenNode extends PNode {
         wavefunctionGraphic.setOffset( 100, 100 );
         double origWidth = wavefunctionGraphic.getFullBounds().getWidth();
         double fracSize = 0.5;
-        wavefunctionGraphic.setScale( screenWidth / origWidth * fracSize );
-
-        abstractGun.setOffset( wavefunctionGraphic.getFullBounds().getCenterX() - abstractGun.getGunWidth() / 2 + 50,
+//        wavefunctionGraphic.setScale( screenWidth / origWidth * fracSize );
+        intensityDisplay.setOffset( wavefunctionGraphic.getFullBounds().getX(),
+                                    wavefunctionGraphic.getFullBounds().getY() - intensityDisplay.getFullBounds().getHeight() / 2 );
+        abstractGun.setOffset( wavefunctionGraphic.getFullBounds().getCenterX() - abstractGun.getGunWidth() / 2 + 10,
                                wavefunctionGraphic.getFullBounds().getMaxY() - getGunGraphicOffsetY() );
         doubleSlitPanelGraphic.setOffset( wavefunctionGraphic.getFullBounds().getMaxX(),
                                           wavefunctionGraphic.getFullBounds().getCenterY() );
+        clearButton.setOffset( wavefunctionGraphic.getFullBounds().getX() - clearButton.getFullBounds().getWidth(),
+                               wavefunctionGraphic.getFullBounds().getHeight() - clearButton.getHeight() );
+
     }
 
     public void removePotentialGraphic( RectangularPotentialGraphic rectangularPotentialGraphic ) {
