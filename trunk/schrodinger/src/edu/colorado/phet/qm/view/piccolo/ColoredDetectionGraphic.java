@@ -17,17 +17,18 @@ import java.awt.geom.Ellipse2D;
 
 public class ColoredDetectionGraphic extends PNode {
 
-    public ColoredDetectionGraphic( DetectorSheet detectorSheet, int x, int y, int opacity, PhotonColorMap.ColorData rootColor ) {
-        super();
+    public ColoredDetectionGraphic( int x, int y, int opacity, PhotonColorMap.ColorData rootColor ) {
         int width = 6;
         int height = width;
         Color sourceColor = rootColor.toColor( 1.0 );
-        Color fill = new Color( sourceColor.getRed(), sourceColor.getGreen(), sourceColor.getBlue(), opacity );//50 per time step at transparency 4 looks good
+//        System.out.println( "opacity = " + opacity );
+        Color fill = new Color( sourceColor.getRed(), sourceColor.getGreen(), sourceColor.getBlue(), opacity );
+        //50 per time step at transparency 4 looks good
         PPath pt = new PPath( new Ellipse2D.Double( -width / 2, -height / 2, width, height ) );
+        pt.setStroke( null );
         pt.setPaint( fill );
         addChild( pt );
         setOffset( x, y );
     }
-
 
 }

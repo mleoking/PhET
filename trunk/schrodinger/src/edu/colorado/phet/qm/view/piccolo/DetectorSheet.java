@@ -27,7 +27,6 @@ import java.beans.PropertyChangeListener;
 public class DetectorSheet extends PNode {
     private SchrodingerPanel schrodingerPanel;
 
-//    private PhetShapeGraphic backgroundGraphic;
     private BufferedImage bufferedImage;
     private PImage screenGraphic;
     private int opacity = 255;
@@ -48,9 +47,6 @@ public class DetectorSheet extends PNode {
         bufferedImage = new BufferedImage( wavefunctionGraphic.getWavefunctionGraphicWidth(), detectorSheetHeight, BufferedImage.TYPE_INT_RGB );
         screenGraphic = new PImage( bufferedImage );
         addChild( screenGraphic );
-
-//        backgroundGraphic = new PhetShapeGraphic( schrodingerPanel, new Rectangle( wavefunctionGraphic.getWavefunctionGraphicWidth(), detectorSheetHeight ), Color.black, new BasicStroke( 3 ), Color.blue );
-//        backgroundGraphic.paint( bufferedImage.createGraphics() );
 
         setBrightness( 1.0 );
         imageFade = new ImageFade();
@@ -127,13 +123,18 @@ public class DetectorSheet extends PNode {
         setSaveButtonVisible( true );
         Graphics2D g2 = bufferedImage.createGraphics();
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+        PNode detectionGraphic = createDetectionGraphic( x, y, opacity );
+        detectionGraphic.fullPaint( new PPaintContext( g2 ) );
+        repaint();
+    }
+
+    private PNode createDetectionGraphic( int x, int y, int opacity ) {
         if( rootColor != null ) {
-            new ColoredDetectionGraphic( this, x, y, opacity, rootColor ).fullPaint( new PPaintContext( g2 ) );
+            return new ColoredDetectionGraphic( x, y, opacity, rootColor );
         }
         else {
-            new DetectionGraphic( this, x, y, opacity ).fullPaint( new PPaintContext( g2 ) );
+            return new DetectionGraphic( x, y, opacity );
         }
-        repaint();
     }
 
     public BufferedImage getBufferedImage() {
@@ -142,7 +143,6 @@ public class DetectorSheet extends PNode {
 
     public void reset() {
         bufferedImage = new BufferedImage( wavefunctionGraphic.getWavefunctionGraphicWidth(), detectorSheetHeight, BufferedImage.TYPE_INT_RGB );
-//        backgroundGraphic.paint( bufferedImage.createGraphics() );
         screenGraphic.setImage( bufferedImage );
         detectorSheetControlPanelPNode.setClearButtonVisible( false );
     }

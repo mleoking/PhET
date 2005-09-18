@@ -33,7 +33,7 @@ public class SchrodingerScreenNode extends PNode {
     private WavefunctionGraphic wavefunctionGraphic;
     private ArrayList rectanglePotentialGraphics = new ArrayList();
     private AbstractGun abstractGun;
-    private IntensityDisplay intensityDisplay;
+    private IntensityGraphic intensityGraphic;
     private RulerGraphic rulerGraphic;
     private ArrayList detectorGraphics = new ArrayList();
     private PSwing doubleSlitPanelGraphic;
@@ -49,13 +49,13 @@ public class SchrodingerScreenNode extends PNode {
         rulerGraphic.setOffset( 20, 20 );
         rulerGraphic.setVisible( false );
 
-        intensityDisplay = new IntensityDisplay( getSchrodingerModule(), schrodingerPanel, 60, wavefunctionGraphic );
+        intensityGraphic = new IntensityGraphic( getSchrodingerModule(), schrodingerPanel, 60, wavefunctionGraphic );
 
         doubleSlitPanel = new DoubleSlitPanel( getDiscreteModel() );
         doubleSlitPanelGraphic = new PSwing( schrodingerPanel, doubleSlitPanel );
         doubleSlitPanelGraphic.setOffset( getWavefunctionGraphic().getX() + getWavefunctionGraphic().getWidth() - 40, getWavefunctionGraphic().getY() + getWavefunctionGraphic().getHeight() / 2 - doubleSlitPanelGraphic.getHeight() / 2 + 35 );
 
-        addChild( intensityDisplay );
+        addChild( intensityGraphic );
         addChild( doubleSlitPanelGraphic );
         addChild( wavefunctionGraphic );
         addChild( rulerGraphic );
@@ -126,7 +126,7 @@ public class SchrodingerScreenNode extends PNode {
     }
 
     public void reset() {
-        intensityDisplay.reset();
+        intensityGraphic.reset();
     }
 
     public void addDetectorGraphic( DetectorGraphic detectorGraphic ) {
@@ -147,8 +147,8 @@ public class SchrodingerScreenNode extends PNode {
         rectanglePotentialGraphics.clear();
     }
 
-    public IntensityDisplay getIntensityDisplay() {
-        return intensityDisplay;
+    public IntensityGraphic getIntensityDisplay() {
+        return intensityGraphic;
     }
 
     public RulerGraphic getRulerGraphic() {
@@ -184,17 +184,13 @@ public class SchrodingerScreenNode extends PNode {
         super.layoutChildren();
 
         int screenWidth = schrodingerPanel.getWidth();
-//        double screenHeight = schrodingerPanel.getHeight();
         if( schrodingerPanel.getWidth() > 0 && schrodingerPanel.getHeight() > 0 ) {
             System.out.println( "screenWidth = " + screenWidth );
             wavefunctionGraphic.getColorGrid().setMaxSize( (int)( screenWidth * 0.6 ), (int)( screenWidth * 0.6 ) );
             wavefunctionGraphic.setTransform( new AffineTransform() );
             wavefunctionGraphic.setOffset( 50, 50 );
-//        double origWidth = wavefunctionGraphic.getFullBounds().getWidth();
-//        double fracSize = 0.5;
-//        wavefunctionGraphic.setScale( screenWidth / origWidth * fracSize );
-            intensityDisplay.setOffset( wavefunctionGraphic.getFullBounds().getX(),
-                                        wavefunctionGraphic.getFullBounds().getY() - intensityDisplay.getFullBounds().getHeight() / 2 );
+            intensityGraphic.setOffset( wavefunctionGraphic.getFullBounds().getX(),
+                                        wavefunctionGraphic.getFullBounds().getY() - intensityGraphic.getFullBounds().getHeight() / 2 );
             abstractGun.setOffset( wavefunctionGraphic.getFullBounds().getCenterX() - abstractGun.getGunWidth() / 2 + 10,
                                    wavefunctionGraphic.getFullBounds().getMaxY() - getGunGraphicOffsetY() );
             doubleSlitPanelGraphic.setOffset( wavefunctionGraphic.getFullBounds().getMaxX(),
