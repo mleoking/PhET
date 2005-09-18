@@ -82,11 +82,10 @@ public class DetectorSheet extends PNode {
     protected void layoutChildren() {
         screenGraphic.setTransform( new AffineTransform() );
         screenGraphic.getTransformReference( true ).shear( 0.45, 0 );
-        screenGraphic.translate( -30, 40 );
+        //todo Don't hard code this translation.
+        screenGraphic.translate( -42, 62 );
 
         detectorSheetControlPanelPNode.setOffset( screenGraphic.getFullBounds().getWidth(), screenGraphic.getFullBounds().getY() );
-//        detectorSheetControlPanelPNode.setOffset( 0, 0 );
-
     }
 
     public void setFadeEnabled( boolean fade ) {

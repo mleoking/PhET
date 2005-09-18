@@ -177,7 +177,7 @@ public class SchrodingerScreenNode extends PNode {
 
     public void setWaveSize( int width, int height ) {
         wavefunctionGraphic.setWaveSize( width, height );
-        intensityDisplay.setWaveSize( width, height );
+//        intensityDisplay.setWaveSize( width, height );
     }
 
     protected void layoutChildren() {

@@ -66,17 +66,12 @@ public class IntensityDisplay extends PNode {
     public void setHighIntensityMode() {
         setMultiplier( 100 );
         setProbabilityScaleFudgeFactor( 10 );
-//        setOpacity( 6 );
         setNormDecrement( 0.0 );
         getDetectorSheet().setHighIntensityMode();
-//        getDetectorSheet().addBrightnessSlider();
     }
 
     public void setFadeEnabled( boolean selected ) {
         detectorSheet.setFadeEnabled( selected );
-    }
-
-    public void setWaveSize( int width, int height ) {
     }
 
     public static interface Listener {
@@ -95,8 +90,9 @@ public class IntensityDisplay extends PNode {
     }
 
     private void detectOne( Wavefunction sub ) {
-        Function.LinearFunction linearFunction = getModelToViewTransform1d();
+//        Function.LinearFunction linearFunction = getModelToViewTransform1d();
         Point pt = getCollapsePoint( sub );
+        System.out.println( "Collapse point: " + pt.x );
 
 //        double screenGridWidth = schrodingerModule.getSchrodingerPanel().getWavefunctionGraphic().getBlockWidth();
 //        double randOffsetY = 2 * ( random.nextDouble() - 0.5 ) * screenGridWidth;
@@ -112,15 +108,15 @@ public class IntensityDisplay extends PNode {
             }
         }
 
-        int x = (int)( linearFunction.evaluate( pt.x ) + randOffsetX );
+        int x = (int)( getModelToViewTransform1d().evaluate( pt.x ) + randOffsetX );
+        System.out.println( "in panel coordinates: x = " + x );
         x *= getWavePanelScale();
+        System.out.println( "Scaled: x=" + x );
         int y = getDetectY();
 
 //        System.out.println( "x = " + x );
 //        System.out.println( "y = " + y );
         detectorSheet.addDetectionEvent( x, y );
-
-//        notifyDetection();
     }
 
     private double getWavePanelScale() {
@@ -128,7 +124,9 @@ public class IntensityDisplay extends PNode {
     }
 
     public Function.LinearFunction getModelToViewTransform1d() {
-        Function.LinearFunction linearFunction = new Function.LinearFunction( 0, getDiscreteModel().getGridWidth(), 0, getFullBounds().getWidth() );
+        Function.LinearFunction linearFunction = new Function.LinearFunction( 0, getDiscreteModel().getGridWidth(),
+//                                                                              0, getFullBounds().getWidth() );
+                                                                              0, getDetectorSheet().getBufferedImage().getWidth() );
         return linearFunction;
     }
 
