@@ -188,10 +188,10 @@ public class PhetFrame extends JFrame {
         if( modules.length == 1 ) {
             apparatusPanelContainer = new JPanel();
             apparatusPanelContainer.setLayout( new GridLayout( 1, 1 ) );
-            if( modules[0].getApparatusPanel() == null ) {
+            if( modules[0].getSimulationPanel() == null ) {
                 throw new RuntimeException( "Null Apparatus Panel in Module: " + modules[0].getName() );
             }
-            apparatusPanelContainer.add( modules[0].getApparatusPanel() );
+            apparatusPanelContainer.add( modules[0].getSimulationPanel() );
         }
         else {
             apparatusPanelContainer = new TabbedApparatusPanelContainer( application );
