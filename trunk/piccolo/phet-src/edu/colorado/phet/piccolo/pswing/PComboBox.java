@@ -4,8 +4,6 @@
  */
 package edu.colorado.phet.piccolo.pswing;
 
-import edu.umd.cs.piccolo.PCanvas;
-
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.plaf.basic.BasicComboPopup;
@@ -13,12 +11,14 @@ import javax.swing.plaf.basic.ComboPopup;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 import java.util.Vector;
 
 /**
+ * This PComboBox won't work properly if it is located in an abnormal hierarchy of Cameras.
+ * Support is provided for only one (or zero) view transforms.
+ * <p/>
  * A ComboBox for use in Jazz.  This still has an associated JPopupMenu
  * (which is always potentially heavyweight depending on component location
  * relative to containing window borders.)  However, this ComboBox places
@@ -94,19 +94,11 @@ public class PComboBox extends JComboBox implements Serializable {
         setUI( new ZBasicComboBoxUI() );
     }
 
-
     /**
      * Stores the most recent mousePressed ZMouseEvent
      */
     private void setCurrentEvent( MouseEvent me ) {
         currentEvent = me;
-    }
-
-    /**
-     * Get the most recent ZMouseEvent
-     */
-    private MouseEvent getCurrentEvent() {
-        return currentEvent;
     }
 
     public void setEnvironment( PSwing pSwing, PSwingCanvas canvas ) {
@@ -176,100 +168,9 @@ public class PComboBox extends JComboBox implements Serializable {
         protected Rectangle computePopupBounds( int px, int py, int pw, int ph ) {
             if( currentEvent != null ) {
 
-                // We need to modify the y position to reflect the true
-                // height of the ComboBox given the Jazz transformation
-                Point2D pt = getNodeLocationInFrame();
-                Rectangle2D bounds = new Rectangle2D.Double( pt.getX(), pt.getY(), (double)comboBox.getBounds().width, (double)comboBox.getBounds().height );
-//                currentEvent.getPath().getCamera().localToCamera( bounds, currentEvent.getNode() );
-                py = (int)( bounds.getHeight() + 0.5 );
-
-                Rectangle absBounds;
-                Rectangle r = new Rectangle( px, py, pw, ph );
-                boolean inModalDialog = inModalDialog();
-                /** Workaround for modal dialogs. See also JPopupMenu.java **/
-                /** We don't need to worry about this in Jazz because Dialogs
-                 aren't supported in Jazz - We'll leave it in just in case
-                 ZCanvas is added to a Dialog **/
-                if( inModalDialog ) {
-                    Dialog dlg = getDialog();
-                    Point p;
-                    if( dlg instanceof JDialog ) {
-                        JRootPane rp = ( (JDialog)dlg ).getRootPane();
-                        p = rp.getLocationOnScreen();
-                        absBounds = rp.getBounds();
-                        absBounds.x = p.x;
-                        absBounds.y = p.y;
-                    }
-                    else {
-                        absBounds = dlg.getBounds();
-                    }
-                    p = new Point( absBounds.x, absBounds.y );
-                    SwingUtilities.convertPointFromScreen( p, comboBox );
-                    absBounds.x = p.x;
-                    absBounds.y = p.y;
-                }
-                else {
-                    Point p;
-                    Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();
-                    absBounds = new Rectangle();
-
-                    // We get the true ComboBox location on screen to calculate
-                    // where to put the Popup component
-                    p = getComboLocationOnScreen();
-
-                    absBounds.x = -p.x;
-                    absBounds.y = -p.y;
-                    absBounds.width = scrSize.width;
-                    absBounds.height = scrSize.height;
-
-                }
-
-                Point offset = getJazzComboOffset();
-
-                // In this case we can do a normal pull down
-                if( SwingUtilities.isRectangleContainingRectangle( absBounds, r ) ) {
-                    r.x = r.x + offset.x;
-                    r.y = r.y + offset.y;
-                    return r;
-                }
-                else {
-                    Rectangle r2 = new Rectangle( 0, -r.height, r.width, r.height );
-                    // In this case we couldn't do pull down but we can do
-                    // pull up
-                    if( SwingUtilities.isRectangleContainingRectangle( absBounds, r2 ) ) {
-                        r2.x = offset.x;
-                        r2.y = offset.y + r2.y;
-                        return r2;
-                    }
-
-                    // Here we couldn't pull-down so we'll take the better of
-                    // the two possibilities cause we're in a dialog.
-                    if( inModalDialog ) {
-                        SwingUtilities.computeIntersection( absBounds.x, absBounds.y, absBounds.width, absBounds.height, r );
-                        SwingUtilities.computeIntersection( absBounds.x, absBounds.y, absBounds.width, absBounds.height, r2 );
-
-                        if( r.height > r2.height ) {
-                            r.x = r.x + offset.x;
-                            r.y = r.y + offset.y;
-
-                            return r;
-                        }
-                        else {
-                            r2.x = offset.x;
-                            r2.y = offset.y + r2.y;
-
-                            return r2;
-                        }
-                    }
-                    // We couldn't really do pull-down or up optimally so we
-                    // just go with up
-                    else {
-                        r2.x = offset.x;
-                        r2.y = offset.y + r2.y;
-
-                        return r2;
-                    }
-                }
+                Rectangle2D r = getNodeBoundsInCanvas();
+                Rectangle sup = super.computePopupBounds( px, py, pw, ph );
+                return new Rectangle( (int)r.getX(), (int)r.getMaxY(), (int)sup.getWidth(), (int)sup.getHeight() );
             }
             else {
                 return super.computePopupBounds( px, py, pw, ph );
@@ -277,77 +178,6 @@ public class PComboBox extends JComboBox implements Serializable {
 
         }
 
-        /**
-         * Gets the true location for the ComboBox on the screen
-         *
-         * @return The true location of the ComboBox on the screen
-         */
-        private Point getComboLocationOnScreen() {
-            Point position = null;
-
-            if( comboBox.isShowing() ) {
-                Point2D pt = new Point2D.Double( 0.0, 0.0 );
-                Component c;
-
-                // We don't want to get the offset of the Swing Component
-                // from the SwingWrapper (in ZCanvas) so we stop when we get
-                // to the top Swing component below the SwingWrapper
-                for( c = comboBox; !( c.getParent().getParent() instanceof PCanvas ); c = c.getParent() ) {
-                    Point location = c.getLocation();
-                    pt.setLocation( pt.getX() + location.getX(), pt.getY() + location.getY() );
-
-                }
-                pt = getNodeLocationInFrame();
-//                PCamera camera = currentEvent.getPath().getTopCamera();
-//                camera.localToCamera( pt, currentEvent.getNode() );
-                position = new Point( (int)( pt.getX() + 0.5 ), (int)( pt.getY() + 0.5 ) );
-
-                Point canvasOffset = c.getParent().getLocationOnScreen();
-
-                position.setLocation( position.getX() + canvasOffset.getX(), position.getY() + canvasOffset.getY() );
-            }
-
-            return position;
-        }
-
-
-        /**
-         * The
-         *
-         * @return The offset from the expected screen location and the
-         *         actual screen location.
-         */
-        private Point getJazzComboOffset() {
-            Point swing = comboBox.getLocationOnScreen();
-            Point jazz = getComboLocationOnScreen();
-            jazz.setLocation( jazz.getLocation().getX() - swing.getLocation().getX(),
-                              jazz.getLocation().getY() - swing.getLocation().getY() );
-            return jazz;
-        }
-
-        /**
-         * Copied directly from BasicComboPopup
-         */
-        private Dialog getDialog() {
-            Container parent;
-            for( parent = comboBox.getParent(); parent != null && !( parent instanceof Dialog )
-                                                && !( parent instanceof Window ); parent = parent.getParent() ) {
-                ;
-            }
-            if( parent instanceof Dialog ) {
-                return (Dialog)parent;
-            }
-            else {
-                return null;
-            }
-        }
-
-        /**
-         * Copied directly from BasicComboPopup
-         */
-        private boolean inModalDialog() {
-            return ( getDialog() != null );
-        }
     }
 
     /**
@@ -362,13 +192,14 @@ public class PComboBox extends JComboBox implements Serializable {
         }
     }
 
-    private Point2D getNodeLocationInFrame() {
+    private Rectangle2D getNodeBoundsInCanvas() {
         if( pSwing == null || canvas == null ) {
             throw new RuntimeException( "PComboBox.setEnvironment( swing, pCanvas );//has to be done manually at present" );
         }
-        Point2D r1c = pSwing.getBounds().getOrigin();
+        Rectangle2D r1c = pSwing.getBounds();
         pSwing.localToGlobal( r1c );
-        canvas.getCamera().viewToLocal( r1c );
+        canvas.getCamera().globalToLocal( r1c );
+        r1c = canvas.getCamera().getViewTransform().createTransformedShape( r1c ).getBounds2D();
         return r1c;
     }
 
