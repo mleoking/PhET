@@ -46,4 +46,8 @@ public class PiccoloModule extends Module {
     public JComponent getSimulationPanel() {
         return getPhetPCanvas();
     }
+
+    public void refresh() {
+//        super.refresh();
+    }
 }
