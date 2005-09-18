@@ -2,7 +2,7 @@
 package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.qm.view.piccolo.IntensityDisplay;
+import edu.colorado.phet.qm.view.piccolo.IntensityGraphic;
 
 /**
  * User: Sam Reid
@@ -11,18 +11,18 @@ import edu.colorado.phet.qm.view.piccolo.IntensityDisplay;
  * Copyright (c) Jul 18, 2005 by Sam Reid
  */
 
-public class AutoFire implements IntensityDisplay.Listener {
+public class AutoFire implements IntensityGraphic.Listener {
     private SingleParticleGun gunGraphic;
-    private IntensityDisplay intensityDisplay;
+    private IntensityGraphic intensityGraphic;
     private boolean autoFire = false;
     private ModelElement element;
     public static final double THRESHOLD = 0.015;
     private long lastFire = 0;
 
-    public AutoFire( SingleParticleGun gunGraphic, IntensityDisplay intensityDisplay ) {
+    public AutoFire( SingleParticleGun gunGraphic, IntensityGraphic intensityGraphic ) {
         this.gunGraphic = gunGraphic;
-        this.intensityDisplay = intensityDisplay;
-        intensityDisplay.addListener( this );
+        this.intensityGraphic = intensityGraphic;
+        intensityGraphic.addListener( this );
         element = new ModelElement() {
             public void stepInTime( double dt ) {
                 checkDetection();
@@ -59,7 +59,7 @@ public class AutoFire implements IntensityDisplay.Listener {
         if( this.autoFire != autoFire ) {
             this.autoFire = autoFire;
             if( this.autoFire ) {
-                if( intensityDisplay.getSchrodingerPanel().getDiscreteModel().getWavefunction().getMagnitude() == 0 ) {
+                if( intensityGraphic.getSchrodingerPanel().getDiscreteModel().getWavefunction().getMagnitude() == 0 ) {
                     fire();
                 }
                 gunGraphic.getSchrodingerModule().getModel().addModelElement( element );

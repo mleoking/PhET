@@ -120,7 +120,7 @@ public class SchrodingerPanel extends PhetPCanvas {
         return module;
     }
 
-    public IntensityDisplay getIntensityDisplay() {
+    public IntensityGraphic getIntensityDisplay() {
         return schrodingerScreenNode.getIntensityDisplay();
     }
 

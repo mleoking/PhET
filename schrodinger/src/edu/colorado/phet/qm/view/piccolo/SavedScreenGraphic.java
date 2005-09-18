@@ -34,7 +34,6 @@ public class SavedScreenGraphic extends PNode {
         this.image = image;
         PImage imageGraphic = new PImage( image );
         addChild( imageGraphic );
-        //todo piccolo
         addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
                 super.mouseDragged( event );

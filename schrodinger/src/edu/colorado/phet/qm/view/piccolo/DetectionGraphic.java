@@ -16,8 +16,7 @@ import java.awt.geom.Ellipse2D;
 
 public class DetectionGraphic extends PNode {
 
-    public DetectionGraphic( DetectorSheet detectorSheet, int x, int y, int opacity ) {
-        super();
+    public DetectionGraphic( int x, int y, int opacity ) {
         int width = 6;
         int height = width;
         Color fill = new Color( 235, 230, 255, opacity );//50 per time step at transparency 4 looks good
@@ -26,6 +25,5 @@ public class DetectionGraphic extends PNode {
         addChild( pt );
         setOffset( x, y );
     }
-
 
 }

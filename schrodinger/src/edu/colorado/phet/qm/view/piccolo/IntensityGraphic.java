@@ -21,13 +21,13 @@ import java.util.Random;
  * Copyright (c) Jun 23, 2005 by Sam Reid
  */
 
-public class IntensityDisplay extends PNode {
+public class IntensityGraphic extends PNode {
     private SchrodingerModule schrodingerModule;
     private SchrodingerPanel schrodingerPanel;
-    private int detectorHeight;
-    private WavefunctionGraphic wavefunctionGraphic;
-    private Random random;
+
     private DetectorSheet detectorSheet;
+    private int detectorHeight;
+    private Random random;
     private int h = 2;
     private int y = 2;
     private double probabilityScaleFudgeFactor = 1.0;
@@ -35,11 +35,10 @@ public class IntensityDisplay extends PNode {
     private int multiplier = 1;
     private ArrayList listeners = new ArrayList();
 
-    public IntensityDisplay( SchrodingerModule schrodingerModule, SchrodingerPanel schrodingerPanel, int detectorHeight, WavefunctionGraphic wavefunctionGraphic ) {
+    public IntensityGraphic( SchrodingerModule schrodingerModule, SchrodingerPanel schrodingerPanel, int detectorHeight, WavefunctionGraphic wavefunctionGraphic ) {
         this.schrodingerModule = schrodingerModule;
         this.schrodingerPanel = schrodingerPanel;
         this.detectorHeight = detectorHeight;
-        this.wavefunctionGraphic = wavefunctionGraphic;
         this.random = new Random();
         detectorSheet = new DetectorSheet( schrodingerPanel, wavefunctionGraphic, detectorHeight );
         addChild( detectorSheet );
@@ -90,13 +89,7 @@ public class IntensityDisplay extends PNode {
     }
 
     private void detectOne( Wavefunction sub ) {
-//        Function.LinearFunction linearFunction = getModelToViewTransform1d();
         Point pt = getCollapsePoint( sub );
-//        System.out.println( "Collapse point: " + pt.x );
-
-//        double screenGridWidth = schrodingerModule.getSchrodingerPanel().getWavefunctionGraphic().getBlockWidth();
-//        double randOffsetY = 2 * ( random.nextDouble() - 0.5 ) * screenGridWidth;
-//        System.out.println( "randOffsetY = " + randOffsetY );
         double randOffsetX = 0;
         if( random.nextDouble() < 1.0 ) {
             int randAmount = random.nextInt( 4 ) + 1;
@@ -109,13 +102,9 @@ public class IntensityDisplay extends PNode {
         }
 
         int x = (int)( getModelToViewTransform1d().evaluate( pt.x ) + randOffsetX );
-//        System.out.println( "in panel coordinates: x = " + x );
         x *= getWavePanelScale();
-//        System.out.println( "Scaled: x=" + x );
         int y = getDetectY();
 
-//        System.out.println( "x = " + x );
-//        System.out.println( "y = " + y );
         detectorSheet.addDetectionEvent( x, y );
     }
 
@@ -131,7 +120,7 @@ public class IntensityDisplay extends PNode {
     }
 
     private int getDetectY() {
-        int y = (int)( random.nextDouble() * detectorHeight * 0.45 );
+        int y = (int)( random.nextDouble() * detectorHeight * 0.5 );
         return y;
     }
 
@@ -145,10 +134,6 @@ public class IntensityDisplay extends PNode {
     private void updateWavefunctionAfterDetection() {
         getDiscreteModel().reduceWavefunctionNorm( normDecrement );
     }
-
-//    public int getWidth() {
-//        return getSchrodingerPanel().getWavefunctionGraphic().getWavefunctionWidth();
-//    }
 
     public Wavefunction getDetectionRegion() {
         return getDiscreteModel().getDetectionRegion( 0, getDetectionY(),
