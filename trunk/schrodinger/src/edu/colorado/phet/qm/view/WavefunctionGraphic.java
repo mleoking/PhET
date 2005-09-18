@@ -11,7 +11,6 @@ import edu.colorado.phet.qm.view.gun.Photon;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.util.PPaintContext;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -75,22 +74,17 @@ public class WavefunctionGraphic extends PNode {
 
         setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF );
         setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
+        imageGraphic.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF );
+        imageGraphic.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
     }
 
     public int getWaveformWidth() {
         return (int)imageGraphic.getWidth();
     }
 
-    public void fullPaint( PPaintContext paintContext ) {
-//        paintContext.getGraphics().setRenderingHint( Render);
-        super.fullPaint( paintContext );
-    }
-
     public void setWavefunctionColorMap( ColorMap painter ) {
         this.painter.setWavefunctionColorMap( painter );
         repaintAll();
-//        imageGraphic.setBoundsDirty();
-//        imageGraphic.autorepaint();
         schrodingerPanel.paintImmediately( 0, 0, schrodingerPanel.getWidth(), schrodingerPanel.getHeight() );
     }
 
@@ -134,8 +128,6 @@ public class WavefunctionGraphic extends PNode {
         colorGrid.colorize( painter );
         finishDrawing();
         imageGraphic.setImage( colorGrid.getBufferedImage() );
-//        imageGraphic.setBoundsDirty();
-//        imageGraphic.autorepaint();
     }
 
     private void finishDrawing() {
@@ -202,8 +194,10 @@ public class WavefunctionGraphic extends PNode {
         imageGraphic.setImage( colorGrid.getBufferedImage() );
         double aspectRatio = colorGrid.getBufferedImage().getWidth() / ( (double)colorGridWidth );
         imageGraphic.setTransform( new AffineTransform() );
+//
         wavefunctionScale = 1.0 / aspectRatio;
-        imageGraphic.scale( wavefunctionScale );
+//        System.out.println( "wavefunctionScale = " + wavefunctionScale );
+//        imageGraphic.scale( wavefunctionScale );
     }
 
     public double getWaveImageScaleX() {
