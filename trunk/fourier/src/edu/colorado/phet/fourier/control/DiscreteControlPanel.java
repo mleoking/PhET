@@ -59,8 +59,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
 
     // Things to be controlled.
     private FourierSeries _fourierSeries;
-    private DiscreteHarmonicsView _harmonicsGraph;
-    private DiscreteSumView _sumGraph;
+    private DiscreteHarmonicsView _harmonicsView;
+    private DiscreteSumView _sumView;
     private HarmonicWavelengthTool _wavelengthTool;
     private HarmonicPeriodTool _periodTool;
     private HarmonicPeriodDisplay _periodDisplay;
@@ -128,8 +128,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         
         // Things we'll be controlling.
         _fourierSeries = fourierSeries;
-        _harmonicsGraph = harmonicsGraph;
-        _sumGraph = sumGraph;
+        _harmonicsView = harmonicsGraph;
+        _sumView = sumGraph;
         _wavelengthTool = wavelengthTool;
         _periodTool = periodTool;
         _periodDisplay = periodDisplay;
@@ -460,7 +460,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         _showInfiniteCheckBox.setEnabled( true );
         _showInfiniteCheckBox.setForeground( Color.BLACK );
         _showInfiniteCheckBox.setSelected( false );
-        _sumGraph.setPresetEnabled( _showInfiniteCheckBox.isSelected() );
+        _sumView.setPresetEnabled( _showInfiniteCheckBox.isSelected() );
         
         // Wavelength Tool
         _wavelengthToolCheckBox.setSelected( false );
@@ -664,8 +664,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         }
         
         int mathForm = _mathFormComboBox.getSelectedKey(); // get this after setting stuff above
-        _sumGraph.setDomainAndMathForm( domain, mathForm );
-        _harmonicsGraph.setDomainAndMathForm( domain, mathForm );
+        _sumView.setDomainAndMathForm( domain, mathForm );
+        _harmonicsView.setDomainAndMathForm( domain, mathForm );
         _expandSumDialog.setDomainAndMathForm( domain, mathForm );
     }
     
@@ -683,14 +683,14 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         _showInfiniteCheckBox.setForeground( showInfiniteEnabled ? Color.BLACK : Color.GRAY );
         if ( !showInfiniteEnabled ) {
             _showInfiniteCheckBox.setSelected( false );
-            _sumGraph.setPresetEnabled( false );
+            _sumView.setPresetEnabled( false );
         }
         _fourierSeries.setPreset( preset );
     }
     
     private void handleShowInfinite() {
         boolean enabled = _showInfiniteCheckBox.isSelected();
-        _sumGraph.setPresetEnabled( enabled );
+        _sumView.setPresetEnabled( enabled );
     }
     
     private void handleWavelengthTool() {
@@ -801,8 +801,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         boolean isSelected = _showMathCheckBox.isSelected();
         _mathFormComboBox.setEnabled( isSelected );
         _expandSumCheckBox.setEnabled( isSelected );
-        _harmonicsGraph.setMathEnabled( isSelected );
-        _sumGraph.setMathEnabled( isSelected );
+        _harmonicsView.setMathEnabled( isSelected );
+        _sumView.setMathEnabled( isSelected );
         if ( ! isSelected ) {
             _expandSumDialog.hide();
             _expandSumCheckBox.setSelected( false );
@@ -812,8 +812,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     private void handleMathForm() {
         int domain = _domainComboBox.getSelectedKey();
         int mathForm = _mathFormComboBox.getSelectedKey();
-        _harmonicsGraph.setDomainAndMathForm( domain, mathForm );
-        _sumGraph.setDomainAndMathForm( domain, mathForm );
+        _harmonicsView.setDomainAndMathForm( domain, mathForm );
+        _sumView.setDomainAndMathForm( domain, mathForm );
         _expandSumDialog.setDomainAndMathForm( domain, mathForm );
         if ( domain == FourierConstants.DOMAIN_SPACE ) {
             _mathFormKeySpace = mathForm;
