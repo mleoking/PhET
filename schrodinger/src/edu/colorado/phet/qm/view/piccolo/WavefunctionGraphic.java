@@ -130,7 +130,10 @@ public class WavefunctionGraphic extends PNode {
     }
 
     private ColorGrid createColorGrid() {
-        return new ColorGrid( colorGridWidth, colorGridWidth, getDiscreteModel().getGridWidth(), getDiscreteModel().getGridHeight() );
+        int cellWidth = 10;
+        int cellHeight = 10;
+        System.out.println( "WavefunctionGraphic.createColorGrid" );
+        return new ColorGrid( cellWidth, cellHeight, getDiscreteModel().getGridWidth(), getDiscreteModel().getGridHeight() );
     }
 
     public void repaintAll() {
@@ -145,13 +148,13 @@ public class WavefunctionGraphic extends PNode {
 
         if( displayXExpectation ) {
             double xFractional = new XValue().compute( getWavefunction() );
-            int x = (int)( xFractional * colorGrid.getBlockWidth() * getDiscreteModel().getGridWidth() );
+            int x = (int)( xFractional * colorGrid.getCellWidth() * getDiscreteModel().getGridWidth() );
             g2.setColor( Color.blue );
             g2.fillRect( (int)x, 0, 2, image.getHeight() );
         }
         if( displayYExpectation ) {
             double yFractional = new YValue().compute( getDiscreteModel().getWavefunction() );
-            int y = (int)( yFractional * colorGrid.getBlockHeight() * getDiscreteModel().getGridHeight() );
+            int y = (int)( yFractional * colorGrid.getCellHeight() * getDiscreteModel().getGridHeight() );
             g2.setColor( Color.blue );
             g2.fillRect( 0, (int)y, image.getWidth(), 2 );
         }
@@ -166,10 +169,6 @@ public class WavefunctionGraphic extends PNode {
             System.out.println( "px = " + px );
         }
 
-    }
-
-    public int getBlockWidth() {
-        return colorGrid.getBlockWidth();
     }
 
     public int getWavefunctionGraphicWidth() {
@@ -214,5 +213,11 @@ public class WavefunctionGraphic extends PNode {
 
     public double getWaveImageScaleX() {
         return wavefunctionScale;
+    }
+
+    public void setCellDimensions( int cellWidth, int cellHeight ) {
+        colorGrid.setCellDimensions( cellWidth, cellHeight );
+        imageGraphic.setImage( colorGrid.getBufferedImage() );
+        borderGraphic.setPathTo( imageGraphic.getFullBounds() );
     }
 }
