@@ -142,9 +142,9 @@ public class DischargeLampModule extends BaseLaserModule {
         addSpectrometerGraphic();
         addHeatingElementGraphics();
         addTubeGraphic( apparatusPanel );
-        addGraphicBatteryControls();
 
         // Set up the control panel
+        addGraphicBatteryControls();
         addControls();
     }
 
@@ -169,12 +169,6 @@ public class DischargeLampModule extends BaseLaserModule {
                                                                           78 ),
                                                                35 );
         addGraphic( batteryReadout, VOLTAGE_VALUE_LAYER );
-    }
-
-    private void addBatteryGraphic() {
-        BatteryGraphic graphic = new BatteryGraphic( getApparatusPanel(), model.getBattery() );
-        graphic.setLocation( 150, 150 );
-        getApparatusPanel().addGraphic( graphic, 1E6 );
     }
 
     /**
