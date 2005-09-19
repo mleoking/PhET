@@ -12,10 +12,11 @@
 package edu.colorado.phet.fourier.charts;
 
 import java.awt.*;
-import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.chart.Chart;
+import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.fourier.FourierConfig;
@@ -25,6 +26,11 @@ import edu.colorado.phet.fourier.FourierConfig;
  * WidthPointPlot is a DataSetGraphic that draws a horizontal width indicator,
  * centered at a specified point.  It can be used to indicate the width of
  * something in a Chart.
+ * <p>
+ * The width is rendered as a double-headed arrow with a label above it.
+ * When the width gets smaller enough to make the double-headed arrow
+ * impractical, the width is shown using two arrows that point inward
+ * towards each other; the space between their tips is the width.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -48,10 +54,14 @@ public class WidthPlot extends AbstractPointPlot {
     private static final int LABEL_BACKGROUND_MARGIN = 2;
     private static final int LABEL_BACKGROUND_CORNER_RADIUS = 3;
     
-    // Width bar
-    private static final Stroke DEFAULT_STROKE = new BasicStroke( 2f );
-    private static final Color DEFAULT_STROKE_COLOR = Color.BLACK;
-
+    // Arrow "look" - see edu.colorado.phet.common.view.graphics.shapes.Arrow
+    private static final Color ARROW_COLOR = Color.BLACK;
+    private static final double ARROW_HEAD_HEIGHT = 16;
+    private static final double ARROW_HEAD_WIDTH = 10;
+    private static final double ARROW_TAIL_WIDTH = 3;
+    private static final double ARROW_FRACTIONAL_HEAD_HEIGHT = 100;
+    private static final double MIN_WIDTH_FOR_SINGLE_ARROW = ( 2 * ARROW_HEAD_HEIGHT ) + 5; 
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -59,8 +69,7 @@ public class WidthPlot extends AbstractPointPlot {
     private HTMLGraphic _labelGraphic;
     private PhetShapeGraphic _labelBackgroundGraphic;
     private RoundRectangle2D _labelBackgroundShape;
-    private PhetShapeGraphic _barGraphic;
-    private GeneralPath _barPath;
+    private PhetShapeGraphic _leftArrowGraphic, _rightArrowGraphic;
     private double _width;
 
     //----------------------------------------------------------------------------
@@ -90,15 +99,16 @@ public class WidthPlot extends AbstractPointPlot {
         addGraphic( _labelGraphic, LABEL_LAYER );
         handleLabelSizeChange();
 
-        // Bar path
-        _barPath = new GeneralPath();
-        _barGraphic = new PhetShapeGraphic( component );
-        _barGraphic.setShape( _barPath );
-        _barGraphic.setStroke( DEFAULT_STROKE );
-        _barGraphic.setBorderColor( DEFAULT_STROKE_COLOR );
-        _barGraphic.centerRegistrationPoint();
-        _barGraphic.setLocation( 0, 0 );
-        addGraphic( _barGraphic, BAR_LAYER );
+        // Arrows
+        {
+            _leftArrowGraphic = new PhetShapeGraphic( component );
+            _leftArrowGraphic.setColor( ARROW_COLOR );
+            addGraphic( _leftArrowGraphic );
+
+            _rightArrowGraphic = new PhetShapeGraphic( component );
+            _rightArrowGraphic.setColor( ARROW_COLOR );
+            addGraphic( _rightArrowGraphic );
+        }
         
         setGraphicWidth( 0 );
     }
@@ -133,7 +143,7 @@ public class WidthPlot extends AbstractPointPlot {
         _labelGraphic.centerRegistrationPoint();
         // center the label above the tool
         int x = 0;
-        int y = -( ( _labelGraphic.getHeight() / 2 ) + 4 );
+        int y = -( ( _labelGraphic.getHeight() / 2 ) + 6 );
         _labelGraphic.setLocation( x, y );
         handleLabelSizeChange();
     }
@@ -158,21 +168,13 @@ public class WidthPlot extends AbstractPointPlot {
     }
 
     /**
-     * Sets the stroke of the measurement bar.
-     * 
-     * @param stroke
-     */
-    public void setBarStroke( Stroke stroke ) {
-        _barGraphic.setStroke( stroke );
-    }
-
-    /**
-     * Sets the stroke color of the measurement bar.
+     * Sets the color of the arrows.
      * 
      * @param color
      */
-    public void setBarStrokeColor( Color color ) {
-        _barGraphic.setBorderColor( color );
+    public void setArrowColor( Color color ) {
+        _leftArrowGraphic.setColor( color );
+        _rightArrowGraphic.setColor( color );
     }
     
     /**
@@ -192,16 +194,48 @@ public class WidthPlot extends AbstractPointPlot {
     
     protected void updateGraphic() {
         
-        // Clear the path
-        _barPath.reset();
-
         if ( _width > 0 ) {
+            // convert the width to view coordinates
             float viewWidth = (float) ( getChart().transformXDouble( _width ) - getChart().transformXDouble( 0 ) );
-            _barPath.moveTo( -viewWidth / 2, 0 );
-            _barPath.lineTo( viewWidth / 2, 0 );
+            
+            if ( viewWidth > MIN_WIDTH_FOR_SINGLE_ARROW ) {
+                /*
+                 * Arrows point out, like this:
+                 * 
+                 *     <---------->
+                 */
+                // arrow tails are connected at the same point
+                Point2D tailPoint = new Point2D.Double( 0, 0 );
+                // left arrow
+                Point2D leftTipPoint = new Point2D.Double( -viewWidth / 2, 0 );
+                Arrow leftArrow = new Arrow( tailPoint, leftTipPoint, ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH, ARROW_FRACTIONAL_HEAD_HEIGHT, false );
+                _leftArrowGraphic.setShape( leftArrow.getShape() );
+                // right arrow
+                Point2D rightTipPoint = new Point2D.Double( viewWidth / 2, 0 );
+                Arrow rightArrow = new Arrow( tailPoint, rightTipPoint, ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH, ARROW_FRACTIONAL_HEAD_HEIGHT, false );
+                _rightArrowGraphic.setShape( rightArrow.getShape() );
+            }
+            else {
+                /*
+                 * Arrows point in, like this:
+                 * 
+                 *     --->   <---
+                 */
+                // left arrow
+                Point2D leftTipPoint = new Point2D.Double( -viewWidth / 2, 0 );
+                Point2D leftTailPoint = new Point2D.Double( leftTipPoint.getX() - (1.5 * ARROW_HEAD_HEIGHT ), 0 );
+                Arrow leftArrow = new Arrow( leftTailPoint, leftTipPoint, ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH, ARROW_FRACTIONAL_HEAD_HEIGHT, false );
+                _leftArrowGraphic.setShape( leftArrow.getShape() );
+                // right arrow
+                Point2D rightTipPoint = new Point2D.Double( viewWidth / 2, 0 );
+                Point2D rightTailPoint = new Point2D.Double( rightTipPoint.getX() + (1.5 * ARROW_HEAD_HEIGHT ), 0 );
+                Arrow rightArrow = new Arrow( rightTailPoint, rightTipPoint, ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH, ARROW_FRACTIONAL_HEAD_HEIGHT, false );
+                _rightArrowGraphic.setShape( rightArrow.getShape() );
+            }
         }
-
-        // Refresh the graphics
-        _barGraphic.setShapeDirty();
+        else {
+            _leftArrowGraphic.setShape( null );
+            _rightArrowGraphic.setShape( null );
+        }
     }
 }
