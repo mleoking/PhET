@@ -44,6 +44,7 @@ public class SchrodingerPanel extends PhetPCanvas {
                 setRenderingSize( 600, 600 );
                 //todo piccolo
 //                abstractGun.componentResized( e );
+
             }
         } );
 

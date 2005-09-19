@@ -13,22 +13,26 @@ import java.awt.image.BufferedImage;
 
 public class ColorGrid {
     private BufferedImage image;
+    private int cellWidth;
+    private int cellHeight;
     private int nx;
     private int ny;
-    private int maxWidth;
-    private int maxHeight;
+//    private int maxWidth;
+//    private int maxHeight;
 
-    public ColorGrid( int maxWidth, int maxHeight, int nx, int ny ) {
+    public ColorGrid( int cellWidth, int cellHeight, int nx, int ny ) {
+        this.cellWidth = cellWidth;
+        this.cellHeight = cellHeight;
         this.nx = nx;
         this.ny = ny;
-        this.maxWidth = maxWidth;
-        this.maxHeight = maxHeight;
+//        this.maxWidth = maxWidth;
+//        this.maxHeight = maxHeight;
         createImage();
     }
 
     private void createImage() {
-        int imageWidth = nx * getBlockWidth();
-        int imageHeight = ny * getBlockHeight();
+        int imageWidth = nx * getCellWidth();
+        int imageHeight = ny * getCellHeight();
         if( imageWidth <= 0 ) {
             imageWidth = 1;
         }
@@ -38,11 +42,11 @@ public class ColorGrid {
         image = new BufferedImage( imageWidth, imageHeight, BufferedImage.TYPE_INT_RGB );
     }
 
-    public void setMaxSize( int maxWidth, int maxHeight ) {
-        this.maxWidth = maxWidth;
-        this.maxHeight = maxHeight;
-        createImage();
-    }
+//    public void setMaxSize( int maxWidth, int maxHeight ) {
+//        this.maxWidth = maxWidth;
+//        this.maxHeight = maxHeight;
+//        createImage();
+//    }
 
     public void colorize( ColorMap colorMap ) {
         Graphics2D g2 = image.createGraphics();
@@ -54,8 +58,8 @@ public class ColorGrid {
         g2.setRenderingHint( RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED );
         g2.setRenderingHint( RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_DEFAULT );
         g2.setRenderingHint( RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF );
-        int blockWidth = getBlockWidth();
-        int blockHeight = getBlockHeight();
+        int blockWidth = getCellWidth();
+        int blockHeight = getCellHeight();
 
         for( int i = 0; i < nx; i++ ) {
             for( int k = 0; k < ny; k++ ) {
@@ -68,27 +72,35 @@ public class ColorGrid {
 //        g2.fillRect( 0,0,image.getWidth( ),image.getHeight( ) );
     }
 
-    public int getBlockHeight() {
-        int blockHeight = (int)( ( (double)maxHeight ) / ny );
-        return blockHeight;
-    }
-
-    public int getBlockWidth() {
-        int blockWidth = (int)( ( (double)maxWidth ) / nx );
-        return blockWidth;
-    }
+//    public int getBlockHeight() {
+//        int blockHeight = (int)( ( (double)maxHeight ) / ny );
+//        return blockHeight;
+//    }
+//
+//    public int getBlockWidth() {
+//        int blockWidth = (int)( ( (double)maxWidth ) / nx );
+//        return blockWidth;
+//    }
 
     public BufferedImage getBufferedImage() {
         return image;
     }
 
     public Rectangle getRectangle( int i, int j ) {
-        return new Rectangle( i * getBlockWidth(), j * getBlockWidth(), getBlockWidth(), getBlockHeight() );
+        return new Rectangle( i * getCellWidth(), j * getCellHeight(), getCellWidth(), getCellHeight() );
+    }
+
+    public int getCellHeight() {
+        return cellHeight;
+    }
+
+    public int getCellWidth() {
+        return cellWidth;
     }
 
     public Rectangle getViewRectangle( Rectangle modelRect ) {
-        int w = getBlockWidth();
-        int h = getBlockHeight();
+        int w = getCellWidth();
+        int h = getCellHeight();
         Rectangle out = new Rectangle( modelRect.x * w, modelRect.y * h, modelRect.width * w, modelRect.height * h );
         return out;
     }
@@ -122,6 +134,12 @@ public class ColorGrid {
 
     public void setNy( int ny ) {
         this.ny = ny;
+        createImage();
+    }
+
+    public void setCellDimensions( int cellWidth, int cellHeight ) {
+        this.cellWidth = cellWidth;
+        this.cellHeight = cellHeight;
         createImage();
     }
 }

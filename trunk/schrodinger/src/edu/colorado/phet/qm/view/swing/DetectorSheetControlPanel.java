@@ -107,6 +107,9 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
         add( saveClear );
         add( brightnessModelSlider );
         add( displayPanel );
+
+//        brightnessModelSlider.setVisible( false );
+//        displayPanel.setVisible( false );
     }
 
     public void setBrightness() {
@@ -145,17 +148,28 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
 
     public void setSaveButtonVisible( boolean b ) {
         saveScreenJButton.setVisible( b );
+        supervalidate();
     }
 
     public void setBrightnessSliderVisible( boolean b ) {
         brightnessModelSlider.setVisible( b );
+        supervalidate();
     }
 
     public void setFadeCheckBoxVisible( boolean b ) {
         fadeEnabled.setVisible( b );
+        supervalidate();
+    }
+
+    private void supervalidate() {
+        invalidate();
+        validate();
+        validateTree();
+        doLayout();
     }
 
     public void setTypeControlVisible( boolean b ) {
         displayPanel.setVisible( b );
+        supervalidate();
     }
 }

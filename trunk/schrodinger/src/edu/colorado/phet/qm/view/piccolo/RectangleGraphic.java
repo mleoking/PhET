@@ -129,8 +129,8 @@ public class RectangleGraphic extends PNode {
                 Point2D.Double rel = new Point2D.Double( fin.getX() - startLocation.getX(), fin.getY() - startLocation.getY() );
                 double dx = rel.x;
                 double dy = rel.y;
-                int modelDX = (int)( dx / getColorGrid().getBlockWidth() );
-                int modelDY = (int)( dy / getColorGrid().getBlockHeight() );
+                int modelDX = (int)( dx / getColorGrid().getCellWidth() );
+                int modelDY = (int)( dy / getColorGrid().getCellHeight() );
                 rectangularObject.setLocation( modelDX + origLoc.x, modelDY + origLoc.y );
             }
         }
@@ -161,8 +161,8 @@ public class RectangleGraphic extends PNode {
                 double dx = rel.x;
                 double dy = rel.y;
 
-                int modelDX = (int)( dx / getColorGrid().getBlockWidth() );
-                int modelDY = (int)( dy / getColorGrid().getBlockHeight() );
+                int modelDX = (int)( dx / getColorGrid().getCellWidth() );
+                int modelDY = (int)( dy / getColorGrid().getCellHeight() );
                 rectangularObject.setDimension( origDim.width + modelDX, origDim.height + modelDY );
             }
 

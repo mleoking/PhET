@@ -9,6 +9,7 @@ import edu.colorado.phet.qm.phetcommon.RulerGraphic;
 import edu.colorado.phet.qm.view.gun.AbstractGun;
 import edu.colorado.phet.qm.view.swing.DoubleSlitPanel;
 import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
+import edu.umd.cs.piccolo.PCamera;
 import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;
@@ -63,6 +64,7 @@ public class SchrodingerScreenNode extends PNode {
             public void componentResized( ComponentEvent e ) {
                 invalidateFullBounds();
                 repaint();
+                getCamera().animateViewToCenterBounds( SchrodingerScreenNode.this.getGlobalFullBounds(), false, 1000 );
             }
 
             public void componentShown( ComponentEvent e ) {
@@ -82,6 +84,10 @@ public class SchrodingerScreenNode extends PNode {
             }
         } );
 
+    }
+
+    private PCamera getCamera() {
+        return getSchrodingerModule().getSchrodingerPanel().getCamera();
     }
 
     public WavefunctionGraphic getWavefunctionGraphic() {
@@ -186,7 +192,11 @@ public class SchrodingerScreenNode extends PNode {
         int screenWidth = schrodingerPanel.getWidth();
         if( schrodingerPanel.getWidth() > 0 && schrodingerPanel.getHeight() > 0 ) {
             System.out.println( "screenWidth = " + screenWidth );
-            wavefunctionGraphic.getColorGrid().setMaxSize( (int)( screenWidth * 0.6 ), (int)( screenWidth * 0.6 ) );
+            Dimension dim = getCellDimensions();
+            wavefunctionGraphic.setCellDimensions( dim.width, dim.height );
+//            wavefunctionGraphic.setCellDimensions( 30,30);
+            //todo working here
+//            wavefunctionGraphic.getColorGrid().setMaxSize( (int)( screenWidth * 0.6 ), (int)( screenWidth * 0.6 ) );
             wavefunctionGraphic.setTransform( new AffineTransform() );
             wavefunctionGraphic.setOffset( 50, 50 );
             intensityGraphic.setOffset( wavefunctionGraphic.getFullBounds().getX(),
@@ -198,6 +208,26 @@ public class SchrodingerScreenNode extends PNode {
             clearButton.setOffset( wavefunctionGraphic.getFullBounds().getX() - clearButton.getFullBounds().getWidth(),
                                    wavefunctionGraphic.getFullBounds().getHeight() - clearButton.getHeight() );
         }
+
+    }
+
+    private Dimension getCellDimensions() {
+        Dimension availableSize = schrodingerPanel.getSize();
+        availableSize.width -= clearButton.getFullBounds().getWidth();
+        availableSize.width -= doubleSlitPanelGraphic.getFullBounds().getWidth();
+        availableSize.width -= 30;
+
+        availableSize.height -= abstractGun.getFullBounds().getHeight();
+        availableSize.height -= 20;
+//        availableSize.height -= intensityGraphic.getDetectorSheet().getFullBounds().getHeight()*0.6;
+
+        Dimension availableAreaForWaveform = new Dimension( availableSize.width, availableSize.height );
+        int nx = schrodingerPanel.getDiscreteModel().getGridWidth();
+        int ny = schrodingerPanel.getDiscreteModel().getGridHeight();
+        int cellWidth = availableAreaForWaveform.width / nx;
+        int cellHeight = availableAreaForWaveform.height / ny;
+        int min = Math.min( cellWidth, cellHeight );
+        return new Dimension( min, min );
     }
 
     public void removePotentialGraphic( RectangularPotentialGraphic rectangularPotentialGraphic ) {
