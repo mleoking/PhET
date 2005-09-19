@@ -5,7 +5,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.qm.model.DiscreteModel;
-import edu.colorado.phet.qm.model.GaussianWave;
+import edu.colorado.phet.qm.model.GaussianWave2D;
 import edu.colorado.phet.qm.model.WaveSetup;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.model.operators.YValue;
@@ -91,8 +91,8 @@ public class InitialConditionPanel extends VerticalLayoutPanel {
         double px = getStartPx();
         double py = getStartPy();
         double dxLattice = getStartDxLattice();
-        WaveSetup waveSetup = new GaussianWave( new Point( (int)x, (int)y ),
-                                                new Vector2D.Double( px, py ), dxLattice );
+        WaveSetup waveSetup = new GaussianWave2D( new Point( (int)x, (int)y ),
+                                                  new Vector2D.Double( px, py ), dxLattice );
         return waveSetup;
     }
 
@@ -106,16 +106,16 @@ public class InitialConditionPanel extends VerticalLayoutPanel {
 
         Wavefunction t0 = new Wavefunction( getDiscreteModel().getGridWidth(), getDiscreteModel().getGridHeight() );
         Wavefunction t1 = new Wavefunction( getDiscreteModel().getGridWidth(), getDiscreteModel().getGridHeight() );
-        new GaussianWave( new Point2D.Double( x, y0 ), new Vector2D.Double( px, py ), dxLattice ).initialize( t0 );
+        new GaussianWave2D( new Point2D.Double( x, y0 ), new Vector2D.Double( px, py ), dxLattice ).initialize( t0 );
 
         double time = 1.0;
         double y1 = y0 + propagator2ndOrder.getSpeed() * time;
 
-        new GaussianWave( new Point2D.Double( x, y1 ), new Vector2D.Double( px, py ), dxLattice ).initialize( t1 );
+        new GaussianWave2D( new Point2D.Double( x, y1 ), new Vector2D.Double( px, py ), dxLattice ).initialize( t1 );
 
         Wavefunction t2 = new Wavefunction( getDiscreteModel().getGridWidth(), getDiscreteModel().getGridHeight() );
         double y2 = y1 + propagator2ndOrder.getSpeed() * time;
-        new GaussianWave( new Point2D.Double( x, y2 ), new Vector2D.Double( px, py ), dxLattice ).initialize( t2 );
+        new GaussianWave2D( new Point2D.Double( x, y2 ), new Vector2D.Double( px, py ), dxLattice ).initialize( t2 );
         getDiscreteModel().getWavefunction().setWavefunction( t2 );
 
         System.out.println( "y0=" + y0 + ", y1 = " + y1 + ", y2=" + y2 );

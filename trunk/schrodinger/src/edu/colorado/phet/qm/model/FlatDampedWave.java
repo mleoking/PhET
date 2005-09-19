@@ -12,16 +12,11 @@ package edu.colorado.phet.qm.model;
 public class FlatDampedWave implements Wave {
     private Wave wave;
     private double intensity;
-//    private int x0 = 50;//todo magick.
     private int x0 = 50;//todo magick.
-//    private double dxLattice = 4.0;
-//    private double dxLattice = 10;
-//    private double dxLattice = 2;
     private double dxLattice = 7;
     private int radiusForMax = 3;
 
     public FlatDampedWave( Wave wave, double intensity, int width ) {
-//        System.out.println( "width = " + width );
         this.wave = wave;
         this.intensity = intensity;
         this.x0 = width / 2;

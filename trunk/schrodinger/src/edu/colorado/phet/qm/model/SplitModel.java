@@ -15,7 +15,6 @@ import java.awt.*;
  */
 
 public class SplitModel extends DiscreteModel {
-
     private Wavefunction rightWavefunction;
     private Wavefunction leftWavefunction;
 
@@ -37,7 +36,6 @@ public class SplitModel extends DiscreteModel {
 
     public SplitModel( int width, int height, double deltaTime, Wave wave ) {
         super( width, height, deltaTime, wave );
-//        waveSplitStrategy = new WaveSplitStrategy( this );
         rightWavefunction = new Wavefunction( getGridWidth(), getGridHeight() );
         leftWavefunction = new Wavefunction( getGridWidth(), getGridHeight() );
 

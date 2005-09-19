@@ -1,8 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.tests;
 
-import edu.colorado.phet.qm.model.WaveSim;
-
 import javax.swing.*;
 import java.applet.Applet;
 
