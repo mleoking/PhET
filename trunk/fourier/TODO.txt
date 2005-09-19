@@ -63,6 +63,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+1.0.15 ...
 (9/19) - "sine/cosine" -> "sin/cos"
 (9/19) - "Play sound" -> "Sound"
 (9/19) - left justify all controls except top 3 subpanels in D2C
