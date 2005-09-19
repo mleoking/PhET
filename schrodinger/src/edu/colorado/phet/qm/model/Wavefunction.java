@@ -14,7 +14,6 @@ import java.util.Arrays;
  */
 
 public class Wavefunction {
-
     private Complex[][] wavefunction;
 
     private ArrayList listeners = new ArrayList();
@@ -121,7 +120,7 @@ public class Wavefunction {
     }
 
     public void setValue( int i, int j, Complex complex ) {
-        wavefunction[i][j].setValue( complex );
+        setValue( i, j, complex.getReal(), complex.getImaginary() );
     }
 
     public Complex valueAt( int i, int j ) {

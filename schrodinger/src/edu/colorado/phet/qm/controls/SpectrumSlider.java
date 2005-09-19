@@ -411,25 +411,6 @@ public class SpectrumSlider extends PNode {
     }
 
     /**
-     * Gets the width of the curve in relationship to the width
-     * of the slider and the transmission width.
-     *
-     * @return the curve width, in pixels
-     */
-    private int getCurveWidth() {
-
-        int totalPixels;
-        if( _orientation == HORIZONTAL ) {
-            totalPixels = _spectrum.getBounds().width;
-        }
-        else {
-            totalPixels = _spectrum.getBounds().height;
-        }
-        int width = (int)( _transmissionWidth * totalPixels / (double)( _maximum - _minimum ) );
-        return width;
-    }
-
-    /**
      * Gets the rotation angle that corresponds to the orientation.
      *
      * @return the angle, in radians

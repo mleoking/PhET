@@ -49,21 +49,21 @@ public abstract class GunParticle extends ImageComboBox.Item {
         Point phaseLockPoint = new Point( (int)x, (int)( y - 5 ) );
 
         double dxLattice = getStartDxLattice();
-        GaussianWave waveSetup = new GaussianWave( new Point( (int)x, (int)y ),
-                                                   new Vector2D.Double( px, py ), dxLattice );
+        GaussianWave2D wave2DSetup = new GaussianWave2D( new Point( (int)x, (int)y ),
+                                                         new Vector2D.Double( px, py ), dxLattice );
 
         double desiredPhase = currentWave.valueAt( phaseLockPoint.x, phaseLockPoint.y ).getComplexPhase();
 
         Wavefunction copy = currentWave.createEmptyWavefunction();
-        waveSetup.initialize( copy );
+        wave2DSetup.initialize( copy );
 
         double uneditedPhase = copy.valueAt( phaseLockPoint.x, phaseLockPoint.y ).getComplexPhase();
         double deltaPhase = desiredPhase - uneditedPhase;
 
-        waveSetup.setPhase( deltaPhase );
-        waveSetup.setScale( getIntensityScale() );
+        wave2DSetup.setPhase( deltaPhase );
+        wave2DSetup.setScale( getIntensityScale() );
 
-        return waveSetup;
+        return wave2DSetup;
     }
 
     private double getIntensityScale() {
@@ -88,8 +88,8 @@ public abstract class GunParticle extends ImageComboBox.Item {
 
         double dxLattice = getStartDxLattice();
         System.out.println( "dxLattice = " + dxLattice );
-        GaussianWave waveSetup = new GaussianWave( new Point( (int)x, (int)y ),
-                                                   new Vector2D.Double( px, py ), dxLattice );
+        GaussianWave2D wave2DSetup = new GaussianWave2D( new Point( (int)x, (int)y ),
+                                                         new Vector2D.Double( px, py ), dxLattice );
 
         Complex centerValue = currentWave.valueAt( phaseLockPoint.x, phaseLockPoint.y );
         double desiredPhase = centerValue.getComplexPhase();
@@ -97,7 +97,7 @@ public abstract class GunParticle extends ImageComboBox.Item {
         System.out.println( "original Center= " + centerValue + ", desired phase=" + desiredPhase );
 
         Wavefunction copy = currentWave.createEmptyWavefunction();
-        waveSetup.initialize( copy );
+        wave2DSetup.initialize( copy );
 
         Complex centerValueCopy = copy.valueAt( phaseLockPoint.x, phaseLockPoint.y );
         System.out.println( "unedited: =" + centerValueCopy + ", unedited phase=" + centerValueCopy.getComplexPhase() );
@@ -106,14 +106,14 @@ public abstract class GunParticle extends ImageComboBox.Item {
         double deltaPhase = desiredPhase - uneditedPhase;
 
         System.out.println( "deltaPhase = " + deltaPhase );
-        waveSetup.setPhase( deltaPhase );
+        wave2DSetup.setPhase( deltaPhase );
 
         Wavefunction test = currentWave.createEmptyWavefunction();
-        waveSetup.initialize( test );
+        wave2DSetup.initialize( test );
         Complex testValue = test.valueAt( phaseLockPoint.x, phaseLockPoint.y );
         System.out.println( "created testValue = " + testValue + ", created phase=" + testValue.getComplexPhase() );
 
-        return waveSetup;
+        return wave2DSetup;
     }
 
     protected void clearWavefunction() {

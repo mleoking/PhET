@@ -1,9 +1,11 @@
-package edu.colorado.phet.qm.model;
+package edu.colorado.phet.qm.tests;
 
 /*
  * Integrating the Schrodinger Wave Equation
  */
 
+
+import edu.colorado.phet.qm.model.Complex;
 
 import javax.swing.*;
 import java.applet.Applet;

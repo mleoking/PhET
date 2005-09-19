@@ -76,7 +76,6 @@ public class PhotonWave {
     }
 
     protected Wave createWave( double phase ) {
-//        System.out.println( "creating photonwave, momentum=" + getMomentum() );
         final PlaneWave planeWave = new PlaneWave( momentum, getDiscreteModel().getGridWidth() );
         planeWave.setPhase( phase );
         planeWave.setMagnitude( waveMagnitude );
@@ -86,8 +85,6 @@ public class PhotonWave {
     private Rectangle createRectRegionForCylinder() {
         Rectangle rectangle = new Rectangle( 0, getWavefunction().getHeight() - waveSourceHeight,
                                              getWavefunction().getWidth(), waveSourceHeight );
-//        Rectangle rectangle =new Rectangle( getWavefunction().getWidth()/4, getWavefunction().getHeight() - waveSourceHeight,
-//                               getWavefunction().getWidth()/2, waveSourceHeight );
         return rectangle;
     }
 

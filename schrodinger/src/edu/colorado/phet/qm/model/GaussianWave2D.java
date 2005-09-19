@@ -12,17 +12,17 @@ import java.awt.geom.Point2D;
  * Copyright (c) Jun 10, 2005 by Sam Reid
  */
 
-public class GaussianWave extends WaveSetup implements Wave {
+public class GaussianWave2D extends WaveSetup implements Wave {
     private GaussianWave1D xWave;
     private GaussianWave1D yWave;
     private double globalPhase;
     private double scale = 1.0;
 
-    public GaussianWave( Point2D center, Vector2D momentum, double dxLattice ) {
+    public GaussianWave2D( Point2D center, Vector2D momentum, double dxLattice ) {
         this( center, momentum, dxLattice, dxLattice );
     }
 
-    public GaussianWave( Point2D center, Vector2D momentum, double dxLattice, double dyLattice ) {
+    public GaussianWave2D( Point2D center, Vector2D momentum, double dxLattice, double dyLattice ) {
         this.xWave = new GaussianWave1D( momentum.getX(), center.getX(), dxLattice );
         this.yWave = new GaussianWave1D( momentum.getY(), center.getY(), dyLattice );
         super.setWave( this );
@@ -46,10 +46,6 @@ public class GaussianWave extends WaveSetup implements Wave {
         this.globalPhase = globalPhase;
     }
 
-//    public void setPhase( double phaseX, double phaseY ) {
-//        xWave.setPhase(phaseX);
-//        yWave.setPhase(phaseY);
-//    }
     public void setScale( double scale ) {
         this.scale = scale;
     }
