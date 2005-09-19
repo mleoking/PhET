@@ -179,8 +179,6 @@ public class CollimatedBeam extends Particle implements PhotonSource {
                     // Set the photon's velocity to a randomized angle
                     double angle = angleGenerator.nextDouble() * ( fanout / 2 ) * ( angleGenerator.nextBoolean() ? 1 : -1 );
                     Vector2D photonVelocity = new Vector2D.Double( velocity ).rotate( angle );
-
-                    System.out.println( "angle = " + Math.toDegrees( angle ));
                     final Photon newPhoton = Photon.create( this.getWavelength(),
                                                             new Point2D.Double( genPositionX(), genPositionY() ),
                                                             photonVelocity );

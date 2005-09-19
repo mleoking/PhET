@@ -84,7 +84,7 @@ public class PhotoelectricPlateGraphic extends PlateGraphic {
             // Add new indicators to the list and display them
             chargeIndicatorGraphics.clear();
             int numChargeIndicators = (int)Math.abs( model.getVoltage() * 10 );
-            double indicatorSpacing = (double)getHeight() / ( numChargeIndicators + 1 );
+            double indicatorSpacing = (double)(getHeight() - 10) / ( numChargeIndicators + 1 );
             for( int i = 0; i < numChargeIndicators; i++ ) {
                 PhetTextGraphic indicator = new PhetTextGraphic( getComponent(),
                                                                  DischargeLampsConfig.DEFAULT_CONTROL_FONT,
