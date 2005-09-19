@@ -77,9 +77,9 @@ public class BatteryGraphic extends GraphicLayerSet implements SimpleObserver {
     public BatteryGraphic( Component component, Battery batteryModel ) {
         super( component );
 
-        _batteryModel = batteryModel;
-        _batteryModel.addObserver( this );
-        
+//        _batteryModel = batteryModel;
+//        _batteryModel.addObserver( this );
+//
         // Battery image
         {
             _batteryGraphic = new PhetImageGraphic( component, DischargeLampsConfig.BATTERY_IMAGE );
@@ -95,19 +95,19 @@ public class BatteryGraphic extends GraphicLayerSet implements SimpleObserver {
         
         // Amplitude slider
         {
-            _amplitudeSlider = new BatterySlider( component, 100 /* track length */ );
+            _amplitudeSlider = new BatterySlider( component, 100 /* track length */, batteryModel );
             addGraphic( _amplitudeSlider, SLIDER_LAYER );
 
-            _amplitudeSlider.setMinimum( (int)-( _batteryModel.getMaxVoltage() ) );
-            _amplitudeSlider.setMaximum( (int)( _batteryModel.getMaxVoltage() ) );
-            _amplitudeSlider.setValue( (int)( _batteryModel.getVoltage() * _batteryModel.getMaxVoltage() ) );
+            _amplitudeSlider.setMinimum( (int)-( batteryModel.getMaxVoltage() ) );
+            _amplitudeSlider.setMaximum( (int)( batteryModel.getMaxVoltage() ) );
+            _amplitudeSlider.setValue( (int)( batteryModel.getVoltage() * batteryModel.getMaxVoltage() ) );
             _amplitudeSlider.addTick( _amplitudeSlider.getMinimum() );
             _amplitudeSlider.addTick( _amplitudeSlider.getMaximum() );
             _amplitudeSlider.addTick( 0 );
 
             _amplitudeSlider.centerRegistrationPoint();
             _amplitudeSlider.setLocation( 105, 35 );
-            _amplitudeSlider.addChangeListener( new SliderListener() );
+//            _amplitudeSlider.addChangeListener( new SliderListener() );
         }
         
         // Amplitude value
@@ -120,6 +120,11 @@ public class BatteryGraphic extends GraphicLayerSet implements SimpleObserver {
         int rx = getWidth() / 2;
         int ry = getHeight();
         setRegistrationPoint( rx, ry );
+
+        // Now that evertyhing graphic is set up, attach to the battery model
+        _batteryModel = batteryModel;
+        _batteryModel.addObserver( this );
+
 
         update();
     }
@@ -184,34 +189,34 @@ public class BatteryGraphic extends GraphicLayerSet implements SimpleObserver {
         }
     }
     
-    //----------------------------------------------------------------------------
-    // Event handling
-    //----------------------------------------------------------------------------
-    
-    /**
-     * SliderListener handles changes to the amplitude slider.
-     */
-    private class SliderListener implements ChangeListener {
-
-        /**
-         * Sole constructor
-         */
-        public SliderListener() {
-            super();
-        }
-
-        /**
-         * Handles amplitude slider changes.
-         *
-         * @param event the event
-         */
-        public void stateChanged( ChangeEvent event ) {
-            if( event.getSource() == _amplitudeSlider ) {
-                // Read the value.
-                double voltage = _amplitudeSlider.getValue();
-                // Update the model.
-                _batteryModel.setVoltage( voltage / _batteryModel.getMaxVoltage() * DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR );
-            }
-        }
-    }
+//    //----------------------------------------------------------------------------
+//    // Event handling
+//    //----------------------------------------------------------------------------
+//
+//    /**
+//     * SliderListener handles changes to the amplitude slider.
+//     */
+//    private class SliderListener implements ChangeListener {
+//
+//        /**
+//         * Sole constructor
+//         */
+//        public SliderListener() {
+//            super();
+//        }
+//
+//        /**
+//         * Handles amplitude slider changes.
+//         *
+//         * @param event the event
+//         */
+//        public void stateChanged( ChangeEvent event ) {
+//            if( event.getSource() == _amplitudeSlider ) {
+//                // Read the value.
+//                double voltage = _amplitudeSlider.getValue();
+//                // Update the model.
+//                _batteryModel.setVoltage( voltage / _batteryModel.getMaxVoltage() * DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR );
+//            }
+//        }
+//    }
 }
