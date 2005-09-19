@@ -38,8 +38,7 @@ public abstract class AbstractWavePacketWidthPlot extends WidthPlot implements S
     private static final Font LABEL_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 16 );
     private static final Color LABEL_COLOR = Color.BLACK;
     private static final Color LABEL_BACKGROUND_COLOR = new Color( 255, 255, 255, 150 ); // translucent white
-    private static final Stroke BAR_STROKE = new BasicStroke( 4f );
-    private static final Color BAR_STROKE_COLOR = Color.RED;
+    private static final Color ARROW_COLOR = Color.RED;
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -70,8 +69,7 @@ public abstract class AbstractWavePacketWidthPlot extends WidthPlot implements S
         setLabelColor( LABEL_COLOR );
         setLabelBackground( LABEL_BACKGROUND_COLOR );
         
-        setBarStroke( BAR_STROKE );
-        setBarStrokeColor( BAR_STROKE_COLOR );
+        setArrowColor( ARROW_COLOR );
     }
     
     /**

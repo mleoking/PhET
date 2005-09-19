@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- add arrows to "width" graphics in D2C
 - peak of the D2C sum envelope should be used to scale the Sum graph
 - add sound to Discrete module
 
@@ -63,6 +62,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/19) - add arrows to "width" graphics in D2C, point inward or outward depending on width
 (9/19) - convert width indicators to DataSetGraphics that are placed on a Chart and specified in model coordinates
 1.0.14 ...
 (9/14) - phetcommon: fix bug in PhetApplication with old constructors
