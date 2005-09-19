@@ -5,13 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- charts: add ability to put a PhetGraphic on the chart at a specified x,y coordinate
-- bug: x-space width is wrong in D2C
-- bug: x-space width is in the wrong location when D2C Components graph is minimized
-- bug: x-space width shouldn't be visible when D2C Sum graph is minimized
-- peak of the D2C sum envelope should be used to scale the Sum graph
 - add arrows to "width" graphics in D2C
-- replace D2C width tools with static graphics that indicate widths (red, double arrows)
+- peak of the D2C sum envelope should be used to scale the Sum graph
 - add sound to Discrete module
 
 MEDIUM PRIORITY:
@@ -69,6 +64,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/19) - convert width indicators to DataSetGraphics that are placed on a Chart and specified in model coordinates
 1.0.14 ...
 (9/14) - phetcommon: fix bug in PhetApplication with old constructors
 (9/14) - sync with Ron's changes to ApparatusPanel and ApparatusPanel2's mouse/key handling

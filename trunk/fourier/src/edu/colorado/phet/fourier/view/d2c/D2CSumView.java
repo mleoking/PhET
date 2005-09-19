@@ -30,6 +30,7 @@ import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.charts.FlattenedChart;
 import edu.colorado.phet.fourier.charts.FourierSumPlot;
 import edu.colorado.phet.fourier.charts.GaussianWavePacketPlot;
+import edu.colorado.phet.fourier.charts.WavePacketXWidthPlot;
 import edu.colorado.phet.fourier.control.ZoomControl;
 import edu.colorado.phet.fourier.event.ZoomEvent;
 import edu.colorado.phet.fourier.event.ZoomListener;
@@ -113,6 +114,7 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
     private GaussianWavePacketPlot _wavePacketPlot;
     private LinePlot _envelopeGraphic;
     private boolean _envelopeEnabled;
+    private WavePacketXWidthPlot _xWidthPlot;
 
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -156,6 +158,9 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
             _chartGraphic.setRegistrationPoint( 0, 0 );
             _chartGraphic.setLocation( 0, 0 );
 
+            _xWidthPlot = new WavePacketXWidthPlot( component, _chartGraphic, _wavePacket );
+            _chartGraphic.addDataSetGraphic( _xWidthPlot );
+            
             int xOffset = 25;
             int yOffset = 25;
             _flattenedChart = new FlattenedChart( component, _chartGraphic, xOffset, yOffset );
@@ -279,6 +284,7 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
      */
     public void setDomain( int domain ) {
         _domain = domain;
+        _xWidthPlot.setDomain( domain );
         updateMath();
         updateAxisTitles();
     }
@@ -346,6 +352,16 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
         return _envelopeEnabled;
     }
 
+    /**
+     * Controls the visibility of the x-width plot on the chart.
+     * 
+     * @param visible
+     */
+    public void setXWidthVisible( boolean visible ) {
+        _xWidthPlot.setVisible( visible );
+        refreshChart();
+    }
+    
     //----------------------------------------------------------------------------
     // ZoomListener implementation
     //----------------------------------------------------------------------------
@@ -456,7 +472,7 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
      */
     public void update() {
 
-        System.out.println( "D2CSumView.update" ); //XXX
+//        System.out.println( "D2CSumView.update" ); //XXX
 
         updateMath(); // ...in case the number of components has changed
 
@@ -478,6 +494,10 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
         if ( _envelopeEnabled ) {
             updateEnvelope();
         }
+        
+        // Re-add the x width plot
+        _xWidthPlot.update();
+        _chartGraphic.addDataSetGraphic( _xWidthPlot );
 
         refreshChart();
     }

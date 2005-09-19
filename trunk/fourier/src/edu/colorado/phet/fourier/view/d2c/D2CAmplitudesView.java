@@ -25,8 +25,9 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.MathStrings;
-import edu.colorado.phet.fourier.charts.FlattenedChart;
 import edu.colorado.phet.fourier.charts.ClosedPathPlot;
+import edu.colorado.phet.fourier.charts.FlattenedChart;
+import edu.colorado.phet.fourier.charts.WavePacketKWidthPlot;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
 
 
@@ -92,6 +93,7 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
     private ClosedPathPlot _gradientPlot;
     private HTMLGraphic _mathGraphic;
     private int _domain;
+    private WavePacketKWidthPlot _kWidthPlot;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -135,6 +137,9 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
             _chartGraphic = new D2CAmplitudesChart( component, CHART_RANGE, CHART_SIZE );
             _chartGraphic.setRegistrationPoint( 0, 0 );
             _chartGraphic.setLocation( 0, 0 );
+            
+            _kWidthPlot = new WavePacketKWidthPlot( component, _chartGraphic, _wavePacket );
+            _chartGraphic.addDataSetGraphic( _kWidthPlot );
             
             int xOffset = 25;
             int yOffset = 25;
@@ -201,6 +206,7 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
     public void setDomain( int domain ) {
         assert( FourierConstants.isValidDomain( domain ) );
         _domain = domain;
+        _kWidthPlot.setDomain( domain );
         updateMath();
         updateAxisTitles();
     }
@@ -237,6 +243,16 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
         return _envelopeEnabled;
     }
     
+    /**
+     * Controls the visibility of the k-width plot on the chart.
+     * 
+     * @param visible
+     */
+    public void setKWidthVisible( boolean visible ) {
+        _kWidthPlot.setVisible( visible );
+        refreshChart();
+    }
+    
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
@@ -247,7 +263,7 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
      */
     public void update() {
         
-        System.out.println( "D2CAmplitudesGraph.update" ); //XXX
+//        System.out.println( "D2CAmplitudesGraph.update" ); //XXX
         
         updateMath(); // ...in case k1 has changed
         
@@ -278,6 +294,10 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
         if ( _envelopeEnabled ) {
             updateEnvelope();
         }
+        
+        // Re-add the k-width plot
+        _kWidthPlot.update();
+        _chartGraphic.addDataSetGraphic( _kWidthPlot );
         
         refreshChart();
     }

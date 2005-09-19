@@ -9,29 +9,26 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.fourier.view.tools;
+package edu.colorado.phet.fourier.charts;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.RoundRectangle2D;
 
-import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.fourier.FourierConfig;
-import edu.colorado.phet.fourier.event.FourierDragHandler;
 
 
 /**
- * MeasurementTool is a generic measurement tool that is draggable
- * within the bounds of the apparatus panel.
+ * WidthPointPlot is a DataSetGraphic that draws a horizontal width indicator,
+ * centered at a specified point.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class MeasurementTool extends CompositePhetGraphic implements ApparatusPanel2.ChangeListener {
+public class WidthPlot extends AbstractPointPlot {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -42,18 +39,17 @@ public class MeasurementTool extends CompositePhetGraphic implements ApparatusPa
     private static final double BAR_LAYER = 2;
     private static final double LABEL_LAYER = 3;
 
-    // The horizontal bar
-    private static final float END_WIDTH = 3;
-    private static final float END_HEIGHT = 15;
-    private static final float LINE_HEIGHT = 4; // must be < END_HEIGHT !
-
     // The label
     private static final Font LABEL_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 16 );
     private static final Color LABEL_COLOR = Color.BLACK;
 
-    // label background
+    // Label background
     private static final int LABEL_BACKGROUND_MARGIN = 2;
     private static final int LABEL_BACKGROUND_CORNER_RADIUS = 3;
+    
+    // Width bar
+    private static final Stroke DEFAULT_STROKE = new BasicStroke( 2f );
+    private static final Color DEFAULT_STROKE_COLOR = Color.BLACK;
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -64,8 +60,7 @@ public class MeasurementTool extends CompositePhetGraphic implements ApparatusPa
     private RoundRectangle2D _labelBackgroundShape;
     private PhetShapeGraphic _barGraphic;
     private GeneralPath _barPath;
-    private FourierDragHandler _dragHandler;
-    private float _width;
+    private double _width;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -75,9 +70,10 @@ public class MeasurementTool extends CompositePhetGraphic implements ApparatusPa
      * Constructor.
      * 
      * @param component the parent Component
+     * @param chart the associated Chart
      */
-    public MeasurementTool( Component component ) {
-        super( component );
+    public WidthPlot( Component component, Chart chart ) {
+        super( component, chart );
 
         // Enable antialiasing for all children.
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
@@ -97,16 +93,13 @@ public class MeasurementTool extends CompositePhetGraphic implements ApparatusPa
         _barPath = new GeneralPath();
         _barGraphic = new PhetShapeGraphic( component );
         _barGraphic.setShape( _barPath );
+        _barGraphic.setStroke( DEFAULT_STROKE );
+        _barGraphic.setBorderColor( DEFAULT_STROKE_COLOR );
         _barGraphic.centerRegistrationPoint();
         _barGraphic.setLocation( 0, 0 );
         addGraphic( _barGraphic, BAR_LAYER );
-
-        // Interactive by default
-        setCursorHand();
-        _dragHandler = new FourierDragHandler( this );
-        addMouseInputListener( _dragHandler );
         
-        setToolWidth( 0f );
+        setGraphicWidth( 0 );
     }
 
     //----------------------------------------------------------------------------
@@ -164,103 +157,50 @@ public class MeasurementTool extends CompositePhetGraphic implements ApparatusPa
     }
 
     /**
-     * Sets the fill color of the measurement bar.
-     * 
-     * @param color
-     */
-    public void setFillColor( Color color ) {
-        _barGraphic.setColor( color );
-    }
-
-    /**
-     * Sets the border color of the measurement bar.
-     * 
-     * @param color
-     */
-    public void setBorderColor( Color color ) {
-        _barGraphic.setBorderColor( color );
-    }
-
-    /**
      * Sets the stroke of the measurement bar.
      * 
      * @param stroke
      */
-    public void setStroke( Stroke stroke ) {
+    public void setBarStroke( Stroke stroke ) {
         _barGraphic.setStroke( stroke );
     }
 
     /**
-     * Updates the width of the tool.
+     * Sets the stroke color of the measurement bar.
      * 
-     * @param width
-     * @throws IllegalArgumentException if width < 0
+     * @param color
      */
-    public void setToolWidth( float width ) {
-        assert ( END_HEIGHT > LINE_HEIGHT );
-        if ( width < 0 ) {
-            throw new IllegalArgumentException( "width must be >= 0 : " + width );
-        }
-        _width = width;
-        updatePath();
+    public void setBarStrokeColor( Color color ) {
+        _barGraphic.setBorderColor( color );
     }
     
     /**
-     * Sets the drag bounds for this tool.
+     * Updates the width of the graphic.
      * 
-     * @param bounds
+     * @param width the width, in model coordinates
+     * @throws IllegalArgumentException if width < 0
      */
-    public void setDragBounds( Rectangle bounds ) {
-        if ( _dragHandler != null ) {
-            _dragHandler.setDragBounds( bounds );
-        }
+    public void setGraphicWidth( double width ) {
+        _width = width;
+        updateGraphic();
     }
 
     //----------------------------------------------------------------------------
     // Graphics
     //----------------------------------------------------------------------------
     
-    private void updatePath() {
-
+    protected void updateGraphic() {
+        
         // Clear the path
         _barPath.reset();
 
         if ( _width > 0 ) {
-            // 
-            // Draw a measurement "caliper" which looks like this.
-            // The points are numbered.
-            // The center is at 'c', the center of the horizontal bar.
-            //
-            //   1----------------------------------2
-            //   |                c                 |
-            //   |   5--------------------------4   |
-            //   |  /                            \  |
-            //   | /                              \ |
-            //   6/                                \3
-            //
-            _barPath.moveTo( -_width / 2, -LINE_HEIGHT / 2 );
-            _barPath.lineTo( _width / 2, -LINE_HEIGHT / 2 );
-            _barPath.lineTo( _width / 2, -LINE_HEIGHT / 2 + END_HEIGHT );
-            _barPath.lineTo( _width / 2 - END_WIDTH, LINE_HEIGHT / 2 );
-            _barPath.lineTo( -_width / 2 + END_WIDTH, LINE_HEIGHT / 2 );
-            _barPath.lineTo( -_width / 2, -LINE_HEIGHT / 2 + END_HEIGHT );
-            _barPath.closePath();
+            float viewWidth = (float) ( getChart().transformXDouble( _width ) - getChart().transformXDouble( 0 ) );
+            _barPath.moveTo( -viewWidth / 2, 0 );
+            _barPath.lineTo( viewWidth / 2, 0 );
         }
 
         // Refresh the graphics
         _barGraphic.setShapeDirty();
-    }
-    
-    //----------------------------------------------------------------------------
-    // ApparatusPanel2.ChangeListener implementation
-    //----------------------------------------------------------------------------
-
-    /**
-     * Informs the mouse handler of changes to the apparatus panel size.
-     * 
-     * @param event
-     */
-    public void canvasSizeChanged( ApparatusPanel2.ChangeEvent event ) {
-        _dragHandler.setDragBounds( 0, 0, event.getCanvasSize().width, event.getCanvasSize().height );
     }
 }
