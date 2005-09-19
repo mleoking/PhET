@@ -62,24 +62,23 @@ public class WavePacketXWidthPlot extends AbstractWavePacketWidthPlot {
         }
     }
 
-    //----------------------------------------------------------------------------
-    // SimpleObserver implementation
-    //----------------------------------------------------------------------------
+    /**
+     * Gets the x-space width of the wave packet, in model coordinates.
+     * 
+     * @param the width
+     */
+    protected double getModelWidth() {
+        return 2 * getWavePacket().getDeltaX();
+    }
     
     /**
-     * Updates the graphic to match the current settings of the domain & wave packet.
+     * Gets the location of the width indicator, in model coordinates.
+     * 
+     * @return Point2D
      */
-    public void update() {
-  
-        // Set the graphic's width in model coordinates.
-        double dx = getWavePacket().getDeltaX();
-        setGraphicWidth( 2 * dx );
-        
-        // Set the graphic's location in model coordinates.
+    protected Point2D getModelLocation() {
         double x = 0;
         double y = 1 / Math.sqrt( Math.E );
-        getDataSet().clear();
-        getDataSet().addPoint( x, y );
+        return new Point2D.Double( x, y );
     }
-
 }

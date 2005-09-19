@@ -24,7 +24,6 @@ LOW PRIORITY:
 - wiggle me isn't hidden when user clicks in the control panel
 - FourierSumPlot should be an observer of its FourierSeries
 - get rid of Vector2D if it continues to be used only by WiggleMeGraphic
-- break up control panels into reusable subpanels
 - grayed out waveforms anti-aliasing/stroke visually changes when you start to drag wavelength/period tools
 - MegaHelp
 
@@ -516,8 +515,10 @@ sandbox-2005-05-10...
 (5/9) - ********* DEVELOPMENT BEGINS *********
 (4/26) - add fourier to CVS loginfo and modules files
 (3/30) - set up basic application framework
+2005 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 REJECTED:
+(9/19) - break up control panels into reusable subpanels (not practical, since they keep changing)
 (9/13) - add equations for Gaussian wave packet above D2C amplitudes graph (voted down by design team)
 (9/13) - make Discrete amplitude sliders 50% narrower (not needed)
 (9/13) - Discrete x-axis ticks and labeling should be consistent with D2C (zoom levels and symbolic labeling are different)
@@ -533,5 +534,6 @@ REJECTED:
 (6/20) - investigate Jex for rendering equations (no doc, uses OpenOffice for rendering, install Windows only)
 (6/14) - highlight component when mouse moves over it in Harmonics graph (dropped this feature)
 (5/20) - use multi-line choices in Math Form menu (doesn't work on Mac)
+2005 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ===============================================================================

@@ -23,7 +23,8 @@ import edu.colorado.phet.fourier.FourierConfig;
 
 /**
  * WidthPointPlot is a DataSetGraphic that draws a horizontal width indicator,
- * centered at a specified point.
+ * centered at a specified point.  It can be used to indicate the width of
+ * something in a Chart.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
