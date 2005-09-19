@@ -12,11 +12,11 @@
 package edu.colorado.phet.fourier.charts;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.fourier.FourierConfig;
-import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
 
 
@@ -102,4 +102,37 @@ public abstract class AbstractWavePacketWidthPlot extends WidthPlot implements S
      * @param domain see FourierConstants.DOMAIN_*
      */
     public abstract void setDomain( int domain );
+    
+    /**
+     * Gets the width of the wave packet, in model coordinates.
+     * 
+     * @param the width
+     */
+    protected abstract double getModelWidth();
+    
+    /**
+     * Gets the location of the width indicator, in model coordinates.
+     * 
+     * @return Point2D
+     */
+    protected abstract Point2D getModelLocation();
+    
+    //----------------------------------------------------------------------------
+    // SimpleObserver implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Updates the graphic to match the current settings of the wave packet.
+     */
+    public void update() {
+        
+        // Set the graphic's width, in model coordinates.
+        double width = getModelWidth();
+        setGraphicWidth( width );
+        
+        // Set the graphic's location in model coordinates.
+        Point2D point = getModelLocation();
+        getDataSet().clear();
+        getDataSet().addPoint( point );
+    }
 }

@@ -11,14 +11,12 @@
 
 package edu.colorado.phet.fourier.charts;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
-import edu.colorado.phet.fourier.view.tools.MeasurementTool;
 
 
 /**
@@ -62,20 +60,22 @@ public class WavePacketKWidthPlot extends AbstractWavePacketWidthPlot {
         }
     }
     
-    //----------------------------------------------------------------------------
-    // SimpleObserver implementation
-    //----------------------------------------------------------------------------
+    /**
+     * Gets the k-space width of the wave packet, in model coordinates.
+     * 
+     * @param the width
+     */
+    protected double getModelWidth() {
+        return 2 * getWavePacket().getDeltaK();
+    }
     
     /**
-     * Updates the graphic to match the current settings of the wave packet.
+     * Gets the location of the width indicator, in model coordinates.
+     * 
+     * @return Point2D
      */
-    public void update() {
-        
-        // Set the graphic's width, in model coordinates.
+    protected Point2D getModelLocation() {
         double dk = getWavePacket().getDeltaK();
-        setGraphicWidth( 2 * dk );
-        
-        // Set the graphic's location in model coordinates.
         double k0 = getWavePacket().getK0();
         double k1 = getWavePacket().getK1();
         double x = k0;
@@ -83,7 +83,6 @@ public class WavePacketKWidthPlot extends AbstractWavePacketWidthPlot {
         if ( k1 != 0 ) {
             y = k1 * y;
         }
-        getDataSet().clear();
-        getDataSet().addPoint( x, y );
+        return new Point2D.Double( x, y );
     }
 }
