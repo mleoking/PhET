@@ -21,7 +21,10 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+import edu.colorado.phet.dischargelamps.control.BatterySlider;
+import edu.colorado.phet.dischargelamps.model.Battery;
 import edu.colorado.phet.dischargelamps.view.PlateGraphic;
+import edu.colorado.phet.dischargelamps.view.BatteryReadout;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
@@ -183,6 +186,7 @@ public class PhotoelectricModule extends BaseLaserModule {
         new PhotoelectricControlPanel( this, graphWindow );
 
         // Add a slider for the battery
+        addGraphicBatteryControls();
 //        GraphicSlider batterySlider = new GraphicSlider( getApparatusPanel() );
 //        batterySlider = new PhotoelectricSlider( getApparatusPanel(), 100 /* track length */ );
 //        addGraphic( batterySlider, SLIDER_LAYER );
@@ -239,18 +243,6 @@ public class PhotoelectricModule extends BaseLaserModule {
                 meterDlg.setVisible( currentDisplayMI.isSelected() );
             }
         } );
-
-//        final AmmeterView ammeterView2 = new AmmeterView( getPhotoelectricModel().getAmmeter(), false );
-//        ammeterView2.setBorder( (LineBorder)BorderFactory.createLineBorder(Color.black) );
-//        PhetJPanel pjp = new PhetJPanel( getApparatusPanel(), ammeterView2 );
-//        pjp.setLocation( DischargeLampsConfig.ANODE_LOCATION.x + 50, DischargeLampsConfig.ANODE_LOCATION.y );
-//        getApparatusPanel().addGraphic( pjp, CIRCUIT_LAYER + 1 );
-
-//        JPanel wrapperPanel = new JPanel();
-//        wrapperPanel.setBounds( DischargeLampsConfig.ANODE_LOCATION.x + 50, DischargeLampsConfig.ANODE_LOCATION.y,
-//                                60, 20 );
-//        wrapperPanel.add( ammeterView2 );
-//        getApparatusPanel().add( wrapperPanel );
 
         // Slap an ammeter on the circuit, near the anode
         AmmeterViewGraphic avg = new AmmeterViewGraphic( getApparatusPanel(),
@@ -340,6 +332,30 @@ public class PhotoelectricModule extends BaseLaserModule {
         catch( IOException e ) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Places a slider and digital readout on the battery graphic
+     */
+    private void addGraphicBatteryControls() {
+        Battery battery = getPhotoelectricModel().getBattery();
+        final BatterySlider bSl = new BatterySlider( getApparatusPanel(), 80 /* track length */, battery );
+        bSl.setMinimum( (int)-( battery.getMaxVoltage() ) );
+        bSl.setMaximum( (int)( battery.getMaxVoltage() ) );
+        bSl.setValue( (int)( 0 ) );
+        bSl.addTick( bSl.getMinimum() );
+        bSl.addTick( bSl.getMaximum() );
+        bSl.addTick( 0 );
+        int yBase = 490;
+        bSl.setLocation( (int)DischargeLampsConfig.CATHODE_LOCATION.getX() + 174, yBase );
+        getApparatusPanel().addGraphic( bSl, DischargeLampsConfig.CIRCUIT_LAYER + 10000 );
+
+        final PhetGraphic batteryReadout = new BatteryReadout( getApparatusPanel(),
+                                                               battery,
+                                                               new Point( (int)DischargeLampsConfig.CATHODE_LOCATION.getX() + 194,
+                                                                          yBase + 15 ),
+                                                               35 );
+        addGraphic( batteryReadout, DischargeLampsConfig.CIRCUIT_LAYER + 10000);
     }
 
     /**

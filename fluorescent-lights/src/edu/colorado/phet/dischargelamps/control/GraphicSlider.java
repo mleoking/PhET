@@ -236,8 +236,6 @@ public class GraphicSlider extends GraphicLayerSet {
             
             // Silently clamp the value to the allowed range.
             _value = MathUtil.clamp( _minimum, value, _maximum );
-            System.out.println( "_value = " + _value );
-//            _value = (int) MathUtil.clamp( _minimum, value, _maximum );
 
             // Fire a ChangeEvent to notify listeners that the value has changed.
             fireChangeEvent( new ChangeEvent( this ) );
