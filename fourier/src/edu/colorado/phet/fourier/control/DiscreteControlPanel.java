@@ -185,13 +185,18 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             _showInfiniteCheckBox = new JCheckBox( SimStrings.get( "DiscreteControlPanel.showInfinite" ) );
             
             // Layout
-            EasyGridBagLayout layout = new EasyGridBagLayout( presetControlsPanel );
+            JPanel innerPanel = new JPanel();
+            EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
+            Insets defaultInsets = layout.getInsets();
             layout.setInsets( DEFAULT_INSETS );
-            presetControlsPanel.setLayout( layout );
+            innerPanel.setLayout( layout );
             int row = 0;
+            layout.setAnchor( GridBagConstraints.WEST );
             layout.addComponent( _presetsComboBox, row++, 0 );
-            layout.addFilledComponent( _numberOfHarmonicsSlider, row++, 0, GridBagConstraints.HORIZONTAL );
+            layout.addComponent( _numberOfHarmonicsSlider, row++, 0 );
             layout.addComponent( _showInfiniteCheckBox, row++, 0 );
+            presetControlsPanel.setLayout( new BorderLayout() );
+            presetControlsPanel.add( innerPanel, BorderLayout.WEST );
         }
         
         // Graph Controls panel
@@ -242,12 +247,16 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             }
             
             // Layout
-            EasyGridBagLayout layout = new EasyGridBagLayout( graphControlsPanel );
+            JPanel innerPanel = new JPanel();
+            EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
             layout.setInsets( DEFAULT_INSETS );
-            graphControlsPanel.setLayout( layout );
+            innerPanel.setLayout( layout );
             int row = 0;
+            layout.setAnchor( GridBagConstraints.WEST );
             layout.addComponent( _domainComboBox, row++, 0 );
             layout.addComponent( waveTypePanel, row++, 0 );
+            graphControlsPanel.setLayout( new BorderLayout() );
+            graphControlsPanel.add( innerPanel, BorderLayout.WEST );
         }
         
         // Tool Controls panel
@@ -305,14 +314,18 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
                 layout.addAnchoredComponent( _periodToolCheckBox, 0, 0, GridBagConstraints.EAST );
                 layout.addAnchoredComponent( _periodToolComboBox, 0, 1, GridBagConstraints.WEST );
             }
-
+            
             // Layout
-            EasyGridBagLayout layout = new EasyGridBagLayout( toolControlsPanel );
+            JPanel innerPanel = new JPanel();
+            EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
             layout.setInsets( DEFAULT_INSETS );
-            toolControlsPanel.setLayout( layout );
+            innerPanel.setLayout( layout );
             int row = 0;
+            layout.setAnchor( GridBagConstraints.WEST );
             layout.addComponent( wavelengthToolPanel, row++, 0 );
             layout.addComponent( periodToolPanel, row++, 0 );
+            toolControlsPanel.setLayout( new BorderLayout() );
+            toolControlsPanel.add( innerPanel, BorderLayout.WEST );
         }
         
         // Math Mode panel
