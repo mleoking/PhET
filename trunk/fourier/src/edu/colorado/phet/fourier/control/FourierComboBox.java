@@ -12,6 +12,7 @@
 package edu.colorado.phet.fourier.control;
 
 import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
@@ -51,6 +52,7 @@ public class FourierComboBox extends JPanel {
 
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
+        layout.setInsets( FourierControlPanel.DEFAULT_INSETS );
         setLayout( layout );
         layout.addAnchoredComponent( _label, 0, 0, GridBagConstraints.EAST );
         layout.addAnchoredComponent( _comboBox, 0, 1, GridBagConstraints.WEST );

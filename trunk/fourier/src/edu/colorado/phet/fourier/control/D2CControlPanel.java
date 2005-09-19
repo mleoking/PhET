@@ -11,7 +11,10 @@
 
 package edu.colorado.phet.fourier.control;
 
+import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -237,14 +240,18 @@ public class D2CControlPanel extends FourierControlPanel {
             _showWidthsCheckBox = new JCheckBox( SimStrings.get( "D2CControlPanel.showWidths" ) );
             
             // Layout
-            EasyGridBagLayout layout = new EasyGridBagLayout( graphControlsPanel );
+            JPanel innerPanel = new JPanel();
+            EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
             layout.setInsets( DEFAULT_INSETS );
-            graphControlsPanel.setLayout( layout );
+            innerPanel.setLayout( layout );
             int row = 0;
+            layout.setAnchor( GridBagConstraints.WEST );
             layout.addComponent( _domainComboBox, row++, 0 );
             layout.addComponent( waveTypePanel, row++, 0 );
             layout.addComponent( _sumEnvelopeCheckBox, row++, 0 );
             layout.addComponent( _showWidthsCheckBox, row++, 0 );
+            graphControlsPanel.setLayout( new BorderLayout() );
+            graphControlsPanel.add( innerPanel, BorderLayout.WEST );
         }
 
         // Layout

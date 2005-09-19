@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- top part of label on x-space width is clipped by chart (move label below? same for k-space width?)
 - peak of the D2C sum envelope should be used to scale the Sum graph
 - add sound to Discrete module
 
@@ -62,6 +63,9 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/19) - "sine/cosine" -> "sin/cos"
+(9/19) - "Play sound" -> "Sound"
+(9/19) - left justify all controls except top 3 subpanels in D2C
 (9/19) - add arrows to "width" graphics in D2C, point inward or outward depending on width
 (9/19) - convert width indicators to DataSetGraphics that are placed on a Chart and specified in model coordinates
 1.0.14 ...
