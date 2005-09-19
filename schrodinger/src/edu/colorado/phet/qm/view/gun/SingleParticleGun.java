@@ -3,6 +3,7 @@ package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
 import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
@@ -28,6 +29,7 @@ public class SingleParticleGun extends AbstractGun {
     private ImageIcon inIcon;
     private PhotonBeamParticle photonBeamParticle;
     private PSwing fireJC;
+    private PSwing autoJC;
 
     public SingleParticleGun( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
@@ -66,7 +68,6 @@ public class SingleParticleGun extends AbstractGun {
                 fireOne.setEnabled( false );
                 clearAndFire();
                 fireOne.setIcon( outIcon );
-//                getGunImageGraphic().setTransform( new AffineTransform() );
                 initGunLocation();
                 getSchrodingerPanel().setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
             }
@@ -82,14 +83,12 @@ public class SingleParticleGun extends AbstractGun {
             public void mouseReleased( MouseEvent e ) {
                 if( fireButtonEnabled() ) {
                     initGunLocation();
-//                    getGunImageGraphic().setTransform( new AffineTransform() );
                 }
             }
         } );
         fireJC = new PSwing( schrodingerPanel, fireOne );
-//        fireJC.setCursorHand();
+        fireJC.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         addChild( fireJC );
-        fireJC.setOffset( getGunImageGraphic().getWidth() + 2 + getFireButtonInsetDX(), getControlOffsetY() + 0 );
 
         //todo piccolo
 //        final WiggleMe wiggleMe = new WiggleMe( getSchrodingerPanel(), getSchrodingerPanel().getSchrodingerModule().getModel(), "Push the Button", fireJC );
@@ -103,7 +102,7 @@ public class SingleParticleGun extends AbstractGun {
         setupObject( gunItems[0] );
         autoFire = new AutoFire( this, schrodingerPanel.getIntensityDisplay() );
         JCheckBox jcb = new AutoFireCheckBox( autoFire );
-        PSwing autoJC = new PSwing( schrodingerPanel, jcb );
+        autoJC = new PSwing( schrodingerPanel, jcb );
         addChild( autoJC );
         autoJC.setOffset( fireJC.getX(), fireJC.getY() + fireJC.getHeight() + 5 );
     }
@@ -111,6 +110,7 @@ public class SingleParticleGun extends AbstractGun {
     protected void layoutChildren() {
         super.layoutChildren();
         fireJC.setOffset( getGunImageGraphic().getWidth() + 2 + getFireButtonInsetDX(), getControlOffsetY() + 0 );
+        autoJC.setOffset( fireJC.getFullBounds().getX(), fireJC.getFullBounds().getMaxY() + 5 );
     }
 
     private boolean fireButtonEnabled() {

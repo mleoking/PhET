@@ -22,6 +22,9 @@ public class SingleParticleModule extends SchrodingerModule {
         setSchrodingerPanel( new SingleParticlePanel( this ) );
         setSchrodingerControlPanel( new SingleParticleControlPanel( this ) );
         getModel().addModelElement( new ModelDebugger( getClass() ) );
+        getSchrodingerPanel().getIntensityDisplay().getDetectorSheet().getDetectorSheetPanel().setBrightnessSliderVisible( false );
+        getSchrodingerPanel().getIntensityDisplay().getDetectorSheet().getDetectorSheetPanel().setFadeCheckBoxVisible( false );
+        getSchrodingerPanel().getIntensityDisplay().getDetectorSheet().getDetectorSheetPanel().setTypeControlVisible( false );
 //        getModel().addModelElement( new ModelElement() {
 //            public void stepInTime( double dt ) {
 //                System.out.println( "Stepped @ "+System.currentTimeMillis());

@@ -33,7 +33,6 @@ public class WavefunctionGraphic extends PNode {
     private boolean displayYExpectation;
     private boolean displayCollapsePoint;
     private ColorGrid colorGrid;
-    private int colorGridWidth = 400;
     private DefaultPainter painter;
     private boolean displayPyExpectation = false;
     private MagnitudeColorMap magnitudeColorMap;
@@ -202,13 +201,6 @@ public class WavefunctionGraphic extends PNode {
         colorGrid.setModelSize( width, height );
         imageGraphic.setImage( colorGrid.getBufferedImage() );
         borderGraphic.setPathTo( imageGraphic.getFullBounds() );
-//        double aspectRatio = colorGrid.getBufferedImage().getWidth() / ( (double)colorGridWidth );
-//        imageGraphic.setTransform( new AffineTransform() );
-//
-//        wavefunctionScale = 1.0 / aspectRatio;
-//        wavefunctionScale = 1.0 / aspectRatio;
-//        System.out.println( "wavefunctionScale = " + wavefunctionScale );
-//        imageGraphic.scale( wavefunctionScale );
     }
 
     public double getWaveImageScaleX() {
