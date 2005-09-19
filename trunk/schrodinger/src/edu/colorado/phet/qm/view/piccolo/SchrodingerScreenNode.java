@@ -77,7 +77,7 @@ public class SchrodingerScreenNode extends PNode {
         clear.setMargin( new Insets( 2, 2, 2, 2 ) );
         clearButton = new PSwing( schrodingerPanel, clear );
         addChild( clearButton );
-        clear.setFont( new Font( "Lucida Sans", Font.BOLD, 10 ) );
+        clear.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
         clear.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 schrodingerPanel.clearWavefunction();
@@ -186,27 +186,32 @@ public class SchrodingerScreenNode extends PNode {
 //        intensityDisplay.setWaveSize( width, height );
     }
 
-    protected void layoutChildren() {
-        super.layoutChildren();
+    Dimension lastLayoutSize = null;
 
-        int screenWidth = schrodingerPanel.getWidth();
-        if( schrodingerPanel.getWidth() > 0 && schrodingerPanel.getHeight() > 0 ) {
-            System.out.println( "screenWidth = " + screenWidth );
-            Dimension dim = getCellDimensions();
-            wavefunctionGraphic.setCellDimensions( dim.width, dim.height );
+    protected void layoutChildren() {
+        if( lastLayoutSize == null || !lastLayoutSize.equals( schrodingerPanel.getSize() ) ) {
+            lastLayoutSize = new Dimension( schrodingerPanel.getSize() );
+            super.layoutChildren();
+
+            int screenWidth = schrodingerPanel.getWidth();
+            if( schrodingerPanel.getWidth() > 0 && schrodingerPanel.getHeight() > 0 ) {
+                System.out.println( "screenWidth = " + screenWidth );
+                Dimension dim = getCellDimensions();
+                wavefunctionGraphic.setCellDimensions( dim.width, dim.height );
 //            wavefunctionGraphic.setCellDimensions( 30,30);
-            //todo working here
+                //todo working here
 //            wavefunctionGraphic.getColorGrid().setMaxSize( (int)( screenWidth * 0.6 ), (int)( screenWidth * 0.6 ) );
-            wavefunctionGraphic.setTransform( new AffineTransform() );
-            wavefunctionGraphic.setOffset( 50, 50 );
-            intensityGraphic.setOffset( wavefunctionGraphic.getFullBounds().getX(),
-                                        wavefunctionGraphic.getFullBounds().getY() - intensityGraphic.getFullBounds().getHeight() / 2 );
-            abstractGun.setOffset( wavefunctionGraphic.getFullBounds().getCenterX() - abstractGun.getGunWidth() / 2 + 10,
-                                   wavefunctionGraphic.getFullBounds().getMaxY() - getGunGraphicOffsetY() );
-            doubleSlitPanelGraphic.setOffset( wavefunctionGraphic.getFullBounds().getMaxX(),
-                                              wavefunctionGraphic.getFullBounds().getCenterY() );
-            clearButton.setOffset( wavefunctionGraphic.getFullBounds().getX() - clearButton.getFullBounds().getWidth(),
-                                   wavefunctionGraphic.getFullBounds().getHeight() - clearButton.getHeight() );
+                wavefunctionGraphic.setTransform( new AffineTransform() );
+                wavefunctionGraphic.setOffset( 50, 50 );
+                intensityGraphic.setOffset( wavefunctionGraphic.getFullBounds().getX(),
+                                            wavefunctionGraphic.getFullBounds().getY() - intensityGraphic.getFullBounds().getHeight() / 2 );
+                abstractGun.setOffset( wavefunctionGraphic.getFullBounds().getCenterX() - abstractGun.getGunWidth() / 2 + 10,
+                                       wavefunctionGraphic.getFullBounds().getMaxY() - getGunGraphicOffsetY() );
+                doubleSlitPanelGraphic.setOffset( wavefunctionGraphic.getFullBounds().getMaxX(),
+                                                  wavefunctionGraphic.getFullBounds().getCenterY() );
+                clearButton.setOffset( wavefunctionGraphic.getFullBounds().getX() - clearButton.getFullBounds().getWidth(),
+                                       wavefunctionGraphic.getFullBounds().getHeight() - clearButton.getHeight() );
+            }
         }
 
     }

@@ -33,6 +33,8 @@ public class HighIntensityGun extends AbstractGun {
     private HighIntensityBeam currentBeam;
     private Photon photon;
     private static final double MAX_INTENSITY_READOUT = 40;
+    private PSwing intensityGraphic;
+    private PSwing onCheckboxGraphic;
 
     public HighIntensityGun( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
@@ -43,21 +45,18 @@ public class HighIntensityGun extends AbstractGun {
             }
         } );
         intensitySlider = new ModelSlider( "Intensity ( particles/second )", "", 0, MAX_INTENSITY_READOUT, 0, new DecimalFormat( "0.000" ) );
-//        intensitySlider.setModelTicks( new double[]{0, 0.5, 1.0} );
         intensitySlider.setModelTicks( new double[]{0, 10, 20, 30, 40} );
-//        intensitySlider = new JSlider( JSlider.HORIZONTAL, 0, 1000, 0 );
         intensitySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 updateIntensity();
             }
         } );
-//        intensitySlider.setBorder( BorderFactory.createTitledBorder( "Intensity" ) );
-        PSwing intensityGraphic = new PSwing( schrodingerPanel, intensitySlider );
-        PSwing onCheckboxGraphic = new PSwing( schrodingerPanel, alwaysOnCheckBox );
+        intensityGraphic = new PSwing( schrodingerPanel, intensitySlider );
+        onCheckboxGraphic = new PSwing( schrodingerPanel, alwaysOnCheckBox );
 
         addChild( onCheckboxGraphic );
         addChild( intensityGraphic );
-        intensityGraphic.setOffset( getGunImageGraphic().getWidth() + 2 + getFireButtonInsetDX(), 0 + getControlOffsetY() );
+
 
         //todo piccolo
 //        final WiggleMe wiggleMe = new WiggleMe( getSchrodingerPanel(), getSchrodingerPanel().getSchrodingerModule().getModel(), "Increase the Intensity", intensityGraphic );
@@ -68,7 +67,7 @@ public class HighIntensityGun extends AbstractGun {
 //            }
 //        } );
 
-        onCheckboxGraphic.setOffset( intensityGraphic.getX() + intensityGraphic.getWidth() / 2 - onCheckboxGraphic.getWidth() / 2, intensityGraphic.getY() + intensityGraphic.getHeight() + 4 );
+
         schrodingerPanel.getSchrodingerModule().getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 stepBeam();
@@ -76,6 +75,12 @@ public class HighIntensityGun extends AbstractGun {
         } );
         setupObject( beams[0] );
         setOn( true );
+    }
+
+    protected void layoutChildren() {
+        super.layoutChildren();
+        intensityGraphic.setOffset( getGunImageGraphic().getFullBounds().getWidth() + 2 + getFireButtonInsetDX(), 0 + getControlOffsetY() );
+        onCheckboxGraphic.setOffset( intensityGraphic.getFullBounds().getX() + intensityGraphic.getFullBounds().getWidth() / 2 - onCheckboxGraphic.getFullBounds().getWidth() / 2, intensityGraphic.getFullBounds().getMaxY() + 4 );
     }
 
     private void stepBeam() {

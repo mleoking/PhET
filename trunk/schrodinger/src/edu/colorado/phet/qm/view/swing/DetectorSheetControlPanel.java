@@ -18,6 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 
 /**
  * User: Sam Reid
@@ -107,7 +108,7 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
         add( saveClear );
         add( brightnessModelSlider );
         add( displayPanel );
-
+//
 //        brightnessModelSlider.setVisible( false );
 //        displayPanel.setVisible( false );
     }
@@ -142,8 +143,23 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
         return detectorSheet.getSchrodingerPanel();
     }
 
+    boolean contains( Component c ) {
+        return Arrays.asList( getComponents() ).contains( c );
+    }
+
     public void setClearButtonVisible( boolean b ) {
-        clearButton.setVisible( true );
+        clearButton.setVisible( b );
+//        setVisibleByContainment( b, clearButton );
+    }
+
+    private void setVisibleByContainment( boolean b, Component component ) {
+        if( b && !contains( component ) ) {
+            add( component );
+        }
+        else if( !b && contains( component ) ) {
+            remove( component );
+        }
+        supervalidate();
     }
 
     public void setSaveButtonVisible( boolean b ) {
@@ -153,19 +169,14 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
 
     public void setBrightnessSliderVisible( boolean b ) {
         brightnessModelSlider.setVisible( b );
-        supervalidate();
     }
 
     public void setFadeCheckBoxVisible( boolean b ) {
         fadeEnabled.setVisible( b );
-        supervalidate();
     }
 
     private void supervalidate() {
-        invalidate();
         validate();
-        validateTree();
-        doLayout();
     }
 
     public void setTypeControlVisible( boolean b ) {
