@@ -420,7 +420,7 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
      */
     public void update() {
         
-        System.out.println( "D2CHarmonicsView.update" ); //XXX
+//        System.out.println( "D2CHarmonicsView.update" ); //XXX
         
         _updateRequired = true;
         

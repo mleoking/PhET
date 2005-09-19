@@ -12,7 +12,6 @@
 package edu.colorado.phet.fourier.control;
 
 import java.awt.Font;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -20,8 +19,6 @@ import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
 import javax.swing.*;
-import javax.swing.JCheckBox;
-import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -38,10 +35,8 @@ import edu.colorado.phet.fourier.module.FourierModule;
 import edu.colorado.phet.fourier.view.d2c.D2CAmplitudesView;
 import edu.colorado.phet.fourier.view.d2c.D2CHarmonicsView;
 import edu.colorado.phet.fourier.view.d2c.D2CSumView;
-import edu.colorado.phet.fourier.view.tools.WavePacketKWidthTool;
 import edu.colorado.phet.fourier.view.tools.WavePacketPeriodTool;
 import edu.colorado.phet.fourier.view.tools.WavePacketSpacingTool;
-import edu.colorado.phet.fourier.view.tools.WavePacketXWidthTool;
 
 
 
@@ -59,12 +54,10 @@ public class D2CControlPanel extends FourierControlPanel {
 
     // Things to be controlled.
     private GaussianWavePacket _wavePacket;
-    private D2CAmplitudesView _amplitudesGraph;
-    private D2CHarmonicsView _harmonicsGraph;
-    private D2CSumView _sumGraph;
+    private D2CAmplitudesView _amplitudesView;
+    private D2CHarmonicsView _harmonicsView;
+    private D2CSumView _sumView;
     private WavePacketSpacingTool _spacingTool;
-    private WavePacketKWidthTool _kWidthTool;
-    private WavePacketXWidthTool _xWidthTool;
     private WavePacketPeriodTool _periodTool;
 
     // UI components
@@ -102,8 +95,6 @@ public class D2CControlPanel extends FourierControlPanel {
             D2CHarmonicsView harmonicsGraph,
             D2CSumView sumGraph,
             WavePacketSpacingTool spacingTool,
-            WavePacketKWidthTool kWidthTool,
-            WavePacketXWidthTool xWidthTool,
             WavePacketPeriodTool periodTool ) {
         
         super( module );
@@ -113,17 +104,13 @@ public class D2CControlPanel extends FourierControlPanel {
         assert( harmonicsGraph != null );
         assert( sumGraph != null );
         assert( spacingTool != null );
-        assert( kWidthTool != null );
-        assert( xWidthTool != null );
         assert( periodTool != null );
         
         _wavePacket = wavePacket;
-        _amplitudesGraph = amplitudesGraph;
-        _harmonicsGraph = harmonicsGraph;
-        _sumGraph = sumGraph;
+        _amplitudesView = amplitudesGraph;
+        _harmonicsView = harmonicsGraph;
+        _sumView = sumGraph;
         _spacingTool = spacingTool;
-        _kWidthTool = kWidthTool;
-        _xWidthTool = xWidthTool;
         _periodTool = periodTool;
         
         // Set the control panel's minimum width.
@@ -290,9 +277,12 @@ public class D2CControlPanel extends FourierControlPanel {
     
     public void reset() {
         
-        _amplitudesEnvelopeCheckBox.setSelected( _amplitudesGraph.isEnvelopeEnabled() );
-        _sumEnvelopeCheckBox.setSelected( _sumGraph.isEnvelopeEnabled() );
-        _showWidthsCheckBox.setSelected( true );
+        _amplitudesEnvelopeCheckBox.setSelected( _amplitudesView.isEnvelopeEnabled() );
+        _sumEnvelopeCheckBox.setSelected( _sumView.isEnvelopeEnabled() );
+        
+        _showWidthsCheckBox.setSelected( false );
+        _amplitudesView.setKWidthVisible( _showWidthsCheckBox.isSelected() );
+        _sumView.setXWidthVisible( _showWidthsCheckBox.isSelected()  );
         
         _domainComboBox.setSelectedKey( FourierConstants.DOMAIN_SPACE );
         handleDomain();
@@ -376,12 +366,10 @@ public class D2CControlPanel extends FourierControlPanel {
     private void handleDomain() {
         int domain = _domainComboBox.getSelectedKey();
         
-        _amplitudesGraph.setDomain( domain );
-        _harmonicsGraph.setDomain( domain );
-        _sumGraph.setDomain( domain );
+        _amplitudesView.setDomain( domain );
+        _harmonicsView.setDomain( domain );
+        _sumView.setDomain( domain );
         _spacingTool.setDomain( domain );
-        _kWidthTool.setDomain( domain );
-        _xWidthTool.setDomain( domain );
         _periodTool.setDomain( domain );
         
         if ( domain == FourierConstants.DOMAIN_SPACE ) {
@@ -408,8 +396,8 @@ public class D2CControlPanel extends FourierControlPanel {
     private void handleWaveType() {
         setWaitCursorEnabled( true );
         int waveType = ( _sinesRadioButton.isSelected() ? FourierConstants.WAVE_TYPE_SINE : FourierConstants.WAVE_TYPE_COSINE );
-        _harmonicsGraph.setWaveType( waveType );
-        _sumGraph.setWaveType( waveType );
+        _harmonicsView.setWaveType( waveType );
+        _sumView.setWaveType( waveType );
         setWaitCursorEnabled( false );
     }
     
@@ -418,7 +406,7 @@ public class D2CControlPanel extends FourierControlPanel {
      */
     private void handleAmplitudeEnvelope() {
         setWaitCursorEnabled( true );
-        _amplitudesGraph.setEnvelopeEnabled( _amplitudesEnvelopeCheckBox.isSelected() );
+        _amplitudesView.setEnvelopeEnabled( _amplitudesEnvelopeCheckBox.isSelected() );
         setWaitCursorEnabled( false );
     }
     
@@ -427,7 +415,7 @@ public class D2CControlPanel extends FourierControlPanel {
      */
     private void handleSumEnvelope() {
         setWaitCursorEnabled( true );
-        _sumGraph.setEnvelopeEnabled( _sumEnvelopeCheckBox.isSelected() );
+        _sumView.setEnvelopeEnabled( _sumEnvelopeCheckBox.isSelected() );
         setWaitCursorEnabled( false );
     }
     
@@ -506,6 +494,7 @@ public class D2CControlPanel extends FourierControlPanel {
      * Handles changes to the "Show widths" checkbox.
      */
     private void handleShowWidths() {
-        //XXX
+        _amplitudesView.setKWidthVisible( _showWidthsCheckBox.isSelected() );
+        _sumView.setXWidthVisible( _showWidthsCheckBox.isSelected() );
     }
 }
