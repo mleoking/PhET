@@ -20,6 +20,10 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+import edu.colorado.phet.dischargelamps.model.Battery;
+
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 
 /**
@@ -37,6 +41,7 @@ public class BatterySlider extends GraphicSlider {
     
     private static final int DEFAULT_TRACK_WIDTH = 2;
     private static final Color DEFAULT_TRACK_COLOR = Color.BLACK;
+    private Battery model;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -45,27 +50,29 @@ public class BatterySlider extends GraphicSlider {
     /**
      * Creates a slider with a specified track length.
      * Defaults are used for the track width and color.
-     * 
-     * @param component the parent component
+     *
+     * @param component   the parent component
      * @param trackLength the track length, in pixels
      */
-    public BatterySlider( Component component, int trackLength ) {
-        this( component, trackLength, DEFAULT_TRACK_WIDTH, DEFAULT_TRACK_COLOR );
+    public BatterySlider( Component component, int trackLength, Battery model ) {
+        this( component, trackLength, DEFAULT_TRACK_WIDTH, DEFAULT_TRACK_COLOR, model );
     }
-    
+
     /**
      * Creates a slider with a specified track length, width and color.
-     * 
-     * @param component the parent component
+     *
+     * @param component   the parent component
      * @param trackLength the track length, in pixels
-     * @param trackWidth the track width, in pixels
-     * @param trackColor the track color
+     * @param trackWidth  the track width, in pixels
+     * @param trackColor  the track color
      */
-    public BatterySlider( Component component, int trackLength, int trackWidth, Color trackColor ) {
+    public BatterySlider( Component component, int trackLength, int trackWidth, Color trackColor,
+                          Battery model ) {
         super( component );
-        
-//        assert( trackLength > 0 );
-        
+
+        this.model = model;
+        this.addChangeListener( new SliderListener() );
+
         // Background - none
         
         // Track
@@ -82,5 +89,36 @@ public class BatterySlider extends GraphicSlider {
         PhetGraphic knobHighlight = new PhetImageGraphic( component, DischargeLampsConfig.SLIDER_KNOB_HIGHLIGHT_IMAGE );
         knobHighlight.centerRegistrationPoint();
         setKnobHighlight( knobHighlight );
+    }
+
+    //----------------------------------------------------------------------------
+    // Event handling
+    //----------------------------------------------------------------------------
+    
+    /**
+     * SliderListener handles changes to the amplitude slider.
+     */
+    private class SliderListener implements ChangeListener {
+
+        /**
+         * Sole constructor
+         */
+        public SliderListener() {
+            super();
+        }
+
+        /**
+         * Handles amplitude slider changes.
+         *
+         * @param event the event
+         */
+        public void stateChanged( ChangeEvent event ) {
+            if( event.getSource() == BatterySlider.this ) {
+                // Read the value.
+                double voltage = getValue();
+                // Update the model.
+                model.setVoltage( voltage / model.getMaxVoltage() * DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR );
+            }
+        }
     }
 }

@@ -16,9 +16,12 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.control.AtomTypeChooser;
 import edu.colorado.phet.dischargelamps.control.BatterySliderExp;
+import edu.colorado.phet.dischargelamps.control.BatterySlider;
 import edu.colorado.phet.dischargelamps.model.*;
 import edu.colorado.phet.dischargelamps.view.*;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
@@ -39,6 +42,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -57,6 +61,7 @@ public class DischargeLampModule extends BaseLaserModule {
 //    public static boolean DEBUG = true;
     public static boolean DEBUG = false;
     private static final double SPECTROMETER_LAYER = 1000;
+    private static double VOLTAGE_VALUE_LAYER = DischargeLampsConfig.CIRCUIT_LAYER + 1;
 
     //----------------------------------------------------------------
     // Instance data
@@ -118,7 +123,7 @@ public class DischargeLampModule extends BaseLaserModule {
         // to be conformant with the panel
         apparatusPanel.addChangeListener( new ApparatusPanel2.ChangeListener() {
             public void canvasSizeChanged( ApparatusPanel2.ChangeEvent event ) {
-                model.setBounds( new Rectangle2D.Double( 0,0, event.getCanvasSize().getWidth(),  event.getCanvasSize().getHeight()));
+                model.setBounds( new Rectangle2D.Double( 0, 0, event.getCanvasSize().getWidth(), event.getCanvasSize().getHeight() ) );
             }
         } );
 
@@ -137,26 +142,36 @@ public class DischargeLampModule extends BaseLaserModule {
         addSpectrometerGraphic();
         addHeatingElementGraphics();
         addTubeGraphic( apparatusPanel );
-        addBatteryGraphic();
+        addGraphicBatteryControls();
 
         // Set up the control panel
         addControls();
-
-
-        BatterySliderExp bs = new BatterySliderExp( getApparatusPanel(), 50, 10, Color.white, model );
-        bs.setMinimum( (int) -( 30 ) );
-        bs.setMaximum( (int) ( 30 ) );
-        bs.setValue( (int) ( 0 ) );
-        bs.addTick( bs.getMinimum() );
-        bs.addTick( bs.getMaximum() );
-        bs.addTick( 0 );
-
-        bs.setLocation( (int)DischargeLampsConfig.CATHODE_LOCATION.getX() + 190, 60 );
-        getApparatusPanel().addGraphic( bs, DischargeLampsConfig.CIRCUIT_LAYER + 1 );
-
     }
 
-    private void addBatteryGraphic( ) {
+    /**
+     * Places a slider and digital readout on the battery graphic
+     */
+    private void addGraphicBatteryControls() {
+        Battery battery = model.getBattery();
+        final BatterySlider bSl = new BatterySlider( getApparatusPanel(), 80 /* track length */, battery );
+        bSl.setMinimum( (int)-( battery.getMaxVoltage() ) );
+        bSl.setMaximum( (int)( battery.getMaxVoltage() ) );
+        bSl.setValue( (int)( 0 ) );
+        bSl.addTick( bSl.getMinimum() );
+        bSl.addTick( bSl.getMaximum() );
+        bSl.addTick( 0 );
+        bSl.setLocation( (int)DischargeLampsConfig.CATHODE_LOCATION.getX() + 174, 60 );
+        getApparatusPanel().addGraphic( bSl, DischargeLampsConfig.CIRCUIT_LAYER + 1 );
+
+        final PhetGraphic batteryReadout = new BatteryReadout( getApparatusPanel(),
+                                                               battery,
+                                                               new Point( (int)DischargeLampsConfig.CATHODE_LOCATION.getX() + 194,
+                                                                          78 ),
+                                                               35 );
+        addGraphic( batteryReadout, VOLTAGE_VALUE_LAYER );
+    }
+
+    private void addBatteryGraphic() {
         BatteryGraphic graphic = new BatteryGraphic( getApparatusPanel(), model.getBattery() );
         graphic.setLocation( 150, 150 );
         getApparatusPanel().addGraphic( graphic, 1E6 );
@@ -342,7 +357,8 @@ public class DischargeLampModule extends BaseLaserModule {
         batterySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 double voltage = batterySlider.getValue() / DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR;
-                model.setVoltage( voltage );
+                model.getBattery().setVoltage( voltage );
+//                model.setVoltage( voltage );
             }
         } );
         double voltage = batterySlider.getValue() / DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR;
@@ -352,8 +368,8 @@ public class DischargeLampModule extends BaseLaserModule {
         currentSlider = new ModelSlider( "Electron Production Rate", "electrons/sec",
                                          0, maxCurrent, 0 );
 //                                         0, maxCurrent, 0, new DecimalFormat( "0.000" ) );
-        currentSlider.setSliderLabelFormat( new DecimalFormat( "#" ));
-        currentSlider.setTextFieldFormat( new DecimalFormat( "#"));
+        currentSlider.setSliderLabelFormat( new DecimalFormat( "#" ) );
+        currentSlider.setTextFieldFormat( new DecimalFormat( "#" ) );
         currentSlider.setMajorTickSpacing( 50 );
 //        currentSlider.setMajorTickSpacing( maxCurrent / 3 );
         currentSlider.setNumMinorTicksPerMajorTick( 1 );
