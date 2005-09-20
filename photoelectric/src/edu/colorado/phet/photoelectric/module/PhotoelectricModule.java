@@ -38,7 +38,7 @@ import edu.colorado.phet.lasers.view.ResonatingCavityGraphic;
 import edu.colorado.phet.photoelectric.PhotoelectricApplication;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 import edu.colorado.phet.photoelectric.controller.PhotoelectricControlPanel;
-import edu.colorado.phet.photoelectric.controller.BeamControl3;
+import edu.colorado.phet.photoelectric.controller.BeamControl;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 import edu.colorado.phet.photoelectric.model.PhotoelectricTarget;
 import edu.colorado.phet.photoelectric.view.*;
@@ -190,7 +190,7 @@ public class PhotoelectricModule extends BaseLaserModule {
 
         // Add a slider for the battery
         addGraphicBatteryControls();
-        BeamControl3 beamControl = new BeamControl3( getApparatusPanel(),
+        BeamControl beamControl = new BeamControl( getApparatusPanel(),
                                                      new Point( 430,50),
                                                      model.getBeam(),
                                                      model.getBeam().getMaxPhotonsPerSecond());

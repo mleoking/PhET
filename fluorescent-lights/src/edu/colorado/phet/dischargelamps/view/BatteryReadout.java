@@ -43,7 +43,7 @@ public class BatteryReadout extends CompositePhetGraphic {
         this.offset = offset;
 
         Rectangle2D backgroundRect = new Rectangle2D.Double( 0, 0, 40, 20 );
-        background = new PhetShapeGraphic( component, backgroundRect, Color.white, new BasicStroke( 1 ), Color.black );
+        background = new PhetShapeGraphic( component, backgroundRect, Color.lightGray, new BasicStroke( 1 ), Color.black );
         addGraphic( background );
 
         batteryReadout = new PhetTextGraphic( component, VALUE_FONT, "", VALUE_COLOR );
