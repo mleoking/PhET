@@ -132,8 +132,8 @@ public class D2CControlPanel extends FourierControlPanel {
             
             // Layout
             EasyGridBagLayout layout = new EasyGridBagLayout( spacingPanel );
-            layout.setInsets( DEFAULT_INSETS );
             spacingPanel.setLayout( layout );
+            layout.setInsets( DEFAULT_INSETS );
             int row = 0;
             layout.addComponent( _spacingSlider, row++, 0 );
             layout.addComponent( _amplitudesEnvelopeCheckBox, row++, 0 );
@@ -147,8 +147,8 @@ public class D2CControlPanel extends FourierControlPanel {
             
             // Layout
             EasyGridBagLayout layout = new EasyGridBagLayout( centerPanel );
-            layout.setInsets( DEFAULT_INSETS );
             centerPanel.setLayout( layout );
+            layout.setInsets( DEFAULT_INSETS );
             int row = 0;
             layout.addComponent( _centerSlider, row++, 0 );
         }
@@ -164,8 +164,8 @@ public class D2CControlPanel extends FourierControlPanel {
             
             // Layout
             EasyGridBagLayout layout = new EasyGridBagLayout( widthPanel );
-            layout.setInsets( DEFAULT_INSETS );
             widthPanel.setLayout( layout );
+            layout.setInsets( DEFAULT_INSETS );
             int row = 0;
             layout.addComponent( _kWidthSlider, row++, 0 );
             layout.addComponent( _xWidthSlider, row++, 0 );
@@ -214,14 +214,16 @@ public class D2CControlPanel extends FourierControlPanel {
             // Layout
             JPanel innerPanel = new JPanel();
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
-            layout.setInsets( DEFAULT_INSETS );
             innerPanel.setLayout( layout );
-            int row = 0;
+            layout.setInsets( DEFAULT_INSETS );
             layout.setAnchor( GridBagConstraints.WEST );
-            layout.addComponent( _domainComboBox, row++, 0 );
-            layout.addComponent( waveTypePanel, row++, 0 );
-            layout.addComponent( _sumEnvelopeCheckBox, row++, 0 );
-            layout.addComponent( _showWidthsCheckBox, row++, 0 );
+            layout.setMinimumWidth( 0, 30 );
+            int row = 0;
+            int column = 1;
+            layout.addComponent( _domainComboBox, row++, column );
+            layout.addComponent( waveTypePanel, row++, column );
+            layout.addComponent( _sumEnvelopeCheckBox, row++, column );
+            layout.addComponent( _showWidthsCheckBox, row++, column );
             graphControlsPanel.setLayout( new BorderLayout() );
             graphControlsPanel.add( innerPanel, BorderLayout.WEST );
         }
