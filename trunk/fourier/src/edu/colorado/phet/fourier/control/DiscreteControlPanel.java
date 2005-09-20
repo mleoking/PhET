@@ -351,15 +351,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             mathModePanel.add( innerPanel, BorderLayout.WEST );
         }
         
-        JPanel audioControlsPanel = new JPanel();
+        FourierTitledPanel audioControlsPanel = new FourierTitledPanel( SimStrings.get( "DiscreteControlPanel.audioControls" ) );
         {
-            //  Title
-            String title = SimStrings.get( "DiscreteControlPanel.audioControls" );
-            TitledBorder titledBorder = new TitledBorder( title );
-            Font font = titledBorder.getTitleFont();
-            titledBorder.setTitleFont( new Font( FourierConfig.FONT_NAME, TITLED_BORDER_FONT_STYLE, font.getSize() ) );
-            audioControlsPanel.setBorder( titledBorder );
-
             // Sound
             _soundCheckBox = new JCheckBox( SimStrings.get( "DiscreteControlPanel.sound" ) );
 
