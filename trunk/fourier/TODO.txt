@@ -5,9 +5,11 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- set antialiasing on each leaf-node graphic instead of in containers
-- add sound to Discrete module
 - anti-aliasing of D2C Sum x-space envelope isn't working
+- set antialiasing on each leaf-node graphic instead of in containers
+- before 2.0: hide "Audio controls" panel
+- before 2.0: disable MegaHelp
+- add sound to Discrete module
 
 MEDIUM PRIORITY:
 - remove the clock controls for the D2C module
