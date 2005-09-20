@@ -26,6 +26,7 @@ import edu.colorado.phet.dischargelamps.model.Battery;
 import edu.colorado.phet.dischargelamps.view.PlateGraphic;
 import edu.colorado.phet.dischargelamps.view.BatteryReadout;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
+import edu.colorado.phet.lasers.controller.BeamControl2;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
@@ -37,9 +38,11 @@ import edu.colorado.phet.lasers.view.ResonatingCavityGraphic;
 import edu.colorado.phet.photoelectric.PhotoelectricApplication;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 import edu.colorado.phet.photoelectric.controller.PhotoelectricControlPanel;
+import edu.colorado.phet.photoelectric.controller.BeamControl3;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 import edu.colorado.phet.photoelectric.model.PhotoelectricTarget;
 import edu.colorado.phet.photoelectric.view.*;
+import edu.colorado.phet.control.IntensitySlider;
 
 import javax.swing.*;
 import java.awt.*;
@@ -187,27 +190,11 @@ public class PhotoelectricModule extends BaseLaserModule {
 
         // Add a slider for the battery
         addGraphicBatteryControls();
-//        GraphicSlider batterySlider = new GraphicSlider( getApparatusPanel() );
-//        batterySlider = new PhotoelectricSlider( getApparatusPanel(), 100 /* track length */ );
-//        addGraphic( batterySlider, SLIDER_LAYER );
-
-//        batterySlider.setMinimum( (int)-( PhotoelectricModel.MIN_VOLTAGE ) );
-//        batterySlider.setMaximum( (int)( PhotoelectricModel.MAX_VOLTAGE ) );
-//        batterySlider.setValue( (int)( getPhotoelectricModel().getAnodePotential() * PhotoelectricModel.MAX_VOLTAGE ) );
-//        batterySlider.addTick( batterySlider.getMinimum() );
-//        batterySlider.addTick( batterySlider.getMaximum() );
-//        batterySlider.addTick( 0 );
-
-//        batterySlider.centerRegistrationPoint();
-//        batterySlider.setLocation( 400, 400 );
-//        final GraphicSlider batterySlider1 = batterySlider;
-//        batterySlider.addChangeListener( new ChangeListener() {
-//            public void stateChanged( ChangeEvent e ) {
-//                int voltage = batterySlider1.getValue();
-//                getPhotoelectricModel().getRightHandPlate().setPotential( voltage / PhotoelectricModel.MAX_VOLTAGE );
-//            }
-//        } );
-
+        BeamControl3 beamControl = new BeamControl3( getApparatusPanel(),
+                                                     new Point( 430,50),
+                                                     model.getBeam(),
+                                                     model.getBeam().getMaxPhotonsPerSecond());
+        getApparatusPanel().addGraphic( beamControl );
 
         //----------------------------------------------------------------
         // Total hack to get beam to look right when things come up. This should

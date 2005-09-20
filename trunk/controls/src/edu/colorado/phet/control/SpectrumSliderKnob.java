@@ -14,8 +14,19 @@ package edu.colorado.phet.control;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Rectangle2D;
+import java.text.DecimalFormat;
+import java.text.MessageFormat;
 
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
+import edu.colorado.phet.lasers.model.photon.PhotonSource;
+import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+import edu.colorado.phet.dischargelamps.model.Battery;
 
 /**
  * SpectrumSliderKnob is the knob on a SpectrumSlider.
@@ -25,7 +36,8 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class SpectrumSliderKnob extends PhetShapeGraphic {
+public class SpectrumSliderKnob extends CompositePhetGraphic {
+//public class SpectrumSliderKnob extends PhetShapeGraphic {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -37,22 +49,28 @@ public class SpectrumSliderKnob extends PhetShapeGraphic {
     private Dimension _size;
     // Rotation angle
     private double _angle;
+    // ShapeGraphic for the knob
+    private PhetShapeGraphic knobShape;
+//    private Readout readout;
+    private SpectrumSlider parentSlider;
+    private WavelengthReadout wavelengthReadout;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
     /**
-     * Sole constructor.
      * Creates a white knob with a black border, located at (0,0).
-     * 
+     *
      * @param component the parent Component
-     * @param size dimensions in pixels
-     * @param angle rotation angle, in radians
+     * @param size      dimensions in pixels
+     * @param angle     rotation angle, in radians
      */
-    public SpectrumSliderKnob( Component component, Dimension size, double angle ) {
+    public SpectrumSliderKnob( Component component, Dimension size, double angle, SpectrumSlider parentSlider ) {
 
-        super( component, null, null );
+        super( component );
+//        super( component, null, null );
+        this.parentSlider = parentSlider;
 
         _location = new Point( 0, 0 );
         _size = new Dimension( size );
@@ -62,20 +80,67 @@ public class SpectrumSliderKnob extends PhetShapeGraphic {
         RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         super.setRenderingHints( hints );
 
-        super.setPaint( Color.WHITE );
-        super.setStroke( new BasicStroke( 1f ) );
-        super.setBorderColor( Color.BLACK );
+        // Make the shape for the knob
+        knobShape = new PhetShapeGraphic( component, null, null );
+        knobShape.setPaint( Color.WHITE );
+        knobShape.setStroke( new BasicStroke( 1f ) );
+        knobShape.setBorderColor( Color.BLACK );
+        addGraphic( knobShape );
+
+        // Make the text readout
+//        readout = new Readout( component );
+//        addGraphic( readout );
+
+        wavelengthReadout = new WavelengthReadout( component );
+        addGraphic( wavelengthReadout );
 
         updateShape();
     }
+
+//    private class Readout extends CompositePhetGraphic {
+//        private Rectangle box;
+//        private WavelengthReadout wavelengthReadout;
+//
+//        public Readout( Component component ) {
+//            super( component );
+//            box = new Rectangle( 0, 0, 10,10);
+//            PhetShapeGraphic background = new PhetShapeGraphic( component,
+//                                                                box,
+//                                                                Color.white,
+//                                                                new BasicStroke( 1 ),
+//                                                                Color.black );
+//            addGraphic( background );
+//
+//            wavelengthReadout = new WavelengthReadout( component );
+//            addGraphic( wavelengthReadout );
+//        }
+//
+//        public void setWidth( int width ) {
+//            wavelengthReadout.setWidth( width );
+////            box.setBounds( 0, 0, width-6, (int)(knobShape.getBounds().getHeight() * 0.67 ) - 6 );
+////            setRegistrationPoint( (int)box.getWidth() / 2, -(int)(knobShape.getBounds().getHeight() * 0.33 ));
+//
+//            setBoundsDirty();
+//            repaint();
+//        }
+//    }
 
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
 
     /**
+     * Implements the method in the ISliderKnob interface
+     *
+     * @return
+     */
+    public PhetGraphic getPhetGraphic() {
+        return this;
+    }
+
+    /**
      * Sets the knob's location.
-     * 
+     *
      * @param location the location
      */
     public void setLocation( Point location ) {
@@ -88,7 +153,7 @@ public class SpectrumSliderKnob extends PhetShapeGraphic {
 
     /**
      * Convenience method for setting the knob's location.
-     * 
+     *
      * @param x X coordinate
      * @param y Y coordinate
      */
@@ -99,7 +164,7 @@ public class SpectrumSliderKnob extends PhetShapeGraphic {
 
     /**
      * Gets the knob's location.\
-     * 
+     *
      * @return the location
      */
     public Point getLocation() {
@@ -109,7 +174,7 @@ public class SpectrumSliderKnob extends PhetShapeGraphic {
 
     /**
      * Sets the knob's size.
-     * 
+     *
      * @param size the size
      */
     public void setSize( Dimension size ) {
@@ -120,7 +185,7 @@ public class SpectrumSliderKnob extends PhetShapeGraphic {
 
     /**
      * Gets the knob's size.
-     * 
+     *
      * @return the size
      */
     public Dimension getSize() {
@@ -132,7 +197,7 @@ public class SpectrumSliderKnob extends PhetShapeGraphic {
      * Sets the angle of rotation.
      * Rotation is performed about the tip of the knob.
      * At zero degrees, the tip is pointing straight up.
-     * 
+     *
      * @param angle the angle, in radians
      */
     public void setAngle( double angle ) {
@@ -143,7 +208,7 @@ public class SpectrumSliderKnob extends PhetShapeGraphic {
 
     /**
      * Gets the angle of rotation.
-     * 
+     *
      * @return the angle, in degrees
      */
     public double getAngle() {
@@ -178,7 +243,76 @@ public class SpectrumSliderKnob extends PhetShapeGraphic {
 //        transform.rotate( _angle );
 //        shape = transform.createTransformedShape( shape );
 
-        super.setShape( shape );
+        knobShape.setShape( shape );
+        wavelengthReadout.setWidth( knobShape.getWidth() );
+    }
+
+    public void setBorderColor( Color color ) {
+        knobShape.setBorderColor( color );
+    }
+
+    public void setPaint( Color color ) {
+        knobShape.setPaint( color );
+
+    }
+
+    public void setWavelength( double wavelength ) {
+        wavelengthReadout.setValue( wavelength );
+    }
+
+
+
+    public class WavelengthReadout extends CompositePhetGraphic {
+        private Font VALUE_FONT = new Font( "SansSerif", Font.PLAIN, 12 );
+        private Color VALUE_COLOR = Color.BLACK;
+
+        private PhetTextGraphic valueText;
+        private PhetShapeGraphic background;
+        private double wavelength;
+        private Rectangle2D backgroundRect;
+
+        public WavelengthReadout( Component component ) {
+            super( component );
+
+            backgroundRect = new Rectangle2D.Double( 0, 0, 40, 20 );
+            background = new PhetShapeGraphic( component, backgroundRect, Color.white, new BasicStroke( 1 ), Color.black );
+            addGraphic( background );
+
+            valueText = new PhetTextGraphic( component, VALUE_FONT, "", VALUE_COLOR );
+            addGraphic( valueText );
+
+            update( 123 );
+        }
+
+        private void update( double wavelength ) {
+            this.wavelength = wavelength;
+            DecimalFormat voltageFormat = new DecimalFormat( "000" );
+            Object[] args = {voltageFormat.format( Math.abs( wavelength ))};
+            String text = MessageFormat.format( "nm", args );
+//            valueText.setText( text );
+            valueText.setText( voltageFormat.format( wavelength ) + "nm");
+
+            // Move the wavelength label to the positive end of the battery
+            valueText.setLocation( (int)background.getBounds().getWidth(), (int)background.getBounds().getHeight() );
+
+            // Right justify in the bckground rectangle
+            valueText.setRegistrationPoint( valueText.getWidth(), 6 );
+//            valueText.setRegistrationPoint( -valueText.getWidth(), VALUE_FONT.getSize() - 30 );
+
+        }
+
+        public void setWidth( int width ) {
+            int inset = 10;
+            backgroundRect.setRect( 0, 0, width-inset, (int)(knobShape.getBounds().getHeight() * 0.67 ) - inset / 2 );
+            setRegistrationPoint( (int)backgroundRect.getWidth() / 2, -(int)(knobShape.getBounds().getHeight() * 0.33) );
+            update( wavelength );
+            setBoundsDirty();
+            repaint();
+        }
+
+        void setValue( double wavelength ) {
+            update(wavelength );
+        }
     }
 
 }

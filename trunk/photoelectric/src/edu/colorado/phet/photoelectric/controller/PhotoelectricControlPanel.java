@@ -96,7 +96,7 @@ public class PhotoelectricControlPanel {
         wavelengthSlider.setSliderLabelFormat( new DecimalFormat( "#" ) );
         wavelengthSlider.setPreferredSize( new Dimension( 250, 100 ) );
         beam.setWavelength( wavelengthSlider.getValue() );
-        beamControlPnl.add( wavelengthSlider );
+//        beamControlPnl.add( wavelengthSlider );
         wavelengthSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 beam.setWavelength( wavelengthSlider.getValue() );
@@ -134,7 +134,7 @@ public class PhotoelectricControlPanel {
         batterySlider.setNumMajorTicks( 7 );
         batterySlider.setNumMinorTicksPerMajorTick( 2 );
         batterySlider.setSliderLabelFormat( new DecimalFormat( "0.00" ) );
-        controlPanel.addControl( batterySlider );
+//        controlPanel.addControl( batterySlider );
         model.getTarget().setPotential( batterySlider.getValue() * PhotoelectricModel.VOLTAGE_SCALE_FACTOR );
         batterySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
