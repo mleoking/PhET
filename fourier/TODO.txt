@@ -63,6 +63,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+1.0.16 ...
 (9/20) - keep registration point of Discrete harmonics and sum graphs at (0,0)
 (9/20) - bugfix: align vertical zoom & autoscale controls with bottom of Discrete Sum graph
 (9/20) - reduce height of harmonic and sum graphs in both panels so that x-axis labels are not cramped or clipped
