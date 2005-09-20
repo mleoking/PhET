@@ -93,6 +93,9 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
     private static final double ENVELOPE_STEP = Math.PI / 10; // about one value for every 2 pixels
     private static final Color ENVELOPE_COLOR = Color.LIGHT_GRAY;
     private static final Stroke ENVELOPE_STROKE = new BasicStroke( 4f );
+    
+    // Autoscaling
+    private static final double AUTOSCALE_FACTOR = 1.12; // multiple max amplitude by this amount when autoscaling
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -536,7 +539,7 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
         _sumPlot.updateDataSet();
 
         _chartGraphic.addDataSetGraphic( _sumPlot );
-        _chartGraphic.autoscaleY( _sumPlot.getMaxAmplitude() * FourierConfig.AUTOSCALE_PERCENTAGE );
+        _chartGraphic.autoscaleY( _sumPlot.getMaxAmplitude() * AUTOSCALE_FACTOR );
     }
 
     /*
@@ -549,11 +552,11 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
         _wavePacketPlot.setWaveType( _waveType );
 
         _chartGraphic.addDataSetGraphic( _wavePacketPlot );
-        _chartGraphic.autoscaleY( _wavePacketPlot.getMaxAmplitude() * FourierConfig.AUTOSCALE_PERCENTAGE );
+        _chartGraphic.autoscaleY( _wavePacketPlot.getMaxAmplitude() * AUTOSCALE_FACTOR );
     }
 
     /*
-     * Populates a LinePlot with a set of points that approximate the envelope waveform.
+     * Populates a LinePlot with a set of points that approximates the envelope waveform.
      * We do this by using the data from 2 FourierPlots -- one for sine and one for cosine --
      * and computing the following function:
      * 
