@@ -48,11 +48,13 @@ import edu.colorado.phet.fourier.view.tools.HarmonicWavelengthTool;
 public class DiscreteControlPanel extends FourierControlPanel implements ChangeListener {
   
     //----------------------------------------------------------------------------
-    // Instance data
+    // Class data
     //----------------------------------------------------------------------------
     
+    // Layout parameters
     private static final int LEFT_MARGIN = 25; // pixels
-    private static final int MATH_MODE_LEFT_MARGIN = 10;
+    private static final int MATH_MODE_LEFT_MARGIN = 10; // pixels
+    private static final int SUBPANEL_SPACING = 10; // pixels
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -382,13 +384,13 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         
         // Layout
         addFullWidth( presetControlsPanel );
-        addVerticalSpace( 5 );
+        addVerticalSpace( SUBPANEL_SPACING );
         addFullWidth( graphControlsPanel );
-        addVerticalSpace( 5 );
+        addVerticalSpace( SUBPANEL_SPACING );
         addFullWidth( toolControlsPanel );
-        addVerticalSpace( 5 );
+        addVerticalSpace( SUBPANEL_SPACING );
         addFullWidth( mathModePanel );
-        addVerticalSpace( 5 );
+        addVerticalSpace( SUBPANEL_SPACING );
         addFullWidth( audioControlsPanel );
 
         // Dialogs
