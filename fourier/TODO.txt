@@ -5,6 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- charts: tick mark labels move when turning label table on/off
+- set antialiasing on each leaf-node graphic instead of in containers
 - add sound to Discrete module
 - anti-aliasing of D2C Sum x-space envelope isn't working
 
@@ -65,7 +67,7 @@ DONE:
 (9/20) - tweak default location of all measurement tools in Discrete module
 (9/20) - make k1 tool help point down
 (9/20) - switch to a 1-pixel light grey line border for titled panels
-(9/20) - experiment with raised bevel border for subpanels, gets lost of black background
+(9/20) - experiment with raised bevel border for subpanels, hilite gets lost on gray background
 (9/20) - add a left margin to the contents of each subpanel
 (9/20) - align Period Tool combo box with Wavelength Tool combo box
 (9/20) - change "sin/cos" preset option to "sine/cosine"
