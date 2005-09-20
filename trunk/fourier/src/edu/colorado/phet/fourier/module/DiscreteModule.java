@@ -63,9 +63,9 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
     private static final double TOOLS_LAYER = 6;
 
     // Locations
-    private static final Point WAVELENGTH_TOOL_LOCATION = new Point( 450, 236 );
+    private static final Point WAVELENGTH_TOOL_LOCATION = new Point( 440, 236 );
     private static final Point PERIOD_TOOL_LOCATION = WAVELENGTH_TOOL_LOCATION;
-    private static final Point PERIOD_DISPLAY_LOCATION = new Point( 655, 345 );
+    private static final Point PERIOD_DISPLAY_LOCATION = new Point( 655, 355 );
     private static final Point WIGGLE_ME_LOCATION = new Point( 115, 153 );
     
     // Colors
