@@ -143,7 +143,7 @@ public class WidthPlot extends AbstractPointPlot {
         _labelGraphic.centerRegistrationPoint();
         // center the label above the tool
         int x = 0;
-        int y = -( ( _labelGraphic.getHeight() / 2 ) + 6 );
+        int y = -( ( _labelGraphic.getHeight() / 2 ) + 5 );
         _labelGraphic.setLocation( x, y );
         handleLabelSizeChange();
     }
