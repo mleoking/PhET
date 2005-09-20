@@ -52,6 +52,14 @@ import edu.colorado.phet.fourier.view.tools.WavePacketSpacingTool;
 public class D2CControlPanel extends FourierControlPanel {
     
     //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    // Layout parameters
+    private static final int LEFT_MARGIN = 30; // pixels
+    private static final int SUBPANEL_SPACING = 8;  // pixels
+    
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
@@ -131,12 +139,18 @@ public class D2CControlPanel extends FourierControlPanel {
             _amplitudesEnvelopeCheckBox = new JCheckBox( SimStrings.get( "D2CControlPanel.kEnvelope" ) );
             
             // Layout
-            EasyGridBagLayout layout = new EasyGridBagLayout( spacingPanel );
-            spacingPanel.setLayout( layout );
+            JPanel innerPanel = new JPanel();
+            EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
+            innerPanel.setLayout( layout );
             layout.setInsets( DEFAULT_INSETS );
+            layout.setAnchor( GridBagConstraints.WEST );
+            layout.setMinimumWidth( 0, LEFT_MARGIN );
             int row = 0;
-            layout.addComponent( _spacingSlider, row++, 0 );
-            layout.addComponent( _amplitudesEnvelopeCheckBox, row++, 0 );
+            int column = 1;
+            layout.addComponent( _spacingSlider, row++, column );
+            layout.addComponent( _amplitudesEnvelopeCheckBox, row++, column );
+            spacingPanel.setLayout( new BorderLayout() );
+            spacingPanel.add( innerPanel, BorderLayout.WEST );
         }
         
         // Center Point panel
@@ -144,13 +158,19 @@ public class D2CControlPanel extends FourierControlPanel {
         {
             // center point (k0)
             _centerSlider = new WavePacketCenterSlider();
-            
+             
             // Layout
-            EasyGridBagLayout layout = new EasyGridBagLayout( centerPanel );
-            centerPanel.setLayout( layout );
+            JPanel innerPanel = new JPanel();
+            EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
+            innerPanel.setLayout( layout );
             layout.setInsets( DEFAULT_INSETS );
+            layout.setAnchor( GridBagConstraints.WEST );
+            layout.setMinimumWidth( 0, LEFT_MARGIN );
             int row = 0;
-            layout.addComponent( _centerSlider, row++, 0 );
+            int column = 1;
+            layout.addComponent( _centerSlider, row++, column );
+            centerPanel.setLayout( new BorderLayout() );
+            centerPanel.add( innerPanel, BorderLayout.WEST );
         }
         
         // Width panel
@@ -161,14 +181,20 @@ public class D2CControlPanel extends FourierControlPanel {
 
             // x-space width
             _xWidthSlider = new WavePacketXWidthSlider();
-            
-            // Layout
-            EasyGridBagLayout layout = new EasyGridBagLayout( widthPanel );
-            widthPanel.setLayout( layout );
+
+             // Layout
+            JPanel innerPanel = new JPanel();
+            EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
+            innerPanel.setLayout( layout );
             layout.setInsets( DEFAULT_INSETS );
+            layout.setAnchor( GridBagConstraints.WEST );
+            layout.setMinimumWidth( 0, LEFT_MARGIN );
             int row = 0;
-            layout.addComponent( _kWidthSlider, row++, 0 );
-            layout.addComponent( _xWidthSlider, row++, 0 );
+            int column = 1;
+            layout.addComponent( _kWidthSlider, row++, column );
+            layout.addComponent( _xWidthSlider, row++, column );
+            widthPanel.setLayout( new BorderLayout() );
+            widthPanel.add( innerPanel, BorderLayout.WEST );
         }
         
         FourierTitledPanel graphControlsPanel = new FourierTitledPanel( SimStrings.get( "D2CControlPanel.graphControls" ) );
@@ -217,7 +243,7 @@ public class D2CControlPanel extends FourierControlPanel {
             innerPanel.setLayout( layout );
             layout.setInsets( DEFAULT_INSETS );
             layout.setAnchor( GridBagConstraints.WEST );
-            layout.setMinimumWidth( 0, 30 );
+            layout.setMinimumWidth( 0, LEFT_MARGIN );
             int row = 0;
             int column = 1;
             layout.addComponent( _domainComboBox, row++, column );
@@ -230,8 +256,11 @@ public class D2CControlPanel extends FourierControlPanel {
 
         // Layout
         addFullWidth( spacingPanel );
+        addVerticalSpace( SUBPANEL_SPACING );
         addFullWidth( centerPanel );
+        addVerticalSpace( SUBPANEL_SPACING );
         addFullWidth( widthPanel );
+        addVerticalSpace( SUBPANEL_SPACING );
         addFullWidth( graphControlsPanel );
         
         // Set the state of the controls.
