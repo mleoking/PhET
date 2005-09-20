@@ -62,6 +62,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/20) - tweak default location of all measurement tools in Discrete module
 (9/20) - make k1 tool help point down
 (9/20) - switch to a 1-pixel light grey line border for titled panels
 (9/20) - experiment with raised bevel border for subpanels, gets lost of black background
