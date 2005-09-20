@@ -57,7 +57,7 @@ public class D2CControlPanel extends FourierControlPanel {
     
     // Layout parameters
     private static final int LEFT_MARGIN = 30; // pixels
-    private static final int SUBPANEL_SPACING = 8;  // pixels
+    private static final int SUBPANEL_SPACING = 0;  // pixels
     
     //----------------------------------------------------------------------------
     // Instance data
