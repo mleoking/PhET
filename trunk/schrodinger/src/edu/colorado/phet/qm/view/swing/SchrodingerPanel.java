@@ -186,4 +186,8 @@ public class SchrodingerPanel extends PhetPCanvas {
     public void removePotentialGraphic( RectangularPotentialGraphic rectangularPotentialGraphic ) {
         schrodingerScreenNode.removePotentialGraphic( rectangularPotentialGraphic );
     }
+
+    public SchrodingerScreenNode getSchrodingerScreenNode() {
+        return schrodingerScreenNode;
+    }
 }
