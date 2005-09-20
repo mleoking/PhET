@@ -122,14 +122,8 @@ public class D2CControlPanel extends FourierControlPanel {
         setMinumumWidth( width );
 
         // Spacing panel
-        JPanel spacingPanel = new JPanel();
+        FourierTitledPanel spacingPanel = new FourierTitledPanel( SimStrings.get( "D2CControlPanel.spacing" ) );
         {
-            String title = SimStrings.get( "D2CControlPanel.spacing" );
-            TitledBorder titledBorder = new TitledBorder( title );
-            Font font = titledBorder.getTitleFont();
-            titledBorder.setTitleFont( new Font( font.getName(), Font.BOLD, font.getSize() ) );
-            spacingPanel.setBorder( titledBorder );
-            
             // spacing (k1)
             _spacingSlider = new WavePacketSpacingSlider();
 
@@ -146,14 +140,8 @@ public class D2CControlPanel extends FourierControlPanel {
         }
         
         // Center Point panel
-        JPanel centerPanel = new JPanel();
+        FourierTitledPanel centerPanel = new FourierTitledPanel( SimStrings.get( "D2CControlPanel.center" ) );
         {
-            String title = SimStrings.get( "D2CControlPanel.center" );
-            TitledBorder titledBorder = new TitledBorder( title );
-            Font font = titledBorder.getTitleFont();
-            titledBorder.setTitleFont( new Font( font.getName(), Font.BOLD, font.getSize() ) );
-            centerPanel.setBorder( titledBorder );
-
             // center point (k0)
             _centerSlider = new WavePacketCenterSlider();
             
@@ -166,14 +154,8 @@ public class D2CControlPanel extends FourierControlPanel {
         }
         
         // Width panel
-        JPanel widthPanel = new JPanel();
+        FourierTitledPanel widthPanel = new FourierTitledPanel( SimStrings.get( "D2CControlPanel.widthControls" ) );
         {
-            String title = SimStrings.get( "D2CControlPanel.widthControls" );
-            TitledBorder titledBorder = new TitledBorder( title );
-            Font font = titledBorder.getTitleFont();
-            titledBorder.setTitleFont( new Font( font.getName(), Font.BOLD, font.getSize() ) );
-            widthPanel.setBorder( titledBorder );
-            
             // k-space width
             _kWidthSlider = new WavePacketKWidthSlider();
 
@@ -189,14 +171,8 @@ public class D2CControlPanel extends FourierControlPanel {
             layout.addComponent( _xWidthSlider, row++, 0 );
         }
         
-        JPanel graphControlsPanel = new JPanel();
+        FourierTitledPanel graphControlsPanel = new FourierTitledPanel( SimStrings.get( "D2CControlPanel.graphControls" ) );
         {
-            String title = SimStrings.get( "D2CControlPanel.graphControls" );
-            TitledBorder titledBorder = new TitledBorder( title );
-            Font font = titledBorder.getTitleFont();
-            titledBorder.setTitleFont( new Font( font.getName(), Font.BOLD, font.getSize() ) );
-            graphControlsPanel.setBorder( titledBorder );
-            
             // Domain
             {
                 // Label
