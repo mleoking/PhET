@@ -331,20 +331,17 @@ public class ApparatusPanel2 extends ApparatusPanel implements ClockTickListener
     }
 
     protected void paintComponent( Graphics graphics ) {
+        super.doPaintSuper(graphics);
         Graphics2D g2 = (Graphics2D)graphics;
         g2 = new PhetGraphics2D( g2 );
         if( repaintArea == null ) {
             repaintArea = this.getBounds();
         }
         g2.setBackground( super.getBackground() );
-//        g2.clearRect( 0, 0, this.getWidth(), this.getHeight() );
         Rectangle clipBounds = g2.getClipBounds();
-//        System.out.println( "clipBounds = " + clipBounds );
         g2.clearRect( clipBounds.x, clipBounds.y, clipBounds.width, clipBounds.height );
-//        g2.clearRect( repaintArea.x, repaintArea.y, repaintArea.width, repaintArea.height );
         setup( g2 );
         GraphicsState gs = new GraphicsState( g2 );
-//        g2.transform( transformManager.getGraphicTx() );
         paintStrategy.render( g2, transformManager.getGraphicTx() );
 
         //remove the affine transform.
@@ -790,6 +787,10 @@ public class ApparatusPanel2 extends ApparatusPanel implements ClockTickListener
             }
         }
 
+    }
+
+    protected void paintChildren( Graphics g ) {
+        super.paintChildren( g );
     }
 }
 
