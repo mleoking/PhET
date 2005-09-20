@@ -220,7 +220,7 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         //----------------------------------------------------------------------------
         
         FourierHelpItem spacingToolHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "D2CModule.help.spacingTool" ) );
-        spacingToolHelp.pointAt( _spacingTool, FourierHelpItem.UP, 15 );
+        spacingToolHelp.pointAt( _spacingTool, FourierHelpItem.DOWN, 15 );
         addHelpItem( spacingToolHelp );
         
         FourierHelpItem periodToolHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "D2CModule.help.periodTool" ) );
