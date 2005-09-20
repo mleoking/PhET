@@ -5,8 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-
 - add sound to Discrete module
+- anti-aliasing of D2C Sum x-space envelope isn't working
 
 MEDIUM PRIORITY:
 - remove the clock controls for the D2C module
