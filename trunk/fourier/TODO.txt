@@ -5,8 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- top part of label on x-space width is clipped by chart (move label below? same for k-space width?)
-- peak of the D2C sum envelope should be used to scale the Sum graph
+
 - add sound to Discrete module
 
 MEDIUM PRIORITY:
@@ -64,6 +63,7 @@ PHETCOMMON:
 
 DONE:
 1.0.15 ...
+(9/20) - increase autoscale factor in D2C sum graph so that width indictor and x-envelope are not clipped
 (9/19) - "sine/cosine" -> "sin/cos"
 (9/19) - "Play sound" -> "Sound"
 (9/19) - left justify all controls except top 3 subpanels in D2C
