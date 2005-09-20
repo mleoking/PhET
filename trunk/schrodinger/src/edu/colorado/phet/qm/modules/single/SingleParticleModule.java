@@ -41,28 +41,58 @@ public class SingleParticleModule extends SchrodingerModule {
 
         getSchrodingerPanel().addComponentListener( new ComponentAdapter() {
             public void componentShown( ComponentEvent e ) {
-                Timer timer = new Timer( 1000, new ActionListener() {
-                    public void actionPerformed( ActionEvent e ) {
-                        if( swoopText == null ) {
-                            PNode fireJC = schrodingerPanel.getAbstractGun().getFireButtonGraphic();
-
-                            swoopText = new SwoopText( "Push the button.", fireJC.getGlobalFullBounds().getMaxX() + 20, fireJC.getGlobalFullBounds().getY() );
-                            getSchrodingerPanel().addScreenChild( swoopText );
-                            swoopText.animateAll();
-                        }
-                    }
-                } );
-                timer.setInitialDelay( 2000 );
-                timer.setRepeats( false );
-                timer.start();
+                showSwoopText( schrodingerPanel, 2000 );
             }
         } );
         getSchrodingerPanel().addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
-                if( getSchrodingerPanel().getScreenNode().getChildrenReference().contains( swoopText ) ) {
-                    getSchrodingerPanel().removeScreenChild( swoopText );
+                if( containsSwoopText() ) {
+                    removeSwoopText();
                 }
             }
         } );
+        getSchrodingerPanel().addKeyListener( new KeyListener() {
+            public void keyPressed( KeyEvent e ) {
+                if( e.getKeyCode() == KeyEvent.VK_S ) {
+                    System.out.println( "SingleParticleModule.keyPressed" );
+                    if( containsSwoopText() ) {
+                        removeSwoopText();
+                    }
+                    swoopText = null;
+                    showSwoopText( schrodingerPanel, 0 );
+                }
+            }
+
+            public void keyReleased( KeyEvent e ) {
+            }
+
+            public void keyTyped( KeyEvent e ) {
+            }
+        } );
+    }
+
+    private boolean containsSwoopText() {
+        return getSchrodingerPanel().getScreenNode().getChildrenReference().contains( swoopText );
+    }
+
+    private void removeSwoopText() {
+        getSchrodingerPanel().removeScreenChild( swoopText );
+    }
+
+    private void showSwoopText( final SingleParticlePanel schrodingerPanel, int initialDelay ) {
+        Timer timer = new Timer( 1000, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if( swoopText == null ) {
+                    PNode fireJC = schrodingerPanel.getAbstractGun().getFireButtonGraphic();
+
+                    swoopText = new SwoopText( "Push the button.", fireJC.getGlobalFullBounds().getMaxX() + 20, fireJC.getGlobalFullBounds().getY() );
+                    getSchrodingerPanel().addScreenChild( swoopText );
+                    swoopText.animateAll();
+                }
+            }
+        } );
+        timer.setInitialDelay( initialDelay );
+        timer.setRepeats( false );
+        timer.start();
     }
 }
