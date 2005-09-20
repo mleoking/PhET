@@ -65,6 +65,9 @@ public class BatteryReadout extends CompositePhetGraphic {
 
         // Move the voltage label to the positive end of the battery
         Point p = null;
+
+        offset = 0;
+
         if( voltage < 0 ) {
             p = new Point( (int)centerPoint.getX() + offset, (int)centerPoint.getY() );
         }

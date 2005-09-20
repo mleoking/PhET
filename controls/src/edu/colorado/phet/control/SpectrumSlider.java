@@ -125,7 +125,7 @@ public class SpectrumSlider extends CompositePhetGraphic {
 
         // Initialize graphical components.
         _spectrum = new PhetImageGraphic( component, ColorVisionConfig.SPECTRUM_IMAGE );
-        _knob = new SpectrumSliderKnob( component, DEFAULT_KNOB_SIZE, getRotationAngle() );
+        _knob = new SpectrumSliderKnob( component, DEFAULT_KNOB_SIZE, getRotationAngle(), this );
 
         // Initialize interactivity
         super.addGraphic( _knob );
@@ -134,6 +134,16 @@ public class SpectrumSlider extends CompositePhetGraphic {
 
         // This call recalculates the location of all graphic elements.
         setLocation( 0, 0 );
+    }
+
+    protected void setKnob( SpectrumSliderKnob knob ) {
+        _knob = knob;
+        setBoundsDirty();
+        repaint();
+    }
+
+    public SpectrumSliderKnob getKnob() {
+        return _knob;
     }
 
     //----------------------------------------------------------------------------
@@ -375,7 +385,7 @@ public class SpectrumSlider extends CompositePhetGraphic {
         Rectangle bounds = new Rectangle( _spectrum.getBounds() );
 
         // Add the knob's bounds.
-        bounds.add( _knob.getBounds() );
+        bounds.add( _knob.getPhetGraphic().getBounds() );
 
         return bounds;
     }
@@ -506,6 +516,8 @@ public class SpectrumSlider extends CompositePhetGraphic {
         VisibleColor color = new VisibleColor( _value );
         _knob.setPaint( color.toColor() );
 
+        // Set the readout on the knob
+        _knob.setWavelength( getValue() );
         repaint();
     }
 
