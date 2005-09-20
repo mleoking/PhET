@@ -95,10 +95,12 @@ public abstract class FourierControlPanel extends ControlPanel {
      * @param space the amount of space, in pixels
      */
     public void addVerticalSpace( int space ) {
-        JPanel spacePanel = new JPanel();
-        spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.Y_AXIS ) );
-        spacePanel.add( Box.createVerticalStrut( space ) );
-        addFullWidth( spacePanel );
+        if ( space > 0 ) {
+            JPanel spacePanel = new JPanel();
+            spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.Y_AXIS ) );
+            spacePanel.add( Box.createVerticalStrut( space ) );
+            addFullWidth( spacePanel );
+        }
     }
     
     /**
