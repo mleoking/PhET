@@ -12,16 +12,10 @@
 package edu.colorado.phet.fourier.control;
 
 import java.awt.*;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Frame;
-import java.awt.GridBagConstraints;
 import java.awt.event.*;
 import java.util.ArrayList;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -52,6 +46,13 @@ import edu.colorado.phet.fourier.view.tools.HarmonicWavelengthTool;
  * @version $Revision$
  */
 public class DiscreteControlPanel extends FourierControlPanel implements ChangeListener {
+  
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private static final int LEFT_MARGIN = 25; // pixels
+    private static final int MATH_MODE_LEFT_MARGIN = 10;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -180,14 +181,15 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             // Layout
             JPanel innerPanel = new JPanel();
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
-            Insets defaultInsets = layout.getInsets();
-            layout.setInsets( DEFAULT_INSETS );
             innerPanel.setLayout( layout );
-            int row = 0;
+            layout.setInsets( DEFAULT_INSETS );
             layout.setAnchor( GridBagConstraints.WEST );
-            layout.addComponent( _presetsComboBox, row++, 0 );
-            layout.addComponent( _numberOfHarmonicsSlider, row++, 0 );
-            layout.addComponent( _showInfiniteCheckBox, row++, 0 );
+            layout.setMinimumWidth( 0, LEFT_MARGIN );
+            int row = 0;
+            int column = 1;
+            layout.addComponent( _presetsComboBox, row++, column );
+            layout.addComponent( _numberOfHarmonicsSlider, row++, column );
+            layout.addComponent( _showInfiniteCheckBox, row++, column );
             presetControlsPanel.setLayout( new BorderLayout() );
             presetControlsPanel.add( innerPanel, BorderLayout.WEST );
         }
@@ -222,8 +224,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
                 
                 // Layout
                 EasyGridBagLayout layout = new EasyGridBagLayout( waveTypePanel );
-                layout.setInsets( DEFAULT_INSETS );
                 waveTypePanel.setLayout( layout );
+                layout.setInsets( DEFAULT_INSETS );
                 layout.addComponent( _sinesRadioButton, 0, 0 );
                 layout.addComponent( _cosinesRadioButton, 0, 1 );
             }
@@ -231,12 +233,14 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             // Layout
             JPanel innerPanel = new JPanel();
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
-            layout.setInsets( DEFAULT_INSETS );
             innerPanel.setLayout( layout );
-            int row = 0;
+            layout.setInsets( DEFAULT_INSETS );
             layout.setAnchor( GridBagConstraints.WEST );
-            layout.addComponent( _domainComboBox, row++, 0 );
-            layout.addComponent( waveTypePanel, row++, 0 );
+            layout.setMinimumWidth( 0, LEFT_MARGIN );
+            int row = 0;
+            int column = 1;
+            layout.addComponent( _domainComboBox, row++, column );
+            layout.addComponent( waveTypePanel, row++, column );
             graphControlsPanel.setLayout( new BorderLayout() );
             graphControlsPanel.add( innerPanel, BorderLayout.WEST );
         }
@@ -261,8 +265,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
 
                 // Layout
                 EasyGridBagLayout layout = new EasyGridBagLayout( wavelengthToolPanel );
-                layout.setInsets( DEFAULT_INSETS );
                 wavelengthToolPanel.setLayout( layout );
+                layout.setInsets( DEFAULT_INSETS );
                 layout.addAnchoredComponent( _wavelengthToolCheckBox, 0, 0, GridBagConstraints.EAST );
                 layout.addAnchoredComponent( _wavelengthToolComboBox, 0, 1, GridBagConstraints.WEST );
             }
@@ -284,21 +288,25 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
 
                 // Layout
                 EasyGridBagLayout layout = new EasyGridBagLayout( periodToolPanel );
-                layout.setInsets( DEFAULT_INSETS );
                 periodToolPanel.setLayout( layout );
-                layout.addAnchoredComponent( _periodToolCheckBox, 0, 0, GridBagConstraints.EAST );
+                layout.setInsets( DEFAULT_INSETS );
+                // line up the combo box with the wavelength tool combo box
+                layout.setMinimumWidth( 0, (int) _wavelengthToolCheckBox.getPreferredSize().getWidth() );
+                layout.addAnchoredComponent( _periodToolCheckBox, 0, 0, GridBagConstraints.WEST );
                 layout.addAnchoredComponent( _periodToolComboBox, 0, 1, GridBagConstraints.WEST );
             }
             
             // Layout
             JPanel innerPanel = new JPanel();
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
-            layout.setInsets( DEFAULT_INSETS );
             innerPanel.setLayout( layout );
-            int row = 0;
+            layout.setInsets( DEFAULT_INSETS );
             layout.setAnchor( GridBagConstraints.WEST );
-            layout.addComponent( wavelengthToolPanel, row++, 0 );
-            layout.addComponent( periodToolPanel, row++, 0 );
+            layout.setMinimumWidth( 0, LEFT_MARGIN );
+            int row = 0;
+            int column = 1;
+            layout.addComponent( wavelengthToolPanel, row++, column );
+            layout.addComponent( periodToolPanel, row++, column );
             toolControlsPanel.setLayout( new BorderLayout() );
             toolControlsPanel.add( innerPanel, BorderLayout.WEST );
         }
@@ -340,13 +348,15 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             // Layout
             JPanel innerPanel = new JPanel();
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
-            layout.setInsets( DEFAULT_INSETS );
             innerPanel.setLayout( layout );
-            int row = 0;
+            layout.setInsets( DEFAULT_INSETS );
             layout.setAnchor( GridBagConstraints.WEST );
-            layout.addComponent( _showMathCheckBox, row++, 0 );
-            layout.addComponent( _mathFormComboBox, row++, 0 );
-            layout.addComponent( _expandSumCheckBox, row++, 0 );
+            layout.setMinimumWidth( 0, MATH_MODE_LEFT_MARGIN );
+            int row = 0;
+            int column = 1;
+            layout.addComponent( _showMathCheckBox, row++, column );
+            layout.addComponent( _mathFormComboBox, row++, column );
+            layout.addComponent( _expandSumCheckBox, row++, column );
             mathModePanel.setLayout( new BorderLayout() );
             mathModePanel.add( innerPanel, BorderLayout.WEST );
         }
@@ -359,11 +369,13 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             // Layout
             JPanel innerPanel = new JPanel();
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
-            layout.setInsets( DEFAULT_INSETS );
             innerPanel.setLayout( layout );
-            int row = 0;
+            layout.setInsets( DEFAULT_INSETS );
             layout.setAnchor( GridBagConstraints.WEST );
-            layout.addComponent( _soundCheckBox, row++, 0 );
+            layout.setMinimumWidth( 0, LEFT_MARGIN );
+            int row = 0;
+            int column = 1;
+            layout.addComponent( _soundCheckBox, row++, column );
             audioControlsPanel.setLayout( new BorderLayout() );
             audioControlsPanel.add( innerPanel, BorderLayout.WEST );
         }
