@@ -11,18 +11,13 @@
 package edu.colorado.phet.dischargelamps.control;
 
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.dischargelamps.DischargeLampModule;
-import edu.colorado.phet.dischargelamps.model.*;
-import edu.colorado.phet.lasers.model.PhysicsUtil;
-import edu.colorado.phet.lasers.model.atom.AtomicState;
-import edu.colorado.phet.lasers.model.atom.GroundState;
-import edu.colorado.phet.lasers.model.photon.Photon;
+import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
+import edu.colorado.phet.dischargelamps.model.ElementProperties;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 
 /**
  * AtomTypeChooser

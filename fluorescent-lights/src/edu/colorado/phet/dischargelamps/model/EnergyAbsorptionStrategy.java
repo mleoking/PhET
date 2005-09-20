@@ -10,11 +10,10 @@
  */
 package edu.colorado.phet.dischargelamps.model;
 
-import edu.colorado.phet.lasers.model.atom.Atom;
-import edu.colorado.phet.lasers.model.PhysicsUtil;
-import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+import edu.colorado.phet.lasers.model.PhysicsUtil;
+import edu.colorado.phet.lasers.model.atom.Atom;
 
 import java.util.Random;
 

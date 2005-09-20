@@ -12,26 +12,18 @@ package edu.colorado.phet.dischargelamps;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.components.ModelSlider;
-import edu.colorado.phet.common.view.util.RadioButtonSelector;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.dischargelamps.model.Electron;
-import edu.colorado.phet.dischargelamps.model.AtomicStateFactory;
 import edu.colorado.phet.dischargelamps.model.ElectronSource;
-import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
-import edu.colorado.phet.dischargelamps.view.DischargeLampEnergyMonitorPanel2;
 import edu.colorado.phet.dischargelamps.view.CollisionEnergyIndicator;
+import edu.colorado.phet.dischargelamps.view.DischargeLampEnergyMonitorPanel2;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
-import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.atom.Atom;
+import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.view.AtomGraphic;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -93,8 +85,8 @@ public class SingleAtomModule extends DischargeLampModule {
         // Put the current slider in a set of controls with the Fire button
         final ModelSlider currentSlider = getCurrentSlider();
         getControlPanel().remove( currentSlider );
-        currentSlider.setTextFieldFormat( new DecimalFormat( "#.00"));
-        currentSlider.setSliderLabelFormat( new DecimalFormat( "#" ));
+        currentSlider.setTextFieldFormat( new DecimalFormat( "#.00" ) );
+        currentSlider.setSliderLabelFormat( new DecimalFormat( "#" ) );
         currentSlider.setMaximum( maxCurrent );
         currentSlider.setMajorTickSpacing( 1 );
         currentSlider.setNumMinorTicksPerMajorTick( 1 );

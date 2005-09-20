@@ -12,9 +12,8 @@ package edu.colorado.phet.dischargelamps.view;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.dischargelamps.model.AtomicStateFactory;
-import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.dischargelamps.model.ConfigurableElementProperties;
+import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.dischargelamps.model.Electron;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
@@ -50,7 +49,7 @@ public class DischargeLampEnergyMonitorPanel2 extends JPanel {
     public DischargeLampEnergyMonitorPanel2( final DischargeLampModel model, AbstractClock clock,
                                              AtomicState[] atomicStates,
                                              int panelWidth, int panelHeight,
-                                             final ConfigurableElementProperties configurableElement) {
+                                             final ConfigurableElementProperties configurableElement ) {
         super( new GridBagLayout() );
 
         // Attach ourselves to the model
@@ -74,18 +73,18 @@ public class DischargeLampEnergyMonitorPanel2 extends JPanel {
         // to all the existing atoms
         numLevelsSpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                int numLevels = ((Integer)numLevelsSpinner.getValue() ).intValue();
+                int numLevels = ( (Integer)numLevelsSpinner.getValue() ).intValue();
                 configurableElement.setNumEnergyLevels( numLevels );
                 model.setElementProperties( configurableElement );
             }
         } );
 
         spinnerPanel = new JPanel( new GridBagLayout() );
-        JLabel spinnerLabel = new JLabel( "# of levels");
+        JLabel spinnerLabel = new JLabel( "# of levels" );
         GridBagConstraints gbc2 = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
-                                                         GridBagConstraints.CENTER,
-                                                         GridBagConstraints.NONE,
-                                                         new Insets( 4, 2, 4, 2 ), 0, 0 );
+                                                          GridBagConstraints.CENTER,
+                                                          GridBagConstraints.NONE,
+                                                          new Insets( 4, 2, 4, 2 ), 0, 0 );
         gbc2.anchor = GridBagConstraints.EAST;
         spinnerPanel.add( spinnerLabel, gbc2 );
         gbc2.gridx = 1;

@@ -13,8 +13,8 @@ package edu.colorado.phet.dischargelamps.model;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.util.EventChannel;
 
-import java.util.EventObject;
 import java.util.EventListener;
+import java.util.EventObject;
 
 /**
  * HeatingElement
@@ -55,6 +55,7 @@ public class HeatingElement extends Particle {
         public ChangeEvent( Object source ) {
             super( source );
         }
+
         public HeatingElement getHeatingElement() {
             return (HeatingElement)getSource();
         }
@@ -62,6 +63,7 @@ public class HeatingElement extends Particle {
 
     public interface ChangeListener extends EventListener {
         public void temperatureChanged( ChangeEvent event );
+
         public void isEnabledChanged( ChangeEvent event );
     }
 
@@ -71,5 +73,5 @@ public class HeatingElement extends Particle {
 
     public void removeChangeListener( ChangeListener listener ) {
         changeEventChannel.removeListener( listener );
-    }    
+    }
 }

@@ -21,8 +21,6 @@ import edu.colorado.phet.lasers.model.PhysicsUtil;
 import java.awt.geom.Point2D;
 import java.util.EventListener;
 import java.util.EventObject;
-import java.util.List;
-import java.util.ArrayList;
 
 /**
  * Electron

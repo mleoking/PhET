@@ -13,14 +13,17 @@ package edu.colorado.phet.dischargelamps.model;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
-import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 
-import java.util.*;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.EventObject;
+import java.util.List;
 
 /**
  * FluorescentLightModel
@@ -232,7 +235,7 @@ public class DischargeLampModel extends LaserModel {
     }
 
     public void setCurrent( double value, double factor ) {
-        this.setCurrent( value * factor );    
+        this.setCurrent( value * factor );
     }
 
     public void setCurrent( double value ) {

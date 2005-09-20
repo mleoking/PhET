@@ -13,8 +13,8 @@ package edu.colorado.phet.dischargelamps.model;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.util.SimpleObservable;
 
-import java.util.EventObject;
 import java.util.EventListener;
+import java.util.EventObject;
 
 /**
  * VoltageSource
