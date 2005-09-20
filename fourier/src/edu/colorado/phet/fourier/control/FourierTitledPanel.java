@@ -11,11 +11,11 @@
 
 package edu.colorado.phet.fourier.control;
 
+import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.fourier.FourierConfig;
@@ -36,7 +36,7 @@ public class FourierTitledPanel extends JPanel {
         TitledBorder titledBorder = new TitledBorder( title );
         Font font = titledBorder.getTitleFont();
         titledBorder.setTitleFont( TITLE_FONT );
-        titledBorder.setBorder( BorderFactory.createEtchedBorder() );
+        titledBorder.setBorder( BorderFactory.createLineBorder( Color.LIGHT_GRAY, 1 ) );
         setBorder( titledBorder );
     }
 }
