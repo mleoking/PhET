@@ -141,15 +141,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         setMinumumWidth( width );
         
         // Preset Controls panel
-        JPanel presetControlsPanel = new JPanel();
+        FourierTitledPanel presetControlsPanel = new FourierTitledPanel( SimStrings.get( "DiscreteControlPanel.presetControls" ) );
         {
-            //  Title
-            String title = SimStrings.get( "DiscreteControlPanel.presetControls" );
-            TitledBorder titledBorder = new TitledBorder( title );
-            Font font = titledBorder.getTitleFont();
-            titledBorder.setTitleFont( new Font( font.getName(), Font.BOLD, font.getSize() ) );
-            presetControlsPanel.setBorder( titledBorder );
-
             // Presets
             {
                 // Label
@@ -200,15 +193,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         }
         
         // Graph Controls panel
-        JPanel graphControlsPanel = new JPanel();
+        FourierTitledPanel graphControlsPanel = new FourierTitledPanel( SimStrings.get( "DiscreteControlPanel.graphControls" ) );
         {
-            //  Title
-            String title = SimStrings.get( "DiscreteControlPanel.graphControls" );
-            TitledBorder titledBorder = new TitledBorder( title );
-            Font font = titledBorder.getTitleFont();
-            titledBorder.setTitleFont( new Font( font.getName(), Font.BOLD, font.getSize() ) );
-            graphControlsPanel.setBorder( titledBorder );
-                      
             // Domain
             {
                 // Label
@@ -260,15 +246,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         }
         
         // Tool Controls panel
-        JPanel toolControlsPanel = new JPanel();
+        FourierTitledPanel toolControlsPanel = new FourierTitledPanel( SimStrings.get( "DiscreteControlPanel.toolControls" ) );
         {
-            //  Title
-            String title = SimStrings.get( "DiscreteControlPanel.toolControls" );
-            TitledBorder titledBorder = new TitledBorder( title );
-            Font font = titledBorder.getTitleFont();
-            titledBorder.setTitleFont( new Font( font.getName(), Font.BOLD, font.getSize() ) );
-            toolControlsPanel.setBorder( titledBorder );
-            
             // Wavelength Tool
             JPanel wavelengthToolPanel = new JPanel();
             {
@@ -329,15 +308,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         }
         
         // Math Mode panel
-        JPanel mathModePanel = new JPanel();
+        FourierTitledPanel mathModePanel = new FourierTitledPanel( SimStrings.get( "DiscreteControlPanel.mathMode" ) );
         {
-            //  Title
-            String title = SimStrings.get( "DiscreteControlPanel.mathMode" );
-            TitledBorder titledBorder = new TitledBorder( title );
-            Font font = titledBorder.getTitleFont();
-            titledBorder.setTitleFont( new Font( font.getName(), Font.BOLD, font.getSize() ) );
-            mathModePanel.setBorder( titledBorder );
-            
             // Show Math
             _showMathCheckBox = new JCheckBox( SimStrings.get( "DiscreteControlPanel.showMath" ) );
 
@@ -389,7 +361,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             String title = SimStrings.get( "DiscreteControlPanel.audioControls" );
             TitledBorder titledBorder = new TitledBorder( title );
             Font font = titledBorder.getTitleFont();
-            titledBorder.setTitleFont( new Font( font.getName(), Font.BOLD, font.getSize() ) );
+            titledBorder.setTitleFont( new Font( FourierConfig.FONT_NAME, TITLED_BORDER_FONT_STYLE, font.getSize() ) );
             audioControlsPanel.setBorder( titledBorder );
 
             // Sound

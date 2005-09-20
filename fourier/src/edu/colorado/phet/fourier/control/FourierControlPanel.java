@@ -11,7 +11,7 @@
 
 package edu.colorado.phet.fourier.control;
 
-import java.awt.Cursor;
+import java.awt.Font;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -46,6 +46,9 @@ public abstract class FourierControlPanel extends ControlPanel {
     
     // Default amount of vertical space, see addVerticalSpace
     private static final int DEFAULT_VERTICAL_SPACE = 8;
+    
+    // Font style applied to titled borders
+    protected static final int TITLED_BORDER_FONT_STYLE = Font.ITALIC;
   
     //----------------------------------------------------------------------------
     // Instance data
