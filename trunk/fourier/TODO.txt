@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- charts: tick mark labels move when turning label table on/off
 - set antialiasing on each leaf-node graphic instead of in containers
 - add sound to Discrete module
 - anti-aliasing of D2C Sum x-space envelope isn't working
@@ -64,6 +63,8 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/20) - reduce height of harmonic and sum graphs in both panels so that x-axis labels are not cramped or clipped
+(9/20) - charts: x-axis numeric tick labels should be at the same location as labelTable tick labels
 (9/20) - tweak default location of all measurement tools in Discrete module
 (9/20) - make k1 tool help point down
 (9/20) - switch to a 1-pixel light grey line border for titled panels

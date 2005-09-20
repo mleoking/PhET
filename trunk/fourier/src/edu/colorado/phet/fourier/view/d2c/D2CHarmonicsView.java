@@ -286,7 +286,7 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
             _titleGraphic.setLocation( TITLE_LOCATION.x, height / 2 );
             _cannotShowGraphic.setLocation( 125, height / 2 );
             
-            _chartGraphic.setChartSize( CHART_SIZE.width, height - 70 );
+            _chartGraphic.setChartSize( CHART_SIZE.width, height - 75 );
             refreshChart();
             
             setBoundsDirty();
