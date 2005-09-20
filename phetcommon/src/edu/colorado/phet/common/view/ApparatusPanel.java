@@ -200,6 +200,17 @@ public class ApparatusPanel extends JPanel {
     }
 
     /**
+     * Provided so that subclasses (e.g. ApparatusPanel2) can get Java components to
+     * paint without them having to call super.paintComponent() and incurring a redundant
+     * painting of the graphic instance.
+     *  
+     * @param graphics
+     */
+    protected void doPaintSuper( Graphics graphics ) {
+        super.paintComponent( graphics );
+    }
+
+    /**
      * Causes the panel to be repainted in the normal Swing invocation loop
      */
     public void paint() {
@@ -244,4 +255,5 @@ public class ApparatusPanel extends JPanel {
     public void handleUserInput() {
         //noop
     }
+
 }
