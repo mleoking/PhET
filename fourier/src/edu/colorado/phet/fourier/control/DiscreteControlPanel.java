@@ -293,7 +293,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
                 periodToolPanel.setLayout( layout );
                 layout.setInsets( DEFAULT_INSETS );
                 // line up the combo box with the wavelength tool combo box
-                layout.setMinimumWidth( 0, (int) _wavelengthToolCheckBox.getPreferredSize().getWidth() );
+                layout.setMinimumWidth( 0, (int) _wavelengthToolCheckBox.getPreferredSize().getWidth() + 2 );
                 layout.addAnchoredComponent( _periodToolCheckBox, 0, 0, GridBagConstraints.WEST );
                 layout.addAnchoredComponent( _periodToolComboBox, 0, 1, GridBagConstraints.WEST );
             }
