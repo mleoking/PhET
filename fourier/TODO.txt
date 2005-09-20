@@ -63,7 +63,6 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
-(9/20) - revert to etched border for subpanel borders
 (9/20) - tweak alignment of measurement tool combo boxes
 1.0.16 ...
 (9/20) - keep registration point of Discrete harmonics and sum graphs at (0,0)
