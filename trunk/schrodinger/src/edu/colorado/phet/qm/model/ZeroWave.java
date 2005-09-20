@@ -10,9 +10,6 @@ package edu.colorado.phet.qm.model;
  */
 
 public class ZeroWave implements Wave {
-//    public void setValue( Wavefunction w, int i, int j, double simulationTime ) {
-//        w.valueAt( i, j ).zero();
-//    }
 
     public Complex getValue( int xmesh, int j, double simulationTime ) {
         return new Complex();
