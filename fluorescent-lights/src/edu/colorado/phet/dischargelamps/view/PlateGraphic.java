@@ -10,13 +10,10 @@
  */
 package edu.colorado.phet.dischargelamps.view;
 
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.dischargelamps.model.HeatingElement;
-import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
