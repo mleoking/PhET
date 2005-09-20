@@ -63,6 +63,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/20) - bugfix: align vertical zoom & autoscale controls with bottom of Discrete Sum graph
 (9/20) - reduce height of harmonic and sum graphs in both panels so that x-axis labels are not cramped or clipped
 (9/20) - charts: x-axis numeric tick labels should be at the same location as labelTable tick labels
 (9/20) - tweak default location of all measurement tools in Discrete module
