@@ -16,17 +16,16 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.control.BatterySlider;
 import edu.colorado.phet.dischargelamps.model.Battery;
-import edu.colorado.phet.dischargelamps.view.PlateGraphic;
 import edu.colorado.phet.dischargelamps.view.BatteryReadout;
+import edu.colorado.phet.dischargelamps.view.PlateGraphic;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
-import edu.colorado.phet.lasers.controller.BeamControl2;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
@@ -37,12 +36,11 @@ import edu.colorado.phet.lasers.view.LampGraphic;
 import edu.colorado.phet.lasers.view.ResonatingCavityGraphic;
 import edu.colorado.phet.photoelectric.PhotoelectricApplication;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
-import edu.colorado.phet.photoelectric.controller.PhotoelectricControlPanel;
 import edu.colorado.phet.photoelectric.controller.BeamControl;
+import edu.colorado.phet.photoelectric.controller.PhotoelectricControlPanel;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 import edu.colorado.phet.photoelectric.model.PhotoelectricTarget;
 import edu.colorado.phet.photoelectric.view.*;
-import edu.colorado.phet.control.IntensitySlider;
 
 import javax.swing.*;
 import java.awt.*;
@@ -191,9 +189,9 @@ public class PhotoelectricModule extends BaseLaserModule {
         // Add a slider for the battery
         addGraphicBatteryControls();
         BeamControl beamControl = new BeamControl( getApparatusPanel(),
-                                                     new Point( 430,50),
-                                                     model.getBeam(),
-                                                     model.getBeam().getMaxPhotonsPerSecond());
+                                                   new Point( 430, 50 ),
+                                                   model.getBeam(),
+                                                   model.getBeam().getMaxPhotonsPerSecond() );
         getApparatusPanel().addGraphic( beamControl );
 
         //----------------------------------------------------------------
@@ -342,7 +340,7 @@ public class PhotoelectricModule extends BaseLaserModule {
                                                                new Point( (int)DischargeLampsConfig.CATHODE_LOCATION.getX() + 194,
                                                                           yBase + 15 ),
                                                                35 );
-        addGraphic( batteryReadout, DischargeLampsConfig.CIRCUIT_LAYER + 10000);
+        addGraphic( batteryReadout, DischargeLampsConfig.CIRCUIT_LAYER + 10000 );
     }
 
     /**
@@ -518,13 +516,13 @@ public class PhotoelectricModule extends BaseLaserModule {
     // Inner classes for event handling
     //----------------------------------------------------------------
 
-    private class BatteryImageFlipper extends  PhotoelectricModel.ChangeListenerAdapter {
+    private class BatteryImageFlipper extends PhotoelectricModel.ChangeListenerAdapter {
         public void voltageChanged( PhotoelectricModel.ChangeEvent event ) {
             PhotoelectricModel model = event.getPhotoelectricModel();
             if( model.getVoltage() > 0 && circuitGraphic.getImage() != circuitImageA ) {
                 circuitGraphic.setImage( circuitImageA );
             }
-            else if(model.getVoltage() < 0 && circuitGraphic.getImage() != circuitImageB ) {
+            else if( model.getVoltage() < 0 && circuitGraphic.getImage() != circuitImageB ) {
                 circuitGraphic.setImage( circuitImageB );
             }
         }
