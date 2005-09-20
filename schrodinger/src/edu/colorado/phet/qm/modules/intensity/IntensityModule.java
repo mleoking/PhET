@@ -53,6 +53,7 @@ public class IntensityModule extends SchrodingerModule {
         } );
 
         getModel().addModelElement( new ModelDebugger( getClass() ) );
+        finishInit();
     }
 
     protected IntensityPanel createIntensityPanel() {

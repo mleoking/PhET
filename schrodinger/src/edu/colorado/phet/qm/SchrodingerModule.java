@@ -15,6 +15,10 @@ import edu.colorado.phet.qm.view.piccolo.IntensityGraphic;
 import edu.colorado.phet.qm.view.piccolo.RectangularPotentialGraphic;
 import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.geom.AffineTransform;
+
 /**
  * User: Sam Reid
  * Date: Jun 10, 2005
@@ -38,6 +42,23 @@ public class SchrodingerModule extends PiccoloModule {
         setModel( new BaseModel() );
         menu = new SchrodingerMenu( this );
 
+    }
+
+    protected void finishInit() {
+        getSchrodingerPanel().addKeyListener( new KeyListener() {
+            public void keyPressed( KeyEvent e ) {
+                if( e.getKeyCode() == KeyEvent.VK_I ) {
+                    System.out.println( "SingleParticleModule.keyPressed, I" );
+                    resetViewTransform();
+                }
+            }
+
+            public void keyReleased( KeyEvent e ) {
+            }
+
+            public void keyTyped( KeyEvent e ) {
+            }
+        } );
     }
 
     public void activate( PhetApplication app ) {
@@ -70,6 +91,12 @@ public class SchrodingerModule extends PiccoloModule {
         clearPotential();
         discreteModel.reset();
         schrodingerPanel.reset();
+        resetViewTransform();
+    }
+
+    protected void resetViewTransform() {
+        getSchrodingerPanel().getCamera().setViewTransform( new AffineTransform() );
+        getSchrodingerPanel().getSchrodingerScreenNode().animateViewToCenter();
     }
 
     public void fireParticle( WaveSetup waveSetup ) {

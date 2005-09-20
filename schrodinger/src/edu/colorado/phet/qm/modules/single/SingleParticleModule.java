@@ -69,6 +69,7 @@ public class SingleParticleModule extends SchrodingerModule {
             public void keyTyped( KeyEvent e ) {
             }
         } );
+        finishInit();
     }
 
     private boolean containsSwoopText() {
