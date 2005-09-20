@@ -11,19 +11,15 @@
 
 package edu.colorado.phet.dischargelamps.control;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Rectangle;
-import java.awt.Shape;
-
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.Battery;
 
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
 
 
 /**

@@ -19,9 +19,8 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * DischargeLampsApp
@@ -54,12 +53,12 @@ public class DischargeLampsApp extends PhetApplication {
                                                                          DischargeLampsConfig.NUM_ENERGY_LEVELS,
                                                                          maxSpeed );
         setModules( new Module[]{singleAtomModule,
-                                 multipleAtomModule } );
+                                 multipleAtomModule} );
         setInitialModule( singleAtomModule );
 
         // Add some options in a menu
         JMenu optionsMenu = new JMenu( "Options" );
-        JMenuItem simulationSpeedMI = new JMenuItem( "Simulation speed...");
+        JMenuItem simulationSpeedMI = new JMenuItem( "Simulation speed..." );
         simulationSpeedMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 JSlider clockTickSlider = new JSlider( 1, 15, (int)DischargeLampsConfig.DT );
@@ -69,9 +68,9 @@ public class DischargeLampsApp extends PhetApplication {
                 clockTickSlider.setPaintLabels( true );
                 clockTickSlider.setSnapToTicks( true );
                 JOptionPane.showMessageDialog( getPhetFrame(), clockTickSlider, "Simulation speed",
-                                             JOptionPane.OK_OPTION );
+                                               JOptionPane.OK_OPTION );
                 DischargeLampsConfig.DT = clockTickSlider.getValue();
-                getClock().setDt( clockTickSlider.getValue() ); 
+                getClock().setDt( clockTickSlider.getValue() );
             }
         } );
         optionsMenu.add( simulationSpeedMI );

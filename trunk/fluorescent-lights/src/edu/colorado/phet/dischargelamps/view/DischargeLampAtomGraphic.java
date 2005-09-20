@@ -10,19 +10,15 @@
  */
 package edu.colorado.phet.dischargelamps.view;
 
-import edu.colorado.phet.common.view.phetgraphics.*;
-import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.lasers.model.atom.Atom;
-import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.view.AtomGraphic;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.font.FontRenderContext;
-import java.awt.font.TextLayout;
 import java.awt.image.BufferedImage;
 
 /**
@@ -86,8 +82,8 @@ public class DischargeLampAtomGraphic extends AtomGraphic implements Atom.Change
         getEnergyGraphic().setStroke( new BasicStroke( 0.5f ) );
         getEnergyGraphic().setBorderColor( Color.black );
         font = new Font( DischargeLampsConfig.DEFAULT_CONTROL_FONT.getName(),
-                                      DischargeLampsConfig.DEFAULT_CONTROL_FONT.getStyle(),
-                                      DischargeLampsConfig.DEFAULT_CONTROL_FONT.getSize() + 8 );
+                         DischargeLampsConfig.DEFAULT_CONTROL_FONT.getStyle(),
+                         DischargeLampsConfig.DEFAULT_CONTROL_FONT.getSize() + 8 );
         // Put the number graphic in the middle of the atom graphic
         numberGraphic = characterGraphics[0];
 //        numberGraphic = new PhetTextGraphic( component, font, "", Color.white, -1, -2 );

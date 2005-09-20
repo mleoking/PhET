@@ -12,8 +12,6 @@ package edu.colorado.phet.dischargelamps.model;
 
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.atom.GroundState;
-import edu.colorado.phet.lasers.model.PhysicsUtil;
-import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.util.Arrays;
 
@@ -32,7 +30,7 @@ public class ElementProperties {
     private EnergyAbsorptionStrategy energyAbsorptionStrategy;
     private double meanStateLifetime = DischargeLampAtom.DEFAULT_STATE_LIFETIME;
 
-    protected ElementProperties( String name, double[] energyLevels, 
+    protected ElementProperties( String name, double[] energyLevels,
                                  EnergyEmissionStrategy energyEmissionStrategy,
                                  EnergyAbsorptionStrategy energyAbsorptionStrategy ) {
         this.name = name;

@@ -11,11 +11,13 @@
 package edu.colorado.phet.dischargelamps.view;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
-import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetMultiLineTextGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.SingleAtomModule;
-import edu.colorado.phet.dischargelamps.DischargeLampModule;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.dischargelamps.model.Plate;
@@ -60,7 +62,7 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
         addGraphic( lineGraphic );
 
         // Create an arrowhead
-        Arrow arrow = new Arrow( new Point2D.Double( 110, 0), new Point2D.Double( 25, 0), 8, 8, 1 );
+        Arrow arrow = new Arrow( new Point2D.Double( 110, 0 ), new Point2D.Double( 25, 0 ), 8, 8, 1 );
         PhetShapeGraphic arrowGraphic = new PhetShapeGraphic( elmp, arrow.getShape(), Color.red );
         addGraphic( arrowGraphic );
 

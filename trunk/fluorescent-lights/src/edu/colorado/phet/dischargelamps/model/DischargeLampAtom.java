@@ -15,12 +15,6 @@ import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
-import edu.colorado.phet.common.util.EventChannel;
-
-import javax.swing.*;
-import java.util.EventObject;
-import java.util.EventListener;
-import java.awt.geom.Point2D;
 
 /**
  * Extends Atom class from the Laser simulation in that it knows how to collide with

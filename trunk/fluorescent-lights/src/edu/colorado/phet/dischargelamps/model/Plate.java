@@ -10,13 +10,11 @@
  */
 package edu.colorado.phet.dischargelamps.model;
 
-import edu.colorado.phet.common.model.BaseModel;
-
 import java.awt.geom.Point2D;
 
 /**
  * Plate
- * <p>
+ * <p/>
  * A composite Electrode that comprises an ElectronSource and an ElectronSink
  *
  * @author Ron LeMaster

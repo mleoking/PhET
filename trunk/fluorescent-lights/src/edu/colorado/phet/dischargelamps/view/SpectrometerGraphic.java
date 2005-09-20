@@ -18,7 +18,6 @@ import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.Spectrometer;
-import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -29,8 +28,8 @@ import java.awt.geom.Line2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 /**
  * SpectrometerGraphic
@@ -239,8 +238,8 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
             wavelengthLoc -= horizontalDisplayMargin * ( minWavelength - orgWavelength ) / minWavelength;
 //            wavelengthLoc -= 50;
         }
-        if( orgWavelength > maxWavelength) {
-            wavelengthLoc += horizontalDisplayMargin * ( orgWavelength - maxWavelength) / orgWavelength;
+        if( orgWavelength > maxWavelength ) {
+            wavelengthLoc += horizontalDisplayMargin * ( orgWavelength - maxWavelength ) / orgWavelength;
 //            wavelengthLoc += 50;
         }
         return wavelengthLoc;
