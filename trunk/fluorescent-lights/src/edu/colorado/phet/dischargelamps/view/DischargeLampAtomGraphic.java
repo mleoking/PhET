@@ -38,16 +38,16 @@ public class DischargeLampAtomGraphic extends AtomGraphic implements Atom.Change
     static {
         try {
             characters = new BufferedImage[]{
-                ImageLoader.loadBufferedImage( DischargeLampsConfig.IMAGE_FILE_DIRECTORY + "/" + "G.png" ),
-                ImageLoader.loadBufferedImage( DischargeLampsConfig.IMAGE_FILE_DIRECTORY + "/" + "1.png" ),
-                ImageLoader.loadBufferedImage( DischargeLampsConfig.IMAGE_FILE_DIRECTORY + "/" + "2.png" ),
-                ImageLoader.loadBufferedImage( DischargeLampsConfig.IMAGE_FILE_DIRECTORY + "/" + "3.png" ),
-                ImageLoader.loadBufferedImage( DischargeLampsConfig.IMAGE_FILE_DIRECTORY + "/" + "4.png" ),
-                ImageLoader.loadBufferedImage( DischargeLampsConfig.IMAGE_FILE_DIRECTORY + "/" + "5.png" ),
-                ImageLoader.loadBufferedImage( DischargeLampsConfig.IMAGE_FILE_DIRECTORY + "/" + "6.png" ),
-                ImageLoader.loadBufferedImage( DischargeLampsConfig.IMAGE_FILE_DIRECTORY + "/" + "7.png" ),
-                ImageLoader.loadBufferedImage( DischargeLampsConfig.IMAGE_FILE_DIRECTORY + "/" + "8.png" ),
-                ImageLoader.loadBufferedImage( DischargeLampsConfig.IMAGE_FILE_DIRECTORY + "/" + "9.png" )
+                ImageLoader.loadBufferedImage( DischargeLampsConfig.IMAGE_FILE_DIRECTORY + "G.png" ),
+                ImageLoader.loadBufferedImage( DischargeLampsConfig.IMAGE_FILE_DIRECTORY + "1.png" ),
+                ImageLoader.loadBufferedImage( DischargeLampsConfig.IMAGE_FILE_DIRECTORY + "2.png" ),
+                ImageLoader.loadBufferedImage( DischargeLampsConfig.IMAGE_FILE_DIRECTORY + "3.png" ),
+                ImageLoader.loadBufferedImage( DischargeLampsConfig.IMAGE_FILE_DIRECTORY + "4.png" ),
+                ImageLoader.loadBufferedImage( DischargeLampsConfig.IMAGE_FILE_DIRECTORY + "5.png" ),
+                ImageLoader.loadBufferedImage( DischargeLampsConfig.IMAGE_FILE_DIRECTORY + "6.png" ),
+                ImageLoader.loadBufferedImage( DischargeLampsConfig.IMAGE_FILE_DIRECTORY + "7.png" ),
+                ImageLoader.loadBufferedImage( DischargeLampsConfig.IMAGE_FILE_DIRECTORY + "8.png" ),
+                ImageLoader.loadBufferedImage( DischargeLampsConfig.IMAGE_FILE_DIRECTORY + "9.png" )
             };
         }
         catch( Exception e ) {

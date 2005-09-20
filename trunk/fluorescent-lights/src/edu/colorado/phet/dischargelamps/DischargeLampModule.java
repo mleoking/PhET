@@ -20,6 +20,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.control.AtomTypeChooser;
+import edu.colorado.phet.dischargelamps.control.BatterySliderExp;
 import edu.colorado.phet.dischargelamps.control.BatterySlider;
 import edu.colorado.phet.dischargelamps.model.*;
 import edu.colorado.phet.dischargelamps.view.*;
@@ -141,7 +142,6 @@ public class DischargeLampModule extends BaseLaserModule {
         addSpectrometerGraphic();
         addHeatingElementGraphics();
         addTubeGraphic( apparatusPanel );
-        addGraphicBatteryControls();
 
         // Set up the control panel
         addGraphicBatteryControls();

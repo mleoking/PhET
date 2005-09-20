@@ -62,20 +62,8 @@ public class BatteryReadout extends CompositePhetGraphic {
         Object[] args = {voltageFormat.format( Math.abs( voltage ) * DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR )};
         String text = MessageFormat.format( SimStrings.get( "BatteryGraphic.voltage" ), args );
         batteryReadout.setText( text );
-
-        // Move the voltage label to the positive end of the battery
-        Point p = null;
-
-        offset = 0;
-
-        if( voltage < 0 ) {
-            p = new Point( (int)centerPoint.getX() + offset, (int)centerPoint.getY() );
-        }
-        else {
-            p = new Point( (int)centerPoint.getX() - offset, (int)centerPoint.getY() );
-        }
-        batteryReadout.setLocation( (int)p.getX() + (int)background.getWidth(), (int)p.getY() );
-        background.setLocation( p );
+        batteryReadout.setLocation( (int)centerPoint.getX() + (int)background.getWidth(), (int)centerPoint.getY() );
+        background.setLocation( centerPoint );
         // Right justify in the bckground rectangle
         batteryReadout.setRegistrationPoint( batteryReadout.getWidth() + 5, VALUE_FONT.getSize() - 30 );
     }
