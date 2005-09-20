@@ -1,3 +1,13 @@
+/* Copyright 2005, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.photoelectric.controller;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
@@ -9,21 +19,18 @@ import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.*;
 import java.awt.*;
 
 /**
- * Class: BeamControl2
- * Package: edu.colorado.phet.lasers.controller
- * Author: Another Guy
- * Date: Dec 10, 2004
- * <p/>
- * CVS Info:
- * Current revision:   $Revision$
- * On branch:          $Name$
- * Latest change by:   $Author$
- * On date:            $Date$
+ * BeamControl
+ * <p>
+ * A wavelength slider and intensity slider for controlling a CollimatedBeam
+ *
+ * @author Ron LeMaster
+ * @version $Revision$
  */
-public class BeamControl3 extends GraphicLayerSet implements CollimatedBeam.RateChangeListener {
+public class BeamControl extends GraphicLayerSet implements CollimatedBeam.RateChangeListener {
     private ApparatusPanel apparatusPanel;
     private Point location;
     private IntensitySlider photonRateSlider;
@@ -34,7 +41,7 @@ public class BeamControl3 extends GraphicLayerSet implements CollimatedBeam.Rate
      * @param beam
      * @param maximumRate
      */
-    public BeamControl3( ApparatusPanel apparatusPanel, Point location,
+    public BeamControl( ApparatusPanel apparatusPanel, Point location,
                          CollimatedBeam beam, double maximumRate ) {
         this.apparatusPanel = apparatusPanel;
         this.location = location;
@@ -45,7 +52,8 @@ public class BeamControl3 extends GraphicLayerSet implements CollimatedBeam.Rate
 
     private void addWavelengthSlider( final CollimatedBeam beam ) {
         // Make a spectrum wavelengthSlider
-        final SpectrumSlider wavelengthSlider = new SpectrumSlider( apparatusPanel );
+        final SpectrumSlider wavelengthSlider1 = new SpectrumSlider( apparatusPanel );
+        final SpectrumSliderWithReadout wavelengthSlider = new SpectrumSliderWithReadout( apparatusPanel, wavelengthSlider1 );
         wavelengthSlider.setLocation( new Point( (int)location.getX() + 10, (int)location.getY() + 50 ) ); // default is (0,0)
         wavelengthSlider.setOrientation( SpectrumSlider.HORIZONTAL ); // default is HORIZONTAL
         wavelengthSlider.setTransmissionWidth( 1.0 ); // default is 0.0
