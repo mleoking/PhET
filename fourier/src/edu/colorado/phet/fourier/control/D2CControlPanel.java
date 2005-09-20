@@ -189,10 +189,7 @@ public class D2CControlPanel extends FourierControlPanel {
 
             // Wave Type
             JPanel waveTypePanel = new JPanel();
-            {
-                // Label
-                JLabel label = new JLabel( SimStrings.get( "DiscreteControlPanel.waveType" ) );
-                
+            {              
                 // Radio buttons
                 _sinesRadioButton = new JRadioButton( SimStrings.get( "waveType.sines" ) );
                 _cosinesRadioButton = new JRadioButton( SimStrings.get( "waveType.cosines" ) );
@@ -204,9 +201,8 @@ public class D2CControlPanel extends FourierControlPanel {
                 EasyGridBagLayout layout = new EasyGridBagLayout( waveTypePanel );
                 layout.setInsets( DEFAULT_INSETS );
                 waveTypePanel.setLayout( layout );
-                layout.addComponent( label, 0, 0 );
-                layout.addComponent( _sinesRadioButton, 0, 1 );
-                layout.addComponent( _cosinesRadioButton, 0, 2 );
+                layout.addComponent( _sinesRadioButton, 0, 0 );
+                layout.addComponent( _cosinesRadioButton, 0, 1 );
             }
             
             // Sum envelope
