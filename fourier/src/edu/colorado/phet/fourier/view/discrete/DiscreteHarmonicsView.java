@@ -154,8 +154,8 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
         {
             _chartGraphic = new DiscreteHarmonicsChart( component, CHART_RANGE, CHART_SIZE );
             addGraphic( _chartGraphic, CHART_LAYER );
-            _chartGraphic.setRegistrationPoint( 0, CHART_SIZE.height / 2 ); // at the chart's origin
-            _chartGraphic.setLocation( 60, 50 + ( CHART_SIZE.height / 2 ) );
+            _chartGraphic.setRegistrationPoint( 0, 0 );
+            _chartGraphic.setLocation( 60, 50 );
         }
 
         // Close button
@@ -170,7 +170,7 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
             addGraphic( _horizontalZoomControl, CONTROLS_LAYER );
             // Location is aligned with top-right edge of chart.
             int x = _chartGraphic.getX() + CHART_SIZE.width + 20;
-            int y = _chartGraphic.getY() - ( CHART_SIZE.height / 2 );
+            int y = _chartGraphic.getY();
             _horizontalZoomControl.setLocation( x, y );
         }
 
