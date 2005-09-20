@@ -145,14 +145,14 @@ public abstract class AbstractTicks extends AbstractGrid {
         Chart chart = getChart();
         int x = chart.transformX( gridLineX );
         int y = getHorizontalTickY();
-        Line2D.Double line = new Line2D.Double( x, y - tickHeight / 2, x, y + tickHeight / 2 );
+        Line2D.Double line = new Line2D.Double( x, y - tickHeight / 2, x, y + tickHeight / 2);
         PhetShapeGraphic lineGraphic = new PhetShapeGraphic( chart.getComponent(), line, getStroke(), getColor() );
         tickGraphics.addGraphic( lineGraphic );
 
         if( labelTable == null ) {
             String string = numberFormat.format( gridLineX );
             PhetTextGraphic labelGraphic = new PhetTextGraphic( chart.getComponent(), font, string, getColor() );
-            labelGraphic.setLocation( x - labelGraphic.getWidth() / 2, y + tickHeight / 2 );
+            labelGraphic.setLocation( x - labelGraphic.getWidth() / 2, y + tickHeight / 2 + 4 );
             labelGraphic.setVisible( showLabels );
             labelGraphics.addGraphic( labelGraphic );
         }
