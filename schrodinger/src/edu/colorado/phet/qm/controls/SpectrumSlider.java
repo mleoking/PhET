@@ -132,8 +132,6 @@ public class SpectrumSlider extends PNode {
         // Initialize interactivity
         super.addChild( _knob );
         super.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
-        //todo piccolo
-//        super.addMouseInputListener( new SpectrumSliderMouseInputListener() );
 
         // This call recalculates the location of all graphic elements.
         setLocation( 0, 0 );
@@ -366,24 +364,6 @@ public class SpectrumSlider extends PNode {
         repaint();
     }
 
-    //todo piccolo
-//    /**
-//     * Gets the bounds.
-//     *
-//     * @return the bounds
-//     */
-//    public Rectangle getBounds() {
-//
-//        // Start with the spectrum graphic's bounds.
-//        // Make a copy, so we don't accidentally change the graphic's bounds.
-//        Rectangle bounds = new Rectangle( _spectrum.getBounds() );
-//
-//        // Add the knob's bounds.
-//        bounds.add( _knob.getBounds() );
-//
-//        return bounds;
-//    }
-
     /*
      * Overrides superclass implementation.
      * The superclass doesn't properly repaint.
@@ -497,69 +477,6 @@ public class SpectrumSlider extends PNode {
     //----------------------------------------------------------------------------
     // Rendering
     //----------------------------------------------------------------------------
-
-    //todo piccolo
-//    /**
-//     * Repaints the slider.
-//     */
-//    public void repaint() {
-//
-//        PBounds r = getBounds();
-//        _component.repaint( r.x, r.y, r.width, r.height );
-//    }
-
-    /**
-     * Draws the slider.
-     *
-     * @param g2 the graphics context
-     */
-//    public void paint( Graphics2D g2 ) {
-//
-//        if( super.isVisible() ) {
-//            // Draw the spectrum graphic.
-//            _spectrum.paint( g2 );
-//
-//            // Draw the slider knob.
-//            super.paint( g2 );
-//
-//            // Draw the optional transmission width curve.
-//            if( _transmissionWidth > 0 ) {
-//                // Calculate location.
-//                int x, y, w, h;
-//                if( _orientation == HORIZONTAL ) {
-//                    x = _knob.getLocation().x;
-//                    y = _spectrum.getBounds().y;
-//                    w = getCurveWidth();
-//                    h = _spectrum.getBounds().height;
-//                }
-//                else {
-//                    x = _spectrum.getBounds().x;
-//                    y = _knob.getLocation().y;
-//                    w = getCurveWidth();
-//                    h = _spectrum.getBounds().width;
-//                }
-//
-//                // Create the curve.
-//                BellCurve curve = new BellCurve( _component, x,
-////                BellCurve curve = new BellCurve( _component, x + (int)this.getLocation().getX(),
-//                                                 (int)this.getLocation().getY(),
-////                                                 y + (int)this.getLocation().getY(),
-//                                                 w, h, getRotationAngle() );
-//
-//                // Save graphics state.
-//                Shape oldClip = g2.getClip();
-//
-//                // Draw the curve, clipped to the spectrum graphic.
-//                g2.setClip( _spectrum.getBounds() );
-//                curve.paint( g2 );
-//
-//                // Restore graphics state.
-//                g2.setClip( oldClip );
-//            }
-//
-//            //BoundsOutliner.paint( g2, getBounds(), Color.GREEN, new BasicStroke(1f) ); // DEBUG
-//        }
-//    }
 
     //----------------------------------------------------------------------------
     // Event handling

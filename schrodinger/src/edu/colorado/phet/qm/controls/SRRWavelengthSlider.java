@@ -50,7 +50,6 @@ public class SRRWavelengthSlider extends PNode {
 
 
         spectrumSliderKnob = new SpectrumSliderKnob( component, new Dimension( 20, 20 ), 0 );
-        //todo piccolo
         addChild( spectrumSliderKnob );
         spectrumSliderKnob.setOffset( 0, image.getHeight() );
         spectrumSliderKnob.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );

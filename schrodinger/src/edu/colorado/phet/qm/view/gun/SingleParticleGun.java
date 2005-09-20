@@ -7,6 +7,7 @@ import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
 import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
+import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;
 import java.awt.*;
@@ -224,5 +225,9 @@ public class SingleParticleGun extends AbstractGun {
 
     public void reset() {
         photonBeamParticle.reset();
+    }
+
+    public PNode getFireButtonGraphic() {
+        return fireJC;
     }
 }

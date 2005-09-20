@@ -5,6 +5,11 @@ import edu.colorado.phet.qm.ModelDebugger;
 import edu.colorado.phet.qm.SchrodingerApplication;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.DiscreteModel;
+import edu.colorado.phet.qm.phetcommon.SwoopText;
+import edu.umd.cs.piccolo.PNode;
+
+import javax.swing.*;
+import java.awt.event.*;
 
 /**
  * User: Sam Reid
@@ -14,12 +19,15 @@ import edu.colorado.phet.qm.model.DiscreteModel;
  */
 
 public class SingleParticleModule extends SchrodingerModule {
+    private SwoopText swoopText;
+
     public SingleParticleModule( SchrodingerApplication clock ) {
         super( "Single Particles", clock );
 //        setDiscreteModel( new DiscreteModel( 100, 100 ) );
         setDiscreteModel( new DiscreteModel() );
 //        setDiscreteModel( new DiscreteModel( 40,40) );
-        setSchrodingerPanel( new SingleParticlePanel( this ) );
+        final SingleParticlePanel schrodingerPanel = new SingleParticlePanel( this );
+        setSchrodingerPanel( schrodingerPanel );
         setSchrodingerControlPanel( new SingleParticleControlPanel( this ) );
         getModel().addModelElement( new ModelDebugger( getClass() ) );
         getSchrodingerPanel().getIntensityDisplay().getDetectorSheet().getDetectorSheetPanel().setBrightnessSliderVisible( false );
@@ -30,5 +38,31 @@ public class SingleParticleModule extends SchrodingerModule {
 //                System.out.println( "Stepped @ "+System.currentTimeMillis());
 //            }
 //        } );
+
+        getSchrodingerPanel().addComponentListener( new ComponentAdapter() {
+            public void componentShown( ComponentEvent e ) {
+                Timer timer = new Timer( 1000, new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        if( swoopText == null ) {
+                            PNode fireJC = schrodingerPanel.getAbstractGun().getFireButtonGraphic();
+
+                            swoopText = new SwoopText( "Push the button.", fireJC.getGlobalFullBounds().getMaxX() + 20, fireJC.getGlobalFullBounds().getY() );
+                            getSchrodingerPanel().addScreenChild( swoopText );
+                            swoopText.animateAll();
+                        }
+                    }
+                } );
+                timer.setInitialDelay( 2000 );
+                timer.setRepeats( false );
+                timer.start();
+            }
+        } );
+        getSchrodingerPanel().addMouseListener( new MouseAdapter() {
+            public void mousePressed( MouseEvent e ) {
+                if( getSchrodingerPanel().getScreenNode().getChildrenReference().contains( swoopText ) ) {
+                    getSchrodingerPanel().removeScreenChild( swoopText );
+                }
+            }
+        } );
     }
 }

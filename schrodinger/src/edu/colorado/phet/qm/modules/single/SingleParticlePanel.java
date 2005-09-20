@@ -34,4 +34,8 @@ public class SingleParticlePanel extends SchrodingerPanel {
         super.clearWavefunction();
         abstractGun.reset();
     }
+
+    public SingleParticleGun getAbstractGun() {
+        return abstractGun;
+    }
 }

@@ -112,8 +112,6 @@ public class HorizontalDoubleSlit implements Potential {
 
     private void createDoubleSlit( int gridWidth, int gridHeight,
                                    int y, int height, int slitSize, int slitSeparation, double potential ) {
-//        potential=0.001;//TODO short circuit
-//        height=10;
         CompositePotential compositePotential = new CompositePotential();
         int barWidth = ( gridWidth - 2 * slitSize - slitSeparation ) / 2;
 
