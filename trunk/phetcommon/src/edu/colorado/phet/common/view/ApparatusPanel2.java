@@ -431,8 +431,10 @@ public class ApparatusPanel2 extends ApparatusPanel implements ClockTickListener
                     double sy = getHeight() / referenceBounds.getHeight();
                     // Using a single scale factor keeps the aspect ratio constant
                     double s = Math.min( sx, sy );
-                    setScale( s );
-                    determineCanvasSize();
+                    if( s > 0 ) {
+                        setScale( s );
+                        determineCanvasSize();
+                    }
                 }
             }
             paintStrategy.componentResized();
