@@ -62,6 +62,11 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/20) - experiment with raised bevel border for subpanels, gets lost of black background
+(9/20) - add a left margin to the contents of each subpanel
+(9/20) - align Period Tool combo box with Wavelength Tool combo box
+(9/20) - change "sin/cos" preset option to "sine/cosine"
+(9/20) - change "sine" and "cosine" radio buttons to "sin" and "cos"
 (9/20) - remove "Show:" label before "sin" and "cos" radio buttons
 (9/20) - remove verb from all control panel labels (eg, "Show math form" -> "Math form")
 (9/20) - change font style of titles in titled panels to Lucida Sans italic
