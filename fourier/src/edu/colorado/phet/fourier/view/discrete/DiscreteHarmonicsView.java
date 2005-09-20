@@ -318,7 +318,7 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
     public void setHeight( int height ) {
         if ( height >= MIN_HEIGHT ) {
             _backgroundGraphic.setShape( new Rectangle( 0, 0, BACKGROUND_SIZE.width, height ) );
-            _chartGraphic.setChartSize( CHART_SIZE.width, height - 70 );
+            _chartGraphic.setChartSize( CHART_SIZE.width, height - 75 );
             _titleGraphic.setLocation( TITLE_LOCATION.x, height / 2 );
             setBoundsDirty();
         }

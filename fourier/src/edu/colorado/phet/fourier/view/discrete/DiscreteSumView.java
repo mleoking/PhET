@@ -85,7 +85,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
     private static final double Y_RANGE_MIN = FourierConfig.MAX_HARMONIC_AMPLITUDE;
     private static final double Y_RANGE_MAX = 12.0;
     private static final Range2D CHART_RANGE = new Range2D( -X_RANGE_START, -Y_RANGE_START, X_RANGE_START, Y_RANGE_START );
-    private static final Dimension CHART_SIZE = new Dimension( 540, 140 );
+    private static final Dimension CHART_SIZE = new Dimension( 540, 135 );
     
     // Zoom parameters
     private static final int Y_ZOOM_STEP = 2;
@@ -398,7 +398,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
     public void setHeight( int height ) {
         if ( height >= MIN_HEIGHT ) {
             _backgroundGraphic.setShape( new Rectangle( 0, 0, BACKGROUND_SIZE.width, height ) );
-            _chartGraphic.setChartSize( CHART_SIZE.width, height - 70 );
+            _chartGraphic.setChartSize( CHART_SIZE.width, height - 75 );
             _titleGraphic.setLocation( TITLE_LOCATION.x, height / 2 );
             setBoundsDirty();
         }
