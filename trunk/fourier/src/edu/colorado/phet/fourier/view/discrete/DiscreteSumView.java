@@ -162,8 +162,8 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
         {
             _chartGraphic = new DiscreteSumChart( component, CHART_RANGE, CHART_SIZE );
             addGraphic( _chartGraphic, CHART_LAYER );
-            _chartGraphic.setRegistrationPoint( 0, CHART_SIZE.height / 2 ); // at the chart's origin
-            _chartGraphic.setLocation( 60, 50 + ( CHART_SIZE.height / 2 ) );
+            _chartGraphic.setRegistrationPoint( 0, 0 );
+            _chartGraphic.setLocation( 60, 50 );
             
             // Sine/cosine preset plot
             _sineCosinePlot = new SinePlot( getComponent(), _chartGraphic );
@@ -200,27 +200,24 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
             addGraphic( _horizontalZoomControl, CONTROLS_LAYER );
             // Location is aligned with top-right edge of chart.
             int x = _chartGraphic.getX() + CHART_SIZE.width + 20;
-            int y = _chartGraphic.getY() - ( CHART_SIZE.height / 2 );
+            int y = _chartGraphic.getY();
             _horizontalZoomControl.setLocation( x, y );
             
-            _verticalZoomControl = new ZoomControl( component, ZoomControl.VERTICAL );
-            addGraphic( _verticalZoomControl, CONTROLS_LAYER );
-            // Just below the horizontal zoom control.
-            _verticalZoomControl.setLocation( _horizontalZoomControl.getX(), 
-                    _horizontalZoomControl.getY() + _horizontalZoomControl.getHeight() + 45 );
-        }
-        
-        // Auto Scale control
-        {
             _autoScaleCheckBox = new JCheckBox( SimStrings.get( "DiscreteSumView.autoScale" ) );
             _autoScaleCheckBox.setBackground( new Color( 255, 255, 255, 0 ) );
             _autoScaleGraphic = PhetJComponent.newInstance( component, _autoScaleCheckBox );
             addGraphic( _autoScaleGraphic, CONTROLS_LAYER );
-            // Just below the vertical zoom control.
-            _autoScaleGraphic.setLocation( _verticalZoomControl.getX(), 
-                    _verticalZoomControl.getY() + _verticalZoomControl.getHeight() + 5 );
-        } 
-        
+            // Aligned with the bottom of the chart.
+            _autoScaleGraphic.setLocation( _horizontalZoomControl.getX(), 
+                    _chartGraphic.getY() + _chartGraphic.getHeight() - _autoScaleGraphic.getHeight() );
+            
+            _verticalZoomControl = new ZoomControl( component, ZoomControl.VERTICAL );
+            addGraphic( _verticalZoomControl, CONTROLS_LAYER );
+            // Just above the autoscale check box.
+            _verticalZoomControl.setLocation( _horizontalZoomControl.getX(), 
+                    _autoScaleGraphic.getY() - _verticalZoomControl.getHeight() - 5 );
+        }
+  
         // Math
         {
             _mathGraphic = new DiscreteSumEquation( component );
@@ -400,6 +397,10 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
             _backgroundGraphic.setShape( new Rectangle( 0, 0, BACKGROUND_SIZE.width, height ) );
             _chartGraphic.setChartSize( CHART_SIZE.width, height - 75 );
             _titleGraphic.setLocation( TITLE_LOCATION.x, height / 2 );
+            _autoScaleGraphic.setLocation( _horizontalZoomControl.getX(), 
+                    _chartGraphic.getY() + _chartGraphic.getHeight() - _autoScaleGraphic.getHeight() );
+            _verticalZoomControl.setLocation( _horizontalZoomControl.getX(), 
+                    _autoScaleGraphic.getY() - _verticalZoomControl.getHeight() - 5 );
             setBoundsDirty();
         }
     }
