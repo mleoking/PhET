@@ -64,7 +64,7 @@ public class SchrodingerScreenNode extends PNode {
             public void componentResized( ComponentEvent e ) {
                 invalidateFullBounds();
                 repaint();
-                getCamera().animateViewToCenterBounds( SchrodingerScreenNode.this.getGlobalFullBounds(), false, 1000 );
+                getCamera().animateViewToCenterBounds( SchrodingerScreenNode.this.getGlobalFullBounds(), false, 0 );
             }
 
             public void componentShown( ComponentEvent e ) {
