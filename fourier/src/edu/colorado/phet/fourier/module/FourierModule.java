@@ -106,7 +106,7 @@ public abstract class FourierModule extends Module {
         if ( _debuggerGraphic == null ) {
             _debuggerGraphic = new BoundsDebugger( apparatusPanel );
             _debuggerGraphic.setLocationColor( Color.GREEN );
-            _debuggerGraphic.setBoundsColor( Color.YELLOW );
+            _debuggerGraphic.setBoundsColor( Color.RED );
         }
         _debuggerGraphic.add( graphic );
         apparatusPanel.addGraphic( _debuggerGraphic, DEBUG_LAYER );
