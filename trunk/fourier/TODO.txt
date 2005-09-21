@@ -7,7 +7,7 @@ IN PROGRESS:
 HIGH PRIORITY:
 - remove the vertical bit of space between views
 - find an italic titled border font that isn't so jaggy
-- anti-aliasing of D2C Sum x-space envelope isn't working
+- D2C Sum x-space envelope looks lousy when Harmonics graph is minimized (use different stroke properites?)
 - set antialiasing on each leaf-node graphic instead of in containers
 - publish 2.0
 
