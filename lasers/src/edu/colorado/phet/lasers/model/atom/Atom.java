@@ -119,6 +119,7 @@ public class Atom extends SolidSphere {
         if( numEnergyLevels == 3 ) {
             states[2] = model.getHighEnergyState();
         }
+        groundState = states[0];
     }
 
     /**

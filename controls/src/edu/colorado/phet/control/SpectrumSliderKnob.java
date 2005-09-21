@@ -11,22 +11,12 @@
 
 package edu.colorado.phet.control;
 
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Rectangle2D;
-import java.text.DecimalFormat;
-import java.text.MessageFormat;
-
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
-import edu.colorado.phet.lasers.model.photon.PhotonSource;
-import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.dischargelamps.model.Battery;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+
+import java.awt.*;
+import java.awt.geom.GeneralPath;
 
 /**
  * SpectrumSliderKnob is the knob on a SpectrumSlider.
@@ -83,43 +73,8 @@ public class SpectrumSliderKnob extends CompositePhetGraphic {
         knobShape.setBorderColor( Color.BLACK );
         addGraphic( knobShape );
 
-        // Make the text readout
-//        readout = new Readout( component );
-//        addGraphic( readout );
-
-//        wavelengthReadout = new WavelengthReadout( component );
-//        addGraphic( wavelengthReadout );
-
         updateShape();
     }
-
-//    private class Readout extends CompositePhetGraphic {
-//        private Rectangle box;
-//        private WavelengthReadout wavelengthReadout;
-//
-//        public Readout( Component component ) {
-//            super( component );
-//            box = new Rectangle( 0, 0, 10,10);
-//            PhetShapeGraphic background = new PhetShapeGraphic( component,
-//                                                                box,
-//                                                                Color.white,
-//                                                                new BasicStroke( 1 ),
-//                                                                Color.black );
-//            addGraphic( background );
-//
-//            wavelengthReadout = new WavelengthReadout( component );
-//            addGraphic( wavelengthReadout );
-//        }
-//
-//        public void setWidth( int width ) {
-//            wavelengthReadout.setWidth( width );
-////            box.setBounds( 0, 0, width-6, (int)(knobShape.getBounds().getHeight() * 0.67 ) - 6 );
-////            setRegistrationPoint( (int)box.getWidth() / 2, -(int)(knobShape.getBounds().getHeight() * 0.33 ));
-//
-//            setBoundsDirty();
-//            repaint();
-//        }
-//    }
 
     //----------------------------------------------------------------------------
     // Accessors
@@ -251,64 +206,4 @@ public class SpectrumSliderKnob extends CompositePhetGraphic {
         knobShape.setPaint( color );
 
     }
-
-//    public void setWavelength( double wavelength ) {
-//        wavelengthReadout.setValue( wavelength );
-//    }
-
-//
-//
-//    public class WavelengthReadout extends CompositePhetGraphic {
-//        private Font VALUE_FONT = new Font( "SansSerif", Font.PLAIN, 12 );
-//        private Color VALUE_COLOR = Color.BLACK;
-//
-//        private PhetTextGraphic valueText;
-//        private PhetShapeGraphic background;
-//        private double wavelength;
-//        private Rectangle2D backgroundRect;
-//
-//        public WavelengthReadout( Component component ) {
-//            super( component );
-//
-//            backgroundRect = new Rectangle2D.Double( 0, 0, 40, 20 );
-//            background = new PhetShapeGraphic( component, backgroundRect, Color.white, new BasicStroke( 1 ), Color.black );
-//            addGraphic( background );
-//
-//            valueText = new PhetTextGraphic( component, VALUE_FONT, "", VALUE_COLOR );
-//            addGraphic( valueText );
-//
-//            update( 123 );
-//        }
-//
-//        private void update( double wavelength ) {
-//            this.wavelength = wavelength;
-//            DecimalFormat voltageFormat = new DecimalFormat( "000" );
-//            Object[] args = {voltageFormat.format( Math.abs( wavelength ))};
-//            String text = MessageFormat.format( "nm", args );
-////            valueText.setText( text );
-//            valueText.setText( voltageFormat.format( wavelength ) + "nm");
-//
-//            // Move the wavelength label to the positive end of the battery
-//            valueText.setLocation( (int)background.getBounds().getWidth(), (int)background.getBounds().getHeight() );
-//
-//            // Right justify in the bckground rectangle
-//            valueText.setRegistrationPoint( valueText.getWidth(), 6 );
-////            valueText.setRegistrationPoint( -valueText.getWidth(), VALUE_FONT.getSize() - 30 );
-//
-//        }
-//
-//        public void setWidth( int width ) {
-//            int inset = 10;
-//            backgroundRect.setRect( 0, 0, width-inset, (int)(knobShape.getBounds().getHeight() * 0.67 ) - inset / 2 );
-//            setRegistrationPoint( (int)backgroundRect.getWidth() / 2, -(int)(knobShape.getBounds().getHeight() * 0.33) );
-//            update( wavelength );
-//            setBoundsDirty();
-//            repaint();
-//        }
-//
-//        void setValue( double wavelength ) {
-//            update(wavelength );
-//        }
-//    }
-
 }
