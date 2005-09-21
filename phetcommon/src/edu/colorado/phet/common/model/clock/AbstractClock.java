@@ -36,9 +36,6 @@ public abstract class AbstractClock {
     private ClockStateListener clockStateListenerProxy = (ClockStateListener)clockStateEventChannel.getListenerProxy();
     private CompositeClockTickListener tickHandler = new CompositeClockTickListener();
 
-//    private EventChannel tickEventChannel = new EventChannel( ClockTickListener.class );
-//    private ClockTickListener tickListenerProxy = (ClockTickListener)tickEventChannel.getListenerProxy();
-
     /**
      * Constructor that allows tick to be specified either in milliseconds between ticks,
      * or frames-per-second
@@ -211,7 +208,6 @@ public abstract class AbstractClock {
 
     public boolean containsClockTickListener( ClockTickListener tickListener ) {
         return tickHandler.containsClockTickListener( tickListener );
-//        return tickEventChannel.containsListener( tickListener );
     }
 
     public void setStaticTickConverter() {
@@ -251,5 +247,4 @@ public abstract class AbstractClock {
             return dt / delay * wallTimeSinceLastTick;
         }
     }
-
 }
