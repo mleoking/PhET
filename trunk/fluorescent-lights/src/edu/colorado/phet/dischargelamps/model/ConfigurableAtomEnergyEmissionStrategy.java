@@ -8,20 +8,24 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.lasers.model;
+package edu.colorado.phet.dischargelamps.model;
 
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 
+import java.util.Random;
+
 /**
  * NextLowestEnergyEmissionStrategy
  * <p/>
- * Always sets the atom to the next lower state down from its current state
+ * Half the time, goes to the next energy level down. The other half of the time, it goes to
+ * a random state lower than that
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class HydrogenEnergyEmissionStrategy implements EnergyEmissionStrategy {
+public class ConfigurableAtomEnergyEmissionStrategy implements EnergyEmissionStrategy {
+    private static Random random = new Random();
 
     public AtomicState emitEnergy( Atom atom ) {
         AtomicState newState = null;
@@ -32,15 +36,15 @@ public class HydrogenEnergyEmissionStrategy implements EnergyEmissionStrategy {
             AtomicState state = states[i];
             if( state.equals( atom.getCurrState() ) ) {
                 currStateIdx = i;
-                break;
             }
         }
-        if( currStateIdx > 1 ) {
-            newState = states[1];
+        int nextStateIdx;
+        if( random.nextBoolean() || currStateIdx == 1 ) {
+            nextStateIdx = Math.max( currStateIdx - 1, 0 );
         }
         else {
-            newState = states[0];
+            nextStateIdx = random.nextInt( Math.max( currStateIdx - 1, 0 ) );
         }
-        return newState;
+        return states[nextStateIdx];
     }
 }

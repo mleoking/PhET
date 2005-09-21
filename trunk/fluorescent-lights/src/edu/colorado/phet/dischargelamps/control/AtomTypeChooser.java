@@ -12,7 +12,7 @@ package edu.colorado.phet.dischargelamps.control;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
-import edu.colorado.phet.lasers.model.ElementProperties;
+import edu.colorado.phet.dischargelamps.model.ElementProperties;
 
 import javax.swing.*;
 import java.awt.*;
