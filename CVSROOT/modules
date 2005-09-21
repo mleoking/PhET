@@ -69,7 +69,7 @@ battery-voltage batteryvoltage
 balloons balloons
 
 # Ideal gas 
-ideal-gas ideal-gas-v3 &phetcommon &mechanics &collision
+ideal-gas ideal-gas-v3 &phetcommon &mechanics
 
 # Nuclear physics 
 nuclear-physics nuclearphysics &phetcommon &mechanics
