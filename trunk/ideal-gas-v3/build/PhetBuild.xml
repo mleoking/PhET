@@ -112,6 +112,28 @@ ignorepath      (those elements of the ant classpath that should not be
         </jar>
     </target>
 
+    <target name="Jar-all" depends="Compile"
+        description="generate the distribution">
+        <!-- Create the distribution directory -->
+        <delete dir="${jars}"/>
+        <mkdir dir="${jars}"/>
+        <buildnumber/>
+        <echo message="${jars}/${distname}.jar"/>
+        <jar destfile="${jars}/${distname}.jar">
+            <fileset dir="${classes}"/>
+            <fileset dir="${data}"/>
+            <fileset dir="/PhET/phetcommon/classes"/>
+            <fileset dir="/PhET/phetcommon/data"/>
+            <fileset dir="/PhET/mechanics/development/classes"/>
+            <manifest>
+                <attribute name="Built-By" value="${user.name}"/>
+                <attribute name="version" value="${version}"/>
+                <attribute name="build" value="${build.number}"/>
+                <attribute name="Main-Class" value="${main.class}"/>
+            </manifest>
+        </jar>
+    </target>
+
     <target name="Javadoc">
         <delete dir="${javadoc}"/>
         <javadoc destdir="${javadoc}" author="true" version="true" use="true">

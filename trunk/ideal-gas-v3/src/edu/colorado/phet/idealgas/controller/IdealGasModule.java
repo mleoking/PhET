@@ -543,6 +543,7 @@ public class IdealGasModule extends Module {
     /**
      * Provided primarily so different modules can change the units on the
      * stopwatch
+     *
      * @return
      */
     protected StopwatchPanel getStopwatchPanel() {
@@ -596,7 +597,7 @@ public class IdealGasModule extends Module {
                                                              GridBagConstraints.NONE,
                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
             ctrlPane.add( aveTimeTF, gbc );
-            ctrlPane.add( new JLabel( SimStrings.get( "IdealGasModule.StopwatchTimeUnits" )), gbc );
+            ctrlPane.add( new JLabel( SimStrings.get( "IdealGasModule.StopwatchTimeUnits" ) ), gbc );
             gbc.insets = new Insets( 0, 10, 0, 0 );
             ctrlPane.add( setTimeBtn, gbc );
             Border border = new TitledBorder( new EtchedBorder( BevelBorder.RAISED,
