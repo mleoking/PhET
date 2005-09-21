@@ -59,6 +59,7 @@ public class BoundsDebugger extends PhetGraphic {
         _locationStroke = new BasicStroke( 1f );
         _locationSize = new Dimension( 10, 10 );
         _specifications = new Hashtable();
+        setIgnoreMouse( true );
     }
     
     //----------------------------------------------------------------------------
