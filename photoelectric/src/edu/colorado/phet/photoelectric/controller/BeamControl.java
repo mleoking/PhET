@@ -19,12 +19,11 @@ import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.*;
 import java.awt.*;
 
 /**
  * BeamControl
- * <p>
+ * <p/>
  * A wavelength slider and intensity slider for controlling a CollimatedBeam
  *
  * @author Ron LeMaster
@@ -42,7 +41,7 @@ public class BeamControl extends GraphicLayerSet implements CollimatedBeam.RateC
      * @param maximumRate
      */
     public BeamControl( ApparatusPanel apparatusPanel, Point location,
-                         CollimatedBeam beam, double maximumRate ) {
+                        CollimatedBeam beam, double maximumRate ) {
         this.apparatusPanel = apparatusPanel;
         this.location = location;
         addWavelengthSlider( beam );
@@ -77,6 +76,18 @@ public class BeamControl extends GraphicLayerSet implements CollimatedBeam.RateC
         photonRateSlider.setMaximum( (int)maximumRate );
         photonRateSlider.setLocation( new Point( (int)location.getX(), (int)location.getY() ) ); // default is (0,0)
         apparatusPanel.add( photonRateSlider );
+
+        // Try putting the component in a wrapper panel
+//        JPanel jPnl = new JPanel( );
+//        jPnl.add(photonRateSlider);
+//        jPnl.setLocation( new Point( (int)location.getX(), (int)location.getY() ) );
+//        apparatusPanel.add( jPnl );
+
+        // Try putting the component in a PhetJComponent
+//        PhetGraphic pPnl = PhetJComponent.newInstance( apparatusPanel, photonRateSlider );
+//        pPnl.setLocation( new Point( (int)location.getX(), (int)location.getY() ) ); // default is (0,0)
+//        apparatusPanel.addGraphic( pPnl );
+
         photonRateSlider.setValue( 0 );
         photonRateSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

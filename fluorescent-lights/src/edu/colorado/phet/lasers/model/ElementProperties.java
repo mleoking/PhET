@@ -8,8 +8,11 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.dischargelamps.model;
+package edu.colorado.phet.lasers.model;
 
+import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
+import edu.colorado.phet.dischargelamps.model.EnergyAbsorptionStrategy;
+import edu.colorado.phet.dischargelamps.model.EnergyEmissionStrategy;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.atom.GroundState;
 
