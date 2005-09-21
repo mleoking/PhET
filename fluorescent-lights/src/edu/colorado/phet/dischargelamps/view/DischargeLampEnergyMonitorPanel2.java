@@ -12,9 +12,9 @@ package edu.colorado.phet.dischargelamps.view;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+import edu.colorado.phet.dischargelamps.model.ConfigurableElementProperties;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.dischargelamps.model.Electron;
-import edu.colorado.phet.lasers.model.ConfigurableElementProperties;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 

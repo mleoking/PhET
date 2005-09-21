@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.lasers.model;
+package edu.colorado.phet.dischargelamps.model;
 
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
@@ -21,7 +21,7 @@ import edu.colorado.phet.lasers.model.atom.AtomicState;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class NextLowestEnergyEmissionStrategy implements EnergyEmissionStrategy {
+public class HydrogenEnergyEmissionStrategy implements EnergyEmissionStrategy {
 
     public AtomicState emitEnergy( Atom atom ) {
         AtomicState newState = null;
@@ -32,8 +32,15 @@ public class NextLowestEnergyEmissionStrategy implements EnergyEmissionStrategy 
             AtomicState state = states[i];
             if( state.equals( atom.getCurrState() ) ) {
                 currStateIdx = i;
+                break;
             }
         }
-        return states[Math.max( currStateIdx - 1, 0 )];
+        if( currStateIdx > 1 ) {
+            newState = states[1];
+        }
+        else {
+            newState = states[0];
+        }
+        return newState;
     }
 }

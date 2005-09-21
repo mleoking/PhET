@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.lasers.model;
+package edu.colorado.phet.dischargelamps.model;
 
 
 /**
@@ -17,18 +17,17 @@ package edu.colorado.phet.lasers.model;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class NeonProperties extends ElementProperties {
+public class HydrogenProperties extends ElementProperties {
     private static double[] energyLevels = {
         -13.6,
         -3.4,
         -1.511,
         -0.850,
         -0.544,
-        -0.378
-    };
+        -0.378};
 
-    public NeonProperties() {
-        super( "Neon", energyLevels,
+    public HydrogenProperties() {
+        super( "Hydrogen", energyLevels,
                new HydrogenEnergyEmissionStrategy(),
                new FiftyPercentAbsorptionStrategy() );
     }

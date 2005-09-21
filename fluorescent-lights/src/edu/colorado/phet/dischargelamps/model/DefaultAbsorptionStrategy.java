@@ -8,29 +8,25 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.lasers.model;
+package edu.colorado.phet.dischargelamps.model;
 
-import edu.colorado.phet.dischargelamps.model.Electron;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 
 import java.util.Random;
 
 /**
- * FiftyPercentAbsorptionStrategy
+ * DefaultAbsorptionStrategy
  * <p/>
- * Pick a state between that of the next higher energy state and the highest energy state
- * we found in the preceding block. The highest state has a 50% chance of being picked, and
- * all other states have equal probablity within the remaining 50%.
- * <p/>
- * Assumes that the atom's array of states is sorted in ascending order of energy.
+ * Picks a random state between the next higher state than the current state and
+ * the highest state to which the electron could elevate the atom.
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class FiftyPercentAbsorptionStrategy extends EnergyAbsorptionStrategy {
+public class DefaultAbsorptionStrategy extends EnergyAbsorptionStrategy {
 
-    private static Random random = new Random();
+    Random random = new Random();
 
     /**
      * If the electron's energy is greater than the difference between the atom's current energy and one of
@@ -62,18 +58,11 @@ public class FiftyPercentAbsorptionStrategy extends EnergyAbsorptionStrategy {
         }
         highestPossibleNewStateIdx--;
 
-        // Pick a state between that of the next higher energy state and the highest energy state
-        // we found in the preceding block. The highest state has a 50% chance of being picked, and
-        // all other states have equal probablity within the remaining 50%
+        // Pick a random state between that of the next higher energy state and the highest energy state
+        // we found in the preceding block
         if( highestPossibleNewStateIdx > currStateIdx ) {
-            int newStateIdx = 0;
-            if( random.nextBoolean() || highestPossibleNewStateIdx == currStateIdx + 1 ) {
-                newStateIdx = highestPossibleNewStateIdx;
-            }
-            else {
-                int rand = random.nextInt( highestPossibleNewStateIdx - currStateIdx - 1 ) + 1;
-                newStateIdx = rand + currStateIdx;
-            }
+            int rand = random.nextInt( highestPossibleNewStateIdx - currStateIdx ) + 1;
+            int newStateIdx = rand + currStateIdx;
             AtomicState newState = states[newStateIdx];
 
             // Put the atom in the randomly picked state, and reduce the energy of the electron by the difference
