@@ -67,6 +67,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/20) - increase autoscale factor in D2C sum graph so that width indictor is not clipped when x-width is min
 (9/21) - use red to stroke bounds in FourierModule.drawBounds
 (9/21) - make BoundsDebugger ignore the mouse, so that interface is still usable
 1.0.16 ...

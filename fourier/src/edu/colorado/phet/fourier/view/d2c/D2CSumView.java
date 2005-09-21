@@ -95,7 +95,7 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
     private static final Stroke ENVELOPE_STROKE = new BasicStroke( 4f );
     
     // Autoscaling
-    private static final double AUTOSCALE_FACTOR = 1.12; // multiple max amplitude by this amount when autoscaling
+    private static final double AUTOSCALE_FACTOR = 1.25; // multiple max amplitude by this amount when autoscaling
 
     //----------------------------------------------------------------------------
     // Instance data
