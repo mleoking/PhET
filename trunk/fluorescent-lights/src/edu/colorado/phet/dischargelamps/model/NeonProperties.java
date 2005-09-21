@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.dischargelamps.model;
 
+import edu.colorado.phet.lasers.model.ElementProperties;
+
 /**
  * HydrogenProperties
  *
