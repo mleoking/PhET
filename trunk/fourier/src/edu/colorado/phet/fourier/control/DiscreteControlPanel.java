@@ -390,8 +390,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         addFullWidth( toolControlsPanel );
         addVerticalSpace( SUBPANEL_SPACING );
         addFullWidth( mathModePanel );
-        addVerticalSpace( SUBPANEL_SPACING );
-        addFullWidth( audioControlsPanel );
+//        addVerticalSpace( SUBPANEL_SPACING );
+//        addFullWidth( audioControlsPanel );   //XXX feature not in 2.0
 
         // Dialogs
         Frame parentFrame = PhetApplication.instance().getPhetFrame();

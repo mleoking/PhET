@@ -9,11 +9,10 @@ HIGH PRIORITY:
 - find an italic titled border font that isn't so jaggy
 - anti-aliasing of D2C Sum x-space envelope isn't working
 - set antialiasing on each leaf-node graphic instead of in containers
-- before 2.0: hide "Audio controls" panel
-- before 2.0: disable MegaHelp
-- add sound to Discrete module
+- publish 2.0
 
 MEDIUM PRIORITY:
+- add sound to Discrete module
 - remove the clock controls for the D2C module
 - add support for persistence
 - bug: anti-aliasing of plots gets turned off
@@ -67,6 +66,8 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/21) - before 2.0: hide "Audio controls" panel
+(9/21) - before 2.0: disable MegaHelp
 (9/21) - increase autoscale factor in D2C sum graph so that width indictor is not clipped when x-width is min
 (9/21) - use red to stroke bounds in FourierModule.drawBounds
 (9/21) - make BoundsDebugger ignore the mouse, so that interface is still usable

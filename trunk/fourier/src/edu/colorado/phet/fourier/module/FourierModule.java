@@ -70,7 +70,7 @@ public abstract class FourierModule extends Module {
     //----------------------------------------------------------------------------
     
     public boolean hasMegaHelp() {
-        return true;
+        return false;
     }
     
     //----------------------------------------------------------------
