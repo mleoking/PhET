@@ -90,7 +90,11 @@ ignorepath      (those elements of the ant classpath that should not be
         <delete dir="${classes}"/>
         <mkdir dir="${classes}"/>
         <echo message="${addl-classpath}"/>
-        <javac srcdir="${src}" destdir="${classes}" classpath="${addl-classpath}">
+        <javac srcdir="${src}" destdir="${classes}">
+            <src path="${project_home}/phetcommon/src"/>
+            <src path="${project_home}/mechanics/src"/>
+            <src path="${project_home}/collision/src"/>
+            <src path="${project_home}/controls/src"/>
         </javac>
     </target>
 
