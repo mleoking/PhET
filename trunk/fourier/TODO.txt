@@ -53,7 +53,6 @@ CHARTS:
 PHETCOMMON:
 - bug: MouseEvent and KeyEvent source is always the apparatus panel, should be the "active unit"
 - bug: changes in a module's control panel causes the apparatus panel to change size and not repaint
-- bug: rendering hints should be appended, not replaced, by PhetGraphic
 - bug: PhetTextGraphic leaves screen turds when its text is exclusively Unicode
 - bug: PhetJComponent startup is excessively slow
 - bug: PhetJComponent doesn't work with JSpinner on Macintosh, looks wrong on Windows & Linux
@@ -63,6 +62,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/22) - phetcommon: rendering hints should be appended, not replaced, by PhetGraphic
 (9/22) - bugfix: set infinite sine waveform waveType when it's made visible
 (9/22) - phetcommon: fix AbstractClock.getFramesPerSecond to be double precision
 (9/22) - synch with phetcommon
