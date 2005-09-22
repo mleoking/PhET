@@ -553,6 +553,7 @@ sandbox-2005-05-10...
 2005 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 REJECTED:
+(9/22) - set anti-aliasing on leaf graphics instead of container (fixed rendering hints in PhetGraphic)
 (9/22) - restore state of anti-aliasing hint in FourierTitlePanel.paintComponent (not necessary, argument is a copy of Graphics)
 (9/22) - wiggle me isn't hidden when user clicks in the control panel (click in apparatus panel & model changes is enough)
 (9/19) - break up control panels into reusable subpanels (not practical, since they keep changing)
