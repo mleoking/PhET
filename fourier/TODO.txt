@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- minimize then maximize Discrete harmonics graph, sum vertical zoom control isn't positioned correctly (sometimes)
 - remove the vertical bit of space between views
 - set antialiasing on each leaf-node graphic instead of in containers
 - publish 2.0
@@ -22,7 +23,6 @@ MEDIUM PRIORITY:
 
 LOW PRIORITY:
 - wiggle me uses the module's clock, so it stops moving when clock is paused
-- wiggle me isn't hidden when user clicks in the control panel
 - FourierSumPlot should be an observer of its FourierSeries
 - get rid of Vector2D if it continues to be used only by WiggleMeGraphic
 - grayed out waveforms anti-aliasing/stroke visually changes when you start to drag wavelength/period tools
@@ -64,6 +64,8 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/22) - phetcommon: fix AbstractClock.getFramesPerSecond to be double precision
+(9/22) - synch with phetcommon
 (9/22) - make border on FourierTitledPanel 10% darker
 (9/22) - override FourierTitledPanel.paintComponent to enable anti-aliasing of title borders on Windows
 (9/22) - use a different stroke on D2C Sum x-space envelope so that it looks smoother
@@ -551,6 +553,7 @@ sandbox-2005-05-10...
 2005 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 REJECTED:
+(9/22) - wiggle me isn't hidden when user clicks in the control panel (click in apparatus panel & model changes is enough)
 (9/19) - break up control panels into reusable subpanels (not practical, since they keep changing)
 (9/13) - add equations for Gaussian wave packet above D2C amplitudes graph (voted down by design team)
 (9/13) - make Discrete amplitude sliders 50% narrower (not needed)
