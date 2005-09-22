@@ -11,6 +11,17 @@
 
 package edu.colorado.phet.control;
 
+import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.VisibleColor;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.EventListenerList;
+import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
@@ -18,34 +29,19 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import javax.swing.JSlider;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.EventListenerList;
-import javax.swing.event.MouseInputAdapter;
-
-import edu.colorado.phet.control.ColorVisionConfig;
-import edu.colorado.phet.common.math.MathUtil;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.common.view.ApparatusPanel;
-
 /**
  * SpectrumSlider is a UI component, similar to a JSlider, for selecting a
- * wavelength from the visible spectrum.  
- * <p>
+ * wavelength from the visible spectrum.
+ * <p/>
  * The slider track shows the spectru of colors that correspond to visible
  * wavelengths.  As the slider knob is moved, the knob color changes to match
- * the seleted wavelength.  If a transmission width has been set, then a 
- * bell curve is overlayed on the spectrum, aligned with the knob. 
- * <p>
+ * the seleted wavelength.  If a transmission width has been set, then a
+ * bell curve is overlayed on the spectrum, aligned with the knob.
+ * <p/>
  * The slider value is determined by the position of the slider knob,
  * and corresponds to a wavelength in the range VisibleColor.MIN_WAVELENGTH
  * to VisibleColor.MAX_WAVELENGTH, inclusive.
- * <p>
+ * <p/>
  * The default orientation of the slider is horizontal. See setOrientation
  * for a description of the UI layout for each orientation.
  *
@@ -59,9 +55,13 @@ public class SpectrumSlider extends CompositePhetGraphic {
     // Class data
     //----------------------------------------------------------------------------
 
-    /** Horizontal orientation */
+    /**
+     * Horizontal orientation
+     */
     public static final int HORIZONTAL = JSlider.HORIZONTAL;
-    /** Vertical orientation */
+    /**
+     * Vertical orientation
+     */
     public static final int VERTICAL = JSlider.VERTICAL;
 
     // Default knob dimensions
@@ -95,7 +95,8 @@ public class SpectrumSlider extends CompositePhetGraphic {
     private EventListenerList _listenerList;
 
     // The spectrum graphic.
-    private PhetImageGraphic _spectrum;
+    private PhetGraphic _spectrum;
+//    private PhetImageGraphic _spectrum;
     // The slider knob.
     private SpectrumSliderKnob _knob;
 
@@ -104,19 +105,26 @@ public class SpectrumSlider extends CompositePhetGraphic {
     //----------------------------------------------------------------------------
 
     /**
-     * Sole constructor.
-     * 
-     * @param component parent Component
+     * @param component
      */
     public SpectrumSlider( Component component ) {
+        this( component, VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH );
+    }
+
+    /**
+     * @param component
+     * @param minimumWavelength
+     * @param maximumWavelength
+     */
+    public SpectrumSlider( Component component, double minimumWavelength, double maximumWavelength ) {
 
         super( null );
 
         // Initialize instance data.
         _component = component;
         _value = 0;
-        _minimum = (int) VisibleColor.MIN_WAVELENGTH;
-        _maximum = (int) VisibleColor.MAX_WAVELENGTH;
+        _minimum = (int)minimumWavelength;
+        _maximum = (int)maximumWavelength;
         _orientation = HORIZONTAL;
         _transmissionWidth = 0;
         _dragBounds = new Rectangle( 0, 0, 0, 0 ); // set correctly by setLocation
@@ -124,7 +132,8 @@ public class SpectrumSlider extends CompositePhetGraphic {
         _listenerList = new EventListenerList();
 
         // Initialize graphical components.
-        _spectrum = new PhetImageGraphic( component, ColorVisionConfig.SPECTRUM_IMAGE );
+        _spectrum = new SpectrumGraphic( component, minimumWavelength, maximumWavelength );
+//        _spectrum = new PhetImageGraphic( component, ColorVisionConfig.SPECTRUM_IMAGE );
         _knob = new SpectrumSliderKnob( component, DEFAULT_KNOB_SIZE, getRotationAngle() );
 
         // Initialize interactivity
@@ -160,7 +169,7 @@ public class SpectrumSlider extends CompositePhetGraphic {
     public void setValue( int value ) {
 
         // Silently clamp the value to the allowed range.
-        _value = (int) MathUtil.clamp( _minimum, value, _maximum );
+        _value = (int)MathUtil.clamp( _minimum, value, _maximum );
 
         // Fire a ChangeEvent to notify listeners that the value has changed.
         fireChangeEvent( new ChangeEvent( this ) );
@@ -171,7 +180,7 @@ public class SpectrumSlider extends CompositePhetGraphic {
 
     /**
      * Gets the slider value.
-     * 
+     *
      * @return the value
      */
     public int getValue() {
@@ -181,25 +190,25 @@ public class SpectrumSlider extends CompositePhetGraphic {
 
     /**
      * Gets the slider value based on a hypothetical location of the knob.
-     * 
+     *
      * @return the value
      */
     private int getValue( int x, int y ) {
 
         double percent;
         if( _orientation == HORIZONTAL ) {
-            percent = ( x - _dragBounds.x ) / (double) ( _dragBounds.width );
+            percent = ( x - _dragBounds.x ) / (double)( _dragBounds.width );
         }
         else {
-            percent = 1 - ( ( y - _dragBounds.y ) / (double) ( _dragBounds.height ) );
+            percent = 1 - ( ( y - _dragBounds.y ) / (double)( _dragBounds.height ) );
         }
-        int value = (int) ( percent * ( _maximum - _minimum ) ) + _minimum;
+        int value = (int)( percent * ( _maximum - _minimum ) ) + _minimum;
         return value;
     }
 
     /**
      * Sets the minimum value of the slider's range.
-     * 
+     *
      * @param minimum the minimum
      */
     protected void setMinimum( int minimum ) {
@@ -210,7 +219,7 @@ public class SpectrumSlider extends CompositePhetGraphic {
 
     /**
      * Gets the minimum value of the slider's range.
-     * 
+     *
      * @return the minimum
      */
     public int getMinimum() {
@@ -220,7 +229,7 @@ public class SpectrumSlider extends CompositePhetGraphic {
 
     /**
      * Sets the maximum value of the slider's range.
-     * 
+     *
      * @param maximum the maximum
      */
     protected void setMaximum( int maximum ) {
@@ -229,9 +238,9 @@ public class SpectrumSlider extends CompositePhetGraphic {
         updateKnob();
     }
 
-    /** 
+    /**
      * Gets the maximum value of the slider's range.
-     * 
+     *
      * @return the maximum
      */
     public int getMaximum() {
@@ -241,13 +250,13 @@ public class SpectrumSlider extends CompositePhetGraphic {
 
     /**
      * Sets the orientation.
-     * <p>
+     * <p/>
      * For a HORIZONTAL orientation, the slider knob is below the spectrum,
      * the minimum value is at the left, and the maximum value is at the right.
-     * <p>
+     * <p/>
      * For a VERTICAL orientation, the slider knob is to the right of the spectrum,
      * the minimum value is at the bottom, and the maximum value is at the top.
-     * 
+     *
      * @param orientation HORIZONTAL or VERTICAL
      * @throws IllegalArgumentException if orientation is invalid
      */
@@ -265,7 +274,7 @@ public class SpectrumSlider extends CompositePhetGraphic {
 
     /**
      * Gets the orientation.
-     * 
+     *
      * @return HORIZONTAL or VERTICAL
      */
     public int getOrientation() {
@@ -276,7 +285,7 @@ public class SpectrumSlider extends CompositePhetGraphic {
     /**
      * Sets the transmission width.
      * Setting the width to zero effectively disables drawing of the curve.
-     * 
+     *
      * @param width the width, in wavelengths
      */
     public void setTransmissionWidth( double width ) {
@@ -296,9 +305,9 @@ public class SpectrumSlider extends CompositePhetGraphic {
     }
 
     /**
-     * Sets the location.  
+     * Sets the location.
      * The location corresponds to the upper-left corner of the spectrum graphic.
-     * 
+     *
      * @param location the location
      */
     public void setLocation( Point location ) {
@@ -309,7 +318,7 @@ public class SpectrumSlider extends CompositePhetGraphic {
 
     /**
      * Convenience method for setting location.
-     * 
+     *
      * @param x X coordinate
      * @param y Y coordinate
      */
@@ -318,10 +327,10 @@ public class SpectrumSlider extends CompositePhetGraphic {
         this.setLocation( new Point( x, y ) );
     }
 
-    /** 
+    /**
      * Gets the location.
      * The location corresponds to the upper-left corner of the spectrum graphic.
-     * 
+     *
      * @return the location
      */
     public Point getLocation() {
@@ -332,7 +341,7 @@ public class SpectrumSlider extends CompositePhetGraphic {
     /**
      * Sets the slider's spectrum graphic size.
      * Note that these are the dimensions of a spectrum with HORIZONTAL orientation.
-     * 
+     *
      * @param size the desired size
      */
     public void setSpectrumSize( Dimension size ) {
@@ -348,8 +357,8 @@ public class SpectrumSlider extends CompositePhetGraphic {
         }
 
         // Calculate the scaling.
-        double scaleX = (double) size.width / (double) image.getWidth();
-        double scaleY = (double) size.height / (double) image.getHeight();
+        double scaleX = (double)size.width / (double)image.getWidth();
+        double scaleY = (double)size.height / (double)image.getHeight();
 
         // Scale the image.
         AffineTransform tx = new AffineTransform();
@@ -358,7 +367,8 @@ public class SpectrumSlider extends CompositePhetGraphic {
         BufferedImage newImage = op.filter( image, null );
 
         // HACK: create a new PhetImageGraphic - setImage on the old one doesn't work right.
-        _spectrum = new PhetImageGraphic( _component, newImage );
+//        _spectrum = new PhetImageGraphic( _component, newImage );
+        _spectrum.setTransform( tx );
 
         updateUI();
     }
@@ -366,7 +376,7 @@ public class SpectrumSlider extends CompositePhetGraphic {
     /**
      * Sets the size of the slider knob.
      * Note that these are the dimension of a knob with HORIZONTAL orientation.
-     * 
+     *
      * @param knobSize the dimensions of the knob
      */
     public void setKnobSize( Dimension knobSize ) {
@@ -377,7 +387,7 @@ public class SpectrumSlider extends CompositePhetGraphic {
 
     /**
      * Gets the bounds.
-     * 
+     *
      * @return the bounds
      */
     public Rectangle getBounds() {
@@ -421,7 +431,7 @@ public class SpectrumSlider extends CompositePhetGraphic {
     /**
      * Gets the width of the curve in relationship to the width
      * of the slider and the transmission width.
-     * 
+     *
      * @return the curve width, in pixels
      */
     private int getCurveWidth() {
@@ -433,7 +443,7 @@ public class SpectrumSlider extends CompositePhetGraphic {
         else {
             totalPixels = _spectrum.getBounds().height;
         }
-        int width = (int) ( _transmissionWidth * totalPixels / (double) ( _maximum - _minimum ) );
+        int width = (int)( _transmissionWidth * totalPixels / (double)( _maximum - _minimum ) );
         return width;
     }
 
@@ -470,7 +480,7 @@ public class SpectrumSlider extends CompositePhetGraphic {
             _spectrum.setLocation( x, y );
 
             // Set drag bounds.
-            _dragBounds = new Rectangle( 0, spectrumBounds.height, spectrumBounds.width, 0);
+            _dragBounds = new Rectangle( 0, spectrumBounds.height, spectrumBounds.width, 0 );
 //            _dragBounds = new Rectangle( x, y + spectrumBounds.height, spectrumBounds.width, 0 );
         }
         else {
@@ -498,18 +508,18 @@ public class SpectrumSlider extends CompositePhetGraphic {
         // Set the knob's location.
         int x, y;
         if( _orientation == HORIZONTAL ) {
-            double percent = ( _value - _minimum ) / (double) ( _maximum - _minimum );
+            double percent = ( _value - _minimum ) / (double)( _maximum - _minimum );
 //            x = (int) ( percent * _dragBounds.width );
 //            y = (int)_knob.getLocation().getY();
-            x = _dragBounds.x + (int) ( percent * _dragBounds.width );
+            x = _dragBounds.x + (int)( percent * _dragBounds.width );
             y = _dragBounds.y;
         }
         else {
-            double percent = 1 - ( _value - _minimum ) / (double) ( _maximum - _minimum );
+            double percent = 1 - ( _value - _minimum ) / (double)( _maximum - _minimum );
             x = (int)_knob.getLocation().getX();
-            y = (int) ( percent * _dragBounds.height );
+            y = (int)( percent * _dragBounds.height );
             x = _dragBounds.x;
-            y = _dragBounds.y + (int) ( percent * _dragBounds.height );
+            y = _dragBounds.y + (int)( percent * _dragBounds.height );
         }
 //        _knob.setLocation( x , y );
         _knob.setLocation( x + (int)this.getLocation().getX(), y + (int)this.getLocation().getY() );
@@ -538,7 +548,7 @@ public class SpectrumSlider extends CompositePhetGraphic {
 
     /**
      * Draws the slider.
-     * 
+     *
      * @param g2 the graphics context
      */
     public void paint( Graphics2D g2 ) {
@@ -595,7 +605,7 @@ public class SpectrumSlider extends CompositePhetGraphic {
 
     /**
      * Adds a ChangeListener, ala JSlider.
-     * 
+     *
      * @param listener the listener to add
      */
     public void addChangeListener( ChangeListener listener ) {
@@ -605,7 +615,7 @@ public class SpectrumSlider extends CompositePhetGraphic {
 
     /**
      * Removes a ChangeListener, ala JSlider.
-     * 
+     *
      * @param listener the listener to remove
      */
     public void removeChangeListener( ChangeListener listener ) {
@@ -616,7 +626,7 @@ public class SpectrumSlider extends CompositePhetGraphic {
     /**
      * Fires a ChangeEvent, ala JSlider.
      * This occurs each time the slider is moved.
-     * 
+     *
      * @param event the event
      */
     private void fireChangeEvent( ChangeEvent event ) {
@@ -624,15 +634,15 @@ public class SpectrumSlider extends CompositePhetGraphic {
         Object[] listeners = _listenerList.getListenerList();
         for( int i = 0; i < listeners.length; i += 2 ) {
             if( listeners[i] == ChangeListener.class ) {
-                ( (ChangeListener) listeners[i + 1] ).stateChanged( event );
+                ( (ChangeListener)listeners[i + 1] ).stateChanged( event );
             }
         }
     }
 
     /**
-     * SpectrumSliderMouseInputListener is an inner class the handles 
+     * SpectrumSliderMouseInputListener is an inner class the handles
      * dragging of the slider knob.
-     * <p>
+     * <p/>
      * Note that SpectrumSlider cannot implement MouseListener because
      * its superclass already does.
      *
@@ -645,7 +655,7 @@ public class SpectrumSlider extends CompositePhetGraphic {
          * Handles mouse drag events, related to moving the slider knob.
          * The slider knob's motion is constrained so that it behaves like
          * a JSlider.
-         * 
+         *
          * @param event the mouse event
          */
         public void mouseDragged( MouseEvent event ) {
@@ -662,8 +672,8 @@ public class SpectrumSlider extends CompositePhetGraphic {
             }
 
             // Constrain the drag boundaries of the knob.
-            int x = (int) Math.max( _dragBounds.x, Math.min( _dragBounds.x + _dragBounds.width, knobX ) );
-            int y = (int) Math.max( _dragBounds.y, Math.min( _dragBounds.y + _dragBounds.height, knobY ) );
+            int x = (int)Math.max( _dragBounds.x, Math.min( _dragBounds.x + _dragBounds.width, knobX ) );
+            int y = (int)Math.max( _dragBounds.y, Math.min( _dragBounds.y + _dragBounds.height, knobY ) );
 
             // Determine the value that corresponds to the constrained location.
             int value = getValue( x, y );
@@ -676,9 +686,9 @@ public class SpectrumSlider extends CompositePhetGraphic {
 
         /**
          * Handles mouse press events.
-         * Remembers how far the mouse was from the knob's origin at 
+         * Remembers how far the mouse was from the knob's origin at
          * the time the drag began.
-         * 
+         *
          * @param event the mouse event
          */
         public void mousePressed( MouseEvent event ) {

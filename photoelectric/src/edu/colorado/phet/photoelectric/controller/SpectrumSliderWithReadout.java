@@ -40,11 +40,15 @@ public class SpectrumSliderWithReadout extends SpectrumSlider {
     private CollimatedBeam beam;
     private WavelengthReadout readout;
 
-    public SpectrumSliderWithReadout( Component component, final SpectrumSlider wrappedSlider, CollimatedBeam beam ) {
-        super( component );
+    public SpectrumSliderWithReadout( Component component,
+                                      final SpectrumSlider wrappedSlider,
+                                      CollimatedBeam beam,
+                                      double minimumWavelength,
+                                      double maximumWavelength ) {
+        super( component, minimumWavelength, maximumWavelength );
         this.beam = beam;
         readout = new WavelengthReadout( component, wrappedSlider.getKnob() );
-        ( (ApparatusPanel)component ).addGraphic( readout );
+        ( (ApparatusPanel)component ).addGraphic( readout, 1E9 );
 //        knob = new ReadoutKnob( wrappedSlider.getKnob() );
         setKnob( wrappedSlider.getKnob() );
 
