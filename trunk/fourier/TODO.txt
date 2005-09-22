@@ -64,6 +64,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/22) - bugfix: set infinite sine waveform waveType when it's made visible
 (9/22) - phetcommon: fix AbstractClock.getFramesPerSecond to be double precision
 (9/22) - synch with phetcommon
 (9/22) - make border on FourierTitledPanel 10% darker
@@ -553,6 +554,7 @@ sandbox-2005-05-10...
 2005 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 REJECTED:
+(9/22) - restore state of anti-aliasing hint in FourierTitlePanel.paintComponent (not necessary, argument is a copy of Graphics)
 (9/22) - wiggle me isn't hidden when user clicks in the control panel (click in apparatus panel & model changes is enough)
 (9/19) - break up control panels into reusable subpanels (not practical, since they keep changing)
 (9/13) - add equations for Gaussian wave packet above D2C amplitudes graph (voted down by design team)
