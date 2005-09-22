@@ -22,7 +22,7 @@ import java.awt.geom.GeneralPath;
  * SpectrumSliderKnob is the knob on a SpectrumSlider.
  * The origin is at the knob's tip.
  * The default orientation is with the tip of the arrow pointing straight up.
- * <p>
+ * <p/>
  * The class is a subclass of CompositePhetGraphic so that it can be more easilly decorated.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -114,7 +114,7 @@ public class SpectrumSliderKnob extends CompositePhetGraphic {
     }
 
     /**
-     * Gets the knob's location.\
+     * Gets the knob's location.
      *
      * @return the location
      */
@@ -195,7 +195,6 @@ public class SpectrumSliderKnob extends CompositePhetGraphic {
 //        shape = transform.createTransformedShape( shape );
 
         knobShape.setShape( shape );
-//        wavelengthReadout.setWidth( knobShape.getWidth() );
     }
 
     public void setBorderColor( Color color ) {
@@ -204,6 +203,5 @@ public class SpectrumSliderKnob extends CompositePhetGraphic {
 
     public void setPaint( Color color ) {
         knobShape.setPaint( color );
-
     }
 }

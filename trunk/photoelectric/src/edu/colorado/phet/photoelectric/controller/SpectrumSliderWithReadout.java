@@ -10,20 +10,25 @@
  */
 package edu.colorado.phet.photoelectric.controller;
 
+import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.control.SpectrumSlider;
 import edu.colorado.phet.control.SpectrumSliderKnob;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
-import java.text.MessageFormat;
 
 /**
  * SpectrumSliderWithReadout
- * <p>
+ * <p/>
  * A spectrum slider that adds a readout of the wavelength to the slider knob. It is implemented
  * as a decorator for a simple SpectrumSlider
  *
@@ -32,11 +37,19 @@ import java.text.MessageFormat;
  */
 public class SpectrumSliderWithReadout extends SpectrumSlider {
     private ReadoutKnob knob;
+    private CollimatedBeam beam;
+    private WavelengthReadout readout;
 
-    public SpectrumSliderWithReadout( Component component, SpectrumSlider wrappedSlider ) {
+    public SpectrumSliderWithReadout( Component component, final SpectrumSlider wrappedSlider, CollimatedBeam beam ) {
         super( component );
-        knob = new ReadoutKnob( wrappedSlider.getKnob() );
-        setKnob( knob );
+        this.beam = beam;
+        readout = new WavelengthReadout( component, wrappedSlider.getKnob() );
+        ( (ApparatusPanel)component ).addGraphic( readout );
+//        knob = new ReadoutKnob( wrappedSlider.getKnob() );
+        setKnob( wrappedSlider.getKnob() );
+
+        // Add a listener that will move the readout along with the knob, and
+        addChangeListener( readout );
     }
 
     /*
@@ -67,7 +80,8 @@ public class SpectrumSliderWithReadout extends SpectrumSlider {
                    wrappedKnob.getSize(),
                    wrappedKnob.getAngle() );
 
-            wavelengthReadout = new WavelengthReadout( getComponent(), wrappedKnob );
+            wavelengthReadout = new WavelengthReadout( getComponent(), this );
+//            wavelengthReadout = new WavelengthReadout( getComponent(), knob );
             addGraphic( wavelengthReadout );
         }
 
@@ -86,7 +100,7 @@ public class SpectrumSliderWithReadout extends SpectrumSlider {
         protected void updateShape() {
             super.updateShape();
             if( wavelengthReadout != null ) {
-                wavelengthReadout.setWidth( getWidth() );
+//                wavelengthReadout.setWidth( getWidth() );
             }
         }
     }
@@ -94,26 +108,38 @@ public class SpectrumSliderWithReadout extends SpectrumSlider {
     /**
      * The wavelength readout
      */
-    public class WavelengthReadout extends CompositePhetGraphic {
+    public class WavelengthReadout extends GraphicLayerSet implements ChangeListener {
         private Font VALUE_FONT = new Font( "SansSerif", Font.PLAIN, 12 );
-        private Color VALUE_COLOR = Color.BLACK;
 
-        private PhetTextGraphic valueText;
-        private PhetShapeGraphic background;
+        private JTextField readout;
         private double wavelength;
-        private Rectangle2D backgroundRect;
-        private SpectrumSliderKnob wrappedKnob;
+        private SpectrumSliderKnob knob;
+        private PhetGraphic readoutGraphic;
 
-        public WavelengthReadout( Component component, SpectrumSliderKnob wrappedKnob ) {
+        public WavelengthReadout( final Component component, SpectrumSliderKnob knob ) {
             super( component );
-            this.wrappedKnob = wrappedKnob;
-
-            backgroundRect = new Rectangle2D.Double( 0, 0, 40, 20 );
-            background = new PhetShapeGraphic( component, backgroundRect, Color.lightGray, new BasicStroke( 1 ), Color.black );
-            addGraphic( background );
-
-            valueText = new PhetTextGraphic( component, VALUE_FONT, "", VALUE_COLOR );
-            addGraphic( valueText );
+            this.knob = knob;
+            readout = new JTextField( 5 );
+            readout.setHorizontalAlignment( JTextField.CENTER );
+            readout.setFont( VALUE_FONT );
+            readout.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    double wavelength = 0;
+                    try {
+                        String text = readout.getText().toLowerCase();
+                        int nmLoc = text.indexOf( "nm" );
+                        text = nmLoc >= 0 ? readout.getText().substring( 0, nmLoc ) : text;
+                        wavelength = Double.parseDouble( text );
+                        beam.setWavelength( wavelength );
+                        update( wavelength );
+                    }
+                    catch( NumberFormatException e1 ) {
+                        JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ), "Wavelength must be numeric, or a number followed by \"nm\"" );
+                    }
+                }
+            } );
+            readoutGraphic = PhetJComponent.newInstance( component, readout );
+            addGraphic( readoutGraphic, 1E9 );
 
             update( 123 );
         }
@@ -121,28 +147,22 @@ public class SpectrumSliderWithReadout extends SpectrumSlider {
         private void update( double wavelength ) {
             this.wavelength = wavelength;
             DecimalFormat voltageFormat = new DecimalFormat( "000" );
-            Object[] args = {voltageFormat.format( Math.abs( wavelength ) )};
-            String text = MessageFormat.format( "nm", args );
-            valueText.setText( voltageFormat.format( wavelength ) + "nm" );
-
-            // Move the wavelength label to the positive end of the battery
-            valueText.setLocation( (int)background.getBounds().getWidth(), (int)background.getBounds().getHeight() );
-
-            // Right justify in the bckground rectangle
-            valueText.setRegistrationPoint( valueText.getWidth(), 6 );
-        }
-
-        public void setWidth( int width ) {
-            int inset = 10;
-            backgroundRect.setRect( 0, 0, width - inset, (int)( wrappedKnob.getBounds().getHeight() * 0.67 ) - inset / 2 );
-            setRegistrationPoint( (int)backgroundRect.getWidth() / 2, -(int)( wrappedKnob.getBounds().getHeight() * 0.33 ) );
-            update( wavelength );
-            setBoundsDirty();
-            repaint();
+            readout.setText( voltageFormat.format( wavelength ) + " nm" );
+//            Object[] args = {voltageFormat.format( Math.abs( wavelength ) )};
+//            String text = MessageFormat.format( "nm", args );
+//            readout.setText( text );
         }
 
         void setValue( double wavelength ) {
             update( wavelength );
+        }
+
+        public void stateChanged( ChangeEvent e ) {
+            if( e.getSource() == SpectrumSliderWithReadout.this ) {
+                setLocation( (int)SpectrumSliderWithReadout.this.getKnob().getLocation().getX() - getWidth() / 2,
+                             (int)SpectrumSliderWithReadout.this.getLocation().getY() - getHeight() );
+                update( getValue() );
+            }
         }
     }
 }
