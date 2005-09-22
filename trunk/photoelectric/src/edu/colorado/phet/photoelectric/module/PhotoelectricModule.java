@@ -189,10 +189,10 @@ public class PhotoelectricModule extends BaseLaserModule {
         // Add a slider for the battery
         addGraphicBatteryControls();
         BeamControl beamControl = new BeamControl( getApparatusPanel(),
-                                                   new Point( 430, 50 ),
+                                                   new Point( 375, 30 ),
                                                    model.getBeam(),
                                                    model.getBeam().getMaxPhotonsPerSecond() );
-        getApparatusPanel().addGraphic( beamControl );
+        getApparatusPanel().addGraphic( beamControl, 1E9 );
 
         //----------------------------------------------------------------
         // Total hack to get beam to look right when things come up. This should

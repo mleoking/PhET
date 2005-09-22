@@ -12,8 +12,8 @@ package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.model.clock.ClockTickEvent;
+import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphics2D;
@@ -25,8 +25,8 @@ import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.MouseEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
@@ -331,7 +331,7 @@ public class ApparatusPanel2 extends ApparatusPanel implements ClockTickListener
     }
 
     protected void paintComponent( Graphics graphics ) {
-        super.doPaintSuper(graphics);
+        super.doPaintSuper( graphics );
         Graphics2D g2 = (Graphics2D)graphics;
         g2 = new PhetGraphics2D( g2 );
         if( repaintArea == null ) {
@@ -776,15 +776,15 @@ public class ApparatusPanel2 extends ApparatusPanel implements ClockTickListener
          * Adjust the locations of Swing components based on the current scale
          */
         private void layoutSwingComponents( double scale ) {
-            Component[] components = component.getComponents();
-            for( int i = 0; i < components.length; i++ ) {
-                Component component = components[i];
-                Point origLocation = (Point)componentOrgLocationsMap.get( component );
-                if( origLocation != null ) {
-                    Point newLocation = new Point( (int)( origLocation.getX() * scale ), (int)( origLocation.getY() * scale ) );
-                    component.setLocation( newLocation );
-                }
-            }
+//            Component[] components = component.getComponents();
+//            for( int i = 0; i < components.length; i++ ) {
+//                Component component = components[i];
+//                Point origLocation = (Point)componentOrgLocationsMap.get( component );
+//                if( origLocation != null ) {
+//                    Point newLocation = new Point( (int)( origLocation.getX() * scale ), (int)( origLocation.getY() * scale ) );
+//                    component.setLocation( newLocation );
+//                }
+//            }
         }
 
     }

@@ -61,6 +61,7 @@ public class DischargeLampsConfig {
     public static final double TUBE_LAYER = 110;
     public static final double CIRCUIT_LAYER = 120;
     public static final double ELECTRON_LAYER = CIRCUIT_LAYER + 1;
+    public static final double CONTROL_LAYER = CIRCUIT_LAYER + 100;
 
     // Clock specification
     private static double fudge = 5.67;

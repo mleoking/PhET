@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.control.IntensitySlider;
 import edu.colorado.phet.control.SpectrumSlider;
+import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 
 import javax.swing.event.ChangeEvent;
@@ -51,14 +52,21 @@ public class BeamControl extends GraphicLayerSet implements CollimatedBeam.RateC
 
     private void addWavelengthSlider( final CollimatedBeam beam ) {
         // Make a spectrum wavelengthSlider
-        final SpectrumSlider wavelengthSlider1 = new SpectrumSlider( apparatusPanel );
-        final SpectrumSliderWithReadout wavelengthSlider = new SpectrumSliderWithReadout( apparatusPanel, wavelengthSlider1, beam );
-        wavelengthSlider.setLocation( new Point( (int)location.getX() + 10, (int)location.getY() + 50 ) ); // default is (0,0)
+        final SpectrumSlider wavelengthSlider1 = new SpectrumSlider( apparatusPanel,
+                                                                     100,
+                                                                     800 );
+        final SpectrumSliderWithReadout wavelengthSlider = new SpectrumSliderWithReadout( apparatusPanel,
+                                                                                          wavelengthSlider1,
+                                                                                          beam,
+                                                                                          100,
+                                                                                          850 );
+        wavelengthSlider.setLocation( new Point( (int)location.getX() + 10, (int)location.getY() + 70 ) ); // default is (0,0)
         wavelengthSlider.setOrientation( SpectrumSlider.HORIZONTAL ); // default is HORIZONTAL
         wavelengthSlider.setTransmissionWidth( 1.0 ); // default is 0.0
         wavelengthSlider.setKnobSize( new Dimension( 20, 20 ) ); // default is (20,30)
-        wavelengthSlider.setSpectrumSize( new Dimension( 150, 30 ) ); // default is (200,25)
-        addGraphic( wavelengthSlider, 20 );
+        wavelengthSlider.setSpectrumSize( new Dimension( 190, 25 ) ); // default is (200,25)
+//        wavelengthSlider.setSpectrumSize( new Dimension( 150, 30 ) ); // default is (200,25)
+        addGraphic( wavelengthSlider, DischargeLampsConfig.CONTROL_LAYER );
         wavelengthSlider.setValue( (int)( beam.getWavelength() ) );
         wavelengthSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -71,10 +79,13 @@ public class BeamControl extends GraphicLayerSet implements CollimatedBeam.RateC
 
     private void addIntensitySlider( final CollimatedBeam beam, double maximumRate ) {
         // Make a spectrum photonRateSlider
+        Dimension size = new Dimension( 150, 30 );
         photonRateSlider = new IntensitySlider( VisibleColor.wavelengthToColor( beam.getWavelength() ),
-                                                IntensitySlider.HORIZONTAL, new Dimension( 150, 30 ) );
+                                                IntensitySlider.HORIZONTAL, size );
         photonRateSlider.setMaximum( (int)maximumRate );
-        photonRateSlider.setLocation( new Point( (int)location.getX(), (int)location.getY() ) ); // default is (0,0)
+        int xLoc = (int)( location.getX() + getWidth() / 2 - size.getWidth() / 2 );
+        photonRateSlider.setLocation( new Point( xLoc, (int)location.getY() ) ); // default is (0,0)
+//        photonRateSlider.setLocation( new Point( (int)location.getX(), (int)location.getY() ) ); // default is (0,0)
         apparatusPanel.add( photonRateSlider );
 
         // Try putting the component in a wrapper panel
