@@ -7,7 +7,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 - minimize then maximize Discrete harmonics graph, sum vertical zoom control isn't positioned correctly (sometimes)
 - remove the vertical bit of space between views
-- set antialiasing on each leaf-node graphic instead of in containers
 - publish 2.0
 
 MEDIUM PRIORITY:
