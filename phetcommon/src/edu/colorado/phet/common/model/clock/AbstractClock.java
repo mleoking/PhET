@@ -88,7 +88,7 @@ public abstract class AbstractClock {
     }
 
     public double getFramesPerSecond() {
-        return 1000 / delay;
+        return 1000d / delay;
     }
 
     public double getDt() {
