@@ -371,6 +371,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
         if ( _presetEnabled ) {
             if ( _fourierSeries.getPreset() == FourierConstants.PRESET_SINE_COSINE ) {
                 _sineCosinePlot.setVisible( true );
+                _sineCosinePlot.setCosineEnabled( _fourierSeries.getWaveType() == FourierConstants.WAVE_TYPE_COSINE );
             }
             else {
                 _presetPlot.setVisible( true );
