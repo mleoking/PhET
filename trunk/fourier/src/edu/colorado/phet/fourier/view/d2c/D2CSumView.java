@@ -92,7 +92,7 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
     // Envelope waveform
     private static final double ENVELOPE_STEP = Math.PI / 10; // about one value for every 2 pixels
     private static final Color ENVELOPE_COLOR = Color.LIGHT_GRAY;
-    private static final Stroke ENVELOPE_STROKE = new BasicStroke( 4f );
+    private static final Stroke ENVELOPE_STROKE = new BasicStroke( 4f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
     
     // Autoscaling
     private static final double AUTOSCALE_FACTOR = 1.25; // multiple max amplitude by this amount when autoscaling
