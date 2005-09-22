@@ -6,8 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - remove the vertical bit of space between views
-- find an italic titled border font that isn't so jaggy
-- D2C Sum x-space envelope looks lousy when Harmonics graph is minimized (use different stroke properites?)
 - set antialiasing on each leaf-node graphic instead of in containers
 - publish 2.0
 
@@ -66,6 +64,9 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/22) - make border on FourierTitledPanel 10% darker
+(9/22) - override FourierTitledPanel.paintComponent to enable anti-aliasing of title borders on Windows
+(9/22) - use a different stroke on D2C Sum x-space envelope so that it looks smoother
 (9/21) - before 2.0: hide "Audio controls" panel
 (9/21) - before 2.0: disable MegaHelp
 (9/21) - increase autoscale factor in D2C sum graph so that width indictor is not clipped when x-width is min
