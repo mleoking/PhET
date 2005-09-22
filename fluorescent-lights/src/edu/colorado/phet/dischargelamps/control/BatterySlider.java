@@ -23,10 +23,13 @@ import java.awt.*;
 
 
 /**
- * FaradaySlider is the graphic slider used throughout Faraday.
- * It has a knob, a knob hightlight, and a track, with no background.
+ * BatterySlider is the graphic slider used on batteries in the quantum mechanics
+ * family of simulations. It is adapted from FaradaySlider.
+ * <p/>
+ * Voltage shown on the slider is scaled from that in the model by
+ * DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR.
  *
- * @author Chris Malley (cmalley@pixelzoom.com)
+ * @author Ron LeMaster
  * @version $Revision$
  */
 public class BatterySlider extends GraphicSlider {
@@ -63,7 +66,7 @@ public class BatterySlider extends GraphicSlider {
      * @param trackColor  the track color
      */
     public BatterySlider( Component component, int trackLength, int trackWidth, Color trackColor,
-                          Battery model ) {
+                          final Battery model ) {
         super( component );
 
         this.model = model;
@@ -85,6 +88,15 @@ public class BatterySlider extends GraphicSlider {
         PhetGraphic knobHighlight = new PhetImageGraphic( component, DischargeLampsConfig.SLIDER_KNOB_HIGHLIGHT_IMAGE );
         knobHighlight.centerRegistrationPoint();
         setKnobHighlight( knobHighlight );
+
+        model.addChangeListener( new Battery.ChangeListener() {
+            public void voltageChanged( Battery.ChangeEvent event ) {
+                double voltage = ( event.getVoltageSource().getVoltage() * model.getMaxVoltage() ) / DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR;
+                if( getValue() != voltage ) {
+                    setValue( voltage );
+                }
+            }
+        } );
     }
 
     //----------------------------------------------------------------------------

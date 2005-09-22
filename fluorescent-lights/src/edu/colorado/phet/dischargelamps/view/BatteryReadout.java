@@ -10,15 +10,17 @@
  */
 package edu.colorado.phet.dischargelamps.view;
 
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.Battery;
 
+import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 
@@ -28,26 +30,35 @@ import java.text.MessageFormat;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class BatteryReadout extends CompositePhetGraphic {
-    private static Font VALUE_FONT = new Font( "SansSerif", Font.PLAIN, 12 );
-    private static Color VALUE_COLOR = Color.BLACK;
-
-    private PhetTextGraphic batteryReadout;
-    private PhetShapeGraphic background;
+public class BatteryReadout extends GraphicLayerSet {
     private Point centerPoint;
-    private int offset;
+    private JTextField readout;
+    private PhetGraphic readoutGraphic;
 
-    public BatteryReadout( Component component, Battery battery, Point centerPoint, int offset ) {
+    public BatteryReadout( final Component component, final Battery battery, Point centerPoint, int offset ) {
         super( component );
         this.centerPoint = centerPoint;
-        this.offset = offset;
 
-        Rectangle2D backgroundRect = new Rectangle2D.Double( 0, 0, 40, 20 );
-        background = new PhetShapeGraphic( component, backgroundRect, Color.lightGray, new BasicStroke( 1 ), Color.black );
-        addGraphic( background );
+        readout = new JTextField( 4 );
+        readout.setHorizontalAlignment( JTextField.HORIZONTAL );
+        readout.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                double voltage = 0;
+                try {
+                    String text = readout.getText().toLowerCase();
+                    int vLoc = text.indexOf( 'v' );
+                    text = vLoc >= 0 ? readout.getText().substring( 0, vLoc ) : text;
+                    voltage = Double.parseDouble( text );
+                    battery.setVoltage( voltage / DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR );
+                }
+                catch( NumberFormatException e1 ) {
+                    JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ), "Voltage must be numeric, or a number followed by \"v\"" );
+                }
+            }
+        } );
+        readoutGraphic = PhetJComponent.newInstance( component, readout );
+        addGraphic( readoutGraphic, 1E9 );
 
-        batteryReadout = new PhetTextGraphic( component, VALUE_FONT, "", VALUE_COLOR );
-        addGraphic( batteryReadout );
         battery.addChangeListener( new Battery.ChangeListener() {
             public void voltageChanged( Battery.ChangeEvent event ) {
                 double voltage = event.getVoltageSource().getVoltage();
@@ -61,10 +72,9 @@ public class BatteryReadout extends CompositePhetGraphic {
         DecimalFormat voltageFormat = new DecimalFormat( "#0.0" );
         Object[] args = {voltageFormat.format( Math.abs( voltage ) * DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR )};
         String text = MessageFormat.format( SimStrings.get( "BatteryGraphic.voltage" ), args );
-        batteryReadout.setText( text );
-        batteryReadout.setLocation( (int)centerPoint.getX() + (int)background.getWidth(), (int)centerPoint.getY() );
-        background.setLocation( centerPoint );
-        // Right justify in the bckground rectangle
-        batteryReadout.setRegistrationPoint( batteryReadout.getWidth() + 5, VALUE_FONT.getSize() - 30 );
+        readout.setText( text );
+        readoutGraphic.setLocation( (int)centerPoint.getX(), (int)centerPoint.getY() );
+        readoutGraphic.setBoundsDirty();
+        readoutGraphic.repaint();
     }
 }
