@@ -275,10 +275,10 @@ public abstract class PhetGraphic {
         if( clip != null ) {
             g2.setClip( clip );
         } 
-        // Rendering hints
+        // Add rendering hints
         RenderingHints hints = getRenderingHints();
         if( hints != null ) {
-            g2.setRenderingHints( hints );
+            g2.addRenderingHints( hints );
         }
     }
 
