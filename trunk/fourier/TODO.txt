@@ -21,6 +21,7 @@ MEDIUM PRIORITY:
 - something is hammering the processor when the sim should be idle
 
 LOW PRIORITY:
+- why am I getting the GridStrategy.Relative.getGridLinesSlowButCorrectVersion warning?
 - wiggle me need a blank char at the end of their string, or the last char doesn't redraw properly
 - wiggle me uses the module's clock, so it stops moving when clock is paused
 - FourierSumPlot should be an observer of its FourierSeries
