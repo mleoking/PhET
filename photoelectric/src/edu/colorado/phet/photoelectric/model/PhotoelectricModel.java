@@ -252,9 +252,6 @@ public class PhotoelectricModel extends DischargeLampModel {
         double electronsPerSecondFromTarget = 0;
         double electronsPerSecondToAnode = 0;
         if( target.getMaterial().getEnergyAbsorptionStrategy() instanceof MetalEnergyAbsorptionStrategy ) {
-            // Determine the fraction of photon-target collission that would kick off an electron if
-            // the photons had energy equal to the work function
-            double workFunctionFraction = 1 / MetalEnergyAbsorptionStrategy.NUM_SUB_LEVELS;
             // The fraction of collisions that will kick off an electron is equal to the amount of energy each
             // photon has that is greater than the work function, divided by the absorption strategy's
             // total energy depth, with a ceiling of 1.
