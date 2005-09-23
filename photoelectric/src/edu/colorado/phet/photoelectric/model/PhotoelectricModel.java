@@ -248,12 +248,38 @@ public class PhotoelectricModel extends DischargeLampModel {
      * @return
      */
     public double getCurrent() {
-        // If the stopping voltage is less than the voltage across the plates, we get a current
-        // equal to the number of photons per second. (We assume there is one electron for every photon).
-        // Otherwise, there is no current
-        double retardingVoltage = getVoltage() < 0 ? getVoltage() : 0;
-        double current = getStoppingVoltage() < retardingVoltage ? beam.getPhotonsPerSecond() : 0;
-        return current * CURRENT_JIMMY_FACTOR;
+        double current = 0;
+        double electronsPerSecondFromTarget = 0;
+        double electronsPerSecondToAnode = 0;
+        if( target.getMaterial().getEnergyAbsorptionStrategy() instanceof MetalEnergyAbsorptionStrategy ) {
+            // Determine the fraction of photon-target collission that would kick off an electron if
+            // the photons had energy equal to the work function
+            double workFunctionFraction = 1 / MetalEnergyAbsorptionStrategy.NUM_SUB_LEVELS;
+            // The fraction of collisions that will kick off an electron is equal to the amount of energy each
+            // photon has that is greater than the work function, divided by the absorption strategy's
+            // total energy depth, with a ceiling of 1.
+            double photonEnergyBeyondWorkFunction = PhysicsUtil.wavelengthToEnergy( beam.getWavelength() ) - target.getMaterial().getWorkFunction();
+            double electronRateAsFractionOfPhotonRate = Math.min( photonEnergyBeyondWorkFunction / MetalEnergyAbsorptionStrategy.TOTAL_ENERGY_DEPTH,
+                                                                  1 );
+            electronsPerSecondFromTarget = electronRateAsFractionOfPhotonRate * beam.getPhotonsPerSecond();
+            double retardingVoltage = getVoltage() < 0 ? -getVoltage() : 0;
+            double fractionOfPhotonsMoreEnergeticThanRetardingVoltage = Math.max( 0,
+                                                                                  Math.min( ( photonEnergyBeyondWorkFunction - retardingVoltage )
+                                                                                            / MetalEnergyAbsorptionStrategy.TOTAL_ENERGY_DEPTH, 1 ) );
+            electronsPerSecondToAnode = electronsPerSecondFromTarget * fractionOfPhotonsMoreEnergeticThanRetardingVoltage;
+//            double p = fractionOfPhotonsMoreEnergeticThanRetardingVoltage * electronRateAsFractionOfPhotonRate;
+        }
+        else {
+            // If the stopping voltage is less than the voltage across the plates, we get a current
+            // equal to the number of photons per second. (We assume there is one electron for every photon).
+            // Otherwise, there is no current
+            electronsPerSecondFromTarget = beam.getPhotonsPerSecond();
+            electronsPerSecondToAnode = electronsPerSecondFromTarget;
+            double retardingVoltage = getVoltage() < 0 ? getVoltage() : 0;
+            electronsPerSecondToAnode = getStoppingVoltage() < retardingVoltage ? electronsPerSecondFromTarget : 0;
+        }
+        current = electronsPerSecondToAnode * CURRENT_JIMMY_FACTOR;
+        return current;
     }
 
     /**
