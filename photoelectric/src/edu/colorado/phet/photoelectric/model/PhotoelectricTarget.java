@@ -10,17 +10,18 @@
  */
 package edu.colorado.phet.photoelectric.model;
 
-import edu.colorado.phet.dischargelamps.model.*;
-import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.dischargelamps.model.*;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
-import java.awt.geom.Point2D;
 import java.awt.geom.Line2D;
-import java.util.*;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.EventObject;
+import java.util.Random;
 
 /**
  * PhotoelectricTarget
@@ -34,7 +35,6 @@ import java.util.*;
  * @version $Revision$
  */
 public class PhotoelectricTarget extends Plate {
-//public class PhotoelectricTarget extends ElectronSource {
 
     //----------------------------------------------------------------
     // Class data
@@ -43,20 +43,19 @@ public class PhotoelectricTarget extends Plate {
     static private final double SPEED_SCALE_FACTOR = 5E-16;
     static private final double MINIMUM_SPEED = 0.1;
 
-    static public final Object ZINC = new String( "Zinc" );
-    static public final Object COPPER = new String( "Copper" );
-    static public final Object SODIUM = new String( "Sodium" );
-    static public final Object PLATINUM = new String( "Platinum" );
-    static public final Object MAGNESIUM = new String( "???" );
-
-    static public final HashMap WORK_FUNCTIONS = new HashMap();
+    static public final ElementProperties ZINC = new Zinc();
+    static public final ElementProperties COPPER = new Copper();
+    static public final ElementProperties SODIUM = new Sodium();
+    static public final ElementProperties PLATINUM = new Platinum();
+    static public final ElementProperties MAGNESIUM = new Magnesium();
+    static public final ArrayList TARGET_MATERIALS = new ArrayList();
 
     static {
-        WORK_FUNCTIONS.put( ZINC, new Double( 4.3 ) );
-        WORK_FUNCTIONS.put( COPPER, new Double( 4.7 ) );
-        WORK_FUNCTIONS.put( SODIUM, new Double( 2.3 ) );
-        WORK_FUNCTIONS.put( MAGNESIUM, new Double( 3.7 ) );
-        WORK_FUNCTIONS.put( PLATINUM, new Double( 6.3 ) );
+        TARGET_MATERIALS.add( ZINC );
+        TARGET_MATERIALS.add( COPPER );
+        TARGET_MATERIALS.add( SODIUM );
+        TARGET_MATERIALS.add( PLATINUM );
+        TARGET_MATERIALS.add( MAGNESIUM );
     }
 
     //----------------------------------------------------------------
@@ -68,7 +67,7 @@ public class PhotoelectricTarget extends Plate {
     private Line2D line;
     // The work function for the target material
     private double workFunction;
-    private Object targetMaterial;
+    private ElementProperties targetMaterial;
     // The strategy that determines the speed of emitted electrons
     private InitialElectronSpeedStrategy initialElectronSpeedStrategy = new
             InitialElectronSpeedStrategy.Uniform( SPEED_SCALE_FACTOR );
@@ -81,9 +80,6 @@ public class PhotoelectricTarget extends Plate {
     public PhotoelectricTarget( DischargeLampModel model, Point2D p1, Point2D p2 ) {
         super( model, p1, p2 );
         line = new Line2D.Double( p1, p2 );
-
-//        ElectronSink targetSink = new ElectronSink( model, getEndpoints()[0], getEndpoints()[1] );
-//        model.addModelElement( targetSink );
     }
 
     /**
@@ -121,8 +117,7 @@ public class PhotoelectricTarget extends Plate {
             electron.setVelocity( velocity );
 
             // Tell all the listeners
-            getSource().getElectronProductionListenerProxy().electronProduced(
-                    new ElectronSource.ElectronProductionEvent( this, electron ) );
+            getSource().getElectronProductionListenerProxy().electronProduced( new ElectronSource.ElectronProductionEvent( this, electron ) );
         }
     }
 
@@ -161,23 +156,20 @@ public class PhotoelectricTarget extends Plate {
         this.workFunction = workFunction;
     }
 
-    public void setWorkFunction( Object workFunction ) {
-        if( !( workFunction instanceof Double ) ) {
-            throw new RuntimeException( "Invalid parameter type" );
-        }
-        setWorkFunction( ( (Double)workFunction ).doubleValue() );
+    public void setWorkFunction( ElementProperties elementProperties ) {
+        setWorkFunction( elementProperties.getWorkFunction() );
     }
 
-    public void setMaterial( Object material ) {
+    public void setMaterial( ElementProperties material ) {
         this.targetMaterial = material;
-        if( !WORK_FUNCTIONS.keySet().contains( material ) ) {
+        if( !TARGET_MATERIALS.contains( material ) ) {
             throw new RuntimeException( "Invalid parameter" );
         }
-        setWorkFunction( WORK_FUNCTIONS.get( material ) );
+        setWorkFunction( material );
         materialChangeListenerProxy.materialChanged( new MaterialChangeEvent( this ) );
     }
 
-    public Object getMaterial() {
+    public ElementProperties getMaterial() {
         return targetMaterial;
     }
 

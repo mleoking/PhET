@@ -10,27 +10,27 @@
  */
 package edu.colorado.phet.photoelectric.controller;
 
+import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.view.components.ModelSlider;
+import edu.colorado.phet.common.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.dischargelamps.model.ElementProperties;
+import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 import edu.colorado.phet.photoelectric.model.PhotoelectricTarget;
 import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
 import edu.colorado.phet.photoelectric.view.GraphWindow;
-import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
-import edu.colorado.phet.common.view.components.ModelSlider;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.common.view.ControlPanel;
 
 import javax.swing.*;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
-import java.util.Collection;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 
 /**
@@ -57,26 +57,26 @@ public class PhotoelectricControlPanel {
 
         // Put the materials in the desired order. Sodium should be at the top, and the "mystery material",
         // magnesium, should be at the end
-        ArrayList selectionList = new ArrayList( );
+        ArrayList selectionList = new ArrayList();
         selectionList.add( PhotoelectricTarget.SODIUM );
-        Collection materials = PhotoelectricTarget.WORK_FUNCTIONS.keySet();
+        Collection materials = PhotoelectricTarget.TARGET_MATERIALS;
         for( Iterator iterator = materials.iterator(); iterator.hasNext(); ) {
             Object obj = (Object)iterator.next();
             if( obj != PhotoelectricTarget.SODIUM && obj != PhotoelectricTarget.MAGNESIUM ) {
                 selectionList.add( obj );
             }
         }
-        selectionList.add(PhotoelectricTarget.MAGNESIUM);
+        selectionList.add( PhotoelectricTarget.MAGNESIUM );
 
         final JComboBox targetMaterial = new JComboBox( selectionList.toArray() );
         targetControlPnl.add( targetMaterial );
         final PhotoelectricTarget target = model.getTarget();
         targetMaterial.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                target.setMaterial( targetMaterial.getSelectedItem() );
+                target.setMaterial( (ElementProperties)targetMaterial.getSelectedItem() );
             }
         } );
-        target.setMaterial( targetMaterial.getSelectedItem() );
+        target.setMaterial( (ElementProperties)targetMaterial.getSelectedItem() );
 
         //----------------------------------------------------------------
         // Beam controls
@@ -96,7 +96,6 @@ public class PhotoelectricControlPanel {
         wavelengthSlider.setSliderLabelFormat( new DecimalFormat( "#" ) );
         wavelengthSlider.setPreferredSize( new Dimension( 250, 100 ) );
         beam.setWavelength( wavelengthSlider.getValue() );
-//        beamControlPnl.add( wavelengthSlider );
         wavelengthSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 beam.setWavelength( wavelengthSlider.getValue() );
@@ -134,19 +133,11 @@ public class PhotoelectricControlPanel {
         batterySlider.setNumMajorTicks( 7 );
         batterySlider.setNumMinorTicksPerMajorTick( 2 );
         batterySlider.setSliderLabelFormat( new DecimalFormat( "0.00" ) );
-//        controlPanel.addControl( batterySlider );
         model.getTarget().setPotential( batterySlider.getValue() * PhotoelectricModel.VOLTAGE_SCALE_FACTOR );
         batterySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 model.getTarget().setPotential( batterySlider.getValue() * PhotoelectricModel.VOLTAGE_SCALE_FACTOR );
                 model.getRightHandPlate().setPotential( 0 );
-
-//                if( targetPlate.getPotential() < 0 ) {
-//                    BufferedImage bImg = circuitGraphic.getImage();
-//                    circuitGraphic.setImage( BufferedImageUtils.flipX( bImg ) );
-//                    circuitGraphic.setBoundsDirty();
-//                    circuitGraphic.repaint();
-//                }
             }
         } );
 
