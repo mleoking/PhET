@@ -53,7 +53,7 @@ public class SpectrumSliderWithReadout extends SpectrumSlider {
 //        knob = new ReadoutKnob( wrappedSlider.getKnob() );
         setKnob( wrappedSlider.getKnob() );
 
-        // Add a listener that will move the readout along with the knob, and
+        // Add a listener that will move the readout along with the knob
         addChangeListener( readout );
     }
 
@@ -81,7 +81,9 @@ public class SpectrumSliderWithReadout extends SpectrumSlider {
      */
     public class WavelengthChangeListener implements CollimatedBeam.WavelengthChangeListener {
         public void wavelengthChanged( CollimatedBeam.WavelengthChangeEvent event ) {
-//            SpectrumSliderWithReadout.this.setValue( (int)event.getWavelength());
+            if( (int)event.getWavelength() != getValue() ) {
+                SpectrumSliderWithReadout.this.setValue( (int)event.getWavelength() );
+            }
         }
     }
 
@@ -108,16 +110,6 @@ public class SpectrumSliderWithReadout extends SpectrumSlider {
 
         public void setWavelength( double wavelength ) {
             wavelengthReadout.setValue( wavelength );
-        }
-
-        /*
-         * Updates the knob's shape, based on its size and angle.
-         */
-        protected void updateShape() {
-            super.updateShape();
-            if( wavelengthReadout != null ) {
-//                wavelengthReadout.setWidth( getWidth() );
-            }
         }
     }
 
@@ -157,10 +149,14 @@ public class SpectrumSliderWithReadout extends SpectrumSlider {
             readoutGraphic = PhetJComponent.newInstance( component, readout );
             addGraphic( readoutGraphic, 1E9 );
 
-            update( 123 );
+            update( 123 ); // dummy value
         }
 
         private void update( double wavelength ) {
+            // Move to the right spot
+            setLocation( (int)SpectrumSliderWithReadout.this.getKnob().getLocation().getX() - getWidth() / 2,
+                         (int)SpectrumSliderWithReadout.this.getLocation().getY() - getHeight() );
+            // Update the text
             this.wavelength = wavelength;
             DecimalFormat voltageFormat = new DecimalFormat( "000" );
             readout.setText( voltageFormat.format( wavelength ) + " nm" );
@@ -175,8 +171,6 @@ public class SpectrumSliderWithReadout extends SpectrumSlider {
 
         public void stateChanged( ChangeEvent e ) {
             if( e.getSource() == SpectrumSliderWithReadout.this ) {
-                setLocation( (int)SpectrumSliderWithReadout.this.getKnob().getLocation().getX() - getWidth() / 2,
-                             (int)SpectrumSliderWithReadout.this.getLocation().getY() - getHeight() );
                 update( getValue() );
             }
         }
