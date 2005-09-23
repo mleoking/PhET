@@ -47,6 +47,7 @@ public class SpectrumSliderWithReadout extends SpectrumSlider {
                                       double maximumWavelength ) {
         super( component, minimumWavelength, maximumWavelength );
         this.beam = beam;
+        beam.addWavelengthChangeListener( new WavelengthChangeListener() );
         readout = new WavelengthReadout( component, wrappedSlider.getKnob() );
         ( (ApparatusPanel)component ).addGraphic( readout, 1E9 );
 //        knob = new ReadoutKnob( wrappedSlider.getKnob() );
@@ -56,9 +57,11 @@ public class SpectrumSliderWithReadout extends SpectrumSlider {
         addChangeListener( readout );
     }
 
-    /*
+    /**
      * Updates the knob based on the current location and value.
      * This method is shared by setter methods.
+     * <p/>
+     * todo: this is vestigial as is knob.setwavelength()
      */
     protected void updateKnob() {
         super.updateKnob();
@@ -72,6 +75,15 @@ public class SpectrumSliderWithReadout extends SpectrumSlider {
     //----------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------
+
+    /**
+     * A listener to update the slider if wavelength changes
+     */
+    public class WavelengthChangeListener implements CollimatedBeam.WavelengthChangeListener {
+        public void wavelengthChanged( CollimatedBeam.WavelengthChangeEvent event ) {
+//            SpectrumSliderWithReadout.this.setValue( (int)event.getWavelength());
+        }
+    }
 
     /**
      * A slider knob with a wavelength readout

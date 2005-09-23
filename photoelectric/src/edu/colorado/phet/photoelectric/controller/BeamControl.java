@@ -64,7 +64,7 @@ public class BeamControl extends GraphicLayerSet implements CollimatedBeam.RateC
         wavelengthSlider.setOrientation( SpectrumSlider.HORIZONTAL ); // default is HORIZONTAL
         wavelengthSlider.setTransmissionWidth( 1.0 ); // default is 0.0
         wavelengthSlider.setKnobSize( new Dimension( 20, 20 ) ); // default is (20,30)
-        wavelengthSlider.setSpectrumSize( new Dimension( 190, 25 ) ); // default is (200,25)
+        wavelengthSlider.setSpectrumSize( new Dimension( 150, 25 ) ); // default is (200,25)
 //        wavelengthSlider.setSpectrumSize( new Dimension( 150, 30 ) ); // default is (200,25)
         addGraphic( wavelengthSlider, DischargeLampsConfig.CONTROL_LAYER );
         wavelengthSlider.setValue( (int)( beam.getWavelength() ) );
