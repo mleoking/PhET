@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- minimize then maximize Discrete harmonics graph, sum vertical zoom control isn't positioned correctly (sometimes)
 - remove the vertical bit of space between views
 - publish 2.0
 
@@ -65,6 +64,7 @@ PHETCOMMON:
 
 DONE:
 1.0.17 ...
+(9/23) - bugfix: minimize then maximize Discrete harmonics graph, sum vertical zoom control isn't positioned correctly (sometimes)
 (9/22) - phetcommon: rendering hints should be appended, not replaced, by PhetGraphic
 (9/22) - bugfix: set infinite sine waveform waveType when it's made visible
 (9/22) - phetcommon: fix AbstractClock.getFramesPerSecond to be double precision

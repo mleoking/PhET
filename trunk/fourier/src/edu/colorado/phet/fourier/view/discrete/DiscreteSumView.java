@@ -399,7 +399,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
             _chartGraphic.setChartSize( CHART_SIZE.width, height - 75 );
             _titleGraphic.setLocation( TITLE_LOCATION.x, height / 2 );
             _autoScaleGraphic.setLocation( _horizontalZoomControl.getX(), 
-                    _chartGraphic.getY() + _chartGraphic.getHeight() - _autoScaleGraphic.getHeight() );
+                    _chartGraphic.getY() + (int)_chartGraphic.getChartSize().getHeight() - _autoScaleGraphic.getHeight() + 15 );
             _verticalZoomControl.setLocation( _horizontalZoomControl.getX(), 
                     _autoScaleGraphic.getY() - _verticalZoomControl.getHeight() - 5 );
             setBoundsDirty();
