@@ -11,17 +11,11 @@
 package edu.colorado.phet.photoelectric.view;
 
 import edu.colorado.phet.chart.*;
-import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
-import edu.colorado.phet.photoelectric.model.PhotoelectricTarget;
-import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 import edu.colorado.phet.lasers.model.PhysicsUtil;
+import edu.colorado.phet.photoelectric.PhotoelectricConfig;
+import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 
 import java.awt.*;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.text.DecimalFormat;
 
 /**
@@ -42,7 +36,7 @@ public class EnergyVsFrequencyGraph extends Chart {
 //    static private Range2D range = new Range2D( PhysicsUtil.wavelengthToFrequency( PhotoelectricModel.MAX_WAVELENGTH ),
                                                 0,
                                                 PhysicsUtil.wavelengthToFrequency( PhotoelectricModel.MIN_WAVELENGTH ),
-                                                PhysicsUtil.wavelengthToEnergy( PhotoelectricModel.MIN_WAVELENGTH));
+                                                PhysicsUtil.wavelengthToEnergy( PhotoelectricModel.MIN_WAVELENGTH ) );
     static private double xSpacing = ( range.getMaxX() - range.getMinX() ) / 4;
     static private Dimension chartSize = new Dimension( 200, 150 );
 
@@ -63,14 +57,14 @@ public class EnergyVsFrequencyGraph extends Chart {
         super( component, range, chartSize, xSpacing, xSpacing, 2, 2 );
 
         GridLineSet horizontalGls = this.getHorizonalGridlines();
-        horizontalGls.setMajorGridlinesColor( new Color( 200, 200, 200 ));
+        horizontalGls.setMajorGridlinesColor( new Color( 200, 200, 200 ) );
 
         GridLineSet verticalGls = this.getVerticalGridlines();
-        verticalGls.setMajorGridlinesColor( new Color( 200, 200, 200 ));
+        verticalGls.setMajorGridlinesColor( new Color( 200, 200, 200 ) );
 
-        getHorizontalTicks().setMajorNumberFormat( new DecimalFormat( "0.#E0" ));
+        getHorizontalTicks().setMajorNumberFormat( new DecimalFormat( "0.#E0" ) );
 
-        this.getXAxis().setNumberFormat( new DecimalFormat( "0.#E0" ));
+        this.getXAxis().setNumberFormat( new DecimalFormat( "0.#E0" ) );
 
         Color color = Color.blue;
         Color lineColor = new Color( color.getRed(), color.getGreen(), color.getBlue(), 80 );
@@ -90,22 +84,23 @@ public class EnergyVsFrequencyGraph extends Chart {
 
             public void voltageChanged( PhotoelectricModel.ChangeEvent event ) {
                 kneeFrequency = determineKneeFrequency( model );
-                updateGraph( model);
+                updateGraph( model );
             }
 
             public void wavelengthChanged( PhotoelectricModel.ChangeEvent event ) {
-                updateGraph( model);
+                updateGraph( model );
             }
         } );
     }
 
     private double determineKneeFrequency( PhotoelectricModel model ) {
-        return PhysicsUtil.wavelengthToFrequency( PhysicsUtil.energyToWavelength( model.getWorkFunction() ));
+        return PhysicsUtil.wavelengthToFrequency( PhysicsUtil.energyToWavelength( model.getWorkFunction() ) );
     }
 
     private void updateGraph( PhotoelectricModel model ) {
         double frequency = PhysicsUtil.wavelengthToFrequency( model.getWavelength() );
-        double workFunction = ((Double)PhotoelectricTarget.WORK_FUNCTIONS.get( model.getTarget().getMaterial() )).doubleValue();
+        double workFunction = model.getTarget().getMaterial().getWorkFunction();
+//        double workFunction = ((Double)PhotoelectricTarget.WORK_FUNCTIONS.get( model.getTarget().getMaterial() )).doubleValue();
         double energy = Math.max( 0, PhysicsUtil.wavelengthToEnergy( model.getWavelength() ) - workFunction );
         addDataPoint( frequency, energy );
     }
@@ -123,7 +118,7 @@ public class EnergyVsFrequencyGraph extends Chart {
         if( lastFrequencyRecorded < kneeFrequency && frequency > kneeFrequency ) {
             lineDataSet.addPoint( kneeFrequency, 0 );
         }
-        else if(lastFrequencyRecorded > kneeFrequency && frequency < kneeFrequency ) {
+        else if( lastFrequencyRecorded > kneeFrequency && frequency < kneeFrequency ) {
             lineDataSet.addPoint( kneeFrequency, 0 );
         }
 

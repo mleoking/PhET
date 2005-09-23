@@ -10,25 +10,20 @@
  */
 package edu.colorado.phet.photoelectric.model;
 
-import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.dischargelamps.model.*;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.lasers.model.photon.*;
-import edu.colorado.phet.lasers.model.ResonatingCavity;
+import edu.colorado.phet.dischargelamps.model.*;
 import edu.colorado.phet.lasers.model.PhysicsUtil;
-import edu.colorado.phet.lasers.model.LaserModel;
+import edu.colorado.phet.lasers.model.photon.*;
 import edu.colorado.phet.photoelectric.model.util.BeamIntensityMeter;
 
-import java.util.*;
-import java.util.List;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.awt.*;
+import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.EventObject;
+import java.util.List;
 
 /**
  * PhotoelectricModel
@@ -78,7 +73,6 @@ public class PhotoelectricModel extends DischargeLampModel {
 
     // Right-hand plate
     private Plate rightHandPlate;
-//    private ElectronSink rightHandPlate;
 
     // Beam specification
     private CollimatedBeam beam;
@@ -275,7 +269,7 @@ public class PhotoelectricModel extends DischargeLampModel {
     }
 
     public double getWorkFunction() {
-        return ( (Double)PhotoelectricTarget.WORK_FUNCTIONS.get( target.getMaterial() ) ).doubleValue();
+        return ( target.getMaterial().getWorkFunction() );
     }
 
     public double getWavelength() {
@@ -284,7 +278,7 @@ public class PhotoelectricModel extends DischargeLampModel {
 
     protected void setElectronAcceleration( double potentialDiff ) {
         super.setElectronAcceleration( potentialDiff * 0.2865,
-                                       target.getPosition().distance( rightHandPlate.getPosition() ));
+                                       target.getPosition().distance( rightHandPlate.getPosition() ) );
     }
 
     //----------------------------------------------------------------

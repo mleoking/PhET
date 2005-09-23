@@ -29,6 +29,7 @@ public class ElementProperties {
     private EnergyEmissionStrategy energyEmissionStrategy;
     private EnergyAbsorptionStrategy energyAbsorptionStrategy;
     private double meanStateLifetime = DischargeLampAtom.DEFAULT_STATE_LIFETIME;
+    private double workFunction;
 
     protected ElementProperties( String name, double[] energyLevels,
                                  EnergyEmissionStrategy energyEmissionStrategy,
@@ -72,6 +73,14 @@ public class ElementProperties {
         return energyLevels;
     }
 
+    public void setWorkFunction( double workFunction ) {
+        this.workFunction = workFunction;
+    }
+
+    public double getWorkFunction() {
+        return workFunction;
+    }
+
     public boolean isLevelsMovable() {
         return levelsMovable;
     }
@@ -113,7 +122,6 @@ public class ElementProperties {
             double energy = ( energies[i] );
             states[i].setEnergyLevel( energy );
             meanStateLifetime = getMeanStateLifetime();
-//            meanStateLifetime = DischargeLampAtom.DEFAULT_STATE_LIFETIME;
             states[i].setMeanLifetime( meanStateLifetime );
         }
     }

@@ -128,7 +128,7 @@ public class PhotoelectricModule extends BaseLaserModule {
         setControlPanel( new ControlPanel( this ) );
 
         // Set the default work function for the target
-        model.getTarget().setWorkFunction( PhotoelectricTarget.WORK_FUNCTIONS.get( PhotoelectricTarget.SODIUM ) );
+        model.getTarget().setWorkFunction( PhotoelectricTarget.SODIUM.getWorkFunction() );
 
         //----------------------------------------------------------------
         // View
@@ -264,7 +264,9 @@ public class PhotoelectricModule extends BaseLaserModule {
         speedOptionBtnGrp.add( randomizedSpeedOption );
         uniformSpeedOption.setSelected( true );
 
-
+        //----------------------------------------------------------------
+        // Debug code
+        //----------------------------------------------------------------
 
         // Draw red dots on the beam source location and the middle of the target plate
         if( DEBUG ) {
