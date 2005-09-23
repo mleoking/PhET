@@ -31,11 +31,11 @@ import java.util.Random;
  */
 public class MetalEnergyAbsorptionStrategy extends EnergyAbsorptionStrategy {
     private static Random RANDOM = new Random();
+    public static final int NUM_SUB_LEVELS = 10;
+    // Total energy depth across all sublevels, in eV
+    public static final double TOTAL_ENERGY_DEPTH = 4;
 
     private double workFunction;
-    private int numLevels = 10;
-    // Total energy depth across all sublevels, in eV
-    private double totalEnergyDepth = 4;
 
     public MetalEnergyAbsorptionStrategy( double workFunction ) {
         this.workFunction = workFunction;
@@ -43,9 +43,9 @@ public class MetalEnergyAbsorptionStrategy extends EnergyAbsorptionStrategy {
 
     public double energyAfterPhotonCollision( Photon photon ) {
         // Randomly pick one of the levels
-        int level = RANDOM.nextInt( numLevels );
+        int level = RANDOM.nextInt( NUM_SUB_LEVELS );
         // Determine the energy of the electron at that level
-        double energyRequired = workFunction + ( level * ( totalEnergyDepth / numLevels ) );
+        double energyRequired = workFunction + ( level * ( TOTAL_ENERGY_DEPTH / NUM_SUB_LEVELS ) );
         return photon.getEnergy() - energyRequired;
     }
 
