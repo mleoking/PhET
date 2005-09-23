@@ -73,10 +73,10 @@ public class PhotoelectricControlPanel {
         final PhotoelectricTarget target = model.getTarget();
         targetMaterial.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                target.setMaterial( (ElementProperties)targetMaterial.getSelectedItem() );
+                target.setTargetMaterial( (ElementProperties)targetMaterial.getSelectedItem() );
             }
         } );
-        target.setMaterial( (ElementProperties)targetMaterial.getSelectedItem() );
+        target.setTargetMaterial( (ElementProperties)targetMaterial.getSelectedItem() );
 
         //----------------------------------------------------------------
         // Beam controls
