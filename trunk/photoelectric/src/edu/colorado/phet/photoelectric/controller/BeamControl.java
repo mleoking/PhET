@@ -88,6 +88,11 @@ public class BeamControl extends GraphicLayerSet implements CollimatedBeam.RateC
 //        photonRateSlider.setLocation( new Point( (int)location.getX(), (int)location.getY() ) ); // default is (0,0)
         apparatusPanel.add( photonRateSlider );
 
+        IntensityReadout intensityReadout = new IntensityReadout( apparatusPanel, beam );
+        intensityReadout.setLocation( xLoc + photonRateSlider.getWidth(),
+                                      (int)location.getY() + photonRateSlider.getHeight() / 2 - intensityReadout.getHeight() / 2 );
+        apparatusPanel.addGraphic( intensityReadout );
+
         // Try putting the component in a wrapper panel
 //        JPanel jPnl = new JPanel( );
 //        jPnl.add(photonRateSlider);
