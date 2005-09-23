@@ -63,6 +63,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+1.0.17 ...
 (9/22) - phetcommon: rendering hints should be appended, not replaced, by PhetGraphic
 (9/22) - bugfix: set infinite sine waveform waveType when it's made visible
 (9/22) - phetcommon: fix AbstractClock.getFramesPerSecond to be double precision
