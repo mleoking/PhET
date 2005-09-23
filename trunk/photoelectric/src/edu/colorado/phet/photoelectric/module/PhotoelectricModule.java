@@ -128,7 +128,7 @@ public class PhotoelectricModule extends BaseLaserModule {
         setControlPanel( new ControlPanel( this ) );
 
         // Set the default work function for the target
-        model.getTarget().setWorkFunction( PhotoelectricTarget.SODIUM.getWorkFunction() );
+        model.getTarget().setTargetMaterial( PhotoelectricTarget.SODIUM );
 
         //----------------------------------------------------------------
         // View

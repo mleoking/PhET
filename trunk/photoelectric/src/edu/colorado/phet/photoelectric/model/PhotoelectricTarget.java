@@ -65,8 +65,7 @@ public class PhotoelectricTarget extends Plate {
     private Random random = new Random();
     // The line segment defined by the target
     private Line2D line;
-    // The work function for the target material
-    private double workFunction;
+    // The target material
     private ElementProperties targetMaterial;
     // The strategy that determines the speed of emitted electrons
     private InitialElectronSpeedStrategy initialElectronSpeedStrategy = new
@@ -97,8 +96,17 @@ public class PhotoelectricTarget extends Plate {
      * @param photon
      */
     public void handlePhotonCollision( Photon photon ) {
+        // Determine if the photon has enough energy to dislodge an electron from the target
+        double de = 0;
+        if( targetMaterial.getEnergyAbsorptionStrategy() instanceof MetalEnergyAbsorptionStrategy ) {
+            MetalEnergyAbsorptionStrategy metalEnergyAbsorptionStrategy = (MetalEnergyAbsorptionStrategy)targetMaterial.getEnergyAbsorptionStrategy();
+            de = metalEnergyAbsorptionStrategy.energyAfterPhotonCollision( photon );
+        }
+        else {
+            de = photon.getEnergy() - targetMaterial.getWorkFunction();
+        }
 
-        double de = photon.getEnergy() - workFunction;
+        // If the photon has enough energy to dislodge an electron, then do it
         if( de > 0 ) {
 
             // Determine where the electron will be emitted from
@@ -152,20 +160,12 @@ public class PhotoelectricTarget extends Plate {
     //----------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------
-    public void setWorkFunction( double workFunction ) {
-        this.workFunction = workFunction;
-    }
 
-    public void setWorkFunction( ElementProperties elementProperties ) {
-        setWorkFunction( elementProperties.getWorkFunction() );
-    }
-
-    public void setMaterial( ElementProperties material ) {
+    public void setTargetMaterial( ElementProperties material ) {
         this.targetMaterial = material;
         if( !TARGET_MATERIALS.contains( material ) ) {
             throw new RuntimeException( "Invalid parameter" );
         }
-        setWorkFunction( material );
         materialChangeListenerProxy.materialChanged( new MaterialChangeEvent( this ) );
     }
 
