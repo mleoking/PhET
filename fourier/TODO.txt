@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- remove the vertical bit of space between views
 - publish 2.0
 
 MEDIUM PRIORITY:
@@ -20,6 +19,7 @@ MEDIUM PRIORITY:
 - something is hammering the processor when the sim should be idle
 
 LOW PRIORITY:
+- remove the vertical bit of space between views
 - why am I getting the GridStrategy.Relative.getGridLinesSlowButCorrectVersion warning?
 - wiggle me need a blank char at the end of their string, or the last char doesn't redraw properly
 - wiggle me uses the module's clock, so it stops moving when clock is paused
