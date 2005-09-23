@@ -22,7 +22,7 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 
 /**
- * IntensitySliderWithReadout
+ * IntensityReadout
  *
  * @author Ron LeMaster
  * @version $Revision$
