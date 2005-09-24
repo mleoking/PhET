@@ -1,7 +1,6 @@
-- Fix stepping in current vs. voltage graph
 - Increase y range of current vs. voltage graph\
 - Make beam control better looking and less obtrusive
-
+- Make graph traces lie on top of axes
 
 
 

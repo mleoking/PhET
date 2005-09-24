@@ -129,7 +129,6 @@ public class BatterySlider extends GraphicSlider {
             if( event.getSource() == BatterySlider.this ) {
                 // Read the value.
                 double voltage = getValue();
-                System.out.println( "voltage = " + voltage );
                 // Update the model.
                 model.setVoltage( voltage * voltageCalibrationFactor );
             }
