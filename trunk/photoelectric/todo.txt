@@ -1,3 +1,10 @@
+- Fix stepping in current vs. voltage graph
+- Increase y range of current vs. voltage graph\
+- Make beam control better looking and less obtrusive
+
+
+
+
 Model
 -----
 - Make ElectronSource.ElectronProductionEvent a top level class

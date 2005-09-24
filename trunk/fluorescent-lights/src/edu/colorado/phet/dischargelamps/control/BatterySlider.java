@@ -41,6 +41,7 @@ public class BatterySlider extends GraphicSlider {
     private static final int DEFAULT_TRACK_WIDTH = 2;
     private static final Color DEFAULT_TRACK_COLOR = Color.BLACK;
     private Battery model;
+    private double voltageCalibrationFactor;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -53,8 +54,8 @@ public class BatterySlider extends GraphicSlider {
      * @param component   the parent component
      * @param trackLength the track length, in pixels
      */
-    public BatterySlider( Component component, int trackLength, Battery model ) {
-        this( component, trackLength, DEFAULT_TRACK_WIDTH, DEFAULT_TRACK_COLOR, model );
+    public BatterySlider( Component component, int trackLength, Battery model, double voltageCalibrationFactor ) {
+        this( component, trackLength, DEFAULT_TRACK_WIDTH, DEFAULT_TRACK_COLOR, model, voltageCalibrationFactor );
     }
 
     /**
@@ -66,8 +67,12 @@ public class BatterySlider extends GraphicSlider {
      * @param trackColor  the track color
      */
     public BatterySlider( Component component, int trackLength, int trackWidth, Color trackColor,
-                          final Battery model ) {
+                          final Battery model, double voltageCalibrationFactor ) {
         super( component );
+
+        this.voltageCalibrationFactor = voltageCalibrationFactor;
+        setMaximum( model.getMaxVoltage() / voltageCalibrationFactor );
+        setMinimum( model.getMinVoltage() / voltageCalibrationFactor );
 
         this.model = model;
         this.addChangeListener( new SliderListener() );
@@ -91,9 +96,9 @@ public class BatterySlider extends GraphicSlider {
 
         model.addChangeListener( new Battery.ChangeListener() {
             public void voltageChanged( Battery.ChangeEvent event ) {
-                double voltage = ( event.getVoltageSource().getVoltage() * model.getMaxVoltage() ) / DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR;
+                double voltage = ( event.getVoltageSource().getVoltage() );
                 if( getValue() != voltage ) {
-                    setValue( voltage );
+                    setValue( voltage / BatterySlider.this.voltageCalibrationFactor );
                 }
             }
         } );
@@ -124,8 +129,9 @@ public class BatterySlider extends GraphicSlider {
             if( event.getSource() == BatterySlider.this ) {
                 // Read the value.
                 double voltage = getValue();
+                System.out.println( "voltage = " + voltage );
                 // Update the model.
-                model.setVoltage( voltage / model.getMaxVoltage() * DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR );
+                model.setVoltage( voltage * voltageCalibrationFactor );
             }
         }
     }

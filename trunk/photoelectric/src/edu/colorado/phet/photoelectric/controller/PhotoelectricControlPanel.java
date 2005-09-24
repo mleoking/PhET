@@ -11,7 +11,9 @@
 package edu.colorado.phet.photoelectric.controller;
 
 import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.model.ElementProperties;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
@@ -21,9 +23,12 @@ import edu.colorado.phet.photoelectric.view.GraphWindow;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -104,7 +109,7 @@ public class PhotoelectricControlPanel {
 //        beamIntensitySlider.setPreferredSize( new Dimension( 250, 100 ) );
 //        beamIntensitySlider.setPaintLabels( false );
 //        beam.setPhotonsPerSecond( beamIntensitySlider.getValue() );
-//        beamControlPnl.add( beamIntensitySlider );
+//        controlPanel.addControl( beamIntensitySlider );
 //        beamIntensitySlider.addChangeListener( new ChangeListener() {
 //            public void stateChanged( ChangeEvent e ) {
 //                beam.setPhotonsPerSecond( beamIntensitySlider.getValue() );
@@ -116,25 +121,26 @@ public class PhotoelectricControlPanel {
 //        //----------------------------------------------------------------
 //
 //        // A slider for the battery voltage
-//        DecimalFormat voltageFormat = new DecimalFormat( "0.000" );
-//        final ModelSlider batterySlider = new ModelSlider( SimStrings.get( "Control.BatteryVoltageLabel" ),
-//                                                           "V",
-//                                                           PhotoelectricModel.MIN_VOLTAGE,
-//                                                           PhotoelectricModel.MAX_VOLTAGE,
-//                                                           0,
-//                                                           voltageFormat,
-//                                                           voltageFormat );
-//        batterySlider.setPreferredSize( new Dimension( 250, 100 ) );
-//        batterySlider.setNumMajorTicks( 7 );
-//        batterySlider.setNumMinorTicksPerMajorTick( 2 );
-//        batterySlider.setSliderLabelFormat( new DecimalFormat( "0.00" ) );
-//        model.getTarget().setPotential( batterySlider.getValue() * PhotoelectricModel.VOLTAGE_SCALE_FACTOR );
-//        batterySlider.addChangeListener( new ChangeListener() {
-//            public void stateChanged( ChangeEvent e ) {
-//                model.getTarget().setPotential( batterySlider.getValue() * PhotoelectricModel.VOLTAGE_SCALE_FACTOR );
-//                model.getRightHandPlate().setPotential( 0 );
-//            }
-//        } );
+        DecimalFormat voltageFormat = new DecimalFormat( "0.000" );
+        final ModelSlider batterySlider = new ModelSlider( SimStrings.get( "Control.BatteryVoltageLabel" ),
+                                                           "V",
+                                                           PhotoelectricModel.MIN_VOLTAGE,
+                                                           PhotoelectricModel.MAX_VOLTAGE,
+                                                           0,
+                                                           voltageFormat,
+                                                           voltageFormat );
+        batterySlider.setPreferredSize( new Dimension( 250, 100 ) );
+        batterySlider.setNumMajorTicks( 7 );
+        batterySlider.setNumMinorTicksPerMajorTick( 2 );
+        batterySlider.setSliderLabelFormat( new DecimalFormat( "0.00" ) );
+        model.getTarget().setPotential( batterySlider.getValue() * PhotoelectricModel.VOLTAGE_SCALE_FACTOR );
+        batterySlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                model.getTarget().setPotential( batterySlider.getValue() * PhotoelectricModel.VOLTAGE_SCALE_FACTOR );
+                model.getRightHandPlate().setPotential( 0 );
+            }
+        } );
+        controlPanel.addControl( batterySlider );
 
         //----------------------------------------------------------------
         // Graph options
