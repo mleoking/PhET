@@ -97,6 +97,10 @@ public class PhotoelectricModel extends DischargeLampModel {
      */
     public PhotoelectricModel( AbstractClock clock ) {
 
+        // Set the max and min voltage of the battery
+        getBattery().setMaxVoltage( MAX_VOLTAGE );
+        getBattery().setMinVoltage( MIN_VOLTAGE );
+
         // todo: this isn't correct. The rotated beam doesn't look right. Try an angle of 170 deg. to see.
         // Create a photon beam and add a listener that will add the photons it produces to the model
         double alpha = beamAngle - Math.PI;

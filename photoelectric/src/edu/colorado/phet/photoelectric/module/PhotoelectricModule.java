@@ -326,7 +326,10 @@ public class PhotoelectricModule extends BaseLaserModule {
      */
     private void addGraphicBatteryControls() {
         Battery battery = getPhotoelectricModel().getBattery();
-        final BatterySlider bSl = new BatterySlider( getApparatusPanel(), 80 /* track length */, battery );
+        final BatterySlider bSl = new BatterySlider( getApparatusPanel(),
+                                                     80 /* track length */,
+                                                     battery,
+                                                     PhotoelectricModel.VOLTAGE_SCALE_FACTOR );
         bSl.setMinimum( (int)-( battery.getMaxVoltage() ) );
         bSl.setMaximum( (int)( battery.getMaxVoltage() ) );
         bSl.setValue( (int)( 0 ) );

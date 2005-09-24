@@ -23,7 +23,8 @@ import edu.colorado.phet.dischargelamps.control.BatterySlider;
 import edu.colorado.phet.dischargelamps.model.*;
 import edu.colorado.phet.dischargelamps.view.*;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
-import edu.colorado.phet.lasers.model.*;
+import edu.colorado.phet.lasers.model.LaserModel;
+import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.view.AtomGraphic;
@@ -149,7 +150,8 @@ public class DischargeLampModule extends BaseLaserModule {
      */
     private void addGraphicBatteryControls() {
         Battery battery = model.getBattery();
-        final BatterySlider bSl = new BatterySlider( getApparatusPanel(), 80 /* track length */, battery );
+        final BatterySlider bSl = new BatterySlider( getApparatusPanel(), 80 /* track length */, battery,
+                                                     DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR );
         bSl.setMinimum( (int)-( battery.getMaxVoltage() ) );
         bSl.setMaximum( (int)( battery.getMaxVoltage() ) );
         bSl.setValue( (int)( 0 ) );

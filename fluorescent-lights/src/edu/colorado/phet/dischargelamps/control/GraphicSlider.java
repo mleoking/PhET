@@ -255,7 +255,8 @@ public class GraphicSlider extends GraphicLayerSet {
      *
      * @param minimum the minimum
      */
-    public void setMinimum( int minimum ) {
+    public void setMinimum( double minimum ) {
+//    public void setMinimum( int minimum ) {
         _minimum = minimum;
         update();
     }
@@ -274,7 +275,8 @@ public class GraphicSlider extends GraphicLayerSet {
      *
      * @param maximum the maximum
      */
-    public void setMaximum( int maximum ) {
+    public void setMaximum( double maximum ) {
+//    public void setMaximum( int maximum ) {
         _maximum = maximum;
         update();
     }
