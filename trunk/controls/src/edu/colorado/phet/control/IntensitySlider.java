@@ -11,9 +11,13 @@
 
 package edu.colorado.phet.control;
 
+import edu.colorado.phet.common.view.util.GraphicsUtil;
+
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -25,7 +29,7 @@ import javax.swing.event.EventListenerList;
 /**
  * IntensitySlider is a slider used to control intensity. Intensity is a
  * percentage, with a range of 0-100 inclusive.
- * 
+ *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
@@ -35,9 +39,13 @@ public class IntensitySlider extends JPanel implements ChangeListener {
     // Class data
     //----------------------------------------------------------------------------
 
-    /** Horizontal orientation */
+    /**
+     * Horizontal orientation
+     */
     public static int HORIZONTAL = JSlider.HORIZONTAL;
-    /** Vertical orientation */
+    /**
+     * Vertical orientation
+     */
     public static int VERTICAL = JSlider.VERTICAL;
 
     //----------------------------------------------------------------------------
@@ -46,7 +54,6 @@ public class IntensitySlider extends JPanel implements ChangeListener {
 
     private JPanel _containerPanel;
     private JSlider _slider;
-    private JLabel _label;
     private Color _color;
     private EventListenerList _listenerList;
 
@@ -56,10 +63,10 @@ public class IntensitySlider extends JPanel implements ChangeListener {
 
     /**
      * Sole constructor.
-     * 
-     * @param color the color whose intensity is being controlled
+     *
+     * @param color       the color whose intensity is being controlled
      * @param orientation orientation of the control, HORIZONTAL or VERTICAL)
-     * @param size the dimensions of the control
+     * @param size        the dimensions of the control
      */
     public IntensitySlider( Color color, int orientation, Dimension size ) {
 
@@ -99,7 +106,7 @@ public class IntensitySlider extends JPanel implements ChangeListener {
 
     /**
      * Sets the location and (as a side effect) the bounds for this component.
-     * 
+     *
      * @param x the X coordinate
      * @param y the Y coordinate
      */
@@ -110,7 +117,7 @@ public class IntensitySlider extends JPanel implements ChangeListener {
 
     /**
      * Sets the slider value.
-     * 
+     *
      * @param value the value
      */
     public void setValue( int value ) {
@@ -119,7 +126,7 @@ public class IntensitySlider extends JPanel implements ChangeListener {
 
     /**
      * Gets the slider value.
-     * 
+     *
      * @return the value
      */
     public int getValue() {
@@ -128,6 +135,7 @@ public class IntensitySlider extends JPanel implements ChangeListener {
 
     /**
      * Gets the slider's color
+     *
      * @return
      */
     public Color getColor() {
@@ -136,6 +144,7 @@ public class IntensitySlider extends JPanel implements ChangeListener {
 
     /**
      * Sets the slider's color
+     *
      * @param color
      */
     public void setColor( Color color ) {
@@ -158,7 +167,7 @@ public class IntensitySlider extends JPanel implements ChangeListener {
 
     /**
      * Adds a ChangeListener.
-     * 
+     *
      * @param listener the listener
      */
     public void addChangeListener( ChangeListener listener ) {
@@ -168,7 +177,7 @@ public class IntensitySlider extends JPanel implements ChangeListener {
 
     /**
      * Removes a ChangeListener.
-     * 
+     *
      * @param listener the listener
      */
     public void removeChangeListener( ChangeListener listener ) {
@@ -178,7 +187,7 @@ public class IntensitySlider extends JPanel implements ChangeListener {
 
     /**
      * Fires a ChangeEvent.
-     * 
+     *
      * @param event the event
      */
     private void fireChangeEvent( ChangeEvent event ) {
@@ -186,7 +195,7 @@ public class IntensitySlider extends JPanel implements ChangeListener {
         Object[] listeners = _listenerList.getListenerList();
         for( int i = 0; i < listeners.length; i += 2 ) {
             if( listeners[i] == ChangeListener.class ) {
-                ( (ChangeListener) listeners[i + 1] ).stateChanged( event );
+                ( (ChangeListener)listeners[i + 1] ).stateChanged( event );
             }
         }
     }
@@ -198,13 +207,13 @@ public class IntensitySlider extends JPanel implements ChangeListener {
     /**
      * Paints the component. A gradient fill, based on the model color, is used
      * for the background.
-     * 
+     *
      * @param g the graphics context
      */
     public void paintComponent( Graphics g ) {
 
         if( super.isVisible() ) {
-            Graphics2D g2 = (Graphics2D) g;
+            Graphics2D g2 = (Graphics2D)g;
 
             // Save any graphics state that we'll be touching.
             Paint oldPaint = g2.getPaint();
@@ -231,20 +240,22 @@ public class IntensitySlider extends JPanel implements ChangeListener {
             Point2D p1, p2;
             if( _slider.getOrientation() == VERTICAL ) {
                 // The background shapes.
-                top = new Rectangle2D.Double( x, y, w, h / 2 );
-                bottom = new Rectangle2D.Double( x, y + ( h / 2 ), w, h / 2 );
                 middle = new Rectangle2D.Double( x, y + trackOffset, w, h - ( 2 * trackOffset ) );
+                top = new Rectangle2D.Double( x, y, w, ( h - middle.getBounds2D().getHeight() ) / 2 );
+                bottom = new Rectangle2D.Double( x, middle.getBounds2D().getMaxY(), w,
+                                                 ( h - middle.getBounds2D().getHeight() ) / 2 );
                 shape = new Rectangle2D.Double( x, y, w, h );
                 // The gradient points.
                 p1 = new Point2D.Double( x + ( w / 2 ), y + trackOffset );
                 p2 = new Point2D.Double( x + ( w / 2 ), y + h - trackOffset );
             }
-            else /* HORIZONTAL */
-            {
+            else /* HORIZONTAL */ {
                 // The background shapes.
-                top = new Rectangle2D.Double( x + ( w / 2 ), y, w / 2, h );
-                bottom = new Rectangle2D.Double( x, y, w / 2, h );
                 middle = new Rectangle2D.Double( x + trackOffset, y, w - ( 2 * trackOffset ), h );
+                top = new Rectangle2D.Double( middle.getBounds2D().getMaxX(), y,
+                                              ( w - middle.getBounds2D().getWidth() ) / 2, h );
+                bottom = new Rectangle2D.Double( x, y,
+                                                 ( w - middle.getBounds2D().getWidth() ) / 2, h );
                 shape = new Rectangle2D.Double( x, y, w, h );
                 // The gradient points.
                 p1 = new Point2D.Double( x + w - trackOffset, y + ( h / 2 ) );
@@ -260,6 +271,7 @@ public class IntensitySlider extends JPanel implements ChangeListener {
             g2.setPaint( gradient );
             //g2.setPaint( Color.WHITE ); // DEBUG, to see how middle lines up with track ends.
             g2.fill( middle );
+
             g2.setStroke( new BasicStroke( 1f ) );
             g2.setPaint( Color.white );
             g2.draw( shape );
