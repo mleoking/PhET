@@ -14,7 +14,6 @@ import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.Battery;
 
 import javax.swing.*;
@@ -49,7 +48,7 @@ public class BatteryReadout extends GraphicLayerSet {
                     int vLoc = text.indexOf( 'v' );
                     text = vLoc >= 0 ? readout.getText().substring( 0, vLoc ) : text;
                     voltage = Double.parseDouble( text );
-                    battery.setVoltage( voltage * DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR );
+                    battery.setVoltage( voltage );
 //                    battery.setVoltage( voltage / DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR );
                 }
                 catch( NumberFormatException e1 ) {
@@ -71,8 +70,8 @@ public class BatteryReadout extends GraphicLayerSet {
 
     private void update( double voltage ) {
         DecimalFormat voltageFormat = new DecimalFormat( "#0.0" );
-        Object[] args = {voltageFormat.format( Math.abs( voltage ) )};
-//        Object[] args = {voltageFormat.format( Math.abs( voltage ) * DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR )};
+        Object[] args = {voltageFormat.format( voltage )};
+//        Object[] args = {voltageFormat.format( Math.abs( voltage ) )};
         String text = MessageFormat.format( SimStrings.get( "BatteryGraphic.voltage" ), args );
         readout.setText( text );
         readoutGraphic.setLocation( (int)centerPoint.getX(), (int)centerPoint.getY() );

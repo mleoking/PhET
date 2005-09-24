@@ -11,15 +11,11 @@
 package edu.colorado.phet.photoelectric.view;
 
 import edu.colorado.phet.chart.*;
-import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
+import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 
 import java.awt.*;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
 
 /**
  * CurrentVsVoltageGraph
@@ -84,7 +80,7 @@ public class CurrentVsVoltageGraph2 extends Chart {
             public void voltageChanged( PhotoelectricModel.ChangeEvent event ) {
                 stoppingVoltage = model.getStoppingVoltage();
                 addDotDataPoint( model.getVoltage(), model.getCurrent() );
-                addLineDataPoint( model.getVoltage(), model.getCurrent() );
+                addLineDataPoint( model.getVoltage(), model.getCurrent(), model );
             }
 
             public void wavelengthChanged( PhotoelectricModel.ChangeEvent event ) {
@@ -121,16 +117,23 @@ public class CurrentVsVoltageGraph2 extends Chart {
      * @param voltage
      * @param current
      */
-    public void addLineDataPoint( double voltage, double current ) {
+    private void addLineDataPoint( double voltage, double current, PhotoelectricModel model ) {
         // Have to do som efancy steppin' here to keep the crossover across the
         // stopping voltage from looking bad
-        if(( lastVoltageRecorded < stoppingVoltage) && (voltage > stoppingVoltage )) {
-            lineDataSet.addPoint( stoppingVoltage, 0 );
-            lineDataSet.addPoint( stoppingVoltage, current );
-        }
-        else if(( lastVoltageRecorded > stoppingVoltage) && (voltage < stoppingVoltage )) {
-            lineDataSet.addPoint( stoppingVoltage, lastCurrentRecorded );
-            lineDataSet.addPoint( stoppingVoltage, current );
+//        if(( lastVoltageRecorded < stoppingVoltage) && (voltage > stoppingVoltage )) {
+//            lineDataSet.addPoint( stoppingVoltage, 0 );
+//            lineDataSet.addPoint( stoppingVoltage, current );
+//        }
+//        else if(( lastVoltageRecorded > stoppingVoltage) && (voltage < stoppingVoltage )) {
+//            lineDataSet.addPoint( stoppingVoltage, lastCurrentRecorded );
+//            lineDataSet.addPoint( stoppingVoltage, current );
+//        }
+
+        // Do some shenanigans to handle moving too quickly through the stopping voltage
+        double dv = 0.1 * MathUtil.getSign( voltage - lastVoltageRecorded );
+        for( double v = lastVoltageRecorded + dv; Math.abs( v - voltage ) > Math.abs( dv ); v += dv ) {
+            lineDataSet.addPoint( v, model.getCurrentForVoltage( v ) );
+            System.out.println( "v = " + v + "\tcurrent = " + model.getCurrentForVoltage( v ) );
         }
         lineDataSet.addPoint( voltage, current );
         lastVoltageRecorded = voltage;
