@@ -119,7 +119,9 @@ public class CCK3Module extends Module {
     //    private DecimalFormat decimalFormat = new DecimalFormat( "#0.0000" ); //For debugging.
     private ResistivityManager resistivityManager;
     private boolean internalResistanceOn = false;
-    public static final double MIN_RESISTANCE = 0.0001;
+//    public static final double MIN_RESISTANCE = 0.0001;
+//    public static final double MIN_RESISTANCE = 1E-3;
+    public static final double MIN_RESISTANCE = 1E-8;
     private boolean electronsVisible = true;
     private PhetFrame phetFrame;
 
