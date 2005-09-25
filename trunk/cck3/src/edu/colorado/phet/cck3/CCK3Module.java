@@ -111,7 +111,8 @@ public class CCK3Module extends Module {
     private CCKHelp help;
     private CCK3ControlPanel cck3controlPanel;
     public static final Color backgroundColor = new Color( 200, 240, 200 );
-    public static final Color apparatusPanelColor = new Color( 187, 216, 255 );
+//    public static final Color apparatusPanelColor = new Color( 187, 216, 255 );
+    public static final Color apparatusPanelColor = new Color( 100, 160, 255 );
     public static final Color toolboxColor = new Color( 241, 241, 241 );
 
 //    private DecimalFormat decimalFormat = new DecimalFormat( "#0.00" );
@@ -1178,6 +1179,7 @@ public class CCK3Module extends Module {
         private boolean useNonContactAmmeter = true;
         private boolean hideAllElectrons = false;
         private boolean grabBagMode = false;
+        private boolean useVisualControlPanel = true;
 
         public SetupParameters( CCK3Module module, String[] args ) {
             this.args = args;
@@ -1190,6 +1192,28 @@ public class CCK3Module extends Module {
             if( containsArg( "-noElectrons" ) ) {
                 module.setElectronsVisible( false );
                 hideAllElectrons = true;
+            }
+            if( containsArg( "-exp1" ) ) {
+                module.setElectronsVisible( true );
+                hideAllElectrons = false;
+                allowSchematicMode = false;
+                useNonContactAmmeter = false;
+                grabBag = true;
+                hugeBatteries = false;
+                allowPlainResistors = true;
+                useAdvancedControlPanel = false;
+                useVisualControlPanel = false;
+            }
+            else if( containsArg( "-exp2" ) ) {
+                module.setElectronsVisible( false );
+                hideAllElectrons = true;
+                allowSchematicMode = false;
+                useNonContactAmmeter = false;
+                grabBag = true;
+                hugeBatteries = false;
+                allowPlainResistors = true;
+                useAdvancedControlPanel = false;
+                useVisualControlPanel = false;
             }
             if( virtualLab ) {
                 allowShowReadouts = false;
@@ -1206,6 +1230,10 @@ public class CCK3Module extends Module {
                 useNonContactAmmeter = true;
                 hideAllElectrons = false;
             }
+        }
+
+        public boolean isUseVisualControlPanel() {
+            return useVisualControlPanel;
         }
 
         private boolean containsArg( String s ) {

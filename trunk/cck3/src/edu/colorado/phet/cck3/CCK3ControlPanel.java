@@ -132,8 +132,10 @@ public class CCK3ControlPanel extends JPanel {
         GridBagConstraints constraints = new GridBagConstraints( 0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets( 0, 0, 0, 0 ), 0, 0 );
         controlPanel.add( filePanel, constraints );
         constraints.gridy++;
-        controlPanel.add( visualPanel, constraints );
-        constraints.gridy++;
+        if( module.getParameters().isUseVisualControlPanel() ) {
+            controlPanel.add( visualPanel, constraints );
+            constraints.gridy++;
+        }
         controlPanel.add( toolPanel, constraints );
         constraints.gridy++;
         controlPanel.add( sizePanel, constraints );
