@@ -23,7 +23,8 @@ import java.awt.*;
  * @version $Revision$
  */
 public class SpectrumGraphic extends CompositePhetGraphic {
-    private static Color invisibleColor = new Color( 64, 64, 64 );
+    private static Color invisibleColor = new Color( 0, 0, 0 );
+//    private static Color invisibleColor = new Color( 64, 64, 64 );
 
     private CompositePhetGraphic uvGraphic;
     private PhetGraphic visibleGraphic;

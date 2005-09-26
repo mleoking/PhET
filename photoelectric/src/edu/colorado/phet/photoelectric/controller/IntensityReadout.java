@@ -39,8 +39,8 @@ public class IntensityReadout extends GraphicLayerSet implements CollimatedBeam.
 
         beam.addRateChangeListener( this );
 
-        readout = new JTextField( 5 );
-        readout.setHorizontalAlignment( JTextField.CENTER );
+        readout = new JTextField( 3 );
+        readout.setHorizontalAlignment( JTextField.HORIZONTAL );
         readout.setFont( VALUE_FONT );
         readout.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

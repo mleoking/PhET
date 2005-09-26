@@ -189,10 +189,10 @@ public class PhotoelectricModule extends BaseLaserModule {
         // Add a slider for the battery
         addGraphicBatteryControls();
         BeamControl beamControl = new BeamControl( getApparatusPanel(),
-                                                   new Point( 375, 30 ),
+                                                   new Point( 460, 20 ),
                                                    model.getBeam(),
                                                    model.getBeam().getMaxPhotonsPerSecond() );
-        getApparatusPanel().addGraphic( beamControl, 1E9 );
+        getApparatusPanel().addGraphic( beamControl, PhotoelectricConfig.BEAM_LAYER - 1 );
 
         //----------------------------------------------------------------
         // Total hack to get beam to look right when things come up. This should
@@ -308,7 +308,7 @@ public class PhotoelectricModule extends BaseLaserModule {
             getApparatusPanel().addGraphic( lampGraphic, PhotoelectricConfig.LAMP_LAYER );
 
             // Put a mask behind the lamp graphic to hide the beam or photons that start behind it
-            Rectangle mask = new Rectangle( 0, 0, lampImg.getWidth(), lampImg.getHeight() );
+            Rectangle mask = new Rectangle( lampImg.getWidth() * 2 / 3, 0, lampImg.getWidth() / 3, lampImg.getHeight() );
             PhetShapeGraphic maskGraphic = new PhetShapeGraphic( getApparatusPanel(),
                                                                  mask,
                                                                  getApparatusPanel().getBackground() );
