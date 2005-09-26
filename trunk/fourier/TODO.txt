@@ -5,10 +5,12 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- publish 2.0
+- add sound to Discrete module
+- redo Spanish translations
+- phetcommon: add translations for StartupDialog
+- bug: measurement tools sometimes disappear when you click on them
 
 MEDIUM PRIORITY:
-- add sound to Discrete module
 - remove the clock controls for the D2C module
 - add support for persistence
 - bug: anti-aliasing of plots gets turned off
