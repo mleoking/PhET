@@ -10,18 +10,17 @@
  */
 package edu.colorado.phet.photoelectric;
 
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * PhotoelectricApplication
@@ -38,7 +37,7 @@ public class PhotoelectricApplication extends PhetApplication {
     static private String resourceBundleName = "localization/PhotoelectricStrings";
     static private String title = "The Photoelectric Effect";
     static private String description = "An exploration of the photoelectric effect";
-    static private String version = "0.01";
+    static private String version = "1.1";
     static private FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 680 );
 
     // Clock specification
@@ -56,15 +55,15 @@ public class PhotoelectricApplication extends PhetApplication {
                title,
                description,
                version,
-               new SwingTimerClock( DT, FPS, AbstractClock.FRAMES_PER_SECOND),
+               new SwingTimerClock( DT, FPS, AbstractClock.FRAMES_PER_SECOND ),
                true,
                frameSetup );
 
         // Get a reference to the Options menu. The module will need it
-        optionsMenu = new JMenu( SimStrings.get("Menu.Options") );
+        optionsMenu = new JMenu( SimStrings.get( "Menu.Options" ) );
 
         final PhotoelectricModule photoelectricModule = new PhotoelectricModule( this );
-        setModules(new Module[] { photoelectricModule } );
+        setModules( new Module[]{photoelectricModule} );
 
         // Add an option to show photons
         final JCheckBoxMenuItem photonMI = new JCheckBoxMenuItem( "Show photons" );
