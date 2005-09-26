@@ -12,15 +12,20 @@ package edu.colorado.phet.photoelectric.controller;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.control.IntensitySlider;
 import edu.colorado.phet.control.SpectrumSlider;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
+import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 /**
  * BeamControl
@@ -34,6 +39,7 @@ public class BeamControl extends GraphicLayerSet implements CollimatedBeam.RateC
     private ApparatusPanel apparatusPanel;
     private Point location;
     private IntensitySlider photonRateSlider;
+    private BufferedImage panelImage;
 
     /**
      * @param apparatusPanel
@@ -45,6 +51,15 @@ public class BeamControl extends GraphicLayerSet implements CollimatedBeam.RateC
                         CollimatedBeam beam, double maximumRate ) {
         this.apparatusPanel = apparatusPanel;
         this.location = location;
+
+        try {
+            panelImage = ImageLoader.loadBufferedImage( PhotoelectricConfig.IMAGE_DIRECTORY + "beam-control.png ");
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        PhetImageGraphic panelGraphic = new PhetImageGraphic( apparatusPanel, panelImage );
+        addGraphic( panelGraphic );
         addWavelengthSlider( beam );
         addIntensitySlider( beam, maximumRate );
         beam.addRateChangeListener( this );
