@@ -13,7 +13,6 @@ package edu.colorado.phet.photoelectric.controller;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.control.IntensitySlider;
 import edu.colorado.phet.control.SpectrumSliderWithSquareCursor;
@@ -25,7 +24,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 /**
  * BeamControl
@@ -62,7 +60,8 @@ public class BeamControl extends GraphicLayerSet implements CollimatedBeam.RateC
         this.location = location;
 
         // The background panel
-        PhetImageGraphic panelGraphic = new PhetImageGraphic( apparatusPanel, panelImage );
+        PhetImageGraphic panelGraphic = new PhetImageGraphic( apparatusPanel,
+                                                              PhotoelectricConfig.IMAGE_DIRECTORY + "beam-control.png " );
         panelGraphic.setRegistrationPoint( 100, 0 );
         addGraphic( panelGraphic );
         panelGraphic.setLocation( 0, 0 );
@@ -71,13 +70,6 @@ public class BeamControl extends GraphicLayerSet implements CollimatedBeam.RateC
                                         location.y + intensitySliderRelLoc.y );
         spectrumSliderLoc = new Point( location.x + spectrumSliderRelLoc.x,
                                        location.y + spectrumSliderRelLoc.y );
-
-        try {
-            panelImage = ImageLoader.loadBufferedImage( PhotoelectricConfig.IMAGE_DIRECTORY + "beam-control.png " );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
 
         this.setLocation( location );
 
