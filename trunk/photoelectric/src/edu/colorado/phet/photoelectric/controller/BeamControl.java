@@ -45,7 +45,7 @@ public class BeamControl extends GraphicLayerSet implements CollimatedBeam.RateC
 
     private Point spectrumSliderLoc;
     private Point spectrumSliderRelLoc = new Point( 13, 93 );
-    private Dimension spectrumSize = new Dimension( 105, 19 );
+    private Dimension spectrumSize = new Dimension( 145, 19 );
     private SpectrumSliderWithReadout wavelengthSlider;
 
     /**
@@ -61,7 +61,9 @@ public class BeamControl extends GraphicLayerSet implements CollimatedBeam.RateC
 
         // The background panel
         PhetImageGraphic panelGraphic = new PhetImageGraphic( apparatusPanel,
-                                                              PhotoelectricConfig.IMAGE_DIRECTORY + "beam-control.png " );
+                                                              PhotoelectricConfig.BEAM_CONTROL_PANEL_IMAGE );
+//        PhetImageGraphic panelGraphic = new PhetImageGraphic( apparatusPanel,
+//                                                              PhotoelectricConfig.IMAGE_DIRECTORY + "beam-control.png " );
         panelGraphic.setRegistrationPoint( 100, 0 );
         addGraphic( panelGraphic );
         panelGraphic.setLocation( 0, 0 );
