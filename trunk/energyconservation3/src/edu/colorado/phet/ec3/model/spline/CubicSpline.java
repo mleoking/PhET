@@ -1,8 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3.model.spline;
 
-import edu.colorado.phet.ec3.model.spline.AbstractSpline;
-
 import java.awt.geom.Point2D;
 
 /**

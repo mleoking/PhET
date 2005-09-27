@@ -2,7 +2,6 @@
 package edu.colorado.phet.ec3.view;
 
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
-import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.piccolo.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -63,6 +62,6 @@ public class SplineGraphic extends PNode {
                 updateAll();
             }
         } );
-        controlCircle.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR) );
+        controlCircle.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
     }
 }
