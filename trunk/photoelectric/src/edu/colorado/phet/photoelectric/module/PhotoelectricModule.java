@@ -192,7 +192,7 @@ public class PhotoelectricModule extends BaseLaserModule {
                                                    new Point( 460, 20 ),
                                                    model.getBeam(),
                                                    model.getBeam().getMaxPhotonsPerSecond() );
-        getApparatusPanel().addGraphic( beamControl, PhotoelectricConfig.BEAM_LAYER - 1 );
+        getApparatusPanel().addGraphic( beamControl, PhotoelectricConfig.BEAM_LAYER + 1 );
 
         //----------------------------------------------------------------
         // Total hack to get beam to look right when things come up. This should
@@ -308,13 +308,13 @@ public class PhotoelectricModule extends BaseLaserModule {
             getApparatusPanel().addGraphic( lampGraphic, PhotoelectricConfig.LAMP_LAYER );
 
             // Put a mask behind the lamp graphic to hide the beam or photons that start behind it
-            Rectangle mask = new Rectangle( lampImg.getWidth() * 2 / 3, 0, lampImg.getWidth() / 3, lampImg.getHeight() );
+            Rectangle mask = new Rectangle( 0, 0, lampImg.getWidth(), lampImg.getHeight() );
             PhetShapeGraphic maskGraphic = new PhetShapeGraphic( getApparatusPanel(),
                                                                  mask,
                                                                  getApparatusPanel().getBackground() );
             maskGraphic.setTransform( atx );
             maskGraphic.setLocation( lampGraphic.getLocation() );
-            getApparatusPanel().addGraphic( maskGraphic, PhotoelectricConfig.LAMP_LAYER - 1 );
+            getApparatusPanel().addGraphic( maskGraphic, PhotoelectricConfig.BEAM_LAYER + .5 );
         }
         catch( IOException e ) {
             e.printStackTrace();

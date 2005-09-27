@@ -10,6 +10,7 @@
  */
 package edu.colorado.phet.photoelectric.controller;
 
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
@@ -30,14 +31,17 @@ import java.text.DecimalFormat;
 public class IntensityReadout extends GraphicLayerSet implements CollimatedBeam.RateChangeListener {
 
     private Font VALUE_FONT = new Font( "SansSerif", Font.PLAIN, 12 );
+    private DecimalFormat voltageFormat = new DecimalFormat( "#0%" );
 
     private JTextField readout;
     private PhetGraphic readoutGraphic;
+    private CollimatedBeam beam;
 
-    public IntensityReadout( final Component component, final CollimatedBeam beam ) {
+    public IntensityReadout( final Component component, CollimatedBeam beam ) {
         super( component );
 
         beam.addRateChangeListener( this );
+        this.beam = beam;
 
         readout = new JTextField( 3 );
         readout.setHorizontalAlignment( JTextField.HORIZONTAL );
@@ -47,14 +51,16 @@ public class IntensityReadout extends GraphicLayerSet implements CollimatedBeam.
                 double photonsPerSecond = 0;
                 try {
                     String text = readout.getText().toLowerCase();
-                    int nmLoc = text.indexOf( "intensity" );
+                    int nmLoc = text.indexOf( "%" );
                     text = nmLoc >= 0 ? readout.getText().substring( 0, nmLoc ) : text;
-                    photonsPerSecond = Double.parseDouble( text );
-                    beam.setPhotonsPerSecond( photonsPerSecond );
+                    double percent = MathUtil.clamp( 0, Double.parseDouble( text ), 100 );
+                    photonsPerSecond = percent / 100 * IntensityReadout.this.beam.getMaxPhotonsPerSecond();
+                    System.out.println( "photonsPerSecond = " + photonsPerSecond );
+                    IntensityReadout.this.beam.setPhotonsPerSecond( photonsPerSecond );
                     update( photonsPerSecond );
                 }
                 catch( NumberFormatException e1 ) {
-                    JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ), "Wavelength must be numeric, or a number followed by \"nm\"" );
+                    JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ), "Wavelength must be numeric, or a number followed by \"%\"" );
                 }
             }
         } );
@@ -64,14 +70,8 @@ public class IntensityReadout extends GraphicLayerSet implements CollimatedBeam.
         update( 123 ); // dummy value
     }
 
-    private void update( double wavelength ) {
-        // Update the text
-        DecimalFormat voltageFormat = new DecimalFormat( "#0" );
-        readout.setText( voltageFormat.format( wavelength ) );
-//            readout.setText( voltageFormat.format( wavelength ) + " nm" );
-//            Object[] args = {voltageFormat.format( Math.abs( wavelength ) )};
-//            String text = MessageFormat.format( "nm", args );
-//            readout.setText( text );
+    private void update( double intensity ) {
+        readout.setText( voltageFormat.format( intensity / beam.getMaxPhotonsPerSecond() ) );
     }
 
     void setValue( double wavelength ) {

@@ -10,12 +10,12 @@
  */
 package edu.colorado.phet.photoelectric.view;
 
-import edu.colorado.phet.lasers.model.photon.PhotonEmittedListener;
-import edu.colorado.phet.lasers.model.photon.PhotonEmittedEvent;
 import edu.colorado.phet.lasers.model.photon.Photon;
+import edu.colorado.phet.lasers.model.photon.PhotonEmittedEvent;
+import edu.colorado.phet.lasers.model.photon.PhotonEmittedListener;
 import edu.colorado.phet.lasers.view.PhotonGraphic;
-import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
+import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
 
 /**
  * PhotonGraphicManager
@@ -25,6 +25,7 @@ import edu.colorado.phet.photoelectric.PhotoelectricConfig;
  * @author Ron LeMaster
  * @version $Revision$
  */
+
 /**
  */
 public class PhotonGraphicManager implements PhotonEmittedListener {
@@ -38,7 +39,7 @@ public class PhotonGraphicManager implements PhotonEmittedListener {
         if( module.getPhotonViewEnabled() ) {
             Photon photon = event.getPhoton();
             final PhotonGraphic pg = PhotonGraphic.getInstance( module.getApparatusPanel(), photon );
-            module.getApparatusPanel().addGraphic( pg, PhotoelectricConfig.BEAM_LAYER );
+            module.getApparatusPanel().addGraphic( pg, PhotoelectricConfig.BEAM_LAYER - 1 );
 
             photon.addLeftSystemListener( new Photon.LeftSystemEventListener() {
                 public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
