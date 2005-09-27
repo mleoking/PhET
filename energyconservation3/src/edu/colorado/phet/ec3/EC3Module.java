@@ -30,7 +30,7 @@ public class EC3Module extends PiccoloModule {
     public EC3Module( String name, AbstractClock clock ) {
         super( name, clock );
         energyModel = new EnergyConservationModel();
-        Body body = new Body(new Rectangle( 100,100) );
+        Body body = new Body( new Rectangle( 100, 100 ) );
         energyModel.addBody( body );
         Floor floor = new Floor( getEnergyConservationModel() );
         energyModel.addFloor( floor );
