@@ -20,7 +20,7 @@ information.
   codebase="http://www.colorado.edu/physics/phet/simulations/"
   href="fourier/fourier_es.jnlp"> 
   <information> 
-    <title>Fourier: Making Waves</title> 
+    <title>Fourier: Fabricacion de ondas</title> 
     <vendor>University of Colorado, Department of Physics</vendor> 
     <homepage href="docs/help.html"/> 
     <description></description> 
@@ -33,11 +33,7 @@ information.
   </information> 
   <resources> 
     <j2se version="1.4+"/> 
-    <jar href="fourier/jars/fourier_es.jar"/> 
-    <jar href="fourier/jars/phetcommon.jar"/>
-    <jar href="fourier/jars/charts.jar"/>
-    <jar href="common/CommonStrings.jar"/>
-	
+    <jar href="fourier/fourier.jar"/>
   </resources> 
   <application-desc main-class="edu.colorado.phet.fourier.FourierApplication">
     <argument>user.language=es</argument>
