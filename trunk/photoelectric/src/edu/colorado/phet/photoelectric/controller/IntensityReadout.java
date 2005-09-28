@@ -31,13 +31,13 @@ import java.text.DecimalFormat;
 public class IntensityReadout extends GraphicLayerSet implements CollimatedBeam.RateChangeListener {
 
     private Font VALUE_FONT = new Font( "SansSerif", Font.PLAIN, 12 );
-    private DecimalFormat voltageFormat = new DecimalFormat( "#0%" );
+    private DecimalFormat format = new DecimalFormat( "#0%" );
 
     private JTextField readout;
     private PhetGraphic readoutGraphic;
     private CollimatedBeam beam;
 
-    public IntensityReadout( final Component component, CollimatedBeam beam ) {
+    public IntensityReadout( final Component component, final CollimatedBeam beam ) {
         super( component );
 
         beam.addRateChangeListener( this );
@@ -61,6 +61,7 @@ public class IntensityReadout extends GraphicLayerSet implements CollimatedBeam.
                 }
                 catch( NumberFormatException e1 ) {
                     JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ), "Wavelength must be numeric, or a number followed by \"%\"" );
+                    readout.setText( format.format( beam.getPhotonsPerSecond() / beam.getMaxPhotonsPerSecond() ) );
                 }
             }
         } );
@@ -71,7 +72,7 @@ public class IntensityReadout extends GraphicLayerSet implements CollimatedBeam.
     }
 
     private void update( double intensity ) {
-        readout.setText( voltageFormat.format( intensity / beam.getMaxPhotonsPerSecond() ) );
+        readout.setText( format.format( intensity / beam.getMaxPhotonsPerSecond() ) );
     }
 
     void setValue( double wavelength ) {
