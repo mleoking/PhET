@@ -37,6 +37,7 @@ PHETCOMMON:
 
 
 DONE:
+(9/27) - changed all JNLP files to assume that everything lives in faraday.jar
 (9/27) - moved Spanish translations and JNLP file into the faraday CVS project
 v1r0...
 (4/27) - fix the theta label in the Field Meter
