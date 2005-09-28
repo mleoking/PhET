@@ -18,7 +18,7 @@ information.
 <jnlp 
   spec="1.0+" 
   codebase="http://www.colorado.edu/physics/phet/simulations"
-  href="faraday/faraday_sp.jnlp"> 
+  href="faraday/faraday_es.jnlp"> 
   <information> 
     <title>El laboratorio electrom‡gnetico de Faraday</title> 
     <vendor>University of Colorado, Department of Physics</vendor> 
