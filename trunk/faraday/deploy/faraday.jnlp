@@ -23,8 +23,8 @@ information.
         <title>Faraday's Electromagnetic Lab</title>
         <vendor>University of Colorado, Department of Physics</vendor>
         <homepage href="docs/help.html"/>
-        <description>Faraday's Electromagnetic Lab</description>
-        <description kind="short">An interactive demonstration of Faraday's Law.</description>
+        <description></description>
+        <description kind="short"></description>
         <icon href="icons/PhET.gif"/>
         <icon kind="splash" href="icons/PhET.gif"/>
         <offline-allowed/>
@@ -32,7 +32,6 @@ information.
     <resources>
         <j2se version="1.4+"/>
         <jar href="faraday/faraday.jar"/>
-        <jar href="faraday/lib/phetcommon.jar"/>
     </resources>
     <application-desc main-class="edu.colorado.phet.faraday.FaradayApplication"/>
 </jnlp>
