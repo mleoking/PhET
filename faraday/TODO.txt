@@ -37,6 +37,7 @@ PHETCOMMON:
 
 
 DONE:
+(9/27) - moved Spanish translations and JNLP file into the faraday CVS project
 v1r0...
 (4/27) - fix the theta label in the Field Meter
 (4/27) - voltmeter: left probe red, right probe black
@@ -423,7 +424,9 @@ v0r3...
 (1/3) - compass
 (1/3) - wires connecting loop to meter/bulb
 (1/3) - alpha channel in lightbulb emission
+2005 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 (12/28) - change "loop area" control to be value-based, not scale-based
+2004 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 NO:
 (4/25) - use offscreen buffering (no improvement)
@@ -460,5 +463,6 @@ NO:
 (2/10) - make lightbulb ramp up/down instead of immediate on/off (looks fine as is)
 (2/7) - repaint compass grid when background color changes, in case we're switching rendering strategies (no longer necessary)
 (1/28) - use offscreen buffering in apparatus panel to remove screen turds? (found GraphicLayerSet problem)
+2005 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ===============================================================================
