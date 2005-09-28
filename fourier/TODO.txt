@@ -6,8 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - add sound to Discrete module
-- redo Spanish translations
-- phetcommon: add translations for StartupDialog
 - bug: measurement tools sometimes disappear when you click on them
 
 MEDIUM PRIORITY:
@@ -65,6 +63,12 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+2.0.0 ..
+(9/27) - re-tag and re-publish 2.0.0
+(9/27) - redo Spanish JNLP file
+(9/27) - redo Spanish translations
+(9/27) - move Spanish translations into fourier/data/localization
+(9/27) - phetcommon: move Spanish translations into phetcommon/data/localization, add missing stuff, fix bugs
 1.0.17 ...
 (9/23) - bugfix: minimize then maximize Discrete harmonics graph, sum vertical zoom control isn't positioned correctly (sometimes)
 (9/22) - phetcommon: rendering hints should be appended, not replaced, by PhetGraphic
