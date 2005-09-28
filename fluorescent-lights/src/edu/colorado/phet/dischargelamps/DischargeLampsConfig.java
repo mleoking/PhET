@@ -77,7 +77,8 @@ public class DischargeLampsConfig {
     // Factor that scales pixels to real dimensional units
     public static double PIXELS_PER_NM = 1E6;
     // Factor that converts volts on the control panel slider to real volts
-    public static final double VOLTAGE_CALIBRATION_FACTOR = 5.64;
+    public static final double VOLTAGE_CALIBRATION_FACTOR = 1;
+//    public static final double VOLTAGE_CALIBRATION_FACTOR = 5.64;
     public static final String SLIDER_KNOB_IMAGE = IMAGE_FILE_DIRECTORY + "sliderKnob.png";
     public static final String SLIDER_KNOB_HIGHLIGHT_IMAGE = IMAGE_FILE_DIRECTORY + "sliderKnobHighlight.png";
 }

@@ -128,7 +128,8 @@ public class DischargeLampModule extends BaseLaserModule {
         configurableElement = new ConfigurableElementProperties( 2, model );
         ElementProperties hydrogen = new HydrogenProperties();
         elementProperties = new ElementProperties[]{
-            hydrogen,
+            new HydrogenProperties(),
+            new NeonProperties(),
             configurableElement
         };
 

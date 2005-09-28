@@ -49,10 +49,11 @@ public class BatteryReadout extends GraphicLayerSet {
                     text = vLoc >= 0 ? readout.getText().substring( 0, vLoc ) : text;
                     voltage = Double.parseDouble( text );
                     battery.setVoltage( voltage );
-//                    battery.setVoltage( voltage / DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR );
                 }
                 catch( NumberFormatException e1 ) {
-                    JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ), "Voltage must be numeric, or a number followed by \"v\"" );
+                    JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ),
+                                                   "Voltage must be numeric, or a number followed by \"v\"" );
+                    updateText( battery.getVoltage() );
                 }
             }
         } );
@@ -69,13 +70,16 @@ public class BatteryReadout extends GraphicLayerSet {
     }
 
     private void update( double voltage ) {
-        DecimalFormat voltageFormat = new DecimalFormat( "#0.0" );
-        Object[] args = {voltageFormat.format( voltage )};
-//        Object[] args = {voltageFormat.format( Math.abs( voltage ) )};
-        String text = MessageFormat.format( SimStrings.get( "BatteryGraphic.voltage" ), args );
-        readout.setText( text );
+        updateText( voltage );
         readoutGraphic.setLocation( (int)centerPoint.getX(), (int)centerPoint.getY() );
         readoutGraphic.setBoundsDirty();
         readoutGraphic.repaint();
+    }
+
+    private void updateText( double voltage ) {
+        DecimalFormat voltageFormat = new DecimalFormat( "#0.0" );
+        Object[] args = {voltageFormat.format( voltage )};
+        String text = MessageFormat.format( SimStrings.get( "BatteryGraphic.voltage" ), args );
+        readout.setText( text );
     }
 }
