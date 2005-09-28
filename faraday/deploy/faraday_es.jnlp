@@ -36,6 +36,6 @@ information.
     <jar href="faraday/faraday.jar"/> 
   </resources> 
   <application-desc main-class="edu.colorado.phet.faraday.FaradayApplication">
-	<argument>user.language=sp</argument>
+	<argument>user.language=es</argument>
   </application-desc> 
 </jnlp> 
