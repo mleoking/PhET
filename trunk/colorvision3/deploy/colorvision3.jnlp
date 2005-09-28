@@ -33,8 +33,7 @@ information.
   </information> 
   <resources> 
     <j2se version="1.4+"/> 
-    <jar href="colorvision3/colorvision3.jar"/> 
-    <jar href="colorvision3/lib/phetcommon.jar"/>
+    <jar href="colorvision3/colorvision3.jar"/>
   </resources> 
   <application-desc main-class="edu.colorado.phet.colorvision3.ColorVisionApplication"/> 
 </jnlp> 
