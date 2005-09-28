@@ -17,3 +17,6 @@ LOW:
 
 
 
+DONE:
+(9/27/05) - change JNLP files to assume that everything is in colorvision3.jar
+(9/27/05) - migrate Spanish translations from "localization" project, fix language code (es, not sp)
