@@ -50,14 +50,12 @@ public class SpectrumSliderWithReadout extends SpectrumSliderWithSquareCursor {
         super( component, minimumWavelength, maximumWavelength );
         this.beam = beam;
         this.location = location;
-//        setLocation( location );
         beam.addWavelengthChangeListener( new WavelengthChangeListener() );
         readout = new WavelengthReadout( component, wrappedSliderWithSquareCursor.getKnob(), location );
 
         // We have to add the readout directly to the apparatus panel, otherwise we can't
         // get it to respond like a JComponent, and type into it
         ( (ApparatusPanel)component ).addGraphic( readout, 1E14 );
-//        addGraphic( readout, 1E14 );
         setKnob( wrappedSliderWithSquareCursor.getKnob() );
 
         // Add a listener that will move the readout along with the knob
@@ -107,7 +105,9 @@ public class SpectrumSliderWithReadout extends SpectrumSliderWithSquareCursor {
                         update( wavelength );
                     }
                     catch( NumberFormatException e1 ) {
-                        JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ), "Wavelength must be numeric, or a number followed by \"nm\"" );
+                        JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ),
+                                                       "Wavelength must be numeric, or a number followed by \"nm\"" );
+                        setText( beam.getWavelength() );
                     }
                 }
             } );
@@ -122,14 +122,16 @@ public class SpectrumSliderWithReadout extends SpectrumSliderWithSquareCursor {
             int x = (int)( baseLocation.x + getKnob().getLocation().getX() - getBounds().getWidth() / 2 - 15 );
             int y = (int)( baseLocation.y - getHeight() - 5 );
             setLocation( x, y );
-//            setLocation( (int)SpectrumSliderWithReadout.this.getKnob().getLocation().getX() - getWidth() / 2,
-//                         (int)SpectrumSliderWithReadout.this.getLocation().getY() - getHeight() - 5);
             // Update the text
-            DecimalFormat voltageFormat = new DecimalFormat( "000" );
-            readout.setText( voltageFormat.format( wavelength ) + " nm" );
+            setText( wavelength );
 //            Object[] args = {voltageFormat.format( Math.abs( wavelength ) )};
 //            String text = MessageFormat.format( "nm", args );
 //            readout.setText( text );
+        }
+
+        private void setText( double wavelength ) {
+            DecimalFormat voltageFormat = new DecimalFormat( "000" );
+            readout.setText( voltageFormat.format( wavelength ) + " nm" );
         }
 
         void setValue( double wavelength ) {
