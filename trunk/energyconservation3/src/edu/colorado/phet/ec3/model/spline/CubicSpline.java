@@ -21,4 +21,5 @@ public class CubicSpline extends AbstractSpline {
         NatCubic natCubic = new NatCubic();
         return natCubic.interpolate( getControlPoints(), numSegments );
     }
+
 }

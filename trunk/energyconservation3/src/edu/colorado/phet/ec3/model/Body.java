@@ -3,9 +3,12 @@ package edu.colorado.phet.ec3.model;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -18,11 +21,11 @@ public class Body {
     private Point2D.Double position = new Point2D.Double();
     private Vector2D velocity = new Vector2D.Double();
     private Vector2D.Double acceleration = new Vector2D.Double();
-    private double mass = 500.0;
+    private double mass = 200.0;
+    private double angle = 0.0;
     private Shape bounds;
-
-    private boolean onSpline = false;
-    private boolean userControlled = false;
+    private FreeFall freeFall = new FreeFall( 9.8 );
+    private UpdateMode mode = freeFall;
 
     public Body( Shape bounds ) {
         this.bounds = bounds;
@@ -33,18 +36,7 @@ public class Body {
     }
 
     private UpdateMode getMode() {
-        if( userControlled ) {
-            return new UserControlled();
-        }
-        else {
-            if( onSpline ) {
-                return new SplineMode();
-            }
-            else {
-                return new FreeFall( 9.8 );
-            }
-        }
-//        throw new RuntimeException("Update Mode not found");
+        return mode;
     }
 
     public double getY() {
@@ -78,11 +70,16 @@ public class Body {
     }
 
     public void setUserControlled( boolean userControlled ) {
-        this.userControlled = userControlled;
+        if( userControlled ) {
+            setMode( new UserControlled() );
+        }
+        else {
+            setMode( freeFall );
+        }
     }
 
     public double getMaxY() {
-        return getY() + bounds.getBounds2D().getHeight();
+        return getLocatedShape().getBounds2D().getMaxY();
     }
 
     public Shape getShape() {
@@ -110,5 +107,45 @@ public class Body {
         this.velocity.setComponents( velocity.getX(), velocity.getY() );
         this.position.x = newPosition.getX();
         this.position.y = newPosition.getY();
+    }
+
+    public Shape getLocatedShape() {
+        Rectangle2D b = bounds.getBounds2D();
+        AffineTransform transform = new AffineTransform();
+        transform.translate( getX() - b.getWidth() / 2, getY() - b.getHeight() / 2 );
+        transform.rotate( angle, b.getWidth() / 2, b.getHeight() / 2 );
+
+        return transform.createTransformedShape( b );
+    }
+
+    public void setSplineMode( AbstractSpline spline ) {
+        boolean same = false;
+        if( mode instanceof FreeSplineMode ) {
+            FreeSplineMode sm = (FreeSplineMode)mode;
+            if( sm.getSpline() == spline ) {
+                same = true;
+            }
+        }
+        if( !same ) {
+//            setMode( new AttachedSplineMode( spline, this ) );
+            setMode( new FreeSplineMode( spline, this ) );
+        }
+
+    }
+
+    private void setMode( UpdateMode mode ) {
+        this.mode = mode;
+    }
+
+    public void setFreeFallMode() {
+        setMode( freeFall );
+    }
+
+    public void setAngle( double angle ) {
+        this.angle = angle;
+    }
+
+    public double getSpeed() {
+        return getVelocity().getMagnitude();
     }
 }

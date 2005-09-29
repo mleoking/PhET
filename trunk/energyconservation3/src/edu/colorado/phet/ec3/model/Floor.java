@@ -13,12 +13,13 @@ import edu.colorado.phet.common.math.Vector2D;
  */
 
 public class Floor {
-    private double y = 300;
+    private double y;
     private Vector2D normal = new Vector2D.Double( 0, 1 );
     private EnergyConservationModel model;
 
-    public Floor( EnergyConservationModel model ) {
+    public Floor( EnergyConservationModel model, double y ) {
         this.model = model;
+        this.y = y;
     }
 
     public void stepInTime( double dt ) {
@@ -30,7 +31,8 @@ public class Floor {
 
     private void stepInTime( Body b, double dt ) {
         if( b.getMaxY() > y ) {
-            b.setPosition( b.getX(), y - b.getHeight() );
+            double overshoot = b.getMaxY() - y;
+            b.setPosition( b.getX(), b.getY() - overshoot );
             AbstractVector2D scaledInstance = new ImmutableVector2D.Double( b.getVelocity().getX(), -Math.abs( b.getVelocity().getY() ) );
             b.setVelocity( scaledInstance );
         }

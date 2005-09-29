@@ -32,12 +32,12 @@ public class EC3Module extends PiccoloModule {
         energyModel = new EnergyConservationModel();
         Body body = new Body( new Rectangle( 100, 100 ) );
         energyModel.addBody( body );
-        Floor floor = new Floor( getEnergyConservationModel() );
+        Floor floor = new Floor( getEnergyConservationModel(), 600 );
         energyModel.addFloor( floor );
         setModel( new BaseModel() );
         getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
-                energyModel.stepInTime( dt );
+                energyModel.stepInTime( dt / 10.0 );
             }
         } );
         energyCanvas = new EC3PhetPCanvas( this );

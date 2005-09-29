@@ -28,11 +28,14 @@ public class EC3PhetPCanvas extends PhetPCanvas {
         }
 
         AbstractSpline spline = new CubicSpline( 50 );
-        spline.addControlPoint( 0, 0 );
-        spline.addControlPoint( 100, 5 );
-        spline.addControlPoint( 300, 20 );
-        spline.addControlPoint( 50, 200 );
+
+        spline.addControlPoint( 150, 300 );
+        spline.addControlPoint( 200, 320 );
+        spline.addControlPoint( 350, 300 );
+        spline.addControlPoint( 400, 375 );
         SplineGraphic splineGraphic = new SplineGraphic( spline );
+        ec3Model.addSpline( spline );
+
         addWorldChild( splineGraphic );
     }
 }
