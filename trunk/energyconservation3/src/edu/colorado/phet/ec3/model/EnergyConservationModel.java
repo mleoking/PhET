@@ -1,7 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3.model;
 
+import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
+import edu.colorado.phet.ec3.model.spline.Segment;
 
 import java.awt.geom.Area;
 import java.util.ArrayList;
@@ -31,25 +33,94 @@ public class EnergyConservationModel {
         for( int i = 0; i < floors.size(); i++ ) {
             floorAt( i ).stepInTime( dt );
         }
-        for( int i = 0; i < splines.size(); i++ ) {
-            testGrab( splineAt( i ) );
-        }
+
+        doGrabs();
+//        for( int i = 0; i < splines.size(); i++ ) {
+//            testGrab( splineAt( i ) );
+//        }
     }
 
-    private void testGrab( AbstractSpline spline ) {
+    private void doGrabs() {
         for( int i = 0; i < bodies.size(); i++ ) {
-            testGrab( spline, bodyAt( i ) );
+            if( bodyAt( i ).isFreeFallMode() ) {
+                System.out.println( "EnergyConservationModel.doGrabs@" + System.currentTimeMillis() );
+                doGrab( bodyAt( i ) );
+            }
         }
     }
 
-    private void testGrab( AbstractSpline spline, Body body ) {//todo try replacing this with SplineLogic class
-        Area area = new Area( spline.getAreaShape() );
-        area.intersect( new Area( body.getLocatedShape() ) );
+    private void doGrab( Body body ) {
+        double bestScore = Double.POSITIVE_INFINITY;
+        AbstractSpline bestSpline = null;
+        for( int i = 0; i < splines.size(); i++ ) {
+            AbstractSpline abstractSpline = (AbstractSpline)splines.get( i );
+            double score = getGrabScore( abstractSpline, body );
+            if( score < bestScore ) {
+                bestScore = score;
+                bestSpline = abstractSpline;
+            }
+        }
+        for( int i = 0; i < splines.size(); i++ ) {
+            AbstractSpline abstractSpline = (AbstractSpline)splines.get( i );
+            abstractSpline = abstractSpline.createReverseSpline();
+            double score = getGrabScore( abstractSpline, body );
+            if( score < bestScore ) {
+                bestScore = score;
+                bestSpline = abstractSpline;
+            }
+        }
+        if( bestSpline != null ) {
+            body.setSplineMode( bestSpline );
+        }
+    }
+
+    private double getGrabScore( AbstractSpline spline, Body body ) {
+        Area area = new Area( body.getLocatedShape() );
+        area.intersect( spline.getArea() );
+
         if( !area.isEmpty() ) {
 //            System.out.println( "intersected" );
-            body.setSplineMode( spline );
+            double position = 0;
+            try {
+                position = new SplineLogic( body ).guessPositionAlongSpline( spline );
+            }
+            catch( NullIntersectionException e ) {
+                e.printStackTrace();
+                return Double.POSITIVE_INFINITY;
+            }
+            Segment segment = spline.getSegmentPath().getSegmentAtPosition( position );//todo this duplicates much work.
+
+            double bodyYPerp = segment.getUnitNormalVector().dot( body.getPositionVector() );
+            double segmentYPerp = segment.getUnitNormalVector().dot( new ImmutableVector2D.Double( segment.getCenter2D() ) );
+
+            double y = ( bodyYPerp - segmentYPerp - body.getHeight() / 2.0 );
+
+            if( y > -20 ) {
+                return -y;
+//                return 1.0;
+            }
+            else {
+                return Double.POSITIVE_INFINITY;
+            }
+
         }
+        return Double.POSITIVE_INFINITY;
     }
+
+//    private void testGrab( AbstractSpline spline ) {
+//        for( int i = 0; i < bodies.size(); i++ ) {
+//            testGrab( spline, bodyAt( i ) );
+//        }
+//    }
+//
+//    private void testGrab( AbstractSpline spline, Body body ) {//todo try replacing this with SplineLogic class
+//        Area area = new Area( spline.getAreaShape() );
+//        area.intersect( new Area( body.getLocatedShape() ) );
+//        if( !area.isEmpty() ) {
+////            System.out.println( "intersected" );
+//            body.setSplineMode( spline );
+//        }
+//    }
 
     private AbstractSpline splineAt( int i ) {
         return (AbstractSpline)splines.get( i );

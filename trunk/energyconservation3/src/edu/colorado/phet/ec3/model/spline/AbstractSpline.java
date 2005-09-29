@@ -4,6 +4,7 @@ package edu.colorado.phet.ec3.model.spline;
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 
 import java.awt.*;
+import java.awt.geom.Area;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -18,11 +19,30 @@ import java.util.ArrayList;
 public abstract class AbstractSpline {
     private ArrayList points = new ArrayList();
 
+    private boolean segmentPathDirty = true;
+    private SegmentPath segmentPath = null;
+
+    private boolean generalPathDirty = true;
+    private GeneralPath generalPath = null;
+
+    private boolean areaShapeDirty = true;
+    private Shape areaShape;
+    private boolean areaDirty = true;
+    private Area area = null;
+
     protected AbstractSpline() {
     }
 
     public void addControlPoint( Point2D point ) {
         points.add( point );
+        setAllDirty();
+    }
+
+    private void setAllDirty() {
+        segmentPathDirty = true;
+        generalPathDirty = true;
+        areaShapeDirty = true;
+        areaDirty = true;
     }
 
     public void addControlPoint( double x, double y ) {
@@ -32,6 +52,14 @@ public abstract class AbstractSpline {
     public abstract Point2D[] getInterpolationPoints();
 
     public SegmentPath getSegmentPath() {
+        if( segmentPathDirty ) {
+            this.segmentPath = constructSegmentPath();
+            segmentPathDirty = false;
+        }
+        return segmentPath;
+    }
+
+    private SegmentPath constructSegmentPath() {
         Point2D[] interp = getInterpolationPoints();
         SegmentPath path = new SegmentPath();
         for( int i = 0; i < interp.length - 1; i++ ) {
@@ -49,6 +77,15 @@ public abstract class AbstractSpline {
     }
 
     public GeneralPath getInterpolationPath() {
+        if( generalPathDirty ) {
+            this.generalPath = createInterpolationPath();
+            generalPathDirty = false;
+        }
+        return generalPath;
+    }
+
+    private GeneralPath createInterpolationPath() {
+
         Point2D[] pts = getInterpolationPoints();
         DoubleGeneralPath path = new DoubleGeneralPath();
         path.moveTo( pts[0].getX(), pts[0].getY() );
@@ -70,10 +107,27 @@ public abstract class AbstractSpline {
         Point2D.Double pt = (Point2D.Double)points.get( index );
         pt.x += x;
         pt.y += y;
+        setAllDirty();
         //todo notify this moved.
     }
 
+    public Area getArea() {
+        if( areaDirty ) {
+            area = new Area( createAreaShape() );
+            areaDirty = false;
+        }
+        return area;
+    }
+
     public Shape getAreaShape() {
+        if( areaShapeDirty ) {
+            areaShape = createAreaShape();
+            areaShapeDirty = false;
+        }
+        return areaShape;
+    }
+
+    private Shape createAreaShape() {
         BasicStroke stroke = new BasicStroke( 2 );
         return stroke.createStrokedShape( getInterpolationPath() );
     }
@@ -83,5 +137,16 @@ public abstract class AbstractSpline {
         for( int i = 0; i < spline.numControlPoints(); i++ ) {
             System.out.println( "spline.addControlPoint(" + (int)spline.controlPointAt( i ).getX() + "," + (int)spline.controlPointAt( i ).getY() + ");" );
         }
+    }
+
+    public abstract AbstractSpline createReverseSpline();
+
+    public void setControlPoints( Point2D[] controlPoints ) {
+        points.clear();
+        for( int i = 0; i < controlPoints.length; i++ ) {
+            Point2D controlPoint = controlPoints[i];
+            addControlPoint( controlPoint );
+        }
+        setAllDirty();
     }
 }

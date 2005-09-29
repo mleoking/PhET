@@ -13,12 +13,14 @@ import java.util.ArrayList;
 
 public class SegmentPath {
     private ArrayList segments = new ArrayList();
+    private boolean dirty = true;
 
     public SegmentPath() {
     }
 
     public void addSegment( Segment segment ) {
         segments.add( segment );
+        dirty = true;
     }
 
     public Point2D evaluate( double distAlongSpline ) {

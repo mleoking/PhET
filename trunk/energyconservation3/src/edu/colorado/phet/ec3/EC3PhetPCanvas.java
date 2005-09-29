@@ -26,6 +26,7 @@ public class EC3PhetPCanvas extends PhetPCanvas {
     private EnergyConservationModel ec3Model;
     private AbstractSpline spline;
     private ArrayList bodyGraphics = new ArrayList();
+    private AbstractSpline revspline;
 
     public EC3PhetPCanvas( EC3Module ec3Module ) {
         this.ec3Module = ec3Module;
@@ -36,7 +37,9 @@ public class EC3PhetPCanvas extends PhetPCanvas {
             addWorldChild( bodyGraphic );
         }
 
-        spline = new CubicSpline( 50 );
+//        spline = new CubicSpline( 50 );
+        spline = new CubicSpline( 30 );
+        revspline = spline.createReverseSpline();
 
 //        spline.addControlPoint( 150, 300 );
 //        spline.addControlPoint( 200, 320 );
@@ -48,12 +51,29 @@ public class EC3PhetPCanvas extends PhetPCanvas {
 //        spline.addControlPoint( 591, 447 );
 //        spline.addControlPoint( 419, 130 );
 
+//        spline.addControlPoint( 125, 198 );
+//        spline.addControlPoint( 250, 512 );
+//        spline.addControlPoint( 591, 447 );
+//        spline.addControlPoint( 747, 189 );
+//
+//        spline.addControlPoint( 125, 198 );
+//        spline.addControlPoint( 250, 512 );
+//        spline.addControlPoint( 591, 447 );
+//        spline.addControlPoint( 620, 198 );
+//        spline.addControlPoint( 700, 198 );
+//        spline.addControlPoint( 750, 198 );
+//        spline.addControlPoint( 800, 198 );
+
         spline.addControlPoint( 125, 198 );
         spline.addControlPoint( 250, 512 );
         spline.addControlPoint( 591, 447 );
-        spline.addControlPoint( 747, 189 );
-        SplineGraphic splineGraphic = new SplineGraphic( spline );
+        spline.addControlPoint( 543, 147 );
+        spline.addControlPoint( 422, 333 );
+        spline.addControlPoint( 810, 351 );
+        spline.addControlPoint( 800, 198 );
+        SplineGraphic splineGraphic = new SplineGraphic( spline, revspline );
         ec3Model.addSpline( spline );
+//        ec3Model.addSpline( spline.createReverseSpline() );
 
         addWorldChild( splineGraphic );
         addMouseListener( new MouseAdapter() {
