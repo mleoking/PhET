@@ -2,6 +2,7 @@
 package edu.colorado.phet.ec3.model;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
+import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 
@@ -147,5 +148,13 @@ public class Body {
 
     public double getSpeed() {
         return getVelocity().getMagnitude();
+    }
+
+    public void setPosition( Point2D point2D ) {
+        setPosition( point2D.getX(), point2D.getY() );
+    }
+
+    public AbstractVector2D getPositionVector() {
+        return new ImmutableVector2D.Double( getPosition() );
     }
 }

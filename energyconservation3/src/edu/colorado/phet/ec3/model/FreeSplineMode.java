@@ -2,6 +2,7 @@
 package edu.colorado.phet.ec3.model;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
+import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.Segment;
@@ -56,17 +57,50 @@ public class FreeSplineMode extends ForceMode {
             //or to a bounce.
             double vParallel = segment.getUnitDirectionVector().dot( body.getVelocity() );
             double vPerp = segment.getUnitNormalVector().dot( body.getVelocity() );
-            System.out.println( "body.getVelocity() = " + body.getVelocity() );
-            System.out.println( "vParallel = " + vParallel );
-            System.out.println( "vPerp = " + vPerp );
-//            if( vPerp < 0 ) {
-//                vPerp = -vPerp;
+            EC3Debug.debug( "body.getVelocity() = " + body.getVelocity() );
+            EC3Debug.debug( "vParallel = " + vParallel );
+            EC3Debug.debug( "vPerp = " + vPerp );
+
+//            double bounceThreshold=
+//            if (vPerp<bounceThreshold){
+//
 //            }
+            double bounceThreshold = 20;
+            boolean bounced = false;
+            if( vPerp < 0 ) {
+                if( Math.abs( vPerp ) > bounceThreshold ) {
+                    //bounce
+                    vPerp = Math.abs( vPerp );
+                    bounced = true;
+                }
+                else {
+                    //grab
+                    vPerp = 0.0;
+                }
+//                vPerp = -vPerp / 10.0;
+
+            }
             Vector2D.Double newVelocity = new Vector2D.Double( vParallel, vPerp );
-            newVelocity.rotate( segment.getAngle() );
-            System.out.println( "newVelocity = " + newVelocity );
+            newVelocity.rotate( -segment.getAngle() );
+            newVelocity.setY( -newVelocity.getY() );
+            EC3Debug.debug( "newVelocity = " + newVelocity );
             body.setVelocity( newVelocity );
 
+
+            if( !bounced ) {
+                //set bottom at zero.
+//                AbstractVector2D tx = segment.getUnitNormalVector().getScaledInstance( 0.1 );
+
+                double bodyYPerp = segment.getUnitNormalVector().dot( body.getPositionVector() );
+                double segmentYPerp = segment.getUnitNormalVector().dot( new ImmutableVector2D.Double( segment.getCenter2D() ) );
+                double overshoot = -( bodyYPerp - segmentYPerp - body.getHeight() / 2.0 );
+                EC3Debug.debug( "overshoot = " + overshoot );
+                overshoot -= 1;//hang in there
+                if( overshoot > 0 ) {
+                    AbstractVector2D tx = segment.getUnitNormalVector().getScaledInstance( overshoot );
+                    body.translate( tx.getX(), tx.getY() );
+                }
+            }
         }
     }
 
