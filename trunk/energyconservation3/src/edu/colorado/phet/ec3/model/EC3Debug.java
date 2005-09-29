@@ -9,8 +9,8 @@ package edu.colorado.phet.ec3.model;
  */
 
 public class EC3Debug {
-    private static boolean debug = true;
-//    private static boolean debug = false;
+//    private static boolean debug = true;
+    private static boolean debug = false;
 
     public static void debug( String s ) {
         if( debug ) {

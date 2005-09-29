@@ -17,6 +17,8 @@ public class EnergyConservationModel {
     private ArrayList bodies = new ArrayList();
     private ArrayList floors = new ArrayList();
     private ArrayList splines = new ArrayList();
+    private double zeroPointPotential = 0.0;
+    private double gravity = 9.8;
 
     public EnergyConservationModel() {
     }
@@ -40,7 +42,7 @@ public class EnergyConservationModel {
         }
     }
 
-    private void testGrab( AbstractSpline spline, Body body ) {
+    private void testGrab( AbstractSpline spline, Body body ) {//todo try replacing this with SplineLogic class
         Area area = new Area( spline.getAreaShape() );
         area.intersect( new Area( body.getLocatedShape() ) );
         if( !area.isEmpty() ) {
@@ -75,5 +77,20 @@ public class EnergyConservationModel {
 
     public void addFloor( Floor floor ) {
         floors.add( floor );
+    }
+
+    public double getPotentialEnergy( Body body ) {
+        double h = zeroPointPotential - body.getY();
+        return body.getMass() * gravity * h;
+    }
+
+    public double getTotalEnergy( Body body ) {
+        double ke = body.getKineticEnergy();
+        double pe = getPotentialEnergy( body );
+        return ke + pe;
+    }
+
+    public double getGravity() {
+        return gravity;
     }
 }
