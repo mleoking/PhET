@@ -4,6 +4,7 @@ package edu.colorado.phet.ec3.model;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.Segment;
+import edu.colorado.phet.ec3.model.spline.SegmentPath;
 
 import java.awt.geom.Area;
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class EnergyConservationModel {
     private void doGrabs() {
         for( int i = 0; i < bodies.size(); i++ ) {
             if( bodyAt( i ).isFreeFallMode() ) {
-                System.out.println( "EnergyConservationModel.doGrabs@" + System.currentTimeMillis() );
+//                System.out.println( "EnergyConservationModel.doGrabs@" + System.currentTimeMillis() );
                 doGrab( bodyAt( i ) );
             }
         }
@@ -74,18 +75,37 @@ public class EnergyConservationModel {
         }
     }
 
-    private double getGrabScore( AbstractSpline spline, Body body ) {
+    boolean intersectsOrig( AbstractSpline spline, Body body ) {
+
         Area area = new Area( body.getLocatedShape() );
         area.intersect( spline.getArea() );
+        return !area.isEmpty();
+    }
 
-        if( !area.isEmpty() ) {
+    boolean intersects( AbstractSpline spline, Body body ) {
+        if( spline.getAreaShape().getBounds2D().intersects( body.getLocatedShape().getBounds2D() ) ) {
+            SegmentPath path = spline.getSegmentPath();
+            boolean intersects = path.intersects( body.getLocatedShape().getBounds2D() );
+            return intersects;
+        }
+        else {
+            return false;
+        }
+//        Area area = new Area( body.getLocatedShape() );
+//        area.intersect( spline.getArea() );
+//        return !area.isEmpty();
+    }
+
+    private double getGrabScore( AbstractSpline spline, Body body ) {
+        boolean intersects = intersects( spline, body );
+        if( intersects ) {
 //            System.out.println( "intersected" );
             double position = 0;
             try {
                 position = new SplineLogic( body ).guessPositionAlongSpline( spline );
             }
             catch( NullIntersectionException e ) {
-                e.printStackTrace();
+//                e.printStackTrace();
                 return Double.POSITIVE_INFINITY;
             }
             Segment segment = spline.getSegmentPath().getSegmentAtPosition( position );//todo this duplicates much work.

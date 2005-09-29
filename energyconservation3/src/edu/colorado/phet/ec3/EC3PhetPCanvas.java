@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3;
 
+import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.CubicSpline;
@@ -87,10 +88,14 @@ public class EC3PhetPCanvas extends PhetPCanvas {
         addKeyListener( new KeyListener() {
             public void keyPressed( KeyEvent e ) {
                 if( e.getKeyCode() == KeyEvent.VK_P ) {
+                    System.out.println( "spline.getSegmentPath().getLength() = " + spline.getSegmentPath().getLength() );
                     printControlPoints();
                 }
                 else if( e.getKeyCode() == KeyEvent.VK_B ) {
                     toggleBox();
+                }
+                else if( e.getKeyCode() == KeyEvent.VK_A ) {
+                    addSkater();
                 }
             }
 
@@ -101,6 +106,17 @@ public class EC3PhetPCanvas extends PhetPCanvas {
             }
         } );
         addKeyListener( new PanZoomWorldKeyHandler( this ) );
+    }
+
+    private void addSkater() {
+        Body body = new Body( Body.createDefaultBodyRect() );
+        ec3Model.addBody( body );
+
+//        for( int i = 0; i < ec3Model.numBodies(); i++ ) {
+        BodyGraphic bodyGraphic = new BodyGraphic( ec3Module, body );
+        bodyGraphics.add( bodyGraphic );
+        addWorldChild( bodyGraphic );
+//        }
     }
 
     private void toggleBox() {

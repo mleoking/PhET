@@ -21,6 +21,8 @@ public class Segment {
     double y0;
     double x1;
     double y1;
+    private boolean shapeDirty = true;
+    private Shape shape;
 
     public Segment( double x0, double y0, double x1, double y1 ) {
         this.x0 = x0;
@@ -55,7 +57,11 @@ public class Segment {
     }
 
     public Shape getShape() {
-        return new BasicStroke( 4 ).createStrokedShape( toLine2D() );
+        if( shapeDirty ) {
+            this.shape = new BasicStroke( 4 ).createStrokedShape( toLine2D() );
+            shapeDirty = false;
+        }
+        return shape;
     }
 
     public Point2D getCenter2D() {

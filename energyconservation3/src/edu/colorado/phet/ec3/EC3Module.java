@@ -10,8 +10,6 @@ import edu.colorado.phet.ec3.model.Floor;
 import edu.colorado.phet.ec3.view.FloorGraphic;
 import edu.colorado.phet.piccolo.PiccoloModule;
 
-import java.awt.*;
-
 /**
  * User: Sam Reid
  * Date: Sep 21, 2005
@@ -30,7 +28,7 @@ public class EC3Module extends PiccoloModule {
     public EC3Module( String name, AbstractClock clock ) {
         super( name, clock );
         energyModel = new EnergyConservationModel();
-        Body body = new Body( new Rectangle( 50, 20 ) );
+        Body body = new Body( Body.createDefaultBodyRect() );
         energyModel.addBody( body );
         Floor floor = new Floor( getEnergyConservationModel(), 600 );
         energyModel.addFloor( floor );
@@ -44,7 +42,6 @@ public class EC3Module extends PiccoloModule {
         setPhetPCanvas( energyCanvas );
         energyCanvas.addWorldChild( new FloorGraphic( floor ) );
     }
-
 
     public EnergyConservationModel getEnergyConservationModel() {
         return energyModel;

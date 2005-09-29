@@ -148,8 +148,18 @@ public class Body {
         setMode( freeFall );
     }
 
+    void fixAngle() {
+        while( angle < 0 ) {
+            angle += Math.PI * 2;
+        }
+        while( angle > Math.PI * 2 ) {
+            angle -= Math.PI * 2;
+        }
+    }
+
     public void setAngle( double angle ) {
         this.angle = angle;
+
     }
 
     public double getSpeed() {
@@ -174,9 +184,14 @@ public class Body {
 
     public void rotate( double dA ) {
         angle += dA;
+        fixAngle();
     }
 
     public boolean isFreeFallMode() {
         return mode == freeFall;
+    }
+
+    public static Rectangle createDefaultBodyRect() {
+        return new Rectangle( 50, 20 );
     }
 }

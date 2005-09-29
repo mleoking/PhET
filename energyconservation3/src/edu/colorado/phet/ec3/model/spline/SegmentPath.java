@@ -1,8 +1,11 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3.model.spline;
 
+import java.awt.geom.Area;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * User: Sam Reid
@@ -13,14 +16,15 @@ import java.util.ArrayList;
 
 public class SegmentPath {
     private ArrayList segments = new ArrayList();
-    private boolean dirty = true;
+//    private boolean dirty = true;
+    private HashMap table = new HashMap();
 
     public SegmentPath() {
     }
 
     public void addSegment( Segment segment ) {
         segments.add( segment );
-        dirty = true;
+//        dirty = true;
     }
 
     public Point2D evaluate( double distAlongSpline ) {
@@ -56,16 +60,21 @@ public class SegmentPath {
         return (Segment)segments.get( i );
     }
 
-    public double getScalarPosition( Segment bestSegment ) {
+    public double getScalarPosition( Segment seg ) {
+        if( table.containsKey( seg ) ) {
+            Double value = (Double)table.get( seg );
+            return value.doubleValue();
+        }
         double length = 0;
         for( int i = 0; i < segments.size(); i++ ) {
             Segment segment = (Segment)segments.get( i );
-            if( segment == bestSegment ) {
+            if( segment == seg ) {
+                table.put( seg, new Double( length ) );
                 return length;
             }
             length += segment.getLength();
         }
-        throw new RuntimeException( "No such segment: " + bestSegment );
+        throw new RuntimeException( "No such segment: " + seg );
     }
 
     public Segment getSegmentAtPosition( double position ) {
@@ -82,5 +91,20 @@ public class SegmentPath {
         }
         System.out.println( "No segment found: dist=" + position + ", length=" + getLength() );
         return null;
+    }
+
+    public boolean intersects( Rectangle2D r ) {
+        for( int i = 0; i < segments.size(); i++ ) {
+            Segment segment = (Segment)segments.get( i );
+            if( segment.getShape().getBounds2D().intersects( r ) ) {
+                Area a = new Area( segment.getShape() );
+                Area b = new Area( r );
+                a.intersect( b );
+                if( !a.isEmpty() ) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
