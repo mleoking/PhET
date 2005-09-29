@@ -16,10 +16,11 @@ import edu.colorado.phet.common.view.util.FrameSetup;
 
 public class EC3Application extends PhetApplication {
     private static AbstractClock clock = new SwingTimerClock( 1.0, 25 );
+    private EC3Module module;
 
     public EC3Application( String[] args ) {
         super( args, "EC3", "Energy Conservation", "0.1", clock, true, new FrameSetup.CenteredWithInsets( 100, 100 ) );
-        EC3Module module = new EC3Module( "Module", clock );
+        module = new EC3Module( "Module", clock );
         setModules( new Module[]{module} );
     }
 
@@ -29,5 +30,6 @@ public class EC3Application extends PhetApplication {
 
     private void start() {
         super.startApplication();
+        module.getPhetPCanvas().requestFocus();
     }
 }

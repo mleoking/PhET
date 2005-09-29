@@ -78,4 +78,10 @@ public abstract class AbstractSpline {
         return stroke.createStrokedShape( getInterpolationPath() );
     }
 
+    public void printControlPointCode() {
+        AbstractSpline spline = this;
+        for( int i = 0; i < spline.numControlPoints(); i++ ) {
+            System.out.println( "spline.addControlPoint(" + (int)spline.controlPointAt( i ).getX() + "," + (int)spline.controlPointAt( i ).getY() + ");" );
+        }
+    }
 }
