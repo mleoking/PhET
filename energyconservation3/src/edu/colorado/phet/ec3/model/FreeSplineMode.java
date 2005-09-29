@@ -35,7 +35,7 @@ public class FreeSplineMode extends ForceMode {
         System.out.println( origKE + "\t" + origPE + "\t" + origTotalEnergy );
         EnergyDebugger.stepStarted( model, body, dt );
         double position = new SplineLogic( body ).guessPositionAlongSpline( getSpline() );
-        if( position == 0 ) {
+        if( position == 0 ) {//todo is this necessary?
             body.setFreeFallMode();
             super.setNetForce( new Vector2D.Double( 0, 0 ) );
             super.stepInTime( model, body, dt );
@@ -78,48 +78,7 @@ public class FreeSplineMode extends ForceMode {
             }
         }
 
-        System.out.println( "body.getSpeed() = " + body.getSpeed() );
-        EnergyDebugger.stepFinished( model, body, origTotalEnergy );
-        double speedThreshold = 20;
-        if( body.getSpeed() > speedThreshold ) {
-            conserveEnergyViaV( model, body, origTotalEnergy );
-//        EnergyDebugger.postProcessed( model, body, origTotalEnergy, "dV" );
-            conserveEnergyViaH( model, body, origTotalEnergy );
-        }
-        else {
-            conserveEnergyViaH( model, body, origTotalEnergy );
-        }
-//        conserveEnergyViaH( model, body, origTotalEnergy );
-//        conserveEnergyViaH( model, body, origTotalEnergy );
-//        EnergyDebugger.postProcessed( model, body, origTotalEnergy, "dH" );
-        double finalEnergy = model.getTotalEnergy( body );
-        double deTOT = finalEnergy - origTotalEnergy;
-        EC3Debug.debug( "dETOT=" + deTOT );
-    }
-
-    private void conserveEnergyViaV( EnergyConservationModel model, Body body, double origTotalEnergy ) {
-        double finalTotalEnergy = model.getTotalEnergy( body );
-        double dE = finalTotalEnergy - origTotalEnergy;
-        EC3Debug.debug( "dE = " + dE );
-        //how can we put this change in energy back in the system?
-        double dv = dE / body.getMass() / body.getSpeed();
-        AbstractVector2D dvVector = body.getVelocity().getInstanceOfMagnitude( -dv );
-        body.setVelocity( dvVector.getAddedInstance( body.getVelocity() ) );
-
-        double modifiedTotalEnergy = model.getTotalEnergy( body );
-        double dEMod = modifiedTotalEnergy - origTotalEnergy;
-        EC3Debug.debug( "dEModV = " + dEMod );
-    }
-
-    private void conserveEnergyViaH( EnergyConservationModel model, Body body, double origTotalEnergy ) {
-        double finalTotalEnergy = model.getTotalEnergy( body );
-        double dE = finalTotalEnergy - origTotalEnergy;
-        EC3Debug.debug( "dE = " + dE );
-        double dh = dE / body.getMass() / model.getGravity();
-        body.translate( 0, dh );
-        double modifiedTotalEnergy = model.getTotalEnergy( body );
-        double dEMod = modifiedTotalEnergy - origTotalEnergy;
-        EC3Debug.debug( "dEModH = " + dEMod );
+        new EnergyConserver().fixEnergy( model, body, origTotalEnergy );
     }
 
     private void setBottomAtZero( Segment segment, Body body ) {

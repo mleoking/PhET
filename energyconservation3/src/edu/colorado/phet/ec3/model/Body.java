@@ -33,6 +33,7 @@ public class Body {
     }
 
     public void stepInTime( EnergyConservationModel energyConservationModel, double dt ) {
+        EnergyDebugger.stepStarted( energyConservationModel, this, dt );
         getMode().stepInTime( energyConservationModel, this, dt );
     }
 
