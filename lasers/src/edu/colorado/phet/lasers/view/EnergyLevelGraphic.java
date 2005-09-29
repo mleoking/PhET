@@ -1,14 +1,12 @@
-/**
- * Class: EnergyLevelGraphic
- * Package: edu.colorado.phet.lasers.view
- * Original Author: Ron LeMaster
- * Creation Date: Nov 2, 2004
- * Creation Time: 2:00:59 PM
- * Latest Change:
- *      $Author$
- *      $Date$
- *      $Name$
- *      $Revision$
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.lasers.view;
 
@@ -21,9 +19,8 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.model.atom.AtomicState;
-import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.model.PhysicsUtil;
+import edu.colorado.phet.lasers.model.atom.AtomicState;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -49,7 +46,8 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
     private int minPixelsBetweenLevels = EnergyLifetimeSlider.sliderHeight;
 
     // Strategy for setting to color of this energy level graphic
-    private ColorStrategy colorStrategy = new VisibleColorStrategy();
+    private ColorStrategy colorStrategy = new BlackStrategy();
+//    private ColorStrategy colorStrategy = new VisibleColorStrategy();
 
     public void fireMousePressed( MouseEvent e ) {
         super.fireMousePressed( e );
@@ -73,7 +71,6 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
         // Add a listener that will track changes in the atomic state
         atomicState.addListener( new AtomicStateChangeListener() );
 
-        this.color = color;
         this.xLoc = xLoc;
         this.width = width;
         energyLevelRep = new EnergyLevelRep( component );
@@ -83,8 +80,19 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
             setCursorHand();
             addTranslationListener( new EnergyLevelTranslator() );
         }
+    }
 
+    public boolean isVisible() {
+        return super.isVisible();
+    }
 
+    protected PhetGraphic getHandler( Point p ) {
+        return super.getHandler( p );
+    }
+
+    public boolean contains( int x, int y ) {
+//        System.out.println( "super.contains(x,y) = " + super.contains( x, y ) );
+        return super.contains( x, y );
     }
 
     public void update( ModelViewTransform1D tx ) {
@@ -171,10 +179,9 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
 
         protected EnergyLevelRep( Component component ) {
             super( component );
-            color = VisibleColor.wavelengthToColor( atomicState.getWavelength() );
             PhetShapeGraphic lineGraphic = new PhetShapeGraphic( component, levelLine, color );
             lineGraphic.setVisible( true );
-            addGraphic( lineGraphic);
+            addGraphic( lineGraphic );
         }
 
         private void update() {
@@ -186,8 +193,6 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
             // is the best hack to use.
             color = new Color( color.getRed(), color.getGreen(), color.getBlue() );
             int y = (int)energyYTx.modelToView( atomicState.getEnergyLevel() );
-//            System.out.println( "atomicState.getEnergyLevel() = " + atomicState.getEnergyLevel() );
-//            System.out.println( "y = " + y );
             levelLine.setRect( xLoc, y - thickness / 2, width, thickness );
 
             if( levelIcon != null ) {
@@ -232,6 +237,10 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
             addGraphic( levelIcon );
         }
 
+        public boolean contains( int x, int y ) {
+            return boundingRect.contains( x, y );
+        }
+
         //----------------------------------------------------------------
         // Rendering
         //----------------------------------------------------------------
@@ -256,7 +265,6 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
             return levelLine.getBounds().getLocation();
         }
     }
-
 
     /**
      * Determines the color in which to render lines and atoms for a specified state

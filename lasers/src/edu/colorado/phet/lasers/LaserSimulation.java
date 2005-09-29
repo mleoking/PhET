@@ -55,11 +55,13 @@ public class LaserSimulation extends PhetApplication {
             }
 
 
+//            Module singleAtomModule2 = new SingleAtomModule( clock );
             Module singleAtomModule = new SingleAtomModule( clock );
             Module multipleAtomModule = new MultipleAtomModule( clock );
 //            Module kaboomModule = new TestKaboomModule();
             Module[] modules = new Module[]{
                 singleAtomModule,
+//                singleAtomModule2,
                 multipleAtomModule,
 //                kaboomModule
             };

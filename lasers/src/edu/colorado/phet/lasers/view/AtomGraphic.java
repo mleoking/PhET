@@ -54,6 +54,7 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
     private double energyRepRad;
     private double groundStateRingThickness;
     private double baseImageRad;
+    private EnergyRepColorStrategy energyRepColorStrategy = new GrayScaleStrategy();
 
     /**
      * @param component
@@ -114,15 +115,7 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
         // used to scale the thickness of the ring so it changes size a reasonable amount through the visible range
         double ringThicknessExponent = 0.15;
         double energyDif = state.getEnergyLevel() - atom.getGroundState().getEnergyLevel();
-//        double energyRatio = state.getEnergyLevel() / atom.getGroundState().getEnergyLevel();
-//        double energyRatio = state.getEnergyLevel() / AtomicState.minEnergy;
-//        double e0 = ( baseImageRad * groundState.getEnergyLevel() ) / ( baseImageRad + groundStateRingThickness );
-//        double energyRatio = ( state.getEnergyLevel() - e0 ) / ( groundState.getEnergyLevel() - e0 );
         energyRepRad = ( energyDif * f ) + groundStateRingThickness + baseImageRad;
-
-//        energyRepRad = Math.pow( energyRatio, ringThicknessExponent )
-//                       * ( imageGraphic.getImage().getWidth() / 2 ) + groundStateRingThickness;
-//
 
         energyRep = new Ellipse2D.Double( -energyRepRad, -energyRepRad, energyRepRad * 2, energyRepRad * 2 );
         if( state.getWavelength() == Photon.GRAY ) {
@@ -136,6 +129,9 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
         }
         energyGraphic.setShape( energyRep );
         energyGraphic.setColor( energyRepColor );
+
+        energyGraphic.setColor( energyRepColorStrategy.getColor( atom ) );
+
     }
 
     /**
@@ -221,6 +217,46 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
 
     public void positionChanged( Atom.ChangeEvent event ) {
         update();
+    }
+
+
+    /**
+     * Picks a Color to represent the energy level of an atom
+     */
+    private interface EnergyRepColorStrategy {
+        Color getColor( Atom atom );
+    }
+
+    /**
+     * Picks an RGB color that renders the color corresponding to the energy level of the atom
+     */
+    private class VisibleColorStrategy implements EnergyRepColorStrategy {
+
+        public Color getColor( Atom atom ) {
+            double wavelength = atom.getCurrState().getWavelength();
+            return VisibleColor.wavelengthToColor( wavelength );
+        }
+    }
+
+    /**
+     * Picks a shade of gray for the energy rep color.
+     */
+    private class GrayScaleStrategy implements EnergyRepColorStrategy {
+        private Color[] grayScale = new Color[240];
+
+        GrayScaleStrategy() {
+            for( int i = 0; i < grayScale.length; i++ ) {
+                grayScale[i] = new Color( i, i, i );
+            }
+        }
+
+        public Color getColor( Atom atom ) {
+            int idx = (int)( grayScale.length * ( ( atom.getCurrState().getEnergyLevel() - atom.getGroundState().getEnergyLevel() ) /
+                                                  ( atom.getHighestEnergyState().getEnergyLevel() - atom.getGroundState().getEnergyLevel() ) ) );
+            idx = Math.min( Math.max( 0, idx ), grayScale.length - 1 );
+            return grayScale[idx];
+        }
+
     }
 }
 

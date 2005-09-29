@@ -26,7 +26,6 @@ import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
-import edu.colorado.phet.lasers.model.photon.Photon;
 
 import javax.swing.*;
 import java.awt.*;
@@ -98,7 +97,8 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
      *
      */
     public LaserEnergyLevelMonitorPanel( BaseLaserModule module, AbstractClock clock ) {
-        super( clock);
+
+        super( clock );
 
         this.module = module;
         model = module.getLaserModel();
@@ -157,13 +157,14 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         new EnergyMatchDetector( module.getLaserModel().getHighEnergyState(), model.getPumpingBeam(), highLevelLine );
         new EnergyMatchDetector( module.getLaserModel().getMiddleEnergyState(), model.getSeedBeam(), middleLevelLine );
 
-        adjustPanel();
+//        adjustPanel();
     }
 
     /**
      * Adjusts the layout of the panel
      */
-    private void adjustPanel() {
+    public void adjustPanel() {
+//    private void adjustPanel() {
         // The beamArea in which the energy levels will be displayed
         Rectangle2D bounds = new Rectangle2D.Double( getBounds().getMinX(), getBounds().getMinY() + 10,
                                                      getBounds().getWidth(), getBounds().getHeight() - 30 );
@@ -329,13 +330,15 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         // Draw middle level atoms
         if( numLevels >= 2 ) {
             Color c = VisibleColor.wavelengthToColor( module.getLaserModel().getMiddleEnergyState().getWavelength() );
-            drawAtomsInLevel( g2, c, middleLevelLine, numMiddleLevel );
+            drawAtomsInLevel( g2, Color.darkGray, middleLevelLine, numMiddleLevel );
+//            drawAtomsInLevel( g2, c, middleLevelLine, numMiddleLevel );
         }
 
         // Draw high level atoms, if the level is enabled
         if( numLevels >= 3 ) {
             Color c = VisibleColor.wavelengthToColor( module.getLaserModel().getHighEnergyState().getWavelength() );
-            drawAtomsInLevel( g2, c, highLevelLine, numHighLevel );
+            drawAtomsInLevel( g2, Color.darkGray, highLevelLine, numHighLevel );
+//            drawAtomsInLevel( g2, c, highLevelLine, numHighLevel );
         }
 
         // Draw squiggles showing what energy photons the beams are putting out
