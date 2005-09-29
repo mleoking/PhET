@@ -6,6 +6,7 @@ import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.CubicSpline;
 import edu.colorado.phet.ec3.view.BodyGraphic;
 import edu.colorado.phet.ec3.view.SplineGraphic;
+import edu.colorado.phet.piccolo.PanZoomWorldKeyHandler;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 
 import java.awt.event.KeyEvent;
@@ -39,7 +40,7 @@ public class EC3PhetPCanvas extends PhetPCanvas {
 
 //        spline = new CubicSpline( 50 );
         spline = new CubicSpline( 30 );
-        revspline = spline.createReverseSpline();
+
 
 //        spline.addControlPoint( 150, 300 );
 //        spline.addControlPoint( 200, 320 );
@@ -71,8 +72,10 @@ public class EC3PhetPCanvas extends PhetPCanvas {
         spline.addControlPoint( 422, 333 );
         spline.addControlPoint( 810, 351 );
         spline.addControlPoint( 800, 198 );
+        revspline = spline.createReverseSpline();
         SplineGraphic splineGraphic = new SplineGraphic( spline, revspline );
         ec3Model.addSpline( spline );
+        ec3Model.addSpline( revspline );
 //        ec3Model.addSpline( spline.createReverseSpline() );
 
         addWorldChild( splineGraphic );
@@ -97,6 +100,7 @@ public class EC3PhetPCanvas extends PhetPCanvas {
             public void keyTyped( KeyEvent e ) {
             }
         } );
+        addKeyListener( new PanZoomWorldKeyHandler( this ) );
     }
 
     private void toggleBox() {

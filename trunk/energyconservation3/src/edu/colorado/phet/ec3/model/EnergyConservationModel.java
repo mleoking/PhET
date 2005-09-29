@@ -60,15 +60,15 @@ public class EnergyConservationModel {
                 bestSpline = abstractSpline;
             }
         }
-        for( int i = 0; i < splines.size(); i++ ) {
-            AbstractSpline abstractSpline = (AbstractSpline)splines.get( i );
-            abstractSpline = abstractSpline.createReverseSpline();
-            double score = getGrabScore( abstractSpline, body );
-            if( score < bestScore ) {
-                bestScore = score;
-                bestSpline = abstractSpline;
-            }
-        }
+//        for( int i = 0; i < splines.size(); i++ ) {
+//            AbstractSpline abstractSpline = (AbstractSpline)splines.get( i );
+//            abstractSpline = abstractSpline.createReverseSpline();
+//            double score = getGrabScore( abstractSpline, body );
+//            if( score < bestScore ) {
+//                bestScore = score;
+//                bestSpline = abstractSpline;
+//            }
+//        }
         if( bestSpline != null ) {
             body.setSplineMode( bestSpline );
         }

@@ -31,6 +31,7 @@ public abstract class AbstractSpline {
     private Area area = null;
 
     protected AbstractSpline() {
+        setAllDirty();
     }
 
     public void addControlPoint( Point2D point ) {
@@ -43,6 +44,7 @@ public abstract class AbstractSpline {
         generalPathDirty = true;
         areaShapeDirty = true;
         areaDirty = true;
+        System.out.println( "All dirty @ t=" + System.currentTimeMillis() );
     }
 
     public void addControlPoint( double x, double y ) {
