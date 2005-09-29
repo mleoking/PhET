@@ -38,90 +38,68 @@ public class FreeSplineMode extends ForceMode {
             body.setFreeFallMode();
             super.setNetForce( new Vector2D.Double( 0, 0 ) );
             super.stepInTime( model, body, dt );
-
         }
         else {
             Segment segment = spline.getSegmentPath().getSegmentAtPosition( position );//todo this duplicates much work.
-            body.setAngle( segment.getAngle() );
+            body.setAngle( segment.getAngle() );//todo rotations.
 
-            double fgy = 9.8 * body.getMass();
-
-            System.out.println( "segment.getAngle() = " + segment.getAngle() );
-            System.out.println( "Math.cos( segment.getAngle()) = " + Math.cos( segment.getAngle() ) );
-            AbstractVector2D normalForce = segment.getUnitNormalVector().getScaledInstance( -fgy * Math.cos( segment.getAngle() ) );
-            System.out.println( "normalForce.getY() = " + normalForce.getY() );
-            double fy = fgy + normalForce.getY();
-            double fx = normalForce.getX();
-            Vector2D.Double netForce = new Vector2D.Double( fx, fy );
+            AbstractVector2D netForce = computeNetForce( segment );
             super.setNetForce( netForce );
 
-
             super.stepInTime( model, body, dt );
-            //just kill the perpendicular part of velocity, if it is through the track.  this should be lost to friction.
+            //just kill the perpendicular part of velocity, if it is through the track.
+            // this should be lost to friction.
             //or to a bounce.
-            double vParallel = segment.getUnitDirectionVector().dot( body.getVelocity() );
-            double vPerp = segment.getUnitNormalVector().dot( body.getVelocity() );
-            EC3Debug.debug( "body.getVelocity() = " + body.getVelocity() );
-            EC3Debug.debug( "vParallel = " + vParallel );
-            EC3Debug.debug( "vPerp = " + vPerp );
+            RVector2D origVector = new RVector2D( body.getVelocity(), segment.getUnitDirectionVector() );
 
-            double bounceThreshold = 20;
+//            double bounceThreshold = 20;
+            double bounceThreshold = 30;
             boolean bounced = false;
             boolean grabbed = false;
-//            boolean extend = false;
-            if( vPerp < 0 ) {
-                if( Math.abs( vPerp ) > bounceThreshold ) {
-                    //bounce
-                    vPerp = Math.abs( vPerp );
+            if( origVector.getPerpendicular() < 0 ) {//velocity is through the segment
+                if( Math.abs( origVector.getPerpendicular() ) > bounceThreshold ) {//bounce
+                    origVector.setPerpendicular( Math.abs( origVector.getPerpendicular() ) );
                     bounced = true;
                 }
-                else {
-                    //grab
-                    vPerp = 0.0;
+                else {//grab
+                    origVector.setPerpendicular( 0.0 );
                     grabbed = true;
                 }
             }
-            System.out.println( "normalForce.getY() = " + normalForce.getY() );
-//            if( vPerp > 0 && normalForce.getY() > 0 ) {
-//                extend = true;
-//            }
-            Vector2D.Double newVelocity = new Vector2D.Double( vParallel, vPerp );
-            newVelocity.rotate( -segment.getAngle() );
-            newVelocity.setY( -newVelocity.getY() );
+            Vector2D.Double newVelocity = origVector.toCartesianVector();
+
             EC3Debug.debug( "newVelocity = " + newVelocity );
             body.setVelocity( newVelocity );
 
-//            if (!bounced&&grabbed){
             if( bounced || grabbed ) {
                 //set bottom at zero.
-//                AbstractVector2D tx = segment.getUnitNormalVector().getScaledInstance( 0.1 );
-
-                double bodyYPerp = segment.getUnitNormalVector().dot( body.getPositionVector() );
-                double segmentYPerp = segment.getUnitNormalVector().dot( new ImmutableVector2D.Double( segment.getCenter2D() ) );
-                double overshoot = -( bodyYPerp - segmentYPerp - body.getHeight() / 2.0 );
-                EC3Debug.debug( "overshoot = " + overshoot );
-                overshoot -= 1;//hang in there
-                if( overshoot > 0 ) {
-                    AbstractVector2D tx = segment.getUnitNormalVector().getScaledInstance( overshoot );
-                    body.translate( tx.getX(), tx.getY() );
-                }
+                setBottomAtZero( segment, body );
             }
-
-//            if( extend &&false) {
-//                //set bottom at zero.
-////                AbstractVector2D tx = segment.getUnitNormalVector().getScaledInstance( 0.1 );
-//
-//                double bodyYPerp = segment.getUnitNormalVector().dot( body.getPositionVector() );
-//                double segmentYPerp = segment.getUnitNormalVector().dot( new ImmutableVector2D.Double( segment.getCenter2D() ) );
-//                double overshoot = -( bodyYPerp - segmentYPerp - body.getHeight() / 2.0 );
-//                EC3Debug.debug( "overshoot = " + overshoot );
-//                overshoot += 5;//hang in there
-////                if( overshoot > 0 ) {
-//                AbstractVector2D tx = segment.getUnitNormalVector().getScaledInstance( overshoot );
-//                body.translate( tx.getX(), tx.getY() );
-////                }
-//            }
         }
+    }
+
+    private void setBottomAtZero( Segment segment, Body body ) {
+        double bodyYPerp = segment.getUnitNormalVector().dot( body.getPositionVector() );
+        double segmentYPerp = segment.getUnitNormalVector().dot( new ImmutableVector2D.Double( segment.getCenter2D() ) );
+        double overshoot = -( bodyYPerp - segmentYPerp - body.getHeight() / 2.0 );
+        EC3Debug.debug( "overshoot = " + overshoot );
+        overshoot -= 1;//hang in there
+        if( overshoot > 0 ) {
+            AbstractVector2D tx = segment.getUnitNormalVector().getScaledInstance( overshoot );
+            body.translate( tx.getX(), tx.getY() );
+        }
+    }
+
+    private AbstractVector2D computeNetForce( Segment segment ) {
+        double fgy = 9.8 * body.getMass();
+        System.out.println( "segment.getAngle() = " + segment.getAngle() );
+        System.out.println( "Math.cos( segment.getAngle()) = " + Math.cos( segment.getAngle() ) );
+        AbstractVector2D normalForce = segment.getUnitNormalVector().getScaledInstance( -fgy * Math.cos( segment.getAngle() ) );
+        System.out.println( "normalForce.getY() = " + normalForce.getY() );
+        double fy = fgy + normalForce.getY();
+        double fx = normalForce.getX();
+        Vector2D.Double netForce = new Vector2D.Double( fx, fy );
+        return netForce;
     }
 
     public AbstractSpline getSpline() {
@@ -135,10 +113,12 @@ public class FreeSplineMode extends ForceMode {
         ArrayList overlap = new ArrayList();
         for( int i = 0; i < segmentPath.numSegments(); i++ ) {
             Segment segment = segmentPath.segmentAt( i );
-            Area a = new Area( bodyShape );
-            a.intersect( new Area( segment.getShape() ) );
-            if( !a.isEmpty() ) {
-                overlap.add( segment );
+            if( bodyShape.getBounds2D().intersects( segment.getShape().getBounds2D() ) ) {//make sure we need areas
+                Area a = new Area( bodyShape );
+                a.intersect( new Area( segment.getShape() ) );
+                if( !a.isEmpty() ) {
+                    overlap.add( segment );
+                }
             }
         }
 

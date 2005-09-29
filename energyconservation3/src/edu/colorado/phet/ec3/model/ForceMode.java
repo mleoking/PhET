@@ -24,7 +24,7 @@ public class ForceMode implements UpdateMode {
         this.netForce = new Vector2D.Double( gravity );
     }
 
-    public void setNetForce( Vector2D.Double netForce ) {
+    public void setNetForce( AbstractVector2D netForce ) {
         this.netForce = new Vector2D.Double( netForce );
     }
 
