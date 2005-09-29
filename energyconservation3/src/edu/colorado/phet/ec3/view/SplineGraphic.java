@@ -13,6 +13,9 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * User: Sam Reid
@@ -23,11 +26,13 @@ import java.awt.geom.Point2D;
 
 public class SplineGraphic extends PNode {
     private AbstractSpline spline;
+    private AbstractSpline reverse;
     private PPath pathLayer;
     private PNode controlPointLayer;
 
-    public SplineGraphic( AbstractSpline spline ) {
+    public SplineGraphic( AbstractSpline spline, AbstractSpline reverse ) {
         this.spline = spline;
+        this.reverse = reverse;
         pathLayer = new PPath();
         pathLayer.setStroke( new BasicStroke( 3 ) );
         pathLayer.setStrokePaint( Color.black );
@@ -61,9 +66,16 @@ public class SplineGraphic extends PNode {
             public void mouseDragged( PInputEvent event ) {
                 PDimension rel = event.getDeltaRelativeTo( SplineGraphic.this );
                 spline.translateControlPoint( index, rel.getWidth(), rel.getHeight() );
+                reverse.setControlPoints( reverse( spline.getControlPoints() ) );
                 updateAll();
             }
         } );
         controlCircle.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
+    }
+
+    private Point2D[] reverse( Point2D[] controlPoints ) {
+        ArrayList list = new ArrayList( Arrays.asList( controlPoints ) );
+        Collections.reverse( list );
+        return (Point2D[])list.toArray( new Point2D[0] );
     }
 }

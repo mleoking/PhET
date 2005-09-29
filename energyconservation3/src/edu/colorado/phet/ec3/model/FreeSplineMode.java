@@ -17,6 +17,7 @@ import edu.colorado.phet.ec3.model.spline.Segment;
 public class FreeSplineMode extends ForceMode {
     private AbstractSpline spline;
     private Body body;
+    private double lastDA;
 
     public FreeSplineMode( AbstractSpline spline, Body body ) {
         this.spline = spline;
@@ -37,58 +38,62 @@ public class FreeSplineMode extends ForceMode {
         try {
             position = new SplineLogic( body ).guessPositionAlongSpline( getSpline() );
         }
-        catch( SplineLogicException e ) {
+        catch( NullIntersectionException e ) {
 //            e.printStackTrace();
+            body.setFreeFallRotation( lastDA );
             body.setFreeFallMode();
             super.setNetForce( new Vector2D.Double( 0, 0 ) );
             super.stepInTime( model, body, dt );
+            new EnergyConserver().fixEnergy( model, body, origTotalEnergy );
             return;
         }
-        {
-            Segment segment = spline.getSegmentPath().getSegmentAtPosition( position );//todo this duplicates much work.
-            double bodyAngle = body.getAngle();
-            double dA = segment.getAngle() - bodyAngle;
-            if( dA > Math.PI / 16 ) {
-                dA = Math.PI / 16;
-            }
-            else if( dA < -Math.PI / 16 ) {
-                dA = -Math.PI / 16;
-            }
-            body.rotate( dA );
+        Segment segment = spline.getSegmentPath().getSegmentAtPosition( position );//todo this duplicates much work.
+        double bodyAngle = body.getAngle();
+        double dA = segment.getAngle() - bodyAngle;
+        if( dA > Math.PI / 16 ) {
+            dA = Math.PI / 16;
+        }
+        else if( dA < -Math.PI / 16 ) {
+            dA = -Math.PI / 16;
+        }
+        body.rotate( dA );
+        this.lastDA = dA;
 //            body.setAngle( segment.getAngle() );//todo rotations.
 
-            AbstractVector2D netForce = computeNetForce( model, segment );
-            super.setNetForce( netForce );
+        AbstractVector2D netForce = computeNetForce( model, segment );
+        super.setNetForce( netForce );
 
-            super.stepInTime( model, body, dt );
-            //just kill the perpendicular part of velocity, if it is through the track.
-            // this should be lost to friction.
-            //or to a bounce.
-            RVector2D origVector = new RVector2D( body.getVelocity(), segment.getUnitDirectionVector() );
+        super.stepInTime( model, body, dt );
+        //just kill the perpendicular part of velocity, if it is through the track.
+        // this should be lost to friction.
+        //or to a bounce.
+        RVector2D origVector = new RVector2D( body.getVelocity(), segment.getUnitDirectionVector() );
 
+
+        double bounceThreshold = 30;
 //            double bounceThreshold = 20;
-            double bounceThreshold = 30;
-            boolean bounced = false;
-            boolean grabbed = false;
-            if( origVector.getPerpendicular() < 0 ) {//velocity is through the segment
-                if( Math.abs( origVector.getPerpendicular() ) > bounceThreshold ) {//bounce
-                    origVector.setPerpendicular( Math.abs( origVector.getPerpendicular() ) );
-                    bounced = true;
-                }
-                else {//grab
-                    origVector.setPerpendicular( 0.0 );
-                    grabbed = true;
-                }
-            }
-            Vector2D.Double newVelocity = origVector.toCartesianVector();
 
-            EC3Debug.debug( "newVelocity = " + newVelocity );
-            body.setVelocity( newVelocity );
-
-            if( bounced || grabbed ) {
-                //set bottom at zero.
-                setBottomAtZero( segment, body );
+//        double bounceThreshold = 2;
+        boolean bounced = false;
+        boolean grabbed = false;
+        if( origVector.getPerpendicular() < 0 ) {//velocity is through the segment
+            if( Math.abs( origVector.getPerpendicular() ) > bounceThreshold ) {//bounce
+                origVector.setPerpendicular( Math.abs( origVector.getPerpendicular() ) );
+                bounced = true;
             }
+            else {//grab
+                origVector.setPerpendicular( 0.0 );
+                grabbed = true;
+            }
+        }
+        Vector2D.Double newVelocity = origVector.toCartesianVector();
+
+        EC3Debug.debug( "newVelocity = " + newVelocity );
+        body.setVelocity( newVelocity );
+
+        if( bounced || grabbed ) {
+            //set bottom at zero.
+            setBottomAtZero( segment, body );
         }
 
         new EnergyConserver().fixEnergy( model, body, origTotalEnergy );

@@ -14,6 +14,14 @@ import edu.colorado.phet.common.math.Vector2D;
 public class FreeFall extends ForceMode {
     private double rotationalVelocity;
 
+    public double getRotationalVelocity() {
+        return rotationalVelocity;
+    }
+
+    public void setRotationalVelocity( double rotationalVelocity ) {
+        this.rotationalVelocity = rotationalVelocity;
+    }
+
     public FreeFall( double rotationalVelocity ) {
         this.rotationalVelocity = rotationalVelocity;
     }

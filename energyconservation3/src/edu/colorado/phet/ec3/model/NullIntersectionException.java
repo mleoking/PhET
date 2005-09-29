@@ -8,8 +8,8 @@ package edu.colorado.phet.ec3.model;
  * Copyright (c) Sep 29, 2005 by Sam Reid
  */
 
-public class SplineLogicException extends Throwable {
-    public SplineLogicException( String s ) {
+public class NullIntersectionException extends Throwable {
+    public NullIntersectionException( String s ) {
         super( s );
     }
 }

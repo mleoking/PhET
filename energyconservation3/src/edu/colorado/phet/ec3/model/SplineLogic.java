@@ -26,7 +26,7 @@ public class SplineLogic {
         this.body = body;
     }
 
-    public double guessPositionAlongSpline( AbstractSpline spline ) throws SplineLogicException {
+    public double guessPositionAlongSpline( AbstractSpline spline ) throws NullIntersectionException {
         SegmentPath segmentPath = spline.getSegmentPath();
         Shape bodyShape = body.getLocatedShape();
         //find all segments that overlap.
@@ -55,7 +55,7 @@ public class SplineLogic {
         }
 
         if( rect == null ) {
-            throw new SplineLogicException( "No contact with spline." );
+            throw new NullIntersectionException( "No contact with spline." );
 //            return 0.0;
         }
         Point2D center = new PBounds( rect ).getCenter2D();

@@ -76,6 +76,7 @@ public class Body {
             setMode( new UserControlled() );
         }
         else {
+            freeFall.setRotationalVelocity( 0.0 );
             setMode( freeFall );
         }
     }
@@ -139,6 +140,10 @@ public class Body {
         this.mode = mode;
     }
 
+    public void setFreeFallRotation( double dA ) {
+        freeFall.setRotationalVelocity( dA );
+    }
+
     public void setFreeFallMode() {
         setMode( freeFall );
     }
@@ -169,5 +174,9 @@ public class Body {
 
     public void rotate( double dA ) {
         angle += dA;
+    }
+
+    public boolean isFreeFallMode() {
+        return mode == freeFall;
     }
 }

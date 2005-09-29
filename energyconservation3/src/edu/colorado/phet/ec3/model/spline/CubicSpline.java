@@ -22,4 +22,12 @@ public class CubicSpline extends AbstractSpline {
         return natCubic.interpolate( getControlPoints(), numSegments );
     }
 
+    public AbstractSpline createReverseSpline() {
+        CubicSpline cubicSpline = new CubicSpline( numSegments );
+        for( int i = 0; i < numControlPoints(); i++ ) {
+            cubicSpline.addControlPoint( controlPointAt( numControlPoints() - 1 - i ) );
+        }
+        return cubicSpline;
+    }
+
 }
