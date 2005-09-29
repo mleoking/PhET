@@ -40,10 +40,15 @@ public class EC3PhetPCanvas extends PhetPCanvas {
 //        spline.addControlPoint( 350, 300 );
 //        spline.addControlPoint( 400, 375 );
 
+//        spline.addControlPoint( 125, 198 );
+//        spline.addControlPoint( 250, 512 );
+//        spline.addControlPoint( 591, 447 );
+//        spline.addControlPoint( 419, 130 );
+
         spline.addControlPoint( 125, 198 );
         spline.addControlPoint( 250, 512 );
         spline.addControlPoint( 591, 447 );
-        spline.addControlPoint( 419, 130 );
+        spline.addControlPoint( 747, 189 );
         SplineGraphic splineGraphic = new SplineGraphic( spline );
         ec3Model.addSpline( spline );
 

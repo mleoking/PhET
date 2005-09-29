@@ -12,14 +12,9 @@ import edu.colorado.phet.common.math.Vector2D;
  */
 
 public class FreeFall extends ForceMode {
-    double gravity;
-
-    public FreeFall( double gravity ) {
-        this.gravity = gravity;
-    }
 
     public void stepInTime( EnergyConservationModel model, Body body, double dt ) {
-        setNetForce( new Vector2D.Double( 0, body.getMass() * gravity ) );
+        setNetForce( new Vector2D.Double( 0, body.getMass() * model.getGravity() ) );
         super.stepInTime( model, body, dt );
     }
 }

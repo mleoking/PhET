@@ -25,7 +25,7 @@ public class Body {
     private double mass = 200.0;
     private double angle = 0.0;
     private Shape bounds;
-    private FreeFall freeFall = new FreeFall( 9.8 );
+    private FreeFall freeFall = new FreeFall();
     private UpdateMode mode = freeFall;
 
     public Body( Shape bounds ) {
@@ -157,4 +157,9 @@ public class Body {
     public AbstractVector2D getPositionVector() {
         return new ImmutableVector2D.Double( getPosition() );
     }
+
+    public double getKineticEnergy() {
+        return 0.5 * getMass() * getSpeed() * getSpeed();
+    }
+
 }

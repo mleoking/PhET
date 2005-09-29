@@ -6,14 +6,6 @@ import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.Segment;
-import edu.colorado.phet.ec3.model.spline.SegmentPath;
-import edu.umd.cs.piccolo.util.PBounds;
-
-import java.awt.*;
-import java.awt.geom.Area;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -32,8 +24,17 @@ public class FreeSplineMode extends ForceMode {
         this.body = body;
     }
 
+    static {
+        System.out.println( "origKE\torigPE\torigTot" );
+    }
+
     public void stepInTime( EnergyConservationModel model, Body body, double dt ) {
-        double position = guessPositionAlongSpline( getSpline() );
+        double origKE = body.getKineticEnergy();
+        double origPE = model.getPotentialEnergy( body );
+        double origTotalEnergy = model.getTotalEnergy( body );
+        System.out.println( origKE + "\t" + origPE + "\t" + origTotalEnergy );
+        EnergyDebugger.stepStarted( model, body, dt );
+        double position = new SplineLogic( body ).guessPositionAlongSpline( getSpline() );
         if( position == 0 ) {
             body.setFreeFallMode();
             super.setNetForce( new Vector2D.Double( 0, 0 ) );
@@ -43,7 +44,7 @@ public class FreeSplineMode extends ForceMode {
             Segment segment = spline.getSegmentPath().getSegmentAtPosition( position );//todo this duplicates much work.
             body.setAngle( segment.getAngle() );//todo rotations.
 
-            AbstractVector2D netForce = computeNetForce( segment );
+            AbstractVector2D netForce = computeNetForce( model, segment );
             super.setNetForce( netForce );
 
             super.stepInTime( model, body, dt );
@@ -76,6 +77,49 @@ public class FreeSplineMode extends ForceMode {
                 setBottomAtZero( segment, body );
             }
         }
+
+        System.out.println( "body.getSpeed() = " + body.getSpeed() );
+        EnergyDebugger.stepFinished( model, body, origTotalEnergy );
+        double speedThreshold = 20;
+        if( body.getSpeed() > speedThreshold ) {
+            conserveEnergyViaV( model, body, origTotalEnergy );
+//        EnergyDebugger.postProcessed( model, body, origTotalEnergy, "dV" );
+            conserveEnergyViaH( model, body, origTotalEnergy );
+        }
+        else {
+            conserveEnergyViaH( model, body, origTotalEnergy );
+        }
+//        conserveEnergyViaH( model, body, origTotalEnergy );
+//        conserveEnergyViaH( model, body, origTotalEnergy );
+//        EnergyDebugger.postProcessed( model, body, origTotalEnergy, "dH" );
+        double finalEnergy = model.getTotalEnergy( body );
+        double deTOT = finalEnergy - origTotalEnergy;
+        EC3Debug.debug( "dETOT=" + deTOT );
+    }
+
+    private void conserveEnergyViaV( EnergyConservationModel model, Body body, double origTotalEnergy ) {
+        double finalTotalEnergy = model.getTotalEnergy( body );
+        double dE = finalTotalEnergy - origTotalEnergy;
+        EC3Debug.debug( "dE = " + dE );
+        //how can we put this change in energy back in the system?
+        double dv = dE / body.getMass() / body.getSpeed();
+        AbstractVector2D dvVector = body.getVelocity().getInstanceOfMagnitude( -dv );
+        body.setVelocity( dvVector.getAddedInstance( body.getVelocity() ) );
+
+        double modifiedTotalEnergy = model.getTotalEnergy( body );
+        double dEMod = modifiedTotalEnergy - origTotalEnergy;
+        EC3Debug.debug( "dEModV = " + dEMod );
+    }
+
+    private void conserveEnergyViaH( EnergyConservationModel model, Body body, double origTotalEnergy ) {
+        double finalTotalEnergy = model.getTotalEnergy( body );
+        double dE = finalTotalEnergy - origTotalEnergy;
+        EC3Debug.debug( "dE = " + dE );
+        double dh = dE / body.getMass() / model.getGravity();
+        body.translate( 0, dh );
+        double modifiedTotalEnergy = model.getTotalEnergy( body );
+        double dEMod = modifiedTotalEnergy - origTotalEnergy;
+        EC3Debug.debug( "dEModH = " + dEMod );
     }
 
     private void setBottomAtZero( Segment segment, Body body ) {
@@ -90,12 +134,12 @@ public class FreeSplineMode extends ForceMode {
         }
     }
 
-    private AbstractVector2D computeNetForce( Segment segment ) {
-        double fgy = 9.8 * body.getMass();
-        System.out.println( "segment.getAngle() = " + segment.getAngle() );
-        System.out.println( "Math.cos( segment.getAngle()) = " + Math.cos( segment.getAngle() ) );
+    private AbstractVector2D computeNetForce( EnergyConservationModel model, Segment segment ) {
+        double fgy = model.getGravity() * body.getMass();
+        EC3Debug.debug( "segment.getAngle() = " + segment.getAngle() );
+        EC3Debug.debug( "Math.cos( segment.getAngle()) = " + Math.cos( segment.getAngle() ) );
         AbstractVector2D normalForce = segment.getUnitNormalVector().getScaledInstance( -fgy * Math.cos( segment.getAngle() ) );
-        System.out.println( "normalForce.getY() = " + normalForce.getY() );
+        EC3Debug.debug( "normalForce.getY() = " + normalForce.getY() );
         double fy = fgy + normalForce.getY();
         double fx = normalForce.getX();
         Vector2D.Double netForce = new Vector2D.Double( fx, fy );
@@ -106,52 +150,4 @@ public class FreeSplineMode extends ForceMode {
         return spline;
     }
 
-    private double guessPositionAlongSpline( AbstractSpline spline ) {
-        SegmentPath segmentPath = spline.getSegmentPath();
-        Shape bodyShape = body.getLocatedShape();
-        //find all segments that overlap.
-        ArrayList overlap = new ArrayList();
-        for( int i = 0; i < segmentPath.numSegments(); i++ ) {
-            Segment segment = segmentPath.segmentAt( i );
-            if( bodyShape.getBounds2D().intersects( segment.getShape().getBounds2D() ) ) {//make sure we need areas
-                Area a = new Area( bodyShape );
-                a.intersect( new Area( segment.getShape() ) );
-                if( !a.isEmpty() ) {
-                    overlap.add( segment );
-                }
-            }
-        }
-
-        //return the centroid.
-        Rectangle2D rect = null;
-        for( int i = 0; i < overlap.size(); i++ ) {
-            Segment segment = (Segment)overlap.get( i );
-            if( rect == null ) {
-                rect = segment.toLine2D().getBounds2D();
-            }
-            else {
-                rect = rect.createUnion( segment.toLine2D().getBounds2D() );
-            }
-        }
-        if( rect == null ) {
-            return 0.0;
-        }
-        Point2D center = new PBounds( rect ).getCenter2D();
-        return getClosestScalar( center );
-    }
-
-    private double getClosestScalar( Point2D center ) {
-        SegmentPath segmentPath = spline.getSegmentPath();
-        double closestPosition = Double.POSITIVE_INFINITY;
-        Segment bestSegment = null;
-        for( int i = 0; i < segmentPath.numSegments(); i++ ) {
-            Segment seg = segmentPath.segmentAt( i );
-            double distance = center.distance( seg.getCenter2D() );
-            if( distance < closestPosition ) {
-                bestSegment = seg;
-                closestPosition = distance;
-            }
-        }
-        return segmentPath.getScalarPosition( bestSegment );
-    }
 }
