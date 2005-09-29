@@ -67,7 +67,7 @@ public class Segment {
     }
 
     public AbstractVector2D getUnitNormalVector() {
-        return toVector().getNormalVector().getNormalizedInstance();
+        return getUnitDirectionVector().getNormalVector();
     }
 
     public AbstractVector2D getUnitDirectionVector() {
