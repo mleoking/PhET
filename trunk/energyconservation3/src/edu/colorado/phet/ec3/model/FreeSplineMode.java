@@ -19,7 +19,6 @@ public class FreeSplineMode extends ForceMode {
     private Body body;
 
     public FreeSplineMode( AbstractSpline spline, Body body ) {
-        super( new Vector2D.Double() );
         this.spline = spline;
         this.body = body;
     }
@@ -32,17 +31,31 @@ public class FreeSplineMode extends ForceMode {
         double origKE = body.getKineticEnergy();
         double origPE = model.getPotentialEnergy( body );
         double origTotalEnergy = model.getTotalEnergy( body );
-        System.out.println( origKE + "\t" + origPE + "\t" + origTotalEnergy );
+//        System.out.println( origKE + "\t" + origPE + "\t" + origTotalEnergy );
         EnergyDebugger.stepStarted( model, body, dt );
-        double position = new SplineLogic( body ).guessPositionAlongSpline( getSpline() );
-        if( position == 0 ) {//todo is this necessary?
+        double position = 0;
+        try {
+            position = new SplineLogic( body ).guessPositionAlongSpline( getSpline() );
+        }
+        catch( SplineLogicException e ) {
+//            e.printStackTrace();
             body.setFreeFallMode();
             super.setNetForce( new Vector2D.Double( 0, 0 ) );
             super.stepInTime( model, body, dt );
+            return;
         }
-        else {
+        {
             Segment segment = spline.getSegmentPath().getSegmentAtPosition( position );//todo this duplicates much work.
-            body.setAngle( segment.getAngle() );//todo rotations.
+            double bodyAngle = body.getAngle();
+            double dA = segment.getAngle() - bodyAngle;
+            if( dA > Math.PI / 16 ) {
+                dA = Math.PI / 16;
+            }
+            else if( dA < -Math.PI / 16 ) {
+                dA = -Math.PI / 16;
+            }
+            body.rotate( dA );
+//            body.setAngle( segment.getAngle() );//todo rotations.
 
             AbstractVector2D netForce = computeNetForce( model, segment );
             super.setNetForce( netForce );

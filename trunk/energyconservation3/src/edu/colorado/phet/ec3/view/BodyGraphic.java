@@ -2,12 +2,14 @@
 package edu.colorado.phet.ec3.view;
 
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.ec3.EC3Module;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.piccolo.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 import org.jfree.data.xy.XYSeries;
@@ -16,7 +18,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -34,13 +39,31 @@ public class BodyGraphic extends PNode {
     private Point2D mouseLocation;
     long t0 = System.currentTimeMillis();
     private int numHistoryPointsForThrow = 5;
+    private PImage skater;
+    private PPath centerDebugger;
 
     public BodyGraphic( EC3Module ec3Module, final Body body ) {
         this.ec3Module = ec3Module;
         this.body = body;
+
         shape = new PPath( body.getShape() );
         shape.setPaint( Color.blue );
-        addChild( shape );
+//        addChild( shape );
+
+        try {
+            BufferedImage image = ImageLoader.loadBufferedImage( "images/skater-67.png" );
+            skater = new PImage( image );
+            addChild( skater );
+
+            centerDebugger = new PPath();
+            centerDebugger.setPaint( Color.red );
+//            addChild( centerDebugger );
+//            shape.addChild( new PImage( image ) );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+
         update();
         ec3Module.getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
@@ -179,6 +202,31 @@ public class BodyGraphic extends PNode {
 
     private void update() {
 //        setOffset( body.getX(), body.getY() );
+
         shape.setPathTo( body.getLocatedShape() );
+        Point2D center = shape.getFullBounds().getCenter2D();
+        skater.setTransform( new AffineTransform() );
+//        skater.translate( body.getPosition().getX(), body.getPosition().getY() );
+//        AbstractVector2D a = Vector2D.Double.parseAngleAndMagnitude( skater.getImage().getHeight( null ), body.getAngle() );
+//        skater.translate( 0, -a.getY() );
+        skater.translate( center.getX(), center.getY() );
+        skater.rotate( body.getAngle() );
+        skater.translate( -skater.getImage().getWidth( null ) / 2, -skater.getImage().getHeight( null ) + body.getHeight() / 2 );
+
+        centerDebugger.setPathTo( new Rectangle( (int)body.getPosition().getX(), (int)body.getPosition().getY(), 5, 5 ) );
+//        System.out.println( "centerDebugger.getFullBounds() = " + centerDebugger.getFullBounds() );
+    }
+
+    public boolean isBoxVisible() {
+        return getChildrenReference().contains( shape );
+    }
+
+    public void setBoxVisible( boolean v ) {
+        if( v && !isBoxVisible() ) {
+            addChild( shape );
+        }
+        else if( !v && isBoxVisible() ) {
+            removeChild( shape );
+        }
     }
 }
