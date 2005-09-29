@@ -25,7 +25,7 @@ public class Body {
     private double mass = 200.0;
     private double angle = 0.0;
     private Shape bounds;
-    private FreeFall freeFall = new FreeFall();
+    private FreeFall freeFall = new FreeFall( 0 );
     private UpdateMode mode = freeFall;
 
     public Body( Shape bounds ) {
@@ -163,4 +163,11 @@ public class Body {
         return 0.5 * getMass() * getSpeed() * getSpeed();
     }
 
+    public double getAngle() {
+        return angle;
+    }
+
+    public void rotate( double dA ) {
+        angle += dA;
+    }
 }

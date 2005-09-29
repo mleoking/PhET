@@ -12,11 +12,17 @@ import edu.colorado.phet.common.math.Vector2D;
  */
 
 public class FreeFall extends ForceMode {
+    private double rotationalVelocity;
+
+    public FreeFall( double rotationalVelocity ) {
+        this.rotationalVelocity = rotationalVelocity;
+    }
 
     public void stepInTime( EnergyConservationModel model, Body body, double dt ) {
         double origEnergy = model.getTotalEnergy( body );
         setNetForce( new Vector2D.Double( 0, body.getMass() * model.getGravity() ) );
         super.stepInTime( model, body, dt );
+        body.setAngle( body.getAngle() + rotationalVelocity * dt );
         new EnergyConserver().fixEnergy( model, body, origEnergy );
     }
 }
