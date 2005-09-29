@@ -46,10 +46,14 @@ public class FreeSplineMode extends ForceMode {
 
             double fgy = 9.8 * body.getMass();
 
-            AbstractVector2D normalForce = segment.getUnitNormalVector().getScaledInstance( fgy * Math.cos( segment.getAngle() ) );
+            System.out.println( "segment.getAngle() = " + segment.getAngle() );
+            System.out.println( "Math.cos( segment.getAngle()) = " + Math.cos( segment.getAngle() ) );
+            AbstractVector2D normalForce = segment.getUnitNormalVector().getScaledInstance( -fgy * Math.cos( segment.getAngle() ) );
+            System.out.println( "normalForce.getY() = " + normalForce.getY() );
             double fy = fgy + normalForce.getY();
             double fx = normalForce.getX();
-            super.setNetForce( new Vector2D.Double( fx, fy ) );
+            Vector2D.Double netForce = new Vector2D.Double( fx, fy );
+            super.setNetForce( netForce );
 
 
             super.stepInTime( model, body, dt );
@@ -61,12 +65,10 @@ public class FreeSplineMode extends ForceMode {
             EC3Debug.debug( "vParallel = " + vParallel );
             EC3Debug.debug( "vPerp = " + vPerp );
 
-//            double bounceThreshold=
-//            if (vPerp<bounceThreshold){
-//
-//            }
             double bounceThreshold = 20;
             boolean bounced = false;
+            boolean grabbed = false;
+//            boolean extend = false;
             if( vPerp < 0 ) {
                 if( Math.abs( vPerp ) > bounceThreshold ) {
                     //bounce
@@ -76,18 +78,21 @@ public class FreeSplineMode extends ForceMode {
                 else {
                     //grab
                     vPerp = 0.0;
+                    grabbed = true;
                 }
-//                vPerp = -vPerp / 10.0;
-
             }
+            System.out.println( "normalForce.getY() = " + normalForce.getY() );
+//            if( vPerp > 0 && normalForce.getY() > 0 ) {
+//                extend = true;
+//            }
             Vector2D.Double newVelocity = new Vector2D.Double( vParallel, vPerp );
             newVelocity.rotate( -segment.getAngle() );
             newVelocity.setY( -newVelocity.getY() );
             EC3Debug.debug( "newVelocity = " + newVelocity );
             body.setVelocity( newVelocity );
 
-
-            if( !bounced ) {
+//            if (!bounced&&grabbed){
+            if( bounced || grabbed ) {
                 //set bottom at zero.
 //                AbstractVector2D tx = segment.getUnitNormalVector().getScaledInstance( 0.1 );
 
@@ -101,6 +106,21 @@ public class FreeSplineMode extends ForceMode {
                     body.translate( tx.getX(), tx.getY() );
                 }
             }
+
+//            if( extend &&false) {
+//                //set bottom at zero.
+////                AbstractVector2D tx = segment.getUnitNormalVector().getScaledInstance( 0.1 );
+//
+//                double bodyYPerp = segment.getUnitNormalVector().dot( body.getPositionVector() );
+//                double segmentYPerp = segment.getUnitNormalVector().dot( new ImmutableVector2D.Double( segment.getCenter2D() ) );
+//                double overshoot = -( bodyYPerp - segmentYPerp - body.getHeight() / 2.0 );
+//                EC3Debug.debug( "overshoot = " + overshoot );
+//                overshoot += 5;//hang in there
+////                if( overshoot > 0 ) {
+//                AbstractVector2D tx = segment.getUnitNormalVector().getScaledInstance( overshoot );
+//                body.translate( tx.getX(), tx.getY() );
+////                }
+//            }
         }
     }
 

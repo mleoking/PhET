@@ -95,6 +95,11 @@ public class BodyGraphic extends PNode {
             public void mouseReleased( PInputEvent event ) {
                 body.setUserControlled( false );
             }
+
+            public void mouseDragged( PInputEvent event ) {
+                body.setUserControlled( true );
+                body.setVelocity( 0, 0 );
+            }
         } );
     }
 
