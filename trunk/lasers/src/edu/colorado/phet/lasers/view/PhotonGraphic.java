@@ -11,7 +11,6 @@
 package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
@@ -24,8 +23,6 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Ellipse2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
@@ -294,7 +291,6 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
 
     private void init( Component component, Photon photon ) {
         this.setComponent( component );
-        this.setIgnoreMouse( true );
         this.photon = photon;
         this.color = VisibleColor.wavelengthToColor( photon.getWavelength() );
         photon.addObserver( this );
@@ -490,8 +486,8 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
         }
         if( theta > Math.PI * 3 / 2 && theta <= Math.PI * 2 ) {
             alpha = Math.PI * 2 - theta;
-            xOffset = w * Math.cos(alpha) + (h/2)*Math.sin(alpha);
-            yOffset = (h/2) * Math.cos( alpha );
+            xOffset = w * Math.cos( alpha ) + ( h / 2 ) * Math.sin( alpha );
+            yOffset = ( h / 2 ) * Math.cos( alpha );
         }
 //        System.out.print( "theta = " + theta );
 //        System.out.print( "    xOffset = " + xOffset );
@@ -501,6 +497,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
 
     /**
      * For debugging
+     *
      * @param g2
      */
     public void paint( Graphics2D g2 ) {

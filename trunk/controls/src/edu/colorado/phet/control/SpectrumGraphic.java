@@ -12,7 +12,6 @@ package edu.colorado.phet.control;
 
 import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 
 import java.awt.*;
 
@@ -23,8 +22,10 @@ import java.awt.*;
  * @version $Revision$
  */
 public class SpectrumGraphic extends CompositePhetGraphic {
+    public static final Font DEFAULT_CONTROL_FONT = new Font( "Lucida sans", Font.BOLD, 10 );
 //    private static Color invisibleColor = new Color( 0, 0, 0 );
     private static Color invisibleColor = new Color( 64, 64, 64 );
+
 
     private CompositePhetGraphic uvGraphic;
     private PhetGraphic visibleGraphic;
@@ -45,7 +46,7 @@ public class SpectrumGraphic extends CompositePhetGraphic {
                                                                          new Rectangle( uvGraphicWidth,
                                                                                         visibleGraphic.getHeight() ),
                                                                          invisibleColor );
-            PhetGraphic uvGraphicLabel = new PhetTextGraphic( component, DischargeLampsConfig.DEFAULT_CONTROL_FONT,
+            PhetGraphic uvGraphicLabel = new PhetTextGraphic( component, DEFAULT_CONTROL_FONT,
                                                               "<- UV", Color.white );
             uvGraphicLabel.setLocation( uvGraphicWidth - 40, 10 );
             uvGraphic = new CompositePhetGraphic( component );
@@ -62,7 +63,7 @@ public class SpectrumGraphic extends CompositePhetGraphic {
                                                                          new Rectangle( irGraphicWidth,
                                                                                         visibleGraphic.getHeight() ),
                                                                          invisibleColor );
-            PhetGraphic irGraphicLabel = new PhetTextGraphic( component, DischargeLampsConfig.DEFAULT_CONTROL_FONT,
+            PhetGraphic irGraphicLabel = new PhetTextGraphic( component, DEFAULT_CONTROL_FONT,
                                                               "IR ->", Color.white );
             irGraphicLabel.setLocation( 5, 10 );
             irGraphic = new CompositePhetGraphic( component );

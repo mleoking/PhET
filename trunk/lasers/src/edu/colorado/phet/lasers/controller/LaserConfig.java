@@ -41,7 +41,7 @@ public class LaserConfig {
     //    public static final int DEFAULT_SPONTANEOUS_EMISSION_TIME = ( MINIMUM_SPONTANEOUS_EMISSION_TIME + MAXIMUM_STATE_LIFETIME ) / 2;
 
     // Tolerances used to determine if a photon matches with an atomic state energy
-    public static final double ENERGY_TOLERANCE = 0.5E-38;
+    public static final double ENERGY_TOLERANCE = 0.01;
 
     // Graphics things
     public static final int CONTROL_FONT_SIZE = 12;

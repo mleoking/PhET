@@ -4,7 +4,7 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.control.IntensitySlider;
-import edu.colorado.phet.control.SpectrumSliderWithSquareCursor;
+import edu.colorado.phet.control.SpectrumSlider;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 
 import javax.swing.event.ChangeEvent;
@@ -51,17 +51,17 @@ public class BeamControl2 extends GraphicLayerSet implements CollimatedBeam.Rate
                                       final CollimatedBeam lowerLimitingBeam,
                                       final CollimatedBeam upperLimitingBeam ) {
         // Make a spectrum wavelengthSlider
-        final SpectrumSliderWithSquareCursor wavelengthSliderWithSquareCursor = new SpectrumSliderWithSquareCursor( apparatusPanel );
-        wavelengthSliderWithSquareCursor.setLocation( new Point( (int)location.getX() + 10, (int)location.getY() + 50 ) ); // default is (0,0)
-        wavelengthSliderWithSquareCursor.setOrientation( SpectrumSliderWithSquareCursor.HORIZONTAL ); // default is HORIZONTAL
-        wavelengthSliderWithSquareCursor.setTransmissionWidth( 1.0 ); // default is 0.0
-        wavelengthSliderWithSquareCursor.setKnobSize( new Dimension( 10, 15 ) ); // default is (20,30)
-        wavelengthSliderWithSquareCursor.setSpectrumSize( new Dimension( 100, 30 ) ); // default is (200,25)
-        addGraphic( wavelengthSliderWithSquareCursor, 20 );
-        wavelengthSliderWithSquareCursor.setValue( (int)( beam.getWavelength() ) );
-        wavelengthSliderWithSquareCursor.addChangeListener( new ChangeListener() {
+        final SpectrumSlider wavelengthSlider = new SpectrumSlider( apparatusPanel );
+        wavelengthSlider.setLocation( new Point( (int)location.getX() + 10, (int)location.getY() + 50 ) ); // default is (0,0)
+        wavelengthSlider.setOrientation( SpectrumSlider.HORIZONTAL ); // default is HORIZONTAL
+        wavelengthSlider.setTransmissionWidth( 1.0 ); // default is 0.0
+        wavelengthSlider.setKnobSize( new Dimension( 10, 15 ) ); // default is (20,30)
+        wavelengthSlider.setSpectrumSize( new Dimension( 100, 30 ) ); // default is (200,25)
+        addGraphic( wavelengthSlider, 20 );
+        wavelengthSlider.setValue( (int)( beam.getWavelength() ) );
+        wavelengthSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                int value = wavelengthSliderWithSquareCursor.getValue();
+                int value = wavelengthSlider.getValue();
                 // The wavelength may be limited by the wavelength of another beam
                 if( upperLimitingBeam != null && upperLimitingBeam.isEnabled() ) {
                     double limitingWavelength = upperLimitingBeam.getWavelength();
@@ -76,7 +76,7 @@ public class BeamControl2 extends GraphicLayerSet implements CollimatedBeam.Rate
                 beam.setWavelength( (int)( value ) );
             }
         } );
-        wavelengthSliderWithSquareCursor.setValue( (int)( beam.getWavelength() ) );
+        wavelengthSlider.setValue( (int)( beam.getWavelength() ) );
     }
 
     private void addIntensitySlider( final CollimatedBeam beam, double maximumRate ) {

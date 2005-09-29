@@ -14,8 +14,8 @@ package edu.colorado.phet.lasers.model.atom;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.model.PhysicsUtil;
+import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.geom.Point2D;
 import java.util.EventListener;
@@ -30,7 +30,9 @@ public class AtomicState {
     // Class
     //
 
+//    static public final double minWavelength = 300;
     static public final double minWavelength = Photon.BLUE - 20;
+//    static public final double maxWavelength = 800;
     static public final double maxWavelength = Photon.GRAY;
     static public final double minEnergy = PhysicsUtil.wavelengthToEnergy( maxWavelength );
     static public final double maxEnergy = PhysicsUtil.wavelengthToEnergy( minWavelength );
@@ -106,7 +108,8 @@ public class AtomicState {
         double energy2 = PhysicsUtil.wavelengthToEnergy( this.getNextLowerEnergyState().getWavelength() );
 
         // todo: this isn't right. It doesn't work for upper to middle transitions
-        double emittedWavelength = Math.min( PhysicsUtil.energyToWavelength( energy1 - energy2 + AtomicState.minEnergy ),
+        double emittedWavelength = Math.min( PhysicsUtil.energyToWavelength( energy1 - energy2 ),
+//        double emittedWavelength = Math.min( PhysicsUtil.energyToWavelength( energy1 - energy2 + AtomicState.minEnergy ),
                                              AtomicState.maxWavelength );
         return emittedWavelength;
     }
@@ -165,7 +168,7 @@ public class AtomicState {
              stateIdx >= 0 && states[stateIdx] != this && result == null;
              stateIdx-- ) {
             double de = photon.getEnergy() - ( states[stateIdx].getEnergyLevel() - energy );
-            if( Math.abs( de ) < LaserConfig.ENERGY_TOLERANCE ) {
+            if( Math.abs( de ) <= LaserConfig.ENERGY_TOLERANCE ) {
                 result = states[stateIdx];
             }
         }

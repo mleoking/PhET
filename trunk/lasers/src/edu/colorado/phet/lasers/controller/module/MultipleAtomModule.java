@@ -128,6 +128,7 @@ public class MultipleAtomModule extends BaseLaserModule {
         addAtoms( cavityBounds );
 
         // Set initial conditions
+//        setThreeEnergyLevels( false );
         setThreeEnergyLevels( true );
         setEnergyLevelsAveragingPeriod( 2000 );
 
@@ -140,7 +141,7 @@ public class MultipleAtomModule extends BaseLaserModule {
     private void addAtoms( Rectangle2D cavityBounds ) {
         Atom atom = null;
         atoms = new ArrayList();
-//        int numAtoms = 0;
+//        int numAtoms = 1;
         int numAtoms = 30;
         for( int i = 0; i < numAtoms; i++ ) {
             int numEnergyLevels = getThreeEnergyLevels() ? 3 : 2;

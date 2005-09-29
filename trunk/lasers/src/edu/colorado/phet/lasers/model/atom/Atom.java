@@ -18,9 +18,9 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.model.photon.PhotonEmittedEvent;
 import edu.colorado.phet.lasers.model.photon.PhotonEmittedListener;
 
+import java.awt.geom.Point2D;
 import java.util.EventListener;
 import java.util.EventObject;
-import java.awt.geom.Point2D;
 
 /**
  *
@@ -98,12 +98,8 @@ public class Atom extends SolidSphere {
                 maxEnergy = energy;
                 highestEnergyState = state;
             }
-            if( energy < minEnergy ) {
-                minEnergy = energy;
-                groundState = state;
-            }
         }
-        setCurrState( groundState );
+        setCurrState( getLowestEnergyState() );
     }
 
     /**
@@ -120,6 +116,7 @@ public class Atom extends SolidSphere {
             states[2] = model.getHighEnergyState();
         }
         groundState = states[0];
+        highestEnergyState = states[states.length - 1];
     }
 
     /**

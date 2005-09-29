@@ -16,8 +16,8 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 public class GroundState extends AtomicState {
 
     public GroundState() {
-//        setEnergyLevel( 0 );
-        setEnergyLevel( AtomicState.minEnergy );
+        setEnergyLevel( 0 );
+//        setEnergyLevel( AtomicState.minEnergy );
         setMeanLifetime( Double.POSITIVE_INFINITY );
     }
 
@@ -31,6 +31,7 @@ public class GroundState extends AtomicState {
 
         // Only respond a specified percentage of the time
         if( Math.random() < s_collisionLikelihood ) {
+//            AtomicState newState = getStimulatedState( atom, photon, this.getEnergyLevel() );
             AtomicState newState = getStimulatedState( atom, photon, 0 );
             if( newState != null ) {
                 photon.removeFromSystem();

@@ -128,9 +128,8 @@ public class BaseLaserModule extends Module {
         super.activate( app );
         Photon.setStimulationBounds( cavity.getBounds() );
         appFrame = app.getPhetFrame();
-        if( energyLevelsDialog == null ) {
-            createEnergyLevelsDialog( getClock(), appFrame );
-        }
+        // Needed to make the energy levels panel get its model-view transform right
+        laserEnergyLevelsMonitorPanel.adjustPanel();
         getLaserModel().getMiddleEnergyState().setMeanLifetime( middleStateMeanLifetime );
         getLaserModel().getHighEnergyState().setMeanLifetime( highStateMeanLifetime );
     }
