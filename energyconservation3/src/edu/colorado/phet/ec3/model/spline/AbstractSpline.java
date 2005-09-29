@@ -3,6 +3,7 @@ package edu.colorado.phet.ec3.model.spline;
 
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 
+import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -29,6 +30,19 @@ public abstract class AbstractSpline {
     }
 
     public abstract Point2D[] getInterpolationPoints();
+
+    public SegmentPath getSegmentPath() {
+        Point2D[] interp = getInterpolationPoints();
+        SegmentPath path = new SegmentPath();
+        for( int i = 0; i < interp.length - 1; i++ ) {
+            path.addSegment( new Segment( interp[i], interp[i + 1] ) );
+        }
+        return path;
+    }
+
+    public Point2D evaluate( double distAlongSpline ) {
+        return getSegmentPath().evaluate( distAlongSpline );
+    }
 
     public Point2D[] getControlPoints() {
         return (Point2D[])points.toArray( new Point2D.Double[0] );
@@ -58,4 +72,10 @@ public abstract class AbstractSpline {
         pt.y += y;
         //todo notify this moved.
     }
+
+    public Shape getAreaShape() {
+        BasicStroke stroke = new BasicStroke( 2 );
+        return stroke.createStrokedShape( getInterpolationPath() );
+    }
+
 }

@@ -107,6 +107,15 @@ public class NatCubic {
         return C;
     }
 
+    public Point2D evaluate( Point2D[] points, double distAlongSpline ) {
+        PointArray pts = new PointArray( points );
+        Cubic[] X = calcNaturalCubic( pts.numPoints() - 1, pts.getXPoints() );
+        Cubic[] Y = calcNaturalCubic( pts.numPoints() - 1, pts.getYPoints() );
+
+        Point2D.Double pt = new Point2D.Double( X[0].eval( distAlongSpline ), Y[0].eval( distAlongSpline ) );
+        return pt;
+    }
+
     public Point2D[] interpolate( Point2D[] points, int segments ) {
         if( points.length < 2 ) {
             Point2D[] out = new Point2D[points.length];
@@ -117,22 +126,22 @@ public class NatCubic {
         }
         else {
             PointArray pts = new PointArray( points );
-            PointArray mypolygon = new PointArray();
+            PointArray out = new PointArray();
             Cubic[] X = calcNaturalCubic( pts.numPoints() - 1, pts.getXPoints() );
             Cubic[] Y = calcNaturalCubic( pts.numPoints() - 1, pts.getYPoints() );
 
             /* very crude technique - just break each segment up into segments lines */
-            mypolygon.addPoint( X[0].eval( 0 ), Y[0].eval( 0 ) );
+            out.addPoint( X[0].eval( 0 ), Y[0].eval( 0 ) );
             for( int i = 0; i < X.length; i++ ) {
                 for( int j = 1; j <= segments; j++ ) {
                     float u = j / (float)segments;
-                    mypolygon.addPoint( ( X[i].eval( u ) ), ( Y[i].eval( u ) ) );
+                    out.addPoint( ( X[i].eval( u ) ), ( Y[i].eval( u ) ) );
                 }
             }
             ArrayList mypath = new ArrayList();
-            mypath.add( new Point2D.Double( mypolygon.getX( 0 ), mypolygon.getY( 0 ) ) );
-            for( int i = 1; i < mypolygon.numPoints(); i++ ) {
-                mypath.add( new Point2D.Double( mypolygon.getX( i ), mypolygon.getY( i ) ) );
+            mypath.add( new Point2D.Double( out.getX( 0 ), out.getY( 0 ) ) );
+            for( int i = 1; i < out.numPoints(); i++ ) {
+                mypath.add( new Point2D.Double( out.getX( i ), out.getY( i ) ) );
             }
 
             return (Point2D[])mypath.toArray( new Point2D.Double[0] );

@@ -29,6 +29,8 @@ public class SplineGraphic extends PNode {
     public SplineGraphic( AbstractSpline spline ) {
         this.spline = spline;
         pathLayer = new PPath();
+        pathLayer.setStroke( new BasicStroke( 3 ) );
+        pathLayer.setStrokePaint( Color.black );
         controlPointLayer = new PNode();
 
         addChild( pathLayer );

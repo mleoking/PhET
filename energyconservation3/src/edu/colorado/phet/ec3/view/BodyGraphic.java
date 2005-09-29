@@ -29,7 +29,7 @@ import java.util.ArrayList;
 public class BodyGraphic extends PNode {
     private Body body;
     private EC3Module ec3Module;
-    private PNode shape;
+    private PPath shape;
     private ArrayList dragHistory = new ArrayList();
     private Point2D mouseLocation;
     long t0 = System.currentTimeMillis();
@@ -173,6 +173,7 @@ public class BodyGraphic extends PNode {
     }
 
     private void update() {
-        setOffset( body.getX(), body.getY() );
+//        setOffset( body.getX(), body.getY() );
+        shape.setPathTo( body.getLocatedShape() );
     }
 }
