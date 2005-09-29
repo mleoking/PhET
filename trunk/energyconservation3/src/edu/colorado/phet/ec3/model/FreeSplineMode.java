@@ -18,6 +18,8 @@ public class FreeSplineMode extends ForceMode {
     private AbstractSpline spline;
     private Body body;
     private double lastDA;
+    boolean lastPositionSet = false;
+    double lastScalarPosition = 0;
 
     public FreeSplineMode( AbstractSpline spline, Body body ) {
         this.spline = spline;
@@ -36,7 +38,15 @@ public class FreeSplineMode extends ForceMode {
         EnergyDebugger.stepStarted( model, body, dt );
         double position = 0;
         try {
-            position = new SplineLogic( body ).guessPositionAlongSpline( getSpline() );
+            if( lastPositionSet ) {
+                position = new SplineLogic( body ).guessPositionAlongSpline( getSpline(), lastScalarPosition );
+                lastPositionSet = true;
+            }
+            else {
+                position = new SplineLogic( body ).guessPositionAlongSpline( getSpline() );
+                lastPositionSet = true;
+            }
+
         }
         catch( NullIntersectionException e ) {
 //            e.printStackTrace();
@@ -47,14 +57,25 @@ public class FreeSplineMode extends ForceMode {
             new EnergyConserver().fixEnergy( model, body, origTotalEnergy );
             return;
         }
+        lastScalarPosition = position;
+
         Segment segment = spline.getSegmentPath().getSegmentAtPosition( position );//todo this duplicates much work.
         double bodyAngle = body.getAngle();
         double dA = segment.getAngle() - bodyAngle;
-        if( dA > Math.PI / 16 ) {
-            dA = Math.PI / 16;
+        System.out.println( "seg=" + segment.getAngle() + ", body=" + bodyAngle + ", da=" + dA );
+
+        if( dA > Math.PI ) {
+            dA -= Math.PI * 2;
         }
-        else if( dA < -Math.PI / 16 ) {
-            dA = -Math.PI / 16;
+        else if( dA < -Math.PI ) {
+            dA += Math.PI * 2;
+        }
+        double rotationDTheta = Math.PI / 16;
+        if( dA > rotationDTheta ) {
+            dA = rotationDTheta;
+        }
+        else if( dA < -rotationDTheta ) {
+            dA = -rotationDTheta;
         }
         body.rotate( dA );
         this.lastDA = dA;
