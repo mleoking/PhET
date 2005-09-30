@@ -21,7 +21,12 @@ public class LaserConfig {
     // Localization
     public static final String localizedStringsPath = "localization/LasersStrings";
 
+    // Clock parameters
+    public static double DT;
+    public static int FPS;
+
     // Physical things
+    public static final double ELECTRON_RADIUS = 3;
     public static Point2D.Double ORIGIN = new Point2D.Double( 120, 200 );
 
     // Photon rates for beams
@@ -75,4 +80,7 @@ public class LaserConfig {
     public static int LASING_THRESHOLD = 80;
     // Number of photons in the system that will cause the thing to blow up
     public static int KABOOM_THRESHOLD = 300;
+
+    // Factor that scales pixels to real dimensional units
+    public static double PIXELS_PER_NM = 1E6;
 }

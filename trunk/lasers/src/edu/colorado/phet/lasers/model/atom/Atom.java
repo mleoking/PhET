@@ -99,7 +99,8 @@ public class Atom extends SolidSphere {
                 highestEnergyState = state;
             }
         }
-        setCurrState( getLowestEnergyState() );
+        groundState = getLowestEnergyState();
+        setCurrState( groundState );
     }
 
     /**
@@ -274,6 +275,10 @@ public class Atom extends SolidSphere {
             super( source );
             this.prevState = prevState;
             this.currState = currState;
+        }
+
+        public Atom getAtom() {
+            return (Atom)getSource();
         }
 
         public AtomicState getCurrState() {

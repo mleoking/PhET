@@ -90,11 +90,6 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
         return super.getHandler( p );
     }
 
-    public boolean contains( int x, int y ) {
-//        System.out.println( "super.contains(x,y) = " + super.contains( x, y ) );
-        return super.contains( x, y );
-    }
-
     public void update( ModelViewTransform1D tx ) {
         this.energyYTx = tx;
         energyLevelRep.update();

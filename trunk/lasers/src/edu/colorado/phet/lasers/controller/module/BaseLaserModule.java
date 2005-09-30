@@ -25,7 +25,6 @@ import edu.colorado.phet.lasers.help.EnergyLevelPanelHelp;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
-import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.atom.HighEnergyState;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
@@ -420,15 +419,18 @@ public class BaseLaserModule extends Module {
 
     public void setThreeEnergyLevels( boolean threeEnergyLevels ) {
         this.threeEnergyLevels = threeEnergyLevels;
+        int numLevels = threeEnergyLevels ? 3 : 2;
+        getEnergyLevelsMonitorPanel().setNumLevels( numLevels );
+        laserModel.setNumEnergyLevels( numLevels );
         if( threeEnergyLevels ) {
-            getEnergyLevelsMonitorPanel().setNumLevels( 3 );
+//            getEnergyLevelsMonitorPanel().setNumLevels( 3 );
             getLaserModel().getPumpingBeam().setEnabled( true );
-            getLaserModel().getMiddleEnergyState().setNextHigherEnergyState( getLaserModel().getHighEnergyState() );
+//            getLaserModel().getMiddleEnergyState().setNextHigherEnergyState( getLaserModel().getHighEnergyState() );
         }
         else {
-            getEnergyLevelsMonitorPanel().setNumLevels( 2 );
+//            getEnergyLevelsMonitorPanel().setNumLevels( 2 );
             getLaserModel().getPumpingBeam().setEnabled( false );
-            getLaserModel().getMiddleEnergyState().setNextHigherEnergyState( AtomicState.MaxEnergyState.instance() );
+//            getLaserModel().getMiddleEnergyState().setNextHigherEnergyState( AtomicState.MaxEnergyState.instance() );
         }
     }
 
