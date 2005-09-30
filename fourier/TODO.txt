@@ -63,12 +63,17 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(9/30) - make a separate manifest file for each project, which includes Main-Class attribute
+(9/30) - reorganize 'cmalley' CVS project, add Java stuff (including sound test program)
+(9/30) - create a Swing-based test app using Oscillator from jresource.org
+(9/30) - work on sound, use a SourceDataLine instead of a Clip
+(9/29) - work on sound, try to play waveform data as a Clip
 2.0.0 ..
-(9/27) - re-tag and re-publish 2.0.0
-(9/27) - redo Spanish JNLP file
-(9/27) - redo Spanish translations
-(9/27) - move Spanish translations into fourier/data/localization
-(9/27) - phetcommon: move Spanish translations into phetcommon/data/localization, add missing stuff, fix bugs
+(9/28) - re-tag and re-publish 2.0.0
+(9/28) - redo Spanish JNLP file
+(9/28) - redo Spanish translations
+(9/28) - move Spanish translations into fourier/data/localization
+(9/28) - phetcommon: move Spanish translations into phetcommon/data/localization, add missing stuff, fix bugs
 1.0.17 ...
 (9/23) - bugfix: minimize then maximize Discrete harmonics graph, sum vertical zoom control isn't positioned correctly (sometimes)
 (9/22) - phetcommon: rendering hints should be appended, not replaced, by PhetGraphic
