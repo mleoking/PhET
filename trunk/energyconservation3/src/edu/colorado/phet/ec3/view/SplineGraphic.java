@@ -166,17 +166,21 @@ public class SplineGraphic extends PNode {
         controlCircle.addInputEventListener( new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
                 initDragControlPoint( index );
+                event.setHandled( true );
             }
 
             public void mouseReleased( PInputEvent event ) {
                 finishDragControlPoint( index );
+                event.setHandled( true );
             }
 
             public void mouseDragged( PInputEvent event ) {
                 PDimension rel = event.getDeltaRelativeTo( SplineGraphic.this );
                 spline.translateControlPoint( index, rel.getWidth(), rel.getHeight() );
-                controlPointLoc.x += rel.getWidth();
-                controlPointLoc.y += rel.getHeight();
+                if( index == 0 || index == numControlPointGraphics() - 1 ) {
+                    controlPointLoc.x += rel.getWidth();
+                    controlPointLoc.y += rel.getHeight();
+                }
 
                 proposeMatchesEndpoint( index );
                 updateReverseSpline();
@@ -188,14 +192,16 @@ public class SplineGraphic extends PNode {
     }
 
     private void proposeMatchesEndpoint( int index ) {
-        SplineMatch match = getEndpointMatch();
-        if( match != null ) {
-            System.out.println( "match=" + match );
-            spline.controlPointAt( index ).setLocation( match.getTarget().getFullBounds().getCenter2D() );
-            updateAll();
-        }
-        else {
-            spline.controlPointAt( index ).setLocation( controlPointLoc );
+        if( index == 0 || index == numControlPointGraphics() - 1 ) {
+            SplineMatch match = getEndpointMatch();
+            if( match != null ) {
+                System.out.println( "match=" + match );
+                spline.controlPointAt( index ).setLocation( match.getTarget().getFullBounds().getCenter2D() );
+                updateAll();
+            }
+            else {
+                spline.controlPointAt( index ).setLocation( controlPointLoc );
+            }
         }
     }
 
@@ -206,11 +212,13 @@ public class SplineGraphic extends PNode {
     }
 
     private void finishDragControlPoint( int index ) {
-        SplineMatch match = getEndpointMatch();
-        if( match != null ) {
-            attach( index, match );
+        if( index == 0 || index == numControlPointGraphics() - 1 ) {
+            SplineMatch match = getEndpointMatch();
+            if( match != null ) {
+                attach( index, match );
+            }
+            controlPointLoc = null;
         }
-        controlPointLoc = null;
     }
 
     private void attach( int index, SplineMatch match ) {
@@ -218,7 +226,9 @@ public class SplineGraphic extends PNode {
     }
 
     private void initDragControlPoint( int index ) {
-        controlPointLoc = new Point2D.Double( spline.controlPointAt( index ).getX(), spline.controlPointAt( index ).getY() );
+        if( index == 0 || index == numControlPointGraphics() - 1 ) {
+            controlPointLoc = new Point2D.Double( spline.controlPointAt( index ).getX(), spline.controlPointAt( index ).getY() );
+        }
     }
 
     private void updateReverseSpline() {
@@ -245,5 +255,12 @@ public class SplineGraphic extends PNode {
 
     public AbstractSpline getReverseSpline() {
         return reverse;
+    }
+
+    public void disableDragControlPoints() {
+        for( int i = 0; i < numControlPointGraphics(); i++ ) {
+            getControlPointGraphic( i ).setPickable( false );
+            getControlPointGraphic( i ).setChildrenPickable( false );
+        }
     }
 }
