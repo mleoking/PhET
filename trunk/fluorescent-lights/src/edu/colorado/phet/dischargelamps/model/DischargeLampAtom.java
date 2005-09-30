@@ -12,7 +12,10 @@
 package edu.colorado.phet.dischargelamps.model;
 
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.lasers.model.*;
+import edu.colorado.phet.lasers.model.ElementProperties;
+import edu.colorado.phet.lasers.model.EnergyAbsorptionStrategy;
+import edu.colorado.phet.lasers.model.EnergyEmissionStrategy;
+import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 
@@ -24,9 +27,7 @@ public class DischargeLampAtom extends Atom {
 
     // The time that an atom spends in any one state before dropping to a lower one (except for
     // the ground state)
-//    public static final double DEFAULT_STATE_LIFETIME = ( DischargeLampsConfig.DT / DischargeLampsConfig.FPS ) * 300;
     public static final double DEFAULT_STATE_LIFETIME = ( DischargeLampsConfig.DT / DischargeLampsConfig.FPS ) * 100;
-    private ElementProperties elementProperties;
 
 ////    private EnergyAbsorptionStrategy energyAbsorptionStrategy = new HighestStateAbsorptionStrategy();
     private EnergyEmissionStrategy energyEmissionStrategy = new HydrogenEnergyEmissionStrategy();
@@ -85,7 +86,7 @@ public class DischargeLampAtom extends Atom {
     }
 
     public void setElementProperties( ElementProperties elementProperties ) {
-        this.elementProperties = elementProperties;
+//        this.elementProperties = elementProperties;
         this.energyAbsorptionStrategy = elementProperties.getEnergyAbsorptionStrategy();
         this.energyEmissionStrategy = elementProperties.getEnergyEmissionStrategy();
 

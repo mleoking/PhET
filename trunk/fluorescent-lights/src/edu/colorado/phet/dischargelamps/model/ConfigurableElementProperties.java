@@ -10,6 +10,7 @@
  */
 package edu.colorado.phet.dischargelamps.model;
 
+import edu.colorado.phet.lasers.model.ElementProperties;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 
 /**
@@ -29,7 +30,8 @@ public class ConfigurableElementProperties extends ElementProperties {
         super( "Configurable", energyLevels,
                new ConfigurableAtomEnergyEmissionStrategy(),
 //               new HydrogenEnergyEmissionStrategy(),
-               new FiftyPercentAbsorptionStrategy() );
+               new FiftyPercentAbsorptionStrategy(),
+               DischargeLampAtom.DEFAULT_STATE_LIFETIME );
         setMeanStateLifetime( meanStateLifetime );
         model.addChangeListener( new LevelChangeHandler() );
         setNumEnergyLevels( numEnergyLevels );

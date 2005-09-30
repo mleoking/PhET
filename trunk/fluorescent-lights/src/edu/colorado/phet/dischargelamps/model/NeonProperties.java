@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.dischargelamps.model;
 
+import edu.colorado.phet.lasers.model.ElementProperties;
+
 
 /**
  * HydrogenProperties
@@ -30,7 +32,8 @@ public class NeonProperties extends ElementProperties {
     public NeonProperties() {
         super( "Neon", energyLevels,
                new HydrogenEnergyEmissionStrategy(),
-               new FiftyPercentAbsorptionStrategy() );
+               new FiftyPercentAbsorptionStrategy(),
+               DischargeLampAtom.DEFAULT_STATE_LIFETIME );
     }
 }
 

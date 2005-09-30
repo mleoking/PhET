@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.dischargelamps.model;
+package edu.colorado.phet.lasers.model;
 
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.atom.GroundState;
@@ -28,16 +28,18 @@ public class ElementProperties {
     private AtomicState[] states;
     private EnergyEmissionStrategy energyEmissionStrategy;
     private EnergyAbsorptionStrategy energyAbsorptionStrategy;
-    private double meanStateLifetime = DischargeLampAtom.DEFAULT_STATE_LIFETIME;
+    private double meanStateLifetime;
     private double workFunction;
 
     protected ElementProperties( String name, double[] energyLevels,
                                  EnergyEmissionStrategy energyEmissionStrategy,
-                                 EnergyAbsorptionStrategy energyAbsorptionStrategy ) {
+                                 EnergyAbsorptionStrategy energyAbsorptionStrategy,
+                                 double meanStateLifetime ) {
         this.name = name;
         this.energyLevels = energyLevels;
         this.energyEmissionStrategy = energyEmissionStrategy;
         this.energyAbsorptionStrategy = energyAbsorptionStrategy;
+        this.meanStateLifetime = meanStateLifetime;
         initStates();
         setEnergyLevels( energyLevels );
     }

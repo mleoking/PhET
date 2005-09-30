@@ -98,7 +98,7 @@ public class BatterySlider extends GraphicSlider {
             public void voltageChanged( Battery.ChangeEvent event ) {
                 double voltage = ( event.getVoltageSource().getVoltage() );
                 if( getValue() != voltage ) {
-                    setValue( voltage / BatterySlider.this.voltageCalibrationFactor );
+                    setValue( voltage * BatterySlider.this.voltageCalibrationFactor );
                 }
             }
         } );
@@ -130,7 +130,7 @@ public class BatterySlider extends GraphicSlider {
                 // Read the value.
                 double voltage = getValue();
                 // Update the model.
-                model.setVoltage( voltage * voltageCalibrationFactor );
+                model.setVoltage( voltage / voltageCalibrationFactor );
             }
         }
     }

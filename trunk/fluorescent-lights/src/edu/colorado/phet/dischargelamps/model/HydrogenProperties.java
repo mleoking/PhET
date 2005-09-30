@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.dischargelamps.model;
 
+import edu.colorado.phet.lasers.model.ElementProperties;
+
 
 /**
  * HydrogenProperties
@@ -29,7 +31,8 @@ public class HydrogenProperties extends ElementProperties {
     public HydrogenProperties() {
         super( "Hydrogen", energyLevels,
                new HydrogenEnergyEmissionStrategy(),
-               new FiftyPercentAbsorptionStrategy() );
+               new FiftyPercentAbsorptionStrategy(),
+               DischargeLampAtom.DEFAULT_STATE_LIFETIME );
     }
 }
 
