@@ -42,6 +42,18 @@ public class SplineGraphic extends PNode {
         addChild( controlPointLayer );
 
         updateAll();
+        pathLayer.addInputEventListener( new PBasicInputEventHandler() {
+            public void mouseDragged( PInputEvent event ) {
+                super.mouseDragged( event );
+                translateAll( event.getDeltaRelativeTo( SplineGraphic.this ).width, event.getDeltaRelativeTo( SplineGraphic.this ).height );
+                updateAll();
+            }
+        } );
+        pathLayer.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
+    }
+
+    private void translateAll( double dx, double dy ) {
+        spline.translate( dx, dy );
     }
 
     private void updateAll() {
@@ -67,11 +79,16 @@ public class SplineGraphic extends PNode {
                 PDimension rel = event.getDeltaRelativeTo( SplineGraphic.this );
                 spline.translateControlPoint( index, rel.getWidth(), rel.getHeight() );
 
-                reverse.setControlPoints( reverse( spline.getControlPoints() ) );
+                updateReverseSpline();
                 updateAll();
+                event.setHandled( true );
             }
         } );
         controlCircle.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
+    }
+
+    private void updateReverseSpline() {
+        reverse.setControlPoints( reverse( spline.getControlPoints() ) );
     }
 
     private Point2D[] reverse( Point2D[] controlPoints ) {

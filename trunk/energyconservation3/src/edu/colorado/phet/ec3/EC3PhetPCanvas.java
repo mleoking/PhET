@@ -9,12 +9,12 @@ import edu.colorado.phet.ec3.view.BodyGraphic;
 import edu.colorado.phet.ec3.view.SplineGraphic;
 import edu.colorado.phet.piccolo.PanZoomWorldKeyHandler;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.umd.cs.piccolo.PNode;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -27,10 +27,11 @@ public class EC3PhetPCanvas extends PhetPCanvas {
     private EC3Module ec3Module;
     private EnergyConservationModel ec3Model;
 
-    private ArrayList bodyGraphics = new ArrayList();
-    private ArrayList splineGraphics = new ArrayList();
+//    private ArrayList bodyGraphics = new ArrayList();
+//    private ArrayList splineGraphics = new ArrayList();
 
-
+    private PNode bodyGraphics = new PNode();
+    private PNode splineGraphics = new PNode();
 //    private AbstractSpline spline;
 //    private AbstractSpline revspline;
 
@@ -111,11 +112,13 @@ public class EC3PhetPCanvas extends PhetPCanvas {
             }
         } );
         addKeyListener( new PanZoomWorldKeyHandler( this ) );
+        addWorldChild( splineGraphics );
+        addWorldChild( bodyGraphics );
     }
 
     private void addSplineGraphic( SplineGraphic splineGraphic ) {
-        addWorldChild( splineGraphic );
-        splineGraphics.add( splineGraphic );
+//        addWorldChild( splineGraphic );
+        splineGraphics.addChild( splineGraphic );
     }
 
     private void addSpline() {
@@ -141,15 +144,15 @@ public class EC3PhetPCanvas extends PhetPCanvas {
     }
 
     private void addBodyGraphic( BodyGraphic bodyGraphic ) {
-        bodyGraphics.add( bodyGraphic );
-        addWorldChild( bodyGraphic );
+        bodyGraphics.addChild( bodyGraphic );
+//        addWorldChild( bodyGraphic );
     }
 
     private void toggleBox() {
-        if( bodyGraphics.size() > 0 ) {
-            boolean state = ( (BodyGraphic)bodyGraphics.get( 0 ) ).isBoxVisible();
-            for( int i = 0; i < bodyGraphics.size(); i++ ) {
-                BodyGraphic bodyGraphic = (BodyGraphic)bodyGraphics.get( i );
+        if( bodyGraphics.getChildrenReference().size() > 0 ) {
+            boolean state = ( (BodyGraphic)bodyGraphics.getChildrenReference().get( 0 ) ).isBoxVisible();
+            for( int i = 0; i < bodyGraphics.getChildrenReference().size(); i++ ) {
+                BodyGraphic bodyGraphic = (BodyGraphic)bodyGraphics.getChildrenReference().get( i );
                 bodyGraphic.setBoxVisible( !state );
             }
         }
