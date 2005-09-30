@@ -56,6 +56,7 @@ public class Oscillator extends AudioInputStream {
     public static final int WAVEFORM_SQUARE = 1;
     public static final int WAVEFORM_TRIANGLE = 2;
     public static final int WAVEFORM_SAWTOOTH = 3;
+    public static final int WAVEFORM_FOURIER = 4;
 
     private byte[] m_abData;
     private int m_nBufferPosition;
@@ -66,7 +67,7 @@ public class Oscillator extends AudioInputStream {
     private long m_lLength;
     private int m_nPeriodLengthInFrames;
     private int m_nBufferLength;
-
+    private double[] m_daFourierAmplitudes;
 
     public Oscillator( int nWaveformType, float fSignalFrequency, float fAmplitude, AudioFormat audioFormat, long lLength ) {
         super( new ByteArrayInputStream( new byte[0] ), new AudioFormat( AudioFormat.Encoding.PCM_SIGNED, audioFormat.getSampleRate(), 16, 2, 4, audioFormat.getFrameRate(), audioFormat.isBigEndian() ), lLength );
@@ -89,6 +90,15 @@ public class Oscillator extends AudioInputStream {
         debug( "Oscillator.<init>(): end" );
     }
 
+    public void setFourierAmplitudes( double[] daFourierAmplitudes ) {
+        debug( "Oscillator.setFourierAmplitudes " + daFourierAmplitudes );
+        m_daFourierAmplitudes = new double[ daFourierAmplitudes.length ];
+        System.arraycopy( daFourierAmplitudes, 0, m_daFourierAmplitudes, 0, daFourierAmplitudes.length );
+        if ( m_nWaveformType == WAVEFORM_FOURIER ) {
+            generateData();
+        }
+    }
+    
     private void generateData() {
         float fAmplitude = (float) ( m_fAmplitude * Math.pow( 2, getFormat().getSampleSizeInBits() - 1 ) );
         byte[] abData = new byte[m_nBufferLength];
@@ -124,6 +134,12 @@ public class Oscillator extends AudioInputStream {
                 else {
                     fValue = 2.0F * ( fPeriodPosition - 1.0F );
                 }
+                break;
+                
+            case WAVEFORM_FOURIER:
+                assert( m_daFourierAmplitudes != null );
+                // Replace this with Fourier calculation
+                fValue = (float) Math.sin( fPeriodPosition * 2.0 * Math.PI );
                 break;
             }
             int nValue = Math.round( fValue * fAmplitude );

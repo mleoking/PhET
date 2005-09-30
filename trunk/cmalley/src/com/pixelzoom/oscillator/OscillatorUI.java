@@ -7,12 +7,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.sound.sampled.*;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 /**
  * OscillatorUI
@@ -20,13 +20,15 @@ import javax.swing.JPanel;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class OscillatorUI extends JFrame implements ActionListener, Runnable {
+public class OscillatorUI extends JFrame implements ActionListener, ChangeListener, Runnable {
 
     private static final boolean DEBUG = true;
     
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
+    
+    private static final int NUMBER_OF_HARMONICS = 11;
     
     private static final float SAMPLE_RATE = 44100.0F;
     private static final float FRAME_RATE = SAMPLE_RATE;
@@ -38,7 +40,9 @@ public class OscillatorUI extends JFrame implements ActionListener, Runnable {
     private static final String CHOICE_SQUARE = "square";
     private static final String CHOICE_TRIANGLE = "triangle";
     private static final String CHOICE_SAWTOOTH = "sawtooth";
-    private static final String[] CHOICES = { CHOICE_SINE, CHOICE_SQUARE, CHOICE_TRIANGLE, CHOICE_SAWTOOTH };
+    private static final String CHOICE_FOURIER = "Fourier series";
+    private static final String[] CHOICES = 
+        { CHOICE_SINE, CHOICE_SQUARE, CHOICE_TRIANGLE, CHOICE_SAWTOOTH, CHOICE_FOURIER };
    
     //----------------------------------------------------------------------------
     // Instance data
@@ -50,6 +54,7 @@ public class OscillatorUI extends JFrame implements ActionListener, Runnable {
     private JComboBox _waveformComboBox;
     private boolean _isPlaying;
     private boolean _waveformIsDirty;
+    private ArrayList _sliders; // of JSlider
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -64,18 +69,31 @@ public class OscillatorUI extends JFrame implements ActionListener, Runnable {
     
     private void initUI() {
         
+        JPanel panel = new JPanel();
+        getContentPane().add( panel );
+        
         _soundCheckBox = new JCheckBox( "Sound" );
         _soundCheckBox.setSelected( false );
         _soundCheckBox.addActionListener( this );
+        panel.add( _soundCheckBox );
         
         _waveformComboBox = new JComboBox( CHOICES );
         _waveformComboBox.setSelectedItem( CHOICE_SINE );
         _waveformComboBox.addActionListener( this );
-        
-        JPanel panel = new JPanel();
-        panel.add( _soundCheckBox );
         panel.add( _waveformComboBox );
-        getContentPane().add( panel );
+        
+        _sliders = new ArrayList();
+        for ( int i = 0; i < NUMBER_OF_HARMONICS; i++ ) {
+            JSlider slider = new JSlider();
+            slider.setOrientation( JSlider.VERTICAL );
+            slider.setMaximum( 100 );
+            slider.setMinimum( 0 );
+            slider.setValue( ( i == 0 ) ? 100 : 0 );
+            slider.setEnabled( false );
+            slider.addChangeListener( this );
+            panel.add( slider );
+            _sliders.add( slider );
+        }
 
         // Set the frame's size
         setSize( getPreferredSize().width + 20, getPreferredSize().height + 20 );
@@ -132,6 +150,9 @@ public class OscillatorUI extends JFrame implements ActionListener, Runnable {
         else {
             _waveformIsDirty = true;
         }
+        String sWaveformType = (String) _waveformComboBox.getSelectedItem();
+        int nWaveform = getWaveformType( sWaveformType );
+        setSlidersEnabled( nWaveform == Oscillator.WAVEFORM_FOURIER );
     }
     
     private void updateWaveform() {
@@ -142,6 +163,9 @@ public class OscillatorUI extends JFrame implements ActionListener, Runnable {
         }
         String sWaveformType = (String) _waveformComboBox.getSelectedItem();
         int nWaveform = getWaveformType( sWaveformType );
+        if ( nWaveform == Oscillator.WAVEFORM_FOURIER ) {
+            updateAmplitudes();
+        }
         _oscillator.setWaveformType( nWaveform );
         _waveformIsDirty = false;
         if ( _isPlaying ) {
@@ -163,9 +187,17 @@ public class OscillatorUI extends JFrame implements ActionListener, Runnable {
         else if ( sWaveformType.equals( CHOICE_SAWTOOTH ) ) {
             nWaveform = Oscillator.WAVEFORM_SAWTOOTH;
         }
+        else if ( sWaveformType.equals( CHOICE_FOURIER ) ) {
+            nWaveform = Oscillator.WAVEFORM_FOURIER;
+        }
         return nWaveform;
     }
     
+    private void setSlidersEnabled( boolean enabled ) {
+        for ( int i = 0; i < _sliders.size(); i++ ) {
+            ((JSlider)_sliders.get( i )).setEnabled( enabled );
+        }
+    }
     private void handleSound() {
         debug( "OscillatorUI: sound is " + ( _soundCheckBox.isSelected() ? "on" : "off" ) );
         if ( _soundCheckBox.isSelected() ) {
@@ -184,6 +216,24 @@ public class OscillatorUI extends JFrame implements ActionListener, Runnable {
         }
     }
 
+    //----------------------------------------------------------------------------
+    // ChangeListener implementation
+    //----------------------------------------------------------------------------
+    
+    public void stateChanged( ChangeEvent event ) {
+        if ( _sliders.contains( event.getSource() ) ) {
+            updateAmplitudes();
+        }
+    }
+    
+    private void updateAmplitudes() {
+        double[] amplitudes = new double[_sliders.size()];
+        for ( int i = 0; i < amplitudes.length; i++ ) {
+            amplitudes[i] = ( (JSlider) _sliders.get( i ) ).getValue() / 100D;
+        }
+        _oscillator.setFourierAmplitudes( amplitudes );
+    }
+    
     //----------------------------------------------------------------------------
     // Runnable implementation
     //----------------------------------------------------------------------------
