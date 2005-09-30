@@ -9,10 +9,8 @@
  */
 package edu.colorado.phet.collision;
 
-import edu.colorado.phet.collision.CollidableAdapter;
-import edu.colorado.phet.mechanics.Body;
-import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Point2D;
 
@@ -85,7 +83,7 @@ public class Box2D extends Body implements Collidable {
         return minimumWidth;
     }
 
-//    public void stepInTime( double dt ) {
+//    public void stepInTime( double DT ) {
 //    }
 
 //    private boolean containsBody( SphericalBody particle ) {

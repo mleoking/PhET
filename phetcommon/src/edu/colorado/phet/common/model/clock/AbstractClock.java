@@ -42,11 +42,11 @@ public abstract class AbstractClock {
      *
      * @param dt           The simulation time between ticks
      * @param tickSpec     Either the milliseconds to wait between simulation ticks, or the
-     *                      frames-per-second, depending on the tickSpecType
-     * @param tickSpecType If == 0, tickSpec is wait time in millisecond, if == 1, tickSpec is
-     *                      frames-per-second
+     *                     frames-per-second, depending on the tickSpecType
+     * @param tickSpecType If == 0, FPS is wait time in millisecond, if == 1, FPS is
+     *                     frames-per-second
      * @param isFixed      Specifies if the simulation time reported at each tick is always
-     *                     dt, or is scaled according to the desired tick spacing and the actual time between ticks.
+     *                     DT, or is scaled according to the desired tick spacing and the actual time between ticks.
      */
     public AbstractClock( double dt, int tickSpec, int tickSpecType, boolean isFixed ) {
         if( isFixed ) {

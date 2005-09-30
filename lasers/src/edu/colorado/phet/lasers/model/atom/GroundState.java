@@ -31,8 +31,8 @@ public class GroundState extends AtomicState {
 
         // Only respond a specified percentage of the time
         if( Math.random() < s_collisionLikelihood ) {
-//            AtomicState newState = getStimulatedState( atom, photon, this.getEnergyLevel() );
-            AtomicState newState = getStimulatedState( atom, photon, 0 );
+            AtomicState newState = getStimulatedState( atom, photon, this.getEnergyLevel() );
+//            AtomicState newState = getStimulatedState( atom, photon, 0 );
             if( newState != null ) {
                 photon.removeFromSystem();
                 atom.setCurrState( newState );

@@ -141,7 +141,7 @@ public class MultipleAtomModule extends BaseLaserModule {
     private void addAtoms( Rectangle2D cavityBounds ) {
         Atom atom = null;
         atoms = new ArrayList();
-//        int numAtoms = 1;
+//        int numAtoms = 2;
         int numAtoms = 30;
         for( int i = 0; i < numAtoms; i++ ) {
             int numEnergyLevels = getThreeEnergyLevels() ? 3 : 2;
@@ -217,7 +217,7 @@ public class MultipleAtomModule extends BaseLaserModule {
             int numEnergyLevels = threeEnergyLevels ? 3 : 2;
             for( int i = 0; i < atoms.size(); i++ ) {
                 Atom atom = (Atom)atoms.get( i );
-                atom.setNumEnergyLevels( numEnergyLevels, getLaserModel() );
+//                atom.setNumEnergyLevels( numEnergyLevels, getLaserModel() );
             }
         }
     }

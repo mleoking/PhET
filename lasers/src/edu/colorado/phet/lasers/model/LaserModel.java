@@ -23,7 +23,6 @@ import edu.colorado.phet.lasers.model.atom.*;
 import edu.colorado.phet.lasers.model.collision.PhotonAtomCollisonExpert;
 import edu.colorado.phet.lasers.model.collision.PhotonMirrorCollisonExpert;
 import edu.colorado.phet.lasers.model.mirror.Mirror;
-import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
@@ -61,6 +60,11 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
     private GroundState groundState = new GroundState();
     private MiddleEnergyState middleEnergyState = new MiddleEnergyState();
     private HighEnergyState highEnergyState = new HighEnergyState();
+
+    // Properties for two and three level atoms
+    private LaserElementProperties twoLevelProperties = new TwoLevelElementProperties();
+    private LaserElementProperties threeLevelProperties = new ThreeLevelElementProperties();
+    private LaserElementProperties currentElementProperties = twoLevelProperties;
 
     /**
      *
@@ -108,8 +112,8 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         atoms.add( modelElement );
         Atom atom = (Atom)modelElement;
         atom.addChangeListener( new AtomChangeListener() );
-        if( atom.getCurrState() == getGroundState() ) {
-            numGroundStateAtoms++;
+        if( atom.getCurrState() == atom.getGroundState() ) {
+//            numGroundStateAtoms++;
         }
         if( atom.getCurrState() == getMiddleEnergyState() ) {
             numMiddleStateAtoms++;
@@ -194,7 +198,43 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
 
     //----------------------------------------------------------------
     // Getters and setters
-    //----------------------------------------------------------------        
+    //----------------------------------------------------------------
+
+    public void setNumEnergyLevels( int numLevels ) {
+
+        switch( numLevels ) {
+            case 2:
+                currentElementProperties = twoLevelProperties;
+                break;
+            case 3:
+                currentElementProperties = threeLevelProperties;
+                break;
+            default:
+                throw new RuntimeException( "Invalid number of levels" );
+        }
+        for( int i = 0; i < atoms.size(); i++ ) {
+            Atom atom = (Atom)atoms.get( i );
+            atom.setStates( currentElementProperties.getStates() );
+        }
+
+        // Initialize the number of atoms in each level
+        numGroundStateAtoms = 0;
+        numMiddleStateAtoms = 0;
+        numHighStateAtoms = 0;
+        for( int i = 0; i < atoms.size(); i++ ) {
+            Atom atom = (Atom)atoms.get( i );
+            if( atom.getCurrState() == currentElementProperties.getGroundState() ) {
+                numGroundStateAtoms++;
+            }
+            if( atom.getCurrState() == currentElementProperties.getMiddleEnergyState() ) {
+                numMiddleStateAtoms++;
+            }
+            if( atom.getCurrState() == currentElementProperties.getHighEnergyState() ) {
+                numHighStateAtoms++;
+            }
+        }
+    }
+
     public ResonatingCavity getResonatingCavity() {
         return resonatingCavity;
     }
@@ -259,13 +299,21 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         return groundState;
     }
 
-    public MiddleEnergyState getMiddleEnergyState() {
-        return middleEnergyState;
+    public AtomicState getMiddleEnergyState() {
+//    public MiddleEnergyState getMiddleEnergyState() {
+        return currentElementProperties.getStates()[1];
+//        return middleEnergyState;
     }
 
     public HighEnergyState getHighEnergyState() {
         return highEnergyState;
     }
+
+    public void setMeanStateLifetime( double meanStateLifetime ) {
+        twoLevelProperties.setMeanStateLifetime( meanStateLifetime );
+        threeLevelProperties.setMeanStateLifetime( meanStateLifetime );
+    }
+
 
     ///////////////////////////////////////////////////////////////////////////////
     // Inner classes
@@ -328,7 +376,6 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
                 }
             }
         }
-
     }
 
     /**
@@ -460,7 +507,6 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
             lasingPhotons.remove( photon );
             laserListenerProxy.lasingPopulationChanged( new LaserEvent( this ) );
         }
-
         removeModelElement( event.getPhoton() );
     }
 
@@ -470,27 +516,27 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
     private class AtomChangeListener extends Atom.ChangeListenerAdapter {
 
         public void stateChanged( Atom.ChangeEvent event ) {
+            Atom atom = event.getAtom();
             AtomicState prevState = event.getPrevState();
             AtomicState currState = event.getCurrState();
-            if( prevState instanceof GroundState ) {
+            if( prevState == currentElementProperties.getGroundState() ) {
                 numGroundStateAtoms--;
             }
-            if( prevState instanceof MiddleEnergyState ) {
+            if( prevState == currentElementProperties.getMiddleEnergyState() ) {
                 numMiddleStateAtoms--;
             }
-            if( prevState instanceof HighEnergyState ) {
+            if( prevState == currentElementProperties.getHighEnergyState() ) {
                 numHighStateAtoms--;
             }
-            if( currState instanceof GroundState ) {
+            if( currState == currentElementProperties.getGroundState() ) {
                 numGroundStateAtoms++;
             }
-            if( currState instanceof MiddleEnergyState ) {
+            if( currState == currentElementProperties.getMiddleEnergyState() ) {
                 numMiddleStateAtoms++;
             }
-            if( currState instanceof HighEnergyState ) {
+            if( currState == currentElementProperties.getHighEnergyState() ) {
                 numHighStateAtoms++;
             }
         }
     }
-
 }

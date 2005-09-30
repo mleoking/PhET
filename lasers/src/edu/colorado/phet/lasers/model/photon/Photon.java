@@ -211,7 +211,7 @@ public class Photon extends Particle implements Collidable {
     }
 
     public void stepInTime( double dt ) {
-//        collidableAdapter.stepInTime( dt );
+//        collidableAdapter.stepInTime( DT );
         super.stepInTime( dt );
     }
 

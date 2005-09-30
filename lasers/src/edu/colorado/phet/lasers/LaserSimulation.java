@@ -20,7 +20,6 @@ import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.PhotoWindow;
-import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
 import edu.colorado.phet.lasers.controller.module.SingleAtomModule;
 
 import javax.swing.*;
@@ -37,13 +36,16 @@ public class LaserSimulation extends PhetApplication {
     private JDialog photoDlg;
 
     public static class LaserAppModel extends ApplicationModel {
+
         public LaserAppModel() {
             super( SimStrings.get( "LasersApplication.title" ),
                    SimStrings.get( "LasersApplication.description" ),
                    SimStrings.get( "LasersApplication.version" ) );
 
 
-            AbstractClock clock = new SwingTimerClock( 12, 25, AbstractClock.FRAMES_PER_SECOND );
+            LaserConfig.DT = 12;
+            LaserConfig.FPS = 25;
+            AbstractClock clock = new SwingTimerClock( LaserConfig.DT, LaserConfig.FPS, AbstractClock.FRAMES_PER_SECOND );
             setClock( clock );
 
             // Determine the resolution of the screen
@@ -54,15 +56,10 @@ public class LaserSimulation extends PhetApplication {
                 setFrameSetup( fs );
             }
 
-
-//            Module singleAtomModule2 = new SingleAtomModule( clock );
             Module singleAtomModule = new SingleAtomModule( clock );
-            Module multipleAtomModule = new MultipleAtomModule( clock );
 //            Module kaboomModule = new TestKaboomModule();
             Module[] modules = new Module[]{
                 singleAtomModule,
-//                singleAtomModule2,
-                multipleAtomModule,
 //                kaboomModule
             };
             setModules( modules );

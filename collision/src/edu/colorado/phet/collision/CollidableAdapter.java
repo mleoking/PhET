@@ -24,8 +24,8 @@ import java.awt.geom.Point2D;
  * collidableAdapter = new CollidableAdapter( this );
  * }
  * <p/>
- * public void stepInTime( double dt ) {
- * collidableAdapter.stepInTime( dt );
+ * public void stepInTime( double DT ) {
+ * collidableAdapter.stepInTime( DT );
  * }
  * <p/>
  * public Point2D getPositionPrev() {

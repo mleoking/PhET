@@ -22,6 +22,8 @@ import edu.colorado.phet.lasers.controller.UniversalLaserControlPanel;
 import edu.colorado.phet.lasers.help.SingleAtomModuleWiggleMe;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.Atom;
+import edu.colorado.phet.lasers.model.atom.PropertiesBasedAtom;
+import edu.colorado.phet.lasers.model.atom.TwoLevelElementProperties;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.PhotonSource;
 import edu.colorado.phet.lasers.view.LampGraphic;
@@ -134,7 +136,8 @@ public class SingleAtomModule extends BaseLaserModule {
 
         // Add an atom
         int numEnergyLevels = getThreeEnergyLevels() ? 3 : 2;
-        atom = new Atom( getLaserModel(), numEnergyLevels );
+        atom = new PropertiesBasedAtom( getLaserModel(), new TwoLevelElementProperties() );
+//        atom = new Atom( getLaserModel(), numEnergyLevels );
         atom.setPosition( getLaserOrigin().getX() + s_boxWidth / 2,
                           getLaserOrigin().getY() + s_boxHeight / 2 );
         atom.setVelocity( 0, 0 );
@@ -145,7 +148,6 @@ public class SingleAtomModule extends BaseLaserModule {
         setControlPanel( laserControlPanel );
         laserControlPanel.setUpperTransitionView( BaseLaserModule.PHOTON_DISCRETE );
         setPumpingPhotonView( BaseLaserModule.PHOTON_DISCRETE );
-        setThreeEnergyLevels( false );
 
         // Add the Wiggle-me
         addWiggleMe( seedBeam );
@@ -211,10 +213,10 @@ public class SingleAtomModule extends BaseLaserModule {
             pumpBeamControl.setVisible( threeEnergyLevels );
             getLaserModel().getPumpingBeam().setEnabled( threeEnergyLevels );
         }
-        if( atom != null ) {
-            int numEnergyLevels = threeEnergyLevels ? 3 : 2;
-            atom.setNumEnergyLevels( numEnergyLevels, getLaserModel() );
-        }
+//        if( atom != null ) {
+//            int numEnergyLevels = threeEnergyLevels ? 3 : 2;
+//            atom.setNumEnergyLevels( numEnergyLevels, getLaserModel() );
+//        }
     }
 
     /**

@@ -21,13 +21,13 @@ public abstract class HardsphereCollision implements Collision {
     static private Vector2D dVA = new Vector2D.Double();
 
 //    public void collide( CollidableAdapter bodyA, CollidableAdapter bodyB,
-//                         Vector2D loa, double dt, IdealGasModel model ) {
-//        double timeStep = dt;
+//                         Vector2D loa, double DT, IdealGasModel model ) {
+//        double timeStep = DT;
 //
 //        // Compute the actual time of collision. This is, in general, prior to the end of the current time step.
 //        // If t1 < 0, that means the objects were already overlapping at the beginning of the time step. If it is
-//        // 0 < t1 <= dt, it means the bodies came into contact during the time step.
-//        double t1 = computeT1( bodyA, bodyB, dt );
+//        // 0 < t1 <= DT, it means the bodies came into contact during the time step.
+//        double t1 = computeT1( bodyA, bodyB, DT );
 //
 //        // If t1 doesn't make sense, then punt
 //        if( Double.isNaN( t1 ) || t1 < 0 || t1 > timeStep ) {
@@ -177,7 +177,7 @@ public abstract class HardsphereCollision implements Collision {
      * @param bodyB
      * @return
      */
-//    public static double computeT1( CollidableAdapter bodyA, CollidableAdapter bodyB, double dt ) {
+//    public static double computeT1( CollidableAdapter bodyA, CollidableAdapter bodyB, double DT ) {
 //
 //        double t1 = 0;
 //
@@ -213,20 +213,20 @@ public abstract class HardsphereCollision implements Collision {
 //            roots = MathUtil.quadraticRoots( roots, (float)a, (float)b, (float)c );
 //
 //            // Find the correct root to return.
-//            if( roots[0] >= 0 && roots[0] <= dt
-//                && roots[1] >= 0 && roots[1] <= dt ) {
+//            if( roots[0] >= 0 && roots[0] <= DT
+//                && roots[1] >= 0 && roots[1] <= DT ) {
 //                t1 = Math.min( roots[0], roots[1] );
 //            }
-//            else if( roots[0] >= 0 && roots[0] <= dt ) {
+//            else if( roots[0] >= 0 && roots[0] <= DT ) {
 //                t1 = roots[0];
 //            }
-//            else if( roots[1] >= 0 && roots[1] <= dt ) {
+//            else if( roots[1] >= 0 && roots[1] <= DT ) {
 //                t1 = roots[1];
 //            }
 //
-//            // If both roots are > dt, then send NaN back, indicating we don't
+//            // If both roots are > DT, then send NaN back, indicating we don't
 //            // know what to do
-//            else if( roots[0] > dt && roots[1] > dt ) {
+//            else if( roots[0] > DT && roots[1] > DT ) {
 //                t1 = Double.NaN;
 //            }
 //
@@ -237,7 +237,7 @@ public abstract class HardsphereCollision implements Collision {
 //                t1 = Math.max( roots[0], roots[1] );
 //            }
 //
-//            else if( roots[0] * roots[1] < 0 && Math.min( roots[0], roots[1] ) >= -2 * dt ) {
+//            else if( roots[0] * roots[1] < 0 && Math.min( roots[0], roots[1] ) >= -2 * DT ) {
 //                t1 = Math.min( roots[0], roots[1] );
 //            }
 //
