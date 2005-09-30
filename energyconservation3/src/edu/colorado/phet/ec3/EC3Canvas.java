@@ -34,7 +34,7 @@ public class EC3Canvas extends PhetPCanvas {
 
     private PNode bodyGraphics = new PNode();
     private PNode splineGraphics = new PNode();
-    private final int NUM_CUBIC_SPLINE_SEGMENTS = 30;
+    public static final int NUM_CUBIC_SPLINE_SEGMENTS = 30;
 
     public EC3Canvas( EC3Module ec3Module ) {
         this.ec3Module = ec3Module;
@@ -45,7 +45,9 @@ public class EC3Canvas extends PhetPCanvas {
         }
 
         CubicSpline spline = new CubicSpline( NUM_CUBIC_SPLINE_SEGMENTS );
-//        SplineToolbox splineToolbox=new SplineTo
+        SplineToolbox splineToolbox = new SplineToolbox( this );
+//        splineToolbox.setOffset( 50,50);
+        getPhetRootNode().addBackScreenChild( splineToolbox );
 
 //        spline.addControlPoint( 150, 300 );
 //        spline.addControlPoint( 200, 320 );
@@ -116,7 +118,7 @@ public class EC3Canvas extends PhetPCanvas {
         addWorldChild( bodyGraphics );
     }
 
-    private void addSplineGraphic( SplineGraphic splineGraphic ) {
+    public void addSplineGraphic( SplineGraphic splineGraphic ) {
 //        addWorldChild( splineGraphic );
         splineGraphics.addChild( splineGraphic );
     }
@@ -251,5 +253,9 @@ public class EC3Canvas extends PhetPCanvas {
 
     private void removeSplineGraphic( SplineGraphic splineGraphic ) {
         splineGraphics.removeChild( splineGraphic );
+    }
+
+    public EnergyConservationModel getEnergyConservationModel() {
+        return ec3Model;
     }
 }
