@@ -4,6 +4,7 @@ package edu.colorado.phet.ec3.view;
 import edu.colorado.phet.ec3.EC3Canvas;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.piccolo.CursorHandler;
+import edu.colorado.phet.piccolo.PopupMenuHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -56,24 +57,25 @@ public class SplineGraphic extends PNode {
         updateAll();
         pathLayer.addInputEventListener( new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
-                super.mousePressed( event );
                 initDragSpline();
             }
 
             public void mouseDragged( PInputEvent event ) {
-                super.mouseDragged( event );
-                translateAll( event.getDeltaRelativeTo( SplineGraphic.this ).width, event.getDeltaRelativeTo( SplineGraphic.this ).height );
-                proposeMatchesTrunk();
-                updateAll();
+                dragSpline( event );
             }
 
             public void mouseReleased( PInputEvent event ) {
-                super.mouseReleased( event );
                 finishDragSpline();
             }
         } );
         pathLayer.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         pathLayer.addInputEventListener( new PopupMenuHandler( ec3Canvas, new PathPopupMenu( ec3Canvas ) ) );
+    }
+
+    private void dragSpline( PInputEvent event ) {
+        translateAll( event.getDeltaRelativeTo( SplineGraphic.this ).width, event.getDeltaRelativeTo( SplineGraphic.this ).height );
+        proposeMatchesTrunk();
+        updateAll();
     }
 
     class PathPopupMenu extends JPopupMenu {
@@ -117,7 +119,6 @@ public class SplineGraphic extends PNode {
         if( !ok ) {
             proposeMatchTrunk( numControlPointGraphics() - 1 );
         }
-
     }
 
     private boolean proposeMatchTrunk( int index ) {

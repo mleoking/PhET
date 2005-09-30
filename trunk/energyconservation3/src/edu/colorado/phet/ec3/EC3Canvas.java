@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3;
 
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
 import edu.colorado.phet.ec3.model.Floor;
@@ -13,12 +14,15 @@ import edu.colorado.phet.ec3.view.SplineMatch;
 import edu.colorado.phet.piccolo.PanZoomWorldKeyHandler;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -39,8 +43,7 @@ public class EC3Canvas extends PhetPCanvas {
     private PNode splineGraphics = new PNode();
     public static final int NUM_CUBIC_SPLINE_SEGMENTS = 30;
 
-//    ArrayList pressedKeys = new ArrayList();
-    HashMap pressedKeys = new HashMap();
+    private HashMap pressedKeys = new HashMap();
     private static final Object DUMMY_VALUE = new Object();
 
     public EC3Canvas( EC3Module ec3Module ) {
@@ -56,44 +59,15 @@ public class EC3Canvas extends PhetPCanvas {
         }
 
         CubicSpline spline = new CubicSpline( NUM_CUBIC_SPLINE_SEGMENTS );
-        SplineToolbox splineToolbox = new SplineToolbox( this );
-//        splineToolbox.setOffset( 50,50);
+        SplineToolbox splineToolbox = new SplineToolbox( this, 50, 50 );
         getPhetRootNode().addBackScreenChild( splineToolbox );
 
-//        spline.addControlPoint( 150, 300 );
-//        spline.addControlPoint( 200, 320 );
-//        spline.addControlPoint( 350, 300 );
-//        spline.addControlPoint( 400, 375 );
-
-//        spline.addControlPoint( 125, 198 );
-//        spline.addControlPoint( 250, 512 );
-//        spline.addControlPoint( 591, 447 );
-//        spline.addControlPoint( 419, 130 );
-
-//        spline.addControlPoint( 125, 198 );
-//        spline.addControlPoint( 250, 512 );
-//        spline.addControlPoint( 591, 447 );
-//        spline.addControlPoint( 747, 189 );
-//
-//        spline.addControlPoint( 125, 198 );
-//        spline.addControlPoint( 250, 512 );
-//        spline.addControlPoint( 591, 447 );
-//        spline.addControlPoint( 620, 198 );
-//        spline.addControlPoint( 700, 198 );
-//        spline.addControlPoint( 750, 198 );
-//        spline.addControlPoint( 800, 198 );
-
-        spline.addControlPoint( 125, 198 );
-        spline.addControlPoint( 250, 512 );
-        spline.addControlPoint( 591, 447 );
-        spline.addControlPoint( 543, 147 );
-        spline.addControlPoint( 422, 333 );
-        spline.addControlPoint( 810, 351 );
-        spline.addControlPoint( 800, 198 );
+        spline.addControlPoint( 47, 170 );
+        spline.addControlPoint( 336, 543 );
+        spline.addControlPoint( 678, 342 );
         AbstractSpline revspline = spline.createReverseSpline();
         SplineGraphic splineGraphic = new SplineGraphic( this, spline, revspline );
         ec3Model.addSpline( spline, revspline );
-//        ec3Model.addSpline( spline.createReverseSpline() );
 
         addSplineGraphic( splineGraphic );
         addMouseListener( new MouseAdapter() {
@@ -117,6 +91,9 @@ public class EC3Canvas extends PhetPCanvas {
                 else if( e.getKeyCode() == KeyEvent.VK_N ) {
                     addSpline();
                 }
+                else if( e.getKeyCode() == KeyEvent.VK_J ) {
+                    addBuses();
+                }
             }
 
             public void keyReleased( KeyEvent e ) {
@@ -134,6 +111,28 @@ public class EC3Canvas extends PhetPCanvas {
                 updateThrust();
             }
         } );
+    }
+
+    private void addBuses() {
+        try {
+            Floor floor = ec3Model.floorAt( 0 );
+            BufferedImage newImage = ImageLoader.loadBufferedImage( "images/schoolbus.gif" );
+            PImage schoolBus = new PImage( newImage );
+            schoolBus.scale( 2 );
+            double y = floor.getY() - schoolBus.getFullBounds().getHeight() + 10;
+            schoolBus.setOffset( 0, y );
+            double busStart = 400;
+            for( int i = 0; i < 100; i++ ) {
+                PImage bus = new PImage( newImage );
+                bus.scale( 2 );
+                double dbus = 2;
+                bus.setOffset( busStart + i * ( bus.getFullBounds().getWidth() + dbus ), y );
+                addWorldChild( bus );
+            }
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
     }
 
     private void updateThrust() {
@@ -157,7 +156,6 @@ public class EC3Canvas extends PhetPCanvas {
     }
 
     public void addSplineGraphic( SplineGraphic splineGraphic ) {
-//        addWorldChild( splineGraphic );
         splineGraphics.addChild( splineGraphic );
     }
 
@@ -175,17 +173,15 @@ public class EC3Canvas extends PhetPCanvas {
 
     private void addSkater() {
         Body body = new Body( Body.createDefaultBodyRect() );
+        body.setPosition( 100, 0 );
         ec3Model.addBody( body );
 
-//        for( int i = 0; i < ec3Model.numBodies(); i++ ) {
         BodyGraphic bodyGraphic = new BodyGraphic( ec3Module, body );
         addBodyGraphic( bodyGraphic );
-//        }
     }
 
     private void addBodyGraphic( BodyGraphic bodyGraphic ) {
         bodyGraphics.addChild( bodyGraphic );
-//        addWorldChild( bodyGraphic );
     }
 
     private void toggleBox() {
@@ -255,13 +251,6 @@ public class EC3Canvas extends PhetPCanvas {
         //delete both of those, add one new parent.
         removeSpline( splineGraphic );
         removeSpline( match.getSplineGraphic() );
-//        ec3Model.removeSpline( splineGraphic.getSpline() );
-//        ec3Model.removeSpline( splineGraphic.getReverseSpline() );
-//        ec3Model.removeSpline( match.getSplineGraphic().getSpline() );
-//        ec3Model.removeSpline( match.getSplineGraphic().getReverseSpline() );
-//
-//        removeSplineGraphic( splineGraphic );
-//        removeSplineGraphic( match.getSplineGraphic() );
 
         AbstractSpline spline = new CubicSpline( NUM_CUBIC_SPLINE_SEGMENTS );
         AbstractSpline a = splineGraphic.getSpline();

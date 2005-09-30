@@ -51,7 +51,19 @@ public class FreeSplineMode extends ForceMode {
         }
         catch( NullIntersectionException e ) {
 //            e.printStackTrace();
-            body.setFreeFallRotation( lastDA );
+
+            double vy = body.getVelocity().getY();
+            double timeToReturnToThisHeight = Math.abs( 2 * vy / model.getGravity() );
+            double numTimeSteps = timeToReturnToThisHeight / dt;
+            double dTheta = Math.PI * 2 / numTimeSteps / dt;
+
+            if( timeToReturnToThisHeight > 10 ) {
+                body.setFreeFallRotation( -dTheta );
+                System.out.println( "Flipping!" );
+            }
+            else {
+                body.setFreeFallRotation( lastDA );
+            }
             body.setFreeFallMode();
             super.setNetForce( new Vector2D.Double( 0, 0 ) );
             super.stepInTime( model, body, dt );
