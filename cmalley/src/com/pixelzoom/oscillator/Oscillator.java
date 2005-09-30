@@ -64,35 +64,37 @@ public class Oscillator extends AudioInputStream {
     private float m_fSignalFrequency;
     private float m_fAmplitude;
     private long m_lLength;
+    private int m_nPeriodLengthInFrames;
+    private int m_nBufferLength;
 
 
     public Oscillator( int nWaveformType, float fSignalFrequency, float fAmplitude, AudioFormat audioFormat, long lLength ) {
         super( new ByteArrayInputStream( new byte[0] ), new AudioFormat( AudioFormat.Encoding.PCM_SIGNED, audioFormat.getSampleRate(), 16, 2, 4, audioFormat.getFrameRate(), audioFormat.isBigEndian() ), lLength );
-        if ( DEBUG ) {
-            out( "Oscillator.<init>(): begin" );
-        }
+        debug( "Oscillator.<init>(): begin" );
+
         m_nWaveformType = nWaveformType;
         m_fSignalFrequency = fSignalFrequency;
         m_fAmplitude = fAmplitude;
         m_lLength = lLength;
+
+        m_nPeriodLengthInFrames = Math.round( getFormat().getFrameRate() / m_fSignalFrequency );
+        m_nBufferLength = m_nPeriodLengthInFrames * getFormat().getFrameSize();
+        m_abData = new byte[m_nBufferLength];
+        
         generateData();
-        if ( DEBUG ) {
-            out( "Oscillator.<init>(): end" );
-        }
+        
+        m_lRemainingFrames = m_lLength;
+        m_nBufferPosition = 0;
+
+        debug( "Oscillator.<init>(): end" );
     }
 
     private void generateData() {
-        m_lRemainingFrames = m_lLength;
         float fAmplitude = (float) ( m_fAmplitude * Math.pow( 2, getFormat().getSampleSizeInBits() - 1 ) );
-        // length of one period in frames
-        int nPeriodLengthInFrames = Math.round( getFormat().getFrameRate() / m_fSignalFrequency );
-        int nBufferLength = nPeriodLengthInFrames * getFormat().getFrameSize();
-        m_abData = new byte[nBufferLength];
-        for ( int nFrame = 0; nFrame < nPeriodLengthInFrames; nFrame++ ) {
-            /**     The relative position inside the period
-             of the waveform. 0.0 = beginning, 1.0 = end
-             */
-            float fPeriodPosition = (float) nFrame / (float) nPeriodLengthInFrames;
+        byte[] abData = new byte[m_nBufferLength];
+        for ( int nFrame = 0; nFrame < m_nPeriodLengthInFrames; nFrame++ ) {
+            // The relative position inside the period of the waveform. 0.0 = beginning, 1.0 = end
+            float fPeriodPosition = (float) nFrame / (float) m_nPeriodLengthInFrames;
             float fValue = 0;
             switch ( m_nWaveformType ) {
             case WAVEFORM_SINE:
@@ -127,15 +129,19 @@ public class Oscillator extends AudioInputStream {
             int nValue = Math.round( fValue * fAmplitude );
             int nBaseAddr = ( nFrame ) * getFormat().getFrameSize();
             // this is for 16 bit stereo, little endian
-            m_abData[nBaseAddr + 0] = (byte) ( nValue & 0xFF );
-            m_abData[nBaseAddr + 1] = (byte) ( ( nValue >>> 8 ) & 0xFF );
-            m_abData[nBaseAddr + 2] = (byte) ( nValue & 0xFF );
-            m_abData[nBaseAddr + 3] = (byte) ( ( nValue >>> 8 ) & 0xFF );
+            abData[nBaseAddr + 0] = (byte) ( nValue & 0xFF );
+            abData[nBaseAddr + 1] = (byte) ( ( nValue >>> 8 ) & 0xFF );
+            abData[nBaseAddr + 2] = (byte) ( nValue & 0xFF );
+            abData[nBaseAddr + 3] = (byte) ( ( nValue >>> 8 ) & 0xFF );
         }
-        m_nBufferPosition = 0;
+        setData( abData );
     }
 
-    public synchronized void setWaveformType( int nWaveformType ) {
+    private synchronized void setData( byte[] abData ) {
+        System.arraycopy( abData, 0, m_abData, 0, m_nBufferLength );
+    }
+    
+    public void setWaveformType( int nWaveformType ) {
         m_nWaveformType = nWaveformType;
         generateData();
     }
@@ -167,17 +173,13 @@ public class Oscillator extends AudioInputStream {
      always greater than 1. So we always throw an exception.
      */
     public int read() throws IOException {
-        if ( DEBUG ) {
-            out( "Oscillator.read(): begin" );
-        }
+        debug( "Oscillator.read(): begin" );
         throw new IOException( "cannot use this method currently" );
     }
 
 
     public synchronized int read( byte[] abData, int nOffset, int nLength ) throws IOException {
-        if ( DEBUG ) {
-            out( "Oscillator.read(): begin" );
-        }
+        debug( "Oscillator.read(): begin" );
         if ( nLength % getFormat().getFrameSize() != 0 ) {
             throw new IOException( "length must be an integer multiple of frame size" );
         }
@@ -199,15 +201,15 @@ public class Oscillator extends AudioInputStream {
         if ( m_lRemainingFrames == 0 ) {
             nReturn = -1;
         }
-        if ( DEBUG ) {
-            out( "Oscillator.read(): end" );
-        }
+        debug( "Oscillator.read(): end" );
         return nReturn;
     }
 
 
-    private static void out( String strMessage ) {
-        System.out.println( strMessage );
+    private static void debug( String strMessage ) {
+        if ( DEBUG ) {
+            System.out.println( strMessage );
+        }
     }
 }
 
