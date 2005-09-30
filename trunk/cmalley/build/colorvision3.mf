@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+
+Main-Class: edu.colorado.phet.colorvision3.ColorVisionApplication
+
+CVS-Tag: colorvision3-X-XX-XX-2005-XX-XX

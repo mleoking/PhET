@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+
+Main-Class: edu.colorado.phet.faraday.FaradayApplication
+
+CVS-Tag: faraday-X-XX-XX-2005-XX-XX
