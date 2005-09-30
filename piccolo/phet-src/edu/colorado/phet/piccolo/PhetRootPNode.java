@@ -13,10 +13,13 @@ import edu.umd.cs.piccolo.PNode;
 public class PhetRootPNode extends PNode {
     private PNode worldNode;
     private PNode screenNode;
+    private PNode backScreenNode;
 
     public PhetRootPNode() {
+        backScreenNode = new PNode();
         worldNode = new PNode();
         screenNode = new PNode();
+        addChild( backScreenNode );
         addChild( worldNode );
         addChild( screenNode );
     }
@@ -27,6 +30,10 @@ public class PhetRootPNode extends PNode {
 
     public PNode getScreenNode() {
         return screenNode;
+    }
+
+    public PNode getBackScreenNode() {
+        return backScreenNode;
     }
 
     public void setWorldScale( double scale ) {
@@ -51,6 +58,14 @@ public class PhetRootPNode extends PNode {
 
     public void removeScreenChild( PNode node ) {
         screenNode.removeChild( node );
+    }
+
+    public void addBackScreenChild( PNode node ) {
+        backScreenNode.addChild( node );
+    }
+
+    public void removeBackScreenChild( PNode node ) {
+        backScreenNode.removeChild( node );
     }
 
     public void setContainsScreenNode( boolean b ) {
