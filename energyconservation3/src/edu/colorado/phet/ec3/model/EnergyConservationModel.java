@@ -185,4 +185,8 @@ public class EnergyConservationModel {
     public double getGravity() {
         return gravity;
     }
+
+    public void removeSpline( AbstractSpline spline ) {
+        splines.remove( spline );
+    }
 }

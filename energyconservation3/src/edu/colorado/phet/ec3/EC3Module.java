@@ -19,7 +19,7 @@ import edu.colorado.phet.piccolo.PiccoloModule;
 
 public class EC3Module extends PiccoloModule {
     private EnergyConservationModel energyModel;
-    private EC3PhetPCanvas energyCanvas;
+    private EC3Canvas energyCanvas;
 
     /**
      * @param name
@@ -38,7 +38,7 @@ public class EC3Module extends PiccoloModule {
                 energyModel.stepInTime( dt / 10.0 );
             }
         } );
-        energyCanvas = new EC3PhetPCanvas( this );
+        energyCanvas = new EC3Canvas( this );
         setPhetPCanvas( energyCanvas );
         energyCanvas.addWorldChild( new FloorGraphic( floor ) );
     }

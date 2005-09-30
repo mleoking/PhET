@@ -7,6 +7,7 @@ import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.CubicSpline;
 import edu.colorado.phet.ec3.view.BodyGraphic;
 import edu.colorado.phet.ec3.view.SplineGraphic;
+import edu.colorado.phet.ec3.view.SplineMatch;
 import edu.colorado.phet.piccolo.PanZoomWorldKeyHandler;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -15,6 +16,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * User: Sam Reid
@@ -23,19 +28,15 @@ import java.awt.event.MouseEvent;
  * Copyright (c) Sep 21, 2005 by Sam Reid
  */
 
-public class EC3PhetPCanvas extends PhetPCanvas {
+public class EC3Canvas extends PhetPCanvas {
     private EC3Module ec3Module;
     private EnergyConservationModel ec3Model;
 
-//    private ArrayList bodyGraphics = new ArrayList();
-//    private ArrayList splineGraphics = new ArrayList();
-
     private PNode bodyGraphics = new PNode();
     private PNode splineGraphics = new PNode();
-//    private AbstractSpline spline;
-//    private AbstractSpline revspline;
+    private final int NUM_CUBIC_SPLINE_SEGMENTS = 30;
 
-    public EC3PhetPCanvas( EC3Module ec3Module ) {
+    public EC3Canvas( EC3Module ec3Module ) {
         this.ec3Module = ec3Module;
         this.ec3Model = ec3Module.getEnergyConservationModel();
         for( int i = 0; i < ec3Model.numBodies(); i++ ) {
@@ -43,9 +44,8 @@ public class EC3PhetPCanvas extends PhetPCanvas {
             addBodyGraphic( bodyGraphic );
         }
 
-//        spline = new CubicSpline( 50 );
-        CubicSpline spline = new CubicSpline( 30 );
-
+        CubicSpline spline = new CubicSpline( NUM_CUBIC_SPLINE_SEGMENTS );
+//        SplineToolbox splineToolbox=new SplineTo
 
 //        spline.addControlPoint( 150, 300 );
 //        spline.addControlPoint( 200, 320 );
@@ -78,7 +78,7 @@ public class EC3PhetPCanvas extends PhetPCanvas {
         spline.addControlPoint( 810, 351 );
         spline.addControlPoint( 800, 198 );
         AbstractSpline revspline = spline.createReverseSpline();
-        SplineGraphic splineGraphic = new SplineGraphic( spline, revspline );
+        SplineGraphic splineGraphic = new SplineGraphic( this, spline, revspline );
         ec3Model.addSpline( spline, revspline );
 //        ec3Model.addSpline( spline.createReverseSpline() );
 
@@ -122,14 +122,14 @@ public class EC3PhetPCanvas extends PhetPCanvas {
     }
 
     private void addSpline() {
-        CubicSpline spline = new CubicSpline( 30 );
+        CubicSpline spline = new CubicSpline( NUM_CUBIC_SPLINE_SEGMENTS );
         spline.addControlPoint( 50, 50 );
         spline.addControlPoint( 150, 50 );
         spline.addControlPoint( 300, 50 );
         AbstractSpline rev = spline.createReverseSpline();
 
         ec3Model.addSpline( spline, rev );
-        SplineGraphic splineGraphic = new SplineGraphic( spline, rev );
+        SplineGraphic splineGraphic = new SplineGraphic( this, spline, rev );
         addSplineGraphic( splineGraphic );
     }
 
@@ -162,4 +162,94 @@ public class EC3PhetPCanvas extends PhetPCanvas {
         ec3Model.splineAt( 0 ).printControlPointCode();
     }
 
+    int threshold = 100;
+
+    public SplineMatch proposeMatch( SplineGraphic splineGraphic, final Point2D toMatch ) {
+
+        ArrayList matches = new ArrayList();
+
+        for( int i = 0; i < numSplineGraphics(); i++ ) {
+            SplineGraphic target = splineGraphicAt( i );
+            PNode startNode = target.getControlPointGraphic( 0 );
+            double dist = distance( toMatch, startNode );
+
+            if( dist < threshold && ( splineGraphic != target ) ) {
+                SplineMatch match = new SplineMatch( target, 0 );
+                matches.add( match );
+            }
+
+            PNode endNode = target.getControlPointGraphic( target.numControlPointGraphics() - 1 );
+            double distEnd = distance( toMatch, endNode );
+            if( distEnd < threshold && splineGraphic != target ) {
+                SplineMatch match = new SplineMatch( target, target.numControlPointGraphics() - 1 );
+                matches.add( match );
+            }
+        }
+        Collections.sort( matches, new Comparator() {
+            public int compare( Object o1, Object o2 ) {
+                SplineMatch a = (SplineMatch)o1;
+                SplineMatch b = (SplineMatch)o2;
+                return Double.compare( distance( toMatch, a.getTarget() ), distance( toMatch, b.getTarget() ) );
+            }
+        } );
+        if( matches.size() == 0 ) {
+            return null;
+        }
+        return (SplineMatch)matches.get( 0 );
+    }
+
+    private double distance( Point2D toMatch, PNode startNode ) {
+        double dist = startNode.getFullBounds().getCenter2D().distance( toMatch );
+        return dist;
+    }
+
+    private SplineGraphic splineGraphicAt( int i ) {
+        return (SplineGraphic)splineGraphics.getChildrenReference().get( i );
+    }
+
+    private int numSplineGraphics() {
+        return splineGraphics.getChildrenReference().size();
+    }
+
+    public void attach( SplineGraphic splineGraphic, int index, SplineMatch match ) {
+        //delete both of those, add one new parent.
+        ec3Model.removeSpline( splineGraphic.getSpline() );
+        ec3Model.removeSpline( splineGraphic.getReverseSpline() );
+        ec3Model.removeSpline( match.getSplineGraphic().getSpline() );
+        ec3Model.removeSpline( match.getSplineGraphic().getReverseSpline() );
+
+        removeSplineGraphic( splineGraphic );
+        removeSplineGraphic( match.getSplineGraphic() );
+
+        AbstractSpline spline = new CubicSpline( NUM_CUBIC_SPLINE_SEGMENTS );
+        AbstractSpline a = splineGraphic.getSpline();
+        AbstractSpline b = match.getSpline();
+        if( index == 0 ) {
+            for( int i = a.numControlPoints() - 1; i >= 0; i-- ) {
+                spline.addControlPoint( a.controlPointAt( i ) );
+            }
+        }
+        else {
+            for( int i = 0; i < a.numControlPoints(); i++ ) {
+                spline.addControlPoint( a.controlPointAt( i ) );
+            }
+        }
+        if( match.matchesBeginning() ) {
+            for( int i = 1; i < b.numControlPoints(); i++ ) {
+                spline.addControlPoint( b.controlPointAt( i ) );
+            }
+        }
+        else if( match.matchesEnd() ) {
+            for( int i = b.numControlPoints() - 2; i >= 0; i-- ) {
+                spline.addControlPoint( b.controlPointAt( i ) );
+            }
+        }
+        AbstractSpline reverse = spline.createReverseSpline();
+        ec3Model.addSpline( spline, reverse );
+        addSplineGraphic( new SplineGraphic( this, spline, reverse ) );
+    }
+
+    private void removeSplineGraphic( SplineGraphic splineGraphic ) {
+        splineGraphics.removeChild( splineGraphic );
+    }
 }
