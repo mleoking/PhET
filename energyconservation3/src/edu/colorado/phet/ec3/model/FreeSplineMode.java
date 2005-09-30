@@ -123,7 +123,7 @@ public class FreeSplineMode extends ForceMode {
     private void setBottomAtZero( Segment segment, Body body ) {
         double bodyYPerp = segment.getUnitNormalVector().dot( body.getPositionVector() );
         double segmentYPerp = segment.getUnitNormalVector().dot( new ImmutableVector2D.Double( segment.getCenter2D() ) );
-        double overshoot = -( bodyYPerp - segmentYPerp - body.getHeight() / 2.0 );
+        double overshoot = -( bodyYPerp - segmentYPerp - body.getHeight() / 2.0 ) + segment.getThickness() / 2;
         EC3Debug.debug( "overshoot = " + overshoot );
         overshoot -= 1;//hang in there
         if( overshoot > 0 ) {

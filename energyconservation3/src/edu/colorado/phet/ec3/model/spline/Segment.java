@@ -23,17 +23,18 @@ public class Segment {
     double y1;
     private boolean shapeDirty = true;
     private Shape shape;
-    private float thickness = 4.0f;
+    private float thickness;
 
-    public Segment( double x0, double y0, double x1, double y1 ) {
+    public Segment( double x0, double y0, double x1, double y1, float thickness ) {
         this.x0 = x0;
         this.y0 = y0;
         this.x1 = x1;
         this.y1 = y1;
+        this.thickness = thickness;
     }
 
-    public Segment( Point2D a, Point2D b ) {
-        this( a.getX(), a.getY(), b.getX(), b.getY() );
+    public Segment( Point2D a, Point2D b, float thickness ) {
+        this( a.getX(), a.getY(), b.getX(), b.getY(), thickness );
     }
 
     public double getLength() {
@@ -79,5 +80,9 @@ public class Segment {
 
     public AbstractVector2D getUnitDirectionVector() {
         return toVector().getNormalizedInstance();
+    }
+
+    public float getThickness() {
+        return thickness;
     }
 }

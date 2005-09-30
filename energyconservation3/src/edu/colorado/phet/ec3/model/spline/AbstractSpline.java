@@ -29,7 +29,7 @@ public abstract class AbstractSpline {
     private Shape areaShape;
     private boolean areaDirty = true;
     private Area area = null;
-    public static final float SPLINE_THICKNESS = 2.0f;
+    public static final float SPLINE_THICKNESS = 12.0f;
 
     protected AbstractSpline() {
         setAllDirty();
@@ -66,7 +66,7 @@ public abstract class AbstractSpline {
         Point2D[] interp = getInterpolationPoints();
         SegmentPath path = new SegmentPath();
         for( int i = 0; i < interp.length - 1; i++ ) {
-            path.addSegment( new Segment( interp[i], interp[i + 1] ) );
+            path.addSegment( new Segment( interp[i], interp[i + 1], SPLINE_THICKNESS ) );
         }
         return path;
     }
@@ -149,6 +149,15 @@ public abstract class AbstractSpline {
         for( int i = 0; i < controlPoints.length; i++ ) {
             Point2D controlPoint = controlPoints[i];
             addControlPoint( controlPoint );
+        }
+        setAllDirty();
+    }
+
+    public void translate( double dx, double dy ) {
+        for( int i = 0; i < points.size(); i++ ) {
+            Point2D.Double aDouble = (Point2D.Double)points.get( i );
+            aDouble.x += dx;
+            aDouble.y += dy;
         }
         setAllDirty();
     }
