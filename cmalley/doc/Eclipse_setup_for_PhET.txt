@@ -1,3 +1,6 @@
+NOTE: This information is largely obsolete, since we stopped putting
+all the files in a "development" directory.
+
 Here's how to make resources (images & localized strings) visible at runtime:
 1. In Run dialog, Classpath tab, select User Entries, then "Advanced..."
    Select "Add Folder" in advanced options, then select folder that
