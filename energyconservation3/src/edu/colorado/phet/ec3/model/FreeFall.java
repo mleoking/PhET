@@ -28,7 +28,10 @@ public class FreeFall extends ForceMode {
 
     public void stepInTime( EnergyConservationModel model, Body body, double dt ) {
         double origEnergy = model.getTotalEnergy( body );
-        setNetForce( new Vector2D.Double( 0, body.getMass() * model.getGravity() ) );
+//        setNetForce( new Vector2D.Double( 0, body.getMass() * model.getGravity() ) );
+        setNetForce( new Vector2D.Double( 0 + body.getThrust().getX(), body.getMass() * model.getGravity() + body.getThrust().getY() ) );
+
+
         super.stepInTime( model, body, dt );
         body.setAngle( body.getAngle() + rotationalVelocity * dt );
         new EnergyConserver().fixEnergy( model, body, origEnergy );

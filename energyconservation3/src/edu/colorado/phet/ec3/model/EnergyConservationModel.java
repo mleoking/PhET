@@ -22,11 +22,16 @@ public class EnergyConservationModel {
     private ArrayList splines = new ArrayList();
     private double zeroPointPotential = 0.0;
     private double gravity = 9.8;
+    private ArrayList listeners = new ArrayList();
 
     public EnergyConservationModel() {
     }
 
     public void stepInTime( double dt ) {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
+            energyModelListener.preStep( dt );
+        }
         for( int i = 0; i < bodies.size(); i++ ) {
             Body body = (Body)bodies.get( i );
             body.stepInTime( this, dt );
@@ -188,5 +193,14 @@ public class EnergyConservationModel {
 
     public void removeSpline( AbstractSpline spline ) {
         splines.remove( spline );
+    }
+
+    public static interface EnergyModelListener {
+
+        void preStep( double dt );
+    }
+
+    public void addEnergyModelListener( EnergyModelListener listener ) {
+        listeners.add( listener );
     }
 }
