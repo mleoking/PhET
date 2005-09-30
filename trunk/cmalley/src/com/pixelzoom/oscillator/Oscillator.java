@@ -36,6 +36,8 @@
  |<---            this code is formatted to fit into 80 columns             --->|
  */
 
+package com.pixelzoom.oscillator;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 

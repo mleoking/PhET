@@ -1,3 +1,6 @@
-This directory contains files that are specific to Chris Malley's development enviroment.
-For example, the .jardesc files are JAR descriptions used by the eclipse IDE to
-generate JAR files.
+This is Chris Malley's personal development project.
+This project contains:
+- misc files that are specific to Eclipse
+- misc Java utilities, examples and test programs
+- misc documentation
+- misc 3rd party libraries
