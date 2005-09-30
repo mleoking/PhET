@@ -20,11 +20,13 @@ public class EnergyConservationModel {
     private ArrayList bodies = new ArrayList();
     private ArrayList floors = new ArrayList();
     private ArrayList splines = new ArrayList();
-    private double zeroPointPotential = 0.0;
     private double gravity = 9.8;
     private ArrayList listeners = new ArrayList();
+    private double zeroPointPotentialY;
+    private double thermalEnergy = 0.0;
 
-    public EnergyConservationModel() {
+    public EnergyConservationModel( double zeroPointPotentialY ) {
+        this.zeroPointPotentialY = zeroPointPotentialY;
     }
 
     public void stepInTime( double dt ) {
@@ -41,9 +43,6 @@ public class EnergyConservationModel {
         }
 
         doGrabs();
-//        for( int i = 0; i < splines.size(); i++ ) {
-//            testGrab( splineAt( i ) );
-//        }
     }
 
     private void doGrabs() {
@@ -66,15 +65,6 @@ public class EnergyConservationModel {
                 bestSpline = abstractSpline;
             }
         }
-//        for( int i = 0; i < splines.size(); i++ ) {
-//            AbstractSpline abstractSpline = (AbstractSpline)splines.get( i );
-//            abstractSpline = abstractSpline.createReverseSpline();
-//            double score = getGrabScore( abstractSpline, body );
-//            if( score < bestScore ) {
-//                bestScore = score;
-//                bestSpline = abstractSpline;
-//            }
-//        }
         if( bestSpline != null ) {
             body.setSplineMode( bestSpline );
         }
@@ -96,9 +86,6 @@ public class EnergyConservationModel {
         else {
             return false;
         }
-//        Area area = new Area( body.getLocatedShape() );
-//        area.intersect( spline.getArea() );
-//        return !area.isEmpty();
     }
 
     private double getGrabScore( AbstractSpline spline, Body body ) {
@@ -122,7 +109,6 @@ public class EnergyConservationModel {
 
             if( y > -20 ) {
                 return -y;
-//                return 1.0;
             }
             else {
                 return Double.POSITIVE_INFINITY;
@@ -131,21 +117,6 @@ public class EnergyConservationModel {
         }
         return Double.POSITIVE_INFINITY;
     }
-
-//    private void testGrab( AbstractSpline spline ) {
-//        for( int i = 0; i < bodies.size(); i++ ) {
-//            testGrab( spline, bodyAt( i ) );
-//        }
-//    }
-//
-//    private void testGrab( AbstractSpline spline, Body body ) {//todo try replacing this with SplineLogic class
-//        Area area = new Area( spline.getAreaShape() );
-//        area.intersect( new Area( body.getLocatedShape() ) );
-//        if( !area.isEmpty() ) {
-////            System.out.println( "intersected" );
-//            body.setSplineMode( spline );
-//        }
-//    }
 
     public AbstractSpline splineAt( int i ) {
         return (AbstractSpline)splines.get( i );
@@ -177,7 +148,7 @@ public class EnergyConservationModel {
     }
 
     public double getPotentialEnergy( Body body ) {
-        double h = zeroPointPotential - body.getY();
+        double h = zeroPointPotentialY - body.getY();
         return body.getMass() * gravity * h;
     }
 
@@ -197,6 +168,14 @@ public class EnergyConservationModel {
             Body body = (Body)bodies.get( i );
             body.splineRemoved( spline );
         }
+    }
+
+    public double getZeroPointPotentialY() {
+        return zeroPointPotentialY;
+    }
+
+    public double getThermalEnergy() {
+        return thermalEnergy;
     }
 
     public static interface EnergyModelListener {
