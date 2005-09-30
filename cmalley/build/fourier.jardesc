@@ -2,7 +2,7 @@
 <jardesc>
     <jar path="/Volumes/files/phet-workspace/jars/fourier.jar"/>
     <options overwrite="false" compress="true" exportErrors="true" exportWarnings="true" saveDescription="true" descriptionLocation="/cmalley/build/fourier.jardesc" useSourceFolders="false" buildIfNeeded="true"/>
-    <manifest manifestVersion="1.0" usesManifest="true" reuseManifest="true" saveManifest="false" generateManifest="false" manifestLocation="/cmalley/build/MANIFEST.MF">
+    <manifest manifestVersion="1.0" usesManifest="true" reuseManifest="true" saveManifest="false" generateManifest="false" manifestLocation="/cmalley/build/fourier.mf">
         <sealing sealJar="false">
             <packagesToSeal/>
             <packagesToUnSeal/>

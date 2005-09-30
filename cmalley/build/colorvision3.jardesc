@@ -2,7 +2,7 @@
 <jardesc>
     <jar path="/Volumes/files/phet-workspace/jars/colorvision3.jar"/>
     <options overwrite="false" compress="true" exportErrors="true" exportWarnings="true" saveDescription="true" descriptionLocation="/cmalley/build/colorvision3.jardesc" useSourceFolders="false" buildIfNeeded="true"/>
-    <manifest manifestVersion="1.0" usesManifest="true" reuseManifest="true" saveManifest="false" generateManifest="false" manifestLocation="/cmalley/build/MANIFEST.MF">
+    <manifest manifestVersion="1.0" usesManifest="true" reuseManifest="true" saveManifest="false" generateManifest="false" manifestLocation="/cmalley/build/colorvision3.mf">
         <sealing sealJar="false">
             <packagesToSeal/>
             <packagesToUnSeal/>

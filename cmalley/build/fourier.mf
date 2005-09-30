@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+
+Main-Class: edu.colorado.phet.fourier.FourierApplication
+
+CVS-Tag: fourier-2-0-0-2005-09-26
