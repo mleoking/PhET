@@ -294,4 +294,8 @@ public class EC3Canvas extends PhetPCanvas {
         ec3Model.removeSpline( splineGraphic.getReverseSpline() );
 
     }
+
+    public EC3Module getEnergyConservationModule() {
+        return ec3Module;
+    }
 }
