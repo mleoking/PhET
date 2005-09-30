@@ -45,7 +45,7 @@ public abstract class AbstractSpline {
         generalPathDirty = true;
         areaShapeDirty = true;
         areaDirty = true;
-        System.out.println( "All dirty @ t=" + System.currentTimeMillis() );
+//        System.out.println( "All dirty @ t=" + System.currentTimeMillis() );
     }
 
     public void addControlPoint( double x, double y ) {
