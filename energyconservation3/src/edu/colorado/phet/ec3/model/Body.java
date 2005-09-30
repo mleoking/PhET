@@ -27,6 +27,8 @@ public class Body {
     private Shape bounds;
     private FreeFall freeFall = new FreeFall( 0 );
     private UpdateMode mode = freeFall;
+    private boolean facingRight;
+    private final UserControlled userMode = new UserControlled();
 
     public Body( Shape bounds ) {
         this.bounds = bounds;
@@ -35,6 +37,9 @@ public class Body {
     public void stepInTime( EnergyConservationModel energyConservationModel, double dt ) {
         EnergyDebugger.stepStarted( energyConservationModel, this, dt );
         getMode().stepInTime( energyConservationModel, this, dt );
+        if( !isFreeFallMode() && !isUserControlled() ) {
+            facingRight = getVelocity().dot( Vector2D.Double.parseAngleAndMagnitude( 1, getAngle() ) ) > 0;
+        }
     }
 
     private UpdateMode getMode() {
@@ -71,9 +76,13 @@ public class Body {
         velocity.setComponents( vx, vy );
     }
 
+    public boolean isUserControlled() {
+        return mode == userMode;
+    }
+
     public void setUserControlled( boolean userControlled ) {
         if( userControlled ) {
-            setMode( new UserControlled() );
+            setMode( userMode );
         }
         else {
             freeFall.setRotationalVelocity( 0.0 );
@@ -192,6 +201,11 @@ public class Body {
     }
 
     public static Rectangle createDefaultBodyRect() {
-        return new Rectangle( 50, 20 );
+//        return new Rectangle( 50, 20 );
+        return new Rectangle( 50, 60 );
+    }
+
+    public boolean isFacingRight() {
+        return facingRight;
     }
 }

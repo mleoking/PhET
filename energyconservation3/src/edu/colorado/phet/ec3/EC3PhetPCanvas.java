@@ -26,21 +26,24 @@ import java.util.ArrayList;
 public class EC3PhetPCanvas extends PhetPCanvas {
     private EC3Module ec3Module;
     private EnergyConservationModel ec3Model;
-    private AbstractSpline spline;
+
     private ArrayList bodyGraphics = new ArrayList();
-    private AbstractSpline revspline;
+    private ArrayList splineGraphics = new ArrayList();
+
+
+//    private AbstractSpline spline;
+//    private AbstractSpline revspline;
 
     public EC3PhetPCanvas( EC3Module ec3Module ) {
         this.ec3Module = ec3Module;
         this.ec3Model = ec3Module.getEnergyConservationModel();
         for( int i = 0; i < ec3Model.numBodies(); i++ ) {
             BodyGraphic bodyGraphic = new BodyGraphic( ec3Module, ec3Model.bodyAt( i ) );
-            bodyGraphics.add( bodyGraphic );
-            addWorldChild( bodyGraphic );
+            addBodyGraphic( bodyGraphic );
         }
 
 //        spline = new CubicSpline( 50 );
-        spline = new CubicSpline( 30 );
+        CubicSpline spline = new CubicSpline( 30 );
 
 
 //        spline.addControlPoint( 150, 300 );
@@ -73,13 +76,12 @@ public class EC3PhetPCanvas extends PhetPCanvas {
         spline.addControlPoint( 422, 333 );
         spline.addControlPoint( 810, 351 );
         spline.addControlPoint( 800, 198 );
-        revspline = spline.createReverseSpline();
+        AbstractSpline revspline = spline.createReverseSpline();
         SplineGraphic splineGraphic = new SplineGraphic( spline, revspline );
-        ec3Model.addSpline( spline );
-        ec3Model.addSpline( revspline );
+        ec3Model.addSpline( spline, revspline );
 //        ec3Model.addSpline( spline.createReverseSpline() );
 
-        addWorldChild( splineGraphic );
+        addSplineGraphic( splineGraphic );
         addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 requestFocus();
@@ -88,7 +90,7 @@ public class EC3PhetPCanvas extends PhetPCanvas {
         addKeyListener( new KeyListener() {
             public void keyPressed( KeyEvent e ) {
                 if( e.getKeyCode() == KeyEvent.VK_P ) {
-                    System.out.println( "spline.getSegmentPath().getLength() = " + spline.getSegmentPath().getLength() );
+                    System.out.println( "spline.getSegmentPath().getLength() = " + ec3Model.splineAt( 0 ).getSegmentPath().getLength() );
                     printControlPoints();
                 }
                 else if( e.getKeyCode() == KeyEvent.VK_B ) {
@@ -96,6 +98,9 @@ public class EC3PhetPCanvas extends PhetPCanvas {
                 }
                 else if( e.getKeyCode() == KeyEvent.VK_A ) {
                     addSkater();
+                }
+                else if( e.getKeyCode() == KeyEvent.VK_N ) {
+                    addSpline();
                 }
             }
 
@@ -108,15 +113,36 @@ public class EC3PhetPCanvas extends PhetPCanvas {
         addKeyListener( new PanZoomWorldKeyHandler( this ) );
     }
 
+    private void addSplineGraphic( SplineGraphic splineGraphic ) {
+        addWorldChild( splineGraphic );
+        splineGraphics.add( splineGraphic );
+    }
+
+    private void addSpline() {
+        CubicSpline spline = new CubicSpline( 30 );
+        spline.addControlPoint( 50, 50 );
+        spline.addControlPoint( 150, 50 );
+        spline.addControlPoint( 300, 50 );
+        AbstractSpline rev = spline.createReverseSpline();
+
+        ec3Model.addSpline( spline, rev );
+        SplineGraphic splineGraphic = new SplineGraphic( spline, rev );
+        addSplineGraphic( splineGraphic );
+    }
+
     private void addSkater() {
         Body body = new Body( Body.createDefaultBodyRect() );
         ec3Model.addBody( body );
 
 //        for( int i = 0; i < ec3Model.numBodies(); i++ ) {
         BodyGraphic bodyGraphic = new BodyGraphic( ec3Module, body );
+        addBodyGraphic( bodyGraphic );
+//        }
+    }
+
+    private void addBodyGraphic( BodyGraphic bodyGraphic ) {
         bodyGraphics.add( bodyGraphic );
         addWorldChild( bodyGraphic );
-//        }
     }
 
     private void toggleBox() {
@@ -130,7 +156,7 @@ public class EC3PhetPCanvas extends PhetPCanvas {
     }
 
     private void printControlPoints() {
-        spline.printControlPointCode();
+        ec3Model.splineAt( 0 ).printControlPointCode();
     }
 
 }

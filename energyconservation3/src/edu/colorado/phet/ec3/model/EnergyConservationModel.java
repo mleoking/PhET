@@ -142,7 +142,7 @@ public class EnergyConservationModel {
 //        }
 //    }
 
-    private AbstractSpline splineAt( int i ) {
+    public AbstractSpline splineAt( int i ) {
         return (AbstractSpline)splines.get( i );
     }
 
@@ -150,8 +150,9 @@ public class EnergyConservationModel {
         return (Floor)floors.get( i );
     }
 
-    public void addSpline( AbstractSpline spline ) {
+    public void addSpline( AbstractSpline spline, AbstractSpline reverse ) {
         splines.add( spline );
+        splines.add( reverse );
     }
 
     public void addBody( Body body ) {
