@@ -161,4 +161,9 @@ public abstract class AbstractSpline {
         }
         setAllDirty();
     }
+
+    public void removeControlPoint( int index ) {
+        points.remove( index );
+        setAllDirty();
+    }
 }

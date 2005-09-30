@@ -3,9 +3,11 @@ package edu.colorado.phet.ec3;
 
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
+import edu.colorado.phet.ec3.model.Floor;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.CubicSpline;
 import edu.colorado.phet.ec3.view.BodyGraphic;
+import edu.colorado.phet.ec3.view.FloorGraphic;
 import edu.colorado.phet.ec3.view.SplineGraphic;
 import edu.colorado.phet.ec3.view.SplineMatch;
 import edu.colorado.phet.piccolo.PanZoomWorldKeyHandler;
@@ -44,6 +46,10 @@ public class EC3Canvas extends PhetPCanvas {
     public EC3Canvas( EC3Module ec3Module ) {
         this.ec3Module = ec3Module;
         this.ec3Model = ec3Module.getEnergyConservationModel();
+        Floor floor = ec3Model.floorAt( 0 );
+        getPhetRootNode().addBackWorldChild( new SkyGraphic( floor.getY() ) );
+        addWorldChild( new FloorGraphic( floor ) );
+
         for( int i = 0; i < ec3Model.numBodies(); i++ ) {
             BodyGraphic bodyGraphic = new BodyGraphic( ec3Module, ec3Model.bodyAt( i ) );
             addBodyGraphic( bodyGraphic );
@@ -247,13 +253,15 @@ public class EC3Canvas extends PhetPCanvas {
 
     public void attach( SplineGraphic splineGraphic, int index, SplineMatch match ) {
         //delete both of those, add one new parent.
-        ec3Model.removeSpline( splineGraphic.getSpline() );
-        ec3Model.removeSpline( splineGraphic.getReverseSpline() );
-        ec3Model.removeSpline( match.getSplineGraphic().getSpline() );
-        ec3Model.removeSpline( match.getSplineGraphic().getReverseSpline() );
-
-        removeSplineGraphic( splineGraphic );
-        removeSplineGraphic( match.getSplineGraphic() );
+        removeSpline( splineGraphic );
+        removeSpline( match.getSplineGraphic() );
+//        ec3Model.removeSpline( splineGraphic.getSpline() );
+//        ec3Model.removeSpline( splineGraphic.getReverseSpline() );
+//        ec3Model.removeSpline( match.getSplineGraphic().getSpline() );
+//        ec3Model.removeSpline( match.getSplineGraphic().getReverseSpline() );
+//
+//        removeSplineGraphic( splineGraphic );
+//        removeSplineGraphic( match.getSplineGraphic() );
 
         AbstractSpline spline = new CubicSpline( NUM_CUBIC_SPLINE_SEGMENTS );
         AbstractSpline a = splineGraphic.getSpline();
@@ -289,5 +297,12 @@ public class EC3Canvas extends PhetPCanvas {
 
     public EnergyConservationModel getEnergyConservationModel() {
         return ec3Model;
+    }
+
+    public void removeSpline( SplineGraphic splineGraphic ) {
+        removeSplineGraphic( splineGraphic );
+        ec3Model.removeSpline( splineGraphic.getSpline() );
+        ec3Model.removeSpline( splineGraphic.getReverseSpline() );
+
     }
 }

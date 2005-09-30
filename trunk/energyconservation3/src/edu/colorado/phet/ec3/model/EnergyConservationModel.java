@@ -151,7 +151,7 @@ public class EnergyConservationModel {
         return (AbstractSpline)splines.get( i );
     }
 
-    private Floor floorAt( int i ) {
+    public Floor floorAt( int i ) {
         return (Floor)floors.get( i );
     }
 
@@ -193,6 +193,10 @@ public class EnergyConservationModel {
 
     public void removeSpline( AbstractSpline spline ) {
         splines.remove( spline );
+        for( int i = 0; i < bodies.size(); i++ ) {
+            Body body = (Body)bodies.get( i );
+            body.splineRemoved( spline );
+        }
     }
 
     public static interface EnergyModelListener {

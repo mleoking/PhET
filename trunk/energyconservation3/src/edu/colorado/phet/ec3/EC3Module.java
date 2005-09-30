@@ -7,7 +7,6 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
 import edu.colorado.phet.ec3.model.Floor;
-import edu.colorado.phet.ec3.view.FloorGraphic;
 import edu.colorado.phet.piccolo.PiccoloModule;
 
 /**
@@ -40,7 +39,8 @@ public class EC3Module extends PiccoloModule {
         } );
         energyCanvas = new EC3Canvas( this );
         setPhetPCanvas( energyCanvas );
-        energyCanvas.addWorldChild( new FloorGraphic( floor ) );
+
+
     }
 
     public EnergyConservationModel getEnergyConservationModel() {
