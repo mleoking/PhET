@@ -116,8 +116,9 @@ public class FreeSplineMode extends ForceMode {
             //set bottom at zero.
             setBottomAtZero( segment, body );
         }
-
+//        if( !grabbed ) {
         new EnergyConserver().fixEnergy( model, body, origTotalEnergy );
+//        }
     }
 
     private void setBottomAtZero( Segment segment, Body body ) {
@@ -140,7 +141,8 @@ public class FreeSplineMode extends ForceMode {
         EC3Debug.debug( "normalForce.getY() = " + normalForce.getY() );
         double fy = fgy + normalForce.getY();
         double fx = normalForce.getX();
-        Vector2D.Double netForce = new Vector2D.Double( fx, fy );
+//        Vector2D.Double netForce = new Vector2D.Double( fx, fy );
+        Vector2D.Double netForce = new Vector2D.Double( fx + body.getThrust().getX(), fy + body.getThrust().getY() );
         return netForce;
     }
 

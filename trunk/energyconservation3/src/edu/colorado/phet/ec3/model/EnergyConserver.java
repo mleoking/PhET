@@ -12,10 +12,15 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 
 public class EnergyConserver {
     public void fixEnergy( EnergyConservationModel model, Body body, double origTotalEnergy ) {
+        if( body.getThrust().getMagnitude() != 0 ) {
+            return;
+        }
 
-//        System.out.println( "body.getSpeed() = " + body.getSpeed() );
+        EC3Debug.debug( "body.getSpeed() = " + body.getSpeed() );
         EnergyDebugger.stepFinished( model, body, origTotalEnergy );
         double speedThreshold = 20;
+//        double speedThreshold = 500;
+
         if( body.getSpeed() > speedThreshold ) {
             conserveEnergyViaV( model, body, origTotalEnergy );
 //        EnergyDebugger.postProcessed( model, body, origTotalEnergy, "dV" );

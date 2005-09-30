@@ -41,6 +41,9 @@ public class BodyGraphic extends PNode {
     private int numHistoryPointsForThrow = 5;
     private PImage skater;
     private PPath centerDebugger;
+    private PImage flameGraphic;
+    private final BufferedImage[] flames = new BufferedImage[3];
+    private int flameFrame = 0;
 
     public BodyGraphic( EC3Module ec3Module, final Body body ) {
         this.ec3Module = ec3Module;
@@ -222,7 +225,73 @@ public class BodyGraphic extends PNode {
         }
 
         centerDebugger.setPathTo( new Rectangle( (int)body.getPosition().getX(), (int)body.getPosition().getY(), 5, 5 ) );
+        if( body.getThrust().getMagnitude() != 0 ) {
+            setFlamesVisible( true );
+            updateFlames();
+        }
+        else {
+            setFlamesVisible( false );
+        }
 //        System.out.println( "centerDebugger.getFullBounds() = " + centerDebugger.getFullBounds() );
+    }
+
+    private void updateFlames() {
+//        Point2D center2D = centerDebugger.getFullBounds().getCenter2D();
+//        Point2D pt = new Point2D.Double( body.getShape().getBounds2D().getWidth() / 2, body.getShape().getBounds2D().getHeight() );
+//        Point2D tx = skater.getTransform().transform( pt, null );
+//        Point2D loc = new Point2D.Double( center2D.getX() - flameGraphic.getWidth() / 2, center2D.getY() - flameGraphic.getHeight() / 2 + skater.getHeight() / 2 );
+        flameGraphic.setTransform( new AffineTransform() );
+//        flameGraphic.scale( 0.5 );
+//        Point2D center = shape.getFullBounds().getCenter2D();
+//        flameGraphic.translate( center.getX(), center.getY() );
+//        flameGraphic.rotate( body.getAngle() );
+//        flameGraphic.translate( -skater.getImage().getWidth( null ) / 2, -skater.getImage().getHeight( null ) + body.getHeight() / 2 );
+//        flameGraphic.setOffset( tx.getX() - flameGraphic.getWidth() / 2 - sign( body.getThrust().getX() ) * flameGraphic.getWidth(), tx.getY() - flameGraphic.getHeight() / 2 );
+//        flameGraphic.setOffset( tx);//.getX() - flameGraphic.getWidth() / 2 - sign( body.getThrust().getX() ) * flameGraphic.getWidth(), tx.getY() - flameGraphic.getHeight() / 2 );
+
+        if( Math.random() < 0.4 ) {
+            flameFrame = ( flameFrame + 1 ) % 3;
+            flameGraphic.setImage( flames[flameFrame] );
+        }
+
+//        flameGraphic.setRotation( -skater.getRotation() );
+        flameGraphic.rotateInPlace( Math.PI );
+        flameGraphic.translate( 0, -skater.getHeight() + 3 );
+    }
+
+    private double sign( double x ) {
+        if( x >= 0 ) {
+            return 1;
+        }
+        else {
+            return -1;
+        }
+    }
+
+    private void setFlamesVisible( boolean b ) {
+        if( b ) {
+
+            if( flameGraphic == null ) {
+                try {
+                    flames[0] = ImageLoader.loadBufferedImage( "images/myflames/flames1.gif" );
+                    flames[1] = ImageLoader.loadBufferedImage( "images/myflames/flames2.gif" );
+                    flames[2] = ImageLoader.loadBufferedImage( "images/myflames/flames3.gif" );
+                }
+                catch( IOException e ) {
+                    e.printStackTrace();
+                }
+                flameGraphic = new PImage( flames[0] );
+
+            }
+            if( !skater.getChildrenReference().contains( flameGraphic ) ) {
+                skater.addChild( 0, flameGraphic );
+            }
+        }
+        else {
+            if( flameGraphic != null && skater.getChildrenReference().contains( flameGraphic ) ) {
+                skater.removeChild( flameGraphic );
+            }
+        }
     }
 
     public boolean isBoxVisible() {

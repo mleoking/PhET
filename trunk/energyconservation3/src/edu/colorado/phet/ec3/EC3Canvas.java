@@ -20,6 +20,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 
 /**
  * User: Sam Reid
@@ -35,6 +36,10 @@ public class EC3Canvas extends PhetPCanvas {
     private PNode bodyGraphics = new PNode();
     private PNode splineGraphics = new PNode();
     public static final int NUM_CUBIC_SPLINE_SEGMENTS = 30;
+
+//    ArrayList pressedKeys = new ArrayList();
+    HashMap pressedKeys = new HashMap();
+    private static final Object DUMMY_VALUE = new Object();
 
     public EC3Canvas( EC3Module ec3Module ) {
         this.ec3Module = ec3Module;
@@ -92,6 +97,7 @@ public class EC3Canvas extends PhetPCanvas {
         } );
         addKeyListener( new KeyListener() {
             public void keyPressed( KeyEvent e ) {
+                pressedKeys.put( new Integer( e.getKeyCode() ), DUMMY_VALUE );
                 if( e.getKeyCode() == KeyEvent.VK_P ) {
                     System.out.println( "spline.getSegmentPath().getLength() = " + ec3Model.splineAt( 0 ).getSegmentPath().getLength() );
                     printControlPoints();
@@ -108,6 +114,7 @@ public class EC3Canvas extends PhetPCanvas {
             }
 
             public void keyReleased( KeyEvent e ) {
+                pressedKeys.remove( new Integer( e.getKeyCode() ) );
             }
 
             public void keyTyped( KeyEvent e ) {
@@ -116,6 +123,31 @@ public class EC3Canvas extends PhetPCanvas {
         addKeyListener( new PanZoomWorldKeyHandler( this ) );
         addWorldChild( splineGraphics );
         addWorldChild( bodyGraphics );
+        ec3Model.addEnergyModelListener( new EnergyConservationModel.EnergyModelListener() {
+            public void preStep( double dt ) {
+                updateThrust();
+            }
+        } );
+    }
+
+    private void updateThrust() {
+        Body body = ec3Model.bodyAt( 0 );
+        double xThrust = 0.0;
+        double yThrust = 0.0;
+        int thrustValue = 5000;
+        if( pressedKeys.containsKey( new Integer( KeyEvent.VK_RIGHT ) ) ) {
+            xThrust = thrustValue;
+        }
+        else if( pressedKeys.containsKey( new Integer( KeyEvent.VK_LEFT ) ) ) {
+            xThrust = -thrustValue;
+        }
+        if( pressedKeys.containsKey( new Integer( KeyEvent.VK_UP ) ) ) {
+            yThrust = -thrustValue;
+        }
+        else if( pressedKeys.containsKey( new Integer( KeyEvent.VK_DOWN ) ) ) {
+            yThrust = thrustValue;
+        }
+        body.setThrust( xThrust, yThrust );
     }
 
     public void addSplineGraphic( SplineGraphic splineGraphic ) {
