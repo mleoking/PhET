@@ -125,7 +125,7 @@ public class OscillatorUI extends JFrame implements ActionListener, Runnable {
     }
     
     private void handleWaveform() {
-        debug( "waveform = " + _waveformComboBox.getSelectedItem() );
+        debug( "OscillatorUI: waveform = " + _waveformComboBox.getSelectedItem() );
         if ( _isPlaying ) {
             updateWaveform();
         }
@@ -135,6 +135,7 @@ public class OscillatorUI extends JFrame implements ActionListener, Runnable {
     }
     
     private void updateWaveform() {
+        debug( "OscillatorUI.updateWaveform" );
         if ( _isPlaying ) {
             _sourceDataLine.stop();
             _sourceDataLine.flush();
@@ -166,15 +167,15 @@ public class OscillatorUI extends JFrame implements ActionListener, Runnable {
     }
     
     private void handleSound() {
-        debug( "sound is " + ( _soundCheckBox.isSelected() ? "on" : "off" ) );
+        debug( "OscillatorUI: sound is " + ( _soundCheckBox.isSelected() ? "on" : "off" ) );
         if ( _soundCheckBox.isSelected() ) {
             if ( _waveformIsDirty ) {
                 updateWaveform();
             }
             _isPlaying = true;
-            _sourceDataLine.start();
             Thread soundThread = new Thread( this );
             soundThread.start();
+            _sourceDataLine.start();
         }
         else {
             _isPlaying = false; // stops the sound thread
