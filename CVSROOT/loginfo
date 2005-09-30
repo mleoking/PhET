@@ -51,3 +51,4 @@
 ^phetcommon\(/\|$\) mail -s "CVS commit: phetcommon" ronlemaster cmalley samreid joetreat
 ^sound-2\(/\|$\) mail -s "CVS commit: sound-2" ronlemaster
 ^test-location\(/\|$\) mail -s "CVS commit: test-location" cmalley
+^cmalley\(/\|$\) mail -s "CVS commit: cmalley" cmalley
