@@ -65,7 +65,7 @@ PHETCOMMON:
 DONE:
 (9/30) - make a separate manifest file for each project, which includes Main-Class attribute
 (9/30) - reorganize 'cmalley' CVS project, add Java stuff (including sound test program)
-(9/30) - create a Swing-based test app using Oscillator from jresource.org
+(9/30) - create a Swing-based test app using Oscillator from jsresource.org
 (9/30) - work on sound, use a SourceDataLine instead of a Clip
 (9/29) - work on sound, try to play waveform data as a Clip
 2.0.0 ..
