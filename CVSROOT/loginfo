@@ -37,18 +37,18 @@
 #######################################################################################################
 
 ^charts\(/\|$\) mail -s "CVS commit: charts" ronlemaster cmalley samreid
+^cmalley\(/\|$\) mail -s "CVS commit: cmalley" cmalley
 ^collision\(/\|$\) mail -s "CVS commit: collision" ronlemaster cmalley
 ^colorvision3\(/\|$\) mail -s "CVS commit: colorvision3" cmalley
 ^emf\(/\|$\) mail -s "CVS commit: emf" ronlemaster
 ^faraday\(/\|$\) mail -s "CVS commit: faraday" cmalley
+^fluorescent-lights\(/\|$\) mail -s "CVS commit: fluorescent-lights" ronlemaster
 ^fourier\(/\|$\) mail -s "CVS commit: fourier" cmalley
 ^greenhouse\(/\|$\) mail -s "CVS commit: greenhouse" ronlemaster
 ^ideal-gas-v3\(/\|$\) mail -s "CVS commit: ideal-gas-3" ronlemaster
 ^lasers\(/\|$\) mail -s "CVS commit: lasers" ronlemaster
 ^nuclearphysics\(/\|$\) mail -s "CVS commit: nuclearphysics" ronlemaster
-^fluorescent-lights\(/\|$\) mail -s "CVS commit: fluorescent-lights" ronlemaster
 ^PhET-installer\(/\|$\) mail -s "CVS commit: PhET-installer" ronlemaster
 ^phetcommon\(/\|$\) mail -s "CVS commit: phetcommon" ronlemaster cmalley samreid joetreat
 ^sound-2\(/\|$\) mail -s "CVS commit: sound-2" ronlemaster
 ^test-location\(/\|$\) mail -s "CVS commit: test-location" cmalley
-^cmalley\(/\|$\) mail -s "CVS commit: cmalley" cmalley
