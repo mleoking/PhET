@@ -36,6 +36,8 @@
  |<---            this code is formatted to fit into 80 columns             --->|
  */
 
+package com.pixelzoom.oscillator;
+
 import java.io.IOException;
 
 import javax.sound.sampled.AudioFormat;
