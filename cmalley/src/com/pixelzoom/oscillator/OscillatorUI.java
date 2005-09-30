@@ -46,9 +46,10 @@ public class OscillatorUI extends JFrame implements ActionListener, Runnable {
     
     private Oscillator _oscillator;
     private SourceDataLine _sourceDataLine;
-    private JComboBox _waveformComboBox;
     private JCheckBox _soundCheckBox;
+    private JComboBox _waveformComboBox;
     private boolean _isPlaying;
+    private boolean _waveformIsDirty;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -62,17 +63,18 @@ public class OscillatorUI extends JFrame implements ActionListener, Runnable {
     }
     
     private void initUI() {
-        _waveformComboBox = new JComboBox( CHOICES );
-        _waveformComboBox.setSelectedItem( CHOICE_SINE );
-        _waveformComboBox.addActionListener( this );
         
         _soundCheckBox = new JCheckBox( "Sound" );
         _soundCheckBox.setSelected( false );
         _soundCheckBox.addActionListener( this );
         
+        _waveformComboBox = new JComboBox( CHOICES );
+        _waveformComboBox.setSelectedItem( CHOICE_SINE );
+        _waveformComboBox.addActionListener( this );
+        
         JPanel panel = new JPanel();
-        panel.add( _waveformComboBox );
         panel.add( _soundCheckBox );
+        panel.add( _waveformComboBox );
         getContentPane().add( panel );
 
         // Set the frame's size
@@ -95,6 +97,7 @@ public class OscillatorUI extends JFrame implements ActionListener, Runnable {
     
     private void initSound() {
         _isPlaying = false;
+        _waveformIsDirty = false;
         // Set up the source data line.
         AudioFormat audioFormat = new AudioFormat( AudioFormat.Encoding.PCM_SIGNED, SAMPLE_RATE, 16, 2, 4, FRAME_RATE, false );
         _oscillator = new Oscillator( Oscillator.WAVEFORM_SINE, FREQUENCY, AMPLITUDE, audioFormat, AudioSystem.NOT_SPECIFIED );
@@ -122,7 +125,16 @@ public class OscillatorUI extends JFrame implements ActionListener, Runnable {
     }
     
     private void handleWaveform() {
-        debug( _waveformComboBox.getSelectedItem().toString() );
+        debug( "waveform = " + _waveformComboBox.getSelectedItem() );
+        if ( _isPlaying ) {
+            updateWaveform();
+        }
+        else {
+            _waveformIsDirty = true;
+        }
+    }
+    
+    private void updateWaveform() {
         if ( _isPlaying ) {
             _sourceDataLine.stop();
             _sourceDataLine.flush();
@@ -130,6 +142,7 @@ public class OscillatorUI extends JFrame implements ActionListener, Runnable {
         String sWaveformType = (String) _waveformComboBox.getSelectedItem();
         int nWaveform = getWaveformType( sWaveformType );
         _oscillator.setWaveformType( nWaveform );
+        _waveformIsDirty = false;
         if ( _isPlaying ) {
             _sourceDataLine.start();
         }
@@ -153,8 +166,11 @@ public class OscillatorUI extends JFrame implements ActionListener, Runnable {
     }
     
     private void handleSound() {
-        debug( ( _soundCheckBox.isSelected() ? "on" : "off" ) );
+        debug( "sound is " + ( _soundCheckBox.isSelected() ? "on" : "off" ) );
         if ( _soundCheckBox.isSelected() ) {
+            if ( _waveformIsDirty ) {
+                updateWaveform();
+            }
             _isPlaying = true;
             _sourceDataLine.start();
             Thread soundThread = new Thread( this );
@@ -172,7 +188,7 @@ public class OscillatorUI extends JFrame implements ActionListener, Runnable {
     //----------------------------------------------------------------------------
     
     public void run() {
-        debug( "run" );
+        debug( "OscillatorUI.run begins" );
         byte[] buffer = new byte[BUFFER_SIZE];
         while ( _isPlaying ) {
             try {
@@ -183,7 +199,7 @@ public class OscillatorUI extends JFrame implements ActionListener, Runnable {
                 e.printStackTrace();
             }
         }
-        debug( "run exiting" );
+        debug( "OscillatorUI.run ends" );
     }
 
     //----------------------------------------------------------------------------
