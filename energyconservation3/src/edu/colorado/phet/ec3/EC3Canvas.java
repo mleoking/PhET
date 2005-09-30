@@ -70,33 +70,15 @@ public class EC3Canvas extends PhetPCanvas {
         } );
         addKeyListener( new KeyListener() {
             public void keyPressed( KeyEvent e ) {
-                pressedKeys.put( new Integer( e.getKeyCode() ), DUMMY_VALUE );
-                if( e.getKeyCode() == KeyEvent.VK_P ) {
-                    System.out.println( "spline.getSegmentPath().getLength() = " + ec3Model.splineAt( 0 ).getSegmentPath().getLength() );
-                    printControlPoints();
-                }
-                else if( e.getKeyCode() == KeyEvent.VK_B ) {
-                    toggleBox();
-                }
-                else if( e.getKeyCode() == KeyEvent.VK_A ) {
-                    addSkater();
-                }
-//                else if( e.getKeyCode() == KeyEvent.VK_N ) {
-//                    addSpline();
-//                }
-                else if( e.getKeyCode() == KeyEvent.VK_J ) {
-                    addBuses();
-                }
-                else if( e.getKeyCode() == KeyEvent.VK_D ) {
-                    debugScreenSize();
-                }
+                EC3Canvas.this.keyPressed( e );
             }
 
             public void keyReleased( KeyEvent e ) {
-                pressedKeys.remove( new Integer( e.getKeyCode() ) );
+                EC3Canvas.this.keyReleased( e );
             }
 
             public void keyTyped( KeyEvent e ) {
+                EC3Canvas.this.keyTyped( e );
             }
         } );
         addKeyListener( new PanZoomWorldKeyHandler( this ) );
@@ -114,9 +96,11 @@ public class EC3Canvas extends PhetPCanvas {
     }
 
     public void clearBuses() {
-        buses.removeAllChildren();
-        removeWorldChild( buses );
-        buses = null;
+        if( buses != null ) {
+            buses.removeAllChildren();
+            removeWorldChild( buses );
+            buses = null;
+        }
     }
 
     private void addBuses() {
@@ -314,5 +298,36 @@ public class EC3Canvas extends PhetPCanvas {
         splineGraphics.removeAllChildren();
         clearBuses();
         pressedKeys.clear();
+    }
+
+    public void keyPressed( KeyEvent e ) {
+
+        pressedKeys.put( new Integer( e.getKeyCode() ), DUMMY_VALUE );
+        if( e.getKeyCode() == KeyEvent.VK_P ) {
+            System.out.println( "spline.getSegmentPath().getLength() = " + ec3Model.splineAt( 0 ).getSegmentPath().getLength() );
+            printControlPoints();
+        }
+        else if( e.getKeyCode() == KeyEvent.VK_B ) {
+            toggleBox();
+        }
+        else if( e.getKeyCode() == KeyEvent.VK_A ) {
+            addSkater();
+        }
+//                else if( e.getKeyCode() == KeyEvent.VK_N ) {
+//                    addSpline();
+//                }
+        else if( e.getKeyCode() == KeyEvent.VK_J ) {
+            addBuses();
+        }
+        else if( e.getKeyCode() == KeyEvent.VK_D ) {
+            debugScreenSize();
+        }
+    }
+
+    public void keyReleased( KeyEvent e ) {
+        pressedKeys.remove( new Integer( e.getKeyCode() ) );
+    }
+
+    public void keyTyped( KeyEvent e ) {
     }
 }
