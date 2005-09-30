@@ -229,4 +229,13 @@ public class Body {
     public AbstractVector2D getThrust() {
         return new ImmutableVector2D.Double( xThrust, yThrust );
     }
+
+    public void splineRemoved( AbstractSpline spline ) {
+        if( mode instanceof FreeSplineMode ) {
+            FreeSplineMode spm = (FreeSplineMode)mode;
+            if( spm.getSpline() == spline ) {
+                setFreeFallMode();
+            }
+        }
+    }
 }

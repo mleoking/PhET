@@ -10,7 +10,10 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
@@ -35,8 +38,8 @@ public class SplineGraphic extends PNode {
     private Point2D.Double[] initDragSpline;
     private Point2D.Double controlPointLoc;
 
-    BasicStroke dottedStroke = new BasicStroke( 2, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1.0f, new float[]{3, 5}, 0 );
-    BasicStroke lineStroke = new BasicStroke( 2 );
+    private BasicStroke dottedStroke = new BasicStroke( 2, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1.0f, new float[]{3, 5}, 0 );
+    private BasicStroke lineStroke = new BasicStroke( 2 );
 
     public SplineGraphic( EC3Canvas ec3Canvas, AbstractSpline spline, AbstractSpline reverse ) {
         this.ec3Canvas = ec3Canvas;
@@ -70,6 +73,19 @@ public class SplineGraphic extends PNode {
             }
         } );
         pathLayer.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
+        pathLayer.addInputEventListener( new PopupMenuHandler( ec3Canvas, new PathPopupMenu( ec3Canvas ) ) );
+    }
+
+    class PathPopupMenu extends JPopupMenu {
+        public PathPopupMenu( final EC3Canvas ec3Canvas ) {
+            JMenuItem delete = new JMenuItem( "Delete Track" );
+            delete.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    ec3Canvas.removeSpline( SplineGraphic.this );
+                }
+            } );
+            add( delete );
+        }
     }
 
     private void finishDragSpline() {
@@ -189,6 +205,26 @@ public class SplineGraphic extends PNode {
             }
         } );
         controlCircle.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
+        controlCircle.addInputEventListener( new PopupMenuHandler( ec3Canvas, new ControlCirclePopupMenu( index ) ) );
+    }
+
+    class ControlCirclePopupMenu extends JPopupMenu {
+        public ControlCirclePopupMenu( final int index ) {
+            super( "Circle Popup Menu" );
+            JMenuItem delete = new JMenuItem( "Delete Control Point" );
+            delete.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    if( spline.numControlPoints() == 1 ) {
+                        ec3Canvas.removeSpline( SplineGraphic.this );
+                    }
+                    else {
+                        spline.removeControlPoint( index );
+                        updateAll();
+                    }
+                }
+            } );
+            add( delete );
+        }
     }
 
     private void proposeMatchesEndpoint( int index ) {
