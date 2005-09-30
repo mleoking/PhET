@@ -37,6 +37,9 @@ public abstract class ValueAccessor {
         }
 
         public double getValue( EnergyConservationModel rampPhysicalModel ) {
+            if( rampPhysicalModel.numBodies() == 0 ) {
+                return 0;
+            }
             return rampPhysicalModel.bodyAt( 0 ).getKineticEnergy();
         }
     }
@@ -47,6 +50,9 @@ public abstract class ValueAccessor {
         }
 
         public double getValue( EnergyConservationModel rampPhysicalModel ) {
+            if( rampPhysicalModel.numBodies() == 0 ) {
+                return 0;
+            }
             return rampPhysicalModel.getPotentialEnergy( rampPhysicalModel.bodyAt( 0 ) );
         }
     }
@@ -57,6 +63,9 @@ public abstract class ValueAccessor {
         }
 
         public double getValue( EnergyConservationModel rampPhysicalModel ) {
+            if( rampPhysicalModel.numBodies() == 0 ) {
+                return 0;
+            }
             return rampPhysicalModel.getPotentialEnergy( rampPhysicalModel.bodyAt( 0 ) ) + rampPhysicalModel.bodyAt( 0 ).getKineticEnergy();
         }
     }
@@ -67,6 +76,9 @@ public abstract class ValueAccessor {
         }
 
         public double getValue( EnergyConservationModel rampPhysicalModel ) {
+            if( rampPhysicalModel.numBodies() == 0 ) {
+                return 0;
+            }
             return rampPhysicalModel.getThermalEnergy();
         }
     }

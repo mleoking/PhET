@@ -178,6 +178,14 @@ public class EnergyConservationModel {
         return thermalEnergy;
     }
 
+    public void reset() {
+        bodies.clear();
+//        floors.clear();
+        splines.clear();
+        gravity = 9.8;
+        thermalEnergy = 0.0;
+    }
+
     public static interface EnergyModelListener {
 
         void preStep( double dt );

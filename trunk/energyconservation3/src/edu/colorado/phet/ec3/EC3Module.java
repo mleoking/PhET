@@ -8,6 +8,10 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
 import edu.colorado.phet.ec3.model.Floor;
+import edu.colorado.phet.ec3.model.spline.AbstractSpline;
+import edu.colorado.phet.ec3.model.spline.CubicSpline;
+import edu.colorado.phet.ec3.view.BodyGraphic;
+import edu.colorado.phet.ec3.view.SplineGraphic;
 import edu.colorado.phet.piccolo.PiccoloModule;
 
 import javax.swing.*;
@@ -34,9 +38,7 @@ public class EC3Module extends PiccoloModule {
     public EC3Module( String name, AbstractClock clock ) {
         super( name, clock );
         energyModel = new EnergyConservationModel( floorY );
-        Body body = new Body( Body.createDefaultBodyRect() );
-        body.setPosition( 100, 0 );
-        energyModel.addBody( body );
+
         Floor floor = new Floor( getEnergyConservationModel(), energyModel.getZeroPointPotentialY() );
         energyModel.addFloor( floor );
         setModel( new BaseModel() );
@@ -45,6 +47,10 @@ public class EC3Module extends PiccoloModule {
                 energyModel.stepInTime( dt / 10.0 );
             }
         } );
+
+        EnergyPanel energyPanel = new EnergyPanel( this );
+        setControlPanel( energyPanel );
+
         energyCanvas = new EC3Canvas( this );
         setPhetPCanvas( energyCanvas );
 
@@ -53,6 +59,8 @@ public class EC3Module extends PiccoloModule {
         int frameWidth = 200;
         energyFrame.setSize( frameWidth, 600 );
         energyFrame.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width - frameWidth, 0 );
+
+        init();
     }
 
     public void activate( PhetApplication app ) {
@@ -75,5 +83,31 @@ public class EC3Module extends PiccoloModule {
 
     public EC3Canvas getEnergyConservationCanvas() {
         return energyCanvas;
+    }
+
+    public void reset() {
+        energyModel.reset();
+        energyCanvas.reset();
+        init();
+    }
+
+    private void init() {
+        Body body = new Body( Body.createDefaultBodyRect() );
+        body.setPosition( 100, 0 );
+        energyModel.addBody( body );
+
+        for( int i = 0; i < energyModel.numBodies(); i++ ) {
+            BodyGraphic bodyGraphic = new BodyGraphic( this, energyModel.bodyAt( i ) );
+            energyCanvas.addBodyGraphic( bodyGraphic );
+        }
+        CubicSpline spline = new CubicSpline( EC3Canvas.NUM_CUBIC_SPLINE_SEGMENTS );
+        spline.addControlPoint( 47, 170 );
+        spline.addControlPoint( 336, 543 );
+        spline.addControlPoint( 669, 152 );
+        AbstractSpline revspline = spline.createReverseSpline();
+        SplineGraphic splineGraphic = new SplineGraphic( energyCanvas, spline, revspline );
+        energyModel.addSpline( spline, revspline );
+
+        energyCanvas.addSplineGraphic( splineGraphic );
     }
 }

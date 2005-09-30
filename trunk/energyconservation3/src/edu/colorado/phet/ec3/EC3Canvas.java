@@ -16,6 +16,7 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -45,31 +46,23 @@ public class EC3Canvas extends PhetPCanvas {
 
     private HashMap pressedKeys = new HashMap();
     private static final Object DUMMY_VALUE = new Object();
+    private PNode buses;
 
     public EC3Canvas( EC3Module ec3Module ) {
+        super( new Dimension( 942, 723 ) );
         this.ec3Module = ec3Module;
         this.ec3Model = ec3Module.getEnergyConservationModel();
         Floor floor = ec3Model.floorAt( 0 );
         getPhetRootNode().addBackWorldChild( new SkyGraphic( floor.getY() ) );
         addWorldChild( new FloorGraphic( floor ) );
 
-        for( int i = 0; i < ec3Model.numBodies(); i++ ) {
-            BodyGraphic bodyGraphic = new BodyGraphic( ec3Module, ec3Model.bodyAt( i ) );
-            addBodyGraphic( bodyGraphic );
-        }
-
-        CubicSpline spline = new CubicSpline( NUM_CUBIC_SPLINE_SEGMENTS );
         SplineToolbox splineToolbox = new SplineToolbox( this, 50, 50 );
         getPhetRootNode().addBackScreenChild( splineToolbox );
 
-        spline.addControlPoint( 47, 170 );
-        spline.addControlPoint( 336, 543 );
-        spline.addControlPoint( 678, 342 );
-        AbstractSpline revspline = spline.createReverseSpline();
-        SplineGraphic splineGraphic = new SplineGraphic( this, spline, revspline );
-        ec3Model.addSpline( spline, revspline );
+//        spline.addControlPoint( 47, 170 );
+//        spline.addControlPoint( 336, 543 );
+//        spline.addControlPoint( 678, 342 );
 
-        addSplineGraphic( splineGraphic );
         addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 requestFocus();
@@ -88,11 +81,14 @@ public class EC3Canvas extends PhetPCanvas {
                 else if( e.getKeyCode() == KeyEvent.VK_A ) {
                     addSkater();
                 }
-                else if( e.getKeyCode() == KeyEvent.VK_N ) {
-                    addSpline();
-                }
+//                else if( e.getKeyCode() == KeyEvent.VK_N ) {
+//                    addSpline();
+//                }
                 else if( e.getKeyCode() == KeyEvent.VK_J ) {
                     addBuses();
+                }
+                else if( e.getKeyCode() == KeyEvent.VK_D ) {
+                    debugScreenSize();
                 }
             }
 
@@ -113,25 +109,39 @@ public class EC3Canvas extends PhetPCanvas {
         } );
     }
 
+    private void debugScreenSize() {
+        System.out.println( "getSize( ) = " + getSize() );
+    }
+
+    public void clearBuses() {
+        buses.removeAllChildren();
+        removeWorldChild( buses );
+        buses = null;
+    }
+
     private void addBuses() {
-        try {
-            Floor floor = ec3Model.floorAt( 0 );
-            BufferedImage newImage = ImageLoader.loadBufferedImage( "images/schoolbus.gif" );
-            PImage schoolBus = new PImage( newImage );
-            schoolBus.scale( 2 );
-            double y = floor.getY() - schoolBus.getFullBounds().getHeight() + 10;
-            schoolBus.setOffset( 0, y );
-            double busStart = 400;
-            for( int i = 0; i < 100; i++ ) {
-                PImage bus = new PImage( newImage );
-                bus.scale( 2 );
-                double dbus = 2;
-                bus.setOffset( busStart + i * ( bus.getFullBounds().getWidth() + dbus ), y );
-                addWorldChild( bus );
+        if( buses == null ) {
+            try {
+                buses = new PNode();
+                Floor floor = ec3Model.floorAt( 0 );
+                BufferedImage newImage = ImageLoader.loadBufferedImage( "images/schoolbus200.gif" );
+                PImage schoolBus = new PImage( newImage );
+//            schoolBus.scale( 2 );
+                double y = floor.getY() - schoolBus.getFullBounds().getHeight() + 10;
+                schoolBus.setOffset( 0, y );
+                double busStart = 500;
+                for( int i = 0; i < 10; i++ ) {
+                    PImage bus = new PImage( newImage );
+//                bus.scale( 2 );
+                    double dbus = 2;
+                    bus.setOffset( busStart + i * ( bus.getFullBounds().getWidth() + dbus ), y );
+                    buses.addChild( bus );
+                }
+                addWorldChild( buses );
             }
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -180,7 +190,7 @@ public class EC3Canvas extends PhetPCanvas {
         addBodyGraphic( bodyGraphic );
     }
 
-    private void addBodyGraphic( BodyGraphic bodyGraphic ) {
+    public void addBodyGraphic( BodyGraphic bodyGraphic ) {
         bodyGraphics.addChild( bodyGraphic );
     }
 
@@ -297,5 +307,12 @@ public class EC3Canvas extends PhetPCanvas {
 
     public EC3Module getEnergyConservationModule() {
         return ec3Module;
+    }
+
+    public void reset() {
+        bodyGraphics.removeAllChildren();
+        splineGraphics.removeAllChildren();
+        clearBuses();
+        pressedKeys.clear();
     }
 }
