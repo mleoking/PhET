@@ -8,12 +8,12 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.lasers.model;
+package edu.colorado.phet.lasers.model.atom;
 
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.Electron;
-import edu.colorado.phet.lasers.model.atom.Atom;
+import edu.colorado.phet.lasers.model.PhysicsUtil;
 
 import java.util.Random;
 
