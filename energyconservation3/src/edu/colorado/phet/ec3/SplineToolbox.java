@@ -24,16 +24,12 @@ import java.awt.geom.Rectangle2D;
 
 public class SplineToolbox extends PNode {
     private EC3Canvas ec3Canvas;
-    private boolean dummyAvailable;
     private PText textGraphic;
 
-    public SplineToolbox( EC3Canvas ec3Canvas ) {
+    public SplineToolbox( EC3Canvas ec3Canvas, int x, int y ) {
         this.ec3Canvas = ec3Canvas;
-//        PPath path = new PPath( new Rectangle( 10, 10, 100, 100 ) );
-//        path.setPaint( Color.green );
-//        addChild( path );
 
-        SplineGraphic dummy = addDummySpline();
+        SplineGraphic dummy = addDummySpline( x, y );
 
         PPath boundGraphic = new PPath( getExpandBounds( dummy, 20, 20 ) );
         boundGraphic.setStroke( new BasicStroke( 2 ) );
@@ -64,23 +60,21 @@ public class SplineToolbox extends PNode {
         rect.setFrameFromCenter( r1c, r2c );
         rect = RectangleUtils.expand( rect, insetX, insetY );
         return rect;
-//        super.setPathTo( rect );
-//        repaint();
     }
 
-    private SplineGraphic addDummySpline() {
+    private SplineGraphic addDummySpline( final int x, final int y ) {
         AbstractSpline spline = new CubicSpline( EC3Canvas.NUM_CUBIC_SPLINE_SEGMENTS );
 
         spline.addControlPoint( 0, 0 );
         spline.addControlPoint( 75, 0 );
         spline.addControlPoint( 150, 0 );
-        spline.translate( 50, 50 );
+        spline.translate( x, y );
         final SplineGraphic splineGraphic = new SplineGraphic( ec3Canvas, spline, spline.createReverseSpline() );
         splineGraphic.disableDragControlPoints();
         splineGraphic.addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
                 super.mouseDragged( event );
-                SplineGraphic dummy = addDummySpline();
+                SplineGraphic dummy = addDummySpline( x, y );
                 addChild( dummy );
                 splineGraphic.removeInputEventListener( this );
                 System.out.println( "Added dummy@" + System.currentTimeMillis() );

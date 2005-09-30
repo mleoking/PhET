@@ -28,6 +28,7 @@ public class EC3Module extends PiccoloModule {
         super( name, clock );
         energyModel = new EnergyConservationModel();
         Body body = new Body( Body.createDefaultBodyRect() );
+        body.setPosition( 100, 0 );
         energyModel.addBody( body );
         Floor floor = new Floor( getEnergyConservationModel(), 600 );
         energyModel.addFloor( floor );

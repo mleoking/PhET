@@ -17,16 +17,7 @@ import java.awt.geom.Rectangle2D;
 public class SkyGraphic extends PNode {
     public SkyGraphic( double y ) {
         PPath sky = new PPath( new Rectangle2D.Double( -100, y - 1000, 10000, 1000 ) );
-//        earth.setPaint( Color.green );
         sky.setPaint( new Color( 170, 200, 220 ) );
         addChild( sky );
-
-//        Line2D.Double line = new Line2D.Double( -100, y, 10000, y );
-//        PPath path = new PPath( line );
-//        path.setStroke( new BasicStroke( 3 ) );
-//        path.setStrokePaint( Color.black );
-//
-//
-//        addChild( path );
     }
 }

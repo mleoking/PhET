@@ -37,7 +37,7 @@ public class BodyGraphic extends PNode {
     private PPath shape;
     private ArrayList dragHistory = new ArrayList();
     private Point2D mouseLocation;
-    long t0 = System.currentTimeMillis();
+    private long t0 = System.currentTimeMillis();
     private int numHistoryPointsForThrow = 5;
     private PImage skater;
     private PPath centerDebugger;
@@ -55,6 +55,7 @@ public class BodyGraphic extends PNode {
 
         try {
             BufferedImage image = ImageLoader.loadBufferedImage( "images/skater-67.png" );
+//            BufferedImage image = ImageLoader.loadBufferedImage( "images/skater-67.gif" );
 //            BufferedImage image = ImageLoader.loadBufferedImage( "images/ferrari-side2.gif" );
 //            BufferedImage image = ImageLoader.loadBufferedImage( "images/motorcycle.gif" );
             skater = new PImage( image );

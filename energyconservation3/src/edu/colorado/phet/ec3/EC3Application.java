@@ -3,7 +3,6 @@ package edu.colorado.phet.ec3;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
 
@@ -15,12 +14,11 @@ import edu.colorado.phet.common.view.util.FrameSetup;
  */
 
 public class EC3Application extends PhetApplication {
-    private static AbstractClock clock = new SwingTimerClock( 1.0, 25 );
     private EC3Module module;
 
     public EC3Application( String[] args ) {
-        super( args, "EC3", "Energy Conservation", "0.1", clock, true, new FrameSetup.CenteredWithInsets( 100, 100 ) );
-        module = new EC3Module( "Module", clock );
+        super( args, "EC3", "Energy Conservation", "0.1", new SwingTimerClock( 1.0, 25 ), true, new FrameSetup.CenteredWithInsets( 100, 100 ) );
+        module = new EC3Module( "Module", getClock() );
         setModules( new Module[]{module} );
     }
 

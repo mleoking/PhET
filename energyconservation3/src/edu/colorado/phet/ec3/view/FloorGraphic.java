@@ -23,7 +23,6 @@ public class FloorGraphic extends PNode {
         this.floor = floor;
         double y = floor.getY();
         PPath earth = new PPath( new Rectangle2D.Double( -100, y, 10000, 1000 ) );
-//        earth.setPaint( Color.green );
         earth.setPaint( new Color( 100, 170, 100 ) );
         addChild( earth );
 
@@ -32,8 +31,6 @@ public class FloorGraphic extends PNode {
         path.setStroke( new BasicStroke( 3 ) );
         path.setStrokePaint( Color.black );
 
-
         addChild( path );
-
     }
 }
