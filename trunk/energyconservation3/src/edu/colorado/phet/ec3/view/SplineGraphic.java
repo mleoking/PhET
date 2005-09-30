@@ -34,7 +34,7 @@ public class SplineGraphic extends PNode {
         this.spline = spline;
         this.reverse = reverse;
         pathLayer = new PPath();
-        pathLayer.setStroke( new BasicStroke( 3 ) );
+        pathLayer.setStroke( new BasicStroke( AbstractSpline.SPLINE_THICKNESS ) );
         pathLayer.setStrokePaint( Color.black );
         controlPointLayer = new PNode();
 
@@ -66,6 +66,7 @@ public class SplineGraphic extends PNode {
             public void mouseDragged( PInputEvent event ) {
                 PDimension rel = event.getDeltaRelativeTo( SplineGraphic.this );
                 spline.translateControlPoint( index, rel.getWidth(), rel.getHeight() );
+
                 reverse.setControlPoints( reverse( spline.getControlPoints() ) );
                 updateAll();
             }

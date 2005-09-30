@@ -29,6 +29,7 @@ public abstract class AbstractSpline {
     private Shape areaShape;
     private boolean areaDirty = true;
     private Area area = null;
+    public static final float SPLINE_THICKNESS = 2.0f;
 
     protected AbstractSpline() {
         setAllDirty();
@@ -130,7 +131,7 @@ public abstract class AbstractSpline {
     }
 
     private Shape createAreaShape() {
-        BasicStroke stroke = new BasicStroke( 2 );
+        BasicStroke stroke = new BasicStroke( SPLINE_THICKNESS );
         return stroke.createStrokedShape( getInterpolationPath() );
     }
 

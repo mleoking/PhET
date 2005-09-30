@@ -51,7 +51,9 @@ public class BodyGraphic extends PNode {
 //        addChild( shape );
 
         try {
-            BufferedImage image = ImageLoader.loadBufferedImage( "images/skater-67.png" );
+//            BufferedImage image = ImageLoader.loadBufferedImage( "images/skater-67.png" );
+//            BufferedImage image = ImageLoader.loadBufferedImage( "images/ferrari-side2.gif" );
+            BufferedImage image = ImageLoader.loadBufferedImage( "images/motorcycle.gif" );
             skater = new PImage( image );
             addChild( skater );
 
@@ -209,9 +211,15 @@ public class BodyGraphic extends PNode {
 //        skater.translate( body.getPosition().getX(), body.getPosition().getY() );
 //        AbstractVector2D a = Vector2D.Double.parseAngleAndMagnitude( skater.getImage().getHeight( null ), body.getAngle() );
 //        skater.translate( 0, -a.getY() );
+
         skater.translate( center.getX(), center.getY() );
         skater.rotate( body.getAngle() );
         skater.translate( -skater.getImage().getWidth( null ) / 2, -skater.getImage().getHeight( null ) + body.getHeight() / 2 );
+        boolean facingRight = body.isFacingRight();
+        if( facingRight ) {
+            skater.transformBy( AffineTransform.getScaleInstance( -1, 1 ) );
+            skater.translate( -skater.getImage().getWidth( null ), 0 );
+        }
 
         centerDebugger.setPathTo( new Rectangle( (int)body.getPosition().getX(), (int)body.getPosition().getY(), 5, 5 ) );
 //        System.out.println( "centerDebugger.getFullBounds() = " + centerDebugger.getFullBounds() );
