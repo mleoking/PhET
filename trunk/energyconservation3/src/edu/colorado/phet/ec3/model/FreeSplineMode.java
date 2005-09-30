@@ -20,6 +20,7 @@ public class FreeSplineMode extends ForceMode {
     private double lastDA;
     boolean lastPositionSet = false;
     double lastScalarPosition = 0;
+    private boolean lastGrabState = false;
 
     public FreeSplineMode( AbstractSpline spline, Body body ) {
         this.spline = spline;
@@ -97,6 +98,7 @@ public class FreeSplineMode extends ForceMode {
 //        double bounceThreshold = 2;
         boolean bounced = false;
         boolean grabbed = false;
+        double originalPerpVel = origVector.getPerpendicular();
         if( origVector.getPerpendicular() < 0 ) {//velocity is through the segment
             if( Math.abs( origVector.getPerpendicular() ) > bounceThreshold ) {//bounce
                 origVector.setPerpendicular( Math.abs( origVector.getPerpendicular() ) );
@@ -107,6 +109,17 @@ public class FreeSplineMode extends ForceMode {
                 grabbed = true;
             }
         }
+        if( lastGrabState == false && grabbed == true ) {
+
+            if( origVector.getParallel() > 0 ) {//try to conserve velocity, so that the EnergyConserver doesn't have
+                //to make up for it all in dHeight.
+                origVector.setParallel( origVector.getParallel() + Math.abs( originalPerpVel ) );
+            }
+            else if( origVector.getParallel() < 0 ) {
+                origVector.setParallel( origVector.getParallel() - Math.abs( originalPerpVel ) );
+            }
+        }
+        lastGrabState = grabbed;
         Vector2D.Double newVelocity = origVector.toCartesianVector();
 
         EC3Debug.debug( "newVelocity = " + newVelocity );

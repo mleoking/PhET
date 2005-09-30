@@ -46,4 +46,8 @@ public class RVector2D {
     public Vector2D.Double toCartesianVector() {
         return perpToCartesian( parallel, perpendicular );
     }
+
+    public void setParallel( double parallel ) {
+        this.parallel = parallel;
+    }
 }
