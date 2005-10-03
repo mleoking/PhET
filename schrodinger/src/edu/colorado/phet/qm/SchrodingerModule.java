@@ -40,7 +40,7 @@ public class SchrodingerModule extends PiccoloModule {
         super( name, schrodingerApplication.getClock() );
         this.schrodingerApplication = schrodingerApplication;
         setModel( new BaseModel() );
-        menu = new SchrodingerMenu( this );
+
 
     }
 
@@ -59,6 +59,7 @@ public class SchrodingerModule extends PiccoloModule {
             public void keyTyped( KeyEvent e ) {
             }
         } );
+        menu = new SchrodingerMenu( this );
     }
 
     public void activate( PhetApplication app ) {

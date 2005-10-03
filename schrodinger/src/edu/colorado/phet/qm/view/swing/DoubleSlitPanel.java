@@ -4,6 +4,7 @@ package edu.colorado.phet.qm.view.swing;
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.qm.controls.DoubleSlitCheckBox;
+import edu.colorado.phet.qm.controls.ResolutionControl;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
 
@@ -28,7 +29,7 @@ public class DoubleSlitPanel extends VerticalLayoutPanel {
     private JComponent verticalPosition;
     private DoubleSlitCheckBox doubleSlitCheckBox;
 
-    public DoubleSlitPanel( DiscreteModel discreteModel ) {
+    public DoubleSlitPanel( final DiscreteModel discreteModel ) {
         this.discreteModel = discreteModel;
         this.horizontalDoubleSlit = discreteModel.getDoubleSlitPotential();
         setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Double Slit" ) );
@@ -43,11 +44,14 @@ public class DoubleSlitPanel extends VerticalLayoutPanel {
 
         verticalPosition = createComponent( "Vertical Position", new Setter() {
             public void valueChanged( double val ) {
-                horizontalDoubleSlit.setY( (int)val );
+                int y = ResolutionControl.DEFAULT_WAVE_SIZE - (int)val;
+                System.out.println( "y = " + y );
+                horizontalDoubleSlit.setY( y );
+
             }
 
             public double getValue( HorizontalDoubleSlit horizontalDoubleSlit ) {
-                return horizontalDoubleSlit.getY();
+                return ResolutionControl.DEFAULT_WAVE_SIZE - horizontalDoubleSlit.getY();
             }
 
             public double getMin() {
@@ -55,7 +59,7 @@ public class DoubleSlitPanel extends VerticalLayoutPanel {
             }
 
             public double getMax() {
-                return 100;
+                return ResolutionControl.DEFAULT_WAVE_SIZE;
             }
         } );
 

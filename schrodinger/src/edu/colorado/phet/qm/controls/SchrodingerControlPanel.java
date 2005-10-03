@@ -148,8 +148,8 @@ public class SchrodingerControlPanel extends ControlPanel {
             }
         } );
 
-        ResolutionControl resolutionControl = new ResolutionControl( this );
-        addControl( resolutionControl );
+//        ResolutionControl resolutionControl = new ResolutionControl( this );
+//        addControl( resolutionControl );
 
 
     }
