@@ -52,10 +52,6 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
     private long averagingPeriod = 300;
     private long lastPaintTime;
     private int numUpdatesToAverage;
-    private int numGroundLevelAccum = 0;
-    private int numMiddleLevelAccum = 0;
-    private int numHighLevelAccum = 0;
-
     // The diameter of an atom as displayed on the screen, in pixels
     private int atomDiam = 10;
     // Dimensions of the panel
@@ -68,9 +64,10 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
     private double levelLineOriginX = origin.getX();
     private double levelLineLength = panelWidth - levelLineOriginX - 50;
 
-    private EnergyLevelGraphic highLevelLine;
-    private EnergyLevelGraphic middleLevelLine;
-    private EnergyLevelGraphic groundLevelLine;
+    private EnergyLevelGraphic[] levelGraphics = new EnergyLevelGraphic[3];
+    private EnergyLifetimeSlider[] lifetimeSliders = new EnergyLifetimeSlider[3];
+    private int[] numAtomsInLevel = new int[3];
+    private int[] atomCntAccums = new int[3];
 
     private EnergyLifetimeSlider highLevelLifetimeSlider;
     private EnergyLifetimeSlider middleLevelLifetimeSlider;
@@ -86,8 +83,6 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
     private BufferedImage pumpSquiggle;
     private AffineTransform stimSquiggleTx;
     private AffineTransform pumpSquiggleTx;
-    private double seedBeamWavelength;
-    private double pumpBeamWavelength;
     private BufferedImage baseSphereImg;
     private BaseLaserModule module;
     // The offset by which all the graphic elements must be placed, caused by the heading text
@@ -110,19 +105,9 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         model.getSeedBeam().addWavelengthChangeListener( this );
         model.getSeedBeam().addRateChangeListener( this );
 
-        // Create a horizontal line for each energy level, then add them to the panel
-        highLevelLine = new EnergyLevelGraphic( this, module.getLaserModel().getHighEnergyState(),
-                                                Color.blue, levelLineOriginX,
-                                                levelLineLength - levelLineOriginX,
-                                                true );
-        middleLevelLine = new EnergyLevelGraphic( this, module.getLaserModel().getMiddleEnergyState(),
-                                                  Color.red, levelLineOriginX + squiggleHeight * 1.5,
-                                                  levelLineLength - ( levelLineOriginX + squiggleHeight * 1.5 ),
-                                                  true );
-        groundLevelLine = new EnergyLevelGraphic( this, module.getLaserModel().getGroundState(),
-                                                  Color.black, levelLineOriginX + squiggleHeight * 3,
-                                                  levelLineLength - ( levelLineOriginX + squiggleHeight * 3 ),
-                                                  false );
+        // Create the graphics and controls that represent the energy levels of the atoms
+        createEnergyLevelReps();
+
         this.setBackground( Color.white );
         JLabel dummyLabel = new JLabel( "foo" );
         Font font = dummyLabel.getFont();
@@ -138,44 +123,76 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
                                                            Color.black );
         headingText.setLocation( 30, 5 );
         this.addGraphic( headingText );
-        this.addGraphic( highLevelLine );
-        this.addGraphic( middleLevelLine );
-        this.addGraphic( groundLevelLine );
-
-        // Add lifetime sliders and a title for them
-        middleLevelLifetimeSlider = new EnergyLifetimeSlider( module.getLaserModel().getMiddleEnergyState(),
-                                                              middleLevelLine,
-                                                              LaserConfig.MIDDLE_ENERGY_STATE_MAX_LIFETIME,
-                                                              this );
-        this.add( middleLevelLifetimeSlider );
-        highLevelLifetimeSlider = new EnergyLifetimeSlider( module.getLaserModel().getHighEnergyState(),
-                                                            highLevelLine,
-                                                            LaserConfig.HIGH_ENERGY_STATE_MAX_LIFETIME, this );
-        this.add( highLevelLifetimeSlider );
 
         // Set up the event handlers we need
         this.addComponentListener( new PanelResizer() );
-        new EnergyMatchDetector( module.getLaserModel().getHighEnergyState(), model.getPumpingBeam(), highLevelLine );
-        new EnergyMatchDetector( module.getLaserModel().getMiddleEnergyState(), model.getSeedBeam(), middleLevelLine );
+    }
 
-//        adjustPanel();
+    /**
+     * Creates a line for each of the energy levels, with a slider to control the lifetime
+     * of the level
+     */
+    private void createEnergyLevelReps() {
+
+        // Clear any existing graphics and controls
+        for( int i = 0; i < levelGraphics.length; i++ ) {
+            EnergyLevelGraphic levelGraphic = levelGraphics[i];
+            removeGraphic( levelGraphic );
+        }
+        for( int i = 0; i < lifetimeSliders.length; i++ ) {
+            EnergyLifetimeSlider lifetimeSlider = lifetimeSliders[i];
+            if( lifetimeSlider != null ) {
+                remove( lifetimeSlider );
+            }
+        }
+        levelGraphics = new EnergyLevelGraphic[3];
+        lifetimeSliders = new EnergyLifetimeSlider[3];
+
+        AtomicState[] states = model.getStates();
+        for( int i = 0; i < states.length; i++ ) {
+            AtomicState state = states[i];
+            EnergyLevelGraphic elg = new EnergyLevelGraphic( this, state,
+                                                             Color.black, levelLineOriginX,
+                                                             levelLineLength - levelLineOriginX,
+                                                             true );
+            addGraphic( elg );
+            levelGraphics[i] = elg;
+
+            // Don't add a lifetime adjustment slider for the ground state
+            if( i > 0 ) {
+                EnergyLifetimeSlider slider = new EnergyLifetimeSlider( state,
+                                                                        elg,
+                                                                        LaserConfig.MIDDLE_ENERGY_STATE_MAX_LIFETIME,
+                                                                        this );
+                lifetimeSliders[i] = slider;
+                this.add( slider );
+
+                // Add a listener that will flash the line when it matches the wavelength of
+                // either of the beams
+                new EnergyMatchDetector( state, model.getSeedBeam(), elg );
+                new EnergyMatchDetector( state, model.getPumpingBeam(), elg );
+            }
+        }
+        adjustPanel();
     }
 
     /**
      * Adjusts the layout of the panel
      */
     public void adjustPanel() {
-//    private void adjustPanel() {
         // The beamArea in which the energy levels will be displayed
         Rectangle2D bounds = new Rectangle2D.Double( getBounds().getMinX(), getBounds().getMinY() + 10,
                                                      getBounds().getWidth(), getBounds().getHeight() - 30 );
-        energyYTx = new ModelViewTransform1D( AtomicState.maxEnergy,
-                                              AtomicState.minEnergy,
+        double groundStateEnergy = model.getGroundState().getEnergyLevel();
+        energyYTx = new ModelViewTransform1D( groundStateEnergy + PhysicsUtil.wavelengthToEnergy( VisibleColor.MIN_WAVELENGTH ),
+                                              groundStateEnergy,
                                               (int)bounds.getBounds().getMinY() + headerOffsetY,
                                               (int)bounds.getBounds().getMaxY() - footerOffsetY );
-        highLevelLine.update( energyYTx );
-        middleLevelLine.update( energyYTx );
-        groundLevelLine.update( energyYTx );
+        for( int i = 0; i < levelGraphics.length; i++ ) {
+            if( levelGraphics[i] != null ) {
+                levelGraphics[i].update( energyYTx );
+            }
+        }
         updateSquiggles();
     }
 
@@ -186,19 +203,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
      */
     public void setNumLevels( int numLevels ) {
         this.numLevels = numLevels;
-        switch( numLevels ) {
-            case 2:
-                highLevelLine.setVisible( false );
-                highLevelLifetimeSlider.setVisible( false );
-                break;
-            case 3:
-                highLevelLine.setVisible( true );
-                highLevelLifetimeSlider.setVisible( true );
-                break;
-            default:
-                throw new RuntimeException( "Number of levels out of range" );
-        }
-
+        createEnergyLevelReps();
         setPreferredSize( new Dimension( (int)panelWidth, (int)panelHeight ) );
         revalidate();
         repaint();
@@ -208,24 +213,27 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
      * Handles updates from the model
      */
     public void update() {
-        numGroundLevelAccum += model.getNumGroundStateAtoms();
-        numMiddleLevelAccum += model.getNumMiddleStateAtoms();
-        numHighLevelAccum += model.getNumHighStateAtoms();
+        atomCntAccums[0] += model.getNumGroundStateAtoms();
+        atomCntAccums[1] += model.getNumMiddleStateAtoms();
+        atomCntAccums[2] += model.getNumHighStateAtoms();
 
         // todo: these two line might be able to go somewhere they aren't called as often
-        middleLevelLifetimeSlider.update();
-        highLevelLifetimeSlider.update();
+        for( int i = 1; i < numLevels; i++ ) {
+            if( lifetimeSliders[i] != null ) {
+                lifetimeSliders[i].update();
+            }
+        }
 
         numUpdatesToAverage++;
         long currTime = System.currentTimeMillis();
         if( currTime - lastPaintTime >= averagingPeriod ) {
             // Compute the average number of atoms in each state. Take care to round off rather than truncate.
-            numGroundLevel = (int)( 0.5 + (double)numGroundLevelAccum / numUpdatesToAverage );
-            numMiddleLevel = (int)( 0.5 + (double)numMiddleLevelAccum / numUpdatesToAverage );
-            numHighLevel = (int)( 0.5 + (double)numHighLevelAccum / numUpdatesToAverage );
-            numGroundLevelAccum = 0;
-            numMiddleLevelAccum = 0;
-            numHighLevelAccum = 0;
+            numAtomsInLevel[0] = (int)( 0.5 + (double)atomCntAccums[0] / numUpdatesToAverage );
+            numAtomsInLevel[1] = (int)( 0.5 + (double)atomCntAccums[1] / numUpdatesToAverage );
+            numAtomsInLevel[2] = (int)( 0.5 + (double)atomCntAccums[2] / numUpdatesToAverage );
+            atomCntAccums[0] = 0;
+            atomCntAccums[1] = 0;
+            atomCntAccums[2] = 0;
             numUpdatesToAverage = 0;
             lastPaintTime = currTime;
             this.invalidate();
@@ -237,21 +245,22 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
      * Recomputes the squiggle images for both beams
      */
     private void updateSquiggles() {
-        double y0 = energyYTx.modelToView( module.getLaserModel().getGroundState().getEnergyLevel() );
-        double y1 = energyYTx.modelToView( seedBeamEnergy );
-        double y2 = energyYTx.modelToView( pumpBeamEnergy );
+        double groundStateEnergy = model.getGroundState().getEnergyLevel();
+        double y0 = energyYTx.modelToView( groundStateEnergy );
+        double y1 = energyYTx.modelToView( groundStateEnergy + seedBeamEnergy );
+        double y2 = energyYTx.modelToView( groundStateEnergy + pumpBeamEnergy );
 
         // Build the images for the squiggles that represent the energies of the stimulating and pumping beam
         if( y0 > y1 ) {
             stimSquiggle = computeSquiggleImage( model.getSeedBeam(), 0, (int)( y0 - y1 ), squiggleHeight );
-            stimSquiggleTx = AffineTransform.getTranslateInstance( middleLevelLine.getPosition().getX(),
+            stimSquiggleTx = AffineTransform.getTranslateInstance( levelGraphics[1].getPosition().getX(),
                                                                    energyYTx.modelToView( module.getLaserModel().getGroundState().getEnergyLevel() ) );
             stimSquiggleTx.rotate( -Math.PI / 2 );
         }
 
-        if( y0 > y2 ) {
+        if( y0 > y2 && numLevels > 2 ) {
             pumpSquiggle = computeSquiggleImage( model.getPumpingBeam(), 0, (int)( y0 - y2 ), squiggleHeight );
-            pumpSquiggleTx = AffineTransform.getTranslateInstance( highLevelLine.getPosition().getX(),
+            pumpSquiggleTx = AffineTransform.getTranslateInstance( levelGraphics[2].getPosition().getX(),
                                                                    energyYTx.modelToView( module.getLaserModel().getGroundState().getEnergyLevel() ) );
             pumpSquiggleTx.rotate( -Math.PI / 2 );
         }
@@ -304,7 +313,6 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         return img;
     }
 
-
     public void setAveragingPeriod( long value ) {
         averagingPeriod = value;
     }
@@ -327,21 +335,12 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         GraphicsState gs = new GraphicsState( g2 );
         GraphicsUtil.setAntiAliasingOn( g2 );
 
-        // Draw ground level atoms
-        drawAtomsInLevel( g2, Color.darkGray, groundLevelLine, numGroundLevel );
-
-        // Draw middle level atoms
-        if( numLevels >= 2 ) {
-            Color c = VisibleColor.wavelengthToColor( module.getLaserModel().getMiddleEnergyState().getWavelength() );
-            drawAtomsInLevel( g2, Color.darkGray, middleLevelLine, numMiddleLevel );
-//            drawAtomsInLevel( g2, c, middleLevelLine, numMiddleLevel );
-        }
-
-        // Draw high level atoms, if the level is enabled
-        if( numLevels >= 3 ) {
-            Color c = VisibleColor.wavelengthToColor( module.getLaserModel().getHighEnergyState().getWavelength() );
-            drawAtomsInLevel( g2, Color.darkGray, highLevelLine, numHighLevel );
-//            drawAtomsInLevel( g2, c, highLevelLine, numHighLevel );
+        for( int i = 0; i < numLevels; i++ ) {
+            EnergyLevelGraphic levelGraphic = levelGraphics[i];
+            if( levelGraphic == null ) {
+                System.out.println( "asdf" );
+            }
+            drawAtomsInLevel( g2, Color.darkGray, levelGraphic, numAtomsInLevel[i] );
         }
 
         // Draw squiggles showing what energy photons the beams are putting out
@@ -402,11 +401,11 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
     public void wavelengthChanged( CollimatedBeam.WavelengthChangeEvent event ) {
         CollimatedBeam beam = (CollimatedBeam)event.getSource();
         if( beam == model.getPumpingBeam() ) {
-            pumpBeamWavelength = beam.getWavelength();
+            double pumpBeamWavelength = beam.getWavelength();
             pumpBeamEnergy = PhysicsUtil.wavelengthToEnergy( pumpBeamWavelength );
         }
         if( beam == model.getSeedBeam() ) {
-            seedBeamWavelength = beam.getWavelength();
+            double seedBeamWavelength = beam.getWavelength();
             seedBeamEnergy = PhysicsUtil.wavelengthToEnergy( seedBeamWavelength );
         }
         updateSquiggles();
@@ -419,7 +418,6 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
     //----------------------------------------------------------------
     // ClockStateListener implementation
     //----------------------------------------------------------------
-
 
     /**
      * If the clock pauses, force the update and repaint of energy level populations. We need to do this because
@@ -480,7 +478,8 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         }
 
         private void checkForMatch() {
-            if( Math.abs( PhysicsUtil.wavelengthToEnergy( collimatedBeam.getWavelength() ) - atomicState.getEnergyLevel() )
+            double requiredDE = atomicState.getEnergyLevel() - model.getGroundState().getEnergyLevel();
+            if( Math.abs( PhysicsUtil.wavelengthToEnergy( collimatedBeam.getWavelength() ) - requiredDE )
                 <= LaserConfig.ENERGY_TOLERANCE ) {
                 if( !matched ) {
                     flashGraphic();

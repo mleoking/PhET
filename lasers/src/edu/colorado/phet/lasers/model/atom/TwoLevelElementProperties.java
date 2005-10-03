@@ -11,6 +11,8 @@
 package edu.colorado.phet.lasers.model.atom;
 
 import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.model.PhysicsUtil;
+import edu.colorado.phet.lasers.model.photon.Photon;
 
 /**
  * LaserAtomElementProperties
@@ -24,14 +26,10 @@ public class TwoLevelElementProperties extends LaserElementProperties {
     // the ground state)
     public static final double DEFAULT_STATE_LIFETIME = ( LaserConfig.DT / LaserConfig.FPS ) * 100;
 
-    private static double groundStateEnergy = 0;
-//    private static double groundStateEnergy = -13.6;
+    private static double groundStateEnergy = -13.6;
     private static double[] energyLevels = {
         groundStateEnergy,
-        groundStateEnergy + new MiddleEnergyState().getEnergyLevel() - new GroundState().getEnergyLevel()
-//        -13.6,
-//        -9.4
-//        -3.4
+        groundStateEnergy + PhysicsUtil.wavelengthToEnergy( Photon.RED )
     };
 
     public TwoLevelElementProperties() {
@@ -48,7 +46,7 @@ public class TwoLevelElementProperties extends LaserElementProperties {
     }
 
     public AtomicState getHighEnergyState() {
-        return null;
+        return getStates()[1];
     }
 }
 

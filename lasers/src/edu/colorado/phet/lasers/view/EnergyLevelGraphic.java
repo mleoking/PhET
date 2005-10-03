@@ -82,14 +82,6 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
         }
     }
 
-    public boolean isVisible() {
-        return super.isVisible();
-    }
-
-    protected PhetGraphic getHandler( Point p ) {
-        return super.getHandler( p );
-    }
-
     public void update( ModelViewTransform1D tx ) {
         this.energyYTx = tx;
         energyLevelRep.update();
@@ -206,6 +198,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
                                     new Point2D.Double( xLoc + xOffset, y - arrowHt ),
                                     arrowHeadWd, arrowHeadWd, tailWd );
             }
+
             boundingRect = determineBoundsInternal();
             setBoundsDirty();
             repaint();
