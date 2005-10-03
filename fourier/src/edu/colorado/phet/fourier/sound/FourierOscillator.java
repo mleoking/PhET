@@ -56,7 +56,8 @@ import edu.colorado.phet.fourier.model.Harmonic;
  * FourierOscillator produces the data stream that represents a Fourier series.
  * <p>
  * The implementation of this class is based on the Oscillator.java example
- * available at www.jsresources.org.
+ * available at www.jsresources.org. See the source file header for associated
+ * copyright information.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
