@@ -64,12 +64,6 @@ import edu.colorado.phet.fourier.model.Harmonic;
 public class FourierOscillator extends AudioInputStream implements SimpleObserver {
 
     //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final boolean DEBUG = true;
-
-    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -102,7 +96,7 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
      * @param streamLength
      */
     public FourierOscillator( FourierSeries fourierSeries, float signalFrequency, float amplitude, AudioFormat audioFormat, long streamLength ) {
-        super( new ByteArrayInputStream( new byte[0] ), new AudioFormat( AudioFormat.Encoding.PCM_SIGNED, audioFormat.getSampleRate(), 16, 2, 4, audioFormat.getFrameRate(), audioFormat.isBigEndian() ), streamLength );
+        super( new ByteArrayInputStream( new byte[0] ), audioFormat, streamLength );
 
         _fourierSeries = fourierSeries;
         _fourierSeries.addObserver( this );
