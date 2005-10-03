@@ -154,7 +154,7 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
      * and the amount of time that read calls are blocked.
      */
     private void generateData() {
-        System.out.println( "FourierOscillator.generateData" );//XXX
+//        System.out.println( "FourierOscillator.generateData" );//XXX
         float amplitude = (float) ( _amplitude * Math.pow( 2, getFormat().getSampleSizeInBits() - 1 ) );
         byte[] localBuffer = new byte[_bufferLength];
         for ( int frame = 0; frame < _periodLengthInFrames; frame++ ) {
