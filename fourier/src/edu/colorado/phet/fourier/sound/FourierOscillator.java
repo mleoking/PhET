@@ -9,6 +9,36 @@
  * Date modified : $Date$
  */
 
+/*
+ * Portions of this code (as noted in the Javadoc):
+ * 
+ * Copyright (c) 1999 - 2001 by Matthias Pfisterer
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * - Redistributions of source code must retain the above copyright notice,
+ *   this list of conditions and the following disclaimer.
+ * - Redistributions in binary form must reproduce the above copyright
+ *   notice, this list of conditions and the following disclaimer in the
+ *   documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 package edu.colorado.phet.fourier.sound;
 
 import java.io.ByteArrayInputStream;
@@ -44,14 +74,18 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
     //----------------------------------------------------------------------------
     
     private FourierSeries _fourierSeries;
-    private byte[] m_abData;
-    private int m_nBufferPosition;
-    private long m_lRemainingFrames;
-    private float m_fSignalFrequency;
-    private float m_fAmplitude;
-    private long m_lLength;
-    private int m_nPeriodLengthInFrames;
-    private int m_nBufferLength;
+    
+    // The audio data buffer
+    private byte[] _buffer;
+    private int _bufferLength;
+    private int _bufferIndex;
+    
+    private long _remainingFrames;
+    private float _signalFrequency;
+    private float _amplitude;
+    private long _streamLength;
+    private int _periodLengthInFrames;
+
     private boolean _enabled;
 
     //----------------------------------------------------------------------------
@@ -62,29 +96,29 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
      * Sole constructor.
      * 
      * @param fourierSeries
-     * @param fSignalFrequency
-     * @param fAmplitude
+     * @param signalFrequency
+     * @param amplitude
      * @param audioFormat
-     * @param lLength
+     * @param streamLength
      */
-    public FourierOscillator( FourierSeries fourierSeries, float fSignalFrequency, float fAmplitude, AudioFormat audioFormat, long lLength ) {
-        super( new ByteArrayInputStream( new byte[0] ), new AudioFormat( AudioFormat.Encoding.PCM_SIGNED, audioFormat.getSampleRate(), 16, 2, 4, audioFormat.getFrameRate(), audioFormat.isBigEndian() ), lLength );
+    public FourierOscillator( FourierSeries fourierSeries, float signalFrequency, float amplitude, AudioFormat audioFormat, long streamLength ) {
+        super( new ByteArrayInputStream( new byte[0] ), new AudioFormat( AudioFormat.Encoding.PCM_SIGNED, audioFormat.getSampleRate(), 16, 2, 4, audioFormat.getFrameRate(), audioFormat.isBigEndian() ), streamLength );
 
         _fourierSeries = fourierSeries;
         _fourierSeries.addObserver( this );
         
-        m_fSignalFrequency = fSignalFrequency;
-        m_fAmplitude = fAmplitude;
-        m_lLength = lLength;
+        _signalFrequency = signalFrequency;
+        _amplitude = amplitude;
+        _streamLength = streamLength;
 
-        m_nPeriodLengthInFrames = Math.round( getFormat().getFrameRate() / m_fSignalFrequency );
-        m_nBufferLength = m_nPeriodLengthInFrames * getFormat().getFrameSize();
-        m_abData = new byte[m_nBufferLength];
+        _periodLengthInFrames = Math.round( getFormat().getFrameRate() / _signalFrequency );
+        _bufferLength = _periodLengthInFrames * getFormat().getFrameSize();
+        _buffer = new byte[_bufferLength];
         
         generateData();
         
-        m_lRemainingFrames = m_lLength;
-        m_nBufferPosition = 0;
+        _remainingFrames = _streamLength;
+        _bufferIndex = 0;
         _enabled = true;
     }
     
@@ -126,21 +160,21 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
      */
     private void generateData() {
         System.out.println( "FourierOscillator.generateData" );//XXX
-        float fAmplitude = (float) ( m_fAmplitude * Math.pow( 2, getFormat().getSampleSizeInBits() - 1 ) );
-        byte[] abData = new byte[m_nBufferLength];
-        for ( int nFrame = 0; nFrame < m_nPeriodLengthInFrames; nFrame++ ) {
+        float amplitude = (float) ( _amplitude * Math.pow( 2, getFormat().getSampleSizeInBits() - 1 ) );
+        byte[] localBuffer = new byte[_bufferLength];
+        for ( int frame = 0; frame < _periodLengthInFrames; frame++ ) {
             // The relative position inside the period of the waveform. 0.0 = beginning, 1.0 = end
-            float fPeriodPosition = (float) nFrame / (float) m_nPeriodLengthInFrames;
-            float fValue = getFourierSum( fPeriodPosition );
-            int nValue = Math.round( fValue * fAmplitude );
-            int nBaseAddr = ( nFrame ) * getFormat().getFrameSize();
+            float periodPosition = (float) frame / (float) _periodLengthInFrames;
+            float fValue = getFourierSum( periodPosition );
+            int nValue = Math.round( fValue * amplitude );
+            int baseAddr = ( frame ) * getFormat().getFrameSize();
             // this is for 16 bit stereo, little endian
-            abData[nBaseAddr + 0] = (byte) ( nValue & 0xFF );
-            abData[nBaseAddr + 1] = (byte) ( ( nValue >>> 8 ) & 0xFF );
-            abData[nBaseAddr + 2] = (byte) ( nValue & 0xFF );
-            abData[nBaseAddr + 3] = (byte) ( ( nValue >>> 8 ) & 0xFF );
+            localBuffer[baseAddr + 0] = (byte) ( nValue & 0xFF );
+            localBuffer[baseAddr + 1] = (byte) ( ( nValue >>> 8 ) & 0xFF );
+            localBuffer[baseAddr + 2] = (byte) ( nValue & 0xFF );
+            localBuffer[baseAddr + 3] = (byte) ( ( nValue >>> 8 ) & 0xFF );
         }
-        setData( abData );
+        setData( localBuffer );
     }
 
     /*
@@ -151,27 +185,27 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
      * @param fPeriodPosition
      * @return the Fourier sum at the specified position
      */
-    private float getFourierSum( float fPeriodPosition ) {
-        float fSum = 0;
+    private float getFourierSum( float periodPosition ) {
+        float sum = 0;
         for ( int i = 0; i < _fourierSeries.getNumberOfHarmonics(); i++ ) {
             Harmonic harmonic = _fourierSeries.getHarmonic( i );
             double amplitude = harmonic.getAmplitude();
             if ( amplitude != 0 ) {
                 double radiansPerPeriod = ( i + 1 ) * 2.0 * Math.PI;
-                double angle = fPeriodPosition * radiansPerPeriod;
-                fSum += (float) ( amplitude * Math.sin( angle ) );
+                double angle = periodPosition * radiansPerPeriod;
+                sum += (float) ( amplitude * Math.sin( angle ) );
             }
         }
-        return fSum;
+        return sum;
     }
     
     /*
-     * Copies data into the read buffer.
+     * Copies audio data into the read buffer.
      *  
-     * @param abData the data to copy into the read buffer
+     * @param audioData the data to copy into the read buffer
      */
-    private synchronized void setData( byte[] abData ) {
-        System.arraycopy( abData, 0, m_abData, 0, m_nBufferLength );
+    private synchronized void setData( byte[] audioData ) {
+        System.arraycopy( audioData, 0, _buffer, 0, _bufferLength );
     }
     
     //----------------------------------------------------------------------------
@@ -200,16 +234,18 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
      * number that can be represented in an integer. If the length
      * if finite, this length is returned, clipped by the maximum
      * that can be represented.
+     * <p>
+     * This method was copied verbatim from jsresource.org's Oscillator.
      * 
      * @return the number of bytes available
      */
     public int available() {
         int nAvailable = 0;
-        if ( m_lRemainingFrames == AudioSystem.NOT_SPECIFIED ) {
+        if ( _remainingFrames == AudioSystem.NOT_SPECIFIED ) {
             nAvailable = Integer.MAX_VALUE;
         }
         else {
-            long lBytesAvailable = m_lRemainingFrames * getFormat().getFrameSize();
+            long lBytesAvailable = _remainingFrames * getFormat().getFrameSize();
             nAvailable = (int) Math.min( lBytesAvailable, (long) Integer.MAX_VALUE );
         }
         return nAvailable;
@@ -220,12 +256,14 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
      * throw an IOException if the frame size is not 1.  Since we currently 
      * always use 16 bit samples, the frame size is always greater than 1.
      * So we always throw an exception.
+     * <p>
+     * This method was copied verbatim from jsresource.org's Oscillator.
      * 
      * @return never
      * @throws IOException always
      */
     public int read() throws IOException {
-        throw new IOException( "cannot use this method currently" );
+        throw new IOException( "not implemented, see javadoc" );
     }
 
     /**
@@ -234,7 +272,7 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
      * read buffer, we simply wrap around to the beginning.  This presents the
      * single period of audio data as a continuous stream.
      * <p>
-     * This method was copied verbatim from jsresource.org's Oscillator.read
+     * This method was copied verbatim from jsresource.org's Oscillator.
      * 
      * @param abData buffer into which the data is written
      * @param nOffset offset into the buffer where we'll start writing data
@@ -248,19 +286,19 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
         int nConstrainedLength = Math.min( available(), nLength );
         int nRemainingLength = nConstrainedLength;
         while ( nRemainingLength > 0 ) {
-            int nNumBytesToCopyNow = m_abData.length - m_nBufferPosition;
+            int nNumBytesToCopyNow = _buffer.length - _bufferIndex;
             nNumBytesToCopyNow = Math.min( nNumBytesToCopyNow, nRemainingLength );
-            System.arraycopy( m_abData, m_nBufferPosition, abData, nOffset, nNumBytesToCopyNow );
+            System.arraycopy( _buffer, _bufferIndex, abData, nOffset, nNumBytesToCopyNow );
             nRemainingLength -= nNumBytesToCopyNow;
             nOffset += nNumBytesToCopyNow;
-            m_nBufferPosition = ( m_nBufferPosition + nNumBytesToCopyNow ) % m_abData.length;
+            _bufferIndex = ( _bufferIndex + nNumBytesToCopyNow ) % _buffer.length;
         }
         int nFramesRead = nConstrainedLength / getFormat().getFrameSize();
-        if ( m_lRemainingFrames != AudioSystem.NOT_SPECIFIED ) {
-            m_lRemainingFrames -= nFramesRead;
+        if ( _remainingFrames != AudioSystem.NOT_SPECIFIED ) {
+            _remainingFrames -= nFramesRead;
         }
         int nReturn = nConstrainedLength;
-        if ( m_lRemainingFrames == 0 ) {
+        if ( _remainingFrames == 0 ) {
             nReturn = -1;
         }
         return nReturn;
