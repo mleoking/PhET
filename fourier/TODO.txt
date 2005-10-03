@@ -62,6 +62,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+2.0.1 ...
 (10/3) - implement sound feature in Discrete module
 (9/30) - make a separate manifest file for each project, which includes Main-Class attribute
 (9/30) - reorganize 'cmalley' CVS project, add Java stuff (including sound test program)
