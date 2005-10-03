@@ -23,7 +23,8 @@ import edu.colorado.phet.fourier.model.FourierSeries;
 
 
 /**
- * FourierSoundPlayer
+ * FourierSoundPlayer handles playing the sound that 
+ * corresponds to a Fourier series.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -59,6 +60,13 @@ public class FourierSoundPlayer implements Runnable {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Sole constructor.  Creates a sound player that responds to changes
+     * in a specified Fourier series.  Sound I/O is handled in a separate 
+     * thread, which is running only when sound is "on".
+     * 
+     * @param fourierSeries
+     */
     public FourierSoundPlayer( FourierSeries fourierSeries ) throws LineUnavailableException {
         
         _soundEnabled = false;
@@ -72,15 +80,24 @@ public class FourierSoundPlayer implements Runnable {
         _sourceDataLine.open( audioFormat, OUTPUT_DEVICE_BUFFER_SIZE );
     }
     
+    /**
+     * Call this method before releasing all references to an instance of this object.
+     */
     public void cleanup() {
         _oscillator.cleanup();
         _oscillator = null;
+        _listenerList = new EventListenerList(); // lazy way to clear the list
     }
     
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Turns the sound thread on and off.
+     * 
+     * @param true or false
+     */
     public void setSoundEnabled( boolean enabled ) {
         _soundEnabled = enabled; // false stops the sound thread
         if ( enabled ) {
@@ -99,16 +116,32 @@ public class FourierSoundPlayer implements Runnable {
     // SoundErrorEvent handling
     //----------------------------------------------------------------------------
     
+    /**
+     * Adds a SoundErrorListener.
+     * 
+     * @param listener
+     */
     public void addSoundErrorListener( SoundErrorListener listener ) {
         _listenerList.add( SoundErrorListener.class, listener );
     }
     
+    /**
+     * Removes a SoundErrorListener.
+     * 
+     * @param listener
+     */
     public void removeSoundErrorListener( SoundErrorListener listener ) {
         _listenerList.remove( SoundErrorListener.class, listener );
     }
     
-    private void notifySoundErrorListeners( Exception e, String message ) {
-        SoundErrorEvent event = new SoundErrorEvent( this, e, message );
+    /**
+     * Notifies all SoundErrorListeners that a sound error has occurred.
+     * 
+     * @param exception
+     * @param message
+     */
+    private void notifySoundErrorListeners( Exception exception, String message ) {
+        SoundErrorEvent event = new SoundErrorEvent( this, exception, message );
         Object[] listeners = _listenerList.getListenerList();
         for ( int i = 0; i < listeners.length; i+=2 ) {
             if ( listeners[i] == SoundErrorListener.class ) {
@@ -121,8 +154,12 @@ public class FourierSoundPlayer implements Runnable {
     // Runnable implementation
     //----------------------------------------------------------------------------
     
+    /**
+     * Reads from the Fourier oscillator and writes to the output device.
+     * The thread exits when _soundEnabled is set to false;
+     */
     public void run() {
-        System.out.println( "FourierSoundPlayer.run begins" );//XXX
+//        System.out.println( "FourierSoundPlayer.run begins" );//XXX
         byte[] buffer = new byte[DATA_BUFFER_SIZE];
         while ( _soundEnabled ) {
             try {
@@ -135,7 +172,6 @@ public class FourierSoundPlayer implements Runnable {
                 notifySoundErrorListeners( ioe, message );
             }
         }
-        System.out.println( "FourierSoundPlayer.run ends" );//XXX
+//        System.out.println( "FourierSoundPlayer.run ends" );//XXX
     }
-    
 }
