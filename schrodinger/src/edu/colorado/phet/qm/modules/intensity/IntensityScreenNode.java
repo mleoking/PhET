@@ -27,7 +27,8 @@ public class IntensityScreenNode extends SchrodingerScreenNode {
     protected void layoutChildren() {
         super.layoutChildren();
         PSwing ds = getDoubleSlitPanelGraphic();
-        slitControlGraphic.setOffset( ds.getFullBounds().getX(), ds.getFullBounds().getY() + ds.getFullBounds().getHeight() + 5 );
+        slitControlGraphic.setOffset( ds.getFullBounds().getX() + ds.getFullBounds().getWidth() / 2,
+                                      ds.getFullBounds().getY() + ds.getFullBounds().getHeight() + 5 );
     }
 
     public PSwing getSlitControlGraphic() {

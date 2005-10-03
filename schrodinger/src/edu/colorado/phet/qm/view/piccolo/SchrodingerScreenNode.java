@@ -11,6 +11,7 @@ import edu.colorado.phet.qm.view.swing.DoubleSlitPanel;
 import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 import edu.umd.cs.piccolo.PCamera;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PBounds;
 
 import javax.swing.*;
 import java.awt.*;
@@ -54,8 +55,11 @@ public class SchrodingerScreenNode extends PNode {
 
         doubleSlitPanel = new DoubleSlitPanel( getDiscreteModel() );
         doubleSlitPanelGraphic = new PSwing( schrodingerPanel, doubleSlitPanel );
-        doubleSlitPanelGraphic.setOffset( getWavefunctionGraphic().getX() + getWavefunctionGraphic().getWidth() - 40, getWavefunctionGraphic().getY() + getWavefunctionGraphic().getHeight() / 2 - doubleSlitPanelGraphic.getHeight() / 2 + 35 );
-
+//        doubleSlitPanelGraphic.setOffset( getWavefunctionGraphic().getX() + getWavefunctionGraphic().getWidth() - 40,
+//                                          getWavefunctionGraphic().getY() + getWavefunctionGraphic().getHeight() / 2 - doubleSlitPanelGraphic.getHeight() / 2 + 35 );
+        doubleSlitPanelGraphic.setOffset( getWavefunctionGraphic().getX() + getWavefunctionGraphic().getWidth() - 40,
+//                                           intensityGraphic.getDetectorSheet().getDetectorSheetPanel().getFullBounds().getY());
+                                          0 );
         addChild( intensityGraphic );
         addChild( doubleSlitPanelGraphic );
         addChild( wavefunctionGraphic );
@@ -211,8 +215,15 @@ public class SchrodingerScreenNode extends PNode {
                                             wavefunctionGraphic.getFullBounds().getY() - intensityGraphic.getFullBounds().getHeight() / 2 );
                 abstractGun.setOffset( wavefunctionGraphic.getFullBounds().getCenterX() - abstractGun.getGunWidth() / 2 + 10,
                                        wavefunctionGraphic.getFullBounds().getMaxY() - getGunGraphicOffsetY() );
-                doubleSlitPanelGraphic.setOffset( wavefunctionGraphic.getFullBounds().getMaxX(),
-                                                  wavefunctionGraphic.getFullBounds().getCenterY() );
+//                doubleSlitPanelGraphic.setOffset( wavefunctionGraphic.getFullBounds().getMaxX(),
+//                                                  wavefunctionGraphic.getFullBounds().getCenterY() );
+
+                PBounds bounds = intensityGraphic.getDetectorSheet().getDetectorSheetPanel().getGlobalFullBounds();
+                globalToLocal( bounds );
+                doubleSlitPanelGraphic.setOffset( //                        getWavefunctionGraphic().getFullBounds().getMaxX(),
+                        bounds.getX(),
+                        bounds.getMaxY() );
+//                                           0);
                 clearButton.setOffset( wavefunctionGraphic.getFullBounds().getX() - clearButton.getFullBounds().getWidth(),
                                        wavefunctionGraphic.getFullBounds().getHeight() - clearButton.getHeight() );
             }

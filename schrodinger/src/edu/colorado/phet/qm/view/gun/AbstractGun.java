@@ -143,4 +143,8 @@ public abstract class AbstractGun extends PNode {
     public static interface MomentumChangeListener {
         void momentumChanged( double val );
     }
+
+    public PSwing getComboBoxGraphic() {
+        return comboBoxGraphic;
+    }
 }
