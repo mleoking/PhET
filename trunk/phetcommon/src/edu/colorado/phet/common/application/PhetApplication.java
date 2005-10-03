@@ -104,7 +104,7 @@ public class PhetApplication {
 
         // Put up a dialog that lets the user know that the simulation is starting up
         startupDlg = new StartupDialog( getPhetFrame(), title );
-        startupDlg.show();
+        startupDlg.setVisible( true );
 
         // Handle command line arguments
         parseArgs( args );
