@@ -28,7 +28,8 @@ public class OscillatorUI extends JFrame implements ActionListener, ChangeListen
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final int BUFFER_SIZE = 16000;
+    private static final int DATA_BUFFER_SIZE = 16000;
+    private static final int OUTPUT_DEVICE_BUFFER_SIZE = 16000;
     
     private static final int NUMBER_OF_HARMONICS = 11;
     
@@ -127,7 +128,7 @@ public class OscillatorUI extends JFrame implements ActionListener, ChangeListen
         DataLine.Info info = new DataLine.Info( SourceDataLine.class, audioFormat );
         try {
             _sourceDataLine = (SourceDataLine) AudioSystem.getLine( info );
-            _sourceDataLine.open( audioFormat );
+            _sourceDataLine.open( audioFormat, OUTPUT_DEVICE_BUFFER_SIZE );
         }
         catch ( LineUnavailableException e ) {
             e.printStackTrace();
@@ -245,7 +246,7 @@ public class OscillatorUI extends JFrame implements ActionListener, ChangeListen
     
     public void run() {
         debug( "OscillatorUI.run begins" );
-        byte[] buffer = new byte[BUFFER_SIZE];
+        byte[] buffer = new byte[DATA_BUFFER_SIZE];
         while ( _isPlaying ) {
             try {
                 int nRead = _oscillator.read( buffer );
