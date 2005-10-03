@@ -20,6 +20,7 @@ import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.PhotoWindow;
+import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
 import edu.colorado.phet.lasers.controller.module.SingleAtomModule;
 
 import javax.swing.*;
@@ -57,9 +58,11 @@ public class LaserSimulation extends PhetApplication {
             }
 
             Module singleAtomModule = new SingleAtomModule( clock );
+            Module multipleAtomModule = new MultipleAtomModule( clock );
 //            Module kaboomModule = new TestKaboomModule();
             Module[] modules = new Module[]{
                 singleAtomModule,
+                multipleAtomModule
 //                kaboomModule
             };
             setModules( modules );

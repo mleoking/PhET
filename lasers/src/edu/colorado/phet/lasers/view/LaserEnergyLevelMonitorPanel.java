@@ -91,7 +91,8 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
     private BufferedImage baseSphereImg;
     private BaseLaserModule module;
     // The offset by which all the graphic elements must be placed, caused by the heading text
-    private int headingOffsetY = 20;
+    private int headerOffsetY = 20;
+    private int footerOffsetY = 10;
 
     /**
      *
@@ -168,8 +169,10 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         // The beamArea in which the energy levels will be displayed
         Rectangle2D bounds = new Rectangle2D.Double( getBounds().getMinX(), getBounds().getMinY() + 10,
                                                      getBounds().getWidth(), getBounds().getHeight() - 30 );
-        energyYTx = new ModelViewTransform1D( AtomicState.maxEnergy, AtomicState.minEnergy,
-                                              (int)bounds.getBounds().getMinY() + headingOffsetY, (int)bounds.getBounds().getMaxY() );
+        energyYTx = new ModelViewTransform1D( AtomicState.maxEnergy,
+                                              AtomicState.minEnergy,
+                                              (int)bounds.getBounds().getMinY() + headerOffsetY,
+                                              (int)bounds.getBounds().getMaxY() - footerOffsetY );
         highLevelLine.update( energyYTx );
         middleLevelLine.update( energyYTx );
         groundLevelLine.update( energyYTx );
