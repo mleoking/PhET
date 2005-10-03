@@ -38,24 +38,43 @@ public class FourierSoundPlayer implements Runnable {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final int DATA_BUFFER_SIZE = 16000;
-    private static final int OUTPUT_DEVICE_BUFFER_SIZE = 16000;
+    /*
+     * A NOTE ABOUT AUDIO BUFFER SIZE:  In choosing a buffer size, you should
+     * seek to minimize latency, minimize the risk of underflow, and avoid 
+     * unnecessary consumption of CPU resources.  Smaller buffer sizes result 
+     * in less latency, but increase the risk of underflow and increase the 
+     * use of CPU resources. Underflow manifests itself as pops and clicks, 
+     * caused by discontinuities in the audio output -- this occurs when 
+     * the output device is gobbling up audio data faster than you can 
+     * write it to the device.
+     */
     
-    private static final float SAMPLE_RATE = 44100.0F;
+    // Size of the buffer used to transfer data from the input stream to the output device.
+    private static final int TRANSFER_BUFFER_SIZE = 16000; // bytes
+    
+    // Size of the buffer internal to the output device.
+    private static final int DEVICE_BUFFER_SIZE = 16000; // bytes
+    
+    // Audio format parameters
+    private static final AudioFormat.Encoding ENCODING = AudioFormat.Encoding.PCM_SIGNED;
+    private static final float SAMPLE_RATE = 44100.0F; // samples per second
     private static final int SAMPLE_SIZE = 16; // bits
     private static final int CHANNELS = 2; // 2==stereo
     private static final int BITS_PER_BYTE = 8;
     private static final int FRAME_SIZE = SAMPLE_SIZE * CHANNELS / BITS_PER_BYTE; // bytes
-    private static final float FRAME_RATE = SAMPLE_RATE;
-    private static final  float FREQUENCY = 440.0F;
-    private static final float AMPLITUDE = 0.7F;
+    private static final float FRAME_RATE = SAMPLE_RATE; // frames per second
+    
+    // Audio input stream parameters
+    private static final float FREQUENCY = 440.0F; // Hz
+    private static final float AMPLITUDE = 0.7F; // 0=off, 1=fully on
+    private static final int STREAM_LENGTH = AudioSystem.NOT_SPECIFIED;
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private FourierOscillator _oscillator;
-    private SourceDataLine _sourceDataLine;
+    private FourierOscillator _oscillator;  // audio data producer (input stream)
+    private SourceDataLine _sourceDataLine; // audio data consumer (output device)
     private boolean _soundEnabled;
     private EventListenerList _listenerList;
     
@@ -76,11 +95,11 @@ public class FourierSoundPlayer implements Runnable {
         _listenerList = new EventListenerList();
         
         // Set up the source data line.
-        AudioFormat audioFormat = new AudioFormat( AudioFormat.Encoding.PCM_SIGNED, SAMPLE_RATE, SAMPLE_SIZE, CHANNELS, FRAME_SIZE, FRAME_RATE, false );
-        _oscillator = new FourierOscillator( fourierSeries, FREQUENCY, AMPLITUDE, audioFormat, AudioSystem.NOT_SPECIFIED );
+        AudioFormat audioFormat = new AudioFormat( ENCODING, SAMPLE_RATE, SAMPLE_SIZE, CHANNELS, FRAME_SIZE, FRAME_RATE, false );
+        _oscillator = new FourierOscillator( fourierSeries, FREQUENCY, AMPLITUDE, audioFormat, STREAM_LENGTH );
         DataLine.Info info = new DataLine.Info( SourceDataLine.class, audioFormat );
         _sourceDataLine = (SourceDataLine) AudioSystem.getLine( info );
-        _sourceDataLine.open( audioFormat, OUTPUT_DEVICE_BUFFER_SIZE );
+        _sourceDataLine.open( audioFormat, DEVICE_BUFFER_SIZE );
     }
     
     /**
@@ -163,7 +182,7 @@ public class FourierSoundPlayer implements Runnable {
      */
     public void run() {
 //        System.out.println( "FourierSoundPlayer.run begins" );//XXX
-        byte[] buffer = new byte[DATA_BUFFER_SIZE];
+        byte[] buffer = new byte[TRANSFER_BUFFER_SIZE];
         while ( _soundEnabled ) {
             try {
                 int nRead = _oscillator.read( buffer );
