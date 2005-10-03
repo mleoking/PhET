@@ -35,7 +35,7 @@ public class OscillatorUI extends JFrame implements ActionListener, ChangeListen
     
     private static final float SAMPLE_RATE = 44100.0F;
     private static final float FRAME_RATE = SAMPLE_RATE;
-    private static final  float FREQUENCY = 1000.0F;
+    private static final  float FREQUENCY = 440.0F;
     private static final float AMPLITUDE = 0.7F;
     
     private static final String CHOICE_SINE = "sine";
