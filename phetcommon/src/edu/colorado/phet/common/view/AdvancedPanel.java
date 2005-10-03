@@ -125,4 +125,8 @@ public class AdvancedPanel extends VerticalLayoutPanel {
 
         void advancedPanelShown( AdvancedPanel advancedPanel );
     }
+
+    public VerticalLayoutPanel getControls() {
+        return controls;
+    }
 }
