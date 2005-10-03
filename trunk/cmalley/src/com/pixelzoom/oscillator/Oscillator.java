@@ -50,7 +50,7 @@ import javax.sound.sampled.SourceDataLine;
 
 public class Oscillator extends AudioInputStream {
 
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
 
     public static final int WAVEFORM_SINE = 0;
     public static final int WAVEFORM_SQUARE = 1;
@@ -100,6 +100,7 @@ public class Oscillator extends AudioInputStream {
     }
     
     private void generateData() {
+        debug( "Oscillator.generateData " + m_nWaveformType );
         float fAmplitude = (float) ( m_fAmplitude * Math.pow( 2, getFormat().getSampleSizeInBits() - 1 ) );
         byte[] abData = new byte[m_nBufferLength];
         for ( int nFrame = 0; nFrame < m_nPeriodLengthInFrames; nFrame++ ) {
@@ -139,7 +140,7 @@ public class Oscillator extends AudioInputStream {
             case WAVEFORM_FOURIER:
                 assert( m_daFourierAmplitudes != null );
                 // Replace this with Fourier calculation
-                fValue = (float) Math.sin( fPeriodPosition * 2.0 * Math.PI );
+                fValue = getFourierSum( fPeriodPosition );
                 break;
             }
             int nValue = Math.round( fValue * fAmplitude );
@@ -153,6 +154,19 @@ public class Oscillator extends AudioInputStream {
         setData( abData );
     }
 
+    private float getFourierSum( float fPeriodPosition ) {
+        float fSum = 0;
+        for ( int i = 0; i < m_daFourierAmplitudes.length; i++ ) {
+            double amplitude = m_daFourierAmplitudes[ i ];
+            if ( amplitude != 0 ) {
+                double radiansPerPeriod = ( i + 1 ) * 2.0 * Math.PI;
+                double angle = fPeriodPosition * radiansPerPeriod;
+                fSum += (float) ( amplitude * Math.sin( angle ) );
+            }
+        }
+        return fSum;
+    }
+    
     private synchronized void setData( byte[] abData ) {
         System.arraycopy( abData, 0, m_abData, 0, m_nBufferLength );
     }
@@ -195,7 +209,7 @@ public class Oscillator extends AudioInputStream {
 
 
     public synchronized int read( byte[] abData, int nOffset, int nLength ) throws IOException {
-        debug( "Oscillator.read(): begin" );
+//        debug( "Oscillator.read(): begin" );
         if ( nLength % getFormat().getFrameSize() != 0 ) {
             throw new IOException( "length must be an integer multiple of frame size" );
         }
@@ -217,7 +231,7 @@ public class Oscillator extends AudioInputStream {
         if ( m_lRemainingFrames == 0 ) {
             nReturn = -1;
         }
-        debug( "Oscillator.read(): end" );
+//        debug( "Oscillator.read(): end" );
         return nReturn;
     }
 

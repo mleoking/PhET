@@ -28,13 +28,14 @@ public class OscillatorUI extends JFrame implements ActionListener, ChangeListen
     // Class data
     //----------------------------------------------------------------------------
     
+    private static final int BUFFER_SIZE = 16000;
+    
     private static final int NUMBER_OF_HARMONICS = 11;
     
     private static final float SAMPLE_RATE = 44100.0F;
     private static final float FRAME_RATE = SAMPLE_RATE;
     private static final  float FREQUENCY = 1000.0F;
     private static final float AMPLITUDE = 0.7F;
-    private static final int BUFFER_SIZE = 128000;
     
     private static final String CHOICE_SINE = "sine";
     private static final String CHOICE_SQUARE = "square";
@@ -87,8 +88,12 @@ public class OscillatorUI extends JFrame implements ActionListener, ChangeListen
             JSlider slider = new JSlider();
             slider.setOrientation( JSlider.VERTICAL );
             slider.setMaximum( 100 );
-            slider.setMinimum( 0 );
+            slider.setMinimum( -100 );
             slider.setValue( ( i == 0 ) ? 100 : 0 );
+            slider.setMajorTickSpacing( 50 );
+            slider.setMinorTickSpacing( 10 );
+            slider.setPaintTicks( true );
+            slider.setPaintLabels( true );
             slider.setEnabled( false );
             slider.addChangeListener( this );
             panel.add( slider );
