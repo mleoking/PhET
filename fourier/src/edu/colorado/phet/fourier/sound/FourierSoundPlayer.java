@@ -25,6 +25,9 @@ import edu.colorado.phet.fourier.model.FourierSeries;
 /**
  * FourierSoundPlayer handles playing the sound that 
  * corresponds to a Fourier series.
+ * <p>
+ * FourierOscillator produces the audio data, while FourierSoundPlayer
+ * handles initialization of the Java sound system and data I/O.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
