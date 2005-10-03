@@ -64,11 +64,17 @@ public class AtomicState {
         return meanLifetime;
     }
 
+    /**
+     * @param lifetime
+     */
     public void setMeanLifetime( double lifetime ) {
         this.meanLifetime = lifetime;
         listenerProxy.meanLifetimechanged( new Event( this ) );
     }
 
+    /**
+     * @param energyLevel
+     */
     public void setEnergyLevel( double energyLevel ) {
         this.energyLevel = energyLevel;
         this.wavelength = PhysicsUtil.energyToWavelength( energyLevel );
@@ -89,10 +95,7 @@ public class AtomicState {
     public double determineEmittedPhotonWavelength( AtomicState nextState ) {
         double energy1 = PhysicsUtil.wavelengthToEnergy( this.getWavelength() );
         double energy2 = PhysicsUtil.wavelengthToEnergy( nextState.getWavelength() );
-
-        // todo: This was changed in discharge atom model
         double emittedWavelength = Math.min( PhysicsUtil.energyToWavelength( energy1 - energy2 ),
-//        double emittedWavelength = Math.min( Photon.energyToWavelength( energy1 - energy2 + AtomicState.minEnergy ),
                                              AtomicState.maxWavelength );
         return emittedWavelength;
     }
@@ -106,10 +109,7 @@ public class AtomicState {
     public double determineEmittedPhotonWavelength() {
         double energy1 = PhysicsUtil.wavelengthToEnergy( this.getWavelength() );
         double energy2 = PhysicsUtil.wavelengthToEnergy( this.getNextLowerEnergyState().getWavelength() );
-
-        // todo: this isn't right. It doesn't work for upper to middle transitions
         double emittedWavelength = Math.min( PhysicsUtil.energyToWavelength( energy1 - energy2 ),
-//        double emittedWavelength = Math.min( PhysicsUtil.energyToWavelength( energy1 - energy2 + AtomicState.minEnergy ),
                                              AtomicState.maxWavelength );
         return emittedWavelength;
     }
@@ -291,10 +291,16 @@ public class AtomicState {
         }
     }
 
+    /**
+     * @deprecated
+     */
     public interface MeanLifetimeChangeListener extends EventListener {
         public void meanLifetimeChanged( MeanLifetimeChangeEvent event );
     }
 
+    /**
+     * @deprecated
+     */
     public class MeanLifetimeChangeEvent extends EventObject {
         public MeanLifetimeChangeEvent() {
             super( AtomicState.this );
