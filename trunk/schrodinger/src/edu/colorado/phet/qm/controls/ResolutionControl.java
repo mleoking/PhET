@@ -19,15 +19,17 @@ import javax.swing.event.ChangeListener;
 public class ResolutionControl extends AdvancedPanel {
     private SchrodingerControlPanel schrodingerControlPanel;
 
+    public static final int DEFAULT_WAVE_SIZE = 60;
+
     public ResolutionControl( SchrodingerControlPanel schrodingerControlPanel ) {
         super( "Resolution>>", "Resolution<<" );
         this.schrodingerControlPanel = schrodingerControlPanel;
 
         JLabel screenSizeLabel = new JLabel( "Grid Resolution" );
         addControl( screenSizeLabel );
-        int defaultWidth = 60;
-        final JSpinner screenSize = new JSpinner( new SpinnerNumberModel( defaultWidth, 5, 200, 5 ) );
-        getSchrodingerModule().setWaveSize( defaultWidth );
+
+        final JSpinner screenSize = new JSpinner( new SpinnerNumberModel( DEFAULT_WAVE_SIZE, 5, 200, 5 ) );
+        getSchrodingerModule().setWaveSize( DEFAULT_WAVE_SIZE );
 
         screenSize.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

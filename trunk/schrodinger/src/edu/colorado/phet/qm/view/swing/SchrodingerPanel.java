@@ -30,10 +30,6 @@ public class SchrodingerPanel extends PhetPCanvas {
     private Photon photon;
     private SchrodingerScreenNode schrodingerScreenNode;
 
-    public DoubleSlitPanel getDoubleSlitPanel() {
-        return schrodingerScreenNode.getDoubleSlitPanel();
-    }
-
     public SchrodingerPanel( SchrodingerModule module ) {
         setLayout( null );
         this.module = module;
@@ -56,10 +52,15 @@ public class SchrodingerPanel extends PhetPCanvas {
         schrodingerScreenNode = createScreenNode( module );
         setScreenNode( schrodingerScreenNode );
         setZoomEventHandler( new PZoomEventHandler() );
+        setBackground( new Color( 170, 210, 255 ) );
     }
 
     protected SchrodingerScreenNode createScreenNode( SchrodingerModule module ) {
         return new SchrodingerScreenNode( this );
+    }
+
+    public DoubleSlitPanel getDoubleSlitPanel() {
+        return schrodingerScreenNode.getDoubleSlitPanel();
     }
 
 //    private void addWorldGraphic( PNode graphic, double layer ) {

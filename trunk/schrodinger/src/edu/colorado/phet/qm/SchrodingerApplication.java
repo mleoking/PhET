@@ -38,7 +38,7 @@ public class SchrodingerApplication extends PhetApplication {
         SchrodingerModule singleParticleModel = new SingleParticleModule( this );
         SchrodingerModule intensityModule = new IntensityModule( this );
         SchrodingerModule mandelModule = new MandelModule( this );
-        setModules( new Module[]{singleParticleModel, intensityModule, mandelModule} );
+        setModules( new Module[]{intensityModule, singleParticleModel, mandelModule} );
     }
 
     private static AbstractClock createClock() {
