@@ -111,7 +111,6 @@ public class SingleAtomModule extends BaseLaserModule {
         getApparatusPanel().addGraphic( seedBeamControl );
 
         // Pumping beam lamp
-        double yOffset = 30;
         AffineTransform pumpingBeamTx = new AffineTransform();
         pumpingBeamTx.translate( getLaserOrigin().getX() + beamImage.getHeight() + s_boxWidth / 2 - beamImage.getHeight() / 2, 10 );
         pumpingBeamTx.rotate( Math.PI / 2 );
@@ -136,7 +135,6 @@ public class SingleAtomModule extends BaseLaserModule {
         // Add an atom
         int numEnergyLevels = getThreeEnergyLevels() ? 3 : 2;
         atom = new PropertiesBasedAtom( getLaserModel(), new TwoLevelElementProperties() );
-//        atom = new Atom( getLaserModel(), numEnergyLevels );
         atom.setPosition( getLaserOrigin().getX() + s_boxWidth / 2,
                           getLaserOrigin().getY() + s_boxHeight / 2 );
         atom.setVelocity( 0, 0 );

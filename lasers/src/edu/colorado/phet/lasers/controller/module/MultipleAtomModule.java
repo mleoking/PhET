@@ -213,13 +213,6 @@ public class MultipleAtomModule extends BaseLaserModule {
         super.setThreeEnergyLevels( threeEnergyLevels );
         this.threeEnergyLevels = threeEnergyLevels;
         getLaserModel().getPumpingBeam().setEnabled( true );
-        if( atoms != null ) {
-            int numEnergyLevels = threeEnergyLevels ? 3 : 2;
-            for( int i = 0; i < atoms.size(); i++ ) {
-                Atom atom = (Atom)atoms.get( i );
-//                atom.setNumEnergyLevels( numEnergyLevels, getLaserModel() );
-            }
-        }
     }
 
     public void setSwingComponentsVisible( boolean areVisible ) {

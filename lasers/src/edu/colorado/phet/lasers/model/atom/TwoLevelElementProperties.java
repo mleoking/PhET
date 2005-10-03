@@ -31,6 +31,9 @@ public class TwoLevelElementProperties extends LaserElementProperties {
         groundStateEnergy,
         groundStateEnergy + PhysicsUtil.wavelengthToEnergy( Photon.RED )
     };
+    // Because of the origianl poor design of the Lasers simulation, we're saddled with
+    // needing a third, high energy state, even though we shouldn't have one.
+    private AtomicState dummyHighEnergyState = new AtomicState();
 
     public TwoLevelElementProperties() {
         super( "Laser Atom", energyLevels,
@@ -46,7 +49,7 @@ public class TwoLevelElementProperties extends LaserElementProperties {
     }
 
     public AtomicState getHighEnergyState() {
-        return getStates()[1];
+        return dummyHighEnergyState;
     }
 }
 
