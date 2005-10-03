@@ -19,6 +19,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.event.MouseInputAdapter;
 
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.SimpleObserver;
@@ -92,6 +93,7 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
     private DiscreteControlPanel _controlPanel;
     private AnimationCycleController _animationCycleController;
     private Dimension _canvasSize;
+    private boolean _soundEnabled;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -299,6 +301,8 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
      */
     public void reset() {
         
+        _controlPanel.setSoundEnabled( false );
+        
         _fourierSeries.setNumberOfHarmonics( NUMBER_OF_HARMONICS );
         _fourierSeries.setFundamentalFrequency( FUNDAMENTAL_FREQUENCY );
         _fourierSeries.setPreset( FourierConstants.PRESET_SINE_COSINE );
@@ -324,6 +328,7 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         _periodDisplay.setLocation( PERIOD_DISPLAY_LOCATION );
         
         _controlPanel.reset();
+        _soundEnabled = _controlPanel.isSoundEnabled();
     }
    
     //----------------------------------------------------------------------------
@@ -376,6 +381,31 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
     public void canvasSizeChanged( ChangeEvent event ) {
         _canvasSize.setSize( event.getCanvasSize() );
         layoutViews();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Module overrides
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Restore the state of sound when switching to this module.
+     * 
+     * @param app
+     */
+    public void activate( PhetApplication app ) {
+        super.activate( app );
+        _controlPanel.setSoundEnabled( _soundEnabled );
+    }
+    
+    /**
+     * Mute the sound when switching to another module.
+     * 
+     * @param app
+     */
+    public void deactivate( PhetApplication app ) {
+        super.deactivate( app );
+        _soundEnabled = _controlPanel.isSoundEnabled();
+        _controlPanel.setSoundEnabled( false );
     }
     
     //----------------------------------------------------------------------------
