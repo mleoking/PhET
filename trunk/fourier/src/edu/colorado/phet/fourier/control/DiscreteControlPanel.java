@@ -865,6 +865,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             String message = SimStrings.get( "sound.error.init" );
             handleSoundError( message, lue );
         }
+        _soundPlayer.addSoundErrorListener( this );
     }
     
     /*
@@ -887,11 +888,21 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         exception.printStackTrace();
     }
     
+    /**
+     * Turns sound on and off.
+     * 
+     * @param enabled true or false
+     */
     public void setSoundEnabled( boolean enabled ) {
         _soundCheckBox.setSelected( enabled );
         handleSound();
     }
     
+    /**
+     * Determines whether sound is on or off.
+     * 
+     * @return true or false
+     */
     public boolean isSoundEnabled() {
         return _soundCheckBox.isSelected();
     }
