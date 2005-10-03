@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- add sound to Discrete module
 - bug: measurement tools sometimes disappear when you click on them
 
 MEDIUM PRIORITY:
@@ -63,6 +62,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(10/3) - implement sound feature in Discrete module
 (9/30) - make a separate manifest file for each project, which includes Main-Class attribute
 (9/30) - reorganize 'cmalley' CVS project, add Java stuff (including sound test program)
 (9/30) - create a Swing-based test app using Oscillator from jsresource.org
