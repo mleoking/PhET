@@ -295,9 +295,9 @@ public class BaseLaserModule extends Module {
     // Help-related methods
     //----------------------------------------------------------------
 
-//    public boolean hasHelp() {
-//        return true;
-//    }
+    public boolean hasHelp() {
+        return true;
+    }
 
     private void createHelp() {
         mainPanelHelpManager = new HelpManager( getApparatusPanel() );
@@ -418,18 +418,18 @@ public class BaseLaserModule extends Module {
     }
 
     public void setThreeEnergyLevels( boolean threeEnergyLevels ) {
-        this.threeEnergyLevels = threeEnergyLevels;
         int numLevels = threeEnergyLevels ? 3 : 2;
-        getEnergyLevelsMonitorPanel().setNumLevels( numLevels );
         laserModel.setNumEnergyLevels( numLevels );
+        this.threeEnergyLevels = threeEnergyLevels;
+        getEnergyLevelsMonitorPanel().setNumLevels( numLevels );
         if( threeEnergyLevels ) {
 //            getEnergyLevelsMonitorPanel().setNumLevels( 3 );
-            getLaserModel().getPumpingBeam().setEnabled( true );
+//            getLaserModel().getPumpingBeam().setEnabled( true );
 //            getLaserModel().getMiddleEnergyState().setNextHigherEnergyState( getLaserModel().getHighEnergyState() );
         }
         else {
 //            getEnergyLevelsMonitorPanel().setNumLevels( 2 );
-            getLaserModel().getPumpingBeam().setEnabled( false );
+//            getLaserModel().getPumpingBeam().setEnabled( false );
 //            getLaserModel().getMiddleEnergyState().setNextHigherEnergyState( AtomicState.MaxEnergyState.instance() );
         }
     }

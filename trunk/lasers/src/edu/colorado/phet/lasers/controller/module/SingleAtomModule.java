@@ -123,7 +123,6 @@ public class SingleAtomModule extends BaseLaserModule {
 
         // Add the beam control
         Point pumpControlLocation = new Point( (int)( pumpingBeamTx.getTranslateX() + 100 ), 10 );
-//        Point pumpControlLocation = new Point( (int)( pumpingBeamTx.getTranslateX() - 200 ), 10 );
         pumpBeamControl = new BeamControl2( getApparatusPanel(), pumpControlLocation, pumpingBeam,
                                             LaserConfig.MAXIMUM_PUMPING_PHOTON_RATE / 8,
                                             seedBeam, null );
@@ -174,6 +173,11 @@ public class SingleAtomModule extends BaseLaserModule {
                 seedBeam.removeListener( this );
             }
         } );
+
+//        Font font = new JLabel( "" ).getFont();
+//        PhetTextGraphic textGraphic = new PhetTextGraphic( getApparatusPanel(), font, "!@#", Color.red );
+//        WiggleMe wm = new WiggleMe( new Rectangle( 500, 500 ), getClock(), new Point2D.Double( 200, 600 ), textGraphic );
+//        getApparatusPanel().addGraphic( textGraphic );
     }
 
     /**
@@ -182,7 +186,7 @@ public class SingleAtomModule extends BaseLaserModule {
     public void activate( PhetApplication app ) {
         super.activate( app );
 
-        // TODO: This fixed a race condition that caused the module to come up in 3 energy levels someetimes.
+        // TODO: This fixed a race condition that caused the module to come up in 3 energy levels sometimes.
         // This should either be fixed on its own, or revisited when the Discharge Lamps code is merged with Lasers
         try {
             Thread.sleep( 1000 );
@@ -213,10 +217,6 @@ public class SingleAtomModule extends BaseLaserModule {
             pumpBeamControl.setVisible( threeEnergyLevels );
             getLaserModel().getPumpingBeam().setEnabled( threeEnergyLevels );
         }
-//        if( atom != null ) {
-//            int numEnergyLevels = threeEnergyLevels ? 3 : 2;
-//            atom.setNumEnergyLevels( numEnergyLevels, getLaserModel() );
-//        }
     }
 
     /**

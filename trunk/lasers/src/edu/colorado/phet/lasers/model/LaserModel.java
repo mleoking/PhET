@@ -57,14 +57,12 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
     private int numMiddleStateAtoms;
     private int numHighStateAtoms;
 
-    private GroundState groundState = new GroundState();
-    private MiddleEnergyState middleEnergyState = new MiddleEnergyState();
-    private HighEnergyState highEnergyState = new HighEnergyState();
-
     // Properties for two and three level atoms
     private LaserElementProperties twoLevelProperties = new TwoLevelElementProperties();
     private LaserElementProperties threeLevelProperties = new ThreeLevelElementProperties();
     private LaserElementProperties currentElementProperties = twoLevelProperties;
+
+    private ArrayList wavelengthChangeListeners = new ArrayList();
 
     /**
      *
@@ -79,13 +77,6 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         collisionMechanism.addCollisionExpert( new PhotonMirrorCollisonExpert() );
 
         addModelElement( new CollisionAgent() );
-
-        // Set the default relationships between the states
-        groundState.setNextHigherEnergyState( middleEnergyState );
-        middleEnergyState.setNextLowerEnergyState( groundState );
-        middleEnergyState.setNextHigherEnergyState( highEnergyState );
-        highEnergyState.setNextLowerEnergyState( middleEnergyState );
-        highEnergyState.setNextHigherEnergyState( AtomicState.MaxEnergyState.instance() );
     }
 
     public void addModelElement( ModelElement modelElement ) {
@@ -112,15 +103,6 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         atoms.add( modelElement );
         Atom atom = (Atom)modelElement;
         atom.addChangeListener( new AtomChangeListener() );
-        if( atom.getCurrState() == atom.getGroundState() ) {
-//            numGroundStateAtoms++;
-        }
-        if( atom.getCurrState() == getMiddleEnergyState() ) {
-            numMiddleStateAtoms++;
-        }
-        if( atom.getCurrState() == getHighEnergyState() ) {
-            numHighStateAtoms++;
-        }
     }
 
     private void addPhoton( ModelElement modelElement ) {
@@ -154,26 +136,6 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         }
     }
 
-    public void stepInTime( double dt ) {
-        super.stepInTime( dt );
-
-        // Check to see if any photons need to be taken out of the system
-        numPhotons = 0;
-        for( int i = 0; i < bodies.size(); i++ ) {
-            Object obj = bodies.get( i );
-            if( obj instanceof Photon ) {
-                numPhotons++;
-                Photon photon = (Photon)obj;
-                Point2D position = photon.getPosition();
-                if( !boundingRectangle.contains( position.getX(), position.getY() ) ) {
-                    // We don't need to remove the element right now. The photon will
-                    // fire an event that we will catch
-                    photon.removeFromSystem();
-                }
-            }
-        }
-    }
-
     public void reset() {
         getPumpingBeam().setPhotonsPerSecond( 0 );
         getSeedBeam().setPhotonsPerSecond( 0 );
@@ -196,6 +158,26 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         collisionMechanism.addCollisionExpert( collisionExpert );
     }
 
+    public void stepInTime( double dt ) {
+        super.stepInTime( dt );
+
+        // Check to see if any photons need to be taken out of the system
+        numPhotons = 0;
+        for( int i = 0; i < bodies.size(); i++ ) {
+            Object obj = bodies.get( i );
+            if( obj instanceof Photon ) {
+                numPhotons++;
+                Photon photon = (Photon)obj;
+                Point2D position = photon.getPosition();
+                if( !boundingRectangle.contains( position.getX(), position.getY() ) ) {
+                    // We don't need to remove the element right now. The photon will
+                    // fire an event that we will catch
+                    photon.removeFromSystem();
+                }
+            }
+        }
+    }
+
     //----------------------------------------------------------------
     // Getters and setters
     //----------------------------------------------------------------
@@ -205,13 +187,16 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         switch( numLevels ) {
             case 2:
                 currentElementProperties = twoLevelProperties;
+                getPumpingBeam().setEnabled( false );
                 break;
             case 3:
                 currentElementProperties = threeLevelProperties;
+                getPumpingBeam().setEnabled( true );
                 break;
             default:
                 throw new RuntimeException( "Invalid number of levels" );
         }
+        // Set the available states of all the atoms
         for( int i = 0; i < atoms.size(); i++ ) {
             Atom atom = (Atom)atoms.get( i );
             atom.setStates( currentElementProperties.getStates() );
@@ -295,23 +280,25 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         return numPhotons;
     }
 
-    public GroundState getGroundState() {
-        return groundState;
+    public AtomicState getGroundState() {
+        return currentElementProperties.getGroundState();
     }
 
     public AtomicState getMiddleEnergyState() {
-//    public MiddleEnergyState getMiddleEnergyState() {
         return currentElementProperties.getStates()[1];
-//        return middleEnergyState;
     }
 
-    public HighEnergyState getHighEnergyState() {
-        return highEnergyState;
+    public AtomicState getHighEnergyState() {
+        return currentElementProperties.getHighEnergyState();
     }
 
     public void setMeanStateLifetime( double meanStateLifetime ) {
         twoLevelProperties.setMeanStateLifetime( meanStateLifetime );
         threeLevelProperties.setMeanStateLifetime( meanStateLifetime );
+    }
+
+    public AtomicState[] getStates() {
+        return currentElementProperties.getStates();
     }
 
 
