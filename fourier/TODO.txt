@@ -7,9 +7,9 @@ IN PROGRESS:
 HIGH PRIORITY:
 - bug: measurement tools sometimes disappear when you click on them
 - bug: measurement tools don't drag properly after you resize the application's frame
+- amplitude text fields show negative zero (-0.00)
 
 MEDIUM PRIORITY:
-- remove the clock controls for the D2C module
 - add support for persistence
 - bug: anti-aliasing of plots gets turned off
 - bug: D2C amplitudes graph draws on top of tools (Mac only)
@@ -63,6 +63,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(10/4) - disable the clock controls for the D2C module
 (10/4) - add a volume control for sound
 (10/4) - when generating audio data, normalize the amplitudes of the harmonics to a -1...+1 scale
 (10/4) - fix sound so that audio samples don't exceed the sample size
