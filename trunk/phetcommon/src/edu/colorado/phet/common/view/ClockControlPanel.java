@@ -88,6 +88,21 @@ public class ClockControlPanel extends JPanel implements ClockStateListener {
         play.setEnabled( false );
         pause.setEnabled( true );
     }
+    
+    /**
+     * Enables or disables the clock control panel.
+     * When disabled, all buttons (play/pause/step) are also disabled.
+     * When enabled, the buttons are enabled to correspond to the clock state.
+     * 
+     * @param enabled true or false
+     */
+    public void setEnabled( boolean enabled ) {
+        super.setEnabled( enabled );
+        boolean isPaused = clock.isPaused();
+        play.setEnabled( enabled && isPaused );
+        pause.setEnabled( enabled && !isPaused );
+        step.setEnabled( enabled && isPaused );
+    }
 
     ////////////////////////////////////////////////////////////////////////////
     // Event handlers
