@@ -25,7 +25,6 @@ import edu.colorado.phet.lasers.help.EnergyLevelPanelHelp;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
-import edu.colorado.phet.lasers.model.atom.HighEnergyState;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
@@ -422,16 +421,6 @@ public class BaseLaserModule extends Module {
         laserModel.setNumEnergyLevels( numLevels );
         this.threeEnergyLevels = threeEnergyLevels;
         getEnergyLevelsMonitorPanel().setNumLevels( numLevels );
-        if( threeEnergyLevels ) {
-//            getEnergyLevelsMonitorPanel().setNumLevels( 3 );
-//            getLaserModel().getPumpingBeam().setEnabled( true );
-//            getLaserModel().getMiddleEnergyState().setNextHigherEnergyState( getLaserModel().getHighEnergyState() );
-        }
-        else {
-//            getEnergyLevelsMonitorPanel().setNumLevels( 2 );
-//            getLaserModel().getPumpingBeam().setEnabled( false );
-//            getLaserModel().getMiddleEnergyState().setNextHigherEnergyState( AtomicState.MaxEnergyState.instance() );
-        }
     }
 
     /**
@@ -534,7 +523,7 @@ public class BaseLaserModule extends Module {
             // Was the photon emitted by an atom?
             if( source instanceof Atom ) {
                 Atom atom = (Atom)source;
-                if( atom.getCurrState() instanceof HighEnergyState
+                if( atom.getStates().length > 2 && atom.getCurrState() == atom.getStates()[2]
                     && !displayHighLevelEmissions ) {
                     isPhotonGraphicVisible = false;
                 }

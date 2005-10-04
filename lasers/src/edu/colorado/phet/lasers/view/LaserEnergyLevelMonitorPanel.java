@@ -151,8 +151,10 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         AtomicState[] states = model.getStates();
         for( int i = 0; i < states.length; i++ ) {
             AtomicState state = states[i];
+            double xIndent = ( states.length - i ) * 12;
+            double xLoc = levelLineOriginX + xIndent;
             EnergyLevelGraphic elg = new EnergyLevelGraphic( this, state,
-                                                             Color.black, levelLineOriginX,
+                                                             Color.black, xLoc,
                                                              levelLineLength - levelLineOriginX,
                                                              true );
             addGraphic( elg );

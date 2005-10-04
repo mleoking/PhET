@@ -132,7 +132,6 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
      */
     public void setUpperTransitionView( int viewType ) {
         pumpBeamViewPanel.setUpperTransitionView( viewType );
-//        waveViewControlPanel.setUpperTransitionView( viewType );
     }
 
     //--------------------------------------------------------------------------------
