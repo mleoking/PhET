@@ -29,7 +29,7 @@ ignorepath      (those elements of the ant classpath that should not be
     <property file="build.number"/>
 
     <!--  Set ant output directories. They get made if they don't exist -->
-    <property name="project_home" value="../.."/>
+    <property name="project_home" value=".."/>
     <property name="ant.output" value="${project_home}/ant_output"/>
     <property name="classes" location="${ant.output}/classes"/>
     <property name="jars" location="${ant.output}/jars"/>
@@ -37,13 +37,13 @@ ignorepath      (those elements of the ant classpath that should not be
     <property name="lib" location="${ant.output}/lib"/>
 
     <!-- Set current sister directories, for backup and release data. -->
-    <property name="development" location="${project_home}/development"/>
+    <property name="development" location="${project_home}"/>
     <property name="backup" location="${project_home}/backup"/>
     <property name="releases" location="${project_home}/releases"/>
 
     <!-- Set up child directories, for during the build.  -->
-    <property name="src" location="${project_home}/development/src"/>
-    <property name="data" location="${project_home}/development/data"/>
+    <property name="src" location="${development}/src"/>
+    <property name="data" location="${development}/data"/>
 
     <description>
         Build File.
@@ -108,6 +108,8 @@ ignorepath      (those elements of the ant classpath that should not be
         <jar destfile="${jars}/${distname}.jar">
             <fileset dir="${classes}"/>
             <fileset dir="${data}"/>
+            <fileset dir="${project_home}/phetcommon/data"/>
+            <fileset dir="${project_home}/controls/data"/>
             <manifest>
                 <attribute name="Built-By" value="${user.name}"/>
                 <attribute name="version" value="${version}"/>
