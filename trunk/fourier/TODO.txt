@@ -62,6 +62,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(10/4) - bugfix: manage clipping based on FourierConfig.MAX_HARMONICS, not the # harmonics in the Fourier series
 (10/4) - volume slider takes up too much space, change to use min/max icons at ends of slider
 (10/4) - bugfix: amplitude text fields show negative zero (-0.00)
 (10/4) - disable the clock controls for the D2C module

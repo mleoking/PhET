@@ -205,8 +205,8 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
         // Max value we can represent with the sample size (assuming signed values).
         final float maxSampleValue = (float) Math.pow( 2, getFormat().getSampleSizeInBits() - 1 ) - 1;
         
-        // Amplitude is based on the max sample value and number of harmonics.
-        final float amplitude = (float) ( _volume * maxSampleValue / _fourierSeries.getNumberOfHarmonics() );
+        // Amplitude is based on the max sample value and max number of harmonics.
+        final float amplitude = (float) ( _volume * maxSampleValue / FourierConfig.MAX_HARMONICS );
         
         // Generate the audio data
         int maxGeneratedValue = 0;
