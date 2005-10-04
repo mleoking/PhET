@@ -420,7 +420,6 @@ public class GraphicSlider extends GraphicLayerSet {
         // implements java.awt.event.MouseListener
         public void mousePressed( MouseEvent e ) {
             AffineTransform transform = getNetTransform();
-            transform = new AffineTransform();
             try {
                 Point knobLocation = new Point( (int)( _knob.getLocation().getX() + GraphicSlider.this.getLocation().getX() ),
                                                 (int)( _knob.getLocation().getY() + GraphicSlider.this.getLocation().getY() ) );
@@ -446,7 +445,6 @@ public class GraphicSlider extends GraphicLayerSet {
             double mouseX = 0;
             try {
                 AffineTransform transform = getNetTransform();
-                transform = new AffineTransform();
                 transform.inverseTransform( event.getPoint(), _somePoint /* output */ );
                 mouseX = _somePoint.getX();
             }
