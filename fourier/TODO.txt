@@ -7,7 +7,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 - bug: measurement tools sometimes disappear when you click on them
 - bug: measurement tools don't drag properly after you resize the application's frame
-- amplitude text fields show negative zero (-0.00)
 
 MEDIUM PRIORITY:
 - add support for persistence
@@ -63,6 +62,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(10/4) - bugfix: amplitude text fields show negative zero (-0.00)
 (10/4) - disable the clock controls for the D2C module
 (10/4) - add a volume control for sound
 (10/4) - when generating audio data, normalize the amplitudes of the harmonics to a -1...+1 scale
