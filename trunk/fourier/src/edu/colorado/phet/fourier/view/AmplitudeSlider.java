@@ -447,6 +447,7 @@ public class AmplitudeSlider extends GraphicLayerSet
     public void update() {
         
         double amplitude = _harmonic.getAmplitude();
+        if ( amplitude == -0 ) { amplitude = 0; }
         Color harmonicColor = HarmonicColors.getInstance().getColor( _harmonic );
         
         // Label location
