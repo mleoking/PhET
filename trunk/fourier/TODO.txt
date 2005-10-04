@@ -62,6 +62,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(10/4) - fix sound so that audio samples don't exceed the sample size
 2.0.1 ...
 (10/3) - implement sound feature in Discrete module
 (9/30) - make a separate manifest file for each project, which includes Main-Class attribute

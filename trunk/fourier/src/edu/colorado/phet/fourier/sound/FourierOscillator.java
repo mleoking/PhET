@@ -49,6 +49,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
 
@@ -95,10 +96,23 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
      * @param amplitude
      * @param audioFormat
      * @param streamLength
+     * 
+     * @throws IllegalStateExeption if the audio format is not 16-bit little endian
      */
     public FourierOscillator( FourierSeries fourierSeries, float signalFrequency, float amplitude, AudioFormat audioFormat, long streamLength ) {
         super( new ByteArrayInputStream( new byte[0] ), audioFormat, streamLength );
 
+        assert( fourierSeries != null );
+        assert( signalFrequency > 0 );
+        assert( amplitude >= -1 && amplitude <= +1 );
+        assert( audioFormat != null );
+        assert( streamLength > 0 || streamLength == AudioSystem.NOT_SPECIFIED );
+              
+        // generateData() requires 16-bit little endian
+        if ( audioFormat.getSampleSizeInBits() != 16 || audioFormat.isBigEndian() ) {
+            throw new IllegalStateException( "audio format must be 16-bit little endian" );
+        }
+        
         _fourierSeries = fourierSeries;
         _fourierSeries.addObserver( this );
         
@@ -152,23 +166,47 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
      * series. The data is written to a local buffer, then copies to the read
      * buffer.  This minimizes the amount of snychronization needed, 
      * and the amount of time that read calls are blocked.
+     * <p>
+     * Note: This algorithm is implemented for 16-bit little endian only!
      */
     private void generateData() {
 //        System.out.println( "FourierOscillator.generateData" );//XXX
-        float amplitude = (float) ( _amplitude * Math.pow( 2, getFormat().getSampleSizeInBits() - 1 ) );
+        
+        // Max value we can represent with the sample size (assuming signed values).
+        final float maxSampleValue = (float) Math.pow( 2, getFormat().getSampleSizeInBits() - 1 ) - 1;
+        
+        // Amplitude is based on the max sample value and number of harmonics.
+        final float amplitude = (float) ( _amplitude * maxSampleValue / _fourierSeries.getNumberOfHarmonics() );
+        
+        // Generate the audio data
+        int maxGeneratedValue = 0;
         byte[] localBuffer = new byte[_bufferLength];
         for ( int frame = 0; frame < _periodLengthInFrames; frame++ ) {
+            
             // The relative position inside the period of the waveform. 0.0 = beginning, 1.0 = end
-            float periodPosition = (float) frame / (float) _periodLengthInFrames;
+            final float periodPosition = (float) frame / (float) _periodLengthInFrames;
+            
             float fValue = getFourierSum( periodPosition );
-            int nValue = Math.round( fValue * amplitude );
-            int baseAddr = ( frame ) * getFormat().getFrameSize();
-            // this is for 16 bit stereo, little endian
+            final int nValue = Math.round( fValue * amplitude );
+            final int baseAddr = ( frame ) * getFormat().getFrameSize();
+            
+            // This is for 16 bit stereo, little endian.
             localBuffer[baseAddr + 0] = (byte) ( nValue & 0xFF );
             localBuffer[baseAddr + 1] = (byte) ( ( nValue >>> 8 ) & 0xFF );
             localBuffer[baseAddr + 2] = (byte) ( nValue & 0xFF );
             localBuffer[baseAddr + 3] = (byte) ( ( nValue >>> 8 ) & 0xFF );
+            
+            if ( nValue > maxGeneratedValue ) {
+                maxGeneratedValue = nValue;
+            }
         }
+       
+        // Check to see if we're clipping.
+        if ( maxGeneratedValue > maxSampleValue ) {
+            System.out.println( "WARNING: audio data exceeds the sample size! " + maxGeneratedValue + " > " + maxSampleValue );
+        }
+
+        // Copy the audio data to the read buffer.
         setData( localBuffer );
     }
 
@@ -184,7 +222,7 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
         float sum = 0;
         for ( int i = 0; i < _fourierSeries.getNumberOfHarmonics(); i++ ) {
             Harmonic harmonic = _fourierSeries.getHarmonic( i );
-            double amplitude = harmonic.getAmplitude();
+            double amplitude = harmonic.getAmplitude() / FourierConfig.MAX_HARMONIC_AMPLITUDE;
             if ( amplitude != 0 ) {
                 double radiansPerPeriod = ( i + 1 ) * 2.0 * Math.PI;
                 double angle = periodPosition * radiansPerPeriod;
@@ -196,6 +234,8 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
     
     /*
      * Copies audio data into the read buffer.
+     * Note that we do NOT touch the pointer that determines where
+     * data is read from the read buffer.
      *  
      * @param audioData the data to copy into the read buffer
      */
