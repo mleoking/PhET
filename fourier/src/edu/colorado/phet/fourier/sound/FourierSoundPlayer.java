@@ -66,7 +66,7 @@ public class FourierSoundPlayer implements Runnable {
     
     // Audio input stream parameters
     private static final float FREQUENCY = 440.0F; // Hz
-    private static final float AMPLITUDE = 0.7F; // 0=off, 1=fully on
+    private static final float AMPLITUDE = 1F; // 0=off, 1=fully on
     private static final int STREAM_LENGTH = AudioSystem.NOT_SPECIFIED;
     
     //----------------------------------------------------------------------------
