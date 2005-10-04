@@ -13,8 +13,8 @@ package edu.colorado.phet.dischargelamps.view;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.dischargelamps.model.Electron;
 import edu.colorado.phet.dischargelamps.model.ElectronSource;
+import edu.colorado.phet.lasers.model.Electron;
 
 /**
  * ElectronGraphicManager
