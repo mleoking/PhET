@@ -13,8 +13,8 @@ package edu.colorado.phet.fourier.control;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Hashtable;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.swing.*;
@@ -23,6 +23,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
@@ -367,19 +368,26 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             // Sound on/off
             _soundCheckBox = new JCheckBox( SimStrings.get( "DiscreteControlPanel.sound" ) );
 
+            // Min & max icon labels
+            JLabel soundMinLabel, soundMaxLabel;
+            try {  
+                ImageIcon soundMinIcon = new ImageIcon( ImageLoader.loadBufferedImage( FourierConstants.SOUND_MIN_IMAGE ) );
+                soundMinLabel = new JLabel( soundMinIcon );
+                ImageIcon soundMaxIcon = new ImageIcon( ImageLoader.loadBufferedImage( FourierConstants.SOUND_MAX_IMAGE ) );
+                soundMaxLabel = new JLabel( soundMaxIcon );
+            }
+            catch ( IOException ioe ) {
+                ioe.printStackTrace();
+                soundMinLabel = new JLabel( "-" );
+                soundMaxLabel = new JLabel( "+" );
+            }
+            
             // Sound volume
             _soundSlider = new JSlider();
             _soundSlider.setMaximum( 100 );
             _soundSlider.setMinimum( 0 );
             _soundSlider.setValue( 50 );
-            Hashtable labelTable = new Hashtable();
-            labelTable.put( new Integer( 100 ), new JLabel( "100%" ) );
-            labelTable.put( new Integer( 0 ), new JLabel( "0" ) );
-            _soundSlider.setLabelTable( labelTable );
-            _soundSlider.setMajorTickSpacing( 20 );
-            _soundSlider.setPaintTicks( true );
-            _soundSlider.setPaintLabels( true );
-            _soundSlider.setPreferredSize( new Dimension( 150, _soundSlider.getPreferredSize().height ) );
+            _soundSlider.setPreferredSize( new Dimension( 125, _soundSlider.getPreferredSize().height ) );
             
             // Layout
             JPanel innerPanel = new JPanel();
@@ -387,11 +395,11 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             innerPanel.setLayout( layout );
             layout.setInsets( DEFAULT_INSETS );
             layout.setAnchor( GridBagConstraints.WEST );
-            layout.setMinimumWidth( 0, LEFT_MARGIN );
-            int row = 0;
-            int column = 1;
-            layout.addComponent( _soundCheckBox, row, column++ );
-            layout.addComponent( _soundSlider, row, column++ );
+            layout.setMinimumWidth( 1, 10 );
+            layout.addComponent( _soundCheckBox, 0, 0 ); // row, column
+            layout.addComponent( soundMinLabel, 0, 2 );
+            layout.addComponent( _soundSlider, 0, 3 );
+            layout.addComponent( soundMaxLabel, 0, 4 );
             audioControlsPanel.setLayout( new BorderLayout() );
             audioControlsPanel.add( innerPanel, BorderLayout.WEST );
         }
