@@ -14,6 +14,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+import edu.colorado.phet.lasers.model.Electron;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
@@ -304,9 +305,6 @@ public class DischargeLampModel extends LaserModel {
     }
 
     public void setVoltage( double voltage ) {
-
-        // Set the voltage of the battery
-//        battery.setVoltage( voltage );
 
         // Set the potential of the plates
         if( voltage > 0 ) {

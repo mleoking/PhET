@@ -14,7 +14,7 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.dischargelamps.model.Electron;
+import edu.colorado.phet.lasers.model.Electron;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -44,7 +44,6 @@ public class ElectronGraphic extends PhetImageGraphic implements SimpleObserver 
     }
 
     /**
-     *
      * @param component
      * @param electron
      */

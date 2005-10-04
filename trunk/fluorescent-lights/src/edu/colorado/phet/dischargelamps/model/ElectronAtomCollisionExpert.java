@@ -14,6 +14,7 @@ package edu.colorado.phet.dischargelamps.model;
 import edu.colorado.phet.collision.Collidable;
 import edu.colorado.phet.collision.CollisionExpert;
 import edu.colorado.phet.collision.CollisionUtil;
+import edu.colorado.phet.lasers.model.Electron;
 
 import java.util.HashMap;
 import java.util.Map;

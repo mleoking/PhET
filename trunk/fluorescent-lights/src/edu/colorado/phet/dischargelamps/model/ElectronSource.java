@@ -13,6 +13,7 @@ package edu.colorado.phet.dischargelamps.model;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.lasers.model.Electron;
 
 import java.awt.geom.Point2D;
 import java.util.EventListener;

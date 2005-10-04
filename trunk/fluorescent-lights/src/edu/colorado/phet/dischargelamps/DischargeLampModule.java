@@ -16,7 +16,6 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.control.AtomTypeChooser;
 import edu.colorado.phet.dischargelamps.control.BatterySlider;
@@ -60,6 +59,7 @@ public class DischargeLampModule extends BaseLaserModule {
     public static boolean DEBUG = false;
     private static final double SPECTROMETER_LAYER = 1000;
     private static double VOLTAGE_VALUE_LAYER = DischargeLampsConfig.CIRCUIT_LAYER + 1;
+    private static final double DEFAULT_VOLTAGE = 4.2 * DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR;
 
     //----------------------------------------------------------------
     // Instance data
@@ -114,6 +114,7 @@ public class DischargeLampModule extends BaseLaserModule {
         model.setMaxCurrent( maxCurrent / currentDisplayFactor );
         leftHandPlate = model.getLeftHandPlate();
         rightHandPlate = model.getRightHandPlate();
+        model.setVoltage( DEFAULT_VOLTAGE );
         setModel( model );
         setControlPanel( new ControlPanel( this ) );
 
@@ -127,10 +128,9 @@ public class DischargeLampModule extends BaseLaserModule {
 
         // Create the element properties we will use
         configurableElement = new ConfigurableElementProperties( 2, model );
-        ElementProperties hydrogen = new HydrogenProperties();
         elementProperties = new ElementProperties[]{
             new HydrogenProperties(),
-            new NeonProperties(),
+//            new NeonProperties(),
             configurableElement
         };
 
@@ -156,7 +156,7 @@ public class DischargeLampModule extends BaseLaserModule {
                                                      DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR );
         bSl.setMinimum( (int)-( battery.getMaxVoltage() ) );
         bSl.setMaximum( (int)( battery.getMaxVoltage() ) );
-        bSl.setValue( (int)( 0 ) );
+        bSl.setValue( (int)( DEFAULT_VOLTAGE ) );
         bSl.addTick( bSl.getMinimum() );
         bSl.addTick( bSl.getMaximum() );
         bSl.addTick( 0 );
@@ -257,19 +257,6 @@ public class DischargeLampModule extends BaseLaserModule {
     }
 
     /**
-     * Scales an image graphic so it appears properly on the screen. This method depends on the image used by the
-     * graphic to have been created at the same scale as the battery-wires graphic. The scale is based on the
-     * distance between the electrodes in that image and the screen distance between the electrodes specified
-     * in the configuration file.
-     *
-     * @param imageGraphic
-     */
-    private void scaleImageGraphic( PhetImageGraphic imageGraphic ) {
-        getExternalGraphicScaleOp();
-        imageGraphic.setImage( externalGraphicScaleOp.filter( imageGraphic.getImage(), null ) );
-    }
-
-    /**
      * Returns an AffineTransformOp that will scale BufferedImages to the dimensions of the
      * apparatus panel
      *
@@ -347,7 +334,6 @@ public class DischargeLampModule extends BaseLaserModule {
         batterySlider.setSliderLabelFormat( new DecimalFormat( "##" ) );
         batterySlider.setPreferredSize( new Dimension( 250, 100 ) );
         ControlPanel controlPanel = (ControlPanel)getControlPanel();
-        controlPanel.addControl( batterySlider );
         batterySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 double voltage = batterySlider.getValue() / DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR;
@@ -355,13 +341,13 @@ public class DischargeLampModule extends BaseLaserModule {
 //                model.setVoltage( voltage );
             }
         } );
-        double voltage = batterySlider.getValue() / DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR;
-        model.setVoltage( voltage );
+//        controlPanel.addControl( batterySlider );
+//        double voltage = batterySlider.getValue() / DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR;
+//        model.setVoltage( voltage );
 
         // A slider for the battery current
         currentSlider = new ModelSlider( "Electron Production Rate", "electrons/sec",
                                          0, maxCurrent, 0 );
-//                                         0, maxCurrent, 0, new DecimalFormat( "0.000" ) );
         currentSlider.setSliderLabelFormat( new DecimalFormat( "#" ) );
         currentSlider.setTextFieldFormat( new DecimalFormat( "#" ) );
         currentSlider.setMajorTickSpacing( 50 );
@@ -399,7 +385,6 @@ public class DischargeLampModule extends BaseLaserModule {
         AtomicState[] atomicStates = model.getAtomicStates();
 
         for( int i = 0; i < numAtoms; i++ ) {
-//            atom = new DischargeLampAtom( (LaserModel)getModel(), model.getElementProperties() );
             atom = new DischargeLampAtom( (LaserModel)getModel(), atomicStates );
             atom.setPosition( ( tubeBounds.getX() + ( Math.random() ) * ( tubeBounds.getWidth() - atom.getRadius() * 4 ) + atom.getRadius() * 2 ),
                               ( tubeBounds.getY() + ( Math.random() ) * ( tubeBounds.getHeight() - atom.getRadius() * 4 ) ) + atom.getRadius() * 2 );
