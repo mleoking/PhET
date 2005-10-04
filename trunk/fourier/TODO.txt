@@ -6,6 +6,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - bug: measurement tools sometimes disappear when you click on them
+- bug: measurement tools don't drag properly after you resize the application's frame
 
 MEDIUM PRIORITY:
 - remove the clock controls for the D2C module
