@@ -78,7 +78,7 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
     
     private long _remainingFrames;
     private float _signalFrequency;
-    private float _amplitude;
+    private float _volume;
     private long _streamLength;
     private int _periodLengthInFrames;
 
@@ -93,18 +93,18 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
      * 
      * @param fourierSeries
      * @param signalFrequency
-     * @param amplitude
+     * @param volume
      * @param audioFormat
      * @param streamLength
      * 
      * @throws IllegalStateExeption if the audio format is not 16-bit little endian
      */
-    public FourierOscillator( FourierSeries fourierSeries, float signalFrequency, float amplitude, AudioFormat audioFormat, long streamLength ) {
+    public FourierOscillator( FourierSeries fourierSeries, float signalFrequency, float volume, AudioFormat audioFormat, long streamLength ) {
         super( new ByteArrayInputStream( new byte[0] ), audioFormat, streamLength );
 
         assert( fourierSeries != null );
         assert( signalFrequency > 0 );
-        assert( amplitude >= -1 && amplitude <= +1 );
+        assert( volume >= -1 && volume <= +1 );
         assert( audioFormat != null );
         assert( streamLength > 0 || streamLength == AudioSystem.NOT_SPECIFIED );
               
@@ -117,7 +117,7 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
         _fourierSeries.addObserver( this );
         
         _signalFrequency = signalFrequency;
-        _amplitude = amplitude;
+        _volume = volume;
         _streamLength = streamLength;
 
         _periodLengthInFrames = Math.round( getFormat().getFrameRate() / _signalFrequency );
@@ -152,11 +152,41 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
      */
     public void setEnabled( boolean enabled ) {
         _enabled = enabled;
-        if ( enabled ) {
+        update();
+    }
+
+    /**
+     * Determines if the oscillator is enabled.
+     * 
+     * @return true or false
+     */
+    public boolean isEnabled() {
+        return _enabled;
+    }
+    
+    /**
+     * Sets the volume of the sound.  The volume is relative to
+     * the volume that the user has set for the output device,
+     * tpyically done in some platform-specific control panel.
+     * 
+     * @param volume 0.0 (full off) to 1.0 (full on)
+     */
+    public void setVolume( float volume ) {
+        if ( volume != _volume ) {
+            _volume = volume;
             update();
         }
     }
-
+    
+    /**
+     * Gets the current volume setting.
+     * 
+     * @return volume, 0.0 (full off) to 1.0 (full on)
+     */
+    public float getVolume() {
+        return _volume;
+    }
+    
     //----------------------------------------------------------------------------
     // Audio data generation
     //----------------------------------------------------------------------------
@@ -176,7 +206,7 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
         final float maxSampleValue = (float) Math.pow( 2, getFormat().getSampleSizeInBits() - 1 ) - 1;
         
         // Amplitude is based on the max sample value and number of harmonics.
-        final float amplitude = (float) ( _amplitude * maxSampleValue / _fourierSeries.getNumberOfHarmonics() );
+        final float amplitude = (float) ( _volume * maxSampleValue / _fourierSeries.getNumberOfHarmonics() );
         
         // Generate the audio data
         int maxGeneratedValue = 0;

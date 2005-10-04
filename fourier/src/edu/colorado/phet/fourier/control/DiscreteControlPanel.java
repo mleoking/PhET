@@ -11,12 +11,10 @@
 
 package edu.colorado.phet.fourier.control;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Frame;
-import java.awt.GridBagConstraints;
+import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.swing.*;
@@ -92,6 +90,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     private FourierComboBox _mathFormComboBox;
     private JCheckBox _expandSumCheckBox;
     private JCheckBox _soundCheckBox;
+    private JSlider _soundSlider;
     private ExpandSumDialog _expandSumDialog;
 
     // Choices
@@ -365,9 +364,23 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
 
         FourierTitledPanel audioControlsPanel = new FourierTitledPanel( SimStrings.get( "DiscreteControlPanel.audioControls" ) );
         {
-            // Sound
+            // Sound on/off
             _soundCheckBox = new JCheckBox( SimStrings.get( "DiscreteControlPanel.sound" ) );
 
+            // Sound volume
+            _soundSlider = new JSlider();
+            _soundSlider.setMaximum( 100 );
+            _soundSlider.setMinimum( 0 );
+            _soundSlider.setValue( 50 );
+            Hashtable labelTable = new Hashtable();
+            labelTable.put( new Integer( 100 ), new JLabel( "100%" ) );
+            labelTable.put( new Integer( 0 ), new JLabel( "0" ) );
+            _soundSlider.setLabelTable( labelTable );
+            _soundSlider.setMajorTickSpacing( 20 );
+            _soundSlider.setPaintTicks( true );
+            _soundSlider.setPaintLabels( true );
+            _soundSlider.setPreferredSize( new Dimension( 150, _soundSlider.getPreferredSize().height ) );
+            
             // Layout
             JPanel innerPanel = new JPanel();
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
@@ -377,7 +390,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             layout.setMinimumWidth( 0, LEFT_MARGIN );
             int row = 0;
             int column = 1;
-            layout.addComponent( _soundCheckBox, row++, column );
+            layout.addComponent( _soundCheckBox, row, column++ );
+            layout.addComponent( _soundSlider, row, column++ );
             audioControlsPanel.setLayout( new BorderLayout() );
             audioControlsPanel.add( innerPanel, BorderLayout.WEST );
         }
@@ -420,6 +434,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             _cosinesRadioButton.addActionListener( _eventListener );
             // ChangeListeners
             _numberOfHarmonicsSlider.addChangeListener( _eventListener );
+            _soundSlider.addChangeListener( _eventListener );
             // ItemListeners
             _domainComboBox.addItemListener( _eventListener );
             _presetsComboBox.addItemListener( _eventListener );
@@ -515,6 +530,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         if ( _soundPlayer != null ) {
             _soundCheckBox.setSelected( false );
             _soundPlayer.setSoundEnabled( _soundCheckBox.isSelected() );
+            _soundSlider.setValue( (int)( _soundPlayer.getVolume() * 100 ) );
         }
     }
 
@@ -557,7 +573,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
                 handleCloseExpandSumDialog();
             }
             else if ( event.getSource() == _soundCheckBox ) {
-                handleSound();
+                handleSoundOnOff();
             }
             else if ( event.getSource() == _sinesRadioButton || event.getSource() == _cosinesRadioButton ) {
                 handleWaveType();
@@ -572,6 +588,9 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
                 if ( !_numberOfHarmonicsSlider.isAdjusting() ) {
                     handleNumberOfHarmonics();
                 }
+            }
+            else if ( event.getSource() == _soundSlider ) {
+                handleSoundVolume();
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + event );
@@ -833,12 +852,18 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         _expandSumCheckBox.setSelected( false );
     }
 
-    private void handleSound() {
+    private void handleSoundOnOff() {
         if ( _soundPlayer != null ) {
             _soundPlayer.setSoundEnabled( _soundCheckBox.isSelected() );
         }
     }
 
+    private void handleSoundVolume() {
+        if ( _soundPlayer != null ) {
+            _soundPlayer.setVolume( _soundSlider.getValue() / 100F );
+        }
+    }
+    
     /*
      * Displays a modal error dialog if the user attempts to select
      * sawtooth preset and cosines wave type.  
@@ -895,7 +920,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
      */
     public void setSoundEnabled( boolean enabled ) {
         _soundCheckBox.setSelected( enabled );
-        handleSound();
+        handleSoundOnOff();
     }
     
     /**
