@@ -2,4 +2,4 @@ Manifest-Version: 1.0
 
 Main-Class: edu.colorado.phet.fourier.FourierApplication
 
-CVS-Tag: fourier-2-0-1-2005-10-03
+CVS-Tag: fourier-2-1-0-2005-10-05
