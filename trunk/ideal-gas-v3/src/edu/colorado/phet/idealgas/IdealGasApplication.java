@@ -23,30 +23,6 @@ import java.awt.geom.Point2D;
 
 public class IdealGasApplication extends PhetApplication {
 
-//    static class IdealGasApplicationModel extends ApplicationModel {
-//        public IdealGasApplicationModel() {
-//            super( SimStrings.get( "IdealGasApplication.title" ),
-//                   SimStrings.get( "IdealGasApplication.description" ),
-//                   IdealGasConfig.VERSION,
-//                   IdealGasConfig.FRAME_SETUP );
-//
-//            // Create the clock
-//            SwingTimerClock clock = new SwingTimerClock( IdealGasConfig.TIME_STEP, IdealGasConfig.WAIT_TIME, true );
-//            setClock( clock );
-//
-//            // Create the modules
-//            Module idealGasModule = new IdealGasModule( getClock() );
-//            Module[] modules = new Module[]{
-//                idealGasModule,
-//            };
-//            setModules( modules );
-//            setInitialModule( idealGasModule );
-//
-//            // Set the initial size
-//            setFrameCenteredSize( 920, 700 );
-//        }
-//    }
-
     public IdealGasApplication( String[] args ) {
         super( args,
                SimStrings.get( "IdealGasApplication.title" ),
