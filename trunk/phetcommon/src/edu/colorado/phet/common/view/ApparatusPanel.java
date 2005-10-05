@@ -59,16 +59,15 @@ public class ApparatusPanel extends JPanel {
 
     protected ApparatusPanel( Object obj ) {
         super( null );
-        this.graphic = new GraphicLayerSet( this );
-        setMouseAndKeyListeners( getGraphic().getMouseHandler(), getGraphic().getKeyAdapter() );
+        setGraphic( new GraphicLayerSet( this ) );
     }
 
     public ApparatusPanel() {
-        // Call superclass constructor with null so that we
-        // don't get the default layout manager. This allows us
+        // Call superclass constructor with null so that we don't get the default layout manager. This allows us
         // to lay out components with absolute coordinates
         super( null );
         setGraphic( new GraphicLayerSet( this ) );
+        setMouseAndKeyListeners( getGraphic().getMouseHandler(), getGraphic().getKeyAdapter() );
     }
 
     /**
@@ -92,8 +91,6 @@ public class ApparatusPanel extends JPanel {
                 phetGraphic.setComponent( this );
             }
         }
-
-        setMouseAndKeyListeners( getGraphic().getMouseHandler(), getGraphic().getKeyAdapter() );
     }
 
     /**
