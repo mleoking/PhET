@@ -122,23 +122,18 @@ public class ApparatusPanel2 extends ApparatusPanel implements ClockTickListener
         this.clock = clock;
         clock.addClockTickListener( this );
 
+        // The following lines use a mouse processor in the model loop
+        mouseProcessor = new MouseProcessor( getGraphic(), clock );
+        this.addMouseListener( mouseProcessor );
+        this.addMouseMotionListener( mouseProcessor );
+        this.addKeyListener( getGraphic().getKeyAdapter() );//TODO key events should go in processing thread as well.
+
         // Add a listener what will adjust things if the size of the panel changes
         panelResizeHandler = new PanelResizeHandler();
         this.addComponentListener( panelResizeHandler );
         transformManager = new TransformManager( this );
         paintStrategy = new DefaultPaintStrategy( this );
         scaledComponentLayout = new ScaledComponentLayout( this );
-    }
-
-    /**
-     * Sets up the panel with a mouse handler that processes events in the model loop.
-     *
-     * @param mouseHandler
-     * @param keyAdapter
-     */
-    protected void setMouseAndKeyListeners( MouseInputListener mouseHandler, KeyListener keyAdapter ) {
-        mouseProcessor = new MouseProcessor( getGraphic(), clock );
-        super.setMouseAndKeyListeners( mouseProcessor, keyAdapter );
     }
 
     public TransformManager getTransformManager() {
