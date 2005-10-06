@@ -62,6 +62,8 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(10/6) - started fleshing out apparatus panel for Game module
+(10/6) - set up control panel for Game module
 2.1.0 ...
 (10/5) - bugfix: measurement tools sometimes disappear when you click on them (Ron fixed ApparatusPanel)
 (10/5) - bugfix: measurement tools don't drag properly after you resize the application's frame (Ron fixed ApparatusPanel)
