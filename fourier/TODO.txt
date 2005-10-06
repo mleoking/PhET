@@ -5,6 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- "Match Game" panel
+- "Optical Pulse Shaper" as a separate simulation
 
 MEDIUM PRIORITY:
 - add support for persistence
