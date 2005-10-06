@@ -14,11 +14,11 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.control.AtomTypeChooser;
 import edu.colorado.phet.dischargelamps.control.BatterySlider;
+import edu.colorado.phet.dischargelamps.control.CurrentSlider;
 import edu.colorado.phet.dischargelamps.model.*;
 import edu.colorado.phet.dischargelamps.view.*;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
@@ -31,6 +31,7 @@ import edu.colorado.phet.lasers.view.AtomGraphic;
 import edu.colorado.phet.lasers.view.ResonatingCavityGraphic;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
@@ -39,7 +40,6 @@ import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -71,7 +71,7 @@ public class DischargeLampModule extends BaseLaserModule {
     private DischargeLampModel model;
     private Plate leftHandPlate;
     private Plate rightHandPlate;
-    private double maxCurrent = 200;
+    private double maxCurrent = 150;
     protected double currentDisplayFactor = 300;
 //    private double maxCurrent = 300;
 //    private double maxCurrent = 0.3;
@@ -84,11 +84,13 @@ public class DischargeLampModule extends BaseLaserModule {
     // AffineTransformOp that will scale graphics created in external applications so they appear
     // properly on the screen
     private AffineTransformOp externalGraphicScaleOp;
-    private ModelSlider currentSlider;
+    private CurrentSlider currentSlider;
     private DischargeLampEnergyMonitorPanel2 energyLevelsMonitorPanel;
     private SpectrometerGraphic spectrometerGraphic;
     private HeatingElementGraphic[] heatingElementGraphics = new HeatingElementGraphic[2];
     private JCheckBox squiggleCB;
+    private JPanel electronProductionControlPanel;
+    private JPanel optionsPanel;
 
     //----------------------------------------------------------------
     // Constructors and initialization
@@ -292,15 +294,46 @@ public class DischargeLampModule extends BaseLaserModule {
      * Sets up the control panel
      */
     private void addControls() {
+        ControlPanel controlPanel = (ControlPanel)getControlPanel();
 
         // A combo box for atom types
-
-        JComponent atomTypeComboBox = new AtomTypeChooser( model, elementProperties );
-        getControlPanel().add( atomTypeComboBox );
-
-        // Panel with check boxes
         {
-            JPanel checkBoxPanel = new JPanel( new GridLayout( 1, 2 ) );
+            JComponent atomTypeComboBox = new AtomTypeChooser( model, elementProperties );
+            controlPanel.addControlFullWidth( atomTypeComboBox );
+
+            // A slider for the battery current
+            electronProductionControlPanel = new JPanel();
+            electronProductionControlPanel.setBorder( new TitledBorder( SimStrings.get( "Controls.ElectronProduction" ) ) );
+            controlPanel.addControlFullWidth( electronProductionControlPanel );
+
+            currentSlider = new CurrentSlider( maxCurrent );
+            electronProductionControlPanel.add( currentSlider );
+            currentSlider.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    model.setCurrent( currentSlider.getValue(), 1 / currentDisplayFactor );
+                }
+            } );
+            currentSlider.setValue( 10 );
+
+            // Add an energy level monitor panel.
+            energyLevelsMonitorPanel = new DischargeLampEnergyMonitorPanel2( model, getClock(),
+                                                                             model.getAtomicStates(),
+                                                                             200,
+                                                                             300,
+                                                                             configurableElement );
+            controlPanel.addFullWidth( energyLevelsMonitorPanel );
+        }
+
+        // Panel with general options
+        {
+            optionsPanel = new JPanel( new GridBagLayout() );
+            GridBagConstraints gbc = new GridBagConstraints( GridBagConstraints.RELATIVE, 0,
+                                                             1, 1, 1, 1,
+                                                             GridBagConstraints.CENTER,
+                                                             GridBagConstraints.HORIZONTAL,
+                                                             new Insets( 0, 0, 0, 0 ), 0, 0 );
+            optionsPanel.setBorder( new TitledBorder( SimStrings.get( "Controls.Options" ) ) );
+
             // Add a button to show/hide the spectrometer
             final JCheckBox spectrometerCB = new JCheckBox( SimStrings.get( "ControlPanel.SpectrometerButtonLabel" ) );
             spectrometerCB.addActionListener( new ActionListener() {
@@ -310,65 +343,18 @@ public class DischargeLampModule extends BaseLaserModule {
                     model.getSpectrometer().start();
                 }
             } );
-            checkBoxPanel.add( spectrometerCB );
+            optionsPanel.add( spectrometerCB, gbc );
             spectrometerGraphic.setVisible( spectrometerCB.isSelected() );
 
-            squiggleCB = new JCheckBox( "Squiggles" );
+            squiggleCB = new JCheckBox( SimStrings.get( "Controls.Squiggles" ) );
             squiggleCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     energyLevelsMonitorPanel.setSquigglesEnabled( squiggleCB.isSelected() );
                 }
             } );
-            checkBoxPanel.add( squiggleCB );
-            getControlPanel().add( checkBoxPanel );
+            optionsPanel.add( squiggleCB, gbc );
+            controlPanel.addFullWidth( optionsPanel );
         }
-
-        // A slider for the battery voltage
-        double defaultVoltage = 25;
-        final ModelSlider batterySlider = new ModelSlider( "Battery Voltage",
-                                                           "V",
-                                                           -30, 30,
-                                                           defaultVoltage );
-        batterySlider.setMajorTickSpacing( 10 );
-        batterySlider.setNumMinorTicksPerMajorTick( 1 );
-        batterySlider.setSliderLabelFormat( new DecimalFormat( "##" ) );
-        batterySlider.setPreferredSize( new Dimension( 250, 100 ) );
-        ControlPanel controlPanel = (ControlPanel)getControlPanel();
-        batterySlider.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                double voltage = batterySlider.getValue() / DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR;
-                model.getBattery().setVoltage( voltage );
-//                model.setVoltage( voltage );
-            }
-        } );
-//        controlPanel.addControl( batterySlider );
-//        double voltage = batterySlider.getValue() / DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR;
-//        model.setVoltage( voltage );
-
-        // A slider for the battery current
-        currentSlider = new ModelSlider( "Electron Production Rate", "electrons/sec",
-                                         0, maxCurrent, 0 );
-        currentSlider.setSliderLabelFormat( new DecimalFormat( "#" ) );
-        currentSlider.setTextFieldFormat( new DecimalFormat( "#" ) );
-        currentSlider.setMajorTickSpacing( 50 );
-//        currentSlider.setMajorTickSpacing( maxCurrent / 3 );
-        currentSlider.setNumMinorTicksPerMajorTick( 1 );
-        currentSlider.setPaintLabels( true );
-        currentSlider.setPreferredSize( new Dimension( 250, 100 ) );
-        controlPanel.addControl( currentSlider );
-        currentSlider.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                model.setCurrent( currentSlider.getValue(), 1 / currentDisplayFactor );
-            }
-        } );
-        currentSlider.setValue( 5 );
-        // Add an energy level monitor panel.
-        energyLevelsMonitorPanel = new DischargeLampEnergyMonitorPanel2( model, getClock(),
-                                                                         model.getAtomicStates(),
-                                                                         200,
-                                                                         300,
-                                                                         configurableElement );
-        getControlPanel().add( energyLevelsMonitorPanel );
     }
 
     /**
@@ -421,6 +407,14 @@ public class DischargeLampModule extends BaseLaserModule {
     // Getters and setters
     //----------------------------------------------------------------
 
+    protected JPanel getElectronProductionControlPanel() {
+        return electronProductionControlPanel;
+    }
+
+    protected JPanel getOptionsPanel() {
+        return optionsPanel;
+    }
+
     /**
      * @param isVisible
      */
@@ -448,7 +442,7 @@ public class DischargeLampModule extends BaseLaserModule {
     /**
      * @return
      */
-    protected ModelSlider getCurrentSlider() {
+    protected CurrentSlider getCurrentSlider() {
         return currentSlider;
     }
 

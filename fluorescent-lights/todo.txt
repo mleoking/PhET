@@ -1,9 +1,6 @@
 To do
 =====
-near UV photons don't get recorded on the spectrometer
-
-Check for memory leaks, and possible slowdown with lots of photons. Cache them?
-
+Make the frame non-resizable until the spectrum slider is a graphic 
 
 both the model and each atom have atomicStates[]. They should only be in one place.
 
