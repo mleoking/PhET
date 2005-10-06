@@ -347,6 +347,7 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
 
                     HarmonicPlot harmonicPlot = (HarmonicPlot) _harmonicPlots.get( i );
                     harmonicPlot.setHarmonic( _fourierSeries.getHarmonic( i ) );
+                    harmonicPlot.setWaveType( FourierConstants.WAVE_TYPE_SINE );
                     harmonicPlot.setPeriod( L / ( i + 1 ) );
                     harmonicPlot.setPixelsPerPoint( PIXELS_PER_POINT[i] );
                     harmonicPlot.setStroke( WAVE_NORMAL_STROKE );
