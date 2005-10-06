@@ -15,9 +15,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import edu.colorado.phet.chart.Chart;
-import edu.colorado.phet.chart.LabelTable;
 import edu.colorado.phet.chart.Range2D;
-import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
@@ -26,15 +24,11 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.charts.HarmonicPlot;
-import edu.colorado.phet.fourier.control.ZoomControl;
 import edu.colorado.phet.fourier.event.HarmonicFocusEvent;
 import edu.colorado.phet.fourier.event.HarmonicFocusListener;
-import edu.colorado.phet.fourier.event.ZoomEvent;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
 import edu.colorado.phet.fourier.view.HarmonicColors;
-import edu.colorado.phet.fourier.view.HarmonicsEquation;
-import edu.colorado.phet.fourier.view.AnimationCycleController.AnimationCycleEvent;
 import edu.colorado.phet.fourier.view.discrete.DiscreteHarmonicsChart;
 
 
@@ -140,6 +134,22 @@ public class GameHarmonicsView extends GraphicLayerSet implements HarmonicFocusL
             _chartGraphic.setLocation( 60, 50 );
             _chartGraphic.setXAxisTitle( "x (mm)" ); 
         }
+        
+        // Harmonics
+        _harmonicPlots = new ArrayList();
+        for ( int i = _fourierSeries.getNumberOfHarmonics() - 1; i >= 0; i-- ) {
+
+            HarmonicPlot harmonicPlot = new HarmonicPlot( component, _chartGraphic );
+            harmonicPlot.setHarmonic( _fourierSeries.getHarmonic( i ) );
+            harmonicPlot.setPeriod( L / ( i + 1 ) );
+            harmonicPlot.setPixelsPerPoint( PIXELS_PER_POINT[i] );
+            harmonicPlot.setStroke( WAVE_NORMAL_STROKE );
+            harmonicPlot.setBorderColor( HarmonicColors.getInstance().getColor( i ) );
+            harmonicPlot.setStartX( 0 );
+
+            _harmonicPlots.add( harmonicPlot );
+            _chartGraphic.addDataSetGraphic( harmonicPlot );
+        }
 
         // Close button
         _minimizeButton = new PhetImageGraphic( component, FourierConstants.MINIMIZE_BUTTON_IMAGE );
@@ -154,14 +164,6 @@ public class GameHarmonicsView extends GraphicLayerSet implements HarmonicFocusL
             _chartGraphic.setIgnoreMouse( true );
 
             _minimizeButton.setCursorHand();
-        }
-
-        // Misc initialization
-        {
-            _harmonicPlots = new ArrayList();
-            for ( int i = 0; i < FourierConfig.MAX_HARMONICS; i++ ) {
-                _harmonicPlots.add( new HarmonicPlot( component, _chartGraphic ) );
-            }
         }
     }
 

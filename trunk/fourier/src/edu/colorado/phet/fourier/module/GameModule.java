@@ -42,7 +42,7 @@ import edu.colorado.phet.fourier.view.game.GameSumView;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class GameModule extends FourierModule {
+public class GameModule extends FourierModule implements ApparatusPanel2.ChangeListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -102,6 +102,7 @@ public class GameModule extends FourierModule {
         // Fourier Series
         _fourierSeries = new FourierSeries( NUMBER_OF_HARMONICS, FUNDAMENTAL_FREQUENCY );
         _fourierSeries.setPreset( FourierConstants.PRESET_CUSTOM );
+        _fourierSeries.setWaveType( FourierConstants.WAVE_TYPE_SINE );
         for ( int i = 0; i < _fourierSeries.getNumberOfHarmonics(); i++ ) {
             _fourierSeries.getHarmonic( i ).setAmplitude( 0 );
         }
@@ -114,6 +115,7 @@ public class GameModule extends FourierModule {
         ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         setApparatusPanel( apparatusPanel );
+        apparatusPanel.addChangeListener( this );
         _canvasSize = apparatusPanel.getSize();
         
         // Amplitudes view
@@ -146,6 +148,9 @@ public class GameModule extends FourierModule {
         // Control Panel
         _controlPanel = new GameControlPanel( this );
         setControlPanel( _controlPanel );
+        
+        // Harmonic hightlighting
+        _amplitudesView.addHarmonicFocusListener( _harmonicsView );
         
         // Minimize/maximize buttons on views
         {

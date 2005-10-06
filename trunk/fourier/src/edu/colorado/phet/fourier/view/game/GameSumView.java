@@ -12,26 +12,18 @@
 package edu.colorado.phet.fourier.view.game;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.geom.Point2D;
 
-import javax.swing.JCheckBox;
-
-import edu.colorado.phet.chart.*;
-import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.common.view.phetgraphics.*;
+import edu.colorado.phet.chart.Range2D;
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.charts.FourierSumPlot;
-import edu.colorado.phet.fourier.control.ZoomControl;
-import edu.colorado.phet.fourier.event.ZoomEvent;
 import edu.colorado.phet.fourier.model.FourierSeries;
-import edu.colorado.phet.fourier.view.AnimationCycleController.AnimationCycleEvent;
 import edu.colorado.phet.fourier.view.discrete.DiscreteSumChart;
-import edu.colorado.phet.fourier.view.discrete.DiscreteSumEquation;
 
 
 /**
