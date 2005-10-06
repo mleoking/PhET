@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.dischargelamps.control;
 
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.lasers.model.atom.ElementProperties;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,9 +34,10 @@ public class AtomTypeChooser extends JPanel {
     public AtomTypeChooser( final DischargeLampModel model, ElementProperties[] elementProperties ) {
         super( new GridBagLayout() );
 
-        JLabel label = new JLabel( SimStrings.get( "ControlPanel.AtomTypeButtonLabel" ) );
-        gbc.anchor = GridBagConstraints.EAST;
-        this.add( label, gbc );
+        setBorder( new TitledBorder( "Atom type " ) );
+//        JLabel label = new JLabel( SimStrings.get( "ControlPanel.AtomTypeButtonLabel" ) );
+//        gbc.anchor = GridBagConstraints.EAST;
+//        this.add( label, gbc );
 
         JComboBox comboBox = new JComboBox( elementProperties );
         comboBox.addActionListener( new ActionListener() {
@@ -50,7 +51,7 @@ public class AtomTypeChooser extends JPanel {
         ElementProperties selection = (ElementProperties)comboBox.getSelectedItem();
         model.setElementProperties( selection );
 
-        gbc.anchor = GridBagConstraints.WEST;
+        gbc.anchor = GridBagConstraints.CENTER;
         gbc.gridx = 1;
         this.add( comboBox, gbc );
     }

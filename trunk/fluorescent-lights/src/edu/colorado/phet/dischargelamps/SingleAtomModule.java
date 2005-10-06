@@ -12,6 +12,8 @@ package edu.colorado.phet.dischargelamps;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.components.ModelSlider;
+import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.dischargelamps.control.CurrentSlider;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.dischargelamps.model.ElectronSource;
 import edu.colorado.phet.dischargelamps.view.CollisionEnergyIndicator;
@@ -28,7 +30,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
-import java.text.DecimalFormat;
 
 /**
  * SingleAtomModule
@@ -40,7 +41,7 @@ import java.text.DecimalFormat;
  */
 public class SingleAtomModule extends DischargeLampModule {
     private DischargeLampAtom atom;
-    private double maxCurrent = 5;
+    private double maxCurrent = 3;
 //    private double maxCurrent = 0.01;
     private CollisionEnergyIndicator collisionEnergyIndicatorGraphic;
 
@@ -83,19 +84,14 @@ public class SingleAtomModule extends DischargeLampModule {
         elmp.getElmp().addGraphic( collisionEnergyIndicatorGraphic, -1 );
 
         // Put the current slider in a set of controls with the Fire button
-        final ModelSlider currentSlider = getCurrentSlider();
-        getControlPanel().remove( currentSlider );
-        currentSlider.setTextFieldFormat( new DecimalFormat( "#.00" ) );
-        currentSlider.setSliderLabelFormat( new DecimalFormat( "#" ) );
-        currentSlider.setMaximum( maxCurrent );
-        currentSlider.setMajorTickSpacing( 1 );
-        currentSlider.setNumMinorTicksPerMajorTick( 1 );
-        getCurrentSlider().setValue( 2 );
+        final CurrentSlider currentSlider = getCurrentSlider();
+        currentSlider.setMaxCurrent( maxCurrent );
+        getCurrentSlider().setValue( 25 );
 
         {
             // Add a button for firing a single electron. This also tells the energy level panel that if an
             // electron has been produced
-            final JButton singleShotBtn = new JButton( "Fire electron" );
+            final JButton singleShotBtn = new JButton( SimStrings.get( "Controls.FireElectron" ) );
             singleShotBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     Electron electron = null;
@@ -110,12 +106,12 @@ public class SingleAtomModule extends DischargeLampModule {
                     }
                 }
             } );
-            JRadioButton continuousRB = new JRadioButton( new AbstractAction( "Continuous" ) {
+            JRadioButton continuousRB = new JRadioButton( new AbstractAction( SimStrings.get( "Controls.Continuous" ) ) {
                 public void actionPerformed( ActionEvent e ) {
                     setContinuousElectronProduction( currentSlider, singleShotBtn );
                 }
             } );
-            JRadioButton singleShotRB = new JRadioButton( new AbstractAction( "Single" ) {
+            JRadioButton singleShotRB = new JRadioButton( new AbstractAction( SimStrings.get( "Controls.Single" ) ) {
                 public void actionPerformed( ActionEvent e ) {
                     setSingleShotElectronProduction( currentSlider, singleShotBtn );
                 }
@@ -127,8 +123,10 @@ public class SingleAtomModule extends DischargeLampModule {
             setSingleShotElectronProduction( currentSlider, singleShotBtn );
 
             {
-                JPanel electronProductionControlPanel = new JPanel( new GridBagLayout() );
-//                electronProductionControlPanel.setBorder( new TitledBorder( "Electron Production" ) );
+                JPanel electronProductionControlPanel = getElectronProductionControlPanel();
+//                electronProductionControlPanel.setBorder( new TitledBorder( "Electron production"));
+                electronProductionControlPanel.setLayout( new GridBagLayout() );
+//                JPanel electronProductionControlPanel = new JPanel( new GridBagLayout() );
                 GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
                                                                  GridBagConstraints.CENTER,
                                                                  GridBagConstraints.NONE,
@@ -145,14 +143,12 @@ public class SingleAtomModule extends DischargeLampModule {
 
                 singleShotRB.setSelected( true );
                 currentSlider.setVisible( false );
-                getControlPanel().add( electronProductionControlPanel );
-
                 getControlPanel().add( elmp );
             }
         }
 
         // Slow motion check box
-        JCheckBox slowMotionCB = new JCheckBox( new AbstractAction( "Run in slow motion" ) {
+        JCheckBox slowMotionCB = new JCheckBox( new AbstractAction( SimStrings.get( "Controls.SlowMotion" ) ) {
             public void actionPerformed( ActionEvent e ) {
                 JCheckBox cb = (JCheckBox)e.getSource();
                 if( cb.isSelected() ) {
@@ -164,8 +160,10 @@ public class SingleAtomModule extends DischargeLampModule {
             }
         } );
         getControlPanel().add( slowMotionCB );
-
         elmp.getElmp().setPreferredSize( new Dimension( 200, 300 ) );
+
+        getControlPanel().remove( getOptionsPanel() );
+        getControlPanel().add( getOptionsPanel() );
     }
 
     /**
