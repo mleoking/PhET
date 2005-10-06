@@ -84,19 +84,17 @@ public class GameModule extends FourierModule {
         // Control
         //----------------------------------------------------------------------------
 
+        setClockControlsEnabled( false );
+        
         // Control Panel
         _controlPanel = new GameControlPanel( this );
-        _controlPanel.addResetButton();
         setControlPanel( _controlPanel );
         
         //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------
         
-        // Help Items
-        FourierHelpItem someHelp = new FourierHelpItem( apparatusPanel, "Hang on, help is coming soon" );
-        someHelp.setLocation( 200, 300 );
-        addHelpItem( someHelp );
+        // no help for this module
         
         //----------------------------------------------------------------------------
         // Initialze the module state

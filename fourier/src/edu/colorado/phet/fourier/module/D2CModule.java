@@ -84,8 +84,6 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
     private WavePacketSpacingTool _spacingTool;
     private WavePacketPeriodTool _periodTool;
     
-    private boolean _clockWasPaused;
-    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -165,6 +163,8 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         // Control
         //----------------------------------------------------------------------------
 
+        setClockControlsEnabled( false );
+        
         // Control Panel
         _controlPanel = new D2CControlPanel( this, _wavePacket, 
                 _amplitudesView, _harmonicsView, _sumView, _spacingTool, _periodTool );
@@ -314,37 +314,5 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
     public void canvasSizeChanged( ChangeEvent event ) {
         _canvasSize.setSize( event.getCanvasSize() );
         layoutViews();
-    }
-    
-    //----------------------------------------------------------------------------
-    // Module overrides
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Disable the clock controls when this module becomes active.
-     * 
-     * @param app
-     */
-    public void activate( PhetApplication app ) {
-        super.activate( app );
-        // Save the state of the clock
-        _clockWasPaused = getClock().isPaused();
-        // Un-paused the clock
-        getClock().setPaused( false );
-        // Disable the clock controls
-        PhetApplication.instance().getPhetFrame().getClockControlPanel().setEnabled( false );
-    }
-    
-    /**
-     * Restore the clock controls when we switch to some other module.
-     * 
-     * @param app
-     */
-    public void deactivate( PhetApplication app ) {
-        super.deactivate( app );
-        // Restore the state of the clock
-        getClock().setPaused( _clockWasPaused );
-        // Enable the state of the clock controls
-        PhetApplication.instance().getPhetFrame().getClockControlPanel().setEnabled( true );
     }
 }
