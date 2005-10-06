@@ -16,12 +16,12 @@ import edu.colorado.phet.fourier.module.FourierModule;
 
 
 /**
- * WavePulseShaperControlPanel
+ * GameControlPanel
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class WavePulseShaperControlPanel extends FourierControlPanel {
+public class GameControlPanel extends FourierControlPanel {
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -32,19 +32,19 @@ public class WavePulseShaperControlPanel extends FourierControlPanel {
      * 
      * @param module
      */
-    public WavePulseShaperControlPanel( FourierModule module ) {
+    public GameControlPanel( FourierModule module ) {
         super( module );
         
         // Set the control panel's minimum width.
-        String widthString = SimStrings.get( "WavePulseShaperControlPanel.width" );
+        String widthString = SimStrings.get( "GameControlPanel.width" );
         int width = Integer.parseInt( widthString );
         setMinumumWidth( width );
     }
-
+    
     //----------------------------------------------------------------------------
     // FourierControlPanel implementation
     //----------------------------------------------------------------------------
-    
+
     public void reset() {
         // TODO Auto-generated method stub  
     }

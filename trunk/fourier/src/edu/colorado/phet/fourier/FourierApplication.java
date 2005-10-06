@@ -24,6 +24,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.control.OptionsMenu;
 import edu.colorado.phet.fourier.module.D2CModule;
 import edu.colorado.phet.fourier.module.DiscreteModule;
+import edu.colorado.phet.fourier.module.GameModule;
 
 
 /**
@@ -139,15 +140,13 @@ public class FourierApplication extends PhetApplication {
         }
         else {
             DiscreteModule discreteModule = new DiscreteModule( clock );
+            GameModule gameModule = new GameModule( clock );
             D2CModule d2cModule = new D2CModule( clock );
-//            WavePulseShaperModule wavePulseShapeModule = new WavePulseShaperModule( clock );
-//            SoundModule soundModule = new SoundModule( clock );
-            
+
             app.setModules( new Module[] { 
-                    discreteModule, 
-                    d2cModule,  
-//                    wavePulseShapeModule,
-//                    soundModule
+                    discreteModule,
+                    gameModule,
+                    d2cModule
                     } );
             app.setInitialModule( discreteModule );
         }

@@ -19,17 +19,17 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.control.FourierControlPanel;
-import edu.colorado.phet.fourier.control.SoundControlPanel;
+import edu.colorado.phet.fourier.control.GameControlPanel;
 import edu.colorado.phet.fourier.help.FourierHelpItem;
 
 
 /**
- * SoundModule
+ * GameModule
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class SoundModule extends FourierModule {
+public class GameModule extends FourierModule {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -59,9 +59,9 @@ public class SoundModule extends FourierModule {
      * 
      * @param clock the simulation clock
      */
-    public SoundModule( AbstractClock clock ) {
+    public GameModule( AbstractClock clock ) {
         
-        super( SimStrings.get( "SoundModule.title" ), clock );
+        super( SimStrings.get( "GameModule.title" ), clock );
 
         //----------------------------------------------------------------------------
         // Model
@@ -85,7 +85,7 @@ public class SoundModule extends FourierModule {
         //----------------------------------------------------------------------------
 
         // Control Panel
-        _controlPanel = new SoundControlPanel( this );
+        _controlPanel = new GameControlPanel( this );
         _controlPanel.addResetButton();
         setControlPanel( _controlPanel );
         
