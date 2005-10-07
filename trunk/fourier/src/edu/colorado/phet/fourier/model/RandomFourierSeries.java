@@ -25,7 +25,7 @@ import edu.colorado.phet.fourier.FourierConstants;
  */
 public class RandomFourierSeries extends FourierSeries {
 
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     
     private Random _random;
     private int _gameLevel;
