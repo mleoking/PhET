@@ -205,7 +205,7 @@ public class DischargeLampModel extends LaserModel {
     }
 
     public AtomicState[] getAtomicStates() {
-        return elementProperties.getStates();
+        return getElementProperties().getStates();
     }
 
     //----------------------------------------------------------------

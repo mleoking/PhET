@@ -11,6 +11,7 @@
 package edu.colorado.phet.dischargelamps;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.control.CurrentSlider;
@@ -22,7 +23,6 @@ import edu.colorado.phet.lasers.model.Electron;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
-import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.view.AtomGraphic;
 
 import javax.swing.*;
@@ -124,9 +124,7 @@ public class SingleAtomModule extends DischargeLampModule {
 
             {
                 JPanel electronProductionControlPanel = getElectronProductionControlPanel();
-//                electronProductionControlPanel.setBorder( new TitledBorder( "Electron production"));
                 electronProductionControlPanel.setLayout( new GridBagLayout() );
-//                JPanel electronProductionControlPanel = new JPanel( new GridBagLayout() );
                 GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
                                                                  GridBagConstraints.CENTER,
                                                                  GridBagConstraints.NONE,
@@ -163,7 +161,7 @@ public class SingleAtomModule extends DischargeLampModule {
         elmp.getElmp().setPreferredSize( new Dimension( 200, 300 ) );
 
         getControlPanel().remove( getOptionsPanel() );
-        getControlPanel().add( getOptionsPanel() );
+        ( (ControlPanel)getControlPanel() ).addFullWidth( getOptionsPanel() );
     }
 
     /**
@@ -176,7 +174,6 @@ public class SingleAtomModule extends DischargeLampModule {
         currentSlider.setVisible( false );
         getDischargeLampModel().getLeftHandPlate().setCurrent( 0 );
         singleShotBtn.setVisible( true );
-//        collisionEnergyIndicatorGraphic.setVisible( true );
         getDischargeLampModel().setElectronProductionMode( ElectronSource.SINGLE_SHOT_MODE );
         super.setHeatingElementsVisible( false );
     }
@@ -205,9 +202,7 @@ public class SingleAtomModule extends DischargeLampModule {
     private void addAtom( ResonatingCavity tube ) {
         Rectangle2D tubeBounds = tube.getBounds();
 
-        AtomicState[] states = getDischargeLampModel().getAtomicStates();
-//        atom = new DischargeLampAtom( (LaserModel)getModel(), getDischargeLampModel().getElementProperties() );
-        atom = new DischargeLampAtom( (LaserModel)getModel(), states );
+        atom = new DischargeLampAtom( (LaserModel)getModel(), getDischargeLampModel().getElementProperties() );
         atom.setPosition( tubeBounds.getX() + tubeBounds.getWidth() / 2,
                           tubeBounds.getY() + tubeBounds.getHeight() / 2 );
         AtomGraphic atomGraphic = addAtom( atom );
