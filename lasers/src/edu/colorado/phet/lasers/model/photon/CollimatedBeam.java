@@ -37,6 +37,7 @@ public class CollimatedBeam extends Particle implements PhotonSource {
     //-----------------------------------------------------------------
     private static Random gaussianGenerator = new Random();
     private static Random angleGenerator = new Random();
+    private static Random startPositionGenerator = new Random();
 
     //-----------------------------------------------------------------
     // Instance data
@@ -180,7 +181,8 @@ public class CollimatedBeam extends Particle implements PhotonSource {
                     double angle = angleGenerator.nextDouble() * ( fanout / 2 ) * ( angleGenerator.nextBoolean() ? 1 : -1 );
                     Vector2D photonVelocity = new Vector2D.Double( velocity ).rotate( angle );
                     final Photon newPhoton = Photon.create( this.getWavelength(),
-                                                            new Point2D.Double( genPositionX(), genPositionY() ),
+                                                            genPosition(),
+//                                                            new Point2D.Double( genPositionX(), genPositionY() ),
                                                             photonVelocity );
                     photonEmittedListenerProxy.photonEmittedEventOccurred( new PhotonEmittedEvent( this, newPhoton ) );
                 }
@@ -188,6 +190,15 @@ public class CollimatedBeam extends Particle implements PhotonSource {
                 timeSinceLastPhotonProduced = 0;
             }
         }
+    }
+
+    private Point2D genPosition() {
+        double r = startPositionGenerator.nextDouble();
+        double inset = 10;  // inset from the edges of the "beam" that photons are emitted
+        double d = r * ( getHeight() - inset * 2 );
+        double dx = ( d + inset ) * Math.sin( getAngle() );
+        double dy = -( d + inset ) * Math.cos( getAngle() );
+        return new Point2D.Double( getPosition().getX() + dx, getPosition().getY() + dy );
     }
 
     private double genPositionY() {

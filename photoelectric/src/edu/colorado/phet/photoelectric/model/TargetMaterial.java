@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.photoelectric.model;
 
-import edu.colorado.phet.dischargelamps.model.ElementProperties;
+import edu.colorado.phet.lasers.model.atom.ElementProperties;
 
 /**
  * TargetMaterial

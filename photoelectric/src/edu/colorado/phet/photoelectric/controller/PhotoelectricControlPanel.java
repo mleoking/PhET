@@ -12,7 +12,7 @@ package edu.colorado.phet.photoelectric.controller;
 
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.dischargelamps.model.ElementProperties;
+import edu.colorado.phet.lasers.model.atom.ElementProperties;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 import edu.colorado.phet.photoelectric.model.PhotoelectricTarget;

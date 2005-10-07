@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.photoelectric.model;
 
-import edu.colorado.phet.dischargelamps.model.Electron;
-import edu.colorado.phet.dischargelamps.model.EnergyAbsorptionStrategy;
+import edu.colorado.phet.lasers.model.Electron;
 import edu.colorado.phet.lasers.model.atom.Atom;
+import edu.colorado.phet.lasers.model.atom.EnergyAbsorptionStrategy;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.util.Random;

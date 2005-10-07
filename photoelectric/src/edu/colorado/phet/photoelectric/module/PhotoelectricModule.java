@@ -289,22 +289,21 @@ public class PhotoelectricModule extends BaseLaserModule {
      * @param beam
      */
     private void addBeamGraphic( CollimatedBeam beam ) {
-        beamGraphic = new BeamCurtainGraphic( getApparatusPanel(), beam );
-        getApparatusPanel().addGraphic( beamGraphic, PhotoelectricConfig.BEAM_LAYER );
         try {
             BufferedImage lampImg = ImageLoader.loadBufferedImage( PhotoelectricConfig.LAMP_IMAGE_FILE );
             // Make the lens on the lamp the same size as the beam
             AffineTransform scaleTx = AffineTransform.getScaleInstance( 100.0 / lampImg.getWidth(),
-                                                                        beam.getWidth() / lampImg.getHeight() );
+                                                                        beam.getHeight() / lampImg.getHeight() );
             AffineTransformOp scaleTxOp = new AffineTransformOp( scaleTx, AffineTransformOp.TYPE_BILINEAR );
             lampImg = scaleTxOp.filter( lampImg, null );
+            double lamplensDiam = lampImg.getHeight();
 
-            Point2D rp = new Point2D.Double( lampImg.getWidth(), lampImg.getHeight() / 2 );
+            Point2D rp = new Point2D.Double( lampImg.getWidth(), lampImg.getHeight() );
             AffineTransform atx = AffineTransform.getRotateInstance( beam.getAngle(), rp.getX(), rp.getY() );
+            atx.preConcatenate( AffineTransform.getTranslateInstance( beam.getPosition().getX() - lampImg.getWidth(),
+                                                                      beam.getPosition().getY() - lampImg.getHeight() ) );
 
             LampGraphic lampGraphic = new LampGraphic( beam, getApparatusPanel(), lampImg, atx );
-            // todo: this is positioned with hard numbers. Fix it
-            lampGraphic.setLocation( (int)beam.getPosition().getX() - 90, (int)beam.getPosition().getY() );
             getApparatusPanel().addGraphic( lampGraphic, PhotoelectricConfig.LAMP_LAYER );
 
             // Put a mask behind the lamp graphic to hide the beam or photons that start behind it
@@ -315,6 +314,26 @@ public class PhotoelectricModule extends BaseLaserModule {
             maskGraphic.setTransform( atx );
             maskGraphic.setLocation( lampGraphic.getLocation() );
             getApparatusPanel().addGraphic( maskGraphic, PhotoelectricConfig.BEAM_LAYER + .5 );
+            beamGraphic = new BeamCurtainGraphic( getApparatusPanel(), beam );
+            double angle = beam.getAngle();
+
+//            PhetShapeGraphic psg1 = new PhetShapeGraphic( getApparatusPanel(), new Ellipse2D.Double( DischargeLampsConfig.CATHODE_LOCATION.getX() - 3,
+//                                                                                                     DischargeLampsConfig.CATHODE_LOCATION.getY() - 3,
+//                                                                                                     6, 6 ),
+//                                                          Color.red );
+//            addGraphic( psg1, 1E9 );
+//            PhetShapeGraphic psg2 = new PhetShapeGraphic( getApparatusPanel(), new Ellipse2D.Double( beam.getPosition().getX() - 3,
+//                                                                                                     beam.getPosition().getY() - 3,
+//                                                                                                     6, 6 ),
+//                                                          Color.red );
+//            addGraphic( psg2, 1E9 );
+
+            double offset = ( lamplensDiam - beamGraphic.getWidth() ) / 2;
+            AffineTransform beamGraphicTx = AffineTransform.getRotateInstance( angle - Math.PI / 2,
+                                                                               beam.getPosition().getX(),
+                                                                               beam.getPosition().getY() + offset );
+            beamGraphic.setTransform( beamGraphicTx );
+            getApparatusPanel().addGraphic( beamGraphic, PhotoelectricConfig.BEAM_LAYER );
         }
         catch( IOException e ) {
             e.printStackTrace();
