@@ -148,7 +148,7 @@ public class FourierApplication extends PhetApplication {
                     gameModule,
                     d2cModule
                     } );
-            app.setInitialModule( gameModule );
+            app.setInitialModule( discreteModule );
         }
         
         // Start the application.
