@@ -128,7 +128,7 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
         apparatusPanel.addGraphic( _harmonicsView, HARMONICS_LAYER );
         
         // Harmonics view (minimized)
-        _harmonicsMinimizedView = new MinimizedView( apparatusPanel, SimStrings.get( "DiscreteHarmonicsView.title" ) );
+        _harmonicsMinimizedView = new MinimizedView( apparatusPanel, SimStrings.get( "GameHarmonicsView.title" ) );
         apparatusPanel.addGraphic( _harmonicsMinimizedView, HARMONICS_CLOSED_LAYER );
         
         // Sum view
@@ -136,7 +136,7 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
         apparatusPanel.addGraphic( _sumView, SUM_LAYER );
         
         // Sum view (minimized)
-        _sumMinimizedView = new MinimizedView( apparatusPanel, SimStrings.get( "DiscreteSumView.title" ) );
+        _sumMinimizedView = new MinimizedView( apparatusPanel, SimStrings.get( "GameSumView.title" ) );
         apparatusPanel.addGraphic( _sumMinimizedView, SUM_CLOSED_LAYER );
         
         //----------------------------------------------------------------------------

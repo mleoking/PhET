@@ -119,7 +119,7 @@ public class GameHarmonicsView extends GraphicLayerSet implements HarmonicFocusL
         _backgroundGraphic.setLocation( 0, 0 );
 
         // Title
-        String title = SimStrings.get( "DiscreteHarmonicsView.title" );
+        String title = SimStrings.get( "GameHarmonicsView.title" );
         _titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
         _titleGraphic.centerRegistrationPoint();
         _titleGraphic.rotate( -( Math.PI / 2 ) );
