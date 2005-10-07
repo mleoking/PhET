@@ -62,6 +62,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(10/7) - magenta -> pink in Game (roll into 2.1.1)
 2.1.1 ...
 (10/6) - improve random generation of amplitudes
 (10/6) - when game preset is "sine/cosine", pick a random harmonic for the sine/cosine
