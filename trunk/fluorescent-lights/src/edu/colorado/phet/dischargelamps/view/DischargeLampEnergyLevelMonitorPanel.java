@@ -410,9 +410,23 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
             numAtomsInState.put( currState, new Integer( nCurr.intValue() + 1 ) );
         }
 
-        // Display a squiggle to show the transition. Remove it after a bried time
+        // Display a squiggle to show the transition. Remove it after a brief time
+        if( squigglesEnabled ) {
+            displaySquiggle( prevState, currState );
+        }
+        invalidate();
+        repaint();
+    }
+
+    /**
+     * Creates a squiggle on the panel, and remove it after a brief time
+     *
+     * @param prevState
+     * @param currState
+     */
+    private void displaySquiggle( AtomicState prevState, AtomicState currState ) {
         double dE = prevState.getEnergyLevel() - currState.getEnergyLevel();
-        if( squigglesEnabled && dE > 0 ) {
+        if( dE > 0 ) {
             double wavelength = PhysicsUtil.energyToWavelength( dE );
             // We need to get the absolute value here because positive energy transforms to a negative number when
             // mapped to screen coordinates in the Y direction.
@@ -422,6 +436,8 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
                                                                 EnergySquiggle.VERTICAL );
             squiggle.setLocation( 50, energyYTx.modelToView( prevState.getEnergyLevel() ) );
             this.addGraphic( squiggle );
+            squiggle.setBoundsDirty();
+            squiggle.repaint();
             Runnable r = new Runnable() {
                 public void run() {
                     try {
@@ -440,8 +456,6 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
             Thread t = new Thread( r );
             t.start();
         }
-        invalidate();
-        repaint();
     }
 
     public void positionChanged( Atom.ChangeEvent event ) {
