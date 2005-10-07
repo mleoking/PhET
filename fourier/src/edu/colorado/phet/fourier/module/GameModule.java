@@ -29,8 +29,8 @@ import edu.colorado.phet.fourier.control.FourierControlPanel;
 import edu.colorado.phet.fourier.control.GameControlPanel;
 import edu.colorado.phet.fourier.help.FourierHelpItem;
 import edu.colorado.phet.fourier.model.FourierSeries;
+import edu.colorado.phet.fourier.model.RandomFourierSeries;
 import edu.colorado.phet.fourier.view.MinimizedView;
-import edu.colorado.phet.fourier.view.discrete.DiscreteSumView;
 import edu.colorado.phet.fourier.view.game.GameAmplitudesView;
 import edu.colorado.phet.fourier.view.game.GameHarmonicsView;
 import edu.colorado.phet.fourier.view.game.GameSumView;
@@ -69,7 +69,8 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
     // Instance data
     //----------------------------------------------------------------------------
     
-    private FourierSeries _fourierSeries;
+    private FourierSeries _userFourierSeries;
+    private RandomFourierSeries _randomFourierSeries;
     private GameAmplitudesView _amplitudesView;
     private GameHarmonicsView _harmonicsView;
     private MinimizedView _harmonicsMinimizedView;
@@ -99,14 +100,17 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
         BaseModel model = new BaseModel();
         this.setModel( model );
         
-        // Fourier Series
-        _fourierSeries = new FourierSeries( NUMBER_OF_HARMONICS, FUNDAMENTAL_FREQUENCY );
-        _fourierSeries.setPreset( FourierConstants.PRESET_CUSTOM );
-        _fourierSeries.setWaveType( FourierConstants.WAVE_TYPE_SINE );
-        for ( int i = 0; i < _fourierSeries.getNumberOfHarmonics(); i++ ) {
-            _fourierSeries.getHarmonic( i ).setAmplitude( 0 );
+        // The user's Fourier Series
+        _userFourierSeries = new FourierSeries( NUMBER_OF_HARMONICS, FUNDAMENTAL_FREQUENCY );
+        _userFourierSeries.setPreset( FourierConstants.PRESET_CUSTOM );
+        _userFourierSeries.setWaveType( FourierConstants.WAVE_TYPE_SINE );
+        for ( int i = 0; i < _userFourierSeries.getNumberOfHarmonics(); i++ ) {
+            _userFourierSeries.getHarmonic( i ).setAmplitude( 0 );
         }
         
+        // The randomly generated Fourier Series
+        _randomFourierSeries = new RandomFourierSeries( NUMBER_OF_HARMONICS, FUNDAMENTAL_FREQUENCY );
+
         //----------------------------------------------------------------------------
         // View
         //----------------------------------------------------------------------------
@@ -119,12 +123,12 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
         _canvasSize = apparatusPanel.getSize();
         
         // Amplitudes view
-        _amplitudesView = new GameAmplitudesView( apparatusPanel, _fourierSeries );
+        _amplitudesView = new GameAmplitudesView( apparatusPanel, _userFourierSeries );
         _amplitudesView.setLocation( 0, 0 );
         apparatusPanel.addGraphic( _amplitudesView, AMPLITUDES_LAYER );
         
         // Harmonics view
-        _harmonicsView = new GameHarmonicsView( apparatusPanel, _fourierSeries );
+        _harmonicsView = new GameHarmonicsView( apparatusPanel, _userFourierSeries );
         apparatusPanel.addGraphic( _harmonicsView, HARMONICS_LAYER );
         
         // Harmonics view (minimized)
@@ -132,7 +136,7 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
         apparatusPanel.addGraphic( _harmonicsMinimizedView, HARMONICS_CLOSED_LAYER );
         
         // Sum view
-        _sumView = new GameSumView( apparatusPanel, _fourierSeries );
+        _sumView = new GameSumView( apparatusPanel, _userFourierSeries, _randomFourierSeries );
         apparatusPanel.addGraphic( _sumView, SUM_LAYER );
         
         // Sum view (minimized)
@@ -146,7 +150,7 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
         setClockControlsEnabled( false );
         
         // Control Panel
-        _controlPanel = new GameControlPanel( this, _fourierSeries );
+        _controlPanel = new GameControlPanel( this, _userFourierSeries, _randomFourierSeries );
         setControlPanel( _controlPanel );
         
         // Harmonic hightlighting

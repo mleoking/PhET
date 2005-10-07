@@ -24,7 +24,7 @@ import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.charts.FourierSumPlot;
 import edu.colorado.phet.fourier.model.FourierSeries;
-import edu.colorado.phet.fourier.view.discrete.DiscreteSumChart;
+import edu.colorado.phet.fourier.model.RandomFourierSeries;
 
 
 /**
@@ -70,11 +70,11 @@ public class GameSumView extends GraphicLayerSet implements SimpleObserver {
     private static final Dimension CHART_SIZE = new Dimension( 540, 135 );
     
     // Wave parameters
-    private static final Stroke SUM_STROKE = new BasicStroke( 1f );
-    private static final Color SUM_COLOR = Color.BLACK;
-    private static final double SUM_PIXELS_PER_POINT = 1;
-    private static final Stroke PRESET_STROKE = new BasicStroke( 4f );
-    private static final Color PRESET_COLOR = Color.LIGHT_GRAY;
+    private static final Stroke USER_SUM_STROKE = new BasicStroke( 1f );
+    private static final Color USER_SUM_COLOR = Color.BLACK;
+    private static final Stroke RANDOM_SUM_STROKE = new BasicStroke( 3f );
+    private static final Color RANDOM_SUM_COLOR = Color.MAGENTA;
+    private static final double PIXELS_PER_POINT = 1;
     
     // Autoscaling
     private static final double AUTOSCALE_FACTOR = 1.25; // multiple max amplitude by this amount when autoscaling
@@ -83,26 +83,30 @@ public class GameSumView extends GraphicLayerSet implements SimpleObserver {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private FourierSeries _fourierSeries;
+    private FourierSeries _userFourierSeries;
+    private RandomFourierSeries _randomFourierSeries;
     private PhetShapeGraphic _backgroundGraphic;
     private PhetTextGraphic _titleGraphic;
     private PhetImageGraphic _minimizeButton;
     private GameSumChart _chartGraphic;
-    private FourierSumPlot _sumPlot;
+    private FourierSumPlot _userSumPlot;
+    private FourierSumPlot _randomSumPlot;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
     //----------------------------------------------------------------------------
     
-    public GameSumView( Component component, FourierSeries fourierSeries ) {
+    public GameSumView( Component component, FourierSeries userFourierSeries, RandomFourierSeries randomFourierSeries ) {
         super( component );
 
         // Enable antialiasing for all children.
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         
         // Model
-        _fourierSeries = fourierSeries;
-        _fourierSeries.addObserver( this );
+        _userFourierSeries = userFourierSeries;
+        _userFourierSeries.addObserver( this );
+        _randomFourierSeries = randomFourierSeries;
+        _randomFourierSeries.addObserver( this );
         
         // Background
         _backgroundGraphic = new PhetShapeGraphic( component );
@@ -128,14 +132,24 @@ public class GameSumView extends GraphicLayerSet implements SimpleObserver {
             _chartGraphic.setRegistrationPoint( 0, 0 );
             _chartGraphic.setLocation( 60, 50 );
             _chartGraphic.setXAxisTitle( "x (mm)" ); 
+         
+            // Random sum plot
+            _randomSumPlot = new FourierSumPlot( getComponent(), _chartGraphic, _randomFourierSeries );
+            _randomSumPlot.setPeriod( L );
+            _randomSumPlot.setPixelsPerPoint( PIXELS_PER_POINT );
+            _randomSumPlot.setStroke( RANDOM_SUM_STROKE );
+            _randomSumPlot.setBorderColor( RANDOM_SUM_COLOR );
+            _chartGraphic.addDataSetGraphic( _randomSumPlot );
+            _chartGraphic.autoscaleY( _randomSumPlot.getMaxAmplitude() * AUTOSCALE_FACTOR );
             
-            // Sum plot
-            _sumPlot = new FourierSumPlot( getComponent(), _chartGraphic, _fourierSeries );
-            _sumPlot.setPeriod( L );
-            _sumPlot.setPixelsPerPoint( SUM_PIXELS_PER_POINT );
-            _sumPlot.setStroke( SUM_STROKE );
-            _sumPlot.setBorderColor( SUM_COLOR );
-            _chartGraphic.addDataSetGraphic( _sumPlot );
+            // User's sum plot
+            _userSumPlot = new FourierSumPlot( getComponent(), _chartGraphic, _userFourierSeries );
+            _userSumPlot.setPeriod( L );
+            _userSumPlot.setPixelsPerPoint( PIXELS_PER_POINT );
+            _userSumPlot.setStroke( USER_SUM_STROKE );
+            _userSumPlot.setBorderColor( USER_SUM_COLOR );
+            _chartGraphic.addDataSetGraphic( _userSumPlot );
+
         }
         
         // Close button
@@ -158,8 +172,8 @@ public class GameSumView extends GraphicLayerSet implements SimpleObserver {
      * Call this method prior to releasing all references to an object of this type.
      */
     public void cleanup() {
-        _fourierSeries.removeObserver( this );
-        _fourierSeries = null;
+        _userFourierSeries.removeObserver( this );
+        _userFourierSeries = null;
     }
     
     //----------------------------------------------------------------------------
@@ -198,8 +212,10 @@ public class GameSumView extends GraphicLayerSet implements SimpleObserver {
      */
     public void update() {
         if ( isVisible() ) {
-            _sumPlot.updateDataSet();
-            _chartGraphic.autoscaleY( _sumPlot.getMaxAmplitude() * AUTOSCALE_FACTOR );
+            _userSumPlot.updateDataSet();
+            _randomSumPlot.updateDataSet();
+            double maxY = Math.max( _userSumPlot.getMaxAmplitude(), _randomSumPlot.getMaxAmplitude() );
+            _chartGraphic.autoscaleY( maxY * AUTOSCALE_FACTOR );
         }
     }
 }

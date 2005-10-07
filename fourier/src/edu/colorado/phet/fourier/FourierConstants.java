@@ -342,6 +342,12 @@ public class FourierConstants {
     public static final int MATH_FORM_PERIOD = 5;
     public static final int MATH_FORM_WAVE_NUMBER_AND_ANGULAR_FREQUENCY = 6;
     public static final int MATH_FORM_WAVELENGTH_AND_PERIOD = 7;
+
+    // Game levels
+    public static final int GAME_LEVEL_PRESET = 0;
+    public static final int GAME_LEVEL_EASY   = 1;
+    public static final int GAME_LEVEL_MEDIUM = 2;
+    public static final int GAME_LEVEL_HARD   = 3;
     
     /**
      * Validator for the "domain" enumaration.
@@ -426,6 +432,27 @@ public class FourierConstants {
                  break;
             default:
                  isValid = false;
+        }
+        return isValid;
+    }
+    
+    /**
+     * Validator for the "game level" enumeration.
+     * 
+     * @param gameLevel
+     * @return true or false
+     */
+    public static boolean isValidGameLevel( int gameLevel ) {
+        boolean isValid = false;
+        switch ( gameLevel ) {
+            case GAME_LEVEL_PRESET:
+            case GAME_LEVEL_EASY:
+            case GAME_LEVEL_MEDIUM:
+            case GAME_LEVEL_HARD:
+                isValid = true;
+                break;
+            default:
+                isValid = false;
         }
         return isValid;
     }
