@@ -64,6 +64,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(10/6) - add "cheat" panel to Game controls
 (10/6) - randomly generate waveforms for game levels
 (10/6) - add random Fourier series to Game's Sum graph
 (10/6) - enable harmonic highlighting in Game
