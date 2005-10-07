@@ -78,10 +78,6 @@ public class RandomFourierSeries extends FourierSeries {
      */
     private double generateRandomAmplitude() {
         int sign = _random.nextBoolean() ? +1 : -1;
-//        double percent = _random.nextDouble();
-//        double amplitude = sign * percent * FourierConfig.MAX_HARMONIC_AMPLITUDE;
-//        int multiplier = (int) ( amplitude / 0.01 );
-//        return multiplier * 0.01;
         double step = 0.01;
         int numberOfSteps = (int) ( FourierConfig.MAX_HARMONIC_AMPLITUDE / step ) + 1;
         int multiplier = _random.nextInt( numberOfSteps );
@@ -147,38 +143,38 @@ public class RandomFourierSeries extends FourierSeries {
      */
     private void generatePreset() {
         
-        if ( getPreset() == FourierConstants.PRESET_SINE_COSINE ) {
-            // For sine preset, set a random value for one of the harmonics, all others zero.
-            int count = 0;
-            for ( int i = 0; i < getNumberOfHarmonics(); i++ ) {
-                boolean isZero = _random.nextBoolean();
-                if ( isZero || count == 1 ) {
-                    getHarmonic( i ).setAmplitude( 0 );
-                }
-                else {
-                    double amplitude = generateRandomAmplitude();
-                    if ( amplitude == 0 ) {
-                        amplitude = 1.0;
-                    }
-                    else if ( amplitude < 0 ) {
-                        amplitude = -amplitude;
-                    }
-                    getHarmonic( i ).setAmplitude( amplitude );
-                    count++;
-                }
-            }
-        }
-        else {
-            // For all other presets, scale the amplitudes of the preset harmonics
-            double percent = _random.nextDouble();
-            for ( int i = 0; i < getNumberOfHarmonics(); i++ ) {
-                Harmonic harmonic = getHarmonic( i );
-                double amplitude = harmonic.getAmplitude() * percent;
-                harmonic.setAmplitude( amplitude );
-            }
-        }
-        
-        // After we're done randomizing, the preset is now "custom".
-        setPreset( FourierConstants.PRESET_CUSTOM );
+//        if ( getPreset() == FourierConstants.PRESET_SINE_COSINE ) {
+//            // For sine preset, set a random value for one of the harmonics, all others zero.
+//            int count = 0;
+//            for ( int i = 0; i < getNumberOfHarmonics(); i++ ) {
+//                boolean isZero = _random.nextBoolean();
+//                if ( isZero || count == 1 ) {
+//                    getHarmonic( i ).setAmplitude( 0 );
+//                }
+//                else {
+//                    double amplitude = generateRandomAmplitude();
+//                    if ( amplitude == 0 ) {
+//                        amplitude = 1.0;
+//                    }
+//                    else if ( amplitude < 0 ) {
+//                        amplitude = -amplitude;
+//                    }
+//                    getHarmonic( i ).setAmplitude( amplitude );
+//                    count++;
+//                }
+//            }
+//        }
+//        else {
+//            // For all other presets, scale the amplitudes of the preset harmonics
+//            double percent = _random.nextDouble();
+//            for ( int i = 0; i < getNumberOfHarmonics(); i++ ) {
+//                Harmonic harmonic = getHarmonic( i );
+//                double amplitude = harmonic.getAmplitude() * percent;
+//                harmonic.setAmplitude( amplitude );
+//            }
+//        }
+//        
+//        // After we're done randomizing, the preset is now "custom".
+//        setPreset( FourierConstants.PRESET_CUSTOM );
     }
 }
