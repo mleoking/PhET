@@ -59,6 +59,9 @@ public class PhotoelectricApplication extends PhetApplication {
                true,
                frameSetup );
 
+        // Make the frame non-resizable until we make the intensity slider a graphic
+        getPhetFrame().setResizable( false );
+
         // Get a reference to the Options menu. The module will need it
         optionsMenu = new JMenu( SimStrings.get( "Menu.Options" ) );
 

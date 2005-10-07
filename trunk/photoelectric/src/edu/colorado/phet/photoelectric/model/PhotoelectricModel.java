@@ -80,7 +80,7 @@ public class PhotoelectricModel extends DischargeLampModel {
     private double defaultBeamWavelength = 400;
     private double beamWidth = 80;
     private double beamHeight = 100;
-    private double beamSourceToTargetDist = 280;
+    private double beamSourceToTargetDist = 260;
     private double beamAngle = Math.toRadians( 130 );
     private double beamFanout = Math.toRadians( 5 );
     private Ammeter ammeter;
