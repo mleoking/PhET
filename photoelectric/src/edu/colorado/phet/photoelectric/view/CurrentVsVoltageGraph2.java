@@ -36,7 +36,7 @@ public class CurrentVsVoltageGraph2 extends Chart {
                                                 PhotoelectricModel.MAX_VOLTAGE,
                                                 PhotoelectricModel.MAX_CURRENT );
     static private Dimension chartSize = new Dimension( 200, 150 );
-    static private Font titleFont = new Font( "Lucide Sans", Font.BOLD, 14 );
+    static private Font titleFont = new Font( "Lucida Sans", Font.BOLD, 14 );
     private static final double PLOT_LAYER = 1E15;
 
     //-----------------------------------------------------------------
@@ -118,22 +118,10 @@ public class CurrentVsVoltageGraph2 extends Chart {
      * @param current
      */
     private void addLineDataPoint( double voltage, double current, PhotoelectricModel model ) {
-        // Have to do som efancy steppin' here to keep the crossover across the
-        // stopping voltage from looking bad
-//        if(( lastVoltageRecorded < stoppingVoltage) && (voltage > stoppingVoltage )) {
-//            lineDataSet.addPoint( stoppingVoltage, 0 );
-//            lineDataSet.addPoint( stoppingVoltage, current );
-//        }
-//        else if(( lastVoltageRecorded > stoppingVoltage) && (voltage < stoppingVoltage )) {
-//            lineDataSet.addPoint( stoppingVoltage, lastCurrentRecorded );
-//            lineDataSet.addPoint( stoppingVoltage, current );
-//        }
-
         // Do some shenanigans to handle moving too quickly through the stopping voltage
         double dv = 0.1 * MathUtil.getSign( voltage - lastVoltageRecorded );
         for( double v = lastVoltageRecorded + dv; Math.abs( v - voltage ) > Math.abs( dv ); v += dv ) {
             lineDataSet.addPoint( v, model.getCurrentForVoltage( v ) );
-            System.out.println( "v = " + v + "\tcurrent = " + model.getCurrentForVoltage( v ) );
         }
         lineDataSet.addPoint( voltage, current );
         lastVoltageRecorded = voltage;

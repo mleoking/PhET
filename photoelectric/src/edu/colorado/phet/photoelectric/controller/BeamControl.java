@@ -34,16 +34,17 @@ import java.awt.*;
  */
 public class BeamControl extends GraphicLayerSet implements CollimatedBeam.RateChangeListener {
     private ApparatusPanel apparatusPanel;
-    private Point location;
     private IntensitySlider intensitySlider;
 
-    private Point intensitySliderRelLoc = new Point( 70, 30 );
+    private Point intensitySliderRelLoc = new Point( 68, 28 );
+    private Dimension intensitySliderSize = new Dimension( 142, 16 );
     private Point intensitySliderLoc;
 
     private Point spectrumSliderLoc;
     private Point spectrumSliderRelLoc = new Point( 13, 93 );
     private Dimension spectrumSize = new Dimension( 145, 19 );
     private SpectrumSliderWithReadout wavelengthSlider;
+    ;
 
     /**
      * @param apparatusPanel
@@ -54,7 +55,6 @@ public class BeamControl extends GraphicLayerSet implements CollimatedBeam.RateC
     public BeamControl( ApparatusPanel apparatusPanel, Point location,
                         CollimatedBeam beam, double maximumRate ) {
         this.apparatusPanel = apparatusPanel;
-        this.location = location;
 
         // The background panel
         PhetImageGraphic panelGraphic = new PhetImageGraphic( apparatusPanel,
@@ -73,8 +73,6 @@ public class BeamControl extends GraphicLayerSet implements CollimatedBeam.RateC
         addWavelengthSlider( beam );
         addIntensitySlider( beam, maximumRate );
         beam.addRateChangeListener( this );
-
-
     }
 
     private void addWavelengthSlider( final CollimatedBeam beam ) {
@@ -106,9 +104,8 @@ public class BeamControl extends GraphicLayerSet implements CollimatedBeam.RateC
 
     private void addIntensitySlider( final CollimatedBeam beam, double maximumRate ) {
         // Make a spectrum intensitySlider
-        Dimension size = new Dimension( 138, 12 );
         intensitySlider = new IntensitySlider( VisibleColor.wavelengthToColor( beam.getWavelength() ),
-                                               IntensitySlider.HORIZONTAL, size );
+                                               IntensitySlider.HORIZONTAL, intensitySliderSize );
         intensitySlider.setMaximum( (int)maximumRate );
         intensitySlider.setLocation( intensitySliderLoc ); // default is (0,0)
         apparatusPanel.add( intensitySlider );

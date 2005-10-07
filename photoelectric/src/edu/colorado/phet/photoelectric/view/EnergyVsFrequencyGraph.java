@@ -32,9 +32,8 @@ public class EnergyVsFrequencyGraph extends Chart {
     //-----------------------------------------------------------------
     // Class data
     //-----------------------------------------------------------------
-    static private Range2D range = new Range2D( 0,
-//    static private Range2D range = new Range2D( PhysicsUtil.wavelengthToFrequency( PhotoelectricModel.MAX_WAVELENGTH ),
-                                                0,
+    static private double PLOT_LAYER = 1E9;
+    static private Range2D range = new Range2D( 0, 0,
                                                 PhysicsUtil.wavelengthToFrequency( PhotoelectricModel.MIN_WAVELENGTH ),
                                                 PhysicsUtil.wavelengthToEnergy( PhotoelectricModel.MIN_WAVELENGTH ) );
     static private double xSpacing = ( range.getMaxX() - range.getMinX() ) / 4;
@@ -70,10 +69,10 @@ public class EnergyVsFrequencyGraph extends Chart {
         Color lineColor = new Color( color.getRed(), color.getGreen(), color.getBlue(), 80 );
         LinePlot lines = new LinePlot( getComponent(), this, lineDataSet, new BasicStroke( 3f ), lineColor );
         lines.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-        this.addDataSetGraphic( lines );
+        this.addDataSetGraphic( lines, PLOT_LAYER );
 
         ScatterPlot points = new ScatterPlot( getComponent(), this, dotDataSet, color, PhotoelectricConfig.GRAPH_DOT_RADIUS );
-        this.addDataSetGraphic( points );
+        this.addDataSetGraphic( points, PLOT_LAYER + 1 );
 
         model.addChangeListener( new PhotoelectricModel.ChangeListenerAdapter() {
             public void targetMaterialChanged( PhotoelectricModel.ChangeEvent event ) {

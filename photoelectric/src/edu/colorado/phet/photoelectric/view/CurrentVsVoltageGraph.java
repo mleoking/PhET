@@ -36,6 +36,7 @@ public class CurrentVsVoltageGraph extends Chart {
     //-----------------------------------------------------------------
     // Class data
     //-----------------------------------------------------------------
+    static private double PLOT_LAYER = 1E9;
     static private Range2D range = new Range2D( PhotoelectricModel.MIN_VOLTAGE * 1.2, 0,
                                                 PhotoelectricModel.MAX_VOLTAGE * 1.2, 0.2 );
     static Dimension chartSize = new Dimension( 200, 150 );
@@ -87,8 +88,8 @@ public class CurrentVsVoltageGraph extends Chart {
 
             plot.setBorderColor( color );
             plot.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-            this.addDataSetGraphic( plot );
-            this.addDataSetGraphic( points );
+            this.addDataSetGraphic( plot, PLOT_LAYER );
+            this.addDataSetGraphic( points, PLOT_LAYER + 1 );
         }
         return dataSet;
     }
