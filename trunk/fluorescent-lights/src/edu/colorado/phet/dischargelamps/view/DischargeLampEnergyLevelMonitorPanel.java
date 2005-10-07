@@ -326,18 +326,11 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         // todo: cache Color instances to improve performance
         for( int i = 0; i < atomicStates.length; i++ ) {
             Color c = colorStrategy.getColor( atomicStates[i] );
+            Integer numAtoms = (Integer)numAtomsInState.get( atomicStates[i] );
+            if( numAtoms != null ) {
+                int n = numAtoms.intValue();
 
-            // todo: figure out why we need this try block
-            try {
-                Integer numAtoms = (Integer)numAtomsInState.get( atomicStates[i] );
-                if( numAtoms != null ) {
-                    int n = numAtoms.intValue();
-
-                    drawAtomsInLevel( g2, c, levelGraphics[i], n );
-                }
-            }
-            catch( NullPointerException npe ) {
-                System.out.println( "#$%#@$%" );
+                drawAtomsInLevel( g2, c, levelGraphics[i], n );
             }
         }
         gs.restoreGraphics();
@@ -530,6 +523,4 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
             electronGraphic.repaint();
         }
     }
-
-
 }

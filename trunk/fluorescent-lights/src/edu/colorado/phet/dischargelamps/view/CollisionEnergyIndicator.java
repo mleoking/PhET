@@ -112,10 +112,11 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
         // The energy an electron has when it hits the atom
         double electronEnergy = Math.abs( voltage ) * ( plateToAtomDist / plateToPlateDist );
 
-        // This factor converts
+        // Determine the y location of the line. Don't let it go off the top of the panel
         new GroundState().getEnergyLevel();
         int y = energyYTx.modelToView( ( electronEnergy * DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR )
                                        + model.getAtomicStates()[0].getEnergyLevel() );
+        y = Math.max( y, 10 );
         setLocation( 0, y );
         setBoundsDirty();
         repaint();

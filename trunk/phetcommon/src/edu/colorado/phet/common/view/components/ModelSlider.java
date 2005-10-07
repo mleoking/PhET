@@ -477,12 +477,10 @@ public class ModelSlider extends JPanel {
             String string = textFieldFormat.format( value );
 
             double newValue = Double.parseDouble( string );
-//            if( this.value == value ) {
             if( this.value == newValue ) {
                 return;
             }
 
-//            this.value = value;
             this.value = newValue;
             textField.setText( string );
             int sliderValue = modelViewTransform.modelToView( value );
@@ -515,5 +513,9 @@ public class ModelSlider extends JPanel {
 
     public JSlider getSlider() {
         return slider;
+    }
+
+    public void setPreferredSliderWidth( int width ) {
+        slider.setPreferredSize( new Dimension( width, (int)slider.getPreferredSize().getHeight() ) );
     }
 }
