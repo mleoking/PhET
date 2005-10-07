@@ -48,14 +48,37 @@ public class RandomFourierSeries extends FourierSeries {
     public void generate() {
         
         if ( _gameLevel == FourierConstants.GAME_LEVEL_PRESET ) {
-            // Scale the amplitudes of the preset harmonics
-            resetPreset();
-            double percent = _random.nextDouble();
-            for ( int i = 0; i < getNumberOfHarmonics(); i++ ) {
-                Harmonic harmonic = getHarmonic( i );
-                double amplitude = harmonic.getAmplitude() * percent;
-                harmonic.setAmplitude( amplitude );
+            if ( getPreset() == FourierConstants.PRESET_SINE_COSINE ) {
+                // Random values for 1 harmonic, all others zero
+                int count = 0;
+                for ( int i = 0; i < getNumberOfHarmonics(); i++ ) {
+                    boolean isZero = _random.nextBoolean();
+                    if ( isZero || count == 1 ) {
+                        getHarmonic( i ).setAmplitude( 0 );
+                    }
+                    else {
+                        double amplitude = generateRandomAmplitude();
+                        if ( amplitude == 0 ) {
+                            amplitude = 1.0;
+                        }
+                        else if ( amplitude < 0 ) {
+                            amplitude = -amplitude;
+                        }
+                        getHarmonic( i ).setAmplitude( amplitude );
+                        count++;
+                    }
+                }
             }
+            else {
+                // Scale the amplitudes of the preset harmonics
+                double percent = _random.nextDouble();
+                for ( int i = 0; i < getNumberOfHarmonics(); i++ ) {
+                    Harmonic harmonic = getHarmonic( i );
+                    double amplitude = harmonic.getAmplitude() * percent;
+                    harmonic.setAmplitude( amplitude );
+                }
+            }
+            setPreset( FourierConstants.PRESET_CUSTOM );
         }
         else if ( _gameLevel == FourierConstants.GAME_LEVEL_EASY ) {
             // Random values for 2 harmonics, all others zero

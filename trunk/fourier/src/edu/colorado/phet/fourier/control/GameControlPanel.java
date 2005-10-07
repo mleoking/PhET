@@ -276,9 +276,27 @@ public class GameControlPanel extends FourierControlPanel {
     //----------------------------------------------------------------------------
     
     private void handleLevel() {
+        handleNewGame();
+    }
+    
+    private void handlePreset() {
+        handleNewGame();
+    }
+    
+    private void handleNewGame() {
+        setWaitCursorEnabled( true );
+        
+        // Set all the user's harmonic amplitudes to zero.
+        for ( int i = 0; i < _userFourierSeries.getNumberOfHarmonics(); i++ ) {
+            _userFourierSeries.getHarmonic( i ).setAmplitude( 0 );
+        }
+        
+        // Set the game level
         int gameLevel = _levelComboBox.getSelectedKey();
         _presetComboBox.setEnabled( gameLevel == FourierConstants.GAME_LEVEL_PRESET );
         _randomFourierSeries.setGameLevel( gameLevel );
+        
+        // Restore the preset
         if ( gameLevel == FourierConstants.GAME_LEVEL_PRESET ) {
             int preset = _presetComboBox.getSelectedKey();
             _randomFourierSeries.setPreset( preset );
@@ -286,24 +304,12 @@ public class GameControlPanel extends FourierControlPanel {
         else {
             _randomFourierSeries.setPreset( FourierConstants.PRESET_CUSTOM );
         }
-        handleNewGame();
-    }
-    
-    private void handlePreset() {
-        int preset = _presetComboBox.getSelectedKey();
-        _randomFourierSeries.setPreset( preset );
-        handleNewGame();
-    }
-    
-    private void handleNewGame() {
-        setWaitCursorEnabled( true );
-        // Set all the user's harmonic amplitudes to zero.
-        for ( int i = 0; i < _userFourierSeries.getNumberOfHarmonics(); i++ ) {
-            _userFourierSeries.getHarmonic( i ).setAmplitude( 0 );
-        }
+        
         // Generate a new random series
         _randomFourierSeries.generate();
+        
         updateCheatPanel();
+        
         setWaitCursorEnabled( false );
     }
     
