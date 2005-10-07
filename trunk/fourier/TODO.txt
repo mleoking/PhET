@@ -62,9 +62,11 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
-(10/6) - add harmonic waveforms to Game harmonics view
 (10/6) - enable harmonic highlighting in Game
 (10/6) - fix minimize/maximize of views in Game
+(10/6) - add Sum view to Game
+(10/6) - add Harmonics view to Game
+(10/6) - add Ampltiudes view to Game
 (10/6) - started fleshing out apparatus panel for Game module
 (10/6) - set up control panel for Game module
 2.1.0 ...
