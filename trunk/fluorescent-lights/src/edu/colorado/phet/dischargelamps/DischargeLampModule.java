@@ -403,6 +403,9 @@ public class DischargeLampModule extends BaseLaserModule {
         return graphic;
     }
 
+    public boolean hasHelp() {
+        return false;
+    }
     //----------------------------------------------------------------
     // Getters and setters
     //----------------------------------------------------------------
