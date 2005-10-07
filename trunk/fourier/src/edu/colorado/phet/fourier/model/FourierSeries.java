@@ -194,6 +194,10 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
         return _preset;
     }
     
+    protected void resetPreset() {
+        updateAmplitudes();
+    }
+    
     public void setWaveType( int waveType ) {
         assert( FourierConstants.isValidWaveType( waveType ) );
         if ( waveType != _waveType ) {

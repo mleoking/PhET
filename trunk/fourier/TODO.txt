@@ -5,8 +5,10 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- wait cursors on Game controls
 - "Match Game" panel
 - "Optical Pulse Shaper" as a separate simulation
+- get fundamental sound frequency from Fourier series
 
 MEDIUM PRIORITY:
 - add support for persistence
@@ -62,6 +64,8 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(10/6) - randomly generate waveforms for game levels
+(10/6) - add random Fourier series to Game's Sum graph
 (10/6) - enable harmonic highlighting in Game
 (10/6) - fix minimize/maximize of views in Game
 (10/6) - add Sum view to Game

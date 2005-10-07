@@ -27,6 +27,7 @@ import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.model.FourierSeries;
+import edu.colorado.phet.fourier.model.RandomFourierSeries;
 import edu.colorado.phet.fourier.module.FourierModule;
 
 
@@ -47,18 +48,13 @@ public class GameControlPanel extends FourierControlPanel {
     private static final int MATH_MODE_LEFT_MARGIN = 10; // pixels
     private static final int SUBPANEL_SPACING = 10; // pixels
     
-    // Game levels
-    private static final int LEVEL_PRESET = 0;
-    private static final int LEVEL_EASY   = 1;
-    private static final int LEVEL_MEDIUM = 2;
-    private static final int LEVEL_HARD   = 3;
-    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     // Things to be controlled
-    private FourierSeries _fourierSeries;
+    private FourierSeries _userFourierSeries;
+    private RandomFourierSeries _randomFourierSeries;
     
     // UI components
     private FourierComboBox _levelComboBox;
@@ -81,12 +77,14 @@ public class GameControlPanel extends FourierControlPanel {
      * 
      * @param module
      */
-    public GameControlPanel( FourierModule module, FourierSeries fourierSeries ) {
+    public GameControlPanel( FourierModule module, FourierSeries userFourierSeries, RandomFourierSeries randomFourierSeries ) {
         super( module );
         
-        assert( fourierSeries != null );
+        assert( userFourierSeries != null );
+        assert( randomFourierSeries != null );
         
-        _fourierSeries = fourierSeries;
+        _userFourierSeries = userFourierSeries;
+        _randomFourierSeries = randomFourierSeries;
         
         // Set the control panel's minimum width.
         String widthString = SimStrings.get( "GameControlPanel.width" );
@@ -103,10 +101,10 @@ public class GameControlPanel extends FourierControlPanel {
 
                 // Choices
                 _levelChoices = new ArrayList();
-                _levelChoices.add( new FourierComboBox.Choice( LEVEL_PRESET, SimStrings.get( "GameControlPanel.level.preset" ) ) );
-                _levelChoices.add( new FourierComboBox.Choice( LEVEL_EASY, SimStrings.get( "GameControlPanel.level.easy" ) ) );
-                _levelChoices.add( new FourierComboBox.Choice( LEVEL_MEDIUM, SimStrings.get( "GameControlPanel.level.medium" ) ) );
-                _levelChoices.add( new FourierComboBox.Choice( LEVEL_HARD, SimStrings.get( "GameControlPanel.level.hard" ) ) );
+                _levelChoices.add( new FourierComboBox.Choice( FourierConstants.GAME_LEVEL_PRESET, SimStrings.get( "GameControlPanel.level.preset" ) ) );
+                _levelChoices.add( new FourierComboBox.Choice( FourierConstants.GAME_LEVEL_EASY, SimStrings.get( "GameControlPanel.level.easy" ) ) );
+                _levelChoices.add( new FourierComboBox.Choice( FourierConstants.GAME_LEVEL_MEDIUM, SimStrings.get( "GameControlPanel.level.medium" ) ) );
+                _levelChoices.add( new FourierComboBox.Choice( FourierConstants.GAME_LEVEL_HARD, SimStrings.get( "GameControlPanel.level.hard" ) ) );
 
                 // Presets combo box
                 _levelComboBox = new FourierComboBox( label, _levelChoices );
@@ -186,9 +184,16 @@ public class GameControlPanel extends FourierControlPanel {
     //----------------------------------------------------------------------------
 
     public void reset() {
-        _levelComboBox.setSelectedKey( LEVEL_PRESET );
+        _levelComboBox.setSelectedKey( FourierConstants.GAME_LEVEL_PRESET );
         _presetComboBox.setSelectedKey( FourierConstants.PRESET_SINE_COSINE );
-        _presetComboBox.setEnabled( _levelComboBox.getSelectedKey() == LEVEL_PRESET );
+        _presetComboBox.setEnabled( _levelComboBox.getSelectedKey() == FourierConstants.GAME_LEVEL_PRESET );
+        _randomFourierSeries.setGameLevel( _levelComboBox.getSelectedKey() );
+        if ( _levelComboBox.getSelectedKey() == FourierConstants.GAME_LEVEL_PRESET ) {
+            _randomFourierSeries.setPreset( _presetComboBox.getSelectedKey() );
+        }
+        else {
+            _randomFourierSeries.setPreset( FourierConstants.PRESET_CUSTOM );
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -232,18 +237,24 @@ public class GameControlPanel extends FourierControlPanel {
     //----------------------------------------------------------------------------
     
     private void handleLevel() {
-        System.out.println( "level = " + _levelComboBox.getSelectedItem() );//XXX
-        _presetComboBox.setEnabled( _levelComboBox.getSelectedKey() == LEVEL_PRESET );
+        int gameLevel = _levelComboBox.getSelectedKey();
+        System.out.println( "level = " + gameLevel );//XXX
+        _presetComboBox.setEnabled( gameLevel == FourierConstants.GAME_LEVEL_PRESET );
+        _randomFourierSeries.setGameLevel( gameLevel );
     }
     
     private void handlePreset() {
         System.out.println( "preset = " + _presetComboBox.getSelectedItem() );//XXX
+        int preset = _presetComboBox.getSelectedKey();
+        _randomFourierSeries.setPreset( preset );
     }
     
     private void handleNewGame() {
-        // Set all the harmonic amplitudes to zero.
-        for ( int i = 0; i < _fourierSeries.getNumberOfHarmonics(); i++ ) {
-            _fourierSeries.getHarmonic( i ).setAmplitude( 0 );
+        // Set all the user's harmonic amplitudes to zero.
+        for ( int i = 0; i < _userFourierSeries.getNumberOfHarmonics(); i++ ) {
+            _userFourierSeries.getHarmonic( i ).setAmplitude( 0 );
         }
+        // Generate a new random series
+        _randomFourierSeries.generate();
     }
 }
