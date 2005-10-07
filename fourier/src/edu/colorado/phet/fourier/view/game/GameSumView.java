@@ -15,10 +15,7 @@ import java.awt.*;
 
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
@@ -57,6 +54,11 @@ public class GameSumView extends GraphicLayerSet implements SimpleObserver {
     private static final Font TITLE_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
     private static final Point TITLE_LOCATION = new Point( 40, 135 );
+    
+    // Instruction parameters
+    private static final Font INSTRUCTIONS_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 22 );
+    private static final Color INSTRUCTIONS_COLOR = Color.MAGENTA;
+    private static final Point INSTRUCTIONS_LOCATION = new Point( 85, 10 );
     
     // Chart parameters
     private static final double L = FourierConstants.L; // do not change!
@@ -124,6 +126,14 @@ public class GameSumView extends GraphicLayerSet implements SimpleObserver {
         _titleGraphic.rotate( -( Math.PI / 2 ) );
         _titleGraphic.setLocation( TITLE_LOCATION );
         addGraphic( _titleGraphic, TITLE_LAYER );
+        
+        // Instructions
+        HTMLGraphic instructions = new HTMLGraphic( component );
+        instructions.setFont( INSTRUCTIONS_FONT );
+        instructions.setColor( INSTRUCTIONS_COLOR );
+        instructions.setHTML( SimStrings.get( "GameSumView.instructions" ) );
+        instructions.setLocation( INSTRUCTIONS_LOCATION );
+        addGraphic( instructions, TITLE_LAYER );
         
         // Chart
         {
