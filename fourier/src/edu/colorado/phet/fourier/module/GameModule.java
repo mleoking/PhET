@@ -146,7 +146,7 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
         setClockControlsEnabled( false );
         
         // Control Panel
-        _controlPanel = new GameControlPanel( this );
+        _controlPanel = new GameControlPanel( this, _fourierSeries );
         setControlPanel( _controlPanel );
         
         // Harmonic hightlighting
