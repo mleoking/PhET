@@ -327,12 +327,13 @@ public class DischargeLampModule extends BaseLaserModule {
         // Panel with general options
         {
             optionsPanel = new JPanel( new GridBagLayout() );
-            GridBagConstraints gbc = new GridBagConstraints( GridBagConstraints.RELATIVE, 0,
+            GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, //0,
                                                              1, 1, 1, 1,
                                                              GridBagConstraints.CENTER,
-                                                             GridBagConstraints.HORIZONTAL,
+                                                             GridBagConstraints.NONE,
                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
             optionsPanel.setBorder( new TitledBorder( SimStrings.get( "Controls.Options" ) ) );
+            JPanel cbPanel = new JPanel( new GridLayout( 2, 1 ) );
 
             // Add a button to show/hide the spectrometer
             final JCheckBox spectrometerCB = new JCheckBox( SimStrings.get( "ControlPanel.SpectrometerButtonLabel" ) );
@@ -343,7 +344,7 @@ public class DischargeLampModule extends BaseLaserModule {
                     model.getSpectrometer().start();
                 }
             } );
-            optionsPanel.add( spectrometerCB, gbc );
+            cbPanel.add( spectrometerCB );
             spectrometerGraphic.setVisible( spectrometerCB.isSelected() );
 
             squiggleCB = new JCheckBox( SimStrings.get( "Controls.Squiggles" ) );
@@ -352,7 +353,8 @@ public class DischargeLampModule extends BaseLaserModule {
                     energyLevelsMonitorPanel.setSquigglesEnabled( squiggleCB.isSelected() );
                 }
             } );
-            optionsPanel.add( squiggleCB, gbc );
+            cbPanel.add( squiggleCB );
+            optionsPanel.add( cbPanel, gbc );
             controlPanel.addFullWidth( optionsPanel );
         }
     }

@@ -27,7 +27,7 @@ import java.awt.event.ActionListener;
  */
 public class AtomTypeChooser extends JPanel {
     private GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-                                                             GridBagConstraints.NORTHWEST,
+                                                             GridBagConstraints.CENTER,
                                                              GridBagConstraints.NONE,
                                                              new Insets( 0, 10, 0, 10 ), 0, 0 );
 
@@ -35,10 +35,6 @@ public class AtomTypeChooser extends JPanel {
         super( new GridBagLayout() );
 
         setBorder( new TitledBorder( "Atom type " ) );
-//        JLabel label = new JLabel( SimStrings.get( "ControlPanel.AtomTypeButtonLabel" ) );
-//        gbc.anchor = GridBagConstraints.EAST;
-//        this.add( label, gbc );
-
         JComboBox comboBox = new JComboBox( elementProperties );
         comboBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -50,9 +46,6 @@ public class AtomTypeChooser extends JPanel {
         } );
         ElementProperties selection = (ElementProperties)comboBox.getSelectedItem();
         model.setElementProperties( selection );
-
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.gridx = 1;
         this.add( comboBox, gbc );
     }
 }
