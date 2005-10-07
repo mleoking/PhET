@@ -13,7 +13,11 @@ package edu.colorado.phet.photoelectric.model;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.dischargelamps.model.*;
+import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
+import edu.colorado.phet.dischargelamps.model.ElectronSource;
+import edu.colorado.phet.dischargelamps.model.Plate;
+import edu.colorado.phet.lasers.model.Electron;
+import edu.colorado.phet.lasers.model.atom.ElementProperties;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.geom.Line2D;

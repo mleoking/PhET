@@ -15,6 +15,7 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.*;
+import edu.colorado.phet.lasers.model.Electron;
 import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.lasers.model.photon.*;
 import edu.colorado.phet.photoelectric.model.util.BeamIntensityMeter;
@@ -79,7 +80,7 @@ public class PhotoelectricModel extends DischargeLampModel {
     private double defaultBeamWavelength = 400;
     private double beamWidth = 80;
     private double beamHeight = 100;
-    private double beamSourceToTargetDist = 300;
+    private double beamSourceToTargetDist = 280;
     private double beamAngle = Math.toRadians( 130 );
     private double beamFanout = Math.toRadians( 5 );
     private Ammeter ammeter;
@@ -101,12 +102,11 @@ public class PhotoelectricModel extends DischargeLampModel {
         getBattery().setMaxVoltage( MAX_VOLTAGE );
         getBattery().setMinVoltage( MIN_VOLTAGE );
 
-        // todo: this isn't correct. The rotated beam doesn't look right. Try an angle of 170 deg. to see.
         // Create a photon beam and add a listener that will add the photons it produces to the model
-        double alpha = beamAngle - Math.PI;
-        Point2D beamLocation = new Point2D.Double( DischargeLampsConfig.CATHODE_LOCATION.getX() + Math.cos( alpha ) * beamSourceToTargetDist
-                                                   + beamHeight / 2 * Math.sin( alpha ),
-                                                   ( DischargeLampsConfig.CATHODE_LOCATION.getY() - beamHeight / 2 ) + Math.sin( alpha ) * beamSourceToTargetDist
+        double alpha = beamAngle;
+        Point2D beamLocation = new Point2D.Double( DischargeLampsConfig.CATHODE_LOCATION.getX() - Math.cos( alpha ) * beamSourceToTargetDist
+                                                   - beamHeight / 2 * Math.sin( alpha ),
+                                                   DischargeLampsConfig.CATHODE_LOCATION.getY() - Math.sin( alpha ) * beamSourceToTargetDist
                                                    + beamHeight / 2 * Math.cos( alpha ) );
         beam = new CollimatedBeam( defaultBeamWavelength,
                                    beamLocation,
@@ -253,35 +253,6 @@ public class PhotoelectricModel extends DischargeLampModel {
      */
     public double getCurrent() {
         return getCurrentForVoltage( getVoltage() );
-//        double current = 0;
-//        double electronsPerSecondFromTarget = 0;
-//        double electronsPerSecondToAnode = 0;
-//        if( target.getMaterial().getEnergyAbsorptionStrategy() instanceof MetalEnergyAbsorptionStrategy ) {
-//            // The fraction of collisions that will kick off an electron is equal to the amount of energy each
-//            // photon has that is greater than the work function, divided by the absorption strategy's
-//            // total energy depth, with a ceiling of 1.
-//            double photonEnergyBeyondWorkFunction = PhysicsUtil.wavelengthToEnergy( beam.getWavelength() ) - target.getMaterial().getWorkFunction();
-//            double electronRateAsFractionOfPhotonRate = Math.min( photonEnergyBeyondWorkFunction / MetalEnergyAbsorptionStrategy.TOTAL_ENERGY_DEPTH,
-//                                                                  1 );
-//            electronsPerSecondFromTarget = electronRateAsFractionOfPhotonRate * beam.getPhotonsPerSecond();
-//            double retardingVoltage = getVoltage() < 0 ? -getVoltage() : 0;
-//            double fractionOfPhotonsMoreEnergeticThanRetardingVoltage = Math.max( 0,
-//                                                                                  Math.min( ( photonEnergyBeyondWorkFunction - retardingVoltage )
-//                                                                                            / MetalEnergyAbsorptionStrategy.TOTAL_ENERGY_DEPTH, 1 ) );
-//            electronsPerSecondToAnode = electronsPerSecondFromTarget * fractionOfPhotonsMoreEnergeticThanRetardingVoltage;
-////            double p = fractionOfPhotonsMoreEnergeticThanRetardingVoltage * electronRateAsFractionOfPhotonRate;
-//        }
-//        else {
-//            // If the stopping voltage is less than the voltage across the plates, we get a current
-//            // equal to the number of photons per second. (We assume there is one electron for every photon).
-//            // Otherwise, there is no current
-//            electronsPerSecondFromTarget = beam.getPhotonsPerSecond();
-//            electronsPerSecondToAnode = electronsPerSecondFromTarget;
-//            double retardingVoltage = getVoltage() < 0 ? getVoltage() : 0;
-//            electronsPerSecondToAnode = getStoppingVoltage() < retardingVoltage ? electronsPerSecondFromTarget : 0;
-//        }
-//        current = electronsPerSecondToAnode * CURRENT_JIMMY_FACTOR;
-//        return current;
     }
 
     public double getCurrentForVoltage( double voltage ) {

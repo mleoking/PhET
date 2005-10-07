@@ -11,9 +11,9 @@
 package edu.colorado.phet.photoelectric.model;
 
 import edu.colorado.phet.dischargelamps.model.DefaultEnergyEmissionStrategy;
-import edu.colorado.phet.dischargelamps.model.ElementProperties;
-import edu.colorado.phet.dischargelamps.model.EnergyAbsorptionStrategy;
-import edu.colorado.phet.dischargelamps.model.EnergyEmissionStrategy;
+import edu.colorado.phet.lasers.model.atom.ElementProperties;
+import edu.colorado.phet.lasers.model.atom.EnergyAbsorptionStrategy;
+import edu.colorado.phet.lasers.model.atom.EnergyEmissionStrategy;
 
 /**
  * Zinc

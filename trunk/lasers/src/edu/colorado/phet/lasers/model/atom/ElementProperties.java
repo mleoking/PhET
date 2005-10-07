@@ -28,6 +28,13 @@ public class ElementProperties {
     private double meanStateLifetime;
     private double workFunction;
 
+
+    protected ElementProperties( String name, double[] energyLevels,
+                                 EnergyEmissionStrategy energyEmissionStrategy,
+                                 EnergyAbsorptionStrategy energyAbsorptionStrategy ) {
+        this( name, energyLevels, energyEmissionStrategy, energyAbsorptionStrategy, 0 );
+    }
+
     protected ElementProperties( String name, double[] energyLevels,
                                  EnergyEmissionStrategy energyEmissionStrategy,
                                  EnergyAbsorptionStrategy energyAbsorptionStrategy,
