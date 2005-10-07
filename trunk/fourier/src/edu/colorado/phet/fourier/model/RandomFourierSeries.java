@@ -25,7 +25,7 @@ import edu.colorado.phet.fourier.FourierConstants;
  */
 public class RandomFourierSeries extends FourierSeries {
 
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG_PRINT_AMPLITUDES = false;
     
     private Random _random;
     private int _gameLevel;
@@ -47,79 +47,21 @@ public class RandomFourierSeries extends FourierSeries {
     
     public void generate() {
         
-        if ( _gameLevel == FourierConstants.GAME_LEVEL_PRESET ) {
-            if ( getPreset() == FourierConstants.PRESET_SINE_COSINE ) {
-                // Random values for 1 harmonic, all others zero
-                int count = 0;
-                for ( int i = 0; i < getNumberOfHarmonics(); i++ ) {
-                    boolean isZero = _random.nextBoolean();
-                    if ( isZero || count == 1 ) {
-                        getHarmonic( i ).setAmplitude( 0 );
-                    }
-                    else {
-                        double amplitude = generateRandomAmplitude();
-                        if ( amplitude == 0 ) {
-                            amplitude = 1.0;
-                        }
-                        else if ( amplitude < 0 ) {
-                            amplitude = -amplitude;
-                        }
-                        getHarmonic( i ).setAmplitude( amplitude );
-                        count++;
-                    }
-                }
-            }
-            else {
-                // Scale the amplitudes of the preset harmonics
-                double percent = _random.nextDouble();
-                for ( int i = 0; i < getNumberOfHarmonics(); i++ ) {
-                    Harmonic harmonic = getHarmonic( i );
-                    double amplitude = harmonic.getAmplitude() * percent;
-                    harmonic.setAmplitude( amplitude );
-                }
-            }
-            setPreset( FourierConstants.PRESET_CUSTOM );
-        }
-        else if ( _gameLevel == FourierConstants.GAME_LEVEL_EASY ) {
-            // Random values for 2 harmonics, all others zero
-            int count = 0;
-            for ( int i = 0; i < getNumberOfHarmonics(); i++ ) {
-                boolean isZero = _random.nextBoolean();
-                if ( isZero || count == 2 ) {
-                    getHarmonic( i ).setAmplitude( 0 );
-                }
-                else {
-                    double amplitude = generateRandomAmplitude();
-                    getHarmonic( i ).setAmplitude( amplitude );
-                    count++;
-                }
-            }
+        if ( _gameLevel == FourierConstants.GAME_LEVEL_EASY ) {
+            generateEasy();
         }
         else if ( _gameLevel == FourierConstants.GAME_LEVEL_MEDIUM ) {
-            // Random values for 4 harmonics, all others zero
-            int count = 0;
-            for ( int i = 0; i < getNumberOfHarmonics(); i++ ) {
-                boolean isZero = _random.nextBoolean();
-                if ( isZero || count == 4 ) {
-                    getHarmonic( i ).setAmplitude( 0 );
-                }
-                else {
-                    double amplitude = generateRandomAmplitude();
-                    getHarmonic( i ).setAmplitude( amplitude );
-                    count++;
-                }
-            }
+            generateMedium();
         }
         else if ( _gameLevel == FourierConstants.GAME_LEVEL_HARD ) {
-            // Random values for all harmonics
-            for ( int i = 0; i < getNumberOfHarmonics(); i++ ) {
-                double amplitude = generateRandomAmplitude();
-                getHarmonic( i ).setAmplitude( amplitude );
-            } 
+            generateHard();
+        }
+        else if ( _gameLevel == FourierConstants.GAME_LEVEL_PRESET ) {
+            generatePreset();
         }
        
         // Print the amplitudes
-        if ( DEBUG ) {
+        if ( DEBUG_PRINT_AMPLITUDES ) {
             System.out.print( "random: " );
             for ( int i = 0; i < getNumberOfHarmonics(); i++ ) {
                 System.out.print( getHarmonic( i ).getAmplitude() + " " );
@@ -136,9 +78,107 @@ public class RandomFourierSeries extends FourierSeries {
      */
     private double generateRandomAmplitude() {
         int sign = _random.nextBoolean() ? +1 : -1;
-        double percent = _random.nextDouble();
-        double amplitude = sign * percent * FourierConfig.MAX_HARMONIC_AMPLITUDE;
-        int multiplier = (int) ( amplitude / 0.01 );
-        return multiplier * 0.01;
+//        double percent = _random.nextDouble();
+//        double amplitude = sign * percent * FourierConfig.MAX_HARMONIC_AMPLITUDE;
+//        int multiplier = (int) ( amplitude / 0.01 );
+//        return multiplier * 0.01;
+        double step = 0.01;
+        int numberOfSteps = (int) ( FourierConfig.MAX_HARMONIC_AMPLITUDE / step ) + 1;
+        int multiplier = _random.nextInt( numberOfSteps );
+        double amplitude = sign * multiplier * step;
+        assert( amplitude <= FourierConfig.MAX_HARMONIC_AMPLITUDE );
+        return amplitude;
+    }
+    
+    /*
+     * Random values for 2 harmonics, all others zero
+     */
+    private void generateEasy() {
+
+        int i1 = _random.nextInt( getNumberOfHarmonics() );
+        int i2 = _random.nextInt( getNumberOfHarmonics() );
+        
+        for ( int i = 0; i < getNumberOfHarmonics(); i++ ) {
+            
+            if ( i == i1 || i == i2 ) {
+                double amplitude = generateRandomAmplitude();
+                getHarmonic( i ).setAmplitude( amplitude );
+            }
+            else {
+                getHarmonic( i ).setAmplitude( 0 );
+            }
+        }
+    }
+    
+    /*
+     *  Random values for 4 harmonics, all others zero
+     */
+    private void generateMedium() {
+        
+        int i1 = _random.nextInt( getNumberOfHarmonics() );
+        int i2 = _random.nextInt( getNumberOfHarmonics() );
+        int i3 = _random.nextInt( getNumberOfHarmonics() );
+        int i4 = _random.nextInt( getNumberOfHarmonics() );
+        
+        for ( int i = 0; i < getNumberOfHarmonics(); i++ ) {
+            
+            if ( i == i1 || i == i2 || i == i3 || i == i4 ) {
+                double amplitude = generateRandomAmplitude();
+                getHarmonic( i ).setAmplitude( amplitude );
+            }
+            else {
+                getHarmonic( i ).setAmplitude( 0 );
+            }
+        }
+    }
+    
+    /*
+     * Random values for all harmonics
+     */
+    private void generateHard() {
+        for ( int i = 0; i < getNumberOfHarmonics(); i++ ) {
+            double amplitude = generateRandomAmplitude();
+            getHarmonic( i ).setAmplitude( amplitude );
+        } 
+    }
+    
+    /*
+     * Randomize a preset waveform.
+     */
+    private void generatePreset() {
+        
+        if ( getPreset() == FourierConstants.PRESET_SINE_COSINE ) {
+            // For sine preset, set a random value for one of the harmonics, all others zero.
+            int count = 0;
+            for ( int i = 0; i < getNumberOfHarmonics(); i++ ) {
+                boolean isZero = _random.nextBoolean();
+                if ( isZero || count == 1 ) {
+                    getHarmonic( i ).setAmplitude( 0 );
+                }
+                else {
+                    double amplitude = generateRandomAmplitude();
+                    if ( amplitude == 0 ) {
+                        amplitude = 1.0;
+                    }
+                    else if ( amplitude < 0 ) {
+                        amplitude = -amplitude;
+                    }
+                    getHarmonic( i ).setAmplitude( amplitude );
+                    count++;
+                }
+            }
+        }
+        else {
+            // For all other presets, scale the amplitudes of the preset harmonics
+            double percent = _random.nextDouble();
+            for ( int i = 0; i < getNumberOfHarmonics(); i++ ) {
+                Harmonic harmonic = getHarmonic( i );
+                double amplitude = harmonic.getAmplitude() * percent;
+                harmonic.setAmplitude( amplitude );
+            }
+        }
+        
+        // After we're done randomizing, the preset is now "custom".
+        setPreset( FourierConstants.PRESET_CUSTOM );
     }
 }
