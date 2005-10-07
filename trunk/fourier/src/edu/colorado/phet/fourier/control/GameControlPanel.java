@@ -108,10 +108,10 @@ public class GameControlPanel extends FourierControlPanel {
 
                 // Choices
                 _levelChoices = new ArrayList();
-                _levelChoices.add( new FourierComboBox.Choice( FourierConstants.GAME_LEVEL_PRESET, SimStrings.get( "GameControlPanel.level.preset" ) ) );
                 _levelChoices.add( new FourierComboBox.Choice( FourierConstants.GAME_LEVEL_EASY, SimStrings.get( "GameControlPanel.level.easy" ) ) );
                 _levelChoices.add( new FourierComboBox.Choice( FourierConstants.GAME_LEVEL_MEDIUM, SimStrings.get( "GameControlPanel.level.medium" ) ) );
                 _levelChoices.add( new FourierComboBox.Choice( FourierConstants.GAME_LEVEL_HARD, SimStrings.get( "GameControlPanel.level.hard" ) ) );
+                _levelChoices.add( new FourierComboBox.Choice( FourierConstants.GAME_LEVEL_PRESET, SimStrings.get( "GameControlPanel.level.preset" ) ) );
 
                 // Presets combo box
                 _levelComboBox = new FourierComboBox( label, _levelChoices );
@@ -158,7 +158,7 @@ public class GameControlPanel extends FourierControlPanel {
             int column = 1;
             layout.addComponent( _levelComboBox, row++, column );
             layout.addComponent( _presetComboBox, row++, column );
-            layout.addComponent( closenessPanel, row++, column );
+//            layout.addComponent( closenessPanel, row++, column );
             layout.addComponent( _newGameButton, row++, column );
             gameControlsPanel.setLayout( new BorderLayout() );
             gameControlsPanel.add( innerPanel, BorderLayout.WEST );
@@ -217,7 +217,7 @@ public class GameControlPanel extends FourierControlPanel {
     //----------------------------------------------------------------------------
 
     public void reset() {
-        _levelComboBox.setSelectedKey( FourierConstants.GAME_LEVEL_PRESET );
+        _levelComboBox.setSelectedKey( FourierConstants.GAME_LEVEL_EASY );
         _presetComboBox.setSelectedKey( FourierConstants.PRESET_SINE_COSINE );
         _presetComboBox.setEnabled( _levelComboBox.getSelectedKey() == FourierConstants.GAME_LEVEL_PRESET );
         _randomFourierSeries.setGameLevel( _levelComboBox.getSelectedKey() );
