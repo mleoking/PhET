@@ -296,6 +296,7 @@ public class GameControlPanel extends FourierControlPanel {
     }
     
     private void handleNewGame() {
+        setWaitCursorEnabled( true );
         // Set all the user's harmonic amplitudes to zero.
         for ( int i = 0; i < _userFourierSeries.getNumberOfHarmonics(); i++ ) {
             _userFourierSeries.getHarmonic( i ).setAmplitude( 0 );
@@ -303,6 +304,7 @@ public class GameControlPanel extends FourierControlPanel {
         // Generate a new random series
         _randomFourierSeries.generate();
         updateCheatPanel();
+        setWaitCursorEnabled( false );
     }
     
     private void handleCheat() {
