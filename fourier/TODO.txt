@@ -5,8 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- wait cursors on Game controls
-- "Match Game" panel
 - "Optical Pulse Shaper" as a separate simulation
 - get fundamental sound frequency from Fourier series
 
@@ -64,6 +62,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(10/6) - wait cursors on Game controls
 (10/6) - add "cheat" panel to Game controls
 (10/6) - randomly generate waveforms for game levels
 (10/6) - add random Fourier series to Game's Sum graph
