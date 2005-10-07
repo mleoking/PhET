@@ -300,8 +300,10 @@ public class DischargeLampModule extends BaseLaserModule {
         {
             JComponent atomTypeComboBox = new AtomTypeChooser( model, elementProperties );
             controlPanel.addControlFullWidth( atomTypeComboBox );
+        }
 
-            // A slider for the battery current
+        // A slider for the battery current
+        {
             electronProductionControlPanel = new JPanel();
             electronProductionControlPanel.setBorder( new TitledBorder( SimStrings.get( "Controls.ElectronProduction" ) ) );
             controlPanel.addControlFullWidth( electronProductionControlPanel );

@@ -56,7 +56,6 @@ public class CollidableAdapter implements Collidable {
 
     /**
      * @param dt
-     * @deprecated
      */
     public void stepInTime( double dt ) {
         positionPrev.setLocation( particle.getPosition() );

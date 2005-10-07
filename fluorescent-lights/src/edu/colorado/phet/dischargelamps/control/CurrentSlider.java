@@ -13,7 +13,6 @@ package edu.colorado.phet.dischargelamps.control;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.util.SimStrings;
 
-import java.awt.*;
 import java.text.DecimalFormat;
 
 /**
@@ -36,7 +35,7 @@ public class CurrentSlider extends ModelSlider {
         setMajorTickSpacing( 25 );
         setNumMinorTicksPerMajorTick( 1 );
         setPaintLabels( true );
-        setPreferredSize( new Dimension( 210, 80 ) );
+        setPreferredSliderWidth( 150 );
     }
 
     public void setMaxCurrent( double maxCurrent ) {
