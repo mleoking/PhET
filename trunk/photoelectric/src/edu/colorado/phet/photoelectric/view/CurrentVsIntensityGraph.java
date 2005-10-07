@@ -11,17 +11,10 @@
 package edu.colorado.phet.photoelectric.view;
 
 import edu.colorado.phet.chart.*;
-import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
-import edu.colorado.phet.lasers.model.photon.PhotonSource;
-import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
+import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 
 import java.awt.*;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
 
 /**
  * CurrentVsVoltageGraph
@@ -41,10 +34,11 @@ public class CurrentVsIntensityGraph extends Chart {
     // Class data
     //-----------------------------------------------------------------
     static private Range2D range = new Range2D( 0, 0,
-                                                PhotoelectricModel.MAX_PHOTONS_PER_SECOND ,
-                                                PhotoelectricModel.MAX_CURRENT);
+                                                PhotoelectricModel.MAX_PHOTONS_PER_SECOND,
+                                                PhotoelectricModel.MAX_CURRENT );
     static private Dimension chartSize = new Dimension( 200, 150 );
-    static private Font titleFont = new Font( "Lucide Sans", Font.PLAIN, 12 );
+    static private Font titleFont = new Font( "Lucida Sans", Font.PLAIN, 12 );
+    static private double PLOT_LAYER = 1E9;
 
     //-----------------------------------------------------------------
     // Instance data
@@ -58,22 +52,22 @@ public class CurrentVsIntensityGraph extends Chart {
     //-----------------------------------------------------------------
 
     public CurrentVsIntensityGraph( Component component, final PhotoelectricModel model ) {
-        super( component, range, chartSize, 50, 100, 1, 1  );
+        super( component, range, chartSize, 50, 100, 1, 1 );
 
         GridLineSet horizontalGls = this.getHorizonalGridlines();
-        horizontalGls.setMajorGridlinesColor( new Color( 200, 200, 200 ));
+        horizontalGls.setMajorGridlinesColor( new Color( 200, 200, 200 ) );
 
         GridLineSet verticalGls = this.getVerticalGridlines();
-        verticalGls.setMajorGridlinesColor( new Color( 200, 200, 200 ));
+        verticalGls.setMajorGridlinesColor( new Color( 200, 200, 200 ) );
 
         Color color = new Color( 0, 180, 0 );
         Color lineColor = new Color( color.getRed(), color.getGreen(), color.getBlue(), 80 );
         LinePlot lines = new LinePlot( getComponent(), this, lineDataSet, new BasicStroke( 3f ), lineColor );
         lines.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-        this.addDataSetGraphic( lines );
+        this.addDataSetGraphic( lines, PLOT_LAYER );
 
         ScatterPlot points = new ScatterPlot( getComponent(), this, dotDataSet, color, PhotoelectricConfig.GRAPH_DOT_RADIUS );
-        this.addDataSetGraphic( points );
+        this.addDataSetGraphic( points, PLOT_LAYER + 1 );
 
         model.addChangeListener( new PhotoelectricModel.ChangeListenerAdapter() {
             public void currentChanged( PhotoelectricModel.ChangeEvent event ) {
@@ -97,7 +91,7 @@ public class CurrentVsIntensityGraph extends Chart {
             public void beamIntensityChanged( PhotoelectricModel.ChangeEvent event ) {
                 addDataPoint( model.getBeam().getPhotonsPerSecond(), model.getCurrent() );
             }
-        });
+        } );
     }
 
     /**

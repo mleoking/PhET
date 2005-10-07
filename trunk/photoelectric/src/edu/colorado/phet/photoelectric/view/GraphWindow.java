@@ -10,13 +10,10 @@
  */
 package edu.colorado.phet.photoelectric.view;
 
-import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.view.util.GraphicsState;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.view.ApparatusPanel2;
+import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
-import edu.colorado.phet.chart.Chart;
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,6 +54,7 @@ public class GraphWindow extends JDialog {
 
         setUndecorated( true );
         getRootPane().setWindowDecorationStyle( JRootPane.PLAIN_DIALOG );
+        setResizable( false );
 
         this.clock = clock;
         this.model = model;
@@ -69,7 +67,7 @@ public class GraphWindow extends JDialog {
         getContentPane().add( createEnergyVsFrequencyPanel(), gbc );
         gbc.gridwidth = 2;
         gbc.insets = new Insets( 15, 0, 5, 0 );
-        getContentPane().add( new JLabel( "*AU = arbitrary units"), gbc );
+        getContentPane().add( new JLabel( "*AU = arbitrary units" ), gbc );
         pack();
     }
 
@@ -131,7 +129,6 @@ public class GraphWindow extends JDialog {
     }
 
     /**
-     *
      * @param graphPanel
      * @param xAxisLabel
      * @param yAxisLabel
