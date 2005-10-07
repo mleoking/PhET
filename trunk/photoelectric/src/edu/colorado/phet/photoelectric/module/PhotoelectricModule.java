@@ -210,59 +210,61 @@ public class PhotoelectricModule extends BaseLaserModule {
         //----------------------------------------------------------------
 
         // Add options menu item that will show current
-        JMenu optionsMenu = application.getOptionsMenu();
-        final JCheckBoxMenuItem currentDisplayMI = new JCheckBoxMenuItem( "Show meters" );
-        optionsMenu.add( currentDisplayMI );
+        if( DEBUG ) {
+            JMenu optionsMenu = application.getOptionsMenu();
+            final JCheckBoxMenuItem currentDisplayMI = new JCheckBoxMenuItem( "Show meters" );
+            optionsMenu.add( currentDisplayMI );
 
-        final JDialog meterDlg = new JDialog( PhetApplication.instance().getPhetFrame(), false );
+            final JDialog meterDlg = new JDialog( PhetApplication.instance().getPhetFrame(), false );
 
-        final AmmeterView ammeterView = new AmmeterView( getPhotoelectricModel().getAmmeter() );
-        final IntensityView intensityView = new IntensityView( getPhotoelectricModel().getBeamIntensityMeter() );
-        JPanel meterPanel = new JPanel( new GridLayout( 2, 1 ) );
-        meterDlg.setContentPane( meterPanel );
-        meterPanel.add( ammeterView );
-        meterPanel.add( intensityView );
-        meterDlg.pack();
-        currentDisplayMI.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                meterDlg.setVisible( currentDisplayMI.isSelected() );
-            }
-        } );
-
-        // Slap an ammeter on the circuit, near the anode
-        AmmeterViewGraphic avg = new AmmeterViewGraphic( getApparatusPanel(),
-                                                         getPhotoelectricModel().getAmmeter(),
-                                                         getPhotoelectricModel() );
-        avg.setLocation( DischargeLampsConfig.ANODE_LOCATION.x - 100, DischargeLampsConfig.ANODE_LOCATION.y + 188 );
-        getApparatusPanel().addGraphic( avg, PhotoelectricConfig.CIRCUIT_LAYER + 1 );
-
-
-
-        // Add an option to randomize the electron velocities
-        final JRadioButtonMenuItem uniformSpeedOption = new JRadioButtonMenuItem( "Uniform electron speeds" );
-        optionsMenu.addSeparator();
-        optionsMenu.add( uniformSpeedOption );
-        uniformSpeedOption.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                if( uniformSpeedOption.isSelected() ) {
-                    getPhotoelectricModel().getTarget().setUniformInitialElectronSpeedStrategy();
+            final AmmeterView ammeterView = new AmmeterView( getPhotoelectricModel().getAmmeter() );
+            final IntensityView intensityView = new IntensityView( getPhotoelectricModel().getBeamIntensityMeter() );
+            JPanel meterPanel = new JPanel( new GridLayout( 2, 1 ) );
+            meterDlg.setContentPane( meterPanel );
+            meterPanel.add( ammeterView );
+            meterPanel.add( intensityView );
+            meterDlg.pack();
+            currentDisplayMI.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    meterDlg.setVisible( currentDisplayMI.isSelected() );
                 }
-            }
-        } );
-        final JRadioButtonMenuItem randomizedSpeedOption = new JRadioButtonMenuItem( "Randomized electron speeds" );
-        optionsMenu.add( randomizedSpeedOption );
-        randomizedSpeedOption.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                if( randomizedSpeedOption.isSelected() ) {
-                    getPhotoelectricModel().getTarget().setRandomizedInitialElectronSpeedStrategy();
+            } );
+
+            // Slap an ammeter on the circuit, near the anode
+            AmmeterViewGraphic avg = new AmmeterViewGraphic( getApparatusPanel(),
+                                                             getPhotoelectricModel().getAmmeter(),
+                                                             getPhotoelectricModel() );
+            avg.setLocation( DischargeLampsConfig.ANODE_LOCATION.x - 100, DischargeLampsConfig.ANODE_LOCATION.y + 188 );
+            getApparatusPanel().addGraphic( avg, PhotoelectricConfig.CIRCUIT_LAYER + 1 );
+
+
+
+            // Add an option to randomize the electron velocities
+            final JRadioButtonMenuItem uniformSpeedOption = new JRadioButtonMenuItem( "Uniform electron speeds" );
+            optionsMenu.addSeparator();
+            optionsMenu.add( uniformSpeedOption );
+            uniformSpeedOption.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    if( uniformSpeedOption.isSelected() ) {
+                        getPhotoelectricModel().getTarget().setUniformInitialElectronSpeedStrategy();
+                    }
                 }
-            }
-        } );
-        optionsMenu.addSeparator();
-        ButtonGroup speedOptionBtnGrp = new ButtonGroup();
-        speedOptionBtnGrp.add( uniformSpeedOption );
-        speedOptionBtnGrp.add( randomizedSpeedOption );
-        uniformSpeedOption.setSelected( true );
+            } );
+            final JRadioButtonMenuItem randomizedSpeedOption = new JRadioButtonMenuItem( "Randomized electron speeds" );
+            optionsMenu.add( randomizedSpeedOption );
+            randomizedSpeedOption.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    if( randomizedSpeedOption.isSelected() ) {
+                        getPhotoelectricModel().getTarget().setRandomizedInitialElectronSpeedStrategy();
+                    }
+                }
+            } );
+            optionsMenu.addSeparator();
+            ButtonGroup speedOptionBtnGrp = new ButtonGroup();
+            speedOptionBtnGrp.add( uniformSpeedOption );
+            speedOptionBtnGrp.add( randomizedSpeedOption );
+            uniformSpeedOption.setSelected( true );
+        }
 
         //----------------------------------------------------------------
         // Debug code
@@ -518,6 +520,9 @@ public class PhotoelectricModule extends BaseLaserModule {
         externalGraphicsScale = p1.distance( p2 ) / externalGraphicDist;
     }
 
+    public boolean hasHelp() {
+        return false;
+    }
     //----------------------------------------------------------------
     // State/mode setters and getters
     //----------------------------------------------------------------

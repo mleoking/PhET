@@ -37,7 +37,7 @@ public class PhotoelectricApplication extends PhetApplication {
     static private String resourceBundleName = "localization/PhotoelectricStrings";
     static private String title = "The Photoelectric Effect";
     static private String description = "An exploration of the photoelectric effect";
-    static private String version = "1.1";
+    static private String version = "1.01";
     static private FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 680 );
 
     // Clock specification

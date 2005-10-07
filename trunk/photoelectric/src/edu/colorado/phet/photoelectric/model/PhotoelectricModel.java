@@ -42,6 +42,8 @@ public class PhotoelectricModel extends DischargeLampModel {
     //----------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------
+    public static final int ELECTRON_MODEL_SIMPLE = 1;
+    public static final int ELECTRON_MODEL_REALISTIC = 2;
 
     // Factor to make the analytically reported current different than the photons-per-sec
     // that come from the beam
@@ -309,6 +311,17 @@ public class PhotoelectricModel extends DischargeLampModel {
     protected void setElectronAcceleration( double potentialDiff ) {
         super.setElectronAcceleration( potentialDiff * 0.2865,
                                        target.getPosition().distance( rightHandPlate.getPosition() ) );
+    }
+
+    public void setElectronModel( int electronModelType ) {
+        switch( electronModelType ) {
+            case ELECTRON_MODEL_SIMPLE:
+                break;
+            case ELECTRON_MODEL_REALISTIC:
+                break;
+            default:
+                throw new RuntimeException( "invalid parameter" );
+        }
     }
 
     //----------------------------------------------------------------

@@ -131,4 +131,8 @@ public class ElementProperties {
             states[i].setMeanLifetime( meanStateLifetime );
         }
     }
+
+    public void setEnergyAbsorptionStrategy( EnergyAbsorptionStrategy energyAbsorptionStrategy ) {
+        this.energyAbsorptionStrategy = energyAbsorptionStrategy;         
+    }
 }
