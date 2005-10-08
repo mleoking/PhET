@@ -13,6 +13,7 @@ package edu.colorado.phet.idealgas.controller;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.Pump;
+import edu.colorado.phet.idealgas.model.GasMolecule;
 
 /**
  * PumpControlPanel
@@ -76,5 +77,9 @@ public class PChemParticleControlPanel extends SpeciesSelectionPanel implements 
             int cnt = ( (Integer)getHeavySpinner().getValue() ).intValue();
             getHeavySpinner().setValue( new Integer( cnt + event.getNumMolecules() ) );
         }
+    }
+
+    public void moleculeAdded( GasMolecule molecule ) {
+        // noop
     }
 }

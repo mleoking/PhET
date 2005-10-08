@@ -89,7 +89,11 @@ public class Pump extends SimpleObservable implements GasSource {
      */
     public void pump( int numMolecules, Class species ) {
         for( int i = 0; i < numMolecules; i++ ) {
-            this.pumpGasMolecule( species );
+            GasMolecule molecule = this.pumpGasMolecule( species );
+            for( int j = 0; j < listeners.size(); j++ ) {
+                Listener listener = (Listener)listeners.get( j );
+                listener.moleculeAdded( molecule );
+            }
         }
         MoleculeEvent event = new MoleculeEvent( this, species, numMolecules );
         for( int i = 0; i < listeners.size(); i++ ) {
@@ -111,6 +115,10 @@ public class Pump extends SimpleObservable implements GasSource {
         for( int i = 0; i < numMolecules; i++ ) {
             GasMolecule molecule = this.pumpGasMolecule( species );
             molecule.setPosition( location );
+            for( int j = 0; j < listeners.size(); j++ ) {
+                Listener listener = (Listener)listeners.get( j );
+                listener.moleculeAdded( molecule );
+            }
         }
         MoleculeEvent event = new MoleculeEvent( this, species, numMolecules );
         for( int i = 0; i < listeners.size(); i++ ) {
@@ -241,6 +249,8 @@ public class Pump extends SimpleObservable implements GasSource {
 
     public interface Listener extends EventListener {
         void moleculesAdded( MoleculeEvent event );
+
+        void moleculeAdded( GasMolecule molecule );
     }
 
     public class MoleculeEvent extends EventObject {
