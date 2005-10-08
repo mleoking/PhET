@@ -16,7 +16,7 @@ import javax.swing.*;
 
 /**
  * PumpControlPanel
- * <p>
+ * <p/>
  * A JPanel with spinners that make gas molecules come into the box from the pump.
  *
  * @author Ron LeMaster
@@ -76,7 +76,8 @@ public class PumpControlPanel extends SpeciesSelectionPanel implements Pump.List
     private class MoleculeRemover implements GasMolecule.Observer {
         GasMolecule molecule;
         boolean isInBox = true;
-        private JSpinner spinner;
+        boolean init;
+        JSpinner spinner;
 
         MoleculeRemover( GasMolecule molecule ) {
             this.molecule = molecule;
@@ -87,25 +88,26 @@ public class PumpControlPanel extends SpeciesSelectionPanel implements Pump.List
                 this.spinner = getLightSpinner();
             }
         }
+
         public void removedFromSystem() {
             // noop
         }
 
         public void update() {
-            if( box.isOutsideBox( molecule ) && isInBox ) {
-                isInBox = false;
-                int oldCnt = ((Integer)spinner.getValue()).intValue();
-                spinner.setEnabled( false );
-                spinner.setValue( new Integer( --oldCnt) );
-                spinner.setEnabled( true );
-            }
-            if( !box.isOutsideBox( molecule ) && !isInBox ) {
-                isInBox = true;
-                int oldCnt = ((Integer)spinner.getValue()).intValue();
-                spinner.setEnabled( false );
-                spinner.setValue( new Integer( ++oldCnt) );
-                spinner.setEnabled( true );
-            }
+            SwingUtilities.invokeLater(  new Runnable() {
+                public void run() {
+                    if( box.isOutsideBox( molecule ) && isInBox ) {
+                        isInBox = false;
+                        int oldCnt = ( (Integer)spinner.getValue() ).intValue();
+                        spinner.setValue( new Integer( --oldCnt ) );
+                    }
+                    if( !box.isOutsideBox( molecule ) && !isInBox ) {
+                        isInBox = true;
+                        int oldCnt = ( (Integer)spinner.getValue() ).intValue();
+                        spinner.setValue( new Integer( ++oldCnt ) );
+                    }
+                }
+            } );
         }
     }
 }
