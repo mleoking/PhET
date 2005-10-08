@@ -120,6 +120,8 @@ public class Box2D extends CollidableBody {
         this.opening[0] = opening[0];
         this.opening[1] = opening[1];
         notifyObservers();
+
+        changeListenerProxy.boundsChanged( new ChangeEvent( this ) );
     }
 
     public Point2D[] getOpening() {
@@ -142,7 +144,6 @@ public class Box2D extends CollidableBody {
         return result;
     }
 
-
     public void stepInTime( double dt ) {
         // Compute the speed of the left wall
         leftWallVx = ( minX - oldMinX ) / dt;
@@ -159,6 +160,17 @@ public class Box2D extends CollidableBody {
                           && p.getX() + rad <= this.getMaxX()
                           && p.getY() - rad >= this.getMinY()
                           && p.getY() + rad <= this.getMaxY();
+        return !isInBox;
+    }
+
+    /**
+     *
+     */
+    public boolean isOutsideBox( Point2D p ) {
+        boolean isInBox = p.getX() >= this.getMinX()
+                          && p.getX() <= this.getMaxX()
+                          && p.getY() >= this.getMinY()
+                          && p.getY() <= this.getMaxY();
         return !isInBox;
     }
 
@@ -255,6 +267,15 @@ public class Box2D extends CollidableBody {
         void boundsChanged( ChangeEvent event );
 
         void isVolumeFixedChanged( ChangeEvent event );
+    }
+
+    static public class ChangeListenerAdapter implements ChangeListener {
+
+        public void boundsChanged( ChangeEvent event ) {
+        }
+
+        public void isVolumeFixedChanged( ChangeEvent event ) {
+        }
     }
 
     private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );

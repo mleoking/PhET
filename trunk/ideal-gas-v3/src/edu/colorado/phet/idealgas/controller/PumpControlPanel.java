@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.idealgas.model.HeavySpecies;
-import edu.colorado.phet.idealgas.model.LightSpecies;
-import edu.colorado.phet.idealgas.model.Pump;
+import edu.colorado.phet.idealgas.model.*;
+
+import javax.swing.*;
 
 /**
  * PumpControlPanel
@@ -23,9 +23,12 @@ import edu.colorado.phet.idealgas.model.Pump;
  * @version $Revision$
  */
 public class PumpControlPanel extends SpeciesSelectionPanel implements Pump.Listener {
+    private PressureSensingBox box;
+
     public PumpControlPanel( IdealGasModule module, GasSource gasSource, String[] speciesNames ) {
         super( module, gasSource, speciesNames );
         module.getPump().addListener( this );
+        this.box = module.getBox();
     }
 
     protected void createMolecule( Class moleculeClass ) {
@@ -55,6 +58,54 @@ public class PumpControlPanel extends SpeciesSelectionPanel implements Pump.List
         }
         if( LightSpecies.class.isAssignableFrom( species ) ) {
             getLightSpinner().setValue( new Integer( getModule().getLightSpeciesCnt() ) );
+        }
+    }
+
+    public void moleculeAdded( GasMolecule molecule ) {
+        molecule.addObserver( new MoleculeRemover( molecule ) );
+    }
+
+    public void removedFromSystem() {
+
+    }
+
+    public void update() {
+        // noop
+    }
+
+    private class MoleculeRemover implements GasMolecule.Observer {
+        GasMolecule molecule;
+        boolean isInBox = true;
+        private JSpinner spinner;
+
+        MoleculeRemover( GasMolecule molecule ) {
+            this.molecule = molecule;
+            if( HeavySpecies.class.isAssignableFrom( molecule.getClass() ) ) {
+                this.spinner = getHeavySpinner();
+            }
+            if( LightSpecies.class.isAssignableFrom( molecule.getClass() ) ) {
+                this.spinner = getLightSpinner();
+            }
+        }
+        public void removedFromSystem() {
+            // noop
+        }
+
+        public void update() {
+            if( box.isOutsideBox( molecule ) && isInBox ) {
+                isInBox = false;
+                int oldCnt = ((Integer)spinner.getValue()).intValue();
+                spinner.setEnabled( false );
+                spinner.setValue( new Integer( --oldCnt) );
+                spinner.setEnabled( true );
+            }
+            if( !box.isOutsideBox( molecule ) && !isInBox ) {
+                isInBox = true;
+                int oldCnt = ((Integer)spinner.getValue()).intValue();
+                spinner.setEnabled( false );
+                spinner.setValue( new Integer( ++oldCnt) );
+                spinner.setEnabled( true );
+            }
         }
     }
 }

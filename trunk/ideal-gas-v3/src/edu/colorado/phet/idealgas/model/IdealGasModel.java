@@ -19,7 +19,11 @@ import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Area;
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 /**
  *
@@ -61,7 +65,8 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
     private double averageLightSpeciesSpeed;
     private int heavySpeciesCnt;
     private int lightSpeciesCnt;
-    private Rectangle2D modelBounds;
+    private Shape modelBounds;
+//    private Rectangle2D modelBounds;
     private double targetTemperature;
 
     /**
@@ -235,6 +240,14 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
             }
             if( modelElement instanceof LightSpecies ) {
                 lightSpeciesCnt++;
+            }
+            if( modelElement instanceof Box2D ) {
+                Box2D box = (Box2D)modelElement;
+                box.addChangeListener( new Box2D.ChangeListenerAdapter() {
+                    public void boundsChanged( Box2D.ChangeEvent event ) {
+                        setModelBounds( null );
+                    }
+                } );
             }
         }
     }
@@ -468,11 +481,6 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
         // the box before they go away completely
         for( int i = 0; i < this.numModelElements(); i++ ) {
             ModelElement body = this.modelElementAt( i );
-//            if( body instanceof Body && box.containsBody( (Body)body )) {
-//                if( !modelBounds.contains( ((Body)body).getPosition() )) {
-//                    box.removeContainedBody( (Body)body );
-//                }
-//            }
             if( body instanceof GasMolecule ) {
                 GasMolecule gasMolecule = (GasMolecule)body;
                 if( !modelBounds.contains( gasMolecule.getPosition() ) ) {
@@ -660,6 +668,15 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
 
     public void setModelBounds( Rectangle2D modelBounds ) {
         this.modelBounds = modelBounds;
+
+        Shape s = box.getBoundsInternal();
+        this.modelBounds = s;
+        Point2D p1 = box.getOpening()[0];
+        Point2D p2 = box.getOpening()[1];
+        Rectangle2D r = new Rectangle2D.Double( p1.getX(), 0, p2.getX() - p1.getX(), p1.getY() );
+        Area a = new Area( s );
+        a.add( new Area( r ) );
+        this.modelBounds = a;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////
