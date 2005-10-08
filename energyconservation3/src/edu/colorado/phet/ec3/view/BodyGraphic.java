@@ -12,7 +12,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
-import org.jfree.data.xy.XYSeries;
 
 import javax.swing.*;
 import java.awt.*;
@@ -175,14 +174,14 @@ public class BodyGraphic extends PNode {
         dragHistory.clear();
     }
 
-    private String toString( XYSeries xSeries ) {
-        String s = "Series=" + xSeries.getKey() + ": numItems=" + xSeries.getItemCount() + " ";
-        ArrayList pt = new ArrayList();
-        for( int i = 0; i < xSeries.getItemCount(); i++ ) {
-            pt.add( new Point2D.Double( xSeries.getDataItem( i ).getX().doubleValue(), xSeries.getDataItem( i ).getY().doubleValue() ) );
-        }
-        return s + pt;
-    }
+//    private String toString( XYSeries xSeries ) {
+//        String s = "Series=" + xSeries.getKey() + ": numItems=" + xSeries.getItemCount() + " ";
+//        ArrayList pt = new ArrayList();
+//        for( int i = 0; i < xSeries.getItemCount(); i++ ) {
+//            pt.add( new Point2D.Double( xSeries.getDataItem( i ).getX().doubleValue(), xSeries.getDataItem( i ).getY().doubleValue() ) );
+//        }
+//        return s + pt;
+//    }
 
     private void addHistoryPoint() {
         DataPoint o = new DataPoint( getTime(), mouseLocation.getX(), mouseLocation.getY() );
