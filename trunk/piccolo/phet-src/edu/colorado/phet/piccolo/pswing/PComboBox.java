@@ -17,7 +17,7 @@ import java.util.Vector;
  * This PComboBox won't work properly if it is located in an abnormal hierarchy of Cameras.
  * Support is provided for only one (or zero) view transforms.
  * <p/>
- * A ComboBox for use in Jazz.  This still has an associated JPopupMenu
+ * A ComboBox for use in Piccolo.  This still has an associated JPopupMenu
  * (which is always potentially heavyweight depending on component location
  * relative to containing window borders.)  However, this ComboBox places
  * the PopupMenu component of the ComboBox in the appropriate position
@@ -34,9 +34,9 @@ import java.util.Vector;
  * <p/>
  * <P>
  * <b>Warning:</b> Serialized and ZSerialized objects of this class will not be
- * compatible with future Jazz releases. The current serialization support is
+ * compatible with future Piccolo releases. The current serialization support is
  * appropriate for short term storage or RMI between applications running the
- * same version of Jazz. A future release of Jazz will provide support for long
+ * same version of Piccolo. A future release of Piccolo will provide support for long
  * term persistence.
  *
  * @author Lance Good
@@ -89,7 +89,7 @@ public class PComboBox extends JComboBox implements Serializable {
      * Substitue our look and feel for the default
      */
     private void init() {
-        setUI( new ZBasicComboBoxUI() );
+        setUI( new PBasicComboBoxUI() );
     }
 
     public void setEnvironment( PSwing pSwing, PSwingCanvas canvas ) {
@@ -102,13 +102,13 @@ public class PComboBox extends JComboBox implements Serializable {
      * events on the arrowButton and the component itself and
      * to create our PopupMenu rather than the default
      */
-    class ZBasicComboBoxUI extends BasicComboBoxUI {
+    protected class PBasicComboBoxUI extends BasicComboBoxUI {
 
         /**
          * Create our Popup instead of theirs
          */
         protected ComboPopup createPopup() {
-            ZBasicComboPopup popup = new ZBasicComboPopup( comboBox );
+            PBasicComboPopup popup = new PBasicComboPopup( comboBox );
             popup.getAccessibleContext().setAccessibleParent( comboBox );
             return popup;
         }
@@ -116,20 +116,20 @@ public class PComboBox extends JComboBox implements Serializable {
 
     /**
      * The substitute ComboPopupMenu that places itself correctly
-     * for Jazz
+     * for Piccolo
      */
-    class ZBasicComboPopup extends BasicComboPopup {
+    protected class PBasicComboPopup extends BasicComboPopup {
 
         /**
          * @param combo The parent ComboBox
          */
-        public ZBasicComboPopup( JComboBox combo ) {
+        public PBasicComboPopup( JComboBox combo ) {
             super( combo );
         }
 
 
         /**
-         * Computes the bounds for the Popup in Jazz if a
+         * Computes the bounds for the Popup in Piccolo if a
          * ZMouseEvent has been received.  Otherwise, it uses the
          * default algorithm for placing the popup.
          *

@@ -45,7 +45,7 @@ public class PSwingEventHandler implements PInputEventListener {
     private Point2D prevPoint = null;
     private Point2D prevOff = null;
 
-    private boolean recursing = false;//to avoid recursive handling
+    private boolean recursing = false;//to avoid accidental recursive handling
 
     private ButtonData leftButtonData = new ButtonData();
     private ButtonData rightButtonData = new ButtonData();
@@ -381,6 +381,9 @@ public class PSwingEventHandler implements PInputEventListener {
 
     }
 
+    /**
+     * Internal Utility class for handling button interactivity.
+     */
     private static class ButtonData {
         private PSwing focusPSwing = null;
         private PNode focusNode = null;
