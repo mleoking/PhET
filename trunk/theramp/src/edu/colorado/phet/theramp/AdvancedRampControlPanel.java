@@ -154,11 +154,14 @@ public class AdvancedRampControlPanel extends RampControlPanel {
         massSlider = createMassSlider();
         addControl( massSlider );
 
+        super.addPositionAngleControls();
+
         GraphButtonSet graphButtonSet = new GraphButtonSet();
         addAdvancedControl( graphButtonSet, "Graphs" );
 
         JPanel controls = new InitialConditionPanel( module );
         addAdvancedControl( controls, "Controls" );
+
 
         {
             PhetPCanvas controlPanelFBD = new PhetPCanvas();

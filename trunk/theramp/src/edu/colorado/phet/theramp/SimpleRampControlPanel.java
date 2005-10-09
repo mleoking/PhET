@@ -13,5 +13,6 @@ public class SimpleRampControlPanel extends RampControlPanel {
         super( simpleRampModule );
         addControl( createFrictionlessCheckbox() );
         addControlFullWidth( new ObjectSelectionPanel( simpleRampModule, simpleRampModule.getRampObjects() ) );
+        super.addPositionAngleControls();
     }
 }

@@ -2,10 +2,8 @@
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.components.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
-import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
@@ -33,16 +31,11 @@ public class InitialConditionPanel extends VerticalLayoutPanel {
                 rampModule.setAppliedForce( modelSlider.getValue() );
             }
         } );
-        rampModule.getRampPhysicalModel().addListener( new RampPhysicalModel.Listener() {
+        rampModule.getRampPhysicalModel().addListener( new RampPhysicalModel.Adapter() {
             public void appliedForceChanged() {
                 modelSlider.setValue( rampModule.getRampPhysicalModel().getAppliedForceScalar() );
             }
 
-            public void zeroPointChanged() {
-            }
-
-            public void stepFinished() {
-            }
         } );
         addFullWidth( modelSlider );
 

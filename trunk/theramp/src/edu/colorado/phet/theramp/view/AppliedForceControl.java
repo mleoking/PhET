@@ -37,16 +37,11 @@ public class AppliedForceControl extends PNode {
                 module.setAppliedForce( modelSlider.getValue() );
             }
         } );
-        module.getRampPhysicalModel().addListener( new RampPhysicalModel.Listener() {
+        module.getRampPhysicalModel().addListener( new RampPhysicalModel.Adapter() {
             public void appliedForceChanged() {
                 modelSlider.setValue( module.getRampPhysicalModel().getAppliedForceScalar() );
             }
 
-            public void zeroPointChanged() {
-            }
-
-            public void stepFinished() {
-            }
         } );
         modelSlider.getSlider().addMouseListener( new MouseListener() {
             public void mouseClicked( MouseEvent e ) {

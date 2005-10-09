@@ -176,9 +176,10 @@ public class Block {
         if( positionInSurface != origPosition ) {
             notifyPositionChanged();
         }
-        if (velocity!=origVelocity){
+        if( velocity != origVelocity ) {
             notifyVelocityChanged();
         }
+//        System.out.println( "positionInSurface = " + positionInSurface );
     }
 
     private void notifyVelocityChanged() {
