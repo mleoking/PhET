@@ -13,6 +13,7 @@ import edu.colorado.phet.theramp.model.RampModel;
 import edu.colorado.phet.theramp.model.RampObject;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.view.FireDog;
+import edu.colorado.phet.theramp.view.JSAudioPlayer;
 import edu.colorado.phet.theramp.view.RampPanel;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
 import edu.colorado.phet.timeseries.TimeSeriesPlaybackPanel;
@@ -76,6 +77,8 @@ public class RampModule extends PiccoloModule {
                 updateGraphics( event );
             }
         } );
+        AudioEnabledController audioEnabledController = new AudioEnabledController( this );
+        rampMediaPanel.add( audioEnabledController.getCheckBox() );
         rampModel.getBlock().addListener( new CollisionHandler( this ) );
         doReset();
     }
@@ -220,6 +223,10 @@ public class RampModule extends PiccoloModule {
 
     public boolean isRecording() {
         return getRampTimeSeriesModel().isRecording();
+    }
+
+    public void setAudioEnabled( boolean enabled ) {
+        JSAudioPlayer.setAudioEnabled( enabled );
     }
 
     public static interface Listener {
