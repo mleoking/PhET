@@ -44,51 +44,55 @@ public class PSwingEventHandler implements PInputEventListener {
     // The components whose cursor is on the screen
     Component cursorComponent = null;
 
-    // Previous points used in generating mouseEntered and mouseExited
-    // events
+    // Previous points used in generating mouseEntered and mouseExited events
     Point2D prevPoint = null;
     Point2D prevOff = null;
 
-    // The focused ZSwing for the left button
-    PSwing focusPSwingLeft = null;
+    static class ButtonData {
+        private PSwing focusPSwing = null;
+        private PNode focusNode = null;
+        private Component focusComponent = null;
+        private int focusOffX = 0;
+        private int focusOffY = 0;
 
-    // The focused node for the left button
-    PNode focusNodeLeft = null;
+        public void setState( PSwing swing, PNode visualNode, Component comp, int offX, int offY ) {
+            focusPSwing = swing;
+            focusComponent = comp;
+            focusNode = visualNode;
+            focusOffX = offX;
+            focusOffY = offY;
+        }
 
-    // The focused component for the left button
-    Component focusComponentLeft = null;
+        public Component getFocusedComponent() {
+            return focusComponent;
+        }
 
-    // Offsets for the focused node for the left button
-    int focusOffXLeft = 0;
-    int focusOffYLeft = 0;
+        public PNode getPNode() {
+            return focusNode;
+        }
 
-    // The focused ZSwing for the middle button
-    PSwing focusPSwingMiddle = null;
+        public int getOffsetX() {
+            return focusOffX;
+        }
 
-    // The focused node for the middle button
-    PNode focusNodeMiddle = null;
+        public int getOffsetY() {
+            return focusOffY;
+        }
 
-    // The focused component for the middle button
-    Component focusComponentMiddle = null;
+        public PSwing getPSwing() {
+            return focusPSwing;
+        }
 
-    // Offsets for the focused node for the middle button
-    int focusOffXMiddle = 0;
-    int focusOffYMiddle = 0;
+        public void mouseReleased() {
+            focusComponent = null;
+            focusNode = null;
+        }
+    }
 
-    // The focused ZSwing for the right button
-    PSwing focusPSwingRight = null;
+    ButtonData leftButtonData = new ButtonData();
+    ButtonData rightButtonData = new ButtonData();
+    ButtonData middleButtonData = new ButtonData();
 
-    // The focused node for the right button
-    PNode focusNodeRight = null;
-
-    // The focused component for the right button
-    Component focusComponentRight = null;
-
-    // Offsets for the focused node for the right button
-    int focusOffXRight = 0;
-    int focusOffYRight = 0;
-
-    // The canvas
     PSwingCanvas canvas;
 
     // Constructor that adds the mouse listeners to a
@@ -271,25 +275,13 @@ public class PSwingEventHandler implements PInputEventListener {
                     // Mouse Releases
                     if( comp != null && e1.getID() == MouseEvent.MOUSE_PRESSED ) {
                         if( SwingUtilities.isLeftMouseButton( e1 ) ) {
-                            focusPSwingLeft = swing;
-                            focusComponentLeft = comp;
-                            focusNodeLeft = visualNode;
-                            focusOffXLeft = offX;
-                            focusOffYLeft = offY;
+                            leftButtonData.setState( swing, visualNode, comp, offX, offY );
                         }
                         else if( SwingUtilities.isMiddleMouseButton( e1 ) ) {
-                            focusPSwingMiddle = swing;
-                            focusComponentMiddle = comp;
-                            focusNodeMiddle = visualNode;
-                            focusOffXMiddle = offX;
-                            focusOffYMiddle = offY;
+                            middleButtonData.setState( swing, visualNode, comp, offX, offY );
                         }
                         else if( SwingUtilities.isRightMouseButton( e1 ) ) {
-                            focusPSwingRight = swing;
-                            focusComponentRight = comp;
-                            focusNodeRight = visualNode;
-                            focusOffXRight = offX;
-                            focusOffYRight = offY;
+                            rightButtonData.setState( swing, visualNode, comp, offX, offY );
                         }
                     }
                 }
@@ -303,112 +295,108 @@ public class PSwingEventHandler implements PInputEventListener {
             e1.getID() == MouseEvent.MOUSE_RELEASED ) {
 
             // LEFT MOUSE BUTTON
-            if( SwingUtilities.isLeftMouseButton( e1 ) &&
-                focusComponentLeft != null ) {
+            if( SwingUtilities.isLeftMouseButton( e1 ) && leftButtonData.getFocusedComponent() != null ) {
 
-                if( focusNodeLeft.isDescendentOf( canvas.getRoot() ) ) {
+                if( leftButtonData.getPNode().isDescendentOf( canvas.getRoot() ) ) {
                     pt = new Point2D.Double( e1.getX(), e1.getY() );
 //                    e1.getPath().getTopCamera().cameraToLocal( pt, focusNodeLeft );
-                    cameraToLocal( e1.getPath().getTopCamera(), pt, focusNodeLeft );
-                    MouseEvent e_temp = new MouseEvent( focusComponentLeft,
+                    cameraToLocal( e1.getPath().getTopCamera(), pt, leftButtonData.getPNode() );
+                    MouseEvent e_temp = new MouseEvent( leftButtonData.getFocusedComponent(),
                                                         e1.getID(),
                                                         e1.getWhen(),
                                                         e1.getModifiers(),
-                                                        (int)pt.getX() - focusOffXLeft,
-                                                        (int)pt.getY() - focusOffYLeft,
+                                                        (int)pt.getX() - leftButtonData.getOffsetX(),
+                                                        (int)pt.getY() - leftButtonData.getOffsetY(),
                                                         e1.getClickCount(),
                                                         e1.isPopupTrigger() );
 
                     PSwingMouseEvent e2 = PSwingMouseEvent.createMouseEvent( e_temp.getID(), e_temp, aEvent );
 //                    System.out.println( "focusComponentLeft.getClass() = " + focusComponentLeft.getClass() );
-                    dispatchEvent( focusComponentLeft, e2 );
+                    dispatchEvent( leftButtonData.getFocusedComponent(), e2 );
 //                    focusComponentLeft.dispatchEvent( e2 );
                 }
                 else {
-                    dispatchEvent( focusComponentLeft, e1 );
+                    dispatchEvent( leftButtonData.getFocusedComponent(), e1 );
 //                    focusComponentLeft.dispatchEvent( e1 );
                 }
 
-                focusPSwingLeft.repaint();
+                leftButtonData.getPSwing().repaint();
 
                 e1.consume();
 
                 if( e1.getID() == MouseEvent.MOUSE_RELEASED ) {
-                    focusComponentLeft = null;
-                    focusNodeLeft = null;
+                    leftButtonData.mouseReleased();
                 }
 
             }
 
             // MIDDLE MOUSE BUTTON
             if( SwingUtilities.isMiddleMouseButton( e1 ) &&
-                focusComponentMiddle != null ) {
+                middleButtonData.getFocusedComponent() != null ) {
 
-                if( focusNodeMiddle.isDescendentOf( canvas.getRoot() ) ) {
+                if( middleButtonData.getPNode().isDescendentOf( canvas.getRoot() ) ) {
                     pt = new Point2D.Double( e1.getX(), e1.getY() );
 //                    e1.getPath().getTopCamera().cameraToLocal( pt, focusNodeMiddle );
-                    cameraToLocal( e1.getPath().getTopCamera(), pt, focusNodeMiddle );
+                    cameraToLocal( e1.getPath().getTopCamera(), pt, middleButtonData.getPNode() );
 
-                    MouseEvent e_temp = new MouseEvent( focusComponentMiddle,
+                    MouseEvent e_temp = new MouseEvent( middleButtonData.getFocusedComponent(),
                                                         e1.getID(),
                                                         e1.getWhen(),
                                                         e1.getModifiers(),
-                                                        (int)pt.getX() - focusOffXMiddle,
-                                                        (int)pt.getY() - focusOffYMiddle,
+                                                        (int)pt.getX() - middleButtonData.getOffsetX(),
+                                                        (int)pt.getY() - middleButtonData.getOffsetY(),
                                                         e1.getClickCount(),
                                                         e1.isPopupTrigger() );
 
                     PSwingMouseEvent e2 = PSwingMouseEvent.createMouseEvent( e_temp.getID(), e_temp, aEvent );
 
-                    focusComponentMiddle.dispatchEvent( e2 );
+                    middleButtonData.getFocusedComponent().dispatchEvent( e2 );
                 }
                 else {
-                    focusComponentMiddle.dispatchEvent( e1 );
+                    middleButtonData.getFocusedComponent().dispatchEvent( e1 );
                 }
 
-                focusPSwingMiddle.repaint();
+                middleButtonData.getPSwing().repaint();
 
                 e1.consume();
 
                 if( e1.getID() == MouseEvent.MOUSE_RELEASED ) {
-                    focusComponentMiddle = null;
-                    focusNodeMiddle = null;
+                    middleButtonData.mouseReleased();
                 }
 
             }
 
             // RIGHT MOUSE BUTTON
             if( SwingUtilities.isRightMouseButton( e1 ) &&
-                focusComponentRight != null ) {
+                rightButtonData.getFocusedComponent() != null ) {
 
-                if( focusNodeRight.isDescendentOf( canvas.getRoot() ) ) {
+                if( rightButtonData.getPNode().isDescendentOf( canvas.getRoot() ) ) {
                     pt = new Point2D.Double( e1.getX(), e1.getY() );
 //                    e1.getPath().getTopCamera().cameraToLocal( pt, focusNodeRight );
-                    cameraToLocal( e1.getPath().getTopCamera(), pt, focusNodeRight );
-                    MouseEvent e_temp = new MouseEvent( focusComponentRight,
+                    cameraToLocal( e1.getPath().getTopCamera(), pt, rightButtonData.getPNode() );
+                    MouseEvent e_temp = new MouseEvent( rightButtonData.getFocusedComponent(),
                                                         e1.getID(),
                                                         e1.getWhen(),
                                                         e1.getModifiers(),
-                                                        (int)pt.getX() - focusOffXRight,
-                                                        (int)pt.getY() - focusOffYRight,
+                                                        (int)pt.getX() - rightButtonData.getOffsetX(),
+                                                        (int)pt.getY() - rightButtonData.getOffsetY(),
                                                         e1.getClickCount(),
                                                         e1.isPopupTrigger() );
 
                     PSwingMouseEvent e2 = PSwingMouseEvent.createMouseEvent( e_temp.getID(), e_temp, aEvent );
 
-                    focusComponentRight.dispatchEvent( e2 );
+                    rightButtonData.getFocusedComponent().dispatchEvent( e2 );
                 }
                 else {
-                    focusComponentRight.dispatchEvent( e1 );
+                    rightButtonData.getFocusedComponent().dispatchEvent( e1 );
                 }
 
-                focusPSwingRight.repaint();
+                rightButtonData.getPSwing().repaint();
 
                 e1.consume();
 
                 if( e1.getID() == MouseEvent.MOUSE_RELEASED ) {
-                    focusComponentRight = null;
-                    focusNodeRight = null;
+                    rightButtonData.mouseReleased();
                 }
 
             }
@@ -539,20 +527,7 @@ public class PSwingEventHandler implements PInputEventListener {
     private void dispatchEvent( final Component target, final PSwingMouseEvent event ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-
-//                System.out.println( "PSwingEventHandler.dispatchEvent: " );
-//                String note = "PSwingEventHandler.dispatchEvent: ";
-//                if( event.getID() == MouseEvent.MOUSE_PRESSED ) {
-//                    System.out.println( note + "mouse press" );
-//                }
-//                if( event.getID() == MouseEvent.MOUSE_RELEASED ) {
-//                    System.out.println( note + "mouse release" );
-//                }
-//                System.out.println( "target class=" + target.getClass() + ", event=" + event + ", target=" + target );
                 target.dispatchEvent( event );
-//                System.out.println( "</finished dispatch>" );
-//                System.out.println( "" );
-
             }
         } );
     }
