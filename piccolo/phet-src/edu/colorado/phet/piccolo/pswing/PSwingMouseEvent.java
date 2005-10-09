@@ -44,7 +44,7 @@ import java.io.Serializable;
  * term persistence.
  */
 public class PSwingMouseEvent extends MouseEvent implements Serializable {
-    private int id;                         // The id that specifies the event trigger (press, release, etc.)
+    private int id;
     private PInputEvent event;
 
     /**
@@ -88,8 +88,6 @@ public class PSwingMouseEvent extends MouseEvent implements Serializable {
     public Point2D getLocalPoint() {
         Point2D.Double point = new Point2D.Double();
         point.setLocation( getX(), getY() );
-//        event.getPath().canvasToLocal( )
-//        grabPath.screenToLocal(point);
         return point;
     }
 

@@ -386,8 +386,7 @@ public class RampPanel extends PhetPCanvas {
     }
 
     public void graphLayoutChanged() {
-//        if (Toolkit.getDefaultToolkit().getScreenSize().width<=1024)
-        {
+        if( Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 ) {
             if( allThreeGraphsUp() ) {
                 rampPlotSet.setTimeSeriesPlotFont( new LucidaSansFont( 9, true, false ) );
                 rampPlotSet.setTimeSeriesPlotShadow( 0, 0 );
