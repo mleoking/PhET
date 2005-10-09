@@ -6,8 +6,8 @@ import edu.umd.cs.piccolo.util.PBounds;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Vector;
 import java.util.ArrayList;
+import java.util.Vector;
 
 /**
  * User: Sam Reid
@@ -34,7 +34,7 @@ public class PSwingCanvas extends PCanvas {
     public PSwingCanvas() {
         add( swingWrapper );
         RepaintManager.setCurrentManager( zBasicRepaintManager );
-        zBasicRepaintManager.swingWrappers.add(swingWrapper);//todo dirty code
+        zBasicRepaintManager.swingWrappers.add( swingWrapper );//todo dirty code
 //        RepaintManager.setCurrentManager( new RepaintManager() );
 
         swingEventHandler = new PSwingEventHandler( this, getCamera() );//todo or maybe getCameraLayer()?
@@ -72,7 +72,7 @@ public class PSwingCanvas extends PCanvas {
      * repaints can be triggered by a call to paint.
      */
     public static class ZBasicRepaintManager extends RepaintManager {
-        ArrayList swingWrappers=new ArrayList( );
+        ArrayList swingWrappers = new ArrayList();
 
 
         // The components that are currently painting
@@ -139,7 +139,7 @@ public class PSwingCanvas extends PCanvas {
             for( Component comp = c; comp != null && isLightweight( comp ) && !captureRepaint; comp = comp.getParent() ) {
 
 //                if( comp.getParent() == swingWrapper ) {
-                if( swingWrappers.contains( comp.getParent()) ) {
+                if( swingWrappers.contains( comp.getParent() ) ) {
                     if( comp instanceof JComponent ) {
                         captureRepaint = true;
                         capturedComponent = (JComponent)comp;

@@ -142,6 +142,7 @@ import java.io.Serializable;
  * same version of Jazz. A future release of Jazz will provide support for long
  * term persistence.
  *
+ * @author Sam R. Reid
  * @author Benjamin B. Bederson
  * @author Lance E. Good
  */
@@ -178,7 +179,7 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
      */
     public static final String VISUAL_COMPONENT_KEY = "ZSwing";
     private BufferedImage buffer;
-    private static final AffineTransform IDENTITY = new AffineTransform();
+    private static final AffineTransform IDENTITY_TRANSFORM = new AffineTransform();
     private PSwingCanvas PSwingCanvas;
     private static PBounds TEMP_REPAINT_BOUNDS2 = new PBounds();
     private static boolean highQualityRender = false;
@@ -192,20 +193,23 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
      * and adds the Swing component to the SwingWrapper component of
      * the ZCanvas
      *
-     * @param zbc       The ZCanvas to which the Swing component will
+     * @param canvas    The PSwingCanvas to which the Swing component will
      *                  be added
      * @param component The swing component to be wrapped
      */
-    public PSwing( PSwingCanvas zbc, JComponent component ) {
-        this.PSwingCanvas = zbc;
+    public PSwing( PSwingCanvas canvas, JComponent component ) {
+        this.PSwingCanvas = canvas;
         this.component = component;
         component.putClientProperty( VISUAL_COMPONENT_KEY, this );
         init( component );
-        zbc.getSwingWrapper().add( component );
+        canvas.getSwingWrapper().add( component );
         component.revalidate();
         reshape();
     }
 
+    /**
+     * Ensures the bounds of the underlying component are accurate, and sets the bounds of this PNode.
+     */
     void reshape() {
         component.setBounds( 0, 0, component.getPreferredSize().width, component.getPreferredSize().height );
         setBounds( 0, 0, component.getPreferredSize().width, component.getPreferredSize().height );
@@ -242,14 +246,18 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
             component.revalidate();
         }
 
-        if( ( getCompositeMagnification( renderContext ) < renderCutoff && PSwingCanvas.getInteracting() ) ||
-            minFontSize * getCompositeMagnification( renderContext ) < 0.5 ) {
+        if( shouldRenderGreek( renderContext ) ) {
             paintAsGreek( g2 );
         }
         else {
             paint( g2 );
         }
 
+    }
+
+    private boolean shouldRenderGreek( PPaintContext renderContext ) {
+        return ( getCompositeMagnification( renderContext ) < renderCutoff && PSwingCanvas.getInteracting() ) ||
+               minFontSize * getCompositeMagnification( renderContext ) < 0.5;
     }
 
     public double getCompositeMagnification( PPaintContext pPaintContext ) {
@@ -280,10 +288,9 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
     }
 
     /**
-     * Forwards the paint request to the Swing component to paint normally
+     * Renders to a buffered image, then draws that to the screen.
      *
-     * @param g2 The graphics this visual component should pass to the Swing
-     *           component
+     * @param g2 The graphics on which to render the JComponent.
      */
     public void paint( Graphics2D g2 ) {
         PSwingCanvas.ZBasicRepaintManager manager = (PSwingCanvas.ZBasicRepaintManager)RepaintManager.currentManager( component );
@@ -306,10 +313,9 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
         }
 
         component.paint( bufferedGraphics );
-//        g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         Object origHint = g2.getRenderingHint( RenderingHints.KEY_INTERPOLATION );
         g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
-        g2.drawRenderedImage( buffer, IDENTITY );
+        g2.drawRenderedImage( buffer, IDENTITY_TRANSFORM );
         if( origHint != null ) {
             g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, origHint );
         }
@@ -320,44 +326,15 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
         manager.unlockRepaint( component );
     }
 
-    //todo enable region repainting.
-
     /**
      * Repaints the specified portion of this visual component
      * Note that the input parameter may be modified as a result of this call.
      */
 
     public void repaint( PBounds repaintBounds ) {
-
-//        AffineTransform viewTransform = zCanvas.getCamera().getViewTransform();
-//        AffineTransform totalTransform=getTransform();
-//        System.out.println( "viewTransform = " + viewTransform );
         Shape sh = getTransform().createTransformedShape( repaintBounds );
         TEMP_REPAINT_BOUNDS2.setRect( sh.getBounds2D() );
         repaintFrom( TEMP_REPAINT_BOUNDS2, this );
-        //        repaint();
-//        PNode parent = getParent();
-//        if( parent != null ) {
-////            parent.repaintFrom( repaintBounds, this );
-////            parent.repaintFrom( repaintBounds, parent );
-//            repaint();
-//        }
-//        else {
-//            repaint();
-//        }
-
-        //original code
-//        PNode[] parentsRef = getParentsReference();
-//        int numParents = getNumParents();
-//
-//        for( int i = 0; i < numParents; i++ ) {
-//            if( i == numParents - 1 ) {
-//                parentsRef[i].repaint( repaintBounds );
-//            }
-//            else {
-//                parentsRef[i].repaint( (ZBounds)repaintBounds.clone() );
-//            }
-//        }
     }
 
     /**
