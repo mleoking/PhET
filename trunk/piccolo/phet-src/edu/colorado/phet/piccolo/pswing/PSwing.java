@@ -293,7 +293,7 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
      * @param g2 The graphics on which to render the JComponent.
      */
     public void paint( Graphics2D g2 ) {
-        PSwingCanvas.ZBasicRepaintManager manager = (PSwingCanvas.ZBasicRepaintManager)RepaintManager.currentManager( component );
+        PSwingRepaintManager manager = (PSwingRepaintManager)RepaintManager.currentManager( component );
         manager.lockRepaint( component );
 
         if( buffer == null || buffer.getWidth() != component.getWidth() || buffer.getHeight() != component.getHeight() ) {

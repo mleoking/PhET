@@ -41,61 +41,17 @@ public class PSwingEventHandler implements PInputEventListener {
     // mouseExited events
     private Component prevComponent = null;
 
-    // The components whose cursor is on the screen
-    private Component cursorComponent = null;
-
     // Previous points used in generating mouseEntered and mouseExited events
     private Point2D prevPoint = null;
     private Point2D prevOff = null;
 
-    static class ButtonData {
-        private PSwing focusPSwing = null;
-        private PNode focusNode = null;
-        private Component focusComponent = null;
-        private int focusOffX = 0;
-        private int focusOffY = 0;
-
-        public void setState( PSwing swing, PNode visualNode, Component comp, int offX, int offY ) {
-            focusPSwing = swing;
-            focusComponent = comp;
-            focusNode = visualNode;
-            focusOffX = offX;
-            focusOffY = offY;
-        }
-
-        public Component getFocusedComponent() {
-            return focusComponent;
-        }
-
-        public PNode getPNode() {
-            return focusNode;
-        }
-
-        public int getOffsetX() {
-            return focusOffX;
-        }
-
-        public int getOffsetY() {
-            return focusOffY;
-        }
-
-        public PSwing getPSwing() {
-            return focusPSwing;
-        }
-
-        public void mouseReleased() {
-            focusComponent = null;
-            focusNode = null;
-        }
-    }
+    private boolean recursing = false;//to avoid recursive handling
 
     private ButtonData leftButtonData = new ButtonData();
     private ButtonData rightButtonData = new ButtonData();
     private ButtonData middleButtonData = new ButtonData();
 
     private PSwingCanvas canvas;
-
-    // Constructor that adds the mouse listeners to a
 
     /**
      * Constructs a new ZSwingEventHandler for the given canvas,
@@ -140,9 +96,7 @@ public class PSwingEventHandler implements PInputEventListener {
         return active;
     }
 
-    // A re-implementation of Container.findComponentAt that ensures
-    // that the returned component is *SHOWING* not just visible
-    private Component findComponentAt( Component c, int x, int y ) {
+    private Component findShowingComponentAt( Component c, int x, int y ) {
         if( !c.contains( x, y ) ) {
             return null;
         }
@@ -157,7 +111,7 @@ public class PSwingEventHandler implements PInputEventListener {
                 if( comp != null ) {
                     Point p = comp.getLocation();
                     if( comp instanceof Container ) {
-                        comp = findComponentAt( comp, x - (int)p.getX(), y - (int)p.getY() );
+                        comp = findShowingComponentAt( comp, x - (int)p.getX(), y - (int)p.getY() );
                     }
                     else {
                         comp = comp.getComponentAt( x - (int)p.getX(), y - (int)p.getY() );
@@ -171,13 +125,12 @@ public class PSwingEventHandler implements PInputEventListener {
         return c;
     }
 
-    // Determines if any Swing components being used in Jazz should
+    // Determines if any Swing components in Piccolo should
     // receive the given MouseEvent and forwards the event to that
     // component. However, mouseEntered
     // and mouseExited are independent of the buttons
     // Also, notice the notes on mouseEntered and mouseExited
     void dispatchEvent( PSwingMouseEvent e1, PInputEvent aEvent ) {
-//        System.out.println( "PSwingEventHandler.dispatchEvent: event=" + e1 );
         PNode grabNode = null;
         Component comp = null;
         Point2D pt = null;
@@ -204,8 +157,8 @@ public class PSwingEventHandler implements PInputEventListener {
                 // component at pt.  It needs to do something like
                 // package private method:
                 // Container.getMouseEventTarget(int,int,boolean)
-                comp = findComponentAt( swing.getComponent(), (int)pt.getX(), (int)pt.getY() );
-//                    System.out.println( "Found Component: comp = " + comp );
+                comp = findShowingComponentAt( swing.getComponent(), (int)pt.getX(), (int)pt.getY() );
+
                 // We found the right component - but we need to
                 // get the offset to put the event in the component's
                 // coordinates
@@ -366,6 +319,7 @@ public class PSwingEventHandler implements PInputEventListener {
         if( buttonData.getPNode().isDescendentOf( canvas.getRoot() ) ) {
             pt = new Point2D.Double( e1.getX(), e1.getY() );
             cameraToLocal( e1.getPath().getTopCamera(), pt, buttonData.getPNode() );
+            //todo this probably won't handle viewing through multiple cameras.
             MouseEvent e_temp = new MouseEvent( buttonData.getFocusedComponent(),
                                                 e1.getID(),
                                                 e1.getWhen(),
@@ -414,8 +368,6 @@ public class PSwingEventHandler implements PInputEventListener {
         return;
     }
 
-    private boolean recursing = false;
-
     public void processEvent( PInputEvent aEvent, int type ) {
         if( aEvent.isMouseEvent() ) {
             InputEvent sourceSwingEvent = aEvent.getSourceSwingEvent();
@@ -427,5 +379,46 @@ public class PSwingEventHandler implements PInputEventListener {
             }
         }
 
+    }
+
+    private static class ButtonData {
+        private PSwing focusPSwing = null;
+        private PNode focusNode = null;
+        private Component focusComponent = null;
+        private int focusOffX = 0;
+        private int focusOffY = 0;
+
+        public void setState( PSwing swing, PNode visualNode, Component comp, int offX, int offY ) {
+            focusPSwing = swing;
+            focusComponent = comp;
+            focusNode = visualNode;
+            focusOffX = offX;
+            focusOffY = offY;
+        }
+
+        public Component getFocusedComponent() {
+            return focusComponent;
+        }
+
+        public PNode getPNode() {
+            return focusNode;
+        }
+
+        public int getOffsetX() {
+            return focusOffX;
+        }
+
+        public int getOffsetY() {
+            return focusOffY;
+        }
+
+        public PSwing getPSwing() {
+            return focusPSwing;
+        }
+
+        public void mouseReleased() {
+            focusComponent = null;
+            focusNode = null;
+        }
     }
 }

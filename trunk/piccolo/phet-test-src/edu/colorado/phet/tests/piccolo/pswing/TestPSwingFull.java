@@ -27,6 +27,7 @@ import java.util.Vector;
 
 public class TestPSwingFull extends JFrame {
     public TestPSwingFull() {
+        setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         ClassLoader loader;
         PSwingCanvas canvas;
 
