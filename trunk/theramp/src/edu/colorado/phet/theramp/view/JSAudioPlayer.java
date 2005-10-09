@@ -4,6 +4,7 @@ package edu.colorado.phet.theramp.view;
 import javax.sound.sampled.*;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -14,6 +15,29 @@ import java.net.URL;
 public class JSAudioPlayer {
 //    private static final int EXTERNAL_BUFFER_SIZE = 128000;
     private static final int EXTERNAL_BUFFER_SIZE = 4000;
+    private static boolean audioEnabled = true;
+    private static ArrayList listeners = new ArrayList();
+
+    public static interface Listener {
+        void propertyChanged();
+    }
+
+    public static void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public static boolean isAudioEnabled() {
+        return audioEnabled;
+    }
+
+    public static void setAudioEnabled( boolean audioEnabled ) {
+        JSAudioPlayer.audioEnabled = audioEnabled;
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.propertyChanged();
+        }
+    }
+
 
     public static double getLength( URL url ) throws IOException, UnsupportedAudioFileException {
         AudioFileFormat aff = AudioSystem.getAudioFileFormat( url );
@@ -48,65 +72,67 @@ public class JSAudioPlayer {
      * Blocks until finished.
      */
     public static void play( URL url ) throws IOException, UnsupportedAudioFileException {
-        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream( url.openStream() );
+        if( audioEnabled ) {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream( url.openStream() );
 
-        AudioFileFormat aff = AudioSystem.getAudioFileFormat( url );
-        AudioFormat audioFormat = aff.getFormat();
-        SourceDataLine line = null;
-        DataLine.Info info = new DataLine.Info( SourceDataLine.class,
-                                                audioFormat );
-        try {
-            line = (SourceDataLine)AudioSystem.getLine( info );
+            AudioFileFormat aff = AudioSystem.getAudioFileFormat( url );
+            AudioFormat audioFormat = aff.getFormat();
+            SourceDataLine line = null;
+            DataLine.Info info = new DataLine.Info( SourceDataLine.class,
+                                                    audioFormat );
+            try {
+                line = (SourceDataLine)AudioSystem.getLine( info );
+
+                /*
+                  The line is there, but it is not yet ready to
+                  receive audio data. We have to open the line.
+                */
+                line.open( audioFormat );
+            }
+            catch( LineUnavailableException e ) {
+                e.printStackTrace();
+                System.exit( 1 );
+            }
+            catch( Exception e ) {
+                e.printStackTrace();
+                System.exit( 1 );
+            }
 
             /*
-              The line is there, but it is not yet ready to
-              receive audio data. We have to open the line.
+              Still not enough. The line now can receive data,
+              but will not pass them on to the audio output device
+              (which means to your sound card). This has to be
+              activated.
             */
-            line.open( audioFormat );
-        }
-        catch( LineUnavailableException e ) {
-            e.printStackTrace();
-            System.exit( 1 );
-        }
-        catch( Exception e ) {
-            e.printStackTrace();
-            System.exit( 1 );
-        }
+            line.start();
 
-        /*
-          Still not enough. The line now can receive data,
-          but will not pass them on to the audio output device
-          (which means to your sound card). This has to be
-          activated.
-        */
-        line.start();
+            /*
+              Ok, finally the line is prepared. Now comes the real
+              job: we have to write data to the line. We do this
+              in a loop. First, we read data from the
+              AudioInputStream to a buffer. Then, we write from
+              this buffer to the Line. This is done until the finish
+              of the file is reached, which is detected by a
+              return value of -1 from the read method of the
+              AudioInputStream.
+            */
+            int nBytesRead = 0;
 
-        /*
-          Ok, finally the line is prepared. Now comes the real
-          job: we have to write data to the line. We do this
-          in a loop. First, we read data from the
-          AudioInputStream to a buffer. Then, we write from
-          this buffer to the Line. This is done until the finish
-          of the file is reached, which is detected by a
-          return value of -1 from the read method of the
-          AudioInputStream.
-        */
-        int nBytesRead = 0;
-
-        byte[] abData = new byte[EXTERNAL_BUFFER_SIZE];
-        while( nBytesRead != -1 ) {
-            try {
-                nBytesRead = audioInputStream.read( abData, 0, abData.length );
+            byte[] abData = new byte[EXTERNAL_BUFFER_SIZE];
+            while( nBytesRead != -1 ) {
+                try {
+                    nBytesRead = audioInputStream.read( abData, 0, abData.length );
+                }
+                catch( IOException e ) {
+                    e.printStackTrace();
+                }
+                if( nBytesRead >= 0 ) {
+                    int nBytesWritten = line.write( abData, 0, nBytesRead );
+                }
             }
-            catch( IOException e ) {
-                e.printStackTrace();
-            }
-            if( nBytesRead >= 0 ) {
-                int nBytesWritten = line.write( abData, 0, nBytesRead );
-            }
+            line.drain();
+            line.close();
         }
-        line.drain();
-        line.close();
     }
 
     public static void playNoBlock( final String preyURL ) {

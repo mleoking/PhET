@@ -91,6 +91,7 @@ public class TimeSeriesPNode {
     private void addPoint( TimePoint at ) {
         BufferedImage bufferedImage = plotSuite.getChartImage();
         Graphics2D graphics2D = bufferedImage.createGraphics();
+        graphics2D.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
 
         Point2D screenPoint = plotSuite.toImageLocation( at.getTime(), at.getValue() );
 
