@@ -36,50 +36,33 @@ public class RampPlotSet extends PNode {
     private static final double LAYOUT_X = 30;
 //    private int chartWidth = TimePlotSuitePNode.DEFAULT_CHART_WIDTH;
 
-    public RampPlotSet( RampModule module, RampPanel rampPanel ) {
+    public RampPlotSet( RampModule module, final RampPanel rampPanel ) {
         this.module = module;
         this.rampPanel = rampPanel;
         int plotY = 400;
         int plotHeight = 80;
         int plotInset = 2;
         int range = 30000;
-        energyPlot = createTimePlotSuitePNode( new Range2D( 0, -range, RampModule.MAX_TIME, range ), "Energy", plotY, plotHeight, false );
+        energyPlot = createTimePlotSuitePNode( new Range2D( 0, -range, RampModule.MAX_TIME, range ),
+                                               "Energy", "J", plotY, plotHeight, false );
+        addTimeSeries( energyPlot, new ValueAccessor.ThermalEnergy( getLookAndFeel() ), "10000.00" );
+        addTimeSeries( energyPlot, new ValueAccessor.PotentialEnergy( getLookAndFeel() ), "10000.00" );
+        addTimeSeries( energyPlot, new ValueAccessor.KineticEnergy( getLookAndFeel() ), "10000.00" );
+        addTimeSeries( energyPlot, new ValueAccessor.TotalEnergy( getLookAndFeel() ), "10000.00" );
 
-        ValueAccessor.TotalEnergy totalEnergy = new ValueAccessor.TotalEnergy( getLookAndFeel() );
-        addTimeSeries( energyPlot, totalEnergy, "10000.00" );
+        workPlot = createTimePlotSuitePNode( new Range2D( 0, -range, RampModule.MAX_TIME, range ),
+                                             "Work", "J", plotY + plotHeight + plotInset, plotHeight, false );
+        addTimeSeries( workPlot, new ValueAccessor.AppliedWork( getLookAndFeel() ), "10000.00" );
+        addTimeSeries( workPlot, new ValueAccessor.FrictiveWork( getLookAndFeel() ), "10000.00" );
+        addTimeSeries( workPlot, new ValueAccessor.GravityWork( getLookAndFeel() ), "10000.00" );
+        addTimeSeries( workPlot, new ValueAccessor.TotalWork( getLookAndFeel() ), "10000.00" );
 
-        ValueAccessor.ThermalEnergy thermalEnergy = new ValueAccessor.ThermalEnergy( getLookAndFeel() );
-        addTimeSeries( energyPlot, thermalEnergy, "10000.00" );
-
-        ValueAccessor.PotentialEnergy potentialEnergy = new ValueAccessor.PotentialEnergy( getLookAndFeel() );
-        addTimeSeries( energyPlot, potentialEnergy, "10000.00" );
-
-        ValueAccessor.KineticEnergy kineticEnergy = new ValueAccessor.KineticEnergy( getLookAndFeel() );
-        addTimeSeries( energyPlot, kineticEnergy, "10000.00" );
-
-        workPlot = createTimePlotSuitePNode( new Range2D( 0, -range, RampModule.MAX_TIME, range ), "Work", plotY + plotHeight + plotInset, plotHeight, false );
-
-        ValueAccessor.AppliedWork appliedWork = new ValueAccessor.AppliedWork( getLookAndFeel() );
-        addTimeSeries( workPlot, appliedWork, "10000.00" );
-
-        ValueAccessor.FrictiveWork frictiveWork = new ValueAccessor.FrictiveWork( getLookAndFeel() );
-        addTimeSeries( workPlot, frictiveWork, "10000.00" );
-
-        ValueAccessor.TotalWork totalWork = new ValueAccessor.TotalWork( getLookAndFeel() );
-        addTimeSeries( workPlot, totalWork, "10000.00" );
-
-        ValueAccessor.GravityWork gravityWork = new ValueAccessor.GravityWork( getLookAndFeel() );
-        addTimeSeries( workPlot, gravityWork, "10000.00" );
-
-        parallelForcePlot = createTimePlotSuitePNode( new Range2D( 0, -1000, RampModule.MAX_TIME, 1000 ), "Parallel Forces", plotY + plotHeight * 2 + plotInset, plotHeight, true );
-        ValueAccessor.ParallelForceAccessor parallelFriction = new ValueAccessor.ParallelFrictionAccessor( getLookAndFeel() );
-        addTimeSeries( parallelForcePlot, parallelFriction, "10000.00" );
-        ValueAccessor.ParallelForceAccessor parallelApplied = new ValueAccessor.ParallelAppliedAccessor( getLookAndFeel() );
-        addTimeSeries( parallelForcePlot, parallelApplied, "10000.00" );
-        ValueAccessor.ParallelForceAccessor parallelGravity = new ValueAccessor.ParallelGravityAccessor( getLookAndFeel() );
-        addTimeSeries( parallelForcePlot, parallelGravity, "10000.00" );
-        ValueAccessor.ParallelForceAccessor parallelWall = new ValueAccessor.ParallelWallForceAccessor( getLookAndFeel() );
-        addTimeSeries( parallelForcePlot, parallelWall, "10000.00" );
+        parallelForcePlot = createTimePlotSuitePNode( new Range2D( 0, -1000, RampModule.MAX_TIME, 1000 ),
+                                                      "Parallel Forces", "N", plotY + plotHeight * 2 + plotInset, plotHeight, true );
+        addTimeSeries( parallelForcePlot, new ValueAccessor.ParallelFrictionAccessor( getLookAndFeel() ), "10000.00" );
+        addTimeSeries( parallelForcePlot, new ValueAccessor.ParallelGravityAccessor( getLookAndFeel() ), "10000.00" );
+        addTimeSeries( parallelForcePlot, new ValueAccessor.ParallelWallForceAccessor( getLookAndFeel() ), "10000.00" );
+        addTimeSeries( parallelForcePlot, new ValueAccessor.ParallelAppliedAccessor( getLookAndFeel() ), "10000.00" );
 
         addChild( energyPlot );
         addChild( workPlot );
@@ -91,6 +74,7 @@ public class RampPlotSet extends PNode {
         TimePlotSuitePNode.Listener listener = new TimePlotSuitePNode.Listener() {
             public void minimizeStateChanged() {
                 invalidateLayout();
+                rampPanel.graphLayoutChanged();
             }
         };
         energyPlot.addListener( listener );
@@ -126,6 +110,22 @@ public class RampPlotSet extends PNode {
 
     public double getTopY() {
         return parallelForcePlot.getTopY();
+    }
+
+    public boolean allThreeGraphsUp() {
+        return !parallelForcePlot.isMinimized() && !energyPlot.isMinimized() && !workPlot.isMinimized();
+    }
+
+    public void setTimeSeriesPlotFont( Font font ) {
+        energyPlot.setSeriesFont( font );
+        workPlot.setSeriesFont( font );
+        parallelForcePlot.setSeriesFont( font );
+    }
+
+    public void setTimeSeriesPlotShadow( int dx, int dy ) {
+        energyPlot.setSeriesPlotShadow( dx, dy );
+        workPlot.setSeriesPlotShadow( dx, dy );
+        parallelForcePlot.setSeriesPlotShadow( dx, dy );
     }
 
     static class VariablePlotItem implements LayoutSet.VariableLayoutItem {
@@ -276,10 +276,6 @@ public class RampPlotSet extends PNode {
             timeSeries.addPoint( value, recordTime );
         }
 
-        public void repaintBackground() {
-//            timePlotSuite.getPlotDevice().reset();
-        }
-
         public String getName() {
             return valueAccessor.getName();
         }
@@ -292,14 +288,18 @@ public class RampPlotSet extends PNode {
         public Color getColor() {
             return valueAccessor.getColor();
         }
+
+        public String getFullName() {
+            return valueAccessor.getFullName();
+        }
     }
 
-    private void addTimeSeries( TimePlotSuitePNode energyPlot, ValueAccessor valueAccessor, String justifyString ) {
+    private void addTimeSeries( TimePlotSuitePNode plot, ValueAccessor valueAccessor, String justifyString ) {
         TimeSeries series = new TimeSeries();
-        TimeSeriesPNode timeSeriesPNode = new TimeSeriesPNode( energyPlot, series, valueAccessor, valueAccessor.getColor(), justifyString );
-        energyPlot.addTimeSeries( timeSeriesPNode );
+        TimeSeriesPNode timeSeriesPNode = new TimeSeriesPNode( plot, series, valueAccessor, valueAccessor.getColor(), justifyString );
+        plot.addTimeSeries( timeSeriesPNode );
 
-        dataUnits.add( new DataUnit( valueAccessor, series, energyPlot, timeSeriesPNode ) );
+        dataUnits.add( new DataUnit( valueAccessor, series, plot, timeSeriesPNode ) );
     }
 
     private RampLookAndFeel getLookAndFeel() {
@@ -310,9 +310,9 @@ public class RampPlotSet extends PNode {
         return rampPanel;
     }
 
-    private TimePlotSuitePNode createTimePlotSuitePNode( Range2D range, String name, int y, int height, boolean appliedForceSlider ) {
+    private TimePlotSuitePNode createTimePlotSuitePNode( Range2D range, String name, String units, int y, int height, boolean appliedForceSlider ) {
         TimeSeriesModel timeSeriesModel = module.getTimeSeriesModel();
-        TimePlotSuitePNode timePlotSuitePNode = new TimePlotSuitePNode( module, getRampPanel(), range, name, timeSeriesModel, height, appliedForceSlider );
+        TimePlotSuitePNode timePlotSuitePNode = new TimePlotSuitePNode( module, getRampPanel(), range, name, units, timeSeriesModel, height, appliedForceSlider );
         timePlotSuitePNode.setOffset( 0, y );
         return timePlotSuitePNode;
     }

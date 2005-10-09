@@ -29,7 +29,6 @@ public class PotentialEnergyZeroGraphic extends PNode {
     private PText label;
 
     public PotentialEnergyZeroGraphic( RampPanel component, final RampPhysicalModel rampPhysicalModel, final RampWorld rampWorld ) {
-        super();
         this.rampPanel = component;
         this.rampPhysicalModel = rampPhysicalModel;
         this.rampWorld = rampWorld;

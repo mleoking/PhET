@@ -126,7 +126,7 @@ public class PusherGraphic extends PImage {
         url0 = RampModule.class.getClassLoader().getResource( "audio/yell.wav" );
         url1 = RampModule.class.getClassLoader().getResource( "audio/smash0.wav" );
         //http://www.gratisnette.com/bruitages/hommes/cris/
-        JSAudioPlayer.playNoBlock( url0 );
+//        JSAudioPlayer.playNoBlock( url0 );
         JSAudioPlayer.playNoBlock( url1 );
 
     }

@@ -17,15 +17,17 @@ public abstract class ValueAccessor {
     private String units;
     private String unitAbbreviation;
     private Color color;
+    private String fullName;
 
     public static final String joules = "Joules";
     public static final String joulesAbbreviation = "J";
 
-    protected ValueAccessor( String name, String units, String unitAbbreviation, Color color ) {
+    protected ValueAccessor( String name, String units, String unitAbbreviation, Color color, String fullName ) {
         this.name = name;
         this.units = units;
         this.unitAbbreviation = unitAbbreviation;
         this.color = color;
+        this.fullName = fullName;
     }
 
     public abstract double getValue( RampPhysicalModel rampPhysicalModel );
@@ -40,6 +42,10 @@ public abstract class ValueAccessor {
 
     public String getUnits() {
         return units;
+    }
+
+    public String getFullName() {
+        return fullName;
     }
 
     public static class TotalEnergy extends EnergyAccessor {
@@ -125,20 +131,20 @@ public abstract class ValueAccessor {
 
     public static abstract class EnergyAccessor extends ValueAccessor {
         public EnergyAccessor( String name, Color color ) {
-            super( name, joules, joulesAbbreviation, color );
+            super( name, joules, joulesAbbreviation, color, name + " Energy" );
         }
     }
 
     public static abstract class WorkAccessor extends ValueAccessor {
         public WorkAccessor( String name, Color color ) {
-            super( name, joules, joulesAbbreviation, color );
+            super( name, joules, joulesAbbreviation, color, name + " Work" );
         }
     }
 
     public static abstract class ParallelForceAccessor extends ValueAccessor {
 
         protected ParallelForceAccessor( String name, Color color ) {
-            super( name, "Newtons", "N", color );
+            super( name, "Newtons", "N", color, name );
         }
 
     }
