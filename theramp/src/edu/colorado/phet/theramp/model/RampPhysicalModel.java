@@ -40,7 +40,7 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
     private SimpleObservable keObservers = new SimpleObservable();
     private double lastTick;
 
-    ModelElement stepStrategy;
+    private ModelElement stepStrategy;
     private double originalBlockKE;
 
     private RampPhysicalModel lastState;
@@ -488,6 +488,23 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
         void zeroPointChanged();
 
         void stepFinished();
+
+//        void angleChanged();
+    }
+
+    public static class Adapter implements Listener {
+
+        public void appliedForceChanged() {
+        }
+
+        public void zeroPointChanged() {
+        }
+
+        public void stepFinished() {
+        }
+
+        public void angleChanged() {
+        }
     }
 
     public RampPhysicalModel getState() {

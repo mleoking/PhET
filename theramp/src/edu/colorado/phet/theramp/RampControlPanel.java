@@ -23,6 +23,8 @@ import java.awt.event.ActionListener;
 public class RampControlPanel extends ControlPanel {
     private RampModule rampModule;
     private ModelSlider frictionSlider;
+    private RampAngleController rampAngleSlider;
+    private PositionController positionSlider;
 
     public RampControlPanel( RampModule rampModule ) {
         super( rampModule );
@@ -51,6 +53,12 @@ public class RampControlPanel extends ControlPanel {
 //        addWorkEnergyBarGraphControls( );
 
 //        ObjectSelectorComponent objectSelectorComponent=new ObjectSelectorComponent(rampModule);
+
+        this.rampAngleSlider = new RampAngleController( rampModule );
+        this.positionSlider = new PositionController( rampModule );
+
+//        addFullWidth( positionSlider.getComponent() );
+//        addFullWidth( rampAngleSlider.getComponent() );
     }
 
     private RampModule getModule() {
@@ -144,5 +152,10 @@ public class RampControlPanel extends ControlPanel {
         verticalLayoutPanel.add( energyBars );
         verticalLayoutPanel.setBorder( BorderFactory.createTitledBorder( "Bar Graphs" ) );
         addControlFullWidth( verticalLayoutPanel );
+    }
+
+    public void addPositionAngleControls() {
+        addFullWidth( positionSlider.getComponent() );
+        addFullWidth( rampAngleSlider.getComponent() );
     }
 }

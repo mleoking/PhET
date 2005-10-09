@@ -44,17 +44,12 @@ public class PotentialEnergyZeroGraphic extends PNode {
             }
         } );
 
-        RampPhysicalModel.Listener listener = new RampPhysicalModel.Listener() {
-            public void appliedForceChanged() {
-            }
-
+        RampPhysicalModel.Listener listener = new RampPhysicalModel.Adapter() {
             public void zeroPointChanged() {
                 setOffset( 0, rampWorld.getRampGraphic().getScreenTransform().modelToViewY( rampPhysicalModel.getZeroPointY() ) );
                 updateLabel();
             }
 
-            public void stepFinished() {
-            }
         };
         rampPhysicalModel.addListener( listener );
 

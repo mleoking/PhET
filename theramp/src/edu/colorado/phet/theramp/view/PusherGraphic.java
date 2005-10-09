@@ -58,16 +58,11 @@ public class PusherGraphic extends PImage {
         }
         flippedAnimation = new FrameSequence( flipped );
         super.setImage( animation.getFrame( 0 ) );
-        module.getRampPhysicalModel().addListener( new RampPhysicalModel.Listener() {
+        module.getRampPhysicalModel().addListener( new RampPhysicalModel.Adapter() {
             public void appliedForceChanged() {
                 update();
             }
 
-            public void zeroPointChanged() {
-            }
-
-            public void stepFinished() {
-            }
         } );
         module.getRampPhysicalModel().getRamp().addObserver( new SimpleObserver() {
             public void update() {
@@ -94,7 +89,7 @@ public class PusherGraphic extends PImage {
         module.getModel().addModelElement( runOver );
         lastDX = getBlockDx();
 
-        modelLocation=getSurfaceGraphic().getSurface().getLength()/2.0;
+        modelLocation = getSurfaceGraphic().getSurface().getLength() / 2.0;
     }
 
 

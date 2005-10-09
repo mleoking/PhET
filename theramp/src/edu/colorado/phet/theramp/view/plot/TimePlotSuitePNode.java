@@ -262,16 +262,11 @@ public class TimePlotSuitePNode extends PNode {
         public SliderGraphic( Rectangle2D.Double dataArea, TimePlotSuitePNode timePlotSuitePNode ) {
             super( dataArea );
             this.rect = dataArea;
-            timePlotSuitePNode.getRampModule().getRampPhysicalModel().addListener( new RampPhysicalModel.Listener() {
+            timePlotSuitePNode.getRampModule().getRampPhysicalModel().addListener( new RampPhysicalModel.Adapter() {
                 public void appliedForceChanged() {
                     update();
                 }
 
-                public void zeroPointChanged() {
-                }
-
-                public void stepFinished() {
-                }
             } );
             this.timePlotSuitePNode = timePlotSuitePNode;
             thumb = new PPath();

@@ -81,12 +81,7 @@ public class RampPanel extends PhetPCanvas {
         barGraphSuite.setOffset( getDefaultRenderingSize().width - barGraphSuite.getFullBounds().getWidth() - 20, barGraphSuite.getY() + 20 );
         addScreenChild( barGraphSuite );
 
-        getRampModule().getRampPhysicalModel().addListener( new RampPhysicalModel.Listener() {
-            public void appliedForceChanged() {
-            }
-
-            public void zeroPointChanged() {
-            }
+        getRampModule().getRampPhysicalModel().addListener( new RampPhysicalModel.Adapter() {
 
             public void stepFinished() {
 //                System.out.println( "<********RampPanel.stepFinished" );

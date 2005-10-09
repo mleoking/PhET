@@ -43,7 +43,7 @@ public class AppliedForceSimpleControl extends PNode {
                 module.setAppliedForce( value.doubleValue() );
             }
         } );
-        module.getRampPhysicalModel().addListener( new RampPhysicalModel.Listener() {
+        module.getRampPhysicalModel().addListener( new RampPhysicalModel.Adapter() {
             public void appliedForceChanged() {
                 Double value = new Double( module.getRampPhysicalModel().getAppliedForceScalar() );
                 if( !spinner.getValue().equals( value ) ) {
@@ -52,11 +52,6 @@ public class AppliedForceSimpleControl extends PNode {
                 }
             }
 
-            public void zeroPointChanged() {
-            }
-
-            public void stepFinished() {
-            }
         } );
     }
 }
