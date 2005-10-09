@@ -33,8 +33,7 @@ public class PSwingCanvas extends PCanvas {
         RepaintManager.setCurrentManager( PSwingRepaintManager );
         PSwingRepaintManager.add( swingWrapper );
 
-        swingEventHandler = new PSwingEventHandler( this, getCamera() );//todo or maybe getCameraLayer()?
-//        swingEventHandler = new PSwingEventHandler( this, getRoot() );//todo or maybe getCameraLayer()?
+        swingEventHandler = new PSwingEventHandler( this, getCamera() );//todo or maybe getCameraLayer() or getRoot()?
         swingEventHandler.setActive( true );
     }
 
