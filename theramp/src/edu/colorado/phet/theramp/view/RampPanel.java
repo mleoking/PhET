@@ -6,9 +6,12 @@ import edu.colorado.phet.piccolo.TargetedWiggleMe;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.RampPlotSet;
+import edu.colorado.phet.theramp.common.LucidaSansFont;
 import edu.colorado.phet.theramp.model.RampObject;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.view.bars.BarGraphSuite;
+import edu.colorado.phet.theramp.view.plot.TimeSeriesPNode;
+import edu.colorado.phet.timeseries.TimeSeriesModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PPaintContext;
@@ -17,7 +20,6 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -96,6 +98,17 @@ public class RampPanel extends PhetPCanvas {
                 }
             }
         } );
+        getRampModule().getTimeSeriesModel().addPlaybackTimeChangeListener( new TimeSeriesModel.PlaybackTimeListener() {
+            public void timeChanged() {
+                if( getRampModule().getRampPhysicalModel().getThermalEnergy() >= getOverheatEnergy() ) {
+                    //colorize heat.
+                    rampWorld.setHeatColor( true );
+                }
+                else {
+                    rampWorld.setHeatColor( false );
+                }
+            }
+        } );
 
         addWorldChild( new OverheatButton( this, module.getRampPhysicalModel(), module ) );
 
@@ -141,25 +154,13 @@ public class RampPanel extends PhetPCanvas {
 
         getLayer().setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
 
-//        getLayer().addInputEventListener( new PBasicInputEventHandler() {
-//            public void mouseMoved( PInputEvent event ) {
-//                super.mouseMoved( event );
-////                System.out.println( "event = " + event );
-//                Point2D position = event.getPosition();
-////                System.out.println( "position = " + position );
-//            }
-//        } );
-
         rampPlotSet = new RampPlotSet( module, this );
         addScreenChild( rampPlotSet );
-//        getCamera().addChild( rampPlotSet );
         appliedForceControl = new AppliedForceSimpleControl( module, this );
         addScreenChild( appliedForceControl );
-//        getCamera().addChild( appliedForceControl );
 
         goPauseClear = new PSwing( this, new GoPauseClearPanel( module.getTimeSeriesModel() ) );
         addScreenChild( goPauseClear );
-//        getCamera().addChild( goPauseClear );
 
         layoutChildren();
         rampPlotSet.addListener( new RampPlotSet.Listener() {
@@ -167,15 +168,8 @@ public class RampPanel extends PhetPCanvas {
                 layoutChildren();
             }
         } );
-//
-//        new Timer( 30, new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                System.out.println( "getSize( ) = " + getSize() );
-//            }
-//        } ).start();
         setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
         setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
-//        setZoomEventHandler( );
     }
 
     public double getOverheatEnergy() {
@@ -226,12 +220,8 @@ public class RampPanel extends PhetPCanvas {
 
         final TargetedWiggleMe wiggleMe = new TargetedWiggleMe( "<html>Apply a Force<br>" +
                                                                 "to the Filing Cabinet</html>",
-//                                                                (int)( screenBounds.getCenterX() - 300 ), (int)( screenBounds.getCenterY() - 100 ),
                                                                 200, 100,
                                                                 getBlockGraphic().getObjectGraphic() );
-//        Point2D wiggleMeCenter = getWiggleMeCenter( wiggleMe );
-//        wiggleMe.setOscillationCenter( wiggleMeCenter );
-
         addScreenChild( wiggleMe );
 
         MouseAdapter wiggleMeDisappears = new MouseAdapter() {
@@ -241,20 +231,6 @@ public class RampPanel extends PhetPCanvas {
             }
         };
         addMouseListener( wiggleMeDisappears );
-    }
-
-    private Point2D getWiggleMeCenter( TargetedWiggleMe wiggleMe ) {
-        PBounds wigBounds = getCanvasBounds( wiggleMe );
-//        System.out.println( "wigBounds = " + wigBounds );
-        PBounds targetBounds = getCanvasBounds( wiggleMe.getTarget() );
-        Point2D center = new Point2D.Double( targetBounds.getX() - wigBounds.getWidth() - 100, targetBounds.getCenterY() - 100 );
-        return center;
-    }
-
-    private PBounds getCanvasBounds( PNode node ) {
-        PBounds bounds = node.getGlobalFullBounds();
-        getCamera().globalToLocal( bounds );
-        return bounds;
     }
 
     private void updateArrowSetGraphics() {
@@ -407,5 +383,23 @@ public class RampPanel extends PhetPCanvas {
         PBounds rect = goPauseClear.getGlobalFullBounds();
         getCamera().globalToLocal( rect );
         return rect;
+    }
+
+    public void graphLayoutChanged() {
+//        if (Toolkit.getDefaultToolkit().getScreenSize().width<=1024)
+        {
+            if( allThreeGraphsUp() ) {
+                rampPlotSet.setTimeSeriesPlotFont( new LucidaSansFont( 9, true, false ) );
+                rampPlotSet.setTimeSeriesPlotShadow( 0, 0 );
+            }
+            else {
+                rampPlotSet.setTimeSeriesPlotFont( TimeSeriesPNode.createDefaultFont() );
+                rampPlotSet.setTimeSeriesPlotShadow( 1, 1 );
+            }
+        }
+    }
+
+    private boolean allThreeGraphsUp() {
+        return rampPlotSet.allThreeGraphsUp();
     }
 }

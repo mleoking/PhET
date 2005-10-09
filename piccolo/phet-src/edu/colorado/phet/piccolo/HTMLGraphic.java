@@ -26,9 +26,9 @@ public class HTMLGraphic extends PNode {
         update();
     }
 
-    public HTMLGraphic(String html,Font font,Color color){
-        this.html=html;
-        label=new JLabel( html);
+    public HTMLGraphic( String html, Font font, Color color ) {
+        this.html = html;
+        label = new JLabel( html );
         setFont( font );
         setColor( color );
         update();

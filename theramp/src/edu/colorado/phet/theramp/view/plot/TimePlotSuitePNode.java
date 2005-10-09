@@ -78,9 +78,11 @@ public class TimePlotSuitePNode extends PNode {
     private SliderGraphic slider;
     private int layoutCount = 0;
     private double defaultMaxY;
+    private String units;
 
     public TimePlotSuitePNode( RampModule module, PSwingCanvas pCanvas, Range2D range, String name,
-                               final TimeSeriesModel timeSeriesModel, int height, boolean useSlider ) {
+                               String units, final TimeSeriesModel timeSeriesModel, int height, boolean useSlider ) {
+        this.units = units;
         this.defaultMaxY = range.getMaxY();
         this.module = module;
         this.pCanvas = pCanvas;
@@ -88,7 +90,7 @@ public class TimePlotSuitePNode extends PNode {
         this.chartHeight = height;
         this.timeSeriesModel = timeSeriesModel;
         dataset = createDataset();
-        chart = createChart( range, dataset, name );
+        chart = createChart( range, dataset, name + " (" + units + ")" );
         this.plot = (XYPlot)chart.getPlot();
         chartGraphic = new PImage();
         chartGraphic.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
@@ -250,6 +252,20 @@ public class TimePlotSuitePNode extends PNode {
 //        pCanvas.getCamera().localToParent( loc );
 
         return loc.getY();
+    }
+
+    public void setSeriesFont( Font font ) {
+        for( int i = 0; i < series.size(); i++ ) {
+            TimeSeriesPNode timeSeriesPNode = (TimeSeriesPNode)series.get( i );
+            timeSeriesPNode.setFont( font );
+        }
+    }
+
+    public void setSeriesPlotShadow( int dx, int dy ) {
+        for( int i = 0; i < series.size(); i++ ) {
+            TimeSeriesPNode timeSeriesPNode = (TimeSeriesPNode)series.get( i );
+            timeSeriesPNode.setShadowOffset( dx, dy );
+        }
     }
 
     static class SliderGraphic extends PPath {

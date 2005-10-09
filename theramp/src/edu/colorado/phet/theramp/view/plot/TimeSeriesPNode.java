@@ -5,7 +5,6 @@ import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.piccolo.ShadowPText;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.model.ValueAccessor;
-import edu.colorado.phet.theramp.view.RampUtil;
 import edu.colorado.phet.timeseries.TimePoint;
 import edu.colorado.phet.timeseries.TimeSeries;
 import edu.umd.cs.piccolo.PNode;
@@ -54,19 +53,21 @@ public class TimeSeriesPNode {
             }
         } );
         s = new BasicStroke( strokeSize, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f );
-        transparentColor = RampUtil.transparify( color, 120 );
+        transparentColor = new Color( color.getRGB() );
         readoutGraphic = new ShadowPText();
         readoutGraphic.setShadowOffset( 1, 1 );
         readoutGraphic.setShadowColor( Color.darkGray );
         readoutGraphic.setTextPaint( color );
-//        readoutGraphic.setFont( new Font( "Lucida Sans", Font.BOLD, 10 ) );
-//        readoutGraphic.setFont( new Font( "Lucida Sans", Font.PLAIN, 12) );
-        readoutGraphic.setFont( new Font( "Lucida Sans", Font.BOLD, 13 ) );
+        readoutGraphic.setFont( createDefaultFont() );
         decimalFormat = new DecimalFormat( "0.00" );
         updateReadout();
 
         readoutGraphic.setPickable( false );
         readoutGraphic.setChildrenPickable( false );
+    }
+
+    public static Font createDefaultFont() {
+        return new Font( "Lucida Sans", Font.BOLD, 13 );
     }
 
     private void updateReadout() {
@@ -132,5 +133,13 @@ public class TimeSeriesPNode {
 
     public PNode getReadoutGraphic() {
         return readoutGraphic;
+    }
+
+    public void setFont( Font font ) {
+        readoutGraphic.setFont( font );
+    }
+
+    public void setShadowOffset( int dx, int dy ) {
+        readoutGraphic.setShadowOffset( dx, dy );
     }
 }

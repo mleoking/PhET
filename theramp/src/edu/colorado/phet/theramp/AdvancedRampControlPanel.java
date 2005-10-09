@@ -10,7 +10,6 @@ import edu.colorado.phet.theramp.model.RampObject;
 import edu.colorado.phet.theramp.view.FreeBodyDiagram;
 import edu.colorado.phet.theramp.view.InitialConditionPanel;
 import edu.colorado.phet.theramp.view.RampPanel;
-import edu.colorado.phet.theramp.view.RampUtil;
 import edu.colorado.phet.theramp.view.arrows.AbstractArrowSet;
 
 import javax.swing.*;
@@ -47,6 +46,9 @@ public class AdvancedRampControlPanel extends RampControlPanel {
                 module.getRampPanel().setMeasureTapeVisible( measureCheckBox.isSelected() );
             }
         } );
+
+        ShowZeroPointPotentialControl showZeroPointPotentialCheckBox = new ShowZeroPointPotentialControl( module );
+        addControl( showZeroPointPotentialCheckBox.getComponent() );
 
 //        addWorkEnergyBarGraphControls(  );
 
@@ -234,12 +236,11 @@ public class AdvancedRampControlPanel extends RampControlPanel {
             setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Graphs" ) );
             for( int i = 0; i < module.getRampPlotSet().numDataUnits(); i++ ) {
                 final RampPlotSet.DataUnit unit = module.getRampPlotSet().dataUnitAt( i );
-                final JCheckBox checkBox = new JCheckBox( unit.getName(), true );
+                final JCheckBox checkBox = new JCheckBox( unit.getFullName(), true );
 
-                Color reverse = RampUtil.inverseColor( unit.getColor() );
                 checkBox.setBackground( unit.getColor() );
                 checkBox.setForeground( Color.black );
-                checkBox.setFont( new Font( "Lucida Sans", Font.BOLD, 16 ) );
+                checkBox.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
                 super.addFullWidth( checkBox );
                 checkBox.addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {

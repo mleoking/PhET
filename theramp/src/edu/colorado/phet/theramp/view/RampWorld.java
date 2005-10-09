@@ -10,7 +10,6 @@ import edu.colorado.phet.theramp.view.arrows.*;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
@@ -98,6 +97,7 @@ public class RampWorld extends PNode {
         measuringTape.setVisible( false );
         addChild( measuringTape );
 
+        setPotentialEnergyZeroGraphicVisible( false );
 //        groundBounds.setPaint( Color.blue);
 //        addChild( groundBounds);
     }
@@ -227,14 +227,15 @@ public class RampWorld extends PNode {
     }
 
     public void setHeatColor( boolean heatColor ) {
-        if (heatColor==this.heatColor){
+        if( heatColor == this.heatColor ) {
             return;
-        }else{
-            this.heatColor=heatColor;
-            if (!heatColor){
+        }
+        else {
+            this.heatColor = heatColor;
+            if( !heatColor ) {
                 restoreOriginalImages();
             }
-            else{
+            else {
                 paintImagesRed();
             }
         }
@@ -250,7 +251,7 @@ public class RampWorld extends PNode {
         rampGraphic.restoreOriginalImage();
     }
 
-    boolean heatColor=false;
+    boolean heatColor = false;
 
     public EarthGraphic getEarthGraphic() {
         return earthGraphic;
@@ -258,5 +259,18 @@ public class RampWorld extends PNode {
 
     public PotentialEnergyZeroGraphic getPotentialEnergyZeroGraphic() {
         return potentialEnergyZeroGraphic;
+    }
+
+    public void setPotentialEnergyZeroGraphicVisible( boolean visible ) {
+        if( !visible && isPotentialEnergyZeroGraphicVisible() ) {
+            removeChild( potentialEnergyZeroGraphic );
+        }
+        else if( visible && !isPotentialEnergyZeroGraphicVisible() ) {
+            addChild( potentialEnergyZeroGraphic );
+        }
+    }
+
+    public boolean isPotentialEnergyZeroGraphicVisible() {
+        return getChildrenReference().contains( potentialEnergyZeroGraphic );
     }
 }
