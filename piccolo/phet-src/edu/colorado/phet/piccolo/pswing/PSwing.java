@@ -24,9 +24,9 @@ import java.io.Serializable;
 
   -----------------------------------------------
 
-  We are currently developing Jazz, a "scenegraph" for use in 2D graphics.
+  We are currently developing Piccolo, a "scenegraph" for use in 2D graphics.
   One of our ultimate goals is to support Swing lightweight components
-  within Jazz, whose graphical space supports arbitray affine transforms.
+  within Piccolo, whose graphical space supports arbitray affine transforms.
   The challenge in this pursuit is getting the components to respond and
   render properly though not actually displayed in a standard Java component
   hierarchy.
@@ -34,7 +34,7 @@ import java.io.Serializable;
 
   The first issues involved making the Swing components focusable and
   showing.  This was accomplished by adding the Swing components to a 0x0
-  JComponent which was in turn added to our main Jazz application component.
+  JComponent which was in turn added to our main Piccolo application component.
   To our good fortune, a Java component is showing merely if it and its
   ancestors are showing and not based on whether it is ACTUALLY visible.
   Likewise, focus in a JComponent depends merely on the component's
@@ -44,15 +44,15 @@ import java.io.Serializable;
   The second issue involved capturing the repaint calls on a Swing
   component.  Normally, for a repaint and the consequent call to
   paintImmediately, a Swing component obtains the Graphics object necessary
-  to render itself through the Java component heirarchy.  However, for Jazz
-  we would like the component to render using a Graphics object that Jazz
+  to render itself through the Java component heirarchy.  However, for Piccolo
+  we would like the component to render using a Graphics object that Piccolo
   may have arbitrarily transformed in some way.  By capturing in the
   RepaintManager the repaint calls made on our special Swing components, we
-  are able to redirect the repaint requests through the Jazz architecture to
+  are able to redirect the repaint requests through the Piccolo architecture to
   put the Graphics in its proper context.  Unfortunately, this means that
   if the Swing component contains other Swing components, then any repaint
   requests made by one of these nested components must go through
-  the Jazz architecture then through the top level Swing component
+  the Piccolo architecture then through the top level Swing component
   down to the nested Swing component.  This normally doesn't cause a
   problem.  However, if calling paint on one of these nested
   children causes a call to repaint then an infinite loop ensues.  This does
@@ -97,16 +97,16 @@ import java.io.Serializable;
   JPopupMenu. In order to implement ToolTips properly, we would need to have
   a method in ToolTipManager that allows us to set the current manager, as
   is possible with RepaintManager.  In order to implement JPopupMenu, we
-  will likely need to reimplement JPopupMenu to function in Jazz with
+  will likely need to reimplement JPopupMenu to function in Piccolo with
   a transformed Graphics and to insert itself in the proper place in the
-  Jazz scenegraph.
+  Piccolo scenegraph.
 
 */
 
 
 /**
  * <b>ZSwing</b> is a Visual Component wrapper used to add
- * Swing Components to a Jazz ZCanvas.
+ * Swing Components to a Piccolo ZCanvas.
  * <p/>
  * Example: adding a swing JButton to a ZCanvas:
  * <pre>
@@ -134,12 +134,15 @@ import java.io.Serializable;
  *            panel.add(newChild);
  *       </pre>
  * <p/>
+ * NOTE: PSwing cannot be correctly interacted with through multiple cameras.
+ * There is no support for it yet.
+ * <p/>
  * NOTE: ZSwing is not properly ZSerializable, but it is java.io.Serializable.
  * <p/>
  * <b>Warning:</b> Serialized and ZSerialized objects of this class will not be
- * compatible with future Jazz releases. The current serialization support is
+ * compatible with future Piccolo releases. The current serialization support is
  * appropriate for short term storage or RMI between applications running the
- * same version of Jazz. A future release of Jazz will provide support for long
+ * same version of Piccolo. A future release of Piccolo will provide support for long
  * term persistence.
  *
  * @author Sam R. Reid
@@ -222,7 +225,7 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
      * The transform, clip, and composite will be set appropriately when this object
      * is rendered.  It is up to this object to restore the transform, clip, and composite of
      * the Graphics2D if this node changes any of them. However, the color, font, and stroke are
-     * unspecified by Jazz.  This object should set those things if they are used, but
+     * unspecified by Piccolo.  This object should set those things if they are used, but
      * they do not need to be restored.
      *
      * @param renderContext Contains information about current render.
@@ -361,9 +364,9 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
 
     /**
      * We need to turn off double buffering of Swing components within
-     * Jazz since all components contained within a native container
+     * Piccolo since all components contained within a native container
      * use the same buffer for double buffering.  With normal Swing
-     * widgets this is fine, but for Swing components within Jazz this
+     * widgets this is fine, but for Swing components within Piccolo this
      * causes problems.  This function recurses the component tree
      * rooted at c, and turns off any double buffering in use.  It also
      * updates the minimum font size based on the font size of c and adds

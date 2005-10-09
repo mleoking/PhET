@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 /**
- * This is an internal class used by Jazz to support Swing components
- * in Jazz.  This should not be instantiated, though all the public
+ * This is an internal class used by Piccolo to support Swing components
+ * in Piccolo.  This should not be instantiated, though all the public
  * methods of javax.swing.RepaintManager may still be called and
  * perform in the expected manner.
  * <p/>
@@ -29,7 +29,7 @@ import java.util.Vector;
  * itself a work-around.  The problem is that JTable's, JTree's, and
  * JList's cell renderers need to be validated before repaint.  Since
  * we have to repaint the entire Swing component hierarchy (in the case
- * of a Swing component group used as a Jazz visual component).  This
+ * of a Swing component group used as a Piccolo visual component).  This
  * causes an infinite loop.  So we introduce the restriction that no
  * repaints can be triggered by a call to paint.
  */
@@ -77,7 +77,7 @@ public class PSwingRepaintManager extends RepaintManager {
     /**
      * This is the method "repaint" now calls in the Swing components.
      * Overridden to capture repaint calls from those Swing components
-     * which are being used as Jazz visual components and to call the Jazz
+     * which are being used as Piccolo visual components and to call the Piccolo
      * repaint mechanism rather than the traditional Component hierarchy
      * repaint mechanism.  Otherwise, behaves like the superclass.
      *
@@ -147,7 +147,7 @@ public class PSwingRepaintManager extends RepaintManager {
     /**
      * This is the method "revalidate" calls in the Swing components.
      * Overridden to capture revalidate calls from those Swing components
-     * being used as Jazz visual components and to update Jazz's visual
+     * being used as Piccolo visual components and to update Piccolo's visual
      * component wrapper bounds (these are stored separately from the
      * Swing component). Otherwise, behaves like the superclass.
      *

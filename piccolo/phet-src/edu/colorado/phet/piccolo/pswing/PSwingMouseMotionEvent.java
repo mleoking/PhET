@@ -30,9 +30,9 @@ import java.awt.event.MouseMotionListener;
  * <p/>
  * <P>
  * <b>Warning:</b> Serialized and ZSerialized objects of this class will not be
- * compatible with future Jazz releases. The current serialization support is
+ * compatible with future Piccolo releases. The current serialization support is
  * appropriate for short term storage or RMI between applications running the
- * same version of Jazz. A future release of Jazz will provide support for long
+ * same version of Piccolo. A future release of Piccolo will provide support for long
  * term persistence.
  */
 public class PSwingMouseMotionEvent extends PSwingMouseEvent {
