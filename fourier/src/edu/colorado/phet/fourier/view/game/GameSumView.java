@@ -98,6 +98,13 @@ public class GameSumView extends GraphicLayerSet implements SimpleObserver {
     // Constructors & finalizers
     //----------------------------------------------------------------------------
     
+    /**
+     * Sole constructor.
+     * 
+     * @param component the parent Component
+     * @param userFourierSeries the Fourier series constructed by the user
+     * @param randomFourierSeries the Fourier series that is randomly generated
+     */
     public GameSumView( Component component, FourierSeries userFourierSeries, RandomFourierSeries randomFourierSeries ) {
         super( component );
 
@@ -184,6 +191,8 @@ public class GameSumView extends GraphicLayerSet implements SimpleObserver {
     public void cleanup() {
         _userFourierSeries.removeObserver( this );
         _userFourierSeries = null;
+        _randomFourierSeries.removeObserver( this );
+        _randomFourierSeries = null;
     }
     
     //----------------------------------------------------------------------------
@@ -222,8 +231,16 @@ public class GameSumView extends GraphicLayerSet implements SimpleObserver {
      */
     public void update() {
         if ( isVisible() ) {
+            /* Update the plots to match their models.
+             * Note: It would be more efficient to update only the data set 
+             * that has changed, but we don't have that information.  So we 
+             * update both data sets.  No one has complained about the 
+             * performance of this. 
+             */
             _userSumPlot.updateDataSet();
             _randomSumPlot.updateDataSet();
+            
+            // Auto scale the chart so that both graphs are fully visible.
             double maxY = Math.max( _userSumPlot.getMaxAmplitude(), _randomSumPlot.getMaxAmplitude() );
             _chartGraphic.autoscaleY( maxY * AUTOSCALE_FACTOR );
         }

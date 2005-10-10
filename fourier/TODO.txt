@@ -61,6 +61,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(10/10) - javadoc code for Game module
 (10/10) - get fundamental sound frequency from Fourier series
 (10/7) - magenta -> pink in Game (roll into 2.1.1)
 2.1.1 ...
