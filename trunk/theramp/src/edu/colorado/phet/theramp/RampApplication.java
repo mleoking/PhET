@@ -40,21 +40,22 @@ public class RampApplication extends PhetApplication {
 
     public static void main( final String[] args ) {
 
+        PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
+        phetLookAndFeel.apply();
+        PhetLookAndFeel.setLookAndFeel();//todo this misses the better l&f in 1.5
+        final SwingTimerClock clock = new SwingTimerClock( 1.0 / 30.0, 30 );
+        final FrameSetup frameSetup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 800, 600 ) );
+        final RampApplication application = new RampApplication( args, clock, frameSetup );
         try {
             SwingUtilities.invokeAndWait( new Runnable() {
                 public void run() {
-                    PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
-                    phetLookAndFeel.apply();
-                    PhetLookAndFeel.setLookAndFeel();//todo this misses the better l&f in 1.5
-                    SwingTimerClock clock = new SwingTimerClock( 1.0 / 30.0, 30 );
-                    FrameSetup frameSetup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 800, 600 ) );
-                    final RampApplication application = new RampApplication( args, clock, frameSetup );
                     application.startApplication();
                     //workaround for 1.4.1, in which applying maxextent to an invisible frame does nothing.
                     new FrameSetup.MaxExtent().initialize( application.getPhetFrame() );
+                    application.simpleRampModule.getPhetPCanvas().requestFocus();
 //        System.out.println( "getSize() = " + application.simpleRampModule.getPhetPCanvas().getSize() );
 //        new DebugPiccoloTree().printTree( application.advancedFeatureModule.getRampPanel().getRoot() );
-                    application.simpleRampModule.getPhetPCanvas().requestFocus();
+
 //        application.getModuleManager().getActiveModule().getPhetPCanvas().requestFocus();
                 }
             } );
