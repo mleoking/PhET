@@ -537,10 +537,22 @@ public class TimePlotSuitePNode extends PNode {
 
     private void updateChartBuffer() {
         updateGridlines();
-        bufferedImage = chart.createBufferedImage( chartWidth, chartHeight );
-        decorateBuffer();
 
-        chartGraphic.setImage( bufferedImage );
+        if( chartWidth < 2000 && chartHeight < 2000 ) {
+
+            bufferedImage = chart.createBufferedImage( chartWidth, chartHeight );
+
+            System.out.println( "TimePlotSuitePNode.updateChartBuffer@" + System.currentTimeMillis() );
+//        bufferedImage = new BufferedImage( 50,50,BufferedImage.TYPE_INT_RGB);
+            decorateBuffer();
+
+
+            chartGraphic.setImage( bufferedImage );
+        }
+        else {
+            System.out.println( "chartWidth = " + chartWidth );
+            System.out.println( "chartHeight = " + chartHeight );
+        }
     }
 
     private void decorateBuffer() {

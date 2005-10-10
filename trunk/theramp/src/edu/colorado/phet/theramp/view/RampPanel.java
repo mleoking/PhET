@@ -413,4 +413,10 @@ public class RampPanel extends PhetPCanvas {
     public BarGraphSuite getBarGraphSuite() {
         return barGraphSuite;
     }
+
+    protected void setWorldScale( double scale ) {
+        if( scale > 0 ) {
+            super.setWorldScale( scale );
+        }
+    }
 }
