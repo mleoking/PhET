@@ -112,13 +112,13 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
     private PhetGraphic _autoScaleGraphic;
     
     private int _xZoomLevel;
-    private int _domain;
-    private int _mathForm;
+    private Domain _domain;
+    private MathForm _mathForm;
     private boolean _presetEnabled;
     
     private int _previousNumberOfHarmonics;
-    private int _previousPreset;
-    private int _previousWaveType;
+    private Preset _previousPreset;
+    private WaveType _previousWaveType;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -285,8 +285,8 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
         
         // Synchronize with model
         _previousNumberOfHarmonics = 0; // force an update
-        _previousPreset = -1;
-        _previousWaveType = -1;
+        _previousPreset = Preset.UNDEFINED;
+        _previousWaveType = WaveType.UNDEFINED;
         _presetEnabled = false;
         update();
     }
@@ -341,14 +341,12 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
      * @param domain
      * @param mathForm
      */
-    public void setDomainAndMathForm( int domain, int mathForm ) {
-        assert( Domain.isValid( domain ) );
-        assert( MathForm.isValid( mathForm ) );
+    public void setDomainAndMathForm( Domain domain, MathForm mathForm ) {
         _domain = domain;
         _mathForm = mathForm;
         updateLabelsAndLines();
         updateMath();
-        _previousPreset = -1; // force update
+        _previousPreset = Preset.UNDEFINED; // force update
         update();
     }
     
@@ -430,8 +428,8 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
 
             // Reset the sum waveform, and update the preset waveform.
             int numberOfHarmonics = _fourierSeries.getNumberOfHarmonics();
-            int preset = _fourierSeries.getPreset();
-            int waveType = _fourierSeries.getWaveType();
+            Preset preset = _fourierSeries.getPreset();
+            WaveType waveType = _fourierSeries.getWaveType();
 
             if ( numberOfHarmonics != _previousNumberOfHarmonics || preset != _previousPreset || waveType != _previousWaveType ) {
 

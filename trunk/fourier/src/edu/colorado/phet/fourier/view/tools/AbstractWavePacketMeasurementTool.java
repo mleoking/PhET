@@ -47,7 +47,7 @@ public abstract class AbstractWavePacketMeasurementTool extends MeasurementTool 
     
     private GaussianWavePacket _wavePacket;
     private Chart _chart;
-    private int _domain;
+    private Domain _domain;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -119,10 +119,7 @@ public abstract class AbstractWavePacketMeasurementTool extends MeasurementTool 
      * 
      * @param domain see FourierConstants.DOMAIN_*
      */
-    public void setDomain( int domain ) {
-        if ( !Domain.isValid( domain ) ) {
-            throw new IllegalArgumentException( "invalid domain: " + domain );
-        }
+    public void setDomain( Domain domain ) {
         _domain = domain;
         updateTool();
     }
@@ -132,7 +129,7 @@ public abstract class AbstractWavePacketMeasurementTool extends MeasurementTool 
      * 
      * @return see FourierConstants.DOMAIN_*
      */
-    protected int getDomain() {
+    protected Domain getDomain() {
         return _domain;
     }
     

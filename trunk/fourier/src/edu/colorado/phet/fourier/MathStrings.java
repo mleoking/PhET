@@ -111,26 +111,25 @@ public class MathStrings {
      * 
      * @param domain
      * @return the function string
+     * @throws IllegalArgumentException if domain is not supported
      */
-    public static String getFunction( int domain ) {
-        
-        assert( Domain.isValid( domain ) );
+    public static String getFunction( Domain domain ) {
         
         String function = null;
         
-        switch ( domain ) {
-            case Domain.SPACE:
+        if ( domain == Domain.SPACE ) {
                 function = MathStrings.F_X;
-                break;
-            case Domain.TIME:
-                function = MathStrings.F_T;
-                break;
-            case Domain.SPACE_AND_TIME:
-                function = MathStrings.F_XT;
-                break;
-           default:
         }
-        assert( function != null ); // you added a new domain and forgot to add it here
+        else if ( domain == Domain.TIME ) {
+                function = MathStrings.F_T;
+        }
+        else if ( domain == Domain.SPACE_AND_TIME ) {
+                function = MathStrings.F_XT;
+        }
+
+        if ( function == null ) {
+            throw new IllegalArgumentException( "unsupported domain: " + domain );
+        }
         
         return function;
     }
@@ -161,61 +160,45 @@ public class MathStrings {
      * @throws IllegalArgumentException if the an illegal combination of args is provided
      * @return the term format string
      */
-    public static String getTerm( int domain, int mathForm, int waveType ) {
-        
-        assert( Domain.isValid( domain ) );
-        assert( MathForm.isValid( mathForm ) );
-        assert( WaveType.isValid( waveType ) );
+    public static String getTerm( Domain domain, MathForm mathForm, WaveType waveType ) {
         
         String term = null;
         
-        switch ( domain ) {
-            case Domain.SPACE:
-                switch ( mathForm ) {
-                    case MathForm.WAVE_NUMBER:
-                        term = MathStrings.WAVE_NUMBER_X;
-                        break;
-                    case MathForm.WAVELENGTH:
-                        term = MathStrings.WAVELENGTH_X;
-                         break;
-                    case MathForm.MODE:
-                        term = MathStrings.MODE_X;
-                        break;
-                    default:
-                }
-                break;
-            case Domain.TIME:
-                switch ( mathForm ) {
-                    case MathForm.ANGULAR_FREQUENCY:
-                        term = MathStrings.ANGULAR_FREQUENCY_T;
-                        break;
-                    case MathForm.FREQUENCY:
-                        term = MathStrings.FREQUENCY_T;
-                        break;
-                    case MathForm.PERIOD:
-                        term = MathStrings.PERIOD_T;
-                        break;
-                    case MathForm.MODE:
-                        term = MathStrings.MODE_T;
-                        break;
-                    default:
-                }
-                break;
-            case Domain.SPACE_AND_TIME:
-                switch ( mathForm ) {
-                    case MathForm.WAVE_NUMBER_AND_ANGULAR_FREQUENCY:
-                        term = MathStrings.WAVENUMBER_AND_ANGULAR_FREQUENCY_XT;
-                        break;
-                    case MathForm.WAVELENGTH_AND_PERIOD:
-                        term = MathStrings.WAVELENGTH_AND_PERIOD_XT;
-                        break;
-                    case MathForm.MODE:
-                        term = MathStrings.MODE_XT;
-                        break;
-                    default:
-                }
-                break;
-            default:
+        if ( domain == Domain.SPACE ) {
+            if ( mathForm == MathForm.WAVE_NUMBER ) {
+                term = MathStrings.WAVE_NUMBER_X;
+            }
+            else if ( mathForm == MathForm.WAVELENGTH ) {
+                term = MathStrings.WAVELENGTH_X;
+            }
+            else if ( mathForm == MathForm.MODE ) {
+                term = MathStrings.MODE_X;
+            }
+        }
+        else if ( domain == Domain.TIME ) {
+            if ( mathForm == MathForm.ANGULAR_FREQUENCY ) {
+                term = MathStrings.ANGULAR_FREQUENCY_T;
+            }
+            else if ( mathForm == MathForm.FREQUENCY ) {
+                term = MathStrings.FREQUENCY_T;
+            }
+            else if ( mathForm == MathForm.PERIOD ) {
+                term = MathStrings.PERIOD_T;
+            }
+            else if ( mathForm == MathForm.MODE ) {
+                term = MathStrings.MODE_T;
+            }
+        }
+        else if ( domain == Domain.SPACE_AND_TIME ) {
+            if ( mathForm == MathForm.WAVE_NUMBER_AND_ANGULAR_FREQUENCY ) {
+                term = MathStrings.WAVENUMBER_AND_ANGULAR_FREQUENCY_XT;
+            }
+            else if ( mathForm == MathForm.WAVELENGTH_AND_PERIOD ) {
+                term = MathStrings.WAVELENGTH_AND_PERIOD_XT;
+            }
+            else if ( mathForm == MathForm.MODE ) {
+                term = MathStrings.MODE_XT;
+            }
         }
         
         if ( term == null ) {
@@ -223,7 +206,7 @@ public class MathStrings {
                     "illegal combination of domain (" + domain + ") " + "and math form (" + mathForm + ")" );
         }
         
-        // All of the equations are in terms of sine.  Do we need to change to cosine?
+        // All of the equations are in terms of sine. Do we need to change to cosine?
         if ( waveType == WaveType.COSINES ) {
             term = term.replaceAll( "sin\\(", "cos(" );
         }

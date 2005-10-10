@@ -41,8 +41,8 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
     private double _fundamentalFrequency; // Hz
     private ArrayList _harmonics; // array of Harmonic
     private ArrayList _availableHarmonics; // array of Harmonic
-    private int _preset;
-    private int _waveType;
+    private Preset _preset;
+    private WaveType _waveType;
     private boolean _adjusting;
     
     //----------------------------------------------------------------------------
@@ -180,8 +180,7 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
         return (Harmonic) _harmonics.get( order );
     }
     
-    public void setPreset( int preset ) {
-        assert( Preset.isValid( preset ) );
+    public void setPreset( Preset preset ) {
         if ( preset != _preset ) {
             _preset = preset;
             _adjusting = true;
@@ -191,7 +190,7 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
         }
     }
     
-    public int getPreset() {
+    public Preset getPreset() {
         return _preset;
     }
     
@@ -199,8 +198,7 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
         updateAmplitudes();
     }
     
-    public void setWaveType( int waveType ) {
-        assert( WaveType.isValid( waveType ) );
+    public void setWaveType( WaveType waveType ) {
         if ( waveType != _waveType ) {
             _waveType = waveType;
             _adjusting = true;
@@ -210,7 +208,7 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
         }
     }
     
-    public int getWaveType() {
+    public WaveType getWaveType() {
         return _waveType;
     }
     

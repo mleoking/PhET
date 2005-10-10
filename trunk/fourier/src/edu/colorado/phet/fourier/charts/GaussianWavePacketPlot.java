@@ -45,7 +45,7 @@ public class GaussianWavePacketPlot extends LinePlot {
 
     private double _dx;
     private double _k0;
-    private int _waveType;
+    private WaveType _waveType;
     private double _pixelsPerPoint;
     private Point2D[] _points;
     private double _maxAmplitude;
@@ -131,9 +131,8 @@ public class GaussianWavePacketPlot extends LinePlot {
      * 
      * @param waveType WAVE_TYPE_SINE or WAVE_TYPE_COSINE
      */
-    public void setWaveType( int waveType ) 
+    public void setWaveType( WaveType waveType ) 
     {
-        assert( WaveType.isValid( waveType ) );
         if ( waveType != _waveType ) {
             _waveType = waveType;
             updateDataSet();
@@ -145,7 +144,7 @@ public class GaussianWavePacketPlot extends LinePlot {
      * 
      * @return WAVE_TYPE_SINE or WAVE_TYPE_COSINE
      */
-    public int getWaveType() {
+    public WaveType getWaveType() {
         return _waveType;
     }
 

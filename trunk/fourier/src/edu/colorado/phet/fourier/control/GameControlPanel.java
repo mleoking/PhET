@@ -222,9 +222,9 @@ public class GameControlPanel extends FourierControlPanel {
         _levelComboBox.setSelectedKey( GameLevel.EASY );
         _presetComboBox.setSelectedKey( Preset.SINE_COSINE );
         _presetComboBox.setEnabled( _levelComboBox.getSelectedKey() == GameLevel.PRESET );
-        _randomFourierSeries.setGameLevel( _levelComboBox.getSelectedKey() );
+        _randomFourierSeries.setGameLevel( (GameLevel) _levelComboBox.getSelectedKey() );
         if ( _levelComboBox.getSelectedKey() == GameLevel.PRESET ) {
-            _randomFourierSeries.setPreset( _presetComboBox.getSelectedKey() );
+            _randomFourierSeries.setPreset( (Preset) _presetComboBox.getSelectedKey() );
         }
         else {
             _randomFourierSeries.setPreset( Preset.CUSTOM );
@@ -294,13 +294,13 @@ public class GameControlPanel extends FourierControlPanel {
         }
         
         // Set the game level
-        int gameLevel = _levelComboBox.getSelectedKey();
+        GameLevel gameLevel = (GameLevel) _levelComboBox.getSelectedKey();
         _presetComboBox.setEnabled( gameLevel == GameLevel.PRESET );
         _randomFourierSeries.setGameLevel( gameLevel );
         
         // Restore the preset
         if ( gameLevel == GameLevel.PRESET ) {
-            int preset = _presetComboBox.getSelectedKey();
+            Preset preset = (Preset) _presetComboBox.getSelectedKey();
             _randomFourierSeries.setPreset( preset );
         }
         else {

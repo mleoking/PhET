@@ -133,11 +133,7 @@ public class DiscreteSumEquation extends CompositePhetGraphic {
      * @param numberOfHarmonics
      * @param waveType
      */
-    public void setForm( int domain, int mathForm, int numberOfHarmonics, int waveType ) {
-        
-        assert( Domain.isValid( domain ) );
-        assert( MathForm.isValid( mathForm ) );
-        assert( WaveType.isValid( waveType ) );
+    public void setForm( Domain domain, MathForm mathForm, int numberOfHarmonics, WaveType waveType ) {
     
         // Get the strings for the domain & math form.
         String lhsString = MathStrings.getFunction( domain );;

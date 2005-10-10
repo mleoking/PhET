@@ -28,6 +28,7 @@ import edu.colorado.phet.fourier.charts.HarmonicPlot;
 import edu.colorado.phet.fourier.control.ZoomControl;
 import edu.colorado.phet.fourier.enum.Domain;
 import edu.colorado.phet.fourier.enum.MathForm;
+import edu.colorado.phet.fourier.enum.Preset;
 import edu.colorado.phet.fourier.enum.WaveType;
 import edu.colorado.phet.fourier.event.HarmonicFocusEvent;
 import edu.colorado.phet.fourier.event.HarmonicFocusListener;
@@ -103,12 +104,12 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
     private ArrayList _harmonicPlots; // array of HarmonicPlot
 
     private int _xZoomLevel;
-    private int _domain;
-    private int _mathForm;
+    private Domain _domain;
+    private MathForm _mathForm;
 
     private int _previousNumberOfHarmonics;
-    private int _previousPreset;
-    private int _previousWaveType;
+    private Preset _previousPreset;
+    private WaveType _previousWaveType;
 
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -240,8 +241,8 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
 
         // Synchronize with model
         _previousNumberOfHarmonics = 0; // force an update
-        _previousPreset = -1;
-        _previousWaveType = -1;
+        _previousPreset = Preset.UNDEFINED;
+        _previousWaveType = WaveType.UNDEFINED;
         update();
     }
 
@@ -285,9 +286,7 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
      * @param domain
      * @param mathForm
      */
-    public void setDomainAndMathForm( int domain, int mathForm ) {
-        assert ( Domain.isValid( domain ) );
-        assert ( MathForm.isValid( mathForm ) );
+    public void setDomainAndMathForm( Domain domain, MathForm mathForm ) {
         _domain = domain;
         _mathForm = mathForm;
         updateLabelsAndLines();
@@ -358,8 +357,8 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
             }
             else {
                 // When the preset or wave type changes, reset the cycle of the waves.
-                int preset = _fourierSeries.getPreset();
-                int waveType = _fourierSeries.getWaveType();
+                Preset preset = _fourierSeries.getPreset();
+                WaveType waveType = _fourierSeries.getWaveType();
                 if ( preset != _previousPreset || waveType != _previousWaveType ) {
                     for ( int i = 0; i < _harmonicPlots.size(); i++ ) {
                         HarmonicPlot harmonicPlot = (HarmonicPlot) _harmonicPlots.get( i );

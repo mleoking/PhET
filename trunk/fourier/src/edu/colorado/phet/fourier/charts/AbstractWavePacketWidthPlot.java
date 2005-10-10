@@ -19,6 +19,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.enum.Domain;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
 
 
@@ -99,9 +100,9 @@ public abstract class AbstractWavePacketWidthPlot extends WidthPlot implements S
     /**
      * Sets the domain.
      * 
-     * @param domain see FourierConstants.DOMAIN_*
+     * @param domain
      */
-    public abstract void setDomain( int domain );
+    public abstract void setDomain( Domain domain );
     
     /**
      * Gets the width of the wave packet, in model coordinates.

@@ -106,9 +106,9 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     private ArrayList _timeMathFormChoices;
     private ArrayList _spaceAndTimeMathFormChoices;
 
-    private int _mathFormKeySpace;
-    private int _mathFormKeyTime;
-    private int _mathFormKeySpaceAndTime;
+    private MathForm _mathFormKeySpace;
+    private MathForm _mathFormKeyTime;
+    private MathForm _mathFormKeySpaceAndTime;
     private EventListener _eventListener;
 
     //----------------------------------------------------------------------------
@@ -473,7 +473,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         _animationCycleController.setEnabled( false );
 
         // Preset
-        int preset = _fourierSeries.getPreset();
+        Preset preset = (Preset) _fourierSeries.getPreset();
         _presetsComboBox.setSelectedKey( preset );
 
         // Show Infinite Number of Harmonics
@@ -505,7 +505,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         _periodTool.setVisible( _periodToolCheckBox.isSelected() );
 
         // Wave Type
-        int waveType = _fourierSeries.getWaveType();
+        WaveType waveType = _fourierSeries.getWaveType();
         _sinesRadioButton.setSelected( waveType == WaveType.SINES );
 
         // Number of harmonics
@@ -637,10 +637,9 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     //----------------------------------------------------------------------------
 
     private void handleDomain() {
-        int domain = _domainComboBox.getSelectedKey();
+        Domain domain = (Domain) _domainComboBox.getSelectedKey();
 
-        switch ( domain ) {
-        case Domain.SPACE:
+        if ( domain == Domain.SPACE ) {
             _mathFormComboBox.removeItemListener( _eventListener );
             _mathFormComboBox.setChoices( _spaceMathFormChoices );
             _mathFormComboBox.addItemListener( _eventListener );
@@ -653,8 +652,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             _periodTool.setVisible( false );
             _periodDisplay.setVisible( false );
             _animationCycleController.setEnabled( false );
-            break;
-        case Domain.TIME:
+        }
+        else if ( domain == Domain.TIME ) {
             _mathFormComboBox.removeItemListener( _eventListener );
             _mathFormComboBox.setChoices( _timeMathFormChoices );
             _mathFormComboBox.addItemListener( _eventListener );
@@ -667,8 +666,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             _periodTool.setVisible( _periodToolCheckBox.isSelected() );
             _periodDisplay.setVisible( false );
             _animationCycleController.setEnabled( false );
-            break;
-        case Domain.SPACE_AND_TIME:
+        }
+        else if ( domain == Domain.SPACE_AND_TIME ) {
             _mathFormComboBox.removeItemListener( _eventListener );
             _mathFormComboBox.setChoices( _spaceAndTimeMathFormChoices );
             _mathFormComboBox.addItemListener( _eventListener );
@@ -682,12 +681,12 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             _periodDisplay.setVisible( _periodToolCheckBox.isSelected() );
             _animationCycleController.reset();
             _animationCycleController.setEnabled( true );
-            break;
-        default:
-            assert ( 1 == 0 ); // programming error
+        }
+        else {
+            throw new IllegalArgumentException( "unsupported domain: " + domain );
         }
 
-        int mathForm = _mathFormComboBox.getSelectedKey(); // get this after setting stuff above
+        MathForm mathForm = (MathForm) _mathFormComboBox.getSelectedKey(); // get this after setting stuff above
         _sumView.setDomainAndMathForm( domain, mathForm );
         _harmonicsView.setDomainAndMathForm( domain, mathForm );
         _expandSumDialog.setDomainAndMathForm( domain, mathForm );
@@ -695,7 +694,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
 
     private void handlePreset() {
         _animationCycleController.reset(); // do this first or preset animation will be out of sync!
-        int preset = _presetsComboBox.getSelectedKey();
+        Preset preset = (Preset) _presetsComboBox.getSelectedKey();
         if ( _cosinesRadioButton.isSelected() && preset == Preset.SAWTOOTH ) {
             showSawtoothCosinesErrorDialog();
             _sinesRadioButton.setSelected( true );
@@ -730,7 +729,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
 
         _periodToolComboBox.setEnabled( _periodToolCheckBox.isEnabled() && _periodToolCheckBox.isSelected() );
 
-        int domain = _domainComboBox.getSelectedKey();
+        Domain domain = (Domain) _domainComboBox.getSelectedKey();
         int harmonicOrder = _periodToolComboBox.getSelectedIndex();
 
         if ( domain == Domain.TIME ) {
@@ -749,14 +748,14 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
 
     private void handleWaveType() {
         _animationCycleController.reset(); // do this first or preset animation will be out of sync!
-        int preset = _presetsComboBox.getSelectedKey();
+        Preset preset = (Preset) _presetsComboBox.getSelectedKey();
         if ( _cosinesRadioButton.isSelected() && preset == Preset.SAWTOOTH ) {
             showSawtoothCosinesErrorDialog();
             _sinesRadioButton.setSelected( true );
             _fourierSeries.setWaveType( WaveType.SINES );
         }
         else {
-            int waveType = ( _sinesRadioButton.isSelected() ? WaveType.SINES : WaveType.COSINES );
+            WaveType waveType = ( _sinesRadioButton.isSelected() ? WaveType.SINES : WaveType.COSINES );
             _fourierSeries.setWaveType( waveType );
         }
     }
@@ -833,8 +832,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     }
 
     private void handleMathForm() {
-        int domain = _domainComboBox.getSelectedKey();
-        int mathForm = _mathFormComboBox.getSelectedKey();
+        Domain domain = (Domain) _domainComboBox.getSelectedKey();
+        MathForm mathForm = (MathForm) _mathFormComboBox.getSelectedKey();
         _harmonicsView.setDomainAndMathForm( domain, mathForm );
         _sumView.setDomainAndMathForm( domain, mathForm );
         _expandSumDialog.setDomainAndMathForm( domain, mathForm );

@@ -39,7 +39,7 @@ public class RandomFourierSeries extends FourierSeries {
     //----------------------------------------------------------------------------
 
     private Random _random;  // the JDK random number generator
-    private int _gameLevel;  // the game level, FourierConstants.GAME_LEVEL_*
+    private GameLevel _gameLevel;  // the game level, FourierConstants.GAME_LEVEL_*
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -68,12 +68,8 @@ public class RandomFourierSeries extends FourierSeries {
      * Sets the game level.
      * 
      * @param gameLevel a game level, one of the FourierConstants.GAME_LEVEL_* values
-     * @throws IllegalArgumentException if game level is invalid
      */
-    public void setGameLevel( int gameLevel ) {
-        if ( !GameLevel.isValid( gameLevel ) ) {
-            throw new IllegalArgumentException( "invalid game level: " + gameLevel );
-        }
+    public void setGameLevel( GameLevel gameLevel ) {
         _gameLevel = gameLevel;
         generate();
     }

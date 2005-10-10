@@ -92,7 +92,7 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
     private boolean _envelopeEnabled;
     private ClosedPathPlot _gradientPlot;
     private HTMLGraphic _mathGraphic;
-    private int _domain;
+    private Domain _domain;
     private WavePacketKWidthPlot _kWidthPlot;
     
     //----------------------------------------------------------------------------
@@ -203,8 +203,7 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
      * 
      * @param domain DOMAIN_SPACE or DOMAIN_TIME
      */
-    public void setDomain( int domain ) {
-        assert( Domain.isValid( domain ) );
+    public void setDomain( Domain domain ) {
         _domain = domain;
         _kWidthPlot.setDomain( domain );
         updateMath();

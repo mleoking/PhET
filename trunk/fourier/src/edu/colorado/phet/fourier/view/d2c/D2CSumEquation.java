@@ -169,7 +169,7 @@ public class D2CSumEquation extends CompositePhetGraphic {
      * @param numberOfHarmonics
      * @param waveType
      */
-    public void setForm( int domain, boolean infinity, int waveType ) {
+    public void setForm( Domain domain, boolean infinity, WaveType waveType ) {
     
         _summationGraphic.setVisible( !infinity );
         _integralGraphic.setVisible( infinity );

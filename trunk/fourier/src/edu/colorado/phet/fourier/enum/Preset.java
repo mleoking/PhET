@@ -17,46 +17,28 @@ import edu.colorado.phet.fourier.FourierConstants;
 
 
 /**
- * Preset encapsulates the preset Fourier waveforms.
+ * Preset is a typesafe enumueration of "preset" values.
+ * It also contains utility functions for getting the 
+ * amplitudes and points associated with the various presets.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class Preset {
+public class Preset extends FourierEnum {
 
     /* This class is not intended for instantiation. */
-    private Preset() {}
+    private Preset( String name ) {
+        super( name );
+    }
     
     // Preset values
-    public static final int SINE_COSINE = 0;
-    public static final int SQUARE = 1;
-    public static final int SAWTOOTH = 2;
-    public static final int TRIANGLE = 3;
-    public static final int WAVE_PACKET = 4;
-    public static final int CUSTOM = 5;
-    
-    /**
-     * Determines if a preset value is valid.
-     * 
-     * @param preset
-     * @return true or false
-     */
-    public static boolean isValid( int preset ) {
-        boolean isValid = false;
-        switch ( preset ) {
-            case SINE_COSINE:
-            case SQUARE:
-            case SAWTOOTH:
-            case TRIANGLE:
-            case WAVE_PACKET:
-            case CUSTOM:
-                 isValid = true;
-                 break;
-            default:
-                 isValid = false;
-        }
-        return isValid;
-    }
+    public static final Preset UNDEFINED = new Preset( "undefined" );
+    public static final Preset SINE_COSINE = new Preset( "sineCosine" );
+    public static final Preset SQUARE = new Preset( "square" );
+    public static final Preset SAWTOOTH = new Preset( "sawtooth" );
+    public static final Preset TRIANGLE = new Preset( "triangle" );
+    public static final Preset WAVE_PACKET = new Preset( "wavePacket" );
+    public static final Preset CUSTOM = new Preset( "custom" );
     
     //----------------------------------------------------------------------------
     // Amplitude coefficients, precomputed for 11 harmonics
@@ -134,48 +116,45 @@ public class Preset {
      * @param numberOfHarmonics
      * @return amplitude coefficients
      */
-    public static double[] getPresetAmplitudes( int preset, int waveType, int numberOfHarmonics ) {
-        assert( isValid( preset ) );
-        assert( isValid( waveType ) );
+    public static double[] getPresetAmplitudes( Preset preset, WaveType waveType, int numberOfHarmonics ) {
         
         double[] amplitudes = null;
         
-        switch( preset ) {
-        case SINE_COSINE:
+        if ( preset == SINE_COSINE ) {
             amplitudes = SINE_COSINE_AMPLITUDES;
-            break;
-        case SQUARE:
+        }
+        else if ( preset == SQUARE ) {
             if ( waveType == WaveType.SINES ) {
                 amplitudes = SINE_SQUARE_AMPLITUDES;
             }
             else {
                 amplitudes = COSINE_SQUARE_AMPLITUDES;
             }
-            break;
-        case SAWTOOTH:
+        }
+        else if ( preset == SAWTOOTH ) {
             if ( waveType == WaveType.SINES ) {
                 amplitudes = SINE_SAWTOOTH_AMPLITUDES;
             }
             else {
                 throw new IllegalStateException( "you can't make a sawtooth wave out of cosines because it is asymmetric" );
             }
-            break;
-        case TRIANGLE:
+        }
+        else if ( preset == TRIANGLE ) {
             if ( waveType == WaveType.SINES ) {
                 amplitudes = SINE_TRIANGLE_AMPLITUDES;
             }
             else {
                 amplitudes = COSINE_TRIANGLE_AMPLITUDES;
             }
-            break;
-        case WAVE_PACKET:
+        }
+        else if ( preset == WAVE_PACKET ) {
             amplitudes = WAVE_PACKET_AMPLITUDES[ numberOfHarmonics - 1 ];
-            break;
-        case CUSTOM:
+        }
+        else if ( preset == CUSTOM ) {
             amplitudes = null;
-            break;
-        default:
-            throw new IllegalStateException( "you forgot to implement a preset" );
+        }
+        else {
+            throw new IllegalStateException( "you forgot to implement a preset: " + preset );
         }
         
         return amplitudes;
@@ -292,9 +271,7 @@ public class Preset {
      * @param waveType
      * @return data points
      */
-    public static Point2D[] getPresetPoints( int preset, int waveType ) {
-        assert( isValid( preset ) );
-        assert( isValid( waveType ) );
+    public static Point2D[] getPresetPoints( Preset preset, WaveType waveType ) {
         
         Point2D[] points = null;
         

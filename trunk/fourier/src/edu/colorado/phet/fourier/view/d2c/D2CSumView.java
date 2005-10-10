@@ -111,8 +111,8 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
     private D2CSumChart _chartGraphic;
     private FlattenedChart _flattenedChart;
     private D2CSumEquation _mathGraphic;
-    private int _domain;
-    private int _waveType;
+    private Domain _domain;
+    private WaveType _waveType;
     private int _xZoomLevel;
     private FourierSeries _fourierSeries;
     private FourierSumPlot _sumPlot;
@@ -287,7 +287,7 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
      * 
      * @param domain DOMAIN_SPACE or DOMAIN_TIME
      */
-    public void setDomain( int domain ) {
+    public void setDomain( Domain domain ) {
         _domain = domain;
         _xWidthPlot.setDomain( domain );
         updateMath();
@@ -299,8 +299,7 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
      * 
      * @param waveType WAVE_TYPE_SINE or WAVE_TYPE_COSINE
      */
-    public void setWaveType( int waveType ) {
-        assert ( WaveType.isValid( waveType ) );
+    public void setWaveType( WaveType waveType ) {
         if ( waveType != _waveType ) {
             _waveType = waveType;
             update();

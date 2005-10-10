@@ -95,8 +95,8 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
     private ZoomControl _horizontalZoomControl;
     private D2CHarmonicsChart _chartGraphic;
     private HarmonicsEquation _mathGraphic;
-    private int _domain;
-    private int _waveType;
+    private Domain _domain;
+    private WaveType _waveType;
     private int _xZoomLevel;
     private HTMLGraphic _cannotShowGraphic;
     private FlattenedChart _flattenedChart;
@@ -249,8 +249,7 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
      * 
      * @param domain DOMAIN_SPACE or DOMAIN_TIME
      */
-    public void setDomain( int domain ) {
-        assert( Domain.isValid( domain ) );
+    public void setDomain( Domain domain ) {
         _domain = domain;
         updateMath();
         updateAxisTitles();
@@ -261,8 +260,7 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
      * 
      * @param waveType WAVE_TYPE_SINE or WAVE_TYPE_COSINE
      */
-    public void setWaveType( int waveType ) {
-        assert( WaveType.isValid( waveType ) );
+    public void setWaveType( WaveType waveType ) {
         _waveType = waveType;
         update();
         updateMath();
