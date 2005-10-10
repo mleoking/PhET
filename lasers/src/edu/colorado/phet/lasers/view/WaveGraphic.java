@@ -11,49 +11,39 @@
 package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
-import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
-import edu.colorado.phet.lasers.model.atom.AtomicState;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
-import java.util.EventListener;
-import java.util.EventObject;
 
 /**
- * Wave
+ * WaveGraphic
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public abstract class WaveGraphic extends PhetGraphic implements ModelElement, AtomicState.Listener {
-    protected Point2D origin;
-    protected double lambda;
-    protected double period;
-    protected double amplitude;
-    protected Color color;
+public abstract class WaveGraphic extends PhetGraphic implements ModelElement {
+    private Point2D origin;
+    private double extent;
+    private double lambda;
+    private double period;
+    private double amplitude;
+    private Color color;
     // Steps in x for which each piece-wise segment of the standing wave is computed
-    protected double dx = 1;
-//    protected double dx = 2;
+    private double dx = 1;
 
-    protected GeneralPath wavePath = new GeneralPath();
-    protected int numPts;
-    protected double elapsedTime = 0;
-    protected Stroke stroke = new BasicStroke( 2f );
+    private GeneralPath wavePath = new GeneralPath();
+    private int numPts;
+    private double elapsedTime = 0;
+    private Stroke stroke = new BasicStroke( 2f );
 
-    private EventChannel eventChannel = new EventChannel( Listener.class );
-    protected Listener listenerProxy = (Listener)eventChannel.getListenerProxy();
-    private AtomicState atomicState;
     private ResonatingCavity cavity;
-    protected Color actualColor;
+//    private Color actualColor;
     private int level;
-    private Color baseColor;
     private Rectangle curtainBounds = new Rectangle();
     // Controls the maximum darkness of the visible beam. Smaller == darker
     private int minLevel;
@@ -63,13 +53,20 @@ public abstract class WaveGraphic extends PhetGraphic implements ModelElement, A
 
     /**
      * @param component
-     * @param atomicState
      * @param cavity
      */
-    public WaveGraphic( Component component, AtomicState atomicState, ResonatingCavity cavity ) {
+    public WaveGraphic( Component component, Point2D origin, double extent,
+                        double lambda, double period, double amplitude,
+                        Color color, ResonatingCavity cavity ) {
         super( component );
-        this.atomicState = atomicState;
+        this.origin = origin;
+        this.extent = extent;
+        this.lambda = lambda;
+        this.period = period;
+        this.amplitude = amplitude;
         this.cavity = cavity;
+        this.color = color;
+        numPts = (int)( extent / dx ) + 1;
     }
 
     public Point2D getOrigin() {
@@ -100,32 +97,42 @@ public abstract class WaveGraphic extends PhetGraphic implements ModelElement, A
         this.color = color;
     }
 
+    protected double getExtent() {
+        return extent;
+    }
+
+    protected double getPeriod() {
+        return period;
+    }
+
+    protected double getDx() {
+        return dx;
+    }
+
+    protected GeneralPath getWavePath() {
+        return wavePath;
+    }
+
+    protected int getNumPts() {
+        return numPts;
+    }
+
+    protected double getElapsedTime() {
+        return elapsedTime;
+    }
+
     protected Rectangle determineBounds() {
         return wavePath.getBounds();
     }
 
     public void paint( Graphics2D g2 ) {
         saveGraphicsState( g2 );
-
-//        GraphicsUtil.setAlpha( g2, (double)( 255 - level ) / 255 );
-//        g2.setColor( baseColor );
-//        g2.fill( curtainBounds );
-//        GraphicsUtil.setAlpha( g2, 1 );
-
         if( amplitude > 0 && isVisible() ) {
             g2.setStroke( stroke );
             g2.setColor( color );
             g2.draw( wavePath );
         }
         restoreGraphicsState();
-    }
-
-    public void addListener( Listener listener ) {
-        eventChannel.addListener( listener );
-    }
-
-    public void removeListener( Listener listener ) {
-        eventChannel.removeListener( listener );
     }
 
     /**
@@ -141,15 +148,16 @@ public abstract class WaveGraphic extends PhetGraphic implements ModelElement, A
         return new Color( newRGB );
     }
 
+    public void stepInTime( double dt ) {
+        elapsedTime += dt;
+    }
+
     protected void update() {
-        baseColor = VisibleColor.wavelengthToColor( atomicState.getWavelength() );
         minLevel = 150;
         // The power function here controls the ramp-up of actualColor intensity
         rampUpExponent = .5;
         level = Math.max( minLevel, 255 - (int)( ( 255 - minLevel ) * Math.pow( ( getAmplitude() / getMaxInternalAmplitude() ), rampUpExponent ) ) );
         level = Math.min( level, 255 );
-//        actualColor = getActualColor( baseColor, level );
-
         curtainBounds.setRect( wavePath.getBounds().getMinX(), cavity.getBounds().getMinY(),
                                wavePath.getBounds().getWidth(), cavity.getBounds().getHeight() );
         setBoundsDirty();
@@ -158,33 +166,5 @@ public abstract class WaveGraphic extends PhetGraphic implements ModelElement, A
 
     private double getMaxInternalAmplitude() {
         return LaserConfig.LASING_THRESHOLD;
-    }
-
-    //----------------------------------------------------------------
-    // Events and listeners
-    //----------------------------------------------------------------
-
-    public interface Listener extends EventListener {
-        public void waveChanged( StandingWaveGraphic.ChangeEvent event );
-    }
-
-    public class ChangeEvent extends EventObject {
-        public ChangeEvent( Object source ) {
-            super( source );
-        }
-
-        public StandingWaveGraphic getStandingWave() {
-            return (StandingWaveGraphic)getSource();
-        }
-    }
-
-
-    public void energyLevelChanged( AtomicState.Event event ) {
-        double lambda = PhysicsUtil.energyToWavelength( event.getEnergy() );
-        color = VisibleColor.wavelengthToColor( lambda );
-    }
-
-    public void meanLifetimechanged( AtomicState.Event event ) {
-
     }
 }

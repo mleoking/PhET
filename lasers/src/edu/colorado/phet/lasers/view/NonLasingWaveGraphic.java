@@ -8,25 +8,22 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.lasers.model.LaserModel;
-import edu.colorado.phet.lasers.model.atom.AtomicState;
-import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
+import edu.colorado.phet.lasers.model.LaserModel;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
 /**
- * Class: StandingWave
- * Package: edu.colorado.phet.lasers.view
- * Author: Another Guy
- * Date: Nov 22, 2004
+ * NonLasingWaveGraphic
  * <p/>
- * A sinusoidal standing wave.
+ * A sine wave with randomized phase.
+ *
+ * @author Ron LeMaster
  */
 public class NonLasingWaveGraphic extends WaveGraphic {
     private AffineTransform rtx;
@@ -43,28 +40,21 @@ public class NonLasingWaveGraphic extends WaveGraphic {
      * @param lambda
      * @param period
      * @param amplitude
-     * @param atomicState
      * @param module
      * @param angle
      */
     public NonLasingWaveGraphic( Component component, Point2D origin, double extent,
                                  double lambda, double period, double amplitude,
-                                 AtomicState atomicState, BaseLaserModule module, double angle ) {
-        super( component, atomicState, module.getLaserModel().getResonatingCavity() );
-        this.origin = origin;
-        this.lambda = lambda;
-        this.period = period;
-        this.amplitude = amplitude;
+                                 Color color, BaseLaserModule module, double angle ) {
+        super( component, origin, extent, lambda, period, amplitude, color, module.getLaserModel().getResonatingCavity() );
         this.module = module;
         this.model = module.getLaserModel();
-        this.color = VisibleColor.wavelengthToColor( atomicState.getWavelength() );
-        numPts = (int)( extent / dx ) + 1;
         model.addModelElement( this );
 
         // Create a random number generator. Sleep first to make sure it gets seeded
         // differently than others that might have been create recently
         try {
-            Thread.sleep(10);
+            Thread.sleep( 10 );
             random = new Random( System.currentTimeMillis() );
         }
         catch( InterruptedException e ) {
@@ -72,18 +62,18 @@ public class NonLasingWaveGraphic extends WaveGraphic {
         }
 
         rtx = AffineTransform.getRotateInstance( angle );
-
-        atomicState.addListener( this );
     }
 
     public void stepInTime( double dt ) {
+        super.stepInTime( dt );
+        GeneralPath wavePath = getWavePath();
         wavePath.reset();
-        elapsedTime += dt;
         double phase = random.nextDouble() * Math.PI;
+        Point2D origin = getOrigin();
         wavePath.moveTo( (float)origin.getX(), (float)origin.getY() );
-        for( int i = 0; i < numPts; i += 3 ) {
-            double x = dx * i;
-            double y = amplitude * ( Math.sin( phase + ( x / lambda ) * Math.PI ) );
+        for( int i = 0; i < getNumPts(); i += 3 ) {
+            double x = getDx() * i;
+            double y = getAmplitude() * ( Math.sin( phase + ( x / getLambda() ) * Math.PI ) );
             p1.setLocation( x, y );
             rtx.transform( p1, p2 );
             if( i == 0 ) {
@@ -98,10 +88,10 @@ public class NonLasingWaveGraphic extends WaveGraphic {
 
 
     public void paint( Graphics2D g2 ) {
-        super.saveGraphicsState( g2);
-        double alpha = Math.min( getAmplitude() / 20 , 1 );
+        super.saveGraphicsState( g2 );
+        double alpha = Math.min( getAmplitude() / 20, 1 );
         if( module.isMirrorsEnabled() ) {
-            alpha *=  1 - module.getRightMirror().getReflectivity();
+            alpha *= 1 - module.getRightMirror().getReflectivity();
         }
         GraphicsUtil.setAlpha( g2, alpha );
         super.paint( g2 );

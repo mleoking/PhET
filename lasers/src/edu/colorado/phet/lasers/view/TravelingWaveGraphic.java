@@ -8,44 +8,36 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.lasers.model.LaserModel;
-import edu.colorado.phet.lasers.model.atom.AtomicState;
 
 import java.awt.*;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
 /**
- * Class: TravelingWave
- * Package: edu.colorado.phet.lasers.view
- * Author: Another Guy
- * Date: Nov 22, 2004
+ * TravelingWave
  * <p/>
- * A sinusoidal traveling wave.
+ * A traveling sinusoidal wave
+ *
+ * @author Ron LeMaster
  */
 public class TravelingWaveGraphic extends WaveGraphic {
 
     public TravelingWaveGraphic( Component component, Point2D origin, double extent,
                                  double lambda, double period, double amplitude,
-                                 AtomicState atomicState, LaserModel model ) {
-        super( component, atomicState, model.getResonatingCavity() );
-        this.origin = origin;
-        this.lambda = lambda;
-        this.period = period;
-        this.amplitude = amplitude;
-        this.color = VisibleColor.wavelengthToColor( atomicState.getWavelength() );
-        numPts = (int)( extent / dx ) + 1;
+                                 Color color, LaserModel model ) {
+        super( component, origin, extent, lambda, period, amplitude, color, model.getResonatingCavity() );
         model.addModelElement( this );
-
-        atomicState.addListener( this );
     }
 
     public void stepInTime( double dt ) {
+        super.stepInTime( dt );
+        GeneralPath wavePath = getWavePath();
         wavePath.reset();
-        elapsedTime += dt;
-        for( int i = 0; i < numPts; i++ ) {
-            double x = dx * i;
-            double y = amplitude * Math.sin( ( ( x - elapsedTime ) / lambda ) * Math.PI );
+        for( int i = 0; i < getNumPts(); i++ ) {
+            double x = getDx() * i;
+            double y = getAmplitude() * Math.sin( ( ( x - getElapsedTime() ) / getLambda() ) * Math.PI );
+            Point2D origin = getOrigin();
             if( i == 0 ) {
                 wavePath.moveTo( (float)( x + origin.getX() ), (float)( y + origin.getY() ) );
             }

@@ -25,6 +25,7 @@ import edu.colorado.phet.lasers.help.EnergyLevelPanelHelp;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
+import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
@@ -331,9 +332,11 @@ public class BaseLaserModule extends Module {
                 seedBeam.setFanout( seedBeamFanout * 0.5 );
                 break;
             case PHOTON_WAVE:
+                AtomicState[] states = new AtomicState[]{getLaserModel().getGroundState(),
+                                                         getLaserModel().getMiddleEnergyState()};
                 if( waveGraphic == null ) {
                     waveGraphic = new LaserWaveGraphic( getApparatusPanel(), getCavity(),
-                                                        rightMirror, this, getLaserModel().getMiddleEnergyState() );
+                                                        rightMirror, this, states );
                 }
                 waveGraphic.setVisible( true );
                 seedBeam.setFanout( seedBeamFanout );
@@ -374,10 +377,6 @@ public class BaseLaserModule extends Module {
 
     public ResonatingCavity getCavity() {
         return cavity;
-    }
-
-    public void setEnergyLevelsVisible( boolean isVisible ) {
-//        energyLevelsDialog.setVisible( isVisible );
     }
 
     public LaserModel getLaserModel() {
@@ -480,7 +479,6 @@ public class BaseLaserModule extends Module {
 
     public void reset() {
         laserModel.reset();
-//        setSwingComponentsVisible( true );
     }
 
     public void setSwingComponentsVisible( boolean areVisible ) {
