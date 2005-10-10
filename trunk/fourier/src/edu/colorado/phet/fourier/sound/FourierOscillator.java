@@ -164,7 +164,7 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
     /**
      * Sets the volume of the sound.  The volume is relative to
      * the volume that the user has set for the output device,
-     * tpyically done in some platform-specific control panel.
+     * typically done in some platform-specific control panel.
      * 
      * @param volume 0.0 (full off) to 1.0 (full on)
      */
