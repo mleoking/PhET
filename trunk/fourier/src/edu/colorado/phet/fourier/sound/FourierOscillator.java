@@ -96,7 +96,7 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
      * @param audioFormat
      * @param streamLength
      * 
-     * @throws IllegalStateExeption if the audio format is not 16-bit little endian
+     * @throws IllegalStateException if the audio format is not 16-bit little endian
      */
     public FourierOscillator( FourierSeries fourierSeries, float volume, AudioFormat audioFormat, long streamLength ) {
         super( new ByteArrayInputStream( new byte[0] ), audioFormat, streamLength );
