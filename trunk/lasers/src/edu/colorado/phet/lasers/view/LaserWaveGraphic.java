@@ -7,9 +7,11 @@
 package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.LaserModel;
+import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
@@ -45,7 +47,7 @@ public class LaserWaveGraphic implements LaserModel.LaserListener {
     private ApparatusPanel apparatusPanel;
 
     public LaserWaveGraphic( ApparatusPanel apparatusPanel, ResonatingCavity cavity,
-                             PartialMirror mirror, BaseLaserModule module, AtomicState atomicState ) {
+                             PartialMirror mirror, BaseLaserModule module, final AtomicState[] atomicStates ) {
 
         this.apparatusPanel = apparatusPanel;
         LaserModel model = module.getLaserModel();
@@ -56,15 +58,16 @@ public class LaserWaveGraphic implements LaserModel.LaserListener {
         this.mirror = mirror;
 
         // Create the lasing wave graphics
+        Color color = Color.white;
         internalWaveOrigin = new Point2D.Double( cavity.getMinX(), cavity.getMinY() + cavity.getHeight() / 2 );
         internalStandingWaveGraphic = new StandingWaveGraphic( apparatusPanel, internalWaveOrigin, cavity.getWidth(),
                                                                cavity.getWidth() / cyclesInCavity, 100,
-                                                               getNumLasingPhotons(), atomicState, model );
+                                                               getNumLasingPhotons(), color, model );
         externalWaveOrigin = new Point2D.Double( cavity.getMinX() + cavity.getWidth(),
                                                  cavity.getMinY() + cavity.getHeight() / 2 );
         externalTravelingWaveGraphic = new TravelingWaveGraphic( apparatusPanel, externalWaveOrigin, 400,
                                                                  cavity.getWidth() / cyclesInCavity, 100,
-                                                                 getNumLasingPhotons(), atomicState, model );
+                                                                 getNumLasingPhotons(), color, model );
 
         // Create the non-lasing wave graphics
         double dTheta = 20;
@@ -77,7 +80,7 @@ public class LaserWaveGraphic implements LaserModel.LaserListener {
                                                               cavity.getMinY() + ( cavity.getHeight() / 2 ) + yOffset );
             WaveGraphic waveGraphic = new NonLasingWaveGraphic( apparatusPanel, nonLasingWaveOrigin, cavity.getWidth(),
                                                                 cavity.getWidth() / cyclesInCavity, 100,
-                                                                getNumLasingPhotons(), atomicState, module,
+                                                                getNumLasingPhotons(), color, module,
                                                                 Math.toRadians( theta ) );
             nonLasingExternalWaveGraphics[i] = waveGraphic;
         }
@@ -88,6 +91,45 @@ public class LaserWaveGraphic implements LaserModel.LaserListener {
             apparatusPanel.addGraphic( nonLasingExternalWaveGraphics[i], LaserConfig.RIGHT_MIRROR_LAYER - 1 );
         }
 
+        atomicStates[1].addListener( new AtomicState.Listener() {
+            public void energyLevelChanged( AtomicState.Event event ) {
+                determineColor( atomicStates );
+            }
+
+            public void meanLifetimechanged( AtomicState.Event event ) {
+
+            }
+        } );
+        atomicStates[0].addListener( new AtomicState.Listener() {
+            public void energyLevelChanged( AtomicState.Event event ) {
+                determineColor( atomicStates );
+            }
+
+            public void meanLifetimechanged( AtomicState.Event event ) {
+
+            }
+        } );
+        determineColor( atomicStates );
+    }
+
+    /**
+     * Determines the color to be used for the wave graphics. This is the wavelength
+     * associated with the energy differential between the ground state and the next state up
+     *
+     * @param atomicStates
+     */
+    private void determineColor( AtomicState[] atomicStates ) {
+        double wavelength = PhysicsUtil.energyToWavelength( atomicStates[1].getEnergyLevel() - atomicStates[0].getEnergyLevel() );
+        Color color = VisibleColor.wavelengthToColor( wavelength );
+        if( color.getAlpha() == 0 ) {
+            color = Color.gray;
+        }
+        externalTravelingWaveGraphic.setColor( color );
+        internalStandingWaveGraphic.setColor( color );
+        for( int i = 0; i < nonLasingExternalWaveGraphics.length; i++ ) {
+            WaveGraphic nonLasingExternalWaveGraphic = nonLasingExternalWaveGraphics[i];
+            nonLasingExternalWaveGraphic.setColor( color );
+        }
     }
 
     public void setVisible( boolean isVisible ) {
@@ -133,7 +175,7 @@ public class LaserWaveGraphic implements LaserModel.LaserListener {
         internalStandingWaveGraphic.setAmplitude( getInternalAmplitude() );
         externalTravelingWaveGraphic.setAmplitude( getExternalAmplitude() );
 
-        // UPdate the non-lasing wave graphics. Reduce the amplitude by a large factor
+        // Update the non-lasing wave graphics. Reduce the amplitude by a large factor
         for( int i = 0; i < nonLasingExternalWaveGraphics.length; i++ ) {
             WaveGraphic waveGraphic = nonLasingExternalWaveGraphics[i];
             int amp = getNumLasingPhotons() > LaserConfig.LASING_THRESHOLD ? 0 : ( getNumLasingPhotons() / 8 );

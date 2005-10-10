@@ -8,46 +8,38 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.lasers.model.LaserModel;
-import edu.colorado.phet.lasers.model.atom.AtomicState;
 
 import java.awt.*;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
 /**
- * Class: StandingWave
- * Package: edu.colorado.phet.lasers.view
- * Author: Another Guy
- * Date: Nov 22, 2004
+ * StandingWave
  * <p/>
- * A sinusoidal standing wave.
+ * A sinusoidal standing wave
+ *
+ * @author Ron LeMaster
  */
 public class StandingWaveGraphic extends WaveGraphic {
 
     public StandingWaveGraphic( Component component, Point2D origin, double extent,
                                 double lambda, double period, double amplitude,
-                                AtomicState atomicState, LaserModel model ) {
-        super( component, atomicState, model.getResonatingCavity() );
-        this.origin = origin;
-        this.lambda = lambda;
-        this.period = period;
-        this.amplitude = amplitude;
-        this.color = VisibleColor.wavelengthToColor( atomicState.getWavelength() );
-        numPts = (int)( extent / dx ) + 1;
+                                Color color, LaserModel model ) {
+        super( component, origin, extent, lambda, period, amplitude, color, model.getResonatingCavity() );
         model.addModelElement( this );
-
-        atomicState.addListener( this );
     }
 
     public void stepInTime( double dt ) {
+        super.stepInTime( dt );
+        GeneralPath wavePath = getWavePath();
         wavePath.reset();
-        elapsedTime += dt;
-        double a = Math.sin( ( elapsedTime / period ) * Math.PI );
+        double a = Math.sin( ( getElapsedTime() / getPeriod() ) * Math.PI );
+        Point2D origin = getOrigin();
         wavePath.moveTo( (float)origin.getX(), (float)origin.getY() );
-        for( int i = 0; i < numPts; i += 3 ) {
-            double x = dx * i;
-            double y = amplitude * ( a * Math.sin( ( x / lambda ) * Math.PI ) );
+        for( int i = 0; i < getNumPts(); i += 3 ) {
+            double x = getDx() * i;
+            double y = getAmplitude() * ( a * Math.sin( ( x / getLambda() ) * Math.PI ) );
             wavePath.lineTo( (float)( x + origin.getX() ), (float)( y + origin.getY() ) );
         }
         update();
