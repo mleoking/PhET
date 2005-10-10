@@ -106,7 +106,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
     private DiscreteSumEquation _mathGraphic;
     private FourierSumPlot _sumPlot;
     private LinePlot _presetPlot;
-    private SinePlot _sineCosinePlot;
+    private SinePlot _sineCosinePresetPlot;
     private ZoomControl _horizontalZoomControl, _verticalZoomControl;
     private JCheckBox _autoScaleCheckBox;
     private PhetGraphic _autoScaleGraphic;
@@ -159,14 +159,14 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
             _chartGraphic.setLocation( 60, 50 );
             
             // Sine/cosine preset plot
-            _sineCosinePlot = new SinePlot( getComponent(), _chartGraphic );
-            _sineCosinePlot.setAmplitude( 1 );
-            _sineCosinePlot.setPeriod( L );
-            _sineCosinePlot.setPixelsPerPoint( SUM_PIXELS_PER_POINT ); // same as Sum plot!
-            _sineCosinePlot.setStroke( PRESET_STROKE );
-            _sineCosinePlot.setBorderColor( PRESET_COLOR );
-            _sineCosinePlot.setStartX( 0 );
-            _chartGraphic.addDataSetGraphic( _sineCosinePlot );
+            _sineCosinePresetPlot = new SinePlot( getComponent(), _chartGraphic );
+            _sineCosinePresetPlot.setAmplitude( 1 );
+            _sineCosinePresetPlot.setPeriod( L );
+            _sineCosinePresetPlot.setPixelsPerPoint( SUM_PIXELS_PER_POINT ); // same as Sum plot!
+            _sineCosinePresetPlot.setStroke( PRESET_STROKE );
+            _sineCosinePresetPlot.setBorderColor( PRESET_COLOR );
+            _sineCosinePresetPlot.setStartX( 0 );
+            _chartGraphic.addDataSetGraphic( _sineCosinePresetPlot );
             
             // Plot for all other presets
             _presetPlot = new LinePlot( getComponent(), _chartGraphic, new DataSet(), PRESET_STROKE, PRESET_COLOR );
@@ -273,7 +273,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
             updateZoomButtons();
             
             _presetPlot.setVisible( false );
-            _sineCosinePlot.setVisible( false );
+            _sineCosinePresetPlot.setVisible( false );
         }
         
         _domain = Domain.SPACE;
@@ -357,12 +357,12 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
      */
     public void setPresetEnabled( boolean enabled ) {
         _presetEnabled = enabled;
-        _sineCosinePlot.setVisible( false );
+        _sineCosinePresetPlot.setVisible( false );
         _presetPlot.setVisible( false );
         if ( _presetEnabled ) {
             if ( _fourierSeries.getPreset() == Preset.SINE_COSINE ) {
-                _sineCosinePlot.setVisible( true );
-                _sineCosinePlot.setCosineEnabled( _fourierSeries.getWaveType() == WaveType.COSINES );
+                _sineCosinePresetPlot.setVisible( true );
+                _sineCosinePresetPlot.setCosineEnabled( _fourierSeries.getWaveType() == WaveType.COSINES );
             }
             else {
                 _presetPlot.setVisible( true );
@@ -437,7 +437,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
                 _sumPlot.setStartX( 0 );
 
                 // Sine/cosine preset
-                _sumPlot.setStartX( 0 );
+                _sineCosinePresetPlot.setStartX( 0 );
 
                 // Other preset
                 _presetPlot.getDataSet().clear();
@@ -451,12 +451,12 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
                 }
                 
                 // Preset visibility
-                _sineCosinePlot.setVisible( false );
+                _sineCosinePresetPlot.setVisible( false );
                 _presetPlot.setVisible( false );
                 if ( _presetEnabled ) {
                     if ( _fourierSeries.getPreset() == Preset.SINE_COSINE ) {
-                        _sineCosinePlot.setVisible( true );
-                        _sineCosinePlot.setCosineEnabled( _fourierSeries.getWaveType() == WaveType.COSINES );
+                        _sineCosinePresetPlot.setVisible( true );
+                        _sineCosinePresetPlot.setCosineEnabled( _fourierSeries.getWaveType() == WaveType.COSINES );
                     }
                     else {
                         _presetPlot.setVisible( true );
@@ -705,29 +705,19 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
         if ( _domain == Domain.SPACE_AND_TIME ) {
                   
             /*
-             * Sum animation.
              * To animate the sum plot, shift its phase based on 
              * where we are in the animation cycle.
              */
-            {
-                double startX = event.getCyclePoint() * L;
-                _sumPlot.setStartX( startX );
-                _sineCosinePlot.setStartX( startX );
-            }
-            
-            /*
-             * Preset animation.
-             * To animate the sine/cosine preset, simply copy the sum plot's data points.
-             * To animate other presets, advance their data points by delta X.
-             */
+            double startX = event.getCyclePoint() * L;
+            _sumPlot.setStartX( startX );
+
+            // Animate the preset.
             if ( _fourierSeries.getPreset() == Preset.SINE_COSINE ) {
-                // sine/cosine preset
-                Point2D[] points = _sumPlot.getDataSet().getPoints();
-                _presetPlot.getDataSet().clear();
-                _presetPlot.getDataSet().addAllPoints( points );
+                // To animate sine/cosine preset, set the phase to be the same as the sum.
+                _sineCosinePresetPlot.setStartX( startX );
             }
             else {
-                // other presets
+                // To animate non-sine/cosine presets, advance their data points by delta X.
                 double deltaX = event.getDelta() * L;
                 Point2D[] points = _presetPlot.getDataSet().getPoints();
                 if ( points != null ) {
