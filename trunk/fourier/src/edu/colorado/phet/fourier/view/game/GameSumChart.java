@@ -73,7 +73,6 @@ public class GameSumChart extends Chart {
     //----------------------------------------------------------------------------
     
     private PhetTextGraphic _xAxisTitleGraphic;
-    private String _xAxisTitleTime, _xAxisTitleSpace;
     
     //----------------------------------------------------------------------------
     // Constructors

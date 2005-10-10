@@ -18,7 +18,9 @@ import edu.colorado.phet.fourier.view.discrete.DiscreteAmplitudesView;
 
 
 /**
- * GameAmplitudesView
+ * GameAmplitudesView is the "Amplitudes" view in the Game module.
+ * The implementation of this view is currently identical to the
+ * implementation for the Discrete module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

@@ -18,18 +18,37 @@ import edu.colorado.phet.fourier.FourierConstants;
 
 
 /**
- * RandomFourierSeries
+ * RandomFourierSeries is a FourierSeries that can generate its own
+ * random values for its component amplitudes.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class RandomFourierSeries extends FourierSeries {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+
     private static final boolean DEBUG_PRINT_AMPLITUDES = false;
     
-    private Random _random;
-    private int _gameLevel;
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+
+    private Random _random;  // the JDK random number generator
+    private int _gameLevel;  // the game level, FourierConstants.GAME_LEVEL_*
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+
+    /**
+     * Sole constructor.
+     * 
+     * @param numberOfHarmonics
+     * @param fundamentalFrequency
+     */
     public RandomFourierSeries( int numberOfHarmonics, double fundamentalFrequency ) {
         super( numberOfHarmonics, fundamentalFrequency );
         setPreset( FourierConstants.PRESET_CUSTOM );
@@ -39,12 +58,32 @@ public class RandomFourierSeries extends FourierSeries {
         generate();
     }
     
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+
+    /**
+     * Sets the game level.
+     * 
+     * @param gameLevel a game level, one of the FourierConstants.GAME_LEVEL_* values
+     * @throws IllegalArgumentException if game level is invalid
+     */
     public void setGameLevel( int gameLevel ) {
-        assert( FourierConstants.isValidGameLevel( gameLevel ) );
+        if ( !FourierConstants.isValidGameLevel( gameLevel ) ) {
+            throw new IllegalArgumentException( "invalid game level: " + gameLevel );
+        }
         _gameLevel = gameLevel;
         generate();
     }
     
+    //----------------------------------------------------------------------------
+    // Generation of amplitudes
+    //----------------------------------------------------------------------------
+
+    /**
+     * Generates random amplitudes for the Fourier series' components,
+     * based on the game level.
+     */
     public void generate() {
         
         if ( _gameLevel == FourierConstants.GAME_LEVEL_EASY ) {
@@ -70,7 +109,7 @@ public class RandomFourierSeries extends FourierSeries {
         }
     }
     
-    /**
+    /*
      * Generates a random number between +-FourierConfig.MAX_HARMONIC_AMPLITUDE
      * with 2 significant decimal places.
      * 
@@ -87,6 +126,7 @@ public class RandomFourierSeries extends FourierSeries {
     }
     
     /*
+     * Generates data for the "Easy" game level.
      * Random values for 2 harmonics, all others zero
      */
     private void generateEasy() {
@@ -107,7 +147,8 @@ public class RandomFourierSeries extends FourierSeries {
     }
     
     /*
-     *  Random values for 4 harmonics, all others zero
+     * Generates data for the "Medium" game level.
+     * Random values for 4 harmonics, all others zero
      */
     private void generateMedium() {
         
@@ -129,6 +170,7 @@ public class RandomFourierSeries extends FourierSeries {
     }
     
     /*
+     * Generates data for the "Hard" game level.
      * Random values for all harmonics
      */
     private void generateHard() {
@@ -139,42 +181,9 @@ public class RandomFourierSeries extends FourierSeries {
     }
     
     /*
-     * Randomize a preset waveform.
+     * Generates data for the "Preset" game level.
      */
     private void generatePreset() {
-        
-//        if ( getPreset() == FourierConstants.PRESET_SINE_COSINE ) {
-//            // For sine preset, set a random value for one of the harmonics, all others zero.
-//            int count = 0;
-//            for ( int i = 0; i < getNumberOfHarmonics(); i++ ) {
-//                boolean isZero = _random.nextBoolean();
-//                if ( isZero || count == 1 ) {
-//                    getHarmonic( i ).setAmplitude( 0 );
-//                }
-//                else {
-//                    double amplitude = generateRandomAmplitude();
-//                    if ( amplitude == 0 ) {
-//                        amplitude = 1.0;
-//                    }
-//                    else if ( amplitude < 0 ) {
-//                        amplitude = -amplitude;
-//                    }
-//                    getHarmonic( i ).setAmplitude( amplitude );
-//                    count++;
-//                }
-//            }
-//        }
-//        else {
-//            // For all other presets, scale the amplitudes of the preset harmonics
-//            double percent = _random.nextDouble();
-//            for ( int i = 0; i < getNumberOfHarmonics(); i++ ) {
-//                Harmonic harmonic = getHarmonic( i );
-//                double amplitude = harmonic.getAmplitude() * percent;
-//                harmonic.setAmplitude( amplitude );
-//            }
-//        }
-//        
-//        // After we're done randomizing, the preset is now "custom".
-//        setPreset( FourierConstants.PRESET_CUSTOM );
+        // Don't do anything, use the preset data "as is".
     }
 }
