@@ -87,6 +87,7 @@ public class FourierSoundPlayer implements Runnable {
      * thread, which is running only when sound is "on".
      * 
      * @param fourierSeries
+     * @throws LineUnavailableException if there is an error configuring the audio system
      */
     public FourierSoundPlayer( FourierSeries fourierSeries ) throws LineUnavailableException {
         
@@ -205,8 +206,11 @@ public class FourierSoundPlayer implements Runnable {
     //----------------------------------------------------------------------------
     
     /**
-     * Reads from the Fourier oscillator and writes to the output device.
-     * The thread exits when _soundEnabled is set to false;
+     * This is the thread that reads from the Fourier oscillator and
+     * writes to the output device. The thread exits when _soundEnabled
+     * is set to false.  The thread is started/stopped in setSoundEnabled.
+     * If an audio system error occurs, all registered SoundErrorListeners
+     * are notified.
      */
     public void run() {
 //        System.out.println( "FourierSoundPlayer.run begins" );//XXX
