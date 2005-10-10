@@ -2,6 +2,7 @@
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.view.components.HorizontalLayoutPanel;
+import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
@@ -27,14 +28,17 @@ public class AppliedForceSimpleControl extends PNode {
         this.rampPanel = rampPanel;
         double maxValue = 3000;
         HorizontalLayoutPanel horizontalLayoutPanel = new HorizontalLayoutPanel();
-        horizontalLayoutPanel.add( new JLabel( "Applied Force (N)" ) );
+//        horizontalLayoutPanel.add( new JLabel( "Applied Force (N)" ) );
+
+        VerticalLayoutPanel verticalLayoutPanel = new VerticalLayoutPanel();
+        verticalLayoutPanel.add( new JLabel( "Applied Force (N)" ) );
 
         SpinnerNumberModel model = new SpinnerNumberModel( module.getRampPhysicalModel().getAppliedForceScalar(), -maxValue, maxValue, 100 );
 
         final JSpinner spinner = new JSpinner( model );
         spinner.setEditor( new JSpinner.NumberEditor( spinner, "0.00" ) );
-        horizontalLayoutPanel.add( spinner );
-
+        verticalLayoutPanel.add( spinner );
+        horizontalLayoutPanel.add( verticalLayoutPanel );
         PSwing pSwing = new PSwing( rampPanel, horizontalLayoutPanel );
         addChild( pSwing );
         spinner.addChangeListener( new ChangeListener() {

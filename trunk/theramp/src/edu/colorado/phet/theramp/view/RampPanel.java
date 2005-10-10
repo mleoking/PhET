@@ -2,6 +2,7 @@
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.piccolo.PhetRootPNode;
 import edu.colorado.phet.piccolo.TargetedWiggleMe;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.theramp.RampModule;
@@ -110,7 +111,8 @@ public class RampPanel extends PhetPCanvas {
             }
         } );
 
-        addWorldChild( new OverheatButton( this, module.getRampPhysicalModel(), module ) );
+        PhetRootPNode.Layer layer = getPhetRootNode().addLayer();
+        layer.getWorldNode().addChild( new OverheatButton( this, module.getRampPhysicalModel(), module ) );
 
         timeGraphic = new TimeGraphic( module.getTimeSeriesModel() );
         timeGraphic.setOffset( 60, 60 );
@@ -183,19 +185,20 @@ public class RampPanel extends PhetPCanvas {
             System.out.println( System.currentTimeMillis() + ": RampPanel.relayoutChildren" );
             double yOrig = rampPlotSet.getFullBounds().getY() - goPauseClear.getFullBounds().getHeight() - 2;
 //            System.out.println( "yOrig = " + yOrig );
-            double y = getChartTopY() - goPauseClear.getFullBounds().getHeight() - 2;
-//            System.out.println( "y = " + y );
-            if( y <= 0 ) {
-                y = yOrig;
-                System.out.println( "Reverting to orig bar y" );
+            double gopY = getChartTopY() - goPauseClear.getFullBounds().getHeight() - 2;
+            double sliderY = getChartTopY() - appliedForceControl.getFullBounds().getHeight() - 2;
+//            System.out.println( "gopY = " + gopY );
+            if( gopY <= 0 ) {
+                gopY = yOrig;
+                System.out.println( "Reverting to orig bar gopY" );
             }
             else {
 //                System.out.println( "Using new value" );
             }
-//            y=yOrig;
-            appliedForceControl.setOffset( rampPlotSet.getFullBounds().getX(), y );
-            goPauseClear.setOffset( appliedForceControl.getFullBounds().getMaxX() + 2, y );
-            barGraphSuite.setOffset( getWidth() - barGraphSuite.getFullBounds().getWidth() - 5, y - 5 );
+//            gopY=yOrig;
+            appliedForceControl.setOffset( rampPlotSet.getFullBounds().getX(), sliderY );
+            goPauseClear.setOffset( appliedForceControl.getFullBounds().getMaxX() + 2, gopY );
+            barGraphSuite.setOffset( getWidth() - barGraphSuite.getFullBounds().getWidth() - 5, gopY - 5 );
             double maxY = ( getHeight() - barGraphSuite.getOffset().getY() ) * 0.8;
             try {
                 barGraphSuite.setBarChartHeight( maxY );
@@ -334,6 +337,10 @@ public class RampPanel extends PhetPCanvas {
         barGraphSuite.setWorkBarsMaximized( selected );
     }
 
+    public int numMaximizedBarGraphs() {
+        return ( barGraphSuite.getEnergyBarsMaximized() ? 1 : 0 ) + ( barGraphSuite.getWorkBarsMaximized() ? 1 : 0 );
+    }
+
     public void setAllBarsMinimized( boolean visible ) {
         setEnergyBarsVisible( !visible );
         setWorkBarsVisible( !visible );
@@ -400,5 +407,10 @@ public class RampPanel extends PhetPCanvas {
 
     private boolean allThreeGraphsUp() {
         return rampPlotSet.allThreeGraphsUp();
+    }
+
+
+    public BarGraphSuite getBarGraphSuite() {
+        return barGraphSuite;
     }
 }

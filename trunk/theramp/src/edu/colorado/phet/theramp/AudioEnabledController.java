@@ -20,7 +20,7 @@ public class AudioEnabledController {
 
     public AudioEnabledController( final RampModule module ) {
         this.module = module;
-        checkBox = new JCheckBox( "Audio", true );
+        checkBox = new JCheckBox( "Sound", true );
         checkBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 JSAudioPlayer.setAudioEnabled( checkBox.isSelected() );

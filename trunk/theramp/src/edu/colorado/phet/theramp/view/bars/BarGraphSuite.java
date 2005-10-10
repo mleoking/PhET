@@ -26,7 +26,6 @@ public class BarGraphSuite extends PNode {
     private ModelViewTransform1D transform1D;
 
     public BarGraphSuite( RampPanel rampPanel, final RampPhysicalModel rampPhysicalModel ) {
-        super();
         this.rampPanel = rampPanel;
         this.rampPhysicalModel = rampPhysicalModel;
 

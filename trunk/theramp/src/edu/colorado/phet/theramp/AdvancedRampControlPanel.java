@@ -215,6 +215,7 @@ public class AdvancedRampControlPanel extends RampControlPanel {
 //            }
 //        } );
 //        timer.start();
+        finishInit();
     }
 
 //    static class FBDPanel extends PhetPCanvas {

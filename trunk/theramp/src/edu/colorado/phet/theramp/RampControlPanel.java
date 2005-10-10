@@ -5,6 +5,7 @@ import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.theramp.model.Block;
+import edu.colorado.phet.theramp.view.GoPauseClearPanel;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -25,6 +26,7 @@ public class RampControlPanel extends ControlPanel {
     private ModelSlider frictionSlider;
     private RampAngleController rampAngleSlider;
     private PositionController positionSlider;
+    private GoPauseClearPanel goPauseClear;
 
     public RampControlPanel( RampModule rampModule ) {
         super( rampModule );
@@ -40,7 +42,7 @@ public class RampControlPanel extends ControlPanel {
         } );
         addControl( jb );
 
-        JButton clearHeat = new JButton( "Clear Heat" );
+        JButton clearHeat = new JButton( "Remove Heat" );
         addControl( clearHeat );
         clearHeat.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -56,7 +58,7 @@ public class RampControlPanel extends ControlPanel {
 
         this.rampAngleSlider = new RampAngleController( rampModule );
         this.positionSlider = new PositionController( rampModule );
-
+        this.goPauseClear = new GoPauseClearPanel( rampModule.getTimeSeriesModel() );
 //        addFullWidth( positionSlider.getComponent() );
 //        addFullWidth( rampAngleSlider.getComponent() );
     }
@@ -155,7 +157,13 @@ public class RampControlPanel extends ControlPanel {
     }
 
     public void addPositionAngleControls() {
-        addFullWidth( positionSlider.getComponent() );
-        addFullWidth( rampAngleSlider.getComponent() );
+        addControlFullWidth( positionSlider.getComponent() );
+        addControlFullWidth( rampAngleSlider.getComponent() );
+        addControl( goPauseClear );
+    }
+
+    protected void finishInit() {
+        AudioEnabledController audioEnabledController = new AudioEnabledController( rampModule );
+        addControl( audioEnabledController.getCheckBox() );
     }
 }

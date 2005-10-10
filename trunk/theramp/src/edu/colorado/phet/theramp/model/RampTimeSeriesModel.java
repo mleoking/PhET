@@ -8,6 +8,8 @@ import edu.colorado.phet.timeseries.ObjectTimePoint;
 import edu.colorado.phet.timeseries.ObjectTimeSeries;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
 
+import javax.swing.*;
+
 /**
  * User: Sam Reid
  * Date: May 16, 2005
@@ -71,9 +73,9 @@ public class RampTimeSeriesModel extends TimeSeriesModel {
     }
 
     protected boolean confirmReset() {
-        return rampModule.resetDialogOk();
-//        int answer = JOptionPane.showConfirmDialog( getApparatusPanel(), "Are you sure you'd like to clear?", "Confirm Clear", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE );
-//        return answer == JOptionPane.OK_OPTION;
+//        return rampModule.resetDialogOk();
+        int answer = JOptionPane.showConfirmDialog( getApparatusPanel(), "Are you sure you'd like to clear the graphs?", "Confirm Clear", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE );
+        return answer == JOptionPane.OK_OPTION;
     }
 
 

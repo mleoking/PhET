@@ -17,6 +17,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PBounds;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,6 +45,7 @@ public class SurfaceGraphic extends PNode {
     private PPath filledShapeGraphic;
     private RampTickSetGraphic rampTickSetGraphic;
     private PText heightReadoutGraphic;
+    private PPath heightExtentGraphic;
     private AngleGraphic angleGraphic;
     private BufferedImage texture;
     private Rectangle lastJackShape = null;
@@ -82,9 +84,17 @@ public class SurfaceGraphic extends PNode {
         addChild( bookStackGraphic );
         addChild( surfaceGraphic );
 
+
+        heightExtentGraphic = new PPath();
+        heightExtentGraphic.setStroke( new BasicStroke( 2 ) );
+        heightExtentGraphic.setStrokePaint( Color.black );
+        heightExtentGraphic.setPaint( null );
+        addChild( heightExtentGraphic );
+
 //        heightReadoutGraphic = new PText( rampPanel, new Font( "Lucida Sans", 0, 14 ), "h=0.0 m", Color.black, 1, 1, Color.gray );
         heightReadoutGraphic = new PText( "h=0.0 m" );
         heightReadoutGraphic.setFont( new LucidaSansFont( 18, true ) );
+        heightReadoutGraphic.setPaint( SkyGraphic.lightBlue );
         addChild( heightReadoutGraphic );
 
         surfaceGraphic.addInputEventListener( new PBasicInputEventHandler() {
@@ -239,7 +249,20 @@ public class SurfaceGraphic extends PNode {
         path.closePath();
         filledShapeGraphic.setPathTo( path.getGeneralPath() );
 
-        heightReadoutGraphic.setOffset( (int)( jackShape.getBounds().getMaxX() + 5 ), jackShape.getBounds().y );
+        heightReadoutGraphic.setOffset( (int)( jackShape.getBounds().getMaxX() + 5 ), jackShape.getBounds().y + jackShape.getBounds().height / 2 );
+
+        PBounds bounds = heightReadoutGraphic.getGlobalFullBounds();
+        globalToLocal( bounds );
+
+        heightExtentGraphic.setPathToPolyline( new Point2D[]{
+            new Point2D.Double( bounds.getCenterX() - 5, floor.getP2().getY() ),
+            new Point2D.Double( bounds.getCenterX() + 5, floor.getP2().getY() ),
+            new Point2D.Double( bounds.getCenterX(), floor.getP2().getY() ),
+            new Point2D.Double( bounds.getCenterX(), jackShape.getY() ),
+            new Point2D.Double( bounds.getCenterX() + 5, jackShape.getY() ),
+            new Point2D.Double( bounds.getCenterX() - 5, jackShape.getY() )
+        } );
+        heightExtentGraphic.setVisible( ramp.getHeight() > 0.4 );
         double height = ramp.getHeight();
         String heightStr = new DecimalFormat( "0.0" ).format( height );
         heightReadoutGraphic.setText( "h=" + heightStr + " m" );

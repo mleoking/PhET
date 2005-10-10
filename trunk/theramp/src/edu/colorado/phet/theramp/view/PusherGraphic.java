@@ -42,7 +42,7 @@ public class PusherGraphic extends PImage {
     private static final long CRUSH_TIME = 1000;
     private double lastAppliedForce = 0;
     private URL url0;
-    private URL url1;
+//    private URL url1;
 
     public PusherGraphic( final RampPanel rampPanel, final PNode target, RampWorld rampWorld ) throws IOException {
         super();
@@ -123,11 +123,12 @@ public class PusherGraphic extends PImage {
         setImage( getCrushedManImage() );
 
 //        url0 = RampModule.class.getClassLoader().getResource( "audio/smash0.wav" );
-        url0 = RampModule.class.getClassLoader().getResource( "audio/yell.wav" );
-        url1 = RampModule.class.getClassLoader().getResource( "audio/smash0.wav" );
+//        url0 = RampModule.class.getClassLoader().getResource( "audio/stooge05-1.wav" );
+        url0 = RampModule.class.getClassLoader().getResource( "audio/slapooh.wav" );
+//        url1 = RampModule.class.getClassLoader().getResource( "audio/smash0.wav" );
         //http://www.gratisnette.com/bruitages/hommes/cris/
-//        JSAudioPlayer.playNoBlock( url0 );
-        JSAudioPlayer.playNoBlock( url1 );
+        JSAudioPlayer.playNoBlock( url0 );
+//        JSAudioPlayer.playNoBlock( url1 );
 
     }
 

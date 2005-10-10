@@ -17,11 +17,11 @@ public class SkyGraphic extends PNode {
     private RampPanel rampPanel;
     private RampWorld rampWorld;
     private PPath phetShapeGraphic;
+    public static final Color lightBlue = new Color( 165, 220, 252 );
 
     public SkyGraphic( RampPanel rampPanel, RampWorld rampWorld ) {
         this.rampPanel = rampPanel;
         this.rampWorld = rampWorld;
-        Color lightBlue = new Color( 165, 220, 252 );
         phetShapeGraphic = new PPath();
         phetShapeGraphic.setPaint( lightBlue );
         addChild( phetShapeGraphic );
