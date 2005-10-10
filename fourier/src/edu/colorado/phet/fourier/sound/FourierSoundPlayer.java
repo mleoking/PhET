@@ -65,7 +65,6 @@ public class FourierSoundPlayer implements Runnable {
     private static final float FRAME_RATE = SAMPLE_RATE; // frames per second
     
     // Audio input stream parameters
-    private static final float FREQUENCY = 440.0F; // Hz
     private static final float DEFAULT_VOLUME = 0.5F; // 0=off, 1=fully on
     private static final int STREAM_LENGTH = AudioSystem.NOT_SPECIFIED;
     
@@ -96,7 +95,7 @@ public class FourierSoundPlayer implements Runnable {
         
         // Set up the source data line.
         AudioFormat audioFormat = new AudioFormat( ENCODING, SAMPLE_RATE, SAMPLE_SIZE, CHANNELS, FRAME_SIZE, FRAME_RATE, false );
-        _oscillator = new FourierOscillator( fourierSeries, FREQUENCY, DEFAULT_VOLUME, audioFormat, STREAM_LENGTH );
+        _oscillator = new FourierOscillator( fourierSeries, DEFAULT_VOLUME, audioFormat, STREAM_LENGTH );
         DataLine.Info info = new DataLine.Info( SourceDataLine.class, audioFormat );
         _sourceDataLine = (SourceDataLine) AudioSystem.getLine( info );
         _sourceDataLine.open( audioFormat, DEVICE_BUFFER_SIZE );

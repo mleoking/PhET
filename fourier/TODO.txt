@@ -6,7 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - "Optical Pulse Shaper" as a separate simulation
-- get fundamental sound frequency from Fourier series
 
 MEDIUM PRIORITY:
 - add support for persistence
@@ -20,7 +19,7 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 - remove the vertical bit of space between views
 - why am I getting the GridStrategy.Relative.getGridLinesSlowButCorrectVersion warning?
-- wiggle me need a blank char at the end of their string, or the last char doesn't redraw properly
+- wiggle me needs a blank char at the end of their string, or the last char doesn't redraw properly
 - wiggle me uses the module's clock, so it stops moving when clock is paused
 - FourierSumPlot should be an observer of its FourierSeries
 - get rid of Vector2D if it continues to be used only by WiggleMeGraphic
@@ -62,6 +61,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(10/10) - get fundamental sound frequency from Fourier series
 (10/7) - magenta -> pink in Game (roll into 2.1.1)
 2.1.1 ...
 (10/6) - improve random generation of amplitudes
