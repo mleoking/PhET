@@ -14,8 +14,8 @@ package edu.colorado.phet.fourier.view.tools;
 import java.awt.Component;
 
 import edu.colorado.phet.chart.Chart;
-import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.MathStrings;
+import edu.colorado.phet.fourier.enum.Domain;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
 
 
@@ -61,7 +61,7 @@ public class WavePacketPeriodTool extends AbstractWavePacketMeasurementTool {
         
         // Set the tool's label.
         int domain = getDomain();
-        if ( domain == FourierConstants.DOMAIN_SPACE ) {
+        if ( domain == Domain.SPACE ) {
             if ( k1 == 0 ) {
                 // lamda1=infinity
                 setLabel( "<html>" + MathStrings.C_LAMDA + "<sub>1</sub>=" + MathStrings.C_INFINITY + "</html>" );
@@ -71,7 +71,7 @@ public class WavePacketPeriodTool extends AbstractWavePacketMeasurementTool {
                 setLabel( "<html>" + MathStrings.C_LAMDA + "<sub>1</sub></html>" );
             }
         }
-        else if ( domain == FourierConstants.DOMAIN_TIME ) {
+        else if ( domain == Domain.TIME ) {
             if ( k1 == 0 ) {
                 // T1=infinity
                 setLabel( "<html>" + MathStrings.C_PERIOD + "<sub>1</sub>=" + MathStrings.C_INFINITY + "</html>" );

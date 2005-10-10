@@ -27,8 +27,9 @@ import javax.swing.JPanel;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.MathStrings;
+import edu.colorado.phet.fourier.enum.Domain;
+import edu.colorado.phet.fourier.enum.MathForm;
 import edu.colorado.phet.fourier.model.FourierSeries;
 
 
@@ -80,8 +81,8 @@ public class ExpandSumDialog extends JDialog implements SimpleObserver {
         _fourierSeries = fourierSeries;
         _fourierSeries.addObserver( this );
         
-        _domain = FourierConstants.DOMAIN_SPACE;
-        _mathForm = FourierConstants.MATH_FORM_WAVE_NUMBER;
+        _domain = Domain.SPACE;
+        _mathForm = MathForm.WAVE_NUMBER;
         
         createUI();
         
@@ -159,8 +160,8 @@ public class ExpandSumDialog extends JDialog implements SimpleObserver {
      * @param mathForm
      */
     public void setDomainAndMathForm( int domain, int mathForm ) {
-        assert( FourierConstants.isValidDomain( domain ) );
-        assert( FourierConstants.isValidMathForm( mathForm ) );
+        assert( Domain.isValid( domain ) );
+        assert( MathForm.isValid( mathForm ) );
         _domain = domain;
         _mathForm = mathForm;
         update();

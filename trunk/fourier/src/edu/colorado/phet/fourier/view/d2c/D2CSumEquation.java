@@ -19,9 +19,10 @@ import java.awt.RenderingHints;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.MathStrings;
+import edu.colorado.phet.fourier.enum.Domain;
+import edu.colorado.phet.fourier.enum.WaveType;
 
 
 /**
@@ -45,11 +46,11 @@ public class D2CSumEquation extends CompositePhetGraphic {
     
     // Fonts and colors
     private static final Color EQUATION_COLOR = Color.BLACK;
-    private static final Font LHS_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 20 );
+    private static final Font LHS_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 20 );
     private static final Font RHS_FONT = LHS_FONT;
-    private static final Font SUMMATION_SYMBOL_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 30 );
+    private static final Font SUMMATION_SYMBOL_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 30 );
     private static final Font INTEGRAL_SYMBOL_FONT = SUMMATION_SYMBOL_FONT;
-    private static final Font RANGE_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 12 );
+    private static final Font RANGE_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 12 );
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -153,7 +154,7 @@ public class D2CSumEquation extends CompositePhetGraphic {
             }
         }
         
-        setForm( FourierConstants.DOMAIN_SPACE, false, FourierConstants.WAVE_TYPE_COSINE );
+        setForm( Domain.SPACE, false, WaveType.COSINES );
     }
     
     //----------------------------------------------------------------------------
@@ -177,13 +178,13 @@ public class D2CSumEquation extends CompositePhetGraphic {
         String lhsHTML = null;
         String rhsHTML = null;
         if ( !infinity ) {
-            if ( domain == FourierConstants.DOMAIN_SPACE ) {
+            if ( domain == Domain.SPACE ) {
                 // F(x)=
                 lhsHTML = "<html>F(x) = </html>";
                 // An sin(knx)
                 rhsHTML = "<html>A<sub>n</sub> sin( k<sub>n</sub>x )</html>";
             }
-            else if ( domain == FourierConstants.DOMAIN_TIME ) {
+            else if ( domain == Domain.TIME ) {
                 // F(t)=
                 lhsHTML = "<html>F(t) = </html>";
                 // An sin(wnt)
@@ -194,13 +195,13 @@ public class D2CSumEquation extends CompositePhetGraphic {
             }
         }
         else {
-            if ( domain == FourierConstants.DOMAIN_SPACE ) {
+            if ( domain == Domain.SPACE ) {
                 // F(x)=
                 lhsHTML = "<html>F(x) = </html>";
                 // A(k) sin(kx) dx
                 rhsHTML = "<html>A(k) sin( kx ) dk</html>";
             }
-            else if ( domain == FourierConstants.DOMAIN_TIME ) {
+            else if ( domain == Domain.TIME ) {
                 // F(t)
                 lhsHTML = "<html>F(t) = </html>";
                 // A(w) sin(wt) dw
@@ -212,7 +213,7 @@ public class D2CSumEquation extends CompositePhetGraphic {
         }
         
         // The equations are in terms of sine.  Do we need to change to cosine?
-        if ( waveType == FourierConstants.WAVE_TYPE_COSINE ) {
+        if ( waveType == WaveType.COSINES ) {
             // sin -> cos
             rhsHTML = rhsHTML.replaceAll( "sin\\(", "cos(" );
         }

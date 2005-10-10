@@ -18,7 +18,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.fourier.FourierConfig;
+import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.view.BoundsDebugger;
 
 
@@ -100,10 +100,10 @@ public abstract class FourierModule extends Module {
     public void setWaitCursorEnabled( boolean enabled ) {
         ApparatusPanel apparatusPanel = getApparatusPanel();
         if ( enabled ) {
-            apparatusPanel.setCursor( FourierConfig.WAIT_CURSOR );
+            apparatusPanel.setCursor( FourierConstants.WAIT_CURSOR );
         }
         else {
-            apparatusPanel.setCursor( FourierConfig.DEFAULT_CURSOR );
+            apparatusPanel.setCursor( FourierConstants.DEFAULT_CURSOR );
         }
     }
     

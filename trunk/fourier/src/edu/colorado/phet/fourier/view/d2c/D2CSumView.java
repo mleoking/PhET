@@ -25,13 +25,15 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.charts.FlattenedChart;
 import edu.colorado.phet.fourier.charts.FourierSumPlot;
 import edu.colorado.phet.fourier.charts.GaussianWavePacketPlot;
 import edu.colorado.phet.fourier.charts.WavePacketXWidthPlot;
 import edu.colorado.phet.fourier.control.ZoomControl;
+import edu.colorado.phet.fourier.enum.Domain;
+import edu.colorado.phet.fourier.enum.Preset;
+import edu.colorado.phet.fourier.enum.WaveType;
 import edu.colorado.phet.fourier.event.ZoomEvent;
 import edu.colorado.phet.fourier.event.ZoomListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
@@ -67,7 +69,7 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
 
     // Title parameters
-    private static final Font TITLE_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 20 );
+    private static final Font TITLE_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
     private static final Point TITLE_LOCATION = new Point( 40, 115 );
 
@@ -174,7 +176,7 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
 
         // Fourier series
         _fourierSeries = new FourierSeries( 1, 440 ); //XXX
-        _fourierSeries.setPreset( FourierConstants.PRESET_CUSTOM );
+        _fourierSeries.setPreset( Preset.CUSTOM );
 
         // Fourier sum plot
         _sumPlot = new FourierSumPlot( component, _chartGraphic, _fourierSeries );
@@ -248,8 +250,8 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
     public void reset() {
         _envelopeEnabled = false;
         _envelopeGraphic.setVisible( _envelopeEnabled );
-        setDomain( FourierConstants.DOMAIN_SPACE );
-        _waveType = FourierConstants.WAVE_TYPE_SINE;
+        setDomain( Domain.SPACE );
+        _waveType = WaveType.SINES;
         _xZoomLevel = 0;
         _chartGraphic.setRange( CHART_RANGE );
         refreshChart();
@@ -298,7 +300,7 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
      * @param waveType WAVE_TYPE_SINE or WAVE_TYPE_COSINE
      */
     public void setWaveType( int waveType ) {
-        assert ( FourierConstants.isValidWaveType( waveType ) );
+        assert ( WaveType.isValid( waveType ) );
         if ( waveType != _waveType ) {
             _waveType = waveType;
             update();
@@ -579,18 +581,18 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
             // but invert the wave type (sines or cosines).
             FourierSeries fourierSeries = new FourierSeries();
             {
-                fourierSeries.setPreset( FourierConstants.PRESET_CUSTOM );
+                fourierSeries.setPreset( Preset.CUSTOM );
                 fourierSeries.setNumberOfHarmonics( _fourierSeries.getNumberOfHarmonics() );
                 fourierSeries.setFundamentalFrequency( _fourierSeries.getFundamentalFrequency() );
                 for ( int i = 0; i < fourierSeries.getNumberOfHarmonics(); i++ ) {
                     Harmonic harmonic = _fourierSeries.getHarmonic( i );
                     fourierSeries.getHarmonic( i ).setAmplitude( harmonic.getAmplitude() );
                 }
-                if ( _fourierSeries.getWaveType() == FourierConstants.WAVE_TYPE_SINE ) {
-                    fourierSeries.setWaveType( FourierConstants.WAVE_TYPE_COSINE );
+                if ( _fourierSeries.getWaveType() == WaveType.SINES ) {
+                    fourierSeries.setWaveType( WaveType.COSINES );
                 }
                 else {
-                    fourierSeries.setWaveType( FourierConstants.WAVE_TYPE_SINE );
+                    fourierSeries.setWaveType( WaveType.SINES );
                 }
             }
             
@@ -611,11 +613,11 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
             wavePacketPlot.setPixelsPerPoint( _wavePacketPlot.getPixelsPerPoint() );
             wavePacketPlot.setK0( _wavePacket.getK0() );
             wavePacketPlot.setDeltaX( _wavePacket.getDeltaX() );
-            if ( _wavePacketPlot.getWaveType() == FourierConstants.WAVE_TYPE_SINE ) {
-                wavePacketPlot.setWaveType( FourierConstants.WAVE_TYPE_COSINE );     
+            if ( _wavePacketPlot.getWaveType() == WaveType.SINES ) {
+                wavePacketPlot.setWaveType( WaveType.COSINES );     
             }
             else {
-                wavePacketPlot.setWaveType( FourierConstants.WAVE_TYPE_SINE );
+                wavePacketPlot.setWaveType( WaveType.SINES );
             }
             
             points1 = _wavePacketPlot.getDataSet().getPoints();
@@ -649,10 +651,10 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
      * Update the titles on the axes.
      */
     private void updateAxisTitles() {
-        if ( _domain == FourierConstants.DOMAIN_SPACE ) {
+        if ( _domain == Domain.SPACE ) {
             _chartGraphic.setXAxisTitle( "x (mm)" );
         }
-        else if ( _domain == FourierConstants.DOMAIN_TIME ) {
+        else if ( _domain == Domain.TIME ) {
             _chartGraphic.setXAxisTitle( "t (ms)" );
         }
         refreshChart();

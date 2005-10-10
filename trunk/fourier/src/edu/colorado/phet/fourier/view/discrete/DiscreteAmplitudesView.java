@@ -25,7 +25,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.fourier.FourierConfig;
+import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.charts.FlattenedChart;
 import edu.colorado.phet.fourier.event.HarmonicFocusEvent;
 import edu.colorado.phet.fourier.event.HarmonicFocusListener;
@@ -61,14 +61,14 @@ public class DiscreteAmplitudesView extends GraphicLayerSet implements SimpleObs
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
     
     // Title parameters
-    private static final Font TITLE_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 20 );
+    private static final Font TITLE_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
     
     // Chart parameters
-    private static final double X_MIN = FourierConfig.MIN_HARMONICS;
-    private static final double X_MAX = FourierConfig.MAX_HARMONICS;
-    private static final double Y_MIN = -FourierConfig.MAX_HARMONIC_AMPLITUDE;
-    private static final double Y_MAX = +FourierConfig.MAX_HARMONIC_AMPLITUDE;
+    private static final double X_MIN = FourierConstants.MIN_HARMONICS;
+    private static final double X_MAX = FourierConstants.MAX_HARMONICS;
+    private static final double Y_MIN = -FourierConstants.MAX_HARMONIC_AMPLITUDE;
+    private static final double Y_MAX = +FourierConstants.MAX_HARMONIC_AMPLITUDE;
     private static final Range2D CHART_RANGE = new Range2D( X_MIN, Y_MIN, X_MAX, Y_MAX );
     private static final Dimension CHART_SIZE = new Dimension( 640, 130 );
     
@@ -192,8 +192,8 @@ public class DiscreteAmplitudesView extends GraphicLayerSet implements SimpleObs
             
             _slidersGraphic.clear();
 
-            int totalSpace = ( FourierConfig.MAX_HARMONICS + 1 ) * SLIDER_SPACING;
-            int barWidth = ( CHART_SIZE.width - totalSpace ) / FourierConfig.MAX_HARMONICS;
+            int totalSpace = ( FourierConstants.MAX_HARMONICS + 1 ) * SLIDER_SPACING;
+            int barWidth = ( CHART_SIZE.width - totalSpace ) / FourierConstants.MAX_HARMONICS;
             double deltaWavelength = ( VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH ) / ( numberOfHarmonics - 1 );
 
             for ( int i = 0; i < numberOfHarmonics; i++ ) {

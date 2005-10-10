@@ -22,12 +22,12 @@ import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.charts.ClosedPathPlot;
 import edu.colorado.phet.fourier.charts.FlattenedChart;
 import edu.colorado.phet.fourier.charts.WavePacketKWidthPlot;
+import edu.colorado.phet.fourier.enum.Domain;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
 
 
@@ -57,7 +57,7 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
     
     // Title parameters
-    private static final Font TITLE_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 20 );
+    private static final Font TITLE_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
     
     // Chart parameters
@@ -78,7 +78,7 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
     private static final Stroke ENVELOPE_STROKE = new BasicStroke( 4f );
     
     // Math equation
-    private static final Font MATH_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 20 );
+    private static final Font MATH_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 20 );
     private static final Color MATH_COLOR = Color.BLACK;
     
     //----------------------------------------------------------------------------
@@ -189,7 +189,7 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
     public void reset() {
         _envelopeEnabled = false;
         _envelopeGraphic.setVisible( _envelopeEnabled );
-        setDomain( FourierConstants.DOMAIN_SPACE );
+        setDomain( Domain.SPACE );
         update();
     }
 
@@ -204,7 +204,7 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
      * @param domain DOMAIN_SPACE or DOMAIN_TIME
      */
     public void setDomain( int domain ) {
-        assert( FourierConstants.isValidDomain( domain ) );
+        assert( Domain.isValid( domain ) );
         _domain = domain;
         _kWidthPlot.setDomain( domain );
         updateMath();
@@ -349,7 +349,7 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
 
         // Scale the y axis so based on the center point's amplitude.
         double maxAmplitude = GaussianWavePacket.getAmplitude( k0, k0, dk ) * k1;
-        _chartGraphic.autoscaleY( maxAmplitude * FourierConfig.AUTOSCALE_PERCENTAGE );
+        _chartGraphic.autoscaleY( maxAmplitude * FourierConstants.AUTOSCALE_PERCENTAGE );
     }
     
     /*
@@ -383,7 +383,7 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
         dataSet.addPoints( (Point2D.Double[]) points.toArray( new Point2D.Double[points.size()] ) );
         
         _chartGraphic.addDataSetGraphic( _gradientPlot );
-        _chartGraphic.autoscaleY( maxAmplitude * FourierConfig.AUTOSCALE_PERCENTAGE );
+        _chartGraphic.autoscaleY( maxAmplitude * FourierConstants.AUTOSCALE_PERCENTAGE );
     }
     
     /*
@@ -425,11 +425,11 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
             _mathGraphic.setHTML( "<html>A<sub>n</sub></html>" );
         }
         else {
-            if ( _domain == FourierConstants.DOMAIN_SPACE ) {
+            if ( _domain == Domain.SPACE ) {
                 // A(k)
                 _mathGraphic.setHTML( "<html>A(k)</html>" );
             }
-            else if ( _domain == FourierConstants.DOMAIN_TIME ) {
+            else if ( _domain == Domain.TIME ) {
                 // A(w)
                 _mathGraphic.setHTML( "<html>A(" + MathStrings.C_OMEGA + ")</html>" );
             }
@@ -441,10 +441,10 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
      * Update the titles on the axes.
      */
     private void updateAxisTitles() {
-        if ( _domain == FourierConstants.DOMAIN_SPACE ) {
+        if ( _domain == Domain.SPACE ) {
             _chartGraphic.setXAxisTitle( SimStrings.get( "D2CAmplitudesView.xTitleSpace" ) );
         }
-        else if ( _domain == FourierConstants.DOMAIN_TIME ) {
+        else if ( _domain == Domain.TIME ) {
             _chartGraphic.setXAxisTitle( SimStrings.get( "D2CAmplitudesView.xTitleTime" ) );
         }
         refreshChart();

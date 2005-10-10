@@ -15,7 +15,8 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.enum.Preset;
+import edu.colorado.phet.fourier.enum.WaveType;
 
 
 /**
@@ -66,8 +67,8 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
         _fundamentalFrequency = fundamentalFrequency;
         _harmonics = new ArrayList();
         _availableHarmonics = new ArrayList();
-        _preset = FourierConstants.PRESET_SINE_COSINE;
-        _waveType = FourierConstants.WAVE_TYPE_SINE;
+        _preset = Preset.SINE_COSINE;
+        _waveType = WaveType.SINES;
         _adjusting = false;
         setNumberOfHarmonics( numberOfHarmonics );
     }
@@ -180,7 +181,7 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
     }
     
     public void setPreset( int preset ) {
-        assert( FourierConstants.isValidPreset( preset ) );
+        assert( Preset.isValid( preset ) );
         if ( preset != _preset ) {
             _preset = preset;
             _adjusting = true;
@@ -199,7 +200,7 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
     }
     
     public void setWaveType( int waveType ) {
-        assert( FourierConstants.isValidWaveType( waveType ) );
+        assert( WaveType.isValid( waveType ) );
         if ( waveType != _waveType ) {
             _waveType = waveType;
             _adjusting = true;
@@ -217,7 +218,7 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
         
         int numberOfHarmonics = getNumberOfHarmonics();
         
-        double[] amplitudes = FourierConstants.getPresetAmplitudes( _preset, _waveType,  numberOfHarmonics );
+        double[] amplitudes = Preset.getPresetAmplitudes( _preset, _waveType,  numberOfHarmonics );
 
         if ( amplitudes != null ) {
             assert( numberOfHarmonics <= amplitudes.length );

@@ -111,20 +111,20 @@ public class FourierApplication extends PhetApplication {
     public static void main( String[] args ) throws IOException {
 
         // Initialize localization.
-        SimStrings.init( args, FourierConfig.LOCALIZATION_BUNDLE_BASENAME );
+        SimStrings.init( args, FourierConstants.LOCALIZATION_BUNDLE_BASENAME );
         
         // Get stuff needed to initialize the application model.
         String title = SimStrings.get( "FourierApplication.title" );
         String description = SimStrings.get( "FourierApplication.description" );
         String version = Version.NUMBER;
-        int width = FourierConfig.APP_FRAME_WIDTH;
-        int height = FourierConfig.APP_FRAME_HEIGHT;
+        int width = FourierConstants.APP_FRAME_WIDTH;
+        int height = FourierConstants.APP_FRAME_HEIGHT;
         FrameSetup frameSetup = new FrameSetup.CenteredWithSize( width, height );
 
         // Clock
-        double timeStep = FourierConfig.CLOCK_TIME_STEP;
-        int waitTime = ( 1000 / FourierConfig.CLOCK_FRAME_RATE ); // milliseconds
-        boolean isFixed = FourierConfig.CLOCK_TIME_STEP_IS_CONSTANT;
+        double timeStep = FourierConstants.CLOCK_TIME_STEP;
+        int waitTime = ( 1000 / FourierConstants.CLOCK_FRAME_RATE ); // milliseconds
+        boolean isFixed = FourierConstants.CLOCK_TIME_STEP_IS_CONSTANT;
         AbstractClock clock = new SwingTimerClock( timeStep, waitTime, isFixed );
         boolean useClockControlPanel = true;
         

@@ -12,15 +12,13 @@
 package edu.colorado.phet.fourier.view.discrete;
 
 import java.awt.*;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.fourier.FourierConfig;
+import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.MathStrings;
 
 
@@ -35,7 +33,7 @@ public class DiscreteAmplitudesChart extends Chart {
     // Axis parameters
     private static final Color AXIS_COLOR = Color.BLACK;
     private static final Stroke AXIS_STROKE = new BasicStroke( 1f );
-    private static final Font AXIS_TITLE_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 16 );
+    private static final Font AXIS_TITLE_FONT = new Font( FourierConstants.FONT_NAME, Font.BOLD, 16 );
     private static final Color AXIS_TITLE_COLOR = Color.BLACK;
     
     // Range labels
@@ -47,7 +45,7 @@ public class DiscreteAmplitudesChart extends Chart {
     private static final double Y_MINOR_TICK_SPACING = 0.1;
     private static final Stroke Y_MAJOR_TICK_STROKE = new BasicStroke( 1f );
     private static final Stroke Y_MINOR_TICK_STROKE = new BasicStroke( 1f );
-    private static final Font Y_MAJOR_TICK_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 12 );
+    private static final Font Y_MAJOR_TICK_FONT = new Font( FourierConstants.FONT_NAME, Font.BOLD, 12 );
     
     // Gridlines
     private static final boolean MAJOR_GRIDLINES_ENABLED = true;

@@ -18,11 +18,13 @@ import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.charts.FlattenedChart;
 import edu.colorado.phet.fourier.charts.HarmonicPlot;
 import edu.colorado.phet.fourier.control.ZoomControl;
+import edu.colorado.phet.fourier.enum.Domain;
+import edu.colorado.phet.fourier.enum.MathForm;
+import edu.colorado.phet.fourier.enum.WaveType;
 import edu.colorado.phet.fourier.event.ZoomEvent;
 import edu.colorado.phet.fourier.event.ZoomListener;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
@@ -59,14 +61,14 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
     
     // Title parameters
-    private static final Font TITLE_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 20 );
+    private static final Font TITLE_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
     private static final Point TITLE_LOCATION = new Point( 40, 115 );
     
     // Message parameters
-    private static final Font CANNOT_SHOW_MESSAGE_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 16 );
+    private static final Font CANNOT_SHOW_MESSAGE_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 16 );
     private static final Color CANNOT_SHOW_MESSAGE_COLOR = Color.RED;
-    private static final Font MINIMIZE_MESSAGE_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 12 );
+    private static final Font MINIMIZE_MESSAGE_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 12 );
     private static final Color MINIMIZE_MESSAGE_COLOR = Color.RED;
     
     // Chart parameters
@@ -218,8 +220,8 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
      * Resets to the initial state.
      */
     public void reset() {
-        setDomain( FourierConstants.DOMAIN_SPACE );
-        _waveType = FourierConstants.WAVE_TYPE_SINE;
+        setDomain( Domain.SPACE );
+        _waveType = WaveType.SINES;
         _xZoomLevel = 0;
         _chartGraphic.setRange( CHART_RANGE );
         refreshChart();
@@ -248,7 +250,7 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
      * @param domain DOMAIN_SPACE or DOMAIN_TIME
      */
     public void setDomain( int domain ) {
-        assert( FourierConstants.isValidDomain( domain ) );
+        assert( Domain.isValid( domain ) );
         _domain = domain;
         updateMath();
         updateAxisTitles();
@@ -260,7 +262,7 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
      * @param waveType WAVE_TYPE_SINE or WAVE_TYPE_COSINE
      */
     public void setWaveType( int waveType ) {
-        assert( FourierConstants.isValidWaveType( waveType ) );
+        assert( WaveType.isValid( waveType ) );
         _waveType = waveType;
         update();
         updateMath();
@@ -491,7 +493,7 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
                 }
 
                 // Autoscale the vertical axis.
-                _chartGraphic.autoscaleY( maxAmplitude * FourierConfig.AUTOSCALE_PERCENTAGE );
+                _chartGraphic.autoscaleY( maxAmplitude * FourierConstants.AUTOSCALE_PERCENTAGE );
                 
                 refreshChart();
             }
@@ -509,11 +511,11 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
      */
     private void updateMath() {
         int numberOfHarmonics = _wavePacket.getNumberOfComponents();
-        if ( _domain == FourierConstants.DOMAIN_SPACE ) {
-            _mathGraphic.setForm( _domain, FourierConstants.MATH_FORM_WAVE_NUMBER, _waveType );
+        if ( _domain == Domain.SPACE ) {
+            _mathGraphic.setForm( _domain, MathForm.WAVE_NUMBER, _waveType );
         }
-        else if ( _domain == FourierConstants.DOMAIN_TIME ) {
-            _mathGraphic.setForm( _domain, FourierConstants.MATH_FORM_ANGULAR_FREQUENCY, _waveType );
+        else if ( _domain == Domain.TIME ) {
+            _mathGraphic.setForm( _domain, MathForm.ANGULAR_FREQUENCY, _waveType );
         }
         _mathGraphic.centerRegistrationPoint();
     }
@@ -522,10 +524,10 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
      * Update the titles on the axes.
      */
     private void updateAxisTitles() {
-        if ( _domain == FourierConstants.DOMAIN_SPACE ) {
+        if ( _domain == Domain.SPACE ) {
             _chartGraphic.setXAxisTitle( "x (mm)" );
         }
-        else if ( _domain == FourierConstants.DOMAIN_TIME ) {
+        else if ( _domain == Domain.TIME ) {
             _chartGraphic.setXAxisTitle( "t (ms)" );
         }
         refreshChart();

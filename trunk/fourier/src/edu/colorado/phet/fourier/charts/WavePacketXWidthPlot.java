@@ -11,14 +11,12 @@
 
 package edu.colorado.phet.fourier.charts;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.chart.Chart;
-import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.enum.Domain;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
-import edu.colorado.phet.fourier.util.TrigCache;
 
 
 /**
@@ -49,14 +47,14 @@ public class WavePacketXWidthPlot extends AbstractWavePacketWidthPlot {
      * @param domain
      */
     public void setDomain( int domain ) {
-        assert( FourierConstants.isValidDomain( domain ) );
+        assert( Domain.isValid( domain ) );
         
         // Set the graphic's label.
-        if ( domain == FourierConstants.DOMAIN_SPACE ) {
+        if ( domain == Domain.SPACE ) {
             // 2 sigma sub-x
             setLabel( "<html>2\u03C3<sub>x</sub></html>" );
         }
-        else if ( domain == FourierConstants.DOMAIN_TIME ) {
+        else if ( domain == Domain.TIME ) {
             // 2 sigma sub-t
             setLabel( "<html>2\u03C3<sub>t</sub></html>" );     
         }

@@ -18,7 +18,7 @@ import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.DataSet;
 import edu.colorado.phet.chart.LinePlot;
 import edu.colorado.phet.chart.Range2D;
-import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.enum.WaveType;
 import edu.colorado.phet.fourier.util.TrigCache;
 
 
@@ -68,7 +68,7 @@ public class GaussianWavePacketPlot extends LinePlot {
 
         _dx = 1;
         _k0 = 0;
-        _waveType = FourierConstants.WAVE_TYPE_SINE;
+        _waveType = WaveType.SINES;
         _pixelsPerPoint = 1.0;
         _points = null;
         _maxAmplitude = 0;
@@ -133,7 +133,7 @@ public class GaussianWavePacketPlot extends LinePlot {
      */
     public void setWaveType( int waveType ) 
     {
-        assert( FourierConstants.isValidWaveType( waveType ) );
+        assert( WaveType.isValid( waveType ) );
         if ( waveType != _waveType ) {
             _waveType = waveType;
             updateDataSet();
@@ -239,7 +239,7 @@ public class GaussianWavePacketPlot extends LinePlot {
                  * y = F(x) = exp( -(x^2) / (2 * (deltax^2)) ) * sin(k0*x)
                  */
                 double y = 0;
-                if ( _waveType == FourierConstants.WAVE_TYPE_SINE ) {
+                if ( _waveType == WaveType.SINES ) {
                     y = Math.exp( -( x * x ) / ( 2 * ( _dx * _dx ) ) ) * TrigCache.sin( _k0 * x );
                 }
                 else {

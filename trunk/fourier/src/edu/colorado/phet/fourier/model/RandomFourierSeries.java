@@ -13,8 +13,10 @@ package edu.colorado.phet.fourier.model;
 
 import java.util.Random;
 
-import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.enum.GameLevel;
+import edu.colorado.phet.fourier.enum.Preset;
+import edu.colorado.phet.fourier.enum.WaveType;
 
 
 /**
@@ -51,10 +53,10 @@ public class RandomFourierSeries extends FourierSeries {
      */
     public RandomFourierSeries( int numberOfHarmonics, double fundamentalFrequency ) {
         super( numberOfHarmonics, fundamentalFrequency );
-        setPreset( FourierConstants.PRESET_CUSTOM );
-        setWaveType( FourierConstants.WAVE_TYPE_SINE );
+        setPreset( Preset.CUSTOM );
+        setWaveType( WaveType.SINES );
         _random = new Random();
-        _gameLevel = FourierConstants.GAME_LEVEL_EASY;
+        _gameLevel = GameLevel.EASY;
         generate();
     }
     
@@ -69,7 +71,7 @@ public class RandomFourierSeries extends FourierSeries {
      * @throws IllegalArgumentException if game level is invalid
      */
     public void setGameLevel( int gameLevel ) {
-        if ( !FourierConstants.isValidGameLevel( gameLevel ) ) {
+        if ( !GameLevel.isValid( gameLevel ) ) {
             throw new IllegalArgumentException( "invalid game level: " + gameLevel );
         }
         _gameLevel = gameLevel;
@@ -86,16 +88,16 @@ public class RandomFourierSeries extends FourierSeries {
      */
     public void generate() {
         
-        if ( _gameLevel == FourierConstants.GAME_LEVEL_EASY ) {
+        if ( _gameLevel == GameLevel.EASY ) {
             generateEasy();
         }
-        else if ( _gameLevel == FourierConstants.GAME_LEVEL_MEDIUM ) {
+        else if ( _gameLevel == GameLevel.MEDIUM ) {
             generateMedium();
         }
-        else if ( _gameLevel == FourierConstants.GAME_LEVEL_HARD ) {
+        else if ( _gameLevel == GameLevel.HARD ) {
             generateHard();
         }
-        else if ( _gameLevel == FourierConstants.GAME_LEVEL_PRESET ) {
+        else if ( _gameLevel == GameLevel.PRESET ) {
             generatePreset();
         }
        
@@ -118,10 +120,10 @@ public class RandomFourierSeries extends FourierSeries {
     private double generateRandomAmplitude() {
         int sign = _random.nextBoolean() ? +1 : -1;
         double step = 0.01;
-        int numberOfSteps = (int) ( FourierConfig.MAX_HARMONIC_AMPLITUDE / step ) + 1;
+        int numberOfSteps = (int) ( FourierConstants.MAX_HARMONIC_AMPLITUDE / step ) + 1;
         int multiplier = _random.nextInt( numberOfSteps );
         double amplitude = sign * multiplier * step;
-        assert( amplitude <= FourierConfig.MAX_HARMONIC_AMPLITUDE );
+        assert( amplitude <= FourierConstants.MAX_HARMONIC_AMPLITUDE );
         return amplitude;
     }
     

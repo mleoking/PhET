@@ -18,7 +18,7 @@ import java.awt.RenderingHints;
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.SinePlot;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.enum.WaveType;
 import edu.colorado.phet.fourier.event.HarmonicColorChangeEvent;
 import edu.colorado.phet.fourier.event.HarmonicColorChangeListener;
 import edu.colorado.phet.fourier.model.Harmonic;
@@ -38,7 +38,7 @@ public class HarmonicPlot extends SinePlot implements SimpleObserver, HarmonicCo
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final int DEFAULT_WAVE_TYPE = FourierConstants.WAVE_TYPE_SINE;
+    private static final int DEFAULT_WAVE_TYPE = WaveType.SINES;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -118,10 +118,10 @@ public class HarmonicPlot extends SinePlot implements SimpleObserver, HarmonicCo
      * @param waveType
      */
     public void setWaveType( int waveType ) {
-        assert( FourierConstants.isValidWaveType( waveType ) );
+        assert( WaveType.isValid( waveType ) );
         if ( waveType != _waveType ) {
             _waveType = waveType;
-            super.setCosineEnabled( _waveType == FourierConstants.WAVE_TYPE_COSINE );
+            super.setCosineEnabled( _waveType == WaveType.COSINES );
         }
     }
     

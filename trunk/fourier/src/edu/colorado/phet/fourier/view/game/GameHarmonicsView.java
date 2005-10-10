@@ -21,7 +21,6 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.charts.HarmonicPlot;
 import edu.colorado.phet.fourier.event.HarmonicFocusEvent;
@@ -59,7 +58,7 @@ public class GameHarmonicsView extends GraphicLayerSet implements HarmonicFocusL
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
 
     // Title parameters
-    private static final Font TITLE_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 20 );
+    private static final Font TITLE_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
     private static final Point TITLE_LOCATION = new Point( 40, 115 );
 
@@ -68,7 +67,7 @@ public class GameHarmonicsView extends GraphicLayerSet implements HarmonicFocusL
     private static final double X_RANGE_START = ( L / 2 );
     private static final double X_RANGE_MIN = ( L / 4 );
     private static final double X_RANGE_MAX = ( 2 * L );
-    private static final double Y_RANGE_START = FourierConfig.MAX_HARMONIC_AMPLITUDE + ( 0.05 * FourierConfig.MAX_HARMONIC_AMPLITUDE );
+    private static final double Y_RANGE_START = FourierConstants.MAX_HARMONIC_AMPLITUDE + ( 0.05 * FourierConstants.MAX_HARMONIC_AMPLITUDE );
     private static final Range2D CHART_RANGE = new Range2D( -X_RANGE_START, -Y_RANGE_START, X_RANGE_START, Y_RANGE_START );
     private static final Dimension CHART_SIZE = new Dimension( 540, 135 );
 

@@ -15,8 +15,8 @@ import java.awt.*;
 
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.enum.Domain;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
 
 
@@ -34,7 +34,7 @@ public abstract class AbstractWavePacketMeasurementTool extends MeasurementTool 
     //----------------------------------------------------------------------------
     
     // Default "look" for all wave packet measurement tools
-    private static final Font LABEL_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 16 );
+    private static final Font LABEL_FONT = new Font( FourierConstants.FONT_NAME, Font.BOLD, 16 );
     private static final Color LABEL_COLOR = Color.BLACK;
     private static final Color LABEL_BACKGROUND_COLOR = new Color(255,255,255,150); // translucent white
     private static final Color BAR_FILL_COLOR = Color.YELLOW;
@@ -78,7 +78,7 @@ public abstract class AbstractWavePacketMeasurementTool extends MeasurementTool 
         setStroke( BAR_STROKE );
         setLabelBackground( LABEL_BACKGROUND_COLOR );
         
-        _domain = FourierConstants.DOMAIN_SPACE;
+        _domain = Domain.SPACE;
     }
     
     /**
@@ -120,7 +120,7 @@ public abstract class AbstractWavePacketMeasurementTool extends MeasurementTool 
      * @param domain see FourierConstants.DOMAIN_*
      */
     public void setDomain( int domain ) {
-        if ( !FourierConstants.isValidDomain( domain ) ) {
+        if ( !Domain.isValid( domain ) ) {
             throw new IllegalArgumentException( "invalid domain: " + domain );
         }
         _domain = domain;

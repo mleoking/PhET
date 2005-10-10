@@ -12,27 +12,28 @@
 package edu.colorado.phet.fourier.control;
 
 import java.awt.BorderLayout;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
+import javax.swing.ButtonGroup;
+import javax.swing.JCheckBox;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.control.sliders.WavePacketCenterSlider;
 import edu.colorado.phet.fourier.control.sliders.WavePacketKWidthSlider;
 import edu.colorado.phet.fourier.control.sliders.WavePacketSpacingSlider;
 import edu.colorado.phet.fourier.control.sliders.WavePacketXWidthSlider;
+import edu.colorado.phet.fourier.enum.Domain;
+import edu.colorado.phet.fourier.enum.WaveType;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
 import edu.colorado.phet.fourier.module.FourierModule;
 import edu.colorado.phet.fourier.view.d2c.D2CAmplitudesView;
@@ -206,8 +207,8 @@ public class D2CControlPanel extends FourierControlPanel {
 
                 // Choices
                 _domainChoices = new ArrayList();
-                _domainChoices.add( new FourierComboBox.Choice( FourierConstants.DOMAIN_SPACE, SimStrings.get( "domain.space" ) ) );
-                _domainChoices.add( new FourierComboBox.Choice( FourierConstants.DOMAIN_TIME, SimStrings.get( "domain.time" ) ) );
+                _domainChoices.add( new FourierComboBox.Choice( Domain.SPACE, SimStrings.get( "domain.space" ) ) );
+                _domainChoices.add( new FourierComboBox.Choice( Domain.TIME, SimStrings.get( "domain.time" ) ) );
  
                 // Function combo box
                 _domainComboBox = new FourierComboBox( label, _domainChoices );
@@ -294,7 +295,7 @@ public class D2CControlPanel extends FourierControlPanel {
         _amplitudesView.setKWidthVisible( _showWidthsCheckBox.isSelected() );
         _sumView.setXWidthVisible( _showWidthsCheckBox.isSelected()  );
         
-        _domainComboBox.setSelectedKey( FourierConstants.DOMAIN_SPACE );
+        _domainComboBox.setSelectedKey( Domain.SPACE );
         handleDomain();
         
         _sinesRadioButton.setSelected( true );
@@ -382,7 +383,7 @@ public class D2CControlPanel extends FourierControlPanel {
         _spacingTool.setDomain( domain );
         _periodTool.setDomain( domain );
         
-        if ( domain == FourierConstants.DOMAIN_SPACE ) {
+        if ( domain == Domain.SPACE ) {
             _spacingSlider.setFormat( SimStrings.get( "WavePacketSpacingSlider.format.space" ) );
             _centerSlider.setFormat( SimStrings.get( "WavePacketCenterSlider.format.space" ) );
             _kWidthSlider.setFormat( SimStrings.get( "WavePacketKWidthSlider.format.space" ) );
@@ -390,7 +391,7 @@ public class D2CControlPanel extends FourierControlPanel {
             _amplitudesEnvelopeCheckBox.setText( SimStrings.get( "D2CControlPanel.kEnvelope" ) );
             _sumEnvelopeCheckBox.setText( SimStrings.get( "D2CControlPanel.xEnvelope" ) );
         }
-        else if ( domain == FourierConstants.DOMAIN_TIME ) {
+        else if ( domain == Domain.TIME ) {
             _spacingSlider.setFormat( SimStrings.get( "WavePacketSpacingSlider.format.time" ) );
             _centerSlider.setFormat( SimStrings.get( "WavePacketCenterSlider.format.time" ) );
             _kWidthSlider.setFormat( SimStrings.get( "WavePacketKWidthSlider.format.time" ) );
@@ -405,7 +406,7 @@ public class D2CControlPanel extends FourierControlPanel {
      */
     private void handleWaveType() {
         setWaitCursorEnabled( true );
-        int waveType = ( _sinesRadioButton.isSelected() ? FourierConstants.WAVE_TYPE_SINE : FourierConstants.WAVE_TYPE_COSINE );
+        int waveType = ( _sinesRadioButton.isSelected() ? WaveType.SINES : WaveType.COSINES );
         _harmonicsView.setWaveType( waveType );
         _sumView.setWaveType( waveType );
         setWaitCursorEnabled( false );

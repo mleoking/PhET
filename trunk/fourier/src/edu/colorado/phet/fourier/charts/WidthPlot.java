@@ -11,7 +11,10 @@
 
 package edu.colorado.phet.fourier.charts;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.RenderingHints;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 
@@ -19,7 +22,7 @@ import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.fourier.FourierConfig;
+import edu.colorado.phet.fourier.FourierConstants;
 
 
 /**
@@ -47,7 +50,7 @@ public class WidthPlot extends AbstractPointPlot {
     private static final double LABEL_LAYER = 3;
 
     // The label
-    private static final Font LABEL_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 16 );
+    private static final Font LABEL_FONT = new Font( FourierConstants.FONT_NAME, Font.BOLD, 16 );
     private static final Color LABEL_COLOR = Color.BLACK;
 
     // Label background

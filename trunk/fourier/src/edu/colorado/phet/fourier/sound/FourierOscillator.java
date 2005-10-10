@@ -49,7 +49,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.fourier.FourierConfig;
+import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
 
@@ -203,7 +203,7 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
         final float maxSampleValue = (float) Math.pow( 2, getFormat().getSampleSizeInBits() - 1 ) - 1;
         
         // Amplitude is based on the max sample value and max number of harmonics.
-        final float amplitude = (float) ( _volume * maxSampleValue / FourierConfig.MAX_HARMONICS );
+        final float amplitude = (float) ( _volume * maxSampleValue / FourierConstants.MAX_HARMONICS );
         
         // Generate the audio data
         int maxGeneratedValue = 0;
@@ -249,7 +249,7 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
         float sum = 0;
         for ( int i = 0; i < _fourierSeries.getNumberOfHarmonics(); i++ ) {
             Harmonic harmonic = _fourierSeries.getHarmonic( i );
-            double amplitude = harmonic.getAmplitude() / FourierConfig.MAX_HARMONIC_AMPLITUDE;
+            double amplitude = harmonic.getAmplitude() / FourierConstants.MAX_HARMONIC_AMPLITUDE;
             if ( amplitude != 0 ) {
                 double radiansPerPeriod = ( i + 1 ) * 2.0 * Math.PI;
                 double angle = periodPosition * radiansPerPeriod;

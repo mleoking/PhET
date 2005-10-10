@@ -15,31 +15,24 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
-import java.io.IOException;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 
 import edu.colorado.phet.chart.*;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.*;
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
-import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.charts.FourierSumPlot;
 import edu.colorado.phet.fourier.control.ZoomControl;
+import edu.colorado.phet.fourier.enum.Domain;
+import edu.colorado.phet.fourier.enum.MathForm;
+import edu.colorado.phet.fourier.enum.Preset;
+import edu.colorado.phet.fourier.enum.WaveType;
 import edu.colorado.phet.fourier.event.ZoomEvent;
 import edu.colorado.phet.fourier.event.ZoomListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
-import edu.colorado.phet.fourier.view.AnimationCycleController;
 import edu.colorado.phet.fourier.view.AnimationCycleController.AnimationCycleEvent;
 import edu.colorado.phet.fourier.view.AnimationCycleController.AnimationCycleListener;
 
@@ -72,7 +65,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
     
     // Title parameters
-    private static final Font TITLE_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 20 );
+    private static final Font TITLE_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
     private static final Point TITLE_LOCATION = new Point( 40, 135 );
     
@@ -81,8 +74,8 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
     private static final double X_RANGE_START = ( L / 2 );
     private static final double X_RANGE_MIN = ( L / 4 );
     private static final double X_RANGE_MAX = ( 2 * L );
-    private static final double Y_RANGE_START = FourierConfig.MAX_HARMONIC_AMPLITUDE;
-    private static final double Y_RANGE_MIN = FourierConfig.MAX_HARMONIC_AMPLITUDE;
+    private static final double Y_RANGE_START = FourierConstants.MAX_HARMONIC_AMPLITUDE;
+    private static final double Y_RANGE_MIN = FourierConstants.MAX_HARMONIC_AMPLITUDE;
     private static final double Y_RANGE_MAX = 12.0;
     private static final Range2D CHART_RANGE = new Range2D( -X_RANGE_START, -Y_RANGE_START, X_RANGE_START, Y_RANGE_START );
     private static final Dimension CHART_SIZE = new Dimension( 540, 135 );
@@ -98,7 +91,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
     private static final Color PRESET_COLOR = Color.LIGHT_GRAY;
     
     // Math parameters
-    private static final Font MATH_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 18 );
+    private static final Font MATH_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 18 );
     private static final Color MATH_COLOR = Color.BLACK;
     
     //----------------------------------------------------------------------------
@@ -283,10 +276,10 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
             _sineCosinePlot.setVisible( false );
         }
         
-        _domain = FourierConstants.DOMAIN_SPACE;
+        _domain = Domain.SPACE;
         
         // Math Mode
-        _mathForm = FourierConstants.MATH_FORM_WAVE_NUMBER;
+        _mathForm = MathForm.WAVE_NUMBER;
         _mathGraphic.setVisible( false );
         updateMath();
         
@@ -349,8 +342,8 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
      * @param mathForm
      */
     public void setDomainAndMathForm( int domain, int mathForm ) {
-        assert( FourierConstants.isValidDomain( domain ) );
-        assert( FourierConstants.isValidMathForm( mathForm ) );
+        assert( Domain.isValid( domain ) );
+        assert( MathForm.isValid( mathForm ) );
         _domain = domain;
         _mathForm = mathForm;
         updateLabelsAndLines();
@@ -369,9 +362,9 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
         _sineCosinePlot.setVisible( false );
         _presetPlot.setVisible( false );
         if ( _presetEnabled ) {
-            if ( _fourierSeries.getPreset() == FourierConstants.PRESET_SINE_COSINE ) {
+            if ( _fourierSeries.getPreset() == Preset.SINE_COSINE ) {
                 _sineCosinePlot.setVisible( true );
-                _sineCosinePlot.setCosineEnabled( _fourierSeries.getWaveType() == FourierConstants.WAVE_TYPE_COSINE );
+                _sineCosinePlot.setCosineEnabled( _fourierSeries.getWaveType() == WaveType.COSINES );
             }
             else {
                 _presetPlot.setVisible( true );
@@ -422,9 +415,9 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
             // If auto scaling is enabled, adjust the vertical scale to fit the curve.
             if ( _autoScaleCheckBox.isSelected() ) {
                 Range2D range = _chartGraphic.getRange();
-                double maxAmplitude = _sumPlot.getMaxAmplitude() * FourierConfig.AUTOSCALE_PERCENTAGE;
-                if ( maxAmplitude < FourierConfig.MAX_HARMONIC_AMPLITUDE ) {
-                    maxAmplitude = FourierConfig.MAX_HARMONIC_AMPLITUDE;
+                double maxAmplitude = _sumPlot.getMaxAmplitude() * FourierConstants.AUTOSCALE_PERCENTAGE;
+                if ( maxAmplitude < FourierConstants.MAX_HARMONIC_AMPLITUDE ) {
+                    maxAmplitude = FourierConstants.MAX_HARMONIC_AMPLITUDE;
                 }
                 if ( maxAmplitude != range.getMaxY() ) {
                     range.setMinY( -maxAmplitude );
@@ -450,7 +443,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
 
                 // Other preset
                 _presetPlot.getDataSet().clear();
-                Point2D[] points = FourierConstants.getPresetPoints( preset, waveType );
+                Point2D[] points = Preset.getPresetPoints( preset, waveType );
                 if ( points != null ) {
                     Point2D[] copyPoints = new Point2D[points.length];
                     for ( int i = 0; i < points.length; i++ ) {
@@ -463,9 +456,9 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
                 _sineCosinePlot.setVisible( false );
                 _presetPlot.setVisible( false );
                 if ( _presetEnabled ) {
-                    if ( _fourierSeries.getPreset() == FourierConstants.PRESET_SINE_COSINE ) {
+                    if ( _fourierSeries.getPreset() == Preset.SINE_COSINE ) {
                         _sineCosinePlot.setVisible( true );
-                        _sineCosinePlot.setCosineEnabled( _fourierSeries.getWaveType() == FourierConstants.WAVE_TYPE_COSINE );
+                        _sineCosinePlot.setCosineEnabled( _fourierSeries.getWaveType() == WaveType.COSINES );
                     }
                     else {
                         _presetPlot.setVisible( true );
@@ -591,7 +584,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
         if ( _mathGraphic.isVisible() ) {
             // If math mode is enabled, use symbolic labels.
             LabelTable labelTable = null;
-            if ( _domain == FourierConstants.DOMAIN_TIME ) {
+            if ( _domain == Domain.TIME ) {
                 if ( _xZoomLevel > -3 ) {
                     labelTable = _chartGraphic.getTimeLabels1();
                 }
@@ -615,7 +608,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
         }
         
         // X axis title
-        if ( _domain == FourierConstants.DOMAIN_TIME ) {
+        if ( _domain == Domain.TIME ) {
             if ( _mathGraphic.isVisible() ) {
                 _chartGraphic.setXAxisTitle( "t" );
             }
@@ -711,7 +704,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
      * @param event
      */
     public void animate( AnimationCycleEvent event ) {
-        if ( _domain == FourierConstants.DOMAIN_SPACE_AND_TIME ) {
+        if ( _domain == Domain.SPACE_AND_TIME ) {
                   
             /*
              * Sum animation.
@@ -729,7 +722,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
              * To animate the sine/cosine preset, simply copy the sum plot's data points.
              * To animate other presets, advance their data points by delta X.
              */
-            if ( _fourierSeries.getPreset() == FourierConstants.PRESET_SINE_COSINE ) {
+            if ( _fourierSeries.getPreset() == Preset.SINE_COSINE ) {
                 // sine/cosine preset
                 Point2D[] points = _sumPlot.getDataSet().getPoints();
                 _presetPlot.getDataSet().clear();

@@ -23,7 +23,7 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.fourier.FourierConfig;
+import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.event.*;
 import edu.colorado.phet.fourier.model.Harmonic;
@@ -55,7 +55,7 @@ public class HarmonicPeriodDisplay extends CompositePhetGraphic
     private static final double LABEL_LAYER = 3;
     
     private static final Color LABEL_COLOR = Color.BLACK;
-    private static final Font LABEL_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 16 );
+    private static final Font LABEL_FONT = new Font( FourierConstants.FONT_NAME, Font.BOLD, 16 );
     private static final int LABEL_X_OFFSET = 30;
     private static final int LABEL_Y_OFFSET = 0;
     

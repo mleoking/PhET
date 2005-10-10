@@ -11,12 +11,14 @@
 
 package edu.colorado.phet.fourier.charts;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.fourier.FourierConfig;
+import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
 
 
@@ -35,7 +37,7 @@ public abstract class AbstractWavePacketWidthPlot extends WidthPlot implements S
     //----------------------------------------------------------------------------
     
     // Default "look" for all wave packet width plots.
-    private static final Font LABEL_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 16 );
+    private static final Font LABEL_FONT = new Font( FourierConstants.FONT_NAME, Font.BOLD, 16 );
     private static final Color LABEL_COLOR = Color.BLACK;
     private static final Color LABEL_BACKGROUND_COLOR = new Color( 255, 255, 255, 150 ); // translucent white
     private static final Color ARROW_COLOR = Color.RED;
