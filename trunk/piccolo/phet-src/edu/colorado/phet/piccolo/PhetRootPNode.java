@@ -3,87 +3,137 @@ package edu.colorado.phet.piccolo;
 
 import edu.umd.cs.piccolo.PNode;
 
+import java.util.ArrayList;
+
 /**
- * User: Sam Reid
- * Date: Sep 13, 2005
- * Time: 12:31:12 AM
- * Copyright (c) Sep 13, 2005 by Sam Reid
+ * Arranges graphics in terms of Layers.  Each Layer contains a world node and a screen node (on top).
+ * This should allow the user to interleave world and screen graphics arbitrarily.
  */
 
 public class PhetRootPNode extends PNode {
-    private PNode worldNode;
-    private PNode screenNode;
-    private PNode backScreenNode;
+    private Layer defaultLayer;
+    private ArrayList layers = new ArrayList();
+
+    public static class Layer extends PNode {
+        private PNode worldNode;
+        private PNode screenNode;
+
+        public Layer() {
+            this.worldNode = new PNode();
+            this.screenNode = new PNode();
+            correctChildren();
+        }
+
+        private void correctChildren() {
+            removeAllChildren();
+
+            addChild( worldNode );
+            addChild( screenNode );
+        }
+
+        public PNode getWorldNode() {
+            return worldNode;
+        }
+
+        public void setWorldNode( PNode worldNode ) {
+            removeChild( this.worldNode );
+            this.worldNode = worldNode;
+            correctChildren();
+        }
+
+        public PNode getScreenNode() {
+            return screenNode;
+        }
+
+        public void setScreenNode( PNode screenNode ) {
+            removeChild( this.screenNode );
+            this.screenNode = screenNode;
+            correctChildren();
+        }
+
+        public void setWorldScale( double scale ) {
+            worldNode.scale( scale / worldNode.getGlobalScale() );
+        }
+
+        public void setContainsScreenNode( boolean b ) {
+
+            if( b && !containsScreenNode() ) {
+                addChild( screenNode );
+            }
+            else if( !b ) {
+                removeChild( screenNode );
+            }
+        }
+
+        public boolean containsScreenNode() {
+            return getChildrenReference().contains( screenNode );
+        }
+    }
 
     public PhetRootPNode() {
-        backScreenNode = new PNode();
-        worldNode = new PNode();
-        screenNode = new PNode();
-        addChild( backScreenNode );
-        addChild( worldNode );
-        addChild( screenNode );
+        defaultLayer = new Layer();
+        addLayer( defaultLayer );
+    }
+
+    public Layer layerAt( int i ) {
+        return (Layer)layers.get( i );
+    }
+
+    public Layer addLayer() {
+        Layer layer = new Layer();
+        addLayer( layer );
+        return layer;
+    }
+
+    public void addLayer( Layer layer ) {
+        addChild( layer );
+        layers.add( layer );
     }
 
     public PNode getWorldNode() {
-        return worldNode;
+        return defaultLayer.getWorldNode();
     }
 
     public PNode getScreenNode() {
-        return screenNode;
-    }
-
-    public PNode getBackScreenNode() {
-        return backScreenNode;
+        return defaultLayer.getScreenNode();
     }
 
     public void setWorldScale( double scale ) {
-        worldNode.scale( scale / worldNode.getGlobalScale() );
+        for( int i = 0; i < layers.size(); i++ ) {
+            Layer layer = (Layer)layers.get( i );
+            layer.setWorldScale( scale );
+        }
     }
 
     public void addWorldChild( int layer, PNode graphic ) {
-        worldNode.addChild( layer, graphic );
+        defaultLayer.getWorldNode().addChild( layer, graphic );
     }
 
     public void addWorldChild( PNode graphic ) {
-        worldNode.addChild( graphic );
+        defaultLayer.getWorldNode().addChild( graphic );
     }
 
     public void removeWorldChild( PNode graphic ) {
-        worldNode.removeChild( graphic );
+        defaultLayer.getWorldNode().removeChild( graphic );
     }
 
     public void addScreenChild( PNode node ) {
-        screenNode.addChild( node );
+        defaultLayer.getScreenNode().addChild( node );
     }
 
     public void removeScreenChild( PNode node ) {
-        screenNode.removeChild( node );
-    }
-
-    public void addBackScreenChild( PNode node ) {
-        backScreenNode.addChild( node );
-    }
-
-    public void removeBackScreenChild( PNode node ) {
-        backScreenNode.removeChild( node );
+        defaultLayer.getScreenNode().removeChild( node );
     }
 
     public void setContainsScreenNode( boolean b ) {
-        if( b && !containsScreenNode() ) {
-            addChild( screenNode );
-        }
-        else if( !b ) {
-            removeChild( screenNode );
-        }
+        defaultLayer.setContainsScreenNode( b );
     }
 
     public boolean containsScreenNode() {
-        return getChildrenReference().contains( screenNode );
+        return defaultLayer.containsScreenNode();
     }
 
     public void setScreenNode( PNode screenNode ) {
-        removeChild( this.screenNode );
-        this.screenNode = screenNode;
-        addChild( screenNode );
+        defaultLayer.setScreenNode( screenNode );
     }
 }
