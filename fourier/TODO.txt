@@ -5,10 +5,10 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- add support for persistence
 - "Optical Pulse Shaper" as a separate simulation
 
 MEDIUM PRIORITY:
-- add support for persistence
 - bug: anti-aliasing of plots gets turned off
 - bug: D2C amplitudes graph draws on top of tools (Mac only)
 - bug: dragging tools over top of chart causes weird aliasing artifacts (Mac only)
