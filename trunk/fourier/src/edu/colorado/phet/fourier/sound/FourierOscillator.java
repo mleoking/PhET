@@ -77,7 +77,6 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
     private int _bufferIndex;
     
     private long _remainingFrames;
-    private float _signalFrequency;
     private float _volume;
     private long _streamLength;
     private int _periodLengthInFrames;
@@ -99,11 +98,10 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
      * 
      * @throws IllegalStateExeption if the audio format is not 16-bit little endian
      */
-    public FourierOscillator( FourierSeries fourierSeries, float signalFrequency, float volume, AudioFormat audioFormat, long streamLength ) {
+    public FourierOscillator( FourierSeries fourierSeries, float volume, AudioFormat audioFormat, long streamLength ) {
         super( new ByteArrayInputStream( new byte[0] ), audioFormat, streamLength );
 
         assert( fourierSeries != null );
-        assert( signalFrequency > 0 );
         assert( volume >= -1 && volume <= +1 );
         assert( audioFormat != null );
         assert( streamLength > 0 || streamLength == AudioSystem.NOT_SPECIFIED );
@@ -116,11 +114,10 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
         _fourierSeries = fourierSeries;
         _fourierSeries.addObserver( this );
         
-        _signalFrequency = signalFrequency;
         _volume = volume;
         _streamLength = streamLength;
 
-        _periodLengthInFrames = Math.round( getFormat().getFrameRate() / _signalFrequency );
+        _periodLengthInFrames = Math.round( getFormat().getFrameRate() / (float)_fourierSeries.getFundamentalFrequency() );
         _bufferLength = _periodLengthInFrames * getFormat().getFrameSize();
         _buffer = new byte[_bufferLength];
         
