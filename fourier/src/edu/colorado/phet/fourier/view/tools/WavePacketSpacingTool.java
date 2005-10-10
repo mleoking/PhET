@@ -56,7 +56,7 @@ public class WavePacketSpacingTool extends AbstractWavePacketMeasurementTool {
         setToolWidth( width );
         
         // Set the tool's label.
-        int domain = getDomain();
+        Domain domain = getDomain();
         if ( domain == Domain.SPACE ) {
             if ( k1 == 0 ) {
                 // k1=0

@@ -170,7 +170,7 @@ public class FourierSumPlot extends LinePlot {
         Range2D range = chart.getRange();
         DataSet dataSet = getDataSet();
         int numberOfHarmonics = _fourierSeries.getNumberOfHarmonics();
-        int waveType = _fourierSeries.getWaveType();
+        WaveType waveType = _fourierSeries.getWaveType();
         _maxAmplitude = 0;
         
         // Clear the data set.

@@ -46,8 +46,7 @@ public class WavePacketXWidthPlot extends AbstractWavePacketWidthPlot {
      * 
      * @param domain
      */
-    public void setDomain( int domain ) {
-        assert( Domain.isValid( domain ) );
+    public void setDomain( Domain domain ) {
         
         // Set the graphic's label.
         if ( domain == Domain.SPACE ) {

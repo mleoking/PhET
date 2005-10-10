@@ -58,7 +58,8 @@ public class ExpandSumDialog extends JDialog implements SimpleObserver {
     private FourierSeries _fourierSeries;
     private JLabel _label;
     private JButton _closeButton;
-    private int _domain, _mathForm;
+    private Domain _domain;
+    private MathForm _mathForm;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -159,9 +160,7 @@ public class ExpandSumDialog extends JDialog implements SimpleObserver {
      * @param domain
      * @param mathForm
      */
-    public void setDomainAndMathForm( int domain, int mathForm ) {
-        assert( Domain.isValid( domain ) );
-        assert( MathForm.isValid( mathForm ) );
+    public void setDomainAndMathForm( Domain domain, MathForm mathForm ) {
         _domain = domain;
         _mathForm = mathForm;
         update();

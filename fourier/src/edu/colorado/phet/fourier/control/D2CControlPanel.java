@@ -375,7 +375,7 @@ public class D2CControlPanel extends FourierControlPanel {
      * Handles changes to the domain combo box.
      */
     private void handleDomain() {
-        int domain = _domainComboBox.getSelectedKey();
+        Domain domain = (Domain) _domainComboBox.getSelectedKey();
         
         _amplitudesView.setDomain( domain );
         _harmonicsView.setDomain( domain );
@@ -399,6 +399,9 @@ public class D2CControlPanel extends FourierControlPanel {
             _amplitudesEnvelopeCheckBox.setText( SimStrings.get( "D2CControlPanel.wEnvelope" ) );
             _sumEnvelopeCheckBox.setText( SimStrings.get( "D2CControlPanel.tEnvelope" ) );
         }
+        else {
+            throw new IllegalArgumentException( "unsupported domain: " + domain );
+        }
     }
     
     /*
@@ -406,7 +409,7 @@ public class D2CControlPanel extends FourierControlPanel {
      */
     private void handleWaveType() {
         setWaitCursorEnabled( true );
-        int waveType = ( _sinesRadioButton.isSelected() ? WaveType.SINES : WaveType.COSINES );
+        WaveType waveType = ( _sinesRadioButton.isSelected() ? WaveType.SINES : WaveType.COSINES );
         _harmonicsView.setWaveType( waveType );
         _sumView.setWaveType( waveType );
         setWaitCursorEnabled( false );

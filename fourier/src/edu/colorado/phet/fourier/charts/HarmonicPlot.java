@@ -38,14 +38,14 @@ public class HarmonicPlot extends SinePlot implements SimpleObserver, HarmonicCo
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final int DEFAULT_WAVE_TYPE = WaveType.SINES;
+    private static final WaveType DEFAULT_WAVE_TYPE = WaveType.SINES;
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private Harmonic _harmonic;
-    private int _waveType;
+    private WaveType _waveType;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -64,8 +64,8 @@ public class HarmonicPlot extends SinePlot implements SimpleObserver, HarmonicCo
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
 
         _harmonic = null;
-        _waveType = -1; // force an update
-        setWaveType( DEFAULT_WAVE_TYPE );
+        _waveType = WaveType.COSINES; // force an update
+        setWaveType( WaveType.SINES );
         setShowZeroAmplitudeEnabled( false );
         
         // Interested in changes to harmonic colors.
@@ -117,8 +117,7 @@ public class HarmonicPlot extends SinePlot implements SimpleObserver, HarmonicCo
      * 
      * @param waveType
      */
-    public void setWaveType( int waveType ) {
-        assert( WaveType.isValid( waveType ) );
+    public void setWaveType( WaveType waveType ) {
         if ( waveType != _waveType ) {
             _waveType = waveType;
             super.setCosineEnabled( _waveType == WaveType.COSINES );

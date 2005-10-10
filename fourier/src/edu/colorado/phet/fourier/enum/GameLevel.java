@@ -13,40 +13,22 @@ package edu.colorado.phet.fourier.enum;
 
 
 /**
- * GameLevel encapsulates the valid values for "game level".
+ * GameLevel is a typesafe enumueration of "game level" values.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class GameLevel {
+public class GameLevel extends FourierEnum {
 
     /* This class is not intended for instantiation. */
-    private GameLevel() {}
-    
-    // Game levels
-    public static final int PRESET = 0;
-    public static final int EASY   = 1;
-    public static final int MEDIUM = 2;
-    public static final int HARD   = 3;
-    
-    /**
-     * Determines if a game level value is valid.
-     * 
-     * @param gameLevel
-     * @return true or false
-     */
-    public static boolean isValid( int gameLevel ) {
-        boolean isValid = false;
-        switch ( gameLevel ) {
-            case PRESET:
-            case EASY:
-            case MEDIUM:
-            case HARD:
-                isValid = true;
-                break;
-            default:
-                isValid = false;
-        }
-        return isValid;
+    private GameLevel( String name ) {
+        super( name );
     }
+
+    // Game levels
+    public static final GameLevel UNDEFINED = new GameLevel( "undefined" );
+    public static final GameLevel PRESET = new GameLevel( "preset" );
+    public static final GameLevel EASY   = new GameLevel( "easy" );
+    public static final GameLevel MEDIUM = new GameLevel( "medium" );
+    public static final GameLevel HARD   = new GameLevel( "hard" );
 }

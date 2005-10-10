@@ -71,11 +71,7 @@ public class HarmonicsEquation extends HTMLGraphic {
      * @param mathForm
      * @param waveType
      */
-    public void setForm( int domain, int mathForm, int waveType ) {
-        
-        assert( Domain.isValid( domain ) );
-        assert( MathForm.isValid( mathForm ) );
-        assert( WaveType.isValid( waveType ) );
+    public void setForm( Domain domain, MathForm mathForm, WaveType waveType ) {
         
         // Example: An sin( kn x )
         String termFormat = MathStrings.getTerm( domain, mathForm, waveType );

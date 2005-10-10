@@ -13,48 +13,26 @@ package edu.colorado.phet.fourier.enum;
 
 
 /**
- * MathForm encapsulates the valid values for "math form".
+ * MathForm is a typesafe enumueration of "math form" values.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class MathForm {
+public class MathForm extends FourierEnum {
 
     /* This class is not intended for instantiation. */
-    private MathForm() {}
+    private MathForm( String name ) {
+        super(name);
+    }
     
     // Math Form values
-    public static final int WAVE_NUMBER = 0;
-    public static final int WAVELENGTH = 1;
-    public static final int MODE = 2;
-    public static final int ANGULAR_FREQUENCY = 3;
-    public static final int FREQUENCY = 4;
-    public static final int PERIOD = 5;
-    public static final int WAVE_NUMBER_AND_ANGULAR_FREQUENCY = 6;
-    public static final int WAVELENGTH_AND_PERIOD = 7;
-    
-    /**
-     * Determines if a math form value is valid.
-     * 
-     * @param mathForm
-     * @return true or false
-     */
-    public static boolean isValid( int mathForm ) {
-        boolean isValid = false;
-        switch ( mathForm ) {
-            case WAVE_NUMBER:
-            case WAVELENGTH:
-            case MODE:
-            case ANGULAR_FREQUENCY:
-            case FREQUENCY:
-            case PERIOD:
-            case WAVE_NUMBER_AND_ANGULAR_FREQUENCY:
-            case WAVELENGTH_AND_PERIOD:
-                 isValid = true;
-                 break;
-            default:
-                 isValid = false;
-        }
-        return isValid;
-    }  
+    public static final MathForm UNDEFINED = new MathForm( "undefined" );
+    public static final MathForm WAVE_NUMBER = new MathForm( "waveNumber" );
+    public static final MathForm WAVELENGTH = new MathForm( "wavelength" );
+    public static final MathForm MODE = new MathForm( "mode" );
+    public static final MathForm ANGULAR_FREQUENCY = new MathForm( "angularFrequency" );
+    public static final MathForm FREQUENCY = new MathForm( "frequency" );
+    public static final MathForm PERIOD = new MathForm( "period" );
+    public static final MathForm WAVE_NUMBER_AND_ANGULAR_FREQUENCY = new MathForm( "waveNumberAndAngularFrequency" );
+    public static final MathForm WAVELENGTH_AND_PERIOD = new MathForm( "wavelengthAndPeriod" );
 }
