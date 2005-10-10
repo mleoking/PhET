@@ -80,6 +80,9 @@ public class PhetPCanvas extends PSwingCanvas {
         }
     }
 
+    /**
+     * TODO in 1.5, sometimes getWidth() and getHeight() return negative values, causing troubles for this layout code.
+     */
     protected void updateScale() {
         if( renderingSize == null ) {
             if( isVisible() ) {
@@ -91,13 +94,16 @@ public class PhetPCanvas extends PSwingCanvas {
         }
         double sx = getScaleX();
         double sy = getScaleY();
-        //use the smaller
 
+        //use the smaller
         double scale = sx < sy ? sx : sy;
+        if( scale < 0 ) {
+            System.err.println( this.getClass().getName() + ": Warning: Sometimes in 1.5, sometimes getWidth() and getHeight() return negative values, causing troubles for this layout code." );
+        }
         setWorldScale( scale );
     }
 
-    private void setWorldScale( double scale ) {
+    protected void setWorldScale( double scale ) {
         phetRootNode.setWorldScale( scale );
     }
 
