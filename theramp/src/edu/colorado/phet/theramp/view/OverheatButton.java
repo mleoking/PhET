@@ -23,13 +23,15 @@ import java.awt.event.ActionListener;
 public class OverheatButton extends PNode {
     private RampPhysicalModel rampPhysicalModel;
     private RampPanel rampPanel;
+    private RampModule module;
 
     public OverheatButton( final RampPanel rampPanel, final RampPhysicalModel rampPhysicalModel, RampModule module ) {
+        this.module = module;
         this.rampPhysicalModel = rampPhysicalModel;
         this.rampPanel = rampPanel;
-        ShadowHTMLGraphic shadowHTMLGraphic = new ShadowHTMLGraphic( "Warning: overheated." );
+        ShadowHTMLGraphic shadowHTMLGraphic = new ShadowHTMLGraphic( "Overheated." );
         shadowHTMLGraphic.setColor( Color.red );
-        shadowHTMLGraphic.setFont( new Font( "Lucida Sans", Font.BOLD, 22 ) );
+        shadowHTMLGraphic.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
         addChild( shadowHTMLGraphic );
         JButton overheat = new JButton( "Remove Heat" );
         overheat.setFont( RampFontSet.getFontSet().getNormalButtonFont() );
@@ -57,15 +59,12 @@ public class OverheatButton extends PNode {
 //        System.out.println( "rampPhysicalModel.getThermalEnergy() = " + rampPhysicalModel.getThermalEnergy() );
 //        System.out.println( "max=" + max );
 //        System.out.println( "" );
-        if( rampPhysicalModel.getThermalEnergy() >= max && !getVisible() ) {
+        if( rampPhysicalModel.getThermalEnergy() >= max && !getVisible() && module.numMaximizedBarGraphs() > 0 ) {
             setVisible( true );
             setPickable( true );
             setChildrenPickable( true );
-//            Point viewLocation = rampPanel.getRampGraphic().getViewLocation( 0 );
-//            Point2D viewLoc=rampPanel.getRampGraphic().
-//            setOffset( viewLocation.x, viewLocation.y + 10 );
-
-            setOffset( RampPanel.getDefaultRenderSize().width / 2, 50 );
+//            setOffset( RampPanel.getDefaultRenderSize().width / 2, 50 );
+            setOffset( rampPanel.getBarGraphSuite().getXOffset(), rampPanel.getBarGraphSuite().getYOffset() + 100 );
         }
         else if( rampPhysicalModel.getThermalEnergy() < max ) {
             setVisible( false );

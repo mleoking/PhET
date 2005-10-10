@@ -58,11 +58,12 @@ public class RampModule extends PiccoloModule {
         rampObjects = new RampObject[]{
             new RampObject( "images/cabinet.gif", "File Cabinet", 0.8, 100, 0.3, 0.2, 0.4 ),
             new RampObject( "images/fridge.gif", "Refrigerator", 0.35, 175, 0.7, 0.5, 0.4 ),
-            new RampObject( "images/crate.gif", "Crate", 0.8, 300, 0.2, 0.2, 0.3 ),
             new RampObject( "images/piano.png", "Piano", 0.8, 225, 0.6, 0.6, 0.8, 20 ),
-//            new RampObject( "images/ollie.gif", "Sleepy Dog", 0.5, 30, 0.1, 0.1, 0.35 ),
+            new RampObject( "images/crate.gif", "Crate", 0.8, 300, 0.2, 0.2, 0.3 ),
+            new RampObject( "images/ollie.gif", "Sleepy Dog", 0.8, 15, 0.1, 0.1, 0.30, 5 ),
         };
-        sort( rampObjects );
+//        sort( rampObjects );
+
         rampPanel = createRampPanel();
         super.setPhetPCanvas( rampPanel );
 
@@ -77,8 +78,7 @@ public class RampModule extends PiccoloModule {
                 updateGraphics( event );
             }
         } );
-        AudioEnabledController audioEnabledController = new AudioEnabledController( this );
-        rampMediaPanel.add( audioEnabledController.getCheckBox() );
+
         rampModel.getBlock().addListener( new CollisionHandler( this ) );
         doReset();
     }
@@ -143,7 +143,7 @@ public class RampModule extends PiccoloModule {
     }
 
     public boolean resetDialogOk() {
-        JOptionPane pane = new JOptionPane( "Are you sure you'd like to clear?", JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION );
+        JOptionPane pane = new JOptionPane( "Are you sure you'd like to reset everything?", JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION );
 
         JDialog dialog = pane.createDialog( rampPanel, "Confirm Reset" );
         pane.selectInitialValue();
@@ -227,6 +227,10 @@ public class RampModule extends PiccoloModule {
 
     public void setAudioEnabled( boolean enabled ) {
         JSAudioPlayer.setAudioEnabled( enabled );
+    }
+
+    public int numMaximizedBarGraphs() {
+        return rampPanel.numMaximizedBarGraphs();
     }
 
     public static interface Listener {

@@ -30,13 +30,12 @@ public class RampApplication extends PhetApplication {
 
     public RampApplication( String[] args, AbstractClock clock, FrameSetup frameSetup ) {
         super( args, TITLE, DESCRIPTION, VERSION, clock, false, frameSetup );
-//        simpleRampModule = new SimpleRampModule( getPhetFrame(), clock );
-//        advancedFeatureModule = new RampModule( getPhetFrame(), clock );
-//        setModules( new Module[]{simpleRampModule, advancedFeatureModule} );
-
         simpleRampModule = new SimpleRampModule( getPhetFrame(), clock );
-//        advancedFeatureModule = new RampModule( getPhetFrame(), clock );
-        setModules( new Module[]{simpleRampModule} );
+        advancedFeatureModule = new RampModule( getPhetFrame(), clock );
+        setModules( new Module[]{simpleRampModule, advancedFeatureModule} );
+
+//        simpleRampModule = new SimpleRampModule( getPhetFrame(), clock );
+//        setModules( new Module[]{simpleRampModule} );
     }
 
     public static void main( final String[] args ) {

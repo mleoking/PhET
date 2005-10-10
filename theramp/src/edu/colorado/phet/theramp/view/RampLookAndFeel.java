@@ -30,7 +30,8 @@ public class RampLookAndFeel {
 //    private Color weightColor = lightBlue;//used to be Color.blue
     private Color weightColor = new Color( 50, 130, 215 );
     private Color normalColor = Color.magenta;
-    private Color wallForceColor = new Color( 224, 176, 143 );//peach
+//    private Color wallForceColor = new Color( 224, 176, 143 );//peach
+    private Color wallForceColor = new Color( 169, 124, 71 );//brown
 
     private Color accelColor = Color.black;
     private Color velColor = Color.black;
