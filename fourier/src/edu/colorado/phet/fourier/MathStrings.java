@@ -13,6 +13,10 @@ package edu.colorado.phet.fourier;
 
 import java.text.MessageFormat;
 
+import edu.colorado.phet.fourier.enum.Domain;
+import edu.colorado.phet.fourier.enum.MathForm;
+import edu.colorado.phet.fourier.enum.WaveType;
+
 
 /**
  * MathStrings contains characters, strings and utility functions
@@ -110,18 +114,18 @@ public class MathStrings {
      */
     public static String getFunction( int domain ) {
         
-        assert( FourierConstants.isValidDomain( domain ) );
+        assert( Domain.isValid( domain ) );
         
         String function = null;
         
         switch ( domain ) {
-            case FourierConstants.DOMAIN_SPACE:
+            case Domain.SPACE:
                 function = MathStrings.F_X;
                 break;
-            case FourierConstants.DOMAIN_TIME:
+            case Domain.TIME:
                 function = MathStrings.F_T;
                 break;
-            case FourierConstants.DOMAIN_SPACE_AND_TIME:
+            case Domain.SPACE_AND_TIME:
                 function = MathStrings.F_XT;
                 break;
            default:
@@ -159,53 +163,53 @@ public class MathStrings {
      */
     public static String getTerm( int domain, int mathForm, int waveType ) {
         
-        assert( FourierConstants.isValidDomain( domain ) );
-        assert( FourierConstants.isValidMathForm( mathForm ) );
-        assert( FourierConstants.isValidWaveType( waveType ) );
+        assert( Domain.isValid( domain ) );
+        assert( MathForm.isValid( mathForm ) );
+        assert( WaveType.isValid( waveType ) );
         
         String term = null;
         
         switch ( domain ) {
-            case FourierConstants.DOMAIN_SPACE:
+            case Domain.SPACE:
                 switch ( mathForm ) {
-                    case FourierConstants.MATH_FORM_WAVE_NUMBER:
+                    case MathForm.WAVE_NUMBER:
                         term = MathStrings.WAVE_NUMBER_X;
                         break;
-                    case FourierConstants.MATH_FORM_WAVELENGTH:
+                    case MathForm.WAVELENGTH:
                         term = MathStrings.WAVELENGTH_X;
                          break;
-                    case FourierConstants.MATH_FORM_MODE:
+                    case MathForm.MODE:
                         term = MathStrings.MODE_X;
                         break;
                     default:
                 }
                 break;
-            case FourierConstants.DOMAIN_TIME:
+            case Domain.TIME:
                 switch ( mathForm ) {
-                    case FourierConstants.MATH_FORM_ANGULAR_FREQUENCY:
+                    case MathForm.ANGULAR_FREQUENCY:
                         term = MathStrings.ANGULAR_FREQUENCY_T;
                         break;
-                    case FourierConstants.MATH_FORM_FREQUENCY:
+                    case MathForm.FREQUENCY:
                         term = MathStrings.FREQUENCY_T;
                         break;
-                    case FourierConstants.MATH_FORM_PERIOD:
+                    case MathForm.PERIOD:
                         term = MathStrings.PERIOD_T;
                         break;
-                    case FourierConstants.MATH_FORM_MODE:
+                    case MathForm.MODE:
                         term = MathStrings.MODE_T;
                         break;
                     default:
                 }
                 break;
-            case FourierConstants.DOMAIN_SPACE_AND_TIME:
+            case Domain.SPACE_AND_TIME:
                 switch ( mathForm ) {
-                    case FourierConstants.MATH_FORM_WAVE_NUMBER_AND_ANGULAR_FREQUENCY:
+                    case MathForm.WAVE_NUMBER_AND_ANGULAR_FREQUENCY:
                         term = MathStrings.WAVENUMBER_AND_ANGULAR_FREQUENCY_XT;
                         break;
-                    case FourierConstants.MATH_FORM_WAVELENGTH_AND_PERIOD:
+                    case MathForm.WAVELENGTH_AND_PERIOD:
                         term = MathStrings.WAVELENGTH_AND_PERIOD_XT;
                         break;
-                    case FourierConstants.MATH_FORM_MODE:
+                    case MathForm.MODE:
                         term = MathStrings.MODE_XT;
                         break;
                     default:
@@ -220,7 +224,7 @@ public class MathStrings {
         }
         
         // All of the equations are in terms of sine.  Do we need to change to cosine?
-        if ( waveType == FourierConstants.WAVE_TYPE_COSINE ) {
+        if ( waveType == WaveType.COSINES ) {
             term = term.replaceAll( "sin\\(", "cos(" );
         }
         

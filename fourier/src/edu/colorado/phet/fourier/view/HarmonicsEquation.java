@@ -18,9 +18,11 @@ import java.awt.RenderingHints;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
-import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.MathStrings;
+import edu.colorado.phet.fourier.enum.Domain;
+import edu.colorado.phet.fourier.enum.MathForm;
+import edu.colorado.phet.fourier.enum.WaveType;
 
 
 /**
@@ -35,7 +37,7 @@ public class HarmonicsEquation extends HTMLGraphic {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final Font DEFAULT_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 20 );
+    private static final Font DEFAULT_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 20 );
     private static final Color DEFAULT_COLOR = Color.BLACK;
     
     //----------------------------------------------------------------------------
@@ -54,7 +56,7 @@ public class HarmonicsEquation extends HTMLGraphic {
         // Enable antialiasing
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
 
-        setForm( FourierConstants.DOMAIN_SPACE, FourierConstants.MATH_FORM_WAVE_NUMBER, FourierConstants.WAVE_TYPE_SINE );
+        setForm( Domain.SPACE, MathForm.WAVE_NUMBER, WaveType.SINES );
     }
     
     //----------------------------------------------------------------------------
@@ -71,9 +73,9 @@ public class HarmonicsEquation extends HTMLGraphic {
      */
     public void setForm( int domain, int mathForm, int waveType ) {
         
-        assert( FourierConstants.isValidDomain( domain ) );
-        assert( FourierConstants.isValidMathForm( mathForm ) );
-        assert( FourierConstants.isValidWaveType( waveType ) );
+        assert( Domain.isValid( domain ) );
+        assert( MathForm.isValid( mathForm ) );
+        assert( WaveType.isValid( waveType ) );
         
         // Example: An sin( kn x )
         String termFormat = MathStrings.getTerm( domain, mathForm, waveType );

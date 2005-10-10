@@ -25,11 +25,14 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.control.sliders.AbstractFourierSlider;
 import edu.colorado.phet.fourier.control.sliders.DefaultFourierSlider;
+import edu.colorado.phet.fourier.enum.Domain;
+import edu.colorado.phet.fourier.enum.MathForm;
+import edu.colorado.phet.fourier.enum.Preset;
+import edu.colorado.phet.fourier.enum.WaveType;
 import edu.colorado.phet.fourier.event.SoundErrorEvent;
 import edu.colorado.phet.fourier.event.SoundErrorListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
@@ -153,12 +156,12 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
 
                 // Choices
                 _presetChoices = new ArrayList();
-                _presetChoices.add( new FourierComboBox.Choice( FourierConstants.PRESET_SINE_COSINE, SimStrings.get( "preset.sinecosine" ) ) );
-                _presetChoices.add( new FourierComboBox.Choice( FourierConstants.PRESET_TRIANGLE, SimStrings.get( "preset.triangle" ) ) );
-                _presetChoices.add( new FourierComboBox.Choice( FourierConstants.PRESET_SQUARE, SimStrings.get( "preset.square" ) ) );
-                _presetChoices.add( new FourierComboBox.Choice( FourierConstants.PRESET_SAWTOOTH, SimStrings.get( "preset.sawtooth" ) ) );
-                _presetChoices.add( new FourierComboBox.Choice( FourierConstants.PRESET_WAVE_PACKET, SimStrings.get( "preset.wavePacket" ) ) );
-                _presetChoices.add( new FourierComboBox.Choice( FourierConstants.PRESET_CUSTOM, SimStrings.get( "preset.custom" ) ) );
+                _presetChoices.add( new FourierComboBox.Choice( Preset.SINE_COSINE, SimStrings.get( "preset.sinecosine" ) ) );
+                _presetChoices.add( new FourierComboBox.Choice( Preset.TRIANGLE, SimStrings.get( "preset.triangle" ) ) );
+                _presetChoices.add( new FourierComboBox.Choice( Preset.SQUARE, SimStrings.get( "preset.square" ) ) );
+                _presetChoices.add( new FourierComboBox.Choice( Preset.SAWTOOTH, SimStrings.get( "preset.sawtooth" ) ) );
+                _presetChoices.add( new FourierComboBox.Choice( Preset.WAVE_PACKET, SimStrings.get( "preset.wavePacket" ) ) );
+                _presetChoices.add( new FourierComboBox.Choice( Preset.CUSTOM, SimStrings.get( "preset.custom" ) ) );
 
                 // Presets combo box
                 _presetsComboBox = new FourierComboBox( label, _presetChoices );
@@ -168,8 +171,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             {
                 String format = SimStrings.get( "DiscreteControlPanel.numberOfHarmonics" );
                 _numberOfHarmonicsSlider = new DefaultFourierSlider( format );
-                _numberOfHarmonicsSlider.getSlider().setMaximum( FourierConfig.MAX_HARMONICS );
-                _numberOfHarmonicsSlider.getSlider().setMinimum( FourierConfig.MIN_HARMONICS );
+                _numberOfHarmonicsSlider.getSlider().setMaximum( FourierConstants.MAX_HARMONICS );
+                _numberOfHarmonicsSlider.getSlider().setMinimum( FourierConstants.MIN_HARMONICS );
                 _numberOfHarmonicsSlider.getSlider().setMajorTickSpacing( 2 );
                 _numberOfHarmonicsSlider.getSlider().setMinorTickSpacing( 1 );
                 _numberOfHarmonicsSlider.getSlider().setSnapToTicks( true );
@@ -206,9 +209,9 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
 
                 // Choices
                 _domainChoices = new ArrayList();
-                _domainChoices.add( new FourierComboBox.Choice( FourierConstants.DOMAIN_SPACE, SimStrings.get( "domain.space" ) ) );
-                _domainChoices.add( new FourierComboBox.Choice( FourierConstants.DOMAIN_TIME, SimStrings.get( "domain.time" ) ) );
-                _domainChoices.add( new FourierComboBox.Choice( FourierConstants.DOMAIN_SPACE_AND_TIME, SimStrings.get( "domain.spaceAndTime" ) ) );
+                _domainChoices.add( new FourierComboBox.Choice( Domain.SPACE, SimStrings.get( "domain.space" ) ) );
+                _domainChoices.add( new FourierComboBox.Choice( Domain.TIME, SimStrings.get( "domain.time" ) ) );
+                _domainChoices.add( new FourierComboBox.Choice( Domain.SPACE_AND_TIME, SimStrings.get( "domain.spaceAndTime" ) ) );
 
                 // Function combo box
                 _domainComboBox = new FourierComboBox( label, _domainChoices );
@@ -260,7 +263,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
                 // Choices
                 _showWavelengthChoices = new ArrayList();
                 char wavelengthSymbol = MathStrings.C_WAVELENGTH;
-                for ( int i = 0; i < FourierConfig.MAX_HARMONICS; i++ ) {
+                for ( int i = 0; i < FourierConstants.MAX_HARMONICS; i++ ) {
                     String choice = "<html>" + wavelengthSymbol + "<sub>" + ( i + 1 ) + "</sub></html>";
                     _showWavelengthChoices.add( choice );
                 }
@@ -283,7 +286,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
                 // Choices
                 _showPeriodChoices = new ArrayList();
                 char periodSymbol = MathStrings.C_PERIOD;
-                for ( int i = 0; i < FourierConfig.MAX_HARMONICS; i++ ) {
+                for ( int i = 0; i < FourierConstants.MAX_HARMONICS; i++ ) {
                     String choice = "<html>" + periodSymbol + "<sub>" + ( i + 1 ) + "</sub></html>";
                     _showPeriodChoices.add( choice );
                 }
@@ -324,20 +327,20 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
                 // Choices
                 {
                     _spaceMathFormChoices = new ArrayList();
-                    _spaceMathFormChoices.add( new FourierComboBox.Choice( FourierConstants.MATH_FORM_WAVELENGTH, SimStrings.get( "mathForm.wavelength" ) ) );
-                    _spaceMathFormChoices.add( new FourierComboBox.Choice( FourierConstants.MATH_FORM_WAVE_NUMBER, SimStrings.get( "mathForm.waveNumber" ) ) );
-                    _spaceMathFormChoices.add( new FourierComboBox.Choice( FourierConstants.MATH_FORM_MODE, SimStrings.get( "mathForm.mode" ) ) );
+                    _spaceMathFormChoices.add( new FourierComboBox.Choice( MathForm.WAVELENGTH, SimStrings.get( "mathForm.wavelength" ) ) );
+                    _spaceMathFormChoices.add( new FourierComboBox.Choice( MathForm.WAVE_NUMBER, SimStrings.get( "mathForm.waveNumber" ) ) );
+                    _spaceMathFormChoices.add( new FourierComboBox.Choice( MathForm.MODE, SimStrings.get( "mathForm.mode" ) ) );
 
                     _timeMathFormChoices = new ArrayList();
-                    _timeMathFormChoices.add( new FourierComboBox.Choice( FourierConstants.MATH_FORM_FREQUENCY, SimStrings.get( "mathForm.frequency" ) ) );
-                    _timeMathFormChoices.add( new FourierComboBox.Choice( FourierConstants.MATH_FORM_PERIOD, SimStrings.get( "mathForm.period" ) ) );
-                    _timeMathFormChoices.add( new FourierComboBox.Choice( FourierConstants.MATH_FORM_ANGULAR_FREQUENCY, SimStrings.get( "mathForm.angularFrequency" ) ) );
-                    _timeMathFormChoices.add( new FourierComboBox.Choice( FourierConstants.MATH_FORM_MODE, SimStrings.get( "mathForm.mode" ) ) );
+                    _timeMathFormChoices.add( new FourierComboBox.Choice( MathForm.FREQUENCY, SimStrings.get( "mathForm.frequency" ) ) );
+                    _timeMathFormChoices.add( new FourierComboBox.Choice( MathForm.PERIOD, SimStrings.get( "mathForm.period" ) ) );
+                    _timeMathFormChoices.add( new FourierComboBox.Choice( MathForm.ANGULAR_FREQUENCY, SimStrings.get( "mathForm.angularFrequency" ) ) );
+                    _timeMathFormChoices.add( new FourierComboBox.Choice( MathForm.MODE, SimStrings.get( "mathForm.mode" ) ) );
 
                     _spaceAndTimeMathFormChoices = new ArrayList();
-                    _spaceAndTimeMathFormChoices.add( new FourierComboBox.Choice( FourierConstants.MATH_FORM_WAVELENGTH_AND_PERIOD, SimStrings.get( "mathForm.wavelengthAndPeriod" ) ) );
-                    _spaceAndTimeMathFormChoices.add( new FourierComboBox.Choice( FourierConstants.MATH_FORM_WAVE_NUMBER_AND_ANGULAR_FREQUENCY, SimStrings.get( "mathForm.waveNumberAndAngularFrequency" ) ) );
-                    _spaceAndTimeMathFormChoices.add( new FourierComboBox.Choice( FourierConstants.MATH_FORM_MODE, SimStrings.get( "mathForm.mode" ) ) );
+                    _spaceAndTimeMathFormChoices.add( new FourierComboBox.Choice( MathForm.WAVELENGTH_AND_PERIOD, SimStrings.get( "mathForm.wavelengthAndPeriod" ) ) );
+                    _spaceAndTimeMathFormChoices.add( new FourierComboBox.Choice( MathForm.WAVE_NUMBER_AND_ANGULAR_FREQUENCY, SimStrings.get( "mathForm.waveNumberAndAngularFrequency" ) ) );
+                    _spaceAndTimeMathFormChoices.add( new FourierComboBox.Choice( MathForm.MODE, SimStrings.get( "mathForm.mode" ) ) );
                 }
 
                 // Math form combo box
@@ -466,7 +469,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     public void reset() {
 
         // Domain
-        _domainComboBox.setSelectedKey( FourierConstants.DOMAIN_SPACE );
+        _domainComboBox.setSelectedKey( Domain.SPACE );
         _animationCycleController.setEnabled( false );
 
         // Preset
@@ -481,7 +484,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
 
         // Wavelength Tool
         _wavelengthToolCheckBox.setSelected( false );
-        _wavelengthToolCheckBox.setEnabled( _domainComboBox.getSelectedKey() == FourierConstants.DOMAIN_SPACE || _domainComboBox.getSelectedKey() == FourierConstants.DOMAIN_SPACE_AND_TIME );
+        _wavelengthToolCheckBox.setEnabled( _domainComboBox.getSelectedKey() == Domain.SPACE || _domainComboBox.getSelectedKey() == Domain.SPACE_AND_TIME );
         _wavelengthToolComboBox.setEnabled( _wavelengthToolCheckBox.isSelected() );
         _wavelengthToolComboBox.removeAllItems();
         for ( int i = 0; i < _fourierSeries.getNumberOfHarmonics(); i++ ) {
@@ -492,7 +495,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
 
         // Period Tool
         _periodToolCheckBox.setSelected( false );
-        _periodToolCheckBox.setEnabled( _domainComboBox.getSelectedKey() == FourierConstants.DOMAIN_TIME || _domainComboBox.getSelectedKey() == FourierConstants.DOMAIN_SPACE_AND_TIME );
+        _periodToolCheckBox.setEnabled( _domainComboBox.getSelectedKey() == Domain.TIME || _domainComboBox.getSelectedKey() == Domain.SPACE_AND_TIME );
         _periodToolComboBox.setEnabled( _periodToolCheckBox.isSelected() );
         _periodToolComboBox.removeAllItems();
         for ( int i = 0; i < _fourierSeries.getNumberOfHarmonics(); i++ ) {
@@ -503,7 +506,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
 
         // Wave Type
         int waveType = _fourierSeries.getWaveType();
-        _sinesRadioButton.setSelected( waveType == FourierConstants.WAVE_TYPE_SINE );
+        _sinesRadioButton.setSelected( waveType == WaveType.SINES );
 
         // Number of harmonics
         _numberOfHarmonicsSlider.setValue( _fourierSeries.getNumberOfHarmonics() );
@@ -513,14 +516,14 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             _showMathCheckBox.setSelected( false );
             _mathFormComboBox.setEnabled( _showMathCheckBox.isSelected() );
 
-            _mathFormKeySpace = FourierConstants.MATH_FORM_WAVELENGTH;
-            _mathFormKeyTime = FourierConstants.MATH_FORM_FREQUENCY;
-            _mathFormKeySpaceAndTime = FourierConstants.MATH_FORM_WAVELENGTH_AND_PERIOD;
-            if ( _domainComboBox.getSelectedKey() == FourierConstants.DOMAIN_SPACE ) {
+            _mathFormKeySpace = MathForm.WAVELENGTH;
+            _mathFormKeyTime = MathForm.FREQUENCY;
+            _mathFormKeySpaceAndTime = MathForm.WAVELENGTH_AND_PERIOD;
+            if ( _domainComboBox.getSelectedKey() == Domain.SPACE ) {
                 _mathFormComboBox.setChoices( _spaceMathFormChoices );
                 _mathFormComboBox.setSelectedKey( _mathFormKeySpace );
             }
-            else if ( _domainComboBox.getSelectedKey() == FourierConstants.DOMAIN_TIME ) {
+            else if ( _domainComboBox.getSelectedKey() == Domain.TIME ) {
                 _mathFormComboBox.setChoices( _timeMathFormChoices );
                 _mathFormComboBox.setSelectedKey( _mathFormKeyTime );
             }
@@ -637,7 +640,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         int domain = _domainComboBox.getSelectedKey();
 
         switch ( domain ) {
-        case FourierConstants.DOMAIN_SPACE:
+        case Domain.SPACE:
             _mathFormComboBox.removeItemListener( _eventListener );
             _mathFormComboBox.setChoices( _spaceMathFormChoices );
             _mathFormComboBox.addItemListener( _eventListener );
@@ -651,7 +654,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             _periodDisplay.setVisible( false );
             _animationCycleController.setEnabled( false );
             break;
-        case FourierConstants.DOMAIN_TIME:
+        case Domain.TIME:
             _mathFormComboBox.removeItemListener( _eventListener );
             _mathFormComboBox.setChoices( _timeMathFormChoices );
             _mathFormComboBox.addItemListener( _eventListener );
@@ -665,7 +668,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             _periodDisplay.setVisible( false );
             _animationCycleController.setEnabled( false );
             break;
-        case FourierConstants.DOMAIN_SPACE_AND_TIME:
+        case Domain.SPACE_AND_TIME:
             _mathFormComboBox.removeItemListener( _eventListener );
             _mathFormComboBox.setChoices( _spaceAndTimeMathFormChoices );
             _mathFormComboBox.addItemListener( _eventListener );
@@ -693,12 +696,12 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     private void handlePreset() {
         _animationCycleController.reset(); // do this first or preset animation will be out of sync!
         int preset = _presetsComboBox.getSelectedKey();
-        if ( _cosinesRadioButton.isSelected() && preset == FourierConstants.PRESET_SAWTOOTH ) {
+        if ( _cosinesRadioButton.isSelected() && preset == Preset.SAWTOOTH ) {
             showSawtoothCosinesErrorDialog();
             _sinesRadioButton.setSelected( true );
-            _fourierSeries.setWaveType( FourierConstants.WAVE_TYPE_SINE );
+            _fourierSeries.setWaveType( WaveType.SINES );
         }
-        boolean showInfiniteEnabled = ( preset != FourierConstants.PRESET_WAVE_PACKET && preset != FourierConstants.PRESET_CUSTOM );
+        boolean showInfiniteEnabled = ( preset != Preset.WAVE_PACKET && preset != Preset.CUSTOM );
         _showInfiniteCheckBox.setEnabled( showInfiniteEnabled );
         _showInfiniteCheckBox.setForeground( showInfiniteEnabled ? Color.BLACK : Color.GRAY );
         if ( !showInfiniteEnabled ) {
@@ -730,10 +733,10 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         int domain = _domainComboBox.getSelectedKey();
         int harmonicOrder = _periodToolComboBox.getSelectedIndex();
 
-        if ( domain == FourierConstants.DOMAIN_TIME ) {
+        if ( domain == Domain.TIME ) {
             _periodTool.setVisible( _periodToolCheckBox.isEnabled() && _periodToolCheckBox.isSelected() );
         }
-        else if ( domain == FourierConstants.DOMAIN_SPACE_AND_TIME ) {
+        else if ( domain == Domain.SPACE_AND_TIME ) {
             _periodDisplay.setVisible( _periodToolCheckBox.isEnabled() && _periodToolCheckBox.isSelected() );
         }
 
@@ -747,13 +750,13 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     private void handleWaveType() {
         _animationCycleController.reset(); // do this first or preset animation will be out of sync!
         int preset = _presetsComboBox.getSelectedKey();
-        if ( _cosinesRadioButton.isSelected() && preset == FourierConstants.PRESET_SAWTOOTH ) {
+        if ( _cosinesRadioButton.isSelected() && preset == Preset.SAWTOOTH ) {
             showSawtoothCosinesErrorDialog();
             _sinesRadioButton.setSelected( true );
-            _fourierSeries.setWaveType( FourierConstants.WAVE_TYPE_SINE );
+            _fourierSeries.setWaveType( WaveType.SINES );
         }
         else {
-            int waveType = ( _sinesRadioButton.isSelected() ? FourierConstants.WAVE_TYPE_SINE : FourierConstants.WAVE_TYPE_COSINE );
+            int waveType = ( _sinesRadioButton.isSelected() ? WaveType.SINES : WaveType.COSINES );
             _fourierSeries.setWaveType( waveType );
         }
     }
@@ -835,10 +838,10 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         _harmonicsView.setDomainAndMathForm( domain, mathForm );
         _sumView.setDomainAndMathForm( domain, mathForm );
         _expandSumDialog.setDomainAndMathForm( domain, mathForm );
-        if ( domain == FourierConstants.DOMAIN_SPACE ) {
+        if ( domain == Domain.SPACE ) {
             _mathFormKeySpace = mathForm;
         }
-        else if ( domain == FourierConstants.DOMAIN_TIME ) {
+        else if ( domain == Domain.TIME ) {
             _mathFormKeyTime = mathForm;
         }
         else {
@@ -963,7 +966,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
      */
     public void stateChanged( ChangeEvent event ) {
         if ( event.getSource() instanceof AmplitudeSlider ) {
-            _presetsComboBox.setSelectedKey( FourierConstants.PRESET_CUSTOM );
+            _presetsComboBox.setSelectedKey( Preset.CUSTOM );
         }
     }
 }

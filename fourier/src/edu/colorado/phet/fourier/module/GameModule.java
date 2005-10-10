@@ -23,10 +23,11 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.control.FourierControlPanel;
 import edu.colorado.phet.fourier.control.GameControlPanel;
+import edu.colorado.phet.fourier.enum.Preset;
+import edu.colorado.phet.fourier.enum.WaveType;
 import edu.colorado.phet.fourier.help.FourierHelpItem;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.RandomFourierSeries;
@@ -63,7 +64,7 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
     
     // Fourier Components
     private static final double FUNDAMENTAL_FREQUENCY = 440.0; // Hz
-    private static final int NUMBER_OF_HARMONICS = FourierConfig.MAX_HARMONICS;
+    private static final int NUMBER_OF_HARMONICS = FourierConstants.MAX_HARMONICS;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -102,8 +103,8 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
         
         // The user's Fourier Series
         _userFourierSeries = new FourierSeries( NUMBER_OF_HARMONICS, FUNDAMENTAL_FREQUENCY );
-        _userFourierSeries.setPreset( FourierConstants.PRESET_CUSTOM );
-        _userFourierSeries.setWaveType( FourierConstants.WAVE_TYPE_SINE );
+        _userFourierSeries.setPreset( Preset.CUSTOM );
+        _userFourierSeries.setWaveType( WaveType.SINES );
         for ( int i = 0; i < _userFourierSeries.getNumberOfHarmonics(); i++ ) {
             _userFourierSeries.getHarmonic( i ).setAmplitude( 0 );
         }

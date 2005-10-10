@@ -17,7 +17,6 @@ import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.charts.FourierSumPlot;
 import edu.colorado.phet.fourier.model.FourierSeries;
@@ -51,12 +50,12 @@ public class GameSumView extends GraphicLayerSet implements SimpleObserver {
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
     
     // Title parameters
-    private static final Font TITLE_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 20 );
+    private static final Font TITLE_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
     private static final Point TITLE_LOCATION = new Point( 40, 135 );
     
     // Instruction parameters
-    private static final Font INSTRUCTIONS_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 22 );
+    private static final Font INSTRUCTIONS_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 22 );
     private static final Color INSTRUCTIONS_COLOR = Color.MAGENTA;
     private static final Point INSTRUCTIONS_LOCATION = new Point( 85, 10 );
     
@@ -65,8 +64,8 @@ public class GameSumView extends GraphicLayerSet implements SimpleObserver {
     private static final double X_RANGE_START = ( L / 2 );
     private static final double X_RANGE_MIN = ( L / 4 );
     private static final double X_RANGE_MAX = ( 2 * L );
-    private static final double Y_RANGE_START = FourierConfig.MAX_HARMONIC_AMPLITUDE;
-    private static final double Y_RANGE_MIN = FourierConfig.MAX_HARMONIC_AMPLITUDE;
+    private static final double Y_RANGE_START = FourierConstants.MAX_HARMONIC_AMPLITUDE;
+    private static final double Y_RANGE_MIN = FourierConstants.MAX_HARMONIC_AMPLITUDE;
     private static final double Y_RANGE_MAX = 12.0;
     private static final Range2D CHART_RANGE = new Range2D( -X_RANGE_START, -Y_RANGE_START, X_RANGE_START, Y_RANGE_START );
     private static final Dimension CHART_SIZE = new Dimension( 540, 135 );

@@ -12,19 +12,14 @@
 package edu.colorado.phet.fourier.charts;
 
 import java.awt.*;
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Stroke;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.DataSet;
 import edu.colorado.phet.chart.LinePlot;
 import edu.colorado.phet.chart.Range2D;
-import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.enum.WaveType;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
 import edu.colorado.phet.fourier.util.TrigCache;
@@ -79,7 +74,7 @@ public class FourierSumPlot extends LinePlot {
         _period = 1;
         _startX = 0;
         _pixelsPerPoint = 1.0;
-        _maxAmplitude = FourierConfig.MAX_HARMONIC_AMPLITUDE;
+        _maxAmplitude = FourierConstants.MAX_HARMONIC_AMPLITUDE;
         _points = null;
         
         setDataSet( new DataSet() );
@@ -236,7 +231,7 @@ public class FourierSumPlot extends LinePlot {
                 if ( amplitude != 0 ) {
                     final double angle = startAngle + ( pointIndex * deltaAngle );
                     double radians;
-                    if ( waveType == FourierConstants.WAVE_TYPE_SINE ) {
+                    if ( waveType == WaveType.SINES ) {
                         radians = TrigCache.sin( angle );
                     }
                     else {

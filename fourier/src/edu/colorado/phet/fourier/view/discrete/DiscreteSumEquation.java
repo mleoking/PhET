@@ -20,9 +20,11 @@ import java.text.MessageFormat;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.MathStrings;
+import edu.colorado.phet.fourier.enum.Domain;
+import edu.colorado.phet.fourier.enum.MathForm;
+import edu.colorado.phet.fourier.enum.WaveType;
 
 
 /**
@@ -45,10 +47,10 @@ public class DiscreteSumEquation extends CompositePhetGraphic {
     
     // Fonts and colors
     private static final Color EQUATION_COLOR = Color.BLACK;
-    private static final Font LHS_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 20 );
+    private static final Font LHS_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 20 );
     private static final Font RHS_FONT = LHS_FONT;
-    private static final Font SUMMATION_SYMBOL_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 30 );
-    private static final Font SUMMATION_RANGE_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 12 );
+    private static final Font SUMMATION_SYMBOL_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 30 );
+    private static final Font SUMMATION_RANGE_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 12 );
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -114,7 +116,7 @@ public class DiscreteSumEquation extends CompositePhetGraphic {
             }
         }
         
-        setForm( FourierConstants.DOMAIN_SPACE, FourierConstants.MATH_FORM_WAVE_NUMBER, 1, FourierConstants.WAVE_TYPE_SINE );
+        setForm( Domain.SPACE, MathForm.WAVE_NUMBER, 1, WaveType.SINES );
     }
     
     //----------------------------------------------------------------------------
@@ -133,9 +135,9 @@ public class DiscreteSumEquation extends CompositePhetGraphic {
      */
     public void setForm( int domain, int mathForm, int numberOfHarmonics, int waveType ) {
         
-        assert( FourierConstants.isValidDomain( domain ) );
-        assert( FourierConstants.isValidMathForm( mathForm ) );
-        assert( FourierConstants.isValidWaveType( waveType ) );
+        assert( Domain.isValid( domain ) );
+        assert( MathForm.isValid( mathForm ) );
+        assert( WaveType.isValid( waveType ) );
     
         // Get the strings for the domain & math form.
         String lhsString = MathStrings.getFunction( domain );;

@@ -12,32 +12,29 @@
 package edu.colorado.phet.fourier.view.discrete;
 
 import java.awt.*;
-import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.LabelTable;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.common.view.phetgraphics.*;
-import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
-import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.charts.HarmonicPlot;
 import edu.colorado.phet.fourier.control.ZoomControl;
+import edu.colorado.phet.fourier.enum.Domain;
+import edu.colorado.phet.fourier.enum.MathForm;
+import edu.colorado.phet.fourier.enum.WaveType;
 import edu.colorado.phet.fourier.event.HarmonicFocusEvent;
 import edu.colorado.phet.fourier.event.HarmonicFocusListener;
 import edu.colorado.phet.fourier.event.ZoomEvent;
 import edu.colorado.phet.fourier.event.ZoomListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
-import edu.colorado.phet.fourier.view.AnimationCycleController;
 import edu.colorado.phet.fourier.view.HarmonicColors;
 import edu.colorado.phet.fourier.view.HarmonicsEquation;
 import edu.colorado.phet.fourier.view.AnimationCycleController.AnimationCycleEvent;
@@ -72,7 +69,7 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
 
     // Title parameters
-    private static final Font TITLE_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 20 );
+    private static final Font TITLE_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
     private static final Point TITLE_LOCATION = new Point( 40, 115 );
 
@@ -81,7 +78,7 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
     private static final double X_RANGE_START = ( L / 2 );
     private static final double X_RANGE_MIN = ( L / 4 );
     private static final double X_RANGE_MAX = ( 2 * L );
-    private static final double Y_RANGE_START = FourierConfig.MAX_HARMONIC_AMPLITUDE + ( 0.05 * FourierConfig.MAX_HARMONIC_AMPLITUDE );
+    private static final double Y_RANGE_START = FourierConstants.MAX_HARMONIC_AMPLITUDE + ( 0.05 * FourierConstants.MAX_HARMONIC_AMPLITUDE );
     private static final Range2D CHART_RANGE = new Range2D( -X_RANGE_START, -Y_RANGE_START, X_RANGE_START, Y_RANGE_START );
     private static final Dimension CHART_SIZE = new Dimension( 540, 135 );
 
@@ -199,7 +196,7 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
         // Misc initialization
         {
             _harmonicPlots = new ArrayList();
-            for ( int i = 0; i < FourierConfig.MAX_HARMONICS; i++ ) {
+            for ( int i = 0; i < FourierConstants.MAX_HARMONICS; i++ ) {
                 _harmonicPlots.add( new HarmonicPlot( component, _chartGraphic ) );
             }
         }
@@ -226,7 +223,7 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
     public void reset() {
 
         // Domain
-        _domain = FourierConstants.DOMAIN_SPACE;
+        _domain = Domain.SPACE;
 
         // Chart
         {
@@ -237,7 +234,7 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
         }
 
         // Math Mode
-        _mathForm = FourierConstants.MATH_FORM_WAVE_NUMBER;
+        _mathForm = MathForm.WAVE_NUMBER;
         _mathGraphic.setVisible( false );
         updateMath();
 
@@ -289,8 +286,8 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
      * @param mathForm
      */
     public void setDomainAndMathForm( int domain, int mathForm ) {
-        assert ( FourierConstants.isValidDomain( domain ) );
-        assert ( FourierConstants.isValidMathForm( mathForm ) );
+        assert ( Domain.isValid( domain ) );
+        assert ( MathForm.isValid( mathForm ) );
         _domain = domain;
         _mathForm = mathForm;
         updateLabelsAndLines();
@@ -347,7 +344,7 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
 
                     HarmonicPlot harmonicPlot = (HarmonicPlot) _harmonicPlots.get( i );
                     harmonicPlot.setHarmonic( _fourierSeries.getHarmonic( i ) );
-                    harmonicPlot.setWaveType( FourierConstants.WAVE_TYPE_SINE );
+                    harmonicPlot.setWaveType( WaveType.SINES );
                     harmonicPlot.setPeriod( L / ( i + 1 ) );
                     harmonicPlot.setPixelsPerPoint( PIXELS_PER_POINT[i] );
                     harmonicPlot.setStroke( WAVE_NORMAL_STROKE );
@@ -487,7 +484,7 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
         if ( _mathGraphic.isVisible() ) {
             // If math mode is enabled, use symbolic labels.
             LabelTable labelTable = null;
-            if ( _domain == FourierConstants.DOMAIN_TIME ) {
+            if ( _domain == Domain.TIME ) {
                 if ( _xZoomLevel > -3 ) {
                     labelTable = _chartGraphic.getTimeLabels1();
                 }
@@ -511,7 +508,7 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
         }
         
         // X axis title
-        if ( _domain == FourierConstants.DOMAIN_TIME ) {
+        if ( _domain == Domain.TIME ) {
             if ( _mathGraphic.isVisible() ) {
                 _chartGraphic.setXAxisTitle( "t" );
             }
@@ -571,7 +568,7 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
      * @param event
      */
     public void animate( AnimationCycleEvent event ) {
-        if ( _domain == FourierConstants.DOMAIN_SPACE_AND_TIME ) {
+        if ( _domain == Domain.SPACE_AND_TIME ) {
             double cyclePoint = event.getCyclePoint();
             double startX = cyclePoint * L;
             for ( int i = 0; i < _harmonicPlots.size(); i++ ) {

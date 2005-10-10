@@ -26,9 +26,10 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.control.DiscreteControlPanel;
+import edu.colorado.phet.fourier.enum.Preset;
+import edu.colorado.phet.fourier.enum.WaveType;
 import edu.colorado.phet.fourier.help.FourierHelpItem;
 import edu.colorado.phet.fourier.help.WiggleMeGraphic;
 import edu.colorado.phet.fourier.model.FourierSeries;
@@ -75,7 +76,7 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
     
     // Fourier Components
     private static final double FUNDAMENTAL_FREQUENCY = 440.0; // Hz
-    private static final int NUMBER_OF_HARMONICS = FourierConfig.MAX_HARMONICS;
+    private static final int NUMBER_OF_HARMONICS = FourierConstants.MAX_HARMONICS;
   
     //----------------------------------------------------------------------------
     // Instance data
@@ -169,7 +170,7 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         apparatusPanel.addChangeListener( _periodDisplay );
         
         // Animation controller
-        _animationCycleController = new AnimationCycleController( FourierConfig.ANIMATION_STEPS_PER_CYCLE );
+        _animationCycleController = new AnimationCycleController( FourierConstants.ANIMATION_STEPS_PER_CYCLE );
         clock.addClockTickListener( _animationCycleController );
         _animationCycleController.addAnimationCycleListener( _harmonicsView );
         _animationCycleController.addAnimationCycleListener( _sumView );
@@ -305,8 +306,8 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         
         _fourierSeries.setNumberOfHarmonics( NUMBER_OF_HARMONICS );
         _fourierSeries.setFundamentalFrequency( FUNDAMENTAL_FREQUENCY );
-        _fourierSeries.setPreset( FourierConstants.PRESET_SINE_COSINE );
-        _fourierSeries.setWaveType( FourierConstants.WAVE_TYPE_SINE );
+        _fourierSeries.setPreset( Preset.SINE_COSINE );
+        _fourierSeries.setWaveType( WaveType.SINES );
         
         _amplitudesView.reset();
         _harmonicsView.reset();

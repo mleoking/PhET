@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- "infinite" waveform in Discrete module out of sync when switching from space-&-time to space
 - add support for persistence
 - "Optical Pulse Shaper" as a separate simulation
 
@@ -61,6 +62,8 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(10/10) - factor separate enum classes out of FourierConstants for Domain, GameLevel, MathForm, Preset, WaveType
+(10/10) - move all of FourierConfig into FourierConstants
 (10/10) - javadoc code for Game module
 (10/10) - get fundamental sound frequency from Fourier series
 (10/7) - magenta -> pink in Game (roll into 2.1.1)
