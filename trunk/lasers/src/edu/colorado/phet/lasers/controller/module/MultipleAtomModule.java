@@ -70,10 +70,18 @@ public class MultipleAtomModule extends BaseLaserModule {
         CollimatedBeam pumpingBeam = ( (LaserModel)getModel() ).getPumpingBeam();
         Rectangle2D.Double pumpingBeamBounds = new Rectangle2D.Double( cavity.getBounds().getX() + Photon.RADIUS,
                                                                        cavity.getBounds().getY() / 2,
-                                                                       cavityBounds.getWidth() - Photon.RADIUS * 2,
-                                                                       s_boxHeight + s_laserOffsetX * 2 );
+                                                                       s_boxHeight + s_laserOffsetX * 2,
+                                                                       cavityBounds.getWidth() - Photon.RADIUS * 2 );
+//        Rectangle2D.Double pumpingBeamBounds = new Rectangle2D.Double( cavity.getBounds().getX() + Photon.RADIUS,
+//                                                                       cavity.getBounds().getY() / 2,
+//                                                                       cavityBounds.getWidth() - Photon.RADIUS * 2,
+//                                                                       s_boxHeight + s_laserOffsetX * 2 );
+
+//        PhetShapeGraphic psg = new PhetShapeGraphic( getApparatusPanel(), pumpingBeamBounds, new BasicStroke(1), Color.red );
+//        getApparatusPanel().addGraphic( psg );
         pumpingBeam.setBounds( pumpingBeamBounds );
         pumpingBeam.setDirection( new Vector2D.Double( 0, 1 ) );
+        pumpingBeam.setFanout( 20 );
         // Set the max pumping rate
         pumpingBeam.setMaxPhotonsPerSecond( LaserConfig.MAXIMUM_PUMPING_PHOTON_RATE );
         // Start with the beam turned all the way down
@@ -97,13 +105,21 @@ public class MultipleAtomModule extends BaseLaserModule {
         int numLamps = 8;
         double yOffset = 10;
         // The lamps should span the cavity
-        double pumpScaleX = ( ( pumpingBeamBounds.getY() ) - yOffset ) / gunBI.getWidth();
-        double pumpScaleY = ( pumpingBeamBounds.getWidth() / numLamps ) / gunBI.getHeight();
+        Rectangle2D.Double graphicBounds = new Rectangle2D.Double( cavity.getBounds().getX() + Photon.RADIUS,
+                                                                   cavity.getBounds().getY() / 2,
+                                                                   cavityBounds.getWidth() - Photon.RADIUS * 2,
+                                                                   s_boxHeight + s_laserOffsetX * 2 );
+
+        double pumpScaleX = ( ( graphicBounds.getY() ) - yOffset ) / gunBI.getWidth();
+        double pumpScaleY = ( graphicBounds.getWidth() / numLamps ) / gunBI.getHeight();
+//        double pumpScaleX = ( ( pumpingBeamBounds.getY() ) - yOffset ) / gunBI.getWidth();
+//        double pumpScaleY = ( pumpingBeamBounds.getWidth() / numLamps ) / gunBI.getHeight();
         AffineTransformOp atxOp2 = new AffineTransformOp( AffineTransform.getScaleInstance( pumpScaleX, pumpScaleY ), AffineTransformOp.TYPE_BILINEAR );
         BufferedImage pumpBeamImage = atxOp2.filter( gunBI, null );
         for( int i = 0; i < numLamps; i++ ) {
             AffineTransform tx = new AffineTransform();
-            tx.translate( pumpingBeamBounds.getX() + pumpBeamImage.getHeight() * ( i + 1 ),
+            tx.translate( graphicBounds.getX() + pumpBeamImage.getHeight() * ( i + 1 ),
+//            tx.translate( pumpingBeamBounds.getX() + pumpBeamImage.getHeight() * ( i + 1 ),
                           yOffset );
             tx.rotate( Math.PI / 2 );
             BufferedImage img = new AffineTransformOp( new AffineTransform(), AffineTransformOp.TYPE_BILINEAR ).filter( pumpBeamImage, null );
