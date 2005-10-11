@@ -19,7 +19,7 @@ import java.awt.geom.*;
 import java.awt.*;
 
 /**
- * Vessel
+ * VesselGraphic
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -27,28 +27,39 @@ import java.awt.*;
 public class VesselGraphic extends PNode {
 
     private PPath shape;
-    private DoubleGeneralPath walls;
-    private Vessel vessel;
+    private PPath water;
 
     public VesselGraphic( Vessel vessel ) {
-        this.vessel = vessel;
-        determineShape();
+
+        vessel.addChangeListener( new Vessel.ChangeListener() {
+            public void stateChanged( Vessel.ChangeEvent event ) {
+                update( event.getVessel() );
+            }
+        } );
+
+        shape = new PPath();
+        addChild( shape );
+        water = new PPath();
+        water.setPaint( Color.cyan );
+        this.addChild( water );
+        update( vessel );
     }
 
-    private void determineShape() {
-        if( shape != null ) {
-            this.removeChild( shape );
-        }
+    private void update( Vessel vessel ) {
         float thickness = 20;
         Rectangle2D rect = vessel.getShape();
-        walls = new DoubleGeneralPath( );
+        DoubleGeneralPath walls = new DoubleGeneralPath( );
         walls.moveTo( rect.getMinX() - thickness / 2, rect.getMinY() );
         walls.lineToRelative( 0, rect.getHeight() + thickness / 2 );
-        walls.lineToRelative( rect.getWidth() + thickness / 2, 0 );
+        walls.lineToRelative( rect.getWidth() + thickness, 0 );
         walls.lineToRelative( 0, -( rect.getHeight() + thickness / 2  ));
-        shape = new PPath( walls.getGeneralPath() );
+        shape.setPathTo( walls.getGeneralPath() );
         shape.setStroke( new BasicStroke( thickness ) );
-        this.addChild( shape );
+
+        water.setPathTo( new Rectangle2D.Double( vessel.getLocation().getX(),
+                                                 vessel.getShape().getMaxY() - vessel.getWaterLevel(),
+                                                 vessel.getShape().getWidth(),
+                                                 vessel.getWaterLevel()));
     }
 
 }
