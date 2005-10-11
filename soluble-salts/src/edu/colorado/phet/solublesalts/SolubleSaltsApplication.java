@@ -15,6 +15,7 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 
 /**
@@ -37,6 +38,12 @@ public class SolubleSaltsApplication extends PhetApplication {
                new FrameSetup.CenteredWithSize( 1000, 740 ) );
 
         Module module = new SolubleSaltsModule( CLOCK );
+        setModules( new Module[] { module } );
+    }
+
+    public static void main( String[] args ) {
+        SimStrings.init( args, SolubleSaltsConfig.STRINGS_BUNDLE_NAME );
+        new SolubleSaltsApplication( args ).startApplication();
     }
 
 }
