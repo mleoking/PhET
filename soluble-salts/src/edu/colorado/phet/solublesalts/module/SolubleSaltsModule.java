@@ -65,6 +65,7 @@ public class SolubleSaltsModule extends PiccoloModule {
         VesselGraphic vesselGraphic = new VesselGraphic( model.getVessel() );
         simPanel.addWorldChild( vesselGraphic );
         vesselGraphic.addInputEventListener( new PDragEventHandler());
+        model.getVessel().setWaterLevel( 100 );
 
         // Create an ion and a graphic for it
         Vessel vessel = model.getVessel();
