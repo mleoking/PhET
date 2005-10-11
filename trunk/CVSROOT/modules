@@ -144,4 +144,4 @@ dischargelamps fluorescent-lights &phetcommon &mechanics &collision &lasers &con
 piccolo piccolo &phetcommon
 
 # Soluble Salts
-soluble-salts soluble-salts &phetcommon &piccolo
+soluble-salts soluble-salts &phetcommon &piccolo &mechanics &collision
