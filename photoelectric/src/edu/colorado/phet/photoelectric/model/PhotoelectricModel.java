@@ -116,7 +116,8 @@ public class PhotoelectricModel extends DischargeLampModel {
                          MAX_PHOTONS_PER_SECOND,
                          beamFanout );
         addModelElement( beam );
-        beam.setPhotonsPerSecond( MAX_PHOTONS_PER_SECOND );
+        beam.setPhotonsPerSecond( 0 );
+//        beam.setPhotonsPerSecond( MAX_PHOTONS_PER_SECOND );
         beam.setEnabled( true );
         beam.addPhotonEmittedListener( new PhotonTracker() );
         beam.addRateChangeListener( new PhotonSource.RateChangeListener() {
