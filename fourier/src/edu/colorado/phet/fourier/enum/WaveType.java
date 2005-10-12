@@ -29,4 +29,25 @@ public class WaveType extends FourierEnum {
     public static final WaveType UNDEFINED = new WaveType( "undefined" );
     public static final WaveType SINES = new WaveType( "sines" );
     public static final WaveType COSINES = new WaveType( "cosines" );
+    
+    /**
+     * Retrieves a wave type by name.
+     * This is used primarily in XML encoding.
+     * 
+     * @param name
+     * @return
+     */
+    public static WaveType getByName( String name ) {
+        WaveType waveType = null;
+        if ( SINES.isNamed( name ) ) {
+            waveType = SINES;
+        }
+        else if ( COSINES.isNamed( name ) ) {
+            waveType = COSINES;
+        }
+        else if ( UNDEFINED.isNamed( name ) ) {
+            waveType = UNDEFINED;
+        }
+        return waveType;
+    }
 }

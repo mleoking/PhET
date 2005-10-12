@@ -4,9 +4,8 @@
 
 IN PROGRESS:
 
-HIGH PRIORITY:
 
-- add support for persistence
+HIGH PRIORITY:
 - "Optical Pulse Shaper" as a separate simulation
 
 MEDIUM PRIORITY:
@@ -62,6 +61,8 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(10/12) - add support for persistence by XML encoding a "configuration" object
+(10/12) - add support for persistence to enum classes
 (10/10) - bugfix: "infinite" sine waveform in Discrete module out of sync when switching from space-&-time to space
 (10/10) - convert Domain, GameLevel, MathForm, Preset and WaveType to typesafe enums
 (10/10) - factor separate enum classes out of FourierConstants for Domain, GameLevel, MathForm, Preset, WaveType

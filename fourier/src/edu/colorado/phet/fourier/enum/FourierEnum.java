@@ -28,6 +28,14 @@ public class FourierEnum {
         _name = name;
     }
     
+    public String getName() {
+        return _name;
+    }
+    
+    public boolean isNamed( String name ) {
+        return _name.equals( name );
+    }
+    
     public String toString() { 
         return _name;
     }

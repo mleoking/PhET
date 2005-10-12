@@ -19,15 +19,17 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.event.MouseInputAdapter;
 
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.control.D2CControlPanel;
+import edu.colorado.phet.fourier.enum.Domain;
+import edu.colorado.phet.fourier.enum.WaveType;
 import edu.colorado.phet.fourier.help.FourierHelpItem;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
+import edu.colorado.phet.fourier.persistence.FourierConfig;
 import edu.colorado.phet.fourier.view.MinimizedView;
 import edu.colorado.phet.fourier.view.d2c.D2CAmplitudesView;
 import edu.colorado.phet.fourier.view.d2c.D2CHarmonicsView;
@@ -314,5 +316,45 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
     public void canvasSizeChanged( ChangeEvent event ) {
         _canvasSize.setSize( event.getCanvasSize() );
         layoutViews();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Save & Load configurations
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Saves the module's configuration by writing it to a provided configuration object.
+     * 
+     * @param appConfig
+     */
+    public void save( FourierConfig appConfig ) {
+        FourierConfig.D2CConfig config = appConfig.getD2CConfig();
+        
+        config.setSpacing( _controlPanel.getSpacing() );
+        config.setAmplitudesEnvelopeEnabled( _controlPanel.isAmplitudesEnvelopeEnabled() );
+        config.setCenter( _controlPanel.getCenter() );
+        config.setKWidth( _controlPanel.getKWidth() );
+        config.setDomainName( _controlPanel.getDomain().getName() );
+        config.setWaveTypeName( _controlPanel.getWaveType().getName() );
+        config.setSumEnvelopeEnabled( _controlPanel.isSumEnvelopeEnabled() );
+        config.setShowWidthsEnabled( _controlPanel.isShowWidthsEnabled() );
+    }
+    
+    /**
+     * Loads the module's configuration by reading it from a provided configuration object.
+     * 
+     * @param appConfig
+     */
+    public void load( FourierConfig appConfig ) {
+        FourierConfig.D2CConfig config = appConfig.getD2CConfig();
+        
+        _controlPanel.setSpacing( config.getSpacing() );
+        _controlPanel.setAmplitudesEnvelopeEnabled( config.isAmplitudesEnvelopeEnabled() );
+        _controlPanel.setCenter( config.getCenter() );
+        _controlPanel.setKWidth( config.getKWidth() );
+        _controlPanel.setDomain( Domain.getByName( config.getDomainName() ) );
+        _controlPanel.setWaveType( WaveType.getByName( config.getWaveTypeName() ) );
+        _controlPanel.setSumEnvelopeEnabled( config.isSumEnvelopeEnabled() );
+        _controlPanel.setShowWidthsEnabled( config.isShowWidthsEnabled() );
     }
 }

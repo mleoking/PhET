@@ -24,13 +24,14 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConstants;
-import edu.colorado.phet.fourier.control.FourierControlPanel;
 import edu.colorado.phet.fourier.control.GameControlPanel;
+import edu.colorado.phet.fourier.enum.GameLevel;
 import edu.colorado.phet.fourier.enum.Preset;
 import edu.colorado.phet.fourier.enum.WaveType;
 import edu.colorado.phet.fourier.help.FourierHelpItem;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.RandomFourierSeries;
+import edu.colorado.phet.fourier.persistence.FourierConfig;
 import edu.colorado.phet.fourier.view.MinimizedView;
 import edu.colorado.phet.fourier.view.game.GameAmplitudesView;
 import edu.colorado.phet.fourier.view.game.GameHarmonicsView;
@@ -77,7 +78,7 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
     private MinimizedView _harmonicsMinimizedView;
     private GameSumView _sumView;
     private MinimizedView _sumMinimizedView;
-    private FourierControlPanel _controlPanel;
+    private GameControlPanel _controlPanel;
     private Dimension _canvasSize;
     
     //----------------------------------------------------------------------------
@@ -238,7 +239,7 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
         _controlPanel.reset();
     }
     
-//  ----------------------------------------------------------------------------
+    //----------------------------------------------------------------------------
     // EventHandling
     //----------------------------------------------------------------------------
     
@@ -290,4 +291,31 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
         layoutViews();
     }
 
+    //----------------------------------------------------------------------------
+    // Save & Load configurations
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Saves the module's configuration by writing it to a provided configuration object.
+     * 
+     * @param appConfig
+     */
+    public void save( FourierConfig appConfig ) {
+        FourierConfig.GameConfig config = appConfig.getGameConfig();
+        
+        config.setGameLevelName( _controlPanel.getGameLevel().getName() );
+        config.setPresetName( _controlPanel.getPreset().getName() );
+    }
+    
+    /**
+     * Loads the module's configuration by reading it from a provided configuration object.
+     * 
+     * @param appConfig
+     */
+    public void load( FourierConfig appConfig ) {
+        FourierConfig.GameConfig config = appConfig.getGameConfig();
+        
+        _controlPanel.setGameLevel( GameLevel.getByName( config.getGameLevelName() ) );
+        _controlPanel.setPreset( Preset.getByName( config.getPresetName() ) );
+    }
 }

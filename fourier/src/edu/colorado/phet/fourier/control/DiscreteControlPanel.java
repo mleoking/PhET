@@ -463,6 +463,140 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     }
 
     //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    public void setPreset( Preset preset ) {
+        _presetsComboBox.setSelectedKey( preset );
+        handlePreset();
+    }
+    
+    public Preset getPreset() {
+        return (Preset) _presetsComboBox.getSelectedKey();
+    }
+    
+    public void setNumberOfHarmonics( int n ) {
+        _numberOfHarmonicsSlider.setValue( n );
+        handleNumberOfHarmonics();
+    }
+    
+    public int getNumberOfHarmonics() {
+        return (int) _numberOfHarmonicsSlider.getValue();
+    }
+    
+    public void setShowInfiniteEnabled( boolean enabled ) {
+        _showInfiniteCheckBox.setSelected( enabled );
+        handleShowInfinite();
+    }
+    
+    public boolean isShowInfiniteEnabled() {
+        return _showInfiniteCheckBox.isSelected();
+    }
+    
+    public void setDomain( Domain domain ) {
+        _domainComboBox.setSelectedKey( domain );
+        handleDomain();
+    }
+    
+    public Domain getDomain() {
+        return (Domain) _domainComboBox.getSelectedKey();
+    }
+    
+    public void setWaveType( WaveType waveType ) {
+        if ( waveType == WaveType.SINES ) {
+            _sinesRadioButton.setSelected( true );
+        }
+        else {
+            _cosinesRadioButton.setSelected( true );
+        }
+        handleWaveType();
+    }
+    
+    public WaveType getWaveType() {
+        WaveType waveType = null;
+        if ( _sinesRadioButton.isSelected() ) {
+            waveType = WaveType.SINES;
+        }
+        else {
+            waveType = WaveType.COSINES;
+        }
+        return waveType;
+    }
+    
+    public void setWavelengthToolEnabled( boolean enabled ) {
+        _wavelengthToolCheckBox.setSelected( enabled );
+        handleWavelengthTool();
+    }
+    
+    public boolean isWavelengthToolEnabled() {
+        return _wavelengthToolCheckBox.isSelected();
+    }
+    
+    public void setPeriodToolEnabled( boolean enabled ) {
+        _periodToolCheckBox.setSelected( enabled );
+        handlePeriodTool();
+    }
+    
+    public boolean isPeriodToolEnabled() {
+        return _periodToolCheckBox.isSelected();
+    }
+    
+    public void setShowMathEnabled( boolean enabled ) {
+        _showMathCheckBox.setSelected( enabled );
+        handleShowMath();
+    }
+    
+    public boolean isShowMathEnabled() {
+        return _showMathCheckBox.isSelected();
+    }
+    
+    public void setMathForm( MathForm mathForm ) {
+        _mathFormComboBox.setSelectedKey( mathForm );
+        handleMathForm();
+    }
+    
+    public MathForm getMathForm() {
+        return (MathForm) _mathFormComboBox.getSelectedKey();
+    }
+    
+    public void setExpandSumEnabled( boolean enabled ) {
+        _expandSumCheckBox.setSelected( enabled );
+        handleExpandSum();
+    }
+    
+    public boolean isExpandSumEnabled() {
+        return _expandSumCheckBox.isSelected();
+    }
+    
+    /**
+     * Turns sound on and off.
+     * 
+     * @param enabled true or false
+     */
+    public void setSoundEnabled( boolean enabled ) {
+        _soundCheckBox.setSelected( enabled );
+        handleSoundOnOff();
+    }
+    
+    /**
+     * Determines whether sound is on or off.
+     * 
+     * @return true or false
+     */
+    public boolean isSoundEnabled() {
+        return _soundCheckBox.isSelected();
+    }
+
+    public void setSoundVolume( float volume ) {
+        _soundSlider.setValue( (int) ( volume * 100F ) );
+        handleSoundVolume();
+    }
+    
+    public float getSoundVolume() {
+        return _soundSlider.getValue() / 100F;
+    }
+    
+    //----------------------------------------------------------------------------
     // FourierControlPanel implementation
     //----------------------------------------------------------------------------
 
@@ -921,25 +1055,6 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         }
         // Print a stack trace of the exception
         exception.printStackTrace();
-    }
-    
-    /**
-     * Turns sound on and off.
-     * 
-     * @param enabled true or false
-     */
-    public void setSoundEnabled( boolean enabled ) {
-        _soundCheckBox.setSelected( enabled );
-        handleSoundOnOff();
-    }
-    
-    /**
-     * Determines whether sound is on or off.
-     * 
-     * @return true or false
-     */
-    public boolean isSoundEnabled() {
-        return _soundCheckBox.isSelected();
     }
 
     //----------------------------------------------------------------------------

@@ -286,6 +286,98 @@ public class D2CControlPanel extends FourierControlPanel {
         }
     }
     
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    public void setSpacing( double spacing ) {
+        _spacingSlider.setValue( spacing );
+        handleSpacing();
+    }
+    
+    public double getSpacing() {
+        return _spacingSlider.getValue();
+    }
+    
+    public void setAmplitudesEnvelopeEnabled( boolean enabled ) {
+        _amplitudesEnvelopeCheckBox.setSelected( enabled );
+        handleAmplitudeEnvelope();
+    }
+    
+    public boolean isAmplitudesEnvelopeEnabled() {
+        return _amplitudesEnvelopeCheckBox.isSelected();
+    }
+    
+    public void setCenter( double center ) {
+        _centerSlider.setValue( center );
+        handleCenter();
+    }
+    
+    public double getCenter() {
+        return _centerSlider.getValue();
+    }
+    
+    public void setKWidth( double width ) {
+        _kWidthSlider.setValue( width );
+        handleKWidth();
+    }
+    
+    public double getKWidth() {
+        return _kWidthSlider.getValue();
+    }
+    
+    public void setDomain( Domain domain ) {
+        _domainComboBox.setSelectedKey( domain );
+        handleDomain();
+    }
+    
+    public Domain getDomain() {
+        return (Domain) _domainComboBox.getSelectedKey();
+    }
+    
+    public void setWaveType( WaveType waveType ) {
+        if ( waveType == WaveType.SINES ) {
+            _sinesRadioButton.setSelected( true );
+        }
+        else {
+            _cosinesRadioButton.setSelected( true );
+        }
+        handleWaveType();
+    }
+    
+    public WaveType getWaveType() {
+        WaveType waveType = null;
+        if ( _sinesRadioButton.isSelected() ) {
+            waveType = WaveType.SINES;
+        }
+        else {
+            waveType = WaveType.COSINES;
+        }
+        return waveType;
+    }
+    
+    public void setSumEnvelopeEnabled( boolean enabled ) {
+        _sumEnvelopeCheckBox.setSelected( enabled );
+        handleSumEnvelope();
+    }
+    
+    public boolean isSumEnvelopeEnabled() {
+        return _sumEnvelopeCheckBox.isSelected();
+    }
+    
+    public void setShowWidthsEnabled( boolean enabled ) {
+        _showWidthsCheckBox.setSelected( enabled );
+        handleShowWidths();
+    }
+    
+    public boolean isShowWidthsEnabled() {
+        return _showWidthsCheckBox.isSelected();
+    }
+    
+    //----------------------------------------------------------------------------
+    // FourierControlPanel implementation
+    //----------------------------------------------------------------------------
+    
     public void reset() {
         
         _amplitudesEnvelopeCheckBox.setSelected( _amplitudesView.isEnvelopeEnabled() );
