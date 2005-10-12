@@ -12,7 +12,6 @@ package edu.colorado.phet.solublesalts.model;
 
 import edu.colorado.phet.common.util.EventChannel;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.EventListener;
@@ -20,7 +19,7 @@ import java.util.EventObject;
 
 /**
  * Vessel
- * <p>
+ * <p/>
  * A rectangular vessel. It's location is specified by its upper left corner.
  *
  * @author Ron LeMaster

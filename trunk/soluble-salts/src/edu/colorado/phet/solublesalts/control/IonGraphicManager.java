@@ -10,18 +10,16 @@
  */
 package edu.colorado.phet.solublesalts.control;
 
-import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
-import edu.colorado.phet.solublesalts.model.Ion;
-import edu.colorado.phet.solublesalts.view.IonGraphic;
-import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.umd.cs.piccolo.PNode;
+import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
+import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
+import edu.colorado.phet.solublesalts.view.IonGraphic;
 
 import java.util.HashMap;
 
 /**
  * IonGraphicManager
- * <p>
+ * <p/>
  * Creates graphics for ions when they are added to a model and adds the graphics to a canvas,
  * and removes the graphics from the canvas when the ions leave the model
  *
