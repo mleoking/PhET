@@ -195,11 +195,18 @@ public class FourierApplication extends PhetApplication {
         _d2cModule.save( config );
 
         // Save global stuff into the configuration
-        Color[] harmonicColors = new Color[HarmonicColors.getInstance().getNumberOfColors()];
-        for ( int i = 0; i < harmonicColors.length; i++ ) {
-            harmonicColors[i] = HarmonicColors.getInstance().getColor( i );
+        {
+            // Version & build info
+            config.getGlobalConfig().setVersionNumber( Version.NUMBER );
+            config.getGlobalConfig().setBuildNumber( Version.BUILD );
+
+            // Harmonic colors
+            Color[] harmonicColors = new Color[HarmonicColors.getInstance().getNumberOfColors()];
+            for ( int i = 0; i < harmonicColors.length; i++ ) {
+                harmonicColors[i] = HarmonicColors.getInstance().getColor( i );
+            }
+            config.getGlobalConfig().setHarmonicColors( harmonicColors );
         }
-        config.getGlobalConfig().setHarmonicColors( harmonicColors );
 
         // Save the configuration to the selected file.
         String filename = selectedFile.getAbsolutePath();
