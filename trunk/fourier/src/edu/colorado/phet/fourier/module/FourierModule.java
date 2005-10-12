@@ -19,6 +19,7 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.persistence.FourierConfig;
 import edu.colorado.phet.fourier.view.BoundsDebugger;
 
 
@@ -69,6 +70,20 @@ public abstract class FourierModule extends Module {
      * Resets the module to its initial state.
      */
     public abstract void reset();
+    
+    /**
+     * Saves the module's configuration by writing it to a provided configuration object.
+     * 
+     * @param appConfig
+     */
+    public abstract void save( FourierConfig appConfig );
+    
+    /**
+     * Loads the module's configuration by reading it from a provided configuration object.
+     * 
+     * @param appConfig
+     */
+    public abstract void load( FourierConfig appConfig );
     
     //----------------------------------------------------------------------------
     // Accessors

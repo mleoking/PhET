@@ -215,6 +215,30 @@ public class GameControlPanel extends FourierControlPanel {
     }
     
     //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    public void setGameLevel( GameLevel gameLevel ) {
+        if ( gameLevel != null ) {
+            _levelComboBox.setSelectedKey( gameLevel );
+        }
+    }
+    
+    public GameLevel getGameLevel() {
+        return (GameLevel) _levelComboBox.getSelectedKey();
+    }
+    
+    public void setPreset( Preset preset ) {
+        if ( preset != null ) {
+            _presetComboBox.setSelectedKey( preset );
+        }
+    }
+    
+    public Preset getPreset() {
+        return (Preset) _presetComboBox.getSelectedKey();
+    }
+    
+    //----------------------------------------------------------------------------
     // FourierControlPanel implementation
     //----------------------------------------------------------------------------
 

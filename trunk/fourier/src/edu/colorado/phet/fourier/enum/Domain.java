@@ -30,4 +30,28 @@ public class Domain extends FourierEnum {
     public static final Domain SPACE = new Domain( "space" );
     public static final Domain TIME = new Domain( "time" );
     public static final Domain SPACE_AND_TIME = new Domain( "spaceAndTime" );
+    
+    /**
+     * Retrieves a domain by name.
+     * This is used primarily in XML encoding.
+     * 
+     * @param name
+     * @return
+     */
+    public static Domain getByName( String name ) {
+        Domain domain = null;
+        if ( SPACE.isNamed( name ) ) {
+            domain = SPACE;
+        }
+        else if ( TIME.isNamed( name ) ) {
+            domain = TIME;
+        }
+        else if ( SPACE_AND_TIME.isNamed( name ) ) {
+            domain = SPACE_AND_TIME;
+        }
+        else if ( UNDEFINED.isNamed( name ) ) {
+            domain = UNDEFINED;
+        }
+        return domain;
+    }
 }

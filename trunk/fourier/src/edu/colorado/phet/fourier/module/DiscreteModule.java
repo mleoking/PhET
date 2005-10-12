@@ -28,11 +28,14 @@ import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.control.DiscreteControlPanel;
+import edu.colorado.phet.fourier.enum.Domain;
+import edu.colorado.phet.fourier.enum.MathForm;
 import edu.colorado.phet.fourier.enum.Preset;
 import edu.colorado.phet.fourier.enum.WaveType;
 import edu.colorado.phet.fourier.help.FourierHelpItem;
 import edu.colorado.phet.fourier.help.WiggleMeGraphic;
 import edu.colorado.phet.fourier.model.FourierSeries;
+import edu.colorado.phet.fourier.persistence.FourierConfig;
 import edu.colorado.phet.fourier.util.Vector2D;
 import edu.colorado.phet.fourier.view.AnimationCycleController;
 import edu.colorado.phet.fourier.view.MinimizedView;
@@ -407,6 +410,66 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         super.deactivate( app );
         _soundEnabled = _controlPanel.isSoundEnabled();
         _controlPanel.setSoundEnabled( false );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Save & Load configurations
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Saves the module's configuration by writing it to a provided configuration object.
+     * 
+     * @param appConfig
+     */
+    public void save( FourierConfig appConfig ) {
+        FourierConfig.DiscreteConfig config = appConfig.getDiscreteConfig();
+        
+        config.setPresetName( _controlPanel.getPreset().getName() );
+        config.setNumberOfHarmonics( _controlPanel.getNumberOfHarmonics() );
+        config.setShowInfiniteEnabled( _controlPanel.isShowInfiniteEnabled() );
+        config.setDomainName( _controlPanel.getDomain().getName() );
+        config.setWaveTypeName( _controlPanel.getWaveType().getName() );
+        config.setWavelengthToolEnabled( _controlPanel.isWavelengthToolEnabled() );
+        config.setPeriodToolEnabled( _controlPanel.isPeriodToolEnabled() );
+        config.setShowMathEnabled( _controlPanel.isShowMathEnabled() );
+        config.setMathFormName( _controlPanel.getMathForm().getName() );
+        config.setExpandSumEnabled( _controlPanel.isExpandSumEnabled() );
+        config.setSoundEnabled( _controlPanel.isSoundEnabled() );
+        config.setSoundVolume( _controlPanel.getSoundVolume() );
+        
+        double[] amplitudes = new double[ _fourierSeries.getNumberOfHarmonics() ];
+        for ( int i = 0; i < amplitudes.length; i++ ) {
+            amplitudes[i] = _fourierSeries.getHarmonic(i).getAmplitude();
+        }
+        config.setAmplitudes( amplitudes );
+    }
+    
+    /**
+     * Loads the module's configuration by reading it from a provided configuration object.
+     * 
+     * @param appConfig
+     */
+    public void load( FourierConfig appConfig ) {
+        FourierConfig.DiscreteConfig config = appConfig.getDiscreteConfig();
+        
+        _controlPanel.setPreset( Preset.getByName( config.getPresetName() ) );
+        _controlPanel.setNumberOfHarmonics( config.getNumberOfHarmonics() );
+        _controlPanel.setShowInfiniteEnabled( config.isShowInfiniteEnabled() );
+        _controlPanel.setDomain( Domain.getByName( config.getDomainName() ) );
+        _controlPanel.setWaveType( WaveType.getByName( config.getWaveTypeName() ) );
+        _controlPanel.setWavelengthToolEnabled( config.isWavelengthToolEnabled() );
+        _controlPanel.setPeriodToolEnabled( config.isPeriodToolEnabled() );
+        _controlPanel.setShowMathEnabled( config.isShowMathEnabled() );
+        _controlPanel.setMathForm( MathForm.getByName( config.getMathFormName() ) );
+        _controlPanel.setExpandSumEnabled( config.isExpandSumEnabled() );
+        _controlPanel.setSoundEnabled( config.isSoundEnabled() );
+        _controlPanel.setSoundVolume( config.getSoundVolume() );
+        
+        _fourierSeries.setNumberOfHarmonics( config.getNumberOfHarmonics() );
+        double[] amplitudes = config.getAmplitudes();
+        for ( int i = 0; i < amplitudes.length; i++ ) {
+            _fourierSeries.getHarmonic(i).setAmplitude( amplitudes[i] );
+        }
     }
     
     //----------------------------------------------------------------------------

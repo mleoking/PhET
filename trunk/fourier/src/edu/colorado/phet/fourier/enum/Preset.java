@@ -40,6 +40,39 @@ public class Preset extends FourierEnum {
     public static final Preset WAVE_PACKET = new Preset( "wavePacket" );
     public static final Preset CUSTOM = new Preset( "custom" );
     
+    /**
+     * Retrieves a preset by name.
+     * This is used primarily in XML encoding.
+     * 
+     * @param name
+     * @return
+     */
+    public static Preset getByName( String name ) {
+        Preset preset = null;
+        if ( SINE_COSINE.isNamed( name ) ) {
+            preset = SINE_COSINE;
+        }
+        else if ( SQUARE.isNamed( name ) ) {
+            preset = SQUARE;
+        }
+        else if ( SAWTOOTH.isNamed( name ) ) {
+            preset = SAWTOOTH;
+        }
+        else if ( TRIANGLE.isNamed( name ) ) {
+            preset = TRIANGLE;
+        }
+        else if ( WAVE_PACKET.isNamed( name ) ) {
+            preset = WAVE_PACKET;
+        }
+        else if ( CUSTOM.isNamed( name ) ) {
+            preset = CUSTOM;
+        }
+        else if ( UNDEFINED.isNamed( name ) ) {
+            preset = UNDEFINED;
+        }
+        return preset;
+    }
+    
     //----------------------------------------------------------------------------
     // Amplitude coefficients, precomputed for 11 harmonics
     //----------------------------------------------------------------------------

@@ -31,4 +31,31 @@ public class GameLevel extends FourierEnum {
     public static final GameLevel EASY   = new GameLevel( "easy" );
     public static final GameLevel MEDIUM = new GameLevel( "medium" );
     public static final GameLevel HARD   = new GameLevel( "hard" );
+    
+    /**
+     * Retrieves a game level by name.
+     * This is used primarily in XML encoding.
+     * 
+     * @param name
+     * @return
+     */
+    public static GameLevel getByName( String name ) {
+        GameLevel gameLevel = UNDEFINED;
+        if ( PRESET.isNamed( name ) ) {
+            gameLevel = PRESET;
+        }
+        else if ( EASY.isNamed( name ) ) {
+            gameLevel = EASY;
+        }
+        else if ( MEDIUM.isNamed( name ) ) {
+            gameLevel = MEDIUM;
+        }
+        else if ( HARD.isNamed( name ) ) {
+            gameLevel = HARD;
+        }
+        else if ( UNDEFINED.isNamed( name ) ) {
+            gameLevel = UNDEFINED;
+        }
+        return gameLevel;
+    }
 }
