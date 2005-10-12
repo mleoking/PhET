@@ -116,7 +116,7 @@ public class DischargeLampAtomGraphic extends AtomGraphic implements Atom.Change
 //        TextLayout tl = new TextLayout(numStr, font, frc);
 //        Shape outline = tl.getOutline(null);
 //        PhetShapeGraphic outlineGraphic = new PhetShapeGraphic( getComponent(), outline, Color.white, new BasicStroke( 1), Color.black );
-//        outlineGraphic.setRegistrationPoint( (int)outline.getBounds().getWidth()/2, -(int)outline.getBounds().getHeight()/2);
+//        outlineGraphic.setRegistrationPoint( (int)outline.getBounds().getBeamWidth()/2, -(int)outline.getBounds().getLength()/2);
 //        outlineGraphic.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON) );
 //        addGraphic( outlineGraphic, 1001);
 

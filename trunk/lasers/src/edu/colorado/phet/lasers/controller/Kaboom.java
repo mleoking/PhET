@@ -99,7 +99,7 @@ public class Kaboom implements ModelElement {
         SwingTimerClock clock = new SwingTimerClock( 1, 40, AbstractClock.FRAMES_PER_SECOND );
 
 //        int numCols = 4;
-//        int tileWidth = (int)( bounds.getWidth() / numCols );
+//        int tileWidth = (int)( bounds.getBeamWidth() / numCols );
 //        int tileHeight = tileWidth;
 //        for( double x = bounds.getMinX(); x < bounds.getMaxX() - 1; x += tileWidth ) {
 //            for( double y = bounds.getMinY(); y < bounds.getMaxY() - 1; y += tileHeight ) {
@@ -120,10 +120,10 @@ public class Kaboom implements ModelElement {
 //                while( zoom < .97 || zoom > .99 ) {
 //                    zoom = random.nextDouble();
 //                }
-//                double txX = ( ( x + tile.getWidth() / 2 ) - ap.getWidth() / 2 ) * 0.03;
-//                double txY = ( ( y + tile.getHeight() / 2 ) - ap.getHeight() / 2 ) * 0.03;
-//                graphic = new KaboomGraphic( ap, tile, clock, new Point( (int)x + tile.getWidth() / 2,
-//                                                                         (int)y + tile.getHeight() / 2 ),
+//                double txX = ( ( x + tile.getBeamWidth() / 2 ) - ap.getBeamWidth() / 2 ) * 0.03;
+//                double txY = ( ( y + tile.getLength() / 2 ) - ap.getLength() / 2 ) * 0.03;
+//                graphic = new KaboomGraphic( ap, tile, clock, new Point( (int)x + tile.getBeamWidth() / 2,
+//                                                                         (int)y + tile.getLength() / 2 ),
 //                                             zoom, spin, 0, 0, flipFactorX, flipFactorY, txX, txY );
 //                ap.addGraphic( graphic, tileLayer );
 //                graphic.setPosition( (int)x, (int)y );
