@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.solublesalts;
 
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
@@ -28,7 +28,7 @@ public class SolubleSaltsApplication extends PhetApplication {
 
     private static AbstractClock CLOCK = new SwingTimerClock( SolubleSaltsConfig.DT, SolubleSaltsConfig.FPS, AbstractClock.FRAMES_PER_SECOND );
 
-    public SolubleSaltsApplication( String[] args) {
+    public SolubleSaltsApplication( String[] args ) {
         super( args,
                SolubleSaltsConfig.TITLE,
                SolubleSaltsConfig.DESCRIPTION,
@@ -38,7 +38,7 @@ public class SolubleSaltsApplication extends PhetApplication {
                new FrameSetup.CenteredWithSize( 1000, 740 ) );
 
         Module module = new SolubleSaltsModule( CLOCK );
-        setModules( new Module[] { module } );
+        setModules( new Module[]{module} );
     }
 
     public static void main( String[] args ) {
