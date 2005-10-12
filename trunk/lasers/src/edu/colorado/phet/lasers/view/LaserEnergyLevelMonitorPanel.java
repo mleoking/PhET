@@ -17,7 +17,6 @@ import edu.colorado.phet.common.model.clock.ClockStateEvent;
 import edu.colorado.phet.common.model.clock.ClockStateListener;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.*;
 import edu.colorado.phet.lasers.controller.LaserConfig;
@@ -26,7 +25,7 @@ import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
-import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
+import edu.colorado.phet.lasers.model.photon.Beam;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,8 +44,8 @@ import java.util.Map;
  * A disc is drawn on the energy levels for each atom in that state.
  */
 public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements SimpleObserver,
-                                                                          CollimatedBeam.WavelengthChangeListener,
-                                                                          CollimatedBeam.RateChangeListener,
+                                                                          Beam.WavelengthChangeListener,
+                                                                          Beam.RateChangeListener,
                                                                           ClockStateListener {
 
     // Number of milliseconds between display updates. Energy level populations are averaged over this time
@@ -261,17 +260,9 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
             stimSquiggleTx.rotate( -Math.PI / 2 );
         }
 
-        if( y0 > y2 ) {
-            // The horizontal placement of the squiggle depends on how many levels we're showing
-            double x = 0;
-            if( numLevels > 2 ) {
-                x = levelGraphics[2].getPosition().getX();
-            }
-            else {
-                x = levelGraphics[1].getPosition().getX();
-            }
+        if( y0 > y2 && numLevels > 2 ) {
             pumpSquiggle = computeSquiggleImage( model.getPumpingBeam(), 0, (int)( y0 - y2 ), squiggleHeight );
-            pumpSquiggleTx = AffineTransform.getTranslateInstance( x,
+            pumpSquiggleTx = AffineTransform.getTranslateInstance( levelGraphics[2].getPosition().getX(),
                                                                    energyYTx.modelToView( module.getLaserModel().getGroundState().getEnergyLevel() ) );
             pumpSquiggleTx.rotate( -Math.PI / 2 );
         }
@@ -284,7 +275,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
     /**
      * Creates a buffered image for a squiggle
      */
-    private BufferedImage computeSquiggleImage( CollimatedBeam beam, double phaseAngle, int length, int height ) {
+    private BufferedImage computeSquiggleImage( Beam beam, double phaseAngle, int length, int height ) {
         double wavelength = beam.getWavelength();
         int arrowHeight = height;
 
@@ -348,6 +339,9 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
 
         for( int i = 0; i < numLevels; i++ ) {
             EnergyLevelGraphic levelGraphic = levelGraphics[i];
+            if( levelGraphic == null ) {
+                System.out.println( "asdf" );
+            }
             drawAtomsInLevel( g2, Color.darkGray, levelGraphic, numAtomsInLevel[i] );
         }
 
@@ -403,11 +397,11 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
     }
 
     //----------------------------------------------------------------
-    // CollimatedBeam listener implementations
+    // LeftSystemEvent handlers
     //----------------------------------------------------------------
 
-    public void wavelengthChanged( CollimatedBeam.WavelengthChangeEvent event ) {
-        CollimatedBeam beam = (CollimatedBeam)event.getSource();
+    public void wavelengthChanged( Beam.WavelengthChangeEvent event ) {
+        Beam beam = (Beam)event.getSource();
         if( beam == model.getPumpingBeam() ) {
             double pumpBeamWavelength = beam.getWavelength();
             pumpBeamEnergy = PhysicsUtil.wavelengthToEnergy( pumpBeamWavelength );
@@ -419,7 +413,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         updateSquiggles();
     }
 
-    public void rateChangeOccurred( CollimatedBeam.RateChangeEvent event ) {
+    public void rateChangeOccurred( Beam.RateChangeEvent event ) {
         updateSquiggles();
     }
 
@@ -471,18 +465,18 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
      * Flashes a PhetGraphic when the wavelength of a beam matches (or is acceptably close to) the
      * difference in energy between an atomic state and the model's ground state
      */
-    private class EnergyMatchDetector implements AtomicState.Listener, CollimatedBeam.WavelengthChangeListener {
+    private class EnergyMatchDetector implements AtomicState.Listener, Beam.WavelengthChangeListener {
         private AtomicState atomicState;
-        private CollimatedBeam collimatedBeam;
-        private PhetGraphic graphic;
+        private Beam beam;
+        private EnergyLevelGraphic graphic;
         private boolean matched;
 
-        public EnergyMatchDetector( AtomicState atomicState, CollimatedBeam collimatedBeam, PhetGraphic graphic ) {
+        public EnergyMatchDetector( AtomicState atomicState, Beam beam, EnergyLevelGraphic graphic ) {
             this.atomicState = atomicState;
-            this.collimatedBeam = collimatedBeam;
+            this.beam = beam;
             this.graphic = graphic;
             atomicState.addListener( this );
-            collimatedBeam.addWavelengthChangeListener( this );
+            beam.addWavelengthChangeListener( this );
         }
 
         public void energyLevelChanged( AtomicState.Event event ) {
@@ -491,7 +485,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
 
         private void checkForMatch() {
             double requiredDE = atomicState.getEnergyLevel() - model.getGroundState().getEnergyLevel();
-            if( Math.abs( PhysicsUtil.wavelengthToEnergy( collimatedBeam.getWavelength() ) - requiredDE )
+            if( Math.abs( PhysicsUtil.wavelengthToEnergy( beam.getWavelength() ) - requiredDE )
                 <= LaserConfig.ENERGY_TOLERANCE ) {
                 if( !matched ) {
                     flashGraphic();
@@ -507,7 +501,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
             // noop
         }
 
-        public void wavelengthChanged( CollimatedBeam.WavelengthChangeEvent event ) {
+        public void wavelengthChanged( Beam.WavelengthChangeEvent event ) {
             checkForMatch();
         }
 
@@ -521,9 +515,9 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
 
     private class GraphicFlasher extends Thread {
         private int numFlashes = 5;
-        private PhetGraphic graphic;
+        private EnergyLevelGraphic graphic;
 
-        public GraphicFlasher( PhetGraphic graphic ) {
+        public GraphicFlasher( EnergyLevelGraphic graphic ) {
             this.graphic = graphic;
         }
 

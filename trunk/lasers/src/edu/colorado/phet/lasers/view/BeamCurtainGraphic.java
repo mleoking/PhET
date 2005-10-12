@@ -13,11 +13,10 @@ package edu.colorado.phet.lasers.view;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
+import edu.colorado.phet.lasers.model.photon.Beam;
 import edu.colorado.phet.lasers.model.photon.PhotonSource;
 
 import java.awt.*;
-import java.awt.geom.GeneralPath;
 
 /**
  * Class: BlueBeamGraphic
@@ -33,13 +32,13 @@ public class BeamCurtainGraphic extends PhetShapeGraphic implements PhotonSource
 
     Shape beamArea = new Rectangle();
     private Color actualColor;
-    private CollimatedBeam beam;
+    private Beam beam;
 
     /**
      * @param component
      * @param beam
      */
-    public BeamCurtainGraphic( Component component, CollimatedBeam beam ) {
+    public BeamCurtainGraphic( Component component, Beam beam ) {
         super( component );
         this.beam = beam;
         beam.addRateChangeListener( this );
@@ -57,17 +56,7 @@ public class BeamCurtainGraphic extends PhetShapeGraphic implements PhotonSource
         // The power function here controls the ramp-up of actualColor intensity
         int level = Math.max( minLevel, 255 - (int)( ( 255 - minLevel ) * Math.pow( ( beam.getPhotonsPerSecond() / beam.getMaxPhotonsPerSecond() ), .6 ) ) );
         actualColor = getActualColor( baseColor, level );
-
-        GeneralPath path = new GeneralPath();
-        double beamDepth = getComponent().getHeight() - beam.getBounds().getY();
-        path.moveTo( (float)beam.getBounds().getMinX(), (float)beam.getBounds().getMinY() );
-        path.lineTo( (float)beam.getBounds().getMaxX(), (float)beam.getBounds().getMinY() );
-        path.lineTo( (float)( beam.getBounds().getMaxX() + beamDepth * Math.sin( beam.getFanout() / 2 ) ),
-                     (float)getComponent().getHeight() );
-        path.lineTo( (float)( beam.getBounds().getMinX() - beamDepth * Math.sin( beam.getFanout() / 2 ) ),
-                     (float)getComponent().getHeight() );
-        path.closePath();
-        beamArea = path;
+        beamArea = beam.getBounds();
         setShape( beamArea );
         setPaint( actualColor );
         setBoundsDirty();
@@ -90,11 +79,11 @@ public class BeamCurtainGraphic extends PhetShapeGraphic implements PhotonSource
     //----------------------------------------------------------------------------
     // LeftSystemEvent handling
     //----------------------------------------------------------------------------
-    public void wavelengthChanged( CollimatedBeam.WavelengthChangeEvent event ) {
+    public void wavelengthChanged( Beam.WavelengthChangeEvent event ) {
         update();
     }
 
-    public void rateChangeOccurred( CollimatedBeam.RateChangeEvent event ) {
+    public void rateChangeOccurred( Beam.RateChangeEvent event ) {
         update();
     }
 }

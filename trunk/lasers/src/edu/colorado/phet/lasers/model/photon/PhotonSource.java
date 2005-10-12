@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.lasers.model.photon;
 
-import java.awt.geom.Rectangle2D;
+import java.awt.*;
 import java.util.EventListener;
 import java.util.EventObject;
 
@@ -22,7 +22,7 @@ import java.util.EventObject;
  */
 public interface PhotonSource {
 
-    Rectangle2D getBounds();
+    Shape getBounds();
 
     double getPhotonsPerSecond();
 
@@ -30,9 +30,9 @@ public interface PhotonSource {
 
     double getWavelength();
 
-    void addRateChangeListener( CollimatedBeam.RateChangeListener rateChangeListener );
+    void addRateChangeListener( Beam.RateChangeListener rateChangeListener );
 
-    void addWavelengthChangeListener( CollimatedBeam.WavelengthChangeListener wavelengthChangeListener );
+    void addWavelengthChangeListener( Beam.WavelengthChangeListener wavelengthChangeListener );
 
     void addPhotonEmittedListener( PhotonEmittedListener photonEmittedListener );
 
@@ -54,7 +54,7 @@ public interface PhotonSource {
     }
 
     public interface RateChangeListener extends EventListener {
-        public void rateChangeOccurred( CollimatedBeam.RateChangeEvent event );
+        public void rateChangeOccurred( Beam.RateChangeEvent event );
     }
 
     public class WavelengthChangeEvent extends EventObject {
@@ -68,6 +68,6 @@ public interface PhotonSource {
     }
 
     public interface WavelengthChangeListener extends EventListener {
-        public void wavelengthChanged( CollimatedBeam.WavelengthChangeEvent event );
+        public void wavelengthChanged( Beam.WavelengthChangeEvent event );
     }
 }

@@ -137,7 +137,7 @@ public class RectangleUtils {
                 }
                 else {
                     Rectangle2D.union( union, rectangle, union );
-//                    union = union.union( rectangle.getX(),rectangle.getY(),rectangle.getWidth(),rectangle.getHeight() );
+//                    union = union.union( rectangle.getX(),rectangle.getY(),rectangle.getWidth(),rectangle.getLength() );
                 }
             }
 

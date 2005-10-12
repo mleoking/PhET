@@ -27,7 +27,7 @@ import edu.colorado.phet.dischargelamps.view.BatteryReadout;
 import edu.colorado.phet.dischargelamps.view.PlateGraphic;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
-import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
+import edu.colorado.phet.lasers.model.photon.Beam;
 import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.model.photon.PhotonEmittedEvent;
 import edu.colorado.phet.lasers.model.photon.PhotonEmittedListener;
@@ -133,7 +133,7 @@ public class PhotoelectricModule extends BaseLaserModule {
         //----------------------------------------------------------------
         // View
         //----------------------------------------------------------------
-        CollimatedBeam beam = model.getBeam();
+        Beam beam = model.getBeam();
 
         // Add a graphic for the tube
         addTubeGraphic( model, getApparatusPanel() );
@@ -200,7 +200,7 @@ public class PhotoelectricModule extends BaseLaserModule {
         //----------------------------------------------------------------
         getApparatusPanel().addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                CollimatedBeam beam = getPhotoelectricModel().getBeam();
+                Beam beam = getPhotoelectricModel().getBeam();
                 beam.setPhotonsPerSecond( beam.getPhotonsPerSecond() );
             }
         } );
@@ -290,20 +290,19 @@ public class PhotoelectricModule extends BaseLaserModule {
     /**
      * @param beam
      */
-    private void addBeamGraphic( CollimatedBeam beam ) {
+    private void addBeamGraphic( Beam beam ) {
         try {
             BufferedImage lampImg = ImageLoader.loadBufferedImage( PhotoelectricConfig.LAMP_IMAGE_FILE );
             // Make the lens on the lamp the same size as the beam
             AffineTransform scaleTx = AffineTransform.getScaleInstance( 100.0 / lampImg.getWidth(),
-                                                                        beam.getHeight() / lampImg.getHeight() );
+                                                                        beam.getBeamWidth() / lampImg.getHeight() );
             AffineTransformOp scaleTxOp = new AffineTransformOp( scaleTx, AffineTransformOp.TYPE_BILINEAR );
             lampImg = scaleTxOp.filter( lampImg, null );
-            double lamplensDiam = lampImg.getHeight();
-
-            Point2D rp = new Point2D.Double( lampImg.getWidth(), lampImg.getHeight() );
-            AffineTransform atx = AffineTransform.getRotateInstance( beam.getAngle(), rp.getX(), rp.getY() );
-            atx.preConcatenate( AffineTransform.getTranslateInstance( beam.getPosition().getX() - lampImg.getWidth(),
-                                                                      beam.getPosition().getY() - lampImg.getHeight() ) );
+            AffineTransform atx = AffineTransform.getRotateInstance( beam.getDirection(),
+                                                                     beam.getPosition().getX(),
+                                                                     beam.getPosition().getY() );
+            atx.concatenate( AffineTransform.getTranslateInstance( beam.getPosition().getX() - lampImg.getWidth(),
+                                                                   beam.getPosition().getY() - lampImg.getHeight() / 2 ) );
 
             LampGraphic lampGraphic = new LampGraphic( beam, getApparatusPanel(), lampImg, atx );
             getApparatusPanel().addGraphic( lampGraphic, PhotoelectricConfig.LAMP_LAYER );
@@ -317,24 +316,6 @@ public class PhotoelectricModule extends BaseLaserModule {
             maskGraphic.setLocation( lampGraphic.getLocation() );
             getApparatusPanel().addGraphic( maskGraphic, PhotoelectricConfig.BEAM_LAYER + .5 );
             beamGraphic = new BeamCurtainGraphic( getApparatusPanel(), beam );
-            double angle = beam.getAngle();
-
-//            PhetShapeGraphic psg1 = new PhetShapeGraphic( getApparatusPanel(), new Ellipse2D.Double( DischargeLampsConfig.CATHODE_LOCATION.getX() - 3,
-//                                                                                                     DischargeLampsConfig.CATHODE_LOCATION.getY() - 3,
-//                                                                                                     6, 6 ),
-//                                                          Color.red );
-//            addGraphic( psg1, 1E9 );
-//            PhetShapeGraphic psg2 = new PhetShapeGraphic( getApparatusPanel(), new Ellipse2D.Double( beam.getPosition().getX() - 3,
-//                                                                                                     beam.getPosition().getY() - 3,
-//                                                                                                     6, 6 ),
-//                                                          Color.red );
-//            addGraphic( psg2, 1E9 );
-
-            double offset = ( lamplensDiam - beamGraphic.getWidth() ) / 2;
-            AffineTransform beamGraphicTx = AffineTransform.getRotateInstance( angle - Math.PI / 2,
-                                                                               beam.getPosition().getX(),
-                                                                               beam.getPosition().getY() + offset );
-            beamGraphic.setTransform( beamGraphicTx );
             getApparatusPanel().addGraphic( beamGraphic, PhotoelectricConfig.BEAM_LAYER );
         }
         catch( IOException e ) {

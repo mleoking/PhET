@@ -23,7 +23,7 @@ import java.awt.image.*;
  */
 public class BufferedImageUtils {
 //    public static BufferedImage rescaleYMaintainAspectRatio( BufferedImage im, int height ) {
-//        double iny = im.getHeight();
+//        double iny = im.getLength();
 //        double dy = height / iny;
 //        return rescaleFractional( im, dy, dy );
 //    }
@@ -36,7 +36,7 @@ public class BufferedImageUtils {
 //
 //    public static BufferedImage rescale( BufferedImage in, int x, int y ) {
 //        double inx = in.getWidth();
-//        double iny = in.getHeight();
+//        double iny = in.getLength();
 //        double dx = x / inx;
 //        double dy = y / iny;
 //        return rescaleFractional( in, dx, dy );
@@ -75,7 +75,7 @@ public class BufferedImageUtils {
 
 //    public static BufferedImage rescale( BufferedImage in, int x, int y ) {
 //        double inx = in.getWidth();
-//        double iny = in.getHeight();
+//        double iny = in.getLength();
 //        double dx = x / inx;
 //        double dy = y / iny;
 //        return rescaleFractional( in, dx, dy );

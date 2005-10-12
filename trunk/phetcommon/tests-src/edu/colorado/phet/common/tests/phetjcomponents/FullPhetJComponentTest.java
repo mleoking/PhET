@@ -94,7 +94,7 @@ public class FullPhetJComponentTest {
         this.swingTimerClock.addClockTickListener( new ClockTickListener() {
             public void clockTicked( ClockTickEvent event ) {
                 ap.handleUserInput();
-//                ap.paintImmediately( new Rectangle( 0, 0, ap.getWidth(), ap.getHeight() ) );
+//                ap.paintImmediately( new Rectangle( 0, 0, ap.getWidth(), ap.getLength() ) );
                 PhetJComponent.getRepaintManager().updateGraphics();
                 ap.paint();
 

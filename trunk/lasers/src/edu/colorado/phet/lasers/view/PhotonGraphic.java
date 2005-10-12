@@ -307,12 +307,12 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
         computeOffsets( velocity.getAngle() );
         setLocation( (int)( photon.getPosition().getX() - xOffset ), (int)( photon.getPosition().getY() - yOffset ) );
 
-//        double w = getBounds().getWidth();
-//        double h = getBounds().getHeight();
+//        double w = getBounds().getBeamWidth();
+//        double h = getBounds().getLength();
 //        double cx = this.getBounds().getX() + w / 2;
 //        double cy = this.getBounds().getY() + h / 2;
-//        double x = cx + w * Math.cos( photon.getVelocity().getAngle() );
-//        double y = cy + h * Math.sin( photon.getVelocity().getAngle() );
+//        double x = cx + w * Math.cos( photon.getVelocity().getDirection() );
+//        double y = cy + h * Math.sin( photon.getVelocity().getDirection() );
 //        setLocation( (int)( photon.getPosition().getX() - x ), (int)( photon.getPosition().getY() - y ) );
     }
 
@@ -415,7 +415,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
      *
      */
     public void update() {
-//        double angle = photon.getVelocity().getAngle();
+//        double angle = photon.getVelocity().getDirection();
 //        if( angle != theta ) {
 //            computeOffsets( angle );
 //        }
@@ -425,10 +425,10 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
 //        // so that the head of the photon graphic corresponds properly with the location of
 //        // the photon itself.
 //        if( angle <= Math.PI / 2 && angle >= -Math.PI / 2 ) {
-//            dx = getBounds().getWidth();
+//            dx = getBounds().getBeamWidth();
 //        }
 //        if( angle <= Math.PI && angle >= 0 ) {
-//            dy = getBounds().getHeight();
+//            dy = getBounds().getLength();
 //        }
 //
 //        setLocation( (int)( photon.getPosition().getX() - dx ), (int)( photon.getPosition().getY() - dy ) );

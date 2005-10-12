@@ -78,10 +78,10 @@ public class PhotoelectricModel extends DischargeLampModel {
     private Plate rightHandPlate;
 
     // Beam specification
-    private CollimatedBeam beam;
+    private Beam beam;
     private double defaultBeamWavelength = 400;
     private double beamWidth = 80;
-    private double beamHeight = 100;
+    private double beamHeight = 1000;
     private double beamSourceToTargetDist = 260;
     private double beamAngle = Math.toRadians( 130 );
     private double beamFanout = Math.toRadians( 5 );
@@ -106,23 +106,21 @@ public class PhotoelectricModel extends DischargeLampModel {
 
         // Create a photon beam and add a listener that will add the photons it produces to the model
         double alpha = beamAngle;
-        Point2D beamLocation = new Point2D.Double( DischargeLampsConfig.CATHODE_LOCATION.getX() - Math.cos( alpha ) * beamSourceToTargetDist
-                                                   - beamHeight / 2 * Math.sin( alpha ),
-                                                   DischargeLampsConfig.CATHODE_LOCATION.getY() - Math.sin( alpha ) * beamSourceToTargetDist
-                                                   + beamHeight / 2 * Math.cos( alpha ) );
-        beam = new CollimatedBeam( defaultBeamWavelength,
-                                   beamLocation,
-                                   beamHeight,
-                                   beamWidth,
-                                   new Vector2D.Double( Math.cos( beamAngle ), Math.sin( beamAngle ) ),
-                                   MAX_PHOTONS_PER_SECOND,
-                                   beamFanout );
+        Point2D beamLocation = new Point2D.Double( DischargeLampsConfig.CATHODE_LOCATION.getX() - Math.cos( alpha ) * beamSourceToTargetDist,
+                                                   DischargeLampsConfig.CATHODE_LOCATION.getY() - Math.sin( alpha ) * beamSourceToTargetDist );
+        beam = new Beam( defaultBeamWavelength,
+                         beamLocation,
+                         beamHeight,
+                         beamWidth,
+                         new Vector2D.Double( Math.cos( beamAngle ), Math.sin( beamAngle ) ),
+                         MAX_PHOTONS_PER_SECOND,
+                         beamFanout );
         addModelElement( beam );
         beam.setPhotonsPerSecond( MAX_PHOTONS_PER_SECOND );
         beam.setEnabled( true );
         beam.addPhotonEmittedListener( new PhotonTracker() );
         beam.addRateChangeListener( new PhotonSource.RateChangeListener() {
-            public void rateChangeOccurred( CollimatedBeam.RateChangeEvent event ) {
+            public void rateChangeOccurred( Beam.RateChangeEvent event ) {
                 changeListenerProxy.beamIntensityChanged( new ChangeEvent( this ) );
             }
         } );
@@ -223,7 +221,7 @@ public class PhotoelectricModel extends DischargeLampModel {
         return target;
     }
 
-    public CollimatedBeam getBeam() {
+    public Beam getBeam() {
         return beam;
     }
 
