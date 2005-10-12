@@ -325,7 +325,6 @@ public class BaseLaserModule extends Module {
                 if( waveGraphic != null ) {
                     waveGraphic.setVisible( false );
                 }
-//                seedBeam.setFanout( seedBeamFanout * 0.5 );
                 break;
             case PHOTON_WAVE:
                 AtomicState[] states = new AtomicState[]{getLaserModel().getGroundState(),
@@ -335,7 +334,6 @@ public class BaseLaserModule extends Module {
                                                         rightMirror, this, states );
                 }
                 waveGraphic.setVisible( true );
-//                seedBeam.setFanout( seedBeamFanout );
                 break;
             default :
                 throw new RuntimeException( "Invalid parameter value" );

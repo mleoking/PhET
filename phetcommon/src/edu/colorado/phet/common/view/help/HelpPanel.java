@@ -10,19 +10,14 @@
  */
 package edu.colorado.phet.common.view.help;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JPanel;
-
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.SimStrings;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * HelpPanel
@@ -81,15 +76,17 @@ public class HelpPanel extends JPanel {
                                                         megaHelpBtn.getPreferredSize().getWidth() ),
                                          (int)( miniHelpBtn.getPreferredSize().getHeight()
                                                 + megaHelpBtn.getPreferredSize().getHeight() + padY * 2 ) ) );
-        GridBagConstraints gbc = new GridBagConstraints( 0,0,1,1,0,0,
+        GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
                                                          GridBagConstraints.CENTER,
                                                          GridBagConstraints.NONE,
-                                                         new Insets( 0,0,0,0),0,0 );
+                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
         this.setLayout( new GridBagLayout() );
         add( miniHelpBtn, gbc );
         gbc.gridy = 1;
         add( megaHelpBtn, gbc );
-        if( true) return;
+        if( true ) {
+            return;
+        }
         this.invalidate();
         this.repaint();
 
@@ -97,7 +94,7 @@ public class HelpPanel extends JPanel {
 //        this.setLayout( layout );
 //        Spring halfWidthS = FractionSpring.half( layout.getConstraint( SpringLayout.EAST, this ) );
 //        Spring halfHeightS = FractionSpring.half( layout.getConstraint( SpringLayout.SOUTH, this ) );
-//        Spring topOfMiniBtnS = Spring.sum( halfHeightS, Spring.minus( Spring.constant( (int)miniHelpBtn.getPreferredSize().getHeight() + padY ) ) );
+//        Spring topOfMiniBtnS = Spring.sum( halfHeightS, Spring.minus( Spring.constant( (int)miniHelpBtn.getPreferredSize().getLength() + padY ) ) );
 //        Spring leftOfMiniBtnS = Spring.sum( halfWidthS, Spring.minus( Spring.constant( (int)miniHelpBtn.getPreferredSize().getWidth() / 2 ) ) );
 //        layout.putConstraint( SpringLayout.NORTH, miniHelpBtn, topOfMiniBtnS, SpringLayout.NORTH, this );
 //        layout.putConstraint( SpringLayout.WEST, miniHelpBtn, leftOfMiniBtnS, SpringLayout.WEST, this );
@@ -124,7 +121,7 @@ public class HelpPanel extends JPanel {
         this.setLayout( layout );
         Spring halfWidthS =  FractionSpring.half( layout.getConstraint( SpringLayout.EAST, this ));
         Spring halfHeightS =  FractionSpring.half( layout.getConstraint( SpringLayout.SOUTH, this ));
-        Spring topOfMiniBtnS = Spring.sum( halfHeightS, Spring.minus( Spring.constant( (int)miniHelpBtn.getPreferredSize().getHeight() / 2 )));
+        Spring topOfMiniBtnS = Spring.sum( halfHeightS, Spring.minus( Spring.constant( (int)miniHelpBtn.getPreferredSize().getLength() / 2 )));
         Spring leftOfMiniBtnS = Spring.sum( halfWidthS, Spring.minus( Spring.constant( (int)miniHelpBtn.getPreferredSize().getWidth() / 2 )));
         layout.putConstraint( SpringLayout.NORTH, miniHelpBtn, topOfMiniBtnS, SpringLayout.NORTH, this );
         layout.putConstraint( SpringLayout.WEST, miniHelpBtn, leftOfMiniBtnS, SpringLayout.WEST, this );
@@ -149,7 +146,7 @@ public class HelpPanel extends JPanel {
         int padY = 2;
         Spring halfWidthS =  FractionSpring.half( layout.getConstraint( SpringLayout.EAST, this ));
         Spring halfHeightS =  FractionSpring.half( layout.getConstraint( SpringLayout.SOUTH, this ));
-        Spring topOfMiniBtnS = Spring.sum( halfHeightS, Spring.minus( Spring.constant( (int)miniHelpBtn.getPreferredSize().getHeight() + padY )));
+        Spring topOfMiniBtnS = Spring.sum( halfHeightS, Spring.minus( Spring.constant( (int)miniHelpBtn.getPreferredSize().getLength() + padY )));
         Spring leftOfMiniBtnS = Spring.sum( halfWidthS, Spring.minus( Spring.constant( (int)miniHelpBtn.getPreferredSize().getWidth() / 2 )));
         layout.putConstraint( SpringLayout.NORTH, miniHelpBtn, topOfMiniBtnS, SpringLayout.NORTH, this );
         layout.putConstraint( SpringLayout.WEST, miniHelpBtn, leftOfMiniBtnS, SpringLayout.WEST, this );
@@ -166,7 +163,7 @@ public class HelpPanel extends JPanel {
 
     public void setHelpEnabled( boolean enabled ) {
         miniHelpShowing = enabled;
-        if ( enabled ) {
+        if( enabled ) {
             miniHelpBtn.setText( hideHelpStr );
         }
         else {

@@ -24,7 +24,7 @@ import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.PropertiesBasedAtom;
 import edu.colorado.phet.lasers.model.atom.TwoLevelElementProperties;
-import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
+import edu.colorado.phet.lasers.model.photon.Beam;
 import edu.colorado.phet.lasers.model.photon.PhotonSource;
 import edu.colorado.phet.lasers.view.LampGraphic;
 
@@ -54,24 +54,26 @@ public class SingleAtomModule extends BaseLaserModule {
     public SingleAtomModule( AbstractClock clock ) {
         super( SimStrings.get( "ModuleTitle.SingleAtomModule" ), clock );
 
-        // Create beams
-        Point2D beamOrigin = new Point2D.Double( s_origin.getX() - 55,
-                                                 s_origin.getY() + s_boxHeight / 2 );
-        final CollimatedBeam seedBeam = ( (LaserModel)getModel() ).getSeedBeam();
-        Rectangle2D.Double stimulatingBeamBounds = new Rectangle2D.Double( beamOrigin.getX(), beamOrigin.getY(),
-                                                                           s_boxWidth + s_laserOffsetX * 2, 1 );
-        seedBeam.setBounds( stimulatingBeamBounds );
+        //Set up the seed beam
+        Point2D beamOrigin = new Point2D.Double( getCavity().getBounds().getX() - 100,
+                                                 getCavity().getBounds().getY() + getCavity().getBounds().getHeight() / 2 );
+        final Beam seedBeam = ( (LaserModel)getModel() ).getSeedBeam();
+        seedBeam.setPosition( beamOrigin );
+        seedBeam.setBeamWidth( 1 );
         seedBeam.setDirection( new Vector2D.Double( 1, 0 ) );
+        seedBeam.setFanout( LaserConfig.SEED_BEAM_FANOUT );
 
         // Start the beam with a very slow rate
         seedBeam.setPhotonsPerSecond( 1 );
 
-        final CollimatedBeam pumpingBeam = ( (LaserModel)getModel() ).getPumpingBeam();
-        Point2D pumpingBeamOrigin = new Point2D.Double( getLaserOrigin().getX() + s_boxWidth / 2,
-                                                        s_origin.getY() - 100 );
-        pumpingBeam.setBounds( new Rectangle2D.Double( pumpingBeamOrigin.getX() - Atom.getS_radius(), pumpingBeamOrigin.getY(),
-                                                       2 * Atom.getS_radius(), s_boxHeight + s_laserOffsetX * 2 ) );
+        // Set up the pump beam
+        final Beam pumpingBeam = ( (LaserModel)getModel() ).getPumpingBeam();
+        Point2D pumpingBeamOrigin = new Point2D.Double( getCavity().getBounds().getX() + getCavity().getBounds().getWidth() / 2,
+                                                        getCavity().getBounds().getY() - 100 );
         pumpingBeam.setDirection( new Vector2D.Double( 0, 1 ) );
+        pumpingBeam.setPosition( pumpingBeamOrigin );
+        pumpingBeam.setFanout( Math.toRadians( 5 ) );
+        pumpingBeam.setBeamWidth( 1 );
 
         // Start with the pumping beam turned down all the way
         pumpingBeam.setPhotonsPerSecond( 0 );
@@ -82,8 +84,8 @@ public class SingleAtomModule extends BaseLaserModule {
         pumpingBeam.setEnabled( false );
 
         // Add the graphics for beams
-        Rectangle2D allocatedBounds = new Rectangle2D.Double( (int)stimulatingBeamBounds.getX() - 45,
-                                                              (int)( stimulatingBeamBounds.getY() + seedBeam.getHeight() / 2 - 25 ),
+        Rectangle2D allocatedBounds = new Rectangle2D.Double( (int)seedBeam.getPosition().getX() - 55,
+                                                              (int)( seedBeam.getPosition().getY() + seedBeam.getBeamWidth() / 2 - 25 ),
                                                               100, 50 );
         BufferedImage gunBI = null;
         try {
@@ -93,7 +95,7 @@ public class SingleAtomModule extends BaseLaserModule {
             e.printStackTrace();
         }
 
-        // Stimulating beam lamp
+        // Seed beam lamp graphic
         double scaleX = allocatedBounds.getWidth() / gunBI.getWidth();
         double scaleY = allocatedBounds.getHeight() / gunBI.getHeight();
         AffineTransformOp atxOp1 = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, scaleY ), AffineTransformOp.TYPE_BILINEAR );
@@ -153,7 +155,7 @@ public class SingleAtomModule extends BaseLaserModule {
     /**
      * @param seedBeam
      */
-    private void addWiggleMe( final CollimatedBeam seedBeam ) {
+    private void addWiggleMe( final Beam seedBeam ) {
         Point2D wiggleMeLoc = new Point2D.Double( seedBeamControl.getBounds().getMinX() + seedBeamControl.getWidth() / 2,
                                                   seedBeamControl.getBounds().getMaxY() + 30 );
         final SingleAtomModuleWiggleMe wiggleMe = new SingleAtomModuleWiggleMe( getApparatusPanel(),
@@ -166,7 +168,7 @@ public class SingleAtomModule extends BaseLaserModule {
             }
         } );
         seedBeam.addRateChangeListener( new PhotonSource.RateChangeListener() {
-            public void rateChangeOccurred( CollimatedBeam.RateChangeEvent event ) {
+            public void rateChangeOccurred( Beam.RateChangeEvent event ) {
                 wiggleMe.stop();
                 seedBeam.removeListener( this );
             }

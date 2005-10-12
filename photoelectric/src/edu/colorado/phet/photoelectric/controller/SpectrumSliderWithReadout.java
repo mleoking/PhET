@@ -16,7 +16,7 @@ import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.control.SpectrumSliderKnob;
 import edu.colorado.phet.control.SpectrumSliderWithSquareCursor;
-import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
+import edu.colorado.phet.lasers.model.photon.Beam;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -37,13 +37,13 @@ import java.text.DecimalFormat;
  * @version $Revision$
  */
 public class SpectrumSliderWithReadout extends SpectrumSliderWithSquareCursor {
-    private CollimatedBeam beam;
+    private Beam beam;
     private Point location;
     private WavelengthReadout readout;
 
     public SpectrumSliderWithReadout( Component component,
                                       final SpectrumSliderWithSquareCursor wrappedSliderWithSquareCursor,
-                                      CollimatedBeam beam,
+                                      Beam beam,
                                       double minimumWavelength,
                                       double maximumWavelength,
                                       Point location ) {
@@ -69,8 +69,8 @@ public class SpectrumSliderWithReadout extends SpectrumSliderWithSquareCursor {
     /**
      * A listener to update the slider if wavelength changes
      */
-    public class WavelengthChangeListener implements CollimatedBeam.WavelengthChangeListener {
-        public void wavelengthChanged( CollimatedBeam.WavelengthChangeEvent event ) {
+    public class WavelengthChangeListener implements Beam.WavelengthChangeListener {
+        public void wavelengthChanged( Beam.WavelengthChangeEvent event ) {
             if( (int)event.getWavelength() != getValue() ) {
                 SpectrumSliderWithReadout.this.setValue( (int)event.getWavelength() );
             }

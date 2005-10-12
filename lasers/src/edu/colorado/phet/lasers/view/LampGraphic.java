@@ -18,7 +18,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
+import edu.colorado.phet.lasers.model.photon.Beam;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -30,15 +30,15 @@ import java.util.EventObject;
 /**
  * 
  */
-public class LampGraphic extends CompositePhetGraphic implements CollimatedBeam.WavelengthChangeListener {
-    private CollimatedBeam beam;
+public class LampGraphic extends CompositePhetGraphic implements Beam.WavelengthChangeListener {
+    private Beam beam;
     private double currWavelength;
     private BasicStroke bezelStroke = new BasicStroke( 2f );
     private Ellipse2D lens;
     private PhetShapeGraphic lensGraphic;
 
 
-    public LampGraphic( CollimatedBeam beam, Component component, BufferedImage image, AffineTransform transform ) {
+    public LampGraphic( Beam beam, Component component, BufferedImage image, AffineTransform transform ) {
         super( component );
 
         setTransform( transform );
@@ -57,7 +57,7 @@ public class LampGraphic extends CompositePhetGraphic implements CollimatedBeam.
         update();
     }
 
-    public void wavelengthChanged( CollimatedBeam.WavelengthChangeEvent event ) {
+    public void wavelengthChanged( Beam.WavelengthChangeEvent event ) {
         update();
     }
 

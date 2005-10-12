@@ -23,7 +23,7 @@ import edu.colorado.phet.lasers.model.atom.*;
 import edu.colorado.phet.lasers.model.collision.PhotonAtomCollisonExpert;
 import edu.colorado.phet.lasers.model.collision.PhotonMirrorCollisonExpert;
 import edu.colorado.phet.lasers.model.mirror.Mirror;
-import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
+import edu.colorado.phet.lasers.model.photon.Beam;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.geom.Point2D;
@@ -38,8 +38,8 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
     static private int minX = (int)LaserConfig.ORIGIN.getX() - 50;
     static private int minY = (int)LaserConfig.ORIGIN.getY() - height / 2;
 
-    private CollimatedBeam stimulatingBeam;
-    private CollimatedBeam pumpingBeam;
+    private Beam stimulatingBeam;
+    private Beam pumpingBeam;
     private ResonatingCavity resonatingCavity;
     private List bodies = new LinkedList();
     private Rectangle2D boundingRectangle = new Rectangle2D.Double( minX,
@@ -228,11 +228,11 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         this.resonatingCavity = resonatingCavity;
     }
 
-    public CollimatedBeam getSeedBeam() {
+    public Beam getSeedBeam() {
         return stimulatingBeam;
     }
 
-    public void setStimulatingBeam( CollimatedBeam stimulatingBeam ) {
+    public void setStimulatingBeam( Beam stimulatingBeam ) {
         if( stimulatingBeam != null ) {
             removeModelElement( stimulatingBeam );
         }
@@ -240,11 +240,11 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         this.stimulatingBeam = stimulatingBeam;
     }
 
-    public CollimatedBeam getPumpingBeam() {
+    public Beam getPumpingBeam() {
         return pumpingBeam;
     }
 
-    public void setPumpingBeam( CollimatedBeam pumpingBeam ) {
+    public void setPumpingBeam( Beam pumpingBeam ) {
         if( pumpingBeam != null ) {
             removeModelElement( pumpingBeam );
         }
@@ -380,8 +380,8 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
             // If the lists of atoms in each section haven't been created yet, do it now
 //            if( cavitySections == null ) {
 //
-//                numSections = (int)( resonatingCavity.getWidth() / ( Atom.getS_radius() * 2 )) - 1;
-//                sectionWidth = resonatingCavity.getWidth() / numSections;
+//                numSections = (int)( resonatingCavity.getBeamWidth() / ( Atom.getS_radius() * 2 )) - 1;
+//                sectionWidth = resonatingCavity.getBeamWidth() / numSections;
 //                cavitySections = new ArrayList[numSections];
 //                for( int i = 0; i < cavitySections.length; i++ ) {
 //                    cavitySections[i] = new ArrayList();

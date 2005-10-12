@@ -15,7 +15,7 @@ import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.dischargelamps.model.FiftyPercentAbsorptionStrategy;
 import edu.colorado.phet.lasers.model.atom.ElementProperties;
 import edu.colorado.phet.lasers.model.atom.EnergyAbsorptionStrategy;
-import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
+import edu.colorado.phet.lasers.model.photon.Beam;
 import edu.colorado.phet.photoelectric.model.MetalEnergyAbsorptionStrategy;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 import edu.colorado.phet.photoelectric.model.PhotoelectricTarget;
@@ -45,7 +45,7 @@ public class PhotoelectricControlPanel {
 
     public PhotoelectricControlPanel( final PhotoelectricModule module, final GraphWindow graphWindow ) {
         final PhotoelectricModel model = (PhotoelectricModel)module.getModel();
-        final CollimatedBeam beam = model.getBeam();
+        final Beam beam = model.getBeam();
 
         ControlPanel controlPanel = (ControlPanel)module.getControlPanel();
 

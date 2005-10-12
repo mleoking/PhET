@@ -14,23 +14,23 @@ package edu.colorado.phet.lasers.model.photon;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 
+import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.EventListener;
 import java.util.Random;
 
 /**
- * Class: CollimatedBeam
- * Package: edu.colorado.phet.lasers.model.photon
- * Author: Another Guy
- * Date: Mar 21, 2003
+ * CollimatedBeam
  * <p/>
- * A CollimatedBeam is a collection of photons that all have identical
- * velocities. The beam has a height, and the photons are randomly distributed
- * across that height.
+ * A PhotonSource of photons that all have identical speeds. Their directions can
+ * vary by a specified fanout angle.
+ * The beam has a beamWidth, and the photons are randomly distributed across that beamWidth.
+ * It's position is at the midpoint of that beamWidth.
  */
-public class CollimatedBeam extends Particle implements PhotonSource {
+public class Beam extends Particle implements PhotonSource {
 
     //-----------------------------------------------------------------
     // Class data
@@ -44,7 +44,8 @@ public class CollimatedBeam extends Particle implements PhotonSource {
     //-----------------------------------------------------------------
     private double nextTimeToProducePhoton = 0;
     private double wavelength;
-    private Rectangle2D bounds;
+//    private Shape bounds;
+//    private Rectangle2D bounds;
     private Vector2D velocity;
     // The rate at which the beam produces photons
     private double timeSinceLastPhotonProduced = 0;
@@ -58,25 +59,28 @@ public class CollimatedBeam extends Particle implements PhotonSource {
     private double fanout = 0;
     // Flag to determine if photon production is Gaussian or fixed
     private boolean isPhotonProductionGaussian = false;
+    private double length;
+    private double beamWidth;
 
 
     /**
      * @param wavelength
      * @param origin
-     * @param height
-     * @param width
+     * @param length
+     * @param beamWidth
      * @param direction
      * @param maxPhotonsPerSecond
      * @param fanout              spread of beam, in radians
      */
-    public CollimatedBeam( double wavelength, Point2D origin, double height, double width,
-                           Vector2D direction, double maxPhotonsPerSecond, double fanout ) {
+    public Beam( double wavelength, Point2D origin, double length, double beamWidth,
+                 Vector2D direction, double maxPhotonsPerSecond, double fanout ) {
         this.fanout = fanout;
         this.wavelength = wavelength;
         this.maxPhotonsPerSecond = maxPhotonsPerSecond;
-        this.bounds = new Rectangle2D.Double( origin.getX(), origin.getY(), width, height );
         this.setPosition( origin );
         this.velocity = new Vector2D.Double( direction ).normalize().scale( Photon.SPEED );
+        this.length = length;
+        this.beamWidth = beamWidth;
     }
 
     //----------------------------------------------------------------
@@ -91,43 +95,53 @@ public class CollimatedBeam extends Particle implements PhotonSource {
     }
 
     /**
-     * @param fanout in degrees
+     * @param fanout in radians
      */
     public void setFanout( double fanout ) {
-        this.fanout = Math.toRadians( fanout );
+        this.fanout = fanout;
     }
 
-    public void setBounds( Rectangle2D rect ) {
-        this.bounds = rect;
-        this.setPosition( new Point2D.Double( rect.getX(), rect.getY() ) );
-    }
-
-    public Rectangle2D getBounds() {
-        return bounds;
+    /**
+     * Returns a shape that bounds the beam
+     *
+     * @return
+     */
+    public Shape getBounds() {
+        double alpha = getFanout() / 2;
+        DoubleGeneralPath path = new DoubleGeneralPath();
+        path.moveTo( getPosition() );
+        path.lineToRelative( 0, -getBeamWidth() / 2 );
+        path.lineToRelative( getLength() * Math.cos( alpha ), -getLength() * Math.sin( alpha ) / 2 );
+        path.lineToRelative( 0, getBeamWidth() + getLength() * Math.sin( alpha ) );
+        path.lineToRelative( -getLength() * Math.cos( alpha ), -getLength() * Math.sin( alpha ) / 2 );
+        path.lineTo( getPosition() );
+        AffineTransform atx = AffineTransform.getRotateInstance( getDirection(), getPosition().getX(), getPosition().getY() );
+        Shape shape = path.getGeneralPath().createTransformedShape( atx );
+        return shape;
     }
 
     public void setDirection( Vector2D.Double direction ) {
         this.velocity = new Vector2D.Double( direction ).normalize().scale( Photon.SPEED );
     }
 
-    public double getAngle() {
+    public double getDirection() {
         return velocity.getAngle();
     }
 
-    public double getHeight() {
-        return bounds.getHeight();
+    public void setBeamWidth( double beamWidth ) {
+        this.beamWidth = beamWidth;
     }
 
-    public void setHeight( double height ) {
-        this.bounds.setRect( bounds.getX(), bounds.getY(), bounds.getWidth(), height );
+    public double getBeamWidth() {
+        return beamWidth;
     }
 
-    public double getWidth() {
-        return bounds.getHeight();
+    public double getLength() {
+        return length;
     }
 
-    public void setWidth( double width ) {
-        this.bounds.setRect( bounds.getX(), bounds.getY(), width, bounds.getHeight() );
+    public void setLength( double length ) {
+        this.length = length;
     }
 
     public double getPhotonsPerSecond() {
@@ -177,12 +191,19 @@ public class CollimatedBeam extends Particle implements PhotonSource {
 
                 int nPhotons = (int)( timeSinceLastPhotonProduced * getPhotonsPerSecond() / 1E3 );
                 for( int i = 0; i < nPhotons; i++ ) {
-                    // Set the photon's velocity to a randomized angle
-                    double angle = angleGenerator.nextDouble() * ( fanout / 2 ) * ( angleGenerator.nextBoolean() ? 1 : -1 );
+                    // Set the photon's velocity to a fanout angle proportional to its distance from the
+                    // center of the beam
+                    Point2D photonLoc = genPosition();
+                    double angle = ( photonLoc.distance( getPosition() ) / getBeamWidth() / 2 ) * getFanout();
+                    double alpha = getDirection()
+                                   - Math.atan2( photonLoc.getY() - getPosition().getY(),
+                                                 photonLoc.getX() - getPosition().getX() );
+                    if( alpha > 0 ) {
+                        angle *= -1;
+                    }
                     Vector2D photonVelocity = new Vector2D.Double( velocity ).rotate( angle );
                     final Photon newPhoton = Photon.create( this.getWavelength(),
-                                                            genPosition(),
-//                                                            new Point2D.Double( genPositionX(), genPositionY() ),
+                                                            photonLoc,
                                                             photonVelocity );
                     photonEmittedListenerProxy.photonEmittedEventOccurred( new PhotonEmittedEvent( this, newPhoton ) );
                 }
@@ -195,28 +216,10 @@ public class CollimatedBeam extends Particle implements PhotonSource {
     private Point2D genPosition() {
         double r = startPositionGenerator.nextDouble();
         double inset = 10;  // inset from the edges of the "beam" that photons are emitted
-        double d = r * ( getHeight() - inset * 2 );
-        double dx = ( d + inset ) * Math.sin( getAngle() );
-        double dy = -( d + inset ) * Math.cos( getAngle() );
+        double d = r * ( ( getBeamWidth() - inset ) / 2 ) * ( startPositionGenerator.nextBoolean() ? 1 : -1 );
+        double dx = d * Math.sin( getDirection() );
+        double dy = -d * Math.cos( getDirection() );
         return new Point2D.Double( getPosition().getX() + dx, getPosition().getY() + dy );
-    }
-
-    private double genPositionY() {
-        double yDelta = 0;
-        // Things are different if we're firing horizontally
-        if( velocity.getX() > velocity.getY() ) {
-            yDelta = Math.random() * bounds.getHeight();
-        }
-        return this.getBounds().getMinY() + yDelta;
-    }
-
-    private double genPositionX() {
-        double xDelta = 0;
-        // Things are different if we're firing vertically
-        if( velocity.getY() > velocity.getX() ) {
-            xDelta = Math.random() * bounds.getWidth();
-        }
-        return this.getBounds().getMinX() + xDelta;
     }
 
     private double getNextTimeToProducePhoton() {

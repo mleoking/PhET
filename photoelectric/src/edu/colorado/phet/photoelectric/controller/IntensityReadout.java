@@ -14,7 +14,7 @@ import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
+import edu.colorado.phet.lasers.model.photon.Beam;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,16 +28,16 @@ import java.text.DecimalFormat;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class IntensityReadout extends GraphicLayerSet implements CollimatedBeam.RateChangeListener {
+public class IntensityReadout extends GraphicLayerSet implements Beam.RateChangeListener {
 
     private Font VALUE_FONT = new Font( "SansSerif", Font.PLAIN, 12 );
     private DecimalFormat format = new DecimalFormat( "#0%" );
 
     private JTextField readout;
     private PhetGraphic readoutGraphic;
-    private CollimatedBeam beam;
+    private Beam beam;
 
-    public IntensityReadout( final Component component, final CollimatedBeam beam ) {
+    public IntensityReadout( final Component component, final Beam beam ) {
         super( component );
 
         beam.addRateChangeListener( this );
@@ -79,7 +79,7 @@ public class IntensityReadout extends GraphicLayerSet implements CollimatedBeam.
         update( wavelength );
     }
 
-    public void rateChangeOccurred( CollimatedBeam.RateChangeEvent event ) {
+    public void rateChangeOccurred( Beam.RateChangeEvent event ) {
         update( event.getRate() );
     }
 }

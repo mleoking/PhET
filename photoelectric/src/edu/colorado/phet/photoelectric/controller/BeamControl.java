@@ -17,7 +17,7 @@ import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.control.IntensitySlider;
 import edu.colorado.phet.control.SpectrumSliderWithSquareCursor;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
+import edu.colorado.phet.lasers.model.photon.Beam;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 
 import javax.swing.event.ChangeEvent;
@@ -32,7 +32,7 @@ import java.awt.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class BeamControl extends GraphicLayerSet implements CollimatedBeam.RateChangeListener {
+public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListener {
     private ApparatusPanel apparatusPanel;
     private IntensitySlider intensitySlider;
 
@@ -53,7 +53,7 @@ public class BeamControl extends GraphicLayerSet implements CollimatedBeam.RateC
      * @param maximumRate
      */
     public BeamControl( ApparatusPanel apparatusPanel, Point location,
-                        CollimatedBeam beam, double maximumRate ) {
+                        Beam beam, double maximumRate ) {
         this.apparatusPanel = apparatusPanel;
 
         // The background panel
@@ -75,7 +75,7 @@ public class BeamControl extends GraphicLayerSet implements CollimatedBeam.RateC
         beam.addRateChangeListener( this );
     }
 
-    private void addWavelengthSlider( final CollimatedBeam beam ) {
+    private void addWavelengthSlider( final Beam beam ) {
         // Make a spectrum wavelengthSlider
         final SpectrumSliderWithSquareCursor wavelengthSlider1 = new SpectrumSliderWithSquareCursor( apparatusPanel,
                                                                                                      100,
@@ -102,7 +102,7 @@ public class BeamControl extends GraphicLayerSet implements CollimatedBeam.RateC
         wavelengthSlider.setValue( (int)( beam.getWavelength() ) );
     }
 
-    private void addIntensitySlider( final CollimatedBeam beam, double maximumRate ) {
+    private void addIntensitySlider( final Beam beam, double maximumRate ) {
         // Make a spectrum intensitySlider
         intensitySlider = new IntensitySlider( VisibleColor.wavelengthToColor( beam.getWavelength() ),
                                                IntensitySlider.HORIZONTAL, intensitySliderSize );
@@ -128,14 +128,14 @@ public class BeamControl extends GraphicLayerSet implements CollimatedBeam.RateC
         return intensitySlider;
     }
 
-    public class WavelengthChangeListener implements CollimatedBeam.WavelengthChangeListener {
+    public class WavelengthChangeListener implements Beam.WavelengthChangeListener {
         private IntensitySlider slider;
 
         public WavelengthChangeListener( IntensitySlider slider ) {
             this.slider = slider;
         }
 
-        public void wavelengthChanged( CollimatedBeam.WavelengthChangeEvent event ) {
+        public void wavelengthChanged( Beam.WavelengthChangeEvent event ) {
             slider.setColor( VisibleColor.wavelengthToColor( event.getWavelength() ) );
         }
     }
@@ -149,7 +149,7 @@ public class BeamControl extends GraphicLayerSet implements CollimatedBeam.RateC
     // Event handling
     //----------------------------------------------------------------
 
-    public void rateChangeOccurred( CollimatedBeam.RateChangeEvent event ) {
+    public void rateChangeOccurred( Beam.RateChangeEvent event ) {
         intensitySlider.setValue( (int)event.getRate() );
     }
 }
