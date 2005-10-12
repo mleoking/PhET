@@ -27,7 +27,7 @@ import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
-import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
+import edu.colorado.phet.lasers.model.photon.Beam;
 import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.model.photon.PhotonEmittedEvent;
 import edu.colorado.phet.lasers.model.photon.PhotonEmittedListener;
@@ -65,8 +65,8 @@ public class BaseLaserModule extends Module {
     private MirrorGraphic leftMirrorGraphic;
     private PhetFrame appFrame;
     private LaserEnergyLevelMonitorPanel laserEnergyLevelsMonitorPanel;
-    private CollimatedBeam seedBeam;
-    private CollimatedBeam pumpingBeam;
+    private Beam seedBeam;
+    private Beam pumpingBeam;
     private JPanel reflectivityControlPanel;
     private int pumpingPhotonView;
     private int lasingPhotonView = PHOTON_DISCRETE;
@@ -81,8 +81,6 @@ public class BaseLaserModule extends Module {
 
     private double middleStateMeanLifetime = LaserConfig.MIDDLE_ENERGY_STATE_MAX_LIFETIME;
     private double highStateMeanLifetime = LaserConfig.HIGH_ENERGY_STATE_DEFAULT_LIFETIME;
-    private int seedBeamFanout;
-    private double pumpingBeamFanout;
     private HelpManager energyLevelsPanelHelpManager;
     private HelpManager mainPanelHelpManager;
     private ApparatusPanelHelp apparatusPanelHelp;
@@ -104,11 +102,11 @@ public class BaseLaserModule extends Module {
         setApparatusPanel( apparatusPanel );
         apparatusPanel.setBackground( Color.white );
 
-        // Create the pumping and stimulating beams, and their graphics
-        createBeams();
-
         // Add the laser cavity and its graphic
         createCavity();
+
+        // Create the pumping and stimulating beams, and their graphics
+        createBeams();
 
         // Create the energy levels dialog
         createEnergyLevelsDialog( clock, null );
@@ -173,26 +171,24 @@ public class BaseLaserModule extends Module {
      * Sets up the pumping and seed beams
      */
     private void createBeams() {
-        seedBeamFanout = 20;
-        seedBeam = new CollimatedBeam( Photon.RED,
-                                       s_origin,
-                                       s_boxHeight - Photon.RADIUS,
-                                       s_boxWidth + s_laserOffsetX * 2,
-                                       new Vector2D.Double( 1, 0 ),
-                                       LaserConfig.MAXIMUM_SEED_PHOTON_RATE,
-                                       seedBeamFanout );
+        seedBeam = new Beam( Photon.RED,
+                             s_origin,
+                             s_boxWidth + s_laserOffsetX * 2,
+                             s_boxHeight - Photon.RADIUS,
+                             new Vector2D.Double( 1, 0 ),
+                             LaserConfig.MAXIMUM_SEED_PHOTON_RATE,
+                             LaserConfig.SEED_BEAM_FANOUT );
         seedBeam.addPhotonEmittedListener( new InternalPhotonEmittedListener() );
         seedBeam.setEnabled( true );
         getLaserModel().setStimulatingBeam( seedBeam );
 
-        pumpingBeamFanout = 30;
-        pumpingBeam = new CollimatedBeam( Photon.BLUE,
-                                          new Point2D.Double( s_origin.getX() + s_laserOffsetX, s_origin.getY() - s_laserOffsetX ),
-                                          s_boxHeight + s_laserOffsetX * 2,
-                                          s_boxWidth,
-                                          new Vector2D.Double( 0, 1 ),
-                                          LaserConfig.MAXIMUM_SEED_PHOTON_RATE,
-                                          pumpingBeamFanout );
+        pumpingBeam = new Beam( Photon.BLUE,
+                                new Point2D.Double( s_origin.getX() + s_laserOffsetX, s_origin.getY() - s_laserOffsetX ),
+                                1000,
+                                cavity.getWidth(),
+                                new Vector2D.Double( 0, 1 ),
+                                LaserConfig.MAXIMUM_SEED_PHOTON_RATE,
+                                LaserConfig.PUMPING_BEAM_FANOUT );
         pumpingBeam.addPhotonEmittedListener( new InternalPhotonEmittedListener() );
         pumpingBeam.setEnabled( true );
         getLaserModel().setPumpingBeam( pumpingBeam );
@@ -246,7 +242,7 @@ public class BaseLaserModule extends Module {
         getApparatusPanel().add( reflectivityControlPanel );
 //        PhetGraphic reflectivityPJC = (PhetGraphic)PhetJComponent.newInstance( getApparatusPanel(), reflectivityControlPanel );
 //        reflectivityPJC.setLocation( (int)rightMirror.getPosition().getX(),
-//                                            (int)( rightMirror.getPosition().getY() + rightMirror.getBounds().getHeight() ) );
+//                                            (int)( rightMirror.getPosition().getY() + rightMirror.getBounds().getLength() ) );
 //        getApparatusPanel().addGraphic( reflectivityPJC, 1000 );
 
         // Add the graphics for lasing
@@ -329,7 +325,7 @@ public class BaseLaserModule extends Module {
                 if( waveGraphic != null ) {
                     waveGraphic.setVisible( false );
                 }
-                seedBeam.setFanout( seedBeamFanout * 0.5 );
+//                seedBeam.setFanout( seedBeamFanout * 0.5 );
                 break;
             case PHOTON_WAVE:
                 AtomicState[] states = new AtomicState[]{getLaserModel().getGroundState(),
@@ -339,7 +335,7 @@ public class BaseLaserModule extends Module {
                                                         rightMirror, this, states );
                 }
                 waveGraphic.setVisible( true );
-                seedBeam.setFanout( seedBeamFanout );
+//                seedBeam.setFanout( seedBeamFanout );
                 break;
             default :
                 throw new RuntimeException( "Invalid parameter value" );
@@ -352,7 +348,7 @@ public class BaseLaserModule extends Module {
             case PHOTON_DISCRETE:
                 getApparatusPanel().removeGraphic( beamCurtainGraphic );
                 PhotonGraphic.setAllVisible( true, getPumpingBeam().getWavelength() );
-                pumpingBeam.setFanout( pumpingBeamFanout * 0.5 );
+//                pumpingBeam.setFanout( pumpingBeamFanout * 0.5 );
                 break;
             case PHOTON_CURTAIN:
                 if( beamCurtainGraphic == null ) {
@@ -360,7 +356,7 @@ public class BaseLaserModule extends Module {
                 }
                 addGraphic( beamCurtainGraphic, 1 );
                 PhotonGraphic.setAllVisible( false, getPumpingBeam().getWavelength() );
-                pumpingBeam.setFanout( pumpingBeamFanout );
+//                pumpingBeam.setFanout( pumpingBeamFanout );
                 break;
             default :
                 throw new RuntimeException( "Invalid parameter value" );
@@ -391,7 +387,7 @@ public class BaseLaserModule extends Module {
         return mirrorsEnabled;
     }
 
-    public CollimatedBeam getPumpingBeam() {
+    public Beam getPumpingBeam() {
         return pumpingBeam;
     }
 

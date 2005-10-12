@@ -29,13 +29,13 @@ public class LaserConfig {
     public static final double ELECTRON_RADIUS = 3;
     public static Point2D.Double ORIGIN = new Point2D.Double( 120, 200 );
 
-    // Photon rates for beams
+    // Beam parameters
     public static final int MINIMUM_SEED_PHOTON_RATE = 0;
     public static final int MAXIMUM_SEED_PHOTON_RATE = 30;
-//    public static final int MAXIMUM_SEED_PHOTON_RATE = 10;
-
     public static final int MINIMUM_PUMPING_PHOTON_RATE = 0;
     public static final int MAXIMUM_PUMPING_PHOTON_RATE = 400;
+    public static final double PUMPING_BEAM_FANOUT = 45;
+    public static final double SEED_BEAM_FANOUT = Math.toRadians( 3 );
 
     // Spontaneous emission times, in milliseconds
     public static final int MAXIMUM_STATE_LIFETIME = 200;
@@ -43,7 +43,6 @@ public class LaserConfig {
     public static final int HIGH_ENERGY_STATE_MAX_LIFETIME = 100;
     public static final int HIGH_ENERGY_STATE_DEFAULT_LIFETIME = 10;
     public static final int DEFAULT_SPONTANEOUS_EMISSION_TIME = 50;
-    //    public static final int DEFAULT_SPONTANEOUS_EMISSION_TIME = ( MINIMUM_SPONTANEOUS_EMISSION_TIME + MAXIMUM_STATE_LIFETIME ) / 2;
 
     // Tolerances used to determine if a photon matches with an atomic state energy
     public static final double ENERGY_TOLERANCE = 0.01;
