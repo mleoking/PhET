@@ -78,7 +78,7 @@ public class GameSumView extends GraphicLayerSet implements SimpleObserver {
     private static final double PIXELS_PER_POINT = 1;
     
     // Autoscaling
-    private static final double AUTOSCALE_FACTOR = 1.25; // multiple max amplitude by this amount when autoscaling
+    private static final double AUTOSCALE_FACTOR = 1.5; // multiple max amplitude by this amount when autoscaling
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -239,9 +239,8 @@ public class GameSumView extends GraphicLayerSet implements SimpleObserver {
             _userSumPlot.updateDataSet();
             _randomSumPlot.updateDataSet();
             
-            // Auto scale the chart so that both graphs are fully visible.
-            double maxY = Math.max( _userSumPlot.getMaxAmplitude(), _randomSumPlot.getMaxAmplitude() );
-            _chartGraphic.autoscaleY( maxY * AUTOSCALE_FACTOR );
+            // Auto scale the chart based on the random plot.
+            _chartGraphic.autoscaleY( _randomSumPlot.getMaxAmplitude() * AUTOSCALE_FACTOR );
         }
     }
 }

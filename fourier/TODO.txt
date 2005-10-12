@@ -61,6 +61,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(10/12) - autoscale the game's Sum view based only on the random waveform
 (10/12) - add support for persistence by XML encoding a "configuration" object
 (10/12) - add support for persistence to enum classes
 (10/10) - bugfix: "infinite" sine waveform in Discrete module out of sync when switching from space-&-time to space
