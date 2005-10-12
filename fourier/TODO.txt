@@ -6,7 +6,6 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- add program version & build info to config file
 - change game levels
 - add hints to game
 - game should tell you when you've won 
@@ -65,8 +64,9 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
-(10/13) - "pink waveform" to "pink function" in game
 2.1.2 ...
+(10/12) - add program version & build info to config file
+(10/12) - "pink waveform" to "pink function" in game
 (10/12) - autoscale the game's Sum view based only on the random waveform
 (10/12) - add support for persistence by XML encoding a "configuration" object
 (10/12) - add support for persistence to enum classes

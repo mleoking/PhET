@@ -82,12 +82,30 @@ public class FourierConfig implements Serializable {
     
     public class GlobalConfig implements Serializable {
         
+        private String versionNumber;
+        private String buildNumber;
         private Color[] harmonicColors;
         
         /**
          * Zero-argument constructor for Java Bean compliance.
          */
         public GlobalConfig() {}
+        
+        public String getBuildNumber() {
+            return buildNumber;
+        }
+        
+        public void setBuildNumber( String buildNumber ) {
+            this.buildNumber = buildNumber;
+        }
+        
+        public String getVersionNumber() {
+            return versionNumber;
+        }
+        
+        public void setVersionNumber( String versionNumber ) {
+            this.versionNumber = versionNumber;
+        }
         
         public Color[] getHarmonicColors() {
             return harmonicColors;
