@@ -36,5 +36,5 @@ public class SolubleSaltsConfig {
     public static final String BLUE_ION_IMAGE_NAME = IMAGE_PATH + "molecule-big.gif";
 
     // Misc
-    public static final String STRINGS_BUNDLE_NAME = "SolubleSaltsStrings" ;
+    public static final String STRINGS_BUNDLE_NAME = "localization/SolubleSaltsStrings" ;
 }

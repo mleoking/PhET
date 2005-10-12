@@ -26,6 +26,7 @@ import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.Ion;
 import edu.colorado.phet.solublesalts.model.Vessel;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
+import edu.colorado.phet.solublesalts.control.IonGraphicManager;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -47,17 +48,20 @@ public class SolubleSaltsModule extends PiccoloModule {
     public SolubleSaltsModule( AbstractClock clock ) {
         super( SimStrings.get("Module.title"), clock );
 
-        SolubleSaltsModel model = new SolubleSaltsModel();
+        // Set up the basics
+        final SolubleSaltsModel model = new SolubleSaltsModel();
         setModel( model );
-        PhetPCanvas simPanel = new PhetPCanvas();
+        final PhetPCanvas simPanel = new PhetPCanvas();
         setPhetPCanvas( simPanel );
 
+        // Add a graphic manager to the model that will manage IonGraphics
+        model.addIonListener( new IonGraphicManager( simPanel ));
+
+        // A test graphic
         Rectangle r = new Rectangle( 100, 150, 20, 70 );
         PPath pp = new PPath( r );
         pp.setPaint( Color.red );
-
         simPanel.addWorldChild( pp );
-
         pp.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR) );
         pp.addInputEventListener( new PDragEventHandler() );
 
@@ -67,15 +71,12 @@ public class SolubleSaltsModule extends PiccoloModule {
         vesselGraphic.addInputEventListener( new PDragEventHandler());
         model.getVessel().setWaterLevel( 100 );
 
-        // Create an ion and a graphic for it
+        // Create an ion and add it to the model
         Vessel vessel = model.getVessel();
-        Ion ion = new Ion( new Point2D.Double( vessel.getLocation().getX() + 20,
-                                               vessel.getLocation().getY() + vessel.getDepth() - 20),
-                           new Vector2D.Double( 2,-2),
-                           new Vector2D.Double( 0,0),
-                           1 );
+        Ion ion = new Ion( new Point2D.Double( vessel.getLocation().getX() + 30,
+                                               vessel.getLocation().getY() + vessel.getDepth() - 30),
+                           new Vector2D.Double( 2, -1 ),
+                           new Vector2D.Double( ), 1 );
         model.addModelElement( ion );
-        IonGraphic ionGraphic = new IonGraphic( ion, SolubleSaltsConfig.BLUE_ION_IMAGE_NAME );
-        simPanel.addWorldChild( ionGraphic );
     }
 }
