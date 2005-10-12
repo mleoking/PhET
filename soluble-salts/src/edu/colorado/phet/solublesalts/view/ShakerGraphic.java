@@ -28,5 +28,5 @@ public class ShakerGraphic extends PNode {
     public ShakerGraphic() {
         shakerImage = PImageFactory.create( SolubleSaltsConfig.SHAKER_IMAGE_NAME );
         this.addChild( shakerImage );
-    }        
+    }
 }

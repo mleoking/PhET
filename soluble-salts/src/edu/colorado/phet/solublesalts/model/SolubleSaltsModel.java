@@ -15,9 +15,8 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;
 
 import java.awt.geom.Point2D;
-import java.awt.*;
-import java.util.EventObject;
 import java.util.EventListener;
+import java.util.EventObject;
 
 /**
  * SolubleSaltsModel
@@ -74,8 +73,8 @@ public class SolubleSaltsModel extends BaseModel {
     public class IonEvent extends EventObject {
         public IonEvent( Object source ) {
             super( source );
-            if( !( source instanceof Ion )) {
-                throw new RuntimeException( "source of wrong type");
+            if( !( source instanceof Ion ) ) {
+                throw new RuntimeException( "source of wrong type" );
             }
         }
 
@@ -86,11 +85,15 @@ public class SolubleSaltsModel extends BaseModel {
 
     public interface IonListener extends EventListener {
         void ionAdded( IonEvent event );
+
         void ionRemoved( IonEvent event );
     }
 
     public static class IonListenerAdapter implements IonListener {
-        public void ionAdded( IonEvent event ) {}
-        public void ionRemoved( IonEvent event ) {}
+        public void ionAdded( IonEvent event ) {
+        }
+
+        public void ionRemoved( IonEvent event ) {
+        }
     }
 }

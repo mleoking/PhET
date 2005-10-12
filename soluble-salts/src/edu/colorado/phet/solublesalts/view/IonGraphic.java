@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.solublesalts.view;
 
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
-import edu.colorado.phet.solublesalts.model.Ion;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.piccolo.PImageFactory;
+import edu.colorado.phet.solublesalts.model.Ion;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * IonGraphic
