@@ -6,6 +6,9 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- change game levels
+- add hints to game
+- game should tell you when you've won 
 - "Optical Pulse Shaper" as a separate simulation
 
 MEDIUM PRIORITY:
