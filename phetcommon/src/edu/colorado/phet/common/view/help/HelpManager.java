@@ -46,10 +46,10 @@ public class HelpManager extends GraphicLayerSet {
 
     /**
      * @deprecated use addGraphic
-     * @param helpItem
+     * @param item
      */
     public void addHelpItem( HelpItem item ) {
-        super.addGraphic( item );
+        super.addGraphic( item, HELP_LAYER );
     }
 
     public void setHelpEnabled( ApparatusPanel apparatusPanel, boolean h ) {
