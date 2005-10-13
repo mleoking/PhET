@@ -18,6 +18,7 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.solublesalts.control.IonGraphicManager;
 import edu.colorado.phet.solublesalts.model.Ion;
+import edu.colorado.phet.solublesalts.model.Sodium;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.Vessel;
 import edu.colorado.phet.solublesalts.view.VesselGraphic;
@@ -63,10 +64,10 @@ public class SolubleSaltsModule extends PiccoloModule {
 
         // Create an ion and add it to the model
         Vessel vessel = model.getVessel();
-        final Ion ion = new Ion( new Point2D.Double( vessel.getLocation().getX() + 30,
-                                                     vessel.getLocation().getY() + vessel.getDepth() - 30 ),
-                                 new Vector2D.Double( 2, -1 ),
-                                 new Vector2D.Double(), 1 );
+        final Ion ion = new Sodium( new Point2D.Double( vessel.getLocation().getX() + 30,
+                                                        vessel.getLocation().getY() + vessel.getDepth() - 30 ),
+                                    new Vector2D.Double( 2, -1 ),
+                                    new Vector2D.Double() );
         model.addModelElement( ion );
     }
 }

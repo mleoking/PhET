@@ -25,8 +25,11 @@ public class SphericalBody extends Body implements Collidable {
     private CollidableAdapter collidableAdapter;
 
     public SphericalBody(double radius) {
-        this.radius = radius;
-        collidableAdapter = new CollidableAdapter(this);
+        this( new Point2D.Double( ),
+              new Vector2D.Double( ),
+              new Vector2D.Double( ),
+              0,
+              radius );
     }
 
     protected SphericalBody(Point2D center,
@@ -36,6 +39,7 @@ public class SphericalBody extends Body implements Collidable {
                             double radius) {
         super(center, velocity, acceleration, mass, 0);
         this.radius = radius;
+        collidableAdapter = new CollidableAdapter(this);
     }
 
     public Point2D getCM() {
