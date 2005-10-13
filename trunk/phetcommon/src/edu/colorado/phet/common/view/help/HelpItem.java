@@ -13,6 +13,7 @@ package edu.colorado.phet.common.view.help;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShadowTextGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -61,7 +62,9 @@ public class HelpItem extends PhetGraphic {
     private Point2D.Double location;
     private Color shadowColor;
     private Color foregroundColor;
-    boolean inited = false;
+    private boolean inited = false;
+    private boolean antiAlias = false;
+
 
     //----------------------------------------------------------------
     // Constructors and initialization
@@ -167,6 +170,10 @@ public class HelpItem extends PhetGraphic {
     }
 
     public void paint( Graphics2D g ) {
+        RenderingHints rhOrg = g.getRenderingHints();
+        if( antiAlias ) {
+            GraphicsUtil.setAntiAliasingOn( g );
+        }
         if( !inited ) {
             init( g );
             inited = true;
@@ -178,6 +185,7 @@ public class HelpItem extends PhetGraphic {
             PhetShadowTextGraphic textGraphic = (PhetShadowTextGraphic)shadowTextGraphics.get( i );
             textGraphic.paint( g );
         }
+        g.setRenderingHints( rhOrg );
     }
 
     //----------------------------------------------------------------
@@ -237,5 +245,26 @@ public class HelpItem extends PhetGraphic {
      */
     public void setFont( Font font ) {
         this.font = font;
+    }
+
+    /**
+     * Set whether the text is antialiased or not
+     * @param antiAlias
+     */
+    public void setAntiAlias( boolean antiAlias ) {
+        this.antiAlias = antiAlias;
+    }
+
+    /**
+     * Sets wheter a drop shadow is displayed or not
+     * @param displayDropShadow
+     */
+    public void setDisplayDropShadow( boolean displayDropShadow ) {
+        if( displayDropShadow ) {
+            setShadowColor( shadowColor );
+        }
+        else {
+            setShadowColor( new Color( 0,0,0,0 ));
+        }
     }
 }
