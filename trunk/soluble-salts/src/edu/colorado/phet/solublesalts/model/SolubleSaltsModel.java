@@ -10,6 +10,7 @@
  */
 package edu.colorado.phet.solublesalts.model;
 
+import edu.colorado.phet.collision.SphereBoxExpert;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;
@@ -33,6 +34,18 @@ public class SolubleSaltsModel extends BaseModel {
 
     public SolubleSaltsModel() {
         vessel = new Vessel( vesselWidth, vesselDepth, vesselLoc );
+        addModelElement( new ModelElement() {
+            SphereBoxExpert sphereBoxExpert = new SphereBoxExpert();
+
+            public void stepInTime( double dt ) {
+                for( int i = 0; i < numModelElements(); i++ ) {
+                    if( modelElementAt( i ) instanceof Ion ) {
+                        Ion ion = (Ion)modelElementAt( i );
+                        sphereBoxExpert.detectAndDoCollision( ion, vessel.getWater() );
+                    }
+                }
+            }
+        } );
     }
 
     public void addModelElement( ModelElement modelElement ) {
