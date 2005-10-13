@@ -10,28 +10,24 @@
  */
 package edu.colorado.phet.solublesalts.model;
 
+import edu.colorado.phet.collision.SphericalBody;
 import edu.colorado.phet.common.math.Vector2D;
 
 import java.awt.geom.Point2D;
 
 /**
- * Sodium
+ * Atom
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Sodium extends Ion {
+public abstract class Atom extends SphericalBody {
 
-    private static IonProperties ionProperties = new IonProperties( 11, 1, 5 );
-
-    public Sodium() {
-        super( ionProperties );
+    public Atom( double radius ) {
+        super( radius );
     }
 
-    public Sodium( Point2D position, Vector2D velocity, Vector2D acceleration ) {
-        super( position,
-               velocity,
-               acceleration,
-               ionProperties );
+    protected Atom( Point2D center, Vector2D velocity, Vector2D acceleration, double mass, double radius ) {
+        super( center, velocity, acceleration, mass, radius );
     }
 }

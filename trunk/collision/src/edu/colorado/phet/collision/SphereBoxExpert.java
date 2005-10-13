@@ -13,7 +13,6 @@ public class SphereBoxExpert implements CollisionExpert, ContactDetector {
     public boolean detectAndDoCollision( Collidable bodyA, Collidable bodyB ) {
         boolean haveCollided = false;
         if( applies( bodyA, bodyB ) && areInContact( bodyA, bodyB ) ) {
-//        if( detector.applies( bodyA, bodyB ) && detector.areInContact( bodyA, bodyB ) ) {
             SphericalBody sphere = bodyA instanceof SphericalBody ?
                                    (SphericalBody)bodyA : (SphericalBody)bodyB;
             Box2D box = bodyA instanceof Box2D ?
@@ -61,7 +60,6 @@ public class SphereBoxExpert implements CollisionExpert, ContactDetector {
         // Hitting left wall?
         double dx = sphere.getCenter().getX() - sphere.getRadius() - box.getMinX();
         if( dx <= 0 ) {
-//        if( dx <= 0 && sphere.getVelocity().getX() - box.getLeftWallVx() < 0 ) {
             result = true;
         }
 
