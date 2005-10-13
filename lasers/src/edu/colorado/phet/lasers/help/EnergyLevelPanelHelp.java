@@ -33,17 +33,22 @@ public class EnergyLevelPanelHelp {
         Point2D energyLevelHILoc = new Point2D.Double( 30, 100 );
         HelpItem energyLevelHI = new HelpItem( component,
                                                SimStrings.get( "Help.energyLevel" ),
-                                               energyLevelHILoc,
-                                               HelpItem.RIGHT, HelpItem.BELOW );
+                                               energyLevelHILoc.getX(),
+                                               energyLevelHILoc.getY() - 20,
+                                               HelpItem.RIGHT, HelpItem.ABOVE );
         energyLevelHI.setForegroundColor( helpColor );
+        energyLevelHI.setDisplayDropShadow( false );
+        energyLevelHI.setAntiAlias( true );
         energyLevelHI.setFont( font );
 
         Point2D lifetimeSliderHILoc = new Point2D.Double( 320, 20 );
         HelpItem lifetimeSliderHI = new HelpItem( component,
                                                   SimStrings.get( "Help.lifetimeSlider" ),
-                                                  lifetimeSliderHILoc,
-                                                  HelpItem.LEFT, HelpItem.BELOW );
+                                                  energyLevelHILoc,
+                                                  HelpItem.RIGHT, HelpItem.BELOW );
         lifetimeSliderHI.setForegroundColor( helpColor );
+        lifetimeSliderHI.setDisplayDropShadow( false );
+        lifetimeSliderHI.setAntiAlias( true );
         lifetimeSliderHI.setFont( font );
 
         helpManager.addHelpItem( lifetimeSliderHI );

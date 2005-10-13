@@ -96,12 +96,34 @@ public class LaserSimulation extends PhetApplication {
     public static void main( String[] args ) {
         SimStrings.init( args, LaserConfig.localizedStringsPath );
 
-        try {
-            UIManager.setLookAndFeel( new LaserAppLookAndFeel() );
+        String arch = System.getProperty( "os.name", "" );
+
+        // Install the look and feel. If we're not on Windows,
+        // then use the native L&F
+        if( !arch.toLowerCase().startsWith( "windows" ) ) {
+            // Get the native look and feel class name
+            String nativeLF = UIManager.getSystemLookAndFeelClassName();
+            try {
+                UIManager.setLookAndFeel( nativeLF );
+            }
+            catch( InstantiationException e ) {
+            }
+            catch( ClassNotFoundException e ) {
+            }
+            catch( UnsupportedLookAndFeelException e ) {
+            }
+            catch( IllegalAccessException e ) {
+            }
         }
-        catch( UnsupportedLookAndFeelException e ) {
-            e.printStackTrace();
+        else {
+            try {
+                UIManager.setLookAndFeel( new LaserAppLookAndFeel() );
+            }
+            catch( UnsupportedLookAndFeelException e ) {
+                e.printStackTrace();
+            }
         }
+
 
         LaserSimulation simulation = new LaserSimulation( args );
         simulation.startApplication();

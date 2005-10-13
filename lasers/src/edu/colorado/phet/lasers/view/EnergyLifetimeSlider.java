@@ -13,6 +13,7 @@ package edu.colorado.phet.lasers.view;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
+import edu.colorado.phet.lasers.view.util.DefaultGridBagConstraints;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -60,8 +61,13 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
 //            setPaintLabels( true );
 //            setPaintTrack( true );
         this.graphic = graphic;
-        this.setLayout( new BorderLayout() );
-        this.add( new JLabel( SimStrings.get( "EnergyLevelMonitorPanel.sliderLabel" ), JLabel.CENTER ), BorderLayout.NORTH );
+
+        this.setLayout( new GridBagLayout() );
+        GridBagConstraints gbc = new DefaultGridBagConstraints();
+        gbc.anchor = GridBagConstraints.NORTH;
+        this.add( new JLabel( SimStrings.get( "EnergyLevelMonitorPanel.sliderLabel" ), JLabel.CENTER ), gbc );
+//        this.setLayout( new BorderLayout() );
+//        this.add( new JLabel( SimStrings.get( "EnergyLevelMonitorPanel.sliderLabel" ), JLabel.CENTER ), BorderLayout.NORTH );
 
         this.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
