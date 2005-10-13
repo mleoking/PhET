@@ -64,10 +64,17 @@ public class SolubleSaltsModule extends PiccoloModule {
 
         // Create an ion and add it to the model
         Vessel vessel = model.getVessel();
-        final Ion ion = new Sodium( new Point2D.Double( vessel.getLocation().getX() + 30,
-                                                        vessel.getLocation().getY() + vessel.getDepth() - 30 ),
-                                    new Vector2D.Double( 2, -1 ),
-                                    new Vector2D.Double() );
+        Ion ion = new Sodium( new Point2D.Double( vessel.getLocation().getX() + 100,
+                                                  vessel.getLocation().getY() + vessel.getDepth() - 100 ),
+                              new Vector2D.Double( 2, -1 ),
+                              new Vector2D.Double() );
         model.addModelElement( ion );
+
+        Ion ion2 = new Sodium( new Point2D.Double( vessel.getLocation().getX() + 100,
+                                                   vessel.getLocation().getY() - 50 ),
+                               new Vector2D.Double( 0, 5 ),
+                               new Vector2D.Double() );
+        model.addModelElement( ion2 );
+
     }
 }

@@ -10,6 +10,7 @@
  */
 package edu.colorado.phet.solublesalts.model;
 
+import edu.colorado.phet.collision.Box2D;
 import edu.colorado.phet.common.util.EventChannel;
 
 import java.awt.geom.Point2D;
@@ -27,8 +28,9 @@ import java.util.EventObject;
  */
 public class Vessel {
     private Rectangle2D shape;
-    private Point2D location;
+    private Point2D location = new Point2D.Double();
     private double waterLevel;
+    private Box2D collisionBox;
 
     public Vessel( double width, double depth ) {
         this( width, depth, new Point2D.Double() );
@@ -37,6 +39,37 @@ public class Vessel {
     public Vessel( double width, double depth, Point2D location ) {
         shape = new Rectangle2D.Double( location.getX(), location.getY(), width, depth );
         this.location = location;
+        waterLevel = depth;
+        collisionBox = new Box2D();
+        updateCollisionBox();
+
+        // Add a change listener to ourselves so that the bounds of the collision
+        // box will be updated if our state changes.
+        addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
+                updateCollisionBox();
+            }
+        } );
+    }
+
+    /**
+     * Updates the collisionBox
+     */
+    private void updateCollisionBox() {
+        collisionBox.setBounds( getShape().getMinX(),
+                                getShape().getMaxY() - waterLevel,
+                                getShape().getMaxX(),
+                                getShape().getMaxY() );
+    }
+
+    /**
+     * Returns the water in the vessel as a Box2D, so it can be used for
+     * collision detection.
+     *
+     * @return
+     */
+    public Box2D getWater() {
+        return collisionBox;
     }
 
     public double getWaterLevel() {
