@@ -3,7 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
-
+- Save/Load doesn't work with WebStart
 
 HIGH PRIORITY:
 - change game levels
@@ -64,6 +64,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(10/13) - rewrite save/load to work with both JNLP and load applications (not tested fully)
 2.1.2 ...
 (10/12) - add program version & build info to config file
 (10/12) - "pink waveform" to "pink function" in game
