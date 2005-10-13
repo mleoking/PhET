@@ -29,12 +29,12 @@ public abstract class Body extends Particle {
     private double alpha;
     private double prevAlpha;
     private double mass;
+    private Vector2D momentum = new Vector2D.Double();
 
     protected Body() {
     }
 
     protected Body( Point2D location, Vector2D velocity,
-//    protected Body( Point2D.Double location, Vector2D velocity,
                     Vector2D acceleration, double mass, double charge ) {
         super( location, velocity, acceleration );
         setMass( mass );
@@ -61,10 +61,13 @@ public abstract class Body extends Particle {
         prevAlpha = alpha;
 
         super.stepInTime( dt );
+
+        momentum.setComponents( getVelocity().getX() * getMass(),
+                                getVelocity().getY() * getMass() );
     }
 
     public double getSpeed() {
-        return getVelocity().getMagnitude();    
+        return getVelocity().getMagnitude();
     }
 
     public double getTheta() {
@@ -99,9 +102,18 @@ public abstract class Body extends Particle {
         this.mass = mass;
     }
 
+    public Vector2D getMomentum() {
+        return new Vector2D.Double( getVelocity().getX() * getMass(),
+                                    getVelocity().getY() * getMass() );
+    }
+
+    public void setMomentum( Vector2D momentum ) {
+        setVelocity( momentum.getX() / getMass(), momentum.getY() / getMass() );
+    }
+
     /**
-     * @deprecated
      * @return
+     * @deprecated
      */
     public Particle getLastColidedBody() {
         return lastColidedBody;

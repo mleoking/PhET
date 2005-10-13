@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.solublesalts.model;
 
-import edu.colorado.phet.collision.SphericalBody;
 import edu.colorado.phet.common.math.Vector2D;
 
 import java.awt.geom.Point2D;
@@ -21,7 +20,7 @@ import java.awt.geom.Point2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Ion extends SphericalBody {
+public class Ion extends Atom {
 
     private IonProperties ionProperties;
 

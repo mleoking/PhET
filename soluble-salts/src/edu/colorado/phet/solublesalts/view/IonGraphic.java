@@ -15,6 +15,7 @@ import edu.colorado.phet.piccolo.PImageFactory;
 import edu.colorado.phet.solublesalts.model.Ion;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PText;
 
 import java.awt.*;
 
@@ -28,6 +29,7 @@ public class IonGraphic extends PNode implements SimpleObserver {
 
     private Ion ion;
     private PImage pImage;
+    private PText pText;
 
     public IonGraphic( Ion ion, String imageName ) {
         this.ion = ion;
@@ -35,6 +37,11 @@ public class IonGraphic extends PNode implements SimpleObserver {
         pImage = PImageFactory.create( imageName, new Dimension( (int)ion.getRadius() * 2,
                                                                  (int)ion.getRadius() * 10 ) );
         this.addChild( pImage );
+
+//        String text = ion.getCharge() < 0 ? "-" : ( ion.getCharge() > 0 ? "+" : "0" );
+//        pText = new PText( text );
+//        pText.setTextPaint( Color.white );
+//        this.addChild( pText );
         update();
     }
 

@@ -10,12 +10,13 @@
  */
 package edu.colorado.phet.solublesalts.model;
 
-import edu.colorado.phet.collision.SphereBoxExpert;
+import edu.colorado.phet.collision.CollisionExpert;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.EventObject;
 
@@ -27,21 +28,34 @@ import java.util.EventObject;
  */
 public class SolubleSaltsModel extends BaseModel {
 
+    // The vessel
     private Vessel vessel;
     private Point2D vesselLoc = new Point2D.Double( 300, 200 );
     private double vesselWidth = 300;
     private double vesselDepth = 200;
 
+    // Collision mechanism objects
+    IonIonCollisionExpert ionIonCollisionExpert = new IonIonCollisionExpert();
+
     public SolubleSaltsModel() {
         vessel = new Vessel( vesselWidth, vesselDepth, vesselLoc );
         addModelElement( new ModelElement() {
-            SphereBoxExpert sphereBoxExpert = new SphereBoxExpert();
+            IonVesselCollisionExpert sphereBoxExpert = new IonVesselCollisionExpert();
+//            SphereBoxExpert sphereBoxExpert = new SphereBoxExpert();
 
             public void stepInTime( double dt ) {
                 for( int i = 0; i < numModelElements(); i++ ) {
                     if( modelElementAt( i ) instanceof Ion ) {
                         Ion ion = (Ion)modelElementAt( i );
                         sphereBoxExpert.detectAndDoCollision( ion, vessel.getWater() );
+
+                        for( int j = 0; j < numModelElements(); j++ ) {
+                            if( modelElementAt( i ) != modelElementAt( j )
+                                && modelElementAt( j ) instanceof Ion ) {
+                                ionIonCollisionExpert.detectAndDoCollision( (Ion)modelElementAt( i ),
+                                                                            (Ion)modelElementAt( j ) );
+                            }
+                        }
                     }
                 }
             }
@@ -107,6 +121,18 @@ public class SolubleSaltsModel extends BaseModel {
         }
 
         public void ionRemoved( IonEvent event ) {
+        }
+    }
+
+    private class CollisionMechanism implements ModelElement {
+        private ArrayList experts = new ArrayList();
+
+        void addCollisionExpert( CollisionExpert expert ) {
+            experts.add( expert );
+        }
+
+        public void stepInTime( double dt ) {
+
         }
     }
 }
