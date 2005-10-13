@@ -11,17 +11,11 @@
 
 package edu.colorado.phet.fourier;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
-import java.text.MessageFormat;
 
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
@@ -35,9 +29,7 @@ import edu.colorado.phet.fourier.control.OptionsMenu;
 import edu.colorado.phet.fourier.module.D2CModule;
 import edu.colorado.phet.fourier.module.DiscreteModule;
 import edu.colorado.phet.fourier.module.GameModule;
-import edu.colorado.phet.fourier.persistence.FourierConfig;
-import edu.colorado.phet.fourier.persistence.ObjectIO;
-import edu.colorado.phet.fourier.view.HarmonicColors;
+import edu.colorado.phet.fourier.persistence.ConfigManager;
 
 
 /**
@@ -52,17 +44,15 @@ public class FourierApplication extends PhetApplication {
     // Class data
     //----------------------------------------------------------------------------
     
+    // Set this to true to test one module and disable all others.
     private static final boolean TEST_ONE_MODULE = false;
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private DiscreteModule _discreteModule;
-    private GameModule _gameModule;
-    private D2CModule _d2cModule;
-    
-    private String _configDirectoryName; // where to look for user config files
+    // PersistanceManager handles loading/saving application configurations.
+    private ConfigManager _persistenceManager;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -84,7 +74,6 @@ public class FourierApplication extends PhetApplication {
             boolean useClockControlPanel, FrameSetup frameSetup )
     {
         super( args, title, description, version, clock, useClockControlPanel, frameSetup );
-        _configDirectoryName = System.getProperty( "user.home" );
         initModules( clock );  
         initMenubar();
     }
@@ -93,23 +82,24 @@ public class FourierApplication extends PhetApplication {
     // Modules
     //----------------------------------------------------------------------------
     
+    /*
+     * Initializes the modules.
+     * 
+     * @param clock
+     */
     private void initModules( AbstractClock clock ) {
         if ( TEST_ONE_MODULE ) {
-            Module module = new DiscreteModule( clock );
+            Module module = new GameModule( clock );
             setModules( new Module[] { module } );
             setInitialModule( module );
         }
         else {
-            _discreteModule = new DiscreteModule( clock );
-            _gameModule = new GameModule( clock );
-            _d2cModule = new D2CModule( clock );
+            DiscreteModule discreteModule = new DiscreteModule( clock );
+            GameModule gameModule = new GameModule( clock );
+            D2CModule d2cModule = new D2CModule( clock );
 
-            setModules( new Module[] { 
-                    _discreteModule,
-                    _gameModule,
-                    _d2cModule
-                    } );
-            setInitialModule( _discreteModule );
+            setModules( new Module[] { discreteModule, gameModule, d2cModule } );
+            setInitialModule( discreteModule );
         }
     }
     
@@ -117,11 +107,15 @@ public class FourierApplication extends PhetApplication {
     // Menubar
     //----------------------------------------------------------------------------
     
-    /**
+    /*
      * Initializes the menubar.
      */
     private void initMenubar() {
      
+        if ( _persistenceManager == null ) {
+            _persistenceManager = new ConfigManager( this );
+        }
+        
         PhetFrame frame = getPhetFrame();
         
         // File menu
@@ -130,7 +124,7 @@ public class FourierApplication extends PhetApplication {
             saveItem.setMnemonic( SimStrings.get( "FileMenu.save.mnemonic" ).charAt(0) );
             saveItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    handleSaveConfig();
+                    _persistenceManager.save();
                 }
             } );
             
@@ -138,7 +132,7 @@ public class FourierApplication extends PhetApplication {
             loadItem.setMnemonic( SimStrings.get( "FileMenu.load.mnemonic" ).charAt(0) );
             loadItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    handleLoadConfig();
+                    _persistenceManager.load();
                 }
             } );
 
@@ -157,140 +151,13 @@ public class FourierApplication extends PhetApplication {
             //XXX Add debug menu items here.
         }
     }
-    
-    /*
-     * Handles the "Save configuration..." menu item in the File menu.
-     */
-    private void handleSaveConfig() {
-       
-        JFrame frame = getPhetFrame();
-        
-        // Choose the file to save.
-        JFileChooser fileChooser = new JFileChooser( _configDirectoryName );
-        fileChooser.setDialogTitle( SimStrings.get( "Save.title" ) );
-        int rval = fileChooser.showSaveDialog( frame );
-        _configDirectoryName = fileChooser.getCurrentDirectory().getAbsolutePath();
-        File selectedFile = fileChooser.getSelectedFile();
-        if ( rval == JFileChooser.CANCEL_OPTION || selectedFile == null ) {
-            return;
-        }
 
-        _configDirectoryName = selectedFile.getParentFile().getAbsolutePath();
-
-        // If the file exists, confirm overwrite.
-        if ( selectedFile.exists() ) {
-            String title = SimStrings.get( "Save.confirm.title" );
-            String message = SimStrings.get( "Save.confirm.message" );
-            System.out.println( "message=" + message );//XXX
-            int reply = JOptionPane.showConfirmDialog( frame, message, title, JOptionPane.YES_NO_OPTION );
-            if ( reply != JOptionPane.YES_OPTION ) {
-                return;
-            }
-        }
-
-        // Save the modules into a configuration.
-        FourierConfig config = new FourierConfig();
-        _discreteModule.save( config );
-        _gameModule.save( config );
-        _d2cModule.save( config );
-
-        // Save global stuff into the configuration
-        {
-            // Version & build info
-            config.getGlobalConfig().setVersionNumber( Version.NUMBER );
-            config.getGlobalConfig().setBuildNumber( Version.BUILD );
-
-            // Harmonic colors
-            Color[] harmonicColors = new Color[HarmonicColors.getInstance().getNumberOfColors()];
-            for ( int i = 0; i < harmonicColors.length; i++ ) {
-                harmonicColors[i] = HarmonicColors.getInstance().getColor( i );
-            }
-            config.getGlobalConfig().setHarmonicColors( harmonicColors );
-        }
-
-        // Save the configuration to the selected file.
-        String filename = selectedFile.getAbsolutePath();
-        try {
-            ObjectIO.write( config, filename );
-        }
-        catch ( Exception e ) {
-            String title = SimStrings.get( "Save.error.title" );
-            String format = SimStrings.get( "Save.error.message" );
-            Object[] args = { filename, e.getMessage() };
-            String message = MessageFormat.format( format, args );
-            JOptionPane.showMessageDialog( frame, message, title, JOptionPane.ERROR_MESSAGE );
-            e.printStackTrace();
-        }
-    }
-    
-    /*
-     * Handles the "Load configuration..." menu item in the File menu.
-     */
-    private void handleLoadConfig() {
-        JFrame frame = getPhetFrame();
-        
-        // Choose the file to load.
-        JFileChooser fileChooser = new JFileChooser( _configDirectoryName );
-        fileChooser.setDialogTitle( SimStrings.get( "Load.title" ) );
-        int rval = fileChooser.showOpenDialog( frame );
-        _configDirectoryName = fileChooser.getCurrentDirectory().getAbsolutePath();
-        File selectedFile = fileChooser.getSelectedFile();
-        if ( rval == JFileChooser.CANCEL_OPTION || selectedFile == null ) {
-            return;
-        }
-
-        // Read the configuration object from the file.
-        Object object = null;
-        String filename = selectedFile.getAbsolutePath();
-        try {
-            object = ObjectIO.read( filename );
-        }
-        catch ( Exception e ) {
-            String title = SimStrings.get( "Save.error.title" );
-            String format = SimStrings.get( "Save.error.message" );
-            Object[] args = { filename, e.getMessage() };
-            String message = MessageFormat.format( format, args );
-            JOptionPane.showMessageDialog( frame, message, title, JOptionPane.ERROR_MESSAGE );
-            e.printStackTrace();
-            return;
-        }
-            
-        // Check the object's type
-        FourierConfig config = null;
-        if ( object instanceof FourierConfig ) {
-            config = (FourierConfig) object;
-        }
-        else {
-            String title = SimStrings.get( "Save.error.title" );
-            String format = SimStrings.get( "Save.error.message" );
-            Object[] args = { filename, SimStrings.get( "Save.error.notConfig" ) };
-            String message = MessageFormat.format( format, args );
-            JOptionPane.showMessageDialog( frame, message, title, JOptionPane.ERROR_MESSAGE );
-            return;
-        }
-
-        frame.setCursor( FourierConstants.WAIT_CURSOR );
-
-        // Load the modules from the configuration.
-        _discreteModule.load( config );
-        _gameModule.load( config );
-        _d2cModule.load( config );
-
-        // Load global stuff from the configuration
-        Color[] harmonicColors = config.getGlobalConfig().getHarmonicColors();
-        for ( int i = 0; i < harmonicColors.length; i++ ) {
-            HarmonicColors.getInstance().setColor( i, harmonicColors[i] );
-        }
-
-        frame.setCursor( FourierConstants.DEFAULT_CURSOR );
-    }
-    
     //----------------------------------------------------------------------------
     // main
     //----------------------------------------------------------------------------
 
     /**
-     * Main entry point for the PhET Color Vision application.
+     * Main entry point for the PhET Fourier application.
      * 
      * @param args command line arguments
      */
