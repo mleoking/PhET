@@ -73,6 +73,7 @@ public class InitialConditionPanel extends VerticalLayoutPanel {
         } );
         addFullWidth( blockPosition );
 
+//        final ModelSlider blockVelocity = new ModelSlider( "Velocity", "meters/second", -20, 20, rampModule.getBlock().getVelocity() );
         final ModelSlider blockVelocity = new ModelSlider( "Velocity", "meters/second", -20, 20, rampModule.getBlock().getVelocity() );
         blockVelocity.setModelTicks( new double[]{-20, 0, 20} );
         blockVelocity.addChangeListener( new ChangeListener() {

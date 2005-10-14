@@ -33,7 +33,7 @@ public class RampApplication extends PhetApplication {
         simpleRampModule = new SimpleRampModule( getPhetFrame(), clock );
         advancedFeatureModule = new RampModule( getPhetFrame(), clock );
         setModules( new Module[]{simpleRampModule, advancedFeatureModule} );
-
+//
 //        simpleRampModule = new SimpleRampModule( getPhetFrame(), clock );
 //        setModules( new Module[]{simpleRampModule} );
     }

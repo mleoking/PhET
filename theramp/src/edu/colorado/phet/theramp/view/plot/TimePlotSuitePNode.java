@@ -5,10 +5,12 @@ import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.graphics.transforms.LinearTransform2D;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
 import edu.colorado.phet.theramp.RampModule;
+import edu.colorado.phet.theramp.common.BorderPNode;
 import edu.colorado.phet.theramp.common.LucidaSansFont;
 import edu.colorado.phet.theramp.common.Range2D;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
@@ -268,15 +270,31 @@ public class TimePlotSuitePNode extends PNode {
         }
     }
 
-    static class SliderGraphic extends PPath {
-        int width = 25;
-        int insetX = 10;
+    static class SliderGraphic extends PNode {
+        private int width = 25;
+        private int insetX = 10;
         private PPath thumb;
         private TimePlotSuitePNode timePlotSuitePNode;
         private Rectangle2D rect;
+        private BorderPNode background;
+        private BorderPNode track;
 
         public SliderGraphic( Rectangle2D.Double dataArea, TimePlotSuitePNode timePlotSuitePNode ) {
-            super( dataArea );
+//            background = new PPath( dataArea );
+
+            background = new BorderPNode( timePlotSuitePNode.pCanvas,
+                                          BorderFactory.createLoweredBevelBorder(),
+                                          RectangleUtils.toRectangle( dataArea ) );
+//            addChild( background );
+
+            Rectangle center = createCenter( dataArea );
+
+            track = new BorderPNode( timePlotSuitePNode.pCanvas,
+                                     BorderFactory.createRaisedBevelBorder(),
+                                     center );
+            addChild( track );
+
+//            background.setPaint( new Color( 0, 0, 255, 75 ) );
             this.rect = dataArea;
             timePlotSuitePNode.getRampModule().getRampPhysicalModel().addListener( new RampPhysicalModel.Adapter() {
                 public void appliedForceChanged() {
@@ -298,6 +316,15 @@ public class TimePlotSuitePNode extends PNode {
             setPickable( false );
             //but leave children pickable
             setChildrenPickable( true );
+
+            background.setPickable( false );
+            background.setChildrenPickable( false );
+        }
+
+        private Rectangle createCenter( Rectangle2D dataArea ) {
+            Rectangle2D center = new Rectangle2D.Double( dataArea.getX() + dataArea.getWidth() / 2, dataArea.getY(),
+                                                         1, dataArea.getHeight() );
+            return RectangleUtils.toRectangle( center );
         }
 
         static class ThumbDrag extends PBasicInputEventHandler {
@@ -351,8 +378,9 @@ public class TimePlotSuitePNode extends PNode {
             if( !area.equals( rect ) ) {
                 int sliderOffsetDX = 30;
                 rect = new Rectangle2D.Double( insetX - sliderOffsetDX, area.getY(), width, area.getHeight() );
-
-                setPathTo( rect );
+                background.setBorderRectangle( RectangleUtils.toRectangle( rect ) );
+                track.setBorderRectangle( createCenter( rect ) );
+//                background.setPathTo( rect );
 //            thumb.setOffset( rect.getX(), rect.getY() + rect.getHeight() / 2 );
                 update();
             }
@@ -363,7 +391,7 @@ public class TimePlotSuitePNode extends PNode {
 //        return new PPath(new Rectangle(0,0,50,200));
         Rectangle2D.Double dataArea = plot.getDataArea();
         SliderGraphic pPath = new SliderGraphic( dataArea, this );
-        pPath.setPaint( new Color( 0, 0, 255, 75 ) );
+
         return pPath;
     }
 

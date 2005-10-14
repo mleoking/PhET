@@ -21,7 +21,7 @@ import java.io.IOException;
 
 public class ObjectSelectionPanel extends JPanel {
 
-    private Font selectedFont = new Font( "Lucida Sans", Font.BOLD, 16 );
+    private Font selectedFont = new Font( "Lucida Sans", Font.BOLD, 14 );
     private Font normalFont = new Font( "Lucida Sans", Font.PLAIN, 12 );
 
     public ObjectSelectionPanel( final RampModule rampModule, final RampObject[] imageElements ) {
@@ -37,9 +37,9 @@ public class ObjectSelectionPanel extends JPanel {
             catch( IOException e ) {
                 e.printStackTrace();
             }
-            image = BufferedImageUtils.rescaleYMaintainAspectRatio( null, image, 35 );
+            image = BufferedImageUtils.rescaleYMaintainAspectRatio( image, 35 );
             ImageIcon icon = new ImageIcon( image );
-            JRadioButton jRadioButton = new JRadioButton( imageElement.getName() + " (" + imageElement.getMass() + " kg)", icon );
+            JRadioButton jRadioButton = new JRadioButton( getIconText( imageElement ), icon );
             jRadioButtons[i] = jRadioButton;
             if( i == 0 ) {
                 jRadioButton.setSelected( true );
@@ -69,5 +69,13 @@ public class ObjectSelectionPanel extends JPanel {
 
         }
         setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Choose Object" ) );
+    }
+
+    private String getIconText( final RampObject imageElement ) {
+//        char muChar = '\u00F6';
+        char muChar = '\u03BC';
+        return "<html>" + imageElement.getName() + "<br>" + imageElement.getMass() + " kg, " + muChar + " = " + imageElement.getStaticFriction() + "</html>";
+//        return "<html>HELLO<sub>2</html>";
+//        return imageElement.getName() + " (" + imageElement.getMass() + " kg)";
     }
 }

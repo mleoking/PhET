@@ -47,7 +47,7 @@ public class ObjectComboBox extends JComboBox {
         for( int i = 0; i < lab.length; i++ ) {
             try {
                 BufferedImage image = ImageLoader.loadBufferedImage( imageElements[i].getLocation() );
-                image = BufferedImageUtils.rescaleYMaintainAspectRatio( component, image, 35 );
+                image = BufferedImageUtils.rescaleYMaintainAspectRatio( image, 35 );
                 lab[i] = new ImageIcon( image );
                 lab[i].setDescription( imageElements[i].getName() + " (" + imageElements[i].getMass() + " kg)" );
             }

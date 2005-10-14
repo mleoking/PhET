@@ -19,11 +19,17 @@ public class RampLookAndFeel {
      */
     private final Color myGreen = new Color( 0.0f, 0.8f, 0.1f );
     private final Color lightBlue = new Color( 160, 220, 255 );
+//    private final Color drabYellow=new Color( 180, 180, 0 );
+    private final Color drabYellow = new Color( 190, 190, 0 );
+//    private final Color brightYellow=new Color( 228, 236, 0 );
 
 //    private Color appliedForceColor = Color.yellow;
 //    private Color appliedForceColor = new Color( 180, 180, 12 );//my yellow
 //    private Color appliedForceColor = new Color( 215, 215, 40);//my yellow
-    private Color appliedForceColor = new Color( 180, 180, 0 );//my yellow
+//    private Color appliedForceColor = new Color( 180, 180, 0 );//my yellow
+
+    private static final Color MY_ORANGE = new Color( 236, 153, 55 );
+    private Color appliedForceColor = MY_ORANGE;
 //    private Color appliedForceColor = new Color( 230,150,10);//my yellow
     private Color netForceColor = myGreen;
     private Color frictionForceColor = Color.red;
@@ -31,7 +37,8 @@ public class RampLookAndFeel {
     private Color weightColor = new Color( 50, 130, 215 );
     private Color normalColor = Color.magenta;
 //    private Color wallForceColor = new Color( 224, 176, 143 );//peach
-    private Color wallForceColor = new Color( 169, 124, 71 );//brown
+//    private Color wallForceColor = new Color( 169, 124, 71 );//brown
+    private Color wallForceColor = drabYellow;
 
     private Color accelColor = Color.black;
     private Color velColor = Color.black;

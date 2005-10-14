@@ -56,10 +56,10 @@ public class RampModule extends PiccoloModule {
         setModel( new BaseModel() );
         rampModel = new RampModel( this, clock );
         rampObjects = new RampObject[]{
-            new RampObject( "images/cabinet.gif", "File Cabinet", 0.8, 100, 0.3, 0.2, 0.4 ),
-            new RampObject( "images/fridge.gif", "Refrigerator", 0.35, 175, 0.7, 0.5, 0.4 ),
-            new RampObject( "images/piano.png", "Piano", 0.8, 225, 0.6, 0.6, 0.8, 20 ),
-            new RampObject( "images/crate.gif", "Crate", 0.8, 300, 0.2, 0.2, 0.3 ),
+            new RampObject( "images/cabinet.gif", "File Cabinet", 0.8, 100, 0.3, 0.3, 0.4 ),
+            new RampObject( "images/fridge.gif", "Refrigerator", 0.35, 175, 0.5, 0.5, 0.4 ),
+            new RampObject( "images/piano.png", "Piano", 0.8, 225, 0.4, 0.4, 0.6, 20 ),
+            new RampObject( "images/crate.gif", "Crate", 0.8, 300, 0.7, 0.7, 0.3 ),
             new RampObject( "images/ollie.gif", "Sleepy Dog", 0.8, 15, 0.1, 0.1, 0.30, 5 ),
         };
 //        sort( rampObjects );

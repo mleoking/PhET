@@ -36,11 +36,10 @@ public class BlockGraphic extends PNode {
     private Block block;
     private PImage imageGraphic;
     private ThresholdedDragAdapter mouseListener;
-//    private LocationDebugGraphic locationDebugGraphic;
     private RampObject rampObject;
     private PImage wheelGraphic;
     private double viewScale = 0.5;
-//    private HeatGraphic heatGraphic;
+    private double scaleDownInputForces = 0.1;
 
     public BlockGraphic( final RampModule module, RampPanel rampPanel, SurfaceGraphic rampGraphic, SurfaceGraphic groundGraphic, Block block, RampObject rampObject ) {
         super();
@@ -59,15 +58,11 @@ public class BlockGraphic extends PNode {
         catch( IOException e ) {
             e.printStackTrace();
         }
-//        wheelGraphic.setVisible( false );
-//        addChild( wheelGraphic );
 
         imageGraphic = new PImage();
-        //graphic.setCursorHand();
         addChild( imageGraphic );
         setObject( rampObject );
 
-//        locationDebugGraphic = new LocationDebugGraphic( getComponent(), 10 );
         block.addListener( new Block.Adapter() {
             public void positionChanged() {
                 updateBlock();
@@ -89,14 +84,11 @@ public class BlockGraphic extends PNode {
         PBasicInputEventHandler dragHandler = new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent e ) {
                 super.mouseDragged( e );
-//                Point2D ctr = getCenter();
                 double x = e.getPositionRelativeTo( imageGraphic ).getX();
-//                double x = e.getPositionRelativeTo( BlockGraphic.this ).getX();
                 double ctrX = imageGraphic.getBounds().getCenterX();
                 double dx = x - ctrX;
 
-//                System.out.println( "x=" + x + ", ctrX=" + ctrX + ", dx = " + dx );
-                double appliedForce = dx / RampModule.FORCE_LENGTH_SCALE * viewScale;
+                double appliedForce = dx / RampModule.FORCE_LENGTH_SCALE * viewScale * scaleDownInputForces;
                 physicalModel.setAppliedForce( appliedForce );
                 module.record();
             }
