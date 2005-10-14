@@ -397,7 +397,7 @@ public class DischargeLampModule extends BaseLaserModule {
         // application
         getApparatusPanel().removeGraphic( graphic );
         atom.removeChangeListener( graphic );
-        graphic = new DischargeLampAtomGraphic( getApparatusPanel(), atom );
+        graphic = new AnnotatedAtomGraphic( getApparatusPanel(), atom );
         // Put some of the atoms in a layer above the circuit, and some below
         getApparatusPanel().addGraphic( graphic, DischargeLampsConfig.CIRCUIT_LAYER - 1 );
         if( random.nextBoolean() ) {

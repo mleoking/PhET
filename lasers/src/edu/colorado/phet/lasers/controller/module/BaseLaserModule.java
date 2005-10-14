@@ -18,6 +18,7 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.help.HelpManager;
+import edu.colorado.phet.dischargelamps.view.AnnotatedAtomGraphic;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.RightMirrorReflectivityControlPanel;
 import edu.colorado.phet.lasers.help.ApparatusPanelHelp;
@@ -455,7 +456,8 @@ public class BaseLaserModule extends Module {
     //
     protected AtomGraphic addAtom( Atom atom ) {
         getModel().addModelElement( atom );
-        AtomGraphic atomGraphic = new AtomGraphic( getApparatusPanel(), atom );
+        AtomGraphic atomGraphic = new AnnotatedAtomGraphic( getApparatusPanel(), atom );
+//        AtomGraphic atomGraphic = new AtomGraphic( getApparatusPanel(), atom );
         addGraphic( atomGraphic, LaserConfig.ATOM_LAYER );
 
         // Add a listener to the atom that will create a photon graphic if the atom
