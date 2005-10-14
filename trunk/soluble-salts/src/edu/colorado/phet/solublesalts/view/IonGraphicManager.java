@@ -8,12 +8,11 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.solublesalts.control;
+package edu.colorado.phet.solublesalts.view;
 
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
-import edu.colorado.phet.solublesalts.view.IonGraphic;
 
 import java.util.HashMap;
 

@@ -247,7 +247,7 @@ public class ContentPanel extends JPanel {
             if( application.moduleAt( 0 ).getSimulationPanel() == null ) {
                 throw new RuntimeException( "Null Simulation Panel in Module: " + application.moduleAt( 0 ).getName() );
             }
-            apparatusPanelContainer.add( application.moduleAt( 0 ).getSimulationPanel());
+            apparatusPanelContainer.add( application.moduleAt( 0 ).getSimulationPanel() );
             return apparatusPanelContainer;
         }
         else {
