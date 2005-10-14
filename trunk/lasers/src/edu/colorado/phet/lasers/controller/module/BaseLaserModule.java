@@ -263,7 +263,10 @@ public class BaseLaserModule extends Module {
         a.add( new Area( mirrorFace ) );
         LaserCurtainGraphic internalLaserCurtainGraphic = new LaserCurtainGraphic( getApparatusPanel(),
                                                                                    a, laserModel,
-                                                                                   getLaserModel().getMiddleEnergyState(),
+                                                                                   new AtomicState[]{
+                                                                                       getLaserModel().getGroundState(),
+                                                                                       getLaserModel().getMiddleEnergyState()
+                                                                                   },
                                                                                    internalLaserCurtainOpacity );
         laserModel.addLaserListener( internalLaserCurtainGraphic );
         addGraphic( internalLaserCurtainGraphic, LaserConfig.LEFT_MIRROR_LAYER - 1 );
@@ -274,7 +277,10 @@ public class BaseLaserModule extends Module {
                                                   (int)cavity.getBounds().getHeight() );
         final LaserCurtainGraphic externalLaserCurtainGraphic = new LaserCurtainGraphic( getApparatusPanel(),
                                                                                          externalBounds, laserModel,
-                                                                                         getLaserModel().getMiddleEnergyState(),
+                                                                                         new AtomicState[]{
+                                                                                             getLaserModel().getGroundState(),
+                                                                                             getLaserModel().getMiddleEnergyState()
+                                                                                         },
                                                                                          externalLaserCurtainOpacity );
         laserModel.addLaserListener( externalLaserCurtainGraphic );
         addGraphic( externalLaserCurtainGraphic, LaserConfig.RIGHT_MIRROR_LAYER - 1 );

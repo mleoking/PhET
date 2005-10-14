@@ -119,7 +119,7 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
 
         double de1 = atom.getHighestEnergyState().getEnergyLevel() - atom.getGroundState().getEnergyLevel();
         double de2 = state.getEnergyLevel() - atom.getGroundState().getEnergyLevel();
-        double maxRingThickness = 4;
+        double maxRingThickness = 6;
         energyRepRad = maxRingThickness * de2 / de1 + groundStateRingThickness + baseImageRad;
 
         energyRep = new Ellipse2D.Double( -energyRepRad, -energyRepRad, energyRepRad * 2, energyRepRad * 2 );
