@@ -38,7 +38,8 @@ public class Vessel implements ModelElement, Collidable {
     private double waterLevel;
     private Box2D collisionBox;
     private ArrayList boundIons = new ArrayList();
-    private Affinity ionAffinity = new RandomAffinity( 1E-3 );
+    private Affinity ionReleaseAffinity = new RandomAffinity( 1E-3 );
+    private Affinity ionStickAffinity = new RandomAffinity( .2 );
 
     public Vessel( double width, double depth ) {
         this( width, depth, new Point2D.Double() );
@@ -123,13 +124,25 @@ public class Vessel implements ModelElement, Collidable {
         return shape.getHeight();
     }
 
+    public void setIonReleaseAffinity( Affinity affinity ) {
+        ionReleaseAffinity = affinity;
+    }
+
+    public void setIonStickAffinity( Affinity affinity ) {
+        ionStickAffinity = affinity;
+    }
+
+    public Affinity getIonStickAffinity() {
+        return ionStickAffinity;
+    }
+
     //----------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------
     public void stepInTime( double dt ) {
         for( int i = 0; i < boundIons.size(); i++ ) {
             Ion ion = (Ion)boundIons.get( i );
-            if( ionAffinity.stick( ion, this ) ) {
+            if( ionReleaseAffinity.stick( ion, this ) ) {
                 boundIons.remove( ion );
                 ion.setIsBound( false );
             }

@@ -12,11 +12,11 @@ package edu.colorado.phet.solublesalts.module;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
+import edu.colorado.phet.solublesalts.control.SolubleSaltsControlPanel;
 import edu.colorado.phet.solublesalts.model.*;
 import edu.colorado.phet.solublesalts.view.IonGraphicManager;
 import edu.colorado.phet.solublesalts.view.VesselGraphic;
@@ -46,6 +46,7 @@ public class SolubleSaltsModule extends PiccoloModule {
         setModel( model );
         simPanel = new PhetPCanvas();
         setPhetPCanvas( simPanel );
+        simPanel.setRenderingSize( 900, 600 );
 
         // Add a graphic manager to the model that will create and remove IonGraphics
         // when Ions are added to and removed from the model
@@ -81,8 +82,7 @@ public class SolubleSaltsModule extends PiccoloModule {
         }
 
         // Set up the control panel
-//        setControlPanel( new SolubleSaltsControlPanel( this ) );
-        setControlPanel( new ControlPanel( this ) );
+        setControlPanel( new SolubleSaltsControlPanel( this ) );
 
     }
 
