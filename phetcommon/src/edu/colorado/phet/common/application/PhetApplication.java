@@ -225,7 +225,6 @@ public class PhetApplication {
                     phetFrame.setSize( (int)dim.getWidth() + 1, (int)dim.getHeight() + 1 );
                     phetFrame.setVisible( true );
                     phetFrame.setSize( (int)dim.getWidth(), (int)dim.getHeight() );
-                    phetFrame.setVisible( true );
                 }
 
                 phetFrame.removeWindowFocusListener( this );
