@@ -2,7 +2,6 @@
 package edu.colorado.phet.tests.piccolo.experimental;
 
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
-import edu.colorado.phet.tests.piccolo.experimental.MagicPImage3;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -26,6 +25,6 @@ public class PreRenderedImageSource implements MagicPImage3.ImageSource {
 //        return new BufferedImage( 10,10,BufferedImage.TYPE_INT_RGB);
 
         int newHeight = (int)( transform.getScaleY() * image.getHeight( null ) );
-        return BufferedImageUtils.rescaleYMaintainAspectRatio( null, image, newHeight );
+        return BufferedImageUtils.rescaleYMaintainAspectRatio( image, newHeight );
     }
 }
