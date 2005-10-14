@@ -299,7 +299,7 @@ public class ConfigManager {
         // Save the configuration to a file.
         FileContents fc = fss.saveFileDialog( null, null, inputStream, _directoryName );
         if ( fc != null ) {
-            _directoryName = fc.getName();
+            _directoryName = getDirectoryName( fc.getName() );
         }
     }
     
@@ -321,7 +321,7 @@ public class ConfigManager {
         if ( fc == null ) {
             return null;
         }
-        _directoryName = fc.getName();
+        _directoryName = getDirectoryName( fc.getName() );
 
         // Convert the FileContents to an input stream.
         InputStream inputStream = fc.getInputStream();
@@ -381,5 +381,20 @@ public class ConfigManager {
         Object[] args = { errorMessage };
         String message = MessageFormat.format( format, args );
         JOptionPane.showMessageDialog( frame, message, title, JOptionPane.ERROR_MESSAGE );
+    }
+    
+    /**
+     * Gets the directory name portion of a filename.
+     * 
+     * @param filename
+     * @return directory name
+     */
+    public static String getDirectoryName( String filename ) {
+        String directoryName = null;
+        int index = filename.lastIndexOf( File.pathSeparatorChar );
+        if ( index != -1 ) {
+            directoryName = filename.substring( index );
+        }
+        return directoryName;
     }
 }
