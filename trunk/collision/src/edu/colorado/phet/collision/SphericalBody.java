@@ -24,22 +24,22 @@ public class SphericalBody extends Body implements Collidable {
     private double radius;
     private CollidableAdapter collidableAdapter;
 
-    public SphericalBody(double radius) {
-        this( new Point2D.Double( ),
-              new Vector2D.Double( ),
-              new Vector2D.Double( ),
+    public SphericalBody( double radius ) {
+        this( new Point2D.Double(),
+              new Vector2D.Double(),
+              new Vector2D.Double(),
               0,
               radius );
     }
 
-    protected SphericalBody(Point2D center,
-                            Vector2D velocity,
-                            Vector2D acceleration,
-                            double mass,
-                            double radius) {
-        super(center, velocity, acceleration, mass, 0);
+    protected SphericalBody( Point2D center,
+                             Vector2D velocity,
+                             Vector2D acceleration,
+                             double mass,
+                             double radius ) {
+        super( center, velocity, acceleration, mass, 0 );
         this.radius = radius;
-        collidableAdapter = new CollidableAdapter(this);
+        collidableAdapter = new CollidableAdapter( this );
     }
 
     public Point2D getCM() {
@@ -54,7 +54,7 @@ public class SphericalBody extends Body implements Collidable {
         return radius;
     }
 
-    public void setRadius(double radius) {
+    public void setRadius( double radius ) {
         this.radius = radius;
     }
 
@@ -62,7 +62,7 @@ public class SphericalBody extends Body implements Collidable {
         return this.getPosition();
     }
 
-    public double getContactOffset(Body body) {
+    public double getContactOffset( Body body ) {
         return this.getRadius();
     }
 
@@ -71,11 +71,14 @@ public class SphericalBody extends Body implements Collidable {
     }
 
     public Point2D getPositionPrev() {
+        if( collidableAdapter == null ) {
+            System.out.println( "SphericalBody.getPositionPrev" );
+        }
         return collidableAdapter.getPositionPrev();
     }
 
-    public void stepInTime(double dt) {
-        collidableAdapter.stepInTime(dt);
-        super.stepInTime(dt);    //To change body of overridden methods use File | Settings | File Templates.
+    public void stepInTime( double dt ) {
+        collidableAdapter.stepInTime( dt );
+        super.stepInTime( dt );    //To change body of overridden methods use File | Settings | File Templates.
     }
 }

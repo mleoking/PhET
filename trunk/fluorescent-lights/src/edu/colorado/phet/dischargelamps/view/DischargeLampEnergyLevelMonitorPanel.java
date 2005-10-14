@@ -502,8 +502,8 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
             state.setMeanLifetime( Double.MAX_VALUE );
             atom.setCurrState( state );
             atom.setRadius( 5 );
-            DischargeLampAtomGraphic atomGraphic = new DischargeLampAtomGraphic( DischargeLampEnergyLevelMonitorPanel.this,
-                                                                                 atom );
+            AnnotatedAtomGraphic atomGraphic = new AnnotatedAtomGraphic( DischargeLampEnergyLevelMonitorPanel.this,
+                                                                         atom );
             addGraphic( atomGraphic );
         }
     }

@@ -22,12 +22,15 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
- * DischargeLampAtomGraphic
+ * AnnotatedAtomGraphic
+ * <p/>
+ * An AtomGraphic annotated with a number, or the character "G", that indicates its
+ * energy state.
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class DischargeLampAtomGraphic extends AtomGraphic implements Atom.ChangeListener {
+public class AnnotatedAtomGraphic extends AtomGraphic implements Atom.ChangeListener {
 
     static private BufferedImage[] characters;
 
@@ -69,7 +72,7 @@ public class DischargeLampAtomGraphic extends AtomGraphic implements Atom.Change
      * @param component
      * @param atom
      */
-    public DischargeLampAtomGraphic( Component component, Atom atom ) {
+    public AnnotatedAtomGraphic( Component component, Atom atom ) {
         super( component, atom );
         this.atom = atom;
 
