@@ -16,6 +16,10 @@ import java.util.Random;
 
 /**
  * IonVesselCollisionExpert
+ * <p>
+ * Has the same behavior as a SphereBoxExpert, with the additional behavior that
+ * on some collisions, the ion may stick to the vessel, based on an "affinity" between
+ * the two. The affinity is determined by a strategy plugged into the collision expert.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -24,7 +28,7 @@ public class IonVesselCollisionExpert implements CollisionExpert, ContactDetecto
 
     private SphereBoxExpert sphereBoxExpert = new SphereBoxExpert();
     private Random random = new Random( System.currentTimeMillis() );
-    private double affinity = .2;
+    private Affinity affinity = new RandomAffinity( .2 );
 
 
     public boolean detectAndDoCollision( Collidable bodyA, Collidable bodyB ) {
@@ -33,7 +37,7 @@ public class IonVesselCollisionExpert implements CollisionExpert, ContactDetecto
         if( applies( bodyA, bodyB ) && areInContact( bodyA, bodyB ) ) {
             ion = (Ion)( bodyA instanceof Ion ? bodyA : bodyB );
             box = (Box2D)( bodyA instanceof Box2D ? bodyA : bodyB );
-            if( random.nextDouble() <= affinity &&
+            if( affinity.stick( ion, box ) &&
                 !( ion.getPosition().getY() - ion.getRadius() <= box.getMinY() ) ) {
                 ion.setVelocity( 0, 0 );
             }
@@ -51,5 +55,26 @@ public class IonVesselCollisionExpert implements CollisionExpert, ContactDetecto
     public boolean applies( Collidable bodyA, Collidable bodyB ) {
         return ( bodyA instanceof Ion && bodyB instanceof Box2D
                  || bodyB instanceof Ion && bodyA instanceof Box2D );
+    }
+
+    //----------------------------------------------------------------
+    // Affinities
+    //----------------------------------------------------------------
+
+    public interface Affinity {
+        boolean stick( Ion ion, Box2D box );
+    }
+
+    public static class RandomAffinity implements Affinity {
+        Random random = new Random( System.currentTimeMillis() );
+        double affinityLikelihood;
+
+        public RandomAffinity( double affinityLikelihood ) {
+            this.affinityLikelihood = affinityLikelihood;
+        }
+
+        public boolean stick( Ion ion, Box2D box ) {
+            return random.nextDouble() <= affinityLikelihood;
+        }
     }
 }
