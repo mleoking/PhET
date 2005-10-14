@@ -45,7 +45,7 @@ public class FourierApplication extends PhetApplication {
     //----------------------------------------------------------------------------
     
     // Set this to true to test one module and disable all others.
-    private static final boolean TEST_ONE_MODULE = false;
+    private static final boolean TEST_ONE_MODULE = true;
     
     //----------------------------------------------------------------------------
     // Instance data

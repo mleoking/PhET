@@ -79,13 +79,21 @@ public class FourierConfig implements Serializable {
     //----------------------------------------------------------------------------
     // Global-level configuration, applies to all modules
     //----------------------------------------------------------------------------
-    
+
     public class GlobalConfig implements Serializable {
-        
+
         private String versionNumber;
         private String buildNumber;
-        private Color[] harmonicColors;
-        
+
+        /* WORKAROUND:
+         * There is a problem with XMLEncoding Colors (and Fonts) under JNLP.
+         * See Bug ID 4967135 in Sun's Bug Parade (bugs.sun.com).
+         * As a workaround, we'll store individual Color components.
+         */
+        private int[] harmonicColorsRed;
+        private int[] harmonicColorsGreen;
+        private int[] harmonicColorsBlue;
+
         /**
          * Zero-argument constructor for Java Bean compliance.
          */
@@ -107,12 +115,28 @@ public class FourierConfig implements Serializable {
             this.versionNumber = versionNumber;
         }
         
-        public Color[] getHarmonicColors() {
-            return harmonicColors;
+        public int[] getHarmonicColorsBlue() {
+            return harmonicColorsBlue;
         }
         
-        public void setHarmonicColors( Color[] harmonicColors ) {
-            this.harmonicColors = harmonicColors;
+        public void setHarmonicColorsBlue( int[] harmonicColorsBlue ) {
+            this.harmonicColorsBlue = harmonicColorsBlue;
+        }
+        
+        public int[] getHarmonicColorsGreen() {
+            return harmonicColorsGreen;
+        }
+        
+        public void setHarmonicColorsGreen( int[] harmonicColorsGreen ) {
+            this.harmonicColorsGreen = harmonicColorsGreen;
+        }
+        
+        public int[] getHarmonicColorsRed() {
+            return harmonicColorsRed;
+        }
+        
+        public void setHarmonicColorsRed( int[] harmonicColorsRed ) {
+            this.harmonicColorsRed = harmonicColorsRed;
         }
     }
     
