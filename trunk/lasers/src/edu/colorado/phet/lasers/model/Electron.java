@@ -27,7 +27,7 @@ import java.util.EventObject;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Electron extends SphericalBody implements Collidable {
+public class Electron extends SphericalBody /*implements Collidable*/ {
 
     public void stepInTime( double dt ) {
         double x0 = super.getPosition().getX();
@@ -48,21 +48,19 @@ public class Electron extends SphericalBody implements Collidable {
     // Instance data
     //----------------------------------------------------------------
 
-    private CollidableAdapter collidableAdapter;
 
     //----------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------
 
     public Electron() {
-        super( LaserConfig.ELECTRON_RADIUS );
-        collidableAdapter = new CollidableAdapter( this );
-        setMass( ELECTRON_MASS );
-        setRadius( ELECTRON_RADIUS );
+        this( 0, 0 );
     }
 
     public Electron( double x, double y ) {
-        this();
+        super( LaserConfig.ELECTRON_RADIUS );
+        setMass( ELECTRON_MASS );
+        setRadius( ELECTRON_RADIUS );
         setPosition( x, y );
     }
 
@@ -70,34 +68,18 @@ public class Electron extends SphericalBody implements Collidable {
     // Setters and getters
     //----------------------------------------------------------------
 
-    public void setPosition( double x, double y ) {
-        collidableAdapter.updatePosition();
-        super.setPosition( x, y );
-    }
-
-    public void setPosition( Point2D position ) {
-        collidableAdapter.updatePosition();
-        super.setPosition( position );
-    }
-
     public void setVelocity( Vector2D velocity ) {
-//        collidableAdapter.updateVelocity();   Don't need this because super c
         super.setVelocity( velocity );
-        changeListenerProxy.energyChanged( new ChangeEvent( this ) );
+        if( changeListenerProxy != null ) {
+            changeListenerProxy.energyChanged( new ChangeEvent( this ) );
+        }
     }
 
     public void setVelocity( double vx, double vy ) {
-        collidableAdapter.updateVelocity();
         super.setVelocity( vx, vy );
-        changeListenerProxy.energyChanged( new ChangeEvent( this ) );
-    }
-
-    public Vector2D getVelocityPrev() {
-        return collidableAdapter.getVelocityPrev();
-    }
-
-    public Point2D getPositionPrev() {
-        return collidableAdapter.getPositionPrev();
+        if( changeListenerProxy != null ) {
+            changeListenerProxy.energyChanged( new ChangeEvent( this ) );
+        }
     }
 
     /**
