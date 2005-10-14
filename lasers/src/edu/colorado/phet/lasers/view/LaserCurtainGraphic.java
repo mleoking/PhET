@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
+import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 
 import java.awt.*;
@@ -31,7 +32,7 @@ import java.awt.*;
 public class LaserCurtainGraphic extends PhetShapeGraphic implements AtomicState.Listener, LaserModel.LaserListener {
     private Rectangle beamBounds = new Rectangle();
     private Color color = Color.white;
-    private AtomicState atomicState;
+    private AtomicState[] atomicStates;
     private double level;
     private int numLasingPhotons;
     private double maxAlpha;
@@ -41,12 +42,16 @@ public class LaserCurtainGraphic extends PhetShapeGraphic implements AtomicState
      * @param component
      * @param beamShape
      * @param laserModel
-     * @param atomicState
+     * @param atomicStates
      * @param maxAlpha
      */
-    public LaserCurtainGraphic( Component component, Shape beamShape, LaserModel laserModel, AtomicState atomicState, double maxAlpha ) {
+    public LaserCurtainGraphic( Component component,
+                                Shape beamShape,
+                                LaserModel laserModel,
+                                AtomicState[] atomicStates,
+                                double maxAlpha ) {
         super( component, null, null );
-        this.atomicState = atomicState;
+        this.atomicStates = atomicStates;
         this.maxAlpha = maxAlpha;
         beamBounds.setRect( beamShape.getBounds() );
         setShape( beamShape );
@@ -54,7 +59,8 @@ public class LaserCurtainGraphic extends PhetShapeGraphic implements AtomicState
         update();
 
         laserModel.addLaserListener( this );
-        atomicState.addListener( this );
+        atomicStates[1].addListener( this );
+        atomicStates[0].addListener( this );
     }
 
     public void setMaxAlpha( double alpha ) {
@@ -65,14 +71,10 @@ public class LaserCurtainGraphic extends PhetShapeGraphic implements AtomicState
         // Determine the proper opacity of the shape's fill color
         level = numLasingPhotons > LaserConfig.LASING_THRESHOLD ? numLasingPhotons : 0;
         alpha = ( level / LaserConfig.KABOOM_THRESHOLD ) * maxAlpha;
-//        setFillAlpha( alpha );
 
-        setColor( VisibleColor.wavelengthToColor( atomicState.getWavelength() ) );
-        // The power function here controls the ramp-up of actualColor intensity
-//        double rampUpExponent = .5;
-//        level = Math.max( maxAlpha, 255 - (int)( ( 255 - maxAlpha ) * Math.pow( ( level / LaserConfig.LASING_THRESHOLD ), rampUpExponent ) ) );
-//        this.level = Math.min( level, 255 );
-
+        double de = atomicStates[1].getEnergyLevel() - atomicStates[0].getEnergyLevel();
+        Color color = VisibleColor.wavelengthToColor( PhysicsUtil.energyToWavelength( de ) );
+        setColor( color );
         setBoundsDirty();
         repaint();
     }
