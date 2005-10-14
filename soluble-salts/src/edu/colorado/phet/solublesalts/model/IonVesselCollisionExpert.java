@@ -14,10 +14,6 @@ import edu.colorado.phet.collision.Collidable;
 import edu.colorado.phet.collision.CollisionExpert;
 import edu.colorado.phet.collision.ContactDetector;
 import edu.colorado.phet.collision.SphereBoxExpert;
-import edu.colorado.phet.solublesalts.model.affinity.Affinity;
-import edu.colorado.phet.solublesalts.model.affinity.RandomAffinity;
-
-import java.util.Random;
 
 /**
  * IonVesselCollisionExpert
@@ -32,9 +28,6 @@ import java.util.Random;
 public class IonVesselCollisionExpert implements CollisionExpert, ContactDetector {
 
     private SphereBoxExpert sphereBoxExpert = new SphereBoxExpert();
-    private Random random = new Random( System.currentTimeMillis() );
-    private Affinity affinity = new RandomAffinity( .2 );
-
 
     public boolean detectAndDoCollision( Collidable bodyA, Collidable bodyB ) {
         Ion ion = null;
@@ -43,7 +36,7 @@ public class IonVesselCollisionExpert implements CollisionExpert, ContactDetecto
             ion = (Ion)( bodyA instanceof Ion ? bodyA : bodyB );
             vessel = (Vessel)( bodyA instanceof Vessel ? bodyA : bodyB );
             if( areInContact( ion, vessel.getWater() ) ) {
-                if( affinity.stick( ion, vessel ) ) {
+                if( vessel.getIonStickAffinity().stick( ion, vessel ) ) {
                     vessel.bind( ion );
                 }
                 else {
