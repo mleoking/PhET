@@ -40,7 +40,8 @@ import edu.colorado.phet.fourier.view.HarmonicColors;
 /**
  * ConfigManager manages the application's configuration.
  * It saves/loads configurations to/from files as XML-encoded objects.
- * It handles the user interface for selecting the file to save/load.
+ * It handles the user interface for selecting the file to save/load,
+ * including any error dialogs.
  * It works differently if the application was started with Web Start.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -103,13 +104,7 @@ public class ConfigManager {
             }
         }
         catch ( Exception e ) {
-            JFrame frame = _app.getPhetFrame();
-            String title = SimStrings.get( "Save.error.title" );
-            String format = SimStrings.get( "Save.error.message" );
-            Object[] args = { e.getMessage() };
-            String message = MessageFormat.format( format, args );
-            JOptionPane.showMessageDialog( frame, message, title, JOptionPane.ERROR_MESSAGE );
-            e.printStackTrace();
+            showError( SimStrings.get( "Save.error.message" ), e );
         }
     }
     
@@ -129,34 +124,20 @@ public class ConfigManager {
             }
         }
         catch ( Exception e ) {
-            JFrame frame = _app.getPhetFrame();
-            String title = SimStrings.get( "Load.error.title" );
-            String format = SimStrings.get( "Load.error.message" );
-            Object[] args = { e.getMessage() };
-            String message = MessageFormat.format( format, args );
-            JOptionPane.showMessageDialog( frame, message, title, JOptionPane.ERROR_MESSAGE );
-            e.printStackTrace();
+            showError( SimStrings.get( "Load.error.message" ), e );
         }
         if ( object == null ) {
             return;
         }
         
-        // Check the object's type
-        FourierConfig config = null;
-        if ( object instanceof FourierConfig ) {
-            config = (FourierConfig) object;
-        }
-        else {
-            JFrame frame = _app.getPhetFrame();
-            String title = SimStrings.get( "Load.error.title" );
-            String format = SimStrings.get( "Load.error.message" );
-            Object[] args = { SimStrings.get( "Load.error.notConfig" ) };
-            String message = MessageFormat.format( format, args );
-            JOptionPane.showMessageDialog( frame, message, title, JOptionPane.ERROR_MESSAGE );
+        // Verify the object's type
+        if ( !( object instanceof FourierConfig ) ) {
+            showError( SimStrings.get( "Load.error.message" ), SimStrings.get( "Load.error.contents" ) );
             return;
         }
         
         // Configure the application
+        FourierConfig config = (FourierConfig) object;
         JFrame frame = _app.getPhetFrame();
         frame.setCursor( FourierConstants.WAIT_CURSOR );
         {
@@ -212,14 +193,9 @@ public class ConfigManager {
         BufferedOutputStream bos = new BufferedOutputStream( fos );
         XMLEncoder encoder = new XMLEncoder( bos );
         encoder.setExceptionListener( new ExceptionListener() {
+            // This handles only recoverable exceptions.
             public void exceptionThrown( Exception e ) {
-                JFrame frame = PhetApplication.instance().getPhetFrame();
-                String title = SimStrings.get( "Save.error.title" );
-                String format = SimStrings.get( "Save.error.encode" );
-                Object[] args = { e.getMessage() };
-                String message = MessageFormat.format( format, args );
-                JOptionPane.showMessageDialog( frame, message, title, JOptionPane.ERROR_MESSAGE );
-                e.printStackTrace();
+                showError( SimStrings.get( "Save.error.encode" ), e );
             }      
         } );
         encoder.writeObject( object );
@@ -249,18 +225,16 @@ public class ConfigManager {
         BufferedInputStream bis = new BufferedInputStream( fis );
         XMLDecoder decoder = new XMLDecoder( bis );
         decoder.setExceptionListener( new ExceptionListener() {
+            // This handles only recoverable exceptions.
             public void exceptionThrown( Exception e ) {
-                JFrame frame = PhetApplication.instance().getPhetFrame();
-                String title = SimStrings.get( "Load.error.title" );
-                String format = SimStrings.get( "Load.error.decode" );
-                Object[] args = { e.getMessage() };
-                String message = MessageFormat.format( format, args );
-                JOptionPane.showMessageDialog( frame, message, title, JOptionPane.ERROR_MESSAGE );
-                e.printStackTrace();
+                showError( SimStrings.get( "Load.error.decode" ), e );
             }      
         } );
         object = decoder.readObject();
         decoder.close();
+        if ( object == null ) {
+            throw new Exception( SimStrings.get( "Load.error.contents" ) );
+        }
 
         return object;
     }
@@ -276,13 +250,9 @@ public class ConfigManager {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         XMLEncoder encoder = new XMLEncoder( baos );
         encoder.setExceptionListener( new ExceptionListener() {
+            // This handles only recoverable exceptions.
             public void exceptionThrown( Exception e ) {
-                String title = SimStrings.get( "Save.error.title" );
-                String format = SimStrings.get( "Save.error.encode" );
-                Object[] args = { e.getMessage() };
-                String message = MessageFormat.format( format, args );
-                JOptionPane.showMessageDialog( frame, message, title, JOptionPane.ERROR_MESSAGE );
-                e.printStackTrace();
+                showError( SimStrings.get( "Save.error.encode" ), e );
             }      
         } );
         encoder.writeObject( object );
@@ -294,7 +264,7 @@ public class ConfigManager {
         // Get the JNLP service for saving files.
         FileSaveService fss = (FileSaveService) ServiceManager.lookup( "javax.jnlp.FileSaveService" );
         if ( fss == null ) {
-            throw new UnavailableServiceException();
+            throw new UnavailableServiceException( "JNLP FileSaveService is unavailable" );
         }
 
         // Save the configuration to a file.
@@ -311,7 +281,7 @@ public class ConfigManager {
         // Get the JNLP service for opening files.
         FileOpenService fos = (FileOpenService) ServiceManager.lookup( "javax.jnlp.FileOpenService" );
         if ( fos == null ) {
-            throw new UnavailableServiceException();
+            throw new UnavailableServiceException( "JNLP FileOpenService is unavailable" );
         }
         
         // Read the configuration from a file.
@@ -328,19 +298,16 @@ public class ConfigManager {
         Object object = null;
         XMLDecoder decoder = new XMLDecoder( inputStream );
         decoder.setExceptionListener( new ExceptionListener() {
-
+            // This handles only recoverable exceptions.
             public void exceptionThrown( Exception e ) {
-                JFrame frame = PhetApplication.instance().getPhetFrame();
-                String title = SimStrings.get( "Load.error.title" );
-                String format = SimStrings.get( "Load.error.decode" );
-                Object[] args = { e.getMessage() };
-                String message = MessageFormat.format( format, args );
-                JOptionPane.showMessageDialog( frame, message, title, JOptionPane.ERROR_MESSAGE );
-                e.printStackTrace();
+                showError( SimStrings.get( "Load.error.decode" ), e );
             }
         } );
         object = decoder.readObject();
         decoder.close();
+        if ( object == null ) {
+            throw new Exception( SimStrings.get( "Load.error.contents" ) );
+        }
         
         return object;
     }
@@ -352,5 +319,31 @@ public class ConfigManager {
      */
     public static boolean wasWebStarted() {
         return ( System.getProperty( "javawebstart.version" ) != null );
+    }
+    
+    /**
+     * Shows the error message associated with an exception in an
+     * error dialog, and prints a stack trace to the console.
+     * 
+     * @param format
+     * @param e
+     */
+    public void showError( String format, Exception e ) {
+        showError( format, e.getMessage() );
+        e.printStackTrace();
+    }
+    
+    /**
+     * Shows the error message in an error dialog.
+     * 
+     * @param format
+     * @param e
+     */
+    public void showError( String format, String errorMessage ) {
+        JFrame frame = _app.getPhetFrame();
+        String title = SimStrings.get( "error.title" );
+        Object[] args = { errorMessage };
+        String message = MessageFormat.format( format, args );
+        JOptionPane.showMessageDialog( frame, message, title, JOptionPane.ERROR_MESSAGE );
     }
 }
