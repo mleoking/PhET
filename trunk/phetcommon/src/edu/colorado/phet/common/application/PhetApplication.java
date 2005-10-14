@@ -216,17 +216,6 @@ public class PhetApplication {
                         apparatusPanel.setReferenceSize();
                     }
                 }
-
-                // This is a total hack that makes the a PhetPCanvas appear properly on startup
-                Object obj = phetFrame.getBasicPhetPanel().getApparatusPanelContainer().getComponent( 0 );
-                if( obj instanceof PhetPCanvas ) {
-                    Dimension dim = phetFrame.getSize();
-                    phetFrame.setVisible( false );
-                    phetFrame.setSize( (int)dim.getWidth() + 1, (int)dim.getHeight() + 1 );
-                    phetFrame.setVisible( true );
-                    phetFrame.setSize( (int)dim.getWidth(), (int)dim.getHeight() );
-                }
-
                 phetFrame.removeWindowFocusListener( this );
             }
         } );
