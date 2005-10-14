@@ -81,16 +81,25 @@ public class ConfigManager {
 
             // Globals
             {
+                FourierConfig.GlobalConfig globalConfig = config.getGlobalConfig();
+                
                 // Version & build info
-                config.getGlobalConfig().setVersionNumber( Version.NUMBER );
-                config.getGlobalConfig().setBuildNumber( Version.BUILD );
+                globalConfig.setVersionNumber( Version.NUMBER );
+                globalConfig.setBuildNumber( Version.BUILD );
 
                 // Harmonic colors
-                Color[] harmonicColors = new Color[HarmonicColors.getInstance().getNumberOfColors()];
-                for ( int i = 0; i < harmonicColors.length; i++ ) {
-                    harmonicColors[i] = HarmonicColors.getInstance().getColor( i );
+                int[] r = new int[HarmonicColors.getInstance().getNumberOfColors()];
+                int[] g = new int[ r.length ];
+                int[] b = new int[ r.length ];
+                for ( int i = 0; i < r.length; i++ ) {
+                    Color color = HarmonicColors.getInstance().getColor( i );
+                    r[i] = color.getRed();
+                    g[i] = color.getGreen();
+                    b[i] = color.getBlue();
                 }
-                config.getGlobalConfig().setHarmonicColors( harmonicColors );
+                globalConfig.setHarmonicColorsRed( r );
+                globalConfig.setHarmonicColorsGreen( g );
+                globalConfig.setHarmonicColorsBlue( b );
             }
         }
         
@@ -150,9 +159,14 @@ public class ConfigManager {
             }
 
             // Globals
-            Color[] harmonicColors = config.getGlobalConfig().getHarmonicColors();
-            for ( int i = 0; i < harmonicColors.length; i++ ) {
-                HarmonicColors.getInstance().setColor( i, harmonicColors[i] );
+            {
+                // Harmonic colors
+                int[] r = config.getGlobalConfig().getHarmonicColorsRed();
+                int[] g = config.getGlobalConfig().getHarmonicColorsGreen();
+                int[] b = config.getGlobalConfig().getHarmonicColorsBlue();
+                for ( int i = 0; i < r.length; i++ ) {
+                    HarmonicColors.getInstance().setColor( i, new Color( r[i], g[i], b[i] ) );
+                }
             }
         }
         frame.setCursor( FourierConstants.DEFAULT_CURSOR );
@@ -193,9 +207,13 @@ public class ConfigManager {
         BufferedOutputStream bos = new BufferedOutputStream( fos );
         XMLEncoder encoder = new XMLEncoder( bos );
         encoder.setExceptionListener( new ExceptionListener() {
-            // This handles only recoverable exceptions.
+            private int errors = 0;
+            // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
-                showError( SimStrings.get( "Save.error.encode" ), e );
+                if ( errors == 0 ) {
+                    showError( SimStrings.get( "Save.error.encode" ), e );
+                    errors++;
+                }
             }      
         } );
         encoder.writeObject( object );
@@ -225,9 +243,13 @@ public class ConfigManager {
         BufferedInputStream bis = new BufferedInputStream( fis );
         XMLDecoder decoder = new XMLDecoder( bis );
         decoder.setExceptionListener( new ExceptionListener() {
-            // This handles only recoverable exceptions.
+            private int errors = 0;
+            // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
-                showError( SimStrings.get( "Load.error.decode" ), e );
+                if ( errors == 0 ) {
+                    showError( SimStrings.get( "Load.error.decode" ), e );
+                    errors++;
+                }
             }      
         } );
         object = decoder.readObject();
@@ -250,13 +272,20 @@ public class ConfigManager {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         XMLEncoder encoder = new XMLEncoder( baos );
         encoder.setExceptionListener( new ExceptionListener() {
-            // This handles only recoverable exceptions.
+            private int errors = 0;
+            // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
-                showError( SimStrings.get( "Save.error.encode" ), e );
-            }      
+                if ( errors == 0 ) {
+                    showError( SimStrings.get( "Save.error.encode" ), e );
+                    errors++;
+                }
+            }
         } );
         encoder.writeObject( object );
         encoder.close();
+        if ( object == null ) {
+            throw new Exception( SimStrings.get( "XML encoding failed" ) );
+        }
         
         // Convert to a byte input stream.
         ByteArrayInputStream inputStream = new ByteArrayInputStream( baos.toByteArray() );
@@ -266,9 +295,12 @@ public class ConfigManager {
         if ( fss == null ) {
             throw new UnavailableServiceException( "JNLP FileSaveService is unavailable" );
         }
-
+        
         // Save the configuration to a file.
         FileContents fc = fss.saveFileDialog( null, null, inputStream, _directoryName );
+        if ( fc != null ) {
+            _directoryName = fc.getName();
+        }
     }
     
     /*
@@ -289,7 +321,7 @@ public class ConfigManager {
         if ( fc == null ) {
             return null;
         }
-        _directoryName = fc.getName();            
+        _directoryName = fc.getName();
 
         // Convert the FileContents to an input stream.
         InputStream inputStream = fc.getInputStream();
@@ -298,9 +330,13 @@ public class ConfigManager {
         Object object = null;
         XMLDecoder decoder = new XMLDecoder( inputStream );
         decoder.setExceptionListener( new ExceptionListener() {
-            // This handles only recoverable exceptions.
+            private int errors = 0;
+            // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
-                showError( SimStrings.get( "Load.error.decode" ), e );
+                if ( errors == 0 ) {
+                    showError( SimStrings.get( "Load.error.decode" ), e );
+                    errors++;
+                }
             }
         } );
         object = decoder.readObject();
