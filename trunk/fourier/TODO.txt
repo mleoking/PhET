@@ -3,7 +3,6 @@
 ===============================================================================
 
 IN PROGRESS:
-- Save/Load doesn't work with WebStart
 
 HIGH PRIORITY:
 - change game levels
