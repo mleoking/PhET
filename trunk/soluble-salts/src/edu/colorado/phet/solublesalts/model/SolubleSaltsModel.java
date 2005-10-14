@@ -19,6 +19,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.EventObject;
+import java.util.List;
 
 /**
  * SolubleSaltsModel
@@ -30,14 +31,21 @@ public class SolubleSaltsModel extends BaseModel {
 
     // The vessel
     private Vessel vessel;
-    private Point2D vesselLoc = new Point2D.Double( 300, 200 );
-    private double vesselWidth = 300;
-    private double vesselDepth = 200;
+    private Point2D vesselLoc = new Point2D.Double( 150, 150 );
+    private double vesselWidth = 600;
+    private double vesselDepth = 500;
 
     // Collision mechanism objects
     IonIonCollisionExpert ionIonCollisionExpert = new IonIonCollisionExpert();
+    private IonTracker ionTracker;
 
     public SolubleSaltsModel() {
+
+        // Add an agent that will track the ions of various classes
+        ionTracker = new IonTracker();
+        addIonListener( ionTracker );
+
+        // Create a vessel
         vessel = new Vessel( vesselWidth, vesselDepth, vesselLoc );
         addModelElement( vessel );
 
@@ -61,6 +69,7 @@ public class SolubleSaltsModel extends BaseModel {
                 }
             }
         } );
+
     }
 
     public void addModelElement( ModelElement modelElement ) {
@@ -81,6 +90,14 @@ public class SolubleSaltsModel extends BaseModel {
 
     public Vessel getVessel() {
         return vessel;
+    }
+
+    public int getNumIonsOfType( Class ionClass ) {
+        return ionTracker.numIonsOfType( ionClass );
+    }
+
+    public List getIonsOfType( Class ionClass ) {
+        return ionTracker.getIonsOfType( ionClass );
     }
 
     //----------------------------------------------------------------

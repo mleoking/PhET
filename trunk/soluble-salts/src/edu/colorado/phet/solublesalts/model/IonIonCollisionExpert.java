@@ -32,10 +32,20 @@ public class IonIonCollisionExpert implements CollisionExpert {
             Ion ionB = (Ion)bodyB;
             if( detector.areInContact( ionA, ionB )
                 && ionA.getCharge() * ionB.getCharge() < 0 ) {
-                Vector2D netMomentum = new Vector2D.Double( ionA.getMomentum() ).add( ionB.getMomentum() );
-                double netMass = ionA.getMass() + ionB.getMass();
-                ionA.setMomentum( new Vector2D.Double( netMomentum ).scale( ( ionA.getMass() / netMass ) ) );
-                ionB.setMomentum( new Vector2D.Double( netMomentum ).scale( ( ionB.getMass() / netMass ) ) );
+                Vector2D netMomentum = null;
+                if( ionA.isBound() || ionB.isBound() ) {
+                    netMomentum = new Vector2D.Double();
+                    ionA.setMomentum( netMomentum );
+                    ionB.setMomentum( netMomentum );
+                }
+                else {
+                    netMomentum = new Vector2D.Double( ionA.getMomentum() ).add( ionB.getMomentum() );
+                    double netMass = ionA.getMass() + ionB.getMass();
+                    ionA.setMomentum( new Vector2D.Double( netMomentum ).scale( ( ionA.getMass() / netMass ) ) );
+                    ionB.setMomentum( new Vector2D.Double( netMomentum ).scale( ( ionB.getMass() / netMass ) ) );
+                }
+//                ionA.setMomentum( new Vector2D.Double( netMomentum ).scale( ( ionA.getMass() / netMass ) ) );
+//                ionB.setMomentum( new Vector2D.Double( netMomentum ).scale( ( ionB.getMass() / netMass ) ) );
             }
         }
 

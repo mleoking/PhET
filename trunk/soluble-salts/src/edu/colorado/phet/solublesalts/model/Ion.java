@@ -54,4 +54,8 @@ public class Ion extends Atom {
     public void setIsBound( boolean isBound ) {
         this.isBound = isBound;
     }
+
+    public boolean isBound() {
+        return isBound;
+    }
 }
