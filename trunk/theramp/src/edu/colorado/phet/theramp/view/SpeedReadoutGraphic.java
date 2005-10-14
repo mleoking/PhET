@@ -6,7 +6,6 @@ import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
-import java.awt.*;
 import java.text.DecimalFormat;
 
 /**
@@ -25,13 +24,13 @@ public class SpeedReadoutGraphic extends PNode implements ModelElement {
         this.rampPhysicalModel = rampPhysicalModel;
 //        Font font = new Font( "Lucida Sans", Font.BOLD, 22 );
         phetTextGraphic = new PText( "" );
-        phetTextGraphic.setFont( RampFontSet.getFontSet().getSpeedReadoutFont());
+        phetTextGraphic.setFont( RampFontSet.getFontSet().getSpeedReadoutFont() );
         addChild( phetTextGraphic );
     }
 
     public void stepInTime( double dt ) {
         double value = rampPhysicalModel.getBlock().getVelocity();
-        String text = format.format( value ) + " meters/second";
+        String text = format.format( value ) + " m/s";
         phetTextGraphic.setText( text );
     }
 }

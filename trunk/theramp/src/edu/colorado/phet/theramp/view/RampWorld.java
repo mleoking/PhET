@@ -242,8 +242,10 @@ public class RampWorld extends PNode {
     }
 
     private void paintImagesRed() {
-        blockGraphic.paintRed();
-        rampGraphic.paintRed();
+        if( RampPanel.redRampEnabled ) {
+            blockGraphic.paintRed();
+            rampGraphic.paintRed();
+        }
     }
 
     private void restoreOriginalImages() {

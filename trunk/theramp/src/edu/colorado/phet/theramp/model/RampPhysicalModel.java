@@ -103,17 +103,19 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
             dt = currentTimeSeconds() - lastTick;
             dt = MathUtil.clamp( 1 / 30.0, dt, 1 / 5.0 );
 //            RampModel orig = lastState;
-            RampPhysicalModel beforeNewton = getState();
+            RampPhysicalModel initialState = getState();
 
             setupForces();
             updateBlock( dt );
 
-            double dW = getAppliedWorkDifferential( beforeNewton );
+            double dW = getAppliedWorkDifferential( initialState );
 
 //            if( dW != 0.0 ) {
 //                System.out.println( "dw = " + dW + ", total Applied Work=" + appliedWork );
 //            }
 
+            //todo if user controlled, this should add to dW (and appliedWork) so it
+            //doesn't show up in the thermal energy.
             appliedWork += dW;
             gravityWork = -getPotentialEnergy();
             double etot = appliedWork;

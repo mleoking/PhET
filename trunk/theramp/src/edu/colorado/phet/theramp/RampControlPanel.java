@@ -82,7 +82,7 @@ public class RampControlPanel extends ControlPanel {
 //            return frictionSlider;
 //        }
 //        else {
-        final ModelSlider frictionSlider = new ModelSlider( "Friction", "", 0.1, 1.5, 0.5 );
+        final ModelSlider frictionSlider = new ModelSlider( "Coefficient of Friction", "", 0.1, 1.5, 0.5 );
         frictionSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 setFriction( frictionSlider.getValue() );

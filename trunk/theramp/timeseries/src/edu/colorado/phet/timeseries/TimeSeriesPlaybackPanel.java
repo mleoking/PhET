@@ -57,7 +57,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        play = new JButton( SimStrings.get( "Play" ), playIcon );
+        play = new JButton( SimStrings.get( "Playback" ), playIcon );
         play.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.startPlaybackMode( 1.0 );
@@ -99,7 +99,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
                 timeSeriesModel.confirmAndApplyReset();
             }
         } );
-        add( record );
+//        add( record );
         add( play );
         add( slowMotion );
         add( pause );

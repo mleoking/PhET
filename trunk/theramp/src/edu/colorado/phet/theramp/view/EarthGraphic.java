@@ -17,7 +17,12 @@ public class EarthGraphic extends PNode {
     private PPath phetShapeGraphic;
     private RampPanel rampPanel;
     private RampWorld rampWorld;
-    public static final Color earthGreen = new Color( 83, 175, 38 );
+//    public static final Color earthGreen = new Color( 83, 175, 38 );
+    public static final Color earthGreen = new Color( 150, 200, 140 );
+//    public static final Color earthGreen = new Color( 110,210,100);
+
+//    public static final Color earthGreen = new Color( 0,160,0);
+//    public static final Color earthGreen = new Color( 40,180,40);
 
     public EarthGraphic( RampPanel rampPanel, RampWorld rampWorld ) {
         this.rampPanel = rampPanel;

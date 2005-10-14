@@ -188,7 +188,9 @@ public class SurfaceGraphic extends PNode {
     }
 
     public void paintRed() {
-        surfaceGraphic.setImage( new MakeDuotoneImageOp( new Color( 255, 0, 0, 32 ) ).filter( (BufferedImage)surfaceGraphic.getImage(), null ) );
+        if( RampPanel.redRampEnabled ) {
+            surfaceGraphic.setImage( new MakeDuotoneImageOp( new Color( 255, 0, 0, 32 ) ).filter( (BufferedImage)surfaceGraphic.getImage(), null ) );
+        }
     }
 
     public void restoreOriginalImage() {

@@ -43,6 +43,7 @@ public class RampPanel extends PhetPCanvas {
     public final PNode appliedForceControl;
     public final PNode goPauseClear;
     private boolean recursing = false;
+    public static boolean redRampEnabled = false;
 
     public static Dimension getDefaultRenderSize() {
         return new Dimension( ORIG_RENDER_SIZE );
@@ -120,7 +121,7 @@ public class RampPanel extends PhetPCanvas {
         module.getModel().addModelElement( timeGraphic );
 
         velocityGraphic = new SpeedReadoutGraphic( module.getRampPhysicalModel() );
-        velocityGraphic.setOffset( timeGraphic.getX(), timeGraphic.getFullBounds().getMaxY() + 5 );
+        velocityGraphic.setOffset( timeGraphic.getFullBounds().getX(), timeGraphic.getFullBounds().getMaxY() + 5 );
         addWorldChild( velocityGraphic );
         module.getModel().addModelElement( velocityGraphic );
 
