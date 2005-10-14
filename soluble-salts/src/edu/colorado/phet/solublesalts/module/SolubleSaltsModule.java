@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.solublesalts.module;
 
-import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.CursorHandler;
@@ -24,7 +23,6 @@ import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.util.Random;
 
 /**
@@ -53,30 +51,30 @@ public class SolubleSaltsModule extends PiccoloModule {
         model.addIonListener( new IonGraphicManager( simPanel ) );
 
         // Test code
-        test();
+//        test();
 
         // Create a graphic for the vessel
         VesselGraphic vesselGraphic = new VesselGraphic( model.getVessel() );
         simPanel.addWorldChild( vesselGraphic );
         vesselGraphic.addInputEventListener( new PDragEventHandler() );
-        model.getVessel().setWaterLevel( 100 );
+        model.getVessel().setWaterLevel( model.getVessel().getDepth() * .7 );
 
-        // Create an ion and add it to the model
-        {
-            Vessel vessel = model.getVessel();
-            Ion ion2 = new Chloride( new Point2D.Double( vessel.getLocation().getX() + 100,
-                                                         vessel.getLocation().getY() - 50 ),
-                                     new Vector2D.Double( 0, 5 ),
-                                     new Vector2D.Double() );
-//        model.addModelElement( ion2 );
-        }
+        // Create some ions and add it to the model
 
         {
             int numIons = 10;
             for( int i = 0; i < numIons; i++ ) {
                 Ion ion = new Sodium();
-                ion.setPosition( genIonPosition( ion ) );
-                ion.setVelocity( genVelocity() );
+                IonInitializer.initialize( ion, model );
+                model.addModelElement( ion );
+            }
+        }
+
+        {
+            int numIons = 0;
+            for( int i = 0; i < numIons; i++ ) {
+                Ion ion = new Chloride();
+                IonInitializer.initialize( ion, model );
                 model.addModelElement( ion );
             }
         }
@@ -84,32 +82,6 @@ public class SolubleSaltsModule extends PiccoloModule {
         // Set up the control panel
         setControlPanel( new SolubleSaltsControlPanel( this ) );
 
-    }
-
-    /**
-     * Generate a random position for an ion
-     *
-     * @param ion
-     * @return
-     */
-    private Point2D genIonPosition( Ion ion ) {
-        SolubleSaltsModel model = (SolubleSaltsModel)getModel();
-        Vessel vessel = model.getVessel();
-        double x = vessel.getWater().getMinX() + ion.getRadius() * 2
-                   + random.nextDouble() * ( vessel.getWater().getWidth() - ion.getRadius() * 2 );
-        double y = vessel.getWater().getMinY() + ion.getRadius() * 2
-                   + random.nextDouble() * ( vessel.getWater().getHeight() - ion.getRadius() * 2 );
-        return new Point2D.Double( x, y );
-    }
-
-    /**
-     * Generate a random velocity for an aion
-     *
-     * @return
-     */
-    private Vector2D genVelocity() {
-        double vMax = 4;
-        return new Vector2D.Double( random.nextDouble() * vMax, random.nextDouble() * vMax );
     }
 
     private void test() {
