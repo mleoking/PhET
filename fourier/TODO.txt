@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- wait cursors don't reliably happen when loading a configuration (because they're on the PhetFrame?)
 - change game levels
 - add hints to game
 - game should tell you when you've won 
