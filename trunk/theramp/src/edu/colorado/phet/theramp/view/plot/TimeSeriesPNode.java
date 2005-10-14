@@ -2,12 +2,14 @@
 package edu.colorado.phet.theramp.view.plot;
 
 import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.piccolo.ShadowHTMLGraphic;
 import edu.colorado.phet.piccolo.ShadowPText;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.model.ValueAccessor;
 import edu.colorado.phet.timeseries.TimePoint;
 import edu.colorado.phet.timeseries.TimeSeries;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
@@ -34,8 +36,9 @@ public class TimeSeriesPNode {
     private BasicStroke s;
     private Color transparentColor;
     private boolean visible = true;
-    private ShadowPText readoutGraphic;
+//    private ShadowHTMLGraphic readoutGraphic;
     private DecimalFormat decimalFormat;
+    private HTMLLabel htmlLabel;
 
     public TimeSeriesPNode( TimePlotSuitePNode plotSuite, TimeSeries series, ValueAccessor valueAccessor, Color color, String justifyString ) {
         this.plotSuite = plotSuite;
@@ -54,16 +57,27 @@ public class TimeSeriesPNode {
         } );
         s = new BasicStroke( strokeSize, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f );
         transparentColor = new Color( color.getRGB() );
-        readoutGraphic = new ShadowPText();
-        readoutGraphic.setShadowOffset( 1, 1 );
-        readoutGraphic.setShadowColor( Color.darkGray );
-        readoutGraphic.setTextPaint( color );
-        readoutGraphic.setFont( createDefaultFont() );
+//        readoutGraphic = new ShadowHTMLGraphic( "" );
+//        readoutGraphic = new ShadowPText();
+//        readoutGraphic.setShadowOffset( 1, 1 );
+//        readoutGraphic.setShadowColor( Color.darkGray );
+//        readoutGraphic.setColor( color );
+//        readoutGraphic.setFont( createDefaultFont() );
         decimalFormat = new DecimalFormat( "0.00" );
+
+        String html = "<html>";
+        html += valueAccessor.getHTML() + " = ";
+//        html += " = " + decimalFormat.format( value );
+//        html += " " + valueAccessor.getUnitsAbbreviation();
+        html += "</html>";
+        this.htmlLabel = new HTMLLabel( html, color, createDefaultFont(), 2 );
+
         updateReadout();
 
-        readoutGraphic.setPickable( false );
-        readoutGraphic.setChildrenPickable( false );
+//        readoutGraphic.setPickable( false );
+//        readoutGraphic.setChildrenPickable( false );
+
+
     }
 
     public static Font createDefaultFont() {
@@ -78,8 +92,59 @@ public class TimeSeriesPNode {
         return plotSuite.getRampModule().getRampPhysicalModel();
     }
 
+    private class HTMLLabel extends PNode {
+        private ShadowHTMLGraphic htmlGraphic;
+        private ShadowPText valueGraphic;
+        private PImage labelAsImage;
+
+        public HTMLLabel( String html, Color color, Font defaultFont, int textInsetDY ) {
+            htmlGraphic = new ShadowHTMLGraphic( html );
+            valueGraphic = new ShadowPText();
+            setPickable( false );
+            setChildrenPickable( false );
+            htmlGraphic.setShadowOffset( 1, 1 );
+            htmlGraphic.setShadowColor( Color.darkGray );
+            htmlGraphic.setColor( color );
+            valueGraphic.setTextPaint( color );
+            htmlGraphic.setFont( defaultFont );
+            valueGraphic.setFont( defaultFont );
+
+//            addChild( htmlGraphic );
+            addChild( valueGraphic );
+            valueGraphic.setOffset( htmlGraphic.getFullBounds().getWidth(), textInsetDY );
+
+            Image im = htmlGraphic.toImage();
+            labelAsImage = new PImage( im );
+            addChild( labelAsImage );
+        }
+
+        public void setValue( String value ) {
+            valueGraphic.setText( value );
+        }
+
+        public void setFont( Font font ) {
+            htmlGraphic.setFont( font );
+            valueGraphic.setFont( font );
+            System.out.println( "TimeSeriesPNode$HTMLLabel.setFont" );
+            System.err.println( "Not supported" );
+        }
+
+        public void setShadowOffset( int dx, int dy ) {
+            htmlGraphic.setShadowOffset( dx, dy );
+        }
+    }
+
     private void updateReadout( double value ) {
-        readoutGraphic.setText( "" + valueAccessor.getName() + " = " + decimalFormat.format( value ) + " " + valueAccessor.getUnits() );
+//        readoutGraphic.setText( "" + valueAccessor.getName() + " = " + decimalFormat.format( value ) + " " + valueAccessor.getUnitsAbbreviation() );
+//        String html = "<html>";
+//        html += valueAccessor.getHTML();
+//        html += " = " + decimalFormat.format( value );
+//        html += " " + valueAccessor.getUnitsAbbreviation();
+//        html += "</html>";
+        //"" + valueAccessor.getName() + " = " + decimalFormat.format( value ) + " " + valueAccessor.getUnitsAbbreviation() );;
+        htmlLabel.setValue( decimalFormat.format( value ) + " " + valueAccessor.getUnitsAbbreviation() );
+//        readoutGraphic.setHtml( html );
+//        readoutGraphic.setText( "" + valueAccessor.getA() + " = " + decimalFormat.format( value ) + " " + valueAccessor.getUnitsAbbreviation() );
     }
 
     private void dataAdded() {
@@ -120,7 +185,8 @@ public class TimeSeriesPNode {
 
     public void setVisible( boolean visible ) {
         this.visible = visible;
-        readoutGraphic.setVisible( visible );
+        htmlLabel.setVisible( visible );
+//        readoutGraphic.setVisible( visible );
     }
 
     public void repaintAll() {
@@ -133,14 +199,15 @@ public class TimeSeriesPNode {
     }
 
     public PNode getReadoutGraphic() {
-        return readoutGraphic;
+        return htmlLabel;
     }
 
     public void setFont( Font font ) {
-        readoutGraphic.setFont( font );
+        htmlLabel.setFont( font );
     }
 
     public void setShadowOffset( int dx, int dy ) {
-        readoutGraphic.setShadowOffset( dx, dy );
+//        readoutGraphic.setShadowOffset( dx, dy );
+        htmlLabel.setShadowOffset( dx, dy );
     }
 }

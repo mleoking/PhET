@@ -113,7 +113,7 @@ public class RampPanel extends PhetPCanvas {
         } );
 
         PhetRootPNode.Layer layer = getPhetRootNode().addLayer();
-        layer.getWorldNode().addChild( new OverheatButton( this, module.getRampPhysicalModel(), module ) );
+        layer.getScreenNode().addChild( new OverheatButton( this, module.getRampPhysicalModel(), module ) );
 
         timeGraphic = new TimeGraphic( module.getTimeSeriesModel() );
         timeGraphic.setOffset( 60, 60 );
@@ -197,6 +197,7 @@ public class RampPanel extends PhetPCanvas {
 //                System.out.println( "Using new value" );
             }
 //            gopY=yOrig;
+            
             appliedForceControl.setOffset( rampPlotSet.getFullBounds().getX(), sliderY );
             goPauseClear.setOffset( appliedForceControl.getFullBounds().getMaxX() + 2, gopY );
             barGraphSuite.setOffset( getWidth() - barGraphSuite.getFullBounds().getWidth() - 5, gopY - 5 );
@@ -394,7 +395,7 @@ public class RampPanel extends PhetPCanvas {
     }
 
     public void graphLayoutChanged() {
-        if( Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 ) {
+        if( Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 && RampModule.MINIMIZE_READOUT_TEXT_FOR_SMALL_SCREEN ) {
             if( allThreeGraphsUp() ) {
                 rampPlotSet.setTimeSeriesPlotFont( new LucidaSansFont( 9, true, false ) );
                 rampPlotSet.setTimeSeriesPlotShadow( 0, 0 );

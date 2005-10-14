@@ -530,12 +530,24 @@ public class TimePlotSuitePNode extends PNode {
 
     protected void layoutChildren() {
         super.layoutChildren();
-        for( int i = 0; i < series.size(); i++ ) {
+
+        for( int i = 0; i < series.size() / 2; i++ ) {
             TimeSeriesPNode timeSeriesPNode = (TimeSeriesPNode)series.get( i );
             PNode readoutGraphic = timeSeriesPNode.getReadoutGraphic();
 //            readoutGraphic.setOffset( getDataArea().getX() + 5, getDataArea().getY() + getDataArea().getHeight() / 2.0 + ( readoutGraphic.getFullBounds().getHeight() + 1 ) * i );
+            double readoutDY = -2;
             readoutGraphic.setOffset( getDataArea().getX() + 5,
-                                      getDataArea().getY() + 4 + ( readoutGraphic.getFullBounds().getHeight() + 1 ) * i );
+                                      getDataArea().getY() + 4 + ( readoutGraphic.getFullBounds().getHeight() + readoutDY ) * i );
+        }
+
+        for( int i = series.size() / 2; i < series.size(); i++ ) {
+            TimeSeriesPNode timeSeriesPNode = (TimeSeriesPNode)series.get( i );
+            PNode readoutGraphic = timeSeriesPNode.getReadoutGraphic();
+//            readoutGraphic.setOffset( getDataArea().getX() + 5, getDataArea().getY() + getDataArea().getHeight() / 2.0 + ( readoutGraphic.getFullBounds().getHeight() + 1 ) * i );
+            double readoutDY = -2;
+            int index = i - series.size() / 2;
+            readoutGraphic.setOffset( getDataArea().getX() + getDataArea().getWidth() / 2 + 5,
+                                      getDataArea().getY() + 4 + ( readoutGraphic.getFullBounds().getHeight() + readoutDY ) * index );
         }
 
         zoomInGraphic.setOffset( 5 + getDataArea().getX(), getDataArea().getMaxY() - zoomOutGraphic.getFullBounds().getHeight() - zoomInGraphic.getFullBounds().getHeight() - 2 );
@@ -634,10 +646,11 @@ public class TimePlotSuitePNode extends PNode {
         xAxis.setTickMarksVisible( true );
         plot.setDomainAxis( xAxis );
 
-//        NumberAxis yAxis = new NumberAxis( title + " (Joules)" );
         NumberAxis yAxis = new NumberAxis( title );
+//        NumberAxis yAxis = new NumberAxis( "<html>html<sub>2</html>");
         yAxis.setAutoRange( false );
         yAxis.setRange( range.getMinY(), range.getMaxY() );
+//        yAxis.setLabelFont( new LucidaSansFont( 12, true ) );
         plot.setRangeAxis( yAxis );
 
         plot.setDomainCrosshairVisible( true );

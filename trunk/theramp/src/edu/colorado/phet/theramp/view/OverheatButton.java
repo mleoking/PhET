@@ -12,6 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -64,7 +65,15 @@ public class OverheatButton extends PNode {
             setPickable( true );
             setChildrenPickable( true );
 //            setOffset( RampPanel.getDefaultRenderSize().width / 2, 50 );
-            setOffset( rampPanel.getBarGraphSuite().getXOffset(), rampPanel.getBarGraphSuite().getYOffset() + 100 );
+            Rectangle2D r = rampPanel.getBarGraphSuite().getGlobalFullBounds();
+//            System.out.println( "r = " + r );
+            globalToLocal( r );
+
+//            System.out.println( "globToLoc r=" + r );
+            localToParent( r );
+//            System.out.println( "locToPar r="+r );
+//            setOffset( rampPanel.getBarGraphSuite().getXOffset(), rampPanel.getBarGraphSuite().getYOffset() + 100 );
+            setOffset( r.getX() + 20, rampPanel.getHeight() / 2 );
         }
         else if( rampPhysicalModel.getThermalEnergy() < max ) {
             setVisible( false );
