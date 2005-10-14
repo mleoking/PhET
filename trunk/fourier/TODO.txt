@@ -64,6 +64,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(10/14) - remember the last directory where you did a load/save when running under JNLP
 (10/14) - store individual components of harmonic colors to work around a bug with XMLEncoder under JNLP
 (10/14) - report only first exception encountered in XML encoding/decoding
 (10/14) - consolidate error display code in ConfigManager
