@@ -284,6 +284,9 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         int canvasHeight = _canvasSize.height;
         int availableHeight = canvasHeight - _amplitudesView.getHeight();
         
+        _harmonicsMinimizedView.setVisible( !_harmonicsView.isVisible() );
+        _sumMinimizedView.setVisible( !_sumView.isVisible() );
+        
         if ( _harmonicsView.isVisible() && _sumView.isVisible() ) {
             _harmonicsView.setHeight( availableHeight/2 );
             _harmonicsView.setLocation( _amplitudesView.getX(), _amplitudesView.getY() + _amplitudesView.getHeight() );
@@ -330,6 +333,7 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
     public void save( FourierConfig appConfig ) {
         FourierConfig.D2CConfig config = appConfig.getD2CConfig();
         
+        // Save control panel config
         config.setSpacing( _controlPanel.getSpacing() );
         config.setAmplitudesEnvelopeEnabled( _controlPanel.isAmplitudesEnvelopeEnabled() );
         config.setCenter( _controlPanel.getCenter() );
@@ -338,6 +342,10 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         config.setWaveTypeName( _controlPanel.getWaveType().getName() );
         config.setSumEnvelopeEnabled( _controlPanel.isSumEnvelopeEnabled() );
         config.setShowWidthsEnabled( _controlPanel.isShowWidthsEnabled() );
+        
+        // Save view config
+        config.setHarmonicsViewMaximized( _harmonicsView.isVisible() );
+        config.setSumViewMaximized( _sumView.isVisible() );
     }
     
     /**
@@ -347,7 +355,8 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
      */
     public void load( FourierConfig appConfig ) {
         FourierConfig.D2CConfig config = appConfig.getD2CConfig();
-        
+  
+        // Load control panel config
         _controlPanel.setSpacing( config.getSpacing() );
         _controlPanel.setAmplitudesEnvelopeEnabled( config.isAmplitudesEnvelopeEnabled() );
         _controlPanel.setCenter( config.getCenter() );
@@ -356,5 +365,10 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         _controlPanel.setWaveType( WaveType.getByName( config.getWaveTypeName() ) );
         _controlPanel.setSumEnvelopeEnabled( config.isSumEnvelopeEnabled() );
         _controlPanel.setShowWidthsEnabled( config.isShowWidthsEnabled() );
+        
+        // Load view config
+        _harmonicsView.setVisible( config.isHarmonicsViewMaximized() );
+        _sumView.setVisible( config.isSumViewMaximized() );
+        layoutViews();
     }
 }

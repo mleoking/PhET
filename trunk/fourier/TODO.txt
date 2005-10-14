@@ -64,6 +64,8 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(10/14) - consolidate error display code in ConfigManager
+(10/14) - add state of views (minimized/maximized) to config
 (10/13) - rewrite save/load to work with both JNLP and load applications (not tested fully)
 2.1.2 ...
 (10/12) - add program version & build info to config file

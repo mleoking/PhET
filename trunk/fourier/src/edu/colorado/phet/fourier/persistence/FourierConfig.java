@@ -136,6 +136,8 @@ public class FourierConfig implements Serializable {
         private boolean soundEnabled;
         private float soundVolume;
         private double[] _amplitudes;
+        private boolean harmonicsViewMaximized;
+        private boolean sumViewMaximized;
         
         /**
          * Zero-argument constructor for Java Bean compliance.
@@ -245,6 +247,22 @@ public class FourierConfig implements Serializable {
         public double[] getAmplitudes() {
             return _amplitudes;
         }
+        
+        public boolean isHarmonicsViewMaximized() {
+            return harmonicsViewMaximized;
+        }
+        
+        public void setHarmonicsViewMaximized( boolean harmonicsViewMaximized ) {
+            this.harmonicsViewMaximized = harmonicsViewMaximized;
+        }
+        
+        public boolean isSumViewMaximized() {
+            return sumViewMaximized;
+        }
+        
+        public void setSumViewMaximized( boolean sumViewMaximized ) {
+            this.sumViewMaximized = sumViewMaximized;
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -262,6 +280,8 @@ public class FourierConfig implements Serializable {
         private String waveTypeName;
         private boolean sumEnvelopeEnabled;
         private boolean showWidthsEnabled;
+        private boolean harmonicsViewMaximized;
+        private boolean sumViewMaximized;
         
         /**
          * Zero-argument constructor for Java Bean compliance.
@@ -331,6 +351,22 @@ public class FourierConfig implements Serializable {
         public void setWaveTypeName( String waveTypeName ) {
             this.waveTypeName = waveTypeName;
         }
+        
+        public boolean isHarmonicsViewMaximized() {
+            return harmonicsViewMaximized;
+        }
+        
+        public void setHarmonicsViewMaximized( boolean harmonicsViewMaximized ) {
+            this.harmonicsViewMaximized = harmonicsViewMaximized;
+        }
+        
+        public boolean isSumViewMaximized() {
+            return sumViewMaximized;
+        }
+        
+        public void setSumViewMaximized( boolean sumViewMaximized ) {
+            this.sumViewMaximized = sumViewMaximized;
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -342,6 +378,8 @@ public class FourierConfig implements Serializable {
         // Configuration parameters
         private String gameLevelName;
         private String presetName;
+        private boolean harmonicsViewMaximized;
+        private boolean sumViewMaximized;
 
         /**
          * Zero-argument constructor for Java Bean compliance.
@@ -362,6 +400,22 @@ public class FourierConfig implements Serializable {
 
         public void setPresetName( String presetName ) {
             this.presetName = presetName;
+        }
+        
+        public boolean isHarmonicsViewMaximized() {
+            return harmonicsViewMaximized;
+        }
+        
+        public void setHarmonicsViewMaximized( boolean harmonicsViewMaximized ) {
+            this.harmonicsViewMaximized = harmonicsViewMaximized;
+        }
+        
+        public boolean isSumViewMaximized() {
+            return sumViewMaximized;
+        }
+        
+        public void setSumViewMaximized( boolean sumViewMaximized ) {
+            this.sumViewMaximized = sumViewMaximized;
         }
     }
 }

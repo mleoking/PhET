@@ -349,6 +349,9 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         int canvasHeight = _canvasSize.height;
         int availableHeight = canvasHeight - _amplitudesView.getHeight();
         
+        _harmonicsMinimizedView.setVisible( !_harmonicsView.isVisible() );
+        _sumMinimizedView.setVisible( !_sumView.isVisible() );
+        
         if ( _harmonicsView.isVisible() && _sumView.isVisible() ) {
             // Both maximized
             _harmonicsView.setHeight( availableHeight/2 );
@@ -424,8 +427,8 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
     public void save( FourierConfig appConfig ) {
         FourierConfig.DiscreteConfig config = appConfig.getDiscreteConfig();
         
+        // Save control panel config
         config.setPresetName( _controlPanel.getPreset().getName() );
-        config.setNumberOfHarmonics( _controlPanel.getNumberOfHarmonics() );
         config.setShowInfiniteEnabled( _controlPanel.isShowInfiniteEnabled() );
         config.setDomainName( _controlPanel.getDomain().getName() );
         config.setWaveTypeName( _controlPanel.getWaveType().getName() );
@@ -437,6 +440,12 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         config.setSoundEnabled( _controlPanel.isSoundEnabled() );
         config.setSoundVolume( _controlPanel.getSoundVolume() );
         
+        // Save view config
+        config.setHarmonicsViewMaximized( _harmonicsView.isVisible() );
+        config.setSumViewMaximized( _sumView.isVisible() );
+        
+        // Save Fourier series config
+        config.setNumberOfHarmonics( _fourierSeries.getNumberOfHarmonics() );
         double[] amplitudes = new double[ _fourierSeries.getNumberOfHarmonics() ];
         for ( int i = 0; i < amplitudes.length; i++ ) {
             amplitudes[i] = _fourierSeries.getHarmonic(i).getAmplitude();
@@ -452,6 +461,7 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
     public void load( FourierConfig appConfig ) {
         FourierConfig.DiscreteConfig config = appConfig.getDiscreteConfig();
         
+        // Load control panel config
         _controlPanel.setPreset( Preset.getByName( config.getPresetName() ) );
         _controlPanel.setNumberOfHarmonics( config.getNumberOfHarmonics() );
         _controlPanel.setShowInfiniteEnabled( config.isShowInfiniteEnabled() );
@@ -465,6 +475,12 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         _controlPanel.setSoundEnabled( config.isSoundEnabled() );
         _controlPanel.setSoundVolume( config.getSoundVolume() );
         
+        // Load view config
+        _harmonicsView.setVisible( config.isHarmonicsViewMaximized() );
+        _sumView.setVisible( config.isSumViewMaximized() );
+        layoutViews();
+        
+        // Load Fourier series config
         _fourierSeries.setNumberOfHarmonics( config.getNumberOfHarmonics() );
         double[] amplitudes = config.getAmplitudes();
         for ( int i = 0; i < amplitudes.length; i++ ) {
