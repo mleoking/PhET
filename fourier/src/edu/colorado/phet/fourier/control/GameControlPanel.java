@@ -221,6 +221,7 @@ public class GameControlPanel extends FourierControlPanel {
     public void setGameLevel( GameLevel gameLevel ) {
         if ( gameLevel != null ) {
             _levelComboBox.setSelectedKey( gameLevel );
+            handleLevel();
         }
     }
     
@@ -231,6 +232,7 @@ public class GameControlPanel extends FourierControlPanel {
     public void setPreset( Preset preset ) {
         if ( preset != null ) {
             _presetComboBox.setSelectedKey( preset );
+            handlePreset();
         }
     }
     

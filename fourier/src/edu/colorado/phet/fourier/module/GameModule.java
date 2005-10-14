@@ -253,6 +253,9 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
         int canvasHeight = _canvasSize.height;
         int availableHeight = canvasHeight - _amplitudesView.getHeight();
         
+        _harmonicsMinimizedView.setVisible( !_harmonicsView.isVisible() );
+        _sumMinimizedView.setVisible( !_sumView.isVisible() );
+        
         if ( _harmonicsView.isVisible() && _sumView.isVisible() ) {
             // Both maximized
             _harmonicsView.setHeight( availableHeight/2 );
@@ -303,8 +306,13 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
     public void save( FourierConfig appConfig ) {
         FourierConfig.GameConfig config = appConfig.getGameConfig();
         
+        // Save control panel config
         config.setGameLevelName( _controlPanel.getGameLevel().getName() );
         config.setPresetName( _controlPanel.getPreset().getName() );
+        
+        // Save view config
+        config.setHarmonicsViewMaximized( _harmonicsView.isVisible() );
+        config.setSumViewMaximized( _sumView.isVisible() );
     }
     
     /**
@@ -315,7 +323,13 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
     public void load( FourierConfig appConfig ) {
         FourierConfig.GameConfig config = appConfig.getGameConfig();
         
+        // Load control panel config
         _controlPanel.setGameLevel( GameLevel.getByName( config.getGameLevelName() ) );
         _controlPanel.setPreset( Preset.getByName( config.getPresetName() ) );
+        
+        // Load view config
+        _harmonicsView.setVisible( config.isHarmonicsViewMaximized() );
+        _sumView.setVisible( config.isSumViewMaximized() );
+        layoutViews();
     }
 }
