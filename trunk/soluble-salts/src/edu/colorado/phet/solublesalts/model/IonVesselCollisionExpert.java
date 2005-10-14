@@ -10,13 +10,18 @@
  */
 package edu.colorado.phet.solublesalts.model;
 
-import edu.colorado.phet.collision.*;
+import edu.colorado.phet.collision.Collidable;
+import edu.colorado.phet.collision.CollisionExpert;
+import edu.colorado.phet.collision.ContactDetector;
+import edu.colorado.phet.collision.SphereBoxExpert;
+import edu.colorado.phet.solublesalts.model.affinity.Affinity;
+import edu.colorado.phet.solublesalts.model.affinity.RandomAffinity;
 
 import java.util.Random;
 
 /**
  * IonVesselCollisionExpert
- * <p>
+ * <p/>
  * Has the same behavior as a SphereBoxExpert, with the additional behavior that
  * on some collisions, the ion may stick to the vessel, based on an "affinity" between
  * the two. The affinity is determined by a strategy plugged into the collision expert.
@@ -33,16 +38,17 @@ public class IonVesselCollisionExpert implements CollisionExpert, ContactDetecto
 
     public boolean detectAndDoCollision( Collidable bodyA, Collidable bodyB ) {
         Ion ion = null;
-        Box2D box = null;
-        if( applies( bodyA, bodyB ) && areInContact( bodyA, bodyB ) ) {
+        Vessel vessel = null;
+        if( applies( bodyA, bodyB ) ) {
             ion = (Ion)( bodyA instanceof Ion ? bodyA : bodyB );
-            box = (Box2D)( bodyA instanceof Box2D ? bodyA : bodyB );
-            if( affinity.stick( ion, box ) &&
-                !( ion.getPosition().getY() - ion.getRadius() <= box.getMinY() ) ) {
-                ion.setVelocity( 0, 0 );
-            }
-            else {
-                sphereBoxExpert.detectAndDoCollision( ion, box );
+            vessel = (Vessel)( bodyA instanceof Vessel ? bodyA : bodyB );
+            if( areInContact( ion, vessel.getWater() ) ) {
+                if( affinity.stick( ion, vessel ) ) {
+                    vessel.bind( ion );
+                }
+                else {
+                    sphereBoxExpert.detectAndDoCollision( ion, vessel.getWater() );
+                }
             }
         }
         return false;
@@ -53,28 +59,7 @@ public class IonVesselCollisionExpert implements CollisionExpert, ContactDetecto
     }
 
     public boolean applies( Collidable bodyA, Collidable bodyB ) {
-        return ( bodyA instanceof Ion && bodyB instanceof Box2D
-                 || bodyB instanceof Ion && bodyA instanceof Box2D );
-    }
-
-    //----------------------------------------------------------------
-    // Affinities
-    //----------------------------------------------------------------
-
-    public interface Affinity {
-        boolean stick( Ion ion, Box2D box );
-    }
-
-    public static class RandomAffinity implements Affinity {
-        Random random = new Random( System.currentTimeMillis() );
-        double affinityLikelihood;
-
-        public RandomAffinity( double affinityLikelihood ) {
-            this.affinityLikelihood = affinityLikelihood;
-        }
-
-        public boolean stick( Ion ion, Box2D box ) {
-            return random.nextDouble() <= affinityLikelihood;
-        }
+        return ( bodyA instanceof Ion && bodyB instanceof Vessel
+                 || bodyB instanceof Ion && bodyA instanceof Vessel );
     }
 }

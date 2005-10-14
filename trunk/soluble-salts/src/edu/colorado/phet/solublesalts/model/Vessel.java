@@ -11,10 +11,16 @@
 package edu.colorado.phet.solublesalts.model;
 
 import edu.colorado.phet.collision.Box2D;
+import edu.colorado.phet.collision.Collidable;
+import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.solublesalts.model.affinity.Affinity;
+import edu.colorado.phet.solublesalts.model.affinity.RandomAffinity;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.EventObject;
 
@@ -26,11 +32,13 @@ import java.util.EventObject;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Vessel {
+public class Vessel implements ModelElement, Collidable {
     private Rectangle2D shape;
     private Point2D location = new Point2D.Double();
     private double waterLevel;
     private Box2D collisionBox;
+    private ArrayList boundIons = new ArrayList();
+    private Affinity ionAffinity = new RandomAffinity( 1E-3 );
 
     public Vessel( double width, double depth ) {
         this( width, depth, new Point2D.Double() );
@@ -61,6 +69,20 @@ public class Vessel {
                                 getShape().getMaxX(),
                                 getShape().getMaxY() );
     }
+
+    /**
+     * Binds an ion to the vessel.
+     *
+     * @param ion
+     */
+    public void bind( Ion ion ) {
+        boundIons.add( ion );
+        ion.setIsBound( true );
+    }
+
+    //----------------------------------------------------------------
+    // Setters and Getters
+    //----------------------------------------------------------------
 
     /**
      * Returns the water in the vessel as a Box2D, so it can be used for
@@ -99,6 +121,30 @@ public class Vessel {
 
     public double getDepth() {
         return shape.getHeight();
+    }
+
+    //----------------------------------------------------------------
+    // ModelElement implementation
+    //----------------------------------------------------------------
+    public void stepInTime( double dt ) {
+        for( int i = 0; i < boundIons.size(); i++ ) {
+            Ion ion = (Ion)boundIons.get( i );
+            if( ionAffinity.stick( ion, this ) ) {
+                boundIons.remove( ion );
+                ion.setIsBound( false );
+            }
+        }
+    }
+
+    //----------------------------------------------------------------
+    // Collidable implementation
+    //----------------------------------------------------------------
+    public Vector2D getVelocityPrev() {
+        return collisionBox.getVelocityPrev();
+    }
+
+    public Point2D getPositionPrev() {
+        return collisionBox.getPositionPrev();
     }
 
     //----------------------------------------------------------------
