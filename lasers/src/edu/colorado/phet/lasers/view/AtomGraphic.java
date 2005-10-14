@@ -110,7 +110,7 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
         AtomicState state = atom.getCurrState();
 
         // Determine the color and thickness of the colored ring that represents the energy
-        groundStateRingThickness = 3;
+        groundStateRingThickness = 2;
         double f = 0.3;
         // used to scale the thickness of the ring so it changes size a reasonable amount through the visible range
         double ringThicknessExponent = 0.15;
@@ -119,7 +119,7 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
 
         double de1 = atom.getHighestEnergyState().getEnergyLevel() - atom.getGroundState().getEnergyLevel();
         double de2 = state.getEnergyLevel() - atom.getGroundState().getEnergyLevel();
-        double maxRingThickness = 5;
+        double maxRingThickness = 4;
         energyRepRad = maxRingThickness * de2 / de1 + groundStateRingThickness + baseImageRad;
 
         energyRep = new Ellipse2D.Double( -energyRepRad, -energyRepRad, energyRepRad * 2, energyRepRad * 2 );
