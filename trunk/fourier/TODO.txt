@@ -6,6 +6,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - wait cursors don't reliably happen when loading a configuration (because they're on the PhetFrame?)
+- Save doesn't warn you about overwriting files under JNLP
 - change game levels
 - add hints to game
 - game should tell you when you've won 
@@ -64,6 +65,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+2.1.3 ...
 (10/14) - remember the last directory where you did a load/save when running under JNLP
 (10/14) - store individual components of harmonic colors to work around a bug with XMLEncoder under JNLP
 (10/14) - report only first exception encountered in XML encoding/decoding
