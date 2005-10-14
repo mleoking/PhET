@@ -29,6 +29,7 @@ import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.piccolo.PhetPCanvas;
 
 /**
  * The top-level class for all PhET applications.
@@ -215,6 +216,18 @@ public class PhetApplication {
                         apparatusPanel.setReferenceSize();
                     }
                 }
+
+                // This is a total hack that makes the a PhetPCanvas appear properly on startup
+                Object obj = phetFrame.getBasicPhetPanel().getApparatusPanelContainer().getComponent( 0 );
+                if( obj instanceof PhetPCanvas ) {
+                    Dimension dim = phetFrame.getSize();
+                    phetFrame.setVisible( false );
+                    phetFrame.setSize( (int)dim.getWidth() + 1, (int)dim.getHeight() + 1 );
+                    phetFrame.setVisible( true );
+                    phetFrame.setSize( (int)dim.getWidth(), (int)dim.getHeight() );
+                    phetFrame.setVisible( true );
+                }
+
                 phetFrame.removeWindowFocusListener( this );
             }
         } );
@@ -336,12 +349,12 @@ public class PhetApplication {
             setUndecorated( true );
             getRootPane().setWindowDecorationStyle( JRootPane.INFORMATION_DIALOG );
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            
+
             String labelFormat = SimStrings.get( "PhetApplication.StartupDialog.message" );
-            Object[] args = { title };
+            Object[] args = {title};
             String labelString = MessageFormat.format( labelFormat, args );
             label = new JLabel( labelString );
-            
+
             JProgressBar progressBar = new JProgressBar();
             progressBar.setIndeterminate( true );
             BufferedImage image = null;
@@ -351,15 +364,15 @@ public class PhetApplication {
             catch( IOException e ) {
                 e.printStackTrace();
             }
-            ImageIcon logo = new ImageIcon( image);
+            ImageIcon logo = new ImageIcon( image );
 
             getContentPane().setLayout( new GridBagLayout() );
             final GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                                    GridBagConstraints.CENTER,
                                                                    GridBagConstraints.NONE,
-                                                                   new Insets( 0,20,0,10), 0, 0 );
+                                                                   new Insets( 0, 20, 0, 10 ), 0, 0 );
             gbc.gridheight = 2;
-            getContentPane().add( new JLabel(logo), gbc );
+            getContentPane().add( new JLabel( logo ), gbc );
             gbc.gridx = 1;
             gbc.gridheight = 1;
             gbc.insets = new Insets( 20, 10, 10, 20 );
