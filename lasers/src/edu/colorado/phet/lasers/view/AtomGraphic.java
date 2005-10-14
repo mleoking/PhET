@@ -15,7 +15,6 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
@@ -117,6 +116,11 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
         double ringThicknessExponent = 0.15;
         double energyDif = state.getEnergyLevel() - atom.getGroundState().getEnergyLevel();
         energyRepRad = ( energyDif * f ) + groundStateRingThickness + baseImageRad;
+
+        double de1 = atom.getHighestEnergyState().getEnergyLevel() - atom.getGroundState().getEnergyLevel();
+        double de2 = state.getEnergyLevel() - atom.getGroundState().getEnergyLevel();
+        double maxRingThickness = 5;
+        energyRepRad = maxRingThickness * de2 / de1 + groundStateRingThickness + baseImageRad;
 
         energyRep = new Ellipse2D.Double( -energyRepRad, -energyRepRad, energyRepRad * 2, energyRepRad * 2 );
         if( state.getWavelength() == Photon.GRAY ) {

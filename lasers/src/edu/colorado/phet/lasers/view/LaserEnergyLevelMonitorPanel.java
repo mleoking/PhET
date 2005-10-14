@@ -69,9 +69,6 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
     private int[] numAtomsInLevel = new int[3];
     private int[] atomCntAccums = new int[3];
 
-    private EnergyLifetimeSlider highLevelLifetimeSlider;
-    private EnergyLifetimeSlider middleLevelLifetimeSlider;
-
     // Number of energy levels to show
     private int numLevels;
 
