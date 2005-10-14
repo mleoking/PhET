@@ -44,25 +44,26 @@ public class RampPlotSet extends PNode {
         int plotInset = 2;
         int range = 30000;
         energyPlot = createTimePlotSuitePNode( new Range2D( 0, -range, RampModule.MAX_TIME, range ),
-                                               "Energy", "J", plotY, plotHeight, false );
+                                               "Energy", "Joules", plotY, plotHeight, false );
+        addTimeSeries( energyPlot, new ValueAccessor.TotalEnergy( getLookAndFeel() ), "10000.00" );
         addTimeSeries( energyPlot, new ValueAccessor.ThermalEnergy( getLookAndFeel() ), "10000.00" );
         addTimeSeries( energyPlot, new ValueAccessor.PotentialEnergy( getLookAndFeel() ), "10000.00" );
         addTimeSeries( energyPlot, new ValueAccessor.KineticEnergy( getLookAndFeel() ), "10000.00" );
-        addTimeSeries( energyPlot, new ValueAccessor.TotalEnergy( getLookAndFeel() ), "10000.00" );
 
         workPlot = createTimePlotSuitePNode( new Range2D( 0, -range, RampModule.MAX_TIME, range ),
-                                             "Work", "J", plotY + plotHeight + plotInset, plotHeight, false );
+                                             "Work", "Joules", plotY + plotHeight + plotInset, plotHeight, false );
         addTimeSeries( workPlot, new ValueAccessor.AppliedWork( getLookAndFeel() ), "10000.00" );
         addTimeSeries( workPlot, new ValueAccessor.FrictiveWork( getLookAndFeel() ), "10000.00" );
         addTimeSeries( workPlot, new ValueAccessor.GravityWork( getLookAndFeel() ), "10000.00" );
         addTimeSeries( workPlot, new ValueAccessor.TotalWork( getLookAndFeel() ), "10000.00" );
 
         parallelForcePlot = createTimePlotSuitePNode( new Range2D( 0, -1000, RampModule.MAX_TIME, 1000 ),
-                                                      "Parallel Forces", "N", plotY + plotHeight * 2 + plotInset, plotHeight, true );
+                                                      "Parallel Forces", "Newtons", plotY + plotHeight * 2 + plotInset, plotHeight, true );
+        addTimeSeries( parallelForcePlot, new ValueAccessor.ParallelAppliedAccessor( getLookAndFeel() ), "10000.00" );
         addTimeSeries( parallelForcePlot, new ValueAccessor.ParallelFrictionAccessor( getLookAndFeel() ), "10000.00" );
         addTimeSeries( parallelForcePlot, new ValueAccessor.ParallelGravityAccessor( getLookAndFeel() ), "10000.00" );
         addTimeSeries( parallelForcePlot, new ValueAccessor.ParallelWallForceAccessor( getLookAndFeel() ), "10000.00" );
-        addTimeSeries( parallelForcePlot, new ValueAccessor.ParallelAppliedAccessor( getLookAndFeel() ), "10000.00" );
+
 
         addChild( energyPlot );
         addChild( workPlot );

@@ -20,6 +20,7 @@ public class TimeSeries {
     }
 
     private void notifyAdded() {
+//        for (int i=observers.size()-1;i>=0;i--){//this hack is to get the right painting order in TimePlotSuitePNode
         for( int i = 0; i < observers.size(); i++ ) {
             Observer observer = (Observer)observers.get( i );
             observer.dataAdded( this );
