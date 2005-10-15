@@ -23,4 +23,11 @@ public class SimpleRampPanel extends RampPanel {
         super.maximizeForcePlot();
     }
 
+    public void resetBarStates() {
+        setAllBarsMinimized( true );
+    }
+
+    protected void resetPlotStates() {
+        getRampPlotSet().setPlotsMaximized( true, false, false );
+    }
 }

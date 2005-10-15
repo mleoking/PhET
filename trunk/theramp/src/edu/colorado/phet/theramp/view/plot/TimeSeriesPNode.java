@@ -33,12 +33,13 @@ public class TimeSeriesPNode {
     private TimeSeries series;
     private Point2D.Double lastScreenPoint;
     private int strokeSize = 3;
-    private BasicStroke s;
+    private Stroke stroke;
     private Color transparentColor;
     private boolean visible = true;
 //    private ShadowHTMLGraphic readoutGraphic;
     private DecimalFormat decimalFormat;
     private HTMLLabel htmlLabel;
+    private double lastUpdateValue = Double.NaN;
 
     public TimeSeriesPNode( TimePlotSuitePNode plotSuite, TimeSeries series, ValueAccessor valueAccessor, Color color, String justifyString ) {
         this.plotSuite = plotSuite;
@@ -55,7 +56,7 @@ public class TimeSeriesPNode {
                 reset();
             }
         } );
-        s = new BasicStroke( strokeSize, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f );
+        stroke = new BasicStroke( strokeSize, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f );
         transparentColor = new Color( color.getRGB() );
 //        readoutGraphic = new ShadowHTMLGraphic( "" );
 //        readoutGraphic = new ShadowPText();
@@ -80,11 +81,15 @@ public class TimeSeriesPNode {
 
     }
 
+    public void setStroke( Stroke stroke ) {
+        this.stroke = stroke;
+    }
+
     public static Font createDefaultFont() {
         return new Font( "Lucida Sans", Font.BOLD, 13 );
     }
 
-    private void updateReadout() {
+    void updateReadout() {
         updateReadout( valueAccessor.getValue( getRampPhysicalModel() ) );
     }
 
@@ -135,16 +140,20 @@ public class TimeSeriesPNode {
     }
 
     private void updateReadout( double value ) {
+        if( lastUpdateValue != value ) {
+            this.lastUpdateValue = value;
+
 //        readoutGraphic.setText( "" + valueAccessor.getName() + " = " + decimalFormat.format( value ) + " " + valueAccessor.getUnitsAbbreviation() );
 //        String html = "<html>";
 //        html += valueAccessor.getHTML();
 //        html += " = " + decimalFormat.format( value );
 //        html += " " + valueAccessor.getUnitsAbbreviation();
 //        html += "</html>";
-        //"" + valueAccessor.getName() + " = " + decimalFormat.format( value ) + " " + valueAccessor.getUnitsAbbreviation() );;
-        htmlLabel.setValue( decimalFormat.format( value ) + " " + valueAccessor.getUnitsAbbreviation() );
+            //"" + valueAccessor.getName() + " = " + decimalFormat.format( value ) + " " + valueAccessor.getUnitsAbbreviation() );;
+            htmlLabel.setValue( decimalFormat.format( value ) + " " + valueAccessor.getUnitsAbbreviation() );
 //        readoutGraphic.setHtml( html );
 //        readoutGraphic.setText( "" + valueAccessor.getA() + " = " + decimalFormat.format( value ) + " " + valueAccessor.getUnitsAbbreviation() );
+        }
     }
 
     private void dataAdded() {
@@ -166,7 +175,7 @@ public class TimeSeriesPNode {
                 graphics2D.setColor( transparentColor );
                 graphics2D.setClip( plotSuite.getDataArea() );
 
-                graphics2D.setStroke( s );
+                graphics2D.setStroke( stroke );
                 graphics2D.draw( screenLine );
 
                 Rectangle2D bounds = screenLine.getBounds2D();

@@ -44,6 +44,9 @@ public class RampTimeSeriesModel extends TimeSeriesModel {
                 recordedLastTime = true;
             }
         }
+        else {
+            rampModule.updateReadouts();
+        }
 //        System.out.println( "series.numPoints() = " + series.numPoints() + ", running Time=" + clockEvent.getClock().getRunningTime() );
     }
 
@@ -58,6 +61,7 @@ public class RampTimeSeriesModel extends TimeSeriesModel {
                 rampModule.getRampPhysicalModel().setState( v );
             }
         }
+        rampModule.updateReadouts();
     }
 
     public void reset() {
@@ -82,5 +86,26 @@ public class RampTimeSeriesModel extends TimeSeriesModel {
     public RampModule getRampModule() {
         return rampModule;
     }
+
+    public void clockTicked( ClockTickEvent event ) {
+        super.clockTicked( event );
+        if( isPaused() ) {
+            rampModule.updateReadouts();
+        }
+    }
+
+//    public void setRecordMode() {
+//        super.setRecordMode();
+//
+//        if( series.size() > 0 ) {
+//            ObjectTimePoint value = series.getLastPoint();
+//            if( value != null ) {
+//                RampPhysicalModel v = (RampPhysicalModel)value.getValue();
+//                if( v != null ) {
+//                    rampModule.getRampPhysicalModel().setState( v );
+//                }
+//            }
+//        }
+//    }
 
 }

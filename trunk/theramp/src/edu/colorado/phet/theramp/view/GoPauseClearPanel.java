@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.view;
 
-import edu.colorado.phet.common.view.components.HorizontalLayoutPanel;
+import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.theramp.model.RampTimeSeriesModel;
@@ -21,7 +21,7 @@ import java.io.IOException;
  * Copyright (c) Apr 5, 2005 by Sam Reid
  */
 
-public class GoPauseClearPanel extends HorizontalLayoutPanel {
+public class GoPauseClearPanel extends VerticalLayoutPanel {
     private TimeSeriesModel module;
 
     private JButton goPauseButton;

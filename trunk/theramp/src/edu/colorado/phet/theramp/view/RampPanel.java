@@ -197,9 +197,13 @@ public class RampPanel extends PhetPCanvas {
 //                System.out.println( "Using new value" );
             }
 //            gopY=yOrig;
-            
-            appliedForceControl.setOffset( rampPlotSet.getFullBounds().getX(), sliderY );
-            goPauseClear.setOffset( appliedForceControl.getFullBounds().getMaxX() + 2, gopY );
+            int insetX = 2;
+            appliedForceControl.setOffset( insetX, sliderY );
+            goPauseClear.setOffset( insetX, sliderY + appliedForceControl.getFullBounds().getHeight() );
+
+            double max = Math.max( appliedForceControl.getFullBounds().getMaxX(), goPauseClear.getFullBounds().getMaxX() );
+            rampPlotSet.setPlotOffsetX( (int)( max + 5 ) );
+
             barGraphSuite.setOffset( getWidth() - barGraphSuite.getFullBounds().getWidth() - 5, gopY - 5 );
             double maxY = ( getHeight() - barGraphSuite.getOffset().getY() ) * 0.8;
             try {
@@ -350,6 +354,16 @@ public class RampPanel extends PhetPCanvas {
 
     public void reset() {
         rampPlotSet.reset();
+        resetBarStates();
+        resetPlotStates();
+    }
+
+    protected void resetPlotStates() {
+        rampPlotSet.setPlotsMaximized( false, true, true );
+    }
+
+    public void resetBarStates() {
+        setAllBarsMinimized( false );
     }
 
     public void repaintBackground() {
@@ -420,5 +434,9 @@ public class RampPanel extends PhetPCanvas {
         if( scale > 0 ) {
             super.setWorldScale( scale );
         }
+    }
+
+    public void updateReadouts() {
+        rampPlotSet.updateReadouts();
     }
 }

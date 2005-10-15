@@ -31,6 +31,7 @@ public class AdvancedRampControlPanel extends RampControlPanel {
     private RampModule module;
 //    private ModelSlider frictionSlider;
     private ModelSlider massSlider;
+//    private JCheckBox frictionlessCheckbox;
 
     /**
      * @param module
@@ -150,8 +151,8 @@ public class AdvancedRampControlPanel extends RampControlPanel {
         addControl( ocb );
 
         addControl( super.getFrictionSlider() );
-        final JCheckBox frictionless = createFrictionlessCheckbox();
-        addControl( frictionless );
+//        frictionlessCheckbox = createFrictionlessCheckbox();
+        addControl( getFrictionlessCheckBox() );
 
         massSlider = createMassSlider();
         addControl( massSlider );

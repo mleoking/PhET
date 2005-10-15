@@ -21,6 +21,7 @@ public class Block {
     private double kineticFriction = 0.50;
     private double staticFriction = 0.80;
     private ArrayList listeners = new ArrayList();
+    private boolean justCollided = false;
 
     public void addListener( Listener listener ) {
         listeners.add( listener );
@@ -190,11 +191,18 @@ public class Block {
     }
 
     private void applyBoundaryConditions( Block copy, RampPhysicalModel rampPhysicalModel, double dt ) {
+        this.justCollided = false;
         boolean collided = surface.applyBoundaryConditions( rampPhysicalModel, this );
         if( collided ) {
             Collision collision = new Collision( copy, this, rampPhysicalModel, dt );
             notifyCollision( collision );
+            justCollided = true;
         }
+    }
+
+
+    public boolean isJustCollided() {
+        return justCollided;
     }
 
     private void notifyCollision( Collision collision ) {
