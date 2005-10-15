@@ -27,6 +27,7 @@ public class RampControlPanel extends ControlPanel {
     private RampAngleController rampAngleSlider;
     private PositionController positionSlider;
     private GoPauseClearPanel goPauseClear;
+    private JCheckBox frictionlessCheckbox;
 
     public RampControlPanel( RampModule rampModule ) {
         super( rampModule );
@@ -61,6 +62,7 @@ public class RampControlPanel extends ControlPanel {
         this.goPauseClear = new GoPauseClearPanel( rampModule.getTimeSeriesModel() );
 //        addFullWidth( positionSlider.getComponent() );
 //        addFullWidth( rampAngleSlider.getComponent() );
+        this.frictionlessCheckbox = createFrictionlessCheckbox();
     }
 
     private RampModule getModule() {
@@ -109,7 +111,7 @@ public class RampControlPanel extends ControlPanel {
         getModule().getRampPhysicalModel().getBlock().setKineticFriction( f );
     }
 
-    protected JCheckBox createFrictionlessCheckbox() {
+    private JCheckBox createFrictionlessCheckbox() {
         final JCheckBox frictionless = new JCheckBox( "Frictionless", false );
         frictionless.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -165,5 +167,13 @@ public class RampControlPanel extends ControlPanel {
     protected void finishInit() {
         AudioEnabledController audioEnabledController = new AudioEnabledController( rampModule );
         addControl( audioEnabledController.getCheckBox() );
+    }
+
+    public JCheckBox getFrictionlessCheckBox() {
+        return frictionlessCheckbox;
+    }
+
+    public void reset() {
+        frictionlessCheckbox.setSelected( false );
     }
 }

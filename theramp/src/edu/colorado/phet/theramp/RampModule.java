@@ -44,14 +44,16 @@ public class RampModule extends PiccoloModule {
 
     public static final double FORCE_LENGTH_SCALE = 0.06;//1.0;
     private PhetFrame phetFrame;
-    public static final int MAX_TIME = 30;
+//    public static final int MAX_TIME = 30;
+    public static final int MAX_TIME = 5;//testing only
     public static final boolean MINIMIZE_READOUT_TEXT_FOR_SMALL_SCREEN = false;
+//    private Timer timer;
 
     public RampModule( PhetFrame frame, AbstractClock clock ) {
         this( "More Features", frame, clock );
     }
 
-    public RampModule( String name, PhetFrame phetFrame, AbstractClock clock ) {
+    public RampModule( String name, PhetFrame phetFrame, final AbstractClock clock ) {
         super( name, clock );
         this.phetFrame = phetFrame;
         setModel( new BaseModel() );
@@ -82,6 +84,13 @@ public class RampModule extends PiccoloModule {
 
         rampModel.getBlock().addListener( new CollisionHandler( this ) );
         doReset();
+//        timer = new Timer( 30, new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                if( clock.isPaused() ) {
+//                    updateReadouts();
+//                }
+//            }
+//        } );
     }
 
     private void sort( RampObject[] rampObjects ) {
@@ -118,11 +127,13 @@ public class RampModule extends PiccoloModule {
     public void deactivate( PhetApplication app ) {
         super.deactivate( app );
         getPhetFrame().getBasicPhetPanel().setAppControlPanel( new JLabel( "This space for rent." ) );
+//        timer.stop();
     }
 
     public void updateGraphics( ClockTickEvent event ) {
         super.updateGraphics( event );
         rampPanel.updateGraphics();
+//        timer.start();
     }
 
     public RampPanel getRampPanel() {
@@ -162,8 +173,14 @@ public class RampModule extends PiccoloModule {
     public void doReset() {
         rampModel.reset();
         rampPanel.reset();
+        rampControlPanel.reset();
         setObject( rampObjects[0] );
+        updateReadouts();
+//        resetPlotStates();
     }
+
+//    private void resetPlotStates() {
+//    }
 
     public void setObject( RampObject rampObject ) {
         rampModel.setObject( rampObject );
@@ -232,6 +249,10 @@ public class RampModule extends PiccoloModule {
 
     public int numMaximizedBarGraphs() {
         return rampPanel.numMaximizedBarGraphs();
+    }
+
+    public void updateReadouts() {
+        rampPanel.updateReadouts();
     }
 
     public static interface Listener {

@@ -66,7 +66,7 @@ public class TimePlotSuitePNode extends PNode {
     private PImage chartGraphic;
     private JFreeChart chart;
     private int chartHeight;
-    private PPath cursor;
+    private PPath cursorPNode;
     private PNode minButNode;
     private PNode maxButNode;
     private ArrayList series = new ArrayList();
@@ -101,7 +101,7 @@ public class TimePlotSuitePNode extends PNode {
         addChild( chartGraphic );
         timeSeriesModel.addPlaybackTimeChangeListener( new TimeSeriesModel.PlaybackTimeListener() {
             public void timeChanged() {
-                cursor.setVisible( true );
+                cursorPNode.setVisible( true );
                 updateCursorLocation();
             }
 
@@ -142,12 +142,12 @@ public class TimePlotSuitePNode extends PNode {
         } );
         Rectangle2D d = getDataArea();
         int cursorWidth = 6;
-        cursor = new PPath( new Rectangle2D.Double( -cursorWidth / 2, -d.getHeight() / 2, cursorWidth, d.getHeight() ) );
-        cursor.setVisible( false );
-        cursor.setStroke( new BasicStroke( 1 ) );
-        cursor.setPaint( new Color( 0, 0, 0, 0 ) );
+        cursorPNode = new PPath( new Rectangle2D.Double( -cursorWidth / 2, -d.getHeight() / 2, cursorWidth, d.getHeight() ) );
+        cursorPNode.setVisible( false );
+        cursorPNode.setStroke( new BasicStroke( 1 ) );
+        cursorPNode.setPaint( new Color( 0, 0, 0, 0 ) );
 
-        cursor.addInputEventListener( new PBasicInputEventHandler() {
+        cursorPNode.addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
 //                double viewTime = event.getPosition().getX();
                 double viewTime = event.getPositionRelativeTo( TimePlotSuitePNode.this ).getX();
@@ -167,8 +167,8 @@ public class TimePlotSuitePNode extends PNode {
             }
         } );
 //        cursor.setStroke( new BasicStroke( 1,BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER,1.0f,new float[]{8,4},0) );
-        cursor.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
-        addChild( cursor );
+        cursorPNode.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
+        addChild( cursorPNode );
 
 //        JButton minBut = new JButton( "Minimize" );
         JButton minBut = null;
@@ -267,6 +267,13 @@ public class TimePlotSuitePNode extends PNode {
         for( int i = 0; i < series.size(); i++ ) {
             TimeSeriesPNode timeSeriesPNode = (TimeSeriesPNode)series.get( i );
             timeSeriesPNode.setShadowOffset( dx, dy );
+        }
+    }
+
+    public void updateReadouts() {
+        for( int i = 0; i < series.size(); i++ ) {
+            TimeSeriesPNode timeSeriesPNode = (TimeSeriesPNode)series.get( i );
+            timeSeriesPNode.updateReadout();
         }
     }
 
@@ -449,7 +456,7 @@ public class TimePlotSuitePNode extends PNode {
     private void updateCursorLocation() {
         double time = timeSeriesModel.getPlaybackTime();
         Point2D imageLoc = toImageLocation( time, 0 );
-        cursor.setOffset( imageLoc );
+        cursorPNode.setOffset( imageLoc );
     }
 
     public void setMinimized( boolean minimized ) {
@@ -477,7 +484,7 @@ public class TimePlotSuitePNode extends PNode {
     private void setMinimizedState( boolean minimized ) {
 
         setHasChild( !minimized, chartGraphic );
-        setHasChild( !minimized, cursor );
+        setHasChild( !minimized, cursorPNode );
         setHasChild( minimized, maxButNode );
         setHasChild( !minimized, minButNode );
         setHasChild( !minimized, zoomInGraphic );
@@ -502,7 +509,7 @@ public class TimePlotSuitePNode extends PNode {
     }
 
     private void showCursor() {
-        cursor.setVisible( true );
+        cursorPNode.setVisible( true );
     }
 
     protected void paint( PPaintContext paintContext ) {
@@ -512,7 +519,7 @@ public class TimePlotSuitePNode extends PNode {
     }
 
     private void hideCursor() {
-        cursor.setVisible( false );
+        cursorPNode.setVisible( false );
     }
 
     public void setChartSize( int chartWidth, int chartHeight ) {
@@ -572,7 +579,7 @@ public class TimePlotSuitePNode extends PNode {
     private void updateCursorSize() {
         Rectangle2D d = getDataArea();
         int cursorWidth = 6;
-        cursor.setPathTo( new Rectangle2D.Double( -cursorWidth / 2, -d.getHeight() / 2, cursorWidth, d.getHeight() ) );
+        cursorPNode.setPathTo( new Rectangle2D.Double( -cursorWidth / 2, -d.getHeight() / 2, cursorWidth, d.getHeight() ) );
     }
 
     private void updateChartBuffer() {
@@ -650,12 +657,12 @@ public class TimePlotSuitePNode extends PNode {
 //        NumberAxis yAxis = new NumberAxis( "<html>html<sub>2</html>");
         yAxis.setAutoRange( false );
         yAxis.setRange( range.getMinY(), range.getMaxY() );
-//        yAxis.setLabelFont( new LucidaSansFont( 12, true ) );
+//        yAxis.setLabelFont( new Font( "Times New Roman",Font.PLAIN, 12) );
+        yAxis.setLabelFont( new Font( "Lucida Sans", Font.PLAIN, 11 ) );
         plot.setRangeAxis( yAxis );
 
         plot.setDomainCrosshairVisible( true );
         plot.setRangeCrosshairVisible( true );
-
 
         return chart;
     }

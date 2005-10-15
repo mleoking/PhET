@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp;
 
+
 /**
  * User: Sam Reid
  * Date: Aug 9, 2005
@@ -9,9 +10,13 @@ package edu.colorado.phet.theramp;
  */
 
 public class SimpleRampControlPanel extends RampControlPanel {
+//    private JCheckBox frictionlessCheckbox;
+
     public SimpleRampControlPanel( SimpleRampModule simpleRampModule ) {
         super( simpleRampModule );
-        addControl( createFrictionlessCheckbox() );
+
+//        frictionlessCheckbox = createFrictionlessCheckbox();
+        addControl( getFrictionlessCheckBox() );
         addControlFullWidth( new ObjectSelectionPanel( simpleRampModule, simpleRampModule.getRampObjects() ) );
         super.addPositionAngleControls();
         finishInit();
