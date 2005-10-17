@@ -11,12 +11,14 @@
 
 package edu.colorado.phet.fourier.view.game;
 
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.util.SimpleObserver;
@@ -33,7 +35,7 @@ import edu.colorado.phet.fourier.model.FourierSeries;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class GameManager implements SimpleObserver {
+public class GameManager extends MouseInputAdapter implements SimpleObserver {
 
     //----------------------------------------------------------------------------
     // Inner classes
@@ -81,6 +83,7 @@ public class GameManager implements SimpleObserver {
     private Preset _preset;
     private Hashtable gameConfigs; // hashtable of GameConfiguration
     private Random _random;  // the JDK random number generator
+    private boolean _mouseIsPressed;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -271,6 +274,11 @@ public class GameManager implements SimpleObserver {
      */
     public void update() {
         
+        // Don't do anything while the user is dragging an amplitude slider.
+        if ( _mouseIsPressed ) {
+            return;
+        }
+        
         boolean youWon = true;
         int count = 0;  // count the number of matches that are within 3%
         
@@ -324,5 +332,26 @@ public class GameManager implements SimpleObserver {
         
         // Start a new game.
         newGame();
+    }
+    
+    //----------------------------------------------------------------------------
+    // MouseInputAdapter overrides
+    //----------------------------------------------------------------------------
+    
+    /**
+     * When the user presses the mouse, set some state that indicates 
+     * that we're in the process of dragging.  We don't check to see
+     * if we've won until the user releases the mouse.
+     */
+    public void mousePressed( MouseEvent event ) {
+        _mouseIsPressed = true;
+    }
+    
+    /**
+     * When the user releases the mouse, check to see if we've won.
+     */
+    public void mouseReleased( MouseEvent event ) {
+        _mouseIsPressed = false;
+        update();
     }
 }
