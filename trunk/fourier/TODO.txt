@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- don't calculate closeness while the user is dragging an amplitude slider
 - add hints to game
 - show only non-zero sliders in game's Amplitudes view
 - "Optical Pulse Shaper" as a separate simulation
@@ -65,6 +64,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(10/17) - don't calculate closeness while the user is dragging an amplitude slider
 (10/17) - calculate when the game has been won, inform the user
 (10/17) - implement new game levels, rewrite game generation code to be more general
 (10/17) - delete RandomFourierSeries, move all random generation into GameManager
