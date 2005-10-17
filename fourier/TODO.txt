@@ -7,7 +7,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 - game should tell you when you've won
 - add hints to game
-- change game levels
 - show only non-zero sliders in game's Amplitudes view
 - "Optical Pulse Shaper" as a separate simulation
 - wait cursors don't reliably happen when loading a configuration (because they're on the PhetFrame?)
@@ -66,6 +65,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(10/17) - implement new game levels, rewrite game generation code to be more general
 (10/17) - delete RandomFourierSeries, move all random generation into GameManager
 (10/17) - move game code into GameManager
 2.1.3 ...

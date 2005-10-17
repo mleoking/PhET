@@ -103,13 +103,21 @@ public class GameControlPanel extends FourierControlPanel {
 
                 // Choices
                 _levelChoices = new ArrayList();
-                _levelChoices.add( new FourierComboBox.Choice( GameLevel.EASY, SimStrings.get( "GameControlPanel.level.easy" ) ) );
-                _levelChoices.add( new FourierComboBox.Choice( GameLevel.MEDIUM, SimStrings.get( "GameControlPanel.level.medium" ) ) );
-                _levelChoices.add( new FourierComboBox.Choice( GameLevel.HARD, SimStrings.get( "GameControlPanel.level.hard" ) ) );
+                _levelChoices.add( new FourierComboBox.Choice( GameLevel.LEVEL1, "1 (" + SimStrings.get( "GameControlPanel.level.easiest") + ")" ) );
+                _levelChoices.add( new FourierComboBox.Choice( GameLevel.LEVEL2, "2" ) );
+                _levelChoices.add( new FourierComboBox.Choice( GameLevel.LEVEL3, "3" ) );
+                _levelChoices.add( new FourierComboBox.Choice( GameLevel.LEVEL4, "4" ) );
+                _levelChoices.add( new FourierComboBox.Choice( GameLevel.LEVEL5, "5" ) );
+                _levelChoices.add( new FourierComboBox.Choice( GameLevel.LEVEL6, "6" ) );
+                _levelChoices.add( new FourierComboBox.Choice( GameLevel.LEVEL7, "7" ) );
+                _levelChoices.add( new FourierComboBox.Choice( GameLevel.LEVEL8, "8" ) );
+                _levelChoices.add( new FourierComboBox.Choice( GameLevel.LEVEL9, "9" ) );
+                _levelChoices.add( new FourierComboBox.Choice( GameLevel.LEVEL10, "10 ( " + SimStrings.get( "GameControlPanel.level.hardest") + ")" ) );
                 _levelChoices.add( new FourierComboBox.Choice( GameLevel.PRESET, SimStrings.get( "GameControlPanel.level.preset" ) ) );
 
-                // Presets combo box
+                // Levels combo box
                 _levelComboBox = new FourierComboBox( label, _levelChoices );
+                _levelComboBox.getComboBox().setMaximumRowCount( _levelChoices.size() );
             }
             
             // Preset
@@ -127,6 +135,7 @@ public class GameControlPanel extends FourierControlPanel {
 
                 // Presets combo box
                 _presetComboBox = new FourierComboBox( label, _presetChoices );
+                _presetComboBox.getComboBox().setMaximumRowCount( _presetChoices.size() );
             }
             
             // New Game button
@@ -210,7 +219,7 @@ public class GameControlPanel extends FourierControlPanel {
     //----------------------------------------------------------------------------
 
     public void reset() {
-        _levelComboBox.setSelectedKey( GameLevel.EASY );
+        _levelComboBox.setSelectedKey( GameLevel.LEVEL1 );
         _presetComboBox.setSelectedKey( Preset.SINE_COSINE );
         _presetComboBox.setEnabled( _levelComboBox.getSelectedKey() == GameLevel.PRESET );
         _gameManager.setGameLevel( (GameLevel) _levelComboBox.getSelectedKey() );

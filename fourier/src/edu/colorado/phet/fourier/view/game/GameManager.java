@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.fourier.view.game;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Random;
 
@@ -29,27 +30,64 @@ import edu.colorado.phet.fourier.model.FourierSeries;
  */
 public class GameManager implements SimpleObserver {
 
-    private class GameSpecification {
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
+    /**
+     * GameConfiguration describes game configuration.
+     */
+    private class GameConfiguration {
         
-        public int numberOfHarmonics;
-        public int numberOfNonZeroHarmonics;
-        public int numberOfSliders;
+        private int _numberOfHarmonics;
+        private int _numberOfNonZeroHarmonics;
+        private int _numberOfSliders;
         
-        public GameSpecification( int numberOfHarmonics, int numberOfNonZeroHarmonics, int numberOfSliders ) {
-            this.numberOfHarmonics = numberOfHarmonics;
-            this.numberOfNonZeroHarmonics = numberOfNonZeroHarmonics;
-            this.numberOfSliders = numberOfSliders;
+        public GameConfiguration( int numberOfHarmonics, int numberOfNonZeroHarmonics, int numberOfSliders ) {
+            if ( numberOfSliders < numberOfNonZeroHarmonics ) {
+                throw new IllegalArgumentException( "numberOfSlider must be >= numberOfNonZeroHarmonics" );
+            }
+            _numberOfHarmonics = numberOfHarmonics;
+            _numberOfNonZeroHarmonics = numberOfNonZeroHarmonics;
+            _numberOfSliders = numberOfSliders;
+        }
+        
+        public int getNumberOfHarmonics() {
+            return _numberOfHarmonics;
+        }
+        
+        public int getNumberOfNonZeroHarmonics() {
+            return _numberOfNonZeroHarmonics;
+        }
+        
+        public int getNumberOfSliders() {
+            return _numberOfSliders;
         }
     }
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
     private FourierSeries _userFourierSeries;
     private FourierSeries _randomFourierSeries;
     private GameAmplitudesView _amplitudesView;
     private GameLevel _gameLevel;
     private Preset _preset;
-    private Hashtable _gameSpecs; // hashtable of GameSpecification
+    private Hashtable gameConfigs; // hashtable of GameConfiguration
     private Random _random;  // the JDK random number generator
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sole constructor
+     * 
+     * @param userSeries the Fourier series that the user manipulates
+     * @param randomSeries the Fourier series that we randomly manipulate
+     * @param amplitudesView the "Amplitudes" view for the Game module
+     */
     public GameManager( FourierSeries userSeries, FourierSeries randomSeries, GameAmplitudesView amplitudesView ) {
         
         _userFourierSeries = userSeries;
@@ -62,40 +100,38 @@ public class GameManager implements SimpleObserver {
         _gameLevel = GameLevel.UNDEFINED;
         _preset = Preset.UNDEFINED;
         
-        _gameSpecs = new Hashtable();
-        _gameSpecs.put( GameLevel.EASY,     new GameSpecification( 11, 1, 1 ) );
-        _gameSpecs.put( GameLevel.MEDIUM,   new GameSpecification( 11, 4, 5 ) );
-        _gameSpecs.put( GameLevel.HARD,     new GameSpecification( 11, 5, 9 ) );
+        gameConfigs = new Hashtable();
+        gameConfigs.put( GameLevel.LEVEL1,   new GameConfiguration( 11,  1,  1 ) );
+        gameConfigs.put( GameLevel.LEVEL2,   new GameConfiguration( 11,  1,  2 ) );
+        gameConfigs.put( GameLevel.LEVEL3,   new GameConfiguration( 11,  1, 11 ) );
+        gameConfigs.put( GameLevel.LEVEL4,   new GameConfiguration( 11,  2,  2 ) );
+        gameConfigs.put( GameLevel.LEVEL5,   new GameConfiguration( 11,  2, 11 ) );
+        gameConfigs.put( GameLevel.LEVEL6,   new GameConfiguration( 11,  3,  3 ) );
+        gameConfigs.put( GameLevel.LEVEL7,   new GameConfiguration( 11,  3, 11 ) );
+        gameConfigs.put( GameLevel.LEVEL8,   new GameConfiguration( 11,  4,  4 ) );
+        gameConfigs.put( GameLevel.LEVEL9,   new GameConfiguration( 11,  4, 11 ) );
+        gameConfigs.put( GameLevel.LEVEL10,  new GameConfiguration( 11, 11, 11 ) );
         
         _random = new Random();
     }
     
+    /**
+     * Call this method prior to releasing all references to an object of this type.
+     */
     public void cleanup() {
         _userFourierSeries.removeObserver( this );
         _userFourierSeries = null;
     }
     
-    public void setGameLevel( GameLevel gameLevel ) {
-        _gameLevel = gameLevel;
-        newGame();
-    }
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
     
-    public void setPreset( Preset preset ) {
-        _preset = preset;
-        newGame();
-    }   
-    
-    public void newGame() {
-        
-        // Set all the user's harmonic amplitudes to zero.
-        for ( int i = 0; i < _userFourierSeries.getNumberOfHarmonics(); i++ ) {
-            _userFourierSeries.getHarmonic( i ).setAmplitude( 0 );
-        }
-        
-        // Generate a new random series
-        generate();
-    }
-    
+    /**
+     * Gets the amplitudes for the randomly-generated Fourier series.
+     * 
+     * @return amplitudes
+     */
     public double[] getAmplitudes() {
         double[] amplitudes = new double[ _randomFourierSeries.getNumberOfHarmonics() ];
         for ( int i = 0; i < amplitudes.length; i++ ) {
@@ -104,40 +140,97 @@ public class GameManager implements SimpleObserver {
         return amplitudes;
     }
     
+    /**
+     * Sets the game level.
+     * 
+     * @param gameLevel
+     */
+    public void setGameLevel( GameLevel gameLevel ) {
+        _gameLevel = gameLevel;
+        newGame();
+    }
+    
+    /**
+     * Sets the preset.
+     * 
+     * @param preset
+     */
+    public void setPreset( Preset preset ) {
+        _preset = preset;
+        newGame();
+    }   
+    
     //----------------------------------------------------------------------------
-    // SimpleObserver implementation
+    // Game generation
     //----------------------------------------------------------------------------
     
-    public void update() {
-        //XXX did we win?
-    }
-
-    //----------------------------------------------------------------------------
-    // Generation of amplitudes
-    //----------------------------------------------------------------------------
-
     /**
-     * Generates random amplitudes for the Fourier series' components,
-     * based on the game level.
+     * Generates a new game, based on the game level and preset settings.
      */
-    public void generate() {
+    public void newGame() {
         
-        if ( _gameLevel == GameLevel.EASY ) {
-            generateEasy();
+        if ( _gameLevel == GameLevel.PRESET ) {
+            // Set the number of harmonics
+            _userFourierSeries.setNumberOfHarmonics( FourierConstants.MAX_HARMONICS );
+            _randomFourierSeries.setNumberOfHarmonics( FourierConstants.MAX_HARMONICS );
+
+            // Set all amplitudes to zero
+            for ( int i = 0; i < _userFourierSeries.getNumberOfHarmonics(); i++ ) {
+                _userFourierSeries.getHarmonic( i ).setAmplitude( 0 );
+                _randomFourierSeries.getHarmonic( i ).setAmplitude( 0 );
+            }
+            
+            // Set the preset amplitudes
+            _randomFourierSeries.setPreset( Preset.CUSTOM );
+            _randomFourierSeries.setPreset( _preset );
+            
+            // Make all sliders visible
+            _amplitudesView.setSlidersVisible( true );
         }
-        else if ( _gameLevel == GameLevel.MEDIUM ) {
-            generateMedium();
-        }
-        else if ( _gameLevel == GameLevel.HARD ) {
-            generateHard();
-        }
-        else if ( _gameLevel == GameLevel.PRESET ) {
-            generatePreset();
+        else {
+            // Get the configuration for this game level.
+            GameConfiguration gameConfig = (GameConfiguration) gameConfigs.get( _gameLevel );
+            int numberOfHarmonics = gameConfig._numberOfHarmonics;
+            int numberOfNonZeroHarmonic = gameConfig._numberOfNonZeroHarmonics;
+            int numberOfSliders = gameConfig._numberOfSliders;
+            
+            // Set the number of harmonics
+            _userFourierSeries.setNumberOfHarmonics( numberOfHarmonics );
+            _randomFourierSeries.setNumberOfHarmonics( numberOfHarmonics );
+
+            // Set all amplitudes to zero
+            for ( int i = 0; i < _userFourierSeries.getNumberOfHarmonics(); i++ ) {
+                _userFourierSeries.getHarmonic( i ).setAmplitude( 0 );
+                _randomFourierSeries.getHarmonic( i ).setAmplitude( 0 );
+            }
+            
+            // Select random harmonics
+            ArrayList indicies = new ArrayList();
+            while( indicies.size() < numberOfSliders ) {
+                Integer index = new Integer( _random.nextInt( numberOfHarmonics ) );
+                if ( ! indicies.contains( index ) ) {
+                    indicies.add( index );
+                }
+            }
+            
+            // Generate random amplitudes
+            for ( int i = 0; i < numberOfNonZeroHarmonic; i++ ) {
+                Integer index = (Integer) indicies.get( i );
+                double amplitude = generateRandomAmplitude();
+                _randomFourierSeries.getHarmonic( index.intValue() ).setAmplitude( amplitude );
+            }
+            
+            // Set visibility of sliders
+            _amplitudesView.setSlidersVisible( false );
+            for ( int i = 0; i < indicies.size(); i++ ) {
+                Integer index = (Integer) indicies.get( i );
+                _amplitudesView.setSliderVisible( index.intValue(), true );
+            }
         }
     }
     
     /*
-     * Generates a random number between +-FourierConfig.MAX_HARMONIC_AMPLITUDE
+     * Generates a random non-zero number between +-FourierConfig.MAX_HARMONIC_AMPLITUDE
      * with 2 significant decimal places.
      * 
      * @return random number
@@ -149,78 +242,21 @@ public class GameManager implements SimpleObserver {
         int multiplier = _random.nextInt( numberOfSteps );
         double amplitude = sign * multiplier * step;
         assert( amplitude <= FourierConstants.MAX_HARMONIC_AMPLITUDE );
+        if ( amplitude == 0 ) {
+            amplitude = step;
+        }
         return amplitude;
     }
     
-    /*
-     * Generates data for the "Easy" game level.
-     * Random values for 2 harmonics, all others zero
-     */
-    private void generateEasy() {
-
-        int numberOfHarmonics = _randomFourierSeries.getNumberOfHarmonics();
-        
-        int i1 = _random.nextInt( numberOfHarmonics );
-        int i2 = _random.nextInt( numberOfHarmonics );
-        
-        for ( int i = 0; i < numberOfHarmonics; i++ ) {
-            
-            if ( i == i1 || i == i2 ) {
-                double amplitude = generateRandomAmplitude();
-                _randomFourierSeries.getHarmonic( i ).setAmplitude( amplitude );
-            }
-            else {
-                _randomFourierSeries.getHarmonic( i ).setAmplitude( 0 );
-            }
-        }
-    }
+    //----------------------------------------------------------------------------
+    // SimpleObserver implementation
+    //----------------------------------------------------------------------------
     
-    /*
-     * Generates data for the "Medium" game level.
-     * Random values for 4 harmonics, all others zero
+    /**
+     * Called when the user changes the Fourier series.
+     * We check to see if we've matched the randomly-generate Fourier series.
      */
-    private void generateMedium() {
-        
-        int numberOfHarmonics = _randomFourierSeries.getNumberOfHarmonics();
-        
-        int i1 = _random.nextInt( numberOfHarmonics );
-        int i2 = _random.nextInt( numberOfHarmonics );
-        int i3 = _random.nextInt( numberOfHarmonics );
-        int i4 = _random.nextInt( numberOfHarmonics );
-        
-        for ( int i = 0; i < numberOfHarmonics; i++ ) {
-            
-            if ( i == i1 || i == i2 || i == i3 || i == i4 ) {
-                double amplitude = generateRandomAmplitude();
-                _randomFourierSeries.getHarmonic( i ).setAmplitude( amplitude );
-            }
-            else {
-                _randomFourierSeries.getHarmonic( i ).setAmplitude( 0 );
-            }
-        }
+    public void update() {
+        //XXX did we win?
     }
-    
-    /*
-     * Generates data for the "Hard" game level.
-     * Random values for all harmonics
-     */
-    private void generateHard() {
-        
-        int numberOfHarmonics = _randomFourierSeries.getNumberOfHarmonics();
-        
-        for ( int i = 0; i < numberOfHarmonics; i++ ) {
-            double amplitude = generateRandomAmplitude();
-            _randomFourierSeries.getHarmonic( i ).setAmplitude( amplitude );
-        } 
-    }
-    
-    /*
-     * Generates data for the "Preset" game level.
-     */
-    private void generatePreset() {
-        if ( _gameLevel == GameLevel.PRESET ) {
-            _randomFourierSeries.setPreset( _preset );
-        }
-    }
-
 }
