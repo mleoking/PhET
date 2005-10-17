@@ -5,12 +5,13 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- game should tell you when you've won
+- add hints to game
+- change game levels
+- show only non-zero sliders in game's Amplitudes view
+- "Optical Pulse Shaper" as a separate simulation
 - wait cursors don't reliably happen when loading a configuration (because they're on the PhetFrame?)
 - Save doesn't warn you about overwriting files under JNLP
-- change game levels
-- add hints to game
-- game should tell you when you've won 
-- "Optical Pulse Shaper" as a separate simulation
 
 MEDIUM PRIORITY:
 - bug: anti-aliasing of plots gets turned off
@@ -65,6 +66,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(10/17) - move game code into GameManager
 2.1.3 ...
 (10/14) - remember the last directory where you did a load/save when running under JNLP
 (10/14) - store individual components of harmonic colors to work around a bug with XMLEncoder under JNLP

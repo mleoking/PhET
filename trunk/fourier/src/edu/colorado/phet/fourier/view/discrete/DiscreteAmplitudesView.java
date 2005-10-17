@@ -178,6 +178,18 @@ public class DiscreteAmplitudesView extends GraphicLayerSet implements SimpleObs
     }
 
     //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    public ArrayList getSliders() {
+        return _sliders;
+    }
+    
+    public FourierSeries getFourierSeries() {
+        return _fourierSeries;
+    }
+    
+    //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
     
@@ -212,6 +224,7 @@ public class DiscreteAmplitudesView extends GraphicLayerSet implements SimpleObs
                     slider = new AmplitudeSlider( getComponent(), harmonic );
                     slider.addHarmonicFocusListener( _eventPropagator ); // notify when the slider gets focus
                     slider.addChangeListener( _eventPropagator ); // notify when the slider value is changed
+                    _sliders.add( slider );
                 }
                 _slidersGraphic.addGraphic( slider );
 

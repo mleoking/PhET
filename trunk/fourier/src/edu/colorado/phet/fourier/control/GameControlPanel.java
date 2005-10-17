@@ -33,6 +33,7 @@ import edu.colorado.phet.fourier.enum.Preset;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.RandomFourierSeries;
 import edu.colorado.phet.fourier.module.FourierModule;
+import edu.colorado.phet.fourier.view.game.GameManager;
 
 
 /**
@@ -59,17 +60,14 @@ public class GameControlPanel extends FourierControlPanel {
     //----------------------------------------------------------------------------
     
     // Things to be controlled
-    private FourierSeries _userFourierSeries;
-    private RandomFourierSeries _randomFourierSeries;
+    private GameManager _gameManager;
     
     // UI components
     private FourierComboBox _levelComboBox;
     private FourierComboBox _presetComboBox;
     private JButton _newGameButton;
-    private JLabel _closenessValue;
     private JCheckBox _cheatCheckBox;
     private FourierTitledPanel  _cheatPanel;
-    private ArrayList _cheatValues; // array of JLabel
     
     // Choices
     private ArrayList _levelChoices;
@@ -86,14 +84,12 @@ public class GameControlPanel extends FourierControlPanel {
      * 
      * @param module
      */
-    public GameControlPanel( FourierModule module, FourierSeries userFourierSeries, RandomFourierSeries randomFourierSeries ) {
+    public GameControlPanel( FourierModule module, GameManager gameManager ) {
         super( module );
         
-        assert( userFourierSeries != null );
-        assert( randomFourierSeries != null );
+        assert( gameManager != null );
         
-        _userFourierSeries = userFourierSeries;
-        _randomFourierSeries = randomFourierSeries;
+        _gameManager = gameManager;
         
         // Set the control panel's minimum width.
         String widthString = SimStrings.get( "GameControlPanel.width" );
@@ -136,17 +132,6 @@ public class GameControlPanel extends FourierControlPanel {
                 _presetComboBox = new FourierComboBox( label, _presetChoices );
             }
             
-            // How close am I?
-            JPanel closenessPanel = new JPanel();
-            {
-                JLabel closenessLabel = new JLabel( SimStrings.get( "GameControlPanel.howCloseAmI" ) );
-                _closenessValue = new JLabel( "? %" );
-                EasyGridBagLayout layout = new EasyGridBagLayout( closenessPanel );
-                closenessPanel.setLayout( layout );
-                layout.addComponent( closenessLabel, 0, 0 );
-                layout.addComponent( _closenessValue, 0, 1 );
-            }
-            
             // New Game button
             _newGameButton = new JButton( SimStrings.get( "GameControlPanel.newGame" ) );
             
@@ -160,7 +145,6 @@ public class GameControlPanel extends FourierControlPanel {
             int column = 1;
             layout.addComponent( _levelComboBox, row++, column );
             layout.addComponent( _presetComboBox, row++, column );
-//            layout.addComponent( closenessPanel, row++, column );
             layout.addComponent( _newGameButton, row++, column );
             gameControlsPanel.setLayout( new BorderLayout() );
             gameControlsPanel.add( innerPanel, BorderLayout.WEST );
@@ -171,22 +155,6 @@ public class GameControlPanel extends FourierControlPanel {
         
         // Cheat panel
         _cheatPanel = new FourierTitledPanel( "Amplitudes to match" );
-        {
-            EasyGridBagLayout layout = new EasyGridBagLayout( _cheatPanel );
-            _cheatPanel.setLayout( layout );
-            layout.setAnchor( GridBagConstraints.EAST );
-            int row = 0;
-            
-            _cheatValues = new ArrayList();
-            for ( int i = 0; i < _randomFourierSeries.getNumberOfHarmonics(); i++ ) {
-                JLabel label = new JLabel( "<html>A<sub>" + (i+1) + "</sub> = </html>" );
-                JLabel value = new JLabel( "" );
-                _cheatValues.add( value );
-                layout.addComponent( label, row, 0 );
-                layout.addComponent( value, row, 1 );
-                row++;
-            }
-        }
 
         // Layout
         addFullWidth( gameControlsPanel );
@@ -248,12 +216,12 @@ public class GameControlPanel extends FourierControlPanel {
         _levelComboBox.setSelectedKey( GameLevel.EASY );
         _presetComboBox.setSelectedKey( Preset.SINE_COSINE );
         _presetComboBox.setEnabled( _levelComboBox.getSelectedKey() == GameLevel.PRESET );
-        _randomFourierSeries.setGameLevel( (GameLevel) _levelComboBox.getSelectedKey() );
+        _gameManager.setGameLevel( (GameLevel) _levelComboBox.getSelectedKey() );
         if ( _levelComboBox.getSelectedKey() == GameLevel.PRESET ) {
-            _randomFourierSeries.setPreset( (Preset) _presetComboBox.getSelectedKey() );
+            _gameManager.setPreset( (Preset) _presetComboBox.getSelectedKey() );
         }
         else {
-            _randomFourierSeries.setPreset( Preset.CUSTOM );
+            _gameManager.setPreset( Preset.CUSTOM );
         }
         _cheatCheckBox.setSelected( false );
         _cheatPanel.setVisible( _cheatCheckBox.isSelected() );
@@ -304,40 +272,30 @@ public class GameControlPanel extends FourierControlPanel {
     //----------------------------------------------------------------------------
     
     private void handleLevel() {
-        handleNewGame();
+        setWaitCursorEnabled( true );
+        GameLevel gameLevel = (GameLevel) _levelComboBox.getSelectedKey();
+        _presetComboBox.setEnabled(  gameLevel == GameLevel.PRESET ); 
+        if ( gameLevel == GameLevel.PRESET ) {
+            Preset preset = (Preset) _presetComboBox.getSelectedKey();
+            _gameManager.setPreset( preset );
+        }
+        _gameManager.setGameLevel( gameLevel );
+        updateCheatPanel();
+        setWaitCursorEnabled( false );
     }
     
     private void handlePreset() {
-        handleNewGame();
+        setWaitCursorEnabled( true );
+        Preset preset = (Preset) _presetComboBox.getSelectedKey();
+        _gameManager.setPreset( preset );
+        updateCheatPanel();
+        setWaitCursorEnabled( false );
     }
     
     private void handleNewGame() {
         setWaitCursorEnabled( true );
-        
-        // Set all the user's harmonic amplitudes to zero.
-        for ( int i = 0; i < _userFourierSeries.getNumberOfHarmonics(); i++ ) {
-            _userFourierSeries.getHarmonic( i ).setAmplitude( 0 );
-        }
-        
-        // Set the game level
-        GameLevel gameLevel = (GameLevel) _levelComboBox.getSelectedKey();
-        _presetComboBox.setEnabled( gameLevel == GameLevel.PRESET );
-        _randomFourierSeries.setGameLevel( gameLevel );
-        
-        // Restore the preset
-        if ( gameLevel == GameLevel.PRESET ) {
-            Preset preset = (Preset) _presetComboBox.getSelectedKey();
-            _randomFourierSeries.setPreset( preset );
-        }
-        else {
-            _randomFourierSeries.setPreset( Preset.CUSTOM );
-        }
-        
-        // Generate a new random series
-        _randomFourierSeries.generate();
-        
+        _gameManager.newGame();
         updateCheatPanel();
-        
         setWaitCursorEnabled( false );
     }
     
@@ -351,12 +309,25 @@ public class GameControlPanel extends FourierControlPanel {
     
     private void updateCheatPanel() {
         if ( _cheatPanel.isVisible() ) {
-            for ( int i = 0; i < _cheatValues.size(); i++ ) {
-                double dAmplitude = _randomFourierSeries.getHarmonic( i ).getAmplitude();
-                String sAmplitude = CHEAT_FORMAT.format( dAmplitude );
-                JLabel label = (JLabel) _cheatValues.get( i );
-                label.setText( sAmplitude );
+
+            _cheatPanel.removeAll();
+            
+            EasyGridBagLayout layout = new EasyGridBagLayout( _cheatPanel );
+            _cheatPanel.setLayout( layout );
+            layout.setAnchor( GridBagConstraints.EAST );
+            int row = 0;
+            
+            double[] amplitudes = _gameManager.getAmplitudes();
+            for ( int i = 0; i < amplitudes.length; i++ ) {
+                String sAmplitude = CHEAT_FORMAT.format( amplitudes[i] );
+                
+                JLabel label = new JLabel( "<html>A<sub>" + (i+1) + "</sub> = </html>" );
+                JLabel value = new JLabel( sAmplitude );
+                layout.addComponent( label, row, 0 );
+                layout.addComponent( value, row, 1 );
+                row++;
             }
+            _cheatPanel.revalidate();
         }
     }
 }

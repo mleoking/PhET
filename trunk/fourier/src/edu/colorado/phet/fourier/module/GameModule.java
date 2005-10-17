@@ -35,6 +35,7 @@ import edu.colorado.phet.fourier.persistence.FourierConfig;
 import edu.colorado.phet.fourier.view.MinimizedView;
 import edu.colorado.phet.fourier.view.game.GameAmplitudesView;
 import edu.colorado.phet.fourier.view.game.GameHarmonicsView;
+import edu.colorado.phet.fourier.view.game.GameManager;
 import edu.colorado.phet.fourier.view.game.GameSumView;
 
 
@@ -80,6 +81,7 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
     private MinimizedView _sumMinimizedView;
     private GameControlPanel _controlPanel;
     private Dimension _canvasSize;
+    private GameManager _gameManager;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -125,7 +127,7 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
         _canvasSize = apparatusPanel.getSize();
         
         // Amplitudes view
-        _amplitudesView = new GameAmplitudesView( apparatusPanel, _userFourierSeries );
+        _amplitudesView = new GameAmplitudesView( apparatusPanel, _userFourierSeries, _randomFourierSeries );
         _amplitudesView.setLocation( 0, 0 );
         apparatusPanel.addGraphic( _amplitudesView, AMPLITUDES_LAYER );
         
@@ -151,8 +153,10 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
 
         setClockControlsEnabled( false );
         
+        _gameManager = new GameManager( _userFourierSeries, _randomFourierSeries, _amplitudesView );
+        
         // Control Panel
-        _controlPanel = new GameControlPanel( this, _userFourierSeries, _randomFourierSeries );
+        _controlPanel = new GameControlPanel( this, _gameManager );
         setControlPanel( _controlPanel );
         
         // Harmonic hightlighting
