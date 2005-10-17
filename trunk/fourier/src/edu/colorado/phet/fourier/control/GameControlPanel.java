@@ -27,11 +27,8 @@ import javax.swing.JPanel;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.enum.GameLevel;
 import edu.colorado.phet.fourier.enum.Preset;
-import edu.colorado.phet.fourier.model.FourierSeries;
-import edu.colorado.phet.fourier.model.RandomFourierSeries;
 import edu.colorado.phet.fourier.module.FourierModule;
 import edu.colorado.phet.fourier.view.game.GameManager;
 

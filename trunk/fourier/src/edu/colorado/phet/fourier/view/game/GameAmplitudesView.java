@@ -15,8 +15,6 @@ import java.awt.Component;
 import java.util.ArrayList;
 
 import edu.colorado.phet.fourier.model.FourierSeries;
-import edu.colorado.phet.fourier.model.Harmonic;
-import edu.colorado.phet.fourier.model.RandomFourierSeries;
 import edu.colorado.phet.fourier.view.AmplitudeSlider;
 import edu.colorado.phet.fourier.view.discrete.DiscreteAmplitudesView;
 
@@ -31,7 +29,7 @@ import edu.colorado.phet.fourier.view.discrete.DiscreteAmplitudesView;
  */
 public class GameAmplitudesView extends DiscreteAmplitudesView {
     
-    private RandomFourierSeries _randomFourierSeries;
+    private FourierSeries _randomFourierSeries;
     
     /**
      * Sole constructor.
@@ -39,7 +37,7 @@ public class GameAmplitudesView extends DiscreteAmplitudesView {
      * @param component
      * @param fourierSeries
      */
-    public GameAmplitudesView( Component component, FourierSeries fourierSeries, RandomFourierSeries randomFourierSeries ) {
+    public GameAmplitudesView( Component component, FourierSeries fourierSeries, FourierSeries randomFourierSeries ) {
         super( component, fourierSeries );
         
         _randomFourierSeries = randomFourierSeries;

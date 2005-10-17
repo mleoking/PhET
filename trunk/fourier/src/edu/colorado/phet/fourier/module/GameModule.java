@@ -30,7 +30,6 @@ import edu.colorado.phet.fourier.enum.Preset;
 import edu.colorado.phet.fourier.enum.WaveType;
 import edu.colorado.phet.fourier.help.FourierHelpItem;
 import edu.colorado.phet.fourier.model.FourierSeries;
-import edu.colorado.phet.fourier.model.RandomFourierSeries;
 import edu.colorado.phet.fourier.persistence.FourierConfig;
 import edu.colorado.phet.fourier.view.MinimizedView;
 import edu.colorado.phet.fourier.view.game.GameAmplitudesView;
@@ -73,7 +72,7 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
     //----------------------------------------------------------------------------
     
     private FourierSeries _userFourierSeries;
-    private RandomFourierSeries _randomFourierSeries;
+    private FourierSeries _randomFourierSeries;
     private GameAmplitudesView _amplitudesView;
     private GameHarmonicsView _harmonicsView;
     private MinimizedView _harmonicsMinimizedView;
@@ -113,7 +112,7 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
         }
         
         // The randomly generated Fourier Series
-        _randomFourierSeries = new RandomFourierSeries( NUMBER_OF_HARMONICS, FUNDAMENTAL_FREQUENCY );
+        _randomFourierSeries = new FourierSeries( NUMBER_OF_HARMONICS, FUNDAMENTAL_FREQUENCY );
 
         //----------------------------------------------------------------------------
         // View
