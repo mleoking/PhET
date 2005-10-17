@@ -21,8 +21,7 @@ import edu.colorado.phet.fourier.view.discrete.DiscreteAmplitudesView;
 
 /**
  * GameAmplitudesView is the "Amplitudes" view in the Game module.
- * The implementation of this view is currently identical to the
- * implementation for the Discrete module.
+ * It is extends the view in the Discrete module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -48,20 +47,6 @@ public class GameAmplitudesView extends DiscreteAmplitudesView {
         _randomFourierSeries.removeObserver( this );
         _randomFourierSeries = null;
     }
-    
-//    public void update() {
-//        super.update();
-//        
-//        if ( _randomFourierSeries != null ) {
-//            ArrayList sliders = getSliders();
-//            int numberOfHarmonics = _randomFourierSeries.getNumberOfHarmonics();
-//            for ( int i = 0; i < numberOfHarmonics; i++ ) {
-//                Harmonic harmonic = _randomFourierSeries.getHarmonic( i );
-//                AmplitudeSlider slider = (AmplitudeSlider) sliders.get( i );
-//                slider.setVisible( harmonic.getAmplitude() != 0 );
-//            }
-//        }  
-//    }
     
     /**
      * Sets the visibility of one of the amplitude sliders.
