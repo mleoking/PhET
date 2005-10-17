@@ -15,7 +15,12 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Random;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.enum.GameLevel;
 import edu.colorado.phet.fourier.enum.Preset;
@@ -255,8 +260,69 @@ public class GameManager implements SimpleObserver {
     /**
      * Called when the user changes the Fourier series.
      * We check to see if we've matched the randomly-generate Fourier series.
+     * <p>
+     * Criteria for a match:
+     * <ul>
+     * <li>the sign of all corresponding amplitudes is the same
+     * <li>user amplitudes are within 3% of zero random amplitudes
+     * <li>user amplitudes are within 9% of non-zero random amplitudes
+     * <li>at least 2 user amplitudes are within 3% of non-zero random amplitudes
+     * </ul>
      */
     public void update() {
-        //XXX did we win?
+        
+        boolean youWon = true;
+        int count = 0;  // count the number of matches that are within 3%
+        
+        int numberOfHarmonics = _userFourierSeries.getNumberOfHarmonics();
+        for ( int i = 0; i < numberOfHarmonics && youWon == true ; i++ ) {
+            
+           double userAmplitude = _userFourierSeries.getHarmonic( i ).getAmplitude();
+           double randomAmplitude = _randomFourierSeries.getHarmonic( i ).getAmplitude();
+           
+           if ( ( randomAmplitude < 0 && userAmplitude > 0 ) || ( randomAmplitude > 0 && userAmplitude < 0 ) ) {
+               // sign is wrong
+               youWon = false;
+           }
+           else if ( randomAmplitude == 0 ) {
+               if ( Math.abs( userAmplitude / FourierConstants.MAX_HARMONIC_AMPLITUDE ) > 0.03 ) {
+                   // not close enough to zero amplitude
+                   youWon = false;
+               }
+           }
+           else {
+               double percent = Math.abs( userAmplitude - randomAmplitude ) / Math.abs( randomAmplitude );
+               if ( percent > 0.09 ) {
+                   // not close enough to non-zero amplitude
+                   youWon = false;
+               }
+               else if ( percent <= 0.03 ) {
+                   // count how many are within 3%
+                   count++;
+               }
+           }
+        }
+        
+        // Make sure at least 2 are within 3%
+        if ( youWon ) {
+            GameConfiguration gameConfig = (GameConfiguration) gameConfigs.get( _gameLevel );
+            int numberOfNonZeroHarmonics = gameConfig.getNumberOfNonZeroHarmonics();
+            if ( count < 2 && count != numberOfNonZeroHarmonics ) {
+                youWon = false;
+            }
+        }
+        
+        if ( !youWon ) {
+            return;
+        }
+        
+        // Tell the user they won.
+        JFrame frame = PhetApplication.instance().getPhetFrame();
+        String title = SimStrings.get( "WinDialog.title" );
+        String message = SimStrings.get( "WinDialog.message" );
+        JOptionPane.showMessageDialog( frame, message, title, JOptionPane.INFORMATION_MESSAGE );
+        
+        // Start a new game.
+        newGame();
     }
 }
