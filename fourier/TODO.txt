@@ -65,6 +65,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(10/17) - calculate when the game has been won, inform the user
 (10/17) - implement new game levels, rewrite game generation code to be more general
 (10/17) - delete RandomFourierSeries, move all random generation into GameManager
 (10/17) - move game code into GameManager
