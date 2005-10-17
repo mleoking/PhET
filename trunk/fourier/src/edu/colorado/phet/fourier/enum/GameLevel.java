@@ -27,11 +27,25 @@ public class GameLevel extends FourierEnum {
 
     // Game levels
     public static final GameLevel UNDEFINED = new GameLevel( "undefined" );
-    public static final GameLevel PRESET = new GameLevel( "preset" );
-    public static final GameLevel EASY   = new GameLevel( "easy" );
-    public static final GameLevel MEDIUM = new GameLevel( "medium" );
-    public static final GameLevel HARD   = new GameLevel( "hard" );
+    public static final GameLevel LEVEL1    = new GameLevel( "1" );
+    public static final GameLevel LEVEL2    = new GameLevel( "2" );
+    public static final GameLevel LEVEL3    = new GameLevel( "3" );
+    public static final GameLevel LEVEL4    = new GameLevel( "4" );
+    public static final GameLevel LEVEL5    = new GameLevel( "5" );
+    public static final GameLevel LEVEL6    = new GameLevel( "6" );
+    public static final GameLevel LEVEL7    = new GameLevel( "7" );
+    public static final GameLevel LEVEL8    = new GameLevel( "8" );
+    public static final GameLevel LEVEL9    = new GameLevel( "9" );
+    public static final GameLevel LEVEL10   = new GameLevel( "10" );
+    public static final GameLevel PRESET    = new GameLevel( "preset" );
     
+    private static final GameLevel[] LEVELS = {
+            UNDEFINED,
+            LEVEL1, LEVEL2, LEVEL3, LEVEL4, LEVEL5,
+            LEVEL6, LEVEL7, LEVEL8, LEVEL9, LEVEL10,
+            PRESET
+    };
+        
     /**
      * Retrieves a game level by name.
      * This is used primarily in XML encoding.
@@ -41,20 +55,11 @@ public class GameLevel extends FourierEnum {
      */
     public static GameLevel getByName( String name ) {
         GameLevel gameLevel = UNDEFINED;
-        if ( PRESET.isNamed( name ) ) {
-            gameLevel = PRESET;
-        }
-        else if ( EASY.isNamed( name ) ) {
-            gameLevel = EASY;
-        }
-        else if ( MEDIUM.isNamed( name ) ) {
-            gameLevel = MEDIUM;
-        }
-        else if ( HARD.isNamed( name ) ) {
-            gameLevel = HARD;
-        }
-        else if ( UNDEFINED.isNamed( name ) ) {
-            gameLevel = UNDEFINED;
+        for  (int i = 0; i < LEVELS.length; i++ ) {
+            if ( LEVELS[i].getName().equals( name ) ) {
+                gameLevel = LEVELS[i];
+                break;
+            }
         }
         return gameLevel;
     }
