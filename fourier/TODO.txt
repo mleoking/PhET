@@ -66,6 +66,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(10/17) - delete RandomFourierSeries, move all random generation into GameManager
 (10/17) - move game code into GameManager
 2.1.3 ...
 (10/14) - remember the last directory where you did a load/save when running under JNLP

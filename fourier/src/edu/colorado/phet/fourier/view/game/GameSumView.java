@@ -20,7 +20,6 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.charts.FourierSumPlot;
 import edu.colorado.phet.fourier.model.FourierSeries;
-import edu.colorado.phet.fourier.model.RandomFourierSeries;
 
 
 /**
@@ -85,7 +84,7 @@ public class GameSumView extends GraphicLayerSet implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     private FourierSeries _userFourierSeries;
-    private RandomFourierSeries _randomFourierSeries;
+    private FourierSeries _randomFourierSeries;
     private PhetShapeGraphic _backgroundGraphic;
     private PhetTextGraphic _titleGraphic;
     private PhetImageGraphic _minimizeButton;
@@ -104,7 +103,7 @@ public class GameSumView extends GraphicLayerSet implements SimpleObserver {
      * @param userFourierSeries the Fourier series constructed by the user
      * @param randomFourierSeries the Fourier series that is randomly generated
      */
-    public GameSumView( Component component, FourierSeries userFourierSeries, RandomFourierSeries randomFourierSeries ) {
+    public GameSumView( Component component, FourierSeries userFourierSeries, FourierSeries randomFourierSeries ) {
         super( component );
 
         // Enable antialiasing for all children.
