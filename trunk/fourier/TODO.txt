@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- game should tell you when you've won
+- don't calculate closeness while the user is dragging an amplitude slider
 - add hints to game
 - show only non-zero sliders in game's Amplitudes view
 - "Optical Pulse Shaper" as a separate simulation
