@@ -145,3 +145,6 @@ piccolo piccolo &phetcommon
 
 # Soluble Salts
 soluble-salts soluble-salts &phetcommon &piccolo &mechanics &collision
+
+#Optical Pulse Shaper
+shaper shaper &phetcommon &charts
