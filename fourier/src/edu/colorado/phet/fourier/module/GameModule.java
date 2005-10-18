@@ -56,9 +56,6 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
     private static final double SUM_LAYER = 3;
     private static final double HARMONICS_CLOSED_LAYER = 4;
     private static final double SUM_CLOSED_LAYER = 5;
-
-    // Locations
-    private static final Point SOME_LOCATION = new Point( 400, 300 );
     
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.WHITE;
