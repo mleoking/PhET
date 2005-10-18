@@ -25,10 +25,12 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.enum.GameLevel;
 import edu.colorado.phet.fourier.enum.Preset;
+import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.module.FourierModule;
 import edu.colorado.phet.fourier.view.game.GameManager;
 
@@ -39,7 +41,7 @@ import edu.colorado.phet.fourier.view.game.GameManager;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class GameControlPanel extends FourierControlPanel {
+public class GameControlPanel extends FourierControlPanel implements SimpleObserver {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -87,6 +89,8 @@ public class GameControlPanel extends FourierControlPanel {
         assert( gameManager != null );
         
         _gameManager = gameManager;
+        
+        _gameManager.getRandomFourierSeries().addObserver( this );
         
         // Set the control panel's minimum width.
         String widthString = SimStrings.get( "GameControlPanel.width" );
@@ -185,7 +189,7 @@ public class GameControlPanel extends FourierControlPanel {
     }
     
     public void cleanup() {
-        // XXX
+        _gameManager.getRandomFourierSeries().removeObserver( this );
     }
     
     //----------------------------------------------------------------------------
@@ -231,6 +235,17 @@ public class GameControlPanel extends FourierControlPanel {
         }
         _cheatCheckBox.setSelected( false );
         _cheatPanel.setVisible( _cheatCheckBox.isSelected() );
+        updateCheatPanel();
+    }
+    
+    //----------------------------------------------------------------------------
+    // SimpleObserver implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Updates the "Cheat" panel when the random Fourier series changes.
+     */
+    public void update() {
         updateCheatPanel();
     }
     
@@ -286,7 +301,6 @@ public class GameControlPanel extends FourierControlPanel {
             _gameManager.setPreset( preset );
         }
         _gameManager.setGameLevel( gameLevel );
-        updateCheatPanel();
         setWaitCursorEnabled( false );
     }
     
@@ -294,14 +308,12 @@ public class GameControlPanel extends FourierControlPanel {
         setWaitCursorEnabled( true );
         Preset preset = (Preset) _presetComboBox.getSelectedKey();
         _gameManager.setPreset( preset );
-        updateCheatPanel();
         setWaitCursorEnabled( false );
     }
     
     private void handleNewGame() {
         setWaitCursorEnabled( true );
         _gameManager.newGame();
-        updateCheatPanel();
         setWaitCursorEnabled( false );
     }
     
@@ -323,9 +335,12 @@ public class GameControlPanel extends FourierControlPanel {
             layout.setAnchor( GridBagConstraints.EAST );
             int row = 0;
             
-            double[] amplitudes = _gameManager.getAmplitudes();
-            for ( int i = 0; i < amplitudes.length; i++ ) {
-                String sAmplitude = CHEAT_FORMAT.format( amplitudes[i] );
+            // Create a label for each harmonic in the series, showing its amplitude.
+            FourierSeries randomFourierSeries = _gameManager.getRandomFourierSeries();
+            for ( int i = 0; i < randomFourierSeries.getNumberOfHarmonics(); i++ ) {
+                
+                double dAmplitude = randomFourierSeries.getHarmonic( i ).getAmplitude();
+                String sAmplitude = CHEAT_FORMAT.format( dAmplitude );
                 
                 JLabel label = new JLabel( "<html>A<sub>" + (i+1) + "</sub> = </html>" );
                 JLabel value = new JLabel( sAmplitude );

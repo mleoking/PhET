@@ -136,16 +136,12 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     /**
-     * Gets the amplitudes for the randomly-generated Fourier series.
+     * Gets the random Fourier series that the Game Manager manipulates.
      * 
-     * @return amplitudes
+     * @return
      */
-    public double[] getAmplitudes() {
-        double[] amplitudes = new double[ _randomFourierSeries.getNumberOfHarmonics() ];
-        for ( int i = 0; i < amplitudes.length; i++ ) {
-            amplitudes[i] = _randomFourierSeries.getHarmonic( i ).getAmplitude();
-        }
-        return amplitudes;
+    public FourierSeries getRandomFourierSeries() {
+        return _randomFourierSeries;
     }
     
     /**
