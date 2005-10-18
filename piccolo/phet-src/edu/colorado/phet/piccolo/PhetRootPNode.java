@@ -90,6 +90,11 @@ public class PhetRootPNode extends PNode {
         layers.add( layer );
     }
 
+    public void addLayer( Layer layer, int index ) {
+        addChild( index, layer );
+        layers.add( index, layer );
+    }
+
     public PNode getWorldNode() {
         return defaultLayer.getWorldNode();
     }
