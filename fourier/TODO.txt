@@ -5,8 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- add hints to game
-- "Optical Pulse Shaper" as a separate simulation
+- when typing in amplitude text fields, game "won" occurs before Amplitudes and Harmonics graphs can be updated
 - wait cursors don't reliably happen when loading a configuration (because they're on the PhetFrame?)
 - Save doesn't warn you about overwriting files under JNLP
 
@@ -63,6 +62,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(10/18) - bugfix: "cheat" panel doesn't update after you've won a game and started a new game
 2.1.4 ...
 (10/17) - use absolute values (0.03, 0.09) instead of percents (3%, 9%) for "win" calculations
 (10/17) - don't calculate closeness while the user is dragging an amplitude slider
@@ -621,6 +621,7 @@ sandbox-2005-05-10...
 2005 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 REJECTED:
+(10/18) - add hints to game (use "cheat" panel instead)
 (9/22) - set anti-aliasing on leaf graphics instead of container (fixed rendering hints in PhetGraphic)
 (9/22) - restore state of anti-aliasing hint in FourierTitlePanel.paintComponent (not necessary, argument is a copy of Graphics)
 (9/22) - wiggle me isn't hidden when user clicks in the control panel (click in apparatus panel & model changes is enough)
