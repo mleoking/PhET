@@ -190,7 +190,8 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
             }
 
             if( isAdjustable ) {
-                double xOffset = width - 60;
+                double xOffset = width - 30;
+//                double xOffset = width - 60;
                 int arrowHt = 16;
                 int arrowHeadWd = 10;
                 int tailWd = 3;

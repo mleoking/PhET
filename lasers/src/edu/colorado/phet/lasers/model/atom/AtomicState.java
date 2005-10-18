@@ -134,10 +134,23 @@ public class AtomicState {
      * @param photon
      * @return
      */
-    protected boolean isStimulatedBy( Photon photon ) {
-        double stimulatedPhotonEnergy = this.getEnergyLevel() - this.getNextLowerEnergyState().getEnergyLevel();
-        return ( Math.abs( photon.getEnergy() - stimulatedPhotonEnergy ) <= LaserConfig.ENERGY_TOLERANCE
-                 && Math.random() < s_collisionLikelihood );
+    protected boolean isStimulatedBy( Photon photon, Atom atom ) {
+        boolean result = false;
+        AtomicState[] states = atom.getStates();
+        for( int i = 0; i < states.length && result == false; i++ ) {
+            AtomicState state = states[i];
+            if( state.getEnergyLevel() < this.getEnergyLevel() ) {
+
+                double stimulatedPhotonEnergy = this.getEnergyLevel() - state.getEnergyLevel();
+
+                result = ( Math.abs( photon.getEnergy() - stimulatedPhotonEnergy ) <= LaserConfig.ENERGY_TOLERANCE
+                           && Math.random() < s_collisionLikelihood );
+            }
+        }
+//        double stimulatedPhotonEnergy = this.getEnergyLevel() - this.getNextLowerEnergyState().getEnergyLevel();
+//        return ( Math.abs( photon.getEnergy() - stimulatedPhotonEnergy ) <= LaserConfig.ENERGY_TOLERANCE
+//                 && Math.random() < s_collisionLikelihood );
+        return result;
     }
 
     public void collideWithPhoton( Atom atom, Photon photon ) {
@@ -145,7 +158,7 @@ public class AtomicState {
         // If the photon has the same energy as the difference
         // between this level and the ground state, then emit
         // a photon of that energy
-        if( isStimulatedBy( photon ) ) {
+        if( isStimulatedBy( photon, atom ) ) {
 
             // Place the replacement photon beyond the atom, so it doesn't collide again
             // right away

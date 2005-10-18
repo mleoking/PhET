@@ -35,7 +35,8 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
     public final static int sliderHeight = 47;
 
     private EnergyLevelGraphic graphic;
-    private int maxSliderWidth = 100;
+    private int maxSliderWidth = 60;
+//    private int maxSliderWidth = 100;
     private int sliderWidthPadding = 20;
     private int sliderWidth;
     private Container container;
