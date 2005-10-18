@@ -25,6 +25,10 @@ public class PanZoomWorldKeyHandler implements KeyListener {
     private PanEvent panDown;
     private ZoomEvent zoomIn;
     private ZoomEvent zoomOut;
+    private static final int right = KeyEvent.VK_NUMPAD6;
+    private static final int left = KeyEvent.VK_NUMPAD4;
+    private static final int up = KeyEvent.VK_NUMPAD8;
+    private static final int down = KeyEvent.VK_NUMPAD5;
 
     public PanZoomWorldKeyHandler( PhetPCanvas phetPCanvas ) {
         this.phetPCanvas = phetPCanvas;
@@ -96,29 +100,29 @@ public class PanZoomWorldKeyHandler implements KeyListener {
                     break;
             }
         }
-        else {
-            switch( e.getKeyCode() ) {
-                case KeyEvent.VK_RIGHT:
-                    panRight.start();
-                    break;
-                case KeyEvent.VK_LEFT:
-                    panLeft.start();
-                    break;
-                case KeyEvent.VK_UP:
-                    panUp.start();
-                    break;
-                case KeyEvent.VK_DOWN:
-                    panDown.start();
-                    break;
-                case KeyEvent.VK_PAGE_UP:
-                    zoomIn.start();
-                    break;
-                case KeyEvent.VK_PAGE_DOWN:
-                    zoomOut.start();
-                    break;
-                default:
-                    break;
-            }
+//        else if( true) {
+        switch( e.getKeyCode() ) {
+            case right:
+                panRight.start();
+                break;
+            case left:
+                panLeft.start();
+                break;
+            case up:
+                panUp.start();
+                break;
+            case down:
+                panDown.start();
+                break;
+            case KeyEvent.VK_PAGE_UP:
+                zoomIn.start();
+                break;
+            case KeyEvent.VK_PAGE_DOWN:
+                zoomOut.start();
+                break;
+            default:
+                break;
+//            }
         }
     }
 
@@ -137,17 +141,17 @@ public class PanZoomWorldKeyHandler implements KeyListener {
 
     public void keyReleased( KeyEvent e ) {
         switch( e.getKeyCode() ) {
-            case KeyEvent.VK_RIGHT:
+            case right:
                 panRight.stop();
                 break;
-            case KeyEvent.VK_LEFT:
+            case left:
                 panLeft.stop();
                 break;
-            case KeyEvent.VK_UP:
+            case up:
                 panUp.stop();
                 zoomIn.stop();
                 break;
-            case KeyEvent.VK_DOWN:
+            case down:
                 panDown.stop();
                 zoomOut.stop();
                 break;

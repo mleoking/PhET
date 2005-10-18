@@ -30,7 +30,6 @@ public class PlaybackMode extends Mode {
     }
 
     public void initialize() {
-        timeSeriesModel.repaintBackground();
     }
 
     public void clockTicked( ClockTickEvent event ) {

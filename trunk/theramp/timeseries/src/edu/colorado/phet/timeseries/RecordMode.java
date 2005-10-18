@@ -21,10 +21,8 @@ public class RecordMode extends Mode {
     }
 
     public void initialize() {
-        timeSeriesModel.repaintBackground();
         double recTime = timeSeriesModel.getRecordTime();
         timeSeriesModel.setReplayTime( recTime );
-        timeSeriesModel.repaintBackground();
     }
 
     public void reset() {
