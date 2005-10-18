@@ -133,6 +133,8 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
             }
         }
         energyGraphic.setShape( energyRep );
+
+        // todo: probably a redundant line
         energyGraphic.setColor( energyRepColor );
 
         energyGraphic.setColor( energyRepColorStrategy.getColor( atom ) );
