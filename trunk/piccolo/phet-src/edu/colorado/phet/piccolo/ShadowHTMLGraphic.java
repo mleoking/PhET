@@ -21,7 +21,7 @@ public class ShadowHTMLGraphic extends PNode {
         addChild( shadow );
         addChild( htmlGraphic );
 
-        shadow.setOffset( 1, 1 );
+        setShadowOffset( 1, 1 );
     }
 
     private void updateBuffer() {
@@ -32,8 +32,8 @@ public class ShadowHTMLGraphic extends PNode {
         updateBuffer();
     }
 
-    public void setShadowColor( Color yellow ) {
-        shadow.setColor( yellow );
+    public void setShadowColor( Color shadowColor ) {
+        shadow.setColor( shadowColor );
         updateBuffer();
     }
 
@@ -42,4 +42,15 @@ public class ShadowHTMLGraphic extends PNode {
         shadow.setFont( font );
         updateBuffer();
     }
+
+    public void setHtml( String html ) {
+        htmlGraphic.setHtml( html );
+        shadow.setHtml( html );
+        updateBuffer();
+    }
+
+    public void setShadowOffset( int dx, int dy ) {
+        shadow.setOffset( dx, dy );
+    }
+
 }

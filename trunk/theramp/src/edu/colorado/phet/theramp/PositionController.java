@@ -3,6 +3,7 @@ package edu.colorado.phet.theramp;
 
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.theramp.model.Block;
+import edu.colorado.phet.theramp.model.Ramp;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -54,7 +55,7 @@ public class PositionController {
 
     private double getBlockPosition() {
         double val = rampModule.getRampPhysicalModel().getBlock().getPositionInSurface();
-        if( rampModule.getBlock().getSurface() == rampModule.getRampPhysicalModel().getRamp() ) {
+        if( rampModule.getBlock().getSurface() instanceof Ramp ) {
             return val;
         }
         else {
