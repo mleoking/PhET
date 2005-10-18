@@ -267,9 +267,9 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
      * Criteria for a match:
      * <ul>
      * <li>the sign of all corresponding amplitudes is the same
-     * <li>user amplitudes are within 3% of zero random amplitudes
-     * <li>user amplitudes are within 9% of non-zero random amplitudes
-     * <li>at least 2 user amplitudes are within 3% of non-zero random amplitudes
+     * <li>user amplitudes are within 0.03 of zero random amplitudes
+     * <li>user amplitudes are within 0.09 of non-zero random amplitudes
+     * <li>at least 2 user amplitudes are within 0.03 of non-zero random amplitudes
      * </ul>
      */
     public void update() {
@@ -280,7 +280,7 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
         }
         
         boolean youWon = true;
-        int count = 0;  // count the number of matches that are within 3%
+        int count = 0;  // count the number of matches that are within 0.03
         
         int numberOfHarmonics = _userFourierSeries.getNumberOfHarmonics();
         for ( int i = 0; i < numberOfHarmonics && youWon == true ; i++ ) {
@@ -293,25 +293,25 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
                youWon = false;
            }
            else if ( randomAmplitude == 0 ) {
-               if ( Math.abs( userAmplitude / FourierConstants.MAX_HARMONIC_AMPLITUDE ) > 0.03 ) {
+               if ( Math.abs( userAmplitude ) > 0.03 ) {
                    // not close enough to zero amplitude
                    youWon = false;
                }
            }
            else {
-               double percent = Math.abs( userAmplitude - randomAmplitude ) / Math.abs( randomAmplitude );
-               if ( percent > 0.09 ) {
+               double difference = Math.abs( userAmplitude - randomAmplitude );
+               if ( difference > 0.09 ) {
                    // not close enough to non-zero amplitude
                    youWon = false;
                }
-               else if ( percent <= 0.03 ) {
-                   // count how many are within 3%
+               else if ( difference <= 0.03 ) {
+                   // count how many are within 0.03
                    count++;
                }
            }
         }
         
-        // Make sure at least 2 are within 3%
+        // Make sure at least 2 are within 0.03
         if ( youWon ) {
             GameConfiguration gameConfig = (GameConfiguration) gameConfigs.get( _gameLevel );
             int numberOfNonZeroHarmonics = gameConfig.getNumberOfNonZeroHarmonics();
