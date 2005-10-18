@@ -28,14 +28,23 @@ public class Block {
     }
 
     public Block copyState( RampPhysicalModel original, RampPhysicalModel newPhysicalModel ) {
-        Block dataBlock = new Block( surface == original.getRamp() ? newPhysicalModel.getRamp() : newPhysicalModel.getGround() );
+        Block dataBlock = new Block( surface instanceof Ramp ? newPhysicalModel.getRamp() : newPhysicalModel.getGround() );
+//        Block dataBlock = new Block( surface == original.getRamp() ? newPhysicalModel.getRamp() : newPhysicalModel.getGround() );
         dataBlock.mass = mass;
         dataBlock.positionInSurface = positionInSurface;
         dataBlock.velocity = velocity;
         dataBlock.acceleration = acceleration;
         dataBlock.kineticFriction = kineticFriction;
         dataBlock.staticFriction = staticFriction;
+        dataBlock.testRampOnly();
         return dataBlock;
+    }
+
+    private void testRampOnly() {
+        return;
+//        if( !getSurface().getName().equalsIgnoreCase( "ramp" ) ) {
+//            throw new RuntimeException( "NonRamp!!!" );//todo debug only!!!
+//        }
     }
 
     public void setState( Block state ) {
@@ -46,6 +55,7 @@ public class Block {
         setAcceleration( state.acceleration );
         setKineticFriction( state.kineticFriction );
         setStaticFriction( state.staticFriction );
+        testRampOnly();
     }
 
     public void setSurface( Surface surface ) {
@@ -53,6 +63,7 @@ public class Block {
             this.surface = surface;
             notifySurfaceChanged();
         }
+        testRampOnly();
     }
 
     private void notifySurfaceChanged() {
@@ -112,6 +123,7 @@ public class Block {
 
     public Block( Surface ramp ) {
         this.surface = ramp;
+        testRampOnly();
     }
 
     public double getPosition() {

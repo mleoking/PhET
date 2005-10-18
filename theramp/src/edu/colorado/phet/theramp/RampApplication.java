@@ -36,6 +36,14 @@ public class RampApplication extends PhetApplication {
 //
 //        simpleRampModule = new SimpleRampModule( getPhetFrame(), clock );
 //        setModules( new Module[]{simpleRampModule} );
+
+
+//        addClockTickListener( new ClockTickListener() {
+//            public void clockTicked( ClockTickEvent event ) {
+//                System.out.println( "surfaceType=: " + simpleRampModule.getRampPhysicalModel().getBlock().getSurface().getName()+", surfaceOffset="+simpleRampModule.getRampPhysicalModel().getBlock().getSurface().getDistanceOffset()+", distInSurface="+simpleRampModule.getRampPhysicalModel().getBlock().getPositionInSurface()+", totalDist="+simpleRampModule.getRampPhysicalModel().getBlock().getPosition());
+////                System.out.println( "RampApplication.clockTicked: " + simpleRampModule.getRampPhysicalModel().getBlock().getPosition() );
+//            }
+//        } );
     }
 
     public static void main( final String[] args ) {

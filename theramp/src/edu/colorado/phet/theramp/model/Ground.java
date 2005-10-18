@@ -49,4 +49,8 @@ public class Ground extends Surface {
         }
     }
 
+    public String getName() {
+        return "Ground";
+    }
+
 }

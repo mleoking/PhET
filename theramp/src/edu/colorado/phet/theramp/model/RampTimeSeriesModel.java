@@ -95,14 +95,16 @@ public class RampTimeSeriesModel extends TimeSeriesModel {
     }
 
 //    public void setRecordMode() {
+//        Mode origMode = getMode();
 //        super.setRecordMode();
-//
-//        if( series.size() > 0 ) {
-//            ObjectTimePoint value = series.getLastPoint();
-//            if( value != null ) {
-//                RampPhysicalModel v = (RampPhysicalModel)value.getValue();
-//                if( v != null ) {
-//                    rampModule.getRampPhysicalModel().setState( v );
+//        if( origMode != getRecordMode() ) {
+//            if( series.size() > 0 ) {
+//                ObjectTimePoint value = series.getLastPoint();
+//                if( value != null ) {
+//                    RampPhysicalModel v = (RampPhysicalModel)value.getValue();
+//                    if( v != null ) {
+//                        rampModule.getRampPhysicalModel().setState( v );
+//                    }
 //                }
 //            }
 //        }

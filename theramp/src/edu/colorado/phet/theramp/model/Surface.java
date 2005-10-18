@@ -105,6 +105,8 @@ public abstract class Surface extends SimpleObservable {
         collisionListeners.add( collisionListener );
     }
 
+    public abstract String getName();
+
     public static interface CollisionListener {
         void collided( Surface surface );
     }

@@ -47,4 +47,8 @@ public class Ramp extends Surface {
             return 0.0;
         }
     }
+
+    public String getName() {
+        return "Ramp";
+    }
 }

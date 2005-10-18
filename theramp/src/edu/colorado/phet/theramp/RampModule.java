@@ -44,8 +44,8 @@ public class RampModule extends PiccoloModule {
 
     public static final double FORCE_LENGTH_SCALE = 0.06;//1.0;
     private PhetFrame phetFrame;
-//    public static final int MAX_TIME = 30;
-    public static final int MAX_TIME = 5;//testing only
+    public static final int MAX_TIME = 30;
+//    public static final int MAX_TIME = 5;//testing only
     public static final boolean MINIMIZE_READOUT_TEXT_FOR_SMALL_SCREEN = false;
 //    private Timer timer;
 
