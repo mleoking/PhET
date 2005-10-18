@@ -240,7 +240,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
                                                        Color.blue, levelLineOriginX,
                                                        levelLineLength,
                                                        atomicStates[i] instanceof GroundState ? false : true,
-                                                       levelLineOriginX - levelLineOffsetX );
+                                                       levelLineOriginX + levelLineLength + 20 );
             levelGraphics[i].setArrowsEnabled( false );
             // Set the strategy the level graphic uses to pick its color
             levelGraphics[i].setColorStrategy( this.colorStrategy );

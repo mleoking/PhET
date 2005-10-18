@@ -129,7 +129,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         this.addGraphic( headingText );
 
         // Create images for the lmps that cue the users as to what the squiggles mean
-        createLampGraphics();
+//        createLampGraphics();
 
         // Set up the event handlers we need
         this.addComponentListener( new PanelResizer() );
@@ -188,12 +188,16 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         for( int i = 0; i < states.length; i++ ) {
             AtomicState state = states[i];
             double xIndent = ( states.length - i ) * 12;
+            xIndent = 5;
             double xLoc = levelLineOriginX + xIndent;
-            EnergyLevelGraphic elg = new EnergyLevelGraphic( this, state,
-                                                             Color.black, xLoc,
+            EnergyLevelGraphic elg = new EnergyLevelGraphic( this,
+                                                             state,
+                                                             Color.black,
+                                                             xLoc,
                                                              levelLineLength - levelLineOriginX,
                                                              true,
-                                                             levelLineOriginX );
+                                                             levelLineOriginX + levelLineLength - 25 );
+//                                                             levelLineOriginX );
             addGraphic( elg, LEVEL_GRAPHIC_LEVEL );
             levelGraphics[i] = elg;
 
@@ -298,8 +302,9 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
 
         // Build the images for the squiggles that represent the energies of the stimulating and pumping beam
         if( y0 > y1 ) {
+            double squiggleOffsetX = squiggleHeight;
             stimSquiggle = computeSquiggleImage( model.getSeedBeam(), 0, (int)( y0 - y1 ), squiggleHeight );
-            stimSquiggleTx = AffineTransform.getTranslateInstance( levelGraphics[1].getPosition().getX(),
+            stimSquiggleTx = AffineTransform.getTranslateInstance( levelGraphics[1].getPosition().getX() + squiggleOffsetX,
                                                                    energyYTx.modelToView( module.getLaserModel().getGroundState().getEnergyLevel() ) );
             stimSquiggleTx.rotate( -Math.PI / 2 );
 
@@ -421,8 +426,11 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         BufferedImage bi = getAtomImage( color );
         double scale = (double)atomDiam / bi.getWidth();
         AffineTransform atx = new AffineTransform();
-        atx.translate( line.getLinePosition().getX() - atomDiam / 2,
+        double offsetX = squiggleHeight * 2;
+        atx.translate( line.getLinePosition().getX() + offsetX - atomDiam / 2,
                        line.getLinePosition().getY() - atomDiam );
+//        atx.translate( line.getLinePosition().getX() - atomDiam / 2,
+//                       line.getLinePosition().getY() - atomDiam );
         atx.scale( scale, scale );
         for( int i = 0; i < numInLevel; i++ ) {
             atx.translate( atomDiam * 0.7 / scale, 0 );
@@ -542,8 +550,8 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
 
         private void checkForMatch() {
             double requiredDE = atomicState.getEnergyLevel() - model.getGroundState().getEnergyLevel();
-            if( Math.abs( PhysicsUtil.wavelengthToEnergy( beam.getWavelength() ) - requiredDE )
-                <= LaserConfig.ENERGY_TOLERANCE ) {
+            if( beam.isEnabled() && Math.abs( PhysicsUtil.wavelengthToEnergy( beam.getWavelength() ) - requiredDE )
+                                    <= LaserConfig.ENERGY_TOLERANCE ) {
                 if( !matched ) {
                     flashGraphic();
                     matched = true;
@@ -592,23 +600,4 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
             }
         }
     }
-
-//    private class LampIcon extends LampGraphic {
-//        private double alpha = 1;
-//
-//        public LampIcon( Beam beam, Component component, BufferedImage image, AffineTransform transform ) {
-//            super( beam, component, image, transform );
-//        }
-//
-//        public void setAlpha( double alpha ) {
-//            this.alpha = alpha;
-//        }
-//
-//        public void paint( Graphics2D g2 ) {
-//            saveGraphicsState( g2 );
-//            GraphicsUtil.setAlpha( g2, alpha );
-//            super.paint( g2 );
-//            restoreGraphicsState();
-//        }
-//    }
 }
