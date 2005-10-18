@@ -6,6 +6,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.util.PDebug;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -15,12 +16,13 @@ import java.awt.event.*;
  */
 
 public class PhetPCanvas extends PSwingCanvas {
-    private Dimension renderingSize = null;
+    private Dimension renderingSize;
     private ComponentAdapter resizeAdapter;
     //it's very difficult to have things point to each other when there is a camera layer between them.   
     private PhetRootPNode phetRootNode;
 
-    public PhetPCanvas() {
+    public PhetPCanvas( Dimension renderingSize ) {
+        this.renderingSize = renderingSize;
         this.phetRootNode = new PhetRootPNode();
         getLayer().addChild( phetRootNode );
         removeInputEventListener( getZoomEventHandler() );
@@ -52,6 +54,7 @@ public class PhetPCanvas extends PSwingCanvas {
         addKeyListener( new PanZoomWorldKeyHandler( this ) );
         addKeyListener( new ShowControlsKeyHandler( this ) );
         requestFocus();
+        setBorder( BorderFactory.createLineBorder( Color.black ) );
     }
 
     public PNode getWorldNode() {
@@ -124,6 +127,7 @@ public class PhetPCanvas extends PSwingCanvas {
     }
 
     public void setRenderingSize( Dimension dim ) {
+        System.out.println( "dim = " + dim );
         this.renderingSize = new Dimension( dim );
     }
 
