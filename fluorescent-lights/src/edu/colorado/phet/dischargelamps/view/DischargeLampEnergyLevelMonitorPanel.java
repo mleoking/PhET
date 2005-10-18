@@ -15,7 +15,6 @@ import edu.colorado.phet.common.math.ModelViewTransform1D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
@@ -23,7 +22,6 @@ import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.lasers.model.Electron;
 import edu.colorado.phet.lasers.model.PhysicsUtil;
@@ -241,12 +239,17 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
             levelGraphics[i] = new EnergyLevelGraphic( this, atomicStates[i],
                                                        Color.blue, levelLineOriginX,
                                                        levelLineLength,
-                                                       atomicStates[i] instanceof GroundState ? false : true );
+                                                       atomicStates[i] instanceof GroundState ? false : true,
+                                                       levelLineOriginX - levelLineOffsetX );
             levelGraphics[i].setArrowsEnabled( false );
             // Set the strategy the level graphic uses to pick its color
             levelGraphics[i].setColorStrategy( this.colorStrategy );
-            // Add an icon to the level
-            levelGraphics[i].setLevelIcon( new LevelIcon( this, i ) );
+            // Add an icon to the level. This requires a dummy atom in the state the icon is to represent
+            Atom atom = new Atom( model, levelGraphics.length, true );
+            atom.setStates( atomicStates );
+            atom.setCurrState( atomicStates[i] );
+            levelGraphics[i].setLevelIcon( new edu.colorado.phet.lasers.view.LevelIcon( this, atom ) );
+//            levelGraphics[i].setLevelIcon( new LevelIcon( this, atom, i ) );
             // Set the minimum distance this graphic must have between it and the ones next to it
             levelGraphics[i].setMinPixelsBetweenLevels( minEnergyLevelSpacing );
             this.addGraphic( levelGraphics[i] );
@@ -489,25 +492,8 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
     }
 
     /**
-     * An icon that shows a small version of an atom with its enrgy level halo and text
+     * Creates an electron graphic for an electron, and removes it if the electron leaves the system
      */
-    private class LevelIcon extends CompositePhetGraphic {
-        public LevelIcon( Component component, int idx ) {
-            super( component );
-
-            // Make a dummy atom for which we can then make an atom graphic
-            DischargeLampAtom atom = new DischargeLampAtom( model, atomicStates );
-            AtomicState state = new AtomicState();
-            state.setEnergyLevel( atomicStates[idx].getEnergyLevel() );
-            state.setMeanLifetime( Double.MAX_VALUE );
-            atom.setCurrState( state );
-            atom.setRadius( 5 );
-            AnnotatedAtomGraphic atomGraphic = new AnnotatedAtomGraphic( DischargeLampEnergyLevelMonitorPanel.this,
-                                                                         atom );
-            addGraphic( atomGraphic );
-        }
-    }
-
     private class ElectronGraphicManager implements Electron.ChangeListener {
         PhetGraphic electronGraphic;
 

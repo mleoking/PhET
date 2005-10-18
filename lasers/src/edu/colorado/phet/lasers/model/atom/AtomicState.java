@@ -45,10 +45,23 @@ public class AtomicState {
     // Instance
     //
     private double energyLevel;
-    private double wavelength;
     private double meanLifetime = Double.POSITIVE_INFINITY;
     private AtomicState nextHigherState;
     private AtomicState nextLowerState;
+
+
+    //----------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------
+    public AtomicState() {
+    }
+
+    public AtomicState( AtomicState stateToClone ) {
+        this.energyLevel = stateToClone.getEnergyLevel();
+        this.meanLifetime = stateToClone.getMeanLifeTime();
+        this.nextHigherState = stateToClone.getNextHigherEnergyState();
+        this.nextLowerState = stateToClone.getNextLowerEnergyState();
+    }
 
     public double getEnergyLevel() {
         return energyLevel;
@@ -77,12 +90,11 @@ public class AtomicState {
      */
     public void setEnergyLevel( double energyLevel ) {
         this.energyLevel = energyLevel;
-        this.wavelength = PhysicsUtil.energyToWavelength( energyLevel );
         listenerProxy.energyLevelChanged( new Event( this ) );
     }
 
     public double getWavelength() {
-        return wavelength;
+        return PhysicsUtil.energyToWavelength( energyLevel );
     }
 
     /**
@@ -192,7 +204,7 @@ public class AtomicState {
     }
 
     public int hashCode() {
-        return (int)( Double.doubleToLongBits( energyLevel ) + Double.doubleToLongBits( wavelength ) + Double.doubleToLongBits( meanLifetime ) );
+        return (int)( Double.doubleToLongBits( energyLevel ) + Double.doubleToLongBits( getWavelength() ) + Double.doubleToLongBits( meanLifetime ) );
     }
 
     /**
@@ -206,8 +218,7 @@ public class AtomicState {
         boolean result = false;
         if( obj instanceof AtomicState && obj != null ) {
             AtomicState that = (AtomicState)obj;
-            result = this.energyLevel == that.energyLevel
-                     && this.wavelength == that.wavelength;
+            result = this.energyLevel == that.energyLevel;
         }
         return result;
     }

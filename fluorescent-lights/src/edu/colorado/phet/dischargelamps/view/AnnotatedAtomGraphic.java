@@ -32,6 +32,10 @@ import java.awt.image.BufferedImage;
  */
 public class AnnotatedAtomGraphic extends AtomGraphic implements Atom.ChangeListener {
 
+    //----------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------
+
     static private BufferedImage[] characters;
 
     static {
@@ -54,9 +58,11 @@ public class AnnotatedAtomGraphic extends AtomGraphic implements Atom.ChangeList
         }
     }
 
+    //----------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------
+
     private PhetImageGraphic[] characterGraphics = new PhetImageGraphic[10];
-
-
     // Time for which the atom will show the color associated with an energy state change
     private long colorTime = 100;
     private Atom atom;
@@ -67,6 +73,7 @@ public class AnnotatedAtomGraphic extends AtomGraphic implements Atom.ChangeList
     PhetGraphic numberGraphic;
 //    PhetTextGraphic numberGraphic;
     private Font font;
+
 
     /**
      * @param component
