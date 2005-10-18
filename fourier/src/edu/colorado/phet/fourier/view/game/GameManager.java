@@ -233,21 +233,30 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
     }
     
     /*
-     * Generates a random non-zero number between +-FourierConfig.MAX_HARMONIC_AMPLITUDE
-     * with 2 significant decimal places.
+     * Generates a random number X, having 2 significant decimal places, such that:
+     * 
+     * +0.1 <= X <= +FourierConfig.MAX_HARMONIC_AMPLITUDE, or
+     * -0.1 >= X >= -FourierConfig.MAX_HARMONIC_AMPLUTUDE
      * 
      * @return random number
      */
     private double generateRandomAmplitude() {
+        
+        // Randomly choose a positive or negative number.
         int sign = _random.nextBoolean() ? +1 : -1;
+        
+        // The minimum absolute amplitude that we'll generate
+        double min = 0.1;
+        
+        // Randomly generate a quantity to add to the min.
         double step = 0.01;
-        int numberOfSteps = (int) ( FourierConstants.MAX_HARMONIC_AMPLITUDE / step ) + 1;
-        int multiplier = _random.nextInt( numberOfSteps );
-        double amplitude = sign * multiplier * step;
+        int numberOfSteps = (int) ( ( FourierConstants.MAX_HARMONIC_AMPLITUDE - min ) / step ) + 1;
+        double delta = _random.nextInt( numberOfSteps ) * step;
+
+        // Compute the amplitude
+        double amplitude = sign * ( min + delta );
         assert( amplitude <= FourierConstants.MAX_HARMONIC_AMPLITUDE );
-        if ( amplitude == 0 ) {
-            amplitude = step;
-        }
+        
         return amplitude;
     }
     
