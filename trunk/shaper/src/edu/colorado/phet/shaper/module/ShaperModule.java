@@ -86,8 +86,6 @@ public class ShaperModule extends BaseModule {
         //----------------------------------------------------------------------------
         // Control
         //----------------------------------------------------------------------------
-
-        setClockControlsEnabled( false );
                 
         // Control Panel
         _controlPanel = new ShaperControlPanel( this );

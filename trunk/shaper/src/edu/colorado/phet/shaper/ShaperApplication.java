@@ -13,6 +13,8 @@ package edu.colorado.phet.shaper;
 
 import java.io.IOException;
 
+import javax.naming.ldap.HasControls;
+
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -121,7 +123,7 @@ public class ShaperApplication extends PhetApplication {
         int waitTime = ( 1000 / ShaperConstants.CLOCK_FRAME_RATE ); // milliseconds
         boolean isFixed = ShaperConstants.CLOCK_TIME_STEP_IS_CONSTANT;
         AbstractClock clock = new SwingTimerClock( timeStep, waitTime, isFixed );
-        boolean useClockControlPanel = true;
+        boolean useClockControlPanel = false;
         
         // Frame setup
         int width = ShaperConstants.APP_FRAME_WIDTH;
