@@ -41,8 +41,6 @@ public abstract class BaseModule extends Module {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private boolean _clockControlPanelEnabled;
-    private boolean _clockWasPaused;
     private BoundsDebugger _debuggerGraphic;
     
     //----------------------------------------------------------------------------
@@ -57,8 +55,6 @@ public abstract class BaseModule extends Module {
      */
     public BaseModule( String title, AbstractClock clock ) {
         super( title, clock );
-        _clockControlPanelEnabled = true;
-        _clockWasPaused = false;
     }
     
     //----------------------------------------------------------------------------
@@ -73,24 +69,6 @@ public abstract class BaseModule extends Module {
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
-    /**
-     * Enables or disables the clock controls.
-     * 
-     * @param enabled true or false
-     */
-    public void setClockControlsEnabled( boolean enabled ) {
-        _clockControlPanelEnabled = enabled;
-    }
-    
-    /**
-     * Determines if the clock controls are enabled.
-     *
-     * @return true or false
-     */
-    public boolean isClockControlsEnabled() {
-        return _clockControlPanelEnabled;
-    }
     
     /**
      * Turns the wait cursor on and off.
@@ -118,40 +96,6 @@ public abstract class BaseModule extends Module {
      */
     public boolean hasMegaHelp() {
         return false;
-    }
-    
-    /**
-     * Called when this module becomes active.
-     * 
-     * @param app
-     */
-    public void activate( PhetApplication app ) {
-        super.activate( app );
-        // Should we disable the clock controls?
-        if ( !_clockControlPanelEnabled ) {
-            // Save the state of the clock
-            _clockWasPaused = getClock().isPaused();
-            // Un-paused the clock
-            getClock().setPaused( false );
-            // Disable the clock controls
-            PhetApplication.instance().getPhetFrame().getClockControlPanel().setEnabled( false );
-        }
-    }
-    
-    /**
-     * Called when we switch to some other module.
-     * 
-     * @param app
-     */
-    public void deactivate( PhetApplication app ) {
-        super.deactivate( app );
-        // Should we restore the clock controls?
-        if ( !_clockControlPanelEnabled ) {
-            // Restore the state of the clock
-            getClock().setPaused( _clockWasPaused );
-            // Enable the state of the clock controls
-            PhetApplication.instance().getPhetFrame().getClockControlPanel().setEnabled( true );
-        }
     }
     
     //----------------------------------------------------------------------------

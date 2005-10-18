@@ -32,6 +32,7 @@ CLEANUP:
 
 
 DONE:
+(10/18/05) - hide clock controls
 (10/18/05) - set up dev/shaper subdirectory in PhET development area
 (10/18/05) - add entires in CVSROOT/loginfo and modules files
 (10/18/05) - checked into CVS as project "shaper"
