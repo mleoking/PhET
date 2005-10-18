@@ -63,6 +63,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+2.1.4 ...
 (10/17) - use absolute values (0.03, 0.09) instead of percents (3%, 9%) for "win" calculations
 (10/17) - don't calculate closeness while the user is dragging an amplitude slider
 (10/17) - calculate when the game has been won, inform the user
