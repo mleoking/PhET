@@ -1,0 +1,39 @@
+===============================================================================
+"To Do" list for "Optical Pulse Shaper" simulation
+===============================================================================
+
+IN PROGRESS:
+
+
+HIGH PRIORITY:
+
+
+MEDIUM PRIORITY:
+
+
+LOW PRIORITY:
+
+
+NEW FEATURES:
+
+
+OPTIMIZATIONS:
+- flatten static elements
+- setIgnoreMouse
+
+
+CLEANUP:
+- organize imports
+- remove unused images and assets
+- remove unused localization strings
+- resize any scaled images
+- save all images using Photoshop's "Save for Web" feature
+- fix all javadoc warnings and errors
+
+
+DONE:
+(10/18/05) - checked into CVS as project "shaper"
+(10/18/05) - set up the application framework
+
+===============================================================================
+end of file
