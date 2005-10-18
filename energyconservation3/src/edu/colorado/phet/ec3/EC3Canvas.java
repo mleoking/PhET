@@ -13,6 +13,7 @@ import edu.colorado.phet.ec3.view.SplineGraphic;
 import edu.colorado.phet.ec3.view.SplineMatch;
 import edu.colorado.phet.piccolo.PanZoomWorldKeyHandler;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.piccolo.PhetRootPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -53,11 +54,13 @@ public class EC3Canvas extends PhetPCanvas {
         this.ec3Module = ec3Module;
         this.ec3Model = ec3Module.getEnergyConservationModel();
         Floor floor = ec3Model.floorAt( 0 );
-        getPhetRootNode().addBackWorldChild( new SkyGraphic( floor.getY() ) );
+        PhetRootPNode.Layer layer = new PhetRootPNode.Layer();
+        getPhetRootNode().addLayer( layer, 0 );
+        layer.addChild( new SkyGraphic( floor.getY() ) );
         addWorldChild( new FloorGraphic( floor ) );
 
         SplineToolbox splineToolbox = new SplineToolbox( this, 50, 50 );
-        getPhetRootNode().addBackScreenChild( splineToolbox );
+        layer.addChild( splineToolbox );
 
 //        spline.addControlPoint( 47, 170 );
 //        spline.addControlPoint( 336, 543 );
