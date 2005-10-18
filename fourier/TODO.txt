@@ -5,11 +5,9 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- when typing in amplitude text fields, game "won" occurs before Amplitudes and Harmonics graphs can be updated
-- wait cursors don't reliably happen when loading a configuration (because they're on the PhetFrame?)
-- Save doesn't warn you about overwriting files under JNLP
 
 MEDIUM PRIORITY:
+- wait cursors don't reliably happen when loading a configuration (because they're on the PhetFrame?)
 - bug: anti-aliasing of plots gets turned off
 - bug: D2C amplitudes graph draws on top of tools (Mac only)
 - bug: dragging tools over top of chart causes weird aliasing artifacts (Mac only)
@@ -18,6 +16,7 @@ MEDIUM PRIORITY:
 - something is hammering the processor when the sim should be idle
 
 LOW PRIORITY:
+- Save doesn't warn you about overwriting files under JNLP
 - remove the vertical bit of space between views
 - why am I getting the GridStrategy.Relative.getGridLinesSlowButCorrectVersion warning?
 - wiggle me needs a blank char at the end of their string, or the last char doesn't redraw properly
