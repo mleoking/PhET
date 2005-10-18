@@ -21,6 +21,13 @@ public class PhetPCanvas extends PSwingCanvas {
     //it's very difficult to have things point to each other when there is a camera layer between them.   
     private PhetRootPNode phetRootNode;
 
+    /**
+     * @deprecated use public PhetPCanvas( Dimension renderingSize )  instead.
+     */
+    public PhetPCanvas() {
+        this( null );
+    }
+
     public PhetPCanvas( Dimension renderingSize ) {
         this.renderingSize = renderingSize;
         this.phetRootNode = new PhetRootPNode();
