@@ -3,7 +3,6 @@ package edu.colorado.phet.ec3;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
@@ -13,6 +12,7 @@ import edu.colorado.phet.ec3.model.spline.CubicSpline;
 import edu.colorado.phet.ec3.view.BodyGraphic;
 import edu.colorado.phet.ec3.view.SplineGraphic;
 import edu.colorado.phet.piccolo.PiccoloModule;
+import edu.colorado.phet.timeseries.TimeSeriesPlaybackPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,7 +29,9 @@ public class EC3Module extends PiccoloModule {
     private EC3Canvas energyCanvas;
     private EnergyLookAndFeel energyLookAndFeel = new EnergyLookAndFeel();
     private JFrame energyFrame;
-    int floorY = 600;
+    private int floorY = 600;
+    private TimeSeriesPlaybackPanel timeSeriesPlaybackPanel;
+    private EC3TimeSeriesModel energyTimeSeriesModel;
 
     /**
      * @param name
@@ -42,11 +44,6 @@ public class EC3Module extends PiccoloModule {
         Floor floor = new Floor( getEnergyConservationModel(), energyModel.getZeroPointPotentialY() );
         energyModel.addFloor( floor );
         setModel( new BaseModel() );
-        getModel().addModelElement( new ModelElement() {
-            public void stepInTime( double dt ) {
-                energyModel.stepInTime( dt / 10.0 );
-            }
-        } );
 
         EnergyPanel energyPanel = new EnergyPanel( this );
         setControlPanel( energyPanel );
@@ -61,16 +58,32 @@ public class EC3Module extends PiccoloModule {
         energyFrame.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width - frameWidth, 0 );
 
         init();
+
+        energyTimeSeriesModel = new EC3TimeSeriesModel( this );
+        timeSeriesPlaybackPanel = new TimeSeriesPlaybackPanel( energyTimeSeriesModel );
+
+        clock.addClockTickListener( energyTimeSeriesModel );
+//        getModel().addModelElement( new ModelElement() {
+//            public void stepInTime( double dt ) {
+//                stepModel( dt / 10.0 );
+//            }
+//        } );
+    }
+
+    public void stepModel( double dt ) {
+        energyModel.stepInTime( dt );
     }
 
     public void activate( PhetApplication app ) {
         super.activate( app );
         energyFrame.setVisible( true );
+        app.getPhetFrame().getBasicPhetPanel().setAppControlPanel( timeSeriesPlaybackPanel );
     }
 
     public void deactivate( PhetApplication app ) {
         super.deactivate( app );
         energyFrame.setVisible( false );
+        app.getPhetFrame().getBasicPhetPanel().setAppControlPanel( new JLabel( "This space for rent." ) );
     }
 
     public EnergyConservationModel getEnergyConservationModel() {
@@ -109,5 +122,9 @@ public class EC3Module extends PiccoloModule {
         energyModel.addSpline( spline, revspline );
 
         energyCanvas.addSplineGraphic( splineGraphic );
+    }
+
+    public Object getModelState() {
+        return energyModel.copyState();
     }
 }

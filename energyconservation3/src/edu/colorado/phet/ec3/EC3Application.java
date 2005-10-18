@@ -5,6 +5,7 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
@@ -24,8 +25,12 @@ public class EC3Application extends PhetApplication {
         setModules( new Module[]{module} );
     }
 
-    public static void main( String[] args ) {
-        new EC3Application( args ).start();
+    public static void main( final String[] args ) {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                new EC3Application( args ).start();
+            }
+        } );
     }
 
     private void start() {

@@ -22,6 +22,12 @@ public class Floor {
         this.y = y;
     }
 
+    public Floor copyState() {
+        Floor copy = new Floor( model, y );
+        copy.normal.setComponents( normal.getX(), normal.getY() );
+        return copy;
+    }
+
     public void stepInTime( double dt ) {
         for( int i = 0; i < model.numBodies(); i++ ) {
             Body b = model.bodyAt( i );
@@ -48,4 +54,5 @@ public class Floor {
     public Vector2D getNormal() {
         return normal;
     }
+
 }

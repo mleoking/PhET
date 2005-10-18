@@ -17,6 +17,12 @@ public class CubicSpline extends AbstractSpline {
         this.numSegments = numSegments;
     }
 
+    public AbstractSpline copySpline() {
+        CubicSpline cubicSpline = (CubicSpline)super.clone();
+        cubicSpline.numSegments = this.numSegments;
+        return cubicSpline;
+    }
+
     public Point2D[] getInterpolationPoints() {
         NatCubic natCubic = new NatCubic();
         return natCubic.interpolate( getControlPoints(), numSegments );

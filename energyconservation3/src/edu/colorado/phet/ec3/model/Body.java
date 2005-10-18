@@ -8,6 +8,7 @@ import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -25,15 +26,34 @@ public class Body {
     private double mass = 200.0;
     private double angle = 0.0;
     private Shape bounds;
-    private FreeFall freeFall = new FreeFall( 0 );
-    private UpdateMode mode = freeFall;
+
+
     private boolean facingRight;
-    private final UserControlled userMode = new UserControlled();
+
     private double xThrust = 0.0;
     private double yThrust = 0.0;
 
+    private FreeFall freeFall = new FreeFall( 0 );
+    private final UserControlled userMode = new UserControlled();
+
+    private UpdateMode mode = freeFall;
+
     public Body( Shape bounds ) {
         this.bounds = bounds;
+    }
+
+    public Body copyState() {
+        Body copy = new Body( new Area( bounds ) );//todo better deep copy of bounds?
+        copy.position.setLocation( position );
+        copy.velocity.setComponents( velocity.getX(), velocity.getY() );
+        copy.acceleration.setComponents( acceleration.getX(), velocity.getY() );
+        copy.mass = mass;
+        copy.angle = angle;
+        copy.mode = mode;
+        copy.facingRight = facingRight;
+        copy.xThrust = xThrust;
+        copy.yThrust = yThrust;
+        return copy;
     }
 
     public void stepInTime( EnergyConservationModel energyConservationModel, double dt ) {
@@ -238,4 +258,6 @@ public class Body {
             }
         }
     }
+
+
 }
