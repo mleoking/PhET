@@ -47,8 +47,12 @@ public class LampGraphic extends CompositePhetGraphic implements Beam.Wavelength
 
         PhetImageGraphic lampImageGraphic = new PhetImageGraphic( component, image );
         addGraphic( lampImageGraphic );
-        lens = new Ellipse2D.Double( lampImageGraphic.getImage().getWidth() - 10, 0,
-                                     10, lampImageGraphic.getImage().getHeight() );
+        double lensHeight = lampImageGraphic.getImage().getHeight();
+        double lensWidth = lampImageGraphic.getImage().getHeight() / 4;
+        lens = new Ellipse2D.Double( lampImageGraphic.getImage().getWidth() - lensWidth, 0,
+//        lens = new Ellipse2D.Double( lampImageGraphic.getImage().getWidth() - 10, 0,
+                                     lensWidth, lensHeight );
+//                                     10, lampImageGraphic.getImage().getHeight() );
         lensGraphic = new PhetShapeGraphic( component, lens, bezelStroke, Color.black );
         addGraphic( lensGraphic );
 

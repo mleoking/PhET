@@ -126,8 +126,17 @@ public class AtomicState {
         return emittedWavelength;
     }
 
+    /**
+     * Tells if a photon will be emitted from this state if the atom is struck by a specified photon.
+     * This is true if the energy of the specified photon is equal, within a tolerance, of the difference
+     * in energy between this state and the next lowest energy state.
+     *
+     * @param photon
+     * @return
+     */
     protected boolean isStimulatedBy( Photon photon ) {
-        return ( Math.abs( photon.getEnergy() - this.getEnergyLevel() ) <= LaserConfig.ENERGY_TOLERANCE
+        double stimulatedPhotonEnergy = this.getEnergyLevel() - this.getNextLowerEnergyState().getEnergyLevel();
+        return ( Math.abs( photon.getEnergy() - stimulatedPhotonEnergy ) <= LaserConfig.ENERGY_TOLERANCE
                  && Math.random() < s_collisionLikelihood );
     }
 

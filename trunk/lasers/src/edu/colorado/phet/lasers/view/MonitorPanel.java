@@ -6,13 +6,11 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.model.clock.AbstractClock;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -37,13 +35,15 @@ public class MonitorPanel extends ApparatusPanel {
     private String yAxisLabel = SimStrings.get( "MonitorPanel.YAxislabel" );
 
 
-    protected MonitorPanel(AbstractClock clock ) {
+    protected MonitorPanel( AbstractClock clock ) {
 //        super( clock );
+
     }
 
     protected void paintComponent( Graphics g ) {
         Graphics2D g2 = (Graphics2D)g;
         GraphicsState gs = new GraphicsState( g2 );
+
         super.paintComponent( g );
 
         g2.setFont( axisLabelFont );
@@ -60,6 +60,9 @@ public class MonitorPanel extends ApparatusPanel {
         g2.transform( strTx );
         g2.drawString( yAxisLabel, (int)strLoc.getX(), (int)strLoc.getY() );
         gs.restoreGraphics();
+
+//        super.paintComponent( g );
+
     }
 
     private static AffineTransform rotateInPlace( AffineTransform atx, double theta, double x, double y ) {

@@ -24,6 +24,7 @@ import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.PhysicsUtil;
+import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.photon.Beam;
 
@@ -47,6 +48,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
                                                                           Beam.WavelengthChangeListener,
                                                                           Beam.RateChangeListener,
                                                                           ClockStateListener {
+    private static final double LEVEL_GRAPHIC_LEVEL = 1E3;
 
     // Number of milliseconds between display updates. Energy level populations are averaged over this time
     private long averagingPeriod = 300;
@@ -85,6 +87,11 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
     // The offset by which all the graphic elements must be placed, caused by the heading text
     private int headerOffsetY = 20;
     private int footerOffsetY = 10;
+//    private AffineTransform seedLampAtx;
+//    private AffineTransform pumpLampAtx;
+//    private LampIcon pumpLampGraphic;
+//    private LampIcon seedLampGraphic;
+//    private AffineTransform pumpLampTx;
 
     /**
      *
@@ -121,8 +128,40 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         headingText.setLocation( 30, 5 );
         this.addGraphic( headingText );
 
+        // Create images for the lmps that cue the users as to what the squiggles mean
+        createLampGraphics();
+
         // Set up the event handlers we need
         this.addComponentListener( new PanelResizer() );
+    }
+
+    private void createLampGraphics() {
+        BufferedImage gunBI = null;
+        try {
+            gunBI = ImageLoader.loadBufferedImage( LaserConfig.RAY_GUN_IMAGE_FILE );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+
+        Dimension graphicSize = new Dimension( 25, 13 );
+//        Dimension graphicSize = new Dimension( 20, 10 );
+//        double scaleX = graphicSize.getWidth() / gunBI.getWidth();
+//        double scaleY = graphicSize.getHeight() / gunBI.getHeight();
+
+        // Seed beam lamp graphic
+//        AffineTransformOp atxOp1 = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, scaleY ), AffineTransformOp.TYPE_BILINEAR );
+//        BufferedImage lampBI = atxOp1.filter( gunBI, null );
+//        seedLampAtx = new AffineTransform();
+//        seedLampGraphic = new LampIcon( model.getSeedBeam(), this, lampBI, seedLampAtx );
+//        addGraphic( seedLampGraphic, LaserConfig.PHOTON_LAYER + 1 );
+
+        // Pump beam lamp graphic
+//        BufferedImage pumpLampBI = BufferedImageUtils.getRotatedImage( lampBI, Math.PI / 2 );
+//        pumpLampAtx = new AffineTransform();
+//        pumpLampAtx.rotate( Math.PI / 2 );
+//        pumpLampGraphic = new LampIcon( model.getPumpingBeam(), this, lampBI, pumpLampAtx );
+//        addGraphic( pumpLampGraphic, LaserConfig.PHOTON_LAYER + 1 );
     }
 
     /**
@@ -153,8 +192,9 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
             EnergyLevelGraphic elg = new EnergyLevelGraphic( this, state,
                                                              Color.black, xLoc,
                                                              levelLineLength - levelLineOriginX,
-                                                             true );
-            addGraphic( elg );
+                                                             true,
+                                                             levelLineOriginX );
+            addGraphic( elg, LEVEL_GRAPHIC_LEVEL );
             levelGraphics[i] = elg;
 
             // Don't add a lifetime adjustment slider for the ground state
@@ -171,6 +211,13 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
                 new EnergyMatchDetector( state, model.getSeedBeam(), elg );
                 new EnergyMatchDetector( state, model.getPumpingBeam(), elg );
             }
+
+            // Add an icon to the level. This requires a dummy atom in the state the icon is to represent
+            Atom atom = new Atom( model, levelGraphics.length, true );
+            atom.setStates( states );
+            atom.setCurrState( states[i] );
+            levelGraphics[i].setLevelIcon( new edu.colorado.phet.lasers.view.LevelIcon( this, atom ) );
+
         }
         adjustPanel();
     }
@@ -255,6 +302,12 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
             stimSquiggleTx = AffineTransform.getTranslateInstance( levelGraphics[1].getPosition().getX(),
                                                                    energyYTx.modelToView( module.getLaserModel().getGroundState().getEnergyLevel() ) );
             stimSquiggleTx.rotate( -Math.PI / 2 );
+
+            // Update the location of the lamp graphic
+//            Point p = new Point( (int)(stimSquiggleTx.getTranslateX() + stimSquiggle.getHeight() / 2 - seedLampGraphic.getWidth() / 2 ),
+//                                 (int)(stimSquiggleTx.getTranslateY() - stimSquiggle.getWidth() / 2));
+//            seedLampGraphic.setLocation( p );
+
         }
 
         if( y0 > y2 && numLevels > 2 ) {
@@ -262,6 +315,11 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
             pumpSquiggleTx = AffineTransform.getTranslateInstance( levelGraphics[2].getPosition().getX(),
                                                                    energyYTx.modelToView( module.getLaserModel().getGroundState().getEnergyLevel() ) );
             pumpSquiggleTx.rotate( -Math.PI / 2 );
+
+            // Update the location of the lamp graphic
+//            Point p2 = new Point( (int)(pumpSquiggleTx.getTranslateX() + pumpSquiggle.getHeight() / 2 + pumpLampGraphic.getWidth() / 2 ),
+//                                  (int)(pumpSquiggleTx.getTranslateY() - pumpSquiggle.getWidth() / 2));
+//            pumpLampGraphic.setLocation( p2 );
         }
 
         // Force a repaint
@@ -347,11 +405,13 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
             double intensity = model.getSeedBeam().getPhotonsPerSecond() / model.getSeedBeam().getMaxPhotonsPerSecond();
             GraphicsUtil.setAlpha( g2, intensity );
             g2.drawRenderedImage( stimSquiggle, stimSquiggleTx );
+//            seedLampGraphic.setAlpha( intensity );
         }
         if( pumpSquiggle != null && model.getPumpingBeam().isEnabled() ) {
             double intensity = model.getPumpingBeam().getPhotonsPerSecond() / model.getPumpingBeam().getMaxPhotonsPerSecond();
             GraphicsUtil.setAlpha( g2, intensity );
             g2.drawRenderedImage( pumpSquiggle, pumpSquiggleTx );
+//            pumpLampGraphic.setAlpha( intensity );
         }
 
         gs.restoreGraphics();
@@ -532,4 +592,23 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
             }
         }
     }
+
+//    private class LampIcon extends LampGraphic {
+//        private double alpha = 1;
+//
+//        public LampIcon( Beam beam, Component component, BufferedImage image, AffineTransform transform ) {
+//            super( beam, component, image, transform );
+//        }
+//
+//        public void setAlpha( double alpha ) {
+//            this.alpha = alpha;
+//        }
+//
+//        public void paint( Graphics2D g2 ) {
+//            saveGraphicsState( g2 );
+//            GraphicsUtil.setAlpha( g2, alpha );
+//            super.paint( g2 );
+//            restoreGraphicsState();
+//        }
+//    }
 }

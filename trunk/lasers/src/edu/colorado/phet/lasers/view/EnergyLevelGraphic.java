@@ -35,6 +35,7 @@ import java.awt.geom.Rectangle2D;
 public class EnergyLevelGraphic extends CompositePhetGraphic {
     private AtomicState atomicState;
     private boolean isAdjustable;
+    private double iconLocX;
     private Color color;
     private double xLoc;
     private double width;
@@ -62,11 +63,12 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
      * @param isAdjustable
      */
     public EnergyLevelGraphic( Component component, AtomicState atomicState, Color color, double xLoc, double width,
-                               boolean isAdjustable ) {
+                               boolean isAdjustable, double iconLocX ) {
         super( null );
 
         this.atomicState = atomicState;
         this.isAdjustable = isAdjustable;
+        this.iconLocX = iconLocX;
 
         // Add a listener that will track changes in the atomic state
         atomicState.addListener( new AtomicStateChangeListener() );
@@ -183,7 +185,8 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
             levelLine.setRect( xLoc, y - thickness / 2, width, thickness );
 
             if( levelIcon != null ) {
-                levelIcon.setLocation( (int)( xLoc + width + 20 ), (int)( y - thickness ) );
+                levelIcon.setLocation( (int)( iconLocX ), (int)( y - thickness ) );
+//                levelIcon.setLocation( (int)( xLoc + width + 20 ), (int)( y - thickness ) );
             }
 
             if( isAdjustable ) {
