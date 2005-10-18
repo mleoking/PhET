@@ -34,8 +34,6 @@ information.
   <resources> 
     <j2se version="1.4+"/> 
     <jar href="fourier/fourier.jar"/> 
-    <jar href="fourier/lib/phetcommon.jar"/>
-    <jar href="fourier/lib/charts.jar"/>
   </resources> 
   <application-desc main-class="edu.colorado.phet.fourier.FourierApplication"/>
 </jnlp> 
