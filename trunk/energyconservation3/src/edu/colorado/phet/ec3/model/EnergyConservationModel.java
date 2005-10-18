@@ -21,12 +21,31 @@ public class EnergyConservationModel {
     private ArrayList floors = new ArrayList();
     private ArrayList splines = new ArrayList();
     private double gravity = 9.8;
-    private ArrayList listeners = new ArrayList();
     private double zeroPointPotentialY;
     private double thermalEnergy = 0.0;
+    private ArrayList listeners = new ArrayList();
 
     public EnergyConservationModel( double zeroPointPotentialY ) {
         this.zeroPointPotentialY = zeroPointPotentialY;
+    }
+
+
+    public EnergyConservationModel copyState() {
+        EnergyConservationModel copy = new EnergyConservationModel( zeroPointPotentialY );
+        for( int i = 0; i < bodies.size(); i++ ) {
+            Body body = (Body)bodies.get( i );
+            copy.bodies.add( body.copyState() );
+        }
+        for( int i = 0; i < floors.size(); i++ ) {
+            Floor floor = (Floor)floors.get( i );
+            copy.floors.add( floor.copyState() );
+        }
+        for( int i = 0; i < splines.size(); i++ ) {
+            AbstractSpline abstractSpline = (AbstractSpline)splines.get( i );
+            copy.splines.add( abstractSpline.copySpline() );
+        }
+
+        return copy;
     }
 
     public void stepInTime( double dt ) {
@@ -71,7 +90,6 @@ public class EnergyConservationModel {
     }
 
     boolean intersectsOrig( AbstractSpline spline, Body body ) {
-
         Area area = new Area( body.getLocatedShape() );
         area.intersect( spline.getArea() );
         return !area.isEmpty();
@@ -180,14 +198,12 @@ public class EnergyConservationModel {
 
     public void reset() {
         bodies.clear();
-//        floors.clear();
         splines.clear();
         gravity = 9.8;
         thermalEnergy = 0.0;
     }
 
     public static interface EnergyModelListener {
-
         void preStep( double dt );
     }
 

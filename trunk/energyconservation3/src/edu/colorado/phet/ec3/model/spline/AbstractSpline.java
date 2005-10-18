@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * Copyright (c) Sep 21, 2005 by Sam Reid
  */
 
-public abstract class AbstractSpline {
+public abstract class AbstractSpline implements Cloneable {
     private ArrayList points = new ArrayList();
 
     private boolean segmentPathDirty = true;
@@ -30,6 +30,27 @@ public abstract class AbstractSpline {
     private boolean areaDirty = true;
     private Area area = null;
     public static final float SPLINE_THICKNESS = 12.0f;
+
+    protected Object clone() {
+        try {
+            AbstractSpline clone = (AbstractSpline)super.clone();
+            clone.points = new ArrayList();
+            for( int i = 0; i < points.size(); i++ ) {
+                Point2D.Double aDouble = (Point2D.Double)points.get( i );
+                clone.points.add( new Point2D.Double( aDouble.getX(), aDouble.getY() ) );
+            }
+            clone.segmentPath = new SegmentPath();
+            clone.generalPath = new GeneralPath();
+            clone.areaShape = null;
+
+            return clone;
+        }
+        catch( CloneNotSupportedException e ) {
+            throw new RuntimeException( e );
+        }
+    }
+
+    public abstract AbstractSpline copySpline();
 
     protected AbstractSpline() {
         setAllDirty();
@@ -166,4 +187,6 @@ public abstract class AbstractSpline {
         points.remove( index );
         setAllDirty();
     }
+
+
 }
