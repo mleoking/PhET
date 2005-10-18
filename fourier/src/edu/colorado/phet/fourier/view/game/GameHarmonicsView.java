@@ -202,6 +202,16 @@ public class GameHarmonicsView extends GraphicLayerSet implements HarmonicFocusL
         }
     }
 
+    /**
+     * Forces an update of all the plots in the graph.
+     */
+    public void update() {
+        for ( int i = 0; i < _harmonicPlots.size(); i++ ) {
+            HarmonicPlot plot = (HarmonicPlot) _harmonicPlots.get( i );
+            plot.update();
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // HarmonicFocusListener implementation
     //----------------------------------------------------------------------------

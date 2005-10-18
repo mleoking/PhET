@@ -62,6 +62,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(10/18) - bugfix: update all game views before starting a new game after you've won
 (10/18) - bugfix: "cheat" panel doesn't update after you've won a game and started a new game
 2.1.4 ...
 (10/17) - use absolute values (0.03, 0.09) instead of percents (3%, 9%) for "win" calculations

@@ -331,6 +331,16 @@ public class AmplitudeSlider extends GraphicLayerSet
             update();
         }
         else if ( amplitude != _harmonic.getAmplitude() ) {
+            /*  
+             * WORKAROUND:
+             * The Game module may start a new game before we've updated the
+             * slider, so update the slider here before changing the harmonic's
+             * amplitude.
+             */
+            {
+                Color color = HarmonicColors.getInstance().getColor( _harmonic );
+                updateSlider( amplitude, color );
+            }
             _harmonic.setAmplitude( amplitude );
             fireChangeEvent();
         }
@@ -444,13 +454,22 @@ public class AmplitudeSlider extends GraphicLayerSet
     /**
      * Synchronizes the view with the model.
      */
-    public void update() {
-        
+    public void update() {       
         double amplitude = _harmonic.getAmplitude();
         if ( amplitude == -0 ) { amplitude = 0; }
-        Color harmonicColor = HarmonicColors.getInstance().getColor( _harmonic );
+        Color color = HarmonicColors.getInstance().getColor( _harmonic );       
+        updateSlider( amplitude, color );
+    }
+    
+    /*
+     * Updates the slider.
+     * 
+     * @param amplitude
+     * @param color
+     */
+    private void updateSlider( double amplitude, Color color ) {
         
-        // Label location
+         // Label location
         _labelGraphic.setLocation( 0, -( ( _maxSize.height / 2 ) + LABEL_Y_OFFSET ) );
         
         // Value
@@ -464,7 +483,7 @@ public class AmplitudeSlider extends GraphicLayerSet
         int trackY = ( amplitude > 0 ) ? -trackHeight : 0;
         _trackRectangle.setBounds( trackX, trackY, trackWidth, trackHeight );
         _trackGraphic.setShapeDirty();
-        _trackGraphic.setPaint( harmonicColor );
+        _trackGraphic.setPaint( color );
         
         // Knob location
         int knobX = _knobGraphic.getX();

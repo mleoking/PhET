@@ -46,21 +46,15 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
      */
     private class GameConfiguration {
         
-        private int _numberOfHarmonics;
         private int _numberOfNonZeroHarmonics;
         private int _numberOfSliders;
         
-        public GameConfiguration( int numberOfHarmonics, int numberOfNonZeroHarmonics, int numberOfSliders ) {
+        public GameConfiguration( int numberOfNonZeroHarmonics, int numberOfSliders ) {
             if ( numberOfSliders < numberOfNonZeroHarmonics ) {
                 throw new IllegalArgumentException( "numberOfSlider must be >= numberOfNonZeroHarmonics" );
             }
-            _numberOfHarmonics = numberOfHarmonics;
             _numberOfNonZeroHarmonics = numberOfNonZeroHarmonics;
             _numberOfSliders = numberOfSliders;
-        }
-        
-        public int getNumberOfHarmonics() {
-            return _numberOfHarmonics;
         }
         
         public int getNumberOfNonZeroHarmonics() {
@@ -79,6 +73,8 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
     private FourierSeries _userFourierSeries;
     private FourierSeries _randomFourierSeries;
     private GameAmplitudesView _amplitudesView;
+    private GameHarmonicsView _harmonicsView;
+    private GameSumView _sumView;
     private GameLevel _gameLevel;
     private Preset _preset;
     private Hashtable gameConfigs; // hashtable of GameConfiguration
@@ -96,7 +92,8 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
      * @param randomSeries the Fourier series that we randomly manipulate
      * @param amplitudesView the "Amplitudes" view for the Game module
      */
-    public GameManager( FourierSeries userSeries, FourierSeries randomSeries, GameAmplitudesView amplitudesView ) {
+    public GameManager( FourierSeries userSeries, FourierSeries randomSeries, 
+            GameAmplitudesView amplitudesView, GameHarmonicsView harmonicsView, GameSumView sumView ) {
         
         _userFourierSeries = userSeries;
         _userFourierSeries.addObserver( this );
@@ -104,21 +101,23 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
         _randomFourierSeries = randomSeries;
         
         _amplitudesView = amplitudesView;
+        _harmonicsView = harmonicsView;
+        _sumView = sumView;
         
         _gameLevel = GameLevel.UNDEFINED;
         _preset = Preset.UNDEFINED;
         
         gameConfigs = new Hashtable();
-        gameConfigs.put( GameLevel.LEVEL1,   new GameConfiguration( 11,  1,  1 ) );
-        gameConfigs.put( GameLevel.LEVEL2,   new GameConfiguration( 11,  1,  2 ) );
-        gameConfigs.put( GameLevel.LEVEL3,   new GameConfiguration( 11,  1, 11 ) );
-        gameConfigs.put( GameLevel.LEVEL4,   new GameConfiguration( 11,  2,  2 ) );
-        gameConfigs.put( GameLevel.LEVEL5,   new GameConfiguration( 11,  2, 11 ) );
-        gameConfigs.put( GameLevel.LEVEL6,   new GameConfiguration( 11,  3,  3 ) );
-        gameConfigs.put( GameLevel.LEVEL7,   new GameConfiguration( 11,  3, 11 ) );
-        gameConfigs.put( GameLevel.LEVEL8,   new GameConfiguration( 11,  4,  4 ) );
-        gameConfigs.put( GameLevel.LEVEL9,   new GameConfiguration( 11,  4, 11 ) );
-        gameConfigs.put( GameLevel.LEVEL10,  new GameConfiguration( 11, 11, 11 ) );
+        gameConfigs.put( GameLevel.LEVEL1,   new GameConfiguration(  1,  1 ) );
+        gameConfigs.put( GameLevel.LEVEL2,   new GameConfiguration(  1,  2 ) );
+        gameConfigs.put( GameLevel.LEVEL3,   new GameConfiguration(  1, 11 ) );
+        gameConfigs.put( GameLevel.LEVEL4,   new GameConfiguration(  2,  2 ) );
+        gameConfigs.put( GameLevel.LEVEL5,   new GameConfiguration(  2, 11 ) );
+        gameConfigs.put( GameLevel.LEVEL6,   new GameConfiguration(  3,  3 ) );
+        gameConfigs.put( GameLevel.LEVEL7,   new GameConfiguration(  3, 11 ) );
+        gameConfigs.put( GameLevel.LEVEL8,   new GameConfiguration(  4,  4 ) );
+        gameConfigs.put( GameLevel.LEVEL9,   new GameConfiguration(  4, 11 ) );
+        gameConfigs.put( GameLevel.LEVEL10,  new GameConfiguration( 11, 11 ) );
         
         _random = new Random();
     }
@@ -194,7 +193,7 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
         else {
             // Get the configuration for this game level.
             GameConfiguration gameConfig = (GameConfiguration) gameConfigs.get( _gameLevel );
-            int numberOfHarmonics = gameConfig._numberOfHarmonics;
+            int numberOfHarmonics = FourierConstants.MAX_HARMONICS;
             int numberOfNonZeroHarmonic = gameConfig._numberOfNonZeroHarmonics;
             int numberOfSliders = gameConfig._numberOfSliders;
             
@@ -319,6 +318,16 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
         if ( !youWon ) {
             return;
         }
+        
+        /*
+         * WORKAROUND:
+         * We've been notified that the user's Fourier series has changed.
+         * But the views of that Fourier series may not have received their
+         * notification yet, and may still need to be visually updated.
+         */
+        _amplitudesView.update();
+        _harmonicsView.update();
+        _sumView.update();
         
         // Tell the user they won.
         JFrame frame = PhetApplication.instance().getPhetFrame();
