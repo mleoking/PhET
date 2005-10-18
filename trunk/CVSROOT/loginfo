@@ -50,5 +50,6 @@
 ^nuclearphysics\(/\|$\) mail -s "CVS commit: nuclearphysics" ronlemaster
 ^PhET-installer\(/\|$\) mail -s "CVS commit: PhET-installer" ronlemaster
 ^phetcommon\(/\|$\) mail -s "CVS commit: phetcommon" ronlemaster cmalley samreid joetreat
+^shaper\(/\|$\) mail -s "CVS commit: shaper" cmalley
 ^sound-2\(/\|$\) mail -s "CVS commit: sound-2" ronlemaster
 ^test-location\(/\|$\) mail -s "CVS commit: test-location" cmalley
