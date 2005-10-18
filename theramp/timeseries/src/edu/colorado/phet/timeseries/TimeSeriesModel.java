@@ -3,7 +3,6 @@ package edu.colorado.phet.timeseries;
 
 import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.view.ApparatusPanel;
 
 import java.util.ArrayList;
 
@@ -16,7 +15,7 @@ import java.util.ArrayList;
 
 public abstract class TimeSeriesModel implements ClockTickListener {
     private ArrayList listeners = new ArrayList();
-    private boolean paused = true;
+    private boolean paused = false;
 
     private Mode mode;//the current mode.
     private RecordMode recordMode;
@@ -30,6 +29,7 @@ public abstract class TimeSeriesModel implements ClockTickListener {
         recordMode = new RecordMode( this );
         playbackMode = new PlaybackMode( this );
         this.maxAllowedTime = maxAllowedTime;
+        this.mode = recordMode;
     }
 
     public boolean isPaused() {
@@ -56,8 +56,6 @@ public abstract class TimeSeriesModel implements ClockTickListener {
             getPlaybackTimer().setTime( requestedTime );
         }
     }
-
-    public abstract void repaintBackground();
 
     public PhetTimer getRecordTimer() {
         return recordMode.getTimer();
@@ -183,8 +181,6 @@ public abstract class TimeSeriesModel implements ClockTickListener {
     }
 
     protected abstract boolean confirmReset();
-
-    protected abstract ApparatusPanel getApparatusPanel();
 
     public void setMode( Mode mode ) {
         boolean same = mode == this.mode;
