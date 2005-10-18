@@ -80,6 +80,7 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
     private Hashtable gameConfigs; // hashtable of GameConfiguration
     private Random _random;  // the JDK random number generator
     private boolean _mouseIsPressed;
+    private boolean _isAdjusting;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -120,6 +121,8 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
         gameConfigs.put( GameLevel.LEVEL10,  new GameConfiguration( 11, 11 ) );
         
         _random = new Random();
+        
+        _isAdjusting = false;
     }
     
     /**
@@ -171,6 +174,8 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
      * Generates a new game, based on the game level and preset settings.
      */
     public void newGame() {
+        
+        _isAdjusting = true;
         
         if ( _gameLevel == GameLevel.PRESET ) {
             // Set the number of harmonics
@@ -230,6 +235,9 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
                 _amplitudesView.setSliderVisible( index.intValue(), true );
             }
         }
+        
+        _isAdjusting = false;
+        update();
     }
     
     /*
@@ -278,6 +286,16 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
      */
     public void update() {
         
+        if ( _isAdjusting ) {
+            // Don't respond to amplitude changes that we're making in newGame()
+            return;
+        }
+        
+        if ( _gameLevel == GameLevel.UNDEFINED ) {
+            // We haven't been properly initialized yet.
+            return;
+        }
+        
         // Don't do anything while the user is dragging an amplitude slider.
         if ( _mouseIsPressed ) {
             return;
@@ -317,8 +335,15 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
         
         // Make sure at least 2 are within 0.03
         if ( youWon ) {
-            GameConfiguration gameConfig = (GameConfiguration) gameConfigs.get( _gameLevel );
-            int numberOfNonZeroHarmonics = gameConfig.getNumberOfNonZeroHarmonics();
+            
+            // Count the non-zero harmonics - this works for GameConfigurations and presets.
+            int numberOfNonZeroHarmonics = 0;
+            for ( int i = 0; i < _randomFourierSeries.getNumberOfHarmonics(); i++ ) {
+                if ( _randomFourierSeries.getHarmonic( i ).getAmplitude() != 0 ) {
+                    numberOfNonZeroHarmonics++;
+                }
+            }
+            
             if ( count < 2 && count != numberOfNonZeroHarmonics ) {
                 youWon = false;
             }
