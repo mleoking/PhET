@@ -14,9 +14,8 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.model.atom.Atom;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -42,15 +41,15 @@ public class AnnotatedAtomGraphic extends AtomGraphic implements Atom.ChangeList
         try {
             characters = new BufferedImage[]{
                 ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "G.png" ),
-                ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY+ "1.png" ),
-                ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY+ "2.png" ),
-                ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY+ "3.png" ),
-                ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY+ "4.png" ),
-                ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY+ "5.png" ),
-                ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY+ "6.png" ),
-                ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY+ "7.png" ),
-                ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY+ "8.png" ),
-                ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY+ "9.png" )
+                ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "1.png" ),
+                ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "2.png" ),
+                ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "3.png" ),
+                ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "4.png" ),
+                ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "5.png" ),
+                ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "6.png" ),
+                ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "7.png" ),
+                ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "8.png" ),
+                ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "9.png" )
             };
         }
         catch( Exception e ) {
@@ -71,7 +70,6 @@ public class AnnotatedAtomGraphic extends AtomGraphic implements Atom.ChangeList
 
     // A number to be displayed in the middle of the atom
     PhetGraphic numberGraphic;
-//    PhetTextGraphic numberGraphic;
     private Font font;
 
 
@@ -91,14 +89,11 @@ public class AnnotatedAtomGraphic extends AtomGraphic implements Atom.ChangeList
 
         getEnergyGraphic().setStroke( new BasicStroke( 0.5f ) );
         getEnergyGraphic().setBorderColor( Color.black );
-        font = new Font( DischargeLampsConfig.DEFAULT_CONTROL_FONT.getName(),
-                         DischargeLampsConfig.DEFAULT_CONTROL_FONT.getStyle(),
-                         DischargeLampsConfig.DEFAULT_CONTROL_FONT.getSize() + 8 );
+        font = new Font( LaserConfig.DEFAULT_CONTROL_FONT.getName(),
+                         LaserConfig.DEFAULT_CONTROL_FONT.getStyle(),
+                         LaserConfig.DEFAULT_CONTROL_FONT.getSize() + 8 );
         // Put the number graphic in the middle of the atom graphic
         numberGraphic = characterGraphics[0];
-//        numberGraphic = new PhetTextGraphic( component, font, "", Color.white, -1, -2 );
-//        numberGraphic.setJustification( PhetTextGraphic.CENTER );
-//        setNumberGraphicText();
         addGraphic( numberGraphic, 1000 );
 
         determineEnergyRadiusAndColor();
@@ -114,22 +109,9 @@ public class AnnotatedAtomGraphic extends AtomGraphic implements Atom.ChangeList
     private void setNumberGraphicText() {
         // Add a number to the middle of the grpahic
         int stateIdx = atom.getCurrStateNumber();
-//        String numStr = stateIdx == 0 ? "G" : Integer.toString( stateIdx );
-//        numberGraphic.setText( numStr );
-
         removeGraphic( numberGraphic );
         numberGraphic = characterGraphics[stateIdx];
         addGraphic( numberGraphic, 1000 );
-
-//        Graphics2D g2 = (Graphics2D)getImageGraphic().getImage().getGraphics();
-//        FontRenderContext frc = g2.getFontRenderContext();
-//        TextLayout tl = new TextLayout(numStr, font, frc);
-//        Shape outline = tl.getOutline(null);
-//        PhetShapeGraphic outlineGraphic = new PhetShapeGraphic( getComponent(), outline, Color.white, new BasicStroke( 1), Color.black );
-//        outlineGraphic.setRegistrationPoint( (int)outline.getBounds().getBeamWidth()/2, -(int)outline.getBounds().getLength()/2);
-//        outlineGraphic.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON) );
-//        addGraphic( outlineGraphic, 1001);
-
     }
 
     /**
