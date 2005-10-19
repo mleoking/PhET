@@ -62,6 +62,7 @@ PHETCOMMON:
 
 DONE:
 2.1.5 ...
+(10/19) - bugfix: use only 2 significant decimal places when determining if the game has been won
 (10/18) - bugfix: exception occurred when playing game with level=Preset
 (10/18) - all generated amplitudes in game should have an absoltue value >= 0.1
 (10/18) - bugfix: update all game views before starting a new game after you've won
