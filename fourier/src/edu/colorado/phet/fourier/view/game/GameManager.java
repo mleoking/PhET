@@ -37,6 +37,15 @@ import edu.colorado.phet.fourier.model.FourierSeries;
  */
 public class GameManager extends MouseInputAdapter implements SimpleObserver {
 
+    /*
+     * This is the step between amplitude values.
+     * It controls the number of significant decimal places used in
+     * comparisons, and it controls the number of significant decimal
+     * places in the randomly-generated amplitude values.
+     * CHANGE THIS VALUE AT YOUR PERIL!
+     */ 
+    private static final double AMPLITUDE_STEP = 0.01;
+    
     //----------------------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------------------
@@ -257,7 +266,7 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
         double min = 0.1;
         
         // Randomly generate a quantity to add to the min.
-        double step = 0.01;
+        double step = AMPLITUDE_STEP;
         int numberOfSteps = (int) ( ( FourierConstants.MAX_HARMONIC_AMPLITUDE - min ) / step ) + 1;
         double delta = _random.nextInt( numberOfSteps ) * step;
 
@@ -301,30 +310,72 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
             return;
         }
         
-        boolean youWon = true;
+        // Inform the user when they've matched the waveform.
+        if ( isMatch() ) {
+            /*
+             * WORKAROUND:
+             * We've been notified that the user's Fourier series has changed.
+             * But the views of that Fourier series may not have received their
+             * notification yet, and may still need to be visually updated.
+             */
+            _amplitudesView.update();
+            _harmonicsView.update();
+            _sumView.update();
+
+            // Tell the user they won.
+            JFrame frame = PhetApplication.instance().getPhetFrame();
+            String title = SimStrings.get( "WinDialog.title" );
+            String message = SimStrings.get( "WinDialog.message" );
+            JOptionPane.showMessageDialog( frame, message, title, JOptionPane.INFORMATION_MESSAGE );
+
+            // Start a new game.
+            newGame();
+        }
+    }
+    
+    /*
+     * Checks to see if the user's Fourier series matches the 
+     * randomly-generated Fourier series.  2 significant decimal
+     * places are used in the comparison.
+     * <p>
+     * Criteria for a match:
+     * <ul>
+     * <li>the sign of all corresponding amplitudes is the same
+     * <li>user amplitudes are within 0.03 of zero random amplitudes
+     * <li>user amplitudes are within 0.09 of non-zero random amplitudes
+     * <li>at least 2 user amplitudes are within 0.03 of non-zero random amplitudes
+     * </ul>
+     */
+    private boolean isMatch() {
+        
+        boolean match = true;
         int count = 0;  // count the number of matches that are within 0.03
         
         int numberOfHarmonics = _userFourierSeries.getNumberOfHarmonics();
-        for ( int i = 0; i < numberOfHarmonics && youWon == true ; i++ ) {
+        for ( int i = 0; i < numberOfHarmonics && match == true ; i++ ) {
             
            double userAmplitude = _userFourierSeries.getHarmonic( i ).getAmplitude();
            double randomAmplitude = _randomFourierSeries.getHarmonic( i ).getAmplitude();
            
+           // Truncate the amplitudes to 2 significant decimal places.
+           userAmplitude = (int)( userAmplitude / AMPLITUDE_STEP ) * AMPLITUDE_STEP;
+           randomAmplitude = (int)( randomAmplitude / AMPLITUDE_STEP ) * AMPLITUDE_STEP;
+           
            if ( ( randomAmplitude < 0 && userAmplitude > 0 ) || ( randomAmplitude > 0 && userAmplitude < 0 ) ) {
                // sign is wrong
-               youWon = false;
+               match = false;
            }
            else if ( randomAmplitude == 0 ) {
                if ( Math.abs( userAmplitude ) > 0.03 ) {
                    // not close enough to zero amplitude
-                   youWon = false;
+                   match = false;
                }
            }
            else {
                double difference = Math.abs( userAmplitude - randomAmplitude );
                if ( difference > 0.09 ) {
                    // not close enough to non-zero amplitude
-                   youWon = false;
+                   match = false;
                }
                else if ( difference <= 0.03 ) {
                    // count how many are within 0.03
@@ -334,7 +385,7 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
         }
         
         // Make sure at least 2 are within 0.03
-        if ( youWon ) {
+        if ( match ) {
             
             // Count the non-zero harmonics - this works for GameConfigurations and presets.
             int numberOfNonZeroHarmonics = 0;
@@ -345,32 +396,11 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
             }
             
             if ( count < 2 && count != numberOfNonZeroHarmonics ) {
-                youWon = false;
+                match = false;
             }
         }
         
-        if ( !youWon ) {
-            return;
-        }
-        
-        /*
-         * WORKAROUND:
-         * We've been notified that the user's Fourier series has changed.
-         * But the views of that Fourier series may not have received their
-         * notification yet, and may still need to be visually updated.
-         */
-        _amplitudesView.update();
-        _harmonicsView.update();
-        _sumView.update();
-        
-        // Tell the user they won.
-        JFrame frame = PhetApplication.instance().getPhetFrame();
-        String title = SimStrings.get( "WinDialog.title" );
-        String message = SimStrings.get( "WinDialog.message" );
-        JOptionPane.showMessageDialog( frame, message, title, JOptionPane.INFORMATION_MESSAGE );
-        
-        // Start a new game.
-        newGame();
+        return match;
     }
     
     //----------------------------------------------------------------------------
