@@ -20,6 +20,8 @@ import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.shaper.ShaperConstants;
+import edu.colorado.phet.shaper.charts.GaussianWavePacketPlot;
+import edu.colorado.phet.shaper.model.GaussianWavePacket;
 
 
 /**
@@ -38,11 +40,9 @@ public class InputPulseView extends GraphicLayerSet {
     private static final double BACKGROUND_LAYER = 1;
     private static final double TITLE_LAYER = 2;
     private static final double CHART_LAYER = 3;
-    private static final double CONTROLS_LAYER = 4;
 
     // Background parameters
-    private static final int MIN_HEIGHT = 150;
-    private static final Dimension BACKGROUND_SIZE = new Dimension( 405, 190 );
+    private static final Dimension BACKGROUND_SIZE = new Dimension( 505, 190 );
     private static final Color BACKGROUND_COLOR = new Color( 215, 215, 215 );
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
@@ -58,20 +58,15 @@ public class InputPulseView extends GraphicLayerSet {
     private static final double X_RANGE_MAX = ( 2 * L );
     private static final double Y_RANGE_START = ShaperConstants.MAX_HARMONIC_AMPLITUDE + ( 0.05 * ShaperConstants.MAX_HARMONIC_AMPLITUDE );
     private static final Range2D CHART_RANGE = new Range2D( -X_RANGE_START, -Y_RANGE_START, X_RANGE_START, Y_RANGE_START );
-    private static final Dimension CHART_SIZE = new Dimension( 320, 135 );
+    private static final Dimension CHART_SIZE = new Dimension( 420, 135 );
 
     // Wave parameters
     private static final Stroke WAVE_STROKE = new BasicStroke( 1f );
     private static final Color WAVE_COLOR = Color.BLACK;
 
-
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-
-    private PhetShapeGraphic _backgroundGraphic;
-    private HTMLGraphic _titleGraphic;
-    private PulseChart _chartGraphic;
 
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -90,32 +85,36 @@ public class InputPulseView extends GraphicLayerSet {
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
 
         // Background
-        _backgroundGraphic = new PhetShapeGraphic( component );
-        _backgroundGraphic.setShape( new RoundRectangle2D.Double( 0, 0, BACKGROUND_SIZE.width, BACKGROUND_SIZE.height, 20, 20 ) );
-        _backgroundGraphic.setPaint( BACKGROUND_COLOR );
-        _backgroundGraphic.setStroke( BACKGROUND_STROKE );
-        _backgroundGraphic.setBorderColor( BACKGROUND_BORDER_COLOR );
-        addGraphic( _backgroundGraphic, BACKGROUND_LAYER );
-        _backgroundGraphic.setLocation( 0, 0 );
+        PhetShapeGraphic backgroundGraphic = new PhetShapeGraphic( component );
+        backgroundGraphic.setShape( new RoundRectangle2D.Double( 0, 0, BACKGROUND_SIZE.width, BACKGROUND_SIZE.height, 20, 20 ) );
+        backgroundGraphic.setPaint( BACKGROUND_COLOR );
+        backgroundGraphic.setStroke( BACKGROUND_STROKE );
+        backgroundGraphic.setBorderColor( BACKGROUND_BORDER_COLOR );
+        addGraphic( backgroundGraphic, BACKGROUND_LAYER );
+        backgroundGraphic.setLocation( 0, 0 );
 
         // Title
         String title = SimStrings.get( "InputPulseView.title" );
-        _titleGraphic = new HTMLGraphic( component, TITLE_FONT, title, TITLE_COLOR );
-        _titleGraphic.setRegistrationPoint( _titleGraphic.getWidth()/2, 0 );
-        _titleGraphic.setLocation( BACKGROUND_SIZE.width / 2, 5 );
-        addGraphic( _titleGraphic, TITLE_LAYER );
+        HTMLGraphic titleGraphic = new HTMLGraphic( component, TITLE_FONT, title, TITLE_COLOR );
+        titleGraphic.setRegistrationPoint( titleGraphic.getWidth()/2, 0 );
+        titleGraphic.setLocation( BACKGROUND_SIZE.width / 2, 5 );
+        addGraphic( titleGraphic, TITLE_LAYER );
 
         // Chart
-        {
-            _chartGraphic = new PulseChart( component, CHART_RANGE, CHART_SIZE );
-            addGraphic( _chartGraphic, CHART_LAYER );
-            _chartGraphic.setRegistrationPoint( 0, 0 );
-            _chartGraphic.setLocation( 35, 35 );
-            _chartGraphic.setXAxisTitle( "t (ms)" ); 
-        }
+        PulseChart chartGraphic = new PulseChart( component, CHART_RANGE, CHART_SIZE );
+        addGraphic( chartGraphic, CHART_LAYER );
+        chartGraphic.setRegistrationPoint( 0, 0 );
+        chartGraphic.setLocation( 35, 35 );
+        chartGraphic.setXAxisTitle( "t (ms)" );
         
-        // Input pulse plot
-
+        // Input pulse
+        GaussianWavePacketPlot inputPlot = new GaussianWavePacketPlot( component, chartGraphic );
+        inputPlot.setPixelsPerPoint( 1 );
+        inputPlot.setStroke( WAVE_STROKE );
+        inputPlot.setStrokeColor( WAVE_COLOR );
+        inputPlot.setK0( 12 * Math.PI );
+        inputPlot.setDeltaX( .08 );
+        chartGraphic.addDataSetGraphic( inputPlot );
 
         // Interactivity
         setIgnoreMouse( true );

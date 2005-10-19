@@ -45,7 +45,7 @@ public class OutputPulseView extends GraphicLayerSet implements SimpleObserver {
 
     // Background parameters
     private static final int MIN_HEIGHT = 150;
-    private static final Dimension BACKGROUND_SIZE = new Dimension( 405, 190 );
+    private static final Dimension BACKGROUND_SIZE = new Dimension( 505, 190 );
     private static final Color BACKGROUND_COLOR = new Color( 215, 215, 215 );
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
@@ -63,7 +63,7 @@ public class OutputPulseView extends GraphicLayerSet implements SimpleObserver {
     private static final double Y_RANGE_MIN = ShaperConstants.MAX_HARMONIC_AMPLITUDE;
     private static final double Y_RANGE_MAX = 12.0;
     private static final Range2D CHART_RANGE = new Range2D( -X_RANGE_START, -Y_RANGE_START, X_RANGE_START, Y_RANGE_START );
-    private static final Dimension CHART_SIZE = new Dimension( 320, 135 );
+    private static final Dimension CHART_SIZE = new Dimension( 420, 135 );
     
     // Wave parameters
     private static final Stroke USER_SUM_STROKE = new BasicStroke( 1f );
