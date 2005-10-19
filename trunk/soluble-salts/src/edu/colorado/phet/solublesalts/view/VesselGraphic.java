@@ -40,7 +40,8 @@ public class VesselGraphic extends PNode {
         shape = new PPath();
         addChild( shape );
         water = new PPath();
-        water.setPaint( Color.cyan );
+        water.setPaint( new Color( 161, 197, 234 ) );
+//        water.setPaint( Color.cyan );
         this.addChild( water );
         update( vessel );
     }

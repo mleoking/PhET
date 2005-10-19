@@ -31,8 +31,8 @@ public class SolubleSaltsModel extends BaseModel {
 
     // The vessel
     private Vessel vessel;
-    private Point2D vesselLoc = new Point2D.Double( 150, 150 );
-    private double vesselWidth = 600;
+    private Point2D vesselLoc = new Point2D.Double( 50, 150 );
+    private double vesselWidth = 800;
     private double vesselDepth = 500;
 
     // Collision mechanism objects
