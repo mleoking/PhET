@@ -20,8 +20,7 @@ import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 
 /**
- * Help items for the Optical Pulse Shaper simulation.
- * Distantly related to some code in the Forces 1D simulation written by Sam Reid.
+ * ShaperHelpItem is a help item for this simulation.
  *
  * @author Chris Malley
  * @version $Revision$

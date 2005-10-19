@@ -24,7 +24,7 @@ import edu.colorado.phet.shaper.help.ShaperHelpItem;
 
 
 /**
- * ShaperModule
+ * ShaperModule is the sole module in this simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -41,7 +41,7 @@ public class ShaperModule extends BaseModule {
     // Locations
     
     // Colors
-    private static final Color APPARATUS_BACKGROUND = Color.WHITE;
+    private static final Color APPARATUS_BACKGROUND = Color.BLACK;
     
     // Fourier Components
     private static final double FUNDAMENTAL_FREQUENCY = 440.0; // Hz
