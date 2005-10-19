@@ -12,10 +12,13 @@
 package edu.colorado.phet.shaper.view;
 
 import java.awt.*;
+import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.phetgraphics.*;
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.shaper.ShaperConstants;
 import edu.colorado.phet.shaper.charts.FourierSumPlot;
@@ -42,7 +45,7 @@ public class OutputPulseView extends GraphicLayerSet implements SimpleObserver {
 
     // Background parameters
     private static final int MIN_HEIGHT = 150;
-    private static final Dimension BACKGROUND_SIZE = new Dimension( 800, 216 );
+    private static final Dimension BACKGROUND_SIZE = new Dimension( 405, 190 );
     private static final Color BACKGROUND_COLOR = new Color( 215, 215, 215 );
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
@@ -50,7 +53,6 @@ public class OutputPulseView extends GraphicLayerSet implements SimpleObserver {
     // Title parameters
     private static final Font TITLE_FONT = new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
-    private static final Point TITLE_LOCATION = new Point( 40, 135 );
     
     // Chart parameters
     private static final double L = ShaperConstants.L; // do not change!
@@ -61,7 +63,7 @@ public class OutputPulseView extends GraphicLayerSet implements SimpleObserver {
     private static final double Y_RANGE_MIN = ShaperConstants.MAX_HARMONIC_AMPLITUDE;
     private static final double Y_RANGE_MAX = 12.0;
     private static final Range2D CHART_RANGE = new Range2D( -X_RANGE_START, -Y_RANGE_START, X_RANGE_START, Y_RANGE_START );
-    private static final Dimension CHART_SIZE = new Dimension( 540, 135 );
+    private static final Dimension CHART_SIZE = new Dimension( 320, 135 );
     
     // Wave parameters
     private static final Stroke USER_SUM_STROKE = new BasicStroke( 1f );
@@ -80,7 +82,7 @@ public class OutputPulseView extends GraphicLayerSet implements SimpleObserver {
     private FourierSeries _userFourierSeries;
     private FourierSeries _randomFourierSeries;
     private PhetShapeGraphic _backgroundGraphic;
-    private PhetTextGraphic _titleGraphic;
+    private HTMLGraphic _titleGraphic;
     private PulseChart _chartGraphic;
     private FourierSumPlot _userSumPlot;
     private FourierSumPlot _randomSumPlot;
@@ -110,7 +112,7 @@ public class OutputPulseView extends GraphicLayerSet implements SimpleObserver {
         
         // Background
         _backgroundGraphic = new PhetShapeGraphic( component );
-        _backgroundGraphic.setShape( new Rectangle( 0, 0, BACKGROUND_SIZE.width, BACKGROUND_SIZE.height ) );
+        _backgroundGraphic.setShape( new RoundRectangle2D.Double( 0, 0, BACKGROUND_SIZE.width, BACKGROUND_SIZE.height, 20, 20 ) );
         _backgroundGraphic.setPaint( BACKGROUND_COLOR );
         _backgroundGraphic.setStroke( BACKGROUND_STROKE );
         _backgroundGraphic.setBorderColor( BACKGROUND_BORDER_COLOR );
@@ -119,10 +121,9 @@ public class OutputPulseView extends GraphicLayerSet implements SimpleObserver {
         
         // Title
         String title = SimStrings.get( "OutputPulseView.title" );
-        _titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
-        _titleGraphic.centerRegistrationPoint();
-        _titleGraphic.rotate( -( Math.PI / 2 ) );
-        _titleGraphic.setLocation( TITLE_LOCATION );
+        _titleGraphic = new HTMLGraphic( component, TITLE_FONT, title, TITLE_COLOR );
+        _titleGraphic.setRegistrationPoint( _titleGraphic.getWidth()/2, 0 );
+        _titleGraphic.setLocation( BACKGROUND_SIZE.width / 2, 5 );
         addGraphic( _titleGraphic, TITLE_LAYER );
         
         // Chart
@@ -130,7 +131,7 @@ public class OutputPulseView extends GraphicLayerSet implements SimpleObserver {
             _chartGraphic = new PulseChart( component, CHART_RANGE, CHART_SIZE );
             addGraphic( _chartGraphic, CHART_LAYER );
             _chartGraphic.setRegistrationPoint( 0, 0 );
-            _chartGraphic.setLocation( 60, 50 );
+            _chartGraphic.setLocation( 35, 35 );
             _chartGraphic.setXAxisTitle( "t (ms)" ); 
          
             // Random sum plot
