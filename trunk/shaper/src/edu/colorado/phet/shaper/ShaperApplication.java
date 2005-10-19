@@ -26,8 +26,7 @@ import edu.colorado.phet.shaper.module.ShaperModule;
 
 
 /**
- * ShaperApplication is the main application for 
- * the PhET "Optical Pulse Shaper" simulation.
+ * ShaperApplication is the main application.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

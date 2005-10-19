@@ -16,7 +16,7 @@ import java.awt.Cursor;
 
 /**
  * ShaperConstants constains various constants.
- * Modify these at your peril ;-)
+ * Modify these at your peril.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

@@ -13,7 +13,7 @@ package edu.colorado.phet.shaper;
 
 
 /**
- * Version
+ * Version contains version information.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

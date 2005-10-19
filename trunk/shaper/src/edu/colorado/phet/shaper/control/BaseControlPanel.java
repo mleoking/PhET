@@ -30,8 +30,7 @@ import edu.colorado.phet.shaper.module.BaseModule;
 
 
 /**
- * BaseControlPanel is the base class for all Optical Pulse Shaper
- * control panels.
+ * BaseControlPanel is the base class for all control panels.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

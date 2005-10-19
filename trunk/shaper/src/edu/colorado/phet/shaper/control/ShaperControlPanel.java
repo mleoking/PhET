@@ -18,7 +18,7 @@ import edu.colorado.phet.shaper.module.BaseModule;
 
 
 /**
- * ShaperControlPanel
+ * ShaperControlPanel is the control panel for the optical pulse shaper.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
