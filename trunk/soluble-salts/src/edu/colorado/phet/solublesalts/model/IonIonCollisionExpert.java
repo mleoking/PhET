@@ -13,7 +13,7 @@ package edu.colorado.phet.solublesalts.model;
 import edu.colorado.phet.collision.Collidable;
 import edu.colorado.phet.collision.CollisionExpert;
 import edu.colorado.phet.collision.SphereSphereContactDetector;
-import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.model.BaseModel;
 
 /**
  * IonIonCollisionExpert
@@ -22,7 +22,12 @@ import edu.colorado.phet.common.math.Vector2D;
  * @version $Revision$
  */
 public class IonIonCollisionExpert implements CollisionExpert {
-    private SphereSphereContactDetector detector = new SphereSphereContactDetector();
+    private SphereSphereContactDetector contactDetector = new SphereSphereContactDetector();
+    private BaseModel model;
+
+    public IonIonCollisionExpert( BaseModel model ) {
+        this.model = model;
+    }
 
     public boolean detectAndDoCollision( Collidable bodyA, Collidable bodyB ) {
         boolean collisionOccured = false;
@@ -30,22 +35,20 @@ public class IonIonCollisionExpert implements CollisionExpert {
         if( bodyA instanceof Ion && bodyB instanceof Ion ) {
             Ion ionA = (Ion)bodyA;
             Ion ionB = (Ion)bodyB;
-            if( detector.areInContact( ionA, ionB )
-                && ionA.getCharge() * ionB.getCharge() < 0 ) {
-                Vector2D netMomentum = null;
-                if( ionA.isBound() || ionB.isBound() ) {
-                    netMomentum = new Vector2D.Double();
-                    ionA.setMomentum( netMomentum );
-                    ionB.setMomentum( netMomentum );
-                }
-                else {
-                    netMomentum = new Vector2D.Double( ionA.getMomentum() ).add( ionB.getMomentum() );
-                    double netMass = ionA.getMass() + ionB.getMass();
-                    ionA.setMomentum( new Vector2D.Double( netMomentum ).scale( ( ionA.getMass() / netMass ) ) );
-                    ionB.setMomentum( new Vector2D.Double( netMomentum ).scale( ( ionB.getMass() / netMass ) ) );
-                }
-//                ionA.setMomentum( new Vector2D.Double( netMomentum ).scale( ( ionA.getMass() / netMass ) ) );
-//                ionB.setMomentum( new Vector2D.Double( netMomentum ).scale( ( ionB.getMass() / netMass ) ) );
+
+            // Conditions for collision:
+            //      ions have opposite charges
+            //      one of the ions is bound, but not both
+            if( contactDetector.areInContact( ionA, ionB )
+                && ionA.getCharge() * ionB.getCharge() < 0
+                && ( ionA.isBound() || ionB.isBound() )
+                && !( ionA.isBound() && ionB.isBound() ) ) {
+
+                Molecule molecule = new SaltMolecule( model );
+                molecule.addAtom( ionA );
+                molecule.addAtom( ionB );
+                model.addModelElement( molecule );
+                collisionOccured = true;
             }
         }
 

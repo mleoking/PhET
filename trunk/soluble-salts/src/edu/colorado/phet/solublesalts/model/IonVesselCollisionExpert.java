@@ -39,9 +39,9 @@ public class IonVesselCollisionExpert implements CollisionExpert, ContactDetecto
                 if( vessel.getIonStickAffinity().stick( ion, vessel ) ) {
                     vessel.bind( ion );
                 }
-                else {
-                    sphereBoxExpert.detectAndDoCollision( ion, vessel.getWater() );
-                }
+                // Perform the collision, even if we bind, so when the ion is released
+                // it moves properly
+                sphereBoxExpert.detectAndDoCollision( ion, vessel.getWater() );
             }
         }
         return false;

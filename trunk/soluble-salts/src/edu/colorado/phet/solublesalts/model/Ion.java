@@ -23,7 +23,6 @@ import java.awt.geom.Point2D;
 public class Ion extends Atom {
 
     private IonProperties ionProperties;
-    private boolean isBound;
 
     public Ion( IonProperties ionProperties ) {
         this( new Point2D.Double(),
@@ -38,7 +37,7 @@ public class Ion extends Atom {
     }
 
     public void stepInTime( double dt ) {
-        if( !isBound ) {
+        if( !isBound() ) {
             super.stepInTime( dt );
         }
     }
@@ -51,11 +50,4 @@ public class Ion extends Atom {
         return ionProperties.getCharge();
     }
 
-    public void setIsBound( boolean isBound ) {
-        this.isBound = isBound;
-    }
-
-    public boolean isBound() {
-        return isBound;
-    }
 }

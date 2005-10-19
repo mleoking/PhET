@@ -36,7 +36,7 @@ public class SolubleSaltsModel extends BaseModel {
     private double vesselDepth = 500;
 
     // Collision mechanism objects
-    IonIonCollisionExpert ionIonCollisionExpert = new IonIonCollisionExpert();
+    IonIonCollisionExpert ionIonCollisionExpert = new IonIonCollisionExpert( this );
     private IonTracker ionTracker;
 
     public SolubleSaltsModel() {

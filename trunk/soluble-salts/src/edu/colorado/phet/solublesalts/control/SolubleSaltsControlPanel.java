@@ -33,6 +33,7 @@ import java.util.List;
 public class SolubleSaltsControlPanel extends ControlPanel {
     private ModelSlider vesselIonStickSlider;
     private ModelSlider vesselIonReleaseSlider;
+    private ModelSlider dissociationSlider;
 
     public SolubleSaltsControlPanel( SolubleSaltsModule module ) {
         super( module );
@@ -55,12 +56,13 @@ public class SolubleSaltsControlPanel extends ControlPanel {
                 model.getVessel().setIonStickAffinity( new RandomAffinity( vesselIonStickSlider.getValue() ) );
             }
         } );
-        vesselIonStickSlider.setValue( 0.2 );
+        vesselIonStickSlider.setValue( 0.9 );
+        vesselIonStickSlider.setNumMajorTicks( 5 );
 
         vesselIonReleaseSlider = new ModelSlider( "Ion release likelihood",
                                                   "",
                                                   0,
-                                                  1,
+                                                  0.1,
                                                   0,
                                                   new DecimalFormat( "0.000" ) );
         vesselIonReleaseSlider.addChangeListener( new ChangeListener() {
@@ -68,10 +70,26 @@ public class SolubleSaltsControlPanel extends ControlPanel {
                 model.getVessel().setIonReleaseAffinity( new RandomAffinity( vesselIonReleaseSlider.getValue() ) );
             }
         } );
-        vesselIonReleaseSlider.setValue( 0.4 );
+        vesselIonReleaseSlider.setValue( 0.005 );
+        vesselIonReleaseSlider.setNumMajorTicks( 5 );
+
+        dissociationSlider = new ModelSlider( "Dissociation likelihood",
+                                              "",
+                                              0,
+                                              1,
+                                              0,
+                                              new DecimalFormat( "0.000" ) );
+        dissociationSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                SaltMolecule.setDissociationLikelihood( dissociationSlider.getValue() );
+            }
+        } );
+        dissociationSlider.setValue( 0.005 );
+        dissociationSlider.setNumMajorTicks( 5 );
 
         addControl( vesselIonStickSlider );
         addControl( vesselIonReleaseSlider );
+        addControl( dissociationSlider );
     }
 
     /**
