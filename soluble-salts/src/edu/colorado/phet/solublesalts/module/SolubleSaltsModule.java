@@ -62,22 +62,32 @@ public class SolubleSaltsModule extends PiccoloModule {
         // Create some ions and add it to the model
 
         {
-            int numIons = 10;
-            for( int i = 0; i < numIons; i++ ) {
-                Ion ion = new Sodium();
-                IonInitializer.initialize( ion, model );
-                model.addModelElement( ion );
-            }
+//            int numIons = 10;
+//            for( int i = 0; i < numIons; i++ ) {
+//                Ion ion = new Sodium();
+//                IonInitializer.initialize( ion, model );
+//                model.addModelElement( ion );
+//            }
         }
 
         {
-            int numIons = 0;
-            for( int i = 0; i < numIons; i++ ) {
-                Ion ion = new Chloride();
-                IonInitializer.initialize( ion, model );
-                model.addModelElement( ion );
-            }
+//            int numIons = 0;
+//            for( int i = 0; i < numIons; i++ ) {
+//                Ion ion = new Chloride();
+//                IonInitializer.initialize( ion, model );
+//                model.addModelElement( ion );
+//            }
         }
+        Ion ion = new Sodium();
+        IonInitializer.initialize( ion, model );
+        ion.setPosition( 300, 500 );
+        ion.setVelocity( 0, 5 );
+        model.addModelElement( ion );
+        ion = new Chloride();
+        IonInitializer.initialize( ion, model );
+        ion.setPosition( 300, 450 );
+        ion.setVelocity( 0, 5 );
+        model.addModelElement( ion );
 
         // Set up the control panel
         setControlPanel( new SolubleSaltsControlPanel( this ) );

@@ -15,9 +15,11 @@ import edu.colorado.phet.piccolo.PImageFactory;
 import edu.colorado.phet.solublesalts.model.Ion;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 
 /**
  * IonGraphic
@@ -30,6 +32,7 @@ public class IonGraphic extends PNode implements SimpleObserver {
     private Ion ion;
     private PImage pImage;
     private PText pText;
+    private PPath pDebugPath;
 
     public IonGraphic( Ion ion, String imageName ) {
         this.ion = ion;
@@ -48,5 +51,20 @@ public class IonGraphic extends PNode implements SimpleObserver {
     public void update() {
         this.setOffset( ion.getPosition().getX() - pImage.getWidth() / 2,
                         ion.getPosition().getY() - pImage.getHeight() / 2 );
+
+        // Draws a mark on the ion if it's bound
+        if( ion.isBound() && pDebugPath == null ) {
+            pDebugPath = new PPath( new Ellipse2D.Double( ( pImage.getWidth() / 2 ) - 2,
+                                                          ( pImage.getHeight() / 2 ) - 2,
+                                                          4,
+                                                          4 ) );
+            pDebugPath.setPaint( Color.red );
+            pDebugPath.setStrokePaint( Color.red );
+            addChild( pDebugPath );
+        }
+        else if( !ion.isBound() && pDebugPath != null ) {
+            removeChild( pDebugPath );
+            pDebugPath = null;
+        }
     }
 }

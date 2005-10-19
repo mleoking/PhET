@@ -32,7 +32,7 @@ import java.util.EventObject;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Vessel implements ModelElement, Collidable {
+public class Vessel implements ModelElement, Collidable, Binder {
     private Rectangle2D shape;
     private Point2D location = new Point2D.Double();
     private double waterLevel;
@@ -78,7 +78,8 @@ public class Vessel implements ModelElement, Collidable {
      */
     public void bind( Ion ion ) {
         boundIons.add( ion );
-        ion.setIsBound( true );
+//        ion.setIsBound( true );
+        ion.bindTo( this );
     }
 
     //----------------------------------------------------------------
@@ -144,7 +145,8 @@ public class Vessel implements ModelElement, Collidable {
             Ion ion = (Ion)boundIons.get( i );
             if( ionReleaseAffinity.stick( ion, this ) ) {
                 boundIons.remove( ion );
-                ion.setIsBound( false );
+//                ion.setIsBound( false );
+                ion.unbindFrom( this );
             }
         }
     }

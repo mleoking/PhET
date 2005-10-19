@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Molecule extends Body {
+public class Molecule extends Body implements Binder {
 
     private Point2D cm = new Point2D.Double();
     private ArrayList atoms = new ArrayList();
@@ -37,6 +37,8 @@ public class Molecule extends Body {
 
     public void addAtom( Atom atom ) {
         atoms.add( atom );
+        atom.bindTo( this );
+//        atom.setIsBound( true );
         updateCm();
     }
 
@@ -46,7 +48,6 @@ public class Molecule extends Body {
 
     public double getMomentOfInertia() {
         throw new RuntimeException( "not implemented " );
-//        return 0;
     }
 
     private void updateCm() {
@@ -58,5 +59,9 @@ public class Molecule extends Body {
         }
         cm.setLocation( cm.getX() / atoms.size(),
                         cm.getY() / atoms.size() );
+    }
+
+    protected ArrayList getAtoms() {
+        return atoms;
     }
 }
