@@ -68,6 +68,9 @@ public class LaserConfig {
     public static final double MIN_WAVELENGTH = VisibleColor.MIN_WAVELENGTH;
     public static final double MAX_WAVELENGTH = VisibleColor.MAX_WAVELENGTH;
 
+    // Fonts
+    public static final Font DEFAULT_CONTROL_FONT = new Font( "Lucida sans", Font.BOLD, 10 );
+
     // Angle within which a photon is considered to be moving horizontally. This is used by the
     // mirrors to "cheat" photons into lasing, and by the wave graphic to determine its amplitude
     public static double PHOTON_CHEAT_ANGLE = 5;
