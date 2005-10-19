@@ -156,6 +156,11 @@ public class GaussianWavePacketPlot extends LinePlot {
         return _maxAmplitude;
     }
     
+    public void setUseCosines( boolean useCosines ) {
+        _useCosines = useCosines;
+        updateDataSet();
+    }
+    
     //----------------------------------------------------------------------------
     // LinePlot overrides
     //----------------------------------------------------------------------------

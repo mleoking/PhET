@@ -109,6 +109,7 @@ public class InputPulseView extends GraphicLayerSet {
         
         // Input pulse
         GaussianWavePacketPlot inputPlot = new GaussianWavePacketPlot( component, chartGraphic );
+        inputPlot.setUseCosines( true );
         inputPlot.setPixelsPerPoint( 1 );
         inputPlot.setStroke( WAVE_STROKE );
         inputPlot.setStrokeColor( WAVE_COLOR );

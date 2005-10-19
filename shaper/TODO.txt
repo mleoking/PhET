@@ -32,6 +32,7 @@ CLEANUP:
 
 
 DONE:
+(10/19/05) - everything should be in cosine, not sine, mode
 (10/19/05) - 75% of the user interface implemented, most of the model implemented
 (10/18/05) - hide clock controls
 (10/18/05) - set up dev/shaper subdirectory in PhET development area
