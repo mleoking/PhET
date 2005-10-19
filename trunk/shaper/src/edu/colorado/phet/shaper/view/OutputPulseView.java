@@ -136,6 +136,7 @@ public class OutputPulseView extends GraphicLayerSet implements SimpleObserver {
          
             // Random sum plot
             _randomSumPlot = new FourierSumPlot( getComponent(), _chartGraphic, _randomFourierSeries );
+            _randomSumPlot.setUseCosines( true );
             _randomSumPlot.setPeriod( L );
             _randomSumPlot.setPixelsPerPoint( PIXELS_PER_POINT );
             _randomSumPlot.setStroke( RANDOM_SUM_STROKE );
@@ -145,6 +146,7 @@ public class OutputPulseView extends GraphicLayerSet implements SimpleObserver {
             
             // User's sum plot
             _userSumPlot = new FourierSumPlot( getComponent(), _chartGraphic, _userFourierSeries );
+            _userSumPlot.setUseCosines( true );
             _userSumPlot.setPeriod( L );
             _userSumPlot.setPixelsPerPoint( PIXELS_PER_POINT );
             _userSumPlot.setStroke( USER_SUM_STROKE );

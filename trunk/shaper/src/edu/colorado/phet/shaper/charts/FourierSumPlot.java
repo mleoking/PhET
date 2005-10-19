@@ -160,6 +160,11 @@ public class FourierSumPlot extends LinePlot {
         return _maxAmplitude;
     }
     
+    public void setUseCosines( boolean useCosines ) {
+        _useCosines = useCosines;
+        updateDataSet();
+    }
+    
     //----------------------------------------------------------------------------
     // Data set update
     //----------------------------------------------------------------------------
