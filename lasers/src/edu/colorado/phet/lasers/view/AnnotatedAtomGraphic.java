@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.dischargelamps.view;
+package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
@@ -16,7 +16,6 @@ import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.lasers.model.atom.Atom;
-import edu.colorado.phet.lasers.view.AtomGraphic;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
