@@ -34,10 +34,9 @@ class StateLifetimeManager implements ModelElement {
     private BaseModel model;
 
     /**
-     *
-     * @param atom                  The atom whose state's lifetime we are to manage
-     * @param emitOnStateChange     Does the atom emit a photon when it changes state?
-     * @param model                 The model
+     * @param atom              The atom whose state's lifetime we are to manage
+     * @param emitOnStateChange Does the atom emit a photon when it changes state?
+     * @param model             The model
      */
     public StateLifetimeManager( Atom atom, boolean emitOnStateChange, BaseModel model ) {
         this.atom = atom;
@@ -68,6 +67,7 @@ class StateLifetimeManager implements ModelElement {
 
     /**
      * Changes the state of the associated atom if the state's lifetime has been exceeded.
+     *
      * @param dt
      */
     public void stepInTime( double dt ) {
@@ -78,6 +78,8 @@ class StateLifetimeManager implements ModelElement {
             if( emitOnStateChange ) {
                 double speed = Photon.SPEED;
                 double theta = Math.random() * Math.PI * 2;
+
+//                theta = 0;
                 double x = speed * Math.cos( theta );
                 double y = speed * Math.sin( theta );
 

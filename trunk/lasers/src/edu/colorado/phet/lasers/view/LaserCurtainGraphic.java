@@ -29,7 +29,7 @@ import java.awt.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class LaserCurtainGraphic extends PhetShapeGraphic implements AtomicState.Listener, LaserModel.LaserListener {
+public class LaserCurtainGraphic extends PhetShapeGraphic implements AtomicState.Listener, LaserModel.ChangeListener {
     private Rectangle beamBounds = new Rectangle();
     private Color color = Color.white;
     private AtomicState[] atomicStates;
@@ -37,6 +37,7 @@ public class LaserCurtainGraphic extends PhetShapeGraphic implements AtomicState
     private int numLasingPhotons;
     private double maxAlpha;
     private double alpha;
+    private LaserModel model;
 
     /**
      * @param component
@@ -51,6 +52,7 @@ public class LaserCurtainGraphic extends PhetShapeGraphic implements AtomicState
                                 AtomicState[] atomicStates,
                                 double maxAlpha ) {
         super( component, null, null );
+        this.model = laserModel;
         this.atomicStates = atomicStates;
         this.maxAlpha = maxAlpha;
         beamBounds.setRect( beamShape.getBounds() );
@@ -96,13 +98,21 @@ public class LaserCurtainGraphic extends PhetShapeGraphic implements AtomicState
     //----------------------------------------------------------------
 
     public void energyLevelChanged( AtomicState.Event event ) {
+        atomicStates = new AtomicState[]{model.getMiddleEnergyState(),
+                                         model.getGroundState()};
+        update();
+    }
+
+    public void atomicStatesChanged( LaserModel.ChangeEvent event ) {
+        atomicStates = new AtomicState[]{model.getMiddleEnergyState(),
+                                         model.getGroundState()};
         update();
     }
 
     public void meanLifetimechanged( AtomicState.Event event ) {
     }
 
-    public void lasingPopulationChanged( LaserModel.LaserEvent event ) {
+    public void lasingPopulationChanged( LaserModel.ChangeEvent event ) {
         numLasingPhotons = event.getLasingPopulation();
         update();
     }

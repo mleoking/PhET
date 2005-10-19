@@ -72,6 +72,7 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
 
         this.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
+//                System.out.println( "EnergyLifetimeSlider.this.getValue()  = " + EnergyLifetimeSlider.this.getValue()  );
                 atomicState.setMeanLifetime( EnergyLifetimeSlider.this.getValue() );
             }
         } );

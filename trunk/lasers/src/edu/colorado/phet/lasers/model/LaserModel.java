@@ -116,7 +116,7 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         if( Math.abs( photon.getVelocity().getAngle() ) < angleWindow
             || Math.abs( photon.getVelocity().getAngle() - Math.PI ) < angleWindow ) {
             lasingPhotons.add( photon );
-            laserListenerProxy.lasingPopulationChanged( new LaserEvent( this ) );
+            changeListenerProxy.lasingPopulationChanged( new ChangeEvent( this ) );
         }
     }
 
@@ -218,6 +218,7 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
                 numHighStateAtoms++;
             }
         }
+        changeListenerProxy.atomicStatesChanged( new ChangeEvent( this ) );
     }
 
     public ResonatingCavity getResonatingCavity() {
@@ -463,20 +464,24 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
     private HashSet lasingPhotons = new HashSet();
     private double angleWindow = LaserConfig.PHOTON_CHEAT_ANGLE;
 
-    private EventChannel laserEventChannel = new EventChannel( LaserListener.class );
-    private LaserListener laserListenerProxy = (LaserListener)laserEventChannel.getListenerProxy();
+    private EventChannel laserEventChannel = new EventChannel( ChangeListener.class );
+    private ChangeListener changeListenerProxy = (ChangeListener)laserEventChannel.getListenerProxy();
 
-    public void addLaserListener( LaserListener listener ) {
+    public void addLaserListener( ChangeListener listener ) {
         laserEventChannel.addListener( listener );
     }
 
-    public void removeLaserListener( LaserListener listener ) {
+    public void removeLaserListener( ChangeListener listener ) {
         laserEventChannel.removeListener( listener );
     }
 
-    public class LaserEvent extends EventObject {
-        public LaserEvent( Object source ) {
+    public class ChangeEvent extends EventObject {
+        public ChangeEvent( Object source ) {
             super( source );
+        }
+
+        public LaserModel getLaserModel() {
+            return (LaserModel)getSource();
         }
 
         public int getLasingPopulation() {
@@ -484,15 +489,25 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         }
     }
 
-    public interface LaserListener extends EventListener {
-        void lasingPopulationChanged( LaserEvent event );
+    public interface ChangeListener extends EventListener {
+        void lasingPopulationChanged( ChangeEvent event );
+
+        void atomicStatesChanged( ChangeEvent event );
+    }
+
+    public static class ChangeListenerAdapter implements ChangeListener {
+        public void lasingPopulationChanged( ChangeEvent event ) {
+        }
+
+        public void atomicStatesChanged( ChangeEvent event ) {
+        }
     }
 
     public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
         Photon photon = event.getPhoton();
         if( lasingPhotons.contains( photon ) ) {
             lasingPhotons.remove( photon );
-            laserListenerProxy.lasingPopulationChanged( new LaserEvent( this ) );
+            changeListenerProxy.lasingPopulationChanged( new ChangeEvent( this ) );
         }
         removeModelElement( event.getPhoton() );
     }
@@ -503,7 +518,6 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
     private class AtomChangeListener extends Atom.ChangeListenerAdapter {
 
         public void stateChanged( Atom.ChangeEvent event ) {
-            Atom atom = event.getAtom();
             AtomicState prevState = event.getPrevState();
             AtomicState currState = event.getCurrState();
             if( prevState == currentElementProperties.getGroundState() ) {

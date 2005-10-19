@@ -26,7 +26,7 @@ import java.awt.geom.Point2D;
  * because it doesn't get added to the ApparatusPanel itself. Its two components do. This is necessary
  * because they need to be on different levels.
  */
-public class LaserWaveGraphic implements LaserModel.LaserListener {
+public class LaserWaveGraphic implements LaserModel.ChangeListener {
     // This factor controls the visual amplitude of the waves inside and outside of the cavity
     public static double scaleFactor = 5;
     public static double cyclesInCavity = 10;
@@ -187,11 +187,18 @@ public class LaserWaveGraphic implements LaserModel.LaserListener {
     // Event handling
     //-----------------------------------------------------------------
 
-    public void lasingPopulationChanged( LaserModel.LaserEvent event ) {
+    public void lasingPopulationChanged( LaserModel.ChangeEvent event ) {
         int newNum = event.getLasingPopulation();
         if( newNum != numLasingPhotons ) {
             numLasingPhotons = newNum;
             update();
         }
+    }
+
+    public void atomicStatesChanged( LaserModel.ChangeEvent event ) {
+        AtomicState[] atomicStates = new AtomicState[]{event.getLaserModel().getMiddleEnergyState(),
+                                                       event.getLaserModel().getGroundState()};
+        determineColor( atomicStates );
+        update();
     }
 }
