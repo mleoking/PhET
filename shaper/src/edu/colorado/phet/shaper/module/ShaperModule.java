@@ -21,11 +21,13 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.shaper.ShaperConstants;
-import edu.colorado.phet.shaper.control.ShaperControlPanel;
+import edu.colorado.phet.shaper.control.ShaperControls;
 import edu.colorado.phet.shaper.help.ShaperHelpItem;
 import edu.colorado.phet.shaper.model.FourierSeries;
 import edu.colorado.phet.shaper.view.*;
@@ -65,8 +67,7 @@ public class ShaperModule extends BaseModule {
     private AmplitudesView _amplitudesView;
     private InputPulseView _inputView;
     private OutputPulseView _outputView;
-    
-    private ShaperControlPanel _controlPanel;
+    private MoleculeAnimation _animation;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -193,19 +194,35 @@ public class ShaperModule extends BaseModule {
         _outputView = new OutputPulseView( apparatusPanel, _userFourierSeries, _randomFourierSeries );
         apparatusPanel.addGraphic( _outputView );
         _outputView.setLocation( 450, 500 );
+              
+        _animation = new MoleculeAnimation( apparatusPanel );
+        apparatusPanel.addGraphic( _animation );
+        _animation.setLocation( 515, 225 );
         
         //----------------------------------------------------------------------------
         // Control
         //----------------------------------------------------------------------------
-                
-        // Control Panel
-        _controlPanel = new ShaperControlPanel( this );
-        setControlPanel( _controlPanel );
+        
+        // Controls on the apparatus panel
+        {
+            ShaperControls panel = new ShaperControls();
+            PhetGraphic panelGraphic = PhetJComponent.newInstance( apparatusPanel, panel );
+            apparatusPanel.addGraphic( panelGraphic );
+            panelGraphic.setLocation( 800, 250 );
+        }
         
         //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------
    
+        // Instructions
+        HTMLGraphic instructions = new HTMLGraphic( apparatusPanel );
+        instructions.setHTML( SimStrings.get( "instructions" ) );
+        instructions.setFont( new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 18 ) );
+        instructions.setColor( Color.MAGENTA );
+        apparatusPanel.addGraphic( instructions );
+        instructions.setLocation( 800, 380 );
+        
         // Help Items
         ShaperHelpItem slidersToolHelp = new ShaperHelpItem( apparatusPanel, "Help goes here" );
         slidersToolHelp.pointAt( new Point( 252, 117 ), ShaperHelpItem.UP, 30 );

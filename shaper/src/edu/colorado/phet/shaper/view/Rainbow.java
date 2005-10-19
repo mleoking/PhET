@@ -15,7 +15,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.shaper.model.FourierSeries;
 
@@ -26,7 +26,7 @@ import edu.colorado.phet.shaper.model.FourierSeries;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class Rainbow extends GraphicLayerSet {
+public class Rainbow extends CompositePhetGraphic {
 
     private static final int WIDTH = 27;
     private static final int HEIGHT = 650;
