@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+
+Main-Class: edu.colorado.phet.shaper.ShaperApplication
+
+CVS-Tag: shaper-0-0-1-2005-10-19
