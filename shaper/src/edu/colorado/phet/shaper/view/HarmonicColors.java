@@ -59,7 +59,7 @@ public class HarmonicColors {
         _harmonicColors = new Color[]
         {
                 Color.RED,
-                Color.ORANGE,
+                new Color( 232, 107, 27 ), /* pumpkin orange */
                 Color.YELLOW,
                 Color.GREEN,
                 Color.BLUE,

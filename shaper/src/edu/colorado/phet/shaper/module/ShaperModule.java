@@ -14,21 +14,21 @@ package edu.colorado.phet.shaper.module;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Point;
+import java.awt.RenderingHints;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
+import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.shaper.ShaperConstants;
 import edu.colorado.phet.shaper.control.ShaperControlPanel;
 import edu.colorado.phet.shaper.help.ShaperHelpItem;
 import edu.colorado.phet.shaper.model.FourierSeries;
-import edu.colorado.phet.shaper.view.AmplitudesView;
-import edu.colorado.phet.shaper.view.DiffractionGrating;
-import edu.colorado.phet.shaper.view.Mirror;
-import edu.colorado.phet.shaper.view.Rainbow;
+import edu.colorado.phet.shaper.view.*;
 
 
 /**
@@ -63,6 +63,8 @@ public class ShaperModule extends BaseModule {
     private FourierSeries _randomFourierSeries;
     
     private AmplitudesView _amplitudesView;
+    private InputPulseView _inputView;
+    private OutputPulseView _outputView;
     
     private ShaperControlPanel _controlPanel;
     
@@ -105,56 +107,92 @@ public class ShaperModule extends BaseModule {
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         setApparatusPanel( apparatusPanel );
         
-        Rainbow rainbow = new Rainbow( apparatusPanel, _userFourierSeries );
-        apparatusPanel.addGraphic( rainbow );
-        rainbow.setLocation( 86, 25 );
+        // Rainbow of light
+        {
+            Rainbow rainbow = new Rainbow( apparatusPanel, _userFourierSeries );
+            apparatusPanel.addGraphic( rainbow );
+            rainbow.setLocation( 86, 25 );
+        }
         
-        Mirror inputMirror = new Mirror( apparatusPanel );
-        apparatusPanel.addGraphic( inputMirror );
-        inputMirror.rotate( Math.toRadians( 180 ) );
-        inputMirror.setLocation( 210, 40 );
+        // Input mirror
+        {
+            Mirror inputMirror = new Mirror( apparatusPanel );
+            apparatusPanel.addGraphic( inputMirror );
+            inputMirror.centerRegistrationPoint();
+            inputMirror.rotate( Math.toRadians( 180 ) );
+            inputMirror.setLocation( 210, 40 );
+
+            HTMLGraphic inputMirrorLabel = new HTMLGraphic( apparatusPanel );
+            inputMirrorLabel.setFont( new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 18 ) );
+            inputMirrorLabel.setColor( Color.BLACK );
+            inputMirrorLabel.setHTML( SimStrings.get( "Mirror.label" ) );
+            apparatusPanel.addGraphic( inputMirrorLabel );
+            inputMirrorLabel.setLocation( 55, 15 );
+        }
         
-        PhetTextGraphic inputMirrorLabel = new PhetTextGraphic( apparatusPanel );
-        inputMirrorLabel.setFont( new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 18 ) );
-        inputMirrorLabel.setColor( Color.BLACK );
-        inputMirrorLabel.setText( SimStrings.get( "Mirror.label" ) );
-        apparatusPanel.addGraphic( inputMirrorLabel );
-        inputMirrorLabel.setLocation( 55, 25 );
+        // Output mirror
+        {
+            Mirror outputMirror = new Mirror( apparatusPanel );
+            apparatusPanel.addGraphic( outputMirror );
+            outputMirror.setLocation( 50, 630 );
+
+            HTMLGraphic outputMirrorLabel = new HTMLGraphic( apparatusPanel );
+            outputMirrorLabel.setFont( new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 18 ) );
+            outputMirrorLabel.setColor( Color.BLACK );
+            outputMirrorLabel.setHTML( SimStrings.get( "Mirror.label" ) );
+            apparatusPanel.addGraphic( outputMirrorLabel );
+            outputMirrorLabel.setLocation( 55, 655 );
+        }
         
+        // Diffusion gratings
+        {
+            DiffractionGrating inputGrating = new DiffractionGrating( apparatusPanel );
+            apparatusPanel.addGraphic( inputGrating );
+            inputGrating.centerRegistrationPoint();
+            inputGrating.rotate( Math.toRadians( -15 ) );
+            inputGrating.setLocation( 440, 250 );
+
+            DiffractionGrating outputGrating = new DiffractionGrating( apparatusPanel );
+            apparatusPanel.addGraphic( outputGrating );
+            outputGrating.centerRegistrationPoint();
+            outputGrating.rotate( Math.toRadians( 15 ) );
+            outputGrating.setLocation( 440, 445 );
+
+            HTMLGraphic gratingsLabel = new HTMLGraphic( apparatusPanel );
+            gratingsLabel.setFont( new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 18 ) );
+            gratingsLabel.setColor( Color.LIGHT_GRAY );
+            gratingsLabel.setHTML( SimStrings.get( "DiffractionGratings.label" ) );
+            apparatusPanel.addGraphic( gratingsLabel );
+            gratingsLabel.setLocation( 415, 325 );
+
+            Arrow upArrow = new Arrow( new Point2D.Double( 0, 0 ), new Point2D.Double( -10, -40 ), 10, 10, 4 );
+            PhetShapeGraphic upArrowGraphic = new PhetShapeGraphic( apparatusPanel );
+            upArrowGraphic.setShape( upArrow.getShape() );
+            upArrowGraphic.setColor( Color.LIGHT_GRAY );
+            upArrowGraphic.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+            apparatusPanel.addGraphic( upArrowGraphic );
+            upArrowGraphic.setLocation( 440, 315 );
+            
+            Arrow downArrow = new Arrow( new Point2D.Double( 0, 0 ), new Point2D.Double( -10, 40 ), 10, 10, 4 );
+            PhetShapeGraphic downArrowGraphic = new PhetShapeGraphic( apparatusPanel );
+            downArrowGraphic.setShape( downArrow.getShape() );
+            downArrowGraphic.setColor( Color.LIGHT_GRAY );
+            downArrowGraphic.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+            apparatusPanel.addGraphic( downArrowGraphic );
+            downArrowGraphic.setLocation( 440, 380 );
+        }
+
         _amplitudesView = new AmplitudesView( apparatusPanel, _userFourierSeries );
         apparatusPanel.addGraphic( _amplitudesView );
         _amplitudesView.setLocation( 15, 250 );
         
-        Mirror outputMirror = new Mirror( apparatusPanel );
-        apparatusPanel.addGraphic( outputMirror );
-        inputMirror.centerRegistrationPoint();
-        outputMirror.setLocation( 50, 630 );
+        _inputView = new InputPulseView( apparatusPanel );
+        apparatusPanel.addGraphic( _inputView );
+        _inputView.setLocation( 450, 10 );
         
-        PhetTextGraphic outputMirrorLabel = new PhetTextGraphic( apparatusPanel );
-        outputMirrorLabel.setFont( new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 18 ) );
-        outputMirrorLabel.setColor( Color.BLACK );
-        outputMirrorLabel.setText( SimStrings.get( "Mirror.label" ) );
-        apparatusPanel.addGraphic( outputMirrorLabel );
-        outputMirrorLabel.setLocation( 55, 660 );
-        
-        DiffractionGrating inputGrating = new DiffractionGrating( apparatusPanel );
-        apparatusPanel.addGraphic( inputGrating );
-        inputGrating.centerRegistrationPoint();
-        inputGrating.rotate( Math.toRadians( -15 ) );
-        inputGrating.setLocation( 440, 250 );
-        
-        DiffractionGrating outputGrating = new DiffractionGrating( apparatusPanel );
-        apparatusPanel.addGraphic( outputGrating );
-        outputGrating.centerRegistrationPoint();
-        outputGrating.rotate( Math.toRadians( 15 ) );
-        outputGrating.setLocation( 440, 445 );
-        
-        HTMLGraphic gratingsLabel = new HTMLGraphic( apparatusPanel );
-        gratingsLabel.setFont( new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 18 ) );
-        gratingsLabel.setColor( Color.LIGHT_GRAY );
-        gratingsLabel.setHTML( SimStrings.get( "DiffractionGratings.label" ) );
-        apparatusPanel.addGraphic( gratingsLabel );
-        gratingsLabel.setLocation( 415, 330 );
+        _outputView = new OutputPulseView( apparatusPanel, _userFourierSeries, _randomFourierSeries );
+        apparatusPanel.addGraphic( _outputView );
+        _outputView.setLocation( 450, 500 );
         
         //----------------------------------------------------------------------------
         // Control

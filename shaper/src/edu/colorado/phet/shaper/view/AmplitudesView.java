@@ -14,6 +14,7 @@ package edu.colorado.phet.shaper.view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -110,7 +111,7 @@ public class AmplitudesView extends GraphicLayerSet implements SimpleObserver {
         
         // Background
         PhetShapeGraphic backgroundGraphic = new PhetShapeGraphic( component );
-        backgroundGraphic.setShape( new Rectangle( 0, 0, BACKGROUND_SIZE.width, BACKGROUND_SIZE.height ) );
+        backgroundGraphic.setShape( new RoundRectangle2D.Double( 0, 0, BACKGROUND_SIZE.width, BACKGROUND_SIZE.height, 20, 20 ) );
         backgroundGraphic.setPaint( BACKGROUND_COLOR );
         backgroundGraphic.setStroke( BACKGROUND_STROKE );
         backgroundGraphic.setBorderColor( BACKGROUND_BORDER_COLOR );
@@ -149,7 +150,7 @@ public class AmplitudesView extends GraphicLayerSet implements SimpleObserver {
             _resetButton.setOpaque( false );
             _resetButtonGraphic = PhetJComponent.newInstance( component, _resetButton );
             addGraphic( _resetButtonGraphic, BUTTONS_LAYER );
-            _resetButtonGraphic.setLocation( 0, 0 );
+            _resetButtonGraphic.setLocation( 5, 5 );
             _resetButtonGraphic.scale( 0.7 );
             
             _resetButton.addActionListener( new ActionListener() {
