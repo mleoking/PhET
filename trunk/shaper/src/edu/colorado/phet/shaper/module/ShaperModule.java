@@ -12,6 +12,7 @@
 package edu.colorado.phet.shaper.module;
 
 import java.awt.*;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.model.BaseModel;
@@ -117,9 +118,74 @@ public class ShaperModule extends BaseModule {
         
         // Rainbow of light
         {
+            // Raindow behind the amplitude sliders
             RainbowLight rainbow = new RainbowLight( apparatusPanel, _userFourierSeries );
             apparatusPanel.addGraphic( rainbow );
             rainbow.setLocation( 86, 25 );
+                     
+            // Rainbow from the input diffraction grating to the input mirror
+            {
+                Point focalPoint = new Point( 430, 246 );
+                Point[] points = { 
+                        new Point( 86, 49 ), new Point( 113, 44 ), 
+                        new Point( 123, 44 ), new Point( 150, 40 ), 
+                        new Point( 160, 40 ), new Point( 187, 40 ), 
+                        new Point( 196, 40 ), new Point( 224, 40 ), 
+                        new Point( 233, 40 ), new Point( 260, 40 ), 
+                        new Point( 271, 40 ), new Point( 298, 44 ), 
+                        new Point( 307, 44 ), new Point( 335, 49 ) };
+
+                int order = 0;
+                for ( int i = 0; i < points.length; ) {
+                    // Path
+                    GeneralPath path = new GeneralPath();
+                    path.moveTo( focalPoint.x, focalPoint.y );
+                    path.lineTo( points[i].x, points[i].y );
+                    i++;
+                    path.lineTo( points[i].x, points[i].y );
+                    i++;
+                    path.closePath();
+                    // Beam
+                    PhetShapeGraphic beam = new PhetShapeGraphic( apparatusPanel );
+                    beam.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+                    beam.setShape( path );
+                    beam.setColor( HarmonicColors.getInstance().getColor( order++ ) );
+                    apparatusPanel.addGraphic( beam );
+                    beam.setLocation( 0, 0 );
+                }
+            }
+            
+            // Rainbow from the output mirror to the output diffraction grating
+            {
+                Point focalPoint = new Point( 430, 451 );
+                Point[] points = { 
+                        new Point(  86, 646 ), new Point( 113, 652 ), 
+                        new Point( 123, 652 ), new Point( 150, 652 ), 
+                        new Point( 160, 652 ), new Point( 187, 652 ), 
+                        new Point( 196, 655 ), new Point( 224, 655 ), 
+                        new Point( 233, 652 ), new Point( 260, 652 ), 
+                        new Point( 271, 652 ), new Point( 298, 652 ), 
+                        new Point( 307, 652 ), new Point( 335, 646 ) };
+
+                int order = 0;
+                for ( int i = 0; i < points.length; ) {
+                    // Path
+                    GeneralPath path = new GeneralPath();
+                    path.moveTo( focalPoint.x, focalPoint.y );
+                    path.lineTo( points[i].x, points[i].y );
+                    i++;
+                    path.lineTo( points[i].x, points[i].y );
+                    i++;
+                    path.closePath();
+                    // Beam
+                    PhetShapeGraphic beam = new PhetShapeGraphic( apparatusPanel );
+                    beam.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+                    beam.setShape( path );
+                    beam.setColor( HarmonicColors.getInstance().getColor( order++ ) );
+                    apparatusPanel.addGraphic( beam );
+                    beam.setLocation( 0, 0 );
+                }
+            }
         }
         
         // Input mirror

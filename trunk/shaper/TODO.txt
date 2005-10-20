@@ -6,7 +6,6 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- add rainbow light beams going from the gratings to the mirrors
 - molecule animation
 
 
@@ -35,6 +34,7 @@ CLEANUP:
 
 
 DONE:
+(10/20/05) - add rainbow light beams going from the gratings to the mirrors
 (10/20/05) - add white light beams going from the graphs to the gratings
 (10/20/05) - calculate and set value for "How close am I?" readout
 (10/20/05) - change closeness readout to a JTextField so that it updates (JLabel wouldn't update)
