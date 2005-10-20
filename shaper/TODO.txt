@@ -35,6 +35,7 @@ CLEANUP:
 
 
 DONE:
+(10/20/05) - don't test for a match while an amplitude slider is being dragged
 (10/20/05) - replace CheatDialog with a PhetGraphic that is positioned above amplitude sliders
 (10/20/05) - bugfix in EasyGridBagLayout.setInsets
 (10/20/05) - add "Cheat" dialog
