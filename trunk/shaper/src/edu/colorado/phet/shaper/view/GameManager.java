@@ -71,9 +71,6 @@ public class GameManager implements SimpleObserver {
         // Update the animation
         _animation.setCloseness( closeness );
         
-        // Update the control panel readout
-        _controlPanel.setCloseness( closeness );
-        
         // Do we have a match?
         if ( closeness > 0.95 ) {
             

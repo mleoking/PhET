@@ -6,6 +6,8 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- correct calculation for "closeness"
+- how close do we have to be to match the output pulse?
 - molecule animation
 
 
@@ -13,7 +15,6 @@ MEDIUM PRIORITY:
 
 
 LOW PRIORITY:
-- flatten input pulse view, since it never changes
 
 
 NEW FEATURES:
@@ -34,6 +35,8 @@ CLEANUP:
 
 
 DONE:
+(10/20/05) - add Help items to amplitude controls
+(10/20/05) - move "How close am I?" out of control panel and into animation area
 (10/20/05) - add rainbow light beams going from the gratings to the mirrors
 (10/20/05) - add white light beams going from the graphs to the gratings
 (10/20/05) - calculate and set value for "How close am I?" readout

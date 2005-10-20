@@ -51,7 +51,7 @@ public class InputPulseView extends GraphicLayerSet {
 
     // Title parameters
     private static final Font TITLE_FONT = new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 20 );
-    private static final Color TITLE_COLOR = Color.BLUE;
+    private static final Color TITLE_COLOR = Color.BLACK;
 
     // Chart parameters
     private static final double L = ShaperConstants.L; // do not change!

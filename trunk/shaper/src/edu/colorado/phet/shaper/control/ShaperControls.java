@@ -47,8 +47,6 @@ public class ShaperControls extends GraphicLayerSet {
     private OutputPulseView _outputPulseView;
     
     // UI controls
-    private String _closenessFormat;
-    private JTextField _closenessText;
     private JCheckBox _showPulse;
     private JButton _newButton;
     
@@ -71,13 +69,6 @@ public class ShaperControls extends GraphicLayerSet {
         TitledBorder titledBorder = new TitledBorder( title );
         titledBorder.setBorder( BorderFactory.createLineBorder( Color.BLACK, 1 ) );
         _panel.setBorder( titledBorder );
-        
-        // How close am I?
-        _closenessFormat = SimStrings.get( "ShaperControls.closeness" );
-        Object[] args = { "    " };
-        String text = MessageFormat.format( _closenessFormat, args );
-        _closenessText = new JTextField( text );
-        _closenessText.setEditable( false );
             
         // Show Pulse checkbox
         _showPulse = new JCheckBox( SimStrings.get( "ShaperControls.showPulse" ) );
@@ -90,7 +81,6 @@ public class ShaperControls extends GraphicLayerSet {
         EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
         innerPanel.setLayout( layout );
         layout.setAnchor( GridBagConstraints.WEST );
-        layout.addComponent( _closenessText, 0, 0 );
         layout.addComponent( _showPulse, 1, 0 );
         layout.addComponent( _newButton, 2, 0 );
         _panel.setLayout( new BorderLayout() );
@@ -111,18 +101,6 @@ public class ShaperControls extends GraphicLayerSet {
         
         _showPulse.setSelected( false );
         handleShowPulse();
-        
-        setCloseness( 0 );
-    }
-    
-    public void setCloseness( double closeness ) {
-        if ( closeness < 0 || closeness > 1 ) {
-            throw new IllegalArgumentException( "closeness is out of range: " + closeness );
-        }
-        int percent = (int)( 100 * closeness );
-        Object[] args = { new Integer( percent ) };
-        String text = MessageFormat.format( _closenessFormat, args );
-        _closenessText.setText( text );
     }
     
     public void newOutputPulse() {
