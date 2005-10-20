@@ -65,7 +65,8 @@ public class Kaboom implements ModelElement {
     }
 
     public void stepInTime( double dt ) {
-        int numPhotons = model.getNumPhotons();
+        int numPhotons = model.getNumLasingPhotons();
+//        int numPhotons = model.getNumPhotons();
         if( numPhotons > LaserConfig.KABOOM_THRESHOLD && !kaboomed ) {
             LaserModel laserModel = (LaserModel)model;
             model.reset();

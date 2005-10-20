@@ -76,6 +76,7 @@ public class LaserCurtainGraphic extends PhetShapeGraphic implements AtomicState
 
         double de = atomicStates[1].getEnergyLevel() - atomicStates[0].getEnergyLevel();
         Color color = VisibleColor.wavelengthToColor( PhysicsUtil.energyToWavelength( de ) );
+
         setColor( color );
         setBoundsDirty();
         repaint();
@@ -98,14 +99,22 @@ public class LaserCurtainGraphic extends PhetShapeGraphic implements AtomicState
     //----------------------------------------------------------------
 
     public void energyLevelChanged( AtomicState.Event event ) {
-        atomicStates = new AtomicState[]{model.getMiddleEnergyState(),
-                                         model.getGroundState()};
+        atomicStates[1].removeListener( this );
+        atomicStates[0].removeListener( this );
+        atomicStates = new AtomicState[]{model.getGroundState(),
+                                         model.getMiddleEnergyState()};
+        atomicStates[1].addListener( this );
+        atomicStates[0].addListener( this );
         update();
     }
 
     public void atomicStatesChanged( LaserModel.ChangeEvent event ) {
-        atomicStates = new AtomicState[]{model.getMiddleEnergyState(),
-                                         model.getGroundState()};
+        atomicStates[1].removeListener( this );
+        atomicStates[0].removeListener( this );
+        atomicStates = new AtomicState[]{model.getGroundState(),
+                                         model.getMiddleEnergyState()};
+        atomicStates[1].addListener( this );
+        atomicStates[0].addListener( this );
         update();
     }
 
