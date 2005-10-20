@@ -330,4 +330,12 @@ public class ShaperModule extends BaseModule {
     public void reset() {
         // This simulation has no Reset button.
     }
+    
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    public FourierSeries getOutputFourierSeries() {
+        return _outputFourierSeries;
+    }
 }

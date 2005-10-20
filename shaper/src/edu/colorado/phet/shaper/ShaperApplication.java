@@ -11,18 +11,23 @@
 
 package edu.colorado.phet.shaper;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import javax.naming.ldap.HasControls;
+import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.util.DebugMenu;
+import edu.colorado.phet.common.view.components.menu.HelpMenu;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.shaper.model.FourierSeries;
 import edu.colorado.phet.shaper.module.ShaperModule;
+import edu.colorado.phet.shaper.view.CheatDialog;
 
 
 /**
@@ -42,6 +47,7 @@ public class ShaperApplication extends PhetApplication {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private ShaperModule _shaperModule;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -77,9 +83,9 @@ public class ShaperApplication extends PhetApplication {
      * @param clock
      */
     private void initModules( AbstractClock clock ) {
-        ShaperModule shaperModule = new ShaperModule( clock );
-        setModules( new Module[] { shaperModule } );
-        setInitialModule( shaperModule );
+        _shaperModule = new ShaperModule( clock );
+        setModules( new Module[] { _shaperModule } );
+        setInitialModule( _shaperModule );
     }
     
     //----------------------------------------------------------------------------
@@ -96,6 +102,19 @@ public class ShaperApplication extends PhetApplication {
         if ( debugMenu != null ) {
             //XXX Add debug menu items here.
         }
+        
+        // Help menu extensions
+        HelpMenu helpMenu = getPhetFrame().getHelpMenu();
+        JMenuItem cheatItem = new JMenuItem( SimStrings.get( "HelpMenu.cheat" ) );
+        cheatItem.setMnemonic( SimStrings.get( "HelpMenu.cheat.mnemonic" ).charAt(0) );
+        cheatItem.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                FourierSeries outputFourierSeries = _shaperModule.getOutputFourierSeries();
+                CheatDialog dialog = new CheatDialog( getPhetFrame(), outputFourierSeries );
+                dialog.show();
+            }
+        } );
+        helpMenu.add( cheatItem );
     }
 
     //----------------------------------------------------------------------------

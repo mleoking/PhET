@@ -35,6 +35,7 @@ CLEANUP:
 
 
 DONE:
+(10/20/05) - add "Cheat" dialog
 (10/20/05) - add Help items to amplitude controls
 (10/20/05) - move "How close am I?" out of control panel and into animation area
 (10/20/05) - add rainbow light beams going from the gratings to the mirrors
