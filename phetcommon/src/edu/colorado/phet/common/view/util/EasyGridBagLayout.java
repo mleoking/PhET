@@ -247,7 +247,7 @@ public class EasyGridBagLayout extends GridBagLayout {
         _insets.top = insets.top;
         _insets.left = insets.left;
         _insets.bottom = insets.bottom;
-        _insets.bottom = insets.right;
+        _insets.right = insets.right;
     }
     
     /**
