@@ -69,7 +69,7 @@ public class OutputPulseView extends GraphicLayerSet implements SimpleObserver {
     private static final Stroke USER_SUM_STROKE = new BasicStroke( 1f );
     private static final Color USER_SUM_COLOR = Color.BLACK;
     private static final Stroke RANDOM_SUM_STROKE = new BasicStroke( 3f );
-    private static final Color RANDOM_SUM_COLOR = Color.MAGENTA;
+    public static final Color RANDOM_SUM_COLOR = ShaperConstants.OUTPUT_PULSE_COLOR;
     private static final double PIXELS_PER_POINT = 1;
     
     // Autoscaling
@@ -80,12 +80,12 @@ public class OutputPulseView extends GraphicLayerSet implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     private FourierSeries _userFourierSeries;
-    private FourierSeries _randomFourierSeries;
+    private FourierSeries _outputFourierSeries;
     private PhetShapeGraphic _backgroundGraphic;
     private HTMLGraphic _titleGraphic;
     private PulseChart _chartGraphic;
     private FourierSumPlot _userSumPlot;
-    private FourierSumPlot _randomSumPlot;
+    private FourierSumPlot _outputSumPlot;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -96,9 +96,9 @@ public class OutputPulseView extends GraphicLayerSet implements SimpleObserver {
      * 
      * @param component the parent Component
      * @param userFourierSeries the Fourier series constructed by the user
-     * @param randomFourierSeries the Fourier series that is randomly generated
+     * @param outputFourierSeries the Fourier series that describes the output pulse
      */
-    public OutputPulseView( Component component, FourierSeries userFourierSeries, FourierSeries randomFourierSeries ) {
+    public OutputPulseView( Component component, FourierSeries userFourierSeries, FourierSeries outputFourierSeries ) {
         super( component );
 
         // Enable antialiasing for all children.
@@ -107,8 +107,8 @@ public class OutputPulseView extends GraphicLayerSet implements SimpleObserver {
         // Model
         _userFourierSeries = userFourierSeries;
         _userFourierSeries.addObserver( this );
-        _randomFourierSeries = randomFourierSeries;
-        _randomFourierSeries.addObserver( this );
+        _outputFourierSeries = outputFourierSeries;
+        _outputFourierSeries.addObserver( this );
         
         // Background
         _backgroundGraphic = new PhetShapeGraphic( component );
@@ -134,15 +134,15 @@ public class OutputPulseView extends GraphicLayerSet implements SimpleObserver {
             _chartGraphic.setLocation( 35, 35 );
             _chartGraphic.setXAxisTitle( "t (ms)" ); 
          
-            // Random sum plot
-            _randomSumPlot = new FourierSumPlot( getComponent(), _chartGraphic, _randomFourierSeries );
-            _randomSumPlot.setUseCosines( true );
-            _randomSumPlot.setPeriod( L );
-            _randomSumPlot.setPixelsPerPoint( PIXELS_PER_POINT );
-            _randomSumPlot.setStroke( RANDOM_SUM_STROKE );
-            _randomSumPlot.setBorderColor( RANDOM_SUM_COLOR );
-            _chartGraphic.addDataSetGraphic( _randomSumPlot );
-            _chartGraphic.autoscaleY( _randomSumPlot.getMaxAmplitude() * AUTOSCALE_FACTOR );
+            // Output Pulse sum plot
+            _outputSumPlot = new FourierSumPlot( getComponent(), _chartGraphic, _outputFourierSeries );
+            _outputSumPlot.setUseCosines( true );
+            _outputSumPlot.setPeriod( L );
+            _outputSumPlot.setPixelsPerPoint( PIXELS_PER_POINT );
+            _outputSumPlot.setStroke( RANDOM_SUM_STROKE );
+            _outputSumPlot.setBorderColor( RANDOM_SUM_COLOR );
+            _chartGraphic.addDataSetGraphic( _outputSumPlot );
+            _chartGraphic.autoscaleY( _outputSumPlot.getMaxAmplitude() * AUTOSCALE_FACTOR );
             
             // User's sum plot
             _userSumPlot = new FourierSumPlot( getComponent(), _chartGraphic, _userFourierSeries );
@@ -164,8 +164,8 @@ public class OutputPulseView extends GraphicLayerSet implements SimpleObserver {
     public void cleanup() {
         _userFourierSeries.removeObserver( this );
         _userFourierSeries = null;
-        _randomFourierSeries.removeObserver( this );
-        _randomFourierSeries = null;
+        _outputFourierSeries.removeObserver( this );
+        _outputFourierSeries = null;
     }
     
     //----------------------------------------------------------------------------
@@ -184,10 +184,10 @@ public class OutputPulseView extends GraphicLayerSet implements SimpleObserver {
              * performance of this. 
              */
             _userSumPlot.updateDataSet();
-            _randomSumPlot.updateDataSet();
+            _outputSumPlot.updateDataSet();
             
-            // Auto scale the chart based on the random plot.
-            _chartGraphic.autoscaleY( _randomSumPlot.getMaxAmplitude() * AUTOSCALE_FACTOR );
+            // Auto scale the chart based on the output pulse plot.
+            _chartGraphic.autoscaleY( _outputSumPlot.getMaxAmplitude() * AUTOSCALE_FACTOR );
         }
     }
 }

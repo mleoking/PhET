@@ -62,7 +62,7 @@ public class ShaperModule extends BaseModule {
     //----------------------------------------------------------------------------
     
     private FourierSeries _userFourierSeries;
-    private FourierSeries _randomFourierSeries;
+    private FourierSeries _outputFourierSeries;
     
     private AmplitudesView _amplitudesView;
     private InputPulseView _inputView;
@@ -96,8 +96,8 @@ public class ShaperModule extends BaseModule {
             _userFourierSeries.getHarmonic( i ).setAmplitude( 0 );
         }
         
-        // The randomly generated Fourier Series
-        _randomFourierSeries = new FourierSeries( NUMBER_OF_HARMONICS, FUNDAMENTAL_FREQUENCY );
+        // The Fourier Series that describes the output pulse
+        _outputFourierSeries = new FourierSeries( NUMBER_OF_HARMONICS, FUNDAMENTAL_FREQUENCY );
         
         //----------------------------------------------------------------------------
         // View
@@ -191,7 +191,7 @@ public class ShaperModule extends BaseModule {
         apparatusPanel.addGraphic( _inputView );
         _inputView.setLocation( 470, 15 );
         
-        _outputView = new OutputPulseView( apparatusPanel, _userFourierSeries, _randomFourierSeries );
+        _outputView = new OutputPulseView( apparatusPanel, _userFourierSeries, _outputFourierSeries );
         apparatusPanel.addGraphic( _outputView );
         _outputView.setLocation( 470, 490 );
               
@@ -205,7 +205,7 @@ public class ShaperModule extends BaseModule {
         
         // Controls on the apparatus panel
         {
-            ShaperControls panel = new ShaperControls();
+            ShaperControls panel = new ShaperControls( _outputFourierSeries );
             PhetGraphic panelGraphic = PhetJComponent.newInstance( apparatusPanel, panel );
             apparatusPanel.addGraphic( panelGraphic );
             panelGraphic.setLocation( 800, 250 );
@@ -219,9 +219,9 @@ public class ShaperModule extends BaseModule {
         HTMLGraphic instructions = new HTMLGraphic( apparatusPanel );
         instructions.setHTML( SimStrings.get( "instructions" ) );
         instructions.setFont( new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 18 ) );
-        instructions.setColor( Color.MAGENTA );
+        instructions.setColor( ShaperConstants.OUTPUT_PULSE_COLOR );
         apparatusPanel.addGraphic( instructions );
-        instructions.setLocation( 800, 380 );
+        instructions.setLocation( 800, 390 );
         
         // Help Items
         ShaperHelpItem slidersToolHelp = new ShaperHelpItem( apparatusPanel, "Help goes here" );

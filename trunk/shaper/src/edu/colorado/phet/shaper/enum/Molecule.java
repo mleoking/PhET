@@ -36,10 +36,20 @@ public class Molecule extends ShaperEnum {
     public static final Molecule MOLECULE8 = new Molecule( "molecule8" );
     
     private static final Molecule[] MOLECULES = {
-            UNDEFINED,
             MOLECULE1, MOLECULE2, MOLECULE3, MOLECULE4,
             MOLECULE5, MOLECULE6, MOLECULE7, MOLECULE8
     };
+    
+    public static int getNumberOfMolecules() {
+        return MOLECULES.length;
+    }
+    
+    public static Molecule getByIndex( int index ) {
+        if ( index >= MOLECULES.length ) {
+            throw new IllegalArgumentException( "index out of range: " + index );
+        }
+        return MOLECULES[ index ];
+    }
     
     /**
      * Retrieves a game level by name.

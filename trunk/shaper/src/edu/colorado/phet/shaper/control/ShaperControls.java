@@ -13,18 +13,19 @@ package edu.colorado.phet.shaper.control;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.MessageFormat;
+import java.util.Random;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.shaper.ShaperConstants;
+import edu.colorado.phet.shaper.enum.Molecule;
+import edu.colorado.phet.shaper.model.FourierSeries;
 
 
 /**
@@ -35,12 +36,23 @@ import edu.colorado.phet.shaper.ShaperConstants;
  */
 public class ShaperControls extends JPanel {
     
+    // Things to be controlled
+    private FourierSeries _outputFourierSeries;
+    
+    // UI controls
     private String _closenessFormat;
     private JLabel _closenessLabel;
     private JCheckBox _showPulse;
     private JButton _newButton;
     
-    public ShaperControls() {
+    private int _moleculeIndex;
+    
+    public ShaperControls( FourierSeries outputFourierSeries ) {
+        
+        Random random = new Random();
+        _moleculeIndex = random.nextInt( Molecule.getNumberOfMolecules() );
+        
+        _outputFourierSeries = outputFourierSeries;
         
         String title = SimStrings.get( "ShaperControls.title" );
         TitledBorder titledBorder = new TitledBorder( title );
@@ -74,6 +86,8 @@ public class ShaperControls extends JPanel {
         EventListener eventListener = new EventListener();
         _showPulse.addActionListener( eventListener );
         _newButton.addActionListener( eventListener );
+        
+        handleNew();
     }
     
     private class EventListener implements ActionListener {
@@ -94,6 +108,15 @@ public class ShaperControls extends JPanel {
     
     private void handleNew() {
         System.out.println( "New" );
+        Molecule molecule = Molecule.getByIndex( _moleculeIndex );
+        double[] amplitudes = Molecule.getAmplitudes( molecule );
+        for ( int i = 0; i < _outputFourierSeries.getNumberOfHarmonics(); i++ ) {
+            _outputFourierSeries.getHarmonic( i ).setAmplitude( amplitudes[i] );
+        }
+        _moleculeIndex++;
+        if ( _moleculeIndex >= Molecule.getNumberOfMolecules() ) {
+            _moleculeIndex = 0;
+        }
     }
     
     private void handleShowPulse() {
