@@ -8,7 +8,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 - add white light beams going from the graphs to the gratings
 - add rainbow light beams going from the gratings to the mirrors
-- calculate and set value for "How close am I?" readout
 - molecule animation
 
 
@@ -37,6 +36,8 @@ CLEANUP:
 
 
 DONE:
+(10/20/05) - calculate and set value for "How close am I?" readout
+(10/20/05) - change closeness readout to a JTextField so that it updates (JLabel wouldn't update)
 (10/20/05) - wire up "New Output Pulse" control
 (10/20/05) - wire up "Show goal pulse shape" control
 (10/20/05) - set amplitudes of output pulse waveform
