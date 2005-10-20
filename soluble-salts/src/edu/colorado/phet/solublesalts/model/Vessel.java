@@ -72,14 +72,14 @@ public class Vessel implements ModelElement, Collidable, Binder {
     }
 
     /**
-     * Binds an ion to the vessel.
+     * Binds an ion to the vessel. Creates a new lattice
      *
      * @param ion
      */
     public void bind( Ion ion ) {
-        boundIons.add( ion );
-//        ion.setIsBound( true );
-        ion.bindTo( this );
+//        boundIons.add( ion );
+        Lattice lattice = new Lattice( ion );
+        ion.bindTo( lattice );
     }
 
     //----------------------------------------------------------------
