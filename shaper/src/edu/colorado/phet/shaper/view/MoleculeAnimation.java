@@ -35,4 +35,8 @@ public class MoleculeAnimation extends CompositePhetGraphic {
         background.setColor( Color.LIGHT_GRAY );
         addGraphic( background );
     }
+    
+    public void setCloseness( double closeness ) {
+        
+    }
 }

@@ -202,15 +202,15 @@ public class ShaperModule extends BaseModule {
         //----------------------------------------------------------------------------
         // Control
         //----------------------------------------------------------------------------
-        
+
         // Controls on the apparatus panel
-        {
-            ShaperControls panel = new ShaperControls( _outputFourierSeries, _outputPulseView );
-            PhetGraphic panelGraphic = PhetJComponent.newInstance( apparatusPanel, panel );
-            apparatusPanel.addGraphic( panelGraphic );
-            panelGraphic.setLocation( 800, 250 );
-        }
-        
+        ShaperControls controlPanel = new ShaperControls( apparatusPanel, _outputFourierSeries, _outputPulseView );
+        apparatusPanel.addGraphic( controlPanel );
+        controlPanel.setLocation( 800, 360 );
+
+        // Game manager
+        GameManager gameManager = new GameManager( _userFourierSeries, _outputFourierSeries, _animation, controlPanel );
+
         //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------
@@ -221,7 +221,7 @@ public class ShaperModule extends BaseModule {
         instructions.setFont( new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 18 ) );
         instructions.setColor( ShaperConstants.OUTPUT_PULSE_COLOR );
         apparatusPanel.addGraphic( instructions );
-        instructions.setLocation( 800, 390 );
+        instructions.setLocation( 800, 250 );
         
         // Help Items
         ShaperHelpItem slidersToolHelp = new ShaperHelpItem( apparatusPanel, "Help goes here" );
@@ -243,6 +243,6 @@ public class ShaperModule extends BaseModule {
      * Resets everything to the initial state.
      */
     public void reset() {
-        
+        // This simulation has no Reset button.
     }
 }
