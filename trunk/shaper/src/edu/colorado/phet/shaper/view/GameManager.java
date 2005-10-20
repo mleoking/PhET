@@ -11,7 +11,12 @@
 
 package edu.colorado.phet.shaper.view;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.shaper.ShaperConstants;
 import edu.colorado.phet.shaper.control.ShaperControls;
 import edu.colorado.phet.shaper.model.FourierSeries;
@@ -68,6 +73,20 @@ public class GameManager implements SimpleObserver {
         
         // Update the control panel readout
         _controlPanel.setCloseness( closeness );
+        
+        // Do we have a match?
+        if ( closeness > 0.95 ) {
+            
+            //XXX Do we need to update the amplitude & output views for when we're entering text amplitudes?
+            
+            // Tell the user they won.
+            JFrame frame = PhetApplication.instance().getPhetFrame();
+            String title = SimStrings.get( "WinDialog.title" );
+            String message = SimStrings.get( "WinDialog.message" );
+            JOptionPane.showMessageDialog( frame, message, title, JOptionPane.INFORMATION_MESSAGE );
+            
+            _controlPanel.newOutputPulse();
+        }
     }
 
 }
