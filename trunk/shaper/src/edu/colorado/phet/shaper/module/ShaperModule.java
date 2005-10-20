@@ -297,7 +297,8 @@ public class ShaperModule extends BaseModule {
 
         // Game manager
         GameManager gameManager = new GameManager( _userFourierSeries, _outputFourierSeries, _animation, controlPanel );
-
+        apparatusPanel.addMouseListener( gameManager );
+        
         //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------

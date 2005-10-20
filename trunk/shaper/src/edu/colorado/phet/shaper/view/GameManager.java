@@ -11,8 +11,11 @@
 
 package edu.colorado.phet.shaper.view;
 
+import java.awt.event.MouseEvent;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.util.SimpleObserver;
@@ -28,12 +31,13 @@ import edu.colorado.phet.shaper.model.FourierSeries;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class GameManager implements SimpleObserver {
+public class GameManager extends MouseInputAdapter implements SimpleObserver {
 
     private FourierSeries _userFourierSeries;
     private FourierSeries _outputFourierSeries;
     private MoleculeAnimation _animation;
     private ShaperControls _controlPanel;
+    private boolean _mouseIsPressed;
     
     public GameManager( FourierSeries userFourierSeries, FourierSeries outputFourierSeries,
             MoleculeAnimation animation, ShaperControls controlPanel ) {
@@ -45,6 +49,8 @@ public class GameManager implements SimpleObserver {
         
         _userFourierSeries.addObserver( this );
         _outputFourierSeries.addObserver( this );
+        
+        _mouseIsPressed = false;
         
         update();
     }
@@ -72,7 +78,7 @@ public class GameManager implements SimpleObserver {
         _animation.setCloseness( closeness );
         
         // Do we have a match?
-        if ( closeness > 0.95 ) {
+        if ( closeness > 0.95 && !_mouseIsPressed ) {
             
             //XXX Do we need to update the amplitude & output views for when we're entering text amplitudes?
             
@@ -86,4 +92,24 @@ public class GameManager implements SimpleObserver {
         }
     }
 
+    //----------------------------------------------------------------------------
+    // MouseInputAdapter overrides
+    //----------------------------------------------------------------------------
+    
+    /**
+     * When the user presses the mouse, set some state that indicates 
+     * that we're in the process of dragging.  We don't check to see
+     * if we've won until the user releases the mouse.
+     */
+    public void mousePressed( MouseEvent event ) {
+        _mouseIsPressed = true;
+    }
+    
+    /**
+     * When the user releases the mouse, check to see if we've won.
+     */
+    public void mouseReleased( MouseEvent event ) {
+        _mouseIsPressed = false;
+        update();
+    }
 }
