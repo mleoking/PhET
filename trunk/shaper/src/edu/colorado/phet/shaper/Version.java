@@ -21,7 +21,7 @@ package edu.colorado.phet.shaper;
 public class Version {
   
     public static final String NUMBER = "0.0.1";
-    public static final String BUILD = "shaper-0-0-1-2005-10-18";
+    public static final String BUILD = "shaper-0-0-1-2005-10-20";
     
     /* This class is not intended for instantiation. */
     private Version() {}
