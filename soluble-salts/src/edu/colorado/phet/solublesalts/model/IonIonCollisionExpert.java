@@ -52,10 +52,6 @@ public class IonIonCollisionExpert implements CollisionExpert {
                     ionB.bindTo( ionA.getBindingLattice() );
                     ionB.getBindingLattice().addIon( ionA );
                 }
-//                Lattice lattice = new SaltLattice( model );
-//                lattice.addIon( ionA );
-//                lattice.addIon( ionB );
-//                model.addModelElement( lattice );
                 collisionOccured = true;
             }
         }

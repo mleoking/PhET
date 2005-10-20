@@ -196,9 +196,7 @@ public class Lattice extends Body implements Binder {
      */
     public void stepInTime( double dt ) {
         if( random.nextDouble() < dissociationLikelihood ) {
-
             releaseIon( dt );
-
         }
         else {
             super.stepInTime( dt );

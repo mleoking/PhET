@@ -37,11 +37,6 @@ public abstract class Atom extends SphericalBody {
         super( center, velocity, acceleration, mass, radius );
     }
 
-//    public void setIsBound( boolean isBound ) {
-//        this.isBound = isBound;
-//        notifyObservers();
-//    }
-
     public void bindTo( Binder binder ) {
         binders.add( binder );
         notifyObservers();
@@ -50,6 +45,7 @@ public abstract class Atom extends SphericalBody {
     public void unbindFrom( Binder binder ) {
         binders.remove( binder );
 
+        System.out.println( "binders = " + binders.size() );
         // Choose a new velocity
         if( binders.isEmpty() ) {
             double theta = random.nextDouble() * Math.PI * 2;
