@@ -81,10 +81,10 @@ public class SolubleSaltsControlPanel extends ControlPanel {
                                               new DecimalFormat( "0.000" ) );
         dissociationSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                SaltMolecule.setDissociationLikelihood( dissociationSlider.getValue() );
+                Lattice.setDissociationLikelihood( dissociationSlider.getValue() );
             }
         } );
-        dissociationSlider.setValue( 0.005 );
+        dissociationSlider.setValue( 0.1 );
         dissociationSlider.setNumMajorTicks( 5 );
 
         addControl( vesselIonStickSlider );

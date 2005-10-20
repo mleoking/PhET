@@ -35,7 +35,7 @@ public class IonVesselCollisionExpert implements CollisionExpert, ContactDetecto
         if( applies( bodyA, bodyB ) ) {
             ion = (Ion)( bodyA instanceof Ion ? bodyA : bodyB );
             vessel = (Vessel)( bodyA instanceof Vessel ? bodyA : bodyB );
-            if( areInContact( ion, vessel.getWater() ) ) {
+            if( !ion.isBound() && areInContact( ion, vessel.getWater() ) ) {
                 if( vessel.getIonStickAffinity().stick( ion, vessel ) ) {
                     vessel.bind( ion );
                 }

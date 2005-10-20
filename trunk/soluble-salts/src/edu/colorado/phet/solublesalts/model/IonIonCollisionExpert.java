@@ -44,10 +44,18 @@ public class IonIonCollisionExpert implements CollisionExpert {
                 && ( ionA.isBound() || ionB.isBound() )
                 && !( ionA.isBound() && ionB.isBound() ) ) {
 
-                Molecule molecule = new SaltMolecule( model );
-                molecule.addAtom( ionA );
-                molecule.addAtom( ionB );
-                model.addModelElement( molecule );
+                if( ionA.isBound() ) {
+                    ionB.bindTo( ionA.getBindingLattice() );
+                    ionA.getBindingLattice().addIon( ionB );
+                }
+                else if( ionB.isBound() ) {
+                    ionB.bindTo( ionA.getBindingLattice() );
+                    ionB.getBindingLattice().addIon( ionA );
+                }
+//                Lattice lattice = new SaltLattice( model );
+//                lattice.addIon( ionA );
+//                lattice.addIon( ionB );
+//                model.addModelElement( lattice );
                 collisionOccured = true;
             }
         }

@@ -45,6 +45,22 @@ public class SolubleSaltsModel extends BaseModel {
         ionTracker = new IonTracker();
         addIonListener( ionTracker );
 
+        // Add an agent that will track the creation and destruction of salt lattices
+        {
+            Lattice.InstanceLifetimeListener listener = new Lattice.InstanceLifetimeListener() {
+                public void instanceCreated( Lattice.InstanceLifetimeEvent event ) {
+                    addModelElement( event.getInstance() );
+                    System.out.println( "SolubleSaltsModel.instanceCreated" );
+                }
+
+                public void instanceDestroyed( Lattice.InstanceLifetimeEvent event ) {
+                    removeModelElement( event.getInstance() );
+                    System.out.println( "SolubleSaltsModel.instanceDestroyed" );
+                }
+            };
+            Lattice.addInstanceLifetimeListener( listener );
+        }
+
         // Create a vessel
         vessel = new Vessel( vesselWidth, vesselDepth, vesselLoc );
         addModelElement( vessel );

@@ -23,6 +23,7 @@ import java.awt.geom.Point2D;
 public class Ion extends Atom {
 
     private IonProperties ionProperties;
+    private Lattice bindingLattice;
 
     public Ion( IonProperties ionProperties ) {
         this( new Point2D.Double(),
@@ -42,6 +43,13 @@ public class Ion extends Atom {
         }
     }
 
+    public void bindTo( Binder binder ) {
+        if( binder instanceof Lattice ) {
+            bindingLattice = (Lattice)binder;
+        }
+        super.bindTo( binder );
+    }
+
     //----------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------
@@ -50,4 +58,7 @@ public class Ion extends Atom {
         return ionProperties.getCharge();
     }
 
+    public Lattice getBindingLattice() {
+        return bindingLattice;
+    }
 }
