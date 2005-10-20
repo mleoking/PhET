@@ -112,12 +112,18 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         Photon photon = (Photon)modelElement;
         ( (Photon)modelElement ).addLeftSystemListener( this );
 
-        // If the photon is moving nearly horizontally, consider it to be lasing
-        if( Math.abs( photon.getVelocity().getAngle() ) < angleWindow
-            || Math.abs( photon.getVelocity().getAngle() - Math.PI ) < angleWindow ) {
+        // If the photon is moving nearly horizontally and is equal in energy to the transition between the
+        // middle and ground states, consider it to be lasing
+        if( isLasingPhoton( photon ) ) {
             lasingPhotons.add( photon );
             changeListenerProxy.lasingPopulationChanged( new ChangeEvent( this ) );
         }
+    }
+
+    private boolean isLasingPhoton( Photon photon ) {
+        return ( ( Math.abs( photon.getVelocity().getAngle() ) < angleWindow
+                   || Math.abs( photon.getVelocity().getAngle() - Math.PI ) < angleWindow )
+                 && photon.getEnergy() == getMiddleEnergyState().getEnergyLevel() - getGroundState().getEnergyLevel() );
     }
 
     public void removeModelElement( ModelElement modelElement ) {
@@ -300,6 +306,10 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
 
     public AtomicState[] getStates() {
         return currentElementProperties.getStates();
+    }
+
+    public int getNumLasingPhotons() {
+        return lasingPhotons.size();
     }
 
 
