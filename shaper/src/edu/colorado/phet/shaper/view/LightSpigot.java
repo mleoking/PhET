@@ -28,6 +28,8 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
  */
 public class LightSpigot extends CompositePhetGraphic {
 
+    private static final Color SPIGOT_COLOR = new Color( 215, 215, 215 );
+    
     public LightSpigot( Component component ) {
 
         PhetShapeGraphic lightSpigot = new PhetShapeGraphic( component );
@@ -37,7 +39,7 @@ public class LightSpigot extends CompositePhetGraphic {
         path.lineTo( -50, 100 );
         path.closePath();
         lightSpigot.setShape( path );
-        lightSpigot.setPaint( Color.LIGHT_GRAY );
+        lightSpigot.setPaint( SPIGOT_COLOR );
         addGraphic( lightSpigot, 0 );
         lightSpigot.setLocation( 0, 0 );
 
