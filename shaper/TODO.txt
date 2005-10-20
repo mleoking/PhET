@@ -6,6 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- make sure graphs and sliders and updated before the GameManager tells us we've won
 - correct calculation for "closeness"
 - how close do we have to be to match the output pulse?
 - molecule animation
@@ -35,6 +36,7 @@ CLEANUP:
 
 
 DONE:
+0.0.1 ...
 (10/20/05) - don't test for a match while an amplitude slider is being dragged
 (10/20/05) - replace CheatDialog with a PhetGraphic that is positioned above amplitude sliders
 (10/20/05) - bugfix in EasyGridBagLayout.setInsets
