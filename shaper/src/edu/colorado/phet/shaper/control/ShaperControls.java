@@ -34,9 +34,6 @@ import edu.colorado.phet.shaper.ShaperConstants;
  * @version $Revision$
  */
 public class ShaperControls extends JPanel {
-
-    private static final Font TITLE_FONT = new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 13 );
-    private static final Color BORDER_COLOR = new Color( 175, 175, 175 );
     
     private String _closenessFormat;
     private JLabel _closenessLabel;
@@ -47,9 +44,7 @@ public class ShaperControls extends JPanel {
         
         String title = SimStrings.get( "ShaperControls.title" );
         TitledBorder titledBorder = new TitledBorder( title );
-        Font font = titledBorder.getTitleFont();
-        titledBorder.setTitleFont( TITLE_FONT );
-        titledBorder.setBorder( BorderFactory.createLineBorder( BORDER_COLOR, 1 ) );
+        titledBorder.setBorder( BorderFactory.createLineBorder( Color.BLACK, 1 ) );
         setBorder( titledBorder );
         
         // How close am I?
@@ -90,6 +85,9 @@ public class ShaperControls extends JPanel {
             }
             else if ( event.getSource() == _showPulse ) {
                 handleShowPulse();
+            }
+            else {
+                throw new IllegalArgumentException( "unexpected event: " + event );
             }
         }
     }

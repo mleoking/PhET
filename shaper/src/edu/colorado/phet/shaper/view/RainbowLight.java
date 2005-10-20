@@ -26,13 +26,13 @@ import edu.colorado.phet.shaper.model.FourierSeries;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class Rainbow extends CompositePhetGraphic {
+public class RainbowLight extends CompositePhetGraphic {
 
     private static final int WIDTH = 27;
     private static final int HEIGHT = 650;
     private static final int SPACING = 10;
     
-    public Rainbow( Component component, FourierSeries fourierSeries ) {
+    public RainbowLight( Component component, FourierSeries fourierSeries ) {
         super( component );
         
         setIgnoreMouse( true );

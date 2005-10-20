@@ -64,7 +64,7 @@ public class HarmonicColors {
                 Color.GREEN,
                 Color.BLUE,
                 new Color( 52, 48, 147 ), /* indigo */
-                new Color( 106, 91, 173 ) /* violet */
+                new Color( 144, 0, 164 ) /* violet */
         };
     }
     

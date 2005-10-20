@@ -6,12 +6,21 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- use pink color from A11 of Fourier for the output pulse color
+- set amplitudes of output pulse waveform
+- add white light beams going from the graphs to the gratings
+- add rainbow light beams going from the gratings to the mirrors
+- wire up "New Output Pulse" control
+- wire up "Show goal pulse shape" control
+- calculate and set value for "How close am I?" readout
+- molecule animation
 
 
 MEDIUM PRIORITY:
 
 
 LOW PRIORITY:
+- flatten input pulse view, since it never changes
 
 
 NEW FEATURES:
@@ -32,6 +41,9 @@ CLEANUP:
 
 
 DONE:
+(10/20/05) - add correct input pulse waveform: F(t)=Exp[-((10 pi t)^2)/2]
+(10/20/05) - reposition graphs so bottom of output pulse graph isn't cut off
+(10/20/05) - change violet RGB values at SamM's request
 (10/19/05) - everything should be in cosine, not sine, mode
 (10/19/05) - 75% of the user interface implemented, most of the model implemented
 (10/18/05) - hide clock controls

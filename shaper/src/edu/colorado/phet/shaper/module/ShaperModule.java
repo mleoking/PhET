@@ -110,7 +110,7 @@ public class ShaperModule extends BaseModule {
         
         // Rainbow of light
         {
-            Rainbow rainbow = new Rainbow( apparatusPanel, _userFourierSeries );
+            RainbowLight rainbow = new RainbowLight( apparatusPanel, _userFourierSeries );
             apparatusPanel.addGraphic( rainbow );
             rainbow.setLocation( 86, 25 );
         }
@@ -189,15 +189,15 @@ public class ShaperModule extends BaseModule {
         
         _inputView = new InputPulseView( apparatusPanel );
         apparatusPanel.addGraphic( _inputView );
-        _inputView.setLocation( 450, 10 );
+        _inputView.setLocation( 470, 15 );
         
         _outputView = new OutputPulseView( apparatusPanel, _userFourierSeries, _randomFourierSeries );
         apparatusPanel.addGraphic( _outputView );
-        _outputView.setLocation( 450, 500 );
+        _outputView.setLocation( 470, 490 );
               
         _animation = new MoleculeAnimation( apparatusPanel );
         apparatusPanel.addGraphic( _animation );
-        _animation.setLocation( 515, 225 );
+        _animation.setLocation( 515, 222 );
         
         //----------------------------------------------------------------------------
         // Control
