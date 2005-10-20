@@ -65,8 +65,8 @@ public class ShaperModule extends BaseModule {
     private FourierSeries _outputFourierSeries;
     
     private AmplitudesView _amplitudesView;
-    private InputPulseView _inputView;
-    private OutputPulseView _outputView;
+    private InputPulseView _inputPulseView;
+    private OutputPulseView _outputPulseView;
     private MoleculeAnimation _animation;
     
     //----------------------------------------------------------------------------
@@ -187,13 +187,13 @@ public class ShaperModule extends BaseModule {
         apparatusPanel.addGraphic( _amplitudesView );
         _amplitudesView.setLocation( 15, 250 );
         
-        _inputView = new InputPulseView( apparatusPanel );
-        apparatusPanel.addGraphic( _inputView );
-        _inputView.setLocation( 470, 15 );
+        _inputPulseView = new InputPulseView( apparatusPanel );
+        apparatusPanel.addGraphic( _inputPulseView );
+        _inputPulseView.setLocation( 470, 15 );
         
-        _outputView = new OutputPulseView( apparatusPanel, _userFourierSeries, _outputFourierSeries );
-        apparatusPanel.addGraphic( _outputView );
-        _outputView.setLocation( 470, 490 );
+        _outputPulseView = new OutputPulseView( apparatusPanel, _userFourierSeries, _outputFourierSeries );
+        apparatusPanel.addGraphic( _outputPulseView );
+        _outputPulseView.setLocation( 470, 490 );
               
         _animation = new MoleculeAnimation( apparatusPanel );
         apparatusPanel.addGraphic( _animation );
@@ -205,7 +205,7 @@ public class ShaperModule extends BaseModule {
         
         // Controls on the apparatus panel
         {
-            ShaperControls panel = new ShaperControls( _outputFourierSeries );
+            ShaperControls panel = new ShaperControls( _outputFourierSeries, _outputPulseView );
             PhetGraphic panelGraphic = PhetJComponent.newInstance( apparatusPanel, panel );
             apparatusPanel.addGraphic( panelGraphic );
             panelGraphic.setLocation( 800, 250 );

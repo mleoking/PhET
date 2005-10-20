@@ -26,6 +26,7 @@ import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.shaper.enum.Molecule;
 import edu.colorado.phet.shaper.model.FourierSeries;
+import edu.colorado.phet.shaper.view.OutputPulseView;
 
 
 /**
@@ -38,6 +39,7 @@ public class ShaperControls extends JPanel {
     
     // Things to be controlled
     private FourierSeries _outputFourierSeries;
+    private OutputPulseView _outputPulseView;
     
     // UI controls
     private String _closenessFormat;
@@ -47,12 +49,10 @@ public class ShaperControls extends JPanel {
     
     private int _moleculeIndex;
     
-    public ShaperControls( FourierSeries outputFourierSeries ) {
-        
-        Random random = new Random();
-        _moleculeIndex = random.nextInt( Molecule.getNumberOfMolecules() );
+    public ShaperControls( FourierSeries outputFourierSeries, OutputPulseView outputPulseView ) {
         
         _outputFourierSeries = outputFourierSeries;
+        _outputPulseView = outputPulseView;
         
         String title = SimStrings.get( "ShaperControls.title" );
         TitledBorder titledBorder = new TitledBorder( title );
@@ -87,7 +87,13 @@ public class ShaperControls extends JPanel {
         _showPulse.addActionListener( eventListener );
         _newButton.addActionListener( eventListener );
         
+        // Starting with a randomly-selected molecule, generate a new "game".
+        Random random = new Random();
+        _moleculeIndex = random.nextInt( Molecule.getNumberOfMolecules() );
         handleNew();
+        
+        _showPulse.setSelected( false );
+        handleShowPulse();
     }
     
     private class EventListener implements ActionListener {
@@ -107,7 +113,6 @@ public class ShaperControls extends JPanel {
     }
     
     private void handleNew() {
-        System.out.println( "New" );
         Molecule molecule = Molecule.getByIndex( _moleculeIndex );
         double[] amplitudes = Molecule.getAmplitudes( molecule );
         for ( int i = 0; i < _outputFourierSeries.getNumberOfHarmonics(); i++ ) {
@@ -120,6 +125,6 @@ public class ShaperControls extends JPanel {
     }
     
     private void handleShowPulse() {
-        System.out.println( "Show Pulse " + _showPulse.isSelected() );
+        _outputPulseView.setOutputPulseVisible( _showPulse.isSelected() );
     }
 }

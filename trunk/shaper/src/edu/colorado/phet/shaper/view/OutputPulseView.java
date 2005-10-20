@@ -169,6 +169,14 @@ public class OutputPulseView extends GraphicLayerSet implements SimpleObserver {
     }
     
     //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    public void setOutputPulseVisible( boolean visible ) {
+        _outputSumPlot.setVisible( visible );
+    }
+    
+    //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
     
