@@ -11,19 +11,14 @@
 
 package edu.colorado.phet.shaper.module;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Point;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
-import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.shaper.ShaperConstants;
@@ -108,6 +103,18 @@ public class ShaperModule extends BaseModule {
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         setApparatusPanel( apparatusPanel );
         
+        _inputPulseView = new InputPulseView( apparatusPanel );
+        apparatusPanel.addGraphic( _inputPulseView );
+        _inputPulseView.setLocation( 470, 15 );
+        
+        _outputPulseView = new OutputPulseView( apparatusPanel, _userFourierSeries, _outputFourierSeries );
+        apparatusPanel.addGraphic( _outputPulseView );
+        _outputPulseView.setLocation( 470, 490 );
+              
+        _animation = new MoleculeAnimation( apparatusPanel );
+        apparatusPanel.addGraphic( _animation );
+        _animation.setLocation( 515, 222 );
+        
         // Rainbow of light
         {
             RainbowLight rainbow = new RainbowLight( apparatusPanel, _userFourierSeries );
@@ -143,6 +150,25 @@ public class ShaperModule extends BaseModule {
             outputMirrorLabel.setHTML( SimStrings.get( "Mirror.label" ) );
             apparatusPanel.addGraphic( outputMirrorLabel );
             outputMirrorLabel.setLocation( 55, 655 );
+        }
+        
+        // White light rays
+        {
+            PhetShapeGraphic inputLight = new PhetShapeGraphic( apparatusPanel );
+            inputLight.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+            inputLight.setShape( new Rectangle( 0, 0, 10, 130 ) );
+            inputLight.setColor( Color.WHITE );
+            inputLight.rotate( Math.toRadians( 8 ) );
+            inputLight.setLocation( 447, 124 );
+            apparatusPanel.addGraphic( inputLight );
+            
+            PhetShapeGraphic outputLight = new PhetShapeGraphic( apparatusPanel );
+            outputLight.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+            outputLight.setShape( new Rectangle( 0, 0, 10, 130 ) );
+            outputLight.setColor( Color.WHITE );
+            outputLight.rotate( Math.toRadians( -180 - 8 ) );
+            outputLight.setLocation( 447 + 10, 570 );
+            apparatusPanel.addGraphic( outputLight );
         }
         
         // Diffusion gratings
@@ -182,22 +208,10 @@ public class ShaperModule extends BaseModule {
             apparatusPanel.addGraphic( downArrowGraphic );
             downArrowGraphic.setLocation( 440, 380 );
         }
-
+        
         _amplitudesView = new AmplitudesView( apparatusPanel, _userFourierSeries );
         apparatusPanel.addGraphic( _amplitudesView );
         _amplitudesView.setLocation( 15, 250 );
-        
-        _inputPulseView = new InputPulseView( apparatusPanel );
-        apparatusPanel.addGraphic( _inputPulseView );
-        _inputPulseView.setLocation( 470, 15 );
-        
-        _outputPulseView = new OutputPulseView( apparatusPanel, _userFourierSeries, _outputFourierSeries );
-        apparatusPanel.addGraphic( _outputPulseView );
-        _outputPulseView.setLocation( 470, 490 );
-              
-        _animation = new MoleculeAnimation( apparatusPanel );
-        apparatusPanel.addGraphic( _animation );
-        _animation.setLocation( 515, 222 );
         
         //----------------------------------------------------------------------------
         // Control

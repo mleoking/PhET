@@ -12,6 +12,8 @@
 package edu.colorado.phet.shaper.view;
 
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.chart.Range2D;
@@ -37,8 +39,9 @@ public class InputPulseView extends GraphicLayerSet {
 
     // Layers
     private static final double BACKGROUND_LAYER = 1;
-    private static final double TITLE_LAYER = 2;
-    private static final double CHART_LAYER = 3;
+    private static final double SPIGOT_LAYER = 2;
+    private static final double TITLE_LAYER = 3;
+    private static final double CHART_LAYER = 4;
 
     // Background parameters
     private static final Dimension BACKGROUND_SIZE = new Dimension( 525, 190 );
@@ -91,6 +94,11 @@ public class InputPulseView extends GraphicLayerSet {
         backgroundGraphic.setBorderColor( BACKGROUND_BORDER_COLOR );
         addGraphic( backgroundGraphic, BACKGROUND_LAYER );
         backgroundGraphic.setLocation( 0, 0 );
+        
+        // Light spigot
+        LightSpigot lightSpigot = new LightSpigot( component );
+        lightSpigot.setLocation( 1, 20 );
+        addGraphic( lightSpigot, SPIGOT_LAYER );
 
         // Title
         String title = SimStrings.get( "InputPulseView.title" );

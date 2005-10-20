@@ -39,9 +39,9 @@ public class OutputPulseView extends GraphicLayerSet implements SimpleObserver {
     
     // Layers
     private static final double BACKGROUND_LAYER = 1;
-    private static final double TITLE_LAYER = 2;
-    private static final double CHART_LAYER = 3;
-    private static final double CONTROLS_LAYER = 4;
+    private static final double SPIGOT_LAYER = 2;
+    private static final double TITLE_LAYER = 3;
+    private static final double CHART_LAYER = 4;
 
     // Background parameters
     private static final int MIN_HEIGHT = 150;
@@ -118,6 +118,12 @@ public class OutputPulseView extends GraphicLayerSet implements SimpleObserver {
         _backgroundGraphic.setBorderColor( BACKGROUND_BORDER_COLOR );
         addGraphic( _backgroundGraphic, BACKGROUND_LAYER );
         _backgroundGraphic.setLocation( 0, 0 );
+        
+        // Light spigot
+        LightSpigot lightSpigot = new LightSpigot( component );
+        lightSpigot.scale( 1, -1 ); // reflect about the x-axis
+        lightSpigot.setLocation( 1, BACKGROUND_SIZE.height - 20 );
+        addGraphic( lightSpigot, SPIGOT_LAYER );
         
         // Title
         String title = SimStrings.get( "OutputPulseView.title" );
