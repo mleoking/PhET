@@ -42,6 +42,7 @@ import edu.colorado.phet.shaper.view.OutputPulseView;
 public class ShaperControls extends GraphicLayerSet {
     
     // Things to be controlled
+    private FourierSeries _userFourierSeries;
     private FourierSeries _outputFourierSeries;
     private OutputPulseView _outputPulseView;
     
@@ -55,8 +56,12 @@ public class ShaperControls extends GraphicLayerSet {
     private PhetGraphic _panelGraphic;
     private int _moleculeIndex;
     
-    public ShaperControls( Component component, FourierSeries outputFourierSeries, OutputPulseView outputPulseView ) {
+    public ShaperControls( Component component, 
+            FourierSeries userFourierSeries,
+            FourierSeries outputFourierSeries, 
+            OutputPulseView outputPulseView ) {
         
+        _userFourierSeries = userFourierSeries;
         _outputFourierSeries = outputFourierSeries;
         _outputPulseView = outputPulseView;
         
@@ -120,6 +125,10 @@ public class ShaperControls extends GraphicLayerSet {
         _closenessText.setText( text );
     }
     
+    public void newOutputPulse() {
+        handleNew();
+    }
+    
     private class EventListener implements ActionListener {
         public EventListener() { }
         
@@ -137,6 +146,13 @@ public class ShaperControls extends GraphicLayerSet {
     }
     
     private void handleNew() {
+        
+        // Set the user's amplitudes to zero.
+        for ( int i = 0; i < _userFourierSeries.getNumberOfHarmonics(); i++ ) {
+            _userFourierSeries.getHarmonic( i ).setAmplitude( 0 );
+        }
+        
+        // Set the output pulse amplitudes to the next molecule.
         Molecule molecule = Molecule.getByIndex( _moleculeIndex );
         double[] amplitudes = Molecule.getAmplitudes( molecule );
         for ( int i = 0; i < _outputFourierSeries.getNumberOfHarmonics(); i++ ) {

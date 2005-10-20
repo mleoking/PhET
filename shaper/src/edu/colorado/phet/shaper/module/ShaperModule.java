@@ -204,7 +204,8 @@ public class ShaperModule extends BaseModule {
         //----------------------------------------------------------------------------
 
         // Controls on the apparatus panel
-        ShaperControls controlPanel = new ShaperControls( apparatusPanel, _outputFourierSeries, _outputPulseView );
+        ShaperControls controlPanel = new ShaperControls( apparatusPanel, 
+                _userFourierSeries, _outputFourierSeries, _outputPulseView );
         apparatusPanel.addGraphic( controlPanel );
         controlPanel.setLocation( 800, 360 );
 
