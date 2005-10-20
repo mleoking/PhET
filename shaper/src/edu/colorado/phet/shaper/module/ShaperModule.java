@@ -287,7 +287,7 @@ public class ShaperModule extends BaseModule {
         ShaperControls controlPanel = new ShaperControls( apparatusPanel, 
                 _userFourierSeries, _outputFourierSeries, _outputPulseView );
         apparatusPanel.addGraphic( controlPanel );
-        controlPanel.setLocation( 800, 360 );
+        controlPanel.setLocation( 800, 387 );
 
         // Game manager
         GameManager gameManager = new GameManager( _userFourierSeries, _outputFourierSeries, _animation, controlPanel );
@@ -305,9 +305,13 @@ public class ShaperModule extends BaseModule {
         instructions.setLocation( 800, 250 );
         
         // Help Items
-        ShaperHelpItem slidersToolHelp = new ShaperHelpItem( apparatusPanel, "Help goes here" );
-        slidersToolHelp.pointAt( new Point( 252, 117 ), ShaperHelpItem.UP, 30 );
-        addHelpItem( slidersToolHelp );
+        ShaperHelpItem slidersHelp = new ShaperHelpItem( apparatusPanel, SimStrings.get( "Help.amplitude.sliders" ) );
+        slidersHelp.pointAt( new Point( 235, 420 ), ShaperHelpItem.UP, 30 );
+        addHelpItem( slidersHelp );
+        
+        ShaperHelpItem textfieldsHelp = new ShaperHelpItem( apparatusPanel, SimStrings.get( "Help.amplitude.textfields" ) );
+        textfieldsHelp.pointAt( new Point( 222, 273 ), ShaperHelpItem.DOWN, 30 );
+        addHelpItem( textfieldsHelp );
         
         //----------------------------------------------------------------------------
         // Initialze the module state
