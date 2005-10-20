@@ -6,8 +6,6 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- use pink color from A11 of Fourier for the output pulse color
-- set amplitudes of output pulse waveform
 - add white light beams going from the graphs to the gratings
 - add rainbow light beams going from the gratings to the mirrors
 - wire up "New Output Pulse" control
@@ -41,6 +39,8 @@ CLEANUP:
 
 
 DONE:
+(10/20/05) - set amplitudes of output pulse waveform
+(10/20/05) - use pink color from A11 of Fourier for the output pulse color
 (10/20/05) - add correct input pulse waveform: F(t)=Exp[-((10 pi t)^2)/2]
 (10/20/05) - reposition graphs so bottom of output pulse graph isn't cut off
 (10/20/05) - change violet RGB values at SamM's request

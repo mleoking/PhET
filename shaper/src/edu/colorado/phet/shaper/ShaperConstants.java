@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.shaper;
 
+import java.awt.Color;
 import java.awt.Cursor;
 
 
@@ -59,6 +60,12 @@ public class ShaperConstants {
     //----------------------------------------------------------------------------
 
     public static final String FONT_NAME = "Lucida Sans";
+    
+    //----------------------------------------------------------------------------
+    // Colors
+    //----------------------------------------------------------------------------
+    
+    public static final Color OUTPUT_PULSE_COLOR = new Color( 1f, 0.411802f, 0.705893f );
     
     //----------------------------------------------------------------------------
     // Harmonics
