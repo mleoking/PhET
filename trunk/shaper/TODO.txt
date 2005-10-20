@@ -35,6 +35,8 @@ CLEANUP:
 
 
 DONE:
+(10/20/05) - replace CheatDialog with a PhetGraphic that is positioned above amplitude sliders
+(10/20/05) - bugfix in EasyGridBagLayout.setInsets
 (10/20/05) - add "Cheat" dialog
 (10/20/05) - add Help items to amplitude controls
 (10/20/05) - move "How close am I?" out of control panel and into animation area

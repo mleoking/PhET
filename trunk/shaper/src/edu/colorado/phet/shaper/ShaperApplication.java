@@ -25,9 +25,7 @@ import edu.colorado.phet.common.util.DebugMenu;
 import edu.colorado.phet.common.view.components.menu.HelpMenu;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.shaper.model.FourierSeries;
 import edu.colorado.phet.shaper.module.ShaperModule;
-import edu.colorado.phet.shaper.view.CheatDialog;
 
 
 /**
@@ -109,9 +107,7 @@ public class ShaperApplication extends PhetApplication {
         cheatItem.setMnemonic( SimStrings.get( "HelpMenu.cheat.mnemonic" ).charAt(0) );
         cheatItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                FourierSeries outputFourierSeries = _shaperModule.getOutputFourierSeries();
-                CheatDialog dialog = new CheatDialog( getPhetFrame(), outputFourierSeries );
-                dialog.show();
+                 _shaperModule.setCheatEnabled( true );
             }
         } );
         helpMenu.add( cheatItem );
