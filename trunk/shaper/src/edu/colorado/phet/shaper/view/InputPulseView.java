@@ -20,8 +20,7 @@ import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.shaper.ShaperConstants;
-import edu.colorado.phet.shaper.charts.GaussianWavePacketPlot;
-import edu.colorado.phet.shaper.model.GaussianWavePacket;
+import edu.colorado.phet.shaper.charts.InputPulsePlot;
 
 
 /**
@@ -108,13 +107,10 @@ public class InputPulseView extends GraphicLayerSet {
         chartGraphic.setXAxisTitle( "t (ms)" );
         
         // Input pulse
-        GaussianWavePacketPlot inputPlot = new GaussianWavePacketPlot( component, chartGraphic );
-        inputPlot.setUseCosines( true );
+        InputPulsePlot inputPlot = new InputPulsePlot( component, chartGraphic );
         inputPlot.setPixelsPerPoint( 1 );
         inputPlot.setStroke( WAVE_STROKE );
         inputPlot.setStrokeColor( WAVE_COLOR );
-        inputPlot.setK0( 12 * Math.PI );
-        inputPlot.setDeltaX( .08 );
         chartGraphic.addDataSetGraphic( inputPlot );
 
         // Interactivity

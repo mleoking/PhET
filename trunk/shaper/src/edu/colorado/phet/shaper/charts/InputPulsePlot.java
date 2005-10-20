@@ -29,7 +29,7 @@ import edu.colorado.phet.shaper.util.TrigCache;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class GaussianWavePacketPlot extends LinePlot {
+public class InputPulsePlot extends LinePlot {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -42,12 +42,9 @@ public class GaussianWavePacketPlot extends LinePlot {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private double _dx;
-    private double _k0;
     private double _pixelsPerPoint;
     private Point2D[] _points;
     private double _maxAmplitude;
-    private boolean _useCosines;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -59,18 +56,15 @@ public class GaussianWavePacketPlot extends LinePlot {
      * @param component
      * @param chart
      */
-    public GaussianWavePacketPlot( Component component, Chart chart ) {
+    public InputPulsePlot( Component component, Chart chart ) {
         super( component, chart );
 
         // Enable antialiasing
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
 
-        _dx = 1;
-        _k0 = 0;
         _pixelsPerPoint = 1.0;
         _points = null;
         _maxAmplitude = 0;
-        _useCosines = false;
 
         setDataSet( new DataSet() );
         setBorderColor( DEFAULT_COLOR );
@@ -82,48 +76,6 @@ public class GaussianWavePacketPlot extends LinePlot {
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
- 
-    /**
-     * Sets delta X, the wave packet width in x-space.
-     * 
-     * @param dx
-     */
-    public void setDeltaX( double dx ) {
-        assert ( dx > 0 );
-        if ( dx != _dx ) {
-            _dx = dx;
-            updateDataSet();
-        }
-    }
-
-    /**
-     * Gets delta X.
-     * 
-     * @return
-     */
-    public double getDeltaX() {
-        return _dx;
-    }
-    
-    /**
-     * Sets the center point of the wave packet in k space.
-     * 
-     * @param k0
-     */
-    public void setK0( double k0 ) {
-        if ( k0 != _k0 ) {
-            _k0 = k0;
-            updateDataSet();
-        }
-    }
-    
-    /**
-     * Gets the center point of the wave packet in k space.
-     * @return
-     */
-    public double getK0() {
-        return _k0;
-    }
 
     /**
      * Sets the number of pixels per data point.
@@ -154,11 +106,6 @@ public class GaussianWavePacketPlot extends LinePlot {
      */
     public double getMaxAmplitude() {
         return _maxAmplitude;
-    }
-    
-    public void setUseCosines( boolean useCosines ) {
-        _useCosines = useCosines;
-        updateDataSet();
     }
     
     //----------------------------------------------------------------------------
@@ -217,15 +164,9 @@ public class GaussianWavePacketPlot extends LinePlot {
                 
                 /* 
                  * y coordinate:
-                 * y = F(x) = exp( -(x^2) / (2 * (deltax^2)) ) * sin(k0*x)
+                 * y =  F(x) = Exp[ -( (10 pi x)^2) / 2 ]
                  */
-                double y = 0;
-                if ( _useCosines ) {
-                    y = Math.exp( -( x * x ) / ( 2 * ( _dx * _dx ) ) ) * TrigCache.cos( _k0 * x );
-                }
-                else {
-                    y = Math.exp( -( x * x ) / ( 2 * ( _dx * _dx ) ) ) * TrigCache.sin( _k0 * x );
-                }
+                double y = Math.exp( -( Math.pow( 10 * Math.PI * x, 2 ) ) / 2 );
                 
                 // point
                 if ( _points[i] == null ) {
