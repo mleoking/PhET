@@ -64,6 +64,7 @@ public class ShaperModule extends BaseModule {
     private InputPulseView _inputPulseView;
     private OutputPulseView _outputPulseView;
     private MoleculeAnimation _animation;
+    private CheatPanel _cheatPanel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -279,6 +280,11 @@ public class ShaperModule extends BaseModule {
         apparatusPanel.addGraphic( _amplitudesView );
         _amplitudesView.setLocation( 15, 250 );
         
+        _cheatPanel = new CheatPanel( apparatusPanel, _outputFourierSeries );
+        apparatusPanel.addGraphic( _cheatPanel );
+        _cheatPanel.setLocation( 68, 160 );
+        _cheatPanel.setVisible( false );
+        
         //----------------------------------------------------------------------------
         // Control
         //----------------------------------------------------------------------------
@@ -335,7 +341,7 @@ public class ShaperModule extends BaseModule {
     // Accessors
     //----------------------------------------------------------------------------
     
-    public FourierSeries getOutputFourierSeries() {
-        return _outputFourierSeries;
+    public void setCheatEnabled( boolean enabled ) {
+        _cheatPanel.setVisible( enabled );
     }
 }

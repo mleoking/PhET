@@ -135,7 +135,6 @@ public class ShaperControls extends GraphicLayerSet {
         double[] amplitudes = Molecule.getAmplitudes( molecule );
         for ( int i = 0; i < _outputFourierSeries.getNumberOfHarmonics(); i++ ) {
             _outputFourierSeries.getHarmonic( i ).setAmplitude( amplitudes[i] );
-            System.out.println( "A" + (i+1) + "=" + amplitudes[i] );//XXX
         }
         _moleculeIndex++;
         if ( _moleculeIndex >= Molecule.getNumberOfMolecules() ) {
