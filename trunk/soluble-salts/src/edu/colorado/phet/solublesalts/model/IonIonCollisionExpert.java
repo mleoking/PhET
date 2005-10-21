@@ -49,7 +49,7 @@ public class IonIonCollisionExpert implements CollisionExpert {
                     ionA.getBindingLattice().addIon( ionB );
                 }
                 else if( ionB.isBound() ) {
-                    ionB.bindTo( ionA.getBindingLattice() );
+                    ionA.bindTo( ionB.getBindingLattice() );
                     ionB.getBindingLattice().addIon( ionA );
                 }
                 collisionOccured = true;
