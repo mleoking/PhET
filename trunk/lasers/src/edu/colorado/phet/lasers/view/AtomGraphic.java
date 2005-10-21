@@ -120,24 +120,9 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
         double de2 = state.getEnergyLevel() - atom.getGroundState().getEnergyLevel();
         double maxRingThickness = 6;
         energyRepRad = maxRingThickness * de2 / de1 + groundStateRingThickness + baseImageRad;
-
         energyRep = new Ellipse2D.Double( -energyRepRad, -energyRepRad, energyRepRad * 2, energyRepRad * 2 );
-//        if( state.getWavelength() == Photon.GRAY ) {
-//            energyRepColor = Color.darkGray;
-//        }
-//        else {
-//            energyRepColor = VisibleColor.wavelengthToColor( state.getWavelength() );
-//            if( energyRepColor.equals( VisibleColor.INVISIBLE ) ) {
-//                energyRepColor = Color.darkGray;
-//            }
-//        }
         energyGraphic.setShape( energyRep );
-
-        // todo: probably a redundant line
-//        energyGraphic.setColor( energyRepColor );
-
         energyGraphic.setColor( energyRepColorStrategy.getColor( atom ) );
-
 
         // Set the radius of the atom to be the same as the energy rep.
         atom.setRadius( energyRep.getWidth() / 2 );

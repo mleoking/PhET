@@ -27,7 +27,6 @@ import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.atom.ElementProperties;
-import edu.colorado.phet.lasers.view.AnnotatedAtomGraphic;
 import edu.colorado.phet.lasers.view.AtomGraphic;
 import edu.colorado.phet.lasers.view.ResonatingCavityGraphic;
 
@@ -393,12 +392,6 @@ public class DischargeLampModule extends BaseLaserModule {
     protected AtomGraphic addAtom( Atom atom ) {
         energyLevelsMonitorPanel.addAtom( atom );
         AtomGraphic graphic = super.addAtom( atom );
-
-        // Replace the graphic that the super class made with one that is specific to this
-        // application
-        getApparatusPanel().removeGraphic( graphic );
-        atom.removeChangeListener( graphic );
-        graphic = new AnnotatedAtomGraphic( getApparatusPanel(), atom );
         // Put some of the atoms in a layer above the circuit, and some below
         getApparatusPanel().addGraphic( graphic, DischargeLampsConfig.CIRCUIT_LAYER - 1 );
         if( random.nextBoolean() ) {
