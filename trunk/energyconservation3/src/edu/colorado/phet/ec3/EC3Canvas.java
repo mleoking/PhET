@@ -1,7 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3;
 
+import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.ec3.common.MeasuringTape;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
 import edu.colorado.phet.ec3.model.Floor;
@@ -23,6 +25,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -92,6 +95,11 @@ public class EC3Canvas extends PhetPCanvas {
                 updateThrust();
             }
         } );
+
+        ModelViewTransform2D tx = new ModelViewTransform2D( new Rectangle2D.Double( 0, 0, 100, 100 ),
+                                                            new Rectangle2D.Double( 0, 0, 40, 3 ) );
+        MeasuringTape measuringTape = new MeasuringTape( tx, new Point2D.Double( 100, 100 ), getPhetRootNode().getWorldNode() );
+        addScreenChild( measuringTape );
     }
 
     private void debugScreenSize() {
