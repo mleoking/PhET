@@ -44,4 +44,16 @@ public class PreFabSplines {
 //        spline.addControlPoint( 810, 351 );
 //        spline.addControlPoint( 800, 198 );
     }
+
+//    private void addSpline() {
+//        CubicSpline spline = new CubicSpline( NUM_CUBIC_SPLINE_SEGMENTS );
+//        spline.addControlPoint( 50, 50 );
+//        spline.addControlPoint( 150, 50 );
+//        spline.addControlPoint( 300, 50 );
+//        AbstractSpline rev = spline.createReverseSpline();
+//
+//        ec3Model.addSpline( spline, rev );
+//        SplineGraphic splineGraphic = new SplineGraphic( this, spline, rev );
+//        addSplineGraphic( splineGraphic );
+//    }
 }

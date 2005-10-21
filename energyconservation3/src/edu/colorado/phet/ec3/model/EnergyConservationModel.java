@@ -25,10 +25,19 @@ public class EnergyConservationModel {
     private double thermalEnergy = 0.0;
     private ArrayList listeners = new ArrayList();
 
+    static interface EnergyConservationModelListener {
+        public void numBodiesChanged();
+
+        public void numFloorsChanged();
+
+        public void numSplinesChanged();
+
+        public void paramChanged();
+    }
+
     public EnergyConservationModel( double zeroPointPotentialY ) {
         this.zeroPointPotentialY = zeroPointPotentialY;
     }
-
 
     public EnergyConservationModel copyState() {
         EnergyConservationModel copy = new EnergyConservationModel( zeroPointPotentialY );

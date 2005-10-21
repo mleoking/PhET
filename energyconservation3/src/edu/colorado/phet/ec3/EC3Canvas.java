@@ -1,23 +1,19 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3;
 
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.model.clock.ClockTickEvent;
+import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.ec3.common.MeasuringTape;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
-import edu.colorado.phet.ec3.model.Floor;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.CubicSpline;
 import edu.colorado.phet.ec3.view.BodyGraphic;
-import edu.colorado.phet.ec3.view.FloorGraphic;
 import edu.colorado.phet.ec3.view.SplineGraphic;
 import edu.colorado.phet.ec3.view.SplineMatch;
 import edu.colorado.phet.piccolo.PanZoomWorldKeyHandler;
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.piccolo.PhetRootPNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -25,9 +21,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -43,37 +36,43 @@ import java.util.HashMap;
 public class EC3Canvas extends PhetPCanvas {
     private EC3Module ec3Module;
     private EnergyConservationModel ec3Model;
-
-    private PNode bodyGraphics = new PNode();
-    private PNode splineGraphics = new PNode();
-    public static final int NUM_CUBIC_SPLINE_SEGMENTS = 30;
-
     private HashMap pressedKeys = new HashMap();
+    private EC3Graphic rootNode;
+
     private static final Object DUMMY_VALUE = new Object();
-    private PNode buses;
+    public static final int NUM_CUBIC_SPLINE_SEGMENTS = 30;
 
     public EC3Canvas( EC3Module ec3Module ) {
         super( new Dimension( 942, 723 ) );
         this.ec3Module = ec3Module;
         this.ec3Model = ec3Module.getEnergyConservationModel();
-        Floor floor = ec3Model.floorAt( 0 );
-        PhetRootPNode.Layer layer = new PhetRootPNode.Layer();
-        getPhetRootNode().addLayer( layer, 0 );
-        layer.addChild( new SkyGraphic( floor.getY() ) );
-        addWorldChild( new FloorGraphic( floor ) );
+        this.rootNode = new EC3Graphic( ec3Module, this );
+        setPhetRootNode( rootNode );
+        addFocusRequest();
+        addKeyHandling();
+        addKeyListener( new PanZoomWorldKeyHandler( this ) );
+        addThrust();
+        addMeasuringTape();
+        addGraphicsUpdate( ec3Module );
+    }
 
-        SplineToolbox splineToolbox = new SplineToolbox( this, 50, 50 );
-        layer.addChild( splineToolbox );
+    private void addGraphicsUpdate( EC3Module ec3Module ) {
+        ec3Module.getClock().addClockTickListener( new ClockTickListener() {
+            public void clockTicked( ClockTickEvent event ) {
+                updateWorldGraphics();
+            }
+        } );
+    }
 
-//        spline.addControlPoint( 47, 170 );
-//        spline.addControlPoint( 336, 543 );
-//        spline.addControlPoint( 678, 342 );
-
+    private void addFocusRequest() {
         addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 requestFocus();
             }
         } );
+    }
+
+    private void addKeyHandling() {
         addKeyListener( new KeyListener() {
             public void keyPressed( KeyEvent e ) {
                 EC3Canvas.this.keyPressed( e );
@@ -87,19 +86,23 @@ public class EC3Canvas extends PhetPCanvas {
                 EC3Canvas.this.keyTyped( e );
             }
         } );
-        addKeyListener( new PanZoomWorldKeyHandler( this ) );
-        addWorldChild( splineGraphics );
-        addWorldChild( bodyGraphics );
+    }
+
+    private void addThrust() {
         ec3Model.addEnergyModelListener( new EnergyConservationModel.EnergyModelListener() {
             public void preStep( double dt ) {
                 updateThrust();
             }
         } );
+    }
 
-        ModelViewTransform2D tx = new ModelViewTransform2D( new Rectangle2D.Double( 0, 0, 100, 100 ),
-                                                            new Rectangle2D.Double( 0, 0, 40, 3 ) );
-        MeasuringTape measuringTape = new MeasuringTape( tx, new Point2D.Double( 100, 100 ), getPhetRootNode().getWorldNode() );
+    private void addMeasuringTape() {
+        double coordScale = 1.0 / 55.0;
+        MeasuringTape measuringTape = new MeasuringTape( coordScale, new Point2D.Double( 100, 100 ), getPhetRootNode().getWorldNode() );
         addScreenChild( measuringTape );
+    }
+
+    private void updateWorldGraphics() {
     }
 
     private void debugScreenSize() {
@@ -107,37 +110,11 @@ public class EC3Canvas extends PhetPCanvas {
     }
 
     public void clearBuses() {
-        if( buses != null ) {
-            buses.removeAllChildren();
-            removeWorldChild( buses );
-            buses = null;
-        }
+        rootNode.clearBuses();
     }
 
     private void addBuses() {
-        if( buses == null ) {
-            try {
-                buses = new PNode();
-                Floor floor = ec3Model.floorAt( 0 );
-                BufferedImage newImage = ImageLoader.loadBufferedImage( "images/schoolbus200.gif" );
-                PImage schoolBus = new PImage( newImage );
-//            schoolBus.scale( 2 );
-                double y = floor.getY() - schoolBus.getFullBounds().getHeight() + 10;
-                schoolBus.setOffset( 0, y );
-                double busStart = 500;
-                for( int i = 0; i < 10; i++ ) {
-                    PImage bus = new PImage( newImage );
-//                bus.scale( 2 );
-                    double dbus = 2;
-                    bus.setOffset( busStart + i * ( bus.getFullBounds().getWidth() + dbus ), y );
-                    buses.addChild( bus );
-                }
-                addWorldChild( buses );
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-            }
-        }
+        rootNode.addBuses();
     }
 
     private void updateThrust() {
@@ -161,19 +138,7 @@ public class EC3Canvas extends PhetPCanvas {
     }
 
     public void addSplineGraphic( SplineGraphic splineGraphic ) {
-        splineGraphics.addChild( splineGraphic );
-    }
-
-    private void addSpline() {
-        CubicSpline spline = new CubicSpline( NUM_CUBIC_SPLINE_SEGMENTS );
-        spline.addControlPoint( 50, 50 );
-        spline.addControlPoint( 150, 50 );
-        spline.addControlPoint( 300, 50 );
-        AbstractSpline rev = spline.createReverseSpline();
-
-        ec3Model.addSpline( spline, rev );
-        SplineGraphic splineGraphic = new SplineGraphic( this, spline, rev );
-        addSplineGraphic( splineGraphic );
+        rootNode.addSplineGraphic( splineGraphic );
     }
 
     private void addSkater() {
@@ -186,17 +151,11 @@ public class EC3Canvas extends PhetPCanvas {
     }
 
     public void addBodyGraphic( BodyGraphic bodyGraphic ) {
-        bodyGraphics.addChild( bodyGraphic );
+        rootNode.addBodyGraphic( bodyGraphic );
     }
 
     private void toggleBox() {
-        if( bodyGraphics.getChildrenReference().size() > 0 ) {
-            boolean state = ( (BodyGraphic)bodyGraphics.getChildrenReference().get( 0 ) ).isBoxVisible();
-            for( int i = 0; i < bodyGraphics.getChildrenReference().size(); i++ ) {
-                BodyGraphic bodyGraphic = (BodyGraphic)bodyGraphics.getChildrenReference().get( i );
-                bodyGraphic.setBoxVisible( !state );
-            }
-        }
+        rootNode.toggleBox();
     }
 
     private void printControlPoints() {
@@ -245,11 +204,11 @@ public class EC3Canvas extends PhetPCanvas {
     }
 
     private SplineGraphic splineGraphicAt( int i ) {
-        return (SplineGraphic)splineGraphics.getChildrenReference().get( i );
+        return rootNode.splineGraphicAt( i );
     }
 
     private int numSplineGraphics() {
-        return splineGraphics.getChildrenReference().size();
+        return rootNode.numSplineGraphics();
     }
 
     public void attach( SplineGraphic splineGraphic, int index, SplineMatch match ) {
@@ -286,7 +245,7 @@ public class EC3Canvas extends PhetPCanvas {
     }
 
     private void removeSplineGraphic( SplineGraphic splineGraphic ) {
-        splineGraphics.removeChild( splineGraphic );
+        rootNode.removeSplineGraphic( splineGraphic );
     }
 
     public EnergyConservationModel getEnergyConservationModel() {
@@ -305,14 +264,11 @@ public class EC3Canvas extends PhetPCanvas {
     }
 
     public void reset() {
-        bodyGraphics.removeAllChildren();
-        splineGraphics.removeAllChildren();
-        clearBuses();
+        rootNode.reset();
         pressedKeys.clear();
     }
 
     public void keyPressed( KeyEvent e ) {
-
         pressedKeys.put( new Integer( e.getKeyCode() ), DUMMY_VALUE );
         if( e.getKeyCode() == KeyEvent.VK_P ) {
             System.out.println( "spline.getSegmentPath().getLength() = " + ec3Model.splineAt( 0 ).getSegmentPath().getLength() );
@@ -324,9 +280,6 @@ public class EC3Canvas extends PhetPCanvas {
         else if( e.getKeyCode() == KeyEvent.VK_A ) {
             addSkater();
         }
-//                else if( e.getKeyCode() == KeyEvent.VK_N ) {
-//                    addSpline();
-//                }
         else if( e.getKeyCode() == KeyEvent.VK_J ) {
             addBuses();
         }

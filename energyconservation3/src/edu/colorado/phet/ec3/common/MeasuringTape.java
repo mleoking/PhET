@@ -2,7 +2,6 @@
 package edu.colorado.phet.ec3.common;
 
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.BoundGraphic;
 import edu.colorado.phet.piccolo.CursorHandler;
@@ -28,6 +27,7 @@ import java.text.DecimalFormat;
  */
 
 public class MeasuringTape extends PNode {
+    private double scale;
     private Point2D.Double viewSrc;
     private Point2D.Double viewDst;
     private BodyGraphic bodyGraphic;
@@ -36,10 +36,11 @@ public class MeasuringTape extends PNode {
     private ReadoutGraphic readoutGraphic;
     private PNode worldNode;
 
-    public MeasuringTape( ModelViewTransform2D modelViewTransform2D, Point2D.Double modelSrc, PNode worldNode ) {
+    public MeasuringTape( double scale, Point2D.Double modelSrc, PNode worldNode ) {
+        this.scale = scale;
         this.viewSrc = modelSrc;
         this.worldNode = worldNode;
-        this.viewDst = new Point2D.Double( modelSrc.x + modelViewTransform2D.viewToModelDifferentialX( 100 ), modelSrc.y );
+        this.viewDst = new Point2D.Double( modelSrc.x + 100, modelSrc.y );
 
         bodyGraphic = new BodyGraphic();
         tapeGraphic = new TapeGraphic();
@@ -126,7 +127,7 @@ public class MeasuringTape extends PNode {
         localToGlobal( dst );
         worldNode.globalToLocal( dst );
 
-        double modelDistance = src.distance( dst );
+        double modelDistance = src.distance( dst ) * scale;
 
 //        double viewDistance = new Vector2D.Double( this.viewSrc, this.viewDst ).getMagnitude();
         //convert to model distance.
