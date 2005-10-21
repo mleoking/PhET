@@ -21,7 +21,7 @@ import edu.colorado.phet.shaper.model.FourierSeries;
 
 
 /**
- * Rainbow
+ * RainbowLight
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
