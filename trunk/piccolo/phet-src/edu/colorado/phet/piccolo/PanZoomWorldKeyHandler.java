@@ -131,12 +131,11 @@ public class PanZoomWorldKeyHandler implements KeyListener {
         Point2D point = phetPCanvas.getCamera().getBounds().getCenter2D();
         phetPCanvas.getCamera().localToGlobal( point );
         worldNode.globalToLocal( point );
-        worldNode.scaleAboutPoint( scale, point );
+        phetPCanvas.getPhetRootNode().scaleWorldAboutPoint( scale, point );
     }
 
     private void translateWorld( int dx, int dy ) {
-        PNode worldNode = phetPCanvas.getWorldNode();
-        worldNode.translate( dx, dy );
+        phetPCanvas.getPhetRootNode().translateWorld( dx, dy );
     }
 
     public void keyReleased( KeyEvent e ) {
