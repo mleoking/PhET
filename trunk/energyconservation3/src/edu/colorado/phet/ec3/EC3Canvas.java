@@ -8,6 +8,7 @@ import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.CubicSpline;
+import edu.colorado.phet.ec3.model.spline.SplineSurface;
 import edu.colorado.phet.ec3.view.BodyGraphic;
 import edu.colorado.phet.ec3.view.SplineGraphic;
 import edu.colorado.phet.ec3.view.SplineMatch;
@@ -37,7 +38,7 @@ public class EC3Canvas extends PhetPCanvas {
     private EC3Module ec3Module;
     private EnergyConservationModel ec3Model;
     private HashMap pressedKeys = new HashMap();
-    private EC3Graphic rootNode;
+    private EC3RootNode rootNode;
 
     private static final Object DUMMY_VALUE = new Object();
     public static final int NUM_CUBIC_SPLINE_SEGMENTS = 30;
@@ -46,7 +47,7 @@ public class EC3Canvas extends PhetPCanvas {
         super( new Dimension( 942, 723 ) );
         this.ec3Module = ec3Module;
         this.ec3Model = ec3Module.getEnergyConservationModel();
-        this.rootNode = new EC3Graphic( ec3Module, this );
+        this.rootNode = new EC3RootNode( ec3Module, this );
         setPhetRootNode( rootNode );
         addFocusRequest();
         addKeyHandling();
@@ -103,6 +104,7 @@ public class EC3Canvas extends PhetPCanvas {
     }
 
     private void updateWorldGraphics() {
+        rootNode.updateGraphics();
     }
 
     private void debugScreenSize() {
@@ -159,7 +161,7 @@ public class EC3Canvas extends PhetPCanvas {
     }
 
     private void printControlPoints() {
-        ec3Model.splineAt( 0 ).printControlPointCode();
+        ec3Model.splineSurfaceAt( 0 ).printControlPointCode();
     }
 
     int threshold = 100;
@@ -217,8 +219,8 @@ public class EC3Canvas extends PhetPCanvas {
         removeSpline( match.getSplineGraphic() );
 
         AbstractSpline spline = new CubicSpline( NUM_CUBIC_SPLINE_SEGMENTS );
-        AbstractSpline a = splineGraphic.getSpline();
-        AbstractSpline b = match.getSpline();
+        AbstractSpline a = splineGraphic.getSplineSurface().getTop();
+        AbstractSpline b = match.getTopSplineMatch();
         if( index == 0 ) {
             for( int i = a.numControlPoints() - 1; i >= 0; i-- ) {
                 spline.addControlPoint( a.controlPointAt( i ) );
@@ -239,9 +241,10 @@ public class EC3Canvas extends PhetPCanvas {
                 spline.addControlPoint( b.controlPointAt( i ) );
             }
         }
-        AbstractSpline reverse = spline.createReverseSpline();
-        ec3Model.addSpline( spline, reverse );
-        addSplineGraphic( new SplineGraphic( this, spline, reverse ) );
+//        AbstractSpline reverse = spline.createReverseSpline();
+        SplineSurface surface = new SplineSurface( spline );
+        ec3Model.addSplineSurface( surface );
+        addSplineGraphic( new SplineGraphic( this, surface ) );
     }
 
     private void removeSplineGraphic( SplineGraphic splineGraphic ) {
@@ -254,9 +257,9 @@ public class EC3Canvas extends PhetPCanvas {
 
     public void removeSpline( SplineGraphic splineGraphic ) {
         removeSplineGraphic( splineGraphic );
-        ec3Model.removeSpline( splineGraphic.getSpline() );
-        ec3Model.removeSpline( splineGraphic.getReverseSpline() );
-
+        ec3Model.removeSplineSurface( splineGraphic.getSplineSurface() );
+//        ec3Model.removeSpline( splineGraphic.getSpline() );
+//        ec3Model.removeSpline( splineGraphic.getReverseSpline() );
     }
 
     public EC3Module getEnergyConservationModule() {
@@ -271,7 +274,7 @@ public class EC3Canvas extends PhetPCanvas {
     public void keyPressed( KeyEvent e ) {
         pressedKeys.put( new Integer( e.getKeyCode() ), DUMMY_VALUE );
         if( e.getKeyCode() == KeyEvent.VK_P ) {
-            System.out.println( "spline.getSegmentPath().getLength() = " + ec3Model.splineAt( 0 ).getSegmentPath().getLength() );
+            System.out.println( "spline.getSegmentPath().getLength() = " + ec3Model.splineSurfaceAt( 0 ).getLength() );
             printControlPoints();
         }
         else if( e.getKeyCode() == KeyEvent.VK_B ) {

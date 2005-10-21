@@ -7,8 +7,8 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
 import edu.colorado.phet.ec3.model.Floor;
-import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.CubicSpline;
+import edu.colorado.phet.ec3.model.spline.SplineSurface;
 import edu.colorado.phet.ec3.view.BodyGraphic;
 import edu.colorado.phet.ec3.view.SplineGraphic;
 import edu.colorado.phet.piccolo.PiccoloModule;
@@ -118,10 +118,10 @@ public class EC3Module extends PiccoloModule {
         spline.addControlPoint( 47, 170 );
         spline.addControlPoint( 336, 543 );
         spline.addControlPoint( 669, 152 );
-        AbstractSpline revspline = spline.createReverseSpline();
-        SplineGraphic splineGraphic = new SplineGraphic( energyCanvas, spline, revspline );
-        energyModel.addSpline( spline, revspline );
-
+        SplineSurface surface = new SplineSurface( spline );
+//        AbstractSpline revspline = spline.createReverseSpline();
+        SplineGraphic splineGraphic = new SplineGraphic( energyCanvas, surface );
+        energyModel.addSplineSurface( surface );
         energyCanvas.addSplineGraphic( splineGraphic );
     }
 

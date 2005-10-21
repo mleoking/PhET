@@ -4,6 +4,7 @@ package edu.colorado.phet.ec3;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.CubicSpline;
+import edu.colorado.phet.ec3.model.spline.SplineSurface;
 import edu.colorado.phet.ec3.view.SplineGraphic;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -69,7 +70,8 @@ public class SplineToolbox extends PNode {
         spline.addControlPoint( 75, 0 );
         spline.addControlPoint( 150, 0 );
         spline.translate( x, y );
-        final SplineGraphic splineGraphic = new SplineGraphic( ec3Canvas, spline, spline.createReverseSpline() );
+        SplineSurface surface = new SplineSurface( spline );
+        final SplineGraphic splineGraphic = new SplineGraphic( ec3Canvas, surface );
         splineGraphic.disableDragControlPoints();
         splineGraphic.addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
@@ -79,7 +81,8 @@ public class SplineToolbox extends PNode {
                 splineGraphic.removeInputEventListener( this );
                 System.out.println( "Added dummy@" + System.currentTimeMillis() );
                 ec3Canvas.addSplineGraphic( splineGraphic );
-                ec3Canvas.getEnergyConservationModel().addSpline( splineGraphic.getSpline(), splineGraphic.getReverseSpline() );
+//                ec3Canvas.getEnergyConservationModel().addSpline( splineGraphic.getSpline(), splineGraphic.getReverseSpline() );
+                ec3Canvas.getEnergyConservationModel().addSplineSurface( splineGraphic.getSplineSurface() );
             }
         } );
         return splineGraphic;

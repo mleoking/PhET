@@ -3,6 +3,7 @@ package edu.colorado.phet.ec3.view;
 
 import edu.colorado.phet.ec3.EC3Canvas;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
+import edu.colorado.phet.ec3.model.spline.SplineSurface;
 import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.piccolo.PopupMenuHandler;
 import edu.umd.cs.piccolo.PNode;
@@ -41,8 +42,14 @@ public class SplineGraphic extends PNode {
 
     private BasicStroke dottedStroke = new BasicStroke( 2, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1.0f, new float[]{3, 5}, 0 );
     private BasicStroke lineStroke = new BasicStroke( 2 );
+    private SplineSurface splineSurface;
 
-    public SplineGraphic( EC3Canvas ec3Canvas, AbstractSpline spline, AbstractSpline reverse ) {
+    public SplineGraphic( EC3Canvas ec3Canvas, SplineSurface splineSurface ) {
+        this( ec3Canvas, splineSurface.getTop(), splineSurface.getBottom() );
+        this.splineSurface = splineSurface;
+    }
+
+    private SplineGraphic( EC3Canvas ec3Canvas, AbstractSpline spline, AbstractSpline reverse ) {
         this.ec3Canvas = ec3Canvas;
         this.spline = spline;
         this.reverse = reverse;
@@ -76,6 +83,10 @@ public class SplineGraphic extends PNode {
         translateAll( event.getDeltaRelativeTo( SplineGraphic.this ).width, event.getDeltaRelativeTo( SplineGraphic.this ).height );
         proposeMatchesTrunk();
         updateAll();
+    }
+
+    public SplineSurface getSplineSurface() {
+        return splineSurface;
     }
 
     class PathPopupMenu extends JPopupMenu {
@@ -286,11 +297,11 @@ public class SplineGraphic extends PNode {
         return pathLayer.getChildrenCount();
     }
 
-    public AbstractSpline getSpline() {
+    private AbstractSpline getSpline() {
         return spline;
     }
 
-    public AbstractSpline getReverseSpline() {
+    private AbstractSpline getReverseSpline() {
         return reverse;
     }
 

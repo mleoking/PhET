@@ -5,6 +5,7 @@ import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.Segment;
 import edu.colorado.phet.ec3.model.spline.SegmentPath;
+import edu.colorado.phet.ec3.model.spline.SplineSurface;
 
 import java.awt.geom.Area;
 import java.util.ArrayList;
@@ -19,11 +20,19 @@ import java.util.ArrayList;
 public class EnergyConservationModel {
     private ArrayList bodies = new ArrayList();
     private ArrayList floors = new ArrayList();
-    private ArrayList splines = new ArrayList();
+    private ArrayList splineSurfaces = new ArrayList();
     private double gravity = 9.8;
     private double zeroPointPotentialY;
     private double thermalEnergy = 0.0;
     private ArrayList listeners = new ArrayList();
+
+    public int numSplineSurfaces() {
+        return splineSurfaces.size();
+    }
+
+    public AbstractSpline getReverseSpline( AbstractSpline spline ) {
+        return null;
+    }
 
     static interface EnergyConservationModelListener {
         public void numBodiesChanged();
@@ -49,9 +58,9 @@ public class EnergyConservationModel {
             Floor floor = (Floor)floors.get( i );
             copy.floors.add( floor.copyState() );
         }
-        for( int i = 0; i < splines.size(); i++ ) {
-            AbstractSpline abstractSpline = (AbstractSpline)splines.get( i );
-            copy.splines.add( abstractSpline.copySpline() );
+        for( int i = 0; i < splineSurfaces.size(); i++ ) {
+            SplineSurface surface = splineSurfaceAt( i );
+            copy.splineSurfaces.add( surface.copy() );
         }
 
         return copy;
@@ -82,15 +91,26 @@ public class EnergyConservationModel {
         }
     }
 
+    private ArrayList getAllSplines() {
+        ArrayList list = new ArrayList();
+        for( int i = 0; i < splineSurfaces.size(); i++ ) {
+            SplineSurface splineSurface = (SplineSurface)splineSurfaces.get( i );
+            list.add( splineSurface.getTop() );
+            list.add( splineSurface.getBottom() );
+        }
+        return list;
+    }
+
     private void doGrab( Body body ) {
         double bestScore = Double.POSITIVE_INFINITY;
         AbstractSpline bestSpline = null;
-        for( int i = 0; i < splines.size(); i++ ) {
-            AbstractSpline abstractSpline = (AbstractSpline)splines.get( i );
-            double score = getGrabScore( abstractSpline, body );
+        ArrayList allSplines = getAllSplines();
+        for( int i = 0; i < allSplines.size(); i++ ) {
+            AbstractSpline splineSurface = (AbstractSpline)allSplines.get( i );
+            double score = getGrabScore( splineSurface, body );
             if( score < bestScore ) {
                 bestScore = score;
-                bestSpline = abstractSpline;
+                bestSpline = splineSurface;
             }
         }
         if( bestSpline != null ) {
@@ -145,17 +165,26 @@ public class EnergyConservationModel {
         return Double.POSITIVE_INFINITY;
     }
 
-    public AbstractSpline splineAt( int i ) {
-        return (AbstractSpline)splines.get( i );
+    public SplineSurface splineSurfaceAt( int i ) {
+        return (SplineSurface)splineSurfaces.get( i );
     }
 
     public Floor floorAt( int i ) {
         return (Floor)floors.get( i );
     }
 
-    public void addSpline( AbstractSpline spline, AbstractSpline reverse ) {
-        splines.add( spline );
-        splines.add( reverse );
+    public void addSplineSurface( SplineSurface splineSurface ) {
+        splineSurfaces.add( splineSurface );
+    }
+
+    /**
+     * @param spline
+     * @param reverse
+     * @deprecated
+     */
+    private void addSpline( AbstractSpline spline, AbstractSpline reverse ) {
+        splineSurfaces.add( spline );
+        splineSurfaces.add( reverse );
     }
 
     public void addBody( Body body ) {
@@ -189,8 +218,13 @@ public class EnergyConservationModel {
         return gravity;
     }
 
-    public void removeSpline( AbstractSpline spline ) {
-        splines.remove( spline );
+    public void removeSplineSurface( SplineSurface splineSurface ) {
+        notifyBodiesSplineRemoved( splineSurface.getTop() );
+        notifyBodiesSplineRemoved( splineSurface.getBottom() );
+        splineSurfaces.remove( splineSurface );
+    }
+
+    private void notifyBodiesSplineRemoved( AbstractSpline spline ) {
         for( int i = 0; i < bodies.size(); i++ ) {
             Body body = (Body)bodies.get( i );
             body.splineRemoved( spline );
@@ -207,7 +241,7 @@ public class EnergyConservationModel {
 
     public void reset() {
         bodies.clear();
-        splines.clear();
+        splineSurfaces.clear();
         gravity = 9.8;
         thermalEnergy = 0.0;
     }

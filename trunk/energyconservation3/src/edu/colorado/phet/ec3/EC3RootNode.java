@@ -21,27 +21,31 @@ import java.io.IOException;
  * Copyright (c) Oct 21, 2005 by Sam Reid
  */
 
-public class EC3Graphic extends PhetRootPNode {
+public class EC3RootNode extends PhetRootPNode {
     private PNode bodyGraphics = new PNode();
     private PNode splineGraphics = new PNode();
     private PNode buses;
     private EC3Module ec3Module;
     private EC3Canvas ec3Canvas;
 
-    public EC3Graphic( EC3Module ec3Module, EC3Canvas ec3Canvas ) {
+    public EC3RootNode( EC3Module ec3Module, EC3Canvas ec3Canvas ) {
         this.ec3Module = ec3Module;
         this.ec3Canvas = ec3Canvas;
         EnergyConservationModel ec3Model = getModel();
         Floor floor = ec3Model.floorAt( 0 );
         PhetRootPNode.Layer layer = new PhetRootPNode.Layer();
         addLayer( layer, 0 );
-        SplineToolbox splineToolbox = new SplineToolbox( ec3Canvas, 50, 50 );
-        layer.addChild( splineToolbox );
 
         addWorldChild( new SkyGraphic( floor.getY() ) );
         addWorldChild( new FloorGraphic( floor ) );
         addWorldChild( splineGraphics );
         addWorldChild( bodyGraphics );
+
+        PhetRootPNode.Layer topLayer = new Layer();
+        addLayer( topLayer );
+
+        SplineToolbox splineToolbox = new SplineToolbox( ec3Canvas, 50, 50 );
+        topLayer.addChild( splineToolbox );
     }
 
     private EnergyConservationModel getModel() {
@@ -116,4 +120,42 @@ public class EC3Graphic extends PhetRootPNode {
     public void removeSplineGraphic( SplineGraphic splineGraphic ) {
         splineGraphics.removeChild( splineGraphic );
     }
+
+    public void updateGraphics() {
+        updateSplines();
+        updateBodies();
+    }
+
+    private void updateBodies() {
+    }
+
+    private void updateSplines() {
+        if( !splinesCorrect() ) {
+            correctSplines();
+        }
+    }
+
+    private void correctSplines() {
+        splineGraphics.removeAllChildren();
+        for( int i = 0; i < getModel().numSplineSurfaces(); i++ ) {
+            SplineGraphic splineGraphic = new SplineGraphic( ec3Canvas, getModel().splineSurfaceAt( i ) );
+            addSplineGraphic( splineGraphic );
+        }
+    }
+
+    private boolean splinesCorrect() {
+        if( getModel().numSplineSurfaces() != splineGraphics.getChildrenCount() ) {
+            return false;
+        }
+        else {
+            for( int i = 0; i < getModel().numSplineSurfaces(); i++ ) {
+                if( splineGraphicAt( i ).getSplineSurface() != getModel().splineSurfaceAt( i ) ) {
+//                if( splineGraphicAt( i ).getSpline() != getModel().splineSurfaceAt( i ) ) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
 }
