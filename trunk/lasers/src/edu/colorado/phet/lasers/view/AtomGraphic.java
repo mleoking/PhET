@@ -18,7 +18,6 @@ import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
-import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -123,22 +122,25 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
         energyRepRad = maxRingThickness * de2 / de1 + groundStateRingThickness + baseImageRad;
 
         energyRep = new Ellipse2D.Double( -energyRepRad, -energyRepRad, energyRepRad * 2, energyRepRad * 2 );
-        if( state.getWavelength() == Photon.GRAY ) {
-            energyRepColor = Color.darkGray;
-        }
-        else {
-            energyRepColor = VisibleColor.wavelengthToColor( state.getWavelength() );
-            if( energyRepColor.equals( VisibleColor.INVISIBLE ) ) {
-                energyRepColor = Color.darkGray;
-            }
-        }
+//        if( state.getWavelength() == Photon.GRAY ) {
+//            energyRepColor = Color.darkGray;
+//        }
+//        else {
+//            energyRepColor = VisibleColor.wavelengthToColor( state.getWavelength() );
+//            if( energyRepColor.equals( VisibleColor.INVISIBLE ) ) {
+//                energyRepColor = Color.darkGray;
+//            }
+//        }
         energyGraphic.setShape( energyRep );
 
         // todo: probably a redundant line
-        energyGraphic.setColor( energyRepColor );
+//        energyGraphic.setColor( energyRepColor );
 
         energyGraphic.setColor( energyRepColorStrategy.getColor( atom ) );
 
+
+        // Set the radius of the atom to be the same as the energy rep.
+        atom.setRadius( energyRep.getWidth() / 2 );
     }
 
     /**

@@ -82,7 +82,7 @@ public class WaveViewControlPanel extends JPanel {
         public void actionPerformed( ActionEvent e ) {
             JRadioButton selection = SwingUtils.getSelection( lasingPhotonBG );
             if( selection == lasingPhotonViewRB ) {
-                PhotonGraphic.setAllVisible( true, module.getLaserModel().getMiddleEnergyState().getWavelength() );
+//                PhotonGraphic.setAllVisible( true, module.getLaserModel().getMiddleEnergyState().getWavelength() );
                 module.setLasingPhotonView( BaseLaserModule.PHOTON_DISCRETE );
             }
             if( selection == lasingWaveViewRB ) {
