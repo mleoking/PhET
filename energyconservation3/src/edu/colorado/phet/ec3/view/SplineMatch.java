@@ -28,8 +28,8 @@ public class SplineMatch {
         return target;
     }
 
-    public AbstractSpline getSpline() {
-        return target.getSpline();
+    public AbstractSpline getTopSplineMatch() {
+        return target.getSplineSurface().getTop();
     }
 
     public boolean matchesBeginning() {
@@ -37,6 +37,6 @@ public class SplineMatch {
     }
 
     public boolean matchesEnd() {
-        return index == getSpline().numControlPoints() - 1;
+        return index == getTopSplineMatch().numControlPoints() - 1;
     }
 }
