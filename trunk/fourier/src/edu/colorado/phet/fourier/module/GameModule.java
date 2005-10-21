@@ -149,8 +149,7 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
 
         setClockControlsEnabled( false );
         
-        _gameManager = new GameManager( _userFourierSeries, _randomFourierSeries, 
-                _amplitudesView, _harmonicsView, _sumView );
+        _gameManager = new GameManager( _userFourierSeries, _randomFourierSeries, _amplitudesView );
         apparatusPanel.addMouseListener( _gameManager );
         
         // Control Panel

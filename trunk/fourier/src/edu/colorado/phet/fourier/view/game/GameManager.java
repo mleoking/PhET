@@ -82,8 +82,6 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
     private FourierSeries _userFourierSeries;
     private FourierSeries _randomFourierSeries;
     private GameAmplitudesView _amplitudesView;
-    private GameHarmonicsView _harmonicsView;
-    private GameSumView _sumView;
     private GameLevel _gameLevel;
     private Preset _preset;
     private Hashtable gameConfigs; // hashtable of GameConfiguration
@@ -102,8 +100,7 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
      * @param randomSeries the Fourier series that we randomly manipulate
      * @param amplitudesView the "Amplitudes" view for the Game module
      */
-    public GameManager( FourierSeries userSeries, FourierSeries randomSeries, 
-            GameAmplitudesView amplitudesView, GameHarmonicsView harmonicsView, GameSumView sumView ) {
+    public GameManager( FourierSeries userSeries, FourierSeries randomSeries, GameAmplitudesView amplitudesView ) {
         
         _userFourierSeries = userSeries;
         _userFourierSeries.addObserver( this );
@@ -111,8 +108,6 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
         _randomFourierSeries = randomSeries;
         
         _amplitudesView = amplitudesView;
-        _harmonicsView = harmonicsView;
-        _sumView = sumView;
         
         _gameLevel = GameLevel.UNDEFINED;
         _preset = Preset.UNDEFINED;
@@ -312,15 +307,13 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
         
         // Inform the user when they've matched the waveform.
         if ( isMatch() ) {
-            /*
-             * WORKAROUND:
-             * We've been notified that the user's Fourier series has changed.
-             * But the views of that Fourier series may not have received their
-             * notification yet, and may still need to be visually updated.
-             */
-            _amplitudesView.update();
-            _harmonicsView.update();
-            _sumView.update();
+            
+            // WORKAROUND: Make sure that all other views are updated.
+            {
+                _userFourierSeries.removeObserver( this );
+                _userFourierSeries.notifyObservers();
+                _userFourierSeries.addObserver( this );
+            }
 
             // Tell the user they won.
             JFrame frame = PhetApplication.instance().getPhetFrame();
