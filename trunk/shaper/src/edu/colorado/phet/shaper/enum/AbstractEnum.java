@@ -13,18 +13,18 @@ package edu.colorado.phet.shaper.enum;
 
 
 /**
- * ShaperEnum is the base class for enumerations.  
+ * AbstractEnum is the base class for enumerations.  
  * We are using the typesafe enum pattern as described in 
  * Item 21 of "Effective Java" by Joshua Bloch.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ShaperEnum {
+public abstract class AbstractEnum {
 
     private String _name;
     
-    protected ShaperEnum( String name ) {
+    protected AbstractEnum( String name ) {
         _name = name;
     }
     

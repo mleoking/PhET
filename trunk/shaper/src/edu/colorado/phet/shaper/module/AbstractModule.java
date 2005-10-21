@@ -23,12 +23,12 @@ import edu.colorado.phet.shaper.view.BoundsDebugger;
 
 
 /**
- * BaseModule is the base class for all Optical Pulse Shaper modules.
+ * AbstractModule is the base class for all Optical Pulse Shaper modules.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public abstract class BaseModule extends Module {
+public abstract class AbstractModule extends Module {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -53,7 +53,7 @@ public abstract class BaseModule extends Module {
      * @param title the module title
      * @param clock the simulation clock
      */
-    public BaseModule( String title, AbstractClock clock ) {
+    public AbstractModule( String title, AbstractClock clock ) {
         super( title, clock );
     }
     
@@ -83,19 +83,6 @@ public abstract class BaseModule extends Module {
         else {
             apparatusPanel.setCursor( ShaperConstants.DEFAULT_CURSOR );
         }
-    }
-    
-    //----------------------------------------------------------------------------
-    // Module overrides
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Determines if the module has Mega Help.
-     * 
-     * @return true or false
-     */
-    public boolean hasMegaHelp() {
-        return false;
     }
     
     //----------------------------------------------------------------------------

@@ -35,7 +35,7 @@ import edu.colorado.phet.shaper.view.*;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ShaperModule extends BaseModule {
+public class ShaperModule extends AbstractModule {
 
     //----------------------------------------------------------------------------
     // Class data

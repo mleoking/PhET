@@ -17,7 +17,7 @@ package edu.colorado.phet.shaper.enum;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class Molecule extends ShaperEnum {
+public class Molecule extends AbstractEnum {
 
     /* This class is not intended for instantiation. */
     private Molecule( String name ) {
