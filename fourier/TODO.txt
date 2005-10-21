@@ -62,6 +62,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(10/21) - better workaround for syncing all views before starting a new game
 2.1.5 ...
 (10/19) - bugfix: use only 2 significant decimal places when determining if the game has been won
 (10/18) - bugfix: exception occurred when playing game with level=Preset
