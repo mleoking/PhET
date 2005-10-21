@@ -14,9 +14,8 @@ import edu.colorado.phet.collision.SphericalBody;
 import edu.colorado.phet.common.math.Vector2D;
 
 import java.awt.geom.Point2D;
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
 
 /**
  * Atom
@@ -25,9 +24,7 @@ import java.util.Set;
  * @version $Revision$
  */
 public abstract class Atom extends SphericalBody {
-    private static Random random = new Random();
-
-    private Set binders = new HashSet();
+    private Collection binders = new HashSet();
 
     public Atom( double radius ) {
         super( radius );
@@ -44,13 +41,6 @@ public abstract class Atom extends SphericalBody {
 
     public void unbindFrom( Binder binder ) {
         binders.remove( binder );
-
-        System.out.println( "binders = " + binders.size() );
-        // Choose a new velocity
-        if( binders.isEmpty() ) {
-            double theta = random.nextDouble() * Math.PI * 2;
-        }
-
         notifyObservers();
     }
 

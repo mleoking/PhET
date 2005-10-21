@@ -50,12 +50,12 @@ public class SolubleSaltsModel extends BaseModel {
             Lattice.InstanceLifetimeListener listener = new Lattice.InstanceLifetimeListener() {
                 public void instanceCreated( Lattice.InstanceLifetimeEvent event ) {
                     addModelElement( event.getInstance() );
-                    System.out.println( "SolubleSaltsModel.instanceCreated" );
+//                    System.out.println( "SolubleSaltsModel.instanceCreated" );
                 }
 
                 public void instanceDestroyed( Lattice.InstanceLifetimeEvent event ) {
                     removeModelElement( event.getInstance() );
-                    System.out.println( "SolubleSaltsModel.instanceDestroyed" );
+//                    System.out.println( "SolubleSaltsModel.instanceDestroyed" );
                 }
             };
             Lattice.addInstanceLifetimeListener( listener );

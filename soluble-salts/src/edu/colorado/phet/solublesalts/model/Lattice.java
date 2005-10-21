@@ -10,10 +10,12 @@
  */
 package edu.colorado.phet.solublesalts.model;
 
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.*;
 
 /**
@@ -33,6 +35,7 @@ public class Lattice extends Body implements Binder {
             (InstanceLifetimeListener)instanceLifetimeEventChannel.getListenerProxy();
     private static Random random = new Random( System.currentTimeMillis() );
     private static double dissociationLikelihood;
+    private Rectangle2D bounds;
 
     public static void setDissociationLikelihood( double dissociationLikelihood ) {
         Lattice.dissociationLikelihood = dissociationLikelihood;
@@ -77,18 +80,13 @@ public class Lattice extends Body implements Binder {
     // Lifecycle
     //----------------------------------------------------------------
 
-    public Lattice() {
-        instanceLifetimeListenerProxy.instanceCreated( new InstanceLifetimeEvent( this ) );
-    }
-
-    public Lattice( Ion ion ) {
+    /**
+     * @param ion    The ion that seeds the lattice
+     * @param bounds Growth bounds for the lattice
+     */
+    public Lattice( Ion ion, Rectangle2D bounds ) {
+        this.bounds = bounds;
         addIon( ion );
-        updateCm();
-        instanceLifetimeListenerProxy.instanceCreated( new InstanceLifetimeEvent( this ) );
-    }
-
-    public Lattice( ArrayList ions ) {
-        this.ions = ions;
         updateCm();
         instanceLifetimeListenerProxy.instanceCreated( new InstanceLifetimeEvent( this ) );
     }
@@ -168,11 +166,9 @@ public class Lattice extends Body implements Binder {
      */
     private void releaseIon( double dt ) {
 
-        System.out.println( "Lattice.releaseIon" );
-
         Ion ionToRelease = form.getLeastBoundIon( getIons(), orientation );
-        ionToRelease.setVelocity( -ionToRelease.getVelocity().getX(),
-                                  -ionToRelease.getVelocity().getY() );
+        Vector2D v = determineReleaseVelocity( ionToRelease );
+        ionToRelease.setVelocity( v );
         getIons().remove( ionToRelease );
         ionToRelease.unbindFrom( this );
         ionToRelease.stepInTime( dt );
@@ -182,6 +178,27 @@ public class Lattice extends Body implements Binder {
         if( getIons().size() == 0 ) {
             instanceLifetimeListenerProxy.instanceDestroyed( new InstanceLifetimeEvent( this ) );
         }
+    }
+
+    private Vector2D determineReleaseVelocity( Ion ionToRelease ) {
+        // Get the unoccupied sites around the ion being release
+        List openSites = form.getOpenNeighboringSites( ionToRelease, ions, orientation );
+        double sumX = 0, sumY = 0;
+        for( int i = 0; i < openSites.size(); i++ ) {
+            Point2D point2D = (Point2D)openSites.get( i );
+            sumX += point2D.getX() - ionToRelease.getPosition().getX();
+            sumY += point2D.getY() - ionToRelease.getPosition().getY();
+        }
+
+        if( sumX == 0 && sumY == 0 ) {
+            sumX = random.nextDouble();
+            sumY = random.nextDouble();
+            throw new RuntimeException( "releave velocity = (0:0)" );
+        }
+        Vector2D releaseVelocity = new Vector2D.Double( sumX / openSites.size(),
+                                                        sumY / openSites.size() );
+        releaseVelocity.normalize().scale( ionToRelease.getVelocity().getMagnitude() );
+        return releaseVelocity;
     }
 
     //----------------------------------------------------------------
@@ -211,9 +228,11 @@ public class Lattice extends Body implements Binder {
         Point2D getNearestOpenSite( Ion ion, List ionsInLattice, double orientation );
 
         Ion getLeastBoundIon( List ions, double orientation );
+
+        List getOpenNeighboringSites( Ion ion, List ionsInLattice, double orientation );
     }
 
-    static class PlainCubicForm implements Form {
+    class PlainCubicForm implements Form {
         private double spacing;
 
         public PlainCubicForm( double spacing ) {
@@ -237,9 +256,9 @@ public class Lattice extends Body implements Binder {
             for( int i = 0; i < ionsInLattice.size(); i++ ) {
                 Ion testIon = (Ion)ionsInLattice.get( i );
                 if( testIon.getCharge() * ion.getCharge() < 0 ) {
-                    Point2D[] ns = getNeighboringSites( testIon.getPosition(), orientation );
-                    for( int j = 0; j < ns.length; j++ ) {
-                        Point2D n = ns[j];
+                    List ns = getNeighboringSites( testIon.getPosition(), orientation );
+                    for( int j = 0; j < ns.size(); j++ ) {
+                        Point2D n = (Point2D)ns.get( j );
                         boolean isOccupied = false;
                         for( int k = 0; k < ionsInLattice.size() && !isOccupied; k++ ) {
                             Ion ion1 = (Ion)ionsInLattice.get( k );
@@ -268,12 +287,15 @@ public class Lattice extends Body implements Binder {
             return closestPt;
         }
 
-        private Point2D[] getNeighboringSites( Point2D p, double orientation ) {
-            Point2D[] sites = new Point2D[4];
-            for( int i = 0; i < sites.length; i++ ) {
+        private List getNeighboringSites( Point2D p, double orientation ) {
+            List sites = new ArrayList();
+            for( int i = 0; i < 4; i++ ) {
                 double x = p.getX() + spacing * Math.cos( i * Math.PI / 2 + orientation );
                 double y = p.getY() + spacing * Math.sin( i * Math.PI / 2 + orientation );
-                sites[i] = new Point2D.Double( x, y );
+                Point2D pNew = new Point2D.Double( x, y );
+                if( bounds.contains( pNew ) ) {
+                    sites.add( pNew );
+                }
             }
             return sites;
         }
@@ -286,15 +308,18 @@ public class Lattice extends Body implements Binder {
          * @return
          */
         public Ion getLeastBoundIon( List ionsInLattice, double orientation ) {
-            // Go through all the ionsInLattice, looking for the one with the most unoccupied neighboring sites
+            // Go through all the ionsInLattice, looking for the one with the highest ratio of
+            // occupied neighboring sites to possible neighboring sites (which does not include
+            // sites that would be outside the bounds of the vessel
             Ion leastBoundIon = null;
             int greatestNumUnccupiedNeightborSites = 0;
+            double highestOccupiedSiteRatio = 0;
             for( int i = 0; i < ionsInLattice.size(); i++ ) {
                 Ion ion = (Ion)ionsInLattice.get( i );
-                Point2D[] ns = getNeighboringSites( ion.getPosition(), orientation );
+                List ns = getNeighboringSites( ion.getPosition(), orientation );
                 int numUnoccupiedNeighborSites = 0;
-                for( int j = 0; j < ns.length; j++ ) {
-                    Point2D n = ns[j];
+                for( int j = 0; j < ns.size(); j++ ) {
+                    Point2D n = (Point2D)ns.get( j );
                     boolean isOccupied = false;
                     for( int k = 0; k < ionsInLattice.size() && !isOccupied; k++ ) {
                         Ion ion1 = (Ion)ionsInLattice.get( k );
@@ -306,29 +331,58 @@ public class Lattice extends Body implements Binder {
                         numUnoccupiedNeighborSites++;
                     }
                 }
-                if( numUnoccupiedNeighborSites > greatestNumUnccupiedNeightborSites ) {
-                    greatestNumUnccupiedNeightborSites = numUnoccupiedNeighborSites;
+                double occupiedSiteRatio = (double)numUnoccupiedNeighborSites / ns.size();
+                if( occupiedSiteRatio > highestOccupiedSiteRatio ) {
+                    highestOccupiedSiteRatio = occupiedSiteRatio;
                     leastBoundIon = ion;
                 }
             }
             return leastBoundIon;
         }
+
+        /**
+         * Returns a list of the lattice sites that are neighboring a specified ion that are
+         * not occupied.
+         *
+         * @param ion
+         * @param ionsInLattice
+         * @param orientation
+         * @return
+         */
+        public List getOpenNeighboringSites( Ion ion, List ionsInLattice, double orientation ) {
+            List results = new ArrayList();
+            List neighboringSites = getNeighboringSites( ion.getPosition(), orientation );
+            for( int i = 0; i < neighboringSites.size(); i++ ) {
+                Point2D neighboringSite = (Point2D)neighboringSites.get( i );
+                boolean occupied = false;
+                for( int j = 0; j < ionsInLattice.size() & !occupied; j++ ) {
+                    Ion testIon = (Ion)ionsInLattice.get( j );
+                    if( neighboringSite.equals( testIon.getPosition() ) ) {
+                        occupied = true;
+                    }
+                }
+                if( !occupied ) {
+                    results.add( neighboringSite );
+                }
+            }
+            return results;
+        }
     }
 
 
     public static void main( String[] args ) {
-        Lattice l = new Lattice();
-        Ion a = new Sodium();
-        l.addIon( a );
-        Ion b = new Sodium();
+//        Lattice l = new Lattice();
+//        Ion a = new Sodium();
+//        l.addIon( a );
+//        Ion b = new Sodium();
 //        b.setPosition( new Point2D.Double( 15, 0 ) );
-        l.addIon( b );
-        PlainCubicForm pcf = new PlainCubicForm( 15 );
-        Point2D[] ap = pcf.getNeighboringSites( a.getPosition(), Math.PI / 4 );
-        for( int i = 0; i < ap.length; i++ ) {
-            Point2D point2D = ap[i];
-            System.out.println( "point2D = " + point2D );
-        }
+//        l.addIon( b );
+//        PlainCubicForm pcf = new PlainCubicForm( 15 );
+//        Point2D[] ap = pcf.getNeighboringSites( a.getPosition(), Math.PI / 4 );
+//        for( int i = 0; i < ap.length; i++ ) {
+//            Point2D point2D = ap[i];
+//            System.out.println( "point2D = " + point2D );
+//        }
 
 
 //        Point2D p = pcf.getNearestOpenSite( new Point2D.Double( 12, 0 ), l.getOccupiedSites(), 0 );

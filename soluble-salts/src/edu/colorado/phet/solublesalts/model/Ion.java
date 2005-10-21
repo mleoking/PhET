@@ -50,6 +50,13 @@ public class Ion extends Atom {
         super.bindTo( binder );
     }
 
+    public void unbindFrom( Binder binder ) {
+        if( binder instanceof Lattice ) {
+            bindingLattice = null;
+        }
+        super.unbindFrom( binder );
+    }
+
     //----------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------

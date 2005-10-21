@@ -77,8 +77,7 @@ public class Vessel implements ModelElement, Collidable, Binder {
      * @param ion
      */
     public void bind( Ion ion ) {
-//        boundIons.add( ion );
-        Lattice lattice = new Lattice( ion );
+        Lattice lattice = new Lattice( ion, collisionBox.getBounds() );
         ion.bindTo( lattice );
     }
 
@@ -145,8 +144,7 @@ public class Vessel implements ModelElement, Collidable, Binder {
             Ion ion = (Ion)boundIons.get( i );
             if( ionReleaseAffinity.stick( ion, this ) ) {
                 boundIons.remove( ion );
-//                ion.setIsBound( false );
-                ion.unbindFrom( this );
+//                ion.unbindFrom( this );
             }
         }
     }

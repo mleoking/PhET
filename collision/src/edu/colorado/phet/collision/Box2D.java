@@ -13,6 +13,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * A 2 dimensional box
@@ -59,6 +60,10 @@ public class Box2D extends Body implements Collidable {
 
     public void setBounds( double minX, double minY, double maxX, double maxY ) {
         this.setState( new Point2D.Double( minX, minY ), new Point2D.Double( maxX, maxY ) );
+    }
+
+    public Rectangle2D getBounds() {
+        return new Rectangle2D.Double( minX, minY, getWidth(), getHeight() );
     }
 
     private void setState( Point2D corner1, Point2D corner2 ) {
