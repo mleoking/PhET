@@ -29,291 +29,303 @@
  */
 package edu.umd.cs.piccolo.util;
 
+import edu.umd.cs.piccolo.PCamera;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.event.PInputEventListener;
+
+import javax.swing.event.EventListenerList;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 
-import javax.swing.event.EventListenerList;
-
-import edu.umd.cs.piccolo.PCamera;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.event.PInputEventListener;
-
 /**
- * <b>PPickPath</b> represents a ordered list of nodes that have been picked. 
- * The topmost ancestor node is the first node in the list (and should be a camera), 
- * the bottommost child node is at the end of the list. It is this bottom node that 
+ * <b>PPickPath</b> represents a ordered list of nodes that have been picked.
+ * The topmost ancestor node is the first node in the list (and should be a camera),
+ * the bottommost child node is at the end of the list. It is this bottom node that
  * is given first chance to handle events, and that any active event handlers usually
  * manipulate.
- * <p>
+ * <p/>
  * Note that because of layers (which can be picked by multiple camera's) the ordered
  * list of nodes in a pick path do not all share a parent child relationship with the
  * nodes in the list next to them. This means that the normal localToGlobal methods don't
  * work when trying to transform geometry up and down the pick path, instead you should
  * use the pick paths canvasToLocal methods to get the mouse event points into your local
  * coord system.
- * <p>
+ * <p/>
  * Note that PInputEvent wraps most of the useful PPickPath methods, so often you
  * can use a PInputEvent directly instead of having to access its pick path.
- * <p>
- * @see edu.umd.cs.piccolo.event.PInputEvent
- * @version 1.0
+ * <p/>
+ *
  * @author Jesse Grosjean
+ * @version 1.0
+ * @see edu.umd.cs.piccolo.event.PInputEvent
  */
 public class PPickPath implements PInputEventListener {
-	
-	private static double[] PTS = new double[4];
-	
-	private PStack nodeStack;
-	private PStack transformStack;
-	private PStack pickBoundsStack;
-	private PCamera topCamera;
-	private PCamera bottomCamera;
-	private HashMap excludedNodes;
-	
-	public PPickPath(PCamera aCamera, PBounds aScreenPickBounds) {
-		super();
-		pickBoundsStack = new PStack();
-		topCamera = aCamera;
-		nodeStack = new PStack();
-		transformStack = new PStack();
-		pickBoundsStack.push(aScreenPickBounds);
-	}	
-	
-	public PBounds getPickBounds() {
-		return (PBounds) pickBoundsStack.peek();
-	}
-	
-	public boolean acceptsNode(PNode node) {
-		if (excludedNodes != null) {
-			return !excludedNodes.containsKey(node);
-		}
-		return true;
-	}
-	
-	//****************************************************************
-	// Picked Nodes
-	//****************************************************************
-	
-	public void pushNode(PNode aNode) {
-		nodeStack.push(aNode);
-	}
 
-	public void popNode(PNode aNode) {
-		nodeStack.pop();
-	}
-		
-	/**
-	 * Get the bottom node on the pick path node stack. That is the last node to
-	 * be picked.
-	 */
-	public PNode getPickedNode() {
-		return (PNode) nodeStack.peek();
-	}
+    public static PPickPath CURRENT_PICK_PATH;
 
-	//****************************************************************
-	// Iterating over picked nodes.
-	//****************************************************************
+    private static double[] PTS = new double[4];
 
-	/**
-	 * Return the next node that will be picked after the current picked node.
-	 * For instance of you have two overlaping children nodes then the topmost
-	 * child will always be picked first, use this method to find the covered child.
-	 * Return null when no more nodes will be picked.
-	 */
-	public PNode nextPickedNode() {
-		PNode picked = getPickedNode();
-		
-		if (picked == topCamera) return null;		
-		if (excludedNodes == null) excludedNodes = new HashMap();
-		
-		// exclude current picked node
-		excludedNodes.put(picked, picked);
-		
-		Object screenPickBounds = pickBoundsStack.get(0);
-		
-		// reset path state
-		pickBoundsStack = new PStack();
-		nodeStack = new PStack();
-		transformStack = new PStack();
-		pickBoundsStack = new PStack();
-		
-		pickBoundsStack.push(screenPickBounds);
+    private PStack nodeStack;
+    private PStack transformStack;
+    private PStack pickBoundsStack;
+    private PCamera topCamera;
+    private PCamera bottomCamera;
+    private HashMap excludedNodes;
 
-		// pick again
-		topCamera.fullPick(this);
-		
-		// make sure top camera is pushed.
-		if (getNodeStackReference().size() == 0) {
-			pushNode(topCamera);
-			pushTransform(topCamera.getTransformReference(false));
-		}
+    public PPickPath( PCamera aCamera, PBounds aScreenPickBounds ) {
+        super();
+        pickBoundsStack = new PStack();
+        topCamera = aCamera;
+        nodeStack = new PStack();
+        transformStack = new PStack();
+        pickBoundsStack.push( aScreenPickBounds );
 
-		return getPickedNode();
-	}
-	
-	/**
-	 * Get the top camera on the pick path. This is the camera that originated the
-	 * pick action.
-	 */
-	public PCamera getTopCamera() {
-		return topCamera;
-	}
+        CURRENT_PICK_PATH = this;
+    }
 
-	/**
-	 * Get the bottom camera on the pick path. This may be different then the top
-	 * camera if internal cameras are in use.
-	 */ 
-	public PCamera getBottomCamera() {
-		if (bottomCamera == null) {
-			for (int i = nodeStack.size() - 1; i >= 0; i--) {
-				PNode each = (PNode) nodeStack.get(i);
-				if (each instanceof PCamera) {
-					bottomCamera = (PCamera) each;
-					return bottomCamera;
-				}				
-			}			
-		}
-		return bottomCamera;
-	}
-	
-	public PStack getNodeStackReference() {
-		return nodeStack;
-	}
-	
-	//****************************************************************
-	// Path Transform 
-	//****************************************************************
+    public PBounds getPickBounds() {
+        return (PBounds)pickBoundsStack.peek();
+    }
 
-	public double getScale() {
-		PTS[0] = 0;//x1
-		PTS[1] = 0;//y1
-		PTS[2] = 1;//x2
-		PTS[3] = 0;//y2
-		
-		int count = transformStack.size();
-		for (int i = 0; i < count; i++) {
-			PAffineTransform each = ((PTuple)transformStack.get(i)).transform;
-			if (each != null)
-				each.transform(PTS, 0, PTS, 0, 2);
-		}
-		
-		return Point2D.distance(PTS[0], PTS[1], PTS[2], PTS[3]);		
-	}
+    public boolean acceptsNode( PNode node ) {
+        if( excludedNodes != null ) {
+            return !excludedNodes.containsKey( node );
+        }
+        return true;
+    }
 
-	public void pushTransform(PAffineTransform aTransform) {
-		transformStack.push(new PTuple(getPickedNode(), aTransform));
-		if (aTransform != null) {
-			Rectangle2D newPickBounds = (Rectangle2D) getPickBounds().clone();
-			aTransform.inverseTransform(newPickBounds, newPickBounds);
-			pickBoundsStack.push(newPickBounds);
-		}
-	}
+    //****************************************************************
+    // Picked Nodes
+    //****************************************************************
 
-	public void popTransform(PAffineTransform aTransform) {
-		transformStack.pop();
-		if (aTransform != null) {
-			pickBoundsStack.pop();
-		}
-	}
+    public void pushNode( PNode aNode ) {
+        nodeStack.push( aNode );
+    }
 
-	public PAffineTransform getPathTransformTo(PNode nodeOnPath) {
-		PAffineTransform aTransform = new PAffineTransform();
-		
-		int count = transformStack.size();
-		for (int i = 0; i < count; i++) {
-			PTuple each = (PTuple) transformStack.get(i);
-			if (each.transform != null) aTransform.concatenate(each.transform);
-			if (nodeOnPath == each.node) {
-				return aTransform;
-			}
-		}
-		
-		throw new RuntimeException("Node could not be found on pick path");
-	}
-	
-	//****************************************************************
-	// Process Events - Give each node in the pick path, starting at 
-	// the bottom most one, a chance to handle the event.
-	//****************************************************************
-	
-	public void processEvent(PInputEvent aEvent, int type) {
-		aEvent.setPath(this);
-		
-		for (int i = nodeStack.size() - 1; i >= 0; i--) {
-			PNode each = (PNode) nodeStack.get(i);
+    public void popNode( PNode aNode ) {
+        nodeStack.pop();
+    }
 
-			EventListenerList list = each.getListenerList();
-			
-			if (list != null) {
-				Object[] listeners = list.getListeners(PInputEventListener.class);
-				
-				for (int j = 0; j < listeners.length; j++) {
-					PInputEventListener listener = (PInputEventListener) listeners[j];
-					listener.processEvent(aEvent, type);					
-				}
-			}			
-		}			
-	}
-		
-	//****************************************************************
-	// Transforming Geometry - Methods to transform geometry through
-	// this path. 
-	// <p>
-	// Note that this is different that just using the
-	// PNode.localToGlobal (an other coord system transform methods). 
-	// The PNode coord system transform methods always go directly up
-	// through their parents. The PPickPath coord system transform
-	// methods go up through the list of picked nodes instead. And since
-	// cameras can pick their layers in addition to their children these
-	// two paths may be different.
-	//****************************************************************
-	
-	/**
-	 * Convert the given point from the canvas coordinates, down through
-	 * the pick path (and through any camera view transforms applied to the
-	 * path) to the local coordinates of the given node.
-	 */
-	public Point2D canvasToLocal(Point2D canvasPoint, PNode nodeOnPath) {
-		try {
-			return getPathTransformTo(nodeOnPath).inverseTransform(canvasPoint, canvasPoint);		
-		} catch (NoninvertibleTransformException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+    /**
+     * Get the bottom node on the pick path node stack. That is the last node to
+     * be picked.
+     */
+    public PNode getPickedNode() {
+        return (PNode)nodeStack.peek();
+    }
 
-	/**
-	 * Convert the given dimension from the canvas coordinates, down through
-	 * the pick path (and through any camera view transforms applied to the
-	 * path) to the local coordinates of the given node.
-	 */
-	public Dimension2D canvasToLocal(Dimension2D canvasDimension, PNode nodeOnPath) {
-		return getPathTransformTo(nodeOnPath).inverseTransform(canvasDimension, canvasDimension);
-	}
+    //****************************************************************
+    // Iterating over picked nodes.
+    //****************************************************************
 
-	/**
-	 * Convert the given rectangle from the canvas coordinates, down through
-	 * the pick path (and through any camera view transforms applied to the
-	 * path) to the local coordinates of the given node.
-	 */
-	public Rectangle2D canvasToLocal(Rectangle2D canvasRectangle, PNode nodeOnPath) {
-		return getPathTransformTo(nodeOnPath).inverseTransform(canvasRectangle, canvasRectangle);
-	}	
-	
-	/**
-	 * Used to associated nodes with their transforms on the transform stack.
-	 */
-	private static class PTuple {
-		public PNode node;
-		public PAffineTransform transform;
-		
-		public PTuple(PNode n, PAffineTransform t) {
-			node = n;
-			transform = t;
-		}
-	}
+    /**
+     * Return the next node that will be picked after the current picked node.
+     * For instance of you have two overlaping children nodes then the topmost
+     * child will always be picked first, use this method to find the covered child.
+     * Return null when no more nodes will be picked.
+     */
+    public PNode nextPickedNode() {
+        PNode picked = getPickedNode();
+
+        if( picked == topCamera ) {
+            return null;
+        }
+        if( excludedNodes == null ) {
+            excludedNodes = new HashMap();
+        }
+
+        // exclude current picked node
+        excludedNodes.put( picked, picked );
+
+        Object screenPickBounds = pickBoundsStack.get( 0 );
+
+        // reset path state
+        pickBoundsStack = new PStack();
+        nodeStack = new PStack();
+        transformStack = new PStack();
+        pickBoundsStack = new PStack();
+
+        pickBoundsStack.push( screenPickBounds );
+
+        // pick again
+        topCamera.fullPick( this );
+
+        // make sure top camera is pushed.
+        if( getNodeStackReference().size() == 0 ) {
+            pushNode( topCamera );
+            pushTransform( topCamera.getTransformReference( false ) );
+        }
+
+        return getPickedNode();
+    }
+
+    /**
+     * Get the top camera on the pick path. This is the camera that originated the
+     * pick action.
+     */
+    public PCamera getTopCamera() {
+        return topCamera;
+    }
+
+    /**
+     * Get the bottom camera on the pick path. This may be different then the top
+     * camera if internal cameras are in use.
+     */
+    public PCamera getBottomCamera() {
+        if( bottomCamera == null ) {
+            for( int i = nodeStack.size() - 1; i >= 0; i-- ) {
+                PNode each = (PNode)nodeStack.get( i );
+                if( each instanceof PCamera ) {
+                    bottomCamera = (PCamera)each;
+                    return bottomCamera;
+                }
+            }
+        }
+        return bottomCamera;
+    }
+
+    public PStack getNodeStackReference() {
+        return nodeStack;
+    }
+
+    //****************************************************************
+    // Path Transform
+    //****************************************************************
+
+    public double getScale() {
+        PTS[0] = 0;//x1
+        PTS[1] = 0;//y1
+        PTS[2] = 1;//x2
+        PTS[3] = 0;//y2
+
+        int count = transformStack.size();
+        for( int i = 0; i < count; i++ ) {
+            PAffineTransform each = ( (PTuple)transformStack.get( i ) ).transform;
+            if( each != null ) {
+                each.transform( PTS, 0, PTS, 0, 2 );
+            }
+        }
+
+        return Point2D.distance( PTS[0], PTS[1], PTS[2], PTS[3] );
+    }
+
+    public void pushTransform( PAffineTransform aTransform ) {
+        transformStack.push( new PTuple( getPickedNode(), aTransform ) );
+        if( aTransform != null ) {
+            Rectangle2D newPickBounds = (Rectangle2D)getPickBounds().clone();
+            aTransform.inverseTransform( newPickBounds, newPickBounds );
+            pickBoundsStack.push( newPickBounds );
+        }
+    }
+
+    public void popTransform( PAffineTransform aTransform ) {
+        transformStack.pop();
+        if( aTransform != null ) {
+            pickBoundsStack.pop();
+        }
+    }
+
+    public PAffineTransform getPathTransformTo( PNode nodeOnPath ) {
+        PAffineTransform aTransform = new PAffineTransform();
+
+        int count = transformStack.size();
+        for( int i = 0; i < count; i++ ) {
+            PTuple each = (PTuple)transformStack.get( i );
+            if( each.transform != null ) {
+                aTransform.concatenate( each.transform );
+            }
+            if( nodeOnPath == each.node ) {
+                return aTransform;
+            }
+        }
+
+        throw new RuntimeException( "Node could not be found on pick path" );
+    }
+
+    //****************************************************************
+    // Process Events - Give each node in the pick path, starting at
+    // the bottom most one, a chance to handle the event.
+    //****************************************************************
+
+    public void processEvent( PInputEvent aEvent, int type ) {
+        aEvent.setPath( this );
+
+        for( int i = nodeStack.size() - 1; i >= 0; i-- ) {
+            PNode each = (PNode)nodeStack.get( i );
+
+            EventListenerList list = each.getListenerList();
+
+            if( list != null ) {
+                Object[] listeners = list.getListeners( PInputEventListener.class );
+
+                for( int j = 0; j < listeners.length; j++ ) {
+                    PInputEventListener listener = (PInputEventListener)listeners[j];
+                    listener.processEvent( aEvent, type );
+                }
+            }
+        }
+    }
+
+    //****************************************************************
+    // Transforming Geometry - Methods to transform geometry through
+    // this path.
+    // <p>
+    // Note that this is different that just using the
+    // PNode.localToGlobal (an other coord system transform methods).
+    // The PNode coord system transform methods always go directly up
+    // through their parents. The PPickPath coord system transform
+    // methods go up through the list of picked nodes instead. And since
+    // cameras can pick their layers in addition to their children these
+    // two paths may be different.
+    //****************************************************************
+
+    /**
+     * Convert the given point from the canvas coordinates, down through
+     * the pick path (and through any camera view transforms applied to the
+     * path) to the local coordinates of the given node.
+     */
+    public Point2D canvasToLocal( Point2D canvasPoint, PNode nodeOnPath ) {
+        try {
+            return getPathTransformTo( nodeOnPath ).inverseTransform( canvasPoint, canvasPoint );
+        }
+        catch( NoninvertibleTransformException e ) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Convert the given dimension from the canvas coordinates, down through
+     * the pick path (and through any camera view transforms applied to the
+     * path) to the local coordinates of the given node.
+     */
+    public Dimension2D canvasToLocal( Dimension2D canvasDimension, PNode nodeOnPath ) {
+        return getPathTransformTo( nodeOnPath ).inverseTransform( canvasDimension, canvasDimension );
+    }
+
+    /**
+     * Convert the given rectangle from the canvas coordinates, down through
+     * the pick path (and through any camera view transforms applied to the
+     * path) to the local coordinates of the given node.
+     */
+    public Rectangle2D canvasToLocal( Rectangle2D canvasRectangle, PNode nodeOnPath ) {
+        return getPathTransformTo( nodeOnPath ).inverseTransform( canvasRectangle, canvasRectangle );
+    }
+
+    /**
+     * Used to associated nodes with their transforms on the transform stack.
+     */
+    private static class PTuple {
+        public PNode node;
+        public PAffineTransform transform;
+
+        public PTuple( PNode n, PAffineTransform t ) {
+            node = n;
+            transform = t;
+        }
+    }
 }
