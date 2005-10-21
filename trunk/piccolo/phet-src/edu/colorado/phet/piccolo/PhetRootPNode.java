@@ -3,6 +3,7 @@ package edu.colorado.phet.piccolo;
 
 import edu.umd.cs.piccolo.PNode;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**
@@ -13,6 +14,20 @@ import java.util.ArrayList;
 public class PhetRootPNode extends PNode {
     private Layer defaultLayer;
     private ArrayList layers = new ArrayList();
+
+    public void translateWorld( double dx, double dy ) {
+        for( int i = 0; i < layers.size(); i++ ) {
+            Layer layer = (Layer)layers.get( i );
+            layer.getWorldNode().translate( dx, dy );
+        }
+    }
+
+    public void scaleWorldAboutPoint( double scale, Point2D point ) {
+        for( int i = 0; i < layers.size(); i++ ) {
+            Layer layer = (Layer)layers.get( i );
+            layer.getWorldNode().scaleAboutPoint( scale, point );
+        }
+    }
 
     public static class Layer extends PNode {
         private PNode worldNode;
