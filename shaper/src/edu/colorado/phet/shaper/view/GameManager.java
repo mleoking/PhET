@@ -80,7 +80,12 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
         // Do we have a match?
         if ( closeness > 0.95 && !_mouseIsPressed ) {
             
-            //XXX Do we need to update the amplitude & output views for when we're entering text amplitudes?
+            // WORKAROUND: Make sure that all other views are updated.
+            {
+                _userFourierSeries.removeObserver( this );
+                _userFourierSeries.notifyObservers();
+                _userFourierSeries.addObserver( this );
+            }
             
             // Tell the user they won.
             JFrame frame = PhetApplication.instance().getPhetFrame();
