@@ -20,6 +20,13 @@ import java.awt.*;
 
 /**
  * PhetTextGraphic
+ * <p>
+ * NOTE! This class has some serious problems with justification and
+ * registration points.  If these problems were fixed, lots of code
+ * would be broken (including the charts package), so we chose not 
+ * to fix the problems.  Be forewarned that it may be difficult for 
+ * you to accurately position a PhetTextGraphic.  You should use 
+ * PhetTextGraphic2 instead.
  *
  * @author ?
  * @version $Revision$
@@ -53,11 +60,22 @@ public class PhetTextGraphic extends PhetGraphic {
      * @param font
      * @param text
      * @param color
+     * @deprecated use PhetTextGraphic2
      */
     public PhetTextGraphic( Component component, Font font, String text, Color color ) {
         this( component, font, text, color, 0, 0 );
     }
 
+    /**
+     * 
+     * @param component
+     * @param font
+     * @param text
+     * @param color
+     * @param x
+     * @param y
+     * @deprecated use PhetTextGraphic2
+     */
     public PhetTextGraphic( Component component, Font font, String text, Color color, int x, int y ) {
         super( component );
         setFont( font );
