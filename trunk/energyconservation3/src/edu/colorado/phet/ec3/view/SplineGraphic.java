@@ -160,6 +160,16 @@ public class SplineGraphic extends PNode {
         }
     }
 
+    public void testUpdate() {
+        if( !matchesModel() ) {
+            updateAll();
+        }
+    }
+
+    private boolean matchesModel() {
+        return true;//todo fix this.
+    }
+
     private void updateAll() {
         pathLayer.removeAllChildren();
         controlPointLayer.removeAllChildren();
