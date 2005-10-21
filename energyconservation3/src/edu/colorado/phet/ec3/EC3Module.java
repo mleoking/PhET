@@ -68,6 +68,7 @@ public class EC3Module extends PiccoloModule {
 //                stepModel( dt / 10.0 );
 //            }
 //        } );
+
     }
 
     public void stepModel( double dt ) {
