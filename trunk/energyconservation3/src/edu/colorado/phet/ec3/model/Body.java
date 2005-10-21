@@ -23,10 +23,9 @@ public class Body {
     private Point2D.Double position = new Point2D.Double();
     private Vector2D velocity = new Vector2D.Double();
     private Vector2D.Double acceleration = new Vector2D.Double();
-    private double mass = 200.0;
+    private double mass = 75.0;//kg
     private double angle = 0.0;
     private Shape bounds;
-
 
     private boolean facingRight;
 

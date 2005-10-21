@@ -75,7 +75,7 @@ public class FreeSplineMode extends ForceMode {
         Segment segment = spline.getSegmentPath().getSegmentAtPosition( position );//todo this duplicates much work.
         double bodyAngle = body.getAngle();
         double dA = segment.getAngle() - bodyAngle;
-        System.out.println( "seg=" + segment.getAngle() + ", body=" + bodyAngle + ", da=" + dA );
+//        System.out.println( "seg=" + segment.getAngle() + ", body=" + bodyAngle + ", da=" + dA );
 
         if( dA > Math.PI ) {
             dA -= Math.PI * 2;
