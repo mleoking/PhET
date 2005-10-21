@@ -188,4 +188,12 @@ public class PhetPCanvas extends PSwingCanvas {
     public PhetRootPNode getPhetRootNode() {
         return phetRootNode;
     }
+
+    public void setPhetRootNode( PhetRootPNode phetRootNode ) {
+        if( this.phetRootNode != null ) {
+            getLayer().removeChild( this.phetRootNode );
+        }
+        this.phetRootNode = phetRootNode;
+        getLayer().addChild( this.phetRootNode );
+    }
 }
