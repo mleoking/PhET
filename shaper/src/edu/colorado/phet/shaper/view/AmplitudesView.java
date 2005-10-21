@@ -24,9 +24,9 @@ import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.shaper.ShaperConstants;
@@ -63,7 +63,7 @@ public class AmplitudesView extends GraphicLayerSet implements SimpleObserver {
     
     // Title parameters
     private static final Font TITLE_FONT = new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 20 );
-    private static final Color TITLE_COLOR = Color.BLUE;
+    private static final Color TITLE_COLOR = Color.BLACK;
     
     // Chart parameters
     private static final double X_MIN = ShaperConstants.MIN_HARMONICS;
@@ -120,10 +120,10 @@ public class AmplitudesView extends GraphicLayerSet implements SimpleObserver {
         
         // Title
         String title = SimStrings.get( "AmplitudesView.title" );
-        PhetTextGraphic titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
-        titleGraphic.centerRegistrationPoint();
+        HTMLGraphic titleGraphic = new HTMLGraphic( component, TITLE_FONT, title, TITLE_COLOR );
+        titleGraphic.setRegistrationPoint( titleGraphic.getWidth()/2, 0 ); // top center
         titleGraphic.rotate( -( Math.PI / 2 ) );
-        titleGraphic.setLocation( 40, BACKGROUND_SIZE.height/2 );
+        titleGraphic.setLocation( 10, BACKGROUND_SIZE.height/2 );
         addGraphic( titleGraphic, TITLE_LAYER );
         
         // Flattened Chart
