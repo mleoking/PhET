@@ -6,7 +6,6 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- make sure graphs and sliders and updated before the GameManager tells us we've won
 - correct calculation for "closeness"
 - how close do we have to be to match the output pulse?
 - molecule animation
@@ -37,6 +36,7 @@ CLEANUP:
 
 
 DONE:
+(10/21/05) - sync all views before the GameManager tells us we've won
 (10/21/05) - make graph backgrounds wider so that x-axis label isn't clipped on Windows
 0.0.1 ...
 (10/20/05) - don't test for a match while an amplitude slider is being dragged
