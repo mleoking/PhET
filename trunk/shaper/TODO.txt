@@ -9,8 +9,8 @@ HIGH PRIORITY:
 - correct calculation for "closeness"
 - how close do we have to be to match the output pulse?
 - molecule animation
-- phetcommon: default registration point of PhetTextGraphic is wrong
 - wait cursors
+- make amplitude sliders 254 pixels tall so that every value can be achieved
 
 MEDIUM PRIORITY:
 - change title to "Optical Pulse Shaping for Quantum Control"
@@ -37,6 +37,8 @@ CLEANUP:
 
 
 DONE:
+(10/21/05) - convert all uses of PhetTextGraphic to HTMLGraphic, fix locations
+(10/21/05) - phetcommon: create PhetTextGraphic2 to fix serious registration problems
 (10/21/05) - sync all views before the GameManager tells us we've won
 (10/21/05) - make graph backgrounds wider so that x-axis label isn't clipped on Windows
 0.0.1 ...
