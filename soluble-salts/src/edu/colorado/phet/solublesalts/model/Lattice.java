@@ -193,7 +193,8 @@ public class Lattice extends Body implements Binder {
         if( sumX == 0 && sumY == 0 ) {
             sumX = random.nextDouble();
             sumY = random.nextDouble();
-            throw new RuntimeException( "releave velocity = (0:0)" );
+            System.out.println( "Lattice.determineReleaseVelocity:  release velocity = 0" );
+//            throw new RuntimeException( "releave velocity = (0:0)" );
         }
         Vector2D releaseVelocity = new Vector2D.Double( sumX / openSites.size(),
                                                         sumY / openSites.size() );
@@ -332,9 +333,16 @@ public class Lattice extends Body implements Binder {
                     }
                 }
                 double occupiedSiteRatio = (double)numUnoccupiedNeighborSites / ns.size();
-                if( occupiedSiteRatio > highestOccupiedSiteRatio ) {
+                if( occupiedSiteRatio >= highestOccupiedSiteRatio ) {
+                    // Don't always choose the same ion
+                    if( occupiedSiteRatio == highestOccupiedSiteRatio
+                        && random.nextBoolean() ) {
+                        leastBoundIon = ion;
+                    }
+                    else {
+                        leastBoundIon = ion;
+                    }
                     highestOccupiedSiteRatio = occupiedSiteRatio;
-                    leastBoundIon = ion;
                 }
             }
             return leastBoundIon;
