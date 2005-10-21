@@ -13,6 +13,7 @@ HIGH PRIORITY:
 
 
 MEDIUM PRIORITY:
+- change title to "Optical Pulse Shaping for Quantum Control"
 
 
 LOW PRIORITY:
