@@ -1,10 +1,10 @@
-/*
- * Copyright (C) 2002-@year@ by University of Maryland, College Park, MD 20742, USA
- * All rights reserved.
- *
- * Piccolo was written at the Human-Computer Interaction Laboratory
- * www.cs.umd.edu/hcil by Jesse Grosjean under the supervision of Ben Bederson.
- * The Piccolo website is www.cs.umd.edu/hcil/piccolo
+/* 
+ * Copyright (C) 2002-@year@ by University of Maryland, College Park, MD 20742, USA 
+ * All rights reserved. 
+ * 
+ * Piccolo was written at the Human-Computer Interaction Laboratory 
+ * www.cs.umd.edu/hcil by Jesse Grosjean under the supervision of Ben Bederson. 
+ * The Piccolo website is www.cs.umd.edu/hcil/piccolo 
  */
 package edu.umd.cs.piccolox.swing;
 
@@ -92,12 +92,12 @@ public class PDefaultScrollDirector implements PScrollDirector, PropertyChangeLi
 			camera.addPropertyChangeListener(this);
 		}
 		if (root != null) {
-			root.addPropertyChangeListener(this);
+			root.addPropertyChangeListener(this);				
 		}
 
 		if (scrollPane != null) {
 			scrollPane.revalidate();
-		}
+		}		
 	}
 
 	/**
@@ -108,7 +108,7 @@ public class PDefaultScrollDirector implements PScrollDirector, PropertyChangeLi
 		view = null;
 
 		if (camera != null) {
-			camera.removePropertyChangeListener(this);
+			camera.removePropertyChangeListener(this);			
 		}
 		if (root != null) {
 			root.removePropertyChangeListener(this);
@@ -162,7 +162,7 @@ public class PDefaultScrollDirector implements PScrollDirector, PropertyChangeLi
 			}
 
 			// Then we put the bounds into camera coordinates and
-			// union the camera bounds
+			// union the camera bounds		
 			if (!bounds.isEmpty()) {
 				camera.viewToLocal(bounds);
 			}
@@ -194,7 +194,7 @@ public class PDefaultScrollDirector implements PScrollDirector, PropertyChangeLi
 					PLayer layer = (PLayer)i.next();
 					layerBounds.add(layer.getFullBoundsReference());
 				}
-
+	
 				PAffineTransform at = camera.getViewTransform();
 				at.transform(layerBounds,layerBounds);
 
@@ -227,22 +227,22 @@ public class PDefaultScrollDirector implements PScrollDirector, PropertyChangeLi
 	 */
 	public void propertyChange(PropertyChangeEvent pce) {
 		boolean isRelevantViewEvent = (PCamera.PROPERTY_VIEW_TRANSFORM == pce.getPropertyName());
-		boolean isRelevantBoundsEvent = (PNode.PROPERTY_BOUNDS == pce.getPropertyName() || PNode.PROPERTY_FULL_BOUNDS == pce.getPropertyName()) && (pce.getSource() == camera || pce.getSource() == view.getRoot());
+		boolean isRelevantBoundsEvent = (PNode.PROPERTY_BOUNDS == pce.getPropertyName() || PNode.PROPERTY_FULL_BOUNDS == pce.getPropertyName()) && (pce.getSource() == camera || pce.getSource() == view.getRoot());		
 		if (isRelevantViewEvent || isRelevantBoundsEvent) {
 			if (shouldRevalidateScrollPane()) {
-				scrollPane.revalidate();
+				scrollPane.revalidate();	
 			}
 			else {
-				viewPort.fireStateChanged();
+				viewPort.fireStateChanged();	
 			}
-		}
+		}		
 	}
 
 	/**
 	 * Should the ScrollPane be revalidated. This occurs when either the
 	 * scrollbars are showing and should be remove or are not showing and should
 	 * be added.
-	 *
+	 * 
 	 * @return Whether the scroll pane should be revalidated
 	 */
 	public boolean shouldRevalidateScrollPane() {
@@ -251,7 +251,7 @@ public class PDefaultScrollDirector implements PScrollDirector, PropertyChangeLi
 					&& scrollPane.getVerticalScrollBarPolicy() != JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED) {
 				return false;
 			}
-
+			
 			// Get the union of all the layers' bounds
 			PBounds layerBounds = new PBounds();
 			List layers = camera.getLayersReference();
@@ -268,7 +268,7 @@ public class PDefaultScrollDirector implements PScrollDirector, PropertyChangeLi
 			layerBounds.add(cameraBounds);
 
 			// Truncate these to ints before comparing since
-			// that's what the ScrollPane uses
+			// that's what the ScrollPane uses 
 			int layerWidth = (int) (layerBounds.getWidth() + 0.5);
 			int layerHeight = (int) (layerBounds.getHeight() + 0.5);
 			int cameraWidth = (int) (cameraBounds.getWidth() + 0.5);
