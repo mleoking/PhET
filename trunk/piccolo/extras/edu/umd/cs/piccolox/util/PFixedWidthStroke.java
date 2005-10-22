@@ -51,7 +51,7 @@ import edu.umd.cs.piccolo.util.PPickPath;
 /**
  * <b>PFixedWidthStroke</b> is the same as java.awt.BasicStroke except that PFixedWidthStroke
  * has a fixed width on the screen so that even when the canvas view is zooming its
- * width stays the same in canvas coordinates. Note that this stroke draws in the inside of
+ * width stays the same in canvas coordinates. Note that this stroke draws in the inside of 
  * the stroked shape, instead of the normal draw on center behavior.
  * <P>
  * @see edu.umd.cs.piccolo.nodes.PPath
@@ -59,10 +59,10 @@ import edu.umd.cs.piccolo.util.PPickPath;
  * @author Jesse Grosjean
  */
 public class PFixedWidthStroke implements Stroke, Serializable {
-
+	
 	private static PAffineTransform TEMP_TRANSFORM = new PAffineTransform();
 	private static GeneralPath TEMP_PATH = new GeneralPath(GeneralPath.WIND_NON_ZERO);
-
+	
 	public final static int JOIN_MITER = 0;
 	public final static int JOIN_ROUND = 1;
 	public final static int JOIN_BEVEL = 2;
@@ -141,7 +141,7 @@ public class PFixedWidthStroke implements Stroke, Serializable {
 		public long getCPathConsumer() {
 			return 0;
 		}
-
+		
 		public void dispose() {
 		}
 
@@ -149,23 +149,23 @@ public class PFixedWidthStroke implements Stroke, Serializable {
 			return null;
 		}
 	}
-
+	
 	public PFixedWidthStroke() {
 		this(1.0f, CAP_SQUARE, JOIN_MITER, 10.0f, null, 0.0f);
 	}
-
+	
 	public PFixedWidthStroke(float width) {
 		this(width, CAP_SQUARE, JOIN_MITER, 10.0f, null, 0.0f);
 	}
-
+	
 	public PFixedWidthStroke(float width, int cap, int join) {
 		this(width, cap, join, 10.0f, null, 0.0f);
 	}
-
+	
 	public PFixedWidthStroke(float width, int cap, int join, float miterlimit) {
 		this(width, cap, join, miterlimit, null, 0.0f);
 	}
-
+	
 	public PFixedWidthStroke(float width, int cap, int join, float miterlimit, float dash[], float dash_phase) {
 		if (width < 0.0f) {
 			throw new IllegalArgumentException("negative width");
@@ -193,7 +193,7 @@ public class PFixedWidthStroke implements Stroke, Serializable {
 					throw new IllegalArgumentException("negative dash length");
 				}
 			}
-
+			
 			if (allzero) {
 				throw new IllegalArgumentException("dash lengths all zero");
 			}
@@ -207,7 +207,7 @@ public class PFixedWidthStroke implements Stroke, Serializable {
 		}
 		this.dash_phase = dash_phase;
 	}
-
+	
 	public Object clone() {
 		try {
 			return super.clone();
@@ -216,7 +216,7 @@ public class PFixedWidthStroke implements Stroke, Serializable {
 		}
 		return null;
 	}
-
+	
 	public Shape createStrokedShape(Shape s) {
 		FillAdapter filler = new FillAdapter();
 		PathStroker stroker = new PathStroker(filler);
@@ -224,16 +224,16 @@ public class PFixedWidthStroke implements Stroke, Serializable {
 
 		// Fixed Width Additions, always stroke path inside shape.
 		float fixedWidth = 1;
-
+		
 		if (PDebug.getProcessingOutput()) {
 			if (PPaintContext.CURRENT_PAINT_CONTEXT != null) fixedWidth = width / (float) PPaintContext.CURRENT_PAINT_CONTEXT.getScale();
 		} else {
 			if (PPickPath.CURRENT_PICK_PATH != null) fixedWidth = width / (float) PPickPath.CURRENT_PICK_PATH.getScale();
 		}
-
+		
 		Rectangle2D bounds = s.getBounds2D();
 		double scale = 1.0;
-
+	
 		if (bounds.getWidth() > bounds.getHeight()) {
 			if (bounds.getWidth() != 0) {
 				scale = (bounds.getWidth()-fixedWidth)/bounds.getWidth();
@@ -243,12 +243,12 @@ public class PFixedWidthStroke implements Stroke, Serializable {
 				scale = (bounds.getHeight()-fixedWidth)/bounds.getHeight();
 			}
 		}
-
+	
 		TEMP_TRANSFORM.setToIdentity();
 		TEMP_TRANSFORM.scaleAboutPoint(scale, bounds.getCenterX(), bounds.getCenterY());
 		stroker.setPenDiameter(fixedWidth);
 		PathIterator pi = s.getPathIterator(TEMP_TRANSFORM);
-
+		
 		stroker.setPenT4(null);
 		stroker.setCaps(RasterizerCaps[cap]);
 		stroker.setCorners(RasterizerCorners[join], miterlimit);
@@ -313,7 +313,7 @@ public class PFixedWidthStroke implements Stroke, Serializable {
 
 		return filler.getShape();
 	}
-
+	
 	public boolean equals(Object obj) {
 		if (!(obj instanceof PFixedWidthStroke)) {
 			return false;
@@ -350,7 +350,7 @@ public class PFixedWidthStroke implements Stroke, Serializable {
 
 		return true;
 	}
-
+	
 	public float[] getDashArray() {
 		if (dash == null) {
 			return null;
@@ -358,27 +358,27 @@ public class PFixedWidthStroke implements Stroke, Serializable {
 
 		return (float[]) dash.clone();
 	}
-
+	
 	public float getDashPhase() {
 		return dash_phase;
 	}
-
+	
 	public int getEndCap() {
 		return cap;
 	}
-
+	
 	public int getLineJoin() {
 		return join;
 	}
-
+	
 	public float getLineWidth() {
 		return width;
 	}
-
+	
 	public float getMiterLimit() {
 		return miterlimit;
 	}
-
+	
 	public int hashCode() {
 		int hash = Float.floatToIntBits(width);
 		hash = hash * 31 + join;

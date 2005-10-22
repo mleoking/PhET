@@ -61,14 +61,14 @@ import edu.umd.cs.piccolox.handles.PBoundsHandle;
  * the selection by default.
  * @version 1.0
  * @author Ben Bederson
- */
+ */ 
 public class PSelectionEventHandler extends PDragSequenceEventHandler {
 
 	public static final String SELECTION_CHANGED_NOTIFICATION = "SELECTION_CHANGED_NOTIFICATION";
 
 	final static int DASH_WIDTH = 5;
 	final static int NUM_STROKES = 10;
-
+	
 	private HashMap selection = null; 		// The current selection
 	private List selectableParents = null;  // List of nodes whose children can be selected
 	private PPath marquee = null;
@@ -84,7 +84,7 @@ public class PSelectionEventHandler extends PDragSequenceEventHandler {
 	private boolean deleteKeyActive = true; // True if DELETE key should delete selection
 	private Paint marqueePaint;
 	private float marqueePaintTransparency = 1.0f;
-
+	
 	/**
 	 * Creates a selection event handler.
 	 * @param marqueeParent The node to which the event handler dynamically adds a marquee
@@ -118,7 +118,7 @@ public class PSelectionEventHandler extends PDragSequenceEventHandler {
 		for (int i = 0; i < NUM_STROKES; i++) {
 			strokes[i] = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, dash, i);
 		}
-
+		
 		selection = new HashMap();
 		allItems = new HashMap();
 		unselectList = new ArrayList();
@@ -128,7 +128,7 @@ public class PSelectionEventHandler extends PDragSequenceEventHandler {
 	///////////////////////////////////////////////////////
 	// Public static methods for manipulating the selection
 	///////////////////////////////////////////////////////
-
+		
 	public void select(Collection items) {
 		boolean changes = false;
 		Iterator itemIt = items.iterator();
@@ -169,7 +169,7 @@ public class PSelectionEventHandler extends PDragSequenceEventHandler {
 	public void decorateSelectedNode(PNode node) {
 		PBoundsHandle.addBoundsHandlesTo(node);
 	}
-
+		
 	public void unselect(Collection items) {
 		boolean changes = false;
 		Iterator itemIt = items.iterator();
@@ -250,15 +250,15 @@ public class PSelectionEventHandler extends PDragSequenceEventHandler {
 			}
 			else if (parent instanceof PCamera) {
 				for(int i=0; i<((PCamera)parent).getLayerCount(); i++) {
-					PLayer layer = ((PCamera)parent).getLayer(i);
+					PLayer layer = ((PCamera)parent).getLayer(i);	
 					if (layer.getChildrenReference().contains(node)) {
 						selectable = true;
-						break;
+						break;	
 					}
 				}
 			}
 		}
-
+		
 		return selectable;
 	}
 
@@ -267,21 +267,21 @@ public class PSelectionEventHandler extends PDragSequenceEventHandler {
 	//////////////////////////////////////////////////////
 
 	public void addSelectableParent(PNode node) {
-		selectableParents.add(node);
+		selectableParents.add(node);	
 	}
-
-	public void removeSelectableParent(PNode node) {
-		selectableParents.remove(node);
+	
+	public void removeSelectableParent(PNode node) {		
+		selectableParents.remove(node); 
 	}
-
+	
 	public void setSelectableParent(PNode node) {
 		selectableParents.clear();
-		selectableParents.add(node);
+		selectableParents.add(node);	
 	}
-
+	
 	public void setSelectableParents(Collection c) {
 		selectableParents.clear();
-		selectableParents.addAll(c);
+		selectableParents.addAll(c);	
 	}
 
 	public Collection getSelectableParents() {
@@ -291,11 +291,11 @@ public class PSelectionEventHandler extends PDragSequenceEventHandler {
 	////////////////////////////////////////////////////////
 	// The overridden methods from PDragSequenceEventHandler
 	////////////////////////////////////////////////////////
-
+	
 	protected void startDrag(PInputEvent e) {
 		super.startDrag(e);
 
-		initializeSelection(e);
+		initializeSelection(e); 			
 
 		if (isMarqueeSelection(e)) {
 			initializeMarquee(e);
@@ -307,7 +307,7 @@ public class PSelectionEventHandler extends PDragSequenceEventHandler {
 				startOptionMarqueeSelection(e);
 			}
 		}
-		else {
+		else {					
 			if (!isOptionSelection(e)) {
 				startStandardSelection(e);
 			} else {
@@ -320,7 +320,7 @@ public class PSelectionEventHandler extends PDragSequenceEventHandler {
 		super.drag(e);
 
 		if (isMarqueeSelection(e)) {
-			updateMarquee(e);
+			updateMarquee(e);	
 
 			if (!isOptionSelection(e)) {
 				computeMarqueeSelection(e);
@@ -337,11 +337,11 @@ public class PSelectionEventHandler extends PDragSequenceEventHandler {
 		super.endDrag(e);
 
 		if (isMarqueeSelection(e)) {
-			endMarqueeSelection(e);
+			endMarqueeSelection(e); 
 		}
 		else {
 			endStandardSelection(e);
-		}
+		}		
 	}
 
 	////////////////////////////
@@ -349,11 +349,11 @@ public class PSelectionEventHandler extends PDragSequenceEventHandler {
 	////////////////////////////
 
 	public boolean isOptionSelection(PInputEvent pie) {
-		return pie.isShiftDown();
+		return pie.isShiftDown();	
 	}
 
 	protected boolean isMarqueeSelection(PInputEvent pie) {
-		return (pressNode == null);
+		return (pressNode == null); 
 	}
 
 	protected void initializeSelection(PInputEvent pie) {
@@ -362,7 +362,7 @@ public class PSelectionEventHandler extends PDragSequenceEventHandler {
 		pressNode = pie.getPath().getPickedNode();
 		if (pressNode instanceof PCamera) {
 			pressNode = null;
-		}
+		}		
 	}
 
 	protected void initializeMarquee(PInputEvent e) {
@@ -371,27 +371,27 @@ public class PSelectionEventHandler extends PDragSequenceEventHandler {
 		marquee.setTransparency(marqueePaintTransparency);
 		marquee.setStrokePaint(Color.black);
 		marquee.setStroke(strokes[0]);
-		marqueeParent.addChild(marquee);
+		marqueeParent.addChild(marquee);			
 
 		marqueeMap.clear();
 	}
 
-	protected void startOptionMarqueeSelection(PInputEvent e) {
+	protected void startOptionMarqueeSelection(PInputEvent e) { 
 	}
 
 	protected void startMarqueeSelection(PInputEvent e) {
 		unselectAll();
 	}
-
+	
 	protected void startStandardSelection(PInputEvent pie) {
 							// Option indicator not down - clear selection, and start fresh
 		if (!isSelected(pressNode)) {
 			unselectAll();
-
+			
 			if (isSelectable(pressNode)) {
 				select(pressNode);
 			}
-		}
+		}		
 	}
 
 	protected void startStandardOptionSelection(PInputEvent pie) {
@@ -402,7 +402,7 @@ public class PSelectionEventHandler extends PDragSequenceEventHandler {
 			} else {
 				select(pressNode);
 			}
-		}
+		}		
 	}
 
 	protected void updateMarquee(PInputEvent pie) {
@@ -418,7 +418,7 @@ public class PSelectionEventHandler extends PDragSequenceEventHandler {
 		}
 
 		marquee.globalToLocal(b);
-		marquee.setPathToRectangle((float) b.x, (float) b.y, (float) b.width, (float) b.height);
+		marquee.setPathToRectangle((float) b.x, (float) b.y, (float) b.width, (float) b.height);				
 		b.reset();
 		b.add(presspt);
 		b.add(pie.getPosition());
@@ -428,18 +428,18 @@ public class PSelectionEventHandler extends PDragSequenceEventHandler {
 		Iterator parentsIt = selectableParents.iterator();
 		while (parentsIt.hasNext()) {
 			PNode parent = (PNode) parentsIt.next();
-
+			
 			Collection items;
 			if (parent instanceof PCamera) {
 				items = new ArrayList();
 				for(int i=0; i<((PCamera)parent).getLayerCount(); i++) {
-					((PCamera)parent).getLayer(i).getAllNodes(filter,items);
+					((PCamera)parent).getLayer(i).getAllNodes(filter,items);	
 				}
 			}
 			else {
 				items = parent.getAllNodes(filter, null);
 			}
-
+			
 			Iterator itemsIt = items.iterator();
 			while (itemsIt.hasNext()) {
 				allItems.put(itemsIt.next(), Boolean.TRUE);
@@ -459,7 +459,7 @@ public class PSelectionEventHandler extends PDragSequenceEventHandler {
 			}
 		}
 		unselect(unselectList);
-
+		
 		// Then select the rest
 		selectionEn = allItems.keySet().iterator();
 		while (selectionEn.hasNext()) {
@@ -471,8 +471,8 @@ public class PSelectionEventHandler extends PDragSequenceEventHandler {
 				selectionEn.remove();
 			}
 		}
-
-		select(allItems);
+		
+		select(allItems);		
 	}
 
 	protected void computeOptionMarqueeSelection(PInputEvent pie) {
@@ -486,7 +486,7 @@ public class PSelectionEventHandler extends PDragSequenceEventHandler {
 			}
 		}
 		unselect(unselectList);
-
+		
 
 		// Then select the rest
 		selectionEn = allItems.keySet().iterator();
@@ -500,17 +500,17 @@ public class PSelectionEventHandler extends PDragSequenceEventHandler {
 			}
 		}
 
-		select(allItems);
+		select(allItems);	
 	}
 
 	protected PNodeFilter createNodeFilter(PBounds bounds) {
-		return new BoundsFilter(bounds);
+		return new BoundsFilter(bounds);	
 	}
 
 	protected PBounds getMarqueeBounds() {
 		if (marquee != null) {
 			return marquee.getBounds();
-		}
+		}	
 		return new PBounds();
 	}
 
@@ -527,17 +527,17 @@ public class PSelectionEventHandler extends PDragSequenceEventHandler {
 			gDist.setSize(d);
 			node.getParent().globalToLocal(gDist);
 			node.offset(gDist.getWidth(), gDist.getHeight());
-		}
+		}		
 	}
 
 	protected void endMarqueeSelection(PInputEvent e) {
 		// Remove marquee
 		marquee.removeFromParent();
-		marquee = null;
+		marquee = null; 		
 	}
 
 	protected void endStandardSelection(PInputEvent e) {
-		pressNode = null;
+		pressNode = null;		
 	}
 
 	/**
@@ -592,7 +592,7 @@ public class PSelectionEventHandler extends PDragSequenceEventHandler {
 	protected class BoundsFilter implements PNodeFilter {
 		PBounds localBounds = new PBounds();
 		PBounds bounds;
-
+		
 		protected BoundsFilter(PBounds bounds) {
 			this.bounds = bounds;
 		}
@@ -600,7 +600,7 @@ public class PSelectionEventHandler extends PDragSequenceEventHandler {
 		public boolean accept(PNode node) {
 			localBounds.setRect(bounds);
 			node.globalToLocal(localBounds);
-
+			
 			boolean boundsIntersects = node.intersects(localBounds);
 			boolean isMarquee = (node == marquee);
 			return (node.getPickable() && boundsIntersects && !isMarquee && !selectableParents.contains(node) && !isCameraLayer(node));
@@ -609,17 +609,17 @@ public class PSelectionEventHandler extends PDragSequenceEventHandler {
 		public boolean acceptChildrenOf(PNode node) {
 			return selectableParents.contains(node) || isCameraLayer(node);
 		}
-
+		
 		public boolean isCameraLayer(PNode node) {
 			if (node instanceof PLayer) {
 				for(Iterator i=selectableParents.iterator(); i.hasNext();) {
 					PNode parent = (PNode)i.next();
 					if (parent instanceof PCamera) {
 						if (((PCamera)parent).indexOfLayer((PLayer)node) != -1) {
-							return true;
+							return true;	
 						}
 					}
-				}
+				}	
 			}
 			return false;
 		}

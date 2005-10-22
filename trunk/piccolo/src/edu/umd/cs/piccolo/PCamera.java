@@ -69,8 +69,8 @@ import edu.umd.cs.piccolo.util.PUtil;
  * @author Jesse Grosjean
  */
 public class PCamera extends PNode {
-
-	/**
+	
+	/** 
 	 * The property name that identifies a change in the set of this camera's
 	 * layers (see {@link #getLayer getLayer}, {@link #getLayerCount
 	 * getLayerCount}, {@link #getLayersReference getLayersReference}). A
@@ -79,8 +79,8 @@ public class PCamera extends PNode {
 	 */
 	public static final String PROPERTY_LAYERS = "layers";
     public static final int PROPERTY_CODE_LAYERS = 1 << 11;
-
-	/**
+	
+	/** 
 	 * The property name that identifies a change in this camera's view
 	 * transform (see {@link #getViewTransform getViewTransform}, {@link
 	 * #getViewTransformReference getViewTransformReference}). A property change
@@ -89,16 +89,16 @@ public class PCamera extends PNode {
 	 */
 	public static final String PROPERTY_VIEW_TRANSFORM = "viewTransform";
     public static final int PROPERTY_CODE_VIEW_TRANSFORM = 1 << 12;
-
+	
 	public static final int VIEW_CONSTRAINT_NONE = 0;
 	public static final int VIEW_CONSTRAINT_ALL = 1;
 	public static final int VIEW_CONSTRAINT_CENTER = 2;
-
+			
 	private transient PComponent component;
 	private transient List layers;
 	private PAffineTransform viewTransform;
 	private int viewConstraint;
-
+	
 	/**
 	 * Construct a new camera with no layers and a default white color.
 	 */
@@ -112,11 +112,11 @@ public class PCamera extends PNode {
 	/**
 	 * Get the canvas associated with this camera. This will return null if
 	 * not canvas has been associated, as may be the case for internal cameras.
-	 */
+	 */ 	
 	public PComponent getComponent() {
 		return component;
 	}
-
+	
 	/**
 	 * Set the canvas associated with this camera. When the camera is repainted
 	 * it will request repaints on this canvas.
@@ -125,7 +125,7 @@ public class PCamera extends PNode {
 		component = aComponent;
 		invalidatePaint();
 	}
-
+				
 	/**
 	 * Repaint this camera, and forward the repaint request to the camera's
 	 * canvas if it is not null.
@@ -135,17 +135,17 @@ public class PCamera extends PNode {
 			if (descendentOrThis != this) {
 				localToParent(localBounds);
 			}
-
+			
 			if (component != null) {
 				component.repaint(localBounds);
 			}
-
+			
 			getParent().repaintFrom(localBounds, this);
 		}
 	}
 
 	private static PBounds TEMP_REPAINT_RECT = new PBounds();
-
+		
 	/**
 	 * Repaint from one of the cameras layers. The repaint region needs to be
 	 * transformed from view to local in this case. Unlike most repaint
@@ -153,25 +153,25 @@ public class PCamera extends PNode {
 	 */
 	public void repaintFromLayer(PBounds viewBounds, PNode repaintedLayer) {
 		TEMP_REPAINT_RECT.setRect(viewBounds);
-
+		
 		viewToLocal(TEMP_REPAINT_RECT);
 		if (getBoundsReference().intersects(TEMP_REPAINT_RECT)) {
 			PBounds.intersect(TEMP_REPAINT_RECT, getBoundsReference(), TEMP_REPAINT_RECT);
 			repaintFrom(TEMP_REPAINT_RECT, repaintedLayer);
 		}
 	}
-
+	
 	//****************************************************************
 	// Layers
 	//****************************************************************
-
+	
 	/**
 	 * Return a reference to the list of layers managed by this camera.
 	 */
 	public List getLayersReference() {
 		return layers;
 	}
-
+	
 	public int getLayerCount() {
 		return layers.size();
 	}
@@ -179,30 +179,30 @@ public class PCamera extends PNode {
 	public PLayer getLayer(int index) {
 		return (PLayer) layers.get(index);
 	}
-
+	
 	public int indexOfLayer(PLayer layer) {
 		return layers.indexOf(layer);
 	}
 
 	/**
-	 * Add the layer to the end of this camera's list of layers.
+	 * Add the layer to the end of this camera's list of layers. 
 	 * Layers may be viewed by multiple cameras at once.
-	 */
+	 */ 
 	public void addLayer(PLayer layer) {
 		addLayer(layers.size(), layer);
 	}
 
 	/**
-	 * Add the layer at the given index in this camera's list of layers.
+	 * Add the layer at the given index in this camera's list of layers. 
 	 * Layers may be viewed by multiple cameras at once.
-	 */
+	 */ 
 	public void addLayer(int index, PLayer layer) {
 		layers.add(index, layer);
 		layer.addCamera(this);
 		invalidatePaint();
-		firePropertyChange(PROPERTY_CODE_LAYERS ,PROPERTY_LAYERS, null, layers);
+		firePropertyChange(PROPERTY_CODE_LAYERS ,PROPERTY_LAYERS, null, layers); 			
 	}
-
+	
 	/**
 	 * Remove the given layer from the list of layers managed by this
 	 * camera.
@@ -210,66 +210,66 @@ public class PCamera extends PNode {
 	public PLayer removeLayer(PLayer layer) {
 		return removeLayer(layers.indexOf(layer));
 	}
-
+		
 	/**
-	 * Remove the layer at the given index from the list of
+	 * Remove the layer at the given index from the list of 
 	 * layers managed by this camera.
 	 */
 	public PLayer removeLayer(int index) {
 		PLayer layer = (PLayer) layers.remove(index);
 		layer.removeCamera(this);
 		invalidatePaint();
-		firePropertyChange(PROPERTY_CODE_LAYERS, PROPERTY_LAYERS, null, layers);
+		firePropertyChange(PROPERTY_CODE_LAYERS, PROPERTY_LAYERS, null, layers); 			
 		return layer;
 	}
-
+	
 	/**
 	 * Return the total bounds of all the layers that this camera looks at.
 	 */
 	public PBounds getUnionOfLayerFullBounds() {
 		PBounds result = new PBounds();
-
-		int count = getLayerCount();
+		
+		int count = getLayerCount();			
 		for (int i = 0; i < count; i++) {
 			PLayer each = (PLayer) layers.get(i);
 			result.add(each.getFullBoundsReference());
-		}
-
+		}					
+		
 		return result;
 	}
-
+	
 	//****************************************************************
 	// Painting Layers
 	//****************************************************************
-
+	
 	/**
 	 * Paint this camera (default background color is white) and then paint
 	 * the cameras view through the view transform.
 	 */
 	protected void paint(PPaintContext paintContext) {
 		super.paint(paintContext);
-
-		paintContext.pushClip(getBoundsReference());
+		
+		paintContext.pushClip(getBoundsReference());			
 		paintContext.pushTransform(viewTransform);
 
-		paintCameraView(paintContext);
+		paintCameraView(paintContext);		
 		paintDebugInfo(paintContext);
-
+						
 		paintContext.popTransform(viewTransform);
 		paintContext.popClip(getBoundsReference());
 	}
-
+	
 	/**
 	 * Paint all the layers that the camera is looking at, this method is
 	 * only called when the cameras view transform and clip are applied
 	 * to the paintContext.
 	 */
 	protected void paintCameraView(PPaintContext paintContext) {
-		int count = getLayerCount();
+		int count = getLayerCount();			
 		for (int i = 0; i < count; i++) {
 			PLayer each = (PLayer) layers.get(i);
 			each.fullPaint(paintContext);
-		}
+		}			
 	}
 
 	protected void paintDebugInfo(PPaintContext paintContext) {
@@ -279,23 +279,23 @@ public class PCamera extends PNode {
 			g2.setStroke(new BasicStroke(0));
 			ArrayList nodes = new ArrayList();
 			PBounds nodeBounds = new PBounds();
-
+		
 			Color boundsColor = Color.red;
 			Color fullBoundsColor = new Color(1.0f, 0f, 0f, 0.2f);
-
+		
 			for (int i = 0; i < getLayerCount(); i++) {
 				getLayer(i).getAllNodes(null, nodes);
-			}
-
+			}				
+			
 			Iterator i = getAllNodes(null, nodes).iterator();
-
+			
 			while (i.hasNext()) {
 				PNode each = (PNode) i.next();
-
+		
 				if (PDebug.debugBounds) {
 					g2.setPaint(boundsColor);
 					nodeBounds.setRect(each.getBoundsReference());
-
+					
 					if (!nodeBounds.isEmpty()) {
 						each.localToGlobal(nodeBounds);
 						globalToLocal(nodeBounds);
@@ -305,7 +305,7 @@ public class PCamera extends PNode {
 						g2.draw(nodeBounds);
 					}
 				}
-
+		
 				if (PDebug.debugFullBounds) {
 					g2.setPaint(fullBoundsColor);
 					nodeBounds.setRect(each.getFullBoundsReference());
@@ -314,11 +314,11 @@ public class PCamera extends PNode {
 						if (each.getParent() != null) {
 							each.getParent().localToGlobal(nodeBounds);
 						}
-						globalToLocal(nodeBounds);
+						globalToLocal(nodeBounds);		
 						if (each == this || each.isDescendentOf(this)) {
 							localToView(nodeBounds);
-						}
-						g2.fill(nodeBounds);
+						}	
+						g2.fill(nodeBounds);				
 					}
 				}
 			}
@@ -332,9 +332,9 @@ public class PCamera extends PNode {
 	public void fullPaint(PPaintContext paintContext) {
 		paintContext.pushCamera(this);
 		super.fullPaint(paintContext);
-		paintContext.popCamera(this);
+		paintContext.popCamera(this);		
 	}
-
+	
 	//****************************************************************
 	// Picking
 	//****************************************************************
@@ -344,39 +344,39 @@ public class PCamera extends PNode {
 	 * coord system of this camera. Picking is done with a rectangle, halo
 	 * specifies how large that rectangle will be.
 	 */
-	public PPickPath pick(double x, double y, double halo) {
+	public PPickPath pick(double x, double y, double halo) {		
 		PBounds b = new PBounds(new Point2D.Double(x, y), -halo, -halo);
 		PPickPath result = new PPickPath(this, b);
-
+		
 		fullPick(result);
-
+			
 		// make sure this camera is pushed.
 		if (result.getNodeStackReference().size() == 0) {
 			result.pushNode(this);
 			result.pushTransform(getTransformReference(false));
 		}
-
+		
 		return result;
 	}
-
+	
 	/**
 	 * After the direct children of the camera have been given a chance to be
 	 * picked objects viewed by the camera are given a chance to be picked.
 	 */
 	protected boolean pickAfterChildren(PPickPath pickPath) {
-		if (intersects(pickPath.getPickBounds())) {
+		if (intersects(pickPath.getPickBounds())) { 		
 			pickPath.pushTransform(viewTransform);
-
+			
 			if (pickCameraView(pickPath)) {
-				return true;
+				return true;	
 			}
-
-			pickPath.popTransform(viewTransform);
+				
+			pickPath.popTransform(viewTransform);			
 			return true;
 		}
 		return false;
 	}
-
+	
 	/**
 	 * Pick all the layers that the camera is looking at, this method is
 	 * only called when the cameras view transform and clip are applied
@@ -392,13 +392,13 @@ public class PCamera extends PNode {
 		}
 		return false;
 	}
-
-
+	
+		
 	//****************************************************************
 	// View Transform - Methods for accessing the view transform. The
 	// view transform is applied before painting and picking the cameras
 	// layers. But not before painting or picking its direct children.
-	//
+	// 
 	// Changing the view transform is how zooming and panning are
 	// accomplished.
 	//****************************************************************
@@ -434,11 +434,11 @@ public class PCamera extends PNode {
 		viewTransform.scaleAboutPoint(scale, x, y);
 		applyViewConstraints();
 		invalidatePaint();
-		firePropertyChange(PROPERTY_CODE_VIEW_TRANSFORM, PROPERTY_VIEW_TRANSFORM, null, viewTransform);
+		firePropertyChange(PROPERTY_CODE_VIEW_TRANSFORM, PROPERTY_VIEW_TRANSFORM, null, viewTransform);				
 	}
 
 	/**
-	 * Set the scale of the view transform that is applied to
+	 * Set the scale of the view transform that is applied to 
 	 * the layers viewed by this camera.
 	 */
 	public void setViewScale(double scale) {
@@ -453,18 +453,18 @@ public class PCamera extends PNode {
 		viewTransform.translate(dx, dy);
 		applyViewConstraints();
 		invalidatePaint();
-		firePropertyChange(PROPERTY_CODE_VIEW_TRANSFORM, PROPERTY_VIEW_TRANSFORM, null, viewTransform);
+		firePropertyChange(PROPERTY_CODE_VIEW_TRANSFORM, PROPERTY_VIEW_TRANSFORM, null, viewTransform);				
 	}
 
 	/**
-	 * Sets the offset of the view transform that is applied
+	 * Sets the offset of the view transform that is applied 
 	 * to the camera's layers.
 	 */
 	public void setViewOffset(double x, double y) {
 		viewTransform.setOffset(x, y);
 		applyViewConstraints();
 		invalidatePaint();
-		firePropertyChange(PROPERTY_CODE_VIEW_TRANSFORM, PROPERTY_VIEW_TRANSFORM, null, viewTransform);
+		firePropertyChange(PROPERTY_CODE_VIEW_TRANSFORM, PROPERTY_VIEW_TRANSFORM, null, viewTransform);				
 	}
 
 	/**
@@ -482,7 +482,7 @@ public class PCamera extends PNode {
 	public PAffineTransform getViewTransformReference() {
 		return viewTransform;
 	}
-
+	
 	/**
 	 * Set the view transform that is applied to the views layers.
 	 */
@@ -490,7 +490,7 @@ public class PCamera extends PNode {
 		viewTransform.setTransform(aTransform);
 		applyViewConstraints();
 		invalidatePaint();
-		firePropertyChange(PROPERTY_CODE_VIEW_TRANSFORM, PROPERTY_VIEW_TRANSFORM, null, viewTransform);
+		firePropertyChange(PROPERTY_CODE_VIEW_TRANSFORM, PROPERTY_VIEW_TRANSFORM, null, viewTransform);				
 	}
 
 	/**
@@ -504,12 +504,12 @@ public class PCamera extends PNode {
 	 * bounds fit fully within the cameras view bounds, else the camera will
 	 * maintain its original scale.
 	 */
-	public PTransformActivity animateViewToCenterBounds(Rectangle2D centerBounds, boolean shouldScaleToFit, long duration) {
+	public PTransformActivity animateViewToCenterBounds(Rectangle2D centerBounds, boolean shouldScaleToFit, long duration) {		
 		PBounds viewBounds = getViewBounds();
 		PDimension delta = viewBounds.deltaRequiredToCenter(centerBounds);
 		PAffineTransform newTransform = getViewTransform();
 		newTransform.translate(delta.width, delta.height);
-
+		
 		if (shouldScaleToFit) {
 			double s = Math.min(viewBounds.getWidth() / centerBounds.getWidth(), viewBounds.getHeight() / centerBounds.getHeight());
 			if (s != Double.POSITIVE_INFINITY && s != 0) {
@@ -522,16 +522,16 @@ public class PCamera extends PNode {
 
 	/**
 	 * Pan the camera's view from its current transform when the activity starts
-	 * to a new transform so that the view bounds will contain (if possible, intersect
-	 * if not possible) the new bounds in the camera layers coordinate system.
-	 * If the duration is 0 then the view will be transformed immediately, and null
-	 * will be returned. Else a new PTransformActivity will get returned that is set
+	 * to a new transform so that the view bounds will contain (if possible, intersect 
+	 * if not possible) the new bounds in the camera layers coordinate system. 
+	 * If the duration is 0 then the view will be transformed immediately, and null 
+	 * will be returned. Else a new PTransformActivity will get returned that is set 
 	 * to animate the camera's view transform to the new bounds.
 	 */
 	public PTransformActivity animateViewToPanToBounds(Rectangle2D panToBounds, long duration) {
 		PBounds viewBounds = getViewBounds();
 		PDimension delta = viewBounds.deltaRequiredToContain(panToBounds);
-
+		
 		if (delta.width != 0 || delta.height != 0) {
 			if (duration == 0) {
 				translateView(-delta.width, -delta.height);
@@ -551,7 +551,7 @@ public class PCamera extends PNode {
 	public PTransformActivity animateViewToIncludeBounds(Rectangle2D includeBounds, long duration) {
 		return animateViewToPanToBounds(includeBounds, duration);
 	}
-
+	
 	/**
 	 * Animate the cameras view transform from its current value when the
 	 * activity starts to the new destination transform value.
@@ -561,7 +561,7 @@ public class PCamera extends PNode {
 			setViewTransform(destination);
 			return null;
 		}
-
+		
 		PTransformActivity.Target t = new PTransformActivity.Target() {
 			public void setTransform(AffineTransform aTransform) {
 				PCamera.this.setViewTransform(aTransform);
@@ -570,14 +570,14 @@ public class PCamera extends PNode {
 				PCamera.this.viewTransform.getMatrix(aSource);
 			}
 		};
-
+		
 		PTransformActivity ta = new PTransformActivity(duration, PUtil.DEFAULT_ACTIVITY_STEP_RATE, t, destination);
-
+		
 		PRoot r = getRoot();
 		if (r != null) {
 			r.getActivityScheduler().addActivity(ta);
 		}
-
+		
 		return ta;
 	}
 
@@ -585,7 +585,7 @@ public class PCamera extends PNode {
 	// View Transform Constraints - Methods for setting and applying
 	// constraints to the view transform.
 	//****************************************************************
-
+	
 	public int getViewConstraint() {
 		return viewConstraint;
 	}
@@ -593,7 +593,7 @@ public class PCamera extends PNode {
 		viewConstraint = constraint;
 		applyViewConstraints();
 	}
-
+	
 	protected void applyViewConstraints() {
 		if (viewConstraint == VIEW_CONSTRAINT_NONE)
 			return;
@@ -601,7 +601,7 @@ public class PCamera extends PNode {
 		PBounds viewBounds = getViewBounds();
 		PBounds layerBounds = (PBounds) globalToLocal(getUnionOfLayerFullBounds());
 		PDimension constraintDelta = null;
-
+					
 		switch (viewConstraint) {
 			case VIEW_CONSTRAINT_ALL:
 				constraintDelta = viewBounds.deltaRequiredToContain(layerBounds);
@@ -612,8 +612,8 @@ public class PCamera extends PNode {
 				constraintDelta = viewBounds.deltaRequiredToContain(layerBounds);
 				break;
 		}
-
-		viewTransform.translate(-constraintDelta.width, -constraintDelta.height);
+		
+		viewTransform.translate(-constraintDelta.width, -constraintDelta.height);	
 	}
 
 	//****************************************************************
@@ -625,7 +625,7 @@ public class PCamera extends PNode {
 	//****************************************************************
 
 	/**
-	 * Convert the point from the camera's view coordinate system to the
+	 * Convert the point from the camera's view coordinate system to the 
 	 * camera's local coordinate system. The given point is modified by this.
 	 */
 	public Point2D viewToLocal(Point2D viewPoint) {
@@ -633,7 +633,7 @@ public class PCamera extends PNode {
 	}
 
 	/**
-	 * Convert the dimension from the camera's view coordinate system to the
+	 * Convert the dimension from the camera's view coordinate system to the 
 	 * camera's local coordinate system. The given dimension is modified by this.
 	 */
 	public Dimension2D viewToLocal(Dimension2D viewDimension) {
@@ -641,7 +641,7 @@ public class PCamera extends PNode {
 	}
 
 	/**
-	 * Convert the rectangle from the camera's view coordinate system to the
+	 * Convert the rectangle from the camera's view coordinate system to the 
 	 * camera's local coordinate system. The given rectangle is modified by this method.
 	 */
 	public Rectangle2D viewToLocal(Rectangle2D viewRectangle) {
@@ -649,7 +649,7 @@ public class PCamera extends PNode {
 	}
 
 	/**
-	 * Convert the point from the camera's local coordinate system to the
+	 * Convert the point from the camera's local coordinate system to the 
 	 * camera's view coordinate system. The given point is modified by this method.
 	 */
 	public Point2D localToView(Point2D localPoint) {
@@ -662,7 +662,7 @@ public class PCamera extends PNode {
 	}
 
 	/**
-	 * Convert the dimension from the camera's local coordinate system to the
+	 * Convert the dimension from the camera's local coordinate system to the 
 	 * camera's view coordinate system. The given dimension is modified by this method.
 	 */
 	public Dimension2D localToView(Dimension2D localDimension) {
@@ -670,20 +670,20 @@ public class PCamera extends PNode {
 	}
 
 	/**
-	 * Convert the rectangle from the camera's local coordinate system to the
+	 * Convert the rectangle from the camera's local coordinate system to the 
 	 * camera's view coordinate system. The given rectangle is modified by this method.
 	 */
 	public Rectangle2D localToView(Rectangle2D localRectangle) {
 		return viewTransform.inverseTransform(localRectangle, localRectangle);
 	}
-
+	
 	//****************************************************************
 	// Serialization - Cameras conditionally serialize their layers.
 	// This means that only the layer references that were unconditionally
 	// (using writeObject) serialized by someone else will be restored
 	// when the camera is unserialized.
 	//****************************************************************/
-
+	
 	/**
 	 * Write this camera and all its children out to the given stream. Note
 	 * that the cameras layers are written conditionally, so they will only
@@ -691,19 +691,19 @@ public class PCamera extends PNode {
 	 */
 	private void writeObject(ObjectOutputStream out) throws IOException {
 		out.defaultWriteObject();
-
+				
 		int count = getLayerCount();
 		for (int i = 0; i < count; i++) {
-			((PObjectOutputStream)out).writeConditionalObject(layers.get(i));
+			((PObjectOutputStream)out).writeConditionalObject(layers.get(i));			
 		}
-
-		out.writeObject(Boolean.FALSE);
+		
+		out.writeObject(Boolean.FALSE); 	
 		((PObjectOutputStream)out).writeConditionalObject(component);
 	}
 
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
 		in.defaultReadObject();
-
+		
 		layers = new ArrayList();
 
 		while (true) {
@@ -716,8 +716,8 @@ public class PCamera extends PNode {
 				}
 			}
 		}
-
+				
 		component = (PComponent) in.readObject();
-	}
+	}	
 }
 
