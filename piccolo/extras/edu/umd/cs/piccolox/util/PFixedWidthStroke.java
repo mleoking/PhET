@@ -29,10 +29,13 @@
  */
 package edu.umd.cs.piccolox.util;
 
-import edu.umd.cs.piccolo.util.PAffineTransform;
-import edu.umd.cs.piccolo.util.PDebug;
-import edu.umd.cs.piccolo.util.PPaintContext;
-import edu.umd.cs.piccolo.util.PPickPath;
+import java.awt.Shape;
+import java.awt.Stroke;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.PathIterator;
+import java.awt.geom.Rectangle2D;
+import java.io.Serializable;
+
 import sun.dc.path.FastPathProducer;
 import sun.dc.path.PathConsumer;
 import sun.dc.path.PathException;
@@ -40,11 +43,10 @@ import sun.dc.pr.PathDasher;
 import sun.dc.pr.PathStroker;
 import sun.dc.pr.Rasterizer;
 
-import java.awt.*;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.PathIterator;
-import java.awt.geom.Rectangle2D;
-import java.io.Serializable;
+import edu.umd.cs.piccolo.util.PAffineTransform;
+import edu.umd.cs.piccolo.util.PDebug;
+import edu.umd.cs.piccolo.util.PPaintContext;
+import edu.umd.cs.piccolo.util.PPickPath;
 
 /**
  * <b>PFixedWidthStroke</b> is the same as java.awt.BasicStroke except that PFixedWidthStroke

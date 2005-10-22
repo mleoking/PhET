@@ -29,10 +29,10 @@
  */
 package edu.umd.cs.piccolox;
 
-import edu.umd.cs.piccolo.PCanvas;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.DisplayMode;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -40,6 +40,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EventListener;
 import java.util.Iterator;
+
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
+import edu.umd.cs.piccolo.PCanvas;
 
 /**
  * <b>PFrame</b> is meant to be subclassed by applications that just need a PCanvas in a JFrame.

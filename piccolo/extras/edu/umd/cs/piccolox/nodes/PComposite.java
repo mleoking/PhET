@@ -29,7 +29,10 @@
  */
 package edu.umd.cs.piccolox.nodes;
 
+import java.util.Iterator;
+
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PPickPath;
 
 /**
