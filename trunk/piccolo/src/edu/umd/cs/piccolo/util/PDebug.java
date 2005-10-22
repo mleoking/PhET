@@ -29,8 +29,11 @@
  */
 package edu.umd.cs.piccolo.util;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
+import javax.swing.SwingUtilities;
 
 /**
  * <b>PDebug</b> is used to set framework wide debugging flags.

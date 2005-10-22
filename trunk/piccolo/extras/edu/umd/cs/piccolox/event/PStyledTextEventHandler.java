@@ -29,24 +29,36 @@
  */
 package edu.umd.cs.piccolox.event;
 
-import edu.umd.cs.piccolo.PCamera;
-import edu.umd.cs.piccolo.PCanvas;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolox.nodes.PStyledText;
+   import java.awt.Color;
+   import java.awt.Dimension;
+   import java.awt.Font;
+   import java.awt.Graphics;
+   import java.awt.Graphics2D;
+   import java.awt.Insets;
+   import java.awt.RenderingHints;
+   import java.awt.event.InputEvent;
+   import java.awt.event.MouseEvent;
+   import java.awt.geom.Point2D;
 
-import javax.swing.*;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.text.*;
-import java.awt.*;
-import java.awt.event.InputEvent;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Point2D;
+   import javax.swing.JTextPane;
+   import javax.swing.SwingUtilities;
+   import javax.swing.border.CompoundBorder;
+   import javax.swing.border.EmptyBorder;
+   import javax.swing.border.LineBorder;
+   import javax.swing.event.DocumentEvent;
+   import javax.swing.event.DocumentListener;
+   import javax.swing.text.Document;
+   import javax.swing.text.JTextComponent;
+   import javax.swing.text.SimpleAttributeSet;
+   import javax.swing.text.StyleConstants;
+   import javax.swing.text.StyledDocument;
+
+   import edu.umd.cs.piccolo.PCamera;
+   import edu.umd.cs.piccolo.PCanvas;
+   import edu.umd.cs.piccolo.PNode;
+   import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+   import edu.umd.cs.piccolo.event.PInputEvent;
+   import edu.umd.cs.piccolox.nodes.PStyledText;
 
    /**
 * @author Lance Good

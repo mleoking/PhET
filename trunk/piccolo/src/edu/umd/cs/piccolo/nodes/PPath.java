@@ -29,12 +29,12 @@
  */
 package edu.umd.cs.piccolo.nodes;
 
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PAffineTransform;
-import edu.umd.cs.piccolo.util.PPaintContext;
-import edu.umd.cs.piccolo.util.PUtil;
-
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Paint;
+import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
@@ -42,6 +42,11 @@ import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PAffineTransform;
+import edu.umd.cs.piccolo.util.PPaintContext;
+import edu.umd.cs.piccolo.util.PUtil;
 
 /**
  * <b>PPath</b> is a wrapper around a java.awt.geom.GeneralPath. The

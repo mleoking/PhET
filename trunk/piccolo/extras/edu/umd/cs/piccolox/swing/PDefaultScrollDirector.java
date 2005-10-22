@@ -8,18 +8,24 @@
  */
 package edu.umd.cs.piccolox.swing;
 
-import edu.umd.cs.piccolo.*;
-import edu.umd.cs.piccolo.util.PAffineTransform;
-import edu.umd.cs.piccolo.util.PBounds;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.swing.JScrollPane;
+
+import edu.umd.cs.piccolo.PCamera;
+import edu.umd.cs.piccolo.PCanvas;
+import edu.umd.cs.piccolo.PLayer;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.PRoot;
+import edu.umd.cs.piccolo.util.PAffineTransform;
+import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * The default scroll director implementation. This default implementation

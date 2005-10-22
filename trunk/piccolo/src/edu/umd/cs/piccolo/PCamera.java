@@ -29,17 +29,30 @@
  */
 package edu.umd.cs.piccolo;
 
-import edu.umd.cs.piccolo.activities.PTransformActivity;
-import edu.umd.cs.piccolo.util.*;
-
-import java.awt.*;
-import java.awt.geom.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Dimension2D;
+import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import edu.umd.cs.piccolo.activities.PTransformActivity;
+import edu.umd.cs.piccolo.util.PAffineTransform;
+import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolo.util.PDebug;
+import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolo.util.PObjectOutputStream;
+import edu.umd.cs.piccolo.util.PPaintContext;
+import edu.umd.cs.piccolo.util.PPickPath;
+import edu.umd.cs.piccolo.util.PUtil;
 
 /**
  * <b>PCamera</b> represents a viewport onto a list of layer nodes.
