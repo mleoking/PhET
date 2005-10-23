@@ -38,9 +38,9 @@ public class TimeSeriesPNode {
     private double lastUpdateValue = Double.NaN;
     private Object model;
 
-    public TimeSeriesPNode( TimePlotSuitePNode plotSuite, TimeSeries series, ValueAccessor valueAccessor, Color color, String justifyString, Object model ) {
+    public TimeSeriesPNode( TimePlotSuitePNode plotSuite, ValueAccessor valueAccessor, Color color, String justifyString, Object model ) {
         this.plotSuite = plotSuite;
-        this.series = series;
+        this.series = new TimeSeries();
         this.valueAccessor = valueAccessor;
         this.color = color;
         this.justifyString = justifyString;
@@ -93,6 +93,18 @@ public class TimeSeriesPNode {
 
     private Object getModel() {
         return model;
+    }
+
+    public ValueAccessor getValueAccessor() {
+        return valueAccessor;
+    }
+
+    public TimeSeries getTimeSeries() {
+        return series;
+    }
+
+    public TimePlotSuitePNode getPlot() {
+        return plotSuite;
     }
 
 //    private RampPhysicalModel getRampPhysicalModel() {

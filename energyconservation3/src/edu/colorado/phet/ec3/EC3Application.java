@@ -20,7 +20,7 @@ public class EC3Application extends PhetApplication {
     private EC3Module module;
 
     public EC3Application( String[] args ) {
-        super( args, "EC3", "Energy Conservation", "0.1", new SwingTimerClock( 1.0, 25 ), true, new LeftSideOfScreen( 200, 100 ) );
+        super( args, "EC3", "Energy Conservation", "0.1", new SwingTimerClock( 1.0 / 10.0, 25 ), true, new LeftSideOfScreen( 200, 100 ) );
         module = new EC3Module( "Module", getClock() );
         setModules( new Module[]{module} );
     }
