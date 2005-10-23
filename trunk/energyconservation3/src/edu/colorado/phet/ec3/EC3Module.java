@@ -12,6 +12,7 @@ import edu.colorado.phet.ec3.model.spline.SplineSurface;
 import edu.colorado.phet.ec3.view.BodyGraphic;
 import edu.colorado.phet.ec3.view.SplineGraphic;
 import edu.colorado.phet.piccolo.PiccoloModule;
+import edu.colorado.phet.timeseries.TimeSeriesModel;
 import edu.colorado.phet.timeseries.TimeSeriesPlaybackPanel;
 
 import javax.swing.*;
@@ -32,6 +33,7 @@ public class EC3Module extends PiccoloModule {
     private int floorY = 600;
     private TimeSeriesPlaybackPanel timeSeriesPlaybackPanel;
     private EC3TimeSeriesModel energyTimeSeriesModel;
+    private JFrame chartFrame;
 
     /**
      * @param name
@@ -45,6 +47,9 @@ public class EC3Module extends PiccoloModule {
         energyModel.addFloor( floor );
         setModel( new BaseModel() );
 
+        energyTimeSeriesModel = new EC3TimeSeriesModel( this );
+        clock.addClockTickListener( energyTimeSeriesModel );
+
         EnergyPanel energyPanel = new EnergyPanel( this );
         setControlPanel( energyPanel );
 
@@ -57,12 +62,17 @@ public class EC3Module extends PiccoloModule {
         energyFrame.setSize( frameWidth, 600 );
         energyFrame.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width - frameWidth, 0 );
 
+        chartFrame = new JFrame( "Charts" );
+        chartFrame.setContentPane( new ChartCanvas( this ) );
+        chartFrame.setSize( 400, 400 );
+        chartFrame.setLocation( 0, 0 );
+
         init();
 
-        energyTimeSeriesModel = new EC3TimeSeriesModel( this );
+
         timeSeriesPlaybackPanel = new TimeSeriesPlaybackPanel( energyTimeSeriesModel );
 
-        clock.addClockTickListener( energyTimeSeriesModel );
+
     }
 
     public void stepModel( double dt ) {
@@ -72,12 +82,14 @@ public class EC3Module extends PiccoloModule {
     public void activate( PhetApplication app ) {
         super.activate( app );
         energyFrame.setVisible( true );
+        chartFrame.setVisible( true );
         app.getPhetFrame().getBasicPhetPanel().setAppControlPanel( timeSeriesPlaybackPanel );
     }
 
     public void deactivate( PhetApplication app ) {
         super.deactivate( app );
         energyFrame.setVisible( false );
+        chartFrame.setVisible( false );
         app.getPhetFrame().getBasicPhetPanel().setAppControlPanel( new JLabel( "This space for rent." ) );
     }
 
@@ -132,5 +144,9 @@ public class EC3Module extends PiccoloModule {
 
     private void redrawAllGraphics() {
         energyCanvas.redrawAllGraphics();
+    }
+
+    public TimeSeriesModel getTimeSeriesModel() {
+        return energyTimeSeriesModel;
     }
 }
