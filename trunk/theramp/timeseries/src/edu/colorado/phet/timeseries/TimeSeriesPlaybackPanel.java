@@ -87,7 +87,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
 
         TimeSeriesModelListener timeListener = new TimeSeriesModelListener() {
             public void liveModeStarted() {
-                setButtons( false, false, false, false, true, false );
+                setButtons( false, true, false, false, true, false );
             }
 
             public void recordingStarted() {

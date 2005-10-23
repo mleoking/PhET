@@ -6,6 +6,7 @@ import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.plots.*;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.timeseries.TimeSeriesModelListenerAdapter;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -27,8 +28,9 @@ public class ChartCanvas extends PhetPCanvas {
     public ChartCanvas( final EC3Module ec3Module ) {
         this.ec3Module = ec3Module;
         plot = new TimePlotSuitePNode( this,
-                                       new Range2D( 0, -500000, 40, 500000 ), "Name",
-                                       "units", ec3Module.getTimeSeriesModel(), 250, false );
+                                       new Range2D( 0, -100000, 40, 500000 ), "Energy",
+                                       "Joules", ec3Module.getTimeSeriesModel(),
+                                       150, false );
         addScreenChild( plot );
 
         keSeries = new TimeSeriesPNode( plot, new ValueAccessor( "KE", "KE", "Joules", "J", Color.red, "Kinetic Energy" ) {
@@ -67,6 +69,11 @@ public class ChartCanvas extends PhetPCanvas {
                         dataUnit.updatePlot( ec3Module.getEnergyConservationModel(), ec3Module.getTimeSeriesModel().getRecordTime() );
                     }
                 }
+            }
+        } );
+        ec3Module.getTimeSeriesModel().addListener( new TimeSeriesModelListenerAdapter() {
+            public void reset() {
+                ChartCanvas.this.reset();
             }
         } );
     }
