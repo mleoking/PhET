@@ -621,7 +621,7 @@ public class TimePlotSuitePNode extends PNode {
                                                            "", // y-axis label
                                                            dataset, PlotOrientation.VERTICAL, false, false, false );
 
-        chart.setBackgroundPaint( Color.blue );
+        chart.setBackgroundPaint( new Color( 240, 220, 210 ) );
 
         XYPlot plot = (XYPlot)chart.getPlot();
         plot.setBackgroundPaint( Color.white );
