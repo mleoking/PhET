@@ -54,10 +54,7 @@ public abstract class AbstractSpline implements Cloneable {
             clone.generalPath = new GeneralPath();
             clone.areaShape = null;
 
-            clone.generalPathDirty = true;
-            clone.areaShapeDirty = true;
-            clone.areaDirty = true;
-
+            clone.setAllDirty();
 
             return clone;
         }

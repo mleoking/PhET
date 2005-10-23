@@ -119,12 +119,15 @@ public class EnergyConservationModel {
         for( int i = 0; i < allSplines.size(); i++ ) {
             AbstractSpline splineSurface = (AbstractSpline)allSplines.get( i );
             double score = getGrabScore( splineSurface, body );
-//            System.out.println( "score["+i+"] = " + score );
+            if( !Double.isInfinite( score ) ) {
+                System.out.println( "score[" + i + "] = " + score );
+            }
             if( score < bestScore ) {
                 bestScore = score;
                 bestSpline = splineSurface;
             }
         }
+//        System.out.println( "set spline mode: "+bestSpline );
         if( bestSpline != null ) {
             body.setSplineMode( bestSpline );
         }

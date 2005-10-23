@@ -63,13 +63,6 @@ public class EC3Module extends PiccoloModule {
         timeSeriesPlaybackPanel = new TimeSeriesPlaybackPanel( energyTimeSeriesModel );
 
         clock.addClockTickListener( energyTimeSeriesModel );
-
-//        getModel().addModelElement( new ModelElement() {
-//            public void stepInTime( double dt ) {
-//                stepModel( dt / 10.0 );
-//            }
-//        } );
-
     }
 
     public void stepModel( double dt ) {
@@ -103,6 +96,8 @@ public class EC3Module extends PiccoloModule {
     public void reset() {
         energyModel.reset();
         energyCanvas.reset();
+        energyTimeSeriesModel.reset();
+        energyTimeSeriesModel.setLiveMode();
         init();
     }
 

@@ -86,42 +86,44 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         add( clear );
 
         TimeSeriesModelListener timeListener = new TimeSeriesModelListener() {
+            public void liveModeStarted() {
+                setButtons( false, false, false, false, true, false );
+            }
+
             public void recordingStarted() {
-                setButtons( false, false, false, false );
+                setButtons( false, false, false, false, true, false );
             }
 
             public void recordingPaused() {
-                setButtons( true, true, false, false );
+                setButtons( true, true, true, true, false, false );
             }
 
             public void recordingFinished() {
-                setButtons( true, true, false, false );
+                setButtons( true, false, true, true, false, false );
             }
 
             public void playbackFinished() {
-                setButtons( false, false, false, true );
+                setButtons( true, true, false, false, false, true );
             }
 
             public void playbackStarted() {
-                setButtons( false, false, true, true );
+                setButtons( false, false, false, false, true, true );
             }
 
             public void playbackPaused() {
-                setButtons( true, true, false, true );
-            }
-
-            public void modeChanged() {
+                setButtons( true, true, true, true, false, true );
             }
 
             public void reset() {
-                setButtons( false, false, false, false );
+                setButtons( true, true, false, false, false, false );
             }
 
             public void rewind() {
-                setButtons( true, true, false, false );
+                setButtons( true, true, true, true, false, false );
             }
         };
         timeSeriesModel.addListener( timeListener );
+        timeListener.liveModeStarted();
     }
 
     private BufferedImage loadImage( String s ) {
@@ -134,10 +136,12 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         }
     }
 
-    private void setButtons( boolean playBtn, boolean slowBtn, boolean pauseBtn, boolean rewindBtn ) {
+    private void setButtons( boolean liveBtn, boolean recordBtn, boolean playBtn, boolean slowBtn, boolean pauseBtn, boolean rewindBtn ) {
+        live.setEnabled( liveBtn );
+        record.setEnabled( recordBtn );
         play.setEnabled( playBtn );
         slowMotion.setEnabled( slowBtn );
-        pause.setEnabled( true );
+        pause.setEnabled( pauseBtn );
         rewind.setEnabled( rewindBtn );
     }
 
