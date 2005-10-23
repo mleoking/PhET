@@ -436,8 +436,11 @@ public class TimePlotSuitePNode extends PNode {
 
     private void updateCursorLocation() {
         double time = timeSeriesModel.getPlaybackTime();
-        Point2D imageLoc = toImageLocation( time, 0 );
+        Point2D imageLoc = toImageLocation( time, getMaxRangeValue() );
+        System.out.println( "imageLoc = " + imageLoc );
         cursorPNode.setOffset( imageLoc );
+//        cursorPNode.setOffset( new Point2D.Double( imageLoc.getX(), 0 ) );
+//        updateCursorSize();
     }
 
     public void setMinimized( boolean minimized ) {
@@ -553,14 +556,15 @@ public class TimePlotSuitePNode extends PNode {
     }
 
     private void updateCursor() {
-        updateCursorSize();
+        updateCursorShape();
         updateCursorLocation();
     }
 
-    private void updateCursorSize() {
+    private void updateCursorShape() {
         Rectangle2D d = getDataArea();
         int cursorWidth = 6;
-        cursorPNode.setPathTo( new Rectangle2D.Double( -cursorWidth / 2, -d.getHeight() / 2, cursorWidth, d.getHeight() ) );
+//        cursorPNode.setPathTo( new Rectangle2D.Double( -cursorWidth / 2, -d.getHeight() / 2, cursorWidth, d.getHeight() ) );
+        cursorPNode.setPathTo( new Rectangle2D.Double( -cursorWidth / 2, 0, cursorWidth, d.getHeight() ) );
     }
 
     private void updateChartBuffer() {

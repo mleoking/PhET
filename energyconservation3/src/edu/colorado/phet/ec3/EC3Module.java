@@ -35,6 +35,8 @@ public class EC3Module extends PiccoloModule {
     private EC3TimeSeriesModel energyTimeSeriesModel;
     private JFrame chartFrame;
     private ChartCanvas chartCanvas;
+    public static final int energyFrameWidth = 200;
+    public static final int chartFrameHeight = 200;
 
     /**
      * @param name
@@ -60,15 +62,15 @@ public class EC3Module extends PiccoloModule {
 
         energyFrame = new JFrame();
         energyFrame.setContentPane( new BarGraphCanvas( this ) );
-        int frameWidth = 200;
-        energyFrame.setSize( frameWidth, 600 );
-        energyFrame.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width - frameWidth, 0 );
+
+        energyFrame.setSize( energyFrameWidth, 600 );
+        energyFrame.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width - energyFrameWidth, 0 );
 
         chartFrame = new JFrame( "Charts" );
         chartCanvas = new ChartCanvas( this );
         chartFrame.setContentPane( chartCanvas );
-        chartFrame.setSize( 800, 300 );
-        chartFrame.setLocation( 0, 0 );
+        chartFrame.setSize( 800, chartFrameHeight );
+        chartFrame.setLocation( 0, Toolkit.getDefaultToolkit().getScreenSize().height - chartFrame.getHeight() - 100 );
 
         init();
         timeSeriesPlaybackPanel = new TimeSeriesPlaybackPanel( energyTimeSeriesModel );

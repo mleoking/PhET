@@ -4,6 +4,7 @@ package edu.colorado.phet.ec3;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.view.util.FrameSetup;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +21,14 @@ public class EC3Application extends PhetApplication {
     private EC3Module module;
 
     public EC3Application( String[] args ) {
-        super( args, "EC3", "Energy Conservation", "0.1", new SwingTimerClock( 1.0 / 10.0, 25 ), true, new LeftSideOfScreen( 200, 100 ) );
+        super( args, "EC3", "Energy Conservation", "0.1",
+               new SwingTimerClock( 1.0 / 10.0, 25 ), true, new FrameSetup() {
+                   public void initialize( JFrame frame ) {
+                       frame.setSize( Toolkit.getDefaultToolkit().getScreenSize().width - EC3Module.energyFrameWidth,
+                                      Toolkit.getDefaultToolkit().getScreenSize().height - 100 - EC3Module.chartFrameHeight );
+                       frame.setLocation( 0, 0 );
+                   }
+               } );
         module = new EC3Module( "Module", getClock() );
         setModules( new Module[]{module} );
     }
