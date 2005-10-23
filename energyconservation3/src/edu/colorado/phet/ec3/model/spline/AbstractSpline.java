@@ -32,6 +32,14 @@ public abstract class AbstractSpline implements Cloneable {
     public static final float SPLINE_THICKNESS = 12.0f;
     private AbstractSpline reverseSpline = null;
 
+    public boolean equals( Object obj ) {
+        if( obj instanceof AbstractSpline ) {
+            AbstractSpline as = (AbstractSpline)obj;
+            return as.points.equals( points );
+        }
+        return false;
+    }
+
     protected Object clone() {
         try {
             AbstractSpline clone = (AbstractSpline)super.clone();
@@ -43,6 +51,9 @@ public abstract class AbstractSpline implements Cloneable {
             clone.segmentPath = new SegmentPath();
             clone.generalPath = new GeneralPath();
             clone.areaShape = null;
+
+            clone.generalPathDirty = true;
+            clone.areaShapeDirty = true;
 
             return clone;
         }

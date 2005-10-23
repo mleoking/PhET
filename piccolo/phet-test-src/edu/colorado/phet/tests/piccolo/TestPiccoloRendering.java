@@ -5,6 +5,7 @@ import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,5 +39,9 @@ public class TestPiccoloRendering {
         frame.setContentPane( pCanvas );
         frame.setSize( 400, 600 );
         frame.setVisible( true );
+
+        pCanvas.setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
+        pCanvas.setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
+        pCanvas.setAnimatingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
     }
 }

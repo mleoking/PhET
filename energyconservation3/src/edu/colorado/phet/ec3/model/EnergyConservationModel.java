@@ -30,10 +30,6 @@ public class EnergyConservationModel {
         return splineSurfaces.size();
     }
 
-    public AbstractSpline getReverseSpline( AbstractSpline spline ) {
-        return null;
-    }
-
     static interface EnergyConservationModelListener {
         public void numBodiesChanged();
 
@@ -62,8 +58,19 @@ public class EnergyConservationModel {
             SplineSurface surface = splineSurfaceAt( i );
             copy.splineSurfaces.add( surface.copy() );
         }
-
         return copy;
+    }
+
+    public void setState( EnergyConservationModel model ) {
+        bodies.clear();
+        floors.clear();
+        splineSurfaces.clear();
+        for( int i = 0; i < model.bodies.size(); i++ ) {
+            bodies.add( model.bodyAt( i ).copyState() );
+        }
+        for( int i = 0; i < model.splineSurfaces.size(); i++ ) {
+            splineSurfaces.add( model.splineSurfaceAt( i ).copy() );
+        }
     }
 
     public void stepInTime( double dt ) {
@@ -177,15 +184,15 @@ public class EnergyConservationModel {
         splineSurfaces.add( splineSurface );
     }
 
-    /**
-     * @param spline
-     * @param reverse
-     * @deprecated
-     */
-    private void addSpline( AbstractSpline spline, AbstractSpline reverse ) {
-        splineSurfaces.add( spline );
-        splineSurfaces.add( reverse );
-    }
+//    /**
+//     * @param spline
+//     * @param reverse
+//     * @deprecated
+//     */
+//    private void addSpline( AbstractSpline spline, AbstractSpline reverse ) {
+//        splineSurfaces.add( spline );
+//        splineSurfaces.add( reverse );
+//    }
 
     public void addBody( Body body ) {
         bodies.add( body );

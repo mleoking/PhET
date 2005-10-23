@@ -12,15 +12,16 @@ import edu.colorado.phet.common.model.clock.ClockTickEvent;
  */
 public class RecordMode extends Mode {
     private PhetTimer timer;
-    private TimeSeriesModel timeSeriesModel;
+//    private TimeSeriesModel timeSeriesModel;
 
     public RecordMode( final TimeSeriesModel timeSeriesModel ) {
-        super( timeSeriesModel, "Record", true );
+        super( timeSeriesModel, "Record" );
         timer = new PhetTimer( "Record Timer" );
-        this.timeSeriesModel = timeSeriesModel;
+//        this.timeSeriesModel = timeSeriesModel;
     }
 
     public void initialize() {
+        TimeSeriesModel timeSeriesModel = getTimeSeriesModel();
         double recTime = timeSeriesModel.getRecordTime();
         timeSeriesModel.setReplayTime( recTime );
     }
@@ -34,52 +35,18 @@ public class RecordMode extends Mode {
     }
 
     public void clockTicked( ClockTickEvent event ) {
+        TimeSeriesModel timeSeriesModel = getTimeSeriesModel();
         double dt = event.getDt();
         double recorderTime = timer.getTime();
         double maxTime = timeSeriesModel.getMaxAllowedTime();
         if( !timeSeriesModel.isPaused() ) {
-//            System.out.println( "System.currentTimeMillis() = " + System.currentTimeMillis() );
-//            if( recorderTime >= maxTime ) {
-//                timeSeriesModel.recordingFinished();
-//                return;
-//            }
-
-            double newTime = recorderTime + dt;// * timer.getTimerScale();
-            if( newTime > maxTime ) {
-                dt = ( maxTime - recorderTime );// / timer.getTimerScale();
-            }
-            timer.stepInTime( dt, maxTime );//this could go over the max.
-
-            timeSeriesModel.updateModel( event );
-
-//            if( newTime >= maxTime ) {
-//                timeSeriesModel.recordingFinished();
-//                return;
-//            }
-        }
-    }
-
-    public void clockTickedORIG( ClockTickEvent event ) {
-        double dt = event.getDt();
-        double recorderTime = timer.getTime();
-        double maxTime = timeSeriesModel.getMaxAllowedTime();
-        if( !timeSeriesModel.isPaused() ) {
-            if( recorderTime >= maxTime ) {
-                timeSeriesModel.recordingFinished();
-                return;
-            }
-
             double newTime = recorderTime + dt;// * timer.getTimerScale();
             if( newTime > maxTime ) {
                 dt = ( maxTime - recorderTime );// / timer.getTimerScale();
             }
             timer.stepInTime( dt, maxTime );//this could go over the max.
             timeSeriesModel.updateModel( event );
-
-            if( newTime >= maxTime ) {
-                timeSeriesModel.recordingFinished();
-                return;
-            }
         }
     }
+
 }

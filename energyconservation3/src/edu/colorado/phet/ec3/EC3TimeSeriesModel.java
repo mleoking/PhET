@@ -2,7 +2,7 @@
 package edu.colorado.phet.ec3;
 
 import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.timeseries.ObjectTimeSeries;
+import edu.colorado.phet.ec3.model.EnergyConservationModel;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
 
 /**
@@ -14,11 +14,16 @@ import edu.colorado.phet.timeseries.TimeSeriesModel;
 
 public class EC3TimeSeriesModel extends TimeSeriesModel {
     private EC3Module module;
-    private ObjectTimeSeries series = new ObjectTimeSeries();
+//    private ObjectTimeSeries series = new ObjectTimeSeries();
 
     public EC3TimeSeriesModel( EC3Module module ) {
         super( Double.POSITIVE_INFINITY );
         this.module = module;
+    }
+
+    protected void setState( Object v ) {
+        EnergyConservationModel model = (EnergyConservationModel)v;
+        module.setState( model );
     }
 
     protected boolean confirmReset() {
@@ -28,6 +33,7 @@ public class EC3TimeSeriesModel extends TimeSeriesModel {
     public void updateModel( ClockTickEvent clockEvent ) {
         module.stepModel( clockEvent.getDt() / 10.0 );
         Object state = module.getModelState();
-        series.addPoint( state, getRecordTime() );
+        super.addSeriesPoint( state, getRecordTime() );
     }
+
 }

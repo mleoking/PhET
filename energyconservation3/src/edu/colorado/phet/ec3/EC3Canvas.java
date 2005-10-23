@@ -104,7 +104,7 @@ public class EC3Canvas extends PhetPCanvas {
     }
 
     private void updateWorldGraphics() {
-        rootNode.updateGraphics();
+        redrawAllGraphics();
     }
 
     private void debugScreenSize() {
@@ -296,5 +296,9 @@ public class EC3Canvas extends PhetPCanvas {
     }
 
     public void keyTyped( KeyEvent e ) {
+    }
+
+    public void redrawAllGraphics() {
+        rootNode.updateGraphics();
     }
 }

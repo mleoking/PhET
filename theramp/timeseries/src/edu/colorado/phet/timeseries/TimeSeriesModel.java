@@ -20,16 +20,19 @@ public abstract class TimeSeriesModel implements ClockTickListener {
     private Mode mode;//the current mode.
     private RecordMode recordMode;
     private PlaybackMode playbackMode;
+    private LiveMode liveMode;
 
     public static double TIME_SCALE = 1.0;// for dynamic model.
     private static boolean dynamicTime;
     private double maxAllowedTime;
+    private ObjectTimeSeries series = new ObjectTimeSeries();
 
     public TimeSeriesModel( double maxAllowedTime ) {
         recordMode = new RecordMode( this );
         playbackMode = new PlaybackMode( this );
+        liveMode = new LiveMode( this );
         this.maxAllowedTime = maxAllowedTime;
-        this.mode = recordMode;
+        this.mode = liveMode;
     }
 
     public boolean isPaused() {
@@ -49,13 +52,23 @@ public abstract class TimeSeriesModel implements ClockTickListener {
     }
 
     public void setReplayTime( double requestedTime ) {
+//        System.out.println( "TimeSeriesModel.setReplayTime="+requestedTime+", : recTime="+getRecordTime() );
         if( requestedTime < 0 || requestedTime > getRecordTime() ) {
             return;
         }
         else {
             getPlaybackTimer().setTime( requestedTime );
+            ObjectTimePoint value = series.getValueForTime( requestedTime );
+            if( value != null ) {
+                Object v = value.getValue();
+                if( v != null ) {
+                    setState( v );
+                }
+            }
         }
     }
+
+    protected abstract void setState( Object v );
 
     public PhetTimer getRecordTimer() {
         return recordMode.getTimer();
@@ -159,6 +172,7 @@ public abstract class TimeSeriesModel implements ClockTickListener {
         setPaused( true );
         recordMode.reset();
         playbackMode.reset();
+        series.reset();
         fireReset();
     }
 
@@ -241,6 +255,10 @@ public abstract class TimeSeriesModel implements ClockTickListener {
         else {
             return getPlaybackTime();
         }
+    }
+
+    public void addSeriesPoint( Object state, double recordTime ) {
+        series.addPoint( state, recordTime );
     }
 
     public interface PlaybackTimeListener {

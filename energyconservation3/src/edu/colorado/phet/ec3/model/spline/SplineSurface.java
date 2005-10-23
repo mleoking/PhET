@@ -37,4 +37,8 @@ public class SplineSurface {
     public double getLength() {
         return top.getSegmentPath().getLength();
     }
+
+    public boolean equals( Object obj ) {
+        return obj instanceof SplineSurface && ( (SplineSurface)obj ).getTop().equals( getTop() );
+    }
 }

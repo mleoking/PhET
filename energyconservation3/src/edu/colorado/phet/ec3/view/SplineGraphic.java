@@ -43,16 +43,17 @@ public class SplineGraphic extends PNode {
     private BasicStroke dottedStroke = new BasicStroke( 2, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1.0f, new float[]{3, 5}, 0 );
     private BasicStroke lineStroke = new BasicStroke( 2 );
     private SplineSurface splineSurface;
+    private SplineSurface lastRenderState;
 
     public SplineGraphic( EC3Canvas ec3Canvas, SplineSurface splineSurface ) {
-        this( ec3Canvas, splineSurface.getTop(), splineSurface.getBottom() );
-        this.splineSurface = splineSurface;
+        this( ec3Canvas, splineSurface.getTop(), splineSurface.getBottom(), splineSurface );
     }
 
-    private SplineGraphic( EC3Canvas ec3Canvas, AbstractSpline spline, AbstractSpline reverse ) {
+    private SplineGraphic( EC3Canvas ec3Canvas, AbstractSpline spline, AbstractSpline reverse, SplineSurface splineSurface ) {
         this.ec3Canvas = ec3Canvas;
         this.spline = spline;
         this.reverse = reverse;
+        this.splineSurface = splineSurface;
         pathLayer = new PPath();
         pathLayer.setStroke( new BasicStroke( AbstractSpline.SPLINE_THICKNESS ) );
         pathLayer.setStrokePaint( Color.black );
@@ -87,6 +88,13 @@ public class SplineGraphic extends PNode {
 
     public SplineSurface getSplineSurface() {
         return splineSurface;
+    }
+
+    public void setSplineSurface( SplineSurface splineSurface ) {
+        this.splineSurface = splineSurface;
+        this.spline = splineSurface.getTop();
+        this.reverse = splineSurface.getBottom();
+        updateAll();
     }
 
     class PathPopupMenu extends JPopupMenu {
@@ -160,37 +168,32 @@ public class SplineGraphic extends PNode {
         }
     }
 
-    public void testUpdate() {
-        if( !matchesModel() ) {
-            updateAll();
-        }
-    }
-
-    private boolean matchesModel() {
-        return true;//todo fix this.
-    }
-
     private void updateAll() {
-        pathLayer.removeAllChildren();
-        controlPointLayer.removeAllChildren();
-        GeneralPath path = spline.getInterpolationPath();
-        pathLayer.setPathTo( path );
-        for( int i = 0; i < spline.numControlPoints(); i++ ) {
-            Point2D point = spline.controlPointAt( i );
-            addControlPoint( point, i );
-        }
-        for( int i = 0; i < pathLayer.getChildrenCount(); i++ ) {
-            PPath child = (PPath)pathLayer.getChild( i );
-            if( i == 0 || i == pathLayer.getChildrenCount() - 1 ) {
-                child.setStroke( dottedStroke );
-                child.setStrokePaint( Color.red );
+        if( lastRenderState == null || !lastRenderState.equals( splineSurface ) ) {
+            pathLayer.removeAllChildren();
+            controlPointLayer.removeAllChildren();
+            GeneralPath path = spline.getInterpolationPath();
+            pathLayer.setPathTo( path );
+//        pathLayer.setPathTo( new Rectangle( 50,50,50,50) );
+
+            for( int i = 0; i < spline.numControlPoints(); i++ ) {
+                Point2D point = spline.controlPointAt( i );
+                addControlPoint( point, i );
             }
-            else {
-                child.setStroke( lineStroke );
-                child.setStrokePaint( Color.black );
+            for( int i = 0; i < pathLayer.getChildrenCount(); i++ ) {
+                PPath child = (PPath)pathLayer.getChild( i );
+                if( i == 0 || i == pathLayer.getChildrenCount() - 1 ) {
+                    child.setStroke( dottedStroke );
+                    child.setStrokePaint( Color.red );
+                }
+                else {
+                    child.setStroke( lineStroke );
+                    child.setStrokePaint( Color.black );
+                }
             }
+            updateReverseSpline();
+            lastRenderState = splineSurface.copy();
         }
-        updateReverseSpline();
     }
 
     private void addControlPoint( Point2D point, final int index ) {
@@ -228,6 +231,10 @@ public class SplineGraphic extends PNode {
         } );
         controlCircle.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         controlCircle.addInputEventListener( new PopupMenuHandler( ec3Canvas, new ControlCirclePopupMenu( index ) ) );
+    }
+
+    private void updateReverseSpline() {
+        reverse.setControlPoints( reverse( spline.getControlPoints() ) );
     }
 
     class ControlCirclePopupMenu extends JPopupMenu {
@@ -287,10 +294,6 @@ public class SplineGraphic extends PNode {
         if( index == 0 || index == numControlPointGraphics() - 1 ) {
             controlPointLoc = new Point2D.Double( spline.controlPointAt( index ).getX(), spline.controlPointAt( index ).getY() );
         }
-    }
-
-    private void updateReverseSpline() {
-        reverse.setControlPoints( reverse( spline.getControlPoints() ) );
     }
 
     private Point2D[] reverse( Point2D[] controlPoints ) {

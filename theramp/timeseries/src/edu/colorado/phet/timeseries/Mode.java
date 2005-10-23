@@ -12,10 +12,10 @@ import edu.colorado.phet.common.model.clock.ClockTickListener;
  */
 public abstract class Mode implements ClockTickListener {
     private String name;
-    private TimeSeriesModel module;
+    private TimeSeriesModel timeSeriesModel;
 
-    public Mode( TimeSeriesModel module, String name, boolean takingData ) {
-        this.module = module;
+    public Mode( TimeSeriesModel timeSeriesModel, String name ) {
+        this.timeSeriesModel = timeSeriesModel;
         this.name = name;
     }
 
@@ -23,5 +23,9 @@ public abstract class Mode implements ClockTickListener {
 
     public String getName() {
         return name;
+    }
+
+    public TimeSeriesModel getTimeSeriesModel() {
+        return timeSeriesModel;
     }
 }

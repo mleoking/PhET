@@ -16,7 +16,7 @@ public class PlaybackMode extends Mode {
     private TimeSeriesModel timeSeriesModel;
 
     public PlaybackMode( TimeSeriesModel timeSeriesModel ) {
-        super( timeSeriesModel, "Playback", false );
+        super( timeSeriesModel, "Playback" );
         this.timeSeriesModel = timeSeriesModel;
         timer = new PhetTimer( "Playback Timer" );
     }
@@ -33,6 +33,7 @@ public class PlaybackMode extends Mode {
     }
 
     public void clockTicked( ClockTickEvent event ) {
+//        System.out.println( "PlaybackMode.clockTicked" );
         double dt = event.getDt();
         if( !timeSeriesModel.isPaused() ) {
             timeSeriesModel.getPlaybackTimer().stepInTime( dt * playbackSpeed, timeSeriesModel.getRecordTimer().getTime() );
