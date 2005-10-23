@@ -33,7 +33,7 @@ public class Body {
     private double yThrust = 0.0;
 
     private FreeFall freeFall = new FreeFall( 0 );
-    private final UserControlled userMode = new UserControlled();
+    private UserControlled userMode = new UserControlled();
 
     private UpdateMode mode = freeFall;
 
@@ -48,7 +48,7 @@ public class Body {
         copy.acceleration.setComponents( acceleration.getX(), velocity.getY() );
         copy.mass = mass;
         copy.angle = angle;
-        copy.mode = mode;
+        copy.mode = freeFall;//todo get the mode switch correct.
         copy.facingRight = facingRight;
         copy.xThrust = xThrust;
         copy.yThrust = yThrust;
@@ -228,7 +228,7 @@ public class Body {
     }
 
     public boolean isFreeFallMode() {
-        return mode == freeFall;
+        return mode instanceof FreeFall;
     }
 
     public static Rectangle createDefaultBodyRect() {

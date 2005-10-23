@@ -14,14 +14,13 @@ import edu.colorado.phet.timeseries.TimeSeriesModel;
 
 public class EC3TimeSeriesModel extends TimeSeriesModel {
     private EC3Module module;
-//    private ObjectTimeSeries series = new ObjectTimeSeries();
 
     public EC3TimeSeriesModel( EC3Module module ) {
         super( Double.POSITIVE_INFINITY );
         this.module = module;
     }
 
-    protected void setState( Object v ) {
+    protected void setModelState( Object v ) {
         EnergyConservationModel model = (EnergyConservationModel)v;
         module.setState( model );
     }
@@ -30,10 +29,11 @@ public class EC3TimeSeriesModel extends TimeSeriesModel {
         return true;
     }
 
-    public void updateModel( ClockTickEvent clockEvent ) {
-        module.stepModel( clockEvent.getDt() / 10.0 );
-        Object state = module.getModelState();
-        super.addSeriesPoint( state, getRecordTime() );
+    public Object getModelState() {
+        return module.getModelState();
     }
 
+    public void updateModel( ClockTickEvent clockEvent ) {
+        module.stepModel( clockEvent.getDt() );
+    }
 }

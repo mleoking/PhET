@@ -145,9 +145,8 @@ public class EC3RootNode extends PhetRootPNode {
         while( numSplineGraphics() > getModel().numSplineSurfaces() ) {
             removeSplineGraphic( splineGraphicAt( numSplineGraphics() - 1 ) );
         }
-        for( int i = 0; i < getModel().numBodies(); i++ ) {
+        for( int i = 0; i < getModel().numSplineSurfaces(); i++ ) {
             splineGraphicAt( i ).setSplineSurface( getModel().splineSurfaceAt( i ) );
-            splineGraphicAt( i ).repaint();
         }
     }
 
@@ -162,41 +161,5 @@ public class EC3RootNode extends PhetRootPNode {
     public BodyGraphic bodyGraphicAt( int i ) {
         return (BodyGraphic)bodyGraphics.getChild( i );
     }
-
-//    private void updateSplines() {
-//        if( !splineCountCorrect() ) {
-//            correctSplineCount();
-//            System.out.println( "EC3RootNode.updateSplines" );
-//        }
-//        correctSplineLocations();
-//    }
-
-//    private void correctSplineLocations() {
-//        for( int i = 0; i < getModel().numSplineSurfaces(); i++ ) {
-//            splineGraphicAt( i ).testUpdate();
-//        }
-//    }
-
-//    private void correctSplineCount() {
-//        splineGraphics.removeAllChildren();
-//        for( int i = 0; i < getModel().numSplineSurfaces(); i++ ) {
-//            SplineGraphic splineGraphic = new SplineGraphic( ec3Canvas, getModel().splineSurfaceAt( i ) );
-//            addSplineGraphic( splineGraphic );
-//        }
-//    }
-//
-//    private boolean splineCountCorrect() {
-//        if( getModel().numSplineSurfaces() != splineGraphics.getChildrenCount() ) {
-//            return false;
-//        }
-//        else {
-//            for( int i = 0; i < getModel().numSplineSurfaces(); i++ ) {
-//                if( splineGraphicAt( i ).getSplineSurface() != getModel().splineSurfaceAt( i ) ) {
-//                    return false;
-//                }
-//            }
-//        }
-//        return true;
-//    }
 
 }

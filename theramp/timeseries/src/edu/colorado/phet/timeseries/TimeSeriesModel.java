@@ -52,7 +52,6 @@ public abstract class TimeSeriesModel implements ClockTickListener {
     }
 
     public void setReplayTime( double requestedTime ) {
-//        System.out.println( "TimeSeriesModel.setReplayTime="+requestedTime+", : recTime="+getRecordTime() );
         if( requestedTime < 0 || requestedTime > getRecordTime() ) {
             return;
         }
@@ -62,13 +61,13 @@ public abstract class TimeSeriesModel implements ClockTickListener {
             if( value != null ) {
                 Object v = value.getValue();
                 if( v != null ) {
-                    setState( v );
+                    setModelState( v );
                 }
             }
         }
     }
 
-    protected abstract void setState( Object v );
+    protected abstract void setModelState( Object v );
 
     public PhetTimer getRecordTimer() {
         return recordMode.getTimer();
@@ -185,7 +184,15 @@ public abstract class TimeSeriesModel implements ClockTickListener {
     }
 
     public void setRecordMode() {
+        setLastPoint();
         setMode( recordMode );
+    }
+
+    private void setLastPoint() {
+        if( series.size() > 0 ) {
+            ObjectTimePoint lastPoint = series.getLastPoint();
+            setModelState( lastPoint.getValue() );
+        }
     }
 
     public void confirmAndApplyReset() {
@@ -244,6 +251,8 @@ public abstract class TimeSeriesModel implements ClockTickListener {
 
     public abstract void updateModel( ClockTickEvent clockEvent );
 
+    public abstract Object getModelState();
+
     public double getMaxAllowedTime() {
         return maxAllowedTime;
     }
@@ -259,6 +268,17 @@ public abstract class TimeSeriesModel implements ClockTickListener {
 
     public void addSeriesPoint( Object state, double recordTime ) {
         series.addPoint( state, recordTime );
+    }
+
+    public void startRecording() {
+        setRecordMode();
+        setPaused( false );
+    }
+
+    public void startLiveMode() {
+        setLastPoint();
+        setMode( liveMode );
+        setPaused( false );
     }
 
     public interface PlaybackTimeListener {

@@ -20,15 +20,7 @@ public class LiveMode extends Mode {
 
     public void clockTicked( ClockTickEvent event ) {
         TimeSeriesModel timeSeriesModel = getTimeSeriesModel();
-//        double dt = event.getDt();
-//        double recorderTime = timer.getTime();
-//        double maxTime = timeSeriesModel.getMaxAllowedTime();
         if( !timeSeriesModel.isPaused() ) {
-//            double newTime = recorderTime + dt;// * timer.getTimerScale();
-//            if( newTime > maxTime ) {
-//                dt = ( maxTime - recorderTime );// / timer.getTimerScale();
-//            }
-//            timer.stepInTime( dt, maxTime );//this could go over the max.
             timeSeriesModel.updateModel( event );
         }
     }

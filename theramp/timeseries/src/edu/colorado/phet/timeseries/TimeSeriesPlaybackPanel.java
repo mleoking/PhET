@@ -7,6 +7,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
@@ -23,62 +24,39 @@ public class TimeSeriesPlaybackPanel extends JPanel {
     private JButton slowMotion;
     private JButton clear;
     private TimeSeriesModel timeSeriesModel;
+    private JButton live;
 
     public TimeSeriesPlaybackPanel( final TimeSeriesModel timeSeriesModel ) {
         this.timeSeriesModel = timeSeriesModel;
 
-        ImageIcon recordIcon = null;
-        try {
-            recordIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Movie24.gif" ) );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-        record = new JButton( "Record", recordIcon );
+        live = new JButton( "Live", new ImageIcon( loadImage( "images/icons/java/media/Play24.gif" ) ) );
+        live.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                timeSeriesModel.startLiveMode();
+            }
+        } );
+        record = new JButton( "Record", new ImageIcon( loadImage( "images/icons/java/media/Movie24.gif" ) ) );
         record.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                timeSeriesModel.setRecordMode();
-                timeSeriesModel.setPaused( false );
+                timeSeriesModel.startRecording();
             }
         } );
 
-        ImageIcon pauseIcon = null;
-        try {
-            pauseIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Pause24.gif" ) );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-
-        pause = new JButton( SimStrings.get( "Pause" ), pauseIcon );
+        pause = new JButton( SimStrings.get( "Pause" ), new ImageIcon( loadImage( "images/icons/java/media/Pause24.gif" ) ) );
         pause.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 //pausing from playback leaves it alone
                 timeSeriesModel.setPaused( true );
             }
         } );
-        ImageIcon playIcon = null;
-        try {
-            playIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Play24.gif" ) );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-        play = new JButton( SimStrings.get( "Playback" ), playIcon );
+        play = new JButton( SimStrings.get( "Playback" ), new ImageIcon( loadImage( "images/icons/java/media/Forward24.gif" ) ) );
         play.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.startPlaybackMode( 1.0 );
             }
         } );
 
-        ImageIcon rewindIcon = null;
-        try {
-            rewindIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Rewind24.gif" ) );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-        rewind = new JButton( SimStrings.get( "Rewind" ), rewindIcon );
+        rewind = new JButton( SimStrings.get( "Rewind" ), new ImageIcon( loadImage( "images/icons/java/media/Rewind24.gif" ) ) );
         rewind.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.rewind();
@@ -86,48 +64,26 @@ public class TimeSeriesPlaybackPanel extends JPanel {
             }
         } );
 
-        ImageIcon slowIcon = null;
-        try {
-            slowIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/StepForward24.gif" ) );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-        slowMotion = new JButton( SimStrings.get( "Slow Motion" ), slowIcon );
+        slowMotion = new JButton( SimStrings.get( "Slow Motion" ), new ImageIcon( loadImage( "images/icons/java/media/StepForward24.gif" ) ) );
         slowMotion.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.startPlaybackMode( .4 );
             }
         } );
 
-        try {
-            clear = new JButton( SimStrings.get( "Clear" ), new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Stop24.gif" ) ) );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        clear = new JButton( SimStrings.get( "Clear" ), new ImageIcon( loadImage( "images/icons/java/media/Stop24.gif" ) ) );
         clear.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.confirmAndApplyReset();
             }
         } );
+        add( live );
         add( record );
         add( play );
         add( slowMotion );
         add( pause );
         add( rewind );
         add( clear );
-
-        if( timeSeriesModel instanceof HasAudio ) {
-            final JCheckBox audio = new JCheckBox( "Sound", true );
-            audio.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    ( (HasAudio)timeSeriesModel ).setAudioEnabled( audio.isSelected() );
-                }
-            } );
-            add( new JSeparator() );
-            add( audio );
-        }
 
         TimeSeriesModelListener timeListener = new TimeSeriesModelListener() {
             public void recordingStarted() {
@@ -166,6 +122,16 @@ public class TimeSeriesPlaybackPanel extends JPanel {
             }
         };
         timeSeriesModel.addListener( timeListener );
+    }
+
+    private BufferedImage loadImage( String s ) {
+        try {
+            return new ImageLoader().loadImage( s );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+            throw new RuntimeException( e );
+        }
     }
 
     private void setButtons( boolean playBtn, boolean slowBtn, boolean pauseBtn, boolean rewindBtn ) {

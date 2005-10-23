@@ -169,7 +169,8 @@ public class SplineGraphic extends PNode {
     }
 
     private void updateAll() {
-        if( lastRenderState == null || !lastRenderState.equals( splineSurface ) ) {
+//        System.out.println( "changed() = " + changed() );
+        if( changed() ) {
             pathLayer.removeAllChildren();
             controlPointLayer.removeAllChildren();
             GeneralPath path = spline.getInterpolationPath();
@@ -194,6 +195,15 @@ public class SplineGraphic extends PNode {
             updateReverseSpline();
             lastRenderState = splineSurface.copy();
         }
+    }
+
+    private boolean changed() {
+        return lastRenderState == null || !same();
+    }
+
+    private boolean same() {
+        boolean same = lastRenderState.equals( splineSurface.copy() );
+        return same;
     }
 
     private void addControlPoint( Point2D point, final int index ) {
