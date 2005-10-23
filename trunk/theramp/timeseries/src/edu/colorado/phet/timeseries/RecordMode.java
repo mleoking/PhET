@@ -12,12 +12,10 @@ import edu.colorado.phet.common.model.clock.ClockTickEvent;
  */
 public class RecordMode extends Mode {
     private PhetTimer timer;
-//    private TimeSeriesModel timeSeriesModel;
 
     public RecordMode( final TimeSeriesModel timeSeriesModel ) {
         super( timeSeriesModel, "Record" );
         timer = new PhetTimer( "Record Timer" );
-//        this.timeSeriesModel = timeSeriesModel;
     }
 
     public void initialize() {
@@ -46,6 +44,7 @@ public class RecordMode extends Mode {
             }
             timer.stepInTime( dt, maxTime );//this could go over the max.
             timeSeriesModel.updateModel( event );
+            timeSeriesModel.addSeriesPoint( timeSeriesModel.getModelState(), timeSeriesModel.getRecordTime() );
         }
     }
 

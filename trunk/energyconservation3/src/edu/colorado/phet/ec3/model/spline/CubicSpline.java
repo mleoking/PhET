@@ -33,8 +33,6 @@ public class CubicSpline extends AbstractSpline {
         for( int i = 0; i < numControlPoints(); i++ ) {
             cubicSpline.addControlPoint( controlPointAt( numControlPoints() - 1 - i ) );
         }
-        super.setReverseSpline( cubicSpline );
-        cubicSpline.setReverseSpline( this );
         return cubicSpline;
     }
 

@@ -18,8 +18,8 @@ public class FreeSplineMode extends ForceMode {
     private AbstractSpline spline;
     private Body body;
     private double lastDA;
-    boolean lastPositionSet = false;
-    double lastScalarPosition = 0;
+    private boolean lastPositionSet = false;
+    private double lastScalarPosition = 0;
     private boolean lastGrabState = false;
 
     public FreeSplineMode( AbstractSpline spline, Body body ) {

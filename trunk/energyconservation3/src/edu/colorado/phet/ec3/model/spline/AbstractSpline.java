@@ -27,10 +27,12 @@ public abstract class AbstractSpline implements Cloneable {
 
     private boolean areaShapeDirty = true;
     private Shape areaShape;
+
     private boolean areaDirty = true;
     private Area area = null;
+
     public static final float SPLINE_THICKNESS = 12.0f;
-    private AbstractSpline reverseSpline = null;
+//    private AbstractSpline reverseSpline = null;
 
     public boolean equals( Object obj ) {
         if( obj instanceof AbstractSpline ) {
@@ -54,6 +56,8 @@ public abstract class AbstractSpline implements Cloneable {
 
             clone.generalPathDirty = true;
             clone.areaShapeDirty = true;
+            clone.areaDirty = true;
+
 
             return clone;
         }
@@ -201,6 +205,6 @@ public abstract class AbstractSpline implements Cloneable {
     }
 
     public void setReverseSpline( AbstractSpline spline ) {
-        this.reverseSpline = spline;
+//        this.reverseSpline = spline;
     }
 }

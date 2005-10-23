@@ -44,26 +44,18 @@ public class BodyGraphic extends PNode {
     private final BufferedImage[] flames = new BufferedImage[3];
     private int flameFrame = 0;
 
-    public BodyGraphic( EC3Module ec3Module, final Body body ) {
+    public BodyGraphic( EC3Module ec3Module, Body body ) {
         this.ec3Module = ec3Module;
         this.body = body;
-
         shape = new PPath( body.getShape() );
         shape.setPaint( Color.blue );
-//        addChild( shape );
-
         try {
             BufferedImage image = ImageLoader.loadBufferedImage( "images/skater-67.png" );
-//            BufferedImage image = ImageLoader.loadBufferedImage( "images/skater-67.gif" );
-//            BufferedImage image = ImageLoader.loadBufferedImage( "images/ferrari-side2.gif" );
-//            BufferedImage image = ImageLoader.loadBufferedImage( "images/motorcycle.gif" );
             skater = new PImage( image );
             addChild( skater );
 
             centerDebugger = new PPath();
             centerDebugger.setPaint( Color.red );
-//            addChild( centerDebugger );
-//            shape.addChild( new PImage( image ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -78,8 +70,8 @@ public class BodyGraphic extends PNode {
         addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
                 PDimension delta = event.getDeltaRelativeTo( BodyGraphic.this );
-//                System.out.println( "delta = " + delta );
-                body.translate( delta.getWidth(), delta.getHeight() );
+                System.out.println( "delta = " + delta );
+                getBody().translate( delta.getWidth(), delta.getHeight() );
             }
         } );
         addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
@@ -116,17 +108,17 @@ public class BodyGraphic extends PNode {
         } );
         addInputEventListener( new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
-                body.setUserControlled( true );
-                body.setVelocity( 0, 0 );
+                getBody().setUserControlled( true );
+                getBody().setVelocity( 0, 0 );
             }
 
             public void mouseReleased( PInputEvent event ) {
-                body.setUserControlled( false );
+                getBody().setUserControlled( false );
             }
 
             public void mouseDragged( PInputEvent event ) {
-                body.setUserControlled( true );
-                body.setVelocity( 0, 0 );
+                getBody().setUserControlled( true );
+                getBody().setVelocity( 0, 0 );
             }
         } );
     }

@@ -71,9 +71,13 @@ public class EnergyConservationModel {
         for( int i = 0; i < model.splineSurfaces.size(); i++ ) {
             splineSurfaces.add( model.splineSurfaceAt( i ).copy() );
         }
+        for( int i = 0; i < model.floors.size(); i++ ) {
+            floors.add( model.floorAt( i ).copyState() );
+        }
     }
 
     public void stepInTime( double dt ) {
+//        System.out.println( "EnergyConservationModel.stepInTime" );
         for( int i = 0; i < listeners.size(); i++ ) {
             EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
             energyModelListener.preStep( dt );
@@ -85,14 +89,13 @@ public class EnergyConservationModel {
         for( int i = 0; i < floors.size(); i++ ) {
             floorAt( i ).stepInTime( dt );
         }
-
         doGrabs();
     }
 
     private void doGrabs() {
+//        System.out.println( "bodies.size() = " + bodies.size() );
         for( int i = 0; i < bodies.size(); i++ ) {
             if( bodyAt( i ).isFreeFallMode() ) {
-//                System.out.println( "EnergyConservationModel.doGrabs@" + System.currentTimeMillis() );
                 doGrab( bodyAt( i ) );
             }
         }
@@ -112,9 +115,11 @@ public class EnergyConservationModel {
         double bestScore = Double.POSITIVE_INFINITY;
         AbstractSpline bestSpline = null;
         ArrayList allSplines = getAllSplines();
+//        System.out.println( "allSplines.size() = " + allSplines.size() );
         for( int i = 0; i < allSplines.size(); i++ ) {
             AbstractSpline splineSurface = (AbstractSpline)allSplines.get( i );
             double score = getGrabScore( splineSurface, body );
+//            System.out.println( "score["+i+"] = " + score );
             if( score < bestScore ) {
                 bestScore = score;
                 bestSpline = splineSurface;

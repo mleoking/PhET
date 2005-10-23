@@ -73,7 +73,7 @@ public class EC3Module extends PiccoloModule {
     }
 
     public void stepModel( double dt ) {
-        energyModel.stepInTime( dt );
+        energyModel.stepInTime( dt / 10.0 );
     }
 
     public void activate( PhetApplication app ) {
