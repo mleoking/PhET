@@ -277,8 +277,21 @@ public abstract class TimeSeriesModel implements ClockTickListener {
 
     public void startLiveMode() {
         setLastPoint();
-        setMode( liveMode );
+        setLiveMode();
         setPaused( false );
+        notifyLiveModeStarted();
+    }
+
+    private void notifyLiveModeStarted() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            TimeSeriesModelListener timeSeriesModelListener = (TimeSeriesModelListener)listeners.get( i );
+            timeSeriesModelListener.liveModeStarted();
+        }
+    }
+
+    public void setLiveMode() {
+        setMode( liveMode );
+
     }
 
     public interface PlaybackTimeListener {

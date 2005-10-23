@@ -10,6 +10,9 @@ package edu.colorado.phet.timeseries;
  */
 public class TimeSeriesModelListenerAdapter implements TimeSeriesModelListener {
 
+    public void liveModeStarted() {
+    }
+
     public void recordingStarted() {
     }
 

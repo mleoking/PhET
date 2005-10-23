@@ -8,6 +8,8 @@ package edu.colorado.phet.timeseries;
  * Copyright (c) Mar 24, 2005 by Sam Reid
  */
 public interface TimeSeriesModelListener {
+    void liveModeStarted();
+
     void recordingStarted();
 
     void recordingPaused();
