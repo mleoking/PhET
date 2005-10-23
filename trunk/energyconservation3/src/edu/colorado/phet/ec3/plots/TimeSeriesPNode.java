@@ -36,13 +36,15 @@ public class TimeSeriesPNode {
     private DecimalFormat decimalFormat;
     private HTMLLabel htmlLabel;
     private double lastUpdateValue = Double.NaN;
+    private Object model;
 
-    public TimeSeriesPNode( TimePlotSuitePNode plotSuite, TimeSeries series, ValueAccessor valueAccessor, Color color, String justifyString ) {
+    public TimeSeriesPNode( TimePlotSuitePNode plotSuite, TimeSeries series, ValueAccessor valueAccessor, Color color, String justifyString, Object model ) {
         this.plotSuite = plotSuite;
         this.series = series;
         this.valueAccessor = valueAccessor;
         this.color = color;
         this.justifyString = justifyString;
+        this.model = model;
         series.addObserver( new TimeSeries.Observer() {
             public void dataAdded( TimeSeries timeSeries ) {
                 TimeSeriesPNode.this.dataAdded();

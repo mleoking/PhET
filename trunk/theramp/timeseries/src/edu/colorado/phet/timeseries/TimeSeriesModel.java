@@ -23,7 +23,6 @@ public abstract class TimeSeriesModel implements ClockTickListener {
     private LiveMode liveMode;
 
     public static double TIME_SCALE = 1.0;// for dynamic model.
-    private static boolean dynamicTime;
     private double maxAllowedTime;
     private ObjectTimeSeries series = new ObjectTimeSeries();
 
@@ -67,7 +66,6 @@ public abstract class TimeSeriesModel implements ClockTickListener {
         }
     }
 
-    protected abstract void setModelState( Object v );
 
     public PhetTimer getRecordTimer() {
         return recordMode.getTimer();
@@ -195,13 +193,13 @@ public abstract class TimeSeriesModel implements ClockTickListener {
         }
     }
 
+
     public void confirmAndApplyReset() {
         if( confirmReset() ) {
             reset();
         }
     }
 
-    protected abstract boolean confirmReset();
 
     public void setMode( Mode mode ) {
         boolean same = mode == this.mode;
@@ -234,24 +232,13 @@ public abstract class TimeSeriesModel implements ClockTickListener {
         return mode == recordMode && !isPaused();
     }
 
-    public void setDynamicTime( boolean dynamicTime ) {
-        TimeSeriesModel.dynamicTime = dynamicTime;
-        if( dynamicTime ) {
-            TIME_SCALE = 1.0;
-        }
-        else {
-            TIME_SCALE = 1.0 / 50.0;
-        }
-    }
-
-    public void recordingFinished() {
-//        setPaused( true );
-//        fireFinishedRecording();
-    }
-
     public abstract void updateModel( ClockTickEvent clockEvent );
 
     public abstract Object getModelState();
+
+    protected abstract void setModelState( Object v );
+
+    protected abstract boolean confirmReset();
 
     public double getMaxAllowedTime() {
         return maxAllowedTime;
@@ -291,7 +278,6 @@ public abstract class TimeSeriesModel implements ClockTickListener {
 
     public void setLiveMode() {
         setMode( liveMode );
-
     }
 
     public interface PlaybackTimeListener {

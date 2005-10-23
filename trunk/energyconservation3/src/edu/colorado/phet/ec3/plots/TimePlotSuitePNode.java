@@ -1,11 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3.plots;
 
-import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.graphics.transforms.LinearTransform2D;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
@@ -33,7 +31,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -48,7 +45,7 @@ import java.util.ArrayList;
  */
 
 public class TimePlotSuitePNode extends PNode {
-    private RampModule module;
+//    private RampModule module;
     private PSwingCanvas pCanvas;
     private Range2D range;
     private TimeSeriesModel timeSeriesModel;
@@ -69,16 +66,17 @@ public class TimePlotSuitePNode extends PNode {
     private PSwing zoomInGraphic;
     private PSwing zoomOutGraphic;
     private int zoomButtonHeight = 17;
-    private SliderGraphic slider;
+//    private SliderGraphic slider;
     private int layoutCount = 0;
     private double defaultMaxY;
     private String units;
+    private static final int MAX_TIME = 20;
 
-    public TimePlotSuitePNode( RampModule module, PSwingCanvas pCanvas, Range2D range, String name,
+    public TimePlotSuitePNode( PSwingCanvas pCanvas, Range2D range, String name,
                                String units, final TimeSeriesModel timeSeriesModel, int height, boolean useSlider ) {
         this.units = units;
         this.defaultMaxY = range.getMaxY();
-        this.module = module;
+//        this.module = module;
         this.pCanvas = pCanvas;
         this.range = range;
         this.chartHeight = height;
@@ -183,14 +181,14 @@ public class TimePlotSuitePNode extends PNode {
 
 
         JButton maximize = new JButton( name + " Graph" );
-        maximize.setFont( RampFontSet.getFontSet().getNormalButtonFont() );
+//        maximize.setFont( RampFontSet.getFontSet().getNormalButtonFont() );
         minBut.setMargin( new Insets( 2, 2, 2, 2 ) );
         maximize.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setMinimized( false );
             }
         } );
-        maximize.setBackground( EarthGraphic.earthGreen );
+//        maximize.setBackground( EarthGraphic.earthGreen );
         maxButNode = new PSwing( pCanvas, maximize );
         addChild( maxButNode );
 
@@ -209,7 +207,7 @@ public class TimePlotSuitePNode extends PNode {
             zoomOut.addListener( new ZoomButton.Listener() {
                 public void zoomChanged() {
                     double rangeY = zoomOut.getValue();
-                    setChartRange( 0, -rangeY, RampModule.MAX_TIME, rangeY );
+                    setChartRange( 0, -rangeY, MAX_TIME, rangeY );
                     zoomIn.setValue( rangeY );
                 }
             } );
@@ -219,7 +217,7 @@ public class TimePlotSuitePNode extends PNode {
             zoomIn.addListener( new ZoomButton.Listener() {
                 public void zoomChanged() {
                     double rangeY = zoomIn.getValue();
-                    setChartRange( 0, -rangeY, RampModule.MAX_TIME, rangeY );
+                    setChartRange( 0, -rangeY, MAX_TIME, rangeY );
                     zoomOut.setValue( rangeY );
                 }
             } );
@@ -230,9 +228,9 @@ public class TimePlotSuitePNode extends PNode {
             e.printStackTrace();
         }
 
-        if( useSlider ) {
-            slider = createSlider();
-        }
+//        if( useSlider ) {
+//            slider = createSlider();
+//        }
         invalidateLayout();
 
 //        maxButNode.setVisible( false );
@@ -269,130 +267,130 @@ public class TimePlotSuitePNode extends PNode {
         }
     }
 
-    static class SliderGraphic extends PNode {
-        private int width = 25;
-        private int insetX = 10;
-        private PPath thumb;
-        private TimePlotSuitePNode timePlotSuitePNode;
-        private Rectangle2D rect;
-        private BorderPNode background;
-        private BorderPNode track;
-
-        public SliderGraphic( Rectangle2D.Double dataArea, TimePlotSuitePNode timePlotSuitePNode ) {
-//            background = new PPath( dataArea );
-
-            background = new BorderPNode( timePlotSuitePNode.pCanvas,
-                                          BorderFactory.createLoweredBevelBorder(),
-                                          RectangleUtils.toRectangle( dataArea ) );
-//            addChild( background );
-
-            Rectangle center = createCenter( dataArea );
-
-            track = new BorderPNode( timePlotSuitePNode.pCanvas,
-                                     BorderFactory.createRaisedBevelBorder(),
-                                     center );
-            addChild( track );
-
-//            background.setPaint( new Color( 0, 0, 255, 75 ) );
-            this.rect = dataArea;
-            timePlotSuitePNode.getRampModule().getRampPhysicalModel().addListener( new RampPhysicalModel.Adapter() {
-                public void appliedForceChanged() {
-                    update();
-                }
-
-            } );
-            this.timePlotSuitePNode = timePlotSuitePNode;
-            thumb = new PPath();
-            Arrow arrow = new Arrow( new Point2D.Double(), new Point2D.Double( 23, 0 ), 10, 15, 7 );
-            thumb.setPathTo( arrow.getShape() );
-            thumb.setPaint( new RampLookAndFeel().getAppliedForceColor() );
-            thumb.setStroke( new BasicStroke() );
-            thumb.setStrokePaint( Color.black );
-
-            addChild( thumb );
-            thumb.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
-            thumb.addInputEventListener( new ThumbDrag( this ) );
-            setPickable( false );
-            //but leave children pickable
-            setChildrenPickable( true );
-
-            background.setPickable( false );
-            background.setChildrenPickable( false );
-        }
-
-        private Rectangle createCenter( Rectangle2D dataArea ) {
-            Rectangle2D center = new Rectangle2D.Double( dataArea.getX() + dataArea.getWidth() / 2, dataArea.getY(),
-                                                         1, dataArea.getHeight() );
-            return RectangleUtils.toRectangle( center );
-        }
-
-        static class ThumbDrag extends PBasicInputEventHandler {
-            private SliderGraphic sliderGraphic;
-
-            public ThumbDrag( SliderGraphic sliderGraphic ) {
-                this.sliderGraphic = sliderGraphic;
-            }
-
-            public void mouseReleased( PInputEvent event ) {
-                super.mouseReleased( event );
-//                if( sliderGraphic.timePlotSuitePNode.getRampModule().isRecording() ) {
-//                    sliderGraphic.timePlotSuitePNode.getRampModule().getRampPhysicalModel().setAppliedForce( 0.0 );
+//    static class SliderGraphic extends PNode {
+//        private int width = 25;
+//        private int insetX = 10;
+//        private PPath thumb;
+//        private TimePlotSuitePNode timePlotSuitePNode;
+//        private Rectangle2D rect;
+//        private BorderPNode background;
+//        private BorderPNode track;
+//
+//        public SliderGraphic( Rectangle2D.Double dataArea, TimePlotSuitePNode timePlotSuitePNode ) {
+////            background = new PPath( dataArea );
+//
+//            background = new BorderPNode( timePlotSuitePNode.pCanvas,
+//                                          BorderFactory.createLoweredBevelBorder(),
+//                                          RectangleUtils.toRectangle( dataArea ) );
+////            addChild( background );
+//
+//            Rectangle center = createCenter( dataArea );
+//
+//            track = new BorderPNode( timePlotSuitePNode.pCanvas,
+//                                     BorderFactory.createRaisedBevelBorder(),
+//                                     center );
+//            addChild( track );
+//
+////            background.setPaint( new Color( 0, 0, 255, 75 ) );
+//            this.rect = dataArea;
+//            timePlotSuitePNode.getRampModule().getRampPhysicalModel().addListener( new RampPhysicalModel.Adapter() {
+//                public void appliedForceChanged() {
+//                    update();
 //                }
-            }
+//
+//            } );
+//            this.timePlotSuitePNode = timePlotSuitePNode;
+//            thumb = new PPath();
+//            Arrow arrow = new Arrow( new Point2D.Double(), new Point2D.Double( 23, 0 ), 10, 15, 7 );
+//            thumb.setPathTo( arrow.getShape() );
+//            thumb.setPaint( new RampLookAndFeel().getAppliedForceColor() );
+//            thumb.setStroke( new BasicStroke() );
+//            thumb.setStrokePaint( Color.black );
+//
+//            addChild( thumb );
+//            thumb.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
+//            thumb.addInputEventListener( new ThumbDrag( this ) );
+//            setPickable( false );
+//            //but leave children pickable
+//            setChildrenPickable( true );
+//
+//            background.setPickable( false );
+//            background.setChildrenPickable( false );
+//        }
+//
+//        private Rectangle createCenter( Rectangle2D dataArea ) {
+//            Rectangle2D center = new Rectangle2D.Double( dataArea.getX() + dataArea.getWidth() / 2, dataArea.getY(),
+//                                                         1, dataArea.getHeight() );
+//            return RectangleUtils.toRectangle( center );
+//        }
+//
+//        static class ThumbDrag extends PBasicInputEventHandler {
+//            private SliderGraphic sliderGraphic;
+//
+//            public ThumbDrag( SliderGraphic sliderGraphic ) {
+//                this.sliderGraphic = sliderGraphic;
+//            }
+//
+//            public void mouseReleased( PInputEvent event ) {
+//                super.mouseReleased( event );
+////                if( sliderGraphic.timePlotSuitePNode.getRampModule().isRecording() ) {
+////                    sliderGraphic.timePlotSuitePNode.getRampModule().getRampPhysicalModel().setAppliedForce( 0.0 );
+////                }
+//            }
+//
+//            public void mouseDragged( PInputEvent event ) {
+//                super.mouseDragged( event );
+//                Point2D pt = event.getPositionRelativeTo( sliderGraphic );
+//                LinearTransform2D linearFunction = sliderGraphic.timePlotSuitePNode.toLinearFunction();
+//                AffineTransform inverse = linearFunction.getInverseTransform();
+//                Point2D result = inverse.transform( pt, null );
+//
+//                double y = -result.getY();
+//                if( y > sliderGraphic.timePlotSuitePNode.getMaxRangeValue() ) {
+//                    y = sliderGraphic.timePlotSuitePNode.getMaxRangeValue();
+//                }
+//                else if( y < sliderGraphic.timePlotSuitePNode.getMinRangeValue() ) {
+//                    y = sliderGraphic.timePlotSuitePNode.getMinRangeValue();
+//                }
+////                System.out.println( "y = " + y );
+//                sliderGraphic.timePlotSuitePNode.getRampModule().getRampPhysicalModel().setAppliedForce( y );
+//            }
+//        }
+//
+//        private void update() {
+//            Point2D loc = timePlotSuitePNode.toImageLocation( 0,
+//                                                              timePlotSuitePNode.getRampModule().getRampPhysicalModel().getAppliedForceScalar() );
+//            double y = loc.getY();// - thumb.getFullBounds().getHeight() / 2;
+////            System.out.println( "y = " + y );
+//            if( y < rect.getY() ) {
+//                y = rect.getY();
+//            }
+//            else if( y > rect.getMaxY() ) {
+//                y = rect.getMaxY();
+//            }
+//            thumb.setOffset( rect.getX() + 2, y );
+//        }
+//
+//        public void dataAreaChanged( Rectangle2D area ) {
+//            if( !area.equals( rect ) ) {
+//                int sliderOffsetDX = 30;
+//                rect = new Rectangle2D.Double( insetX - sliderOffsetDX, area.getY(), width, area.getHeight() );
+//                background.setBorderRectangle( RectangleUtils.toRectangle( rect ) );
+//                track.setBorderRectangle( createCenter( rect ) );
+////                background.setPathTo( rect );
+////            thumb.setOffset( rect.getX(), rect.getY() + rect.getHeight() / 2 );
+//                update();
+//            }
+//        }
+//    }
 
-            public void mouseDragged( PInputEvent event ) {
-                super.mouseDragged( event );
-                Point2D pt = event.getPositionRelativeTo( sliderGraphic );
-                LinearTransform2D linearFunction = sliderGraphic.timePlotSuitePNode.toLinearFunction();
-                AffineTransform inverse = linearFunction.getInverseTransform();
-                Point2D result = inverse.transform( pt, null );
-
-                double y = -result.getY();
-                if( y > sliderGraphic.timePlotSuitePNode.getMaxRangeValue() ) {
-                    y = sliderGraphic.timePlotSuitePNode.getMaxRangeValue();
-                }
-                else if( y < sliderGraphic.timePlotSuitePNode.getMinRangeValue() ) {
-                    y = sliderGraphic.timePlotSuitePNode.getMinRangeValue();
-                }
-//                System.out.println( "y = " + y );
-                sliderGraphic.timePlotSuitePNode.getRampModule().getRampPhysicalModel().setAppliedForce( y );
-            }
-        }
-
-        private void update() {
-            Point2D loc = timePlotSuitePNode.toImageLocation( 0,
-                                                              timePlotSuitePNode.getRampModule().getRampPhysicalModel().getAppliedForceScalar() );
-            double y = loc.getY();// - thumb.getFullBounds().getHeight() / 2;
-//            System.out.println( "y = " + y );
-            if( y < rect.getY() ) {
-                y = rect.getY();
-            }
-            else if( y > rect.getMaxY() ) {
-                y = rect.getMaxY();
-            }
-            thumb.setOffset( rect.getX() + 2, y );
-        }
-
-        public void dataAreaChanged( Rectangle2D area ) {
-            if( !area.equals( rect ) ) {
-                int sliderOffsetDX = 30;
-                rect = new Rectangle2D.Double( insetX - sliderOffsetDX, area.getY(), width, area.getHeight() );
-                background.setBorderRectangle( RectangleUtils.toRectangle( rect ) );
-                track.setBorderRectangle( createCenter( rect ) );
-//                background.setPathTo( rect );
-//            thumb.setOffset( rect.getX(), rect.getY() + rect.getHeight() / 2 );
-                update();
-            }
-        }
-    }
-
-    private SliderGraphic createSlider() {
-//        return new PPath(new Rectangle(0,0,50,200));
-        Rectangle2D.Double dataArea = plot.getDataArea();
-        SliderGraphic pPath = new SliderGraphic( dataArea, this );
-
-        return pPath;
-    }
+//    private SliderGraphic createSlider() {
+////        return new PPath(new Rectangle(0,0,50,200));
+//        Rectangle2D.Double dataArea = plot.getDataArea();
+//        SliderGraphic pPath = new SliderGraphic( dataArea, this );
+//
+//        return pPath;
+//    }
 
     private BufferedImage loadZoomInImage() throws IOException {
         return BufferedImageUtils.rescaleYMaintainAspectRatio( ImageLoader.loadBufferedImage( "images/icons/glass-20-plus.gif" ), zoomButtonHeight );
@@ -481,9 +479,9 @@ public class TimePlotSuitePNode extends PNode {
         setHasChild( !minimized, minButNode );
         setHasChild( !minimized, zoomInGraphic );
         setHasChild( !minimized, zoomOutGraphic );
-        if( slider != null ) {
-            setHasChild( !minimized, slider );
-        }
+//        if( slider != null ) {
+//            setHasChild( !minimized, slider );
+//        }
 
         for( int i = 0; i < series.size(); i++ ) {
             TimeSeriesPNode node = (TimeSeriesPNode)series.get( i );
@@ -557,9 +555,9 @@ public class TimePlotSuitePNode extends PNode {
         if( layoutCount > 100 ) {
             System.out.println( "layoutCount = " + layoutCount );
         }
-        if( slider != null ) {
-            slider.dataAreaChanged( getDataArea() );
-        }
+//        if( slider != null ) {
+//            slider.dataAreaChanged( getDataArea() );
+//        }
         minButNode.setOffset( getDataArea().getMaxX() - minButNode.getFullBounds().getWidth() - 2, 0 + 2 );
     }
 
@@ -601,7 +599,7 @@ public class TimePlotSuitePNode extends PNode {
 
     private void drawInPlotAxis() {
         Graphics2D g2 = bufferedImage.createGraphics();
-        for( int t = 2; t < RampModule.MAX_TIME; t += 2 ) {
+        for( int t = 2; t < MAX_TIME; t += 2 ) {
             Point2D imagLoc = toImageLocation( t, 0 );
             PText text = new PText( "" + t );
             text.setOffset( imagLoc.getX() - text.getWidth() / 2, imagLoc.getY() );
@@ -610,12 +608,12 @@ public class TimePlotSuitePNode extends PNode {
         }
     }
 
-    private void drawBorder( BufferedImage bufferedImage ) {
-        Graphics2D graphics2D = bufferedImage.createGraphics();
-        graphics2D.setStroke( new BasicStroke() );
-        graphics2D.setColor( Color.black );
-        graphics2D.drawRect( 0, 0, bufferedImage.getWidth() - 1, bufferedImage.getHeight() - 1 );
-    }
+//    private void drawBorder( BufferedImage bufferedImage ) {
+//        Graphics2D graphics2D = bufferedImage.createGraphics();
+//        graphics2D.setStroke( new BasicStroke() );
+//        graphics2D.setColor( Color.black );
+//        graphics2D.drawRect( 0, 0, bufferedImage.getWidth() - 1, bufferedImage.getHeight() - 1 );
+//    }
 
     private static JFreeChart createChart( Range2D range, XYDataset dataset, String title ) {
         JFreeChart chart = ChartFactory.createXYLineChart( "",
@@ -623,7 +621,7 @@ public class TimePlotSuitePNode extends PNode {
                                                            "", // y-axis label
                                                            dataset, PlotOrientation.VERTICAL, false, false, false );
 
-        chart.setBackgroundPaint( EarthGraphic.earthGreen );
+        chart.setBackgroundPaint( Color.blue );
 
         XYPlot plot = (XYPlot)chart.getPlot();
         plot.setBackgroundPaint( Color.white );
@@ -724,10 +722,6 @@ public class TimePlotSuitePNode extends PNode {
             TimeSeriesPNode timeSeriesPNode = (TimeSeriesPNode)series.get( i );
             timeSeriesPNode.repaintAll();
         }
-    }
-
-    public RampModule getRampModule() {
-        return module;
     }
 
     public double getButtonHeight() {
