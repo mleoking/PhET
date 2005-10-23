@@ -70,7 +70,7 @@ public class TimePlotSuitePNode extends PNode {
     private int layoutCount = 0;
     private double defaultMaxY;
     private String units;
-    private static final int MAX_TIME = 20;
+    private static final int MAX_TIME = 40;
 
     public TimePlotSuitePNode( PSwingCanvas pCanvas, Range2D range, String name,
                                String units, final TimeSeriesModel timeSeriesModel, int height, boolean useSlider ) {
@@ -420,27 +420,18 @@ public class TimePlotSuitePNode extends PNode {
     }
 
     private void updateGridlines() {
-
         plot.clearDomainMarkers();
-        plot.addDomainMarker( new ValueMarker( 5, Color.lightGray, new BasicStroke( 1 ) ) );
-        plot.addDomainMarker( new ValueMarker( 10, Color.lightGray, new BasicStroke( 1 ) ) );
-        plot.addDomainMarker( new ValueMarker( 15, Color.lightGray, new BasicStroke( 1 ) ) );
-        plot.addDomainMarker( new ValueMarker( 20, Color.lightGray, new BasicStroke( 1 ) ) );
-        plot.addDomainMarker( new ValueMarker( 25, Color.lightGray, new BasicStroke( 1 ) ) );
 
-//        double maxY = defaultMaxY;
+        for( int i = 5; i <= MAX_TIME; i += 5 ) {
+            plot.addDomainMarker( new ValueMarker( i, Color.lightGray, new BasicStroke( 1 ) ) );
+        }
+
         for( double y = defaultMaxY / 4; y < plot.getRangeAxis().getRange().getUpperBound(); y += defaultMaxY / 4 ) {
             plot.addRangeMarker( new ValueMarker( y, Color.lightGray, new BasicStroke( 1 ) ) );
         }
         for( double y = -defaultMaxY / 4; y > plot.getRangeAxis().getRange().getLowerBound(); y -= defaultMaxY / 4 ) {
             plot.addRangeMarker( new ValueMarker( y, Color.lightGray, new BasicStroke( 1 ) ) );
         }
-//        plot.addRangeMarker( new ValueMarker( maxY * 0.75, Color.lightGray, new BasicStroke( 1 ) ) );
-//        plot.addRangeMarker( new ValueMarker( maxY * 0.5, Color.lightGray, new BasicStroke( 1 ) ) );
-//        plot.addRangeMarker( new ValueMarker( maxY * 0.25, Color.lightGray, new BasicStroke( 1 ) ) );
-//        plot.addRangeMarker( new ValueMarker( maxY * -0.25, Color.lightGray, new BasicStroke( 1 ) ) );
-//        plot.addRangeMarker( new ValueMarker( maxY * -0.5, Color.lightGray, new BasicStroke( 1 ) ) );
-//        plot.addRangeMarker( new ValueMarker( maxY * -0.75, Color.lightGray, new BasicStroke( 1 ) ) );
     }
 
     private void updateCursorLocation() {

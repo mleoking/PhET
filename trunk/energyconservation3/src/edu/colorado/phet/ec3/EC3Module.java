@@ -34,6 +34,7 @@ public class EC3Module extends PiccoloModule {
     private TimeSeriesPlaybackPanel timeSeriesPlaybackPanel;
     private EC3TimeSeriesModel energyTimeSeriesModel;
     private JFrame chartFrame;
+    private ChartCanvas chartCanvas;
 
     /**
      * @param name
@@ -41,6 +42,7 @@ public class EC3Module extends PiccoloModule {
      */
     public EC3Module( String name, AbstractClock clock ) {
         super( name, clock );
+//        clock.setTimeScalingConverter();
         energyModel = new EnergyConservationModel( floorY );
 
         Floor floor = new Floor( getEnergyConservationModel(), energyModel.getZeroPointPotentialY() );
@@ -63,20 +65,17 @@ public class EC3Module extends PiccoloModule {
         energyFrame.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width - frameWidth, 0 );
 
         chartFrame = new JFrame( "Charts" );
-        chartFrame.setContentPane( new ChartCanvas( this ) );
-        chartFrame.setSize( 400, 400 );
+        chartCanvas = new ChartCanvas( this );
+        chartFrame.setContentPane( chartCanvas );
+        chartFrame.setSize( 800, 300 );
         chartFrame.setLocation( 0, 0 );
 
         init();
-
-
         timeSeriesPlaybackPanel = new TimeSeriesPlaybackPanel( energyTimeSeriesModel );
-
-
     }
 
     public void stepModel( double dt ) {
-        energyModel.stepInTime( dt / 10.0 );
+        energyModel.stepInTime( dt );
     }
 
     public void activate( PhetApplication app ) {
@@ -110,6 +109,7 @@ public class EC3Module extends PiccoloModule {
         energyCanvas.reset();
         energyTimeSeriesModel.reset();
         energyTimeSeriesModel.setLiveMode();
+        chartCanvas.reset();
         init();
     }
 
