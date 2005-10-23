@@ -189,6 +189,15 @@ public class BodyGraphic extends PNode {
         dragHistory.add( o );
     }
 
+    public Body getBody() {
+        return body;
+    }
+
+    public void setBody( Body body ) {
+        this.body = body;
+        update();
+    }
+
     private class DataPoint {
         double time;
         double x;
@@ -205,7 +214,7 @@ public class BodyGraphic extends PNode {
         }
     }
 
-    private void update() {
+    public void update() {
 //        setOffset( body.getX(), body.getY() );
 
         shape.setPathTo( body.getLocatedShape() );

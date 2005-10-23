@@ -27,7 +27,14 @@ public class TimeSeriesPlaybackPanel extends JPanel {
     public TimeSeriesPlaybackPanel( final TimeSeriesModel timeSeriesModel ) {
         this.timeSeriesModel = timeSeriesModel;
 
-        record = new JButton( "Record" );
+        ImageIcon recordIcon = null;
+        try {
+            recordIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Movie24.gif" ) );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        record = new JButton( "Record", recordIcon );
         record.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.setRecordMode();
@@ -93,13 +100,18 @@ public class TimeSeriesPlaybackPanel extends JPanel {
             }
         } );
 
-        clear = new JButton( SimStrings.get( "Clear" ) );
+        try {
+            clear = new JButton( SimStrings.get( "Clear" ), new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Stop24.gif" ) ) );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
         clear.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.confirmAndApplyReset();
             }
         } );
-//        add( record );
+        add( record );
         add( play );
         add( slowMotion );
         add( pause );
