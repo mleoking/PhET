@@ -340,7 +340,9 @@ public class GameControlPanel extends FourierControlPanel implements SimpleObser
             for ( int i = 0; i < randomFourierSeries.getNumberOfHarmonics(); i++ ) {
                 
                 double dAmplitude = randomFourierSeries.getHarmonic( i ).getAmplitude();
-                String sAmplitude = CHEAT_FORMAT.format( dAmplitude );
+                // WORKAROUND: DecimalFormat does non-standard rounding, so truncate ala GameManager.isMatch
+                double truncAmplitude = Math.floor( dAmplitude / 0.01 ) * 0.01;
+                String sAmplitude = CHEAT_FORMAT.format( truncAmplitude );
                 
                 JLabel label = new JLabel( "<html>A<sub>" + (i+1) + "</sub> = </html>" );
                 JLabel value = new JLabel( sAmplitude );
