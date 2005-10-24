@@ -23,6 +23,7 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
@@ -452,6 +453,8 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
 
     public void velocityChanged( Photon.VelocityChangedEvent event ) {
         createImage( (Photon)event.getSource() );
+        computeOffsets( photon.getVelocity().getAngle() );
+        setLocation( (int)( photon.getPosition().getX() - xOffset ), (int)( photon.getPosition().getY() - yOffset ) );
     }
 
     /**
@@ -489,9 +492,6 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
             xOffset = w * Math.cos( alpha ) + ( h / 2 ) * Math.sin( alpha );
             yOffset = ( h / 2 ) * Math.cos( alpha );
         }
-//        System.out.print( "theta = " + theta );
-//        System.out.print( "    xOffset = " + xOffset );
-//        System.out.println( "    yOffset = " + yOffset );
     }
 
 

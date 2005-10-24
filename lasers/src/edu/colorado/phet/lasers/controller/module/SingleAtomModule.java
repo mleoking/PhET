@@ -150,6 +150,8 @@ public class SingleAtomModule extends BaseLaserModule {
 
         // Add the Wiggle-me
         addWiggleMe( seedBeam );
+
+
     }
 
     /**
