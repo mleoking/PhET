@@ -114,6 +114,14 @@ public class Lattice extends Body implements Binder {
                         cm.getY() / ions.size() );
     }
 
+    //----------------------------------------------------------------
+    // Getters and setters
+    //----------------------------------------------------------------
+
+    public Atom getSeed() {
+        return seed;
+    }
+
     protected ArrayList getIons() {
         return ions;
     }
