@@ -71,8 +71,10 @@ public class Photon extends Particle implements Collidable {
         stimulatingPhoton.numStimulatedPhotons++;
         Photon newPhoton = create( stimulatingPhoton.getWavelength(), location,
                                    stimulatingPhoton.getVelocity() );
+//        int yOffset = stimulatingPhoton.numStimulatedPhotons * 16;
         int yOffset = stimulatingPhoton.numStimulatedPhotons * 4;
 //        int yOffset = stimulatingPhoton.numStimulatedPhotons * 8;
+//        int sign = 1;
         int sign = random.nextBoolean() ? 1 : -1;
         double dy = yOffset * sign * ( stimulatingPhoton.getVelocity().getX() / stimulatingPhoton.getVelocity().getMagnitude() );
         double dx = yOffset * -sign * ( stimulatingPhoton.getVelocity().getY() / stimulatingPhoton.getVelocity().getMagnitude() );
