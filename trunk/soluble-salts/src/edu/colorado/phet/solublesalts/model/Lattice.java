@@ -202,7 +202,7 @@ public class Lattice extends Body implements Binder {
             sumX = random.nextDouble();
             sumY = random.nextDouble();
             System.out.println( "Lattice.determineReleaseVelocity:  release velocity = 0" );
-//            throw new RuntimeException( "releave velocity = (0:0)" );
+//            throw new RuntimeException( "release velocity = (0:0)" );
         }
         Vector2D releaseVelocity = new Vector2D.Double( sumX / openSites.size(),
                                                         sumY / openSites.size() );
