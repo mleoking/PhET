@@ -66,7 +66,7 @@ public class SolubleSaltsModel extends BaseModel {
         addModelElement( vessel );
 
         addModelElement( new ModelElement() {
-            IonVesselCollisionExpert ionVesselCollisionExpert = new IonVesselCollisionExpert();
+            IonVesselCollisionExpert ionVesselCollisionExpert = new IonVesselCollisionExpert( SolubleSaltsModel.this );
 
             public void stepInTime( double dt ) {
                 for( int i = 0; i < numModelElements(); i++ ) {
