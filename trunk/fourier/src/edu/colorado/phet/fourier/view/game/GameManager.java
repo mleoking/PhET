@@ -351,8 +351,8 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
            double randomAmplitude = _randomFourierSeries.getHarmonic( i ).getAmplitude();
            
            // Truncate the amplitudes to 2 significant decimal places.
-           userAmplitude = (int)( userAmplitude / AMPLITUDE_STEP ) * AMPLITUDE_STEP;
-           randomAmplitude = (int)( randomAmplitude / AMPLITUDE_STEP ) * AMPLITUDE_STEP;
+           userAmplitude = Math.floor( userAmplitude / AMPLITUDE_STEP ) * AMPLITUDE_STEP;
+           randomAmplitude = Math.floor( randomAmplitude / AMPLITUDE_STEP ) * AMPLITUDE_STEP;
            
            if ( ( randomAmplitude < 0 && userAmplitude > 0 ) || ( randomAmplitude > 0 && userAmplitude < 0 ) ) {
                // sign is wrong

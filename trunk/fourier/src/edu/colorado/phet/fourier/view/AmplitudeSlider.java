@@ -473,7 +473,9 @@ public class AmplitudeSlider extends GraphicLayerSet
         _labelGraphic.setLocation( 0, -( ( _maxSize.height / 2 ) + LABEL_Y_OFFSET ) );
         
         // Value
-        _valueTextField.setText( _valueFormatter.format( amplitude ) );
+        // WORKAROUND: DecimalFormat does non-standard rounding, so truncate ala GameManager.isMatch
+        double truncAmplitude = Math.floor( amplitude / 0.01 ) * 0.01;
+        _valueTextField.setText( _valueFormatter.format( truncAmplitude ) );
         _valueGraphic.setLocation( 0, -( ( _maxSize.height / 2 ) + VALUE_Y_OFFSET ) );
         
         // Track size
