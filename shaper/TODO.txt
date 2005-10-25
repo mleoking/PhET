@@ -7,14 +7,15 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - show a "kaboom" graphic when the molecule explodes
-- make the molecule parts travel across the entire apparatus panel when it explodes (no clip)
 - calculate "closeness" using Mike Dubson's formula
 - how close do we have to be to match the output pulse?
 - different molecule graphic for each output pulse preset
 - magnifying glass graphic for molecule
+- add Help>Explanation dialog
 
 
 MEDIUM PRIORITY:
+- separate model & view for molecule animation
 - wait cursors
 - Spanish translations
 - make amplitude sliders 254 pixels tall so that every value can be achieved
@@ -45,6 +46,9 @@ PHETCOMMON:
 
 
 DONE:
+(10/25/05) - slow down the molecule animation, make the acceleration rate configurable
+(10/25/05) - put the molecule animation in the top-most graphics layer
+(10/25/05) - make the molecule parts travel across the entire apparatus panel when it explodes (no clip)
 (10/25/05) - remove the "Show output pulse" control
 (10/25/05) - put "New output pulse" button on output pulse view
 (10/25/05) - change alpha of light beam to match amplitudes

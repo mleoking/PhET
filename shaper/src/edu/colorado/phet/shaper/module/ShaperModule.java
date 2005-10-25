@@ -136,13 +136,6 @@ public class ShaperModule extends AbstractModule implements ActionListener {
             newButtonGraphic.setLocation( 995, 490 ); // upper right, for i18n
             apparatusPanel.addGraphic( newButtonGraphic );
         }
-            
-        // Molecule animation
-        _animation = new MoleculeAnimation( apparatusPanel );
-        apparatusPanel.addGraphic( _animation );
-        _animation.setLocation( 515, 222 );
-        _animation.updateClip(); // must be done after added to apparatus panel & location is set
-        model.addModelElement( _animation );//XXX need to separate model & view here
         
         // Light rays
         LightRays lightRays = new LightRays( apparatusPanel, _userFourierSeries );
@@ -232,6 +225,12 @@ public class ShaperModule extends AbstractModule implements ActionListener {
         apparatusPanel.addGraphic( _cheatPanel );
         _cheatPanel.setLocation( 68, 160 );
         _cheatPanel.setVisible( false );
+
+        // Molecule animation
+        _animation = new MoleculeAnimation( apparatusPanel );
+        apparatusPanel.addGraphic( _animation );
+        _animation.setLocation( 515, 222 );
+        model.addModelElement( _animation );//XXX need to separate model & view here
         
         //----------------------------------------------------------------------------
         // Control
