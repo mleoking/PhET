@@ -20,7 +20,7 @@ information.
   codebase="http://www.colorado.edu/physics/phet/simulations"
   href="shaper/shaper.jnlp"> 
   <information> 
-    <title>Optical Pulse Shaper</title>
+    <title>Optical Quantum Control</title>
     <vendor>University of Colorado, Department of Physics</vendor> 
     <homepage href="docs/help.html"/> 
     <description></description> 
