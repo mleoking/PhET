@@ -13,6 +13,7 @@ HIGH PRIORITY:
 
 
 MEDIUM PRIORITY:
+- add more molecule graphics
 - change title to "Optical Pulse Shaping for Quantum Control"
 - Spanish translations
 - make amplitude sliders 254 pixels tall so that every value can be achieved
