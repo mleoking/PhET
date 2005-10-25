@@ -92,7 +92,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         _closenessGraphic = new HTMLGraphic( component );
         _closenessGraphic.setColor( Color.BLACK );
         _closenessGraphic.setFont( new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 18 ) );
-        _closenessFormat = SimStrings.get( "ShaperControls.closeness" );
+        _closenessFormat = SimStrings.get( "closenessReadout" );
         Object[] args = { "00" };
         String text = MessageFormat.format( _closenessFormat, args );
         _closenessGraphic.setHTML( text );

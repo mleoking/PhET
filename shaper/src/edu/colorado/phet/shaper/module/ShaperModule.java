@@ -11,19 +11,28 @@
 
 package edu.colorado.phet.shaper.module;
 
-import java.awt.*;
-import java.awt.geom.GeneralPath;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Point;
+import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
+import java.util.Random;
+
+import javax.swing.JButton;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.shaper.ShaperConstants;
-import edu.colorado.phet.shaper.control.ShaperControls;
+import edu.colorado.phet.shaper.enum.Molecule;
 import edu.colorado.phet.shaper.help.ShaperHelpItem;
 import edu.colorado.phet.shaper.model.FourierSeries;
 import edu.colorado.phet.shaper.view.*;
@@ -35,7 +44,7 @@ import edu.colorado.phet.shaper.view.*;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ShaperModule extends AbstractModule {
+public class ShaperModule extends AbstractModule implements ActionListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -64,7 +73,9 @@ public class ShaperModule extends AbstractModule {
     private InputPulseView _inputPulseView;
     private OutputPulseView _outputPulseView;
     private MoleculeAnimation _animation;
+    private JButton _newButton;
     private CheatPanel _cheatPanel;
+    private int _moleculeIndex;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -105,24 +116,28 @@ public class ShaperModule extends AbstractModule {
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         setApparatusPanel( apparatusPanel );
         
+        // Input Pulse view
         _inputPulseView = new InputPulseView( apparatusPanel );
         apparatusPanel.addGraphic( _inputPulseView );
         _inputPulseView.setLocation( 470, 15 );
       
-        // Physical connection between output pulse view and molecule animation
-        {
-            PhetShapeGraphic connection = new PhetShapeGraphic( apparatusPanel );
-            connection.setIgnoreMouse( true );
-            connection.setShape( new Rectangle( 0, 0, 30, 60 ) );
-            connection.setColor( new Color( 215, 215, 215 ) );
-            connection.setLocation( 515, 465 );
-            apparatusPanel.addGraphic( connection );
-        }
-        
+        // Output Pulse view
         _outputPulseView = new OutputPulseView( apparatusPanel, _userFourierSeries, _outputFourierSeries );
         apparatusPanel.addGraphic( _outputPulseView );
         _outputPulseView.setLocation( 470, 490 );
-              
+        
+        // "New Output Pulse" button
+        {     
+            _newButton = new JButton( SimStrings.get( "newOutputPulse" ) );
+            _newButton.setOpaque( false );
+            _newButton.addActionListener( this );
+            PhetGraphic newButtonGraphic = PhetJComponent.newInstance( apparatusPanel, _newButton );
+            newButtonGraphic.setRegistrationPoint( newButtonGraphic.getWidth(), 0 );
+            newButtonGraphic.setLocation( 995, 490 ); // upper right, for i18n
+            apparatusPanel.addGraphic( newButtonGraphic );
+        }
+            
+        // Molecule animation
         _animation = new MoleculeAnimation( apparatusPanel );
         apparatusPanel.addGraphic( _animation );
         _animation.setLocation( 515, 222 );
@@ -207,10 +222,12 @@ public class ShaperModule extends AbstractModule {
             apparatusPanel.addGraphic( downArrowGraphic );
         }
         
+        // Amplitude sliders
         _amplitudesView = new AmplitudesView( apparatusPanel, _userFourierSeries );
         apparatusPanel.addGraphic( _amplitudesView );
         _amplitudesView.setLocation( 15, 250 );
         
+        // Cheat panel
         _cheatPanel = new CheatPanel( apparatusPanel, _outputFourierSeries );
         apparatusPanel.addGraphic( _cheatPanel );
         _cheatPanel.setLocation( 68, 160 );
@@ -220,14 +237,8 @@ public class ShaperModule extends AbstractModule {
         // Control
         //----------------------------------------------------------------------------
 
-        // Controls on the apparatus panel
-        ShaperControls controlPanel = new ShaperControls( apparatusPanel, 
-                _userFourierSeries, _outputFourierSeries, _outputPulseView );
-        apparatusPanel.addGraphic( controlPanel );
-        controlPanel.setLocation( 800, 387 );
-
         // Game manager
-        GameManager gameManager = new GameManager( _userFourierSeries, _outputFourierSeries, _animation, controlPanel );
+        GameManager gameManager = new GameManager( this, _userFourierSeries, _outputFourierSeries, _animation );
         _animation.setGameManager( gameManager );
         
         //----------------------------------------------------------------------------
@@ -267,7 +278,10 @@ public class ShaperModule extends AbstractModule {
      * Resets everything to the initial state.
      */
     public void reset() {
-        // This simulation has no Reset button.
+        // Starting with a randomly-selected molecule, generate a new "game".
+        Random random = new Random();
+        _moleculeIndex = random.nextInt( Molecule.getNumberOfMolecules() );
+        newGame();
     }
     
     //----------------------------------------------------------------------------
@@ -276,5 +290,42 @@ public class ShaperModule extends AbstractModule {
     
     public void setCheatEnabled( boolean enabled ) {
         _cheatPanel.setVisible( enabled );
+    }
+    
+    //----------------------------------------------------------------------------
+    // ActionListener implementation
+    //----------------------------------------------------------------------------
+    
+    public void actionPerformed( ActionEvent e ) {
+        if ( e.getSource() == _newButton ) {
+            newGame();
+        }
+    }
+    
+    public void newGame() {
+        _userFourierSeries.setAdjusting( true );
+        _outputFourierSeries.setAdjusting( true );
+        
+        // Set the user's amplitudes to zero.
+        for ( int i = 0; i < _userFourierSeries.getNumberOfHarmonics(); i++ ) {
+            _userFourierSeries.getHarmonic( i ).setAmplitude( 0 );
+        }
+        
+        // Set the output pulse amplitudes to the next molecule.
+        Molecule molecule = Molecule.getByIndex( _moleculeIndex );
+        double[] amplitudes = Molecule.getAmplitudes( molecule );
+        for ( int i = 0; i < _outputFourierSeries.getNumberOfHarmonics(); i++ ) {
+            _outputFourierSeries.getHarmonic( i ).setAmplitude( amplitudes[i] );
+        }
+        _moleculeIndex++;
+        if ( _moleculeIndex >= Molecule.getNumberOfMolecules() ) {
+            _moleculeIndex = 0;
+        }
+        
+        // Reset the animation
+        _animation.reset();
+        
+        _userFourierSeries.setAdjusting( false );
+        _outputFourierSeries.setAdjusting( false );
     }
 }
