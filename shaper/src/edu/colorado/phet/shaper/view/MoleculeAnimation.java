@@ -76,7 +76,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         
         PhetShapeGraphic background = new PhetShapeGraphic( component );
         background.setShape( new Rectangle( 0, 0, BACKGROUND_SIZE.width, BACKGROUND_SIZE.height ) );
-        background.setColor( Color.LIGHT_GRAY );
+        background.setColor(  new Color( 215, 215, 215 ) );
         addGraphic( background );
         
         _animationFrame = new PhetShapeGraphic( component );
