@@ -7,14 +7,16 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - control panel on apparatus panel sometimes is drawn incorrectly
-- correct calculation for "closeness"
+- what is the correct calculation for "closeness"?
 - how close do we have to be to match the output pulse?
-- wait cursors
 
 
 MEDIUM PRIORITY:
-- add more molecule graphics
-- change title to "Optical Pulse Shaping for Quantum Control"
+- add more molecule graphics?
+- change title to "Optical Pulse Shaping for Quantum Control"?
+- get rid of "Show output pulse" control?
+- put "New output pulse" button on output pulse view?
+- wait cursors
 - Spanish translations
 - make amplitude sliders 254 pixels tall so that every value can be achieved
 
