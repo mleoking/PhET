@@ -16,6 +16,7 @@ import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 
@@ -124,6 +125,7 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
         energyRep = new Ellipse2D.Double( -energyRepRad, -energyRepRad, energyRepRad * 2, energyRepRad * 2 );
         energyGraphic.setShape( energyRep );
         energyGraphic.setColor( energyRepColorStrategy.getColor( atom ) );
+        energyGraphic.setColor( Color.green );
 
         // Set the radius of the atom to be the same as the energy rep.
         atom.setRadius( energyRep.getWidth() / 2 );
@@ -218,17 +220,18 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
     /**
      * Picks a Color to represent the energy level of an atom
      */
-    private interface EnergyRepColorStrategy {
+    protected interface EnergyRepColorStrategy {
         Color getColor( Atom atom );
     }
 
     /**
      * Picks an RGB color that renders the color corresponding to the energy level of the atom
      */
-    private class VisibleColorStrategy implements EnergyRepColorStrategy {
+    protected class VisibleColorStrategy implements EnergyRepColorStrategy {
 
         public Color getColor( Atom atom ) {
-            double wavelength = atom.getCurrState().getWavelength();
+            double de = atom.getCurrState().getEnergyLevel() - atom.getGroundState().getEnergyLevel();
+            double wavelength = PhysicsUtil.energyToWavelength( de );
             return VisibleColor.wavelengthToColor( wavelength );
         }
     }
@@ -236,7 +239,7 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
     /**
      * Picks a shade of gray for the energy rep color.
      */
-    private class GrayScaleStrategy implements EnergyRepColorStrategy {
+    protected class GrayScaleStrategy implements EnergyRepColorStrategy {
         private Color[] grayScale = new Color[240];
 
         GrayScaleStrategy() {
@@ -251,6 +254,7 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
             idx = Math.min( Math.max( 0, idx ), grayScale.length - 1 );
             return grayScale[idx];
         }
+
 
     }
 }

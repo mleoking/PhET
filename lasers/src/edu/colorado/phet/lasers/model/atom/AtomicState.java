@@ -300,11 +300,6 @@ public class AtomicState {
             // the window. This is not great programming
             return minWavelength - 80;
         }
-
-        public double getEnergyLevel() {
-            return super.getEnergyLevel();
-//            return PhysicsUtil.wavelengthToEnergy( getWavelength() );
-        }
     }
 
     /**

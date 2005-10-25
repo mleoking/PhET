@@ -47,8 +47,8 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
     private int minPixelsBetweenLevels = EnergyLifetimeSlider.sliderHeight;
 
     // Strategy for setting to color of this energy level graphic
-    private ColorStrategy colorStrategy = new BlackStrategy();
-//    private ColorStrategy colorStrategy = new VisibleColorStrategy();
+//    private ColorStrategy colorStrategy = new BlackStrategy();
+    private ColorStrategy colorStrategy = new VisibleColorStrategy();
 
     public void fireMousePressed( MouseEvent e ) {
         super.fireMousePressed( e );
