@@ -6,9 +6,6 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-
-- change alpha of rainbow bars to match amplitutes
-- change alpha of output white light to match amplitude
 - show a "kaboom" graphic when the molecule explodes
 - make the molecule parts travel across the entire apparatus panel when it explodes (no clip)
 - remove the "Show output pulse" control
@@ -50,6 +47,7 @@ PHETCOMMON:
 
 
 DONE:
+(10/25/05) - change alpha of light beam to match amplitudes
 (10/25/05) - change title to "Optical Quantum Control", per Carl
 0.0.2 ...
 (10/24/05) - setIgnoreMouse(true) where ever possible
