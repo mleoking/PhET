@@ -27,6 +27,7 @@ public class EC3RootNode extends PhetRootPNode {
     private PNode buses;
     private EC3Module ec3Module;
     private EC3Canvas ec3Canvas;
+    private PNode historyGraphics = new PNode();
 
     public EC3RootNode( EC3Module ec3Module, EC3Canvas ec3Canvas ) {
         this.ec3Module = ec3Module;
@@ -40,6 +41,7 @@ public class EC3RootNode extends PhetRootPNode {
         addWorldChild( new FloorGraphic( floor ) );
         addWorldChild( splineGraphics );
         addWorldChild( bodyGraphics );
+        addWorldChild( historyGraphics );
 
         PhetRootPNode.Layer topLayer = new Layer();
         addLayer( topLayer );
@@ -124,6 +126,37 @@ public class EC3RootNode extends PhetRootPNode {
     public void updateGraphics() {
         updateSplines();
         updateBodies();
+        updateHistory();
+    }
+
+    private void updateHistory() {
+        System.out.println( "numHistoryGraphics() = " + numHistoryGraphics() );
+        System.out.println( "getModel().numHistoryPoints() = " + getModel().numHistoryPoints() );
+        while( numHistoryGraphics() < getModel().numHistoryPoints() ) {
+            addHistoryGraphic( new HistoryPointGraphic( getModel().historyPointAt( 0 ) ) );
+        }
+        while( numHistoryGraphics() > getModel().numHistoryPoints() ) {
+            removeHistoryPointGraphic( historyGraphicAt( numHistoryGraphics() - 1 ) );
+        }
+        for( int i = 0; i < getModel().numHistoryPoints(); i++ ) {
+            historyGraphicAt( i ).setHistoryPoint( getModel().historyPointAt( i ) );
+        }
+    }
+
+    private HistoryPointGraphic historyGraphicAt( int i ) {
+        return (HistoryPointGraphic)historyGraphics.getChild( i );
+    }
+
+    private void removeHistoryPointGraphic( HistoryPointGraphic graphic ) {
+        historyGraphics.removeChild( graphic );
+    }
+
+    private void addHistoryGraphic( HistoryPointGraphic historyPointGraphic ) {
+        historyGraphics.addChild( historyPointGraphic );
+    }
+
+    private int numHistoryGraphics() {
+        return historyGraphics.getChildrenCount();
     }
 
     private void updateBodies() {
