@@ -6,19 +6,24 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- control panel on apparatus panel sometimes is drawn incorrectly
-- what is the correct calculation for "closeness"?
+
+- change alpha of rainbow bars to match amplitutes
+- change alpha of output white light to match amplitude
+- show a "kaboom" graphic when the molecule explodes
+- make the molecule parts travel across the entire apparatus panel when it explodes (no clip)
+- remove the "Show output pulse" control
+- put "New output pulse" button on output pulse view
+- calculate "closeness" using Mike Dubson's formula
 - how close do we have to be to match the output pulse?
+- different molecule graphic for each output pulse preset
+- magnifying glass graphic for molecule
 
 
 MEDIUM PRIORITY:
-- add more molecule graphics?
-- change title to "Optical Pulse Shaping for Quantum Control"?
-- get rid of "Show output pulse" control?
-- put "New output pulse" button on output pulse view?
 - wait cursors
 - Spanish translations
 - make amplitude sliders 254 pixels tall so that every value can be achieved
+
 
 LOW PRIORITY:
 
@@ -45,6 +50,8 @@ PHETCOMMON:
 
 
 DONE:
+(10/25/05) - change title to "Optical Quantum Control", per Carl
+0.0.2 ...
 (10/24/05) - setIgnoreMouse(true) where ever possible
 (10/24/05) - physically connect molecule animation to output pulse view
 (10/24/05) - molecule animation
