@@ -34,20 +34,24 @@ public class EC3RootNode extends PhetRootPNode {
         this.ec3Canvas = ec3Canvas;
         EnergyConservationModel ec3Model = getModel();
         Floor floor = ec3Model.floorAt( 0 );
-        PhetRootPNode.Layer layer = new PhetRootPNode.Layer();
-        addLayer( layer, 0 );
-
-        addWorldChild( new SkyGraphic( floor.getY() ) );
-        addWorldChild( new FloorGraphic( floor ) );
-        addWorldChild( splineGraphics );
-        addWorldChild( bodyGraphics );
-        addWorldChild( historyGraphics );
-
-        PhetRootPNode.Layer topLayer = new Layer();
-        addLayer( topLayer );
-
         SplineToolbox splineToolbox = new SplineToolbox( ec3Canvas, 50, 50 );
-        topLayer.addChild( splineToolbox );
+
+        addLayer();
+        addLayer();
+//        PhetRootPNode.Layer layer1 = new PhetRootPNode.Layer();
+//        addLayer( layer1, 0 );
+        layerAt( 0 ).getWorldNode().addChild( new SkyGraphic( floor.getY() ) );
+        layerAt( 0 ).getWorldNode().addChild( new FloorGraphic( floor ) );
+
+        layerAt( 0 ).getScreenNode().addChild( splineToolbox );
+        layerAt( 1 ).getWorldNode().addChild( splineGraphics );
+        layerAt( 1 ).getWorldNode().addChild( bodyGraphics );
+        layerAt( 1 ).getWorldNode().addChild( historyGraphics );
+
+//        PhetRootPNode.Layer topLayer = new Layer();
+//        addLayer( topLayer );
+
+
     }
 
     private EnergyConservationModel getModel() {
