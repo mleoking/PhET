@@ -112,6 +112,7 @@ public class ShaperModule extends AbstractModule {
         // Physical connection between output pulse view and molecule animation
         {
             PhetShapeGraphic connection = new PhetShapeGraphic( apparatusPanel );
+            connection.setIgnoreMouse( true );
             connection.setShape( new Rectangle( 0, 0, 30, 60 ) );
             connection.setColor( new Color( 215, 215, 215 ) );
             connection.setLocation( 515, 465 );
@@ -162,8 +163,9 @@ public class ShaperModule extends AbstractModule {
                     beam.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
                     beam.setShape( path );
                     beam.setColor( HarmonicColors.getInstance().getColor( order++ ) );
-                    apparatusPanel.addGraphic( beam );
                     beam.setLocation( 0, 0 );
+                    beam.setIgnoreMouse( true );
+                    apparatusPanel.addGraphic( beam );
                 }
             }
             
@@ -194,8 +196,9 @@ public class ShaperModule extends AbstractModule {
                     beam.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
                     beam.setShape( path );
                     beam.setColor( HarmonicColors.getInstance().getColor( order++ ) );
-                    apparatusPanel.addGraphic( beam );
                     beam.setLocation( 0, 0 );
+                    beam.setIgnoreMouse( true );
+                    apparatusPanel.addGraphic( beam );
                 }
             }
         }
@@ -212,8 +215,9 @@ public class ShaperModule extends AbstractModule {
             inputMirrorLabel.setFont( new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 18 ) );
             inputMirrorLabel.setColor( Color.BLACK );
             inputMirrorLabel.setHTML( SimStrings.get( "Mirror.label" ) );
-            apparatusPanel.addGraphic( inputMirrorLabel );
             inputMirrorLabel.setLocation( 55, 15 );
+            inputMirrorLabel.setIgnoreMouse( true );
+            apparatusPanel.addGraphic( inputMirrorLabel );
         }
         
         // Output mirror
@@ -226,8 +230,9 @@ public class ShaperModule extends AbstractModule {
             outputMirrorLabel.setFont( new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 18 ) );
             outputMirrorLabel.setColor( Color.BLACK );
             outputMirrorLabel.setHTML( SimStrings.get( "Mirror.label" ) );
-            apparatusPanel.addGraphic( outputMirrorLabel );
             outputMirrorLabel.setLocation( 55, 655 );
+            outputMirrorLabel.setIgnoreMouse( true );
+            apparatusPanel.addGraphic( outputMirrorLabel );
         }
         
         // White light rays
@@ -238,6 +243,7 @@ public class ShaperModule extends AbstractModule {
             inputLight.setColor( Color.WHITE );
             inputLight.rotate( Math.toRadians( 8 ) );
             inputLight.setLocation( 447, 124 );
+            inputLight.setIgnoreMouse( true );
             apparatusPanel.addGraphic( inputLight );
             
             PhetShapeGraphic outputLight = new PhetShapeGraphic( apparatusPanel );
@@ -246,10 +252,11 @@ public class ShaperModule extends AbstractModule {
             outputLight.setColor( Color.WHITE );
             outputLight.rotate( Math.toRadians( -180 - 8 ) );
             outputLight.setLocation( 447 + 10, 570 );
+            outputLight.setIgnoreMouse( true );
             apparatusPanel.addGraphic( outputLight );
         }
         
-        // Diffusion gratings
+        // Diffraction gratings
         {
             DiffractionGrating inputGrating = new DiffractionGrating( apparatusPanel );
             apparatusPanel.addGraphic( inputGrating );
@@ -267,24 +274,27 @@ public class ShaperModule extends AbstractModule {
             gratingsLabel.setFont( new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 18 ) );
             gratingsLabel.setColor( Color.LIGHT_GRAY );
             gratingsLabel.setHTML( SimStrings.get( "DiffractionGratings.label" ) );
-            apparatusPanel.addGraphic( gratingsLabel );
             gratingsLabel.setLocation( 415, 325 );
+            gratingsLabel.setIgnoreMouse( true );
+            apparatusPanel.addGraphic( gratingsLabel );
 
             Arrow upArrow = new Arrow( new Point2D.Double( 0, 0 ), new Point2D.Double( -10, -40 ), 10, 10, 4 );
             PhetShapeGraphic upArrowGraphic = new PhetShapeGraphic( apparatusPanel );
             upArrowGraphic.setShape( upArrow.getShape() );
             upArrowGraphic.setColor( Color.LIGHT_GRAY );
             upArrowGraphic.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-            apparatusPanel.addGraphic( upArrowGraphic );
             upArrowGraphic.setLocation( 440, 315 );
+            upArrowGraphic.setIgnoreMouse( true );
+            apparatusPanel.addGraphic( upArrowGraphic );
             
             Arrow downArrow = new Arrow( new Point2D.Double( 0, 0 ), new Point2D.Double( -10, 40 ), 10, 10, 4 );
             PhetShapeGraphic downArrowGraphic = new PhetShapeGraphic( apparatusPanel );
             downArrowGraphic.setShape( downArrow.getShape() );
             downArrowGraphic.setColor( Color.LIGHT_GRAY );
             downArrowGraphic.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-            apparatusPanel.addGraphic( downArrowGraphic );
+            downArrowGraphic.setIgnoreMouse( true );
             downArrowGraphic.setLocation( 440, 380 );
+            apparatusPanel.addGraphic( downArrowGraphic );
         }
         
         _amplitudesView = new AmplitudesView( apparatusPanel, _userFourierSeries );
@@ -319,8 +329,9 @@ public class ShaperModule extends AbstractModule {
         instructions.setHTML( SimStrings.get( "instructions" ) );
         instructions.setFont( new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 18 ) );
         instructions.setColor( ShaperConstants.OUTPUT_PULSE_COLOR );
-        apparatusPanel.addGraphic( instructions );
         instructions.setLocation( 800, 250 );
+        instructions.setIgnoreMouse( true );
+        apparatusPanel.addGraphic( instructions );
         
         // Help Items
         ShaperHelpItem slidersHelp = new ShaperHelpItem( apparatusPanel, SimStrings.get( "Help.amplitude.sliders" ) );

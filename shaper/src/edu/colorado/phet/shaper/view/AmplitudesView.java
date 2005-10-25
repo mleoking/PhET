@@ -152,16 +152,6 @@ public class AmplitudesView extends GraphicLayerSet implements SimpleObserver {
             addGraphic( _resetButtonGraphic, BUTTONS_LAYER );
             _resetButtonGraphic.setLocation( 5, 5 );
             _resetButtonGraphic.scale( 0.7 );
-            
-            _resetButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    // Set all the harmonic amplitudes to zero.
-                    int numberOfHarmonics = _fourierSeries.getNumberOfHarmonics();
-                    for ( int i = 0; i < numberOfHarmonics; i++ ) {
-                        _fourierSeries.getHarmonic( i ).setAmplitude( 0 );
-                    }
-                }
-            } );
         }
         
         // Interactivity
@@ -171,6 +161,17 @@ public class AmplitudesView extends GraphicLayerSet implements SimpleObserver {
             _flattenedChart.setIgnoreMouse( true );
             
             // sliders handle their own interactivity
+            
+            // Reset button
+            _resetButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    // Set all the harmonic amplitudes to zero.
+                    int numberOfHarmonics = _fourierSeries.getNumberOfHarmonics();
+                    for ( int i = 0; i < numberOfHarmonics; i++ ) {
+                        _fourierSeries.getHarmonic( i ).setAmplitude( 0 );
+                    }
+                }
+            } );
         }
         
         // Misc initialization
