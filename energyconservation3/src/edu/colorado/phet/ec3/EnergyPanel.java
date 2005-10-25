@@ -17,7 +17,7 @@ import java.awt.event.ActionListener;
 public class EnergyPanel extends ControlPanel {
     private EC3Module module;
 
-    public EnergyPanel( EC3Module module ) {
+    public EnergyPanel( final EC3Module module ) {
         super( module );
         this.module = module;
         JButton reset = new JButton( "Reset" );
@@ -27,6 +27,23 @@ public class EnergyPanel extends ControlPanel {
             }
         } );
         addControl( reset );
+
+        final JCheckBox recordPath = new JCheckBox( "Record Path", module.getEnergyConservationModel().isRecordPath() );
+        recordPath.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.setRecordPath( recordPath.isSelected() );
+            }
+        } );
+        addControl( recordPath );
+
+        final JCheckBox measuringTape = new JCheckBox( "Measuring Tape",
+                                                       module.isMeasuringTapeVisible() );
+        measuringTape.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.setMeasuringTapeVisible( measuringTape.isSelected() );
+            }
+        } );
+        addControl( measuringTape );
     }
 
     private void reset() {

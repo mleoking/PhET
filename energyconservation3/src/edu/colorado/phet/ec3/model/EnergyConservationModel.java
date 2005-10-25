@@ -27,6 +27,7 @@ public class EnergyConservationModel {
     private double zeroPointPotentialY;
     private double thermalEnergy = 0.0;
     private ArrayList listeners = new ArrayList();
+    private boolean recordPath = false;
 
     public int numSplineSurfaces() {
         return splineSurfaces.size();
@@ -34,6 +35,14 @@ public class EnergyConservationModel {
 
     public double getTime() {
         return time;
+    }
+
+    public void setRecordPath( boolean selected ) {
+        this.recordPath = selected;
+    }
+
+    public boolean isRecordPath() {
+        return recordPath;
     }
 
     static interface EnergyConservationModelListener {
@@ -98,7 +107,7 @@ public class EnergyConservationModel {
         time += dt;
 //        System.out.println( "time = " + time );
 
-        if( numBodies() > 0 && timeSinceLastHistory() > 1 ) {
+        if( recordPath && numBodies() > 0 && timeSinceLastHistory() > 0.75 ) {
             history.add( new HistoryPoint( this, bodyAt( 0 ) ) );
         }
 //        System.out.println( "EnergyConservationModel.stepInTime" );
