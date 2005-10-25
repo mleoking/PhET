@@ -125,8 +125,6 @@ public class ShaperControls extends GraphicLayerSet {
     
     private void handleNew() {
         
-        System.out.println( "ShaperControls.handleNew" );//XXX
-        
         _userFourierSeries.setAdjusting( true );
         _outputFourierSeries.setAdjusting( true );
         
