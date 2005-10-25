@@ -13,9 +13,7 @@ package edu.colorado.phet.lasers.view;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.lasers.model.atom.Atom;
 
 import java.awt.*;
@@ -66,8 +64,8 @@ public class AnnotatedAtomGraphic extends AtomGraphic implements Atom.ChangeList
     // Time for which the atom will show the color associated with an energy state change
     private long colorTime = 100;
     private Atom atom;
-//    private EnergyRepColorStrategy energyRepColorStrategy = new VisibleColorStrategy();
-    private EnergyRepColorStrategy energyRepColorStrategy = new GrayScaleStrategy();
+    private EnergyRepColorStrategy energyRepColorStrategy = new VisibleColorStrategy();
+//    private EnergyRepColorStrategy energyRepColorStrategy = new GrayScaleStrategy();
 
     // A number to be displayed in the middle of the atom
     PhetGraphic numberGraphic;
@@ -178,47 +176,47 @@ public class AnnotatedAtomGraphic extends AtomGraphic implements Atom.ChangeList
     }
 
 
-    /**
-     * Picks a Color to represent the energy level of an atom
-     */
-    private interface EnergyRepColorStrategy {
-        Color getColor( Atom atom );
-    }
-
-    /**
-     * Picks an RGB color that renders the color corresponding to the energy level of the atom
-     */
-    private class VisibleColorStrategy implements EnergyRepColorStrategy {
-
-        public Color getColor( Atom atom ) {
-            double de = atom.getCurrState().getEnergyLevel() - atom.getGroundState().getEnergyLevel();
-            double wavelength = PhysicsUtil.energyToWavelength( de );
-//            double wavelength = atom.getCurrState().getWavelength();
-            return VisibleColor.wavelengthToColor( wavelength );
-        }
-    }
-
-    /**
-     * Picks a shade of gray for the energy rep color.
-     */
-    private class GrayScaleStrategy implements EnergyRepColorStrategy {
-        private Color[] grayScale = new Color[240];
-//        private Color[] grayScale = new Color[220];
-
-        GrayScaleStrategy() {
-            for( int i = 0; i < grayScale.length; i++ ) {
-                grayScale[i] = new Color( i, i, i );
-            }
-        }
-
-        public Color getColor( Atom atom ) {
-            int idx = (int)( grayScale.length * ( ( atom.getCurrState().getEnergyLevel() - atom.getGroundState().getEnergyLevel() ) /
-                                                  ( atom.getHighestEnergyState().getEnergyLevel() - atom.getGroundState().getEnergyLevel() ) ) );
-//            int idx = (int)( grayScale.length * ( ( atom.getCurrState().getEnergyLevel() - Photon.wavelengthToEnergy( Photon.MAX_VISIBLE_WAVELENGTH ) ) /
-//                                     ( Photon.wavelengthToEnergy( Photon.MIN_VISIBLE_WAVELENGTH ) - Photon.wavelengthToEnergy( ( Photon.MAX_VISIBLE_WAVELENGTH ) ) ) ) );
-            idx = Math.min( Math.max( 0, idx ), grayScale.length - 1 );
-            return grayScale[idx];
-        }
-
-    }
+//    /**
+//     * Picks a Color to represent the energy level of an atom
+//     */
+//    private interface EnergyRepColorStrategy {
+//        Color getColor( Atom atom );
+//    }
+//
+//    /**
+//     * Picks an RGB color that renders the color corresponding to the energy level of the atom
+//     */
+//    private class VisibleColorStrategy implements EnergyRepColorStrategy {
+//
+//        public Color getColor( Atom atom ) {
+//            double de = atom.getCurrState().getEnergyLevel() - atom.getGroundState().getEnergyLevel();
+//            double wavelength = PhysicsUtil.energyToWavelength( de );
+////            double wavelength = atom.getCurrState().getWavelength();
+//            return VisibleColor.wavelengthToColor( wavelength );
+//        }
+//    }
+//
+//    /**
+//     * Picks a shade of gray for the energy rep color.
+//     */
+//    private class GrayScaleStrategy implements EnergyRepColorStrategy {
+//        private Color[] grayScale = new Color[240];
+////        private Color[] grayScale = new Color[220];
+//
+//        GrayScaleStrategy() {
+//            for( int i = 0; i < grayScale.length; i++ ) {
+//                grayScale[i] = new Color( i, i, i );
+//            }
+//        }
+//
+//        public Color getColor( Atom atom ) {
+//            int idx = (int)( grayScale.length * ( ( atom.getCurrState().getEnergyLevel() - atom.getGroundState().getEnergyLevel() ) /
+//                                                  ( atom.getHighestEnergyState().getEnergyLevel() - atom.getGroundState().getEnergyLevel() ) ) );
+////            int idx = (int)( grayScale.length * ( ( atom.getCurrState().getEnergyLevel() - Photon.wavelengthToEnergy( Photon.MAX_VISIBLE_WAVELENGTH ) ) /
+////                                     ( Photon.wavelengthToEnergy( Photon.MIN_VISIBLE_WAVELENGTH ) - Photon.wavelengthToEnergy( ( Photon.MAX_VISIBLE_WAVELENGTH ) ) ) ) );
+//            idx = Math.min( Math.max( 0, idx ), grayScale.length - 1 );
+//            return grayScale[idx];
+//        }
+//
+//    }
 }
