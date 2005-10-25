@@ -125,6 +125,11 @@ public class ShaperControls extends GraphicLayerSet {
     
     private void handleNew() {
         
+        System.out.println( "ShaperControls.handleNew" );//XXX
+        
+        _userFourierSeries.setAdjusting( true );
+        _outputFourierSeries.setAdjusting( true );
+        
         // Set the user's amplitudes to zero.
         for ( int i = 0; i < _userFourierSeries.getNumberOfHarmonics(); i++ ) {
             _userFourierSeries.getHarmonic( i ).setAmplitude( 0 );
@@ -140,6 +145,9 @@ public class ShaperControls extends GraphicLayerSet {
         if ( _moleculeIndex >= Molecule.getNumberOfMolecules() ) {
             _moleculeIndex = 0;
         }
+        
+        _userFourierSeries.setAdjusting( false );
+        _outputFourierSeries.setAdjusting( false );
     }
     
     private void handleShowPulse() {

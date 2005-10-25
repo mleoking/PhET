@@ -55,66 +55,60 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
         update();
     }
     
+    private boolean _gameOver = false; //XXX
+    
     public void update() {
         
-        double closeness = 0;
-        
-        // Compare the Fourier series
-        int numberOfHarmonics = _userFourierSeries.getNumberOfHarmonics();
-        for ( int i = 0; i < numberOfHarmonics; i++ ) {
-            double userAmplitude = _userFourierSeries.getHarmonic( i ).getAmplitude();
-            double outputAmplitude = _outputFourierSeries.getHarmonic( i ).getAmplitude();
-            if ( outputAmplitude == 0 ) {
-                outputAmplitude = 0.000000000001;
-            }
-            closeness += ( 1.0 - ( Math.abs( ( userAmplitude - outputAmplitude ) / outputAmplitude ) ) );
-        }
-        closeness /= numberOfHarmonics;
-        if ( closeness < 0 ) {
-            closeness = 0;
-        }
-        
-        // Update the animation
-        _animation.setCloseness( closeness );
-        
-        // Do we have a match?
-        if ( closeness > 0.95 && !_mouseIsPressed ) {
+        if ( !_gameOver ) {
             
-            // WORKAROUND: Make sure that all other views are updated.
-            {
-                _userFourierSeries.removeObserver( this );
-                _userFourierSeries.notifyObservers();
-                _userFourierSeries.addObserver( this );
-            }
-            
-            // Tell the user they won.
-            JFrame frame = PhetApplication.instance().getPhetFrame();
-            String title = SimStrings.get( "WinDialog.title" );
-            String message = SimStrings.get( "WinDialog.message" );
-            JOptionPane.showMessageDialog( frame, message, title, JOptionPane.INFORMATION_MESSAGE );
-            
-            _controlPanel.newOutputPulse();
-        }
-    }
+            if ( !_animation.isEnabled() ) {
 
-    //----------------------------------------------------------------------------
-    // MouseInputAdapter overrides
-    //----------------------------------------------------------------------------
-    
-    /**
-     * When the user presses the mouse, set some state that indicates 
-     * that we're in the process of dragging.  We don't check to see
-     * if we've won until the user releases the mouse.
-     */
-    public void mousePressed( MouseEvent event ) {
-        _mouseIsPressed = true;
-    }
-    
-    /**
-     * When the user releases the mouse, check to see if we've won.
-     */
-    public void mouseReleased( MouseEvent event ) {
-        _mouseIsPressed = false;
-        update();
+                _gameOver = true;
+
+                // Tell the user they won.
+                JFrame frame = PhetApplication.instance().getPhetFrame();
+                String title = SimStrings.get( "WinDialog.title" );
+                String message = SimStrings.get( "WinDialog.message" );
+                JOptionPane.showMessageDialog( frame, message, title, JOptionPane.INFORMATION_MESSAGE );
+
+                // Start a new "game".
+                _controlPanel.newOutputPulse();
+                _animation.reset();
+                _gameOver = false;
+            }
+            else if ( !_animation.isExploding() ) {
+
+                double closeness = 0;
+
+                // Compare the Fourier series
+                int numberOfHarmonics = _userFourierSeries.getNumberOfHarmonics();
+                for ( int i = 0; i < numberOfHarmonics; i++ ) {
+                    double userAmplitude = _userFourierSeries.getHarmonic( i ).getAmplitude();
+                    double outputAmplitude = _outputFourierSeries.getHarmonic( i ).getAmplitude();
+                    if ( outputAmplitude == 0 ) {
+                        outputAmplitude = 0.000000000001;
+                    }
+                    closeness += ( 1.0 - ( Math.abs( ( userAmplitude - outputAmplitude ) / outputAmplitude ) ) );
+                }
+                closeness /= numberOfHarmonics;
+                if ( closeness < 0 ) {
+                    closeness = 0;
+                }
+
+                // Update the animation
+                _animation.setCloseness( closeness );
+
+                // Do we have a match?
+                if ( closeness >= ShaperConstants.CLOSENESS_MATCH ) {
+
+                    // WORKAROUND: Make sure that all other views are updated.
+                    {
+                        _userFourierSeries.removeObserver( this );
+                        _userFourierSeries.notifyObservers();
+                        _userFourierSeries.addObserver( this );
+                    }
+                }
+            }
+        }
     }
 }
