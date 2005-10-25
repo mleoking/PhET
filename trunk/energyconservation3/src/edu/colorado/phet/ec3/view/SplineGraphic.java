@@ -44,6 +44,7 @@ public class SplineGraphic extends PNode {
     private BasicStroke lineStroke = new BasicStroke( 2 );
     private SplineSurface splineSurface;
     private SplineSurface lastRenderState;
+    private PBasicInputEventHandler dragHandler;
 
     public SplineGraphic( EC3Canvas ec3Canvas, SplineSurface splineSurface ) {
         this( ec3Canvas, splineSurface.getTop(), splineSurface.getBottom(), splineSurface );
@@ -63,7 +64,7 @@ public class SplineGraphic extends PNode {
         addChild( controlPointLayer );
 
         updateAll();
-        pathLayer.addInputEventListener( new PBasicInputEventHandler() {
+        dragHandler = new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
                 initDragSpline();
             }
@@ -75,9 +76,14 @@ public class SplineGraphic extends PNode {
             public void mouseReleased( PInputEvent event ) {
                 finishDragSpline();
             }
-        } );
+        };
+        pathLayer.addInputEventListener( this.dragHandler );
         pathLayer.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         pathLayer.addInputEventListener( new PopupMenuHandler( ec3Canvas, new PathPopupMenu( ec3Canvas ) ) );
+    }
+
+    public PBasicInputEventHandler getDragHandler() {
+        return dragHandler;
     }
 
     private void dragSpline( PInputEvent event ) {

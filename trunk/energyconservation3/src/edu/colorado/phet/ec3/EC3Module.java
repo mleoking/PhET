@@ -54,11 +54,11 @@ public class EC3Module extends PiccoloModule {
         energyTimeSeriesModel = new EC3TimeSeriesModel( this );
         clock.addClockTickListener( energyTimeSeriesModel );
 
-        EnergyPanel energyPanel = new EnergyPanel( this );
-        setControlPanel( energyPanel );
-
         energyCanvas = new EC3Canvas( this );
         setPhetPCanvas( energyCanvas );
+
+        EnergyPanel energyPanel = new EnergyPanel( this );
+        setControlPanel( energyPanel );
 
         energyFrame = new JFrame();
         energyFrame.setContentPane( new BarGraphCanvas( this ) );
@@ -117,7 +117,7 @@ public class EC3Module extends PiccoloModule {
 
     private void init() {
         Body body = new Body( Body.createDefaultBodyRect() );
-        body.setPosition( 100, 0 );
+        body.setPosition( 150, 200 );
         energyModel.addBody( body );
 
         for( int i = 0; i < energyModel.numBodies(); i++ ) {
@@ -150,5 +150,17 @@ public class EC3Module extends PiccoloModule {
 
     public TimeSeriesModel getTimeSeriesModel() {
         return energyTimeSeriesModel;
+    }
+
+    public void setRecordPath( boolean selected ) {
+        this.getEnergyConservationModel().setRecordPath( selected );
+    }
+
+    public boolean isMeasuringTapeVisible() {
+        return energyCanvas.isMeasuringTapeVisible();
+    }
+
+    public void setMeasuringTapeVisible( boolean selected ) {
+        energyCanvas.setMeasuringTapeVisible( selected );
     }
 }

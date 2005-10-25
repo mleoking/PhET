@@ -30,7 +30,7 @@ public class SplineToolbox extends PNode {
     public SplineToolbox( EC3Canvas ec3Canvas, int x, int y ) {
         this.ec3Canvas = ec3Canvas;
 
-        SplineGraphic dummy = addDummySpline( x, y );
+        SplineGraphic dummy = createDummySpline( x, y );
 
         PPath boundGraphic = new PPath( getExpandBounds( dummy, 20, 20 ) );
         boundGraphic.setStroke( new BasicStroke( 2 ) );
@@ -63,7 +63,7 @@ public class SplineToolbox extends PNode {
         return rect;
     }
 
-    private SplineGraphic addDummySpline( final int x, final int y ) {
+    private SplineGraphic createDummySpline( final int x, final int y ) {
         AbstractSpline spline = new CubicSpline( EC3Canvas.NUM_CUBIC_SPLINE_SEGMENTS );
 
         spline.addControlPoint( 0, 0 );
@@ -76,7 +76,7 @@ public class SplineToolbox extends PNode {
         splineGraphic.addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
                 super.mouseDragged( event );
-                SplineGraphic dummy = addDummySpline( x, y );
+                SplineGraphic dummy = createDummySpline( x, y );
                 addChild( dummy );
                 splineGraphic.removeInputEventListener( this );
                 System.out.println( "Added dummy@" + System.currentTimeMillis() );

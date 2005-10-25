@@ -3,7 +3,6 @@ package edu.colorado.phet.ec3;
 
 import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.ec3.common.MeasuringTape;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
@@ -53,7 +52,7 @@ public class EC3Canvas extends PhetPCanvas {
         addKeyHandling();
         addKeyListener( new PanZoomWorldKeyHandler( this ) );
         addThrust();
-        addMeasuringTape();
+//        addMeasuringTape();
         addGraphicsUpdate( ec3Module );
     }
 
@@ -95,12 +94,6 @@ public class EC3Canvas extends PhetPCanvas {
                 updateThrust();
             }
         } );
-    }
-
-    private void addMeasuringTape() {
-        double coordScale = 1.0 / 55.0;
-        MeasuringTape measuringTape = new MeasuringTape( coordScale, new Point2D.Double( 100, 100 ), getPhetRootNode().getWorldNode() );
-        addScreenChild( measuringTape );
     }
 
     private void updateWorldGraphics() {
@@ -300,5 +293,13 @@ public class EC3Canvas extends PhetPCanvas {
 
     public void redrawAllGraphics() {
         rootNode.updateGraphics();
+    }
+
+    public boolean isMeasuringTapeVisible() {
+        return rootNode.isMeasuringTapeVisible();
+    }
+
+    public void setMeasuringTapeVisible( boolean selected ) {
+        rootNode.setMeasuringTapeVisible( selected );
     }
 }

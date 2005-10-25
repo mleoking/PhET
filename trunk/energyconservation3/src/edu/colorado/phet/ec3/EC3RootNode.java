@@ -2,6 +2,7 @@
 package edu.colorado.phet.ec3;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.ec3.common.MeasuringTape;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
 import edu.colorado.phet.ec3.model.Floor;
 import edu.colorado.phet.ec3.view.BodyGraphic;
@@ -11,6 +12,7 @@ import edu.colorado.phet.piccolo.PhetRootPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -28,6 +30,8 @@ public class EC3RootNode extends PhetRootPNode {
     private EC3Module ec3Module;
     private EC3Canvas ec3Canvas;
     private PNode historyGraphics = new PNode();
+    private MeasuringTape measuringTape;
+    private static final boolean DEFAULT_TAPE_VISIBLE = false;
 
     public EC3RootNode( EC3Module ec3Module, EC3Canvas ec3Canvas ) {
         this.ec3Module = ec3Module;
@@ -38,8 +42,6 @@ public class EC3RootNode extends PhetRootPNode {
 
         addLayer();
         addLayer();
-//        PhetRootPNode.Layer layer1 = new PhetRootPNode.Layer();
-//        addLayer( layer1, 0 );
         layerAt( 0 ).getWorldNode().addChild( new SkyGraphic( floor.getY() ) );
         layerAt( 0 ).getWorldNode().addChild( new FloorGraphic( floor ) );
 
@@ -48,10 +50,11 @@ public class EC3RootNode extends PhetRootPNode {
         layerAt( 1 ).getWorldNode().addChild( bodyGraphics );
         layerAt( 1 ).getWorldNode().addChild( historyGraphics );
 
-//        PhetRootPNode.Layer topLayer = new Layer();
-//        addLayer( topLayer );
+        double coordScale = 1.0 / 55.0;
+        measuringTape = new MeasuringTape( coordScale, new Point2D.Double( 100, 100 ), getWorldNode() );
+        layerAt( 1 ).getScreenNode().addChild( measuringTape );
 
-
+        setMeasuringTapeVisible( DEFAULT_TAPE_VISIBLE );
     }
 
     private EnergyConservationModel getModel() {
@@ -134,8 +137,8 @@ public class EC3RootNode extends PhetRootPNode {
     }
 
     private void updateHistory() {
-        System.out.println( "numHistoryGraphics() = " + numHistoryGraphics() );
-        System.out.println( "getModel().numHistoryPoints() = " + getModel().numHistoryPoints() );
+//        System.out.println( "numHistoryGraphics() = " + numHistoryGraphics() );
+//        System.out.println( "getModel().numHistoryPoints() = " + getModel().numHistoryPoints() );
         while( numHistoryGraphics() < getModel().numHistoryPoints() ) {
             addHistoryGraphic( new HistoryPointGraphic( getModel().historyPointAt( 0 ) ) );
         }
@@ -199,4 +202,13 @@ public class EC3RootNode extends PhetRootPNode {
         return (BodyGraphic)bodyGraphics.getChild( i );
     }
 
+    public boolean isMeasuringTapeVisible() {
+        return measuringTape.getVisible();
+    }
+
+    public void setMeasuringTapeVisible( boolean selected ) {
+        measuringTape.setVisible( selected );
+        measuringTape.setPickable( selected );
+        measuringTape.setChildrenPickable( selected );
+    }
 }
