@@ -45,6 +45,7 @@ PHETCOMMON:
 
 
 DONE:
+(10/24/05) - setIgnoreMouse(true) where ever possible
 (10/24/05) - physically connect molecule animation to output pulse view
 (10/24/05) - molecule animation
 (10/21/05) - convert all uses of PhetTextGraphic to HTMLGraphic, fix locations

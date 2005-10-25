@@ -106,9 +106,6 @@ public class CheatPanel extends GraphicLayerSet implements SimpleObserver {
             }
         } );
         
-        // Interactivity
-        background.setIgnoreMouse( true );
-        
         update();
     }
 
