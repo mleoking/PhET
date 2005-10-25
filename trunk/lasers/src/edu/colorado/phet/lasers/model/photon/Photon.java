@@ -67,33 +67,31 @@ public class Photon extends Particle implements Collidable {
         return newPhoton;
     }
 
-    static public Photon createStimulated( Photon stimulatingPhoton, Point2D location, Atom atom ) {
-        stimulatingPhoton.numStimulatedPhotons++;
-        Photon newPhoton = create( stimulatingPhoton.getWavelength(), location,
-                                   stimulatingPhoton.getVelocity() );
-//        int yOffset = stimulatingPhoton.numStimulatedPhotons * 16;
-        int yOffset = stimulatingPhoton.numStimulatedPhotons * 4;
-//        int yOffset = stimulatingPhoton.numStimulatedPhotons * 8;
-//        int sign = 1;
-        int sign = random.nextBoolean() ? 1 : -1;
-        double dy = yOffset * sign * ( stimulatingPhoton.getVelocity().getX() / stimulatingPhoton.getVelocity().getMagnitude() );
-        double dx = yOffset * -sign * ( stimulatingPhoton.getVelocity().getY() / stimulatingPhoton.getVelocity().getMagnitude() );
-        double newY = stimulatingPhoton.getPosition().getY() + dy;
-        double newX = stimulatingPhoton.getPosition().getX() + dx;
-
-        // Keep the photon inside the cavity.
-        // todo: if we get the photon graphic positioned better, this may change.
-        double minY = stimulationBounds.getMinY() + Photon.RADIUS;
-        double maxY = stimulationBounds.getMaxY();
-        if( newY < minY || newY > maxY ) {
-            newY = atom.getPosition().getY();
-            newX = atom.getPosition().getX() - 10;
-            stimulatingPhoton.numStimulatedPhotons = 1;
-        }
-        newPhoton.setPosition( newX, newY );
-        return newPhoton;
-    }
-
+//    static public Photon createStimulated( Photon stimulatingPhoton, Point2D location, Atom atom ) {
+//        stimulatingPhoton.numStimulatedPhotons++;
+//        Photon newPhoton = create( stimulatingPhoton.getWavelength(), location,
+//                                   stimulatingPhoton.getVelocity() );
+//        int yOffset = stimulatingPhoton.numStimulatedPhotons * 4;
+////        int yOffset = stimulatingPhoton.numStimulatedPhotons * 8;
+//        int sign = random.nextBoolean() ? 1 : -1;
+//        double dy = yOffset * sign * ( stimulatingPhoton.getVelocity().getX() / stimulatingPhoton.getVelocity().getMagnitude() );
+//        double dx = yOffset * -sign * ( stimulatingPhoton.getVelocity().getY() / stimulatingPhoton.getVelocity().getMagnitude() );
+//        double newY = stimulatingPhoton.getPosition().getY() + dy;
+//        double newX = stimulatingPhoton.getPosition().getX() + dx;
+//
+//        // Keep the photon inside the cavity.
+//        // todo: if we get the photon graphic positioned better, this may change.
+//        double minY = stimulationBounds.getMinY() + Photon.RADIUS;
+//        double maxY = stimulationBounds.getMaxY();
+//        if( newY < minY || newY > maxY ) {
+//            newY = atom.getPosition().getY();
+//            newX = atom.getPosition().getX() - 10;
+//            stimulatingPhoton.numStimulatedPhotons = 1;
+//        }
+//        newPhoton.setPosition( newX, newY );
+//        return newPhoton;
+//    }
+//
     /**
      * If the photon is created by a CollimatedBeam, it should use this method,
      * so that the photon can tell the CollimatedBeam if it is leaving the system.
@@ -129,11 +127,11 @@ public class Photon extends Particle implements Collidable {
     private ArrayList contactedAtoms = new ArrayList();
 
     /**
-     * Constructor is private so that clients of the class must use static create()
+     * Constructor is protected so that clients of the class must use static create()
      * methods. This allows us to manage a free pool of photons and not hit the
      * heap so hard.
      */
-    private Photon() {
+    protected Photon() {
         collidableAdapter = new CollidableAdapter( this );
         setVelocity( SPEED, 0 );
         //        setMass( 1 );

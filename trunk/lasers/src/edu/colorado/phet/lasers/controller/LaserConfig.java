@@ -85,4 +85,6 @@ public class LaserConfig {
 
     // Factor that scales pixels to real dimensional units
     public static double PIXELS_PER_NM = 1E6;
+
+    public static boolean ENABLE_ALL_STIMULATED_EMISSIONS = true;
 }

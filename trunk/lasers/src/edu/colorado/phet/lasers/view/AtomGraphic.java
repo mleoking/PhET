@@ -53,7 +53,8 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
     private double energyRepRad;
     private double groundStateRingThickness;
     private double baseImageRad;
-    private EnergyRepColorStrategy energyRepColorStrategy = new GrayScaleStrategy();
+    private EnergyRepColorStrategy energyRepColorStrategy = new VisibleColorStrategy();
+//    private EnergyRepColorStrategy energyRepColorStrategy = new GrayScaleStrategy();
 
     /**
      * @param component

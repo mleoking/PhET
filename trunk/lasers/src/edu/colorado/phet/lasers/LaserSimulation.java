@@ -84,6 +84,18 @@ public class LaserSimulation extends PhetApplication {
             }
         } );
         this.getPhetFrame().getClockControlPanel().add( photoBtn, BorderLayout.WEST );
+
+        JMenu optionMenu = new JMenu( "Options" );
+        final JCheckBoxMenuItem cbMI = new JCheckBoxMenuItem( "All stimulated emissions" );
+        cbMI.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                LaserConfig.ENABLE_ALL_STIMULATED_EMISSIONS = cbMI.isSelected();
+            }
+        } );
+        cbMI.setSelected( true );
+//        LaserConfig.ENABLE_ALL_STIMULATED_EMISSIONS = cbMI.isSelected() ;
+        optionMenu.add( cbMI );
+        getPhetFrame().addMenu( optionMenu );
     }
 
     public void displayHighToMidEmission( boolean selected ) {
