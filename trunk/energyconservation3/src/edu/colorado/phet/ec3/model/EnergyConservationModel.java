@@ -18,6 +18,8 @@ import java.util.ArrayList;
  */
 
 public class EnergyConservationModel {
+    private double time = 0;
+    private ArrayList history = new ArrayList();
     private ArrayList bodies = new ArrayList();
     private ArrayList floors = new ArrayList();
     private ArrayList splineSurfaces = new ArrayList();
@@ -28,6 +30,10 @@ public class EnergyConservationModel {
 
     public int numSplineSurfaces() {
         return splineSurfaces.size();
+    }
+
+    public double getTime() {
+        return time;
     }
 
     static interface EnergyConservationModelListener {
@@ -58,6 +64,8 @@ public class EnergyConservationModel {
             SplineSurface surface = splineSurfaceAt( i );
             copy.splineSurfaces.add( surface.copy() );
         }
+        copy.history = new ArrayList( history );
+        copy.time = time;
         return copy;
     }
 
@@ -74,9 +82,25 @@ public class EnergyConservationModel {
         for( int i = 0; i < model.floors.size(); i++ ) {
             floors.add( model.floorAt( i ).copyState() );
         }
+        this.history.clear();
+        this.history.addAll( model.history );
+        this.time = model.time;
+    }
+
+    public double timeSinceLastHistory() {
+        if( history.size() == 0 ) {
+            return time;
+        }
+        return time - historyPointAt( history.size() - 1 ).getTime();
     }
 
     public void stepInTime( double dt ) {
+        time += dt;
+//        System.out.println( "time = " + time );
+
+        if( numBodies() > 0 && timeSinceLastHistory() > 1 ) {
+            history.add( new HistoryPoint( this, bodyAt( 0 ) ) );
+        }
 //        System.out.println( "EnergyConservationModel.stepInTime" );
         for( int i = 0; i < listeners.size(); i++ ) {
             EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
@@ -257,6 +281,7 @@ public class EnergyConservationModel {
     public void reset() {
         bodies.clear();
         splineSurfaces.clear();
+        history.clear();
         gravity = 9.8;
         thermalEnergy = 0.0;
     }
@@ -267,5 +292,13 @@ public class EnergyConservationModel {
 
     public void addEnergyModelListener( EnergyModelListener listener ) {
         listeners.add( listener );
+    }
+
+    public int numHistoryPoints() {
+        return history.size();
+    }
+
+    public HistoryPoint historyPointAt( int i ) {
+        return (HistoryPoint)history.get( i );
     }
 }
