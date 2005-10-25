@@ -40,6 +40,8 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
     
     private static final double MAX_DISTANCE = 10;  // distance in pixels we would move if closeness=1
     
+    private static final double EXPLOSION_ACCELERATION_RATE = 0.20;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -116,19 +118,24 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         addGraphic( _molecule );
     }
     
-    /**
-     * This must be called whenever the MoleculeAnimation's location
-     * or parent graphic is changed.  In this simulation, call it after
-     * adding to the apparatus panel and setting its location.
-     */
-    public void updateClip() {
-        Shape clip = _animationFrame.getNetTransform().createTransformedShape( _animationFrame.getShape() );
-        _molecule.setClip( clip );
-    }
-    
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
+    
+    /**
+     * Enables or disables clipping of the molecules animation.
+     * If clipping is enabled, then the molecule will be drawn
+     * only inside the animation frame.
+     */
+    public void setClipEnabled( boolean enabled ) {
+        if ( enabled ) {
+            Shape clip = _animationFrame.getNetTransform().createTransformedShape( _animationFrame.getShape() );
+            _molecule.setClip( clip );
+        }
+        else {
+            _molecule.setClip( null );
+        }
+    }
     
     public void setCloseness( double closeness ) {
         
@@ -182,17 +189,29 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
                 _moleculePart2.setLocation( (int) ( _moleculePart2.getX() + _dx2 ), (int) ( _moleculePart2.getY() + _dy2 ) );
                 _moleculePart3.setLocation( (int) ( _moleculePart3.getX() + _dx3 ), (int) ( _moleculePart3.getY() + _dy3 ) );
                 // Accelerate
-                _dx1 += _dx1;
-                _dy1 += _dy1;
-                _dx2 += _dx2;
-                _dy2 += _dy2;
-                _dx3 += _dx3;
-                _dy3 += _dy3;
-                // Are we still visbile in the animation frame?
-                if ( Math.abs( _moleculePart1.getX() ) > 2 * _animationFrame.getWidth() &&
-                     Math.abs( _moleculePart1.getY() ) > 2 * _animationFrame.getHeight() ) {
-                    _enabled = false; // animation is done
-                    _gameManager.gameOver();
+                final double a = EXPLOSION_ACCELERATION_RATE;
+                _dx1 += _dx1 * a;
+                _dy1 += _dy1 * a;
+                _dx2 += _dx2 * a;
+                _dy2 += _dy2 * a;
+                _dx3 += _dx3 * a;
+                _dy3 += _dy3 * a;
+
+                if ( _molecule.getClip() != null ) {
+                    // Are we still visbile in the animation frame?
+                    if ( Math.abs( _moleculePart1.getX() ) > 2 * _animationFrame.getWidth() &&
+                         Math.abs( _moleculePart1.getY() ) > 2 * _animationFrame.getHeight() ) {
+                        _enabled = false; // animation is done
+                        _gameManager.gameOver();
+                    }
+                }
+                else {
+                    // Are we still visible in the apparatus panel?
+                    if ( Math.abs( _moleculePart1.getX() ) > 2 * ShaperConstants.APP_FRAME_WIDTH &&
+                         Math.abs( _moleculePart1.getY() ) > 2 * ShaperConstants.APP_FRAME_HEIGHT ) {
+                        _enabled = false; // animation is done
+                        _gameManager.gameOver();
+                    }
                 }
             }
             else if ( _closeness < ShaperConstants.CLOSENESS_MATCH ) {
