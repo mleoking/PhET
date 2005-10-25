@@ -27,10 +27,7 @@ import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
-import edu.colorado.phet.lasers.model.photon.Beam;
-import edu.colorado.phet.lasers.model.photon.Photon;
-import edu.colorado.phet.lasers.model.photon.PhotonEmittedEvent;
-import edu.colorado.phet.lasers.model.photon.PhotonEmittedListener;
+import edu.colorado.phet.lasers.model.photon.*;
 import edu.colorado.phet.lasers.view.*;
 
 import javax.swing.*;
@@ -123,7 +120,7 @@ public class BaseLaserModule extends Module {
      */
     public void activate( PhetApplication app ) {
         super.activate( app );
-        Photon.setStimulationBounds( cavity.getBounds() );
+        LaserPhoton.setStimulationBounds( cavity.getBounds() );
         appFrame = app.getPhetFrame();
         // Needed to make the energy levels panel get its model-view transform right
         laserEnergyLevelsMonitorPanel.adjustPanel();

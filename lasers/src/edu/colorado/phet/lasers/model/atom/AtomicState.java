@@ -15,6 +15,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.PhysicsUtil;
+import edu.colorado.phet.lasers.model.photon.LaserPhoton;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.geom.Point2D;
@@ -105,8 +106,10 @@ public class AtomicState {
      * @return
      */
     public double determineEmittedPhotonWavelength( AtomicState nextState ) {
-        double energy1 = PhysicsUtil.wavelengthToEnergy( this.getWavelength() );
-        double energy2 = PhysicsUtil.wavelengthToEnergy( nextState.getWavelength() );
+        double energy1 = this.getEnergyLevel();
+        double energy2 = nextState.getEnergyLevel();
+//        double energy1 = PhysicsUtil.wavelengthToEnergy( this.getWavelength() );
+//        double energy2 = PhysicsUtil.wavelengthToEnergy( nextState.getWavelength() );
         double emittedWavelength = Math.min( PhysicsUtil.energyToWavelength( energy1 - energy2 ),
                                              AtomicState.maxWavelength );
         return emittedWavelength;
@@ -137,19 +140,23 @@ public class AtomicState {
     protected boolean isStimulatedBy( Photon photon, Atom atom ) {
         boolean result = false;
         AtomicState[] states = atom.getStates();
-        for( int i = 0; i < states.length && result == false; i++ ) {
-            AtomicState state = states[i];
-            if( state.getEnergyLevel() < this.getEnergyLevel() ) {
+        if( LaserConfig.ENABLE_ALL_STIMULATED_EMISSIONS ) {
+            for( int i = 0; i < states.length && result == false; i++ ) {
+                AtomicState state = states[i];
+                if( state.getEnergyLevel() < this.getEnergyLevel() ) {
 
-                double stimulatedPhotonEnergy = this.getEnergyLevel() - state.getEnergyLevel();
+                    double stimulatedPhotonEnergy = this.getEnergyLevel() - state.getEnergyLevel();
 
-                result = ( Math.abs( photon.getEnergy() - stimulatedPhotonEnergy ) <= LaserConfig.ENERGY_TOLERANCE
-                           && Math.random() < s_collisionLikelihood );
+                    result = ( Math.abs( photon.getEnergy() - stimulatedPhotonEnergy ) <= LaserConfig.ENERGY_TOLERANCE
+                               && Math.random() < s_collisionLikelihood );
+                }
             }
         }
-//        double stimulatedPhotonEnergy = this.getEnergyLevel() - this.getNextLowerEnergyState().getEnergyLevel();
-//        return ( Math.abs( photon.getEnergy() - stimulatedPhotonEnergy ) <= LaserConfig.ENERGY_TOLERANCE
-//                 && Math.random() < s_collisionLikelihood );
+        else {
+            double stimulatedPhotonEnergy = this.getEnergyLevel() - this.getNextLowerEnergyState().getEnergyLevel();
+            result = Math.abs( photon.getEnergy() - stimulatedPhotonEnergy ) <= LaserConfig.ENERGY_TOLERANCE
+                     && Math.random() < s_collisionLikelihood;
+        }
         return result;
     }
 
@@ -167,7 +174,7 @@ public class AtomicState {
             Point2D position = new Point2D.Double( atom.getPosition().getX() + vHat.getX(),
                                                    atom.getPosition().getY() + vHat.getY() );
             photon.setPosition( position );
-            Photon emittedPhoton = Photon.createStimulated( photon, position, atom );
+            Photon emittedPhoton = LaserPhoton.createStimulated( photon, position, atom );
             atom.emitPhoton( emittedPhoton );
 
             // Change state
@@ -226,7 +233,8 @@ public class AtomicState {
     }
 
     public int hashCode() {
-        return (int)( Double.doubleToLongBits( energyLevel ) + Double.doubleToLongBits( getWavelength() ) + Double.doubleToLongBits( meanLifetime ) );
+        return (int)( Double.doubleToLongBits( energyLevel ) + Double.doubleToLongBits( meanLifetime ) );
+//        return (int)( Double.doubleToLongBits( energyLevel ) + Double.doubleToLongBits( getWavelength() ) + Double.doubleToLongBits( meanLifetime ) );
     }
 
     /**
@@ -294,7 +302,8 @@ public class AtomicState {
         }
 
         public double getEnergyLevel() {
-            return PhysicsUtil.wavelengthToEnergy( getWavelength() );
+            return super.getEnergyLevel();
+//            return PhysicsUtil.wavelengthToEnergy( getWavelength() );
         }
     }
 

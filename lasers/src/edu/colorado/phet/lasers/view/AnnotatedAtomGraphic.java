@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.lasers.model.atom.Atom;
 
 import java.awt.*;
@@ -190,7 +191,9 @@ public class AnnotatedAtomGraphic extends AtomGraphic implements Atom.ChangeList
     private class VisibleColorStrategy implements EnergyRepColorStrategy {
 
         public Color getColor( Atom atom ) {
-            double wavelength = atom.getCurrState().getWavelength();
+            double de = atom.getCurrState().getEnergyLevel() - atom.getGroundState().getEnergyLevel();
+            double wavelength = PhysicsUtil.energyToWavelength( de );
+//            double wavelength = atom.getCurrState().getWavelength();
             return VisibleColor.wavelengthToColor( wavelength );
         }
     }
