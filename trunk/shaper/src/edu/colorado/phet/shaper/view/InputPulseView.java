@@ -46,8 +46,6 @@ public class InputPulseView extends GraphicLayerSet {
     // Background parameters
     private static final Dimension BACKGROUND_SIZE = new Dimension( 535, 190 );
     private static final Color BACKGROUND_COLOR = new Color( 215, 215, 215 );
-    private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
-    private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
 
     // Title parameters
     private static final Font TITLE_FONT = new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 20 );
@@ -90,8 +88,6 @@ public class InputPulseView extends GraphicLayerSet {
         PhetShapeGraphic backgroundGraphic = new PhetShapeGraphic( component );
         backgroundGraphic.setShape( new RoundRectangle2D.Double( 0, 0, BACKGROUND_SIZE.width, BACKGROUND_SIZE.height, 20, 20 ) );
         backgroundGraphic.setPaint( BACKGROUND_COLOR );
-        backgroundGraphic.setStroke( BACKGROUND_STROKE );
-        backgroundGraphic.setBorderColor( BACKGROUND_BORDER_COLOR );
         addGraphic( backgroundGraphic, BACKGROUND_LAYER );
         backgroundGraphic.setLocation( 0, 0 );
         

@@ -108,6 +108,15 @@ public class ShaperModule extends AbstractModule {
         _inputPulseView = new InputPulseView( apparatusPanel );
         apparatusPanel.addGraphic( _inputPulseView );
         _inputPulseView.setLocation( 470, 15 );
+      
+        // Physical connection between output pulse view and molecule animation
+        {
+            PhetShapeGraphic connection = new PhetShapeGraphic( apparatusPanel );
+            connection.setShape( new Rectangle( 0, 0, 30, 60 ) );
+            connection.setColor( new Color( 215, 215, 215 ) );
+            connection.setLocation( 515, 465 );
+            apparatusPanel.addGraphic( connection );
+        }
         
         _outputPulseView = new OutputPulseView( apparatusPanel, _userFourierSeries, _outputFourierSeries );
         apparatusPanel.addGraphic( _outputPulseView );

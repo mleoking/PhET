@@ -9,9 +9,8 @@ HIGH PRIORITY:
 - control panel on apparatus panel sometimes is drawn incorrectly
 - correct calculation for "closeness"
 - how close do we have to be to match the output pulse?
-- molecule animation
 - wait cursors
-- physically connect molecule animation to output pulse view
+
 
 MEDIUM PRIORITY:
 - change title to "Optical Pulse Shaping for Quantum Control"
@@ -43,6 +42,8 @@ PHETCOMMON:
 
 
 DONE:
+(10/24/05) - physically connect molecule animation to output pulse view
+(10/24/05) - molecule animation
 (10/21/05) - convert all uses of PhetTextGraphic to HTMLGraphic, fix locations
 (10/21/05) - phetcommon: create PhetTextGraphic2 to fix serious registration problems
 (10/21/05) - sync all views before the GameManager tells us we've won
