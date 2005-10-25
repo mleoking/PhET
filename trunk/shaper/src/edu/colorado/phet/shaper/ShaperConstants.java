@@ -65,7 +65,11 @@ public class ShaperConstants {
     // Colors
     //----------------------------------------------------------------------------
     
+    /** Color of the waveform in the Output Pulse graph. */
     public static final Color OUTPUT_PULSE_COLOR = new Color( 1f, 0.411802f, 0.705893f );
+    
+    /** Maximum opacity of light rays */
+    public static final int MAX_LIGHT_ALPHA = 200; // range is 0-255
     
     //----------------------------------------------------------------------------
     // Harmonics

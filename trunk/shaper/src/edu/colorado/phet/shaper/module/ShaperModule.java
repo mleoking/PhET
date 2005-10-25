@@ -129,80 +129,11 @@ public class ShaperModule extends AbstractModule {
         _animation.updateClip(); // must be done after added to apparatus panel & location is set
         model.addModelElement( _animation );//XXX need to separate model & view here
         
-        // Rainbow of light
-        {
-            // Raindow behind the amplitude sliders
-            RainbowLight rainbow = new RainbowLight( apparatusPanel, _userFourierSeries );
-            apparatusPanel.addGraphic( rainbow );
-            rainbow.setLocation( 86, 25 );
-                     
-            // Rainbow from the input diffraction grating to the input mirror
-            {
-                Point focalPoint = new Point( 430, 246 );
-                Point[] points = { 
-                        new Point( 86, 49 ), new Point( 113, 44 ), 
-                        new Point( 123, 44 ), new Point( 150, 40 ), 
-                        new Point( 160, 40 ), new Point( 187, 40 ), 
-                        new Point( 196, 40 ), new Point( 224, 40 ), 
-                        new Point( 233, 40 ), new Point( 260, 40 ), 
-                        new Point( 271, 40 ), new Point( 298, 44 ), 
-                        new Point( 307, 44 ), new Point( 335, 49 ) };
+        // Light rays
+        LightRays lightRays = new LightRays( apparatusPanel, _userFourierSeries );
+        apparatusPanel.addGraphic( lightRays );
+        lightRays.setLocation( 86, 25 );
 
-                int order = 0;
-                for ( int i = 0; i < points.length; ) {
-                    // Path
-                    GeneralPath path = new GeneralPath();
-                    path.moveTo( focalPoint.x, focalPoint.y );
-                    path.lineTo( points[i].x, points[i].y );
-                    i++;
-                    path.lineTo( points[i].x, points[i].y );
-                    i++;
-                    path.closePath();
-                    // Beam
-                    PhetShapeGraphic beam = new PhetShapeGraphic( apparatusPanel );
-                    beam.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-                    beam.setShape( path );
-                    beam.setColor( HarmonicColors.getInstance().getColor( order++ ) );
-                    beam.setLocation( 0, 0 );
-                    beam.setIgnoreMouse( true );
-                    apparatusPanel.addGraphic( beam );
-                }
-            }
-            
-            // Rainbow from the output mirror to the output diffraction grating
-            {
-                Point focalPoint = new Point( 430, 451 );
-                Point[] points = { 
-                        new Point(  86, 646 ), new Point( 113, 652 ), 
-                        new Point( 123, 652 ), new Point( 150, 652 ), 
-                        new Point( 160, 652 ), new Point( 187, 652 ), 
-                        new Point( 196, 655 ), new Point( 224, 655 ), 
-                        new Point( 233, 652 ), new Point( 260, 652 ), 
-                        new Point( 271, 652 ), new Point( 298, 652 ), 
-                        new Point( 307, 652 ), new Point( 335, 646 ) };
-
-                int order = 0;
-                for ( int i = 0; i < points.length; ) {
-                    // Path
-                    GeneralPath path = new GeneralPath();
-                    path.moveTo( focalPoint.x, focalPoint.y );
-                    path.lineTo( points[i].x, points[i].y );
-                    i++;
-                    path.lineTo( points[i].x, points[i].y );
-                    i++;
-                    path.closePath();
-                    // Beam
-                    PhetShapeGraphic beam = new PhetShapeGraphic( apparatusPanel );
-                    beam.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-                    beam.setShape( path );
-                    beam.setColor( HarmonicColors.getInstance().getColor( order++ ) );
-                    beam.setLocation( 0, 0 );
-                    beam.setIgnoreMouse( true );
-                    apparatusPanel.addGraphic( beam );
-                }
-            }
-        }
-        
         // Input mirror
         {
             Mirror inputMirror = new Mirror( apparatusPanel );
@@ -233,27 +164,6 @@ public class ShaperModule extends AbstractModule {
             outputMirrorLabel.setLocation( 55, 655 );
             outputMirrorLabel.setIgnoreMouse( true );
             apparatusPanel.addGraphic( outputMirrorLabel );
-        }
-        
-        // White light rays
-        {
-            PhetShapeGraphic inputLight = new PhetShapeGraphic( apparatusPanel );
-            inputLight.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-            inputLight.setShape( new Rectangle( 0, 0, 10, 130 ) );
-            inputLight.setColor( Color.WHITE );
-            inputLight.rotate( Math.toRadians( 8 ) );
-            inputLight.setLocation( 447, 124 );
-            inputLight.setIgnoreMouse( true );
-            apparatusPanel.addGraphic( inputLight );
-            
-            PhetShapeGraphic outputLight = new PhetShapeGraphic( apparatusPanel );
-            outputLight.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-            outputLight.setShape( new Rectangle( 0, 0, 10, 130 ) );
-            outputLight.setColor( Color.WHITE );
-            outputLight.rotate( Math.toRadians( -180 - 8 ) );
-            outputLight.setLocation( 447 + 10, 570 );
-            outputLight.setIgnoreMouse( true );
-            apparatusPanel.addGraphic( outputLight );
         }
         
         // Diffraction gratings
