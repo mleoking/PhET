@@ -6,15 +6,17 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- control panel on apparatus panel sometimes is drawn incorrectly
 - correct calculation for "closeness"
 - how close do we have to be to match the output pulse?
 - molecule animation
 - wait cursors
-- make amplitude sliders 254 pixels tall so that every value can be achieved
+- physically connect molecule animation to output pulse view
 
 MEDIUM PRIORITY:
 - change title to "Optical Pulse Shaping for Quantum Control"
 - Spanish translations
+- make amplitude sliders 254 pixels tall so that every value can be achieved
 
 LOW PRIORITY:
 
@@ -34,6 +36,10 @@ CLEANUP:
 - resize any scaled images
 - save all images using Photoshop's "Save for Web" feature
 - fix all javadoc warnings and errors
+
+
+PHETCOMMON:
+- clip should be in specifiable in local coordinate, but it currently needs to be in global coordinates
 
 
 DONE:

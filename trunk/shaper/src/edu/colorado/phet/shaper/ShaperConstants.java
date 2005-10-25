@@ -92,9 +92,19 @@ public class ShaperConstants {
     public static final Cursor WAIT_CURSOR = Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR );
     
     //----------------------------------------------------------------------------
+    // Game parameters
+    //----------------------------------------------------------------------------
+    
+    /** The closeness value that is considered a "match" */
+    public static final double CLOSENESS_MATCH = 0.95;
+    
+    //----------------------------------------------------------------------------
     // Images
     //----------------------------------------------------------------------------
 
     private static final String IMAGES_DIRECTORY = "images/";
     public static final String CLOSE_BUTTON_IMAGE = IMAGES_DIRECTORY + "closeButton.png";
+    public static final String MOLECULE1_PART1_IMAGE = IMAGES_DIRECTORY + "molecule1_part1.png";
+    public static final String MOLECULE1_PART2_IMAGE = IMAGES_DIRECTORY + "molecule1_part2.png";
+    public static final String MOLECULE1_PART3_IMAGE = IMAGES_DIRECTORY + "molecule1_part3.png";
 }

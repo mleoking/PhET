@@ -116,6 +116,8 @@ public class ShaperModule extends AbstractModule {
         _animation = new MoleculeAnimation( apparatusPanel );
         apparatusPanel.addGraphic( _animation );
         _animation.setLocation( 515, 222 );
+        _animation.updateClip(); // must be done after added to apparatus panel & location is set
+        model.addModelElement( _animation );//XXX need to separate model & view here
         
         // Rainbow of light
         {
@@ -297,7 +299,7 @@ public class ShaperModule extends AbstractModule {
 
         // Game manager
         GameManager gameManager = new GameManager( _userFourierSeries, _outputFourierSeries, _animation, controlPanel );
-        apparatusPanel.addMouseListener( gameManager );
+        _animation.setGameManager( gameManager );
         
         //----------------------------------------------------------------------------
         // Help

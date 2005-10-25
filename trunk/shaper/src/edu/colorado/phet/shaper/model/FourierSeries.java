@@ -173,6 +173,13 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
         return (Harmonic) _harmonics.get( order );
     }
     
+    public void setAdjusting( boolean adjusting ) {
+        _adjusting = adjusting;
+        if ( !_adjusting ) {
+            update();
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
