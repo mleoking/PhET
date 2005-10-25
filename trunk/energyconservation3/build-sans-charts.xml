@@ -5,7 +5,6 @@
     <property name="ant.classes" location="${ant.output}/classes"/>
     <property name="ant.jars" location="${ant.output}/jars"/>
     <property name="ant.javadoc" location="${ant.output}/javadoc"/>
-    <property name="ant.lib" location="${ant.output}/lib"/>
 
     <!--    Set current sister directories, for backup and release data. -->
     <property name="backup" location="../backup"/>
@@ -23,30 +22,22 @@
     <property name="build.number.txt" value="${data}/${distname}.build.number"/>
     <property name="timestamp.name" value="${data}/${distname}.build.time.stamp"/>
 
-    <property name="explorer" value="explorer"/>
-
-    <description>
-        Build File.
-    </description>
-
-    <target name="init">
-        <tstamp/>
-    </target>
-
     <target name="Clean"
         description="clean up">
         <delete dir="${ant.classes}"/>
         <delete dir="${ant.jars}"/>
-        <delete dir="${ant.javadoc}"/>
-        <delete dir="${ant.lib}"/>
     </target>
 
-    <target name="Compile" depends="init, Clean"
+    <target name="Compile" depends="Clean"
         description="compile the source ">
+        <tstamp/>
         <mkdir dir="${ant.classes}"/>
-        <javac srcdir="${src}:timeseries/src:piccolo/src:piccolo/phet-src:piccolo/extras:phetcommon/src:jfreechart/source"
-            excludes="edu/umd/cs/piccolox/swt/*.java,edu/colorado/phet/timeseries/plot/*.java"
-            classpath="jfreechart/lib/jcommon-1.0.0-rc1.jar:jfreechart/lib/gnujaxp.jar:jfreechart/lib/junit.jar:jfreechart/lib/servlet.jar"
+        <javac srcdir="${src}:
+        piccolo/src:
+        piccolo/phet-src:
+        piccolo/extras:
+        phetcommon/src"
+            excludes="edu/umd/cs/piccolox/swt/*.java"
             destdir="${ant.classes}"/>
         <!--    Uncomment the following line to add test classes to the output jar.    -->
         <!--        <javac srcdir="${tests-src}" destdir="${classes}"/>-->
@@ -70,9 +61,6 @@
         <jar destfile="${ant.jars}/${distname}.jar">
             <fileset dir="${ant.classes}"/>
             <fileset dir="${data}"/>
-            <fileset dir="jfreechart/source">
-                <include name="**/*.properties"/>
-            </fileset>
             <fileset dir="phetcommon/data"></fileset>
 
             <manifest>
@@ -96,12 +84,6 @@
             </fileset>
         </copy>
         <mkdir dir="${destdir}/lib"/>
-        <copy todir="${destdir}/lib">
-            <!--<fileset dir="${ant.lib}"/>-->
-            <fileset dir="jfreechart/lib">
-                <exclude name="jfreechart-1.0.0-rc1.jar"/>
-            </fileset>
-        </copy>
         <exec dir="${destdir}" executable="${explorer}">
             <arg line="${destdir}"/>
         </exec>
