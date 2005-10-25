@@ -11,8 +11,6 @@
 
 package edu.colorado.phet.shaper.view;
 
-import java.awt.event.MouseEvent;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.event.MouseInputAdapter;
@@ -21,8 +19,8 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.shaper.ShaperConstants;
-import edu.colorado.phet.shaper.control.ShaperControls;
 import edu.colorado.phet.shaper.model.FourierSeries;
+import edu.colorado.phet.shaper.module.ShaperModule;
 
 
 /**
@@ -33,19 +31,20 @@ import edu.colorado.phet.shaper.model.FourierSeries;
  */
 public class GameManager extends MouseInputAdapter implements SimpleObserver {
 
+    private ShaperModule _module;
     private FourierSeries _userFourierSeries;
     private FourierSeries _outputFourierSeries;
     private MoleculeAnimation _animation;
-    private ShaperControls _controlPanel;
     private boolean _isAdjusting;
     
-    public GameManager( FourierSeries userFourierSeries, FourierSeries outputFourierSeries,
-            MoleculeAnimation animation, ShaperControls controlPanel ) {
+    public GameManager( ShaperModule module, 
+            FourierSeries userFourierSeries, FourierSeries outputFourierSeries,
+            MoleculeAnimation animation  ) {
         
+        _module = module;
         _userFourierSeries = userFourierSeries;
         _outputFourierSeries = outputFourierSeries;
         _animation = animation;
-        _controlPanel = controlPanel;
         
         _userFourierSeries.addObserver( this );
         _outputFourierSeries.addObserver( this );
@@ -66,8 +65,7 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
         JOptionPane.showMessageDialog( frame, message, title, JOptionPane.INFORMATION_MESSAGE );
 
         // Start a new "game".
-        _controlPanel.newOutputPulse();
-        _animation.reset();
+        _module.newGame();
         
         _isAdjusting = false;
     }

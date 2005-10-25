@@ -8,8 +8,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 - show a "kaboom" graphic when the molecule explodes
 - make the molecule parts travel across the entire apparatus panel when it explodes (no clip)
-- remove the "Show output pulse" control
-- put "New output pulse" button on output pulse view
 - calculate "closeness" using Mike Dubson's formula
 - how close do we have to be to match the output pulse?
 - different molecule graphic for each output pulse preset
@@ -47,6 +45,8 @@ PHETCOMMON:
 
 
 DONE:
+(10/25/05) - remove the "Show output pulse" control
+(10/25/05) - put "New output pulse" button on output pulse view
 (10/25/05) - change alpha of light beam to match amplitudes
 (10/25/05) - change title to "Optical Quantum Control", per Carl
 0.0.2 ...
