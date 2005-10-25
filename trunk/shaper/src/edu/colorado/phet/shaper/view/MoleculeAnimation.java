@@ -51,6 +51,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
     private PhetImageGraphic _moleculePart3;
     private HTMLGraphic _closenessGraphic;
     private String _closenessFormat;
+    private GameManager _gameManager;
     
     private double _closeness;
     private Point _moleculeHome;
@@ -144,10 +145,9 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
     }
 
     public void reset() {
-        System.out.println( "MoleculeAnimation.reset" );//XXX
         _enabled = true;
         _isExploding = false;
-        _closeness = 0;
+        setCloseness( 0 );
         _molecule.setLocation( _moleculeHome );
         _moleculePart1.setLocation( 0, 0 );
         _moleculePart2.setLocation( 0, 0 );
@@ -161,8 +161,6 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
     public boolean isEnabled() {
         return _enabled;
     }
-    
-    private GameManager _gameManager; //XXX
     
     public void setGameManager( GameManager gameManager ) {
         _gameManager = gameManager;
@@ -194,7 +192,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
                 if ( Math.abs( _moleculePart1.getX() ) > 2 * _animationFrame.getWidth() &&
                      Math.abs( _moleculePart1.getY() ) > 2 * _animationFrame.getHeight() ) {
                     _enabled = false; // animation is done
-                    _gameManager.update();
+                    _gameManager.gameOver();
                 }
             }
             else if ( _closeness < ShaperConstants.CLOSENESS_MATCH ) {
