@@ -45,6 +45,8 @@ PHETCOMMON:
 
 
 DONE:
+(10/25/05) - "Save for Web" all molecule graphics
+(10/25/05) - change the molecule graphic to match the output pulse preset
 (10/25/05) - make a total of 8 molecule graphics, one for each output pulse preset
 (10/25/05) - change animation background to black
 (10/25/05) - calculate "closeness" using Mike Dubson's formula

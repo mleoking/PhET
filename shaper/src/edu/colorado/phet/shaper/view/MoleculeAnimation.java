@@ -105,9 +105,9 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         // molecule
         _molecule = new CompositePhetGraphic( component );
         {           
-            _moleculePart1 = new PhetImageGraphic( component, ShaperConstants.MOLECULE1_PART1_IMAGE );
-            _moleculePart2 = new PhetImageGraphic( component, ShaperConstants.MOLECULE1_PART2_IMAGE );
-            _moleculePart3 = new PhetImageGraphic( component, ShaperConstants.MOLECULE1_PART3_IMAGE );
+            _moleculePart1 = new PhetImageGraphic( component );
+            _moleculePart2 = new PhetImageGraphic( component );
+            _moleculePart3 = new PhetImageGraphic( component );
             _molecule.addGraphic( _moleculePart1 );
             _molecule.addGraphic( _moleculePart2 );
             _molecule.addGraphic( _moleculePart3 );
@@ -121,6 +121,15 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
+    
+    public void setMolecule( int index ) {
+        String part1 = ShaperConstants.IMAGES_DIRECTORY + "molecule" + index + "_part1.png";
+        String part2 = ShaperConstants.IMAGES_DIRECTORY + "molecule" + index + "_part2.png";
+        String part3 = ShaperConstants.IMAGES_DIRECTORY + "molecule" + index + "_part3.png";
+        _moleculePart1.setImageResourceName( part1 );
+        _moleculePart2.setImageResourceName( part2 );
+        _moleculePart3.setImageResourceName( part3 );
+    }
     
     /**
      * Enables or disables clipping of the molecules animation.
