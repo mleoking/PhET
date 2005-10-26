@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.shaper.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.RenderingHints;
@@ -29,7 +30,7 @@ public class DiffractionGrating extends PhetShapeGraphic {
 
     private static final double WIDTH = 100;
     private static final double HEIGHT = 15;
-    private static final Color COLOR = Color.DARK_GRAY;
+    private static final Color COLOR = Color.LIGHT_GRAY;
     
     public DiffractionGrating( Component component ) {
         super( component );
@@ -42,5 +43,7 @@ public class DiffractionGrating extends PhetShapeGraphic {
         Rectangle2D rectangle = new Rectangle2D.Double( 0, 0, WIDTH, HEIGHT );
         setShape( rectangle );
         setColor( COLOR );
+        setBorderColor( Color.BLACK );
+        setStroke( new BasicStroke( 1f ) );
     }
 }

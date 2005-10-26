@@ -65,6 +65,9 @@ public class ShaperConstants {
     // Colors
     //----------------------------------------------------------------------------
     
+    /** Gray used for many objects */
+    public static final Color COMMON_GRAY = new Color( 215, 215, 215 );
+    
     /** Color of the waveform in the Output Pulse graph. */
     public static final Color OUTPUT_PULSE_COLOR = new Color( 1f, 0.411802f, 0.705893f );
     

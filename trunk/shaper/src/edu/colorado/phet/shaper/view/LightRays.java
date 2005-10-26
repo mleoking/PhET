@@ -136,7 +136,7 @@ public class LightRays extends CompositePhetGraphic implements SimpleObserver {
 
         // Rays from the output mirror to the output diffraction grating
         {
-            Point focalPoint = new Point( 344, 426 );
+            Point focalPoint = new Point( 344, 423 );
             Point[] points = { 
                     new Point( 0 * (WIDTH+SPACING), 622 ), new Point( ( 0 * (WIDTH+SPACING) ) + WIDTH, 626 ), 
                     new Point( 1 * (WIDTH+SPACING), 626 ), new Point( ( 1 * (WIDTH+SPACING) ) + WIDTH, 630 ), 
