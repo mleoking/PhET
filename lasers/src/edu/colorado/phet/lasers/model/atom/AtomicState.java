@@ -54,6 +54,7 @@ public class AtomicState {
     //----------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------
+
     public AtomicState() {
     }
 
@@ -62,6 +63,17 @@ public class AtomicState {
         this.meanLifetime = stateToClone.getMeanLifeTime();
         this.nextHigherState = stateToClone.getNextHigherEnergyState();
         this.nextLowerState = stateToClone.getNextLowerEnergyState();
+    }
+
+    /**
+     *
+     */
+    public void enterState() {
+        // noop
+    }
+
+    public void leaveState() {
+        // noop
     }
 
     public double getEnergyLevel() {
@@ -108,8 +120,6 @@ public class AtomicState {
     public double determineEmittedPhotonWavelength( AtomicState nextState ) {
         double energy1 = this.getEnergyLevel();
         double energy2 = nextState.getEnergyLevel();
-//        double energy1 = PhysicsUtil.wavelengthToEnergy( this.getWavelength() );
-//        double energy2 = PhysicsUtil.wavelengthToEnergy( nextState.getWavelength() );
         double emittedWavelength = Math.min( PhysicsUtil.energyToWavelength( energy1 - energy2 ),
                                              AtomicState.maxWavelength );
         return emittedWavelength;
@@ -234,7 +244,6 @@ public class AtomicState {
 
     public int hashCode() {
         return (int)( Double.doubleToLongBits( energyLevel ) + Double.doubleToLongBits( meanLifetime ) );
-//        return (int)( Double.doubleToLongBits( energyLevel ) + Double.doubleToLongBits( getWavelength() ) + Double.doubleToLongBits( meanLifetime ) );
     }
 
     /**

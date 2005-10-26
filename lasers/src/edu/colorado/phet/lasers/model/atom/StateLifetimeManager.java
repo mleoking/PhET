@@ -17,6 +17,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.geom.Point2D;
+import java.util.Random;
 
 /**
  * An object that manages the lifetime of an AtomicEnergyState.
@@ -32,6 +33,9 @@ class StateLifetimeManager implements ModelElement {
     private double deathTime;
     private AtomicState state;
     private BaseModel model;
+    private EmissionDirectionStrategy emissionDirectionStrategy =
+            new SometimesHorizontalButMostlyRandomEmissionDirectionStrategy( 0.25 );
+//    private EmissionDirectionStrategy emissionDirectionStrategy = new RandomEmissionDirectionStrategy();
 
     /**
      * @param atom              The atom whose state's lifetime we are to manage
@@ -77,9 +81,8 @@ class StateLifetimeManager implements ModelElement {
             AtomicState nextState = atom.getEnergyStateAfterEmission();
             if( emitOnStateChange ) {
                 double speed = Photon.SPEED;
-                double theta = Math.random() * Math.PI * 2;
-
-//                theta = 0;
+                double theta = emissionDirectionStrategy.getEmissionDirection();
+//                double theta = Math.random() * Math.PI * 2;
                 double x = speed * Math.cos( theta );
                 double y = speed * Math.sin( theta );
 
@@ -110,4 +113,52 @@ class StateLifetimeManager implements ModelElement {
     public void kill() {
         model.removeModelElement( this );
     }
+
+    //----------------------------------------------------------------
+    // Strategy for determining the direction that photons will be emitted
+    //----------------------------------------------------------------
+
+    public static interface EmissionDirectionStrategy {
+        /**
+         * The direction the photon is supposed to go, in radians
+         *
+         * @return
+         */
+        double getEmissionDirection();
+    }
+
+    /**
+     * Direction is totaly random
+     */
+    public static class RandomEmissionDirectionStrategy implements EmissionDirectionStrategy {
+        private static Random random = new Random( System.currentTimeMillis() );
+
+        public double getEmissionDirection() {
+            return random.nextDouble() * Math.PI * 2;
+        }
+    }
+
+    /**
+     * A specified percentage of the time the direction will be horizontal, radomized left and
+     * right. The rest of the time it will be totally random
+     */
+    public static class SometimesHorizontalButMostlyRandomEmissionDirectionStrategy
+            extends RandomEmissionDirectionStrategy {
+        private static Random random = new Random( System.currentTimeMillis() );
+        private double horizontalLikelihood = 0.4;
+
+        public SometimesHorizontalButMostlyRandomEmissionDirectionStrategy( double horizontalLikelihood ) {
+            this.horizontalLikelihood = horizontalLikelihood;
+        }
+
+        public double getEmissionDirection() {
+            if( random.nextDouble() <= horizontalLikelihood ) {
+                return Math.PI * ( random.nextBoolean() ? 1 : 0 );
+            }
+            else {
+                return super.getEmissionDirection();
+            }
+        }
+    }
+
 }

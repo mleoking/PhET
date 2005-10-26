@@ -62,8 +62,6 @@ public class LaserPhoton extends Photon {
         double newY = stimulatingPhoton.getPosition().getY() + dy;
         double newX = stimulatingPhoton.getPosition().getX() + dx;
 
-        System.out.println( "dy = " + dy );
-
         // Keep the photon inside the cavity.
         // todo: if we get the photon graphic positioned better, this may change.
         double minY = stimulationBounds.getMinY() + Photon.RADIUS;
@@ -102,24 +100,19 @@ public class LaserPhoton extends Photon {
                 Photon testPhoton = (Photon)childPhotons.get( i );
                 if( testPhoton == null ) {
                     childPhotons.set( i, photon );
-                    System.out.println( "LaserPhoton$StimRecord.addChildPhoton --- hit" );
                 }
             }
             // If we didn't find an empty slot, add the photon to the end of the list
             if( idx < 0 ) {
                 childPhotons.add( photon );
-                System.out.println( "LaserPhoton$StimRecord.addChildPhoton --- miss" );
             }
             idx = childPhotons.indexOf( photon );
-            System.out.println( "added: childPhotons.size() = " + childPhotons.size() );
-
             return idx;
         }
 
         void removeChildPhoton( Photon photon ) {
             int idx = childPhotons.indexOf( photon );
             childPhotons.set( idx, null );
-            System.out.println( "removed: idx = " + idx );
         }
     }
 
