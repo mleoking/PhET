@@ -71,6 +71,9 @@ public class ShaperConstants {
     /** Maximum opacity of light rays */
     public static final int MAX_LIGHT_ALPHA = 200; // range is 0-255
     
+    /** Any light ray with non-zero amplitude has at least this alpha */
+    public static final int MIN_LIGHT_ALPHA = 25; // range is 0-255
+    
     //----------------------------------------------------------------------------
     // Harmonics
     //----------------------------------------------------------------------------
