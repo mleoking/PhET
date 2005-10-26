@@ -322,6 +322,7 @@ public class ShaperModule extends AbstractModule implements ActionListener {
         }
         
         // Reset the animation
+        _animation.setMolecule( _moleculeIndex );
         _animation.reset();
         
         _userFourierSeries.setAdjusting( false );
