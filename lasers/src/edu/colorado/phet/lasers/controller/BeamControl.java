@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.photoelectric.controller;
+package edu.colorado.phet.lasers.controller;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
@@ -16,6 +16,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.control.IntensitySlider;
 import edu.colorado.phet.control.SpectrumSliderWithSquareCursor;
+import edu.colorado.phet.control.SpectrumSlider;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.lasers.model.photon.Beam;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
@@ -43,8 +44,7 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
     private Point spectrumSliderLoc;
     private Point spectrumSliderRelLoc = new Point( 13, 93 );
     private Dimension spectrumSize = new Dimension( 145, 19 );
-    private SpectrumSliderWithReadout wavelengthSlider;
-    ;
+    private SpectrumSlider wavelengthSlider;
 
     /**
      * @param apparatusPanel
@@ -77,15 +77,7 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
 
     private void addWavelengthSlider( final Beam beam ) {
         // Make a spectrum wavelengthSlider
-        final SpectrumSliderWithSquareCursor wavelengthSlider1 = new SpectrumSliderWithSquareCursor( apparatusPanel,
-                                                                                                     100,
-                                                                                                     850 );
-        wavelengthSlider = new SpectrumSliderWithReadout( apparatusPanel,
-                                                          wavelengthSlider1,
-                                                          beam,
-                                                          100,
-                                                          850,
-                                                          spectrumSliderLoc );
+        wavelengthSlider = new SpectrumSlider( apparatusPanel, 100, 850 );
         wavelengthSlider.setLocation( spectrumSliderRelLoc ); // default is (0,0)
         wavelengthSlider.setOrientation( SpectrumSliderWithSquareCursor.HORIZONTAL ); // default is HORIZONTAL
         wavelengthSlider.setTransmissionWidth( 1.0 ); // default is 0.0
@@ -110,10 +102,10 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
         intensitySlider.setLocation( intensitySliderLoc ); // default is (0,0)
         apparatusPanel.add( intensitySlider );
 
-        IntensityReadout intensityReadout = new IntensityReadout( apparatusPanel, beam );
-        intensityReadout.setLocation( (int)( intensitySliderLoc.getX() + intensitySlider.getWidth() ) + 4,
-                                      (int)( intensitySliderLoc.getY() + intensitySlider.getHeight() / 2 - intensityReadout.getHeight() / 2 ) - 1 );
-        apparatusPanel.addGraphic( intensityReadout, 1E14 );
+//        IntensityReadout intensityReadout = new IntensityReadout( apparatusPanel, beam );
+//        intensityReadout.setLocation( (int)( intensitySliderLoc.getX() + intensitySlider.getWidth() ) + 4,
+//                                      (int)( intensitySliderLoc.getY() + intensitySlider.getHeight() / 2 - intensityReadout.getHeight() / 2 ) - 1 );
+//        apparatusPanel.addGraphic( intensityReadout, 1E14 );
 
         intensitySlider.setValue( 0 );
         intensitySlider.addChangeListener( new ChangeListener() {
