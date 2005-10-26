@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
@@ -103,14 +104,28 @@ public class ShaperApplication extends PhetApplication {
         
         // Help menu extensions
         HelpMenu helpMenu = getPhetFrame().getHelpMenu();
-        JMenuItem cheatItem = new JMenuItem( SimStrings.get( "HelpMenu.cheat" ) );
-        cheatItem.setMnemonic( SimStrings.get( "HelpMenu.cheat.mnemonic" ).charAt(0) );
-        cheatItem.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                 _shaperModule.setCheatEnabled( true );
-            }
-        } );
-        helpMenu.add( cheatItem );
+        if ( helpMenu != null ) {
+            
+            // Explanation...
+            JMenuItem explanationItem = new JMenuItem( SimStrings.get( "HelpMenu.explanation" ) );
+            explanationItem.setMnemonic( SimStrings.get( "HelpMenu.explanation.mnemonic" ).charAt( 0 ) );
+            explanationItem.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    JOptionPane.showMessageDialog(getPhetFrame(), "Explanation goes here" );//XXX
+                }
+            } );
+            helpMenu.add( explanationItem );
+            
+            // Cheat...
+            JMenuItem cheatItem = new JMenuItem( SimStrings.get( "HelpMenu.cheat" ) );
+            cheatItem.setMnemonic( SimStrings.get( "HelpMenu.cheat.mnemonic" ).charAt( 0 ) );
+            cheatItem.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    _shaperModule.setCheatEnabled( true );
+                }
+            } );
+            helpMenu.add( cheatItem );
+        }
     }
 
     //----------------------------------------------------------------------------
