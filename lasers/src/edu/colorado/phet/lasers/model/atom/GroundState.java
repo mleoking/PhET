@@ -20,7 +20,7 @@ public class GroundState extends AtomicState {
 
     // The minimum time (in real time) that an atom must be in this state before a
     // collision with a photon will have an effect
-    static private long minLifetime = 500;
+    static private long minLifetime = 400;
 
     public static void setMinLifetime( long t ) {
         minLifetime = t;
@@ -30,7 +30,6 @@ public class GroundState extends AtomicState {
 
     public GroundState() {
         setEnergyLevel( 0 );
-//        setEnergyLevel( AtomicState.minEnergy );
         setMeanLifetime( Double.POSITIVE_INFINITY );
     }
 
@@ -42,14 +41,16 @@ public class GroundState extends AtomicState {
      */
     public void collideWithPhoton( Atom atom, Photon photon ) {
 
-        if( !photonCollisionEnabled && Math.abs( photon.getEnergy() - this.getEnergyLevel() ) <= LaserConfig.ENERGY_TOLERANCE ) {
+        // If this state hasn't been yet enabled to be stimulated by a photon that would bump it to the
+        // next highest energy level, don't do anything.
+        double de = getNextHigherEnergyState().getEnergyLevel() - this.getEnergyLevel();
+        if( !photonCollisionEnabled && Math.abs( photon.getEnergy() - de ) <= LaserConfig.ENERGY_TOLERANCE ) {
             return;
         }
 
         // Only respond a specified percentage of the time
         if( Math.random() < s_collisionLikelihood ) {
             AtomicState newState = getStimulatedState( atom, photon, this.getEnergyLevel() );
-//            AtomicState newState = getStimulatedState( atom, photon, 0 );
             if( newState != null ) {
                 photon.removeFromSystem();
                 atom.setCurrState( newState );

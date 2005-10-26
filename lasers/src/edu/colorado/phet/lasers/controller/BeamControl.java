@@ -15,11 +15,9 @@ import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.control.IntensitySlider;
-import edu.colorado.phet.control.SpectrumSliderWithSquareCursor;
 import edu.colorado.phet.control.SpectrumSlider;
-import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+import edu.colorado.phet.control.SpectrumSliderWithSquareCursor;
 import edu.colorado.phet.lasers.model.photon.Beam;
-import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -87,7 +85,7 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
         wavelengthSlider.setTransmissionWidth( 1.0 ); // default is 0.0
         wavelengthSlider.setKnobSize( new Dimension( 20, 20 ) ); // default is (20,30)
         wavelengthSlider.setSpectrumSize( spectrumSize ); // default is (200,25)
-        addGraphic( wavelengthSlider, DischargeLampsConfig.CONTROL_LAYER );
+//        addGraphic( wavelengthSlider, DischargeLampsConfig.CONTROL_LAYER );
         wavelengthSlider.setValue( (int)( beam.getWavelength() ) );
         wavelengthSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

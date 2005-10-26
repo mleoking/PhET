@@ -2,15 +2,12 @@ package edu.colorado.phet.lasers.controller;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
-import edu.colorado.phet.lasers.model.atom.GroundState;
 import edu.colorado.phet.lasers.view.LampGraphic;
 import edu.colorado.phet.lasers.view.PumpBeamViewPanel;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -110,16 +107,17 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
             }
         } );
 
-        final JSlider gstSlider = new JSlider( 0, 1000, 0 );
-        gstSlider.setMajorTickSpacing( 100 );
-        gstSlider.setPaintTicks( true );
-        gstSlider.setPaintLabels( true );
-        gstSlider.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                GroundState.setMinLifetime( gstSlider.getValue() );
-            }
-        } );
-        super.addControl( gstSlider );
+        // FOR TESTING ONLY
+//        final JSlider gstSlider = new JSlider( 0, 1000, 0 );
+//        gstSlider.setMajorTickSpacing( 100 );
+//        gstSlider.setPaintTicks( true );
+//        gstSlider.setPaintLabels( true );
+//        gstSlider.addChangeListener( new ChangeListener() {
+//            public void stateChanged( ChangeEvent e ) {
+//                GroundState.setMinLifetime( gstSlider.getValue() );
+//            }
+//        } );
+//        super.addControl( gstSlider );
     }
 
     private JPanel createMirrorControlPanel( final BaseLaserModule module ) {

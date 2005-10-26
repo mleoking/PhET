@@ -26,6 +26,7 @@ import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
+import edu.colorado.phet.lasers.model.mirror.BandPass;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 import edu.colorado.phet.lasers.model.photon.*;
 import edu.colorado.phet.lasers.view.*;
@@ -210,7 +211,8 @@ public class BaseLaserModule extends Module {
         Point2D p2 = new Point2D.Double( cavity.getPosition().getX() + cavity.getWidth(),
                                          cavity.getPosition().getY() + cavity.getHeight() );
         rightMirror = new PartialMirror( p1, p2 );
-//        laserModel.setRightMirror( rightMirror );
+        BandPass bandPass = new BandPass( LaserConfig.MIN_WAVELENGTH, LaserConfig.MAX_WAVELENGTH );
+        rightMirror.addReflectionStrategy( bandPass );
 
 //        rightMirror.addReflectionStrategy( new LeftReflecting() );
         rightMirrorGraphic = new MirrorGraphic( getApparatusPanel(), rightMirror, MirrorGraphic.LEFT_FACING );
@@ -220,9 +222,8 @@ public class BaseLaserModule extends Module {
         Point2D p4 = new Point2D.Double( cavity.getPosition().getX(),
                                          cavity.getPosition().getY() + cavity.getHeight() );
         leftMirror = new PartialMirror( p3, p4 );
+        leftMirror.addReflectionStrategy( bandPass );
         leftMirror.setReflectivity( 1.0 );
-//        laserModel.setLeftMirror( leftMirror );
-//        leftMirror.addReflectionStrategy( new RightReflecting() );
         leftMirrorGraphic = new MirrorGraphic( getApparatusPanel(), leftMirror, MirrorGraphic.RIGHT_FACING );
 
         // Put a reflectivity control on the panel
@@ -237,10 +238,6 @@ public class BaseLaserModule extends Module {
         reflectivityControlPanel.setOpaque( false );
         reflectivityControlPanel.setVisible( false );
         getApparatusPanel().add( reflectivityControlPanel );
-//        PhetGraphic reflectivityPJC = (PhetGraphic)PhetJComponent.newInstance( getApparatusPanel(), reflectivityControlPanel );
-//        reflectivityPJC.setLocation( (int)rightMirror.getPosition().getX(),
-//                                            (int)( rightMirror.getPosition().getY() + rightMirror.getBounds().getLength() ) );
-//        getApparatusPanel().addGraphic( reflectivityPJC, 1000 );
 
         // Add the graphics for lasing
         addLasingGraphics();
@@ -459,7 +456,6 @@ public class BaseLaserModule extends Module {
     protected AtomGraphic addAtom( Atom atom ) {
         getModel().addModelElement( atom );
         AtomGraphic atomGraphic = new AnnotatedAtomGraphic( getApparatusPanel(), atom );
-//        AtomGraphic atomGraphic = new AtomGraphic( getApparatusPanel(), atom );
         addGraphic( atomGraphic, LaserConfig.ATOM_LAYER );
 
         // Add a listener to the atom that will create a photon graphic if the atom

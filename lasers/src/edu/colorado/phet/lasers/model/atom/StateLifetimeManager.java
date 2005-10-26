@@ -82,7 +82,6 @@ class StateLifetimeManager implements ModelElement {
             if( emitOnStateChange ) {
                 double speed = Photon.SPEED;
                 double theta = emissionDirectionStrategy.getEmissionDirection();
-//                double theta = Math.random() * Math.PI * 2;
                 double x = speed * Math.cos( theta );
                 double y = speed * Math.sin( theta );
 
@@ -115,7 +114,7 @@ class StateLifetimeManager implements ModelElement {
     }
 
     //----------------------------------------------------------------
-    // Strategy for determining the direction that photons will be emitted
+    // Strategies for determining the direction that photons will be emitted
     //----------------------------------------------------------------
 
     public static interface EmissionDirectionStrategy {

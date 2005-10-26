@@ -41,7 +41,7 @@ public class LaserSimulation extends PhetApplication {
         super( args,
                SimStrings.get( "LasersApplication.title" ),
                SimStrings.get( "LasersApplication.description" ),
-               SimStrings.get( "LasersApplication.version" ),
+               LaserConfig.VERSION,
                clock,
                true,
                new FrameSetup.CenteredWithSize( 1024, 750 ) );
