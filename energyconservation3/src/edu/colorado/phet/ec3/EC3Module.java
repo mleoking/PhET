@@ -133,6 +133,7 @@ public class EC3Module extends PiccoloModule {
         SplineGraphic splineGraphic = new SplineGraphic( energyCanvas, surface );
         energyModel.addSplineSurface( surface );
         energyCanvas.addSplineGraphic( splineGraphic );
+        energyCanvas.initPieGraphic();
     }
 
     public Object getModelState() {
@@ -162,5 +163,17 @@ public class EC3Module extends PiccoloModule {
 
     public void setMeasuringTapeVisible( boolean selected ) {
         energyCanvas.setMeasuringTapeVisible( selected );
+    }
+
+    public boolean isPieChartVisible() {
+        return energyCanvas.isPieChartVisible();
+    }
+
+    public void setPieChartVisible( boolean selected ) {
+        energyCanvas.setPieChartVisible( selected );
+    }
+
+    public void clearPaths() {
+        this.getEnergyConservationModel().clearPaths();
     }
 }

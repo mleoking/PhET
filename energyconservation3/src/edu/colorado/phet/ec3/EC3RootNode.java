@@ -7,6 +7,7 @@ import edu.colorado.phet.ec3.model.EnergyConservationModel;
 import edu.colorado.phet.ec3.model.Floor;
 import edu.colorado.phet.ec3.view.BodyGraphic;
 import edu.colorado.phet.ec3.view.FloorGraphic;
+import edu.colorado.phet.ec3.view.PieChartIndicator;
 import edu.colorado.phet.ec3.view.SplineGraphic;
 import edu.colorado.phet.piccolo.PhetRootPNode;
 import edu.umd.cs.piccolo.PNode;
@@ -32,6 +33,8 @@ public class EC3RootNode extends PhetRootPNode {
     private PNode historyGraphics = new PNode();
     private MeasuringTape measuringTape;
     private static final boolean DEFAULT_TAPE_VISIBLE = false;
+    private PNode pieCharts = new PNode();
+//    private PieChartIndicator pieChartIndicator;
 
     public EC3RootNode( EC3Module ec3Module, EC3Canvas ec3Canvas ) {
         this.ec3Module = ec3Module;
@@ -55,6 +58,12 @@ public class EC3RootNode extends PhetRootPNode {
         layerAt( 1 ).getScreenNode().addChild( measuringTape );
 
         setMeasuringTapeVisible( DEFAULT_TAPE_VISIBLE );
+        layerAt( 1 ).addChild( pieCharts );
+    }
+
+    public void initPieChart() {
+        PieChartIndicator pieChartIndicator = new PieChartIndicator( ec3Module, bodyGraphicAt( 0 ) );
+        pieCharts.addChild( pieChartIndicator );
     }
 
     private EnergyConservationModel getModel() {
@@ -102,6 +111,7 @@ public class EC3RootNode extends PhetRootPNode {
         bodyGraphics.removeAllChildren();
         splineGraphics.removeAllChildren();
         clearBuses();
+        pieCharts.removeAllChildren();
     }
 
     public void addBodyGraphic( BodyGraphic bodyGraphic ) {
@@ -134,7 +144,16 @@ public class EC3RootNode extends PhetRootPNode {
         updateSplines();
         updateBodies();
         updateHistory();
+        updatePieChart();
     }
+
+    private void updatePieChart() {
+        for( int i = 0; i < pieCharts.getChildrenCount(); i++ ) {
+            PieChartIndicator pieChartIndicator = (PieChartIndicator)pieCharts.getChild( i );
+            pieChartIndicator.update();
+        }
+    }
+
 
     private void updateHistory() {
 //        System.out.println( "numHistoryGraphics() = " + numHistoryGraphics() );
@@ -210,5 +229,13 @@ public class EC3RootNode extends PhetRootPNode {
         measuringTape.setVisible( selected );
         measuringTape.setPickable( selected );
         measuringTape.setChildrenPickable( selected );
+    }
+
+    public boolean isPieChartVisible() {
+        return pieCharts.getVisible();
+    }
+
+    public void setPieChartVisible( boolean selected ) {
+        pieCharts.setVisible( selected );
     }
 }

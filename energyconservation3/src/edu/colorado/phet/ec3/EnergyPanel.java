@@ -36,6 +36,14 @@ public class EnergyPanel extends ControlPanel {
         } );
         addControl( recordPath );
 
+        final JButton clearHistory = new JButton( "Clear Path" );
+        clearHistory.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.clearPaths();
+            }
+        } );
+        addControl( clearHistory );
+
         final JCheckBox measuringTape = new JCheckBox( "Measuring Tape",
                                                        module.isMeasuringTapeVisible() );
         measuringTape.addActionListener( new ActionListener() {
@@ -44,6 +52,14 @@ public class EnergyPanel extends ControlPanel {
             }
         } );
         addControl( measuringTape );
+
+        final JCheckBox pieChart = new JCheckBox( "Pie Chart", module.isPieChartVisible() );
+        pieChart.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.setPieChartVisible( pieChart.isSelected() );
+            }
+        } );
+        addControl( pieChart );
     }
 
     private void reset() {

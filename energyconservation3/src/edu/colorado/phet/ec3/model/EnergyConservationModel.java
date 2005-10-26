@@ -45,6 +45,14 @@ public class EnergyConservationModel {
         return recordPath;
     }
 
+    public boolean containsBody( Body body ) {
+        return bodies.contains( body );
+    }
+
+    public void clearPaths() {
+        history.clear();
+    }
+
     static interface EnergyConservationModelListener {
         public void numBodiesChanged();
 
