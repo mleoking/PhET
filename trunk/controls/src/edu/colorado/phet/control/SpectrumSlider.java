@@ -555,6 +555,7 @@ public class SpectrumSlider extends CompositePhetGraphic {
 
         if( super.isVisible() ) {
             // Draw the spectrum graphic.
+//        	g2.translate( getLocation().getX(), getLocation().getY() );
             _spectrum.paint( g2 );
 
             // Draw the slider knob.

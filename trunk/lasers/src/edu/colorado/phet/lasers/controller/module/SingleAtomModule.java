@@ -16,6 +16,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.lasers.controller.BeamControl;
 import edu.colorado.phet.lasers.controller.BeamControl2;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.UniversalLaserControlPanel;
@@ -153,9 +154,11 @@ public class SingleAtomModule extends BaseLaserModule {
 
 
         // TEST!!!!
-//        BeamControl beamControl = new BeamControl( getApparatusPanel(), new Point( 300, 300),
-//                                                   seedBeam, 100 );
-//        getApparatusPanel().addGraphic( beamControl );
+        BeamControl beamControl = new BeamControl( getApparatusPanel(), new Point( 300, 300 ),
+                                                   seedBeam, 100,
+                                                   LaserConfig.MIN_WAVELENGTH,
+                                                   LaserConfig.MAX_WAVELENGTH );
+        getApparatusPanel().addGraphic( beamControl );
 
     }
 
