@@ -11,7 +11,6 @@
  */
 package edu.colorado.phet.lasers;
 
-import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -22,6 +21,7 @@ import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.PhotoWindow;
 import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
 import edu.colorado.phet.lasers.controller.module.SingleAtomModule;
+import edu.colorado.phet.lasers.view.AtomGraphic;
 
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
@@ -34,46 +34,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class LaserSimulation extends PhetApplication {
+    static AbstractClock clock = new SwingTimerClock( LaserConfig.DT, LaserConfig.FPS, AbstractClock.FRAMES_PER_SECOND );
     private JDialog photoDlg;
 
-    public static class LaserAppModel extends ApplicationModel {
-
-        public LaserAppModel() {
-            super( SimStrings.get( "LasersApplication.title" ),
-                   SimStrings.get( "LasersApplication.description" ),
-                   SimStrings.get( "LasersApplication.version" ) );
-
-
-            LaserConfig.DT = 12;
-            LaserConfig.FPS = 25;
-            AbstractClock clock = new SwingTimerClock( LaserConfig.DT, LaserConfig.FPS, AbstractClock.FRAMES_PER_SECOND );
-            setClock( clock );
-
-            // Determine the resolution of the screen
-            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-            setFrameCenteredSize( 1024, 750 );
-            if( dim.getWidth() == 1024 || dim.getHeight() == 768 ) {
-                FrameSetup fs = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 1024, 750 ) );
-                setFrameSetup( fs );
-            }
-
-            Module singleAtomModule = new SingleAtomModule( clock );
-            Module multipleAtomModule = new MultipleAtomModule( clock );
-//            Module kaboomModule = new TestKaboomModule();
-            Module[] modules = new Module[]{
-                singleAtomModule,
-                multipleAtomModule
-//                kaboomModule
-            };
-            setModules( modules );
-//            setInitialModule( multipleAtomModule );
-            setInitialModule( singleAtomModule );
-//            setInitialModule( kaboomModule );
-        }
-    }
-
     public LaserSimulation( String[] args ) {
-        super( new LaserAppModel(), args );
+        super( args,
+               SimStrings.get( "LasersApplication.title" ),
+               SimStrings.get( "LasersApplication.description" ),
+               SimStrings.get( "LasersApplication.version" ),
+               clock,
+               true,
+               new FrameSetup.CenteredWithSize( 1024, 750 ) );
+
         JButton photoBtn = new JButton( SimStrings.get( "LaserPhotoButtonLabel" ) );
         photoBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -85,6 +57,19 @@ public class LaserSimulation extends PhetApplication {
         } );
         this.getPhetFrame().getClockControlPanel().add( photoBtn, BorderLayout.WEST );
 
+        // Set the default representation strategy for energy levels
+        AtomGraphic.setEnergyRepColorStrategy( new AtomGraphic.VisibleColorStrategy() );
+
+        Module singleAtomModule = new SingleAtomModule( clock );
+        Module multipleAtomModule = new MultipleAtomModule( clock );
+        Module[] modules = new Module[]{
+            singleAtomModule,
+            multipleAtomModule
+        };
+        setModules( modules );
+        setInitialModule( singleAtomModule );
+
+        // Options menu
         JMenu optionMenu = new JMenu( "Options" );
         final JCheckBoxMenuItem cbMI = new JCheckBoxMenuItem( "All stimulated emissions" );
         cbMI.addActionListener( new ActionListener() {
@@ -93,9 +78,34 @@ public class LaserSimulation extends PhetApplication {
             }
         } );
         cbMI.setSelected( true );
-//        LaserConfig.ENABLE_ALL_STIMULATED_EMISSIONS = cbMI.isSelected() ;
         optionMenu.add( cbMI );
+
+        final JRadioButtonMenuItem colorEnergyRepStrategy = new JRadioButtonMenuItem( "Colored energy levels" );
+        colorEnergyRepStrategy.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if( colorEnergyRepStrategy.isSelected() ) {
+                    AtomGraphic.setEnergyRepColorStrategy( new AtomGraphic.VisibleColorStrategy() );
+                }
+            }
+        } );
+        final JRadioButtonMenuItem grayErgyRepStrategy = new JRadioButtonMenuItem( "Gray energy levels" );
+        grayErgyRepStrategy.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if( grayErgyRepStrategy.isSelected() ) {
+                    AtomGraphic.setEnergyRepColorStrategy( new AtomGraphic.GrayScaleStrategy() );
+                }
+            }
+        } );
+        colorEnergyRepStrategy.setSelected( true );
+        ButtonGroup energyRegBG = new ButtonGroup();
+        energyRegBG.add( colorEnergyRepStrategy );
+        energyRegBG.add( grayErgyRepStrategy );
+        optionMenu.addSeparator();
+        optionMenu.add( colorEnergyRepStrategy );
+        optionMenu.add( grayErgyRepStrategy );
+        optionMenu.addSeparator();
         getPhetFrame().addMenu( optionMenu );
+
     }
 
     public void displayHighToMidEmission( boolean selected ) {

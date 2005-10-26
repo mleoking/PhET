@@ -20,6 +20,7 @@ import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
@@ -27,6 +28,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Represents an atom with an image of a sphere, surrounded by a "halo" that represents its energy state. The halo
@@ -41,6 +43,31 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
 
     private static final boolean DEBUG = false;
     private static String s_imageName = LaserConfig.ATOM_IMAGE_FILE;
+    private static EnergyRepColorStrategy energyRepColorStrategy = new GrayScaleStrategy();
+//    private static EnergyRepColorStrategy energyRepColorStrategy = new VisibleColorStrategy();
+    private static ArrayList changeListenerList = new ArrayList();
+
+    protected static EnergyRepColorStrategy getEnergyRepColorStrategy() {
+        return energyRepColorStrategy;
+    }
+
+    public static void setEnergyRepColorStrategy( EnergyRepColorStrategy strategy ) {
+        energyRepColorStrategy = strategy;
+        for( int i = 0; i < changeListenerList.size(); i++ ) {
+            ChangeListener changeListener = (ChangeListener)changeListenerList.get( i );
+//            changeListener.stateChanged( new ChangeEvent( AtomGraphic.class ) );
+        }
+//        changeListenerProxy.stateChanged( new ChangeEvent( AtomGraphic.class ) );
+    }
+//
+    public static void addChangeListener( ChangeListener listener ) {
+        changeListenerList.add( listener );
+    }
+
+    public static void removeChangeListener( ChangeListener listener ) {
+        changeListenerList.remove( listener );
+    }
+
 
     //----------------------------------------------------------------
     // Instance data
@@ -54,8 +81,6 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
     private double energyRepRad;
     private double groundStateRingThickness;
     private double baseImageRad;
-    private EnergyRepColorStrategy energyRepColorStrategy = new VisibleColorStrategy();
-//    private EnergyRepColorStrategy energyRepColorStrategy = new GrayScaleStrategy();
 
     /**
      * @param component
@@ -220,29 +245,32 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
     /**
      * Picks a Color to represent the energy level of an atom
      */
-    protected interface EnergyRepColorStrategy {
+    static public interface EnergyRepColorStrategy {
         Color getColor( Atom atom );
     }
 
     /**
      * Picks an RGB color that renders the color corresponding to the energy level of the atom
      */
-    protected class VisibleColorStrategy implements EnergyRepColorStrategy {
+    static public class VisibleColorStrategy implements EnergyRepColorStrategy {
 
         public Color getColor( Atom atom ) {
             double de = atom.getCurrState().getEnergyLevel() - atom.getGroundState().getEnergyLevel();
             double wavelength = PhysicsUtil.energyToWavelength( de );
-            return VisibleColor.wavelengthToColor( wavelength );
+            Color c = VisibleColor.wavelengthToColor( wavelength );
+            Color returnColor = new Color( c.getRed(), c.getGreen(), c.getBlue(), 255 );
+            return returnColor;
+//            return VisibleColor.wavelengthToColor( wavelength );
         }
     }
 
     /**
      * Picks a shade of gray for the energy rep color.
      */
-    protected class GrayScaleStrategy implements EnergyRepColorStrategy {
+    static public class GrayScaleStrategy implements EnergyRepColorStrategy {
         private Color[] grayScale = new Color[240];
 
-        GrayScaleStrategy() {
+        public GrayScaleStrategy() {
             for( int i = 0; i < grayScale.length; i++ ) {
                 grayScale[i] = new Color( i, i, i );
             }
@@ -254,8 +282,6 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
             idx = Math.min( Math.max( 0, idx ), grayScale.length - 1 );
             return grayScale[idx];
         }
-
-
     }
 }
 

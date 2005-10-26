@@ -237,7 +237,8 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         levelLineLength = (int)( ( numAtoms - 1 ) * ( atomDiam * ( 1 - atomGraphicOverlap ) ) + atomDiam * 1.5 );
         for( int i = 0; i < levelGraphics.length; i++ ) {
             levelGraphics[i] = new EnergyLevelGraphic( this, atomicStates[i],
-                                                       Color.blue, levelLineOriginX,
+                                                       atomicStates[0].getEnergyLevel(),
+                                                       levelLineOriginX,
                                                        levelLineLength,
                                                        atomicStates[i] instanceof GroundState ? false : true,
                                                        levelLineOriginX + levelLineLength + 20 );
@@ -328,7 +329,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         // Draw level atoms
         // todo: cache Color instances to improve performance
         for( int i = 0; i < atomicStates.length; i++ ) {
-            Color c = colorStrategy.getColor( atomicStates[i] );
+            Color c = colorStrategy.getColor( atomicStates[i], atomicStates[0].getEnergyLevel() );
             Integer numAtoms = (Integer)numAtomsInState.get( atomicStates[i] );
             if( numAtoms != null ) {
                 int n = numAtoms.intValue();

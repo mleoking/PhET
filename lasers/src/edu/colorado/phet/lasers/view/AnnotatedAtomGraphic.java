@@ -64,12 +64,10 @@ public class AnnotatedAtomGraphic extends AtomGraphic implements Atom.ChangeList
     // Time for which the atom will show the color associated with an energy state change
     private long colorTime = 100;
     private Atom atom;
-    private EnergyRepColorStrategy energyRepColorStrategy = new VisibleColorStrategy();
-//    private EnergyRepColorStrategy energyRepColorStrategy = new GrayScaleStrategy();
 
     // A number to be displayed in the middle of the atom
     PhetGraphic numberGraphic;
-    private Font font;
+//    private Font font;
 
 
     /**
@@ -88,15 +86,15 @@ public class AnnotatedAtomGraphic extends AtomGraphic implements Atom.ChangeList
 
         getEnergyGraphic().setStroke( new BasicStroke( 0.5f ) );
         getEnergyGraphic().setBorderColor( Color.black );
-        font = new Font( LaserConfig.DEFAULT_CONTROL_FONT.getName(),
-                         LaserConfig.DEFAULT_CONTROL_FONT.getStyle(),
-                         LaserConfig.DEFAULT_CONTROL_FONT.getSize() + 8 );
+//        font = new Font( LaserConfig.DEFAULT_CONTROL_FONT.getName(),
+//                         LaserConfig.DEFAULT_CONTROL_FONT.getStyle(),
+//                         LaserConfig.DEFAULT_CONTROL_FONT.getSize() + 8 );
         // Put the number graphic in the middle of the atom graphic
         numberGraphic = characterGraphics[0];
         addGraphic( numberGraphic, 1000 );
 
         determineEnergyRadiusAndColor();
-        getEnergyGraphic().setColor( energyRepColorStrategy.getColor( atom ) );
+        getEnergyGraphic().setColor( getEnergyRepColorStrategy().getColor( atom ) );
         setNumberGraphicText();
         update();
     }
@@ -138,7 +136,7 @@ public class AnnotatedAtomGraphic extends AtomGraphic implements Atom.ChangeList
         // Let the superclass determine the radius of the energy representation, then override
         // its choice of color
         determineEnergyRadiusAndColor();
-        getEnergyGraphic().setColor( energyRepColorStrategy.getColor( atom ) );
+        getEnergyGraphic().setColor( getEnergyRepColorStrategy().getColor( atom ) );
         setNumberGraphicText();
         update();
     }

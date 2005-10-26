@@ -192,7 +192,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
             double xLoc = levelLineOriginX + xIndent;
             EnergyLevelGraphic elg = new EnergyLevelGraphic( this,
                                                              state,
-                                                             Color.black,
+                                                             states[0].getEnergyLevel(),
                                                              xLoc,
                                                              levelLineLength - levelLineOriginX,
                                                              true,
@@ -218,6 +218,8 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
 
             // Add an icon to the level. This requires a dummy atom in the state the icon is to represent
             Atom atom = new Atom( model, levelGraphics.length, true );
+
+            // todo: state lifetime needs to be set to max so the dummy atom doesn't change state
             atom.setStates( states );
             atom.setCurrState( states[i] );
             levelGraphics[i].setLevelIcon( new edu.colorado.phet.lasers.view.LevelIcon( this, atom ) );

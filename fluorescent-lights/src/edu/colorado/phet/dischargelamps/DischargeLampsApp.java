@@ -17,6 +17,7 @@ import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.view.AtomGraphic;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -46,6 +47,9 @@ public class DischargeLampsApp extends PhetApplication {
         // Determine the resolution of the screen
         DischargeLampModule singleAtomModule = new SingleAtomModule( SimStrings.get( "ModuleTitle.SingleAtomModule" ),
                                                                      getClock() );
+
+        // Set the energy rep strategy for the AtomGraphics
+        AtomGraphic.setEnergyRepColorStrategy( new AtomGraphic.GrayScaleStrategy() );
 
         double maxSpeed = 0.1;
         DischargeLampModule multipleAtomModule = new MultipleAtomModule( SimStrings.get( "ModuleTitle.MultipleAtomModule" ),
