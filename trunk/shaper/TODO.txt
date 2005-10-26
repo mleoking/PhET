@@ -16,7 +16,7 @@ MEDIUM PRIORITY:
 - separate model & view for molecule animation
 - wait cursors
 - Spanish translations
-- make amplitude sliders 254 pixels tall so that every value can be achieved
+- make amplitude sliders 254 pixels tall so that every value can be achieved by dragging
 
 
 LOW PRIORITY:
