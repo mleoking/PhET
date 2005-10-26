@@ -22,6 +22,7 @@ MEDIUM PRIORITY:
 
 
 LOW PRIORITY:
+- add more arrow locations to ShaperHelpItem
 
 
 NEW FEATURES:
@@ -46,6 +47,7 @@ PHETCOMMON:
 
 
 DONE:
+(10/26/05) - bugfix: sum absolute amplitudes when determining alpha of coherent output light beam
 (10/26/05) - tweak focal point of output light components
 (10/26/05) - put common gray color in ShaperConstants
 (10/26/05) - make molecule graphics bigger so that they fill the animation frame

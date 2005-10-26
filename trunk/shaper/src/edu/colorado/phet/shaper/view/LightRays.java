@@ -225,7 +225,7 @@ public class LightRays extends CompositePhetGraphic implements SimpleObserver {
             PhetShapeGraphic ray = (PhetShapeGraphic) _outputRays.get( i );
             ray.setColor( colorWithAlpha );
             
-            amplitudesSum += amplitude;
+            amplitudesSum += Math.abs( amplitude );
         }
         
         // Adjust coherent (white) light beam
