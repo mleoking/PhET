@@ -302,4 +302,16 @@ public class EC3Canvas extends PhetPCanvas {
     public void setMeasuringTapeVisible( boolean selected ) {
         rootNode.setMeasuringTapeVisible( selected );
     }
+
+    public void initPieGraphic() {
+        rootNode.initPieChart();
+    }
+
+    public boolean isPieChartVisible() {
+        return rootNode.isPieChartVisible();
+    }
+
+    public void setPieChartVisible( boolean selected ) {
+        rootNode.setPieChartVisible( selected );
+    }
 }
