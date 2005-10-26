@@ -12,6 +12,8 @@ HIGH PRIORITY:
 
 
 MEDIUM PRIORITY:
+- Help item for amplitude sliders doesn't always point to a slider
+- Help item for amplitude text fields doesn't always point to a text field
 - resize the molecule graphics that are currently scaled
 - separate model & view for molecule animation
 - wait cursors
