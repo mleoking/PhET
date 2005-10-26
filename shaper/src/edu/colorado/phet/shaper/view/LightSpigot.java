@@ -18,6 +18,7 @@ import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.shaper.ShaperConstants;
 
 
 /**
@@ -28,7 +29,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
  */
 public class LightSpigot extends CompositePhetGraphic {
 
-    private static final Color SPIGOT_COLOR = new Color( 215, 215, 215 );
+    private static final Color SPIGOT_COLOR = ShaperConstants.COMMON_GRAY;
     
     public LightSpigot( Component component ) {
 
