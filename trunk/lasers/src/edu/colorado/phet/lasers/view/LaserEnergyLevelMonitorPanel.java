@@ -217,13 +217,17 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
             }
 
             // Add an icon to the level. This requires a dummy atom in the state the icon is to represent
+            // Create copies of the states to assign to the dummy atom, and give them max lifetimes so they
+            // don't time out and change
             Atom atom = new Atom( model, levelGraphics.length, true );
-
-            // todo: state lifetime needs to be set to max so the dummy atom doesn't change state
-            atom.setStates( states );
-            atom.setCurrState( states[i] );
+            AtomicState[] newStates = new AtomicState[ states.length ];
+            for( int j = 0; j < states.length; j++ ) {
+                newStates[j] = new AtomicState( states[j] );
+                newStates[j].setMeanLifetime( Double.MAX_VALUE);
+            }
+            atom.setStates( newStates );
+            atom.setCurrState( newStates[i] );
             levelGraphics[i].setLevelIcon( new edu.colorado.phet.lasers.view.LevelIcon( this, atom ) );
-
         }
         adjustPanel();
     }
@@ -591,9 +595,17 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         public void run() {
             try {
                 for( int i = 0; i < numFlashes; i++ ) {
-                    graphic.setVisible( false );
+                    SwingUtilities.invokeLater( new Runnable() {
+                        public void run() {
+                            graphic.setVisible( false );
+                        }
+                    } );
                     Thread.sleep( 100 );
+                    SwingUtilities.invokeLater( new Runnable() {
+                        public void run() {
                     graphic.setVisible( true );
+                        }
+                    } );
                     Thread.sleep( 100 );
                 }
             }
