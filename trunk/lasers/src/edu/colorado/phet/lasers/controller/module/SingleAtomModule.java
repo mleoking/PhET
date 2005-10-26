@@ -19,6 +19,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.BeamControl2;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.UniversalLaserControlPanel;
+import edu.colorado.phet.lasers.controller.BeamControl;
 import edu.colorado.phet.lasers.help.SingleAtomModuleWiggleMe;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.Atom;
@@ -151,6 +152,11 @@ public class SingleAtomModule extends BaseLaserModule {
         // Add the Wiggle-me
         addWiggleMe( seedBeam );
 
+
+        // TEST!!!!
+        BeamControl beamControl = new BeamControl( getApparatusPanel(), new Point( 300, 300),
+                                                   seedBeam, 100 );
+        getApparatusPanel().addGraphic( beamControl );
 
     }
 

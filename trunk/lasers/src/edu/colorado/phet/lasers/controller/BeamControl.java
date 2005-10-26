@@ -58,7 +58,7 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
 
         // The background panel
         PhetImageGraphic panelGraphic = new PhetImageGraphic( apparatusPanel,
-                                                              PhotoelectricConfig.BEAM_CONTROL_PANEL_IMAGE );
+                                                              LaserConfig.BEAM_CONTROL_PANEL_IMAGE );
         panelGraphic.setRegistrationPoint( 100, 0 );
         addGraphic( panelGraphic );
         panelGraphic.setLocation( 0, 0 );
