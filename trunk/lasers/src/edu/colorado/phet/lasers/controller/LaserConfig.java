@@ -18,6 +18,9 @@ import java.awt.geom.Point2D;
 
 public class LaserConfig {
 
+    // Version
+    public static final String VERSION = "4.02";
+
     // Localization
     public static final String localizedStringsPath = "localization/LasersStrings";
 
@@ -57,7 +60,7 @@ public class LaserConfig {
     public static final String HIGH_ENERGY_PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-blue-xsml.gif";
     public static final String LOW_ENERGY_PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-red-xsml.gif";
     public static final String RAY_GUN_IMAGE_FILE = IMAGE_DIRECTORY + "flashlight.png";
-    public static final String BEAM_CONTROL_PANEL_IMAGE = IMAGE_DIRECTORY + "beam-control-lower.png"; 
+    public static final String BEAM_CONTROL_PANEL_IMAGE = IMAGE_DIRECTORY + "beam-control-lower.png";
     // Graphics layers
     public static final double CAVITY_LAYER = 10;
     public static final double ATOM_LAYER = 12;
