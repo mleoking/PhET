@@ -52,6 +52,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
     // Strategy for setting to color of this energy level graphic
 //    private ColorStrategy colorStrategy = new BlackStrategy();
     private ColorStrategy colorStrategy = new VisibleColorStrategy();
+    private LevelIcon levelIcon;
 
     public void fireMousePressed( MouseEvent e ) {
         super.fireMousePressed( e );
@@ -106,8 +107,8 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
     }
 
     public void setLevelIcon( LevelIcon levelIcon ) {
+        this.levelIcon = levelIcon;
         energyLevelRep.setLevelIcon( levelIcon );
-        addChangeListener( levelIcon );
     }
 
     public void setMinPixelsBetweenLevels( int minPixelsBetweenLevels ) {
@@ -157,7 +158,8 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
             atomicState.setEnergyLevel( newEnergy );
             atomicState.determineEmittedPhotonWavelength();
 
-            changeListenerProxy.stateChanged( new ChangeEvent( EnergyLevelGraphic.this ) );
+            // Update the atom icon
+            levelIcon.updateEnergy( newEnergy );
         }
     }
 
@@ -286,19 +288,4 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
             return Color.black;
         }
     }
-
-    //----------------------------------------------------------------
-    // Events
-    //----------------------------------------------------------------
-    private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
-    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
-
-    public void addChangeListener( ChangeListener listener ) {
-        changeEventChannel.addListener( listener );
-    }
-
-    public void removeChangeListener( ChangeListener listener ) {
-        changeEventChannel.removeListener( listener );
-    }
-
 }
