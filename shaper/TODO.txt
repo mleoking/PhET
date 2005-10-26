@@ -34,6 +34,7 @@ OPTIMIZATIONS:
 
 
 CLEANUP:
+- javadoc all code
 - organize imports
 - remove unused images and assets
 - remove unused localization strings
