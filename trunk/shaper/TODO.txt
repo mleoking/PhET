@@ -44,6 +44,7 @@ PHETCOMMON:
 
 
 DONE:
+(10/25/05) - set a minimum alpha value for light beams with non-zero amplitudes
 (10/25/05) - "Save for Web" all molecule graphics
 (10/25/05) - change the molecule graphic to match the output pulse preset
 (10/25/05) - make a total of 8 molecule graphics, one for each output pulse preset

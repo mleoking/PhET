@@ -43,6 +43,7 @@ public class LightRays extends CompositePhetGraphic implements SimpleObserver {
     private static final int HEIGHT = 650;
     private static final int SPACING = 10;
     private static final int MAX_ALPHA = ShaperConstants.MAX_LIGHT_ALPHA;
+    private static final int MIN_ALPHA = ShaperConstants.MIN_LIGHT_ALPHA;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -203,6 +204,8 @@ public class LightRays extends CompositePhetGraphic implements SimpleObserver {
      */
     public void update() {
         
+        assert( MAX_ALPHA > MIN_ALPHA );
+        
         int numberOfHarmonics = _fourierSeries.getNumberOfHarmonics();
         
         // Adjust rainbow colors
@@ -210,7 +213,10 @@ public class LightRays extends CompositePhetGraphic implements SimpleObserver {
         for ( int i = 0; i < numberOfHarmonics; i++ ) {
             
             double amplitude = _fourierSeries.getHarmonic( i ).getAmplitude();
-            int alpha = (int) Math.abs( MAX_ALPHA * amplitude / ShaperConstants.MAX_HARMONIC_AMPLITUDE );
+            int alpha = 0;
+            if ( Math.abs( amplitude ) > 0 ) {
+                alpha = MIN_ALPHA + (int) Math.abs( ( MAX_ALPHA - MIN_ALPHA ) * amplitude / ShaperConstants.MAX_HARMONIC_AMPLITUDE );
+            }
             Color color = HarmonicColors.getInstance().getColor( i );
             Color colorWithAlpha = new Color( color.getRed(), color.getGreen(), color.getBlue(), alpha );
             
