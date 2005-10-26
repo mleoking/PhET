@@ -19,7 +19,7 @@ import java.awt.geom.Point2D;
 public class LaserConfig {
 
     // Version
-    public static final String VERSION = "4.02";
+    public static final String VERSION = "4.03";
 
     // Localization
     public static final String localizedStringsPath = "localization/LasersStrings";
@@ -67,6 +67,7 @@ public class LaserConfig {
     public static final double PHOTON_LAYER = 13;
     public static final double LEFT_MIRROR_LAYER = 14;
     public static final double RIGHT_MIRROR_LAYER = 11;
+    public static final double CONTROL_LAYER = 1E2;
 
     public static final double MIN_WAVELENGTH = VisibleColor.MIN_WAVELENGTH;
     public static final double MAX_WAVELENGTH = VisibleColor.MAX_WAVELENGTH;
