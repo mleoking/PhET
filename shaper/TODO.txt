@@ -8,7 +8,7 @@ IN PROGRESS:
 HIGH PRIORITY:
 - show a "kaboom" graphic when the molecule explodes
 - magnifying glass graphic for molecule
-- add Help>Explanation dialog
+- fill in contents of Explanation dialog
 - add Help items
 
 
