@@ -11,17 +11,19 @@
 package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Area;
@@ -34,6 +36,7 @@ import java.awt.geom.Rectangle2D;
  */
 public class EnergyLevelGraphic extends CompositePhetGraphic {
     private AtomicState atomicState;
+    private double groundStateEnergy;
     private boolean isAdjustable;
     private double iconLocX;
     private Color color;
@@ -57,16 +60,17 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
     /**
      * @param component
      * @param atomicState
-     * @param color
+     * @param groundStateEnergy
      * @param xLoc
      * @param width
      * @param isAdjustable
      */
-    public EnergyLevelGraphic( Component component, AtomicState atomicState, Color color, double xLoc, double width,
+    public EnergyLevelGraphic( Component component, AtomicState atomicState, double groundStateEnergy, double xLoc, double width,
                                boolean isAdjustable, double iconLocX ) {
         super( null );
 
         this.atomicState = atomicState;
+        this.groundStateEnergy = groundStateEnergy;
         this.isAdjustable = isAdjustable;
         this.iconLocX = iconLocX;
 
@@ -101,8 +105,9 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
         this.arrowsEnabled = arrowsEnabled;
     }
 
-    public void setLevelIcon( PhetGraphic levelIcon ) {
+    public void setLevelIcon( LevelIcon levelIcon ) {
         energyLevelRep.setLevelIcon( levelIcon );
+        addChangeListener( levelIcon );
     }
 
     public void setMinPixelsBetweenLevels( int minPixelsBetweenLevels ) {
@@ -151,6 +156,8 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
                                       LaserConfig.MAX_WAVELENGTH - 1 );
             atomicState.setEnergyLevel( newEnergy );
             atomicState.determineEmittedPhotonWavelength();
+
+            changeListenerProxy.stateChanged( new ChangeEvent( EnergyLevelGraphic.this ) );
         }
     }
 
@@ -164,7 +171,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
         private Arrow arrow1;
         private Arrow arrow2;
         private Rectangle boundingRect;
-        private PhetGraphic levelIcon;
+        private LevelIcon levelIcon;
 
         protected EnergyLevelRep( Component component ) {
             super( component );
@@ -174,7 +181,9 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
         }
 
         private void update() {
-            color = colorStrategy.getColor( atomicState );
+//            levelIcon.update();
+
+            color = colorStrategy.getColor( atomicState, groundStateEnergy );
 
             // We need to create a new color that can't be transparent. VisibleColor will return
             // an "invisible" color with RGB = 0,0,0 if the wavelenght is not visible. And since our
@@ -224,7 +233,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
             }
         }
 
-        void setLevelIcon( PhetGraphic levelIcon ) {
+        void setLevelIcon( LevelIcon levelIcon ) {
             this.levelIcon = levelIcon;
             addGraphic( levelIcon );
         }
@@ -262,18 +271,34 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
      * Determines the color in which to render lines and atoms for a specified state
      */
     static public interface ColorStrategy {
-        Color getColor( AtomicState state );
+        Color getColor( AtomicState state, double groundStateEnergy );
     }
 
     static public class VisibleColorStrategy implements ColorStrategy {
-        public Color getColor( AtomicState state ) {
-            return VisibleColor.wavelengthToColor( state.getWavelength() );
+        public Color getColor( AtomicState state, double groundStateEnergy ) {
+            double de = state.getEnergyLevel() - groundStateEnergy;
+            return VisibleColor.wavelengthToColor( PhysicsUtil.energyToWavelength( de ) );
         }
     }
 
     static public class BlackStrategy implements ColorStrategy {
-        public Color getColor( AtomicState state ) {
+        public Color getColor( AtomicState state, double groundStateEnergy ) {
             return Color.black;
         }
     }
+
+    //----------------------------------------------------------------
+    // Events
+    //----------------------------------------------------------------
+    private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
+    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+
+    public void addChangeListener( ChangeListener listener ) {
+        changeEventChannel.addListener( listener );
+    }
+
+    public void removeChangeListener( ChangeListener listener ) {
+        changeEventChannel.removeListener( listener );
+    }
+
 }

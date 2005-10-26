@@ -22,8 +22,8 @@ public class LaserConfig {
     public static final String localizedStringsPath = "localization/LasersStrings";
 
     // Clock parameters
-    public static double DT;
-    public static int FPS;
+    public static double DT = 12;
+    public static int FPS = 25;
 
     // Physical things
     public static final double ELECTRON_RADIUS = 3;

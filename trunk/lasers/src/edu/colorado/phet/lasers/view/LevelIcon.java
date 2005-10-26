@@ -12,8 +12,9 @@ package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.lasers.model.atom.Atom;
-import edu.colorado.phet.lasers.model.atom.AtomicState;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 /**
@@ -26,7 +27,7 @@ import java.awt.*;
 /**
  * An icon that shows a small version of an atom with its enrgy level halo and text
  */
-public class LevelIcon extends CompositePhetGraphic {
+public class LevelIcon extends CompositePhetGraphic implements ChangeListener {
     private AnnotatedAtomGraphic atomGraphic;
     private Atom atom;
 
@@ -35,21 +36,23 @@ public class LevelIcon extends CompositePhetGraphic {
         this.atom = atom;
         atom.setRadius( 5 );
         // Create a fixed currAtomState for the atom to be in
-        AtomicState currAtomState = new AtomicState( atom.getCurrState() );
-        atom.setCurrState( currAtomState );
-        atom.getCurrState().setMeanLifetime( Double.MAX_VALUE );
-        currAtomState.addListener( new AtomicState.ChangeListenerAdapter() {
-            public void energyLevelChanged( AtomicState.Event event ) {
-                AtomicState currAtomState = new AtomicState( atom.getCurrState() );
-                atom.setCurrState( currAtomState );
-                atom.getCurrState().setMeanLifetime( Double.MAX_VALUE );
-                updateGraphic();
-            }
-        } );
-        updateGraphic();
+//        AtomicState currAtomState = new AtomicState( atom.getCurrState() );
+//        atom.setCurrState( currAtomState );
+
+//        atom.getCurrState().setMeanLifetime( Double.MAX_VALUE );
+//        AtomicState currAtomState = atom.getCurrState();
+//        currAtomState.addListener( new AtomicState.ChangeListenerAdapter() {
+//            public void energyLevelChanged( AtomicState.Event event ) {
+//                AtomicState currAtomState = new AtomicState( atom.getCurrState() );
+//                atom.setCurrState( currAtomState );
+//                atom.getCurrState().setMeanLifetime( Double.MAX_VALUE );
+//                update();
+//            }
+//        } );
+        update();
     }
 
-    private void updateGraphic() {
+    public void update() {
         if( atomGraphic != null ) {
             removeGraphic( atomGraphic );
         }
@@ -59,6 +62,15 @@ public class LevelIcon extends CompositePhetGraphic {
         // the dummy atom changes state becauses its lifetime expires
         atom.removeChangeListener( atomGraphic );
         addGraphic( atomGraphic );
+    }
+
+    //----------------------------------------------------------------
+    // ChangeListener implementation
+    //----------------------------------------------------------------
+    public void stateChanged( ChangeEvent e ) {
+        if( e.getSource() instanceof EnergyLevelGraphic ) {
+            update();
+        }
     }
 }
 
