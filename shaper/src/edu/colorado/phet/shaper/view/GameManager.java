@@ -74,19 +74,26 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
 
         if ( !_isAdjusting && !_animation.isExploding() ) {
 
-            double closeness = 0;
-
-            // Compare the Fourier series
+            /*
+             * Compare the Fourier series.
+             * 
+             * The calculation for "closeness" is:
+             * 
+             * closeness = 1 - ( Math.sqrt( dA1^2 + dA2^2 + ...) / Math.sqrt( A1^2 + A2^2 + ... ) )
+             * 
+             * where dAn is the difference between the user and actual amplitude 
+             * for component n.
+             */
+            double numerator = 0;
+            double denominator = 0;
             int numberOfHarmonics = _userFourierSeries.getNumberOfHarmonics();
             for ( int i = 0; i < numberOfHarmonics; i++ ) {
                 double userAmplitude = _userFourierSeries.getHarmonic( i ).getAmplitude();
                 double outputAmplitude = _outputFourierSeries.getHarmonic( i ).getAmplitude();
-                if ( outputAmplitude == 0 ) {
-                    outputAmplitude = 0.000000000001;
-                }
-                closeness += ( 1.0 - ( Math.abs( ( userAmplitude - outputAmplitude ) / outputAmplitude ) ) );
+                numerator += Math.pow( Math.abs( userAmplitude - outputAmplitude ), 2 );
+                denominator += Math.pow( outputAmplitude, 2 );
             }
-            closeness /= numberOfHarmonics;
+            double closeness = 1.0 - ( Math.sqrt( numerator ) / Math.sqrt( denominator ) );
             if ( closeness < 0 ) {
                 closeness = 0;
             }
@@ -94,15 +101,15 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
             // Update the animation
             _animation.setCloseness( closeness );
 
-            // Do we have a match?
+            /*
+             * WORKAROUND: If we have a match, make sure that all 
+             * other views are updated before the molecule animation
+             * happens and the "you've won" dialog is shown.
+             */
             if ( closeness >= ShaperConstants.CLOSENESS_MATCH ) {
-
-                // WORKAROUND: Make sure that all other views are updated.
-                {
-                    _userFourierSeries.removeObserver( this );
-                    _userFourierSeries.notifyObservers();
-                    _userFourierSeries.addObserver( this );
-                }
+                _userFourierSeries.removeObserver( this );
+                _userFourierSeries.notifyObservers();
+                _userFourierSeries.addObserver( this );
             }
         }
     }
