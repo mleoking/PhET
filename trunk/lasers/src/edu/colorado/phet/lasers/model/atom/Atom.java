@@ -195,6 +195,12 @@ public class Atom extends SolidSphere {
             stateLifetimeManager.kill();
         }
         this.currState = newState;
+        if( oldState != null ) {
+            oldState.leaveState();
+        }
+        if( newState != null ) {
+            newState.enterState();
+        }
         boolean emitPhotonOnLeavingState = false;
         if( newState instanceof MiddleEnergyState ) {
             emitPhotonOnLeavingState = true;
