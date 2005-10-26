@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- add an "Instructions" dialog that appears the first time you enter the game panel
 - add presets for musical instruments to Discrete panel
 
 MEDIUM PRIORITY:
