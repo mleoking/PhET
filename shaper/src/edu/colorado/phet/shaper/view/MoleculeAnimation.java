@@ -112,9 +112,9 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
             _molecule.addGraphic( _moleculePart2 );
             _molecule.addGraphic( _moleculePart3 );
         }
-        _moleculeHome = new Point( 50, 40 );
+        _moleculeHome = new Point( 30, 15 );
         _molecule.setLocation( _moleculeHome );
-        _molecule.scale( 0.40 );
+        _molecule.scale( 0.50 );
         addGraphic( _molecule );
     }
     
