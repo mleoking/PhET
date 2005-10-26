@@ -35,6 +35,8 @@ import java.awt.*;
  */
 public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListener {
     private ApparatusPanel apparatusPanel;
+    private double minWavelength;
+    private double maxWavelength;
     private IntensitySlider intensitySlider;
 
     private Point intensitySliderRelLoc = new Point( 68, 28 );
@@ -53,8 +55,10 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
      * @param maximumRate
      */
     public BeamControl( ApparatusPanel apparatusPanel, Point location,
-                        Beam beam, double maximumRate ) {
+                        Beam beam, double maximumRate, double minWavelength, double maxWavelength ) {
         this.apparatusPanel = apparatusPanel;
+        this.minWavelength = minWavelength;
+        this.maxWavelength = maxWavelength;
 
         // The background panel
         PhetImageGraphic panelGraphic = new PhetImageGraphic( apparatusPanel,
@@ -77,7 +81,7 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
 
     private void addWavelengthSlider( final Beam beam ) {
         // Make a spectrum wavelengthSlider
-        wavelengthSlider = new SpectrumSlider( apparatusPanel, 100, 850 );
+        wavelengthSlider = new SpectrumSlider( apparatusPanel, minWavelength, maxWavelength );
         wavelengthSlider.setLocation( spectrumSliderRelLoc ); // default is (0,0)
         wavelengthSlider.setOrientation( SpectrumSliderWithSquareCursor.HORIZONTAL ); // default is HORIZONTAL
         wavelengthSlider.setTransmissionWidth( 1.0 ); // default is 0.0
