@@ -229,7 +229,10 @@ public class LightRays extends CompositePhetGraphic implements SimpleObserver {
         }
         
         // Adjust coherent (white) light beam
-        int alpha = (int) Math.abs( MAX_ALPHA * amplitudesSum / ( numberOfHarmonics * ShaperConstants.MAX_HARMONIC_AMPLITUDE ) );
+        int alpha = 0;
+        if ( amplitudesSum > 0 ) {
+            alpha = MIN_ALPHA + (int) Math.abs( ( MAX_ALPHA - MIN_ALPHA ) * amplitudesSum / ( numberOfHarmonics * ShaperConstants.MAX_HARMONIC_AMPLITUDE ) );
+        }
         Color color = new Color( 255, 255, 255, alpha );
         _outputBeam.setColor( color );
     }
