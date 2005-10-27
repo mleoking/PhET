@@ -15,6 +15,7 @@ MEDIUM PRIORITY:
 - Help item for amplitude sliders doesn't always point to a slider
 - Help item for amplitude text fields doesn't always point to a text field
 - resize the molecule graphics that are currently scaled
+- resize kaboom graphic
 - separate the model & view for molecule animation
 - wait cursors
 - Spanish translations
@@ -49,7 +50,7 @@ PHETCOMMON:
 
 DONE:
 (10/26/05) - slow down explosion accelaration
-(10/26/05) - show a "kaboom" graphic when the molecule explodes (AMR Explosion plug-in for Photoshop, http://www.amrgraphics.com)
+(10/26/05) - made "kaboom" graphic using AMR Explosion plug-in for Photoshop (www.amrgraphics.com)
 (10/26/05) - added Help>Explanation and a dummy dialog
 (10/26/05) - bugfix: sum absolute amplitudes when determining alpha of coherent output light beam
 (10/26/05) - tweak focal point of output light components

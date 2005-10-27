@@ -102,8 +102,8 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         
         // explosion
         _explosionGraphic = new PhetImageGraphic( component, ShaperConstants.KABOOM_IMAGE );
-        _explosionGraphic.scale( 0.7 );
-        _explosionGraphic.setLocation( 30, 15 );
+        _explosionGraphic.scale( 0.35 );
+        _explosionGraphic.setLocation( 30, 25 );
         addGraphic( _explosionGraphic );
         
         // molecule
