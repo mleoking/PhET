@@ -326,6 +326,9 @@ public class ShaperModule extends AbstractModule implements ActionListener {
         _animation.setMolecule( _moleculeIndex );
         _animation.reset();
         
+        // Hide the "cheat" panel
+        _cheatPanel.setVisible( false );
+        
         _userFourierSeries.setAdjusting( false );
         _outputFourierSeries.setAdjusting( false );
     }
