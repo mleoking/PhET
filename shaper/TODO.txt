@@ -48,6 +48,7 @@ PHETCOMMON:
 
 
 DONE:
+0.0.3 ...
 (10/27/05) - hide the cheat panel whenever a new game is started
 (10/27/05) - left-justify instructions for less potential i18n issues
 (10/27/05) - make kaboom larger, fix its registration point and location
