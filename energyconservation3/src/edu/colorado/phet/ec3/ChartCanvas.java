@@ -8,7 +8,6 @@ import edu.colorado.phet.ec3.plots.*;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.timeseries.TimeSeriesModelListenerAdapter;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -33,7 +32,7 @@ public class ChartCanvas extends PhetPCanvas {
                                        150, false );
         addScreenChild( plot );
 
-        keSeries = new TimeSeriesPNode( plot, new ValueAccessor( "KE", "KE", "Joules", "J", Color.red, "Kinetic Energy" ) {
+        keSeries = new TimeSeriesPNode( plot, new ValueAccessor( "KE", "KE", "Joules", "J", ec3Module.getEnergyLookAndFeel().getKEColor(), "Kinetic Energy" ) {
             public double getValue( Object model ) {
                 if( ec3Module.getEnergyConservationModel().numBodies() > 0 ) {
                     Body body = ec3Module.getEnergyConservationModel().bodyAt( 0 );
@@ -43,11 +42,11 @@ public class ChartCanvas extends PhetPCanvas {
                     return 0;
                 }
             }
-        }, Color.red, "", ec3Module.getTimeSeriesModel() );
+        }, "", ec3Module.getTimeSeriesModel() );
         plot.addTimeSeries( keSeries );
         units.add( new DataUnit( keSeries ) );
 
-        peSeries = new TimeSeriesPNode( plot, new ValueAccessor( "PE", "PE", "Joules", "J", Color.blue, "Potential Energy" ) {
+        peSeries = new TimeSeriesPNode( plot, new ValueAccessor( "PE", "PE", "Joules", "J", ec3Module.getEnergyLookAndFeel().getPEColor(), "Potential Energy" ) {
             public double getValue( Object model ) {
                 if( ec3Module.getEnergyConservationModel().numBodies() > 0 ) {
                     Body body = ec3Module.getEnergyConservationModel().bodyAt( 0 );
@@ -57,7 +56,7 @@ public class ChartCanvas extends PhetPCanvas {
                     return 0;
                 }
             }
-        }, Color.blue, "", ec3Module.getTimeSeriesModel() );
+        }, "", ec3Module.getTimeSeriesModel() );
         plot.addTimeSeries( peSeries );
         units.add( new DataUnit( peSeries ) );
 
@@ -69,6 +68,7 @@ public class ChartCanvas extends PhetPCanvas {
                         dataUnit.updatePlot( ec3Module.getEnergyConservationModel(), ec3Module.getTimeSeriesModel().getRecordTime() );
                     }
                 }
+                plot.updateReadouts();
             }
         } );
         ec3Module.getTimeSeriesModel().addListener( new TimeSeriesModelListenerAdapter() {

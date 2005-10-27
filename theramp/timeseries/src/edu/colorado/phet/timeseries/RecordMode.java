@@ -48,4 +48,7 @@ public class RecordMode extends Mode {
         }
     }
 
+    public void initAgain( TimeSeriesModel timeSeriesModel ) {
+//        timeSeriesModel.setLastPoint();
+    }
 }

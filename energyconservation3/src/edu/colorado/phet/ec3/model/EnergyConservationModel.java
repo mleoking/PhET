@@ -112,6 +112,7 @@ public class EnergyConservationModel {
     }
 
     public void stepInTime( double dt ) {
+//        System.out.println( "numSplineSurfaces() = " + numSplineSurfaces() );
         time += dt;
 //        System.out.println( "time = " + time );
 

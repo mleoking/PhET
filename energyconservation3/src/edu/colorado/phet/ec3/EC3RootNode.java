@@ -33,8 +33,9 @@ public class EC3RootNode extends PhetRootPNode {
     private PNode historyGraphics = new PNode();
     private MeasuringTape measuringTape;
     private static final boolean DEFAULT_TAPE_VISIBLE = false;
+    private static final boolean DEFAULT_PIE_CHART_VISIBLE = false;
     private PNode pieCharts = new PNode();
-//    private PieChartIndicator pieChartIndicator;
+    private OffscreenManIndicator offscreenManIndicator;
 
     public EC3RootNode( EC3Module ec3Module, EC3Canvas ec3Canvas ) {
         this.ec3Module = ec3Module;
@@ -57,8 +58,16 @@ public class EC3RootNode extends PhetRootPNode {
         measuringTape = new MeasuringTape( coordScale, new Point2D.Double( 100, 100 ), getWorldNode() );
         layerAt( 1 ).getScreenNode().addChild( measuringTape );
 
-        setMeasuringTapeVisible( DEFAULT_TAPE_VISIBLE );
+
         layerAt( 1 ).addChild( pieCharts );
+        resetDefaults();
+//        offscreenManIndicator = new OffscreenManIndicator( ec3Module );
+//        layerAt( 1 ).addChild( offscreenManIndicator );
+    }
+
+    private void resetDefaults() {
+        setPieChartVisible( DEFAULT_PIE_CHART_VISIBLE );
+        setMeasuringTapeVisible( DEFAULT_TAPE_VISIBLE );
     }
 
     public void initPieChart() {
@@ -112,6 +121,7 @@ public class EC3RootNode extends PhetRootPNode {
         splineGraphics.removeAllChildren();
         clearBuses();
         pieCharts.removeAllChildren();
+//        resetDefaults();//needs MVC update before this will work.
     }
 
     public void addBodyGraphic( BodyGraphic bodyGraphic ) {
@@ -145,7 +155,12 @@ public class EC3RootNode extends PhetRootPNode {
         updateBodies();
         updateHistory();
         updatePieChart();
+//        updateOffscreenManIndicator();
     }
+
+//    private void updateOffscreenManIndicator() {
+//        offscreenManIndicator.update();
+//    }
 
     private void updatePieChart() {
         for( int i = 0; i < pieCharts.getChildrenCount(); i++ ) {

@@ -28,6 +28,14 @@ public class EnergyPanel extends ControlPanel {
         } );
         addControl( reset );
 
+        JButton resetSkater = new JButton( "Reset Skater" );
+        resetSkater.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                resetSkater();
+            }
+        } );
+        addControl( resetSkater );
+
         final JCheckBox recordPath = new JCheckBox( "Record Path", module.getEnergyConservationModel().isRecordPath() );
         recordPath.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -60,6 +68,28 @@ public class EnergyPanel extends ControlPanel {
             }
         } );
         addControl( pieChart );
+
+        final JButton showChart = new JButton( "Show Plot" );
+        showChart.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.setPlotVisible( true );
+            }
+        } );
+        addControl( showChart );
+
+        final JButton showBarChart = new JButton( "Show Bar Graph" );
+        showBarChart.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.setBarChartVisible( true );
+            }
+        } );
+        addControl( showBarChart );
+
+
+    }
+
+    private void resetSkater() {
+        module.resetSkater();
     }
 
     private void reset() {
