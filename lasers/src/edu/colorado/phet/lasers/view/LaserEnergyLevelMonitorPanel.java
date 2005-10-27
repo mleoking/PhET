@@ -414,7 +414,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         // Draw squiggles showing what energy photons the beams are putting out
         if( stimSquiggle != null && model.getSeedBeam().isEnabled() ) {
             double intensity = model.getSeedBeam().getPhotonsPerSecond() / model.getSeedBeam().getMaxPhotonsPerSecond();
-            GraphicsUtil.setAlpha( g2, Math.sqrt( intensity ) );
+            GraphicsUtil.setAlpha( g2, Math.pow( intensity, 0.7 ) );
             g2.drawRenderedImage( stimSquiggle, stimSquiggleTx );
 //            seedLampGraphic.setAlpha( intensity );
         }

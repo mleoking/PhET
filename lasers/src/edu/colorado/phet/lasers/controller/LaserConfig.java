@@ -60,7 +60,8 @@ public class LaserConfig {
     public static final String HIGH_ENERGY_PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-blue-xsml.gif";
     public static final String LOW_ENERGY_PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-red-xsml.gif";
     public static final String RAY_GUN_IMAGE_FILE = IMAGE_DIRECTORY + "flashlight.png";
-    public static final String BEAM_CONTROL_PANEL_IMAGE = IMAGE_DIRECTORY + "beam-control-lower.png";
+    public static final String SEED_BEAM_CONTROL_PANEL_IMAGE = IMAGE_DIRECTORY + "beam-control-lower.png";
+    public static final String PUMP_BEAM_CONTROL_PANEL_IMAGE = IMAGE_DIRECTORY + "beam-control-upper.png";
     // Graphics layers
     public static final double CAVITY_LAYER = 10;
     public static final double ATOM_LAYER = 12;
