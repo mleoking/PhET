@@ -79,10 +79,11 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
              * 
              * The calculation for "closeness" is:
              * 
-             * closeness = 1 - ( Math.sqrt( dA1^2 + dA2^2 + ...) / Math.sqrt( A1^2 + A2^2 + ... ) )
+             *     closeness = 1 - ( Math.sqrt( (U1-D1)^2 + (U2-D2)^2 + ...) / Math.sqrt( D1^2 + D2^2 + ... ) )
              * 
-             * where dAn is the difference between the user and actual amplitude 
-             * for component n.
+             * where:
+             *     Un is the user's amplitude for component n
+             *     Dn is the desired amplitude for component n
              */
             double numerator = 0;
             double denominator = 0;
