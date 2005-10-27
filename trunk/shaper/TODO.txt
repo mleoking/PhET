@@ -6,6 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- put labels on diffraction gratings
 - magnifying glass graphic for molecule
 - fill in contents of Explanation dialog
 - add Help items
@@ -49,6 +50,7 @@ PHETCOMMON:
 
 
 DONE:
+(10/27/05) - add spikey surface to diffraction gratings
 (10/26/05) - slow down explosion accelaration
 (10/26/05) - made "kaboom" graphic using AMR Explosion plug-in for Photoshop (www.amrgraphics.com)
 (10/26/05) - added Help>Explanation and a dummy dialog

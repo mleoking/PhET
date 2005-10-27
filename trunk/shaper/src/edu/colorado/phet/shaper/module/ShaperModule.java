@@ -185,7 +185,7 @@ public class ShaperModule extends AbstractModule implements ActionListener {
             DiffractionGrating outputGrating = new DiffractionGrating( apparatusPanel );
             apparatusPanel.addGraphic( outputGrating );
             outputGrating.centerRegistrationPoint();
-            outputGrating.rotate( Math.toRadians( 15 ) );
+            outputGrating.rotate( Math.toRadians( 195 ) );
             outputGrating.setLocation( 440, 445 );
 
             HTMLGraphic gratingsLabel = new HTMLGraphic( apparatusPanel );
