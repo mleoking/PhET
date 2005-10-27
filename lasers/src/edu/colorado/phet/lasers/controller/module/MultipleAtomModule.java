@@ -16,7 +16,6 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.BeamControl;
-import edu.colorado.phet.lasers.controller.Kaboom;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.UniversalLaserControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
@@ -42,9 +41,7 @@ public class MultipleAtomModule extends BaseLaserModule {
     private double s_maxSpeed = 0.1;
     private ArrayList atoms;
     private UniversalLaserControlPanel laserControlPanel;
-    private Kaboom kaboom;
     private BeamControl pumpBeamControl;
-//    private BeamControl2 pumpBeamControl;
 
     /**
      *
@@ -121,10 +118,6 @@ public class MultipleAtomModule extends BaseLaserModule {
                                            new Point( 60, 0 ) );
         getApparatusPanel().addGraphic( pumpBeamControl );
 
-        // Add a kaboom element
-        kaboom = new Kaboom( this );
-        getModel().addModelElement( kaboom );
-
         // Add some atoms
         addAtoms( cavityBounds );
 
@@ -168,22 +161,6 @@ public class MultipleAtomModule extends BaseLaserModule {
             atoms.add( atom );
             addAtom( atom );
         }
-    }
-
-    /**
-     * Clears out the current Kaboom instance, and creates a new one
-     */
-    public void reset() {
-        // Superclass behavior
-        super.reset();
-
-        // Clear the old kaboom stuff off the apparatus panel and out of the model
-        getModel().removeModelElement( kaboom );
-        kaboom.clearGraphics( getApparatusPanel() );
-
-        // Make a new kaboom, ready for firing
-        kaboom = new Kaboom( this );
-        getModel().addModelElement( kaboom );
     }
 
     /**

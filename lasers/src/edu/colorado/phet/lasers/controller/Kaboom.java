@@ -19,12 +19,11 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetMultiLineTextGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.FrameSequence;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
+import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 
@@ -44,29 +43,23 @@ import java.util.Random;
  */
 public class Kaboom implements ModelElement {
 
-    private MultipleAtomModule module;
+    private BaseLaserModule module;
     private LaserModel model;
-    private PhetImageGraphic graphic;
     private boolean kaboomed;
     private List kaboomGraphics = new ArrayList();
-    private PhetMultiLineTextGraphic message;
     private JLabel labelMessage;
-    private String[] messageStrings = new String[]{"You blew up your laser!", "It couldn't take", "the power."};
     private PhetShapeGraphic backgroundGraphic;
     private double blackBacgroundLayer = Double.MAX_VALUE - 2;
     private double tileLayer = Double.MAX_VALUE;
-    private double mewssageLayer = Double.MAX_VALUE - 1;
-    private PhetImageGraphic wholeBackground;
 
 
-    public Kaboom( MultipleAtomModule multipleAtomModule ) {
-        this.module = multipleAtomModule;
-        model = multipleAtomModule.getLaserModel();
+    public Kaboom( BaseLaserModule module ) {
+        this.module = module;
+        model = module.getLaserModel();
     }
 
     public void stepInTime( double dt ) {
         int numPhotons = model.getNumLasingPhotons();
-//        int numPhotons = model.getNumPhotons();
         if( numPhotons > LaserConfig.KABOOM_THRESHOLD && !kaboomed ) {
             LaserModel laserModel = (LaserModel)model;
             model.reset();

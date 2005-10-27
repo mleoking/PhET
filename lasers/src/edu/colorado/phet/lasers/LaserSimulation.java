@@ -46,6 +46,9 @@ public class LaserSimulation extends PhetApplication {
                true,
                new FrameSetup.CenteredWithSize( 1024, 750 ) );
 
+        // Because we have JComponents on the apparatus panel, don't let the user resize the frame
+        this.getPhetFrame().setResizable( false );
+
         JButton photoBtn = new JButton( SimStrings.get( "LaserPhotoButtonLabel" ) );
         photoBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
