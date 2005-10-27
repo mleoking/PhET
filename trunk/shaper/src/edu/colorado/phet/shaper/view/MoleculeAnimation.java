@@ -40,7 +40,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
     
     private static final double MAX_DISTANCE = 10;  // distance in pixels we would move if closeness=1
     
-    private static final double EXPLOSION_ACCELERATION_RATE = 0.20;
+    private static final double EXPLOSION_ACCELERATION_RATE = 0.10;
     
     //----------------------------------------------------------------------------
     // Instance data
