@@ -6,6 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- make diffraction gradients smaller and move them slightly left so they don't interesect dashed lines
 - separate the model & view for molecule animation
 - magnifying glass graphic for molecule
 - fill in contents of Explanation dialog
@@ -47,6 +48,7 @@ PHETCOMMON:
 
 
 DONE:
+(10/27/05) - left-justify instructions for less potential i18n issues
 (10/27/05) - make kaboom larger, fix its registration point and location
 (10/27/05) - add visual cues that molecule view is a zoom view of a molecule that is in the beam path
 (10/27/05) - add spikey surface to diffraction gratings
