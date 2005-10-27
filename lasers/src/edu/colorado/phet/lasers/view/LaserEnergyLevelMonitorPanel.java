@@ -220,10 +220,10 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
             // Create copies of the states to assign to the dummy atom, and give them max lifetimes so they
             // don't time out and change
             Atom atom = new Atom( model, levelGraphics.length, true );
-            AtomicState[] newStates = new AtomicState[ states.length ];
+            AtomicState[] newStates = new AtomicState[states.length];
             for( int j = 0; j < states.length; j++ ) {
                 newStates[j] = new AtomicState( states[j] );
-                newStates[j].setMeanLifetime( Double.MAX_VALUE);
+                newStates[j].setMeanLifetime( Double.MAX_VALUE );
             }
             atom.setStates( newStates );
             atom.setCurrState( newStates[i] );
@@ -414,13 +414,13 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         // Draw squiggles showing what energy photons the beams are putting out
         if( stimSquiggle != null && model.getSeedBeam().isEnabled() ) {
             double intensity = model.getSeedBeam().getPhotonsPerSecond() / model.getSeedBeam().getMaxPhotonsPerSecond();
-            GraphicsUtil.setAlpha( g2, intensity );
+            GraphicsUtil.setAlpha( g2, Math.sqrt( intensity ) );
             g2.drawRenderedImage( stimSquiggle, stimSquiggleTx );
 //            seedLampGraphic.setAlpha( intensity );
         }
         if( pumpSquiggle != null && model.getPumpingBeam().isEnabled() ) {
             double intensity = model.getPumpingBeam().getPhotonsPerSecond() / model.getPumpingBeam().getMaxPhotonsPerSecond();
-            GraphicsUtil.setAlpha( g2, intensity );
+            GraphicsUtil.setAlpha( g2, Math.sqrt( intensity ) );
             g2.drawRenderedImage( pumpSquiggle, pumpSquiggleTx );
 //            pumpLampGraphic.setAlpha( intensity );
         }
@@ -603,7 +603,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
                     Thread.sleep( 100 );
                     SwingUtilities.invokeLater( new Runnable() {
                         public void run() {
-                    graphic.setVisible( true );
+                            graphic.setVisible( true );
                         }
                     } );
                     Thread.sleep( 100 );

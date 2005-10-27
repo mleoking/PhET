@@ -15,8 +15,8 @@ import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.control.IntensitySlider;
-import edu.colorado.phet.control.SpectrumSlider;
 import edu.colorado.phet.control.SpectrumSliderWithSquareCursor;
+import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.lasers.model.photon.Beam;
 
 import javax.swing.event.ChangeEvent;
@@ -33,18 +33,16 @@ import java.awt.*;
  */
 public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListener {
     private ApparatusPanel apparatusPanel;
-    private double minWavelength;
-    private double maxWavelength;
     private IntensitySlider intensitySlider;
 
-    private Point intensitySliderRelLoc = new Point( 68, 28 );
-    private Dimension intensitySliderSize = new Dimension( 142, 16 );
+    private Point intensitySliderRelLoc = new Point( -11, 138 );
+    private Dimension intensitySliderSize = new Dimension( 101, 29 );
     private Point intensitySliderLoc;
 
     private Point spectrumSliderLoc;
-    private Point spectrumSliderRelLoc = new Point( 13, 93 );
-    private Dimension spectrumSize = new Dimension( 145, 19 );
-    private SpectrumSlider wavelengthSlider;
+    private Point spectrumSliderRelLoc = new Point( 0, 202 );
+    private Dimension spectrumSize = new Dimension( 101, 31 );
+    ;
 
     /**
      * @param apparatusPanel
@@ -52,15 +50,22 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
      * @param beam
      * @param maximumRate
      */
-    public BeamControl( ApparatusPanel apparatusPanel, Point location,
-                        Beam beam, double maximumRate, double minWavelength, double maxWavelength ) {
+    public BeamControl( ApparatusPanel apparatusPanel,
+                        Point location,
+                        Beam beam,
+                        double maximumRate,
+                        double minWavelength,
+                        double maxWavelength,
+                        String imageFile,
+                        Point registrationPoint ) {
         this.apparatusPanel = apparatusPanel;
-        this.minWavelength = minWavelength;
-        this.maxWavelength = maxWavelength;
+        this.setRegistrationPoint( registrationPoint );
 
         // The background panel
         PhetImageGraphic panelGraphic = new PhetImageGraphic( apparatusPanel,
-                                                              LaserConfig.BEAM_CONTROL_PANEL_IMAGE );
+                                                              imageFile );
+//                                                              LaserConfig.BEAM_CONTROL_PANEL_IMAGE );
+//                                                              PhotoelectricConfig.BEAM_CONTROL_PANEL_IMAGE );
         panelGraphic.setRegistrationPoint( 100, 0 );
         addGraphic( panelGraphic );
         panelGraphic.setLocation( 0, 0 );
@@ -72,20 +77,29 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
 
         this.setLocation( location );
 
-        addWavelengthSlider( beam );
+        addWavelengthSlider( beam, minWavelength, maxWavelength );
         addIntensitySlider( beam, maximumRate );
         beam.addRateChangeListener( this );
     }
 
-    private void addWavelengthSlider( final Beam beam ) {
+    private void addWavelengthSlider( final Beam beam, double minWavelength, double maxWavelength ) {
         // Make a spectrum wavelengthSlider
-        wavelengthSlider = new SpectrumSlider( apparatusPanel, minWavelength, maxWavelength );
+        final SpectrumSliderWithSquareCursor wavelengthSlider = new SpectrumSliderWithSquareCursor( apparatusPanel,
+//        final SpectrumSliderWithSquareCursor wavelengthSlider1 = new SpectrumSliderWithSquareCursor( apparatusPanel,
+                                                                                                    minWavelength,
+                                                                                                    maxWavelength );
+//        wavelengthSlider = new SpectrumSliderWithReadout( apparatusPanel,
+//                                                          wavelengthSlider1,
+//                                                          beam,
+//                                                          minWavelength,
+//                                                          maxWavelength,
+//                                                          spectrumSliderLoc );
         wavelengthSlider.setLocation( spectrumSliderRelLoc ); // default is (0,0)
         wavelengthSlider.setOrientation( SpectrumSliderWithSquareCursor.HORIZONTAL ); // default is HORIZONTAL
         wavelengthSlider.setTransmissionWidth( 1.0 ); // default is 0.0
-        wavelengthSlider.setKnobSize( new Dimension( 20, 20 ) ); // default is (20,30)
+        wavelengthSlider.setKnobSize( new Dimension( 15, 12 ) ); // default is (20,30)
         wavelengthSlider.setSpectrumSize( spectrumSize ); // default is (200,25)
-//        addGraphic( wavelengthSlider, DischargeLampsConfig.CONTROL_LAYER );
+        addGraphic( wavelengthSlider, DischargeLampsConfig.CONTROL_LAYER );
         wavelengthSlider.setValue( (int)( beam.getWavelength() ) );
         wavelengthSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -97,18 +111,13 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
     }
 
     private void addIntensitySlider( final Beam beam, double maximumRate ) {
-        // Make a spectrum intensitySlider
+
         intensitySlider = new IntensitySlider( VisibleColor.wavelengthToColor( beam.getWavelength() ),
                                                IntensitySlider.HORIZONTAL, intensitySliderSize );
         intensitySlider.setMaximum( (int)maximumRate );
-        intensitySlider.setLocation( intensitySliderLoc ); // default is (0,0)
+        intensitySlider.setLocation( (int)( intensitySliderLoc.getX() - getRegistrationPoint().getX() ),
+                                     (int)( intensitySliderLoc.getY() - getRegistrationPoint().getY() ) );
         apparatusPanel.add( intensitySlider );
-
-//        IntensityReadout intensityReadout = new IntensityReadout( apparatusPanel, beam );
-//        intensityReadout.setLocation( (int)( intensitySliderLoc.getX() + intensitySlider.getWidth() ) + 4,
-//                                      (int)( intensitySliderLoc.getY() + intensitySlider.getHeight() / 2 - intensityReadout.getHeight() / 2 ) - 1 );
-//        apparatusPanel.addGraphic( intensityReadout, 1E14 );
-
         intensitySlider.setValue( 0 );
         intensitySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -116,6 +125,11 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
             }
         } );
         beam.addWavelengthChangeListener( new WavelengthChangeListener( intensitySlider ) );
+
+//        IntensityReadout intensityReadout = new IntensityReadout( apparatusPanel, beam );
+//        intensityReadout.setLocation( (int)( intensitySliderLoc.getX() + intensitySlider.getWidth() ) + 4,
+//                                      (int)( intensitySliderLoc.getY() + intensitySlider.getHeight() / 2 - intensityReadout.getHeight() / 2 ) - 1 );
+//        apparatusPanel.addGraphic( intensityReadout, 1E14 );
     }
 
     public IntensitySlider getIntensityControl() {
