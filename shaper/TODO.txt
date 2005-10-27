@@ -47,6 +47,7 @@ PHETCOMMON:
 
 
 DONE:
+(10/27/05) - make kaboom larger, fix its registration point and location
 (10/27/05) - add visual cues that molecule view is a zoom view of a molecule that is in the beam path
 (10/27/05) - add spikey surface to diffraction gratings
 (10/26/05) - slow down explosion accelaration
