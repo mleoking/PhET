@@ -4,6 +4,7 @@ package edu.colorado.phet.ec3.plots;
 import edu.colorado.phet.common.view.graphics.transforms.LinearTransform2D;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.ec3.common.LucidaSansFont;
 import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
@@ -437,7 +438,7 @@ public class TimePlotSuitePNode extends PNode {
     private void updateCursorLocation() {
         double time = timeSeriesModel.getPlaybackTime();
         Point2D imageLoc = toImageLocation( time, getMaxRangeValue() );
-        System.out.println( "imageLoc = " + imageLoc );
+//        System.out.println( "imageLoc = " + imageLoc );
         cursorPNode.setOffset( imageLoc );
 //        cursorPNode.setOffset( new Point2D.Double( imageLoc.getX(), 0 ) );
 //        updateCursorSize();
@@ -546,7 +547,7 @@ public class TimePlotSuitePNode extends PNode {
 
 //        System.out.println( System.currentTimeMillis() + ", Layout Children" );
         layoutCount++;
-        if( layoutCount > 100 ) {
+        if( layoutCount > 100 && layoutCount % 25 == 0 ) {
             System.out.println( "layoutCount = " + layoutCount );
         }
 //        if( slider != null ) {

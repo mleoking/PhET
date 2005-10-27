@@ -38,11 +38,11 @@ public class TimeSeriesPNode {
     private double lastUpdateValue = Double.NaN;
     private Object model;
 
-    public TimeSeriesPNode( TimePlotSuitePNode plotSuite, ValueAccessor valueAccessor, Color color, String justifyString, Object model ) {
+    public TimeSeriesPNode( TimePlotSuitePNode plotSuite, ValueAccessor valueAccessor, String justifyString, Object model ) {
         this.plotSuite = plotSuite;
         this.series = new TimeSeries();
         this.valueAccessor = valueAccessor;
-        this.color = color;
+        this.color = valueAccessor.getColor();
         this.justifyString = justifyString;
         this.model = model;
         series.addObserver( new TimeSeries.Observer() {

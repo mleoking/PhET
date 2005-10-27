@@ -17,6 +17,7 @@ import edu.colorado.phet.timeseries.TimeSeriesPlaybackPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -29,7 +30,7 @@ public class EC3Module extends PiccoloModule {
     private EnergyConservationModel energyModel;
     private EC3Canvas energyCanvas;
     private EnergyLookAndFeel energyLookAndFeel = new EnergyLookAndFeel();
-    private JFrame energyFrame;
+    private JFrame barChartFrame;
     private int floorY = 600;
     private TimeSeriesPlaybackPanel timeSeriesPlaybackPanel;
     private EC3TimeSeriesModel energyTimeSeriesModel;
@@ -37,6 +38,9 @@ public class EC3Module extends PiccoloModule {
     private ChartCanvas chartCanvas;
     public static final int energyFrameWidth = 200;
     public static final int chartFrameHeight = 200;
+    private static final boolean DEFAULT_BAR_CHARTS_VISIBLE = false;
+    private static final boolean DEFAULT_PLOT_VISIBLE = false;
+    private Point2D.Double defaultBodyPosition = new Point2D.Double( 150, 200 );;
 
     /**
      * @param name
@@ -60,11 +64,11 @@ public class EC3Module extends PiccoloModule {
         EnergyPanel energyPanel = new EnergyPanel( this );
         setControlPanel( energyPanel );
 
-        energyFrame = new JFrame();
-        energyFrame.setContentPane( new BarGraphCanvas( this ) );
+        barChartFrame = new JFrame();
+        barChartFrame.setContentPane( new BarGraphCanvas( this ) );
 
-        energyFrame.setSize( energyFrameWidth, 600 );
-        energyFrame.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width - energyFrameWidth, 0 );
+        barChartFrame.setSize( energyFrameWidth, 600 );
+        barChartFrame.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width - energyFrameWidth, 0 );
 
         chartFrame = new JFrame( "Charts" );
         chartCanvas = new ChartCanvas( this );
@@ -76,20 +80,26 @@ public class EC3Module extends PiccoloModule {
         timeSeriesPlaybackPanel = new TimeSeriesPlaybackPanel( energyTimeSeriesModel );
     }
 
+    private void setDefaults() {
+        setBarChartVisible( DEFAULT_BAR_CHARTS_VISIBLE );
+        setPlotVisible( DEFAULT_PLOT_VISIBLE );
+    }
+
     public void stepModel( double dt ) {
         energyModel.stepInTime( dt );
     }
 
     public void activate( PhetApplication app ) {
         super.activate( app );
-        energyFrame.setVisible( true );
+        barChartFrame.setVisible( true );
         chartFrame.setVisible( true );
         app.getPhetFrame().getBasicPhetPanel().setAppControlPanel( timeSeriesPlaybackPanel );
+        setDefaults();
     }
 
     public void deactivate( PhetApplication app ) {
         super.deactivate( app );
-        energyFrame.setVisible( false );
+        barChartFrame.setVisible( false );
         chartFrame.setVisible( false );
         app.getPhetFrame().getBasicPhetPanel().setAppControlPanel( new JLabel( "This space for rent." ) );
     }
@@ -115,9 +125,19 @@ public class EC3Module extends PiccoloModule {
         init();
     }
 
+
+    public void resetSkater() {
+        if( getEnergyConservationModel().numBodies() > 0 ) {
+            Body body = getEnergyConservationModel().bodyAt( 0 );
+            body.setPosition( getDefaultBodyPosition() );
+            body.setAngle( 0 );
+            body.setVelocity( 0, 0 );
+        }
+    }
+
     private void init() {
         Body body = new Body( Body.createDefaultBodyRect() );
-        body.setPosition( 150, 200 );
+        body.setPosition( getDefaultBodyPosition() );
         energyModel.addBody( body );
 
         for( int i = 0; i < energyModel.numBodies(); i++ ) {
@@ -134,6 +154,11 @@ public class EC3Module extends PiccoloModule {
         energyModel.addSplineSurface( surface );
         energyCanvas.addSplineGraphic( splineGraphic );
         energyCanvas.initPieGraphic();
+    }
+
+    private Point2D getDefaultBodyPosition() {
+
+        return defaultBodyPosition;
     }
 
     public Object getModelState() {
@@ -176,4 +201,13 @@ public class EC3Module extends PiccoloModule {
     public void clearPaths() {
         this.getEnergyConservationModel().clearPaths();
     }
+
+    public void setPlotVisible( boolean b ) {
+        chartFrame.setVisible( b );
+    }
+
+    public void setBarChartVisible( boolean b ) {
+        barChartFrame.setVisible( b );
+    }
+
 }

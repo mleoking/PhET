@@ -182,11 +182,12 @@ public abstract class TimeSeriesModel implements ClockTickListener {
     }
 
     public void setRecordMode() {
-        setLastPoint();
+
+        recordMode.initAgain( this );
         setMode( recordMode );
     }
 
-    private void setLastPoint() {
+    void setLastPoint() {
         if( series.size() > 0 ) {
             ObjectTimePoint lastPoint = series.getLastPoint();
             setModelState( lastPoint.getValue() );
@@ -263,7 +264,7 @@ public abstract class TimeSeriesModel implements ClockTickListener {
     }
 
     public void startLiveMode() {
-        setLastPoint();
+//        setLastPoint();
         setLiveMode();
         setPaused( false );
         notifyLiveModeStarted();
