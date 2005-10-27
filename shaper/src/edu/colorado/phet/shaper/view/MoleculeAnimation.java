@@ -12,6 +12,8 @@
 package edu.colorado.phet.shaper.view;
 
 import java.awt.*;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 import java.util.Random;
 
@@ -41,6 +43,10 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
     private static final double MAX_DISTANCE = 10;  // distance in pixels we would move if closeness=1
     
     private static final double EXPLOSION_ACCELERATION_RATE = 0.10;
+    
+    private static final Point MOLECULE_POINT = new Point( -70, 300 );
+   
+    private static final float DASH_SIZE = 3f;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -72,13 +78,82 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         
         setIgnoreMouse( true );
         
+        setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+
         _random = new Random();
         
+        // background that everything sits on
         PhetShapeGraphic background = new PhetShapeGraphic( component );
         background.setShape( new Rectangle( 0, 0, BACKGROUND_SIZE.width, BACKGROUND_SIZE.height ) );
         background.setColor(  new Color( 215, 215, 215 ) );
         addGraphic( background );
         
+        // Visual cues to indicate that this is a "zoomed in" view.
+        {
+            // Dashed line strokes
+            float[] dashArray = { DASH_SIZE, DASH_SIZE };
+            BasicStroke whiteDashStroke = new BasicStroke( 1f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL, 0f, dashArray, 0f );
+            BasicStroke blackDashStroke = new BasicStroke( 1f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL, 0f, dashArray, DASH_SIZE );
+
+            /* 
+             * 2 lines starting at the top-level corner, 
+             * the inverse of each other so they show up on all backgrounds.
+             */
+            {
+                GeneralPath topLineShape = new GeneralPath();
+                topLineShape.moveTo( 0, 0 );
+                topLineShape.lineTo( MOLECULE_POINT.x, MOLECULE_POINT.y );
+
+                PhetShapeGraphic topWhiteDashedLine = new PhetShapeGraphic( component );
+                topWhiteDashedLine.setShape( topLineShape );
+                topWhiteDashedLine.setColor( Color.WHITE );
+                topWhiteDashedLine.setStroke( whiteDashStroke );
+
+                addGraphic( topWhiteDashedLine );
+                PhetShapeGraphic topBlackDashedLine = new PhetShapeGraphic( component );
+                topBlackDashedLine.setShape( topLineShape );
+                topBlackDashedLine.setColor( Color.BLACK );
+                topBlackDashedLine.setStroke( blackDashStroke );
+                addGraphic( topBlackDashedLine );
+            }
+
+            /* 
+             * 2 lines starting at the bottom-right corner, 
+             * the inverse of each other so they show up on all backgrounds.
+             */
+            {
+                GeneralPath bottomLineShape = new GeneralPath();
+                bottomLineShape.moveTo( BACKGROUND_SIZE.width, BACKGROUND_SIZE.height );
+                bottomLineShape.lineTo( MOLECULE_POINT.x, MOLECULE_POINT.y );
+
+                PhetShapeGraphic bottomWhiteDashedLine = new PhetShapeGraphic( component );
+                bottomWhiteDashedLine.setShape( bottomLineShape );
+                bottomWhiteDashedLine.setColor( Color.WHITE );
+                bottomWhiteDashedLine.setStroke( whiteDashStroke );
+                addGraphic( bottomWhiteDashedLine );
+
+                PhetShapeGraphic bottomBlackDashedLine = new PhetShapeGraphic( component );
+                bottomBlackDashedLine.setShape( bottomLineShape );
+                bottomBlackDashedLine.setColor( Color.BLACK );
+                bottomBlackDashedLine.setStroke( blackDashStroke );
+                addGraphic( bottomBlackDashedLine );
+            }
+
+            /* 
+             * Tiny rectangle that indicates where the molecule actually is.
+             * All of the above lines terminate at the center of this rectangle.
+             */
+            Rectangle2D r = new Rectangle2D.Double( 0, 0, 8, 8 );
+            PhetShapeGraphic tinyMolecule = new PhetShapeGraphic( component );
+            tinyMolecule.setShape( r );
+            tinyMolecule.setStroke( new BasicStroke( 1f ) );
+            tinyMolecule.setBorderColor( Color.WHITE );
+            tinyMolecule.centerRegistrationPoint();
+            tinyMolecule.setLocation( MOLECULE_POINT.x, MOLECULE_POINT.y );
+            addGraphic( tinyMolecule );
+        }
+        
+        // The frame around the molecule animation
         _animationFrame = new PhetShapeGraphic( component );
         Rectangle frameShape = new Rectangle( 0, 0, BACKGROUND_SIZE.width - 30, BACKGROUND_SIZE.height - 45 );
         _animationFrame.setShape( frameShape );
@@ -89,6 +164,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         _animationFrame.setRegistrationPoint( _animationFrame.getWidth()/2, 0 ); // top center
         _animationFrame.setLocation( BACKGROUND_SIZE.width/2, 15 );
         
+        // The display that shows how "close" we are to matching the output pulse.
         _closenessGraphic = new HTMLGraphic( component );
         _closenessGraphic.setColor( Color.BLACK );
         _closenessGraphic.setFont( new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 18 ) );
