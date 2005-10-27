@@ -192,7 +192,7 @@ public class ShaperModule extends AbstractModule implements ActionListener {
             gratingsLabel.setFont( new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 18 ) );
             gratingsLabel.setColor( Color.LIGHT_GRAY );
             gratingsLabel.setHTML( SimStrings.get( "DiffractionGratings.label" ) );
-            gratingsLabel.setLocation( 415, 325 );
+            gratingsLabel.setLocation( 400, 325 );
             gratingsLabel.setIgnoreMouse( true );
             apparatusPanel.addGraphic( gratingsLabel );
 
