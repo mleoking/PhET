@@ -54,6 +54,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
     private HTMLGraphic _closenessGraphic;
     private String _closenessFormat;
     private GameManager _gameManager;
+    private PhetImageGraphic _explosionGraphic;
     
     private double _closeness;
     private Point _moleculeHome;
@@ -71,10 +72,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         
         setIgnoreMouse( true );
         
-        _closeness = 0;
         _random = new Random();
-        _enabled = true;
-        _isExploding = false;
         
         PhetShapeGraphic background = new PhetShapeGraphic( component );
         background.setShape( new Rectangle( 0, 0, BACKGROUND_SIZE.width, BACKGROUND_SIZE.height ) );
@@ -102,6 +100,12 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         _closenessGraphic.setRegistrationPoint( _closenessGraphic.getWidth()/2, _closenessGraphic.getHeight() );
         _closenessGraphic.setLocation( BACKGROUND_SIZE.width/2, BACKGROUND_SIZE.height - 5 );
         
+        // explosion
+        _explosionGraphic = new PhetImageGraphic( component, ShaperConstants.KABOOM_IMAGE );
+        _explosionGraphic.scale( 0.7 );
+        _explosionGraphic.setLocation( 30, 15 );
+        addGraphic( _explosionGraphic );
+        
         // molecule
         _molecule = new CompositePhetGraphic( component );
         {           
@@ -116,6 +120,23 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         _molecule.setLocation( _moleculeHome );
         _molecule.scale( 0.50 );
         addGraphic( _molecule );
+        
+        reset();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Reset
+    //----------------------------------------------------------------------------
+    
+    public void reset() {
+        _enabled = true;
+        _isExploding = false;
+        setCloseness( 0 );
+        _explosionGraphic.setVisible( false );
+        _molecule.setLocation( _moleculeHome );
+        _moleculePart1.setLocation( 0, 0 );
+        _moleculePart2.setLocation( 0, 0 );
+        _moleculePart3.setLocation( 0, 0 );
     }
     
     //----------------------------------------------------------------------------
@@ -159,16 +180,6 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         String text = MessageFormat.format( _closenessFormat, args );
         _closenessGraphic.setHTML( text );
     }
-
-    public void reset() {
-        _enabled = true;
-        _isExploding = false;
-        setCloseness( 0 );
-        _molecule.setLocation( _moleculeHome );
-        _moleculePart1.setLocation( 0, 0 );
-        _moleculePart2.setLocation( 0, 0 );
-        _moleculePart3.setLocation( 0, 0 );
-    }
     
     public boolean isExploding() {
         return _isExploding;
@@ -185,7 +196,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
     //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------
-
+    
     /**
      * Moves the molecule when the clock ticks.
      */
@@ -193,10 +204,12 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
 
         if ( _enabled ) {
             if ( _isExploding ) {
+                
                 // Continue the "explode" animation
                 _moleculePart1.setLocation( (int) ( _moleculePart1.getX() + _dx1 ), (int) ( _moleculePart1.getY() + _dy1 ) );
                 _moleculePart2.setLocation( (int) ( _moleculePart2.getX() + _dx2 ), (int) ( _moleculePart2.getY() + _dy2 ) );
                 _moleculePart3.setLocation( (int) ( _moleculePart3.getX() + _dx3 ), (int) ( _moleculePart3.getY() + _dy3 ) );
+                
                 // Accelerate
                 final double a = EXPLOSION_ACCELERATION_RATE;
                 _dx1 += _dx1 * a;
@@ -205,7 +218,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
                 _dy2 += _dy2 * a;
                 _dx3 += _dx3 * a;
                 _dy3 += _dy3 * a;
-
+                    
                 if ( _molecule.getClip() != null ) {
                     // Are we still visbile in the animation frame?
                     if ( Math.abs( _moleculePart1.getX() ) > 2 * _animationFrame.getWidth() &&
@@ -233,6 +246,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
             }
             else {
                 // Start the "explode" animation.
+                _explosionGraphic.setVisible( true );
                 _isExploding = true;
                 double theta1 = Math.random() * Math.PI * 2;
                 double theta2 = theta1 + Math.toRadians( 120 );
