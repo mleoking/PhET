@@ -31,9 +31,8 @@ public class DiffractionGrating extends PhetShapeGraphic {
 
     private static final float GRATING_WIDTH = 100f;
     private static final float GRATING_HEIGHT = 15f;
-    private static final int NUMBER_OF_TEETH = 20;
     private static final float TOOTH_HEIGHT = 3f;
-    private static final Color COLOR = Color.LIGHT_GRAY;
+    private static final int NUMBER_OF_TEETH = 20; // determines the tooth width
     
     public DiffractionGrating( Component component ) {
         super( component );
@@ -57,7 +56,7 @@ public class DiffractionGrating extends PhetShapeGraphic {
         path.closePath();
         
         setShape( path );
-        setColor( COLOR );
+        setColor( Color.LIGHT_GRAY );
         setBorderColor( Color.BLACK );
         setStroke( new BasicStroke( 1f ) );
     }
