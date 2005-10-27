@@ -49,9 +49,7 @@ public class SingleAtomModule extends BaseLaserModule {
     private LampGraphic pumpingLampGraphic;
     private UniversalLaserControlPanel laserControlPanel;
     private BeamControl pumpBeamControl;
-//    private BeamControl2 pumpBeamControl;
     private BeamControl seedBeamControl;
-//    private BeamControl2 seedBeamControl;
 
     public SingleAtomModule( AbstractClock clock ) {
         super( SimStrings.get( "ModuleTitle.SingleAtomModule" ), clock );
@@ -79,7 +77,7 @@ public class SingleAtomModule extends BaseLaserModule {
 
         // Start with the pumping beam turned down all the way
         pumpingBeam.setPhotonsPerSecond( 0 );
-        pumpingBeam.setMaxPhotonsPerSecond( (int)pumpingBeam.getMaxPhotonsPerSecond() * 2 );
+        pumpingBeam.setMaxPhotonsPerSecond( (int)pumpingBeam.getMaxPhotonsPerSecond() / 3 );
 
         // Enable only the stimulating beam to start with
         seedBeam.setEnabled( true );
@@ -108,24 +106,15 @@ public class SingleAtomModule extends BaseLaserModule {
         addGraphic( stimulatingBeamGraphic, LaserConfig.PHOTON_LAYER + 1 );
 
         // Add controls for the seed beam
-//        Point controlLocation = new Point( (int)allocatedBounds.getX() - 10, (int)( allocatedBounds.getY() + allocatedBounds.getHeight() + 20 ) );
-//        seedBeamControl = new BeamControl2( getApparatusPanel(), controlLocation, seedBeam,
-//                                            LaserConfig.MAXIMUM_SEED_PHOTON_RATE,
-//                                            null, pumpingBeam );
-//        getApparatusPanel().addGraphic( seedBeamControl );
-
-        // TEST!!!!
-        Point controlLocation = new Point( (int)seedBeam.getPosition().getX(), (int)seedBeam.getPosition().getY() );
+        Point controlLocation = new Point( (int)seedBeam.getPosition().getX() + 50, (int)seedBeam.getPosition().getY() );
         seedBeamControl = new BeamControl( getApparatusPanel(),
                                            controlLocation,
                                            seedBeam,
-                                           LaserConfig.MAXIMUM_SEED_PHOTON_RATE,
                                            LaserConfig.MIN_WAVELENGTH,
                                            LaserConfig.MAX_WAVELENGTH,
-                                           LaserConfig.BEAM_CONTROL_PANEL_IMAGE,
-                                           new Point( 20, 0 ) );
+                                           LaserConfig.SEED_BEAM_CONTROL_PANEL_IMAGE,
+                                           new Point( 0, 60 ) );
         getApparatusPanel().addGraphic( seedBeamControl );
-
 
         // Pumping beam lamp
         AffineTransform pumpingBeamTx = new AffineTransform();
@@ -138,19 +127,16 @@ public class SingleAtomModule extends BaseLaserModule {
         addGraphic( pumpingLampGraphic, LaserConfig.PHOTON_LAYER + 1 );
 
         // Add the beam control
-        Point pumpControlLocation = new Point( (int)( pumpingBeamTx.getTranslateX() + 100 ), 10 );
+        Point pumpControlLocation = new Point( (int)( pumpingBeam.getPosition().getX() + 100 ),
+                                               (int)( pumpingBeam.getPosition().getY() - 90 ) );
         pumpBeamControl = new BeamControl( getApparatusPanel(),
                                            pumpControlLocation,
                                            pumpingBeam,
-                                           LaserConfig.MAXIMUM_PUMPING_PHOTON_RATE / 8,
                                            LaserConfig.MIN_WAVELENGTH,
                                            LaserConfig.MAX_WAVELENGTH,
-                                           LaserConfig.BEAM_CONTROL_PANEL_IMAGE,
-                                           new Point( 20, 0 ) );
-//        pumpBeamControl = new BeamControl2( getApparatusPanel(), pumpControlLocation, pumpingBeam,
-//                                            LaserConfig.MAXIMUM_PUMPING_PHOTON_RATE / 8,
-//                                            seedBeam, null );
-        getApparatusPanel().addGraphic( pumpBeamControl, LaserConfig.CONTROL_LAYER );
+                                           LaserConfig.PUMP_BEAM_CONTROL_PANEL_IMAGE,
+                                           new Point( 60, 0 ) );
+        getApparatusPanel().addGraphic( pumpBeamControl );
 
         // Set the averaging time for the energy levels display
         setEnergyLevelsAveragingPeriod( 0 );

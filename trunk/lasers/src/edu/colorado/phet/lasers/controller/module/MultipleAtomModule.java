@@ -15,7 +15,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.lasers.controller.BeamControl2;
+import edu.colorado.phet.lasers.controller.BeamControl;
 import edu.colorado.phet.lasers.controller.Kaboom;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.UniversalLaserControlPanel;
@@ -43,7 +43,8 @@ public class MultipleAtomModule extends BaseLaserModule {
     private ArrayList atoms;
     private UniversalLaserControlPanel laserControlPanel;
     private Kaboom kaboom;
-    private BeamControl2 pumpBeamControl;
+    private BeamControl pumpBeamControl;
+//    private BeamControl2 pumpBeamControl;
 
     /**
      *
@@ -110,11 +111,14 @@ public class MultipleAtomModule extends BaseLaserModule {
         }
 
         // Add the beam control
-        Point pumpControlLocation = new Point( (int)( cavity.getBounds().getMaxX() ), 10 );
-//        Point pumpControlLocation = new Point( (int)( cavity.getBounds().getX() - 150 ), 10 );
-        pumpBeamControl = new BeamControl2( getApparatusPanel(), pumpControlLocation, pumpingBeam,
-                                            LaserConfig.MAXIMUM_PUMPING_PHOTON_RATE,
-                                            null, null );
+        Point pumpControlLocation = new Point( (int)( cavity.getBounds().getMaxX() ) + 80, 10 );
+        pumpBeamControl = new BeamControl( getApparatusPanel(),
+                                           pumpControlLocation,
+                                           pumpingBeam,
+                                           LaserConfig.MIN_WAVELENGTH,
+                                           LaserConfig.MAX_WAVELENGTH,
+                                           LaserConfig.PUMP_BEAM_CONTROL_PANEL_IMAGE,
+                                           new Point( 60, 0 ) );
         getApparatusPanel().addGraphic( pumpBeamControl );
 
         // Add a kaboom element
@@ -125,7 +129,6 @@ public class MultipleAtomModule extends BaseLaserModule {
         addAtoms( cavityBounds );
 
         // Set initial conditions
-//        setThreeEnergyLevels( false );
         setThreeEnergyLevels( true );
         setEnergyLevelsAveragingPeriod( 2000 );
 
