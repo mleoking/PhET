@@ -114,5 +114,5 @@ public class ShaperConstants {
 
     public static final String IMAGES_DIRECTORY = "images/";
     public static final String CLOSE_BUTTON_IMAGE = IMAGES_DIRECTORY + "closeButton.png";
-    
+    public static final String KABOOM_IMAGE = IMAGES_DIRECTORY + "kaboom.png";
 }

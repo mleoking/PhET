@@ -6,7 +6,6 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- show a "kaboom" graphic when the molecule explodes
 - magnifying glass graphic for molecule
 - fill in contents of Explanation dialog
 - add Help items
@@ -49,6 +48,7 @@ PHETCOMMON:
 
 
 DONE:
+(10/26/05) - show a "kaboom" graphic when the molecule explodes
 (10/26/05) - added Help>Explanation and a dummy dialog
 (10/26/05) - bugfix: sum absolute amplitudes when determining alpha of coherent output light beam
 (10/26/05) - tweak focal point of output light components
