@@ -6,18 +6,15 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- put labels on diffraction gratings
+- separate the model & view for molecule animation
 - magnifying glass graphic for molecule
 - fill in contents of Explanation dialog
 - add Help items
 
 
 MEDIUM PRIORITY:
-- Help item for amplitude sliders doesn't always point to a slider
-- Help item for amplitude text fields doesn't always point to a text field
 - resize the molecule graphics that are currently scaled
 - resize kaboom graphic
-- separate the model & view for molecule animation
 - wait cursors
 - Spanish translations
 - make amplitude sliders 254 pixels tall so that every value can be achieved by dragging
@@ -50,6 +47,7 @@ PHETCOMMON:
 
 
 DONE:
+(10/27/05) - add visual cues that molecule view is a zoom view of a molecule that is in the beam path
 (10/27/05) - add spikey surface to diffraction gratings
 (10/26/05) - slow down explosion accelaration
 (10/26/05) - made "kaboom" graphic using AMR Explosion plug-in for Photoshop (www.amrgraphics.com)
@@ -104,6 +102,10 @@ DONE:
 (10/18/05) - add entires in CVSROOT/loginfo and modules files
 (10/18/05) - checked into CVS as project "shaper"
 (10/18/05) - set up the application framework
+
+
+REJECTED:
+(10/27/05) - put labels on diffraction gratings (no room, i18n problems)
 
 ===============================================================================
 end of file
