@@ -9,6 +9,8 @@ HIGH PRIORITY:
 - add presets for musical instruments to Discrete panel
 
 MEDIUM PRIORITY:
+- in game, Help item for amplitude sliders doesn't always point to a slider
+- in game, Help item for amplitude text fields doesn't always point to a text field
 - wait cursors don't reliably happen when loading a configuration (because they're on the PhetFrame?)
 - bug: anti-aliasing of plots gets turned off
 - bug: D2C amplitudes graph draws on top of tools (Mac only)
