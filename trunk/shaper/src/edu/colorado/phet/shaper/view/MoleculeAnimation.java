@@ -173,13 +173,14 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         String text = MessageFormat.format( _closenessFormat, args );
         _closenessGraphic.setHTML( text );
         addGraphic( _closenessGraphic );
-        _closenessGraphic.setRegistrationPoint( _closenessGraphic.getWidth()/2, _closenessGraphic.getHeight() );
+        _closenessGraphic.setRegistrationPoint( _closenessGraphic.getWidth()/2, _closenessGraphic.getHeight() ); // bottom center
         _closenessGraphic.setLocation( BACKGROUND_SIZE.width/2, BACKGROUND_SIZE.height - 5 );
         
         // explosion
         _explosionGraphic = new PhetImageGraphic( component, ShaperConstants.KABOOM_IMAGE );
-        _explosionGraphic.scale( 0.35 );
-        _explosionGraphic.setLocation( 30, 25 );
+        _explosionGraphic.setRegistrationPoint( _explosionGraphic.getWidth()/2, 0 ); // top center
+        _explosionGraphic.scale( 0.4 ); // scale after setting registration point!
+        _explosionGraphic.setLocation( _animationFrame.getLocation() );
         addGraphic( _explosionGraphic );
         
         // molecule
