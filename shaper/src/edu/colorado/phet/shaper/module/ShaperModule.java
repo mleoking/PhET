@@ -249,7 +249,8 @@ public class ShaperModule extends AbstractModule implements ActionListener {
         instructions.setHTML( SimStrings.get( "instructions" ) );
         instructions.setFont( new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 18 ) );
         instructions.setColor( ShaperConstants.OUTPUT_PULSE_COLOR );
-        instructions.setLocation( 800, 250 );
+        instructions.setRegistrationPoint( 0, instructions.getHeight()/2 ); // left center
+        instructions.setLocation( 790, 350 );
         instructions.setIgnoreMouse( true );
         apparatusPanel.addGraphic( instructions );
         
