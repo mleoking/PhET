@@ -18,6 +18,7 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.help.HelpManager;
+import edu.colorado.phet.lasers.controller.Kaboom;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.RightMirrorReflectivityControlPanel;
 import edu.colorado.phet.lasers.help.ApparatusPanelHelp;
@@ -82,6 +83,7 @@ public class BaseLaserModule extends Module {
     private HelpManager energyLevelsPanelHelpManager;
     private HelpManager mainPanelHelpManager;
     private ApparatusPanelHelp apparatusPanelHelp;
+    private Kaboom kaboom;
 
     /**
      *
@@ -93,6 +95,10 @@ public class BaseLaserModule extends Module {
         laserModel = new LaserModel();
         setModel( laserModel );
         laserModel.setBounds( new Rectangle2D.Double( 0, 0, 800, 600 ) );
+
+        // Add a kaboom element
+        kaboom = new Kaboom( this );
+        getModel().addModelElement( kaboom );
 
         // Create the apparatus panel
         final ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
@@ -114,6 +120,7 @@ public class BaseLaserModule extends Module {
 
         // Set up help
         createHelp();
+        kaboom = new Kaboom( this );
     }
 
     /**
@@ -443,6 +450,8 @@ public class BaseLaserModule extends Module {
             getApparatusPanel().addGraphic( rightMirrorGraphic, LaserConfig.RIGHT_MIRROR_LAYER );
             getApparatusPanel().revalidate();
         }
+        seedBeam.setEnabled( !mirrorsEnabled );
+
         getApparatusPanel().paintImmediately( getApparatusPanel().getBounds() );
     }
 
@@ -471,10 +480,6 @@ public class BaseLaserModule extends Module {
         atom.removeFromSystem();
     }
 
-    public void reset() {
-        laserModel.reset();
-    }
-
     public void setSwingComponentsVisible( boolean areVisible ) {
         if( reflectivityControlPanel != null ) {
             if( !areVisible ) {
@@ -492,6 +497,22 @@ public class BaseLaserModule extends Module {
 
     public LampGraphic getPumpLampGraphic() {
         return pumpLampGraphic;
+    }
+
+    /**
+     *
+     */
+    public void reset() {
+        // Reset the model
+        laserModel.reset();
+
+        // Clear the old kaboom stuff off the apparatus panel and out of the model
+        getModel().removeModelElement( kaboom );
+        kaboom.clearGraphics( getApparatusPanel() );
+
+        // Make a new kaboom, ready for firing
+        kaboom = new Kaboom( this );
+        getModel().addModelElement( kaboom );
     }
 
 

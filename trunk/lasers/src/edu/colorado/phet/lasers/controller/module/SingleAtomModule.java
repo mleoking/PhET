@@ -77,7 +77,7 @@ public class SingleAtomModule extends BaseLaserModule {
 
         // Start with the pumping beam turned down all the way
         pumpingBeam.setPhotonsPerSecond( 0 );
-        pumpingBeam.setMaxPhotonsPerSecond( (int)pumpingBeam.getMaxPhotonsPerSecond() / 3 );
+        pumpingBeam.setMaxPhotonsPerSecond( (int)pumpingBeam.getMaxPhotonsPerSecond() / 2 );
 
         // Enable only the stimulating beam to start with
         seedBeam.setEnabled( true );
@@ -106,7 +106,7 @@ public class SingleAtomModule extends BaseLaserModule {
         addGraphic( stimulatingBeamGraphic, LaserConfig.PHOTON_LAYER + 1 );
 
         // Add controls for the seed beam
-        Point controlLocation = new Point( (int)seedBeam.getPosition().getX() + 50, (int)seedBeam.getPosition().getY() );
+        Point controlLocation = new Point( (int)seedBeam.getPosition().getX() + 50, (int)seedBeam.getPosition().getY() + 5 );
         seedBeamControl = new BeamControl( getApparatusPanel(),
                                            controlLocation,
                                            seedBeam,
