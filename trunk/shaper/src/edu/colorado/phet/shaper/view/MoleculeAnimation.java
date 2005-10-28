@@ -149,8 +149,14 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
             tinyMolecule.setStroke( new BasicStroke( 1f ) );
             tinyMolecule.setBorderColor( Color.WHITE );
             tinyMolecule.centerRegistrationPoint();
-            tinyMolecule.setLocation( MOLECULE_POINT.x, MOLECULE_POINT.y );
+            tinyMolecule.setLocation( MOLECULE_POINT );
             addGraphic( tinyMolecule );
+            
+            // Magnifying glass, lens centered on the tiny rectangle
+            MagnifyingGlass magnifyingGlass = new MagnifyingGlass( component );
+            magnifyingGlass.setLocation( MOLECULE_POINT.x + 31, MOLECULE_POINT.y + 2 );
+            magnifyingGlass.rotate( Math.toRadians( 140 ) );
+            addGraphic( magnifyingGlass );
         }
         
         // The frame around the molecule animation
