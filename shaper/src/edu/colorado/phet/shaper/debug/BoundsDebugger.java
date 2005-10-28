@@ -1,4 +1,4 @@
-package edu.colorado.phet.shaper.view;
+package edu.colorado.phet.shaper.debug;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

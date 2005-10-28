@@ -19,7 +19,7 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.shaper.ShaperConstants;
-import edu.colorado.phet.shaper.view.BoundsDebugger;
+import edu.colorado.phet.shaper.debug.BoundsDebugger;
 
 
 /**
