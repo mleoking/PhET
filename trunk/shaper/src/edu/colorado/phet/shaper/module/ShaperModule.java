@@ -227,18 +227,16 @@ public class ShaperModule extends AbstractModule implements ActionListener {
         _cheatPanel.setVisible( false );
 
         // Molecule animation
-        _animation = new MoleculeAnimation( apparatusPanel );
+        _animation = new MoleculeAnimation( apparatusPanel, this, _userFourierSeries, _outputFourierSeries );
         apparatusPanel.addGraphic( _animation );
         _animation.setLocation( 515, 222 );
-        model.addModelElement( _animation );//XXX need to separate model & view here
+        model.addModelElement( _animation );// TODO separate molecule model & view !
         
         //----------------------------------------------------------------------------
         // Control
         //----------------------------------------------------------------------------
-
-        // Game manager
-        GameManager gameManager = new GameManager( this, _userFourierSeries, _outputFourierSeries, _animation );
-        _animation.setGameManager( gameManager );
+        
+        // no control panel in this simulation
         
         //----------------------------------------------------------------------------
         // Help
