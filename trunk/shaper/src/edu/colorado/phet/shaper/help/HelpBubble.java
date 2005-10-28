@@ -16,7 +16,6 @@ import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.*;
-import edu.colorado.phet.common.view.util.RectangleUtils;
 
 /**
  * HelpBubble puts some text in a bubble, with an optional arrow.
@@ -201,7 +200,7 @@ public class HelpBubble extends CompositePhetGraphic implements PhetGraphicListe
      */
     public void phetGraphicChanged( PhetGraphic phetGraphic ) {
         if ( _target != null ) {
-            setLocation( _target.getLocation() );
+            trackTarget();
         }
     }
 
@@ -212,6 +211,43 @@ public class HelpBubble extends CompositePhetGraphic implements PhetGraphicListe
      */
     public void phetGraphicVisibilityChanged( PhetGraphic phetGraphic ) {
         setVisible( _target.isVisible() );
+    }
+    
+    /*
+     * Updates the HelpBubble's location to match the target graphic.
+     */
+    private void trackTarget() {
+        int x = 0;
+        int y = 0;
+        switch ( _arrowPosition ) {
+        case TOP_LEFT:
+        case TOP_CENTER:
+        case TOP_RIGHT:
+            x = _target.getBounds().x + ( _target.getWidth() / 2 );
+            y = _target.getBounds().y + _target.getHeight();
+            break;
+        case BOTTOM_LEFT:
+        case BOTTOM_CENTER:
+        case BOTTOM_RIGHT:
+            x = _target.getBounds().x + ( _target.getWidth() / 2 );
+            y = _target.getBounds().y;
+            break;
+        case LEFT_TOP:
+        case LEFT_CENTER:
+        case LEFT_BOTTOM:
+            x = _target.getBounds().x + _target.getWidth();
+            y = _target.getBounds().y + ( _target.getHeight() / 2 );
+            break;
+        case RIGHT_TOP:
+        case RIGHT_CENTER:
+        case RIGHT_BOTTOM:
+            x = _target.getBounds().x;
+            y = _target.getBounds().y + ( _target.getHeight() / 2 );
+            break;
+        default:
+            throw new IllegalArgumentException( "illegal arrow position: " + _arrowPosition );
+        }
+        setLocation( x, y );
     }
     
     //----------------------------------------------------------------------------
@@ -246,7 +282,7 @@ public class HelpBubble extends CompositePhetGraphic implements PhetGraphicListe
         if ( _target != null ) {
             _target.addPhetGraphicListener( this );
             setRegistrationPoint( 0, 0 );
-            setLocation( _target.getLocation() );
+            trackTarget();
         }
     }
     
