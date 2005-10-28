@@ -54,6 +54,10 @@ public class Kaboom implements ModelElement {
 
 
     public Kaboom( BaseLaserModule module ) {
+        // Unless the module has an apparatus panel at this time things won't work right
+        if( module.getApparatusPanel() == null ) {
+            throw new RuntimeException( "Module doesn't have an apparatus panel" );
+        }
         this.module = module;
         model = module.getLaserModel();
     }

@@ -45,13 +45,14 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
      * @param atomicState
      * @param graphic
      * @param maxLifetime
+     * @param minLifetime
      * @param container
      */
     public EnergyLifetimeSlider( final AtomicState atomicState, EnergyLevelGraphic graphic,
-                                 int maxLifetime, Container container ) {
+                                 int maxLifetime, int minLifetime, Container container ) {
         this.container = container;
         atomicState.addListener( this );
-        setMinimum( 0 );
+        setMinimum( minLifetime );
         setMaximum( maxLifetime );
         sliderWidth = (int)( (double)( maxSliderWidth - sliderWidthPadding ) * ( (double)getMaximum() / LaserConfig.MAXIMUM_STATE_LIFETIME ) ) + sliderWidthPadding;
         sliderWidth = Math.min( sliderWidth, maxSliderWidth );
@@ -72,7 +73,6 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
 
         this.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-//                System.out.println( "EnergyLifetimeSlider.this.getValue()  = " + EnergyLifetimeSlider.this.getValue()  );
                 atomicState.setMeanLifetime( EnergyLifetimeSlider.this.getValue() );
             }
         } );

@@ -62,6 +62,9 @@ public class LaserConfig {
     public static final String RAY_GUN_IMAGE_FILE = IMAGE_DIRECTORY + "flashlight.png";
     public static final String SEED_BEAM_CONTROL_PANEL_IMAGE = IMAGE_DIRECTORY + "beam-control-lower.png";
     public static final String PUMP_BEAM_CONTROL_PANEL_IMAGE = IMAGE_DIRECTORY + "beam-control-upper.png";
+    public static final String BEAM_CONTROL_IMAGE = IMAGE_DIRECTORY + "beam-control.png";
+    public static final String WIRE_IMAGE = IMAGE_DIRECTORY + "wire.png";
+
     // Graphics layers
     public static final double CAVITY_LAYER = 10;
     public static final double ATOM_LAYER = 12;
