@@ -17,7 +17,7 @@ import java.text.NumberFormat;
 
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.Range2D;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.shaper.ShaperConstants;
 
 
@@ -70,8 +70,8 @@ public class AmplitudesChart extends Chart {
             getXAxis().setColor( AXIS_COLOR );
 
             String xTitle = "n";
-            PhetTextGraphic xAxisTitleGraphic = new PhetTextGraphic( component, AXIS_TITLE_FONT, xTitle, AXIS_TITLE_COLOR );
-            xAxisTitleGraphic.setRegistrationPoint( -2, -xAxisTitleGraphic.getHeight() / 2 ); // left center
+            HTMLGraphic xAxisTitleGraphic = new HTMLGraphic( component, AXIS_TITLE_FONT, xTitle, AXIS_TITLE_COLOR );
+            xAxisTitleGraphic.setRegistrationPoint( -2, xAxisTitleGraphic.getHeight() / 2 ); // left center
             setXAxisTitle( xAxisTitleGraphic );
             
             // No ticks, labels or gridlines
