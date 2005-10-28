@@ -32,7 +32,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.shaper.ShaperConstants;
-import edu.colorado.phet.shaper.enum.Molecule;
+import edu.colorado.phet.shaper.enum.MoleculeEnum;
 import edu.colorado.phet.shaper.help.HelpBubble;
 import edu.colorado.phet.shaper.model.FourierSeries;
 import edu.colorado.phet.shaper.view.*;
@@ -288,7 +288,7 @@ public class ShaperModule extends AbstractModule implements ActionListener {
     public void reset() {
         // Starting with a randomly-selected molecule, generate a new "game".
         Random random = new Random();
-        _moleculeIndex = random.nextInt( Molecule.getNumberOfMolecules() );
+        _moleculeIndex = random.nextInt( MoleculeEnum.getNumberOfMolecules() );
         newGame();
     }
     
@@ -320,13 +320,13 @@ public class ShaperModule extends AbstractModule implements ActionListener {
         }
         
         // Set the output pulse amplitudes to the next molecule.
-        Molecule molecule = Molecule.getByIndex( _moleculeIndex );
-        double[] amplitudes = Molecule.getAmplitudes( molecule );
+        MoleculeEnum molecule = MoleculeEnum.getByIndex( _moleculeIndex );
+        double[] amplitudes = MoleculeEnum.getAmplitudes( molecule );
         for ( int i = 0; i < _outputFourierSeries.getNumberOfHarmonics(); i++ ) {
             _outputFourierSeries.getHarmonic( i ).setAmplitude( amplitudes[i] );
         }
         _moleculeIndex++;
-        if ( _moleculeIndex >= Molecule.getNumberOfMolecules() ) {
+        if ( _moleculeIndex >= MoleculeEnum.getNumberOfMolecules() ) {
             _moleculeIndex = 0;
         }
         
