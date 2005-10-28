@@ -27,7 +27,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.control.D2CControlPanel;
 import edu.colorado.phet.fourier.enum.Domain;
 import edu.colorado.phet.fourier.enum.WaveType;
-import edu.colorado.phet.fourier.help.FourierHelpItem;
+import edu.colorado.phet.fourier.help.HelpBubble;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
 import edu.colorado.phet.fourier.persistence.FourierConfig;
 import edu.colorado.phet.fourier.view.MinimizedView;
@@ -224,12 +224,12 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         // Help
         //----------------------------------------------------------------------------
         
-        FourierHelpItem spacingToolHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "D2CModule.help.spacingTool" ) );
-        spacingToolHelp.pointAt( _spacingTool, FourierHelpItem.DOWN, 15 );
+        HelpBubble spacingToolHelp = new HelpBubble( apparatusPanel, SimStrings.get( "D2CModule.help.spacingTool" ) );
+        spacingToolHelp.pointAt( _spacingTool, HelpBubble.BOTTOM_CENTER, 15 );
         addHelpItem( spacingToolHelp );
         
-        FourierHelpItem periodToolHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "D2CModule.help.periodTool" ) );
-        periodToolHelp.pointAt( _periodTool, FourierHelpItem.DOWN, 15 );
+        HelpBubble periodToolHelp = new HelpBubble( apparatusPanel, SimStrings.get( "D2CModule.help.periodTool" ) );
+        periodToolHelp.pointAt( _periodTool, HelpBubble.BOTTOM_CENTER, 15 );
         addHelpItem( periodToolHelp );
         
         //----------------------------------------------------------------------------
