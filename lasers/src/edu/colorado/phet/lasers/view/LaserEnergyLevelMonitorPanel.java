@@ -51,7 +51,8 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
     private static final double LEVEL_GRAPHIC_LEVEL = 1E3;
 
     // Number of milliseconds between display updates. Energy level populations are averaged over this time
-    private long averagingPeriod = 300;
+    private long averagingPeriod = 0;
+//    private long averagingPeriod = 300;
     private long lastPaintTime;
     private int numUpdatesToAverage;
     // The diameter of an atom as displayed on the screen, in pixels
@@ -407,11 +408,9 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         GraphicsState gs = new GraphicsState( g2 );
         GraphicsUtil.setAntiAliasingOn( g2 );
 
+        // Draw the atoms on each of the levels
         for( int i = 0; i < numLevels; i++ ) {
             EnergyLevelGraphic levelGraphic = levelGraphics[i];
-            if( levelGraphic == null ) {
-                System.out.println( "asdf" );
-            }
             drawAtomsInLevel( g2, Color.darkGray, levelGraphic, numAtomsInLevel[i] );
         }
 

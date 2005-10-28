@@ -94,5 +94,9 @@ public class LaserConfig {
     // Factor that scales pixels to real dimensional units
     public static double PIXELS_PER_NM = 1E6;
 
+    // The period over which the number of atoms in each level is averaged before the
+    // number of atoms is updated for the energy levels monitor panel
+    public static final double ENERGY_LEVEL_MONITOR_AVERAGING_PERIOD = 0;
+
     public static boolean ENABLE_ALL_STIMULATED_EMISSIONS = true;
 }

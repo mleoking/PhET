@@ -16,6 +16,12 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 
 import javax.swing.*;
 
+/**
+ * The ground state is special in that it has a minimum lifetime.
+ * <p/>
+ * todo: This minimum lifetime code may be unnecessary now that we've got a minimum
+ * lifetime on all states
+ */
 public class GroundState extends AtomicState {
 
     // The minimum time (in real time) that an atom must be in this state before a
@@ -35,6 +41,9 @@ public class GroundState extends AtomicState {
 
     /**
      * This is the only AtomicState whose behavior is different from the others.
+     * <p/>
+     * When an atom enters the ground state, it must stay there for a minimum amount of time
+     * before it can be bumped to a higher one.
      *
      * @param atom
      * @param photon
@@ -47,15 +56,7 @@ public class GroundState extends AtomicState {
         if( !photonCollisionEnabled && Math.abs( photon.getEnergy() - de ) <= LaserConfig.ENERGY_TOLERANCE ) {
             return;
         }
-
-        // Only respond a specified percentage of the time
-        if( Math.random() < s_collisionLikelihood ) {
-            AtomicState newState = getStimulatedState( atom, photon, this.getEnergyLevel() );
-            if( newState != null ) {
-                photon.removeFromSystem();
-                atom.setCurrState( newState );
-            }
-        }
+        super.collideWithPhoton( atom, photon );
     }
 
     public AtomicState getNextLowerEnergyState() {
