@@ -44,6 +44,7 @@ PHETCOMMON:
 
 
 DONE:
+0.0.4 ...
 (10/28/05) - remove unused entries in SimStrings file
 (10/28/05) - add wait cursors to "Reset" and "New Output Pulse" buttons
 (10/28/05) - absorb GameManager code into MoleculeAnimation, a bit easier to understand
