@@ -61,7 +61,6 @@ public class Kaboom implements ModelElement {
     public void stepInTime( double dt ) {
         int numPhotons = model.getNumLasingPhotons();
         if( numPhotons > LaserConfig.KABOOM_THRESHOLD && !kaboomed ) {
-            LaserModel laserModel = (LaserModel)model;
             model.reset();
             kaboom();
             kaboomed = true;
@@ -149,10 +148,12 @@ public class Kaboom implements ModelElement {
             PhetGraphic graphic = (PhetGraphic)kaboomGraphics.get( i );
             apparatusPanel.removeGraphic( graphic );
         }
-        apparatusPanel.removeGraphic( backgroundGraphic );
-//        apparatusPanel.removeGraphic( wholeBackground );
-//        apparatusPanel.removeGraphic( message );
-        apparatusPanel.remove( labelMessage );
+        if( backgroundGraphic != null ) {
+            apparatusPanel.removeGraphic( backgroundGraphic );
+        }
+        if( labelMessage != null ) {
+            apparatusPanel.remove( labelMessage );
+        }
         apparatusPanel.revalidate();
         apparatusPanel.repaint();
     }

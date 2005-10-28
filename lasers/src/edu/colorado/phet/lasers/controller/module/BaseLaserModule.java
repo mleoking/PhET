@@ -96,15 +96,15 @@ public class BaseLaserModule extends Module {
         setModel( laserModel );
         laserModel.setBounds( new Rectangle2D.Double( 0, 0, 800, 600 ) );
 
-        // Add a kaboom element
-        kaboom = new Kaboom( this );
-        getModel().addModelElement( kaboom );
-
         // Create the apparatus panel
         final ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
         apparatusPanel.setUseOffscreenBuffer( true );
         setApparatusPanel( apparatusPanel );
         apparatusPanel.setBackground( Color.white );
+
+        // Add a kaboom element
+        kaboom = new Kaboom( this );
+        getModel().addModelElement( kaboom );
 
         // Add the laser cavity and its graphic
         createCavity();
@@ -120,7 +120,6 @@ public class BaseLaserModule extends Module {
 
         // Set up help
         createHelp();
-        kaboom = new Kaboom( this );
     }
 
     /**
