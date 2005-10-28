@@ -20,7 +20,7 @@ import java.awt.geom.Point2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Chloride extends Ion {
+public class Chloride extends Ion {	
     private static IonProperties ionProperties = new IonProperties( 17, -1, 18 );
 
     public Chloride() {

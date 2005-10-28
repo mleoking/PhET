@@ -45,7 +45,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
 
 
         // Sliders for affinity adjustment
-        vesselIonStickSlider = new ModelSlider( "Ion stick likelihood",
+        vesselIonStickSlider = new ModelSlider( "Lattice stick likelihood",
                                                 "",
                                                 0,
                                                 1,
@@ -59,21 +59,21 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         vesselIonStickSlider.setValue( 0.9 );
         vesselIonStickSlider.setNumMajorTicks( 5 );
 
-        vesselIonReleaseSlider = new ModelSlider( "Ion release likelihood",
-                                                  "",
-                                                  0,
-                                                  0.1,
-                                                  0,
-                                                  new DecimalFormat( "0.000" ) );
-        vesselIonReleaseSlider.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                model.getVessel().setIonReleaseAffinity( new RandomAffinity( vesselIonReleaseSlider.getValue() ) );
-            }
-        } );
-        vesselIonReleaseSlider.setValue( 0.00 );
-        vesselIonReleaseSlider.setNumMajorTicks( 5 );
+//        vesselIonReleaseSlider = new ModelSlider( "Ion release likelihood",
+//                                                  "",
+//                                                  0,
+//                                                  0.1,
+//                                                  0,
+//                                                  new DecimalFormat( "0.000" ) );
+//        vesselIonReleaseSlider.addChangeListener( new ChangeListener() {
+//            public void stateChanged( ChangeEvent e ) {
+//                model.getVessel().setIonReleaseAffinity( new RandomAffinity( vesselIonReleaseSlider.getValue() ) );
+//            }
+//        } );
+//        vesselIonReleaseSlider.setValue( 0.00 );
+//        vesselIonReleaseSlider.setNumMajorTicks( 5 );
 
-        dissociationSlider = new ModelSlider( "Dissociation likelihood",
+        dissociationSlider = new ModelSlider( "Lattice dissociation likelihood",
                                               "",
                                               0,
                                               1,
@@ -88,7 +88,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         dissociationSlider.setNumMajorTicks( 5 );
 
         addControl( vesselIonStickSlider );
-        addControl( vesselIonReleaseSlider );
+//        addControl( vesselIonReleaseSlider );
         addControl( dissociationSlider );
     }
 
