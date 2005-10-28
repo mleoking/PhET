@@ -28,7 +28,7 @@ import edu.colorado.phet.fourier.control.GameControlPanel;
 import edu.colorado.phet.fourier.enum.GameLevel;
 import edu.colorado.phet.fourier.enum.Preset;
 import edu.colorado.phet.fourier.enum.WaveType;
-import edu.colorado.phet.fourier.help.FourierHelpItem;
+import edu.colorado.phet.fourier.help.HelpBubble;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.persistence.FourierConfig;
 import edu.colorado.phet.fourier.view.MinimizedView;
@@ -207,12 +207,12 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
         //----------------------------------------------------------------------------
         
         // Help Items
-        FourierHelpItem slidersToolHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.sliders" ) );
-        slidersToolHelp.pointAt( new Point( 252, 117 ), FourierHelpItem.UP, 30 );
+        HelpBubble slidersToolHelp = new HelpBubble( apparatusPanel, SimStrings.get( "DiscreteModule.help.sliders" ) );
+        slidersToolHelp.pointAt( new Point( 252, 117 ), HelpBubble.TOP_CENTER, 30 );
         addHelpItem( slidersToolHelp );
         
-        FourierHelpItem textfieldsToolHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.textfields" ) );
-        textfieldsToolHelp.pointAt( new Point( 205, 44 ), FourierHelpItem.UP, 15 );
+        HelpBubble textfieldsToolHelp = new HelpBubble( apparatusPanel, SimStrings.get( "DiscreteModule.help.textfields" ) );
+        textfieldsToolHelp.pointAt( new Point( 205, 44 ), HelpBubble.TOP_CENTER, 15 );
         addHelpItem( textfieldsToolHelp );
    
         //----------------------------------------------------------------------------

@@ -32,7 +32,7 @@ import edu.colorado.phet.fourier.enum.Domain;
 import edu.colorado.phet.fourier.enum.MathForm;
 import edu.colorado.phet.fourier.enum.Preset;
 import edu.colorado.phet.fourier.enum.WaveType;
-import edu.colorado.phet.fourier.help.FourierHelpItem;
+import edu.colorado.phet.fourier.help.HelpBubble;
 import edu.colorado.phet.fourier.help.WiggleMeGraphic;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.persistence.FourierConfig;
@@ -259,30 +259,30 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         wiggleMe.setEnabled( true );
         
         // Help Items
-        FourierHelpItem slidersToolHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.sliders" ) );
-        slidersToolHelp.pointAt( new Point( 252, 117 ), FourierHelpItem.UP, 30 );
+        HelpBubble slidersToolHelp = new HelpBubble( apparatusPanel, SimStrings.get( "DiscreteModule.help.sliders" ) );
+        slidersToolHelp.pointAt( new Point( 252, 117 ), HelpBubble.TOP_CENTER, 30 );
         addHelpItem( slidersToolHelp );
         
-        FourierHelpItem textfieldsToolHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.textfields" ) );
-        textfieldsToolHelp.pointAt( new Point( 205, 44 ), FourierHelpItem.UP, 15 );
+        HelpBubble textfieldsToolHelp = new HelpBubble( apparatusPanel, SimStrings.get( "DiscreteModule.help.textfields" ) );
+        textfieldsToolHelp.pointAt( new Point( 205, 44 ), HelpBubble.TOP_CENTER, 15 );
         addHelpItem( textfieldsToolHelp );
         
-        FourierHelpItem harmonicsMinimizeButtonHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.minimize" ) );
-        harmonicsMinimizeButtonHelp.pointAt( _harmonicsView.getMinimizeButton(), FourierHelpItem.LEFT, 15 );
+        HelpBubble harmonicsMinimizeButtonHelp = new HelpBubble( apparatusPanel, SimStrings.get( "DiscreteModule.help.minimize" ) );
+        harmonicsMinimizeButtonHelp.pointAt( _harmonicsView.getMinimizeButton(), HelpBubble.LEFT_CENTER, 15 );
         addHelpItem( harmonicsMinimizeButtonHelp );
         
-        FourierHelpItem wavelengthToolHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.wavelengthTool" ) );
-        wavelengthToolHelp.pointAt( _wavelengthTool, FourierHelpItem.UP, 15 );
+        HelpBubble wavelengthToolHelp = new HelpBubble( apparatusPanel, SimStrings.get( "DiscreteModule.help.wavelengthTool" ) );
+        wavelengthToolHelp.pointAt( _wavelengthTool, HelpBubble.TOP_CENTER, 15 );
         wavelengthToolHelp.setVisible( false );
         addHelpItem( wavelengthToolHelp );
           
-        FourierHelpItem periodToolHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.periodTool" ) );
-        periodToolHelp.pointAt( _periodTool, FourierHelpItem.UP, 15 );
+        HelpBubble periodToolHelp = new HelpBubble( apparatusPanel, SimStrings.get( "DiscreteModule.help.periodTool" ) );
+        periodToolHelp.pointAt( _periodTool, HelpBubble.TOP_CENTER, 15 );
         periodToolHelp.setVisible( false );
         addHelpItem( periodToolHelp );
         
-        FourierHelpItem periodDisplayHelp = new FourierHelpItem( apparatusPanel, SimStrings.get( "DiscreteModule.help.periodDisplay" ) );
-        periodDisplayHelp.pointAt( _periodDisplay, FourierHelpItem.RIGHT, 15 );
+        HelpBubble periodDisplayHelp = new HelpBubble( apparatusPanel, SimStrings.get( "DiscreteModule.help.periodDisplay" ) );
+        periodDisplayHelp.pointAt( _periodDisplay, HelpBubble.RIGHT_CENTER, 15 );
         periodDisplayHelp.setVisible( false );
         addHelpItem( periodDisplayHelp );
         
