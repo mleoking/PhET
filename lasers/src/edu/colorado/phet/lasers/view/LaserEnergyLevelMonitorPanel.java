@@ -87,6 +87,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
     // The offset by which all the graphic elements must be placed, caused by the heading text
     private int headerOffsetY = 20;
     private int footerOffsetY = 10;
+    private AbstractClock clock;
 //    private AffineTransform seedLampAtx;
 //    private AffineTransform pumpLampAtx;
 //    private LampIcon pumpLampGraphic;
@@ -98,9 +99,8 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
      */
     public LaserEnergyLevelMonitorPanel( BaseLaserModule module, AbstractClock clock ) {
 
-        super( clock );
-
         this.module = module;
+        this.clock = clock;
         model = module.getLaserModel();
         model.addObserver( this );
         clock.addClockStateListener( this );
@@ -201,14 +201,18 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
             addGraphic( elg, LEVEL_GRAPHIC_LEVEL );
             levelGraphics[i] = elg;
 
-            // Don't add a lifetime adjustment slider for the ground state
+            // Don't add a lifetime adjustment slider for the ground state,
             if( i > 0 ) {
+                // Set the minimum lifetime to be two clock ticks, so we will always see an energy halo.
+                int minLifetime = (int)clock.getDt() * 2;
                 EnergyLifetimeSlider slider = new EnergyLifetimeSlider( state,
                                                                         elg,
                                                                         LaserConfig.MIDDLE_ENERGY_STATE_MAX_LIFETIME,
+                                                                        minLifetime,
                                                                         this );
                 lifetimeSliders[i] = slider;
                 this.add( slider );
+                slider.setValue( (int)Math.max( minLifetime, state.getMeanLifeTime() ) );
 
                 // Add a listener that will flash the line when it matches the wavelength of
                 // either of the beams
@@ -414,15 +418,13 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         // Draw squiggles showing what energy photons the beams are putting out
         if( stimSquiggle != null && model.getSeedBeam().isEnabled() ) {
             double intensity = model.getSeedBeam().getPhotonsPerSecond() / model.getSeedBeam().getMaxPhotonsPerSecond();
-            GraphicsUtil.setAlpha( g2, Math.pow( intensity, 0.7 ) );
+            GraphicsUtil.setAlpha( g2, Math.pow( intensity, 0.5 ) );
             g2.drawRenderedImage( stimSquiggle, stimSquiggleTx );
-//            seedLampGraphic.setAlpha( intensity );
         }
         if( pumpSquiggle != null && model.getPumpingBeam().isEnabled() ) {
             double intensity = model.getPumpingBeam().getPhotonsPerSecond() / model.getPumpingBeam().getMaxPhotonsPerSecond();
             GraphicsUtil.setAlpha( g2, Math.sqrt( intensity ) );
             g2.drawRenderedImage( pumpSquiggle, pumpSquiggleTx );
-//            pumpLampGraphic.setAlpha( intensity );
         }
 
         gs.restoreGraphics();

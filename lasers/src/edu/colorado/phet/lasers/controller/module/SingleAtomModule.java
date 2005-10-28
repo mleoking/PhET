@@ -14,6 +14,8 @@ package edu.colorado.phet.lasers.controller.module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.BeamControl;
@@ -100,21 +102,29 @@ public class SingleAtomModule extends BaseLaserModule {
         double scaleY = allocatedBounds.getHeight() / gunBI.getHeight();
         AffineTransformOp atxOp1 = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, scaleY ), AffineTransformOp.TYPE_BILINEAR );
         BufferedImage beamImage = atxOp1.filter( gunBI, null );
-        AffineTransform atx = new AffineTransform();
-        atx.translate( allocatedBounds.getX(), allocatedBounds.getY() );
-        LampGraphic stimulatingBeamGraphic = new LampGraphic( seedBeam, getApparatusPanel(), beamImage, atx );
-        addGraphic( stimulatingBeamGraphic, LaserConfig.PHOTON_LAYER + 1 );
+        {
+            AffineTransform atx = new AffineTransform();
+            atx.translate( allocatedBounds.getX(), allocatedBounds.getY() );
+            LampGraphic stimulatingBeamGraphic = new LampGraphic( seedBeam, getApparatusPanel(), beamImage, atx );
+            addGraphic( stimulatingBeamGraphic, LaserConfig.PHOTON_LAYER + 1 );
+        }
 
         // Add controls for the seed beam
-        Point controlLocation = new Point( (int)seedBeam.getPosition().getX() + 50, (int)seedBeam.getPosition().getY() + 5 );
-        seedBeamControl = new BeamControl( getApparatusPanel(),
-                                           controlLocation,
-                                           seedBeam,
-                                           LaserConfig.MIN_WAVELENGTH,
-                                           LaserConfig.MAX_WAVELENGTH,
-                                           LaserConfig.SEED_BEAM_CONTROL_PANEL_IMAGE,
-                                           new Point( 0, 60 ) );
-        getApparatusPanel().addGraphic( seedBeamControl );
+        {
+            PhetImageGraphic wireGraphic = new PhetImageGraphic( getApparatusPanel(), LaserConfig.WIRE_IMAGE );
+            wireGraphic.setImage( BufferedImageUtils.getRotatedImage( wireGraphic.getImage(), -Math.PI / 2 ) );
+            wireGraphic.setLocation( 50, 250 );
+            getApparatusPanel().addGraphic( wireGraphic );
+            Point controlLocation = new Point( (int)seedBeam.getPosition().getX() + 40,
+                                               (int)seedBeam.getPosition().getY() + 70 );
+            seedBeamControl = new BeamControl( getApparatusPanel(),
+                                               controlLocation,
+                                               seedBeam,
+                                               LaserConfig.MIN_WAVELENGTH,
+                                               LaserConfig.MAX_WAVELENGTH,
+                                               LaserConfig.BEAM_CONTROL_IMAGE );
+            getApparatusPanel().addGraphic( seedBeamControl );
+        }
 
         // Pumping beam lamp
         AffineTransform pumpingBeamTx = new AffineTransform();
@@ -127,16 +137,25 @@ public class SingleAtomModule extends BaseLaserModule {
         addGraphic( pumpingLampGraphic, LaserConfig.PHOTON_LAYER + 1 );
 
         // Add the beam control
-        Point pumpControlLocation = new Point( (int)( pumpingBeam.getPosition().getX() + 100 ),
-                                               (int)( pumpingBeam.getPosition().getY() - 90 ) );
-        pumpBeamControl = new BeamControl( getApparatusPanel(),
-                                           pumpControlLocation,
-                                           pumpingBeam,
-                                           LaserConfig.MIN_WAVELENGTH,
-                                           LaserConfig.MAX_WAVELENGTH,
-                                           LaserConfig.PUMP_BEAM_CONTROL_PANEL_IMAGE,
-                                           new Point( 60, 0 ) );
-        getApparatusPanel().addGraphic( pumpBeamControl );
+        {
+            PhetImageGraphic wireGraphic = new PhetImageGraphic( getApparatusPanel(), LaserConfig.WIRE_IMAGE );
+            AffineTransform atx = AffineTransform.getScaleInstance( 0.6, 1 );
+            AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
+            wireGraphic.setImage( atxOp.filter( wireGraphic.getImage(), null ) );
+            wireGraphic.setLocation( (int)pumpingBeam.getPosition().getX(),
+                                     (int)( pumpingBeam.getPosition().getY() - 20 ) );
+            Point pumpControlLocation = new Point( (int)( pumpingBeam.getPosition().getX() + 170 ),
+                                                   (int)( pumpingBeam.getPosition().getY() - 90 ) );
+            pumpBeamControl = new BeamControl( getApparatusPanel(),
+                                               pumpControlLocation,
+                                               pumpingBeam,
+                                               LaserConfig.MIN_WAVELENGTH,
+                                               LaserConfig.MAX_WAVELENGTH,
+                                               LaserConfig.BEAM_CONTROL_IMAGE );
+            wireGraphic.setLocation( -170, 40 );
+            pumpBeamControl.addGraphic( wireGraphic );
+            getApparatusPanel().addGraphic( pumpBeamControl );
+        }
 
         // Set the averaging time for the energy levels display
         setEnergyLevelsAveragingPeriod( 0 );

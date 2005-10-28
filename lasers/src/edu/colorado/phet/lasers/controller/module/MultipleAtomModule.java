@@ -13,6 +13,7 @@ package edu.colorado.phet.lasers.controller.module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.BeamControl;
@@ -108,14 +109,19 @@ public class MultipleAtomModule extends BaseLaserModule {
         }
 
         // Add the beam control
-        Point pumpControlLocation = new Point( (int)( cavity.getBounds().getMaxX() ) + 80, 10 );
+        PhetImageGraphic wireGraphic = new PhetImageGraphic( getApparatusPanel(), LaserConfig.WIRE_IMAGE );
+        AffineTransform atx = AffineTransform.getScaleInstance( 4, 1 );
+        AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
+        wireGraphic.setImage( atxOp.filter( wireGraphic.getImage(), null ) );
+        wireGraphic.setLocation( 180, 50 );
+        getApparatusPanel().addGraphic( wireGraphic );
+        Point pumpControlLocation = new Point( (int)( cavity.getBounds().getMaxX() ) + 140, 10 );
         pumpBeamControl = new BeamControl( getApparatusPanel(),
                                            pumpControlLocation,
                                            pumpingBeam,
                                            LaserConfig.MIN_WAVELENGTH,
                                            LaserConfig.MAX_WAVELENGTH,
-                                           LaserConfig.PUMP_BEAM_CONTROL_PANEL_IMAGE,
-                                           new Point( 60, 0 ) );
+                                           LaserConfig.BEAM_CONTROL_IMAGE );
         getApparatusPanel().addGraphic( pumpBeamControl );
 
         // Add some atoms

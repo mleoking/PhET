@@ -53,8 +53,7 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
                         Beam beam,
                         double minWavelength,
                         double maxWavelength,
-                        String imageFile,
-                        Point controlPanelRegistrationPoint ) {
+                        String imageFile ) {
         this.apparatusPanel = apparatusPanel;
         this.setLocation( location );
 
@@ -64,10 +63,10 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
         addGraphic( panelGraphic );
         panelGraphic.setLocation( 0, 0 );
 
-        intensitySliderLoc = new Point( location.x + (int)controlPanelRegistrationPoint.getX() + intensitySliderRelLoc.x,
-                                        location.y + (int)controlPanelRegistrationPoint.getY() + intensitySliderRelLoc.y );
-        spectrumSliderLoc = new Point( (int)controlPanelRegistrationPoint.getX() + (int)spectrumSliderRelLoc.getX(),
-                                       (int)controlPanelRegistrationPoint.getY() + (int)spectrumSliderRelLoc.getY() );
+        intensitySliderLoc = new Point( location.x + intensitySliderRelLoc.x,
+                                        location.y + intensitySliderRelLoc.y );
+        spectrumSliderLoc = new Point( (int)spectrumSliderRelLoc.getX(),
+                                       (int)spectrumSliderRelLoc.getY() );
 
         addWavelengthSlider( beam, minWavelength, maxWavelength );
         addIntensitySlider( beam, beam.getMaxPhotonsPerSecond() );

@@ -6,7 +6,6 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.util.GraphicsState;
@@ -35,9 +34,7 @@ public class MonitorPanel extends ApparatusPanel {
     private String yAxisLabel = SimStrings.get( "MonitorPanel.YAxislabel" );
 
 
-    protected MonitorPanel( AbstractClock clock ) {
-//        super( clock );
-
+    protected MonitorPanel() {
     }
 
     protected void paintComponent( Graphics g ) {
