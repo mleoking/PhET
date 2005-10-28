@@ -42,9 +42,8 @@ public class SolubleSaltsModule extends PiccoloModule {
         // Set up the basics
         final SolubleSaltsModel model = new SolubleSaltsModel();
         setModel( model );
-        simPanel = new PhetPCanvas();
+        simPanel = new PhetPCanvas( new Dimension( 900, 600 ));
         setPhetPCanvas( simPanel );
-        simPanel.setRenderingSize( 900, 600 );
 
         // Add a graphic manager to the model that will create and remove IonGraphics
         // when Ions are added to and removed from the model
