@@ -17,13 +17,20 @@ import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 import java.util.Random;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.shaper.ShaperConstants;
+import edu.colorado.phet.shaper.model.FourierSeries;
+import edu.colorado.phet.shaper.module.ShaperModule;
 
 
 /**
@@ -32,7 +39,7 @@ import edu.colorado.phet.shaper.ShaperConstants;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class MoleculeAnimation extends CompositePhetGraphic implements ModelElement {
+public class MoleculeAnimation extends CompositePhetGraphic implements ModelElement, SimpleObserver {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -52,6 +59,10 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
     // Instance data
     //----------------------------------------------------------------------------
 
+    private ShaperModule _module;
+    private FourierSeries _userFourierSeries;
+    private FourierSeries _outputFourierSeries;
+    
     private PhetShapeGraphic _animationFrame;
     private CompositePhetGraphic _moleculeGraphic;
     private PhetImageGraphic _moleculePart1;
@@ -59,7 +70,6 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
     private PhetImageGraphic _moleculePart3;
     private HTMLGraphic _closenessGraphic;
     private String _closenessFormat;
-    private GameManager _gameManager;
     private PhetImageGraphic _explosionGraphic;
     
     private double _closeness;
@@ -68,19 +78,29 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
     private boolean _enabled;
     private double _dx1, _dy1, _dx2, _dy2, _dx3, _dy3;
     private boolean _isExploding;
+    private boolean _isAdjusting;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public MoleculeAnimation( Component component ) {
+    public MoleculeAnimation( Component component, ShaperModule module, 
+            FourierSeries userFourierSeries, FourierSeries outputFourierSeries ) {
         super( component );
+        
+        _module = module;
+        _userFourierSeries = userFourierSeries;
+        _outputFourierSeries = outputFourierSeries;
+        
+        _userFourierSeries.addObserver( this );
+        _outputFourierSeries.addObserver( this );
         
         setIgnoreMouse( true );
         
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
 
         _random = new Random();
+        _isAdjusting = false;
         
         // background that everything sits on
         PhetShapeGraphic background = new PhetShapeGraphic( component );
@@ -205,6 +225,14 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         addGraphic( _moleculeGraphic );
         
         reset();
+        update();
+    }
+    
+    public void cleanup() {
+        _userFourierSeries.removeObserver( this );
+        _userFourierSeries = null;
+        _outputFourierSeries.removeObserver( this );
+        _outputFourierSeries = null;
     }
     
     //----------------------------------------------------------------------------
@@ -250,7 +278,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         }
     }
     
-    public void setCloseness( double closeness ) {
+    private void setCloseness( double closeness ) {
         
         _closeness = closeness;
         
@@ -262,18 +290,6 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         Object[] args = { new Integer( percent ) };
         String text = MessageFormat.format( _closenessFormat, args );
         _closenessGraphic.setHTML( text );
-    }
-    
-    public boolean isExploding() {
-        return _isExploding;
-    }
-    
-    public boolean isEnabled() {
-        return _enabled;
-    }
-    
-    public void setGameManager( GameManager gameManager ) {
-        _gameManager = gameManager;
     }
     
     //----------------------------------------------------------------------------
@@ -307,7 +323,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
                     if ( Math.abs( _moleculePart1.getX() ) > 2 * _animationFrame.getWidth() &&
                          Math.abs( _moleculePart1.getY() ) > 2 * _animationFrame.getHeight() ) {
                         _enabled = false; // animation is done
-                        _gameManager.gameOver();
+                        gameOver();
                     }
                 }
                 else {
@@ -315,7 +331,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
                     if ( Math.abs( _moleculePart1.getX() ) > 2 * ShaperConstants.APP_FRAME_WIDTH &&
                          Math.abs( _moleculePart1.getY() ) > 2 * ShaperConstants.APP_FRAME_HEIGHT ) {
                         _enabled = false; // animation is done
-                        _gameManager.gameOver();
+                        gameOver();
                     }
                 }
             }
@@ -340,6 +356,71 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
                 _dy2 = _closeness * _closeness * MAX_DISTANCE * Math.sin( theta2 );
                 _dx3 = _closeness * _closeness * MAX_DISTANCE * Math.cos( theta3 );
                 _dy3 = _closeness * _closeness * MAX_DISTANCE * Math.sin( theta3 );
+            }
+        }
+    }
+    
+    public void gameOver() {
+        
+        _isAdjusting = true;
+
+        // Tell the user they won.
+        JFrame frame = PhetApplication.instance().getPhetFrame();
+        String title = SimStrings.get( "WinDialog.title" );
+        String message = SimStrings.get( "WinDialog.message" );
+        JOptionPane.showMessageDialog( frame, message, title, JOptionPane.INFORMATION_MESSAGE );
+
+        // Start a new "game".
+        _module.newGame();
+        
+        _isAdjusting = false;
+    }
+    
+    //----------------------------------------------------------------------------
+    // SimpleObserver implementation
+    //----------------------------------------------------------------------------
+    
+    public void update() {
+
+        if ( !_isAdjusting && !_isExploding ) {
+
+            /*
+             * Compare the Fourier series.
+             * 
+             * The calculation for "closeness" is:
+             * 
+             *     closeness = 1 - ( Math.sqrt( (U1-D1)^2 + (U2-D2)^2 + ...) / Math.sqrt( D1^2 + D2^2 + ... ) )
+             * 
+             * where:
+             *     Un is the user's amplitude for component n
+             *     Dn is the desired amplitude for component n
+             */
+            double numerator = 0;
+            double denominator = 0;
+            int numberOfHarmonics = _userFourierSeries.getNumberOfHarmonics();
+            for ( int i = 0; i < numberOfHarmonics; i++ ) {
+                double userAmplitude = _userFourierSeries.getHarmonic( i ).getAmplitude();
+                double outputAmplitude = _outputFourierSeries.getHarmonic( i ).getAmplitude();
+                numerator += Math.pow( Math.abs( userAmplitude - outputAmplitude ), 2 );
+                denominator += Math.pow( outputAmplitude, 2 );
+            }
+            double closeness = 1.0 - ( Math.sqrt( numerator ) / Math.sqrt( denominator ) );
+            if ( closeness < 0 ) {
+                closeness = 0;
+            }
+
+            // Update the animation
+            setCloseness( closeness );
+
+            /*
+             * WORKAROUND: If we have a match, make sure that all 
+             * other views are updated before the molecule animation
+             * happens and the "you've won" dialog is shown.
+             */
+            if ( closeness >= ShaperConstants.CLOSENESS_MATCH ) {
+                _userFourierSeries.removeObserver( this );
+                _userFourierSeries.notifyObservers();
+                _userFourierSeries.addObserver( this );
             }
         }
     }
