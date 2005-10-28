@@ -17,25 +17,25 @@ package edu.colorado.phet.shaper.enum;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class Molecule extends AbstractEnum {
+public class MoleculeEnum extends AbstractEnum {
 
     /* This class is not intended for instantiation. */
-    private Molecule( String name ) {
+    private MoleculeEnum( String name ) {
         super( name );
     }
     
     // Preset values
-    public static final Molecule UNDEFINED = new Molecule( "undefined" );
-    public static final Molecule MOLECULE1 = new Molecule( "molecule1" );
-    public static final Molecule MOLECULE2 = new Molecule( "molecule2" );
-    public static final Molecule MOLECULE3 = new Molecule( "molecule3" );
-    public static final Molecule MOLECULE4 = new Molecule( "molecule4" );
-    public static final Molecule MOLECULE5 = new Molecule( "molecule5" );
-    public static final Molecule MOLECULE6 = new Molecule( "molecule6" );
-    public static final Molecule MOLECULE7 = new Molecule( "molecule7" );
-    public static final Molecule MOLECULE8 = new Molecule( "molecule8" );
+    public static final MoleculeEnum UNDEFINED = new MoleculeEnum( "undefined" );
+    public static final MoleculeEnum MOLECULE1 = new MoleculeEnum( "molecule1" );
+    public static final MoleculeEnum MOLECULE2 = new MoleculeEnum( "molecule2" );
+    public static final MoleculeEnum MOLECULE3 = new MoleculeEnum( "molecule3" );
+    public static final MoleculeEnum MOLECULE4 = new MoleculeEnum( "molecule4" );
+    public static final MoleculeEnum MOLECULE5 = new MoleculeEnum( "molecule5" );
+    public static final MoleculeEnum MOLECULE6 = new MoleculeEnum( "molecule6" );
+    public static final MoleculeEnum MOLECULE7 = new MoleculeEnum( "molecule7" );
+    public static final MoleculeEnum MOLECULE8 = new MoleculeEnum( "molecule8" );
     
-    private static final Molecule[] MOLECULES = {
+    private static final MoleculeEnum[] MOLECULES = {
             MOLECULE1, MOLECULE2, MOLECULE3, MOLECULE4,
             MOLECULE5, MOLECULE6, MOLECULE7, MOLECULE8
     };
@@ -44,7 +44,7 @@ public class Molecule extends AbstractEnum {
         return MOLECULES.length;
     }
     
-    public static Molecule getByIndex( int index ) {
+    public static MoleculeEnum getByIndex( int index ) {
         if ( index >= MOLECULES.length ) {
             throw new IllegalArgumentException( "index out of range: " + index );
         }
@@ -58,8 +58,8 @@ public class Molecule extends AbstractEnum {
      * @param name
      * @return
      */
-    public static Molecule getByName( String name ) {
-        Molecule molecule = UNDEFINED;
+    public static MoleculeEnum getByName( String name ) {
+        MoleculeEnum molecule = UNDEFINED;
         for  (int i = 0; i < MOLECULES.length; i++ ) {
             if ( MOLECULES[i].getName().equals( name ) ) {
                 molecule = MOLECULES[i];
@@ -69,7 +69,7 @@ public class Molecule extends AbstractEnum {
         return molecule;
     }
     
-    public static double[] getAmplitudes( Molecule molecule ) {
+    public static double[] getAmplitudes( MoleculeEnum molecule ) {
         double[] amplitudes = null;
         if ( molecule == MOLECULE1 ) {
             amplitudes = MOLECULE1_AMPLITUDES;
