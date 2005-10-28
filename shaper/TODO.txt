@@ -45,6 +45,7 @@ PHETCOMMON:
 
 
 DONE:
+(10/28/05) - add some help items
 (10/28/05) - totally rewrote, expanded and generalized HelpBubble
 (10/28/05) - put a magnifying glass on the spot where the molecule is
 0.0.3 ...
