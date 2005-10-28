@@ -6,8 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- make diffraction gradients smaller and move them slightly left so they don't interesect dashed lines
-- separate the model & view for molecule animation
+- separate the molecule model & view
 - fill in contents of Explanation dialog
 - add Help items
 
@@ -21,7 +20,6 @@ MEDIUM PRIORITY:
 
 
 LOW PRIORITY:
-- add more arrow locations to ShaperHelpItem
 
 
 NEW FEATURES:
@@ -47,7 +45,8 @@ PHETCOMMON:
 
 
 DONE:
-(10/27/05) - put a magnifying glass on the spot where the molecule is
+(10/28/05) - totally rewrote, expanded and generalized HelpBubble
+(10/28/05) - put a magnifying glass on the spot where the molecule is
 0.0.3 ...
 (10/27/05) - hide the cheat panel whenever a new game is started
 (10/27/05) - left-justify instructions for less potential i18n issues
@@ -110,6 +109,7 @@ DONE:
 
 
 REJECTED:
+(10/28/05) - make diffraction gradients smaller (not necessary)
 (10/27/05) - put labels on diffraction gratings (no room, i18n problems)
 
 ===============================================================================
