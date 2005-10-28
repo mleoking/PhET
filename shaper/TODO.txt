@@ -8,7 +8,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 - make diffraction gradients smaller and move them slightly left so they don't interesect dashed lines
 - separate the model & view for molecule animation
-- magnifying glass graphic for molecule
 - fill in contents of Explanation dialog
 - add Help items
 
@@ -48,6 +47,7 @@ PHETCOMMON:
 
 
 DONE:
+(10/27/05) - put a magnifying glass on the spot where the molecule is
 0.0.3 ...
 (10/27/05) - hide the cheat panel whenever a new game is started
 (10/27/05) - left-justify instructions for less potential i18n issues
