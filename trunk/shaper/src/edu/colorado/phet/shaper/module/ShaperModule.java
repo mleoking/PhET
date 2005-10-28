@@ -33,7 +33,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.shaper.ShaperConstants;
 import edu.colorado.phet.shaper.enum.Molecule;
-import edu.colorado.phet.shaper.help.ShaperHelpItem;
+import edu.colorado.phet.shaper.help.HelpBubble;
 import edu.colorado.phet.shaper.model.FourierSeries;
 import edu.colorado.phet.shaper.view.*;
 
@@ -255,13 +255,21 @@ public class ShaperModule extends AbstractModule implements ActionListener {
         apparatusPanel.addGraphic( instructions );
         
         // Help Items
-        ShaperHelpItem slidersHelp = new ShaperHelpItem( apparatusPanel, SimStrings.get( "Help.amplitude.sliders" ) );
-        slidersHelp.pointAt( new Point( 235, 420 ), ShaperHelpItem.UP, 30 );
+        HelpBubble slidersHelp = new HelpBubble( apparatusPanel, SimStrings.get( "Help.amplitude.sliders" ) );
+        slidersHelp.pointAt( new Point( 235, 420 ), HelpBubble.TOP_CENTER, 30 );
         addHelpItem( slidersHelp );
         
-        ShaperHelpItem textfieldsHelp = new ShaperHelpItem( apparatusPanel, SimStrings.get( "Help.amplitude.textfields" ) );
-        textfieldsHelp.pointAt( new Point( 222, 273 ), ShaperHelpItem.DOWN, 30 );
+        HelpBubble textfieldsHelp = new HelpBubble( apparatusPanel, SimStrings.get( "Help.amplitude.textfields" ) );
+        textfieldsHelp.pointAt( new Point( 222, 273 ), HelpBubble.BOTTOM_LEFT, 30 );
         addHelpItem( textfieldsHelp );
+        
+        HelpBubble resetHelp = new HelpBubble( apparatusPanel, SimStrings.get( "Help.amplitude.reset" ) );
+        resetHelp.pointAt( new Point( 47, 256 ), HelpBubble.BOTTOM_LEFT, 60 );
+        addHelpItem( resetHelp );
+        
+        HelpBubble newPulseHelp = new HelpBubble( apparatusPanel, SimStrings.get( "Help.newPulse" ) );
+        newPulseHelp.pointAt( new Point( 930, 495 ), HelpBubble.BOTTOM_RIGHT, 30 );
+        addHelpItem( newPulseHelp );
         
         //----------------------------------------------------------------------------
         // Initialze the module state
