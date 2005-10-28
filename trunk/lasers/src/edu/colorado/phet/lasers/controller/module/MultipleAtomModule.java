@@ -129,7 +129,7 @@ public class MultipleAtomModule extends BaseLaserModule {
 
         // Set initial conditions
         setThreeEnergyLevels( true );
-        setEnergyLevelsAveragingPeriod( 2000 );
+        setEnergyLevelsAveragingPeriod( LaserConfig.ENERGY_LEVEL_MONITOR_AVERAGING_PERIOD );
 
         // Set the control panel
         laserControlPanel = new UniversalLaserControlPanel( this );

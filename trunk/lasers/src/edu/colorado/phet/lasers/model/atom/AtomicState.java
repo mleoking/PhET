@@ -37,10 +37,12 @@ public class AtomicState {
     static public final double maxWavelength = Photon.GRAY;
     static public final double minEnergy = PhysicsUtil.wavelengthToEnergy( maxWavelength );
     static public final double maxEnergy = PhysicsUtil.wavelengthToEnergy( minWavelength );
-    static protected double s_collisionLikelihood = 1;
+    static protected double STIMULATION_LIKELIHOOD = 1;
     static protected final double wavelengthTolerance = 10;
-    //        static protected double s_collisionLikelihood = 0.2;
 
+    static public void setStimulationLikelihood( double p ) {
+        STIMULATION_LIKELIHOOD = p;
+    }
 
     ///////////////////////////////////////////////////////////////////////////////////////////
     // Instance
@@ -151,29 +153,35 @@ public class AtomicState {
         boolean result = false;
         AtomicState[] states = atom.getStates();
         if( LaserConfig.ENABLE_ALL_STIMULATED_EMISSIONS ) {
-            for( int i = 0; i < states.length && result == false; i++ ) {
+            for( int i = 0; i < states.length && states[i] != this && result == false; i++ ) {
                 AtomicState state = states[i];
                 if( state.getEnergyLevel() < this.getEnergyLevel() ) {
-
                     double stimulatedPhotonEnergy = this.getEnergyLevel() - state.getEnergyLevel();
-
                     result = ( Math.abs( photon.getEnergy() - stimulatedPhotonEnergy ) <= LaserConfig.ENERGY_TOLERANCE
-                               && Math.random() < s_collisionLikelihood );
+                               && Math.random() < STIMULATION_LIKELIHOOD );
                 }
             }
         }
         else {
             double stimulatedPhotonEnergy = this.getEnergyLevel() - this.getNextLowerEnergyState().getEnergyLevel();
             result = Math.abs( photon.getEnergy() - stimulatedPhotonEnergy ) <= LaserConfig.ENERGY_TOLERANCE
-                     && Math.random() < s_collisionLikelihood;
+                     && Math.random() < STIMULATION_LIKELIHOOD;
         }
         return result;
     }
 
     public void collideWithPhoton( Atom atom, Photon photon ) {
 
+        // See if the photon knocks the atom to a higher state
+        AtomicState newState = getElevatedState( atom, photon, this.getEnergyLevel() );
+        if( newState != null ) {
+            photon.removeFromSystem();
+            atom.setCurrState( newState );
+            return;
+        }
+
         // If the photon has the same energy as the difference
-        // between this level and the ground state, then emit
+        // between this level and a lower state, then emit
         // a photon of that energy
         if( isStimulatedBy( photon, atom ) ) {
 
@@ -190,15 +198,6 @@ public class AtomicState {
             // Change state
             atom.setCurrState( atom.getLowestEnergyState() );
         }
-
-        // Is the atom raised to a higher state?
-//        else if( Math.random() < s_collisionLikelihood ) {
-//            AtomicState newState = getStimulatedState( atom, photon, 0 );
-//            if( newState != null ) {
-//                photon.removeFromSystem();
-//                atom.setCurrState( newState );
-//            }
-//        }
     }
 
     /**
@@ -212,7 +211,7 @@ public class AtomicState {
      * @param energy
      * @return
      */
-    public AtomicState getStimulatedState( Atom atom, Photon photon, double energy ) {
+    public AtomicState getElevatedState( Atom atom, Photon photon, double energy ) {
         AtomicState result = null;
         AtomicState[] states = atom.getStates();
         for( int stateIdx = states.length - 1;
