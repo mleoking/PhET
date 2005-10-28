@@ -2,4 +2,4 @@ Manifest-Version: 1.0
 
 Main-Class: edu.colorado.phet.shaper.ShaperApplication
 
-CVS-Tag: shaper-0-0-3-2005-10-27
+CVS-Tag: shaper-0-0-4-2005-10-28
