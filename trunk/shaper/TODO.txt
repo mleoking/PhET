@@ -14,7 +14,6 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 - resize the molecule graphics that are currently scaled
 - resize kaboom graphic
-- wait cursors
 - Spanish translations
 - make amplitude sliders 254 pixels tall so that every value can be achieved by dragging
 
@@ -45,6 +44,7 @@ PHETCOMMON:
 
 
 DONE:
+(10/28/05) - add wait cursors to "Reset" and "New Output Pulse" buttons
 (10/28/05) - absorb GameManager code into MoleculeAnimation, a bit easier to understand
 (10/28/05) - move BoundsDebugger to new shaper.debug package
 (10/28/05) - change chart x-axis labels from deprecated PhetTextGraphic to HTMLGraphic

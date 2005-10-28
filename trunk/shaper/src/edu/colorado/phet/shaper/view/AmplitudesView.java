@@ -165,11 +165,13 @@ public class AmplitudesView extends GraphicLayerSet implements SimpleObserver {
             // Reset button
             _resetButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
+                    getComponent().setCursor( ShaperConstants.WAIT_CURSOR );
                     // Set all the harmonic amplitudes to zero.
                     int numberOfHarmonics = _fourierSeries.getNumberOfHarmonics();
                     for ( int i = 0; i < numberOfHarmonics; i++ ) {
                         _fourierSeries.getHarmonic( i ).setAmplitude( 0 );
                     }
+                    getComponent().setCursor( ShaperConstants.DEFAULT_CURSOR );
                 }
             } );
         }
