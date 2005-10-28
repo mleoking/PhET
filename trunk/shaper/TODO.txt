@@ -45,6 +45,7 @@ PHETCOMMON:
 
 
 DONE:
+(10/28/05) - change chart x-axis labels from deprecated PhetTextGraphic to HTMLGraphic
 (10/28/05) - rename Molecule enum to MoleculeEnum
 (10/28/05) - add some help items
 (10/28/05) - totally rewrote, expanded and generalized HelpBubble

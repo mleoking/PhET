@@ -17,7 +17,7 @@ import java.text.NumberFormat;
 
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.Range2D;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.shaper.ShaperConstants;
 
 
@@ -70,7 +70,7 @@ public class PulseChart extends Chart {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private PhetTextGraphic _xAxisTitleGraphic;
+    private HTMLGraphic _xAxisTitleGraphic;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -95,7 +95,7 @@ public class PulseChart extends Chart {
             getXAxis().setColor( AXIS_COLOR );
 
             // Title
-            _xAxisTitleGraphic = new PhetTextGraphic( component, AXIS_TITLE_FONT, "", AXIS_TITLE_COLOR );
+            _xAxisTitleGraphic = new HTMLGraphic( component, AXIS_TITLE_FONT, "", AXIS_TITLE_COLOR );
             setXAxisTitle( _xAxisTitleGraphic );
             
             // No ticks or labels on the axis
@@ -169,8 +169,8 @@ public class PulseChart extends Chart {
      * @param title
      */
     public void setXAxisTitle( String title ) {
-        _xAxisTitleGraphic.setText( title );
-        _xAxisTitleGraphic.setRegistrationPoint( -4, -_xAxisTitleGraphic.getHeight() / 2 ); // left center
+        _xAxisTitleGraphic.setHTML( title );
+        _xAxisTitleGraphic.setRegistrationPoint( -3, _xAxisTitleGraphic.getHeight() / 2 ); // left center
     }
     
     /**
