@@ -309,6 +309,8 @@ public class ShaperModule extends AbstractModule implements ActionListener {
     }
     
     public void newGame() {
+        setWaitCursorEnabled( true );
+        
         _userFourierSeries.setAdjusting( true );
         _outputFourierSeries.setAdjusting( true );
         
@@ -337,5 +339,7 @@ public class ShaperModule extends AbstractModule implements ActionListener {
         
         _userFourierSeries.setAdjusting( false );
         _outputFourierSeries.setAdjusting( false );
+        
+        setWaitCursorEnabled( false );
     }
 }
