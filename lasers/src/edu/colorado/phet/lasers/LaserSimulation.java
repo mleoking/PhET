@@ -127,6 +127,7 @@ public class LaserSimulation extends PhetApplication {
                         AtomicState.setStimulationLikelihood( probSlider.getValue() );
                     }
                 } );
+                probSlider.setValue( AtomicState.getStimulationLikelihood());
                 JPanel jp = new JPanel();
                 jp.add( probSlider );
                 JOptionPane.showMessageDialog( getPhetFrame(), jp );
