@@ -44,6 +44,11 @@ public class AtomicState {
         STIMULATION_LIKELIHOOD = p;
     }
 
+    public static double getStimulationLikelihood() {
+        return STIMULATION_LIKELIHOOD;
+    }
+
+
     ///////////////////////////////////////////////////////////////////////////////////////////
     // Instance
     //
@@ -273,7 +278,7 @@ public class AtomicState {
         }
         states[states.length - 1].setNextHigherEnergyState( AtomicState.MaxEnergyState.instance() );
     }
-    
+
     //////////////////////////////////////////////////////////////////////////////////////////
     // Inner classes
     //
