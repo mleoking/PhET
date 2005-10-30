@@ -53,6 +53,10 @@ public class EnergyConservationModel {
         history.clear();
     }
 
+    public double getMechanicalEnergy( Body body ) {
+        return getPotentialEnergy( body ) + body.getKineticEnergy();
+    }
+
     static interface EnergyConservationModelListener {
         public void numBodiesChanged();
 
@@ -302,6 +306,10 @@ public class EnergyConservationModel {
         history.clear();
         gravity = 9.8;
         thermalEnergy = 0.0;
+    }
+
+    public void addThermalEnergy( double dE ) {
+        thermalEnergy += dE;
     }
 
     public static interface EnergyModelListener {

@@ -11,7 +11,7 @@ import edu.colorado.phet.common.math.AbstractVector2D;
  */
 
 public class EnergyConserver {
-    public void fixEnergy( EnergyConservationModel model, Body body, double desiredEnergy ) {
+    public void fixEnergy( EnergyConservationModel model, Body body, double desiredMechanicalEnergy ) {
         if( body.getThrust().getMagnitude() != 0 ) {
             return;
         }
@@ -21,12 +21,12 @@ public class EnergyConserver {
         double speedThreshold = 20;
         if( body.getSpeed() > speedThreshold ) {
 //            System.out.println( "Conserve Via V" );
-            conserveEnergyViaV( model, body, desiredEnergy );
+            conserveEnergyViaV( model, body, desiredMechanicalEnergy );
         }
-        conserveEnergyViaH( model, body, desiredEnergy );
+        conserveEnergyViaH( model, body, desiredMechanicalEnergy );
 //        EnergyDebugger.postProcessed( model, body, origTotalEnergy, "dH" );
         double finalEnergy = model.getTotalEnergy( body );
-        double deTOT = finalEnergy - desiredEnergy;
+        double deTOT = finalEnergy - desiredMechanicalEnergy;
         EC3Debug.debug( "dETOT=" + deTOT );
     }
 
