@@ -55,10 +55,14 @@ public class FreeSplineMode extends ForceMode {
         // this should be lost to friction.
         //or to a bounce.
         handleBounce( body, segment );
-        double dx = body.getPosition().distance( origPosition );
-        double dHeat = getFrictionForce( model, segment ).getMagnitude() * dx;
-        System.out.println( "dHeat = " + dHeat );
+//        double dx = body.getPosition().distance( origPosition );
+//        double dHeat = getFrictionForce( model, segment ).getMagnitude() * dx;
+        double dHeat = 0.0;
+//        System.out.println( "dHeat = " + dHeat );
         new EnergyConserver().fixEnergy( model, body, origTotalEnergy - dHeat );
+//        if( getFrictionForce( model, segment ).getMagnitude() == 0 ) {
+//
+//        }
     }
 
     private double getPositionOnSpline( Body body ) throws NullIntersectionException {
@@ -154,22 +158,31 @@ public class FreeSplineMode extends ForceMode {
     }
 
     private void setBottomAtZero( Segment segment, Body body ) {
-        double bodyYPerp = segment.getUnitNormalVector().dot( body.getPositionVector() );
-        double segmentYPerp = segment.getUnitNormalVector().dot( new ImmutableVector2D.Double( segment.getCenter2D() ) );
-        double overshoot = -( bodyYPerp - segmentYPerp - body.getHeight() / 2.0 ) + segment.getThickness() / 2;
+        double overshoot = getDepthInSegment( segment, body );
+//        System.out.println( "overshoot = " + overshoot );
         EC3Debug.debug( "overshoot = " + overshoot );
-        overshoot -= 1;//hang in there
+        overshoot -= 2;//hang in there
         if( overshoot > 0 ) {
             AbstractVector2D tx = segment.getUnitNormalVector().getScaledInstance( overshoot );
             body.translate( tx.getX(), tx.getY() );
+//            System.out.println( "new getDepthInSegment( ) = " + getDepthInSegment( segment, body ) );
         }
+    }
+
+    private double getDepthInSegment( Segment segment, Body body ) {
+        double bodyYPerp = segment.getUnitNormalVector().dot( body.getPositionVector() );
+        double segmentYPerp = segment.getUnitNormalVector().dot( new ImmutableVector2D.Double( segment.getCenter2D() ) );
+        double overshoot = -( bodyYPerp - segmentYPerp - body.getHeight() / 2.0 ) + segment.getThickness() / 2;
+        return overshoot;
     }
 
     private AbstractVector2D computeNetForce( EnergyConservationModel model, Segment segment ) {
         AbstractVector2D[] forces = new AbstractVector2D[]{
             getGravityForce( model ),
             getNormalForce( model, segment ),
-            getThrustForce(), getFrictionForce( model, segment )};
+            getThrustForce(),
+            getFrictionForce( model, segment )
+        };
         Vector2D.Double sum = new Vector2D.Double();
         for( int i = 0; i < forces.length; i++ ) {
             AbstractVector2D force = forces[i];
@@ -193,18 +206,19 @@ public class FreeSplineMode extends ForceMode {
     }
 
     private AbstractVector2D getFrictionForce( EnergyConservationModel model, Segment segment ) {
-        if( body.getVelocity().getMagnitude() > 0.01 ) {
-            double fricMag = getFrictionCoefficient() * getNormalForce( model, segment ).getMagnitude();
-            AbstractVector2D friction = body.getVelocity().getScaledInstance( -fricMag );
-            return friction;
-        }
-        else {
-            return new ImmutableVector2D.Double();
-        }
+        return new ImmutableVector2D.Double();
+//        if( body.getVelocity().getMagnitude() > 0.01 ) {
+//            double fricMag = getFrictionCoefficient() * getNormalForce( model, segment ).getMagnitude();
+//            AbstractVector2D friction = body.getVelocity().getScaledInstance( -fricMag );
+//            return friction;
+//        }
+//        else {
+//            return new ImmutableVector2D.Double();
+//        }
     }
 
     private AbstractVector2D getNormalForce( EnergyConservationModel model, Segment segment ) {
-        return segment.getUnitNormalVector().getScaledInstance( -getFGy( model ) * Math.cos( segment.getAngle() ) );
+        return segment.getUnitNormalVector().getScaledInstance( getFGy( model ) * Math.cos( segment.getAngle() ) );
     }
 
     private double getFrictionCoefficient() {
