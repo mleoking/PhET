@@ -134,7 +134,8 @@ public class Body {
     }
 
     public Point2D.Double getPosition() {
-        return position;
+        return new Point2D.Double( position.getX(), position.getY() );
+//        return position;
     }
 
     public AbstractVector2D getAcceleration() {

@@ -43,7 +43,7 @@ public class Floor {
             b.setPosition( b.getX(), b.getY() - overshoot );
             AbstractVector2D scaledInstance = new ImmutableVector2D.Double( b.getVelocity().getX(), -Math.abs( b.getVelocity().getY() ) );
             b.setVelocity( scaledInstance );
-            new EnergyConserver().fixEnergy( model, b, origEnergy );
+            new EnergyConserver().fixEnergy( model, b, origEnergy, 0 );//todo add friction to floor
         }
     }
 

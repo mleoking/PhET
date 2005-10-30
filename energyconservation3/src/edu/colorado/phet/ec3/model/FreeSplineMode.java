@@ -7,6 +7,8 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.Segment;
 
+import java.awt.geom.Point2D;
+
 /**
  * User: Sam Reid
  * Date: Sep 26, 2005
@@ -32,6 +34,7 @@ public class FreeSplineMode extends ForceMode {
     }
 
     public void stepInTime( EnergyConservationModel model, Body body, double dt ) {
+        Point2D.Double origPosition = body.getPosition();
         double origKE = body.getKineticEnergy();
         double origPE = model.getPotentialEnergy( body );
         double origTotalEnergy = model.getTotalEnergy( body );
@@ -51,23 +54,7 @@ public class FreeSplineMode extends ForceMode {
         }
         catch( NullIntersectionException e ) {
 //            e.printStackTrace();
-
-            double vy = body.getVelocity().getY();
-            double timeToReturnToThisHeight = Math.abs( 2 * vy / model.getGravity() );
-            double numTimeSteps = timeToReturnToThisHeight / dt;
-            double dTheta = Math.PI * 2 / numTimeSteps / dt;
-
-            if( timeToReturnToThisHeight > 10 ) {
-                body.setFreeFallRotation( -dTheta );
-                System.out.println( "Flipping!" );
-            }
-            else {
-                body.setFreeFallRotation( lastDA );
-            }
-            body.setFreeFallMode();
-            super.setNetForce( new Vector2D.Double( 0, 0 ) );
-            super.stepInTime( model, body, dt );
-            new EnergyConserver().fixEnergy( model, body, origTotalEnergy );
+            leaveSurface( body, model, dt, origTotalEnergy );
             return;
         }
         lastScalarPosition = position;
@@ -95,19 +82,25 @@ public class FreeSplineMode extends ForceMode {
 //            body.setAngle( segment.getAngle() );//todo rotations.
 
         AbstractVector2D netForce = computeNetForce( model, segment );
+        System.out.println( "netForce = " + netForce );
         super.setNetForce( netForce );
-
+//        AbstractVector2D origVel = new ImmutableVector2D.Double( body.getVelocity() );
         super.stepInTime( model, body, dt );
+//        AbstractVector2D finalVel = new ImmutableVector2D.Double( body.getVelocity() );
+//        if( origVel.getX() * finalVel.getX() < 0 ) {
+//            body.setVelocity( 0, body.getVelocity().getY() );
+//        }
+//        if( origVel.getY() * finalVel.getY() < 0 ) {
+//            body.setVelocity( body.getVelocity().getX(), 0 );
+//        }
         //just kill the perpendicular part of velocity, if it is through the track.
         // this should be lost to friction.
         //or to a bounce.
+
         RVector2D origVector = new RVector2D( body.getVelocity(), segment.getUnitDirectionVector() );
 
 
         double bounceThreshold = 30;
-//            double bounceThreshold = 20;
-
-//        double bounceThreshold = 2;
         boolean bounced = false;
         boolean grabbed = false;
         double originalPerpVel = origVector.getPerpendicular();
@@ -142,8 +135,31 @@ public class FreeSplineMode extends ForceMode {
             setBottomAtZero( segment, body );
         }
 //        if( !grabbed ) {
-        new EnergyConserver().fixEnergy( model, body, origTotalEnergy );
+        double dx = body.getPosition().distance( origPosition );
+//        System.out.println( "dx = " + dx );
+        double dHeat = getFrictionForce( model, segment ).getMagnitude() * dx;
+
+        new EnergyConserver().fixEnergy( model, body, origTotalEnergy, dHeat );
 //        }
+    }
+
+    private void leaveSurface( Body body, EnergyConservationModel model, double dt, double origTotalEnergy ) {
+        double vy = body.getVelocity().getY();
+        double timeToReturnToThisHeight = Math.abs( 2 * vy / model.getGravity() );
+        double numTimeSteps = timeToReturnToThisHeight / dt;
+        double dTheta = Math.PI * 2 / numTimeSteps / dt;
+
+        if( timeToReturnToThisHeight > 10 ) {
+            body.setFreeFallRotation( -dTheta );
+            System.out.println( "Flipping!" );
+        }
+        else {
+            body.setFreeFallRotation( lastDA );
+        }
+        body.setFreeFallMode();
+        super.setNetForce( new Vector2D.Double( 0, 0 ) );
+        super.stepInTime( model, body, dt );
+        new EnergyConserver().fixEnergy( model, body, origTotalEnergy, 0 );
     }
 
     private void setBottomAtZero( Segment segment, Body body ) {
@@ -159,16 +175,61 @@ public class FreeSplineMode extends ForceMode {
     }
 
     private AbstractVector2D computeNetForce( EnergyConservationModel model, Segment segment ) {
-        double fgy = model.getGravity() * body.getMass();
+        Vector2D.Double mechanicalForce = getMechanicalForce( model, segment );
+        AbstractVector2D dissipForce = new ImmutableVector2D.Double();
+        return mechanicalForce.getAddedInstance( dissipForce );
+    }
+
+    private Vector2D.Double getMechanicalForce( EnergyConservationModel model, Segment segment ) {
+        double fgy = getFGy( model );
         EC3Debug.debug( "segment.getAngle() = " + segment.getAngle() );
         EC3Debug.debug( "Math.cos( segment.getAngle()) = " + Math.cos( segment.getAngle() ) );
-        AbstractVector2D normalForce = segment.getUnitNormalVector().getScaledInstance( -fgy * Math.cos( segment.getAngle() ) );
+        AbstractVector2D normalForce = getNormalForce( model, segment );
         EC3Debug.debug( "normalForce.getY() = " + normalForce.getY() );
         double fy = fgy + normalForce.getY();
         double fx = normalForce.getX();
 //        Vector2D.Double netForce = new Vector2D.Double( fx, fy );
+
+//        System.out.println( "fx = " + fx );
+//        System.out.println( "fy = " + fy );
+//        Vector2D.Double netForce = new Vector2D.Double( fx + body.getThrust().getX(), fy + body.getThrust().getY() );
         Vector2D.Double netForce = new Vector2D.Double( fx + body.getThrust().getX(), fy + body.getThrust().getY() );
         return netForce;
+    }
+
+    private double getFGy( EnergyConservationModel model ) {
+        double fgy = model.getGravity() * body.getMass();
+        return fgy;
+    }
+
+    private AbstractVector2D getFrictionForce( EnergyConservationModel model, Segment segment ) {
+//                if( body.getVelocity().getMagnitude() > .1 ) {
+//                    return body.getVelocity().getScaledInstance( -getFrictionCoefficient());
+//                }else{
+//                    return new ImmutableVector2D.Double( );
+//                }
+
+        //todo if not moving, see if the friction force should balance the mechanical forces.
+//        System.out.println( "body.getVelocity().getMagnitude() = " + body.getVelocity().getMagnitude() );
+        if( body.getVelocity().getMagnitude() > 0 ) {
+            double fricMag = getFrictionCoefficient() * getNormalForce( model, segment ).getMagnitude();
+            AbstractVector2D friction = body.getVelocity().getScaledInstance( -fricMag );
+            return friction;
+        }
+        else {
+            return new ImmutableVector2D.Double();
+        }
+    }
+
+    private AbstractVector2D getNormalForce( EnergyConservationModel model, Segment segment ) {
+        double fgy = getFGy( model );
+        AbstractVector2D normalForce = segment.getUnitNormalVector().getScaledInstance( -fgy * Math.cos( segment.getAngle() ) );
+        return normalForce;
+    }
+
+    private double getFrictionCoefficient() {
+        return 0.2;//todo parameterize
+//        return 10;//todo parameterize
     }
 
     public AbstractSpline getSpline() {

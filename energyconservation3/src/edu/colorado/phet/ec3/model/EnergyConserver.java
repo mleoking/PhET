@@ -11,29 +11,22 @@ import edu.colorado.phet.common.math.AbstractVector2D;
  */
 
 public class EnergyConserver {
-    public void fixEnergy( EnergyConservationModel model, Body body, double origTotalEnergy ) {
+    public void fixEnergy( EnergyConservationModel model, Body body, double origTotalEnergy, double dHeat ) {
+        double finalMechEnergy = origTotalEnergy - dHeat;
         if( body.getThrust().getMagnitude() != 0 ) {
             return;
         }
 
         EC3Debug.debug( "body.getSpeed() = " + body.getSpeed() );
-        EnergyDebugger.stepFinished( model, body, origTotalEnergy );
+        EnergyDebugger.stepFinished( model, body );
         double speedThreshold = 20;
-//        double speedThreshold = 500;
-
         if( body.getSpeed() > speedThreshold ) {
-            conserveEnergyViaV( model, body, origTotalEnergy );
-//        EnergyDebugger.postProcessed( model, body, origTotalEnergy, "dV" );
-            conserveEnergyViaH( model, body, origTotalEnergy );
+            conserveEnergyViaV( model, body, finalMechEnergy );
         }
-        else {
-            conserveEnergyViaH( model, body, origTotalEnergy );
-        }
-//        conserveEnergyViaH( model, body, origTotalEnergy );
-//        conserveEnergyViaH( model, body, origTotalEnergy );
+        conserveEnergyViaH( model, body, finalMechEnergy );
 //        EnergyDebugger.postProcessed( model, body, origTotalEnergy, "dH" );
         double finalEnergy = model.getTotalEnergy( body );
-        double deTOT = finalEnergy - origTotalEnergy;
+        double deTOT = finalEnergy - finalMechEnergy;
         EC3Debug.debug( "dETOT=" + deTOT );
     }
 

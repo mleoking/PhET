@@ -36,7 +36,7 @@ public class EnergyDebugger {
         }
     }
 
-    public static void stepFinished( EnergyConservationModel model, Body body, double dt ) {
+    public static void stepFinished( EnergyConservationModel model, Body body ) {
         double finalEnergy = model.getTotalEnergy( body );
         double dE = finalEnergy - origEnergy;
     }
