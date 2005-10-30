@@ -1,6 +1,9 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.ec3.model;
+package edu.colorado.phet.ec3.model.deprecated;
 
+import edu.colorado.phet.ec3.model.Body;
+import edu.colorado.phet.ec3.model.EnergyConservationModel;
+import edu.colorado.phet.ec3.model.UpdateMode;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.Segment;
 import edu.colorado.phet.ec3.model.spline.SegmentPath;

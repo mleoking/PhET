@@ -34,6 +34,6 @@ public class FreeFall extends ForceMode {
 
         super.stepInTime( model, body, dt );
         body.setAngle( body.getAngle() + rotationalVelocity * dt );
-        new EnergyConserver().fixEnergy( model, body, origEnergy );
+        new EnergyConserver().fixEnergy( model, body, origEnergy, 0.0 );
     }
 }
