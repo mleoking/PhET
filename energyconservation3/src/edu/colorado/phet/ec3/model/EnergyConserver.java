@@ -12,7 +12,6 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 
 public class EnergyConserver {
     public void fixEnergy( EnergyConservationModel model, Body body, double desiredEnergy ) {
-
         if( body.getThrust().getMagnitude() != 0 ) {
             return;
         }
@@ -21,6 +20,7 @@ public class EnergyConserver {
         EnergyDebugger.stepFinished( model, body );
         double speedThreshold = 20;
         if( body.getSpeed() > speedThreshold ) {
+//            System.out.println( "Conserve Via V" );
             conserveEnergyViaV( model, body, desiredEnergy );
         }
         conserveEnergyViaH( model, body, desiredEnergy );
