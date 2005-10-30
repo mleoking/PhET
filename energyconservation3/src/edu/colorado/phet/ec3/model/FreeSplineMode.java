@@ -32,6 +32,7 @@ public class FreeSplineMode extends ForceMode {
     public void stepInTime( EnergyConservationModel model, Body body, double dt ) {
         Point2D.Double origPosition = body.getPosition();
         double origTotalEnergy = model.getTotalEnergy( body );
+        double origHeat = model.getThermalEnergy();
         EnergyDebugger.stepStarted( model, body, dt );
         double position = 0;
         try {
@@ -55,11 +56,22 @@ public class FreeSplineMode extends ForceMode {
         // this should be lost to friction.
         //or to a bounce.
         handleBounce( body, segment );
-//        double dx = body.getPosition().distance( origPosition );
-//        double dHeat = getFrictionForce( model, segment ).getMagnitude() * dx;
-        double dHeat = 0.0;
+        double dx = body.getPosition().distance( origPosition );
+        double dHeat = getFrictionForce( model, segment ).getMagnitude() * dx;
+//        double dHeat = 0.0;
 //        System.out.println( "dHeat = " + dHeat );
-        new EnergyConserver().fixEnergy( model, body, origTotalEnergy - dHeat );
+        if( dHeat == 0 ) {
+            new EnergyConserver().fixEnergy( model, body, origTotalEnergy - dHeat );
+        }
+        else {
+            double dE = model.getTotalEnergy( body ) - origTotalEnergy;
+            model.addThermalEnergy( -dE );
+            double finalTotalEnergyAll = model.getTotalEnergy( body ) + model.getThermalEnergy();
+            double origTotalEnergyAll = origTotalEnergy + origHeat;
+            System.out.println( "origTotalEnergyAll = " + origTotalEnergyAll );
+            System.out.println( "finalTotalEnergyAll = " + finalTotalEnergyAll );
+            new EnergyConserver().fixEnergy( model, body, origTotalEnergyAll - model.getThermalEnergy() );//todo enhance energy conserver with thermal changes.
+        }
 //        if( getFrictionForce( model, segment ).getMagnitude() == 0 ) {
 //
 //        }
@@ -206,15 +218,9 @@ public class FreeSplineMode extends ForceMode {
     }
 
     private AbstractVector2D getFrictionForce( EnergyConservationModel model, Segment segment ) {
-        return new ImmutableVector2D.Double();
-//        if( body.getVelocity().getMagnitude() > 0.01 ) {
-//            double fricMag = getFrictionCoefficient() * getNormalForce( model, segment ).getMagnitude();
-//            AbstractVector2D friction = body.getVelocity().getScaledInstance( -fricMag );
-//            return friction;
-//        }
-//        else {
-//            return new ImmutableVector2D.Double();
-//        }
+        double fricMag = getFrictionCoefficient() * getNormalForce( model, segment ).getMagnitude();
+        AbstractVector2D friction = body.getVelocity().getScaledInstance( -fricMag );
+        return friction;
     }
 
     private AbstractVector2D getNormalForce( EnergyConservationModel model, Segment segment ) {
@@ -222,7 +228,7 @@ public class FreeSplineMode extends ForceMode {
     }
 
     private double getFrictionCoefficient() {
-        return 0.02;//todo parameterize
+        return body.getFrictionCoefficient();
     }
 
     public AbstractSpline getSpline() {

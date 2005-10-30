@@ -36,9 +36,11 @@ public class Body {
     private UserControlled userMode = new UserControlled();
 
     private UpdateMode mode = freeFall;
+    private double frictionCoefficient;
 
     public Body( Shape bounds ) {
         this.bounds = bounds;
+        frictionCoefficient = 0.2;
     }
 
     public Body copyState() {
@@ -259,5 +261,7 @@ public class Body {
         }
     }
 
-
+    public double getFrictionCoefficient() {
+        return frictionCoefficient;
+    }
 }
