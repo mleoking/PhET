@@ -106,6 +106,7 @@ public class SplineGraphic extends PNode {
         this.splineSurface = splineSurface;
         this.spline = splineSurface.getTop();
         this.reverse = splineSurface.getBottom();
+        lastRenderState = null;//to force update
         updateAll();
     }
 
@@ -184,7 +185,7 @@ public class SplineGraphic extends PNode {
         }
     }
 
-    private void updateAll() {
+    public void updateAll() {
 //        System.out.println( "changed() = " + changed() );
         if( changed() ) {
             pathLayer.removeAllChildren();

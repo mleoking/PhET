@@ -12,6 +12,7 @@ import edu.colorado.phet.ec3.view.SplineGraphic;
 import edu.colorado.phet.piccolo.PhetRootPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
@@ -42,22 +43,27 @@ public class EC3RootNode extends PhetRootPNode {
         this.ec3Canvas = ec3Canvas;
         EnergyConservationModel ec3Model = getModel();
         Floor floor = ec3Model.floorAt( 0 );
-        SplineToolbox splineToolbox = new SplineToolbox( ec3Canvas, 50, 50 );
+
 
         addLayer();
         addLayer();
         layerAt( 0 ).getWorldNode().addChild( new SkyGraphic( floor.getY() ) );
         layerAt( 0 ).getWorldNode().addChild( new FloorGraphic( floor ) );
 
+        final SplineToolbox splineToolbox = new SplineToolbox( ec3Canvas, this );
         layerAt( 0 ).getScreenNode().addChild( splineToolbox );
         layerAt( 1 ).getWorldNode().addChild( splineGraphics );
         layerAt( 1 ).getWorldNode().addChild( bodyGraphics );
         layerAt( 1 ).getWorldNode().addChild( historyGraphics );
 
+        ec3Model.addEnergyModelListener( new EnergyConservationModel.EnergyModelListener() {
+            public void preStep( double dt ) {
+                splineToolbox.centerTheNode();
+            }
+        } );
         double coordScale = 1.0 / 55.0;
         measuringTape = new MeasuringTape( coordScale, new Point2D.Double( 100, 100 ), getWorldNode() );
         layerAt( 1 ).getScreenNode().addChild( measuringTape );
-
 
         layerAt( 1 ).addChild( pieCharts );
         resetDefaults();
@@ -78,6 +84,10 @@ public class EC3RootNode extends PhetRootPNode {
     private EnergyConservationModel getModel() {
         EnergyConservationModel ec3Model = ec3Module.getEnergyConservationModel();
         return ec3Model;
+    }
+
+    protected void paint( PPaintContext paintContext ) {
+        super.paint( paintContext );
     }
 
     public void clearBuses() {

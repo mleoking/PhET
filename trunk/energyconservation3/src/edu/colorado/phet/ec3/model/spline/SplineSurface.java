@@ -41,4 +41,9 @@ public class SplineSurface {
     public boolean equals( Object obj ) {
         return obj instanceof SplineSurface && ( (SplineSurface)obj ).getTop().equals( getTop() );
     }
+
+    public void translate( double x, double y ) {
+        getTop().translate( x, y );
+        getBottom().translate( x, y );
+    }
 }
