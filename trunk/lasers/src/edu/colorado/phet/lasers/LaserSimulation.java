@@ -23,6 +23,7 @@ import edu.colorado.phet.lasers.controller.PhotoWindow;
 import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
 import edu.colorado.phet.lasers.controller.module.SingleAtomModule;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
+import edu.colorado.phet.lasers.model.atom.GroundState;
 import edu.colorado.phet.lasers.view.AtomGraphic;
 
 import javax.swing.*;
@@ -84,6 +85,8 @@ public class LaserSimulation extends PhetApplication {
 
     private void createOptionsMenu() {
         JMenu optionMenu = new JMenu( "Options" );
+        getPhetFrame().addMenu( optionMenu );
+
         final JCheckBoxMenuItem cbMI = new JCheckBoxMenuItem( "All stimulated emissions" );
         cbMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -127,7 +130,7 @@ public class LaserSimulation extends PhetApplication {
                         AtomicState.setStimulationLikelihood( probSlider.getValue() );
                     }
                 } );
-                probSlider.setValue( AtomicState.getStimulationLikelihood());
+                probSlider.setValue( AtomicState.getStimulationLikelihood() );
                 JPanel jp = new JPanel();
                 jp.add( probSlider );
                 JOptionPane.showMessageDialog( getPhetFrame(), jp );
@@ -135,7 +138,28 @@ public class LaserSimulation extends PhetApplication {
         } );
         optionMenu.add( stimProbmenuItem );
 
-        getPhetFrame().addMenu( optionMenu );
+
+        JMenuItem groundStateMinLifetimeMI = new JMenuItem( "Adjust minimum ground state lifetime..." );
+        optionMenu.add( groundStateMinLifetimeMI );
+        groundStateMinLifetimeMI.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                final JSlider gstSlider = new JSlider( 0, 1000, 0 );
+                gstSlider.setMajorTickSpacing( 200 );
+                gstSlider.setPaintTicks( true );
+                gstSlider.setPaintLabels( true );
+                gstSlider.addChangeListener( new ChangeListener() {
+                    public void stateChanged( ChangeEvent e ) {
+                        GroundState.setMinLifetime( gstSlider.getValue() );
+                    }
+                } );
+                gstSlider.setValue( (int)GroundState.getMinLifetime() );
+                JPanel jp = new JPanel();
+                jp.add( gstSlider );
+                JOptionPane.showMessageDialog( getPhetFrame(), jp );
+            }
+        } );
+
+
     }
 
     public void displayHighToMidEmission( boolean selected ) {

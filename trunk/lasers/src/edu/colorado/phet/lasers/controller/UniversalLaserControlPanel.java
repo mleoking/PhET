@@ -106,18 +106,6 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
                 pumpBeamViewPanel.setVisible( event.getLampGraphic().isVisible() );
             }
         } );
-
-        // FOR TESTING ONLY
-//        final JSlider gstSlider = new JSlider( 0, 1000, 0 );
-//        gstSlider.setMajorTickSpacing( 100 );
-//        gstSlider.setPaintTicks( true );
-//        gstSlider.setPaintLabels( true );
-//        gstSlider.addChangeListener( new ChangeListener() {
-//            public void stateChanged( ChangeEvent e ) {
-//                GroundState.setMinLifetime( gstSlider.getValue() );
-//            }
-//        } );
-//        super.addControl( gstSlider );
     }
 
     private JPanel createMirrorControlPanel( final BaseLaserModule module ) {

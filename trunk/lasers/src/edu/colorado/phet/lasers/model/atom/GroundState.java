@@ -15,6 +15,8 @@ import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 import javax.swing.*;
+import java.util.HashSet;
+import java.util.HashMap;
 
 /**
  * The ground state is special in that it has a minimum lifetime.
@@ -24,6 +26,10 @@ import javax.swing.*;
  */
 public class GroundState extends AtomicState {
 
+    //-----------------------------------------------------------------
+    // Class data
+    //-----------------------------------------------------------------
+
     // The minimum time (in real time) that an atom must be in this state before a
     // collision with a photon will have an effect
     static private long minLifetime = 400;
@@ -32,7 +38,14 @@ public class GroundState extends AtomicState {
         minLifetime = t;
     }
 
-    private boolean photonCollisionEnabled = false;
+    public static long getMinLifetime() {
+        return minLifetime;
+    }
+
+    //-----------------------------------------------------------------
+    // Instace data and methods
+    //-----------------------------------------------------------------
+    private HashMap atomToPhotonCollisionEnabledFlag = new HashMap( );
 
     public GroundState() {
         setEnergyLevel( 0 );
@@ -53,7 +66,10 @@ public class GroundState extends AtomicState {
         // If this state hasn't been yet enabled to be stimulated by a photon that would bump it to the
         // next highest energy level, don't do anything.
         double de = getNextHigherEnergyState().getEnergyLevel() - this.getEnergyLevel();
-        if( !photonCollisionEnabled && Math.abs( photon.getEnergy() - de ) <= LaserConfig.ENERGY_TOLERANCE ) {
+        if( !((Boolean)atomToPhotonCollisionEnabledFlag.get( atom )).booleanValue()
+            && Math.abs( photon.getEnergy() - de ) <= LaserConfig.ENERGY_TOLERANCE ) {
+            if( !((Boolean)atomToPhotonCollisionEnabledFlag.get( atom )).booleanValue() ) {
+            }
             return;
         }
         super.collideWithPhoton( atom, photon );
@@ -63,18 +79,27 @@ public class GroundState extends AtomicState {
         return AtomicState.MinEnergyState.instance();
     }
 
-    public void enterState() {
-        Thread t = new Thread( new MinLifetimeTimer() );
+    public void enterState( Atom atom ) {
+        Thread t = new Thread( new MinLifetimeTimer( atom ) );
         t.start();
-        super.enterState();
+        super.enterState(atom );
     }
 
-    public void leaveState() {
-        photonCollisionEnabled = false;
-        super.leaveState();
+    public void leaveState( Atom atom ) {
+        atomToPhotonCollisionEnabledFlag.put( atom, new Boolean( false ));
+        super.leaveState( atom );
     }
 
+    /**
+     * Agent that flips the flag that controls the time that an atom must remain in the ground state
+     */
     private class MinLifetimeTimer implements Runnable {
+        private Atom atom;
+
+        public MinLifetimeTimer( Atom atom ) {
+            this.atom = atom;
+        }
+
         public void run() {
             try {
                 Thread.sleep( minLifetime );
@@ -84,7 +109,11 @@ public class GroundState extends AtomicState {
             }
             SwingUtilities.invokeLater( new Runnable() {
                 public void run() {
-                    photonCollisionEnabled = true;
+                    Boolean flag = (Boolean)atomToPhotonCollisionEnabledFlag.get( atom );
+                    if( flag == null ){
+                        atomToPhotonCollisionEnabledFlag.put( atom, new Boolean( true ));
+                    }
+                    atomToPhotonCollisionEnabledFlag.put( atom, new Boolean( true ));
                 }
             } );
         }
