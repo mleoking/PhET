@@ -9,7 +9,6 @@ HIGH PRIORITY:
 - fill in contents of Explanation dialog
 - resize molecule images
 - resize Kaboom! image
-- change closeness algorithm?
 
 
 MEDIUM PRIORITY:
