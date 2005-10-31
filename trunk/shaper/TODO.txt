@@ -7,13 +7,14 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - fill in contents of Explanation dialog
-- add Help items
+- resize molecule images
+- resize Kaboom! image
+- change closeness algorithm?
+- change "match" threshold?
+- add Help items?
 
 
 MEDIUM PRIORITY:
-- resize the molecule graphics that are currently scaled
-- resize kaboom graphic
-- change the "match" threshold
 
 
 LOW PRIORITY:
