@@ -28,6 +28,10 @@ public class LaserConfig {
     public static double DT = 12;
     public static int FPS = 25;
 
+    //----------------------------------------------------------------
+    // Physical configuration
+    //----------------------------------------------------------------
+
     // Physical things
     public static final double ELECTRON_RADIUS = 3;
     public static Point2D.Double ORIGIN = new Point2D.Double( 120, 200 );
@@ -47,8 +51,38 @@ public class LaserConfig {
     public static final int HIGH_ENERGY_STATE_DEFAULT_LIFETIME = 10;
     public static final int DEFAULT_SPONTANEOUS_EMISSION_TIME = 50;
 
+    public static final int MINIMUM_GROUND_STATE_LIFETIME = 200;
+    public static final double STIMULATION_LIKELIHOOD = 0.2;
+
+
+    public static final double MIN_WAVELENGTH = VisibleColor.MIN_WAVELENGTH;
+    public static final double MAX_WAVELENGTH = VisibleColor.MAX_WAVELENGTH;
+
     // Tolerances used to determine if a photon matches with an atomic state energy
     public static final double ENERGY_TOLERANCE = 0.01;
+
+    // Angle within which a photon is considered to be moving horizontally. This is used by the
+    // mirrors to "cheat" photons into lasing, and by the wave graphic to determine its amplitude
+    public static double PHOTON_CHEAT_ANGLE = 5;
+
+    // Thickness of the mirror graphics
+    public static final double MIRROR_THICKNESS = 15;
+
+    // Threshold number of horizontal photons that is considered "lasing"
+    public static int LASING_THRESHOLD = 80;
+
+    // Number of photons in the system that will cause the thing to blow up
+    public static int KABOOM_THRESHOLD = 300;
+
+    // The period over which the number of atoms in each level is averaged before the
+    // number of atoms is updated for the energy levels monitor panel
+    public static final double ENERGY_LEVEL_MONITOR_AVERAGING_PERIOD = 0;
+
+    public static boolean ENABLE_ALL_STIMULATED_EMISSIONS = true;
+
+    //----------------------------------------------------------------
+    // Graphic configuration
+    //----------------------------------------------------------------
 
     // Graphics things
     public static final int CONTROL_FONT_SIZE = 12;
@@ -73,30 +107,10 @@ public class LaserConfig {
     public static final double RIGHT_MIRROR_LAYER = 11;
     public static final double CONTROL_LAYER = 1E2;
 
-    public static final double MIN_WAVELENGTH = VisibleColor.MIN_WAVELENGTH;
-    public static final double MAX_WAVELENGTH = VisibleColor.MAX_WAVELENGTH;
-
     // Fonts
     public static final Font DEFAULT_CONTROL_FONT = new Font( "Lucida sans", Font.BOLD, 10 );
-
-    // Angle within which a photon is considered to be moving horizontally. This is used by the
-    // mirrors to "cheat" photons into lasing, and by the wave graphic to determine its amplitude
-    public static double PHOTON_CHEAT_ANGLE = 5;
-
-    // Thickness of the mirror graphics
-    public static final double MIRROR_THICKNESS = 15;
-
-    // Threshold number of horizontal photons that is considered "lasing"
-    public static int LASING_THRESHOLD = 80;
-    // Number of photons in the system that will cause the thing to blow up
-    public static int KABOOM_THRESHOLD = 300;
 
     // Factor that scales pixels to real dimensional units
     public static double PIXELS_PER_NM = 1E6;
 
-    // The period over which the number of atoms in each level is averaged before the
-    // number of atoms is updated for the energy levels monitor panel
-    public static final double ENERGY_LEVEL_MONITOR_AVERAGING_PERIOD = 0;
-
-    public static boolean ENABLE_ALL_STIMULATED_EMISSIONS = true;
 }

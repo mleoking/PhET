@@ -15,7 +15,6 @@ import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 import javax.swing.*;
-import java.util.HashSet;
 import java.util.HashMap;
 
 /**
@@ -32,7 +31,7 @@ public class GroundState extends AtomicState {
 
     // The minimum time (in real time) that an atom must be in this state before a
     // collision with a photon will have an effect
-    static private long minLifetime = 400;
+    static private long minLifetime = LaserConfig.MINIMUM_GROUND_STATE_LIFETIME;
 
     public static void setMinLifetime( long t ) {
         minLifetime = t;
@@ -45,7 +44,7 @@ public class GroundState extends AtomicState {
     //-----------------------------------------------------------------
     // Instace data and methods
     //-----------------------------------------------------------------
-    private HashMap atomToPhotonCollisionEnabledFlag = new HashMap( );
+    private HashMap atomToPhotonCollisionEnabledFlag = new HashMap();
 
     public GroundState() {
         setEnergyLevel( 0 );
@@ -66,9 +65,9 @@ public class GroundState extends AtomicState {
         // If this state hasn't been yet enabled to be stimulated by a photon that would bump it to the
         // next highest energy level, don't do anything.
         double de = getNextHigherEnergyState().getEnergyLevel() - this.getEnergyLevel();
-        if( !((Boolean)atomToPhotonCollisionEnabledFlag.get( atom )).booleanValue()
+        if( !( (Boolean)atomToPhotonCollisionEnabledFlag.get( atom ) ).booleanValue()
             && Math.abs( photon.getEnergy() - de ) <= LaserConfig.ENERGY_TOLERANCE ) {
-            if( !((Boolean)atomToPhotonCollisionEnabledFlag.get( atom )).booleanValue() ) {
+            if( !( (Boolean)atomToPhotonCollisionEnabledFlag.get( atom ) ).booleanValue() ) {
             }
             return;
         }
@@ -82,11 +81,11 @@ public class GroundState extends AtomicState {
     public void enterState( Atom atom ) {
         Thread t = new Thread( new MinLifetimeTimer( atom ) );
         t.start();
-        super.enterState(atom );
+        super.enterState( atom );
     }
 
     public void leaveState( Atom atom ) {
-        atomToPhotonCollisionEnabledFlag.put( atom, new Boolean( false ));
+        atomToPhotonCollisionEnabledFlag.put( atom, new Boolean( false ) );
         super.leaveState( atom );
     }
 
@@ -110,10 +109,10 @@ public class GroundState extends AtomicState {
             SwingUtilities.invokeLater( new Runnable() {
                 public void run() {
                     Boolean flag = (Boolean)atomToPhotonCollisionEnabledFlag.get( atom );
-                    if( flag == null ){
-                        atomToPhotonCollisionEnabledFlag.put( atom, new Boolean( true ));
+                    if( flag == null ) {
+                        atomToPhotonCollisionEnabledFlag.put( atom, new Boolean( true ) );
                     }
-                    atomToPhotonCollisionEnabledFlag.put( atom, new Boolean( true ));
+                    atomToPhotonCollisionEnabledFlag.put( atom, new Boolean( true ) );
                 }
             } );
         }
