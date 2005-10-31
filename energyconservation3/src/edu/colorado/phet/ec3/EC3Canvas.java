@@ -314,4 +314,8 @@ public class EC3Canvas extends PhetPCanvas {
     public void setPieChartVisible( boolean selected ) {
         rootNode.setPieChartVisible( selected );
     }
+
+    public EC3RootNode getRootNode() {
+        return rootNode;
+    }
 }

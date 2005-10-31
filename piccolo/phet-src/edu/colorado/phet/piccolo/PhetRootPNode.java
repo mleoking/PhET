@@ -22,6 +22,14 @@ public class PhetRootPNode extends PNode {
         }
     }
 
+    public void setWorldOffset( double dx, double dy ) {
+        for( int i = 0; i < layers.size(); i++ ) {
+            Layer layer = (Layer)layers.get( i );
+            layer.setOffset( dx, dy );
+        }
+
+    }
+
     public void scaleWorldAboutPoint( double scale, Point2D point ) {
         for( int i = 0; i < layers.size(); i++ ) {
             Layer layer = (Layer)layers.get( i );
