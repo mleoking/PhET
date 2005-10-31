@@ -10,8 +10,7 @@ HIGH PRIORITY:
 - resize molecule images
 - resize Kaboom! image
 - change closeness algorithm?
-- change "match" threshold?
-- add Help items?
+
 
 
 MEDIUM PRIORITY:
@@ -45,6 +44,7 @@ PHETCOMMON:
 
 
 DONE:
+(10/31/05) - change "match" threshold from 95% to 90%
 (10/31/05) - add description to About dialog
 (10/31/05) - made the amplitude sliders as tall as possible (190 pixels)
 (10/31/05) - adjust locations of help items to fix some i18n layout issues
