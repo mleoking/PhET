@@ -196,10 +196,10 @@ public class Atom extends SolidSphere {
         }
         this.currState = newState;
         if( oldState != null ) {
-            oldState.leaveState();
+            oldState.leaveState( this );
         }
         if( newState != null ) {
-            newState.enterState();
+            newState.enterState(this );
         }
 
         boolean emitPhotonOnLeavingState = false;

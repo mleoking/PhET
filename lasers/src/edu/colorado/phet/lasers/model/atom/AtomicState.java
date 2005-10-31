@@ -75,11 +75,11 @@ public class AtomicState {
     /**
      *
      */
-    public void enterState() {
+    public void enterState( Atom atom ) {
         // noop
     }
 
-    public void leaveState() {
+    public void leaveState( Atom atom ) {
         // noop
     }
 
