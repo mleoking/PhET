@@ -64,13 +64,15 @@ public class GroundState extends AtomicState {
 
         // If this state hasn't been yet enabled to be stimulated by a photon that would bump it to the
         // next highest energy level, don't do anything.
-        double de = getNextHigherEnergyState().getEnergyLevel() - this.getEnergyLevel();
+//        double de = getNextHigherEnergyState().getEnergyLevel() - this.getEnergyLevel();
         if( !( (Boolean)atomToPhotonCollisionEnabledFlag.get( atom ) ).booleanValue()
-            && Math.abs( photon.getEnergy() - de ) <= LaserConfig.ENERGY_TOLERANCE ) {
-            if( !( (Boolean)atomToPhotonCollisionEnabledFlag.get( atom ) ).booleanValue() ) {
-            }
+//            && Math.abs( photon.getEnergy() - de ) <= LaserConfig.ENERGY_TOLERANCE ) {
+//            if( !( (Boolean)atomToPhotonCollisionEnabledFlag.get( atom ) ).booleanValue() ) {
+        ){
             return;
+//            }
         }
+        
         super.collideWithPhoton( atom, photon );
     }
 
