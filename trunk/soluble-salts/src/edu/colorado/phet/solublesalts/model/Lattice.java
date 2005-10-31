@@ -384,24 +384,28 @@ public class Lattice extends Body implements Binder {
             return results;
         }
     }
+    
+    Form getForm() {
+    	return form;
+    }
 
 
     public static void main( String[] args ) {
-//        Lattice l = new Lattice();
-//        Ion a = new Sodium();
-//        l.addIon( a );
-//        Ion b = new Sodium();
-//        b.setPosition( new Point2D.Double( 15, 0 ) );
-//        l.addIon( b );
-//        PlainCubicForm pcf = new PlainCubicForm( 15 );
-//        Point2D[] ap = pcf.getNeighboringSites( a.getPosition(), Math.PI / 4 );
-//        for( int i = 0; i < ap.length; i++ ) {
-//            Point2D point2D = ap[i];
+        Ion a = new Sodium();
+        a.setPosition( 300, 400 );
+        Lattice l = new Lattice( a, new Rectangle2D.Double(0,0,500, 500));
+        Ion b = new Chloride();
+        b.setPosition( new Point2D.Double( 290, 400 ) );
+        l.addIon( b );
+        b.setVelocity(5,5);
+        l.releaseIon( 10 );
+        System.out.println( b.getVelocity() );
+        
+//        PlainCubicForm pcf = (PlainCubicForm)l.getForm();
+//        List ap = pcf.getNeighboringSites( a.getPosition(), Math.PI / 4 );
+//        for( int i = 0; i < ap.size(); i++ ) {
+//            Point2D point2D = (Point2D)ap.get(i);
 //            System.out.println( "point2D = " + point2D );
 //        }
-
-
-//        Point2D p = pcf.getNearestOpenSite( new Point2D.Double( 12, 0 ), l.getOccupiedSites(), 0 );
-//        System.out.println( "p = " + p );
     }
 }

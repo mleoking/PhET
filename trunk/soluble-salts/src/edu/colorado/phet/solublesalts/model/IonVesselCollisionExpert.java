@@ -31,18 +31,21 @@ import java.util.List;
  */
 public class IonVesselCollisionExpert implements CollisionExpert,
 		ContactDetector {
+	
+	private static double DEFAULT_MIN_DIST_TO_LIKE_ION;
+	static {
+		DEFAULT_MIN_DIST_TO_LIKE_ION = new Chloride( new Point2D.Double(),
+				new Vector2D.Double(), new Vector2D.Double() ).getRadius() * 4;
+	}
 
 	private SphereBoxExpert sphereBoxExpert = new SphereBoxExpert();
 
 	private SolubleSaltsModel model;
 
-	private double minDistToLikeIon;
+	private double minDistToLikeIon = DEFAULT_MIN_DIST_TO_LIKE_ION;
 
 	public IonVesselCollisionExpert( SolubleSaltsModel model ) {
 		this.model = model;
-
-		minDistToLikeIon = new Chloride( new Point2D.Double(),
-				new Vector2D.Double(), new Vector2D.Double() ).getRadius() * 2;
 	}
 
 	public boolean detectAndDoCollision( Collidable bodyA, Collidable bodyB ) {
