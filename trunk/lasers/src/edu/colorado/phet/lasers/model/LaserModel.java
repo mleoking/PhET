@@ -50,6 +50,9 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
     private ArrayList atoms = new ArrayList();
     private ArrayList mirrors = new ArrayList();
     private CollisionMechanism collisionMechanism;
+    private HashSet lasingPhotons = new HashSet();
+    private double angleWindow = LaserConfig.PHOTON_CHEAT_ANGLE;
+
     private int numPhotons;
 
     // Counters for the number of atoms in each state
@@ -61,8 +64,6 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
     private LaserElementProperties twoLevelProperties = new TwoLevelElementProperties();
     private LaserElementProperties threeLevelProperties = new ThreeLevelElementProperties();
     private LaserElementProperties currentElementProperties = twoLevelProperties;
-
-    private ArrayList wavelengthChangeListeners = new ArrayList();
 
     /**
      *
@@ -309,6 +310,7 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
     }
 
     public int getNumLasingPhotons() {
+//        System.out.println( "lasingPhotons.size() = " + lasingPhotons.size() );
         return lasingPhotons.size();
     }
 
@@ -384,37 +386,8 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         PhotonAtomCollisonExpert photonAtomExpert = new PhotonAtomCollisonExpert();
         int numSections = 6;
         double sectionWidth;
-        private ArrayList[] cavitySections;
 
         public void stepInTime( double dt ) {
-
-            // If the lists of atoms in each section haven't been created yet, do it now
-//            if( cavitySections == null ) {
-//
-//                numSections = (int)( resonatingCavity.getBeamWidth() / ( Atom.getS_radius() * 2 )) - 1;
-//                sectionWidth = resonatingCavity.getBeamWidth() / numSections;
-//                cavitySections = new ArrayList[numSections];
-//                for( int i = 0; i < cavitySections.length; i++ ) {
-//                    cavitySections[i] = new ArrayList();
-//                }
-//            }
-
-            // Assign every atom to one or two regions of the cavity, based on its position
-//            for( int i = 0; i < cavitySections.length; i++ ) {
-//                ArrayList section = cavitySections[i];
-//                section.clear();
-//            }
-//            for( int j = 0; j < atoms.size(); j++ ) {
-//                Atom atom = (Atom)atoms.get( j );
-//                double d0 = atom.getPosition().getX() - atom.getRadius() - resonatingCavity.getMinX();
-//                double d1 = atom.getPosition().getX() + atom.getRadius() - resonatingCavity.getMinX();
-//                int section0 = Math.max( 0, (int)( d0 / sectionWidth ));
-//                int section1 = Math.min( numSections - 1, (int)( d1 / sectionWidth ));
-//                cavitySections[section0].add( atom );
-//                if( section1 != section0 ) {
-//                    cavitySections[section1].add( atom );
-//                }
-//            }
 
             // Test each photon against the atoms in the section the photon is in
             for( int i = 0; i < photons.size(); i++ ) {
@@ -422,23 +395,6 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
                 if( !( photon instanceof Photon )
                     || ( resonatingCavity.getBounds().contains( photon.getPosition() ) )
                     || ( resonatingCavity.getBounds().contains( photon.getPositionPrev() ) ) ) {
-//
-//                    int k = 0;
-//                    int section = (int)( ( photon.getPosition().getX() - resonatingCavity.getMinX() ) / sectionWidth );
-//                    if( section >= 0 && section < numSections ) {
-//                        List atomsInSection = cavitySections[section];
-//                        for( int j = 0; j < atomsInSection.size(); j++ ) {
-//                            k = j;
-//                            Atom atom = (Atom)atomsInSection.get( j );
-//                            AtomicState s1 = atom.getCurrState();
-//                            photonAtomExpert.detectAndDoCollision( photon, atom );
-//                            AtomicState s2 = atom.getCurrState();
-//                            if( s1 != s2 ) {
-//                                break;
-//                            }
-//                        }
-//                      System.out.println( "k = " + k );
-//                    }
 
                     for( int j = 0; j < atoms.size(); j++ ) {
                         Atom atom = (Atom)atoms.get( j );
@@ -454,26 +410,11 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
             collisionMechanism.doIt( photons, mirrors );
             collisionMechanism.doIt( atoms, resonatingCavity );
         }
-
-        private boolean isNearMirror( Photon photon, double dt ) {
-            for( int i = 0; i < mirrors.size(); i++ ) {
-                Mirror mirror = (Mirror)mirrors.get( i );
-                if( Math.abs( photon.getPosition().getX() - mirror.getPosition().getX() ) <
-                    Math.abs( photon.getVelocity().getX() * dt ) * 2 ) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
     }
 
     ////////////////////////////////////////////////////////////////////////////////
     // Event Handling
     //
-    private HashSet lasingPhotons = new HashSet();
-    private double angleWindow = LaserConfig.PHOTON_CHEAT_ANGLE;
-
     private EventChannel laserEventChannel = new EventChannel( ChangeListener.class );
     private ChangeListener changeListenerProxy = (ChangeListener)laserEventChannel.getListenerProxy();
 

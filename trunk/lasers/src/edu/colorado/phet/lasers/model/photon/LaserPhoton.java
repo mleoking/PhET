@@ -15,7 +15,6 @@ import edu.colorado.phet.lasers.model.atom.Atom;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -35,24 +34,25 @@ public class LaserPhoton extends Photon {
     // laser cavity
     static private Rectangle2D stimulationBounds;
 
-    static private HashMap photonToStimRecordMap = new HashMap();
+//    static private HashMap photonToStimRecordMap = new HashMap();
 
     public static void setStimulationBounds( Rectangle2D stimulationBounds ) {
         LaserPhoton.stimulationBounds = stimulationBounds;
     }
 
     static public Photon createStimulated( Photon stimulatingPhoton, Point2D location, Atom atom ) {
-        StimRecord stimRecord = (StimRecord)photonToStimRecordMap.get( stimulatingPhoton );
-        if( stimRecord == null ) {
-            stimRecord = new StimRecord();
-            photonToStimRecordMap.put( stimulatingPhoton, stimRecord );
-        }
-        stimRecord.numStimulatedPhotons++;
+//        StimRecord stimRecord = (StimRecord)photonToStimRecordMap.get( stimulatingPhoton );
+//        if( stimRecord == null ) {
+//            stimRecord = new StimRecord();
+//            photonToStimRecordMap.put( stimulatingPhoton, stimRecord );
+//        }
+//        stimRecord.numStimulatedPhotons++;
         Photon newPhoton = create( stimulatingPhoton.getWavelength(), location,
                                    stimulatingPhoton.getVelocity() );
 
 
-        int idx = stimRecord.addChildPhoton( newPhoton );
+//        int idx = stimRecord.addChildPhoton( newPhoton );
+        int idx = 1;
         int yOffset = ( 1 + idx / 2 ) * 4;
 //        int yOffset = stimRecord.numStimulatedPhotons * 4;
         int sign = idx % 2 == 0 ? 1 : -1;
@@ -69,12 +69,18 @@ public class LaserPhoton extends Photon {
         if( newY < minY || newY > maxY ) {
             newY = atom.getPosition().getY();
             newX = atom.getPosition().getX() - 10;
-            stimRecord.numStimulatedPhotons = 1;
+//            stimRecord.numStimulatedPhotons = 1;
         }
         newPhoton.setPosition( newX, newY );
 
-        newPhoton.addLeftSystemListener( new ChildPhotonTracker( stimRecord ) );
+//        newPhoton.addLeftSystemListener( new ChildPhotonTracker( stimRecord ) );
         return newPhoton;
+    }
+
+
+    protected void finalize() throws Throwable {
+        System.out.println( "LaserPhoton.finalize" );
+        super.finalize();
     }
 
     //----------------------------------------------------------------
