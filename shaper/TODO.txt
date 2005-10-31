@@ -12,7 +12,6 @@ HIGH PRIORITY:
 - change closeness algorithm?
 
 
-
 MEDIUM PRIORITY:
 
 
@@ -44,6 +43,7 @@ PHETCOMMON:
 
 
 DONE:
+(10/31/05) - make handle on magnifying glass slightly larger
 (10/31/05) - change closeness range from 0...1 to -1...+1
 (10/31/05) - make the amplitude sliders 200 pixels tall so that there is one pixel for each possible value
 (10/31/05) - change amplitude range from +-4pi to +-1
