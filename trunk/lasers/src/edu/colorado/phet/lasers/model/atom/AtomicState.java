@@ -37,7 +37,7 @@ public class AtomicState {
     static public final double maxWavelength = Photon.GRAY;
     static public final double minEnergy = PhysicsUtil.wavelengthToEnergy( maxWavelength );
     static public final double maxEnergy = PhysicsUtil.wavelengthToEnergy( minWavelength );
-    static protected double STIMULATION_LIKELIHOOD = 1;
+    static protected double STIMULATION_LIKELIHOOD = LaserConfig.STIMULATION_LIKELIHOOD;
     static protected final double wavelengthTolerance = 10;
 
     static public void setStimulationLikelihood( double p ) {
