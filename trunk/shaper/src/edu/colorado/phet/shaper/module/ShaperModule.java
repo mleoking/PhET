@@ -218,12 +218,12 @@ public class ShaperModule extends AbstractModule implements ActionListener {
         // Amplitude sliders
         _amplitudesView = new AmplitudesView( apparatusPanel, _userFourierSeries );
         apparatusPanel.addGraphic( _amplitudesView );
-        _amplitudesView.setLocation( 15, 250 );
+        _amplitudesView.setLocation( 15, 220 );
         
         // Cheat panel
         _cheatPanel = new CheatPanel( apparatusPanel, _outputFourierSeries );
         apparatusPanel.addGraphic( _cheatPanel );
-        _cheatPanel.setLocation( 68, 160 );
+        _cheatPanel.setLocation( 68, 130 );
         _cheatPanel.setVisible( false );
 
         // Molecule animation
@@ -254,15 +254,15 @@ public class ShaperModule extends AbstractModule implements ActionListener {
         
         // Help Items
         HelpBubble slidersHelp = new HelpBubble( apparatusPanel, SimStrings.get( "Help.amplitude.sliders" ) );
-        slidersHelp.pointAt( new Point( 125, 415 ), HelpBubble.TOP_LEFT, 40 );
+        slidersHelp.pointAt( new Point( 125, 445 ), HelpBubble.TOP_LEFT, 40 );
         addHelpItem( slidersHelp );
         
         HelpBubble textfieldsHelp = new HelpBubble( apparatusPanel, SimStrings.get( "Help.amplitude.textfields" ) );
-        textfieldsHelp.pointAt( new Point( 146, 273 ), HelpBubble.BOTTOM_LEFT, 30 );
+        textfieldsHelp.pointAt( new Point( 146, 243 ), HelpBubble.BOTTOM_LEFT, 30 );
         addHelpItem( textfieldsHelp );
         
         HelpBubble resetHelp = new HelpBubble( apparatusPanel, SimStrings.get( "Help.amplitude.reset" ) );
-        resetHelp.pointAt( new Point( 47, 256 ), HelpBubble.BOTTOM_LEFT, 80 );
+        resetHelp.pointAt( new Point( 47, 226 ), HelpBubble.BOTTOM_LEFT, 80 );
         addHelpItem( resetHelp );
         
         HelpBubble newPulseHelp = new HelpBubble( apparatusPanel, SimStrings.get( "Help.newPulse" ) );
