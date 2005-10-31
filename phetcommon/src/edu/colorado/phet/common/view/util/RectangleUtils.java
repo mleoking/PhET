@@ -145,4 +145,7 @@ public class RectangleUtils {
         return union;
     }
 
+    public static Rectangle2D compactRectangle2D( Rectangle2D r, double insetX, double insetY ) {
+        return new Rectangle2D.Double( r.getX() + insetX, r.getY() + insetY, r.getWidth() - insetX * 2, r.getHeight() - insetY * 2 );
+    }
 }
