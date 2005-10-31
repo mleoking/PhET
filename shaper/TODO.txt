@@ -6,7 +6,6 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- separate the molecule model & view
 - fill in contents of Explanation dialog
 - add Help items
 
@@ -14,10 +13,12 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 - resize the molecule graphics that are currently scaled
 - resize kaboom graphic
-- make amplitude sliders 254 pixels tall so that every value can be achieved by dragging
+- make amplitude sliders taller so that every value can be achieved by dragging
+- change the "match" threshold
 
 
 LOW PRIORITY:
+- separate the molecule model & view
 - FourierSumPlot should observe its FourierSeries
 
 
