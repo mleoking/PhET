@@ -146,7 +146,7 @@ public class AmplitudesView extends GraphicLayerSet implements SimpleObserver {
         
         // Reset button
         {
-            _resetButton = new JButton( "Reset" );
+            _resetButton = new JButton( SimStrings.get( "reset" ) );
             _resetButton.setOpaque( false );
             _resetButtonGraphic = PhetJComponent.newInstance( component, _resetButton );
             addGraphic( _resetButtonGraphic, BUTTONS_LAYER );
