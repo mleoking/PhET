@@ -54,15 +54,16 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     // Class data
     //----------------------------------------------------------------------------
     
-    // Layers
+    // Graphics layers
     private static final double CLICK_ZONE_LAYER = 1;
     private static final double TRACK_LAYER = 2;
     private static final double KNOB_LAYER = 3;
     private static final double VALUE_LAYER = 4;
     private static final double LABEL_LAYER = 5;
 
-    // Value parameters
     private static final double MAX_AMPLITUDE = ShaperConstants.MAX_HARMONIC_AMPLITUDE;
+    
+    // Text field (value) parameters
     private static final double VALUE_STEP = 0.01;
     private static final String VALUE_FORMAT = "0.00";
     private static final int VALUE_COLUMNS = 3;
@@ -141,7 +142,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
             _labelGraphic.setLocation( 0, 0 ); // will be set in update
         }
         
-        // Value
+        // Value (text field)
         {
             _valueFormatter = new DecimalFormat( VALUE_FORMAT );
             _valueTextField = new JTextField( _valueFormatter.format( 0.0 ) );
@@ -303,7 +304,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     /**
-     * Processes the contents of the value field.
+     * Processes the contents of the value text field.
      * 
      * @return true if the value is valid, false otherwise
      */
@@ -401,7 +402,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     /*
-     * ClickZoneEventListener handles events related to the "click zone".
+     * ClickZoneEventListener handles mouse events related to the "click zone".
      */
     private class ClickZoneEventListener extends MouseInputAdapter {
         
@@ -422,7 +423,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     }
     
     /*
-     * KnobEventListener handles events related to the knob.
+     * KnobEventListener handles mouse events related to the knob.
      */
     private class KnobEventListener extends MouseInputAdapter {
         
@@ -437,7 +438,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     }
     
     /*
-     * TrackEventListener handles events related to the slider track.
+     * TrackEventListener handles mouse events related to the slider track.
      */
     private class TrackEventListener extends MouseInputAdapter {
         
@@ -476,7 +477,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     }
     
     /*
-     * TextFieldEventListener handles events related to the text field.
+     * TextFieldEventListener handles key events related to the text field.
      */
     private class TextFieldEventListener extends KeyAdapter implements ActionListener, FocusListener {
         

@@ -22,9 +22,11 @@ import edu.colorado.phet.shaper.util.TrigCache;
 
 
 /**
- * GaussianWavePacketPlot is used by Chart to draw a Gaussian wave packet.
- * The number of data points used to draw the wave is optimized
- * and adjusted based on the range and size of the Chart.
+ * InputPulsePlot draws an input pulse waveform.
+ * <p>
+ * The formula that describes the input pulse is:
+ * <br>
+ * F(x) = exp[ -( ( 10 * pi * x )^2 ) / 2 ]
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -100,7 +102,7 @@ public class InputPulsePlot extends LinePlot {
     }
     
     /**
-     * Gets absolute value of the maximum amplitude of the wave packet.
+     * Gets the absolute value of the maximum amplitude of the wave packet.
      * 
      * @return
      */
@@ -125,7 +127,7 @@ public class InputPulsePlot extends LinePlot {
     //----------------------------------------------------------------------------
 
     /**
-     * Updates the data set to match the current property setting
+     * Updates the data set to match the current property settings
      * and the chart range.
      */
     protected void updateDataSet() {

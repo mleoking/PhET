@@ -18,13 +18,18 @@ import edu.colorado.phet.shaper.ShaperConstants;
 
 
 /**
- * MagnifyingGlass
+ * MagnifyingGlass is the graphical representation of a magnifying glass.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class MagnifyingGlass extends PhetImageGraphic {
 
+    /**
+     * Sole constructor.
+     * 
+     * @param component
+     */
     public MagnifyingGlass( Component component ) {
         super( component, ShaperConstants.MAGNIFYING_GLASS_IMAGE );
     }

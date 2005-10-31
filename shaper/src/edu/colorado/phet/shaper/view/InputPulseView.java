@@ -23,6 +23,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.shaper.ShaperConstants;
 import edu.colorado.phet.shaper.charts.InputPulsePlot;
+import edu.colorado.phet.shaper.charts.PulseChart;
 
 
 /**

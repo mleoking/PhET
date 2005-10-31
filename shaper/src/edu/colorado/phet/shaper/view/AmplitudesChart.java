@@ -35,9 +35,8 @@ public class AmplitudesChart extends Chart {
     private static final Font AXIS_TITLE_FONT = new Font( ShaperConstants.FONT_NAME, Font.BOLD, 16 );
     private static final Color AXIS_TITLE_COLOR = Color.BLACK;
     
-    // Range labels
-    private static final boolean RANGE_LABELS_VISIBLE = false;
-    private static final NumberFormat RANGE_LABELS_FORMAT = new DecimalFormat( "0.00" );
+    // X axis
+    private static final String X_AXIS_TITLE = "n";
     
     // Y axis
     private static final double Y_MAJOR_TICK_SPACING = 0.5;
@@ -54,6 +53,10 @@ public class AmplitudesChart extends Chart {
     private static final Stroke MAJOR_GRIDLINE_STROKE = new BasicStroke( 0.25f );
     private static final Stroke MINOR_GRIDLINE_STROKE = new BasicStroke( 0.25f );
     
+    // Range labels
+    private static final boolean RANGE_LABELS_VISIBLE = false;
+    private static final NumberFormat RANGE_LABELS_FORMAT = new DecimalFormat( "0.00" );
+    
     /**
      * Sole constructor.
      * 
@@ -69,8 +72,7 @@ public class AmplitudesChart extends Chart {
             getXAxis().setStroke( AXIS_STROKE );
             getXAxis().setColor( AXIS_COLOR );
 
-            String xTitle = "n";
-            HTMLGraphic xAxisTitleGraphic = new HTMLGraphic( component, AXIS_TITLE_FONT, xTitle, AXIS_TITLE_COLOR );
+            HTMLGraphic xAxisTitleGraphic = new HTMLGraphic( component, AXIS_TITLE_FONT, X_AXIS_TITLE, AXIS_TITLE_COLOR );
             xAxisTitleGraphic.setRegistrationPoint( -2, xAxisTitleGraphic.getHeight() / 2 ); // left center
             setXAxisTitle( xAxisTitleGraphic );
             

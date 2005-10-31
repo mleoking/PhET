@@ -12,6 +12,7 @@ HIGH PRIORITY:
 
 
 MEDIUM PRIORITY:
+- FourierSumPlot should observe its FourierSeries
 - resize the molecule graphics that are currently scaled
 - resize kaboom graphic
 - Spanish translations
@@ -44,6 +45,7 @@ PHETCOMMON:
 
 
 DONE:
+(10/31/05) - document all code
 0.0.4 ...
 (10/28/05) - remove unused entries in SimStrings file
 (10/28/05) - add wait cursors to "Reset" and "New Output Pulse" buttons

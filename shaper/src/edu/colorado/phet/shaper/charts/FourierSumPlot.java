@@ -156,10 +156,21 @@ public class FourierSumPlot extends LinePlot {
         return _pixelsPerPoint;
     }
     
+    /**
+     * Gets the absolute value of the maximum amplitude of the wave packet.
+     * 
+     * @return
+     */
     public double getMaxAmplitude() {
         return _maxAmplitude;
     }
     
+    /**
+     * Determines whether we use cosines or sines to calculate the sum.
+     * The default (false) is to use sines.
+     * 
+     * @param useCosines true to use cosines, false to use sines
+     */
     public void setUseCosines( boolean useCosines ) {
         _useCosines = useCosines;
         updateDataSet();
@@ -169,6 +180,10 @@ public class FourierSumPlot extends LinePlot {
     // Data set update
     //----------------------------------------------------------------------------
     
+    /**
+     * Updates the plot's data set to match the Fourier series,
+     * the chart's range, and the current property settings.
+     */
     public void updateDataSet() {
         
         Chart chart = getChart();

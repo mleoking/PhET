@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.shaper.view;
+package edu.colorado.phet.shaper.charts;
 
 import java.awt.*;
 import java.text.DecimalFormat;

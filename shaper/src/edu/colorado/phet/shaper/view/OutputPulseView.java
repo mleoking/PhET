@@ -22,6 +22,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.shaper.ShaperConstants;
 import edu.colorado.phet.shaper.charts.FourierSumPlot;
+import edu.colorado.phet.shaper.charts.PulseChart;
 import edu.colorado.phet.shaper.model.FourierSeries;
 
 
@@ -174,6 +175,11 @@ public class OutputPulseView extends GraphicLayerSet implements SimpleObserver {
     // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Changes the visibility of the output pulse waveform.
+     * 
+     * @param visible true or false
+     */
     public void setOutputPulseVisible( boolean visible ) {
         _outputSumPlot.setVisible( visible );
     }

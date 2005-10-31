@@ -29,20 +29,40 @@ import edu.colorado.phet.shaper.model.FourierSeries;
 
 
 /**
- * CheatPanel
+ * CheatPanel is a panel that show the amplitudes of the output pulse
+ * that we are trying to match.  If you are looking at this panel,
+ * then you are cheating.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class CheatPanel extends GraphicLayerSet implements SimpleObserver {
     
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final DecimalFormat CHEAT_FORMAT = new DecimalFormat( "0.00" );
     private static final Font TITLE_FONT = new Font( ShaperConstants.FONT_NAME, Font.BOLD, 14 );
     private static final Font VALUES_FONT = new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 12 );
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private FourierSeries _outputFourierSeries;
     private ArrayList _valueGraphics;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sole constructor
+     * 
+     * @param component
+     * @param outputFourierSeries
+     */
     public CheatPanel( Component component, FourierSeries outputFourierSeries ) {
         super( component );
         
@@ -65,6 +85,7 @@ public class CheatPanel extends GraphicLayerSet implements SimpleObserver {
         titleGraphic.setLocation( 35, 5 );
         addGraphic( titleGraphic );
         
+        // Label and value for each harmonic
         _valueGraphics = new ArrayList();
         int x = 30;
         int numberOfHarmonics = _outputFourierSeries.getNumberOfHarmonics();
@@ -109,6 +130,16 @@ public class CheatPanel extends GraphicLayerSet implements SimpleObserver {
         update();
     }
 
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Changes the visibility of this graphic.
+     * When the graphic becomes visible, it is updated.
+     * 
+     * @param visible true or false
+     */
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
         if ( visible ) {
@@ -116,6 +147,13 @@ public class CheatPanel extends GraphicLayerSet implements SimpleObserver {
         }
     }
     
+    //----------------------------------------------------------------------------
+    // SimpleObserver implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Updates the graphic to match the model that it is observing.
+     */
     public void update() {
         if ( isVisible() ) {
             int numberOfHarmonics = _outputFourierSeries.getNumberOfHarmonics();
