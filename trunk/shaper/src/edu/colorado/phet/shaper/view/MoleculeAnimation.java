@@ -63,6 +63,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
     private FourierSeries _userFourierSeries;
     private FourierSeries _outputFourierSeries;
     
+    // Graphics
     private PhetShapeGraphic _animationFrame;
     private CompositePhetGraphic _moleculeGraphic;
     private PhetImageGraphic _moleculePart1;
@@ -71,19 +72,30 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
     private HTMLGraphic _closenessGraphic;
     private String _closenessFormat;
     private PhetImageGraphic _explosionGraphic;
+    private Point _moleculeHome; // starting point for the graphics in the animation
     
-    private double _closeness;
-    private Point _moleculeHome;
-    private Random _random;
-    private boolean _enabled;
-    private double _dx1, _dy1, _dx2, _dy2, _dx3, _dy3;
-    private boolean _isExploding;
-    private boolean _isAdjusting;
+    // State information
+    private double _closeness; // how close we are to matching
+    private Random _random; // random number generator
+    private double _dx1, _dy1; // animation deltas for part1 of the molecule graphic
+    private double _dx2, _dy2; // animation deltas for part2 of the molecule graphic
+    private double _dx3, _dy3; // animation deltas for part3 of the molecule graphic
+    private boolean _isExploding; // true means that we're in the middle of animating the explosion
+    private boolean _animationDone; // true means that the animation is done
+    private boolean _isAdjusting; // true means that we should ignore model updates
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Sole constructor.
+     * 
+     * @param component
+     * @param module
+     * @param userFourierSeries
+     * @param outputFourierSeries
+     */
     public MoleculeAnimation( Component component, ShaperModule module, 
             FourierSeries userFourierSeries, FourierSeries outputFourierSeries ) {
         super( component );
@@ -190,7 +202,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         _animationFrame.setRegistrationPoint( _animationFrame.getWidth()/2, 0 ); // top center
         _animationFrame.setLocation( BACKGROUND_SIZE.width/2, 15 );
         
-        // The display that shows how "close" we are to matching the output pulse.
+        // The read-out that shows how "close" we are to matching the output pulse.
         _closenessGraphic = new HTMLGraphic( component );
         _closenessGraphic.setColor( Color.BLACK );
         _closenessGraphic.setFont( new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 18 ) );
@@ -202,7 +214,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         _closenessGraphic.setRegistrationPoint( _closenessGraphic.getWidth()/2, _closenessGraphic.getHeight() ); // bottom center
         _closenessGraphic.setLocation( BACKGROUND_SIZE.width/2, BACKGROUND_SIZE.height - 5 );
         
-        // explosion
+        // explosion (Kaboom!)
         _explosionGraphic = new PhetImageGraphic( component, ShaperConstants.KABOOM_IMAGE );
         _explosionGraphic.setRegistrationPoint( _explosionGraphic.getWidth()/2, 0 ); // top center
         _explosionGraphic.scale( 0.4 ); // scale after setting registration point!
@@ -224,10 +236,13 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         _moleculeGraphic.scale( 0.50 );
         addGraphic( _moleculeGraphic );
         
-        reset();
-        update();
+        reset();   // put the animation at t=0
+        update();  // sync with the model
     }
     
+    /**
+     * Call this method prior to releasing all references to an object of this type.
+     */
     public void cleanup() {
         _userFourierSeries.removeObserver( this );
         _userFourierSeries = null;
@@ -239,8 +254,11 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
     // Reset
     //----------------------------------------------------------------------------
     
+    /**
+     * Resets the animation.
+     */
     public void reset() {
-        _enabled = true;
+        _animationDone = false;
         _isExploding = false;
         setCloseness( 0 );
         _explosionGraphic.setVisible( false );
@@ -254,6 +272,11 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
     // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Sets the molecule graphic.
+     * 
+     * @param index
+     */
     public void setMolecule( int index ) {
         String part1 = ShaperConstants.IMAGES_DIRECTORY + "molecule" + index + "_part1.png";
         String part2 = ShaperConstants.IMAGES_DIRECTORY + "molecule" + index + "_part2.png";
@@ -278,6 +301,13 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         }
     }
     
+    /*
+     * Sets the "closeness", which determines how fast the molecule 
+     * is vibrating, and what value appears in the closeness read-out.
+     * 
+     * @param closeness  0-1, 0=farthest away, 1.0=exact match
+     * @throws IllegalArgumentException if closeness is out of range
+     */
     private void setCloseness( double closeness ) {
         
         _closeness = closeness;
@@ -297,70 +327,86 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
     //----------------------------------------------------------------------------
     
     /**
-     * Moves the molecule when the clock ticks.
+     * Animates the molecule when the clock ticks.
      */
     public void stepInTime( double dt ) {
 
-        if ( _enabled ) {
-            if ( _isExploding ) {
-                
-                // Continue the "explode" animation
-                _moleculePart1.setLocation( (int) ( _moleculePart1.getX() + _dx1 ), (int) ( _moleculePart1.getY() + _dy1 ) );
-                _moleculePart2.setLocation( (int) ( _moleculePart2.getX() + _dx2 ), (int) ( _moleculePart2.getY() + _dy2 ) );
-                _moleculePart3.setLocation( (int) ( _moleculePart3.getX() + _dx3 ), (int) ( _moleculePart3.getY() + _dy3 ) );
-                
-                // Accelerate
-                final double a = EXPLOSION_ACCELERATION_RATE;
-                _dx1 += _dx1 * a;
-                _dy1 += _dy1 * a;
-                _dx2 += _dx2 * a;
-                _dy2 += _dy2 * a;
-                _dx3 += _dx3 * a;
-                _dy3 += _dy3 * a;
-                    
-                if ( _moleculeGraphic.getClip() != null ) {
-                    // Are we still visbile in the animation frame?
-                    if ( Math.abs( _moleculePart1.getX() ) > 2 * _animationFrame.getWidth() &&
-                         Math.abs( _moleculePart1.getY() ) > 2 * _animationFrame.getHeight() ) {
-                        _enabled = false; // animation is done
-                        gameOver();
-                    }
+        if ( _animationDone ) {
+            // Don't do anything if the animation is done.
+        }
+        else if ( _isExploding ) {
+            /*
+             * We're in the middle of the explosion, so advance to the next animation frame.
+             */
+
+            // Advance each part of the molecule graphic.
+            _moleculePart1.setLocation( (int) ( _moleculePart1.getX() + _dx1 ), (int) ( _moleculePart1.getY() + _dy1 ) );
+            _moleculePart2.setLocation( (int) ( _moleculePart2.getX() + _dx2 ), (int) ( _moleculePart2.getY() + _dy2 ) );
+            _moleculePart3.setLocation( (int) ( _moleculePart3.getX() + _dx3 ), (int) ( _moleculePart3.getY() + _dy3 ) );
+
+            // Accelerate
+            final double a = EXPLOSION_ACCELERATION_RATE;
+            _dx1 += _dx1 * a;
+            _dy1 += _dy1 * a;
+            _dx2 += _dx2 * a;
+            _dy2 += _dy2 * a;
+            _dx3 += _dx3 * a;
+            _dy3 += _dy3 * a;
+
+            // Check to see if we're done with the animation.
+            if ( _moleculeGraphic.getClip() != null ) {
+                // Are we still visbile in the animation frame?
+                if ( Math.abs( _moleculePart1.getX() ) > 2 * _animationFrame.getWidth() && Math.abs( _moleculePart1.getY() ) > 2 * _animationFrame.getHeight() ) {
+                    _animationDone = true; // animation is done
+                    gameOver();
                 }
-                else {
-                    // Are we still visible in the apparatus panel?
-                    if ( Math.abs( _moleculePart1.getX() ) > 2 * ShaperConstants.APP_FRAME_WIDTH &&
-                         Math.abs( _moleculePart1.getY() ) > 2 * ShaperConstants.APP_FRAME_HEIGHT ) {
-                        _enabled = false; // animation is done
-                        gameOver();
-                    }
-                }
-            }
-            else if ( _closeness < ShaperConstants.CLOSENESS_MATCH ) {
-                // Randomly move the molecule around.
-                double d = ( _random.nextGaussian() * _closeness * _closeness * MAX_DISTANCE ) * ( Math.random() > 0.5 ? 1 : -1 );
-                double theta = Math.random() * Math.PI * 2;
-                double dx = d * Math.cos( theta );
-                double dy = d * Math.sin( theta );
-                _moleculeGraphic.setLocation( (int) ( _moleculeHome.x + dx ), (int) ( _moleculeHome.y + dy ) );
             }
             else {
-                // Start the "explode" animation.
-                _explosionGraphic.setVisible( true );
-                _isExploding = true;
-                double theta1 = Math.random() * Math.PI * 2;
-                double theta2 = theta1 + Math.toRadians( 120 );
-                double theta3 = theta2 + Math.toRadians( 120 );
-                _dx1 = _closeness * _closeness * MAX_DISTANCE * Math.cos( theta1 );
-                _dy1 = _closeness * _closeness * MAX_DISTANCE * Math.sin( theta1 );
-                _dx2 = _closeness * _closeness * MAX_DISTANCE * Math.cos( theta2 );
-                _dy2 = _closeness * _closeness * MAX_DISTANCE * Math.sin( theta2 );
-                _dx3 = _closeness * _closeness * MAX_DISTANCE * Math.cos( theta3 );
-                _dy3 = _closeness * _closeness * MAX_DISTANCE * Math.sin( theta3 );
+                // Are we still visible in the apparatus panel?
+                if ( Math.abs( _moleculePart1.getX() ) > 2 * ShaperConstants.APP_FRAME_WIDTH && Math.abs( _moleculePart1.getY() ) > 2 * ShaperConstants.APP_FRAME_HEIGHT ) {
+                    _animationDone = true; // animation is done
+                    gameOver();
+                }
             }
+        }
+        else if ( _closeness >= ShaperConstants.CLOSENESS_MATCH ) {
+            /*
+             * We're close enough to be considered a "match", so start the explosion.
+             * Make the 3 parts of the molecule graphic move away from each other 
+             * in random directions.
+             */
+            _explosionGraphic.setVisible( true );
+            _isExploding = true;
+            double theta1 = Math.random() * Math.PI * 2;
+            double theta2 = theta1 + Math.toRadians( 120 );
+            double theta3 = theta2 + Math.toRadians( 120 );
+            _dx1 = _closeness * _closeness * MAX_DISTANCE * Math.cos( theta1 );
+            _dy1 = _closeness * _closeness * MAX_DISTANCE * Math.sin( theta1 );
+            _dx2 = _closeness * _closeness * MAX_DISTANCE * Math.cos( theta2 );
+            _dy2 = _closeness * _closeness * MAX_DISTANCE * Math.sin( theta2 );
+            _dx3 = _closeness * _closeness * MAX_DISTANCE * Math.cos( theta3 );
+            _dy3 = _closeness * _closeness * MAX_DISTANCE * Math.sin( theta3 );
+        }
+        else {
+            /*
+             * We're not close enough to be considered a "match", 
+             * so randomly move the molecule around so that it appears 
+             * to vibrate in a way that is related to the closeness.
+             */
+            double d = ( _random.nextGaussian() * _closeness * _closeness * MAX_DISTANCE ) * ( Math.random() > 0.5 ? 1 : -1 );
+            double theta = Math.random() * Math.PI * 2;
+            double dx = d * Math.cos( theta );
+            double dy = d * Math.sin( theta );
+            _moleculeGraphic.setLocation( (int) ( _moleculeHome.x + dx ), (int) ( _moleculeHome.y + dy ) );
         }
     }
     
-    public void gameOver() {
+    /*
+     * Encapsulates everything that should be done when the game is over.
+     * We open a dialog telling the user that they've matched the output pulse.
+     * When the dialog is closed, we ask the module to start a new "game".
+     */
+    private void gameOver() {
         
         _isAdjusting = true;
 
@@ -380,6 +426,9 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
     
+    /**
+     * Updates this graphic to match the Fourier series that it is observing.
+     */
     public void update() {
 
         if ( !_isAdjusting && !_isExploding ) {

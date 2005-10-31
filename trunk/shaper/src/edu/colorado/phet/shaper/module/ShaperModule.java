@@ -286,7 +286,7 @@ public class ShaperModule extends AbstractModule implements ActionListener {
     public void reset() {
         // Starting with a randomly-selected molecule, generate a new "game".
         Random random = new Random();
-        _moleculeIndex = random.nextInt( MoleculeEnum.getNumberOfMolecules() );
+        _moleculeIndex = random.nextInt( MoleculeEnum.size() );
         newGame();
     }
     
@@ -326,7 +326,7 @@ public class ShaperModule extends AbstractModule implements ActionListener {
             _outputFourierSeries.getHarmonic( i ).setAmplitude( amplitudes[i] );
         }
         _moleculeIndex++;
-        if ( _moleculeIndex >= MoleculeEnum.getNumberOfMolecules() ) {
+        if ( _moleculeIndex >= MoleculeEnum.size() ) {
             _moleculeIndex = 0;
         }
         

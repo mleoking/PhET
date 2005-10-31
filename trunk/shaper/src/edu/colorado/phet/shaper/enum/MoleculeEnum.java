@@ -24,7 +24,7 @@ public class MoleculeEnum extends AbstractEnum {
         super( name );
     }
     
-    // Preset values
+    // Members of the enumeration
     public static final MoleculeEnum UNDEFINED = new MoleculeEnum( "undefined" );
     public static final MoleculeEnum MOLECULE1 = new MoleculeEnum( "molecule1" );
     public static final MoleculeEnum MOLECULE2 = new MoleculeEnum( "molecule2" );
@@ -35,15 +35,29 @@ public class MoleculeEnum extends AbstractEnum {
     public static final MoleculeEnum MOLECULE7 = new MoleculeEnum( "molecule7" );
     public static final MoleculeEnum MOLECULE8 = new MoleculeEnum( "molecule8" );
     
+    // Collection of all members in the enumeration, for iteration
     private static final MoleculeEnum[] MOLECULES = {
             MOLECULE1, MOLECULE2, MOLECULE3, MOLECULE4,
             MOLECULE5, MOLECULE6, MOLECULE7, MOLECULE8
     };
     
-    public static int getNumberOfMolecules() {
+    /**
+     * Gets the number of members in the enumeration.
+     * @return
+     */
+    public static int size() {
         return MOLECULES.length;
     }
     
+    /**
+     * Gets a molecule by index.
+     * Use the method only for iterating over all Molecules.
+     * The order of iteration is NOT guaranteed to be the 
+     * same in the future.
+     * 
+     * @param index
+     * @return
+     */
     public static MoleculeEnum getByIndex( int index ) {
         if ( index >= MOLECULES.length ) {
             throw new IllegalArgumentException( "index out of range: " + index );
@@ -69,6 +83,12 @@ public class MoleculeEnum extends AbstractEnum {
         return molecule;
     }
     
+    /**
+     * Gets the amplitudes associated with a specified molecule.
+     * 
+     * @param molecule
+     * @return
+     */
     public static double[] getAmplitudes( MoleculeEnum molecule ) {
         double[] amplitudes = null;
         if ( molecule == MOLECULE1 ) {

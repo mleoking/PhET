@@ -133,7 +133,7 @@ public class ShaperApplication extends PhetApplication {
     //----------------------------------------------------------------------------
 
     /**
-     * Main entry point for the PhET "Optical Pulse Shaper" application.
+     * Main entry point.
      * 
      * @param args command line arguments
      */

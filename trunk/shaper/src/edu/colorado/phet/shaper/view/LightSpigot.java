@@ -22,33 +22,65 @@ import edu.colorado.phet.shaper.ShaperConstants;
 
 
 /**
- * LightSpigot
+ * LightSpigot is the place were light exists the "input pulse viewer"
+ * and enters the "output pulse viewer".  It looks sort of like a nose
+ * with one nostril.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class LightSpigot extends CompositePhetGraphic {
 
-    private static final Color SPIGOT_COLOR = ShaperConstants.COMMON_GRAY;
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
     
+    private static final int WIDTH = 50;
+    private static final int HEIGHT = 100;
+    private static final Color SPIGOT_COLOR = ShaperConstants.COMMON_GRAY;
+    private static final Color HOLE_COLOR = Color.BLACK;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sole constructor.
+     * 
+     * @param component
+     */
     public LightSpigot( Component component ) {
 
+        /**
+         * Path that defines the shape, (0,0) at top right.
+         * 
+         *              /|
+         *             / |
+         *            /  |
+         *           /   |
+         *          /    |
+         *         +-----+
+         */
         PhetShapeGraphic lightSpigot = new PhetShapeGraphic( component );
         GeneralPath path = new GeneralPath();
         path.moveTo( 0, 0 );
-        path.lineTo( 0, 100 );
-        path.lineTo( -50, 100 );
+        path.lineTo( 0, HEIGHT );
+        path.lineTo( -WIDTH, HEIGHT );
         path.closePath();
         lightSpigot.setShape( path );
         lightSpigot.setPaint( SPIGOT_COLOR );
         addGraphic( lightSpigot, 0 );
         lightSpigot.setLocation( 0, 0 );
 
+        /**
+         * Hole that light will pass through.
+         * Places at the bottom of the triangle shape.
+         */
         PhetShapeGraphic hole = new PhetShapeGraphic( component );
-        hole.setShape( new Ellipse2D.Double( 0, 0, 30, 10 ) );
-        hole.setPaint( Color.BLACK );
+        hole.setShape( new Ellipse2D.Double( 0, 0, (.6 * WIDTH), (.1 * HEIGHT) ) );
+        hole.setPaint( HOLE_COLOR );
         addGraphic( hole, 1 );
         hole.centerRegistrationPoint();
-        hole.setLocation( -20, 90 );
+        hole.setLocation( (int) -(.4 * WIDTH), (int) (.9 * HEIGHT) );
     }
 }

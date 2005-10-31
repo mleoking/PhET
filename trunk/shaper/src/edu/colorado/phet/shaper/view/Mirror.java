@@ -20,17 +20,30 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
 
 /**
- * Mirror
+ * Mirror is the graphical representation of a mirror.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class Mirror extends PhetShapeGraphic {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final int WIDTH = 320;
     private static final int HEIGHT = 50;
     private static final Color COLOR = Color.LIGHT_GRAY;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sole constructor.
+     * 
+     * @param component
+     */
     public Mirror( Component component ) {
         super( component);
        

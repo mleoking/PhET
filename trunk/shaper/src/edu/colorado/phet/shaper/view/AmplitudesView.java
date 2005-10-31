@@ -200,18 +200,6 @@ public class AmplitudesView extends GraphicLayerSet implements SimpleObserver {
         _previousNumberOfHarmonics = 0; // force an update
         update();
     }
-
-    //----------------------------------------------------------------------------
-    // Accessors
-    //----------------------------------------------------------------------------
-    
-    public ArrayList getSliders() {
-        return _sliders;
-    }
-    
-    public FourierSeries getFourierSeries() {
-        return _fourierSeries;
-    }
     
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
