@@ -38,6 +38,7 @@ public class EC3RootNode extends PhetRootPNode {
     private static final boolean DEFAULT_PIE_CHART_VISIBLE = false;
     private PNode pieCharts = new PNode();
     private OffscreenManIndicator offscreenManIndicator;
+    private boolean ignoreThermal = true;
 
     public EC3RootNode( EC3Module ec3Module, EC3Canvas ec3Canvas ) {
         this.ec3Module = ec3Module;
@@ -75,6 +76,7 @@ public class EC3RootNode extends PhetRootPNode {
 
     public void initPieChart() {
         PieChartIndicator pieChartIndicator = new PieChartIndicator( ec3Module, bodyGraphicAt( 0 ) );
+        pieChartIndicator.setIgnoreThermal( ignoreThermal );
         pieCharts.addChild( pieChartIndicator );
     }
 
@@ -262,4 +264,15 @@ public class EC3RootNode extends PhetRootPNode {
     }
 
 
+    public boolean getIgnoreThermal() {
+        return ignoreThermal;
+    }
+
+    public void setIgnoreThermal( boolean selected ) {
+        this.ignoreThermal = selected;
+        for( int i = 0; i < pieCharts.getChildrenCount(); i++ ) {
+            PieChartIndicator pieChartIndicator = (PieChartIndicator)pieCharts.getChild( i );
+            pieChartIndicator.setIgnoreThermal( ignoreThermal );
+        }
+    }
 }

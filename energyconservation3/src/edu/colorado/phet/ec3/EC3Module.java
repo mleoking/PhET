@@ -218,4 +218,8 @@ public class EC3Module extends PiccoloModule {
             body.setFrictionCoefficient( value );
         }
     }
+
+    public void clearHeat() {
+        getEnergyConservationModel().clearHeat();
+    }
 }

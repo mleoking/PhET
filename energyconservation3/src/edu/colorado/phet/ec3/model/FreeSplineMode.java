@@ -68,8 +68,8 @@ public class FreeSplineMode extends ForceMode {
             model.addThermalEnergy( -dE );
             double finalTotalEnergyAll = model.getTotalEnergy( body ) + model.getThermalEnergy();
             double origTotalEnergyAll = origTotalEnergy + origHeat;
-            System.out.println( "origTotalEnergyAll = " + origTotalEnergyAll );
-            System.out.println( "finalTotalEnergyAll = " + finalTotalEnergyAll );
+//            System.out.println( "origTotalEnergyAll = " + origTotalEnergyAll );
+//            System.out.println( "finalTotalEnergyAll = " + finalTotalEnergyAll );
             new EnergyConserver().fixEnergy( model, body, origTotalEnergyAll - model.getThermalEnergy() );//todo enhance energy conserver with thermal changes.
         }
 //        if( getFrictionForce( model, segment ).getMagnitude() == 0 ) {
