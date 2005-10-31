@@ -4,6 +4,8 @@ package edu.colorado.phet.ec3;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.ClockTickEvent;
+import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
 import edu.colorado.phet.ec3.model.Floor;
@@ -14,6 +16,7 @@ import edu.colorado.phet.ec3.view.SplineGraphic;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
 import edu.colorado.phet.timeseries.TimeSeriesPlaybackPanel;
+import edu.umd.cs.piccolo.util.PBounds;
 
 import javax.swing.*;
 import java.awt.*;
@@ -78,6 +81,20 @@ public class EC3Module extends PiccoloModule {
 
         init();
         timeSeriesPlaybackPanel = new TimeSeriesPlaybackPanel( energyTimeSeriesModel );
+
+        getClock().addClockTickListener( new ClockTickListener() {
+            public void clockTicked( ClockTickEvent event ) {
+                //set zoom related to speed
+                //set center on player.
+                EC3RootNode rootNode = energyCanvas.getRootNode();
+                if( rootNode.numBodyGraphics() > 0 ) {
+                    BodyGraphic bodyGraphic = rootNode.bodyGraphicAt( 0 );
+                    PBounds bodyBounds = bodyGraphic.getGlobalFullBounds();
+                    rootNode.globalToLocal( bodyBounds );
+                    rootNode.translateWorld( -bodyBounds.getX() + energyCanvas.getWidth() / 2, -bodyBounds.getY() + energyCanvas.getHeight() / 2 );
+                }
+            }
+        } );
     }
 
     private void setDefaults() {

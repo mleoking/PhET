@@ -53,7 +53,7 @@ public class SplineToolbox extends PNode {
         PropertyChangeListener listener = new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 centerTheNode();
-                System.out.println( "System.currentTimeMillis() = " + System.currentTimeMillis() );
+//                System.out.println( "System.currentTimeMillis() = " + System.currentTimeMillis() );
             }
         };
         ec3RootNode.getWorldNode().addPropertyChangeListener( PNode.PROPERTY_TRANSFORM, listener );
@@ -73,9 +73,7 @@ public class SplineToolbox extends PNode {
         currentIcon.globalToLocal( globalDX );
 
         currentIcon.getSplineSurface().translate( globalDX.getWidth() / 2, globalDX.getHeight() / 2 );
-        currentIcon.forceUpdate();
         currentIcon.updateAll();
-
     }
 
     private void addToRoot( SplineGraphic splineGraphic ) {

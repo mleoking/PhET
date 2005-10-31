@@ -235,7 +235,7 @@ public class EC3RootNode extends PhetRootPNode {
         bodyGraphics.removeChild( bodyGraphic );
     }
 
-    private int numBodyGraphics() {
+    public int numBodyGraphics() {
         return bodyGraphics.getChildrenCount();
     }
 
@@ -260,4 +260,6 @@ public class EC3RootNode extends PhetRootPNode {
     public void setPieChartVisible( boolean selected ) {
         pieCharts.setVisible( selected );
     }
+
+
 }
