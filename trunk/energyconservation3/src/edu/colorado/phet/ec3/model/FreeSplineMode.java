@@ -48,7 +48,7 @@ public class FreeSplineMode extends ForceMode {
         rotateBody( body, segment );
 
         AbstractVector2D netForce = computeNetForce( model, segment );
-        System.out.println( "netForce = " + netForce );
+//        System.out.println( "netForce = " + netForce );
         super.setNetForce( netForce );
         super.stepInTime( model, body, dt );
 
@@ -225,13 +225,8 @@ public class FreeSplineMode extends ForceMode {
 
     private AbstractVector2D getNormalForce( EnergyConservationModel model, Segment segment ) {
         if( segment.getUnitNormalVector().dot( getGravityForce( model ) ) < 0 ) {
-
-            System.out.println( "getFGy( model ) = " + getFGy( model ) );
-            System.out.println( "Math.cos( segment.getAngle()) = " + Math.cos( segment.getAngle() ) );
             AbstractVector2D normalForce = segment.getUnitNormalVector().getScaledInstance( getFGy( model ) * Math.cos( segment.getAngle() ) );
-            System.out.println( "normalForce = " + normalForce );
             return normalForce;
-//        return segment.getUnitNormalVector().getScaledInstance( -getFGy( model ) * Math.cos( segment.getAngle() ) );
         }
         else {
             return new ImmutableVector2D.Double();

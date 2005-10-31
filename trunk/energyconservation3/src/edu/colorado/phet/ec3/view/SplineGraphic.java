@@ -82,12 +82,14 @@ public class SplineGraphic extends PNode {
         pathLayer.addInputEventListener( new PopupMenuHandler( ec3Canvas, new PathPopupMenu( ec3Canvas ) ) );
     }
 
-    public PBasicInputEventHandler getDragHandler() {
-        return dragHandler;
-    }
+//    public PBasicInputEventHandler getDragHandler() {
+//        return dragHandler;
+//    }
 
     private void dragSpline( PInputEvent event ) {
-        translateAll( event.getDeltaRelativeTo( SplineGraphic.this ).width, event.getDeltaRelativeTo( SplineGraphic.this ).height );
+        Point2D.Double tx = new Point2D.Double( event.getDeltaRelativeTo( SplineGraphic.this ).width, event.getDeltaRelativeTo( SplineGraphic.this ).height );
+//        Point2D.Double tx = new Point2D.Double( event.getCanvasDelta().width, event.getCanvasDelta().height );
+        translateAll( tx );
         proposeMatchesTrunk();
         updateAll();
     }
@@ -164,6 +166,10 @@ public class SplineGraphic extends PNode {
         Point2D toMatch = new Point2D.Double( initDragSpline[index].getX(), initDragSpline[index].getY() );
         SplineMatch match = ec3Canvas.proposeMatch( this, toMatch );
         return match;
+    }
+
+    private void translateAll( Point2D pt ) {
+        translateAll( pt.getX(), pt.getY() );
     }
 
     private void translateAll( double dx, double dy ) {

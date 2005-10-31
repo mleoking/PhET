@@ -201,7 +201,7 @@ public abstract class AbstractSpline implements Cloneable {
         setAllDirty();
     }
 
-    public void setReverseSpline( AbstractSpline spline ) {
-//        this.reverseSpline = spline;
-    }
+//    public void setReverseSpline( AbstractSpline spline ) {
+////        this.reverseSpline = spline;
+//    }
 }
