@@ -14,6 +14,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -44,10 +45,11 @@ public class EC3RootNode extends PhetRootPNode {
         EnergyConservationModel ec3Model = getModel();
         Floor floor = ec3Model.floorAt( 0 );
 
-
         addLayer();
         addLayer();
-        layerAt( 0 ).getWorldNode().addChild( new SkyGraphic( floor.getY() ) );
+        ec3Canvas.setBackground( new Color( 170, 200, 220 ) );
+//        layerAt( 0 ).getWorldNode().addChild( new SkyGraphic( floor.getY() ) );
+//        layerAt( 0 ).getScreenNode().addChild( new SkyGraphic( floor.getY() ) );
         layerAt( 0 ).getWorldNode().addChild( new FloorGraphic( floor ) );
 
         final SplineToolbox splineToolbox = new SplineToolbox( ec3Canvas, this );
@@ -56,11 +58,6 @@ public class EC3RootNode extends PhetRootPNode {
         layerAt( 1 ).getWorldNode().addChild( bodyGraphics );
         layerAt( 1 ).getWorldNode().addChild( historyGraphics );
 
-        ec3Model.addEnergyModelListener( new EnergyConservationModel.EnergyModelListener() {
-            public void preStep( double dt ) {
-                splineToolbox.centerTheNode();
-            }
-        } );
         double coordScale = 1.0 / 55.0;
         measuringTape = new MeasuringTape( coordScale, new Point2D.Double( 100, 100 ), getWorldNode() );
         layerAt( 1 ).getScreenNode().addChild( measuringTape );

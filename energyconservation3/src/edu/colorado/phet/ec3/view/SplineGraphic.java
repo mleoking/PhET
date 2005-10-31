@@ -106,8 +106,11 @@ public class SplineGraphic extends PNode {
         this.splineSurface = splineSurface;
         this.spline = splineSurface.getTop();
         this.reverse = splineSurface.getBottom();
-        lastRenderState = null;//to force update
         updateAll();
+    }
+
+    public void forceUpdate() {
+        lastRenderState = null;
     }
 
     class PathPopupMenu extends JPopupMenu {
