@@ -207,7 +207,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         _closenessGraphic.setColor( Color.BLACK );
         _closenessGraphic.setFont( new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 18 ) );
         _closenessFormat = SimStrings.get( "closenessReadout" );
-        Object[] args = { "00" };
+        Object[] args = { "-00" };
         String text = MessageFormat.format( _closenessFormat, args );
         _closenessGraphic.setHTML( text );
         addGraphic( _closenessGraphic );
@@ -305,7 +305,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
      * Sets the "closeness", which determines how fast the molecule 
      * is vibrating, and what value appears in the closeness read-out.
      * 
-     * @param closeness  0-1, 0=farthest away, 1.0=exact match
+     * @param closeness  -1...+1, -1=farthest away, +1=exact match
      * @throws IllegalArgumentException if closeness is out of range
      */
     private void setCloseness( double closeness ) {
@@ -313,7 +313,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         _closeness = closeness;
         
         // Set the "How close am I?" label.
-        if ( closeness < 0 || closeness > 1 ) {
+        if ( closeness < -1 || closeness > 1 ) {
             throw new IllegalArgumentException( "closeness is out of range: " + closeness );
         }
         int percent = (int)( 100 * closeness );
@@ -387,7 +387,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
             _dx3 = _closeness * _closeness * MAX_DISTANCE * Math.cos( theta3 );
             _dy3 = _closeness * _closeness * MAX_DISTANCE * Math.sin( theta3 );
         }
-        else {
+        else if ( _closeness > 0 ) {
             /*
              * We're not close enough to be considered a "match", 
              * so randomly move the molecule around so that it appears 
@@ -454,9 +454,6 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
                 denominator += Math.pow( outputAmplitude, 2 );
             }
             double closeness = 1.0 - ( Math.sqrt( numerator ) / Math.sqrt( denominator ) );
-            if ( closeness < 0 ) {
-                closeness = 0;
-            }
 
             // Update the animation
             setCloseness( closeness );
