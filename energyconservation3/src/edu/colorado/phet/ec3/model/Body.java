@@ -264,4 +264,8 @@ public class Body {
     public double getFrictionCoefficient() {
         return frictionCoefficient;
     }
+
+    public void setFrictionCoefficient( double value ) {
+        this.frictionCoefficient = value;
+    }
 }
