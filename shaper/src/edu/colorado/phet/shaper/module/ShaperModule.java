@@ -133,7 +133,7 @@ public class ShaperModule extends AbstractModule implements ActionListener {
             _newButton.addActionListener( this );
             PhetGraphic newButtonGraphic = PhetJComponent.newInstance( apparatusPanel, _newButton );
             newButtonGraphic.setRegistrationPoint( newButtonGraphic.getWidth(), 0 );
-            newButtonGraphic.setLocation( 995, 490 ); // upper right, for i18n
+            newButtonGraphic.setLocation( 1000, 490 ); // upper right, for i18n
             apparatusPanel.addGraphic( newButtonGraphic );
         }
         
@@ -254,19 +254,19 @@ public class ShaperModule extends AbstractModule implements ActionListener {
         
         // Help Items
         HelpBubble slidersHelp = new HelpBubble( apparatusPanel, SimStrings.get( "Help.amplitude.sliders" ) );
-        slidersHelp.pointAt( new Point( 235, 420 ), HelpBubble.TOP_CENTER, 30 );
+        slidersHelp.pointAt( new Point( 125, 415 ), HelpBubble.TOP_LEFT, 40 );
         addHelpItem( slidersHelp );
         
         HelpBubble textfieldsHelp = new HelpBubble( apparatusPanel, SimStrings.get( "Help.amplitude.textfields" ) );
-        textfieldsHelp.pointAt( new Point( 222, 273 ), HelpBubble.BOTTOM_LEFT, 30 );
+        textfieldsHelp.pointAt( new Point( 146, 273 ), HelpBubble.BOTTOM_LEFT, 30 );
         addHelpItem( textfieldsHelp );
         
         HelpBubble resetHelp = new HelpBubble( apparatusPanel, SimStrings.get( "Help.amplitude.reset" ) );
-        resetHelp.pointAt( new Point( 47, 256 ), HelpBubble.BOTTOM_LEFT, 60 );
+        resetHelp.pointAt( new Point( 47, 256 ), HelpBubble.BOTTOM_LEFT, 80 );
         addHelpItem( resetHelp );
         
         HelpBubble newPulseHelp = new HelpBubble( apparatusPanel, SimStrings.get( "Help.newPulse" ) );
-        newPulseHelp.pointAt( new Point( 930, 495 ), HelpBubble.BOTTOM_RIGHT, 30 );
+        newPulseHelp.pointAt( new Point( 970, 495 ), HelpBubble.BOTTOM_RIGHT, 30 );
         addHelpItem( newPulseHelp );
         
         //----------------------------------------------------------------------------

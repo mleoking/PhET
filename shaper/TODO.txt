@@ -12,14 +12,13 @@ HIGH PRIORITY:
 
 
 MEDIUM PRIORITY:
-- FourierSumPlot should observe its FourierSeries
 - resize the molecule graphics that are currently scaled
 - resize kaboom graphic
-- Spanish translations
 - make amplitude sliders 254 pixels tall so that every value can be achieved by dragging
 
 
 LOW PRIORITY:
+- FourierSumPlot should observe its FourierSeries
 
 
 NEW FEATURES:
@@ -45,6 +44,9 @@ PHETCOMMON:
 
 
 DONE:
+(10/31/05) - adjust locations of help items to fix some i18n layout issues
+(10/31/05) - Spanish translations
+(10/31/05) - move PulseChart to shaper.charts
 (10/31/05) - document all code
 0.0.4 ...
 (10/28/05) - remove unused entries in SimStrings file
