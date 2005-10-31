@@ -11,6 +11,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PPickPath;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -26,13 +27,46 @@ import java.awt.geom.Rectangle2D;
 public class SplineToolbox extends PNode {
     private EC3Canvas ec3Canvas;
     private PText textGraphic;
+    private int x;
+    private int y;
+    private PBasicInputEventHandler creator;
+    private PBasicInputEventHandler delegator;
+    private SplineGraphic dummySplineGraphic;
 
-    public SplineToolbox( EC3Canvas ec3Canvas, int x, int y ) {
+    public SplineToolbox( final EC3Canvas ec3Canvas, int x, int y ) {
         this.ec3Canvas = ec3Canvas;
+        this.x = x;
+        this.y = y;
+        dummySplineGraphic = createSpline();
+        dummySplineGraphic.disableDragControlPoints();
+        dummySplineGraphic.disableDragHandler();
 
-        SplineGraphic dummy = createDummySpline( x, y );
+        creator = new PBasicInputEventHandler() {
+            public void mouseDragged( PInputEvent event ) {
+                dummySplineGraphic.removeInputEventListener( this );
 
-        PPath boundGraphic = new PPath( getExpandBounds( dummy, 20, 20 ) );
+
+                SplineGraphic newSplineGraphic = createSpline();
+                ec3Canvas.getEnergyConservationModel().addSplineSurface( newSplineGraphic.getSplineSurface() );
+                ec3Canvas.addSplineGraphic( newSplineGraphic );
+                dummySplineGraphic.addInputEventListener( new Delegator( newSplineGraphic ) );
+                System.out.println( "Added newSplineGraphic@" + System.currentTimeMillis() );
+
+                PPickPath oldPath = event.getPath();
+                PPickPath newPath = new PPickPath( oldPath.getTopCamera(), oldPath.getPickBounds() );
+
+                PNode node = newSplineGraphic;
+                while( node != null ) {
+                    newPath.pushNode( node );
+                    node = node.getParent();
+                }
+
+                dummySplineGraphic.getRoot().getDefaultInputManager().setMouseFocus( newPath );
+            }
+        };
+        dummySplineGraphic.addInputEventListener( creator );
+
+        PPath boundGraphic = new PPath( getExpandBounds( dummySplineGraphic, 20, 20 ) );
         boundGraphic.setStroke( new BasicStroke( 2 ) );
         boundGraphic.setStrokePaint( Color.blue );
         boundGraphic.setPaint( Color.yellow );
@@ -41,7 +75,33 @@ public class SplineToolbox extends PNode {
         textGraphic.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
         textGraphic.setOffset( boundGraphic.getFullBounds().getX() + 5, boundGraphic.getFullBounds().getY() + 2 );
         addChild( textGraphic );
-        addChild( dummy );
+        addChild( dummySplineGraphic );
+    }
+
+    private class Delegator extends PBasicInputEventHandler {
+        private SplineGraphic newSplineGraphic;
+
+        public Delegator( SplineGraphic newSplineGraphic ) {
+            this.newSplineGraphic = newSplineGraphic;
+        }
+
+        public void mouseDragged( PInputEvent event ) {
+            getHandler().mouseDragged( event );
+        }
+
+        private PBasicInputEventHandler getHandler() {
+            return newSplineGraphic.getDragHandler();
+        }
+
+        public void mouseReleased( PInputEvent event ) {
+            getHandler().mouseReleased( event );
+            dummySplineGraphic.removeInputEventListener( this );
+            dummySplineGraphic.addInputEventListener( creator );
+        }
+
+        public void mousePressed( PInputEvent event ) {
+            getHandler().mousePressed( event );
+        }
     }
 
     private Rectangle2D getExpandBounds( PNode src, int insetX, int insetY ) {
@@ -63,7 +123,7 @@ public class SplineToolbox extends PNode {
         return rect;
     }
 
-    private SplineGraphic createDummySpline( final int x, final int y ) {
+    private SplineGraphic createSpline() {
         AbstractSpline spline = new CubicSpline( EC3Canvas.NUM_CUBIC_SPLINE_SEGMENTS );
 
         spline.addControlPoint( 0, 0 );
@@ -72,17 +132,7 @@ public class SplineToolbox extends PNode {
         spline.translate( x, y );
         SplineSurface surface = new SplineSurface( spline );
         final SplineGraphic splineGraphic = new SplineGraphic( ec3Canvas, surface );
-        splineGraphic.disableDragControlPoints();
-        splineGraphic.addInputEventListener( new PBasicInputEventHandler() {
-            public void mouseDragged( PInputEvent event ) {
-                SplineGraphic dummy = createDummySpline( x, y );
-                addChild( dummy );
-                splineGraphic.removeInputEventListener( this );
-                System.out.println( "Added dummy@" + System.currentTimeMillis() );
-                ec3Canvas.addSplineGraphic( splineGraphic );
-                ec3Canvas.getEnergyConservationModel().addSplineSurface( splineGraphic.getSplineSurface() );
-            }
-        } );
+
         return splineGraphic;
     }
 }
