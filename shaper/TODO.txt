@@ -45,6 +45,7 @@ PHETCOMMON:
 
 
 DONE:
+(10/31/05) - add description to About dialog
 (10/31/05) - made the amplitude sliders as tall as possible (190 pixels)
 (10/31/05) - adjust locations of help items to fix some i18n layout issues
 (10/31/05) - Spanish translations
