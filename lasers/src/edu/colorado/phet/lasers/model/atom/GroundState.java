@@ -61,7 +61,7 @@ public class GroundState extends AtomicState {
      * @param photon
      */
     public void collideWithPhoton( Atom atom, Photon photon ) {
-
+/*
         // If this state hasn't been yet enabled to be stimulated by a photon that would bump it to the
         // next highest energy level, don't do anything.
 //        double de = getNextHigherEnergyState().getEnergyLevel() - this.getEnergyLevel();
@@ -72,7 +72,7 @@ public class GroundState extends AtomicState {
             return;
 //            }
         }
-        
+*/
         super.collideWithPhoton( atom, photon );
     }
 
@@ -81,13 +81,13 @@ public class GroundState extends AtomicState {
     }
 
     public void enterState( Atom atom ) {
-        Thread t = new Thread( new MinLifetimeTimer( atom ) );
-        t.start();
+//        Thread t = new Thread( new MinLifetimeTimer( atom ) );
+//        t.start();
         super.enterState( atom );
     }
 
     public void leaveState( Atom atom ) {
-        atomToPhotonCollisionEnabledFlag.put( atom, new Boolean( false ) );
+//        atomToPhotonCollisionEnabledFlag.put( atom, new Boolean( false ) );
         super.leaveState( atom );
     }
 

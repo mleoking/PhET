@@ -23,7 +23,6 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
@@ -512,5 +511,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
 
     public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
         s_instances.remove( this );
+//        photon.removeLeftSystemListener( this );
+        photon = null;
     }
 }

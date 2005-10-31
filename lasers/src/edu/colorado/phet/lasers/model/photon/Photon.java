@@ -134,7 +134,6 @@ public class Photon extends Particle implements Collidable {
     protected Photon() {
         collidableAdapter = new CollidableAdapter( this );
         setVelocity( SPEED, 0 );
-        //        setMass( 1 );
     }
 
     /**
@@ -143,12 +142,8 @@ public class Photon extends Particle implements Collidable {
      * again. This helps prevent us from flogging the heap.
      */
     public void removeFromSystem() {
-        try {
-            leftSystemListenerProxy.leftSystemEventOccurred( new LeftSystemEvent() );
-        }
-        catch( Throwable t ) {
-            System.out.println( "t = " + t );
-        }
+        leftSystemListenerProxy.leftSystemEventOccurred( new LeftSystemEvent() );
+        this.removeAllLeftSystemListeners();
         this.removeAllObservers();
     }
 
@@ -245,6 +240,10 @@ public class Photon extends Particle implements Collidable {
 
     public void removeLeftSystemListener( LeftSystemEventListener listener ) {
         leftSystemEventChannel.removeListener( listener );
+    }
+
+    void removeAllLeftSystemListeners() {
+        leftSystemEventChannel.removeAllListeners();
     }
 
 
