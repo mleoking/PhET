@@ -75,13 +75,11 @@ public class SplineToolbox extends PNode {
         splineGraphic.disableDragControlPoints();
         splineGraphic.addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
-                super.mouseDragged( event );
                 SplineGraphic dummy = createDummySpline( x, y );
                 addChild( dummy );
                 splineGraphic.removeInputEventListener( this );
                 System.out.println( "Added dummy@" + System.currentTimeMillis() );
                 ec3Canvas.addSplineGraphic( splineGraphic );
-//                ec3Canvas.getEnergyConservationModel().addSpline( splineGraphic.getSpline(), splineGraphic.getReverseSpline() );
                 ec3Canvas.getEnergyConservationModel().addSplineSurface( splineGraphic.getSplineSurface() );
             }
         } );
