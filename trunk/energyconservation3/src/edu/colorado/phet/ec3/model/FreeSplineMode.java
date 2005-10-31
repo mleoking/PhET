@@ -174,6 +174,7 @@ public class FreeSplineMode extends ForceMode {
 //        System.out.println( "overshoot = " + overshoot );
         EC3Debug.debug( "overshoot = " + overshoot );
         overshoot -= 2;//hang in there
+//        overshoot -= 1;//hang in there
         if( overshoot > 0 ) {
             AbstractVector2D tx = segment.getUnitNormalVector().getScaledInstance( overshoot );
             body.translate( tx.getX(), tx.getY() );
@@ -213,8 +214,7 @@ public class FreeSplineMode extends ForceMode {
     }
 
     private double getFGy( EnergyConservationModel model ) {
-        double fgy = model.getGravity() * body.getMass();
-        return fgy;
+        return model.getGravity() * body.getMass();
     }
 
     private AbstractVector2D getFrictionForce( EnergyConservationModel model, Segment segment ) {
@@ -224,7 +224,18 @@ public class FreeSplineMode extends ForceMode {
     }
 
     private AbstractVector2D getNormalForce( EnergyConservationModel model, Segment segment ) {
-        return segment.getUnitNormalVector().getScaledInstance( getFGy( model ) * Math.cos( segment.getAngle() ) );
+        if( segment.getUnitNormalVector().dot( getGravityForce( model ) ) < 0 ) {
+
+            System.out.println( "getFGy( model ) = " + getFGy( model ) );
+            System.out.println( "Math.cos( segment.getAngle()) = " + Math.cos( segment.getAngle() ) );
+            AbstractVector2D normalForce = segment.getUnitNormalVector().getScaledInstance( getFGy( model ) * Math.cos( segment.getAngle() ) );
+            System.out.println( "normalForce = " + normalForce );
+            return normalForce;
+//        return segment.getUnitNormalVector().getScaledInstance( -getFGy( model ) * Math.cos( segment.getAngle() ) );
+        }
+        else {
+            return new ImmutableVector2D.Double();
+        }
     }
 
     private double getFrictionCoefficient() {

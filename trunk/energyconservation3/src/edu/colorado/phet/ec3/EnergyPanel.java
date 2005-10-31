@@ -2,10 +2,14 @@
 package edu.colorado.phet.ec3;
 
 import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.view.components.ModelSlider;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 
 /**
  * User: Sam Reid
@@ -85,7 +89,13 @@ public class EnergyPanel extends ControlPanel {
         } );
         addControl( showBarChart );
 
-
+        final ModelSlider modelSlider = new ModelSlider( "Coefficient of Friction", "", 0, 1, 0, new DecimalFormat( "0.0" ) );
+        modelSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                module.setCoefficientOfFriction( modelSlider.getValue() );
+            }
+        } );
+        addControl( modelSlider );
     }
 
     private void resetSkater() {

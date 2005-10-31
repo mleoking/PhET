@@ -210,4 +210,10 @@ public class EC3Module extends PiccoloModule {
         barChartFrame.setVisible( b );
     }
 
+    public void setCoefficientOfFriction( double value ) {
+        for( int i = 0; i < getEnergyConservationModel().numBodies(); i++ ) {
+            Body body = getEnergyConservationModel().bodyAt( i );
+            body.setFrictionCoefficient( value );
+        }
+    }
 }
