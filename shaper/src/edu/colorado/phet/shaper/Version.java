@@ -20,9 +20,9 @@ package edu.colorado.phet.shaper;
  */
 public class Version {
   
-    public static final String NUMBER = "0.0.4";
+    public static final String NUMBER = "0.0.5";
     
-    public static final String CVS_TAG = "shaper-0-0-4-2005-10-28";
+    public static final String CVS_TAG = "shaper-0-0-5-2005-10-31";
     
     /* This class is not intended for instantiation. */
     private Version() {}
