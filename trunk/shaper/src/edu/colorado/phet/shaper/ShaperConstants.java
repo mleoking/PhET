@@ -83,7 +83,7 @@ public class ShaperConstants {
     
     public static final int MIN_HARMONICS = 1;
     public static final int MAX_HARMONICS = 7;
-    public static final double MAX_HARMONIC_AMPLITUDE = ( 4 / Math.PI );
+    public static final double MAX_HARMONIC_AMPLITUDE = 1.0;
     
     /** Arbitrary value for the length (L) of the fundamental harmonic */
     public static final double L = 1.0;

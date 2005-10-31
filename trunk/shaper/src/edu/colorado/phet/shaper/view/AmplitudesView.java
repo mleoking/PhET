@@ -133,7 +133,7 @@ public class AmplitudesView extends GraphicLayerSet implements SimpleObserver {
             chartGraphic.setRegistrationPoint( 0, 0 );
 
             int xOffset = 25; // distance between the left edge and the chart's origin.
-            int yOffset = 0;
+            int yOffset = 10;
             _flattenedChart = new FlattenedChart( component, chartGraphic, xOffset, yOffset );
             addGraphic( _flattenedChart, CHART_LAYER );
             _flattenedChart.setRegistrationPoint( xOffset, CHART_SIZE.height / 2 ); // at the chart's origin
@@ -243,7 +243,7 @@ public class AmplitudesView extends GraphicLayerSet implements SimpleObserver {
 
                 // Slider location.
                 int x = _flattenedChart.getLocation().x + ( ( i + 1 ) * SLIDER_SPACING ) + ( i * barWidth ) + ( barWidth / 2 );
-                int y = _flattenedChart.getLocation().y;
+                int y = _flattenedChart.getLocation().y + 10;
                 slider.setLocation( x, y );
                 
                 _previousNumberOfHarmonics = numberOfHarmonics;
