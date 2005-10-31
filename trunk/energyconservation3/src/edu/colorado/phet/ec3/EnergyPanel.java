@@ -65,13 +65,8 @@ public class EnergyPanel extends ControlPanel {
         } );
         addControl( measuringTape );
 
-        final JCheckBox pieChart = new JCheckBox( "Pie Chart", module.isPieChartVisible() );
-        pieChart.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.setPieChartVisible( pieChart.isSelected() );
-            }
-        } );
-        addControl( pieChart );
+        final JPanel piePanel = new PieChartPanel( module, this );
+        addControlFullWidth( piePanel );
 
         final JButton showChart = new JButton( "Show Plot" );
         showChart.addActionListener( new ActionListener() {
@@ -96,6 +91,14 @@ public class EnergyPanel extends ControlPanel {
             }
         } );
         addControl( modelSlider );
+
+        final JButton clearHeat = new JButton( "Clear Heat" );
+        clearHeat.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.clearHeat();
+            }
+        } );
+        addControl( clearHeat );
     }
 
     private void resetSkater() {

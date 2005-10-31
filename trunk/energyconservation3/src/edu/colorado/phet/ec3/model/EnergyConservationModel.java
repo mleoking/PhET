@@ -57,6 +57,10 @@ public class EnergyConservationModel {
         return getPotentialEnergy( body ) + body.getKineticEnergy();
     }
 
+    public void clearHeat() {
+        thermalEnergy = 0.0;
+    }
+
     static interface EnergyConservationModelListener {
         public void numBodiesChanged();
 

@@ -23,6 +23,7 @@ public class PieChartIndicator extends PNode {
     private EC3Module module;
     private BodyGraphic bodyGraphic;
     private double dy = 25;
+    private boolean ignoreThermal;
 
     public PieChartIndicator( EC3Module module, BodyGraphic body ) {
         this.module = module;
@@ -45,7 +46,7 @@ public class PieChartIndicator extends PNode {
             globalToLocal( pt );
 //            Point2D pt=gfb.getOrigin();
 
-            double totalEnergy = getModel().getTotalEnergy( body ) + getModel().getThermalEnergy();
+            double totalEnergy = getTotalEnergy( body );
             double area = totalEnergy / 1000 * 3.5;
 
             double radius = Math.sqrt( area / Math.PI );
@@ -55,6 +56,15 @@ public class PieChartIndicator extends PNode {
         }
         else {
             return new Rectangle( 10, 10 );
+        }
+    }
+
+    private double getTotalEnergy( Body body ) {
+        if( ignoreThermal ) {
+            return getModel().getTotalEnergy( body );
+        }
+        else {
+            return getModel().getTotalEnergy( body ) + getModel().getThermalEnergy();
         }
     }
 
@@ -68,11 +78,18 @@ public class PieChartIndicator extends PNode {
             double ke = body.getKineticEnergy();
             double pe = module.getEnergyConservationModel().getPotentialEnergy( body );
             double therm = module.getEnergyConservationModel().getThermalEnergy();
+
             PieChartNode.PieValue[] values = new PieChartNode.PieValue[]{
                 new PieChartNode.PieValue( ke, getLookAndFeel().getKEColor() ),
                 new PieChartNode.PieValue( pe, getLookAndFeel().getPEColor() ),
                 new PieChartNode.PieValue( therm, getLookAndFeel().getThermalEnergyColor() )
             };
+            if( ignoreThermal ) {
+                values = new PieChartNode.PieValue[]{
+                    new PieChartNode.PieValue( ke, getLookAndFeel().getKEColor() ),
+                    new PieChartNode.PieValue( pe, getLookAndFeel().getPEColor() ),
+                };
+            }
             // new PieChartNode.PieValue( 20, Color.pink ), new PieChartNode.PieValue( 15, Color.blue )};
             return values;
         }
@@ -90,4 +107,8 @@ public class PieChartIndicator extends PNode {
         pieChartNode.setPieValues( createPieValues() );
     }
 
+    public void setIgnoreThermal( boolean ignoreThermal ) {
+        this.ignoreThermal = ignoreThermal;
+        update();
+    }
 }
