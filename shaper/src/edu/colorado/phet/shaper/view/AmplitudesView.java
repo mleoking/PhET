@@ -56,7 +56,7 @@ public class AmplitudesView extends GraphicLayerSet implements SimpleObserver {
     private static final double BUTTONS_LAYER = 5;
     
     // Background parameters
-    private static final Dimension BACKGROUND_SIZE = new Dimension( 355, 255 );
+    private static final Dimension BACKGROUND_SIZE = new Dimension( 355, 265 );
     private static final Color BACKGROUND_COLOR = new Color( 195, 195, 195 );
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
@@ -71,7 +71,7 @@ public class AmplitudesView extends GraphicLayerSet implements SimpleObserver {
     private static final double Y_MIN = -ShaperConstants.MAX_HARMONIC_AMPLITUDE;
     private static final double Y_MAX = +ShaperConstants.MAX_HARMONIC_AMPLITUDE;
     private static final Range2D CHART_RANGE = new Range2D( X_MIN, Y_MIN, X_MAX, Y_MAX );
-    private static final Dimension CHART_SIZE = new Dimension( 275, 190 );
+    private static final Dimension CHART_SIZE = new Dimension( 275, 200 );
     
     // Sliders parameters
     private static final int SLIDER_SPACING = 10; // space between sliders
