@@ -50,11 +50,13 @@ public class BeamCurtainGraphic extends PhetShapeGraphic implements PhotonSource
         return beamArea.getBounds();
     }
 
+    int colorMax = 255;
+
     private void update() {
         Color baseColor = VisibleColor.wavelengthToColor( beam.getWavelength() );
         int minLevel = 200;
         // The power function here controls the ramp-up of actualColor intensity
-        int level = Math.max( minLevel, 255 - (int)( ( 255 - minLevel ) * Math.pow( ( beam.getPhotonsPerSecond() / beam.getMaxPhotonsPerSecond() ), .6 ) ) );
+        int level = Math.max( minLevel, colorMax - (int)( ( colorMax - minLevel ) * Math.pow( ( beam.getPhotonsPerSecond() / beam.getMaxPhotonsPerSecond() ), .3 ) ) );
         actualColor = getActualColor( baseColor, level );
         beamArea = beam.getBounds();
         setShape( beamArea );
@@ -72,7 +74,7 @@ public class BeamCurtainGraphic extends PhetShapeGraphic implements PhotonSource
      */
     private Color getActualColor( Color baseColor, int level ) {
         double grayRefLevel = MakeDuotoneImageOp.getGrayLevel( baseColor );
-        int newRGB = MakeDuotoneImageOp.getDuoToneRGB( level, level, level, 255, grayRefLevel, baseColor );
+        int newRGB = MakeDuotoneImageOp.getDuoToneRGB( level, level, level, colorMax, grayRefLevel, baseColor );
         return new Color( newRGB );
     }
 
