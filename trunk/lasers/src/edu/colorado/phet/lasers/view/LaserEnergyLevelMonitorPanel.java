@@ -129,40 +129,8 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         headingText.setLocation( 30, 5 );
         this.addGraphic( headingText );
 
-        // Create images for the lmps that cue the users as to what the squiggles mean
-//        createLampGraphics();
-
         // Set up the event handlers we need
         this.addComponentListener( new PanelResizer() );
-    }
-
-    private void createLampGraphics() {
-        BufferedImage gunBI = null;
-        try {
-            gunBI = ImageLoader.loadBufferedImage( LaserConfig.RAY_GUN_IMAGE_FILE );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-
-        Dimension graphicSize = new Dimension( 25, 13 );
-//        Dimension graphicSize = new Dimension( 20, 10 );
-//        double scaleX = graphicSize.getWidth() / gunBI.getWidth();
-//        double scaleY = graphicSize.getHeight() / gunBI.getHeight();
-
-        // Seed beam lamp graphic
-//        AffineTransformOp atxOp1 = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, scaleY ), AffineTransformOp.TYPE_BILINEAR );
-//        BufferedImage lampBI = atxOp1.filter( gunBI, null );
-//        seedLampAtx = new AffineTransform();
-//        seedLampGraphic = new LampIcon( model.getSeedBeam(), this, lampBI, seedLampAtx );
-//        addGraphic( seedLampGraphic, LaserConfig.PHOTON_LAYER + 1 );
-
-        // Pump beam lamp graphic
-//        BufferedImage pumpLampBI = BufferedImageUtils.getRotatedImage( lampBI, Math.PI / 2 );
-//        pumpLampAtx = new AffineTransform();
-//        pumpLampAtx.rotate( Math.PI / 2 );
-//        pumpLampGraphic = new LampIcon( model.getPumpingBeam(), this, lampBI, pumpLampAtx );
-//        addGraphic( pumpLampGraphic, LaserConfig.PHOTON_LAYER + 1 );
     }
 
     /**
@@ -198,7 +166,6 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
                                                              levelLineLength - levelLineOriginX,
                                                              true,
                                                              levelLineOriginX + levelLineLength - 25 );
-//                                                             levelLineOriginX );
             addGraphic( elg, LEVEL_GRAPHIC_LEVEL );
             levelGraphics[i] = elg;
 
@@ -318,24 +285,17 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
             stimSquiggleTx = AffineTransform.getTranslateInstance( levelGraphics[1].getPosition().getX() + squiggleOffsetX,
                                                                    energyYTx.modelToView( module.getLaserModel().getGroundState().getEnergyLevel() ) );
             stimSquiggleTx.rotate( -Math.PI / 2 );
-
-            // Update the location of the lamp graphic
-//            Point p = new Point( (int)(stimSquiggleTx.getTranslateX() + stimSquiggle.getHeight() / 2 - seedLampGraphic.getWidth() / 2 ),
-//                                 (int)(stimSquiggleTx.getTranslateY() - stimSquiggle.getWidth() / 2));
-//            seedLampGraphic.setLocation( p );
-
         }
 
-        if( y0 > y2 && numLevels > 2 ) {
+        if( y0 > y2 ) {
             pumpSquiggle = computeSquiggleImage( model.getPumpingBeam(), 0, (int)( y0 - y2 ), squiggleHeight );
+
+            // Which level graphic we use to set the x location of the pump beam's squiggle depends on how many
+            // levels are being displayed.
+            int idx = numLevels > 2 ? 2 : 1;
             pumpSquiggleTx = AffineTransform.getTranslateInstance( levelGraphics[2].getPosition().getX(),
                                                                    energyYTx.modelToView( module.getLaserModel().getGroundState().getEnergyLevel() ) );
             pumpSquiggleTx.rotate( -Math.PI / 2 );
-
-            // Update the location of the lamp graphic
-//            Point p2 = new Point( (int)(pumpSquiggleTx.getTranslateX() + pumpSquiggle.getHeight() / 2 + pumpLampGraphic.getWidth() / 2 ),
-//                                  (int)(pumpSquiggleTx.getTranslateY() - pumpSquiggle.getWidth() / 2));
-//            pumpLampGraphic.setLocation( p2 );
         }
 
         // Force a repaint
