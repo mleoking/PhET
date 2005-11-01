@@ -4,10 +4,10 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.view.LampGraphic;
 import edu.colorado.phet.lasers.view.PumpBeamViewPanel;
+import edu.colorado.phet.lasers.view.util.ViewUtils;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -55,34 +55,38 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
                                                          1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
         gbc.anchor = GridBagConstraints.NORTHWEST;
-        optionsPanel.setBorder( new TitledBorder( SimStrings.get( "LaserControlPanel.OptionsBorderTitle" ) ) );
+        ViewUtils.setBorder( optionsPanel, SimStrings.get( "LaserControlPanel.OptionsBorderTitle" ) );
         gbc.anchor = GridBagConstraints.CENTER;
 
         // Add the options for mirror on/off
         JPanel mirrorOptionPanel = createMirrorControlPanel( module );
         gbc.gridx = 0;
+        gbc.insets = new Insets( 0, 15, 0, 0 );
         optionsPanel.add( mirrorOptionPanel, gbc );
-
-        // Add controls for the different views of beams and photons
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        pumpBeamViewPanel = new PumpBeamViewPanel( module );
-        optionsPanel.add( pumpBeamViewPanel, gbc );
 
         // Add the control for showing/hiding phtoton coming off high energy state
         gbc.gridx = 0;
         gbc.gridy = 1;
         optionsPanel.add( highLevelEmissionControlPanel, gbc );
 
+        // Add controls for the different views of beams and photons
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.insets = new Insets( 0, 0, 0, 0 );
+        pumpBeamViewPanel = new PumpBeamViewPanel( module );
+        optionsPanel.add( pumpBeamViewPanel, gbc );
+
         // Add controls for view of internally produced photons
         gbc.gridx = 1;
+        gbc.gridy = 1;
         optionsPanel.add( waveViewControlPanel, gbc );
         JPanel container = new JPanel();
         Border border = BorderFactory.createEtchedBorder();
         container.setBorder( border );
         container.add( optionsPanel );
 
-        super.addControl( container );
+        super.addControl( optionsPanel );
+//        super.addControl( container );
 
         // Reset button
         gbc.fill = GridBagConstraints.NONE;
@@ -163,16 +167,14 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
             energyButtonPanel.add( twoLevelsRB );
             energyButtonPanel.add( threeLevelsRB );
 
-            energyButtonPanel.setBorder( new TitledBorder( SimStrings.get( "LaserControlPanel.EnergyLevelsBorderTitle" ) ) );
-
             this.setLayout( new GridBagLayout() );
             gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                           GridBagConstraints.CENTER,
                                           GridBagConstraints.HORIZONTAL,
                                           new Insets( 0, 0, 0, 0 ),
                                           0, 0 );
-            Border border = BorderFactory.createEtchedBorder();
-            this.setBorder( border );
+            ViewUtils.setBorder( this, SimStrings.get( "LaserControlPanel.EnergyLevelsBorderTitle" ) );
+
             this.add( energyButtonPanel, gbc );
 
             //Set the number of energy levels we'll see
@@ -181,5 +183,4 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
             setThreeEnergyLevels( threeEnergyLevels );
         }
     }
-
 }
