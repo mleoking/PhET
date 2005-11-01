@@ -400,6 +400,15 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
     // MouseInputAdapter overrides
     //----------------------------------------------------------------------------
     
+    /*
+     * NOTE: This feature is not currently being used.
+     * If you want to check for a "match" only when the user 
+     * releases an amplitude slider, then add this line 
+     * to the GameModule constructor:
+     * 
+     *   apparatusPanel.addMouseListener( _gameManager );
+     */
+    
     /**
      * When the user presses the mouse, set some state that indicates 
      * that we're in the process of dragging.  We don't check to see
