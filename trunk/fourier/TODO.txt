@@ -64,6 +64,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(11/1) - change location of help items in Discrete module so that they point to A1 slider and textfield
 (11/1) - in game, check for a match while the user is dragging an amplitude slider, don't wait for slider release
 (10/28) - replaced FourierHelpItem with HelpBubble (total rewrite)
 (10/24) - fix display of amplitude values so that they use the same precision as GameManager.isMatch
