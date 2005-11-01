@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.lasers.model.atom;
 
+import edu.colorado.phet.lasers.controller.LaserConfig;
+
 /**
  * LaserElementProperties
  *
@@ -18,12 +20,19 @@ package edu.colorado.phet.lasers.model.atom;
  */
 public abstract class LaserElementProperties extends ElementProperties {
 
-    protected LaserElementProperties( String name, double[] energyLevels, EnergyEmissionStrategy energyEmissionStrategy, EnergyAbsorptionStrategy energyAbsorptionStrategy, double meanStateLifetime ) {
+    protected LaserElementProperties( String name, double[] energyLevels,
+                                      EnergyEmissionStrategy energyEmissionStrategy,
+                                      EnergyAbsorptionStrategy energyAbsorptionStrategy,
+                                      double meanStateLifetime ) {
         super( name, energyLevels, energyEmissionStrategy, energyAbsorptionStrategy, meanStateLifetime );
-    }
 
-    public void setMeanStateLifetime( double meanStateLifetime ) {
-        super.setMeanStateLifetime( meanStateLifetime );
+        // Set the mean lifetimes of the states
+        AtomicState[] states = getStates();
+        for( int i = 1; i < states.length; i++ ) {
+            AtomicState state = states[i];
+            state.setMeanLifetime( LaserConfig.MAXIMUM_STATE_LIFETIME / 2 );
+        }
+
     }
 
     public AtomicState getGroundState() {

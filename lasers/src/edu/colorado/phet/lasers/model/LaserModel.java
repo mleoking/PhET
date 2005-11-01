@@ -300,17 +300,11 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         return currentElementProperties.getHighEnergyState();
     }
 
-    public void setMeanStateLifetime( double meanStateLifetime ) {
-        twoLevelProperties.setMeanStateLifetime( meanStateLifetime );
-        threeLevelProperties.setMeanStateLifetime( meanStateLifetime );
-    }
-
     public AtomicState[] getStates() {
         return currentElementProperties.getStates();
     }
 
     public int getNumLasingPhotons() {
-//        System.out.println( "lasingPhotons.size() = " + lasingPhotons.size() );
         return lasingPhotons.size();
     }
 
