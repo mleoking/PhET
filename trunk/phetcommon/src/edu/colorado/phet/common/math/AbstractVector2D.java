@@ -166,6 +166,10 @@ public interface AbstractVector2D {
             return result;
         }
 
+        /**
+         * Returns the angle of the vector. The angle will be between -pi and pi.
+         * @return
+         */
         public double getAngle() {
             return Math.atan2( y, x );
         }
