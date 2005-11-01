@@ -79,15 +79,20 @@ public class LaserSimulation extends PhetApplication {
         setInitialModule( singleAtomModule );
 
         // Options menu
-        createOptionsMenu();
+        createMenuItems();
 
     }
 
-    private void createOptionsMenu() {
+    /**
+     *
+     */
+    private void createMenuItems() {
         JMenu optionMenu = new JMenu( "Options" );
         getPhetFrame().addMenu( optionMenu );
 
-        final JCheckBoxMenuItem cbMI = new JCheckBoxMenuItem( "All stimulated emissions" );
+        // Additions to the Options menu
+
+        final JCheckBoxMenuItem cbMI = new JCheckBoxMenuItem( "Show all stimulated emissions" );
         cbMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 LaserConfig.ENABLE_ALL_STIMULATED_EMISSIONS = cbMI.isSelected();
@@ -95,31 +100,6 @@ public class LaserSimulation extends PhetApplication {
         } );
         cbMI.setSelected( true );
         optionMenu.add( cbMI );
-
-        final JRadioButtonMenuItem colorEnergyRepStrategy = new JRadioButtonMenuItem( "Colored energy levels" );
-        colorEnergyRepStrategy.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                if( colorEnergyRepStrategy.isSelected() ) {
-                    AtomGraphic.setEnergyRepColorStrategy( new AtomGraphic.VisibleColorStrategy() );
-                }
-            }
-        } );
-        final JRadioButtonMenuItem grayErgyRepStrategy = new JRadioButtonMenuItem( "Gray energy levels" );
-        grayErgyRepStrategy.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                if( grayErgyRepStrategy.isSelected() ) {
-                    AtomGraphic.setEnergyRepColorStrategy( new AtomGraphic.GrayScaleStrategy() );
-                }
-            }
-        } );
-        colorEnergyRepStrategy.setSelected( true );
-        ButtonGroup energyRegBG = new ButtonGroup();
-        energyRegBG.add( colorEnergyRepStrategy );
-        energyRegBG.add( grayErgyRepStrategy );
-        optionMenu.addSeparator();
-        optionMenu.add( colorEnergyRepStrategy );
-        optionMenu.add( grayErgyRepStrategy );
-        optionMenu.addSeparator();
 
         JMenuItem stimProbmenuItem = new JMenuItem( "Adjust stimulation likelihood..." );
         stimProbmenuItem.addActionListener( new ActionListener() {
@@ -138,9 +118,40 @@ public class LaserSimulation extends PhetApplication {
         } );
         optionMenu.add( stimProbmenuItem );
 
+        final JRadioButtonMenuItem colorEnergyRepStrategy = new JRadioButtonMenuItem( "Colored energy levels" );
+        colorEnergyRepStrategy.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if( colorEnergyRepStrategy.isSelected() ) {
+                    AtomGraphic.setEnergyRepColorStrategy( new AtomGraphic.VisibleColorStrategy() );
+                }
+            }
+        } );
 
+        // Additions to the debug menu
+
+        JMenu debugMenu = getPhetFrame().getDebugMenu();
+
+        final JRadioButtonMenuItem grayErgyRepStrategy = new JRadioButtonMenuItem( "Gray energy levels" );
+        grayErgyRepStrategy.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if( grayErgyRepStrategy.isSelected() ) {
+                    AtomGraphic.setEnergyRepColorStrategy( new AtomGraphic.GrayScaleStrategy() );
+                }
+            }
+        } );
+        colorEnergyRepStrategy.setSelected( true );
+        ButtonGroup energyRegBG = new ButtonGroup();
+        energyRegBG.add( colorEnergyRepStrategy );
+        energyRegBG.add( grayErgyRepStrategy );
+
+        debugMenu.addSeparator();
+        debugMenu.add( colorEnergyRepStrategy );
+        debugMenu.add( grayErgyRepStrategy );
+        debugMenu.addSeparator();
+
+//        JCheckBoxMenuItem groundStateMinLifetimeMI = new JCheckBoxMenuItem( "Adjust minimum ground state lifetime..." );
         JMenuItem groundStateMinLifetimeMI = new JMenuItem( "Adjust minimum ground state lifetime..." );
-        optionMenu.add( groundStateMinLifetimeMI );
+        debugMenu.add( groundStateMinLifetimeMI );
         groundStateMinLifetimeMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 final JSlider gstSlider = new JSlider( 0, 1000, 0 );
@@ -158,8 +169,6 @@ public class LaserSimulation extends PhetApplication {
                 JOptionPane.showMessageDialog( getPhetFrame(), jp );
             }
         } );
-
-
     }
 
     public void displayHighToMidEmission( boolean selected ) {
@@ -275,7 +284,7 @@ public class LaserSimulation extends PhetApplication {
             Object[] defaults = {
                 "Panel.background", background
                 , "Menu.background", background
-                , "MenuItem.background", background
+//                , "MenuItem.background", background
                 , "MenuBar.background", background
                 , "Slider.background", background
                 , "RadioButton.background", background

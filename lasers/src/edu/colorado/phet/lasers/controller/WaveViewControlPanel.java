@@ -15,9 +15,9 @@ import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.lasers.view.PhotonGraphic;
+import edu.colorado.phet.lasers.view.util.ViewUtils;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,9 +40,7 @@ public class WaveViewControlPanel extends JPanel {
 
         // Controls to set view of lasing photons
         JPanel lasingViewPanel = new JPanel( new GridBagLayout() );
-        Border lasingPanelBorder = BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(),
-                                                                     SimStrings.get( "WaveViewControlPanel.lasingPanelTitle" ) );
-        lasingViewPanel.setBorder( lasingPanelBorder );
+        ViewUtils.setBorder( lasingViewPanel, SimStrings.get( "WaveViewControlPanel.lasingPanelTitle" ) );
         lasingPhotonBG = new ButtonGroup();
         lasingPhotonViewRB = new JRadioButton( SimStrings.get( "WaveViewControlPanel.photonView" ) );
         lasingWaveViewRB = new JRadioButton( SimStrings.get( "WaveViewControlPanel.waveView" ) );
