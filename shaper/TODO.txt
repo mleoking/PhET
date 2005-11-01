@@ -6,7 +6,8 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- fill in contents of Explanation dialog
+- add a "Mask" label pointing at the amplitudes control panel
+- fill in contents of Explanation dialog with a single image
 - resize molecule images
 - resize Kaboom! image
 
@@ -42,6 +43,12 @@ PHETCOMMON:
 
 
 DONE:
+(11/1/05) - allow closeness to be any value, since we seem to have some problems here (eg, -353% closeness)
+(11/1/05) - bugfix: use the same molecule index to get the output pulse amplitudes and the molecule graphic
+(11/1/05) - bugfix: set the min y-axis range to +-1 (not +-4/pi) in PulseChart
+(11/1/05) - scale all displayed Fourier series (input, output, user) by 0.13
+(11/1/05) - initialize user's Fourier series to be the same as the input pulse
+(11/1/05) - show input pulse as a Fourier series with 7 harmonics, all with amplitude 1.0
 0.0.5 ...
 (10/31/05) - make handle on magnifying glass slightly larger
 (10/31/05) - change closeness range from 0...1 to -1...+1

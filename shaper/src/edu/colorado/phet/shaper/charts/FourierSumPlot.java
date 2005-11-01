@@ -50,6 +50,7 @@ public class FourierSumPlot extends LinePlot {
     private double _maxAmplitude;
     private Point2D[] _points;
     private boolean _useCosines;
+    private double _yScale;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -76,6 +77,7 @@ public class FourierSumPlot extends LinePlot {
         _maxAmplitude = ShaperConstants.MAX_HARMONIC_AMPLITUDE;
         _points = null;
         _useCosines = false;
+        _yScale = 1;
         
         setDataSet( new DataSet() );
         setBorderColor( DEFAULT_COLOR );
@@ -176,6 +178,11 @@ public class FourierSumPlot extends LinePlot {
         updateDataSet();
     }
     
+    public void setYScale( double scale ) {
+        _yScale = scale;
+        updateDataSet();
+    }
+    
     //----------------------------------------------------------------------------
     // Data set update
     //----------------------------------------------------------------------------
@@ -258,7 +265,7 @@ public class FourierSumPlot extends LinePlot {
                     }
 
                     final double x = _points[ pointIndex ].getX();
-                    final double y = _points[ pointIndex ].getY() + ( amplitude * radians );
+                    final double y = _points[ pointIndex ].getY() + ( _yScale * amplitude * radians );
                     _points[ pointIndex ].setLocation( x, y );
                 }
 

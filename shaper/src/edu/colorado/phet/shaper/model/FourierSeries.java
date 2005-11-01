@@ -189,4 +189,20 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
             notifyObservers();
         }
     }
+    
+    //----------------------------------------------------------------------------
+    // Debugging
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Prints the amplitudes of this series' harmonics
+     */
+    public void printAmplitudes() {
+        int numberOfHarmonics = getNumberOfHarmonics();
+        System.out.print( "amplitudes:" );
+        for ( int i = 0; i < numberOfHarmonics; i++ ) {
+            System.out.print( " " + getHarmonic(i).getAmplitude() );
+        }
+        System.out.println();
+    }
 }

@@ -12,8 +12,6 @@
 package edu.colorado.phet.shaper.view;
 
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.chart.Range2D;
@@ -22,8 +20,9 @@ import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.shaper.ShaperConstants;
-import edu.colorado.phet.shaper.charts.InputPulsePlot;
+import edu.colorado.phet.shaper.charts.FourierSumPlot;
 import edu.colorado.phet.shaper.charts.PulseChart;
+import edu.colorado.phet.shaper.model.FourierSeries;
 
 
 /**
@@ -79,7 +78,7 @@ public class InputPulseView extends GraphicLayerSet {
      * @param component the parent Component
      * @param fourierSeries the Fourier series that this view displays
      */
-    public InputPulseView( Component component ) {
+    public InputPulseView( Component component, FourierSeries fourierSeries ) {
         super( component );
 
         // Enable antialiasing for all children.
@@ -112,10 +111,12 @@ public class InputPulseView extends GraphicLayerSet {
         chartGraphic.setXAxisTitle( "t (ms)" );
         
         // Input pulse
-        InputPulsePlot inputPlot = new InputPulsePlot( component, chartGraphic );
+        FourierSumPlot inputPlot = new FourierSumPlot( component, chartGraphic, fourierSeries );
         inputPlot.setPixelsPerPoint( 1 );
         inputPlot.setStroke( WAVE_STROKE );
         inputPlot.setStrokeColor( WAVE_COLOR );
+        inputPlot.setUseCosines( true );
+        inputPlot.setYScale( ShaperConstants.FOURIER_SUM_SCALE );
         chartGraphic.addDataSetGraphic( inputPlot );
 
         // Interactivity

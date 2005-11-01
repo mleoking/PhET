@@ -49,23 +49,19 @@ public class ShaperModule extends AbstractModule implements ActionListener {
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-
-    // Rendering layers
-    private static final double CHARTS_LAYER = 1;
-
-    // Locations
     
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
     
     // Fourier Components
-    private static final double FUNDAMENTAL_FREQUENCY = 440.0; // Hz
     private static final int NUMBER_OF_HARMONICS = ShaperConstants.MAX_HARMONICS;
-    
+    private static final double FUNDAMENTAL_FREQUENCY = 440.0; // Hz
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
+    private FourierSeries _inputFourierSeries;
     private FourierSeries _userFourierSeries;
     private FourierSeries _outputFourierSeries;
     
@@ -98,13 +94,16 @@ public class ShaperModule extends AbstractModule implements ActionListener {
         BaseModel model = new BaseModel();
         this.setModel( model );
 
-        // The user's Fourier Series
-        _userFourierSeries = new FourierSeries( NUMBER_OF_HARMONICS, FUNDAMENTAL_FREQUENCY );
-        for ( int i = 0; i < _userFourierSeries.getNumberOfHarmonics(); i++ ) {
-            _userFourierSeries.getHarmonic( i ).setAmplitude( 0 );
+        // Fourier series that describes the input pulse
+        _inputFourierSeries = new FourierSeries( NUMBER_OF_HARMONICS, FUNDAMENTAL_FREQUENCY );
+        for ( int i = 0; i < _inputFourierSeries.getNumberOfHarmonics(); i++ ) {
+            _inputFourierSeries.getHarmonic( i ).setAmplitude( 1 );
         }
         
-        // The Fourier Series that describes the output pulse
+        // Fourier Series that the user constructs
+        _userFourierSeries = new FourierSeries( NUMBER_OF_HARMONICS, FUNDAMENTAL_FREQUENCY );
+        
+        // Fourier Series that describes the output pulse
         _outputFourierSeries = new FourierSeries( NUMBER_OF_HARMONICS, FUNDAMENTAL_FREQUENCY );
         
         //----------------------------------------------------------------------------
@@ -117,7 +116,7 @@ public class ShaperModule extends AbstractModule implements ActionListener {
         setApparatusPanel( apparatusPanel );
         
         // Input Pulse view
-        _inputPulseView = new InputPulseView( apparatusPanel );
+        _inputPulseView = new InputPulseView( apparatusPanel, _inputFourierSeries );
         apparatusPanel.addGraphic( _inputPulseView );
         _inputPulseView.setLocation( 470, 15 );
       
@@ -214,7 +213,7 @@ public class ShaperModule extends AbstractModule implements ActionListener {
             downArrowGraphic.setLocation( 440, 380 );
             apparatusPanel.addGraphic( downArrowGraphic );
         }
-        
+      
         // Amplitude sliders
         _amplitudesView = new AmplitudesView( apparatusPanel, _userFourierSeries );
         apparatusPanel.addGraphic( _amplitudesView );
@@ -314,20 +313,21 @@ public class ShaperModule extends AbstractModule implements ActionListener {
         _userFourierSeries.setAdjusting( true );
         _outputFourierSeries.setAdjusting( true );
         
-        // Set the user's amplitudes to zero.
+        // Set the user's amplitudes to match the input pulse.
         for ( int i = 0; i < _userFourierSeries.getNumberOfHarmonics(); i++ ) {
-            _userFourierSeries.getHarmonic( i ).setAmplitude( 0 );
+            double amplitude = _inputFourierSeries.getHarmonic( i ).getAmplitude();
+            _userFourierSeries.getHarmonic( i ).setAmplitude( amplitude );
         }
         
         // Set the output pulse amplitudes to the next molecule.
+        _moleculeIndex++;
+        if ( _moleculeIndex >= MoleculeEnum.size() ) {
+            _moleculeIndex = 0;
+        }
         MoleculeEnum molecule = MoleculeEnum.getByIndex( _moleculeIndex );
         double[] amplitudes = MoleculeEnum.getAmplitudes( molecule );
         for ( int i = 0; i < _outputFourierSeries.getNumberOfHarmonics(); i++ ) {
             _outputFourierSeries.getHarmonic( i ).setAmplitude( amplitudes[i] );
-        }
-        _moleculeIndex++;
-        if ( _moleculeIndex >= MoleculeEnum.size() ) {
-            _moleculeIndex = 0;
         }
         
         // Reset the animation

@@ -141,6 +141,7 @@ public class OutputPulseView extends GraphicLayerSet implements SimpleObserver {
             _outputSumPlot = new FourierSumPlot( getComponent(), _chartGraphic, _outputFourierSeries );
             _outputSumPlot.setUseCosines( true );
             _outputSumPlot.setPeriod( L );
+            _outputSumPlot.setYScale( ShaperConstants.FOURIER_SUM_SCALE );
             _outputSumPlot.setPixelsPerPoint( PIXELS_PER_POINT );
             _outputSumPlot.setStroke( RANDOM_SUM_STROKE );
             _outputSumPlot.setBorderColor( RANDOM_SUM_COLOR );
@@ -151,6 +152,7 @@ public class OutputPulseView extends GraphicLayerSet implements SimpleObserver {
             _userSumPlot = new FourierSumPlot( getComponent(), _chartGraphic, _userFourierSeries );
             _userSumPlot.setUseCosines( true );
             _userSumPlot.setPeriod( L );
+            _userSumPlot.setYScale( ShaperConstants.FOURIER_SUM_SCALE );
             _userSumPlot.setPixelsPerPoint( PIXELS_PER_POINT );
             _userSumPlot.setStroke( USER_SUM_STROKE );
             _userSumPlot.setBorderColor( USER_SUM_COLOR );
