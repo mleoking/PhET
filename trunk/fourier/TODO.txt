@@ -5,8 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- add an "Instructions" dialog that appears the first time you enter the game panel
-- add presets for musical instruments to Discrete panel
+
 
 MEDIUM PRIORITY:
 - in game, Help item for amplitude sliders doesn't always point to a slider
@@ -65,6 +64,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(11/1) - in game, check for a match while the user is dragging an amplitude slider, don't wait for slider release
 (10/28) - replaced FourierHelpItem with HelpBubble (total rewrite)
 (10/24) - fix display of amplitude values so that they use the same precision as GameManager.isMatch
 (10/21) - better workaround for syncing all views before starting a new game
@@ -632,6 +632,7 @@ sandbox-2005-05-10...
 2005 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 REJECTED:
+(11/1) - add presets for musical instruments to Discrete panel (can't make convincing instrument sounds)
 (10/19) - "Sound & Music" panel
 (10/18) - add hints to game (use "cheat" panel instead)
 (9/22) - set anti-aliasing on leaf graphics instead of container (fixed rendering hints in PhetGraphic)
