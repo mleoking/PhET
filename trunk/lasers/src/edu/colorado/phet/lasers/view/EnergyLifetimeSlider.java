@@ -36,7 +36,6 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
 
     private EnergyLevelGraphic graphic;
     private int maxSliderWidth = 60;
-//    private int maxSliderWidth = 100;
     private int sliderWidthPadding = 20;
     private int sliderWidth;
     private Container container;
@@ -91,6 +90,10 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
         this.setBounds( (int)( container.getWidth() - maxSliderWidth ),
                         (int)graphic.getPosition().getY(),
                         sliderWidth, sliderHeight );
+    }
+
+    public void setValue( int n ) {
+        super.setValue( n );
     }
 
 

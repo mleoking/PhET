@@ -78,8 +78,10 @@ public class BaseLaserModule extends Module {
     protected boolean threeEnergyLevels;
     private boolean mirrorsEnabled;
 
-    private double middleStateMeanLifetime = LaserConfig.MIDDLE_ENERGY_STATE_MAX_LIFETIME;
-    private double highStateMeanLifetime = LaserConfig.HIGH_ENERGY_STATE_DEFAULT_LIFETIME;
+    private double middleStateMeanLifetime = LaserConfig.MAXIMUM_STATE_LIFETIME / 2;
+    private double highStateMeanLifetime = LaserConfig.MAXIMUM_STATE_LIFETIME / 2;
+//    private double middleStateMeanLifetime = LaserConfig.MIDDLE_ENERGY_STATE_MAX_LIFETIME;
+//    private double highStateMeanLifetime = LaserConfig.HIGH_ENERGY_STATE_DEFAULT_LIFETIME;
     private HelpManager energyLevelsPanelHelpManager;
     private HelpManager mainPanelHelpManager;
     private ApparatusPanelHelp apparatusPanelHelp;

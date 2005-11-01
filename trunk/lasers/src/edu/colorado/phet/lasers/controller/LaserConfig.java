@@ -45,9 +45,9 @@ public class LaserConfig {
     public static final double SEED_BEAM_FANOUT = Math.toRadians( 1 );
 
     // Spontaneous emission times, in milliseconds
-    public static final int MAXIMUM_STATE_LIFETIME = 200;
-    public static final int MIDDLE_ENERGY_STATE_MAX_LIFETIME = 400;
-    public static final int HIGH_ENERGY_STATE_MAX_LIFETIME = 100;
+    public static final int MAXIMUM_STATE_LIFETIME = 400;
+    public static final int MIDDLE_ENERGY_STATE_MAX_LIFETIME = MAXIMUM_STATE_LIFETIME;
+    public static final int HIGH_ENERGY_STATE_MAX_LIFETIME = MAXIMUM_STATE_LIFETIME;
     public static final int HIGH_ENERGY_STATE_DEFAULT_LIFETIME = 10;
     public static final int DEFAULT_SPONTANEOUS_EMISSION_TIME = 50;
 
