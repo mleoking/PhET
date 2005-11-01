@@ -79,35 +79,29 @@ public class SolubleSaltsModule extends PiccoloModule {
         }
         Ion ion = null;
 
-        ion = new Chloride();
-        IonInitializer.initialize( ion, model );
-        ion.setPosition( 300, 450 );
-        ion.setVelocity( 0, 5 );
-        model.addModelElement( ion );
-
-        ion = new Sodium();
-        IonInitializer.initialize( ion, model );
-        ion.setPosition( 200, 410 );
-        ion.setVelocity( 0, 4 );
+//        ion = new Chloride();
+//        IonInitializer.initialize( ion, model );
+//        ion.setPosition( 300, 450 );
+//        ion.setVelocity( 0, 5 );
 //        model.addModelElement( ion );
-
-        ion = new Sodium();
-        IonInitializer.initialize( ion, model );
-        ion.setPosition( 170, 630 );
-        ion.setVelocity( 1, 0 );
-        model.addModelElement( ion );
-
-        ion = new Sodium();
-        IonInitializer.initialize( ion, model );
-        ion.setPosition( 300, 300 );
-        ion.setVelocity( 0, 5 );
+//
+//        ion = new Sodium();
+//        IonInitializer.initialize( ion, model );
+//        ion.setPosition( 150, 630 );
+//        ion.setVelocity( 1, 0 );
 //        model.addModelElement( ion );
-
-        ion = new Sodium();
-        IonInitializer.initialize( ion, model );
-        ion.setPosition( 320, 250 );
-        ion.setVelocity( 0, 5 );
-        model.addModelElement( ion );
+//
+//        ion = new Sodium();
+//        IonInitializer.initialize( ion, model );
+//        ion.setPosition( 300, 250 );
+//        ion.setVelocity( 0, 5 );
+//        model.addModelElement( ion );
+//
+//        ion = new Chloride();
+//        IonInitializer.initialize( ion, model );
+//        ion.setPosition( 280, 200 );
+//        ion.setVelocity( 0, 5 );
+//        model.addModelElement( ion );
 
 
         // Set up the control panel
