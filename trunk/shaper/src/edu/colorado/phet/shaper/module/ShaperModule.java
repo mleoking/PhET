@@ -248,7 +248,7 @@ public class ShaperModule extends AbstractModule implements ActionListener {
             maskLabel.setFont( new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 18 ) );
             maskLabel.setColor( Color.LIGHT_GRAY );
             maskLabel.setHTML( SimStrings.get( "Mask.label" ) );
-            maskLabel.setLocation( 10, 540 );
+            maskLabel.setLocation( 10, 535 );
             maskLabel.setIgnoreMouse( true );
             apparatusPanel.addGraphic( maskLabel );
             
@@ -257,7 +257,7 @@ public class ShaperModule extends AbstractModule implements ActionListener {
             arrowGraphic.setShape( arrow.getShape() );
             arrowGraphic.setColor( Color.LIGHT_GRAY );
             arrowGraphic.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-            arrowGraphic.setLocation( 30, 535 );
+            arrowGraphic.setLocation( 30, 530 );
             arrowGraphic.setIgnoreMouse( true );
             apparatusPanel.addGraphic( arrowGraphic );
         }
