@@ -86,8 +86,6 @@ public class AmplitudesView extends GraphicLayerSet implements SimpleObserver {
     private ArrayList _sliders; // array of AmplitudeSlider
     private EventListenerList _listenerList;
     private int _previousNumberOfHarmonics;
-    private JButton _resetButton;
-    private PhetGraphic _resetButtonGraphic;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -144,16 +142,6 @@ public class AmplitudesView extends GraphicLayerSet implements SimpleObserver {
         _slidersGraphic = new GraphicLayerSet( component );
         addGraphic( _slidersGraphic, SLIDERS_LAYER );
         
-        // Reset button
-        {
-            _resetButton = new JButton( SimStrings.get( "reset" ) );
-            _resetButton.setOpaque( false );
-            _resetButtonGraphic = PhetJComponent.newInstance( component, _resetButton );
-            addGraphic( _resetButtonGraphic, BUTTONS_LAYER );
-            _resetButtonGraphic.setLocation( 5, 5 );
-            _resetButtonGraphic.scale( 0.7 );
-        }
-        
         // Interactivity
         {
             backgroundGraphic.setIgnoreMouse( true );
@@ -161,19 +149,6 @@ public class AmplitudesView extends GraphicLayerSet implements SimpleObserver {
             _flattenedChart.setIgnoreMouse( true );
             
             // sliders handle their own interactivity
-            
-            // Reset button
-            _resetButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    getComponent().setCursor( ShaperConstants.WAIT_CURSOR );
-                    // Set all the harmonic amplitudes to zero.
-                    int numberOfHarmonics = _fourierSeries.getNumberOfHarmonics();
-                    for ( int i = 0; i < numberOfHarmonics; i++ ) {
-                        _fourierSeries.getHarmonic( i ).setAmplitude( 0 );
-                    }
-                    getComponent().setCursor( ShaperConstants.DEFAULT_CURSOR );
-                }
-            } );
         }
         
         // Misc initialization

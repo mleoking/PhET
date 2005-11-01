@@ -6,7 +6,6 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- add a "Mask" label pointing at the amplitudes control panel
 - fill in contents of Explanation dialog with a single image
 - resize molecule images
 - resize Kaboom! image
@@ -43,6 +42,8 @@ PHETCOMMON:
 
 
 DONE:
+(11/1/05) - move "Reset" button out of AmplitudesView, make it reset to input pulse amplitude values
+(11/1/05) - add a "Mask" label pointing at the amplitudes control panel
 (11/1/05) - allow closeness to be any value, since we seem to have some problems here (eg, -353% closeness)
 (11/1/05) - bugfix: use the same molecule index to get the output pulse amplitudes and the molecule graphic
 (11/1/05) - bugfix: set the min y-axis range to +-1 (not +-4/pi) in PulseChart
