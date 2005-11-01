@@ -26,6 +26,7 @@ public class MoleculeEnum extends AbstractEnum {
     
     // Members of the enumeration
     public static final MoleculeEnum UNDEFINED = new MoleculeEnum( "undefined" );
+    public static final MoleculeEnum MOLECULE0 = new MoleculeEnum( "molecule0" );
     public static final MoleculeEnum MOLECULE1 = new MoleculeEnum( "molecule1" );
     public static final MoleculeEnum MOLECULE2 = new MoleculeEnum( "molecule2" );
     public static final MoleculeEnum MOLECULE3 = new MoleculeEnum( "molecule3" );
@@ -33,12 +34,11 @@ public class MoleculeEnum extends AbstractEnum {
     public static final MoleculeEnum MOLECULE5 = new MoleculeEnum( "molecule5" );
     public static final MoleculeEnum MOLECULE6 = new MoleculeEnum( "molecule6" );
     public static final MoleculeEnum MOLECULE7 = new MoleculeEnum( "molecule7" );
-    public static final MoleculeEnum MOLECULE8 = new MoleculeEnum( "molecule8" );
     
     // Collection of all members in the enumeration, for iteration
     private static final MoleculeEnum[] MOLECULES = {
-            MOLECULE1, MOLECULE2, MOLECULE3, MOLECULE4,
-            MOLECULE5, MOLECULE6, MOLECULE7, MOLECULE8
+            MOLECULE0, MOLECULE1, MOLECULE2, MOLECULE3,
+            MOLECULE4, MOLECULE5, MOLECULE6, MOLECULE7
     };
     
     /**
@@ -91,7 +91,10 @@ public class MoleculeEnum extends AbstractEnum {
      */
     public static double[] getAmplitudes( MoleculeEnum molecule ) {
         double[] amplitudes = null;
-        if ( molecule == MOLECULE1 ) {
+        if ( molecule == MOLECULE0 ) {
+            amplitudes = MOLECULE0_AMPLITUDES;
+        }
+        else if ( molecule == MOLECULE1 ) {
             amplitudes = MOLECULE1_AMPLITUDES;
         }
         else if ( molecule == MOLECULE2 ) {
@@ -112,9 +115,6 @@ public class MoleculeEnum extends AbstractEnum {
         else if ( molecule == MOLECULE7 ) {
             amplitudes = MOLECULE7_AMPLITUDES;
         }
-        else if ( molecule == MOLECULE8 ) {
-            amplitudes = MOLECULE8_AMPLITUDES;
-        }
         return amplitudes;
     }
     
@@ -124,35 +124,35 @@ public class MoleculeEnum extends AbstractEnum {
     // typical output pulses.
     //----------------------------------------------------------------------------
     
-    private static final double[] MOLECULE1_AMPLITUDES = {
+    private static final double[] MOLECULE0_AMPLITUDES = {
             0.20, 0.70, 0.60, 0.20, 0.70, 0.40, -0.09
     };
     
-    private static final double[] MOLECULE2_AMPLITUDES = {
+    private static final double[] MOLECULE1_AMPLITUDES = {
             -0.96, -0.22, 0.85, -0.74, 0.20, 0.47, -0.73
     };
     
-    private static final double[] MOLECULE3_AMPLITUDES = {
+    private static final double[] MOLECULE2_AMPLITUDES = {
             -0.53, 0.67, -0.53, 0.14, 0.43, -0.81, 0.47
     };
     
-    private static final double[] MOLECULE4_AMPLITUDES = {
+    private static final double[] MOLECULE3_AMPLITUDES = {
             0.42, 0.89, 0.85, 0.67, 0.12, 0.16, 0.44
     };
     
-    private static final double[] MOLECULE5_AMPLITUDES = {
+    private static final double[] MOLECULE4_AMPLITUDES = {
             0.93, 0.34, 0.93, 0.46, -0.33, 0.21, -0.64
     };
     
-    private static final double[] MOLECULE6_AMPLITUDES = {
+    private static final double[] MOLECULE5_AMPLITUDES = {
             -0.68, 0.18, 0.33, 0.79, 0.01, -0.22, 0.92
     };
     
-    private static final double[] MOLECULE7_AMPLITUDES = {
+    private static final double[] MOLECULE6_AMPLITUDES = {
             0.16, 0.14, -0.27, -0.53, -0.10, -0.03, -0.17
     };
     
-    private static final double[] MOLECULE8_AMPLITUDES = {
+    private static final double[] MOLECULE7_AMPLITUDES = {
             0.94, 0.99, -0.16, -0.20, 0.07, 0.58, 0.52
     };
 }

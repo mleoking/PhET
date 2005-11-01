@@ -181,8 +181,8 @@ public class PulseChart extends Chart {
     public void autoscaleY( double maxY ) {
 
         // Range
-        if ( maxY < 4/Math.PI ) {
-            maxY = 4/Math.PI;
+        if ( maxY < ShaperConstants.MAX_HARMONIC_AMPLITUDE ) {
+            maxY = ShaperConstants.MAX_HARMONIC_AMPLITUDE;
         }
         Range2D range = getRange();
         range.setMaxY( maxY );

@@ -94,6 +94,9 @@ public class ShaperConstants {
     
     public static final double AUTOSCALE_PERCENTAGE = 1.05;
     
+    /** All Fourier sum plots are scaled by this factor. */
+    public static final double FOURIER_SUM_SCALE = 0.13;
+    
     //----------------------------------------------------------------------------
     // Cursors
     //----------------------------------------------------------------------------

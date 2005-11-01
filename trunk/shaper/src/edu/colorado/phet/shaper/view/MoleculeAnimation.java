@@ -207,7 +207,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         _closenessGraphic.setColor( Color.BLACK );
         _closenessGraphic.setFont( new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 18 ) );
         _closenessFormat = SimStrings.get( "closenessReadout" );
-        Object[] args = { "-00" };
+        Object[] args = { "-000" };
         String text = MessageFormat.format( _closenessFormat, args );
         _closenessGraphic.setHTML( text );
         addGraphic( _closenessGraphic );
@@ -278,6 +278,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
      * @param index
      */
     public void setMolecule( int index ) {
+        System.out.println( "setMolecule " + index );//XXX
         String part1 = ShaperConstants.IMAGES_DIRECTORY + "molecule" + index + "_part1.png";
         String part2 = ShaperConstants.IMAGES_DIRECTORY + "molecule" + index + "_part2.png";
         String part3 = ShaperConstants.IMAGES_DIRECTORY + "molecule" + index + "_part3.png";
@@ -305,17 +306,12 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
      * Sets the "closeness", which determines how fast the molecule 
      * is vibrating, and what value appears in the closeness read-out.
      * 
-     * @param closeness  -1...+1, -1=farthest away, +1=exact match
-     * @throws IllegalArgumentException if closeness is out of range
+     * @param closeness 1=exact match
      */
     private void setCloseness( double closeness ) {
         
         _closeness = closeness;
         
-        // Set the "How close am I?" label.
-        if ( closeness < -1 || closeness > 1 ) {
-            throw new IllegalArgumentException( "closeness is out of range: " + closeness );
-        }
         int percent = (int)( 100 * closeness );
         Object[] args = { new Integer( percent ) };
         String text = MessageFormat.format( _closenessFormat, args );
@@ -453,20 +449,23 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
                 numerator += Math.pow( Math.abs( userAmplitude - outputAmplitude ), 2 );
                 denominator += Math.pow( outputAmplitude, 2 );
             }
-            double closeness = 1.0 - ( Math.sqrt( numerator ) / Math.sqrt( denominator ) );
 
-            // Update the animation
-            setCloseness( closeness );
+            if ( denominator != 0 ) {
+                double closeness = 1.0 - ( Math.sqrt( numerator ) / Math.sqrt( denominator ) );
 
-            /*
-             * WORKAROUND: If we have a match, make sure that all 
-             * other views are updated before the molecule animation
-             * happens and the "you've won" dialog is shown.
-             */
-            if ( closeness >= ShaperConstants.CLOSENESS_MATCH ) {
-                _userFourierSeries.removeObserver( this );
-                _userFourierSeries.notifyObservers();
-                _userFourierSeries.addObserver( this );
+                // Update the animation
+                setCloseness( closeness );
+
+                /*
+                 * WORKAROUND: If we have a match, make sure that all 
+                 * other views are updated before the molecule animation
+                 * happens and the "you've won" dialog is shown.
+                 */
+                if ( closeness >= ShaperConstants.CLOSENESS_MATCH ) {
+                    _userFourierSeries.removeObserver( this );
+                    _userFourierSeries.notifyObservers();
+                    _userFourierSeries.addObserver( this );
+                }
             }
         }
     }
