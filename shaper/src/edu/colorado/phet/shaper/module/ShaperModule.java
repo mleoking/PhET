@@ -132,7 +132,7 @@ public class ShaperModule extends AbstractModule implements ActionListener {
             _newButton.addActionListener( this );
             PhetGraphic newButtonGraphic = PhetJComponent.newInstance( apparatusPanel, _newButton );
             newButtonGraphic.setRegistrationPoint( newButtonGraphic.getWidth(), 0 );
-            newButtonGraphic.setLocation( 1000, 490 ); // upper right, for i18n
+            newButtonGraphic.setLocation( 1000, 493 ); // upper right, for i18n
             apparatusPanel.addGraphic( newButtonGraphic );
         }
         
@@ -150,6 +150,7 @@ public class ShaperModule extends AbstractModule implements ActionListener {
             inputMirror.setLocation( 210, 40 );
 
             HTMLGraphic inputMirrorLabel = new HTMLGraphic( apparatusPanel );
+            inputMirrorLabel.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
             inputMirrorLabel.setFont( new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 18 ) );
             inputMirrorLabel.setColor( Color.BLACK );
             inputMirrorLabel.setHTML( SimStrings.get( "Mirror.label" ) );
@@ -165,6 +166,7 @@ public class ShaperModule extends AbstractModule implements ActionListener {
             outputMirror.setLocation( 50, 630 );
 
             HTMLGraphic outputMirrorLabel = new HTMLGraphic( apparatusPanel );
+            outputMirrorLabel.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
             outputMirrorLabel.setFont( new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 18 ) );
             outputMirrorLabel.setColor( Color.BLACK );
             outputMirrorLabel.setHTML( SimStrings.get( "Mirror.label" ) );
@@ -188,6 +190,7 @@ public class ShaperModule extends AbstractModule implements ActionListener {
             outputGrating.setLocation( 440, 445 );
 
             HTMLGraphic gratingsLabel = new HTMLGraphic( apparatusPanel );
+            gratingsLabel.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
             gratingsLabel.setFont( new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 18 ) );
             gratingsLabel.setColor( Color.LIGHT_GRAY );
             gratingsLabel.setHTML( SimStrings.get( "DiffractionGratings.label" ) );
@@ -219,6 +222,46 @@ public class ShaperModule extends AbstractModule implements ActionListener {
         apparatusPanel.addGraphic( _amplitudesView );
         _amplitudesView.setLocation( 15, 215 );
         
+        // Amplitudes "Reset" button
+        {
+            JButton _resetButton = new JButton( SimStrings.get( "reset" ) );
+            _resetButton.setOpaque( false );
+            // Reset button
+            _resetButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    setWaitCursorEnabled( true );
+                    resetAmplitudes();
+                    setWaitCursorEnabled( false );
+                }
+            } );
+            
+            PhetGraphic _resetButtonGraphic = PhetJComponent.newInstance( apparatusPanel, _resetButton );
+            _resetButtonGraphic.setLocation( _amplitudesView.getX() + 5, _amplitudesView.getY() + 5 );
+            _resetButtonGraphic.scale( 0.7 );
+            apparatusPanel.addGraphic( _resetButtonGraphic );
+        }
+        
+        // "Mask" label
+        {
+            HTMLGraphic maskLabel = new HTMLGraphic( apparatusPanel );
+            maskLabel.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+            maskLabel.setFont( new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 18 ) );
+            maskLabel.setColor( Color.LIGHT_GRAY );
+            maskLabel.setHTML( SimStrings.get( "Mask.label" ) );
+            maskLabel.setLocation( 10, 540 );
+            maskLabel.setIgnoreMouse( true );
+            apparatusPanel.addGraphic( maskLabel );
+            
+            Arrow arrow = new Arrow( new Point2D.Double( 0, 0 ), new Point2D.Double( 10, -40 ), 10, 10, 4 );
+            PhetShapeGraphic arrowGraphic = new PhetShapeGraphic( apparatusPanel );
+            arrowGraphic.setShape( arrow.getShape() );
+            arrowGraphic.setColor( Color.LIGHT_GRAY );
+            arrowGraphic.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+            arrowGraphic.setLocation( 30, 535 );
+            arrowGraphic.setIgnoreMouse( true );
+            apparatusPanel.addGraphic( arrowGraphic );
+        }
+        
         // Cheat panel
         _cheatPanel = new CheatPanel( apparatusPanel, _outputFourierSeries );
         apparatusPanel.addGraphic( _cheatPanel );
@@ -243,6 +286,7 @@ public class ShaperModule extends AbstractModule implements ActionListener {
    
         // Instructions
         HTMLGraphic instructions = new HTMLGraphic( apparatusPanel );
+        instructions.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         instructions.setHTML( SimStrings.get( "instructions" ) );
         instructions.setFont( new Font( ShaperConstants.FONT_NAME, Font.PLAIN, 18 ) );
         instructions.setColor( ShaperConstants.OUTPUT_PULSE_COLOR );
@@ -313,11 +357,7 @@ public class ShaperModule extends AbstractModule implements ActionListener {
         _userFourierSeries.setAdjusting( true );
         _outputFourierSeries.setAdjusting( true );
         
-        // Set the user's amplitudes to match the input pulse.
-        for ( int i = 0; i < _userFourierSeries.getNumberOfHarmonics(); i++ ) {
-            double amplitude = _inputFourierSeries.getHarmonic( i ).getAmplitude();
-            _userFourierSeries.getHarmonic( i ).setAmplitude( amplitude );
-        }
+        resetAmplitudes();
         
         // Set the output pulse amplitudes to the next molecule.
         _moleculeIndex++;
@@ -341,5 +381,15 @@ public class ShaperModule extends AbstractModule implements ActionListener {
         _outputFourierSeries.setAdjusting( false );
         
         setWaitCursorEnabled( false );
+    }
+    
+    /*
+     * Resets the user's amplitudes to match the input pulse.
+     */
+    private void resetAmplitudes() {
+        for ( int i = 0; i < _userFourierSeries.getNumberOfHarmonics(); i++ ) {
+            double amplitude = _inputFourierSeries.getHarmonic( i ).getAmplitude();
+            _userFourierSeries.getHarmonic( i ).setAmplitude( amplitude );
+        }
     }
 }
