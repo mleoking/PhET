@@ -6,7 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- fill in contents of Explanation dialog with a single image
+- get the real Help>Explanation files for assets and data/images
 
 
 MEDIUM PRIORITY:
@@ -40,6 +40,7 @@ PHETCOMMON:
 
 
 DONE:
+(11/1/05) - make the Help>Explanation dialog show an image file (placeholder image for now)
 (11/1/05) - resize molecule images
 (11/1/05) - resize Kaboom! image
 (11/1/05) - move "Reset" button out of AmplitudesView, make it reset to input pulse amplitude values
