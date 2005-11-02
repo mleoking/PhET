@@ -339,10 +339,17 @@ public class GameControlPanel extends FourierControlPanel implements SimpleObser
             FourierSeries randomFourierSeries = _gameManager.getRandomFourierSeries();
             for ( int i = 0; i < randomFourierSeries.getNumberOfHarmonics(); i++ ) {
                 
-                double dAmplitude = randomFourierSeries.getHarmonic( i ).getAmplitude();
-                // WORKAROUND: DecimalFormat does non-standard rounding, so truncate ala GameManager.isMatch
-                double truncAmplitude = Math.floor( dAmplitude / 0.01 ) * 0.01;
-                String sAmplitude = CHEAT_FORMAT.format( truncAmplitude );
+                double amplitude = randomFourierSeries.getHarmonic( i ).getAmplitude();
+                // WORKAROUND: DecimalFormat uses non-standard rounding, so round ala GameManager.isMatch
+                int percent = 0;
+                if ( amplitude < 0 ) {
+                    percent = (int) ( 100 * amplitude - 0.005 );
+                }
+                else {
+                    percent = (int) ( 100 * amplitude + 0.005 );    
+                }
+                double roundedAmplitude = percent * 0.01;
+                String sAmplitude = CHEAT_FORMAT.format( roundedAmplitude );
                 
                 JLabel label = new JLabel( "<html>A<sub>" + (i+1) + "</sub> = </html>" );
                 JLabel value = new JLabel( sAmplitude );

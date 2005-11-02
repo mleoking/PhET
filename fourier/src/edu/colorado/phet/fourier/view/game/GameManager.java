@@ -328,7 +328,7 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
     
     /*
      * Checks to see if the user's Fourier series matches the 
-     * randomly-generated Fourier series.  2 significant decimal
+     * randomly-generated Fourier series. 2 significant decimal
      * places are used in the comparison.
      * <p>
      * Criteria for a match:
@@ -343,6 +343,7 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
         
         boolean match = true;
         int count = 0;  // count the number of matches that are within 0.03
+        int numberOfNonZeroHarmonics = 0;
         
         int numberOfHarmonics = _userFourierSeries.getNumberOfHarmonics();
         for ( int i = 0; i < numberOfHarmonics && match == true ; i++ ) {
@@ -350,27 +351,46 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
            double userAmplitude = _userFourierSeries.getHarmonic( i ).getAmplitude();
            double randomAmplitude = _randomFourierSeries.getHarmonic( i ).getAmplitude();
            
-           // Truncate the amplitudes to 2 significant decimal places.
-           userAmplitude = Math.floor( userAmplitude / AMPLITUDE_STEP ) * AMPLITUDE_STEP;
-           randomAmplitude = Math.floor( randomAmplitude / AMPLITUDE_STEP ) * AMPLITUDE_STEP;
+           /* 
+            * Convert to an integer percentage, so that we're only dealing
+            * with 2 significant decimal places of the amplitude.
+            */
+           int userPercent = 0;
+           if ( userAmplitude < 0 ) {
+               userPercent = (int)( 100 * userAmplitude - 0.005 );
+           }
+           else {
+               userPercent = (int)( 100 * userAmplitude + 0.005 );
+           }
+           int randomPercent = 0;
+           if ( randomAmplitude < 0 ) {
+               randomPercent = (int)( 100 * randomAmplitude - 0.005 );
+           }
+           else {
+               randomPercent = (int)( 100 * randomAmplitude + 0.005 );
+           }
            
-           if ( ( randomAmplitude < 0 && userAmplitude > 0 ) || ( randomAmplitude > 0 && userAmplitude < 0 ) ) {
+           if ( randomPercent != 0 ) {
+               numberOfNonZeroHarmonics++;
+           }
+           
+           if ( ( randomPercent < 0 && userPercent > 0 ) || ( randomPercent > 0 && userPercent < 0 ) ) {
                // sign is wrong
                match = false;
            }
-           else if ( randomAmplitude == 0 ) {
-               if ( Math.abs( userAmplitude ) > 0.03 ) {
+           else if ( randomPercent == 0 ) {
+               if ( Math.abs( userPercent ) > 3 ) {
                    // not close enough to zero amplitude
                    match = false;
                }
            }
            else {
-               double difference = Math.abs( userAmplitude - randomAmplitude );
-               if ( difference > 0.09 ) {
+               int difference = Math.abs( userPercent - randomPercent );
+               if ( difference > 9 ) {
                    // not close enough to non-zero amplitude
                    match = false;
                }
-               else if ( difference <= 0.03 ) {
+               else if ( difference <= 3 ) {
                    // count how many are within 0.03
                    count++;
                }
@@ -379,15 +399,6 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
         
         // Make sure at least 2 are within 0.03
         if ( match ) {
-            
-            // Count the non-zero harmonics - this works for GameConfigurations and presets.
-            int numberOfNonZeroHarmonics = 0;
-            for ( int i = 0; i < _randomFourierSeries.getNumberOfHarmonics(); i++ ) {
-                if ( _randomFourierSeries.getHarmonic( i ).getAmplitude() != 0 ) {
-                    numberOfNonZeroHarmonics++;
-                }
-            }
-            
             if ( count < 2 && count != numberOfNonZeroHarmonics ) {
                 match = false;
             }
