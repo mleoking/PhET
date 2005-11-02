@@ -370,7 +370,8 @@ public class PSwingEventHandler implements PInputEventListener {
 
     public void processEvent( PInputEvent aEvent, int type ) {
         if( aEvent.isMouseEvent() ) {
-            InputEvent sourceSwingEvent = aEvent.getSourceSwingEvent();
+//            InputEvent sourceSwingEvent = aEvent.getSourceSwingEvent();
+            InputEvent sourceSwingEvent = (InputEvent)EventQueue.getCurrentEvent();
             PSwingMouseEvent pSwingMouseEvent = PSwingMouseEvent.createMouseEvent( sourceSwingEvent.getID(), (MouseEvent)sourceSwingEvent, aEvent );
             if( !recursing ) {
                 recursing = true;
