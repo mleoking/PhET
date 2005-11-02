@@ -11,12 +11,18 @@
 
 package edu.colorado.phet.shaper;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
@@ -25,6 +31,7 @@ import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.util.DebugMenu;
 import edu.colorado.phet.common.view.components.menu.HelpMenu;
 import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.shaper.module.ShaperModule;
 
@@ -47,6 +54,7 @@ public class ShaperApplication extends PhetApplication {
     //----------------------------------------------------------------------------
     
     private ShaperModule _shaperModule;
+    private JDialog _explanationDialog;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -111,7 +119,7 @@ public class ShaperApplication extends PhetApplication {
             explanationItem.setMnemonic( SimStrings.get( "HelpMenu.explanation.mnemonic" ).charAt( 0 ) );
             explanationItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    JOptionPane.showMessageDialog(getPhetFrame(), "Explanation goes here" );//XXX
+                   handleExplanation();
                 }
             } );
             helpMenu.add( explanationItem );
@@ -128,6 +136,51 @@ public class ShaperApplication extends PhetApplication {
         }
     }
 
+    /*
+     * Opens the "Explanation" dialog, which shows what a real experimental apparatus
+     * looks like.  The dialog is not reused, and we make sure that only one such
+     * dialog can be open at a time.
+     */
+    private void handleExplanation() {
+        if ( _explanationDialog == null ) {
+            
+            // Load the image file
+            ImageIcon image = null;
+            try {
+                image = new ImageIcon( ImageLoader.loadBufferedImage( ShaperConstants.EXPLANATION_IMAGE ) );
+            }
+            catch ( IOException ioe ) {
+                image = null;
+                ioe.printStackTrace();
+            }
+            
+            // Put the image in a non-modal, non-resizable dialog.
+            if ( image != null ) {
+                _explanationDialog = new JDialog( getPhetFrame(), false /* nonmodal */);
+                // Put the image in the dialog and resize to fit
+                JLabel label = new JLabel( image );
+                _explanationDialog.getContentPane().add( label );
+                _explanationDialog.setSize( new Dimension( image.getIconWidth(), image.getIconHeight() ) );
+                _explanationDialog.setResizable( false );
+                // Center the dialog on the screen
+                Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+                int w = _explanationDialog.getSize().width;
+                int h = _explanationDialog.getSize().height;
+                int x = ( dim.width - w ) / 2;
+                int y = ( dim.height - h ) / 2;
+                _explanationDialog.setLocation( x, y );
+                // Release the dialog reference when the dialog is closed
+                _explanationDialog.addWindowListener( new WindowAdapter() {
+                    public void windowClosing( WindowEvent e ) {
+                        _explanationDialog = null;
+                    }
+                } );
+                // Show the dialog
+                _explanationDialog.show();
+            }
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // main
     //----------------------------------------------------------------------------
