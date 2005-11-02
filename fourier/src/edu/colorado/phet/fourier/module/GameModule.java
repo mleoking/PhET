@@ -16,8 +16,10 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 
+import javax.swing.JOptionPane;
 import javax.swing.event.MouseInputAdapter;
 
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
@@ -78,6 +80,7 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
     private GameControlPanel _controlPanel;
     private Dimension _canvasSize;
     private GameManager _gameManager;
+    private boolean _instructionsHaveBeenDisplayed;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -295,6 +298,25 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
         layoutViews();
     }
 
+    //----------------------------------------------------------------------------
+    // Module overrides
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Restore the state of sound when switching to this module.
+     * 
+     * @param app
+     */
+    public void activate( PhetApplication app ) {
+        super.activate( app );
+        if ( ! _instructionsHaveBeenDisplayed  ) {
+            _instructionsHaveBeenDisplayed = true;
+            String message = SimStrings.get( "GameInstructionsDialog.message" );
+            String title = SimStrings.get( "GameInstructionsDialog.title" );
+            JOptionPane.showMessageDialog( app.getPhetFrame(), message, title, JOptionPane.PLAIN_MESSAGE );
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // Save & Load configurations
     //----------------------------------------------------------------------------
