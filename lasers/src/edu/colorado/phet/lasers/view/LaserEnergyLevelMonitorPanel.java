@@ -293,7 +293,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
             // Which level graphic we use to set the x location of the pump beam's squiggle depends on how many
             // levels are being displayed.
             int idx = numLevels > 2 ? 2 : 1;
-            pumpSquiggleTx = AffineTransform.getTranslateInstance( levelGraphics[2].getPosition().getX(),
+            pumpSquiggleTx = AffineTransform.getTranslateInstance( levelGraphics[idx].getPosition().getX(),
                                                                    energyYTx.modelToView( module.getLaserModel().getGroundState().getEnergyLevel() ) );
             pumpSquiggleTx.rotate( -Math.PI / 2 );
         }
