@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- display an instructions dialog the first time we visit the game module
 
 
 MEDIUM PRIORITY:
@@ -61,6 +62,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(11/1) - don't calculate game match until user releases slider (not responsive enough otherwise)
 2.1.6 ...
 (11/1) - sync with phetcommon
 (11/1) - change location of help items in Discrete module so that they point to A1 slider and textfield
