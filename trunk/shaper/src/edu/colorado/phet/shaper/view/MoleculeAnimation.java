@@ -217,7 +217,6 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         // explosion (Kaboom!)
         _explosionGraphic = new PhetImageGraphic( component, ShaperConstants.KABOOM_IMAGE );
         _explosionGraphic.setRegistrationPoint( _explosionGraphic.getWidth()/2, 0 ); // top center
-        _explosionGraphic.scale( 0.4 ); // scale after setting registration point!
         _explosionGraphic.setLocation( _animationFrame.getLocation() );
         addGraphic( _explosionGraphic );
         
@@ -233,7 +232,6 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         }
         _moleculeHome = new Point( 30, 15 );
         _moleculeGraphic.setLocation( _moleculeHome );
-        _moleculeGraphic.scale( 0.50 );
         addGraphic( _moleculeGraphic );
         
         reset();   // put the animation at t=0
@@ -278,7 +276,6 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
      * @param index
      */
     public void setMolecule( int index ) {
-        System.out.println( "setMolecule " + index );//XXX
         String part1 = ShaperConstants.IMAGES_DIRECTORY + "molecule" + index + "_part1.png";
         String part2 = ShaperConstants.IMAGES_DIRECTORY + "molecule" + index + "_part2.png";
         String part3 = ShaperConstants.IMAGES_DIRECTORY + "molecule" + index + "_part3.png";

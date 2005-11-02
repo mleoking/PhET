@@ -7,8 +7,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - fill in contents of Explanation dialog with a single image
-- resize molecule images
-- resize Kaboom! image
 
 
 MEDIUM PRIORITY:
@@ -42,6 +40,8 @@ PHETCOMMON:
 
 
 DONE:
+(11/1/05) - resize molecule images
+(11/1/05) - resize Kaboom! image
 (11/1/05) - move "Reset" button out of AmplitudesView, make it reset to input pulse amplitude values
 (11/1/05) - add a "Mask" label pointing at the amplitudes control panel
 (11/1/05) - allow closeness to be any value, since we seem to have some problems here (eg, -353% closeness)
