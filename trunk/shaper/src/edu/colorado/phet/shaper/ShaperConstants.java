@@ -109,7 +109,7 @@ public class ShaperConstants {
     //----------------------------------------------------------------------------
     
     /** The closeness value that is considered a "match" */
-    public static final double CLOSENESS_MATCH = 0.90;
+    public static final double CLOSENESS_MATCH = 0.95;
     
     //----------------------------------------------------------------------------
     // Images

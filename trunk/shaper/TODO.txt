@@ -40,6 +40,9 @@ PHETCOMMON:
 
 
 DONE:
+(11/1/05) - change match threshold to 95%
+(11/1/05) - change closeness calculation
+(11/1/05) - normalize all the output pulse amplitudes, so that absolute value of largest amplitude is 1
 (11/1/05) - make the Help>Explanation dialog show an image file (placeholder image for now)
 (11/1/05) - resize molecule images
 (11/1/05) - resize Kaboom! image

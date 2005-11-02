@@ -431,7 +431,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
              * 
              * The calculation for "closeness" is:
              * 
-             *     closeness = 1 - ( Math.sqrt( (U1-D1)^2 + (U2-D2)^2 + ...) / Math.sqrt( D1^2 + D2^2 + ... ) )
+             *     closeness = 1 - ( Math.sqrt( (U1-D1)^2 + (U2-D2)^2 + ...) / Math.sqrt( ( 1+abs(D1))^2 + (1+abs(D2))^2 + ... ) )
              * 
              * where:
              *     Un is the user's amplitude for component n
@@ -444,7 +444,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
                 double userAmplitude = _userFourierSeries.getHarmonic( i ).getAmplitude();
                 double outputAmplitude = _outputFourierSeries.getHarmonic( i ).getAmplitude();
                 numerator += Math.pow( Math.abs( userAmplitude - outputAmplitude ), 2 );
-                denominator += Math.pow( outputAmplitude, 2 );
+                denominator += Math.pow( 1 + Math.abs( outputAmplitude ), 2 );
             }
 
             if ( denominator != 0 ) {
