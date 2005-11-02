@@ -125,34 +125,34 @@ public class MoleculeEnum extends AbstractEnum {
     //----------------------------------------------------------------------------
     
     private static final double[] MOLECULE0_AMPLITUDES = {
-            0.20, 0.70, 0.60, 0.20, 0.70, 0.40, -0.09
+            0.29, 1.0, 0.86, 0.29, 1.0, 0.57, -0.13
     };
     
     private static final double[] MOLECULE1_AMPLITUDES = {
-            -0.96, -0.22, 0.85, -0.74, 0.20, 0.47, -0.73
+            -1.0, -0.23, 0.89, -0.77, 0.21, 0.49, -0.76
     };
     
     private static final double[] MOLECULE2_AMPLITUDES = {
-            -0.53, 0.67, -0.53, 0.14, 0.43, -0.81, 0.47
+            -0.65, 0.83, -0.65, 0.17, 0.53, -1.0, 0.58
     };
     
     private static final double[] MOLECULE3_AMPLITUDES = {
-            0.42, 0.89, 0.85, 0.67, 0.12, 0.16, 0.44
+            0.47, 1.0, 0.96, 0.75, 0.13, 0.18, 0.49
     };
     
     private static final double[] MOLECULE4_AMPLITUDES = {
-            0.93, 0.34, 0.93, 0.46, -0.33, 0.21, -0.64
+            1.0, 0.37, 1.0, 0.49, -0.35, 0.23, -0.69
     };
     
     private static final double[] MOLECULE5_AMPLITUDES = {
-            -0.68, 0.18, 0.33, 0.79, 0.01, -0.22, 0.92
+            -0.74, 0.20, 0.36, 0.86, 0.01, -0.24, 1.0
     };
     
     private static final double[] MOLECULE6_AMPLITUDES = {
-            0.16, 0.14, -0.27, -0.53, -0.10, -0.03, -0.17
+            0.30, 0.26, -0.51, -1.0, -0.19, -0.06, -0.32
     };
     
     private static final double[] MOLECULE7_AMPLITUDES = {
-            0.94, 0.99, -0.16, -0.20, 0.07, 0.58, 0.52
+            0.95, 1.0, -0.16, -0.20, 0.07, 0.59, 0.53
     };
 }
