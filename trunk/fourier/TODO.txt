@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- game doesn't always "match" when it should (see it at game level 4)
 
 
 MEDIUM PRIORITY:
@@ -61,6 +62,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(11/2) - simplify the game instructions
 2.1.7 ...
 (11/1) - display an instructions dialog the first time we visit the game module
 (11/1) - don't calculate game match until user releases slider (not responsive enough otherwise)
