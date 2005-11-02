@@ -61,6 +61,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+2.1.8 ...
 (11/2) - simplify the game instructions even more
 (11/2) - bugfix: use same precision (2 decimal places) in matching algorthm and display of amplitude values
 (11/2) - simplify the game instructions
