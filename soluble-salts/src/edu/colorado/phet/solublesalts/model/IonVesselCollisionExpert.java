@@ -60,12 +60,12 @@ public class IonVesselCollisionExpert implements CollisionExpert,
 				// same polarity
 				boolean canBind = true;
 				double minDist = minDistToLikeIon;
-//				System.out.println( minDist );
-				List otherIons = model.getIonsOfType( ion.getClass() );
+//				List otherIons = model.getIonsOfType( ion.getClass() );
+				List otherIons = model.getIons();
 				for( int i = 0; i < otherIons.size(); i++ ) {
 					Ion testIon = (Ion)otherIons.get( i );
 					if( testIon.isBound()
-							&& testIon.getBindingLattice().getSeed() == testIon
+//							&& testIon.getBindingLattice().getSeed() == testIon
 							&& testIon.getPosition().distance(
 									ion.getPosition() ) < minDist ) {
 

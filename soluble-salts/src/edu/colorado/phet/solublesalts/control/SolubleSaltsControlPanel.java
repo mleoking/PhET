@@ -20,7 +20,10 @@ import edu.colorado.phet.solublesalts.util.DefaultGridBagConstraints;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -42,6 +45,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
 
         addControl( makeSodiumPanel( model ) );
         addControl( makeChloridePanel( model ) );
+        addControl( makeHeatControl( model ));
 
 
         // Sliders for affinity adjustment
@@ -59,20 +63,6 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         vesselIonStickSlider.setValue( 0.9 );
         vesselIonStickSlider.setNumMajorTicks( 5 );
 
-//        vesselIonReleaseSlider = new ModelSlider( "Ion release likelihood",
-//                                                  "",
-//                                                  0,
-//                                                  0.1,
-//                                                  0,
-//                                                  new DecimalFormat( "0.000" ) );
-//        vesselIonReleaseSlider.addChangeListener( new ChangeListener() {
-//            public void stateChanged( ChangeEvent e ) {
-//                model.getVessel().setIonReleaseAffinity( new RandomAffinity( vesselIonReleaseSlider.getValue() ) );
-//            }
-//        } );
-//        vesselIonReleaseSlider.setValue( 0.00 );
-//        vesselIonReleaseSlider.setNumMajorTicks( 5 );
-
         dissociationSlider = new ModelSlider( "Lattice dissociation likelihood",
                                               "",
                                               0,
@@ -88,8 +78,26 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         dissociationSlider.setNumMajorTicks( 5 );
 
         addControl( vesselIonStickSlider );
-//        addControl( vesselIonReleaseSlider );
         addControl( dissociationSlider );
+    }
+
+    private Component makeHeatControl( final SolubleSaltsModel model ) {
+        JPanel heatControlPanel = new JPanel();
+        final ModelSlider heatSlider = new ModelSlider( "Heat Control", "", -20, 20, 0 );
+        heatSlider.setSliderLabelFormat( new DecimalFormat( "#0"));
+        heatSlider.setTextFieldFormat( new DecimalFormat( "#0" ) );
+        heatSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                model.getHeatSource().setHeatChangePerClockTick( heatSlider.getValue() );
+            }
+        } );
+        heatSlider.getSlider().addMouseListener( new MouseAdapter() {
+            public void mouseReleased( MouseEvent e ) {
+                heatSlider.setValue( 0 );
+            }
+        } );
+        heatControlPanel.add( heatSlider);
+        return heatControlPanel;
     }
 
     /**

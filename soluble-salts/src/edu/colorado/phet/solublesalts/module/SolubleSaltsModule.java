@@ -19,8 +19,10 @@ import edu.colorado.phet.solublesalts.control.SolubleSaltsControlPanel;
 import edu.colorado.phet.solublesalts.model.*;
 import edu.colorado.phet.solublesalts.view.IonGraphicManager;
 import edu.colorado.phet.solublesalts.view.VesselGraphic;
+import edu.colorado.phet.solublesalts.view.StoveGraphic;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
 import java.util.Random;
@@ -58,6 +60,10 @@ public class SolubleSaltsModule extends PiccoloModule {
         vesselGraphic.addInputEventListener( new PDragEventHandler() );
         model.getVessel().setWaterLevel( model.getVessel().getDepth() * .7 );
 
+        // Add the stove
+        PNode stove = new StoveGraphic();
+        simPanel.addWorldChild( stove );
+
         // Create some ions and add it to the model
 
         {
@@ -79,24 +85,24 @@ public class SolubleSaltsModule extends PiccoloModule {
         }
         Ion ion = null;
 
-//        ion = new Chloride();
-//        IonInitializer.initialize( ion, model );
-//        ion.setPosition( 300, 450 );
-//        ion.setVelocity( 0, 5 );
+        ion = new Chloride();
+        IonInitializer.initialize( ion, model );
+        ion.setPosition( 130, 200 );
+        ion.setVelocity( 0, 5 );
 //        model.addModelElement( ion );
-//
-//        ion = new Sodium();
-//        IonInitializer.initialize( ion, model );
-//        ion.setPosition( 150, 630 );
-//        ion.setVelocity( 1, 0 );
+
+        ion = new Sodium();
+        IonInitializer.initialize( ion, model );
+        ion.setPosition( 70, 230 );
+        ion.setVelocity(5,0 );
 //        model.addModelElement( ion );
-//
-//        ion = new Sodium();
-//        IonInitializer.initialize( ion, model );
-//        ion.setPosition( 300, 250 );
-//        ion.setVelocity( 0, 5 );
+
+        ion = new Sodium();
+        IonInitializer.initialize( ion, model );
+        ion.setPosition( 600, 435 );
+        ion.setVelocity( 5, 0 );
 //        model.addModelElement( ion );
-//
+
 //        ion = new Chloride();
 //        IonInitializer.initialize( ion, model );
 //        ion.setPosition( 280, 200 );

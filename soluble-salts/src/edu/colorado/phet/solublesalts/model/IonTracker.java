@@ -11,7 +11,9 @@
 package edu.colorado.phet.solublesalts.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -53,5 +55,15 @@ public class IonTracker implements SolubleSaltsModel.IonListener {
 
     public List getIonsOfType( Class ionClass ) {
         return (List)ionMap.get( ionClass );
+    }
+    
+    public List getIons() {
+    	List result = new ArrayList();
+    	Collection lists = ionMap.values();
+    	for( Iterator it = lists.iterator(); it.hasNext(); ) {
+    		List l = (List)it.next();
+    		result.addAll( l );
+    	}    	
+    	return result;
     }
 }
