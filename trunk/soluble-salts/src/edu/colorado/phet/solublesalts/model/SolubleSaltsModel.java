@@ -14,6 +14,7 @@ import edu.colorado.phet.collision.CollisionExpert;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -31,13 +32,16 @@ public class SolubleSaltsModel extends BaseModel {
 
     // The vessel
     private Vessel vessel;
-    private Point2D vesselLoc = new Point2D.Double( 50, 150 );
-    private double vesselWidth = 100;
-    private double vesselDepth = 100;
+    private Point2D vesselLoc = SolubleSaltsConfig.VESSEL_ULC;
+    private double vesselWidth = SolubleSaltsConfig.VESSEL_SIZE.getWidth();
+    private double vesselDepth = SolubleSaltsConfig.VESSEL_SIZE.getHeight();
+//    private double vesselWidth = 120;
+//    private double vesselDepth = 100;
 
     // Collision mechanism objects
     IonIonCollisionExpert ionIonCollisionExpert = new IonIonCollisionExpert( this );
     private IonTracker ionTracker;
+    private HeatSource heatSource;
 
     public SolubleSaltsModel() {
 
@@ -64,7 +68,6 @@ public class SolubleSaltsModel extends BaseModel {
         // Create a vessel
         vessel = new Vessel( vesselWidth, vesselDepth, vesselLoc );
         addModelElement( vessel );
-
         addModelElement( new ModelElement() {
             IonVesselCollisionExpert ionVesselCollisionExpert = new IonVesselCollisionExpert( SolubleSaltsModel.this );
 
@@ -86,6 +89,11 @@ public class SolubleSaltsModel extends BaseModel {
             }
         } );
 
+        // Add a heat source/sink
+        heatSource = new HeatSource( this );
+        addModelElement( heatSource );
+        heatSource.setHeatChangePerClockTick( 10 );
+
     }
 
     public void addModelElement( ModelElement modelElement ) {
@@ -100,9 +108,17 @@ public class SolubleSaltsModel extends BaseModel {
         super.removeModelElement( modelElement );
 
         if( modelElement instanceof Ion ) {
-            ionListenerProxy.ionRemoved( new IonEvent( modelElement ) );
+        	Ion ion = (Ion)modelElement;
+            ionListenerProxy.ionRemoved( new IonEvent( ion ) );
+            if( ion.isBound() ) {
+            	ion.getBindingLattice().removeIon( ion );
+            }
         }
     }
+
+    //----------------------------------------------------------------
+    // Getters and setters
+    //----------------------------------------------------------------
 
     public Vessel getVessel() {
         return vessel;
@@ -114,6 +130,14 @@ public class SolubleSaltsModel extends BaseModel {
 
     public List getIonsOfType( Class ionClass ) {
         return ionTracker.getIonsOfType( ionClass );
+    }
+    
+    public List getIons() {
+    	return ionTracker.getIons();
+    }
+
+    public HeatSource getHeatSource() {
+        return heatSource;
     }
 
     //----------------------------------------------------------------
@@ -130,6 +154,24 @@ public class SolubleSaltsModel extends BaseModel {
     public void removeIonListener( IonListener listener ) {
         ionEventChannel.removeListener( listener );
     }
+
+    /**
+     * Adds kinetic energy to all the ions in the system
+     * @param heat
+     */
+    public void addHeat( double heat ) {
+        List ions = getIons();
+        for( int i = 0; i < ions.size(); i++ ) {
+            Ion ion = (Ion)ions.get( i );
+            double speed0 = ion.getVelocity().getMagnitude();
+            double speed1 = Math.sqrt( speed0 * speed0 + ( 2 * heat / ion.getMass() ));
+            ion.setVelocity( ion.getVelocity().normalize().scale( speed1 ));
+        }
+    }
+
+    //----------------------------------------------------------------
+    // Events and listeners
+    //----------------------------------------------------------------
 
     public class IonEvent extends EventObject {
         public IonEvent( Object source ) {
@@ -155,18 +197,6 @@ public class SolubleSaltsModel extends BaseModel {
         }
 
         public void ionRemoved( IonEvent event ) {
-        }
-    }
-
-    private class CollisionMechanism implements ModelElement {
-        private ArrayList experts = new ArrayList();
-
-        void addCollisionExpert( CollisionExpert expert ) {
-            experts.add( expert );
-        }
-
-        public void stepInTime( double dt ) {
-
         }
     }
 }

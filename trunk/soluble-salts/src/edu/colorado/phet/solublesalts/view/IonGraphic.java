@@ -11,6 +11,7 @@
 package edu.colorado.phet.solublesalts.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.piccolo.PImageFactory;
 import edu.colorado.phet.solublesalts.model.Ion;
 import edu.umd.cs.piccolo.PNode;
@@ -19,6 +20,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.awt.geom.Ellipse2D;
 
 /**
@@ -41,10 +43,15 @@ public class IonGraphic extends PNode implements SimpleObserver {
                                                                  (int)ion.getRadius() * 10 ) );
         this.addChild( pImage );
 
-//        String text = ion.getCharge() < 0 ? "-" : ( ion.getCharge() > 0 ? "+" : "0" );
-//        pText = new PText( text );
-//        pText.setTextPaint( Color.white );
-//        this.addChild( pText );
+        String text = ion.getCharge() < 0 ? "-" : ( ion.getCharge() > 0 ? "+" : "0" );
+        pText = new PText( text );
+        pText.setTextPaint( Color.white );
+        Font font = pText.getFont();
+        Font newFont = new Font( font.getName(), font.getStyle(), font.getSize() + 4);
+        pText.setFont( newFont );
+        pText.setX( pImage.getWidth() * 5 / 8 );
+//        pText.setY( pImage.getHeight() * 3 / 8 );
+        this.addChild( pText );
         update();
     }
 
@@ -66,5 +73,10 @@ public class IonGraphic extends PNode implements SimpleObserver {
             removeChild( pDebugPath );
             pDebugPath = null;
         }
+    }
+
+    public void setColor( Color color ) {
+        MakeDuotoneImageOp op = new MakeDuotoneImageOp( color );
+        pImage.setImage( op.filter( (BufferedImage)pImage.getImage(), null ));
     }
 }
