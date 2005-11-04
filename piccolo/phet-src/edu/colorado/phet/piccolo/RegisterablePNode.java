@@ -34,6 +34,31 @@ import java.awt.geom.Point2D;
 public class RegisterablePNode extends PNode {
     private Point2D registrationPoint = new Point2D.Double();
 
+    //----------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------
+
+    public RegisterablePNode() {
+    }
+
+    /**
+     *
+     * @param wrappedPNode A PNode that is to be wrapped by the new instance
+     */
+    public RegisterablePNode( PNode wrappedPNode ) {
+        addChild( wrappedPNode );
+    }
+
+    /**
+     *
+     * @param wrappedPNode  A PNode that is to be wrapped by the new instance
+     * @param registrationPoint The registation point
+     */
+    public RegisterablePNode( PNode wrappedPNode, Point2D registrationPoint ) {
+        addChild( wrappedPNode );
+        setRegistrationPoint( registrationPoint );
+    }
+
     /**
      * Returns the registration point
      * @return The registration point
@@ -70,16 +95,6 @@ public class RegisterablePNode extends PNode {
     }
 
     /**
-     * Sets the place where the registration point will be placed on the canvas when the
-     * RegisterablePNode is rendered.
-     * @param point
-     */
-    public void setOffset( Point2D point ) {
-        super.setOffset( point.getX() - registrationPoint.getX(),
-                         point.getY() - registrationPoint.getY());
-    }
-
-    /**
      * Gets the spot on the canvas where the registration point will be placed
      * @return
      */
@@ -97,6 +112,15 @@ public class RegisterablePNode extends PNode {
      * @param y
      */
     public void setOffset( double x, double y ) {
-        super.setOffset( x, y );
+        super.setOffset( x - registrationPoint.getX(), y - registrationPoint.getY());
+    }
+
+    /**
+     * Sets the place where the registration point will be placed on the canvas when the
+     * RegisterablePNode is rendered.
+     * @param point
+     */
+    public void setOffset( Point2D point ) {
+        setOffset( point.getX(), point.getY() );
     }
 }
