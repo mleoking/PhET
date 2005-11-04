@@ -190,7 +190,13 @@ public class Lattice extends Body implements Binder {
      * @param ion
      */
     public void removeIon( Ion ion ) {
-//    	getIons().remove( ion );
+    	getIons().remove( ion );
+
+        // If there aren't any ions left in the lattice, the lattice should be removed
+        // from the model
+        if( getIons().size() == 0 ) {
+            instanceLifetimeListenerProxy.instanceDestroyed( new InstanceLifetimeEvent( this ) );
+        }        
     }
 
     /**
@@ -207,15 +213,16 @@ public class Lattice extends Body implements Binder {
 
         Vector2D v = determineReleaseVelocity( ionToRelease );
         ionToRelease.setVelocity( v );
-        getIons().remove( ionToRelease );
+        removeIon( ionToRelease );
+//        getIons().remove( ionToRelease );
         ionToRelease.unbindFrom( this );
         ionToRelease.stepInTime( dt );
-
-        // If there aren't any ions left in the lattice, the lattice should be removed
-        // from the model
-        if( getIons().size() == 0 ) {
-            instanceLifetimeListenerProxy.instanceDestroyed( new InstanceLifetimeEvent( this ) );
-        }
+//
+//        // If there aren't any ions left in the lattice, the lattice should be removed
+//        // from the model
+//        if( getIons().size() == 0 ) {
+//            instanceLifetimeListenerProxy.instanceDestroyed( new InstanceLifetimeEvent( this ) );
+//        }
     }
 
     /**

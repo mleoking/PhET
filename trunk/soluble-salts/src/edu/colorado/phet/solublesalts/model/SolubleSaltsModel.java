@@ -41,6 +41,9 @@ public class SolubleSaltsModel extends BaseModel {
     // Instance data and methods
     //----------------------------------------------------------------
 
+    // Ksp for the model
+    double ksp;
+
     // The vessel
     private Vessel vessel;
     private Point2D vesselLoc = SolubleSaltsConfig.VESSEL_ULC;
@@ -51,6 +54,7 @@ public class SolubleSaltsModel extends BaseModel {
     IonIonCollisionExpert ionIonCollisionExpert = new IonIonCollisionExpert( this );
     private IonTracker ionTracker;
     private HeatSource heatSource;
+    private boolean nucleationEnabled;
 
     //---------------------------------------------------------------
     // Constructor and lifecycle methods
@@ -63,7 +67,7 @@ public class SolubleSaltsModel extends BaseModel {
         addIonListener( ionTracker );
 
         // Add an agent that will track the creation and destruction of salt lattices
-            Lattice.addInstanceLifetimeListener( new LatticeLifetimeTracker() );
+        Lattice.addInstanceLifetimeListener( new LatticeLifetimeTracker() );
 
         // Create a vessel
         vessel = new Vessel( vesselWidth, vesselDepth, vesselLoc );
@@ -75,10 +79,13 @@ public class SolubleSaltsModel extends BaseModel {
         // Add a heat source/sink
         heatSource = new HeatSource( this );
         addModelElement( heatSource );
+
+        // Add a model element that will flip nucleation on and off depending on the
+        // concentration of solutes and the Ksp
+        addModelElement( new NucleationMonitorAgent() );
     }
 
     /**
-     *
      * @param modelElement
      */
     public void addModelElement( ModelElement modelElement ) {
@@ -89,31 +96,45 @@ public class SolubleSaltsModel extends BaseModel {
         }
     }
 
+    /**
+     * @param modelElement
+     */
     public void removeModelElement( ModelElement modelElement ) {
         super.removeModelElement( modelElement );
 
         if( modelElement instanceof Ion ) {
-        	Ion ion = (Ion)modelElement;
+            Ion ion = (Ion)modelElement;
             ionListenerProxy.ionRemoved( new IonEvent( ion ) );
             if( ion.isBound() ) {
-            	ion.getBindingLattice().removeIon( ion );
+                ion.getBindingLattice().removeIon( ion );
             }
         }
     }
 
     public void reset() {
-    	List ions = ionTracker.getIons();
-    	for( int i = 0; i < ions.size(); i++ ) {
-    		Ion ion = (Ion)ions.get(i);
-    		removeModelElement(ion);
-    	}
-    	heatSource.setHeatChangePerClockTick( 0 );
+        List ions = ionTracker.getIons();
+        for( int i = 0; i < ions.size(); i++ ) {
+            Ion ion = (Ion)ions.get( i );
+            removeModelElement( ion );
+        }
+        heatSource.setHeatChangePerClockTick( 0 );
     }
-    
     
     //----------------------------------------------------------------
     // Getters and setters
     //----------------------------------------------------------------
+
+    public boolean isNucleationEnabled() {
+        return nucleationEnabled;
+    }
+
+    public double getKsp() {
+        return ksp;
+    }
+
+    public void setKsp( double ksp ) {
+        this.ksp = ksp;
+    }
 
     public Vessel getVessel() {
         return vessel;
@@ -126,13 +147,19 @@ public class SolubleSaltsModel extends BaseModel {
     public List getIonsOfType( Class ionClass ) {
         return ionTracker.getIonsOfType( ionClass );
     }
-    
+
     public List getIons() {
-    	return ionTracker.getIons();
+        return ionTracker.getIons();
     }
 
     public HeatSource getHeatSource() {
         return heatSource;
+    }
+
+    public double getConcentration() {
+        int numIons = ionTracker.getIons().size();
+        double volume = vessel.getVolume();
+        return ( (double)numIons ) / volume;
     }
 
     //----------------------------------------------------------------
@@ -152,6 +179,7 @@ public class SolubleSaltsModel extends BaseModel {
 
     /**
      * Adds kinetic energy to all the ions in the system
+     *
      * @param heat
      */
     public void addHeat( double heat ) {
@@ -159,9 +187,8 @@ public class SolubleSaltsModel extends BaseModel {
         for( int i = 0; i < ions.size(); i++ ) {
             Ion ion = (Ion)ions.get( i );
             double speed0 = ion.getVelocity().getMagnitude();
-            double speed1 = Math.sqrt( Math.max( MIN_SPEED, speed0 * speed0 + ( 2 * heat / ion.getMass() )));
-            System.out.println( "speed1 = " + speed1 );
-            ion.setVelocity( ion.getVelocity().normalize().scale( speed1 ));
+            double speed1 = Math.sqrt( Math.max( MIN_SPEED, speed0 * speed0 + ( 2 * heat / ion.getMass() ) ) );
+            ion.setVelocity( ion.getVelocity().normalize().scale( speed1 ) );
         }
     }
 
@@ -207,6 +234,8 @@ public class SolubleSaltsModel extends BaseModel {
         IonVesselCollisionExpert ionVesselCollisionExpert = new IonVesselCollisionExpert( SolubleSaltsModel.this );
 
         public void stepInTime( double dt ) {
+
+            // Look for collisions between ions
             for( int i = 0; i < numModelElements(); i++ ) {
                 if( modelElementAt( i ) instanceof Ion ) {
                     Ion ion = (Ion)modelElementAt( i );
@@ -234,6 +263,40 @@ public class SolubleSaltsModel extends BaseModel {
 
         public void instanceDestroyed( Lattice.InstanceLifetimeEvent event ) {
             removeModelElement( event.getInstance() );
+        }
+    }
+
+    /**
+     * Turns nucleation on and off depending on the concentration of solutes and Ksp
+     */
+    private class NucleationMonitorAgent implements ModelElement, Lattice.InstanceLifetimeListener {
+        List lattices = new ArrayList();
+
+        public NucleationMonitorAgent() {
+            Lattice.addInstanceLifetimeListener( this );
+        }
+
+        public void stepInTime( double dt ) {
+            nucleationEnabled = getConcentration() > ksp;
+
+            if( !nucleationEnabled ) {
+                while( !lattices.isEmpty() ) {
+                    Lattice lattice = (Lattice)lattices.get( 0 );
+                    List ions = lattice.getIons();
+                    for( int i = 0; i < ions.size(); i++ ) {
+                        Ion ion = (Ion)ions.get( i );
+                        ion.unbindFrom( lattice );
+                    }
+                }
+            }
+        }
+
+        public void instanceCreated( Lattice.InstanceLifetimeEvent event ) {
+            lattices.add( event.getInstance() );
+        }
+
+        public void instanceDestroyed( Lattice.InstanceLifetimeEvent event ) {
+            lattices.remove( event.getInstance() );
         }
     }
 }

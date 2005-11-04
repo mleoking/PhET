@@ -53,6 +53,7 @@ public class Ion extends Atom {
     public void unbindFrom( Binder binder ) {
         if( binder instanceof Lattice ) {
             bindingLattice = null;
+            ((Lattice)binder).removeIon( this );
         }
         super.unbindFrom( binder );
     }

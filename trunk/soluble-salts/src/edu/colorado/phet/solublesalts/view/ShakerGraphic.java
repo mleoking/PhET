@@ -21,12 +21,16 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ShakerGraphic extends PNode {
+public class ShakerGraphic extends RegisterablePNode {
 
     private PImage shakerImage;
 
     public ShakerGraphic() {
         shakerImage = PImageFactory.create( SolubleSaltsConfig.SHAKER_IMAGE_NAME );
         this.addChild( shakerImage );
+
+//        this.addInputEventListener( );
     }
+
+
 }

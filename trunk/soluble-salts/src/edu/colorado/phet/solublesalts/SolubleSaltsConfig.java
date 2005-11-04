@@ -37,7 +37,7 @@ public class SolubleSaltsConfig {
 
     // Images
     public static final String IMAGE_PATH = "images/";
-    public static final String SHAKER_IMAGE_NAME = IMAGE_PATH + "pump.gif";
+    public static final String SHAKER_IMAGE_NAME = IMAGE_PATH + "shaker.png";
     public static final String BLUE_ION_IMAGE_NAME = IMAGE_PATH + "molecule-big.gif";
     public static final String STOVE_IMAGE_FILE = IMAGE_PATH + "stove.png";
     public static final String FLAMES_IMAGE_FILE = IMAGE_PATH + "flames.gif";
