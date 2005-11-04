@@ -45,7 +45,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
 
         addControl( makeSodiumPanel( model ) );
         addControl( makeChloridePanel( model ) );
-        addControl( makeHeatControl( model ));
+        addControl( makeHeatControl( model ) );
 
 
         // Sliders for affinity adjustment
@@ -79,12 +79,22 @@ public class SolubleSaltsControlPanel extends ControlPanel {
 
         addControl( vesselIonStickSlider );
         addControl( dissociationSlider );
+        
+        // Reset button
+        JButton resetBtn = new JButton( "Reset" );
+        resetBtn.addChangeListener( new ChangeListener() {
+
+            public void stateChanged( ChangeEvent arg0 ) {
+                model.reset();
+            }
+        } );
+        addControl( resetBtn );
     }
 
     private Component makeHeatControl( final SolubleSaltsModel model ) {
         JPanel heatControlPanel = new JPanel();
         final ModelSlider heatSlider = new ModelSlider( "Heat Control", "", -20, 20, 0 );
-        heatSlider.setSliderLabelFormat( new DecimalFormat( "#0"));
+        heatSlider.setSliderLabelFormat( new DecimalFormat( "#0" ) );
         heatSlider.setTextFieldFormat( new DecimalFormat( "#0" ) );
         heatSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -96,7 +106,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
                 heatSlider.setValue( 0 );
             }
         } );
-        heatControlPanel.add( heatSlider);
+        heatControlPanel.add( heatSlider );
         return heatControlPanel;
     }
 
@@ -113,17 +123,17 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         sodiumPanel.add( label, gbc );
 
         // Spinners for the number of ions
-        final JSpinner sodiumSpinner = new JSpinner( new SpinnerNumberModel( model.getNumIonsOfType( Sodium.class ),
-                                                                             0,
-                                                                             100,
-                                                                             1 ) );
+        final JSpinner spinner = new JSpinner( new SpinnerNumberModel( model.getNumIonsOfType( Sodium.class ),
+                                                                       0,
+                                                                       100,
+                                                                       1 ) );
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.WEST;
-        sodiumPanel.add( sodiumSpinner, gbc );
+        sodiumPanel.add( spinner, gbc );
 
-        sodiumSpinner.addChangeListener( new ChangeListener() {
+        spinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                int dIons = ( (Integer)sodiumSpinner.getValue() ).intValue()
+                int dIons = ( (Integer)spinner.getValue() ).intValue()
                             - model.getNumIonsOfType( Sodium.class );
                 if( dIons > 0 ) {
                     for( int i = 0; i < dIons; i++ ) {
@@ -143,6 +153,8 @@ public class SolubleSaltsControlPanel extends ControlPanel {
                 }
             }
         } );
+
+        model.addIonListener( new SpinnerSyncAgent( model, Sodium.class, spinner ) );
         return sodiumPanel;
     }
 
@@ -189,6 +201,36 @@ public class SolubleSaltsControlPanel extends ControlPanel {
                 }
             }
         } );
+
+        model.addIonListener( new SpinnerSyncAgent( model, Chloride.class, spinner ) );
         return panel;
+    }
+
+
+    private class SpinnerSyncAgent implements SolubleSaltsModel.IonListener {
+        private SolubleSaltsModel model;
+        private Class ionClass;
+        private JSpinner spinner;
+
+        public SpinnerSyncAgent( SolubleSaltsModel model, Class ionClass, JSpinner spinner ) {
+            this.model = model;
+            this.ionClass = ionClass;
+            this.spinner = spinner;
+        }
+
+        public void ionAdded( SolubleSaltsModel.IonEvent event ) {
+            syncSpinner();
+        }
+
+        public void ionRemoved( SolubleSaltsModel.IonEvent event ) {
+            syncSpinner();
+        }
+
+        private void syncSpinner() {
+            if( model.getIonsOfType( ionClass ) != null
+                && model.getIonsOfType( ionClass ).size() != ( (Integer)spinner.getValue() ).intValue() ) {
+                spinner.setValue( new Integer( model.getIonsOfType( ionClass ).size() ) );
+            }
+        }
     }
 }

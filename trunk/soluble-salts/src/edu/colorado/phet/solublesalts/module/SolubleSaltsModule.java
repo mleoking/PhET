@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
+import edu.colorado.phet.piccolo.util.PiccoloUtils;
 import edu.colorado.phet.solublesalts.control.SolubleSaltsControlPanel;
 import edu.colorado.phet.solublesalts.model.*;
 import edu.colorado.phet.solublesalts.view.IonGraphicManager;
@@ -25,6 +26,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.Random;
 
 /**
@@ -62,6 +64,8 @@ public class SolubleSaltsModule extends PiccoloModule {
 
         // Add the stove
         PNode stove = new StoveGraphic();
+        Point2D refPt = PiccoloUtils.getBorderPoint( vesselGraphic, PiccoloUtils.SOUTH );
+        stove.setOffset( refPt.getX(), refPt.getY() + 50 );
         simPanel.addWorldChild( stove );
 
         // Create some ions and add it to the model
