@@ -12,6 +12,7 @@ package edu.colorado.phet.solublesalts.control;
 
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.solublesalts.model.*;
 import edu.colorado.phet.solublesalts.model.affinity.RandomAffinity;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
@@ -77,9 +78,30 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         dissociationSlider.setValue( 0.01 );
         dissociationSlider.setNumMajorTicks( 5 );
 
+//        final ModelSlider kspSlider = new ModelSlider( "Ksp", "", 0, 3E-4, 1E-4);
+//        kspSlider.setSliderLabelFormat( new DecimalFormat( "0E00") );
+//        kspSlider.setTextFieldFormat( new DecimalFormat( "0E00") );
+//        kspSlider.setNumMajorTicks( 3 );
+//        kspSlider.addChangeListener( new ChangeListener() {
+//            public void stateChanged( ChangeEvent e ) {
+//                model.setKsp( kspSlider.getValue() );
+//            }
+//        } );
+//        final JTextField concentrationTF = new JTextField( 8 );
+//        model.addModelElement( new ModelElement() {
+//            DecimalFormat format =  new DecimalFormat( "0E00" );
+//            public void stepInTime( double dt ) {
+//                double concentration = model.getConcentration();
+//                concentrationTF.setText( format.format( concentration ));
+//            }
+//        } );
+//
         addControl( vesselIonStickSlider );
         addControl( dissociationSlider );
-        
+        addControl( makeConcentrationPanel( model ) );
+
+
+
         // Reset button
         JButton resetBtn = new JButton( "Reset" );
         resetBtn.addChangeListener( new ChangeListener() {
@@ -90,6 +112,42 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         } );
         addControl( resetBtn );
     }
+
+    private JPanel makeConcentrationPanel( final SolubleSaltsModel model ) {
+        final ModelSlider kspSlider = new ModelSlider( "Ksp", "", 0, 3E-4, 1E-4);
+        kspSlider.setSliderLabelFormat( new DecimalFormat( "0E00") );
+        kspSlider.setTextFieldFormat( new DecimalFormat( "0E00") );
+        kspSlider.setNumMajorTicks( 3 );
+        kspSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                model.setKsp( kspSlider.getValue() );
+            }
+        } );
+        final JTextField concentrationTF = new JTextField( 8 );
+        model.addModelElement( new ModelElement() {
+            DecimalFormat format =  new DecimalFormat( "0E00" );
+            public void stepInTime( double dt ) {
+                double concentration = model.getConcentration();
+                concentrationTF.setText( format.format( concentration ));
+            }
+        } );
+
+        JPanel panel = new JPanel( new GridBagLayout() );
+        panel.setBorder( BorderFactory.createTitledBorder( "Concentration"));
+        GridBagConstraints gbc = new DefaultGridBagConstraints();
+        gbc.gridwidth = 2;
+        panel.add( kspSlider, gbc );
+        gbc.gridwidth = 1;
+        gbc.gridy = 1;
+        gbc.anchor = GridBagConstraints.EAST;
+        panel.add( new JLabel( "Concentration:"), gbc );
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        panel.add( concentrationTF, gbc );
+
+        return panel;
+    }
+
 
     private Component makeHeatControl( final SolubleSaltsModel model ) {
         JPanel heatControlPanel = new JPanel();

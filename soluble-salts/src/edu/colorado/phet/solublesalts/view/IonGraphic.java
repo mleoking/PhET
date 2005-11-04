@@ -31,6 +31,12 @@ import java.awt.geom.Ellipse2D;
  */
 public class IonGraphic extends PNode implements SimpleObserver {
 
+    private static boolean showBondIndicators;
+    public static void showBondIndicators( boolean selected ) {
+        showBondIndicators = selected;
+    }
+
+
     private Ion ion;
     private PImage pImage;
     private PText pText;
@@ -60,7 +66,7 @@ public class IonGraphic extends PNode implements SimpleObserver {
                         ion.getPosition().getY() - pImage.getHeight() / 2 );
 
         // Draws a mark on the ion if it's bound
-        if( ion.isBound() && pDebugPath == null ) {
+        if( showBondIndicators && ion.isBound() && pDebugPath == null ) {
             pDebugPath = new PPath( new Ellipse2D.Double( ( pImage.getWidth() / 2 ) - 2,
                                                           ( pImage.getHeight() / 2 ) - 2,
                                                           4,

@@ -174,6 +174,14 @@ public class Vessel implements ModelElement, Collidable, Binder {
         changeEventChannel.removeListener( listener );
     }
 
+    public double getVolume() {
+        return getWidth() * getDepth();
+    }
+
+    //----------------------------------------------------------------
+    // Events and listeners
+    //----------------------------------------------------------------
+
     public class ChangeEvent extends EventObject {
         public ChangeEvent( Object source ) {
             super( source );

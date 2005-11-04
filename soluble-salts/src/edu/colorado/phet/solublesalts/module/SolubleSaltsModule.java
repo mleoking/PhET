@@ -21,6 +21,7 @@ import edu.colorado.phet.solublesalts.model.*;
 import edu.colorado.phet.solublesalts.view.IonGraphicManager;
 import edu.colorado.phet.solublesalts.view.VesselGraphic;
 import edu.colorado.phet.solublesalts.view.StoveGraphic;
+import edu.colorado.phet.solublesalts.view.ShakerGraphic;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.PNode;
@@ -46,7 +47,7 @@ public class SolubleSaltsModule extends PiccoloModule {
         // Set up the basics
         final SolubleSaltsModel model = new SolubleSaltsModel();
         setModel( model );
-        simPanel = new PhetPCanvas( new Dimension( 900, 600 ));
+        simPanel = new PhetPCanvas( new Dimension( 900, 600 ) );
         setPhetPCanvas( simPanel );
 
         // Add a graphic manager to the model that will create and remove IonGraphics
@@ -63,10 +64,21 @@ public class SolubleSaltsModule extends PiccoloModule {
         model.getVessel().setWaterLevel( model.getVessel().getDepth() * .7 );
 
         // Add the stove
-        PNode stove = new StoveGraphic();
-        Point2D refPt = PiccoloUtils.getBorderPoint( vesselGraphic, PiccoloUtils.SOUTH );
-        stove.setOffset( refPt.getX(), refPt.getY() + 50 );
-        simPanel.addWorldChild( stove );
+        {
+            PNode stove = new StoveGraphic();
+            Point2D refPt = PiccoloUtils.getBorderPoint( vesselGraphic, PiccoloUtils.SOUTH );
+            stove.setOffset( refPt.getX(), refPt.getY() + 50 );
+            simPanel.addWorldChild( stove );
+        }
+
+        // Add the shaker
+        {
+        PNode shaker = new ShakerGraphic();
+            shaker.rotateInPlace( -Math.PI / 4 );
+        Point2D refPt = PiccoloUtils.getBorderPoint( vesselGraphic, PiccoloUtils.NORTH );
+            shaker.setOffset( refPt.getX(), refPt.getY() - 50 );
+            simPanel.addWorldChild( shaker );
+        }
 
         // Create some ions and add it to the model
 
@@ -98,7 +110,7 @@ public class SolubleSaltsModule extends PiccoloModule {
         ion = new Sodium();
         IonInitializer.initialize( ion, model );
         ion.setPosition( 70, 230 );
-        ion.setVelocity(5,0 );
+        ion.setVelocity( 5, 0 );
 //        model.addModelElement( ion );
 
         ion = new Sodium();
