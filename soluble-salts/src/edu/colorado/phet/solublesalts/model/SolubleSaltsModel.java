@@ -30,19 +30,32 @@ import java.util.List;
  */
 public class SolubleSaltsModel extends BaseModel {
 
+    //----------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------
+
+    private static final double MIN_SPEED = 1E-3;
+
+
+    //----------------------------------------------------------------
+    // Instance data and methods
+    //----------------------------------------------------------------
+
     // The vessel
     private Vessel vessel;
     private Point2D vesselLoc = SolubleSaltsConfig.VESSEL_ULC;
     private double vesselWidth = SolubleSaltsConfig.VESSEL_SIZE.getWidth();
     private double vesselDepth = SolubleSaltsConfig.VESSEL_SIZE.getHeight();
-//    private double vesselWidth = 120;
-//    private double vesselDepth = 100;
 
     // Collision mechanism objects
     IonIonCollisionExpert ionIonCollisionExpert = new IonIonCollisionExpert( this );
     private IonTracker ionTracker;
     private HeatSource heatSource;
 
+    //---------------------------------------------------------------
+    // Constructor and lifecycle methods
+    //---------------------------------------------------------------
+    
     public SolubleSaltsModel() {
 
         // Add an agent that will track the ions of various classes
@@ -50,52 +63,24 @@ public class SolubleSaltsModel extends BaseModel {
         addIonListener( ionTracker );
 
         // Add an agent that will track the creation and destruction of salt lattices
-        {
-            Lattice.InstanceLifetimeListener listener = new Lattice.InstanceLifetimeListener() {
-                public void instanceCreated( Lattice.InstanceLifetimeEvent event ) {
-                    addModelElement( event.getInstance() );
-//                    System.out.println( "SolubleSaltsModel.instanceCreated" );
-                }
-
-                public void instanceDestroyed( Lattice.InstanceLifetimeEvent event ) {
-                    removeModelElement( event.getInstance() );
-//                    System.out.println( "SolubleSaltsModel.instanceDestroyed" );
-                }
-            };
-            Lattice.addInstanceLifetimeListener( listener );
-        }
+            Lattice.addInstanceLifetimeListener( new LatticeLifetimeTracker() );
 
         // Create a vessel
         vessel = new Vessel( vesselWidth, vesselDepth, vesselLoc );
         addModelElement( vessel );
-        addModelElement( new ModelElement() {
-            IonVesselCollisionExpert ionVesselCollisionExpert = new IonVesselCollisionExpert( SolubleSaltsModel.this );
 
-            public void stepInTime( double dt ) {
-                for( int i = 0; i < numModelElements(); i++ ) {
-                    if( modelElementAt( i ) instanceof Ion ) {
-                        Ion ion = (Ion)modelElementAt( i );
-                        ionVesselCollisionExpert.detectAndDoCollision( ion, vessel );
-
-                        for( int j = 0; j < numModelElements(); j++ ) {
-                            if( modelElementAt( i ) != modelElementAt( j )
-                                && modelElementAt( j ) instanceof Ion ) {
-                                ionIonCollisionExpert.detectAndDoCollision( (Ion)modelElementAt( i ),
-                                                                            (Ion)modelElementAt( j ) );
-                            }
-                        }
-                    }
-                }
-            }
-        } );
+        // Add a model element that will handle collisions between ions and the vessel
+        addModelElement( new IonVesselCollisionAgent() );
 
         // Add a heat source/sink
         heatSource = new HeatSource( this );
         addModelElement( heatSource );
-        heatSource.setHeatChangePerClockTick( 10 );
-
     }
 
+    /**
+     *
+     * @param modelElement
+     */
     public void addModelElement( ModelElement modelElement ) {
         super.addModelElement( modelElement );
 
@@ -116,6 +101,16 @@ public class SolubleSaltsModel extends BaseModel {
         }
     }
 
+    public void reset() {
+    	List ions = ionTracker.getIons();
+    	for( int i = 0; i < ions.size(); i++ ) {
+    		Ion ion = (Ion)ions.get(i);
+    		removeModelElement(ion);
+    	}
+    	heatSource.setHeatChangePerClockTick( 0 );
+    }
+    
+    
     //----------------------------------------------------------------
     // Getters and setters
     //----------------------------------------------------------------
@@ -164,7 +159,8 @@ public class SolubleSaltsModel extends BaseModel {
         for( int i = 0; i < ions.size(); i++ ) {
             Ion ion = (Ion)ions.get( i );
             double speed0 = ion.getVelocity().getMagnitude();
-            double speed1 = Math.sqrt( speed0 * speed0 + ( 2 * heat / ion.getMass() ));
+            double speed1 = Math.sqrt( Math.max( MIN_SPEED, speed0 * speed0 + ( 2 * heat / ion.getMass() )));
+            System.out.println( "speed1 = " + speed1 );
             ion.setVelocity( ion.getVelocity().normalize().scale( speed1 ));
         }
     }
@@ -197,6 +193,47 @@ public class SolubleSaltsModel extends BaseModel {
         }
 
         public void ionRemoved( IonEvent event ) {
+        }
+    }
+
+    //----------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------
+
+    /**
+     * Detects and handles collisions between ions and the vessel
+     */
+    private class IonVesselCollisionAgent implements ModelElement {
+        IonVesselCollisionExpert ionVesselCollisionExpert = new IonVesselCollisionExpert( SolubleSaltsModel.this );
+
+        public void stepInTime( double dt ) {
+            for( int i = 0; i < numModelElements(); i++ ) {
+                if( modelElementAt( i ) instanceof Ion ) {
+                    Ion ion = (Ion)modelElementAt( i );
+                    ionVesselCollisionExpert.detectAndDoCollision( ion, vessel );
+
+                    for( int j = 0; j < numModelElements(); j++ ) {
+                        if( modelElementAt( i ) != modelElementAt( j )
+                            && modelElementAt( j ) instanceof Ion ) {
+                            ionIonCollisionExpert.detectAndDoCollision( (Ion)modelElementAt( i ),
+                                                                        (Ion)modelElementAt( j ) );
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Tracks the creation and destruction of lattice instances
+     */
+    private class LatticeLifetimeTracker implements Lattice.InstanceLifetimeListener {
+        public void instanceCreated( Lattice.InstanceLifetimeEvent event ) {
+            addModelElement( event.getInstance() );
+        }
+
+        public void instanceDestroyed( Lattice.InstanceLifetimeEvent event ) {
+            removeModelElement( event.getInstance() );
         }
     }
 }

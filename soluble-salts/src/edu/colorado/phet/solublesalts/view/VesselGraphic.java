@@ -17,6 +17,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D;
 
 /**
  * VesselGraphic
@@ -26,8 +27,13 @@ import java.awt.geom.Rectangle2D;
  */
 public class VesselGraphic extends PNode {
 
+    //----------------------------------------------------------------
+    // Instance data and methods
+    //----------------------------------------------------------------
+
     private PPath shape;
     private PPath water;
+    private Color waterColor = new Color( 161, 197, 234 );
 
     public VesselGraphic( Vessel vessel ) {
 
@@ -40,8 +46,7 @@ public class VesselGraphic extends PNode {
         shape = new PPath();
         addChild( shape );
         water = new PPath();
-        water.setPaint( new Color( 161, 197, 234 ) );
-//        water.setPaint( Color.cyan );
+        water.setPaint( waterColor );
         this.addChild( water );
         update( vessel );
     }
@@ -50,17 +55,18 @@ public class VesselGraphic extends PNode {
         float thickness = 20;
         Rectangle2D rect = vessel.getShape();
         DoubleGeneralPath walls = new DoubleGeneralPath();
-        walls.moveTo( rect.getMinX() - thickness / 2, rect.getMinY() );
+        walls.moveTo( -thickness / 2, 0 );
         walls.lineToRelative( 0, rect.getHeight() + thickness / 2 );
         walls.lineToRelative( rect.getWidth() + thickness, 0 );
         walls.lineToRelative( 0, -( rect.getHeight() + thickness / 2 ) );
         shape.setPathTo( walls.getGeneralPath() );
         shape.setStroke( new BasicStroke( thickness ) );
 
-        water.setPathTo( new Rectangle2D.Double( vessel.getLocation().getX(),
-                                                 vessel.getShape().getMaxY() - vessel.getWaterLevel(),
+        water.setPathTo( new Rectangle2D.Double( 0,
+                                                 shape.getHeight() - thickness * 3 / 2 - vessel.getWaterLevel(),
                                                  vessel.getShape().getWidth(),
                                                  vessel.getWaterLevel() ) );
+        setOffset( vessel.getLocation() );
     }
 
 }
