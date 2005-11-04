@@ -407,7 +407,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         JFrame frame = PhetApplication.instance().getPhetFrame();
         String title = SimStrings.get( "WinDialog.title" );
         String message = SimStrings.get( "WinDialog.message" );
-        JOptionPane.showMessageDialog( frame, message, title, JOptionPane.INFORMATION_MESSAGE );
+        JOptionPane.showMessageDialog( frame, message, title, JOptionPane.PLAIN_MESSAGE );
 
         // Start a new "game".
         _module.newGame();
