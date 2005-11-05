@@ -273,7 +273,11 @@ public class EnergyConservationModel {
         return body.getMass() * gravity * h;
     }
 
-    public double getTotalEnergy( Body body ) {
+    public double getTotalEnergy(Body body){
+        return getTotalMechanicalEnergy( body )+getThermalEnergy();
+    }
+
+    public double getTotalMechanicalEnergy( Body body ) {
         double ke = body.getKineticEnergy();
         double pe = getPotentialEnergy( body );
         return ke + pe;

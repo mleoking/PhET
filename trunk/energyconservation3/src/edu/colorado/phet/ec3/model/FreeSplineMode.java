@@ -50,7 +50,7 @@ public class FreeSplineMode extends ForceMode {
         rotateBody( body, segment );//!
 
         AbstractVector2D netForce = computeNetForce( model, segment );
-        System.out.println( "netForce = " + netForce );
+//        System.out.println( "netForce = " + netForce );
         super.setNetForce( netForce );
         super.stepInTime( model, body, dt ); //apply newton's laws
 
@@ -61,7 +61,7 @@ public class FreeSplineMode extends ForceMode {
         AbstractVector2D dx = body.getPositionVector().getSubtractedInstance( origPosition.getX(), origPosition.getY() );
         double frictiveWork = Math.abs( getFrictionForce( model, segment ).dot( dx ) );
         if( frictiveWork == 0 ) {//can't manipulate friction, so just modify v/h
-//            new EnergyConserver().fixEnergy( model, body, origMechEnergy - frictiveWork );
+            new EnergyConserver().fixEnergy( model, body, origMechEnergy - frictiveWork );
         }
         else {
             //modify the frictive work slightly so we don't have to account for all error energy in V and H.
@@ -225,7 +225,7 @@ public class FreeSplineMode extends ForceMode {
                 getGravityForce( model ),
                 getNormalForce( model, segment ),
                 getThrustForce(),
-                getFrictionForce( model, segment )
+                getFrictionForce( model, segment)
         };
         Vector2D.Double sum = new Vector2D.Double();
         for( int i = 0; i < forces.length; i++ ) {
@@ -248,7 +248,7 @@ public class FreeSplineMode extends ForceMode {
         return model.getGravity() * body.getMass();
     }
 
-    private AbstractVector2D getFrictionForce( EnergyConservationModel model, Segment segment ) {
+    private AbstractVector2D getFrictionForce( EnergyConservationModel model, Segment segment) {
 //        double fricMag = getFrictionCoefficient() * getNormalForce( model, segment ).getMagnitude();
 //        AbstractVector2D friction = segment.getUnitDirectionVector().getInstanceOfMagnitude( fricMag );
 //        if( friction.dot( body.getVelocity() ) < 0 ) {
@@ -256,8 +256,14 @@ public class FreeSplineMode extends ForceMode {
 //        }
 //        return friction;
         double fricMag = getFrictionCoefficient() * getNormalForce( model, segment ).getMagnitude();
-        AbstractVector2D friction = body.getVelocity().getScaledInstance( -fricMag );
-        return friction;
+//        System.out.println( "body.getVelocity().getMagnitude() = " + body.getVelocity().getMagnitude() );
+        if( body.getVelocity().getMagnitude() < 1 ) {
+            return new Vector2D.Double();
+        }
+        else {
+            AbstractVector2D friction = body.getVelocity().getScaledInstance( -fricMag );
+            return friction;
+        }
     }
 
     private AbstractVector2D getNormalForce( EnergyConservationModel model, Segment segment ) {

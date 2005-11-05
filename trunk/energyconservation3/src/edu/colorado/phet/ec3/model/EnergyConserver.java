@@ -23,15 +23,16 @@ public class EnergyConserver {
 //            System.out.println( "Conserve Via V" );
             conserveEnergyViaV( model, body, desiredMechanicalEnergy );
         }
+//        System.out.println( "Conserve via H" );
         conserveEnergyViaH( model, body, desiredMechanicalEnergy );
 //        EnergyDebugger.postProcessed( model, body, origTotalEnergy, "dH" );
-        double finalEnergy = model.getTotalEnergy( body );
+        double finalEnergy = model.getTotalMechanicalEnergy( body );
         double deTOT = finalEnergy - desiredMechanicalEnergy;
         EC3Debug.debug( "dETOT=" + deTOT );
     }
 
     private void conserveEnergyViaV( EnergyConservationModel model, Body body, double origTotalEnergy ) {
-        double finalTotalEnergy = model.getTotalEnergy( body );
+        double finalTotalEnergy = model.getTotalMechanicalEnergy( body );
         double dE = finalTotalEnergy - origTotalEnergy;
         EC3Debug.debug( "dE = " + dE );
         //how can we put this change in energy back in the system?
@@ -39,18 +40,18 @@ public class EnergyConserver {
         AbstractVector2D dvVector = body.getVelocity().getInstanceOfMagnitude( -dv );
         body.setVelocity( dvVector.getAddedInstance( body.getVelocity() ) );
 
-        double modifiedTotalEnergy = model.getTotalEnergy( body );
+        double modifiedTotalEnergy = model.getTotalMechanicalEnergy( body );
         double dEMod = modifiedTotalEnergy - origTotalEnergy;
         EC3Debug.debug( "dEModV = " + dEMod );
     }
 
     private void conserveEnergyViaH( EnergyConservationModel model, Body body, double origTotalEnergy ) {
-        double finalTotalEnergy = model.getTotalEnergy( body );
+        double finalTotalEnergy = model.getTotalMechanicalEnergy( body );
         double dE = finalTotalEnergy - origTotalEnergy;
         EC3Debug.debug( "dE = " + dE );
         double dh = dE / body.getMass() / model.getGravity();
         body.translate( 0, dh );
-        double modifiedTotalEnergy = model.getTotalEnergy( body );
+        double modifiedTotalEnergy = model.getTotalMechanicalEnergy( body );
         double dEMod = modifiedTotalEnergy - origTotalEnergy;
         EC3Debug.debug( "dEModH = " + dEMod );
     }
