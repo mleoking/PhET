@@ -1,4 +1,7 @@
-package edu.colorado.phet.ec3.model;//Ordinary Differential Equations Solver (ODES)
+package edu.colorado.phet.ec3.model;
+
+//http://www.physics.orst.edu/~rubin/CPbook/PROGS/J_PROGS/For_Students/RK4.java
+//Ordinary Differential Equations Solver (ODES)
 //Solve the differential equation  using 4th order Runge-Kutta Method
 //copywrite 2002 R Landau, Oregon State U
 
