@@ -210,11 +210,11 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
         //----------------------------------------------------------------------------
         
         // Help Items
-        HelpBubble slidersToolHelp = new HelpBubble( apparatusPanel, SimStrings.get( "DiscreteModule.help.sliders" ) );
+        HelpBubble slidersToolHelp = new HelpBubble( apparatusPanel, SimStrings.get( "GameModule.help.sliders" ) );
         slidersToolHelp.pointAt( new Point( 252, 117 ), HelpBubble.TOP_CENTER, 30 );
         addHelpItem( slidersToolHelp );
         
-        HelpBubble textfieldsToolHelp = new HelpBubble( apparatusPanel, SimStrings.get( "DiscreteModule.help.textfields" ) );
+        HelpBubble textfieldsToolHelp = new HelpBubble( apparatusPanel, SimStrings.get( "GameModule.help.textfields" ) );
         textfieldsToolHelp.pointAt( new Point( 205, 44 ), HelpBubble.TOP_CENTER, 15 );
         addHelpItem( textfieldsToolHelp );
    
