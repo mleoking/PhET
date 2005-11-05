@@ -1,8 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3.model;
 
-import JSci.maths.Mapping;
-import JSci.maths.NumericalMath;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 
@@ -100,26 +98,26 @@ public class ForceMode implements UpdateMode, Derivable {
 //        this.oldV = body.getVelocity().getY();
 //    }
 
-    private void updateJSCiRK4( EnergyConservationModel model, final Body body, double dt ) {
-        double[]v = new double[2];
-        v[0] = body.getVelocity().getY();
-        NumericalMath.rungeKutta4( v, new Mapping() {
-            public double map( double v ) {
-                return getNetForce().getY();
-            }
-        }, dt );
-
-        body.setVelocity( 0, v[1] );
-
-        double[]y = new double[2];
-        y[0] = body.getY();
-        NumericalMath.rungeKutta4( y, new Mapping() {
-            public double map( double x ) {
-                return body.getVelocity().getY();
-            }
-        }, dt );
-        body.setPosition( body.getX(), y[1] );
-    }
+//    private void updateJSCiRK4( EnergyConservationModel model, final Body body, double dt ) {
+//        double[]v = new double[2];
+//        v[0] = body.getVelocity().getY();
+//        NumericalMath.rungeKutta4( v, new Mapping() {
+//            public double map( double v ) {
+//                return getNetForce().getY();
+//            }
+//        }, dt );
+//
+//        body.setVelocity( 0, v[1] );
+//
+//        double[]y = new double[2];
+//        y[0] = body.getY();
+//        NumericalMath.rungeKutta4( y, new Mapping() {
+//            public double map( double x ) {
+//                return body.getVelocity().getY();
+//            }
+//        }, dt );
+//        body.setPosition( body.getX(), y[1] );
+//    }
 
     private void updateFlanRK( EnergyConservationModel model, Body body, double dt ) {
         double y = body.getY();

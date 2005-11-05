@@ -84,7 +84,7 @@ public class EnergyPanel extends ControlPanel {
         } );
         addControl( showBarChart );
 
-        final ModelSlider modelSlider = new ModelSlider( "Coefficient of Friction", "", 0, 0.4, 0.0, new DecimalFormat( "0.00" ), new DecimalFormat( "0.00" ) );
+        final ModelSlider modelSlider = new ModelSlider( "Coefficient of Friction", "", 0, 0.4, 0.0, new DecimalFormat( "0.000" ), new DecimalFormat( "0.000" ) );
         modelSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 module.setCoefficientOfFriction( modelSlider.getValue() );

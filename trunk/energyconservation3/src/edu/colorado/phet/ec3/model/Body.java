@@ -57,7 +57,7 @@ public class Body {
     }
 
     public void stepInTime( EnergyConservationModel energyConservationModel, double dt ) {
-        System.out.println( "Total Energy: " + energyConservationModel.getTotalEnergy( this ) );
+//        System.out.println( "Total Energy: " + energyConservationModel.getTotalEnergy( this ) );
         EnergyDebugger.stepStarted( energyConservationModel, this, dt );
         getMode().stepInTime( energyConservationModel, this, dt );
         if( !isFreeFallMode() && !isUserControlled() ) {
