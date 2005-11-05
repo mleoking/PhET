@@ -40,7 +40,7 @@ public class EC3Module extends PiccoloModule {
     public static final int chartFrameHeight = 200;
     private static final boolean DEFAULT_BAR_CHARTS_VISIBLE = false;
     private static final boolean DEFAULT_PLOT_VISIBLE = false;
-    private Point2D.Double defaultBodyPosition = new Point2D.Double( 150, 200 );;
+    private Point2D.Double defaultBodyPosition = new Point2D.Double( 150, 200 );
 
     /**
      * @param name
@@ -150,6 +150,13 @@ public class EC3Module extends PiccoloModule {
         spline.addControlPoint( 47, 170 );
         spline.addControlPoint( 336, 543 );
         spline.addControlPoint( 669, 152 );
+
+
+//        CubicSpline spline = new CubicSpline( EC3Canvas.NUM_CUBIC_SPLINE_SEGMENTS );
+//        spline.addControlPoint( 47, 543);
+//        spline.addControlPoint( 336, 543 );
+//        spline.addControlPoint( 669, 543 );
+
         SplineSurface surface = new SplineSurface( spline );
 //        AbstractSpline revspline = spline.createReverseSpline();
         SplineGraphic splineGraphic = new SplineGraphic( energyCanvas, surface );
