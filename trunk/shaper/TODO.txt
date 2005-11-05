@@ -40,6 +40,7 @@ PHETCOMMON:
 
 
 DONE:
+0.0.7 ...
 (11/4/05) - change "match" dialog to make it look less like an error dialog
 0.0.6 ...
 (11/1/05) - change match threshold to 95%
