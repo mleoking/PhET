@@ -30,7 +30,7 @@ public class RK4 {
         for( t = Tmin; t <= Tmax; t += h ) {
             System.out.println( "RK4 t=" + t + " , x= " + y[0] + ", v= " + y[1] );//printout
             w.println( t + " " + y[0] + " " + y[1] );//output to file
-            rk4( t, y, h, 2, diff );
+            rk4( t, y, h, diff );
         }
         System.out.println( "Data stored in RK4.dat" );
     }
@@ -38,7 +38,8 @@ public class RK4 {
 // ====== rk4 method below is *NOT TO BE MODIFIED. Instead, modify f method
 // this method advances the N-vector solution ahead by one step.
 
-    public static void rk4( double t, double y[], double h, int Neqs, Diff diff ) {
+    public static void rk4( double t, double y[], double h, Diff diff ) {
+        int Neqs = y.length;
         int i;
         double F[] = new double[Neqs];
         double ydumb[] = new double[Neqs];
