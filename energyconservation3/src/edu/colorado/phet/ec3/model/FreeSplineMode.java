@@ -65,30 +65,12 @@ public class FreeSplineMode extends ForceMode {
         }
         else {
             //modify the frictive work slightly so we don't have to account for all error energy in V and H.
-            double allowedToModifyHeat = Math.abs( frictiveWork / 4 );
+            double allowedToModifyHeat = Math.abs( frictiveWork *0.75 );
             model.addThermalEnergy( frictiveWork );
             double finalTotalEnergy1 = model.getTotalMechanicalEnergy( body ) + model.getThermalEnergy();
             double energyError = finalTotalEnergy1 - origTotalEnergy;
             System.out.println( "energyError " + energyError + ", frictiveWork=" + frictiveWork );
-//
-//            double finalTotalEnergyAll = model.getTotalMechanicalEnergy( body ) + model.getThermalEnergy();
 
-//
-////            System.out.println( "origTotalEnergyAll = " + origTotalEnergyAll );
-////            System.out.println( "finalTotalEnergyAll = " + finalTotalEnergyAll );
-//
-
-//            double actualMechEnergy = model.getMechanicalEnergy( body );
-////            if( desiredMechEnergy > actualMechEnergy ) {//fix it by adding heat
-////                double diff = desiredMechEnergy - actualMechEnergy;
-////                model.addThermalEnergy( diff );
-////                System.out.println( "diff = " + diff );
-////            }
-////            else {
-//////                setBottomAtZero( segment, body );
-////                new EnergyConserver().fixEnergy( model, body, desiredMechEnergy );//todo enhance energy conserver with thermal changes.
-////            }
-//
             double energyErrorSign = MathUtil.getSign( energyError );
             if( Math.abs( energyError ) > Math.abs( allowedToModifyHeat ) ) {//big problem
                 System.out.println( "error was too large to fix only with heat" );
@@ -102,8 +84,6 @@ public class FreeSplineMode extends ForceMode {
                 System.out.println( "Error was okay to fix with heat only." );
                 model.addThermalEnergy( -energyError );
             }
-
-//            setBottomAtZero( segment, body );
         }
     }
 
@@ -225,7 +205,7 @@ public class FreeSplineMode extends ForceMode {
                 getGravityForce( model ),
                 getNormalForce( model, segment ),
                 getThrustForce(),
-                getFrictionForce( model, segment)
+                getFrictionForce( model, segment )
         };
         Vector2D.Double sum = new Vector2D.Double();
         for( int i = 0; i < forces.length; i++ ) {
@@ -248,7 +228,7 @@ public class FreeSplineMode extends ForceMode {
         return model.getGravity() * body.getMass();
     }
 
-    private AbstractVector2D getFrictionForce( EnergyConservationModel model, Segment segment) {
+    private AbstractVector2D getFrictionForce( EnergyConservationModel model, Segment segment ) {
 //        double fricMag = getFrictionCoefficient() * getNormalForce( model, segment ).getMagnitude();
 //        AbstractVector2D friction = segment.getUnitDirectionVector().getInstanceOfMagnitude( fricMag );
 //        if( friction.dot( body.getVelocity() ) < 0 ) {
@@ -257,13 +237,8 @@ public class FreeSplineMode extends ForceMode {
 //        return friction;
         double fricMag = getFrictionCoefficient() * getNormalForce( model, segment ).getMagnitude();
 //        System.out.println( "body.getVelocity().getMagnitude() = " + body.getVelocity().getMagnitude() );
-        if( body.getVelocity().getMagnitude() < 1 ) {
-            return new Vector2D.Double();
-        }
-        else {
-            AbstractVector2D friction = body.getVelocity().getScaledInstance( -fricMag );
-            return friction;
-        }
+        AbstractVector2D friction = body.getVelocity().getScaledInstance( -fricMag );
+        return friction;
     }
 
     private AbstractVector2D getNormalForce( EnergyConservationModel model, Segment segment ) {
