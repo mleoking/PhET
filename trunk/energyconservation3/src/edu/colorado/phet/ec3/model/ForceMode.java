@@ -37,36 +37,34 @@ public class ForceMode implements UpdateMode, Derivable {
 //        updateJSCILeapfrog( model, body, dt );
 //        System.out.println( "model.getTotalEnergy( body ) = " + model.getTotalEnergy( body ) );
 
-//        updateRK4( model, body, dt );
-        int num=4;
-        for( int i = 0; i < num; i++ ) {
-            updateEuler( model, body, dt/num);
-        }
+        updateRK4( model, body, dt );
+//        int num=4;
+//        for( int i = 0; i < num; i++ ) {
+//            updateEuler( model, body, dt/num);
+//        }
     }
 
-
-    double Tmin = 0.0;
-    double Tmax = 10.0;         //endpoints
-    int Ntimes = 100;
-    double h = ( Tmax - Tmin ) / Ntimes;
-    double t = Tmin;
-
     private void updateRK4( final EnergyConservationModel model, final Body body, double dt ) {
-        double y[] = new double[]{body.getY(),body.getVelocity().getY()};
-//        for( t = Tmin; t <= Tmax; t += h ) {
-//        System.out.println( "RK4 t=" + t + " , x= " + y[0] + ", v= " + y[1] );//printout
-        RK4.Diff diff = new RK4.Diff() {
+        double y[] = new double[]{body.getY(), body.getVelocity().getY()};
+        RK4.Diff diffy = new RK4.Diff() {
             public void f( double t, double y[], double F[] ) {
-//                F[0] = y[1];  // RHS of first equation
-                F[0] = body.getVelocity().getY();
-                F[1] = model.getGravity();
+                F[0] = y[1];
+                F[1] = getNetForce().getY() / body.getMass();
             }
         };
-//            w.println( t + " " + y[0] + " " + y[1] );//output to file
-        RK4.rk4( t, y, h, 2, diff );
-        body.setPosition( body.getX(), y[0] );
-        body.setVelocity( body.getVelocity().getX(), y[1] );
-//        }
+        RK4.rk4( 0, y, dt, diffy );
+
+        double x[] = new double[]{body.getX(), body.getVelocity().getX()};
+        RK4.Diff diffx = new RK4.Diff() {
+            public void f( double t, double x[], double F[] ) {
+                F[0] = x[1];
+                F[1] = getNetForce().getX() / body.getMass();
+            }
+        };
+        RK4.rk4( 0, x, dt, diffx );
+
+        body.setPosition( x[0], y[0] );
+        body.setVelocity( x[1], y[1] );
     }
 
 //    double oldY;
