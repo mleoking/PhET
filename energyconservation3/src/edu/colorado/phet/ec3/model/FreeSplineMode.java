@@ -3,6 +3,7 @@ package edu.colorado.phet.ec3.model;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.Segment;
@@ -31,7 +32,8 @@ public class FreeSplineMode extends ForceMode {
 
     public void stepInTime( EnergyConservationModel model, Body body, double dt ) {
         Point2D.Double origPosition = body.getPosition();
-        double origTotalEnergy = model.getTotalEnergy( body );
+        double origMechEnergy = model.getTotalMechanicalEnergy( body );
+        double origTotalEnergy = model.getTotalMechanicalEnergy( body ) + model.getThermalEnergy();
         double origHeat = model.getThermalEnergy();
         EnergyDebugger.stepStarted( model, body, dt );
         double position = 0;
@@ -39,42 +41,70 @@ public class FreeSplineMode extends ForceMode {
             position = getPositionOnSpline( body );
         }
         catch( NullIntersectionException e ) {
-            flyOffSurface( body, model, dt, origTotalEnergy );
+            flyOffSurface( body, model, dt, origMechEnergy );
             return;
         }
         lastScalarPosition = position;
 
         Segment segment = spline.getSegmentPath().getSegmentAtPosition( position );//todo this duplicates much work.
-        rotateBody( body, segment );
+        rotateBody( body, segment );//!
 
         AbstractVector2D netForce = computeNetForce( model, segment );
-//        System.out.println( "netForce = " + netForce );
+        System.out.println( "netForce = " + netForce );
         super.setNetForce( netForce );
-        super.stepInTime( model, body, dt );
+        super.stepInTime( model, body, dt ); //apply newton's laws
 
         //just kill the perpendicular part of velocity, if it is through the track.
         // this should be lost to friction.
         //or to a bounce.
-        handleBounce( body, segment );
-        double dx = body.getPosition().distance( origPosition );
-        double dHeat = getFrictionForce( model, segment ).getMagnitude() * dx;
-//        double dHeat = 0.0;
-//        System.out.println( "dHeat = " + dHeat );
-        if( dHeat == 0 ) {
-            new EnergyConserver().fixEnergy( model, body, origTotalEnergy - dHeat );
+        handleBounce( body, segment );//!
+        AbstractVector2D dx = body.getPositionVector().getSubtractedInstance( origPosition.getX(), origPosition.getY() );
+        double frictiveWork = Math.abs( getFrictionForce( model, segment ).dot( dx ) );
+        if( frictiveWork == 0 ) {//can't manipulate friction, so just modify v/h
+//            new EnergyConserver().fixEnergy( model, body, origMechEnergy - frictiveWork );
         }
         else {
-            double dE = model.getTotalEnergy( body ) - origTotalEnergy;
-            model.addThermalEnergy( -dE );
-            double finalTotalEnergyAll = model.getTotalEnergy( body ) + model.getThermalEnergy();
-            double origTotalEnergyAll = origTotalEnergy + origHeat;
-//            System.out.println( "origTotalEnergyAll = " + origTotalEnergyAll );
-//            System.out.println( "finalTotalEnergyAll = " + finalTotalEnergyAll );
-            new EnergyConserver().fixEnergy( model, body, origTotalEnergyAll - model.getThermalEnergy() );//todo enhance energy conserver with thermal changes.
-        }
-//        if( getFrictionForce( model, segment ).getMagnitude() == 0 ) {
+            //modify the frictive work slightly so we don't have to account for all error energy in V and H.
+            double allowedToModifyHeat = Math.abs( frictiveWork / 4 );
+            model.addThermalEnergy( frictiveWork );
+            double finalTotalEnergy1 = model.getTotalMechanicalEnergy( body ) + model.getThermalEnergy();
+            double energyError = finalTotalEnergy1 - origTotalEnergy;
+            System.out.println( "energyError " + energyError + ", frictiveWork=" + frictiveWork );
 //
-//        }
+//            double finalTotalEnergyAll = model.getTotalMechanicalEnergy( body ) + model.getThermalEnergy();
+
+//
+////            System.out.println( "origTotalEnergyAll = " + origTotalEnergyAll );
+////            System.out.println( "finalTotalEnergyAll = " + finalTotalEnergyAll );
+//
+
+//            double actualMechEnergy = model.getMechanicalEnergy( body );
+////            if( desiredMechEnergy > actualMechEnergy ) {//fix it by adding heat
+////                double diff = desiredMechEnergy - actualMechEnergy;
+////                model.addThermalEnergy( diff );
+////                System.out.println( "diff = " + diff );
+////            }
+////            else {
+//////                setBottomAtZero( segment, body );
+////                new EnergyConserver().fixEnergy( model, body, desiredMechEnergy );//todo enhance energy conserver with thermal changes.
+////            }
+//
+            double energyErrorSign = MathUtil.getSign( energyError );
+            if( Math.abs( energyError ) > Math.abs( allowedToModifyHeat ) ) {//big problem
+                System.out.println( "error was too large to fix only with heat" );
+                model.addThermalEnergy( allowedToModifyHeat * energyErrorSign * -1 );
+
+                double origTotalEnergyAll = origMechEnergy + origHeat;
+                double desiredMechEnergy = origTotalEnergyAll - model.getThermalEnergy();
+                new EnergyConserver().fixEnergy( model, body, desiredMechEnergy );//todo enhance energy conserver with thermal changes.
+            }
+            else {
+                System.out.println( "Error was okay to fix with heat only." );
+                model.addThermalEnergy( -energyError );
+            }
+
+//            setBottomAtZero( segment, body );
+        }
     }
 
     private double getPositionOnSpline( Body body ) throws NullIntersectionException {
@@ -106,7 +136,7 @@ public class FreeSplineMode extends ForceMode {
                 grabbed = true;
             }
         }
-        if( lastGrabState == false && grabbed == true ) {
+        if( !lastGrabState && grabbed ) {
 
             if( origVector.getParallel() > 0 ) {//try to conserve velocity, so that the EnergyConserver doesn't have
                 //to make up for it all in dHeight.
@@ -151,6 +181,7 @@ public class FreeSplineMode extends ForceMode {
     }
 
     private void flyOffSurface( Body body, EnergyConservationModel model, double dt, double origTotalEnergy ) {
+        System.out.println( "FreeSplineMode.flyOffSurface" );
         double vy = body.getVelocity().getY();
         double timeToReturnToThisHeight = Math.abs( 2 * vy / model.getGravity() );
         double numTimeSteps = timeToReturnToThisHeight / dt;
@@ -191,10 +222,10 @@ public class FreeSplineMode extends ForceMode {
 
     private AbstractVector2D computeNetForce( EnergyConservationModel model, Segment segment ) {
         AbstractVector2D[] forces = new AbstractVector2D[]{
-            getGravityForce( model ),
-            getNormalForce( model, segment ),
-            getThrustForce(),
-            getFrictionForce( model, segment )
+                getGravityForce( model ),
+                getNormalForce( model, segment ),
+                getThrustForce(),
+                getFrictionForce( model, segment )
         };
         Vector2D.Double sum = new Vector2D.Double();
         for( int i = 0; i < forces.length; i++ ) {
@@ -218,6 +249,12 @@ public class FreeSplineMode extends ForceMode {
     }
 
     private AbstractVector2D getFrictionForce( EnergyConservationModel model, Segment segment ) {
+//        double fricMag = getFrictionCoefficient() * getNormalForce( model, segment ).getMagnitude();
+//        AbstractVector2D friction = segment.getUnitDirectionVector().getInstanceOfMagnitude( fricMag );
+//        if( friction.dot( body.getVelocity() ) < 0 ) {
+//            friction = friction.getScaledInstance( -1 );
+//        }
+//        return friction;
         double fricMag = getFrictionCoefficient() * getNormalForce( model, segment ).getMagnitude();
         AbstractVector2D friction = body.getVelocity().getScaledInstance( -fricMag );
         return friction;
