@@ -33,7 +33,7 @@ public class SolubleSaltsConfig {
 
     // Physical things
     public static final Point2D VESSEL_ULC = new Point2D.Double( 50, 150 ); // upper-left corner of vessel
-    public static final Dimension VESSEL_SIZE = new Dimension( 800, 400 );
+    public static final Dimension VESSEL_SIZE = new Dimension( 800, 500 );
 
     // Images
     public static final String IMAGE_PATH = "images/";

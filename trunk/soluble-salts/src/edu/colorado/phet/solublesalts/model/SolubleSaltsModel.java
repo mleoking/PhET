@@ -55,6 +55,7 @@ public class SolubleSaltsModel extends BaseModel {
     private IonTracker ionTracker;
     private HeatSource heatSource;
     private boolean nucleationEnabled;
+    private Shaker shaker;
 
     //---------------------------------------------------------------
     // Constructor and lifecycle methods
@@ -83,6 +84,11 @@ public class SolubleSaltsModel extends BaseModel {
         // Add a model element that will flip nucleation on and off depending on the
         // concentration of solutes and the Ksp
         addModelElement( new NucleationMonitorAgent() );
+
+        // Add a shaker
+        shaker = new Shaker( this );
+        shaker.setPosition( vessel.getLocation().getX() + vessel.getWidth() / 2,
+                            vessel.getLocation().getY() - 10 );
     }
 
     /**
@@ -160,6 +166,10 @@ public class SolubleSaltsModel extends BaseModel {
         int numIons = ionTracker.getIons().size();
         double volume = vessel.getVolume();
         return ( (double)numIons ) / volume;
+    }
+
+    public Shaker getShaker() {
+        return shaker;
     }
 
     //----------------------------------------------------------------

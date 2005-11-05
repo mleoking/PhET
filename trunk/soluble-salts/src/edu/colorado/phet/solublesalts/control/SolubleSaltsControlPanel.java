@@ -46,7 +46,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
 
         addControl( makeSodiumPanel( model ) );
         addControl( makeChloridePanel( model ) );
-        addControl( makeHeatControl( model ) );
+//        addControl( makeHeatControl( model ) );
 
 
         // Sliders for affinity adjustment
@@ -78,24 +78,6 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         dissociationSlider.setValue( 0.01 );
         dissociationSlider.setNumMajorTicks( 5 );
 
-//        final ModelSlider kspSlider = new ModelSlider( "Ksp", "", 0, 3E-4, 1E-4);
-//        kspSlider.setSliderLabelFormat( new DecimalFormat( "0E00") );
-//        kspSlider.setTextFieldFormat( new DecimalFormat( "0E00") );
-//        kspSlider.setNumMajorTicks( 3 );
-//        kspSlider.addChangeListener( new ChangeListener() {
-//            public void stateChanged( ChangeEvent e ) {
-//                model.setKsp( kspSlider.getValue() );
-//            }
-//        } );
-//        final JTextField concentrationTF = new JTextField( 8 );
-//        model.addModelElement( new ModelElement() {
-//            DecimalFormat format =  new DecimalFormat( "0E00" );
-//            public void stepInTime( double dt ) {
-//                double concentration = model.getConcentration();
-//                concentrationTF.setText( format.format( concentration ));
-//            }
-//        } );
-//
         addControl( vesselIonStickSlider );
         addControl( dissociationSlider );
         addControl( makeConcentrationPanel( model ) );
@@ -114,7 +96,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
     }
 
     private JPanel makeConcentrationPanel( final SolubleSaltsModel model ) {
-        final ModelSlider kspSlider = new ModelSlider( "Ksp", "", 0, 3E-4, 1E-4);
+        final ModelSlider kspSlider = new ModelSlider( "Ksp", "", 0, 3E-4, 0);
         kspSlider.setSliderLabelFormat( new DecimalFormat( "0E00") );
         kspSlider.setTextFieldFormat( new DecimalFormat( "0E00") );
         kspSlider.setNumMajorTicks( 3 );
@@ -123,6 +105,8 @@ public class SolubleSaltsControlPanel extends ControlPanel {
                 model.setKsp( kspSlider.getValue() );
             }
         } );
+        model.setKsp( kspSlider.getValue() );
+
         final JTextField concentrationTF = new JTextField( 8 );
         model.addModelElement( new ModelElement() {
             DecimalFormat format =  new DecimalFormat( "0E00" );
