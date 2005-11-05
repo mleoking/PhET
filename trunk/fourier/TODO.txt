@@ -61,6 +61,8 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(11/4) - use Noah's instructions for game
+(11/4) - change "you won" dialog to make it look less like an error dialog
 2.1.8 ...
 (11/2) - simplify the game instructions even more
 (11/2) - bugfix: use same precision (2 decimal places) in matching algorthm and display of amplitude values
