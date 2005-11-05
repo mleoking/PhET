@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
+import edu.colorado.phet.piccolo.RegisterablePNode;
 import edu.colorado.phet.piccolo.util.PiccoloUtils;
 import edu.colorado.phet.solublesalts.control.SolubleSaltsControlPanel;
 import edu.colorado.phet.solublesalts.model.*;
@@ -54,9 +55,6 @@ public class SolubleSaltsModule extends PiccoloModule {
         // when Ions are added to and removed from the model
         model.addIonListener( new IonGraphicManager( simPanel ) );
 
-        // Test code
-//        test();
-
         // Create a graphic for the vessel
         VesselGraphic vesselGraphic = new VesselGraphic( model.getVessel() );
         simPanel.addWorldChild( vesselGraphic );
@@ -68,16 +66,20 @@ public class SolubleSaltsModule extends PiccoloModule {
             PNode stove = new StoveGraphic();
             Point2D refPt = PiccoloUtils.getBorderPoint( vesselGraphic, PiccoloUtils.SOUTH );
             stove.setOffset( refPt.getX(), refPt.getY() + 50 );
-            simPanel.addWorldChild( stove );
+//            simPanel.addWorldChild( stove );
         }
 
         // Add the shaker
         {
-        PNode shaker = new ShakerGraphic();
-            shaker.rotateInPlace( -Math.PI / 4 );
-        Point2D refPt = PiccoloUtils.getBorderPoint( vesselGraphic, PiccoloUtils.NORTH );
-            shaker.setOffset( refPt.getX(), refPt.getY() - 50 );
-            simPanel.addWorldChild( shaker );
+            Shaker shaker = model.getShaker();
+            RegisterablePNode shakerGraphic = new ShakerGraphic( shaker );
+            shakerGraphic.setRegistrationPoint( shakerGraphic.getFullBounds().getWidth() / 2,
+                                                shakerGraphic.getFullBounds().getHeight() / 2 );
+            shakerGraphic.rotateInPlace( -Math.PI / 4 );
+//            Point2D refPt = PiccoloUtils.getBorderPoint( vesselGraphic, PiccoloUtils.NORTH );
+//            shakerGraphic.setOffset( refPt.getX(), refPt.getY() - 50 );
+            shakerGraphic.setOffset( shaker.getPosition().getX(), shaker.getPosition().getY() );
+            simPanel.addWorldChild( shakerGraphic );
         }
 
         // Create some ions and add it to the model
