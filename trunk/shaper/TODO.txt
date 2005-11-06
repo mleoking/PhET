@@ -6,7 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-
+- investigate why it's harder to match by systematically moving each slider
 
 MEDIUM PRIORITY:
 
