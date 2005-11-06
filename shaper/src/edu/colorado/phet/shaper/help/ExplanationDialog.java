@@ -64,27 +64,27 @@ public class ExplanationDialog extends JDialog {
         apparatusPanel.setBackground( BACKGROUND_COLOR );
         
         // Picture with annotated "bubbles"
-        CompositePhetGraphic picture = new CompositePhetGraphic( this );
+        CompositePhetGraphic picture = new CompositePhetGraphic( apparatusPanel );
         {
             // The image
-            PhetImageGraphic image = new PhetImageGraphic( this, ShaperConstants.EXPLANATION_IMAGE );
+            PhetImageGraphic image = new PhetImageGraphic( apparatusPanel, ShaperConstants.EXPLANATION_IMAGE );
             image.setLocation( 0, 0 );
             picture.addGraphic( image );
 
             // Mask bubble
-            HelpBubble maskBubble = new HelpBubble( this, SimStrings.get( "ExplanationDialog.mask" ) );
+            HelpBubble maskBubble = new HelpBubble( apparatusPanel, SimStrings.get( "ExplanationDialog.mask" ) );
             maskBubble.setColors( BUBBLE_TEXT_COLOR, BUBBLE_COLOR, BUBBLE_ARROW_COLOR );
             maskBubble.pointAt( new Point( 65, 140 ), HelpBubble.BOTTOM_LEFT, 30 );
             picture.addGraphic( maskBubble );
 
             // Mirror bubble
-            HelpBubble mirrorBubble = new HelpBubble( this, SimStrings.get( "ExplanationDialog.mirror" ) );
+            HelpBubble mirrorBubble = new HelpBubble( apparatusPanel, SimStrings.get( "ExplanationDialog.mirror" ) );
             mirrorBubble.setColors( BUBBLE_TEXT_COLOR, BUBBLE_COLOR, BUBBLE_ARROW_COLOR );
             mirrorBubble.pointAt( new Point( 580, 205 ), HelpBubble.RIGHT_CENTER, 30 );
             picture.addGraphic( mirrorBubble );
 
             // Diffraction Grating bubble
-            HelpBubble gratingBubble = new HelpBubble( this, SimStrings.get( "ExplanationDialog.grating" ) );
+            HelpBubble gratingBubble = new HelpBubble( apparatusPanel, SimStrings.get( "ExplanationDialog.grating" ) );
             gratingBubble.setColors( BUBBLE_TEXT_COLOR, BUBBLE_COLOR, BUBBLE_ARROW_COLOR );
             gratingBubble.pointAt( new Point( 320, 420 ), HelpBubble.RIGHT_BOTTOM, 30 );
             picture.addGraphic( gratingBubble );
