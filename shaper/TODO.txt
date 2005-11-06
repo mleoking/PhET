@@ -6,7 +6,6 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- get the real Help>Explanation files for assets and data/images
 
 
 MEDIUM PRIORITY:
@@ -40,6 +39,7 @@ PHETCOMMON:
 
 
 DONE:
+(11/6/05) - add real Explanation dialog, localized
 0.0.7 ...
 (11/4/05) - change "match" dialog to make it look less like an error dialog
 0.0.6 ...
