@@ -61,6 +61,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(11/6) - change "Congratulations!" back to "Winner!"
 2.1.9 ...
 (11/4) - use Noah's instructions for game
 (11/4) - change "you won" dialog to make it look less like an error dialog
