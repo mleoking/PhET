@@ -46,6 +46,9 @@ public class ExplanationDialog extends JDialog {
     private static final Color TEXT_COLOR = Color.BLACK;
     private static final int DEFAULT_TEXT_SIZE = 12;
     
+    /* Space for the "Java Application Window" label that Web Start puts on the bottom of dialogs. */
+    private static final int JAVA_APP_WINDOW_HEIGHT = 50;
+        
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -74,19 +77,19 @@ public class ExplanationDialog extends JDialog {
             // Mask bubble
             HelpBubble maskBubble = new HelpBubble( apparatusPanel, SimStrings.get( "ExplanationDialog.mask" ) );
             maskBubble.setColors( BUBBLE_TEXT_COLOR, BUBBLE_COLOR, BUBBLE_ARROW_COLOR );
-            maskBubble.pointAt( new Point( 65, 140 ), HelpBubble.BOTTOM_LEFT, 30 );
+            maskBubble.pointAt( new Point( 100, 175 ), HelpBubble.LEFT_CENTER, 40 );
             picture.addGraphic( maskBubble );
 
             // Mirror bubble
             HelpBubble mirrorBubble = new HelpBubble( apparatusPanel, SimStrings.get( "ExplanationDialog.mirror" ) );
             mirrorBubble.setColors( BUBBLE_TEXT_COLOR, BUBBLE_COLOR, BUBBLE_ARROW_COLOR );
-            mirrorBubble.pointAt( new Point( 580, 205 ), HelpBubble.RIGHT_CENTER, 30 );
+            mirrorBubble.pointAt( new Point( 605, 205 ), HelpBubble.RIGHT_CENTER, 50 );
             picture.addGraphic( mirrorBubble );
 
             // Diffraction Grating bubble
             HelpBubble gratingBubble = new HelpBubble( apparatusPanel, SimStrings.get( "ExplanationDialog.grating" ) );
             gratingBubble.setColors( BUBBLE_TEXT_COLOR, BUBBLE_COLOR, BUBBLE_ARROW_COLOR );
-            gratingBubble.pointAt( new Point( 320, 420 ), HelpBubble.RIGHT_BOTTOM, 30 );
+            gratingBubble.pointAt( new Point( 320, 420 ), HelpBubble.RIGHT_BOTTOM, 40 );
             picture.addGraphic( gratingBubble );
         }
         
@@ -117,7 +120,7 @@ public class ExplanationDialog extends JDialog {
         // Add to the dialog
         getContentPane().add( apparatusPanel );
         int width = Math.max( picture.getWidth(), text.getWidth() ) + ( 2 * X_MARGIN );
-        int height = picture.getHeight() + text.getHeight() + ( 4 * Y_MARGIN );
+        int height = picture.getHeight() + text.getHeight() + ( 4 * Y_MARGIN ) + JAVA_APP_WINDOW_HEIGHT;
         setSize( width, height );
         center();
     }

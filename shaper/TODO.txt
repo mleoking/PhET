@@ -39,6 +39,8 @@ PHETCOMMON:
 
 
 DONE:
+0.0.8 ...
+(11/6/05) - relocate the "Mask" bubble in Explanation dialog
 (11/6/05) - change "Congratulations!" back to "Match!"
 (11/6/05) - add real Explanation dialog, localized
 0.0.7 ...
