@@ -25,8 +25,7 @@ public class BarGraphic2D extends PNode {
     public double labelHeight;
     private double labelWidth;
 
-    public BarGraphic2D( String text, ModelViewTransform1D transform1D, double value, int x, int width, int y, int dx, int dy, Paint paint, Font barFont ) {
-        super();
+    public BarGraphic2D( String text, ModelViewTransform1D transform1D, double value, int x, int width, int y, int dx, int dy, Color color, Font barFont ) {
         this.transform1D = transform1D;
         this.value = value;
         this.x = x;
@@ -34,15 +33,17 @@ public class BarGraphic2D extends PNode {
         this.width = width;
 
         rectangle3DGraphic = new PPath( null );
-        rectangle3DGraphic.setPaint( paint );
+        rectangle3DGraphic.setPaint( color );
         rectangle3DGraphic.setStroke( new BasicStroke( 1 ) );
         rectangle3DGraphic.setStrokePaint( Color.black );
 
-        Color textColor = new Color( 240, 225, 255 );
-        label = new VerticalTextGraphic( barFont, text, Color.black, textColor );
+//        Color textColor = new Color( 240, 225, 255 );
+//        label = new VerticalTextGraphic( barFont, text, Color.black, textColor );
+        label = new VerticalTextGraphic( barFont, text, color, Color.black );
         addChild( rectangle3DGraphic );
 
         addChild( label );
+//        label.setOffset( label.getOffset().getX(),label.getHeight()+5);
         labelHeight = label.getHeight();
         labelWidth = label.getWidth();
         updateBar();
@@ -52,7 +53,8 @@ public class BarGraphic2D extends PNode {
         int height = computeHeight();
         Rectangle rect = new Rectangle( x, y - height, width, height );
 //        label.setOffset( rect.x + 7 - labelWidth, (int)( 5 + y + labelHeight ) );
-        label.setOffset( rect.x + 2 - labelWidth, (int)( 5 + y + labelHeight ) );
+//        label.setOffset( rect.x + 2 - labelWidth, (int)( 5 + y + labelHeight ) );
+        label.setOffset( rect.x + 2 - labelWidth, (int)( y + label.getFullBounds().getHeight() + 14 ) );
 //        label.setOffset( rect.x + 7 - labelWidth, (int)( y + labelHeight ) );
         rectangle3DGraphic.setPathTo( rect );
     }

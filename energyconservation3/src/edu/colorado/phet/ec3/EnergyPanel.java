@@ -99,6 +99,14 @@ public class EnergyPanel extends ControlPanel {
             }
         } );
         addControl( clearHeat );
+
+        final JButton showEnergyPositionPlot = new JButton( "Show Energy vs. Position" );
+        showEnergyPositionPlot.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.setEnergyPositionPlotVisible( true );
+            }
+        } );
+        addControl( showEnergyPositionPlot );
     }
 
     private void resetSkater() {
