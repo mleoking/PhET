@@ -14,6 +14,7 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 - separate the molecule model & view
 - FourierSumPlot should observe its FourierSeries (sync issues with parent Chart!)
+- MegaHelp
 
 
 NEW FEATURES:
