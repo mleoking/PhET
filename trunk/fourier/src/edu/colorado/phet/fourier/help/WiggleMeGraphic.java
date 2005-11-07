@@ -19,8 +19,8 @@ import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.fourier.util.Vector2D;
 
 
@@ -84,7 +84,7 @@ public class WiggleMeGraphic extends GraphicLayerSet implements ClockTickListene
     // Clock for animation
     private AbstractClock _clock;
     // The text
-    private PhetTextGraphic _textGraphic;
+    private HTMLGraphic _textGraphic;
     // The width and height that the wiggle will travel.
     private Dimension _range;
     // The number of animation cycles completed, usually fractional.
@@ -114,7 +114,7 @@ public class WiggleMeGraphic extends GraphicLayerSet implements ClockTickListene
         assert( clock != null );
         _clock = clock;
         
-        _textGraphic = new PhetTextGraphic( component, DEFAULT_TEXT_FONT, "", DEFAULT_TEXT_COLOR );
+        _textGraphic = new HTMLGraphic( component, DEFAULT_TEXT_FONT, "", DEFAULT_TEXT_COLOR );
         
         _range = new Dimension( DEFAULT_RANGE );
         _cycles = 0;
@@ -171,7 +171,7 @@ public class WiggleMeGraphic extends GraphicLayerSet implements ClockTickListene
      * @param color
      */
     public void setText( String text, Color color, Font font ) {
-        _textGraphic.setText( text );
+        _textGraphic.setHTML( text );
         _textGraphic.setColor( color );
         _textGraphic.setFont( font );
     }

@@ -13,7 +13,7 @@ MEDIUM PRIORITY:
 - bug: D2C amplitudes graph draws on top of tools (Mac only)
 - bug: dragging tools over top of chart causes weird aliasing artifacts (Mac only)
 - bug: chart draws plots on top of help items (Mac only)
-- something is hammering the processor when the sim should be idle
+- something is using the processor when the sim should be idle
 
 LOW PRIORITY:
 - in game, Help item for amplitude sliders doesn't always point to a slider
@@ -61,6 +61,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(11/7) - change WiggleMeGraphic to use HTMLGraphic instead of PhetTextGraphic
 2.1.10 ...
 (11/6) - change "Congratulations!" back to "Winner!"
 2.1.9 ...
