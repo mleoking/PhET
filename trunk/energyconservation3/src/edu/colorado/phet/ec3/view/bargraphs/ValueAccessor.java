@@ -33,7 +33,7 @@ public abstract class ValueAccessor {
 
     public static class KineticEnergy extends ValueAccessor {
         public KineticEnergy( EnergyLookAndFeel lookAndFeel ) {
-            super( "Kinetic Energy", lookAndFeel.getKEColor() );
+            super( "Kinetic", lookAndFeel.getKEColor() );
         }
 
         public double getValue( EnergyConservationModel rampPhysicalModel ) {
@@ -46,7 +46,7 @@ public abstract class ValueAccessor {
 
     public static class PotentialEnergy extends ValueAccessor {
         public PotentialEnergy( EnergyLookAndFeel lookAndFeel ) {
-            super( "Potential Energy", lookAndFeel.getPEColor() );
+            super( "Potential", lookAndFeel.getPEColor() );
         }
 
         public double getValue( EnergyConservationModel rampPhysicalModel ) {
@@ -59,7 +59,7 @@ public abstract class ValueAccessor {
 
     public static class TotalEnergy extends ValueAccessor {
         public TotalEnergy( EnergyLookAndFeel lookAndFeel ) {
-            super( "Total Energy", lookAndFeel.getTotalEnergyColor() );
+            super( "Total", lookAndFeel.getTotalEnergyColor() );
         }
 
         public double getValue( EnergyConservationModel rampPhysicalModel ) {
@@ -72,7 +72,7 @@ public abstract class ValueAccessor {
 
     public static class ThermalEnergy extends ValueAccessor {
         public ThermalEnergy( EnergyLookAndFeel lookAndFeel ) {
-            super( "Thermal Energy", lookAndFeel.getThermalEnergyColor() );
+            super( "Thermal", lookAndFeel.getThermalEnergyColor() );
         }
 
         public double getValue( EnergyConservationModel rampPhysicalModel ) {

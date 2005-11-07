@@ -41,6 +41,8 @@ public class EC3Module extends PiccoloModule {
     private static final boolean DEFAULT_BAR_CHARTS_VISIBLE = false;
     private static final boolean DEFAULT_PLOT_VISIBLE = false;
     private Point2D.Double defaultBodyPosition = new Point2D.Double( 150, 200 );
+    private JFrame energyPositionPlotFrame;
+    private EnergyPositionPlotPanel energyPositionPanel;
 
     /**
      * @param name
@@ -78,8 +80,10 @@ public class EC3Module extends PiccoloModule {
 
         init();
         timeSeriesPlaybackPanel = new TimeSeriesPlaybackPanel( energyTimeSeriesModel );
-
-
+        energyPositionPlotFrame = new JFrame( "Energy vs. Position" );
+        energyPositionPanel = new EnergyPositionPlotPanel( this );
+        energyPositionPlotFrame.setContentPane( energyPositionPanel );
+        energyPositionPlotFrame.setSize( 400, 400 );
     }
 
     private void setDefaults() {
@@ -150,7 +154,6 @@ public class EC3Module extends PiccoloModule {
         spline.addControlPoint( 47, 170 );
         spline.addControlPoint( 336, 543 );
         spline.addControlPoint( 669, 152 );
-
 
 //        CubicSpline spline = new CubicSpline( EC3Canvas.NUM_CUBIC_SPLINE_SEGMENTS );
 //        spline.addControlPoint( 47, 543);
@@ -228,5 +231,10 @@ public class EC3Module extends PiccoloModule {
 
     public void clearHeat() {
         getEnergyConservationModel().clearHeat();
+    }
+
+    public void setEnergyPositionPlotVisible( boolean b ) {
+        energyPositionPanel.reset();
+        energyPositionPlotFrame.setVisible( b );
     }
 }
