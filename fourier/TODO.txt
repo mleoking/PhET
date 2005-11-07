@@ -24,8 +24,7 @@ LOW PRIORITY:
 - why am I getting the GridStrategy.Relative.getGridLinesSlowButCorrectVersion warning?
 - wiggle me needs a blank char at the end of their string, or the last char doesn't redraw properly
 - wiggle me uses the module's clock, so it stops moving when clock is paused
-- FourierSumPlot should be an observer of its FourierSeries
-- grayed out waveforms anti-aliasing/stroke visually changes when you start to drag wavelength/period tools
+- FourierSumPlot should be an observer of its FourierSeries (sync issues with parent Chart!)
 - MegaHelp
 
 NEW FEATURES:
