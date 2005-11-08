@@ -73,13 +73,13 @@ public class HelpMenu extends JMenu implements ModuleObserver {
             }
 
             public void activeModuleChanged( ModuleEvent event ) {
-                megaHelpItem.setEnabled( event.getModule().hasMegaHelp() );
+                megaHelpItem.setVisible( event.getModule().hasMegaHelp() );
             }
 
             public void moduleRemoved( ModuleEvent event ) {
             }
         } );
-        megaHelpItem.setEnabled( moduleManager.getActiveModule() != null && moduleManager.getActiveModule().hasMegaHelp() );
+        megaHelpItem.setVisible( moduleManager.getActiveModule() != null && moduleManager.getActiveModule().hasMegaHelp() );
         add( megaHelpItem );
 
         //----------------------------------------------------------------------
