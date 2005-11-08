@@ -23,6 +23,7 @@ public class ChartCanvas extends PhetPCanvas {
     private TimePlotSuitePNode plot;
     private TimeSeriesPNode keSeries;
     private TimeSeriesPNode peSeries;
+    private TimeSeriesPNode heatSeries;
 
     public ChartCanvas( final EC3Module ec3Module ) {
         this.ec3Module = ec3Module;
@@ -31,6 +32,14 @@ public class ChartCanvas extends PhetPCanvas {
                                        "Joules", ec3Module.getTimeSeriesModel(),
                                        150, false );
         addScreenChild( plot );
+
+        heatSeries = new TimeSeriesPNode( plot, new ValueAccessor( "Thermal", "Thermal", "Joules", "J", ec3Module.getEnergyLookAndFeel().getThermalEnergyColor(), "Thermal Energy" ) {
+            public double getValue( Object model ) {
+                return ec3Module.getEnergyConservationModel().getThermalEnergy();
+            }
+        }, "", ec3Module.getTimeSeriesModel() );
+        plot.addTimeSeries( heatSeries );
+        units.add( new DataUnit( heatSeries ) );
 
         keSeries = new TimeSeriesPNode( plot, new ValueAccessor( "KE", "KE", "Joules", "J", ec3Module.getEnergyLookAndFeel().getKEColor(), "Kinetic Energy" ) {
             public double getValue( Object model ) {
@@ -59,6 +68,7 @@ public class ChartCanvas extends PhetPCanvas {
         }, "", ec3Module.getTimeSeriesModel() );
         plot.addTimeSeries( peSeries );
         units.add( new DataUnit( peSeries ) );
+
 
         ec3Module.getClock().addClockTickListener( new ClockTickListener() {
             public void clockTicked( ClockTickEvent event ) {

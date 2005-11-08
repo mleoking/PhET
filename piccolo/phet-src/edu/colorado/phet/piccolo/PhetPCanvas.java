@@ -110,7 +110,12 @@ public class PhetPCanvas extends PSwingCanvas {
         if( scale < 0 ) {
             System.err.println( this.getClass().getName() + ": Warning: Sometimes in 1.5, sometimes getWidth() and getHeight() return negative values, causing troubles for this layout code." );
         }
-        setWorldScale( scale );
+        if( scale != 0.0 ) {
+            setWorldScale( scale );
+        }
+        else {
+            System.err.println( "Scale evaluated to zero!" );
+        }
     }
 
     protected void setWorldScale( double scale ) {

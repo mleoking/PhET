@@ -57,7 +57,7 @@ public class BarGraphSet extends PNode {
         this.rampPhysicalModel = rampPhysicalModel;
         this.transform1D = transform1D;
         topY = 0;
-        barChartHeight = 450;
+        barChartHeight = 400;
         barWidth = 20;
         dw = 7;
         sep = barWidth + dw;

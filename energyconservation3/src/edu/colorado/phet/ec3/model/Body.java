@@ -79,8 +79,8 @@ public class Body {
         position.x = x;
         position.y = y;
 //        System.out.println( "Body.setPosition" );
-        if( origLoc.distance( position ) > 10 ) {
-            System.out.println( "Body.translate" );
+        if( origLoc.distance( position ) > 100 ) {
+//            System.out.println( "manual translation" );
         }
     }
 

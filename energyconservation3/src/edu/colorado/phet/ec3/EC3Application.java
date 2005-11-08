@@ -21,31 +21,25 @@ public class EC3Application extends PhetApplication {
     private EC3Module module;
 
     public EC3Application( String[] args ) {
-        super( args, "EC3", "Energy Conservation", "0.1",
-//               new SwingTimerClock( 1.0 / 30.0, 30), true, new FrameSetup() {
-               new SwingTimerClock( 1.0 / 5, 30), true, new FrameSetup() {
-                   public void initialize( JFrame frame ) {
-                       frame.setSize( Toolkit.getDefaultToolkit().getScreenSize().width - EC3Module.energyFrameWidth,
-                                      Toolkit.getDefaultToolkit().getScreenSize().height - 100 - EC3Module.chartFrameHeight );
-                       frame.setLocation( 0, 0 );
-                   }
-               } );
+        super( args, "nRg Sk8r", "Energy Conservation", "0.1",
+               new SwingTimerClock( 1.0 / 5, 30 ), true, new FrameSetup() {
+            public void initialize( JFrame frame ) {
+                frame.setSize( Toolkit.getDefaultToolkit().getScreenSize().width - EC3Module.energyFrameWidth,
+                               Toolkit.getDefaultToolkit().getScreenSize().height - 100 - EC3Module.chartFrameHeight );
+                frame.setLocation( 0, 0 );
+            }
+        } );
         module = new EC3Module( "Module", getClock() );
         setModules( new Module[]{module} );
     }
 
     public static void main( final String[] args ) {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                new EC3Application( args ).start();
-            }
-        } );
+        new EC3Application( args ).start();
     }
 
     private void start() {
         super.startApplication();
         module.getPhetPCanvas().requestFocus();
-//        getPhetFrame().setGlassPane( new InterceptingGlassPane( module.getEnergyConservationCanvas() ) );
         final EC3Canvas c = module.getEnergyConservationCanvas();
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher( new KeyEventDispatcher() {
             public boolean dispatchKeyEvent( KeyEvent e ) {

@@ -91,6 +91,7 @@ public class EnergyConservationModel {
         }
         copy.history = new ArrayList( history );
         copy.time = time;
+        copy.thermalEnergy=thermalEnergy;
         return copy;
     }
 
@@ -110,6 +111,7 @@ public class EnergyConservationModel {
         this.history.clear();
         this.history.addAll( model.history );
         this.time = model.time;
+        this.thermalEnergy=model.thermalEnergy;
     }
 
     public double timeSinceLastHistory() {

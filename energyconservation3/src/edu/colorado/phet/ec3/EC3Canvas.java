@@ -116,7 +116,7 @@ public class EC3Canvas extends PhetPCanvas {
         Body body = ec3Model.bodyAt( 0 );
         double xThrust = 0.0;
         double yThrust = 0.0;
-        int thrustValue = 5000;
+        int thrustValue = 1000;
         if( pressedKeys.containsKey( new Integer( KeyEvent.VK_RIGHT ) ) ) {
             xThrust = thrustValue;
         }

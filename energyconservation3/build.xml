@@ -69,7 +69,7 @@
         <property file="${build.number.txt}"/>
         <jar destfile="${ant.jars}/${distname}.jar">
             <fileset dir="${ant.classes}"/>
-            <fileset dir="${data}"/>
+            <fileset dir="${data}"/>           
             <fileset dir="jfreechart/source">
                 <include name="**/*.properties"/>
             </fileset>
