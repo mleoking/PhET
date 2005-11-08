@@ -108,7 +108,7 @@ public class InputPulseView extends GraphicLayerSet {
         addGraphic( chartGraphic, CHART_LAYER );
         chartGraphic.setRegistrationPoint( 0, 0 );
         chartGraphic.setLocation( 35, 35 );
-        chartGraphic.setXAxisTitle( "t (ms)" );
+        chartGraphic.setXAxisTitle( "t (ns)" );
         
         // Input pulse
         FourierSumPlot inputPlot = new FourierSumPlot( component, chartGraphic, fourierSeries );
