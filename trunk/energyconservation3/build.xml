@@ -34,7 +34,7 @@
     </target>
 
     <target name="Clean"
-        description="clean up">
+            description="clean up">
         <delete dir="${ant.classes}"/>
         <delete dir="${ant.jars}"/>
         <delete dir="${ant.javadoc}"/>
@@ -42,12 +42,12 @@
     </target>
 
     <target name="Compile" depends="init, Clean"
-        description="compile the source ">
+            description="compile the source ">
         <mkdir dir="${ant.classes}"/>
-        <javac srcdir="${src}:timeseries/src:piccolo/src:piccolo/phet-src:piccolo/extras:phetcommon/src:jfreechart/source"
-            excludes="edu/umd/cs/piccolox/swt/*.java,edu/colorado/phet/timeseries/plot/*.java"
-            classpath="jfreechart/lib/jcommon-1.0.0-rc1.jar:jfreechart/lib/gnujaxp.jar:jfreechart/lib/junit.jar:jfreechart/lib/servlet.jar"
-            destdir="${ant.classes}"/>
+        <javac srcdir="${src}:timeseries/src:piccolo/src:piccolo/phet-src:piccolo/extras:phetcommon/src"
+               excludes="edu/umd/cs/piccolox/swt/*.java,edu/colorado/phet/timeseries/plot/*.java"
+               classpath="jfreechart/lib/jfreechart-1.0.0-rc1.jar:jfreechart/lib/jcommon-1.0.0-rc1.jar:jfreechart/lib/gnujaxp.jar:jfreechart/lib/junit.jar:jfreechart/lib/servlet.jar"
+               destdir="${ant.classes}"/>
         <!--    Uncomment the following line to add test classes to the output jar.    -->
         <!--        <javac srcdir="${tests-src}" destdir="${classes}"/>-->
     </target>
@@ -61,7 +61,7 @@
     </target>
 
     <target name="Generate Jar" depends="Compile"
-        description="generate the distribution">
+            description="generate the distribution">
         <!-- Create the distribution directory -->
         <delete dir="${ant.jars}"/>
         <mkdir dir="${ant.jars}"/>
@@ -69,12 +69,8 @@
         <property file="${build.number.txt}"/>
         <jar destfile="${ant.jars}/${distname}.jar">
             <fileset dir="${ant.classes}"/>
-            <fileset dir="${data}"/>           
-            <fileset dir="jfreechart/source">
-                <include name="**/*.properties"/>
-            </fileset>
+            <fileset dir="${data}"/>
             <fileset dir="phetcommon/data"></fileset>
-
             <manifest>
                 <attribute name="Main-Class" value="${main.class}"/>
             </manifest>
@@ -82,7 +78,7 @@
     </target>
 
     <target name="Publish Executables" depends="Generate Jar"
-        description="generate executables, jar files, lib files, a batchfile">
+            description="generate executables, jar files, lib files, a batchfile">
         <mkdir dir="${releases}"/>
         <property file="${build.number.txt}"/>
         <property name="destdir" value="${releases}\${distname}${version}_exec-build-${build.number}"/>
@@ -97,10 +93,7 @@
         </copy>
         <mkdir dir="${destdir}/lib"/>
         <copy todir="${destdir}/lib">
-            <!--<fileset dir="${ant.lib}"/>-->
-            <fileset dir="jfreechart/lib">
-                <exclude name="jfreechart-1.0.0-rc1.jar"/>
-            </fileset>
+            <fileset dir="jfreechart/lib"/>
         </copy>
         <exec dir="${destdir}" executable="${explorer}">
             <arg line="${destdir}"/>

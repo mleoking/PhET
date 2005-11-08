@@ -15,9 +15,9 @@ information.
 
 -->
 <jnlp
-    spec="1.0+"
-    codebase="http://www.colorado.edu/physics/phet/"
-    href="dev/ec3/0.08/ec3.jnlp">
+        spec="1.0+"
+        codebase="http://www.colorado.edu/physics/phet/"
+        href="dev/ec3/0.09/ec3.jnlp">
     <information>
         <title>Energy Conservation</title>
         <vendor>PhET(tm)</vendor>
@@ -33,7 +33,7 @@ information.
 
     <resources>
         <j2se version="1.4+"/>
-        <jar href="dev/ec3/0.08/ec3-pro.jar"/>
+        <jar href="dev/ec3/0.09/ec3-pro.jar"/>
     </resources>
     <application-desc main-class="edu.colorado.phet.ec3.EC3Application"/>
 </jnlp>
