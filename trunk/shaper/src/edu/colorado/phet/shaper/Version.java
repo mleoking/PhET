@@ -22,7 +22,7 @@ public class Version {
   
     public static final String NUMBER = "1.0";
     
-    public static final String CVS_TAG = "shaper-1-0-0-2005-11-07";
+    public static final String CVS_TAG = "shaper-1-0-0-2005-11-08";
     
     /* This class is not intended for instantiation. */
     private Version() {}
