@@ -89,6 +89,7 @@ public class TimeSeriesPNode {
 
     void updateReadout() {
         updateReadout( valueAccessor.getValue( getModel() ) );
+
     }
 
     private Object getModel() {
@@ -155,6 +156,7 @@ public class TimeSeriesPNode {
 
     private void updateReadout( double value ) {
         if( lastUpdateValue != value ) {
+//            System.out.println( "TimeSeriesPNode.updateReadout, " + valueAccessor.getName() + ", lastValue=" + lastUpdateValue + ", vaule=" + value );
             this.lastUpdateValue = value;
 
 //        readoutGraphic.setText( "" + valueAccessor.getName() + " = " + decimalFormat.format( value ) + " " + valueAccessor.getUnitsAbbreviation() );

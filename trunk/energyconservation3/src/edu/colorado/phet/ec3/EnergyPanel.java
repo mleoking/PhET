@@ -23,6 +23,7 @@ public class EnergyPanel extends ControlPanel {
 
     public EnergyPanel( final EC3Module module ) {
         super( module );
+        super.removeTitle();
         this.module = module;
         JButton reset = new JButton( "Reset" );
         reset.addActionListener( new ActionListener() {
@@ -84,7 +85,8 @@ public class EnergyPanel extends ControlPanel {
         } );
         addControl( showBarChart );
 
-        final ModelSlider modelSlider = new ModelSlider( "Coefficient of Friction", "", 0, 0.4, 0.0, new DecimalFormat( "0.000" ), new DecimalFormat( "0.000" ) );
+        final ModelSlider modelSlider = new ModelSlider( "Coefficient of Friction", "", 0, 0.04, 0.0, new DecimalFormat( "0.000" ), new DecimalFormat( "0.000" ) );
+        modelSlider.setModelTicks( new double[]{0, 0.02,0.04} );
         modelSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 module.setCoefficientOfFriction( modelSlider.getValue() );

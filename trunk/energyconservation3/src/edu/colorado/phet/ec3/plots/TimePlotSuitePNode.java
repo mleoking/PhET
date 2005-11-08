@@ -661,7 +661,6 @@ public class TimePlotSuitePNode extends PNode {
 
     public void addTimeSeries( TimeSeriesPNode timeSeriesPNode ) {
         PNode readoutGraphic = timeSeriesPNode.getReadoutGraphic();
-//        readoutGraphic.setOffset( getDataArea().getX() + 5, getDataArea().getY() + getDataArea().getHeight() / 2.0 + ( readoutGraphic.getHeight() + 1 ) * series.size() + 5 );
         series.add( timeSeriesPNode );
         addChild( readoutGraphic );
         invalidateLayout();
