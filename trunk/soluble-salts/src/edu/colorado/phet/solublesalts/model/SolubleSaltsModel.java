@@ -172,21 +172,6 @@ public class SolubleSaltsModel extends BaseModel {
         return shaker;
     }
 
-    //----------------------------------------------------------------
-    // Events and listeners for Ions
-    //----------------------------------------------------------------
-
-    private EventChannel ionEventChannel = new EventChannel( IonListener.class );
-    private IonListener ionListenerProxy = (IonListener)ionEventChannel.getListenerProxy();
-
-    public void addIonListener( IonListener listener ) {
-        ionEventChannel.addListener( listener );
-    }
-
-    public void removeIonListener( IonListener listener ) {
-        ionEventChannel.removeListener( listener );
-    }
-
     /**
      * Adds kinetic energy to all the ions in the system
      *
@@ -202,9 +187,34 @@ public class SolubleSaltsModel extends BaseModel {
         }
     }
 
+    public double getIonConcentration( Class ionClass ) {
+        List ions = ionTracker.getIonsOfType( ionClass );
+        double result = 0;
+        if( ions != null ) {
+            for( int i = 0; i < ions.size(); i++ ) {
+                Ion ion = (Ion)ions.get( i );
+                if( !ion.isBound() ) {
+                    result++;
+                }
+            }
+        }
+        return result;
+    }
+
     //----------------------------------------------------------------
-    // Events and listeners
+    // Events and listeners for Ions
     //----------------------------------------------------------------
+
+    private EventChannel ionEventChannel = new EventChannel( IonListener.class );
+    private IonListener ionListenerProxy = (IonListener)ionEventChannel.getListenerProxy();
+
+    public void addIonListener( IonListener listener ) {
+        ionEventChannel.addListener( listener );
+    }
+
+    public void removeIonListener( IonListener listener ) {
+        ionEventChannel.removeListener( listener );
+    }
 
     public class IonEvent extends EventObject {
         public IonEvent( Object source ) {

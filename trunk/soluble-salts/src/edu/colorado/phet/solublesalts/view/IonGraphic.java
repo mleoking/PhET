@@ -32,6 +32,7 @@ import java.awt.geom.Ellipse2D;
 public class IonGraphic extends PNode implements SimpleObserver {
 
     private static boolean showBondIndicators;
+
     public static void showBondIndicators( boolean selected ) {
         showBondIndicators = selected;
     }
@@ -52,10 +53,11 @@ public class IonGraphic extends PNode implements SimpleObserver {
         String text = ion.getCharge() < 0 ? "-" : ( ion.getCharge() > 0 ? "+" : "0" );
         pText = new PText( text );
         pText.setTextPaint( Color.white );
+//        pText.setTextPaint( Color.black );
         Font font = pText.getFont();
-        Font newFont = new Font( font.getName(), font.getStyle(), font.getSize() + 4);
+        Font newFont = new Font( font.getName(), font.getStyle(), font.getSize() + 2);
         pText.setFont( newFont );
-        pText.setX( pImage.getWidth() * 5 / 8 );
+        pText.setX( pImage.getWidth() * 1 / 2  - font.getSize() / 2);
 //        pText.setY( pImage.getHeight() * 3 / 8 );
         this.addChild( pText );
         update();
@@ -84,5 +86,9 @@ public class IonGraphic extends PNode implements SimpleObserver {
     public void setColor( Color color ) {
         MakeDuotoneImageOp op = new MakeDuotoneImageOp( color );
         pImage.setImage( op.filter( (BufferedImage)pImage.getImage(), null ));
+    }
+
+    public void setPolarityMarkerColor( Color color ) {
+        pText.setTextPaint( color );
     }
 }

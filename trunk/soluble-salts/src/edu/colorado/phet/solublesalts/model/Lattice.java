@@ -77,7 +77,7 @@ public class Lattice extends Body implements Binder {
     // The angle that the lattice is oriented at, relative to the x axis
     private double orientation;
     private Atom seed;
-    private Form form = new PlainCubicForm( 27 ); // Sodium radious + Chloride radius
+    private Form form = new PlainCubicForm( 21 ); // Sodium radius + Chloride radius
     // The list of ions that cannot be bound to this lattice at this time
     private Vector noBindList = new Vector();
 
@@ -214,15 +214,8 @@ public class Lattice extends Body implements Binder {
         Vector2D v = determineReleaseVelocity( ionToRelease );
         ionToRelease.setVelocity( v );
         removeIon( ionToRelease );
-//        getIons().remove( ionToRelease );
         ionToRelease.unbindFrom( this );
         ionToRelease.stepInTime( dt );
-//
-//        // If there aren't any ions left in the lattice, the lattice should be removed
-//        // from the model
-//        if( getIons().size() == 0 ) {
-//            instanceLifetimeListenerProxy.instanceDestroyed( new InstanceLifetimeEvent( this ) );
-//        }
     }
 
     /**
@@ -237,12 +230,8 @@ public class Lattice extends Body implements Binder {
         double sumX = 0, sumY = 0;
         double maxAngle = Double.MIN_VALUE;
         double minAngle = Double.MAX_VALUE;
-//        System.out.println( "ionToRelease = " + ionToRelease.getPosition() );
 
         if( openSites.size() > 1 ) {
-            double a1;
-            double a2;
-//            System.out.println( "openSites = " + openSites.size() );
             for( int i = 0; i < openSites.size() - 1; i++ ) {
                 Point2D p1 = (Point2D)openSites.get( i );
                 Vector2D.Double v1 = new Vector2D.Double( p1.getX() - ionToRelease.getPosition().getX(),
@@ -255,20 +244,13 @@ public class Lattice extends Body implements Binder {
                     Vector2D.Double v2 = new Vector2D.Double( p2.getX() - ionToRelease.getPosition().getX(),
                                                               p2.getY() - ionToRelease.getPosition().getY() );
                     double angle2 = ( v2.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
-//                    System.out.println( "v1.getAngle() = " + v1.getAngle() );
-//                    System.out.println( "v2.getAngle() = " + v2.getAngle() );
-//                    System.out.println( "angle1 = " + angle1 );
-//                    System.out.println( "angle2 = " + angle2 );
-//                    System.out.println( "Math.toDegrees( Math.abs( angle2 - angle1 ) = " + Math.toDegrees( Math.abs( angle2 - angle1 ) ));
                     if( Math.abs( angle2 - angle1 ) < Math.PI ) {
                         double angle = random.nextDouble() * ( angle2 - angle1 ) + angle1;
                         Vector2D releaseVelocity = new Vector2D.Double( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
-//                        System.out.println( "!!!!! angle = " + Math.toDegrees( angle ) );
                         return releaseVelocity;
                     }
                 }
             }
-
 
             Point2D p1 = (Point2D)openSites.get( 0 );
             Vector2D.Double v1 = new Vector2D.Double( p1.getX() - ionToRelease.getPosition().getX(),
@@ -280,36 +262,20 @@ public class Lattice extends Body implements Binder {
             double angle2 = ( v2.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
             double angle = random.nextDouble() * ( angle2 - angle1 ) + angle1;
             Vector2D releaseVelocity = new Vector2D.Double( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
-//            System.out.println( "angle = " + Math.toDegrees( angle ) );
             return releaseVelocity;
         }
 
         for( int i = 0; i < openSites.size(); i++ ) {
             Point2D point2D = (Point2D)openSites.get( i );
-//            sumX += point2D.getX() - ionToRelease.getPosition().getX();
-//            sumY += point2D.getY() - ionToRelease.getPosition().getY();
-//
-//            System.out.println( "point2D = " + point2D );
             Vector2D.Double v = new Vector2D.Double( point2D.getX() - ionToRelease.getPosition().getX(),
                                                      point2D.getY() - ionToRelease.getPosition().getY() );
             double angle = ( v.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
-//            System.out.println( "test angle = " + Math.toDegrees( angle ) );
             maxAngle = angle > maxAngle ? angle : maxAngle;
             minAngle = angle < minAngle ? angle : minAngle;
         }
 
         double angle = random.nextDouble() * ( maxAngle - minAngle ) + minAngle;
-
-//        if( sumX == 0 && sumY == 0 ) {
-//            sumX = random.nextDouble();
-//            sumY = random.nextDouble();
-//            System.out.println( "Lattice.determineReleaseVelocity:  release velocity = 0" );
-//        }
-//        Vector2D releaseVelocity = new Vector2D.Double( sumX / openSites.size(),
-//                                                        sumY / openSites.size() );
         Vector2D releaseVelocity = new Vector2D.Double( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
-//        System.out.println( "angle = " + Math.toDegrees( angle ) );
-//        releaseVelocity.normalize().scale( ionToRelease.getVelocity().getMagnitude() );
         return releaseVelocity;
     }
 
