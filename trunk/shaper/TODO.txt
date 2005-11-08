@@ -6,12 +6,12 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- investigate why it's harder to match by systematically moving each slider
 
 MEDIUM PRIORITY:
 
 
 LOW PRIORITY:
+- investigate why it's harder to match by systematically moving each slider
 - separate the molecule model & view
 - FourierSumPlot should observe its FourierSeries (sync issues with parent Chart!)
 - MegaHelp
