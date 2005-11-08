@@ -45,6 +45,7 @@ public class IonGraphicManager implements SolubleSaltsModel.IonListener {
         }
         if( event.getIon() instanceof Sodium ) {
             ig.setColor( Color.orange );
+            ig.setPolarityMarkerColor( Color.black );
         }
         graphicContainer.addWorldChild( ig );
         ionToGraphicMap.put( event.getIon(), ig );

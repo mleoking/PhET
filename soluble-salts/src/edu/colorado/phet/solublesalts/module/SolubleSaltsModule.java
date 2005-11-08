@@ -12,6 +12,7 @@ package edu.colorado.phet.solublesalts.module;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
@@ -23,6 +24,9 @@ import edu.colorado.phet.solublesalts.view.IonGraphicManager;
 import edu.colorado.phet.solublesalts.view.VesselGraphic;
 import edu.colorado.phet.solublesalts.view.StoveGraphic;
 import edu.colorado.phet.solublesalts.view.ShakerGraphic;
+import edu.colorado.phet.solublesalts.view.charts.Concentrations;
+import edu.colorado.phet.solublesalts.view.charts.ConcentrationsSgt;
+import edu.colorado.phet.solublesalts.view.charts.ConcentrationsPTPlot2;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.PNode;
@@ -76,11 +80,20 @@ public class SolubleSaltsModule extends PiccoloModule {
             shakerGraphic.setRegistrationPoint( shakerGraphic.getFullBounds().getWidth() / 2,
                                                 shakerGraphic.getFullBounds().getHeight() / 2 );
             shakerGraphic.rotateInPlace( -Math.PI / 4 );
-//            Point2D refPt = PiccoloUtils.getBorderPoint( vesselGraphic, PiccoloUtils.NORTH );
-//            shakerGraphic.setOffset( refPt.getX(), refPt.getY() - 50 );
             shakerGraphic.setOffset( shaker.getPosition().getX(), shaker.getPosition().getY() );
             simPanel.addWorldChild( shakerGraphic );
         }
+
+        // Concentrations strip chart
+        ConcentrationsPTPlot2 concentrations = new ConcentrationsPTPlot2( PhetApplication.instance().getPhetFrame(),
+                                                            model );
+//        Concentrations concentrations = new Concentrations( PhetApplication.instance().getPhetFrame(),
+//                                                            model );
+        concentrations.setVisible( true );
+
+//        ConcentrationsSgt concentrationsSgt = new ConcentrationsSgt( PhetApplication.instance().getPhetFrame(),
+//                                                                     model );
+//        concentrationsSgt.setVisible( true );
 
         // Create some ions and add it to the model
 
