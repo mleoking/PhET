@@ -40,6 +40,8 @@ PHETCOMMON:
 
 
 DONE:
+1.0 ...
+(11/7/05) - change x-axis titles from "t (ms)" to "t (ns)" on input & output graphs
 0.0.8 ...
 (11/6/05) - relocate the "Mask" bubble in Explanation dialog
 (11/6/05) - change "Congratulations!" back to "Match!"
