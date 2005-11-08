@@ -61,6 +61,8 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+3.0 ...
+(11/8) - replace "cheat" panel with hints panel that gradually reveals the answer
 (11/7) - change WiggleMeGraphic to use HTMLGraphic instead of PhetTextGraphic
 2.1.10 ...
 (11/6) - change "Congratulations!" back to "Winner!"
