@@ -18,10 +18,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -36,7 +36,7 @@ import edu.colorado.phet.fourier.view.game.GameManager;
 
 
 /**
- * GameControlPanel
+ * GameControlPanel is the control panel for the "Wave Game" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -52,7 +52,7 @@ public class GameControlPanel extends FourierControlPanel implements SimpleObser
     private static final int MATH_MODE_LEFT_MARGIN = 10; // pixels
     private static final int SUBPANEL_SPACING = 10; // pixels
     
-    private DecimalFormat CHEAT_FORMAT = new DecimalFormat( "0.00" );
+    private static final DecimalFormat AMPLITUDE_FORMAT = new DecimalFormat( "0.00" );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -65,8 +65,9 @@ public class GameControlPanel extends FourierControlPanel implements SimpleObser
     private FourierComboBox _levelComboBox;
     private FourierComboBox _presetComboBox;
     private JButton _newGameButton;
-    private JCheckBox _cheatCheckBox;
-    private FourierTitledPanel  _cheatPanel;
+    private JButton _hintButton;
+    private JLabel _hintText;
+    private int _hintLevel;
     
     // Choices
     private ArrayList _levelChoices;
@@ -160,18 +161,33 @@ public class GameControlPanel extends FourierControlPanel implements SimpleObser
             gameControlsPanel.add( innerPanel, BorderLayout.WEST );
         }
         
-        // Cheat checkbox
-        _cheatCheckBox = new JCheckBox( "Cheat" );
-        
-        // Cheat panel
-        _cheatPanel = new FourierTitledPanel( "Amplitudes to match" );
+        // Hints panel
+        FourierTitledPanel hintsPanel = new FourierTitledPanel( SimStrings.get( "GameControlPanel.hints" ) );
+        {
+            // Hint button
+            _hintButton = new JButton();
+            
+            // Hint text
+            _hintText = new JLabel();
+            
+            // Layout
+            JPanel innerPanel = new JPanel();
+            EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
+            innerPanel.setLayout( layout );
+            layout.setAnchor( GridBagConstraints.WEST );
+            layout.setMinimumWidth( 0, LEFT_MARGIN );
+            int row = 0;
+            int column = 1;
+            layout.addComponent( _hintButton, row++, column );
+            layout.addComponent( _hintText, row++, column );
+            hintsPanel.setLayout( new BorderLayout() );
+            hintsPanel.add( innerPanel, BorderLayout.WEST );
+        }
 
         // Layout
         addFullWidth( gameControlsPanel );
         addVerticalSpace( SUBPANEL_SPACING );
-        addFullWidth( _cheatCheckBox );
-        addVerticalSpace( SUBPANEL_SPACING );
-        addFullWidth( _cheatPanel );
+        addFullWidth( hintsPanel );
 
         // Set the state of the controls.
         reset();
@@ -181,7 +197,7 @@ public class GameControlPanel extends FourierControlPanel implements SimpleObser
             _eventListener = new EventListener();
             // ActionListeners
             _newGameButton.addActionListener( _eventListener );
-            _cheatCheckBox.addActionListener( _eventListener );
+            _hintButton.addActionListener( _eventListener );
             // ItemListeners
             _levelComboBox.addItemListener( _eventListener );
             _presetComboBox.addItemListener( _eventListener );
@@ -233,9 +249,14 @@ public class GameControlPanel extends FourierControlPanel implements SimpleObser
         else {
             _gameManager.setPreset( Preset.CUSTOM );
         }
-        _cheatCheckBox.setSelected( false );
-        _cheatPanel.setVisible( _cheatCheckBox.isSelected() );
-        updateCheatPanel();
+        resetHints();
+    }
+    
+    private void resetHints() {
+        _hintLevel = 0;
+        _hintText.setText( "" );
+        _hintButton.setText( SimStrings.get( "GameControlPanel.hintButton0" ) );
+        _hintButton.setEnabled( true );
     }
     
     //----------------------------------------------------------------------------
@@ -243,10 +264,10 @@ public class GameControlPanel extends FourierControlPanel implements SimpleObser
     //----------------------------------------------------------------------------
     
     /**
-     * Updates the "Cheat" panel when the random Fourier series changes.
+     * Hides the hints when the random Fourier series changes.
      */
     public void update() {
-        updateCheatPanel();
+        resetHints();
     }
     
     //----------------------------------------------------------------------------
@@ -265,8 +286,8 @@ public class GameControlPanel extends FourierControlPanel implements SimpleObser
             if ( event.getSource() == _newGameButton ) {
                 handleNewGame();
             }
-            else if ( event.getSource() == _cheatCheckBox ) {
-                handleCheat();
+            else if ( event.getSource() == _hintButton ) {
+                handleHint();
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + event );
@@ -317,47 +338,81 @@ public class GameControlPanel extends FourierControlPanel implements SimpleObser
         setWaitCursorEnabled( false );
     }
     
-    private void handleCheat() {
-        boolean isVisible = _cheatCheckBox.isSelected();
-        _cheatPanel.setVisible( isVisible );
-        if ( isVisible ) {
-            updateCheatPanel();
-        }
-    }
-    
-    private void updateCheatPanel() {
-        if ( _cheatPanel.isVisible() ) {
-
-            _cheatPanel.removeAll();
-            
-            EasyGridBagLayout layout = new EasyGridBagLayout( _cheatPanel );
-            _cheatPanel.setLayout( layout );
-            layout.setAnchor( GridBagConstraints.EAST );
-            int row = 0;
-            
-            // Create a label for each harmonic in the series, showing its amplitude.
-            FourierSeries randomFourierSeries = _gameManager.getRandomFourierSeries();
-            for ( int i = 0; i < randomFourierSeries.getNumberOfHarmonics(); i++ ) {
-                
-                double amplitude = randomFourierSeries.getHarmonic( i ).getAmplitude();
+    private void handleHint() {
+        
+        FourierSeries randomFourierSeries = _gameManager.getRandomFourierSeries();
+        
+        String subString0 = "";
+        String subString1 = "";
+        String subString2 = "";
+        int numberOfNonZeroHarmonics = 0;
+        for ( int i = 0; i < randomFourierSeries.getNumberOfHarmonics(); i++ ) {
+            double amplitude = randomFourierSeries.getHarmonic( i ).getAmplitude();
+            if ( amplitude != 0 ) {
+                numberOfNonZeroHarmonics++;
                 // WORKAROUND: DecimalFormat uses non-standard rounding, so round ala GameManager.isMatch
                 int percent = 0;
                 if ( amplitude < 0 ) {
                     percent = (int) ( 100 * amplitude - 0.005 );
                 }
                 else {
-                    percent = (int) ( 100 * amplitude + 0.005 );    
+                    percent = (int) ( 100 * amplitude + 0.005 );
                 }
                 double roundedAmplitude = percent * 0.01;
-                String sAmplitude = CHEAT_FORMAT.format( roundedAmplitude );
-                
-                JLabel label = new JLabel( "<html>A<sub>" + (i+1) + "</sub> = </html>" );
-                JLabel value = new JLabel( sAmplitude );
-                layout.addComponent( label, row, 0 );
-                layout.addComponent( value, row, 1 );
-                row++;
+                String sAmplitude = AMPLITUDE_FORMAT.format( roundedAmplitude );
+                subString0 += "<br>A<sub>?</sub> = ?";
+                subString1 += "<br>A<sub>" + ( i + 1 ) + "</sub> = ?";
+                subString2 += "<br>A<sub>" + ( i + 1 ) + "</sub> = " + sAmplitude;
             }
-            _cheatPanel.revalidate();
         }
+        
+        if ( _hintLevel == 0 ) {
+            /*
+             * Hint #0 - reveal the number of non-zero components
+             */
+            String string = null;
+            if ( numberOfNonZeroHarmonics == 1 ) {
+                string = SimStrings.get( "GameControlPanel.hint0.singular" );
+            }
+            else {
+                String format = SimStrings.get( "GameControlPanel.hint0.plural" );
+                Object[] args = { new Integer( numberOfNonZeroHarmonics ) };
+                string = MessageFormat.format( format, args );
+            }
+            String html = "<html>" + string + "<br>" + subString0 + "</html>";
+            _hintText.setText( html );
+            _hintButton.setText( SimStrings.get( "GameControlPanel.hintButton1" ) );
+        }
+        else if ( _hintLevel == 1 ) {
+            /*
+             * Hint #1 - reveal which components we need to match
+             */
+            String html = "<html>";
+            if ( numberOfNonZeroHarmonics == 1 ) {
+                html += SimStrings.get( "GameControlPanel.hint1.singular" );
+            }
+            else {
+                html += SimStrings.get( "GameControlPanel.hint1.plural" );
+            }
+            html += "<br>" + subString1 + "</html>";
+            _hintText.setText( html );
+            _hintButton.setText( SimStrings.get( "GameControlPanel.hintButton2" ) );
+        }
+        else {
+            /*
+             * Hint #2 (aka "Cheat") - reveal the amplitudes we need to match
+             */
+            String html = "<html>";
+            if ( numberOfNonZeroHarmonics == 1 ) {
+                html += SimStrings.get( "GameControlPanel.hint2.singular" );
+            }
+            else {
+                html += SimStrings.get( "GameControlPanel.hint2.plural" );
+            }
+            html += "<br>" + subString2 + "</html>";
+            _hintText.setText( html );
+            _hintButton.setEnabled( false );
+        }
+        _hintLevel++;
     }
 }
