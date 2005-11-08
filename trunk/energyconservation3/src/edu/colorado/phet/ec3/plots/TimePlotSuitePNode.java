@@ -19,6 +19,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PPaintContext;
 import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
@@ -72,6 +73,27 @@ public class TimePlotSuitePNode extends PNode {
     private double defaultMaxY;
     private String units;
     private static final int MAX_TIME = 40;
+//    PlotRenderingInfo myPlotInfo;
+    private ChartRenderingInfo info = new ChartRenderingInfo() {
+        public void setChartArea( Rectangle2D area ) {
+            super.setChartArea( area );
+        }
+
+        public void setPlotArea( Rectangle2D area ) {
+            super.setPlotArea( area );
+        }
+
+        public void clear() {
+            super.clear();
+        }
+
+//        public PlotRenderingInfo getPlotInfo() {
+//            if (myPlotInfo==null){
+//                myPlotInfo=new PlotRenderingInfo( this );
+//            }
+//            return myPlotInfo;
+//        }
+    };
 
     public TimePlotSuitePNode( PSwingCanvas pCanvas, Range2D range, String name,
                                String units, final TimeSeriesModel timeSeriesModel, int height, boolean useSlider ) {
@@ -236,6 +258,8 @@ public class TimePlotSuitePNode extends PNode {
 
 //        maxButNode.setVisible( false );
         setMinimizedState( false );
+//        info = new ChartRenderingInfo();
+
     }
 
     public double getTopY() {
@@ -573,7 +597,7 @@ public class TimePlotSuitePNode extends PNode {
 
         if( chartWidth < 2000 && chartHeight < 2000 ) {
 
-            bufferedImage = chart.createBufferedImage( chartWidth, chartHeight );
+            bufferedImage = chart.createBufferedImage( chartWidth, chartHeight, info );
 
             System.out.println( "TimePlotSuitePNode.updateChartBuffer@" + System.currentTimeMillis() );
 //        bufferedImage = new BufferedImage( 50,50,BufferedImage.TYPE_INT_RGB);
@@ -676,7 +700,7 @@ public class TimePlotSuitePNode extends PNode {
     }
 
     public Rectangle2D getDataArea() {
-        Rectangle2D r = plot.getDataArea();
+        Rectangle2D r = info.getPlotInfo().getDataArea();
         if( r == null ) {
             throw new RuntimeException( "Null data area." );
         }
@@ -694,7 +718,7 @@ public class TimePlotSuitePNode extends PNode {
     }
 
     public Point2D toImageLocation( double x, double y ) {
-        Rectangle2D dataArea = plot.getDataArea();
+        Rectangle2D dataArea = getDataArea();
         if( dataArea == null ) {
             throw new RuntimeException( "Null data area" );
         }
