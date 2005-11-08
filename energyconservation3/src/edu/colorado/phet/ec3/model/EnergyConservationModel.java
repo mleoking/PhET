@@ -61,6 +61,10 @@ public class EnergyConservationModel {
         thermalEnergy = 0.0;
     }
 
+    public void setGravity( double value ) {
+        this.gravity=value;
+    }
+
     static interface EnergyConservationModelListener {
         public void numBodiesChanged();
 
@@ -92,6 +96,7 @@ public class EnergyConservationModel {
         copy.history = new ArrayList( history );
         copy.time = time;
         copy.thermalEnergy=thermalEnergy;
+        copy.gravity=gravity;
         return copy;
     }
 
@@ -112,6 +117,7 @@ public class EnergyConservationModel {
         this.history.addAll( model.history );
         this.time = model.time;
         this.thermalEnergy=model.thermalEnergy;
+        this.gravity=model.gravity;
     }
 
     public double timeSinceLastHistory() {

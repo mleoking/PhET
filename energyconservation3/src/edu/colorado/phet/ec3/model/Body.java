@@ -237,7 +237,7 @@ public class Body {
 
     public static Rectangle createDefaultBodyRect() {
 //        return new Rectangle( 50, 20 );
-        return new Rectangle( 50, 60 );
+        return new Rectangle( 50, 110 );
     }
 
     public boolean isFacingRight() {

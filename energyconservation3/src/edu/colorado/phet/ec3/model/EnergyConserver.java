@@ -19,12 +19,14 @@ public class EnergyConserver {
         EC3Debug.debug( "body.getSpeed() = " + body.getSpeed() );
         EnergyDebugger.stepFinished( model, body );
         double speedThreshold = 20;
-        if( body.getSpeed() > speedThreshold ) {
+        if( body.getSpeed() > speedThreshold  ) {
 //            System.out.println( "Conserve Via V" );
             conserveEnergyViaV( model, body, desiredMechanicalEnergy );
         }
 //        System.out.println( "Conserve via H" );
-        conserveEnergyViaH( model, body, desiredMechanicalEnergy );
+        if( model.getGravity() != 0.0 ) {
+            conserveEnergyViaH( model, body, desiredMechanicalEnergy );
+        }
 //        EnergyDebugger.postProcessed( model, body, origTotalEnergy, "dH" );
         double finalEnergy = model.getTotalMechanicalEnergy( body );
         double deTOT = finalEnergy - desiredMechanicalEnergy;
@@ -50,6 +52,9 @@ public class EnergyConserver {
         double dE = finalTotalEnergy - origTotalEnergy;
         EC3Debug.debug( "dE = " + dE );
         double dh = dE / body.getMass() / model.getGravity();
+        if( model.getGravity() == 0 ) {
+            dh = 0.0;
+        }
         body.translate( 0, dh );
         double modifiedTotalEnergy = model.getTotalMechanicalEnergy( body );
         double dEMod = modifiedTotalEnergy - origTotalEnergy;

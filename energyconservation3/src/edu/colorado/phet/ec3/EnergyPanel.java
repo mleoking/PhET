@@ -109,6 +109,9 @@ public class EnergyPanel extends ControlPanel {
             }
         } );
         addControl( showEnergyPositionPlot );
+
+        final JComponent gravitySlider=new GravitySlider(module);
+        addControl( gravitySlider );
     }
 
     private void resetSkater() {

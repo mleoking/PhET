@@ -65,7 +65,7 @@ public class FreeSplineMode extends ForceMode {
         }
         else {
             //modify the frictive work slightly so we don't have to account for all error energy in V and H.
-            double allowedToModifyHeat = Math.abs( frictiveWork *0.75 );
+            double allowedToModifyHeat = Math.abs( frictiveWork * 0.75 );
             model.addThermalEnergy( frictiveWork );
             double finalTotalEnergy1 = model.getTotalMechanicalEnergy( body ) + model.getThermalEnergy();
             double energyError = finalTotalEnergy1 - origTotalEnergy;
@@ -163,7 +163,8 @@ public class FreeSplineMode extends ForceMode {
     private void flyOffSurface( Body body, EnergyConservationModel model, double dt, double origTotalEnergy ) {
         System.out.println( "FreeSplineMode.flyOffSurface" );
         double vy = body.getVelocity().getY();
-        double timeToReturnToThisHeight = Math.abs( 2 * vy / model.getGravity() );
+        double timeToReturnToThisHeight = model.getGravity() != 0 ? Math.abs( 2 * vy / model.getGravity() ) : 1000;
+
         double numTimeSteps = timeToReturnToThisHeight / dt;
         double dTheta = Math.PI * 2 / numTimeSteps / dt;
 
