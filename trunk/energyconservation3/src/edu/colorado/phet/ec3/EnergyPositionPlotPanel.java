@@ -49,6 +49,7 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
     private ChartRenderingInfo info = new ChartRenderingInfo();
 
     public EnergyPositionPlotPanel( EC3Module ec3Module ) {
+        super( new Dimension( 100, 100 ) );
         this.module = ec3Module;
         ec3Module.getClock().addClockTickListener( new ClockTickListener() {
             public void clockTicked( ClockTickEvent event ) {
@@ -148,12 +149,8 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
     private void update() {
         if( module.getEnergyConservationModel().numBodies() > 0 ) {
             Body body = module.getEnergyConservationModel().bodyAt( 0 );
-//            peSeries.add( body.getX(), module.getEnergyConservationModel().getPotentialEnergy( body ) );
-//            keSeries.add( body.getX(), body.getKineticEnergy() );
-//            totSeries.add( body.getX(), module.getEnergyConservationModel().getTotalEnergy( body ) );
-
             addFadeDot( body.getX(), module.getEnergyConservationModel().getPotentialEnergy( body ), module.getEnergyLookAndFeel().getPEColor() );
-//            addFadeDot( body.getX(), module.getEnergyConservationModel().getTotalEnergy( body ), module.getEnergyLookAndFeel().getTotalEnergyColor() );
+            addFadeDot( body.getX(), module.getEnergyConservationModel().getTotalEnergy( body ), module.getEnergyLookAndFeel().getTotalEnergyColor() );
             addFadeDot( body.getX(), body.getKineticEnergy(), module.getEnergyLookAndFeel().getKEColor() );
         }
         for( int i = 0; i < peDots.size(); i++ ) {
@@ -177,7 +174,7 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
     static class FadeDot extends PPath {
         private Color origColor;
         private int age;
-        private int dAge = 2;
+        private int dAge = 3;
         private Color fadeColor;
 
         public FadeDot( Color color, Point2D loc ) {
