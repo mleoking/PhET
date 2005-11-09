@@ -24,6 +24,8 @@ public class FreeSplineMode extends ForceMode {
     private boolean lastPositionSet = false;
     private double lastScalarPosition = 0;
     private boolean lastGrabState = false;
+    private boolean bounced = false;
+    private boolean grabbed = false;
 
     public FreeSplineMode( AbstractSpline spline, Body body ) {
         this.spline = spline;
@@ -42,6 +44,7 @@ public class FreeSplineMode extends ForceMode {
         }
         catch( NullIntersectionException e ) {
             flyOffSurface( body, model, dt, origMechEnergy );
+            System.out.println( "Fly off surface!" );
             return;
         }
         lastScalarPosition = position;
@@ -57,9 +60,33 @@ public class FreeSplineMode extends ForceMode {
         //just kill the perpendicular part of velocity, if it is through the track.
         // this should be lost to friction.
         //or to a bounce.
-        handleBounce( body, segment );//!
+        handleBounce( body, segment );//Why is this happening after newton?
+        if( bounced && !grabbed && !lastGrabState ) {
+            System.out.println( "DIDBOUNCE" );
+            //coeff of restitution
+            double coefficientOfRestitution = body.getCoefficientOfRestitution();
+            double finalVelocity = coefficientOfRestitution * body.getVelocity().getMagnitude();
+            AbstractVector2D vec = body.getVelocity().getInstanceOfMagnitude( finalVelocity );
+            double initKE = body.getKineticEnergy();
+            body.setVelocity( vec );
+            double finalKE = body.getKineticEnergy();
+            if( finalKE > initKE ) {
+                System.out.println( "Something is very wrong." );
+            }
+
+            double dE = initKE - finalKE;
+            model.addThermalEnergy( dE );
+
+            flyOffSurface( body, model, dt, origMechEnergy - dE );
+            return;
+        }
+//        System.out.println( "bounce = " + bounce );
+
         AbstractVector2D dx = body.getPositionVector().getSubtractedInstance( origPosition.getX(), origPosition.getY() );
         double frictiveWork = Math.abs( getFrictionForce( model, segment ).dot( dx ) );
+        if( bounced ) {
+            frictiveWork = 0.0;
+        }
         if( frictiveWork == 0 ) {//can't manipulate friction, so just modify v/h
             new EnergyConserver().fixEnergy( model, body, origMechEnergy - frictiveWork );
         }
@@ -85,6 +112,7 @@ public class FreeSplineMode extends ForceMode {
                 model.addThermalEnergy( -energyError );
             }
         }
+        lastGrabState = grabbed;
     }
 
     private double getPositionOnSpline( Body body ) throws NullIntersectionException {
@@ -100,11 +128,12 @@ public class FreeSplineMode extends ForceMode {
         return position;
     }
 
-    private void handleBounce( Body body, Segment segment ) {
+    private boolean handleBounce( Body body, Segment segment ) {
         RVector2D origVector = new RVector2D( body.getVelocity(), segment.getUnitDirectionVector() );
-        double bounceThreshold = 30;
-        boolean bounced = false;
-        boolean grabbed = false;
+//        double bounceThreshold = 30;
+        double bounceThreshold = 5;
+        this.bounced = false;
+        this.grabbed = false;
         double originalPerpVel = origVector.getPerpendicular();
         if( origVector.getPerpendicular() < 0 ) {//velocity is through the segment
             if( Math.abs( origVector.getPerpendicular() ) > bounceThreshold ) {//bounce
@@ -117,7 +146,6 @@ public class FreeSplineMode extends ForceMode {
             }
         }
         if( !lastGrabState && grabbed ) {
-
             if( origVector.getParallel() > 0 ) {//try to conserve velocity, so that the EnergyConserver doesn't have
                 //to make up for it all in dHeight.
                 origVector.setParallel( origVector.getParallel() + Math.abs( originalPerpVel ) );
@@ -126,7 +154,7 @@ public class FreeSplineMode extends ForceMode {
                 origVector.setParallel( origVector.getParallel() - Math.abs( originalPerpVel ) );
             }
         }
-        lastGrabState = grabbed;
+
         Vector2D.Double newVelocity = origVector.toCartesianVector();
 
         EC3Debug.debug( "newVelocity = " + newVelocity );
@@ -136,6 +164,7 @@ public class FreeSplineMode extends ForceMode {
             //set bottom at zero.
             setBottomAtZero( segment, body );
         }
+        return bounced;
     }
 
     private void rotateBody( Body body, Segment segment ) {
@@ -185,7 +214,8 @@ public class FreeSplineMode extends ForceMode {
         double overshoot = getDepthInSegment( segment, body );
 //        System.out.println( "overshoot = " + overshoot );
         EC3Debug.debug( "overshoot = " + overshoot );
-        overshoot -= 2;//hang in there
+//        overshoot -= 2;//hang in there
+        overshoot -= 5;//hang in there
 //        overshoot -= 1;//hang in there
         if( overshoot > 0 ) {
             AbstractVector2D tx = segment.getUnitNormalVector().getScaledInstance( overshoot );

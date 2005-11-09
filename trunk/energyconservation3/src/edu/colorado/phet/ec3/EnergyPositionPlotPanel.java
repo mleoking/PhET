@@ -173,8 +173,8 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
 
     static class FadeDot extends PPath {
         private Color origColor;
-        private int age;
-        private int dAge = 3;
+        private double age;
+        private double dAge = 1.5;
         private Color fadeColor;
 
         public FadeDot( Color color, Point2D loc ) {
@@ -186,14 +186,26 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
 
         public void fade() {
             age += dAge;
-            int fadeAlpha = 255 - age;
+            int fadeAlpha = (int)( 255 - age );
+//            if (age>){
+//                fadeAlpha=128;
+//            }
+//            if( age > 200 ) {
+//                fadeAlpha = 0;
+//            }
+
+//
             if( fadeAlpha < 0 ) {
                 fadeAlpha = 0;
             }
             Color fadeColor = new Color( origColor.getRed(), origColor.getGreen(), origColor.getBlue(),
                                          fadeAlpha );
-            this.fadeColor = fadeColor;
-            setPaint( fadeColor );
+            if( !fadeColor.equals( this.fadeColor ) ) {
+                setPaint( fadeColor );
+                this.fadeColor = fadeColor;
+            }
+
+
         }
 
         public boolean isFullyFaded() {

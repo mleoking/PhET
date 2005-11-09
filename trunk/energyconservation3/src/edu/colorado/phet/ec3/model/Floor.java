@@ -36,7 +36,6 @@ public class Floor {
     }
 
     private void stepInTime( Body b, double dt ) {
-
         if( b.getMaxY() > y ) {
             double origEnergy = model.getTotalMechanicalEnergy( b );
             double overshoot = b.getMaxY() - y;

@@ -72,7 +72,7 @@ public class BodyGraphic extends PNode {
         addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
                 PDimension delta = event.getDeltaRelativeTo( BodyGraphic.this );
-                System.out.println( "delta = " + delta );
+//                System.out.println( "delta = " + delta );
                 getBody().translate( delta.getWidth(), delta.getHeight() );
             }
         } );

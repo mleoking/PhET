@@ -62,7 +62,7 @@ public class EnergyConservationModel {
     }
 
     public void setGravity( double value ) {
-        this.gravity=value;
+        this.gravity = value;
     }
 
     static interface EnergyConservationModelListener {
@@ -95,8 +95,8 @@ public class EnergyConservationModel {
         }
         copy.history = new ArrayList( history );
         copy.time = time;
-        copy.thermalEnergy=thermalEnergy;
-        copy.gravity=gravity;
+        copy.thermalEnergy = thermalEnergy;
+        copy.gravity = gravity;
         return copy;
     }
 
@@ -116,8 +116,8 @@ public class EnergyConservationModel {
         this.history.clear();
         this.history.addAll( model.history );
         this.time = model.time;
-        this.thermalEnergy=model.thermalEnergy;
-        this.gravity=model.gravity;
+        this.thermalEnergy = model.thermalEnergy;
+        this.gravity = model.gravity;
     }
 
     public double timeSinceLastHistory() {
@@ -226,8 +226,9 @@ public class EnergyConservationModel {
             double segmentYPerp = segment.getUnitNormalVector().dot( new ImmutableVector2D.Double( segment.getCenter2D() ) );
 
             double y = ( bodyYPerp - segmentYPerp - body.getHeight() / 2.0 );
-
-            if( y > -20 ) {
+            System.out.println( "y = " + y );
+            if( y > -60 )
+            {//todo what is this magic number?  -20 was too low for the new graphic rectangle (man fell through track)
                 return -y;
             }
             else {
@@ -281,8 +282,8 @@ public class EnergyConservationModel {
         return body.getMass() * gravity * h;
     }
 
-    public double getTotalEnergy(Body body){
-        return getTotalMechanicalEnergy( body )+getThermalEnergy();
+    public double getTotalEnergy( Body body ) {
+        return getTotalMechanicalEnergy( body ) + getThermalEnergy();
     }
 
     public double getTotalMechanicalEnergy( Body body ) {
