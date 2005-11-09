@@ -77,7 +77,8 @@ public class RegisterablePNode extends PNode {
         // We need to find the un-registered location of the PNode in case the registration point is being
         // set more than once. Otherwise, registration point offsets become cummulative
         Point2D p0 = getOffset();
-        p0.setLocation( p0.getX() + this.registrationPoint.getX(), p0.getY() + this.registrationPoint.getY());
+        p0.setLocation( p0.getX() + this.registrationPoint.getX(),
+                        p0.getY() + this.registrationPoint.getY() );
         this.registrationPoint = registrationPoint;
         setOffset( p0 );
     }
@@ -100,9 +101,25 @@ public class RegisterablePNode extends PNode {
      */
     public Point2D getOffset() {
         Point2D parentOffset = super.getOffset();
-        Point2D p = new Point2D.Double( parentOffset.getX() + registrationPoint.getX(),
-                                        parentOffset.getY() + registrationPoint.getY() );
+        Point2D p = new Point2D.Double( parentOffset.getX() + registrationPoint.getX() * getScale(),
+                                        parentOffset.getY() + registrationPoint.getY() * getScale() );
         return p;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public double getXOffset() {
+        return getOffset().getX();
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public double getYOffset() {
+        return getOffset().getY();
     }
 
     /**
@@ -112,7 +129,8 @@ public class RegisterablePNode extends PNode {
      * @param y
      */
     public void setOffset( double x, double y ) {
-        super.setOffset( x - registrationPoint.getX(), y - registrationPoint.getY());
+        super.setOffset( x - registrationPoint.getX() * getScale(),
+                         y - registrationPoint.getY() * getScale() );
     }
 
     /**
@@ -122,5 +140,23 @@ public class RegisterablePNode extends PNode {
      */
     public void setOffset( Point2D point ) {
         setOffset( point.getX(), point.getY() );
+    }
+
+    /**
+     * Prevents the graphic from moving relative to the registration point when the
+     * scale changes.
+     * @param scale
+     */
+    public void setScale( double scale ) {
+        double dx = getRegistrationPoint().getX() / getScale();
+        double dy = getRegistrationPoint().getY() / getScale();
+
+        double regPtAbsX = getOffset().getX() + dx;
+        double regPtAbsY = getOffset().getY() + dy;
+
+        super.setScale( scale );
+        double x = regPtAbsX - getRegistrationPoint().getX();
+        double y = regPtAbsY - getRegistrationPoint().getY();
+        setOffset( x, y );
     }
 }
