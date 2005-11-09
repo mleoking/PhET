@@ -20,10 +20,7 @@ import edu.colorado.phet.piccolo.RegisterablePNode;
 import edu.colorado.phet.piccolo.util.PiccoloUtils;
 import edu.colorado.phet.solublesalts.control.SolubleSaltsControlPanel;
 import edu.colorado.phet.solublesalts.model.*;
-import edu.colorado.phet.solublesalts.view.IonGraphicManager;
-import edu.colorado.phet.solublesalts.view.VesselGraphic;
-import edu.colorado.phet.solublesalts.view.StoveGraphic;
-import edu.colorado.phet.solublesalts.view.ShakerGraphic;
+import edu.colorado.phet.solublesalts.view.*;
 import edu.colorado.phet.solublesalts.view.charts.Concentrations;
 import edu.colorado.phet.solublesalts.view.charts.ConcentrationsSgt;
 import edu.colorado.phet.solublesalts.view.charts.ConcentrationsPTPlot2;
@@ -33,6 +30,9 @@ import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.AffineTransform;
 import java.util.Random;
 
 /**
@@ -84,12 +84,35 @@ public class SolubleSaltsModule extends PiccoloModule {
             simPanel.addWorldChild( shakerGraphic );
         }
 
+        // Add the faucet and drain graphics
+        Faucet faucet = model.getFaucet();
+        Vessel vessel = model.getVessel();
+        double scale = 1.3;
+        FaucetGraphic faucetGraphic = new FaucetGraphic( simPanel,
+                                                         FaucetGraphic.RIGHT_FACING,
+                                                         FaucetGraphic.SPOUT,
+                                                         faucet,
+                                                         vessel.getLocation().getY() + vessel.getDepth()  );
+        faucetGraphic.setScale( scale );
+        faucetGraphic.setOffset( model.getFaucet().getPosition() );
+        simPanel.addWorldChild( faucetGraphic );
+        faucetGraphic.moveInBackOf( vesselGraphic );
+
+        FaucetGraphic drainGraphic = new FaucetGraphic( simPanel,
+                                                        FaucetGraphic.LEFT_FACING,
+                                                        FaucetGraphic.WALL_ATTACHMENT,
+                                                        model.getDrain(),
+                                                        800 );
+        drainGraphic.setScale( scale );
+        drainGraphic.setOffset( model.getDrain().getPosition() );
+        simPanel.addWorldChild( drainGraphic );
+
         // Concentrations strip chart
-        ConcentrationsPTPlot2 concentrations = new ConcentrationsPTPlot2( PhetApplication.instance().getPhetFrame(),
-                                                            model );
+//        ConcentrationsPTPlot2 concentrations = new ConcentrationsPTPlot2( PhetApplication.instance().getPhetFrame(),
+//                                                            model );
 //        Concentrations concentrations = new Concentrations( PhetApplication.instance().getPhetFrame(),
 //                                                            model );
-        concentrations.setVisible( true );
+//        concentrations.setVisible( true );
 
 //        ConcentrationsSgt concentrationsSgt = new ConcentrationsSgt( PhetApplication.instance().getPhetFrame(),
 //                                                                     model );
@@ -144,6 +167,21 @@ public class SolubleSaltsModule extends PiccoloModule {
         // Set up the control panel
         setControlPanel( new SolubleSaltsControlPanel( this ) );
 
+
+//        TestGraphic tg = new TestGraphic();
+//        tg.setScale( 2 );
+//        tg.setOffset( 500, 500 );
+////        tg.setScale( 2 );
+//        simPanel.addWorldChild( tg );
+//
+//        PPath pp = new PPath( new Ellipse2D.Double(-2,-2,4,4));
+//        pp.setOffset( tg.getOffset() );
+//        pp.setPaint( Color.red );
+//        simPanel.addWorldChild( pp );
+//        PPath pp2 = new PPath( new Ellipse2D.Double(-2,-2,4,4));
+//        pp2.setOffset( 500, 500 );
+//        pp2.setPaint( Color.green );
+//        simPanel.addWorldChild( pp2 );
     }
 
     private void test() {
@@ -154,6 +192,24 @@ public class SolubleSaltsModule extends PiccoloModule {
         simPanel.addWorldChild( pp );
         pp.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         pp.addInputEventListener( new PDragEventHandler() );
+    }
+
+
+
+
+
+
+
+    class TestGraphic extends RegisterablePNode {
+
+        public TestGraphic() {
+
+            PPath pPath = new PPath( new Rectangle2D.Double(0,0, 60, 30 ));
+            pPath.setPaint( Color.cyan);
+            setRegistrationPoint( pPath.getWidth() / 3, pPath.getHeight() / 3);
+            addChild( pPath );
+
+        }
     }
 
 }

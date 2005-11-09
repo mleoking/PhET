@@ -32,8 +32,9 @@ public class SolubleSaltsConfig {
     public static final int FPS = 25;
 
     // Physical things
-    public static final Point2D VESSEL_ULC = new Point2D.Double( 50, 150 ); // upper-left corner of vessel
-    public static final Dimension VESSEL_SIZE = new Dimension( 800, 500 );
+    public static final Point2D VESSEL_ULC = new Point2D.Double( 150, 150 ); // upper-left corner of vessel
+    public static final Dimension VESSEL_SIZE = new Dimension( 700, 500 );
+    public static final double VESSEL_WALL_THICKNESS = 20;
 
     // Images
     public static final String IMAGE_PATH = "images/";
@@ -42,6 +43,8 @@ public class SolubleSaltsConfig {
     public static final String STOVE_IMAGE_FILE = IMAGE_PATH + "stove.png";
     public static final String FLAMES_IMAGE_FILE = IMAGE_PATH + "flames.gif";
     public static final String ICE_IMAGE_FILE = IMAGE_PATH + "ice.gif";
+    public static final String FAUCET_IMAGE = IMAGE_PATH + "faucet-gold-rt.gif";
+//    public static final String FAUCET_IMAGE = IMAGE_PATH + "faucet.png";
 
     // Misc
     public static final String STRINGS_BUNDLE_NAME = "localization/SolubleSaltsStrings";

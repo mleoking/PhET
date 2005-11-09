@@ -41,7 +41,7 @@ public class ConcentrationsPTPlot2 implements ModelElement {
         this.model = model;
 
         plot = new Plot();
-        plot.setBounds( 0, 0, 300, 200 );
+        plot.setBounds( 0, 0, 200, 100 );
         plot.setXRange( 0, 100 );
         plot.setYRange( 0, 50 );
         plot.setColors( new Color[]{Color.green, Color.blue} );

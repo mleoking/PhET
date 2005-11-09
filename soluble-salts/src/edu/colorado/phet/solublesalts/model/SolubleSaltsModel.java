@@ -49,6 +49,11 @@ public class SolubleSaltsModel extends BaseModel {
     private Point2D vesselLoc = SolubleSaltsConfig.VESSEL_ULC;
     private double vesselWidth = SolubleSaltsConfig.VESSEL_SIZE.getWidth();
     private double vesselDepth = SolubleSaltsConfig.VESSEL_SIZE.getHeight();
+    private double vesselWallThickness = SolubleSaltsConfig.VESSEL_WALL_THICKNESS;
+
+    // The faucet and drain
+    private Faucet faucet;
+    private Drain drain;
 
     // Collision mechanism objects
     IonIonCollisionExpert ionIonCollisionExpert = new IonIonCollisionExpert( this );
@@ -71,8 +76,17 @@ public class SolubleSaltsModel extends BaseModel {
         Lattice.addInstanceLifetimeListener( new LatticeLifetimeTracker() );
 
         // Create a vessel
-        vessel = new Vessel( vesselWidth, vesselDepth, vesselLoc );
+        vessel = new Vessel( vesselWidth, vesselDepth,vesselWallThickness, vesselLoc );
         addModelElement( vessel );
+
+        // Create the faucet and drain
+        faucet = new Faucet( this );
+        faucet.setPosition( vessel.getLocation().getX() + 35, vessel.getLocation().getY() - 10 );
+        addModelElement( faucet );
+        drain = new Drain( this );
+        drain.setPosition( vessel.getLocation().getX() - vessel.getWallThickness(),
+                           vessel.getLocation().getY() + vessel.getDepth() - 50 );
+        addModelElement( drain );
 
         // Add a model element that will handle collisions between ions and the vessel
         addModelElement( new IonVesselCollisionAgent() );
@@ -144,6 +158,14 @@ public class SolubleSaltsModel extends BaseModel {
 
     public Vessel getVessel() {
         return vessel;
+    }
+
+    public Faucet getFaucet() {
+        return faucet;
+    }
+
+    public Drain getDrain() {
+        return drain;
     }
 
     public int getNumIonsOfType( Class ionClass ) {

@@ -81,6 +81,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         addControl( vesselIonStickSlider );
         addControl( dissociationSlider );
         addControl( makeConcentrationPanel( model ) );
+        addControl( makeWaterLevelPanel( model ) );
 
 
 
@@ -248,6 +249,22 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         return panel;
     }
 
+    private JPanel makeWaterLevelPanel( final SolubleSaltsModel model ) {
+        JPanel panel = new JPanel( );
+        final ModelSlider slider = new ModelSlider( "Water level", "",
+                                              0,
+                                              model.getVessel().getDepth(),
+                                              model.getVessel().getWaterLevel() );
+        slider.setTextFieldFormat( new DecimalFormat( "#") );
+        slider.setNumMajorTicks( 6 );
+        slider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                model.getVessel().setWaterLevel( slider.getValue() );
+            }
+        } );
+        panel.add( slider );
+        return panel;
+    }
 
     private class SpinnerSyncAgent implements SolubleSaltsModel.IonListener {
         private SolubleSaltsModel model;
