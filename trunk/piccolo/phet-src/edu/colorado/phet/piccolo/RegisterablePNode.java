@@ -107,7 +107,8 @@ public class RegisterablePNode extends PNode {
     }
 
     /**
-     *
+     * Gets the x coordinate of the spot on the canvas where the registration point
+     * will be placed
      * @return
      */
     public double getXOffset() {
@@ -115,7 +116,8 @@ public class RegisterablePNode extends PNode {
     }
 
     /**
-     * 
+     * Gets the y coordinate of the spot on the canvas where the registration point
+     * will be placed
      * @return
      */
     public double getYOffset() {
