@@ -47,12 +47,13 @@ public class VesselGraphic extends PNode {
         addChild( shape );
         water = new PPath();
         water.setPaint( waterColor );
+        water.setStrokePaint( null );
         this.addChild( water );
         update( vessel );
     }
 
     private void update( Vessel vessel ) {
-        float thickness = 20;
+        float thickness = (float)vessel.getWallThickness();
         Rectangle2D rect = vessel.getShape();
         DoubleGeneralPath walls = new DoubleGeneralPath();
         walls.moveTo( -thickness / 2, 0 );

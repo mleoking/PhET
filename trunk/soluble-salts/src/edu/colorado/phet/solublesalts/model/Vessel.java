@@ -33,7 +33,9 @@ import java.util.EventObject;
  * @version $Revision$
  */
 public class Vessel implements ModelElement, Collidable, Binder {
+    // The shape of the vessel's interior
     private Rectangle2D shape;
+    private double wallThickness;
     private Point2D location = new Point2D.Double();
     private double waterLevel;
     private Box2D collisionBox;
@@ -41,11 +43,12 @@ public class Vessel implements ModelElement, Collidable, Binder {
     private Affinity ionReleaseAffinity = new RandomAffinity( 1E-3 );
     private Affinity ionStickAffinity = new RandomAffinity( .2 );
 
-    public Vessel( double width, double depth ) {
-        this( width, depth, new Point2D.Double() );
+    public Vessel( double width, double depth, double wallThickness ) {
+        this( width, depth, wallThickness, new Point2D.Double() );
     }
 
-    public Vessel( double width, double depth, Point2D location ) {
+    public Vessel( double width, double depth, double wallThickness, Point2D location ) {
+        this.wallThickness = wallThickness;
         shape = new Rectangle2D.Double( location.getX(), location.getY(), width, depth );
         this.location = location;
         waterLevel = depth;
@@ -100,7 +103,7 @@ public class Vessel implements ModelElement, Collidable, Binder {
     }
 
     public void setWaterLevel( double waterLevel ) {
-        this.waterLevel = waterLevel;
+        this.waterLevel = Math.min( waterLevel, getDepth() );
         changeListenerProxy.stateChanged( new ChangeEvent( this ) );
     }
 
@@ -122,6 +125,10 @@ public class Vessel implements ModelElement, Collidable, Binder {
 
     public double getDepth() {
         return shape.getHeight();
+    }
+
+    public double getWallThickness() {
+        return wallThickness;
     }
 
     public void setIonReleaseAffinity( Affinity affinity ) {

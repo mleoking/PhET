@@ -12,6 +12,7 @@ package edu.colorado.phet.solublesalts.view;
 
 import edu.colorado.phet.piccolo.PImageFactory;
 import edu.colorado.phet.piccolo.RegisterablePNode;
+import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.Shaker;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -19,6 +20,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import java.awt.geom.Point2D;
+import java.awt.*;
 
 /**
  * ShakerGraphic
@@ -38,8 +40,14 @@ public class ShakerGraphic extends RegisterablePNode {
 
         this.addInputEventListener( new PBasicInputEventHandler() {
 
-            public void mousePressed( PInputEvent event ) {
-                super.mousePressed( event );
+            public void mouseEntered( PInputEvent event ) {
+                PhetPCanvas ppc = (PhetPCanvas)event.getComponent();
+                ppc.setCursor( new Cursor( Cursor.N_RESIZE_CURSOR ));
+            }
+
+            public void mouseExited( PInputEvent event ) {
+                PhetPCanvas ppc = (PhetPCanvas)event.getComponent();
+                ppc.setCursor( Cursor.getDefaultCursor() );
             }
 
             public void mouseDragged( PInputEvent event ) {
