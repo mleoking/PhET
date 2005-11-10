@@ -44,10 +44,19 @@ public class IonGraphic extends PNode implements SimpleObserver {
     private PPath pDebugPath;
 
     public IonGraphic( Ion ion, String imageName ) {
+        pImage = PImageFactory.create( imageName, new Dimension( (int)ion.getRadius() * 2,
+                                                                 (int)ion.getRadius() * 2 ) );
+        init( ion );
+    }
+
+    public IonGraphic( Ion ion, BufferedImage image ) {
+        pImage = new PImage( image );
+        init( ion );
+    }
+
+    private void init( Ion ion ) {
         this.ion = ion;
         ion.addObserver( this );
-        pImage = PImageFactory.create( imageName, new Dimension( (int)ion.getRadius() * 2,
-                                                                 (int)ion.getRadius() * 10 ) );
         this.addChild( pImage );
 
         String text = ion.getCharge() < 0 ? "-" : ( ion.getCharge() > 0 ? "+" : "0" );
@@ -90,5 +99,9 @@ public class IonGraphic extends PNode implements SimpleObserver {
 
     public void setPolarityMarkerColor( Color color ) {
         pText.setTextPaint( color );
+    }
+
+    public Image getImage() {
+        return pImage.getImage();
     }
 }

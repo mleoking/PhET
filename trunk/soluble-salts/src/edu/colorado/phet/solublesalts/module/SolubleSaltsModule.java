@@ -24,6 +24,7 @@ import edu.colorado.phet.solublesalts.view.*;
 import edu.colorado.phet.solublesalts.view.charts.Concentrations;
 import edu.colorado.phet.solublesalts.view.charts.ConcentrationsSgt;
 import edu.colorado.phet.solublesalts.view.charts.ConcentrationsPTPlot2;
+import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.PNode;
@@ -63,7 +64,8 @@ public class SolubleSaltsModule extends PiccoloModule {
         VesselGraphic vesselGraphic = new VesselGraphic( model.getVessel() );
         simPanel.addWorldChild( vesselGraphic );
         vesselGraphic.addInputEventListener( new PDragEventHandler() );
-        model.getVessel().setWaterLevel( model.getVessel().getDepth() * .7 );
+        model.getVessel().setWaterLevel( SolubleSaltsConfig.DEFAULT_WATER_LEVEL );
+//        model.getVessel().setWaterLevel( model.getVessel().getDepth() * .7 );
 
         // Add the stove
         {
@@ -85,13 +87,13 @@ public class SolubleSaltsModule extends PiccoloModule {
         }
 
         // Add the faucet and drain graphics
-        Faucet faucet = model.getFaucet();
+        WaterSource waterSource = model.getFaucet();
         Vessel vessel = model.getVessel();
         double scale = 1.3;
         FaucetGraphic faucetGraphic = new FaucetGraphic( simPanel,
                                                          FaucetGraphic.RIGHT_FACING,
                                                          FaucetGraphic.SPOUT,
-                                                         faucet,
+                                                         waterSource,
                                                          vessel.getLocation().getY() + vessel.getDepth()  );
         faucetGraphic.setScale( scale );
         faucetGraphic.setOffset( model.getFaucet().getPosition() );

@@ -16,7 +16,8 @@ import edu.colorado.phet.piccolo.RegisterablePNode;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
-import edu.colorado.phet.solublesalts.model.Faucet;
+import edu.colorado.phet.solublesalts.model.WaterSource;
+import edu.colorado.phet.solublesalts.model.Spigot;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -40,7 +41,7 @@ import java.io.IOException;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class FaucetGraphic extends RegisterablePNode implements Faucet.ChangeListener {
+public class FaucetGraphic extends RegisterablePNode implements WaterSource.ChangeListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -59,9 +60,10 @@ public class FaucetGraphic extends RegisterablePNode implements Faucet.ChangeLis
     
     private Rectangle waterShape;
     private PImage faucetImage;
-    private Faucet faucet;
+    private Spigot spigot;
     private double streamMaxY;
     private PPath waterGraphic;
+    private JSlider flowSlider;
 
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -70,9 +72,9 @@ public class FaucetGraphic extends RegisterablePNode implements Faucet.ChangeLis
     /**
      * Sole constructor.
      */
-    public FaucetGraphic( PSwingCanvas pSwingCanvas, int orientation, int registration, Faucet faucet, double streamMaxY ) {
-        faucet.addChangeListener( this );
-        this.faucet = faucet;
+    public FaucetGraphic( PSwingCanvas pSwingCanvas, int orientation, int registration, Spigot spigot, double streamMaxY ) {
+        spigot.addChangeListener( this );
+        this.spigot = spigot;
         this.streamMaxY = streamMaxY;
 
         // Faucet
@@ -123,11 +125,12 @@ public class FaucetGraphic extends RegisterablePNode implements Faucet.ChangeLis
         addChild( waterGraphic );
 
         // Water Flow slider
-        final JSlider flowSlider = new JSlider( 0, (int)faucet.getMaxFlow(), 0 );
+        flowSlider = new JSlider( 0, (int)spigot.getMaxFlow(), 0 );
+        flowSlider.setBackground( Color.black);
         flowSlider.addChangeListener( new ChangeListener() {
             public void stateChanged
                     ( ChangeEvent e ) {
-                FaucetGraphic.this.faucet.setFlow( flowSlider.getValue() );
+                FaucetGraphic.this.spigot.setFlow( flowSlider.getValue() );
             }
         } );
         flowSlider.setPreferredSize( new Dimension( (int)faucetImage.getWidth() / 2, 15 ) );
@@ -158,7 +161,10 @@ public class FaucetGraphic extends RegisterablePNode implements Faucet.ChangeLis
     // Faucet.ChangeListener implementation
     //----------------------------------------------------------------------------
 
-    public void stateChanged( Faucet.ChangeEvent event ) {
+    public void stateChanged( WaterSource.ChangeEvent event ) {
+        if( flowSlider.getValue() != (int)event.getFaucet().getFlow() ) {
+            flowSlider.setValue( (int)event.getFaucet().getFlow() );
+        }
         update();
     }
 
@@ -166,7 +172,7 @@ public class FaucetGraphic extends RegisterablePNode implements Faucet.ChangeLis
      * @see edu.colorado.phet.common.util.SimpleObserver#update()
      */
     public void update() {
-        int waterWidth = (int)Math.abs( faucet.getFlow() * MAX_WATER_WIDTH / faucet.getMaxFlow() );
+        int waterWidth = (int)Math.abs( spigot.getFlow() * MAX_WATER_WIDTH / spigot.getMaxFlow() );
         waterShape.setBounds( -( waterWidth / 2 ), 0, waterWidth,
                               (int)( ( streamMaxY - getYOffset() ) / getScale() ) );
         waterGraphic.setPathTo( waterShape );

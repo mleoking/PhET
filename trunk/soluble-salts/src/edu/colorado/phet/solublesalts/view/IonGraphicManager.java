@@ -15,9 +15,14 @@ import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.Chloride;
 import edu.colorado.phet.solublesalts.model.Sodium;
+import edu.colorado.phet.solublesalts.model.Ion;
+import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 
 import java.util.HashMap;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 /**
  * IonGraphicManager
@@ -30,6 +35,20 @@ import java.awt.*;
  */
 public class IonGraphicManager implements SolubleSaltsModel.IonListener {
 
+    static private HashMap imageMap = new HashMap();
+
+    static public BufferedImage getIonImage( Class ionClass ) {
+        return (BufferedImage)imageMap.get( ionClass );
+    }
+
+    static {
+        IonGraphic igNa = createPImage( new Sodium() );
+            imageMap.put( Sodium.class, igNa.getImage() );
+        IonGraphic igCl = createPImage( new Chloride( ));
+            imageMap.put( Chloride.class, igCl.getImage() );
+    }
+
+
     private PhetPCanvas graphicContainer;
     private HashMap ionToGraphicMap = new HashMap();
 
@@ -38,22 +57,33 @@ public class IonGraphicManager implements SolubleSaltsModel.IonListener {
     }
 
     public void ionAdded( SolubleSaltsModel.IonEvent event ) {
-        IonGraphic ig = new IonGraphic( event.getIon(), SolubleSaltsConfig.BLUE_ION_IMAGE_NAME );
+        IonGraphic ig = createPImage( event.getIon() );
 
-        if( event.getIon() instanceof Chloride ) {
-            ig.setColor( new Color( 0,100, 0 ) );
+        graphicContainer.addWorldChild( ig );
+        ionToGraphicMap.put( event.getIon(), ig );
+    }
+
+    static private IonGraphic createPImage( Ion ion ) {
+        IonGraphic ig = new IonGraphic( ion, SolubleSaltsConfig.BLUE_ION_IMAGE_NAME );
+
+        if( ion instanceof Chloride ) {
+            ig.setColor( new Color( 0, 100, 0 ) );
         }
-        if( event.getIon() instanceof Sodium ) {
+        if( ion instanceof Sodium ) {
             ig.setColor( Color.orange );
             ig.setPolarityMarkerColor( Color.black );
         }
-        graphicContainer.addWorldChild( ig );
-        ionToGraphicMap.put( event.getIon(), ig );
+        return ig;
     }
 
     public void ionRemoved( SolubleSaltsModel.IonEvent event ) {
         IonGraphic ig = (IonGraphic)ionToGraphicMap.get( event.getIon() );
         graphicContainer.removeWorldChild( ig );
         ionToGraphicMap.remove( event.getIon() );
+    }
+
+    static private BufferedImage setColor( Color color, BufferedImage bImg ) {
+        MakeDuotoneImageOp op = new MakeDuotoneImageOp( color );
+        return op.filter( bImg, null );
     }
 }

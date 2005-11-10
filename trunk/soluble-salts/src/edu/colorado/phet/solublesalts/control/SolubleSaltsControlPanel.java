@@ -17,6 +17,8 @@ import edu.colorado.phet.solublesalts.model.*;
 import edu.colorado.phet.solublesalts.model.affinity.RandomAffinity;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.colorado.phet.solublesalts.util.DefaultGridBagConstraints;
+import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
+import edu.colorado.phet.solublesalts.view.IonGraphicManager;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -83,12 +85,9 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         addControl( makeConcentrationPanel( model ) );
         addControl( makeWaterLevelPanel( model ) );
 
-
-
         // Reset button
         JButton resetBtn = new JButton( "Reset" );
         resetBtn.addChangeListener( new ChangeListener() {
-
             public void stateChanged( ChangeEvent arg0 ) {
                 model.reset();
             }
@@ -161,7 +160,8 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         JPanel sodiumPanel = new JPanel( new GridBagLayout() );
         GridBagConstraints gbc = new DefaultGridBagConstraints();
 
-        JLabel label = new JLabel( "Sodium" );
+//        JLabel label = new JLabel( "Sodium" );
+        JLabel label = new JLabel( "Sodium", new ImageIcon( IonGraphicManager.getIonImage( Sodium.class )), JLabel.LEADING );
         gbc.anchor = GridBagConstraints.EAST;
         sodiumPanel.add( label, gbc );
 
@@ -209,7 +209,10 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         JPanel panel = new JPanel( new GridBagLayout() );
         GridBagConstraints gbc = new DefaultGridBagConstraints();
 
-        JLabel label = new JLabel( "Chloride" );
+//        JLabel label = new JLabel( "Chloride" );
+        JLabel label = new JLabel( "Chloride",
+                                   new ImageIcon( IonGraphicManager.getIonImage( Chloride.class )),
+                                   JLabel.LEADING );
         gbc.anchor = GridBagConstraints.EAST;
         panel.add( label, gbc );
 
