@@ -21,7 +21,7 @@ import java.awt.geom.Line2D;
 import java.awt.*;
 
 /**
- * MouseTracker
+ * MouseTracker for Piccolo-based simulations
  *
  * @author Ron LeMaster
  * @version $Revision$
