@@ -12,12 +12,14 @@ package edu.colorado.phet.solublesalts.module;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.MouseTracker;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.piccolo.RegisterablePNode;
 import edu.colorado.phet.piccolo.util.PiccoloUtils;
+import edu.colorado.phet.piccolo.util.PMouseTracker;
 import edu.colorado.phet.solublesalts.control.SolubleSaltsControlPanel;
 import edu.colorado.phet.solublesalts.model.*;
 import edu.colorado.phet.solublesalts.view.*;
@@ -184,6 +186,7 @@ public class SolubleSaltsModule extends PiccoloModule {
 //        pp2.setOffset( 500, 500 );
 //        pp2.setPaint( Color.green );
 //        simPanel.addWorldChild( pp2 );
+
     }
 
     private void test() {

@@ -67,6 +67,11 @@ public class SolubleSaltsApplication extends PhetApplication {
     public static void main( String[] args ) {
         SimStrings.init( args, SolubleSaltsConfig.STRINGS_BUNDLE_NAME );
         new SolubleSaltsApplication( args ).startApplication();
+
+
+        Object o = PhetApplication.instance().getModuleManager().getActiveModule().getSimulationPanel();
+        return;
+
     }
 
 }
