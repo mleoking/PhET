@@ -42,6 +42,7 @@ public class PMouseTracker extends PNode {
         addChild( crosshairs );
 
         coords = new PText();
+        coords.setOffset( 10, -20 );
         addChild( coords );
 
         canvas.addInputEventListener( new PBasicInputEventHandler() {

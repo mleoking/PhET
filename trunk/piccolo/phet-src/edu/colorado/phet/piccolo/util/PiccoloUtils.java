@@ -73,5 +73,4 @@ public class PiccoloUtils {
         }
         return new Point2D.Double( x, y );
     }
-
 }

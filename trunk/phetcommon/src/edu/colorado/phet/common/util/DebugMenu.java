@@ -21,6 +21,8 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.LineGrid;
 import edu.colorado.phet.common.view.util.MouseTracker;
+import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.piccolo.util.PMouseTracker;
 
 import javax.swing.*;
 import java.awt.*;
@@ -74,6 +76,11 @@ public class DebugMenu extends JMenu {
         return appPanel;
     }
 
+    private PhetPCanvas getSimPanel() {
+        PhetPCanvas simPanel = (PhetPCanvas)app.getModuleManager().getActiveModule().getSimulationPanel();
+        return simPanel;
+    }
+
 
     //----------------------------------------------------------------
     // Menu Items
@@ -116,6 +123,7 @@ public class DebugMenu extends JMenu {
     /**
      * Shows/hides a MouseTracker
      */
+
     private class MouseTrackerMenuItem extends JCheckBoxMenuItem {
         private HashMap appPanelToTracker = new HashMap();
 
@@ -125,7 +133,7 @@ public class DebugMenu extends JMenu {
             this.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     ApparatusPanel appPanel = getApparatusPanel();
-                    if( appPanel instanceof ApparatusPanel2 ) {
+                    if( appPanel != null && appPanel instanceof ApparatusPanel2 ) {
                         ApparatusPanel2 appPanel2 = (ApparatusPanel2)appPanel;
                         if( isSelected() ) {
                             MouseTracker tracker = new MouseTracker( appPanel2 );
@@ -136,6 +144,20 @@ public class DebugMenu extends JMenu {
                             MouseTracker tracker = (MouseTracker)appPanelToTracker.get( appPanel );
                             appPanel.removeGraphic( tracker );
                             appPanelToTracker.remove( appPanel );
+                        }
+                    }
+
+                    PhetPCanvas simPanel = getSimPanel();
+                    if( simPanel != null ) {
+                        if( isSelected() ) {
+                            PMouseTracker mouseTracker = new PMouseTracker( simPanel );
+                            simPanel.addWorldChild( mouseTracker );
+                            appPanelToTracker.put( simPanel, mouseTracker );
+                        }
+                        else {
+                            PMouseTracker tracker = (PMouseTracker)appPanelToTracker.get( simPanel );
+                            simPanel.removeWorldChild( tracker );
+                            appPanelToTracker.remove( simPanel );                            
                         }
                     }
                 }
