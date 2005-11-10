@@ -18,7 +18,6 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 
 import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.*;
 
 /**

@@ -19,6 +19,8 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.util.DebugMenu;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.colorado.phet.solublesalts.view.IonGraphic;
+import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.piccolo.util.PMouseTracker;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -32,7 +34,7 @@ import java.awt.event.ActionEvent;
  */
 public class SolubleSaltsApplication extends PhetApplication {
 
-    
+
     private static AbstractClock CLOCK = new SwingTimerClock( SolubleSaltsConfig.DT, SolubleSaltsConfig.FPS, AbstractClock.FRAMES_PER_SECOND );
 
     public SolubleSaltsApplication( String[] args ) {
@@ -53,7 +55,7 @@ public class SolubleSaltsApplication extends PhetApplication {
     private void setUpDebugMenu() {
         DebugMenu debugMenu = getPhetFrame().getDebugMenu();
         if( debugMenu != null ) {
-            final JCheckBoxMenuItem showBondIndicatorMI = new JCheckBoxMenuItem( "Show bond indicators");
+            final JCheckBoxMenuItem showBondIndicatorMI = new JCheckBoxMenuItem( "Show bond indicators" );
             debugMenu.add( showBondIndicatorMI );
             showBondIndicatorMI.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -66,11 +68,20 @@ public class SolubleSaltsApplication extends PhetApplication {
 
     public static void main( String[] args ) {
         SimStrings.init( args, SolubleSaltsConfig.STRINGS_BUNDLE_NAME );
-        new SolubleSaltsApplication( args ).startApplication();
+        PhetApplication app = new SolubleSaltsApplication( args );
+        app.startApplication();
 
 
-        Object o = PhetApplication.instance().getModuleManager().getActiveModule().getSimulationPanel();
-        return;
+        for( int i = 0; i < args.length; i++ ) {
+            String arg = args[i];
+            if( arg.equals( "-m" ) ) {
+                PhetPCanvas simPanel = (PhetPCanvas)app.getModuleManager().getActiveModule().getSimulationPanel();
+                if( simPanel != null ) {
+                    PMouseTracker mouseTracker = new PMouseTracker( simPanel );
+                    simPanel.addWorldChild( mouseTracker );
+                }
+            }
+        }
 
     }
 
