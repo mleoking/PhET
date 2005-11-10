@@ -143,6 +143,10 @@ public class Vessel implements ModelElement, Collidable, Binder {
         return ionStickAffinity;
     }
 
+    public double getVolume() {
+        return getWidth() * getDepth();
+    }
+
     //----------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------
@@ -151,7 +155,6 @@ public class Vessel implements ModelElement, Collidable, Binder {
             Ion ion = (Ion)boundIons.get( i );
             if( ionReleaseAffinity.stick( ion, this ) ) {
                 boundIons.remove( ion );
-//                ion.unbindFrom( this );
             }
         }
     }
@@ -179,10 +182,6 @@ public class Vessel implements ModelElement, Collidable, Binder {
 
     public void removeChangeListener( ChangeListener listener ) {
         changeEventChannel.removeListener( listener );
-    }
-
-    public double getVolume() {
-        return getWidth() * getDepth();
     }
 
     //----------------------------------------------------------------

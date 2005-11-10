@@ -32,6 +32,7 @@ import java.awt.event.ActionEvent;
  */
 public class SolubleSaltsApplication extends PhetApplication {
 
+    
     private static AbstractClock CLOCK = new SwingTimerClock( SolubleSaltsConfig.DT, SolubleSaltsConfig.FPS, AbstractClock.FRAMES_PER_SECOND );
 
     public SolubleSaltsApplication( String[] args ) {

@@ -16,17 +16,30 @@ package edu.colorado.phet.solublesalts.model;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Drain extends Faucet {
+public class Drain extends Spigot implements Vessel.ChangeListener {
 
     public Drain( SolubleSaltsModel model ) {
         super( model );
-        this.model = model;
+        model.getVessel().addChangeListener( this );
     }
 
     public void stepInTime( double dt ) {
-        Vessel vessel = model.getVessel();
+        Vessel vessel = getModel().getVessel();
         double area = vessel.getWidth();
         double volume = vessel.getWaterLevel() - getFlow() / area;
         vessel.setWaterLevel( volume );
+    }
+
+    //----------------------------------------------------------------
+    // Vessel.ChangeListener implementation
+    //----------------------------------------------------------------
+    boolean noWater = false;
+    double savedFlow;
+
+    public void stateChanged( Vessel.ChangeEvent event ) {
+        Vessel vessel = event.getVessel();
+        if( vessel.getWaterLevel() <= 0 ) {
+            setFlow( 0 );
+        }
     }
 }

@@ -35,7 +35,7 @@ public class SolubleSaltsConfig {
     public static final Point2D VESSEL_ULC = new Point2D.Double( 150, 150 ); // upper-left corner of vessel
     public static final Dimension VESSEL_SIZE = new Dimension( 700, 500 );
     public static final double VESSEL_WALL_THICKNESS = 20;
-
+    public static final double DEFAULT_WATER_LEVEL = VESSEL_SIZE.getHeight() * 0.7; 
     // Images
     public static final String IMAGE_PATH = "images/";
     public static final String SHAKER_IMAGE_NAME = IMAGE_PATH + "shaker.png";

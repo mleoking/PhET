@@ -52,7 +52,7 @@ public class SolubleSaltsModel extends BaseModel {
     private double vesselWallThickness = SolubleSaltsConfig.VESSEL_WALL_THICKNESS;
 
     // The faucet and drain
-    private Faucet faucet;
+    private WaterSource waterSource;
     private Drain drain;
 
     // Collision mechanism objects
@@ -80,9 +80,9 @@ public class SolubleSaltsModel extends BaseModel {
         addModelElement( vessel );
 
         // Create the faucet and drain
-        faucet = new Faucet( this );
-        faucet.setPosition( vessel.getLocation().getX() + 35, vessel.getLocation().getY() - 10 );
-        addModelElement( faucet );
+        waterSource = new WaterSource( this );
+        waterSource.setPosition( vessel.getLocation().getX() + 35, vessel.getLocation().getY() - 10 );
+        addModelElement( waterSource );
         drain = new Drain( this );
         drain.setPosition( vessel.getLocation().getX() - vessel.getWallThickness(),
                            vessel.getLocation().getY() + vessel.getDepth() - 50 );
@@ -137,6 +137,9 @@ public class SolubleSaltsModel extends BaseModel {
             Ion ion = (Ion)ions.get( i );
             removeModelElement( ion );
         }
+        vessel.setWaterLevel( SolubleSaltsConfig.DEFAULT_WATER_LEVEL );
+        waterSource.setFlow( 0 );
+        drain.setFlow( 0 );
         heatSource.setHeatChangePerClockTick( 0 );
     }
     
@@ -160,8 +163,8 @@ public class SolubleSaltsModel extends BaseModel {
         return vessel;
     }
 
-    public Faucet getFaucet() {
-        return faucet;
+    public WaterSource getFaucet() {
+        return waterSource;
     }
 
     public Drain getDrain() {
