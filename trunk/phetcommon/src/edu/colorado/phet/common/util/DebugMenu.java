@@ -21,8 +21,6 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.LineGrid;
 import edu.colorado.phet.common.view.util.MouseTracker;
-import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.piccolo.util.PMouseTracker;
 
 import javax.swing.*;
 import java.awt.*;
@@ -75,12 +73,6 @@ public class DebugMenu extends JMenu {
         ApparatusPanel appPanel = app.getModuleManager().getActiveModule().getApparatusPanel();
         return appPanel;
     }
-
-    private PhetPCanvas getSimPanel() {
-        PhetPCanvas simPanel = (PhetPCanvas)app.getModuleManager().getActiveModule().getSimulationPanel();
-        return simPanel;
-    }
-
 
     //----------------------------------------------------------------
     // Menu Items
@@ -144,20 +136,6 @@ public class DebugMenu extends JMenu {
                             MouseTracker tracker = (MouseTracker)appPanelToTracker.get( appPanel );
                             appPanel.removeGraphic( tracker );
                             appPanelToTracker.remove( appPanel );
-                        }
-                    }
-
-                    PhetPCanvas simPanel = getSimPanel();
-                    if( simPanel != null ) {
-                        if( isSelected() ) {
-                            PMouseTracker mouseTracker = new PMouseTracker( simPanel );
-                            simPanel.addWorldChild( mouseTracker );
-                            appPanelToTracker.put( simPanel, mouseTracker );
-                        }
-                        else {
-                            PMouseTracker tracker = (PMouseTracker)appPanelToTracker.get( simPanel );
-                            simPanel.removeWorldChild( tracker );
-                            appPanelToTracker.remove( simPanel );                            
                         }
                     }
                 }
