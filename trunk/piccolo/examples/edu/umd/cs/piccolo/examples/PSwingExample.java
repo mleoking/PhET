@@ -1,22 +1,24 @@
 /* Copyright 2004, Sam Reid */
 package edu.umd.cs.piccolo.examples;
 
-import edu.colorado.phet.piccolo.pswing.PSwing;
-import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
-import edu.colorado.phet.tests.piccolo.TestWiggleMe;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PZoomEventHandler;
-import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolox.PFrame;
-import edu.umd.cs.piccolox.nodes.P3DRect;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+import edu.colorado.phet.piccolo.pswing.PSwing;
+import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PZoomEventHandler;
+import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.PFrame;
+import edu.umd.cs.piccolox.nodes.P3DRect;
 
 /**
  * User: Sam Reid
