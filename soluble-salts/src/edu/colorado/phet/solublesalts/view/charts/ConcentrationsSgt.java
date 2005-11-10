@@ -55,6 +55,11 @@ public class ConcentrationsSgt implements ModelElement {
         this.model = model;
 
         plot = makeGraph();
+        plot.setBatch( true );
+//        plot.set
+        plot.clear();
+        plot.addData( clData, clData.getTitle() );
+
 
         dlg = new JDialog( owner, "Concentrations" );
         dlg.getContentPane().add( plot );
@@ -105,7 +110,6 @@ public class ConcentrationsSgt implements ModelElement {
         clData.setYMetaData( yMetaData );
 
 
-
 //        naData = new SimpleLine( tVals, naVals, "x-y test" );
 //        clData = new SimpleLine( tVals, clVals, "x-y test" );
 //        clData.setXMetaData( xMetaData );
@@ -149,15 +153,20 @@ public class ConcentrationsSgt implements ModelElement {
 
         SGTMetaData xMetaData = new SGTMetaData( "time", "ticks", false, false );
         SGTMetaData yMetaData = new SGTMetaData( "concentration", "???", false, false );
-        naData = new SimpleLine( tVals, naVals, "Na" );
-        clData = new SimpleLine( tVals, clVals, "Cl" );
-        naData.setXMetaData( xMetaData );
-        naData.setYMetaData( yMetaData );
-        clData.setXMetaData( xMetaData );
-        clData.setYMetaData( yMetaData );
+//        naData = new SimpleLine( tVals, naVals, "Na" );
+//        clData = new SimpleLine( tVals, clVals, "Cl" );
+        clData.setXArray( tVals );
+        clData.setYArray( clVals );
+        naData.setXArray( tVals );
+        naData.setYArray( naVals );
 
+        plot.repaint( );
+//        naData.setXMetaData( xMetaData );
+//        naData.setYMetaData( yMetaData );
+//        clData.setXMetaData( xMetaData );
+//        clData.setYMetaData( yMetaData );
 
-        plot.clear();
-        plot.addData( clData, clData.getTitle() );
+//        plot.clear();
+//        plot.addData( clData, clData.getTitle() );
     }
 }

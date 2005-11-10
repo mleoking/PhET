@@ -13,6 +13,8 @@ package edu.colorado.phet.piccolo;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
 
 /**
  * RegisterablePNode
@@ -93,6 +95,17 @@ public class RegisterablePNode extends PNode {
     public void setRegistrationPoint( double x, double y ) {
         Point2D rp = new Point2D.Double( x, y );
         setRegistrationPoint( rp );
+    }
+
+    public void setTransform( AffineTransform newTransform ) {
+        try {
+            Point2D rp = getTransform().inverseTransform( registrationPoint, null );
+            super.setTransform( newTransform );
+            registrationPoint = newTransform.transform( rp, null );
+        }
+        catch( NoninvertibleTransformException e ) {
+            e.printStackTrace();
+        }
     }
 
     /**
