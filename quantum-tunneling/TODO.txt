@@ -6,7 +6,6 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- piccolo: why doesn't PText.setFont work?
 
 
 MEDIUM PRIORITY:
@@ -34,6 +33,7 @@ CLEANUP:
 
 
 PHETCOMMON:
+- create a piccolo version of HelpManager
 - factor an interface out of Module and PiccoloModule
 - factor an interface out of ApparatusPanel and PiccoloApparatusPanel
 - add help support to PiccoloModule
