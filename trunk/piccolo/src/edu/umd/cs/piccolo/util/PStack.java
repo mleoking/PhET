@@ -27,3 +27,37 @@
  * Piccolo was written at the Human-Computer Interaction Laboratory www.cs.umd.edu/hcil by Jesse Grosjean
  * under the supervision of Ben Bederson. The Piccolo website is www.cs.umd.edu/hcil/piccolo.
  */
+package edu.umd.cs.piccolo.util;
+
+import java.util.ArrayList;
+
+/**
+ * <b>PStack</b> this class should be removed when a non thread safe stack is added
+ * to the java class libraries.
+ * <p>
+ * @version 1.0
+ * @author Jesse Grosjean
+ */
+public class PStack extends ArrayList {
+	
+	public PStack() {
+	}
+	
+	public void push(Object o) {
+		add(o);
+	}
+	
+	public Object peek() {
+		int s = size();
+		if (s == 0) {
+			return null;
+		} else {
+			return get(s - 1);
+		}
+	}
+	
+	public Object pop() {
+		return remove(size() - 1);
+	}	
+}
+
