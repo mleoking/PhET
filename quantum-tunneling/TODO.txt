@@ -6,6 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- piccolo: why doesn't PText.setFont work?
 
 
 MEDIUM PRIORITY:
@@ -39,6 +40,7 @@ PHETCOMMON:
 
 
 DONE:
+(11/11/05) - put some dummy graphis in play area for graphs and titles
 (11/11/05) - do some tests with PText
 (11/11/05) - Spanish translations for control panel, to check layout
 (11/11/05) - add icons for incident wave direction control
