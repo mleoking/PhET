@@ -48,7 +48,7 @@ public class TestMagicPImage3 extends PhetPCanvas {
         }
         PImage pImage = new MagicPImage3( newImage );
 //        PImage pImage = new PImage( newImage );
-        pImage.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
+//        pImage.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
         return pImage;
     }
 

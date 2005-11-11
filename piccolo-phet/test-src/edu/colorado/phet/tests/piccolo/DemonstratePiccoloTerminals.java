@@ -32,7 +32,7 @@ public class DemonstratePiccoloTerminals {
         //Initialize Piccolo Canvas
         piccoloCanvas = new PCanvas();
         frame.setContentPane( piccoloCanvas );
-        piccoloCanvas.getLayer().setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+//        piccoloCanvas.getLayer().setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
 
         //Add content to Canvas
         PText pText = new PText( "Hello Piccolo" );

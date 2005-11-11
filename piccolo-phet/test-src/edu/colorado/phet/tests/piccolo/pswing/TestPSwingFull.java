@@ -174,8 +174,7 @@ public class TestPSwingFull extends JFrame {
         canvas.getLayer().addChild( transform );
 
         // A JLabel
-        JLabel label = new JLabel( "A JLabel",
-                                   new ImageIcon( loader.getResource( "HCIL-logo.gif" ) ), SwingConstants.CENTER );
+        JLabel label = new JLabel( "A JLabel", SwingConstants.CENTER );
 
         swing = new PSwing( canvas, label );
         leaf = new ZVisualLeaf( swing );
@@ -339,16 +338,15 @@ public class TestPSwingFull extends JFrame {
         tools.setMinimumSize( new Dimension( 150, 150 ) );
         tools.setPreferredSize( new Dimension( 225, 225 ) );
         JToolBar bar = new JToolBar();
-        Action letter = new AbstractAction( "Big A!", new ImageIcon( loader.getResource( "letter.gif" ) ) ) {
+        Action letter = new AbstractAction( "Big A!"){
 
             public void actionPerformed( ActionEvent e ) {}
         };
 
-        Action hand = new AbstractAction( "Hi!", new ImageIcon( loader.getResource( "hand.gif" ) ) ) {
+        Action hand = new AbstractAction( "Hi!" ) {
             public void actionPerformed( ActionEvent e ) {}
         };
-        Action select = new AbstractAction( "There!",
-                                            new ImageIcon( loader.getResource( "select.gif" ) ) ) {
+        Action select = new AbstractAction( "There!") {
             public void actionPerformed( ActionEvent e ) {}
         };
 

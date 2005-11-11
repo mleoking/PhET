@@ -36,7 +36,7 @@ public class TestBoundedDragHandler {
         //Initialize Piccolo Canvas
         piccoloCanvas = new PCanvas();
         frame.setContentPane( piccoloCanvas );
-        piccoloCanvas.getLayer().setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+//        piccoloCanvas.getLayer().setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
 
         //PPath is the shape primitive.
         Rectangle rectangleBounds = new Rectangle( 10, 10, 300, 300 );

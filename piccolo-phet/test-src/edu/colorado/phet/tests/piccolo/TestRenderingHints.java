@@ -21,7 +21,7 @@ public class TestRenderingHints {
         final PNode pText = new PPath( new Ellipse2D.Double( 0, 0, 30, 30 ) );
         PNode parent1 = new PNode();
         parent1.addChild( pText );
-        parent1.setAntialias( true );
+//        parent1.setAntialias( true );
         pCanvas.getLayer().addChild( parent1 );
 
         PNode pText2 = new PPath( new Ellipse2D.Double( 0, 0, 30, 30 ) );
@@ -31,8 +31,8 @@ public class TestRenderingHints {
         parent2.addChild( new PPath( new Ellipse2D.Double( 32, 0, 30, 30 ) ) );
         parent2.setOffset( 0, parent1.getFullBounds().getHeight() + 2 );
 
-        parent2.setAntialias( false );
-        pText2.setAntialias( true );
+//        parent2.setAntialias( false );
+//        pText2.setAntialias( true );
 
         pCanvas.getLayer().addChild( parent2 );
 
