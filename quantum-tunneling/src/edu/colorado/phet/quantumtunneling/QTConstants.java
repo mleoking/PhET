@@ -71,4 +71,20 @@ public class QTConstants {
     //----------------------------------------------------------------------------
 
     public static final String IMAGES_DIRECTORY = "images/";
+    public static final String IMAGE_ARROW_L2R = IMAGES_DIRECTORY + "arrowL2R.png";
+    public static final String IMAGE_ARROW_R2L = IMAGES_DIRECTORY + "arrowR2L.png";
+    
+    //----------------------------------------------------------------------------
+    // Wave Packet
+    //----------------------------------------------------------------------------
+    
+    // packet width
+    public static final double MIN_PACKET_WIDTH = 0.1; // nm
+    public static final double MAX_PACKET_WIDTH = 4.0; // nm
+    public static final double DEFAULT_PACKET_WIDTH = 0.5; // nm
+    
+    // packet center
+    public static final double MIN_PACKET_CENTER = 0; // nm
+    public static final double MAX_PACKET_CENTER = 20.0; // nm
+    public static final double DEFAULT_PACKET_CENTER = 1.5; // nm
 }
