@@ -6,8 +6,6 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- what is the range, ticks & labels for wave packet width control?
-- what is the range, ticks & labels for wave packet center control?
 
 
 MEDIUM PRIORITY:
@@ -41,6 +39,9 @@ PHETCOMMON:
 
 
 DONE:
+(11/11/05) - add icons for incident wave direction control
+(11/11/05) - add width and center slider controls to control panel
+(11/11/05) - implement general SliderControl
 (11/10/05) - check new project into CVS
 (11/10/05) - set up application framework
 
