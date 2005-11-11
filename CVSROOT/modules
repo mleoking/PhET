@@ -148,3 +148,6 @@ soluble-salts soluble-salts &phetcommon &piccolo &mechanics &collision
 
 #Optical Pulse Shaper
 shaper shaper &phetcommon &charts
+
+#Quantum Tunneling
+quantum-tunneling quantum-tunneling &phetcommon &piccolo
