@@ -172,12 +172,14 @@ public class QTControlPanel extends AbstractControlPanel {
             JLabel l2rLabel = null;
             JLabel r2lLabel = null;
             try {
+                // Pretty icons to indicate direction
                 ImageIcon l2rIcon = new ImageIcon( ImageLoader.loadBufferedImage( QTConstants.IMAGE_ARROW_L2R ) );
                 l2rLabel = new JLabel( l2rIcon );
                 ImageIcon r2lIcon = new ImageIcon( ImageLoader.loadBufferedImage( QTConstants.IMAGE_ARROW_R2L ) );
                 r2lLabel = new JLabel( r2lIcon );
             }
             catch ( IOException e ) {
+                // Fallback to crude arrows if we can't load icons
                 l2rLabel = new JLabel( "-->" );
                 r2lLabel = new JLabel( "<--" );
                 e.printStackTrace();
@@ -283,27 +285,29 @@ public class QTControlPanel extends AbstractControlPanel {
         _measureButton = new JButton( SimStrings.get( "QTControlPanel.measure"  ) );
         
         // Layout
-        addSeparator();
-        addFullWidth( potentialPanel );
-        addVerticalSpace( SUBPANEL_SPACING );
-        addSeparator();
-        addFullWidth( viewPanel );
-        addVerticalSpace( SUBPANEL_SPACING );
-        addSeparator();
-        addFullWidth( irPanel );
-        addVerticalSpace( SUBPANEL_SPACING );
-        addSeparator();
-        addFullWidth( directionPanel );
-        addVerticalSpace( SUBPANEL_SPACING );
-        addSeparator();
-        addFullWidth( formPanel );
-        addVerticalSpace( SUBPANEL_SPACING );
-        addSeparator();
-        addFullWidth( propertiesPanel );
-        addVerticalSpace( SUBPANEL_SPACING );
-        addSeparator();
-        addControl( _measureButton );
-        addResetButton();
+        {
+            addSeparator();
+            addFullWidth( potentialPanel );
+            addVerticalSpace( SUBPANEL_SPACING );
+            addSeparator();
+            addFullWidth( viewPanel );
+            addVerticalSpace( SUBPANEL_SPACING );
+            addSeparator();
+            addFullWidth( irPanel );
+            addVerticalSpace( SUBPANEL_SPACING );
+            addSeparator();
+            addFullWidth( directionPanel );
+            addVerticalSpace( SUBPANEL_SPACING );
+            addSeparator();
+            addFullWidth( formPanel );
+            addVerticalSpace( SUBPANEL_SPACING );
+            addSeparator();
+            addFullWidth( propertiesPanel );
+            addVerticalSpace( SUBPANEL_SPACING );
+            addSeparator();
+            addControl( _measureButton );
+            addResetButton();
+        }
         
         // Interactivity
         {
@@ -333,7 +337,7 @@ public class QTControlPanel extends AbstractControlPanel {
     //----------------------------------------------------------------------------
     
     /**
-     * 
+     * Resets the control panel to default (initial) values.
      */
     public void reset() {
         _potentialComboBox.setSelectedItem( _barrierItem );
@@ -360,6 +364,9 @@ public class QTControlPanel extends AbstractControlPanel {
     // Event handling
     //----------------------------------------------------------------------------
     
+    /*
+     * EventListener dispatches events for all controls in this control panel.
+     */
     private class EventListener implements ActionListener, ChangeListener, ItemListener {
         
         public EventListener() {}
