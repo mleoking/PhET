@@ -1,3 +1,0 @@
-Main-Class: ExampleRunner
-Class-Path: jazz.jar jazzx.jar lib/parser.jar lib/jaxp.jar
-Created-By: Jesse Grosjean
