@@ -1,0 +1,51 @@
+===============================================================================
+"To Do" list for "Quantum Tunneling" simulation
+===============================================================================
+
+IN PROGRESS:
+
+
+HIGH PRIORITY:
+- what is the range, ticks & labels for wave packet width control?
+- what is the range, ticks & labels for wave packet center control?
+
+
+MEDIUM PRIORITY:
+
+
+LOW PRIORITY:
+
+
+NEW FEATURES:
+
+
+OPTIMIZATIONS:
+- flatten static elements
+- setIgnoreMouse
+
+
+CLEANUP:
+- javadoc all code
+- organize imports
+- remove unused images and assets
+- remove unused localization strings
+- resize any scaled images
+- save all images using Photoshop's "Save for Web" feature
+- fix all javadoc warnings and errors
+
+
+PHETCOMMON:
+- factor an interface out of Module and PiccoloModule
+- factor an interface out of ApparatusPanel and PiccoloApparatusPanel
+- add help support to PiccoloModule
+
+
+DONE:
+(11/10/05) - check new project into CVS
+(11/10/05) - set up application framework
+
+
+REJECTED:
+
+===============================================================================
+end of file
