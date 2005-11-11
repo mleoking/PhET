@@ -141,7 +141,10 @@ photoelectric photoelectric &dischargelamps &charts
 dischargelamps fluorescent-lights &phetcommon &mechanics &collision &lasers &controls
 
 #Piccolo
-piccolo piccolo &phetcommon
+piccolo piccolo
+
+#Piccolo-phet
+piccolo-phet piccolo-phet &phetcommon &piccolo
 
 # Soluble Salts
 soluble-salts soluble-salts &phetcommon &piccolo &mechanics &collision
