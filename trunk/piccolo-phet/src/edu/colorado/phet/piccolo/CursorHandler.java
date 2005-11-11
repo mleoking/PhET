@@ -5,6 +5,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
 /**
  * Changes the mouse to a different cursor on entrance.
@@ -52,7 +53,12 @@ public class CursorHandler extends PBasicInputEventHandler {
     }
 
     private Component getComponent( PInputEvent event ) {
-        return event.getSourceSwingEvent().getComponent();
+        if (EventQueue.getCurrentEvent() instanceof MouseEvent){
+            MouseEvent mouseEvent = (MouseEvent)EventQueue.getCurrentEvent();
+            return mouseEvent.getComponent();
+        }else{
+            throw new RuntimeException("No component for event.");
+        }
     }
 
     public void mouseExited( PInputEvent event ) {
