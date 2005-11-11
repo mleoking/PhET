@@ -462,12 +462,10 @@ public class QTControlPanel extends AbstractControlPanel {
             _propertiesPanel.setVisible( false );
             _propertiesButton.setEnabled( false );
             _propertiesButton.setText( _sPropertiesExpand );
-            _measureButton.setEnabled( false );
         }
         else {
             _propertiesButton.setEnabled( true );
             _propertiesPanel.setVisible( false );
-            _measureButton.setEnabled( true );
         }
     }
     
