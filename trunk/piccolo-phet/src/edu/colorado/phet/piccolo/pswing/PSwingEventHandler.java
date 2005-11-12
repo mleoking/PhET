@@ -369,6 +369,9 @@ public class PSwingEventHandler implements PInputEventListener {
     }
 
     public void processEvent( PInputEvent aEvent, int type ) {
+        if (!(EventQueue.getCurrentEvent() instanceof MouseEvent)){
+            new Exception("EventQueue.getCurrentEvent was not a MouseEvent, consider making PInputEvent.getSourceSwingEvent public.").printStackTrace( );
+        }
         if( aEvent.isMouseEvent() &&EventQueue.getCurrentEvent() instanceof MouseEvent) {
             MouseEvent sourceSwingEvent = (MouseEvent)EventQueue.getCurrentEvent();
             PSwingMouseEvent pSwingMouseEvent = PSwingMouseEvent.createMouseEvent( sourceSwingEvent.getID(), sourceSwingEvent, aEvent );
