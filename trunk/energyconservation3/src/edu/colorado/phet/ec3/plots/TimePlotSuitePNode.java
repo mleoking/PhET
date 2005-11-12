@@ -86,7 +86,7 @@ public class TimePlotSuitePNode extends PNode {
         chart = createChart( range, dataset, name + " (" + units + ")" );
         this.plot = (XYPlot)chart.getPlot();
         chartGraphic = new PImage();
-        chartGraphic.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
+//        chartGraphic.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
         updateChartBuffer();
 
         addChild( chartGraphic );
