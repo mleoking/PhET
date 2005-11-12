@@ -9,7 +9,9 @@ HIGH PRIORITY:
 
 
 MEDIUM PRIORITY:
-
+- add application description to "About" dialog
+- add build number to "About" dialog
+- add PhET logo to "About" dialog
 
 LOW PRIORITY:
 
@@ -40,6 +42,7 @@ PHETCOMMON:
 
 
 DONE:
+(11/12/05) - fixes to Spanish translations
 (11/11/05) - put some dummy graphis in play area for graphs and titles
 (11/11/05) - do some tests with PText
 (11/11/05) - Spanish translations for control panel, to check layout
