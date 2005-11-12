@@ -154,3 +154,6 @@ shaper shaper &phetcommon &charts
 
 #Quantum Tunneling
 quantum-tunneling quantum-tunneling &phetcommon &piccolo
+
+#Energy Conservation 3 (2nd draft).
+energyconservation3 energyconservation3 &phetcommon &piccolo &piccolo-phet &jfreechart &jfreechart-phet
