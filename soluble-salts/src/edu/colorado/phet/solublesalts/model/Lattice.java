@@ -20,7 +20,9 @@ import java.awt.geom.Rectangle2D;
 import java.util.*;
 
 /**
- * Molecule
+ * Lattice
+ * <p>
+ * The lattice has a seed ion. The lattice's position is that of it's seed ion.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -96,6 +98,10 @@ public class Lattice extends Body implements Binder {
         instanceLifetimeListenerProxy.instanceCreated( new InstanceLifetimeEvent( this ) );
     }
 
+    public Point2D getPosition() {
+        return seed.getPosition();
+    }
+
     public void leaveModel() {
         instanceLifetimeListenerProxy.instanceDestroyed( new InstanceLifetimeEvent( this ) );
     }
@@ -144,6 +150,10 @@ public class Lattice extends Body implements Binder {
         return l;
     }
 
+    public void setBounds( Rectangle2D bounds ) {
+        this.bounds = bounds;
+    }
+
     //----------------------------------------------------------------
     // Lattice building
     //----------------------------------------------------------------
@@ -190,13 +200,13 @@ public class Lattice extends Body implements Binder {
      * @param ion
      */
     public void removeIon( Ion ion ) {
-    	getIons().remove( ion );
+        getIons().remove( ion );
 
         // If there aren't any ions left in the lattice, the lattice should be removed
         // from the model
         if( getIons().size() == 0 ) {
             instanceLifetimeListenerProxy.instanceDestroyed( new InstanceLifetimeEvent( this ) );
-        }        
+        }
     }
 
     /**
@@ -205,8 +215,12 @@ public class Lattice extends Body implements Binder {
      * @param dt
      */
     private void releaseIon( double dt ) {
-
         Ion ionToRelease = form.getLeastBoundIon( getIons(), orientation );
+
+        if( ionToRelease == null ) {
+            System.out.println( "No ion found to release!!!!!" );
+            return;
+        }
 
         Thread t = new Thread( new NoBindTimer( ionToRelease ) );
         t.start();
@@ -220,6 +234,7 @@ public class Lattice extends Body implements Binder {
 
     /**
      * Determine the velocity an ion that is about to be release should have
+     *
      * @param ionToRelease
      * @return
      */
@@ -290,13 +305,14 @@ public class Lattice extends Body implements Binder {
      * @param dt
      */
     public void stepInTime( double dt ) {
-        if( random.nextDouble() < dissociationLikelihood ) {
+
+        // Only dissociate if the lattice is in the water
+        if( bounds.contains( getPosition() ) && random.nextDouble() < dissociationLikelihood ) {
             releaseIon( dt );
         }
-        else {
-            super.stepInTime( dt );
-        }
+        super.stepInTime( dt );
     }
+
 
     //================================================================
     // Inner classes
@@ -331,10 +347,35 @@ public class Lattice extends Body implements Binder {
     //----------------------------------------------------------------
 
     interface Form {
+        /**
+         * Returns the location of the open lattice point that is nearest to a specified ion
+         *
+         * @param ion
+         * @param ionsInLattice
+         * @param orientation
+         * @return
+         */
         Point2D getNearestOpenSite( Ion ion, List ionsInLattice, double orientation );
 
-        Ion getLeastBoundIon( List ions, double orientation );
+        /**
+         * Returns the ion with the greatest number of unoccupied neighboring lattice sites. The
+         * seed ion is not eligible for consideration.
+         *
+         * @param ionsInLattice
+         * @param orientation
+         * @return
+         */
+        Ion getLeastBoundIon( List ionsInLattice, double orientation );
 
+        /**
+         * Returns a list of the lattice sites that are neighboring a specified ion that are
+         * not occupied.
+         *
+         * @param ion
+         * @param ionsInLattice
+         * @param orientation
+         * @return
+         */
         List getOpenNeighboringSites( Ion ion, List ionsInLattice, double orientation );
     }
 
@@ -410,7 +451,8 @@ public class Lattice extends Body implements Binder {
         }
 
         /**
-         * Returns the ion with the greatest number of unoccupied neighboring lattice sites
+         * Returns the ion with the greatest number of unoccupied neighboring lattice sites. The
+         * seed ion is not eligible for consideration.
          *
          * @param ionsInLattice
          * @param orientation
@@ -432,6 +474,10 @@ public class Lattice extends Body implements Binder {
                 }
 
                 List ns = getNeighboringSites( ion.getPosition(), orientation );
+                if( ns.size() == 0 ) {
+                    System.out.println( "ns = " + ns );
+                    getNeighboringSites( ion.getPosition(), orientation );
+                }
                 int numUnoccupiedNeighborSites = 0;
                 for( int j = 0; j < ns.size(); j++ ) {
                     Point2D n = (Point2D)ns.get( j );

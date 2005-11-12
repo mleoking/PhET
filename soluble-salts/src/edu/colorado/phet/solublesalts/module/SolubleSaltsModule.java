@@ -18,6 +18,7 @@ import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.piccolo.RegisterablePNode;
+import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.piccolo.util.PiccoloUtils;
 import edu.colorado.phet.piccolo.util.PMouseTracker;
 import edu.colorado.phet.solublesalts.control.SolubleSaltsControlPanel;
@@ -28,8 +29,11 @@ import edu.colorado.phet.solublesalts.view.charts.ConcentrationsSgt;
 import edu.colorado.phet.solublesalts.view.charts.ConcentrationsPTPlot2;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.PCanvas;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -58,89 +62,43 @@ public class SolubleSaltsModule extends PiccoloModule {
         simPanel = new PhetPCanvas( new Dimension( 900, 600 ) );
         setPhetPCanvas( simPanel );
 
+        // Make a graphic for the un-zoomed setup, and add it to the canvax
+        PNode fullScaleCanvas = new WorldCanvas( model, simPanel );
+        simPanel.addWorldChild( fullScaleCanvas );
+
+        // Add another apparatus panel for the magnifier
+        {
+            final WorldCanvas magnifierCanvas = new WorldCanvas( model, simPanel );
+            magnifierCanvas.addInputEventListener( new PBasicInputEventHandler() {
+                public void mouseDragged( PInputEvent event ) {
+                    double dx = event.getDelta().getWidth();
+                    double dy = event.getDelta().getHeight();
+                    magnifierCanvas.translate( dx, dy );
+                }
+            } );
+
+            double scale = 0.5;
+//        magnifierCanvas.setScale( 0.5 );
+            PNode magnifier = new PNode();
+            PPath background = new PPath( new Rectangle2D.Double( 0,
+                                                                  0,
+                                                                  simPanel.getSize().getWidth() * scale,
+                                                                  simPanel.getSize().getHeight() * scale ) );
+            background.setPaint( Color.white );
+            magnifier.addChild( background );
+            magnifier.addChild( magnifierCanvas );
+            RegisterablePNode magnifierNode = new RegisterablePNode( magnifierCanvas );
+            magnifierNode.setOffset( 450, 300 );
+            magnifierNode.setScale( 0.5 );
+            magnifierNode.setRegistrationPoint( magnifierNode.getFullBounds().getWidth() / 2, magnifierNode.getFullBounds().getHeight() / 2 );
+//        simPanel.addWorldChild( magnifierNode );
+        }
+
         // Add a graphic manager to the model that will create and remove IonGraphics
         // when Ions are added to and removed from the model
-        model.addIonListener( new IonGraphicManager( simPanel ) );
+        model.addIonListener( new IonGraphicManager2( fullScaleCanvas ) );
+//        model.addIonListener( new IonGraphicManager2( magnifierCanvas ) );
 
-        // Create a graphic for the vessel
-        VesselGraphic vesselGraphic = new VesselGraphic( model.getVessel() );
-        simPanel.addWorldChild( vesselGraphic );
-        vesselGraphic.addInputEventListener( new PDragEventHandler() );
-        model.getVessel().setWaterLevel( SolubleSaltsConfig.DEFAULT_WATER_LEVEL );
-//        model.getVessel().setWaterLevel( model.getVessel().getDepth() * .7 );
-
-        // Add the stove
-        {
-            PNode stove = new StoveGraphic();
-            Point2D refPt = PiccoloUtils.getBorderPoint( vesselGraphic, PiccoloUtils.SOUTH );
-            stove.setOffset( refPt.getX(), refPt.getY() + 50 );
-//            simPanel.addWorldChild( stove );
-        }
-
-        // Add the shaker
-        {
-            Shaker shaker = model.getShaker();
-            RegisterablePNode shakerGraphic = new ShakerGraphic( shaker );
-            shakerGraphic.setRegistrationPoint( shakerGraphic.getFullBounds().getWidth() / 2,
-                                                shakerGraphic.getFullBounds().getHeight() / 2 );
-            shakerGraphic.rotateInPlace( -Math.PI / 4 );
-            shakerGraphic.setOffset( shaker.getPosition().getX(), shaker.getPosition().getY() );
-            simPanel.addWorldChild( shakerGraphic );
-        }
-
-        // Add the faucet and drain graphics
-        WaterSource waterSource = model.getFaucet();
-        Vessel vessel = model.getVessel();
-        double scale = 1.3;
-        FaucetGraphic faucetGraphic = new FaucetGraphic( simPanel,
-                                                         FaucetGraphic.RIGHT_FACING,
-                                                         FaucetGraphic.SPOUT,
-                                                         waterSource,
-                                                         vessel.getLocation().getY() + vessel.getDepth()  );
-        faucetGraphic.setScale( scale );
-        faucetGraphic.setOffset( model.getFaucet().getPosition() );
-        simPanel.addWorldChild( faucetGraphic );
-        faucetGraphic.moveInBackOf( vesselGraphic );
-
-        FaucetGraphic drainGraphic = new FaucetGraphic( simPanel,
-                                                        FaucetGraphic.LEFT_FACING,
-                                                        FaucetGraphic.WALL_ATTACHMENT,
-                                                        model.getDrain(),
-                                                        800 );
-        drainGraphic.setScale( scale );
-        drainGraphic.setOffset( model.getDrain().getPosition() );
-        simPanel.addWorldChild( drainGraphic );
-
-        // Concentrations strip chart
-//        ConcentrationsPTPlot2 concentrations = new ConcentrationsPTPlot2( PhetApplication.instance().getPhetFrame(),
-//                                                            model );
-//        Concentrations concentrations = new Concentrations( PhetApplication.instance().getPhetFrame(),
-//                                                            model );
-//        concentrations.setVisible( true );
-
-//        ConcentrationsSgt concentrationsSgt = new ConcentrationsSgt( PhetApplication.instance().getPhetFrame(),
-//                                                                     model );
-//        concentrationsSgt.setVisible( true );
-
-        // Create some ions and add it to the model
-
-        {
-//            int numIons = 10;
-//            for( int i = 0; i < numIons; i++ ) {
-//                Ion ion = new Sodium();
-//                IonInitializer.initialize( ion, model );
-//                model.addModelElement( ion );
-//            }
-        }
-
-        {
-//            int numIons = 0;
-//            for( int i = 0; i < numIons; i++ ) {
-//                Ion ion = new Chloride();
-//                IonInitializer.initialize( ion, model );
-//                model.addModelElement( ion );
-//            }
-        }
         Ion ion = null;
 
         ion = new Chloride();
@@ -200,18 +158,13 @@ public class SolubleSaltsModule extends PiccoloModule {
     }
 
 
-
-
-
-
-
     class TestGraphic extends RegisterablePNode {
 
         public TestGraphic() {
 
-            PPath pPath = new PPath( new Rectangle2D.Double(0,0, 60, 30 ));
-            pPath.setPaint( Color.cyan);
-            setRegistrationPoint( pPath.getWidth() / 3, pPath.getHeight() / 3);
+            PPath pPath = new PPath( new Rectangle2D.Double( 0, 0, 60, 30 ) );
+            pPath.setPaint( Color.cyan );
+            setRegistrationPoint( pPath.getWidth() / 3, pPath.getHeight() / 3 );
             addChild( pPath );
 
         }
