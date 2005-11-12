@@ -13,6 +13,8 @@ package edu.colorado.phet.solublesalts.view;
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 import edu.colorado.phet.solublesalts.model.Vessel;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
@@ -37,6 +39,7 @@ public class VesselGraphic extends PNode {
 
     public VesselGraphic( Vessel vessel ) {
 
+        // Listen for state changes in the vessel
         vessel.addChangeListener( new Vessel.ChangeListener() {
             public void stateChanged( Vessel.ChangeEvent event ) {
                 update( event.getVessel() );
@@ -49,6 +52,7 @@ public class VesselGraphic extends PNode {
         water.setPaint( waterColor );
         water.setStrokePaint( null );
         this.addChild( water );
+
         update( vessel );
     }
 

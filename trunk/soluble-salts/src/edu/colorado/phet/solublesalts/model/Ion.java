@@ -16,6 +16,10 @@ import java.awt.geom.Point2D;
 
 /**
  * Ion
+ * <p>
+ * Ions can be bound or not. When they are not bound, they move like normal Atoms, but can bind if they
+ * come into contact with an ion of a different polarity. When an Ion is bound, it moves with the velocity of
+ * the lattice in which it is bound.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -24,6 +28,7 @@ public class Ion extends Atom {
 
     private IonProperties ionProperties;
     private Lattice bindingLattice;
+    private Vector2D vSaveUtil = new Vector2D.Double( );
 
     public Ion( IonProperties ionProperties ) {
         this( new Point2D.Double(),
@@ -40,6 +45,12 @@ public class Ion extends Atom {
     public void stepInTime( double dt ) {
         if( !isBound() ) {
             super.stepInTime( dt );
+        }
+        else {
+            vSaveUtil.setComponents( getVelocity().getX(), getVelocity().getY() );
+            setVelocity( bindingLattice.getVelocity() );
+            super.stepInTime( dt );
+            setVelocity( vSaveUtil );
         }
     }
 

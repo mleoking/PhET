@@ -17,6 +17,7 @@ import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.EventObject;
@@ -40,6 +41,9 @@ public class SolubleSaltsModel extends BaseModel {
     //----------------------------------------------------------------
     // Instance data and methods
     //----------------------------------------------------------------
+
+    // The world bounds of the model
+    Rectangle2D bounds = new Rectangle2D.Double( 0, 0, 900, 600 );
 
     // Ksp for the model
     double ksp;
@@ -76,7 +80,7 @@ public class SolubleSaltsModel extends BaseModel {
         Lattice.addInstanceLifetimeListener( new LatticeLifetimeTracker() );
 
         // Create a vessel
-        vessel = new Vessel( vesselWidth, vesselDepth,vesselWallThickness, vesselLoc );
+        vessel = new Vessel( vesselWidth, vesselDepth, vesselWallThickness, vesselLoc );
         addModelElement( vessel );
 
         // Create the faucet and drain
@@ -151,6 +155,10 @@ public class SolubleSaltsModel extends BaseModel {
         return nucleationEnabled;
     }
 
+    public Rectangle2D getBounds() {
+        return bounds;
+    }
+
     public double getKsp() {
         return ksp;
     }
@@ -208,7 +216,9 @@ public class SolubleSaltsModel extends BaseModel {
             Ion ion = (Ion)ions.get( i );
             double speed0 = ion.getVelocity().getMagnitude();
             double speed1 = Math.sqrt( Math.max( MIN_SPEED, speed0 * speed0 + ( 2 * heat / ion.getMass() ) ) );
-            ion.setVelocity( ion.getVelocity().normalize().scale( speed1 ) );
+            if( ion.getVelocity().getMagnitude() > 0 ) {
+                ion.setVelocity( ion.getVelocity().normalize().scale( speed1 ) );
+            }
         }
     }
 
