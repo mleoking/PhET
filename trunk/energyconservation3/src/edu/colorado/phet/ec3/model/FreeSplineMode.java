@@ -130,8 +130,8 @@ public class FreeSplineMode extends ForceMode {
 
     private boolean handleBounce( Body body, Segment segment ) {
         RVector2D origVector = new RVector2D( body.getVelocity(), segment.getUnitDirectionVector() );
-//        double bounceThreshold = 30;
-        double bounceThreshold = 5;
+        double bounceThreshold = 30;
+//        double bounceThreshold = 5;
         this.bounced = false;
         this.grabbed = false;
         double originalPerpVel = origVector.getPerpendicular();
