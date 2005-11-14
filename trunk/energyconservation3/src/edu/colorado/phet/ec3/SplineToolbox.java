@@ -37,6 +37,7 @@ public class SplineToolbox extends PNode {
         this.ec3RootNode = ec3RootNode;
         this.ec3Canvas = ec3Canvas;
         SplineGraphic splineGraphic = createSpline();
+
         currentIcon = splineGraphic;
 
         PPath boundGraphic = new PPath( new Rectangle( 200, 60 ) );
@@ -53,7 +54,6 @@ public class SplineToolbox extends PNode {
         PropertyChangeListener listener = new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 centerTheNode();
-//                System.out.println( "System.currentTimeMillis() = " + System.currentTimeMillis() );
             }
         };
         ec3RootNode.getWorldNode().addPropertyChangeListener( PNode.PROPERTY_TRANSFORM, listener );
@@ -84,17 +84,6 @@ public class SplineToolbox extends PNode {
         ec3RootNode.layerAt( 1 ).getWorldNode().removeChild( splineGraphic );
     }
 
-//    private Rectangle2D getExpandBounds( PNode src, int insetX, int insetY ) {
-//        Point2D r1c = src.getGlobalFullBounds().getCenter2D();
-//        Point2D r2c = new Point2D.Double( src.getGlobalFullBounds().getMaxX(), src.getGlobalFullBounds().getMaxY() );
-//        globalToLocal( r1c );
-//        globalToLocal( r2c );
-//        Rectangle2D rect = new Rectangle2D.Double();
-//        rect.setFrameFromCenter( r1c, r2c );
-//        rect = RectangleUtils.expand( rect, insetX, insetY );
-//        return rect;
-//    }
-
     private SplineGraphic createSpline() {
         SplineSurface surface = createSplineSurface();
 
@@ -122,8 +111,6 @@ public class SplineToolbox extends PNode {
         spline.addControlPoint( 0, 0 );
         spline.addControlPoint( 75, 0 );
         spline.addControlPoint( 150, 0 );
-
-        SplineSurface surface = new SplineSurface( spline );
-        return surface;
+        return new SplineSurface( spline );
     }
 }

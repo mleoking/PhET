@@ -17,7 +17,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -192,18 +191,18 @@ public class SplineGraphic extends PNode {
 //        System.out.println( "changed() = " + changed() );
         if( changed() ) {
             pathLayer.removeAllChildren();
+            pathLayer.setPathTo( spline.getInterpolationPath() );
+
             controlPointLayer.removeAllChildren();
-            GeneralPath path = spline.getInterpolationPath();
-            pathLayer.setPathTo( path );
 //        pathLayer.setPathTo( new Rectangle( 50,50,50,50) );
 
             for( int i = 0; i < spline.numControlPoints(); i++ ) {
                 Point2D point = spline.controlPointAt( i );
                 addControlPoint( point, i );
             }
-            for( int i = 0; i < pathLayer.getChildrenCount(); i++ ) {
-                PPath child = (PPath)pathLayer.getChild( i );
-                if( i == 0 || i == pathLayer.getChildrenCount() - 1 ) {
+            for( int i = 0; i < controlPointLayer.getChildrenCount(); i++ ) {
+                PPath child = (PPath)controlPointLayer.getChild( i );
+                if( i == 0 || i == controlPointLayer.getChildrenCount() - 1 ) {
                     child.setStroke( dottedStroke );
                     child.setStrokePaint( Color.red );
                 }
@@ -233,7 +232,7 @@ public class SplineGraphic extends PNode {
         controlCircle.setStroke( dottedStroke );
         controlCircle.setStrokePaint( Color.black );
         controlCircle.setPaint( new Color( 0, 0, 1f, 0.5f ) );
-        pathLayer.addChild( controlCircle );
+        controlPointLayer.addChild( controlCircle );
         controlCircle.addInputEventListener( new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
                 initDragControlPoint( index );
@@ -333,11 +332,11 @@ public class SplineGraphic extends PNode {
     }
 
     public PNode getControlPointGraphic( int index ) {
-        return pathLayer.getChild( index );
+        return controlPointLayer.getChild( index );
     }
 
     public int numControlPointGraphics() {
-        return pathLayer.getChildrenCount();
+        return controlPointLayer.getChildrenCount();
     }
 
     private AbstractSpline getSpline() {
@@ -349,6 +348,8 @@ public class SplineGraphic extends PNode {
     }
 
     public void disableDragControlPoints() {
+        controlPointLayer.setPickable( false );
+        controlPointLayer.setChildrenPickable( false );
         for( int i = 0; i < numControlPointGraphics(); i++ ) {
             getControlPointGraphic( i ).setPickable( false );
             getControlPointGraphic( i ).setChildrenPickable( false );
