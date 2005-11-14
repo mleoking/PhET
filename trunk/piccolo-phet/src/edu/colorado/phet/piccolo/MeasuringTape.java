@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.piccolo.tools;
+package edu.colorado.phet.piccolo;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
