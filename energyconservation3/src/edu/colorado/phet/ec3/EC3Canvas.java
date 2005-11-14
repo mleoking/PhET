@@ -251,8 +251,6 @@ public class EC3Canvas extends PhetPCanvas {
     public void removeSpline( SplineGraphic splineGraphic ) {
         removeSplineGraphic( splineGraphic );
         ec3Model.removeSplineSurface( splineGraphic.getSplineSurface() );
-//        ec3Model.removeSpline( splineGraphic.getSpline() );
-//        ec3Model.removeSpline( splineGraphic.getReverseSpline() );
     }
 
     public EC3Module getEnergyConservationModule() {
