@@ -6,6 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- add all canvas graphics to the screen instead of world
 - add "Restart" button to clock controls
 - add time display to lower left of PhetFrame
 
@@ -45,6 +46,8 @@ PHETCOMMON:
 
 
 DONE:
+(11/14/05) - make PhetPCanvas key listener require Shift-Ctrl modifiers
+(11/14/05) - sync with piccolo and piccolo-phet projects
 (11/14/05) - disable zoom/pan behavior of canvas
 (11/14/05) - QTCanvas wrapper around PhetPCanvas
 (11/14/05) - position nodes on canvas using proportional layout
