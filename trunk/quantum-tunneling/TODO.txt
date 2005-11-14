@@ -55,6 +55,7 @@ DONE:
 (11/11/05) - implement general SliderControl
 (11/10/05) - check new project into CVS
 (11/10/05) - set up application framework
+^^^^^^^^^^^^^^^^^^^^^^ DEVELOPMENT BEGINS ^^^^^^^^^^^^^^^^^^^^^^
 
 
 REJECTED:
