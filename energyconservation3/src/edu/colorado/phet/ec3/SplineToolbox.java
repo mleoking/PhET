@@ -88,7 +88,7 @@ public class SplineToolbox extends PNode {
         SplineSurface surface = createSplineSurface();
 
         final SplineGraphic splineGraphic = new SplineGraphic( ec3Canvas, surface );
-        splineGraphic.disableDragControlPoints();
+        splineGraphic.setControlPointsPickable( false );
         splineGraphic.addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
                 splineGraphic.removeInputEventListener( this );
@@ -96,6 +96,7 @@ public class SplineToolbox extends PNode {
 
                 ec3Canvas.getEnergyConservationModel().addSplineSurface( splineGraphic.getSplineSurface() );
                 ec3Canvas.addSplineGraphic( splineGraphic );
+                splineGraphic.setControlPointsPickable( true );
 
                 SplineGraphic newSplineGraphic = createSpline();
                 addToRoot( newSplineGraphic );

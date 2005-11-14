@@ -347,12 +347,12 @@ public class SplineGraphic extends PNode {
         return reverse;
     }
 
-    public void disableDragControlPoints() {
-        controlPointLayer.setPickable( false );
-        controlPointLayer.setChildrenPickable( false );
+    public void setControlPointsPickable( boolean pick ) {
+        controlPointLayer.setPickable( pick );
+        controlPointLayer.setChildrenPickable( pick );
         for( int i = 0; i < numControlPointGraphics(); i++ ) {
-            getControlPointGraphic( i ).setPickable( false );
-            getControlPointGraphic( i ).setChildrenPickable( false );
+            getControlPointGraphic( i ).setPickable( pick );
+            getControlPointGraphic( i ).setChildrenPickable( pick );
         }
     }
 }

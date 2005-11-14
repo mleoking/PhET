@@ -51,6 +51,7 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
     private ChartRenderingInfo info = new ChartRenderingInfo();
 
     private PPath verticalBar = new PPath( new Line2D.Double( 0, 0, 0, 500 ) );
+    private static final int COUNT_MOD = 10;
 
     public EnergyPositionPlotPanel( EC3Module ec3Module ) {
         super( new Dimension( 100, 100 ) );
@@ -148,7 +149,13 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
         peDots.clear();
     }
 
+    int count = 0;
+
     private void update() {
+        count++;
+        if( !isActive() ) {
+            return;
+        }
         if( module.getEnergyConservationModel().numBodies() > 0 ) {
             Body body = module.getEnergyConservationModel().bodyAt( 0 );
             double x = toImageLocation( body.getX(), 0 ).getX();
@@ -158,6 +165,13 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
             addFadeDot( body.getX(), module.getEnergyConservationModel().getTotalEnergy( body ), module.getEnergyLookAndFeel().getTotalEnergyColor() );
             addFadeDot( body.getX(), body.getKineticEnergy(), module.getEnergyLookAndFeel().getKEColor() );
         }
+        if( count % COUNT_MOD == 0 ) {
+            fadeDots();
+        }
+
+    }
+
+    private void fadeDots() {
         for( int i = 0; i < peDots.size(); i++ ) {
             FadeDot fadeDot = (FadeDot)peDots.get( i );
             fadeDot.fade();
@@ -167,7 +181,10 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
                 i--;
             }
         }
+    }
 
+    private boolean isActive() {
+        return SwingUtilities.getWindowAncestor( this ) != null && SwingUtilities.getWindowAncestor( this ).isVisible();
     }
 
     private void addFadeDot( double x, double y, Color peColor ) {
@@ -179,7 +196,7 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
     static class FadeDot extends PPath {
         private Color origColor;
         private double age;
-        private double dAge = 2;
+        private double dAge = 1.3 * COUNT_MOD;
         private Color fadeColor;
 
         public FadeDot( Color color, Point2D loc ) {
