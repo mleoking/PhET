@@ -25,6 +25,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -39,6 +40,7 @@ import java.util.ArrayList;
 
 public class EnergyPositionPlotPanel extends PhetPCanvas {
     private JFreeChart chart;
+    private ArrayList peDots = new ArrayList();
     private XYSeriesCollection dataset;
     private EC3Module module;
 
@@ -47,6 +49,8 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
     private XYSeries totSeries;
     private PImage image;
     private ChartRenderingInfo info = new ChartRenderingInfo();
+
+    private PPath verticalBar = new PPath( new Line2D.Double( 0, 0, 0, 500 ) );
 
     public EnergyPositionPlotPanel( EC3Module ec3Module ) {
         super( new Dimension( 100, 100 ) );
@@ -58,15 +62,10 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
         } );
         dataset = createDataset();
         chart = createChart( new Range2D( 0, 0, 800, 400000 ), dataset, "Title" );
-//        chartPanel = new ChartPanel( chart );
         setLayout( new BorderLayout() );
-//        add( chartPanel, BorderLayout.CENTER );
         peSeries = new XYSeries( "Potential" );
         keSeries = new XYSeries( "Kinetic" );
         totSeries = new XYSeries( "Total" );
-//        dataset.addSeries( peSeries );
-//        dataset.addSeries( keSeries );
-//        dataset.addSeries( totSeries );
         JButton clear = new JButton( "Clear" );
         clear.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -88,6 +87,10 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
                 updateImage();
             }
         } );
+        verticalBar.setStroke( new BasicStroke( 1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1, new float[]{10, 3}, 0 ) );
+        verticalBar.setStrokePaint( Color.black );
+        addScreenChild( verticalBar );
+//        verticalBar.addChild( new PText("HEHEHEHEHEHH"));
     }
 
     private void updateImage() {
@@ -141,14 +144,16 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
         totSeries.clear();
         getScreenNode().removeAllChildren();
         addScreenChild( image );
+        addScreenChild( verticalBar );
         peDots.clear();
     }
-
-    ArrayList peDots = new ArrayList();
 
     private void update() {
         if( module.getEnergyConservationModel().numBodies() > 0 ) {
             Body body = module.getEnergyConservationModel().bodyAt( 0 );
+            double x = toImageLocation( body.getX(), 0 ).getX();
+            verticalBar.setPathTo( new Line2D.Double( x, 0, x, getHeight() ) );
+
             addFadeDot( body.getX(), module.getEnergyConservationModel().getPotentialEnergy( body ), module.getEnergyLookAndFeel().getPEColor() );
             addFadeDot( body.getX(), module.getEnergyConservationModel().getTotalEnergy( body ), module.getEnergyLookAndFeel().getTotalEnergyColor() );
             addFadeDot( body.getX(), body.getKineticEnergy(), module.getEnergyLookAndFeel().getKEColor() );
@@ -174,7 +179,7 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
     static class FadeDot extends PPath {
         private Color origColor;
         private double age;
-        private double dAge = 1.5;
+        private double dAge = 2;
         private Color fadeColor;
 
         public FadeDot( Color color, Point2D loc ) {
