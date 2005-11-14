@@ -29,7 +29,7 @@ import edu.umd.cs.piccolo.util.PAffineTransform;
 
 
 /**
- * QTModule
+ * QTModule is the sole module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

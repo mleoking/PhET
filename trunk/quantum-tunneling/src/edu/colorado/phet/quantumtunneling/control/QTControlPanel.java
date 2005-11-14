@@ -31,7 +31,7 @@ import edu.colorado.phet.quantumtunneling.module.AbstractModule;
 
 
 /**
- * QTControlPanel
+ * QTControlPanel is the sole control panel.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
