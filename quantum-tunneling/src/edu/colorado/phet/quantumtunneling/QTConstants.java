@@ -16,7 +16,7 @@ import java.awt.Cursor;
 
 
 /**
- * Various constants for this simulation.
+ * QTConstants is a collection of constants.
  * Modify these at your peril.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)

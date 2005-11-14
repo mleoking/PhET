@@ -22,7 +22,7 @@ public class Version {
   
     public static final String NUMBER = "0.0.0";
     
-    public static final String CVS_TAG = "qtunneling-0-0-0-2005-11-12";
+    public static final String CVS_TAG = "qtunneling-0-0-0-2005-11-14";
     
     /* This class is not intended for instantiation. */
     private Version() {}
