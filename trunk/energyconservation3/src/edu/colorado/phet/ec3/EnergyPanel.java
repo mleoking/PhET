@@ -1,6 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3;
 
+import edu.colorado.phet.common.model.clock.ClockTickEvent;
+import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 
@@ -86,10 +88,17 @@ public class EnergyPanel extends ControlPanel {
         addControl( showBarChart );
 
         final ModelSlider modelSlider = new ModelSlider( "Coefficient of Friction", "", 0, 0.04, 0.0, new DecimalFormat( "0.000" ), new DecimalFormat( "0.000" ) );
-        modelSlider.setModelTicks( new double[]{0, 0.02,0.04} );
+        modelSlider.setModelTicks( new double[]{0, 0.02, 0.04} );
         modelSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 module.setCoefficientOfFriction( modelSlider.getValue() );
+            }
+        } );
+        module.getClock().addClockTickListener( new ClockTickListener() {
+            public void clockTicked( ClockTickEvent event ) {
+                if( module.getEnergyConservationModel().numBodies() > 0 ) {
+                    modelSlider.setValue( module.getEnergyConservationModel().bodyAt( 0 ).getFrictionCoefficient() );
+                }
             }
         } );
         addControl( modelSlider );
@@ -110,7 +119,7 @@ public class EnergyPanel extends ControlPanel {
         } );
         addControl( showEnergyPositionPlot );
 
-        final JComponent gravitySlider=new GravitySlider(module);
+        final JComponent gravitySlider = new GravitySlider( module );
         addControl( gravitySlider );
     }
 
