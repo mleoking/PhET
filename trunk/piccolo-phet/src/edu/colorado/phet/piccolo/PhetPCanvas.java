@@ -47,11 +47,15 @@ public class PhetPCanvas extends PSwingCanvas {
             }
 
             public void keyReleased( KeyEvent e ) {
-                if( e.getKeyCode() == KeyEvent.VK_D ) {
-                    PDebug.debugRegionManagement = !PDebug.debugRegionManagement;
-                }
-                else if( e.getKeyCode() == KeyEvent.VK_S ) {
-                    setWorldScaleIdentity();
+                int onMask = KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK;
+                int offMask =  KeyEvent.ALT_DOWN_MASK | KeyEvent.META_DOWN_MASK;
+                if( ( e.getModifiersEx() & ( onMask | offMask ) ) == onMask ) {
+                    if( e.getKeyCode() == KeyEvent.VK_D ) {
+                        PDebug.debugRegionManagement = !PDebug.debugRegionManagement;
+                    }
+                    else if( e.getKeyCode() == KeyEvent.VK_S ) {
+                        setWorldScaleIdentity();
+                    }
                 }
             }
 
