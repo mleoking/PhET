@@ -44,7 +44,7 @@ collision collision
 mechanics mechanics
 
 # Phet common code 
-phetcommon phetcommon
+phetcommon-module phetcommon
 
 # Miscellaneous controls
 controls controls
@@ -138,22 +138,22 @@ energyconservation energyconservation
 photoelectric photoelectric &dischargelamps &charts
 
 #Discharge lamps
-dischargelamps fluorescent-lights &phetcommon &mechanics &collision &lasers &controls
+dischargelamps-module fluorescent-lights &phetcommon &mechanics &collision &lasers &controls
 
 #Piccolo
-piccolo piccolo
+piccolo-module piccolo
 
 #Piccolo-phet
-piccolo-phet piccolo-phet &phetcommon &piccolo
+piccolo-phet-module piccolo-phet &phetcommon &piccolo
 
 # Soluble Salts
-soluble-salts soluble-salts &phetcommon &piccolo &mechanics &collision
+soluble-salts-module soluble-salts &phetcommon &piccolo &mechanics &collision
 
 #Optical Pulse Shaper
-shaper shaper &phetcommon &charts
+shaper-module shaper &phetcommon &charts
 
 #Quantum Tunneling
-quantum-tunneling quantum-tunneling &phetcommon &piccolo
+quantum-tunneling-module quantum-tunneling &phetcommon &piccolo
 
 #Energy Conservation 3 (2nd draft).
-energyconservation3 energyconservation3 &phetcommon &piccolo &piccolo-phet &jfreechart &jfreechart-phet
+energyconservation3-module energyconservation3 &phetcommon &piccolo &piccolo-phet &jfreechart &jfreechart-phet
