@@ -11,17 +11,21 @@
 
 package edu.colorado.phet.quantumtunneling.module;
 
-import java.awt.Dimension;
-import java.awt.Font;
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.piccolo.RegisterablePNode;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.control.QTControlPanel;
+import edu.colorado.phet.quantumtunneling.view.QTCanvas;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PAffineTransform;
 
 
 /**
@@ -36,12 +40,31 @@ public class QTModule extends AbstractModule {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final Dimension CANVAS_SIZE = new Dimension( 900, 800 );
+    private static final Font GRAPH_TITLE_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 );
+    
+    // All of these values are in local coordinates
+    private static final int X_MARGIN = 20; // space at left & right edges of canvas
+    private static final int Y_MARGIN = 20; // space at top & bottom edges of canvas
+    private static final int X_SPACING = 10; // horizontal space between nodes
+    private static final int Y_SPACING = 10; // vertical space between nodes
+    private static final Dimension CANVAS_SIZE = new Dimension( 1000, 1000 );
+    private static final int CANVAS_BOUNDARY_STROKE_WIDTH = 1;
+    private static final double TITLE_SCALE = 2.0;
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
+    private QTCanvas _canvas;
+    private PText _energyTitle;
+    private PText _waveFunctionTitle;
+    private PText _probabilityDensityTitle;
+    private PText _positionTitle;
+    private PPath _energyGraph;
+    private PPath _waveFunctionGraph;
+    private PPath _probabilityDensityGraph;
+    private PPath _canvasBoundary;
+    private double _titleHeight;
     private QTControlPanel _controlPanel;
     
     //----------------------------------------------------------------------------
@@ -64,61 +87,83 @@ public class QTModule extends AbstractModule {
         this.setModel( model );
         
         //----------------------------------------------------------------------------
-        // Model
+        // View
         //----------------------------------------------------------------------------
-        
-        PhetPCanvas canvas = new PhetPCanvas( CANVAS_SIZE );
-        setPhetPCanvas( canvas );
-        
-        //XXX piccolo tests
-        {
-            PText energyTitle = new PText( SimStrings.get( "EnergyView.title") );
-            energyTitle.setFont( new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 ) );
-            energyTitle.translate( 15, 200 );
-            energyTitle.rotate( Math.toRadians( -90 ) );
-            energyTitle.scale( 2 );
-            canvas.addWorldChild( energyTitle );
 
-            PText waveFunctionTitle = new PText( SimStrings.get( "WaveFunctionView.title") );
-            waveFunctionTitle.setFont( new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 ) );
-            waveFunctionTitle.translate( 15, 440 );
-            waveFunctionTitle.rotate( Math.toRadians( -90 ) );
-            waveFunctionTitle.scale( 2 );
-            canvas.addWorldChild( waveFunctionTitle );
+        EventListener listener = new EventListener();
+        
+        _canvas = new QTCanvas( CANVAS_SIZE );
+        _canvas.addPropertyChangeListener( listener );
+        setCanvas( _canvas );
+        
+        // Graph titles and boundaries
+        {            
+            _energyTitle = new PText( SimStrings.get( "EnergyView.title" ) );
+            _energyTitle.setFont( GRAPH_TITLE_FONT );
+            _canvas.addNode( _energyTitle );
+
+            _waveFunctionTitle = new PText( SimStrings.get( "WaveFunctionView.title") );
+            _waveFunctionTitle.setFont( GRAPH_TITLE_FONT );
+            _canvas.addNode( _waveFunctionTitle );
             
-            PText probabilityDensityTitle = new PText( SimStrings.get( "ProbabilityDensityView.title") );
-            probabilityDensityTitle.setFont( new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 ) );
-            probabilityDensityTitle.translate( 15, 710 );
-            probabilityDensityTitle.scale( 2 );
-            probabilityDensityTitle.rotate( Math.toRadians( -90 ) );
-            canvas.addWorldChild( probabilityDensityTitle );
+            _probabilityDensityTitle = new PText( SimStrings.get( "ProbabilityDensityView.title") );
+            _probabilityDensityTitle.setFont( GRAPH_TITLE_FONT );
+            _canvas.addNode( _probabilityDensityTitle );
             
-            PText positionAxisTitle = new PText( SimStrings.get( "PositionAxis.title") );
-            positionAxisTitle.setFont( new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 ) );
-            positionAxisTitle.translate( 400, 755 );
-            positionAxisTitle.scale( 2 );
-            canvas.addWorldChild( positionAxisTitle );
+            _positionTitle = new PText( SimStrings.get( "PositionAxis.title") );
+            _positionTitle.setFont( GRAPH_TITLE_FONT );
+            _canvas.addNode( _positionTitle );
             
-            int xMargin = 55;
-            int yMargin = 10;
-            int graphWidth = CANVAS_SIZE.width - xMargin - 10;
-            int graphHeight = ( CANVAS_SIZE.height - ( 4 * yMargin ) - 50 ) / 3;
+            _titleHeight = TITLE_SCALE * Math.max( _energyTitle.getFullBounds().getHeight(), 
+                    Math.max( _waveFunctionTitle.getHeight(), _probabilityDensityTitle.getHeight() ) );
             
-            PPath energyGraph = new PPath();
-            energyGraph.setPathToRectangle( 0, 0, graphWidth, graphHeight );
-            energyGraph.translate( xMargin, yMargin );
-            canvas.addWorldChild( energyGraph );
+            _energyGraph = new PPath();
+            _canvas.addNode( _energyGraph );
             
-            PPath waveFunctionGraph = new PPath();
-            waveFunctionGraph.setPathToRectangle( 0, 0, graphWidth, graphHeight );
-            waveFunctionGraph.translate( xMargin, yMargin + graphHeight + yMargin );
-            canvas.addWorldChild( waveFunctionGraph );
+            _waveFunctionGraph = new PPath();
+            _canvas.addNode( _waveFunctionGraph );
             
-            PPath probabilityDensityGraph = new PPath();
-            probabilityDensityGraph.setPathToRectangle( 0, 0, graphWidth, graphHeight );
-            probabilityDensityGraph.translate( xMargin, yMargin + graphHeight + yMargin + graphHeight + yMargin );
-            canvas.addWorldChild( probabilityDensityGraph );
+            _probabilityDensityGraph = new PPath();
+            _canvas.addNode( _probabilityDensityGraph );
+            
+            _canvasBoundary = new PPath();
+            _canvasBoundary.setStroke( new BasicStroke( CANVAS_BOUNDARY_STROKE_WIDTH ) );
+            _canvasBoundary.setStrokePaint( Color.RED );
+            _canvas.addNode( _canvasBoundary );
         }
+        
+        // XXX registration point test
+//        {
+//            Point location = new Point( 200, 200 );
+//            
+//            PPath rect = new PPath();
+//            rect.setPathToRectangle( 0, 0, 100, 100 );
+//            rect.setPaint( Color.GREEN );
+//            RegisterablePNode node = new RegisterablePNode( rect );
+//            node.addChild( rect );
+//            double rx = rect.getWidth() / 2;
+//            double ry = rect.getHeight() / 2;
+//            System.out.println( "registration point = (" + rx + "," + ry + ")" );//XXX
+////            node.setRegistrationPoint( rx, ry );
+//            AffineTransform transform = new AffineTransform();
+//            transform.translate( location.x, location.y );
+//            transform.rotate( Math.toRadians( 45 ) );
+//            transform.translate( -rx, -ry );
+//            node.setTransform( transform );
+//            _canvas.addNode( node );
+//            
+//            PPath hline = new PPath();
+//            float[] xp1 = { 0f, CANVAS_SIZE.width };
+//            float[] yp1 = { location.y, location.y };
+//            hline.setPathToPolyline( xp1, yp1 );
+//            _canvas.addNode( hline );
+//            
+//            PPath vline = new PPath();
+//            float[] xp2 = { location.x, location.x };
+//            float[] yp2 = { 0f, CANVAS_SIZE.height };
+//            vline.setPathToPolyline( xp2, yp2 );
+//            _canvas.addNode( vline );   
+//        }
         
         //----------------------------------------------------------------------------
         // Control
@@ -136,9 +181,72 @@ public class QTModule extends AbstractModule {
         // Initialze the module state
         //----------------------------------------------------------------------------
         
+        layoutCanvas( CANVAS_SIZE );
         reset();
     }
 
+    /*
+     * Lays out nodes on the canvas.
+     */
+    private void layoutCanvas( Dimension canvasSize ) {
+        
+        // Dimensions of graphs
+        double graphWidth = canvasSize.width - _titleHeight - ( 2 * X_MARGIN ) - X_SPACING;
+        double graphHeight = ( canvasSize.height - _titleHeight - ( 2 * Y_MARGIN ) - ( 3 * Y_SPACING ) ) / 3;
+        
+        // Titles
+        {
+            PAffineTransform energyTransform = new PAffineTransform();
+            energyTransform.translate( X_MARGIN, Y_MARGIN + ( graphHeight / 2 ) );
+            energyTransform.rotate( Math.toRadians( -90 ) );
+            energyTransform.scale( TITLE_SCALE, TITLE_SCALE );
+            energyTransform.translate( -_energyTitle.getWidth() / 2, 0 ); // top center
+            _energyTitle.setTransform( energyTransform );
+
+            PAffineTransform waveFunctionTransform = new PAffineTransform();
+            waveFunctionTransform.translate( X_MARGIN, Y_MARGIN + graphHeight + Y_SPACING + ( graphHeight / 2 ) );
+            waveFunctionTransform.rotate( Math.toRadians( -90 ) );
+            waveFunctionTransform.scale( TITLE_SCALE, TITLE_SCALE );
+            waveFunctionTransform.translate( -_waveFunctionTitle.getWidth() / 2, 0 ); // top center
+            _waveFunctionTitle.setTransform( waveFunctionTransform );
+
+            PAffineTransform probabilityDensityTransform = new PAffineTransform();
+            probabilityDensityTransform.translate( X_MARGIN, Y_MARGIN + ( 2 * graphHeight ) + ( 2 * Y_SPACING ) + ( graphHeight / 2 ) );
+            probabilityDensityTransform.rotate( Math.toRadians( -90 ) );
+            probabilityDensityTransform.scale( TITLE_SCALE, TITLE_SCALE );
+            probabilityDensityTransform.translate( -_probabilityDensityTitle.getWidth() / 2, 0 ); // top center
+            _probabilityDensityTitle.setTransform( probabilityDensityTransform );
+            
+            PAffineTransform positionTransform = new PAffineTransform();
+            positionTransform.translate( X_MARGIN + _titleHeight + X_SPACING + ( graphWidth / 2 ), Y_MARGIN + ( 3 * Y_SPACING ) + ( 3 * graphHeight ) );
+            positionTransform.scale( TITLE_SCALE, TITLE_SCALE );
+            positionTransform.translate( -_positionTitle.getWidth() / 2, 0 ); // top center
+            _positionTitle.setTransform( positionTransform );
+        }
+        
+        // Graphs
+        {
+            PAffineTransform energyTransform = new PAffineTransform();
+            energyTransform.translate( X_MARGIN + _titleHeight + X_SPACING, Y_MARGIN );
+            _energyGraph.setTransform( energyTransform );
+            _energyGraph.setPathToRectangle( 0, 0, (int) graphWidth, (int) graphHeight );
+
+            PAffineTransform waveFunctionTransform = new PAffineTransform();
+            waveFunctionTransform.translate( X_MARGIN + _titleHeight + X_SPACING, Y_MARGIN + graphHeight + Y_SPACING );
+            _waveFunctionGraph.setTransform( waveFunctionTransform );
+            _waveFunctionGraph.setPathToRectangle( 0, 0, (int) graphWidth, (int) graphHeight );
+            
+            PAffineTransform probabilityDensityTransform = new PAffineTransform();
+            probabilityDensityTransform.translate( X_MARGIN + _titleHeight + X_SPACING, Y_MARGIN + graphHeight + Y_SPACING + graphHeight + Y_SPACING );
+            _probabilityDensityGraph.setTransform( probabilityDensityTransform );
+            _probabilityDensityGraph.setPathToRectangle( 0, 0, (int) graphWidth, (int) graphHeight );
+        }
+        
+        // Canvas boundary
+        int w = CANVAS_BOUNDARY_STROKE_WIDTH;
+        _canvasBoundary.setPathToRectangle( w, w, canvasSize.width - w, canvasSize.height - w );
+    }
+    
     //----------------------------------------------------------------------------
     // AbstractModule implementation
     //----------------------------------------------------------------------------
@@ -153,5 +261,18 @@ public class QTModule extends AbstractModule {
     //XXX hack, remove this!
     public boolean hasHelp() {
         return true;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Event handling
+    //----------------------------------------------------------------------------
+    
+    private class EventListener implements PropertyChangeListener {
+
+        public void propertyChange( PropertyChangeEvent event ) {
+            if ( event.getSource() == _canvas ) {
+                System.out.println( "canvas property changed: " + event.getPropertyName() + "=" + event.getNewValue() );
+            }
+        }
     }
 }

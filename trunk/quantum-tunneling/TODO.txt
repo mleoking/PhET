@@ -6,7 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-
+- remove zoom/pan behavior from canvas
 
 MEDIUM PRIORITY:
 - add application description to "About" dialog
@@ -42,6 +42,10 @@ PHETCOMMON:
 
 
 DONE:
+(11/12/05) - QTCanvas wrapper around PhetPCanvas
+(11/12/05) - position nodes on canvas using proportional layout
+(11/12/05) - handle registration points myself in AffineTransform
+(11/12/05) - experiment with RegisterablePNode, discovered it's broken
 (11/12/05) - fixes to Spanish translations
 (11/11/05) - put some dummy graphis in play area for graphs and titles
 (11/11/05) - do some tests with PText
