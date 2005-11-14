@@ -29,7 +29,7 @@ public class EC3Application extends PhetApplication {
                 frame.setLocation( 0, 0 );
             }
         } );
-        module = new EC3Module( "Module", getClock() );
+        module = new EC3Module( "Module", getClock(), getPhetFrame() );
         setModules( new Module[]{module} );
     }
 

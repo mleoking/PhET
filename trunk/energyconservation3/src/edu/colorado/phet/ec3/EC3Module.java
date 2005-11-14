@@ -4,6 +4,7 @@ package edu.colorado.phet.ec3;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
 import edu.colorado.phet.ec3.model.Floor;
@@ -30,25 +31,26 @@ public class EC3Module extends PiccoloModule {
     private EnergyConservationModel energyModel;
     private EC3Canvas energyCanvas;
     private EnergyLookAndFeel energyLookAndFeel = new EnergyLookAndFeel();
-    private JFrame barChartFrame;
+    private JDialog barChartFrame;
     private int floorY = 600;
     private TimeSeriesPlaybackPanel timeSeriesPlaybackPanel;
     private EC3TimeSeriesModel energyTimeSeriesModel;
-    private JFrame chartFrame;
+    private JDialog chartFrame;
     private ChartCanvas chartCanvas;
     public static final int energyFrameWidth = 200;
     public static final int chartFrameHeight = 200;
     private static final boolean DEFAULT_BAR_CHARTS_VISIBLE = false;
     private static final boolean DEFAULT_PLOT_VISIBLE = false;
     private Point2D.Double defaultBodyPosition = new Point2D.Double( 150, 200 );
-    private JFrame energyPositionPlotFrame;
+    private JDialog energyPositionPlotFrame;
     private EnergyPositionPlotPanel energyPositionPanel;
 
     /**
      * @param name
      * @param clock
+     * @param phetFrame
      */
-    public EC3Module( String name, AbstractClock clock ) {
+    public EC3Module( String name, AbstractClock clock, PhetFrame phetFrame ) {
         super( name, clock );
 //        clock.setTimeScalingConverter();
         energyModel = new EnergyConservationModel( floorY );
@@ -66,13 +68,13 @@ public class EC3Module extends PiccoloModule {
         EnergyPanel energyPanel = new EnergyPanel( this );
         setControlPanel( energyPanel );
 
-        barChartFrame = new JFrame();
+        barChartFrame = new JDialog( phetFrame, "Bar Charts", false );
         barChartFrame.setContentPane( new BarGraphCanvas( this ) );
 
         barChartFrame.setSize( energyFrameWidth, 600 );
         barChartFrame.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width - energyFrameWidth, 0 );
 
-        chartFrame = new JFrame( "Charts" );
+        chartFrame = new JDialog( phetFrame, "Charts", false );
         chartCanvas = new ChartCanvas( this );
         chartFrame.setContentPane( chartCanvas );
         chartFrame.setSize( 800, chartFrameHeight );
@@ -80,7 +82,7 @@ public class EC3Module extends PiccoloModule {
 
         init();
         timeSeriesPlaybackPanel = new TimeSeriesPlaybackPanel( energyTimeSeriesModel );
-        energyPositionPlotFrame = new JFrame( "Energy vs. Position" );
+        energyPositionPlotFrame = new JDialog( phetFrame, "Energy vs. Position", false );
         energyPositionPanel = new EnergyPositionPlotPanel( this );
         energyPositionPlotFrame.setContentPane( energyPositionPanel );
         energyPositionPlotFrame.setSize( 400, 400 );
