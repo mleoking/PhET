@@ -31,11 +31,11 @@ public class QTCanvas extends PhetPCanvas {
         super( renderingSize );
     }
     
-    public void addNode( int layer, PNode node ) {
-        addWorldChild( layer, node );
+    public void addWorldChild( PNode node ) {
+        super.addWorldChild( node );
     }
     
-    public void addNode( PNode node ) {
-        addWorldChild( node );
+    public void addScreenChild( PNode node ) {
+        super.addScreenChild( node );
     }
 }

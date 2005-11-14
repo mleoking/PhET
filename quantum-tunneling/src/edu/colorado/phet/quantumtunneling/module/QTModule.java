@@ -15,6 +15,8 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -22,6 +24,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.control.QTControlPanel;
 import edu.colorado.phet.quantumtunneling.view.QTCanvas;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PAffineTransform;
@@ -55,6 +58,7 @@ public class QTModule extends AbstractModule {
     //----------------------------------------------------------------------------
     
     private QTCanvas _canvas;
+    private PNode _parentNode;
     private PText _energyTitle;
     private PText _waveFunctionTitle;
     private PText _probabilityDensityTitle;
@@ -90,44 +94,51 @@ public class QTModule extends AbstractModule {
         // View
         //----------------------------------------------------------------------------
 
+        EventListener listener = new EventListener();
+        
         // Canvas (aka "the play area")
         _canvas = new QTCanvas( CANVAS_SIZE );
+        _canvas.addComponentListener( listener );
         setCanvas( _canvas );
+        
+        // Parent for all other nodes.
+        _parentNode = new PNode();
+        _canvas.addWorldChild( _parentNode );
         
         // Graph titles and boundaries
         {            
             _energyTitle = new PText( SimStrings.get( "EnergyView.title" ) );
             _energyTitle.setFont( GRAPH_TITLE_FONT );
-            _canvas.addNode( _energyTitle );
+            _parentNode.addChild( _energyTitle );
 
             _waveFunctionTitle = new PText( SimStrings.get( "WaveFunctionView.title") );
             _waveFunctionTitle.setFont( GRAPH_TITLE_FONT );
-            _canvas.addNode( _waveFunctionTitle );
+            _parentNode.addChild( _waveFunctionTitle );
             
             _probabilityDensityTitle = new PText( SimStrings.get( "ProbabilityDensityView.title") );
             _probabilityDensityTitle.setFont( GRAPH_TITLE_FONT );
-            _canvas.addNode( _probabilityDensityTitle );
+            _parentNode.addChild( _probabilityDensityTitle );
             
             _positionTitle = new PText( SimStrings.get( "PositionAxis.title") );
             _positionTitle.setFont( GRAPH_TITLE_FONT );
-            _canvas.addNode( _positionTitle );
+            _parentNode.addChild( _positionTitle );
             
             _titleHeight = TITLE_SCALE * Math.max( _energyTitle.getFullBounds().getHeight(), 
                     Math.max( _waveFunctionTitle.getHeight(), _probabilityDensityTitle.getHeight() ) );
             
             _energyGraph = new PPath();
-            _canvas.addNode( _energyGraph );
+            _parentNode.addChild( _energyGraph );
             
             _waveFunctionGraph = new PPath();
-            _canvas.addNode( _waveFunctionGraph );
+            _parentNode.addChild( _waveFunctionGraph );
             
             _probabilityDensityGraph = new PPath();
-            _canvas.addNode( _probabilityDensityGraph );
+            _parentNode.addChild( _probabilityDensityGraph );
             
             _canvasBoundary = new PPath();
             _canvasBoundary.setStroke( new BasicStroke( CANVAS_BOUNDARY_STROKE_WIDTH ) );
             _canvasBoundary.setStrokePaint( Color.RED );
-            _canvas.addNode( _canvasBoundary );
+            _parentNode.addChild( _canvasBoundary );
         }
         
         //----------------------------------------------------------------------------
@@ -209,7 +220,7 @@ public class QTModule extends AbstractModule {
         
         // Canvas boundary
         int w = CANVAS_BOUNDARY_STROKE_WIDTH;
-        _canvasBoundary.setPathToRectangle( w, w, canvasSize.width - w, canvasSize.height - w );
+//        _canvasBoundary.setPathToRectangle( w, w, canvasSize.width - w, canvasSize.height - w );
     }
     
     //----------------------------------------------------------------------------
@@ -226,5 +237,19 @@ public class QTModule extends AbstractModule {
     //XXX hack, remove this!
     public boolean hasHelp() {
         return true;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Event handling
+    //----------------------------------------------------------------------------
+    
+    private class EventListener extends ComponentAdapter {
+
+        public void componentResized( ComponentEvent e ) {
+            if ( e.getSource() == _canvas ) {
+                System.out.println( "canvas size = " + _canvas.getSize() );
+                //XXX call layoutCanvas ?
+            }
+        }
     }
 }
