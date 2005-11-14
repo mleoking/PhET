@@ -18,6 +18,7 @@ import javax.naming.OperationNotSupportedException;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
 
 
@@ -69,6 +70,13 @@ public abstract class AbstractModule extends PiccoloModule {
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the canvas.
+     */
+    public void setCanvas( PhetPCanvas canvas ) {
+        setPhetPCanvas( canvas );
+    }
     
     /**
      * Turns the wait cursor on and off.
