@@ -36,9 +36,17 @@
 #
 #######################################################################################################
 
+# Common libraries
 ^charts\(/\|$\) mail -s "CVS commit: charts" ronlemaster cmalley samreid
-^cmalley\(/\|$\) mail -s "CVS commit: cmalley" cmalley
-^collision\(/\|$\) mail -s "CVS commit: collision" ronlemaster cmalley
+^collision\(/\|$\) mail -s "CVS commit: collision" ronlemaster cmalley samreid
+^jfreechart\(/\|$\) mail -s "CVS commit: jfreechart" ronlemaster cmalley samreid
+^jfreechart-phet\(/\|$\) mail -s "CVS commit: jfreechart-phet" ronlemaster cmalley samreid
+^mechanics\(/\|$\) mail -s "CVS commit: mechanics" ronlemaster cmalley samreid
+^phetcommon\(/\|$\) mail -s "CVS commit: phetcommon" ronlemaster cmalley samreid
+^piccolo\(/\|$\) mail -s "CVS commit: piccolo" ronlemaster cmalley samreid
+^piccolo-phet\(/\|$\) mail -s "CVS commit: piccolo-phet" ronlemaster cmalley samreid
+
+# Simulations
 ^colorvision3\(/\|$\) mail -s "CVS commit: colorvision3" cmalley
 ^emf\(/\|$\) mail -s "CVS commit: emf" ronlemaster
 ^faraday\(/\|$\) mail -s "CVS commit: faraday" cmalley
@@ -48,9 +56,14 @@
 ^ideal-gas-v3\(/\|$\) mail -s "CVS commit: ideal-gas-3" ronlemaster
 ^lasers\(/\|$\) mail -s "CVS commit: lasers" ronlemaster
 ^nuclearphysics\(/\|$\) mail -s "CVS commit: nuclearphysics" ronlemaster
-^PhET-installer\(/\|$\) mail -s "CVS commit: PhET-installer" ronlemaster
-^phetcommon\(/\|$\) mail -s "CVS commit: phetcommon" ronlemaster cmalley samreid joetreat
 ^quantum-tunneling\(/\|$\) mail -s "CVS commit: quantum-tunneling" cmalley
 ^shaper\(/\|$\) mail -s "CVS commit: shaper" cmalley
 ^sound-2\(/\|$\) mail -s "CVS commit: sound-2" ronlemaster
+
+# Other
+^CVSROOT\(/\|$\) mail -s "CVS commit: CVSROOT" ronlemaster cmalley samreid
+^cmalley\(/\|$\) mail -s "CVS commit: cmalley" cmalley
+^PhET-installer\(/\|$\) mail -s "CVS commit: PhET-installer" ronlemaster
 ^test-location\(/\|$\) mail -s "CVS commit: test-location" cmalley
+
+#######################################################################################################
