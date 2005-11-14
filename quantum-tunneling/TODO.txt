@@ -6,14 +6,17 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- remove zoom/pan behavior from canvas
+- add "Restart" button to clock controls
+- add time display to lower left of PhetFrame
+
 
 MEDIUM PRIORITY:
-- add application description to "About" dialog
-- add build number to "About" dialog
-- add PhET logo to "About" dialog
+- add application description to SimStrings files
+
 
 LOW PRIORITY:
+- add build number to "About" dialog
+- add PhET logo to "About" dialog
 
 
 NEW FEATURES:
@@ -42,6 +45,7 @@ PHETCOMMON:
 
 
 DONE:
+(11/14/05) - disable zoom/pan behavior of canvas
 (11/14/05) - QTCanvas wrapper around PhetPCanvas
 (11/14/05) - position nodes on canvas using proportional layout
 (11/14/05) - handle registration points myself in AffineTransform
