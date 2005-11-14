@@ -72,7 +72,8 @@ public class QTModule extends AbstractModule {
     //----------------------------------------------------------------------------
     
     /**
-     * @param title
+     * Sole constructor.
+     * 
      * @param clock
      */
     public QTModule( AbstractClock clock ) {
@@ -90,10 +91,10 @@ public class QTModule extends AbstractModule {
         // View
         //----------------------------------------------------------------------------
 
-        EventListener listener = new EventListener();
-        
+        // Canvas (aka "the play area")
         _canvas = new QTCanvas( CANVAS_SIZE );
-        _canvas.addPropertyChangeListener( listener );
+        _canvas.removeInputEventListener( _canvas.getZoomEventHandler() ); // disable zoom
+        _canvas.removeInputEventListener( _canvas.getPanEventHandler() ); // disable pan
         setCanvas( _canvas );
         
         // Graph titles and boundaries
@@ -131,39 +132,6 @@ public class QTModule extends AbstractModule {
             _canvasBoundary.setStrokePaint( Color.RED );
             _canvas.addNode( _canvasBoundary );
         }
-        
-        // XXX registration point test
-//        {
-//            Point location = new Point( 200, 200 );
-//            
-//            PPath rect = new PPath();
-//            rect.setPathToRectangle( 0, 0, 100, 100 );
-//            rect.setPaint( Color.GREEN );
-//            RegisterablePNode node = new RegisterablePNode( rect );
-//            node.addChild( rect );
-//            double rx = rect.getWidth() / 2;
-//            double ry = rect.getHeight() / 2;
-//            System.out.println( "registration point = (" + rx + "," + ry + ")" );//XXX
-////            node.setRegistrationPoint( rx, ry );
-//            AffineTransform transform = new AffineTransform();
-//            transform.translate( location.x, location.y );
-//            transform.rotate( Math.toRadians( 45 ) );
-//            transform.translate( -rx, -ry );
-//            node.setTransform( transform );
-//            _canvas.addNode( node );
-//            
-//            PPath hline = new PPath();
-//            float[] xp1 = { 0f, CANVAS_SIZE.width };
-//            float[] yp1 = { location.y, location.y };
-//            hline.setPathToPolyline( xp1, yp1 );
-//            _canvas.addNode( hline );
-//            
-//            PPath vline = new PPath();
-//            float[] xp2 = { location.x, location.x };
-//            float[] yp2 = { 0f, CANVAS_SIZE.height };
-//            vline.setPathToPolyline( xp2, yp2 );
-//            _canvas.addNode( vline );   
-//        }
         
         //----------------------------------------------------------------------------
         // Control
@@ -261,18 +229,5 @@ public class QTModule extends AbstractModule {
     //XXX hack, remove this!
     public boolean hasHelp() {
         return true;
-    }
-    
-    //----------------------------------------------------------------------------
-    // Event handling
-    //----------------------------------------------------------------------------
-    
-    private class EventListener implements PropertyChangeListener {
-
-        public void propertyChange( PropertyChangeEvent event ) {
-            if ( event.getSource() == _canvas ) {
-                System.out.println( "canvas property changed: " + event.getPropertyName() + "=" + event.getNewValue() );
-            }
-        }
     }
 }
