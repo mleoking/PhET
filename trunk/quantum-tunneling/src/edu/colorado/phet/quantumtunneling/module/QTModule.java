@@ -11,15 +11,14 @@
 
 package edu.colorado.phet.quantumtunneling.module;
 
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.piccolo.RegisterablePNode;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.control.QTControlPanel;
 import edu.colorado.phet.quantumtunneling.view.QTCanvas;
@@ -93,8 +92,6 @@ public class QTModule extends AbstractModule {
 
         // Canvas (aka "the play area")
         _canvas = new QTCanvas( CANVAS_SIZE );
-        _canvas.removeInputEventListener( _canvas.getZoomEventHandler() ); // disable zoom
-        _canvas.removeInputEventListener( _canvas.getPanEventHandler() ); // disable pan
         setCanvas( _canvas );
         
         // Graph titles and boundaries
