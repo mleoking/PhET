@@ -121,6 +121,16 @@ public class EnergyPanel extends ControlPanel {
 
         final JComponent gravitySlider = new GravitySlider( module );
         addControl( gravitySlider );
+
+        final ModelSlider restitution = new ModelSlider( "Coeff. of Restitution", "", 0, 1.0, 1.0 );
+        restitution.setModelTicks( new double[]{0, 0.5, 1} );
+        module.getClock().addClockTickListener( new ClockTickListener() {
+            public void clockTicked( ClockTickEvent event ) {
+                double rest = restitution.getValue();
+                module.setCoefficientOfRestitution( rest );
+            }
+        } );
+        addControl( restitution );
     }
 
     private void resetSkater() {
