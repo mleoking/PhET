@@ -47,9 +47,7 @@ public class PhetPCanvas extends PSwingCanvas {
             }
 
             public void keyReleased( KeyEvent e ) {
-                int onMask = KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK;
-                int offMask =  KeyEvent.ALT_DOWN_MASK | KeyEvent.META_DOWN_MASK;
-                if( ( e.getModifiersEx() & ( onMask | offMask ) ) == onMask ) {
+                if( e.isShiftDown() ) {
                     if( e.getKeyCode() == KeyEvent.VK_D ) {
                         PDebug.debugRegionManagement = !PDebug.debugRegionManagement;
                     }
