@@ -69,7 +69,7 @@ public class MultipleAtomModule extends BaseLaserModule {
                                                         getCavity().getBounds().getY() - 100 );
         pumpingBeam.setPosition( pumpingBeamOrigin );
         pumpingBeam.setBeamWidth( cavityBounds.getWidth() );
-        pumpingBeam.setFanout( Math.toRadians( 45 ) );
+        pumpingBeam.setFanout( LaserConfig.PUMPING_BEAM_FANOUT );
 
         // Set the max pumping rate
         pumpingBeam.setMaxPhotonsPerSecond( LaserConfig.MAXIMUM_PUMPING_PHOTON_RATE );
