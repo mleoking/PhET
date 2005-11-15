@@ -154,10 +154,14 @@ public class EC3Module extends PiccoloModule {
             BodyGraphic bodyGraphic = new BodyGraphic( this, energyModel.bodyAt( i ) );
             energyCanvas.addBodyGraphic( bodyGraphic );
         }
-        CubicSpline spline = new CubicSpline( EC3Canvas.NUM_CUBIC_SPLINE_SEGMENTS );
-        spline.addControlPoint( 47, 170 );
-        spline.addControlPoint( 336, 543 );
-        spline.addControlPoint( 669, 152 );
+
+        PreFabSplines preFabSplines = new PreFabSplines();
+//        CubicSpline spline = preFabSplines.getParabolic();
+        CubicSpline spline = preFabSplines.getLoop();
+
+//        spline.addControlPoint( 87, 170 );
+//        spline.addControlPoint( 336, 543 );
+//        spline.addControlPoint( 629, 152 );
 
 //        CubicSpline spline = new CubicSpline( EC3Canvas.NUM_CUBIC_SPLINE_SEGMENTS );
 //        spline.addControlPoint( 47, 543);

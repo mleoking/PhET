@@ -2,6 +2,7 @@
 package edu.colorado.phet.ec3;
 
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
+import edu.colorado.phet.ec3.model.spline.CubicSpline;
 
 /**
  * User: Sam Reid
@@ -11,6 +12,15 @@ import edu.colorado.phet.ec3.model.spline.AbstractSpline;
  */
 
 public class PreFabSplines {
+    public CubicSpline getParabolic() {
+        CubicSpline spline = new CubicSpline( 30 );
+
+        spline.addControlPoint( 47, 170 );
+        spline.addControlPoint( 336, 543 );
+        spline.addControlPoint( 669, 152 );
+        return spline;
+    }
+
     public static void init( AbstractSpline spline ) {
 
 //        spline.addControlPoint( 150, 300 );
@@ -56,4 +66,16 @@ public class PreFabSplines {
 //        SplineGraphic splineGraphic = new SplineGraphic( this, spline, rev );
 //        addSplineGraphic( splineGraphic );
 //    }
+
+    public CubicSpline getLoop() {
+        CubicSpline spline = new CubicSpline();
+        spline.addControlPoint( 125, 198 );
+        spline.addControlPoint( 250, 512 );
+        spline.addControlPoint( 591, 447 );
+        spline.addControlPoint( 543, 147 );
+        spline.addControlPoint( 422, 333 );
+        spline.addControlPoint( 810, 351 );
+        spline.addControlPoint( 800, 198 );
+        return spline;
+    }
 }

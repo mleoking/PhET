@@ -62,7 +62,7 @@ public class Body {
     public void stepInTime( EnergyConservationModel energyConservationModel, double dt ) {
 //        System.out.println( "Total Energy: " + energyConservationModel.getTotalEnergy( this ) );
         EnergyDebugger.stepStarted( energyConservationModel, this, dt );
-        int MAX = 1;
+        int MAX = 5;
         for( int i = 0; i < MAX; i++ ) {
             getMode().stepInTime( energyConservationModel, this, dt / MAX );
         }
@@ -78,6 +78,7 @@ public class Body {
 
     public double getY() {
         return position.y;
+//        return getAttachPoint().getY();
     }
 
     public void setPosition( double x, double y ) {
@@ -162,15 +163,6 @@ public class Body {
         this.position.y = newPosition.getY();
     }
 
-    public Shape getLocatedShape() {
-        Rectangle2D b = bounds.getBounds2D();
-        AffineTransform transform = new AffineTransform();
-        transform.translate( getX() - b.getWidth() / 2, getY() - b.getHeight() / 2 );
-        transform.rotate( angle, b.getWidth() / 2, b.getHeight() / 2 );
-
-        return transform.createTransformedShape( b );
-    }
-
     public void setSplineMode( AbstractSpline spline ) {
         boolean same = false;
         if( mode instanceof FreeSplineMode ) {
@@ -245,6 +237,7 @@ public class Body {
 //        return new Rectangle( 50, 20 );
 //        return new Rectangle( 50, 110 );
         return new Rectangle( 0, -5, 50, 110 );
+//        return new Rectangle( 0, -5, 30, 110 );
     }
 
     public boolean isFacingRight() {
@@ -287,5 +280,26 @@ public class Body {
 
     public void setMass( double value ) {
         this.mass = value;
+    }
+
+    public Point2D.Double getAttachPoint() {
+        AffineTransform transform = getTransform();
+        Point2D.Double botCenter = new Point2D.Double( bounds.getBounds2D().getX() + bounds.getBounds2D().getWidth() / 2, bounds.getBounds2D().getHeight() );
+        transform.transform( botCenter, botCenter );
+        return botCenter;
+    }
+
+    public Shape getLocatedShape() {
+        AffineTransform transform = getTransform();
+
+        return transform.createTransformedShape( bounds.getBounds2D() );
+    }
+
+    private AffineTransform getTransform() {
+        Rectangle2D b = bounds.getBounds2D();
+        AffineTransform transform = new AffineTransform();
+        transform.translate( getX() - b.getWidth() / 2, getY() - b.getHeight() / 2 );
+        transform.rotate( angle, b.getWidth() / 2, b.getHeight() / 2 );
+        return transform;
     }
 }

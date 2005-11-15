@@ -91,4 +91,8 @@ public class Segment {
     public String toString() {
         return "<Seg_" + index + ">: x0=" + x0 + ", y0=" + y0;
     }
+
+    public int getID() {
+        return index;
+    }
 }
