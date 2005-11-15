@@ -74,8 +74,8 @@ public class SingleAtomModule extends BaseLaserModule {
                                                         getCavity().getBounds().getY() - 100 );
         pumpingBeam.setDirection( new Vector2D.Double( 0, 1 ) );
         pumpingBeam.setPosition( pumpingBeamOrigin );
-        pumpingBeam.setFanout( Math.toRadians( LaserConfig.SEED_BEAM_FANOUT  * 2 ) );
-        pumpingBeam.setBeamWidth( seedBeam.getBeamWidth() );
+        pumpingBeam.setFanout( Math.toRadians( LaserConfig.SEED_BEAM_FANOUT  * 2 ) * 1000 );
+        pumpingBeam.setBeamWidth( seedBeam.getBeamWidth() * 100 );
 
         // Start with the pumping beam turned down all the way
         pumpingBeam.setPhotonsPerSecond( 0 );
