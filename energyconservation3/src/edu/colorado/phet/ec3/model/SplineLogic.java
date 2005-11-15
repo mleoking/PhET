@@ -85,7 +85,7 @@ public class SplineLogic {
         for( int i = 0; i < segmentPath.numSegments(); i++ ) {
             Segment segment = segmentPath.segmentAt( i );
             double ds = Math.abs( segmentPath.getScalarPosition( segment ) - lastScalarPosition );
-            if( ds < 50 ) {
+            if( ds < 50 ) {//only consider nearby segments.
                 if( bodyShape.getBounds2D().intersects( segment.getShape().getBounds2D() ) ) {//make sure we need areas
                     Area a = new Area( bodyShape );
                     a.intersect( new Area( segment.getShape() ) );

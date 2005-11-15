@@ -73,25 +73,28 @@ public class FreeSplineMode extends ForceMode {
             double position = getPositionOnSpline( body );
             lastScalarPosition = position;
             Segment segment = spline.getSegmentPath().getSegmentAtPosition( position );//todo this duplicates much work.
+//            System.out.println( "segment = " + segment );
+//            System.out.println( "position =\t" + position );
             rotateBody( body, segment );
-            handleBounceVelocities( body, segment );//Why is this happening after newton?
-            if( bounced || grabbed ) {
-                //set bottom at zero.
-                setBottomAtZero( segment, body );
-            }
 
             AbstractVector2D netForce = computeNetForce( model, segment );
             super.setNetForce( netForce );
             super.stepInTime( model, body, dt ); //apply newton's laws
 
+            handleBounceVelocities( body, segment );//Why is this happening after newton?
+            if( bounced || grabbed ) {
+                setBottomAtZero( segment, body );
+            }
+
             if( bounced && !grabbed && !lastGrabState ) {
-                doBounce( body, model, dt, originalState );
+                handleBounceAndFlyOff( body, model, dt, originalState );
             }
             else {
                 AbstractVector2D dx = body.getPositionVector().getSubtractedInstance( new Vector2D.Double( originalState.getPosition() ) );
                 double frictiveWork = bounced ? 0.0 : Math.abs( getFrictionForce( model, segment ).dot( dx ) );
                 if( frictiveWork == 0 ) {//can't manipulate friction, so just modify v/h
                     new EnergyConserver().fixEnergy( model, body, originalState.getMechanicalEnergy() - frictiveWork );
+//                    setBottomAtZero( segment, body );
                 }
                 else {
                     patchEnergyInclThermal( frictiveWork, model, body, originalState );
@@ -130,7 +133,7 @@ public class FreeSplineMode extends ForceMode {
         }
     }
 
-    private void doBounce( Body body, EnergyConservationModel model, double dt, State originalState ) {
+    private void handleBounceAndFlyOff( Body body, EnergyConservationModel model, double dt, State originalState ) {
         System.out.println( "DIDBOUNCE" );
         //coeff of restitution
         double coefficientOfRestitution = body.getCoefficientOfRestitution();
@@ -244,16 +247,14 @@ public class FreeSplineMode extends ForceMode {
 
     private void setBottomAtZero( Segment segment, Body body ) {
         double overshoot = getDepthInSegment( segment, body );
-//        System.out.println( "overshoot = " + overshoot );
         EC3Debug.debug( "overshoot = " + overshoot );
-//        overshoot -= 2;//hang in there
-        overshoot -= 5;//hang in there
-//        overshoot -= 1;//hang in there
+//        System.out.println( "ORIG:overshoot = " + overshoot );
+        overshoot -= 5;
         if( overshoot > 0 ) {
             AbstractVector2D tx = segment.getUnitNormalVector().getScaledInstance( overshoot );
             body.translate( tx.getX(), tx.getY() );
-//            System.out.println( "new getDepthInSegment( ) = " + getDepthInSegment( segment, body ) );
         }
+//        System.out.println( "FIN: getDepthInSegment( segment, body ) = " + getDepthInSegment( segment, body ) );
     }
 
     private double getDepthInSegment( Segment segment, Body body ) {

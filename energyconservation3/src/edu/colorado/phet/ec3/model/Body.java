@@ -62,7 +62,10 @@ public class Body {
     public void stepInTime( EnergyConservationModel energyConservationModel, double dt ) {
 //        System.out.println( "Total Energy: " + energyConservationModel.getTotalEnergy( this ) );
         EnergyDebugger.stepStarted( energyConservationModel, this, dt );
-        getMode().stepInTime( energyConservationModel, this, dt );
+        int MAX = 1;
+        for( int i = 0; i < MAX; i++ ) {
+            getMode().stepInTime( energyConservationModel, this, dt / MAX );
+        }
         if( !isFreeFallMode() && !isUserControlled() ) {
             facingRight = getVelocity().dot( Vector2D.Double.parseAngleAndMagnitude( 1, getAngle() ) ) > 0;
         }
@@ -240,7 +243,8 @@ public class Body {
 
     public static Rectangle createDefaultBodyRect() {
 //        return new Rectangle( 50, 20 );
-        return new Rectangle( 50, 110 );
+//        return new Rectangle( 50, 110 );
+        return new Rectangle( 0, -5, 50, 110 );
     }
 
     public boolean isFacingRight() {
