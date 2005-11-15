@@ -280,4 +280,8 @@ public class Body {
     public void setCoefficientOfRestitution( double coefficientOfRestitution ) {
         this.coefficientOfRestitution = coefficientOfRestitution;
     }
+
+    public void setMass( double value ) {
+        this.mass = value;
+    }
 }

@@ -15,6 +15,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -39,6 +40,7 @@ public class EC3RootNode extends PhetRootPNode {
     private PNode pieCharts = new PNode();
     private OffscreenManIndicator offscreenManIndicator;
     private boolean ignoreThermal = true;
+    private PImage ec3Background;
 
     public EC3RootNode( EC3Module ec3Module, EC3Canvas ec3Canvas ) {
         this.ec3Module = ec3Module;
@@ -55,6 +57,7 @@ public class EC3RootNode extends PhetRootPNode {
 
         final SplineToolbox splineToolbox = new SplineToolbox( ec3Canvas, this );
         layerAt( 0 ).getScreenNode().addChild( splineToolbox );
+
         layerAt( 1 ).getWorldNode().addChild( splineGraphics );
         layerAt( 1 ).getWorldNode().addChild( bodyGraphics );
         layerAt( 1 ).getWorldNode().addChild( historyGraphics );
@@ -67,6 +70,21 @@ public class EC3RootNode extends PhetRootPNode {
         resetDefaults();
 //        offscreenManIndicator = new OffscreenManIndicator( ec3Module );
 //        layerAt( 1 ).addChild( offscreenManIndicator );
+
+        ec3Background = new PImage();
+//        ec3Background.scale( 1.3);
+        layerAt( 0 ).getWorldNode().addChild( ec3Background );
+
+    }
+
+    public PNode getBackground() {
+        return ec3Background;
+    }
+
+    public void setBackground( Image image, double scale ) {
+        ec3Background.setImage( image );
+        ec3Background.setTransform( new AffineTransform() );
+        ec3Background.scale( scale );
     }
 
     private void resetDefaults() {

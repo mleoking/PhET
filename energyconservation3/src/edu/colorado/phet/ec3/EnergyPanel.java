@@ -5,12 +5,18 @@ import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
+import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.ec3.model.Body;
+import edu.colorado.phet.ec3.model.EnergyConservationModel;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.text.DecimalFormat;
 
 /**
@@ -131,6 +137,65 @@ public class EnergyPanel extends ControlPanel {
             }
         } );
         addControl( restitution );
+
+        final ModelSlider mass = new ModelSlider( "Mass", "kg", 0, 200, 75 );
+        mass.setModelTicks( new double[]{0, 75, 200} );
+        module.getClock().addClockTickListener( new ClockTickListener() {
+            public void clockTicked( ClockTickEvent event ) {
+                EnergyConservationModel model = module.getEnergyConservationModel();
+                for( int i = 0; i < model.numBodies(); i++ ) {
+                    Body b = model.bodyAt( i );
+                    b.setMass( mass.getValue() );
+                }
+            }
+        } );
+        addControl( mass );
+
+        ButtonGroup location = new ButtonGroup();
+        JRadioButton home = new JRadioButton( "Home", true );
+        JRadioButton moon = new JRadioButton( "Moon", false );
+        JRadioButton earth = new JRadioButton( "Earth", false );
+        location.add( home );
+        location.add( moon );
+        location.add( earth );
+
+        VerticalLayoutPanel verticalLayoutPanel = new VerticalLayoutPanel();
+        verticalLayoutPanel.setFillHorizontal();
+        verticalLayoutPanel.add( home );
+        verticalLayoutPanel.add( earth );
+        home.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.getEnergyConservationCanvas().getRootNode().setBackground( new BufferedImage( 1, 1, BufferedImage.TYPE_INT_RGB ), 1.0 );
+            }
+        } );
+
+        earth.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                try {
+                    BufferedImage image = ImageLoader.loadBufferedImage( "images/earth.jpg" );
+                    module.getEnergyConservationCanvas().getRootNode().setBackground( image, 1.5 );
+                    module.getEnergyConservationCanvas().getRootNode().getBackground().translate( 0, -130 );
+                }
+                catch( IOException e1 ) {
+                    e1.printStackTrace();
+                }
+            }
+        } );
+
+        moon.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                try {
+                    BufferedImage image = ImageLoader.loadBufferedImage( "images/moon2.jpg" );
+                    module.getEnergyConservationCanvas().getRootNode().setBackground( image, 1.3 );
+                }
+                catch( IOException e1 ) {
+                    e1.printStackTrace();
+                }
+            }
+        } );
+        verticalLayoutPanel.add( moon );
+        verticalLayoutPanel.setBorder( BorderFactory.createTitledBorder( "Background" ) );
+        addControlFullWidth( verticalLayoutPanel );
     }
 
     private void resetSkater() {
