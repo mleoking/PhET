@@ -13,11 +13,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Class: MultipleAtomControlPanel
+ * Class: UniversalLaserControlPanel
  * Package: edu.colorado.phet.lasers.controller
  * Author: Another Guy
  * Date: Nov 23, 2004
  * <p/>
+ * This is the control panel for all modules
  * CVS Info:
  * Current revision:   $Revision$
  * On branch:          $Name$

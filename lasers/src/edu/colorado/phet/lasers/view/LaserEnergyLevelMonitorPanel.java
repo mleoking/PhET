@@ -38,7 +38,9 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * A panel that displays graphics for energy levels and squiggles for the energy of the photons in collimated beams.
@@ -69,6 +71,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
 
     private EnergyLevelGraphic[] levelGraphics = new EnergyLevelGraphic[3];
     private EnergyLifetimeSlider[] lifetimeSliders = new EnergyLifetimeSlider[3];
+    private HashMap defaultLifetimes = new HashMap();
     private int[] numAtomsInLevel = new int[3];
     private int[] atomCntAccums = new int[3];
 
@@ -181,6 +184,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
                 lifetimeSliders[i] = slider;
                 this.add( slider );
                 slider.setValue( (int)Math.max( minLifetime, state.getMeanLifeTime() ) );
+                defaultLifetimes.put( slider, new Integer( slider.getValue() ) );
 
                 // Add a listener that will flash the line when it matches the wavelength of
                 // either of the beams
@@ -235,6 +239,17 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         setPreferredSize( new Dimension( (int)panelWidth, (int)panelHeight ) );
         revalidate();
         repaint();
+    }
+
+    /**
+     * Resets the lifetime sliders to their default values
+     */
+    public void reset() {
+        Set sliders = defaultLifetimes.keySet();
+        for( Iterator iterator = sliders.iterator(); iterator.hasNext(); ) {
+            EnergyLifetimeSlider slider = (EnergyLifetimeSlider)iterator.next();
+            slider.setValue( ( (Integer)defaultLifetimes.get( slider ) ).intValue() );
+        }
     }
 
     /**

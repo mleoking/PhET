@@ -37,7 +37,7 @@ public class LaserWaveGraphic implements LaserModel.ChangeListener {
     private StandingWaveGraphic internalStandingWaveGraphic;
     private TravelingWaveGraphic externalTravelingWaveGraphic;
     // The waves that are shown when the thins is not lasing
-    private int numNonLasingExternalWaveGraphics = 4;
+    private int numNonLasingExternalWaveGraphics = 5;
     private WaveGraphic[] nonLasingExternalWaveGraphics = new WaveGraphic[numNonLasingExternalWaveGraphics];
     // Angle that is considered horizontal, for purposes of lasing
     private double angleWindow = LaserConfig.PHOTON_CHEAT_ANGLE;
@@ -178,7 +178,7 @@ public class LaserWaveGraphic implements LaserModel.ChangeListener {
         // Update the non-lasing wave graphics. Reduce the amplitude by a large factor
         for( int i = 0; i < nonLasingExternalWaveGraphics.length; i++ ) {
             WaveGraphic waveGraphic = nonLasingExternalWaveGraphics[i];
-            int amp = getNumLasingPhotons() > LaserConfig.LASING_THRESHOLD ? 0 : ( getNumLasingPhotons() / 8 );
+            int amp = getNumLasingPhotons() > LaserConfig.LASING_THRESHOLD ? 0 : ( getNumLasingPhotons() / 4 );
             waveGraphic.setAmplitude( amp );
         }
     }
