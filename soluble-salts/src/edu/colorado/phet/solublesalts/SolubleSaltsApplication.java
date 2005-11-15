@@ -81,6 +81,9 @@ public class SolubleSaltsApplication extends PhetApplication {
                     simPanel.addWorldChild( mouseTracker );
                 }
             }
+            if( args.equals( "-b" )) {
+                IonGraphic.showBondIndicators( true );
+            }
         }
 
     }

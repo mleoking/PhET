@@ -13,9 +13,13 @@ package edu.colorado.phet.solublesalts.model;
 import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 
 import java.util.Random;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 
 /**
  * Shaker
@@ -26,9 +30,15 @@ import java.awt.geom.Rectangle2D;
 public class Shaker extends Particle {
     private Random random = new Random( System.currentTimeMillis() );
     private SolubleSaltsModel model;
+    private Line2D opening;
+    private double orientation = Math.PI / 4;
+    private double openingLength;
 
     public Shaker( SolubleSaltsModel model ) {
         this.model = model;
+        openingLength = 800;
+        opening = new Line2D.Double( 0,0, openingLength, 0 );
+
     }
 
     boolean done;
@@ -47,15 +57,22 @@ public class Shaker extends Particle {
             Lattice lattice = null;
             int numIons = 6;
 
-            double theta = Math.PI / 4 + random.nextDouble() * Math.PI / 3;
-            Vector2D v = new Vector2D.Double( 5, 0 );
+            double theta = Math.PI / 2 + ( random.nextDouble() * Math.PI / 6 * MathUtil.nextRandomSign() );
+            Vector2D v = new Vector2D.Double( SolubleSaltsConfig.DEFAULT_LATTICE_SPEED, 0 );
             v.rotate( theta );
+            double l = random.nextDouble() * openingLength * MathUtil.nextRandomSign();
+            double x = getPosition().getX() + l * Math.cos( orientation );
+            double y = getPosition().getY() + l * Math.sin( orientation );
+            Point2D p = new Point2D.Double( x, y );
             for( int i = 0; i < numIons; i++ ) {
+
                 if( i % 2 == 0 ) {
-                    ion = new Chloride( getPosition(), v, new Vector2D.Double() );
+                     ion = new Chloride( p, v, new Vector2D.Double() );
+//                    ion = new Chloride( getPosition(), v, new Vector2D.Double() );
                 }
                 else {
-                    ion = new Sodium( getPosition(), v, new Vector2D.Double() );
+//                    ion = new Sodium( getPosition(), v, new Vector2D.Double() );
+                    ion = new Sodium( p, v, new Vector2D.Double() );
                 }
                 model.addModelElement( ion );
 

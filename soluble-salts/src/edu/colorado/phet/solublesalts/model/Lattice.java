@@ -22,14 +22,14 @@ import java.util.*;
 /**
  * Lattice
  * <p>
+ * A lattice is a crystal of ions. It has a Form that defines how it is constructed.
+ * <p>
  * The lattice has a seed ion. The lattice's position is that of it's seed ion.
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
 public class Lattice extends Body implements Binder {
-
-    static int cnt;
 
     //================================================================
     // Class data and methods
@@ -507,7 +507,7 @@ public class Lattice extends Body implements Binder {
             }
 
             if( leastBoundIon == null ) {
-            	throw new RuntimeException("leastBoundIon == null");
+//            	throw new RuntimeException("leastBoundIon == null");
             }
             return leastBoundIon;
         }

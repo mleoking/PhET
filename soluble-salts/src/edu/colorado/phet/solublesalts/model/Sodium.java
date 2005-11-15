@@ -22,6 +22,7 @@ import java.awt.geom.Point2D;
  */
 public class Sodium extends Ion {
 
+//    private static IonProperties ionProperties = new IonProperties( 11, 1, 1 );
     private static IonProperties ionProperties = new IonProperties( 11, 1, 7 );
 
     public Sodium() {

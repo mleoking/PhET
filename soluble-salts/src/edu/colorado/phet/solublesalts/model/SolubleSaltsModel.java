@@ -14,10 +14,13 @@ import edu.colorado.phet.collision.CollisionExpert;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.EventObject;
@@ -37,23 +40,25 @@ public class SolubleSaltsModel extends BaseModel {
 
     private static final double MIN_SPEED = 1E-3;
 
-
     //----------------------------------------------------------------
     // Instance data and methods
     //----------------------------------------------------------------
 
     // The world bounds of the model
-    Rectangle2D bounds = new Rectangle2D.Double( 0, 0, 900, 600 );
+    private double scale = 1;
+    Rectangle2D bounds = new Rectangle2D.Double( 0, 0, 9000, 6000 );
+//    Rectangle2D bounds = new Rectangle2D.Double( 0, 0, 900, 600 );
 
     // Ksp for the model
     double ksp;
 
     // The vessel
     private Vessel vessel;
-    private Point2D vesselLoc = SolubleSaltsConfig.VESSEL_ULC;
-    private double vesselWidth = SolubleSaltsConfig.VESSEL_SIZE.getWidth();
-    private double vesselDepth = SolubleSaltsConfig.VESSEL_SIZE.getHeight();
-    private double vesselWallThickness = SolubleSaltsConfig.VESSEL_WALL_THICKNESS;
+    private Point2D vesselLoc = new Point2D.Double( SolubleSaltsConfig.VESSEL_ULC.getX() * scale,
+                                                    SolubleSaltsConfig.VESSEL_ULC.getY() * scale );
+    private double vesselWidth = SolubleSaltsConfig.VESSEL_SIZE.getWidth() * scale;
+    private double vesselDepth = SolubleSaltsConfig.VESSEL_SIZE.getHeight() * scale;
+    private double vesselWallThickness = SolubleSaltsConfig.VESSEL_WALL_THICKNESS * scale;
 
     // The faucet and drain
     private WaterSource waterSource;
@@ -61,10 +66,14 @@ public class SolubleSaltsModel extends BaseModel {
 
     // Collision mechanism objects
     IonIonCollisionExpert ionIonCollisionExpert = new IonIonCollisionExpert( this );
+
     private IonTracker ionTracker;
     private HeatSource heatSource;
     private boolean nucleationEnabled;
     private Shaker shaker;
+    private LatticeTracker latticeTracker;
+    private Vector2D accelerationOutOfWater = new Vector2D.Double( 0, SolubleSaltsConfig.DEFAULT_LATTICE_ACCELERATION );
+    private Vector2D accelerationInWater = new Vector2D.Double();
 
     //---------------------------------------------------------------
     // Constructor and lifecycle methods
@@ -76,20 +85,25 @@ public class SolubleSaltsModel extends BaseModel {
         ionTracker = new IonTracker();
         addIonListener( ionTracker );
 
+        // Add an agent that will track the lattices that come and go from the model
+        latticeTracker = new LatticeTracker();
+        addLatticeListener( latticeTracker );
+
         // Add an agent that will track the creation and destruction of salt lattices
         Lattice.addInstanceLifetimeListener( new LatticeLifetimeTracker() );
 
         // Create a vessel
         vessel = new Vessel( vesselWidth, vesselDepth, vesselWallThickness, vesselLoc );
+        vessel.setWaterLevel( SolubleSaltsConfig.DEFAULT_WATER_LEVEL * scale );
         addModelElement( vessel );
 
         // Create the faucet and drain
         waterSource = new WaterSource( this );
-        waterSource.setPosition( vessel.getLocation().getX() + 35, vessel.getLocation().getY() - 10 );
+        waterSource.setPosition( vessel.getLocation().getX() + 350, vessel.getLocation().getY() - 100 );
         addModelElement( waterSource );
         drain = new Drain( this );
         drain.setPosition( vessel.getLocation().getX() - vessel.getWallThickness(),
-                           vessel.getLocation().getY() + vessel.getDepth() - 50 );
+                           vessel.getLocation().getY() + vessel.getDepth() - 500 );
         addModelElement( drain );
 
         // Add a model element that will handle collisions between ions and the vessel
@@ -109,6 +123,27 @@ public class SolubleSaltsModel extends BaseModel {
                             vessel.getLocation().getY() - 10 );
     }
 
+    //Not allowed to mess with the way we call our abstract method.
+    public void stepInTime( double dt ) {
+        super.stepInTime( dt );
+
+        // If a lattice is not in the water, it accelerates downward. If it's in the water, it moves
+        // at a constant speed
+        List lattices = latticeTracker.getLattices();
+        for( int i = 0; i < lattices.size(); i++ ) {
+            Lattice lattice = (Lattice)lattices.get( i );
+            if( !vessel.getWater().getBounds().contains( lattice.getPosition() ) &&
+                !lattice.getAcceleration().equals( accelerationOutOfWater )) {
+                lattice.setAcceleration( accelerationOutOfWater );
+            }
+            else if( vessel.getWater().getBounds().contains( lattice.getPosition() ) &&
+                !lattice.getAcceleration().equals( accelerationInWater )) {
+                lattice.setAcceleration( accelerationInWater );
+                lattice.setVelocity( 0, SolubleSaltsConfig.DEFAULT_LATTICE_SPEED );
+            }
+        }
+    }
+
     /**
      * @param modelElement
      */
@@ -117,6 +152,10 @@ public class SolubleSaltsModel extends BaseModel {
 
         if( modelElement instanceof Ion ) {
             ionListenerProxy.ionAdded( new IonEvent( modelElement ) );
+        }
+
+        if( modelElement instanceof Lattice ) {
+            latticeListenerProxy.latticeAdded( new LatticeEvent( modelElement ) );
         }
     }
 
@@ -133,6 +172,10 @@ public class SolubleSaltsModel extends BaseModel {
                 ion.getBindingLattice().removeIon( ion );
             }
         }
+
+        if( modelElement instanceof Lattice ) {
+            latticeListenerProxy.latticeRemoved( new LatticeEvent( modelElement ) );
+        }
     }
 
     public void reset() {
@@ -141,7 +184,7 @@ public class SolubleSaltsModel extends BaseModel {
             Ion ion = (Ion)ions.get( i );
             removeModelElement( ion );
         }
-        vessel.setWaterLevel( SolubleSaltsConfig.DEFAULT_WATER_LEVEL );
+        vessel.setWaterLevel( SolubleSaltsConfig.DEFAULT_WATER_LEVEL * scale );
         waterSource.setFlow( 0 );
         drain.setFlow( 0 );
         heatSource.setHeatChangePerClockTick( 0 );
@@ -153,6 +196,10 @@ public class SolubleSaltsModel extends BaseModel {
 
     public boolean isNucleationEnabled() {
         return nucleationEnabled;
+    }
+
+    public double getScale() {
+        return scale;
     }
 
     public Rectangle2D getBounds() {
@@ -276,6 +323,37 @@ public class SolubleSaltsModel extends BaseModel {
 
         public void ionRemoved( IonEvent event ) {
         }
+
+    }
+
+    //----------------------------------------------------------------
+    // Events and listeners for Lattices
+    //----------------------------------------------------------------
+    private EventChannel latticeEventChannel = new EventChannel( LatticeListener.class );
+    private LatticeListener latticeListenerProxy = (LatticeListener)latticeEventChannel.getListenerProxy();
+
+    public void addLatticeListener( LatticeListener listener ) {
+        latticeEventChannel.addListener( listener );
+    }
+
+    public void removeLatticeListener( LatticeListener listener ) {
+        latticeEventChannel.removeListener( listener );
+    }
+
+    public class LatticeEvent extends EventObject {
+        public LatticeEvent( Object source ) {
+            super( source );
+        }
+
+        public Lattice getLattice() {
+            return (Lattice)getSource();
+        }
+    }
+
+    public interface LatticeListener extends EventListener {
+        void latticeAdded( LatticeEvent event );
+
+        void latticeRemoved( LatticeEvent event );
     }
 
     //----------------------------------------------------------------

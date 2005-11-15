@@ -31,10 +31,12 @@ public class WaterSource extends Spigot implements Vessel.ChangeListener {
     }
 
     public void stepInTime( double dt ) {
-        Vessel vessel = getModel().getVessel();
-        double area = vessel.getWidth();
-        double volume = vessel.getWaterLevel() + getFlow() / area;
-        vessel.setWaterLevel( volume );
+        if( getFlow() != 0 ) {
+            Vessel vessel = getModel().getVessel();
+            double area = vessel.getWidth();
+            double volume = vessel.getWaterLevel() + getFlow() / area;
+            vessel.setWaterLevel( volume );
+        }
     }
 
     //----------------------------------------------------------------
@@ -43,7 +45,7 @@ public class WaterSource extends Spigot implements Vessel.ChangeListener {
 
     public void stateChanged( Vessel.ChangeEvent event ) {
         Vessel vessel = event.getVessel();
-        if( vessel.getWaterLevel() >= vessel.getDepth()) {
+        if( vessel.getWaterLevel() >= vessel.getDepth() ) {
             setFlow( 0 );
         }
     }
