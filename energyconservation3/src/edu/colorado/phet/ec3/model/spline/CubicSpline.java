@@ -1,6 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3.model.spline;
 
+import edu.colorado.phet.ec3.EC3Canvas;
+
 import java.awt.geom.Point2D;
 
 /**
@@ -12,6 +14,10 @@ import java.awt.geom.Point2D;
 
 public class CubicSpline extends AbstractSpline {
     int numSegments;
+
+    public CubicSpline() {
+        this( EC3Canvas.NUM_CUBIC_SPLINE_SEGMENTS );
+    }
 
     public CubicSpline( int numSegments ) {
         this.numSegments = numSegments;

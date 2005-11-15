@@ -19,11 +19,15 @@ public class EnergyConserver {
         EC3Debug.debug( "body.getSpeed() = " + body.getSpeed() );
         EnergyDebugger.stepFinished( model, body );
         double speedThreshold = 20;
-        if( body.getSpeed() > speedThreshold  ) {
-//            System.out.println( "Conserve Via V" );
-            conserveEnergyViaV( model, body, desiredMechanicalEnergy );
+        for( int i = 0; i < 10; i++ ) {
+            if( body.getSpeed() > speedThreshold ) {
+//                System.out.println( "Conserve Via V" );
+                conserveEnergyViaV( model, body, desiredMechanicalEnergy );
+            }
         }
-//        System.out.println( "Conserve via H" );
+//        else{
+//            System.out.println( "Speed too low to use for conservation." );
+//        }
         if( model.getGravity() != 0.0 ) {
             conserveEnergyViaH( model, body, desiredMechanicalEnergy );
         }

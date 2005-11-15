@@ -7,6 +7,7 @@ import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.Segment;
+import edu.colorado.phet.ec3.model.spline.SegmentPath;
 
 import java.awt.geom.Point2D;
 
@@ -21,11 +22,10 @@ public class FreeSplineMode extends ForceMode {
     private AbstractSpline spline;
     private Body body;
     private double lastDA;
-    private boolean lastPositionSet = false;
-    private double lastScalarPosition = 0;
     private boolean lastGrabState = false;
     private boolean bounced = false;
     private boolean grabbed = false;
+    private Segment lastSegment;
 
     public FreeSplineMode( AbstractSpline spline, Body body ) {
         this.spline = spline;
@@ -66,48 +66,81 @@ public class FreeSplineMode extends ForceMode {
         }
     }
 
+    static {
+        System.out.println( "\tposition \t segment index" );
+    }
+
     public void stepInTime( EnergyConservationModel model, Body body, double dt ) {
         State originalState = new State( model, body );
         EnergyDebugger.stepStarted( model, body, dt );
-        try {
-            double position = getPositionOnSpline( body );
-            lastScalarPosition = position;
-            Segment segment = spline.getSegmentPath().getSegmentAtPosition( position );//todo this duplicates much work.
-//            System.out.println( "segment = " + segment );
-//            System.out.println( "position =\t" + position );
-            rotateBody( body, segment );
 
-            AbstractVector2D netForce = computeNetForce( model, segment );
-            super.setNetForce( netForce );
-            super.stepInTime( model, body, dt ); //apply newton's laws
-
-            handleBounceVelocities( body, segment );//Why is this happening after newton?
-            if( bounced || grabbed ) {
-                setBottomAtZero( segment, body );
-            }
-
-            if( bounced && !grabbed && !lastGrabState ) {
-                handleBounceAndFlyOff( body, model, dt, originalState );
-            }
-            else {
-                AbstractVector2D dx = body.getPositionVector().getSubtractedInstance( new Vector2D.Double( originalState.getPosition() ) );
-                double frictiveWork = bounced ? 0.0 : Math.abs( getFrictionForce( model, segment ).dot( dx ) );
-                if( frictiveWork == 0 ) {//can't manipulate friction, so just modify v/h
-                    new EnergyConserver().fixEnergy( model, body, originalState.getMechanicalEnergy() - frictiveWork );
-//                    setBottomAtZero( segment, body );
-                }
-                else {
-                    patchEnergyInclThermal( frictiveWork, model, body, originalState );
-                }
-            }
-            lastGrabState = grabbed;
-
-        }
-        catch( NullIntersectionException e ) {
+        Segment segment = getSegment( body );
+        if( segment == null ) {
             flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
             System.out.println( "Fly off surface!" );
             return;
         }
+        rotateBody( body, segment );
+
+        AbstractVector2D netForce = computeNetForce( model, segment );
+        super.setNetForce( netForce );
+        super.stepInTime( model, body, dt ); //apply newton's laws
+        segment = getSegment( body );
+        if( segment == null ) {
+            flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
+            System.out.println( "Fly off surface2!" );
+            return;
+        }
+        setupBounce( body, segment );
+
+        setBottomAtZero( segment, body );
+        if( bounced && !grabbed && !lastGrabState ) {
+            handleBounceAndFlyOff( body, model, dt, originalState );
+        }
+        else {
+            AbstractVector2D dx = body.getPositionVector().getSubtractedInstance( new Vector2D.Double( originalState.getPosition() ) );
+            double frictiveWork = bounced ? 0.0 : Math.abs( getFrictionForce( model, segment ).dot( dx ) );
+            if( frictiveWork == 0 ) {//can't manipulate friction, so just modify v/h
+                new EnergyConserver().fixEnergy( model, body, originalState.getMechanicalEnergy() - frictiveWork );
+            }
+            else {
+                patchEnergyInclThermal( frictiveWork, model, body, originalState );
+            }
+        }
+        lastGrabState = grabbed;
+        lastSegment = segment;
+    }
+
+    private Segment getSegment( Body body ) {
+        Point2D.Double attachPoint = body.getAttachPoint();
+        SegmentPath segPath = spline.getSegmentPath();
+        double bestDist = Double.POSITIVE_INFINITY;
+        Segment bestSeg = null;
+        for( int i = 0; i < segPath.numSegments(); i++ ) {
+            Segment seg = segPath.segmentAt( i );
+            double dist = attachPoint.distance( seg.getCenter2D() );
+            if( lastSegment != null ) {
+                int indexOffset = Math.abs( seg.getID() - lastSegment.getID() );
+                if( indexOffset > 5 ) {
+                    dist += indexOffset * 5.0;
+                }
+            }
+            if( dist < bestDist ) {
+                bestSeg = seg;
+                bestDist = dist;
+            }
+        }
+
+        if( lastSegment != null ) {
+            int indexOffset = bestSeg.getID() - lastSegment.getID();
+//            System.out.println( "indexOffset = " + indexOffset );
+        }
+
+//        if( bestDist > body.getShape().getBounds2D().getWidth() / 2.0 ) {
+        if( bestDist > body.getShape().getBounds2D().getWidth() / 2.0 ) {
+            return null;
+        }
+        return bestSeg;
     }
 
     private void patchEnergyInclThermal( double frictiveWork, EnergyConservationModel model, Body body, State originalState ) {
@@ -152,25 +185,11 @@ public class FreeSplineMode extends ForceMode {
         flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() - dE );
     }
 
-    private double getPositionOnSpline( Body body ) throws NullIntersectionException {
-        double position;
-        if( lastPositionSet ) {
-            position = new SplineLogic( body ).guessPositionAlongSpline( getSpline(), lastScalarPosition );
-            lastPositionSet = true;
-        }
-        else {
-            position = new SplineLogic( body ).guessPositionAlongSpline( getSpline() );
-            lastPositionSet = true;
-        }
-        return position;
-    }
-
     //just kill the perpendicular part of velocity, if it is through the track.
     // this should be lost to friction or to a bounce.
-    private boolean handleBounceVelocities( Body body, Segment segment ) {
+    private void setupBounce( Body body, Segment segment ) {
         RVector2D origVector = new RVector2D( body.getVelocity(), segment.getUnitDirectionVector() );
         double bounceThreshold = 30;
-//        double bounceThreshold = 5;
         this.bounced = false;
         this.grabbed = false;
         double originalPerpVel = origVector.getPerpendicular();
@@ -198,8 +217,6 @@ public class FreeSplineMode extends ForceMode {
 
         EC3Debug.debug( "newVelocity = " + newVelocity );
         body.setVelocity( newVelocity );
-
-        return bounced;
     }
 
     private void rotateBody( Body body, Segment segment ) {
@@ -250,7 +267,7 @@ public class FreeSplineMode extends ForceMode {
         EC3Debug.debug( "overshoot = " + overshoot );
 //        System.out.println( "ORIG:overshoot = " + overshoot );
         overshoot -= 5;
-        if( overshoot > 0 ) {
+        if( overshoot > 0 || true ) {
             AbstractVector2D tx = segment.getUnitNormalVector().getScaledInstance( overshoot );
             body.translate( tx.getX(), tx.getY() );
         }

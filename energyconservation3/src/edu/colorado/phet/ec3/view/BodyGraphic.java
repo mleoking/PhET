@@ -58,6 +58,7 @@ public class BodyGraphic extends PNode {
 
             centerDebugger = new PPath();
             centerDebugger.setPaint( Color.red );
+            addChild( centerDebugger );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -227,7 +228,8 @@ public class BodyGraphic extends PNode {
             skater.translate( -skater.getImage().getWidth( null ), 0 );
         }
 
-        centerDebugger.setPathTo( new Rectangle( (int)body.getPosition().getX(), (int)body.getPosition().getY(), 5, 5 ) );
+//        centerDebugger.setPathTo( new Rectangle( (int)body.getPosition().getX(), (int)body.getPosition().getY(), 5, 5 ) );
+        centerDebugger.setPathTo( new Rectangle( (int)body.getAttachPoint().getX(), (int)body.getAttachPoint().getY(), 5, 5 ) );
         if( body.getThrust().getMagnitude() != 0 ) {
             setFlamesVisible( true );
             updateFlames();

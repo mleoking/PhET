@@ -96,6 +96,7 @@ public class SplineLogic {
             }
         }
 
+//        System.out.println( "overlap.size() = " + overlap.size() );
         //return the centroid.
         Rectangle2D rect = null;
         for( int i = 0; i < overlap.size(); i++ ) {
@@ -120,6 +121,7 @@ public class SplineLogic {
         SegmentPath segmentPath = spline.getSegmentPath();
         double closestPosition = Double.POSITIVE_INFINITY;
         Segment bestSegment = null;
+//        double thresholdScalar = 50;
         double thresholdScalar = 50;
         for( int i = 0; i < segmentPath.numSegments(); i++ ) {
             Segment seg = segmentPath.segmentAt( i );

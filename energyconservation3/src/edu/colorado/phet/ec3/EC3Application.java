@@ -23,6 +23,8 @@ public class EC3Application extends PhetApplication {
     public EC3Application( String[] args ) {
         super( args, "nRg Sk8r", "Energy Conservation", "0.1",
                new SwingTimerClock( 0.2, 30 ), true, new FrameSetup() {
+//               new SwingTimerClock( 0.2/3, 30 ), true, new FrameSetup() {
+
             public void initialize( JFrame frame ) {
                 frame.setSize( Toolkit.getDefaultToolkit().getScreenSize().width - EC3Module.energyFrameWidth,
                                Toolkit.getDefaultToolkit().getScreenSize().height - 100 - EC3Module.chartFrameHeight );

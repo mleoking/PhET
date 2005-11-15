@@ -40,6 +40,7 @@ public class EC3Canvas extends PhetPCanvas {
     private EC3RootNode rootNode;
 
     private static final Object DUMMY_VALUE = new Object();
+//    public static final int NUM_CUBIC_SPLINE_SEGMENTS = 30;
     public static final int NUM_CUBIC_SPLINE_SEGMENTS = 30;
 
     public EC3Canvas( EC3Module ec3Module ) {
