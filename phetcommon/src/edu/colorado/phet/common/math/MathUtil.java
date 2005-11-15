@@ -433,6 +433,10 @@ public class MathUtil {
     }
 
 
+
+    /**
+     * This class manages a running average.
+     */
     public static class Average {
         private double sum;
         private int num;
@@ -441,12 +445,22 @@ public class MathUtil {
             reset();
         }
 
-        public void update( double newValue ) {
+        /**
+         * Incorporate another value into this average.
+         *
+         * @param newValue the value to add to this average.
+         */
+        public void addValue( double newValue ) {
             sum += newValue;
             num++;
         }
 
-        public double value() {
+        /**
+         * Determine the average since the last reset.
+         *
+         * @return the average since the last reset.
+         */
+        public double getAverage() {
             return sum / num;
         }
 
@@ -466,5 +480,4 @@ public class MathUtil {
             sum = 0;
             num = 0;
         }
-    }
-}
+    }}
