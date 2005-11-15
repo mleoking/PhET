@@ -13,6 +13,7 @@ package edu.colorado.phet.common.math;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.util.Random;
 
 /**
  * A class of static general purpose math utilities
@@ -21,6 +22,15 @@ import java.awt.geom.Point2D;
  * @version $Revision$
  */
 public class MathUtil {
+    private static final Random random = new Random( System.currentTimeMillis() );
+
+    /**
+     * Returns a pseudo-randomly distributed +1 or -1
+     * @return
+     */
+    public static int nextRandomSign() {
+        return random.nextBoolean() ? 1 : -1;
+    }
 
     /**
      * Returns the logarithm of a number to a specified base.
