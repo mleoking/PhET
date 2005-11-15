@@ -507,6 +507,9 @@ public class BaseLaserModule extends Module {
         // Reset the model
         laserModel.reset();
 
+        // Reset the state lifetimes
+        laserEnergyLevelsMonitorPanel.reset();
+
         // Clear the old kaboom stuff off the apparatus panel and out of the model
         getModel().removeModelElement( kaboom );
         kaboom.clearGraphics( getApparatusPanel() );
@@ -541,8 +544,9 @@ public class BaseLaserModule extends Module {
                     && !displayHighLevelEmissions ) {
                     isPhotonGraphicVisible = false;
                 }
-                else {
-                    isPhotonGraphicVisible = ( lasingPhotonView == PHOTON_DISCRETE );
+                else if( photon.getEnergy() == laserModel.getMiddleEnergyState().getEnergyLevel() -
+                                               laserModel.getGroundState().getEnergyLevel() ) {
+                    isPhotonGraphicVisible = lasingPhotonView == PHOTON_DISCRETE;
                 }
             }
 

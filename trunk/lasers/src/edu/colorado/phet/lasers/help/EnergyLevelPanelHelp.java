@@ -30,7 +30,7 @@ public class EnergyLevelPanelHelp {
     public EnergyLevelPanelHelp( HelpManager helpManager ) {
         Component component = helpManager.getComponent();
 
-        Point2D energyLevelHILoc = new Point2D.Double( 30, 100 );
+        Point2D energyLevelHILoc = new Point2D.Double( 50, 100 );
         HelpItem energyLevelHI = new HelpItem( component,
                                                SimStrings.get( "Help.energyLevel" ),
                                                energyLevelHILoc.getX(),
