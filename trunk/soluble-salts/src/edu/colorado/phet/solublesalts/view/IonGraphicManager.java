@@ -18,6 +18,7 @@ import edu.colorado.phet.solublesalts.model.Sodium;
 import edu.colorado.phet.solublesalts.model.Ion;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
+import edu.umd.cs.piccolo.PNode;
 
 import java.util.HashMap;
 import java.awt.*;
@@ -49,17 +50,17 @@ public class IonGraphicManager implements SolubleSaltsModel.IonListener {
     }
 
 
-    private PhetPCanvas graphicContainer;
+    private PNode graphicContainer;
     private HashMap ionToGraphicMap = new HashMap();
 
-    public IonGraphicManager( PhetPCanvas graphicContainer ) {
+    public IonGraphicManager( PNode graphicContainer ) {
         this.graphicContainer = graphicContainer;
     }
 
     public void ionAdded( SolubleSaltsModel.IonEvent event ) {
         IonGraphic ig = createPImage( event.getIon() );
 
-        graphicContainer.addWorldChild( ig );
+        graphicContainer.addChild( ig );
         ionToGraphicMap.put( event.getIon(), ig );
     }
 
@@ -78,7 +79,7 @@ public class IonGraphicManager implements SolubleSaltsModel.IonListener {
 
     public void ionRemoved( SolubleSaltsModel.IonEvent event ) {
         IonGraphic ig = (IonGraphic)ionToGraphicMap.get( event.getIon() );
-        graphicContainer.removeWorldChild( ig );
+        graphicContainer.removeChild( ig );
         ionToGraphicMap.remove( event.getIon() );
     }
 

@@ -12,34 +12,22 @@ package edu.colorado.phet.solublesalts.module;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.MouseTracker;
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.piccolo.CursorHandler;
-import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.piccolo.RegisterablePNode;
-import edu.colorado.phet.piccolo.pswing.PSwing;
-import edu.colorado.phet.piccolo.util.PiccoloUtils;
-import edu.colorado.phet.piccolo.util.PMouseTracker;
 import edu.colorado.phet.solublesalts.control.SolubleSaltsControlPanel;
 import edu.colorado.phet.solublesalts.model.*;
-import edu.colorado.phet.solublesalts.view.*;
-import edu.colorado.phet.solublesalts.view.charts.Concentrations;
-import edu.colorado.phet.solublesalts.view.charts.ConcentrationsSgt;
-import edu.colorado.phet.solublesalts.view.charts.ConcentrationsPTPlot2;
-import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
-import edu.umd.cs.piccolo.event.PDragEventHandler;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.nodes.PPath;
+import edu.colorado.phet.solublesalts.view.IonGraphicManager;
+import edu.colorado.phet.solublesalts.view.SSCanvas;
+import edu.colorado.phet.solublesalts.view.WorldNode;
+import edu.colorado.phet.solublesalts.view.VesselGraphic;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.PCanvas;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
 import java.util.Random;
 
 /**
@@ -50,8 +38,11 @@ import java.util.Random;
  */
 public class SolubleSaltsModule extends PiccoloModule {
 
-    Random random = new Random( System.currentTimeMillis() );
-    private PhetPCanvas simPanel;
+//    static public final double viewScale = 1;
+    static public final double viewScale = 0.1;
+
+    private Random random = new Random( System.currentTimeMillis() );
+    private SSCanvas simPanel;
 
     public SolubleSaltsModule( AbstractClock clock ) {
         super( SimStrings.get( "Module.title" ), clock );
@@ -59,46 +50,44 @@ public class SolubleSaltsModule extends PiccoloModule {
         // Set up the basics
         final SolubleSaltsModel model = new SolubleSaltsModel();
         setModel( model );
-        simPanel = new PhetPCanvas( new Dimension( 900, 600 ) );
+        simPanel = new SSCanvas( new Dimension( (int)( model.getBounds().getWidth() * viewScale ), (int)( model.getBounds().getHeight() * viewScale ) ));
         setPhetPCanvas( simPanel );
 
         // Make a graphic for the un-zoomed setup, and add it to the canvax
-        PNode fullScaleCanvas = new WorldCanvas( model, simPanel );
+        PNode fullScaleCanvas = new WorldNode( model, simPanel );
+        fullScaleCanvas.setScale( viewScale );
         simPanel.addWorldChild( fullScaleCanvas );
-
-        // Add another apparatus panel for the magnifier
-        {
-            final WorldCanvas magnifierCanvas = new WorldCanvas( model, simPanel );
-            magnifierCanvas.addInputEventListener( new PBasicInputEventHandler() {
-                public void mouseDragged( PInputEvent event ) {
-                    double dx = event.getDelta().getWidth();
-                    double dy = event.getDelta().getHeight();
-                    magnifierCanvas.translate( dx, dy );
-                }
-            } );
-
-            double scale = 0.5;
-//        magnifierCanvas.setScale( 0.5 );
-            PNode magnifier = new PNode();
-            PPath background = new PPath( new Rectangle2D.Double( 0,
-                                                                  0,
-                                                                  simPanel.getSize().getWidth() * scale,
-                                                                  simPanel.getSize().getHeight() * scale ) );
-            background.setPaint( Color.white );
-            magnifier.addChild( background );
-            magnifier.addChild( magnifierCanvas );
-            RegisterablePNode magnifierNode = new RegisterablePNode( magnifierCanvas );
-            magnifierNode.setOffset( 450, 300 );
-            magnifierNode.setScale( 0.5 );
-            magnifierNode.setRegistrationPoint( magnifierNode.getFullBounds().getWidth() / 2, magnifierNode.getFullBounds().getHeight() / 2 );
-//        simPanel.addWorldChild( magnifierNode );
-        }
 
         // Add a graphic manager to the model that will create and remove IonGraphics
         // when Ions are added to and removed from the model
-        model.addIonListener( new IonGraphicManager2( fullScaleCanvas ) );
-//        model.addIonListener( new IonGraphicManager2( magnifierCanvas ) );
+        model.addIonListener( new IonGraphicManager( fullScaleCanvas ) );
 
+        // Set up the control panel
+        setControlPanel( new SolubleSaltsControlPanel( this ) );
+
+        // Add some ions for testing
+//        createTestIons( model );
+
+
+
+//        TestGraphic tg = new TestGraphic();
+//        tg.setScale( 2 );
+//        tg.setOffset( 500, 500 );
+////        tg.setScale( 2 );
+//        simPanel.addWorldChild( tg );
+//
+//        PPath pp = new PPath( new Ellipse2D.Double(-2,-2,4,4));
+//        pp.setOffset( tg.getOffset() );
+//        pp.setPaint( Color.red );
+//        simPanel.addWorldChild( pp );
+//        PPath pp2 = new PPath( new Ellipse2D.Double(-2,-2,4,4));
+//        pp2.setOffset( 500, 500 );
+//        pp2.setPaint( Color.green );
+//        simPanel.addWorldChild( pp2 );
+
+    }
+
+    private void createTestIons( final SolubleSaltsModel model ) {
         Ion ion = null;
 
         ion = new Chloride();
@@ -124,27 +113,11 @@ public class SolubleSaltsModule extends PiccoloModule {
 //        ion.setPosition( 280, 200 );
 //        ion.setVelocity( 0, 5 );
 //        model.addModelElement( ion );
+    }
 
 
-        // Set up the control panel
-        setControlPanel( new SolubleSaltsControlPanel( this ) );
-
-
-//        TestGraphic tg = new TestGraphic();
-//        tg.setScale( 2 );
-//        tg.setOffset( 500, 500 );
-////        tg.setScale( 2 );
-//        simPanel.addWorldChild( tg );
-//
-//        PPath pp = new PPath( new Ellipse2D.Double(-2,-2,4,4));
-//        pp.setOffset( tg.getOffset() );
-//        pp.setPaint( Color.red );
-//        simPanel.addWorldChild( pp );
-//        PPath pp2 = new PPath( new Ellipse2D.Double(-2,-2,4,4));
-//        pp2.setOffset( 500, 500 );
-//        pp2.setPaint( Color.green );
-//        simPanel.addWorldChild( pp2 );
-
+    public void setZoomEnabled( boolean zoomEnabled ) {
+        simPanel.setZoomEnabled( zoomEnabled );
     }
 
     private void test() {

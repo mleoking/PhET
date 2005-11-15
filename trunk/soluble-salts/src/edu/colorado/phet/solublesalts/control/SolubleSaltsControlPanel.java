@@ -13,6 +13,7 @@ package edu.colorado.phet.solublesalts.control;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.solublesalts.model.*;
 import edu.colorado.phet.solublesalts.model.affinity.RandomAffinity;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
@@ -27,6 +28,8 @@ import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -41,7 +44,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
     private ModelSlider vesselIonReleaseSlider;
     private ModelSlider dissociationSlider;
 
-    public SolubleSaltsControlPanel( SolubleSaltsModule module ) {
+    public SolubleSaltsControlPanel( final SolubleSaltsModule module ) {
         super( module );
 
         final SolubleSaltsModel model = (SolubleSaltsModel)module.getModel();
@@ -85,6 +88,17 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         addControl( makeConcentrationPanel( model ) );
         addControl( makeWaterLevelPanel( model ) );
 
+        // Zoom button
+        final JToggleButton zoomButton = new JToggleButton( "Zoom" );
+        final ZoomDlg zoomDlg = new ZoomDlg();
+        zoomButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.setZoomEnabled( zoomButton.isSelected() );
+                zoomDlg.setVisible( zoomButton.isSelected() );
+            }
+        } );
+        addControl( zoomButton );
+
         // Reset button
         JButton resetBtn = new JButton( "Reset" );
         resetBtn.addChangeListener( new ChangeListener() {
@@ -96,9 +110,9 @@ public class SolubleSaltsControlPanel extends ControlPanel {
     }
 
     private JPanel makeConcentrationPanel( final SolubleSaltsModel model ) {
-        final ModelSlider kspSlider = new ModelSlider( "Ksp", "", 0, 3E-4, 0);
-        kspSlider.setSliderLabelFormat( new DecimalFormat( "0E00") );
-        kspSlider.setTextFieldFormat( new DecimalFormat( "0E00") );
+        final ModelSlider kspSlider = new ModelSlider( "Ksp", "", 0, 3E-4, 0 );
+        kspSlider.setSliderLabelFormat( new DecimalFormat( "0E00" ) );
+        kspSlider.setTextFieldFormat( new DecimalFormat( "0E00" ) );
         kspSlider.setNumMajorTicks( 3 );
         kspSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -109,22 +123,23 @@ public class SolubleSaltsControlPanel extends ControlPanel {
 
         final JTextField concentrationTF = new JTextField( 8 );
         model.addModelElement( new ModelElement() {
-            DecimalFormat format =  new DecimalFormat( "0E00" );
+            DecimalFormat format = new DecimalFormat( "0E00" );
+
             public void stepInTime( double dt ) {
                 double concentration = model.getConcentration();
-                concentrationTF.setText( format.format( concentration ));
+                concentrationTF.setText( format.format( concentration ) );
             }
         } );
 
         JPanel panel = new JPanel( new GridBagLayout() );
-        panel.setBorder( BorderFactory.createTitledBorder( "Concentration"));
+        panel.setBorder( BorderFactory.createTitledBorder( "Concentration" ) );
         GridBagConstraints gbc = new DefaultGridBagConstraints();
         gbc.gridwidth = 2;
         panel.add( kspSlider, gbc );
         gbc.gridwidth = 1;
         gbc.gridy = 1;
         gbc.anchor = GridBagConstraints.EAST;
-        panel.add( new JLabel( "Concentration:"), gbc );
+        panel.add( new JLabel( "Concentration:" ), gbc );
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.WEST;
         panel.add( concentrationTF, gbc );
@@ -160,8 +175,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         JPanel sodiumPanel = new JPanel( new GridBagLayout() );
         GridBagConstraints gbc = new DefaultGridBagConstraints();
 
-//        JLabel label = new JLabel( "Sodium" );
-        JLabel label = new JLabel( "Sodium", new ImageIcon( IonGraphicManager.getIonImage( Sodium.class )), JLabel.LEADING );
+        JLabel label = new JLabel( "Sodium", new ImageIcon( IonGraphicManager.getIonImage( Sodium.class ) ), JLabel.LEADING );
         gbc.anchor = GridBagConstraints.EAST;
         sodiumPanel.add( label, gbc );
 
@@ -170,6 +184,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
                                                                        0,
                                                                        100,
                                                                        1 ) );
+        model.addIonListener( new IonCountSyncAgent( model, Sodium.class, spinner ) );
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.WEST;
         sodiumPanel.add( spinner, gbc );
@@ -197,7 +212,11 @@ public class SolubleSaltsControlPanel extends ControlPanel {
             }
         } );
 
-        model.addIonListener( new SpinnerSyncAgent( model, Sodium.class, spinner ) );
+        JTextField ionCountTF = new JTextField( 4 );
+        model.addIonListener( new FreeIonCountSyncAgent( model, Sodium.class, ionCountTF ) );
+        gbc.gridx++;
+        sodiumPanel.add( ionCountTF, gbc );
+
         return sodiumPanel;
     }
 
@@ -209,9 +228,8 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         JPanel panel = new JPanel( new GridBagLayout() );
         GridBagConstraints gbc = new DefaultGridBagConstraints();
 
-//        JLabel label = new JLabel( "Chloride" );
         JLabel label = new JLabel( "Chloride",
-                                   new ImageIcon( IonGraphicManager.getIonImage( Chloride.class )),
+                                   new ImageIcon( IonGraphicManager.getIonImage( Chloride.class ) ),
                                    JLabel.LEADING );
         gbc.anchor = GridBagConstraints.EAST;
         panel.add( label, gbc );
@@ -248,17 +266,17 @@ public class SolubleSaltsControlPanel extends ControlPanel {
             }
         } );
 
-        model.addIonListener( new SpinnerSyncAgent( model, Chloride.class, spinner ) );
+        model.addIonListener( new IonCountSyncAgent( model, Chloride.class, spinner ) );
         return panel;
     }
 
     private JPanel makeWaterLevelPanel( final SolubleSaltsModel model ) {
-        JPanel panel = new JPanel( );
+        JPanel panel = new JPanel();
         final ModelSlider slider = new ModelSlider( "Water level", "",
-                                              0,
-                                              model.getVessel().getDepth(),
-                                              model.getVessel().getWaterLevel() );
-        slider.setTextFieldFormat( new DecimalFormat( "#") );
+                                                    0,
+                                                    model.getVessel().getDepth(),
+                                                    model.getVessel().getWaterLevel() );
+        slider.setTextFieldFormat( new DecimalFormat( "#" ) );
         slider.setNumMajorTicks( 6 );
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -269,12 +287,12 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         return panel;
     }
 
-    private class SpinnerSyncAgent implements SolubleSaltsModel.IonListener {
+    private class IonCountSyncAgent implements SolubleSaltsModel.IonListener {
         private SolubleSaltsModel model;
         private Class ionClass;
         private JSpinner spinner;
 
-        public SpinnerSyncAgent( SolubleSaltsModel model, Class ionClass, JSpinner spinner ) {
+        public IonCountSyncAgent( SolubleSaltsModel model, Class ionClass, JSpinner spinner ) {
             this.model = model;
             this.ionClass = ionClass;
             this.spinner = spinner;
@@ -293,6 +311,62 @@ public class SolubleSaltsControlPanel extends ControlPanel {
                 && model.getIonsOfType( ionClass ).size() != ( (Integer)spinner.getValue() ).intValue() ) {
                 spinner.setValue( new Integer( model.getIonsOfType( ionClass ).size() ) );
             }
+        }
+    }
+
+    private class FreeIonCountSyncAgent implements SolubleSaltsModel.IonListener {
+        private SolubleSaltsModel model;
+        private Class ionClass;
+        private JTextField testField;
+
+        public FreeIonCountSyncAgent( SolubleSaltsModel model, Class ionClass, JTextField testField ) {
+            this.model = model;
+            this.ionClass = ionClass;
+            this.testField = testField;
+        }
+
+        public void ionAdded( SolubleSaltsModel.IonEvent event ) {
+            syncSpinner();
+        }
+
+        public void ionRemoved( SolubleSaltsModel.IonEvent event ) {
+            syncSpinner();
+        }
+
+        private void syncSpinner() {
+            int freeIonCnt = 0;
+            List ions = model.getIonsOfType( ionClass );
+            if( ions != null ) {
+                for( int i = 0; i < ions.size(); i++ ) {
+                    Ion ion = (Ion)ions.get( i );
+                    if( !ion.isBound() ) {
+                        freeIonCnt++;
+                    }
+                }
+            }
+            testField.setText( Integer.toString( freeIonCnt ) );
+        }
+    }
+
+
+    /**
+     * A modelss dialog that explains how to zoom. This is a temporary thing
+     */
+    class ZoomDlg extends JDialog {
+        public ZoomDlg() throws HeadlessException {
+            super( PhetApplication.instance().getPhetFrame(), false );
+            String text = "To Zoom:"
+                          + "\t\n\t1) Move the mouse to the spot you would like to zoom to."
+                          + "\t\n\t2) Press the left mouse button."
+                          + "\t\n\t3) Move the mouse to the right to zoom in,"
+                          + "\t\n\t4) Move the mouse to the left to zoom out."
+                    ;
+            JTextArea textArea = new JTextArea( text );
+            textArea.setBackground( new Color( 255, 255, 160 ) );
+            getContentPane().add( textArea );
+            pack();
+//            setLocation( 100, 30);
+            setLocationRelativeTo( PhetApplication.instance().getPhetFrame() );
         }
     }
 }

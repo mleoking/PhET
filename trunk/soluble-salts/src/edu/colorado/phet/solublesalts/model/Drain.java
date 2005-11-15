@@ -24,10 +24,12 @@ public class Drain extends Spigot implements Vessel.ChangeListener {
     }
 
     public void stepInTime( double dt ) {
-        Vessel vessel = getModel().getVessel();
-        double area = vessel.getWidth();
-        double volume = vessel.getWaterLevel() - getFlow() / area;
-        vessel.setWaterLevel( volume );
+        if( getFlow() != 0 ) {
+            Vessel vessel = getModel().getVessel();
+            double area = vessel.getWidth();
+            double volume = vessel.getWaterLevel() - getFlow() / area;
+            vessel.setWaterLevel( volume );
+        }
     }
 
     //----------------------------------------------------------------

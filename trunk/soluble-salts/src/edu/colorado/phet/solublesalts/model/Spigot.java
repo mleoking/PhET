@@ -25,7 +25,7 @@ import java.util.EventListener;
 public class Spigot extends Particle {
     private SolubleSaltsModel model;
     private double flow;
-    private double maxFlow = 500;
+    private double maxFlow = 50000;
     private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
     private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
 

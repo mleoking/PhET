@@ -14,6 +14,7 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.piccolo.PImageFactory;
 import edu.colorado.phet.solublesalts.model.Ion;
+import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -31,7 +32,7 @@ import java.awt.geom.Ellipse2D;
  */
 public class IonGraphic extends PNode implements SimpleObserver {
 
-    private static boolean showBondIndicators = true;
+    private static boolean showBondIndicators = false;
 
     public static void showBondIndicators( boolean selected ) {
         showBondIndicators = selected;

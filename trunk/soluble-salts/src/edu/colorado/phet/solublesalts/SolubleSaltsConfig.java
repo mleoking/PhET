@@ -32,10 +32,20 @@ public class SolubleSaltsConfig {
     public static final int FPS = 25;
 
     // Physical things
-    public static final Point2D VESSEL_ULC = new Point2D.Double( 150, 150 ); // upper-left corner of vessel
-    public static final Dimension VESSEL_SIZE = new Dimension( 700, 500 );
-    public static final double VESSEL_WALL_THICKNESS = 20;
-    public static final double DEFAULT_WATER_LEVEL = VESSEL_SIZE.getHeight() * 0.7; 
+    private static final double scale = 10;
+    public static final Point2D VESSEL_ULC = new Point2D.Double( 150 * scale, 150 * scale); // upper-left corner of vessel
+    public static final Dimension VESSEL_SIZE = new Dimension( (int)(700* scale), (int)(500 * scale));
+    public static final double VESSEL_WALL_THICKNESS = 20* scale;
+//    public static final Point2D VESSEL_ULC = new Point2D.Double( 150, 150 ); // upper-left corner of vessel
+//    public static final Dimension VESSEL_SIZE = new Dimension( 700, 500 );
+//    public static final double VESSEL_WALL_THICKNESS = 20;
+    public static final double DEFAULT_WATER_LEVEL = VESSEL_SIZE.getHeight() * 0.1;
+//    public static final double DEFAULT_WATER_LEVEL = VESSEL_SIZE.getHeight() * 0.7;
+    public static final double DEFAULT_LATTICE_SPEED = 5;
+    // Acceleration of lattices when they come out of the shaker
+    public static final double DEFAULT_LATTICE_ACCELERATION = .5;
+
+
     // Images
     public static final String IMAGE_PATH = "images/";
     public static final String SHAKER_IMAGE_NAME = IMAGE_PATH + "shaker.png";
