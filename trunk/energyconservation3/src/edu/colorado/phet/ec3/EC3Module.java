@@ -86,6 +86,8 @@ public class EC3Module extends PiccoloModule {
         energyPositionPanel = new EnergyPositionPlotPanel( this );
         energyPositionPlotFrame.setContentPane( energyPositionPanel );
         energyPositionPlotFrame.setSize( 400, 400 );
+
+//        new AutoPan( energyCanvas, this );
     }
 
     private void setDefaults() {
@@ -238,5 +240,13 @@ public class EC3Module extends PiccoloModule {
     public void setEnergyPositionPlotVisible( boolean b ) {
         energyPositionPanel.reset();
         energyPositionPlotFrame.setVisible( b );
+    }
+
+    public void setCoefficientOfRestitution( double rest ) {
+        EnergyConservationModel model = getEnergyConservationModel();
+        for( int i = 0; i < model.numBodies(); i++ ) {
+            Body b = model.bodyAt( i );
+            b.setCoefficientOfRestitution( rest );
+        }
     }
 }

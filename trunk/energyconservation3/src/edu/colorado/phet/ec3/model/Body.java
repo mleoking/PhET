@@ -38,6 +38,7 @@ public class Body {
     private UpdateMode mode = freeFall;
     private double frictionCoefficient = 0.0;
     private double coefficientOfRestitution = 1.0;
+//    private double coefficientOfRestitution =0.7;
 
     public Body( Shape bounds ) {
         this.bounds = bounds;
@@ -274,5 +275,9 @@ public class Body {
 
     public double getCoefficientOfRestitution() {
         return coefficientOfRestitution;
+    }
+
+    public void setCoefficientOfRestitution( double coefficientOfRestitution ) {
+        this.coefficientOfRestitution = coefficientOfRestitution;
     }
 }
