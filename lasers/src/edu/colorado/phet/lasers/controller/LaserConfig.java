@@ -41,7 +41,7 @@ public class LaserConfig {
     public static final int MAXIMUM_SEED_PHOTON_RATE = 30;
     public static final int MINIMUM_PUMPING_PHOTON_RATE = 0;
     public static final int MAXIMUM_PUMPING_PHOTON_RATE = 400;
-    public static final double PUMPING_BEAM_FANOUT = 45;
+    public static final double PUMPING_BEAM_FANOUT = Math.toRadians( 45 );
     public static final double SEED_BEAM_FANOUT = Math.toRadians( 1 );
 
     // Spontaneous emission times, in milliseconds
