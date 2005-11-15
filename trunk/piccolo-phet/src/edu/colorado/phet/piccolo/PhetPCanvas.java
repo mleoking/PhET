@@ -10,6 +10,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+import org.w3c.dom.css.CSS2Properties;
+
 /**
  * Piccolo canvas extension that provides support for maintenance of aspect ratio,
  * and convenience methods for usage.
@@ -78,6 +80,10 @@ public class PhetPCanvas extends PSwingCanvas {
 
     public void setScreenNode( PNode screenNode ) {
         phetRootNode.setScreenNode( screenNode );
+    }
+
+    public Dimension getRenderingSize() {
+        return renderingSize;
     }
 
     protected class ResizeAdapter extends ComponentAdapter {
