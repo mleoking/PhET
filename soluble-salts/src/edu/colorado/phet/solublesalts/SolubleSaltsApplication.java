@@ -19,8 +19,8 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.util.DebugMenu;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.colorado.phet.solublesalts.view.IonGraphic;
-import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.piccolo.util.PMouseTracker;
+//import edu.colorado.phet.piccolo.PhetPCanvas;
+//import edu.colorado.phet.piccolo.util.PMouseTracker;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;

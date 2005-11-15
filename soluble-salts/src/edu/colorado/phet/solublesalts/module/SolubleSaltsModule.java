@@ -12,9 +12,6 @@ package edu.colorado.phet.solublesalts.module;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.piccolo.CursorHandler;
-import edu.colorado.phet.piccolo.PiccoloModule;
-import edu.colorado.phet.piccolo.RegisterablePNode;
 import edu.colorado.phet.solublesalts.control.SolubleSaltsControlPanel;
 import edu.colorado.phet.solublesalts.model.*;
 import edu.colorado.phet.solublesalts.view.IonGraphicManager;
