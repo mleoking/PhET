@@ -32,87 +32,121 @@ public class FreeSplineMode extends ForceMode {
         this.body = body;
     }
 
+    private static class State {
+        private EnergyConservationModel model;
+        private Body body;
+
+        public State( EnergyConservationModel model, Body body ) {
+            this.model = model.copyState();
+            this.body = body.copyState();
+        }
+
+        public EnergyConservationModel getModel() {
+            return model;
+        }
+
+        public Body getBody() {
+            return body;
+        }
+
+        public Point2D.Double getPosition() {
+            return body.getPosition();
+        }
+
+        public double getMechanicalEnergy() {
+            return model.getMechanicalEnergy( body );
+        }
+
+        public double getTotalEnergy() {
+            return model.getTotalMechanicalEnergy( body ) + model.getThermalEnergy();
+        }
+
+        public double getHeat() {
+            return model.getThermalEnergy();
+        }
+    }
+
     public void stepInTime( EnergyConservationModel model, Body body, double dt ) {
-        Point2D.Double origPosition = body.getPosition();
-        double origMechEnergy = model.getTotalMechanicalEnergy( body );
-        double origTotalEnergy = model.getTotalMechanicalEnergy( body ) + model.getThermalEnergy();
-        double origHeat = model.getThermalEnergy();
+        State originalState = new State( model, body );
         EnergyDebugger.stepStarted( model, body, dt );
-        double position = 0;
         try {
-            position = getPositionOnSpline( body );
+            double position = getPositionOnSpline( body );
+            lastScalarPosition = position;
+            Segment segment = spline.getSegmentPath().getSegmentAtPosition( position );//todo this duplicates much work.
+            rotateBody( body, segment );
+            handleBounceVelocities( body, segment );//Why is this happening after newton?
+            if( bounced || grabbed ) {
+                //set bottom at zero.
+                setBottomAtZero( segment, body );
+            }
+
+            AbstractVector2D netForce = computeNetForce( model, segment );
+            super.setNetForce( netForce );
+            super.stepInTime( model, body, dt ); //apply newton's laws
+
+            if( bounced && !grabbed && !lastGrabState ) {
+                doBounce( body, model, dt, originalState );
+            }
+            else {
+                AbstractVector2D dx = body.getPositionVector().getSubtractedInstance( new Vector2D.Double( originalState.getPosition() ) );
+                double frictiveWork = bounced ? 0.0 : Math.abs( getFrictionForce( model, segment ).dot( dx ) );
+                if( frictiveWork == 0 ) {//can't manipulate friction, so just modify v/h
+                    new EnergyConserver().fixEnergy( model, body, originalState.getMechanicalEnergy() - frictiveWork );
+                }
+                else {
+                    patchEnergyInclThermal( frictiveWork, model, body, originalState );
+                }
+            }
+            lastGrabState = grabbed;
+
         }
         catch( NullIntersectionException e ) {
-            flyOffSurface( body, model, dt, origMechEnergy );
+            flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
             System.out.println( "Fly off surface!" );
             return;
         }
-        lastScalarPosition = position;
+    }
 
-        Segment segment = spline.getSegmentPath().getSegmentAtPosition( position );//todo this duplicates much work.
-        rotateBody( body, segment );//!
+    private void patchEnergyInclThermal( double frictiveWork, EnergyConservationModel model, Body body, State originalState ) {
+        //modify the frictive work slightly so we don't have to account for all error energy in V and H.
+        double allowedToModifyHeat = Math.abs( frictiveWork * 0.75 );
+        model.addThermalEnergy( frictiveWork );
+        double finalTotalEnergy1 = model.getTotalMechanicalEnergy( body ) + model.getThermalEnergy();
+        double energyError = finalTotalEnergy1 - originalState.getTotalEnergy();
+        System.out.println( "energyError " + energyError + ", frictiveWork=" + frictiveWork );
 
-        AbstractVector2D netForce = computeNetForce( model, segment );
-//        System.out.println( "netForce = " + netForce );
-        super.setNetForce( netForce );
-        super.stepInTime( model, body, dt ); //apply newton's laws
+        double energyErrorSign = MathUtil.getSign( energyError );
+        if( Math.abs( energyError ) > Math.abs( allowedToModifyHeat ) ) {//big problem
+            System.out.println( "error was too large to fix only with heat" );
+            model.addThermalEnergy( allowedToModifyHeat * energyErrorSign * -1 );
 
-        //just kill the perpendicular part of velocity, if it is through the track.
-        // this should be lost to friction.
-        //or to a bounce.
-        handleBounce( body, segment );//Why is this happening after newton?
-        if( bounced && !grabbed && !lastGrabState ) {
-            System.out.println( "DIDBOUNCE" );
-            //coeff of restitution
-            double coefficientOfRestitution = body.getCoefficientOfRestitution();
-            double finalVelocity = coefficientOfRestitution * body.getVelocity().getMagnitude();
-            AbstractVector2D vec = body.getVelocity().getInstanceOfMagnitude( finalVelocity );
-            double initKE = body.getKineticEnergy();
-            body.setVelocity( vec );
-            double finalKE = body.getKineticEnergy();
-            if( finalKE > initKE ) {
-                System.out.println( "Something is very wrong." );
-            }
-
-            double dE = initKE - finalKE;
-            model.addThermalEnergy( dE );
-
-            flyOffSurface( body, model, dt, origMechEnergy - dE );
-            return;
-        }
-//        System.out.println( "bounce = " + bounce );
-
-        AbstractVector2D dx = body.getPositionVector().getSubtractedInstance( origPosition.getX(), origPosition.getY() );
-        double frictiveWork = Math.abs( getFrictionForce( model, segment ).dot( dx ) );
-        if( bounced ) {
-            frictiveWork = 0.0;
-        }
-        if( frictiveWork == 0 ) {//can't manipulate friction, so just modify v/h
-            new EnergyConserver().fixEnergy( model, body, origMechEnergy - frictiveWork );
+            double origTotalEnergyAll = originalState.getMechanicalEnergy() + originalState.getHeat();
+            double desiredMechEnergy = origTotalEnergyAll - model.getThermalEnergy();
+            new EnergyConserver().fixEnergy( model, body, desiredMechEnergy );//todo enhance energy conserver with thermal changes.
         }
         else {
-            //modify the frictive work slightly so we don't have to account for all error energy in V and H.
-            double allowedToModifyHeat = Math.abs( frictiveWork * 0.75 );
-            model.addThermalEnergy( frictiveWork );
-            double finalTotalEnergy1 = model.getTotalMechanicalEnergy( body ) + model.getThermalEnergy();
-            double energyError = finalTotalEnergy1 - origTotalEnergy;
-            System.out.println( "energyError " + energyError + ", frictiveWork=" + frictiveWork );
-
-            double energyErrorSign = MathUtil.getSign( energyError );
-            if( Math.abs( energyError ) > Math.abs( allowedToModifyHeat ) ) {//big problem
-                System.out.println( "error was too large to fix only with heat" );
-                model.addThermalEnergy( allowedToModifyHeat * energyErrorSign * -1 );
-
-                double origTotalEnergyAll = origMechEnergy + origHeat;
-                double desiredMechEnergy = origTotalEnergyAll - model.getThermalEnergy();
-                new EnergyConserver().fixEnergy( model, body, desiredMechEnergy );//todo enhance energy conserver with thermal changes.
-            }
-            else {
-                System.out.println( "Error was okay to fix with heat only." );
-                model.addThermalEnergy( -energyError );
-            }
+            System.out.println( "Error was okay to fix with heat only." );
+            model.addThermalEnergy( -energyError );
         }
-        lastGrabState = grabbed;
+    }
+
+    private void doBounce( Body body, EnergyConservationModel model, double dt, State originalState ) {
+        System.out.println( "DIDBOUNCE" );
+        //coeff of restitution
+        double coefficientOfRestitution = body.getCoefficientOfRestitution();
+        double finalVelocity = coefficientOfRestitution * body.getVelocity().getMagnitude();
+        AbstractVector2D vec = body.getVelocity().getInstanceOfMagnitude( finalVelocity );
+        double initKE = body.getKineticEnergy();
+        body.setVelocity( vec );
+        double finalKE = body.getKineticEnergy();
+        if( finalKE > initKE ) {
+            System.out.println( "Something is very wrong." );
+        }
+
+        double dE = initKE - finalKE;
+        model.addThermalEnergy( dE );
+
+        flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() - dE );
     }
 
     private double getPositionOnSpline( Body body ) throws NullIntersectionException {
@@ -128,7 +162,9 @@ public class FreeSplineMode extends ForceMode {
         return position;
     }
 
-    private boolean handleBounce( Body body, Segment segment ) {
+    //just kill the perpendicular part of velocity, if it is through the track.
+    // this should be lost to friction or to a bounce.
+    private boolean handleBounceVelocities( Body body, Segment segment ) {
         RVector2D origVector = new RVector2D( body.getVelocity(), segment.getUnitDirectionVector() );
         double bounceThreshold = 30;
 //        double bounceThreshold = 5;
@@ -160,10 +196,6 @@ public class FreeSplineMode extends ForceMode {
         EC3Debug.debug( "newVelocity = " + newVelocity );
         body.setVelocity( newVelocity );
 
-        if( bounced || grabbed ) {
-            //set bottom at zero.
-            setBottomAtZero( segment, body );
-        }
         return bounced;
     }
 
