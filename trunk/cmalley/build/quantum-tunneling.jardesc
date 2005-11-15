@@ -12,5 +12,6 @@
         <javaElement handleIdentifier="=quantum-tunneling"/>
         <javaElement handleIdentifier="=phetcommon"/>
         <javaElement handleIdentifier="=piccolo"/>
+        <javaElement handleIdentifier="=piccolo-phet"/>
     </selectedElements>
 </jardesc>

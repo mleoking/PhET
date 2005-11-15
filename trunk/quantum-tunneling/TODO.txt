@@ -46,6 +46,7 @@ PHETCOMMON:
 
 
 DONE:
+(11/14/05) - put all nodes under one parent node in module
 (11/14/05) - make PhetPCanvas key listener require Shift-Ctrl modifiers
 (11/14/05) - sync with piccolo and piccolo-phet projects
 (11/14/05) - disable zoom/pan behavior of canvas
