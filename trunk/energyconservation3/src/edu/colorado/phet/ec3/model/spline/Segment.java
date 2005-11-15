@@ -17,13 +17,15 @@ import java.awt.geom.Point2D;
  */
 
 public class Segment {
-    double x0;
-    double y0;
-    double x1;
-    double y1;
+    private double x0;
+    private double y0;
+    private double x1;
+    private double y1;
     private boolean shapeDirty = true;
     private Shape shape;
     private float thickness;
+    private static int static_index = 0;
+    private int index = 0;
 
     public Segment( double x0, double y0, double x1, double y1, float thickness ) {
         this.x0 = x0;
@@ -31,6 +33,7 @@ public class Segment {
         this.x1 = x1;
         this.y1 = y1;
         this.thickness = thickness;
+        this.index = static_index++;
     }
 
     public Segment( Point2D a, Point2D b, float thickness ) {
@@ -50,8 +53,7 @@ public class Segment {
     }
 
     private AbstractVector2D toVector() {
-        AbstractVector2D vec = new Vector2D.Double( new Point2D.Double( x0, y0 ), new Point2D.Double( x1, y1 ) );
-        return vec;
+        return (AbstractVector2D)new Vector2D.Double( new Point2D.Double( x0, y0 ), new Point2D.Double( x1, y1 ) );
     }
 
     public Line2D.Double toLine2D() {
@@ -84,5 +86,9 @@ public class Segment {
 
     public float getThickness() {
         return thickness;
+    }
+
+    public String toString() {
+        return "<Seg_" + index + ">: x0=" + x0 + ", y0=" + y0;
     }
 }

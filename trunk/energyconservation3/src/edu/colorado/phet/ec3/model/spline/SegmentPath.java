@@ -82,7 +82,6 @@ public class SegmentPath {
         for( int i = 0; i < segments.size(); i++ ) {
             Segment segment = (Segment)segments.get( i );
             if( position < segment.getLength() + offset ) {
-//                System.out.println( "@" + System.currentTimeMillis() + ", Matched on segment: " + i );
                 return segment;
             }
             else {
