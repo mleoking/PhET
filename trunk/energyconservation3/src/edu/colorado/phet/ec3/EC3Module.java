@@ -139,11 +139,15 @@ public class EC3Module extends PiccoloModule {
     public void resetSkater() {
         if( getEnergyConservationModel().numBodies() > 0 ) {
             Body body = getEnergyConservationModel().bodyAt( 0 );
-            body.setPosition( getDefaultBodyPosition() );
-            body.setAngle( getDefaultBodyAngle() );
-            body.resetMode();
-            body.setVelocity( 0, 0 );
+            resetSkater( body );
         }
+    }
+
+    public void resetSkater( Body body ) {
+        body.setPosition( getDefaultBodyPosition() );
+        body.setAngle( getDefaultBodyAngle() );
+        body.resetMode();
+        body.setVelocity( 0, 0 );
     }
 
     private double getDefaultBodyAngle() {

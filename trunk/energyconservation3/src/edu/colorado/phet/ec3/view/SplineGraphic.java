@@ -170,8 +170,7 @@ public class SplineGraphic extends PNode {
 
     private SplineMatch getTrunkMatch( int index ) {
         Point2D toMatch = new Point2D.Double( initDragSpline[index].getX(), initDragSpline[index].getY() );
-        SplineMatch match = ec3Canvas.proposeMatch( this, toMatch );
-        return match;
+        return ec3Canvas.proposeMatch( this, toMatch );
     }
 
     private void translateAll( Point2D pt ) {
@@ -220,8 +219,7 @@ public class SplineGraphic extends PNode {
     }
 
     private boolean same() {
-        boolean same = lastRenderState.equals( splineSurface.copy() );
-        return same;
+        return lastRenderState.equals( splineSurface.copy() );
     }
 
     private void addControlPoint( Point2D point, final int index ) {
@@ -300,8 +298,7 @@ public class SplineGraphic extends PNode {
 
     private SplineMatch getEndpointMatch() {
         Point2D toMatch = new Point2D.Double( controlPointLoc.getX(), controlPointLoc.getY() );
-        SplineMatch match = ec3Canvas.proposeMatch( this, toMatch );//todo allow joining end of this to start of this?
-        return match;
+        return ec3Canvas.proposeMatch( this, toMatch );
     }
 
     private void finishDragControlPoint( int index ) {
@@ -336,14 +333,6 @@ public class SplineGraphic extends PNode {
 
     public int numControlPointGraphics() {
         return controlPointLayer.getChildrenCount();
-    }
-
-    private AbstractSpline getSpline() {
-        return spline;
-    }
-
-    private AbstractSpline getReverseSpline() {
-        return reverse;
     }
 
     public void setControlPointsPickable( boolean pick ) {
