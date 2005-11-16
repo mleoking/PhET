@@ -4,12 +4,9 @@
  */
 package edu.colorado.phet.piccolo.pswing;
 
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PBounds;
-import edu.umd.cs.piccolo.util.PPaintContext;
-
-import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -18,6 +15,13 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+
+import javax.swing.JComponent;
+import javax.swing.RepaintManager;
+
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 /*
   This message was sent to Sun on August 27, 1999
@@ -296,9 +300,14 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
      * @param g2 The graphics on which to render the JComponent.
      */
     public void paint( Graphics2D g2 ) {
+        if ( component.getBounds().isEmpty() ) {
+            // The component has not been initialized yet.
+            return;
+        }
+        
         PSwingRepaintManager manager = (PSwingRepaintManager)RepaintManager.currentManager( component );
         manager.lockRepaint( component );
-
+        
         if( buffer == null || buffer.getWidth() != component.getWidth() || buffer.getHeight() != component.getHeight() ) {
             buffer = new BufferedImage( component.getWidth(), component.getHeight(), BufferedImage.TYPE_INT_ARGB );
         }
@@ -346,10 +355,12 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
      * updates the visual components copy of these bounds
      */
     public void computeBounds() {
-        Dimension d = component.getPreferredSize();
-        getBoundsReference().setRect( 0, 0, d.getWidth(), d.getHeight() );
-        if( !component.getSize().equals( d ) ) {
-            component.setBounds( 0, 0, (int)d.getWidth(), (int)d.getHeight() );
+        if ( !component.getBounds().isEmpty() ) {
+            Dimension d = component.getPreferredSize();
+            getBoundsReference().setRect( 0, 0, d.getWidth(), d.getHeight() );
+            if ( !component.getSize().equals( d ) ) {
+                component.setBounds( 0, 0, (int) d.getWidth(), (int) d.getHeight() );
+            }
         }
     }
 
