@@ -34,6 +34,8 @@ public class EnergyPanel extends ControlPanel {
         super( module );
         super.removeTitle();
         this.module = module;
+        getControlPane().setAnchor( GridBagConstraints.WEST );
+        getControlPane().setFillNone();
         JButton reset = new JButton( "Reset" );
         reset.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -74,6 +76,9 @@ public class EnergyPanel extends ControlPanel {
             }
         } );
         addControl( measuringTape );
+
+        getControlPane().setAnchor( GridBagConstraints.CENTER );
+        getControlPane().setFillNone();
 
         final JPanel piePanel = new PieChartPanel( module, this );
         addControlFullWidth( piePanel );
@@ -183,8 +188,9 @@ public class EnergyPanel extends ControlPanel {
             public void actionPerformed( ActionEvent e ) {
                 try {
                     BufferedImage image = ImageLoader.loadBufferedImage( "images/background-gif.gif" );
-                    module.getEnergyConservationCanvas().getRootNode().setBackground( image, 1.3 );
-                    module.getEnergyConservationCanvas().getRootNode().getBackground().translate( 0, -130 );
+                    module.getEnergyConservationCanvas().getRootNode().setBackground( image, 0.02 );
+                    module.getEnergyConservationCanvas().getRootNode().getBackground().rotateInPlace( Math.PI );
+//                    module.getEnergyConservationCanvas().getRootNode().getBackground().translate( 0, -130 );
                 }
                 catch( IOException e1 ) {
                     e1.printStackTrace();
@@ -196,7 +202,9 @@ public class EnergyPanel extends ControlPanel {
             public void actionPerformed( ActionEvent e ) {
                 try {
                     BufferedImage image = ImageLoader.loadBufferedImage( "images/moon2.jpg" );
-                    module.getEnergyConservationCanvas().getRootNode().setBackground( image, 1.3 );
+//                    module.getEnergyConservationCanvas().getRootNode().setBackground( image, 1.3 );
+                    module.getEnergyConservationCanvas().getRootNode().setBackground( image, 0.02 );
+                    module.getEnergyConservationCanvas().getRootNode().getBackground().rotateInPlace( Math.PI );
                 }
                 catch( IOException e1 ) {
                     e1.printStackTrace();

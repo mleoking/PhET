@@ -20,7 +20,7 @@ public class EnergyConserver {
         EnergyDebugger.stepFinished( model, body );
 //        double speedThreshold = 5;//reduced from 20.
         double speedThreshold = 1;//reduced from 20.
-        System.out.println( "body.getSpeed() = " + body.getSpeed() );
+//        System.out.println( "body.getSpeed() = " + body.getSpeed() );
         for( int i = 0; i < 10; i++ ) {
             if( body.getSpeed() > speedThreshold ) {
 //                System.out.println( "Conserve Via V" );

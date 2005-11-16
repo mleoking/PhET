@@ -28,7 +28,7 @@ public class ChartCanvas extends PhetPCanvas {
     public ChartCanvas( final EC3Module ec3Module ) {
         this.ec3Module = ec3Module;
         plot = new TimePlotSuitePNode( this,
-                                       new Range2D( 0, -100000, 40, 500000 ), "Energy",
+                                       new Range2D( 0, -7000 / 10.0, 40, 7000 ), "Energy",
                                        "Joules", ec3Module.getTimeSeriesModel(),
                                        150, false );
         addScreenChild( plot );

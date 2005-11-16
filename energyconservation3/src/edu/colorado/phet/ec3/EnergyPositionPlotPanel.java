@@ -62,7 +62,7 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
         } );
         dataset = createDataset();
 //        chart = createChart( new Range2D( -50, -25000, 1250, 400000 * 1.25 ), dataset, "Energy vs. Position" );
-        chart = createChart( new Range2D( -5, -25000, 35, 400000 * 1.25 ), dataset, "Energy vs. Position" );
+        chart = createChart( new Range2D( -2, -7000 / 10.0, 17, 7000 ), dataset, "Energy vs. Position" );
         setLayout( new BorderLayout() );
         peSeries = new XYSeries( "Potential" );
         keSeries = new XYSeries( "Kinetic" );
@@ -151,6 +151,8 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
             addFadeDot( body.getX(), potentialEnergy, module.getEnergyLookAndFeel().getPEColor() );
             addFadeDot( body.getX(), module.getEnergyConservationModel().getTotalEnergy( body ), module.getEnergyLookAndFeel().getTotalEnergyColor() );
             addFadeDot( body.getX(), body.getKineticEnergy(), module.getEnergyLookAndFeel().getKEColor() );
+
+//            module.getEnergyConservationModel().getTotalEnergy( body )
         }
         if( count % COUNT_MOD == 0 ) {
             fadeDots();

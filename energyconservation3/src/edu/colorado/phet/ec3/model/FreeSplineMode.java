@@ -28,6 +28,7 @@ public class FreeSplineMode extends ForceMode {
     private boolean grabbed = false;
     private Segment lastSegment;
     private double bounceThreshold = 4;
+    private final double flipTimeThreshold = 1.0;
 
     public FreeSplineMode( AbstractSpline spline, Body body ) {
         this.spline = spline;
@@ -207,7 +208,7 @@ public class FreeSplineMode extends ForceMode {
 
         this.bounced = false;
         this.grabbed = false;
-        System.out.println( "Math.abs( origVector.getPerpendicular() ) = " + Math.abs( origVector.getPerpendicular() ) );
+//        System.out.println( "Math.abs( origVector.getPerpendicular() ) = " + Math.abs( origVector.getPerpendicular() ) );
         double originalPerpVel = origVector.getPerpendicular();
         if( origVector.getPerpendicular() < 0 ) {//velocity is through the segment
             if( Math.abs( origVector.getPerpendicular() ) > bounceThreshold ) {//bounce
@@ -268,9 +269,9 @@ public class FreeSplineMode extends ForceMode {
 
         double numTimeSteps = timeToReturnToThisHeight / dt;
         double dTheta = Math.PI * 2 / numTimeSteps / dt;
-
-        if( timeToReturnToThisHeight > 10 ) {
-            body.setFreeFallRotation( -dTheta );
+        System.out.println( "timeToReturnToThisHeight = " + timeToReturnToThisHeight );
+        if( timeToReturnToThisHeight > flipTimeThreshold ) {
+            body.setFreeFallRotation( dTheta );
 //            System.out.println( "Flipping!: dTheta=" + dTheta );
         }
         else {
