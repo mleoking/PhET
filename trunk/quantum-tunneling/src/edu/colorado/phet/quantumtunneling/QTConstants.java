@@ -14,6 +14,8 @@ package edu.colorado.phet.quantumtunneling;
 import java.awt.Color;
 import java.awt.Cursor;
 
+import org.jfree.data.Range;
+
 
 /**
  * QTConstants is a collection of constants.
@@ -59,6 +61,7 @@ public class QTConstants {
     // Colors
     //----------------------------------------------------------------------------
     
+    public static final Color CANVAS_COLOR = Color.WHITE;
     public static final Color TOTAL_ENERGY_COLOR = Color.GREEN;
     public static final Color POTENTIAL_ENERGY_COLOR = new Color( 178, 25, 205 );
     public static final Color INCIDENT_WAVE_COLOR = Color.RED;
@@ -94,4 +97,14 @@ public class QTConstants {
     public static final double MIN_PACKET_CENTER = 0; // nm
     public static final double MAX_PACKET_CENTER = 20.0; // nm
     public static final double DEFAULT_PACKET_CENTER = 1.5; // nm
+    
+    //----------------------------------------------------------------------------
+    // Charts
+    //----------------------------------------------------------------------------
+    
+    public static final Range POSITION_RANGE = new Range( 0, 20 ); // nm
+    public static final Range ENERGY_RANGE = new Range( -1, 10 ); // eV
+    public static final Range WAVE_FUNCTION_RANGE = new Range( -2, 2 );
+    public static final Range PROBABILITY_DENSITY_RANGE = new Range( 0, 4 );
+    
 }

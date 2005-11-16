@@ -11,8 +11,6 @@
 
 package edu.colorado.phet.quantumtunneling.module;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -24,6 +22,11 @@ import java.awt.geom.AffineTransform;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
+
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -33,8 +36,8 @@ import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.control.QTControlPanel;
 import edu.colorado.phet.quantumtunneling.view.LegendItem;
+import edu.colorado.phet.quantumtunneling.view.QTChart;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
 
@@ -50,11 +53,11 @@ public class QTModule extends AbstractModule {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final Font GRAPH_TITLE_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 );
+    private static final Font AXIS_LABEL_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 16 );
     private static final Font LEGEND_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 );
     
     // All of these values are in local coordinates
-    private static final int X_MARGIN = 20; // space at left & right edges of canvas
+    private static final int X_MARGIN = 10; // space at left & right edges of canvas
     private static final int Y_MARGIN = 20; // space at top & bottom edges of canvas
     private static final int X_SPACING = 10; // horizontal space between nodes
     private static final int Y_SPACING = 10; // vertical space between nodes
@@ -71,14 +74,9 @@ public class QTModule extends AbstractModule {
     private PhetPCanvas _canvas;
     private PNode _parentNode;
     private PNode _legend;
-    private PText _energyTitle;
-    private PText _waveFunctionTitle;
-    private PText _probabilityDensityTitle;
-    private PText _positionTitle;
-    private PPath _energyGraph;
-    private PPath _waveFunctionGraph;
-    private PPath _probabilityDensityGraph;
     private PSwing _configureButton;
+    private QTChart _energyChart, _waveFunctionChart, _probabilityDensityChart;
+    private PText _positionTitle;
     private QTControlPanel _controlPanel;
     
     //----------------------------------------------------------------------------
@@ -136,33 +134,38 @@ public class QTModule extends AbstractModule {
             _legend.addChild( totalEnergyItem );
             _legend.addChild( potentialEnergyItem );
         }
-
-        // Graph titles and boundaries
-        {            
-            _energyTitle = new PText( SimStrings.get( "EnergyView.title" ) );
-            _energyTitle.setFont( GRAPH_TITLE_FONT );
-            _energyTitle.rotate( Math.toRadians( -90 ) );
-            _energyTitle.scale( TITLE_SCALE );
-
-            _waveFunctionTitle = new PText( SimStrings.get( "WaveFunctionView.title") );
-            _waveFunctionTitle.setFont( GRAPH_TITLE_FONT );
-            _waveFunctionTitle.rotate( Math.toRadians( -90 ) );
-            _waveFunctionTitle.scale( TITLE_SCALE );
-            
-            _probabilityDensityTitle = new PText( SimStrings.get( "ProbabilityDensityView.title") );
-            _probabilityDensityTitle.setFont( GRAPH_TITLE_FONT );
-            _probabilityDensityTitle.rotate( Math.toRadians( -90 ) );
-            _probabilityDensityTitle.scale( TITLE_SCALE );
-            
-            _positionTitle = new PText( SimStrings.get( "PositionAxis.title") );
-            _positionTitle.setFont( GRAPH_TITLE_FONT );
-            _positionTitle.scale( TITLE_SCALE );
-            
-            _energyGraph = new PPath();
- 
-            _waveFunctionGraph = new PPath();
-            
-            _probabilityDensityGraph = new PPath();
+        
+        // Energy chart
+        {
+            String energyLabel = SimStrings.get( "EnergyView.title" );
+            _energyChart = new QTChart( _canvas, null, null, energyLabel );
+            _energyChart.setAxisLabelFont( AXIS_LABEL_FONT );
+            _energyChart.setXRange( QTConstants.POSITION_RANGE );
+            _energyChart.setYRange( QTConstants.ENERGY_RANGE );
+        }
+        
+        // Wave Function chart
+        {
+            String waveFunctionLabel = SimStrings.get( "WaveFunctionView.title" );
+            _waveFunctionChart = new QTChart( _canvas, null, null, waveFunctionLabel );
+            _waveFunctionChart.setAxisLabelFont( AXIS_LABEL_FONT );
+            _waveFunctionChart.setXRange( QTConstants.POSITION_RANGE );
+            _waveFunctionChart.setYRange( QTConstants.WAVE_FUNCTION_RANGE );
+        }
+        
+        // Probaility Density chart
+        {
+            String probabilityDensityLabel = SimStrings.get( "ProbabilityDensityView.title" );
+            _probabilityDensityChart = new QTChart( _canvas, null, null, probabilityDensityLabel );
+            _probabilityDensityChart.setAxisLabelFont( AXIS_LABEL_FONT );
+            _probabilityDensityChart.setXRange( QTConstants.POSITION_RANGE );
+            _probabilityDensityChart.setYRange( QTConstants.PROBABILITY_DENSITY_RANGE );
+        }
+        
+        // Position x-axis label
+        {
+            _positionTitle = new PText( SimStrings.get( "PositionAxis.title" ) );
+            _positionTitle.setFont( AXIS_LABEL_FONT );
         }
         
         // Add all the nodes to one parent node.
@@ -171,13 +174,10 @@ public class QTModule extends AbstractModule {
             
             _parentNode.addChild( _configureButton );
             _parentNode.addChild( _legend );
-            _parentNode.addChild( _energyTitle );
-            _parentNode.addChild( _waveFunctionTitle );
-            _parentNode.addChild( _probabilityDensityTitle );
+            _parentNode.addChild( _energyChart );
+            _parentNode.addChild( _waveFunctionChart );
+            _parentNode.addChild( _probabilityDensityChart );
             _parentNode.addChild( _positionTitle );
-            _parentNode.addChild( _energyGraph );
-            _parentNode.addChild( _waveFunctionGraph );
-            _parentNode.addChild( _probabilityDensityGraph );
             
             _canvas.addScreenChild( _parentNode );
         }        
@@ -214,96 +214,66 @@ public class QTModule extends AbstractModule {
         
         // Height of the legend along the top edge
         double legendHeight = _legend.getFullBounds().getHeight();
-        // Width of the rotated titles along the left edge
-        double titleWidth = Math.max( _energyTitle.getFullBounds().getWidth(), 
-                Math.max( _waveFunctionTitle.getFullBounds().getWidth(),
-                          _probabilityDensityTitle.getFullBounds().getWidth() ) );
         // Height of the title along the bottom edge
         double titleHeight = _positionTitle.getFullBounds().getHeight();
         
-        // Location and dimensions of graphs
-        final double graphX = X_MARGIN + titleWidth + X_SPACING;
-        double graphY = 0;
-        final double graphWidth = _canvas.getWidth() - graphX - X_MARGIN;
-        final double graphHeight = ( _canvas.getHeight() - legendHeight - titleHeight - ( 2 * Y_MARGIN ) - ( 4 * Y_SPACING ) ) / 3;
-        
-        // Configure button
-        {
-            AffineTransform configureTransform = new AffineTransform();
-            configureTransform.translate( graphX + graphWidth, ( Y_MARGIN + legendHeight + Y_SPACING ) / 2 );
-            configureTransform.scale( CONFIGURE_BUTTON_SCALE, CONFIGURE_BUTTON_SCALE );
-            configureTransform.translate( -_configureButton.getWidth(), -_configureButton.getHeight() / 2 ); // registration point = right center
-            _configureButton.setTransform( configureTransform );
-        }
+        // Location and dimensions of charts
+        final double chartWidth = _canvas.getWidth() - ( 2 * X_MARGIN );
+        final double chartHeight = ( _canvas.getHeight() - legendHeight - titleHeight - ( 2 * Y_MARGIN ) - ( 4 * Y_SPACING ) ) / 3;
         
         // Legend
         {
             AffineTransform legendTransform = new AffineTransform();
-            legendTransform.translate( graphX, Y_MARGIN );
+            legendTransform.translate( X_MARGIN + 100, Y_MARGIN );
             legendTransform.scale( LEGEND_SCALE, LEGEND_SCALE );
             legendTransform.translate( 0, 0 ); // upper left
             _legend.setTransform( legendTransform );
         }
         
-        // Graphs
-        {    
-            // all the same size
-            _energyGraph.setPathToRectangle( 0, 0, (int) graphWidth, (int) graphHeight );
-            _waveFunctionGraph.setPathToRectangle( 0, 0, (int) graphWidth, (int) graphHeight );
-            _probabilityDensityGraph.setPathToRectangle( 0, 0, (int) graphWidth, (int) graphHeight );
-            
-            AffineTransform energyTransform = new AffineTransform();
-            graphY = Y_MARGIN + legendHeight + Y_SPACING;
-            energyTransform.translate( graphX, graphY );
-            energyTransform.translate( 0, 0 ); // registration point = upper left
-            _energyGraph.setTransform( energyTransform );
-
-            AffineTransform waveFunctionTransform = new AffineTransform();
-            graphY = _energyGraph.getFullBounds().getY() + graphHeight + Y_SPACING;
-            waveFunctionTransform.translate( graphX, graphY );
-            waveFunctionTransform.translate( 0, 0 ); // registration point = upper left
-            _waveFunctionGraph.setTransform( waveFunctionTransform );
-            
-            AffineTransform probabilityDensityTransform = new AffineTransform();
-            graphY = _waveFunctionGraph.getFullBounds().getY() + graphHeight + Y_SPACING;
-            probabilityDensityTransform.translate( graphX, graphY );
-            probabilityDensityTransform.translate( 0, 0 ); // registration point = upper left
-            _probabilityDensityGraph.setTransform( probabilityDensityTransform );
+        // Configure button
+        {
+            AffineTransform configureTransform = new AffineTransform();
+            configureTransform.translate( X_MARGIN + chartWidth, ( Y_MARGIN + legendHeight + Y_SPACING ) / 2 );
+            configureTransform.scale( CONFIGURE_BUTTON_SCALE, CONFIGURE_BUTTON_SCALE );
+            configureTransform.translate( -_configureButton.getWidth(), -_configureButton.getHeight() / 2 ); // registration point = right center
+            _configureButton.setTransform( configureTransform );
         }
         
-        // Titles
-        {
-            final double titleX = X_MARGIN;
-            double titleY = 0;
-            
+        // Energy chart
+        {    
+            _energyChart.setSize( (int) chartWidth, (int) chartHeight );
             AffineTransform energyTransform = new AffineTransform();
-            titleY = _energyGraph.getFullBounds().getY() + _energyGraph.getFullBounds().getHeight() / 2;
-            energyTransform.translate( titleX, titleY );
-            energyTransform.rotate( Math.toRadians( -90 ) );
-            energyTransform.scale( TITLE_SCALE, TITLE_SCALE );
-            energyTransform.translate( -_energyTitle.getWidth() / 2, 0 ); // registration point = top center
-            _energyTitle.setTransform( energyTransform );
-
+            double graphY = Y_MARGIN + legendHeight + Y_SPACING;
+            energyTransform.translate( X_MARGIN, graphY );
+            energyTransform.translate( 0, 0 ); // registration point = upper left
+            _energyChart.setTransform( energyTransform );
+        }
+        
+        // Wave Function chart
+        {
+            _waveFunctionChart.setSize( (int) chartWidth, (int) chartHeight );
             AffineTransform waveFunctionTransform = new AffineTransform();
-            titleY = _waveFunctionGraph.getFullBounds().getY() + _waveFunctionGraph.getFullBounds().getHeight() / 2;
-            waveFunctionTransform.translate( titleX, titleY );
-            waveFunctionTransform.rotate( Math.toRadians( -90 ) );
-            waveFunctionTransform.scale( TITLE_SCALE, TITLE_SCALE );
-            waveFunctionTransform.translate( -_waveFunctionTitle.getWidth() / 2, 0 ); // registration point = top center
-            _waveFunctionTitle.setTransform( waveFunctionTransform );
-
+            double graphY = _energyChart.getFullBounds().getY() + chartHeight + Y_SPACING;
+            waveFunctionTransform.translate( X_MARGIN, graphY );
+            waveFunctionTransform.translate( 0, 0 ); // registration point = upper left
+            _waveFunctionChart.setTransform( waveFunctionTransform );
+        }
+        
+        // Probability Density chart
+        {
+            _probabilityDensityChart.setSize( (int) chartWidth, (int) chartHeight );
             AffineTransform probabilityDensityTransform = new AffineTransform();
-            titleY = _probabilityDensityGraph.getFullBounds().getY() + _probabilityDensityGraph.getFullBounds().getHeight() / 2;
-            probabilityDensityTransform.translate( titleX, titleY );
-            probabilityDensityTransform.rotate( Math.toRadians( -90 ) );
-            probabilityDensityTransform.scale( TITLE_SCALE, TITLE_SCALE );
-            probabilityDensityTransform.translate( -_probabilityDensityTitle.getWidth() / 2, 0 ); // registration point = top center
-            _probabilityDensityTitle.setTransform( probabilityDensityTransform );
-            
+            double graphY = _waveFunctionChart.getFullBounds().getY() + chartHeight + Y_SPACING;
+            probabilityDensityTransform.translate( X_MARGIN, graphY );
+            probabilityDensityTransform.translate( 0, 0 ); // registration point = upper left
+            _probabilityDensityChart.setTransform( probabilityDensityTransform );
+        }
+        
+        // Position x-axis label
+        {
             AffineTransform positionTransform = new AffineTransform();
-            titleY = _probabilityDensityGraph.getFullBounds().getY() + _probabilityDensityGraph.getFullBounds().getHeight() + Y_SPACING;
-            positionTransform.translate( graphX + ( graphWidth / 2 ), titleY );
-            positionTransform.scale( TITLE_SCALE, TITLE_SCALE );
+            double titleY = _probabilityDensityChart.getFullBounds().getY() + chartHeight + Y_SPACING;
+            positionTransform.translate( X_MARGIN + ( chartWidth / 2 ), titleY );
             positionTransform.translate( -_positionTitle.getWidth() / 2, 0 ); // registration point = top center
             _positionTitle.setTransform( positionTransform );
         }
@@ -349,6 +319,6 @@ public class QTModule extends AbstractModule {
      */
     private void handleConfigureButton() {
         JOptionPane.showMessageDialog( PhetApplication.instance().getPhetFrame(), 
-                "under construction", "Configure Energy", JOptionPane.PLAIN_MESSAGE );
+                "Under construction!", "Configure Energy", JOptionPane.PLAIN_MESSAGE );
     }
 }
