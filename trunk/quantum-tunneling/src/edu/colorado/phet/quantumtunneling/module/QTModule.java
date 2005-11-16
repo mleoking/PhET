@@ -79,7 +79,6 @@ public class QTModule extends AbstractModule {
     private PPath _waveFunctionGraph;
     private PPath _probabilityDensityGraph;
     private PSwing _configureButton;
-    private double _titleHeight;
     private QTControlPanel _controlPanel;
     
     //----------------------------------------------------------------------------
@@ -142,22 +141,23 @@ public class QTModule extends AbstractModule {
         {            
             _energyTitle = new PText( SimStrings.get( "EnergyView.title" ) );
             _energyTitle.setFont( GRAPH_TITLE_FONT );
+            _energyTitle.rotate( Math.toRadians( -90 ) );
             _energyTitle.scale( TITLE_SCALE );
 
             _waveFunctionTitle = new PText( SimStrings.get( "WaveFunctionView.title") );
             _waveFunctionTitle.setFont( GRAPH_TITLE_FONT );
+            _waveFunctionTitle.rotate( Math.toRadians( -90 ) );
             _waveFunctionTitle.scale( TITLE_SCALE );
             
             _probabilityDensityTitle = new PText( SimStrings.get( "ProbabilityDensityView.title") );
             _probabilityDensityTitle.setFont( GRAPH_TITLE_FONT );
+            _probabilityDensityTitle.rotate( Math.toRadians( -90 ) );
             _probabilityDensityTitle.scale( TITLE_SCALE );
-            
-            _titleHeight = Math.max( _energyTitle.getFullBounds().getHeight(), 
-                    Math.max( _waveFunctionTitle.getHeight(), _probabilityDensityTitle.getHeight() ) );
             
             _positionTitle = new PText( SimStrings.get( "PositionAxis.title") );
             _positionTitle.setFont( GRAPH_TITLE_FONT );
- 
+            _positionTitle.scale( TITLE_SCALE );
+            
             _energyGraph = new PPath();
  
             _waveFunctionGraph = new PPath();
@@ -212,20 +212,27 @@ public class QTModule extends AbstractModule {
      */
     private void layoutCanvas() {
         
+        // Height of the legend along the top edge
         double legendHeight = _legend.getFullBounds().getHeight();
+        // Width of the rotated titles along the left edge
+        double titleWidth = Math.max( _energyTitle.getFullBounds().getWidth(), 
+                Math.max( _waveFunctionTitle.getFullBounds().getWidth(),
+                          _probabilityDensityTitle.getFullBounds().getWidth() ) );
+        // Height of the title along the bottom edge
+        double titleHeight = _positionTitle.getFullBounds().getHeight();
         
         // Location and dimensions of graphs
-        final double graphX = X_MARGIN + _titleHeight + X_SPACING;
+        final double graphX = X_MARGIN + titleWidth + X_SPACING;
         double graphY = 0;
         final double graphWidth = _canvas.getWidth() - graphX - X_MARGIN;
-        final double graphHeight = ( _canvas.getHeight() - legendHeight - _titleHeight - ( 2 * Y_MARGIN ) - ( 4 * Y_SPACING ) ) / 3;
+        final double graphHeight = ( _canvas.getHeight() - legendHeight - titleHeight - ( 2 * Y_MARGIN ) - ( 4 * Y_SPACING ) ) / 3;
         
         // Configure button
         {
             AffineTransform configureTransform = new AffineTransform();
             configureTransform.translate( graphX + graphWidth, ( Y_MARGIN + legendHeight + Y_SPACING ) / 2 );
             configureTransform.scale( CONFIGURE_BUTTON_SCALE, CONFIGURE_BUTTON_SCALE );
-            configureTransform.translate( -_configureButton.getWidth(), -_configureButton.getHeight() / 2 ); // right center
+            configureTransform.translate( -_configureButton.getWidth(), -_configureButton.getHeight() / 2 ); // registration point = right center
             _configureButton.setTransform( configureTransform );
         }
         
@@ -248,16 +255,19 @@ public class QTModule extends AbstractModule {
             AffineTransform energyTransform = new AffineTransform();
             graphY = Y_MARGIN + legendHeight + Y_SPACING;
             energyTransform.translate( graphX, graphY );
+            energyTransform.translate( 0, 0 ); // registration point = upper left
             _energyGraph.setTransform( energyTransform );
 
             AffineTransform waveFunctionTransform = new AffineTransform();
             graphY = _energyGraph.getFullBounds().getY() + graphHeight + Y_SPACING;
             waveFunctionTransform.translate( graphX, graphY );
+            waveFunctionTransform.translate( 0, 0 ); // registration point = upper left
             _waveFunctionGraph.setTransform( waveFunctionTransform );
             
             AffineTransform probabilityDensityTransform = new AffineTransform();
             graphY = _waveFunctionGraph.getFullBounds().getY() + graphHeight + Y_SPACING;
             probabilityDensityTransform.translate( graphX, graphY );
+            probabilityDensityTransform.translate( 0, 0 ); // registration point = upper left
             _probabilityDensityGraph.setTransform( probabilityDensityTransform );
         }
         
@@ -271,7 +281,7 @@ public class QTModule extends AbstractModule {
             energyTransform.translate( titleX, titleY );
             energyTransform.rotate( Math.toRadians( -90 ) );
             energyTransform.scale( TITLE_SCALE, TITLE_SCALE );
-            energyTransform.translate( -_energyTitle.getWidth() / 2, 0 ); // top center
+            energyTransform.translate( -_energyTitle.getWidth() / 2, 0 ); // registration point = top center
             _energyTitle.setTransform( energyTransform );
 
             AffineTransform waveFunctionTransform = new AffineTransform();
@@ -279,7 +289,7 @@ public class QTModule extends AbstractModule {
             waveFunctionTransform.translate( titleX, titleY );
             waveFunctionTransform.rotate( Math.toRadians( -90 ) );
             waveFunctionTransform.scale( TITLE_SCALE, TITLE_SCALE );
-            waveFunctionTransform.translate( -_waveFunctionTitle.getWidth() / 2, 0 ); // top center
+            waveFunctionTransform.translate( -_waveFunctionTitle.getWidth() / 2, 0 ); // registration point = top center
             _waveFunctionTitle.setTransform( waveFunctionTransform );
 
             AffineTransform probabilityDensityTransform = new AffineTransform();
@@ -287,14 +297,14 @@ public class QTModule extends AbstractModule {
             probabilityDensityTransform.translate( titleX, titleY );
             probabilityDensityTransform.rotate( Math.toRadians( -90 ) );
             probabilityDensityTransform.scale( TITLE_SCALE, TITLE_SCALE );
-            probabilityDensityTransform.translate( -_probabilityDensityTitle.getWidth() / 2, 0 ); // top center
+            probabilityDensityTransform.translate( -_probabilityDensityTitle.getWidth() / 2, 0 ); // registration point = top center
             _probabilityDensityTitle.setTransform( probabilityDensityTransform );
             
             AffineTransform positionTransform = new AffineTransform();
             titleY = _probabilityDensityGraph.getFullBounds().getY() + _probabilityDensityGraph.getFullBounds().getHeight() + Y_SPACING;
             positionTransform.translate( graphX + ( graphWidth / 2 ), titleY );
             positionTransform.scale( TITLE_SCALE, TITLE_SCALE );
-            positionTransform.translate( -_positionTitle.getWidth() / 2, 0 ); // top center
+            positionTransform.translate( -_positionTitle.getWidth() / 2, 0 ); // registration point = top center
             _positionTitle.setTransform( positionTransform );
         }
     }
