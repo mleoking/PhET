@@ -201,7 +201,14 @@ public abstract class AbstractSpline implements Cloneable {
         setAllDirty();
     }
 
-//    public void setReverseSpline( AbstractSpline spline ) {
-////        this.reverseSpline = spline;
-//    }
+    public boolean intersects( Shape locatedShape ) {
+        AbstractSpline spline = this;
+        if( spline.getAreaShape().getBounds2D().intersects( locatedShape.getBounds2D() ) ) {
+            SegmentPath path = spline.getSegmentPath();
+            return path.intersects( locatedShape.getBounds2D() );
+        }
+        else {
+            return false;
+        }
+    }
 }

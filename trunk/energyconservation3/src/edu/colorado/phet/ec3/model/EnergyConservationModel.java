@@ -4,7 +4,6 @@ package edu.colorado.phet.ec3.model;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.Segment;
-import edu.colorado.phet.ec3.model.spline.SegmentPath;
 import edu.colorado.phet.ec3.model.spline.SplineSurface;
 
 import java.awt.geom.Area;
@@ -197,20 +196,8 @@ public class EnergyConservationModel {
         return !area.isEmpty();
     }
 
-    boolean intersects( AbstractSpline spline, Body body ) {
-        if( spline.getAreaShape().getBounds2D().intersects( body.getLocatedShape().getBounds2D() ) ) {
-            SegmentPath path = spline.getSegmentPath();
-            boolean intersects = path.intersects( body.getLocatedShape().getBounds2D() );
-            return intersects;
-        }
-        else {
-            return false;
-        }
-    }
-
     private double getGrabScore( AbstractSpline spline, Body body ) {
-        boolean intersects = intersects( spline, body );
-        if( intersects ) {
+        if( spline.intersects( body.getLocatedShape() ) ) {
 //            System.out.println( "intersected" );
             double position = 0;
             try {
