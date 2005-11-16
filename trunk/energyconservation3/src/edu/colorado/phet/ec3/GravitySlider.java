@@ -33,13 +33,13 @@ public class GravitySlider extends ModelSlider {
         setModelLabels( modelTicks );
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                module.getEnergyConservationModel().setGravity( getValue() );
+                module.getEnergyConservationModel().setGravity( -getValue() );
             }
         } );
         module.getClock().addClockTickListener( new ClockTickListener() {
             public void clockTicked( ClockTickEvent event ) {
                 double val = module.getEnergyConservationModel().getGravity();
-                setValue( val );
+                setValue( -val );
             }
         } );
     }

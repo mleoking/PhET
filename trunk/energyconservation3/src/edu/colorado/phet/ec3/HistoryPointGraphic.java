@@ -25,8 +25,10 @@ public class HistoryPointGraphic extends PNode {
 
     public HistoryPointGraphic( final HistoryPoint historyPoint ) {
         this.historyPoint = historyPoint;
-        final PPath path = new PPath( new Ellipse2D.Double( -5, -5, 10, 10 ) );
+        double scale = 1.0 / 50.0;
+        final PPath path = new PPath( new Ellipse2D.Double( -5 * scale, -5 * scale, 10 * scale, 10 * scale ) );
         addChild( path );
+        path.setStroke( new BasicStroke( (float)( 1.0f * scale ) ) );
         path.setPaint( Color.yellow );
         update();
         addInputEventListener( new PBasicInputEventHandler() {

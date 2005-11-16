@@ -135,9 +135,11 @@ public class MeasuringTape extends PNode {
 
 //        globalToLocal()
 
-//        readoutGraphic.setDistance( modelDistance );
-        DecimalFormat decimalFormat = new DecimalFormat( "0.000" );
-        readoutGraphic.phetShadowTextGraphic.setText( "model coords=" + decimalFormat.format( dst.getX() ) + ", " + decimalFormat.format( dst.getY() ) );
+//        DecimalFormat decimalFormat = new DecimalFormat( "0.000" );
+//        readoutGraphic.phetShadowTextGraphic.setText( "model coords=" + decimalFormat.format( dst.getX() ) + ", " + decimalFormat.format( dst.getY() ) );
+
+
+        readoutGraphic.setDistance( modelDistance );
         readoutGraphic.setOffset( viewSrc.getX(), (int)( viewSrc.getY() + readoutGraphic.getHeight() * 1.2 + 7 ) );
     }
 
@@ -190,7 +192,7 @@ public class MeasuringTape extends PNode {
     private void translateEndPoint( double dx, double dy ) {
         viewDst.x += dx;
         viewDst.y += dy;
-        System.out.println( "modelDst = " + viewDst );
+//        System.out.println( "modelDst = " + viewDst );
         update();
     }
 

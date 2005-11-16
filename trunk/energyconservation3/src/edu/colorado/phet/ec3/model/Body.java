@@ -24,7 +24,7 @@ public class Body {
     private Vector2D velocity = new Vector2D.Double();
     private Vector2D.Double acceleration = new Vector2D.Double();
     private double mass = 75.0;//kg
-    private double angle = 0.0;
+    private double angle = Math.PI;
     private Shape bounds;
 
     private boolean facingRight;
@@ -62,7 +62,7 @@ public class Body {
 
     public void stepInTime( EnergyConservationModel energyConservationModel, double dt ) {
         time += dt;
-        System.out.println( "getSpeed() = " + getSpeed() + ", time=" + time + ", y=" + getAttachPoint().getY() + ", man's height=" + getHeight() );
+//        System.out.println( "getSpeed() = " + getSpeed() + ", time=" + time + ", y=" + getAttachPoint().getY() + ", man's height=" + getHeight() );
 
 //        System.out.println( "Total Energy: " + energyConservationModel.getTotalEnergy( this ) );
         EnergyDebugger.stepStarted( energyConservationModel, this, dt );
@@ -209,7 +209,6 @@ public class Body {
 
     public void setAngle( double angle ) {
         this.angle = angle;
-
     }
 
     public double getSpeed() {
@@ -305,5 +304,9 @@ public class Body {
         transform.translate( getX() - b.getWidth() / 2, getY() - b.getHeight() / 2 );
         transform.rotate( angle, b.getWidth() / 2, b.getHeight() / 2 );
         return transform;
+    }
+
+    public void resetMode() {
+        freeFall.reset();
     }
 }

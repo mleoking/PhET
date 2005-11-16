@@ -74,7 +74,7 @@ public class EC3Module extends PiccoloModule {
         barChartFrame.setSize( energyFrameWidth, 600 );
         barChartFrame.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width - energyFrameWidth, 0 );
 
-        chartFrame = new JDialog( phetFrame, "Charts", false );
+        chartFrame = new JDialog( phetFrame, "Energy vs. Time", false );
         chartCanvas = new ChartCanvas( this );
         chartFrame.setContentPane( chartCanvas );
         chartFrame.setSize( 800, chartFrameHeight );
@@ -140,9 +140,14 @@ public class EC3Module extends PiccoloModule {
         if( getEnergyConservationModel().numBodies() > 0 ) {
             Body body = getEnergyConservationModel().bodyAt( 0 );
             body.setPosition( getDefaultBodyPosition() );
-            body.setAngle( 0 );
+            body.setAngle( getDefaultBodyAngle() );
+            body.resetMode();
             body.setVelocity( 0, 0 );
         }
+    }
+
+    private double getDefaultBodyAngle() {
+        return Math.PI;
     }
 
     private void init() {

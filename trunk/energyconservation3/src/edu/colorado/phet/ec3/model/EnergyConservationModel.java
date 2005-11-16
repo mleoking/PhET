@@ -131,7 +131,7 @@ public class EnergyConservationModel {
         time += dt;
 //        System.out.println( "time = " + time );
 
-        if( recordPath && numBodies() > 0 && timeSinceLastHistory() > 0.75 ) {
+        if( recordPath && numBodies() > 0 && timeSinceLastHistory() > 0.1 ) {
             history.add( new HistoryPoint( this, bodyAt( 0 ) ) );
         }
 //        System.out.println( "EnergyConservationModel.stepInTime" );

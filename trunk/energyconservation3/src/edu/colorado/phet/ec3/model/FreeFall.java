@@ -37,4 +37,8 @@ public class FreeFall extends ForceMode implements Derivable {
     private Vector2D.Double getTotalForce( Body body, EnergyConservationModel model ) {
         return new Vector2D.Double( 0 + body.getThrust().getX(), body.getMass() * model.getGravity() + body.getThrust().getY() );
     }
+
+    public void reset() {
+        rotationalVelocity = 0.0;
+    }
 }
