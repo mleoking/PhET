@@ -60,6 +60,7 @@ public class QTModule extends AbstractModule {
     private static final int CANVAS_BOUNDARY_STROKE_WIDTH = 1;
     private static final double TITLE_SCALE = 2.0;
     private static final double LEGEND_SCALE = 1.8;
+    private static final double CONFIGURE_BUTTON_SCALE = 1.2;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -117,7 +118,7 @@ public class QTModule extends AbstractModule {
         
         // Configure button
         {
-            JButton jButton = new JButton( "Configure..." );
+            JButton jButton = new JButton( SimStrings.get( "button.configure" ) );
             jButton.setOpaque( true );
             jButton.addActionListener( listener );
             _configureButton = new PSwing( _canvas, jButton );
@@ -127,10 +128,10 @@ public class QTModule extends AbstractModule {
         // Energy graph legend
         { 
             LegendItem totalEnergyItem = 
-                new LegendItem( "Total Energy", QTConstants.TOTAL_ENERGY_COLOR );
+                new LegendItem( SimStrings.get( "legend.totalEnergy" ), QTConstants.TOTAL_ENERGY_COLOR );
             
             LegendItem potentialEnergyItem = 
-                new LegendItem( "Potential Energy", QTConstants.POTENTIAL_ENERGY_COLOR );
+                new LegendItem( SimStrings.get( "legend.potentialEnergy" ), QTConstants.POTENTIAL_ENERGY_COLOR );
             potentialEnergyItem.translate( totalEnergyItem.getFullBounds().getWidth() + 20, 0 );
 
             _legend = new PNode();
@@ -209,18 +210,17 @@ public class QTModule extends AbstractModule {
         // Configure button
         {
             AffineTransform configureTransform = new AffineTransform();
-            configureTransform.translate( X_MARGIN + _titleHeight + X_SPACING, ( Y_MARGIN + legendHeight + Y_SPACING ) / 2 );
-            configureTransform.scale( 1.2, 1.2 );
-            configureTransform.translate( 0, -_configureButton.getHeight() / 2 ); // left center
+            configureTransform.translate( X_MARGIN + _titleHeight + X_SPACING + graphWidth, ( Y_MARGIN + legendHeight + Y_SPACING ) / 2 );
+            configureTransform.scale( CONFIGURE_BUTTON_SCALE, CONFIGURE_BUTTON_SCALE );
+            configureTransform.translate( -_configureButton.getWidth(), -_configureButton.getHeight() / 2 ); // right center
             _configureButton.setTransform( configureTransform );
         }
         
         // Legend
         {
             AffineTransform legendTransform = new AffineTransform();
-            legendTransform.translate( X_MARGIN + _titleHeight + X_SPACING + graphWidth, Y_MARGIN );
+            legendTransform.translate( X_MARGIN + _titleHeight + X_SPACING, Y_MARGIN );
             legendTransform.scale( LEGEND_SCALE, LEGEND_SCALE );
-            legendTransform.translate( -_legend.getFullBounds().getWidth(), 0 ); // top right
             _legend.setTransform( legendTransform );
         }
         
