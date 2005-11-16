@@ -59,8 +59,10 @@ PHETCOMMON:
 
 
 DONE:
-(11/15/05) - simplify canvas layout code
-(11/15/05) - use fullBounds to layout canvas
+(11/16/05) - delete QTCanvas since it's not really doing anything
+(11/16/05) - all nodes to "screen", layout in screen coordinates
+(11/16/05) - simplify canvas layout code
+(11/16/05) - use fullBounds to layout canvas
 (11/15/05) - disable sum & separate radio buttons in wave packet mode
 (11/15/05) - add an "under construction" dialog to Configure button
 (11/15/05) - sync with piccolo-phet
