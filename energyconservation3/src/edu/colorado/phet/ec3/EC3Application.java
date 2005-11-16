@@ -27,7 +27,8 @@ public class EC3Application extends PhetApplication {
 
             public void initialize( JFrame frame ) {
                 frame.setSize( Toolkit.getDefaultToolkit().getScreenSize().width - EC3Module.energyFrameWidth,
-                               Toolkit.getDefaultToolkit().getScreenSize().height - 100 - EC3Module.chartFrameHeight );
+                               Toolkit.getDefaultToolkit().getScreenSize().height - 100 - EC3Module.chartFrameHeight - 80//for debug
+                );
                 frame.setLocation( 0, 0 );
             }
         } );
