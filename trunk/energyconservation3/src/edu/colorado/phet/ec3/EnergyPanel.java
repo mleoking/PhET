@@ -13,6 +13,7 @@ import edu.colorado.phet.ec3.model.EnergyConservationModel;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -41,7 +42,7 @@ public class EnergyPanel extends ControlPanel {
         } );
         addControl( reset );
 
-        JButton resetSkater = new JButton( "Reset Skater" );
+        JButton resetSkater = new JButton( "Return Skater" );
         resetSkater.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 resetSkater();
@@ -77,21 +78,37 @@ public class EnergyPanel extends ControlPanel {
         final JPanel piePanel = new PieChartPanel( module, this );
         addControlFullWidth( piePanel );
 
-        final JButton showChart = new JButton( "Show Plot" );
+        final VerticalLayoutPanel chartPanel = new VerticalLayoutPanel();
+        chartPanel.setFillNone();
+        chartPanel.setAnchor( GridBagConstraints.WEST );
+        chartPanel.setBorder( BorderFactory.createTitledBorder( "Plot" ) );
+
+        final JButton showChart = new JButton( "Energy vs. Time" );
         showChart.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setPlotVisible( true );
             }
         } );
-        addControl( showChart );
+        chartPanel.add( showChart );
 
-        final JButton showBarChart = new JButton( "Show Bar Graph" );
+        final JButton showEnergyPositionPlot = new JButton( "Energy vs. Position" );
+        showEnergyPositionPlot.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.setEnergyPositionPlotVisible( true );
+            }
+        } );
+        chartPanel.add( showEnergyPositionPlot );
+
+
+        final JButton showBarChart = new JButton( "Bar Graph" );
         showBarChart.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setBarChartVisible( true );
             }
         } );
-        addControl( showBarChart );
+        chartPanel.add( showBarChart );
+
+        addControlFullWidth( chartPanel );
 
         final ModelSlider modelSlider = new ModelSlider( "Coefficient of Friction", "", 0, 0.04, 0.0, new DecimalFormat( "0.000" ), new DecimalFormat( "0.000" ) );
         modelSlider.setModelTicks( new double[]{0, 0.02, 0.04} );
@@ -117,13 +134,6 @@ public class EnergyPanel extends ControlPanel {
         } );
         addControl( clearHeat );
 
-        final JButton showEnergyPositionPlot = new JButton( "Show Energy vs. Position" );
-        showEnergyPositionPlot.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.setEnergyPositionPlotVisible( true );
-            }
-        } );
-        addControl( showEnergyPositionPlot );
 
         final JComponent gravitySlider = new GravitySlider( module );
         addControl( gravitySlider );
@@ -172,8 +182,8 @@ public class EnergyPanel extends ControlPanel {
         earth.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
-                    BufferedImage image = ImageLoader.loadBufferedImage( "images/earth.jpg" );
-                    module.getEnergyConservationCanvas().getRootNode().setBackground( image, 1.5 );
+                    BufferedImage image = ImageLoader.loadBufferedImage( "images/background-gif.gif" );
+                    module.getEnergyConservationCanvas().getRootNode().setBackground( image, 1.3 );
                     module.getEnergyConservationCanvas().getRootNode().getBackground().translate( 0, -130 );
                 }
                 catch( IOException e1 ) {

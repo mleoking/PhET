@@ -11,7 +11,6 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYDataset;
@@ -62,7 +61,7 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
             }
         } );
         dataset = createDataset();
-        chart = createChart( new Range2D( 0, 0, 800, 400000 ), dataset, "Title" );
+        chart = createChart( new Range2D( -50, -25000, 1250, 400000 * 1.25 ), dataset, "Energy vs. Position" );
         setLayout( new BorderLayout() );
         peSeries = new XYSeries( "Potential" );
         keSeries = new XYSeries( "Kinetic" );
@@ -91,7 +90,6 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
         verticalBar.setStroke( new BasicStroke( 1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1, new float[]{10, 3}, 0 ) );
         verticalBar.setStrokePaint( Color.black );
         addScreenChild( verticalBar );
-//        verticalBar.addChild( new PText("HEHEHEHEHEHH"));
     }
 
     private void updateImage() {
@@ -102,33 +100,16 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
     }
 
     private static JFreeChart createChart( Range2D range, XYDataset dataset, String title ) {
-//        JFreeChart chart = ChartFactory.createXYLineChart( "",
-        JFreeChart chart = ChartFactory.createScatterPlot( "",
+        JFreeChart chart = ChartFactory.createScatterPlot( title,
                                                            "Position", // x-axis label
                                                            "Energy", // y-axis label
                                                            dataset, PlotOrientation.VERTICAL, true, true, false );
-
         chart.setBackgroundPaint( new Color( 240, 220, 210 ) );
 
         XYPlot plot = chart.getXYPlot();
         plot.setBackgroundPaint( Color.white );
-        plot.setDomainGridlinesVisible( true );
-        plot.setRangeGridlinesVisible( false );
-
-        NumberAxis xAxis = new NumberAxis();
-        xAxis.setAutoRange( true );
-        xAxis.setRange( range.getMinX(), range.getMaxX() );
-        xAxis.setTickLabelsVisible( false );
-        xAxis.setTickMarksVisible( true );
-        plot.setDomainAxis( xAxis );
-
-        NumberAxis yAxis = new NumberAxis( title );
-        yAxis.setAutoRange( true );
-        yAxis.setRange( range.getMinY(), range.getMaxY() );
-//        yAxis.setLabelFont( new Font( "Lucida Sans", Font.PLAIN, 11 ) );
-        plot.setRangeAxis( yAxis );
-
-        plot.setDomainCrosshairVisible( true );
+        plot.getDomainAxis().setRange( range.getMinX(), range.getMaxX() );
+        plot.getRangeAxis().setRange( range.getMinY(), range.getMaxY() );
         plot.setRangeCrosshairVisible( true );
 
         return chart;
@@ -164,7 +145,8 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
             double potentialEnergy = module.getEnergyConservationModel().getPotentialEnergy( body );
 //            double potentialEnergy = body.getAttachPoint().getY()*1000/2.0;
 //            addFadeDot( body.getX(), potentialEnergy, module.getEnergyLookAndFeel().getPEColor() );
-            addFadeDot( body.getAttachPoint().getX(), body.getAttachPoint().getY() * 500, Color.black );
+//            addFadeDot( body.getAttachPoint().getX(), body.getAttachPoint().getY() * 500, Color.black );
+            addFadeDot( body.getX(), module.getEnergyConservationModel().getThermalEnergy(), module.getEnergyLookAndFeel().getThermalEnergyColor() );
             addFadeDot( body.getX(), potentialEnergy, module.getEnergyLookAndFeel().getPEColor() );
             addFadeDot( body.getX(), module.getEnergyConservationModel().getTotalEnergy( body ), module.getEnergyLookAndFeel().getTotalEnergyColor() );
             addFadeDot( body.getX(), body.getKineticEnergy(), module.getEnergyLookAndFeel().getKEColor() );

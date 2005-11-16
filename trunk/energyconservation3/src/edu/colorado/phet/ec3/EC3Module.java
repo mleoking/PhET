@@ -156,21 +156,11 @@ public class EC3Module extends PiccoloModule {
         }
 
         PreFabSplines preFabSplines = new PreFabSplines();
-//        CubicSpline spline = preFabSplines.getParabolic();
+        CubicSpline spline = preFabSplines.getParabolic();
 //        CubicSpline spline = preFabSplines.getLoop();
-        CubicSpline spline = preFabSplines.getTightParabolic();
-
-//        spline.addControlPoint( 87, 170 );
-//        spline.addControlPoint( 336, 543 );
-//        spline.addControlPoint( 629, 152 );
-
-//        CubicSpline spline = new CubicSpline( EC3Canvas.NUM_CUBIC_SPLINE_SEGMENTS );
-//        spline.addControlPoint( 47, 543);
-//        spline.addControlPoint( 336, 543 );
-//        spline.addControlPoint( 669, 543 );
+//        CubicSpline spline = preFabSplines.getTightParabolic();
 
         SplineSurface surface = new SplineSurface( spline );
-//        AbstractSpline revspline = spline.createReverseSpline();
         SplineGraphic splineGraphic = new SplineGraphic( energyCanvas, surface );
         energyModel.addSplineSurface( surface );
         energyCanvas.addSplineGraphic( splineGraphic );
