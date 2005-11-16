@@ -4,16 +4,29 @@
 
 IN PROGRESS:
 
+DESIGN ISSUES:
+- is it OK that barrier width value is not displayed anywhere?
+- do we need to show value as drag handles are moved?
+- do we need a way to relocate barriers without moving each edge individually?
+
 
 HIGH PRIORITY:
 - add all canvas graphics to the screen instead of world
 - add "Restart" button to clock controls
 - add time display to lower left of PhetFrame
-
+- resolve open design issues
+- design and implement the model
+- resolve several phetcommon/Piccolo integration issues
+- figure out how to keep the play area filled using Piccolo
+- implement graphs using JFreeChart
+- create a wrapper around JFreeChart
+- determine the best way to add support for complex numbers
+- change time to ns when the time values grows too large to display fs
+- implement Schrodinger's equation for 1 dimension
 
 MEDIUM PRIORITY:
 - add application description to SimStrings files
-
+- Save/Load
 
 LOW PRIORITY:
 - add build number to "About" dialog
@@ -46,6 +59,8 @@ PHETCOMMON:
 
 
 DONE:
+(11/15/05) - put "Configure" button above Energy graph
+(11/15/05) - put legend above Energy graph
 (11/14/05) - put all nodes under one parent node in module
 (11/14/05) - make PhetPCanvas key listener require Shift-Ctrl modifiers
 (11/14/05) - sync with piccolo and piccolo-phet projects

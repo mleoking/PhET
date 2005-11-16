@@ -59,6 +59,13 @@ public class QTConstants {
     // Colors
     //----------------------------------------------------------------------------
     
+    public static final Color TOTAL_ENERGY_COLOR = Color.GREEN;
+    public static final Color POTENTIAL_ENERGY_COLOR = new Color( 178, 25, 205 );
+    public static final Color INCIDENT_WAVE_COLOR = Color.RED;
+    public static final Color REFLECTED_WAVE_COLOR = Color.RED;
+    public static final Color TRANSMITTED_WAVE_COLOR = Color.RED;
+    public static final Color PROBABILITY_DENSITY_COLOR = Color.BLACK;
+    
     //----------------------------------------------------------------------------
     // Cursors
     //----------------------------------------------------------------------------
