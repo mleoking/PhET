@@ -28,7 +28,8 @@ import java.awt.geom.Point2D;
  */
 public class LaserWaveGraphic implements LaserModel.ChangeListener {
     // This factor controls the visual amplitude of the waves inside and outside of the cavity
-    public static double scaleFactor = 5;
+    public static double scaleFactor = 10;
+//    public static double scaleFactor = 5;
     public static double cyclesInCavity = 10;
 
     private Point2D internalWaveOrigin;
@@ -159,7 +160,12 @@ public class LaserWaveGraphic implements LaserModel.ChangeListener {
     }
 
     private double getInternalAmplitude() {
-        double n = scaleFactor * Math.sqrt( getNumLasingPhotons() < LaserConfig.LASING_THRESHOLD ? 0 : (double)getNumLasingPhotons() );
+//        double n = scaleFactor * Math.pow( getNumLasingPhotons() < LaserConfig.LASING_THRESHOLD ? 0 : (double)getNumLasingPhotons(), 0.3 );
+//        double n = scaleFactor * Math.sqrt( getNumLasingPhotons() < LaserConfig.LASING_THRESHOLD ? 0 : (double)getNumLasingPhotons() );
+        double n = 4 * Math.sqrt( Math.max( 0, getNumLasingPhotons() - LaserConfig.LASING_THRESHOLD ) );
+//        double n = scaleFactor * Math.sqrt( getNumLasingPhotons() < LaserConfig.LASING_THRESHOLD ? 0 : (double)getNumLasingPhotons() );
+        System.out.println( "n = " + n );
+
         return n;
     }
 
@@ -178,7 +184,7 @@ public class LaserWaveGraphic implements LaserModel.ChangeListener {
         // Update the non-lasing wave graphics. Reduce the amplitude by a large factor
         for( int i = 0; i < nonLasingExternalWaveGraphics.length; i++ ) {
             WaveGraphic waveGraphic = nonLasingExternalWaveGraphics[i];
-            int amp = getNumLasingPhotons() > LaserConfig.LASING_THRESHOLD ? 0 : ( getNumLasingPhotons() / 4 );
+            int amp = getNumLasingPhotons() > LaserConfig.LASING_THRESHOLD ? 0 : ( getNumLasingPhotons() / 6 );
             waveGraphic.setAmplitude( amp );
         }
     }
