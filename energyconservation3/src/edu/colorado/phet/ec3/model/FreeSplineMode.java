@@ -68,60 +68,41 @@ public class FreeSplineMode extends ForceMode {
     }
 
     public void stepInTime( EnergyConservationModel model, Body body, double dt ) {
-
         State originalState = new State( model, body );
-        EnergyDebugger.stepStarted( model, body, dt );
-
         Segment segment = getSegment( body );
-        debugDepth( "Init", segment, body );
         if( segment == null ) {
             flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
             System.out.println( "Fly off surface!" );
             return;
         }
-
         rotateBody( body, segment, dt, getMaxRotDTheta( dt ) );
-        debugDepth( "After rotate", segment, body );
-
         AbstractVector2D netForce = computeNetForce( model, segment );
         super.setNetForce( netForce );
         super.stepInTime( model, body, dt ); //apply newton's laws
-
-        debugDepth( "After step", segment, body );
         segment = getSegment( body );
-        debugDepth( "After new segment", segment, body );
         if( segment == null ) {
             flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
             System.out.println( "Fly off surface2!" );
             return;
         }
         setupBounce( body, segment );
-        debugDepth( "After setupBounce", segment, body );
-
         if( bounced && !grabbed && !lastGrabState ) {
             handleBounceAndFlyOff( body, model, dt, originalState );
             System.out.println( "FreeSplineMode.stepInTime::handle bounce and fly" );
         }
         else {
-            //        System.out.println( "body.getVelocity().dot( segment.getUnitNormalVector()  = " + body.getVelocity().dot( segment.getUnitNormalVector() ) );
             double v = body.getVelocity().dot( segment.getUnitNormalVector() );
             if( v > 0.01 ) {
                 System.out.println( "v = " + new DecimalFormat( "0.000" ).format( v ) + ": flying off the track." );
                 flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
                 return;
             }
-
             rotateBody( body, segment, dt, Double.POSITIVE_INFINITY );
             setBottomAtZero( segment, body );
-
-            debugDepth( "After setbottomAtzero", segment, body );
-//            System.out.println( "FreeSplineMode.stepInTime: setbottom at zero@"+System.currentTimeMillis() );
             AbstractVector2D dx = body.getPositionVector().getSubtractedInstance( new Vector2D.Double( originalState.getPosition() ) );
             double frictiveWork = bounced ? 0.0 : Math.abs( getFrictionForce( model, segment ).dot( dx ) );
             if( frictiveWork == 0 ) {//can't manipulate friction, so just modify v/h
                 new EnergyConserver().fixEnergy( model, body, originalState.getMechanicalEnergy() );
-                debugDepth( "After fix energy", segment, body );
-//                setBottomAtZero( segment, body );
             }
             else {
                 patchEnergyInclThermal( frictiveWork, model, body, originalState );
@@ -129,17 +110,6 @@ public class FreeSplineMode extends ForceMode {
         }
         lastGrabState = grabbed;
         lastSegment = segment;
-    }
-
-    private void debugDepth( String s, Segment segment, Body body ) {
-//        if( segment == null ) {
-//            System.out.println( "Null segment." );
-//        }
-//        else {
-//            System.out.println( s + ": depth=" + new DecimalFormat( "0.000" ).format( getDepthInSegment( segment, body ) ) );
-//            System.out.println( s + ": attdp=" + new DecimalFormat( "0.000" ).format( getAttachDepthInSegment( segment, body ) ) );
-//            System.out.println( s + ": wolfd=" + new DecimalFormat( "0.000" ).format( getWolfDepthInSegment( segment, body ) ) );
-//        }
     }
 
     private Segment getSegment( Body body ) {
