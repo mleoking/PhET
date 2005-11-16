@@ -28,11 +28,11 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.control.QTControlPanel;
 import edu.colorado.phet.quantumtunneling.view.LegendItem;
-import edu.colorado.phet.quantumtunneling.view.QTCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -58,17 +58,17 @@ public class QTModule extends AbstractModule {
     private static final int Y_MARGIN = 20; // space at top & bottom edges of canvas
     private static final int X_SPACING = 10; // horizontal space between nodes
     private static final int Y_SPACING = 10; // vertical space between nodes
-    private static final Dimension CANVAS_SIZE = new Dimension( 1000, 1000 );
+    private static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1000, 1000 );
     private static final int CANVAS_BOUNDARY_STROKE_WIDTH = 1;
-    private static final double TITLE_SCALE = 2.0;
-    private static final double LEGEND_SCALE = 1.8;
-    private static final double CONFIGURE_BUTTON_SCALE = 1.2;
+    private static final double TITLE_SCALE = 1.5;
+    private static final double LEGEND_SCALE = 1.2;
+    private static final double CONFIGURE_BUTTON_SCALE = 1;
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private QTCanvas _canvas;
+    private PhetPCanvas _canvas;
     private PNode _parentNode;
     private PNode _legend;
     private PText _energyTitle;
@@ -78,7 +78,6 @@ public class QTModule extends AbstractModule {
     private PPath _energyGraph;
     private PPath _waveFunctionGraph;
     private PPath _probabilityDensityGraph;
-    private PPath _canvasBoundary;
     private PSwing _configureButton;
     private double _titleHeight;
     private QTControlPanel _controlPanel;
@@ -109,14 +108,12 @@ public class QTModule extends AbstractModule {
 
         EventListener listener = new EventListener();
         
-        // Canvas (aka "the play area")
-        _canvas = new QTCanvas( CANVAS_SIZE );
-        _canvas.addComponentListener( listener );
-        setCanvas( _canvas );
-        
-        // Parent for all other nodes.
-        _parentNode = new PNode();
-        _canvas.addWorldChild( _parentNode );
+        // Piccolo canvas
+        {
+            _canvas = new PhetPCanvas( CANVAS_RENDERING_SIZE );
+            _canvas.addComponentListener( listener );
+            setCanvas( _canvas );
+        }
         
         // Configure button
         {
@@ -124,7 +121,6 @@ public class QTModule extends AbstractModule {
             jButton.setOpaque( false );
             jButton.addActionListener( listener );
             _configureButton = new PSwing( _canvas, jButton );
-            _parentNode.addChild( _configureButton );
         }
         
         // Energy graph legend
@@ -140,7 +136,6 @@ public class QTModule extends AbstractModule {
             _legend.scale( LEGEND_SCALE );
             _legend.addChild( totalEnergyItem );
             _legend.addChild( potentialEnergyItem );
-            _parentNode.addChild( _legend );
         }
 
         // Graph titles and boundaries
@@ -148,39 +143,44 @@ public class QTModule extends AbstractModule {
             _energyTitle = new PText( SimStrings.get( "EnergyView.title" ) );
             _energyTitle.setFont( GRAPH_TITLE_FONT );
             _energyTitle.scale( TITLE_SCALE );
-            _parentNode.addChild( _energyTitle );
 
             _waveFunctionTitle = new PText( SimStrings.get( "WaveFunctionView.title") );
             _waveFunctionTitle.setFont( GRAPH_TITLE_FONT );
             _waveFunctionTitle.scale( TITLE_SCALE );
-            _parentNode.addChild( _waveFunctionTitle );
             
             _probabilityDensityTitle = new PText( SimStrings.get( "ProbabilityDensityView.title") );
             _probabilityDensityTitle.setFont( GRAPH_TITLE_FONT );
             _probabilityDensityTitle.scale( TITLE_SCALE );
-            _parentNode.addChild( _probabilityDensityTitle );
             
             _titleHeight = Math.max( _energyTitle.getFullBounds().getHeight(), 
                     Math.max( _waveFunctionTitle.getHeight(), _probabilityDensityTitle.getHeight() ) );
             
             _positionTitle = new PText( SimStrings.get( "PositionAxis.title") );
             _positionTitle.setFont( GRAPH_TITLE_FONT );
-            _parentNode.addChild( _positionTitle );
-            
+ 
             _energyGraph = new PPath();
-            _parentNode.addChild( _energyGraph );
-            
+ 
             _waveFunctionGraph = new PPath();
-            _parentNode.addChild( _waveFunctionGraph );
             
             _probabilityDensityGraph = new PPath();
+        }
+        
+        // Add all the nodes to one parent node.
+        {
+            _parentNode = new PNode();
+            
+            _parentNode.addChild( _configureButton );
+            _parentNode.addChild( _legend );
+            _parentNode.addChild( _energyTitle );
+            _parentNode.addChild( _waveFunctionTitle );
+            _parentNode.addChild( _probabilityDensityTitle );
+            _parentNode.addChild( _positionTitle );
+            _parentNode.addChild( _energyGraph );
+            _parentNode.addChild( _waveFunctionGraph );
             _parentNode.addChild( _probabilityDensityGraph );
             
-            _canvasBoundary = new PPath();
-            _canvasBoundary.setStroke( new BasicStroke( CANVAS_BOUNDARY_STROKE_WIDTH ) );
-            _canvasBoundary.setStrokePaint( Color.RED );
-            _parentNode.addChild( _canvasBoundary );
-        }
+            _canvas.addScreenChild( _parentNode );
+        }        
         
         //----------------------------------------------------------------------------
         // Control
@@ -198,22 +198,27 @@ public class QTModule extends AbstractModule {
         // Initialze the module state
         //----------------------------------------------------------------------------
         
-        layoutCanvas( CANVAS_SIZE );
+        layoutCanvas();
         reset();
     }
 
+    //----------------------------------------------------------------------------
+    // Canvas layout
+    //----------------------------------------------------------------------------
+    
     /*
      * Lays out nodes on the canvas.
+     * This is called whenever the canvas size changes.
      */
-    private void layoutCanvas( Dimension canvasSize ) {
+    private void layoutCanvas() {
         
         double legendHeight = _legend.getFullBounds().getHeight();
         
         // Location and dimensions of graphs
         final double graphX = X_MARGIN + _titleHeight + X_SPACING;
         double graphY = 0;
-        final double graphWidth = canvasSize.width - graphX - X_MARGIN;
-        final double graphHeight = ( canvasSize.height - legendHeight - _titleHeight - ( 2 * Y_MARGIN ) - ( 4 * Y_SPACING ) ) / 3;
+        final double graphWidth = _canvas.getWidth() - graphX - X_MARGIN;
+        final double graphHeight = ( _canvas.getHeight() - legendHeight - _titleHeight - ( 2 * Y_MARGIN ) - ( 4 * Y_SPACING ) ) / 3;
         
         // Configure button
         {
@@ -229,6 +234,7 @@ public class QTModule extends AbstractModule {
             AffineTransform legendTransform = new AffineTransform();
             legendTransform.translate( graphX, Y_MARGIN );
             legendTransform.scale( LEGEND_SCALE, LEGEND_SCALE );
+            legendTransform.translate( 0, 0 ); // upper left
             _legend.setTransform( legendTransform );
         }
         
@@ -291,10 +297,6 @@ public class QTModule extends AbstractModule {
             positionTransform.translate( -_positionTitle.getWidth() / 2, 0 ); // top center
             _positionTitle.setTransform( positionTransform );
         }
-        
-        // Canvas boundary
-        int w = CANVAS_BOUNDARY_STROKE_WIDTH;
-        _canvasBoundary.setPathToRectangle( w, w, canvasSize.width - w, canvasSize.height - w );
     }
     
     //----------------------------------------------------------------------------
@@ -321,7 +323,7 @@ public class QTModule extends AbstractModule {
 
         public void componentResized( ComponentEvent event ) {
             if ( event.getSource() == _canvas ) {
-                handleCanvasResized();
+                layoutCanvas();
             }
         }
         
@@ -330,13 +332,6 @@ public class QTModule extends AbstractModule {
                 handleConfigureButton();
             }
         }
-    }
-    
-    /*
-     * When the canvas is resized, update the layout.
-     */
-    private void handleCanvasResized() {
-        System.out.println( "canvas size = " + _canvas.getSize() );//XXX
     }
     
     /*
