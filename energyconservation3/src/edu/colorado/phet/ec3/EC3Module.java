@@ -32,7 +32,7 @@ public class EC3Module extends PiccoloModule {
     private EC3Canvas energyCanvas;
     private EnergyLookAndFeel energyLookAndFeel = new EnergyLookAndFeel();
     private JDialog barChartFrame;
-    private int floorY = 600;
+    private double floorY = 0.0;
     private TimeSeriesPlaybackPanel timeSeriesPlaybackPanel;
     private EC3TimeSeriesModel energyTimeSeriesModel;
     private JDialog chartFrame;
@@ -41,7 +41,7 @@ public class EC3Module extends PiccoloModule {
     public static final int chartFrameHeight = 200;
     private static final boolean DEFAULT_BAR_CHARTS_VISIBLE = false;
     private static final boolean DEFAULT_PLOT_VISIBLE = false;
-    private Point2D.Double defaultBodyPosition = new Point2D.Double( 150, 200 );
+    private Point2D.Double defaultBodyPosition = new Point2D.Double( 5, 5 );
     private JDialog energyPositionPlotFrame;
     private EnergyPositionPlotPanel energyPositionPanel;
 
@@ -169,7 +169,6 @@ public class EC3Module extends PiccoloModule {
     }
 
     private Point2D getDefaultBodyPosition() {
-
         return defaultBodyPosition;
     }
 

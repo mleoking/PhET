@@ -135,6 +135,10 @@ public class Body {
         }
     }
 
+    public double getMinY() {
+        return getLocatedShape().getBounds2D().getMinY();
+    }
+
     public double getMaxY() {
         return getLocatedShape().getBounds2D().getMaxY();
     }
@@ -238,11 +242,7 @@ public class Body {
     }
 
     public static Rectangle2D.Double createDefaultBodyRect() {
-//        return new Rectangle( 50, 20 );
-//        return new Rectangle( 50, 110 );
-
-//        return new Rectangle( 0, -5, 50, 110 );
-        return new Rectangle2D.Double( 0, 0, 0.85, 2 );
+        return new Rectangle2D.Double( 0, 0, 1.3, 1.8 );
     }
 
     public boolean isFacingRight() {
@@ -296,11 +296,10 @@ public class Body {
 
     public Shape getLocatedShape() {
         AffineTransform transform = getTransform();
-
         return transform.createTransformedShape( bounds.getBounds2D() );
     }
 
-    private AffineTransform getTransform() {
+    public AffineTransform getTransform() {
         Rectangle2D b = bounds.getBounds2D();
         AffineTransform transform = new AffineTransform();
         transform.translate( getX() - b.getWidth() / 2, getY() - b.getHeight() / 2 );

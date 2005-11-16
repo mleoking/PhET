@@ -22,13 +22,14 @@ public class FloorGraphic extends PNode {
     public FloorGraphic( Floor floor ) {
         this.floor = floor;
         double y = floor.getY();
-        PPath earth = new PPath( new Rectangle2D.Double( -100, y, 10000, 1000 ) );
+        PPath earth = new PPath( new Rectangle2D.Double( -100, y - 1000, 10000, 1000 ) );
         earth.setPaint( new Color( 100, 170, 100 ) );
+        earth.setStroke( null );
         addChild( earth );
 
         Line2D.Double line = new Line2D.Double( -100, y, 10000, y );
         PPath path = new PPath( line );
-        path.setStroke( new BasicStroke( 3 ) );
+        path.setStroke( new BasicStroke( 0.05f ) );
         path.setStrokePaint( Color.black );
 
         addChild( path );

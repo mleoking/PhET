@@ -110,8 +110,8 @@ public class SplineToolbox extends PNode {
     private SplineSurface createSplineSurface() {
         AbstractSpline spline = new CubicSpline( EC3Canvas.NUM_CUBIC_SPLINE_SEGMENTS );
         spline.addControlPoint( 0, 0 );
-        spline.addControlPoint( 75, 0 );
-        spline.addControlPoint( 150, 0 );
+        spline.addControlPoint( 1, 0 );
+        spline.addControlPoint( 2.0, 0 );
         return new SplineSurface( spline );
     }
 }

@@ -11,16 +11,15 @@ import edu.colorado.phet.ec3.model.spline.SplineSurface;
 import edu.colorado.phet.ec3.view.BodyGraphic;
 import edu.colorado.phet.ec3.view.SplineGraphic;
 import edu.colorado.phet.ec3.view.SplineMatch;
-import edu.colorado.phet.piccolo.PanZoomWorldKeyHandler;
-import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.piccolo.PhetPCanvas2;
 import edu.umd.cs.piccolo.PNode;
 
-import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -33,27 +32,26 @@ import java.util.HashMap;
  * Copyright (c) Sep 21, 2005 by Sam Reid
  */
 
-public class EC3Canvas extends PhetPCanvas {
+public class EC3Canvas extends PhetPCanvas2 {
     private EC3Module ec3Module;
     private EnergyConservationModel ec3Model;
     private HashMap pressedKeys = new HashMap();
     private EC3RootNode rootNode;
 
+    int matchThreshold = 5;
     private static final Object DUMMY_VALUE = new Object();
 //    public static final int NUM_CUBIC_SPLINE_SEGMENTS = 30;
     public static final int NUM_CUBIC_SPLINE_SEGMENTS = 30;
 
     public EC3Canvas( EC3Module ec3Module ) {
-        super( new Dimension( 942, 723 ) );
-//        getRoot().animateTransformToBounds(0,0,30,20,0 );
-//        super( new Dimension( 400, 300) );
+        super( new Rectangle2D.Double( 0, -1, 15, 10 ) );
         this.ec3Module = ec3Module;
         this.ec3Model = ec3Module.getEnergyConservationModel();
         this.rootNode = new EC3RootNode( ec3Module, this );
         setPhetRootNode( rootNode );
         addFocusRequest();
         addKeyHandling();
-        addKeyListener( new PanZoomWorldKeyHandler( this ) );
+//        addKeyListener( new PanZoomWorldKeyHandler( this ) );
         addThrust();
 //        addMeasuringTape();
         addGraphicsUpdate( ec3Module );
@@ -63,8 +61,6 @@ public class EC3Canvas extends PhetPCanvas {
         ec3Module.getClock().addClockTickListener( new ClockTickListener() {
             public void clockTicked( ClockTickEvent event ) {
                 updateWorldGraphics();
-//                                getRoot().animateTransformToBounds(0,0,30,20,0 );
-//                                getRoot().animateTransformToBounds(0,0,500,500,0 );
             }
         } );
     }
@@ -162,25 +158,21 @@ public class EC3Canvas extends PhetPCanvas {
         ec3Model.splineSurfaceAt( 0 ).printControlPointCode();
     }
 
-    int threshold = 100;
-
     public SplineMatch proposeMatch( SplineGraphic splineGraphic, final Point2D toMatch ) {
-
         ArrayList matches = new ArrayList();
-
         for( int i = 0; i < numSplineGraphics(); i++ ) {
             SplineGraphic target = splineGraphicAt( i );
             PNode startNode = target.getControlPointGraphic( 0 );
             double dist = distance( toMatch, startNode );
 
-            if( dist < threshold && ( splineGraphic != target ) ) {
+            if( dist < matchThreshold && ( splineGraphic != target ) ) {
                 SplineMatch match = new SplineMatch( target, 0 );
                 matches.add( match );
             }
 
             PNode endNode = target.getControlPointGraphic( target.numControlPointGraphics() - 1 );
             double distEnd = distance( toMatch, endNode );
-            if( distEnd < threshold && splineGraphic != target ) {
+            if( distEnd < matchThreshold && splineGraphic != target ) {
                 SplineMatch match = new SplineMatch( target, target.numControlPointGraphics() - 1 );
                 matches.add( match );
             }

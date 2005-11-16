@@ -19,6 +19,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ import java.util.ArrayList;
 public class BodyGraphic extends PNode {
     private Body body;
     private EC3Module ec3Module;
-    private PPath shape;
+    private PPath boundsDebugPPath;
     private ArrayList dragHistory = new ArrayList();
     private Point2D mouseLocation;
     private long t0 = System.currentTimeMillis();
@@ -47,8 +48,10 @@ public class BodyGraphic extends PNode {
     public BodyGraphic( EC3Module ec3Module, Body body ) {
         this.ec3Module = ec3Module;
         this.body = body;
-        shape = new PPath( body.getShape() );
-        shape.setPaint( Color.blue );
+        boundsDebugPPath = new PPath( body.getShape() );
+        boundsDebugPPath.setStroke( null );
+//        boundsDebugPPath.setPaint( Color.blue );
+        boundsDebugPPath.setPaint( new Color( 0, 0, 255, 128 ) );
         try {
 //            BufferedImage image = ImageLoader.loadBufferedImage( "images/skater-67.png" );
 //            BufferedImage image = ImageLoader.loadBufferedImage( "images/skater-phet2_0032.gif" );
@@ -57,6 +60,7 @@ public class BodyGraphic extends PNode {
             addChild( skater );
 
             centerDebugger = new PPath();
+            centerDebugger.setStroke( null );
             centerDebugger.setPaint( Color.red );
             addChild( centerDebugger );
         }
@@ -212,23 +216,34 @@ public class BodyGraphic extends PNode {
     public void update() {
 //        setOffset( body.getX(), body.getY() );
 
-        shape.setPathTo( body.getLocatedShape() );
-        Point2D center = shape.getFullBounds().getCenter2D();
+        boundsDebugPPath.setPathTo( body.getLocatedShape() );
+
+//        Point2D center = shape.getFullBounds().getCenter2D();
+//        body.getTransform()
+//        skater.setTransform( body.getTransform() );
         skater.setTransform( new AffineTransform() );
+        double dw = body.getShape().getBounds2D().getWidth() / skater.getImage().getWidth( null );
+        double dh = body.getShape().getBounds2D().getHeight() / skater.getImage().getHeight( null );
+
+//        skater.translate( body.getLocatedShape().getBounds2D().getMinX(), body.getLocatedShape().getBounds2D().getMinY());
+        skater.transformBy( body.getTransform() );
+        skater.transformBy( AffineTransform.getScaleInstance( dw, dh ) );
 //        skater.translate( body.getPosition().getX(), body.getPosition().getY() );
 //        AbstractVector2D a = Vector2D.Double.parseAngleAndMagnitude( skater.getImage().getHeight( null ), body.getAngle() );
 //        skater.translate( 0, -a.getY() );
 
-        skater.translate( center.getX(), center.getY() );
-        skater.rotate( body.getAngle() );
-        skater.translate( -skater.getImage().getWidth( null ) / 2, -skater.getImage().getHeight( null ) + body.getHeight() / 2 );
+//        skater.translate( center.getX(), center.getY() );
+//        skater.rotate( body.getAngle() );
+//        skater.translate( -skater.getImage().getWidth( null ) / 2, -skater.getImage().getHeight( null ) + body.getHeight() / 2 );
+//        skater.scale( 0.9);
+
         boolean facingRight = body.isFacingRight();
         if( facingRight ) {
             skater.transformBy( AffineTransform.getScaleInstance( -1, 1 ) );
             skater.translate( -skater.getImage().getWidth( null ), 0 );
         }
 
-        centerDebugger.setPathTo( new Rectangle( (int)body.getPosition().getX(), (int)body.getPosition().getY(), 5, 5 ) );
+        centerDebugger.setPathTo( new Rectangle2D.Double( body.getPosition().getX(), body.getPosition().getY(), 0.15, 0.15 ) );
 //        centerDebugger.setPathTo( new Rectangle( (int)body.getAttachPoint().getX(), (int)body.getAttachPoint().getY(), 5, 5 ) );
 //        centerDebugger.setPathTo( new Rectangle( (int)body.getAttachPoint().getX(), (int)body.getAttachPoint().getY(), 5, 5 ) );
         if( body.getThrust().getMagnitude() != 0 ) {
@@ -301,15 +316,15 @@ public class BodyGraphic extends PNode {
     }
 
     public boolean isBoxVisible() {
-        return getChildrenReference().contains( shape );
+        return getChildrenReference().contains( boundsDebugPPath );
     }
 
     public void setBoxVisible( boolean v ) {
         if( v && !isBoxVisible() ) {
-            addChild( shape );
+            addChild( boundsDebugPPath );
         }
         else if( !v && isBoxVisible() ) {
-            removeChild( shape );
+            removeChild( boundsDebugPPath );
         }
     }
 }
