@@ -13,5 +13,6 @@
         <javaElement handleIdentifier="=phetcommon"/>
         <javaElement handleIdentifier="=piccolo"/>
         <javaElement handleIdentifier="=piccolo-phet"/>
+        <javaElement handleIdentifier="=jfreechart"/>
     </selectedElements>
 </jardesc>
