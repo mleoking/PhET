@@ -5,12 +5,14 @@
 IN PROGRESS:
 
 DESIGN ISSUES:
-- is it OK that barrier width value is not displayed anywhere?
-- do we need to show value as drag handles are moved?
-- do we need a way to relocate barriers without moving each edge individually?
+
 
 
 HIGH PRIORITY:
+- how can I get a PNode's true width without having to multiple getWidth() by whatever scale I applied?
+- is translate or setOffset the preferred way to move PNodes?
+- implement PotentialsEnum
+- implement "Configure Energy" dialog
 - add all canvas graphics to the screen instead of world
 - add "Restart" button to clock controls
 - add time display to lower left of PhetFrame
@@ -82,6 +84,9 @@ DONE:
 
 
 REJECTED:
+(11/15/05) - is it OK that barrier width value is not displayed anywhere? (add Configure dialog)
+(11/15/05) - do we need to show value as drag handles are moved? (no, add Configure dialog)
+(11/15/05) - do we need a way to relocate barriers without moving each edge individually? (yes, in Configure dialog)
 
 ===============================================================================
 end of file
