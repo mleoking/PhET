@@ -80,7 +80,7 @@ public class FreeSplineMode extends ForceMode {
             System.out.println( "Fly off surface!" );
             return;
         }
-        rotateBody( body, segment );
+        rotateBody( body, segment, dt );
 
         AbstractVector2D netForce = computeNetForce( model, segment );
         super.setNetForce( netForce );
@@ -93,11 +93,19 @@ public class FreeSplineMode extends ForceMode {
         }
         setupBounce( body, segment );
 
+//        System.out.println( "body.getVelocity().dot( segment.getUnitNormalVector()  = " + body.getVelocity().dot( segment.getUnitNormalVector() ) );
+        if( body.getVelocity().dot( segment.getUnitNormalVector() ) > 0.01 ) {
+            flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
+            System.out.println( "Fly off surface3!" );
+            return;
+        }
+
         setBottomAtZero( segment, body );
         if( bounced && !grabbed && !lastGrabState ) {
             handleBounceAndFlyOff( body, model, dt, originalState );
         }
         else {
+
             AbstractVector2D dx = body.getPositionVector().getSubtractedInstance( new Vector2D.Double( originalState.getPosition() ) );
             double frictiveWork = bounced ? 0.0 : Math.abs( getFrictionForce( model, segment ).dot( dx ) );
             if( frictiveWork == 0 ) {//can't manipulate friction, so just modify v/h
@@ -231,7 +239,7 @@ public class FreeSplineMode extends ForceMode {
         body.setVelocity( newVelocity );
     }
 
-    private void rotateBody( Body body, Segment segment ) {
+    private void rotateBody( Body body, Segment segment, double dt ) {
         double bodyAngle = body.getAngle();
         double dA = segment.getAngle() - bodyAngle;
 //        System.out.println( "seg=" + segment.getAngle() + ", body=" + bodyAngle + ", da=" + dA );
@@ -242,12 +250,12 @@ public class FreeSplineMode extends ForceMode {
         else if( dA < -Math.PI ) {
             dA += Math.PI * 2;
         }
-        double rotationDTheta = Math.PI / 16;
-        if( dA > rotationDTheta ) {
-            dA = rotationDTheta;
+        double maxRotationDTheta = Math.PI / 16 * dt / 0.2;
+        if( dA > maxRotationDTheta ) {
+            dA = maxRotationDTheta;
         }
-        else if( dA < -rotationDTheta ) {
-            dA = -rotationDTheta;
+        else if( dA < -maxRotationDTheta ) {
+            dA = -maxRotationDTheta;
         }
         body.rotate( dA );
         this.lastDA = dA;
