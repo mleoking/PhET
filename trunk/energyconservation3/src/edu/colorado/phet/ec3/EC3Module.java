@@ -156,7 +156,8 @@ public class EC3Module extends PiccoloModule {
         }
 
         PreFabSplines preFabSplines = new PreFabSplines();
-        CubicSpline spline = preFabSplines.getParabolic();
+//        CubicSpline spline = preFabSplines.getParabolic();
+        CubicSpline spline = preFabSplines.getTinyParabolic();
 //        CubicSpline spline = preFabSplines.getLoop();
 //        CubicSpline spline = preFabSplines.getTightParabolic();
 
