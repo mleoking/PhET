@@ -93,19 +93,19 @@ public class FreeSplineMode extends ForceMode {
         }
         setupBounce( body, segment );
 
-//        System.out.println( "body.getVelocity().dot( segment.getUnitNormalVector()  = " + body.getVelocity().dot( segment.getUnitNormalVector() ) );
-        double v = body.getVelocity().dot( segment.getUnitNormalVector() );
-        if( v > 0.01 ) {
-            System.out.println( "v = " + v );
-            flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
-            System.out.println( "Fly off surface3!" );
-            return;
-        }
-
         if( bounced && !grabbed && !lastGrabState ) {
             handleBounceAndFlyOff( body, model, dt, originalState );
         }
         else {
+            //        System.out.println( "body.getVelocity().dot( segment.getUnitNormalVector()  = " + body.getVelocity().dot( segment.getUnitNormalVector() ) );
+            double v = body.getVelocity().dot( segment.getUnitNormalVector() );
+            if( v > 0.01 ) {
+                System.out.println( "v = " + v );
+                flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
+                System.out.println( "Fly off surface3!" );
+                return;
+            }
+
             setBottomAtZero( segment, body );
             AbstractVector2D dx = body.getPositionVector().getSubtractedInstance( new Vector2D.Double( originalState.getPosition() ) );
             double frictiveWork = bounced ? 0.0 : Math.abs( getFrictionForce( model, segment ).dot( dx ) );
