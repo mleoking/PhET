@@ -14,10 +14,9 @@ import edu.colorado.phet.ec3.model.spline.CubicSpline;
 public class PreFabSplines {
     public CubicSpline getTinyParabolic() {
         CubicSpline spline = new CubicSpline();
-
-        spline.addControlPoint( 5, 10 );
-        spline.addControlPoint( 10, 2 );
-        spline.addControlPoint( 15, 10 );
+        spline.addControlPoint( 5 - 2, 5 );
+        spline.addControlPoint( 7.5, 1 );
+        spline.addControlPoint( 10 + 2, 5 );
         return spline;
     }
 

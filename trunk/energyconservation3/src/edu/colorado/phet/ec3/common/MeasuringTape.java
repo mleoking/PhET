@@ -133,10 +133,11 @@ public class MeasuringTape extends PNode {
         //convert to model distance.
 //        PDimension dim = new PDimension( viewDistance, 0 );
 
-
 //        globalToLocal()
 
-        readoutGraphic.setDistance( modelDistance );
+//        readoutGraphic.setDistance( modelDistance );
+        DecimalFormat decimalFormat = new DecimalFormat( "0.000" );
+        readoutGraphic.phetShadowTextGraphic.setText( "model coords=" + decimalFormat.format( dst.getX() ) + ", " + decimalFormat.format( dst.getY() ) );
         readoutGraphic.setOffset( viewSrc.getX(), (int)( viewSrc.getY() + readoutGraphic.getHeight() * 1.2 + 7 ) );
     }
 

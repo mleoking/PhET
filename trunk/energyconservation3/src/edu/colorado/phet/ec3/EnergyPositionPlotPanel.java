@@ -61,7 +61,8 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
             }
         } );
         dataset = createDataset();
-        chart = createChart( new Range2D( -50, -25000, 1250, 400000 * 1.25 ), dataset, "Energy vs. Position" );
+//        chart = createChart( new Range2D( -50, -25000, 1250, 400000 * 1.25 ), dataset, "Energy vs. Position" );
+        chart = createChart( new Range2D( -5, -25000, 35, 400000 * 1.25 ), dataset, "Energy vs. Position" );
         setLayout( new BorderLayout() );
         peSeries = new XYSeries( "Potential" );
         keSeries = new XYSeries( "Kinetic" );

@@ -36,14 +36,22 @@ public class Floor {
     }
 
     private void stepInTime( Body b, double dt ) {
-        if( b.getMaxY() > y ) {
+        if( b.getMinY() < y ) {
             double origEnergy = model.getTotalMechanicalEnergy( b );
-            double overshoot = b.getMaxY() - y;
+            double overshoot = b.getMinY() - y;
             b.setPosition( b.getX(), b.getY() - overshoot );
-            AbstractVector2D scaledInstance = new ImmutableVector2D.Double( b.getVelocity().getX(), -Math.abs( b.getVelocity().getY() ) );
+            AbstractVector2D scaledInstance = new ImmutableVector2D.Double( b.getVelocity().getX(), Math.abs( b.getVelocity().getY() ) );
             b.setVelocity( scaledInstance );
             new EnergyConserver().fixEnergy( model, b, origEnergy );//todo add friction to floor
         }
+//        if( b.getMaxY() > y ) {
+//            double origEnergy = model.getTotalMechanicalEnergy( b );
+//            double overshoot = b.getMaxY() - y;
+//            b.setPosition( b.getX(), b.getY() - overshoot );
+//            AbstractVector2D scaledInstance = new ImmutableVector2D.Double( b.getVelocity().getX(), -Math.abs( b.getVelocity().getY() ) );
+//            b.setVelocity( scaledInstance );
+//            new EnergyConserver().fixEnergy( model, b, origEnergy );//todo add friction to floor
+//        }
     }
 
     public double getY() {

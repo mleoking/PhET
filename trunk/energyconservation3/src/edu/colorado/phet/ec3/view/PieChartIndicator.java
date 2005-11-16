@@ -47,7 +47,7 @@ public class PieChartIndicator extends PNode {
 //            Point2D pt=gfb.getOrigin();
 
             double totalEnergy = getTotalEnergy( body );
-            double area = totalEnergy / 1000 * 3.5;
+            double area = totalEnergy / 10 * 3.5;
 
             double radius = Math.sqrt( area / Math.PI );
             Rectangle createPieRect = new Rectangle();
@@ -80,14 +80,14 @@ public class PieChartIndicator extends PNode {
             double therm = module.getEnergyConservationModel().getThermalEnergy();
 
             PieChartNode.PieValue[] values = new PieChartNode.PieValue[]{
-                new PieChartNode.PieValue( ke, getLookAndFeel().getKEColor() ),
-                new PieChartNode.PieValue( pe, getLookAndFeel().getPEColor() ),
-                new PieChartNode.PieValue( therm, getLookAndFeel().getThermalEnergyColor() )
+                    new PieChartNode.PieValue( ke, getLookAndFeel().getKEColor() ),
+                    new PieChartNode.PieValue( pe, getLookAndFeel().getPEColor() ),
+                    new PieChartNode.PieValue( therm, getLookAndFeel().getThermalEnergyColor() )
             };
             if( ignoreThermal ) {
                 values = new PieChartNode.PieValue[]{
-                    new PieChartNode.PieValue( ke, getLookAndFeel().getKEColor() ),
-                    new PieChartNode.PieValue( pe, getLookAndFeel().getPEColor() ),
+                        new PieChartNode.PieValue( ke, getLookAndFeel().getKEColor() ),
+                        new PieChartNode.PieValue( pe, getLookAndFeel().getPEColor() ),
                 };
             }
             // new PieChartNode.PieValue( 20, Color.pink ), new PieChartNode.PieValue( 15, Color.blue )};

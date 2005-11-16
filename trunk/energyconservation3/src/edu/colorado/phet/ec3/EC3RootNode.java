@@ -62,7 +62,8 @@ public class EC3RootNode extends PhetRootPNode {
         layerAt( 1 ).getWorldNode().addChild( bodyGraphics );
         layerAt( 1 ).getWorldNode().addChild( historyGraphics );
 
-        double coordScale = 1.0 / 55.0;
+//        double coordScale = 1.0 / 55.0;
+        double coordScale = 1.0 / 1.0;
         measuringTape = new MeasuringTape( coordScale, new Point2D.Double( 100, 100 ), getWorldNode() );
         layerAt( 1 ).getScreenNode().addChild( measuringTape );
 

@@ -27,6 +27,7 @@ public class FreeSplineMode extends ForceMode {
     private boolean bounced = false;
     private boolean grabbed = false;
     private Segment lastSegment;
+    private double bounceThreshold = 4;
 
     public FreeSplineMode( AbstractSpline spline, Body body ) {
         this.spline = spline;
@@ -202,9 +203,11 @@ public class FreeSplineMode extends ForceMode {
     // this should be lost to friction or to a bounce.
     private void setupBounce( Body body, Segment segment ) {
         RVector2D origVector = new RVector2D( body.getVelocity(), segment.getUnitDirectionVector() );
-        double bounceThreshold = 30;
+//        double bounceThreshold = 30;
+
         this.bounced = false;
         this.grabbed = false;
+        System.out.println( "Math.abs( origVector.getPerpendicular() ) = " + Math.abs( origVector.getPerpendicular() ) );
         double originalPerpVel = origVector.getPerpendicular();
         if( origVector.getPerpendicular() < 0 ) {//velocity is through the segment
             if( Math.abs( origVector.getPerpendicular() ) > bounceThreshold ) {//bounce

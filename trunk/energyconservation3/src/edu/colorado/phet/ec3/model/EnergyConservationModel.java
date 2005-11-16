@@ -22,11 +22,15 @@ public class EnergyConservationModel {
     private ArrayList bodies = new ArrayList();
     private ArrayList floors = new ArrayList();
     private ArrayList splineSurfaces = new ArrayList();
-    private double gravity = 9.8;
+    private double gravity = -9.8;
     private double zeroPointPotentialY;
     private double thermalEnergy = 0.0;
     private ArrayList listeners = new ArrayList();
     private boolean recordPath = false;
+
+    public EnergyConservationModel( double zeroPointPotentialY ) {
+        this.zeroPointPotentialY = zeroPointPotentialY;
+    }
 
     public int numSplineSurfaces() {
         return splineSurfaces.size();
@@ -72,10 +76,6 @@ public class EnergyConservationModel {
         public void numSplinesChanged();
 
         public void paramChanged();
-    }
-
-    public EnergyConservationModel( double zeroPointPotentialY ) {
-        this.zeroPointPotentialY = zeroPointPotentialY;
     }
 
     public EnergyConservationModel copyState() {

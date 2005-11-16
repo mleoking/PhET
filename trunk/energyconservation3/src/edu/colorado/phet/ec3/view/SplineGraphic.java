@@ -39,8 +39,8 @@ public class SplineGraphic extends PNode {
     private Point2D.Double[] initDragSpline;
     private Point2D.Double controlPointLoc;
 
-    private BasicStroke dottedStroke = new BasicStroke( 2, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1.0f, new float[]{3, 5}, 0 );
-    private BasicStroke lineStroke = new BasicStroke( 2 );
+    private BasicStroke dottedStroke = new BasicStroke( 0.05f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1.0f, new float[]{0.09f, 0.09f}, 0 );
+    private BasicStroke lineStroke = new BasicStroke( 0.05f );
     private SplineSurface splineSurface;
     private SplineSurface lastRenderState;
     private PBasicInputEventHandler dragHandler;
@@ -91,7 +91,6 @@ public class SplineGraphic extends PNode {
 
     private void dragSpline( PInputEvent event ) {
         Point2D.Double tx = new Point2D.Double( event.getDeltaRelativeTo( this ).width, event.getDeltaRelativeTo( this ).height );
-//        Point2D.Double tx = new Point2D.Double( event.getCanvasDelta().width, event.getCanvasDelta().height );
         translateAll( tx );
         proposeMatchesTrunk();
         updateAll();
@@ -226,7 +225,7 @@ public class SplineGraphic extends PNode {
     }
 
     private void addControlPoint( Point2D point, final int index ) {
-        int width = 20;
+        double width = 0.5;
         PPath controlCircle = new PPath( new Ellipse2D.Double( point.getX() - width / 2, point.getY() - width / 2, width, width ) );
 
         controlCircle.setStroke( dottedStroke );
