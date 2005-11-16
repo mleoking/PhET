@@ -119,7 +119,7 @@ public class QTModule extends AbstractModule {
         // Configure button
         {
             JButton jButton = new JButton( SimStrings.get( "button.configure" ) );
-            jButton.setOpaque( true );
+            jButton.setOpaque( false );
             jButton.addActionListener( listener );
             _configureButton = new PSwing( _canvas, jButton );
             _parentNode.addChild( _configureButton );
