@@ -19,6 +19,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.util.DebugMenu;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.colorado.phet.solublesalts.view.IonGraphic;
+import edu.colorado.phet.piccolo.PhetPCanvas;
 //import edu.colorado.phet.piccolo.PhetPCanvas;
 //import edu.colorado.phet.piccolo.util.PMouseTracker;
 
@@ -77,8 +78,8 @@ public class SolubleSaltsApplication extends PhetApplication {
             if( arg.equals( "-m" ) ) {
                 PhetPCanvas simPanel = (PhetPCanvas)app.getModuleManager().getActiveModule().getSimulationPanel();
                 if( simPanel != null ) {
-                    PMouseTracker mouseTracker = new PMouseTracker( simPanel );
-                    simPanel.addWorldChild( mouseTracker );
+//                    PMouseTracker mouseTracker = new PMouseTracker( simPanel );
+//                    simPanel.addWorldChild( mouseTracker );
                 }
             }
             if( args.equals( "-b" )) {

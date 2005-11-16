@@ -46,8 +46,8 @@ public class SolubleSaltsModel extends BaseModel {
 
     // The world bounds of the model
     private double scale = 1;
-    Rectangle2D bounds = new Rectangle2D.Double( 0, 0, 9000, 6000 );
-//    Rectangle2D bounds = new Rectangle2D.Double( 0, 0, 900, 600 );
+//    Rectangle2D bounds = new Rectangle2D.Double( 0, 0, 9000, 6000 );
+    Rectangle2D bounds = new Rectangle2D.Double( 0, 0, 900, 600 );
 
     // Ksp for the model
     double ksp;
@@ -99,11 +99,13 @@ public class SolubleSaltsModel extends BaseModel {
 
         // Create the faucet and drain
         waterSource = new WaterSource( this );
-        waterSource.setPosition( vessel.getLocation().getX() + 350, vessel.getLocation().getY() - 100 );
+        waterSource.setPosition( vessel.getLocation().getX() + 35, vessel.getLocation().getY() - 10 );
+//        waterSource.setPosition( vessel.getLocation().getX() + 350, vessel.getLocation().getY() - 100 );
         addModelElement( waterSource );
         drain = new Drain( this );
         drain.setPosition( vessel.getLocation().getX() - vessel.getWallThickness(),
-                           vessel.getLocation().getY() + vessel.getDepth() - 500 );
+                           vessel.getLocation().getY() + vessel.getDepth() - 50 );
+//                           vessel.getLocation().getY() + vessel.getDepth() - 500 );
         addModelElement( drain );
 
         // Add a model element that will handle collisions between ions and the vessel

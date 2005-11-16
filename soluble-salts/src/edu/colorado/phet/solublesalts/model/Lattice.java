@@ -79,7 +79,7 @@ public class Lattice extends Body implements Binder {
     // The angle that the lattice is oriented at, relative to the x axis
     private double orientation;
     private Atom seed;
-    private Form form = new PlainCubicForm( 21 ); // Sodium radius + Chloride radius
+    private Form form = new PlainCubicForm( Sodium.RADIUS + Chloride.RADIUS ); // Sodium radius + Chloride radius
     // The list of ions that cannot be bound to this lattice at this time
     private Vector noBindList = new Vector();
 
