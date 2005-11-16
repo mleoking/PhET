@@ -95,4 +95,12 @@ public class Segment {
     public int getID() {
         return index;
     }
+
+    public Point2D getP0() {
+        return new Point2D.Double( x0, y0 );
+    }
+
+    public Point2D getP1() {
+        return new Point2D.Double( x1, y1 );
+    }
 }

@@ -78,4 +78,12 @@ public class PreFabSplines {
         spline.addControlPoint( 800, 198 );
         return spline;
     }
+
+    public CubicSpline getTightParabolic() {
+        CubicSpline spline = new CubicSpline();
+        spline.addControlPoint( 118, 175 );
+        spline.addControlPoint( 315, 569 );
+        spline.addControlPoint( 554, 178 );
+        return spline;
+    }
 }

@@ -163,6 +163,8 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
 
             double potentialEnergy = module.getEnergyConservationModel().getPotentialEnergy( body );
 //            double potentialEnergy = body.getAttachPoint().getY()*1000/2.0;
+//            addFadeDot( body.getX(), potentialEnergy, module.getEnergyLookAndFeel().getPEColor() );
+            addFadeDot( body.getAttachPoint().getX(), body.getAttachPoint().getY() * 500, Color.black );
             addFadeDot( body.getX(), potentialEnergy, module.getEnergyLookAndFeel().getPEColor() );
             addFadeDot( body.getX(), module.getEnergyConservationModel().getTotalEnergy( body ), module.getEnergyLookAndFeel().getTotalEnergyColor() );
             addFadeDot( body.getX(), body.getKineticEnergy(), module.getEnergyLookAndFeel().getKEColor() );
