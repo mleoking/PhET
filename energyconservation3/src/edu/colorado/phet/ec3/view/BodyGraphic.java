@@ -62,7 +62,7 @@ public class BodyGraphic extends PNode {
             centerDebugger = new PPath();
             centerDebugger.setStroke( null );
             centerDebugger.setPaint( Color.red );
-            addChild( centerDebugger );
+//            addChild( centerDebugger );
         }
         catch( IOException e ) {
             e.printStackTrace();

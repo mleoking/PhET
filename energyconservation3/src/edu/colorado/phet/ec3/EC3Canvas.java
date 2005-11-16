@@ -38,7 +38,7 @@ public class EC3Canvas extends PhetPCanvas2 {
     private HashMap pressedKeys = new HashMap();
     private EC3RootNode rootNode;
 
-    int matchThreshold = 5;
+    double matchThresholdWorldCoordinates = 1.5;
     private static final Object DUMMY_VALUE = new Object();
 //    public static final int NUM_CUBIC_SPLINE_SEGMENTS = 30;
     public static final int NUM_CUBIC_SPLINE_SEGMENTS = 30;
@@ -139,7 +139,7 @@ public class EC3Canvas extends PhetPCanvas2 {
 
     private void addSkater() {
         Body body = new Body( Body.createDefaultBodyRect() );
-        body.setPosition( 100, 0 );
+        ec3Module.resetSkater( body );
         ec3Model.addBody( body );
 
         BodyGraphic bodyGraphic = new BodyGraphic( ec3Module, body );
@@ -165,14 +165,14 @@ public class EC3Canvas extends PhetPCanvas2 {
             PNode startNode = target.getControlPointGraphic( 0 );
             double dist = distance( toMatch, startNode );
 
-            if( dist < matchThreshold && ( splineGraphic != target ) ) {
+            if( dist < matchThresholdWorldCoordinates && ( splineGraphic != target ) ) {
                 SplineMatch match = new SplineMatch( target, 0 );
                 matches.add( match );
             }
 
             PNode endNode = target.getControlPointGraphic( target.numControlPointGraphics() - 1 );
             double distEnd = distance( toMatch, endNode );
-            if( distEnd < matchThreshold && splineGraphic != target ) {
+            if( distEnd < matchThresholdWorldCoordinates && splineGraphic != target ) {
                 SplineMatch match = new SplineMatch( target, target.numControlPointGraphics() - 1 );
                 matches.add( match );
             }
