@@ -9,6 +9,7 @@ DESIGN ISSUES:
 
 
 HIGH PRIORITY:
+- figure out how to make the interior of all charts the same size, so that x position are vertically aligned
 - implement PotentialsEnum
 - implement "Configure Energy" dialog
 - add "Restart" button to clock controls

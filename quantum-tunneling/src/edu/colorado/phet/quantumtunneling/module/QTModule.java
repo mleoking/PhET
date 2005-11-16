@@ -137,7 +137,7 @@ public class QTModule extends AbstractModule {
         
         // Energy chart
         {
-            String energyLabel = SimStrings.get( "EnergyView.title" );
+            String energyLabel = SimStrings.get( "axis.energy" );
             _energyChart = new QTChart( _canvas, null, null, energyLabel );
             _energyChart.setAxisLabelFont( AXIS_LABEL_FONT );
             _energyChart.setXRange( QTConstants.POSITION_RANGE );
@@ -146,7 +146,7 @@ public class QTModule extends AbstractModule {
         
         // Wave Function chart
         {
-            String waveFunctionLabel = SimStrings.get( "WaveFunctionView.title" );
+            String waveFunctionLabel = SimStrings.get( "axis.waveFunction" );
             _waveFunctionChart = new QTChart( _canvas, null, null, waveFunctionLabel );
             _waveFunctionChart.setAxisLabelFont( AXIS_LABEL_FONT );
             _waveFunctionChart.setXRange( QTConstants.POSITION_RANGE );
@@ -155,7 +155,7 @@ public class QTModule extends AbstractModule {
         
         // Probaility Density chart
         {
-            String probabilityDensityLabel = SimStrings.get( "ProbabilityDensityView.title" );
+            String probabilityDensityLabel = SimStrings.get( "axis.probabilityDensity" );
             _probabilityDensityChart = new QTChart( _canvas, null, null, probabilityDensityLabel );
             _probabilityDensityChart.setAxisLabelFont( AXIS_LABEL_FONT );
             _probabilityDensityChart.setXRange( QTConstants.POSITION_RANGE );
@@ -164,7 +164,7 @@ public class QTModule extends AbstractModule {
         
         // Position x-axis label
         {
-            _positionTitle = new PText( SimStrings.get( "PositionAxis.title" ) );
+            _positionTitle = new PText( SimStrings.get( "axis.position" ) );
             _positionTitle.setFont( AXIS_LABEL_FONT );
         }
         
