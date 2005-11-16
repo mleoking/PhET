@@ -67,10 +67,6 @@ public class FreeSplineMode extends ForceMode {
         }
     }
 
-    static {
-        System.out.println( "\tposition \t segment index" );
-    }
-
     public void stepInTime( EnergyConservationModel model, Body body, double dt ) {
 
         State originalState = new State( model, body );
@@ -288,6 +284,10 @@ public class FreeSplineMode extends ForceMode {
         this.lastDA = dA;
     }
 
+    private double getMaxRotDTheta( double dt ) {
+        return Math.PI / 16 * dt / 0.2;
+    }
+
     private void flyOffSurface( Body body, EnergyConservationModel model, double dt, double origTotalEnergy ) {
 //        System.out.println( "FreeSplineMode.flyOffSurface" );
         double vy = body.getVelocity().getY();
@@ -298,10 +298,17 @@ public class FreeSplineMode extends ForceMode {
 
         if( timeToReturnToThisHeight > 10 ) {
             body.setFreeFallRotation( -dTheta );
-//            System.out.println( "Flipping!" );
+//            System.out.println( "Flipping!: dTheta=" + dTheta );
         }
         else {
-            body.setFreeFallRotation( lastDA );
+            double rot = lastDA;
+            if( rot > getMaxRotDTheta( dt ) ) {
+                rot = getMaxRotDTheta( dt );
+            }
+            if( rot < -getMaxRotDTheta( dt ) ) {
+                rot = -getMaxRotDTheta( dt );
+            }
+            body.setFreeFallRotation( rot );
         }
         body.setFreeFallMode();
         super.setNetForce( new Vector2D.Double( 0, 0 ) );
@@ -325,23 +332,6 @@ public class FreeSplineMode extends ForceMode {
         double num = a - b;
         double den = p1.distance( p2 );
         return num / den;
-    }
-
-    private double getAttachDepthInSegment( Segment segment, Body body ) {
-
-//        double bodyYPerp = segment.getUnitNormalVector().dot( body.getPositionVector() );
-        double bodyYPerp = segment.getUnitNormalVector().dot( new Vector2D.Double( body.getAttachPoint() ) );
-        double segmentYPerp = segment.getUnitNormalVector().dot( new ImmutableVector2D.Double( segment.getCenter2D() ) );
-        double overshoot = -( bodyYPerp - segmentYPerp - body.getHeight() / 2.0 ) + segment.getThickness() / 2;
-        return overshoot;
-    }
-
-    private double getDepthInSegment( Segment segment, Body body ) {
-        double bodyYPerp = segment.getUnitNormalVector().dot( body.getPositionVector() );
-//        double bodyYPerp = segment.getUnitNormalVector().dot( new Vector2D.Double( body.getAttachPoint()) );
-        double segmentYPerp = segment.getUnitNormalVector().dot( new ImmutableVector2D.Double( segment.getCenter2D() ) );
-        double overshoot = -( bodyYPerp - segmentYPerp - body.getHeight() / 2.0 ) + segment.getThickness() / 2;
-        return overshoot;
     }
 
     private AbstractVector2D computeNetForce( EnergyConservationModel model, Segment segment ) {
