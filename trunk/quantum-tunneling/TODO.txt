@@ -9,8 +9,6 @@ DESIGN ISSUES:
 
 
 HIGH PRIORITY:
-- how can I get a PNode's true width without having to multiple getWidth() by whatever scale I applied?
-- is translate or setOffset the preferred way to move PNodes?
 - implement PotentialsEnum
 - implement "Configure Energy" dialog
 - add all canvas graphics to the screen instead of world
@@ -61,6 +59,8 @@ PHETCOMMON:
 
 
 DONE:
+(11/15/05) - simplify canvas layout code
+(11/15/05) - use fullBounds to layout canvas
 (11/15/05) - disable sum & separate radio buttons in wave packet mode
 (11/15/05) - add an "under construction" dialog to Configure button
 (11/15/05) - sync with piccolo-phet

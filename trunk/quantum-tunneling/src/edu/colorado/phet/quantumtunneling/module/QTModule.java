@@ -137,6 +137,7 @@ public class QTModule extends AbstractModule {
             potentialEnergyItem.translate( totalEnergyItem.getFullBounds().getWidth() + 20, 0 );
 
             _legend = new PNode();
+            _legend.scale( LEGEND_SCALE );
             _legend.addChild( totalEnergyItem );
             _legend.addChild( potentialEnergyItem );
             _parentNode.addChild( _legend );
@@ -146,22 +147,25 @@ public class QTModule extends AbstractModule {
         {            
             _energyTitle = new PText( SimStrings.get( "EnergyView.title" ) );
             _energyTitle.setFont( GRAPH_TITLE_FONT );
+            _energyTitle.scale( TITLE_SCALE );
             _parentNode.addChild( _energyTitle );
 
             _waveFunctionTitle = new PText( SimStrings.get( "WaveFunctionView.title") );
             _waveFunctionTitle.setFont( GRAPH_TITLE_FONT );
+            _waveFunctionTitle.scale( TITLE_SCALE );
             _parentNode.addChild( _waveFunctionTitle );
             
             _probabilityDensityTitle = new PText( SimStrings.get( "ProbabilityDensityView.title") );
             _probabilityDensityTitle.setFont( GRAPH_TITLE_FONT );
+            _probabilityDensityTitle.scale( TITLE_SCALE );
             _parentNode.addChild( _probabilityDensityTitle );
+            
+            _titleHeight = Math.max( _energyTitle.getFullBounds().getHeight(), 
+                    Math.max( _waveFunctionTitle.getHeight(), _probabilityDensityTitle.getHeight() ) );
             
             _positionTitle = new PText( SimStrings.get( "PositionAxis.title") );
             _positionTitle.setFont( GRAPH_TITLE_FONT );
             _parentNode.addChild( _positionTitle );
-            
-            _titleHeight = TITLE_SCALE * Math.max( _energyTitle.getFullBounds().getHeight(), 
-                    Math.max( _waveFunctionTitle.getHeight(), _probabilityDensityTitle.getHeight() ) );
             
             _energyGraph = new PPath();
             _parentNode.addChild( _energyGraph );
@@ -203,16 +207,18 @@ public class QTModule extends AbstractModule {
      */
     private void layoutCanvas( Dimension canvasSize ) {
         
-        double legendHeight = LEGEND_SCALE * _legend.getFullBounds().getHeight();
+        double legendHeight = _legend.getFullBounds().getHeight();
         
-        // Dimensions of graphs
-        double graphWidth = canvasSize.width - _titleHeight - ( 2 * X_MARGIN ) - X_SPACING;
-        double graphHeight = ( canvasSize.height - legendHeight - _titleHeight - ( 2 * Y_MARGIN ) - ( 4 * Y_SPACING ) ) / 3;
+        // Location and dimensions of graphs
+        final double graphX = X_MARGIN + _titleHeight + X_SPACING;
+        double graphY = 0;
+        final double graphWidth = canvasSize.width - graphX - X_MARGIN;
+        final double graphHeight = ( canvasSize.height - legendHeight - _titleHeight - ( 2 * Y_MARGIN ) - ( 4 * Y_SPACING ) ) / 3;
         
         // Configure button
         {
             AffineTransform configureTransform = new AffineTransform();
-            configureTransform.translate( X_MARGIN + _titleHeight + X_SPACING + graphWidth, ( Y_MARGIN + legendHeight + Y_SPACING ) / 2 );
+            configureTransform.translate( graphX + graphWidth, ( Y_MARGIN + legendHeight + Y_SPACING ) / 2 );
             configureTransform.scale( CONFIGURE_BUTTON_SCALE, CONFIGURE_BUTTON_SCALE );
             configureTransform.translate( -_configureButton.getWidth(), -_configureButton.getHeight() / 2 ); // right center
             _configureButton.setTransform( configureTransform );
@@ -221,62 +227,74 @@ public class QTModule extends AbstractModule {
         // Legend
         {
             AffineTransform legendTransform = new AffineTransform();
-            legendTransform.translate( X_MARGIN + _titleHeight + X_SPACING, Y_MARGIN );
+            legendTransform.translate( graphX, Y_MARGIN );
             legendTransform.scale( LEGEND_SCALE, LEGEND_SCALE );
             _legend.setTransform( legendTransform );
         }
         
+        // Graphs
+        {    
+            // all the same size
+            _energyGraph.setPathToRectangle( 0, 0, (int) graphWidth, (int) graphHeight );
+            _waveFunctionGraph.setPathToRectangle( 0, 0, (int) graphWidth, (int) graphHeight );
+            _probabilityDensityGraph.setPathToRectangle( 0, 0, (int) graphWidth, (int) graphHeight );
+            
+            AffineTransform energyTransform = new AffineTransform();
+            graphY = Y_MARGIN + legendHeight + Y_SPACING;
+            energyTransform.translate( graphX, graphY );
+            _energyGraph.setTransform( energyTransform );
+
+            AffineTransform waveFunctionTransform = new AffineTransform();
+            graphY = _energyGraph.getFullBounds().getY() + graphHeight + Y_SPACING;
+            waveFunctionTransform.translate( graphX, graphY );
+            _waveFunctionGraph.setTransform( waveFunctionTransform );
+            
+            AffineTransform probabilityDensityTransform = new AffineTransform();
+            graphY = _waveFunctionGraph.getFullBounds().getY() + graphHeight + Y_SPACING;
+            probabilityDensityTransform.translate( graphX, graphY );
+            _probabilityDensityGraph.setTransform( probabilityDensityTransform );
+        }
+        
         // Titles
         {
+            final double titleX = X_MARGIN;
+            double titleY = 0;
+            
             AffineTransform energyTransform = new AffineTransform();
-            energyTransform.translate( X_MARGIN, Y_MARGIN + legendHeight + Y_SPACING + ( graphHeight / 2 ) );
+            titleY = _energyGraph.getFullBounds().getY() + _energyGraph.getFullBounds().getHeight() / 2;
+            energyTransform.translate( titleX, titleY );
             energyTransform.rotate( Math.toRadians( -90 ) );
             energyTransform.scale( TITLE_SCALE, TITLE_SCALE );
             energyTransform.translate( -_energyTitle.getWidth() / 2, 0 ); // top center
             _energyTitle.setTransform( energyTransform );
 
             AffineTransform waveFunctionTransform = new AffineTransform();
-            waveFunctionTransform.translate( X_MARGIN, Y_MARGIN + legendHeight + graphHeight + ( 2 * Y_SPACING ) + ( graphHeight / 2 ) );
+            titleY = _waveFunctionGraph.getFullBounds().getY() + _waveFunctionGraph.getFullBounds().getHeight() / 2;
+            waveFunctionTransform.translate( titleX, titleY );
             waveFunctionTransform.rotate( Math.toRadians( -90 ) );
             waveFunctionTransform.scale( TITLE_SCALE, TITLE_SCALE );
             waveFunctionTransform.translate( -_waveFunctionTitle.getWidth() / 2, 0 ); // top center
             _waveFunctionTitle.setTransform( waveFunctionTransform );
 
             AffineTransform probabilityDensityTransform = new AffineTransform();
-            probabilityDensityTransform.translate( X_MARGIN, Y_MARGIN + legendHeight + ( 2 * graphHeight ) + ( 3 * Y_SPACING ) + ( graphHeight / 2 ) );
+            titleY = _probabilityDensityGraph.getFullBounds().getY() + _probabilityDensityGraph.getFullBounds().getHeight() / 2;
+            probabilityDensityTransform.translate( titleX, titleY );
             probabilityDensityTransform.rotate( Math.toRadians( -90 ) );
             probabilityDensityTransform.scale( TITLE_SCALE, TITLE_SCALE );
             probabilityDensityTransform.translate( -_probabilityDensityTitle.getWidth() / 2, 0 ); // top center
             _probabilityDensityTitle.setTransform( probabilityDensityTransform );
             
             AffineTransform positionTransform = new AffineTransform();
-            positionTransform.translate( X_MARGIN + _titleHeight + X_SPACING + ( graphWidth / 2 ), Y_MARGIN + legendHeight + ( 4 * Y_SPACING ) + ( 3 * graphHeight ) );
+            titleY = _probabilityDensityGraph.getFullBounds().getY() + _probabilityDensityGraph.getFullBounds().getHeight() + Y_SPACING;
+            positionTransform.translate( graphX + ( graphWidth / 2 ), titleY );
             positionTransform.scale( TITLE_SCALE, TITLE_SCALE );
             positionTransform.translate( -_positionTitle.getWidth() / 2, 0 ); // top center
             _positionTitle.setTransform( positionTransform );
         }
         
-        // Graphs
-        {
-            AffineTransform energyTransform = new AffineTransform();
-            energyTransform.translate( X_MARGIN + _titleHeight + X_SPACING, Y_MARGIN + legendHeight + Y_SPACING );
-            _energyGraph.setTransform( energyTransform );
-            _energyGraph.setPathToRectangle( 0, 0, (int) graphWidth, (int) graphHeight );
-
-            AffineTransform waveFunctionTransform = new AffineTransform();
-            waveFunctionTransform.translate( X_MARGIN + _titleHeight + X_SPACING, Y_MARGIN + legendHeight + graphHeight + ( 2 * Y_SPACING ) );
-            _waveFunctionGraph.setTransform( waveFunctionTransform );
-            _waveFunctionGraph.setPathToRectangle( 0, 0, (int) graphWidth, (int) graphHeight );
-            
-            AffineTransform probabilityDensityTransform = new AffineTransform();
-            probabilityDensityTransform.translate( X_MARGIN + _titleHeight + X_SPACING, Y_MARGIN + legendHeight + ( 3 * Y_SPACING ) + ( 2 * graphHeight ) );
-            _probabilityDensityGraph.setTransform( probabilityDensityTransform );
-            _probabilityDensityGraph.setPathToRectangle( 0, 0, (int) graphWidth, (int) graphHeight );
-        }
-        
         // Canvas boundary
         int w = CANVAS_BOUNDARY_STROKE_WIDTH;
-//        _canvasBoundary.setPathToRectangle( w, w, canvasSize.width - w, canvasSize.height - w );
+        _canvasBoundary.setPathToRectangle( w, w, canvasSize.width - w, canvasSize.height - w );
     }
     
     //----------------------------------------------------------------------------
