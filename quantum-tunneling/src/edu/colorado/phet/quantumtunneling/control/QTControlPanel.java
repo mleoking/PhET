@@ -459,11 +459,17 @@ public class QTControlPanel extends AbstractControlPanel {
     
     private void handleWaveTypeSelection() {
         if ( _planeWaveRadioButton.isSelected() ) {
+            _sumRadioButton.setEnabled( true );
+            _separateRadioButton.setEnabled( true );
             _propertiesPanel.setVisible( false );
             _propertiesButton.setEnabled( false );
             _propertiesButton.setText( _sPropertiesExpand );
         }
         else {
+            _sumRadioButton.setEnabled( false );
+            _separateRadioButton.setEnabled( false );
+            _sumRadioButton.setSelected( true );
+            handleSumSelection();
             _propertiesButton.setEnabled( true );
             _propertiesPanel.setVisible( false );
         }
