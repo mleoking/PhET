@@ -22,7 +22,9 @@ import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -323,6 +325,7 @@ public class QTModule extends AbstractModule {
      * When the "Configure Energy" button is pressed, open a dialog.
      */
     private void handleConfigureButton() {
-        System.out.println( "configure..." ); //XXX
+        JOptionPane.showMessageDialog( PhetApplication.instance().getPhetFrame(), 
+                "under construction", "Configure Energy", JOptionPane.PLAIN_MESSAGE );
     }
 }

@@ -61,6 +61,8 @@ PHETCOMMON:
 
 
 DONE:
+(11/15/05) - disable sum & separate radio buttons in wave packet mode
+(11/15/05) - add an "under construction" dialog to Configure button
 (11/15/05) - sync with piccolo-phet
 (11/15/05) - put "Configure" button above Energy graph
 (11/15/05) - put legend above Energy graph
