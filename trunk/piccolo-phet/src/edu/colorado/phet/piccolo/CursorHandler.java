@@ -52,9 +52,9 @@ public class CursorHandler extends PBasicInputEventHandler {
         super.mouseReleased( event );
     }
 
-    private Component getComponent( PInputEvent event ) {
+    private Component getComponent( PInputEvent aEvent ) {
         if( !( EventQueue.getCurrentEvent() instanceof MouseEvent ) ) {
-            new Exception( "EventQueue.getCurrentEvent was not a MouseEvent, consider making PInputEvent.getSourceSwingEvent public." ).printStackTrace();
+            new Exception("EventQueue.getCurrentEvent was not a MouseEvent, consider making PInputEvent.getSourceSwingEvent public.  Actual event: "+aEvent+", class="+aEvent.getClass().getName()).printStackTrace( );
         }
         if( EventQueue.getCurrentEvent() instanceof MouseEvent ) {
             MouseEvent mouseEvent = (MouseEvent)EventQueue.getCurrentEvent();
