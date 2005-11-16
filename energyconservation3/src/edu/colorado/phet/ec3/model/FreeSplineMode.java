@@ -112,6 +112,23 @@ public class FreeSplineMode extends ForceMode {
     }
 
     private Segment getSegment( Body body ) {
+        Segment seg = getAttachmentSegment( body );
+        if( seg == null ) {
+            seg = getCollisionSegment( body );
+        }
+        return seg;
+    }
+
+    private Segment getCollisionSegment( Body body ) {
+        try {
+            return new SplineLogic( body ).guessSegment( spline );
+        }
+        catch( NullIntersectionException e ) {
+            return null;
+        }
+    }
+
+    private Segment getAttachmentSegment( Body body ) {
         Point2D.Double attachPoint = body.getAttachPoint();
         SegmentPath segPath = spline.getSegmentPath();
         double bestDist = Double.POSITIVE_INFINITY;
@@ -129,11 +146,6 @@ public class FreeSplineMode extends ForceMode {
                 bestSeg = seg;
                 bestDist = dist;
             }
-        }
-
-        if( lastSegment != null ) {
-            int indexOffset = bestSeg.getID() - lastSegment.getID();
-//            System.out.println( "indexOffset = " + indexOffset );
         }
 
 //        if( bestDist > body.getShape().getBounds2D().getWidth() / 2.0 ) {

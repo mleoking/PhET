@@ -26,21 +26,13 @@ public class SplineLogic {
         this.body = body;
     }
 
+    public Segment guessSegment( AbstractSpline spline ) throws NullIntersectionException {
+        double x = guessPositionAlongSpline( spline );
+        return spline.getSegmentPath().getSegmentAtPosition( x );
+    }
+
     public double guessPositionAlongSpline( AbstractSpline spline ) throws NullIntersectionException {
-        SegmentPath segmentPath = spline.getSegmentPath();
-        Shape bodyShape = body.getLocatedShape();
-        //find all segments that overlap.
-        ArrayList overlap = new ArrayList();
-        for( int i = 0; i < segmentPath.numSegments(); i++ ) {
-            Segment segment = segmentPath.segmentAt( i );
-            if( bodyShape.getBounds2D().intersects( segment.getShape().getBounds2D() ) ) {//make sure we need areas
-                Area a = new Area( bodyShape );
-                a.intersect( new Area( segment.getShape() ) );
-                if( !a.isEmpty() ) {
-                    overlap.add( segment );
-                }
-            }
-        }
+        ArrayList overlap = getOverlappingSegments( spline );
 
         //return the centroid.
         Rectangle2D rect = null;
@@ -60,6 +52,24 @@ public class SplineLogic {
         }
         Point2D center = new PBounds( rect ).getCenter2D();
         return getClosestScalar( spline, center );
+    }
+
+    public ArrayList getOverlappingSegments( AbstractSpline spline ) {
+        SegmentPath segmentPath = spline.getSegmentPath();
+        Shape bodyShape = body.getLocatedShape();
+        //find all segments that overlap.
+        ArrayList overlap = new ArrayList();
+        for( int i = 0; i < segmentPath.numSegments(); i++ ) {
+            Segment segment = segmentPath.segmentAt( i );
+            if( bodyShape.getBounds2D().intersects( segment.getShape().getBounds2D() ) ) {//make sure we need areas
+                Area a = new Area( bodyShape );
+                a.intersect( new Area( segment.getShape() ) );
+                if( !a.isEmpty() ) {
+                    overlap.add( segment );
+                }
+            }
+        }
+        return overlap;
     }
 
     public double getClosestScalar( AbstractSpline spline, Point2D center ) {
