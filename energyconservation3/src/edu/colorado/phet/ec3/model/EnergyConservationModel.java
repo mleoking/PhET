@@ -177,7 +177,7 @@ public class EnergyConservationModel {
             AbstractSpline splineSurface = (AbstractSpline)allSplines.get( i );
             double score = getGrabScore( splineSurface, body );
             if( !Double.isInfinite( score ) ) {
-                System.out.println( "score[" + i + "] = " + score );
+//                System.out.println( "score[" + i + "] = " + score );
             }
             if( score < bestScore ) {
                 bestScore = score;
@@ -213,7 +213,7 @@ public class EnergyConservationModel {
             double segmentYPerp = segment.getUnitNormalVector().dot( new ImmutableVector2D.Double( segment.getCenter2D() ) );
 
             double y = ( bodyYPerp - segmentYPerp - body.getHeight() / 2.0 );
-            System.out.println( "y = " + y );
+//            System.out.println( "y = " + y );
             if( y > -60 )
             {//todo what is this magic number?  -20 was too low for the new graphic rectangle (man fell through track)
                 return -y;
