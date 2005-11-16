@@ -80,7 +80,7 @@ public class FreeSplineMode extends ForceMode {
             return;
         }
 
-        rotateBody( body, segment, dt, Double.POSITIVE_INFINITY );
+        rotateBody( body, segment, dt, getMaxRotDTheta( dt ) );
         debugDepth( "After rotate", segment, body );
 
         AbstractVector2D netForce = computeNetForce( model, segment );
