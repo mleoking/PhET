@@ -35,7 +35,8 @@ public class WorldNode extends PNode {
 
     public WorldNode( SolubleSaltsModel model, PhetPCanvas phetPCanvas ) {
 
-        double graphicsScale = model.getBounds().getWidth() / phetPCanvas.getRenderingSize().getWidth();
+        double graphicsScale = 1;
+//        double graphicsScale = model.getBounds().getWidth() / phetPCanvas.getRenderingSize().getWidth();
 
         // Create a graphic for the vessel
         VesselGraphic vesselGraphic = new VesselGraphic( model.getVessel() );

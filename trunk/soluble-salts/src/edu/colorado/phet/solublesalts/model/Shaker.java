@@ -36,7 +36,8 @@ public class Shaker extends Particle {
 
     public Shaker( SolubleSaltsModel model ) {
         this.model = model;
-        openingLength = 800;
+        openingLength = 80;
+//        openingLength = 800;
         opening = new Line2D.Double( 0,0, openingLength, 0 );
 
     }
