@@ -38,7 +38,6 @@ public class Body {
     private UpdateMode mode = freeFall;
     private double frictionCoefficient = 0.0;
     private double coefficientOfRestitution = 1.0;
-//    private double coefficientOfRestitution =0.7;
 
     public Body( Shape bounds ) {
         this.bounds = bounds;
@@ -59,7 +58,12 @@ public class Body {
         return copy;
     }
 
+    double time = 0.0;
+
     public void stepInTime( EnergyConservationModel energyConservationModel, double dt ) {
+        time += dt;
+        System.out.println( "getSpeed() = " + getSpeed() + ", time=" + time + ", y=" + getAttachPoint().getY() + ", man's height=" + getHeight() );
+
 //        System.out.println( "Total Energy: " + energyConservationModel.getTotalEnergy( this ) );
         EnergyDebugger.stepStarted( energyConservationModel, this, dt );
         int MAX = 5;
@@ -233,11 +237,12 @@ public class Body {
         return mode instanceof FreeFall;
     }
 
-    public static Rectangle createDefaultBodyRect() {
+    public static Rectangle2D.Double createDefaultBodyRect() {
 //        return new Rectangle( 50, 20 );
 //        return new Rectangle( 50, 110 );
-        return new Rectangle( 0, -5, 50, 110 );
-//        return new Rectangle( 0, -5, 30, 110 );
+
+//        return new Rectangle( 0, -5, 50, 110 );
+        return new Rectangle2D.Double( 0, 0, 0.85, 2 );
     }
 
     public boolean isFacingRight() {

@@ -45,6 +45,8 @@ public class EC3Canvas extends PhetPCanvas {
 
     public EC3Canvas( EC3Module ec3Module ) {
         super( new Dimension( 942, 723 ) );
+//        getRoot().animateTransformToBounds(0,0,30,20,0 );
+//        super( new Dimension( 400, 300) );
         this.ec3Module = ec3Module;
         this.ec3Model = ec3Module.getEnergyConservationModel();
         this.rootNode = new EC3RootNode( ec3Module, this );
@@ -61,6 +63,8 @@ public class EC3Canvas extends PhetPCanvas {
         ec3Module.getClock().addClockTickListener( new ClockTickListener() {
             public void clockTicked( ClockTickEvent event ) {
                 updateWorldGraphics();
+//                                getRoot().animateTransformToBounds(0,0,30,20,0 );
+//                                getRoot().animateTransformToBounds(0,0,500,500,0 );
             }
         } );
     }
