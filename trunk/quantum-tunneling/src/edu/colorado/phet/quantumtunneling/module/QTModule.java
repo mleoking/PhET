@@ -312,10 +312,16 @@ public class QTModule extends AbstractModule {
         }
     }
     
+    /*
+     * When the canvas is resized, update the layout.
+     */
     private void handleCanvasResized() {
         System.out.println( "canvas size = " + _canvas.getSize() );//XXX
     }
     
+    /*
+     * When the "Configure Energy" button is pressed, open a dialog.
+     */
     private void handleConfigureButton() {
         System.out.println( "configure..." ); //XXX
     }

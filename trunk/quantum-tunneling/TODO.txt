@@ -61,8 +61,10 @@ PHETCOMMON:
 
 
 DONE:
+(11/15/05) - sync with piccolo-phet
 (11/15/05) - put "Configure" button above Energy graph
 (11/15/05) - put legend above Energy graph
+(11/15/05) - sync with phetcommon
 (11/14/05) - put all nodes under one parent node in module
 (11/14/05) - make PhetPCanvas key listener require Shift-Ctrl modifiers
 (11/14/05) - sync with piccolo and piccolo-phet projects
