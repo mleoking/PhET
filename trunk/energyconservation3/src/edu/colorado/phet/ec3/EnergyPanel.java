@@ -3,6 +3,7 @@ package edu.colorado.phet.ec3;
 
 import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
@@ -26,7 +27,7 @@ import java.text.DecimalFormat;
 
 public class EnergyPanel extends ControlPanel {
     private EC3Module module;
-    private final JCheckBox showBackgroundCheckbox;
+    private JCheckBox showBackgroundCheckbox;
     private PlanetButton[] planetButtons;
 
     public EnergyPanel( final EC3Module module ) {
@@ -78,8 +79,8 @@ public class EnergyPanel extends ControlPanel {
         } );
         addControl( measuringTape );
 
-        getControlPane().setAnchor( GridBagConstraints.CENTER );
-        getControlPane().setFillNone();
+//        getControlPane().setAnchor( GridBagConstraints.CENTER );
+//        getControlPane().setFillNone();
 
         final JPanel piePanel = new PieChartPanel( module, this );
         addControlFullWidth( piePanel );
@@ -114,6 +115,8 @@ public class EnergyPanel extends ControlPanel {
         } );
         chartPanel.add( showBarChart );
         addControlFullWidth( chartPanel );
+//        addControl( chartPanel );
+        addControlFullWidth( getLocationPanel( module ) );
 
         final ModelSlider modelSlider = new ModelSlider( "Coefficient of Friction", "", 0, 0.04, 0.0, new DecimalFormat( "0.000" ), new DecimalFormat( "0.000" ) );
 //        final ModelSlider modelSlider = new ModelSlider( "Coefficient of Friction", "", 0, 1.0, 0.0, new DecimalFormat( "0.000" ), new DecimalFormat( "0.000" ) );
@@ -138,12 +141,10 @@ public class EnergyPanel extends ControlPanel {
                 module.clearHeat();
             }
         } );
+
         addControl( clearHeat );
 
-
-        final JComponent gravitySlider = new GravitySlider( module );
-        addControl( gravitySlider );
-
+        AdvancedPanel editSkaterPanel = new AdvancedPanel( "Edit Skater >>", "Hide Skater Properties<<" );
         final ModelSlider restitution = new ModelSlider( "Coeff. of Restitution", "", 0, 1.0, 1.0 );
         restitution.setModelTicks( new double[]{0, 0.5, 1} );
         module.getClock().addClockTickListener( new ClockTickListener() {
@@ -152,7 +153,7 @@ public class EnergyPanel extends ControlPanel {
                 module.setCoefficientOfRestitution( rest );
             }
         } );
-        addControl( restitution );
+        editSkaterPanel.addControl( restitution );
 
         final ModelSlider mass = new ModelSlider( "Mass", "kg", 0, 200, 75 );
         mass.setModelTicks( new double[]{0, 75, 200} );
@@ -165,11 +166,14 @@ public class EnergyPanel extends ControlPanel {
                 }
             }
         } );
-        addControl( mass );
+        editSkaterPanel.addControl( mass );
+        addControl( editSkaterPanel );
 
+
+    }
+
+    private VerticalLayoutPanel getLocationPanel( EC3Module module ) {
         ButtonGroup location = new ButtonGroup();
-
-
         PlanetButton space = new PlanetButton( module, new Planet.Space(), false );
         PlanetButton moon = new PlanetButton( module, new Planet.Moon(), false );
         PlanetButton earth = new PlanetButton( module, new Planet.Earth(), true );
@@ -180,7 +184,7 @@ public class EnergyPanel extends ControlPanel {
         location.add( earth );
         location.add( jupiter );
         VerticalLayoutPanel verticalLayoutPanel = new VerticalLayoutPanel();
-        verticalLayoutPanel.setBorder( BorderFactory.createTitledBorder( "Background" ) );
+        verticalLayoutPanel.setBorder( BorderFactory.createTitledBorder( "Location" ) );
         verticalLayoutPanel.setFillHorizontal();
         showBackgroundCheckbox = new JCheckBox( "Show Background", false );
         verticalLayoutPanel.add( showBackgroundCheckbox );
@@ -188,7 +192,9 @@ public class EnergyPanel extends ControlPanel {
         verticalLayoutPanel.add( moon );
         verticalLayoutPanel.add( earth );
         verticalLayoutPanel.add( jupiter );
-        addControlFullWidth( verticalLayoutPanel );
+        final JComponent gravitySlider = new GravitySlider( module );
+        verticalLayoutPanel.addFullWidth( gravitySlider );
+
 
         module.getClock().addClockTickListener( new ClockTickListener() {
             public void clockTicked( ClockTickEvent event ) {
@@ -198,6 +204,7 @@ public class EnergyPanel extends ControlPanel {
         } );
         synchronizePlanet();
         new Planet.Earth().apply( module );
+        return verticalLayoutPanel;
     }
 
 //    Planet[] planets = new Planet[]{new Planet.Earth(), new Planet.Moon(), new Planet.Jupiter()};
