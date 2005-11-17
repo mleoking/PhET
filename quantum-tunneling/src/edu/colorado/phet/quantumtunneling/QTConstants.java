@@ -11,9 +11,7 @@
 
 package edu.colorado.phet.quantumtunneling;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Paint;
+import java.awt.*;
 
 import org.jfree.data.Range;
 
@@ -58,19 +56,31 @@ public class QTConstants {
 
     public static final String FONT_NAME = "Lucida Sans";
     
+    
     //----------------------------------------------------------------------------
-    // Colors
+    // Strokes
+    //----------------------------------------------------------------------------
+    
+    public static final Stroke TOTAL_ENERGY_STROKE = new BasicStroke( 5f );
+    public static final Stroke POTENTIAL_ENERGY_STROKE = new BasicStroke( 2f );
+    public static final Stroke INCIDENT_WAVE_STROKE = new BasicStroke( 2f );
+    public static final Stroke REFLECTED_WAVE_STROKE = new BasicStroke( 2f );
+    public static final Stroke TRANSMITTED_WAVE_STROKE = new BasicStroke( 2f );
+    public static final Stroke PROBABILITY_DENSITY_STROKE = new BasicStroke( 2f );
+    
+    //----------------------------------------------------------------------------
+    // Paints
     //----------------------------------------------------------------------------
     
     public static final Color CANVAS_BACKGROUND = Color.WHITE;
     public static final Paint CHART_BACKGROUND = Color.WHITE;
     public static final Paint PLOT_BACKGROUND = Color.WHITE;
-    public static final Color TOTAL_ENERGY_COLOR = Color.GREEN;
-    public static final Color POTENTIAL_ENERGY_COLOR = new Color( 178, 25, 205 ); // purple
-    public static final Color INCIDENT_WAVE_COLOR = Color.RED;
-    public static final Color REFLECTED_WAVE_COLOR = Color.RED;
-    public static final Color TRANSMITTED_WAVE_COLOR = Color.RED;
-    public static final Color PROBABILITY_DENSITY_COLOR = Color.BLACK;
+    public static final Paint TOTAL_ENERGY_PAINT = Color.GREEN;
+    public static final Paint POTENTIAL_ENERGY_PAINT = new Color( 178, 25, 205 ); // purple
+    public static final Paint INCIDENT_WAVE_PAINT = Color.RED;
+    public static final Paint REFLECTED_WAVE_PAINT = Color.RED;
+    public static final Paint TRANSMITTED_WAVE_PAINT = Color.RED;
+    public static final Paint PROBABILITY_DENSITY_PAINT = Color.BLACK;
     
     //----------------------------------------------------------------------------
     // Cursors
