@@ -30,7 +30,7 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.control.QTControlPanel;
-import edu.colorado.phet.quantumtunneling.view.JFreeNode;
+import edu.colorado.phet.quantumtunneling.view.DrawableNode;
 import edu.colorado.phet.quantumtunneling.view.LegendItem;
 import edu.colorado.phet.quantumtunneling.view.QTCombinedChart;
 import edu.umd.cs.piccolo.PNode;
@@ -68,7 +68,7 @@ public class QTModule extends AbstractModule {
     private PNode _parentNode;
     private PNode _legend;
     private PSwing _configureButton;
-    private JFreeNode _chartNode;
+    private DrawableNode _chartNode;
     private QTControlPanel _controlPanel;
     
     //----------------------------------------------------------------------------
@@ -131,7 +131,7 @@ public class QTModule extends AbstractModule {
         // Combined chart
         {
             QTCombinedChart chart = new QTCombinedChart();
-            _chartNode = new JFreeNode( chart );
+            _chartNode = new DrawableNode( chart );
         }
         
         // Add all the nodes to one parent node.
