@@ -17,12 +17,16 @@ import java.util.ArrayList;
  */
 
 public class EnergyConservationModel {
+    public static final double G_EARTH = -9.81;
+    public static final double G_MOON = -1.62;
+    public static final double G_JUPITER = -25.95;
+
     private double time = 0;
     private ArrayList history = new ArrayList();
     private ArrayList bodies = new ArrayList();
     private ArrayList floors = new ArrayList();
     private ArrayList splineSurfaces = new ArrayList();
-    private double gravity = -9.8;
+    private double gravity = G_EARTH;
     private double zeroPointPotentialY;
     private double thermalEnergy = 0.0;
     private ArrayList listeners = new ArrayList();

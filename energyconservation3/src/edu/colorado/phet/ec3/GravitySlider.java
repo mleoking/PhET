@@ -4,6 +4,7 @@ package edu.colorado.phet.ec3;
 import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.components.ModelSlider;
+import edu.colorado.phet.ec3.model.EnergyConservationModel;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -19,17 +20,15 @@ import java.util.Hashtable;
  */
 
 public class GravitySlider extends ModelSlider {
-    private static final double G_EARTH = 9.81;
-    private static final double G_MOON = 1.62;
-    private static final double G_JUPITER = 25.95;
+
 
     public GravitySlider( final EC3Module module ) {
-        super( "Gravity", "N/kg", 0, 29.95, G_EARTH, new DecimalFormat( "0.00" ) );
+        super( "Gravity", "N/kg", 0, -EnergyConservationModel.G_JUPITER * 1.2, -EnergyConservationModel.G_EARTH, new DecimalFormat( "0.00" ) );
         Hashtable modelTicks = new Hashtable();
-        modelTicks.put( new Double( G_EARTH ), new JLabel( "Earth" ) );
-        modelTicks.put( new Double( G_MOON ), new JLabel( "Moon" ) );
-        modelTicks.put( new Double( G_JUPITER ), new JLabel( "Jupiter" ) );
-        setModelTicks( new double[]{G_MOON, G_EARTH, G_JUPITER} );
+        modelTicks.put( new Double( -EnergyConservationModel.G_EARTH ), new JLabel( "Earth" ) );
+        modelTicks.put( new Double( -EnergyConservationModel.G_MOON ), new JLabel( "Moon" ) );
+        modelTicks.put( new Double( -EnergyConservationModel.G_JUPITER ), new JLabel( "Jupiter" ) );
+        setModelTicks( new double[]{-EnergyConservationModel.G_MOON, -EnergyConservationModel.G_EARTH, -EnergyConservationModel.G_JUPITER} );
         setModelLabels( modelTicks );
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
