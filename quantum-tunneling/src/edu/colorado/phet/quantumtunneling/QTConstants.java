@@ -13,6 +13,7 @@ package edu.colorado.phet.quantumtunneling;
 
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Paint;
 
 import org.jfree.data.Range;
 
@@ -61,9 +62,11 @@ public class QTConstants {
     // Colors
     //----------------------------------------------------------------------------
     
-    public static final Color CANVAS_COLOR = Color.WHITE;
+    public static final Color CANVAS_BACKGROUND = Color.WHITE;
+    public static final Paint CHART_BACKGROUND = Color.WHITE;
+    public static final Paint PLOT_BACKGROUND = Color.WHITE;
     public static final Color TOTAL_ENERGY_COLOR = Color.GREEN;
-    public static final Color POTENTIAL_ENERGY_COLOR = new Color( 178, 25, 205 );
+    public static final Color POTENTIAL_ENERGY_COLOR = new Color( 178, 25, 205 ); // purple
     public static final Color INCIDENT_WAVE_COLOR = Color.RED;
     public static final Color REFLECTED_WAVE_COLOR = Color.RED;
     public static final Color TRANSMITTED_WAVE_COLOR = Color.RED;
