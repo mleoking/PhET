@@ -217,7 +217,7 @@ public class EnergyConservationModel {
             double segmentYPerp = segment.getUnitNormalVector().dot( new ImmutableVector2D.Double( segment.getCenter2D() ) );
 
             double y = ( bodyYPerp - segmentYPerp - body.getHeight() / 2.0 );
-//            System.out.println( "y = " + y );
+            System.out.println( "y = " + y );
             if( y > -60 )
             {//todo what is this magic number?  -20 was too low for the new graphic rectangle (man fell through track)
                 return -y;
@@ -241,16 +241,6 @@ public class EnergyConservationModel {
     public void addSplineSurface( SplineSurface splineSurface ) {
         splineSurfaces.add( splineSurface );
     }
-
-//    /**
-//     * @param spline
-//     * @param reverse
-//     * @deprecated
-//     */
-//    private void addSpline( AbstractSpline spline, AbstractSpline reverse ) {
-//        splineSurfaces.add( spline );
-//        splineSurfaces.add( reverse );
-//    }
 
     public void addBody( Body body ) {
         bodies.add( body );
