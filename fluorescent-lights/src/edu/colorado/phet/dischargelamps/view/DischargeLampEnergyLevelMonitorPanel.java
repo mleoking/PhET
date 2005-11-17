@@ -124,7 +124,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
      */
     public DischargeLampEnergyLevelMonitorPanel( DischargeLampModel model, AbstractClock clock, AtomicState[] atomicStates,
                                                  int panelWidth, int panelHeight ) {
-        super( clock );
+//        super( clock );
         this.model = model;
 
         // Add a listener that will catch changes in the energy levels
@@ -255,10 +255,10 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
             // Create copies of the states to assign to the dummy atom, and give them max lifetimes so they
             // don't time out and change
             Atom atom = new Atom( model, levelGraphics.length, true );
-            AtomicState[] newStates = new AtomicState[ atomicStates.length ];
+            AtomicState[] newStates = new AtomicState[atomicStates.length];
             for( int j = 0; j < atomicStates.length; j++ ) {
                 newStates[j] = new AtomicState( atomicStates[j] );
-                newStates[j].setMeanLifetime( Double.MAX_VALUE);
+                newStates[j].setMeanLifetime( Double.MAX_VALUE );
             }
             atom.setStates( newStates );
             atom.setCurrState( newStates[i] );

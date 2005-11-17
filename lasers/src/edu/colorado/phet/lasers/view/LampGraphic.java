@@ -1,14 +1,12 @@
-/**
- * Class: LampGraphic
- * Package: edu.colorado.phet.lasers.view
- * Original Author: Ron LeMaster
- * Creation Date: Nov 13, 2004
- * Creation Time: 1:55:28 PM
- * Latest Change:
- *      $Author$
- *      $Date$
- *      $Name$
- *      $Revision$
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.lasers.view;
 
@@ -27,8 +25,18 @@ import java.awt.image.BufferedImage;
 import java.util.EventListener;
 import java.util.EventObject;
 
+
 /**
- * 
+ * Class: LampGraphic
+ * Package: edu.colorado.phet.lasers.view
+ * Original Author: Ron LeMaster
+ * Creation Date: Nov 13, 2004
+ * Creation Time: 1:55:28 PM
+ * Latest Change:
+ * $Author$
+ * $Date$
+ * $Name$
+ * $Revision$
  */
 public class LampGraphic extends CompositePhetGraphic implements Beam.WavelengthChangeListener {
     private Beam beam;
@@ -48,8 +56,8 @@ public class LampGraphic extends CompositePhetGraphic implements Beam.Wavelength
         PhetImageGraphic lampImageGraphic = new PhetImageGraphic( component, image );
         addGraphic( lampImageGraphic );
         double lensHeight = lampImageGraphic.getImage().getHeight();
-        double lensWidth = lampImageGraphic.getImage().getHeight() / 4;
-        lens = new Ellipse2D.Double( lampImageGraphic.getImage().getWidth() - lensWidth, 0,
+        double lensWidth = lampImageGraphic.getImage().getHeight() / 8;
+        lens = new Ellipse2D.Double( lampImageGraphic.getImage().getWidth() - lensWidth / 2 - 3, 0,
 //        lens = new Ellipse2D.Double( lampImageGraphic.getImage().getWidth() - 10, 0,
                                      lensWidth, lensHeight );
 //                                     10, lampImageGraphic.getImage().getHeight() );

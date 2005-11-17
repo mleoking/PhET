@@ -124,9 +124,6 @@ public class SpectrumSliderWithReadout extends SpectrumSliderWithSquareCursor {
             setLocation( x, y );
             // Update the text
             setText( wavelength );
-//            Object[] args = {voltageFormat.format( Math.abs( wavelength ) )};
-//            String text = MessageFormat.format( "nm", args );
-//            readout.setText( text );
         }
 
         private void setText( double wavelength ) {
