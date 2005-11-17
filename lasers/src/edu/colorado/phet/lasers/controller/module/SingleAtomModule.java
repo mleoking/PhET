@@ -24,6 +24,7 @@ import edu.colorado.phet.lasers.controller.UniversalLaserControlPanel;
 import edu.colorado.phet.lasers.help.SingleAtomModuleWiggleMe;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.Atom;
+import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.atom.PropertiesBasedAtom;
 import edu.colorado.phet.lasers.model.atom.TwoLevelElementProperties;
 import edu.colorado.phet.lasers.model.photon.Beam;
@@ -55,7 +56,34 @@ public class SingleAtomModule extends BaseLaserModule {
 
     public SingleAtomModule( AbstractClock clock ) {
         super( SimStrings.get( "ModuleTitle.SingleAtomModule" ), clock );
+        init();
+    }
 
+    public void reset() {
+        super.reset();
+        deactivate( PhetApplication.instance() );
+        setThreeEnergyLevels( false );
+        laserControlPanel = new UniversalLaserControlPanel( this );
+        setControlPanel( laserControlPanel );
+        laserControlPanel.setUpperTransitionView( BaseLaserModule.PHOTON_DISCRETE );
+        setPumpingPhotonView( BaseLaserModule.PHOTON_DISCRETE );
+        laserControlPanel.setThreeEnergyLevels( false );
+        setMirrorsEnabled( false );
+        activate( PhetApplication.instance() );
+
+        // Reset the energy levels
+        TwoLevelElementProperties props = new TwoLevelElementProperties();
+        AtomicState[] states = atom.getStates();
+        for( int i = 0; i < states.length; i++ ) {
+            AtomicState state = states[i];
+            // If we do this before we call activate(), we only have to call it once, but it doesn't look good. (The
+            // slider comes up twice in different places). By doing it this way, it looks better
+            state.setEnergyLevel( props.getStates()[i].getEnergyLevel() );
+            state.setEnergyLevel( props.getStates()[i].getEnergyLevel() );
+        }
+    }
+
+    private void init() {
         //Set up the seed beam
         Point2D beamOrigin = new Point2D.Double( getCavity().getBounds().getX() - 100,
                                                  getCavity().getBounds().getY() + getCavity().getBounds().getHeight() / 2 );
@@ -74,7 +102,7 @@ public class SingleAtomModule extends BaseLaserModule {
                                                         getCavity().getBounds().getY() - 100 );
         pumpingBeam.setDirection( new Vector2D.Double( 0, 1 ) );
         pumpingBeam.setPosition( pumpingBeamOrigin );
-        pumpingBeam.setFanout( Math.toRadians( LaserConfig.SEED_BEAM_FANOUT  * 2 ) * 1000 );
+        pumpingBeam.setFanout( Math.toRadians( LaserConfig.SEED_BEAM_FANOUT * 2 ) * 1000 );
         pumpingBeam.setBeamWidth( seedBeam.getBeamWidth() * 100 );
 
         // Start with the pumping beam turned down all the way
@@ -163,7 +191,6 @@ public class SingleAtomModule extends BaseLaserModule {
         setThreeEnergyLevels( false );
 
         // Add an atom
-        int numEnergyLevels = getThreeEnergyLevels() ? 3 : 2;
         atom = new PropertiesBasedAtom( getLaserModel(), new TwoLevelElementProperties() );
         atom.setPosition( getLaserOrigin().getX() + s_boxWidth / 2,
                           getLaserOrigin().getY() + s_boxHeight / 2 );
@@ -244,6 +271,10 @@ public class SingleAtomModule extends BaseLaserModule {
             pumpingLampGraphic.setVisible( threeEnergyLevels );
             pumpBeamControl.setVisible( threeEnergyLevels );
             getLaserModel().getPumpingBeam().setEnabled( threeEnergyLevels );
+        }
+
+        if( getBeamCurtainGraphic() != null ) {
+            getBeamCurtainGraphic().setVisible( threeEnergyLevels );
         }
     }
 

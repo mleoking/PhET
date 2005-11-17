@@ -54,7 +54,6 @@ public class LaserConfig {
     public static final int MINIMUM_GROUND_STATE_LIFETIME = 200;
     public static final double STIMULATION_LIKELIHOOD = 0.2;
 
-
     public static final double MIN_WAVELENGTH = VisibleColor.MIN_WAVELENGTH;
     public static final double MAX_WAVELENGTH = VisibleColor.MAX_WAVELENGTH;
 
@@ -69,7 +68,8 @@ public class LaserConfig {
     public static final double MIRROR_THICKNESS = 15;
 
     // Threshold number of horizontal photons that is considered "lasing"
-    public static int LASING_THRESHOLD = 80;
+    public static int LASING_THRESHOLD = 40;
+//    public static int LASING_THRESHOLD = 80;
 
     // Number of photons in the system that will cause the thing to blow up
     public static int KABOOM_THRESHOLD = 300;

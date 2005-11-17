@@ -160,11 +160,8 @@ public class LaserWaveGraphic implements LaserModel.ChangeListener {
     }
 
     private double getInternalAmplitude() {
-//        double n = scaleFactor * Math.pow( getNumLasingPhotons() < LaserConfig.LASING_THRESHOLD ? 0 : (double)getNumLasingPhotons(), 0.3 );
-//        double n = scaleFactor * Math.sqrt( getNumLasingPhotons() < LaserConfig.LASING_THRESHOLD ? 0 : (double)getNumLasingPhotons() );
         double n = 4 * Math.sqrt( Math.max( 0, getNumLasingPhotons() - LaserConfig.LASING_THRESHOLD ) );
 //        double n = scaleFactor * Math.sqrt( getNumLasingPhotons() < LaserConfig.LASING_THRESHOLD ? 0 : (double)getNumLasingPhotons() );
-        System.out.println( "n = " + n );
 
         return n;
     }
@@ -202,8 +199,8 @@ public class LaserWaveGraphic implements LaserModel.ChangeListener {
     }
 
     public void atomicStatesChanged( LaserModel.ChangeEvent event ) {
-        AtomicState[] atomicStates = new AtomicState[]{event.getLaserModel().getMiddleEnergyState(),
-                                                       event.getLaserModel().getGroundState()};
+        AtomicState[] atomicStates = new AtomicState[]{event.getLaserModel().getGroundState(),
+                                                       event.getLaserModel().getMiddleEnergyState()};
         determineColor( atomicStates );
         update();
     }

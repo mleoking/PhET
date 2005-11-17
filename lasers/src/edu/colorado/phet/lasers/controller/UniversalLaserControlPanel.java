@@ -87,7 +87,6 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
         container.add( optionsPanel );
 
         super.addControl( optionsPanel );
-//        super.addControl( container );
 
         // Reset button
         gbc.fill = GridBagConstraints.NONE;

@@ -11,7 +11,6 @@
 package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
-import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
@@ -22,8 +21,6 @@ import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Area;
@@ -134,6 +131,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
     private class AtomicStateChangeListener extends AtomicState.ChangeListenerAdapter {
         public void energyLevelChanged( AtomicState.Event event ) {
             energyLevelRep.update();
+            levelIcon.updateEnergy( event.getEnergy() );
         }
     }
 
@@ -183,8 +181,6 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
         }
 
         private void update() {
-//            levelIcon.update();
-
             color = colorStrategy.getColor( atomicState, groundStateEnergy );
 
             // We need to create a new color that can't be transparent. VisibleColor will return
@@ -197,12 +193,10 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
 
             if( levelIcon != null ) {
                 levelIcon.setLocation( (int)( iconLocX ), (int)( y - thickness ) );
-//                levelIcon.setLocation( (int)( xLoc + width + 20 ), (int)( y - thickness ) );
             }
 
             if( isAdjustable ) {
                 double xOffset = width - 30;
-//                double xOffset = width - 60;
                 int arrowHt = 16;
                 int arrowHeadWd = 10;
                 int tailWd = 3;
