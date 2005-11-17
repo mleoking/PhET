@@ -28,52 +28,67 @@ public class TimeSeriesPlaybackPanel extends JPanel {
     private TimeSeriesModel timeSeriesModel;
     private JButton live;
 
-    private JButton createButton( String name, String icon ) {
+    private JButton createButton( String name, String iconName ) {
         JButton button = null;
-        if( icon != null ) {
-            button = new JButton( SimStrings.get( name ), new ImageIcon( loadImage( icon ) ) );
+        if( iconName != null ) {
+            String suffix = "24";
+            if( lowRes() ) {
+                suffix = "16";
+            }
+            String iconLoc = "images/icons/java/media/" + iconName + suffix + ".gif";
+            button = new JButton( SimStrings.get( name ), new ImageIcon( loadImage( iconLoc ) ) );
+
+
+            button.setVerticalTextPosition( AbstractButton.BOTTOM );
+            button.setHorizontalTextPosition( AbstractButton.CENTER );
+
         }
         else {
             button = new JButton( SimStrings.get( name ) );
         }
-        if( Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 ) {
+        if( lowRes() ) {
             button.setFont( new LucidaSansFont( 9, true ) );
+
         }
         return button;
+    }
+
+    private boolean lowRes() {
+        return Toolkit.getDefaultToolkit().getScreenSize().width <= 1024;
     }
 
 
     public TimeSeriesPlaybackPanel( final TimeSeriesModel timeSeriesModel ) {
         this.timeSeriesModel = timeSeriesModel;
 
-        live = createButton( "Live", "images/icons/java/media/Play24.gif" );
+        live = createButton( "Live", "Play" );
         live.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.startLiveMode();
             }
         } );
-        record = createButton( "Record", "images/icons/java/media/Movie24.gif" );
+        record = createButton( "Record", "Movie" );
         record.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.startRecording();
             }
         } );
 
-        pause = createButton( "Pause", "images/icons/java/media/Pause24.gif" );
+        pause = createButton( "Pause", "Pause" );
         pause.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 //pausing from playback leaves it alone
                 timeSeriesModel.setPaused( true );
             }
         } );
-        play = createButton( "Playback", "images/icons/java/media/Forward24.gif" );
+        play = createButton( "Playback", "Forward" );
         play.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.startPlaybackMode( 1.0 );
             }
         } );
 
-        rewind = createButton( "Rewind", "images/icons/java/media/Rewind24.gif" );
+        rewind = createButton( "Rewind", "Rewind" );
         rewind.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.rewind();
@@ -81,7 +96,8 @@ public class TimeSeriesPlaybackPanel extends JPanel {
             }
         } );
 
-        slowMotion = createButton( "Slow Motion", "images/icons/java/media/StepForward24.gif" );
+        slowMotion = createButton( "Slow Motion", "StepForward" );
+//        slowMotion = createButton( "<html>Slow<br>Motion</html>", "StepForward" );
         slowMotion.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.startPlaybackMode( .4 );
@@ -89,7 +105,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         } );
 
 //        clear = createButton( "Clear", "images/icons/java/media/Stop24.gif" );
-        clear = createButton( "Clear", null );
+        clear = createButton( "Clear", "Stop" );
         clear.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 timeSeriesModel.confirmAndApplyReset();
@@ -145,13 +161,17 @@ public class TimeSeriesPlaybackPanel extends JPanel {
     }
 
     private BufferedImage loadImage( String s ) {
+        BufferedImage image = null;
         try {
-            return new ImageLoader().loadImage( s );
+            image = new ImageLoader().loadImage( s );
         }
         catch( IOException e ) {
             e.printStackTrace();
-            throw new RuntimeException( e );
         }
+//        if (lowRes()){
+//            image= BufferedImageUtils.rescaleYMaintainAspectRatio( image, 14);
+//        }
+        return image;
     }
 
     private void setButtons( boolean liveBtn, boolean recordBtn, boolean playBtn, boolean slowBtn, boolean pauseBtn, boolean rewindBtn ) {
