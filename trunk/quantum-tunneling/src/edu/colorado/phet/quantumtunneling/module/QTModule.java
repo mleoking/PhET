@@ -22,6 +22,9 @@ import java.awt.geom.AffineTransform;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -116,10 +119,10 @@ public class QTModule extends AbstractModule {
         // Energy graph legend
         { 
             LegendItem totalEnergyItem = 
-                new LegendItem( SimStrings.get( "legend.totalEnergy" ), QTConstants.TOTAL_ENERGY_COLOR );
+                new LegendItem( SimStrings.get( "legend.totalEnergy" ), QTConstants.TOTAL_ENERGY_PAINT );
             
             LegendItem potentialEnergyItem = 
-                new LegendItem( SimStrings.get( "legend.potentialEnergy" ), QTConstants.POTENTIAL_ENERGY_COLOR );
+                new LegendItem( SimStrings.get( "legend.potentialEnergy" ), QTConstants.POTENTIAL_ENERGY_PAINT );
             potentialEnergyItem.translate( totalEnergyItem.getFullBounds().getWidth() + 20, 0 );
 
             _legend = new PNode();
@@ -144,6 +147,21 @@ public class QTModule extends AbstractModule {
 
             _canvas.addScreenChild( _parentNode );
         }        
+        
+        //XXX add data
+        {
+            QTCombinedChart chart = (QTCombinedChart) _chartNode.getDrawable();
+            
+            XYSeries totalEnergySeries = chart.getTotalEnergySeries();
+            totalEnergySeries.add( 0, 5 );
+            totalEnergySeries.add( 20, 5 );
+            
+            XYSeries potentialEnergySeries = chart.getPotentialEnergySeries();
+            potentialEnergySeries.add( 0, 0 );
+            potentialEnergySeries.add( 8, 0 );
+            potentialEnergySeries.add( 8, 1 );
+            potentialEnergySeries.add( 20, 1 );
+        }
           
         //----------------------------------------------------------------------------
         // Control
