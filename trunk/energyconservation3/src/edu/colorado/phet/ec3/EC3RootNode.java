@@ -82,10 +82,16 @@ public class EC3RootNode extends PhetRootPNode {
         return ec3Background;
     }
 
-    public void setBackground( Image image, double scale ) {
-        ec3Background.setImage( image );
-        ec3Background.setTransform( new AffineTransform() );
-        ec3Background.scale( scale );
+    Planet lastPlanet = null;
+
+    public void setBackground( Image image, double scale, double pi, Planet planet ) {
+        if( lastPlanet != planet ) {
+            ec3Background.setImage( image );
+            ec3Background.setTransform( new AffineTransform() );
+            ec3Background.scale( scale );
+            getBackground().rotateInPlace( Math.PI );
+            lastPlanet = planet;
+        }
     }
 
     private void resetDefaults() {
@@ -293,5 +299,13 @@ public class EC3RootNode extends PhetRootPNode {
             PieChartIndicator pieChartIndicator = (PieChartIndicator)pieCharts.getChild( i );
             pieChartIndicator.setIgnoreThermal( ignoreThermal );
         }
+    }
+
+    public void clearBackground() {
+        BufferedImage image = new BufferedImage( 1, 1, BufferedImage.TYPE_INT_RGB );
+        Graphics2D g2 = image.createGraphics();
+        g2.setColor( new Color( 0, 0, 0, 255 ) );
+        g2.fillRect( 0, 0, 1, 1 );
+        setBackground( image, 0.000000001, Math.PI, null );
     }
 }

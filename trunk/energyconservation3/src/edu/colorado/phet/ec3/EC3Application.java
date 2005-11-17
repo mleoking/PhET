@@ -28,7 +28,7 @@ new SwingTimerClock( 0.03, 30 ), true, new FrameSetup() {
 
             public void initialize( JFrame frame ) {
                 frame.setSize( Toolkit.getDefaultToolkit().getScreenSize().width - EC3Module.energyFrameWidth,
-                               Toolkit.getDefaultToolkit().getScreenSize().height - 100 - EC3Module.chartFrameHeight - 80//for debug
+                               Toolkit.getDefaultToolkit().getScreenSize().height - 100 - EC3Module.chartFrameHeight //for debug
                 );
                 frame.setLocation( 0, 0 );
             }

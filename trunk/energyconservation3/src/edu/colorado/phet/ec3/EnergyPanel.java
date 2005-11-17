@@ -6,7 +6,6 @@ import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
-import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
 
@@ -16,8 +15,6 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.text.DecimalFormat;
 
 /**
@@ -29,6 +26,8 @@ import java.text.DecimalFormat;
 
 public class EnergyPanel extends ControlPanel {
     private EC3Module module;
+    private final JCheckBox showBackgroundCheckbox;
+    private PlanetButton[] planetButtons;
 
     public EnergyPanel( final EC3Module module ) {
         super( module );
@@ -116,6 +115,7 @@ public class EnergyPanel extends ControlPanel {
         addControlFullWidth( chartPanel );
 
         final ModelSlider modelSlider = new ModelSlider( "Coefficient of Friction", "", 0, 0.04, 0.0, new DecimalFormat( "0.000" ), new DecimalFormat( "0.000" ) );
+//        final ModelSlider modelSlider = new ModelSlider( "Coefficient of Friction", "", 0, 1.0, 0.0, new DecimalFormat( "0.000" ), new DecimalFormat( "0.000" ) );
         modelSlider.setModelTicks( new double[]{0, 0.02, 0.04} );
         modelSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -167,53 +167,55 @@ public class EnergyPanel extends ControlPanel {
         addControl( mass );
 
         ButtonGroup location = new ButtonGroup();
-        JRadioButton home = new JRadioButton( "Home", true );
-        JRadioButton moon = new JRadioButton( "Moon", false );
-        JRadioButton earth = new JRadioButton( "Earth", false );
-        location.add( home );
+
+
+        PlanetButton space = new PlanetButton( module, new Planet.Space(), false );
+        PlanetButton moon = new PlanetButton( module, new Planet.Moon(), false );
+        PlanetButton earth = new PlanetButton( module, new Planet.Earth(), true );
+        PlanetButton jupiter = new PlanetButton( module, new Planet.Jupiter(), false );
+        planetButtons = new PlanetButton[]{space, moon, earth, jupiter};
+        location.add( space );
         location.add( moon );
         location.add( earth );
-
+        location.add( jupiter );
         VerticalLayoutPanel verticalLayoutPanel = new VerticalLayoutPanel();
-        verticalLayoutPanel.setFillHorizontal();
-        verticalLayoutPanel.add( home );
-        verticalLayoutPanel.add( earth );
-        home.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.getEnergyConservationCanvas().getRootNode().setBackground( new BufferedImage( 1, 1, BufferedImage.TYPE_INT_RGB ), 1.0 );
-            }
-        } );
-
-        earth.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                try {
-                    BufferedImage image = ImageLoader.loadBufferedImage( "images/background-gif.gif" );
-                    module.getEnergyConservationCanvas().getRootNode().setBackground( image, 0.02 );
-                    module.getEnergyConservationCanvas().getRootNode().getBackground().rotateInPlace( Math.PI );
-//                    module.getEnergyConservationCanvas().getRootNode().getBackground().translate( 0, -130 );
-                }
-                catch( IOException e1 ) {
-                    e1.printStackTrace();
-                }
-            }
-        } );
-
-        moon.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                try {
-                    BufferedImage image = ImageLoader.loadBufferedImage( "images/moon2.jpg" );
-//                    module.getEnergyConservationCanvas().getRootNode().setBackground( image, 1.3 );
-                    module.getEnergyConservationCanvas().getRootNode().setBackground( image, 0.02 );
-                    module.getEnergyConservationCanvas().getRootNode().getBackground().rotateInPlace( Math.PI );
-                }
-                catch( IOException e1 ) {
-                    e1.printStackTrace();
-                }
-            }
-        } );
-        verticalLayoutPanel.add( moon );
         verticalLayoutPanel.setBorder( BorderFactory.createTitledBorder( "Background" ) );
+        verticalLayoutPanel.setFillHorizontal();
+        showBackgroundCheckbox = new JCheckBox( "Show Background", false );
+        verticalLayoutPanel.add( showBackgroundCheckbox );
+        verticalLayoutPanel.add( space );
+        verticalLayoutPanel.add( moon );
+        verticalLayoutPanel.add( earth );
+        verticalLayoutPanel.add( jupiter );
         addControlFullWidth( verticalLayoutPanel );
+
+        module.getClock().addClockTickListener( new ClockTickListener() {
+            public void clockTicked( ClockTickEvent event ) {
+                synchronizePlanet();
+            }
+
+        } );
+        synchronizePlanet();
+        new Planet.Earth().apply( module );
+    }
+
+//    Planet[] planets = new Planet[]{new Planet.Earth(), new Planet.Moon(), new Planet.Jupiter()};
+
+    private void synchronizePlanet() {
+        module.getEnergyConservationCanvas().getRootNode().getBackground().setVisible( showBackgroundCheckbox.isSelected() );
+        boolean matched = false;
+        for( int i = 0; i < planetButtons.length; i++ ) {
+            Planet planet = planetButtons[i].getPlanet();
+            if( module.getEnergyConservationModel().getGravity() == planet.getGravity() ) {
+                planet.apply( module );
+                matched = true;
+
+            }
+            planetButtons[i].setSelected( module.getEnergyConservationModel().getGravity() == planet.getGravity() );
+        }
+        if( !matched ) {
+            module.getEnergyConservationCanvas().getRootNode().clearBackground();
+        }
     }
 
     private void resetSkater() {
