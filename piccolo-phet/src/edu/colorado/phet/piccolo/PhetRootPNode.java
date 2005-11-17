@@ -4,6 +4,7 @@ package edu.colorado.phet.piccolo;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 /**
@@ -91,6 +92,10 @@ public class PhetRootPNode extends PNode {
         public boolean containsScreenNode() {
             return getChildrenReference().contains( screenNode );
         }
+
+        public void setWorldTransform( AffineTransform transform ) {
+            worldNode.setTransform( transform );
+        }
     }
 
     public PhetRootPNode() {
@@ -124,6 +129,13 @@ public class PhetRootPNode extends PNode {
 
     public PNode getScreenNode() {
         return defaultLayer.getScreenNode();
+    }
+
+    public void setWorldTransform(AffineTransform transform){
+        for( int i = 0; i < layers.size(); i++ ) {
+            Layer layer = (Layer)layers.get( i );
+            layer.setWorldTransform(transform);
+        }
     }
 
     public void setWorldScale( double scale ) {
