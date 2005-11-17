@@ -13,7 +13,7 @@ import java.awt.geom.Point2D;
  */
 
 public class CubicSpline extends AbstractSpline {
-    int numSegments;
+    private int numSegments;
 
     public CubicSpline() {
         this( EC3Canvas.NUM_CUBIC_SPLINE_SEGMENTS );

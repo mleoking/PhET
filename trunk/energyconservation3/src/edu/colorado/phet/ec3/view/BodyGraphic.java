@@ -5,6 +5,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.ec3.EC3Module;
 import edu.colorado.phet.ec3.model.Body;
+import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.piccolo.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -225,17 +226,10 @@ public class BodyGraphic extends PNode {
         double dw = body.getShape().getBounds2D().getWidth() / skater.getImage().getWidth( null );
         double dh = body.getShape().getBounds2D().getHeight() / skater.getImage().getHeight( null );
 
-//        skater.translate( body.getLocatedShape().getBounds2D().getMinX(), body.getLocatedShape().getBounds2D().getMinY());
         skater.transformBy( body.getTransform() );
+        skater.translate( 0, -AbstractSpline.SPLINE_THICKNESS / 2.0 );
         skater.transformBy( AffineTransform.getScaleInstance( dw, dh ) );
-//        skater.translate( body.getPosition().getX(), body.getPosition().getY() );
-//        AbstractVector2D a = Vector2D.Double.parseAngleAndMagnitude( skater.getImage().getHeight( null ), body.getAngle() );
-//        skater.translate( 0, -a.getY() );
 
-//        skater.translate( center.getX(), center.getY() );
-//        skater.rotate( body.getAngle() );
-//        skater.translate( -skater.getImage().getWidth( null ) / 2, -skater.getImage().getHeight( null ) + body.getHeight() / 2 );
-//        skater.scale( 0.9);
 
         boolean facingRight = body.isFacingRight();
         if( facingRight ) {

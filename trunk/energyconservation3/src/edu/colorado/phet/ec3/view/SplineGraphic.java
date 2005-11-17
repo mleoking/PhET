@@ -39,8 +39,8 @@ public class SplineGraphic extends PNode {
     private Point2D.Double[] initDragSpline;
     private Point2D.Double controlPointLoc;
 
-    private BasicStroke dottedStroke = new BasicStroke( 0.05f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1.0f, new float[]{0.09f, 0.09f}, 0 );
-    private BasicStroke lineStroke = new BasicStroke( 0.05f );
+    private BasicStroke dottedStroke = new BasicStroke( 0.03f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1.0f, new float[]{0.09f, 0.09f}, 0 );
+    private BasicStroke lineStroke = new BasicStroke( 0.03f );
     private SplineSurface splineSurface;
     private SplineSurface lastRenderState;
     private PBasicInputEventHandler dragHandler;
