@@ -30,6 +30,7 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.control.QTControlPanel;
+import edu.colorado.phet.quantumtunneling.view.JFreeNode;
 import edu.colorado.phet.quantumtunneling.view.LegendItem;
 import edu.colorado.phet.quantumtunneling.view.QTCombinedChart;
 import edu.umd.cs.piccolo.PNode;
@@ -67,7 +68,7 @@ public class QTModule extends AbstractModule {
     private PNode _parentNode;
     private PNode _legend;
     private PSwing _configureButton;
-    private QTCombinedChart _chart;
+    private JFreeNode _chartNode;
     private QTControlPanel _controlPanel;
     
     //----------------------------------------------------------------------------
@@ -129,7 +130,8 @@ public class QTModule extends AbstractModule {
         
         // Combined chart
         {
-            _chart = new QTCombinedChart( _canvas );
+            QTCombinedChart chart = new QTCombinedChart();
+            _chartNode = new JFreeNode( chart );
         }
         
         // Add all the nodes to one parent node.
@@ -138,7 +140,7 @@ public class QTModule extends AbstractModule {
             
             _parentNode.addChild( _configureButton );
             _parentNode.addChild( _legend );
-            _parentNode.addChild( _chart.getNode() );
+            _parentNode.addChild( _chartNode );
 
             _canvas.addScreenChild( _parentNode );
         }        
@@ -200,11 +202,11 @@ public class QTModule extends AbstractModule {
         
         // Combined chart
         {
-            _chart.setSize( (int) chartWidth, (int) chartHeight );
+            _chartNode.setBounds( 0, 0, chartWidth, chartHeight );
             AffineTransform chartTransform = new AffineTransform();
             chartTransform.translate( X_MARGIN, Y_MARGIN + legendHeight + Y_SPACING );
             chartTransform.translate( 0, 0 ); // registration point @ upper left
-            _chart.getNode().setTransform( chartTransform );
+            _chartNode.setTransform( chartTransform );
         }
     }
     
