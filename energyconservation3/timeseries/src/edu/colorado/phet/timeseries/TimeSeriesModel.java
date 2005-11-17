@@ -261,6 +261,7 @@ public abstract class TimeSeriesModel implements ClockTickListener {
     public void startRecording() {
         setRecordMode();
         setPaused( false );
+        fireRecordStarted();
     }
 
     public void startLiveMode() {
