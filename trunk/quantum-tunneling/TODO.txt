@@ -10,7 +10,6 @@ DESIGN ISSUES:
 
 HIGH PRIORITY:
 - use StepPlot for Energy chart?
-- find an alternative to PSwing for integrating JFreeChart with Piccolo
 - figure out how to make the interior of all charts the same size, so that x position are vertically aligned
 - implement PotentialsEnum
 - implement "Configure Energy" dialog
@@ -57,6 +56,7 @@ PHETCOMMON:
 
 
 DONE:
+(11/17/05) - create a custom PNode that draws any org.jfree.ui.Drawable (including JFreeChart)
 (11/17/05) - use JFreeChart "combine" feature to combine the 3 charts, since they have the same x-axis 
 (11/16/05) - tweak some SimStrings
 (11/16/05) - draw charts using JFreeChart

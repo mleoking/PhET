@@ -43,12 +43,10 @@ public class QTCombinedChart extends JFreeChart {
 
     private static final Font AXIS_LABEL_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 16 );
     private static final double CHART_SPACING = 15.0;
-    
-    private ChartPanel _panel;
-    private PSwing _pSwing;
+
     private XYSeriesCollection _energyData, _waveFunctionData, _probabilityDensityData;
     
-    public QTCombinedChart( PSwingCanvas canvas ) {
+    public QTCombinedChart() {
         super( null, null, new CombinedDomainXYPlot(), false );
         
         setBackgroundPaint( QTConstants.CHART_BACKGROUND );
@@ -102,48 +100,11 @@ public class QTCombinedChart extends JFreeChart {
         plot.add(energyPlot, 1);
         plot.add(waveFunctionPlot, 1);
         plot.add( probabilityDensityPlot, 1 );   
-        
-        _panel = new ChartPanel( this );
-        _pSwing = new PSwing( canvas, _panel );
-    }
-    
-    /**
-     * Gets the node that manages this chart.
-     * The node is created internally in the constructor.
-     * 
-     * @return
-     */
-    public PNode getNode() {
-        return _pSwing;
-    }
-    
-    /**
-     * Sets the dimensions of the chart.
-     * 
-     * @param width
-     * @param height
-     */
-    public void setSize( int width, int height ) {
-        setSize( new Dimension( width, height ) );
-    }
-    
-    /**
-     * Sets the dimensions of the chart.
-     * 
-     * @param size
-     */
-    public void setSize( Dimension size ) {
-        if ( size.getWidth() > 0 && size.getHeight() > 0 ) {
-            _panel.setPreferredSize( size );
-            _pSwing.computeBounds();
-            _pSwing.repaint();
-        }
     }
     
     public XYSeriesCollection getEnergyData() {
         return _energyData;
     }
-    
     
     public XYSeriesCollection getWaveFunctionData() {
         return _waveFunctionData;
