@@ -172,7 +172,7 @@ public abstract class AbstractSpline implements Cloneable {
     public void printControlPointCode() {
         AbstractSpline spline = this;
         for( int i = 0; i < spline.numControlPoints(); i++ ) {
-            System.out.println( "spline.addControlPoint(" + (int)spline.controlPointAt( i ).getX() + "," + (int)spline.controlPointAt( i ).getY() + ");" );
+            System.out.println( "spline.addControlPoint(" + spline.controlPointAt( i ).getX() + "," + spline.controlPointAt( i ).getY() + ");" );
         }
     }
 

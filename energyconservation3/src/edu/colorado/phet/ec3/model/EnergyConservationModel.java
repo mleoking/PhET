@@ -312,7 +312,7 @@ public class EnergyConservationModel {
         bodies.clear();
         splineSurfaces.clear();
         history.clear();
-        gravity = 9.8;
+        gravity = G_EARTH;
         thermalEnergy = 0.0;
     }
 
