@@ -25,6 +25,11 @@ public class Partial implements ReflectionStrategy {
         return reflectivity;
     }
 
+    /**
+     * Sets the reflectivity. Valid values are 0 to 1.
+     *
+     * @param reflectivity
+     */
     public void setReflectivity( double reflectivity ) {
         if( reflectivity < 0 || reflectivity > 1 ) {
             throw new RuntimeException( "Reflectivity not between 0 and 1.0" );

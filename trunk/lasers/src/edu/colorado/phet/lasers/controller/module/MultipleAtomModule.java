@@ -150,6 +150,7 @@ public class MultipleAtomModule extends BaseLaserModule {
         setPumpingPhotonView( BaseLaserModule.PHOTON_DISCRETE );
         laserControlPanel.setThreeEnergyLevels( true );
         setMirrorsEnabled( false );
+        setDisplayHighLevelEmissions( false );
         activate( PhetApplication.instance() );
 
         // Reset the energy levels. We only need to get the states from one atom, since all atoms share the

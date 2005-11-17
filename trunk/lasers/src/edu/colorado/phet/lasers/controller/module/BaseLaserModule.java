@@ -509,6 +509,15 @@ public class BaseLaserModule extends Module {
         // Reset the model
         laserModel.reset();
 
+        // Reset the mirror's reflectivity
+        if( rightMirror != null ) {
+            rightMirror.setReflectivity( 1.0 );
+        }
+
+        // Reset the wavelengths of the beams
+        seedBeam.setWavelength( Photon.RED );
+        pumpingBeam.setWavelength( Photon.BLUE );        
+
         // Reset the state lifetimes
         laserEnergyLevelsMonitorPanel.reset();
 

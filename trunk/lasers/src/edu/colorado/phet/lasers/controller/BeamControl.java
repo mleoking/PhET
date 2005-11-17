@@ -30,7 +30,7 @@ import java.awt.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListener {
+public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListener, Beam.WavelengthChangeListener {
     private ApparatusPanel apparatusPanel;
     private IntensitySlider intensitySlider;
 
@@ -41,6 +41,7 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
     private Point spectrumSliderLoc;
     private Point spectrumSliderRelLoc = new Point( -77, 92 );
     private Dimension spectrumSize = new Dimension( 101, 31 );
+    private SpectrumSliderWithSquareCursor wavelengthSlider;
     ;
 
     /**
@@ -75,9 +76,9 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
 
     private void addWavelengthSlider( final Beam beam, double minWavelength, double maxWavelength ) {
         // Make a spectrum wavelengthSlider
-        final SpectrumSliderWithSquareCursor wavelengthSlider = new SpectrumSliderWithSquareCursor( apparatusPanel,
-                                                                                                    minWavelength,
-                                                                                                    maxWavelength );
+        wavelengthSlider = new SpectrumSliderWithSquareCursor( apparatusPanel,
+                                                               minWavelength,
+                                                               maxWavelength );
         wavelengthSlider.setLocation( spectrumSliderLoc );
         wavelengthSlider.setOrientation( SpectrumSliderWithSquareCursor.HORIZONTAL ); // default is HORIZONTAL
         wavelengthSlider.setTransmissionWidth( 1.0 ); // default is 0.0
@@ -123,7 +124,10 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
         }
 
         public void wavelengthChanged( Beam.WavelengthChangeEvent event ) {
-            slider.setColor( VisibleColor.wavelengthToColor( event.getWavelength() ) );
+            intensitySlider.setColor( VisibleColor.wavelengthToColor( event.getWavelength() ) );
+            if( wavelengthSlider.getValue() != (int)( event.getWavelength() ) ) {
+                wavelengthSlider.setValue( (int)( event.getWavelength() ) );
+            }
         }
     }
 
@@ -138,5 +142,9 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
 
     public void rateChangeOccurred( Beam.RateChangeEvent event ) {
         intensitySlider.setValue( (int)event.getRate() );
+    }
+
+    public void wavelengthChanged( Beam.WavelengthChangeEvent event ) {
+
     }
 }
