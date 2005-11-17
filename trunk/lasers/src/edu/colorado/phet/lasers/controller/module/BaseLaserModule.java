@@ -18,6 +18,7 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.help.HelpManager;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.lasers.controller.Kaboom;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.RightMirrorReflectivityControlPanel;
@@ -57,7 +58,6 @@ public class BaseLaserModule extends Module {
     private ResonatingCavity cavity;
     private Point2D laserOrigin;
     private LaserModel laserModel;
-    private EnergyLevelsDialog energyLevelsDialog;
     private PartialMirror rightMirror;
     private PartialMirror leftMirror;
     private MirrorGraphic rightMirrorGraphic;
@@ -92,14 +92,17 @@ public class BaseLaserModule extends Module {
      */
     public BaseLaserModule( String title, AbstractClock clock ) {
         super( title, clock );
+        init();
+    }
 
+    private void init() {
         // Create the model
         laserModel = new LaserModel();
         setModel( laserModel );
         laserModel.setBounds( new Rectangle2D.Double( 0, 0, 800, 600 ) );
 
         // Create the apparatus panel
-        final ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
+        final ApparatusPanel2 apparatusPanel = new ApparatusPanel2( getClock() );
         apparatusPanel.setUseOffscreenBuffer( true );
         setApparatusPanel( apparatusPanel );
         apparatusPanel.setBackground( Color.white );
@@ -115,7 +118,7 @@ public class BaseLaserModule extends Module {
         createBeams();
 
         // Create the energy levels dialog
-        createEnergyLevelsDialog( clock, null );
+        createEnergyLevelsDialog( getClock(), null );
 
         // Create the mirrors
         createMirrors();
@@ -158,7 +161,6 @@ public class BaseLaserModule extends Module {
      */
     protected void createEnergyLevelsDialog( AbstractClock clock, PhetFrame frame ) {
         laserEnergyLevelsMonitorPanel = new LaserEnergyLevelMonitorPanel( this, clock );
-        energyLevelsDialog = new EnergyLevelsDialog( appFrame, laserEnergyLevelsMonitorPanel );
     }
 
     /**
@@ -397,6 +399,10 @@ public class BaseLaserModule extends Module {
         return pumpingBeam;
     }
 
+    protected PhetGraphic getBeamCurtainGraphic() {
+        return beamCurtainGraphic;
+    }
+
     public LaserEnergyLevelMonitorPanel getEnergyLevelsMonitorPanel() {
         return laserEnergyLevelsMonitorPanel;
     }
@@ -490,10 +496,6 @@ public class BaseLaserModule extends Module {
                 reflectivityControlPanel.setVisible( this.mirrorsEnabled );
             }
         }
-    }
-
-    public Component getEnergyLevelsDialog() {
-        return energyLevelsDialog;
     }
 
     public LampGraphic getPumpLampGraphic() {

@@ -22,6 +22,8 @@ import edu.colorado.phet.lasers.controller.UniversalLaserControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
+import edu.colorado.phet.lasers.model.atom.AtomicState;
+import edu.colorado.phet.lasers.model.atom.ThreeLevelElementProperties;
 import edu.colorado.phet.lasers.model.photon.Beam;
 import edu.colorado.phet.lasers.view.LampGraphic;
 
@@ -135,6 +137,33 @@ public class MultipleAtomModule extends BaseLaserModule {
         laserControlPanel = new UniversalLaserControlPanel( this );
         setControlPanel( laserControlPanel );
         laserControlPanel.setUpperTransitionView( BaseLaserModule.PHOTON_CURTAIN );
+    }
+
+    public void reset() {
+        super.reset();
+        deactivate( PhetApplication.instance() );
+        setThreeEnergyLevels( true );
+        setEnergyLevelsAveragingPeriod( LaserConfig.ENERGY_LEVEL_MONITOR_AVERAGING_PERIOD );
+        laserControlPanel = new UniversalLaserControlPanel( this );
+        setControlPanel( laserControlPanel );
+        laserControlPanel.setUpperTransitionView( BaseLaserModule.PHOTON_CURTAIN );
+        setPumpingPhotonView( BaseLaserModule.PHOTON_DISCRETE );
+        laserControlPanel.setThreeEnergyLevels( true );
+        setMirrorsEnabled( false );
+        activate( PhetApplication.instance() );
+
+        // Reset the energy levels. We only need to get the states from one atom, since all atoms share the
+        // same state objects
+        ThreeLevelElementProperties props = new ThreeLevelElementProperties();
+        Atom atom = (Atom)atoms.get( 0 );
+        AtomicState[] states = atom.getStates();
+        for( int i = 0; i < states.length; i++ ) {
+            AtomicState state = states[i];
+            // If we do this before we call activate(), we only have to call it once, but it doesn't look good. (The
+            // slider comes up twice in different places). By doing it this way, it looks better
+            state.setEnergyLevel( props.getStates()[i].getEnergyLevel() );
+            state.setEnergyLevel( props.getStates()[i].getEnergyLevel() );
+        }
     }
 
     private void addAtoms( Rectangle2D cavityBounds ) {

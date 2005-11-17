@@ -148,7 +148,6 @@ public class LaserSimulation extends PhetApplication {
             debugMenu.add( grayErgyRepStrategy );
             debugMenu.addSeparator();
 
-//        JCheckBoxMenuItem groundStateMinLifetimeMI = new JCheckBoxMenuItem( "Adjust minimum ground state lifetime..." );
             JMenuItem groundStateMinLifetimeMI = new JMenuItem( "Adjust minimum ground state lifetime..." );
             debugMenu.add( groundStateMinLifetimeMI );
             groundStateMinLifetimeMI.addActionListener( new ActionListener() {

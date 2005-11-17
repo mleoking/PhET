@@ -42,7 +42,6 @@ public abstract class WaveGraphic extends PhetGraphic implements ModelElement {
     private Stroke stroke = new BasicStroke( 2f );
 
     private ResonatingCavity cavity;
-//    private Color actualColor;
     private int level;
     private Rectangle curtainBounds = new Rectangle();
     // Controls the maximum darkness of the visible beam. Smaller == darker
