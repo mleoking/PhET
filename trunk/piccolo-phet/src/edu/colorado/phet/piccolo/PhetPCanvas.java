@@ -9,8 +9,8 @@ import edu.umd.cs.piccolo.util.PDebug;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-
-import org.w3c.dom.css.CSS2Properties;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 
 /**
  * Piccolo canvas extension that provides support for maintenance of aspect ratio,
@@ -18,20 +18,26 @@ import org.w3c.dom.css.CSS2Properties;
  */
 
 public class PhetPCanvas extends PSwingCanvas {
-    private Dimension renderingSize;
+    private TransformStrategy transformStrategy;
     private ComponentAdapter resizeAdapter;
-    //it's very difficult to have things point to each other when there is a camera layer between them.   
     private PhetRootPNode phetRootNode;
 
-    /**
-     * @deprecated use public PhetPCanvas( Dimension renderingSize )  instead.
-     */
     public PhetPCanvas() {
-        this( null );
+        this( new ConstantTransformStrategy( new AffineTransform() ) );
     }
 
     public PhetPCanvas( Dimension renderingSize ) {
-        this.renderingSize = renderingSize;
+        this( new ConstantTransformStrategy( new AffineTransform() ) );
+        setTransformStrategy( new RenderingSizeStrategy( this, renderingSize ) );
+    }
+
+    public PhetPCanvas( Rectangle2D modelViewport ) {
+        this( new ConstantTransformStrategy( new AffineTransform() ) );
+        setTransformStrategy( new ViewportStrategy( this, modelViewport ) );
+    }
+
+    public PhetPCanvas( TransformStrategy transformStrategy ) {
+        this.transformStrategy = transformStrategy;
         this.phetRootNode = new PhetRootPNode();
         getLayer().addChild( phetRootNode );
         removeInputEventListener( getZoomEventHandler() );
@@ -44,19 +50,24 @@ public class PhetPCanvas extends PSwingCanvas {
                 requestFocus();
             }
         } );
+        addDebugKeyHandlers();
+        addKeyListener( new PanZoomWorldKeyHandler( this ) );
+//        addKeyListener( new ShowControlsKeyHandler( this ) );
+        setBorder( BorderFactory.createLineBorder( Color.black ) );
+        requestFocus();
+    }
+
+    private void addDebugKeyHandlers() {
         addKeyListener( new KeyListener() {
             public void keyPressed( KeyEvent e ) {
             }
 
             public void keyReleased( KeyEvent e ) {
                 int onMask = KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK;
-                int offMask =  KeyEvent.ALT_DOWN_MASK | KeyEvent.META_DOWN_MASK;
+                int offMask = KeyEvent.ALT_DOWN_MASK | KeyEvent.META_DOWN_MASK;
                 if( ( e.getModifiersEx() & ( onMask | offMask ) ) == onMask ) {
                     if( e.getKeyCode() == KeyEvent.VK_D ) {
                         PDebug.debugRegionManagement = !PDebug.debugRegionManagement;
-                    }
-                    else if( e.getKeyCode() == KeyEvent.VK_S ) {
-                        setWorldScaleIdentity();
                     }
                 }
             }
@@ -64,10 +75,14 @@ public class PhetPCanvas extends PSwingCanvas {
             public void keyTyped( KeyEvent e ) {
             }
         } );
-        addKeyListener( new PanZoomWorldKeyHandler( this ) );
-        addKeyListener( new ShowControlsKeyHandler( this ) );
-        requestFocus();
-        setBorder( BorderFactory.createLineBorder( Color.black ) );
+    }
+
+    private void setTransformStrategy( TransformStrategy transformStrategy ) {
+        this.transformStrategy = transformStrategy;
+    }
+
+    protected void updateScale() {
+        phetRootNode.setWorldTransform( transformStrategy.getWorldTransform() );
     }
 
     public PNode getWorldNode() {
@@ -78,90 +93,30 @@ public class PhetPCanvas extends PSwingCanvas {
         return phetRootNode.getScreenNode();
     }
 
-    public void setScreenNode( PNode screenNode ) {
-        phetRootNode.setScreenNode( screenNode );
-    }
-
-    public Dimension getRenderingSize() {
-        return renderingSize;
-    }
-
     protected class ResizeAdapter extends ComponentAdapter {
         public void componentResized( ComponentEvent e ) {
-            //use renderingSize to set zoom.
             updateScale();
         }
 
         public void componentShown( ComponentEvent e ) {
-            //if first time shown, set rendering size.
-            if( renderingSize == null ) {
-                setRenderingSize();
-            }
+            updateScale();
         }
-    }
-
-    /**
-     * TODO in 1.5, sometimes getWidth() and getHeight() return negative values, causing troubles for this layout code.
-     */
-    protected void updateScale() {
-        if( renderingSize == null ) {
-            if( isVisible() ) {
-                setRenderingSize();
-            }
-            else {
-                return;
-            }
-        }
-        double sx = getScaleX();
-        double sy = getScaleY();
-
-        //use the smaller
-        double scale = sx < sy ? sx : sy;
-        if( scale < 0 ) {
-            System.err.println( this.getClass().getName() + ": Warning: Sometimes in 1.5, sometimes getWidth() and getHeight() return negative values, causing troubles for this layout code." );
-        }
-        if( scale != 0.0 ) {
-            setWorldScale( scale );
-        }
-        else {
-            System.err.println( "Scale evaluated to zero!" );
-        }
-    }
-
-    protected void setWorldScale( double scale ) {
-        phetRootNode.setWorldScale( scale );
-    }
-
-    public void setWorldScaleIdentity() {
-        setWorldScale( 1.0 );
-    }
-
-    private double getScaleY() {
-        return ( (double)getHeight() ) / renderingSize.height;
-    }
-
-    private double getScaleX() {
-        return ( (double)getWidth() ) / renderingSize.width;
-    }
-
-    private void setRenderingSize() {
-        setRenderingSize( getSize() );
-    }
-
-    public void setRenderingSize( Dimension dim ) {
-        System.out.println( "dim = " + dim );
-        this.renderingSize = new Dimension( dim );
-    }
-
-    public void setRenderingSize( int width, int height ) {
-        setRenderingSize( new Dimension( width, height ) );
     }
 
     /*
-    Convenience methods.
+    Methods for accessing screen/world in default layer.
     */
-    public void addWorldChild( int layer, PNode graphic ) {
-        phetRootNode.addWorldChild( layer, graphic );
+
+    public PhetRootPNode getPhetRootNode() {
+        return phetRootNode;
+    }
+
+    public void setPhetRootNode( PhetRootPNode phetRootNode ) {
+        if( this.phetRootNode != null ) {
+            getLayer().removeChild( this.phetRootNode );
+        }
+        this.phetRootNode = phetRootNode;
+        getLayer().addChild( this.phetRootNode );
     }
 
     public void addScreenChild( PNode node ) {
@@ -180,6 +135,9 @@ public class PhetPCanvas extends PSwingCanvas {
         phetRootNode.removeWorldChild( graphic );
     }
 
+    /*
+    Piccolo convenience methods.
+    */
     public void setDebugRegionManagement( boolean debugRegionManagement ) {
         PDebug.debugRegionManagement = debugRegionManagement;
     }
@@ -200,15 +158,130 @@ public class PhetPCanvas extends PSwingCanvas {
         getRoot().getActivityScheduler().removeActivity( activity );
     }
 
-    public PhetRootPNode getPhetRootNode() {
-        return phetRootNode;
+    public static interface TransformStrategy {
+        AffineTransform getWorldTransform();
     }
 
-    public void setPhetRootNode( PhetRootPNode phetRootNode ) {
-        if( this.phetRootNode != null ) {
-            getLayer().removeChild( this.phetRootNode );
+    public static class ConstantTransformStrategy implements TransformStrategy {
+        private AffineTransform affineTransform;
+
+        public ConstantTransformStrategy( AffineTransform affineTransform ) {
+            this.affineTransform = affineTransform;
         }
-        this.phetRootNode = phetRootNode;
-        getLayer().addChild( this.phetRootNode );
+
+        public AffineTransform getWorldTransform() {
+            return new AffineTransform( affineTransform );
+        }
+    }
+
+    public static class RenderingSizeStrategy implements TransformStrategy {
+        private PhetPCanvas phetPCanvas;
+        private Dimension renderingSize;
+
+        public RenderingSizeStrategy( PhetPCanvas phetPCanvas, Dimension renderingSize ) {
+            this.phetPCanvas = phetPCanvas;
+            this.renderingSize = renderingSize;
+            phetPCanvas.addComponentListener( new ComponentAdapter() {
+                public void componentShown( ComponentEvent e ) {
+                    if( RenderingSizeStrategy.this.renderingSize == null ) {
+                        setRenderingSize();
+                    }
+                }
+            } );
+        }
+
+        public void setPhetPCanvas( PhetPCanvas phetPCanvas ) {
+            this.phetPCanvas = phetPCanvas;
+        }
+
+        public AffineTransform getWorldTransform() {
+            if( renderingSize == null ) {
+                if( phetPCanvas.isVisible() ) {
+                    setRenderingSize();
+                }
+                else {
+                    return new AffineTransform();
+                }
+            }
+            double sx = getScaleX();
+            double sy = getScaleY();
+
+            //use the smaller
+            double scale = sx < sy ? sx : sy;
+            if( scale < 0 ) {
+                System.err.println( this.getClass().getName() + ": Warning: Sometimes in 1.5, sometimes getWidth() and getHeight() return negative values, causing troubles for this layout code." );
+            }
+            if( scale != 0.0 ) {
+                return AffineTransform.getScaleInstance( scale, scale );
+            }
+            else {
+                System.err.println( "Scale evaluated to zero!" );
+                return new AffineTransform();
+            }
+        }
+
+        private void setRenderingSize() {
+            setRenderingSize( phetPCanvas.getSize() );
+        }
+
+        public void setRenderingSize( Dimension dim ) {
+            System.out.println( "dim = " + dim );
+            this.renderingSize = new Dimension( dim );
+        }
+
+        public void setRenderingSize( int width, int height ) {
+            setRenderingSize( new Dimension( width, height ) );
+        }
+
+        private double getScaleY() {
+            return ( (double)phetPCanvas.getHeight() ) / renderingSize.height;
+        }
+
+        private double getScaleX() {
+            return ( (double)phetPCanvas.getWidth() ) / renderingSize.width;
+        }
+    }
+
+    public static class ViewportStrategy implements TransformStrategy {
+        private Rectangle2D modelViewport;
+        private PhetPCanvas phetPCanvas;
+
+        public ViewportStrategy( PhetPCanvas phetPCanvas, Rectangle2D modelViewport ) {
+            this.phetPCanvas = phetPCanvas;
+            this.modelViewport = modelViewport;
+        }
+
+        protected double getScaleY() {
+            return phetPCanvas.getHeight() / modelViewport.getHeight();
+        }
+
+        protected double getScaleX() {
+            return phetPCanvas.getWidth() / modelViewport.getWidth();
+        }
+
+        public void componentShown( ComponentEvent e ) {
+        }
+
+        public AffineTransform getWorldTransform() {
+            double sx = getScaleX();
+            double sy = getScaleY();
+
+            //use the smaller
+            double scale = sx < sy ? sx : sy;
+            if( scale < 0 ) {
+                System.err.println( this.getClass().getName() + ": Warning: Sometimes in 1.5, sometimes getWidth() and getHeight() return negative values, causing troubles for this layout code." );
+            }
+            if( scale != 0.0 ) {
+                AffineTransform worldTransform = new AffineTransform();
+                worldTransform.translate( 0, phetPCanvas.getHeight() );
+                worldTransform.scale( scale, -scale );
+                worldTransform.translate( modelViewport.getX(), -modelViewport.getY() );
+                return worldTransform;
+            }
+            else {
+                System.err.println( "Scale evaluated to zero!" );
+            }
+            return new AffineTransform();
+        }
     }
 }
