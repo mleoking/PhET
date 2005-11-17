@@ -20,14 +20,14 @@ import edu.umd.cs.piccolo.util.PPaintContext;
 
 
 /**
- * JFreeNode is a Piccolo node that draws any org.jfree.ui.Drawable 
+ * DrawableNode is a Piccolo node that draws any org.jfree.ui.Drawable 
  * (including, JFreeChart).
  * <p>
  * Sample usage:
  * <br>
  * <code>
  *     JFreeChart chart = new JFreeChart(...);
- *     JFreePNode node = new JFreePNode( chart );
+ *     DrawableNode node = new DrawableNode( chart );
  *     node.setBounds( 0, 0, 500, 250 ); // determines the size of the chart
  *     PCanvas canvas = new PCanvas();
  *     canvas.getLayer().addChild( node );
@@ -36,7 +36,7 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class JFreeNode extends PNode {
+public class DrawableNode extends PNode {
 
     private Drawable _drawable;
     
@@ -47,7 +47,7 @@ public class JFreeNode extends PNode {
      * 
      * @param drawable the drawable
      */
-    public JFreeNode( Drawable drawable ) {
+    public DrawableNode( Drawable drawable ) {
         super();
         _drawable = drawable;
     }
