@@ -11,7 +11,8 @@ import edu.colorado.phet.ec3.model.spline.SplineSurface;
 import edu.colorado.phet.ec3.view.BodyGraphic;
 import edu.colorado.phet.ec3.view.SplineGraphic;
 import edu.colorado.phet.ec3.view.SplineMatch;
-import edu.colorado.phet.piccolo.PhetPCanvas2;
+import edu.colorado.phet.piccolo.PanZoomWorldKeyHandler;
+import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.event.KeyEvent;
@@ -32,7 +33,7 @@ import java.util.HashMap;
  * Copyright (c) Sep 21, 2005 by Sam Reid
  */
 
-public class EC3Canvas extends PhetPCanvas2 {
+public class EC3Canvas extends PhetPCanvas {
     private EC3Module ec3Module;
     private EnergyConservationModel ec3Model;
     private HashMap pressedKeys = new HashMap();
@@ -40,7 +41,6 @@ public class EC3Canvas extends PhetPCanvas2 {
 
     double matchThresholdWorldCoordinates = 1.5;
     private static final Object DUMMY_VALUE = new Object();
-//    public static final int NUM_CUBIC_SPLINE_SEGMENTS = 30;
     public static final int NUM_CUBIC_SPLINE_SEGMENTS = 30;
 
     public EC3Canvas( EC3Module ec3Module ) {
@@ -51,9 +51,8 @@ public class EC3Canvas extends PhetPCanvas2 {
         setPhetRootNode( rootNode );
         addFocusRequest();
         addKeyHandling();
-//        addKeyListener( new PanZoomWorldKeyHandler( this ) );
+        addKeyListener( new PanZoomWorldKeyHandler( this ) );
         addThrust();
-//        addMeasuringTape();
         addGraphicsUpdate( ec3Module );
     }
 
@@ -125,10 +124,10 @@ public class EC3Canvas extends PhetPCanvas2 {
             xThrust = -thrustValue;
         }
         if( pressedKeys.containsKey( new Integer( KeyEvent.VK_UP ) ) ) {
-            yThrust = -thrustValue;
+            yThrust = thrustValue;
         }
         else if( pressedKeys.containsKey( new Integer( KeyEvent.VK_DOWN ) ) ) {
-            yThrust = thrustValue;
+            yThrust = -thrustValue;
         }
         body.setThrust( xThrust, yThrust );
     }
@@ -191,8 +190,7 @@ public class EC3Canvas extends PhetPCanvas2 {
     }
 
     private double distance( Point2D toMatch, PNode startNode ) {
-        double dist = startNode.getFullBounds().getCenter2D().distance( toMatch );
-        return dist;
+        return startNode.getFullBounds().getCenter2D().distance( toMatch );
     }
 
     private SplineGraphic splineGraphicAt( int i ) {
