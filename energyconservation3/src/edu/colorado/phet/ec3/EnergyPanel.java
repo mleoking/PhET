@@ -51,21 +51,23 @@ public class EnergyPanel extends ControlPanel {
         } );
         addControl( resetSkater );
 
-        final JCheckBox recordPath = new JCheckBox( "Record Path", module.getEnergyConservationModel().isRecordPath() );
+        JPanel pathPanel = new JPanel( new BorderLayout() );
+        pathPanel.setBorder( BorderFactory.createTitledBorder( "Path" ) );
+        final JCheckBox recordPath = new JCheckBox( "Record", module.getEnergyConservationModel().isRecordPath() );
         recordPath.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setRecordPath( recordPath.isSelected() );
             }
         } );
-        addControl( recordPath );
-
-        final JButton clearHistory = new JButton( "Clear Path" );
+        final JButton clearHistory = new JButton( "Clear" );
         clearHistory.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.clearPaths();
             }
         } );
-        addControl( clearHistory );
+        pathPanel.add( recordPath, BorderLayout.WEST );
+        pathPanel.add( clearHistory, BorderLayout.EAST );
+        addControlFullWidth( pathPanel );
 
         final JCheckBox measuringTape = new JCheckBox( "Measuring Tape",
                                                        module.isMeasuringTapeVisible() );
@@ -111,7 +113,6 @@ public class EnergyPanel extends ControlPanel {
             }
         } );
         chartPanel.add( showBarChart );
-
         addControlFullWidth( chartPanel );
 
         final ModelSlider modelSlider = new ModelSlider( "Coefficient of Friction", "", 0, 0.04, 0.0, new DecimalFormat( "0.000" ), new DecimalFormat( "0.000" ) );

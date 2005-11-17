@@ -38,16 +38,17 @@ public class TimeSeriesPlaybackPanel extends JPanel {
             String iconLoc = "images/icons/java/media/" + iconName + suffix + ".gif";
             button = new JButton( SimStrings.get( name ), new ImageIcon( loadImage( iconLoc ) ) );
 
-
-            button.setVerticalTextPosition( AbstractButton.BOTTOM );
-            button.setHorizontalTextPosition( AbstractButton.CENTER );
-
+            if( lowRes() ) {
+                button.setVerticalTextPosition( AbstractButton.BOTTOM );
+                button.setHorizontalTextPosition( AbstractButton.CENTER );
+            }
         }
         else {
             button = new JButton( SimStrings.get( name ) );
         }
         if( lowRes() ) {
-            button.setFont( new LucidaSansFont( 9, true ) );
+            System.out.println( "button.getFont().getSize() = " + button.getFont().getSize() );
+            button.setFont( new LucidaSansFont( 10, true ) );
 
         }
         return button;

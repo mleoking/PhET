@@ -54,6 +54,12 @@ public class EC3Module extends PiccoloModule {
         super( name, clock );
 //        clock.setTimeScalingConverter();
         energyModel = new EnergyConservationModel( floorY );
+        CubicSpline floorSpline = new CubicSpline( 4 );
+        floorSpline.addControlPoint( -1000, 0 );
+        floorSpline.addControlPoint( 1000, 0 );
+        SplineSurface splineSurface = new SplineSurface( floorSpline );
+        splineSurface.setInteractive( false );
+        energyModel.addSplineSurface( splineSurface );
 
         Floor floor = new Floor( getEnergyConservationModel(), energyModel.getZeroPointPotentialY() );
         energyModel.addFloor( floor );

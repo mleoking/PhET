@@ -186,6 +186,8 @@ public class SplineGraphic extends PNode {
     }
 
     public void updateAll() {
+        setPickable( splineSurface.isInteractive() );
+        setChildrenPickable( splineSurface.isInteractive() );
 //        System.out.println( "changed() = " + changed() );
         if( changed() ) {
             pathLayer.removeAllChildren();
