@@ -69,6 +69,7 @@ public class SingleAtomModule extends BaseLaserModule {
         setPumpingPhotonView( BaseLaserModule.PHOTON_DISCRETE );
         laserControlPanel.setThreeEnergyLevels( false );
         setMirrorsEnabled( false );
+        setDisplayHighLevelEmissions( false );
         activate( PhetApplication.instance() );
 
         // Reset the energy levels
