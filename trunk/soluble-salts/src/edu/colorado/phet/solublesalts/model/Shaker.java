@@ -15,6 +15,7 @@ import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
+import edu.colorado.phet.solublesalts.model.crystal.Crystal;
 
 import java.util.Random;
 import java.awt.geom.Rectangle2D;
@@ -55,7 +56,7 @@ public class Shaker extends Particle {
             setPosition( getPosition().getX(), getPosition().getY() + dy );
 
             Ion ion = null;
-            Lattice lattice = null;
+            Crystal crystal = null;
             int numIons = 6;
 
             double theta = Math.PI / 2 + ( random.nextDouble() * Math.PI / 6 * MathUtil.nextRandomSign() );
@@ -79,23 +80,23 @@ public class Shaker extends Particle {
 
                 // When we create the lattice, give it the bounds of the entire model. That will allow all the
                 // ions we produce for it to nucleate to it. We'll change the bounds before we exit
-                if( lattice == null ) {
-                    lattice = new Lattice( ion, model.getBounds() );
+                if( crystal == null ) {
+                    crystal = new Crystal( ion, model.getBounds() );
                 }
                 else {
                     // Position the new ion so it isn't right on top of the seed, and so it's above the seed. This
                     // will help when the lattice falls to the bottom of the vessel
                     ion.setPosition( this.getPosition().getX() + ion.getRadius() * random.nextDouble() * (random.nextBoolean()?1:-1),
                                      this.getPosition().getY() - ion.getRadius() * ( random.nextDouble() + 0.001) );
-                    lattice.addIon( ion );
+                    crystal.addIon( ion );
                 }
             }
-            lattice.setVelocity( v );
+            crystal.setVelocity( v );
 
             // Before we leave, give the lattice the bounds of the water in the vessel, so it will behave properly once
             // it's out of the shaker
-            lattice.setBounds( model.getVessel().getWater().getBounds() );
-            model.addModelElement( lattice );
+            crystal.setBounds( model.getVessel().getWater().getBounds() );
+            model.addModelElement( crystal );
         }
     }
 

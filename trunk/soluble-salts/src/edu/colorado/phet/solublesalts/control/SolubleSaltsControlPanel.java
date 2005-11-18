@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.solublesalts.model.*;
+import edu.colorado.phet.solublesalts.model.crystal.Crystal;
 import edu.colorado.phet.solublesalts.model.affinity.RandomAffinity;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.colorado.phet.solublesalts.util.DefaultGridBagConstraints;
@@ -77,7 +78,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
                                               new DecimalFormat( "0.000" ) );
         dissociationSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                Lattice.setDissociationLikelihood( dissociationSlider.getValue() );
+                Crystal.setDissociationLikelihood( dissociationSlider.getValue() );
             }
         } );
         dissociationSlider.setValue( 0.01 );

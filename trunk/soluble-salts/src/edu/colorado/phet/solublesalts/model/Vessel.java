@@ -17,6 +17,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.solublesalts.model.affinity.Affinity;
 import edu.colorado.phet.solublesalts.model.affinity.RandomAffinity;
+import edu.colorado.phet.solublesalts.model.crystal.Crystal;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -80,8 +81,8 @@ public class Vessel implements ModelElement, Collidable, Binder {
      * @param ion
      */
     public void bind( Ion ion ) {
-        Lattice lattice = new Lattice( ion, collisionBox.getBounds() );
-        ion.bindTo( lattice );
+        Crystal crystal = new Crystal( ion, collisionBox.getBounds() );
+        ion.bindTo( crystal );
     }
 
     //----------------------------------------------------------------

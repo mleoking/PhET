@@ -11,6 +11,7 @@
 package edu.colorado.phet.solublesalts.model;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.solublesalts.model.crystal.Crystal;
 
 import java.awt.geom.Point2D;
 
@@ -27,7 +28,7 @@ import java.awt.geom.Point2D;
 public class Ion extends Atom {
 
     private IonProperties ionProperties;
-    private Lattice bindingLattice;
+    private Crystal bindingCrystal;
     private Vector2D vSaveUtil = new Vector2D.Double( );
 
     public Ion( IonProperties ionProperties ) {
@@ -48,23 +49,23 @@ public class Ion extends Atom {
         }
         else {
             vSaveUtil.setComponents( getVelocity().getX(), getVelocity().getY() );
-            setVelocity( bindingLattice.getVelocity() );
+            setVelocity( bindingCrystal.getVelocity() );
             super.stepInTime( dt );
             setVelocity( vSaveUtil );
         }
     }
 
     public void bindTo( Binder binder ) {
-        if( binder instanceof Lattice ) {
-            bindingLattice = (Lattice)binder;
+        if( binder instanceof Crystal ) {
+            bindingCrystal = (Crystal)binder;
         }
         super.bindTo( binder );
     }
 
     public void unbindFrom( Binder binder ) {
-        if( binder instanceof Lattice ) {
-            bindingLattice = null;
-            ((Lattice)binder).removeIon( this );
+        if( binder instanceof Crystal ) {
+            bindingCrystal = null;
+            ((Crystal)binder).removeIon( this );
         }
         super.unbindFrom( binder );
     }
@@ -77,7 +78,7 @@ public class Ion extends Atom {
         return ionProperties.getCharge();
     }
 
-    public Lattice getBindingLattice() {
-        return bindingLattice;
+    public Crystal getBindingLattice() {
+        return bindingCrystal;
     }
 }

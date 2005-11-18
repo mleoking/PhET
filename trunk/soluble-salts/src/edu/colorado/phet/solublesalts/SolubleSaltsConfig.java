@@ -45,7 +45,8 @@ public class SolubleSaltsConfig {
     public static final double DEFAULT_LATTICE_SPEED = 3;
 //    public static final double DEFAULT_LATTICE_SPEED = 5;
     // Acceleration of lattices when they come out of the shaker
-    public static final double DEFAULT_LATTICE_ACCELERATION = .5;
+    public static final double DEFAULT_LATTICE_ACCELERATION = .2;
+//    public static final double DEFAULT_LATTICE_ACCELERATION = .5;
 
 
     // Images

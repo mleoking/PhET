@@ -17,6 +17,7 @@ import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
+import edu.colorado.phet.solublesalts.model.crystal.Crystal;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -90,7 +91,7 @@ public class SolubleSaltsModel extends BaseModel {
         addLatticeListener( latticeTracker );
 
         // Add an agent that will track the creation and destruction of salt lattices
-        Lattice.addInstanceLifetimeListener( new LatticeLifetimeTracker() );
+        Crystal.addInstanceLifetimeListener( new LatticeLifetimeTracker() );
 
         // Create a vessel
         vessel = new Vessel( vesselWidth, vesselDepth, vesselWallThickness, vesselLoc );
@@ -133,15 +134,15 @@ public class SolubleSaltsModel extends BaseModel {
         // at a constant speed
         List lattices = latticeTracker.getLattices();
         for( int i = 0; i < lattices.size(); i++ ) {
-            Lattice lattice = (Lattice)lattices.get( i );
-            if( !vessel.getWater().getBounds().contains( lattice.getPosition() ) &&
-                !lattice.getAcceleration().equals( accelerationOutOfWater )) {
-                lattice.setAcceleration( accelerationOutOfWater );
+            Crystal crystal = (Crystal)lattices.get( i );
+            if( !vessel.getWater().getBounds().contains( crystal.getPosition() ) &&
+                !crystal.getAcceleration().equals( accelerationOutOfWater )) {
+                crystal.setAcceleration( accelerationOutOfWater );
             }
-            else if( vessel.getWater().getBounds().contains( lattice.getPosition() ) &&
-                !lattice.getAcceleration().equals( accelerationInWater )) {
-                lattice.setAcceleration( accelerationInWater );
-                lattice.setVelocity( 0, SolubleSaltsConfig.DEFAULT_LATTICE_SPEED );
+            else if( vessel.getWater().getBounds().contains( crystal.getPosition() ) &&
+                !crystal.getAcceleration().equals( accelerationInWater )) {
+                crystal.setAcceleration( accelerationInWater );
+                crystal.setVelocity( 0, SolubleSaltsConfig.DEFAULT_LATTICE_SPEED );
             }
         }
     }
@@ -156,7 +157,7 @@ public class SolubleSaltsModel extends BaseModel {
             ionListenerProxy.ionAdded( new IonEvent( modelElement ) );
         }
 
-        if( modelElement instanceof Lattice ) {
+        if( modelElement instanceof Crystal ) {
             latticeListenerProxy.latticeAdded( new LatticeEvent( modelElement ) );
         }
     }
@@ -175,7 +176,7 @@ public class SolubleSaltsModel extends BaseModel {
             }
         }
 
-        if( modelElement instanceof Lattice ) {
+        if( modelElement instanceof Crystal ) {
             latticeListenerProxy.latticeRemoved( new LatticeEvent( modelElement ) );
         }
     }
@@ -347,8 +348,8 @@ public class SolubleSaltsModel extends BaseModel {
             super( source );
         }
 
-        public Lattice getLattice() {
-            return (Lattice)getSource();
+        public Crystal getLattice() {
+            return (Crystal)getSource();
         }
     }
 
@@ -391,12 +392,12 @@ public class SolubleSaltsModel extends BaseModel {
     /**
      * Tracks the creation and destruction of lattice instances
      */
-    private class LatticeLifetimeTracker implements Lattice.InstanceLifetimeListener {
-        public void instanceCreated( Lattice.InstanceLifetimeEvent event ) {
+    private class LatticeLifetimeTracker implements Crystal.InstanceLifetimeListener {
+        public void instanceCreated( Crystal.InstanceLifetimeEvent event ) {
             addModelElement( event.getInstance() );
         }
 
-        public void instanceDestroyed( Lattice.InstanceLifetimeEvent event ) {
+        public void instanceDestroyed( Crystal.InstanceLifetimeEvent event ) {
             removeModelElement( event.getInstance() );
         }
     }
@@ -404,11 +405,11 @@ public class SolubleSaltsModel extends BaseModel {
     /**
      * Turns nucleation on and off depending on the concentration of solutes and Ksp
      */
-    private class NucleationMonitorAgent implements ModelElement, Lattice.InstanceLifetimeListener {
+    private class NucleationMonitorAgent implements ModelElement, Crystal.InstanceLifetimeListener {
         List lattices = new ArrayList();
 
         public NucleationMonitorAgent() {
-            Lattice.addInstanceLifetimeListener( this );
+            Crystal.addInstanceLifetimeListener( this );
         }
 
         public void stepInTime( double dt ) {
@@ -416,21 +417,21 @@ public class SolubleSaltsModel extends BaseModel {
 
             if( !nucleationEnabled ) {
                 while( !lattices.isEmpty() ) {
-                    Lattice lattice = (Lattice)lattices.get( 0 );
-                    List ions = lattice.getIons();
+                    Crystal crystal = (Crystal)lattices.get( 0 );
+                    List ions = crystal.getIons();
                     for( int i = 0; i < ions.size(); i++ ) {
                         Ion ion = (Ion)ions.get( i );
-                        ion.unbindFrom( lattice );
+                        ion.unbindFrom( crystal );
                     }
                 }
             }
         }
 
-        public void instanceCreated( Lattice.InstanceLifetimeEvent event ) {
+        public void instanceCreated( Crystal.InstanceLifetimeEvent event ) {
             lattices.add( event.getInstance() );
         }
 
-        public void instanceDestroyed( Lattice.InstanceLifetimeEvent event ) {
+        public void instanceDestroyed( Crystal.InstanceLifetimeEvent event ) {
             lattices.remove( event.getInstance() );
         }
     }
