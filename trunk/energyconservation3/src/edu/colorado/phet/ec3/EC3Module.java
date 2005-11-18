@@ -8,6 +8,7 @@ import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
 import edu.colorado.phet.ec3.model.Floor;
+import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.CubicSpline;
 import edu.colorado.phet.ec3.model.spline.SplineSurface;
 import edu.colorado.phet.ec3.view.BodyGraphic;
@@ -57,11 +58,14 @@ public class EC3Module extends PiccoloModule {
         CubicSpline floorSpline = new CubicSpline( 4 );
         floorSpline.addControlPoint( -1000, 0 );
         floorSpline.addControlPoint( 1000, 0 );
+//        floorSpline.addControlPoint( -1000, -AbstractSpline.SPLINE_THICKNESS/2+AbstractSpline.SPLINE_THICKNESS/10 );
+//        floorSpline.addControlPoint( 1000, -AbstractSpline.SPLINE_THICKNESS/2+AbstractSpline.SPLINE_THICKNESS/10 );
+
         SplineSurface splineSurface = new SplineSurface( floorSpline );
         splineSurface.setInteractive( false );
         energyModel.addSplineSurface( splineSurface );
 
-        Floor floor = new Floor( getEnergyConservationModel(), energyModel.getZeroPointPotentialY() );
+        Floor floor = new Floor( getEnergyConservationModel(), energyModel.getZeroPointPotentialY() - AbstractSpline.SPLINE_THICKNESS );
         energyModel.addFloor( floor );
         setModel( new BaseModel() );
 

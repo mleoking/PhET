@@ -99,10 +99,6 @@ public class Body {
         return position.x;
     }
 
-    public void setVelocity( AbstractVector2D vector2D ) {
-        this.velocity.setComponents( vector2D.getX(), vector2D.getY() );
-    }
-
     public AbstractVector2D getVelocity() {
         return velocity;
     }
@@ -112,13 +108,20 @@ public class Body {
         position.x += dx;
         position.y += dy;
 //        System.out.println( "Body.translate" );
-        if( origLoc.distance( position ) > 10 ) {
+        if( origLoc.distance( position ) > 0.30 ) {
             System.out.println( "Body.location jumped by: " + origLoc.distance( position ) );
         }
     }
 
+    public void setVelocity( AbstractVector2D vector2D ) {
+        setVelocity( vector2D.getX(), vector2D.getY() );
+    }
+
     public void setVelocity( double vx, double vy ) {
         velocity.setComponents( vx, vy );
+        if( getSpeed() == 0.0 ) {
+            System.out.println( "Zero speed." );
+        }
     }
 
     public boolean isUserControlled() {

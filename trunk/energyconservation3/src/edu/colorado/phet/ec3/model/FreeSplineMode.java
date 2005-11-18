@@ -221,7 +221,7 @@ public class FreeSplineMode extends ForceMode {
             }
         }
         if( !lastGrabState && grabbed ) {
-            if( origVector.getParallel() > 0 ) {//try to conserve velocity, so that the EnergyConserver doesn't have
+            if( origVector.getParallel() >= 0 ) {//try to conserve velocity, so that the EnergyConserver doesn't have
                 //to make up for it all in dHeight.
                 origVector.setParallel( origVector.getParallel() + Math.abs( originalPerpVel ) );
             }
@@ -231,6 +231,10 @@ public class FreeSplineMode extends ForceMode {
         }
 
         Vector2D.Double newVelocity = origVector.toCartesianVector();
+
+        if( newVelocity.getMagnitude() == 0.0 ) {
+            System.out.println( "newVelocity = " + newVelocity );
+        }
 
         EC3Debug.debug( "newVelocity = " + newVelocity );
         body.setVelocity( newVelocity );

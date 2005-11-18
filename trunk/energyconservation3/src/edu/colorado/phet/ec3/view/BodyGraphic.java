@@ -63,7 +63,7 @@ public class BodyGraphic extends PNode {
             centerDebugger = new PPath();
             centerDebugger.setStroke( null );
             centerDebugger.setPaint( Color.red );
-//            addChild( centerDebugger );
+            addChild( centerDebugger );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -230,15 +230,14 @@ public class BodyGraphic extends PNode {
         skater.translate( 0, -AbstractSpline.SPLINE_THICKNESS / 2.0 );
         skater.transformBy( AffineTransform.getScaleInstance( dw, dh ) );
 
-
         boolean facingRight = body.isFacingRight();
         if( facingRight ) {
             skater.transformBy( AffineTransform.getScaleInstance( -1, 1 ) );
             skater.translate( -skater.getImage().getWidth( null ), 0 );
         }
 
-        centerDebugger.setPathTo( new Rectangle2D.Double( body.getPosition().getX(), body.getPosition().getY(), 0.15, 0.15 ) );
-//        centerDebugger.setPathTo( new Rectangle( (int)body.getAttachPoint().getX(), (int)body.getAttachPoint().getY(), 5, 5 ) );
+//        centerDebugger.setPathTo( new Rectangle2D.Double( body.getPosition().getX(), body.getPosition().getY(), 0.15, 0.15 ) );
+        centerDebugger.setPathTo( new Rectangle2D.Double( body.getAttachPoint().getX(), body.getAttachPoint().getY(), 0.1, 0.1 ) );
 //        centerDebugger.setPathTo( new Rectangle( (int)body.getAttachPoint().getX(), (int)body.getAttachPoint().getY(), 5, 5 ) );
         if( body.getThrust().getMagnitude() != 0 ) {
             setFlamesVisible( true );

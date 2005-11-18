@@ -2,6 +2,7 @@
 package edu.colorado.phet.ec3.view;
 
 import edu.colorado.phet.ec3.model.Floor;
+import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -22,15 +23,17 @@ public class FloorGraphic extends PNode {
     public FloorGraphic( Floor floor ) {
         this.floor = floor;
         double y = floor.getY();
-        PPath earth = new PPath( new Rectangle2D.Double( -100, y - 1000, 10000, 1000 ) );
+        float offset = 3 * AbstractSpline.SPLINE_THICKNESS / 2;
+//        double offset= 0.0;
+        PPath earth = new PPath( new Rectangle2D.Double( -100, y - 1000, 10000, 1000 + offset ) );
         earth.setPaint( new Color( 100, 170, 100 ) );
         earth.setStroke( null );
         addChild( earth );
 
-        Line2D.Double line = new Line2D.Double( -100, y, 10000, y );
+        Line2D.Double line = new Line2D.Double( -100, y + offset, 10000, y + offset );
         PPath path = new PPath( line );
-        path.setStroke( new BasicStroke( 0.05f ) );
-        path.setStrokePaint( Color.black );
+        path.setStroke( new BasicStroke( 0.03f ) );
+        path.setStrokePaint( new Color( 0, 130, 0 ) );
 
         addChild( path );
     }
