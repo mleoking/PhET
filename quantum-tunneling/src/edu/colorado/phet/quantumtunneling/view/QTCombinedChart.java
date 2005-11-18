@@ -21,14 +21,13 @@ import org.jfree.chart.plot.*;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYStepRenderer;
-import org.jfree.chart.title.LegendTitle;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.ui.Layer;
-import org.jfree.ui.RectangleEdge;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
+import edu.colorado.phet.quantumtunneling.model.IPotential;
+import edu.colorado.phet.quantumtunneling.model.PotentialRegion;
 
 
 
@@ -40,13 +39,25 @@ import edu.colorado.phet.quantumtunneling.QTConstants;
  */
 public class QTCombinedChart extends JFreeChart {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final boolean CREATE_LEGEND = false;
     private static final Font AXIS_LABEL_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 16 );
     private static final double CHART_SPACING = 15.0;
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private XYSeriesCollection _energyData, _waveFunctionData, _probabilityDensityData;
     private XYSeries _totalEnergySeries, _potentialEnergySeries;
     private XYSeries _probabilityDensitySeries;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public QTCombinedChart() {
         super( null, null, new CombinedDomainXYPlot(), CREATE_LEGEND );
@@ -68,7 +79,7 @@ public class QTCombinedChart extends JFreeChart {
         
         // Energy plot...
         _energyData = new XYSeriesCollection();
-        XYItemRenderer energyRenderer = new XYStepRenderer(); // step renderer!
+        XYItemRenderer energyRenderer = new StandardXYItemRenderer();
         _energyData.addSeries( _potentialEnergySeries );
         _energyData.addSeries( _totalEnergySeries );
         energyRenderer.setSeriesPaint( 0, QTConstants.POTENTIAL_ENERGY_PAINT );
@@ -113,11 +124,16 @@ public class QTCombinedChart extends JFreeChart {
         plot.setGap( CHART_SPACING );
         plot.setOrientation( PlotOrientation.VERTICAL );
         
-        // Add the subplots...
-        plot.add(energyPlot, 1);
-        plot.add(waveFunctionPlot, 1);
-        plot.add( probabilityDensityPlot, 1 );   
+        // Add the subplots, weights all the same
+        final int weight = 1;
+        plot.add( energyPlot, weight );
+        plot.add( waveFunctionPlot, weight );
+        plot.add( probabilityDensityPlot, weight );   
     }
+    
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
     
     public XYSeriesCollection getEnergyData() {
         return _energyData;
@@ -159,6 +175,22 @@ public class QTCombinedChart extends JFreeChart {
         for ( int i = 0; i < subPlots.size(); i ++ ) {
             XYPlot plot = (XYPlot) subPlots.get( i );
             plot.clearDomainMarkers();
+        }
+    }
+    
+    public void setPotential( IPotential potential ) {
+        _potentialEnergySeries.clear();
+        clearBarrierMarkers();
+        PotentialRegion[] regions = potential.getRegions();
+        for ( int i = 0; i < regions.length; i++ ) {
+            double start = regions[i].getStart();
+            double end = regions[i].getEnd();
+            double energy = regions[i].getEnergy();
+            _potentialEnergySeries.add( start, energy );
+            _potentialEnergySeries.add( end, energy );
+            if ( i > 0 ) {
+                addBarrierMarker( start );
+            }
         }
     }
 }

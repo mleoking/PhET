@@ -6,6 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- use setFixedLegendItems to control what's in the legend
 - what is the default configuration of each item in the "Potential" combobox?
 - use an IntervalMarker with a gradient paint for Total Energy
 - how to keep markers behind data (Layer?)
@@ -56,6 +57,7 @@ JFREECHART:
 - CombinedDomainXYPlot.addDomainMarker doesn't do anything
 
 DONE:
+(11/18/05) - create model of different types of "potential spaces"
 (11/17/05) - add vertical markers for barrier edges
 (11/17/05) - use StepPlot for Energy chart, reduces # points required
 (11/17/05) - create a custom PNode that draws any org.jfree.ui.Drawable (including JFreeChart)
