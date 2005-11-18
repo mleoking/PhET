@@ -24,6 +24,8 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.text.DecimalFormat;
 
 /**
@@ -93,28 +95,41 @@ public class SpectrumSliderWithReadout extends SpectrumSliderWithSquareCursor {
             readout = new JTextField( 4 );
             readout.setHorizontalAlignment( JTextField.CENTER );
             readout.setFont( VALUE_FONT );
+            readout.addFocusListener( new FocusListener() {
+                public void focusGained( FocusEvent e ) {
+                    // noop
+                }
+
+                public void focusLost( FocusEvent e ) {
+                    update( component );
+                }
+            } );
             readout.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    double wavelength = 0;
-                    try {
-                        String text = readout.getText().toLowerCase();
-                        int nmLoc = text.indexOf( "nm" );
-                        text = nmLoc >= 0 ? readout.getText().substring( 0, nmLoc ) : text;
-                        wavelength = Double.parseDouble( text );
-                        beam.setWavelength( wavelength );
-                        update( wavelength );
-                    }
-                    catch( NumberFormatException e1 ) {
-                        JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ),
-                                                       "Wavelength must be numeric, or a number followed by \"nm\"" );
-                        setText( beam.getWavelength() );
-                    }
+                    update( component );
                 }
             } );
             readoutGraphic = PhetJComponent.newInstance( component, readout );
             addGraphic( readoutGraphic, 1E9 );
 
             update( 123 ); // dummy value
+        }
+
+        private void update( final Component component ) {
+            double wavelength = 0;
+            try {
+                String text = readout.getText().toLowerCase();
+                int nmLoc = text.indexOf( "nm" );
+                text = nmLoc >= 0 ? readout.getText().substring( 0, nmLoc ) : text;
+                wavelength = Double.parseDouble( text );
+                beam.setWavelength( wavelength );
+                update( wavelength );
+            }
+            catch( NumberFormatException e1 ) {
+                JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ),
+                                               "Wavelength must be numeric, or a number followed by \"nm\"" );
+                setText( beam.getWavelength() );
+            }
         }
 
         private void update( double wavelength ) {
