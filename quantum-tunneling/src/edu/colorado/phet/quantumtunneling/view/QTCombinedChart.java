@@ -11,19 +11,21 @@
 
 package edu.colorado.phet.quantumtunneling.view;
 
-import java.awt.BasicStroke;
 import java.awt.Font;
+import java.util.List;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.plot.CombinedDomainXYPlot;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.plot.*;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
+import org.jfree.chart.renderer.xy.XYStepRenderer;
+import org.jfree.chart.title.LegendTitle;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.ui.Layer;
+import org.jfree.ui.RectangleEdge;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
@@ -38,7 +40,7 @@ import edu.colorado.phet.quantumtunneling.QTConstants;
  */
 public class QTCombinedChart extends JFreeChart {
 
-    private static final boolean CREATE_LEGEND = true;
+    private static final boolean CREATE_LEGEND = false;
     private static final Font AXIS_LABEL_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 16 );
     private static final double CHART_SPACING = 15.0;
 
@@ -66,13 +68,13 @@ public class QTCombinedChart extends JFreeChart {
         
         // Energy plot...
         _energyData = new XYSeriesCollection();
-        XYItemRenderer energyRenderer = new StandardXYItemRenderer();
-        _energyData.addSeries( _totalEnergySeries );
+        XYItemRenderer energyRenderer = new XYStepRenderer(); // step renderer!
         _energyData.addSeries( _potentialEnergySeries );
-        energyRenderer.setSeriesPaint( 0, QTConstants.TOTAL_ENERGY_PAINT );
-        energyRenderer.setSeriesStroke( 0, QTConstants.TOTAL_ENERGY_STROKE );
-        energyRenderer.setSeriesPaint( 1, QTConstants.POTENTIAL_ENERGY_PAINT );
-        energyRenderer.setSeriesStroke( 1, QTConstants.POTENTIAL_ENERGY_STROKE );
+        _energyData.addSeries( _totalEnergySeries );
+        energyRenderer.setSeriesPaint( 0, QTConstants.POTENTIAL_ENERGY_PAINT );
+        energyRenderer.setSeriesStroke( 0, QTConstants.POTENTIAL_ENERGY_STROKE );
+        energyRenderer.setSeriesPaint( 1, QTConstants.TOTAL_ENERGY_PAINT );
+        energyRenderer.setSeriesStroke( 1, QTConstants.TOTAL_ENERGY_STROKE );
         NumberAxis energyAxis = new NumberAxis( energyLabel );
         energyAxis.setLabelFont( AXIS_LABEL_FONT );
         energyAxis.setRange( QTConstants.ENERGY_RANGE );
@@ -135,5 +137,28 @@ public class QTCombinedChart extends JFreeChart {
     
     public XYSeriesCollection getProbabilityDensityData() {
         return _probabilityDensityData;
+    }
+    
+    public void addBarrierMarker( double x ) {
+
+        Marker marker = new ValueMarker( x );
+        marker.setPaint( QTConstants.BARRIER_MARKER_PAINT );
+        marker.setStroke( QTConstants.BARRIER_MARKER_STROKE );
+        
+        CombinedDomainXYPlot combinedPlot = (CombinedDomainXYPlot) getPlot();
+        List subPlots = combinedPlot.getSubplots();
+        for ( int i = 0; i < subPlots.size(); i ++ ) {
+            XYPlot plot = (XYPlot) subPlots.get( i );
+            plot.addDomainMarker( marker );
+        }
+    }
+    
+    public void clearBarrierMarkers() {
+        CombinedDomainXYPlot combinedPlot = (CombinedDomainXYPlot) getPlot();
+        List subPlots = combinedPlot.getSubplots();
+        for ( int i = 0; i < subPlots.size(); i ++ ) {
+            XYPlot plot = (XYPlot) subPlots.get( i );
+            plot.clearDomainMarkers();
+        }
     }
 }
