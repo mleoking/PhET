@@ -158,9 +158,16 @@ public class QTModule extends AbstractModule {
             
             XYSeries potentialEnergySeries = chart.getPotentialEnergySeries();
             potentialEnergySeries.add( 0, 0 );
-            potentialEnergySeries.add( 8, 0 );
-            potentialEnergySeries.add( 8, 1 );
-            potentialEnergySeries.add( 20, 1 );
+            potentialEnergySeries.add( 8, 5 );
+            potentialEnergySeries.add( 12, 0 );
+            potentialEnergySeries.add( 14, 3 );
+            potentialEnergySeries.add( 17, 0 );
+            potentialEnergySeries.add( 20, 0 );
+            
+            chart.addBarrierMarker( 8 );
+            chart.addBarrierMarker( 12 );
+            chart.addBarrierMarker( 14 );
+            chart.addBarrierMarker( 17 );
         }
           
         //----------------------------------------------------------------------------

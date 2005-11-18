@@ -4,13 +4,11 @@
 
 IN PROGRESS:
 
-DESIGN ISSUES:
-
-
 
 HIGH PRIORITY:
-- use StepPlot for Energy chart?
-- figure out how to make the interior of all charts the same size, so that x position are vertically aligned
+- what is the default configuration of each item in the "Potential" combobox?
+- use an IntervalMarker with a gradient paint for Total Energy
+- how to keep markers behind data (Layer?)
 - implement PotentialsEnum
 - implement "Configure Energy" dialog
 - add "Restart" button to clock controls
@@ -54,8 +52,12 @@ PHETCOMMON:
 - factor an interface out of ApparatusPanel and PiccoloApparatusPanel
 - add help support to PiccoloModule
 
+JFREECHART:
+- CombinedDomainXYPlot.addDomainMarker doesn't do anything
 
 DONE:
+(11/17/05) - add vertical markers for barrier edges
+(11/17/05) - use StepPlot for Energy chart, reduces # points required
 (11/17/05) - create a custom PNode that draws any org.jfree.ui.Drawable (including JFreeChart)
 (11/17/05) - use JFreeChart "combine" feature to combine the 3 charts, since they have the same x-axis 
 (11/16/05) - tweak some SimStrings

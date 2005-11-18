@@ -61,12 +61,14 @@ public class QTConstants {
     // Strokes
     //----------------------------------------------------------------------------
     
-    public static final Stroke TOTAL_ENERGY_STROKE = new BasicStroke( 5f );
-    public static final Stroke POTENTIAL_ENERGY_STROKE = new BasicStroke( 2f );
-    public static final Stroke INCIDENT_WAVE_STROKE = new BasicStroke( 2f );
-    public static final Stroke REFLECTED_WAVE_STROKE = new BasicStroke( 2f );
-    public static final Stroke TRANSMITTED_WAVE_STROKE = new BasicStroke( 2f );
-    public static final Stroke PROBABILITY_DENSITY_STROKE = new BasicStroke( 2f );
+    private static final float DEFAULT_PLOT_WIDTH = 3f;
+    public static final Stroke TOTAL_ENERGY_STROKE = new BasicStroke( DEFAULT_PLOT_WIDTH );
+    public static final Stroke POTENTIAL_ENERGY_STROKE = new BasicStroke( DEFAULT_PLOT_WIDTH );
+    public static final Stroke INCIDENT_WAVE_STROKE = new BasicStroke( DEFAULT_PLOT_WIDTH );
+    public static final Stroke REFLECTED_WAVE_STROKE = new BasicStroke( DEFAULT_PLOT_WIDTH );
+    public static final Stroke TRANSMITTED_WAVE_STROKE = new BasicStroke( DEFAULT_PLOT_WIDTH );
+    public static final Stroke PROBABILITY_DENSITY_STROKE = new BasicStroke( DEFAULT_PLOT_WIDTH );
+    public static final Stroke BARRIER_MARKER_STROKE = new BasicStroke( 1f );
     
     //----------------------------------------------------------------------------
     // Paints
@@ -81,6 +83,7 @@ public class QTConstants {
     public static final Paint REFLECTED_WAVE_PAINT = Color.RED;
     public static final Paint TRANSMITTED_WAVE_PAINT = Color.RED;
     public static final Paint PROBABILITY_DENSITY_PAINT = Color.BLACK;
+    public static final Paint BARRIER_MARKER_PAINT = Color.BLACK;
     
     //----------------------------------------------------------------------------
     // Cursors
