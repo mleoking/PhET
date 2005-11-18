@@ -103,7 +103,7 @@ public class QTModule extends AbstractModule {
         _totalEnergy = new TotalEnergy( 8 );
         
         // Potential energy
-        _potentialEnergy = new MultiBarrierPotential( 3 );
+        _potentialEnergy = new MultiBarrierPotential( 2 );
         
         //----------------------------------------------------------------------------
         // View

@@ -16,8 +16,7 @@ HIGH PRIORITY:
 - add time display to lower left of PhetFrame
 - design and implement the model
 - resolve several phetcommon/Piccolo integration issues
-- determine the best way to add support for complex numbers
-- change time to ns when the time values grows too large to display fs
+- add support for complex numbers
 - implement Schrodinger's equation for 1 dimension
 
 MEDIUM PRIORITY:
@@ -25,6 +24,7 @@ MEDIUM PRIORITY:
 - Save/Load
 
 LOW PRIORITY:
+- change time to ns when the time values grows too large to display fs
 - add build number to "About" dialog
 - add PhET logo to "About" dialog
 
