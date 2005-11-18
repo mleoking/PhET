@@ -11,22 +11,17 @@
 package edu.colorado.phet.photoelectric.view;
 
 import edu.colorado.phet.chart.*;
-import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 
 import java.awt.*;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
 
 /**
  * CurrentVsVoltageGraph
  * <p/>
  * A Chart that shows plots of current against voltage, parameterized by wavelength.
  * A separated data set is maintained for each wavelength
- * <p/>
- * The graph operates in two modes. In the EMPIRICAL_LINE mode, the graph displays line plots
- * In the ANALYTICAL_SPOT mode, the graph displays a single spot a a specified point.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -36,62 +31,73 @@ public class CurrentVsVoltageGraph extends Chart {
     //-----------------------------------------------------------------
     // Class data
     //-----------------------------------------------------------------
-    static private double PLOT_LAYER = 1E9;
-    static private Range2D range = new Range2D( PhotoelectricModel.MIN_VOLTAGE * 1.2, 0,
-                                                PhotoelectricModel.MAX_VOLTAGE * 1.2, 0.2 );
-    static Dimension chartSize = new Dimension( 200, 150 );
-
-    static public final Object EMPIRICAL_LINE = new Object();
-    static public final Object ANALYTICAL_SPOT = new Object();
+    static private Range2D range = new Range2D( PhotoelectricModel.MIN_VOLTAGE,
+                                                0,
+                                                PhotoelectricModel.MAX_VOLTAGE,
+                                                PhotoelectricModel.MAX_CURRENT );
+    static private Dimension chartSize = new Dimension( 200, 150 );
+    static private Font titleFont = new Font( "Lucida Sans", Font.BOLD, 14 );
+    private static final double PLOT_LAYER = 1E15;
 
     //-----------------------------------------------------------------
     // Instance data
     //-----------------------------------------------------------------
 
-    // A map of data sets, keyed by the wavelength each corresponds to
-    private HashMap wavelengthToDataSetMap = new HashMap();
-    // The mode in which the graph operates
-    private Object mode;
+    private DataSet dotDataSet = new DataSet();
+    private DataSet lineDataSet = new DataSet();
+    private double stoppingVoltage;
+    private double lastVoltageRecorded;
+    private double lastCurrentRecorded;
 
     //-----------------------------------------------------------------
     // Instance methods
     //-----------------------------------------------------------------
 
-    public CurrentVsVoltageGraph( Component component ) {
-        super( component, range, chartSize );
+    public CurrentVsVoltageGraph( Component component, final PhotoelectricModel model ) {
+        super( component, range, chartSize, 2, 2, 2, 2 );
 
-    }
+        GridLineSet horizontalGls = this.getHorizonalGridlines();
+        horizontalGls.setMajorGridlinesColor( new Color( 200, 200, 200 ) );
 
-    /**
-     * Returns the dataset for a specified wavelength. If there is no dataset exists,
-     * one is created.
-     *
-     * @param wavelength
-     * @return
-     */
-    public DataSet getWavelengthDataset( double wavelength ) {
-        Double wavelengthObj = new Double( wavelength );
-        SortedDataSet dataSet = (SortedDataSet)wavelengthToDataSetMap.get( wavelengthObj );
+        GridLineSet verticalGls = this.getVerticalGridlines();
+        verticalGls.setMajorGridlinesColor( new Color( 200, 200, 200 ) );
 
-        // If we don't already have a plot for this wavelength, create one, and
-        // give it a color corresponding to its wavelength
-        if( wavelengthToDataSetMap.get( wavelengthObj ) == null ) {
-            dataSet = new SortedDataSet();
-            wavelengthToDataSetMap.put( wavelengthObj, dataSet );
-            Color color = VisibleColor.wavelengthToColor( wavelength );
-            // For some reason, [r,g,b] = [0,0,0] doesn't work for the Charts plot
-            if( color.getRed() == 0 && color.getGreen() == 0 && color.getBlue() == 0 ) {
-                color = new Color( 1, 1, 11 );
+        getYAxis().setMajorTickLabelsVisible( false );
+
+        Color color = Color.red;
+        Color lineColor = new Color( color.getRed(), color.getGreen(), color.getBlue(), 80 );
+        LinePlot lines = new LinePlot( getComponent(), this, lineDataSet, new BasicStroke( 3f ), lineColor );
+        lines.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+        this.addDataSetGraphic( lines, PLOT_LAYER );
+        ScatterPlot points = new ScatterPlot( getComponent(), this, dotDataSet, color, PhotoelectricConfig.GRAPH_DOT_RADIUS );
+        this.addDataSetGraphic( points, PLOT_LAYER );
+
+        model.addChangeListener( new PhotoelectricModel.ChangeListenerAdapter() {
+            public void currentChanged( PhotoelectricModel.ChangeEvent event ) {
+                addDotDataPoint( model.getVoltage(), model.getCurrent() );
             }
-            LinePlot plot = new LinePlot( getComponent(), this, dataSet );
-            ScatterPlot points = new ScatterPlot( getComponent(), this, dataSet, color, 2 );
 
-            plot.setBorderColor( color );
-            plot.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-            this.addDataSetGraphic( plot, PLOT_LAYER );
-            this.addDataSetGraphic( points, PLOT_LAYER + 1 );
-        }
-        return dataSet;
+            public void voltageChanged( PhotoelectricModel.ChangeEvent event ) {
+                stoppingVoltage = model.getStoppingVoltage();
+                addDotDataPoint( model.getVoltage(), model.getCurrent() );
+                addLineDataPoint( model.getVoltage(), model.getCurrent(), model );
+            }
+
+            public void wavelengthChanged( PhotoelectricModel.ChangeEvent event ) {
+                stoppingVoltage = model.getStoppingVoltage();
+                lineDataSet.clear();
+                addDotDataPoint( model.getVoltage(), model.getCurrent() );
+            }
+
+            public void beamIntensityChanged( PhotoelectricModel.ChangeEvent event ) {
+                lineDataSet.clear();
+            }
+
+            public void targetMaterialChanged( PhotoelectricModel.ChangeEvent event ) {
+                stoppingVoltage = model.getStoppingVoltage();
+                lineDataSet.clear();
+            }
+        } );
     }
 
     /**
@@ -99,30 +105,33 @@ public class CurrentVsVoltageGraph extends Chart {
      *
      * @param voltage
      * @param current
-     * @param wavelength
      */
-    public void addDataPoint( double voltage, double current, double wavelength ) {
-        DataSet dataSet = getWavelengthDataset( wavelength );
-        if( mode == ANALYTICAL_SPOT ) {
-            dataSet.clear();
-        }
-        dataSet.addPoint( voltage, current );
+    public void addDotDataPoint( double voltage, double current ) {
+        dotDataSet.clear();
+        dotDataSet.addPoint( voltage, current );
     }
 
     /**
-     * Removes all the data from the graph
+     * Adds a data point for a specified wavelength
+     *
+     * @param voltage
+     * @param current
      */
-    public void clearData() {
-        Collection dataSets = wavelengthToDataSetMap.values();
-        for( Iterator iterator = dataSets.iterator(); iterator.hasNext(); ) {
-            DataSet dataSet = (DataSet)iterator.next();
-            dataSet.clear();
+    private void addLineDataPoint( double voltage, double current, PhotoelectricModel model ) {
+        // Do some shenanigans to handle moving too quickly through the stopping voltage
+        double dv = 0.1 * MathUtil.getSign( voltage - lastVoltageRecorded );
+        for( double v = lastVoltageRecorded + dv; Math.abs( v - voltage ) > Math.abs( dv ); v += dv ) {
+            lineDataSet.addPoint( v, model.getCurrentForVoltage( v ) );
         }
-        wavelengthToDataSetMap.clear();
-        repaint();
+        lineDataSet.addPoint( voltage, current );
+        lastVoltageRecorded = voltage;
+        lastCurrentRecorded = current;
     }
 
-    public void setMode( Object mode ) {
-        this.mode = mode;
+    /**
+     * Removes the line plot from the graph
+     */
+    public void clearLinePlot() {
+        lineDataSet.clear();
     }
 }

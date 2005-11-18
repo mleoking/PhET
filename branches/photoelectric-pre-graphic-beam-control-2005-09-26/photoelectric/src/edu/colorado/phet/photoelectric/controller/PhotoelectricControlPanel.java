@@ -11,7 +11,6 @@
 package edu.colorado.phet.photoelectric.controller;
 
 import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.dischargelamps.model.FiftyPercentAbsorptionStrategy;
 import edu.colorado.phet.lasers.model.atom.ElementProperties;
 import edu.colorado.phet.lasers.model.atom.EnergyAbsorptionStrategy;
@@ -20,6 +19,9 @@ import edu.colorado.phet.photoelectric.model.MetalEnergyAbsorptionStrategy;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 import edu.colorado.phet.photoelectric.model.PhotoelectricTarget;
 import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
+import edu.colorado.phet.photoelectric.view.CurrentVsIntensityGraphPanel;
+import edu.colorado.phet.photoelectric.view.CurrentVsVoltageGraphPanel;
+import edu.colorado.phet.photoelectric.view.EnergyVsFrequencyGraphPanel;
 import edu.colorado.phet.photoelectric.view.GraphWindow;
 
 import javax.swing.*;
@@ -87,7 +89,8 @@ public class PhotoelectricControlPanel {
         {
             JPanel electronModelPanel = new JPanel( new GridBagLayout() );
             electronModelPanel.setBorder( new TitledBorder( "Electron model" ) );
-            GridBagConstraints gbc = new GridBagConstraints( GridBagConstraints.RELATIVE, 0, 1, 1, 1, 1,
+            GridBagConstraints gbc = new GridBagConstraints( GridBagConstraints.RELATIVE, 0,
+                                                             1, 1, 1, 1,
                                                              GridBagConstraints.CENTER,
                                                              GridBagConstraints.NONE,
                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
@@ -106,7 +109,7 @@ public class PhotoelectricControlPanel {
             ButtonGroup rbg = new ButtonGroup();
             rbg.add( simpleRB );
             rbg.add( realisticRB );
-            JPanel rbPanel = new JPanel( new GridLayout( 2, 1 ) );
+            JPanel rbPanel = new JPanel( new GridLayout( 1, 2 ) );
             rbPanel.add( simpleRB, gbc );
             rbPanel.add( realisticRB, gbc );
             electronModelPanel.add( rbPanel, gbc );
@@ -117,47 +120,49 @@ public class PhotoelectricControlPanel {
         // Graph options
         //----------------------------------------------------------------
         {
-            final JCheckBox currentVsVoltageCB = new JCheckBox( "<html>Current vs<br>battery voltage</html>" );
-            final JCheckBox currentVsIntensityCB = new JCheckBox( "<html>Current vs<br>light intensity</html>" );
-            final JCheckBox energyVsFrequencyCB = new JCheckBox( "<html>Electron energy vs<br>light frequency</html>" );
+            final JCheckBox currentVsVoltageCB = new JCheckBox( "<html>Current vs battery voltage</html>" );
+            final JPanel cvgPanel = new CurrentVsVoltageGraphPanel( model, module.getClock(), 20, 0 );
+            final JCheckBox currentVsIntensityCB = new JCheckBox( "<html>Current vs light intensity</html>" );
+            final JPanel cviPanel = new CurrentVsIntensityGraphPanel( model, module.getClock(), 20, 0 );
+            final JCheckBox energyVsFrequencyCB = new JCheckBox( "<html>Electron energy vs light frequency</html>" );
+            final JPanel evfPanel = new EnergyVsFrequencyGraphPanel( model, module.getClock(), 20, 0 );
             currentVsVoltageCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    graphWindow.clearCurrentVsVoltage();
-                    graphWindow.setCurrentVsVoltageVisible( currentVsVoltageCB.isSelected() );
-                    graphWindow.setVisible( currentVsVoltageCB.isSelected()
-                                            || currentVsIntensityCB.isSelected()
-                                            || energyVsFrequencyCB.isSelected() );
+                    cvgPanel.setVisible( currentVsVoltageCB.isSelected() );
                 }
             } );
+            cvgPanel.setVisible( currentVsVoltageCB.isSelected() );
+
             currentVsIntensityCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    graphWindow.clearCurrentVsIntensity();
-                    graphWindow.setCurrentVsIntensityVisible( currentVsIntensityCB.isSelected() );
-                    graphWindow.setVisible( currentVsVoltageCB.isSelected()
-                                            || currentVsIntensityCB.isSelected()
-                                            || energyVsFrequencyCB.isSelected() );
+                    cviPanel.setVisible( currentVsIntensityCB.isSelected() );
                 }
             } );
+            cviPanel.setVisible( currentVsIntensityCB.isSelected() );
+
             energyVsFrequencyCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    graphWindow.clearEnergyVsFrequency();
-                    graphWindow.setEnergyVsFrequency( energyVsFrequencyCB.isSelected() );
-                    graphWindow.setVisible( currentVsVoltageCB.isSelected()
-                                            || currentVsIntensityCB.isSelected()
-                                            || energyVsFrequencyCB.isSelected() );
+                    evfPanel.setVisible( energyVsFrequencyCB.isSelected() );
                 }
             } );
+            evfPanel.setVisible( energyVsFrequencyCB.isSelected() );
 
             JPanel graphOptionsPanel = new JPanel();
+            graphOptionsPanel.setLayout( new GridBagLayout() );
+            GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+                                                             1, 1, 0, 0,
+                                                             GridBagConstraints.NORTHWEST,
+                                                             GridBagConstraints.NONE,
+                                                             new Insets( 0, 0, 0, 0 ), 0, 0 );
             graphOptionsPanel.setBorder( new TitledBorder( "Graphs" ) );
-            EasyGridBagLayout layout = new EasyGridBagLayout( graphOptionsPanel );
-            graphOptionsPanel.setLayout( layout );
-            layout.addComponent( currentVsVoltageCB, 0, 0 );
-            layout.addComponent( currentVsIntensityCB, 1, 0 );
-            layout.addComponent( energyVsFrequencyCB, 2, 0 );
+            graphOptionsPanel.add( currentVsVoltageCB, gbc );
+            graphOptionsPanel.add( cvgPanel, gbc );
+            graphOptionsPanel.add( currentVsIntensityCB, gbc );
+            graphOptionsPanel.add( cviPanel, gbc );
+            graphOptionsPanel.add( energyVsFrequencyCB, gbc );
+            graphOptionsPanel.add( evfPanel, gbc );
             controlPanel.addControlFullWidth( graphOptionsPanel );
         }
-
     }
 
     /**
