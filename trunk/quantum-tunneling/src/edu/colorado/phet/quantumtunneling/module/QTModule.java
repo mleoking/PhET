@@ -22,8 +22,6 @@ import java.awt.geom.AffineTransform;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
-import org.jfree.data.xy.XYSeries;
-
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -32,10 +30,7 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.control.QTControlPanel;
-import edu.colorado.phet.quantumtunneling.model.BarrierPotential;
-import edu.colorado.phet.quantumtunneling.model.ConstantPotential;
-import edu.colorado.phet.quantumtunneling.model.MultiBarrierPotential;
-import edu.colorado.phet.quantumtunneling.model.StepPotential;
+import edu.colorado.phet.quantumtunneling.model.*;
 import edu.colorado.phet.quantumtunneling.view.DrawableNode;
 import edu.colorado.phet.quantumtunneling.view.LegendItem;
 import edu.colorado.phet.quantumtunneling.view.QTCombinedChart;
@@ -70,11 +65,18 @@ public class QTModule extends AbstractModule {
     // Instance data
     //----------------------------------------------------------------------------
     
+    // Model
+    private TotalEnergy _totalEnergy;
+    private AbstractPotentialEnergy _potentialEnergy;
+    
+    // View
     private PhetPCanvas _canvas;
     private PNode _parentNode;
     private PNode _legend;
-    private PSwing _configureButton;
     private DrawableNode _chartNode;
+    
+    // Control
+    private PSwing _configureButton;
     private QTControlPanel _controlPanel;
     
     //----------------------------------------------------------------------------
@@ -96,6 +98,12 @@ public class QTModule extends AbstractModule {
         // Module model
         BaseModel model = new BaseModel();
         this.setModel( model );
+        
+        // Total energy
+        _totalEnergy = new TotalEnergy( 8 );
+        
+        // Potential energy
+        _potentialEnergy = new MultiBarrierPotential( 3 );
         
         //----------------------------------------------------------------------------
         // View
@@ -137,6 +145,9 @@ public class QTModule extends AbstractModule {
         // Combined chart
         {
             QTCombinedChart chart = new QTCombinedChart();
+            chart.setTotalEnergy( _totalEnergy );
+            chart.setPotential( _potentialEnergy );
+            
             _chartNode = new DrawableNode( chart );
         }
         
@@ -149,38 +160,6 @@ public class QTModule extends AbstractModule {
             _parentNode.addChild( _chartNode );
 
             _canvas.addScreenChild( _parentNode );
-        }        
-        
-        //XXX add data
-        {
-            QTCombinedChart chart = (QTCombinedChart) _chartNode.getDrawable();
-            
-            XYSeries totalEnergySeries = chart.getTotalEnergySeries();
-            totalEnergySeries.add( 0, 8 );
-            totalEnergySeries.add( 20, 8 );
-            
-            XYSeries potentialEnergySeries = chart.getPotentialEnergySeries();
-            potentialEnergySeries.add( 0, 0 );
-            potentialEnergySeries.add( 8, 0 );
-            potentialEnergySeries.add( 8, 5 );
-            potentialEnergySeries.add( 12, 5 );
-            potentialEnergySeries.add( 12, 0 );
-            potentialEnergySeries.add( 14, 0 );
-            potentialEnergySeries.add( 14, 3 );
-            potentialEnergySeries.add( 17, 3 );
-            potentialEnergySeries.add( 17, 0 );
-            potentialEnergySeries.add( 20, 0 );
-            
-            chart.addBarrierMarker( 8 );
-            chart.addBarrierMarker( 12 );
-            chart.addBarrierMarker( 14 );
-            chart.addBarrierMarker( 17 );
-            
-            ConstantPotential potential1 = new ConstantPotential();
-            StepPotential potential2 = new StepPotential();
-            BarrierPotential potential3 = new BarrierPotential();
-            MultiBarrierPotential potential4 = new MultiBarrierPotential( 3 );
-            chart.setPotential( potential4 );
         }
           
         //----------------------------------------------------------------------------

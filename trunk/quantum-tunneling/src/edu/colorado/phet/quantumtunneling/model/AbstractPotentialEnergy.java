@@ -11,7 +11,6 @@
 
 package edu.colorado.phet.quantumtunneling.model;
 
-import edu.colorado.phet.quantumtunneling.QTConstants;
 
 
 /**
@@ -20,7 +19,7 @@ import edu.colorado.phet.quantumtunneling.QTConstants;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public abstract class AbstractPotential implements IPotential {
+public abstract class AbstractPotentialEnergy extends QTObservable implements IPotentialEnergy {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -39,7 +38,9 @@ public abstract class AbstractPotential implements IPotential {
     // Constructors
     //----------------------------------------------------------------------------
     
-    protected AbstractPotential( int numberOfRegions ) {
+    protected AbstractPotentialEnergy( int numberOfRegions ) {
+        super();
+        
         if ( numberOfRegions <= 0 ) {
             throw new IllegalArgumentException( "numberOfRegions must be > 0" );
         }
@@ -67,7 +68,9 @@ public abstract class AbstractPotential implements IPotential {
      * 
      * @param potential
      */
-    protected AbstractPotential( AbstractPotential potential ) {
+    protected AbstractPotentialEnergy( AbstractPotentialEnergy potential ) {
+        super();
+        
         _regions = new PotentialRegion[ potential.getNumberOfRegions() ];
         for ( int i = 0; i < potential.getNumberOfRegions(); i ++ ) {
             double start = potential.getRegion( i ).getStart();

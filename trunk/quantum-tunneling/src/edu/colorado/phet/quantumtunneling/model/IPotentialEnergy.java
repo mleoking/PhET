@@ -18,7 +18,7 @@ package edu.colorado.phet.quantumtunneling.model;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public interface IPotential {
+public interface IPotentialEnergy {
    
     public int getNumberOfRegions();
     

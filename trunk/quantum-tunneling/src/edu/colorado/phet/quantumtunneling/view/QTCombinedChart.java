@@ -13,6 +13,8 @@ package edu.colorado.phet.quantumtunneling.view;
 
 import java.awt.Font;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.AxisLocation;
@@ -20,14 +22,15 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.*;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
-import org.jfree.chart.renderer.xy.XYStepRenderer;
+import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
-import edu.colorado.phet.quantumtunneling.model.IPotential;
+import edu.colorado.phet.quantumtunneling.model.AbstractPotentialEnergy;
 import edu.colorado.phet.quantumtunneling.model.PotentialRegion;
+import edu.colorado.phet.quantumtunneling.model.TotalEnergy;
 
 
 
@@ -37,7 +40,7 @@ import edu.colorado.phet.quantumtunneling.model.PotentialRegion;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class QTCombinedChart extends JFreeChart {
+public class QTCombinedChart extends JFreeChart implements Observer {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -51,8 +54,11 @@ public class QTCombinedChart extends JFreeChart {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private XYSeriesCollection _energyData, _waveFunctionData, _probabilityDensityData;
-    private XYSeries _totalEnergySeries, _potentialEnergySeries;
+    private AbstractPotentialEnergy _potential;
+    private TotalEnergy  _totalEnergy;
+    
+    private XYSeries _totalEnergySeries;
+    private XYSeries _potentialEnergySeries;
     private XYSeries _probabilityDensitySeries;
     
     //----------------------------------------------------------------------------
@@ -78,88 +84,123 @@ public class QTCombinedChart extends JFreeChart {
         _probabilityDensitySeries = new XYSeries( probabilityDensityLabel );
         
         // Energy plot...
-        _energyData = new XYSeriesCollection();
-        XYItemRenderer energyRenderer = new StandardXYItemRenderer();
-        _energyData.addSeries( _potentialEnergySeries );
-        _energyData.addSeries( _totalEnergySeries );
-        energyRenderer.setSeriesPaint( 0, QTConstants.POTENTIAL_ENERGY_PAINT );
-        energyRenderer.setSeriesStroke( 0, QTConstants.POTENTIAL_ENERGY_STROKE );
-        energyRenderer.setSeriesPaint( 1, QTConstants.TOTAL_ENERGY_PAINT );
-        energyRenderer.setSeriesStroke( 1, QTConstants.TOTAL_ENERGY_STROKE );
-        NumberAxis energyAxis = new NumberAxis( energyLabel );
-        energyAxis.setLabelFont( AXIS_LABEL_FONT );
-        energyAxis.setRange( QTConstants.ENERGY_RANGE );
-        XYPlot energyPlot = new XYPlot( _energyData, null, energyAxis, energyRenderer );
-        energyPlot.setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
-        energyPlot.setBackgroundPaint( QTConstants.PLOT_BACKGROUND );
+        XYPlot energyPlot = null;
+        {
+            XYSeriesCollection data = new XYSeriesCollection();
+            XYItemRenderer renderer = new StandardXYItemRenderer();
+            data.addSeries( _potentialEnergySeries );
+            data.addSeries( _totalEnergySeries );
+            renderer.setSeriesPaint( 0, QTConstants.POTENTIAL_ENERGY_PAINT );
+            renderer.setSeriesStroke( 0, QTConstants.POTENTIAL_ENERGY_STROKE );
+            renderer.setSeriesPaint( 1, QTConstants.TOTAL_ENERGY_PAINT );
+            renderer.setSeriesStroke( 1, QTConstants.TOTAL_ENERGY_STROKE );
+            NumberAxis yAxis = new NumberAxis( energyLabel );
+            yAxis.setLabelFont( AXIS_LABEL_FONT );
+            yAxis.setRange( QTConstants.ENERGY_RANGE );
+            energyPlot = new XYPlot( data, null, yAxis, renderer );
+            energyPlot.setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
+            energyPlot.setBackgroundPaint( QTConstants.PLOT_BACKGROUND );
+        }
 
         // Wave Function plot...
-        _waveFunctionData = new XYSeriesCollection();
-        XYItemRenderer waveFunctionRenderer = new StandardXYItemRenderer();
-        NumberAxis waveFunctionAxis = new NumberAxis( waveFunctionLabel );
-        waveFunctionAxis.setLabelFont( AXIS_LABEL_FONT );
-        waveFunctionAxis.setRange( QTConstants.WAVE_FUNCTION_RANGE );
-        XYPlot waveFunctionPlot = new XYPlot( _waveFunctionData, null, waveFunctionAxis, waveFunctionRenderer );
-        waveFunctionPlot.setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
-        waveFunctionPlot.setBackgroundPaint( QTConstants.PLOT_BACKGROUND );
+        XYPlot waveFunctionPlot = null;
+        {
+            XYSeriesCollection data = new XYSeriesCollection();
+            XYItemRenderer renderer = new StandardXYItemRenderer();
+            NumberAxis yAxis = new NumberAxis( waveFunctionLabel );
+            yAxis.setLabelFont( AXIS_LABEL_FONT );
+            yAxis.setRange( QTConstants.WAVE_FUNCTION_RANGE );
+            waveFunctionPlot = new XYPlot( data, null, yAxis, renderer );
+            waveFunctionPlot.setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
+            waveFunctionPlot.setBackgroundPaint( QTConstants.PLOT_BACKGROUND );
+        }
 
         // Probability Density plot...
-        _probabilityDensityData = new XYSeriesCollection();
-        XYItemRenderer probabilityDensityRenderer = new StandardXYItemRenderer();
-        probabilityDensityRenderer.setSeriesPaint( 0, QTConstants.PROBABILITY_DENSITY_PAINT );
-        probabilityDensityRenderer.setSeriesStroke( 0, QTConstants.PROBABILITY_DENSITY_STROKE );
-        NumberAxis probabilityDensityAxis = new NumberAxis( probabilityDensityLabel );
-        probabilityDensityAxis.setLabelFont( AXIS_LABEL_FONT );
-        probabilityDensityAxis.setRange( QTConstants.PROBABILITY_DENSITY_RANGE );
-        XYPlot probabilityDensityPlot = new XYPlot( _probabilityDensityData, null, probabilityDensityAxis, probabilityDensityRenderer );
-        probabilityDensityPlot.setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
-        probabilityDensityPlot.setBackgroundPaint( QTConstants.PLOT_BACKGROUND );
+        XYPlot probabilityDensityPlot = null;
+        {
+            XYSeriesCollection data = new XYSeriesCollection();
+            XYItemRenderer renderer = new StandardXYItemRenderer();
+            renderer.setSeriesPaint( 0, QTConstants.PROBABILITY_DENSITY_PAINT );
+            renderer.setSeriesStroke( 0, QTConstants.PROBABILITY_DENSITY_STROKE );
+            NumberAxis yAxis = new NumberAxis( probabilityDensityLabel );
+            yAxis.setLabelFont( AXIS_LABEL_FONT );
+            yAxis.setRange( QTConstants.PROBABILITY_DENSITY_RANGE );
+            probabilityDensityPlot = new XYPlot( data, null, yAxis, renderer );
+            probabilityDensityPlot.setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
+            probabilityDensityPlot.setBackgroundPaint( QTConstants.PLOT_BACKGROUND );
+        }
         
-        // Parent plot...
-        CombinedDomainXYPlot plot = (CombinedDomainXYPlot) getPlot();
-        NumberAxis positionAxis = new NumberAxis( positionLabel );
-        positionAxis.setLabelFont( AXIS_LABEL_FONT );
-        positionAxis.setRange( QTConstants.POSITION_RANGE );
-        plot.setDomainAxis( positionAxis );
-        plot.setGap( CHART_SPACING );
-        plot.setOrientation( PlotOrientation.VERTICAL );
-        
-        // Add the subplots, weights all the same
-        final int weight = 1;
-        plot.add( energyPlot, weight );
-        plot.add( waveFunctionPlot, weight );
-        plot.add( probabilityDensityPlot, weight );   
+        // Parent plot configuration...
+        {
+            CombinedDomainXYPlot plot = (CombinedDomainXYPlot) getPlot();
+            
+            // Common x axis...
+            NumberAxis positionAxis = new NumberAxis( positionLabel );
+            positionAxis.setLabelFont( AXIS_LABEL_FONT );
+            positionAxis.setRange( QTConstants.POSITION_RANGE );
+            plot.setDomainAxis( positionAxis );
+            
+            // Misc properties
+            plot.setGap( CHART_SPACING );
+            plot.setOrientation( PlotOrientation.VERTICAL );
+
+            // Add the subplots, weights all the same
+            final int weight = 1;
+            plot.add( energyPlot, weight );
+            plot.add( waveFunctionPlot, weight );
+            plot.add( probabilityDensityPlot, weight );
+        }
     }
     
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
     
-    public XYSeriesCollection getEnergyData() {
-        return _energyData;
+    /**
+     * Set the total energy model that is displayd in the Energy chart.
+     * 
+     * @param totalEnergy
+     */
+    public void setTotalEnergy( TotalEnergy totalEnergy ) {
+        if ( _totalEnergy != null ) {
+            _totalEnergy.deleteObserver( this );
+        }
+        _totalEnergy = totalEnergy;
+        _totalEnergy.addObserver( this );
+        updateTotalEnergy();
     }
     
-    public XYSeries getTotalEnergySeries() {
-        return _totalEnergySeries;
+    /**
+     * Sets the potential energy model that is displayed 
+     * in the Energy chart.
+     * 
+     * @param potential
+     */
+    public void setPotential( AbstractPotentialEnergy potential ) {
+        if ( _potential != null ) {
+            _potential.deleteObserver( this );
+        }
+        _potential = potential;
+        _potential.addObserver( this );
+        updatePotential();
     }
     
-    public XYSeries getPotentialEnergySeries() {
-        return _potentialEnergySeries;
-    }
+    //----------------------------------------------------------------------------
+    // Markers
+    //----------------------------------------------------------------------------
     
-    public XYSeriesCollection getWaveFunctionData() {
-        return _waveFunctionData;
-    }
-    
-    public XYSeriesCollection getProbabilityDensityData() {
-        return _probabilityDensityData;
-    }
-    
-    public void addBarrierMarker( double x ) {
+    /*
+     * Adds a region marker at the specified position.
+     * A region marker is a vertical line that denotes the 
+     * boundary between two regions.
+     * 
+     * @param x
+     */
+    private void addRegionMarker( double x ) {
 
         Marker marker = new ValueMarker( x );
-        marker.setPaint( QTConstants.BARRIER_MARKER_PAINT );
-        marker.setStroke( QTConstants.BARRIER_MARKER_STROKE );
+        marker.setPaint( QTConstants.REGION_MARKER_PAINT );
+        marker.setStroke( QTConstants.REGION_MARKER_STROKE );
         
         CombinedDomainXYPlot combinedPlot = (CombinedDomainXYPlot) getPlot();
         List subPlots = combinedPlot.getSubplots();
@@ -169,7 +210,10 @@ public class QTCombinedChart extends JFreeChart {
         }
     }
     
-    public void clearBarrierMarkers() {
+    /*
+     * Clears all region markers.
+     */
+    private void clearRegionMarkers() {
         CombinedDomainXYPlot combinedPlot = (CombinedDomainXYPlot) getPlot();
         List subPlots = combinedPlot.getSubplots();
         for ( int i = 0; i < subPlots.size(); i ++ ) {
@@ -177,11 +221,45 @@ public class QTCombinedChart extends JFreeChart {
             plot.clearDomainMarkers();
         }
     }
+
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
     
-    public void setPotential( IPotential potential ) {
+    /**
+     * Updates the view to match the model.
+     * 
+     * @param observable
+     * @param arg
+     */
+    public void update( Observable observable, Object arg ) {
+        if ( observable == _potential ) {
+            updatePotential();
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Update handlers
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Updates the total energy series to match the model.
+     */
+    private void updateTotalEnergy() {
+        CombinedDomainXYPlot combinedPlot = (CombinedDomainXYPlot) getPlot();
+        Range range = combinedPlot.getDomainAxis().getRange();
+        _totalEnergySeries.clear();
+        _totalEnergySeries.add( range.getLowerBound(), _totalEnergy.getEnergy() );
+        _totalEnergySeries.add( range.getUpperBound(), _totalEnergy.getEnergy() );
+    }
+    
+    /*
+     * Updates the potential energy series to match the model.
+     */
+    private void updatePotential() {
         _potentialEnergySeries.clear();
-        clearBarrierMarkers();
-        PotentialRegion[] regions = potential.getRegions();
+        clearRegionMarkers();
+        PotentialRegion[] regions = _potential.getRegions();
         for ( int i = 0; i < regions.length; i++ ) {
             double start = regions[i].getStart();
             double end = regions[i].getEnd();
@@ -189,7 +267,7 @@ public class QTCombinedChart extends JFreeChart {
             _potentialEnergySeries.add( start, energy );
             _potentialEnergySeries.add( end, energy );
             if ( i > 0 ) {
-                addBarrierMarker( start );
+                addRegionMarker( start );
             }
         }
     }
