@@ -57,7 +57,7 @@ public class Shaker extends Particle {
 
             Ion ion = null;
             Crystal crystal = null;
-            int numIons = 6;
+            int numIons = 4;
 
             double theta = Math.PI / 2 + ( random.nextDouble() * Math.PI / 6 * MathUtil.nextRandomSign() );
             Vector2D v = new Vector2D.Double( SolubleSaltsConfig.DEFAULT_LATTICE_SPEED, 0 );
@@ -70,10 +70,8 @@ public class Shaker extends Particle {
 
                 if( i % 2 == 0 ) {
                      ion = new Chloride( p, v, new Vector2D.Double() );
-//                    ion = new Chloride( getPosition(), v, new Vector2D.Double() );
                 }
                 else {
-//                    ion = new Sodium( getPosition(), v, new Vector2D.Double() );
                     ion = new Sodium( p, v, new Vector2D.Double() );
                 }
                 model.addModelElement( ion );

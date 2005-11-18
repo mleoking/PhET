@@ -154,6 +154,7 @@ public class Crystal extends Body implements Binder {
 
     public void setBounds( Rectangle2D bounds ) {
         this.bounds = bounds;
+        lattice.setBounds( bounds );
     }
 
     //----------------------------------------------------------------
