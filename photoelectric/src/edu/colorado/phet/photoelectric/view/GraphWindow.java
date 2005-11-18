@@ -31,7 +31,7 @@ public class GraphWindow extends JDialog {
     private static final int graphInsetY = 20;
     private static Font myFont;
 
-    private CurrentVsVoltageGraph2 currentVsVoltageGraph;
+    private CurrentVsVoltageGraph currentVsVoltageGraph;
     private CurrentVsIntensityGraph currentVsIntensityGraph;
     private EnergyVsFrequencyGraph energyVsFrequencyGraph;
     private AbstractClock clock;
@@ -80,13 +80,15 @@ public class GraphWindow extends JDialog {
         ApparatusPanel2 graphPanel = new ApparatusPanel2( clock );
         graphPanel.setUseOffscreenBuffer( true );
         graphPanel.setDisplayBorder( false );
-        currentVsVoltageGraph = new CurrentVsVoltageGraph2( graphPanel, model );
+        currentVsVoltageGraph = new CurrentVsVoltageGraph( graphPanel, model );
         graphPanel.setPreferredSize( new Dimension( 300, 200 ) );
         graphPanel.setSize( new Dimension( 300, 200 ) );
         currentVsVoltageGraph.setLocation( graphInsetX, graphInsetY );
         graphPanel.addGraphic( currentVsVoltageGraph );
 
         currentVsVoltagePanel = makeGraphPanel( graphPanel, "Battery Voltage (V)", "Current (AU*)" );
+
+
         return currentVsVoltagePanel;
     }
 
@@ -134,7 +136,7 @@ public class GraphWindow extends JDialog {
      * @param yAxisLabel
      * @return
      */
-    private JPanel makeGraphPanel( JPanel graphPanel, String xAxisLabel, String yAxisLabel ) {
+    static public JPanel makeGraphPanel( JPanel graphPanel, String xAxisLabel, String yAxisLabel ) {
         // Lay out a panel with titles for the graph
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                          GridBagConstraints.CENTER,
@@ -186,6 +188,32 @@ public class GraphWindow extends JDialog {
         currentVsIntensityGraph.clearLinePlot();
     }
 
+    //----------------------------------------------------------------
+    // Getters
+    //----------------------------------------------------------------
+    public CurrentVsVoltageGraph getCurrentVsVoltageGraph() {
+        return currentVsVoltageGraph;
+    }
+
+    public CurrentVsIntensityGraph getCurrentVsIntensityGraph() {
+        return currentVsIntensityGraph;
+    }
+
+    public EnergyVsFrequencyGraph getEnergyVsFrequencyGraph() {
+        return energyVsFrequencyGraph;
+    }
+
+    public JPanel getCurrentVsVoltagePanel() {
+        return currentVsVoltagePanel;
+    }
+
+    public JPanel getCurrentVsIntensityPanel() {
+        return currentVsIntensityPanel;
+    }
+
+    public JPanel getEnergyVsFrequencyPanel() {
+        return energyVsFrequencyPanel;
+    }
     //----------------------------------------------------------------
     // Misc inner classes
     //----------------------------------------------------------------
