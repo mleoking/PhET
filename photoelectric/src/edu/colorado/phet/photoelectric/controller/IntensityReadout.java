@@ -20,6 +20,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.text.DecimalFormat;
 
 /**
@@ -44,31 +46,45 @@ public class IntensityReadout extends GraphicLayerSet implements Beam.RateChange
         this.beam = beam;
 
         readout = new JTextField( 3 );
+//        readout.setEditable( false );
         readout.setHorizontalAlignment( JTextField.HORIZONTAL );
         readout.setFont( VALUE_FONT );
+        readout.addFocusListener( new FocusListener() {
+            public void focusGained( FocusEvent e ) {
+                // noop
+            }
+
+            public void focusLost( FocusEvent e ) {
+                update( component, beam );
+            }
+        } );
         readout.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                double photonsPerSecond = 0;
-                try {
-                    String text = readout.getText().toLowerCase();
-                    int nmLoc = text.indexOf( "%" );
-                    text = nmLoc >= 0 ? readout.getText().substring( 0, nmLoc ) : text;
-                    double percent = MathUtil.clamp( 0, Double.parseDouble( text ), 100 );
-                    photonsPerSecond = percent / 100 * IntensityReadout.this.beam.getMaxPhotonsPerSecond();
-                    System.out.println( "photonsPerSecond = " + photonsPerSecond );
-                    IntensityReadout.this.beam.setPhotonsPerSecond( photonsPerSecond );
-                    update( photonsPerSecond );
-                }
-                catch( NumberFormatException e1 ) {
-                    JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ), "Wavelength must be numeric, or a number followed by \"%\"" );
-                    readout.setText( format.format( beam.getPhotonsPerSecond() / beam.getMaxPhotonsPerSecond() ) );
-                }
+                update( component, beam );
             }
         } );
         readoutGraphic = PhetJComponent.newInstance( component, readout );
         addGraphic( readoutGraphic, 1E9 );
 
         update( 123 ); // dummy value
+    }
+
+    private void update( final Component component, final Beam beam ) {
+        double photonsPerSecond = 0;
+        try {
+            String text = readout.getText().toLowerCase();
+            int nmLoc = text.indexOf( "%" );
+            text = nmLoc >= 0 ? readout.getText().substring( 0, nmLoc ) : text;
+            double percent = MathUtil.clamp( 0, Double.parseDouble( text ), 100 );
+            photonsPerSecond = percent / 100 * this.beam.getMaxPhotonsPerSecond();
+            System.out.println( "photonsPerSecond = " + photonsPerSecond );
+            this.beam.setPhotonsPerSecond( photonsPerSecond );
+            update( photonsPerSecond );
+        }
+        catch( NumberFormatException e1 ) {
+            JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ), "Wavelength must be numeric, or a number followed by \"%\"" );
+            readout.setText( format.format( beam.getPhotonsPerSecond() / beam.getMaxPhotonsPerSecond() ) );
+        }
     }
 
     private void update( double intensity ) {
