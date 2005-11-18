@@ -18,23 +18,54 @@ package edu.colorado.phet.quantumtunneling.model;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ConstantPotential extends AbstractPotential {
+public class ConstantPotential extends AbstractPotentialEnergy {
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
     
     private static final double DEFAULT_ENERGY = 5;
 
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructor.
+     */
     public ConstantPotential() {
         super( 1 /* numberOfRegions */ );
         setRegion( 0, MIN_POSITION, MAX_POSITION, DEFAULT_ENERGY );
     }
     
+    /**
+     * Copy constructor.
+     * 
+     * @param step
+     */
     public ConstantPotential( ConstantPotential step ) {
         super( step );
     }
     
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the potential energy.
+     * 
+     * @param energy
+     */
     public void setEnergy( double energy ) {
         setEnergy( 0, energy );
+        notifyObservers();
     }
     
+    /**
+     * Gets the potential energy.
+     * 
+     * @return energy
+     */
     public double getEnergy() {
         return getRegion( 0  ).getEnergy();
     }

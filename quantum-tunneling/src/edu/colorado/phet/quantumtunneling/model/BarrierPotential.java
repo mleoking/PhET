@@ -26,6 +26,9 @@ public class BarrierPotential extends MultiBarrierPotential {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Creates a single barrier.
+     */
     public BarrierPotential() {
         super( 1 /* number of barriers */ );
     }
@@ -43,19 +46,39 @@ public class BarrierPotential extends MultiBarrierPotential {
     // Accessors
     //----------------------------------------------------------------------------
     
-    public void setPosition( double position ) {
-        setPosition( 0, position );
+    /**
+     * Sets the barrier's position.
+     * 
+     * @param position
+     */
+    public void setBarrierPosition( double position ) {
+        setBarrierPosition( 0, position );
     }
     
-    public double getPosition() {
-        return getPosition( 0 );
+    /**
+     * Gets the barrier's position.
+     * 
+     * @return position
+     */
+    public double getBarrierPosition() {
+        return getBarrierPosition( 0 );
     }
     
-    public void setWidth( double width ) {
-        setWidth( 0, width );
+    /**
+     * Sets the barrier's width.
+     * 
+     * @param width
+     */
+    public void setBarrierWidth( double width ) {
+        setBarrierWidth( 0, width );
     }
     
-    public double getWidth() {
-        return getWidth( 0 );
+    /**
+     * Gets the barrier's width.
+     * 
+     * @return width
+     */
+    public double getBarrierWidth() {
+        return getBarrierWidth( 0 );
     }
 }

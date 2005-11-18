@@ -16,16 +16,34 @@ import java.awt.geom.Point2D;
 
 /**
  * PotentialRegion is an immutable class for describing a region of potential energy.
+ * IT IS ESSENTIAL THAT THIS CLASS REMAIN IMMUTABLE!
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class PotentialRegion {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private double _start;
     private double _end;
     private double _energy;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Creates a region of potential energy.
+     * The energy level is contant within the region.
+     * 
+     * @param start
+     * @param end
+     * @param energy
+     * @throws IllegalArgumentException if the region's width is not > 0
+     */
     public PotentialRegion( double start, double end, double energy ) {
         if ( start >= end ) {
             throw new IllegalArgumentException( "start >= end, region must have a positive width" );
@@ -35,18 +53,43 @@ public class PotentialRegion {
         _energy = energy;
     }
     
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Gets the start position.
+     * 
+     * @return start position
+     */
     public double getStart() {
         return _start;
     }
     
+    /**
+     * Gets the end position.
+     * 
+     * @return end position
+     */
     public double getEnd() {
         return _end;
     }
     
+    /**
+     * Gets the potential energy level in the region.
+     * 
+     * @return the energy
+     */
     public double getEnergy() {
         return _energy;
     }
     
+    /**
+     * Gets the width of the region.
+     * If either endpoint is at infinity, then the width is infinity.
+     * 
+     * @return width
+     */
     public double getWidth() {
         double width = 0;
         if ( _start == Double.NEGATIVE_INFINITY || _end == Double.POSITIVE_INFINITY ) {

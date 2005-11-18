@@ -57,7 +57,9 @@ JFREECHART:
 - CombinedDomainXYPlot.addDomainMarker doesn't do anything
 
 DONE:
-(11/18/05) - create model of different types of "potential spaces"
+(11/18/05) - add Observer/Observable relationship between view/model
+(11/18/05) - create model of total energy
+(11/18/05) - create model of different types of potential energy "spaces"
 (11/17/05) - add vertical markers for barrier edges
 (11/17/05) - use StepPlot for Energy chart, reduces # points required
 (11/17/05) - create a custom PNode that draws any org.jfree.ui.Drawable (including JFreeChart)
