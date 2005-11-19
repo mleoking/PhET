@@ -57,7 +57,7 @@ public class Shaker extends Particle {
     public void shake( double dy ) {
         if( !done ) {
             // Debug: to shake only one crystal, uncomment the next line
-            done = true;
+//            done = true;
             setPosition( getPosition().getX(), getPosition().getY() + dy );
 
             Ion ion = null;

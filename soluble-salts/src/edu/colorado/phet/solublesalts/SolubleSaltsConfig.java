@@ -72,8 +72,9 @@ public class SolubleSaltsConfig {
     // be bound to that lattice again
     public static final long RELEASE_ESCAPE_TIME = 2000;
 
-    public static Lattice LATTICE = new TwoToOneLattice( Sodium.class,
+    private static Lattice twoToOneLattice = new TwoToOneLattice( Sodium.class,
                                                          Chloride.class,
                                                          Sodium.RADIUS + Chloride.RADIUS );
-//    public static Lattice LATTICE = new PlainCubicLattice( Sodium.RADIUS + Chloride.RADIUS );
+    private static Lattice oneToOneLattice = new PlainCubicLattice( Sodium.RADIUS + Chloride.RADIUS );
+    public static Lattice LATTICE = oneToOneLattice;
 }
