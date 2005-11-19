@@ -10,6 +10,12 @@
  */
 package edu.colorado.phet.solublesalts;
 
+import edu.colorado.phet.solublesalts.model.crystal.Lattice;
+import edu.colorado.phet.solublesalts.model.crystal.TwoToOneLattice;
+import edu.colorado.phet.solublesalts.model.crystal.PlainCubicLattice;
+import edu.colorado.phet.solublesalts.model.Sodium;
+import edu.colorado.phet.solublesalts.model.Chloride;
+
 import java.awt.geom.Point2D;
 import java.awt.*;
 
@@ -34,9 +40,9 @@ public class SolubleSaltsConfig {
     // Physical things
     private static final double scale = 1;
 //    private static final double scale = 10;
-    public static final Point2D VESSEL_ULC = new Point2D.Double( 150 * scale, 150 * scale); // upper-left corner of vessel
-    public static final Dimension VESSEL_SIZE = new Dimension( (int)(700* scale), (int)(500 * scale));
-    public static final double VESSEL_WALL_THICKNESS = 20* scale;
+    public static final Point2D VESSEL_ULC = new Point2D.Double( 150 * scale, 150 * scale ); // upper-left corner of vessel
+    public static final Dimension VESSEL_SIZE = new Dimension( (int)( 700 * scale ), (int)( 500 * scale ) );
+    public static final double VESSEL_WALL_THICKNESS = 20 * scale;
 //    public static final Point2D VESSEL_ULC = new Point2D.Double( 150, 150 ); // upper-left corner of vessel
 //    public static final Dimension VESSEL_SIZE = new Dimension( 700, 500 );
 //    public static final double VESSEL_WALL_THICKNESS = 20;
@@ -65,4 +71,9 @@ public class SolubleSaltsConfig {
     // The time (real time in ms) after an ion is released from a lattice before it can
     // be bound to that lattice again
     public static final long RELEASE_ESCAPE_TIME = 2000;
+
+    public static Lattice LATTICE = new TwoToOneLattice( Sodium.class,
+                                                         Chloride.class,
+                                                         Sodium.RADIUS + Chloride.RADIUS );
+//    public static Lattice LATTICE = new PlainCubicLattice( Sodium.RADIUS + Chloride.RADIUS );
 }

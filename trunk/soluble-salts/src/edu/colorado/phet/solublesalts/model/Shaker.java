@@ -16,6 +16,9 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
+import edu.colorado.phet.solublesalts.model.crystal.PlainCubicLattice;
+import edu.colorado.phet.solublesalts.model.crystal.TwoToOneLattice;
+import edu.colorado.phet.solublesalts.model.crystal.Lattice;
 
 import java.util.Random;
 import java.awt.geom.Rectangle2D;
@@ -35,11 +38,12 @@ public class Shaker extends Particle {
     private double orientation = Math.PI / 4;
     private double openingLength;
 
+
     public Shaker( SolubleSaltsModel model ) {
         this.model = model;
         openingLength = 80;
 //        openingLength = 800;
-        opening = new Line2D.Double( 0,0, openingLength, 0 );
+        opening = new Line2D.Double( 0, 0, openingLength, 0 );
 
     }
 
@@ -47,17 +51,18 @@ public class Shaker extends Particle {
 
     /**
      * Creates lattices and drops them into the water
+     *
      * @param dy
      */
     public void shake( double dy ) {
         if( !done ) {
             // Debug: to shake only one crystal, uncomment the next line
-//            done = true;
+            done = true;
             setPosition( getPosition().getX(), getPosition().getY() + dy );
 
             Ion ion = null;
             Crystal crystal = null;
-            int numIons = 4;
+            int numIons = 12;
 
             double theta = Math.PI / 2 + ( random.nextDouble() * Math.PI / 6 * MathUtil.nextRandomSign() );
             Vector2D v = new Vector2D.Double( SolubleSaltsConfig.DEFAULT_LATTICE_SPEED, 0 );
@@ -68,8 +73,8 @@ public class Shaker extends Particle {
             Point2D p = new Point2D.Double( x, y );
             for( int i = 0; i < numIons; i++ ) {
 
-                if( i % 2 == 0 ) {
-                     ion = new Chloride( p, v, new Vector2D.Double() );
+                if( i % 3 == 0 ) {
+                    ion = new Chloride( p, v, new Vector2D.Double() );
                 }
                 else {
                     ion = new Sodium( p, v, new Vector2D.Double() );
@@ -79,13 +84,13 @@ public class Shaker extends Particle {
                 // When we create the lattice, give it the bounds of the entire model. That will allow all the
                 // ions we produce for it to nucleate to it. We'll change the bounds before we exit
                 if( crystal == null ) {
-                    crystal = new Crystal( ion, model.getBounds() );
+                    crystal = new Crystal( ion, model.getBounds(), SolubleSaltsConfig.LATTICE );
                 }
                 else {
                     // Position the new ion so it isn't right on top of the seed, and so it's above the seed. This
                     // will help when the lattice falls to the bottom of the vessel
-                    ion.setPosition( this.getPosition().getX() + ion.getRadius() * random.nextDouble() * (random.nextBoolean()?1:-1),
-                                     this.getPosition().getY() - ion.getRadius() * ( random.nextDouble() + 0.001) );
+                    ion.setPosition( this.getPosition().getX() + ion.getRadius() * random.nextDouble() * ( random.nextBoolean() ? 1 : -1 ),
+                                     this.getPosition().getY() - ion.getRadius() * ( random.nextDouble() + 0.001 ) );
                     crystal.addIon( ion );
                 }
             }
