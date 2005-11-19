@@ -18,6 +18,9 @@ import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.solublesalts.model.affinity.Affinity;
 import edu.colorado.phet.solublesalts.model.affinity.RandomAffinity;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
+import edu.colorado.phet.solublesalts.model.crystal.PlainCubicLattice;
+import edu.colorado.phet.solublesalts.model.crystal.TwoToOneLattice;
+import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -43,6 +46,7 @@ public class Vessel implements ModelElement, Collidable, Binder {
     private ArrayList boundIons = new ArrayList();
     private Affinity ionReleaseAffinity = new RandomAffinity( 1E-3 );
     private Affinity ionStickAffinity = new RandomAffinity( .2 );
+
 
     public Vessel( double width, double depth, double wallThickness ) {
         this( width, depth, wallThickness, new Point2D.Double() );
@@ -81,7 +85,8 @@ public class Vessel implements ModelElement, Collidable, Binder {
      * @param ion
      */
     public void bind( Ion ion ) {
-        Crystal crystal = new Crystal( ion, collisionBox.getBounds() );
+        Crystal crystal = new Crystal( ion, collisionBox.getBounds(),
+                                       SolubleSaltsConfig.LATTICE );
         ion.bindTo( crystal );
     }
 

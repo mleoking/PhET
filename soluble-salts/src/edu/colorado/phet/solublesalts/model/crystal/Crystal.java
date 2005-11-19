@@ -80,7 +80,8 @@ public class Crystal extends Body implements Binder {
     // The angle that the lattice is oriented at, relative to the x axis
     private double orientation;
     private Atom seed;
-    private Lattice lattice = new PlainCubicLattice( Sodium.RADIUS + Chloride.RADIUS ); // Sodium radius + Chloride radius
+//    private Lattice lattice = new PlainCubicLattice( Sodium.RADIUS + Chloride.RADIUS ); // Sodium radius + Chloride radius
+    private Lattice lattice;
     // The list of ions that cannot be bound to this lattice at this time
     private Vector noBindList = new Vector();
 
@@ -92,8 +93,9 @@ public class Crystal extends Body implements Binder {
      * @param ion    The ion that seeds the lattice
      * @param bounds Growth bounds for the lattice
      */
-    public Crystal( Ion ion, Rectangle2D bounds ) {
+    public Crystal( Ion ion, Rectangle2D bounds, Lattice lattice ) {
         this.bounds = bounds;
+        this.lattice = lattice;
         lattice.setBounds( bounds );
         addIon( ion );
         updateCm();
