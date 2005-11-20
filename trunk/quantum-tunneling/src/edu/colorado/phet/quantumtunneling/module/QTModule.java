@@ -13,24 +13,22 @@ package edu.colorado.phet.quantumtunneling.module;
 
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.quantumtunneling.QTConstants;
+import edu.colorado.phet.quantumtunneling.control.ConfigureEnergyDialog;
 import edu.colorado.phet.quantumtunneling.control.QTControlPanel;
-import edu.colorado.phet.quantumtunneling.model.*;
+import edu.colorado.phet.quantumtunneling.model.AbstractPotentialEnergy;
+import edu.colorado.phet.quantumtunneling.model.BarrierPotential;
+import edu.colorado.phet.quantumtunneling.model.TotalEnergy;
 import edu.colorado.phet.quantumtunneling.view.DrawableNode;
 import edu.colorado.phet.quantumtunneling.view.LegendItem;
 import edu.colorado.phet.quantumtunneling.view.QTCombinedChart;
@@ -78,6 +76,7 @@ public class QTModule extends AbstractModule {
     // Control
     private PSwing _configureButton;
     private QTControlPanel _controlPanel;
+    private ConfigureEnergyDialog _configureEnergyDialog;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -103,7 +102,7 @@ public class QTModule extends AbstractModule {
         _totalEnergy = new TotalEnergy( 8 );
         
         // Potential energy
-        _potentialEnergy = new MultiBarrierPotential( 2 );
+        _potentialEnergy = new BarrierPotential( 2 );
         
         //----------------------------------------------------------------------------
         // View
@@ -130,10 +129,10 @@ public class QTModule extends AbstractModule {
         // Energy graph legend
         { 
             LegendItem totalEnergyItem = 
-                new LegendItem( SimStrings.get( "legend.totalEnergy" ), QTConstants.TOTAL_ENERGY_PAINT );
+                new LegendItem( SimStrings.get( "legend.totalEnergy" ), QTConstants.TOTAL_ENERGY_COLOR );
             
             LegendItem potentialEnergyItem = 
-                new LegendItem( SimStrings.get( "legend.potentialEnergy" ), QTConstants.POTENTIAL_ENERGY_PAINT );
+                new LegendItem( SimStrings.get( "legend.potentialEnergy" ), QTConstants.POTENTIAL_ENERGY_COLOR );
             potentialEnergyItem.translate( totalEnergyItem.getFullBounds().getWidth() + 20, 0 );
 
             _legend = new PNode();
@@ -146,7 +145,7 @@ public class QTModule extends AbstractModule {
         {
             QTCombinedChart chart = new QTCombinedChart();
             chart.setTotalEnergy( _totalEnergy );
-            chart.setPotential( _potentialEnergy );
+            chart.setPotentialEnergy( _potentialEnergy );
             
             _chartNode = new DrawableNode( chart );
         }
@@ -266,7 +265,14 @@ public class QTModule extends AbstractModule {
      * When the "Configure Energy" button is pressed, open a dialog.
      */
     private void handleConfigureButton() {
-        JOptionPane.showMessageDialog( PhetApplication.instance().getPhetFrame(), 
-                "Under construction!", "Configure Energy", JOptionPane.PLAIN_MESSAGE );
+        if ( _configureEnergyDialog == null ) {
+            _configureEnergyDialog = new ConfigureEnergyDialog( getFrame(), _totalEnergy, _potentialEnergy );
+            _configureEnergyDialog.addWindowListener( new WindowAdapter() {
+                public void windowClosed( WindowEvent event ) {
+                    _configureEnergyDialog = null;
+                }
+            } );
+            _configureEnergyDialog.show();
+        }
     }
 }

@@ -55,7 +55,7 @@ public class QTConstants {
     //----------------------------------------------------------------------------
 
     public static final String FONT_NAME = "Lucida Sans";
-    
+    public static final Font AXIS_LABEL_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 16 );
     
     //----------------------------------------------------------------------------
     // Strokes
@@ -75,15 +75,15 @@ public class QTConstants {
     //----------------------------------------------------------------------------
     
     public static final Color CANVAS_BACKGROUND = Color.WHITE;
-    public static final Paint CHART_BACKGROUND = Color.WHITE;
-    public static final Paint PLOT_BACKGROUND = Color.WHITE;
-    public static final Paint TOTAL_ENERGY_PAINT = Color.GREEN;
-    public static final Paint POTENTIAL_ENERGY_PAINT = new Color( 178, 25, 205 ); // purple
-    public static final Paint INCIDENT_WAVE_PAINT = Color.RED;
-    public static final Paint REFLECTED_WAVE_PAINT = Color.RED;
-    public static final Paint TRANSMITTED_WAVE_PAINT = Color.RED;
-    public static final Paint PROBABILITY_DENSITY_PAINT = Color.BLACK;
-    public static final Paint REGION_MARKER_PAINT = Color.BLACK;
+    public static final Color CHART_BACKGROUND = Color.WHITE;
+    public static final Color PLOT_BACKGROUND = Color.WHITE;
+    public static final Color TOTAL_ENERGY_COLOR = Color.GREEN;
+    public static final Color POTENTIAL_ENERGY_COLOR = new Color( 178, 25, 205 ); // purple
+    public static final Color INCIDENT_WAVE_COLOR = Color.RED;
+    public static final Color REFLECTED_WAVE_COLOR = Color.RED;
+    public static final Color TRANSMITTED_WAVE_COLOR = Color.RED;
+    public static final Color PROBABILITY_DENSITY_COLOR = Color.BLACK;
+    public static final Color REGION_MARKER_COLOR = Color.BLACK;
     
     //----------------------------------------------------------------------------
     // Cursors

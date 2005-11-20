@@ -12,9 +12,11 @@
 package edu.colorado.phet.quantumtunneling.module;
 
 import java.awt.Cursor;
+import java.awt.Frame;
 
 import javax.naming.OperationNotSupportedException;
 
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
@@ -91,6 +93,15 @@ public abstract class AbstractModule extends PiccoloModule {
         else {
             apparatusPanel.setCursor( DEFAULT_CURSOR );
         }
+    }
+    
+    /**
+     * Gets the application's Frame.
+     * 
+     * @return Frame
+     */
+    public Frame getFrame() {
+        return PhetApplication.instance().getPhetFrame();
     }
     
     //----------------------------------------------------------------------------
