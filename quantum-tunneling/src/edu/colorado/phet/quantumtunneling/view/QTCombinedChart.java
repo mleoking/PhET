@@ -54,12 +54,9 @@ public class QTCombinedChart extends JFreeChart implements Observer {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private AbstractPotentialEnergy _potential;
-    private TotalEnergy  _totalEnergy;
+    private AbstractPotentialEnergy _potentialEnergy;
     
-    private XYSeries _totalEnergySeries;
-    private XYSeries _potentialEnergySeries;
-    private XYSeries _probabilityDensitySeries;
+    private EnergyPlot _energyPlot;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -78,29 +75,8 @@ public class QTCombinedChart extends JFreeChart implements Observer {
         String totalEnergyLabel = SimStrings.get( "legend.totalEnergy" );
         String potentialEnergyLabel = SimStrings.get( "legend.potentialEnergy" );
         
-        // Data series
-        _totalEnergySeries = new XYSeries( totalEnergyLabel );
-        _potentialEnergySeries = new XYSeries( potentialEnergyLabel );
-        _probabilityDensitySeries = new XYSeries( probabilityDensityLabel );
-        
         // Energy plot...
-        XYPlot energyPlot = null;
-        {
-            XYSeriesCollection data = new XYSeriesCollection();
-            XYItemRenderer renderer = new StandardXYItemRenderer();
-            data.addSeries( _potentialEnergySeries );
-            data.addSeries( _totalEnergySeries );
-            renderer.setSeriesPaint( 0, QTConstants.POTENTIAL_ENERGY_PAINT );
-            renderer.setSeriesStroke( 0, QTConstants.POTENTIAL_ENERGY_STROKE );
-            renderer.setSeriesPaint( 1, QTConstants.TOTAL_ENERGY_PAINT );
-            renderer.setSeriesStroke( 1, QTConstants.TOTAL_ENERGY_STROKE );
-            NumberAxis yAxis = new NumberAxis( energyLabel );
-            yAxis.setLabelFont( AXIS_LABEL_FONT );
-            yAxis.setRange( QTConstants.ENERGY_RANGE );
-            energyPlot = new XYPlot( data, null, yAxis, renderer );
-            energyPlot.setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
-            energyPlot.setBackgroundPaint( QTConstants.PLOT_BACKGROUND );
-        }
+        _energyPlot = new EnergyPlot();
 
         // Wave Function plot...
         XYPlot waveFunctionPlot = null;
@@ -120,7 +96,7 @@ public class QTCombinedChart extends JFreeChart implements Observer {
         {
             XYSeriesCollection data = new XYSeriesCollection();
             XYItemRenderer renderer = new StandardXYItemRenderer();
-            renderer.setSeriesPaint( 0, QTConstants.PROBABILITY_DENSITY_PAINT );
+            renderer.setSeriesPaint( 0, QTConstants.PROBABILITY_DENSITY_COLOR );
             renderer.setSeriesStroke( 0, QTConstants.PROBABILITY_DENSITY_STROKE );
             NumberAxis yAxis = new NumberAxis( probabilityDensityLabel );
             yAxis.setLabelFont( AXIS_LABEL_FONT );
@@ -146,7 +122,7 @@ public class QTCombinedChart extends JFreeChart implements Observer {
 
             // Add the subplots, weights all the same
             final int weight = 1;
-            plot.add( energyPlot, weight );
+            plot.add( _energyPlot, weight );
             plot.add( waveFunctionPlot, weight );
             plot.add( probabilityDensityPlot, weight );
         }
@@ -162,32 +138,43 @@ public class QTCombinedChart extends JFreeChart implements Observer {
      * @param totalEnergy
      */
     public void setTotalEnergy( TotalEnergy totalEnergy ) {
-        if ( _totalEnergy != null ) {
-            _totalEnergy.deleteObserver( this );
-        }
-        _totalEnergy = totalEnergy;
-        _totalEnergy.addObserver( this );
-        updateTotalEnergy();
+        // Delegate to the energy plot
+        _energyPlot.setTotalEnergy( totalEnergy );
     }
     
     /**
-     * Sets the potential energy model that is displayed 
-     * in the Energy chart.
+     * Sets the potential energy model that is displayed in the Energy chart.
      * 
-     * @param potential
+     * @param potentialEnergy
      */
-    public void setPotential( AbstractPotentialEnergy potential ) {
-        if ( _potential != null ) {
-            _potential.deleteObserver( this );
+    public void setPotentialEnergy( AbstractPotentialEnergy potentialEnergy ) {
+        // Delegate to the energy plot...
+        _energyPlot.setPotentialEnergy( potentialEnergy );
+        
+        // ...and observe so that we can update region markers.
+        if ( _potentialEnergy != null ) {
+            _potentialEnergy.deleteObserver( this );
         }
-        _potential = potential;
-        _potential.addObserver( this );
-        updatePotential();
+        _potentialEnergy = potentialEnergy;
+        _potentialEnergy.addObserver( this );
+        updateRegionMarkers();
     }
     
     //----------------------------------------------------------------------------
     // Markers
     //----------------------------------------------------------------------------
+    
+    /*
+     * Updates the region markers to match the the model.
+     */
+    private void updateRegionMarkers() {
+        clearRegionMarkers();
+        PotentialRegion[] regions = _potentialEnergy.getRegions();
+        for ( int i = 1; i < regions.length; i++ ) {
+            double start = regions[i].getStart();
+            addRegionMarker( start );
+        }
+    }
     
     /*
      * Adds a region marker at the specified position.
@@ -199,7 +186,7 @@ public class QTCombinedChart extends JFreeChart implements Observer {
     private void addRegionMarker( double x ) {
 
         Marker marker = new ValueMarker( x );
-        marker.setPaint( QTConstants.REGION_MARKER_PAINT );
+        marker.setPaint( QTConstants.REGION_MARKER_COLOR );
         marker.setStroke( QTConstants.REGION_MARKER_STROKE );
         
         CombinedDomainXYPlot combinedPlot = (CombinedDomainXYPlot) getPlot();
@@ -233,42 +220,8 @@ public class QTCombinedChart extends JFreeChart implements Observer {
      * @param arg
      */
     public void update( Observable observable, Object arg ) {
-        if ( observable == _potential ) {
-            updatePotential();
-        }
-    }
-    
-    //----------------------------------------------------------------------------
-    // Update handlers
-    //----------------------------------------------------------------------------
-    
-    /*
-     * Updates the total energy series to match the model.
-     */
-    private void updateTotalEnergy() {
-        CombinedDomainXYPlot combinedPlot = (CombinedDomainXYPlot) getPlot();
-        Range range = combinedPlot.getDomainAxis().getRange();
-        _totalEnergySeries.clear();
-        _totalEnergySeries.add( range.getLowerBound(), _totalEnergy.getEnergy() );
-        _totalEnergySeries.add( range.getUpperBound(), _totalEnergy.getEnergy() );
-    }
-    
-    /*
-     * Updates the potential energy series to match the model.
-     */
-    private void updatePotential() {
-        _potentialEnergySeries.clear();
-        clearRegionMarkers();
-        PotentialRegion[] regions = _potential.getRegions();
-        for ( int i = 0; i < regions.length; i++ ) {
-            double start = regions[i].getStart();
-            double end = regions[i].getEnd();
-            double energy = regions[i].getEnergy();
-            _potentialEnergySeries.add( start, energy );
-            _potentialEnergySeries.add( end, energy );
-            if ( i > 0 ) {
-                addRegionMarker( start );
-            }
+        if ( observable == _potentialEnergy ) {
+            updateRegionMarkers();
         }
     }
 }
