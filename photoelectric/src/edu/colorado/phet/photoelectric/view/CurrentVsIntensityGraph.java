@@ -36,8 +36,7 @@ public class CurrentVsIntensityGraph extends Chart {
     static private Range2D range = new Range2D( 0, 0,
                                                 PhotoelectricModel.MAX_PHOTONS_PER_SECOND,
                                                 PhotoelectricModel.MAX_CURRENT );
-    static private Dimension chartSize = new Dimension( 200, 150 );
-    static private Font titleFont = new Font( "Lucida Sans", Font.PLAIN, 12 );
+    static private Dimension chartSize = PhotoelectricConfig.CHART_SIZE;
     static private double PLOT_LAYER = 1E9;
 
     //-----------------------------------------------------------------
