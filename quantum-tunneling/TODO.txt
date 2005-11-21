@@ -22,6 +22,7 @@ HIGH PRIORITY:
 - implement Schrodinger's equation for 1 dimension
 
 MEDIUM PRIORITY:
+- fix tab order in Configure dialog
 - add application description to SimStrings files
 - Save/Load
 
@@ -59,6 +60,8 @@ JFREECHART:
 - CombinedDomainXYPlot.addDomainMarker doesn't do anything
 
 DONE:
+(11/21/05) - wire up controls in Configure dialog
+(11/21/05) - add wait cursor on Configure button
 (11/21/05) - redo SimStrings file so that keys aren't class specific
 (11/21/05) - set min size of chart in Configure dialog so it doesn't scale
 (11/19/05) - start to flesh out the Configure dialog

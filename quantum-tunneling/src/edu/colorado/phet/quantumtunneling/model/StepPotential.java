@@ -49,6 +49,13 @@ public class StepPotential extends AbstractPotentialEnergy {
         super( step );
     }
     
+    /**
+     * Clones this object.
+     */
+    public Object clone() {
+        return new StepPotential( this );
+    }
+    
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
@@ -62,11 +69,8 @@ public class StepPotential extends AbstractPotentialEnergy {
         if ( position == MIN_POSITION || position == MAX_POSITION ) {
             throw new IllegalArgumentException( "position cannot be at min or max range" );
         }
-        double start = position;
-        double end = getRegion( 1 ).getEnd();
-        double energy = getRegion( 1 ).getEnergy();
-        setRegion( 1, start, end, energy );
-        notifyObservers();
+        setEnd( 0, position );
+        setStart( 1, position );
     }
     
     /**

@@ -26,6 +26,15 @@ public class TotalEnergy extends QTObservable {
         _energy = energy;
     }
     
+    /**
+     * Copy constructor.
+     * 
+     * @param totalEnergy
+     */
+    public TotalEnergy( TotalEnergy totalEnergy ) {
+        _energy = totalEnergy.getEnergy();
+    }
+    
     public void setEnergy( double energy ) {
         if ( energy != _energy ) {
             _energy = energy;
