@@ -88,7 +88,7 @@ public class QTModule extends AbstractModule {
      * @param clock
      */
     public QTModule( AbstractClock clock ) {
-        super( SimStrings.get( "QTModule.title" ), clock );
+        super( SimStrings.get( "title.quantumTunneling" ), clock );
         
         //----------------------------------------------------------------------------
         // Model
@@ -120,7 +120,7 @@ public class QTModule extends AbstractModule {
         
         // Configure button
         {
-            JButton jButton = new JButton( SimStrings.get( "button.configure" ) );
+            JButton jButton = new JButton( SimStrings.get( "button.configureEnergy" ) );
             jButton.setOpaque( false );
             jButton.addActionListener( listener );
             _configureButton = new PSwing( _canvas, jButton );
@@ -268,7 +268,14 @@ public class QTModule extends AbstractModule {
         if ( _configureEnergyDialog == null ) {
             _configureEnergyDialog = new ConfigureEnergyDialog( getFrame(), _totalEnergy, _potentialEnergy );
             _configureEnergyDialog.addWindowListener( new WindowAdapter() {
+                // User pressed the closed button in the window dressing
+                public void windowClosing( WindowEvent event ) {
+                    _configureEnergyDialog.cleanup();
+                    _configureEnergyDialog = null;
+                }
+                // User pressed the close button in the dialog's action area
                 public void windowClosed( WindowEvent event ) {
+                    _configureEnergyDialog.cleanup();
                     _configureEnergyDialog = null;
                 }
             } );
