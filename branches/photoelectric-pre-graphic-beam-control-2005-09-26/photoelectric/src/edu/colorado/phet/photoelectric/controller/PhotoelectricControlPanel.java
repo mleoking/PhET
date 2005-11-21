@@ -14,15 +14,14 @@ import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.dischargelamps.model.FiftyPercentAbsorptionStrategy;
 import edu.colorado.phet.lasers.model.atom.ElementProperties;
 import edu.colorado.phet.lasers.model.atom.EnergyAbsorptionStrategy;
-import edu.colorado.phet.lasers.model.photon.Beam;
 import edu.colorado.phet.photoelectric.model.MetalEnergyAbsorptionStrategy;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 import edu.colorado.phet.photoelectric.model.PhotoelectricTarget;
 import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
-import edu.colorado.phet.photoelectric.view.CurrentVsIntensityGraphPanel;
-import edu.colorado.phet.photoelectric.view.CurrentVsVoltageGraphPanel;
-import edu.colorado.phet.photoelectric.view.EnergyVsFrequencyGraphPanel;
-import edu.colorado.phet.photoelectric.view.GraphWindow;
+import edu.colorado.phet.photoelectric.view.CurrentVsIntensityGraph;
+import edu.colorado.phet.photoelectric.view.CurrentVsVoltageGraph;
+import edu.colorado.phet.photoelectric.view.EnergyVsFrequencyGraph;
+import edu.colorado.phet.photoelectric.view.GraphPanel;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -45,11 +44,10 @@ public class PhotoelectricControlPanel {
 
     private Collection targetMaterials;
 
-    public PhotoelectricControlPanel( final PhotoelectricModule module, final GraphWindow graphWindow ) {
+    public PhotoelectricControlPanel( final PhotoelectricModule module ) {
         final PhotoelectricModel model = (PhotoelectricModel)module.getModel();
-        final Beam beam = model.getBeam();
 
-        ControlPanel controlPanel = (ControlPanel)module.getControlPanel();
+        final ControlPanel controlPanel = (ControlPanel)module.getControlPanel();
 
         //----------------------------------------------------------------
         // Target controls
@@ -120,15 +118,25 @@ public class PhotoelectricControlPanel {
         // Graph options
         //----------------------------------------------------------------
         {
+            Insets graphInsets = new Insets( 5, 20, 20, 15 );
             final JCheckBox currentVsVoltageCB = new JCheckBox( "<html>Current vs battery voltage</html>" );
-            final JPanel cvgPanel = new CurrentVsVoltageGraphPanel( model, module.getClock(), 20, 0 );
+            final GraphPanel cvgPanel = new GraphPanel( module.getClock() );
+            CurrentVsVoltageGraph currentVsVoltageGraph = new CurrentVsVoltageGraph( cvgPanel, model );
+            cvgPanel.setGraph( currentVsVoltageGraph, graphInsets );
             final JCheckBox currentVsIntensityCB = new JCheckBox( "<html>Current vs light intensity</html>" );
-            final JPanel cviPanel = new CurrentVsIntensityGraphPanel( model, module.getClock(), 20, 0 );
+            final GraphPanel cviPanel = new GraphPanel( module.getClock() );
+            CurrentVsIntensityGraph currentVsIntensityGraph = new CurrentVsIntensityGraph( cviPanel, model );
+            cviPanel.setGraph( currentVsIntensityGraph, graphInsets );
             final JCheckBox energyVsFrequencyCB = new JCheckBox( "<html>Electron energy vs light frequency</html>" );
-            final JPanel evfPanel = new EnergyVsFrequencyGraphPanel( model, module.getClock(), 20, 0 );
+            final GraphPanel evfPanel = new GraphPanel( module.getClock() );
+            EnergyVsFrequencyGraph energyVsFrequencyGraph = new EnergyVsFrequencyGraph( evfPanel, model );
+            evfPanel.setGraph( energyVsFrequencyGraph, graphInsets );
             currentVsVoltageCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     cvgPanel.setVisible( currentVsVoltageCB.isSelected() );
+                    controlPanel.setLogoVisible( !currentVsVoltageCB.isSelected()
+                                                 && !currentVsIntensityCB.isSelected()
+                                                 && !energyVsFrequencyCB.isSelected() );
                 }
             } );
             cvgPanel.setVisible( currentVsVoltageCB.isSelected() );
@@ -136,6 +144,9 @@ public class PhotoelectricControlPanel {
             currentVsIntensityCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     cviPanel.setVisible( currentVsIntensityCB.isSelected() );
+                    controlPanel.setLogoVisible( !currentVsVoltageCB.isSelected()
+                                                 && !currentVsIntensityCB.isSelected()
+                                                 && !energyVsFrequencyCB.isSelected() );
                 }
             } );
             cviPanel.setVisible( currentVsIntensityCB.isSelected() );
@@ -143,6 +154,9 @@ public class PhotoelectricControlPanel {
             energyVsFrequencyCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     evfPanel.setVisible( energyVsFrequencyCB.isSelected() );
+                    controlPanel.setLogoVisible( !currentVsVoltageCB.isSelected()
+                                                 && !currentVsIntensityCB.isSelected()
+                                                 && !energyVsFrequencyCB.isSelected() );
                 }
             } );
             evfPanel.setVisible( energyVsFrequencyCB.isSelected() );

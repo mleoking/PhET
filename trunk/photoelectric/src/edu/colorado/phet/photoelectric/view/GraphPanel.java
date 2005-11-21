@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.photoelectric.view;
 
+import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 
 import java.awt.*;
 
@@ -25,17 +25,18 @@ import java.awt.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class CurrentVsVoltageGraphPanel extends ApparatusPanel2 {
-    public CurrentVsVoltageGraphPanel( PhotoelectricModel model,
-                                       AbstractClock clock,
-                                       int graphInsetX,
-                                       int graphInsetY ) {
+public class GraphPanel extends ApparatusPanel2 {
+    public GraphPanel( AbstractClock clock ) {
         super( clock );
         setUseOffscreenBuffer( true );
         setDisplayBorder( false );
-        CurrentVsVoltageGraph currentVsVoltageGraph = new CurrentVsVoltageGraph( this, model );
-        setPreferredSize( new Dimension( 230, 170 ) );
-        currentVsVoltageGraph.setLocation( graphInsetX, graphInsetY );
-        addGraphic( currentVsVoltageGraph );
+    }
+
+    public void setGraph( Chart graph, Insets insets ) {
+        setPreferredSize( new Dimension( (int)graph.getChartSize().getWidth() + insets.left + insets.right,
+                                         (int)graph.getChartSize().getHeight() + insets.top + insets.bottom ) );
+        System.out.println( "insets = " + insets );
+        graph.setLocation( insets.left, insets.top );
+        addGraphic( graph );
     }
 }

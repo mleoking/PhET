@@ -170,10 +170,10 @@ public class PhotoelectricModule extends BaseLaserModule {
         getApparatusPanel().addGraphic( maskGraphic, PhotoelectricConfig.BEAM_LAYER + 1 );
 
         // Create current vs voltage graph
-        GraphWindow graphWindow = new GraphWindow( application.getPhetFrame(),
-                                                   clock,
-                                                   getPhotoelectricModel() );
-        graphWindow.setVisible( false );
+//        GraphWindow graphWindow = new GraphWindow( application.getPhetFrame(),
+//                                                   clock,
+//                                                   getPhotoelectricModel() );
+//        graphWindow.setVisible( false );
 
         // Add a listener to the model that will flip the battery image when the voltage
         // changes sign
@@ -184,7 +184,8 @@ public class PhotoelectricModule extends BaseLaserModule {
         //----------------------------------------------------------------
 
         // Set up the control panel
-        new PhotoelectricControlPanel( this, graphWindow );
+        new PhotoelectricControlPanel( this );
+//        new PhotoelectricControlPanel( this, graphWindow );
 
         // Add a slider for the battery
         addGraphicBatteryControls();

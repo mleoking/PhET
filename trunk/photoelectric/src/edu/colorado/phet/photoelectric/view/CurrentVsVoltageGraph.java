@@ -35,7 +35,8 @@ public class CurrentVsVoltageGraph extends Chart {
                                                 0,
                                                 PhotoelectricModel.MAX_VOLTAGE,
                                                 PhotoelectricModel.MAX_CURRENT );
-    static private Dimension chartSize = new Dimension( 200, 150 );
+    static private Dimension chartSize = PhotoelectricConfig.CHART_SIZE;
+//    static private Dimension CHART_SIZE = new Dimension( 200, 150 );
     static private Font titleFont = new Font( "Lucida Sans", Font.BOLD, 14 );
     private static final double PLOT_LAYER = 1E15;
 

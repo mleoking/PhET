@@ -37,7 +37,7 @@ public class EnergyVsFrequencyGraph extends Chart {
                                                 PhysicsUtil.wavelengthToFrequency( PhotoelectricModel.MIN_WAVELENGTH ),
                                                 PhysicsUtil.wavelengthToEnergy( PhotoelectricModel.MIN_WAVELENGTH ) );
     static private double xSpacing = ( range.getMaxX() - range.getMinX() ) / 4;
-    static private Dimension chartSize = new Dimension( 200, 150 );
+    static private Dimension chartSize = PhotoelectricConfig.CHART_SIZE;
 
     //-----------------------------------------------------------------
     // Instance data
@@ -99,7 +99,6 @@ public class EnergyVsFrequencyGraph extends Chart {
     private void updateGraph( PhotoelectricModel model ) {
         double frequency = PhysicsUtil.wavelengthToFrequency( model.getWavelength() );
         double workFunction = model.getTarget().getMaterial().getWorkFunction();
-//        double workFunction = ((Double)PhotoelectricTarget.WORK_FUNCTIONS.get( model.getTarget().getMaterial() )).doubleValue();
         double energy = Math.max( 0, PhysicsUtil.wavelengthToEnergy( model.getWavelength() ) - workFunction );
         addDataPoint( frequency, energy );
     }

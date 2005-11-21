@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.photoelectric;
 
+import java.awt.*;
+
 /**
  * PhotoelectricConfig
  *
@@ -29,4 +31,6 @@ public class PhotoelectricConfig {
     public static final double LAMP_LAYER = 1000;
     public static final double BEAM_LAYER = 900;
     public static final double ELECTRON_LAYER = 900;
+
+    public static final Dimension CHART_SIZE = new Dimension( 180, 100 );
 }
