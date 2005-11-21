@@ -43,7 +43,7 @@ public class EnergyPlot extends XYPlot implements Observer {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private AbstractPotentialEnergy _potential;
+    private AbstractPotentialEnergy _potentialEnergy;
     private TotalEnergy  _totalEnergy;
     
     private XYSeries _totalEnergySeries;
@@ -120,12 +120,12 @@ public class EnergyPlot extends XYPlot implements Observer {
      * @param potential
      */
     public void setPotentialEnergy( AbstractPotentialEnergy potential ) {
-        if ( _potential != null ) {
-            _potential.deleteObserver( this );
+        if ( _potentialEnergy != null ) {
+            _potentialEnergy.deleteObserver( this );
         }
-        _potential = potential;
-        _potential.addObserver( this );
-        updatePotential();
+        _potentialEnergy = potential;
+        _potentialEnergy.addObserver( this );
+        updatePotentialEnergy();
     }
     
     /**
@@ -149,8 +149,11 @@ public class EnergyPlot extends XYPlot implements Observer {
      * @param arg
      */
     public void update( Observable observable, Object arg ) {
-        if ( observable == _potential ) {
-            updatePotential();
+        if ( observable == _potentialEnergy ) {
+            updatePotentialEnergy();
+        }
+        else if ( observable == _totalEnergy ) {
+            updateTotalEnergy();
         }
     }
     
@@ -171,9 +174,10 @@ public class EnergyPlot extends XYPlot implements Observer {
     /*
      * Updates the potential energy series to match the model.
      */
-    private void updatePotential() {
+    private void updatePotentialEnergy() {
+        System.out.println( "EnergyPlot.updatePotentialEnergy" );//XXX
         _potentialEnergySeries.clear();
-        PotentialRegion[] regions = _potential.getRegions();
+        PotentialRegion[] regions = _potentialEnergy.getRegions();
         for ( int i = 0; i < regions.length; i++ ) {
             double start = regions[i].getStart();
             double end = regions[i].getEnd();

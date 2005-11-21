@@ -86,12 +86,11 @@ public abstract class AbstractModule extends PiccoloModule {
      * @param enabled true or false
      */
     public void setWaitCursorEnabled( boolean enabled ) {
-        ApparatusPanel apparatusPanel = getApparatusPanel();
         if ( enabled ) {
-            apparatusPanel.setCursor( WAIT_CURSOR );
+            getPhetPCanvas().setCursor( WAIT_CURSOR );
         }
         else {
-            apparatusPanel.setCursor( DEFAULT_CURSOR );
+            getPhetPCanvas().setCursor( DEFAULT_CURSOR );
         }
     }
     

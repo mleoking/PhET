@@ -97,12 +97,40 @@ public abstract class AbstractPotentialEnergy extends QTObservable implements IP
         return _regions[index];
     }
     
+    /*
+     * Not accessible to clients because we don't want them 
+     * to be creating gaps between regions.
+     */
     protected void setRegion( int index, double start, double end, double energy ) {
         validateIndex( index );
         _regions[ index ] = new PotentialRegion( start, end, energy );
+        notifyObservers();
+//        System.out.println( "AbstractPotential.setRegion: " + index + " " + start + " " + end + " " + energy );//XXX
     }
     
-    protected void setEnergy( int index, double energy ) {
+    protected void setStart( int index, double start ) {
+        validateIndex( index );
+        double end = getRegion( index ).getEnd();
+        double energy = getRegion( index ).getEnergy();
+        setRegion( index, start, end, energy ); 
+    }
+    
+    /*
+     * Not accessible to clients because we don't want them 
+     * to be creating gaps between regions.
+     */
+    protected void setEnd( int index, double end ) {
+        validateIndex( index );
+        double start = getRegion( index ).getStart();
+        double energy = getRegion( index ).getEnergy();
+        setRegion( index, start, end, energy );  
+    }
+    
+    /*
+     * Not accessible to clients because we don't want them 
+     * to be creating gaps between regions.
+     */
+    public void setEnergy( int index, double energy ) {
         validateIndex( index );
         double start = getRegion( index ).getStart();
         double end = getRegion( index ).getEnd();
@@ -128,6 +156,10 @@ public abstract class AbstractPotentialEnergy extends QTObservable implements IP
         return getRegionAt( position ).getEnergy();
     }
        
+    //----------------------------------------------------------------------------
+    // Validation
+    //----------------------------------------------------------------------------
+    
     private void validateIndex( int index ) {
         if ( index < 0 || index > _regions.length - 1 ) {
             throw new IllegalArgumentException( "index out of range: " + index );

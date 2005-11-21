@@ -266,6 +266,7 @@ public class QTModule extends AbstractModule {
      */
     private void handleConfigureButton() {
         if ( _configureEnergyDialog == null ) {
+            setWaitCursorEnabled( true );
             _configureEnergyDialog = new ConfigureEnergyDialog( getFrame(), _totalEnergy, _potentialEnergy );
             _configureEnergyDialog.addWindowListener( new WindowAdapter() {
                 // User pressed the closed button in the window dressing
@@ -280,6 +281,7 @@ public class QTModule extends AbstractModule {
                 }
             } );
             _configureEnergyDialog.show();
+            setWaitCursorEnabled( false );
         }
     }
 }

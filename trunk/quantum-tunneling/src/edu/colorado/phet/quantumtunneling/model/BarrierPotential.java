@@ -94,6 +94,13 @@ public class BarrierPotential extends AbstractPotentialEnergy {
         _minGap = barrier.getMinGap();
     }
     
+    /**
+     * Clones this object.
+     */
+    public Object clone() {
+        return new BarrierPotential( this );
+    }
+    
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
@@ -142,6 +149,8 @@ public class BarrierPotential extends AbstractPotentialEnergy {
         if ( position >= left.getStart() + _minGap &&
              position + barrier.getWidth() <= right.getEnd() - _minGap )
         {
+            setNotifyEnabled( false );
+            
             // move the barrier
             double start1 = position;
             double end1 = position + barrier.getWidth();
@@ -160,8 +169,9 @@ public class BarrierPotential extends AbstractPotentialEnergy {
             double energy3 = left.getEnergy();
             setRegion( regionIndex - 1, start3, end3, energy3 );
             
+            setNotifyEnabled( true );
+            
             success = true;
-            notifyObservers();
         }
         return success;
     }
@@ -205,6 +215,8 @@ public class BarrierPotential extends AbstractPotentialEnergy {
         
         if ( barrier.getStart() + width <= right.getEnd() - _minGap ) {
             
+            setNotifyEnabled( false );
+            
             // shrink or expand the barrier
             double start1 = barrier.getStart();
             double end1 = start1 + width;
@@ -217,8 +229,9 @@ public class BarrierPotential extends AbstractPotentialEnergy {
             double energy2 = right.getEnergy();
             setRegion( regionIndex + 1, start2, end2, energy2 );
             
+            setNotifyEnabled( true );
+            
             success = true;
-            notifyObservers();
         }
         
         return success;
@@ -238,12 +251,12 @@ public class BarrierPotential extends AbstractPotentialEnergy {
         return getRegion( regionIndex ).getWidth();
     }
     
-    /*
+    /**
      * Converts a barrier index to a region index.
      * 
      * @param barrierIndex
      */
-    private int toRegionIndex( int barrierIndex ) {
+    public static int toRegionIndex( int barrierIndex ) {
         return ( barrierIndex * 2 ) + 1;
     }
 }

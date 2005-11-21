@@ -47,6 +47,13 @@ public class ConstantPotential extends AbstractPotentialEnergy {
         super( step );
     }
     
+    /**
+     * Clones this object.
+     */
+    public Object clone() {
+        return new ConstantPotential( this );
+    }
+    
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
@@ -58,7 +65,6 @@ public class ConstantPotential extends AbstractPotentialEnergy {
      */
     public void setEnergy( double energy ) {
         setEnergy( 0, energy );
-        notifyObservers();
     }
     
     /**
