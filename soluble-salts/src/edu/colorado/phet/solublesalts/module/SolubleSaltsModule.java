@@ -66,8 +66,7 @@ public class SolubleSaltsModule extends PiccoloModule {
         setControlPanel( new SolubleSaltsControlPanel( this ) );
 
         // Add some ions for testing
-//        createTestIons( model );
-
+        createTestIons( model );
 
 
 //        TestGraphic tg = new TestGraphic();

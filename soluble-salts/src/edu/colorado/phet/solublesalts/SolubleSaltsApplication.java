@@ -82,8 +82,11 @@ public class SolubleSaltsApplication extends PhetApplication {
 //                    simPanel.addWorldChild( mouseTracker );
                 }
             }
-            if( args.equals( "-b" )) {
+            if( arg.equals( "-b" )) {
                 IonGraphic.showBondIndicators( true );
+            }
+            if( arg.equals( "-t" )) {
+                SolubleSaltsConfig.LATTICE = SolubleSaltsConfig.twoToOneLattice;
             }
         }
 
