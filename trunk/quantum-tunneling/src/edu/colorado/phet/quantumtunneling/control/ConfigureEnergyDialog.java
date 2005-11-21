@@ -99,7 +99,6 @@ public class ConfigureEnergyDialog extends JDialog {
 
         _parent = parent;
         _listener = new EventListener();
-        _unsavedChanges = false;
         
         _totalEnergy = new TotalEnergy( totalEnergy );
         if ( potentialEnergy instanceof ConstantPotential ) {
@@ -116,6 +115,8 @@ public class ConfigureEnergyDialog extends JDialog {
         populateValues();
         
         setLocationRelativeTo( parent );
+        
+        _unsavedChanges = false; // do this after creating the UI!
     }
 
     /**
@@ -517,9 +518,22 @@ public class ConfigureEnergyDialog extends JDialog {
 
     private void handleClose() {
         if ( _unsavedChanges ) {
-            //XXX check for changes that haven't been applied
+            String message = SimStrings.get( "message.unsavedChanges" );
+            String title = SimStrings.get( "title.confirm" );
+            int reply = JOptionPane.showConfirmDialog( this, message, "Confirm", JOptionPane.YES_NO_CANCEL_OPTION );
+            if ( reply == JOptionPane.YES_OPTION) {
+                handleApply();
+            }
+            if ( reply == JOptionPane.NO_OPTION) {
+                dispose();
+            }
+            else {
+                // Do nothing if canceled.
+            }
         }
-        dispose();
+        else {
+            dispose();
+        }
     }
     
     private void handlePotentialTypeChange() {
@@ -568,19 +582,29 @@ public class ConfigureEnergyDialog extends JDialog {
     
     private void handleBarrierWidthChange( int barrierIndex ) {
         if ( _potentialEnergy instanceof BarrierPotential ) {
-            JSpinner positionSpinner = (JSpinner) _positionSpinners.get( barrierIndex );
-            Double value = (Double) positionSpinner.getValue();
-            ( (BarrierPotential) _potentialEnergy).setBarrierPosition( barrierIndex, value.doubleValue() );
-            _unsavedChanges = true;
+            JSpinner widthSpinner = (JSpinner) _widthSpinners.get( barrierIndex );
+            Double value = (Double) widthSpinner.getValue();
+            boolean success = ( (BarrierPotential) _potentialEnergy).setBarrierWidth( barrierIndex, value.doubleValue() );
+            if ( success ) {
+                _unsavedChanges = true;
+            }
+            else {
+                System.out.println( "WARNING: BarrierPotential.setBarrierWidth returned false" );
+            }
         }
     }
     
     private void handleBarrierPositionChange( int barrierIndex ) {
         if ( _potentialEnergy instanceof BarrierPotential ) {
-            JSpinner widthSpinner = (JSpinner) _widthSpinners.get( barrierIndex );
-            Double value = (Double) widthSpinner.getValue();
-            ( (BarrierPotential) _potentialEnergy).setBarrierWidth( barrierIndex, value.doubleValue() );
-            _unsavedChanges = true;
+            JSpinner positionSpinner = (JSpinner) _positionSpinners.get( barrierIndex );
+            Double value = (Double) positionSpinner.getValue();
+            boolean success = ( (BarrierPotential) _potentialEnergy).setBarrierPosition( barrierIndex, value.doubleValue() );
+            if ( success ) {
+                _unsavedChanges = true;
+            }
+            else {
+                System.out.println( "WARNING: BarrierPotential.setBarrierPosition returned false" );
+            }
         }
     }
 }
