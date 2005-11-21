@@ -175,7 +175,6 @@ public class EnergyPlot extends XYPlot implements Observer {
      * Updates the potential energy series to match the model.
      */
     private void updatePotentialEnergy() {
-        System.out.println( "EnergyPlot.updatePotentialEnergy" );//XXX
         _potentialEnergySeries.clear();
         PotentialRegion[] regions = _potentialEnergy.getRegions();
         for ( int i = 0; i < regions.length; i++ ) {

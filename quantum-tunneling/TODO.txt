@@ -30,6 +30,7 @@ LOW PRIORITY:
 - change time to ns when the time values grows too large to display fs
 - add build number to "About" dialog
 - add PhET logo to "About" dialog
+- translate Yes/No/Cancel on JOptionPane.showConfirmMessage
 
 
 NEW FEATURES:
@@ -60,6 +61,7 @@ JFREECHART:
 - CombinedDomainXYPlot.addDomainMarker doesn't do anything
 
 DONE:
+(11/21/05) - check for unsaved changes in Configure dialog
 (11/21/05) - wire up controls in Configure dialog
 (11/21/05) - add wait cursor on Configure button
 (11/21/05) - redo SimStrings file so that keys aren't class specific

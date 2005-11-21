@@ -146,28 +146,22 @@ public class BarrierPotential extends AbstractPotentialEnergy {
         PotentialRegion left = getRegion( regionIndex - 1 );
         PotentialRegion right = getRegion( regionIndex + 1 );
         
-        if ( position >= left.getStart() + _minGap &&
-             position + barrier.getWidth() <= right.getEnd() - _minGap )
+        if ( position - _minGap >= left.getStart() &&
+             position + barrier.getWidth() + _minGap <= right.getEnd() )
         {
             setNotifyEnabled( false );
             
             // move the barrier
-            double start1 = position;
-            double end1 = position + barrier.getWidth();
-            double energy1 = barrier.getEnergy();
-            setRegion( regionIndex, start1, end1, energy1 );
+            double start = position;
+            double end = position + barrier.getWidth();
+            setStart( regionIndex, start );
+            setEnd( regionIndex, end );
+           
+            // move the end point of the region to the left of the barrier
+            setEnd( regionIndex - 1, start );
             
-            // shrink or expand the region to the right of the barrier
-            double start2 = end1;
-            double end2 = right.getEnd();
-            double energy2 = right.getEnergy();
-            setRegion( regionIndex + 1, start2, end2, energy2 );
-            
-            // shrink or expand the region to the left of the barrier
-            double start3 = left.getStart();
-            double end3 = position;
-            double energy3 = left.getEnergy();
-            setRegion( regionIndex - 1, start3, end3, energy3 );
+            // move the start point of the region to the right of the barrier
+            setStart( regionIndex + 1, end );
             
             setNotifyEnabled( true );
             
@@ -213,21 +207,16 @@ public class BarrierPotential extends AbstractPotentialEnergy {
         PotentialRegion barrier = getRegion( regionIndex );
         PotentialRegion right = getRegion( regionIndex + 1 );
         
-        if ( barrier.getStart() + width <= right.getEnd() - _minGap ) {
+        if ( barrier.getStart() + width + _minGap <= right.getEnd() ) {
             
             setNotifyEnabled( false );
             
-            // shrink or expand the barrier
-            double start1 = barrier.getStart();
-            double end1 = start1 + width;
-            double energy1 = barrier.getEnergy();
-            setRegion( regionIndex, start1, end1, energy1 );
+            // move the end of the barrier's region
+            double end = barrier.getStart() + width;
+            setEnd( regionIndex, end );
             
-            // shrink or expand the region to the right of the barrier
-            double start2 = end1;
-            double end2 = right.getEnd();
-            double energy2 = right.getEnergy();
-            setRegion( regionIndex + 1, start2, end2, energy2 );
+            // move the start point of the region to the right of the barrier
+            setStart( regionIndex + 1, end );
             
             setNotifyEnabled( true );
             
