@@ -27,20 +27,10 @@ import java.awt.event.ActionListener;
 
 public class TestPSwing {
     public static void main( String[] args ) {
-
-//        PDebug.debugPrintFrameRate = true;
-//        PDebug.debugRegionManagement = true;
-//        PDebug.debugFullBounds = true;
-
-//        RepaintManager.setCurrentManager( new ZBasicRepaintManager() );
         PSwingCanvas pCanvas = new PSwingCanvas();
-//        pCanvas.add( ZSwing.getSwingWrapper() );
-
         final PText pText = new PText( "Hello PhET\nTesting" );
         pCanvas.getLayer().addChild( pText );
-//        pText.addInputEventListener( new TestWiggleMe.DragBehavior() );
         JFrame frame = new JFrame( "Test Piccolo" );
-//        pCanvas.getCamera().translateView( 50, 50 );
 
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setContentPane( pCanvas );
@@ -66,7 +56,6 @@ public class TestPSwing {
                 System.out.println( "TestZSwing.actionPerformed!!!!!!!!!!!!!!*********************" );
             }
         } );
-//        jButton.setLocation( -5, -5 );
         final PSwing pSwing = new PSwing( pCanvas, jButton );
         pCanvas.getLayer().addChild( pSwing );
         pSwing.repaint();
@@ -92,14 +81,12 @@ public class TestPSwing {
         pCanvas.getLayer().addChild( pCheckBox );
         pCheckBox.translate( 100, 0 );
 
-
         // Growable JTextArea
         JTextArea textArea = new JTextArea( "This is a growable TextArea.\nTry it out!" );
         textArea.setBorder( new LineBorder( Color.blue, 3 ) );
         PSwing swing = new PSwing( pCanvas, textArea );
         swing.translate( 150, 150 );
         pCanvas.getLayer().addChild( swing );
-
 
         // A Slider
         JSlider slider = new JSlider();
@@ -122,17 +109,12 @@ public class TestPSwing {
         pCanvas.getLayer().addChild( pChooser );
         pChooser.translate( 100, 300 );
 
-
         JPanel myPanel = new JPanel();
         myPanel.setBorder( BorderFactory.createTitledBorder( "Titled Border" ) );
         myPanel.add( new JCheckBox( "CheckBox" ) );
         PSwing panelSwing = new PSwing( pCanvas, myPanel );
         pCanvas.getLayer().addChild( panelSwing );
         panelSwing.translate( 400, 50 );
-
-
-
-//        testCheckBox();
 
         // A Slider
         JSlider slider2 = new JSlider();
@@ -149,10 +131,7 @@ public class TestPSwing {
         String[] listItems = {"Summer Teeth", "Mermaid Avenue", "Being There", "A.M."};
         PComboBox box = new PComboBox( listItems );
         swing = new PSwing( pCanvas, box );
-//        leaf = new ZVisualLeaf( swing );
-//        transform = new ZTransformGroup();
         swing.translate( 200, 250 );
-//        transform.addChild( leaf );
         pCanvas.getLayer().addChild( swing );
         box.setEnvironment( swing, pCanvas );//has to be done manually at present
 
