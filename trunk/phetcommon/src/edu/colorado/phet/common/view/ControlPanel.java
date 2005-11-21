@@ -147,6 +147,25 @@ public class ControlPanel extends JPanel {
     }
 
     /**
+     * Sets the state of the Help button in the control panel.
+     * This is used to keep the menubar's Help menu item
+     * in sync with the control panel's Help button.
+     *
+     * @param enabled
+     */
+    public void setHelpEnabled( boolean enabled ) {
+        helpPanel.setHelpEnabled( enabled );
+    }
+
+    /**
+     * Shows or hides the PhET logo at the top of the control panel
+     * @param isVisible
+     */
+    public void setLogoVisible( boolean isVisible ) {
+        northPanel.setVisible( isVisible );
+    }
+
+    /**
      * Adds a component to the control area.
      *
      * @param component
@@ -197,7 +216,7 @@ public class ControlPanel extends JPanel {
      * Layout manager for the panel
      */
     public class Layout implements LayoutManager {
-        
+
         public void removeLayoutComponent( Component comp ) {
         }
 
@@ -292,13 +311,13 @@ public class ControlPanel extends JPanel {
              * See http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4220108
              */
             if( component instanceof JSlider ) {
-                JSlider slider = (JSlider) component;
+                JSlider slider = (JSlider)component;
                 Dimension dim = slider.getSize();
-                dim.height +=1;
-                slider.setSize(dim);
+                dim.height += 1;
+                slider.setSize( dim );
                 slider.repaint();
-                dim.height -=1;
-                slider.setSize(dim);
+                dim.height -= 1;
+                slider.setSize( dim );
                 slider.repaint();
             }
         }
@@ -419,16 +438,5 @@ public class ControlPanel extends JPanel {
             setFill( GridBagConstraints.NONE );
         }
 
-    }
-
-    /**
-     * Sets the state of the Help button in the control panel.
-     * This is used to keep the menubar's Help menu item
-     * in sync with the control panel's Help button.
-     *
-     * @param enabled
-     */
-    public void setHelpEnabled( boolean enabled ) {
-        helpPanel.setHelpEnabled( enabled );
     }
 }
