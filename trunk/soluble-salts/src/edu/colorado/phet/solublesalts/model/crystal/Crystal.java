@@ -129,6 +129,17 @@ public class Crystal extends Body implements Binder {
                         cm.getY() / ions.size() );
     }
 
+    public String toString() {
+        String s = new String();
+        StringBuffer sb = new StringBuffer();
+        for( int i = 0; i < ions.size(); i++ ) {
+            Ion ion = (Ion)ions.get( i );
+            String s2 = new String("ion: type = " + ion.getClass() + "  position = " + ion.getPosition() + "\n" );
+            sb.append( s2 );
+        }
+        return sb.toString();
+    }
+
     //----------------------------------------------------------------
     // Getters and setters
     //----------------------------------------------------------------
