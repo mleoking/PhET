@@ -47,8 +47,9 @@ public class ConfigureEnergyDialog extends JDialog implements Observer {
     //----------------------------------------------------------------------------
     
     private static final Dimension CHART_SIZE = new Dimension( 350, 150 );
-    public static final Font AXES_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 );
-    public static final Color BARRIER_PROPERTIES_COLOR = Color.RED;
+    private static final Font AXES_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 );
+    private static final Color BARRIER_PROPERTIES_COLOR = Color.RED;
+    private static final Dimension SPINNER_SIZE = new Dimension( 65, 25 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -170,6 +171,8 @@ public class ConfigureEnergyDialog extends JDialog implements Observer {
             SpinnerModel model = new SpinnerNumberModel( 8.00, QTConstants.ENERGY_RANGE.getLowerBound(), 
                     QTConstants.ENERGY_RANGE.getUpperBound(), 0.01 );
             JSpinner teSpinner = new JSpinner( model );
+            teSpinner.setPreferredSize( SPINNER_SIZE );
+            teSpinner.setMinimumSize( SPINNER_SIZE );
             JLabel teUnits = new JLabel( "eV" );
             inputPanelLayout.addAnchoredComponent( teLabel, row, 0, 2, 1, GridBagConstraints.EAST );
             inputPanelLayout.addComponent( teSpinner, row, 2 );
@@ -190,6 +193,8 @@ public class ConfigureEnergyDialog extends JDialog implements Observer {
                 SpinnerModel model = new SpinnerNumberModel( 5.00, QTConstants.ENERGY_RANGE.getLowerBound(), 
                         QTConstants.ENERGY_RANGE.getUpperBound(), 0.01 );
                 JSpinner peSpinner = new JSpinner( model );
+                peSpinner.setPreferredSize( SPINNER_SIZE );
+                peSpinner.setMinimumSize( SPINNER_SIZE );
                 JLabel peUnits = new JLabel( "eV" );
                 inputPanelLayout.addAnchoredComponent( peLabel, row, 1, GridBagConstraints.EAST );
                 inputPanelLayout.addAnchoredComponent( peSpinner, row, 2, GridBagConstraints.EAST );
@@ -215,9 +220,11 @@ public class ConfigureEnergyDialog extends JDialog implements Observer {
             for ( int i = 0; i < numberOfBarriers; i++ ) {
                 JLabel widthLabel = new JLabel( "<html>B<sub>" + ( i + 1 ) + "</sub>:</html>" );
                 widthLabel.setForeground( BARRIER_PROPERTIES_COLOR );
-                SpinnerModel widthModel = new SpinnerNumberModel( 5.00, QTConstants.POSITION_RANGE.getLowerBound(), 
-                        QTConstants.POSITION_RANGE.getUpperBound(), 0.01 );
+                SpinnerModel widthModel = new SpinnerNumberModel( 5.00, 0, 
+                        QTConstants.POSITION_RANGE.getUpperBound() - QTConstants.POSITION_RANGE.getLowerBound(), 0.01 );
                 JSpinner widthSpinner = new JSpinner( widthModel );
+                widthSpinner.setPreferredSize( SPINNER_SIZE );
+                widthSpinner.setMinimumSize( SPINNER_SIZE );
                 JLabel widthUnits = new JLabel( "nm" );
                 inputPanelLayout.addAnchoredComponent( widthLabel, row, column, GridBagConstraints.EAST );
                 inputPanelLayout.addAnchoredComponent( widthSpinner, row, column + 1, GridBagConstraints.EAST );
@@ -238,6 +245,8 @@ public class ConfigureEnergyDialog extends JDialog implements Observer {
                 SpinnerModel positionModel = new SpinnerNumberModel( 2.00, QTConstants.POSITION_RANGE.getLowerBound(), 
                         QTConstants.POSITION_RANGE.getUpperBound(), 0.01 );
                 JSpinner positionSpinner = new JSpinner( positionModel );
+                positionSpinner.setPreferredSize( SPINNER_SIZE );
+                positionSpinner.setMinimumSize( SPINNER_SIZE );
                 JLabel positionUnits = new JLabel( "nm" );
                 inputPanelLayout.addAnchoredComponent( positionLabel, row, column, GridBagConstraints.EAST );
                 inputPanelLayout.addAnchoredComponent( positionSpinner, row, column + 1, GridBagConstraints.EAST );
