@@ -62,6 +62,7 @@ JFREECHART:
 - CombinedDomainXYPlot.addDomainMarker doesn't do anything
 
 DONE:
+(11/21/05) - 
 (11/19/05) - start to flesh out the Configure dialog
 (11/19/05) - collapse BarrierPotential and MultiBarrierPotential hierarchy
 (11/18/05) - add Observer/Observable relationship between view/model
