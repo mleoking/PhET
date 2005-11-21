@@ -80,19 +80,21 @@ public class QTControlPanel extends AbstractControlPanel {
         super( module );
         
         // Set the control panel's minimum width.
-        String widthString = SimStrings.get( "QTControlPanel.width" );
-        int width = Integer.parseInt( widthString );
-        setMinumumWidth( width );
+        String widthString = SimStrings.get( "width.controlPanel" );
+        if ( widthString != null ) {
+            int width = Integer.parseInt( widthString );
+            setMinumumWidth( width );
+        }
         
         // Potential
         JPanel potentialPanel = new JPanel();
         {
-            JLabel label = new JLabel( SimStrings.get( "QTControlPanel.potential" ) );
+            JLabel label = new JLabel( SimStrings.get( "label.potential" ) );
             
-            _constantItem = SimStrings.get( "QTControlPanel.potential.constant" );
-            _stepItem = SimStrings.get( "QTControlPanel.potential.step" );
-            _barrierItem = SimStrings.get( "QTControlPanel.potential.barrier" );
-            _doubleBarrierItem = SimStrings.get( "QTControlPanel.potential.double" );
+            _constantItem = SimStrings.get( "choice.potential.constant" );
+            _stepItem = SimStrings.get( "choice.potential.step" );
+            _barrierItem = SimStrings.get( "choice.potential.barrier" );
+            _doubleBarrierItem = SimStrings.get( "choice.potential.double" );
             
             Object[] items = { _constantItem, _stepItem, _barrierItem, _doubleBarrierItem };
             _potentialComboBox = new JComboBox( items );
@@ -112,11 +114,11 @@ public class QTControlPanel extends AbstractControlPanel {
         // Wave Function View 
         JPanel viewPanel = new JPanel();
         {
-            JLabel label = new JLabel( SimStrings.get( "QTControlPanel.waveFunctionView" ) );
-            _realCheckBox = new JCheckBox( SimStrings.get( "QTControlPanel.realPart" ) );
-            _imaginaryCheckBox = new JCheckBox( SimStrings.get( "QTControlPanel.imaginaryPart" ) );
-            _magnitudeCheckBox = new JCheckBox( SimStrings.get( "QTControlPanel.magnitude" ) );
-            _phaseCheckBox = new JCheckBox( SimStrings.get( "QTControlPanel.phase" ) );
+            JLabel label = new JLabel( SimStrings.get( "label.view" ) );
+            _realCheckBox = new JCheckBox( SimStrings.get( "choice.view.real" ) );
+            _imaginaryCheckBox = new JCheckBox( SimStrings.get( "choice.view.imaginary" ) );
+            _magnitudeCheckBox = new JCheckBox( SimStrings.get( "choice.view.magnitude" ) );
+            _phaseCheckBox = new JCheckBox( SimStrings.get( "choice.view.phase" ) );
             
             // Layout
             JPanel innerPanel = new JPanel();
@@ -136,9 +138,9 @@ public class QTControlPanel extends AbstractControlPanel {
         // Incident/Reflected waves
         JPanel irPanel = new JPanel();
         {
-            JLabel label = new JLabel( SimStrings.get( "QTControlPanel.irWaves" ) );
-            _sumRadioButton = new JRadioButton( SimStrings.get( "QTControlPanel.sum" ) );
-            _separateRadioButton = new JRadioButton( SimStrings.get( "QTControlPanel.separate" ) );
+            JLabel label = new JLabel( SimStrings.get( "label.ir" ) );
+            _sumRadioButton = new JRadioButton( SimStrings.get( "choice.ir.sum" ) );
+            _separateRadioButton = new JRadioButton( SimStrings.get( "choice.ir.separate" ) );
             ButtonGroup buttonGroup = new ButtonGroup();
             buttonGroup.add( _sumRadioButton );
             buttonGroup.add( _separateRadioButton );
@@ -167,7 +169,7 @@ public class QTControlPanel extends AbstractControlPanel {
         // Direction
         JPanel directionPanel = new JPanel();
         {
-            JLabel label = new JLabel( SimStrings.get( "QTControlPanel.direction" ) );
+            JLabel label = new JLabel( SimStrings.get( "label.direction" ) );
             
             JLabel l2rLabel = null;
             JLabel r2lLabel = null;
@@ -217,9 +219,9 @@ public class QTControlPanel extends AbstractControlPanel {
         // Wave function form
         JPanel formPanel = new JPanel();
         {
-            JLabel label = new JLabel( SimStrings.get( "QTControlPanel.waveFunctionForm" ) );
-            _planeWaveRadioButton = new JRadioButton( SimStrings.get( "QTControlPanel.planeWave" ) );
-            _packetWaveRadioButton = new JRadioButton( SimStrings.get( "QTControlPanel.packetWave" ) );
+            JLabel label = new JLabel( SimStrings.get( "label.wave" ) );
+            _planeWaveRadioButton = new JRadioButton( SimStrings.get( "choice.wave.plane" ) );
+            _packetWaveRadioButton = new JRadioButton( SimStrings.get( "choice.wave.packet" ) );
             ButtonGroup buttonGroup = new ButtonGroup();
             buttonGroup.add( _planeWaveRadioButton );
             buttonGroup.add( _packetWaveRadioButton );
@@ -240,8 +242,8 @@ public class QTControlPanel extends AbstractControlPanel {
         // Wave packet properties
         JPanel propertiesPanel = new JPanel();
         {
-            _sPropertiesExpand = SimStrings.get( "QTControlPanel.packetProperties" ) + " " + EXPAND_SYMBOL;
-            _sPropertiesCollapse = SimStrings.get( "QTControlPanel.packetProperties" ) + " " + COLLAPSE_SYMBOL;
+            _sPropertiesExpand = SimStrings.get( "button.packetProperties" ) + " " + EXPAND_SYMBOL;
+            _sPropertiesCollapse = SimStrings.get( "button.packetProperties" ) + " " + COLLAPSE_SYMBOL;
             _propertiesButton = new JButton( _sPropertiesExpand  );
             
             // Subpanel
@@ -251,7 +253,7 @@ public class QTControlPanel extends AbstractControlPanel {
                         QTConstants.MIN_PACKET_WIDTH, QTConstants.MAX_PACKET_WIDTH,
                         WIDTH_TICK_SPACING,
                         WIDTH_SIGNIFICANT_DECIMAL_PLACES,
-                        SimStrings.get( "QTControlPanel.packetWidth" ), 
+                        SimStrings.get( "label.packetWidth" ) + " {0} (" + SimStrings.get( "units.position" ) + ")", 
                         DEFAULT_INSETS );
                 _widthSlider.setInverted( true );
                 
@@ -259,7 +261,7 @@ public class QTControlPanel extends AbstractControlPanel {
                         QTConstants.MIN_PACKET_CENTER, QTConstants.MAX_PACKET_CENTER,
                         CENTER_TICK_SPACING,
                         CENTER_SIGNIFICANT_DECIMAL_PLACES,
-                        SimStrings.get( "QTControlPanel.packetCenter" ),
+                        SimStrings.get( "label.packetCenter" ) + " {0} (" + SimStrings.get( "units.position" ) + ")",
                         DEFAULT_INSETS );
                 
                 EasyGridBagLayout layout = new EasyGridBagLayout( _propertiesPanel );
@@ -282,7 +284,7 @@ public class QTControlPanel extends AbstractControlPanel {
         }
         
         // Measure
-        _measureButton = new JButton( SimStrings.get( "QTControlPanel.measure"  ) );
+        _measureButton = new JButton( SimStrings.get( "button.measure"  ) );
         
         // Layout
         {

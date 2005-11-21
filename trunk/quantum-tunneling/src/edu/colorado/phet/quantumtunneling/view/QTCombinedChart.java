@@ -68,12 +68,9 @@ public class QTCombinedChart extends JFreeChart implements Observer {
         setBackgroundPaint( QTConstants.CHART_BACKGROUND );
         
         // Labels (localized)
-        String energyLabel = SimStrings.get( "axis.energy" );
         String waveFunctionLabel = SimStrings.get( "axis.waveFunction" );
         String probabilityDensityLabel = SimStrings.get( "axis.probabilityDensity" );
-        String positionLabel = SimStrings.get( "axis.position" );
-        String totalEnergyLabel = SimStrings.get( "legend.totalEnergy" );
-        String potentialEnergyLabel = SimStrings.get( "legend.potentialEnergy" );
+        String positionLabel = SimStrings.get( "axis.position" ) + " (" + SimStrings.get( "units.position" ) + ")";
         
         // Energy plot...
         _energyPlot = new EnergyPlot();

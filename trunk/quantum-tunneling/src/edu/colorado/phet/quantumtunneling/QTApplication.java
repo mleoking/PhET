@@ -120,7 +120,7 @@ public class QTApplication extends PhetApplication {
         SimStrings.init( args, QTConstants.LOCALIZATION_BUNDLE_BASENAME );
         
         // Title, etc.
-        String title = SimStrings.get( "QTApplication.title" );
+        String title = SimStrings.get( "title.quantumTunneling" );
         String description = SimStrings.get( "QTApplication.description" );
         String version = Version.NUMBER;
         

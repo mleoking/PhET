@@ -46,7 +46,7 @@ public class ConfigureEnergyDialog extends JDialog implements Observer {
     // Class data
     //----------------------------------------------------------------------------
 
-    private static final Dimension CHART_SIZE = new Dimension( 350, 150 );
+    private static final Dimension CHART_SIZE = new Dimension( 450, 150 );
     private static final Font AXES_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 );
     private static final Color BARRIER_PROPERTIES_COLOR = Color.RED;
     private static final Dimension SPINNER_SIZE = new Dimension( 65, 25 );
@@ -72,7 +72,7 @@ public class ConfigureEnergyDialog extends JDialog implements Observer {
     public ConfigureEnergyDialog( Frame frame, TotalEnergy totalEnergy, AbstractPotentialEnergy potentialEnergy ) {
         super( frame );
 
-        super.setTitle( SimStrings.get( "dialog.configureEnergy" ) );
+        super.setTitle( SimStrings.get( "title.configureEnergy" ) );
         super.setModal( false );
         super.setResizable( false );
 
@@ -84,16 +84,12 @@ public class ConfigureEnergyDialog extends JDialog implements Observer {
         _listener = new EventListener();
 
         createUI( frame );
-
-        addWindowListener( new WindowAdapter() {
-
-            public void windowClosed( WindowEvent event ) {
-                cleanup();
-            }
-        } );
     }
 
-    private void cleanup() {
+    /**
+     * Clients should call this before releasing references to this object.
+     */
+    public void cleanup() {
         _totalEnergy.deleteObserver( this );
         _potentialEnergy.deleteObserver( this );
     }
@@ -142,7 +138,12 @@ public class ConfigureEnergyDialog extends JDialog implements Observer {
 
         // Chart panel
         ChartPanel chartPanel = new ChartPanel( chart );
+        chartPanel.setPopupMenu( null ); // disable popup menu, on by default
+        chartPanel.setMouseZoomable( false ); // disable zooming, on by default
+        chartPanel.setMinimumDrawWidth( (int) CHART_SIZE.getWidth() - 1 );
+        chartPanel.setMinimumDrawHeight( (int) CHART_SIZE.getHeight() - 1 );
         chartPanel.setPreferredSize( CHART_SIZE );
+
 
         return chartPanel;
     }
@@ -154,16 +155,17 @@ public class ConfigureEnergyDialog extends JDialog implements Observer {
      */
     private JPanel createInputPanel() {
 
-        // Potential menu...
+        // Menu panel...
         JPanel menuPanel = new JPanel();
         {
-            JLabel potentialLabel = new JLabel( SimStrings.get( "QTControlPanel.potential" ) );
+            // Potential menu...
+            JLabel potentialLabel = new JLabel( SimStrings.get( "label.potential" ) );
             JComboBox potentialComboBox;
             Object constantItem, stepItem, barrierItem, doubleBarrierItem;
-            constantItem = SimStrings.get( "QTControlPanel.potential.constant" );
-            stepItem = SimStrings.get( "QTControlPanel.potential.step" );
-            barrierItem = SimStrings.get( "QTControlPanel.potential.barrier" );
-            doubleBarrierItem = SimStrings.get( "QTControlPanel.potential.double" );
+            constantItem = SimStrings.get( "choice.potential.constant" );
+            stepItem = SimStrings.get( "choice.potential.step" );
+            barrierItem = SimStrings.get( "choice.potential.barrier" );
+            doubleBarrierItem = SimStrings.get( "choice.potential.double" );
             Object[] items = { constantItem, stepItem, barrierItem, doubleBarrierItem };
             potentialComboBox = new JComboBox( items );
 
@@ -177,7 +179,7 @@ public class ConfigureEnergyDialog extends JDialog implements Observer {
             menuPanel.add( innerPanel, BorderLayout.WEST );
         }
 
-        // Spinner panel
+        // Spinner panel...
         JPanel spinnerPanel = new JPanel();
         {
             EasyGridBagLayout inputPanelLayout = new EasyGridBagLayout( spinnerPanel );
@@ -190,13 +192,13 @@ public class ConfigureEnergyDialog extends JDialog implements Observer {
 
             // Total Energy
             {
-                JLabel teLabel = new JLabel( "Total Energy:" );
+                JLabel teLabel = new JLabel( SimStrings.get( "label.totalEnergy" ) );
                 teLabel.setForeground( QTConstants.TOTAL_ENERGY_COLOR );
                 SpinnerModel model = new SpinnerNumberModel( 8.00, QTConstants.ENERGY_RANGE.getLowerBound(), QTConstants.ENERGY_RANGE.getUpperBound(), 0.01 );
                 JSpinner teSpinner = new JSpinner( model );
                 teSpinner.setPreferredSize( SPINNER_SIZE );
                 teSpinner.setMinimumSize( SPINNER_SIZE );
-                JLabel teUnits = new JLabel( "eV" );
+                JLabel teUnits = new JLabel( SimStrings.get( "units.energy" ) );
                 inputPanelLayout.addAnchoredComponent( teLabel, row, 0, 2, 1, GridBagConstraints.EAST );
                 inputPanelLayout.addComponent( teSpinner, row, 2 );
                 inputPanelLayout.addComponent( teUnits, row, 3 );
@@ -205,7 +207,7 @@ public class ConfigureEnergyDialog extends JDialog implements Observer {
 
             // Potential Energy for each region...
             {
-                JLabel peTitle = new JLabel( "Potential Energy:" );
+                JLabel peTitle = new JLabel( SimStrings.get( "label.potentialEnergy" ) );
                 peTitle.setForeground( QTConstants.POTENTIAL_ENERGY_COLOR );
                 inputPanelLayout.addAnchoredComponent( peTitle, row, 0, 4, 1, GridBagConstraints.WEST );
                 row++;
@@ -217,7 +219,7 @@ public class ConfigureEnergyDialog extends JDialog implements Observer {
                     JSpinner peSpinner = new JSpinner( model );
                     peSpinner.setPreferredSize( SPINNER_SIZE );
                     peSpinner.setMinimumSize( SPINNER_SIZE );
-                    JLabel peUnits = new JLabel( "eV" );
+                    JLabel peUnits = new JLabel( SimStrings.get( "units.energy" ) );
                     inputPanelLayout.addAnchoredComponent( peLabel, row, 1, GridBagConstraints.EAST );
                     inputPanelLayout.addAnchoredComponent( peSpinner, row, 2, GridBagConstraints.EAST );
                     inputPanelLayout.addAnchoredComponent( peUnits, row, 3, GridBagConstraints.WEST );
@@ -234,7 +236,7 @@ public class ConfigureEnergyDialog extends JDialog implements Observer {
                 int numberOfBarriers = ( (BarrierPotential) _potentialEnergy ).getNumberOfBarriers();
 
                 // Barrier Widths...
-                JLabel widthTitle = new JLabel( "Barrier Width:" );
+                JLabel widthTitle = new JLabel( SimStrings.get( "label.barrierWidth" ) );
                 widthTitle.setForeground( BARRIER_PROPERTIES_COLOR );
                 inputPanelLayout.addAnchoredComponent( widthTitle, row, column, 4, 1, GridBagConstraints.WEST );
                 row++;
@@ -246,7 +248,7 @@ public class ConfigureEnergyDialog extends JDialog implements Observer {
                     JSpinner widthSpinner = new JSpinner( widthModel );
                     widthSpinner.setPreferredSize( SPINNER_SIZE );
                     widthSpinner.setMinimumSize( SPINNER_SIZE );
-                    JLabel widthUnits = new JLabel( "nm" );
+                    JLabel widthUnits = new JLabel( SimStrings.get( "units.position" ) );
                     inputPanelLayout.addAnchoredComponent( widthLabel, row, column, GridBagConstraints.EAST );
                     inputPanelLayout.addAnchoredComponent( widthSpinner, row, column + 1, GridBagConstraints.EAST );
                     inputPanelLayout.addAnchoredComponent( widthUnits, row, column + 2, GridBagConstraints.WEST );
@@ -255,7 +257,7 @@ public class ConfigureEnergyDialog extends JDialog implements Observer {
                 column--;
 
                 // Barrier Positions...
-                JLabel positionTitle = new JLabel( "Barrier Position (left edge):" );
+                JLabel positionTitle = new JLabel( SimStrings.get( "label.barrierPosition" ) );
                 positionTitle.setForeground( BARRIER_PROPERTIES_COLOR );
                 inputPanelLayout.addAnchoredComponent( positionTitle, row, column, 4, 1, GridBagConstraints.WEST );
                 row++;
@@ -267,7 +269,7 @@ public class ConfigureEnergyDialog extends JDialog implements Observer {
                     JSpinner positionSpinner = new JSpinner( positionModel );
                     positionSpinner.setPreferredSize( SPINNER_SIZE );
                     positionSpinner.setMinimumSize( SPINNER_SIZE );
-                    JLabel positionUnits = new JLabel( "nm" );
+                    JLabel positionUnits = new JLabel( SimStrings.get( "units.position" ) );
                     inputPanelLayout.addAnchoredComponent( positionLabel, row, column, GridBagConstraints.EAST );
                     inputPanelLayout.addAnchoredComponent( positionSpinner, row, column + 1, GridBagConstraints.EAST );
                     inputPanelLayout.addAnchoredComponent( positionUnits, row, column + 2, GridBagConstraints.WEST );
@@ -275,7 +277,6 @@ public class ConfigureEnergyDialog extends JDialog implements Observer {
                 }
             }
         }
-
 
         JPanel inputPanel = new JPanel( new BorderLayout() );
         inputPanel.add( new JSeparator(), BorderLayout.NORTH );
