@@ -21,25 +21,25 @@ public class EnergyConserver {
 //        double speedThreshold = 5;//reduced from 20.
 //        double speedThreshold = 1;//reduced from 20.
         double speedThreshold = 0.01;//reduced from 20.
-        System.out.println( "body.getSpeed() = " + body.getSpeed() );
-        System.out.println( "pre-vel: getDE( model, body, desiredMechanicalEnergy ) = " + getDE( model, body, desiredMechanicalEnergy ) );
+//        System.out.println( "body.getSpeed() = " + body.getSpeed() );
+//        System.out.println( "pre-vel: getDE( model, body, desiredMechanicalEnergy ) = " + getDE( model, body, desiredMechanicalEnergy ) );
         for( int i = 0; i < 10; i++ ) {
             if( body.getSpeed() > speedThreshold ) {
-                System.out.println( "Conserve Via V" );
+//                System.out.println( "Conserve Via V" );
                 conserveEnergyViaV( model, body, desiredMechanicalEnergy );
             }
             else {
-                System.out.println( "Not VIA V" );
+//                System.out.println( "Not VIA V" );
             }
         }
 //        else{
 //            System.out.println( "Speed too low to use for conservation." );
 //        }
-        System.out.println( "post:vel- getDE( model, body, desiredMechanicalEnergy ) = " + getDE( model, body, desiredMechanicalEnergy ) );
+//        System.out.println( "post:vel- getDE( model, body, desiredMechanicalEnergy ) = " + getDE( model, body, desiredMechanicalEnergy ) );
         if( model.getGravity() != 0.0 ) {
             conserveEnergyViaH( model, body, desiredMechanicalEnergy );
         }
-        System.out.println( "postH: getDE( model, body, desiredMechanicalEnergy ) = " + getDE( model, body, desiredMechanicalEnergy ) );
+//        System.out.println( "postH: getDE( model, body, desiredMechanicalEnergy ) = " + getDE( model, body, desiredMechanicalEnergy ) );
 //        EnergyDebugger.postProcessed( model, body, origTotalEnergy, "dH" );
         double deTOT = getDE( model, body, desiredMechanicalEnergy );
         EC3Debug.debug( "dETOT=" + deTOT );
