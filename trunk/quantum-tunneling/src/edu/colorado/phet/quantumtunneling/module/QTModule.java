@@ -29,6 +29,7 @@ import edu.colorado.phet.quantumtunneling.control.QTControlPanel;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotentialEnergy;
 import edu.colorado.phet.quantumtunneling.model.BarrierPotential;
 import edu.colorado.phet.quantumtunneling.model.TotalEnergy;
+import edu.colorado.phet.quantumtunneling.view.ChartNode;
 import edu.colorado.phet.quantumtunneling.view.DrawableNode;
 import edu.colorado.phet.quantumtunneling.view.LegendItem;
 import edu.colorado.phet.quantumtunneling.view.QTCombinedChart;
@@ -71,7 +72,8 @@ public class QTModule extends AbstractModule {
     private PhetPCanvas _canvas;
     private PNode _parentNode;
     private PNode _legend;
-    private DrawableNode _chartNode;
+    private ChartNode _chartNode;
+    private QTCombinedChart chart;
     
     // Control
     private PSwing _configureButton;
@@ -97,12 +99,6 @@ public class QTModule extends AbstractModule {
         // Module model
         BaseModel model = new BaseModel();
         this.setModel( model );
-        
-        // Total energy
-        _totalEnergy = new TotalEnergy( 8 );
-        
-        // Potential energy
-        _potentialEnergy = new BarrierPotential( 2 );
         
         //----------------------------------------------------------------------------
         // View
@@ -143,11 +139,8 @@ public class QTModule extends AbstractModule {
         
         // Combined chart
         {
-            QTCombinedChart chart = new QTCombinedChart();
-            chart.setTotalEnergy( _totalEnergy );
-            chart.setPotentialEnergy( _potentialEnergy );
-            
-            _chartNode = new DrawableNode( chart );
+            chart = new QTCombinedChart();         
+            _chartNode = new ChartNode( chart );
         }
         
         // Add all the nodes to one parent node.
@@ -234,6 +227,13 @@ public class QTModule extends AbstractModule {
      * Resets the module to its initial state.
      */
     public void reset() {
+        
+        // Model
+        _totalEnergy = new TotalEnergy( 8 );
+        setTotalEnergy( _totalEnergy );
+        _potentialEnergy = new BarrierPotential();
+        setPotentialEnergy( _potentialEnergy );
+        
         _controlPanel.reset();
     }
     
@@ -267,7 +267,7 @@ public class QTModule extends AbstractModule {
     private void handleConfigureButton() {
         if ( _configureEnergyDialog == null ) {
             setWaitCursorEnabled( true );
-            _configureEnergyDialog = new ConfigureEnergyDialog( getFrame(), _totalEnergy, _potentialEnergy );
+            _configureEnergyDialog = new ConfigureEnergyDialog( getFrame(), this, _totalEnergy, _potentialEnergy );
             _configureEnergyDialog.addWindowListener( new WindowAdapter() {
                 // User pressed the closed button in the window dressing
                 public void windowClosing( WindowEvent event ) {
@@ -283,5 +283,18 @@ public class QTModule extends AbstractModule {
             _configureEnergyDialog.show();
             setWaitCursorEnabled( false );
         }
+    }
+    
+    public void setPotentialEnergy( AbstractPotentialEnergy potentialEnergy ) {
+        _potentialEnergy = potentialEnergy;
+        chart.setPotentialEnergy( _potentialEnergy );
+        if ( _controlPanel != null ) {
+            _controlPanel.setPotentialEnergy( _potentialEnergy );
+        }
+    }
+    
+    public void setTotalEnergy( TotalEnergy totalEnergy ) {
+        _totalEnergy = totalEnergy;
+        chart.setTotalEnergy( _totalEnergy );
     }
 }
