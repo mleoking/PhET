@@ -59,8 +59,10 @@ PHETCOMMON:
 
 JFREECHART:
 - CombinedDomainXYPlot.addDomainMarker doesn't do anything
+- XYTextAnnotation doesn't support HTML
 
 DONE:
+(11/21/05) - integer-only ticks for X-axis lin Configure dialog
 (11/21/05) - add region and barrier annotations to chart in Configure dialog
 (11/21/05) - use dashed line for region markers
 (11/21/05) - add region markers to chart in Configure dialog
