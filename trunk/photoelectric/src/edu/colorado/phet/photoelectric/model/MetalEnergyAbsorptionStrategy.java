@@ -31,7 +31,7 @@ import java.util.Random;
  */
 public class MetalEnergyAbsorptionStrategy extends EnergyAbsorptionStrategy {
     private static Random RANDOM = new Random();
-    public static final int NUM_SUB_LEVELS = 10;
+    public static final int NUM_SUB_LEVELS = 20;
     // Total energy depth across all sublevels, in eV
     public static final double TOTAL_ENERGY_DEPTH = 4;
 

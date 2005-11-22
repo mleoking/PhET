@@ -312,16 +312,16 @@ public class PhotoelectricModel extends DischargeLampModel {
                                        target.getPosition().distance( rightHandPlate.getPosition() ) );
     }
 
-    public void setElectronModel( int electronModelType ) {
-        switch( electronModelType ) {
-            case ELECTRON_MODEL_SIMPLE:
-                break;
-            case ELECTRON_MODEL_REALISTIC:
-                break;
-            default:
-                throw new RuntimeException( "invalid parameter" );
-        }
-    }
+//    public void setElectronModel( int electronModelType ) {
+//        switch( electronModelType ) {
+//            case ELECTRON_MODEL_SIMPLE:
+//                break;
+//            case ELECTRON_MODEL_REALISTIC:
+//                break;
+//            default:
+//                throw new RuntimeException( "invalid parameter" );
+//        }
+//    }
 
     //----------------------------------------------------------------
     // Listeners for tracking the creation and destruction of
