@@ -54,6 +54,10 @@ public class ConfigureEnergyDialog extends JDialog {
     //----------------------------------------------------------------------------
 
     private static final Dimension CHART_SIZE = new Dimension( 450, 150 );
+    
+    private static final double POSITION_STEP = 0.1;
+    private static final double ENERGY_STEP = 0.1;
+    
     private static final Font AXES_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 );
     private static final Font ANNOTATION_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 );
     private static final Color BARRIER_PROPERTIES_COLOR = Color.RED;
@@ -260,7 +264,10 @@ public class ConfigureEnergyDialog extends JDialog {
             {
                 JLabel teLabel = new JLabel( SimStrings.get( "label.totalEnergy" ) );
                 teLabel.setForeground( QTConstants.TOTAL_ENERGY_COLOR );
-                SpinnerModel model = new SpinnerNumberModel( 8.00, QTConstants.ENERGY_RANGE.getLowerBound(), QTConstants.ENERGY_RANGE.getUpperBound(), 0.01 );
+                SpinnerModel model = new SpinnerNumberModel( 
+                        QTConstants.ENERGY_RANGE.getLowerBound(), 
+                        QTConstants.ENERGY_RANGE.getLowerBound(), QTConstants.ENERGY_RANGE.getUpperBound(), 
+                        ENERGY_STEP );
                 _teSpinner = new JSpinner( model );
                 _teSpinner.addChangeListener( _listener );
                 _teSpinner.setPreferredSize( SPINNER_SIZE );
@@ -283,7 +290,9 @@ public class ConfigureEnergyDialog extends JDialog {
                 for ( int i = 0; i < numberOfRegions; i++ ) {
                     JLabel peLabel = new JLabel( "R" + ( i + 1 ) + ":" );
                     peLabel.setForeground( QTConstants.POTENTIAL_ENERGY_COLOR );
-                    SpinnerModel model = new SpinnerNumberModel( 5.00, QTConstants.ENERGY_RANGE.getLowerBound(), QTConstants.ENERGY_RANGE.getUpperBound(), 0.01 );
+                    SpinnerModel model = new SpinnerNumberModel( QTConstants.ENERGY_RANGE.getLowerBound(), 
+                            QTConstants.ENERGY_RANGE.getLowerBound(), QTConstants.ENERGY_RANGE.getUpperBound(), 
+                            ENERGY_STEP );
                     JSpinner peSpinner = new JSpinner( model );
                     peSpinner.addChangeListener( _listener );
                     peSpinner.setPreferredSize( SPINNER_SIZE );
@@ -302,7 +311,9 @@ public class ConfigureEnergyDialog extends JDialog {
             if ( _potentialEnergy instanceof StepPotential ) {
                 JLabel stepLabel = new JLabel( SimStrings.get( "label.stepPosition" ) );
                 stepLabel.setForeground( BARRIER_PROPERTIES_COLOR );
-                SpinnerModel model = new SpinnerNumberModel( 5.00, QTConstants.POSITION_RANGE.getLowerBound(), QTConstants.POSITION_RANGE.getUpperBound(), 0.01 );
+                SpinnerModel model = new SpinnerNumberModel( QTConstants.POSITION_RANGE.getLowerBound(),
+                        QTConstants.POSITION_RANGE.getLowerBound(), QTConstants.POSITION_RANGE.getUpperBound(),
+                        POSITION_STEP );
                 _stepSpinner = new JSpinner( model );
                 _stepSpinner.addChangeListener( _listener );
                 _stepSpinner.setPreferredSize( SPINNER_SIZE );
@@ -334,7 +345,10 @@ public class ConfigureEnergyDialog extends JDialog {
                 for ( int i = 0; i < numberOfBarriers; i++ ) {
                     JLabel widthLabel = new JLabel( "B" + ( i + 1 ) + ":" );
                     widthLabel.setForeground( BARRIER_PROPERTIES_COLOR );
-                    SpinnerModel widthModel = new SpinnerNumberModel( 5.00, 0, QTConstants.POSITION_RANGE.getUpperBound() - QTConstants.POSITION_RANGE.getLowerBound(), 0.01 );
+                    SpinnerModel widthModel = new SpinnerNumberModel( 
+                            0, 0, 
+                            QTConstants.POSITION_RANGE.getUpperBound() - QTConstants.POSITION_RANGE.getLowerBound(), 
+                            POSITION_STEP );
                     JSpinner widthSpinner = new JSpinner( widthModel );
                     widthSpinner.addChangeListener( _listener );
                     widthSpinner.setPreferredSize( SPINNER_SIZE );
@@ -358,7 +372,10 @@ public class ConfigureEnergyDialog extends JDialog {
                 for ( int i = 0; i < numberOfBarriers; i++ ) {
                     JLabel positionLabel = new JLabel( "B" + ( i + 1 ) + ":" );
                     positionLabel.setForeground( BARRIER_PROPERTIES_COLOR );
-                    SpinnerModel positionModel = new SpinnerNumberModel( 2.00, QTConstants.POSITION_RANGE.getLowerBound(), QTConstants.POSITION_RANGE.getUpperBound(), 0.01 );
+                    SpinnerModel positionModel = new SpinnerNumberModel(
+                            QTConstants.POSITION_RANGE.getLowerBound(), 
+                            QTConstants.POSITION_RANGE.getLowerBound(), QTConstants.POSITION_RANGE.getUpperBound(), 
+                            POSITION_STEP );
                     JSpinner positionSpinner = new JSpinner( positionModel );
                     positionSpinner.addChangeListener( _listener );
                     positionSpinner.setPreferredSize( SPINNER_SIZE );

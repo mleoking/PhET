@@ -62,6 +62,7 @@ JFREECHART:
 - XYTextAnnotation doesn't support HTML
 
 DONE:
+(11/21/05) - change precision to 1 decimal place in Configure dialog
 (11/21/05) - integer-only ticks for X-axis lin Configure dialog
 (11/21/05) - add region and barrier annotations to chart in Configure dialog
 (11/21/05) - use dashed line for region markers
