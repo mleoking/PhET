@@ -68,7 +68,7 @@ public class BarrierPotential extends AbstractPotentialEnergy {
             else {
                 double start = getRegion( i-1 ).getEnd();
                 double end = start + DEFAULT_BARRIER_WIDTH;
-                double energy = ( i % 2 == 0 ) ? 0 : DEFAULT_BARRIER_ENERGY;
+                double energy = isaBarrier( i ) ? DEFAULT_BARRIER_ENERGY : 0;
                 setRegion( i, start, end, energy );
             }
         }
@@ -247,5 +247,29 @@ public class BarrierPotential extends AbstractPotentialEnergy {
      */
     public static int toRegionIndex( int barrierIndex ) {
         return ( barrierIndex * 2 ) + 1;
+    }
+    
+    /**
+     * Converts a region index to a barrier index.
+     * 
+     * @param regionIndex
+     * @return barrierIndex, -1 if the region is not a barrier
+     */
+    public static int toBarrierIndex( int regionIndex ) {
+        int barrierIndex = -1;
+        if ( isaBarrier( regionIndex ) ) {
+            barrierIndex = ( regionIndex - 1 ) / 2;
+        }
+        return barrierIndex;
+    }
+    
+    /**
+     * Is the region a barrier?
+     * 
+     * @param regionIndex
+     * @return true or false
+     */
+    public static boolean isaBarrier( int regionIndex ) {
+        return ( regionIndex % 2 != 0 );
     }
 }
