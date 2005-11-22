@@ -120,18 +120,7 @@ public class ConfigureEnergyDialog extends JDialog {
         
         // Make copies of the model
         _totalEnergy = new TotalEnergy( totalEnergy );
-        if ( potentialEnergy instanceof ConstantPotential ) {
-            _potentialEnergy = new ConstantPotential( (ConstantPotential) potentialEnergy );
-        }
-        else if ( potentialEnergy instanceof StepPotential ) {
-            _potentialEnergy = new StepPotential( (StepPotential) potentialEnergy );
-        }
-        else if ( potentialEnergy instanceof BarrierPotential ) {
-            _potentialEnergy = new BarrierPotential( (BarrierPotential) potentialEnergy );
-        }
-        else {
-            throw new IllegalStateException( "unsupported potential type: " + potentialEnergy.getClass().getName() );
-        }
+        _potentialEnergy = clonePotentialEnergy( potentialEnergy );
 
         createUI( parent );
         populateValues();
@@ -629,11 +618,11 @@ public class ConfigureEnergyDialog extends JDialog {
      */
     private void handleApply() {
         if ( _teChanged ) {
-            _module.setTotalEnergy( _totalEnergy );
+            _module.setTotalEnergy( new TotalEnergy( _totalEnergy ) );
             _teChanged = false;
         }
         if ( _peChanged ) {
-            _module.setPotentialEnergy( _potentialEnergy ); 
+            _module.setPotentialEnergy( clonePotentialEnergy( _potentialEnergy ) ); 
             _peChanged = false;
         }
     }
@@ -767,5 +756,22 @@ public class ConfigureEnergyDialog extends JDialog {
                 positionSpinner.setValue( new Double( position ) );
             }
         }
+    }
+    
+    private AbstractPotentialEnergy clonePotentialEnergy( AbstractPotentialEnergy pe ) {
+        AbstractPotentialEnergy peNew = null;
+        if ( pe instanceof ConstantPotential ) {
+            peNew = new ConstantPotential( (ConstantPotential) pe );
+        }
+        else if ( pe instanceof StepPotential ) {
+            peNew = new StepPotential( (StepPotential) pe );
+        }
+        else if ( pe instanceof BarrierPotential ) {
+            peNew = new BarrierPotential( (BarrierPotential) pe );
+        }
+        else {
+            throw new IllegalStateException( "unsupported potential type: " + pe.getClass().getName() );
+        }
+        return peNew;
     }
 }
