@@ -29,42 +29,24 @@ public class BarrierPotential extends AbstractPotentialEnergy {
     private static final double DEFAULT_BARRIER_POSITION = 5;
     private static final double DEFAULT_BARRIER_WIDTH = 3;
     private static final double DEFAULT_BARRIER_ENERGY = 5;
-    private static final double DEFAULT_MIN_REGION_WIDTH = 0.5;
-    
-    //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-    
-    /* minimum region width */
-    private double _minRegionWidth;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
     /**
-     * Creates a single barrier, with a default minimum region size.
+     * Creates a single barrier,.
      */
     public BarrierPotential() {
         this( 1 );
     }
     
     /**
-     * Creates a specified number of barriers, with a default minimum region width.
+     * Creates a specified number of barriers.
      * 
      * @param numberOfBarriers
      */
-    public BarrierPotential( int numberOfBarriers ) {
-        this( numberOfBarriers, DEFAULT_MIN_REGION_WIDTH );
-    }
-    
-    /**
-     * Creates a specified number of barriers, with a specified minimum region width.
-     * 
-     * @param numberOfBarriers
-     * @param minRegionWidth
-     */
-    public BarrierPotential( int numberOfBarriers, double minRegionWidth ) {
+    public BarrierPotential( final int numberOfBarriers ) {
         super( ( numberOfBarriers * 2 ) + 1 /* number of regions */ );
         for ( int i = 0; i < getNumberOfRegions(); i++ ) {
             if ( i == 0 ) {
@@ -80,7 +62,6 @@ public class BarrierPotential extends AbstractPotentialEnergy {
                 setRegion( i, start, end, energy );
             }
         }
-        _minRegionWidth = minRegionWidth;
     }
     
     /**
@@ -88,9 +69,8 @@ public class BarrierPotential extends AbstractPotentialEnergy {
      * 
      * @param barrier
      */
-    public BarrierPotential( BarrierPotential barrier ) {
+    public BarrierPotential( final BarrierPotential barrier ) {
         super( barrier );
-        _minRegionWidth = barrier.getMinRegionWidth();
     }
     
     //----------------------------------------------------------------------------
@@ -107,21 +87,12 @@ public class BarrierPotential extends AbstractPotentialEnergy {
     }
     
     /**
-     * Gets the size of the minimum gap between barriers.
-     * 
-     * @return minimum gap size
-     */
-    public double getMinRegionWidth() {
-        return _minRegionWidth;
-    }
-    
-    /**
      * Sets the position of a barrier.
      * The barrier is only moved if it the minumum region size isn't violated.
      *  
      * @param position true or false
      */
-    public boolean setBarrierPosition( int barrierIndex, double position ) {
+    public boolean setBarrierPosition( final int barrierIndex, final double position ) {
         if ( barrierIndex > getNumberOfBarriers() - 1 ) {
             throw new IllegalArgumentException( "barrierIndex out of range: " + barrierIndex );
         }
@@ -131,19 +102,20 @@ public class BarrierPotential extends AbstractPotentialEnergy {
         
         boolean success = false;
         
-        int regionIndex = toRegionIndex( barrierIndex );
+        final int regionIndex = toRegionIndex( barrierIndex );
         PotentialRegion barrier = getRegion( regionIndex );
         PotentialRegion left = getRegion( regionIndex - 1 );
         PotentialRegion right = getRegion( regionIndex + 1 );
+        final double minRegionWidth = getMinRegionWidth();
         
-        if ( position - _minRegionWidth >= left.getStart() &&
-             position + barrier.getWidth() + _minRegionWidth <= right.getEnd() )
+        if ( position - minRegionWidth >= left.getStart() &&
+             position + barrier.getWidth() + minRegionWidth <= right.getEnd() )
         {
             setNotifyEnabled( false );
             
             // move the barrier
-            double start = position;
-            double end = position + barrier.getWidth();
+            final double start = position;
+            final double end = position + barrier.getWidth();
             setStart( regionIndex, start );
             setEnd( regionIndex, end );
            
@@ -166,7 +138,7 @@ public class BarrierPotential extends AbstractPotentialEnergy {
      * @param barrierIndex
      * @return the postion
      */
-    public double getBarrierPosition( int barrierIndex ) {
+    public double getBarrierPosition( final int barrierIndex ) {
         if ( barrierIndex > getNumberOfBarriers() - 1 ) {
             throw new IllegalArgumentException( "barrierIndex out of range: " + barrierIndex );
         }
@@ -182,7 +154,7 @@ public class BarrierPotential extends AbstractPotentialEnergy {
      * @param width
      * @param position true or false
      */
-    public boolean setBarrierWidth( int barrierIndex, double width ) {
+    public boolean setBarrierWidth( final int barrierIndex, final double width ) {
         if ( barrierIndex > getNumberOfBarriers() - 1 ) {
             throw new IllegalArgumentException( "barrierIndex out of range: " + barrierIndex );
         }
@@ -191,17 +163,18 @@ public class BarrierPotential extends AbstractPotentialEnergy {
         }
         
         boolean success = false;
-        int regionIndex = toRegionIndex( barrierIndex );
+        final int regionIndex = toRegionIndex( barrierIndex );
         PotentialRegion barrier = getRegion( regionIndex );
         PotentialRegion right = getRegion( regionIndex + 1 );
+        final double minRegionWidth = getMinRegionWidth();
         
-        if ( width >= _minRegionWidth && 
-            barrier.getStart() + width + _minRegionWidth <= right.getEnd() ) {
+        if ( width >= minRegionWidth && 
+            barrier.getStart() + width + minRegionWidth <= right.getEnd() ) {
             
             setNotifyEnabled( false );
             
             // move the end of the barrier's region
-            double end = barrier.getStart() + width;
+            final double end = barrier.getStart() + width;
             setEnd( regionIndex, end );
             
             // move the start point of the region to the right of the barrier
@@ -221,11 +194,11 @@ public class BarrierPotential extends AbstractPotentialEnergy {
      * @param barrierIndex
      * @return the width
      */
-    public double getBarrierWidth( int barrierIndex ) {
+    public double getBarrierWidth( final int barrierIndex ) {
         if ( barrierIndex > getNumberOfBarriers() - 1 ) {
             throw new IllegalArgumentException( "barrierIndex out of range: " + barrierIndex );
         }
-        int regionIndex = toRegionIndex( barrierIndex );
+        final int regionIndex = toRegionIndex( barrierIndex );
         return getRegion( regionIndex ).getWidth();
     }
     
@@ -238,7 +211,7 @@ public class BarrierPotential extends AbstractPotentialEnergy {
      * 
      * @param barrierIndex
      */
-    public static int toRegionIndex( int barrierIndex ) {
+    public static int toRegionIndex( final int barrierIndex ) {
         return ( barrierIndex * 2 ) + 1;
     }
     
@@ -248,7 +221,7 @@ public class BarrierPotential extends AbstractPotentialEnergy {
      * @param regionIndex
      * @return barrierIndex, -1 if the region is not a barrier
      */
-    public static int toBarrierIndex( int regionIndex ) {
+    public static int toBarrierIndex( final int regionIndex ) {
         int barrierIndex = -1;
         if ( isaBarrier( regionIndex ) ) {
             barrierIndex = ( regionIndex - 1 ) / 2;
@@ -262,7 +235,7 @@ public class BarrierPotential extends AbstractPotentialEnergy {
      * @param regionIndex
      * @return true or false
      */
-    public static boolean isaBarrier( int regionIndex ) {
+    public static boolean isaBarrier( final int regionIndex ) {
         return ( regionIndex % 2 != 0 );
     }
 }

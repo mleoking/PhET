@@ -6,7 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- text entry of barrier width & position don't work correctly in Configure dialog
+- text entry of barrier position & width don't work correctly in Configure dialog
 - use a darker green for total energy, or put Configure controls on a darker background
 - constantly adjust SpinnerModels in Configure dialog so that bad values can't be entered
 - use setFixedLegendItems to control what's in the legend
@@ -23,6 +23,7 @@ HIGH PRIORITY:
 - implement Schrodinger's equation for 1 dimension
 
 MEDIUM PRIORITY:
+- select entire spinner value when it gets focus
 - fix tab order in Configure dialog
 - add application description to SimStrings files
 - Save/Load
@@ -63,6 +64,9 @@ JFREECHART:
 - XYTextAnnotation doesn't support HTML
 
 DONE:
+(11/21/05) - declare a bunch of locals and params final
+(11/21/05) - move "min region width" into AbstractPotential
+(11/21/05) - make AbstractPotential range match the chart range
 (11/21/05) - change precision to 1 decimal place in Configure dialog
 (11/21/05) - integer-only ticks for X-axis lin Configure dialog
 (11/21/05) - add region and barrier annotations to chart in Configure dialog

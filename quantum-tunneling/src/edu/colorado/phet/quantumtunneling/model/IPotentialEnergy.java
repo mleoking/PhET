@@ -24,5 +24,5 @@ public interface IPotentialEnergy {
     
     public PotentialRegion[] getRegions();
     
-    public PotentialRegion getRegion( int index );      
+    public PotentialRegion getRegion( final int index );      
 }

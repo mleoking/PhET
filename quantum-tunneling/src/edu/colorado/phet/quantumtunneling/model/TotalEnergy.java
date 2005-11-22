@@ -22,7 +22,11 @@ public class TotalEnergy extends QTObservable {
 
     private double _energy;
     
-    public TotalEnergy( double energy ) {
+    public TotalEnergy() {
+        this( 0 );
+    }
+    
+    public TotalEnergy( final double energy ) {
         _energy = energy;
     }
     
@@ -31,11 +35,11 @@ public class TotalEnergy extends QTObservable {
      * 
      * @param totalEnergy
      */
-    public TotalEnergy( TotalEnergy totalEnergy ) {
+    public TotalEnergy( final TotalEnergy totalEnergy ) {
         _energy = totalEnergy.getEnergy();
     }
     
-    public void setEnergy( double energy ) {
+    public void setEnergy( final double energy ) {
         if ( energy != _energy ) {
             _energy = energy;
             notifyObservers();

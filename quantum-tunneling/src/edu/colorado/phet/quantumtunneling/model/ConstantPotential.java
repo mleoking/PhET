@@ -43,7 +43,7 @@ public class ConstantPotential extends AbstractPotentialEnergy {
      * 
      * @param step
      */
-    public ConstantPotential( ConstantPotential step ) {
+    public ConstantPotential( final ConstantPotential step ) {
         super( step );
     }
     
@@ -56,7 +56,7 @@ public class ConstantPotential extends AbstractPotentialEnergy {
      * 
      * @param energy
      */
-    public void setEnergy( double energy ) {
+    public void setEnergy( final double energy ) {
         setEnergy( 0, energy );
     }
     
