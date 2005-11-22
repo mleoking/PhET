@@ -26,10 +26,12 @@ import javax.swing.event.ChangeListener;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.annotations.XYTextAnnotation;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.TickUnits;
 import org.jfree.chart.plot.Marker;
 import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
-import org.jfree.data.Range;
+import org.jfree.ui.TextAnchor;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -56,6 +58,9 @@ public class ConfigureEnergyDialog extends JDialog {
     private static final Font ANNOTATION_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 );
     private static final Color BARRIER_PROPERTIES_COLOR = Color.RED;
     private static final Dimension SPINNER_SIZE = new Dimension( 65, 25 );
+    
+    /* How close the annotations are to the top and bottom of the chart */
+    private static final double ANNOTATION_MARGIN = 0.25;
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -189,6 +194,8 @@ public class ConfigureEnergyDialog extends JDialog {
         // Plot
         _energyPlot = new EnergyPlot();
         _energyPlot.setAxesFont( AXES_FONT );
+        TickUnits units = (TickUnits) NumberAxis.createIntegerTickUnits();
+        _energyPlot.getDomainAxis().setStandardTickUnits( units );
         
         // Chart
         JFreeChart chart = new JFreeChart( null /*title*/, null /*font*/, _energyPlot, false /* createLegend */);
@@ -274,7 +281,7 @@ public class ConfigureEnergyDialog extends JDialog {
                 int numberOfRegions = _potentialEnergy.getNumberOfRegions();
                 _peSpinners = new ArrayList();
                 for ( int i = 0; i < numberOfRegions; i++ ) {
-                    JLabel peLabel = new JLabel( "<html>R<sub>" + ( i + 1 ) + "</sub>:</html>" );
+                    JLabel peLabel = new JLabel( "R" + ( i + 1 ) + ":" );
                     peLabel.setForeground( QTConstants.POTENTIAL_ENERGY_COLOR );
                     SpinnerModel model = new SpinnerNumberModel( 5.00, QTConstants.ENERGY_RANGE.getLowerBound(), QTConstants.ENERGY_RANGE.getUpperBound(), 0.01 );
                     JSpinner peSpinner = new JSpinner( model );
@@ -325,7 +332,7 @@ public class ConfigureEnergyDialog extends JDialog {
                 row++;
                 column++;
                 for ( int i = 0; i < numberOfBarriers; i++ ) {
-                    JLabel widthLabel = new JLabel( "<html>B<sub>" + ( i + 1 ) + "</sub>:</html>" );
+                    JLabel widthLabel = new JLabel( "B" + ( i + 1 ) + ":" );
                     widthLabel.setForeground( BARRIER_PROPERTIES_COLOR );
                     SpinnerModel widthModel = new SpinnerNumberModel( 5.00, 0, QTConstants.POSITION_RANGE.getUpperBound() - QTConstants.POSITION_RANGE.getLowerBound(), 0.01 );
                     JSpinner widthSpinner = new JSpinner( widthModel );
@@ -349,7 +356,7 @@ public class ConfigureEnergyDialog extends JDialog {
                 row++;
                 column++;
                 for ( int i = 0; i < numberOfBarriers; i++ ) {
-                    JLabel positionLabel = new JLabel( "<html>B<sub>" + ( i + 1 ) + "</sub>:</html>" );
+                    JLabel positionLabel = new JLabel( "B" + ( i + 1 ) + ":" );
                     positionLabel.setForeground( BARRIER_PROPERTIES_COLOR );
                     SpinnerModel positionModel = new SpinnerNumberModel( 2.00, QTConstants.POSITION_RANGE.getLowerBound(), QTConstants.POSITION_RANGE.getUpperBound(), 0.01 );
                     JSpinner positionSpinner = new JSpinner( positionModel );
@@ -516,7 +523,7 @@ public class ConfigureEnergyDialog extends JDialog {
                 // Region annotation
                 String text = "R" + ( i + 1 );
                 double x = 0;
-                double y = maxY - 0.75;
+                double y = maxY - ANNOTATION_MARGIN;
                 if ( i == 0 ) {
                     x = minX + ( ( regions[i].getEnd() - minX ) / 2 );
                 }
@@ -529,16 +536,18 @@ public class ConfigureEnergyDialog extends JDialog {
                 XYTextAnnotation annotation = new XYTextAnnotation( text, x, y );
                 annotation.setFont( ANNOTATION_FONT );
                 annotation.setPaint( QTConstants.POTENTIAL_ENERGY_COLOR );
+                annotation.setTextAnchor( TextAnchor.TOP_CENTER );
                 renderer.addAnnotation( annotation );
                 
                 // Barrier annotation
                 if ( hasBarriers && BarrierPotential.isaBarrier( i ) ) {
                     int barrierIndex = BarrierPotential.toBarrierIndex( i );
                     text = "B" + ( barrierIndex + 1 );
-                    y = minY + 0.75;
+                    y = minY + ANNOTATION_MARGIN;
                     annotation = new XYTextAnnotation( text, x, y );
                     annotation.setFont( ANNOTATION_FONT );
                     annotation.setPaint( BARRIER_PROPERTIES_COLOR );
+                    annotation.setTextAnchor( TextAnchor.BOTTOM_CENTER );
                     renderer.addAnnotation( annotation );
                 }
             }
