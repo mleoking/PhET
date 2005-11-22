@@ -53,6 +53,7 @@ public class SolubleSaltsConfig {
     // Acceleration of lattices when they come out of the shaker
     public static final double DEFAULT_LATTICE_ACCELERATION = .2;
 //    public static final double DEFAULT_LATTICE_ACCELERATION = .5;
+    public static final double MAX_SPIGOT_FLOW = 500;
 
 
     // Images
