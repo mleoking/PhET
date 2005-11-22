@@ -29,34 +29,42 @@ public class BarrierPotential extends AbstractPotentialEnergy {
     private static final double DEFAULT_BARRIER_POSITION = 5;
     private static final double DEFAULT_BARRIER_WIDTH = 3;
     private static final double DEFAULT_BARRIER_ENERGY = 5;
-    private static final double DEFAULT_MIN_GAP = 0.25;
+    private static final double DEFAULT_MIN_REGION_WIDTH = 0.5;
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    /* minimum gap between the two barriers (min width of region 2) */
-    private double _minGap;
+    /* minimum region width */
+    private double _minRegionWidth;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
     /**
-     * Creates a single barrier.
+     * Creates a single barrier, with a default minimum region size.
      */
     public BarrierPotential() {
         this( 1 );
     }
     
     /**
-     * Creates a specified number of barriers, with a specified minimum
-     * gap between the barriers.
+     * Creates a specified number of barriers, with a default minimum region width.
      * 
      * @param numberOfBarriers
-     * @param minGap
      */
-    public BarrierPotential( int numberOfBarriers, double minGap ) {
+    public BarrierPotential( int numberOfBarriers ) {
+        this( numberOfBarriers, DEFAULT_MIN_REGION_WIDTH );
+    }
+    
+    /**
+     * Creates a specified number of barriers, with a specified minimum region width.
+     * 
+     * @param numberOfBarriers
+     * @param minRegionWidth
+     */
+    public BarrierPotential( int numberOfBarriers, double minRegionWidth ) {
         super( ( numberOfBarriers * 2 ) + 1 /* number of regions */ );
         for ( int i = 0; i < getNumberOfRegions(); i++ ) {
             if ( i == 0 ) {
@@ -72,16 +80,7 @@ public class BarrierPotential extends AbstractPotentialEnergy {
                 setRegion( i, start, end, energy );
             }
         }
-        _minGap = minGap;
-    }
-    
-    /**
-     * Creates a multi-barrier with a default minimum gap size between barriers.
-     * 
-     * @param numberOfBarriers
-     */
-    public BarrierPotential( int numberOfBarriers ) {
-        this( numberOfBarriers, DEFAULT_MIN_GAP );
+        _minRegionWidth = minRegionWidth;
     }
     
     /**
@@ -91,14 +90,7 @@ public class BarrierPotential extends AbstractPotentialEnergy {
      */
     public BarrierPotential( BarrierPotential barrier ) {
         super( barrier );
-        _minGap = barrier.getMinGap();
-    }
-    
-    /**
-     * Clones this object.
-     */
-    public Object clone() {
-        return new BarrierPotential( this );
+        _minRegionWidth = barrier.getMinRegionWidth();
     }
     
     //----------------------------------------------------------------------------
@@ -119,15 +111,13 @@ public class BarrierPotential extends AbstractPotentialEnergy {
      * 
      * @return minimum gap size
      */
-    public double getMinGap() {
-        return _minGap;
+    public double getMinRegionWidth() {
+        return _minRegionWidth;
     }
     
     /**
      * Sets the position of a barrier.
-     * The barrier is only moved if it doesn't impact the size and location
-     * of other barriers, and if the minimum gap between the barriers 
-     * can be maintained.
+     * The barrier is only moved if it the minumum region size isn't violated.
      *  
      * @param position true or false
      */
@@ -146,8 +136,8 @@ public class BarrierPotential extends AbstractPotentialEnergy {
         PotentialRegion left = getRegion( regionIndex - 1 );
         PotentialRegion right = getRegion( regionIndex + 1 );
         
-        if ( position - _minGap >= left.getStart() &&
-             position + barrier.getWidth() + _minGap <= right.getEnd() )
+        if ( position - _minRegionWidth >= left.getStart() &&
+             position + barrier.getWidth() + _minRegionWidth <= right.getEnd() )
         {
             setNotifyEnabled( false );
             
@@ -186,9 +176,7 @@ public class BarrierPotential extends AbstractPotentialEnergy {
     
     /**
      * Sets the width of a specified barrier.
-     * The barrier is only resized if it doesn't impact the size and location
-     * of other barriers, and if the minimum gap between the barriers 
-     * can be maintained.
+     * The barrier is only resized if it the minumum region size isn't violated.
      *  
      * @param barrierIndex
      * @param width
@@ -207,7 +195,8 @@ public class BarrierPotential extends AbstractPotentialEnergy {
         PotentialRegion barrier = getRegion( regionIndex );
         PotentialRegion right = getRegion( regionIndex + 1 );
         
-        if ( barrier.getStart() + width + _minGap <= right.getEnd() ) {
+        if ( width >= _minRegionWidth && 
+            barrier.getStart() + width + _minRegionWidth <= right.getEnd() ) {
             
             setNotifyEnabled( false );
             
@@ -239,6 +228,10 @@ public class BarrierPotential extends AbstractPotentialEnergy {
         int regionIndex = toRegionIndex( barrierIndex );
         return getRegion( regionIndex ).getWidth();
     }
+    
+    //----------------------------------------------------------------------------
+    // Static utilities
+    //----------------------------------------------------------------------------
     
     /**
      * Converts a barrier index to a region index.
