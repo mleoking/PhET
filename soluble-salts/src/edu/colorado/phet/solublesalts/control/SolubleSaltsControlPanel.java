@@ -16,6 +16,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.solublesalts.model.*;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
+import edu.colorado.phet.solublesalts.model.crystal.Lattice;
 import edu.colorado.phet.solublesalts.model.affinity.RandomAffinity;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.colorado.phet.solublesalts.util.DefaultGridBagConstraints;
@@ -33,6 +34,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.HashMap;
 
 /**
  * SolubleSaltsControlPanel
@@ -53,6 +55,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         addControl( makeSodiumPanel( model ) );
         addControl( makeChloridePanel( model ) );
 //        addControl( makeHeatControl( model ) );
+        addControl( makeLatticePanel( model ) );
 
 
         // Sliders for affinity adjustment
@@ -109,6 +112,36 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         } );
         addControl( resetBtn );
     }
+
+    private JPanel makeLatticePanel( final SolubleSaltsModel model ) {
+        String plainCubicStr = "Plain cubic";
+        String twoToOne = "Tow-to-one";
+        String[] options = new String[]{
+            plainCubicStr,
+            twoToOne
+        };
+        final HashMap latticeMap = new HashMap();
+        latticeMap.put( plainCubicStr, SolubleSaltsConfig.oneToOneLattice );
+        latticeMap.put( twoToOne, SolubleSaltsConfig.twoToOneLattice );
+
+        final JComboBox latticeCBox = new JComboBox( options );
+        latticeCBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                Lattice lattice = (Lattice)latticeMap.get( latticeCBox.getSelectedItem() );
+                SolubleSaltsConfig.LATTICE = lattice;
+                model.reset();
+            }
+        } );
+        JPanel panel = new JPanel( new GridBagLayout() );
+        GridBagConstraints gbc = new DefaultGridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        panel.add( new JLabel( "Lattice:" ), gbc );
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.gridx = 1;
+        panel.add( latticeCBox );
+        return panel;
+    }
+
 
     private JPanel makeConcentrationPanel( final SolubleSaltsModel model ) {
         final ModelSlider kspSlider = new ModelSlider( "Ksp", "", 0, 3E-4, 0 );
@@ -266,8 +299,13 @@ public class SolubleSaltsControlPanel extends ControlPanel {
                 }
             }
         } );
-
         model.addIonListener( new IonCountSyncAgent( model, Chloride.class, spinner ) );
+
+        JTextField ionCountTF = new JTextField( 4 );
+        model.addIonListener( new FreeIonCountSyncAgent( model, Chloride.class, ionCountTF ) );
+        gbc.gridx++;
+        panel.add( ionCountTF, gbc );
+
         return panel;
     }
 
@@ -288,7 +326,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         return panel;
     }
 
-    private class IonCountSyncAgent implements SolubleSaltsModel.IonListener {
+    private class IonCountSyncAgent implements IonListener {
         private SolubleSaltsModel model;
         private Class ionClass;
         private JSpinner spinner;
@@ -299,23 +337,23 @@ public class SolubleSaltsControlPanel extends ControlPanel {
             this.spinner = spinner;
         }
 
-        public void ionAdded( SolubleSaltsModel.IonEvent event ) {
+        public void ionAdded( IonEvent event ) {
             syncSpinner();
         }
 
-        public void ionRemoved( SolubleSaltsModel.IonEvent event ) {
+        public void ionRemoved( IonEvent event ) {
             syncSpinner();
         }
 
         private void syncSpinner() {
             if( model.getIonsOfType( ionClass ) != null
                 && model.getIonsOfType( ionClass ).size() != ( (Integer)spinner.getValue() ).intValue() ) {
-                spinner.setValue( new Integer( model.getIonsOfType( ionClass ).size() ) );
+                spinner.setValue( new Integer( model.getNumIonsOfType( ionClass ) ) );
             }
         }
     }
 
-    private class FreeIonCountSyncAgent implements SolubleSaltsModel.IonListener {
+    private class FreeIonCountSyncAgent implements IonListener, Ion.ChangeListener {
         private SolubleSaltsModel model;
         private Class ionClass;
         private JTextField testField;
@@ -326,26 +364,28 @@ public class SolubleSaltsControlPanel extends ControlPanel {
             this.testField = testField;
         }
 
-        public void ionAdded( SolubleSaltsModel.IonEvent event ) {
-            syncSpinner();
+        public void ionAdded( IonEvent event ) {
+            if( event.getIon().getClass() == ionClass ) {
+                event.getIon().addChangeListener( this );
+                syncSpinner();
+            }
         }
 
-        public void ionRemoved( SolubleSaltsModel.IonEvent event ) {
-            syncSpinner();
+        public void ionRemoved( IonEvent event ) {
+            if( event.getIon().getClass() == ionClass ) {
+                event.getIon().removeChangeListener( this );
+                syncSpinner();
+            }
+        }
+
+        public void stateChanged( Ion.ChangeEvent event ) {
+            if( event.getIon().getClass() == ionClass ) {
+                syncSpinner();
+            }
         }
 
         private void syncSpinner() {
-            int freeIonCnt = 0;
-            List ions = model.getIonsOfType( ionClass );
-            if( ions != null ) {
-                for( int i = 0; i < ions.size(); i++ ) {
-                    Ion ion = (Ion)ions.get( i );
-                    if( !ion.isBound() ) {
-                        freeIonCnt++;
-                    }
-                }
-            }
-            testField.setText( Integer.toString( freeIonCnt ) );
+            testField.setText( Integer.toString( model.getNumFreeIonsOfType( ionClass ) ) );
         }
     }
 
