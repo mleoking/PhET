@@ -477,6 +477,9 @@ public class ConfigureEnergyDialog extends JDialog {
     // Event dispatcher
     //----------------------------------------------------------------------------
 
+    /*
+     * Dispatches events to the appropriate handler method.
+     */
     private class EventListener implements ActionListener, ChangeListener, ItemListener {
 
         public void actionPerformed( ActionEvent event ) {
@@ -513,11 +516,13 @@ public class ConfigureEnergyDialog extends JDialog {
         }
 
         public void itemStateChanged( ItemEvent event ) {
-            if ( event.getSource() == _potentialComboBox ) {
-                handlePotentialTypeChange();
-            }
-            else {
-                throw new IllegalArgumentException( "unexpected event: " + event );
+            if ( event.getStateChange() == ItemEvent.SELECTED ) {
+                if ( event.getSource() == _potentialComboBox ) {
+                    handlePotentialTypeChange();
+                }
+                else {
+                    throw new IllegalArgumentException( "unexpected event: " + event );
+                }
             }
         }
     }
