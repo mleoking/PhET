@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -25,6 +26,10 @@ import javax.swing.event.ChangeListener;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CombinedDomainXYPlot;
+import org.jfree.chart.plot.Marker;
+import org.jfree.chart.plot.ValueMarker;
+import org.jfree.chart.plot.XYPlot;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -474,6 +479,25 @@ public class ConfigureEnergyDialog extends JDialog {
     }
     
     //----------------------------------------------------------------------------
+    // Markers
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Updates the region markers to match the the model.
+     */
+    private void updateRegionMarkers() {
+        _energyPlot.clearDomainMarkers();
+        PotentialRegion[] regions = _potentialEnergy.getRegions();
+        for ( int i = 1; i < regions.length; i++ ) {
+            double x = regions[i].getStart();
+            Marker marker = new ValueMarker( x );
+            marker.setPaint( QTConstants.REGION_MARKER_COLOR );
+            marker.setStroke( QTConstants.REGION_MARKER_STROKE );
+            _energyPlot.addDomainMarker( marker );
+        }
+    }
+    
+    //----------------------------------------------------------------------------
     // Event dispatcher
     //----------------------------------------------------------------------------
 
@@ -549,6 +573,7 @@ public class ConfigureEnergyDialog extends JDialog {
             int reply = JOptionPane.showConfirmDialog( this, message, "Confirm", JOptionPane.YES_NO_CANCEL_OPTION );
             if ( reply == JOptionPane.YES_OPTION) {
                 handleApply();
+                dispose();
             }
             if ( reply == JOptionPane.NO_OPTION) {
                 dispose();
@@ -600,6 +625,7 @@ public class ConfigureEnergyDialog extends JDialog {
         JSpinner peSpinner = (JSpinner) _peSpinners.get( regionIndex );
         Double value = (Double) peSpinner.getValue();
         _potentialEnergy.setEnergy( regionIndex, value.doubleValue() );
+        updateRegionMarkers();
         _peChanged = true;
     }
     
@@ -607,6 +633,7 @@ public class ConfigureEnergyDialog extends JDialog {
         if ( _potentialEnergy instanceof StepPotential ) {
         Double value = (Double) _stepSpinner.getValue();
             ( (StepPotential) _potentialEnergy ).setStepPosition( value.doubleValue() );
+            updateRegionMarkers();
             _peChanged = true;
         }
     }
@@ -617,6 +644,7 @@ public class ConfigureEnergyDialog extends JDialog {
             Double value = (Double) widthSpinner.getValue();
             boolean success = ( (BarrierPotential) _potentialEnergy).setBarrierWidth( barrierIndex, value.doubleValue() );
             if ( success ) {
+                updateRegionMarkers();
                 _peChanged = true;
             }
             else {
@@ -631,6 +659,7 @@ public class ConfigureEnergyDialog extends JDialog {
             Double value = (Double) positionSpinner.getValue();
             boolean success = ( (BarrierPotential) _potentialEnergy).setBarrierPosition( barrierIndex, value.doubleValue() );
             if ( success ) {
+                updateRegionMarkers();
                 _peChanged = true;
             }
             else {
