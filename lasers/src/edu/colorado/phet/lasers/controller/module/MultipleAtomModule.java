@@ -147,7 +147,6 @@ public class MultipleAtomModule extends BaseLaserModule {
         laserControlPanel = new UniversalLaserControlPanel( this );
         setControlPanel( laserControlPanel );
         laserControlPanel.setUpperTransitionView( BaseLaserModule.PHOTON_CURTAIN );
-        setPumpingPhotonView( BaseLaserModule.PHOTON_DISCRETE );
         laserControlPanel.setThreeEnergyLevels( true );
         setMirrorsEnabled( false );
         setDisplayHighLevelEmissions( false );

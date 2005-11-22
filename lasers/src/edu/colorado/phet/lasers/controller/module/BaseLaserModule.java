@@ -516,7 +516,9 @@ public class BaseLaserModule extends Module {
 
         // Reset the wavelengths of the beams
         seedBeam.setWavelength( Photon.RED );
-        pumpingBeam.setWavelength( Photon.BLUE );        
+        pumpingBeam.setWavelength( Photon.BLUE );
+
+        setPumpingPhotonView( PHOTON_CURTAIN );
 
         // Reset the state lifetimes
         laserEnergyLevelsMonitorPanel.reset();
