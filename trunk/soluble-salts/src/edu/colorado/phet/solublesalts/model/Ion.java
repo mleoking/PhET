@@ -11,9 +11,13 @@
 package edu.colorado.phet.solublesalts.model;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
 
 import java.awt.geom.Point2D;
+import java.util.EventObject;
+import java.util.EventListener;
+
 
 /**
  * Ion
@@ -59,6 +63,7 @@ public class Ion extends Atom {
         if( binder instanceof Crystal ) {
             bindingCrystal = (Crystal)binder;
         }
+        changeListenerProxy.stateChanged( new ChangeEvent( this ) );
         super.bindTo( binder );
     }
 
@@ -67,7 +72,12 @@ public class Ion extends Atom {
             bindingCrystal = null;
             ((Crystal)binder).removeIon( this );
         }
+        changeListenerProxy.stateChanged( new ChangeEvent( this ) );
         super.unbindFrom( binder );
+    }
+
+    public boolean isBound() {
+        return bindingCrystal != null;
     }
 
     //----------------------------------------------------------------
@@ -80,5 +90,32 @@ public class Ion extends Atom {
 
     public Crystal getBindingLattice() {
         return bindingCrystal;
+    }
+
+    //----------------------------------------------------------------
+    // Events and Listeners
+    //----------------------------------------------------------------
+    private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
+    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+
+    public void addChangeListener( ChangeListener listener ) {
+        changeEventChannel.addListener( listener );
+    }
+
+    public void removeChangeListener( ChangeListener listener ) {
+        changeEventChannel.removeListener( listener );
+    }
+
+    public class ChangeEvent extends EventObject {
+        public ChangeEvent( Object source ) {
+            super( source );
+        }
+        public Ion getIon() {
+            return (Ion)getSource();
+        }
+    }
+
+    public interface ChangeListener extends EventListener {
+        public void stateChanged( ChangeEvent event );
     }
 }

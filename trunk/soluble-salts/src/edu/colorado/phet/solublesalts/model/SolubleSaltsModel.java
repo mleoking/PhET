@@ -17,6 +17,7 @@ import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
+import edu.colorado.phet.solublesalts.control.SolubleSaltsControlPanel;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
 
 import java.awt.geom.Point2D;
@@ -84,7 +85,7 @@ public class SolubleSaltsModel extends BaseModel {
 
         // Add an agent that will track the ions of various classes
         ionTracker = new IonTracker();
-        addIonListener( ionTracker );
+//        addIonListener( ionTracker );
 
         // Add an agent that will track the lattices that come and go from the model
         latticeTracker = new LatticeTracker();
@@ -154,7 +155,8 @@ public class SolubleSaltsModel extends BaseModel {
         super.addModelElement( modelElement );
 
         if( modelElement instanceof Ion ) {
-            ionListenerProxy.ionAdded( new IonEvent( modelElement ) );
+            Ion ion = (Ion)modelElement;
+            ionTracker.ionAdded( ion );
         }
 
         if( modelElement instanceof Crystal ) {
@@ -170,7 +172,7 @@ public class SolubleSaltsModel extends BaseModel {
 
         if( modelElement instanceof Ion ) {
             Ion ion = (Ion)modelElement;
-            ionListenerProxy.ionRemoved( new IonEvent( ion ) );
+            ionTracker.ionRemoved( ion );
             if( ion.isBound() ) {
                 ion.getBindingLattice().removeIon( ion );
             }
@@ -230,11 +232,15 @@ public class SolubleSaltsModel extends BaseModel {
     }
 
     public int getNumIonsOfType( Class ionClass ) {
-        return ionTracker.numIonsOfType( ionClass );
+        return ionTracker.getNumIonsOfType( ionClass );
     }
 
     public List getIonsOfType( Class ionClass ) {
         return ionTracker.getIonsOfType( ionClass );
+    }
+
+    public int getNumFreeIonsOfType( Class ionClass ) {
+        return ionTracker.getNumFreeIonsOfType( ionClass );
     }
 
     public List getIons() {
@@ -285,49 +291,49 @@ public class SolubleSaltsModel extends BaseModel {
         }
         return result;
     }
-
-    //----------------------------------------------------------------
-    // Events and listeners for Ions
-    //----------------------------------------------------------------
-
-    private EventChannel ionEventChannel = new EventChannel( IonListener.class );
-    private IonListener ionListenerProxy = (IonListener)ionEventChannel.getListenerProxy();
-
-    public void addIonListener( IonListener listener ) {
-        ionEventChannel.addListener( listener );
-    }
-
-    public void removeIonListener( IonListener listener ) {
-        ionEventChannel.removeListener( listener );
-    }
-
-    public class IonEvent extends EventObject {
-        public IonEvent( Object source ) {
-            super( source );
-            if( !( source instanceof Ion ) ) {
-                throw new RuntimeException( "source of wrong type" );
-            }
-        }
-
-        public Ion getIon() {
-            return (Ion)getSource();
-        }
-    }
-
-    public interface IonListener extends EventListener {
-        void ionAdded( IonEvent event );
-
-        void ionRemoved( IonEvent event );
-    }
-
-    public static class IonListenerAdapter implements IonListener {
-        public void ionAdded( IonEvent event ) {
-        }
-
-        public void ionRemoved( IonEvent event ) {
-        }
-
-    }
+//
+//    //----------------------------------------------------------------
+//    // Events and listeners for Ions
+//    //----------------------------------------------------------------
+//
+//    private EventChannel ionEventChannel = new EventChannel( IonListener.class );
+//    private IonListener ionListenerProxy = (IonListener)ionEventChannel.getListenerProxy();
+//
+//    public void addIonListener( IonListener listener ) {
+//        ionEventChannel.addListener( listener );
+//    }
+//
+//    public void removeIonListener( IonListener listener ) {
+//        ionEventChannel.removeListener( listener );
+//    }
+//
+//    public class IonEvent extends EventObject {
+//        public IonEvent( Object source ) {
+//            super( source );
+//            if( !( source instanceof Ion ) ) {
+//                throw new RuntimeException( "source of wrong type" );
+//            }
+//        }
+//
+//        public Ion getIon() {
+//            return (Ion)getSource();
+//        }
+//    }
+//
+//    public interface IonListener extends EventListener {
+//        void ionAdded( IonEvent event );
+//
+//        void ionRemoved( IonEvent event );
+//    }
+//
+//    public static class IonListenerAdapter implements IonListener {
+//        public void ionAdded( IonEvent event ) {
+//        }
+//
+//        public void ionRemoved( IonEvent event ) {
+//        }
+//
+//    }
 
     //----------------------------------------------------------------
     // Events and listeners for Lattices
@@ -341,6 +347,14 @@ public class SolubleSaltsModel extends BaseModel {
 
     public void removeLatticeListener( LatticeListener listener ) {
         latticeEventChannel.removeListener( listener );
+    }
+
+    public void addIonListener( IonListener listener ) {
+        ionTracker.addIonListener( listener );
+    }
+
+    public void removeIonListener( IonListener listener ) {
+        ionTracker.removeIonListener( listener );
     }
 
     public class LatticeEvent extends EventObject {
