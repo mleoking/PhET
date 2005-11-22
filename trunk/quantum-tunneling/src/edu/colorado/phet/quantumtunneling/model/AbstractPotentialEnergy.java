@@ -11,6 +11,8 @@
 
 package edu.colorado.phet.quantumtunneling.model;
 
+import edu.colorado.phet.quantumtunneling.QTConstants;
+
 
 
 /**
@@ -25,8 +27,8 @@ public abstract class AbstractPotentialEnergy extends QTObservable implements IP
     // Class data
     //----------------------------------------------------------------------------
     
-    protected static final double MIN_POSITION = -1000;
-    protected static final double MAX_POSITION = +1000;
+    protected static final double MIN_POSITION = QTConstants.POSITION_RANGE.getLowerBound();
+    protected static final double MAX_POSITION = QTConstants.POSITION_RANGE.getUpperBound();
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -105,7 +107,6 @@ public abstract class AbstractPotentialEnergy extends QTObservable implements IP
         validateIndex( index );
         _regions[ index ] = new PotentialRegion( start, end, energy );
         notifyObservers();
-//        System.out.println( "AbstractPotential.setRegion: " + index + " " + start + " " + end + " " + energy );//XXX
     }
     
     protected void setStart( int index, double start ) {
