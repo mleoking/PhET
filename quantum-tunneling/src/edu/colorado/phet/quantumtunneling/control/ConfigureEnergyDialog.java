@@ -30,6 +30,7 @@ import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.model.*;
+import edu.colorado.phet.quantumtunneling.module.QTModule;
 import edu.colorado.phet.quantumtunneling.view.EnergyPlot;
 
 
@@ -76,8 +77,9 @@ public class ConfigureEnergyDialog extends JDialog {
     
     // Misc
     private Frame _parent;
+    private QTModule _module;
     private EventListener _listener;
-    private boolean _unsavedChanges;
+    private boolean _peChanged, _teChanged;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -90,7 +92,7 @@ public class ConfigureEnergyDialog extends JDialog {
      * @param totalEnergy
      * @param potentialEnergy
      */
-    public ConfigureEnergyDialog( Frame parent, TotalEnergy totalEnergy, AbstractPotentialEnergy potentialEnergy ) {
+    public ConfigureEnergyDialog( Frame parent, QTModule module, TotalEnergy totalEnergy, AbstractPotentialEnergy potentialEnergy ) {
         super( parent );
 
         setTitle( SimStrings.get( "title.configureEnergy" ) );
@@ -98,8 +100,10 @@ public class ConfigureEnergyDialog extends JDialog {
         setResizable( false );
 
         _parent = parent;
+        _module = module;
         _listener = new EventListener();
         
+        // Make copies of the model
         _totalEnergy = new TotalEnergy( totalEnergy );
         if ( potentialEnergy instanceof ConstantPotential ) {
             _potentialEnergy = new ConstantPotential( (ConstantPotential) potentialEnergy );
@@ -110,13 +114,16 @@ public class ConfigureEnergyDialog extends JDialog {
         else if ( potentialEnergy instanceof BarrierPotential ) {
             _potentialEnergy = new BarrierPotential( (BarrierPotential) potentialEnergy );
         }
+        else {
+            throw new IllegalStateException( "unsupported potential type: " + potentialEnergy.getClass().getName() );
+        }
 
         createUI( parent );
         populateValues();
         
         setLocationRelativeTo( parent );
         
-        _unsavedChanges = false; // do this after creating the UI!
+        _teChanged = _peChanged = false; // do this after creating the UI!
     }
 
     /**
@@ -198,35 +205,21 @@ public class ConfigureEnergyDialog extends JDialog {
      */
     private JPanel createInputPanel() {
 
+        System.out.println( "ConfigureEnergyDialog.createInputPanel" );//XXX
+        
         // Menu panel...
         JPanel menuPanel = new JPanel();
         {
-            // Potential menu...
+            // Potential choices...
             JLabel potentialLabel = new JLabel( SimStrings.get( "label.potential" ) );
             _constantItem = SimStrings.get( "choice.potential.constant" );
             _stepItem = SimStrings.get( "choice.potential.step" );
             _barrierItem = SimStrings.get( "choice.potential.barrier" );
             _doubleBarrierItem = SimStrings.get( "choice.potential.double" );
+            
+            // Potential menu...
             Object[] items = { _constantItem, _stepItem, _barrierItem, _doubleBarrierItem };
             _potentialComboBox = new JComboBox( items );
-            if ( _potentialEnergy instanceof ConstantPotential ) {
-                _potentialComboBox.setSelectedItem( _constantItem );
-            }
-            else if ( _potentialEnergy instanceof StepPotential ) {
-                _potentialComboBox.setSelectedItem( _stepItem );
-            }
-            else if ( _potentialEnergy instanceof BarrierPotential ) {
-                int numberOfBarriers = ( (BarrierPotential) _potentialEnergy).getNumberOfBarriers();
-                if ( numberOfBarriers == 1 ) {
-                    _potentialComboBox.setSelectedItem( _barrierItem );
-                }
-                else if ( numberOfBarriers == 2 ) {
-                    _potentialComboBox.setSelectedItem( _doubleBarrierItem );
-                }
-                else {
-                    throw new IllegalStateException( "unsupported number of barriers" );
-                }
-            }
             _potentialComboBox.addItemListener( _listener );
 
             // Layout
@@ -403,11 +396,36 @@ public class ConfigureEnergyDialog extends JDialog {
         _energyPlot.setTotalEnergy( _totalEnergy );
         _energyPlot.setPotentialEnergy( _potentialEnergy );
         
+        // Potential type
+        _potentialComboBox.removeItemListener( _listener );
+        if ( _potentialEnergy instanceof ConstantPotential ) {
+            _potentialComboBox.setSelectedItem( _constantItem );
+        }
+        else if ( _potentialEnergy instanceof StepPotential ) {
+            _potentialComboBox.setSelectedItem( _stepItem );
+        }
+        else if ( _potentialEnergy instanceof BarrierPotential ) {
+            int numberOfBarriers = ( (BarrierPotential) _potentialEnergy).getNumberOfBarriers();
+            if ( numberOfBarriers == 1 ) {
+                _potentialComboBox.setSelectedItem( _barrierItem );
+            }
+            else if ( numberOfBarriers == 2 ) {
+                _potentialComboBox.setSelectedItem( _doubleBarrierItem );
+            }
+            else {
+                throw new IllegalStateException( "unsupported number of barriers: " + numberOfBarriers );
+            }
+        }
+        else {
+            throw new IllegalStateException( "unsupported potential type: " + _potentialEnergy.getClass().getName() );
+        }
+        _potentialComboBox.addItemListener( _listener );
+        
         // Total Energy
         double te = _totalEnergy.getEnergy();
         _teSpinner.setValue( new Double( te ) );
         
-        // Potential Energy
+        // Potential Energy per region
         for ( int i = 0; i < _peSpinners.size(); i++ ) {
             double pe = _potentialEnergy.getRegion(i).getEnergy();
             JSpinner peSpinner = (JSpinner) _peSpinners.get( i );
@@ -456,18 +474,6 @@ public class ConfigureEnergyDialog extends JDialog {
     }
     
     //----------------------------------------------------------------------------
-    // Accessors
-    //----------------------------------------------------------------------------
-    
-    public TotalEnergy getTotalEnergy() {
-        return _totalEnergy;
-    }
-    
-    public AbstractPotentialEnergy getPotentialEnergy() {
-        return _potentialEnergy;
-    }
-    
-    //----------------------------------------------------------------------------
     // Event dispatcher
     //----------------------------------------------------------------------------
 
@@ -480,29 +486,38 @@ public class ConfigureEnergyDialog extends JDialog {
             else if ( event.getSource() == _closeButton ) {
                 handleClose();
             }
+            else {
+                throw new IllegalArgumentException( "unexpected event: " + event );
+            }
         }
 
         public void stateChanged( ChangeEvent event ) {
             if ( event.getSource() == _teSpinner ) {
                 handleTotalEnergyChange();
             }
-            else if ( _peSpinners.contains( event.getSource() ) ) {
+            else if ( _peSpinners.contains( event.getSource() ) ) { //XXX inefficient
                 handlePotentialEnergyChange( _peSpinners.indexOf( event.getSource() ) );
             }
             else if ( event.getSource() == _stepSpinner ) {
                 handleStepPositionChange();
             }
-            else if ( _widthSpinners.contains( event.getSource() ) ) {
+            else if ( _widthSpinners.contains( event.getSource() ) ) { //XXX inefficient
                 handleBarrierWidthChange( _widthSpinners.indexOf( event.getSource() ) );
             }
-            else if ( _positionSpinners.contains( event.getSource() ) ) {
+            else if ( _positionSpinners.contains( event.getSource() ) ) { //XXX inefficient
                 handleBarrierPositionChange( _positionSpinners.indexOf( event.getSource() ) );
+            }
+            else {
+                throw new IllegalArgumentException( "unexpected event: " + event );
             }
         }
 
         public void itemStateChanged( ItemEvent event ) {
             if ( event.getSource() == _potentialComboBox ) {
                 handlePotentialTypeChange();
+            }
+            else {
+                throw new IllegalArgumentException( "unexpected event: " + event );
             }
         }
     }
@@ -512,12 +527,18 @@ public class ConfigureEnergyDialog extends JDialog {
     //----------------------------------------------------------------------------
 
     private void handleApply() {
-    //XXX change the original energy profile
-        _unsavedChanges = false;
+        if ( _teChanged ) {
+            _module.setTotalEnergy( _totalEnergy );
+            _teChanged = false;
+        }
+        if ( _peChanged ) {
+            _module.setPotentialEnergy( _potentialEnergy ); 
+            _peChanged = false;
+        }
     }
 
     private void handleClose() {
-        if ( _unsavedChanges ) {
+        if ( _teChanged || _peChanged ) {
             String message = SimStrings.get( "message.unsavedChanges" );
             String title = SimStrings.get( "title.confirm" );
             int reply = JOptionPane.showConfirmDialog( this, message, "Confirm", JOptionPane.YES_NO_CANCEL_OPTION );
@@ -537,6 +558,7 @@ public class ConfigureEnergyDialog extends JDialog {
     }
     
     private void handlePotentialTypeChange() {
+        System.out.println( "ConfigureEnergyDialog.handlePotentialTypeChange" );//XXX
         AbstractPotentialEnergy potentialEnergy = null;
         
         Object o = _potentialComboBox.getSelectedItem();
@@ -552,9 +574,13 @@ public class ConfigureEnergyDialog extends JDialog {
         else if ( o == _doubleBarrierItem ) {
             potentialEnergy = new BarrierPotential( 2 );
         }
+        else {
+            throw new IllegalStateException( "unsupported potential selection: " + o );
+        }
         
-        if ( potentialEnergy != null ) {
+        if ( potentialEnergy != _potentialEnergy ) {
             _potentialEnergy = potentialEnergy;
+            _peChanged = true;
             rebuildUI();
         }
     }
@@ -562,21 +588,21 @@ public class ConfigureEnergyDialog extends JDialog {
     private void handleTotalEnergyChange() {
         Double value = (Double) _teSpinner.getValue();
         _totalEnergy.setEnergy( value.doubleValue() );
-        _unsavedChanges = true;
+        _teChanged = true;
     }
     
     private void handlePotentialEnergyChange( int regionIndex ) {
         JSpinner peSpinner = (JSpinner) _peSpinners.get( regionIndex );
         Double value = (Double) peSpinner.getValue();
         _potentialEnergy.setEnergy( regionIndex, value.doubleValue() );
-        _unsavedChanges = true;
+        _peChanged = true;
     }
     
     private void handleStepPositionChange() {
         if ( _potentialEnergy instanceof StepPotential ) {
         Double value = (Double) _stepSpinner.getValue();
             ( (StepPotential) _potentialEnergy ).setStepPosition( value.doubleValue() );
-            _unsavedChanges = true;
+            _peChanged = true;
         }
     }
     
@@ -586,7 +612,7 @@ public class ConfigureEnergyDialog extends JDialog {
             Double value = (Double) widthSpinner.getValue();
             boolean success = ( (BarrierPotential) _potentialEnergy).setBarrierWidth( barrierIndex, value.doubleValue() );
             if ( success ) {
-                _unsavedChanges = true;
+                _peChanged = true;
             }
             else {
                 System.out.println( "WARNING: BarrierPotential.setBarrierWidth returned false" );
@@ -600,7 +626,7 @@ public class ConfigureEnergyDialog extends JDialog {
             Double value = (Double) positionSpinner.getValue();
             boolean success = ( (BarrierPotential) _potentialEnergy).setBarrierPosition( barrierIndex, value.doubleValue() );
             if ( success ) {
-                _unsavedChanges = true;
+                _peChanged = true;
             }
             else {
                 System.out.println( "WARNING: BarrierPotential.setBarrierPosition returned false" );

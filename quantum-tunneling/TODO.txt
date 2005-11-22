@@ -61,6 +61,7 @@ JFREECHART:
 - CombinedDomainXYPlot.addDomainMarker doesn't do anything
 
 DONE:
+(11/21/05) - hook up Configure dialog, module & control panel
 (11/21/05) - check for unsaved changes in Configure dialog
 (11/21/05) - wire up controls in Configure dialog
 (11/21/05) - add wait cursor on Configure button

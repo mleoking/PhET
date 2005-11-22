@@ -27,7 +27,11 @@ import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
-import edu.colorado.phet.quantumtunneling.module.AbstractModule;
+import edu.colorado.phet.quantumtunneling.model.AbstractPotentialEnergy;
+import edu.colorado.phet.quantumtunneling.model.BarrierPotential;
+import edu.colorado.phet.quantumtunneling.model.ConstantPotential;
+import edu.colorado.phet.quantumtunneling.model.StepPotential;
+import edu.colorado.phet.quantumtunneling.module.QTModule;
 
 
 /**
@@ -66,6 +70,7 @@ public class QTControlPanel extends AbstractControlPanel {
     private JPanel _propertiesPanel;
     private SliderControl _widthSlider, _centerSlider;
     private JButton _measureButton;
+    private EventListener _listener;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -76,7 +81,7 @@ public class QTControlPanel extends AbstractControlPanel {
      * 
      * @param module
      */
-    public QTControlPanel( AbstractModule module ) {
+    public QTControlPanel( QTModule module ) {
         super( module );
         
         // Set the control panel's minimum width.
@@ -313,22 +318,22 @@ public class QTControlPanel extends AbstractControlPanel {
         
         // Interactivity
         {
-            EventListener listener = new EventListener();
-            _potentialComboBox.addItemListener( listener );
-            _realCheckBox.addActionListener( listener );
-            _imaginaryCheckBox.addActionListener( listener );
-            _magnitudeCheckBox.addActionListener( listener );
-            _phaseCheckBox.addActionListener( listener );
-            _separateRadioButton.addActionListener( listener );
-            _sumRadioButton.addActionListener( listener );
-            _leftToRightRadioButton.addActionListener( listener );
-            _rightToLeftRadioButton.addActionListener( listener );
-            _planeWaveRadioButton.addActionListener( listener );
-            _packetWaveRadioButton.addActionListener( listener );
-            _propertiesButton.addActionListener( listener );
-            _widthSlider.addChangeListener( listener );
-            _centerSlider.addChangeListener( listener );
-            _measureButton.addActionListener( listener );
+            _listener = new EventListener();
+            _potentialComboBox.addItemListener( _listener );
+            _realCheckBox.addActionListener( _listener );
+            _imaginaryCheckBox.addActionListener( _listener );
+            _magnitudeCheckBox.addActionListener( _listener );
+            _phaseCheckBox.addActionListener( _listener );
+            _separateRadioButton.addActionListener( _listener );
+            _sumRadioButton.addActionListener( _listener );
+            _leftToRightRadioButton.addActionListener( _listener );
+            _rightToLeftRadioButton.addActionListener( _listener );
+            _planeWaveRadioButton.addActionListener( _listener );
+            _packetWaveRadioButton.addActionListener( _listener );
+            _propertiesButton.addActionListener( _listener );
+            _widthSlider.addChangeListener( _listener );
+            _centerSlider.addChangeListener( _listener );
+            _measureButton.addActionListener( _listener );
         }
         
         reset();
@@ -362,6 +367,36 @@ public class QTControlPanel extends AbstractControlPanel {
         _centerSlider.setValue( QTConstants.DEFAULT_PACKET_CENTER );
     }
 
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    public void setPotentialEnergy( AbstractPotentialEnergy pe ) {
+        _potentialComboBox.removeItemListener( _listener );
+        if ( pe instanceof ConstantPotential ) {
+            _potentialComboBox.setSelectedItem( _constantItem );
+        }
+        else if ( pe instanceof StepPotential ) {
+            _potentialComboBox.setSelectedItem( _stepItem );
+        }
+        else if ( pe instanceof BarrierPotential ) {
+            int numberOfBarriers = ( (BarrierPotential) pe ).getNumberOfBarriers();
+            if ( numberOfBarriers == 1 ) {
+                _potentialComboBox.setSelectedItem( _barrierItem );
+            }
+            else if ( numberOfBarriers == 2 ) {
+                _potentialComboBox.setSelectedItem( _doubleBarrierItem );
+            }
+            else {
+                throw new IllegalStateException( "unsupported number of barriers: " + numberOfBarriers );
+            }
+        }
+        else {
+            throw new IllegalStateException( "unsupported potential type: " + pe.getClass().getName() );
+        }
+        _potentialComboBox.addItemListener( _listener );
+    }
+    
     //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------
@@ -432,7 +467,24 @@ public class QTControlPanel extends AbstractControlPanel {
     }
     
     private void handlePotentialSelection() {
-        
+        AbstractPotentialEnergy pe = null;
+        Object o = _potentialComboBox.getSelectedItem();
+        if ( o == _constantItem ) {
+            pe = new ConstantPotential();
+        }
+        else if ( o == _stepItem ) {
+            pe = new StepPotential();
+        }
+        else if ( o == _barrierItem ) {
+            pe = new BarrierPotential();
+        }
+        else if ( o == _doubleBarrierItem ) {
+            pe = new BarrierPotential( 2 );
+        }
+        else {
+            throw new IllegalStateException( "unsupported potential selection: " + o );
+        }
+        ( (QTModule) getModule() ).setPotentialEnergy( pe );
     }
 
     private void handleRealSelection() {
