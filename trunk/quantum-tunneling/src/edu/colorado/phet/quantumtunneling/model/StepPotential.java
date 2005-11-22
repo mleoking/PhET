@@ -49,13 +49,6 @@ public class StepPotential extends AbstractPotentialEnergy {
         super( step );
     }
     
-    /**
-     * Clones this object.
-     */
-    public Object clone() {
-        return new StepPotential( this );
-    }
-    
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
