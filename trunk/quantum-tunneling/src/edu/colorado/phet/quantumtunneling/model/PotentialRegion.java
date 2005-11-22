@@ -44,7 +44,7 @@ public class PotentialRegion {
      * @param energy
      * @throws IllegalArgumentException if the region's width is not > 0
      */
-    public PotentialRegion( double start, double end, double energy ) {
+    public PotentialRegion( final double start, final double end, final double energy ) {
         if ( start >= end ) {
             throw new IllegalArgumentException( "start >= end, region must have a positive width" );
         }

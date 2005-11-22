@@ -45,7 +45,7 @@ public class StepPotential extends AbstractPotentialEnergy {
      * 
      * @param step
      */
-    public StepPotential( StepPotential step ) {
+    public StepPotential( final StepPotential step ) {
         super( step );
     }
     
@@ -58,7 +58,7 @@ public class StepPotential extends AbstractPotentialEnergy {
      * 
      * @param position
      */
-    public void setStepPosition( double position ) {
+    public void setStepPosition( final double position ) {
         if ( position == MIN_POSITION || position == MAX_POSITION ) {
             throw new IllegalArgumentException( "position cannot be at min or max range" );
         }

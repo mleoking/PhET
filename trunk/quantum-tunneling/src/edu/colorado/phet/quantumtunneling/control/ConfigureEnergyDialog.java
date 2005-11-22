@@ -58,8 +58,6 @@ public class ConfigureEnergyDialog extends JDialog {
     private static final double POSITION_STEP = 0.1;
     private static final double ENERGY_STEP = 0.1;
     
-    private static final double MIN_REGION_WIDTH = 0.5;
-    
     private static final Font AXES_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 );
     private static final Font ANNOTATION_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 );
     private static final Color BARRIER_PROPERTIES_COLOR = Color.RED;
@@ -311,10 +309,11 @@ public class ConfigureEnergyDialog extends JDialog {
             if ( _potentialEnergy instanceof StepPotential ) {
                 JLabel stepLabel = new JLabel( SimStrings.get( "label.stepPosition" ) );
                 stepLabel.setForeground( BARRIER_PROPERTIES_COLOR );
+                double minRegionWidth = _potentialEnergy.getMinRegionWidth();
                 SpinnerModel model = new SpinnerNumberModel( 
-                        QTConstants.POSITION_RANGE.getLowerBound() + MIN_REGION_WIDTH,
-                        QTConstants.POSITION_RANGE.getLowerBound() + MIN_REGION_WIDTH, 
-                        QTConstants.POSITION_RANGE.getUpperBound() - MIN_REGION_WIDTH,
+                        QTConstants.POSITION_RANGE.getLowerBound() + minRegionWidth,
+                        QTConstants.POSITION_RANGE.getLowerBound() + minRegionWidth, 
+                        QTConstants.POSITION_RANGE.getUpperBound() - minRegionWidth,
                         POSITION_STEP );
                 _stepSpinner = new JSpinner( model );
                 _stepSpinner.addChangeListener( _listener );

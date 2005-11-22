@@ -30,11 +30,16 @@ public abstract class AbstractPotentialEnergy extends QTObservable implements IP
     protected static final double MIN_POSITION = QTConstants.POSITION_RANGE.getLowerBound();
     protected static final double MAX_POSITION = QTConstants.POSITION_RANGE.getUpperBound();
     
+    protected static final double DEFAULT_MIN_REGION_WIDTH = 0.5;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private PotentialRegion[] _regions; // array of Point2D
+    
+    /* minimum region width */
+    private double _minRegionWidth;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -46,6 +51,7 @@ public abstract class AbstractPotentialEnergy extends QTObservable implements IP
         if ( numberOfRegions <= 0 ) {
             throw new IllegalArgumentException( "numberOfRegions must be > 0" );
         }
+        
         _regions = new PotentialRegion[ numberOfRegions ];
         if ( numberOfRegions == 1 ) {
             _regions[0] = new PotentialRegion( MIN_POSITION, MAX_POSITION, 0 );
@@ -63,6 +69,8 @@ public abstract class AbstractPotentialEnergy extends QTObservable implements IP
                 }
             }
         }
+        
+        _minRegionWidth = DEFAULT_MIN_REGION_WIDTH;
     }
     
     /**
@@ -80,11 +88,35 @@ public abstract class AbstractPotentialEnergy extends QTObservable implements IP
             double energy = potential.getRegion( i ).getEnergy();
             setRegion( i, start, end, energy );
         }
+        
+        _minRegionWidth = potential.getMinRegionWidth();
     }
     
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the minimum region width.
+     * 
+     * @param minRegionWidth
+     */
+    public void setMinRegionWidth( double minRegionWidth ) {
+        if ( minRegionWidth <= 0 ) {
+            throw new IllegalArgumentException( "minRegionWidth must be > 0" );
+        }
+        _minRegionWidth = minRegionWidth;
+        notifyObservers();
+    }
+    
+    /**
+     * Gets the minimum region width.
+     * 
+     * @return minimum gap size
+     */
+    public double getMinRegionWidth() {
+        return _minRegionWidth;
+    }
     
     public int getNumberOfRegions() {
         return _regions.length;
