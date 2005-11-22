@@ -61,13 +61,12 @@ public class QTConstants {
     // Strokes
     //----------------------------------------------------------------------------
     
-    private static final float DEFAULT_PLOT_WIDTH = 3f;
-    public static final Stroke TOTAL_ENERGY_STROKE = new BasicStroke( DEFAULT_PLOT_WIDTH );
-    public static final Stroke POTENTIAL_ENERGY_STROKE = new BasicStroke( DEFAULT_PLOT_WIDTH );
-    public static final Stroke INCIDENT_WAVE_STROKE = new BasicStroke( DEFAULT_PLOT_WIDTH );
-    public static final Stroke REFLECTED_WAVE_STROKE = new BasicStroke( DEFAULT_PLOT_WIDTH );
-    public static final Stroke TRANSMITTED_WAVE_STROKE = new BasicStroke( DEFAULT_PLOT_WIDTH );
-    public static final Stroke PROBABILITY_DENSITY_STROKE = new BasicStroke( DEFAULT_PLOT_WIDTH );
+    public static final Stroke TOTAL_ENERGY_STROKE = new BasicStroke( 4f );
+    public static final Stroke POTENTIAL_ENERGY_STROKE = new BasicStroke( 2f );
+    public static final Stroke INCIDENT_WAVE_STROKE = new BasicStroke( 2f );
+    public static final Stroke REFLECTED_WAVE_STROKE = new BasicStroke( 2f );
+    public static final Stroke TRANSMITTED_WAVE_STROKE = new BasicStroke( 2f );
+    public static final Stroke PROBABILITY_DENSITY_STROKE = new BasicStroke( 2f );
     public static final Stroke REGION_MARKER_STROKE = 
         new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {5,5}, 0 );
     
