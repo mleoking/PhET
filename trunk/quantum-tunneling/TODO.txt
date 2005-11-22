@@ -6,7 +6,6 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- add region and barrier labels to chart in Configure dialog
 - use a darker green for total energy, or put Configure controls on a darker background
 - constantly adjust SpinnerModels in Configure dialog so that bad values can't be entered
 - use setFixedLegendItems to control what's in the legend
@@ -62,6 +61,8 @@ JFREECHART:
 - CombinedDomainXYPlot.addDomainMarker doesn't do anything
 
 DONE:
+(11/21/05) - add region and barrier annotations to chart in Configure dialog
+(11/21/05) - use dashed line for region markers
 (11/21/05) - add region markers to chart in Configure dialog
 (11/21/05) - hook up Configure dialog, module & control panel
 (11/21/05) - check for unsaved changes in Configure dialog

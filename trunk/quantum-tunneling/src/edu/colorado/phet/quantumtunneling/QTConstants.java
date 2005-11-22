@@ -68,7 +68,8 @@ public class QTConstants {
     public static final Stroke REFLECTED_WAVE_STROKE = new BasicStroke( DEFAULT_PLOT_WIDTH );
     public static final Stroke TRANSMITTED_WAVE_STROKE = new BasicStroke( DEFAULT_PLOT_WIDTH );
     public static final Stroke PROBABILITY_DENSITY_STROKE = new BasicStroke( DEFAULT_PLOT_WIDTH );
-    public static final Stroke REGION_MARKER_STROKE = new BasicStroke( 1f );
+    public static final Stroke REGION_MARKER_STROKE = 
+        new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {5,5}, 0 );
     
     //----------------------------------------------------------------------------
     // Paints

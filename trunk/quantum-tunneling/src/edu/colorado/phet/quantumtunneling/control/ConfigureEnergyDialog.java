@@ -17,7 +17,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -26,10 +25,11 @@ import javax.swing.event.ChangeListener;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.CombinedDomainXYPlot;
+import org.jfree.chart.annotations.XYTextAnnotation;
 import org.jfree.chart.plot.Marker;
 import org.jfree.chart.plot.ValueMarker;
-import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYItemRenderer;
+import org.jfree.data.Range;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -53,6 +53,7 @@ public class ConfigureEnergyDialog extends JDialog {
 
     private static final Dimension CHART_SIZE = new Dimension( 450, 150 );
     private static final Font AXES_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 );
+    private static final Font ANNOTATION_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 );
     private static final Color BARRIER_PROPERTIES_COLOR = Color.RED;
     private static final Dimension SPINNER_SIZE = new Dimension( 65, 25 );
 
@@ -191,7 +192,7 @@ public class ConfigureEnergyDialog extends JDialog {
         
         // Chart
         JFreeChart chart = new JFreeChart( null /*title*/, null /*font*/, _energyPlot, false /* createLegend */);
-
+        
         // Chart panel
         ChartPanel chartPanel = new ChartPanel( chart );
         chartPanel.setPopupMenu( null ); // disable popup menu, on by default
@@ -479,21 +480,68 @@ public class ConfigureEnergyDialog extends JDialog {
     }
     
     //----------------------------------------------------------------------------
-    // Markers
+    // Markers & Annotations
     //----------------------------------------------------------------------------
     
     /*
-     * Updates the region markers to match the the model.
+     * Updates the region/barrier markers and annotations to match the the model.
      */
-    private void updateRegionMarkers() {
+    private void updateMarkersAndAnnotations() {
+
+        boolean hasBarriers = ( _potentialEnergy instanceof BarrierPotential );
+        
+        double minX = _energyPlot.getDomainAxis().getRange().getLowerBound();
+        double maxX = _energyPlot.getDomainAxis().getRange().getUpperBound();
+        double minY = _energyPlot.getRangeAxis().getRange().getLowerBound();
+        double maxY = _energyPlot.getRangeAxis().getRange().getUpperBound();
+        
+        XYItemRenderer renderer = _energyPlot.getRenderer();
+        renderer.removeAnnotations();
         _energyPlot.clearDomainMarkers();
+        
         PotentialRegion[] regions = _potentialEnergy.getRegions();
-        for ( int i = 1; i < regions.length; i++ ) {
-            double x = regions[i].getStart();
-            Marker marker = new ValueMarker( x );
-            marker.setPaint( QTConstants.REGION_MARKER_COLOR );
-            marker.setStroke( QTConstants.REGION_MARKER_STROKE );
-            _energyPlot.addDomainMarker( marker );
+        for ( int i = 0; i < regions.length; i++ ) {
+            
+            // Marker
+            if ( i != 0 ) {
+                double x = regions[i].getStart();
+                Marker marker = new ValueMarker( x );
+                marker.setPaint( QTConstants.REGION_MARKER_COLOR );
+                marker.setStroke( QTConstants.REGION_MARKER_STROKE );
+                _energyPlot.addDomainMarker( marker );
+            }
+            
+            // Annotation
+            {
+                // Region annotation
+                String text = "R" + ( i + 1 );
+                double x = 0;
+                double y = maxY - 0.75;
+                if ( i == 0 ) {
+                    x = minX + ( ( regions[i].getEnd() - minX ) / 2 );
+                }
+                else if ( i == regions.length - 1 ) {
+                    x = regions[i].getStart() + ( ( maxX - regions[i].getStart() ) / 2 );
+                }
+                else {
+                    x = regions[i].getStart() + ( ( regions[i].getEnd() - regions[i].getStart() ) / 2 );
+                }
+                XYTextAnnotation annotation = new XYTextAnnotation( text, x, y );
+                annotation.setFont( ANNOTATION_FONT );
+                annotation.setPaint( QTConstants.POTENTIAL_ENERGY_COLOR );
+                renderer.addAnnotation( annotation );
+                
+                // Barrier annotation
+                if ( hasBarriers && BarrierPotential.isaBarrier( i ) ) {
+                    int barrierIndex = BarrierPotential.toBarrierIndex( i );
+                    text = "B" + ( barrierIndex + 1 );
+                    y = minY + 0.75;
+                    annotation = new XYTextAnnotation( text, x, y );
+                    annotation.setFont( ANNOTATION_FONT );
+                    annotation.setPaint( BARRIER_PROPERTIES_COLOR );
+                    renderer.addAnnotation( annotation );
+                }
+            }
         }
     }
     
@@ -625,7 +673,7 @@ public class ConfigureEnergyDialog extends JDialog {
         JSpinner peSpinner = (JSpinner) _peSpinners.get( regionIndex );
         Double value = (Double) peSpinner.getValue();
         _potentialEnergy.setEnergy( regionIndex, value.doubleValue() );
-        updateRegionMarkers();
+        updateMarkersAndAnnotations();
         _peChanged = true;
     }
     
@@ -633,7 +681,7 @@ public class ConfigureEnergyDialog extends JDialog {
         if ( _potentialEnergy instanceof StepPotential ) {
         Double value = (Double) _stepSpinner.getValue();
             ( (StepPotential) _potentialEnergy ).setStepPosition( value.doubleValue() );
-            updateRegionMarkers();
+            updateMarkersAndAnnotations();
             _peChanged = true;
         }
     }
@@ -644,7 +692,7 @@ public class ConfigureEnergyDialog extends JDialog {
             Double value = (Double) widthSpinner.getValue();
             boolean success = ( (BarrierPotential) _potentialEnergy).setBarrierWidth( barrierIndex, value.doubleValue() );
             if ( success ) {
-                updateRegionMarkers();
+                updateMarkersAndAnnotations();
                 _peChanged = true;
             }
             else {
@@ -659,7 +707,7 @@ public class ConfigureEnergyDialog extends JDialog {
             Double value = (Double) positionSpinner.getValue();
             boolean success = ( (BarrierPotential) _potentialEnergy).setBarrierPosition( barrierIndex, value.doubleValue() );
             if ( success ) {
-                updateRegionMarkers();
+                updateMarkersAndAnnotations();
                 _peChanged = true;
             }
             else {
