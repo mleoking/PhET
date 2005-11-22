@@ -37,6 +37,7 @@ public class TestPSwingFull extends JFrame {
         setBackground( null );
         setVisible( true );
         canvas = new PSwingCanvas();
+        canvas.setPanEventHandler( null );
         getContentPane().add( canvas );
         validate();
         loader = getClass().getClassLoader();
@@ -65,7 +66,6 @@ public class TestPSwingFull extends JFrame {
         transform.translate( -800, -500 );
         transform.addChild( leaf );
         canvas.getLayer().addChild( transform );
-
 
         // 2nd Copy of JButton
         leaf = new ZVisualLeaf( swing );
@@ -338,16 +338,19 @@ public class TestPSwingFull extends JFrame {
         tools.setMinimumSize( new Dimension( 150, 150 ) );
         tools.setPreferredSize( new Dimension( 225, 225 ) );
         JToolBar bar = new JToolBar();
-        Action letter = new AbstractAction( "Big A!"){
+        Action letter = new AbstractAction( "Big A!" ) {
 
-            public void actionPerformed( ActionEvent e ) {}
+            public void actionPerformed( ActionEvent e ) {
+            }
         };
 
         Action hand = new AbstractAction( "Hi!" ) {
-            public void actionPerformed( ActionEvent e ) {}
+            public void actionPerformed( ActionEvent e ) {
+            }
         };
-        Action select = new AbstractAction( "There!") {
-            public void actionPerformed( ActionEvent e ) {}
+        Action select = new AbstractAction( "There!" ) {
+            public void actionPerformed( ActionEvent e ) {
+            }
         };
 
         label = new JLabel( "A Panel with a JToolBar" );
@@ -391,8 +394,6 @@ public class TestPSwingFull extends JFrame {
         transform.translate( -250, 850 );
         transform.addChild( leaf );
         canvas.getLayer().addChild( transform );
-
-
 
         // Revalidate and repaint
         canvas.revalidate();
