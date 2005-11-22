@@ -42,7 +42,7 @@ import edu.colorado.phet.quantumtunneling.view.EnergyPlot;
 
 
 /**
- * ConfigureEnergyDialog
+ * ConfigureEnergyDialog is the "Configure Energy" dialog.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -149,10 +149,10 @@ public class ConfigureEnergyDialog extends JDialog {
     }
 
     //----------------------------------------------------------------------------
-    // Internal initializers
+    // Private initializers
     //----------------------------------------------------------------------------
 
-    /**
+    /*
      * Creates the user interface for the dialog.
      * 
      * @param parent the parent Frame
@@ -188,7 +188,7 @@ public class ConfigureEnergyDialog extends JDialog {
         pack();
     }
 
-    /**
+    /*
      * Creates the dialog's chart panel.
      * 
      * @return the chart panel
@@ -215,7 +215,7 @@ public class ConfigureEnergyDialog extends JDialog {
         return chartPanel;
     }
 
-    /**
+    /*
      * Creates the dialog's input panel.
      * 
      * @return the input panel
@@ -397,7 +397,7 @@ public class ConfigureEnergyDialog extends JDialog {
         return inputPanel;
     }
 
-    /** 
+    /*
      * Creates the dialog's actions panel, consisting of Apply and Close buttons.
      * 
      * @return the actions panel
@@ -420,6 +420,9 @@ public class ConfigureEnergyDialog extends JDialog {
         return actionPanel;
     }
 
+    /*
+     * Populates the user interface with values from the model.
+     */
     private void populateValues() {
         
         // Energy plot
@@ -489,6 +492,9 @@ public class ConfigureEnergyDialog extends JDialog {
         }
     }
     
+    /*
+     * Rebuilds the user interface when the type of potential changes.
+     */
     private void rebuildUI() {
         boolean visible = isVisible();
         if ( visible ) {
@@ -572,7 +578,7 @@ public class ConfigureEnergyDialog extends JDialog {
     }
     
     //----------------------------------------------------------------------------
-    // Event dispatcher
+    // Event handling
     //----------------------------------------------------------------------------
 
     /*
@@ -625,10 +631,9 @@ public class ConfigureEnergyDialog extends JDialog {
         }
     }
 
-    //----------------------------------------------------------------------------
-    // Button handlers
-    //----------------------------------------------------------------------------
-
+    /*
+     * Handles the "Apply" button.
+     */
     private void handleApply() {
         if ( _teChanged ) {
             _module.setTotalEnergy( _totalEnergy );
@@ -640,6 +645,9 @@ public class ConfigureEnergyDialog extends JDialog {
         }
     }
 
+    /*
+     * Handles the "Close" button, checks for unsaved changes.
+     */
     private void handleClose() {
         if ( _teChanged || _peChanged ) {
             String message = SimStrings.get( "message.unsavedChanges" );
@@ -661,6 +669,9 @@ public class ConfigureEnergyDialog extends JDialog {
         }
     }
     
+    /*
+     * Handles selection in the "Potential" combo box.
+     */
     private void handlePotentialTypeChange() {
         System.out.println( "ConfigureEnergyDialog.handlePotentialTypeChange" );//XXX
         AbstractPotentialEnergy potentialEnergy = null;
@@ -689,12 +700,18 @@ public class ConfigureEnergyDialog extends JDialog {
         }
     }
     
+    /*
+     * Handles a change in total energy.
+     */
     private void handleTotalEnergyChange() {
         Double value = (Double) _teSpinner.getValue();
         _totalEnergy.setEnergy( value.doubleValue() );
         _teChanged = true;
     }
     
+    /*
+     * Handles a change in the potential energy of a region.
+     */
     private void handlePotentialEnergyChange( int regionIndex ) {
         JSpinner peSpinner = (JSpinner) _peSpinners.get( regionIndex );
         Double value = (Double) peSpinner.getValue();
@@ -703,6 +720,9 @@ public class ConfigureEnergyDialog extends JDialog {
         _peChanged = true;
     }
     
+    /*
+     * Handles a change in a step.
+     */
     private void handleStepPositionChange() {
         if ( _potentialEnergy instanceof StepPotential ) {
         Double value = (Double) _stepSpinner.getValue();
@@ -712,31 +732,43 @@ public class ConfigureEnergyDialog extends JDialog {
         }
     }
     
+    /*
+     * Handles a change in the width of a barrier.
+     */
     private void handleBarrierWidthChange( int barrierIndex ) {
         if ( _potentialEnergy instanceof BarrierPotential ) {
+            BarrierPotential bp = (BarrierPotential) _potentialEnergy;
             JSpinner widthSpinner = (JSpinner) _widthSpinners.get( barrierIndex );
             Double value = (Double) widthSpinner.getValue();
-            boolean success = ( (BarrierPotential) _potentialEnergy).setBarrierWidth( barrierIndex, value.doubleValue() );
+            boolean success = bp.setBarrierWidth( barrierIndex, value.doubleValue() );
             if ( success ) {
                 updateMarkersAndAnnotations();
                 _peChanged = true;
             }
             else {
+                double width = bp.getBarrierWidth( barrierIndex );
+                widthSpinner.setValue( new Double( width ) );
                 System.out.println( "WARNING: BarrierPotential.setBarrierWidth returned false" );
             }
         }
     }
     
+    /*
+     * Handles a change in the position of a barrier.
+     */
     private void handleBarrierPositionChange( int barrierIndex ) {
         if ( _potentialEnergy instanceof BarrierPotential ) {
+            BarrierPotential bp = (BarrierPotential) _potentialEnergy;
             JSpinner positionSpinner = (JSpinner) _positionSpinners.get( barrierIndex );
             Double value = (Double) positionSpinner.getValue();
-            boolean success = ( (BarrierPotential) _potentialEnergy).setBarrierPosition( barrierIndex, value.doubleValue() );
+            boolean success = bp.setBarrierPosition( barrierIndex, value.doubleValue() );
             if ( success ) {
                 updateMarkersAndAnnotations();
                 _peChanged = true;
             }
             else {
+                double position = bp.getBarrierPosition( barrierIndex );
+                positionSpinner.setValue( new Double( position ) );
                 System.out.println( "WARNING: BarrierPotential.setBarrierPosition returned false" );
             }
         }
