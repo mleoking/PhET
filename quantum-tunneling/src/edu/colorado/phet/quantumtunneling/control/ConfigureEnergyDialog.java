@@ -58,6 +58,8 @@ public class ConfigureEnergyDialog extends JDialog {
     private static final double POSITION_STEP = 0.1;
     private static final double ENERGY_STEP = 0.1;
     
+    private static final double MIN_REGION_WIDTH = 0.5;
+    
     private static final Font AXES_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 );
     private static final Font ANNOTATION_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 );
     private static final Color BARRIER_PROPERTIES_COLOR = Color.RED;
@@ -221,8 +223,6 @@ public class ConfigureEnergyDialog extends JDialog {
      * @return the input panel
      */
     private JPanel createInputPanel() {
-
-        System.out.println( "ConfigureEnergyDialog.createInputPanel" );//XXX
         
         // Menu panel...
         JPanel menuPanel = new JPanel();
@@ -311,8 +311,10 @@ public class ConfigureEnergyDialog extends JDialog {
             if ( _potentialEnergy instanceof StepPotential ) {
                 JLabel stepLabel = new JLabel( SimStrings.get( "label.stepPosition" ) );
                 stepLabel.setForeground( BARRIER_PROPERTIES_COLOR );
-                SpinnerModel model = new SpinnerNumberModel( QTConstants.POSITION_RANGE.getLowerBound(),
-                        QTConstants.POSITION_RANGE.getLowerBound(), QTConstants.POSITION_RANGE.getUpperBound(),
+                SpinnerModel model = new SpinnerNumberModel( 
+                        QTConstants.POSITION_RANGE.getLowerBound() + MIN_REGION_WIDTH,
+                        QTConstants.POSITION_RANGE.getLowerBound() + MIN_REGION_WIDTH, 
+                        QTConstants.POSITION_RANGE.getUpperBound() - MIN_REGION_WIDTH,
                         POSITION_STEP );
                 _stepSpinner = new JSpinner( model );
                 _stepSpinner.addChangeListener( _listener );
@@ -425,6 +427,9 @@ public class ConfigureEnergyDialog extends JDialog {
      */
     private void populateValues() {
         
+        double minX = _energyPlot.getDomainAxis().getRange().getLowerBound();
+        double maxX = _energyPlot.getDomainAxis().getRange().getUpperBound();
+        
         // Energy plot
         _energyPlot.setTotalEnergy( _totalEnergy );
         _energyPlot.setPotentialEnergy( _potentialEnergy );
@@ -520,8 +525,6 @@ public class ConfigureEnergyDialog extends JDialog {
 
         boolean hasBarriers = ( _potentialEnergy instanceof BarrierPotential );
         
-        double minX = _energyPlot.getDomainAxis().getRange().getLowerBound();
-        double maxX = _energyPlot.getDomainAxis().getRange().getUpperBound();
         double minY = _energyPlot.getRangeAxis().getRange().getLowerBound();
         double maxY = _energyPlot.getRangeAxis().getRange().getUpperBound();
         
@@ -545,17 +548,8 @@ public class ConfigureEnergyDialog extends JDialog {
             {
                 // Region annotation
                 String text = "R" + ( i + 1 );
-                double x = 0;
+                double x = regions[i].getStart() + ( ( regions[i].getEnd() - regions[i].getStart() ) / 2 );
                 double y = maxY - ANNOTATION_MARGIN;
-                if ( i == 0 ) {
-                    x = minX + ( ( regions[i].getEnd() - minX ) / 2 );
-                }
-                else if ( i == regions.length - 1 ) {
-                    x = regions[i].getStart() + ( ( maxX - regions[i].getStart() ) / 2 );
-                }
-                else {
-                    x = regions[i].getStart() + ( ( regions[i].getEnd() - regions[i].getStart() ) / 2 );
-                }
                 XYTextAnnotation annotation = new XYTextAnnotation( text, x, y );
                 annotation.setFont( ANNOTATION_FONT );
                 annotation.setPaint( QTConstants.POTENTIAL_ENERGY_COLOR );
@@ -740,15 +734,16 @@ public class ConfigureEnergyDialog extends JDialog {
             BarrierPotential bp = (BarrierPotential) _potentialEnergy;
             JSpinner widthSpinner = (JSpinner) _widthSpinners.get( barrierIndex );
             Double value = (Double) widthSpinner.getValue();
+//            System.out.println( "barrier " + barrierIndex + " width = " + value );//XXX
             boolean success = bp.setBarrierWidth( barrierIndex, value.doubleValue() );
             if ( success ) {
                 updateMarkersAndAnnotations();
                 _peChanged = true;
             }
             else {
+                System.out.println( "WARNING: BarrierPotential.setBarrierWidth returned false: " + value );
                 double width = bp.getBarrierWidth( barrierIndex );
                 widthSpinner.setValue( new Double( width ) );
-                System.out.println( "WARNING: BarrierPotential.setBarrierWidth returned false" );
             }
         }
     }
@@ -761,15 +756,16 @@ public class ConfigureEnergyDialog extends JDialog {
             BarrierPotential bp = (BarrierPotential) _potentialEnergy;
             JSpinner positionSpinner = (JSpinner) _positionSpinners.get( barrierIndex );
             Double value = (Double) positionSpinner.getValue();
+//            System.out.println( "barrier " + barrierIndex + " position = " + value );//XXX
             boolean success = bp.setBarrierPosition( barrierIndex, value.doubleValue() );
             if ( success ) {
                 updateMarkersAndAnnotations();
                 _peChanged = true;
             }
             else {
+                System.out.println( "WARNING: BarrierPotential.setBarrierPosition returned false: " + value );
                 double position = bp.getBarrierPosition( barrierIndex );
                 positionSpinner.setValue( new Double( position ) );
-                System.out.println( "WARNING: BarrierPotential.setBarrierPosition returned false" );
             }
         }
     }
