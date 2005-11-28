@@ -17,6 +17,7 @@ import java.util.Observer;
 
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.TickUnits;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
@@ -82,11 +83,15 @@ public class EnergyPlot extends XYPlot implements Observer {
         NumberAxis xAxis = new NumberAxis( positionLabel );
         xAxis.setLabelFont( QTConstants.AXIS_LABEL_FONT );
         xAxis.setRange( QTConstants.POSITION_RANGE );
+        TickUnits xUnits = (TickUnits) NumberAxis.createIntegerTickUnits();
+        xAxis.setStandardTickUnits( xUnits );
         
         // Y axis
         NumberAxis yAxis = new NumberAxis( energyLabel );
         yAxis.setLabelFont( QTConstants.AXIS_LABEL_FONT );
         yAxis.setRange( QTConstants.ENERGY_RANGE );
+        TickUnits yUnits = (TickUnits) NumberAxis.createIntegerTickUnits();
+        yAxis.setStandardTickUnits( yUnits );
 
         setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
         setBackgroundPaint( QTConstants.PLOT_BACKGROUND );

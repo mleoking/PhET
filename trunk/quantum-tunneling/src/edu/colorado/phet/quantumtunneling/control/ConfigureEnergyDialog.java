@@ -187,8 +187,6 @@ public class ConfigureEnergyDialog extends JDialog {
         // Plot
         _energyPlot = new EnergyPlot();
         _energyPlot.setAxesFont( AXES_FONT );
-        TickUnits units = (TickUnits) NumberAxis.createIntegerTickUnits();
-        _energyPlot.getDomainAxis().setStandardTickUnits( units );
         
         // Chart
         JFreeChart chart = new JFreeChart( null /*title*/, null /*font*/, _energyPlot, false /* createLegend */);
