@@ -11,9 +11,17 @@
 
 package edu.colorado.phet.quantumtunneling.view;
 
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.geom.Rectangle2D;
+
+import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.event.ChartChangeEvent;
 import org.jfree.chart.event.ChartChangeListener;
+
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 
 /**
@@ -22,8 +30,15 @@ import org.jfree.chart.event.ChartChangeListener;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ChartNode extends DrawableNode implements ChartChangeListener {
+public class ChartNode extends PNode implements ChartChangeListener {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private JFreeChart _chart;
+    private ChartRenderingInfo _info;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -34,10 +49,38 @@ public class ChartNode extends DrawableNode implements ChartChangeListener {
      * @param chart
      */
     public ChartNode( JFreeChart chart ) {
-        super( chart );
-        chart.addChangeListener( this );
+        super();
+        _info = new ChartRenderingInfo();
+        _chart = chart;
+        _chart.addChangeListener( this );
     }
 
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    public JFreeChart getChart() {
+        return _chart;
+    }
+    
+    public ChartRenderingInfo getChartRenderingInfo() {
+        return _info;
+    }
+    
+    public Rectangle2D getDataArea() {
+        Rectangle2D dataArea = _info.getPlotInfo().getDataArea();
+        return new Rectangle2D.Double( dataArea.getX(), dataArea.getY(), dataArea.getWidth(), dataArea.getHeight() );
+    }
+    
+    //----------------------------------------------------------------------------
+    // PNode overrides
+    //----------------------------------------------------------------------------
+    
+    protected void paint( PPaintContext paintContext ) {
+        Graphics2D g2 = paintContext.getGraphics();
+        _chart.draw( g2, getBoundsReference(), _info );
+    }
+    
     //----------------------------------------------------------------------------
     // ChartChangeListener implementation
     //----------------------------------------------------------------------------

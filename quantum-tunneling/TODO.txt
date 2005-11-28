@@ -7,8 +7,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - use setFixedLegendItems to control what's in the legend
-- what is the default configuration of each item in the "Potential" combobox?
-- use an IntervalMarker with a gradient paint for Total Energy
+- use an IntervalMarker with a gradient paint for Total Energy of wave packet
 - how to keep markers behind data (Layer?)
 - implement PotentialsEnum
 - add "Restart" button to clock controls
@@ -25,6 +24,8 @@ MEDIUM PRIORITY:
 - Save/Load
 
 LOW PRIORITY:
+- Help items
+- Wiggle Me
 - change time to ns when the time values grows too large to display fs
 - add build number to "About" dialog
 - add PhET logo to "About" dialog

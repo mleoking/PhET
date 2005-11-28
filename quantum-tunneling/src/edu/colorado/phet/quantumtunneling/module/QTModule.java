@@ -15,12 +15,14 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.JButton;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.quantumtunneling.QTConstants;
@@ -30,10 +32,13 @@ import edu.colorado.phet.quantumtunneling.model.AbstractPotentialEnergy;
 import edu.colorado.phet.quantumtunneling.model.BarrierPotential;
 import edu.colorado.phet.quantumtunneling.model.TotalEnergy;
 import edu.colorado.phet.quantumtunneling.view.ChartNode;
-import edu.colorado.phet.quantumtunneling.view.DrawableNode;
+import edu.colorado.phet.quantumtunneling.view.DragHandle;
 import edu.colorado.phet.quantumtunneling.view.LegendItem;
 import edu.colorado.phet.quantumtunneling.view.QTCombinedChart;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.util.PDimension;
 
 
 /**
@@ -73,7 +78,7 @@ public class QTModule extends AbstractModule {
     private PNode _parentNode;
     private PNode _legend;
     private ChartNode _chartNode;
-    private QTCombinedChart chart;
+    private QTCombinedChart _chart;
     
     // Control
     private PSwing _configureButton;
@@ -99,6 +104,8 @@ public class QTModule extends AbstractModule {
         // Module model
         BaseModel model = new BaseModel();
         this.setModel( model );
+        
+        /* Additional model elements are created in reset method. */
         
         //----------------------------------------------------------------------------
         // View
@@ -139,8 +146,8 @@ public class QTModule extends AbstractModule {
         
         // Combined chart
         {
-            chart = new QTCombinedChart();         
-            _chartNode = new ChartNode( chart );
+            _chart = new QTCombinedChart();         
+            _chartNode = new ChartNode( _chart );
         }
         
         // Add all the nodes to one parent node.
@@ -152,8 +159,27 @@ public class QTModule extends AbstractModule {
             _parentNode.addChild( _chartNode );
 
             _canvas.addScreenChild( _parentNode );
+        }       
+        
+        // XXX Drag handles tests
+        {
+            DragHandle dragHandle = new DragHandle();
+            dragHandle.translate( 100, 100 );
+            dragHandle.rotate( Math.toRadians( 90 ) );
+            dragHandle.translate( -dragHandle.getWidth() / 2, -dragHandle.getHeight() / 2 ); // registration point @ center
+            _parentNode.addChild( dragHandle );
+            
+            dragHandle.addInputEventListener( new CursorHandler() );
+            dragHandle.addInputEventListener( new PBasicInputEventHandler() {
+                
+                public void mouseDragged( PInputEvent event ) {
+                    PNode node = event.getPickedNode();
+                    PDimension delta = event.getDeltaRelativeTo( node );
+                    node.translate( delta.width, 0 );  // node is rotated 90 degrees, so translate x
+                }
+            } );
         }
-          
+        
         //----------------------------------------------------------------------------
         // Control
         //----------------------------------------------------------------------------
@@ -287,7 +313,7 @@ public class QTModule extends AbstractModule {
     
     public void setPotentialEnergy( AbstractPotentialEnergy potentialEnergy ) {
         _potentialEnergy = potentialEnergy;
-        chart.setPotentialEnergy( _potentialEnergy );
+        _chart.setPotentialEnergy( _potentialEnergy );
         if ( _controlPanel != null ) {
             _controlPanel.setPotentialEnergy( _potentialEnergy );
         }
@@ -295,6 +321,6 @@ public class QTModule extends AbstractModule {
     
     public void setTotalEnergy( TotalEnergy totalEnergy ) {
         _totalEnergy = totalEnergy;
-        chart.setTotalEnergy( _totalEnergy );
+        _chart.setTotalEnergy( _totalEnergy );
     }
 }
