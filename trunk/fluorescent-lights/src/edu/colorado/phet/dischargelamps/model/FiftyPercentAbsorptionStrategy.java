@@ -36,7 +36,8 @@ public class FiftyPercentAbsorptionStrategy extends EnergyAbsorptionStrategy {
     /**
      * If the electron's energy is greater than the difference between the atom's current energy and one of
      * its higher energy states, the atom absorbs some of the electron's energy and goes to a state higher
-     * in energy by the amount it absorbs. Exactly how much energy it absorbs is random.
+     * in energy by the amount it absorbs. The state chosen is determined according the the description in
+     * the class header.
      *
      * @param electron
      */
