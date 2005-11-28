@@ -35,7 +35,7 @@ public class MetalEnergyAbsorptionStrategy extends EnergyAbsorptionStrategy {
     // Total energy depth across all sublevels, in eV
     public static final double TOTAL_ENERGY_DEPTH = 4;
 
-    private double workFunction;
+    double workFunction;
 
     public MetalEnergyAbsorptionStrategy( double workFunction ) {
         this.workFunction = workFunction;

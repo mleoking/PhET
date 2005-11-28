@@ -11,12 +11,12 @@
 package edu.colorado.phet.photoelectric.controller;
 
 import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.dischargelamps.model.FiftyPercentAbsorptionStrategy;
 import edu.colorado.phet.lasers.model.atom.ElementProperties;
 import edu.colorado.phet.lasers.model.atom.EnergyAbsorptionStrategy;
 import edu.colorado.phet.photoelectric.model.MetalEnergyAbsorptionStrategy;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 import edu.colorado.phet.photoelectric.model.PhotoelectricTarget;
+import edu.colorado.phet.photoelectric.model.SimpleEnergyAbsorptionStrategy;
 import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
 import edu.colorado.phet.photoelectric.view.CurrentVsIntensityGraph;
 import edu.colorado.phet.photoelectric.view.CurrentVsVoltageGraph;
@@ -86,31 +86,48 @@ public class PhotoelectricControlPanel {
         //----------------------------------------------------------------
         {
             JPanel electronModelPanel = new JPanel( new GridBagLayout() );
-            electronModelPanel.setBorder( new TitledBorder( "Electron model" ) );
+//            electronModelPanel.setBorder( new LineBorder( Color.gray ) );
+            electronModelPanel.setBorder( new TitledBorder( "" ) );
+//            electronModelPanel.setBorder( new TitledBorder( "Electron model" ) );
             GridBagConstraints gbc = new GridBagConstraints( GridBagConstraints.RELATIVE, 0,
                                                              1, 1, 1, 1,
                                                              GridBagConstraints.CENTER,
                                                              GridBagConstraints.NONE,
                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
-            JRadioButton simpleRB = new JRadioButton( "Simple" );
-            simpleRB.addActionListener( new ActionListener() {
+
+            final JCheckBox electronModelCB = new JCheckBox( "Show only highest energy electrons" );
+            electronModelCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    setElectronModel( PhotoelectricModel.ELECTRON_MODEL_SIMPLE );
+                    if( electronModelCB.isSelected() ) {
+                        setElectronModel( PhotoelectricModel.ELECTRON_MODEL_SIMPLE );
+                    }
+                    else {
+                        setElectronModel( PhotoelectricModel.ELECTRON_MODEL_REALISTIC );
+                    }
                 }
             } );
-            JRadioButton realisticRB = new JRadioButton( "Realistic", true );
-            realisticRB.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    setElectronModel( PhotoelectricModel.ELECTRON_MODEL_REALISTIC );
-                }
-            } );
-            ButtonGroup rbg = new ButtonGroup();
-            rbg.add( simpleRB );
-            rbg.add( realisticRB );
-            JPanel rbPanel = new JPanel( new GridLayout( 1, 2 ) );
-            rbPanel.add( simpleRB, gbc );
-            rbPanel.add( realisticRB, gbc );
-            electronModelPanel.add( rbPanel, gbc );
+            electronModelPanel.add( electronModelCB, gbc );
+
+            // Radio buttons to select the electron model
+//            JRadioButton simpleRB = new JRadioButton( "Simple" );
+//            simpleRB.addActionListener( new ActionListener() {
+//                public void actionPerformed( ActionEvent e ) {
+//                    setElectronModel( PhotoelectricModel.ELECTRON_MODEL_SIMPLE );
+//                }
+//            } );
+//            JRadioButton realisticRB = new JRadioButton( "Realistic", true );
+//            realisticRB.addActionListener( new ActionListener() {
+//                public void actionPerformed( ActionEvent e ) {
+//                    setElectronModel( PhotoelectricModel.ELECTRON_MODEL_REALISTIC );
+//                }
+//            } );
+//            ButtonGroup rbg = new ButtonGroup();
+//            rbg.add( simpleRB );
+//            rbg.add( realisticRB );
+//            JPanel rbPanel = new JPanel( new GridLayout( 1, 2 ) );
+//            rbPanel.add( simpleRB, gbc );
+//            rbPanel.add( realisticRB, gbc );
+//            electronModelPanel.add( rbPanel, gbc );
             controlPanel.addFullWidth( electronModelPanel );
         }
 
@@ -188,9 +205,10 @@ public class PhotoelectricControlPanel {
         EnergyAbsorptionStrategy energyAbsorptionStrategy = null;
         switch( electronModelType ) {
             case ELECTRON_MODEL_SIMPLE:
-                energyAbsorptionStrategy = new FiftyPercentAbsorptionStrategy();
+//                energyAbsorptionStrategy = new FiftyPercentAbsorptionStrategy();
                 for( Iterator iterator = targetMaterials.iterator(); iterator.hasNext(); ) {
                     ElementProperties targetProperties = (ElementProperties)iterator.next();
+                    energyAbsorptionStrategy = new SimpleEnergyAbsorptionStrategy( targetProperties.getWorkFunction() );
                     targetProperties.setEnergyAbsorptionStrategy( energyAbsorptionStrategy );
                 }
                 break;
