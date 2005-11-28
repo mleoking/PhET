@@ -54,16 +54,25 @@ public class StepPotential extends AbstractPotentialEnergy {
     //----------------------------------------------------------------------------
     
     /**
-     * Sets the step's position
+     * Sets the step's position.
+     * The step is only moved if it the minumum region size isn't violated.
      * 
      * @param position
+     * @return true or false
      */
-    public void setStepPosition( final double position ) {
+    public boolean setStepPosition( final double position ) {
         if ( position == MIN_POSITION || position == MAX_POSITION ) {
             throw new IllegalArgumentException( "position cannot be at min or max range" );
         }
-        setEnd( 0, position );
-        setStart( 1, position );
+        
+        boolean success = false;
+        if ( position - getRegion( 0 ).getStart() >= getMinRegionWidth() &&
+             getRegion( 1 ).getEnd() - position >= getMinRegionWidth() ) {
+            success = true;
+            setEnd( 0, position );
+            setStart( 1, position );
+        }
+        return success;
     }
     
     /**
