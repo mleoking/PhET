@@ -14,7 +14,6 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.lasers.model.Electron;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
@@ -334,6 +333,7 @@ public class DischargeLampModel extends LaserModel {
             double potentialDiff = leftHandPlate.getPotential() - rightHandPlate.getPotential();
 
             // Determine the acceleration that electrons will experience
+//            setElectronAcceleration( potentialDiff, leftHandPlate.getPosition().distance( rightHandPlate.getPosition() ) / DischargeLampsConfig.PIXELS_PER_NM );
             setElectronAcceleration( potentialDiff, leftHandPlate.getPosition().distance( rightHandPlate.getPosition() ) );
             for( int i = 0; i < electrons.size(); i++ ) {
                 Electron electron = (Electron)electrons.get( i );
