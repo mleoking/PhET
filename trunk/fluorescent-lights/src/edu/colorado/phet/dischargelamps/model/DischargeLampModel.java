@@ -27,7 +27,11 @@ import java.util.EventObject;
 import java.util.List;
 
 /**
- * FluorescentLightModel
+ * DischargeLampModel
+ * <p/>
+ * Conversions between screen coordinates and model coordinates are done here, and in some other classes of the model.
+ * This wouldn't seem like a good thing to do, but I had more than enough trouble trying to put the conversion in the
+ * view. At some point, I may get a chance to try again, but for now, it's going to remain where it is.
  *
  * @author Ron LeMaster
  * @version $Revision$

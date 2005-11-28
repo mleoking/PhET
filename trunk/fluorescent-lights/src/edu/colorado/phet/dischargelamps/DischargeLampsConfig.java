@@ -28,7 +28,7 @@ public class DischargeLampsConfig {
     public static final int MAX_NUM_ENERGY_LEVELS = 6;
 
     // Factor that scales pixels to real dimensional units
-    public static double PIXELS_PER_NM = 1E6;
+    public static double PIXELS_PER_NM = 0.43E6;
 
     // Object locations and dimensions. Everything is keyed off the location of the cathode
 //    public static final double ELECTRON_RADIUS = 3;
