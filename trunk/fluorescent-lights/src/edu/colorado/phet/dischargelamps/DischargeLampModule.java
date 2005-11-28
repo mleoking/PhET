@@ -59,7 +59,8 @@ public class DischargeLampModule extends BaseLaserModule {
     public static boolean DEBUG = false;
     private static final double SPECTROMETER_LAYER = 1000;
     private static double VOLTAGE_VALUE_LAYER = DischargeLampsConfig.CIRCUIT_LAYER + 1;
-    private static final double DEFAULT_VOLTAGE = 4.2 * DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR;
+    private static final double DEFAULT_VOLTAGE = -11.0 * DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR;
+//    private static final double DEFAULT_VOLTAGE = 4.2 * DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR;
 
     //----------------------------------------------------------------
     // Instance data
@@ -73,8 +74,6 @@ public class DischargeLampModule extends BaseLaserModule {
     private Plate rightHandPlate;
     private double maxCurrent = 150;
     protected double currentDisplayFactor = 300;
-//    private double maxCurrent = 300;
-//    private double maxCurrent = 0.3;
     private ElementProperties[] elementProperties;
     private ConfigurableElementProperties configurableElement;
 

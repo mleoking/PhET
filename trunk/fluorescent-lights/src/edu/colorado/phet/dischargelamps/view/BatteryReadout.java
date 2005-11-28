@@ -63,6 +63,7 @@ public class BatteryReadout extends GraphicLayerSet {
         battery.addChangeListener( new Battery.ChangeListener() {
             public void voltageChanged( Battery.ChangeEvent event ) {
                 double voltage = event.getVoltageSource().getVoltage();
+                System.out.println( "voltage = " + voltage );
                 update( voltage );
             }
         } );

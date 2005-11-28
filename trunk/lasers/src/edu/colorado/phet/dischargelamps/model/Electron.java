@@ -8,14 +8,13 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.lasers.model;
+package edu.colorado.phet.dischargelamps.model;
 
-import edu.colorado.phet.collision.Collidable;
-import edu.colorado.phet.collision.CollidableAdapter;
 import edu.colorado.phet.collision.SphericalBody;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.model.PhysicsUtil;
 
 import java.awt.geom.Point2D;
 import java.util.EventListener;
@@ -30,9 +29,7 @@ import java.util.EventObject;
 public class Electron extends SphericalBody /*implements Collidable*/ {
 
     public void stepInTime( double dt ) {
-        double x0 = super.getPosition().getX();
         super.stepInTime( dt );
-        double x1 = super.getPosition().getX();
     }
 
     //----------------------------------------------------------------
@@ -68,6 +65,14 @@ public class Electron extends SphericalBody /*implements Collidable*/ {
     // Setters and getters
     //----------------------------------------------------------------
 
+    public void setPosition( double x, double y ) {
+        super.setPosition( x, y );
+    }
+
+    public void setPosition( Point2D position ) {
+        super.setPosition( position );
+    }
+
     public void setVelocity( Vector2D velocity ) {
         super.setVelocity( velocity );
         if( changeListenerProxy != null ) {
@@ -88,7 +93,8 @@ public class Electron extends SphericalBody /*implements Collidable*/ {
      * @return
      */
     public double getEnergy() {
-        double ke = LaserConfig.PIXELS_PER_NM * LaserConfig.PIXELS_PER_NM * getVelocity().getMagnitudeSq() * getMass() / 2;
+        double ke = getVelocity().getMagnitudeSq() * getMass() / 2;
+//        double ke = DischargeLampsConfig.PIXELS_PER_NM * DischargeLampsConfig.PIXELS_PER_NM * getVelocity().getMagnitudeSq() * getMass() / 2;
         double ev = ke * PhysicsUtil.EV_PER_JOULE;
         return ev;
     }
@@ -104,7 +110,8 @@ public class Electron extends SphericalBody /*implements Collidable*/ {
         // compute the speed of the electron
         double sNew = Math.sqrt( 2 * ke / getMass() );
         double sCurr = getVelocity().getMagnitude();
-        setVelocity( getVelocity().scale( sNew / sCurr / LaserConfig.PIXELS_PER_NM ) );
+        setVelocity( getVelocity().scale( sNew / sCurr ) );
+//        setVelocity( getVelocity().scale( sNew / sCurr / DischargeLampsConfig.PIXELS_PER_NM ) );
         changeListenerProxy.energyChanged( new ChangeEvent( this ) );
     }
 

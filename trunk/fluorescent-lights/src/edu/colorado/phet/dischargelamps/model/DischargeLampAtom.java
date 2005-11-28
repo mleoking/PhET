@@ -12,7 +12,6 @@
 package edu.colorado.phet.dischargelamps.model;
 
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.lasers.model.Electron;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.*;
 
@@ -69,6 +68,7 @@ public class DischargeLampAtom extends Atom {
      * @param electron
      */
     public void collideWithElectron( Electron electron ) {
+        System.out.println( "electron.getEnergy() = " + electron.getEnergy() );
         energyAbsorptionStrategy.collideWithElectron( this, electron );
     }
 

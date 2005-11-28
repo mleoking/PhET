@@ -74,6 +74,7 @@ public class PlateGraphic extends CompositePhetGraphic implements HeatingElement
             e.printStackTrace();
         }
         double scaleX = 1;
+//        double scaleY = DischargeLampsConfig.PIXELS_PER_NM * plateLength / image.getHeight();
         double scaleY = plateLength / image.getHeight();
         AffineTransformOp scaleOp = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, scaleY ),
                                                            AffineTransformOp.TYPE_BILINEAR );
@@ -118,8 +119,8 @@ public class PlateGraphic extends CompositePhetGraphic implements HeatingElement
             for( int y = 0; y < newImg.getHeight(); y++ ) {
                 int rgbOrg = image.getRGB( x, y );
                 int rgbNew = newImg.getRGB( x, y );
-                short alpha = (short)Math.min( cm.getAlpha( rgbOrg), cm.getAlpha( rgbNew) );
-                int newPixel = ( rgbNew & 0x00FFFFFF ) | (alpha * 0x01000000 );
+                short alpha = (short)Math.min( cm.getAlpha( rgbOrg ), cm.getAlpha( rgbNew ) );
+                int newPixel = ( rgbNew & 0x00FFFFFF ) | ( alpha * 0x01000000 );
                 newImg.setRGB( x, y, newPixel );
             }
         }

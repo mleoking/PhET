@@ -17,7 +17,7 @@ import java.util.EventListener;
 import java.util.EventObject;
 
 /**
- * VoltageSource
+ * Battery
  *
  * @author Ron LeMaster
  * @version $Revision$
