@@ -105,6 +105,7 @@ public class PhotoelectricTarget extends Plate {
         if( targetMaterial.getEnergyAbsorptionStrategy() instanceof MetalEnergyAbsorptionStrategy ) {
             MetalEnergyAbsorptionStrategy metalEnergyAbsorptionStrategy = (MetalEnergyAbsorptionStrategy)targetMaterial.getEnergyAbsorptionStrategy();
             de = metalEnergyAbsorptionStrategy.energyAfterPhotonCollision( photon );
+            System.out.println( "de = " + de );
         }
         else {
             de = photon.getEnergy() - targetMaterial.getWorkFunction();
