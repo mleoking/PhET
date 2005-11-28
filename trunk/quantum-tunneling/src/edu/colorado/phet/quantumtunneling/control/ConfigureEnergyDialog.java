@@ -257,7 +257,7 @@ public class ConfigureEnergyDialog extends JDialog {
             // Total Energy
             {
                 JLabel teLabel = new JLabel( SimStrings.get( "label.totalEnergy" ) );
-                teLabel.setForeground( QTConstants.TOTAL_ENERGY_COLOR );
+                teLabel.setForeground( new Color( 16, 159, 33 ) ); // dark green
                 SpinnerModel model = new SpinnerNumberModel( 0, -SPINNER_MAX, SPINNER_MAX, ENERGY_STEP );
                 _teSpinner = new JSpinner( model );
                 _teSpinner.addChangeListener( _listener );
