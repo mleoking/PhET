@@ -116,6 +116,12 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
         new GroundState().getEnergyLevel();
         int y = energyYTx.modelToView( ( electronEnergy * DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR )
                                        + model.getAtomicStates()[0].getEnergyLevel() );
+
+        System.out.println( "voltage = " + voltage );
+        System.out.println( "atom.getRadius() = " + atom.getRadius() );
+        if( y == 82 ) {
+            System.out.println( "CollisionEnergyIndicator.update" );
+        }
         y = Math.max( y, 10 );
         setLocation( 0, y );
         setBoundsDirty();
