@@ -21,6 +21,10 @@ public class CursorHandler extends PBasicInputEventHandler {
     private boolean dragging = false;
     private boolean entered = false;
 
+    public CursorHandler() {
+        this( HAND );
+    }
+    
     public CursorHandler( int cursorType ) {
         this( Cursor.getPredefinedCursor( cursorType ) );
     }
