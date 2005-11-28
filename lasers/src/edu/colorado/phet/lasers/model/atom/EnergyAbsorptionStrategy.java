@@ -52,6 +52,7 @@ public abstract class EnergyAbsorptionStrategy {
         else {
             double v = electron.getVelocityPrev().getMagnitude() + electron.getAcceleration().getMagnitude() * t;
             energy = DischargeLampsConfig.PIXELS_PER_NM * DischargeLampsConfig.PIXELS_PER_NM * v * v * electron.getMass() / 2 * PhysicsUtil.EV_PER_JOULE;
+//            energy = electron.getEnergy();
         }
         return energy;
     }

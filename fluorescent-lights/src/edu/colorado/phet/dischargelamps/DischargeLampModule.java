@@ -59,7 +59,7 @@ public class DischargeLampModule extends BaseLaserModule {
     public static boolean DEBUG = false;
     private static final double SPECTROMETER_LAYER = 1000;
     private static double VOLTAGE_VALUE_LAYER = DischargeLampsConfig.CIRCUIT_LAYER + 1;
-    private static final double DEFAULT_VOLTAGE = -11.0 * DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR;
+    private static final double DEFAULT_VOLTAGE = 23.0 * DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR;
 //    private static final double DEFAULT_VOLTAGE = 4.2 * DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR;
 
     //----------------------------------------------------------------
