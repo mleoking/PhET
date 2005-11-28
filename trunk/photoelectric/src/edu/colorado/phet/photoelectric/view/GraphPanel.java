@@ -35,7 +35,6 @@ public class GraphPanel extends ApparatusPanel2 {
     public void setGraph( Chart graph, Insets insets ) {
         setPreferredSize( new Dimension( (int)graph.getChartSize().getWidth() + insets.left + insets.right,
                                          (int)graph.getChartSize().getHeight() + insets.top + insets.bottom ) );
-        System.out.println( "insets = " + insets );
         graph.setLocation( insets.left, insets.top );
         addGraphic( graph );
     }

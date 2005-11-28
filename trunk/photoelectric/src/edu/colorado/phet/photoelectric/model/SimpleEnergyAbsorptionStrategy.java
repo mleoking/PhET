@@ -32,7 +32,7 @@ public class SimpleEnergyAbsorptionStrategy extends MetalEnergyAbsorptionStrateg
     }
 
     public double energyAfterPhotonCollision( Photon photon ) {
-        double e = random.nextInt( NUM_SUB_LEVELS ) != 0 ? -1 : photon.getEnergy() - workFunction;
+        double e = random.nextInt( NUM_SUB_LEVELS ) != 0 ? Double.NEGATIVE_INFINITY : photon.getEnergy() - workFunction;
         return e;
     }
 }
