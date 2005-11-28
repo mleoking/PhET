@@ -6,7 +6,6 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- use a darker green for total energy, or put Configure controls on a darker background
 - use setFixedLegendItems to control what's in the legend
 - what is the default configuration of each item in the "Potential" combobox?
 - use an IntervalMarker with a gradient paint for Total Energy
@@ -61,6 +60,7 @@ JFREECHART:
 - XYTextAnnotation doesn't support HTML
 
 DONE:
+(11/28/05) - use a darker green for total energy label
 (11/28/05) - handle validation of inputs in Configure dialog, beep and reset if invalid
 (11/28/05) - label EnergyPlot axes using integer ticks
 (11/21/05) - declare a bunch of locals and params final
