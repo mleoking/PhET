@@ -91,6 +91,7 @@ public class QTConstants {
     
     public static final Cursor DEFAULT_CURSOR = Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR );
     public static final Cursor WAIT_CURSOR = Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR );
+    public static final Cursor INTERACTIVE_CURSOR = Cursor.getPredefinedCursor( Cursor.HAND_CURSOR );
     
     //----------------------------------------------------------------------------
     // Images
@@ -99,6 +100,7 @@ public class QTConstants {
     public static final String IMAGES_DIRECTORY = "images/";
     public static final String IMAGE_ARROW_L2R = IMAGES_DIRECTORY + "arrowL2R.png";
     public static final String IMAGE_ARROW_R2L = IMAGES_DIRECTORY + "arrowR2L.png";
+    public static final String IMAGE_DRAG_HANDLE_LR = IMAGES_DIRECTORY + "dragHandleLR.png";
     
     //----------------------------------------------------------------------------
     // Wave Packet
