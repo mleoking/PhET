@@ -141,6 +141,20 @@ public abstract class AbstractPotentialEnergy extends QTObservable implements IP
         notifyObservers();
     }
     
+    /*
+     * Not accessible to clients because we don't want them 
+     * to be creating gaps between regions.
+     */
+    protected void setRegion( int index, double start, double end ) {
+        validateIndex( index );
+        double energy = getRegion( index ).getEnergy();
+        setRegion( index, start, end, energy );
+    }
+   
+    /*
+     * Not accessible to clients because we don't want them 
+     * to be creating gaps between regions.
+     */
     protected void setStart( int index, double start ) {
         validateIndex( index );
         double end = getRegion( index ).getEnd();
@@ -159,10 +173,6 @@ public abstract class AbstractPotentialEnergy extends QTObservable implements IP
         setRegion( index, start, end, energy );  
     }
     
-    /*
-     * Not accessible to clients because we don't want them 
-     * to be creating gaps between regions.
-     */
     public void setEnergy( int index, double energy ) {
         validateIndex( index );
         double start = getRegion( index ).getStart();

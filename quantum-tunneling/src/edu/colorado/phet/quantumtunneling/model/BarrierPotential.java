@@ -96,9 +96,6 @@ public class BarrierPotential extends AbstractPotentialEnergy {
         if ( barrierIndex > getNumberOfBarriers() - 1 ) {
             throw new IllegalArgumentException( "barrierIndex out of range: " + barrierIndex );
         }
-        if ( position == MIN_POSITION || position == MAX_POSITION ) {
-            throw new IllegalArgumentException( "position cannot be at min or max range" );
-        }
         
         boolean success = false;
         
@@ -116,8 +113,7 @@ public class BarrierPotential extends AbstractPotentialEnergy {
             // move the barrier
             final double start = position;
             final double end = position + barrier.getWidth();
-            setStart( regionIndex, start );
-            setEnd( regionIndex, end );
+            setRegion( regionIndex, start, end );
            
             // move the end point of the region to the left of the barrier
             setEnd( regionIndex - 1, start );
@@ -157,9 +153,6 @@ public class BarrierPotential extends AbstractPotentialEnergy {
     public boolean setBarrierWidth( final int barrierIndex, final double width ) {
         if ( barrierIndex > getNumberOfBarriers() - 1 ) {
             throw new IllegalArgumentException( "barrierIndex out of range: " + barrierIndex );
-        }
-        if ( width <= 0 ) {
-            throw new IllegalArgumentException( "width is out of range: " + width );
         }
         
         boolean success = false;
