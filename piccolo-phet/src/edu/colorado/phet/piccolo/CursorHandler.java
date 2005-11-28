@@ -13,11 +13,13 @@ import java.awt.event.MouseEvent;
  */
 
 public class CursorHandler extends PBasicInputEventHandler {
-    private Cursor cursor;
-    private Cursor defaultCursor;//the cursor to return to on exit.
+    
     public static final Cursor HAND = Cursor.getPredefinedCursor( Cursor.HAND_CURSOR );
     public static final Cursor DEFAULT = Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR );
     public static final Cursor CROSSHAIR = Cursor.getPredefinedCursor( Cursor.CROSSHAIR_CURSOR );
+    
+    private Cursor cursor;
+    private Cursor defaultCursor;//the cursor to return to on exit.
     private boolean dragging = false;
     private boolean entered = false;
 
@@ -43,6 +45,13 @@ public class CursorHandler extends PBasicInputEventHandler {
         getComponent( event ).setCursor( cursor );
     }
 
+    public void mouseExited( PInputEvent event ) {
+        entered = false;
+        if( !dragging ) {
+            getComponent( event ).setCursor( defaultCursor );
+        }
+    }
+    
     public void mouseDragged( PInputEvent event ) {
         dragging = true;
         getComponent( event ).setCursor( cursor );
@@ -66,13 +75,6 @@ public class CursorHandler extends PBasicInputEventHandler {
         }
         else {
             throw new RuntimeException( "No component for event." );
-        }
-    }
-
-    public void mouseExited( PInputEvent event ) {
-        entered = false;
-        if( !dragging ) {
-            getComponent( event ).setCursor( defaultCursor );
         }
     }
 }
