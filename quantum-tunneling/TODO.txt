@@ -64,6 +64,7 @@ JFREECHART:
 - XYTextAnnotation doesn't support HTML
 
 DONE:
+(11/28/05) - label EnergyPlot axes using integer ticks
 (11/21/05) - declare a bunch of locals and params final
 (11/21/05) - move "min region width" into AbstractPotential
 (11/21/05) - make AbstractPotential range match the chart range
