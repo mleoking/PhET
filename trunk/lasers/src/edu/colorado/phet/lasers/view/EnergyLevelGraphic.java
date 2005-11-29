@@ -72,6 +72,8 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
         this.isAdjustable = isAdjustable;
         this.iconLocX = iconLocX;
 
+        System.out.println( "atomicState.getEnergyLevel() = " + atomicState.getEnergyLevel() );
+
         // Add a listener that will track changes in the atomic state
         atomicState.addListener( new AtomicStateChangeListener() );
 

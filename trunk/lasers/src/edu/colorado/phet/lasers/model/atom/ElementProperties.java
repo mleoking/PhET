@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.lasers.model.atom;
 
+import edu.colorado.phet.dischargelamps.model.EnergyAbsorptionStrategy;
+
 import java.util.Arrays;
 
 /**
@@ -133,6 +135,6 @@ public class ElementProperties {
     }
 
     public void setEnergyAbsorptionStrategy( EnergyAbsorptionStrategy energyAbsorptionStrategy ) {
-        this.energyAbsorptionStrategy = energyAbsorptionStrategy;         
+        this.energyAbsorptionStrategy = energyAbsorptionStrategy;
     }
 }

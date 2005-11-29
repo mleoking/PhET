@@ -13,7 +13,10 @@ package edu.colorado.phet.dischargelamps.model;
 
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
-import edu.colorado.phet.lasers.model.atom.*;
+import edu.colorado.phet.lasers.model.atom.Atom;
+import edu.colorado.phet.lasers.model.atom.AtomicState;
+import edu.colorado.phet.lasers.model.atom.ElementProperties;
+import edu.colorado.phet.lasers.model.atom.EnergyEmissionStrategy;
 
 /**
  * Extends Atom class from the Laser simulation in that it knows how to collide with
@@ -30,6 +33,8 @@ public class DischargeLampAtom extends Atom {
 ////    private EnergyEmissionStrategy energyEmissionStrategy = new NextLowestEnergyEmissionStrategy();
     private EnergyAbsorptionStrategy energyAbsorptionStrategy = new FiftyPercentAbsorptionStrategy();
 ////    private EnergyEmissionStrategy energyEmissionStrategy = new FiftyPercentEnergyEmissionStrategy();
+
+    private double baseRadius = Double.NEGATIVE_INFINITY;
 
 
     /**
@@ -58,6 +63,24 @@ public class DischargeLampAtom extends Atom {
         }
         setStates( states );
         setCurrState( states[0] );
+    }
+
+    /**
+     * We save the first radius that's set for the atom so that the CollisionEnergyIndicator can do it's thing
+     * without being distracted when the radius changes when the atom's halo changes.
+     * todo: this should be done in a different way. This is a hack.
+     *
+     * @param radius
+     */
+    public void setRadius( double radius ) {
+        if( baseRadius == Double.NEGATIVE_INFINITY ) {
+            baseRadius = radius;
+        }
+        super.setRadius( radius );
+    }
+
+    public double getBaseRadius() {
+        return baseRadius;
     }
 
     /**
