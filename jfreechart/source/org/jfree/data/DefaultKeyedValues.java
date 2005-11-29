@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -244,11 +245,10 @@ public class DefaultKeyedValues implements KeyedValues,
     }
 
     /**
-     * Removes a value from the collection.
+     * Removes a value from the collection.  If there is no item with the 
+     * specified key, this method does nothing.
      *
      * @param key  the item key.
-     * 
-     * @throws UnknownKeyException if the key is not recognised.
      */
     public void removeValue(Comparable key) {
         int index = getIndex(key);

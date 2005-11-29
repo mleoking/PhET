@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -92,20 +93,18 @@ public class LegendItemCollectionTests extends TestCase {
         assertTrue(c1.equals(c2));
         assertTrue(c2.equals(c1));
 
-        LegendItem item1 = new LegendItem(
-            "Label", "Description", "ToolTip", "URL", true, 
-            new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0), true, Color.red, true, 
-            Color.blue, new BasicStroke(1.2f), true, 
-            new Line2D.Double(1.0, 2.0, 3.0, 4.0), 
-            new BasicStroke(2.1f), Color.green
-        ); 
-        LegendItem item2 = new LegendItem(
-            "Label", "Description", "ToolTip", "URL", true, 
-            new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0), 
-            true, Color.red, true, Color.blue, new BasicStroke(1.2f), true, 
-            new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
-            Color.green
-        );
+        LegendItem item1 = new LegendItem("Label", "Description", 
+                "ToolTip", "URL", true,  
+                new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0), true, Color.red, 
+                true, Color.blue, new BasicStroke(1.2f), true, 
+                new Line2D.Double(1.0, 2.0, 3.0, 4.0), 
+                new BasicStroke(2.1f), Color.green);
+        LegendItem item2 = new LegendItem("Label", "Description", 
+                "ToolTip", "URL", true, 
+                new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0), 
+                true, Color.red, true, Color.blue, new BasicStroke(1.2f), true, 
+                new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
+                Color.green);
         c1.add(item1);
         c2.add(item2);
         assertTrue(c1.equals(c2));
@@ -118,10 +117,8 @@ public class LegendItemCollectionTests extends TestCase {
      */
     public void testSerialization() {
         LegendItemCollection c1 = new LegendItemCollection();
-        c1.add(new LegendItem(
-            "Item", "Description", "ToolTip", "URL", 
-            new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0), Color.red
-        )); 
+        c1.add(new LegendItem("Item", "Description", "ToolTip", "URL", 
+            new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0), Color.red)); 
         LegendItemCollection c2 = null;
         try {
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();
@@ -147,10 +144,8 @@ public class LegendItemCollectionTests extends TestCase {
     public void testCloning() {
 
         LegendItemCollection c1 = new LegendItemCollection();
-        c1.add(new LegendItem(
-            "Item", "Description", "ToolTip", "URL", 
-            new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0), Color.red
-        )); 
+        c1.add(new LegendItem("Item", "Description", "ToolTip", "URL", 
+            new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0), Color.red)); 
         LegendItemCollection c2 = null;
         try {
             c2 = (LegendItemCollection) c1.clone();

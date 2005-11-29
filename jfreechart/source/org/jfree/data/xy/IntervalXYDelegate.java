@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -44,7 +45,9 @@
  * 11-Jan-2005 : Removed deprecated methods in preparation for the 1.0.0 
  *               release (DG);
  * 21-Feb-2005 : Made public and added equals() method (DG);
- * 
+ * 06-Oct-2005 : Implemented DatasetChangeListener to recalculate 
+ *               autoIntervalWidth (DG);
+ *   
  */
 
 package org.jfree.data.xy;
@@ -53,29 +56,33 @@ import java.io.Serializable;
 
 import org.jfree.data.DomainInfo;
 import org.jfree.data.Range;
+import org.jfree.data.RangeInfo;
+import org.jfree.data.general.DatasetChangeEvent;
+import org.jfree.data.general.DatasetChangeListener;
 import org.jfree.data.general.DatasetUtilities;
 import org.jfree.util.PublicCloneable;
 
 /**
- * A class for delegating xy-interval issues to. 
- * Enhances a XYDataset to an XYIntervalDataset. The decorator pattern
- * was not used because of the several possibly implemented interfaces of 
- * the decorated instance (e.g. TableXYDataset, RangeInfo, DomainInfo etc.).
- * <p>
- * This class calculates the minimal interval width between two items. This 
- * width influences the width of bars displayed with this dataset. 
+ * A delegate that handles the specification or automatic calculation of the
+ * interval surrounding the x-values in a dataset.  This is used to extend
+ * a regular {@link XYDataset} to support the {@link IntervalXYDataset} 
+ * interface.
+ * <p> 
+ * The decorator pattern was not used because of the several possibly 
+ * implemented interfaces of the decorated instance (e.g. 
+ * {@link TableXYDataset}, {@link RangeInfo}, {@link DomainInfo} etc.).
  * <p>
  * The width can be set manually or calculated automatically. The switch
- * autoWidth allows to determine which behavior is used. The behavior is 
- * transparent: The width is always calculated automatically in the background 
- * without affecting the manually set width. The switch simply determines which 
- * value is used. <br> As default manually set width, 1.0 is used. <br> If there
- * is only one item in the series, the auto width calculation fails and falls 
- * back on the manually set interval width (which is itself defaulted to 1.0). 
+ * autoWidth allows to determine which behavior is used. The auto width 
+ * calculation tries to find the smallest gap between two x-values in the
+ * dataset.  If there is only one item in the series, the auto width 
+ * calculation fails and falls back on the manually set interval width (which 
+ * is itself defaulted to 1.0). 
  * 
  * @author andreas.schroeder
  */
-public class IntervalXYDelegate implements DomainInfo, Serializable, 
+public class IntervalXYDelegate implements DatasetChangeListener,
+                                           DomainInfo, Serializable, 
                                            Cloneable, PublicCloneable {
     
     /** For serialization. */
@@ -92,15 +99,15 @@ public class IntervalXYDelegate implements DomainInfo, Serializable,
     private boolean autoWidth;
     
     /**
-     * A factor that determines the position of the gap between two bars - only
-     * relevant if the data is dispalyed with a bar renderer.
+     * A value between 0.0 and 1.0 that indicates the position of the x-value
+     * within the interval.
      */
     private double intervalPositionFactor; 
     
     /**
-     * The manually set interval width.
+     * The fixed interval width (defaults to 1.0).
      */
-    private double intervalWidth;
+    private double fixedIntervalWidth;
     
     /**
      * The automatically calculated interval width.
@@ -108,19 +115,9 @@ public class IntervalXYDelegate implements DomainInfo, Serializable,
     private double autoIntervalWidth;
     
     /**
-     * The lower value of the interval. Only used for autoWidth.
-     */
-    private double lowerBound;
-    
-    /**
-     * The upper value of the interval. Only used for autoWidth.
-     */
-    private double upperBound;
-    
-    /**
-     * Creates an XYIntervalDelegate.
+     * Creates a new delegate that.
      * 
-     * @param dataset the dataset for which this interval delegate works.
+     * @param dataset  the underlying dataset (<code>null</code> not permitted).
      */
     public IntervalXYDelegate(XYDataset dataset) {
         this(dataset, true);
@@ -129,23 +126,26 @@ public class IntervalXYDelegate implements DomainInfo, Serializable,
     /**
      * Creates a new delegate for the specified dataset.
      * 
-     * @param dataset  the dataset for which this interval delegate works.
+     * @param dataset  the underlying dataset (<code>null</code> not permitted).
      * @param autoWidth  a flag that controls whether the interval width is 
      *                   calculated automatically.
      */
     public IntervalXYDelegate(XYDataset dataset, boolean autoWidth) {
-        this.autoWidth = autoWidth;
+        if (dataset == null) {
+            throw new IllegalArgumentException("Null 'dataset' argument.");
+        }
         this.dataset = dataset;
-        this.intervalPositionFactor = 0.5;
         this.autoWidth = autoWidth;
+        this.intervalPositionFactor = 0.5;
         this.autoIntervalWidth = Double.POSITIVE_INFINITY; 
-        this.intervalWidth = 1.0;
+        this.fixedIntervalWidth = 1.0;
     }
     
     /**
-     * Returns whether the interval width is automatically calculated or not.
+     * Returns <code>true</code> if the interval width is automatically 
+     * calculated, and <code>false</code> otherwise.
      * 
-     * @return Whether the width is automatically calculated or not.
+     * @return A boolean.
      */
     public boolean isAutoWidth() {
         return this.autoWidth;
@@ -153,16 +153,24 @@ public class IntervalXYDelegate implements DomainInfo, Serializable,
     
     /**
      * Sets the flag that indicates whether the interval width is automatically
-     * calculated or not. 
+     * calculated.  If the flag is set to <code>true</code>, the interval is
+     * recalculated.
+     * <p>
+     * Note: recalculating the interval amounts to changing the data values
+     * represented by the dataset.  The calling dataset must fire an
+     * appropriate {@link DatasetChangeEvent}.
      * 
      * @param b  a boolean.
      */
     public void setAutoWidth(boolean b) {
         this.autoWidth = b;
+        if (b) {
+            this.autoIntervalWidth = recalculateInterval();
+        }
     }
     
     /**
-     * Returns the interval position factor. 
+     * Returns the interval position factor.
      * 
      * @return The interval position factor.
      */
@@ -171,38 +179,61 @@ public class IntervalXYDelegate implements DomainInfo, Serializable,
     }
 
     /**
-     * Sets the interval position factor. Must be between 0.0 and 1.0 inclusive.
-     * If the factor is 0.5, the gap is in the middle of the x values. If it
-     * is lesser than 0.5, the gap is farther to the left and if greater than
-     * 0.5 it gets farther to the right.
-     *  
+     * Sets the interval position factor.  This controls how the interval is
+     * aligned to the x-value.  For a value of 0.5, the interval is aligned
+     * with the x-value in the center.  For a value of 0.0, the interval is
+     * aligned with the x-value at the lower end of the interval, and for a 
+     * value of 1.0, the interval is aligned with the x-value at the upper
+     * end of the interval.
+     * 
+     * Note that changing the interval position factor amounts to changing the 
+     * data values represented by the dataset.  Therefore, the dataset that is 
+     * using this delegate is responsible for generating the 
+     * appropriate {@link DatasetChangeEvent}.     
+     * 
      * @param d  the new interval position factor (in the range 
      *           <code>0.0</code> to <code>1.0</code> inclusive).
      */
     public void setIntervalPositionFactor(double d) {
         if (d < 0.0 || 1.0 < d) {
             throw new IllegalArgumentException(
-                "Argument 'd' outside valid range."
-            );
+                    "Argument 'd' outside valid range.");
         }
         this.intervalPositionFactor = d;
     }
 
     /**
-     * Sets the manual interval width. 
+     * Returns the fixed interval width.
      * 
-     * @param w  the width (negative values not permitted).
+     * @return The fixed interval width.
      */
-    public void setIntervalWidth(double w) {
-        if (w < 0.0) {
-            throw new IllegalArgumentException("Negative 'w' argument.");
-        }
-        this.intervalWidth = w;
+    public double getFixedIntervalWidth() {
+        return this.fixedIntervalWidth;
     }
     
     /**
-     * Returns the full interval width. For behavior of this method, see
-     * the class comments. 
+     * Sets the fixed interval width and, as a side effect, sets the
+     * <code>autoWidth</code> flag to <code>false</code>.  
+     * 
+     * Note that changing the interval width amounts to changing the data 
+     * values represented by the dataset.  Therefore, the dataset
+     * that is using this delegate is responsible for generating the 
+     * appropriate {@link DatasetChangeEvent}.
+     * 
+     * @param w  the width (negative values not permitted).
+     */
+    public void setFixedIntervalWidth(double w) {
+        if (w < 0.0) {
+            throw new IllegalArgumentException("Negative 'w' argument.");
+        }
+        this.fixedIntervalWidth = w;
+        this.autoWidth = false;
+    }
+    
+    /**
+     * Returns the interval width.  This method will return either the 
+     * auto calculated interval width or the manually specified interval
+     * width, depending on the {@link #isAutoWidth()} result.
      * 
      * @return The interval width to use.
      */
@@ -214,19 +245,19 @@ public class IntervalXYDelegate implements DomainInfo, Serializable,
         }
         else {
             // either autoWidth is off or autoIntervalWidth was not set.
-            return this.intervalWidth;
+            return this.fixedIntervalWidth;
         }
     }
 
     /**
-     * Returns the start x value based on the intervalWidth and the 
-     * intervalPositionFactor.
+     * Returns the start value of the x-interval for an item within a series.
      * 
      * @param series  the series index.
      * @param item  the item index.
      * 
-     * @return The start value based on the intervalWidth and the 
-     *         intervalPositionFactor.
+     * @return The start value of the x-interval (possibly <code>null</code>).
+     * 
+     * @see #getStartXValue(int, int)
      */
     public Number getStartX(int series, int item) {
         Number startX = null;
@@ -238,29 +269,56 @@ public class IntervalXYDelegate implements DomainInfo, Serializable,
         return startX;
     }
     
-    
     /**
-     * Returns the end x value based on the intervalWidth and the 
-     * intervalPositionFactor.
+     * Returns the start value of the x-interval for an item within a series.
      * 
      * @param series  the series index.
      * @param item  the item index.
      * 
-     * @return The end value based on the intervalWidth and the 
-     *         intervalPositionFactor.
+     * @return The start value of the x-interval.
+     * 
+     * @see #getStartX(int, int)
+     */
+    public double getStartXValue(int series, int item) {
+        return dataset.getXValue(series, item) - getIntervalPositionFactor() 
+            * getIntervalWidth();
+    }
+    
+    /**
+     * Returns the end value of the x-interval for an item within a series.
+     * 
+     * @param series  the series index.
+     * @param item  the item index.
+     * 
+     * @return The end value of the x-interval (possibly <code>null</code>).
+     * 
+     * @see #getEndXValue(int, int)
      */
     public Number getEndX(int series, int item) {
         Number endX = null;
         Number x = this.dataset.getX(series, item);
         if (x != null) {
-            endX = new Double(
-                x.doubleValue() 
-                + ((1.0 - getIntervalPositionFactor()) * getIntervalWidth())
-            ); 
+            endX = new Double(x.doubleValue() 
+                + ((1.0 - getIntervalPositionFactor()) * getIntervalWidth())); 
         }
         return endX;
     }
 
+    /**
+     * Returns the end value of the x-interval for an item within a series.
+     * 
+     * @param series  the series index.
+     * @param item  the item index.
+     * 
+     * @return The end value of the x-interval.
+     * 
+     * @see #getEndX(int, int)
+     */
+    public double getEndXValue(int series, int item) {
+        return dataset.getXValue(series, item) 
+            + (1.0 - getIntervalPositionFactor()) * getIntervalWidth();
+    }
+    
     /**
      * Returns the minimum x-value in the dataset.
      *
@@ -296,7 +354,8 @@ public class IntervalXYDelegate implements DomainInfo, Serializable,
     }
 
     /**
-     * Returns the range of the values in this dataset's domain.
+     * Returns the range of the values in the dataset's domain, including
+     * or excluding the interval around each x-value as specified.
      *
      * @param includeInterval  a flag that determines whether or not the 
      *                         x-interval should be taken into account.
@@ -304,82 +363,43 @@ public class IntervalXYDelegate implements DomainInfo, Serializable,
      * @return The range.
      */
     public Range getDomainBounds(boolean includeInterval) {
-        Range range = DatasetUtilities.iterateDomainBounds(
-            this.dataset, includeInterval
-        );
-        if (this.dataset.getSeriesCount() == 1 
-            && this.dataset.getItemCount(0) == 1) {
-            /* if there is only one interval value, so add some space to the 
-             * left and the right - otherwise one bar looks like a background 
-             * coloration.
-             */
-            range = new Range(
-                range.getLowerBound() - getIntervalWidth(), 
-                range.getUpperBound() + getIntervalWidth()
-            );
+        // first get the range without the interval, then expand it for the
+        // interval width
+        Range range = DatasetUtilities.findDomainBounds(this.dataset, false);
+        if (includeInterval && range != null) {
+            double lowerAdj = getIntervalWidth() * getIntervalPositionFactor();
+            double upperAdj = getIntervalWidth() - lowerAdj;
+            range = new Range(range.getLowerBound() - lowerAdj, 
+                range.getUpperBound() + upperAdj);
         }
         return range;
     }
     
     /**
-     * Updates the interval width if an item is added.  That is, relaxes the 
-     * interval width to the minimum of the actual interval width, the 
-     * distance between the actual x value and the previous x value and the 
-     * distance between the next x value and the actual x value. 
+     * Handles events from the dataset by recalculating the interval if 
+     * necessary.
      * 
-     * @param item the number of the item.
-     * @param series the number of the series
-     * 
-     */
-    public void itemAdded(int series, int item) {
-        double x = this.dataset.getXValue(series, item);
-        
-        if (item > 0) {
-            double before = this.dataset.getXValue(series, item - 1);
-            double delta = x - before;
-            if (delta < this.autoIntervalWidth) {
-                this.autoIntervalWidth = delta;
-                this.lowerBound = before;
-                this.upperBound = x;
-            }
-        }
-        
-        if (item + 1 < this.dataset.getItemCount(series)) {
-            double after = this.dataset.getXValue(series, item + 1);
-            double delta = after - x;
-            if (delta < this.autoIntervalWidth) {
-                this.autoIntervalWidth = delta;
-                this.lowerBound = x;
-                this.upperBound = after;
-            }
-        }
-    }
-    
-    /**
-     * Updates the interval width if an item is removed. That is, enlarges the
-     * interval width to the new interval minimum if the removed value was
-     * part of the minimum. For performance reason this method should be called 
-     * only if the x value was definitely removed from the series.
-     *  
-     * @param x the x value of the removed item (that doesn't occur twice)
-     */
-    public void itemRemoved(double x) {
-        if (x == this.lowerBound || x == this.upperBound) {
-            recalculateIntervalWidth();
+     * @param e  the event.
+     */    
+    public void datasetChanged(DatasetChangeEvent e) {
+        // TODO: by coding the event with some information about what changed
+        // in the dataset, we could make the recalculation of the interval
+        // more efficient in some cases...
+        if (this.autoWidth) {
+            this.autoIntervalWidth = recalculateInterval();
         }
     }
     
     /**
      * Recalculate the minimum width "from scratch".
      */
-    private void recalculateIntervalWidth() {
-        this.autoIntervalWidth = Double.POSITIVE_INFINITY;
-        
-        for (int series = 0, seriesCount = this.dataset.getSeriesCount(); 
-            series < seriesCount; series++) {
-          
-            calculateSeries(series);
+    private double recalculateInterval() {
+        double result = Double.POSITIVE_INFINITY;
+        int seriesCount = this.dataset.getSeriesCount();
+        for (int series = 0; series < seriesCount; series++) {
+            result = Math.min(result, calculateIntervalForSeries(series));
         }
+        return result;
     }
     
     /**
@@ -387,37 +407,18 @@ public class IntervalXYDelegate implements DomainInfo, Serializable,
      *  
      * @param series  the series index.
      */
-    private void calculateSeries(int series) {
-        int totalCount = this.dataset.getItemCount(series);
-        for (int item = 1, itemCount = totalCount; item < itemCount; item++) {
-                
-            double lower = this.dataset.getXValue(series, item - 1);
-            double upper = this.dataset.getXValue(series, item);
-            double delta = upper - lower;
-                
-            if (delta < this.autoIntervalWidth) {
-                this.autoIntervalWidth = delta;
-                this.lowerBound = lower;
-                this.upperBound = upper;
+    private double calculateIntervalForSeries(int series) {
+        double result = Double.POSITIVE_INFINITY;
+        int itemCount = this.dataset.getItemCount(series);
+        if (itemCount > 1) {
+            double prev = this.dataset.getXValue(series, 0);
+            for (int item = 1; item < itemCount; item++) {
+                double x = this.dataset.getXValue(series, item);
+                result = Math.min(result, x - prev);
+                prev = x;
             }
         }
-    }
-    
-    /**
-     * Convenience method for XYSeriesCollection.
-     * 
-     * @param series  the series index.
-     */
-    public void seriesAdded(int series) {
-        calculateSeries(series);
-    }
-    
-    /**
-     * A convenience method for {@link XYSeriesCollection} which is called 
-     * whenever a series is removed - the interval width is recalculated.
-     */
-    public void seriesRemoved() {
-        recalculateIntervalWidth();
+        return result;
     }
     
     /**
@@ -441,7 +442,7 @@ public class IntervalXYDelegate implements DomainInfo, Serializable,
         if (this.intervalPositionFactor != that.intervalPositionFactor) {
             return false;   
         }
-        if (this.intervalWidth != that.intervalWidth) {
+        if (this.fixedIntervalWidth != that.fixedIntervalWidth) {
             return false;   
         }
         return true;

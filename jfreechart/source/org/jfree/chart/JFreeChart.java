@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -117,10 +118,15 @@
  * 20-Apr-2005 : Modified to collect chart entities from titles and 
  *               subtitles (DG);
  * 26-Apr-2005 : Removed LOGGER (DG);
+ * 06-Jun-2005 : Added addLegend() method and padding attribute, fixed equals() 
+ *               method (DG);
+ * 24-Nov-2005 : Removed OldLegend and related code - don't want to support
+ *               this in 1.0.0 final (DG);
  *
  */
 
 package org.jfree.chart;
+
 
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
@@ -163,8 +169,6 @@ import org.jfree.chart.event.ChartChangeEvent;
 import org.jfree.chart.event.ChartChangeListener;
 import org.jfree.chart.event.ChartProgressEvent;
 import org.jfree.chart.event.ChartProgressListener;
-import org.jfree.chart.event.LegendChangeEvent;
-import org.jfree.chart.event.LegendChangeListener;
 import org.jfree.chart.event.PlotChangeEvent;
 import org.jfree.chart.event.PlotChangeListener;
 import org.jfree.chart.event.TitleChangeEvent;
@@ -189,6 +193,7 @@ import org.jfree.ui.about.Contributor;
 import org.jfree.ui.about.Licences;
 import org.jfree.ui.about.ProjectInfo;
 import org.jfree.util.ObjectUtilities;
+import org.jfree.util.PaintUtilities;
 
 /**
  * A chart class implemented using the Java 2D APIs.  The current version
@@ -196,8 +201,8 @@ import org.jfree.util.ObjectUtilities;
  * series data).
  * <P>
  * JFreeChart coordinates several objects to achieve its aim of being able to
- * draw a chart on a Java 2D graphics device: a list of {@link Title} objects, 
- * a {@link OldLegend}, a {@link Plot} and a 
+ * draw a chart on a Java 2D graphics device: a list of {@link Title} objects
+ * (which often includes the chart's legend), a {@link Plot} and a 
  * {@link org.jfree.data.general.Dataset} (the plot in turn manages a 
  * horizontal axis and a vertical axis).
  * <P>
@@ -209,13 +214,11 @@ import org.jfree.util.ObjectUtilities;
  * @see ChartPanel
  * @see ChartFactory
  * @see Title
- * @see OldLegend
  * @see Plot
  *
  */
 public class JFreeChart implements Drawable,
                                    TitleChangeListener,
-                                   LegendChangeListener,
                                    PlotChangeListener,
                                    Serializable,
                                    Cloneable {
@@ -243,7 +246,10 @@ public class JFreeChart implements Drawable,
     /** The default background image alpha. */
     public static final float DEFAULT_BACKGROUND_IMAGE_ALPHA = 0.5f;
 
-    /** Rendering hints that will be used for chart drawing. */
+    /** 
+     * Rendering hints that will be used for chart drawing.  This should never
+     * be <code>null</code>. 
+     */
     private transient RenderingHints renderingHints;
 
     /** A flag that controls whether or not the chart border is drawn. */
@@ -255,14 +261,14 @@ public class JFreeChart implements Drawable,
     /** The paint used to draw the chart border (if visible). */
     private transient Paint borderPaint;
 
+    /** The padding between the chart border and the chart drawing area. */
+    private RectangleInsets padding;
+    
     /** The chart title (optional). */
     private TextTitle title;
 
     /** The chart subtitles (zero, one or many). */
     private List subtitles;
-
-    /** The chart legend. */
-    private OldLegend oldLegend;
 
     /** Draws the visual representation of the data. */
     private Plot plot;
@@ -368,6 +374,8 @@ public class JFreeChart implements Drawable,
         this.borderStroke = new BasicStroke(1.0f);
         this.borderPaint = Color.black;
 
+        this.padding = RectangleInsets.ZERO_INSETS;
+        
         this.plot = plot;
         plot.addChangeListener(this);
 
@@ -483,7 +491,30 @@ public class JFreeChart implements Drawable,
         this.borderPaint = paint;
         fireChartChanged();
     }
+    
+    /**
+     * Returns the padding between the chart border and the chart drawing area.
+     * 
+     * @return The padding (never <code>null</code>).
+     */
+    public RectangleInsets getPadding() {
+        return this.padding;   
+    }
 
+    /**
+     * Sets the padding between the chart border and the chart drawing area,
+     * and sends a {@link ChartChangeEvent} to all registered listeners.
+     * 
+     * @param padding  the padding (<code>null</code> not permitted).
+     */
+    public void setPadding(RectangleInsets padding) {
+        if (padding == null) {
+            throw new IllegalArgumentException("Null 'padding' argument.");   
+        }
+        this.padding = padding;
+        notifyListeners(new ChartChangeEvent(this));
+    }
+    
     /**
      * Returns the main chart title.  Very often a chart will have just one
      * title, so we make this case simple by providing accessor methods for
@@ -533,6 +564,16 @@ public class JFreeChart implements Drawable,
         }
     }
 
+    /**
+     * Adds a legend to the plot and sends a {@link ChartChangeEvent} to all
+     * registered listeners.
+     * 
+     * @param legend  the legend (<code>null</code> not permitted).
+     */
+    public void addLegend(LegendTitle legend) {
+        addSubtitle(legend);    
+    }
+    
     /**
      * Returns the legend for the chart, if there is one.  Note that a chart
      * can have more than one legend - this method returns the first.
@@ -662,43 +703,6 @@ public class JFreeChart implements Drawable,
         fireChartChanged();
     }
     
-    /**
-     * Returns the chart legend.
-     *
-     * @return The chart legend (possibly <code>null</code>).
-     */
-    public OldLegend getOldLegend() {
-        return this.oldLegend;
-    }
-
-    /**
-     * Sets the chart legend.  Registered listeners are notified that the chart
-     * has been modified. The legends chart reference is updated.
-     *
-     * @param legend  the new chart legend (<code>null</code> permitted).
-     */
-    public void setOldLegend(OldLegend legend) {
-
-        // if there is an existing legend, remove the chart from the list of
-        // change listeners...
-        OldLegend existing = this.oldLegend;
-        if (existing != null) {
-            existing.removeChangeListener(this);
-            existing.registerChart(null);
-        }
-
-        // set the new legend, and register the chart as a change listener...
-        this.oldLegend = legend;
-        if (legend != null) {
-            legend.registerChart(this);
-            legend.addChangeListener(this);
-        }
-
-        // notify chart change listeners...
-        fireChartChanged();
-
-    }
-
     /**
      * Returns the plot for the chart.  The plot is a class responsible for
      * coordinating the visual representation of the data, including the axes
@@ -1018,7 +1022,8 @@ public class JFreeChart implements Drawable,
         // draw the title and subtitles...
         Rectangle2D nonTitleArea = new Rectangle2D.Double();
         nonTitleArea.setRect(chartArea);
-
+        this.padding.trim(nonTitleArea);
+        
         EntityCollection entities = null;
         if (info != null) {
             entities = info.getEntityCollection();   
@@ -1043,13 +1048,8 @@ public class JFreeChart implements Drawable,
             }
         }
 
-        // draw the legend - the draw method will return the remaining area
-        // after the legend steals a chunk of the non-title area for itself
         Rectangle2D plotArea = nonTitleArea;
-        if (this.oldLegend != null) {
-            plotArea.setRect(this.oldLegend.draw(g2, nonTitleArea, info));
-        }
-
+ 
         // draw the plot (axes and data visualisation)
         PlotRenderingInfo plotInfo = null;
         if (info != null) {
@@ -1131,7 +1131,13 @@ public class JFreeChart implements Drawable,
         Rectangle2D titleArea = new Rectangle2D.Double();
         RectangleEdge position = t.getPosition();
         double ww = area.getWidth();
+        if (ww <= 0.0) {
+            return null;
+        }
         double hh = area.getHeight();
+        if (hh <= 0.0) {
+            return null;
+        }
         RectangleConstraint constraint = new RectangleConstraint(
             ww, new Range(0.0, ww), LengthConstraintType.RANGE,
             hh, new Range(0.0, hh), LengthConstraintType.RANGE
@@ -1403,17 +1409,6 @@ public class JFreeChart implements Drawable,
     }
 
     /**
-     * Receives notification that the chart legend has changed, and passes this
-     * on to registered listeners.
-     *
-     * @param event  information about the chart legend change.
-     */
-    public void legendChanged(LegendChangeEvent event) {
-        event.setChart(this);
-        notifyListeners(event);
-    }
-
-    /**
      * Receives notification that the plot has changed, and passes this on to
      * registered listeners.
      *
@@ -1432,29 +1427,38 @@ public class JFreeChart implements Drawable,
      * @return A boolean.
      */
     public boolean equals(Object obj) {
-
         if (obj == this) {
             return true;
         }
-
         if (!(obj instanceof JFreeChart)) {
             return false;
         }
-
         JFreeChart that = (JFreeChart) obj;
+        if (!this.renderingHints.equals(that.renderingHints)) {
+            return false;   
+        }
+        if (this.borderVisible != that.borderVisible) {
+            return false;   
+        }
+        if (!ObjectUtilities.equal(this.borderStroke, that.borderStroke)) {
+            return false;   
+        }
+        if (!PaintUtilities.equal(this.borderPaint, that.borderPaint)) {
+            return false;   
+        }
+        if (!this.padding.equals(that.padding)) {
+            return false;   
+        }
         if (!ObjectUtilities.equal(this.title, that.title)) {
             return false;
         }
         if (!ObjectUtilities.equal(this.subtitles, that.subtitles)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.oldLegend, that.oldLegend)) {
-            return false;
-        }
         if (!ObjectUtilities.equal(this.plot, that.plot)) {
             return false;
         }
-        if (!ObjectUtilities.equal(
+        if (!PaintUtilities.equal(
             this.backgroundPaint, that.backgroundPaint
         )) {
             return false;
@@ -1473,9 +1477,7 @@ public class JFreeChart implements Drawable,
         if (this.notify != that.notify) {
             return false;
         }
-
         return true;
-
     }
 
     /**
@@ -1520,16 +1522,7 @@ public class JFreeChart implements Drawable,
         for (int i = 0; i < getSubtitleCount(); i++) {
             getSubtitle(i).addChangeListener(this);
         }
-
-        if (this.oldLegend != null) {
-            this.oldLegend.addChangeListener(this);
-        }
-
-        //if (this.plot != null) {
-        // the plot can never be null.
         this.plot.addChangeListener(this);
-        //}
-
     }
 
     /**
@@ -1569,27 +1562,13 @@ public class JFreeChart implements Drawable,
             subtitle.addChangeListener(chart);
         }
 
-        if (this.oldLegend != null) {
-            chart.oldLegend = (OldLegend) this.oldLegend.clone();
-            chart.oldLegend.registerChart(chart);
-            chart.oldLegend.addChangeListener(chart);
-        }
-
         if (this.plot != null) {
             chart.plot = (Plot) this.plot.clone();
             chart.plot.addChangeListener(chart);
         }
 
-        //private boolean antialias;
-        //private transient Paint backgroundPaint;
-        //private transient Image backgroundImage;  // todo: not serialized yet
-        //private int backgroundImageAlignment = Align.FIT;
-        //private float backgroundImageAlpha = 0.5f;
-
         chart.progressListeners = new EventListenerList();
         chart.changeListeners = new EventListenerList();
-        //private boolean notify;
-
         return chart;
     }
 
@@ -1655,9 +1634,11 @@ class JFreeChartInfo extends ProjectInfo {
                 new Contributor("Bill Kelemen", "-"),
                 new Contributor("Norbert Kiesel", "-"),
                 new Contributor("Gideon Krause", "-"),
+                new Contributor("Pierre-Marie Le Biot", "-"),
                 new Contributor("Arnaud Lelievre", "-"),
                 new Contributor("Wolfgang Lenhard", "-"),
                 new Contributor("David Li", "-"),
+                new Contributor("Yan Liu", "-"),
                 new Contributor("Tin Luu", "-"),
                 new Contributor("Craig MacFarlane", "-"),
                 new Contributor("Achilleus Mantzios", "-"),
@@ -1683,6 +1664,7 @@ class JFreeChartInfo extends ProjectInfo {
                 new Contributor("Bryan Scott", "-"),
                 new Contributor("Tobias Selb", "-"),
                 new Contributor("Mofeed Shahin", "-"),
+                new Contributor("Pady Srinivasan", "-"),
                 new Contributor("Greg Steckman", "-"),
                 new Contributor("Roger Studner", "-"),
                 new Contributor("Irv Thomae", "-"),

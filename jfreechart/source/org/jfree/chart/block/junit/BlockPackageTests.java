@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -38,6 +39,7 @@
  * 22-Oct-2004 : Version 1 (DG);
  * 18-Jan-2005 : Added main() method (DG);
  * 04-Feb-2005 : Added new tests (DG);
+ * 01-Sep-2005 : New tests for LabelBlock (DG);
  *
  */
 
@@ -68,6 +70,7 @@ public class BlockPackageTests extends TestCase {
         suite.addTestSuite(EmptyBlockTests.class);
         suite.addTestSuite(FlowArrangementTests.class);
         suite.addTestSuite(GridArrangementTests.class);
+        suite.addTestSuite(LabelBlockTests.class);
         suite.addTestSuite(RectangleConstraintTests.class);
         return suite;
     }

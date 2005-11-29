@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -48,6 +49,7 @@
  * 11-Jan-2005 : Removed deprecated code in preparation for the 1.0.0 
  *               release (DG);
  * 20-Apr-2005 : Added tooltip and URL text (DG);
+ * 28-Nov-2005 : Separated constructors for AttributedString labels (DG);
  * 
  */
 
@@ -63,8 +65,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.text.AttributedString;
+import java.text.CharacterIterator;
 
 import org.jfree.io.SerialUtilities;
+import org.jfree.util.AttributedStringUtilities;
 import org.jfree.util.ObjectUtilities;
 import org.jfree.util.ShapeUtilities;
 
@@ -83,6 +88,9 @@ public class LegendItem implements Serializable {
     /** The label. */
     private String label;
     
+    /** The attributed label (if null, fall back to the regular label). */
+    private AttributedString attributedLabel;
+
     /** 
      * The description (not currently used - could be displayed as a tool tip). 
      */
@@ -153,24 +161,15 @@ public class LegendItem implements Serializable {
      */
     public LegendItem(String label, String description, 
                       String toolTipText, String urlText, 
-                      Shape shape, Paint fillPaint) {  
-        this(
-            label, 
-            description,
-            toolTipText,
-            urlText, 
-            true,           // shape visible
-            shape,
-            true,           // shape filled
-            fillPaint,
-            false,          // shape not outlined
-            Color.black,
-            UNUSED_STROKE,
-            false,          // line not visible
-            UNUSED_SHAPE,
-            UNUSED_STROKE,
-            Color.black
-        );
+                      Shape shape, Paint fillPaint) {
+        
+        this(label, description, toolTipText, urlText, 
+                /* shape visible = */ true, shape, 
+                /* shape filled = */ true, fillPaint, 
+                /* shape outlined */ false, Color.black, UNUSED_STROKE,
+                /* line visible */ false, UNUSED_SHAPE, UNUSED_STROKE,
+                Color.black);
+
     }
     
     /**
@@ -192,23 +191,14 @@ public class LegendItem implements Serializable {
                       String toolTipText, String urlText, 
                       Shape shape, Paint fillPaint, 
                       Stroke outlineStroke, Paint outlinePaint) {
-        this(
-            label, 
-            description, 
-            toolTipText,
-            urlText,
-            true,           // shape visible
-            shape,
-            true,           // shape filled
-            fillPaint,
-            true,           // shape outlined
-            outlinePaint,
-            outlineStroke,
-            false,          // line not visible
-            UNUSED_SHAPE,
-            UNUSED_STROKE,
-            Color.black
-        );
+        
+        this(label, description, toolTipText, urlText,
+                /* shape visible = */ true, shape, 
+                /* shape filled = */ true, fillPaint, 
+                /* shape outlined = */ true, outlinePaint, outlineStroke,
+                /* line visible */ false, UNUSED_SHAPE, UNUSED_STROKE,
+                Color.black);
+
     }
     
     /**
@@ -225,22 +215,155 @@ public class LegendItem implements Serializable {
     public LegendItem(String label, String description, 
                       String toolTipText, String urlText, 
                       Shape line, Stroke lineStroke, Paint linePaint) {
-        this(
-            label, 
-            description, 
-            toolTipText,
-            urlText,
-            false,         // shape not visible
-            UNUSED_SHAPE,
-            false,         // shape not filled
-            Color.black,
-            false,         // shape not outlined
-            Color.black,
-            UNUSED_STROKE,
-            true,          // line visible
-            line,
-            lineStroke,
-            linePaint
+        
+        this(label, description, toolTipText, urlText,
+                /* shape visible = */ false, UNUSED_SHAPE,
+                /* shape filled = */ false, Color.black,
+                /* shape outlined = */ false, Color.black, UNUSED_STROKE,
+                /* line visible = */ true, line, lineStroke, linePaint);
+    }
+    
+    /**
+     * Creates a new legend item.
+     *
+     * @param label  the label (<code>null</code> not permitted).
+     * @param description  the description (not currently used, 
+     *        <code>null</code> permitted).
+     * @param toolTipText  the tool tip text (<code>null</code> permitted).
+     * @param urlText  the URL text (<code>null</code> permitted).
+     * @param shapeVisible  a flag that controls whether or not the shape is 
+     *                      displayed.
+     * @param shape  the shape (<code>null</code> permitted).
+     * @param shapeFilled  a flag that controls whether or not the shape is 
+     *                     filled.
+     * @param fillPaint  the fill paint (<code>null</code> not permitted).
+     * @param shapeOutlineVisible  a flag that controls whether or not the 
+     *                             shape is outlined.
+     * @param outlinePaint  the outline paint (<code>null</code> not permitted).
+     * @param outlineStroke  the outline stroke (<code>null</code> not 
+     *                       permitted).
+     * @param lineVisible  a flag that controls whether or not the line is 
+     *                     visible.
+     * @param line  the line.
+     * @param lineStroke  the stroke (<code>null</code> not permitted).
+     * @param linePaint  the line paint (<code>null</code> not permitted).
+     */
+    public LegendItem(String label, String description,
+                      String toolTipText, String urlText,
+                      boolean shapeVisible, Shape shape,
+                      boolean shapeFilled, Paint fillPaint, 
+                      boolean shapeOutlineVisible, Paint outlinePaint,
+                      Stroke outlineStroke,
+                      boolean lineVisible, Shape line,
+                      Stroke lineStroke, Paint linePaint) {
+        
+        if (label == null) {
+            throw new IllegalArgumentException("Null 'label' argument.");   
+        }
+        if (fillPaint == null) {
+            throw new IllegalArgumentException("Null 'fillPaint' argument.");   
+        }
+        if (lineStroke == null) {
+            throw new IllegalArgumentException("Null 'lineStroke' argument.");
+        }
+        if (outlinePaint == null) {
+            throw new IllegalArgumentException("Null 'outlinePaint' argument.");
+        }
+        if (outlineStroke == null) {
+            throw new IllegalArgumentException(
+                    "Null 'outlineStroke' argument.");   
+        }
+        this.label = label;
+        this.attributedLabel = null;
+        this.description = description;
+        this.shapeVisible = shapeVisible;
+        this.shape = shape;
+        this.shapeFilled = shapeFilled;
+        this.fillPaint = fillPaint;
+        this.shapeOutlineVisible = shapeOutlineVisible;
+        this.outlinePaint = outlinePaint;
+        this.outlineStroke = outlineStroke;
+        this.lineVisible = lineVisible;
+        this.line = line;
+        this.lineStroke = lineStroke;
+        this.linePaint = linePaint;
+        this.toolTipText = toolTipText;
+        this.urlText = urlText;
+    }
+    
+    /**
+     * Creates a legend item with a filled shape.  The shape is not outlined,
+     * and no line is visible.
+     * 
+     * @param label  the label (<code>null</code> not permitted).
+     * @param description  the description (<code>null</code> permitted).
+     * @param toolTipText  the tool tip text (<code>null</code> permitted).
+     * @param urlText  the URL text (<code>null</code> permitted).
+     * @param shape  the shape (<code>null</code> not permitted).
+     * @param fillPaint  the paint used to fill the shape (<code>null</code>
+     *                   not permitted).
+     */
+    public LegendItem(AttributedString label, String description, 
+                      String toolTipText, String urlText, 
+                      Shape shape, Paint fillPaint) {
+        
+        this(label, description, toolTipText, urlText, 
+                /* shape visible = */ true, shape,
+                /* shape filled = */ true, fillPaint,
+                /* shape outlined = */ false, Color.black, UNUSED_STROKE,
+                /* line visible = */ false, UNUSED_SHAPE, UNUSED_STROKE,
+                Color.black);
+        
+    }
+    
+    /**
+     * Creates a legend item with a filled and outlined shape.
+     * 
+     * @param label  the label (<code>null</code> not permitted).
+     * @param description  the description (<code>null</code> permitted).
+     * @param toolTipText  the tool tip text (<code>null</code> permitted).
+     * @param urlText  the URL text (<code>null</code> permitted).
+     * @param shape  the shape (<code>null</code> not permitted).
+     * @param fillPaint  the paint used to fill the shape (<code>null</code>
+     *                   not permitted).
+     * @param outlineStroke  the outline stroke (<code>null</code> not 
+     *                       permitted).
+     * @param outlinePaint  the outline paint (<code>null</code> not 
+     *                      permitted).
+     */
+    public LegendItem(AttributedString label, String description, 
+                      String toolTipText, String urlText, 
+                      Shape shape, Paint fillPaint, 
+                      Stroke outlineStroke, Paint outlinePaint) {
+        
+        this(label, description, toolTipText, urlText,
+                /* shape visible = */ true, shape,
+                /* shape filled = */ true, fillPaint,
+                /* shape outlined = */ true, outlinePaint, outlineStroke,
+                /* line visible = */ false, UNUSED_SHAPE, UNUSED_STROKE,
+                Color.black);
+    }
+    
+    /**
+     * Creates a legend item using a line.
+     * 
+     * @param label  the label (<code>null</code> not permitted).
+     * @param description  the description (<code>null</code> permitted).
+     * @param toolTipText  the tool tip text (<code>null</code> permitted).
+     * @param urlText  the URL text (<code>null</code> permitted).
+     * @param line  the line (<code>null</code> not permitted).
+     * @param lineStroke  the line stroke (<code>null</code> not permitted).
+     * @param linePaint  the line paint (<code>null</code> not permitted).
+     */
+    public LegendItem(AttributedString label, String description, 
+                      String toolTipText, String urlText, 
+                      Shape line, Stroke lineStroke, Paint linePaint) {
+        
+        this(label, description, toolTipText, urlText,
+                /* shape visible = */ false, UNUSED_SHAPE,
+                /* shape filled = */ false, Color.black,
+                /* shape outlined = */ false, Color.black, UNUSED_STROKE,
+                /* line visible = */ true, line, lineStroke, linePaint
         );
     }
     
@@ -269,20 +392,13 @@ public class LegendItem implements Serializable {
      * @param lineStroke  the stroke (<code>null</code> not permitted).
      * @param linePaint  the line paint (<code>null</code> not permitted).
      */
-    public LegendItem(String label,
-                      String description,
-                      String toolTipText,
-                      String urlText,
-                      boolean shapeVisible,
-                      Shape shape,
-                      boolean shapeFilled,
-                      Paint fillPaint, 
-                      boolean shapeOutlineVisible,
-                      Paint outlinePaint,
+    public LegendItem(AttributedString label, String description,
+                      String toolTipText, String urlText,
+                      boolean shapeVisible, Shape shape,
+                      boolean shapeFilled, Paint fillPaint, 
+                      boolean shapeOutlineVisible, Paint outlinePaint,
                       Stroke outlineStroke,
-                      boolean lineVisible,
-                      Shape line,
-                      Stroke lineStroke,
+                      boolean lineVisible, Shape line, Stroke lineStroke,
                       Paint linePaint) {
         
         if (label == null) {
@@ -299,10 +415,10 @@ public class LegendItem implements Serializable {
         }
         if (outlineStroke == null) {
             throw new IllegalArgumentException(
-                "Null 'outlineStroke' argument."
-            );   
+                "Null 'outlineStroke' argument.");   
         }
-        this.label = label;
+        this.label = characterIteratorToString(label.getIterator());
+        this.attributedLabel = label;
         this.description = description;
         this.shapeVisible = shapeVisible;
         this.shape = shape;
@@ -320,12 +436,46 @@ public class LegendItem implements Serializable {
     }
 
     /**
+     * Returns a string containing the characters from the given iterator.
+     * 
+     * @param iterator  the iterator (<code>null</code> not permitted).
+     * 
+     * @return A string.
+     */
+    private String characterIteratorToString(CharacterIterator iterator) {
+        int endIndex = iterator.getEndIndex();
+        int beginIndex = iterator.getBeginIndex();
+        int count = endIndex - beginIndex;
+        if (count <= 0) {
+            return "";
+        }
+        char[] chars = new char[count];
+        int i = 0;
+        char c = iterator.first();
+        while (c != CharacterIterator.DONE) {
+            chars[i] = c;
+            i++;
+            c = iterator.next();
+        }
+        return new String(chars);
+    }
+    
+    /**
      * Returns the label.
      *
      * @return The label (never <code>null</code>).
      */
     public String getLabel() {
         return this.label;
+    }
+
+    /**
+     * Returns the attributed label.
+     *
+     * @return The attributed label (possibly <code>null</code>).
+     */
+    public AttributedString getAttributedLabel() {
+        return this.attributedLabel;
     }
 
     /**
@@ -472,6 +622,10 @@ public class LegendItem implements Serializable {
         }
         LegendItem that = (LegendItem) obj;
         if (!this.label.equals(that.label)) {
+            return false;
+        }
+        if (!AttributedStringUtilities.equal(this.attributedLabel, 
+                that.attributedLabel)) {
             return false;
         }
         if (!ObjectUtilities.equal(this.description, that.description)) {

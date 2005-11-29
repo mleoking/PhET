@@ -1,9 +1,152 @@
 JFreeChart Change Log
 =====================
 
-This change log contains details of the changes between versions. Please be 
-aware that the log *may* be incomplete.
+This change log was used up until 29 September 2005.  For more recent
+changes, please refer to the ChangeLog file.
 
+22-Sep-2005 : [NEW] Added new findStackedRangeBounds() method that uses 
+                    'base' argument (DG);
+                    
+              [BUG] Fixed StackedBarRenderer and StackedBarRenderer3D to 
+                    respect 'base' setting (DG);
+                    
+              [API] In BarRenderer, renamed getMaxBarWidth() -->
+                    getMaximumBarWidth() for consistency (DG);
+
+19-Sep-2005 : [NEW] Modified XYStepRenderer to extend XYLineAndShapeRenderer 
+                    (fixes legend shapes), added support for series 
+                    visibility, and use getDefaultEntityRadius() for entity 
+                    hotspot size (DG); 
+
+15-Sep-2005 : [BUG] Fixed autoRange bug in PeriodAxis (DG);
+
+05-Sep-2005 : [BUG] Fixed serialization of LegendGraphic (see patch 
+                    1255724) (DG);
+
+              [NEW] Implemented hashCode() for TickUnit and NumberTickUnit,
+                    thanks to Thomas Morgner (DG);
+
+01-Sep-2005 : [NEW] Added support for paint setting in LabelBlock and 
+                    LegendTitle - thanks to Pierre-Marie Le Biot (see bug 
+                    1273888) (DG);
+
+              [API] Moved dataAreaRatio from Plot --> ContourPlot (DG);
+
+19-Aug-2005 : [NEW] Added setDrawAsLine() and equals() method to CategoryMarker
+                    class (DG);
+
+18-Aug-2005 : [   ] Added casts to clone() method in KeyToGroupMap.java to 
+                    suppress compiler warnings - see patch 1260587 (DG);
+                    
+29-Jul-2005 : [BUG] Added code to draw item labels in 
+                    XYLineAndShapeRenderer (DG);
+                    
+              [NEW] Added CategoryLineAnnotation class (DG);
+              
+              [API] Renamed StandardPieItemLabelGenerator 
+                    --> StandardPieToolTipGenerator (DG);
+
+22-Jul-2005 : [NEW] LineAndShapeRenderer now has per series settings for line
+                    and shape visibility, matching XYLineAndShapeRenderer (DG);
+
+              [API] For LineAndShapeRenderer and XYLineAndShapeRenderer, renamed
+                    setDefaultXXX() --> setBaseXXX() for consistency with other
+                    renderers (DG);
+
+15-Jul-2005 : [NEW] Added sectionOutlinesVisible attribute to PiePlot (DG);
+
+12-Jul-2005 : [BUG] Fixed TaskSeriesCollection to allow null task 
+                    durations (DG);
+
+06-Jul-2005 : [BUG] Fixed crosshair bug in XYPlot (id = 1233336) (DG);
+
+              [API] Renamed SymbolicAxis --> SymbolAxis, added equals() 
+                    method, renamed getSymbolicValue() --> getSymbols(), 
+                    renamed symbolicGridPaint --> gridBandPaint, fixed 
+                    serialization of gridBandPaint, renamed 
+                    symbolicGridLinesVisible --> gridBandsVisible, 
+                    and eliminated symbolicGridLineList (DG);
+                    
+              [BUG] Changed "key" to "name" in CategorySeriesHandler (DG);
+
+              [API] In XYStepAreaRenderer, renamed get/setPlotShapes() -->
+                    get/setShapesVisible() (DG);
+                    
+05-Jul-2005 : [BUG] Fixed signature on refreshTicks() method - see bug report
+                    1232264 (DG);
+
+29-Jun-2005 : [NEW] Added localization files for zh_CN, see:
+                    http://www.jfree.org/phpBB2/viewtopic.php?t=13495 (DG);
+
+              [BUG] Fixed incorrect keys in localization files in 
+                    org.jfree.chart.* (DG);
+                    
+              [NEW] Added remove() method to DefaultPieDataset (DG);
+
+16-Jun-2005 : [NEW] Added errorIndicatorPaint to StatisticalBarRenderer and
+                    StatisticalLineAndShapeRenderer (DG);
+                    
+              [NEW] Added get/setDataset() and equals() methods to the
+                    MultiplePiePlot class (DG);
+                    
+              [NEW] Added default constructor to PiePlot3D (DG);
+              
+              [NEW] Added default constructor and get/setDataset() methods 
+                    to SpiderWebPlot (DG);
+                    
+              [NEW] Added default constructor and setDataset() method 
+                    to WaferMapPlot (DG);
+                    
+              [NEW] Added get/setData() methods to FastScatterPlot (DG);
+              
+              [NEW] Added default constructor to ContourPlot (DG);
+              
+              [NEW] Added getDomainAxisCount() and getRangeAxisCount() to
+                    CategoryPlot, to match XYPlot (DG);
+                    
+              [BUG] Fixed bug 1221021 affecting the line stroke in 
+                    XYDifferenceRenderer (DG);
+                    
+              [BUG] Fixed zooming bug in PeriodAxis (DG);
+
+10-Jun-2005 : [API] In WaferMapPlot, changed private --> protected for 
+                    drawChipGrid(), drawWaferEdge() and getWaferEdge() (DG);
+                    
+              [BUG] Fixed serialization in SpiderWebPlot class, and added
+                    an equals() implementation (DG);
+                    
+09-Jun-2005 : [API] Added accessor methods for renderAsPercentages attribute
+                    in StackedBarRenderer, and added equals() method (DG);
+                    
+              [BUG] Fixed bug in LegendTitle serialization (DG);
+              
+              [BUG] Fixed StackedBarRenderer to use GradientPaint (DG);
+
+08-Jun-2005 : [BUG] Fixed bug in PiePlot getLegendItems() method - it was 
+                    not respecting the flags for ignoring null and zero
+                    values (DG);
+                    
+              [BUG] Fixed bug in HistogramDataset's getSeriesKey(int) 
+                    method (DG);
+                    
+              [BUG] Fixed bug in layout of CategoryAxis labels (DG);
+                    
+06-Jun-2005 : [API] Added default constructor to RingPlot class (DG);
+ 
+              [API] Added addLegend() method to the JFreeChart class (DG);
+
+              [API] Added get/setPadding() methods to JFreeChart class, and
+                    updated the draw() method to reserve space around the
+                    chart as specified (DG);
+                    
+              [BUG] Fixed various problems in the equals() method of the
+                    JFreeChart class (DG);
+                    
+              [BUG] Fixed null pointer exception in StackedXYAreaRenderer, 
+                    and also problems in the equals() method and 
+                    serialization code (DG);
+
+----------------------------------------
 02-Jun-2005 : VERSION 1.0.0-rc1 RELEASED
 
 SPECIAL NOTE: this version is a "release candidate" for 1.0.0 final.  If no

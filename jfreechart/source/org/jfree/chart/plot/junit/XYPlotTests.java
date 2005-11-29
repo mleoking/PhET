@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -44,6 +45,7 @@ package org.jfree.chart.plot.junit;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.Stroke;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -221,9 +223,11 @@ public class XYPlotTests extends TestCase {
         assertTrue(plot1.equals(plot2));
         
         // domainGridlinePaint
-        plot1.setDomainGridlinePaint(Color.blue);
+        plot1.setDomainGridlinePaint(new GradientPaint(1.0f, 2.0f, Color.blue, 
+                3.0f, 4.0f, Color.red));
         assertFalse(plot1.equals(plot2));
-        plot2.setDomainGridlinePaint(Color.blue);
+        plot2.setDomainGridlinePaint(new GradientPaint(1.0f, 2.0f, Color.blue, 
+                3.0f, 4.0f, Color.red));
         assertTrue(plot1.equals(plot2));
         
         // rangeGridlinesVisible
@@ -239,9 +243,11 @@ public class XYPlotTests extends TestCase {
         assertTrue(plot1.equals(plot2));
         
         // rangeGridlinePaint
-        plot1.setRangeGridlinePaint(Color.blue);
+        plot1.setRangeGridlinePaint(new GradientPaint(1.0f, 2.0f, Color.green, 
+                3.0f, 4.0f, Color.red));
         assertFalse(plot1.equals(plot2));
-        plot2.setRangeGridlinePaint(Color.blue);
+        plot2.setRangeGridlinePaint(new GradientPaint(1.0f, 2.0f, Color.green, 
+                3.0f, 4.0f, Color.red));
         assertTrue(plot1.equals(plot2));
                 
         // rangeZeroBaselineVisible
@@ -257,9 +263,11 @@ public class XYPlotTests extends TestCase {
         assertTrue(plot1.equals(plot2));
         
         // rangeZeroBaselinePaint
-        plot1.setRangeZeroBaselinePaint(Color.blue);
+        plot1.setRangeZeroBaselinePaint(new GradientPaint(1.0f, 2.0f, Color.white, 
+                3.0f, 4.0f, Color.red));
         assertFalse(plot1.equals(plot2));
-        plot2.setRangeZeroBaselinePaint(Color.blue);
+        plot2.setRangeZeroBaselinePaint(new GradientPaint(1.0f, 2.0f, Color.white, 
+                3.0f, 4.0f, Color.red));
         assertTrue(plot1.equals(plot2));
 
         // rangeCrosshairVisible
@@ -281,9 +289,11 @@ public class XYPlotTests extends TestCase {
         assertTrue(plot1.equals(plot2));
         
         // rangeCrosshairPaint
-        plot1.setRangeCrosshairPaint(Color.red);
+        plot1.setRangeCrosshairPaint(new GradientPaint(1.0f, 2.0f, Color.pink, 
+                3.0f, 4.0f, Color.red));
         assertFalse(plot1.equals(plot2));
-        plot2.setRangeCrosshairPaint(Color.red);
+        plot2.setRangeCrosshairPaint(new GradientPaint(1.0f, 2.0f, Color.pink, 
+                3.0f, 4.0f, Color.red));
         assertTrue(plot1.equals(plot2));
         
         // rangeCrosshairLockedOnData

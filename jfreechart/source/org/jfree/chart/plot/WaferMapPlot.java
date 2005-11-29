@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -36,6 +37,9 @@
  * -------
  * 25-Nov-2003 : Version 1 contributed by Robert Redburn (DG);
  * 05-May-2005 : Updated draw() method parameters (DG);
+ * 10-Jun-2005 : Changed private --> protected for drawChipGrid(), 
+ *               drawWaferEdge() and getWafterEdge() (DG);
+ * 16-Jun-2005 : Added default constructor and setDataset() method (DG);
  *
  */
  
@@ -59,6 +63,7 @@ import org.jfree.chart.event.PlotChangeEvent;
 import org.jfree.chart.event.RendererChangeEvent;
 import org.jfree.chart.event.RendererChangeListener;
 import org.jfree.chart.renderer.WaferMapRenderer;
+import org.jfree.data.general.DatasetChangeEvent;
 import org.jfree.data.general.WaferMapDataset;
 import org.jfree.ui.RectangleInsets;
 
@@ -113,6 +118,13 @@ public class WaferMapPlot extends Plot implements RendererChangeListener,
     private WaferMapRenderer renderer;
 
     /**
+     * Creates a new plot with no dataset.
+     */
+    public WaferMapPlot() {
+        this(null);   
+    }
+    
+    /**
      * Creates a new plot.
      * 
      * @param dataset  the dataset (<code>null</code> permitted).
@@ -155,6 +167,39 @@ public class WaferMapPlot extends Plot implements RendererChangeListener,
         return ("WMAP_Plot");
     }
 
+    /**
+     * Returns the dataset
+     * 
+     * @return The dataset (possibly <code>null</code>).
+     */
+    public WaferMapDataset getDataset() {
+        return this.dataset;
+    }
+
+    /**
+     * Sets the dataset used by the plot and sends a {@link PlotChangeEvent}
+     * to all registered listeners.
+     * 
+     * @param dataset  the dataset (<code>null</code> permitted).
+     */
+    public void setDataset(WaferMapDataset dataset) {
+        // if there is an existing dataset, remove the plot from the list of 
+        // change listeners...
+        if (this.dataset != null) {
+            this.dataset.removeChangeListener(this);
+        }
+
+        // set the new dataset, and register the chart as a change listener...
+        this.dataset = dataset;
+        if (dataset != null) {
+            setDatasetGroup(dataset.getGroup());
+            dataset.addChangeListener(this);
+        }
+
+        // send a dataset change event to self to trigger plot change event
+        datasetChanged(new DatasetChangeEvent(this, dataset));
+    }
+    
     /**
      * Sets the item renderer, and notifies all listeners of a change to the 
      * plot.  If the renderer is set to <code>null</code>, no chart will be 
@@ -217,7 +262,7 @@ public class WaferMapPlot extends Plot implements RendererChangeListener,
      * @param g2  the graphics device.
      * @param plotArea  the plot area.
      */
-    private void drawChipGrid(Graphics2D g2, Rectangle2D plotArea) {
+    protected void drawChipGrid(Graphics2D g2, Rectangle2D plotArea) {
         
         Shape savedClip = g2.getClip();
         g2.setClip(getWaferEdge(plotArea));
@@ -292,7 +337,7 @@ public class WaferMapPlot extends Plot implements RendererChangeListener,
      * 
      * @return The wafer edge.
      */
-    private Ellipse2D getWaferEdge(Rectangle2D plotArea) {
+    protected Ellipse2D getWaferEdge(Rectangle2D plotArea) {
         Ellipse2D edge = new Ellipse2D.Double();
         double diameter = plotArea.getWidth();
         double upperLeftX = plotArea.getX();
@@ -329,7 +374,7 @@ public class WaferMapPlot extends Plot implements RendererChangeListener,
      * @param g2  the graphics device.
      * @param plotArea  the plot area.
      */
-    private void drawWaferEdge(Graphics2D g2, Rectangle2D plotArea) {
+    protected void drawWaferEdge(Graphics2D g2, Rectangle2D plotArea) {
         // draw the wafer
         Ellipse2D waferEdge = getWaferEdge(plotArea);
         g2.setColor(Color.black);
@@ -365,15 +410,6 @@ public class WaferMapPlot extends Plot implements RendererChangeListener,
         g2.setColor(Color.black);
         g2.draw(notch);
         
-    }
-
-    /**
-     * Returns the dataset
-     * 
-     * @return The dataset.
-     */
-    public WaferMapDataset getDataset() {
-        return this.dataset;
     }
 
     /**

@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -116,6 +117,17 @@ public class ImageTitleTests extends TestCase {
 
         // TODO: add serialization support for images
 
+    }
+    
+    private static final double EPSILON = 0.00000001;
+    
+    /**
+     * Check the width and height.
+     */
+    public void testWidthAndHeight() {
+        ImageTitle t1 = new ImageTitle(JFreeChart.INFO.getLogo());
+        assertEquals(100, t1.getWidth(), EPSILON);
+        assertEquals(100, t1.getHeight(), EPSILON);
     }
 
 }

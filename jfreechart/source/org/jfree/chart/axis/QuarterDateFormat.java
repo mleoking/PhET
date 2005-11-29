@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -107,7 +108,7 @@ public class QuarterDateFormat extends DateFormat
         // the following is never used, but it seems that DateFormat requires
         // it to be non-null.  It isn't well covered in the spec, refer to 
         // bug parade 5061189 for more info.
-        this.numberFormat = NumberFormat.getIntegerInstance();
+        this.numberFormat = NumberFormat.getNumberInstance();
     }
     
     /**

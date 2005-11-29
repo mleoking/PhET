@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -54,6 +55,8 @@
  * 20-Apr-2005 : Use generators for legend tooltips and URLs (DG);
  * 04-May-2005 : Override equals() method, renamed get/setPlotShapes() -->
  *               get/setShapesVisible (DG);
+ * 09-Jun-2005 : Updated equals() to handle GradientPaint (DG);
+ * 16-Jun-2005 : Fix bug (1221021) affecting stroke used for each series (DG);
  * 
  */
 
@@ -85,7 +88,7 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.io.SerialUtilities;
 import org.jfree.ui.RectangleEdge;
-import org.jfree.util.ObjectUtilities;
+import org.jfree.util.PaintUtilities;
 import org.jfree.util.PublicCloneable;
 import org.jfree.util.ShapeUtilities;
 
@@ -516,10 +519,12 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
                 }
                 if (line0 != null && line0.intersects(dataArea)) {
                     g2.setPaint(getItemPaint(series, item));
+                    g2.setStroke(getItemStroke(series, item));
                     g2.draw(line0);
                 }
                 if (line1 != null && line1.intersects(dataArea)) {
                     g2.setPaint(getItemPaint(1, item));
+                    g2.setStroke(getItemStroke(1, item));
                     g2.draw(line1);
                 }
             }
@@ -870,10 +875,8 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
                     Stroke stroke = getSeriesStroke(series);
                     // TODO:  the following hard-coded line needs generalising
                     Line2D line = new Line2D.Double(-7.0, 0.0, 7.0, 0.0);
-                    result = new LegendItem(
-                        label, description, toolTipText, urlText, 
-                        line, stroke, paint
-                    );
+                    result = new LegendItem(label, description, 
+                            toolTipText, urlText, line, stroke, paint);
                 }
             }
 
@@ -901,10 +904,10 @@ public class XYDifferenceRenderer extends AbstractXYItemRenderer
             return false;   
         }
         XYDifferenceRenderer that = (XYDifferenceRenderer) obj;
-        if (!ObjectUtilities.equal(this.positivePaint, that.positivePaint)) {
+        if (!PaintUtilities.equal(this.positivePaint, that.positivePaint)) {
             return false;   
         }
-        if (!ObjectUtilities.equal(this.negativePaint, that.negativePaint)) {
+        if (!PaintUtilities.equal(this.negativePaint, that.negativePaint)) {
             return false;   
         }
         if (this.shapesVisible != that.shapesVisible) {

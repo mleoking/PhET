@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -67,6 +68,10 @@
  * 11-Feb-2005 : Implemented PublicCloneable (DG);
  * 20-Apr-2005 : Added support for tooltips (DG);
  * 26-Apr-2005 : Removed LOGGER (DG);
+ * 06-Jun-2005 : Modified equals() to handle GradientPaint (DG);
+ * 06-Jul-2005 : Added flag to control whether or not the title expands to
+ *               fit the available space (DG);
+ * 07-Oct-2005 : Added textAlignment attribute (DG);
  * 
  */
 
@@ -90,6 +95,7 @@ import org.jfree.chart.entity.ChartEntity;
 import org.jfree.chart.entity.EntityCollection;
 import org.jfree.chart.entity.StandardEntityCollection;
 import org.jfree.chart.event.TitleChangeEvent;
+import org.jfree.data.Range;
 import org.jfree.io.SerialUtilities;
 import org.jfree.text.G2TextMeasurer;
 import org.jfree.text.TextBlock;
@@ -101,6 +107,7 @@ import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.Size2D;
 import org.jfree.ui.VerticalAlignment;
 import org.jfree.util.ObjectUtilities;
+import org.jfree.util.PaintUtilities;
 import org.jfree.util.PublicCloneable;
 
 /**
@@ -125,6 +132,9 @@ public class TextTitle extends Title
 
     /** The font used to display the title. */
     private Font font;
+    
+    /** The text alignment. */
+    private HorizontalAlignment textAlignment;
 
     /** The paint used to display the title text. */
     private transient Paint paint;
@@ -140,6 +150,12 @@ public class TextTitle extends Title
     
     /** The content. */
     private TextBlock content;
+    
+    /** 
+     * A flag that controls whether the title expands to fit the available
+     * space..
+     */
+    private boolean expandToFitSpace = false;
     
     /**
      * Creates a new title, using default attributes where necessary.
@@ -219,6 +235,10 @@ public class TextTitle extends Title
         this.text = text;
         this.font = font;
         this.paint = paint;
+        // the textAlignment and the horizontalAlignment are separate things,
+        // but it makes sense for the default textAlignment to match the
+        // title's horizontal alignment...
+        this.textAlignment = horizontalAlignment;
         this.backgroundPaint = null;
         this.content = null;
         this.toolTipText = null;
@@ -251,6 +271,31 @@ public class TextTitle extends Title
         }
     }
 
+    /**
+     * Returns the text alignment.  This controls how the text is aligned 
+     * within the title's bounds, whereas the title's horizontal alignment
+     * controls how the title's bounding rectangle is aligned within the 
+     * drawing space.
+     * 
+     * @return The text alignment.
+     */
+    public HorizontalAlignment getTextAlignment() {
+        return this.textAlignment;
+    }
+    
+    /**
+     * Sets the text alignment.
+     * 
+     * @param alignment  the alignment (<code>null</code> not permitted).
+     */
+    public void setTextAlignment(HorizontalAlignment alignment) {
+        if (alignment == null) {
+            throw new IllegalArgumentException("Null 'alignment' argument.");
+        }
+        this.textAlignment = alignment;
+        notifyListeners(new TitleChangeEvent(this));
+    }
+    
     /**
      * Returns the font used to display the title string.
      *
@@ -348,7 +393,7 @@ public class TextTitle extends Title
      * @return The URL text (possibly <code>null</code>).
      */
     public String getURLText() {
-        return this.toolTipText;
+        return this.urlText;
     }
 
     /**
@@ -360,6 +405,28 @@ public class TextTitle extends Title
     public void setURLText(String text) {
         this.urlText = text;
         notifyListeners(new TitleChangeEvent(this));
+    }
+    
+    /**
+     * Returns the flag that controls whether or not the title expands to fit
+     * the available space.
+     * 
+     * @return The flag.
+     */
+    public boolean getExpandToFitSpace() {
+        return this.expandToFitSpace;   
+    }
+    
+    /**
+     * Sets the flag that controls whether the title expands to fit the 
+     * available space, and sends a {@link TitleChangeEvent} to all registered
+     * listeners.
+     * 
+     * @param expand  the flag.
+     */
+    public void setExpandToFitSpace(boolean expand) {
+        this.expandToFitSpace = expand;
+        notifyListeners(new TitleChangeEvent(this));        
     }
 
     /**
@@ -392,7 +459,8 @@ public class TextTitle extends Title
                 throw new RuntimeException("Not yet implemented."); 
             }
             else if (h == LengthConstraintType.RANGE) {
-                contentSize = arrangeRR(g2, cc); 
+                contentSize = arrangeRR(g2, cc.getWidthRange(), 
+                        cc.getHeightRange()); 
             }
             else if (h == LengthConstraintType.FIXED) {
                 throw new RuntimeException("Not yet implemented.");                 
@@ -415,13 +483,29 @@ public class TextTitle extends Title
         );
     }
     
-    protected Size2D arrangeRR(Graphics2D g2, RectangleConstraint constraint) {
-        float maxWidth = (float) constraint.getWidthRange().getUpperBound();
+    /**
+     * Returns the content size for the title.
+     * 
+     * @param g2  the graphics device.
+     * @param widthRange  the width range.
+     * @param heightRange  the height range.
+     * 
+     * @return The content size.
+     */
+    protected Size2D arrangeRR(Graphics2D g2, Range widthRange, 
+            Range heightRange) {
+        float maxWidth = (float) widthRange.getUpperBound();
         g2.setFont(this.font);
         this.content = TextUtilities.createTextBlock(
-            this.text, this.font, this.paint, maxWidth, new G2TextMeasurer(g2)
-        );
-        return this.content.calculateDimensions(g2);
+            this.text, this.font, this.paint, maxWidth, new G2TextMeasurer(g2));
+        this.content.setLineAlignment(this.textAlignment);
+        Size2D contentSize = this.content.calculateDimensions(g2);
+        if (this.expandToFitSpace) {
+            return new Size2D(maxWidth, contentSize.getHeight());
+        }
+        else {
+            return contentSize;
+        }
     }
     
     /**
@@ -588,7 +672,6 @@ public class TextTitle extends Title
      * @return <code>true</code> or <code>false</code>.
      */
     public boolean equals(Object obj) {
-
         if (obj == this) {
             return true;
         }
@@ -605,16 +688,16 @@ public class TextTitle extends Title
         if (!ObjectUtilities.equal(this.font, that.font)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.paint, that.paint)) {
+        if (!PaintUtilities.equal(this.paint, that.paint)) {
             return false;
         }
-        if (!ObjectUtilities.equal(
-            this.backgroundPaint, that.backgroundPaint)
-        ) {
+        if (this.textAlignment != that.textAlignment) {
+            return false;
+        }
+        if (!PaintUtilities.equal(this.backgroundPaint, that.backgroundPaint)) {
             return false;
         }
         return true;
-
     }
 
     /**

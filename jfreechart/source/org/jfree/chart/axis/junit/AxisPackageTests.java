@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -83,13 +84,14 @@ public class AxisPackageTests extends TestCase {
         suite.addTestSuite(MonthDateFormatTests.class);
         suite.addTestSuite(NumberAxisTests.class);
         suite.addTestSuite(NumberAxis3DTests.class);
+        suite.addTestSuite(NumberTickUnitTests.class);
         suite.addTestSuite(PeriodAxisTests.class);
         suite.addTestSuite(PeriodAxisLabelInfoTests.class);
         suite.addTestSuite(QuarterDateFormatTests.class);
         suite.addTestSuite(SegmentedTimelineTests.class);
         suite.addTestSuite(SegmentedTimelineTests2.class);
         suite.addTestSuite(SubCategoryAxisTests.class);
-        suite.addTestSuite(SymbolicAxisTests.class);
+        suite.addTestSuite(SymbolAxisTests.class);
         suite.addTestSuite(ValueAxisTests.class);
         return suite;
     }

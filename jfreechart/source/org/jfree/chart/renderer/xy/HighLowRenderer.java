@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -26,7 +27,7 @@
  * --------------------
  * HighLowRenderer.java
  * --------------------
- * (C) Copyright 2001-2004, by Object Refinery Limited.
+ * (C) Copyright 2001-2005, by Object Refinery Limited.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   Richard Atkinson;
@@ -58,6 +59,7 @@
  *               XYToolTipGenerator --> XYItemLabelGenerator (DG);
  * 15-Jul-2004 : Switched getX() with getXValue() and getY() with 
  *               getYValue() (DG);
+ * 01-Nov-2005 : Added optional openTickPaint and closeTickPaint settings (DG);
  * 
  */
 
@@ -69,6 +71,9 @@ import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import org.jfree.chart.axis.ValueAxis;
@@ -82,7 +87,9 @@ import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.OHLCDataset;
 import org.jfree.data.xy.XYDataset;
+import org.jfree.io.SerialUtilities;
 import org.jfree.ui.RectangleEdge;
+import org.jfree.util.PaintUtilities;
 import org.jfree.util.PublicCloneable;
 
 /**
@@ -104,6 +111,18 @@ public class HighLowRenderer extends AbstractXYItemRenderer
 
     /** A flag that controls whether the close ticks are drawn. */
     private boolean drawCloseTicks;
+    
+    /** 
+     * The paint used for the open ticks (if <code>null</code>, the series
+     * paint is used instead).
+     */
+    private transient Paint openTickPaint;
+    
+    /** 
+     * The paint used for the close ticks (if <code>null</code>, the series
+     * paint is used instead).
+     */
+    private transient Paint closeTickPaint;
 
     /**
      * The default constructor.
@@ -155,6 +174,52 @@ public class HighLowRenderer extends AbstractXYItemRenderer
     }
     
     /**
+     * Returns the paint used to draw the ticks for the open values.
+     * 
+     * @return The paint used to draw the ticks for the open values (possibly 
+     *         <code>null</code>).
+     */
+    public Paint getOpenTickPaint() {
+        return this.openTickPaint;
+    }
+    
+    /**
+     * Sets the paint used to draw the ticks for the open values and sends a 
+     * {@link RendererChangeEvent} to all registered listeners.  If you set
+     * this to <code>null</code> (the default), the series paint is used 
+     * instead.
+     * 
+     * @param paint  the paint (<code>null</code> permitted).
+     */
+    public void setOpenTickPaint(Paint paint) {
+        this.openTickPaint = paint;
+        notifyListeners(new RendererChangeEvent(this));
+    }
+    
+    /**
+     * Returns the paint used to draw the ticks for the close values.
+     * 
+     * @return The paint used to draw the ticks for the close values (possibly 
+     *         <code>null</code>).
+     */
+    public Paint getCloseTickPaint() {
+        return this.closeTickPaint;
+    }
+    
+    /**
+     * Sets the paint used to draw the ticks for the close values and sends a 
+     * {@link RendererChangeEvent} to all registered listeners.  If you set
+     * this to <code>null</code> (the default), the series paint is used 
+     * instead.
+     * 
+     * @param paint  the paint (<code>null</code> permitted).
+     */
+    public void setCloseTickPaint(Paint paint) {
+        this.closeTickPaint = paint;
+        notifyListeners(new RendererChangeEvent(this));
+    }
+    
+    /**
      * Draws the visual representation of a single data item.
      *
      * @param g2  the graphics device.
@@ -194,9 +259,8 @@ public class HighLowRenderer extends AbstractXYItemRenderer
         if (!domainAxis.getRange().contains(xdouble)) {
             return;    // the x value is not within the axis range
         }
-        double xx = domainAxis.valueToJava2D(
-            xdouble, dataArea, plot.getDomainAxisEdge()
-        );
+        double xx = domainAxis.valueToJava2D(xdouble, dataArea, 
+                plot.getDomainAxisEdge());
         
         // setup for collecting optional entity info...
         Shape entityArea = null;
@@ -208,10 +272,10 @@ public class HighLowRenderer extends AbstractXYItemRenderer
         PlotOrientation orientation = plot.getOrientation();
         RectangleEdge location = plot.getRangeAxisEdge();
 
-        Paint p = getItemPaint(series, item);
-        Stroke s = getItemStroke(series, item);
-        g2.setPaint(p);
-        g2.setStroke(s);
+        Paint itemPaint = getItemPaint(series, item);
+        Stroke itemStroke = getItemStroke(series, item);
+        g2.setPaint(itemPaint);
+        g2.setStroke(itemStroke);
         
         if (dataset instanceof OHLCDataset) {
             OHLCDataset hld = (OHLCDataset) dataset;
@@ -219,23 +283,20 @@ public class HighLowRenderer extends AbstractXYItemRenderer
             double yHigh = hld.getHighValue(series, item);
             double yLow = hld.getLowValue(series, item);
             if (!Double.isNaN(yHigh) && !Double.isNaN(yLow)) {
-                double yyHigh 
-                    = rangeAxis.valueToJava2D(yHigh, dataArea, location);
-                double yyLow 
-                    = rangeAxis.valueToJava2D(yLow, dataArea, location);
+                double yyHigh = rangeAxis.valueToJava2D(yHigh, dataArea, 
+                        location);
+                double yyLow = rangeAxis.valueToJava2D(yLow, dataArea, 
+                        location);
                 if (orientation == PlotOrientation.HORIZONTAL) {
                     g2.draw(new Line2D.Double(yyLow, xx, yyHigh, xx));
-                    entityArea = new Rectangle2D.Double(
-                        Math.min(yyLow, yyHigh), xx - 1.0,  
-                        Math.abs(yyHigh - yyLow), 2.0
-                    );
+                    entityArea = new Rectangle2D.Double(Math.min(yyLow, yyHigh),
+                            xx - 1.0, Math.abs(yyHigh - yyLow), 2.0);
                 }
                 else if (orientation == PlotOrientation.VERTICAL) {
                     g2.draw(new Line2D.Double(xx, yyLow, xx, yyHigh));   
-                    entityArea = new Rectangle2D.Double(
-                        xx - 1.0, Math.min(yyLow, yyHigh), 2.0,  
-                        Math.abs(yyHigh - yyLow)
-                    );
+                    entityArea = new Rectangle2D.Double(xx - 1.0, 
+                            Math.min(yyLow, yyHigh), 2.0,  
+                            Math.abs(yyHigh - yyLow));
                 }
             }
             
@@ -244,20 +305,23 @@ public class HighLowRenderer extends AbstractXYItemRenderer
                 delta = -delta;
             }
             if (getDrawOpenTicks()) {
-            double yOpen = hld.getOpenValue(series, item);
+                double yOpen = hld.getOpenValue(series, item);
                 if (!Double.isNaN(yOpen)) {
-                    double yyOpen = rangeAxis.valueToJava2D(
-                        yOpen, dataArea, location
-                    );
+                    double yyOpen = rangeAxis.valueToJava2D(yOpen, dataArea, 
+                            location);
+                    if (this.openTickPaint != null) {
+                        g2.setPaint(this.openTickPaint);
+                    }
+                    else {
+                        g2.setPaint(itemPaint);
+                    }
                     if (orientation == PlotOrientation.HORIZONTAL) {
-                        g2.draw(
-                            new Line2D.Double(yyOpen, xx + delta, yyOpen, xx)
-                        );   
+                        g2.draw(new Line2D.Double(yyOpen, xx + delta, yyOpen, 
+                                xx));   
                     }
                     else if (orientation == PlotOrientation.VERTICAL) {
-                        g2.draw(
-                            new Line2D.Double(xx - delta, yyOpen, xx, yyOpen)
-                        );   
+                        g2.draw(new Line2D.Double(xx - delta, yyOpen, xx, 
+                                yyOpen));   
                     }
                 }
             }
@@ -266,17 +330,20 @@ public class HighLowRenderer extends AbstractXYItemRenderer
                 double yClose = hld.getCloseValue(series, item);
                 if (!Double.isNaN(yClose)) {
                     double yyClose = rangeAxis.valueToJava2D(
-                        yClose, dataArea, location
-                    );
+                        yClose, dataArea, location);
+                    if (this.closeTickPaint != null) {
+                        g2.setPaint(this.closeTickPaint);
+                    }
+                    else {
+                        g2.setPaint(itemPaint);
+                    }
                     if (orientation == PlotOrientation.HORIZONTAL) {
-                        g2.draw(
-                            new Line2D.Double(yyClose, xx, yyClose, xx - delta)
-                        );   
+                        g2.draw(new Line2D.Double(yyClose, xx, yyClose, 
+                                xx - delta));   
                     }
                     else if (orientation == PlotOrientation.VERTICAL) {
-                        g2.draw(
-                            new Line2D.Double(xx, yyClose, xx + delta, yyClose)
-                        );   
+                        g2.draw(new Line2D.Double(xx, yyClose, xx + delta, 
+                                yyClose));   
                     }
                 }
             }
@@ -292,15 +359,12 @@ public class HighLowRenderer extends AbstractXYItemRenderer
                 if (x0 == null || y0 == null || y == null) {
                     return;
                 }
-                double xx0 = domainAxis.valueToJava2D(
-                    x0.doubleValue(), dataArea, plot.getDomainAxisEdge()
-                );
-                double yy0 = rangeAxis.valueToJava2D(
-                    y0.doubleValue(), dataArea, location
-                );
-                double yy = rangeAxis.valueToJava2D(
-                    y.doubleValue(), dataArea, location
-                );
+                double xx0 = domainAxis.valueToJava2D(x0.doubleValue(), 
+                        dataArea, plot.getDomainAxisEdge());
+                double yy0 = rangeAxis.valueToJava2D(y0.doubleValue(), 
+                        dataArea, location);
+                double yy = rangeAxis.valueToJava2D(y.doubleValue(), dataArea, 
+                        location);
                 if (orientation == PlotOrientation.HORIZONTAL) {
                     g2.draw(new Line2D.Double(yy0, xx0, yy, xx));
                 }
@@ -321,9 +385,8 @@ public class HighLowRenderer extends AbstractXYItemRenderer
             if (getURLGenerator() != null) {
                 url = getURLGenerator().generateURL(dataset, series, item);
             }
-            XYItemEntity entity = new XYItemEntity(
-                entityArea, dataset, series, item, tip, url
-            );
+            XYItemEntity entity = new XYItemEntity(entityArea, dataset, 
+                    series, item, tip, url);
             entities.add(entity);
         }
 
@@ -338,6 +401,67 @@ public class HighLowRenderer extends AbstractXYItemRenderer
      */
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+    
+    /**
+     * Tests this renderer for equality with an arbitrary object.
+     * 
+     * @param obj  the object (<code>null</code> permitted).
+     * 
+     * @return A boolean.
+     */
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof HighLowRenderer)) {
+            return false;
+        }
+        HighLowRenderer that = (HighLowRenderer) obj;
+        if (this.drawOpenTicks != that.drawOpenTicks) {
+            return false;
+        }
+        if (this.drawCloseTicks != that.drawCloseTicks) {
+            return false;
+        }
+        if (!PaintUtilities.equal(this.openTickPaint, that.openTickPaint)) {
+            return false;
+        }
+        if (!PaintUtilities.equal(this.closeTickPaint, that.closeTickPaint)) {
+            return false;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        return true;
+    }
+    
+    /**
+     * Provides serialization support.
+     *
+     * @param stream  the input stream.
+     *
+     * @throws IOException  if there is an I/O error.
+     * @throws ClassNotFoundException  if there is a classpath problem.
+     */
+    private void readObject(ObjectInputStream stream) 
+            throws IOException, ClassNotFoundException {
+        stream.defaultReadObject();
+        this.openTickPaint = SerialUtilities.readPaint(stream);
+        this.closeTickPaint = SerialUtilities.readPaint(stream);
+    }
+    
+    /**
+     * Provides serialization support.
+     *
+     * @param stream  the output stream.
+     *
+     * @throws IOException  if there is an I/O error.
+     */
+    private void writeObject(ObjectOutputStream stream) throws IOException {
+        stream.defaultWriteObject();
+        SerialUtilities.writePaint(this.openTickPaint, stream);
+        SerialUtilities.writePaint(this.closeTickPaint, stream);
     }
 
 }

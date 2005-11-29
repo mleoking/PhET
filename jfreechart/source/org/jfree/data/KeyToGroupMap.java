@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -38,6 +39,8 @@
  * 29-Apr-2004 : Version 1 (DG);
  * 07-Jul-2004 : Added a group list to ensure group index is consistent, fixed 
  *               cloning problem (DG);
+ * 18-Aug-2005 : Added casts in clone() method to suppress 1.5 compiler 
+ *               warnings - see patch 1260587 (DG);
  * 
  */
 
@@ -276,10 +279,10 @@ public class KeyToGroupMap implements Cloneable, PublicCloneable, Serializable {
         Class c = object.getClass();
         Object result = null;
         try {
-            Method m = c.getMethod("clone", null);
+            Method m = c.getMethod("clone", (Class[]) null);
             if (Modifier.isPublic(m.getModifiers())) {
                 try {
-                    result = m.invoke(object, null);
+                    result = m.invoke(object, (Object[]) null);
                 }
                 catch (Exception e) {
                     e.printStackTrace();  

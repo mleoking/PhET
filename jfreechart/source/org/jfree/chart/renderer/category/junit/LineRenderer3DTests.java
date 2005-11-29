@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -132,16 +133,60 @@ public class LineRenderer3DTests extends TestCase {
         boolean b0 = r1.equals(r2);
         
         // and independent...
-        r1.setShapesVisible(!r1.isShapesVisible());
-        boolean b1 = !r1.equals(r2);
-        r2.setShapesVisible(r1.isShapesVisible());
-        boolean b2 = r1.equals(r2);
-        
-        r1.setLinesVisible(!r1.isLinesVisible());
-        boolean b3 = !r1.equals(r2);
-        r2.setLinesVisible(r1.isLinesVisible());
-        boolean b4 = r1.equals(r2);
+        r1.setBaseLinesVisible(!r1.getBaseLinesVisible());
+        if (r1.equals(r2)) {
+            return false;
+        }
+        r2.setBaseLinesVisible(r1.getBaseLinesVisible());
+        if (!r1.equals(r2)) {
+            return false;
+        }
+
+        r1.setSeriesLinesVisible(1, true);
+        if (r1.equals(r2)) {
+            return false;
+        }
+        r2.setSeriesLinesVisible(1, true);
+        if (!r1.equals(r2)) {
+            return false;
+        }
+            
+        r1.setLinesVisible(false);
+        if (r1.equals(r2)) {
+            return false;
+        }
+        r2.setLinesVisible(false);
+        if (!r1.equals(r2)) {
+            return false;
+        }
                 
+        r1.setBaseShapesVisible(!r1.getBaseShapesVisible());
+        if (r1.equals(r2)) {
+            return false;
+        }
+        r2.setBaseShapesVisible(r1.getBaseShapesVisible());
+        if (!r1.equals(r2)) {
+            return false;
+        }
+
+        r1.setSeriesShapesVisible(1, true);
+        if (r1.equals(r2)) {
+            return false;
+        }
+        r2.setSeriesShapesVisible(1, true);
+        if (!r1.equals(r2)) {
+            return false;
+        }
+            
+        r1.setShapesVisible(false);
+        if (r1.equals(r2)) {
+            return false;
+        }
+        r2.setShapesVisible(false);
+        if (!r1.equals(r2)) {
+            return false;
+        }
+
         boolean flag = true;
         Boolean existing = r1.getShapesFilled();
         if (existing != null) {
@@ -160,16 +205,16 @@ public class LineRenderer3DTests extends TestCase {
         r2.setSeriesShapesFilled(0, false);
         boolean b8 = (r1.equals(r2));
         
-        r1.setDefaultShapesFilled(false);
-        r2.setDefaultShapesFilled(true);
+        r1.setBaseShapesFilled(false);
+        r2.setBaseShapesFilled(true);
         boolean b9 = !r1.equals(r2);
-        r2.setDefaultShapesFilled(false);
+        r2.setBaseShapesFilled(false);
         boolean b10 = (r1.equals(r2));
         
-        return b0 && b1 && b2 && b3 && b4 && b5 && b6 && b7 && b8 && b9 && b10;
+        return b0 && b5 && b6 && b7 && b8 && b9 && b10;
     
     }
-    
+
     /**
      * Serialize an instance, restore it, and check for equality.
      */

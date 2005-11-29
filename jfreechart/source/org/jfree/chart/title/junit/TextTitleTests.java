@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -36,6 +37,8 @@
  * Changes
  * -------
  * 17-Feb-2004 : Version 1 (DG);
+ * 06-Jun-2005 : Use GradientPaint in equals() test (DG);
+ * 07-Oct-2005 : Updated testEquals() (DG);
  *
  */
 
@@ -43,6 +46,7 @@ package org.jfree.chart.title.junit;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GradientPaint;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInput;
@@ -55,6 +59,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.jfree.chart.title.TextTitle;
+import org.jfree.ui.HorizontalAlignment;
 
 /**
  * Tests for the {@link TextTitle} class.
@@ -98,14 +103,25 @@ public class TextTitleTests extends TestCase {
         t2.setFont(f);
         assertTrue(t1.equals(t2));
         
-        t1.setPaint(Color.blue);
+        t1.setTextAlignment(HorizontalAlignment.RIGHT);
         assertFalse(t1.equals(t2));
-        t2.setPaint(Color.blue);
+        t2.setTextAlignment(HorizontalAlignment.RIGHT);
         assertTrue(t1.equals(t2));
         
-        t1.setBackgroundPaint(Color.blue);
+        // paint
+        t1.setPaint(new GradientPaint(1.0f, 2.0f, Color.red, 
+                3.0f, 4.0f, Color.blue));
         assertFalse(t1.equals(t2));
-        t2.setBackgroundPaint(Color.blue);
+        t2.setPaint(new GradientPaint(1.0f, 2.0f, Color.red, 
+                3.0f, 4.0f, Color.blue));
+        assertTrue(t1.equals(t2));
+        
+        // backgroundPaint
+        t1.setBackgroundPaint(new GradientPaint(4.0f, 3.0f, Color.red, 
+                2.0f, 1.0f, Color.blue));
+        assertFalse(t1.equals(t2));
+        t2.setBackgroundPaint(new GradientPaint(4.0f, 3.0f, Color.red, 
+                2.0f, 1.0f, Color.blue));
         assertTrue(t1.equals(t2));
         
     }

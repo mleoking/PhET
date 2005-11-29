@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc.
  * in the United States and other countries.]
@@ -162,6 +163,9 @@
  *               axes, dataset(s) and renderer(s) - see patch 1209475 (DG);
  * 01-Jun-2005 : Added clearDomainMarkers(int) method to match 
  *               clearRangeMarkers(int) (DG);
+ * 06-Jun-2005 : Fixed equals() method to handle GradientPaint (DG);
+ * 09-Jun-2005 : Added setRenderers(), as per RFE 1183100 (DG);
+ * 06-Jul-2005 : Fixed crosshair bug (id = 1233336) (DG);
  *
  */
 
@@ -219,6 +223,7 @@ import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.util.ObjectList;
 import org.jfree.util.ObjectUtilities;
+import org.jfree.util.PaintUtilities;
 import org.jfree.util.PublicCloneable;
 
 /**
@@ -1213,13 +1218,26 @@ public class XYPlot extends Plot implements ValueAxisPlot,
     }
 
     /**
-     * Sets a renderer and sends a {@link PlotChangeEvent} is sent to all
+     * Sets a renderer and sends a {@link PlotChangeEvent} to all
      * registered listeners.
      *
      * @param index  the index.
      * @param renderer  the renderer.
      */
     public void setRenderer(int index, XYItemRenderer renderer) {
+        setRenderer(index, renderer, true);
+    }
+
+    /**
+     * Sets a renderer and sends a {@link PlotChangeEvent} to all
+     * registered listeners.
+     *
+     * @param index  the index.
+     * @param renderer  the renderer.
+     * @param notify  notify listeners?
+     */
+    public void setRenderer(int index, XYItemRenderer renderer, 
+                            boolean notify) {
         XYItemRenderer existing = getRenderer(index);
         if (existing != null) {
             existing.removeChangeListener(this);
@@ -1231,9 +1249,24 @@ public class XYPlot extends Plot implements ValueAxisPlot,
         }
         configureDomainAxes();
         configureRangeAxes();
-        notifyListeners(new PlotChangeEvent(this));
+        if (notify) {
+            notifyListeners(new PlotChangeEvent(this));
+        }
     }
 
+    /**
+     * Sets the renderers for this plot and sends a {@link PlotChangeEvent}
+     * to all registered listeners.
+     * 
+     * @param renderers  the renderers.
+     */
+    public void setRenderers(XYItemRenderer[] renderers) {
+        for (int i = 0; i < renderers.length; i++) {
+            setRenderer(i, renderers[i], false);   
+        }
+        notifyListeners(new PlotChangeEvent(this));
+    }
+    
     /**
      * Returns the dataset rendering order.
      *
@@ -2081,10 +2114,6 @@ public class XYPlot extends Plot implements ValueAxisPlot,
                     );
             }
         }
-        if (domainAxisState != null) {
-            drawDomainTickBands(g2, dataArea, domainAxisState.getTicks());
-            drawDomainGridlines(g2, dataArea, domainAxisState.getTicks());
-        }
 
         AxisState rangeAxisState = (AxisState) axisStateMap.get(getRangeAxis());
         if (rangeAxisState == null) {
@@ -2095,8 +2124,16 @@ public class XYPlot extends Plot implements ValueAxisPlot,
                     );
             }
         }
+        if (domainAxisState != null) {
+            drawDomainTickBands(g2, dataArea, domainAxisState.getTicks());
+        }
         if (rangeAxisState != null) {
             drawRangeTickBands(g2, dataArea, rangeAxisState.getTicks());
+        }
+        if (domainAxisState != null) {
+            drawDomainGridlines(g2, dataArea, domainAxisState.getTicks());
+        }
+        if (rangeAxisState != null) {
             drawRangeGridlines(g2, dataArea, rangeAxisState.getTicks());
             drawZeroRangeBaseline(g2, dataArea);
         }
@@ -2211,7 +2248,7 @@ public class XYPlot extends Plot implements ValueAxisPlot,
             double yy = getRangeAxis().java2DToValue(
                 anchor.getY(), dataArea, getRangeAxisEdge()
             );
-            crosshairState.setCrosshairX(yy);
+            crosshairState.setCrosshairY(yy);
         }
         setRangeCrosshairValue(crosshairState.getCrosshairY(), false);
         if (isRangeCrosshairVisible()
@@ -3722,7 +3759,7 @@ public class XYPlot extends Plot implements ValueAxisPlot,
                 this.domainGridlineStroke, that.domainGridlineStroke)) {
             return false;
         }
-        if (!ObjectUtilities.equal(
+        if (!PaintUtilities.equal(
                 this.domainGridlinePaint, that.domainGridlinePaint)) {
             return false;
         }
@@ -3730,11 +3767,11 @@ public class XYPlot extends Plot implements ValueAxisPlot,
                 this.rangeGridlineStroke, that.rangeGridlineStroke)) {
             return false;
         }
-        if (!ObjectUtilities.equal(
+        if (!PaintUtilities.equal(
                 this.rangeGridlinePaint, that.rangeGridlinePaint)) {
             return false;
         }
-        if (!ObjectUtilities.equal(
+        if (!PaintUtilities.equal(
                 this.rangeZeroBaselinePaint, that.rangeZeroBaselinePaint
             )) {
             return false;
@@ -3749,7 +3786,7 @@ public class XYPlot extends Plot implements ValueAxisPlot,
             )) {
             return false;
         }
-        if (!ObjectUtilities.equal(
+        if (!PaintUtilities.equal(
                 this.domainCrosshairPaint, that.domainCrosshairPaint
             )) {
             return false;
@@ -3759,7 +3796,7 @@ public class XYPlot extends Plot implements ValueAxisPlot,
             )) {
             return false;
         }
-        if (!ObjectUtilities.equal(
+        if (!PaintUtilities.equal(
                 this.rangeCrosshairPaint, that.rangeCrosshairPaint
             )) {
             return false;

@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -50,6 +51,9 @@
  *               XYToolTipGenerator --> XYItemLabelGenerator (DG);
  * 19-Jan-2005 : Now accesses only primitives from dataset (DG);
  * 15-Mar-2005 : Fix silly bug in drawItem() method (DG);
+ * 19-Sep-2005 : Extend XYLineAndShapeRenderer (fixes legend shapes), added 
+ *               support for series visibility, and use getDefaultEntityRadius() 
+ *               for entity hotspot size (DG); 
  *
  */
 
@@ -82,7 +86,7 @@ import org.jfree.util.PublicCloneable;
  *
  * @author Roger Studner
  */
-public class XYStepRenderer extends AbstractXYItemRenderer 
+public class XYStepRenderer extends XYLineAndShapeRenderer 
                             implements XYItemRenderer, 
                                        Cloneable,
                                        PublicCloneable,
@@ -95,7 +99,7 @@ public class XYStepRenderer extends AbstractXYItemRenderer
      * Constructs a new renderer with no tooltip or URL generation.
      */
     public XYStepRenderer() {
-        super();
+        this(null, null);
     }
 
     /**
@@ -106,11 +110,10 @@ public class XYStepRenderer extends AbstractXYItemRenderer
      */
     public XYStepRenderer(XYToolTipGenerator toolTipGenerator,
                           XYURLGenerator urlGenerator) {
-
         super();
         setBaseToolTipGenerator(toolTipGenerator);
         setURLGenerator(urlGenerator);
-
+        setShapesVisible(false);
     }
 
     /**
@@ -144,6 +147,11 @@ public class XYStepRenderer extends AbstractXYItemRenderer
                          CrosshairState crosshairState, 
                          int pass) {
 
+        // do nothing if item is not visible
+        if (!getItemVisible(series, item)) {
+            return;   
+        }
+
         PlotOrientation orientation = plot.getOrientation();
         
         Paint seriesPaint = getItemPaint(series, item);
@@ -168,12 +176,10 @@ public class XYStepRenderer extends AbstractXYItemRenderer
             double x0 = dataset.getXValue(series, item - 1);
             double y0 = dataset.getYValue(series, item - 1);
             if (!Double.isNaN(y0)) {
-                double transX0 = domainAxis.valueToJava2D(
-                    x0, dataArea, xAxisLocation
-                );
-                double transY0 = rangeAxis.valueToJava2D(
-                    y0, dataArea, yAxisLocation
-                );
+                double transX0 = domainAxis.valueToJava2D(x0, dataArea, 
+                        xAxisLocation);
+                double transY0 = rangeAxis.valueToJava2D(y0, dataArea, 
+                        yAxisLocation);
 
                 Line2D line = state.workingLine;
                 if (orientation == PlotOrientation.HORIZONTAL) {
@@ -206,20 +212,20 @@ public class XYStepRenderer extends AbstractXYItemRenderer
             }
         }
 
-        updateCrosshairValues(
-            crosshairState, x1, y1, transX1, transY1, orientation
-        );
+        updateCrosshairValues(crosshairState, x1, y1, transX1, transY1, 
+                orientation);
         
         // collect entity and tool tip information...
         if (state.getInfo() != null) {
             EntityCollection entities 
                 = state.getInfo().getOwner().getEntityCollection();
             if (entities != null) {
+                int r = getDefaultEntityRadius();
                 Shape shape = orientation == PlotOrientation.VERTICAL
-                    ? new Rectangle2D.Double(transX1 - 2, transY1 - 2, 4.0, 4.0)
-                    : new Rectangle2D.Double(
-                        transY1 - 2, transX1 - 2, 4.0, 4.0
-                    );           
+                    ? new Rectangle2D.Double(transX1 - r, transY1 - r, 2 * r, 
+                            2 * r)
+                    : new Rectangle2D.Double(transY1 - r, transX1 - r, 2 * r, 
+                            2 * r);           
                 if (shape != null) {
                     String tip = null;
                     XYToolTipGenerator generator 
@@ -229,13 +235,11 @@ public class XYStepRenderer extends AbstractXYItemRenderer
                     }
                     String url = null;
                     if (getURLGenerator() != null) {
-                        url = getURLGenerator().generateURL(
-                            dataset, series, item
-                        );
+                        url = getURLGenerator().generateURL(dataset, series, 
+                                item);
                     }
-                    XYItemEntity entity = new XYItemEntity(
-                        shape, dataset, series, item, tip, url
-                    );
+                    XYItemEntity entity = new XYItemEntity(shape, dataset, 
+                            series, item, tip, url);
                     entities.add(entity);
                 }
             }

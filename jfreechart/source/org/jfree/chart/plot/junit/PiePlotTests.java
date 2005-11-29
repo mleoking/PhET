@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -45,6 +46,7 @@ package org.jfree.chart.plot.junit;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GradientPaint;
 import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
 import java.io.ByteArrayInputStream;
@@ -58,9 +60,12 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.jfree.chart.labels.StandardPieItemLabelGenerator;
+import org.jfree.chart.LegendItemCollection;
+import org.jfree.chart.labels.StandardPieToolTipGenerator;
+import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.urls.StandardPieURLGenerator;
+import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.util.Rotation;
 
 /**
@@ -128,50 +133,70 @@ public class PiePlotTests extends TestCase {
         
         // ignoreZeroValues
         plot1.setIgnoreZeroValues(true);
+        plot2.setIgnoreZeroValues(false);
         assertFalse(plot1.equals(plot2));
         plot2.setIgnoreZeroValues(true);
         assertTrue(plot1.equals(plot2));
         
         // ignoreNullValues
         plot1.setIgnoreNullValues(true);
+        plot2.setIgnoreNullValues(false);
         assertFalse(plot1.equals(plot2));
         plot2.setIgnoreNullValues(true);
         assertTrue(plot1.equals(plot2));
         
         // sectionPaint
-        plot1.setSectionPaint(Color.red);
+        plot1.setSectionPaint(new GradientPaint(1.0f, 2.0f, Color.red, 
+                3.0f, 4.0f, Color.white));
         assertFalse(plot1.equals(plot2));
-        plot2.setSectionPaint(Color.red);
+        plot2.setSectionPaint(new GradientPaint(1.0f, 2.0f, Color.red, 
+                3.0f, 4.0f, Color.white));
         assertTrue(plot1.equals(plot2));
         
         // sectionPaintList
-        plot1.setSectionPaint(2, Color.red);
+        plot1.setSectionPaint(2, new GradientPaint(1.0f, 2.0f, Color.blue, 
+                3.0f, 4.0f, Color.white));
         assertFalse(plot1.equals(plot2));
-        plot2.setSectionPaint(2, Color.red);
+        plot2.setSectionPaint(2, new GradientPaint(1.0f, 2.0f, Color.blue, 
+                3.0f, 4.0f, Color.white));
         assertTrue(plot1.equals(plot2));
         
         // baseSectionPaint
-        plot1.setBaseSectionPaint(Color.red);
+        plot1.setBaseSectionPaint(new GradientPaint(1.0f, 2.0f, Color.black, 
+                3.0f, 4.0f, Color.white));
         assertFalse(plot1.equals(plot2));
-        plot2.setBaseSectionPaint(Color.red);
+        plot2.setBaseSectionPaint(new GradientPaint(1.0f, 2.0f, Color.black, 
+                3.0f, 4.0f, Color.white));
         assertTrue(plot1.equals(plot2));
         
-        // sectionOutlinePaint
-        plot1.setSectionOutlinePaint(Color.red);
+        // sectionOutlinesVisible
+        plot1.setSectionOutlinesVisible(false);
         assertFalse(plot1.equals(plot2));
-        plot2.setSectionOutlinePaint(Color.red);
+        plot2.setSectionOutlinesVisible(false);
+        assertTrue(plot1.equals(plot2)); 
+        
+        // sectionOutlinePaint
+        plot1.setSectionOutlinePaint(new GradientPaint(1.0f, 2.0f, Color.cyan, 
+                3.0f, 4.0f, Color.white));
+        assertFalse(plot1.equals(plot2));
+        plot2.setSectionOutlinePaint(new GradientPaint(1.0f, 2.0f, Color.cyan, 
+                3.0f, 4.0f, Color.white));
         assertTrue(plot1.equals(plot2));
         
         // sectionOutlinePaintList
-        plot1.setSectionOutlinePaint(2, Color.red);
+        plot1.setSectionOutlinePaint(2, new GradientPaint(1.0f, 2.0f, Color.green, 
+                3.0f, 4.0f, Color.white));
         assertFalse(plot1.equals(plot2));
-        plot2.setSectionOutlinePaint(2, Color.red);
+        plot2.setSectionOutlinePaint(2, new GradientPaint(1.0f, 2.0f, Color.green, 
+                3.0f, 4.0f, Color.white));
         assertTrue(plot1.equals(plot2));
         
         // baseSectionOutlinePaint
-        plot1.setBaseSectionOutlinePaint(Color.red);
+        plot1.setBaseSectionOutlinePaint(new GradientPaint(1.0f, 2.0f, Color.gray, 
+                3.0f, 4.0f, Color.white));
         assertFalse(plot1.equals(plot2));
-        plot2.setBaseSectionOutlinePaint(Color.red);
+        plot2.setBaseSectionOutlinePaint(new GradientPaint(1.0f, 2.0f, Color.gray, 
+                3.0f, 4.0f, Color.white));
         assertTrue(plot1.equals(plot2));
         
         // sectionOutlineStroke
@@ -193,9 +218,11 @@ public class PiePlotTests extends TestCase {
         assertTrue(plot1.equals(plot2));
         
         // shadowPaint
-        plot1.setShadowPaint(Color.red);
+        plot1.setShadowPaint(new GradientPaint(1.0f, 2.0f, Color.orange, 
+                3.0f, 4.0f, Color.white));
         assertFalse(plot1.equals(plot2));
-        plot2.setShadowPaint(Color.red);
+        plot2.setShadowPaint(new GradientPaint(1.0f, 2.0f, Color.orange, 
+                3.0f, 4.0f, Color.white));
         assertTrue(plot1.equals(plot2));
 
         // shadowXOffset
@@ -217,21 +244,27 @@ public class PiePlotTests extends TestCase {
         assertTrue(plot1.equals(plot2));
        
         // labelPaint
-        plot1.setLabelPaint(Color.red);
+        plot1.setLabelPaint(new GradientPaint(1.0f, 2.0f, Color.darkGray, 
+                3.0f, 4.0f, Color.white));
         assertFalse(plot1.equals(plot2));
-        plot2.setLabelPaint(Color.red);
+        plot2.setLabelPaint(new GradientPaint(1.0f, 2.0f, Color.darkGray, 
+                3.0f, 4.0f, Color.white));
         assertTrue(plot1.equals(plot2));
        
         // labelBackgroundPaint
-        plot1.setLabelBackgroundPaint(Color.red);
+        plot1.setLabelBackgroundPaint(new GradientPaint(1.0f, 2.0f, Color.red, 
+                3.0f, 4.0f, Color.white));
         assertFalse(plot1.equals(plot2));
-        plot2.setLabelBackgroundPaint(Color.red);
+        plot2.setLabelBackgroundPaint(new GradientPaint(1.0f, 2.0f, Color.red, 
+                3.0f, 4.0f, Color.white));
         assertTrue(plot1.equals(plot2));
         
         // labelOutlinePaint
-        plot1.setLabelOutlinePaint(Color.red);
+        plot1.setLabelOutlinePaint(new GradientPaint(1.0f, 2.0f, Color.blue, 
+                3.0f, 4.0f, Color.white));
         assertFalse(plot1.equals(plot2));
-        plot2.setLabelOutlinePaint(Color.red);
+        plot2.setLabelOutlinePaint(new GradientPaint(1.0f, 2.0f, Color.blue, 
+                3.0f, 4.0f, Color.white));
         assertTrue(plot1.equals(plot2));
         
         // labelOutlineStroke
@@ -242,9 +275,11 @@ public class PiePlotTests extends TestCase {
         assertTrue(plot1.equals(plot2));
         
         // labelShadowPaint
-        plot1.setLabelShadowPaint(Color.red);
+        plot1.setLabelShadowPaint(new GradientPaint(1.0f, 2.0f, Color.yellow, 
+                3.0f, 4.0f, Color.white));
         assertFalse(plot1.equals(plot2));
-        plot2.setLabelShadowPaint(Color.red);
+        plot2.setLabelShadowPaint(new GradientPaint(1.0f, 2.0f, Color.yellow, 
+                3.0f, 4.0f, Color.white));
         assertTrue(plot1.equals(plot2));
         
         // explodePercentages
@@ -254,9 +289,9 @@ public class PiePlotTests extends TestCase {
         assertTrue(plot1.equals(plot2));
         
         // labelGenerator
-        plot1.setLabelGenerator(new StandardPieItemLabelGenerator("{2}{1}{0}"));
+        plot1.setLabelGenerator(new StandardPieSectionLabelGenerator("{2}{1}{0}"));
         assertFalse(plot1.equals(plot2));
-        plot2.setLabelGenerator(new StandardPieItemLabelGenerator("{2}{1}{0}"));
+        plot2.setLabelGenerator(new StandardPieSectionLabelGenerator("{2}{1}{0}"));
         assertTrue(plot1.equals(plot2));
        
         // labelFont
@@ -267,9 +302,11 @@ public class PiePlotTests extends TestCase {
         assertTrue(plot1.equals(plot2));
         
         // labelPaint
-        plot1.setLabelPaint(Color.blue);
+        plot1.setLabelPaint(new GradientPaint(1.0f, 2.0f, Color.magenta, 
+                3.0f, 4.0f, Color.white));
         assertFalse(plot1.equals(plot2));
-        plot2.setLabelPaint(Color.blue);
+        plot2.setLabelPaint(new GradientPaint(1.0f, 2.0f, Color.magenta, 
+                3.0f, 4.0f, Color.white));
         assertTrue(plot1.equals(plot2));
         
         // maximumLabelWidth
@@ -297,9 +334,11 @@ public class PiePlotTests extends TestCase {
         assertTrue(plot1.equals(plot2));
 
         // labelLinkPaint
-        plot1.setLabelLinkPaint(Color.red);
+        plot1.setLabelLinkPaint(new GradientPaint(1.0f, 2.0f, Color.magenta, 
+                3.0f, 4.0f, Color.white));
         assertFalse(plot1.equals(plot2));
-        plot2.setLabelLinkPaint(Color.red);
+        plot2.setLabelLinkPaint(new GradientPaint(1.0f, 2.0f, Color.magenta, 
+                3.0f, 4.0f, Color.white));
         assertTrue(plot1.equals(plot2));
        
         // labelLinkStroke
@@ -310,11 +349,11 @@ public class PiePlotTests extends TestCase {
        
         // toolTipGenerator
         plot1.setToolTipGenerator(
-            new StandardPieItemLabelGenerator("{2}{1}{0}")
+            new StandardPieToolTipGenerator("{2}{1}{0}")
         );
         assertFalse(plot1.equals(plot2));
         plot2.setToolTipGenerator(
-            new StandardPieItemLabelGenerator("{2}{1}{0}")
+            new StandardPieToolTipGenerator("{2}{1}{0}")
         );
         assertTrue(plot1.equals(plot2));
         
@@ -360,10 +399,8 @@ public class PiePlotTests extends TestCase {
      * Serialize an instance, restore it, and check for equality.
      */
     public void testSerialization() {
-
         PiePlot p1 = new PiePlot(null);
         PiePlot p2 = null;
-
         try {
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();
             ObjectOutput out = new ObjectOutputStream(buffer);
@@ -380,7 +417,38 @@ public class PiePlotTests extends TestCase {
             e.printStackTrace();
         }
         assertEquals(p1, p2);
-
     }
 
+    /**
+     * Some checks for the getLegendItems() method.
+     */
+    public void testGetLegendItems() {
+        DefaultPieDataset dataset = new DefaultPieDataset();
+        dataset.setValue("Item 1", 1.0);
+        dataset.setValue("Item 2", 2.0);
+        dataset.setValue("Item 3", 0.0);
+        dataset.setValue("Item 4", null);
+       
+        PiePlot plot = new PiePlot(dataset);
+        plot.setIgnoreNullValues(false);
+        plot.setIgnoreZeroValues(false);
+        LegendItemCollection items = plot.getLegendItems();
+        assertEquals(4, items.getItemCount());
+        
+        // check that null items are ignored if requested
+        plot.setIgnoreNullValues(true);
+        items = plot.getLegendItems();
+        assertEquals(3, items.getItemCount());
+        
+        // check that zero items are ignored if requested
+        plot.setIgnoreZeroValues(true);
+        items = plot.getLegendItems();
+        assertEquals(2, items.getItemCount());
+        
+        // check that negative items are always ignored
+        dataset.setValue("Item 5", -1.0);
+        items = plot.getLegendItems();
+        assertEquals(2, items.getItemCount());        
+    }
+    
 }

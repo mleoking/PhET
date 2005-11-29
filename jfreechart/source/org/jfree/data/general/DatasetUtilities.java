@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -97,6 +98,8 @@
  *               empty datasets (DG);
  * 03-Mar-2005 : Moved createNumberArray() and createNumberArray2D() methods
  *               from DatasetUtilities --> DataUtilities (DG);
+ * 22-Sep-2005 : Added new findStackedRangeBounds() method that takes base
+ *               argument (DG);
  * 
  */
 
@@ -1238,6 +1241,19 @@ public final class DatasetUtilities {
      * @return The range (<code>null</code> if the dataset contains no values).
      */
     public static Range findStackedRangeBounds(CategoryDataset dataset) {
+        return findStackedRangeBounds(dataset, 0.0);
+    }
+
+    /**
+     * Returns the minimum and maximum values for the dataset's range 
+     * (y-values), assuming that the series in one category are stacked.
+     *
+     * @param dataset  the dataset (<code>null</code> not permitted).
+     *
+     * @return The range (<code>null</code> if the dataset contains no values).
+     */
+    public static Range findStackedRangeBounds(CategoryDataset dataset, 
+            double base) {
         if (dataset == null) {
             throw new IllegalArgumentException("Null 'dataset' argument.");
         }
@@ -1246,8 +1262,8 @@ public final class DatasetUtilities {
         double maximum = Double.NEGATIVE_INFINITY;
         int categoryCount = dataset.getColumnCount();
         for (int item = 0; item < categoryCount; item++) {
-            double positive = 0.0;
-            double negative = 0.0;
+            double positive = base;
+            double negative = base;
             int seriesCount = dataset.getRowCount();
             for (int series = 0; series < seriesCount; series++) {
                 Number number = dataset.getValue(series, item);
@@ -1471,7 +1487,7 @@ public final class DatasetUtilities {
      * Calculates the range of values for a dataset where each item is the 
      * running total of the items for the current series.
      * 
-     * @param dataset  the dataset.
+     * @param dataset  the dataset (<code>null</code> not permitted).
      * 
      * @return The range.
      */

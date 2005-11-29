@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -119,6 +120,8 @@
  * 26-Apr-2005 : Removed LOGGER (DG);
  * 01-Jun-2005 : Fixed zooming for combined plots - see bug report 
  *               1212039, fix thanks to Onno vd Akker (DG);
+ * 25-Nov-2005 : Reworked event listener mechanism (DG);
+ *
  */
 
 package org.jfree.chart;
@@ -146,8 +149,8 @@ import java.awt.print.PrinterJob;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.EventListener;
 import java.util.Iterator;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.swing.JFileChooser;
@@ -157,7 +160,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.ToolTipManager;
+import javax.swing.event.EventListenerList;
 
+import org.jfree.chart.editor.ChartEditor;
+import org.jfree.chart.editor.ChartEditorManager;
 import org.jfree.chart.entity.ChartEntity;
 import org.jfree.chart.entity.EntityCollection;
 import org.jfree.chart.event.ChartChangeEvent;
@@ -169,7 +175,6 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.ValueAxisPlot;
 import org.jfree.chart.plot.Zoomable;
-import org.jfree.chart.ui.ChartPropertyEditPanel;
 import org.jfree.ui.ExtensionFileFilter;
 
 /**
@@ -255,7 +260,7 @@ public class ChartPanel extends JPanel
     private JFreeChart chart;
 
     /** Storage for registered (chart) mouse listeners. */
-    private List chartMouseListeners;
+    private EventListenerList chartMouseListeners;
 
     /** A flag that controls whether or not the off-screen buffer is used. */
     private boolean useBuffer;
@@ -537,7 +542,7 @@ public class ChartPanel extends JPanel
                       boolean tooltips) {
 
         this.chart = chart;
-        this.chartMouseListeners = new java.util.ArrayList();
+        this.chartMouseListeners = new EventListenerList();
         if (chart != null) {
             chart.addChangeListener(this);
             Plot plot = chart.getPlot();
@@ -1157,7 +1162,6 @@ public class ChartPanel extends JPanel
      * @param g  the graphics device for drawing on.
      */
     public void paintComponent(Graphics g) {
-
         super.paintComponent(g);
         if (this.chart == null) {
             return;
@@ -1286,6 +1290,15 @@ public class ChartPanel extends JPanel
      */
     public void chartChanged(ChartChangeEvent event) {
         this.refreshBuffer = true;
+        Plot plot = chart.getPlot();
+        this.domainZoomable = false;
+        this.rangeZoomable = false;
+        if (plot instanceof Zoomable) {
+            Zoomable z = (Zoomable) plot;
+            this.domainZoomable = z.isDomainZoomable();
+            this.rangeZoomable = z.isRangeZoomable();
+            this.orientation = z.getOrientation();
+        }
         repaint();
     }
 
@@ -1629,12 +1642,12 @@ public class ChartPanel extends JPanel
         int x = (int) ((event.getX() - insets.left) / this.scaleX);
         int y = (int) ((event.getY() - insets.top) / this.scaleY);
 
-        // old 'handle click' code...
-        //chart.handleClick(x, y, this.info);
         this.anchor = new Point2D.Double(x, y);
         this.chart.setNotify(true);  // force a redraw 
         // new entity code...
-        if (this.chartMouseListeners.isEmpty()) {
+        Object[] listeners = this.chartMouseListeners.getListeners(
+                ChartMouseListener.class);
+        if (listeners.length == 0) {
             return;
         }
 
@@ -1645,14 +1658,10 @@ public class ChartPanel extends JPanel
                 entity = entities.getEntity(x, y);
             }
         }
-        ChartMouseEvent chartEvent = new ChartMouseEvent(
-            getChart(), event, entity
-        );
-
-        Iterator iterator = this.chartMouseListeners.iterator();
-        while (iterator.hasNext()) {
-            ChartMouseListener listener = (ChartMouseListener) iterator.next();
-            listener.chartMouseClicked(chartEvent);
+        ChartMouseEvent chartEvent = new ChartMouseEvent(getChart(), event, 
+                entity);
+        for (int i = listeners.length - 1; i >= 0; i -= 1) {
+            ((ChartMouseListener) listeners[i]).chartMouseClicked(chartEvent);
         }
 
     }
@@ -1669,7 +1678,9 @@ public class ChartPanel extends JPanel
         if (this.verticalAxisTrace) {
             drawVerticalAxisTrace(e.getY());
         }
-        if (this.chartMouseListeners.isEmpty()) {
+        Object[] listeners = this.chartMouseListeners.getListeners(
+                ChartMouseListener.class);
+        if (listeners.length == 0) {
             return;
         }
         Insets insets = getInsets();
@@ -1684,11 +1695,8 @@ public class ChartPanel extends JPanel
             }
         }
         ChartMouseEvent event = new ChartMouseEvent(getChart(), e, entity);
-
-        Iterator iterator = this.chartMouseListeners.iterator();
-        while (iterator.hasNext()) {
-            ChartMouseListener listener = (ChartMouseListener) iterator.next();
-            listener.chartMouseMoved(event);
+        for (int i = listeners.length - 1; i >= 0; i -= 1) {
+            ((ChartMouseListener) listeners[i]).chartMouseMoved(event);
         }
 
     }
@@ -2084,15 +2092,12 @@ public class ChartPanel extends JPanel
      */
     private void attemptEditChartProperties() {
 
-        ChartPropertyEditPanel panel = new ChartPropertyEditPanel(this.chart);
-        int result = 
-            JOptionPane.showConfirmDialog(
-                this, panel, 
+        ChartEditor editor = ChartEditorManager.getChartEditor(this.chart);
+        int result = JOptionPane.showConfirmDialog(this, editor, 
                 localizationResources.getString("Chart_Properties"),
-                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE
-            );
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
         if (result == JOptionPane.OK_OPTION) {
-            panel.updateChartProperties(this.chart);
+            editor.updateChart(this.chart);
         }
 
     }
@@ -2184,7 +2189,7 @@ public class ChartPanel extends JPanel
         if (listener == null) {
             throw new IllegalArgumentException("Null 'listener' argument.");
         }
-        this.chartMouseListeners.add(listener);
+        this.chartMouseListeners.add(ChartMouseListener.class, listener);
     }
 
     /**
@@ -2194,7 +2199,25 @@ public class ChartPanel extends JPanel
      * @param listener  the listener.
      */
     public void removeChartMouseListener(ChartMouseListener listener) {
-        this.chartMouseListeners.remove(listener);
+        this.chartMouseListeners.remove(ChartMouseListener.class, listener);
+    }
+
+    /**
+     * Returns an array of the listeners of the given type registered with the
+     * panel.
+     * 
+     * @param listenerType  the listener type.
+     * 
+     * @return An array of listeners.
+     */
+    public EventListener[] getListeners(Class listenerType) {
+        if (listenerType == ChartMouseListener.class) {
+            // fetch listeners from local storage
+            return this.chartMouseListeners.getListeners(listenerType);
+        }
+        else {
+            return super.getListeners(listenerType);
+        }
     }
 
     /**

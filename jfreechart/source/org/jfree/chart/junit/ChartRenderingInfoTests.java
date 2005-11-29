@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -41,6 +42,7 @@
 
 package org.jfree.chart.junit;
 
+import java.awt.geom.Rectangle2D;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInput;
@@ -85,7 +87,21 @@ public class ChartRenderingInfoTests extends TestCase {
         ChartRenderingInfo i1 = new ChartRenderingInfo();
         ChartRenderingInfo i2 = new ChartRenderingInfo();
         assertTrue(i1.equals(i2));
-                
+        
+        i1.setChartArea(new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0));
+        assertFalse(i1.equals(i2));
+        i2.setChartArea(new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0));
+        assertTrue(i1.equals(i2));
+        
+        i1.setPlotArea(new Rectangle2D.Double(5.0, 6.0, 7.0, 8.0));
+        assertFalse(i1.equals(i2));
+        i2.setPlotArea(new Rectangle2D.Double(5.0, 6.0, 7.0, 8.0));
+        assertTrue(i1.equals(i2));
+        
+        i1.getPlotInfo().setDataArea(new Rectangle2D.Double(1.0, 1.0, 1.0, 1.0));
+        assertFalse(i1.equals(i2));
+        i2.getPlotInfo().setDataArea(new Rectangle2D.Double(1.0, 1.0, 1.0, 1.0));
+        assertTrue(i1.equals(i2));
     }
 
     /**
@@ -111,6 +127,8 @@ public class ChartRenderingInfoTests extends TestCase {
     public void testSerialization() {
 
         ChartRenderingInfo i1 = new ChartRenderingInfo();
+        i1.setChartArea(new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0));
+        i1.setPlotArea(new Rectangle2D.Double(5.0, 6.0, 7.0, 8.0));
         ChartRenderingInfo i2 = null;
         try {
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();
@@ -125,10 +143,38 @@ public class ChartRenderingInfoTests extends TestCase {
             in.close();
         }
         catch (Exception e) {
-            System.out.println(e.toString());
+            e.printStackTrace();
         }
         assertEquals(i1, i2);
 
     }
 
+    /**
+     * Serialize an instance, restore it, and check for equality.
+     */
+    public void testSerialization2() {
+
+        ChartRenderingInfo i1 = new ChartRenderingInfo();
+        i1.getPlotInfo().setDataArea(new Rectangle2D.Double(1.0, 2.0, 3.0, 
+                4.0));
+        ChartRenderingInfo i2 = null;
+        try {
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+            ObjectOutput out = new ObjectOutputStream(buffer);
+            out.writeObject(i1);
+            out.close();
+
+            ObjectInput in = new ObjectInputStream(
+                new ByteArrayInputStream(buffer.toByteArray())
+            );
+            i2 = (ChartRenderingInfo) in.readObject();
+            in.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        assertEquals(i1, i2);
+        assertEquals(i2, i2.getPlotInfo().getOwner());
+
+    }
 }

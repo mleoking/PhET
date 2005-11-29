@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -41,6 +42,9 @@
 
 package org.jfree.chart.plot.junit;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GradientPaint;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInput;
@@ -92,6 +96,41 @@ public class CompassPlotTests extends TestCase {
         plot2.setLabelType(CompassPlot.VALUE_LABELS);
         assertTrue(plot1.equals(plot2));
         
+        // labelFont
+        plot1.setLabelFont(new Font("Serif", Font.PLAIN, 10));
+        assertFalse(plot1.equals(plot2));
+        plot2.setLabelFont(new Font("Serif", Font.PLAIN, 10));
+        assertTrue(plot1.equals(plot2));
+        
+        // drawBorder
+        plot1.setDrawBorder(true);
+        assertFalse(plot1.equals(plot2));
+        plot2.setDrawBorder(true);
+        assertTrue(plot1.equals(plot2));
+        
+        // rosePaint
+        plot1.setRosePaint(new GradientPaint(1.0f, 2.0f, Color.blue, 
+                3.0f, 4.0f, Color.yellow));
+        assertFalse(plot1.equals(plot2));
+        plot2.setRosePaint(new GradientPaint(1.0f, 2.0f, Color.blue, 
+                3.0f, 4.0f, Color.yellow));
+        assertTrue(plot1.equals(plot2));
+        
+        // roseCenterPaint
+        plot1.setRoseCenterPaint(new GradientPaint(1.0f, 2.0f, Color.red, 
+                3.0f, 4.0f, Color.yellow));
+        assertFalse(plot1.equals(plot2));
+        plot2.setRoseCenterPaint(new GradientPaint(1.0f, 2.0f, Color.red, 
+                3.0f, 4.0f, Color.yellow));
+        assertTrue(plot1.equals(plot2));
+        
+        // roseHighlightPaint
+        plot1.setRoseHighlightPaint(new GradientPaint(1.0f, 2.0f, Color.green, 
+                3.0f, 4.0f, Color.yellow));
+        assertFalse(plot1.equals(plot2));
+        plot2.setRoseHighlightPaint(new GradientPaint(1.0f, 2.0f, Color.green, 
+                3.0f, 4.0f, Color.yellow));
+        assertTrue(plot1.equals(plot2));
     }
     
     /**

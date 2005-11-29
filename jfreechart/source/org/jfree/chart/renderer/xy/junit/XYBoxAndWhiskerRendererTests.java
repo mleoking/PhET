@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -43,6 +44,7 @@
 package org.jfree.chart.renderer.xy.junit;
 
 import java.awt.Color;
+import java.awt.GradientPaint;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInput;
@@ -88,14 +90,18 @@ public class XYBoxAndWhiskerRendererTests extends TestCase {
         XYBoxAndWhiskerRenderer r2 = new XYBoxAndWhiskerRenderer();
         assertEquals(r1, r2);
         
-        r1.setPaint(Color.yellow);
+        r1.setPaint(new GradientPaint(1.0f, 2.0f, Color.yellow, 
+                3.0f, 4.0f, Color.red));
         assertFalse(r1.equals(r2));
-        r2.setPaint(Color.yellow);
+        r2.setPaint(new GradientPaint(1.0f, 2.0f, Color.yellow, 
+                3.0f, 4.0f, Color.red));
         assertEquals(r1, r2);
         
-        r1.setArtifactPaint(Color.yellow);
+        r1.setArtifactPaint(new GradientPaint(1.0f, 2.0f, Color.green, 
+                3.0f, 4.0f, Color.red));
         assertFalse(r1.equals(r2));
-        r2.setArtifactPaint(Color.yellow);
+        r2.setArtifactPaint(new GradientPaint(1.0f, 2.0f, Color.green, 
+                3.0f, 4.0f, Color.red));
         assertEquals(r1, r2);
         
         r1.setBoxWidth(0.55);

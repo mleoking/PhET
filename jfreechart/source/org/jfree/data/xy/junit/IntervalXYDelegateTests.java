@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -36,6 +37,7 @@
  * Changes
  * -------
  * 21-Feb-2005 : Version 1 (DG);
+ * 06-Oct-2005 : Updated for testEquals() for method name change (DG);
  *
  */
 
@@ -108,9 +110,9 @@ public class IntervalXYDelegateTests extends TestCase {
        d2.setIntervalPositionFactor(0.123);
        assertTrue(d1.equals(d2));
       
-       d1.setIntervalWidth(1.23);
+       d1.setFixedIntervalWidth(1.23);
        assertFalse(d1.equals(d2));
-       d2.setIntervalWidth(1.23);
+       d2.setFixedIntervalWidth(1.23);
        assertTrue(d1.equals(d2));
     }
 

@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -44,6 +45,7 @@ package org.jfree.chart.annotations.junit;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.Stroke;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -92,6 +94,42 @@ public class XYLineAnnotationTests extends TestCase {
         XYLineAnnotation a2 = new XYLineAnnotation(
             10.0, 20.0, 100.0, 200.0, stroke, Color.blue
         );
+        assertTrue(a1.equals(a2));
+        assertTrue(a2.equals(a1));
+        
+        a1 = new XYLineAnnotation(11.0, 20.0, 100.0, 200.0, stroke, Color.blue);
+        assertFalse(a1.equals(a2));
+        a2 = new XYLineAnnotation(11.0, 20.0, 100.0, 200.0, stroke, Color.blue);
+        assertTrue(a1.equals(a2));
+
+        a1 = new XYLineAnnotation(11.0, 21.0, 100.0, 200.0, stroke, Color.blue);
+        assertFalse(a1.equals(a2));
+        a2 = new XYLineAnnotation(11.0, 21.0, 100.0, 200.0, stroke, Color.blue);
+        assertTrue(a1.equals(a2));
+    
+        a1 = new XYLineAnnotation(11.0, 21.0, 101.0, 200.0, stroke, Color.blue);
+        assertFalse(a1.equals(a2));
+        a2 = new XYLineAnnotation(11.0, 21.0, 101.0, 200.0, stroke, Color.blue);
+        assertTrue(a1.equals(a2));
+
+        a1 = new XYLineAnnotation(11.0, 21.0, 101.0, 201.0, stroke, Color.blue);
+        assertFalse(a1.equals(a2));
+        a2 = new XYLineAnnotation(11.0, 21.0, 101.0, 201.0, stroke, Color.blue);
+        assertTrue(a1.equals(a2));
+
+        Stroke stroke2 = new BasicStroke(0.99f);
+        a1 = new XYLineAnnotation(11.0, 21.0, 101.0, 200.0, stroke2, Color.blue);
+        assertFalse(a1.equals(a2));
+        a2 = new XYLineAnnotation(11.0, 21.0, 101.0, 200.0, stroke2, Color.blue);
+        assertTrue(a1.equals(a2));
+
+        GradientPaint g1 = new GradientPaint(1.0f, 2.0f, Color.red,
+                3.0f, 4.0f, Color.white);
+        GradientPaint g2 = new GradientPaint(1.0f, 2.0f, Color.red,
+                3.0f, 4.0f, Color.white);
+        a1 = new XYLineAnnotation(11.0, 21.0, 101.0, 200.0, stroke2, g1);
+        assertFalse(a1.equals(a2));
+        a2 = new XYLineAnnotation(11.0, 21.0, 101.0, 200.0, stroke2, g2);
         assertTrue(a1.equals(a2));
     }
     

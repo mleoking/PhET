@@ -16,46 +16,51 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
  *
- * -------------------
+ * --------------------------
  * SunJPEGEncoderAdapter.java
- * -------------------
- * (C) Copyright 2004, by Richard Atkinson and Contributors.
+ * --------------------------
+ * (C) Copyright 2004, 2005, by Richard Atkinson and Contributors.
  *
  * Original Author:  Richard Atkinson;
- * Contributor(s):   -;
+ * Contributor(s):   David Gilbert (for Object Refinery Limited);
  *
  * $Id$
  *
  * Changes
  * -------
  * 01-Aug-2004 : Initial version (RA);
+ * 01-Nov-2005 : To remove the dependency on non-supported APIs, use ImageIO 
+ *               instead of com.sun.image.codec.jpeg.JPEGImageEncoder - this 
+ *               adapter will only be available on JDK 1.4 or later (DG);
  *
  */
 
 package org.jfree.chart.encoders;
 
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGEncodeParam;
-
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.ByteArrayOutputStream;
+
+import javax.imageio.ImageIO;
 
 /**
- * Adapter class for the Sun JPEG Encoder.
+ * Adapter class for the Sun JPEG Encoder.  The ImageEncoderFactory will only 
+ * return a reference to this class by default if the library has been compiled 
+ * under a JDK 1.4+ and is being run using a JDK 1.4+.
  *
  * @author Richard Atkinson
  */
 public class SunJPEGEncoderAdapter implements ImageEncoder {
+    
     private float quality = 0.75f;
 
     /**
@@ -74,7 +79,7 @@ public class SunJPEGEncoderAdapter implements ImageEncoder {
     }
 
     /**
-     * Set the quality of the image encoding (supported).
+     * Set the quality of the image encoding (ignored).
      *
      * @param quality  A float representing the quality.
      */
@@ -132,11 +137,7 @@ public class SunJPEGEncoderAdapter implements ImageEncoder {
         if (outputStream == null) {
             throw new IllegalArgumentException("Null 'outputStream' argument.");
         }
-        JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(outputStream);
-        JPEGEncodeParam param 
-            = encoder.getDefaultJPEGEncodeParam(bufferedImage);
-        param.setQuality(this.quality, true);
-        encoder.encode(bufferedImage, param);
+        ImageIO.write(bufferedImage, ImageFormat.JPEG, outputStream);
     }
 
 }

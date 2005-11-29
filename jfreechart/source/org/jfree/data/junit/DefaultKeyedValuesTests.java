@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -207,6 +208,29 @@ public class DefaultKeyedValuesTests extends TestCase {
 
     }
 
+    /**
+     * Some tests for the removeValue() method.
+     */
+    public void testRemoveValue() {
+        DefaultKeyedValues data = new DefaultKeyedValues();
+        data.addValue("A", new Double(1.0));
+        data.addValue("B", null);
+        data.addValue("C", new Double(3.0));
+        data.addValue("D", new Double(2.0));
+        assertEquals(1, data.getIndex("B"));
+        data.removeValue("B");
+        assertEquals(-1, data.getIndex("B"));
+        
+        boolean pass = true;
+        try {
+            data.removeValue("XXX");
+        }
+        catch (Exception e) {
+            pass = false;   
+        }
+        assertTrue(pass);
+    }
+    
     /**
      * Tests sorting of data by key (ascending).
      */

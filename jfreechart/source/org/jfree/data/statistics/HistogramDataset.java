@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -31,6 +32,7 @@
  * Original Author:  Jelai Wang (jelaiw AT mindspring.com);
  * Contributor(s):   David Gilbert (for Object Refinery Limited);
  *                   Cameron Hayne;
+ *                   Rikard Bj?rklind;
  *
  * $Id$
  *
@@ -47,6 +49,8 @@
  *               getYValue() (DG);
  * 20-May-2005 : Speed up binning - see patch 1026151 contributed by Cameron
  *               Hayne (DG);
+ * 08-Jun-2005 : Fixed bug in getSeriesKey() method (DG);
+ * 22-Nov-2005 : Fixed cast in getSeriesKey() method - see patch 1329287 (DG);
  * 
  */
 
@@ -180,6 +184,9 @@ public class HistogramDataset extends AbstractIntervalXYDataset
             int binIndex = bins - 1;
             if (values[i] < maximum) {
                 double fraction = (values[i] - minimum) / (maximum - minimum);
+                if (fraction < 0.0) {
+                    fraction = 0.0;
+                }
                 binIndex = (int) (fraction * bins);
             }
             HistogramBin bin = (HistogramBin) binList.get(binIndex);
@@ -294,7 +301,7 @@ public class HistogramDataset extends AbstractIntervalXYDataset
      */
     public Comparable getSeriesKey(int series) {
         Map map = (Map) this.list.get(series);
-        return (String) map.get("name"); 
+        return (Comparable) map.get("key"); 
     }
 
     /**

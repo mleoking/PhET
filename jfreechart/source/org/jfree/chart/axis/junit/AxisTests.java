@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -45,6 +46,7 @@ package org.jfree.chart.axis.junit;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GradientPaint;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -123,9 +125,11 @@ public class AxisTests extends TestCase {
         assertTrue(a1.equals(a2));
 
         // label paint...
-        a1.setLabelPaint(Color.blue);
+        a1.setLabelPaint(new GradientPaint(1.0f, 2.0f, Color.white, 
+                3.0f, 4.0f, Color.black));
         assertFalse(a1.equals(a2));
-        a2.setLabelPaint(Color.blue);
+        a2.setLabelPaint(new GradientPaint(1.0f, 2.0f, Color.white, 
+                3.0f, 4.0f, Color.black));
         assertTrue(a1.equals(a2));
        
         // label insets...
@@ -154,9 +158,11 @@ public class AxisTests extends TestCase {
         assertTrue(a1.equals(a2));
         
         // axis line paint...
-        a1.setAxisLinePaint(Color.blue);
+        a1.setAxisLinePaint(new GradientPaint(1.0f, 2.0f, Color.red, 
+                3.0f, 4.0f, Color.black));
         assertFalse(a1.equals(a2));
-        a2.setAxisLinePaint(Color.blue);
+        a2.setAxisLinePaint(new GradientPaint(1.0f, 2.0f, Color.red, 
+                3.0f, 4.0f, Color.black));
         assertTrue(a1.equals(a2));
         
         // tick labels visible flag...
@@ -172,9 +178,11 @@ public class AxisTests extends TestCase {
         assertTrue(a1.equals(a2));
 
         // tick label paint...
-        a1.setTickLabelPaint(Color.red);
+        a1.setTickLabelPaint(new GradientPaint(1.0f, 2.0f, Color.yellow, 
+                3.0f, 4.0f, Color.black));
         assertFalse(a1.equals(a2));
-        a2.setTickLabelPaint(Color.red);
+        a2.setTickLabelPaint(new GradientPaint(1.0f, 2.0f, Color.yellow, 
+                3.0f, 4.0f, Color.black));
         assertTrue(a1.equals(a2));
 
         // tick label insets...
@@ -208,9 +216,11 @@ public class AxisTests extends TestCase {
         assertTrue(a1.equals(a2));
 
         // tick mark paint...
-        a1.setTickMarkPaint(Color.green);
+        a1.setTickMarkPaint(new GradientPaint(1.0f, 2.0f, Color.cyan, 
+                3.0f, 4.0f, Color.black));
         assertFalse(a1.equals(a2));
-        a2.setTickMarkPaint(Color.green);
+        a2.setTickMarkPaint(new GradientPaint(1.0f, 2.0f, Color.cyan, 
+                3.0f, 4.0f, Color.black));
         assertTrue(a1.equals(a2));
 
         // tick mark outside length...

@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -68,7 +69,9 @@
  * 18-Mar-2005 : Override for getPassCount() method (DG);
  * 20-Apr-2005 : Renamed CategoryLabelGenerator 
  *               --> CategoryItemLabelGenerator (DG);
- * 
+ * 09-Jun-2005 : Use addItemEntity() method from superclass (DG);
+ * 22-Sep-2005 : Renamed getMaxBarWidth() --> getMaximumBarWidth() (DG);
+ *
  */
 
 package org.jfree.chart.renderer.category;
@@ -82,10 +85,8 @@ import java.io.Serializable;
 
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.ValueAxis;
-import org.jfree.chart.entity.CategoryItemEntity;
 import org.jfree.chart.entity.EntityCollection;
 import org.jfree.chart.labels.CategoryItemLabelGenerator;
-import org.jfree.chart.labels.CategoryToolTipGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.Range;
@@ -164,7 +165,7 @@ public class StackedBarRenderer3D extends BarRenderer3D
             else if (orientation == PlotOrientation.VERTICAL) {
                 space = dataArea.getWidth();
             }
-            double maxWidth = space * getMaxBarWidth();
+            double maxWidth = space * getMaximumBarWidth();
             int columns = data.getColumnCount();
             double categoryMargin = 0.0;
             if (columns > 1) {
@@ -229,8 +230,8 @@ public class StackedBarRenderer3D extends BarRenderer3D
             column, getColumnCount(), adjusted, plot.getDomainAxisEdge()
         ) - state.getBarWidth() / 2.0;
 
-        double positiveBase = 0.0;
-        double negativeBase = 0.0;
+        double positiveBase = getBase();
+        double negativeBase = positiveBase;
         for (int i = 0; i < row; i++) {
             Number v = dataset.getValue(i, column);
             if (v != null) {
@@ -326,29 +327,10 @@ public class StackedBarRenderer3D extends BarRenderer3D
                 }
             }
 
-            // collect entity and tool tip information...
-            if (state.getInfo() != null) {
-                EntityCollection entities 
-                    = state.getInfo().getOwner().getEntityCollection();
-                if (entities != null) {
-                    String tip = null;
-                    CategoryToolTipGenerator tipster 
-                        = getToolTipGenerator(row, column);
-                    if (tipster != null) {
-                        tip = tipster.generateToolTip(dataset, row, column);
-                    }
-                    String url = null;
-                    if (getItemURLGenerator(row, column) != null) {
-                        url = getItemURLGenerator(row, column).generateURL(
-                            dataset, row, column
-                        );
-                    }
-                    CategoryItemEntity entity = new CategoryItemEntity(
-                        bar, tip, url, dataset, row, 
-                        dataset.getColumnKey(column), column
-                    );
-                    entities.add(entity);
-                }
+            // add an item entity, if this information is being collected
+            EntityCollection entities = state.getEntityCollection();
+            if (entities != null) {
+                addItemEntity(entities, dataset, row, column, bar);
             }
         }
         else if (pass == 1) {

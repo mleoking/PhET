@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -45,6 +46,8 @@
  * 15-Sep-2004 : Fixed clone() method (DG);
  * 12-Jan-2005 : Fixed bug in getValue() method (DG);
  * 23-Mar-2005 : Implemented PublicCloneable (DG);
+ * 09-Jun-2005 : Modified getValue() method to throw exception for unknown
+ *               keys (DG);
  *
  */
 
@@ -216,12 +219,14 @@ public class DefaultKeyedValues2D implements KeyedValues2D,
     }
 
     /**
-     * Returns the value for the given row and column keys.
+     * Returns the value for the given row and column keys.  This method will
+     * throw an {@link UnknownKeyException} if either key is not defined in the
+     * data structure.
      *
      * @param rowKey  the row key (<code>null</code> not permitted).
      * @param columnKey  the column key (<code>null</code> not permitted).
      *
-     * @return The value.
+     * @return The value (possibly <code>null</code>).
      */
     public Number getValue(Comparable rowKey, Comparable columnKey) {
         if (rowKey == null) {
@@ -230,15 +235,15 @@ public class DefaultKeyedValues2D implements KeyedValues2D,
         if (columnKey == null) {
             throw new IllegalArgumentException("Null 'columnKey' argument.");
         }
-        Number result = null;
         int row = getRowIndex(rowKey);
-        
         if (row >= 0) {
             DefaultKeyedValues rowData 
                 = (DefaultKeyedValues) this.rows.get(row);
-            result = rowData.getValue(columnKey);
+            return rowData.getValue(columnKey);
         }
-        return result;
+        else {
+            throw new UnknownKeyException("Unrecognised rowKey: " + rowKey);
+        }
     }
 
     /**

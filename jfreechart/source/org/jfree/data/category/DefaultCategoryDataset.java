@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -49,6 +50,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.jfree.data.DefaultKeyedValues2D;
+import org.jfree.data.UnknownKeyException;
 import org.jfree.data.general.AbstractDataset;
 import org.jfree.data.general.DatasetChangeEvent;
 
@@ -164,13 +166,14 @@ public class DefaultCategoryDataset extends AbstractDataset
     }
 
     /**
-     * Returns the value for a pair of keys.  This method should return 
-     * <code>null</code> if either of the keys is not found.
+     * Returns the value for a pair of keys.
      *
-     * @param rowKey  the row key.
-     * @param columnKey  the column key.
+     * @param rowKey  the row key (<code>null</code> not permitted).
+     * @param columnKey  the column key (<code>null</code> not permitted).
      *
-     * @return The value.
+     * @return The value (possibly <code>null</code>).
+     * 
+     * @throws UnknownKeyException if either key is not defined in the dataset.
      */
     public Number getValue(Comparable rowKey, Comparable columnKey) {
         return this.data.getValue(rowKey, columnKey);
@@ -202,7 +205,8 @@ public class DefaultCategoryDataset extends AbstractDataset
     }
 
     /**
-     * Adds or updates a value in the table.
+     * Adds or updates a value in the table and sends a 
+     * {@link DatasetChangeEvent} to all registered listeners.
      *
      * @param value  the value (<code>null</code> permitted).
      * @param rowKey  the row key (<code>null</code> not permitted).
@@ -215,7 +219,8 @@ public class DefaultCategoryDataset extends AbstractDataset
     }
 
     /**
-     * Adds or updates a value in the table.
+     * Adds or updates a value in the table and sends a 
+     * {@link DatasetChangeEvent} to all registered listeners.
      *
      * @param value  the value.
      * @param rowKey  the row key (<code>null</code> not permitted).
@@ -231,8 +236,10 @@ public class DefaultCategoryDataset extends AbstractDataset
      * existing value is <code>null</code>, it is treated as if it were 0.0).
      * 
      * @param value  the value.
-     * @param rowKey  the row key.
-     * @param columnKey  the column key.
+     * @param rowKey  the row key (<code>null</code> not permitted).
+     * @param columnKey  the column key (<code>null</code> not permitted).
+     * 
+     * @throws UnknownKeyException if either key is not defined in the dataset.
      */
     public void incrementValue(double value, 
                                Comparable rowKey, 

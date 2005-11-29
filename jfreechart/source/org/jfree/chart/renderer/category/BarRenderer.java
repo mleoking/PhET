@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -68,6 +69,7 @@
  * 26-Jan-2005 : Provided override for getLegendItem() method (DG);
  * 20-Apr-2005 : Generate legend labels, tooltips and URLs (DG);
  * 18-May-2005 : Added configurable base value (DG);
+ * 09-Jun-2005 : Use addItemEntity() method from superclass (DG);
  * 
  */
 
@@ -86,11 +88,9 @@ import java.io.Serializable;
 import org.jfree.chart.LegendItem;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.ValueAxis;
-import org.jfree.chart.entity.CategoryItemEntity;
 import org.jfree.chart.entity.EntityCollection;
 import org.jfree.chart.event.RendererChangeEvent;
 import org.jfree.chart.labels.CategoryItemLabelGenerator;
-import org.jfree.chart.labels.CategoryToolTipGenerator;
 import org.jfree.chart.labels.ItemLabelAnchor;
 import org.jfree.chart.labels.ItemLabelPosition;
 import org.jfree.chart.plot.CategoryPlot;
@@ -129,7 +129,7 @@ public class BarRenderer extends AbstractCategoryItemRenderer
     private boolean drawBarOutline;
     
     /** The maximum bar width as a percentage of the available space. */
-    private double maxBarWidth;
+    private double maximumBarWidth;
     
     /** The minimum bar length (in Java2D units). */
     private double minimumBarLength;
@@ -170,7 +170,7 @@ public class BarRenderer extends AbstractCategoryItemRenderer
         this.base = 0;
         this.itemMargin = DEFAULT_ITEM_MARGIN;
         this.drawBarOutline = true;
-        this.maxBarWidth = 1.0;  
+        this.maximumBarWidth = 1.0;  
             // 100 percent, so it will not apply unless changed
         this.positiveItemLabelPositionFallback = null;
         this.negativeItemLabelPositionFallback = null;
@@ -247,8 +247,8 @@ public class BarRenderer extends AbstractCategoryItemRenderer
      * 
      * @return The maximum bar width.
      */
-    public double getMaxBarWidth() {
-        return this.maxBarWidth;
+    public double getMaximumBarWidth() {
+        return this.maximumBarWidth;
     }
     
     /**
@@ -258,8 +258,8 @@ public class BarRenderer extends AbstractCategoryItemRenderer
      * 
      * @param percent  the percent (where 0.05 is five percent).
      */
-    public void setMaxBarWidth(double percent) {
-        this.maxBarWidth = percent;
+    public void setMaximumBarWidth(double percent) {
+        this.maximumBarWidth = percent;
         notifyListeners(new RendererChangeEvent(this));
     }
 
@@ -436,7 +436,7 @@ public class BarRenderer extends AbstractCategoryItemRenderer
             else if (orientation == PlotOrientation.VERTICAL) {
                 space = dataArea.getWidth();
             }
-            double maxWidth = space * getMaxBarWidth();
+            double maxWidth = space * getMaximumBarWidth();
             double categoryMargin = 0.0;
             double currentItemMargin = 0.0;
             if (columns > 1) {
@@ -591,10 +591,8 @@ public class BarRenderer extends AbstractCategoryItemRenderer
         Paint outlinePaint = getSeriesOutlinePaint(series);
         Stroke outlineStroke = getSeriesOutlineStroke(series);
 
-        return new LegendItem(
-            label, description, toolTipText, urlText,
-            shape, paint, outlineStroke, outlinePaint
-        );
+        return new LegendItem(label, description, toolTipText, urlText,
+            shape, paint, outlineStroke, outlinePaint);
 
     }
 
@@ -661,10 +659,9 @@ public class BarRenderer extends AbstractCategoryItemRenderer
             );
         }
         Paint itemPaint = getItemPaint(row, column);
-        if (getGradientPaintTransformer() != null 
-                && itemPaint instanceof GradientPaint) {
-            GradientPaint gp = (GradientPaint) itemPaint;
-            itemPaint = getGradientPaintTransformer().transform(gp, bar);
+        GradientPaintTransformer t = getGradientPaintTransformer();
+        if (t != null && itemPaint instanceof GradientPaint) {
+            itemPaint = t.transform((GradientPaint) itemPaint, bar);
         }
         g2.setPaint(itemPaint);
         g2.fill(bar);
@@ -688,30 +685,11 @@ public class BarRenderer extends AbstractCategoryItemRenderer
                 g2, dataset, row, column, plot, generator, bar, (value < 0.0)
             );
         }        
-                
-        // collect entity and tool tip information...
-        if (state.getInfo() != null) {
-            EntityCollection entities 
-                = state.getInfo().getOwner().getEntityCollection();
-            if (entities != null) {
-                String tip = null;
-                CategoryToolTipGenerator tipster 
-                    = getToolTipGenerator(row, column);
-                if (tipster != null) {
-                    tip = tipster.generateToolTip(dataset, row, column);
-                }
-                String url = null;
-                if (getItemURLGenerator(row, column) != null) {
-                    url = getItemURLGenerator(row, column).generateURL(
-                        dataset, row, column
-                    );
-                }
-                CategoryItemEntity entity = new CategoryItemEntity(
-                    bar, tip, url, dataset, row, 
-                    dataset.getColumnKey(column), column
-                );
-                entities.add(entity);
-            }
+
+        // add an item entity, if this information is being collected
+        EntityCollection entities = state.getEntityCollection();
+        if (entities != null) {
+            addItemEntity(entities, dataset, row, column, bar);
         }
 
     }
@@ -983,7 +961,7 @@ public class BarRenderer extends AbstractCategoryItemRenderer
         if (this.drawBarOutline != that.drawBarOutline) {
             return false;
         }
-        if (this.maxBarWidth != that.maxBarWidth) {
+        if (this.maximumBarWidth != that.maximumBarWidth) {
             return false;
         }
         if (this.minimumBarLength != that.minimumBarLength) {

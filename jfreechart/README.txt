@@ -1,8 +1,8 @@
 *********************************
-* JFREECHART: Version 1.0.0-rc1 *
+* JFREECHART: Version 1.0.0-rc3 *
 *********************************
 
-2 June 2005
+28 November 2005
 
 (C)opyright 2000-2005, by Object Refinery Limited and Contributors.
 
@@ -10,7 +10,7 @@
 1.  INTRODUCTION
 -----------------
 JFreeChart is a free chart library for the Java(tm) platform.  It runs 
-on the Java 2 Platform (JDK 1.2.2 or later) and uses the Java
+on the Java 2 Platform (JDK 1.3 or later) and uses the Java
 2D API for drawing.
 
 JFreeChart is licensed under the terms of the GNU Lesser General
@@ -35,7 +35,7 @@ message in the JFreeChart forum.
 3.  DOCUMENTATION
 -----------------
 You can download installation instructions
-(jfreechart-1.0.0-rc1-install.pdf) from the JFreeChart home
+(jfreechart-1.0.0-rc2-install.pdf) from the JFreeChart home
 page or the project page on SourceForge.
 
 Further documentation for JFreeChart (the JFreeChart Developer Guide) is
@@ -50,7 +50,7 @@ the project.  Please help us to continue developing free software.
 
 API documentation files in HTML format are available on-line.  If you wish 
 to keep a local copy of the API files, you can regenerate them directly
-from the source code.  You can do this using the 'gcjdoc' or 'javadoc' 
+from the source code.  You can do this using the 'gjdoc' or 'javadoc' 
 utilities directly, or with the Ant script (build.xml) included in the
 distribution.
 
@@ -59,14 +59,15 @@ distribution.
 -----------------
 JFreeChart has the following dependencies:
 
-(a)  JDK 1.2.2 or higher - JFreeChart requires the Java2D and Collections
-APIs, so it won't work with JDK 1.1.  If you are using JFreeChart to create
-applets, this means that you cannot rely on the JVM integrated with
+(a)  JDK 1.3 or higher - JFreeChart requires the Java2D and Collections
+APIs, so it definitely won't work with JDK 1.1 (with a small amount of effort
+you can get it to compile and run with JDK 1.2).  If you are using JFreeChart 
+to create applets, this means that you cannot rely on the JVM integrated with
 Microsoft's Internet Explorer - your users will need to have the Java 2
-plug-in installed.  Most other browsers (e.g. Mozilla, Firefox, Netscape, 
-Konqueror) support JDK 1.4.
+plug-in installed.  Most other browsers (e.g. Firefox, Mozilla, Netscape, 
+Konqueror) support JDK 1.4 or JDK 1.5.
 
-(b)  JCommon - version 1.0.0-pre2 or later.  The runtime jar file is
+(b)  JCommon - version 1.0.0 or later.  The runtime jar file is
 included in the JFreeChart distribution.  You can obtain the complete
 source code for JCommon from:
 
@@ -85,8 +86,7 @@ gnujaxp-1.0beta1.zip distribution) is included with JFreeChart.  GNU
 JAXP is licensed under the terms of the GNU General Public License
 with an additional library exception.
 
-THIS LIBRARY IS ONLY REQUIRED BY JFREECHART IF YOU ARE USING JDK 1.3 OR
-JDK 1.2.2.
+THIS LIBRARY IS ONLY REQUIRED BY JFREECHART IF YOU ARE USING JDK 1.3.
 
 (d)  servlet.jar - classes in the org.jfree.chart.servlet
 package require this file.  The JFreeChart distribution includes the 
@@ -123,9 +123,9 @@ DEPENDENCIES section above) before running the Ant script.
 ------------------------
 A demo application that shows a selection of the charts that can be
 generated is included in the JFreeChart distribution.   To run the
-demo (using JDK 1.2.2 or later), use the following command:
+demo (using JDK 1.3 or later), use the following command:
 
-    java -jar jfreechart-1.0.0-rc1-demo.jar
+    java -jar jfreechart-1.0.0-rc2-demo.jar
 
 The complete source code for the demo application is available for
 download when you purchase the JFreeChart Developer Guide.
@@ -151,11 +151,24 @@ please post a bug report.
 ---------------
 A list of changes in recent versions:
 
+1.0.0-rc3 : (28-Nov-2005)
+	    - the third "release candidate" for version 1.0.0, this release
+              fixes some issues with the 1.0.0-rc2 release (mainly concerning
+              packaging of resource bundles for localisation).  
+            - if no significant problems are reported in the next few days,
+              the 1.0.0 "final" release will be posted on 2-Dec-2005.
+
+1.0.0-rc2 : (25-Nov-2005)
+            - the second "release candidate" for version 1.0.0.  If no problems
+              are reported, 1.0.0 "final" will be released on 2-Dec-2005.
+            - see the ChangeLog file for a detailed list of changes in this 
+              release.
+
 1.0.0-rc1 : (2-Jun-2005)
-         - this is a "release candidate" for version 1.0.0.  If no significant
-           API problems are reported, this release will be re-released as
-           version 1.0.0. 
-         - see CHANGELOG.txt for further details.
+            - this is a "release candidate" for version 1.0.0.  If no 
+              significant API problems are reported, this release will be 
+              re-released as version 1.0.0. 
+            - see CHANGELOG.txt for further details.
 
 1.0.0-pre2 : (10-Mar-2005)
          - see CHANGELOG.txt for further details.
@@ -626,8 +639,10 @@ contributions that have been made by the developers listed below:
     - Bill Kelemen
     - Norbert Kiesel
     - Gideon Krause
+    - Pierre-Marie Le Biot
     - Arnaud Lelievre
     - David Li
+    - Yan Liu
     - Tin Luu
     - Craig MacFarlane
     - Achilleus Mantzios

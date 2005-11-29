@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -46,6 +47,7 @@ package org.jfree.chart.renderer.xy.junit;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.Stroke;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -99,9 +101,11 @@ public class StackedXYAreaRendererTests extends TestCase {
         assertEquals(r1, r2);
         assertEquals(r2, r1);
         
-        r1.setShapePaint(Color.yellow);
+        r1.setShapePaint(new GradientPaint(1.0f, 2.0f, Color.yellow, 
+                3.0f, 4.0f, Color.green));
         assertFalse(r1.equals(r2));
-        r2.setShapePaint(Color.yellow);
+        r2.setShapePaint(new GradientPaint(1.0f, 2.0f, Color.yellow, 
+                3.0f, 4.0f, Color.green));
         assertTrue(r1.equals(r2));
         
         Stroke s = new BasicStroke(1.23f);
@@ -145,6 +149,8 @@ public class StackedXYAreaRendererTests extends TestCase {
      */
     public void testSerialization() {
         StackedXYAreaRenderer r1 = new StackedXYAreaRenderer();
+        r1.setShapePaint(Color.red);
+        r1.setShapeStroke(new BasicStroke(1.23f));
         StackedXYAreaRenderer r2 = null;
         try {
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();

@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -39,6 +40,7 @@
  * 25-Sep-2002 : Version 1, contributed by Bryan Scott (DG);
  * 27-Mar-2003 : Implemented Serializable (DG);
  * 09-Sep-2003 : Added equals() method (DG);
+ * 08-Jun-2005 : Implemented Cloneable (DG);
  *
  */
 
@@ -56,7 +58,8 @@ import java.io.Serializable;
  *
  * @author Bryan Scott
  */
-public class LineNeedle extends MeterNeedle implements Serializable {
+public class LineNeedle extends MeterNeedle 
+                        implements Cloneable, Serializable {
 
     /** For serialization. */
     private static final long serialVersionUID = 6215321387896748945L;
@@ -92,21 +95,30 @@ public class LineNeedle extends MeterNeedle implements Serializable {
     /**
      * Tests another object for equality with this object.
      * 
-     * @param object  the object to test.
+     * @param obj  the object to test (<code>null</code> permitted).
      * 
      * @return A boolean.
      */
-    public boolean equals(Object object) {
-        if (object == null) {
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof LineNeedle)) {
+            return false;   
+        }
+        if (!super.equals(obj)) {
             return false;
         }
-        if (object == this) {
-            return true;
-        }
-        if (super.equals(object) && object instanceof LineNeedle) {
-            return true;
-        }
-        return false;
+        return true;
+    }
+    
+    /**
+     * Returns a clone of this needle.
+     * 
+     * @return A clone.
+     */
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();   
     }
     
 }

@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -38,6 +39,9 @@
  * 18-Mar-2003 : Version 1 (DG);
  * 09-Nov-2004 : Added tests for DonutPlot (DG);
  * 19-Jan-2005 : Added main() method to run JUnit in text mode (DG);
+ * 06-Jun-2005 : Added PlotTests (DG);
+ * 16-Jun-2005 : Added MultiplePiePlotTests (DG);
+ * 19-Aug-2005 : Added CategoryMarkerTests (DG);
  *
  */
 
@@ -61,10 +65,12 @@ public class PlotPackageTests extends TestCase {
      */
     public static Test suite() {
         TestSuite suite = new TestSuite("org.jfree.chart.plot");
+        suite.addTestSuite(CategoryMarkerTests.class);
         suite.addTestSuite(CategoryPlotTests.class);
+        suite.addTestSuite(ColorPaletteTests.class);
         suite.addTestSuite(CombinedDomainCategoryPlotTests.class);
-        suite.addTestSuite(CombinedRangeCategoryPlotTests.class);
         suite.addTestSuite(CombinedDomainXYPlotTests.class);
+        suite.addTestSuite(CombinedRangeCategoryPlotTests.class);
         suite.addTestSuite(CombinedRangeXYPlotTests.class);
         suite.addTestSuite(CompassPlotTests.class);
         suite.addTestSuite(ContourPlotTests.class);
@@ -73,11 +79,15 @@ public class PlotPackageTests extends TestCase {
         suite.addTestSuite(IntervalMarkerTests.class);
         suite.addTestSuite(MeterIntervalTests.class);
         suite.addTestSuite(MeterPlotTests.class);
+        suite.addTestSuite(MultiplePiePlotTests.class);
         suite.addTestSuite(PiePlotTests.class);
         suite.addTestSuite(PiePlot3DTests.class);
         suite.addTestSuite(PlotOrientationTests.class);
         suite.addTestSuite(PlotRenderingInfoTests.class);
+        suite.addTestSuite(PlotTests.class);
+        suite.addTestSuite(PolarPlotTests.class);
         suite.addTestSuite(RingPlotTests.class);
+        suite.addTestSuite(SpiderWebPlotTests.class);
         suite.addTestSuite(ThermometerPlotTests.class);
         suite.addTestSuite(ValueMarkerTests.class);
         suite.addTestSuite(XYPlotTests.class);

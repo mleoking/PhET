@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -41,6 +42,7 @@
  * 23-May-2002 : Renamed DrawInfo --> ChartRenderingInfo (DG);
  * 26-Sep-2002 : Fixed errors reported by Checkstyle (DG);
  * 17-Sep-2003 : Added PlotRenderingInfo (DG);
+ * 01-Nov-2005 : Updated equals() method (DG);
  *
  */
 
@@ -204,14 +206,20 @@ public class ChartRenderingInfo implements Cloneable, Serializable {
         if (obj == this) {
             return true;   
         }
-        if (obj instanceof ChartRenderingInfo) {
-            ChartRenderingInfo cri = (ChartRenderingInfo) obj;
-            if (!ObjectUtilities.equal(this.chartArea, cri.chartArea)) {
-                return false;   
-            }
-            return true;
+        if (!(obj instanceof ChartRenderingInfo)) {
+            return false;
         }
-        return false;
+        ChartRenderingInfo that = (ChartRenderingInfo) obj;
+        if (!ObjectUtilities.equal(this.chartArea, that.chartArea)) {
+            return false;   
+        }
+        if (!ObjectUtilities.equal(this.plotArea, that.plotArea)) {
+            return false;
+        }
+        if (!ObjectUtilities.equal(this.plotInfo, that.plotInfo)) {
+            return false;
+        }
+        return true;
     }
     
     /**

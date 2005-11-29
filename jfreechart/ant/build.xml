@@ -21,9 +21,10 @@
     <target name="initialise" description="Initialise required settings.">
         <tstamp />
         <property name="jfreechart.name" value="jfreechart" />
-        <property name="jfreechart.version" value="1.0.0-rc1" />
+        <property name="jfreechart.version" value="1.0.0-rc3" />
+        <property name="jfreechart-bundle-file" value="${jfreechart.name}-${jfreechart.version}-bundle.jar" />
         <property name="jcommon.name" value="jcommon" />
-        <property name="jcommon.version" value="1.0.0-rc1" />
+        <property name="jcommon.version" value="1.0.0" />
         <property name="builddir" value="${basedir}/build" />
         <property name="jcommon.jar" value="${basedir}/lib/${jcommon.name}-${jcommon.version}.jar"/>
         <property name="servlet.jar" value="${basedir}/lib/servlet.jar"/>
@@ -55,6 +56,7 @@
             <exclude name="org/jfree/**/junit/*"/>
             <exclude name="org/jfree/chart/xml/**"/>
             <exclude name="org/jfree/chart/encoders/SunPNGEncoderAdapter.java" unless="ImageIO.present"/>
+            <exclude name="org/jfree/chart/encoders/SunJPEGEncoderAdapter.java" unless="ImageIO.present"/>        	
         </javac>
 
         <!-- copy across gorilla.jpg -->
@@ -71,8 +73,8 @@
                 <include name="*.properties" />
             </fileset>
         </copy>
-        <copy todir="${basedir}/build/org/jfree/chart/ui">
-            <fileset dir="${basedir}/source/org/jfree/chart/ui">
+        <copy todir="${basedir}/build/org/jfree/chart/editor">
+            <fileset dir="${basedir}/source/org/jfree/chart/editor">
                 <include name="*.properties" />
             </fileset>
         </copy>
@@ -90,7 +92,7 @@
 
     </target>
 
-    <!-- Generate the JFreeChart JavaDoc HTML pages -->
+    <!-- Generate the JFreeChart API HTML pages -->
     <target name="javadoc" depends="initialise">
         <delete dir="${basedir}/javadoc" />
         <mkdir dir="${basedir}/javadoc" />
@@ -109,7 +111,7 @@
         </javadoc>
     </target>
 
-    <!-- Create zip file containing the JavaDoc HTML pages. -->
+    <!-- Create zip file containing the API HTML pages. -->
     <target name="zip-javadocs" depends="javadoc">
         <!-- make the zip file -->
         <zip zipfile="${basedir}/${jfreechart.name}-${jfreechart.version}-javadocs.zip">
@@ -127,6 +129,8 @@
         <!-- copy across README and CHANGELOG -->
         <copy file="${basedir}/README.txt" tofile="${basedir}/distribution/README.txt" />
         <copy file="${basedir}/CHANGELOG.txt" tofile="${basedir}/distribution/CHANGELOG.txt" />
+        <copy file="${basedir}/ChangeLog" tofile="${basedir}/distribution/ChangeLog" />
+        <copy file="${basedir}/maven-jfreechart-project.xml" tofile="${basedir}/distribution/maven-jfreechart-project.xml" />
 
         <!-- copy across LICENCE -->
         <copy file="${basedir}/licence-LGPL.txt" tofile="${basedir}/distribution/licence-LGPL.txt" />
@@ -161,6 +165,11 @@
         <!-- copy across checkstyle property file -->
         <copy todir="${basedir}/distribution/checkstyle">
             <fileset dir="${basedir}/checkstyle" />
+        </copy>
+
+        <!-- copy across gjdoc command file -->
+        <copy todir="${basedir}/distribution/gjdoc">
+            <fileset dir="${basedir}/gjdoc" />
         </copy>
 
         <!-- convert end-of-line characters in text files -->
@@ -188,6 +197,8 @@
         <!-- copy across README -->
         <copy file="${basedir}/README.txt" tofile="${basedir}/distribution/README.txt" />
         <copy file="${basedir}/CHANGELOG.txt" tofile="${basedir}/distribution/CHANGELOG.txt" />
+        <copy file="${basedir}/ChangeLog" tofile="${basedir}/distribution/ChangeLog" />
+        <copy file="${basedir}/maven-jfreechart-project.xml" tofile="${basedir}/distribution/maven-jfreechart-project.xml" />
 
         <!-- copy across LICENCE -->
         <copy file="${basedir}/licence-LGPL.txt" tofile="${basedir}/distribution/licence-LGPL.txt" />
@@ -224,6 +235,11 @@
             <fileset dir="${basedir}/checkstyle" />
         </copy>
 
+        <!-- copy across gjdoc command file -->
+        <copy todir="${basedir}/distribution/gjdoc">
+            <fileset dir="${basedir}/gjdoc" />
+        </copy>
+
         <!-- convert end-of-line characters in text files -->
         <fixcrlf srcdir="${basedir}/distribution/source"
                  eol="lf" eof="remove" 
@@ -243,9 +259,35 @@
 
     </target>
 
+  <target name="maven-bundle" depends="zip" >
+    <!-- make a temporary distribution directory -->
+    <mkdir dir="distribution"/>
+    <!-- copy across LICENCE -->
+    <copy file="licence-LGPL.txt" tofile="distribution/LICENSE.txt"/>
+    
+    <filterchain id="version.filters">
+       <replacetokens>
+         <token key="VERSION" value="${jfreechart.version}"/>
+         <token key="JCOMMON.VERSION" value="${jcommon.version}"/>
+       </replacetokens>
+    </filterchain>
+    <copy file="maven-jfreechart-project.xml" tofile="distribution/project.xml">
+	<filterchain refid="version.filters"/>
+    </copy>
+    
+    <!-- copy across runtime jar file -->
+    <copy file="${jfreechart.name}-${jfreechart.version}.jar" tofile="distribution/${jfreechart.name}-${jfreechart.version}.jar"/>
+
+    <!-- make the jar -->
+    <jar jarfile="${jfreechart-bundle-file}" basedir="distribution"/>
+
+    <!-- delete the temporary distribution directory -->
+    <delete dir="distribution"/>
+  </target>
+
     <!-- ALL -->
     <target name="all" 
-            depends="compile,zip-javadocs,zip,targz"
+            depends="compile,zip-javadocs,zip,targz,maven-bundle"
             description="Compiles JFreeChart, builds the jar files, generates the Javadoc HTML pages and creates distribution files (.zip and .tar.gz).">
     </target>
 

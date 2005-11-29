@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -78,11 +79,19 @@
  *               --> CategoryItemLabelGenerator (DG);
  * 17-May-2005 : Added flag to allow rendering values as percentages - inspired
  *               by patch 1200886 submitted by John Xiao (DG);
+ * 09-Jun-2005 : Added accessor methods for the renderAsPercentages flag,
+ *               provided equals() method, and use addItemEntity from 
+ *               superclass (DG);
+ * 09-Jun-2005 : Added support for GradientPaint - see bug report 1215670 (DG);
+ * 22-Sep-2005 : Renamed getMaxBarWidth() --> getMaximumBarWidth() (DG);
+ * 29-Sep-2005 : Use outline stroke in drawItem method - see bug report 
+ *               1304139 (DG);
  * 
  */
 
 package org.jfree.chart.renderer.category;
 
+import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.geom.Rectangle2D;
@@ -90,10 +99,9 @@ import java.io.Serializable;
 
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.ValueAxis;
-import org.jfree.chart.entity.CategoryItemEntity;
 import org.jfree.chart.entity.EntityCollection;
+import org.jfree.chart.event.RendererChangeEvent;
 import org.jfree.chart.labels.CategoryItemLabelGenerator;
-import org.jfree.chart.labels.CategoryToolTipGenerator;
 import org.jfree.chart.labels.ItemLabelAnchor;
 import org.jfree.chart.labels.ItemLabelPosition;
 import org.jfree.chart.plot.CategoryPlot;
@@ -102,6 +110,7 @@ import org.jfree.data.DataUtilities;
 import org.jfree.data.Range;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.general.DatasetUtilities;
+import org.jfree.ui.GradientPaintTransformer;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.TextAnchor;
 import org.jfree.util.PublicCloneable;
@@ -135,7 +144,7 @@ public class StackedBarRenderer extends BarRenderer
      * Creates a new renderer.
      * 
      * @param renderAsPercentages  a flag that controls whether the data values
-     *                             are rendered as percentages (DG);
+     *                             are rendered as percentages.
      */
     public StackedBarRenderer(boolean renderAsPercentages) {
         super();
@@ -152,6 +161,29 @@ public class StackedBarRenderer extends BarRenderer
         setNegativeItemLabelPositionFallback(null);
     }
 
+    /**
+     * Returns <code>true</code> if the renderer displays each item value as
+     * a percentage (so that the stacked bars add to 100%), and 
+     * <code>false</code> otherwise.
+     * 
+     * @return A boolean.
+     */
+    public boolean getRenderAsPercentages() {
+        return this.renderAsPercentages;   
+    }
+    
+    /**
+     * Sets the flag that controls whether the renderer displays each item
+     * value as a percentage (so that the stacked bars add to 100%), and sends
+     * a {@link RendererChangeEvent} to all registered listeners.
+     * 
+     * @param asPercentages  the flag.
+     */
+    public void setRenderAsPercentages(boolean asPercentages) {
+        this.renderAsPercentages = asPercentages; 
+        notifyListeners(new RendererChangeEvent(this));
+    }
+    
     /**
      * Returns the number of passes (<code>2</code>) required by this renderer. 
      * The first pass is used to draw the bars, the second pass is used to
@@ -176,7 +208,7 @@ public class StackedBarRenderer extends BarRenderer
             return new Range(0.0, 1.0);   
         }
         else {
-            return DatasetUtilities.findStackedRangeBounds(dataset);
+            return DatasetUtilities.findStackedRangeBounds(dataset, getBase());
         }
     }
 
@@ -205,7 +237,7 @@ public class StackedBarRenderer extends BarRenderer
             else if (orientation == PlotOrientation.VERTICAL) {
                 space = dataArea.getWidth();
             }
-            double maxWidth = space * getMaxBarWidth();
+            double maxWidth = space * getMaximumBarWidth();
             int columns = data.getColumnCount();
             double categoryMargin = 0.0;
             if (columns > 1) {
@@ -268,8 +300,8 @@ public class StackedBarRenderer extends BarRenderer
             column, getColumnCount(), dataArea, plot.getDomainAxisEdge()
         ) - state.getBarWidth() / 2.0;
 
-        double positiveBase = 0.0;
-        double negativeBase = 0.0;
+        double positiveBase = getBase();
+        double negativeBase = positiveBase;
 
         for (int i = 0; i < row; i++) {
             Number v = dataset.getValue(i, column);
@@ -322,39 +354,24 @@ public class StackedBarRenderer extends BarRenderer
             );
         }
         if (pass == 0) {
-            Paint seriesPaint = getItemPaint(row, column);
-            g2.setPaint(seriesPaint);
+            Paint itemPaint = getItemPaint(row, column);
+            GradientPaintTransformer t = getGradientPaintTransformer();
+            if (t != null && itemPaint instanceof GradientPaint) {
+                itemPaint = t.transform((GradientPaint) itemPaint, bar);
+            }
+            g2.setPaint(itemPaint);
             g2.fill(bar);
             if (isDrawBarOutline() 
                     && state.getBarWidth() > BAR_OUTLINE_WIDTH_THRESHOLD) {
-                g2.setStroke(getItemStroke(row, column));
+                g2.setStroke(getItemOutlineStroke(row, column));
                 g2.setPaint(getItemOutlinePaint(row, column));
                 g2.draw(bar);
             }
 
-            // collect entity and tool tip information...
-            if (state.getInfo() != null) {
-                EntityCollection entities 
-                    = state.getInfo().getOwner().getEntityCollection();
-                if (entities != null) {
-                    String tip = null;
-                    CategoryToolTipGenerator tipster 
-                        = getToolTipGenerator(row, column);
-                    if (tipster != null) {
-                        tip = tipster.generateToolTip(dataset, row, column);
-                    }
-                    String url = null;
-                    if (getItemURLGenerator(row, column) != null) {
-                        url = getItemURLGenerator(row, column).generateURL(
-                            dataset, row, column
-                        );
-                    }
-                    CategoryItemEntity entity = new CategoryItemEntity(
-                        bar, tip, url, dataset, row, 
-                        dataset.getColumnKey(column), column
-                    );
-                    entities.add(entity);
-                }
+            // add an item entity, if this information is being collected
+            EntityCollection entities = state.getEntityCollection();
+            if (entities != null) {
+                addItemEntity(entities, dataset, row, column, bar);
             }
         }
         else if (pass == 1) {
@@ -367,6 +384,30 @@ public class StackedBarRenderer extends BarRenderer
                 );
             }
         }        
+    }
+
+    /**
+     * Tests this renderer for equality with an arbitrary object.
+     * 
+     * @param obj  the object (<code>null</code> permitted).
+     * 
+     * @return A boolean.
+     */
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;   
+        }
+        if (!(obj instanceof StackedBarRenderer)) {
+            return false;   
+        }
+        if (!super.equals(obj)) {
+            return false;   
+        }
+        StackedBarRenderer that = (StackedBarRenderer) obj;
+        if (this.renderAsPercentages != that.renderAsPercentages) {
+            return false;   
+        }
+        return true;
     }
 
 }

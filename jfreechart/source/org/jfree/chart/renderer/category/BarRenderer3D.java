@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -86,7 +87,7 @@
  * 20-Apr-2005 : Renamed CategoryLabelGenerator 
  *               --> CategoryItemLabelGenerator (DG);
  * 25-Apr-2005 : Override initialise() method to fix bug 1189642 (DG);
- * 
+ * 09-Jun-2005 : Use addEntityItem from super class (DG);
  */
 
 package org.jfree.chart.renderer.category;
@@ -94,12 +95,14 @@ package org.jfree.chart.renderer.category;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Composite;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -109,10 +112,8 @@ import java.io.Serializable;
 import org.jfree.chart.Effect3D;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.ValueAxis;
-import org.jfree.chart.entity.CategoryItemEntity;
 import org.jfree.chart.entity.EntityCollection;
 import org.jfree.chart.labels.CategoryItemLabelGenerator;
-import org.jfree.chart.labels.CategoryToolTipGenerator;
 import org.jfree.chart.labels.ItemLabelAnchor;
 import org.jfree.chart.labels.ItemLabelPosition;
 import org.jfree.chart.plot.CategoryPlot;
@@ -124,6 +125,9 @@ import org.jfree.chart.plot.ValueMarker;
 import org.jfree.data.Range;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.io.SerialUtilities;
+import org.jfree.text.TextUtilities;
+import org.jfree.ui.LengthAdjustmentType;
+import org.jfree.ui.RectangleAnchor;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.TextAnchor;
 import org.jfree.util.PublicCloneable;
@@ -559,6 +563,24 @@ public class BarRenderer3D extends BarRenderer
             g2.fill(path);
             g2.setPaint(marker.getOutlinePaint());
             g2.draw(path);
+        
+            String label = marker.getLabel();
+            RectangleAnchor anchor = marker.getLabelAnchor();
+            if (label != null) {
+                Font labelFont = marker.getLabelFont();
+                g2.setFont(labelFont);
+                g2.setPaint(marker.getLabelPaint());
+                Point2D coordinates = calculateRangeMarkerTextAnchorPoint(
+                    g2, orientation, dataArea, path.getBounds2D(), 
+                    marker.getLabelOffset(), LengthAdjustmentType.EXPAND, anchor
+                );
+                TextUtilities.drawAlignedString(
+                    label, g2, 
+                    (float) coordinates.getX(), (float) coordinates.getY(), 
+                    marker.getLabelTextAnchor()
+                );
+            }
+        
         }
         else {
             super.drawRangeMarker(g2, plot, axis, marker, dataArea);
@@ -693,38 +715,18 @@ public class BarRenderer3D extends BarRenderer
             );
         }        
 
-        // collect entity and tool tip information...
-        if (state.getInfo() != null) {
-            EntityCollection entities 
-                = state.getInfo().getOwner().getEntityCollection();
-            if (entities != null) {
-                GeneralPath barOutline = new GeneralPath();
-                barOutline.moveTo((float) x0, (float) y3);
-                barOutline.lineTo((float) x0, (float) y1);
-                barOutline.lineTo((float) x1, (float) y0);
-                barOutline.lineTo((float) x3, (float) y0);
-                barOutline.lineTo((float) x3, (float) y2);
-                barOutline.lineTo((float) x2, (float) y3);
-                barOutline.closePath();
-
-                String tip = null;
-                CategoryToolTipGenerator tipster 
-                    = getToolTipGenerator(row, column);
-                if (tipster != null) {
-                    tip = tipster.generateToolTip(dataset, row, column);
-                }
-                String url = null;
-                if (getItemURLGenerator(row, column) != null) {
-                    url = getItemURLGenerator(row, column).generateURL(
-                        dataset, row, column
-                    );
-                }
-                CategoryItemEntity entity = new CategoryItemEntity(
-                    barOutline, tip, url, dataset, row, 
-                    dataset.getColumnKey(column), column
-                );
-                entities.add(entity);
-            }
+        // add an item entity, if this information is being collected
+        EntityCollection entities = state.getEntityCollection();
+        if (entities != null) {
+            GeneralPath barOutline = new GeneralPath();
+            barOutline.moveTo((float) x0, (float) y3);
+            barOutline.lineTo((float) x0, (float) y1);
+            barOutline.lineTo((float) x1, (float) y0);
+            barOutline.lineTo((float) x3, (float) y0);
+            barOutline.lineTo((float) x3, (float) y2);
+            barOutline.lineTo((float) x2, (float) y3);
+            barOutline.closePath();
+            addItemEntity(entities, dataset, row, column, barOutline);
         }
 
     }

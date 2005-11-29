@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -44,6 +45,7 @@ package org.jfree.chart.annotations.junit;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GradientPaint;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -98,9 +100,11 @@ public class TextAnnotationTests extends TestCase {
         assertTrue(a1.equals(a2));
 
         // paint 
-        a1.setPaint(Color.red);
+        a1.setPaint(new GradientPaint(1.0f, 2.0f, Color.red, 
+                3.0f, 4.0f, Color.pink));
         assertFalse(a1.equals(a2));
-        a2.setPaint(Color.red);
+        a2.setPaint(new GradientPaint(1.0f, 2.0f, Color.red, 
+                3.0f, 4.0f, Color.pink));
         assertTrue(a1.equals(a2));
 
         // textAnchor 

@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -42,6 +43,7 @@
  * 15-Jul-2004 : Switched getX() with getXValue() and getY() with 
  *               getYValue() (DG);
  * 11-Nov-2004 : Now uses ShapeUtilities to translate shapes (DG);
+ * 06-Jul-2005 : Renamed get/setPlotShapes() --> get/setShapesVisible() (DG);
  * 
  */
 
@@ -93,7 +95,7 @@ public class XYStepAreaRenderer extends AbstractXYItemRenderer
     public static final int AREA_AND_SHAPES = 3;
 
     /** A flag indicating whether or not shapes are drawn at each XY point. */
-    private boolean plotShapes;
+    private boolean shapesVisible;
 
     /** A flag that controls whether or not shapes are filled for ALL series. */
     private boolean shapesFilled;
@@ -152,11 +154,11 @@ public class XYStepAreaRenderer extends AbstractXYItemRenderer
             this.plotArea = true;
         }
         else if (type == SHAPES) {
-            this.plotShapes = true;
+            this.shapesVisible = true;
         }
         else if (type == AREA_AND_SHAPES) {
             this.plotArea = true;
-            this.plotShapes = true;
+            this.shapesVisible = true;
         }
         this.showOutline = false;
     }
@@ -188,18 +190,19 @@ public class XYStepAreaRenderer extends AbstractXYItemRenderer
      *
      * @return <code>true</code> if shapes are being plotted by the renderer.
      */
-    public boolean getPlotShapes() {
-        return this.plotShapes;
+    public boolean getShapesVisible() {
+        return this.shapesVisible;
     }
     
     /**
      * Sets the flag that controls whether or not shapes are displayed for each 
-     * data item.
+     * data item, and sends a {@link RendererChangeEvent} to all registered
+     * listeners.
      * 
      * @param flag  the flag.
      */
-    public void setPlotShapes(boolean flag) {
-        this.plotShapes = flag;
+    public void setShapesVisible(boolean flag) {
+        this.shapesVisible = flag;
         notifyListeners(new RendererChangeEvent(this));
     }
 
@@ -420,7 +423,7 @@ public class XYStepAreaRenderer extends AbstractXYItemRenderer
                 this.pArea.addPoint((int) transY1, (int) transX1);
             }
 
-            if (getPlotShapes()) {
+            if (getShapesVisible()) {
                 shape = getItemShape(series, item);
                 if (orientation == PlotOrientation.VERTICAL) {
                     shape = ShapeUtilities.createTranslatedShape(

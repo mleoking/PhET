@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -77,7 +78,8 @@
  * 15-Mar-2005 : Fixed bug 1163897, concerning outlines for shapes (DG);
  * 13-Apr-2005 : Check flags that control series visibility (DG);
  * 20-Apr-2005 : Use generators for legend labels, tooltips and URLs (DG);
- *
+ * 09-Jun-2005 : Use addItemEntity() method (DG);
+ * 
  */
 
 package org.jfree.chart.renderer.category;
@@ -93,10 +95,8 @@ import java.io.Serializable;
 import org.jfree.chart.LegendItem;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.ValueAxis;
-import org.jfree.chart.entity.CategoryItemEntity;
 import org.jfree.chart.entity.EntityCollection;
 import org.jfree.chart.event.RendererChangeEvent;
-import org.jfree.chart.labels.CategoryToolTipGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
@@ -117,11 +117,34 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
     /** For serialization. */
     private static final long serialVersionUID = -197749519869226398L;
     
-    /** A flag indicating whether or not lines are drawn between XY points. */
-    private boolean linesVisible;
+    /** A flag that controls whether or not lines are visible for ALL series. */
+    private Boolean linesVisible;
 
-    /** A flag indicating whether or not shapes are drawn at each XY point. */
-    private boolean shapesVisible;
+    /** 
+     * A table of flags that control (per series) whether or not lines are 
+     * visible. 
+     */
+    private BooleanList seriesLinesVisible;
+
+    /** 
+     * A flag indicating whether or not lines are drawn between non-null 
+     * points. 
+     */
+    private boolean baseLinesVisible;
+
+    /** 
+     * A flag that controls whether or not shapes are visible for ALL series. 
+     */
+    private Boolean shapesVisible;
+
+    /** 
+     * A table of flags that control (per series) whether or not shapes are 
+     * visible. 
+     */
+    private BooleanList seriesShapesVisible;
+
+    /** The default value returned by the getShapeVisible() method. */
+    private boolean baseShapesVisible;
 
     /** A flag that controls whether or not shapes are filled for ALL series. */
     private Boolean shapesFilled;
@@ -133,7 +156,7 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
     private BooleanList seriesShapesFilled;
     
     /** The default value returned by the getShapeFilled() method. */
-    private boolean defaultShapesFilled;
+    private boolean baseShapesFilled;
     
     /** 
      * A flag that controls whether the fill paint is used for filling 
@@ -160,65 +183,243 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
     /**
      * Creates a new renderer with lines and/or shapes visible.
      * 
-     * @param linesVisible  draw lines?
-     * @param shapesVisible  draw shapes?
+     * @param lines  draw lines?
+     * @param shapes  draw shapes?
      */
-    public LineAndShapeRenderer(boolean linesVisible, boolean shapesVisible) {
+    public LineAndShapeRenderer(boolean lines, boolean shapes) {
         super();
-        this.linesVisible = linesVisible;
-        this.shapesVisible = shapesVisible;
+        this.linesVisible = null;
+        this.seriesLinesVisible = new BooleanList();
+        this.baseLinesVisible = lines;
+        this.shapesVisible = null;
+        this.seriesShapesVisible = new BooleanList();
+        this.baseShapesVisible = shapes;
         this.shapesFilled = null;
         this.seriesShapesFilled = new BooleanList();
-        this.defaultShapesFilled = true;
+        this.baseShapesFilled = true;
         this.useFillPaint = false;
         this.drawOutlines = true;
         this.useOutlinePaint = false;
     }
     
+    // LINES VISIBLE
+
     /**
-     * Returns <code>true</code> if a line should be drawn from the previous 
-     * to the current data point, and <code>false</code> otherwise.
+     * Returns the flag used to control whether or not the line for an item is 
+     * visible.
      *
-     * @return A boolean flag.
+     * @param series  the series index (zero-based).
+     * @param item  the item index (zero-based).
+     *
+     * @return A boolean.
      */
-    public boolean isLinesVisible() {
-        return this.linesVisible;
+    public boolean getItemLineVisible(int series, int item) {
+        Boolean flag = this.linesVisible;
+        if (flag == null) {
+            flag = getSeriesLinesVisible(series);
+        }
+        if (flag != null) {
+            return flag.booleanValue();
+        }
+        else {
+            return this.baseLinesVisible;   
+        }
     }
 
     /**
-     * Sets the flag that controls whether or not lines are drawn between 
-     * consecutive data points.
+     * Returns a flag that controls whether or not lines are drawn for ALL 
+     * series.  If this flag is <code>null</code>, then the "per series" 
+     * settings will apply.
+     * 
+     * @return A flag (possibly <code>null</code>).
+     */
+    public Boolean getLinesVisible() {
+        return this.linesVisible;   
+    }
+    
+    /**
+     * Sets a flag that controls whether or not lines are drawn between the 
+     * items in ALL series, and sends a {@link RendererChangeEvent} to all 
+     * registered listeners.  You need to set this to <code>null</code> if you 
+     * want the "per series" settings to apply.
      *
-     * @param visible  the new value of the flag.
+     * @param visible  the flag (<code>null</code> permitted).
+     */
+    public void setLinesVisible(Boolean visible) {
+        this.linesVisible = visible;
+        notifyListeners(new RendererChangeEvent(this));
+    }
+
+    /**
+     * Sets a flag that controls whether or not lines are drawn between the 
+     * items in ALL series, and sends a {@link RendererChangeEvent} to all 
+     * registered listeners.
+     *
+     * @param visible  the flag.
      */
     public void setLinesVisible(boolean visible) {
-        if (visible != this.linesVisible) {
-            this.linesVisible = visible;
-            notifyListeners(new RendererChangeEvent(this));
+        setLinesVisible(BooleanUtilities.valueOf(visible));
+    }
+
+    /**
+     * Returns the flag used to control whether or not the lines for a series 
+     * are visible.
+     *
+     * @param series  the series index (zero-based).
+     *
+     * @return The flag (possibly <code>null</code>).
+     */
+    public Boolean getSeriesLinesVisible(int series) {
+        return this.seriesLinesVisible.getBoolean(series);
+    }
+
+    /**
+     * Sets the 'lines visible' flag for a series.
+     *
+     * @param series  the series index (zero-based).
+     * @param flag  the flag (<code>null</code> permitted).
+     */
+    public void setSeriesLinesVisible(int series, Boolean flag) {
+        this.seriesLinesVisible.setBoolean(series, flag);
+        notifyListeners(new RendererChangeEvent(this));
+    }
+
+    /**
+     * Sets the 'lines visible' flag for a series.
+     * 
+     * @param series  the series index (zero-based).
+     * @param visible  the flag.
+     */
+    public void setSeriesLinesVisible(int series, boolean visible) {
+        setSeriesLinesVisible(series, BooleanUtilities.valueOf(visible));
+    }
+    
+    /**
+     * Returns the base 'lines visible' attribute.
+     *
+     * @return The base flag.
+     */
+    public boolean getBaseLinesVisible() {
+        return this.baseLinesVisible;
+    }
+
+    /**
+     * Sets the base 'lines visible' flag.
+     *
+     * @param flag  the flag.
+     */
+    public void setBaseLinesVisible(boolean flag) {
+        this.baseLinesVisible = flag;
+        notifyListeners(new RendererChangeEvent(this));
+    }
+
+    // SHAPES VISIBLE
+
+    /**
+     * Returns the flag used to control whether or not the shape for an item is 
+     * visible.
+     *
+     * @param series  the series index (zero-based).
+     * @param item  the item index (zero-based).
+     *
+     * @return A boolean.
+     */
+    public boolean getItemShapeVisible(int series, int item) {
+        Boolean flag = this.shapesVisible;
+        if (flag == null) {
+            flag = getSeriesShapesVisible(series);
+        }
+        if (flag != null) {
+            return flag.booleanValue();
+        }
+        else {
+            return this.baseShapesVisible;   
         }
     }
 
     /**
-     * Returns <code>true</code> if a shape should be drawn to represent each 
-     * data point, and <code>false</code> otherwise.
-     *
-     * @return A boolean flag.
+     * Returns the flag that controls whether the shapes are visible for the 
+     * items in ALL series.
+     * 
+     * @return The flag (possibly <code>null</code>).
      */
-    public boolean isShapesVisible() {
-        return this.shapesVisible;
+    public Boolean getShapesVisible() {
+        return this.shapesVisible;    
+    }
+    
+    /**
+     * Sets the 'shapes visible' for ALL series and sends a 
+     * {@link RendererChangeEvent} to all registered listeners.
+     *
+     * @param visible  the flag (<code>null</code> permitted).
+     */
+    public void setShapesVisible(Boolean visible) {
+        this.shapesVisible = visible;
+        notifyListeners(new RendererChangeEvent(this));
     }
 
     /**
-     * Sets the flag that controls whether or not a shape should be drawn to 
-     * represent each data point.
-     *
-     * @param visible  the new value of the flag.
+     * Sets the 'shapes visible' for ALL series and sends a 
+     * {@link RendererChangeEvent} to all registered listeners.
+     * 
+     * @param visible  the flag.
      */
     public void setShapesVisible(boolean visible) {
-        if (visible != this.shapesVisible) {
-            this.shapesVisible = visible;
-            notifyListeners(new RendererChangeEvent(this));
-        }
+        setShapesVisible(BooleanUtilities.valueOf(visible));
+    }
+
+    /**
+     * Returns the flag used to control whether or not the shapes for a series
+     * are visible.
+     *
+     * @param series  the series index (zero-based).
+     *
+     * @return A boolean.
+     */
+    public Boolean getSeriesShapesVisible(int series) {
+        return this.seriesShapesVisible.getBoolean(series);
+    }
+
+    /**
+     * Sets the 'shapes visible' flag for a series and sends a 
+     * {@link RendererChangeEvent} to all registered listeners.
+     * 
+     * @param series  the series index (zero-based).
+     * @param visible  the flag.
+     */
+    public void setSeriesShapesVisible(int series, boolean visible) {
+        setSeriesShapesVisible(series, BooleanUtilities.valueOf(visible));
+    }
+    
+    /**
+     * Sets the 'shapes visible' flag for a series and sends a 
+     * {@link RendererChangeEvent} to all registered listeners.
+     *
+     * @param series  the series index (zero-based).
+     * @param flag  the flag.
+     */
+    public void setSeriesShapesVisible(int series, Boolean flag) {
+        this.seriesShapesVisible.setBoolean(series, flag);
+        notifyListeners(new RendererChangeEvent(this));
+    }
+
+    /**
+     * Returns the base 'shape visible' attribute.
+     *
+     * @return The base flag.
+     */
+    public boolean getBaseShapesVisible() {
+        return this.baseShapesVisible;
+    }
+
+    /**
+     * Sets the base 'shapes visible' flag.
+     *
+     * @param flag  the flag.
+     */
+    public void setBaseShapesVisible(boolean flag) {
+        this.baseShapesVisible = flag;
+        notifyListeners(new RendererChangeEvent(this));
     }
 
     /**
@@ -304,7 +505,7 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
             return flag.booleanValue();
         }
         else {
-            return this.defaultShapesFilled;
+            return this.baseShapesFilled;
         } 
 
     }
@@ -365,21 +566,21 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
     }
 
     /**
-     * Returns the default 'shape filled' attribute.
+     * Returns the base 'shape filled' attribute.
      *
-     * @return The default flag.
+     * @return The base flag.
      */
-    public boolean getDefaultShapesFilled() {
-        return this.defaultShapesFilled;
+    public boolean getBaseShapesFilled() {
+        return this.baseShapesFilled;
     }
 
     /**
-     * Sets the default 'shapes filled' flag.
+     * Sets the base 'shapes filled' flag.
      *
      * @param flag  the flag.
      */
-    public void setDefaultShapesFilled(boolean flag) {
-        this.defaultShapesFilled = flag;
+    public void setBaseShapesFilled(boolean flag) {
+        this.baseShapesFilled = flag;
     }
 
     /**
@@ -447,15 +648,13 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
             Paint outlinePaint = (this.useOutlinePaint 
                 ? getItemOutlinePaint(series, 0) : paint);
             Stroke outlineStroke = getSeriesOutlineStroke(series);
-
-            return new LegendItem(
-                label, description, toolTipText, urlText, 
-                isShapesVisible(), shape, 
-                getItemShapeFilled(series, 0),
-                fillPaint, shapeOutlineVisible, outlinePaint, outlineStroke,
-                isLinesVisible(), new Line2D.Double(-7.0, 0.0, 7.0, 0.0),
-                getItemStroke(series, 0), getItemPaint(series, 0)
-            );
+            boolean lineVisible = getItemLineVisible(series, 0);
+            boolean shapeVisible = getItemShapeVisible(series, 0);
+            return new LegendItem(label, description, toolTipText, 
+                    urlText, shapeVisible, shape, getItemShapeFilled(series, 0),
+                    fillPaint, shapeOutlineVisible, outlinePaint, outlineStroke,
+                    lineVisible, new Line2D.Double(-7.0, 0.0, 7.0, 0.0),
+                    getItemStroke(series, 0), getItemPaint(series, 0));
         }
         return null;
 
@@ -517,7 +716,7 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
             value, dataArea, plot.getRangeAxisEdge()
         );
 
-        if (pass == 0 && isLinesVisible()) {
+        if (pass == 0 && getItemLineVisible(row, column)) {
             if (column != 0) {
                 Number previousValue = dataset.getValue(row, column - 1);
                 if (previousValue != null) {
@@ -554,7 +753,7 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
                 shape = ShapeUtilities.createTranslatedShape(shape, x1, y1);
             }
 
-            if (isShapesVisible()) {
+            if (getItemShapeVisible(row, column)) {
                 if (getItemShapeFilled(row, column)) {
                     if (this.useFillPaint) {
                         g2.setPaint(getItemFillPaint(row, column));
@@ -592,31 +791,10 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
                 }
             }
 
-            // collect entity and tool tip information...
-            if (state.getInfo() != null) {
-                EntityCollection entities 
-                    = state.getInfo().getOwner().getEntityCollection();
-                if (entities != null && shape != null) {
-                    String tip = null;
-                    CategoryToolTipGenerator tipster = getToolTipGenerator(
-                        row, column
-                    );
-                    if (tipster != null) {
-                        tip = tipster.generateToolTip(dataset, row, column);
-                    }
-                    String url = null;
-                    if (getItemURLGenerator(row, column) != null) {
-                        url = getItemURLGenerator(row, column).generateURL(
-                            dataset, row, column
-                        );
-                    }
-                    CategoryItemEntity entity = new CategoryItemEntity(
-                        shape, tip, url, dataset, row, 
-                        dataset.getColumnKey(column), column
-                    );
-                    entities.add(entity);
-                }
-
+            // add an item entity, if this information is being collected
+            EntityCollection entities = state.getEntityCollection();
+            if (entities != null) {
+                addItemEntity(entities, dataset, row, column, shape);
             }
 
         }
@@ -635,18 +813,29 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
         if (obj == this) {
             return true;
         }
-        if (!super.equals(obj)) {
-            return false;
-        }
         if (!(obj instanceof LineAndShapeRenderer)) {
             return false;
         }
         
         LineAndShapeRenderer that = (LineAndShapeRenderer) obj;
-        if (this.linesVisible != that.linesVisible) {
+        if (this.baseLinesVisible != that.baseLinesVisible) {
             return false;
         }
-        if (this.shapesVisible != that.shapesVisible) {
+        if (!ObjectUtilities.equal(this.seriesLinesVisible, 
+                that.seriesLinesVisible)) {
+            return false;
+        }
+        if (!ObjectUtilities.equal(this.linesVisible, that.linesVisible)) {
+            return false;
+        }
+        if (this.baseShapesVisible != that.baseShapesVisible) {
+            return false;
+        }
+        if (!ObjectUtilities.equal(this.seriesShapesVisible, 
+                that.seriesShapesVisible)) {
+            return false;
+        }
+        if (!ObjectUtilities.equal(this.shapesVisible, that.shapesVisible)) {
             return false;
         }
         if (!ObjectUtilities.equal(this.shapesFilled, that.shapesFilled)) {
@@ -657,15 +846,16 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
         ) {
             return false;
         }
-        if (this.defaultShapesFilled != that.defaultShapesFilled) {
+        if (this.baseShapesFilled != that.baseShapesFilled) {
             return false;
         }
         if (this.useOutlinePaint != that.useOutlinePaint) {
             return false;
         }
-    
+        if (!super.equals(obj)) {
+            return false;
+        }
         return true;
-
     }
 
     /**
@@ -677,6 +867,10 @@ public class LineAndShapeRenderer extends AbstractCategoryItemRenderer
      */
     public Object clone() throws CloneNotSupportedException {
         LineAndShapeRenderer clone = (LineAndShapeRenderer) super.clone();
+        clone.seriesLinesVisible 
+            = (BooleanList) this.seriesLinesVisible.clone();
+        clone.seriesShapesVisible 
+            = (BooleanList) this.seriesLinesVisible.clone();
         clone.seriesShapesFilled 
             = (BooleanList) this.seriesShapesFilled.clone();
         return clone;

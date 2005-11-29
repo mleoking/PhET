@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -55,6 +56,7 @@
  * 09-Mar-2005 : Override getLegendItem() method so that legend item shapes
  *               are shown as blocks (DG);
  * 20-Apr-2005 : Generate legend labels, tooltips and URLs (DG);
+ * 09-Jun-2005 : Updated equals() to handle GradientPaint (DG);
  * 
  */
 
@@ -95,7 +97,7 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.statistics.BoxAndWhiskerCategoryDataset;
 import org.jfree.io.SerialUtilities;
 import org.jfree.ui.RectangleEdge;
-import org.jfree.util.ObjectUtilities;
+import org.jfree.util.PaintUtilities;
 import org.jfree.util.PublicCloneable;
 
 /**
@@ -221,10 +223,8 @@ public class BoxAndWhiskerRenderer extends AbstractCategoryItemRenderer
         Paint outlinePaint = getSeriesOutlinePaint(series);
         Stroke outlineStroke = getSeriesOutlineStroke(series);
 
-        return new LegendItem(
-            label, description, toolTipText, urlText, 
-            shape, paint, outlineStroke, outlinePaint
-        );
+        return new LegendItem(label, description, toolTipText, urlText, 
+            shape, paint, outlineStroke, outlinePaint);
 
     }
 
@@ -852,20 +852,23 @@ public class BoxAndWhiskerRenderer extends AbstractCategoryItemRenderer
         if (obj == this) {
             return true;   
         }
-        if (obj instanceof BoxAndWhiskerRenderer && super.equals(obj)) {
-            BoxAndWhiskerRenderer r = (BoxAndWhiskerRenderer) obj;
-            if (!ObjectUtilities.equal(r.artifactPaint, this.artifactPaint)) {
-                return false;
-            }
-            if (!(r.fillBox == this.fillBox)) {
-                return false;   
-            }
-            if (!(r.itemMargin == this.itemMargin)) {
-                return false;   
-            }
-            return true;
+        if (!(obj instanceof BoxAndWhiskerRenderer)) {
+            return false;   
         }
-        return false;
+        if (!super.equals(obj)) {
+            return false;
+        }
+        BoxAndWhiskerRenderer that = (BoxAndWhiskerRenderer) obj;
+        if (!PaintUtilities.equal(this.artifactPaint, that.artifactPaint)) {
+            return false;
+        }
+        if (!(this.fillBox == that.fillBox)) {
+            return false;   
+        }
+        if (!(this.itemMargin == that.itemMargin)) {
+            return false;   
+        }
+        return true;
     }
     
     /**

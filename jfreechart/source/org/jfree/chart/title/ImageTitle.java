@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -84,35 +85,21 @@ public class ImageTitle extends Title {
     /** The title image. */
     private Image image;
 
-    /** The height used to draw the image (may involve scaling). */
-    private int height;
-
-    /** The width used to draw the image (may involve scaling). */
-    private int width;
-
     /**
      * Creates a new image title.
      *
-     * @param image  the image.
+     * @param image  the image (<code>null</code> not permitted).
      */
     public ImageTitle(Image image) {
-
-        this(
-            image,
-            image.getHeight(null),
-            image.getWidth(null),
-            Title.DEFAULT_POSITION,
-            Title.DEFAULT_HORIZONTAL_ALIGNMENT,
-            Title.DEFAULT_VERTICAL_ALIGNMENT,
-            Title.DEFAULT_PADDING
-        );
-
+        this(image, image.getHeight(null), image.getWidth(null), 
+                Title.DEFAULT_POSITION, Title.DEFAULT_HORIZONTAL_ALIGNMENT,
+                Title.DEFAULT_VERTICAL_ALIGNMENT, Title.DEFAULT_PADDING);
     }
 
     /**
      * Creates a new image title.
      *
-     * @param image  the image.
+     * @param image  the image (<code>null</code> not permitted).
      * @param position  the title position.
      * @param horizontalAlignment  the horizontal alignment.
      * @param verticalAlignment  the vertical alignment.
@@ -121,23 +108,16 @@ public class ImageTitle extends Title {
                       HorizontalAlignment horizontalAlignment, 
                       VerticalAlignment verticalAlignment) {
 
-        this(
-            image,
-            image.getHeight(null),
-            image.getWidth(null),
-            position,
-            horizontalAlignment,
-            verticalAlignment,
-            Title.DEFAULT_PADDING
-        );
-
+        this(image, image.getHeight(null), image.getWidth(null),
+                position, horizontalAlignment, verticalAlignment, 
+                Title.DEFAULT_PADDING);
     }
 
     /**
      * Creates a new image title with the given image scaled to the given
      * width and height in the given location.
      *
-     * @param image  the image (not null).
+     * @param image  the image (<code>null</code> not permitted).
      * @param height  the height used to draw the image.
      * @param width  the width used to draw the image.
      * @param position  the title position.
@@ -157,15 +137,15 @@ public class ImageTitle extends Title {
             throw new NullPointerException("Null 'image' argument.");
         }
         this.image = image;
-        this.height = height;
-        this.width = width;
+        setHeight(height);
+        setWidth(width);
 
     }
 
     /**
      * Returns the image for the title.
      *
-     * @return The image for the title.
+     * @return The image for the title (never <code>null</code>).
      */
     public Image getImage() {
         return this.image;
@@ -226,18 +206,19 @@ public class ImageTitle extends Title {
         double leftSpace = 0.0;
         double rightSpace = 0.0;
 
+        double w = getWidth();
+        double h = getHeight();
         RectangleInsets padding = getPadding();
-        topSpace = padding.calculateTopOutset(this.height);
-        bottomSpace = padding.calculateBottomOutset(this.height);
-        leftSpace = padding.calculateLeftOutset(this.width);
-        rightSpace = padding.calculateRightOutset(this.width);
+        topSpace = padding.calculateTopOutset(h);
+        bottomSpace = padding.calculateBottomOutset(h);
+        leftSpace = padding.calculateLeftOutset(w);
+        rightSpace = padding.calculateRightOutset(w);
 
         if (getPosition() == RectangleEdge.TOP) {
             startY = chartArea.getY() + topSpace;
         }
         else {
-            startY = chartArea.getY() + chartArea.getHeight() - bottomSpace 
-                     - this.height;
+            startY = chartArea.getY() + chartArea.getHeight() - bottomSpace - h;
         }
 
         // what is our alignment?
@@ -245,24 +226,19 @@ public class ImageTitle extends Title {
         double startX = 0.0;
         if (horizontalAlignment == HorizontalAlignment.CENTER) {
             startX = chartArea.getX() + leftSpace + chartArea.getWidth() / 2.0 
-                     - this.width / 2.0;
+                     - w / 2.0;
         }
         else if (horizontalAlignment == HorizontalAlignment.LEFT) {
             startX = chartArea.getX() + leftSpace;
         }
         else if (horizontalAlignment == HorizontalAlignment.RIGHT) {
-            startX = chartArea.getX() + chartArea.getWidth() - rightSpace 
-                     - this.width;
+            startX = chartArea.getX() + chartArea.getWidth() - rightSpace - w;
         }
-        g2.drawImage(
-            this.image, (int) startX, (int) startY, 
-            this.width, this.height, null
-        );
+        g2.drawImage(this.image, (int) startX, (int) startY, (int) w, (int) h, 
+                null);
 
-        return new Size2D(
-            chartArea.getWidth() + leftSpace + rightSpace,
-            this.height + topSpace + bottomSpace
-        );
+        return new Size2D(chartArea.getWidth() + leftSpace + rightSpace,
+            h + topSpace + bottomSpace);
 
     }
 
@@ -284,19 +260,22 @@ public class ImageTitle extends Title {
         double leftSpace = 0.0;
         double rightSpace = 0.0;
 
+        double w = getWidth();
+        double h = getHeight();
+        
         RectangleInsets padding = getPadding();
         if (padding != null) {
-            topSpace = padding.calculateTopOutset(this.height);
-            bottomSpace = padding.calculateBottomOutset(this.height);
-            leftSpace = padding.calculateLeftOutset(this.width);
-            rightSpace = padding.calculateRightOutset(this.width);
+            topSpace = padding.calculateTopOutset(h);
+            bottomSpace = padding.calculateBottomOutset(h);
+            leftSpace = padding.calculateLeftOutset(w);
+            rightSpace = padding.calculateRightOutset(w);
         }
 
         if (getPosition() == RectangleEdge.LEFT) {
             startX = chartArea.getX() + leftSpace;
         }
         else {
-            startX = chartArea.getMaxX() - rightSpace - this.width;
+            startX = chartArea.getMaxX() - rightSpace - w;
         }
 
         // what is our alignment?
@@ -304,25 +283,20 @@ public class ImageTitle extends Title {
         double startY = 0.0;
         if (alignment == VerticalAlignment.CENTER) {
             startY = chartArea.getMinY() + topSpace 
-                     + chartArea.getHeight() / 2.0
-                     - this.height / 2.0;
+                     + chartArea.getHeight() / 2.0 - h / 2.0;
         }
         else if (alignment == VerticalAlignment.TOP) {
             startY = chartArea.getMinY() + topSpace;
         }
         else if (alignment == VerticalAlignment.BOTTOM) {
-            startY = chartArea.getMaxY() - bottomSpace - this.height;
+            startY = chartArea.getMaxY() - bottomSpace - h;
         }
 
-        g2.drawImage(
-            this.image, (int) startX, (int) startY, 
-            this.width, this.height, null
-        );
+        g2.drawImage(this.image, (int) startX, (int) startY, (int) w, (int) h, 
+                null);
 
-        return new Size2D(
-            chartArea.getWidth() + leftSpace + rightSpace,
-            this.height + topSpace + bottomSpace
-        );
+        return new Size2D(chartArea.getWidth() + leftSpace + rightSpace,
+            h + topSpace + bottomSpace);
 
     }
     

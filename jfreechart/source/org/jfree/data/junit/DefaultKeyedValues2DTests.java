@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -37,6 +38,7 @@
  * -------
  * 13-Mar-2003 : Version 1 (DG);
  * 15-Sep-2004 : Updated cloning test (DG);
+ * 06-Oct-2005 : Added testEquals() (DG);
  *
  */
 
@@ -54,6 +56,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.jfree.data.DefaultKeyedValues2D;
+import org.jfree.data.UnknownKeyException;
 
 /**
  * Tests for the {@link DefaultKeyedValues2D} class.
@@ -68,7 +71,7 @@ public class DefaultKeyedValues2DTests extends TestCase {
     public static Test suite() {
         return new TestSuite(DefaultKeyedValues2DTests.class);
     }
-
+    
     /**
      * Constructs a new set of tests.
      *
@@ -78,6 +81,32 @@ public class DefaultKeyedValues2DTests extends TestCase {
         super(name);
     }
 
+    /**
+     * Some checks for the getValue() method.
+     */
+    public void testGetValue() {
+        DefaultKeyedValues2D d = new DefaultKeyedValues2D();
+        d.addValue(new Double(1.0), "R1", "C1");
+        assertEquals(new Double(1.0), d.getValue("R1", "C1"));
+        boolean pass = false;
+        try {
+            d.getValue("XX", "C1");
+        }
+        catch (UnknownKeyException e) {
+            pass = true;   
+        }
+        assertTrue(pass);
+        
+        pass = false;
+        try {
+            d.getValue("R1", "XX");
+        }
+        catch (UnknownKeyException e) {
+            pass = true;   
+        }
+        assertTrue(pass);
+    }
+    
     /**
      * Some checks for the clone() method.
      */
@@ -132,6 +161,21 @@ public class DefaultKeyedValues2DTests extends TestCase {
         }
         assertEquals(kv2D1, kv2D2);
 
+    }
+    
+    /**
+     * Some checks for the equals() method.
+     */
+    public void testEquals() {
+        DefaultKeyedValues2D d1 = new DefaultKeyedValues2D();
+        DefaultKeyedValues2D d2 = new DefaultKeyedValues2D();
+        assertTrue(d1.equals(d2));
+        assertTrue(d2.equals(d1));
+        
+        d1.addValue(new Double(1.0), new Double(2.0), "S1");
+        assertFalse(d1.equals(d2));
+        d2.addValue(new Double(1.0), new Double(2.0), "S1");
+        assertTrue(d1.equals(d2));
     }
 
 }

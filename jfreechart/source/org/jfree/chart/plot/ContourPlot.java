@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -59,6 +60,8 @@
  * 25-Nov-2004 : Small update to clone() implementation (DG);
  * 11-Jan-2005 : Removed deprecated code in preparation for 1.0.0 release (DG);
  * 05-May-2005 : Updated draw() method parameters (DG);
+ * 16-Jun-2005 : Added default constructor (DG);
+ * 01-Sep-2005 : Moved dataAreaRatio from Plot to here (DG);
  * 
  */
 
@@ -174,6 +177,17 @@ public class ContourPlot extends Plot implements ContourValuePlot,
      */
     private boolean rangeCrosshairLockedOnData = true;
 
+    /** 
+     * Defines dataArea rectangle as the ratio formed from dividing height by 
+     * width (of the dataArea).  Modifies plot area calculations.
+     * ratio>0 will attempt to layout the plot so that the
+     * dataArea.height/dataArea.width = ratio.
+     * ratio<0 will attempt to layout the plot so that the
+     * dataArea.height/dataArea.width in plot units (not java2D units as when 
+     * ratio>0) = -1.*ratio.
+     */         //dmo
+    private double dataAreaRatio = 0.0;  //zero when the parameter is not set
+
     /** A list of markers (optional) for the domain axis. */
     private List domainMarkers;
 
@@ -211,6 +225,13 @@ public class ContourPlot extends Plot implements ContourValuePlot,
     protected static ResourceBundle localizationResources = 
         ResourceBundle.getBundle("org.jfree.chart.plot.LocalizationBundle");
 
+    /**
+     * Creates a new plot with no dataset or axes.
+     */
+    public ContourPlot() {
+        this(null, null, null, null);
+    }
+    
     /**
      * Constructs a contour plot with the specified axes (other attributes take
      * default values).
@@ -400,6 +421,24 @@ public class ContourPlot extends Plot implements ContourValuePlot,
         this.colorBar = axis;
         notifyListeners(new PlotChangeEvent(this));
 
+    }
+
+    /**
+     * Returns the data area ratio.
+     *
+     * @return The ratio.
+     */
+    public double getDataAreaRatio() {
+        return this.dataAreaRatio;
+    }
+
+    /**
+     * Sets the data area ratio.
+     *
+     * @param ratio  the ratio.
+     */
+    public void setDataAreaRatio(double ratio) {
+        this.dataAreaRatio = ratio;
     }
 
     /**

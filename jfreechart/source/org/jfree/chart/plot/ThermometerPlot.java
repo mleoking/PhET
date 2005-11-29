@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -69,6 +70,8 @@
  * 11-Jan-2005 : Removed deprecated code in preparation for 1.0.0 release (DG);
  * 29-Mar-2005 : Fixed equals() method (DG);
  * 05-May-2005 : Updated draw() method parameters (DG);
+ * 09-Jun-2005 : Fixed more bugs in equals() method (DG);
+ * 10-Jun-2005 : Fixed minor bug in setDisplayRange() method (DG);
  * 
  */
 
@@ -93,6 +96,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import org.jfree.chart.LegendItemCollection;
@@ -107,6 +111,7 @@ import org.jfree.io.SerialUtilities;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.util.ObjectUtilities;
+import org.jfree.util.PaintUtilities;
 import org.jfree.util.UnitType;
 
 /**
@@ -782,8 +787,8 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
                 this.subrangeInfo[range][DISPLAY_LOW] = low;
             }
             else {
-                this.subrangeInfo[range][DISPLAY_HIGH] = high;
-                this.subrangeInfo[range][DISPLAY_LOW] = low;
+                this.subrangeInfo[range][DISPLAY_HIGH] = low;
+                this.subrangeInfo[range][DISPLAY_LOW] = high;
             }
 
         }
@@ -1258,18 +1263,17 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
     }
 
     /**
-     * Tests this plot for equality with another object.
+     * Tests this plot for equality with another object.  The plot's dataset
+     * is not considered in the test.
      *
-     * @param obj  the object.
+     * @param obj  the object (<code>null</code> permitted).
      *
      * @return <code>true</code> or <code>false</code>.
      */
     public boolean equals(Object obj) {
-
         if (obj == this) {
             return true;
         }
-
         if (!(obj instanceof ThermometerPlot)) {
             return false;
         }
@@ -1277,11 +1281,11 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
         if (!super.equals(obj)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.dataset, that.dataset)) {
-            return false;
-        }
         if (!ObjectUtilities.equal(this.rangeAxis, that.rangeAxis)) {
             return false;
+        }
+        if (this.axisLocation != that.axisLocation) {
+            return false;   
         }
         if (this.lowerBound != that.lowerBound) {
             return false;
@@ -1297,7 +1301,7 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
         )) {
             return false;
         }
-        if (!ObjectUtilities.equal(
+        if (!PaintUtilities.equal(
             this.thermometerPaint, that.thermometerPaint
         )) {
             return false;
@@ -1311,13 +1315,13 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
         if (!ObjectUtilities.equal(this.valueFont, that.valueFont)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.valuePaint, that.valuePaint)) {
+        if (!PaintUtilities.equal(this.valuePaint, that.valuePaint)) {
             return false;
         }
         if (!ObjectUtilities.equal(this.valueFormat, that.valueFormat)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.mercuryPaint, that.mercuryPaint)) {
+        if (!PaintUtilities.equal(this.mercuryPaint, that.mercuryPaint)) {
             return false;
         }
         if (this.showValueLines != that.showValueLines) {
@@ -1326,15 +1330,48 @@ public class ThermometerPlot extends Plot implements ValueAxisPlot,
         if (this.subrange != that.subrange) {
             return false;
         }
-        
         if (this.followDataInSubranges != that.followDataInSubranges) {
             return false;
+        }
+        if (!equal(this.subrangeInfo, that.subrangeInfo)) {
+            return false;   
         }
         if (this.useSubrangePaint != that.useSubrangePaint) {
             return false;
         }
+        for (int i = 0; i < this.subrangePaint.length; i++) {
+            if (!PaintUtilities.equal(this.subrangePaint[i], 
+                    that.subrangePaint[i])) {
+                return false;   
+            }
+        }
         return true;
-    
+    }
+
+    /**
+     * Tests two double[][] arrays for equality.
+     * 
+     * @param array1  the first array (<code>null</code> permitted).
+     * @param array2  the second arrray (<code>null</code> permitted).
+     * 
+     * @return A boolean.
+     */
+    private static boolean equal(double[][] array1, double[][] array2) {
+        if (array1 == null) {
+            return (array2 == null);
+        }
+        if (array2 == null) {
+            return false;
+        }
+        if (array1.length != array2.length) {
+            return false;
+        }
+        for (int i = 0; i < array1.length; i++) {
+            if (!Arrays.equals(array1[i], array2[i])) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
