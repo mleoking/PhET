@@ -10,6 +10,7 @@
  */
 package edu.colorado.phet.dischargelamps.control;
 
+import edu.colorado.phet.dischargelamps.model.DischargeLampElementProperties;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.lasers.model.atom.ElementProperties;
 
@@ -40,11 +41,11 @@ public class AtomTypeChooser extends JPanel {
             public void actionPerformed( ActionEvent e ) {
                 JComboBox cb = (JComboBox)e.getSource();
                 // Get the selected item and tell it to do its thing
-                ElementProperties selection = (ElementProperties)cb.getSelectedItem();
+                DischargeLampElementProperties selection = (DischargeLampElementProperties)cb.getSelectedItem();
                 model.setElementProperties( selection );
             }
         } );
-        ElementProperties selection = (ElementProperties)comboBox.getSelectedItem();
+        DischargeLampElementProperties selection = (DischargeLampElementProperties)comboBox.getSelectedItem();
         model.setElementProperties( selection );
         this.add( comboBox, gbc );
     }

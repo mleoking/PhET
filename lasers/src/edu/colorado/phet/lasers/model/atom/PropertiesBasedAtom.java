@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.lasers.model.atom;
 
-import edu.colorado.phet.dischargelamps.model.EnergyAbsorptionStrategy;
 import edu.colorado.phet.lasers.model.LaserModel;
 
 /**
@@ -22,7 +21,7 @@ import edu.colorado.phet.lasers.model.LaserModel;
 public class PropertiesBasedAtom extends Atom {
 
     private EnergyEmissionStrategy energyEmissionStrategy;
-    private EnergyAbsorptionStrategy energyAbsorptionStrategy;
+//    private EnergyAbsorptionStrategy energyAbsorptionStrategy;
 
 
     /**
@@ -31,7 +30,7 @@ public class PropertiesBasedAtom extends Atom {
     public PropertiesBasedAtom( LaserModel model, ElementProperties elementProperties ) {
         super( model, elementProperties.getStates().length, true );
 
-        this.energyAbsorptionStrategy = elementProperties.getEnergyAbsorptionStrategy();
+//        this.energyAbsorptionStrategy = elementProperties.getEnergyAbsorptionStrategy();
         this.energyEmissionStrategy = elementProperties.getEnergyEmissionStrategy();
         if( elementProperties.getStates().length < 2 ) {
             throw new RuntimeException( "Atom must have at least two states" );
@@ -66,7 +65,7 @@ public class PropertiesBasedAtom extends Atom {
     }
 
     public void setElementProperties( ElementProperties elementProperties ) {
-        this.energyAbsorptionStrategy = elementProperties.getEnergyAbsorptionStrategy();
+//        this.energyAbsorptionStrategy = elementProperties.getEnergyAbsorptionStrategy();
         this.energyEmissionStrategy = elementProperties.getEnergyEmissionStrategy();
         super.setStates( elementProperties.getStates() );
     }
