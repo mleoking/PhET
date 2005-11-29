@@ -129,6 +129,8 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         PhetTextGraphic headingText = new PhetTextGraphic( this, font,
                                                            header,
                                                            Color.black );
+        headingText.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING,
+                                                           RenderingHints.VALUE_ANTIALIAS_ON ) );
         headingText.setLocation( 30, 5 );
         this.addGraphic( headingText );
 

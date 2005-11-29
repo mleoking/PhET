@@ -9,6 +9,7 @@ package edu.colorado.phet.lasers.view;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.util.GraphicsState;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 import java.awt.*;
@@ -55,6 +56,7 @@ public class MonitorPanel extends ApparatusPanel {
         strLoc.setLocation( fm.getHeight(), getBounds().getHeight() - 10 );
         AffineTransform strTx = rotateInPlace( atx, -Math.PI / 2, strLoc.getX(), strLoc.getY() );
         g2.transform( strTx );
+        GraphicsUtil.setAntiAliasingOn( g2 );
         g2.drawString( yAxisLabel, (int)strLoc.getX(), (int)strLoc.getY() );
         gs.restoreGraphics();
 
