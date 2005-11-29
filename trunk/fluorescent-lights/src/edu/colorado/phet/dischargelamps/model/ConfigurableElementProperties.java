@@ -11,7 +11,6 @@
 package edu.colorado.phet.dischargelamps.model;
 
 import edu.colorado.phet.lasers.model.atom.AtomicState;
-import edu.colorado.phet.lasers.model.atom.ElementProperties;
 
 /**
  * HydrogenProperties
@@ -19,7 +18,7 @@ import edu.colorado.phet.lasers.model.atom.ElementProperties;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ConfigurableElementProperties extends ElementProperties {
+public class ConfigurableElementProperties extends DischargeLampElementProperties {
     private static double[] energyLevels = {
         -13.6
     };

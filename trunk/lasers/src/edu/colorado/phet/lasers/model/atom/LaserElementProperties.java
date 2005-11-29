@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.lasers.model.atom;
 
-import edu.colorado.phet.dischargelamps.model.EnergyAbsorptionStrategy;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 
 /**
@@ -23,9 +22,8 @@ public abstract class LaserElementProperties extends ElementProperties {
 
     protected LaserElementProperties( String name, double[] energyLevels,
                                       EnergyEmissionStrategy energyEmissionStrategy,
-                                      EnergyAbsorptionStrategy energyAbsorptionStrategy,
                                       double meanStateLifetime ) {
-        super( name, energyLevels, energyEmissionStrategy, energyAbsorptionStrategy, meanStateLifetime );
+        super( name, energyLevels, energyEmissionStrategy, meanStateLifetime );
 
         // Set the mean lifetimes of the states
         AtomicState[] states = getStates();

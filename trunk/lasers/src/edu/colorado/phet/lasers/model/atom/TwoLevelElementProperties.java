@@ -38,7 +38,6 @@ public class TwoLevelElementProperties extends LaserElementProperties {
     public TwoLevelElementProperties() {
         super( "Laser Atom", energyLevels,
                new EmissionStrategy(),
-               null,
                DEFAULT_STATE_LIFETIME );
     }
 

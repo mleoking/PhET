@@ -193,7 +193,7 @@ public class DischargeLampModel extends LaserModel {
     // Atomic states and energy levels
     //----------------------------------------------------------------
 
-    public void setElementProperties( ElementProperties elementProperties ) {
+    public void setElementProperties( DischargeLampElementProperties elementProperties ) {
         this.elementProperties = elementProperties;
         for( int i = 0; i < atoms.size(); i++ ) {
             DischargeLampAtom atom = (DischargeLampAtom)atoms.get( i );

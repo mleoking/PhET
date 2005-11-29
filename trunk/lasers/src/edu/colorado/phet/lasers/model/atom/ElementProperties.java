@@ -10,8 +10,6 @@
  */
 package edu.colorado.phet.lasers.model.atom;
 
-import edu.colorado.phet.dischargelamps.model.EnergyAbsorptionStrategy;
-
 import java.util.Arrays;
 
 /**
@@ -26,25 +24,22 @@ public class ElementProperties {
     private boolean levelsMovable;
     private AtomicState[] states;
     private EnergyEmissionStrategy energyEmissionStrategy;
-    private EnergyAbsorptionStrategy energyAbsorptionStrategy;
+//    private EnergyAbsorptionStrategy energyAbsorptionStrategy;
     private double meanStateLifetime;
     private double workFunction;
 
 
     protected ElementProperties( String name, double[] energyLevels,
-                                 EnergyEmissionStrategy energyEmissionStrategy,
-                                 EnergyAbsorptionStrategy energyAbsorptionStrategy ) {
-        this( name, energyLevels, energyEmissionStrategy, energyAbsorptionStrategy, 0 );
+                                 EnergyEmissionStrategy energyEmissionStrategy ) {
+        this( name, energyLevels, energyEmissionStrategy, 0 );
     }
 
     protected ElementProperties( String name, double[] energyLevels,
                                  EnergyEmissionStrategy energyEmissionStrategy,
-                                 EnergyAbsorptionStrategy energyAbsorptionStrategy,
                                  double meanStateLifetime ) {
         this.name = name;
         this.energyLevels = energyLevels;
         this.energyEmissionStrategy = energyEmissionStrategy;
-        this.energyAbsorptionStrategy = energyAbsorptionStrategy;
         this.meanStateLifetime = meanStateLifetime;
         initStates();
         setEnergyLevels( energyLevels );
@@ -71,10 +66,6 @@ public class ElementProperties {
 
     public EnergyEmissionStrategy getEnergyEmissionStrategy() {
         return energyEmissionStrategy;
-    }
-
-    public EnergyAbsorptionStrategy getEnergyAbsorptionStrategy() {
-        return energyAbsorptionStrategy;
     }
 
     public double[] getEnergyLevels() {
@@ -132,9 +123,5 @@ public class ElementProperties {
             meanStateLifetime = getMeanStateLifetime();
             states[i].setMeanLifetime( meanStateLifetime );
         }
-    }
-
-    public void setEnergyAbsorptionStrategy( EnergyAbsorptionStrategy energyAbsorptionStrategy ) {
-        this.energyAbsorptionStrategy = energyAbsorptionStrategy;
     }
 }

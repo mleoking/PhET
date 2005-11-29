@@ -36,7 +36,6 @@ public class ThreeLevelElementProperties extends LaserElementProperties {
     public ThreeLevelElementProperties() {
         super( "Laser Atom", energyLevels,
                new EmissionStrategy(),
-               null,
                DEFAULT_STATE_LIFETIME );
     }
 
