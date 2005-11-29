@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -69,6 +70,7 @@
  * 26-Jan-2005 : Added override for getLegendItem() method (DG);
  * 20-Apr-2005 : Use generators for label tooltips and URLs (DG);
  * 19-May-2005 : Added minimal item label implementation - needs improving (DG);
+ * 14-Oct-2005 : Fixed rendering problem with inverted axes (DG);
  * 
  */
 
@@ -404,10 +406,8 @@ public class XYBarRenderer extends AbstractXYItemRenderer
                 Paint paint = getSeriesPaint(series);
                 Paint outlinePaint = getSeriesOutlinePaint(series);
                 Stroke outlineStroke = getSeriesOutlineStroke(series);
-                result = new LegendItem(
-                    label, description, toolTipText, urlText, 
-                    shape, paint, outlineStroke, outlinePaint
-                );
+                result = new LegendItem(label, description, toolTipText, 
+                        urlText, shape, paint, outlineStroke, outlinePaint);
             }
         }
         return result;
@@ -502,15 +502,15 @@ public class XYBarRenderer extends AbstractXYItemRenderer
         PlotOrientation orientation = plot.getOrientation();
         if (orientation == PlotOrientation.HORIZONTAL) {
             bar = new Rectangle2D.Double(
-                Math.min(translatedValue0, translatedValue1), translatedEndX,
-                translatedHeight, translatedWidth
-            );
+                Math.min(translatedValue0, translatedValue1), 
+                Math.min(translatedStartX, translatedEndX),
+                translatedHeight, translatedWidth);
         }
         else if (orientation == PlotOrientation.VERTICAL) {
             bar = new Rectangle2D.Double(
-                translatedStartX, Math.min(translatedValue0, translatedValue1), 
-                translatedWidth, translatedHeight
-            );
+                Math.min(translatedStartX, translatedEndX), 
+                Math.min(translatedValue0, translatedValue1), 
+                translatedWidth, translatedHeight);
         }
 
         Paint itemPaint = getItemPaint(series, item);

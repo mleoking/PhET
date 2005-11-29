@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -58,6 +59,7 @@
  * 07-Oct-2003 : Added renderer state (DG);
  * 05-Nov-2004 : Modified drawItem() signature (DG);
  * 20-Apr-2005 : Apply tooltips and URLs to legend items (DG);
+ * 09-Jun-2005 : Use addItemEntity() method from superclass (DG);
  * 
  */
 
@@ -74,10 +76,8 @@ import java.io.Serializable;
 import org.jfree.chart.LegendItem;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.ValueAxis;
-import org.jfree.chart.entity.CategoryItemEntity;
 import org.jfree.chart.entity.EntityCollection;
 import org.jfree.chart.event.RendererChangeEvent;
-import org.jfree.chart.labels.CategoryToolTipGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.AreaRendererEndType;
@@ -169,10 +169,8 @@ public class AreaRenderer extends AbstractCategoryItemRenderer
         Paint outlinePaint = getSeriesOutlinePaint(series);
         Stroke outlineStroke = getSeriesOutlineStroke(series);
 
-        return new LegendItem(
-            label, description, toolTipText, urlText, 
-            shape, paint, outlineStroke, outlinePaint
-        );
+        return new LegendItem(label, description, toolTipText, urlText, 
+            shape, paint, outlineStroke, outlinePaint);
 
     }
 
@@ -286,29 +284,10 @@ public class AreaRenderer extends AbstractCategoryItemRenderer
                 );
             }
 
-            // collect entity and tool tip information...
-            if (state.getInfo() != null) {
-                EntityCollection entities 
-                    = state.getInfo().getOwner().getEntityCollection();
-                if (entities != null) {
-                    String tip = null;
-                    CategoryToolTipGenerator generator 
-                        = getToolTipGenerator(row, column);
-                    if (generator != null) {
-                        tip = generator.generateToolTip(dataset, row, column);
-                    }
-                    String url = null;
-                    if (getItemURLGenerator(row, column) != null) {
-                        url = getItemURLGenerator(row, column).generateURL(
-                            dataset, row, column
-                        );
-                    }
-                    Comparable columnKey = dataset.getColumnKey(column);
-                    CategoryItemEntity entity = new CategoryItemEntity(
-                        area, tip, url, dataset, row, columnKey, column
-                    );
-                    entities.add(entity);
-                }
+            // add an item entity, if this information is being collected
+            EntityCollection entities = state.getEntityCollection();
+            if (entities != null) {
+                addItemEntity(entities, dataset, row, column, area);
             }
         }
 

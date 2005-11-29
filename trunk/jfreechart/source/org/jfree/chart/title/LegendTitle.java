@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -29,7 +30,7 @@
  * (C) Copyright 2002-2005, by Object Refinery Limited.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
- * Contributor(s):   -;
+ * Contributor(s):   Pierre-Marie Le Biot;
  *
  * $Id$
  *
@@ -45,11 +46,14 @@
  * 20-Apr-2005 : Added new draw() method (DG);
  * 03-May-2005 : Modified equals() method to ignore sources (DG);
  * 13-May-2005 : Added settings for legend item label and graphic padding (DG);
+ * 09-Jun-2005 : Fixed serialization bug (DG);
+ * 01-Sep-2005 : Added itemPaint attribute (PMLB);
  * 
  */
 
 package org.jfree.chart.title;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -97,8 +101,11 @@ public class LegendTitle extends Title
     public static final Font DEFAULT_ITEM_FONT 
         = new Font("SansSerif", Font.PLAIN, 12);
 
+    /** The default item paint. */
+    public static final Paint DEFAULT_ITEM_PAINT = Color.black;
+
     /** The sources for legend items. */
-    private transient LegendItemSource[] sources;
+    private LegendItemSource[] sources;
     
     /** The background paint (possibly <code>null</code>). */
     private transient Paint backgroundPaint;
@@ -118,6 +125,9 @@ public class LegendTitle extends Title
     /** The item font. */
     private Font itemFont;
     
+    /** The item paint. */
+    private transient Paint itemPaint;
+
     /** The padding for the item labels. */
     private RectangleInsets itemLabelPadding;
 
@@ -166,6 +176,7 @@ public class LegendTitle extends Title
         this.legendItemGraphicLocation = RectangleAnchor.CENTER;
         this.legendItemGraphicPadding = new RectangleInsets(2.0, 2.0, 2.0, 2.0);
         this.itemFont = DEFAULT_ITEM_FONT;
+        this.itemPaint = DEFAULT_ITEM_PAINT;
         this.itemLabelPadding = new RectangleInsets(2.0, 2.0, 2.0, 2.0);
     }
     
@@ -179,11 +190,15 @@ public class LegendTitle extends Title
     }
     
     /**
-     * Sets the legend item sources.
+     * Sets the legend item sources and sends a {@link TitleChangeEvent} to
+     * all registered listeners.
      * 
-     * @param sources  the sources.
+     * @param sources  the sources (<code>null</code> not permitted).
      */
     public void setSources(LegendItemSource[] sources) {
+        if (sources == null) {
+            throw new IllegalArgumentException("Null 'sources' argument.");   
+        }
         this.sources = sources;
         notifyListeners(new TitleChangeEvent(this));
     }
@@ -198,12 +213,14 @@ public class LegendTitle extends Title
     }
     
     /**
-     * Sets the background paint for the legend.
+     * Sets the background paint for the legend and sends a 
+     * {@link TitleChangeEvent} to all registered listeners.
      * 
      * @param paint  the paint (<code>null</code> permitted).
      */
     public void setBackgroundPaint(Paint paint) {
         this.backgroundPaint = paint;   
+        notifyListeners(new TitleChangeEvent(this));
     }
     
     /**
@@ -225,6 +242,7 @@ public class LegendTitle extends Title
             throw new IllegalArgumentException("Null 'edge' argument.");
         }
         this.legendItemGraphicEdge = edge;
+        notifyListeners(new TitleChangeEvent(this));
     }
     
     /**
@@ -267,16 +285,17 @@ public class LegendTitle extends Title
     }
     
     /**
-     * Returns the padding used for the legend item graphics.
+     * Returns the padding that will be applied to each item graphic.
      * 
-     * @return The padding.
+     * @return The padding (never <code>null</code>).
      */
     public RectangleInsets getLegendItemGraphicPadding() {
-        return this.legendItemGraphicPadding;   
+        return this.legendItemGraphicPadding;    
     }
     
     /**
-     * Sets the padding used for the legend item graphics.
+     * Sets the padding that will be applied to each item graphic in the 
+     * legend and sends a {@link TitleChangeEvent} to all registered listeners.
      * 
      * @param padding  the padding (<code>null</code> not permitted).
      */
@@ -298,7 +317,8 @@ public class LegendTitle extends Title
     }
     
     /**
-     * Sets the item font.
+     * Sets the item font and sends a {@link TitleChangeEvent} to
+     * all registered listeners.
      * 
      * @param font  the font (<code>null</code> not permitted).
      */
@@ -311,9 +331,31 @@ public class LegendTitle extends Title
     }
     
     /**
+     * Returns the item paint.
+     *
+     * @return The paint (never <code>null</code>).
+     */
+    public Paint getItemPaint() {
+        return this.itemPaint;   
+    }
+   
+    /**
+     * Sets the item paint.
+     *
+     * @param paint  the paint (<code>null</code> not permitted).
+     */
+    public void setItemPaint(Paint paint) {
+        if (paint == null) {
+            throw new IllegalArgumentException("Null 'paint' argument.");   
+        }
+        this.itemPaint = paint;
+        notifyListeners(new TitleChangeEvent(this));
+    }
+   
+    /**
      * Returns the padding used for the items labels.
      * 
-     * @return The padding.
+     * @return The padding (never <code>null</code>).
      */
     public RectangleInsets getItemLabelPadding() {
         return this.itemLabelPadding;   
@@ -383,7 +425,8 @@ public class LegendTitle extends Title
         lg.setShapeAnchor(getLegendItemGraphicAnchor());
         lg.setShapeLocation(getLegendItemGraphicLocation());
         legendItem.add(lg, this.legendItemGraphicEdge);
-        LabelBlock labelBlock = new LabelBlock(item.getLabel(), this.itemFont);
+        LabelBlock labelBlock = new LabelBlock(item.getLabel(), this.itemFont, 
+                this.itemPaint);
         labelBlock.setPadding(this.itemLabelPadding);
         labelBlock.setToolTipText(item.getToolTipText());
         legendItem.add(labelBlock);
@@ -509,6 +552,9 @@ public class LegendTitle extends Title
         if (!this.itemFont.equals(that.itemFont)) {
             return false;   
         }
+        if (!this.itemPaint.equals(that.itemPaint)) {
+            return false;   
+        }
         if (!this.hLayout.equals(that.hLayout)) {
             return false;   
         }
@@ -528,6 +574,7 @@ public class LegendTitle extends Title
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
         SerialUtilities.writePaint(this.backgroundPaint, stream);
+        SerialUtilities.writePaint(this.itemPaint, stream);
     }
 
     /**
@@ -542,7 +589,7 @@ public class LegendTitle extends Title
         throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
         this.backgroundPaint = SerialUtilities.readPaint(stream);
-        this.sources = new LegendItemSource[0];
+        this.itemPaint = SerialUtilities.readPaint(stream);
     }
 
 }

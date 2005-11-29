@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -56,10 +57,10 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.jfree.chart.labels.StandardPieItemLabelGenerator;
+import org.jfree.chart.labels.StandardPieToolTipGenerator;
 
 /**
- * Tests for the {@link StandardPieItemLabelGenerator} class.
+ * Tests for the {@link StandardPieToolTipGenerator} class.
  */
 public class StandardPieItemLabelGeneratorTests extends TestCase {
 
@@ -85,49 +86,49 @@ public class StandardPieItemLabelGeneratorTests extends TestCase {
      * Test that the equals() method distinguishes all fields.
      */
     public void testEquals() {
-        StandardPieItemLabelGenerator g1 = new StandardPieItemLabelGenerator();
-        StandardPieItemLabelGenerator g2 = new StandardPieItemLabelGenerator();
+        StandardPieToolTipGenerator g1 = new StandardPieToolTipGenerator();
+        StandardPieToolTipGenerator g2 = new StandardPieToolTipGenerator();
         assertTrue(g1.equals(g2));
         assertTrue(g2.equals(g1));
         
-        g1 = new StandardPieItemLabelGenerator(
+        g1 = new StandardPieToolTipGenerator(
             "{0}", new DecimalFormat("#,##0.00"), 
             NumberFormat.getPercentInstance()
         );
         assertFalse(g1.equals(g2));
-        g2 = new StandardPieItemLabelGenerator(
+        g2 = new StandardPieToolTipGenerator(
             "{0}", new DecimalFormat("#,##0.00"), 
             NumberFormat.getPercentInstance()
         );
         assertTrue(g1.equals(g2));
 
-        g1 = new StandardPieItemLabelGenerator(
+        g1 = new StandardPieToolTipGenerator(
             "{0} {1}", new DecimalFormat("#,##0.00"), 
             NumberFormat.getPercentInstance()
         );
         assertFalse(g1.equals(g2));
-        g2 = new StandardPieItemLabelGenerator(
+        g2 = new StandardPieToolTipGenerator(
             "{0} {1}", new DecimalFormat("#,##0.00"), 
             NumberFormat.getPercentInstance()
         );
         assertTrue(g1.equals(g2));
     
-        g1 = new StandardPieItemLabelGenerator(
+        g1 = new StandardPieToolTipGenerator(
             "{0} {1}", new DecimalFormat("#,##0"), 
             NumberFormat.getPercentInstance()
         );
         assertFalse(g1.equals(g2));
-        g2 = new StandardPieItemLabelGenerator(
+        g2 = new StandardPieToolTipGenerator(
             "{0} {1}", new DecimalFormat("#,##0"), 
             NumberFormat.getPercentInstance()
         );
         assertTrue(g1.equals(g2));
 
-        g1 = new StandardPieItemLabelGenerator(
+        g1 = new StandardPieToolTipGenerator(
             "{0} {1}", new DecimalFormat("#,##0"), new DecimalFormat("0.000%")
         );
         assertFalse(g1.equals(g2));
-        g2 = new StandardPieItemLabelGenerator(
+        g2 = new StandardPieToolTipGenerator(
             "{0} {1}", new DecimalFormat("#,##0"), new DecimalFormat("0.000%")
         );
         assertTrue(g1.equals(g2));
@@ -137,10 +138,10 @@ public class StandardPieItemLabelGeneratorTests extends TestCase {
      * Confirm that cloning works.
      */
     public void testCloning() {
-        StandardPieItemLabelGenerator g1 = new StandardPieItemLabelGenerator();
-        StandardPieItemLabelGenerator g2 = null;
+        StandardPieToolTipGenerator g1 = new StandardPieToolTipGenerator();
+        StandardPieToolTipGenerator g2 = null;
         try {
-            g2 = (StandardPieItemLabelGenerator) g1.clone();
+            g2 = (StandardPieToolTipGenerator) g1.clone();
         }
         catch (CloneNotSupportedException e) {
             System.err.println("Failed to clone.");
@@ -155,8 +156,8 @@ public class StandardPieItemLabelGeneratorTests extends TestCase {
      */
     public void testSerialization() {
 
-        StandardPieItemLabelGenerator g1 = new StandardPieItemLabelGenerator();
-        StandardPieItemLabelGenerator g2 = null;
+        StandardPieToolTipGenerator g1 = new StandardPieToolTipGenerator();
+        StandardPieToolTipGenerator g2 = null;
 
         try {
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();
@@ -167,7 +168,7 @@ public class StandardPieItemLabelGeneratorTests extends TestCase {
             ObjectInput in = new ObjectInputStream(
                 new ByteArrayInputStream(buffer.toByteArray())
             );
-            g2 = (StandardPieItemLabelGenerator) in.readObject();
+            g2 = (StandardPieToolTipGenerator) in.readObject();
             in.close();
         }
         catch (Exception e) {

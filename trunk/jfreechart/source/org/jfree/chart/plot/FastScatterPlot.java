@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -26,7 +27,7 @@
  * --------------------
  * FastScatterPlot.java
  * --------------------
- * (C) Copyright 2002-2004, by Object Refinery Limited.
+ * (C) Copyright 2002-2005, by Object Refinery Limited.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   Arnaud Lelievre;
@@ -51,6 +52,7 @@
  *               --> ArrayUtilities (DG);
  * 12-Nov-2004 : Implemented the new Zoomable interface (DG);
  * 05-May-2005 : Updated draw() method parameters (DG);
+ * 16-Jun-2005 : Added get/setData() methods (DG);
  *
  */
 
@@ -86,6 +88,7 @@ import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.util.ArrayUtilities;
 import org.jfree.util.ObjectUtilities;
+import org.jfree.util.PaintUtilities;
 
 /**
  * A fast scatter plot.
@@ -205,6 +208,26 @@ public class FastScatterPlot extends Plot implements ValueAxisPlot,
         return localizationResources.getString("Fast_Scatter_Plot");
     }
 
+    /**
+     * Returns the data array used by the plot.
+     * 
+     * @return The data array (possibly <code>null</code>).
+     */
+    public float[][] getData() {
+        return this.data;   
+    }
+    
+    /**
+     * Sets the data array used by the plot and sends a {@link PlotChangeEvent}
+     * to all registered listeners.
+     * 
+     * @param data  the data array (<code>null</code> permitted).
+     */
+    public void setData(float[][] data) {
+        this.data = data;
+        notifyListeners(new PlotChangeEvent(this));
+    }
+    
     /**
      * Returns the orientation of the plot.
      * 
@@ -752,7 +775,6 @@ public class FastScatterPlot extends Plot implements ValueAxisPlot,
      * @return A boolean.
      */
     public boolean equals(Object obj) {
-        
         if (obj == this) {
             return true;
         }
@@ -762,7 +784,6 @@ public class FastScatterPlot extends Plot implements ValueAxisPlot,
         if (!(obj instanceof FastScatterPlot)) {
             return false;
         }
-
         FastScatterPlot that = (FastScatterPlot) obj;
         if (!ArrayUtilities.equal(this.data, that.data)) {
             return false;
@@ -773,34 +794,31 @@ public class FastScatterPlot extends Plot implements ValueAxisPlot,
         if (!ObjectUtilities.equal(this.rangeAxis, that.rangeAxis)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.paint, that.paint)) {
+        if (!PaintUtilities.equal(this.paint, that.paint)) {
             return false;
         }
-            
         if (this.domainGridlinesVisible != that.domainGridlinesVisible) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.domainGridlinePaint, 
+        if (!PaintUtilities.equal(this.domainGridlinePaint, 
                 that.domainGridlinePaint)) {
             return false;
         }
         if (!ObjectUtilities.equal(this.domainGridlineStroke, 
                 that.domainGridlineStroke)) {
             return false;
-        }
-            
+        }  
         if (!this.rangeGridlinesVisible == that.rangeGridlinesVisible) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.rangeGridlinePaint, 
+        if (!PaintUtilities.equal(this.rangeGridlinePaint, 
                 that.rangeGridlinePaint)) {
             return false;
         }
         if (!ObjectUtilities.equal(this.rangeGridlineStroke, 
                 that.rangeGridlineStroke)) {
             return false;
-        }
-                          
+        }              
         return true;
     }
     

@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -44,6 +45,7 @@
  * 30-Jul-2004 : Added tests for org.jfree.data.gantt package (DG);
  * 23-Aug-2004 : Restructured org.jfree.data (DG);
  * 18-Jan-2005 : Added main() method (DG);
+ * 08-Jun-2005 : Added tests for org.jfree.chart.needle package (DG);
  *
  */
 
@@ -58,12 +60,12 @@ import org.jfree.chart.axis.junit.AxisPackageTests;
 import org.jfree.chart.block.junit.BlockPackageTests;
 import org.jfree.chart.entity.junit.EntityPackageTests;
 import org.jfree.chart.labels.junit.LabelsPackageTests;
+import org.jfree.chart.needle.junit.NeedlePackageTests;
 import org.jfree.chart.plot.junit.PlotPackageTests;
 import org.jfree.chart.renderer.category.junit.RendererCategoryPackageTests;
 import org.jfree.chart.renderer.junit.RendererPackageTests;
 import org.jfree.chart.renderer.xy.junit.RendererXYPackageTests;
 import org.jfree.chart.title.junit.TitlePackageTests;
-import org.jfree.chart.ui.junit.ChartUIPackageTests;
 import org.jfree.chart.urls.junit.UrlsPackageTests;
 import org.jfree.data.category.junit.DataCategoryPackageTests;
 import org.jfree.data.gantt.junit.DataGanttPackageTests;
@@ -91,12 +93,12 @@ public class JFreeChartTestSuite extends TestCase {
         suite.addTest(BlockPackageTests.suite());
         suite.addTest(EntityPackageTests.suite());
         suite.addTest(LabelsPackageTests.suite());
+        suite.addTest(NeedlePackageTests.suite());
         suite.addTest(PlotPackageTests.suite());
         suite.addTest(RendererPackageTests.suite());
         suite.addTest(RendererCategoryPackageTests.suite());
         suite.addTest(RendererXYPackageTests.suite());
         suite.addTest(TitlePackageTests.suite());
-        suite.addTest(ChartUIPackageTests.suite());
         suite.addTest(UrlsPackageTests.suite());
         suite.addTest(DataPackageTests.suite());
         suite.addTest(DataCategoryPackageTests.suite());

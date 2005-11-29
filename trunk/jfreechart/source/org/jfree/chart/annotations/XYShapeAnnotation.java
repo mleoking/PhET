@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -44,6 +45,7 @@
  *               implemented equals() and Cloneable (DG);
  * 21-Jan-2005 : Modified constructor for consistency with other 
  *               constructors (DG);
+ * 06-Jun-2005 : Fixed equals() method to handle GradientPaint (DG);
  * 
  */
  
@@ -70,6 +72,7 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.io.SerialUtilities;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.util.ObjectUtilities;
+import org.jfree.util.PaintUtilities;
 import org.jfree.util.PublicCloneable;
 
 /**
@@ -231,10 +234,10 @@ public class XYShapeAnnotation extends AbstractXYAnnotation
         if (!ObjectUtilities.equal(this.stroke, that.stroke)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.outlinePaint, that.outlinePaint)) {
+        if (!PaintUtilities.equal(this.outlinePaint, that.outlinePaint)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.fillPaint, that.fillPaint)) {
+        if (!PaintUtilities.equal(this.fillPaint, that.fillPaint)) {
             return false;
         }
         // seem to be the same

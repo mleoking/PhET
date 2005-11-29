@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -39,6 +40,7 @@
  * 18-Jan-2005 : Added main() method (DG);
  * 21-Jan-2005 : Added IntervalXYDelegateTests (DG);
  * 29-Apr-2005 : Added DefaultOHLCDatasetTests and OHLCDataItemTests (DG);
+ * 06-Oct-2005 : Added CategoryTableXYDatasetTests (DG);
  *
  */
 
@@ -62,6 +64,7 @@ public class DataXYPackageTests extends TestCase {
      */
     public static Test suite() {
         TestSuite suite = new TestSuite("org.jfree.data.xy");
+        suite.addTestSuite(CategoryTableXYDatasetTests.class);
         suite.addTestSuite(DefaultOHLCDatasetTests.class);
         suite.addTestSuite(DefaultTableXYDatasetTests.class);
         suite.addTestSuite(IntervalXYDelegateTests.class);

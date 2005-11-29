@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -61,6 +62,9 @@
  *               getYValue() (DG);
  * 01-Oct-2004 : Renamed 'paint' --> 'boxPaint' to avoid conflict with 
  *               inherited attribute (DG);
+ * 10-Jun-2005 : Updated equals() to handle GradientPaint (DG);
+ * 06-Oct-2005 : Removed setPaint() call in drawItem(), it is causing a 
+ *               loop (DG);
  *
  * DO NOT USE drawHorizontalItem() - IT IS INCOMPLETE
  * TO EXPERIMENT, USE drawVerticalItem()
@@ -103,7 +107,7 @@ import org.jfree.data.statistics.BoxAndWhiskerXYDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.io.SerialUtilities;
 import org.jfree.ui.RectangleEdge;
-import org.jfree.util.ObjectUtilities;
+import org.jfree.util.PaintUtilities;
 import org.jfree.util.PublicCloneable;
 
 /**
@@ -277,7 +281,6 @@ public class XYBoxAndWhiskerRenderer extends AbstractXYItemRenderer
                          int pass) {
 
         PlotOrientation orientation = plot.getOrientation();
-        setPaint(getItemPaint(series, item));
 
         if (orientation == PlotOrientation.HORIZONTAL) {
             drawHorizontalItem(
@@ -736,20 +739,17 @@ public class XYBoxAndWhiskerRenderer extends AbstractXYItemRenderer
     /**
      * Tests this renderer for equality with another object.
      *
-     * @param obj  the object.
+     * @param obj  the object (<code>null</code> permitted).
      *
      * @return <code>true</code> or <code>false</code>.
      */
     public boolean equals(Object obj) {
-
         if (obj == this) {
             return true;
         }
-
         if (!(obj instanceof XYBoxAndWhiskerRenderer)) {
             return false;
         }
-        
         if (!super.equals(obj)) {
             return false;
         }
@@ -757,10 +757,10 @@ public class XYBoxAndWhiskerRenderer extends AbstractXYItemRenderer
         if (this.boxWidth != that.getBoxWidth()) {
             return false;
         }
-        if (!this.boxPaint.equals(that.getBoxPaint())) {
+        if (!PaintUtilities.equal(this.boxPaint, that.boxPaint)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.artifactPaint, that.artifactPaint)) {
+        if (!PaintUtilities.equal(this.artifactPaint, that.artifactPaint)) {
             return false;
         }
         if (this.fillBox != that.fillBox) {

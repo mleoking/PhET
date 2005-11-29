@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -43,6 +44,7 @@
  * 02-Jun-2003 : Added anchor and rotation settings (DG);
  * 19-Aug-2003 : Added equals() method and implemented Cloneable (DG);
  * 29-Sep-2004 : Updated equals() method (DG);
+ * 06-Jun-2005 : Fixed equals() method to work with GradientPaint (DG);
  * 
  */
 
@@ -59,6 +61,7 @@ import java.io.Serializable;
 import org.jfree.io.SerialUtilities;
 import org.jfree.ui.TextAnchor;
 import org.jfree.util.ObjectUtilities;
+import org.jfree.util.PaintUtilities;
 
 /**
  * A base class for text annotations.  This class records the content but not 
@@ -239,11 +242,9 @@ public class TextAnnotation implements Serializable {
      * @return <code>true</code> or <code>false</code>.
      */
     public boolean equals(Object obj) {
-        
         if (obj == this) {
             return true;
         }
-        
         // now try to reject equality...
         if (!(obj instanceof TextAnnotation)) {
             return false;
@@ -255,7 +256,7 @@ public class TextAnnotation implements Serializable {
         if (!ObjectUtilities.equal(this.font, that.getFont())) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.paint, that.getPaint())) {
+        if (!PaintUtilities.equal(this.paint, that.getPaint())) {
             return false;
         }
         if (!ObjectUtilities.equal(this.textAnchor, that.getTextAnchor())) {

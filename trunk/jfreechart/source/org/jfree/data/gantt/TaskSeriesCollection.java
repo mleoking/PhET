@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -310,12 +311,13 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
     }
 
     /**
-     * Returns the start value for a task.
+     * Returns the start value for a task.  This is a date/time value, measured
+     * in milliseconds since 1-Jan-1970.
      *
      * @param rowKey  the series.
      * @param columnKey  the category.
      *
-     * @return The start value.
+     * @return The start value (possibly <code>null</code>.
      */
     public Number getStartValue(Comparable rowKey, Comparable columnKey) {
         Number result = null;
@@ -324,7 +326,9 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
         Task task = series.get(columnKey.toString());
         if (task != null) {
             TimePeriod duration = task.getDuration();
-            result = new Long(duration.getStart().getTime());
+            if (duration != null) {
+                result = new Long(duration.getStart().getTime());
+            }
         }
         return result;
     }
@@ -344,12 +348,13 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
     }
 
     /**
-     * Returns the end value for a task.
+     * Returns the end value for a task.  This is a date/time value, measured
+     * in milliseconds since 1-Jan-1970.
      *
      * @param rowKey  the series.
      * @param columnKey  the category.
      *
-     * @return The end value.
+     * @return The end value (possibly <code>null</code>).
      */
     public Number getEndValue(Comparable rowKey, Comparable columnKey) {
         Number result = null;
@@ -358,7 +363,9 @@ public class TaskSeriesCollection extends AbstractSeriesDataset
         Task task = series.get(columnKey.toString());
         if (task != null) {
             TimePeriod duration = task.getDuration();
-            result = new Long(duration.getEnd().getTime());
+            if (duration != null) {
+                result = new Long(duration.getEnd().getTime());
+            }
         }
         return result;
     }

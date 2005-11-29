@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -42,6 +43,7 @@
  * 10-Sep-2004 : Removed getRangeType() method (DG);
  * 06-Jan-2004 : Renamed getRangeExtent() --> findRangeBounds (DG);
  * 28-Mar-2005 : Use getXValue() and getYValue() from dataset (DG);
+ * 03-Oct-2005 : Add entity generation to drawItem() method (DG);
  * 
  */
 
@@ -49,11 +51,13 @@ package org.jfree.chart.renderer.xy;
 
 import java.awt.Graphics2D;
 import java.awt.Paint;
+import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 
 import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.entity.EntityCollection;
 import org.jfree.chart.labels.XYToolTipGenerator;
 import org.jfree.chart.plot.CrosshairState;
 import org.jfree.chart.plot.PlotRenderingInfo;
@@ -158,6 +162,13 @@ public class StackedXYAreaRenderer2 extends XYAreaRenderer2
                          CrosshairState crosshairState,
                          int pass) {
 
+        // setup for collecting optional entity info...
+        Shape entityArea = null;
+        EntityCollection entities = null;
+        if (info != null) {
+            entities = info.getOwner().getEntityCollection();
+        }
+
         TableXYDataset tdataset = (TableXYDataset) dataset;
         
         // get the data point...
@@ -206,15 +217,15 @@ public class StackedXYAreaRenderer2 extends XYAreaRenderer2
             = (float) domainAxis.valueToJava2D(xleft, dataArea, edge0);
         float transXRight
             = (float) domainAxis.valueToJava2D(xright, dataArea, edge0);
+        float transY1;
         
         RectangleEdge edge1 = plot.getRangeAxisEdge();
         
         GeneralPath left = new GeneralPath();
         GeneralPath right = new GeneralPath();
         if (y1 >= 0.0) {  // handle positive value
-            float transY1 = (float) rangeAxis.valueToJava2D(
-                y1 + stack1[1], dataArea, edge1
-            );
+            transY1 = (float) rangeAxis.valueToJava2D(y1 + stack1[1], dataArea, 
+                    edge1);
             float transStack1 = (float) rangeAxis.valueToJava2D(
                 stack1[1], dataArea, edge1
             );
@@ -262,9 +273,8 @@ public class StackedXYAreaRenderer2 extends XYAreaRenderer2
             }
         }
         else {  // handle negative value 
-            float transY1 = (float) rangeAxis.valueToJava2D(
-                y1 + stack1[0], dataArea, edge1
-            );
+            transY1 = (float) rangeAxis.valueToJava2D(y1 + stack1[0], dataArea,
+                    edge1);
             float transStack1 = (float) rangeAxis.valueToJava2D(
                 stack1[0], dataArea, edge1
             );
@@ -321,6 +331,15 @@ public class StackedXYAreaRenderer2 extends XYAreaRenderer2
             g2.fill(left);
             g2.fill(right);
         } 
+        
+        // add an entity for the item...
+        if (entities != null) {
+            GeneralPath gp = new GeneralPath(left);
+            gp.append(right, false);
+            entityArea = gp;
+            addEntity(entities, entityArea, dataset, series, item, 
+                    transX1, transY1);
+        }
 
     }
 

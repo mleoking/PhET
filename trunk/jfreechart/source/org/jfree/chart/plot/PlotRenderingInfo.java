@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -26,7 +27,7 @@
  * ----------------------
  * PlotRenderingInfo.java
  * ----------------------
- * (C) Copyright 2003, 2004, by Object Refinery Limited.
+ * (C) Copyright 2003-2005, by Object Refinery Limited.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   -;
@@ -38,6 +39,7 @@
  * 16-Sep-2003 : Version 1 (DG);
  * 23-Sep-2003 : Added Javadocs (DG);
  * 12-Nov-2004 : Added getSubplotCount() and findSubplot() methods (DG);
+ * 01-Nov-2005 : Made 'owner' non-transient to fix bug 1344048 (DG);
  *
  */
  
@@ -64,7 +66,7 @@ public class PlotRenderingInfo implements Cloneable, Serializable {
     private static final long serialVersionUID = 8446720134379617220L;
     
     /** The owner of this info. */
-    private transient ChartRenderingInfo owner;
+    private ChartRenderingInfo owner;
     
     /** The plot area. */
     private transient Rectangle2D plotArea;

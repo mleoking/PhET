@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -38,6 +39,7 @@
  * 19-Aug-2003 : Version 1 (DG);
  * 29-Sep-2004 : Added tests for XYShapeAnnotation class (DG);
  * 19-Jan-2005 : Added tests for XYBoxAnnotation class (DG);
+ * 29-Jul-2005 : Added tests for new CategoryLineAnnotation class (DG);
  *
  */
 
@@ -60,6 +62,7 @@ public class AnnotationsPackageTests extends TestCase {
      */
     public static Test suite() {
         TestSuite suite = new TestSuite("org.jfree.chart.annotations");
+        suite.addTestSuite(CategoryLineAnnotationTests.class);
         suite.addTestSuite(CategoryTextAnnotationTests.class);
         suite.addTestSuite(TextAnnotationTests.class);
         suite.addTestSuite(XYBoxAnnotationTests.class);

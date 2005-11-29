@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -76,6 +77,7 @@
  * 20-Apr-2005 : Added legend label, tooltip and URL generators (DG);
  * 01-Jun-2005 : Handle one dimension of the marker label adjustment 
  *               automatically (DG);
+ * 09-Jun-2005 : Added utility method for adding an item entity (DG);
  * 
  */
 
@@ -96,6 +98,8 @@ import org.jfree.chart.LegendItem;
 import org.jfree.chart.LegendItemCollection;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.entity.CategoryItemEntity;
+import org.jfree.chart.entity.EntityCollection;
 import org.jfree.chart.event.RendererChangeEvent;
 import org.jfree.chart.labels.CategoryItemLabelGenerator;
 import org.jfree.chart.labels.CategorySeriesLabelGenerator;
@@ -723,11 +727,15 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
 
         Comparable category = marker.getKey();
         CategoryDataset dataset = plot.getDataset(plot.getIndexOf(this));
+        int columnIndex = dataset.getColumnIndex(category);
+        if (columnIndex < 0) {
+            return;   
+        }
         PlotOrientation orientation = plot.getOrientation();
         Rectangle2D bounds = null;
         if (marker.getDrawAsLine()) {
             double v = axis.getCategoryMiddle(
-                dataset.getColumnIndex(category), dataset.getColumnCount(),
+                columnIndex, dataset.getColumnCount(),
                 dataArea, plot.getDomainAxisEdge()
             );
             Line2D line = null;
@@ -749,11 +757,11 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
         }
         else {
             double v0 = axis.getCategoryStart(
-                dataset.getColumnIndex(category), dataset.getColumnCount(),
+                columnIndex, dataset.getColumnCount(),
                 dataArea, plot.getDomainAxisEdge()
             );
             double v1 = axis.getCategoryEnd(
-                dataset.getColumnIndex(category), dataset.getColumnCount(),
+                columnIndex, dataset.getColumnCount(),
                 dataArea, plot.getDomainAxisEdge()
             );
             Rectangle2D area = null;
@@ -935,7 +943,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * 
      * @return The coordinates for drawing the marker label.
      */
-    private Point2D calculateDomainMarkerTextAnchorPoint(Graphics2D g2, 
+    protected Point2D calculateDomainMarkerTextAnchorPoint(Graphics2D g2, 
                                       PlotOrientation orientation,
                                       Rectangle2D dataArea,
                                       Rectangle2D markerArea,
@@ -971,7 +979,7 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
      * 
      * @return The coordinates for drawing the marker label.
      */
-    private Point2D calculateRangeMarkerTextAnchorPoint(Graphics2D g2, 
+    protected Point2D calculateRangeMarkerTextAnchorPoint(Graphics2D g2, 
                                       PlotOrientation orientation,
                                       Rectangle2D dataArea,
                                       Rectangle2D markerArea,
@@ -1032,10 +1040,8 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
         Paint outlinePaint = getSeriesOutlinePaint(series);
         Stroke outlineStroke = getSeriesOutlineStroke(series);
 
-        return new LegendItem(
-            label, description, toolTipText, urlText, 
-            shape, paint, outlineStroke, outlinePaint
-        );
+        return new LegendItem(label, description, toolTipText, urlText, 
+            shape, paint, outlineStroke, outlinePaint);
 
     }
 
@@ -1408,6 +1414,38 @@ public abstract class AbstractCategoryItemRenderer extends AbstractRenderer
     public void setLegendItemURLGenerator(
             CategorySeriesLabelGenerator generator) {
         this.legendItemURLGenerator = generator;
+    }
+    
+    /**
+     * Adds an entity with the specified hotspot, but only if an entity 
+     * collection is accessible via the renderer state.
+     * 
+     * @param entities  the entity collection.
+     * @param dataset  the dataset.
+     * @param row  the row index.
+     * @param column  the column index.
+     * @param hotspot  the hotspot.
+     */
+    protected void addItemEntity(EntityCollection entities, 
+                                 CategoryDataset dataset, int row, int column,
+                                 Shape hotspot) {
+
+        String tip = null;
+        CategoryToolTipGenerator tipster = getToolTipGenerator(row, column);
+        if (tipster != null) {
+            tip = tipster.generateToolTip(dataset, row, column);
+        }
+        String url = null;
+        CategoryURLGenerator urlster = getItemURLGenerator(row, column);
+        if (urlster != null) {
+            url = urlster.generateURL(dataset, row, column);
+        }
+        CategoryItemEntity entity = new CategoryItemEntity(
+            hotspot, tip, url, dataset, row, 
+            dataset.getColumnKey(column), column
+        );
+        entities.add(entity);
+    
     }
 
 }

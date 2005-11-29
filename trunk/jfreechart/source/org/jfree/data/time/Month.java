@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -51,6 +52,7 @@
  * 13-Mar-2003 : Moved to com.jrefinery.data.time package, and implemented 
  *               Serializable (DG);
  * 21-Oct-2003 : Added hashCode() method (DG);
+ * 01-Nov-2005 : Fixed bug 1345383 (argument check in constructor) (DG);
  *
  */
 
@@ -104,7 +106,7 @@ public class Month extends RegularTimePeriod implements Serializable {
      */
     public Month(int month, Year year) {
 
-        if ((month < 1) && (month > 12)) {
+        if ((month < 1) || (month > 12)) {
             throw new IllegalArgumentException("Month outside valid range.");
         }
         this.month = month;

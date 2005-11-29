@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -44,6 +45,7 @@ package org.jfree.chart.plot.junit;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GradientPaint;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInput;
@@ -113,9 +115,11 @@ public class MeterPlotTests extends TestCase {
         assertTrue(plot1.equals(plot2));
         
         // dial outline paint
-        plot1.setDialOutlinePaint(Color.red);
+        plot1.setDialOutlinePaint(new GradientPaint(1.0f, 2.0f, Color.red, 
+                3.0f, 4.0f, Color.blue));
         assertFalse(plot1.equals(plot2));
-        plot2.setDialOutlinePaint(Color.red);
+        plot2.setDialOutlinePaint(new GradientPaint(1.0f, 2.0f, Color.red, 
+                3.0f, 4.0f, Color.blue));
         assertTrue(plot1.equals(plot2));
         
         // dial shape
@@ -125,15 +129,19 @@ public class MeterPlotTests extends TestCase {
         assertTrue(plot1.equals(plot2));
         
         // dial background paint
-        plot1.setDialBackgroundPaint(Color.yellow);
+        plot1.setDialBackgroundPaint(new GradientPaint(9.0f, 8.0f, Color.red, 
+                7.0f, 6.0f, Color.blue));
         assertFalse(plot1.equals(plot2));
-        plot2.setDialBackgroundPaint(Color.yellow);
+        plot2.setDialBackgroundPaint(new GradientPaint(9.0f, 8.0f, Color.red, 
+                7.0f, 6.0f, Color.blue));
         assertTrue(plot1.equals(plot2));
              
         // needle paint
-        plot1.setNeedlePaint(Color.black);
+        plot1.setNeedlePaint(new GradientPaint(9.0f, 8.0f, Color.red, 
+                7.0f, 6.0f, Color.blue));
         assertFalse(plot1.equals(plot2));
-        plot2.setNeedlePaint(Color.black);
+        plot2.setNeedlePaint(new GradientPaint(9.0f, 8.0f, Color.red, 
+                7.0f, 6.0f, Color.blue));
         assertTrue(plot1.equals(plot2));
         
         // value font
@@ -143,9 +151,11 @@ public class MeterPlotTests extends TestCase {
         assertTrue(plot1.equals(plot2));
         
         // value paint
-        plot1.setValuePaint(Color.black);
+        plot1.setValuePaint(new GradientPaint(1.0f, 2.0f, Color.black, 
+                3.0f, 4.0f, Color.white));
         assertFalse(plot1.equals(plot2));
-        plot2.setValuePaint(Color.black);
+        plot2.setValuePaint(new GradientPaint(1.0f, 2.0f, Color.black, 
+                3.0f, 4.0f, Color.white));
         assertTrue(plot1.equals(plot2));
         
         // tick labels visible
@@ -160,11 +170,29 @@ public class MeterPlotTests extends TestCase {
         plot2.setTickLabelFont(new Font("Serif", Font.PLAIN, 6));
         assertTrue(plot1.equals(plot2));
         
+        // tick label paint
+        plot1.setTickLabelPaint(Color.red);
+        assertFalse(plot1.equals(plot2));
+        plot2.setTickLabelPaint(Color.red);
+        assertTrue(plot1.equals(plot2));        
+        
         // tick label format
         plot1.setTickLabelFormat(new DecimalFormat("0"));
         assertFalse(plot1.equals(plot2));
         plot2.setTickLabelFormat(new DecimalFormat("0"));
         assertTrue(plot1.equals(plot2));
+        
+        // tick paint
+        plot1.setTickPaint(Color.green);
+        assertFalse(plot1.equals(plot2));
+        plot2.setTickPaint(Color.green);
+        assertTrue(plot1.equals(plot2));
+        
+        // tick size
+        plot1.setTickSize(1.23);
+        assertFalse(plot1.equals(plot2));
+        plot2.setTickSize(1.23);
+        assertTrue(plot1.equals(plot2));        
         
         // draw border
         plot1.setDrawBorder(!plot1.getDrawBorder());

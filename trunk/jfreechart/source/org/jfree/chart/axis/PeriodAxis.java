@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -42,6 +43,9 @@
  * 25-Feb-2005 : Fixed some tick mark bugs (DG);
  * 15-Apr-2005 : Fixed some more tick mark bugs (DG);
  * 26-Apr-2005 : Removed LOGGER (DG);
+ * 16-Jun-2005 : Fixed zooming (DG);
+ * 15-Sep-2005 : Changed configure() method to check autoRange flag,
+ *               and added ticks to state (DG);
  *
  */
 
@@ -62,6 +66,7 @@ import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -491,11 +496,37 @@ public class PeriodAxis extends ValueAxis
     }
 
     /**
+     * Sets the range for the axis, if requested, sends an 
+     * {@link AxisChangeEvent} to all registered listeners.  As a side-effect, 
+     * the auto-range flag is set to <code>false</code> (optional).
+     *
+     * @param range  the range (<code>null</code> not permitted).
+     * @param turnOffAutoRange  a flag that controls whether or not the auto 
+     *                          range is turned off.         
+     * @param notify  a flag that controls whether or not listeners are 
+     *                notified.
+     */
+    public void setRange(Range range, boolean turnOffAutoRange, 
+                         boolean notify) {
+        super.setRange(range, turnOffAutoRange, false);
+        long upper = Math.round(range.getUpperBound());
+        long lower = Math.round(range.getLowerBound());
+        this.first = createInstance(
+            this.autoRangeTimePeriodClass, new Date(lower), this.timeZone
+        );
+        this.last = createInstance(
+            this.autoRangeTimePeriodClass, new Date(upper), this.timeZone
+        );        
+    }
+
+    /**
      * Configures the axis to work with the current plot.  Override this method
      * to perform any special processing (such as auto-rescaling).
      */
     public void configure() {
-        autoAdjustRange();
+        if (this.isAutoRange()) {
+            autoAdjustRange();
+        }
     }
 
     /**
@@ -636,6 +667,7 @@ public class PeriodAxis extends ValueAxis
     protected void drawTickMarksHorizontal(Graphics2D g2, AxisState state, 
                                            Rectangle2D dataArea, 
                                            RectangleEdge edge) {
+        List ticks = new ArrayList();
         double x0 = dataArea.getX();
         double y0 = state.getCursor();
         double insideLength = getTickMarkInsideLength();
@@ -649,6 +681,7 @@ public class PeriodAxis extends ValueAxis
         long firstOnAxis = getFirst().getFirstMillisecond(getTimeZone());
         long lastOnAxis = getLast().getLastMillisecond(getTimeZone());
         while (t0 <= lastOnAxis) {
+            ticks.add(new NumberTick(new Double(t0), "", TextAnchor.CENTER, TextAnchor.CENTER, 0.0));
             x0 = valueToJava2D(t0, dataArea, edge);
             if (edge == RectangleEdge.TOP) {
                 inside = new Line2D.Double(x0, y0, x0, y0 + insideLength);  
@@ -712,6 +745,7 @@ public class PeriodAxis extends ValueAxis
                 Math.max(outsideLength, this.minorTickMarkOutsideLength)
             );
         }
+        state.setTicks(ticks);
     }
     
     /**
@@ -1017,6 +1051,7 @@ public class PeriodAxis extends ValueAxis
             this.last = createInstance(
                 this.autoRangeTimePeriodClass, new Date(upper), this.timeZone
             );
+            setRange(r, false, false);
         }
 
     }

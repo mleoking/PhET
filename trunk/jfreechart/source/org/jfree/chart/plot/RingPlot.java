@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -37,6 +38,8 @@
  * -------
  * 08-Nov-2004 : Version 1 (DG);
  * 22-Feb-2005 : Renamed DonutPlot --> RingPlot (DG);
+ * 06-Jun-2005 : Added default constructor and fixed equals() method to handle
+ *               GradientPaint (DG);
  * 
  */
 
@@ -66,6 +69,7 @@ import org.jfree.data.general.PieDataset;
 import org.jfree.io.SerialUtilities;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.util.ObjectUtilities;
+import org.jfree.util.PaintUtilities;
 import org.jfree.util.Rotation;
 import org.jfree.util.ShapeUtilities;
 import org.jfree.util.UnitType;
@@ -101,6 +105,13 @@ public class RingPlot extends PiePlot implements Cloneable, Serializable {
      * depth of the sections). 
      */
     private double outerSeparatorExtension;
+    
+    /**
+     * Creates a new plot with a <code>null</code> dataset.
+     */
+    public RingPlot() {
+        this(null);   
+    }
     
     /**
      * Creates a new plot for the specified dataset.
@@ -400,7 +411,7 @@ public class RingPlot extends PiePlot implements Cloneable, Serializable {
         )) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.separatorPaint, that.separatorPaint)) {
+        if (!PaintUtilities.equal(this.separatorPaint, that.separatorPaint)) {
             return false;
         }
         if (this.innerSeparatorExtension != that.innerSeparatorExtension) {

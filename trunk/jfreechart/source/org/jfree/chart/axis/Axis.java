@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -73,7 +74,7 @@
  * 21-Apr-2005 : Replaced Insets with RectangleInsets (DG);
  * 26-Apr-2005 : Removed LOGGER (DG);
  * 01-Jun-2005 : Added hasListener() method for unit testing (DG);
- *
+ * 08-Jun-2005 : Fixed equals() method to handle GradientPaint (DG);
  */
 
 package org.jfree.chart.axis;
@@ -109,6 +110,7 @@ import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.TextAnchor;
 import org.jfree.util.ObjectUtilities;
+import org.jfree.util.PaintUtilities;
 
 /**
  * The base class for all axes in JFreeChart.  Subclasses are divided into 
@@ -1080,27 +1082,23 @@ public abstract class Axis implements Cloneable, Serializable {
      * @return <code>true</code> or <code>false</code>.
      */
     public boolean equals(Object obj) {
-
         if (obj == this) {
             return true;
         }
-
         if (!(obj instanceof Axis)) {
             return false;
         }
         Axis that = (Axis) obj;
-
         if (this.visible != that.visible) {
             return false;
         }
-
         if (!ObjectUtilities.equal(this.label, that.label)) {
             return false;
         }
         if (!ObjectUtilities.equal(this.labelFont, that.labelFont)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.labelPaint, that.labelPaint)) {
+        if (!PaintUtilities.equal(this.labelPaint, that.labelPaint)) {
             return false;
         }
         if (!ObjectUtilities.equal(this.labelInsets, that.labelInsets)) {
@@ -1109,24 +1107,22 @@ public abstract class Axis implements Cloneable, Serializable {
         if (this.labelAngle != that.labelAngle) {
             return false;
         }
-  
         if (this.axisLineVisible != that.axisLineVisible) {
             return false;
         }
         if (!ObjectUtilities.equal(this.axisLineStroke, that.axisLineStroke)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.axisLinePaint, that.axisLinePaint)) {
+        if (!PaintUtilities.equal(this.axisLinePaint, that.axisLinePaint)) {
             return false;
         }
-         
         if (this.tickLabelsVisible != that.tickLabelsVisible) {
             return false;
         }
         if (!ObjectUtilities.equal(this.tickLabelFont, that.tickLabelFont)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.tickLabelPaint, that.tickLabelPaint)) {
+        if (!PaintUtilities.equal(this.tickLabelPaint, that.tickLabelPaint)) {
             return false;
         }
         if (!ObjectUtilities.equal(
@@ -1139,25 +1135,20 @@ public abstract class Axis implements Cloneable, Serializable {
         }
         if (this.tickMarkInsideLength != that.tickMarkInsideLength) {
             return false;
-        }
-                           
+        }                  
         if (this.tickMarkOutsideLength != that.tickMarkOutsideLength) {
             return false;
-        }
-                           
-        if (!ObjectUtilities.equal(this.tickMarkPaint, that.tickMarkPaint)) {
+        }                  
+        if (!PaintUtilities.equal(this.tickMarkPaint, that.tickMarkPaint)) {
             return false;
         }
         if (!ObjectUtilities.equal(this.tickMarkStroke, that.tickMarkStroke)) {
             return false;
         }
-
         if (this.fixedDimension != that.fixedDimension) {
             return false;
         }
-
         return true;
-
     }
 
     /**

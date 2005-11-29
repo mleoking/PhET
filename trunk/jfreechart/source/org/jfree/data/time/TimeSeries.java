@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -26,7 +27,7 @@
  * ---------------
  * TimeSeries.java
  * ---------------
- * (C) Copyright 2001-2003, by Object Refinery Limited.
+ * (C) Copyright 2001-2005, by Object Refinery Limited.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   Bryan Scott;
@@ -61,6 +62,8 @@
  * 21-May-2004 : Added an extra addOrUpdate() method (DG);
  * 15-Jun-2004 : Fixed NullPointerException in equals() method (DG);
  * 29-Nov-2004 : Fixed bug 1075255 (DG);
+ * 17-Nov-2005 : Renamed historyCount --> maximumItemAge (DG);
+ * 28-Nov-2005 : Changed maximumItemAge from int to long (DG);
  * 
  */
 
@@ -72,6 +75,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.jfree.data.general.Series;
+import org.jfree.data.general.SeriesChangeEvent;
 import org.jfree.data.general.SeriesException;
 import org.jfree.util.ObjectUtilities;
 
@@ -104,8 +108,8 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
     /** The maximum number of items for the series. */
     private int maximumItemCount;
 
-    /** The history count. */
-    private int historyCount;
+    /** The maximum age of items for the series. */
+    private long maximumItemAge;
     
     /**
      * Creates a new (empty) time series.  By default, a daily time series is 
@@ -157,8 +161,8 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
         this.timePeriodClass = timePeriodClass;
         this.data = new java.util.ArrayList();
         this.maximumItemCount = Integer.MAX_VALUE;
-        this.historyCount = 0;
-
+        this.maximumItemAge = Long.MAX_VALUE;
+        
     }
 
     /**
@@ -225,54 +229,67 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
 
     /**
      * Returns the maximum number of items that will be retained in the series.
-     * <P>
-     * The default value is <code>Integer.MAX_VALUE</code>).
+     * The default value is <code>Integer.MAX_VALUE</code>.
      *
      * @return The maximum item count.
+     * 
+     * @see #setMaximumItemCount(int)
      */
     public int getMaximumItemCount() {
         return this.maximumItemCount;
     }
 
     /**
-     * Sets the maximum number of items that will be retained in the series.
-     * <P>
+     * Sets the maximum number of items that will be retained in the series.  
      * If you add a new item to the series such that the number of items will 
      * exceed the maximum item count, then the FIRST element in the series is 
      * automatically removed, ensuring that the maximum item count is not 
      * exceeded.
      *
-     * @param maximum  the maximum.
+     * @param maximum  the maximum (requires >= 0).
+     * 
+     * @see #getMaximumItemCount()
      */
     public void setMaximumItemCount(int maximum) {
+        if (maximum < 0) {
+            throw new IllegalArgumentException("Negative 'maximum' argument.");
+        }
         this.maximumItemCount = maximum;
-        while (this.data.size() > this.maximumItemCount) {
-            this.data.remove(0);
+        int count = this.data.size();
+        if (count > maximum) {
+            delete(0, count - maximum - 1);
         }
     }
 
     /**
-     * Returns the history count for the series.
+     * Returns the maximum item age (in time periods) for the series.
      *
-     * @return The history count.
+     * @return The maximum item age.
+     * 
+     * @see #setMaximumItemAge(long)
      */
-    public int getHistoryCount() {
-        return this.historyCount;
+    public long getMaximumItemAge() {
+        return this.maximumItemAge;
     }
 
     /**
-     * Sets the number of time units in the 'history' for the series.
-     * <P>
-     * This provides one mechanism for automatically dropping old data from the
+     * Sets the number of time units in the 'history' for the series.  This 
+     * provides one mechanism for automatically dropping old data from the
      * time series. For example, if a series contains daily data, you might set
      * the history count to 30.  Then, when you add a new data item, all data
      * items more than 30 days older than the latest value are automatically 
      * dropped from the series.
      *
      * @param periods  the number of time periods.
+     * 
+     * @see #getMaximumItemAge()
      */
-    public void setHistoryCount(int periods) {
-        this.historyCount = periods;
+    public void setMaximumItemAge(long periods) {
+        if (periods < 0) {
+            throw new IllegalArgumentException("Negative 'periods' argument.");
+        }
+        this.maximumItemAge = periods;
+        removeAgedItems(true);  // remove old items and notify if necessary
     }
 
     /**
@@ -504,9 +521,9 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
                 this.data.remove(0);
             }
 
-            // check if there are any values earlier than specified by the
-            // history count...
-            ageHistoryCountItems();
+            removeAgedItems(false);  // remove old items if necessary, but
+                                     // don't notify anyone, because that
+                                     // happens next anyway...
             fireSeriesChanged();
         }
 
@@ -643,7 +660,9 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
                 = (TimeSeriesDataItem) this.data.get(index);
             overwritten = (TimeSeriesDataItem) existing.clone();
             existing.setValue(value);
-            ageHistoryCountItems();
+            removeAgedItems(false);  // remove old items if necessary, but
+                                     // don't notify anyone, because that
+                                     // happens next anyway...
             fireSeriesChanged();
         }
         else {
@@ -654,7 +673,9 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
                 this.data.remove(0);
             }
 
-            ageHistoryCountItems();
+            removeAgedItems(false);  // remove old items if necessary, but
+                                     // don't notify anyone, because that
+                                     // happens next anyway...
             fireSeriesChanged();
         }
         return overwritten;
@@ -663,17 +684,25 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
 
     /**
      * Age items in the series.  Ensure that the timespan from the youngest to 
-     * the oldest record in the series does not exceed history count.  oldest 
-     * items will be removed if required.
+     * the oldest record in the series does not exceed maximumItemAge time 
+     * periods.  Oldest items will be removed if required.
+     * 
+     * @param notify  controls whether or not a {@link SeriesChangeEvent} is 
+     *                sent to registered listeners IF any items are removed.
      */
-    public void ageHistoryCountItems() {
+    public void removeAgedItems(boolean notify) {
         // check if there are any values earlier than specified by the history 
         // count...
-        if ((getItemCount() > 1) && (this.historyCount > 0)) {
+        if (getItemCount() > 1) {
             long latest = getTimePeriod(getItemCount() - 1).getSerialIndex();
+            boolean removed = false;
             while ((latest - getTimePeriod(0).getSerialIndex()) 
-                    >= this.historyCount) {
+                    >= this.maximumItemAge) {
                 this.data.remove(0);
+                removed = true;
+            }
+            if (removed && notify) {
+                fireSeriesChanged();
             }
         }
     }
@@ -684,13 +713,15 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
      * oldest items will be removed if required.
      *
      * @param latest  the time to be compared against when aging data.
+     * @param notify  controls whether or not a {@link SeriesChangeEvent} is 
+     *                sent to registered listeners IF any items are removed.
      */
-    public void ageHistoryCountItems(long latest) {
+    public void removeAgedItems(long latest, boolean notify) {
         // check if there are any values earlier than specified by the history 
         // count...
-        if ((getItemCount() > 1) && (this.historyCount > 0)) {
+        if (getItemCount() > 1) {
             while ((latest - getTimePeriod(0).getSerialIndex()) 
-                    >= this.historyCount) {
+                    >= this.maximumItemAge) {
                 this.data.remove(0);
             }
         }
@@ -853,7 +884,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
             return false;
         }
 
-        if (getHistoryCount() != s.getHistoryCount()) {
+        if (getMaximumItemAge() != s.getMaximumItemAge()) {
             return false;
         }
 
@@ -886,7 +917,7 @@ public class TimeSeries extends Series implements Cloneable, Serializable {
                     ? this.timePeriodClass.hashCode() : 0);
         result = 29 * result + this.data.hashCode();
         result = 29 * result + this.maximumItemCount;
-        result = 29 * result + this.historyCount;
+        result = 29 * result + (int) this.maximumItemAge;
         return result;
     }
 

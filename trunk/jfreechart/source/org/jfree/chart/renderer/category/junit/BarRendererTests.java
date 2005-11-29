@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -39,6 +40,7 @@
  * 19-Aug-2003 : Renamed HorizontalBarRendererTests --> BarRendererTests (DG);
  * 22-Oct-2003 : Added hashCode test (DG);
  * 18-May-2005 : Added field to equals() test (DG);
+ * 22-Sep-2005 : Renamed getMaxBarWidth() --> getMaximumBarWidth() (DG);
  *
  */
 
@@ -115,10 +117,10 @@ public class BarRendererTests extends TestCase {
         r2.setDrawBarOutline(!r2.isDrawBarOutline());
         assertTrue(r1.equals(r2));
         
-        // maxBarWidth
-        r1.setMaxBarWidth(0.11);
+        // maximumBarWidth
+        r1.setMaximumBarWidth(0.11);
         assertFalse(r1.equals(r2));
-        r2.setMaxBarWidth(0.11);
+        r2.setMaximumBarWidth(0.11);
         assertTrue(r1.equals(r2));
         
         // minimumBarLength

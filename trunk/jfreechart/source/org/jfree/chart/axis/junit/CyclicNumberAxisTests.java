@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -45,6 +46,7 @@ package org.jfree.chart.axis.junit;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.Stroke;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -123,9 +125,11 @@ public class CyclicNumberAxisTests extends TestCase {
         assertTrue(a1.equals(a2));
 
         // advance line Paint
-        a1.setAdvanceLinePaint(Color.cyan);
+        a1.setAdvanceLinePaint(new GradientPaint(1.0f, 2.0f, Color.red, 
+                3.0f, 4.0f, Color.black));
         assertFalse(a1.equals(a2));
-        a2.setAdvanceLinePaint(Color.cyan);
+        a2.setAdvanceLinePaint(new GradientPaint(1.0f, 2.0f, Color.red, 
+                3.0f, 4.0f, Color.black));
         assertTrue(a1.equals(a2));
         
         // advance line Stroke

@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -29,7 +30,7 @@
  * (C) Copyright 2004, 2005, by Object Refinery Limited.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
- * Contributor(s):   -;
+ * Contributor(s):   Pierre-Marie Le Biot;
  *
  * $Id$
  *
@@ -40,6 +41,8 @@
  *               draw() method now returns entities if 
  *               requested (DG);
  * 13-May-2005 : Added methods to set the font (DG);
+ * 01-Sep-2005 : Added paint management (PMLB);
+ *               Implemented equals() and clone() (PublicCloneable) (DG);
  * 
  */
 
@@ -48,6 +51,7 @@ package org.jfree.chart.block;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
@@ -57,11 +61,15 @@ import org.jfree.text.TextBlock;
 import org.jfree.text.TextBlockAnchor;
 import org.jfree.text.TextUtilities;
 import org.jfree.ui.Size2D;
+import org.jfree.util.ObjectUtilities;
+import org.jfree.util.PaintUtilities;
+import org.jfree.util.PublicCloneable;
 
 /**
  * A block containing a label.
  */
-public class LabelBlock extends AbstractBlock implements Block {
+public class LabelBlock extends AbstractBlock 
+                                implements Block, PublicCloneable {
     
     /** 
      * The text for the label - retained in case the label needs 
@@ -81,13 +89,19 @@ public class LabelBlock extends AbstractBlock implements Block {
     /** The URL text (can be <code>null</code>). */
     private String urlText;
     
+    /** The default color. */
+    public static final Paint DEFAULT_PAINT = Color.black;
+
+    /** The paint. */
+    private Paint paint;
+    
     /**
      * Creates a new label block.
      * 
      * @param label  the label (<code>null</code> not permitted).
      */
     public LabelBlock(String label) {
-        this(label, new Font("SansSerif", Font.PLAIN, 10));
+        this(label, new Font("SansSerif", Font.PLAIN, 10), DEFAULT_PAINT);
     }
     
     /**
@@ -97,8 +111,20 @@ public class LabelBlock extends AbstractBlock implements Block {
      * @param font  the font (<code>null</code> not permitted).
      */
     public LabelBlock(String text, Font font) {        
+        this(text, font, DEFAULT_PAINT);
+    }
+    
+    /**
+     * Creates a new label block.
+     *
+     * @param text  the text for the label (<code>null</code> not permitted).
+     * @param font  the font (<code>null</code> not permitted).
+     * @param paint the paint (<code>null</code> not permitted).
+     */
+    public LabelBlock(String text, Font font, Paint paint) {        
         this.text = text;
-        this.label = TextUtilities.createTextBlock(text, font, Color.black);
+        this.paint = paint; 
+        this.label = TextUtilities.createTextBlock(text, font, this.paint); 
         this.font = font;
         this.toolTipText = null;
         this.urlText = null;
@@ -107,7 +133,7 @@ public class LabelBlock extends AbstractBlock implements Block {
     /**
      * Returns the font.
      *
-     * @return The font.
+     * @return The font (never <code>null</code>).
      */
     public Font getFont() {
         return this.font;    
@@ -116,15 +142,38 @@ public class LabelBlock extends AbstractBlock implements Block {
     /**
      * Sets the font and regenerates the label.
      *
-     * @param font  the font.
+     * @param font  the font (<code>null</code> not permitted).
      */
     public void setFont(Font font) {
+        if (font == null) {
+            throw new IllegalArgumentException("Null 'font' argument.");
+        }
         this.font = font;
-        this.label = TextUtilities.createTextBlock(
-            this.text, font, Color.black
-        );
+        this.label = TextUtilities.createTextBlock(this.text, font, this.paint);
     }
-    
+   
+    /**
+     * Returns the paint.
+     *
+     * @return The paint (never <code>null</code>).
+     */
+    public Paint getPaint() {
+        return this.paint;   
+    }
+   
+    /**
+     * Sets the paint and regenerates the label.
+     *
+     * @param paint  the paint (<code>null</code> not permitted).
+     */
+    public void setPaint(Paint paint) {
+        if (paint == null) {
+            throw new IllegalArgumentException("Null 'paint' argument.");
+        }
+        this.paint = paint;
+        this.label = TextUtilities.createTextBlock(this.text, font, this.paint);
+    }
+
     /**
      * Returns the tool tip text.
      * 
@@ -217,7 +266,7 @@ public class LabelBlock extends AbstractBlock implements Block {
                 entityArea = g2.getTransform().createTransformedShape(area);
             }
         }
-        g2.setPaint(Color.black);
+        g2.setPaint(this.paint);
         g2.setFont(this.font);
         this.label.draw(
             g2, (float) area.getX(), (float) area.getY(), 
@@ -236,5 +285,47 @@ public class LabelBlock extends AbstractBlock implements Block {
         }
         return result;
     }
+    
+    /**
+     * Tests this <code>LabelBlock</code> for equality with an arbitrary 
+     * object.
+     * 
+     * @param obj  the object (<code>null</code> permitted).
+     */
+    public boolean equals(Object obj) {
+        if (!(obj instanceof LabelBlock)) {
+            return false;
+        }
+        LabelBlock that = (LabelBlock) obj;
+        if (!this.text.equals(that.text)) {
+            return false;
+        }
+        if (!this.font.equals(that.font)) {
+            return false;
+        }
+        if (!PaintUtilities.equal(this.paint, that.paint)) {
+            return false;
+        }
+        if (!ObjectUtilities.equal(this.toolTipText, that.toolTipText)) {
+            return false;
+        }
+        if (!ObjectUtilities.equal(this.urlText, that.urlText)) {
+            return false;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        return true;
+    }
 
+    /**
+     * Returns a clone of this <code>LabelBlock</code> instance.
+     * 
+     * @return A clone.
+     * 
+     * @throws CloneNotSupportedException if there is a problem cloning.
+     */
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

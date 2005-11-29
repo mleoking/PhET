@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -48,7 +49,7 @@
  * 23-Feb-2005 : Added argument checking (DG);
  * 20-Apr-2005 : Renamed CategoryLabelGenerator 
  *               --> CategoryItemLabelGenerator (DG);
- *
+ * 09-Jun-2005 : Use addItemEntity() from superclass (DG);
  */
 
 package org.jfree.chart.renderer.category;
@@ -66,11 +67,9 @@ import java.io.Serializable;
 
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.ValueAxis;
-import org.jfree.chart.entity.CategoryItemEntity;
 import org.jfree.chart.entity.EntityCollection;
 import org.jfree.chart.event.RendererChangeEvent;
 import org.jfree.chart.labels.CategoryItemLabelGenerator;
-import org.jfree.chart.labels.CategoryToolTipGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.AbstractRenderer;
@@ -437,29 +436,10 @@ public class WaterfallBarRenderer extends BarRenderer
             );
         }        
 
-        // collect entity and tool tip information...
-        if (state.getInfo() != null) {
-            EntityCollection entities 
-                = state.getInfo().getOwner().getEntityCollection();
-            if (entities != null) {
-                String tip = null;
-                CategoryToolTipGenerator tipster 
-                    = getToolTipGenerator(row, column);
-                if (tipster != null) {
-                    tip = tipster.generateToolTip(dataset, row, column);
-                }
-                String url = null;
-                if (getItemURLGenerator(row, column) != null) {
-                    url = getItemURLGenerator(row, column).generateURL(
-                        dataset, row, column
-                    );
-                }
-                CategoryItemEntity entity = new CategoryItemEntity(
-                    bar, tip, url, dataset, row, 
-                    dataset.getColumnKey(column), column
-                );
-                entities.add(entity);
-            }
+        // add an item entity, if this information is being collected
+        EntityCollection entities = state.getEntityCollection();
+        if (entities != null) {
+            addItemEntity(entities, dataset, row, column, bar);
         }
 
     }

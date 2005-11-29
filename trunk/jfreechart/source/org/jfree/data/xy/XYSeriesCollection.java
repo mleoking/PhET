@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -47,6 +48,7 @@
  * 17-Nov-2004 : Updated for changes to DomainInfo interface (DG);
  * 11-Jan-2005 : Removed deprecated code in preparation for 1.0.0 release (DG);
  * 28-Mar-2005 : Fixed bug in getSeries(int) method (1170825) (DG);
+ * 05-Oct-2005 : Made the interval delegate a dataset listener (DG);
  *
  */
 
@@ -59,6 +61,7 @@ import java.util.List;
 import org.jfree.data.DomainInfo;
 import org.jfree.data.Range;
 import org.jfree.data.general.DatasetChangeEvent;
+import org.jfree.data.general.DatasetUtilities;
 import org.jfree.util.ObjectUtilities;
 
 /**
@@ -93,6 +96,7 @@ public class XYSeriesCollection extends AbstractIntervalXYDataset
     public XYSeriesCollection(XYSeries series) {
         this.data = new java.util.ArrayList();
         this.intervalDelegate = new IntervalXYDelegate(this, false);
+        addChangeListener(this.intervalDelegate);
         if (series != null) {
             this.data.add(series);
             series.addChangeListener(this);
@@ -111,7 +115,6 @@ public class XYSeriesCollection extends AbstractIntervalXYDataset
             throw new IllegalArgumentException("Null 'series' argument.");
         }
         this.data.add(series);
-        this.intervalDelegate.seriesAdded(this.data.size() - 1);
         series.addChangeListener(this);
         fireDatasetChanged();
 
@@ -133,7 +136,6 @@ public class XYSeriesCollection extends AbstractIntervalXYDataset
         XYSeries ts = (XYSeries) this.data.get(series);
         ts.removeChangeListener(this);
         this.data.remove(series);
-        this.intervalDelegate.seriesRemoved();
         fireDatasetChanged();
 
     }
@@ -152,7 +154,6 @@ public class XYSeriesCollection extends AbstractIntervalXYDataset
         if (this.data.contains(series)) {
             series.removeChangeListener(this);
             this.data.remove(series);
-            this.intervalDelegate.seriesRemoved();
             fireDatasetChanged();
         }
 
@@ -172,7 +173,6 @@ public class XYSeriesCollection extends AbstractIntervalXYDataset
 
         // Remove all the series from the collection and notify listeners.
         this.data.clear();
-        this.intervalDelegate.seriesRemoved();
         fireDatasetChanged();
     }
 
@@ -380,7 +380,13 @@ public class XYSeriesCollection extends AbstractIntervalXYDataset
      * @return The range.
      */
     public Range getDomainBounds(boolean includeInterval) {
-        return this.intervalDelegate.getDomainBounds(includeInterval);        
+        if (includeInterval) {
+            return this.intervalDelegate.getDomainBounds(includeInterval);
+        }
+        else {
+            return DatasetUtilities.iterateDomainBounds(this, includeInterval);
+        }
+            
     }
     
     /**
@@ -403,7 +409,7 @@ public class XYSeriesCollection extends AbstractIntervalXYDataset
         if (width < 0.0) {
             throw new IllegalArgumentException("Negative 'width' argument.");
         }
-        this.intervalDelegate.setIntervalWidth(width);
+        this.intervalDelegate.setFixedIntervalWidth(width);
         fireDatasetChanged();
     }
 

@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -164,7 +165,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
     public static final int DISCONTINUOUS_LINES = LINES | DISCONTINUOUS;
 
     /** A flag indicating whether or not shapes are drawn at each XY point. */
-    private boolean plotShapes;
+    private boolean baseShapesVisible;
 
     /** A flag indicating whether or not lines are drawn between XY points. */
     private boolean plotLines;
@@ -191,7 +192,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
     private BooleanList seriesShapesFilled;
 
     /** The default value returned by the getShapeFilled() method. */
-    private Boolean defaultShapesFilled;
+    private boolean baseShapesFilled;
 
     /** 
      * A flag that controls whether or not each series is drawn as a single 
@@ -258,7 +259,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
         setToolTipGenerator(toolTipGenerator);
         setURLGenerator(urlGenerator);
         if ((type & SHAPES) != 0) {
-            this.plotShapes = true;
+            this.baseShapesVisible = true;
         }
         if ((type & LINES) != 0) {
             this.plotLines = true;
@@ -272,7 +273,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
 
         this.shapesFilled = null;
         this.seriesShapesFilled = new BooleanList();
-        this.defaultShapesFilled = Boolean.TRUE;
+        this.baseShapesFilled = true;
         this.legendLine = new Line2D.Double(-7.0, 0.0, 7.0, 0.0);
         this.drawSeriesLineAsPath = false;
     }
@@ -282,8 +283,8 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
      *
      * @return <code>true</code> if shapes are being plotted by the renderer.
      */
-    public boolean getDefaultShapesVisible() {
-        return this.plotShapes;
+    public boolean getBaseShapesVisible() {
+        return this.baseShapesVisible;
     }
 
     /**
@@ -292,31 +293,9 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
      *
      * @param flag  the flag.
      */
-    public void setDefaultShapesVisible(boolean flag) {
-        if (this.plotShapes != flag) {
-            this.plotShapes = flag;
-            notifyListeners(new RendererChangeEvent(this));
-        }
-    }
-
-    /**
-     * Returns true if shapes are being plotted by the renderer.
-     *
-     * @return <code>true</code> if shapes are being plotted by the renderer.
-     */
-    public boolean getPlotShapes() {
-        return this.plotShapes;
-    }
-
-    /**
-     * Sets the flag that controls whether or not a shape is plotted at each 
-     * data point.
-     *
-     * @param flag  the flag.
-     */
-    public void setPlotShapes(boolean flag) {
-        if (this.plotShapes != flag) {
-            this.plotShapes = flag;
+    public void setBaseShapesVisible(boolean flag) {
+        if (this.baseShapesVisible != flag) {
+            this.baseShapesVisible = flag;
             notifyListeners(new RendererChangeEvent(this));
         }
     }
@@ -361,7 +340,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
             return flag.booleanValue();
         }
         else {
-            return this.defaultShapesFilled.booleanValue();
+            return this.baseShapesFilled;
         }
 
     }
@@ -396,21 +375,21 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
     }
 
     /**
-     * Returns the default 'shape filled' attribute.
+     * Returns the base 'shape filled' attribute.
      *
-     * @return The default flag.
+     * @return The base flag.
      */
-    public Boolean getDefaultShapesFilled() {
-        return this.defaultShapesFilled;
+    public boolean getBaseShapesFilled() {
+        return this.baseShapesFilled;
     }
 
     /**
-     * Sets the default 'shapes filled' flag.
+     * Sets the base 'shapes filled' flag.
      *
      * @param flag  the flag.
      */
-    public void setDefaultShapesFilled(Boolean flag) {
-        this.defaultShapesFilled = flag;
+    public void setBaseShapesFilled(boolean flag) {
+        this.baseShapesFilled = flag;
     }
 
     /**
@@ -590,12 +569,10 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
                 Paint paint = getSeriesPaint(series);
                 Paint linePaint = paint;
                 Stroke lineStroke = getSeriesStroke(series);
-                result = new LegendItem(
-                    label, description, toolTipText, urlText, 
-                    this.plotShapes, shape, shapeFilled,
-                    paint, !shapeFilled, paint, lineStroke, 
-                    this.plotLines, this.legendLine, lineStroke, linePaint
-                );
+                result = new LegendItem(label, description, toolTipText, 
+                        urlText, this.baseShapesVisible, shape, shapeFilled,
+                        paint, !shapeFilled, paint, lineStroke, 
+                        this.plotLines, this.legendLine, lineStroke, linePaint);
             }
         }
         return result;
@@ -826,7 +803,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
             }
         }
 
-        if (getPlotShapes()) {
+        if (getBaseShapesVisible()) {
 
             Shape shape = getItemShape(series, item);
             if (orientation == PlotOrientation.HORIZONTAL) {
@@ -914,7 +891,7 @@ public class StandardXYItemRenderer extends AbstractXYItemRenderer
             return false;
         }
         StandardXYItemRenderer that = (StandardXYItemRenderer) obj;
-        if (this.plotShapes != that.plotShapes) {
+        if (this.baseShapesVisible != that.baseShapesVisible) {
             return false;
         }
         if (this.plotLines != that.plotLines) {

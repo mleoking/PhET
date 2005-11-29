@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -37,11 +38,13 @@
  * -------
  * 25-Mar-2003 : Version 1 (DG);
  * 22-Oct-2003 : Added hashCode test (DG);
+ * 01-Nov-2005 : Added tests for new fields (DG);
  *
  */
 
 package org.jfree.chart.renderer.xy.junit;
 
+import java.awt.Color;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInput;
@@ -85,6 +88,30 @@ public class HighLowRendererTests extends TestCase {
         HighLowRenderer r1 = new HighLowRenderer();
         HighLowRenderer r2 = new HighLowRenderer();
         assertEquals(r1, r2);
+        
+        // drawOpenTicks
+        r1.setDrawOpenTicks(false);
+        assertFalse(r1.equals(r2));
+        r2.setDrawOpenTicks(false);
+        assertTrue(r1.equals(r2));
+        
+        // drawCloseTicks
+        r1.setDrawCloseTicks(false);
+        assertFalse(r1.equals(r2));
+        r2.setDrawCloseTicks(false);
+        assertTrue(r1.equals(r2));
+        
+        // openTickPaint
+        r1.setOpenTickPaint(Color.red);
+        assertFalse(r1.equals(r2));
+        r2.setOpenTickPaint(Color.red);
+        assertTrue(r1.equals(r2));
+        
+        // closeTickPaint
+        r1.setCloseTickPaint(Color.blue);
+        assertFalse(r1.equals(r2));
+        r2.setCloseTickPaint(Color.blue);
+        assertTrue(r1.equals(r2));
     }
 
     /**
@@ -104,12 +131,13 @@ public class HighLowRendererTests extends TestCase {
      */
     public void testCloning() {
         HighLowRenderer r1 = new HighLowRenderer();
+        r1.setCloseTickPaint(Color.green);
         HighLowRenderer r2 = null;
         try {
             r2 = (HighLowRenderer) r1.clone();
         }
         catch (CloneNotSupportedException e) {
-            System.err.println("Failed to clone.");
+            e.printStackTrace();
         }
         assertTrue(r1 != r2);
         assertTrue(r1.getClass() == r2.getClass());
@@ -122,6 +150,7 @@ public class HighLowRendererTests extends TestCase {
     public void testSerialization() {
 
         HighLowRenderer r1 = new HighLowRenderer();
+        r1.setCloseTickPaint(Color.green);
         HighLowRenderer r2 = null;
 
         try {
@@ -137,7 +166,7 @@ public class HighLowRendererTests extends TestCase {
             in.close();
         }
         catch (Exception e) {
-            System.out.println(e.toString());
+            e.printStackTrace();
         }
         assertEquals(r1, r2);
 

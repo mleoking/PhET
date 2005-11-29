@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -51,6 +52,8 @@
  *               vertical label offsets (DG);
  * 01-Jun-2005 : Modified to use only one label offset type - this will be 
  *               applied to the domain or range axis as appropriate (DG);
+ * 06-Jun-2005 : Fix equals() method to handle GradientPaint (DG);
+ * 19-Aug-2005 : Changed constructor from public --> protected (DG);
  *
  */
 
@@ -72,6 +75,7 @@ import org.jfree.ui.RectangleAnchor;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.TextAnchor;
 import org.jfree.util.ObjectUtilities;
+import org.jfree.util.PaintUtilities;
 
 /**
  * The base class for markers that can be added to plots to highlight a value 
@@ -148,9 +152,9 @@ public abstract class Marker implements Cloneable, Serializable {
      * @param outlineStroke  the outline stroke (<code>null</code> permitted).
      * @param alpha  the alpha transparency.
      */
-    public Marker(Paint paint, Stroke stroke, 
-                  Paint outlinePaint, Stroke outlineStroke, 
-                  float alpha) {
+    protected Marker(Paint paint, Stroke stroke, 
+                     Paint outlinePaint, Stroke outlineStroke, 
+                     float alpha) {
 
         if (paint == null) {
             throw new IllegalArgumentException("Null 'paint' argument.");
@@ -429,13 +433,13 @@ public abstract class Marker implements Cloneable, Serializable {
             return false;
         }
         Marker that = (Marker) obj;
-        if (!ObjectUtilities.equal(this.paint, that.paint)) {
+        if (!PaintUtilities.equal(this.paint, that.paint)) {
             return false;   
         }
         if (!ObjectUtilities.equal(this.stroke, that.stroke)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.outlinePaint, that.outlinePaint)) {
+        if (!PaintUtilities.equal(this.outlinePaint, that.outlinePaint)) {
             return false;   
         }
         if (!ObjectUtilities.equal(this.outlineStroke, that.outlineStroke)) {
@@ -450,7 +454,7 @@ public abstract class Marker implements Cloneable, Serializable {
         if (!ObjectUtilities.equal(this.labelFont, that.labelFont)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.labelPaint, that.labelPaint)) {
+        if (!PaintUtilities.equal(this.labelPaint, that.labelPaint)) {
             return false;
         }
         if (this.labelAnchor != that.labelAnchor) {

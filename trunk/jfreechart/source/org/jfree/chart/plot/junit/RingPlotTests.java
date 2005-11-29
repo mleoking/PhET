@@ -16,17 +16,18 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
  *
- * -------------------
- * DonutPlotTests.java
- * -------------------
- * (C) Copyright 2004, by Object Refinery Limited and Contributors.
+ * ------------------
+ * RingPlotTests.java
+ * ------------------
+ * (C) Copyright 2004, 2005, by Object Refinery Limited and Contributors.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   -;
@@ -43,6 +44,7 @@ package org.jfree.chart.plot.junit;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.Stroke;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -104,9 +106,11 @@ public class RingPlotTests extends TestCase {
         assertTrue(plot1.equals(plot2));
 
         // separatorPaint
-        plot1.setSeparatorPaint(Color.red);
+        plot1.setSeparatorPaint(new GradientPaint(1.0f, 2.0f, Color.red, 
+                2.0f, 1.0f, Color.blue));
         assertFalse(plot1.equals(plot2));
-        plot2.setSeparatorPaint(Color.red);
+        plot2.setSeparatorPaint(new GradientPaint(1.0f, 2.0f, Color.red, 
+                2.0f, 1.0f, Color.blue));
         assertTrue(plot1.equals(plot2));
         
         // innerSeparatorExtension

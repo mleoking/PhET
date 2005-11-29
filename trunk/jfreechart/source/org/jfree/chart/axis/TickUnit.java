@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -26,7 +27,7 @@
  * -------------
  * TickUnit.java
  * -------------
- * (C) Copyright 2001-2004, by Object Refinery Limited.
+ * (C) Copyright 2001-2005, by Object Refinery Limited.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   -;
@@ -40,6 +41,7 @@
  * 26-Sep-2002 : Fixed errors reported by Checkstyle (DG);
  * 08-Nov-2002 : Moved to new package com.jrefinery.chart.axis (DG);
  * 26-Mar-2003 : Implemented Serializable (DG);
+ * 05-Sep-2005 : Implemented hashCode(), thanks to Thomas Morgner (DG);
  *
  */
 
@@ -148,6 +150,16 @@ public abstract class TickUnit implements Comparable, Serializable {
         }
         return false;
 
+    }
+
+    /**
+     * Returns a hash code for this instance.
+     * 
+     * @return A hash code.
+     */
+    public int hashCode() {
+        final long temp = size != +0.0d ? Double.doubleToLongBits(size) : 0L;
+        return (int) (temp ^ (temp >>> 32));
     }
 
 }

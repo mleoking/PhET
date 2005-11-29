@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -46,6 +47,7 @@ package org.jfree.chart.plot.junit;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GradientPaint;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInput;
@@ -97,9 +99,11 @@ public class ValueMarkerTests extends TestCase {
         assertTrue(m1.equals(m2));
         assertTrue(m2.equals(m1));
         
-        m1.setPaint(Color.red);
+        m1.setPaint(new GradientPaint(1.0f, 2.0f, Color.green, 
+                3.0f, 4.0f, Color.red));
         assertFalse(m1.equals(m2));
-        m2.setPaint(Color.red);
+        m2.setPaint(new GradientPaint(1.0f, 2.0f, Color.green, 
+                3.0f, 4.0f, Color.red));
         assertTrue(m1.equals(m2));
         
         BasicStroke stroke = new BasicStroke(2.2f);
@@ -108,9 +112,11 @@ public class ValueMarkerTests extends TestCase {
         m2.setStroke(stroke);
         assertTrue(m1.equals(m2));
         
-        m1.setOutlinePaint(Color.red);
+        m1.setOutlinePaint(new GradientPaint(4.0f, 3.0f, Color.yellow, 
+                2.0f, 1.0f, Color.white));
         assertFalse(m1.equals(m2));
-        m2.setOutlinePaint(Color.red);
+        m2.setOutlinePaint(new GradientPaint(4.0f, 3.0f, Color.yellow, 
+                2.0f, 1.0f, Color.white));
         assertTrue(m1.equals(m2));
         
         m1.setOutlineStroke(stroke);
@@ -133,9 +139,11 @@ public class ValueMarkerTests extends TestCase {
         m2.setLabelFont(new Font("SansSerif", Font.PLAIN, 10));
         assertTrue(m1.equals(m2));
 
-        m1.setLabelPaint(Color.red);
+        m1.setLabelPaint(new GradientPaint(1.0f, 2.0f, Color.blue, 
+                3.0f, 4.0f, Color.yellow));
         assertFalse(m1.equals(m2));
-        m2.setLabelPaint(Color.red);
+        m2.setLabelPaint(new GradientPaint(1.0f, 2.0f, Color.blue, 
+                3.0f, 4.0f, Color.yellow));
         assertTrue(m1.equals(m2));
 
         m1.setLabelAnchor(RectangleAnchor.TOP_RIGHT);

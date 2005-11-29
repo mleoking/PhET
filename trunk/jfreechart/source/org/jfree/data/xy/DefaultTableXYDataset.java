@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -54,6 +55,7 @@
  * 18-Aug-2004 : Moved from org.jfree.data --> org.jfree.data.xy (DG);
  * 11-Jan-2005 : Removed deprecated code in preparation for the 1.0.0 
  *               release (DG);
+ * 05-Oct-2005 : Made the interval delegate a dataset listener (DG);
  * 
  */
 
@@ -67,6 +69,7 @@ import java.util.List;
 import org.jfree.data.DomainInfo;
 import org.jfree.data.Range;
 import org.jfree.data.general.DatasetChangeEvent;
+import org.jfree.data.general.DatasetUtilities;
 import org.jfree.data.general.SeriesChangeEvent;
 import org.jfree.util.ObjectUtilities;
 
@@ -117,6 +120,7 @@ public class DefaultTableXYDataset extends AbstractIntervalXYDataset
         this.data = new ArrayList();
         this.xPoints = new HashSet();
         this.intervalDelegate = new IntervalXYDelegate(this, false);
+        addChangeListener(this.intervalDelegate);
     }
 
     /**
@@ -358,7 +362,6 @@ public class DefaultTableXYDataset extends AbstractIntervalXYDataset
         // Remove all the series from the collection and notify listeners.
         this.data.clear();
         this.xPoints.clear();
-        this.intervalDelegate.seriesRemoved();
         fireDatasetChanged();
     }
 
@@ -382,7 +385,6 @@ public class DefaultTableXYDataset extends AbstractIntervalXYDataset
             if (this.data.size() == 0) {
                 this.xPoints.clear();
             }
-            this.intervalDelegate.seriesRemoved();
             fireDatasetChanged();
         }
 
@@ -411,7 +413,6 @@ public class DefaultTableXYDataset extends AbstractIntervalXYDataset
         else if (this.autoPrune) {
             prune();
         }
-        this.intervalDelegate.seriesRemoved();
         fireDatasetChanged();
 
     }
@@ -433,7 +434,6 @@ public class DefaultTableXYDataset extends AbstractIntervalXYDataset
         }
         this.propagateEvents = savedState;
         this.xPoints.remove(x);
-        this.intervalDelegate.seriesRemoved();
         fireDatasetChanged();
     }
 
@@ -491,10 +491,6 @@ public class DefaultTableXYDataset extends AbstractIntervalXYDataset
      * @return A boolean.
      */
     public boolean equals(Object obj) {
-        /*
-         * I wonder if these implementations of equals and hashCode are 
-         * sound... (AS)
-         */
         if (obj == this) {
             return true;
         }
@@ -565,7 +561,12 @@ public class DefaultTableXYDataset extends AbstractIntervalXYDataset
      * @return The range.
      */
     public Range getDomainBounds(boolean includeInterval) {
-        return this.intervalDelegate.getDomainBounds(includeInterval);        
+        if (includeInterval) {
+            return this.intervalDelegate.getDomainBounds(includeInterval);
+        }
+        else {
+            return DatasetUtilities.iterateDomainBounds(this, includeInterval);
+        }
     }
     
     /**
@@ -600,12 +601,13 @@ public class DefaultTableXYDataset extends AbstractIntervalXYDataset
     }
 
     /**
-     * Sets the interval width manually. 
+     * Sets the interval width to a fixed value, and sends a 
+     * {@link DatasetChangeEvent} to all registered listeners. 
      * 
-     * @param d  the new interval width.
+     * @param d  the new interval width (must be > 0).
      */
     public void setIntervalWidth(double d) {
-        this.intervalDelegate.setIntervalWidth(d);
+        this.intervalDelegate.setFixedIntervalWidth(d);
         fireDatasetChanged();
     }
 

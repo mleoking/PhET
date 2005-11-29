@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -46,7 +47,10 @@
  * 20-Apr-2005 : Renamed CategoryLabelGenerator 
  *               --> CategoryItemLabelGenerator (DG);
  * 05-May-2005 : Updated draw() method parameters (DG);
- * 
+ * 10-Jun-2005 : Added equals() method and fixed serialization (DG);
+ * 16-Jun-2005 : Added default constructor and get/setDataset() 
+ *               methods (DG);
+ *
  */
 
 package org.jfree.chart.plot;
@@ -68,6 +72,9 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
@@ -78,10 +85,15 @@ import org.jfree.chart.event.PlotChangeEvent;
 import org.jfree.chart.labels.CategoryItemLabelGenerator;
 import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.general.DatasetChangeEvent;
 import org.jfree.data.general.DatasetUtilities;
+import org.jfree.io.SerialUtilities;
 import org.jfree.ui.RectangleInsets;
+import org.jfree.util.ObjectUtilities;
 import org.jfree.util.PaintList;
+import org.jfree.util.PaintUtilities;
 import org.jfree.util.Rotation;
+import org.jfree.util.ShapeUtilities;
 import org.jfree.util.StrokeList;
 import org.jfree.util.TableOrder;
 
@@ -210,14 +222,20 @@ public class SpiderWebPlot extends Plot implements Cloneable, Serializable {
     private boolean webFilled = true;
   
     /**
+     * Creates a default plot with no dataset.
+     */
+    public SpiderWebPlot() {
+        this(null);   
+    }
+    
+    /**
      * Creates a new radar plot with default attributes.
      * 
-     * @param dataset  the dataset.
+     * @param dataset  the dataset (<code>null</code> permitted).
      */
     public SpiderWebPlot(CategoryDataset dataset) {
         super();
         this.dataset = dataset;
-    
         if (dataset != null) {
             dataset.addChangeListener(this);
         }
@@ -272,6 +290,39 @@ public class SpiderWebPlot extends Plot implements Cloneable, Serializable {
     }
     
     /**
+     * Returns the dataset.
+     * 
+     * @return The dataset (possibly <code>null</code>).
+     */
+    public CategoryDataset getDataset() {
+        return this.dataset;   
+    }
+    
+    /**
+     * Sets the dataset used by the plot and sends a {@link PlotChangeEvent}
+     * to all registered listeners.
+     * 
+     * @param dataset  the dataset (<code>null</code> permitted).
+     */
+    public void setDataset(CategoryDataset dataset) {
+        // if there is an existing dataset, remove the plot from the list of 
+        // change listeners...
+        if (this.dataset != null) {
+            this.dataset.removeChangeListener(this);
+        }
+
+        // set the new dataset, and register the chart as a change listener...
+        this.dataset = dataset;
+        if (dataset != null) {
+            setDatasetGroup(dataset.getGroup());
+            dataset.addChangeListener(this);
+        }
+
+        // send a dataset change event to self to trigger plot change event
+        datasetChanged(new DatasetChangeEvent(this, dataset));
+    }
+    
+    /**
      * Method to determine if the web chart is to be filled.
      * 
      * @return A boolean.
@@ -281,8 +332,8 @@ public class SpiderWebPlot extends Plot implements Cloneable, Serializable {
     }
 
     /**
-     * Sets the webFilled flag and sends a
-     * {@link PlotChangeEvent} to all registered listeners.
+     * Sets the webFilled flag and sends a {@link PlotChangeEvent} to all 
+     * registered listeners.
      * 
      * @param flag  the flag.
      */
@@ -314,6 +365,26 @@ public class SpiderWebPlot extends Plot implements Cloneable, Serializable {
         notifyListeners(new PlotChangeEvent(this));
     }
 
+    /**
+     * Returns the head percent.
+     * 
+     * @return The head percent.
+     */
+    public double getHeadPercent() {
+        return this.headPercent;   
+    }
+    
+    /**
+     * Sets the head percent and sends a {@link PlotChangeEvent} to all 
+     * registered listeners.
+     * 
+     * @param percent  the percent.
+     */
+    public void setHeadPercent(double percent) {
+        this.headPercent = percent;
+        notifyListeners(new PlotChangeEvent(this));
+    }
+    
     /**
      * Returns the start angle for the first radar axis.
      * <BR>
@@ -414,6 +485,26 @@ public class SpiderWebPlot extends Plot implements Cloneable, Serializable {
         }
     }
 
+    /**
+     * Returns the axis label gap.
+     * 
+     * @return The axis label gap.
+     */
+    public double getAxisLabelGap() {
+        return this.axisLabelGap;   
+    }
+    
+    /**
+     * Sets the axis label gap and sends a {@link PlotChangeEvent} to all 
+     * registered listeners.
+     * 
+     * @param gap  the gap.
+     */
+    public void setAxisLabelGap(double gap) {
+        this.axisLabelGap = gap;
+        notifyListeners(new PlotChangeEvent(this));
+    }
+    
     //// SERIES PAINT /////////////////////////
 
     /**
@@ -781,10 +872,8 @@ public class SpiderWebPlot extends Plot implements Cloneable, Serializable {
                 Paint paint = getSeriesPaint(series);
                 Paint outlinePaint = getSeriesOutlinePaint(series);
                 Stroke stroke = getSeriesOutlineStroke(series);
-                LegendItem item = new LegendItem(
-                    label, description, null, null, 
-                    shape, paint, stroke, outlinePaint
-                );
+                LegendItem item = new LegendItem(label, description, 
+                        null, null, shape, paint, stroke, outlinePaint);
                 result.add(item);
                 series++;
             }
@@ -1145,5 +1234,142 @@ public class SpiderWebPlot extends Plot implements Cloneable, Serializable {
 
         return new Point2D.Double(labelX, labelY);
     }
+    
+    /**
+     * Tests this plot for equality with an arbitrary object.
+     * 
+     * @param obj  the object (<code>null</code> permitted).
+     * 
+     * @return A boolean.
+     */
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;   
+        }
+        if (!(obj instanceof SpiderWebPlot)) {
+            return false;   
+        }
+        if (!super.equals(obj)) {
+            return false;   
+        }
+        SpiderWebPlot that = (SpiderWebPlot) obj;
+        if (!this.dataExtractOrder.equals(that.dataExtractOrder)) {
+            return false;   
+        }
+        if (this.headPercent != that.headPercent) {
+            return false;   
+        }
+        if (this.interiorGap != that.interiorGap) {
+            return false;   
+        }
+        if (this.startAngle != that.startAngle) {
+            return false;   
+        }
+        if (!this.direction.equals(that.direction)) {
+            return false;   
+        }
+        if (this.maxValue != that.maxValue) {
+            return false;   
+        }
+        if (this.webFilled != that.webFilled) {
+            return false;   
+        }
+        if (!ShapeUtilities.equal(this.legendItemShape, that.legendItemShape)) {
+            return false;   
+        }
+        if (!PaintUtilities.equal(this.seriesPaint, that.seriesPaint)) {
+            return false;   
+        }
+        if (!this.seriesPaintList.equals(that.seriesPaintList)) {
+            return false;   
+        }
+        if (!PaintUtilities.equal(this.baseSeriesPaint, that.baseSeriesPaint)) {
+            return false;   
+        }
+        if (!PaintUtilities.equal(this.seriesOutlinePaint, 
+                that.seriesOutlinePaint)) {
+            return false;   
+        }
+        if (!this.seriesOutlinePaintList.equals(that.seriesOutlinePaintList)) {
+            return false;   
+        }
+        if (!PaintUtilities.equal(this.baseSeriesOutlinePaint, 
+                that.baseSeriesOutlinePaint)) {
+            return false;   
+        }
+        if (!ObjectUtilities.equal(this.seriesOutlineStroke, 
+                that.seriesOutlineStroke)) {
+            return false;   
+        }
+        if (!this.seriesOutlineStrokeList.equals(
+                that.seriesOutlineStrokeList)) {
+            return false;   
+        }
+        if (!this.baseSeriesOutlineStroke.equals(
+                that.baseSeriesOutlineStroke)) {
+            return false;   
+        }
+        if (!this.labelFont.equals(that.labelFont)) {
+            return false;   
+        }
+        if (!PaintUtilities.equal(this.labelPaint, that.labelPaint)) {
+            return false;   
+        }
+        if (!this.labelGenerator.equals(that.labelGenerator)) {
+            return false;   
+        }
+        return true;
+    }
+    
+    /**
+     * Provides serialization support.
+     *
+     * @param stream
+     *            the output stream.
+     *
+     * @throws IOException
+     *             if there is an I/O error.
+     */
+    private void writeObject(ObjectOutputStream stream) throws IOException {
+        stream.defaultWriteObject();
+
+        SerialUtilities.writeShape(this.legendItemShape, stream);
+        SerialUtilities.writePaint(this.seriesPaint, stream);
+        SerialUtilities.writePaint(this.baseSeriesPaint, stream);
+        SerialUtilities.writePaint(this.seriesOutlinePaint, stream);
+        SerialUtilities.writePaint(this.baseSeriesOutlinePaint, stream);
+        SerialUtilities.writeStroke(this.seriesOutlineStroke, stream);
+        SerialUtilities.writeStroke(this.baseSeriesOutlineStroke, stream);
+        SerialUtilities.writePaint(this.labelPaint, stream);
+    }
+
+    /**
+     * Provides serialization support.
+     *
+     * @param stream
+     *            the input stream.
+     *
+     * @throws IOException
+     *             if there is an I/O error.
+     * @throws ClassNotFoundException
+     *             if there is a classpath problem.
+     */
+    private void readObject(ObjectInputStream stream) throws IOException,
+            ClassNotFoundException {
+        stream.defaultReadObject();
+
+        this.legendItemShape = SerialUtilities.readShape(stream);
+        this.seriesPaint = SerialUtilities.readPaint(stream);
+        this.baseSeriesPaint = SerialUtilities.readPaint(stream);
+        this.seriesOutlinePaint = SerialUtilities.readPaint(stream);
+        this.baseSeriesOutlinePaint = SerialUtilities.readPaint(stream);
+        this.seriesOutlineStroke = SerialUtilities.readStroke(stream);
+        this.baseSeriesOutlineStroke = SerialUtilities.readStroke(stream);
+        this.labelPaint = SerialUtilities.readPaint(stream);
+       
+        if (dataset != null) {
+            dataset.addChangeListener(this);
+        }
+    } 
 
 }

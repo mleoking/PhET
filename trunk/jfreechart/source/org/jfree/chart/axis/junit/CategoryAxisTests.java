@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -43,6 +44,9 @@
 
 package org.jfree.chart.axis.junit;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GradientPaint;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInput;
@@ -131,6 +135,26 @@ public class CategoryAxisTests extends TestCase {
         a2.addCategoryLabelToolTip("Test", "Check");
         assertTrue(a1.equals(a2));
         
+        // tickLabelFont
+        a1.setTickLabelFont("C1", new Font("Dialog", Font.PLAIN, 21));
+        assertFalse(a1.equals(a2));
+        a2.setTickLabelFont("C1", new Font("Dialog", Font.PLAIN, 21));
+        assertTrue(a1.equals(a2));
+        
+        // tickLabelPaint
+        a1.setTickLabelPaint("C1", Color.red);
+        assertFalse(a1.equals(a2));
+        a2.setTickLabelPaint("C1", Color.red);
+        assertTrue(a1.equals(a2));
+
+        // tickLabelPaint2
+        a1.setTickLabelPaint("C1", new GradientPaint(1.0f, 2.0f, Color.red, 
+                3.0f, 4.0f, Color.yellow));
+        assertFalse(a1.equals(a2));
+        a2.setTickLabelPaint("C1", new GradientPaint(1.0f, 2.0f, Color.red, 
+                3.0f, 4.0f, Color.yellow));
+        assertTrue(a1.equals(a2));
+    
     }
 
     /**
@@ -163,11 +187,51 @@ public class CategoryAxisTests extends TestCase {
     }
 
     /**
+     * Confirm that cloning works.  This test customises the font and paint
+     * per category label.
+     */
+    public void testCloning2() {
+        CategoryAxis a1 = new CategoryAxis("Test");
+        a1.setTickLabelFont("C1", new Font("Dialog", Font.PLAIN, 15));
+        a1.setTickLabelPaint("C1", new GradientPaint(1.0f, 2.0f, Color.red, 
+                3.0f, 4.0f, Color.white));
+        CategoryAxis a2 = null;
+        try {
+            a2 = (CategoryAxis) a1.clone();
+        }
+        catch (CloneNotSupportedException e) {
+            System.err.println("Failed to clone.");
+        }
+        assertTrue(a1 != a2);
+        assertTrue(a1.getClass() == a2.getClass());
+        assertTrue(a1.equals(a2));
+        
+        // check that changing a tick label font in a1 doesn't change a2
+        a1.setTickLabelFont("C1", null);
+        assertFalse(a1.equals(a2));
+        a2.setTickLabelFont("C1", null);
+        assertTrue(a1.equals(a2));
+        
+        // check that changing a tick label paint in a1 doesn't change a2
+        a1.setTickLabelPaint("C1", Color.yellow);
+        assertFalse(a1.equals(a2));
+        a2.setTickLabelPaint("C1", Color.yellow);
+        assertTrue(a1.equals(a2));
+
+        // check that changing a category label tooltip in a1 doesn't change a2
+        a1.addCategoryLabelToolTip("C1", "XYZ");
+        assertFalse(a1.equals(a2));
+        a2.addCategoryLabelToolTip("C1", "XYZ");
+        assertTrue(a1.equals(a2));
+    }
+
+    /**
      * Serialize an instance, restore it, and check for equality.
      */
     public void testSerialization() {
-
         CategoryAxis a1 = new CategoryAxis("Test Axis");
+        a1.setTickLabelPaint("C1", new GradientPaint(1.0f, 2.0f, Color.red, 
+                3.0f, 4.0f, Color.white));
         CategoryAxis a2 = null;
 
         try {
@@ -186,7 +250,6 @@ public class CategoryAxisTests extends TestCase {
             System.out.println(e.toString());
         }
         assertEquals(a1, a2);
-
     }
 
 }

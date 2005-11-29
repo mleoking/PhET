@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -53,6 +54,9 @@
  * 11-Jan-2005 : Removed deprecated code in preparation for 1.0.0 release (DG);
  * 17-Apr-2005 : Fixed bug in clone() method (DG);
  * 05-May-2005 : Updated draw() method parameters (DG);
+ * 08-Jun-2005 : Fixed equals() method to handle GradientPaint (DG);
+ * 16-Jun-2005 : Renamed getData() --> getDatasets() and 
+ *               addData() --> addDataset() (DG);
  *
  */
 
@@ -89,6 +93,7 @@ import org.jfree.data.general.DefaultValueDataset;
 import org.jfree.data.general.ValueDataset;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.util.ObjectUtilities;
+import org.jfree.util.PaintUtilities;
 
 /**
  * A specialised plot that draws a compass to indicate a direction based on the
@@ -175,25 +180,20 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
      * @param dataset  the dataset for the plot (<code>null</code> permitted).
      */
     public CompassPlot(ValueDataset dataset) {
-
         super();
-
         if (dataset != null) {
             this.datasets[0] = dataset;
             dataset.addChangeListener(this);
         }
-
-
         this.circle1 = new Ellipse2D.Double();
         this.circle2 = new Ellipse2D.Double();
         this.rect1   = new Rectangle2D.Double();
         setSeriesNeedle(0);
-
     }
 
     /**
-     * Returns the label type.  Defined by the constants: NO_LABELS, 
-     * VALUE_LABELS.
+     * Returns the label type.  Defined by the constants: {@link #NO_LABELS}
+     * and {@link #VALUE_LABELS}.
      *
      * @return The label type.
      */
@@ -202,26 +202,20 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
     }
 
     /**
-     * Sets the label type.
-     * <P>
-     * Valid types are defined by the following constants: NO_LABELS, 
-     * VALUE_LABELS.
+     * Sets the label type (either {@link #NO_LABELS} or {@link #VALUE_LABELS}.
      *
      * @param type  the type.
      */
     public void setLabelType(int type) {
-
         if ((type != NO_LABELS) && (type != VALUE_LABELS)) {
             throw new IllegalArgumentException(
                 "MeterPlot.setLabelType(int): unrecognised type."
             );
         }
-
         if (this.labelType != type) {
             this.labelType = type;
             notifyListeners(new PlotChangeEvent(this));
         }
-
     }
 
     /**
@@ -234,27 +228,90 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
     }
 
     /**
-     * Sets the label font.
-     * <P>
-     * Notifies registered listeners that the plot has been changed.
+     * Sets the label font and sends a {@link PlotChangeEvent} to all 
+     * registered listeners.
      *
      * @param font  the new label font.
      */
     public void setLabelFont(Font font) {
-
-        // check arguments...
         if (font == null) {
             throw new IllegalArgumentException("Null 'font' not allowed.");
         }
-
-        // make the change...
-        if (!this.labelFont.equals(font)) {
-            this.labelFont = font;
-            notifyListeners(new PlotChangeEvent(this));
-        }
-
+        this.labelFont = font;
+        notifyListeners(new PlotChangeEvent(this));
     }
 
+    /**
+     * Returns the paint used to fill the outer circle of the compass.
+     * 
+     * @return The paint (never <code>null</code>).
+     */
+    public Paint getRosePaint() {
+        return this.rosePaint;   
+    }
+    
+    /**
+     * Sets the paint used to fill the outer circle of the compass, 
+     * and sends a {@link PlotChangeEvent} to all registered listeners.
+     * 
+     * @param paint  the paint (<code>null</code> not permitted).
+     */
+    public void setRosePaint(Paint paint) {
+        if (paint == null) {   
+            throw new IllegalArgumentException("Null 'paint' argument.");
+        }
+        this.rosePaint = paint;
+        notifyListeners(new PlotChangeEvent(this));        
+    }
+
+    /**
+     * Returns the paint used to fill the inner background area of the 
+     * compass.
+     * 
+     * @return The paint (never <code>null</code>).
+     */
+    public Paint getRoseCenterPaint() {
+        return this.roseCenterPaint;   
+    }
+    
+    /**
+     * Sets the paint used to fill the inner background area of the compass, 
+     * and sends a {@link PlotChangeEvent} to all registered listeners.
+     * 
+     * @param paint  the paint (<code>null</code> not permitted).
+     */
+    public void setRoseCenterPaint(Paint paint) {
+        if (paint == null) {   
+            throw new IllegalArgumentException("Null 'paint' argument.");
+        }
+        this.roseCenterPaint = paint;
+        notifyListeners(new PlotChangeEvent(this));        
+    }
+    
+    /**
+     * Returns the paint used to draw the circles, symbols and labels on the
+     * compass.
+     * 
+     * @return The paint (never <code>null</code>).
+     */
+    public Paint getRoseHighlightPaint() {
+        return this.roseHighlightPaint;   
+    }
+    
+    /**
+     * Sets the paint used to draw the circles, symbols and labels of the 
+     * compass, and sends a {@link PlotChangeEvent} to all registered listeners.
+     * 
+     * @param paint  the paint (<code>null</code> not permitted).
+     */
+    public void setRoseHighlightPaint(Paint paint) {
+        if (paint == null) {   
+            throw new IllegalArgumentException("Null 'paint' argument.");
+        }
+        this.roseHighlightPaint = paint;
+        notifyListeners(new PlotChangeEvent(this));        
+    }
+    
     /**
      * Returns a flag that controls whether or not a border is drawn.
      *
@@ -324,8 +381,19 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
     }
 
     /**
-     * Sets the needle for a series.
-     *
+     * Sets the needle for a series.  The needle type is one of the following:
+     * <ul>
+     * <li>0 = {@link ArrowNeedle};</li>
+     * <li>1 = {@link LineNeedle};</li>
+     * <li>2 = {@link LongNeedle};</li>
+     * <li>3 = {@link PinNeedle};</li>
+     * <li>4 = {@link PlumNeedle};</li>
+     * <li>5 = {@link PointerNeedle};</li>
+     * <li>6 = {@link ShipNeedle};</li>
+     * <li>7 = {@link WindNeedle};</li>
+     * <li>8 = {@link ArrowNeedle};</li>
+     * <li>9 = {@link MiddlePinNeedle};</li>
+     * </ul>
      * @param index  the series index.
      * @param type  the needle type.
      */
@@ -397,28 +465,28 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
      *
      * @return The dataset for the plot, cast as a ValueDataset.
      */
-    public ValueDataset[] getData() {
+    public ValueDataset[] getDatasets() {
         return this.datasets;
     }
 
     /**
      * Adds a dataset to the compass.
      *
-     * @param data  the new dataset.
+     * @param dataset  the new dataset.
      */
-    public void addData(ValueDataset data) {
-        addData(data, null);
+    public void addDataset(ValueDataset dataset) {
+        addDataset(dataset, null);
     }
 
     /**
      * Adds a dataset to the compass.
      *
-     * @param data  the new dataset.
+     * @param dataset  the new dataset.
      * @param needle  the needle.
      */
-    public void addData(ValueDataset data, MeterNeedle needle) {
+    public void addDataset(ValueDataset dataset, MeterNeedle needle) {
 
-        if (data != null) {
+        if (dataset != null) {
             int i = this.datasets.length + 1;
             ValueDataset[] t = new ValueDataset[i];
             MeterNeedle[] p = new MeterNeedle[i];
@@ -428,7 +496,7 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
                 p[i] = this.seriesNeedle[i];
             }
             i = this.datasets.length;
-            t[i] = data;
+            t[i] = dataset;
             p[i] = ((needle != null) ? needle : p[i - 1]);
 
             ValueDataset[] a = this.datasets;
@@ -440,7 +508,7 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
                 a[i] = null;
                 b[i] = null;
             }
-            data.addChangeListener(this);
+            dataset.addChangeListener(this);
         }
     }
 
@@ -615,22 +683,19 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
     }
 
     /**
-     * Returns the font for the compass.
+     * Returns the font for the compass, adjusted for the size of the plot.
      *
      * @param radius the radius.
      *
      * @return The font.
      */
     protected Font getCompassFont(int radius) {
-
         float fontSize = radius / 10.0f;
         if (fontSize < 8) {
             fontSize = 8;
         }
-
         Font newFont = this.compassFont.deriveFont(fontSize);
         return newFont;
-
     }
 
     /**
@@ -641,11 +706,9 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
      * @return A boolean.
      */
     public boolean equals(Object obj) {
-
         if (obj == this) {
             return true;
         }
-
         if (!(obj instanceof CompassPlot)) {
             return false;
         }
@@ -662,14 +725,14 @@ public class CompassPlot extends Plot implements Cloneable, Serializable {
         if (this.drawBorder != that.drawBorder) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.roseHighlightPaint, 
+        if (!PaintUtilities.equal(this.roseHighlightPaint, 
                 that.roseHighlightPaint)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.rosePaint, that.rosePaint)) {
+        if (!PaintUtilities.equal(this.rosePaint, that.rosePaint)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.roseCenterPaint, 
+        if (!PaintUtilities.equal(this.roseCenterPaint, 
                 that.roseCenterPaint)) {
             return false;
         }

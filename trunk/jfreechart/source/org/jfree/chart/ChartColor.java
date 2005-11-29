@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -26,7 +27,7 @@
  * ---------------
  * ChartColor.java
  * ---------------
- * (C) Copyright 2003, 2004, by Cameron Riley and Contributors.
+ * (C) Copyright 2003-2005, by Cameron Riley and Contributors.
  *
  * Original Author:  Cameron Riley;
  * Contributor(s):   David Gilbert (for Object Refinery Limited);
@@ -37,6 +38,8 @@
  * -------
  * 23-Jan-2003 : Version 1, contributed by Cameron Riley (DG);
  * 25-Nov-2004 : Changed first 7 colors to softer shades (DG);
+ * 03-Nov-2005 : Removed orange color, too close to yellow - see bug
+ *               report 1328408 (DG);
  *
  */
 
@@ -152,7 +155,6 @@ public class ChartColor extends Color {
             new Color(0x55, 0x55, 0xFF),
             new Color(0x55, 0xFF, 0x55),
             new Color(0xFF, 0xFF, 0x55),
-            new Color(0xFF, 0xBB, 0x55),
             new Color(0xFF, 0x55, 0xFF),
             new Color(0x55, 0xFF, 0xFF),
             Color.pink,

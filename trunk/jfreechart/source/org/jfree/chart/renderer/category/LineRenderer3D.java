@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -40,6 +41,8 @@
  * 11-Nov-2004 : Now uses ShapeUtilities class to translate shapes (DG);
  * 26-Jan-2005 : Update for changes in super class (DG);
  * 13-Apr-2005 : Check item visibility in drawItem() method (DG);
+ * 09-Jun-2005 : Use addItemEntity() in drawItem() method (DG);
+ * 10-Jun-2005 : Fixed capitalisation of setXOffset() and setYOffset() (DG);
  * 
  */
 
@@ -61,10 +64,8 @@ import java.io.Serializable;
 import org.jfree.chart.Effect3D;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.ValueAxis;
-import org.jfree.chart.entity.CategoryItemEntity;
 import org.jfree.chart.entity.EntityCollection;
 import org.jfree.chart.event.RendererChangeEvent;
-import org.jfree.chart.labels.CategoryToolTipGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.Marker;
 import org.jfree.chart.plot.Plot;
@@ -136,7 +137,7 @@ public class LineRenderer3D extends LineAndShapeRenderer
      * 
      * @param xOffset  the x-offset.
      */
-    public void setxOffset(double xOffset) {
+    public void setXOffset(double xOffset) {
         this.xOffset = xOffset;
         notifyListeners(new RendererChangeEvent(this));
     }
@@ -146,7 +147,7 @@ public class LineRenderer3D extends LineAndShapeRenderer
      * 
      * @param yOffset  the y-offset.
      */
-    public void setyOffset(double yOffset) {
+    public void setYOffset(double yOffset) {
         this.yOffset = yOffset;
         notifyListeners(new RendererChangeEvent(this));
     }
@@ -329,10 +330,8 @@ public class LineRenderer3D extends LineAndShapeRenderer
             line1 = new Line2D.Double(x0, y0, x1, y1);
             line2 = new Line2D.Double(x1, y1, x1, y2);
         }
-        Paint paint = plot.getDomainGridlinePaint();
-        Stroke stroke = plot.getDomainGridlineStroke();
-        g2.setPaint(paint != null ? paint : Plot.DEFAULT_OUTLINE_PAINT);
-        g2.setStroke(stroke != null ? stroke : Plot.DEFAULT_OUTLINE_STROKE);
+        g2.setPaint(plot.getDomainGridlinePaint());
+        g2.setStroke(plot.getDomainGridlineStroke());
         g2.draw(line1);
         g2.draw(line2);
 
@@ -391,10 +390,8 @@ public class LineRenderer3D extends LineAndShapeRenderer
             line1 = new Line2D.Double(x0, y0, x1, y1);
             line2 = new Line2D.Double(x1, y1, x2, y1);
         }
-        Paint paint = plot.getRangeGridlinePaint();
-        Stroke stroke = plot.getRangeGridlineStroke();
-        g2.setPaint(paint != null ? paint : Plot.DEFAULT_OUTLINE_PAINT);
-        g2.setStroke(stroke != null ? stroke : Plot.DEFAULT_OUTLINE_STROKE);
+        g2.setPaint(plot.getRangeGridlinePaint());
+        g2.setStroke(plot.getRangeGridlineStroke());
         g2.draw(line1);
         g2.draw(line2);
 
@@ -527,7 +524,7 @@ public class LineRenderer3D extends LineAndShapeRenderer
             shape = ShapeUtilities.createTranslatedShape(shape, x1, y1);
         }
        
-        if (isLinesVisible()) {
+        if (getItemLineVisible(row, column)) {
             if (column != 0) {
 
                 Number previousValue = dataset.getValue(row, column - 1);
@@ -583,29 +580,10 @@ public class LineRenderer3D extends LineAndShapeRenderer
             );
         }
 
-        // collect entity and tool tip information...
-        if (state.getInfo() != null) {
-            EntityCollection entities 
-                = state.getInfo().getOwner().getEntityCollection();
-            if (entities != null && shape != null) {
-                String tip = null;
-                CategoryToolTipGenerator tipster 
-                    = getToolTipGenerator(row, column);
-                if (tipster != null) {
-                    tip = tipster.generateToolTip(dataset, row, column);
-                }
-                String url = null;
-                if (getItemURLGenerator(row, column) != null) {
-                    url = getItemURLGenerator(row, column).generateURL(dataset,
-                            row, column);
-                }
-                CategoryItemEntity entity = new CategoryItemEntity(
-                    shape, tip, url, dataset, row, 
-                    dataset.getColumnKey(column), column
-                );
-                entities.add(entity);
-            }
-
+        // add an item entity, if this information is being collected
+        EntityCollection entities = state.getEntityCollection();
+        if (entities != null) {
+            addItemEntity(entities, dataset, row, column, shape);
         }
 
     }

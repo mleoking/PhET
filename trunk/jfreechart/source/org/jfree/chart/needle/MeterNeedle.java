@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -42,6 +43,8 @@
  * 07-Nov-2002 : Fixed errors reported by Checkstyle (DG);
  * 01-Sep-2003 : Implemented Serialization (NB);
  * 16-Mar-2004 : Changed transform from private to protected (BRS);
+ * 08-Jun-2005 : Fixed equals() method to handle GradientPaint (DG);
+ * 
  */
 
 package org.jfree.chart.needle;
@@ -62,6 +65,7 @@ import java.io.Serializable;
 
 import org.jfree.io.SerialUtilities;
 import org.jfree.util.ObjectUtilities;
+import org.jfree.util.PaintUtilities;
 
 /**
  * The base class used to represent the needle on a 
@@ -108,9 +112,9 @@ public abstract class MeterNeedle implements Serializable {
     /**
      * Creates a new needle.
      *
-     * @param outline  the outline paint.
-     * @param fill  the fill paint.
-     * @param highlight  the highlight paint.
+     * @param outline  the outline paint (<code>null</code> permitted).
+     * @param fill  the fill paint (<code>null</code> permitted).
+     * @param highlight  the highlight paint (<code>null</code> permitted).
      */
     public MeterNeedle(Paint outline, Paint fill, Paint highlight) {
         this.fillPaint = fill;
@@ -346,29 +350,28 @@ public abstract class MeterNeedle implements Serializable {
     /**
      * Tests another object for equality with this object.
      *
-     * @param object  the object to test.
+     * @param obj the object to test (<code>null</code> permitted).
      *
      * @return A boolean.
      */
-    public boolean equals(Object object) {
-        if (object == this) {
+    public boolean equals(Object obj) {
+        if (obj == this) {
             return true;
         }
-        if (!(object instanceof MeterNeedle)) {
+        if (!(obj instanceof MeterNeedle)) {
             return false;
         }
-
-        MeterNeedle that = (MeterNeedle) object;
-        if (!ObjectUtilities.equal(this.outlinePaint, that.outlinePaint)) {
+        MeterNeedle that = (MeterNeedle) obj;
+        if (!PaintUtilities.equal(this.outlinePaint, that.outlinePaint)) {
             return false;
         }
         if (!ObjectUtilities.equal(this.outlineStroke, that.outlineStroke)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.fillPaint, that.fillPaint)) {
+        if (!PaintUtilities.equal(this.fillPaint, that.fillPaint)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.highlightPaint, that.highlightPaint)) {
+        if (!PaintUtilities.equal(this.highlightPaint, that.highlightPaint)) {
             return false;
         }
         if (this.size != that.size) {

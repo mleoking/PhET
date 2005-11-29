@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -315,11 +316,11 @@ public class TimeSeriesTests extends TestCase implements SeriesChangeListener {
         boolean b6 = s1.equals(s2);
         assertTrue("b6", b6);
 
-        s1.setHistoryCount(100);
+        s1.setMaximumItemAge(100);
         boolean b7 = s1.equals(s2);
         assertFalse("b7", b7);
 
-        s2.setHistoryCount(100);
+        s2.setMaximumItemAge(100);
         boolean b8 = s1.equals(s2);
         assertTrue("b8", b8);
     }

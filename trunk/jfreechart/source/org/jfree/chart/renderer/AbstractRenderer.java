@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -64,6 +65,7 @@
  * 15-Mar-2005 : Fixed serialization of baseFillPaint (DG);
  * 16-May-2005 : Base outline stroke should never be null (DG);
  * 01-Jun-2005 : Added hasListener() method for unit testing (DG);
+ * 08-Jun-2005 : Fixed equals() method to handle GradientPaint (DG);
  * 
  */
 
@@ -100,6 +102,7 @@ import org.jfree.util.BooleanUtilities;
 import org.jfree.util.ObjectList;
 import org.jfree.util.ObjectUtilities;
 import org.jfree.util.PaintList;
+import org.jfree.util.PaintUtilities;
 import org.jfree.util.ShapeList;
 import org.jfree.util.ShapeUtilities;
 import org.jfree.util.StrokeList;
@@ -385,7 +388,6 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
      * @return A boolean.
      */
     public boolean isSeriesVisible(int series) {
-
         boolean result = this.baseSeriesVisible;
         if (this.seriesVisible != null) {
             result = this.seriesVisible.booleanValue();   
@@ -2532,47 +2534,64 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
     /**
      * Tests this renderer for equality with another object.
      *
-     * @param obj  the object.
+     * @param obj  the object (<code>null</code> permitted).
      *
      * @return <code>true</code> or <code>false</code>.
      */
     public boolean equals(Object obj) {
-
         if (obj == this) {
             return true;
         }
         if (!(obj instanceof AbstractRenderer)) {
             return false;
         }
-        
         AbstractRenderer that = (AbstractRenderer) obj;
-        if (!ObjectUtilities.equal(this.paint, that.paint)) {
+        if (!ObjectUtilities.equal(this.seriesVisible, that.seriesVisible)) {
+            return false;   
+        }
+        if (!this.seriesVisibleList.equals(that.seriesVisibleList)) {
+            return false;   
+        }
+        if (this.baseSeriesVisible != that.baseSeriesVisible) {
+            return false;   
+        }
+        if (!ObjectUtilities.equal(this.seriesVisibleInLegend, 
+                that.seriesVisibleInLegend)) {
+            return false;   
+        }
+        if (!this.seriesVisibleInLegendList.equals(
+                that.seriesVisibleInLegendList)) {
+            return false;   
+        }
+        if (this.baseSeriesVisibleInLegend != that.baseSeriesVisibleInLegend) {
+            return false;   
+        }
+        if (!PaintUtilities.equal(this.paint, that.paint)) {
             return false;
         }
-
         if (!ObjectUtilities.equal(this.paintList, that.paintList)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.basePaint, that.basePaint)) {
+        if (!PaintUtilities.equal(this.basePaint, that.basePaint)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.fillPaint, that.fillPaint)) {
+        if (!PaintUtilities.equal(this.fillPaint, that.fillPaint)) {
             return false;
         }
         if (!ObjectUtilities.equal(this.fillPaintList, that.fillPaintList)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.baseFillPaint, that.baseFillPaint)) {
+        if (!PaintUtilities.equal(this.baseFillPaint, that.baseFillPaint)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.outlinePaint, that.outlinePaint)) {
+        if (!PaintUtilities.equal(this.outlinePaint, that.outlinePaint)) {
             return false;
         }
         if (!ObjectUtilities.equal(this.outlinePaintList,
                 that.outlinePaintList)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.baseOutlinePaint, 
+        if (!PaintUtilities.equal(this.baseOutlinePaint, 
                 that.baseOutlinePaint)) {
             return false;
         }
@@ -2636,7 +2655,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
             return false;
         }
  
-        if (!ObjectUtilities.equal(this.itemLabelPaint, that.itemLabelPaint)) {
+        if (!PaintUtilities.equal(this.itemLabelPaint, that.itemLabelPaint)) {
             return false;
         }
         if (!ObjectUtilities.equal(
@@ -2644,7 +2663,7 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
         )) {
             return false;
         }
-        if (!ObjectUtilities.equal(
+        if (!PaintUtilities.equal(
             this.baseItemLabelPaint, that.baseItemLabelPaint
         )) {
             return false;
@@ -2688,9 +2707,17 @@ public abstract class AbstractRenderer implements Cloneable, Serializable {
         if (this.itemLabelAnchorOffset != that.itemLabelAnchorOffset) {
             return false;
         }
-
+        if (!ObjectUtilities.equal(this.createEntities, that.createEntities)) {
+            return false;   
+        }
+        if (!ObjectUtilities.equal(this.createEntitiesList, 
+                that.createEntitiesList)) {
+            return false;   
+        }
+        if (this.baseCreateEntities != that.baseCreateEntities) {
+            return false;   
+        }
         return true;
-
     }
     
     /**

@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -39,6 +40,7 @@
  * 31-Mar-2004 : Added setPieIndex() call during drawing (DG);
  * 20-Apr-2005 : Small change for update to LegendItem constructors (DG);
  * 05-May-2005 : Updated draw() method parameters (DG);
+ * 16-Jun-2005 : Added get/setDataset() and equals() methods (DG);
  *
  */
 
@@ -63,10 +65,12 @@ import org.jfree.chart.event.PlotChangeEvent;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.CategoryToPieDataset;
+import org.jfree.data.general.DatasetChangeEvent;
 import org.jfree.data.general.DatasetUtilities;
 import org.jfree.data.general.PieDataset;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
+import org.jfree.util.ObjectUtilities;
 import org.jfree.util.TableOrder;
 
 /**
@@ -115,6 +119,39 @@ public class MultiplePiePlot extends Plot implements Cloneable, Serializable {
         );
         seriesTitle.setPosition(RectangleEdge.BOTTOM);
         this.pieChart.setTitle(seriesTitle);
+    }
+    
+    /**
+     * Returns the dataset used by the plot.
+     * 
+     * @return The dataset (possibly <code>null</code>).
+     */
+    public CategoryDataset getDataset() {
+        return this.dataset;   
+    }
+    
+    /**
+     * Sets the dataset used by the plot and sends a {@link PlotChangeEvent}
+     * to all registered listeners.
+     * 
+     * @param dataset  the dataset (<code>null</code> permitted).
+     */
+    public void setDataset(CategoryDataset dataset) {
+        // if there is an existing dataset, remove the plot from the list of 
+        // change listeners...
+        if (this.dataset != null) {
+            this.dataset.removeChangeListener(this);
+        }
+
+        // set the new dataset, and register the chart as a change listener...
+        this.dataset = dataset;
+        if (dataset != null) {
+            setDatasetGroup(dataset.getGroup());
+            dataset.addChangeListener(this);
+        }
+
+        // send a dataset change event to self to trigger plot change event
+        datasetChanged(new DatasetChangeEvent(this, dataset));
     }
     
     /**
@@ -336,11 +373,9 @@ public class MultiplePiePlot extends Plot implements Cloneable, Serializable {
                     Paint outlinePaint = plot.getSectionOutlinePaint(section);
                     Stroke outlineStroke 
                         = plot.getSectionOutlineStroke(section);
-                    LegendItem item = new LegendItem(
-                        label, description, null, null, 
-                        Plot.DEFAULT_LEGEND_ITEM_CIRCLE, 
-                        paint, outlineStroke, outlinePaint
-                    );
+                    LegendItem item = new LegendItem(label, description, 
+                            null, null, Plot.DEFAULT_LEGEND_ITEM_CIRCLE, 
+                            paint, outlineStroke, outlinePaint);
 
                     result.add(item);
                     section++;
@@ -348,6 +383,35 @@ public class MultiplePiePlot extends Plot implements Cloneable, Serializable {
             }
         }
         return result;
+    }
+    
+    /**
+     * Tests this plot for equality with an arbitrary object.  Note that the 
+     * plot's dataset is not considered in the equality test.
+     * 
+     * @param obj  the object (<code>null</code> permitted).
+     */
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;   
+        }
+        if (!(obj instanceof MultiplePiePlot)) {
+            return false;   
+        }
+        MultiplePiePlot that = (MultiplePiePlot) obj;
+        if (this.dataExtractOrder != that.dataExtractOrder) {
+            return false;   
+        }
+        if (this.limit != that.limit) {
+            return false;   
+        }
+        if (!ObjectUtilities.equal(this.pieChart, that.pieChart)) {
+            return false;   
+        }
+        if (!super.equals(obj)) {
+            return false;   
+        }
+        return true;
     }
     
 }

@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -26,7 +27,7 @@
  * -----------------------
  * ChartMouseListener.java
  * -----------------------
- * (C) Copyright 2002-2004, by Object Refinery Limited and Contributors.
+ * (C) Copyright 2002-2005, by Object Refinery Limited and Contributors.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   Alex Weber;
@@ -38,16 +39,19 @@
  * 27-May-2002 : Version 1, incorporating code and ideas by Alex Weber (DG);
  * 13-Jun-2002 : Added Javadocs (DG);
  * 26-Sep-2002 : Fixed errors reported by Checkstyle (DG);
+ * 23-Nov-2005 : Now extends EventListener (DG);
  *
  */
 
 package org.jfree.chart;
 
+import java.util.EventListener;
+
 /**
  * The interface that must be implemented by classes that wish to receive 
  * {@link ChartMouseEvent} notifications from a {@link ChartPanel}.
  */
-public interface ChartMouseListener {
+public interface ChartMouseListener extends EventListener {
 
     /**
      * Callback method for receiving notification of a mouse click on a chart.

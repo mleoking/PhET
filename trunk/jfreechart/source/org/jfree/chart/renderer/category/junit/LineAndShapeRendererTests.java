@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -86,16 +87,36 @@ public class LineAndShapeRendererTests extends TestCase {
         LineAndShapeRenderer r2 = new LineAndShapeRenderer();
         assertEquals(r1, r2);
         
-        r1.setShapesVisible(!r1.isShapesVisible());
+        r1.setBaseLinesVisible(!r1.getBaseLinesVisible());
         assertFalse(r1.equals(r2));
-        r2.setShapesVisible(r1.isShapesVisible());
+        r2.setBaseLinesVisible(r1.getBaseLinesVisible());
         assertTrue(r1.equals(r2));
         
-        r1.setLinesVisible(!r1.isLinesVisible());
+        r1.setSeriesLinesVisible(1, true);
         assertFalse(r1.equals(r2));
-        r2.setLinesVisible(r1.isLinesVisible());
+        r2.setSeriesLinesVisible(1, true);
         assertTrue(r1.equals(r2));
         
+        r1.setLinesVisible(false);
+        assertFalse(r1.equals(r2));
+        r2.setLinesVisible(false);
+        assertTrue(r1.equals(r2));
+        
+        r1.setBaseShapesVisible(!r1.getBaseShapesVisible());
+        assertFalse(r1.equals(r2));
+        r2.setBaseShapesVisible(r1.getBaseShapesVisible());
+        assertTrue(r1.equals(r2));
+        
+        r1.setSeriesShapesVisible(1, true);
+        assertFalse(r1.equals(r2));
+        r2.setSeriesShapesVisible(1, true);
+        assertTrue(r1.equals(r2));
+        
+        r1.setShapesVisible(false);
+        assertFalse(r1.equals(r2));
+        r2.setShapesVisible(false);
+        assertTrue(r1.equals(r2));
+
         r1.setShapesFilled(false);
         assertFalse(r1.equals(r2));
         r2.setShapesFilled(false);
@@ -106,9 +127,9 @@ public class LineAndShapeRendererTests extends TestCase {
         r2.setSeriesShapesFilled(1, true);
         assertTrue(r1.equals(r2));
         
-        r1.setDefaultShapesFilled(false);
+        r1.setBaseShapesFilled(false);
         assertFalse(r1.equals(r2));
-        r2.setDefaultShapesFilled(false);
+        r2.setBaseShapesFilled(false);
         assertTrue(r1.equals(r2));
         
         r1.setUseOutlinePaint(true);
@@ -140,7 +161,7 @@ public class LineAndShapeRendererTests extends TestCase {
             r2 = (LineAndShapeRenderer) r1.clone();
         }
         catch (CloneNotSupportedException e) {
-            System.err.println("Failed to clone.");
+            e.printStackTrace();
         }
         assertTrue(r1 != r2);
         assertTrue(r1.getClass() == r2.getClass());
@@ -162,47 +183,104 @@ public class LineAndShapeRendererTests extends TestCase {
                                       LineAndShapeRenderer r2) {
 
         // should be equal...
-        boolean b0 = r1.equals(r2);
+        if (!r1.equals(r2)) {
+            return false;
+        }
         
-        // and independent...
-        r1.setShapesVisible(!r1.isShapesVisible());
-        boolean b1 = !r1.equals(r2);
-        r2.setShapesVisible(r1.isShapesVisible());
-        boolean b2 = r1.equals(r2);
+        // and independent...        
+        r1.setBaseLinesVisible(!r1.getBaseLinesVisible());
+        if (r1.equals(r2)) {
+            return false;
+        }
+        r2.setBaseLinesVisible(r1.getBaseLinesVisible());
+        if (!r1.equals(r2)) {
+            return false;
+        }
+
+        r1.setSeriesLinesVisible(1, true);
+        if (r1.equals(r2)) {
+            return false;
+        }
+        r2.setSeriesLinesVisible(1, true);
+        if (!r1.equals(r2)) {
+            return false;
+        }
+            
+        r1.setLinesVisible(false);
+        if (r1.equals(r2)) {
+            return false;
+        }
+        r2.setLinesVisible(false);
+        if (!r1.equals(r2)) {
+            return false;
+        }
         
-        r1.setLinesVisible(!r1.isLinesVisible());
-        boolean b3 = !r1.equals(r2);
-        r2.setLinesVisible(r1.isLinesVisible());
-        boolean b4 = r1.equals(r2);
-                
+        r1.setBaseShapesVisible(!r1.getBaseShapesVisible());
+        if (r1.equals(r2)) {
+            return false;
+        }
+        r2.setBaseShapesVisible(r1.getBaseShapesVisible());
+        if (!r1.equals(r2)) {
+            return false;
+        }
+
+        r1.setSeriesShapesVisible(1, true);
+        if (r1.equals(r2)) {
+            return false;
+        }
+        r2.setSeriesShapesVisible(1, true);
+        if (!r1.equals(r2)) {
+            return false;
+        }
+            
+        r1.setShapesVisible(false);
+        if (r1.equals(r2)) {
+            return false;
+        }
+        r2.setShapesVisible(false);
+        if (!r1.equals(r2)) {
+            return false;
+        }
+        
         boolean flag = true;
         Boolean existing = r1.getShapesFilled();
         if (existing != null) {
             flag = !existing.booleanValue();
         }
         r1.setShapesFilled(flag);
-        boolean b5 = !r1.equals(r2);
+        if (r1.equals(r2)) {
+            return false;
+        }
         r2.setShapesFilled(flag);
-        boolean b6 = r1.equals(r2);
+        if (!r1.equals(r2)) {
+            return false;
+        }
 
         r1.setShapesFilled(false);
         r2.setShapesFilled(false);
         r1.setSeriesShapesFilled(0, false);
         r2.setSeriesShapesFilled(0, true);
-        boolean b7 = !r1.equals(r2);
+        if (r1.equals(r2)) {
+            return false;
+        }
         r2.setSeriesShapesFilled(0, false);
-        boolean b8 = (r1.equals(r2));
+        if (!r1.equals(r2)) {
+            return false;
+        }
         
-        r1.setDefaultShapesFilled(false);
-        r2.setDefaultShapesFilled(true);
-        boolean b9 = !r1.equals(r2);
-        r2.setDefaultShapesFilled(false);
-        boolean b10 = (r1.equals(r2));
-        
-        return b0 && b1 && b2 && b3 && b4 && b5 && b6 && b7 && b8 && b9 && b10;
+        r1.setBaseShapesFilled(false);
+        r2.setBaseShapesFilled(true);
+        if (r1.equals(r2)) {
+            return false;
+        }
+        r2.setBaseShapesFilled(false);
+        if (!r1.equals(r2)) {
+            return false;
+        }
+        return true;
     
     }
-    
+
     /**
      * Serialize an instance, restore it, and check for equality.
      */

@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -125,6 +126,10 @@
  * 05-May-2005 : Updated draw() method parameters (DG);
  * 10-May-2005 : Added flag to control visibility of label linking lines, plus
  *               another flag to control the handling of zero values (DG);
+ * 08-Jun-2005 : Fixed bug in getLegendItems() method (not respecting flags
+ *               for ignoring null and zero values), and fixed equals() method 
+ *               to handle GradientPaint (DG);
+ * 15-Jul-2005 : Added sectionOutlinesVisible attribute (DG);
  * 
  */
 
@@ -158,7 +163,6 @@ import org.jfree.chart.entity.PieSectionEntity;
 import org.jfree.chart.event.PlotChangeEvent;
 import org.jfree.chart.labels.PieSectionLabelGenerator;
 import org.jfree.chart.labels.PieToolTipGenerator;
-import org.jfree.chart.labels.StandardPieItemLabelGenerator;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.urls.PieURLGenerator;
 import org.jfree.data.DefaultKeyedValues;
@@ -176,6 +180,7 @@ import org.jfree.ui.RectangleInsets;
 import org.jfree.util.ObjectList;
 import org.jfree.util.ObjectUtilities;
 import org.jfree.util.PaintList;
+import org.jfree.util.PaintUtilities;
 import org.jfree.util.Rotation;
 import org.jfree.util.ShapeUtilities;
 import org.jfree.util.StrokeList;
@@ -264,6 +269,12 @@ public class PiePlot extends Plot implements Cloneable, Serializable {
     /** The base section paint (fallback). */
     private transient Paint baseSectionPaint;
 
+    /** 
+     * A flag that controls whether or not an outline is drawn for each
+     * section in the plot.
+     */
+    private boolean sectionOutlinesVisible;
+    
     /** The outline paint for ALL sections (overrides list). */
     private transient Paint sectionOutlinePaint;
 
@@ -417,6 +428,7 @@ public class PiePlot extends Plot implements Cloneable, Serializable {
         this.sectionPaintList = new PaintList();
         this.baseSectionPaint = null;
 
+        this.sectionOutlinesVisible = true;
         this.sectionOutlinePaint = null;
         this.sectionOutlinePaintList = new PaintList();
         this.baseSectionOutlinePaint = DEFAULT_OUTLINE_PAINT;
@@ -427,7 +439,7 @@ public class PiePlot extends Plot implements Cloneable, Serializable {
         
         this.explodePercentages = new ObjectList();
 
-        this.labelGenerator = new StandardPieItemLabelGenerator();
+        this.labelGenerator = new StandardPieSectionLabelGenerator();
         this.labelFont = DEFAULT_LABEL_FONT;
         this.labelPaint = DEFAULT_LABEL_PAINT;
         this.labelBackgroundPaint = DEFAULT_LABEL_BACKGROUND_PAINT;
@@ -753,6 +765,29 @@ public class PiePlot extends Plot implements Cloneable, Serializable {
     
     //// SECTION OUTLINE PAINT ////////////////////////////////////////////////
 
+    /**
+     * Returns the flag that controls whether or not the outline is drawn for
+     * each pie section.
+     * 
+     * @return The flag that controls whether or not the outline is drawn for
+     *         each pie section.
+     */
+    public boolean getSectionOutlinesVisible() {
+        return this.sectionOutlinesVisible;
+    }
+    
+    /**
+     * Sets the flag that controls whether or not the outline is drawn for 
+     * each pie section, and sends a {@link PlotChangeEvent} to all registered
+     * listeners.
+     * 
+     * @param visible  the flag.
+     */
+    public void setSectionOutlinesVisible(boolean visible) {
+        this.sectionOutlinesVisible = visible;
+        notifyListeners(new PlotChangeEvent(this));
+    }
+    
     /**
      * Returns the outline paint for ALL sections in the plot.
      *
@@ -1695,7 +1730,7 @@ public class PiePlot extends Plot implements Cloneable, Serializable {
 
                 Paint outlinePaint = getSectionOutlinePaint(section);
                 Stroke outlineStroke = getSectionOutlineStroke(section);
-                if (outlinePaint != null && outlineStroke != null) {
+                if (this.sectionOutlinesVisible) {
                     g2.setPaint(outlinePaint);
                     g2.setStroke(outlineStroke);
                     g2.draw(arc);
@@ -1916,51 +1951,55 @@ public class PiePlot extends Plot implements Cloneable, Serializable {
     public LegendItemCollection getLegendItems() {
 
         LegendItemCollection result = new LegendItemCollection();
-
-        List keys = null;
-        if (this.dataset != null) {
-            keys = this.dataset.getKeys();
-            int section = 0;
-            Shape shape = getLegendItemShape();
-            Iterator iterator = keys.iterator();
-            while (iterator.hasNext()) {
-                Comparable key = (Comparable) iterator.next();
-                Number n = this.dataset.getValue(key);
-                if (n != null || !this.ignoreNullValues) {
-                    String label 
-                        = this.legendLabelGenerator.generateSectionLabel(
-                            this.dataset, key
-                        );
-                    String description = label;
-                    String toolTipText = null;
-                    if (this.legendLabelToolTipGenerator != null) {
-                        toolTipText 
-                        = this.legendLabelToolTipGenerator.generateSectionLabel(
-                            this.dataset, key
-                        );
-                    }
-                    String urlText = null;
-                    Paint paint = getSectionPaint(section);
-                    Paint outlinePaint = getSectionOutlinePaint(section);
-                    Stroke outlineStroke = getSectionOutlineStroke(section);
-
-                    LegendItem item = new LegendItem(
-                        label, description, toolTipText, urlText, 
-                        true, shape, 
-                        true, paint, 
-                        true, outlinePaint, outlineStroke, 
-                        false,          // line not visible
-                        new Line2D.Float(),
-                        new BasicStroke(),
-                        Color.black
-                    );
- 
-                    result.add(item);
-                    section++;
+        if (this.dataset == null) {
+            return result;
+        }
+        List keys = this.dataset.getKeys();
+        int section = 0;
+        Shape shape = getLegendItemShape();
+        Iterator iterator = keys.iterator();
+        while (iterator.hasNext()) {
+            Comparable key = (Comparable) iterator.next();
+            Number n = this.dataset.getValue(key);
+            boolean include = true;
+            if (n == null) {
+                include = !this.ignoreNullValues;   
+            }
+            else {
+                double v = n.doubleValue();
+                if (v == 0.0) {
+                    include = !this.ignoreZeroValues;   
+                }
+                else {
+                    include = v > 0.0;   
                 }
             }
-        }
+            if (include) {
+                String label = this.legendLabelGenerator.generateSectionLabel(
+                    this.dataset, key
+                );
+                String description = label;
+                String toolTipText = null;
+                if (this.legendLabelToolTipGenerator != null) {
+                    toolTipText = this.legendLabelToolTipGenerator
+                        .generateSectionLabel(
+                            this.dataset, key
+                        );
+                }
+                String urlText = null;
+                Paint paint = getSectionPaint(section);
+                Paint outlinePaint = getSectionOutlinePaint(section);
+                Stroke outlineStroke = getSectionOutlineStroke(section);
 
+                LegendItem item = new LegendItem(label, description, 
+                        toolTipText, urlText, true, shape, true, paint, 
+                        true, outlinePaint, outlineStroke, 
+                        false,          // line not visible
+                        new Line2D.Float(), new BasicStroke(), Color.black);
+                result.add(item);
+                section++;
+            }
+        }
         return result;
     }
 
@@ -2107,7 +2146,6 @@ public class PiePlot extends Plot implements Cloneable, Serializable {
      * @return <code>true</code> or <code>false</code>.
      */
     public boolean equals(Object obj) {
-
         if (obj == this) {
             return true;
         }
@@ -2139,18 +2177,21 @@ public class PiePlot extends Plot implements Cloneable, Serializable {
         if (this.ignoreNullValues != that.ignoreNullValues) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.sectionPaint, that.sectionPaint)) {
+        if (!PaintUtilities.equal(this.sectionPaint, that.sectionPaint)) {
             return false;
         }
         if (!ObjectUtilities.equal(this.sectionPaintList, 
                 that.sectionPaintList)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.baseSectionPaint, 
+        if (!PaintUtilities.equal(this.baseSectionPaint, 
                 that.baseSectionPaint)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.sectionOutlinePaint, 
+        if (this.sectionOutlinesVisible != that.sectionOutlinesVisible) {
+            return false;
+        }
+        if (!PaintUtilities.equal(this.sectionOutlinePaint, 
                 that.sectionOutlinePaint)) {
             return false;
         }
@@ -2158,7 +2199,7 @@ public class PiePlot extends Plot implements Cloneable, Serializable {
                 that.sectionOutlinePaintList)) {
             return false;
         }
-        if (!ObjectUtilities.equal(
+        if (!PaintUtilities.equal(
             this.baseSectionOutlinePaint, that.baseSectionOutlinePaint
         )) {
             return false;
@@ -2177,8 +2218,7 @@ public class PiePlot extends Plot implements Cloneable, Serializable {
         )) {
             return false;
         }
-          
-        if (!ObjectUtilities.equal(this.shadowPaint, that.shadowPaint)) {
+        if (!PaintUtilities.equal(this.shadowPaint, that.shadowPaint)) {
             return false;
         }
         if (!(this.shadowXOffset == that.shadowXOffset)) {
@@ -2186,8 +2226,7 @@ public class PiePlot extends Plot implements Cloneable, Serializable {
         }
         if (!(this.shadowYOffset == that.shadowYOffset)) {
             return false;
-        }
-            
+        }   
         if (!ObjectUtilities.equal(this.explodePercentages, 
                 that.explodePercentages)) {
             return false;
@@ -2199,15 +2238,14 @@ public class PiePlot extends Plot implements Cloneable, Serializable {
         if (!ObjectUtilities.equal(this.labelFont, that.labelFont)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.labelPaint, that.labelPaint)) {
+        if (!PaintUtilities.equal(this.labelPaint, that.labelPaint)) {
             return false;
         }
-            
-        if (!ObjectUtilities.equal(this.labelBackgroundPaint, 
+        if (!PaintUtilities.equal(this.labelBackgroundPaint, 
                 that.labelBackgroundPaint)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.labelOutlinePaint, 
+        if (!PaintUtilities.equal(this.labelOutlinePaint, 
                 that.labelOutlinePaint)) {
             return false;
         }
@@ -2215,11 +2253,10 @@ public class PiePlot extends Plot implements Cloneable, Serializable {
                 that.labelOutlineStroke)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.labelShadowPaint, 
+        if (!PaintUtilities.equal(this.labelShadowPaint, 
                 that.labelShadowPaint)) {
             return false;
         }
-
         if (!(this.maximumLabelWidth == that.maximumLabelWidth)) {
             return false;
         }
@@ -2232,7 +2269,7 @@ public class PiePlot extends Plot implements Cloneable, Serializable {
         if (this.labelLinksVisible != that.labelLinksVisible) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.labelLinkPaint, that.labelLinkPaint)) {
+        if (!PaintUtilities.equal(this.labelLinkPaint, that.labelLinkPaint)) {
             return false;
         }
         if (!ObjectUtilities.equal(this.labelLinkStroke, 
@@ -2252,10 +2289,8 @@ public class PiePlot extends Plot implements Cloneable, Serializable {
         if (!ShapeUtilities.equal(this.legendItemShape, that.legendItemShape)) {
             return false;
         }
-
         // can't find any difference...
         return true;
-
     }
 
     /**

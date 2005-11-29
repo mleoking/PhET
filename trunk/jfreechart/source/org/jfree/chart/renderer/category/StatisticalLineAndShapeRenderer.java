@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -36,27 +37,36 @@
  * Changes
  * -------
  * 01-Feb-2005 : Version 1, contributed by Mofeed Shahin (DG);
+ * 16-Jun-2005 : Added errorIndicatorPaint to be consistent with 
+ *               StatisticalBarRenderer (DG);
  *  
  */
 
 package org.jfree.chart.renderer.category;
 
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.entity.CategoryItemEntity;
 import org.jfree.chart.entity.EntityCollection;
+import org.jfree.chart.event.RendererChangeEvent;
 import org.jfree.chart.labels.CategoryToolTipGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.statistics.StatisticalCategoryDataset;
+import org.jfree.io.SerialUtilities;
 import org.jfree.ui.RectangleEdge;
+import org.jfree.util.PaintUtilities;
 import org.jfree.util.PublicCloneable;
 import org.jfree.util.ShapeUtilities;
 
@@ -71,6 +81,9 @@ public class StatisticalLineAndShapeRenderer extends LineAndShapeRenderer
     /** For serialization. */
     private static final long serialVersionUID = -3557517173697777579L;
     
+    /** The paint used to show the error indicator. */
+    private transient Paint errorIndicatorPaint;
+
     /**
      * Constructs a default renderer (draws shapes and lines).
      */
@@ -87,8 +100,30 @@ public class StatisticalLineAndShapeRenderer extends LineAndShapeRenderer
     public StatisticalLineAndShapeRenderer(boolean linesVisible, 
                                            boolean shapesVisible) {
         super(true, true);
+        this.errorIndicatorPaint = null;
     }
 
+    /**
+     * Returns the paint used for the error indicators.
+     * 
+     * @return The paint used for the error indicators (possibly 
+     *         <code>null</code>).
+     */
+    public Paint getErrorIndicatorPaint() {
+        return this.errorIndicatorPaint;   
+    }
+
+    /**
+     * Sets the paint used for the error indicators (if <code>null</code>, 
+     * the item outline paint is used instead)
+     * 
+     * @param paint  the paint (<code>null</code> permitted).
+     */
+    public void setErrorIndicatorPaint(Paint paint) {
+        this.errorIndicatorPaint = paint;
+        notifyListeners(new RendererChangeEvent(this));
+    }
+    
     /**
      * Draw a single data item.
      *
@@ -144,7 +179,7 @@ public class StatisticalLineAndShapeRenderer extends LineAndShapeRenderer
         else if (orientation == PlotOrientation.VERTICAL) {
             shape = ShapeUtilities.createTranslatedShape(shape, x1, y1);
         }
-        if (isShapesVisible()) {
+        if (getItemShapeVisible(row, column)) {
             
             if (getItemShapeFilled(row, column)) {
                 g2.setPaint(getItemPaint(row, column));
@@ -162,7 +197,7 @@ public class StatisticalLineAndShapeRenderer extends LineAndShapeRenderer
             }
         }
 
-        if (isLinesVisible()) {
+        if (getItemLineVisible(row, column)) {
             if (column != 0) {
 
                 Number previousValue = statData.getValue(row, column - 1);
@@ -229,6 +264,12 @@ public class StatisticalLineAndShapeRenderer extends LineAndShapeRenderer
             );
         }
         
+        if (this.errorIndicatorPaint != null) {
+            g2.setPaint(this.errorIndicatorPaint);  
+        }
+        else {
+            g2.setPaint(getItemPaint(row, column));   
+        }
         Line2D line = null;
         line = new Line2D.Double(x1, lowVal, x1, highVal);
         g2.draw(line);
@@ -236,7 +277,6 @@ public class StatisticalLineAndShapeRenderer extends LineAndShapeRenderer
         g2.draw(line);
         line = new Line2D.Double(x1 - 5.0d, lowVal, x1 + 5.0d, lowVal);
         g2.draw(line);
-        
         
         // draw the item label if there is one...
         if (isItemLabelVisible(row, column)) {
@@ -283,5 +323,57 @@ public class StatisticalLineAndShapeRenderer extends LineAndShapeRenderer
         }
 
     }
+
+    /**
+     * Tests this renderer for equality with an arbitrary object.
+     * 
+     * @param obj  the object (<code>null</code> permitted).
+     * 
+     * @return A boolean.
+     */
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;   
+        }
+        if (!(obj instanceof StatisticalLineAndShapeRenderer)) {
+            return false;   
+        }
+        if (!super.equals(obj)) {
+            return false;   
+        }
+        StatisticalLineAndShapeRenderer that 
+            = (StatisticalLineAndShapeRenderer) obj;
+        if (!PaintUtilities.equal(this.errorIndicatorPaint, 
+                that.errorIndicatorPaint)) {
+            return false;
+        }
+        return true;
+    }
     
+    /**
+     * Provides serialization support.
+     *
+     * @param stream  the output stream.
+     *
+     * @throws IOException  if there is an I/O error.
+     */
+    private void writeObject(ObjectOutputStream stream) throws IOException {
+        stream.defaultWriteObject();
+        SerialUtilities.writePaint(this.errorIndicatorPaint, stream);
+    }
+
+    /**
+     * Provides serialization support.
+     *
+     * @param stream  the input stream.
+     *
+     * @throws IOException  if there is an I/O error.
+     * @throws ClassNotFoundException  if there is a classpath problem.
+     */
+    private void readObject(ObjectInputStream stream) 
+        throws IOException, ClassNotFoundException {
+        stream.defaultReadObject();
+        this.errorIndicatorPaint = SerialUtilities.readPaint(stream);
+    }
+
 }

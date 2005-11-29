@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -37,6 +38,7 @@
  * --------
  * 17-Feb-2004 : Version 1 (DG);
  * 19-Jan-2005 : Added main() method to run JUnit in text mode (DG);
+ * 01-Sep-2005 : Added tests for LegendGraphic (DG);
  *
  */
 
@@ -63,6 +65,7 @@ public class TitlePackageTests extends TestCase {
         suite.addTestSuite(CompositeTitleTests.class);
         suite.addTestSuite(DateTitleTests.class);
         suite.addTestSuite(ImageTitleTests.class);
+        suite.addTestSuite(LegendGraphicTests.class);
         suite.addTestSuite(LegendTitleTests.class);
         suite.addTestSuite(TextTitleTests.class);
         suite.addTestSuite(TitleTests.class);

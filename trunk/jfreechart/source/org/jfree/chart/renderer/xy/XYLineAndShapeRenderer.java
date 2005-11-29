@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -49,6 +50,10 @@
  * 28-Jan-2005 : Added new constructor (DG);
  * 09-Mar-2005 : Added fillPaint settings (DG);
  * 20-Apr-2005 : Use generators for legend tooltips and URLs (DG);
+ * 22-Jul-2005 : Renamed defaultLinesVisible --> baseLinesVisible, 
+ *               defaultShapesVisible --> baseShapesVisible and
+ *               defaultShapesFilled --> baseShapesFilled (DG);
+ * 29-Jul-2005 : Added code to draw item labels (DG);
  *
  */
 
@@ -105,7 +110,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
     private BooleanList seriesLinesVisible;
 
     /** The default value returned by the getLinesVisible() method. */
-    private boolean defaultLinesVisible;
+    private boolean baseLinesVisible;
 
     /** The shape that is used to represent a line in the legend. */
     private transient Shape legendLine;
@@ -122,7 +127,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
     private BooleanList seriesShapesVisible;
 
     /** The default value returned by the getShapeVisible() method. */
-    private boolean defaultShapesVisible;
+    private boolean baseShapesVisible;
 
     /** A flag that controls whether or not shapes are filled for ALL series. */
     private Boolean shapesFilled;
@@ -134,7 +139,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
     private BooleanList seriesShapesFilled;
 
     /** The default value returned by the getShapeFilled() method. */
-    private boolean defaultShapesFilled;
+    private boolean baseShapesFilled;
     
     /** A flag that controls whether outlines are drawn for shapes. */
     private boolean drawOutlines;
@@ -173,17 +178,17 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
     public XYLineAndShapeRenderer(boolean lines, boolean shapes) {
         this.linesVisible = null;
         this.seriesLinesVisible = new BooleanList();
-        this.defaultLinesVisible = lines;
+        this.baseLinesVisible = lines;
         this.legendLine = new Line2D.Double(-7.0, 0.0, 7.0, 0.0);
         
         this.shapesVisible = null;
         this.seriesShapesVisible = new BooleanList();
-        this.defaultShapesVisible = shapes;
+        this.baseShapesVisible = shapes;
         
         this.shapesFilled = null;
         this.useFillPaint = false;     // use item paint for fills by default
         this.seriesShapesFilled = new BooleanList();
-        this.defaultShapesFilled = true;
+        this.baseShapesFilled = true;
 
         this.drawOutlines = true;     
         this.useOutlinePaint = false;  // use item paint for outlines by 
@@ -197,6 +202,8 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
      * single path.
      * 
      * @return A boolean.
+     * 
+     * @see #setDrawSeriesLineAsPath(boolean)
      */
     public boolean getDrawSeriesLineAsPath() {
         return this.drawSeriesLineAsPath;
@@ -207,9 +214,14 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
      * single path.
      * 
      * @param flag  the flag.
+     * 
+     * @see #getDrawSeriesLineAsPath()
      */
     public void setDrawSeriesLineAsPath(boolean flag) {
-        this.drawSeriesLineAsPath = flag;
+        if (this.drawSeriesLineAsPath != flag) {
+            this.drawSeriesLineAsPath = flag;
+            notifyListeners(new RendererChangeEvent(this));
+        }
     }
     
     /**
@@ -243,7 +255,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
             return flag.booleanValue();
         }
         else {
-            return this.defaultLinesVisible;   
+            return this.baseLinesVisible;   
         }
     }
 
@@ -316,12 +328,22 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
     }
     
     /**
-     * Returns the default 'lines visible' attribute.
+     * Returns the base 'lines visible' attribute.
      *
-     * @return The default flag.
+     * @return The base flag.
      */
-    public boolean getDefaultLinesVisible() {
-        return this.defaultLinesVisible;
+    public boolean getBaseLinesVisible() {
+        return this.baseLinesVisible;
+    }
+
+    /**
+     * Sets the base 'lines visible' flag.
+     *
+     * @param flag  the flag.
+     */
+    public void setBaseLinesVisible(boolean flag) {
+        this.baseLinesVisible = flag;
+        notifyListeners(new RendererChangeEvent(this));
     }
 
     /**
@@ -344,16 +366,6 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
             throw new IllegalArgumentException("Null 'line' argument.");   
         }
         this.legendLine = line;
-        notifyListeners(new RendererChangeEvent(this));
-    }
-
-    /**
-     * Sets the default 'lines visible' flag.
-     *
-     * @param flag  the flag.
-     */
-    public void setDefaultLinesVisible(boolean flag) {
-        this.defaultLinesVisible = flag;
         notifyListeners(new RendererChangeEvent(this));
     }
 
@@ -381,7 +393,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
             return flag.booleanValue();   
         }
         else {
-            return this.defaultShapesVisible;
+            return this.baseShapesVisible;
         }
     }
 
@@ -452,21 +464,21 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
     }
 
     /**
-     * Returns the default 'shape visible' attribute.
+     * Returns the base 'shape visible' attribute.
      *
-     * @return The default flag.
+     * @return The base flag.
      */
-    public boolean getDefaultShapesVisible() {
-        return this.defaultShapesVisible;
+    public boolean getBaseShapesVisible() {
+        return this.baseShapesVisible;
     }
 
     /**
-     * Sets the default 'shapes visible' flag.
+     * Sets the base 'shapes visible' flag.
      *
      * @param flag  the flag.
      */
-    public void setDefaultShapesVisible(boolean flag) {
-        this.defaultShapesVisible = flag;
+    public void setBaseShapesVisible(boolean flag) {
+        this.baseShapesVisible = flag;
         notifyListeners(new RendererChangeEvent(this));
     }
 
@@ -494,7 +506,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
             return flag.booleanValue();   
         }
         else {
-            return this.defaultShapesFilled;   
+            return this.baseShapesFilled;   
         }
     }
 
@@ -553,21 +565,21 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
     }
 
     /**
-     * Returns the default 'shape filled' attribute.
+     * Returns the base 'shape filled' attribute.
      *
-     * @return The default flag.
+     * @return The base flag.
      */
-    public boolean getDefaultShapesFilled() {
-        return this.defaultShapesFilled;
+    public boolean getBaseShapesFilled() {
+        return this.baseShapesFilled;
     }
 
     /**
-     * Sets the default 'shapes filled' flag.
+     * Sets the base 'shapes filled' flag.
      *
      * @param flag  the flag.
      */
-    public void setDefaultShapesFilled(boolean flag) {
-        this.defaultShapesFilled = flag;
+    public void setBaseShapesFilled(boolean flag) {
+        this.baseShapesFilled = flag;
         notifyListeners(new RendererChangeEvent(this));
     }
 
@@ -1010,6 +1022,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
             return;
         }
 
+        PlotOrientation orientation = plot.getOrientation();
         RectangleEdge xAxisLocation = plot.getDomainAxisEdge();
         RectangleEdge yAxisLocation = plot.getRangeAxisEdge();
         double transX1 = domainAxis.valueToJava2D(x1, dataArea, xAxisLocation);
@@ -1017,7 +1030,6 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
 
         if (getItemShapeVisible(series, item)) {
             Shape shape = getItemShape(series, item);
-            PlotOrientation orientation = plot.getOrientation();
             if (orientation == PlotOrientation.HORIZONTAL) {
                 shape = ShapeUtilities.createTranslatedShape(
                     shape, transY1, transX1
@@ -1050,6 +1062,18 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
                     g2.draw(shape);
                 }
             }
+        }
+
+        // draw the item label if there is one...
+        if (isItemLabelVisible(series, item)) {
+            double xx = transX1;
+            double yy = transY1;
+            if (orientation == PlotOrientation.HORIZONTAL) {
+                xx = transY1;
+                yy = transX1;
+            }          
+            drawItemLabel(g2, orientation, dataset, series, item, xx, yy, 
+                    (y1 < 0.0));
         }
 
         updateCrosshairValues(
@@ -1113,12 +1137,11 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
                 boolean lineVisible = getItemLineVisible(series, 0);
                 Stroke lineStroke = getSeriesStroke(series);
                 Paint linePaint = getSeriesPaint(series);
-                result = new LegendItem(
-                    label, description, toolTipText, urlText, 
-                    shapeIsVisible, shape, shapeIsFilled, fillPaint, 
-                    shapeOutlineVisible, outlinePaint, outlineStroke, 
-                    lineVisible, this.legendLine, lineStroke, linePaint
-                );
+                result = new LegendItem(label, description, toolTipText, 
+                        urlText, shapeIsVisible, shape, shapeIsFilled, 
+                        fillPaint, shapeOutlineVisible, outlinePaint, 
+                        outlineStroke, lineVisible, this.legendLine, 
+                        lineStroke, linePaint);
             }
         }
 
@@ -1164,7 +1187,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
         ) {
             return false;
         }
-        if (this.defaultLinesVisible != that.defaultLinesVisible) {
+        if (this.baseLinesVisible != that.baseLinesVisible) {
             return false;
         }
         if (!ShapeUtilities.equal(this.legendLine, that.legendLine)) {
@@ -1178,7 +1201,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
         ) {
             return false;
         }
-        if (this.defaultShapesVisible != that.defaultShapesVisible) {
+        if (this.baseShapesVisible != that.baseShapesVisible) {
             return false;
         }
         if (!ObjectUtilities.equal(this.shapesFilled, that.shapesFilled)) {
@@ -1189,7 +1212,7 @@ public class XYLineAndShapeRenderer extends AbstractXYItemRenderer
         ) {
             return false;
         }
-        if (this.defaultShapesFilled != that.defaultShapesFilled) {
+        if (this.baseShapesFilled != that.baseShapesFilled) {
             return false;
         }
         if (this.drawOutlines != that.drawOutlines) {

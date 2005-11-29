@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -128,7 +129,8 @@ import org.jfree.chart.labels.ItemLabelAnchor;
 import org.jfree.chart.labels.ItemLabelPosition;
 import org.jfree.chart.labels.PieToolTipGenerator;
 import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
-import org.jfree.chart.labels.StandardPieItemLabelGenerator;
+import org.jfree.chart.labels.StandardPieToolTipGenerator;
+import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.labels.StandardXYToolTipGenerator;
 import org.jfree.chart.labels.StandardXYZToolTipGenerator;
 import org.jfree.chart.labels.XYToolTipGenerator;
@@ -224,12 +226,12 @@ public abstract class ChartFactory {
                                             boolean urls) {
 
         PiePlot plot = new PiePlot(dataset);
-        plot.setLabelGenerator(new StandardPieItemLabelGenerator());
+        plot.setLabelGenerator(new StandardPieSectionLabelGenerator());
         plot.setInsets(new RectangleInsets(0.0, 5.0, 5.0, 5.0));
         if (tooltips) {
             plot.setToolTipGenerator(
-                new StandardPieItemLabelGenerator(
-                    StandardPieItemLabelGenerator.DEFAULT_SECTION_LABEL_FORMAT
+                new StandardPieToolTipGenerator(
+                    StandardPieToolTipGenerator.DEFAULT_SECTION_LABEL_FORMAT
                 )
             );
         }
@@ -292,13 +294,13 @@ public abstract class ChartFactory {
                                             boolean showDifference) {
 
         PiePlot plot = new PiePlot(dataset);
-        plot.setLabelGenerator(new StandardPieItemLabelGenerator());
+        plot.setLabelGenerator(new StandardPieSectionLabelGenerator());
         plot.setInsets(new RectangleInsets(0.0, 5.0, 5.0, 5.0));
 
         if (tooltips) {
             plot.setToolTipGenerator(
-                new StandardPieItemLabelGenerator(
-                    StandardPieItemLabelGenerator.DEFAULT_SECTION_LABEL_FORMAT
+                new StandardPieToolTipGenerator(
+                    StandardPieToolTipGenerator.DEFAULT_SECTION_LABEL_FORMAT
                 )
             );
         }
@@ -399,12 +401,12 @@ public abstract class ChartFactory {
                                              boolean urls) {
 
         RingPlot plot = new RingPlot(dataset);
-        plot.setLabelGenerator(new StandardPieItemLabelGenerator());
+        plot.setLabelGenerator(new StandardPieSectionLabelGenerator());
         plot.setInsets(new RectangleInsets(0.0, 5.0, 5.0, 5.0));
         if (tooltips) {
             plot.setToolTipGenerator(
-                new StandardPieItemLabelGenerator(
-                    StandardPieItemLabelGenerator.DEFAULT_SECTION_LABEL_FORMAT
+                new StandardPieToolTipGenerator(
+                    StandardPieToolTipGenerator.DEFAULT_SECTION_LABEL_FORMAT
                 )
             );
         }
@@ -449,7 +451,7 @@ public abstract class ChartFactory {
 
         if (tooltips) {
             PieToolTipGenerator tooltipGenerator 
-                = new StandardPieItemLabelGenerator();
+                = new StandardPieToolTipGenerator();
             PiePlot pp = (PiePlot) plot.getPieChart().getPlot();
             pp.setToolTipGenerator(tooltipGenerator);
         }
@@ -490,7 +492,7 @@ public abstract class ChartFactory {
         PiePlot3D plot = new PiePlot3D(dataset);
         plot.setInsets(new RectangleInsets(0.0, 5.0, 5.0, 5.0));
         if (tooltips) {
-            plot.setToolTipGenerator(new StandardPieItemLabelGenerator());
+            plot.setToolTipGenerator(new StandardPieToolTipGenerator());
         }
         if (urls) {
             plot.setURLGenerator(new StandardPieURLGenerator());
@@ -543,7 +545,7 @@ public abstract class ChartFactory {
 
         if (tooltips) {
             PieToolTipGenerator tooltipGenerator 
-                = new StandardPieItemLabelGenerator();
+                = new StandardPieToolTipGenerator();
             PiePlot pp = (PiePlot) plot.getPieChart().getPlot();
             pp.setToolTipGenerator(tooltipGenerator);
         }
@@ -1699,9 +1701,8 @@ public abstract class ChartFactory {
             urlGenerator = new StandardXYURLGenerator();
         }
 
-        XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
-        renderer.setDefaultLinesVisible(true);
-        renderer.setDefaultShapesVisible(false);
+        XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer(true, 
+                false);
         renderer.setBaseToolTipGenerator(toolTipGenerator);
         renderer.setURLGenerator(urlGenerator);
         plot.setRenderer(renderer);
@@ -1928,7 +1929,8 @@ public abstract class ChartFactory {
         if (orientation == null) {
             throw new IllegalArgumentException("Null 'orientation' argument.");
         }
-        ValueAxis xAxis = new NumberAxis(xAxisLabel);
+        NumberAxis xAxis = new NumberAxis(xAxisLabel);
+        xAxis.setAutoRangeIncludesZero(false);
         ValueAxis yAxis = new NumberAxis(yAxisLabel);
 
         XYItemRenderer renderer = new XYBarRenderer();

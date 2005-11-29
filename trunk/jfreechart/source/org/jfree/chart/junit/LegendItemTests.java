@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -86,242 +87,190 @@ public class LegendItemTests extends TestCase {
      */
     public void testEquals() {
         
-        LegendItem item1 = new LegendItem(
-            "Label", "Description", "ToolTip", "URL", true, 
-            new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0), true, Color.red, true, 
-            Color.blue, new BasicStroke(1.2f), true, 
-            new Line2D.Double(1.0, 2.0, 3.0, 4.0), 
-            new BasicStroke(2.1f), Color.green
-        ); 
-        LegendItem item2 = new LegendItem(
-            "Label", "Description", "ToolTip", "URL", true, 
-            new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0), 
-            true, Color.red, true, Color.blue, new BasicStroke(1.2f), true, 
-            new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
-            Color.green
-        );  
+        LegendItem item1 = new LegendItem("Label", "Description", 
+                "ToolTip", "URL", true, 
+                new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0), true, Color.red, 
+                true, Color.blue, new BasicStroke(1.2f), true, 
+                new Line2D.Double(1.0, 2.0, 3.0, 4.0), 
+                new BasicStroke(2.1f), Color.green);  
+        LegendItem item2 = new LegendItem("Label", "Description", 
+                "ToolTip", "URL", true, 
+                new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0), 
+                true, Color.red, true, Color.blue, new BasicStroke(1.2f), true, 
+                new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
+                Color.green);  
         assertTrue(item1.equals(item2));  
         assertTrue(item2.equals(item1));  
         
-        item1 = new LegendItem(
-            "Label2", "Description", "ToolTip", "URL", true, 
-            new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0), 
-            true, Color.red, true, Color.blue, new BasicStroke(1.2f), true, 
-            new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
-            Color.green
-        ); 
+        item1 = new LegendItem("Label2", "Description", "ToolTip", "URL",
+                true, new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0), true, 
+                Color.red, true, Color.blue, new BasicStroke(1.2f), true, 
+                new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
+                Color.green); 
         assertFalse(item1.equals(item2));
-        item2 = new LegendItem(
-            "Label2", "Description", "ToolTip", "URL", true, 
-            new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0), 
-            true, Color.red, true, Color.blue, new BasicStroke(1.2f), true, 
-            new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
-            Color.green
-        ); 
+        item2 = new LegendItem("Label2", "Description", "ToolTip", "URL", 
+                true, new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0), 
+                true, Color.red, true, Color.blue, new BasicStroke(1.2f), true, 
+                new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
+                Color.green); 
         assertTrue(item1.equals(item2));
         
-        item1 = new LegendItem(
-            "Label2", "Description2", "ToolTip", "URL", true, 
-            new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0), 
-            true, Color.red, true, Color.blue, new BasicStroke(1.2f), true, 
-            new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
-            Color.green
-        ); 
+        item1 = new LegendItem("Label2", "Description2", "ToolTip", 
+                "URL", true, new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0), 
+                true, Color.red, true, Color.blue, new BasicStroke(1.2f), true, 
+                new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
+                Color.green); 
         assertFalse(item1.equals(item2));
-        item2 = new LegendItem(
-            "Label2", "Description2", "ToolTip", "URL", true, 
-            new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0), 
-            true, Color.red, true, Color.blue, new BasicStroke(1.2f), true, 
-            new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
-            Color.green
-        ); 
+        item2 = new LegendItem("Label2", "Description2", "ToolTip", 
+                "URL", true, new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0), 
+                true, Color.red, true, Color.blue, new BasicStroke(1.2f), true, 
+                new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
+                Color.green); 
         assertTrue(item1.equals(item2));
         
-        item1 = new LegendItem(
-            "Label2", "Description2", "ToolTip", "URL", false, 
-            new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0), 
-            true, Color.red, true, Color.blue, new BasicStroke(1.2f), true, 
-            new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
-            Color.green
-        ); 
+        item1 = new LegendItem("Label2", "Description2", "ToolTip", 
+                "URL", false, new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0), 
+                true, Color.red, true, Color.blue, new BasicStroke(1.2f), true, 
+                new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
+                Color.green); 
         assertFalse(item1.equals(item2));
-        item2 = new LegendItem(
-            "Label2", "Description2", "ToolTip", "URL", false, 
-            new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0), 
-            true, Color.red, true, Color.blue, new BasicStroke(1.2f), true, 
-            new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
-            Color.green
-        ); 
+        item2 = new LegendItem("Label2", "Description2", "ToolTip", 
+                "URL", false, new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0), 
+                true, Color.red, true, Color.blue, new BasicStroke(1.2f), true, 
+                new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
+                Color.green); 
         assertTrue(item1.equals(item2));
         
-        item1 = new LegendItem(
-            "Label2", "Description2", "ToolTip", "URL", false, 
-            new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), 
-            true, Color.red, true, Color.blue, new BasicStroke(1.2f), true, 
-            new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
-            Color.green
-        ); 
+        item1 = new LegendItem("Label2", "Description2", "ToolTip", 
+                "URL", false, new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), 
+                true, Color.red, true, Color.blue, new BasicStroke(1.2f), true, 
+                new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
+                Color.green); 
         assertFalse(item1.equals(item2));
-        item2 = new LegendItem(
-            "Label2", "Description2", "ToolTip", "URL", false, 
-            new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), 
-            true, Color.red, true, Color.blue, new BasicStroke(1.2f), true, 
-            new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
-            Color.green
-        ); 
+        item2 = new LegendItem("Label2", "Description2", "ToolTip", 
+                "URL", false, new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), 
+                true, Color.red, true, Color.blue, new BasicStroke(1.2f), true, 
+                new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
+                Color.green); 
         assertTrue(item1.equals(item2));
         
-        item1 = new LegendItem(
-            "Label2", "Description2", "ToolTip", "URL", false, 
-            new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), 
-            false, Color.red, true, Color.blue, new BasicStroke(1.2f), true, 
-            new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
-            Color.green
-        ); 
+        item1 = new LegendItem("Label2", "Description2", "ToolTip", 
+                "URL", false, new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), 
+                false, Color.red, true, Color.blue, new BasicStroke(1.2f), true, 
+                new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
+                Color.green); 
         assertFalse(item1.equals(item2));
-        item2 = new LegendItem(
-            "Label2", "Description2", "ToolTip", "URL", false, 
-            new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), 
-            false, Color.red, true, Color.blue, new BasicStroke(1.2f), true, 
-            new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
-            Color.green
-        ); 
+        item2 = new LegendItem("Label2", "Description2", "ToolTip", 
+                "URL", false, new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), 
+                false, Color.red, true, Color.blue, new BasicStroke(1.2f), true, 
+                new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
+                Color.green); 
         assertTrue(item1.equals(item2));
         
-        item1 = new LegendItem(
-            "Label2", "Description2", "ToolTip", "URL", false, 
-            new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), 
-            false, Color.black, true, Color.blue, new BasicStroke(1.2f), true, 
-            new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
-            Color.green
-        ); 
+        item1 = new LegendItem("Label2", "Description2", "ToolTip", "URL",
+                false, new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), false, 
+                Color.black, true, Color.blue, new BasicStroke(1.2f), true, 
+                new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
+                Color.green); 
         assertFalse(item1.equals(item2));
-        item2 = new LegendItem(
-            "Label2", "Description2", "ToolTip", "URL", false, 
-            new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), 
-            false, Color.black, true, Color.blue, new BasicStroke(1.2f), true, 
-            new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
-            Color.green
-        ); 
+        item2 = new LegendItem("Label2", "Description2", "ToolTip", "URL", 
+                false, new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), false, 
+                Color.black, true, Color.blue, new BasicStroke(1.2f), true, 
+                new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
+                Color.green); 
         assertTrue(item1.equals(item2));
         
-        item1 = new LegendItem(
-            "Label2", "Description2", "ToolTip", "URL", false, 
-            new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), 
-            false, Color.black, false, Color.blue, new BasicStroke(1.2f), true, 
-            new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
-            Color.green
-        ); 
+        item1 = new LegendItem("Label2", "Description2", "ToolTip", 
+                "URL", false, new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), 
+                false, Color.black, false, Color.blue, new BasicStroke(1.2f), 
+                true, new Line2D.Double(1.0, 2.0, 3.0, 4.0), 
+                new BasicStroke(2.1f), Color.green); 
         assertFalse(item1.equals(item2));
-        item2 = new LegendItem(
-            "Label2", "Description2", "ToolTip", "URL", false, 
-            new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), 
-            false, Color.black, false, Color.blue, new BasicStroke(1.2f), true, 
-            new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
-            Color.green
-        ); 
+        item2 = new LegendItem("Label2", "Description2", "ToolTip", "URL",
+                false, new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), false, 
+                Color.black, false, Color.blue, new BasicStroke(1.2f), true, 
+                new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
+                Color.green); 
         assertTrue(item1.equals(item2));
         
-        item1 = new LegendItem(
-            "Label2", "Description2", "ToolTip", "URL", false, 
-            new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), false, Color.black, 
-            false, Color.yellow, new BasicStroke(1.2f), true, 
-            new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
-            Color.green
-        ); 
+        item1 = new LegendItem("Label2", "Description2", "ToolTip", "URL", 
+                false, new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), false, 
+                Color.black, false, Color.yellow, new BasicStroke(1.2f), true, 
+                new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
+                Color.green); 
         assertFalse(item1.equals(item2));
-        item2 = new LegendItem(
-            "Label2", "Description2", "ToolTip", "URL", false, 
-            new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), false, Color.black, 
-            false, Color.yellow, new BasicStroke(1.2f), true, 
-            new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
-            Color.green
-        ); 
+        item2 = new LegendItem("Label2", "Description2", "ToolTip", "URL", 
+                false, new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), false, 
+                Color.black, false, Color.yellow, new BasicStroke(1.2f), true, 
+                new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
+                Color.green); 
         assertTrue(item1.equals(item2));
         
-        item1 = new LegendItem(
-            "Label2", "Description2", "ToolTip", "URL", false, 
-            new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0),  false, Color.black, 
-            false, Color.yellow, new BasicStroke(2.1f), true, 
-            new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
-            Color.green
-        ); 
+        item1 = new LegendItem("Label2", "Description2", "ToolTip", "URL",
+                false, new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), false, 
+                Color.black, false, Color.yellow, new BasicStroke(2.1f), true, 
+                new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
+                Color.green); 
         assertFalse(item1.equals(item2));
-        item2 = new LegendItem(
-            "Label2", "Description2", "ToolTip", "URL", false, 
-            new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), false, Color.black, 
-            false, Color.yellow, new BasicStroke(2.1f), true, 
-            new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
-            Color.green
-        ); 
+        item2 = new LegendItem("Label2", "Description2", "ToolTip", "URL",
+                false, new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), false, 
+                Color.black, false, Color.yellow, new BasicStroke(2.1f), true, 
+                new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
+                Color.green); 
         assertTrue(item1.equals(item2));
         
-        item1 = new LegendItem(
-            "Label2", "Description2", "ToolTip", "URL", false, 
-            new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), false, Color.black, 
-            false, Color.yellow, new BasicStroke(2.1f), false, 
-            new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
-            Color.green
-        ); 
+        item1 = new LegendItem("Label2", "Description2", "ToolTip", 
+                "URL", false, new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), 
+                false, Color.black, false, Color.yellow, new BasicStroke(2.1f), 
+                false, new Line2D.Double(1.0, 2.0, 3.0, 4.0), 
+                new BasicStroke(2.1f), Color.green); 
         assertFalse(item1.equals(item2));
-        item2 = new LegendItem(
-            "Label2", "Description2", "ToolTip", "URL", false, 
-            new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), false, Color.black, 
-            false, Color.yellow, new BasicStroke(2.1f), false, 
-            new Line2D.Double(1.0, 2.0, 3.0, 4.0), new BasicStroke(2.1f), 
-            Color.green
-        ); 
+        item2 = new LegendItem("Label2", "Description2", "ToolTip", 
+                "URL", false, new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), 
+                false, Color.black, false, Color.yellow, new BasicStroke(2.1f),
+                false, new Line2D.Double(1.0, 2.0, 3.0, 4.0), 
+                new BasicStroke(2.1f),  Color.green); 
         assertTrue(item1.equals(item2));
         
-        item1 = new LegendItem(
-            "Label2", "Description2", "ToolTip", "URL", false, 
-            new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), false, Color.black, 
-            false, Color.yellow, new BasicStroke(2.1f), false, 
-            new Line2D.Double(4.0, 3.0, 2.0, 1.0), new BasicStroke(2.1f), 
-            Color.green
-        ); 
+        item1 = new LegendItem("Label2", "Description2", "ToolTip", 
+                "URL", false, new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), 
+                false, Color.black, false, Color.yellow, new BasicStroke(2.1f),
+                false, new Line2D.Double(4.0, 3.0, 2.0, 1.0), 
+                new BasicStroke(2.1f), Color.green); 
         assertFalse(item1.equals(item2));
-        item2 = new LegendItem(
-            "Label2", "Description2", "ToolTip", "URL", false, 
-            new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), false, Color.black, 
-            false, Color.yellow, new BasicStroke(2.1f), false, 
-            new Line2D.Double(4.0, 3.0, 2.0, 1.0), new BasicStroke(2.1f), 
-            Color.green
-        ); 
+        item2 = new LegendItem("Label2", "Description2", "ToolTip", 
+                "URL", false, new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), 
+                false, Color.black, false, Color.yellow, new BasicStroke(2.1f),
+                false, new Line2D.Double(4.0, 3.0, 2.0, 1.0), 
+                new BasicStroke(2.1f), Color.green); 
         assertTrue(item1.equals(item2));
         
-        item1 = new LegendItem(
-            "Label2", "Description2", "ToolTip", "URL", false, 
-            new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), false, Color.black, 
-            false, Color.yellow, new BasicStroke(2.1f), false, 
-            new Line2D.Double(4.0, 3.0, 2.0, 1.0), new BasicStroke(3.3f), 
-            Color.green
-        ); 
+        item1 = new LegendItem("Label2", "Description2", "ToolTip", 
+                "URL", false, new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), 
+                false, Color.black, false, Color.yellow, new BasicStroke(2.1f), 
+                false, new Line2D.Double(4.0, 3.0, 2.0, 1.0), 
+                new BasicStroke(3.3f), Color.green); 
         assertFalse(item1.equals(item2));
-        item2 = new LegendItem(
-            "Label2", "Description2", "ToolTip", "URL", false, 
-            new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), false, Color.black, 
-            false, Color.yellow, new BasicStroke(2.1f), false, 
-            new Line2D.Double(4.0, 3.0, 2.0, 1.0), new BasicStroke(3.3f), 
-            Color.green
-        ); 
+        item2 = new LegendItem("Label2", "Description2", "ToolTip", 
+                "URL", false, new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), 
+                false, Color.black, false, Color.yellow, new BasicStroke(2.1f), 
+                false, new Line2D.Double(4.0, 3.0, 2.0, 1.0), 
+                new BasicStroke(3.3f), Color.green); 
         assertTrue(item1.equals(item2));
         
-        item1 = new LegendItem(
-            "Label2", "Description2", "ToolTip", "URL", false, 
-            new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), false, Color.black, 
-            false, Color.yellow, new BasicStroke(2.1f), false, 
+        item1 = new LegendItem("Label2", "Description2", "ToolTip", "URL",
+                false, new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), false, 
+                Color.black, false, Color.yellow, new BasicStroke(2.1f), false, 
             new Line2D.Double(4.0, 3.0, 2.0, 1.0), new BasicStroke(3.3f), 
             Color.white
         ); 
         assertFalse(item1.equals(item2));
-        item2 = new LegendItem(
-            "Label2", "Description2", "ToolTip", "URL", false, 
-            new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), false, Color.black, 
-            false, Color.yellow, new BasicStroke(2.1f), false, 
-            new Line2D.Double(4.0, 3.0, 2.0, 1.0), new BasicStroke(3.3f), 
-            Color.white
-        ); 
+        item2 = new LegendItem("Label2", "Description2", "ToolTip", 
+                "URL", false, new Rectangle2D.Double(4.0, 3.0, 2.0, 1.0), 
+                false, Color.black, false, Color.yellow, new BasicStroke(2.1f), 
+                false, new Line2D.Double(4.0, 3.0, 2.0, 1.0), 
+                new BasicStroke(3.3f), 
+                Color.white); 
         assertTrue(item1.equals(item2));
         
     }
@@ -330,10 +279,9 @@ public class LegendItemTests extends TestCase {
      * Serialize an instance, restore it, and check for equality.
      */
     public void testSerialization() {
-        LegendItem item1 = new LegendItem(
-            "Item", "Description", "ToolTip", "URL", 
-            new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0), Color.red
-        ); 
+        LegendItem item1 = new LegendItem("Item", "Description", 
+                "ToolTip", "URL", 
+                new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0), Color.red); 
         LegendItem item2 = null;
         try {
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();
@@ -358,12 +306,10 @@ public class LegendItemTests extends TestCase {
      * immutable.
      */
     public void testCloning() {
-        LegendItem item = new LegendItem(
-            "Item", "Description", "ToolTip", "URL", 
-            new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0), Color.red
-        ); 
+        LegendItem item = new LegendItem("Item", "Description", 
+                "ToolTip", "URL", 
+                new Rectangle2D.Double(1.0, 2.0, 3.0, 4.0), Color.red); 
         assertFalse(item instanceof Cloneable);
     }
-
 
 }

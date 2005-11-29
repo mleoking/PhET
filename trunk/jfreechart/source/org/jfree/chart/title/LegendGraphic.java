@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -40,6 +41,7 @@
  *               method (DG);
  * 20-Apr-2005 : Added new draw() method (DG);
  * 13-May-2005 : Fixed to respect margin, border and padding settings (DG);
+ * 01-Sep-2005 : Implemented PublicCloneable (DG);
  * 
  */
 
@@ -51,19 +53,27 @@ import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import org.jfree.chart.block.AbstractBlock;
 import org.jfree.chart.block.Block;
 import org.jfree.chart.block.LengthConstraintType;
 import org.jfree.chart.block.RectangleConstraint;
+import org.jfree.io.SerialUtilities;
 import org.jfree.ui.RectangleAnchor;
 import org.jfree.ui.Size2D;
+import org.jfree.util.ObjectUtilities;
+import org.jfree.util.PaintUtilities;
+import org.jfree.util.PublicCloneable;
 import org.jfree.util.ShapeUtilities;
 
 /**
  * The graphical item within a legend item.
  */
-public class LegendGraphic extends AbstractBlock implements Block {
+public class LegendGraphic extends AbstractBlock 
+                           implements Block, PublicCloneable {
     
     /** 
      * A flag that controls whether or not the shape is visible - see also 
@@ -75,7 +85,7 @@ public class LegendGraphic extends AbstractBlock implements Block {
      * The shape to display.  To allow for accurate positioning, the center
      * of the shape should be at (0, 0). 
      */
-    private Shape shape;
+    private transient Shape shape;
     
     /**
      * Defines the location within the block to which the shape will be aligned.
@@ -92,16 +102,16 @@ public class LegendGraphic extends AbstractBlock implements Block {
     private boolean shapeFilled;
     
     /** The fill paint for the shape. */
-    private Paint fillPaint;
+    private transient Paint fillPaint;
     
     /** A flag that controls whether or not the shape outline is visible. */
     private boolean shapeOutlineVisible;
     
     /** The outline paint for the shape. */
-    private Paint outlinePaint;
+    private transient Paint outlinePaint;
     
     /** The outline stroke for the shape. */
-    private Stroke outlineStroke;
+    private transient Stroke outlineStroke;
     
     /** 
      * A flag that controls whether or not the line is visible - see also 
@@ -110,13 +120,13 @@ public class LegendGraphic extends AbstractBlock implements Block {
     private boolean lineVisible;
     
     /** The line. */
-    private Shape line;
+    private transient Shape line;
     
     /** The line stroke. */
-    private Stroke lineStroke;
+    private transient Stroke lineStroke;
     
     /** The line paint. */
-    private Paint linePaint;
+    private transient Paint linePaint;
     
     /**
      * Creates a new legend graphic.
@@ -138,32 +148,6 @@ public class LegendGraphic extends AbstractBlock implements Block {
         this.shapeFilled = true;
         this.fillPaint = fillPaint;
         setPadding(2.0, 2.0, 2.0, 2.0);
-    }
-    
-    /**
-     * Sets the shape anchor.  This defines a point on the shapes bounding
-     * rectangle that will be used to align the shape to a location.
-     * 
-     * @param anchor  the anchor (<code>null</code> not permitted).
-     */
-    public void setShapeAnchor(RectangleAnchor anchor) {
-        if (anchor == null) {
-            throw new IllegalArgumentException("Null 'anchor' argument.");
-        }
-        this.shapeAnchor = anchor;    
-    }
-    
-    /**
-     * Sets the shape location.  This defines a point within the drawing
-     * area that will be used to align the shape to.
-     * 
-     * @param location  the location (<code>null</code> not permitted).
-     */
-    public void setShapeLocation(RectangleAnchor location) {
-        if (location == null) {
-            throw new IllegalArgumentException("Null 'location' argument.");
-        }
-        this.shapeLocation = location;
     }
     
     /**
@@ -297,6 +281,50 @@ public class LegendGraphic extends AbstractBlock implements Block {
         this.outlineStroke = stroke;
     }
 
+    /**
+     * Returns the shape anchor.
+     * 
+     * @return The shape anchor.
+     */
+    public RectangleAnchor getShapeAnchor() {
+        return this.shapeAnchor;
+    }
+    
+    /**
+     * Sets the shape anchor.  This defines a point on the shapes bounding
+     * rectangle that will be used to align the shape to a location.
+     * 
+     * @param anchor  the anchor (<code>null</code> not permitted).
+     */
+    public void setShapeAnchor(RectangleAnchor anchor) {
+        if (anchor == null) {
+            throw new IllegalArgumentException("Null 'anchor' argument.");
+        }
+        this.shapeAnchor = anchor;    
+    }
+    
+    /**
+     * Returns the shape location.
+     * 
+     * @return The shape location.
+     */
+    public RectangleAnchor getShapeLocation() {
+        return this.shapeLocation;
+    }
+    
+    /**
+     * Sets the shape location.  This defines a point within the drawing
+     * area that will be used to align the shape to.
+     * 
+     * @param location  the location (<code>null</code> not permitted).
+     */
+    public void setShapeLocation(RectangleAnchor location) {
+        if (location == null) {
+            throw new IllegalArgumentException("Null 'location' argument.");
+        }
+        this.shapeLocation = location;
+    }
+    
     /**
      * Returns the flag that controls whether or not the line is visible.
      * 
@@ -504,6 +532,114 @@ public class LegendGraphic extends AbstractBlock implements Block {
     public Object draw(Graphics2D g2, Rectangle2D area, Object params) {
         draw(g2, area);
         return null;
+    }
+    
+    /**
+     * Tests this <code>LegendGraphic</code> instance for equality with an
+     * arbitrary object.
+     * 
+     * @param obj  the object (<code>null</code> permitted).
+     * 
+     * @return A boolean.
+     */
+    public boolean equals(Object obj) {
+        if (!(obj instanceof LegendGraphic)) {
+            return false;
+        }
+        LegendGraphic that = (LegendGraphic) obj;
+        if (this.shapeVisible != that.shapeVisible) {
+            return false;
+        }
+        if (!ShapeUtilities.equal(this.shape, that.shape)) {
+            return false;
+        }
+        if (this.shapeFilled != that.shapeFilled) {
+            return false;
+        }
+        if (!PaintUtilities.equal(this.fillPaint, that.fillPaint)) {
+            return false;
+        }
+        if (this.shapeOutlineVisible != that.shapeOutlineVisible) {
+            return false;
+        }
+        if (!PaintUtilities.equal(this.outlinePaint, that.outlinePaint)) {
+            return false;
+        }
+        if (!ObjectUtilities.equal(this.outlineStroke, that.outlineStroke)) {
+            return false;
+        }
+        if (this.shapeAnchor != that.shapeAnchor) {
+            return false;
+        }
+        if (this.shapeLocation != that.shapeLocation) {
+            return false;
+        }
+        if (this.lineVisible != that.lineVisible) {
+            return false;
+        }
+        if (!ShapeUtilities.equal(this.line, that.line)) {
+            return false;
+        }
+        if (!PaintUtilities.equal(this.linePaint, that.linePaint)) {
+            return false;
+        }
+        if (!ObjectUtilities.equal(this.lineStroke, that.lineStroke)) {
+            return false;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        return true;    
+    }
+    
+    /**
+     * Returns a clone of this <code>LegendGraphic</code> instance.
+     * 
+     * @return A clone of this <code>LegendGraphic</code> instance.
+     * 
+     * @throws CloneNotSupportedException if there is a problem cloning.
+     */
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+    
+    /**
+     * Provides serialization support.
+     *
+     * @param stream  the output stream.
+     *
+     * @throws IOException  if there is an I/O error.
+     */
+    private void writeObject(ObjectOutputStream stream) throws IOException {
+        stream.defaultWriteObject();
+        SerialUtilities.writeShape(this.shape, stream);
+        SerialUtilities.writePaint(this.fillPaint, stream);
+        SerialUtilities.writePaint(this.outlinePaint, stream);
+        SerialUtilities.writeStroke(this.outlineStroke, stream);
+        SerialUtilities.writeShape(this.line, stream);
+        SerialUtilities.writePaint(this.linePaint, stream);
+        SerialUtilities.writeStroke(this.lineStroke, stream);
+    }
+
+    /**
+     * Provides serialization support.
+     *
+     * @param stream  the input stream.
+     *
+     * @throws IOException  if there is an I/O error.
+     * @throws ClassNotFoundException  if there is a classpath problem.
+     */
+    private void readObject(ObjectInputStream stream) 
+        throws IOException, ClassNotFoundException 
+    {
+        stream.defaultReadObject();
+        this.shape = SerialUtilities.readShape(stream);
+        this.fillPaint = SerialUtilities.readPaint(stream);
+        this.outlinePaint = SerialUtilities.readPaint(stream);
+        this.outlineStroke = SerialUtilities.readStroke(stream);
+        this.line = SerialUtilities.readShape(stream);
+        this.linePaint = SerialUtilities.readPaint(stream);
+        this.lineStroke = SerialUtilities.readStroke(stream);
     }
 
 }

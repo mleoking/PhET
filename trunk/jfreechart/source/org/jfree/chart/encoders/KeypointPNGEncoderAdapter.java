@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -59,7 +60,9 @@ public class KeypointPNGEncoderAdapter implements ImageEncoder {
     private boolean encodingAlpha = false;
 
     /**
-     * Get the quality of the image encoding.
+     * Get the quality of the image encoding.  The underlying encoder uses int 
+     * values:  0 for no compression, and values 1 through 9 for various levels
+     * of compression (1 is best speed, 9 is best compression).
      *
      * @return A float representing the quality.
      */
@@ -68,7 +71,10 @@ public class KeypointPNGEncoderAdapter implements ImageEncoder {
     }
 
     /**
-     * Set the quality of the image encoding (supported).
+     * Set the quality of the image encoding (supported).  The underlying
+     * encoder uses int values:  0 for no compression, and values 1 through 9 
+     * for various levels of compression (1 is best speed, 9 is best 
+     * compression).
      *
      * @param quality  A float representing the quality.
      */
@@ -106,14 +112,14 @@ public class KeypointPNGEncoderAdapter implements ImageEncoder {
         if (bufferedImage == null) {
             throw new IllegalArgumentException("Null 'image' argument.");
         }
-        PngEncoder encoder = new PngEncoder(
-            bufferedImage, this.encodingAlpha, 0, this.quality
-        );
+        PngEncoder encoder = new PngEncoder(bufferedImage, this.encodingAlpha, 
+                0, this.quality);
         return encoder.pngEncode();
     }
 
     /**
-     * Encodes an image in PNG format and writes it to an OutputStream.
+     * Encodes an image in PNG format and writes it to an 
+     * <code>OutputStream</code>.
      *
      * @param bufferedImage  The image to be encoded.
      * @param outputStream  The OutputStream to write the encoded image to.
@@ -127,9 +133,8 @@ public class KeypointPNGEncoderAdapter implements ImageEncoder {
         if (outputStream == null) {
             throw new IllegalArgumentException("Null 'outputStream' argument.");
         }
-        PngEncoder encoder = new PngEncoder(
-            bufferedImage, this.encodingAlpha, 0, this.quality
-        );
+        PngEncoder encoder = new PngEncoder(bufferedImage, this.encodingAlpha, 
+                0, this.quality);
         outputStream.write(encoder.pngEncode());
     }
 

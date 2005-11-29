@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -43,7 +44,8 @@
  * 22-Apr-2005 : Renamed refreshHorizontalTicks() --> refreshTicksHorizontal
  *               (for consistency with other classes) and removed unused
  *               parameters (DG);
- * 
+ * 08-Jun-2005 : Fixed equals() method to handle GradientPaint (DG);
+ *
  */
 
 package org.jfree.chart.axis;
@@ -71,6 +73,7 @@ import org.jfree.text.TextUtilities;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.TextAnchor;
 import org.jfree.util.ObjectUtilities;
+import org.jfree.util.PaintUtilities;
 
 /**
 This class extends NumberAxis and handles cycling.
@@ -1167,40 +1170,39 @@ public class CyclicNumberAxis extends NumberAxis {
     /**
      * Tests the axis for equality with another object.
      * 
-     * @param object  the object to test against.
+     * @param obj  the object to test against.
      * 
      * @return A boolean.
      */
-    public boolean equals(Object object) {
-        if (object == this) {
+    public boolean equals(Object obj) {
+        if (obj == this) {
             return true;
         }
-        if (!(object instanceof CyclicNumberAxis)) {
+        if (!(obj instanceof CyclicNumberAxis)) {
             return false;
         }
-        if (!super.equals(object)) {
+        if (!super.equals(obj)) {
             return false;
         }
-        CyclicNumberAxis axis = (CyclicNumberAxis) object;
-                
-        if (this.period != axis.period) {
+        CyclicNumberAxis that = (CyclicNumberAxis) obj;      
+        if (this.period != that.period) {
             return false;
         }
-        if (this.offset != axis.offset) {
+        if (this.offset != that.offset) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.advanceLinePaint, 
-                axis.advanceLinePaint)) {
+        if (!PaintUtilities.equal(this.advanceLinePaint, 
+                that.advanceLinePaint)) {
             return false;
         }
         if (!ObjectUtilities.equal(this.advanceLineStroke, 
-                axis.advanceLineStroke)) {
+                that.advanceLineStroke)) {
             return false;
         }
-        if (this.advanceLineVisible != axis.advanceLineVisible) {
+        if (this.advanceLineVisible != that.advanceLineVisible) {
             return false;
         }
-        if (this.boundMappedToLastCycle != axis.boundMappedToLastCycle) {
+        if (this.boundMappedToLastCycle != that.boundMappedToLastCycle) {
             return false;
         }
         return true;

@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -83,13 +84,19 @@ public class StackedBarRendererTests extends TestCase {
     public void testEquals() {
         StackedBarRenderer r1 = new StackedBarRenderer();
         StackedBarRenderer r2 = new StackedBarRenderer();
-        assertEquals(r1, r2);
+        assertTrue(r1.equals(r2));
+        assertTrue(r2.equals(r1));
+        
+        r1.setRenderAsPercentages(true);
+        assertFalse(r1.equals(r2));
+        r2.setRenderAsPercentages(true);
+        assertTrue(r1.equals(r2));
     }
 
     /**
      * Two objects that are equal are required to return the same hashCode. 
      */
-    public void testHashcode() {
+    public void testHashCode() {
         StackedBarRenderer r1 = new StackedBarRenderer();
         StackedBarRenderer r2 = new StackedBarRenderer();
         assertTrue(r1.equals(r2));

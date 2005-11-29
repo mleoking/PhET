@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -41,10 +42,16 @@
 
 package org.jfree.chart.junit;
 
+import java.util.EventListener;
+
+import javax.swing.event.CaretListener;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.jfree.chart.ChartMouseEvent;
+import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.XYPlot;
@@ -52,7 +59,7 @@ import org.jfree.chart.plot.XYPlot;
 /**
  * Tests for the {@link ChartPanel} class.
  */
-public class ChartPanelTests extends TestCase {
+public class ChartPanelTests extends TestCase implements ChartMouseListener {
 
     /**
      * Returns the tests as a test suite.
@@ -88,6 +95,51 @@ public class ChartPanelTests extends TestCase {
         ChartPanel panel = new ChartPanel(chart);
         panel.setChart(null);
         assertEquals(null, panel.getChart());
+    }
+    
+    /**
+     * Check the behaviour of the getListeners() method.
+     */
+    public void testGetListeners() {
+        ChartPanel p = new ChartPanel(null);
+        p.addChartMouseListener(this);
+        EventListener[] listeners = p.getListeners(ChartMouseListener.class);
+        assertEquals(1, listeners.length);
+        assertEquals(this, listeners[0]);
+        // try a listener type that isn't registered
+        listeners = p.getListeners(CaretListener.class);
+        assertEquals(0, listeners.length);
+        p.removeChartMouseListener(this);
+        listeners = p.getListeners(ChartMouseListener.class);
+        assertEquals(0, listeners.length);
+    
+        // try a null argument
+        boolean pass = false;
+        try {
+            listeners = p.getListeners(null);
+        }
+        catch (NullPointerException e) {
+            pass = true;    
+        }
+        assertTrue(pass);
+    
+        // try a class that isn't a listener
+        pass = false;
+        try {
+            listeners = p.getListeners(Integer.class);
+        }
+        catch (ClassCastException e) {
+            pass = true;
+        }
+        assertTrue(pass);
+    }
+
+    public void chartMouseClicked(ChartMouseEvent event) {
+        // ignore
+    }
+
+    public void chartMouseMoved(ChartMouseEvent event) {
+        // ignore
     }
 
 }

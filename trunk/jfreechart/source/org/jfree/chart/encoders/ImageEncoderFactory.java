@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -26,16 +27,19 @@
  * ------------------------
  * ImageEncoderFactory.java
  * ------------------------
- * (C) Copyright 2004, by Richard Atkinson and Contributors.
+ * (C) Copyright 2004, 2005, by Richard Atkinson and Contributors.
  *
  * Original Author:  Richard Atkinson;
- * Contributor(s):   -;
+ * Contributor(s):   David Gilbert (for Object Refinery Limited);
  *
  * $Id$
  *
  * Changes
  * -------
  * 01-Aug-2004 : Initial version (RA);
+ * 01-Nov-2005 : Now using ImageIO for JPEG encoding, so we no longer have a
+ *               dependency on com.sun.* which isn't available on all 
+ *               implementations (DG);
  *
  */
 
@@ -68,14 +72,14 @@ public class ImageEncoderFactory {
             Class.forName("javax.imageio.ImageIO");
             //  Test for JFreeChart being compiled under JDK 1.4+
             Class.forName("org.jfree.chart.encoders.SunPNGEncoderAdapter");
-            encoders.put(
-                "png", "org.jfree.chart.encoders.SunPNGEncoderAdapter"
-            );
+            encoders.put("png", 
+                    "org.jfree.chart.encoders.SunPNGEncoderAdapter");
+            encoders.put("jpeg",
+                    "org.jfree.chart.encoders.SunJPEGEncoderAdapter");
         } 
         catch (ClassNotFoundException e) {
-            encoders.put(
-                "png", "org.jfree.chart.encoders.KeypointPNGEncoderAdapter"
-            );
+            encoders.put("png", 
+                    "org.jfree.chart.encoders.KeypointPNGEncoderAdapter");
         }
     }
 
@@ -101,9 +105,8 @@ public class ImageEncoderFactory {
         ImageEncoder imageEncoder = null;
         String className = (String) encoders.get(format);
         if (className == null) {
-            throw new IllegalArgumentException(
-                "Unsupported image format - " + format
-            );
+            throw new IllegalArgumentException("Unsupported image format - " 
+                    + format);
         }
         try {
             Class imageEncoderClass = Class.forName(className);

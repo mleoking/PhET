@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -41,6 +42,8 @@
  * 08-Nov-2002 : Moved to new package com.jrefinery.chart.axis (DG);
  * 09-Jan-2002 : Added a new constructor (DG);
  * 26-Mar-2003 : Implemented Serializable (DG);
+ * 05-Jul-2005 : Added equals() implementation (DG);
+ * 05-Sep-2005 : Implemented hashCode(), thanks to Thomas Morgner (DG);
  *
  */
 
@@ -73,10 +76,14 @@ public class NumberTickUnit extends TickUnit implements Serializable {
      * Creates a new number tick unit.
      *
      * @param size  the size of the tick unit.
-     * @param formatter  a number formatter for the tick unit.
+     * @param formatter  a number formatter for the tick unit (<code>null</code>
+     *                   not permitted).
      */
     public NumberTickUnit(double size, NumberFormat formatter) {
         super(size);
+        if (formatter == null) {
+            throw new IllegalArgumentException("Null 'formatter' argument.");
+        }
         this.formatter = formatter;
     }
 
@@ -89,6 +96,41 @@ public class NumberTickUnit extends TickUnit implements Serializable {
      */
     public String valueToString(double value) {
         return this.formatter.format(value);
+    }
+    
+    /**
+     * Tests this formatter for equality with an arbitrary object.
+     * 
+     * @param obj  the object (<code>null</code> permitted).
+     * 
+     * @return A boolean.
+     */
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof NumberTickUnit)) {
+            return false;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        NumberTickUnit that = (NumberTickUnit) obj;
+        if (!this.formatter.equals(that.formatter)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Returns a hash code for this instance.
+     * 
+     * @return A hash code.
+     */
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 29 * result + (formatter != null ? formatter.hashCode() : 0);
+        return result;
     }
 
 }

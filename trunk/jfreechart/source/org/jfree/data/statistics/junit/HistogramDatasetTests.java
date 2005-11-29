@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -36,6 +37,7 @@
  * Changes
  * -------
  * 01-Mar-2004 : Version 1 (DG);
+ * 08-Jun-2005 : Added test for getSeriesKey(int) bug (DG);
  *
  */
 
@@ -153,6 +155,17 @@ public class HistogramDatasetTests extends TestCase {
             System.out.println(e.toString());
         }
         assertEquals(d1, d2);
+    }
+    
+    /**
+     * A test for a bug reported in the forum where the series name isn't being
+     * returned correctly.
+     */
+    public void testGetSeriesKey() {
+        double[] values = {1.0, 2.0, 3.0, 4.0, 6.0, 12.0, 5.0, 6.3, 4.5};
+        HistogramDataset d1 = new HistogramDataset();
+        d1.addSeries("Series 1", values, 5);   
+        assertEquals("Series 1", d1.getSeriesKey(0));
     }
 
 }

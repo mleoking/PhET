@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -213,13 +214,11 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * @return The number of series in the dataset.
      */
     public int getSeriesCount() {
-
         int result = 0;
         if (this.startData != null) {
             result = this.startData.length;
         }
         return result;
-
     }
 
     /**
@@ -232,58 +231,15 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
     }
 
     /**
-     * Returns a category key.
-     *
-     * @param item  the category index.
-     *
-     * @return The category key.
-     */
-    public Comparable getCategory(int item) {
-        return this.categoryKeys[item];
-    }
-
-    /**
-     * Returns an item.
-     *
-     * @param category  the category key.
-     *
-     * @return The item index.
-     */
-    public int getItem(Object category) {
-        List categories = getCategories();
-        return categories.indexOf(category);
-    }
-
-    /**
      * Returns a series index.
      *
-     * @param series  the series.
+     * @param series  the series key.
      *
      * @return The series index.
      */
-    public int getSeriesIndex(Object series) {
+    public int getSeriesIndex(Comparable series) {
         List seriesKeys = getSeries();
         return seriesKeys.indexOf(series);
-    }
-
-    /**
-     * Returns the name of the specified series.
-     *
-     * @param series  the index of the required series (zero-based).
-     *
-     * @return The name of the specified series.
-     */
-    public Comparable getSeries(int series) {
-
-        // check argument...
-        if ((series >= getSeriesCount()) || (series < 0)) {
-            throw new IllegalArgumentException(
-                "DefaultCategoryDataset.getSeriesName(int): no such series.");
-        }
-
-        // return the value...
-        return this.seriesKeys[series];
-
     }
 
     /**
@@ -333,17 +289,13 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * @return The number of categories in the dataset.
      */
     public int getCategoryCount() {
-
         int result = 0;
-
         if (this.startData != null) {
             if (getSeriesCount() > 0) {
                 result = this.startData[0].length;
             }
         }
-
         return result;
-
     }
 
     /**
@@ -443,7 +395,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      */
     public Number getValue(Comparable series, Comparable category) {
         int seriesIndex = getSeriesIndex(series);
-        int itemIndex = getItem(category);
+        int itemIndex = getColumnIndex(category);
         return getValue(seriesIndex, itemIndex);
     }
 
@@ -473,7 +425,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      */
     public Number getStartValue(Comparable series, Comparable category) {
         int seriesIndex = getSeriesIndex(series);
-        int itemIndex = getItem(category);
+        int itemIndex = getColumnIndex(category);
         return getStartValue(seriesIndex, itemIndex);
     }
 
@@ -516,7 +468,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      */
     public Number getEndValue(Comparable series, Comparable category) {
         int seriesIndex = getSeriesIndex(series);
-        int itemIndex = getItem(category);
+        int itemIndex = getColumnIndex(category);
         return getEndValue(seriesIndex, itemIndex);
     }
 
@@ -556,7 +508,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * 
      * @param value The value.
      */
-    public void setStartValue(int series, Object category, Number value) {
+    public void setStartValue(int series, Comparable category, Number value) {
 
         // does the series exist?
         if ((series < 0) || (series > getSeriesCount())) {
@@ -587,7 +539,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      *
      * @param value the value.
      */
-    public void setEndValue(int series, Object category, Number value) {
+    public void setEndValue(int series, Comparable category, Number value) {
 
         // does the series exist?
         if ((series < 0) || (series > getSeriesCount())) {
@@ -617,8 +569,7 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      *
      * @return The index.
      */
-    private int getCategoryIndex(Object category) {
-
+    private int getCategoryIndex(Comparable category) {
         int result = -1;
         for (int i = 0; i < this.categoryKeys.length; i++) {
             if (category.equals(this.categoryKeys[i])) {
@@ -627,7 +578,6 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
             }
         }
         return result;
-
     }
 
     /**
@@ -640,7 +590,6 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * @return An array of <i>prefixN</i> with N = { 1 .. count}.
      */
     private Comparable[] generateKeys(int count, String prefix) {
-
         Comparable[] result = new Comparable[count];
         String name;
         for (int i = 0; i < count; i++) {
@@ -648,18 +597,17 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
             result[i] = name;
         }
         return result;
-
     }
 
     /**
      * Returns a column key.
      *
-     * @param item  the column index.
+     * @param column  the column index.
      *
      * @return The column key.
      */
-    public Comparable getColumnKey(int item) {
-        return this.categoryKeys[item];
+    public Comparable getColumnKey(int column) {
+        return this.categoryKeys[column];
     }
 
     /**
@@ -694,7 +642,6 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * @return A list of the series in the dataset.
      */
     public List getRowKeys() {
-
         // the CategoryDataset interface expects a list of series, but
         // we've stored them in an array...
         if (this.seriesKeys == null) {
@@ -703,22 +650,21 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
         else {
             return Collections.unmodifiableList(Arrays.asList(this.seriesKeys));
         }
-
     }
 
     /**
      * Returns the name of the specified series.
      *
-     * @param series  the index of the required series (zero-based).
+     * @param row  the index of the required row/series (zero-based).
      *
      * @return The name of the specified series.
      */
-    public Comparable getRowKey(int series) {
-        if ((series >= getSeriesCount()) || (series < 0)) {
+    public Comparable getRowKey(int row) {
+        if ((row >= getRowCount()) || (row < 0)) {
             throw new IllegalArgumentException(
-                "DefaultCategoryDataset.getSeriesName(int): no such series.");
+                    "The 'row' argument is out of bounds.");
         }
-        return this.seriesKeys[series];
+        return this.seriesKeys[row];
     }
 
     /**
@@ -743,13 +689,11 @@ public class DefaultIntervalCategoryDataset extends AbstractSeriesDataset
      * @return The number of series in the dataset.
      */
     public int getRowCount() {
-
         int result = 0;
         if (this.startData != null) {
             result = this.startData.length;
         }
         return result;
-
     }
 
 }

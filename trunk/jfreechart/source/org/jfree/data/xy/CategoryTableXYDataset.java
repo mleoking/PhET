@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -41,6 +42,7 @@
  * 18-Aug-2004 : Moved from org.jfree.data --> org.jfree.data.xy (DG);
  * 17-Nov-2004 : Updates required by changes to DomainInfo interface (DG);
  * 11-Jan-2005 : Removed deprecated code in preparation for 1.0.0 release (DG);
+ * 05-Oct-2005 : Made the interval delegate a dataset change listener (DG);
  *
  */
 
@@ -50,6 +52,7 @@ import org.jfree.data.DefaultKeyedValues2D;
 import org.jfree.data.DomainInfo;
 import org.jfree.data.Range;
 import org.jfree.data.general.DatasetChangeEvent;
+import org.jfree.data.general.DatasetUtilities;
 
 /**
  * An implementation variant of the {@link TableXYDataset} where every series 
@@ -85,6 +88,7 @@ public class CategoryTableXYDataset extends AbstractIntervalXYDataset
     public CategoryTableXYDataset() {
         this.values = new DefaultKeyedValues2D(true);
         this.intervalDelegate = new IntervalXYDelegate(this);
+        addChangeListener(this.intervalDelegate);
     }
 
     /**
@@ -110,9 +114,6 @@ public class CategoryTableXYDataset extends AbstractIntervalXYDataset
      */
     public void add(Number x, Number y, String seriesName, boolean notify) {
         this.values.addValue(y, (Comparable) x, seriesName);
-        int series = this.values.getColumnIndex(seriesName);
-        int item = this.values.getRowIndex((Comparable) x);
-        this.intervalDelegate.itemAdded(series, item);
         if (notify) {
             fireDatasetChanged();
         }
@@ -137,9 +138,6 @@ public class CategoryTableXYDataset extends AbstractIntervalXYDataset
      */
     public void remove(Number x, String seriesName, boolean notify) {
         this.values.removeValue((Comparable) x, seriesName);
-        
-        this.intervalDelegate.itemRemoved(x.doubleValue());
-        
         if (notify) {
             fireDatasetChanged();
         }
@@ -293,7 +291,12 @@ public class CategoryTableXYDataset extends AbstractIntervalXYDataset
      * @return The range.
      */
     public Range getDomainBounds(boolean includeInterval) {
-        return this.intervalDelegate.getDomainBounds(includeInterval);        
+        if (includeInterval) {
+            return this.intervalDelegate.getDomainBounds(includeInterval);
+        }
+        else {
+            return DatasetUtilities.iterateDomainBounds(this, includeInterval);
+        }
     }
     
     /**
@@ -328,12 +331,13 @@ public class CategoryTableXYDataset extends AbstractIntervalXYDataset
     }
 
     /**
-     * Sets the interval width manually. 
+     * Sets the interval width to a fixed value, and sends a 
+     * {@link DatasetChangeEvent} to all registered listeners. 
      * 
-     * @param d  the new interval width.
+     * @param d  the new interval width (must be > 0).
      */
     public void setIntervalWidth(double d) {
-        this.intervalDelegate.setIntervalWidth(d);
+        this.intervalDelegate.setFixedIntervalWidth(d);
         fireDatasetChanged();
     }
 
@@ -355,6 +359,27 @@ public class CategoryTableXYDataset extends AbstractIntervalXYDataset
     public void setAutoWidth(boolean b) {
         this.intervalDelegate.setAutoWidth(b);
         fireDatasetChanged();
+    }
+    
+    /**
+     * Tests this dataset for equality with an arbitrary object.
+     * 
+     * @param obj  the object (<code>null</code> permitted).
+     * 
+     * @return A boolean.
+     */
+    public boolean equals(Object obj) {
+        if (!(obj instanceof CategoryTableXYDataset)) {
+            return false;
+        }
+        CategoryTableXYDataset that = (CategoryTableXYDataset) obj;
+        if (!this.intervalDelegate.equals(that.intervalDelegate)) {
+            return false;
+        }
+        if (!this.values.equals(that.values)) {
+            return false;
+        }
+        return true;
     }
     
 }

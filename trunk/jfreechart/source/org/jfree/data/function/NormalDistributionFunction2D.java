@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -26,7 +27,7 @@
  * ---------------------------------
  * NormalDistributionFunction2D.java
  * ---------------------------------
- * (C)opyright 2004, by Object Refinery Limited.
+ * (C)opyright 2004, 2005, by Object Refinery Limited.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   -;
@@ -35,7 +36,8 @@
  *
  * Changes
  * -------
- * 25-May-2004 : Version 1(DG);
+ * 25-May-2004 : Version 1 (DG);
+ * 21-Nov-2005 : Added getters for the mean and standard deviation (DG);
  * 
  */
 
@@ -62,6 +64,24 @@ public class NormalDistributionFunction2D implements Function2D {
         this.mean = mean;
         this.std = std;
     }
+    
+    /**
+     * Returns the mean for the function.
+     * 
+     * @return The mean.
+     */
+    public double getMean() {
+        return this.mean;
+    }
+    
+    /**
+     * Returns the standard deviation for the function.
+     * 
+     * @return The standard deviation.
+     */
+    public double getStandardDeviation() {
+        return this.std;
+    }
 
     /**
      * Returns the function value.
@@ -71,11 +91,9 @@ public class NormalDistributionFunction2D implements Function2D {
      * @return The value.
      */
     public double getValue(double x) {
-        return Math.exp(
-            -1.0 
-            * (x - this.mean) * (x - this.mean) / (2 * this.std * this.std))
-            / Math.sqrt(2 * Math.PI * this.std * this.std
-        );
+        return Math.exp(-1.0 * (x - this.mean) * (x - this.mean) 
+                / (2 * this.std * this.std)) / Math.sqrt(2 * Math.PI 
+                * this.std * this.std);
     }
 
 }

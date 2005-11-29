@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -43,6 +44,7 @@ package org.jfree.chart.plot.junit;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.Stroke;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -83,7 +85,7 @@ public class FastScatterPlotTests extends TestCase {
     }
 
     /**
-     * Test the equals() method.
+     * Some checks for the equals() method.
      */
     public void testEquals() {
         
@@ -92,9 +94,11 @@ public class FastScatterPlotTests extends TestCase {
         assertTrue(plot1.equals(plot2));    
         assertTrue(plot2.equals(plot1));
         
-        plot1.setPaint(Color.yellow);
+        plot1.setPaint(new GradientPaint(1.0f, 2.0f, Color.red, 
+                3.0f, 4.0f, Color.yellow));
         assertFalse(plot1.equals(plot2));
-        plot2.setPaint(Color.yellow);
+        plot2.setPaint(new GradientPaint(1.0f, 2.0f, Color.red, 
+                3.0f, 4.0f, Color.yellow));
         assertTrue(plot1.equals(plot2));
         
         plot1.setDomainGridlinesVisible(false);
@@ -102,9 +106,11 @@ public class FastScatterPlotTests extends TestCase {
         plot2.setDomainGridlinesVisible(false);
         assertTrue(plot1.equals(plot2));
         
-        plot1.setDomainGridlinePaint(Color.red);
+        plot1.setDomainGridlinePaint(new GradientPaint(1.0f, 2.0f, Color.blue, 
+                3.0f, 4.0f, Color.yellow));
         assertFalse(plot1.equals(plot2));
-        plot2.setDomainGridlinePaint(Color.red);
+        plot2.setDomainGridlinePaint(new GradientPaint(1.0f, 2.0f, Color.blue, 
+                3.0f, 4.0f, Color.yellow));
         assertTrue(plot1.equals(plot2));
         
         Stroke s = new BasicStroke(1.5f);
@@ -118,9 +124,11 @@ public class FastScatterPlotTests extends TestCase {
         plot2.setRangeGridlinesVisible(false);
         assertTrue(plot1.equals(plot2));
         
-        plot1.setRangeGridlinePaint(Color.red);
+        plot1.setRangeGridlinePaint(new GradientPaint(1.0f, 2.0f, Color.green, 
+                3.0f, 4.0f, Color.yellow));
         assertFalse(plot1.equals(plot2));
-        plot2.setRangeGridlinePaint(Color.red);
+        plot2.setRangeGridlinePaint(new GradientPaint(1.0f, 2.0f, Color.green, 
+                3.0f, 4.0f, Color.yellow));
         assertTrue(plot1.equals(plot2));
         
         Stroke s2 = new BasicStroke(1.5f);

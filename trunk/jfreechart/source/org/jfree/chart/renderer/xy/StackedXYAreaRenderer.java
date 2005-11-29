@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -54,6 +55,8 @@
  * 06-Jan-2005 : Override equals() (DG);
  * 07-Jan-2005 : Update for method name changes in DatasetUtilities (DG);
  * 28-Mar-2005 : Use getXValue() and getYValue() from dataset (DG);
+ * 06-Jun-2005 : Fixed null pointer exception, plus problems with equals() and
+ *               serialization (DG);
  * 
  */
 
@@ -67,6 +70,9 @@ import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Stack;
 
@@ -83,7 +89,9 @@ import org.jfree.data.Range;
 import org.jfree.data.general.DatasetUtilities;
 import org.jfree.data.xy.TableXYDataset;
 import org.jfree.data.xy.XYDataset;
+import org.jfree.io.SerialUtilities;
 import org.jfree.util.ObjectUtilities;
+import org.jfree.util.PaintUtilities;
 import org.jfree.util.PublicCloneable;
 import org.jfree.util.ShapeUtilities;
 
@@ -125,7 +133,7 @@ public class StackedXYAreaRenderer extends XYAreaRenderer
             this.seriesArea = null;
             this.line = null;
             this.lastSeriesPoints = new Stack();
-            this.currentSeriesPoints = null;
+            this.currentSeriesPoints = new Stack();
         }
         
         /**
@@ -196,13 +204,13 @@ public class StackedXYAreaRenderer extends XYAreaRenderer
     /** 
      * Custom Paint for drawing all shapes, if null defaults to series shapes 
      */
-    private Paint shapePaint = null;
+    private transient Paint shapePaint = null;
 
     /** 
      * Custom Stroke for drawing all shapes, if null defaults to series 
      * strokes.
      */
-    private Stroke shapeStroke = null;
+    private transient Stroke shapeStroke = null;
 
     /**
      * Creates a new renderer.
@@ -278,8 +286,7 @@ public class StackedXYAreaRenderer extends XYAreaRenderer
     /**
      * Initialises the renderer. This method will be called before the first
      * item is rendered, giving the renderer an opportunity to initialise any 
-     * state information it wants to maintain. The renderer can do nothing if 
-     * it chooses.
+     * state information it wants to maintain.
      *
      * @param g2  the graphics device.
      * @param dataArea  the area inside the axes.
@@ -391,7 +398,7 @@ public class StackedXYAreaRenderer extends XYAreaRenderer
         Stroke seriesStroke = getItemStroke(series, item);
 
         if (pass == 0) {
-            //  On first pass renderer the areas, line and outlines
+            //  On first pass render the areas, line and outlines
 
             if (item == 0) {
                 // Create a new Area for the series
@@ -622,9 +629,8 @@ public class StackedXYAreaRenderer extends XYAreaRenderer
         if (!(obj instanceof StackedXYAreaRenderer) || !super.equals(obj)) {
             return false;
         }
-        
         StackedXYAreaRenderer that = (StackedXYAreaRenderer) obj;
-        if (!ObjectUtilities.equal(this.shapePaint, that.shapePaint)) {
+        if (!PaintUtilities.equal(this.shapePaint, that.shapePaint)) {
             return false;
         }
         if (!ObjectUtilities.equal(this.shapeStroke, that.shapeStroke)) {
@@ -642,6 +648,34 @@ public class StackedXYAreaRenderer extends XYAreaRenderer
      */
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+    
+    /**
+     * Provides serialization support.
+     *
+     * @param stream  the input stream.
+     *
+     * @throws IOException  if there is an I/O error.
+     * @throws ClassNotFoundException  if there is a classpath problem.
+     */
+    private void readObject(ObjectInputStream stream) 
+            throws IOException, ClassNotFoundException {
+        stream.defaultReadObject();
+        this.shapePaint = SerialUtilities.readPaint(stream);
+        this.shapeStroke = SerialUtilities.readStroke(stream);
+    }
+    
+    /**
+     * Provides serialization support.
+     *
+     * @param stream  the output stream.
+     *
+     * @throws IOException  if there is an I/O error.
+     */
+    private void writeObject(ObjectOutputStream stream) throws IOException {
+        stream.defaultWriteObject();
+        SerialUtilities.writePaint(this.shapePaint, stream);
+        SerialUtilities.writeStroke(this.shapeStroke, stream);
     }
 
 }

@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -173,6 +174,20 @@ public class DatasetUtilitiesTests extends TestCase {
         assertEquals(105.0, r.getUpperBound(), EPSILON);           
     }
 
+    /**
+     * Check the range returned when a series contains a null value.
+     */
+    public void testIterateXYRangeBounds2() {
+        XYSeries s1 = new XYSeries("S1");
+        s1.add(1.0, 1.1);
+        s1.add(2.0, null);
+        s1.add(3.0, 3.3);
+        XYSeriesCollection dataset = new XYSeriesCollection(s1);
+        Range r = DatasetUtilities.iterateXYRangeBounds(dataset);
+        assertEquals(1.1, r.getLowerBound(), EPSILON);
+        assertEquals(3.3, r.getUpperBound(), EPSILON);
+    }
+    
     /**
      * Some tests for the findMinimumDomainValue() method.
      */

@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -73,6 +74,9 @@
  *               based on a contribution by David Bastend (DG);
  * 20-Apr-2005 : Small update for change to LegendItem constructors (DG);
  * 05-May-2005 : Updated draw() method parameters (DG);
+ * 08-Jun-2005 : Fixed equals() method to handle GradientPaint (DG);
+ * 10-Nov-2005 : Added tickPaint, tickSize and valuePaint attributes, and
+ *               put value label drawing code into a separate method (DG);
  * 
  */
 
@@ -113,7 +117,9 @@ import org.jfree.data.general.ValueDataset;
 import org.jfree.io.SerialUtilities;
 import org.jfree.text.TextUtilities;
 import org.jfree.ui.RectangleInsets;
+import org.jfree.ui.TextAnchor;
 import org.jfree.util.ObjectUtilities;
+import org.jfree.util.PaintUtilities;
 
 /**
  * A plot that displays a single value in the form of a needle on a dial.  
@@ -162,6 +168,12 @@ public class MeterPlot extends Plot implements Serializable, Cloneable {
     /** The overall range of data values on the dial. */
     private Range range;
     
+    /** The tick size. */
+    private double tickSize;
+    
+    /** The paint used to draw the ticks. */
+    private Paint tickPaint;
+    
     /** The units displayed on the dial. */    
     private String units;
     
@@ -189,6 +201,9 @@ public class MeterPlot extends Plot implements Serializable, Cloneable {
     /** The tick label font. */
     private Font tickLabelFont;
 
+    /** The tick label paint. */
+    private Paint tickLabelPaint;
+    
     /** The tick label format. */
     private NumberFormat tickLabelFormat;
 
@@ -220,10 +235,13 @@ public class MeterPlot extends Plot implements Serializable, Cloneable {
         this.shape = DialShape.CIRCLE;
         this.meterAngle = DEFAULT_METER_ANGLE;
         this.range = new Range(0.0, 100.0);
+        this.tickSize = 10.0;
+        this.tickPaint = Color.white;
         this.units = "Units";
         this.needlePaint = MeterPlot.DEFAULT_NEEDLE_PAINT;
         this.tickLabelsVisible = true;
         this.tickLabelFont = MeterPlot.DEFAULT_LABEL_FONT;
+        this.tickLabelPaint = Color.black;
         this.tickLabelFormat = NumberFormat.getInstance();
         this.valueFont = MeterPlot.DEFAULT_VALUE_FONT;
         this.valuePaint = MeterPlot.DEFAULT_VALUE_PAINT;
@@ -307,6 +325,52 @@ public class MeterPlot extends Plot implements Serializable, Cloneable {
             );
         }
         this.range = range;
+        notifyListeners(new PlotChangeEvent(this));
+    }
+    
+    /**
+     * Returns the tick size (the interval between ticks on the dial).
+     * 
+     * @return The tick size.
+     */
+    public double getTickSize() {
+        return this.tickSize;
+    }
+    
+    /**
+     * Sets the tick size and sends a {@link PlotChangeEvent} to all 
+     * registered listeners.
+     * 
+     * @param size  the tick size (must be > 0).
+     */
+    public void setTickSize(double size) {
+        if (size <= 0) {
+            throw new IllegalArgumentException("Requires 'size' > 0.");
+        }
+        this.tickSize = size;
+        notifyListeners(new PlotChangeEvent(this));
+    }
+    
+    /**
+     * Returns the paint used to draw the ticks around the dial. 
+     * 
+     * @return The paint used to draw the ticks around the dial (never 
+     *         <code>null</code>).
+     */
+    public Paint getTickPaint() {
+        return this.tickPaint;
+    }
+    
+    /**
+     * Sets the paint used to draw the tick labels around the dial.
+     * 
+     * @param paint  the paint (<code>null</code> not permitted).
+     */
+    public void setTickPaint(Paint paint) {
+        if (paint == null) {
+            throw new IllegalArgumentException("Null 'paint' argument.");
+        }
+        this.tickPaint = paint;
         notifyListeners(new PlotChangeEvent(this));
     }
 
@@ -396,6 +460,31 @@ public class MeterPlot extends Plot implements Serializable, Cloneable {
         }
         if (!this.tickLabelFont.equals(font)) {
             this.tickLabelFont = font;
+            notifyListeners(new PlotChangeEvent(this));
+        }
+    }
+
+    /**
+     * Returns the tick label paint.
+     *
+     * @return The paint (never <code>null</code>).
+     */
+    public Paint getTickLabelPaint() {
+        return this.tickLabelPaint;
+    }
+
+    /**
+     * Sets the tick label paint and sends a {@link PlotChangeEvent} to all 
+     * registered listeners.
+     *
+     * @param paint  the paint (<code>null</code> not permitted).
+     */
+    public void setTickLabelPaint(Paint paint) {
+        if (paint == null) {
+            throw new IllegalArgumentException("Null 'paint' argument.");
+        }
+        if (!this.tickLabelPaint.equals(paint)) {
+            this.tickLabelPaint = paint;
             notifyListeners(new PlotChangeEvent(this));
         }
     }
@@ -611,11 +700,13 @@ public class MeterPlot extends Plot implements Serializable, Cloneable {
         Iterator iterator = this.intervals.iterator();
         while (iterator.hasNext()) {
             MeterInterval mi = (MeterInterval) iterator.next();
-            LegendItem item = new LegendItem(
-                mi.getLabel(), mi.getLabel(), null, null, 
-                new Rectangle2D.Double(-4.0, -4.0, 8.0, 8.0), 
-                mi.getOutlinePaint()
-            );
+            Paint color = mi.getBackgroundPaint();
+            if (color == null) {
+                color = mi.getOutlinePaint();
+            }
+            LegendItem item = new LegendItem(mi.getLabel(), mi.getLabel(),
+                    null, null, new Rectangle2D.Double(-4.0, -4.0, 8.0, 8.0), 
+                    color);
             result.add(item);
         }
         return result;
@@ -718,10 +809,7 @@ public class MeterPlot extends Plot implements Serializable, Cloneable {
             Number n = data.getValue();
             if (n != null) {
                 double value = n.doubleValue();
-                drawTick(
-                    g2, meterArea, value, true, this.valuePaint, true, 
-                    getUnits()
-                );
+                drawValueLabel(g2, meterArea);
   
                 if (this.range.contains(value)) {
                     g2.setPaint(this.needlePaint);
@@ -806,8 +894,8 @@ public class MeterPlot extends Plot implements Serializable, Cloneable {
                     outlinePaint, outlineStroke
                 );
             }
-            drawTick(g2, meterArea, minValue, true, outlinePaint);
-            drawTick(g2, meterArea, maxValue, true, outlinePaint);
+            drawTick(g2, meterArea, minValue, true);
+            drawTick(g2, meterArea, maxValue, true);
         }
     }
 
@@ -854,10 +942,12 @@ public class MeterPlot extends Plot implements Serializable, Cloneable {
      * @param minValue  the minimum data value.
      * @param maxValue  the maximum data value.
      * @param paint  the background paint (<code>null</code> not permitted).
+     * @param dial  a flag that indicates whether the arc represents the whole 
+     *              dial.
      */
-    private void fillArc(Graphics2D g2, Rectangle2D area, 
-                         double minValue, double maxValue, Paint paint,
-                         boolean dial) {
+    protected void fillArc(Graphics2D g2, Rectangle2D area, 
+                           double minValue, double maxValue, Paint paint,
+                           boolean dial) {
         if (paint == null) {
             throw new IllegalArgumentException("Null 'paint' argument");
         }
@@ -912,7 +1002,7 @@ public class MeterPlot extends Plot implements Serializable, Cloneable {
     }
 
     /**
-     * Draws the 20 ticks that subdivide the overall range.
+     * Draws the ticks that subdivide the overall range.
      *
      * @param g2  the graphics device.
      * @param meterArea  the meter area.
@@ -921,9 +1011,7 @@ public class MeterPlot extends Plot implements Serializable, Cloneable {
      */
     protected void drawTicks(Graphics2D g2, Rectangle2D meterArea, 
                              double minValue, double maxValue) {
-        int numberOfTicks = 20;
-        double diff = (maxValue - minValue) / numberOfTicks;
-        for (double v = minValue; v <= maxValue; v += diff) {
+        for (double v = minValue; v <= maxValue; v += tickSize) {
             drawTick(g2, meterArea, v);
         }
     }
@@ -936,93 +1024,54 @@ public class MeterPlot extends Plot implements Serializable, Cloneable {
      * @param value  the value.
      */
     protected void drawTick(Graphics2D g2, Rectangle2D meterArea, 
-                            double value) {
-        drawTick(g2, meterArea, value, false, null, false, null);
+            double value) {
+        drawTick(g2, meterArea, value, false);
     }
 
     /**
-     * Draws a tick.
-     *
-     * @param g2  the graphics device.
-     * @param meterArea  the meter area.
-     * @param value  the value.
-     * @param label  display a label?
-     * @param paint  the paint.
-     */
-    protected void drawTick(Graphics2D g2, Rectangle2D meterArea, double value, 
-                            boolean label, Paint paint) {
-        drawTick(g2, meterArea, value, label, paint, false, null);
-    }
-
-    /**
-     * Draws a tick on the chart (also handles a special case [curValue=true] 
-     * that draws the value in the middle of the dial).
+     * Draws a tick on the dial.
      *
      * @param g2  the graphics device.
      * @param meterArea  the meter area.
      * @param value  the tick value.
      * @param label  a flag that controls whether or not a value label is drawn.
-     * @param labelPaint  the label color.
-     * @param curValue  a flag for the special case of the current value.
-     * @param units  the unit-of-measure for the dial.
      */
     protected void drawTick(Graphics2D g2, Rectangle2D meterArea,
-                            double value, boolean label, Paint labelPaint, 
-                            boolean curValue, String units) {
+                            double value, boolean label) {
 
         double valueAngle = valueToAngle(value);
 
         double meterMiddleX = meterArea.getCenterX();
         double meterMiddleY = meterArea.getCenterY();
 
-        if (labelPaint == null) {
-            labelPaint = Color.white;
-        }
-        g2.setPaint(labelPaint);
+        g2.setPaint(this.tickPaint);
         g2.setStroke(new BasicStroke(2.0f));
 
         double valueP2X = 0;
         double valueP2Y = 0;
 
-        if (!curValue) {
-            double radius = (meterArea.getWidth() / 2) + DEFAULT_BORDER_SIZE;
-            double radius1 = radius - 15;
+        double radius = (meterArea.getWidth() / 2) + DEFAULT_BORDER_SIZE;
+        double radius1 = radius - 15;
 
-            double valueP1X = meterMiddleX 
+        double valueP1X = meterMiddleX 
                 + (radius * Math.cos(Math.PI * (valueAngle / 180)));
-            double valueP1Y = meterMiddleY 
+        double valueP1Y = meterMiddleY 
                 - (radius * Math.sin(Math.PI * (valueAngle / 180)));
 
-            valueP2X = meterMiddleX 
-                       + (radius1 * Math.cos(Math.PI * (valueAngle / 180)));
-            valueP2Y = meterMiddleY 
-                       - (radius1 * Math.sin(Math.PI * (valueAngle / 180)));
+        valueP2X = meterMiddleX 
+                + (radius1 * Math.cos(Math.PI * (valueAngle / 180)));
+        valueP2Y = meterMiddleY 
+                - (radius1 * Math.sin(Math.PI * (valueAngle / 180)));
 
-            Line2D.Double line = new Line2D.Double(
-                valueP1X, valueP1Y, valueP2X, valueP2Y
-            );
-            g2.draw(line);
-        }
-        else {
-            valueP2X = meterMiddleX;
-            valueP2Y = meterMiddleY;
-            valueAngle = 90;
-        }
+        Line2D.Double line = new Line2D.Double(valueP1X, valueP1Y, valueP2X, 
+                valueP2Y);
+        g2.draw(line);
 
         if (this.tickLabelsVisible && label) {
 
             String tickLabel =  this.tickLabelFormat.format(value);
-            if (curValue && units != null) {
-                tickLabel += " " + units;
-            }
-            if (curValue) {
-                g2.setFont(getValueFont());
-            }
-            else {
-                if (this.tickLabelFont != null) {
-                    g2.setFont(this.tickLabelFont);
-                }
-            }
+            g2.setFont(this.tickLabelFont);
+            g2.setPaint(this.tickLabelPaint);
 
             FontMetrics fm = g2.getFontMetrics();
             Rectangle2D tickLabelBounds 
@@ -1030,9 +1079,6 @@ public class MeterPlot extends Plot implements Serializable, Cloneable {
 
             double x = valueP2X;
             double y = valueP2Y;
-            if (curValue) {
-                y += DEFAULT_CIRCLE_SIZE;
-            }
             if (valueAngle == 90 || valueAngle == 270) {
                 x = x - tickLabelBounds.getWidth() / 2;
             }
@@ -1048,6 +1094,29 @@ public class MeterPlot extends Plot implements Serializable, Cloneable {
             }
             g2.drawString(tickLabel, (float) x, (float) y);
         }
+    }
+    
+    /**
+     * Draws the value label just below the center of the dial.
+     * 
+     * @param g2  the graphics device.
+     * @param area  the plot area.
+     */
+    protected void drawValueLabel(Graphics2D g2, Rectangle2D area) {
+        g2.setFont(this.valueFont);
+        g2.setPaint(this.valuePaint);
+        String valueStr = "No value";
+        if (dataset != null) {
+            Number n = dataset.getValue();
+            if (n != null) {
+                valueStr = this.tickLabelFormat.format(n.doubleValue()) + " " 
+                         + this.units;
+            }
+        }
+        float x = (float) area.getCenterX();
+        float y = (float) area.getCenterY() + DEFAULT_CIRCLE_SIZE;
+        TextUtilities.drawAlignedString(valueStr, g2, x, y, 
+                TextAnchor.TOP_CENTER);
     }
 
     /**
@@ -1074,66 +1143,76 @@ public class MeterPlot extends Plot implements Serializable, Cloneable {
      * Tests the plot for equality with an arbitrary object.  Note that the 
      * dataset is ignored for the purposes of testing equality.
      * 
-     * @param object  the object (<code>null</code> permitted).
+     * @param obj  the object (<code>null</code> permitted).
      * 
      * @return A boolean.
      */
-    public boolean equals(Object object) {
-        if (object == this) {
+    public boolean equals(Object obj) {
+        if (obj == this) {
             return true;
-        }        
-        if (object instanceof MeterPlot && super.equals(object)) {
-            MeterPlot that = (MeterPlot) object;
-            if (!ObjectUtilities.equal(this.units, that.units)) {
-                return false;   
-            }
-            if (!ObjectUtilities.equal(this.range, that.range)) {
-                return false;
-            }
-            if (!ObjectUtilities.equal(this.intervals, that.intervals)) {
-                return false;   
-            }
-            if (!ObjectUtilities.equal(this.dialOutlinePaint, 
-                    that.dialOutlinePaint)) {
-                return false;   
-            }
-            if (this.shape != that.shape) {
-                return false;   
-            }
-            if (!ObjectUtilities.equal(this.dialBackgroundPaint, 
-                    that.dialBackgroundPaint)) {
-                return false;   
-            }
-            if (!ObjectUtilities.equal(this.needlePaint, that.needlePaint)) {
-                return false;   
-            }
-            if (!ObjectUtilities.equal(this.valueFont, that.valueFont)) {
-                return false;   
-            }
-            if (!ObjectUtilities.equal(this.valuePaint, that.valuePaint)) {
-                return false;   
-            }
-            if (this.tickLabelsVisible != that.tickLabelsVisible) {
-                return false;   
-            }
-            if (!ObjectUtilities.equal(this.tickLabelFont, 
-                    that.tickLabelFont)) {
-                return false;   
-            }
-            if (!ObjectUtilities.equal(this.tickLabelFormat, 
-                    that.tickLabelFormat)) {
-                return false;   
-            }
-            if (this.drawBorder != that.drawBorder) {
-                return false;   
-            }
-            if (this.meterAngle != that.meterAngle) {
-                return false;   
-            }
-            
-            return true;
+        }   
+        if (!(obj instanceof MeterPlot)) {
+            return false;   
         }
-        return false;      
+        if (!super.equals(obj)) {
+            return false;
+        }
+        MeterPlot that = (MeterPlot) obj;
+        if (!ObjectUtilities.equal(this.units, that.units)) {
+            return false;   
+        }
+        if (!ObjectUtilities.equal(this.range, that.range)) {
+            return false;
+        }
+        if (!ObjectUtilities.equal(this.intervals, that.intervals)) {
+            return false;   
+        }
+        if (!PaintUtilities.equal(this.dialOutlinePaint, 
+                that.dialOutlinePaint)) {
+            return false;   
+        }
+        if (this.shape != that.shape) {
+            return false;   
+        }
+        if (!PaintUtilities.equal(this.dialBackgroundPaint, 
+                that.dialBackgroundPaint)) {
+            return false;   
+        }
+        if (!PaintUtilities.equal(this.needlePaint, that.needlePaint)) {
+            return false;   
+        }
+        if (!ObjectUtilities.equal(this.valueFont, that.valueFont)) {
+            return false;   
+        }
+        if (!PaintUtilities.equal(this.valuePaint, that.valuePaint)) {
+            return false;   
+        }
+        if (!PaintUtilities.equal(this.tickPaint, that.tickPaint)) {
+            return false;
+        }
+        if (this.tickSize != that.tickSize) {
+            return false;
+        }
+        if (this.tickLabelsVisible != that.tickLabelsVisible) {
+            return false;   
+        }
+        if (!ObjectUtilities.equal(this.tickLabelFont, that.tickLabelFont)) {
+            return false;   
+        }
+        if (!PaintUtilities.equal(this.tickLabelPaint, that.tickLabelPaint)) {
+            return false;
+        }
+        if (!ObjectUtilities.equal(this.tickLabelFormat, 
+                that.tickLabelFormat)) {
+            return false;   
+        }
+        if (this.drawBorder != that.drawBorder) {
+            return false;   
+        }
+        if (this.meterAngle != that.meterAngle) {
+            return false;   
+        }
+        return true;      
     }
     
     /**

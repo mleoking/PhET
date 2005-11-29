@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -26,7 +27,7 @@
  * --------------------
  * JFreeChartTests.java
  * --------------------
- * (C) Copyright 2002-2004, by Object Refinery Limited.
+ * (C) Copyright 2002-2005, by Object Refinery Limited.
  *
  * Original Author:  David Gilbert (for Object Refinery Limited);
  * Contributor(s):   -;
@@ -39,11 +40,17 @@
  * 17-Oct-2002 : Fixed errors reported by Checkstyle (DG);
  * 23-Sep-2003 : Removed null title test, since TM has added code to ensure 
  *               null titles cannot be created (DG);
+ * 24-Nov-2005 : Removed OldLegend (DG);
  *
  */
 
 package org.jfree.chart.junit;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GradientPaint;
+import java.awt.RenderingHints;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInput;
@@ -57,13 +64,19 @@ import junit.framework.TestSuite;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.RingPlot;
+import org.jfree.chart.title.LegendTitle;
+import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.time.Day;
 import org.jfree.data.time.RegularTimePeriod;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
+import org.jfree.ui.Align;
+import org.jfree.ui.RectangleInsets;
 
 /**
  * Tests for the {@link JFreeChart} class.
@@ -113,7 +126,111 @@ public class JFreeChartTests extends TestCase {
         );
 
     }
+    
+    /**
+     * Check that the equals() method can distinguish all fields.
+     */
+    public void testEquals() {
+        JFreeChart chart1 = new JFreeChart("Title", 
+                new Font("SansSerif", Font.PLAIN, 12), new PiePlot(), true);
+        JFreeChart chart2 = new JFreeChart("Title", 
+                new Font("SansSerif", Font.PLAIN, 12), new PiePlot(), true);
+        assertTrue(chart1.equals(chart2));
+        assertTrue(chart2.equals(chart1));
+        
+        // renderingHints
+        chart1.setRenderingHints(new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON));
+        assertFalse(chart1.equals(chart2));
+        chart2.setRenderingHints(new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON));
+        assertTrue(chart1.equals(chart2));
+        
+        // borderVisible
+        chart1.setBorderVisible(true);
+        assertFalse(chart1.equals(chart2));
+        chart2.setBorderVisible(true);
+        assertTrue(chart1.equals(chart2));
+        
+        // borderStroke
+        BasicStroke s = new BasicStroke(2.0f);
+        chart1.setBorderStroke(s);
+        assertFalse(chart1.equals(chart2));
+        chart2.setBorderStroke(s);
+        assertTrue(chart1.equals(chart2));
+        
+        // borderPaint
+        chart1.setBorderPaint(Color.red);
+        assertFalse(chart1.equals(chart2));
+        chart2.setBorderPaint(Color.red);
+        assertTrue(chart1.equals(chart2));
+        
+        // padding
+        chart1.setPadding(new RectangleInsets(1, 2, 3, 4));
+        assertFalse(chart1.equals(chart2));
+        chart2.setPadding(new RectangleInsets(1, 2, 3, 4));
+        assertTrue(chart1.equals(chart2));
+        
+        // title
+        chart1.setTitle("XYZ");
+        assertFalse(chart1.equals(chart2));
+        chart2.setTitle("XYZ");
+        assertTrue(chart1.equals(chart2));
+        
+        // subtitles
+        chart1.addSubtitle(new TextTitle("Subtitle"));
+        assertFalse(chart1.equals(chart2));
+        chart2.addSubtitle(new TextTitle("Subtitle"));
+        assertTrue(chart1.equals(chart2));
+        
+        // plot
+        chart1 = new JFreeChart("Title", 
+                new Font("SansSerif", Font.PLAIN, 12), new RingPlot(), false);
+        chart2 = new JFreeChart("Title", 
+                new Font("SansSerif", Font.PLAIN, 12), new PiePlot(), false);
+        assertFalse(chart1.equals(chart2));
+        chart2 = new JFreeChart("Title", 
+                new Font("SansSerif", Font.PLAIN, 12), new RingPlot(), false);
+        assertTrue(chart1.equals(chart2));
+        
+        // backgroundPaint
+        chart1.setBackgroundPaint(new GradientPaint(1.0f, 2.0f, Color.red, 
+                3.0f, 4.0f, Color.blue));
+        assertFalse(chart1.equals(chart2));
+        chart2.setBackgroundPaint(new GradientPaint(1.0f, 2.0f, Color.red, 
+                3.0f, 4.0f, Color.blue));
+        assertTrue(chart1.equals(chart2));
+        
+        // backgroundImage
+        chart1.setBackgroundImage(JFreeChart.INFO.getLogo());
+        assertFalse(chart1.equals(chart2));
+        chart2.setBackgroundImage(JFreeChart.INFO.getLogo());
+        assertTrue(chart1.equals(chart2));
+        
+        // backgroundImageAlignment
+        chart1.setBackgroundImageAlignment(Align.BOTTOM_LEFT);
+        assertFalse(chart1.equals(chart2));
+        chart2.setBackgroundImageAlignment(Align.BOTTOM_LEFT);
+        assertTrue(chart1.equals(chart2));
+        
+        // backgroundImageAlpha
+        chart1.setBackgroundImageAlpha(0.1f);
+        assertFalse(chart1.equals(chart2));
+        chart2.setBackgroundImageAlpha(0.1f);
+        assertTrue(chart1.equals(chart2));
+    }
 
+    /**
+     * A test to make sure that the legend is being picked up in the
+     * equals() testing.
+     */
+    public void testEquals2() {
+        JFreeChart chart1 = new JFreeChart("Title", 
+                new Font("SansSerif", Font.PLAIN, 12), new PiePlot(), true);
+        JFreeChart chart2 = new JFreeChart("Title", 
+                new Font("SansSerif", Font.PLAIN, 12), new PiePlot(), false);
+        assertFalse(chart1.equals(chart2));
+        assertFalse(chart2.equals(chart1));
+    }
+    
     /**
      * Checks the subtitle count - should be 1 (the legend).
      */
@@ -153,7 +270,8 @@ public class JFreeChartTests extends TestCase {
             e.printStackTrace();
         }
         assertEquals(c1, c2);
-
+        LegendTitle lt2 = c2.getLegend();
+        assertTrue(lt2.getSources()[0] == c2.getPlot());
     }
 
     /**

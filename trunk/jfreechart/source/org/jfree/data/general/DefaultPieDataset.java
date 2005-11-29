@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -46,6 +47,7 @@
  * 24-Apr-2003 : Switched places with DefaultKeyedValuesDataset (DG);
  * 18-Aug-2003 : Implemented Cloneable (DG);
  * 03-Mar-2005 : Implemented PublicCloneable (DG);
+ * 29-Jun-2005 : Added remove() method (DG);
  * 
  */
 
@@ -194,6 +196,17 @@ public class DefaultPieDataset extends AbstractDataset
      */
     public void setValue(Comparable key, double value) {
         setValue(key, new Double(value));
+    }
+    
+    /**
+     * Removes an item from the dataset and sends a {@link DatasetChangeEvent}
+     * to all registered listeners.
+     * 
+     * @param key  the key.
+     */
+    public void remove(Comparable key) {
+        this.data.removeValue(key);   
+        fireDatasetChanged();
     }
 
     /**

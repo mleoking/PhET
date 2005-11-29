@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -36,11 +37,15 @@
  * Changes:
  * --------
  * 07-Oct-2003 : Version 1 (DG);
+ * 09-Jun-2005 : Added a convenience method to access the entity 
+ *               collection (DG);
  *
  */
 
 package org.jfree.chart.renderer;
 
+import org.jfree.chart.ChartRenderingInfo;
+import org.jfree.chart.entity.EntityCollection;
 import org.jfree.chart.plot.PlotRenderingInfo;
 
 /**
@@ -67,6 +72,24 @@ public class RendererState {
      */
     public PlotRenderingInfo getInfo() {
         return this.info;
+    }
+    
+    /**
+     * A convenience method that returns a reference to the entity
+     * collection (may be <code>null</code>) being used to record
+     * chart entities.
+     * 
+     * @return The entity collection (possibly <code>null</code>).
+     */
+    public EntityCollection getEntityCollection() {
+        EntityCollection result = null;
+        if (this.info != null) {
+            ChartRenderingInfo owner = this.info.getOwner();
+            if (owner != null) {
+                result = owner.getEntityCollection(); 
+            }
+        }
+        return result;
     }
     
 }

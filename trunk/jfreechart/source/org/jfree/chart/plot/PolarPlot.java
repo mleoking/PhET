@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -26,7 +27,7 @@
  * --------------
  * PolarPlot.java
  * --------------
- * (C) Copyright 2004, by Solution Engineering, Inc. and Contributors.
+ * (C) Copyright 2004, 2005, by Solution Engineering, Inc. and Contributors.
  *
  * Original Author:  Daniel Bridenbecker, Solution Engineering, Inc.;
  * Contributor(s):   David Gilbert (for Object Refinery Limited);
@@ -38,6 +39,8 @@
  * 19-Jan-2004 : Version 1, contributed by DB with minor changes by DG (DG);
  * 07-Apr-2004 : Changed text bounds calculation (DG);
  * 05-May-2005 : Updated draw() method parameters (DG);
+ * 09-Jun-2005 : Fixed getDataRange() and equals() methods (DG);
+ * 25-Oct-2005 : Implemented Zoomable (DG);
  *
  */
 
@@ -84,6 +87,7 @@ import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.TextAnchor;
 import org.jfree.util.ObjectUtilities;
+import org.jfree.util.PaintUtilities;
 
 
 /**
@@ -93,6 +97,7 @@ import org.jfree.util.ObjectUtilities;
  * @author Daniel Bridenbecker, Solution Engineering, Inc.
  */
 public class PolarPlot extends Plot implements ValueAxisPlot, 
+                                               Zoomable,
                                                RendererChangeListener, 
                                                Cloneable, 
                                                Serializable {
@@ -141,7 +146,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot,
     /** A flag that controls whether or not the angle labels are visible. */
     private boolean angleLabelsVisible = true;
     
-    /** The font used to display the angle labels. */
+    /** The font used to display the angle labels - never null. */
     private Font angleLabelFont = new Font("SansSerif", Font.PLAIN, 12);
     
     /** The paint used to display the angle labels. */
@@ -197,53 +202,22 @@ public class PolarPlot extends Plot implements ValueAxisPlot,
         }
       
         this.angleTicks = new java.util.ArrayList();
-        this.angleTicks.add(
-            new NumberTick(
-                new Double(0.0), "0", TextAnchor.CENTER, TextAnchor.CENTER, 0.0
-            )
-        );
-        this.angleTicks.add(
-            new NumberTick(
-                new Double(45.0), "45", TextAnchor.CENTER, TextAnchor.CENTER, 
-                0.0
-            )
-        );
-        this.angleTicks.add(
-            new NumberTick(
-                new Double(90.0), "90", TextAnchor.CENTER, TextAnchor.CENTER, 
-                0.0
-            )
-        );
-        this.angleTicks.add(
-            new NumberTick(
-                new Double(135.0), "135", TextAnchor.CENTER, TextAnchor.CENTER,
-                0.0
-            )
-        );
-        this.angleTicks.add(
-            new NumberTick(
-                new Double(180.0), "180", TextAnchor.CENTER, TextAnchor.CENTER,
-                0.0
-            )
-        );
-        this.angleTicks.add(
-            new NumberTick(
-                new Double(225.0), "225", TextAnchor.CENTER, TextAnchor.CENTER,
-                0.0
-            )
-        );
-        this.angleTicks.add(
-            new NumberTick(
-                new Double(270.0), "270", TextAnchor.CENTER, TextAnchor.CENTER,
-                0.0
-            )
-        );
-        this.angleTicks.add(
-            new NumberTick(
-                new Double(315.0), "315", TextAnchor.CENTER, TextAnchor.CENTER,
-                0.0
-            )
-        );
+        this.angleTicks.add(new NumberTick(new Double(0.0), "0", 
+                TextAnchor.CENTER, TextAnchor.CENTER, 0.0));
+        this.angleTicks.add(new NumberTick(new Double(45.0), "45", 
+                TextAnchor.CENTER, TextAnchor.CENTER, 0.0));
+        this.angleTicks.add(new NumberTick(new Double(90.0), "90", 
+                TextAnchor.CENTER, TextAnchor.CENTER, 0.0));
+        this.angleTicks.add(new NumberTick(new Double(135.0), "135", 
+                TextAnchor.CENTER, TextAnchor.CENTER, 0.0));
+        this.angleTicks.add(new NumberTick(new Double(180.0), "180", 
+                TextAnchor.CENTER, TextAnchor.CENTER, 0.0));
+        this.angleTicks.add(new NumberTick(new Double(225.0), "225", 
+                TextAnchor.CENTER, TextAnchor.CENTER, 0.0));
+        this.angleTicks.add(new NumberTick(new Double(270.0), "270", 
+                TextAnchor.CENTER, TextAnchor.CENTER, 0.0));
+        this.angleTicks.add(new NumberTick(new Double(315.0), "315", 
+                TextAnchor.CENTER, TextAnchor.CENTER, 0.0));
         
         this.axis = radiusAxis;
         if (this.axis != null) {
@@ -269,26 +243,36 @@ public class PolarPlot extends Plot implements ValueAxisPlot,
     /**
      * Add text to be displayed in the lower right hand corner.
      * 
-     * @param text  the text to display.
+     * @param text  the text to display (<code>null</code> not permitted).
      */
     public void addCornerTextItem(String text) {
-       this.cornerTextItems.add(text);
+        if (text == null) {
+            throw new IllegalArgumentException("Null 'text' argument.");
+        }
+        this.cornerTextItems.add(text);
+        this.notifyListeners(new PlotChangeEvent(this));
     }
    
     /**
      * Remove the given text from the list of corner text items.
      * 
-     * @param text  the text to remove.
+     * @param text  the text to remove (<code>null</code> ignored).
      */
     public void removeCornerTextItem(String text) {
-       this.cornerTextItems.remove(text);
+        boolean removed = this.cornerTextItems.remove(text);
+        if (removed) {
+            this.notifyListeners(new PlotChangeEvent(this));        
+        }
     }
    
     /**
      * Clear the list of corner text items.
      */
-    public void clearCornerTextItem() {
-       this.cornerTextItems.clear();
+    public void clearCornerTextItems() {
+        if (this.cornerTextItems.size() > 0) {
+            this.cornerTextItems.clear();
+            this.notifyListeners(new PlotChangeEvent(this));        
+        }
     }
    
     /**
@@ -414,14 +398,16 @@ public class PolarPlot extends Plot implements ValueAxisPlot,
      * @param visible  the flag.
      */
     public void setAngleLabelsVisible(boolean visible) {
-        this.angleLabelsVisible = visible;
-        notifyListeners(new PlotChangeEvent(this));
+        if (this.angleLabelsVisible != visible) {
+            this.angleLabelsVisible = visible;
+            notifyListeners(new PlotChangeEvent(this));
+        }
     }
     
     /**
      * Returns the font used to display the angle labels.
      * 
-     * @return A font.
+     * @return A font (never <code>null</code>).
      */
     public Font getAngleLabelFont() {
         return this.angleLabelFont;
@@ -431,9 +417,12 @@ public class PolarPlot extends Plot implements ValueAxisPlot,
      * Sets the font used to display the angle labels and sends a 
      * {@link PlotChangeEvent} to all registered listeners.
      * 
-     * @param font  the font.
+     * @param font  the font (<code>null</code> not permitted).
      */
     public void setAngleLabelFont(Font font) {
+        if (font == null) {
+            throw new IllegalArgumentException("Null 'font' argument.");   
+        }
         this.angleLabelFont = font;
         notifyListeners(new PlotChangeEvent(this));
     }
@@ -684,7 +673,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot,
      * @param g2  the drawing surface.
      * @param area  the area.
      */
-    public void drawCornerTextItems(Graphics2D g2, Rectangle2D area) {
+    protected void drawCornerTextItems(Graphics2D g2, Rectangle2D area) {
         if (this.cornerTextItems.isEmpty()) {
             return;
         }
@@ -744,7 +733,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot,
      * @param info  an optional object for collection dimension 
      *              information (<code>null</code> permitted).
      */
-    public void render(Graphics2D g2,
+    protected void render(Graphics2D g2,
                        Rectangle2D dataArea,
                        PlotRenderingInfo info) {
       
@@ -828,9 +817,10 @@ public class PolarPlot extends Plot implements ValueAxisPlot,
      */
     public Range getDataRange(ValueAxis axis) {
         Range result = null;
-        result = Range.combine(
-            result, DatasetUtilities.findRangeBounds(this.dataset)
-        );
+        if (this.dataset != null) {
+            result = Range.combine(result, 
+                    DatasetUtilities.findRangeBounds(this.dataset));
+        }
         return result;
     }
    
@@ -907,12 +897,11 @@ public class PolarPlot extends Plot implements ValueAxisPlot,
     /**
      * Tests this plot for equality with another object.
      *
-     * @param obj  the object.
+     * @param obj  the object (<code>null</code> permitted).
      *
      * @return <code>true</code> or <code>false</code>.
      */
     public boolean equals(Object obj) {
-       
         if (obj == this) {
             return true;
         }
@@ -932,12 +921,21 @@ public class PolarPlot extends Plot implements ValueAxisPlot,
         if (this.angleGridlinesVisible != that.angleGridlinesVisible) {
             return false;
         }
+        if (this.angleLabelsVisible != that.angleLabelsVisible) {
+            return false;   
+        }
+        if (!this.angleLabelFont.equals(that.angleLabelFont)) {
+            return false;   
+        }
+        if (!PaintUtilities.equal(this.angleLabelPaint, that.angleLabelPaint)) {
+            return false;   
+        }
         if (!ObjectUtilities.equal(
             this.angleGridlineStroke, that.angleGridlineStroke
         )) {
             return false;
         }
-        if (!ObjectUtilities.equal(
+        if (!PaintUtilities.equal(
             this.angleGridlinePaint, that.angleGridlinePaint
         )) {
             return false;
@@ -950,12 +948,11 @@ public class PolarPlot extends Plot implements ValueAxisPlot,
         )) {
             return false;
         }
-        if (!ObjectUtilities.equal(
+        if (!PaintUtilities.equal(
             this.radiusGridlinePaint, that.radiusGridlinePaint
         )) {
             return false;
         }
-         
         return true;
     }
    
@@ -1030,55 +1027,55 @@ public class PolarPlot extends Plot implements ValueAxisPlot,
         }
     }
    
-    // ---------------------------------------
-    // --- ValueAxisPlot Interface Methods ---
-    // ---------------------------------------
-   
-    /** 
-     * Multiplies the range on the domain axis/axes by the specified factor.
+    /**
+     * This method is required by the {@link Zoomable} interface, but since
+     * the plot does not have any domain axes, it does nothing.
      *
-     * @param x  the x-coordinate (in Java2D space).
-     * @param y  the y-coordinate (in Java2D space).
      * @param factor  the zoom factor.
+     * @param state  the plot state.
+     * @param source  the source point (in Java2D coordinates).
      */
-    public void zoomDomainAxes(double x, double y, double factor) {
-        zoom(factor);
+    public void zoomDomainAxes(double factor, PlotRenderingInfo state, 
+                               Point2D source) {
+        // do nothing
     }
    
-    /** 
-     * Zooms in on the domain axes.
-     *
-     * @param x  the x-coordinate (in Java2D space).
-     * @param y  the y-coordinate (in Java2D space).
+    /**
+     * This method is required by the {@link Zoomable} interface, but since
+     * the plot does not have any domain axes, it does nothing.
+     * 
      * @param lowerPercent  the new lower bound.
      * @param upperPercent  the new upper bound.
+     * @param state  the plot state.
+     * @param source  the source point (in Java2D coordinates).
      */
-    public void zoomDomainAxes(double x, double y, double lowerPercent, 
-                               double upperPercent) {
-        zoom((upperPercent + lowerPercent) / 2.0);
+    public void zoomDomainAxes(double lowerPercent, double upperPercent, 
+                               PlotRenderingInfo state, Point2D source) {
+        // do nothing
     }
    
-    /** 
+    /**
      * Multiplies the range on the range axis/axes by the specified factor.
      *
-     * @param x  the x-coordinate (in Java2D space).
-     * @param y  the y-coordinate (in Java2D space).
      * @param factor  the zoom factor.
+     * @param state  the plot state.
+     * @param source  the source point (in Java2D coordinates).
      */
-    public void zoomRangeAxes(double x, double y, double factor) {
+    public void zoomRangeAxes(double factor, PlotRenderingInfo state, 
+                              Point2D source) {
         zoom(factor);
     }
    
-    /** 
+    /**
      * Zooms in on the range axes.
-     *
-     * @param x  the x-coordinate (in Java2D space).
-     * @param y  the y-coordinate (in Java2D space).
+     * 
      * @param lowerPercent  the new lower bound.
      * @param upperPercent  the new upper bound.
+     * @param state  the plot state.
+     * @param source  the source point (in Java2D coordinates).
      */
-    public void zoomRangeAxes(double x, double y, double lowerPercent, 
-                              double upperPercent) {
+    public void zoomRangeAxes(double lowerPercent, double upperPercent, 
+                              PlotRenderingInfo state, Point2D source) {
         zoom((upperPercent + lowerPercent) / 2.0);
     }   
 
@@ -1088,7 +1085,7 @@ public class PolarPlot extends Plot implements ValueAxisPlot,
      * @return A boolean.
      */
     public boolean isDomainZoomable() {
-        return true;
+        return false;
     }
     
     /**
@@ -1099,6 +1096,16 @@ public class PolarPlot extends Plot implements ValueAxisPlot,
     public boolean isRangeZoomable() {
         return true;
     }
+    
+    /**
+     * Returns the orientation of the plot.
+     * 
+     * @return The orientation.
+     */
+    public PlotOrientation getOrientation() {
+        return PlotOrientation.HORIZONTAL;
+    }
+
 
     // ----------------------
     // --- Public Methods ---

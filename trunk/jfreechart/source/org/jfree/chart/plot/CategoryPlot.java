@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -124,6 +125,10 @@
  * 01-Jun-2005 : Upon deserialization, register plot as a listener with its
  *               axes, dataset(s) and renderer(s) - see patch 1209475 (DG);
  * 02-Jun-2005 : Added support for domain markers (DG);
+ * 06-Jun-2005 : Fixed equals() method for use with GradientPaint (DG);
+ * 09-Jun-2005 : Added setRenderers(), as per RFE 1183100 (DG);
+ * 16-Jun-2005 : Added getDomainAxisCount() and getRangeAxisCount() methods, to
+ *               match XYPlot (see RFE 1220495) (DG);
  * 
  */
 
@@ -183,6 +188,7 @@ import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.util.ObjectList;
 import org.jfree.util.ObjectUtilities;
+import org.jfree.util.PaintUtilities;
 import org.jfree.util.PublicCloneable;
 import org.jfree.util.SortOrder;
 
@@ -707,6 +713,15 @@ public class CategoryPlot extends Plot
     }
 
     /**
+     * Returns the number of domain axes.
+     *
+     * @return The axis count.
+     */
+    public int getDomainAxisCount() {
+        return this.domainAxes.size();
+    }
+
+    /**
      * Clears the domain axes from the plot and sends a {@link PlotChangeEvent}
      * to all registered listeners.
      */
@@ -928,6 +943,15 @@ public class CategoryPlot extends Plot
             result = RectangleEdge.opposite(getRangeAxisEdge(0));
         }
         return result;
+    }
+
+    /**
+     * Returns the number of range axes.
+     *
+     * @return The axis count.
+     */
+    public int getRangeAxisCount() {
+        return this.rangeAxes.size();
     }
 
     /**
@@ -1173,6 +1197,19 @@ public class CategoryPlot extends Plot
         }
     }
 
+    /**
+     * Sets the renderers for this plot and sends a {@link PlotChangeEvent}
+     * to all registered listeners.
+     * 
+     * @param renderers  the renderers.
+     */
+    public void setRenderers(CategoryItemRenderer[] renderers) {
+        for (int i = 0; i < renderers.length; i++) {
+            setRenderer(i, renderers[i], false);   
+        }
+        notifyListeners(new PlotChangeEvent(this));
+    }
+    
     /**
      * Returns the renderer for the specified dataset.  If the dataset doesn't
      * belong to the plot, this method will return <code>null</code>.
@@ -2188,9 +2225,13 @@ public class CategoryPlot extends Plot
         }
 
         // record the plot area...
-        if (state != null) {
-            state.setPlotArea(area);
+        if (state == null) {
+            // if the incoming state is null, no information will be passed
+            // back to the caller - but we create a temporary state to record
+            // the plot area, since that is used later by the axes
+            state = new PlotRenderingInfo(null);
         }
+        state.setPlotArea(area);
 
         // adjust the drawing area for the plot insets (if any)...
         RectangleInsets insets = getInsets();
@@ -3001,7 +3042,7 @@ public class CategoryPlot extends Plot
         )) {
             return false;
         }
-        if (!ObjectUtilities.equal(
+        if (!PaintUtilities.equal(
             this.domainGridlinePaint, that.domainGridlinePaint
         )) {
             return false;
@@ -3014,7 +3055,7 @@ public class CategoryPlot extends Plot
         )) {
             return false;
         }
-        if (!ObjectUtilities.equal(
+        if (!PaintUtilities.equal(
             this.rangeGridlinePaint, that.rangeGridlinePaint
         )) {
             return false;
@@ -3033,7 +3074,7 @@ public class CategoryPlot extends Plot
         )) {
             return false;
         }
-        if (!ObjectUtilities.equal(
+        if (!PaintUtilities.equal(
             this.rangeCrosshairPaint, that.rangeCrosshairPaint
         )) {
             return false;

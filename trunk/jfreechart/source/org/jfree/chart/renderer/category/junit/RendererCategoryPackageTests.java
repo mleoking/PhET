@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -37,6 +38,7 @@
  * --------
  * 23-Aug-2004 : Restructured org.jfree.chart.renderer package (DG);
  * 18-Jan-2005 : Added main() method.
+ * 15-Jun-2005 : Added new tests for StatisticalLineAndShapeRendererTests (DG);
  *
  */
 
@@ -79,6 +81,7 @@ public class RendererCategoryPackageTests extends TestCase {
         suite.addTestSuite(StackedBarRendererTests.class);
         suite.addTestSuite(StackedBarRenderer3DTests.class);
         suite.addTestSuite(StatisticalBarRendererTests.class);
+        suite.addTestSuite(StatisticalLineAndShapeRendererTests.class);
         suite.addTestSuite(WaterfallBarRendererTests.class);
         return suite;
     }

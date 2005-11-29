@@ -16,9 +16,10 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
  * License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License 
- * along with this library; if not, write to the Free Software Foundation, 
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * USA.  
  *
  * [Java is a trademark or registered trademark of Sun Microsystems, Inc. 
  * in the United States and other countries.]
@@ -109,6 +110,8 @@
  *               PublicCloneable) (DG);
  * 21-Apr-2005 : Replaced Insets with RectangleInsets (DG);
  * 05-May-2005 : Removed unused draw() method (DG);
+ * 06-Jun-2005 : Fixed bugs in equals() method (DG);
+ * 01-Sep-2005 : Moved dataAreaRatio from here to ContourPlot (DG);
  *
  */
 
@@ -154,6 +157,7 @@ import org.jfree.ui.Align;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.util.ObjectUtilities;
+import org.jfree.util.PaintUtilities;
 import org.jfree.util.PublicCloneable;
 
 /**
@@ -252,17 +256,6 @@ public abstract class Plot implements AxisChangeListener,
 
     /** Storage for registered change listeners. */
     private transient EventListenerList listenerList;
-
-    /** 
-     * Defines dataArea rectangle as the ratio formed from dividing height by 
-     * width (of the dataArea).  Modifies plot area calculations.
-     * ratio>0 will attempt to layout the plot so that the
-     * dataArea.height/dataArea.width = ratio.
-     * ratio<0 will attempt to layout the plot so that the
-     * dataArea.height/dataArea.width in plot units (not java2D units as when 
-     * ratio>0) = -1.*ratio.
-     */         //dmo
-    private double dataAreaRatio = 0.0;  //zero when the parameter is not set
 
     /**
      * Creates a new plot.
@@ -956,42 +949,20 @@ public abstract class Plot implements AxisChangeListener,
     }
 
     /**
-     * Returns the data area ratio.
-     *
-     * @return The ratio.
-     */
-    public double getDataAreaRatio() {
-        return this.dataAreaRatio;
-    }
-
-    /**
-     * Sets the data area ratio.
-     *
-     * @param ratio  the ratio.
-     */
-    public void setDataAreaRatio(double ratio) {
-        this.dataAreaRatio = ratio;
-    }
-
-    /**
      * Tests this plot for equality with another object.
      *
-     * @param obj  the object.
+     * @param obj  the object (<code>null</code> permitted).
      *
      * @return <code>true</code> or <code>false</code>.
      */
     public boolean equals(Object obj) {
-
         if (obj == this) {
             return true;
         }
-
         if (!(obj instanceof Plot)) {
             return false;
         }
-
         Plot that = (Plot) obj;
-
         if (!ObjectUtilities.equal(this.noDataMessage, that.noDataMessage)) {
             return false;
         }
@@ -1000,25 +971,21 @@ public abstract class Plot implements AxisChangeListener,
         )) {
             return false;
         }
-        if (!ObjectUtilities.equal(
+        if (!PaintUtilities.equal(
             this.noDataMessagePaint, that.noDataMessagePaint
         )) {
             return false;
         }
-
         if (!ObjectUtilities.equal(this.insets, that.insets)) {
             return false;
         }
         if (!ObjectUtilities.equal(this.outlineStroke, that.outlineStroke)) {
             return false;
         }
-        if (!ObjectUtilities.equal(this.outlinePaint, that.outlinePaint)) {
+        if (!PaintUtilities.equal(this.outlinePaint, that.outlinePaint)) {
             return false;
         }
-
-        if (!ObjectUtilities.equal(
-            this.backgroundPaint, that.backgroundPaint
-        )) {
+        if (!PaintUtilities.equal(this.backgroundPaint, that.backgroundPaint)) {
             return false;
         }
         if (!ObjectUtilities.equal(
@@ -1029,16 +996,16 @@ public abstract class Plot implements AxisChangeListener,
         if (this.backgroundImageAlignment != that.backgroundImageAlignment) {
             return false;
         }
-
         if (this.foregroundAlpha != that.foregroundAlpha) {
             return false;
         }
         if (this.backgroundAlpha != that.backgroundAlpha) {
             return false;
         }
-
+        if (!this.drawingSupplier.equals(that.drawingSupplier)) {
+            return false;   
+        }
         return true;
-
     }
 
     /**
