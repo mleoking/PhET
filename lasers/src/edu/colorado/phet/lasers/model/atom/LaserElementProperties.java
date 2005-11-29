@@ -10,6 +10,7 @@
  */
 package edu.colorado.phet.lasers.model.atom;
 
+import edu.colorado.phet.dischargelamps.model.EnergyAbsorptionStrategy;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 
 /**

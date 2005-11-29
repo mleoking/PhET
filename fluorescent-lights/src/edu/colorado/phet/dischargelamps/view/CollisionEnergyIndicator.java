@@ -39,7 +39,7 @@ import java.awt.geom.Point2D;
  */
 public class CollisionEnergyIndicator extends CompositePhetGraphic {
 
-    private Atom atom;
+    private DischargeLampAtom atom;
     private DischargeLampModel model;
     private ModelViewTransform1D energyYTx;
 
@@ -82,7 +82,8 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
         // Attach a listener to the model that moves the graphic when the model-view tranform changes
         model = (DischargeLampModel)module.getModel();
         model.addChangeListener( new ModelChangeListener() );
-        atom = module.getAtom();
+        atom = (DischargeLampAtom)module.getAtom();
+//        atom = (module.getAtom();
         atom.addChangeListener( new AtomChangeListener() );
         this.energyYTx = elmp.getEnergyYTx();
         energyYTx.addListener( new ModelViewTransform1D.Observer() {
@@ -107,7 +108,8 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
         else {
             emittingPlate = model.getRightHandPlate();
         }
-        plateToAtomDist = emittingPlate.getPosition().distance( atom.getPosition() ) - atom.getRadius();
+        plateToAtomDist = emittingPlate.getPosition().distance( atom.getPosition() ) - atom.getBaseRadius();
+//        plateToAtomDist = emittingPlate.getPosition().distance( atom.getPosition() ) - atom.getRadius();
 
         // The energy an electron has when it hits the atom
         double electronEnergy = Math.abs( voltage ) * ( plateToAtomDist / plateToPlateDist );
@@ -118,6 +120,7 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
                                        + model.getAtomicStates()[0].getEnergyLevel() );
 
         System.out.println( "voltage = " + voltage );
+        System.out.println( "electronEnergy = " + electronEnergy );
         System.out.println( "atom.getRadius() = " + atom.getRadius() );
         if( y == 82 ) {
             System.out.println( "CollisionEnergyIndicator.update" );
