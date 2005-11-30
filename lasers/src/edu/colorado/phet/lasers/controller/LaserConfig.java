@@ -33,7 +33,7 @@ public class LaserConfig {
     //----------------------------------------------------------------
 
     // Physical things
-    public static final double ELECTRON_RADIUS = 3;
+//    public static final double ELECTRON_RADIUS = 3;
     public static Point2D.Double ORIGIN = new Point2D.Double( 120, 200 );
 
     // Beam parameters

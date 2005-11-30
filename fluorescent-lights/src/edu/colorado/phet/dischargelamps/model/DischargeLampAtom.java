@@ -105,7 +105,6 @@ public class DischargeLampAtom extends Atom {
     }
 
     public void setElementProperties( DischargeLampElementProperties elementProperties ) {
-//        this.elementProperties = elementProperties;
         this.energyAbsorptionStrategy = elementProperties.getEnergyAbsorptionStrategy();
         this.energyEmissionStrategy = elementProperties.getEnergyEmissionStrategy();
 

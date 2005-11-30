@@ -14,7 +14,6 @@ import edu.colorado.phet.collision.SphericalBody;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.PhysicsUtil;
 
 import java.util.EventListener;
@@ -36,10 +35,8 @@ public class Electron extends SphericalBody /*implements Collidable*/ {
     // Class data
     //----------------------------------------------------------------
 
-    // Mass of an electron, in kg
-    private static final double ELECTRON_MASS = 9.11E-31;// * PIXELS_PER_NM;
     // Radius of an electron. An arbitrary dimension based on how it looks on the screen
-    private static final double ELECTRON_RADIUS = 2;
+    public static final double ELECTRON_RADIUS = 2;
 
     //----------------------------------------------------------------
     // Instance data
@@ -55,8 +52,8 @@ public class Electron extends SphericalBody /*implements Collidable*/ {
     }
 
     public Electron( double x, double y ) {
-        super( LaserConfig.ELECTRON_RADIUS );
-        setMass( ELECTRON_MASS );
+        super( ELECTRON_RADIUS );
+        setMass( PhysicsUtil.ELECTRON_MASS );
         setRadius( ELECTRON_RADIUS );
         setPosition( x, y );
     }
@@ -85,7 +82,6 @@ public class Electron extends SphericalBody /*implements Collidable*/ {
      * @return
      */
     public double getEnergy() {
-//        double ke = getVelocity().getMagnitudeSq() * getMass() / 2;
         double ke = DischargeLampsConfig.PIXELS_PER_NM * DischargeLampsConfig.PIXELS_PER_NM * getVelocity().getMagnitudeSq() * getMass() / 2;
         double ev = ke * PhysicsUtil.EV_PER_JOULE;
         return ev;
@@ -102,7 +98,6 @@ public class Electron extends SphericalBody /*implements Collidable*/ {
         // compute the speed of the electron
         double sNew = Math.sqrt( 2 * ke / getMass() );
         double sCurr = getVelocity().getMagnitude();
-//        setVelocity( getVelocity().scale( sNew / sCurr ) );
         setVelocity( getVelocity().scale( sNew / sCurr / DischargeLampsConfig.PIXELS_PER_NM ) );
         changeListenerProxy.energyChanged( new ChangeEvent( this ) );
     }

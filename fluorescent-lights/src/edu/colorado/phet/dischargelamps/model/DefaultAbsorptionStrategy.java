@@ -38,7 +38,7 @@ public class DefaultAbsorptionStrategy extends EnergyAbsorptionStrategy {
     public void collideWithElectron( Atom atom, Electron electron ) {
         AtomicState[] states = atom.getStates();
         AtomicState currState = atom.getCurrState();
-        double electronEnergy = getElectronEnergyAtCollision( atom, electron );
+        double electronEnergy = getElectronEnergyAtCollision( (DischargeLampAtom)atom, electron );
 
         // Find the index of the current state
         int currStateIdx = 0;

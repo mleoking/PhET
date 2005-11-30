@@ -20,6 +20,7 @@ import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.SingleAtomModule;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
+import edu.colorado.phet.dischargelamps.model.Electron;
 import edu.colorado.phet.dischargelamps.model.Plate;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.GroundState;
@@ -108,8 +109,9 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
         else {
             emittingPlate = model.getRightHandPlate();
         }
-        plateToAtomDist = emittingPlate.getPosition().distance( atom.getPosition() ) - atom.getBaseRadius();
-//        plateToAtomDist = emittingPlate.getPosition().distance( atom.getPosition() ) - atom.getRadius();
+        // Must correct the distance between the plate and the atom by the radii of the atom and an electron. Note
+        // the sign of the electron radius correction. This seems to work(???)
+        plateToAtomDist = emittingPlate.getPosition().distance( atom.getPosition() ) - atom.getBaseRadius() + Electron.ELECTRON_RADIUS;
 
         // The energy an electron has when it hits the atom
         double electronEnergy = Math.abs( voltage ) * ( plateToAtomDist / plateToPlateDist );
@@ -119,12 +121,6 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
         int y = energyYTx.modelToView( ( electronEnergy * DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR )
                                        + model.getAtomicStates()[0].getEnergyLevel() );
 
-        System.out.println( "voltage = " + voltage );
-        System.out.println( "electronEnergy = " + electronEnergy );
-        System.out.println( "atom.getRadius() = " + atom.getRadius() );
-        if( y == 82 ) {
-            System.out.println( "CollisionEnergyIndicator.update" );
-        }
         y = Math.max( y, 10 );
         setLocation( 0, y );
         setBoundsDirty();
