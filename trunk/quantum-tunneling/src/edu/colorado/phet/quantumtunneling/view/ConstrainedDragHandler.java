@@ -111,8 +111,8 @@ public class ConstrainedDragHandler extends PBasicInputEventHandler {
          * relative to the node's center point. We want the center 
          * of the node to remain in the bounds.
          */
-        double x = mousePosition.getX() + _pressedOffset.getX();
-        double y = mousePosition.getY() + _pressedOffset.getY();
+        double x = mousePosition.getX() - _pressedOffset.getX();
+        double y = mousePosition.getY() - _pressedOffset.getY();
         _adjustedMousePosition.setLocation( x, y );
         
         // Calculate dx
