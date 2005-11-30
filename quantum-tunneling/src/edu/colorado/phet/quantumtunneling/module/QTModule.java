@@ -84,7 +84,7 @@ public class QTModule extends AbstractModule {
     private PNode _legend;
     private ChartNode _chartNode;
     private QTCombinedChart _chart;
-    private Rectangle2D _energyPlotBounds;
+    private EnergyManipulator _manipulator;
     
     // Control
     private PSwing _configureButton;
@@ -169,66 +169,9 @@ public class QTModule extends AbstractModule {
         
         // XXX EnergyManipulator tests
         {
-            final Point2D startPoint = new Point2D.Double( 100, 100 );
-            
-            EnergyManipulator manipulator = new EnergyManipulator();
-            manipulator.translate( startPoint.getX(), startPoint.getY() );
-            manipulator.translate( -manipulator.getWidth() / 2, -manipulator.getHeight() / 2 ); // registration point @ center
-            _parentNode.addChild( manipulator );
-            
-            manipulator.addInputEventListener( new CursorHandler() );
-            manipulator.addInputEventListener( new PBasicInputEventHandler() {
-                
-                private Point2D _somePoint = new Point2D.Double();
-                private boolean _outOfBounds = false;
-                
-                public void mouseDragged( PInputEvent event ) {
-                    
-                    PNode node = event.getPickedNode();
-                    
-                    if ( _outOfBounds ) {
-                        // Don't resume dragging until the mouse cursor is inside the node.
-                        Point2D mousePosition = event.getPosition();
-                        Rectangle2D nodeBounds = node.getBounds();
-                        nodeBounds = node.localToGlobal( nodeBounds );
-                        if ( nodeBounds.contains( mousePosition ) ) {
-                            _outOfBounds = false;
-                        }
-                    }
-                    else {
-                        // Determine the hypothetical point to move to.
-                        PDimension delta = event.getDeltaRelativeTo( node );
-                        PAffineTransform transform = node.getTransformReference( true );
-                        transform.transform( new Point2D.Double( node.getWidth() / 2, node.getHeight() / 2 ), _somePoint );
-                        _somePoint.setLocation( _somePoint.getX() + delta.width, _somePoint.getY() );
-
-                        if ( _energyPlotBounds.contains( _somePoint ) ) {
-                            // If the point is inside the bound, then do the drag.
-                            node.translate( delta.width, 0 );
-                        }
-                        else {
-                            // If the point is outside the bounds, drag to one of the extremes.
-                            _outOfBounds = true;
-                            Rectangle2D nodeBounds = node.getBounds();
-                            nodeBounds = node.localToGlobal( nodeBounds );
-                            if ( _somePoint.getX() < _energyPlotBounds.getX() ) {
-                                // Move the manipulator to the far left
-                                double deltaX = nodeBounds.getX() + ( node.getWidth() / 2 ) - _energyPlotBounds.getX();
-                                node.translate( -deltaX, 0 );
-                            }
-                            else {
-                                // Move the manipulator to the far right
-                                double deltaX = _energyPlotBounds.getX() + _energyPlotBounds.getWidth() - ( node.getWidth() / 2 ) - nodeBounds.getX();
-                                node.translate( deltaX, 0 );
-                            }
-                        }
-                    }
-                }
-                
-                public void mouseReleased( PInputEvent event ) {
-                    _outOfBounds = false;
-                }
-            } );
+            _manipulator = new EnergyManipulator();
+            _manipulator.translate( 100, 100 );
+            _parentNode.addChild( _manipulator );
         }
         
         //----------------------------------------------------------------------------
@@ -295,15 +238,13 @@ public class QTModule extends AbstractModule {
             _chartNode.setTransform( chartTransform );
         }
 
-        // Bounds 
+        // Manipulators
         ChartRenderingInfo chartInfo = _chartNode.getChartRenderingInfo();
         if ( chartInfo != null ) {
             PlotRenderingInfo plotInfo = chartInfo.getPlotInfo();
-            _energyPlotBounds = plotInfo.getSubplotInfo( QTCombinedChart.ENERGY_PLOT_INDEX ).getDataArea();
-            _energyPlotBounds = _chartNode.localToGlobal( _energyPlotBounds );
-        }
-        else {
-            _energyPlotBounds = new Rectangle2D.Double();
+            Rectangle2D energyPlotBounds = plotInfo.getSubplotInfo( QTCombinedChart.ENERGY_PLOT_INDEX ).getDataArea();
+            energyPlotBounds = _chartNode.localToGlobal( energyPlotBounds );
+            _manipulator.setDragBounds( energyPlotBounds );
         }
     }
     
