@@ -61,6 +61,7 @@ JFREECHART:
 - XYTextAnnotation doesn't support HTML
 
 DONE:
+(11/29/05) - piccolo-phet: fix CursorHandler
 (11/28/05) - use a darker green for total energy label
 (11/28/05) - handle validation of inputs in Configure dialog, beep and reset if invalid
 (11/28/05) - label EnergyPlot axes using integer ticks

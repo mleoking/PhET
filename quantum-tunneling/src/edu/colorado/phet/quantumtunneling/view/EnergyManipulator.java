@@ -23,14 +23,14 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 
 /**
- * DragHandle
+ * EnergyManipulator
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class DragHandle extends ImageNode {
+public class EnergyManipulator extends ImageNode {
 
-    public DragHandle() {
+    public EnergyManipulator() {
         super( QTConstants.IMAGE_DRAG_HANDLE_LR );
     }
 }
