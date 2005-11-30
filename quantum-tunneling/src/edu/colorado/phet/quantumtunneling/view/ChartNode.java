@@ -12,7 +12,6 @@
 package edu.colorado.phet.quantumtunneling.view;
 
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.geom.Rectangle2D;
 
 import org.jfree.chart.ChartRenderingInfo;
@@ -36,8 +35,9 @@ public class ChartNode extends PNode implements ChartChangeListener {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private JFreeChart _chart;
-    private ChartRenderingInfo _info;
+    private JFreeChart _chart; // chart associated with the node
+    private ChartRenderingInfo _info; // the chart's rendering info
+    private boolean _renderInfoValid; // is chart's render info valid?
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -53,32 +53,52 @@ public class ChartNode extends PNode implements ChartChangeListener {
         _info = new ChartRenderingInfo();
         _chart = chart;
         _chart.addChangeListener( this );
+        _renderInfoValid = false; // not valid until paint has been called
     }
 
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Gets the chart that is associated with this node.
+     * 
+     * @return JFreeChart
+     */
     public JFreeChart getChart() {
         return _chart;
     }
     
+    /**
+     * Gets the chart's rendering info. This information is valid only 
+     * after the node has been painted at least once.  If the node hasn't
+     * been painted yet, this method returns null.
+     * 
+     * @return ChartRenderingInfo, possibly null
+     */
     public ChartRenderingInfo getChartRenderingInfo() {
-        return _info;
-    }
-    
-    public Rectangle2D getDataArea() {
-        Rectangle2D dataArea = _info.getPlotInfo().getDataArea();
-        return new Rectangle2D.Double( dataArea.getX(), dataArea.getY(), dataArea.getWidth(), dataArea.getHeight() );
+        if ( _renderInfoValid ) {
+            return _info;
+        }
+        else {
+            return null;
+        }
     }
     
     //----------------------------------------------------------------------------
     // PNode overrides
     //----------------------------------------------------------------------------
     
+    /*
+     * Paints the node.
+     * The node's bounds (stored in the node's local coordinate system) are used
+     * to determine the size and location of the chart.
+     * Painting the node also updates the chart's rendering info.
+     */
     protected void paint( PPaintContext paintContext ) {
         Graphics2D g2 = paintContext.getGraphics();
         _chart.draw( g2, getBoundsReference(), _info );
+        _renderInfoValid = true;
     }
     
     //----------------------------------------------------------------------------
@@ -92,8 +112,8 @@ public class ChartNode extends PNode implements ChartChangeListener {
      */
     public void chartChanged( ChartChangeEvent event ) {
         /* 
-         * Do not look at event.getSource(), since we 
-         * can't identify all of the chart's components.
+         * Do not look at event.getSource(), since the source of the event is
+         * likely to be one of the chart's components rather than the chart itself.
          */
         repaint();
     }
