@@ -6,6 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- drag handles aren't constrained properly when main frame is resized
 - attach drag handles to energy plots
 - use setFixedLegendItems to control what's in the legend
 - use an IntervalMarker with a gradient paint for Total Energy of wave packet
