@@ -11,15 +11,12 @@
 
 package edu.colorado.phet.quantumtunneling.view;
 
-import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.util.PAffineTransform;
-import edu.umd.cs.piccolo.util.PDimension;
 
 
 /**
@@ -34,13 +31,19 @@ public class ConstrainedDragHandler extends PBasicInputEventHandler {
     // Instance data
     //----------------------------------------------------------------------------
     
+    /* bounds that constrain the dragging, in global coordinates */
     private Rectangle2D _dragBounds;
+    /* center of the node, in the node's local coordinates */
     private Point2D _nodeCenter;
-    private Point2D _hypotheticalLocation;
-    private boolean _dragEnabled;
-    private boolean _verticalLockEnabled;
+    /* where the mouse was pressed relative to the node's center */
+    private Point2D _pressedOffset; 
+    /* mouse position, adjusted for the pressed offset */
+    private Point2D _adjustedMousePosition;
+    /* is the horizontal (x) position locked? */
     private boolean _horizontalLockEnabled;
-    
+    /* is the vertical (y) position locked? */
+    private boolean _verticalLockEnabled;
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -48,8 +51,10 @@ public class ConstrainedDragHandler extends PBasicInputEventHandler {
     public ConstrainedDragHandler() {
         _dragBounds = new Rectangle2D.Double();
         _nodeCenter = new Point2D.Double();
-        _hypotheticalLocation = new Point2D.Double();
-        _dragEnabled = true;
+        _pressedOffset = new Point2D.Double();
+        _adjustedMousePosition = new Point2D.Double();
+        _verticalLockEnabled = false;
+        _horizontalLockEnabled = false;
     }
     
     //----------------------------------------------------------------------------
@@ -84,62 +89,71 @@ public class ConstrainedDragHandler extends PBasicInputEventHandler {
     // PBasicInputEventHandler overrides
     //----------------------------------------------------------------------------
     
-    public void mouseDragged( PInputEvent event ) {
+    public void mousePressed( PInputEvent event ) {
         
+        Point2D mousePosition = event.getPosition();
         PNode node = event.getPickedNode();
+        Rectangle2D nodeBounds = node.getGlobalFullBounds();
         
-        if ( ! _dragEnabled ) {
-            // Don't resume dragging until the mouse cursor is inside the node.
-            Point2D mousePosition = event.getPosition();
-            Rectangle2D nodeBounds = node.getBounds();
-            nodeBounds = node.localToGlobal( nodeBounds );
-            if ( nodeBounds.contains( mousePosition ) ) {
-                _dragEnabled = true;
-            }
-        }
-        else {
-            PDimension delta = event.getDeltaRelativeTo( node );
-            double deltaX = ( _horizontalLockEnabled ) ? 0 : delta.width;
-            double deltaY = ( _verticalLockEnabled ) ? 0 : delta.height;
-            
-            // Determine the hypothetical point to move to.
-            node.getTransformReference( true ).transform( _nodeCenter, _hypotheticalLocation );
-            _hypotheticalLocation.setLocation( _hypotheticalLocation.getX() + deltaX, _hypotheticalLocation.getY() + deltaY );
-
-            // If the point is outside the bounds, drag to one of the extremes.
-            if ( ! _dragBounds.contains( _hypotheticalLocation ) ) {
-
-                _dragEnabled = false;
-                
-                Rectangle2D nodeBounds = node.getGlobalFullBounds();
-                
-                // Adjust deltaX
-                if ( _hypotheticalLocation.getX() < _dragBounds.getX() ) {
-                    // far left
-                    deltaX = _dragBounds.getX() - nodeBounds.getX() - _nodeCenter.getX();
-                }
-                else if ( _hypotheticalLocation.getX() > _dragBounds.getX() + _dragBounds.getWidth() ) {
-                    // far right
-                    deltaX = _dragBounds.getX() + _dragBounds.getWidth()  - nodeBounds.getX() - _nodeCenter.getX();
-                }
-                
-                // Adjust deltaY
-                if ( _hypotheticalLocation.getY() < _dragBounds.getY() ) {
-                    // top
-                    deltaY = _dragBounds.getY() - nodeBounds.getY() - _nodeCenter.getY();
-                }
-                else if ( _hypotheticalLocation.getY() > _dragBounds.getY() + _dragBounds.getHeight() ) { 
-                    // bottom 
-                    deltaY = _dragBounds.getY() + _dragBounds.getHeight()  - nodeBounds.getY() - _nodeCenter.getY();
-                }
-            }
-            
-            // Perform the drag
-            node.translate( deltaX, deltaY );
-        }
+        double x = mousePosition.getX() - nodeBounds.getX() - _nodeCenter.getX();
+        double y = mousePosition.getY() - nodeBounds.getY() - _nodeCenter.getY();
+        _pressedOffset.setLocation( x, y );
     }
     
-    public void mouseReleased( PInputEvent event ) {
-        _dragEnabled = false;
+    public void mouseDragged( PInputEvent event ) {
+        
+        Point2D mousePosition = event.getPosition();
+        PNode node = event.getPickedNode();
+        Rectangle2D nodeBounds = node.getGlobalFullBounds();
+
+        /*
+         * Adjust the mouse location to account for where we clicked 
+         * relative to the node's center point. We want the center 
+         * of the node to remain in the bounds.
+         */
+        double x = mousePosition.getX() + _pressedOffset.getX();
+        double y = mousePosition.getY() + _pressedOffset.getY();
+        _adjustedMousePosition.setLocation( x, y );
+        
+        // Calculate dx
+        double dx = 0;
+        if ( _horizontalLockEnabled ) {
+            dx = 0;
+        }
+        else if ( _adjustedMousePosition.getX() < _dragBounds.getX() ) {
+            // move to far left
+            dx = _dragBounds.getX() - nodeBounds.getX() - _nodeCenter.getX();
+        }
+        else if ( _adjustedMousePosition.getX() > _dragBounds.getX() + _dragBounds.getWidth() ) {
+            // move to far right
+            dx = _dragBounds.getX() + _dragBounds.getWidth() - nodeBounds.getX() - _nodeCenter.getX();
+        }
+        else {
+            // follow mouse
+            dx = mousePosition.getX() - nodeBounds.getX() - _pressedOffset.getX() - _nodeCenter.getX();
+        }
+
+        // Calculate dy
+        double dy = 0;
+        if ( _verticalLockEnabled ) {
+            dy = 0;
+        }
+        else if ( _adjustedMousePosition.getY() < _dragBounds.getY() ) {
+            // move to top
+            dy = _dragBounds.getY() - nodeBounds.getY() - _nodeCenter.getY();
+        }
+        else if ( _adjustedMousePosition.getY() > _dragBounds.getY() + _dragBounds.getHeight() ) {
+            // move to bottom 
+            dy = _dragBounds.getY() + _dragBounds.getHeight() - nodeBounds.getY() - _nodeCenter.getY();
+        }
+        else {
+            // follow mouse
+            dy = mousePosition.getY() - nodeBounds.getY() - _pressedOffset.getY() - _nodeCenter.getY();
+        }
+
+        // Perform the drag
+        if ( dx != 0 || dy != 0 ) {
+            node.translate( dx, dy );
+        }
     }
 }
