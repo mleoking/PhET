@@ -59,10 +59,10 @@ public class DragHandle extends ImageNode {
         
         // Set the image...
         if ( orientation == HORIZONTAL ) {
-            setImageByResourceName( QTConstants.IMAGE_DRAG_HORIZONTAL );
+            setImageByResourceName( QTConstants.IMAGE_DRAG_HANDLE_HORIZONTAL );
         }
         else {
-            setImageByResourceName( QTConstants.IMAGE_DRAG_VERTICAL );
+            setImageByResourceName( QTConstants.IMAGE_DRAG_HANDLE_VERTICAL );
         }
         
         // registration point @ center

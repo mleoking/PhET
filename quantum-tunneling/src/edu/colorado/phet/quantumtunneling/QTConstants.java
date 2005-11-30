@@ -100,8 +100,8 @@ public class QTConstants {
     public static final String IMAGES_DIRECTORY = "images/";
     public static final String IMAGE_ARROW_L2R = IMAGES_DIRECTORY + "arrowL2R.png";
     public static final String IMAGE_ARROW_R2L = IMAGES_DIRECTORY + "arrowR2L.png";
-    public static final String IMAGE_DRAG_HORIZONTAL = IMAGES_DIRECTORY + "dragHandleHorizontal.png";
-    public static final String IMAGE_DRAG_VERTICAL = IMAGES_DIRECTORY + "dragHandleVertical.png";
+    public static final String IMAGE_DRAG_HANDLE_HORIZONTAL = IMAGES_DIRECTORY + "dragHandleHorizontal.png";
+    public static final String IMAGE_DRAG_HANDLE_VERTICAL = IMAGES_DIRECTORY + "dragHandleVertical.png";
     
     //----------------------------------------------------------------------------
     // Wave Packet
