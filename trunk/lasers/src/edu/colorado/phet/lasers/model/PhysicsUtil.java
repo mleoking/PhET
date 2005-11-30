@@ -62,16 +62,18 @@ public class PhysicsUtil {
 
     /**
      * Returns the frequency of RF radiation of a specified wavelength
+     *
      * @param wavelength Wavelength, in nm
      * @return
      */
     static public double wavelengthToFrequency( double wavelength ) {
-            return LIGHT_SPEED * NM_PER_M / wavelength;
+        return LIGHT_SPEED * NM_PER_M / wavelength;
     }
 
     /**
      * Returns the wavelength, in nm, of RF radiation of a specified
      * frequency
+     *
      * @param frequency
      * @return
      */

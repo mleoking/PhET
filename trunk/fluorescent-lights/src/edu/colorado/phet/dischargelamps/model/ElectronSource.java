@@ -80,26 +80,17 @@ public class ElectronSource implements ModelElement {
         // electrons produced if the electronsPerSecond is suddently increased, especially
         // if it had been 0.
         double period = 1 / electronsPerSecond;
-//        if( period % dt > dt / 2 ) {
-//            period += period % dt;
-//        }
-//        else {
-//            period -= period % dt;
-//        }
-
         if( timeSincelastElectronEmitted > period && electronProductionMode == CONTINUOUS_MODE ) {
-//        if( 1 / timeSincelastElectronEmitted < electronsPerSecond && electronProductionMode == CONTINUOUS_MODE ) {
-//            System.out.println( "timeSincelastElectronEmitted = " + timeSincelastElectronEmitted );
-//            System.out.println( "period = " + period );
-//            timeSincelastElectronEmitted = ( timeSincelastElectronEmitted - ( 1 / electronsPerSecond ) ) % ( 1 / electronsPerSecond );
-//            System.out.println( "timeSincelastElectronEmitted B = " + timeSincelastElectronEmitted );
             timeSincelastElectronEmitted = 0;
             produceElectron();
         }
     }
 
     /**
-     * Produce a single electron, and notify all listeners that it has happened
+     * Produce a single electron, and notify all listeners that it has happened.
+     * <p/>
+     * When an electron is produced, its initial position must be away from the source, so it is not
+     * immediately captured if the source is part or a composite object that includes a sink.
      */
     public Electron produceElectron() {
         Electron electron = null;
@@ -109,7 +100,10 @@ public class ElectronSource implements ModelElement {
             // Determine where the electron will be emitted from
             double x = random.nextDouble() * ( p2.getX() - p1.getX() ) + p1.getX();
             double y = random.nextDouble() * ( p2.getY() - p1.getY() ) + p1.getY();
-            Vector2D direction = model.getElectronAcceleration();
+            Vector2D direction = new Vector2D.Double( model.getElectronAcceleration() );
+            if( direction.getMagnitude() > 0 ) {
+                direction.normalize().scale( Electron.ELECTRON_RADIUS );
+            }
             electron.setPosition( x + direction.getX(), y + direction.getY() );
             model.addModelElement( electron );
             electronProductionListenerProxy.electronProduced( new ElectronProductionEvent( this, electron ) );

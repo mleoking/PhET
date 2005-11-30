@@ -15,6 +15,8 @@ import edu.colorado.phet.collision.Collidable;
 import edu.colorado.phet.collision.CollisionExpert;
 import edu.colorado.phet.collision.CollisionUtil;
 
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,6 +27,8 @@ public class ElectronAtomCollisionExpert implements CollisionExpert {
     private Object[] bodies = new Object[2];
     private Map classifiedBodies = new HashMap();
     private Class[] classes = new Class[]{Electron.class, DischargeLampAtom.class};
+    private Ellipse2D atomArea = new Ellipse2D.Double();
+    private Rectangle2D electronPath = new Rectangle2D.Double();
 
     /**
      *
@@ -46,10 +50,15 @@ public class ElectronAtomCollisionExpert implements CollisionExpert {
         DischargeLampAtom atom = (DischargeLampAtom)classifiedBodies.get( DischargeLampAtom.class );
         Electron electron = (Electron)classifiedBodies.get( Electron.class );
         if( atom != null && electron != null ) {
-            double prevDistSq = electron.getPositionPrev().distanceSq( atom.getPosition() );
-            double distSq = electron.getPosition().distanceSq( atom.getPosition() );
-            double atomRadSq = ( atom.getRadius() + electron.getRadius() ) * ( atom.getRadius() + electron.getRadius() );
-            if( distSq <= atomRadSq && prevDistSq > atomRadSq ) {
+            atomArea.setFrame( atom.getPosition().getX() - atom.getBaseRadius(),
+                               atom.getPosition().getY() - atom.getBaseRadius(),
+                               atom.getBaseRadius() * 2,
+                               atom.getBaseRadius() * 2 );
+            electronPath.setRect( electron.getPositionPrev().getX(),
+                                  electron.getPositionPrev().getY(),
+                                  electron.getPosition().getX() - electron.getPositionPrev().getX(),
+                                  1 );
+            if( atomArea.intersects( electronPath ) ) {
                 atom.collideWithElectron( electron );
             }
         }
