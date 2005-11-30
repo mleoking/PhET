@@ -47,7 +47,7 @@ public class QTControlPanel extends AbstractControlPanel {
     //----------------------------------------------------------------------------
     
     private static final int LEFT_MARGIN = 0;
-    private static final int SUBPANEL_SPACING = 10;
+    private static final int SUBPANEL_SPACING = 5;
     private static final String EXPAND_SYMBOL = ">>";
     private static final String COLLAPSE_SYMBOL = "<<";
     private static final double WIDTH_TICK_SPACING = 1.0; // nm
@@ -292,8 +292,8 @@ public class QTControlPanel extends AbstractControlPanel {
         _measureButton = new JButton( SimStrings.get( "button.measure"  ) );
         
         // Layout
-        {
-            addSeparator();
+        {  
+            setLogoVisible( false );
             addFullWidth( potentialPanel );
             addVerticalSpace( SUBPANEL_SPACING );
             addSeparator();

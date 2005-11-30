@@ -6,6 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- make a generalized "constrained drag" handler
 - use setFixedLegendItems to control what's in the legend
 - use an IntervalMarker with a gradient paint for Total Energy of wave packet
 - how to keep markers behind data (Layer?)
@@ -61,6 +62,10 @@ JFREECHART:
 - XYTextAnnotation doesn't support HTML
 
 DONE:
+(11/30/05) - hide logo in control panel, reduce vertical spacing so we don't get scrollbars
+(11/30/05) - sync with phetcommon
+(11/29/05) - jfreechart: upgrade to jfreechart-1.0.0-rc3
+(11/29/05) - sync with piccolo-phet
 (11/29/05) - piccolo-phet: fix CursorHandler
 (11/28/05) - use a darker green for total energy label
 (11/28/05) - handle validation of inputs in Configure dialog, beep and reset if invalid
