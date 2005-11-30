@@ -46,6 +46,13 @@ public class QTCombinedChart extends JFreeChart implements Observer {
     // Class data
     //----------------------------------------------------------------------------
     
+    /* These indicies are determined by the order in which
+     * the subplots are added to the CombinedDomainXYPlot.
+     */
+    public static final int ENERGY_PLOT_INDEX = 0;
+    public static final int WAVE_FUNCTION_PLOT_INDEX = 1;
+    public static final int PROBABILIT_DENSITY_PLOT_INDEX = 2;
+        
     private static final boolean CREATE_LEGEND = false;
     private static final Font AXIS_LABEL_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 16 );
     private static final double CHART_SPACING = 15.0;
