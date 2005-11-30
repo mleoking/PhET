@@ -39,8 +39,9 @@ public class EnergyManipulator extends ImageNode {
         addInputEventListener( new CursorHandler() );
         
         _dragHandler = new ConstrainedDragHandler();
+        _dragHandler.setTreatAsPointEnabled( true );
         _dragHandler.setNodeCenter( rx, ry );
-//        _dragHandler.setVerticalLockEnabled( true );
+        _dragHandler.setVerticalLockEnabled( true );
         addInputEventListener( _dragHandler );
     }
     

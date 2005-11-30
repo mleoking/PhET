@@ -6,7 +6,6 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- make a generalized "constrained drag" handler
 - use setFixedLegendItems to control what's in the legend
 - use an IntervalMarker with a gradient paint for Total Energy of wave packet
 - how to keep markers behind data (Layer?)
@@ -62,6 +61,7 @@ JFREECHART:
 - XYTextAnnotation doesn't support HTML
 
 DONE:
+(11/30/05) - create a generalized "constrained drag" handler
 (11/30/05) - hide logo in control panel, reduce vertical spacing so we don't get scrollbars
 (11/30/05) - sync with phetcommon
 (11/29/05) - jfreechart: upgrade to jfreechart-1.0.0-rc3
