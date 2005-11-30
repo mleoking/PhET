@@ -15,7 +15,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JButton;
@@ -26,7 +25,6 @@ import org.jfree.chart.plot.PlotRenderingInfo;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.quantumtunneling.QTConstants;
@@ -36,14 +34,10 @@ import edu.colorado.phet.quantumtunneling.model.AbstractPotentialEnergy;
 import edu.colorado.phet.quantumtunneling.model.BarrierPotential;
 import edu.colorado.phet.quantumtunneling.model.TotalEnergy;
 import edu.colorado.phet.quantumtunneling.view.ChartNode;
-import edu.colorado.phet.quantumtunneling.view.EnergyManipulator;
+import edu.colorado.phet.quantumtunneling.view.DragHandle;
 import edu.colorado.phet.quantumtunneling.view.LegendItem;
 import edu.colorado.phet.quantumtunneling.view.QTCombinedChart;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.util.PAffineTransform;
-import edu.umd.cs.piccolo.util.PDimension;
 
 
 /**
@@ -84,7 +78,8 @@ public class QTModule extends AbstractModule {
     private PNode _legend;
     private ChartNode _chartNode;
     private QTCombinedChart _chart;
-    private EnergyManipulator _manipulator;
+    private DragHandle _horizontalDragger;
+    private DragHandle _verticalDragger;
     
     // Control
     private PSwing _configureButton;
@@ -169,9 +164,13 @@ public class QTModule extends AbstractModule {
         
         // XXX EnergyManipulator tests
         {
-            _manipulator = new EnergyManipulator();
-            _manipulator.translate( 100, 100 );
-            _parentNode.addChild( _manipulator );
+            _horizontalDragger = new DragHandle( DragHandle.HORIZONTAL );
+            _horizontalDragger.translate( 100, 100 );
+            _parentNode.addChild( _horizontalDragger );
+            
+            _verticalDragger = new DragHandle( DragHandle.VERTICAL );
+            _verticalDragger.translate( 200, 200 );
+            _parentNode.addChild( _verticalDragger );
         }
         
         //----------------------------------------------------------------------------
@@ -244,7 +243,8 @@ public class QTModule extends AbstractModule {
             PlotRenderingInfo plotInfo = chartInfo.getPlotInfo();
             Rectangle2D energyPlotBounds = plotInfo.getSubplotInfo( QTCombinedChart.ENERGY_PLOT_INDEX ).getDataArea();
             energyPlotBounds = _chartNode.localToGlobal( energyPlotBounds );
-            _manipulator.setDragBounds( energyPlotBounds );
+            _horizontalDragger.setDragBounds( energyPlotBounds );
+            _verticalDragger.setDragBounds( energyPlotBounds );
         }
     }
     

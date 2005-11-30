@@ -32,6 +32,10 @@ public class ImageNode extends PImage {
     
     public ImageNode( String resourceName ) {
         super();
+        setImageByResourceName( resourceName );
+    }
+    
+    public void setImageByResourceName( String resourceName ) {
         ClassLoader cl = this.getClass().getClassLoader();
         URL url = cl.getResource( resourceName );
         Image image = Toolkit.getDefaultToolkit().getImage( url );
