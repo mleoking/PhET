@@ -24,8 +24,10 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * The node being dragged can be treated as either a point or a rectangle.
  * When treated as a point, the center point of the node can be specified.
  * <p>
- * Note that this node does not mark events as handled unless you 
- * request that behavior via setMarkEventsHandledEnabled.
+ * This node does not mark events as handled unless you 
+ * request that behavior via setMarkAsHandledEnabled.
+ * <p>
+ * NOTE: This handler does not work for nodes that have been rotated!
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
