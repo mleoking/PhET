@@ -38,9 +38,8 @@ public class SwoopHelpItem extends PNode {
         PPath path = new PPath( new Rectangle( 100, 100, 10, 10 ) );
         path.setPaint( Color.red );
         phetPCanvas.addWorldChild( path );
-        SwoopHelpItem graphic = new SwoopHelpItem( "Push the button." );
+        SwoopHelpItem graphic = new SwoopHelpItem( "Test Help Item 1." );
         phetPCanvas.addWorldChild( graphic );
-
 
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
