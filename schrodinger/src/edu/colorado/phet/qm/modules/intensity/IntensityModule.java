@@ -47,7 +47,7 @@ public class IntensityModule extends SchrodingerModule {
                     setLeftDetectorEnabled( false );
                 }
                 else {
-                    getIntensityPanel().getSlitControlPanel().synchronizeModelState();
+                    getIntensityPanel().getSlitDetectorPanel().synchronizeModelState();
                 }
             }
         } );

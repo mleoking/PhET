@@ -17,7 +17,6 @@ public class MandelPanel extends IntensityPanel {
     public MandelPanel( MandelModule mandelModule ) {
         super( mandelModule );
         this.mandelModule = mandelModule;
-        getSlitControlGraphic().setVisible( false );
         getDoubleSlitPanelGraphic().setVisible( false );
     }
 

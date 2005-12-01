@@ -16,12 +16,12 @@ import java.awt.event.ActionListener;
  * Copyright (c) Jul 8, 2005 by Sam Reid
  */
 
-public class SlitControlPanel extends VerticalLayoutPanel {
+public class SlitDetectorPanel extends VerticalLayoutPanel {
     private IntensityModule intensityModule;
     private JCheckBox leftSlit;
     private JCheckBox rightSlit;
 
-    public SlitControlPanel( final IntensityModule intensityModule ) {
+    public SlitDetectorPanel( final IntensityModule intensityModule ) {
         this.intensityModule = intensityModule;
         leftSlit = new JCheckBox( "Detector on Left Slit" );
         leftSlit.addActionListener( new ActionListener() {

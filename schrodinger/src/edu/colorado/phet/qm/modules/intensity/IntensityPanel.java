@@ -1,15 +1,12 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.intensity;
 
-import edu.colorado.phet.piccolo.pswing.PSwing;
-import edu.colorado.phet.qm.SchrodingerModule;
-import edu.colorado.phet.qm.controls.SlitControlPanel;
+import edu.colorado.phet.qm.controls.SlitDetectorPanel;
 import edu.colorado.phet.qm.view.colormaps.ColorMap;
 import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
 import edu.colorado.phet.qm.view.colormaps.SplitColorMap;
 import edu.colorado.phet.qm.view.gun.HighIntensityGun;
 import edu.colorado.phet.qm.view.gun.Photon;
-import edu.colorado.phet.qm.view.piccolo.SchrodingerScreenNode;
 import edu.colorado.phet.qm.view.piccolo.SmoothIntensityDisplay;
 import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 
@@ -53,28 +50,28 @@ public class IntensityPanel extends SchrodingerPanel {
 
     }
 
-    public IntensityScreenNode getIntensityScreenNode() {
-        return (IntensityScreenNode)super.getScreenNode();
-    }
+//    public IntensityScreenNode getIntensityScreenNode() {
+//        return (IntensityScreenNode)super.getScreenNode();
+//    }
 
-    protected SchrodingerScreenNode createScreenNode( SchrodingerModule module ) {
-        return new IntensityScreenNode( module, this );
-    }
+//    protected SchrodingerScreenNode createScreenNode( SchrodingerModule module ) {
+//        return new IntensityScreenNode( module, this );
+//    }
 
-    public PSwing getSlitControlGraphic() {
-        return getIntensityScreenNode().getSlitControlGraphic();
-    }
+//    public PSwing getSlitControlGraphic() {
+//        return getIntensityScreenNode().getSlitControlGraphic();
+//    }
 
     private void setControlsEnabled( boolean doubleSlitEnabled ) {
-        getSlitControlPanel().setEnabled( doubleSlitEnabled );
+        getSlitDetectorPanel().setEnabled( doubleSlitEnabled );
     }
 
     protected HighIntensityGun createGun() {
         return new HighIntensityGun( this );
     }
 
-    public SlitControlPanel getSlitControlPanel() {
-        return getIntensityScreenNode().getSlitControlPanel();
+    public SlitDetectorPanel getSlitDetectorPanel() {
+        return getDoubleSlitPanel().getSlitDetectorPanel();
     }
 
     public void setSplitMode( boolean splitMode ) {
