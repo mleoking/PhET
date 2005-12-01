@@ -50,6 +50,7 @@ public class SchrodingerApplication extends PhetApplication {
     }
 
     public static void main( String[] args ) {
+        new PhetLookAndFeel().apply();
         SchrodingerApplication schrodingerApplication = new SchrodingerApplication( args );
         schrodingerApplication.startApplication();
     }

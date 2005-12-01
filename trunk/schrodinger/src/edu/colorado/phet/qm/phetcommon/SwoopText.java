@@ -106,7 +106,7 @@ public class SwoopText extends PNode {
         PPath path = new PPath( new Rectangle( 100, 100, 10, 10 ) );
         path.setPaint( Color.red );
         phetPCanvas.addWorldChild( path );
-        SwoopText swoopText = new SwoopText( "Push the button!", (int)( path.getFullBounds().getMaxX() + 10 ), (int)path.getFullBounds().getY() );
+        SwoopText swoopText = new SwoopText( "Swoop/wiggle me!!", (int)( path.getFullBounds().getMaxX() + 10 ), (int)path.getFullBounds().getY() );
         phetPCanvas.addWorldChild( swoopText );
 
         JFrame frame = new JFrame();

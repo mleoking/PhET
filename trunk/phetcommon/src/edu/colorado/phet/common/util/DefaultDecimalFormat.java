@@ -23,6 +23,7 @@ public class DefaultDecimalFormat {
 
     public String format( double val ) {
         String str = decimalFormat.format( val );
+        str=str.replace( ',','.');
         if( Double.parseDouble( str ) == 0 && str.indexOf( "-" ) >= 0 ) {
             return format( 0 );
         }
