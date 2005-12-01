@@ -50,31 +50,9 @@ public class PhetPCanvas extends PSwingCanvas {
                 requestFocus();
             }
         } );
-        addDebugKeyHandlers();
-        addKeyListener( new PanZoomWorldKeyHandler( this ) );
-//        addKeyListener( new ShowControlsKeyHandler( this ) );
+        
         setBorder( BorderFactory.createLineBorder( Color.black ) );
         requestFocus();
-    }
-
-    private void addDebugKeyHandlers() {
-        addKeyListener( new KeyListener() {
-            public void keyPressed( KeyEvent e ) {
-            }
-
-            public void keyReleased( KeyEvent e ) {
-                int onMask = KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK;
-                int offMask = KeyEvent.ALT_DOWN_MASK | KeyEvent.META_DOWN_MASK;
-                if( ( e.getModifiersEx() & ( onMask | offMask ) ) == onMask ) {
-                    if( e.getKeyCode() == KeyEvent.VK_D ) {
-                        PDebug.debugRegionManagement = !PDebug.debugRegionManagement;
-                    }
-                }
-            }
-
-            public void keyTyped( KeyEvent e ) {
-            }
-        } );
     }
 
     public void setTransformStrategy( TransformStrategy transformStrategy ) {
@@ -216,7 +194,7 @@ public class PhetPCanvas extends PSwingCanvas {
                 return AffineTransform.getScaleInstance( scale, scale );
             }
             else {
-                System.err.println( "Scale evaluated to zero!" );
+                System.err.println( this.getClass().getName() + ": scale evaluated to zero!" );
                 return new AffineTransform();
             }
         }
