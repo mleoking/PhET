@@ -13,9 +13,6 @@ import edu.colorado.phet.qm.view.piccolo.SchrodingerScreenNode;
 import edu.colorado.phet.qm.view.piccolo.SmoothIntensityDisplay;
 import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 /**
  * User: Sam Reid
  * Date: Jul 7, 2005
@@ -42,18 +39,18 @@ public class IntensityPanel extends SchrodingerPanel {
         smoothIntensityDisplay = new SmoothIntensityDisplay( getIntensityDisplay() );
         setSmoothScreen( SMOOTH_SCREEN_DEFAULT );
 
-
-        getDoubleSlitPanel().addDoubleSlitCheckBoxListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                setControlsEnabled( getDoubleSlitPanel().isDoubleSlitEnabled() );
-            }
-        } );
+//        getDoubleSlitPanel().addDoubleSlitCheckBoxListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                setControlsEnabled( getDoubleSlitPanel().isDoubleSlitEnabled() );
+//            }
+//        } );
 
 
         splitColorMap = new SplitColorMap( intensityModule.getSplitModel(), this );//this.intensityModule.getSplitModel() );
-        setControlsEnabled( getDoubleSlitPanel().isDoubleSlitEnabled() );
+//        setControlsEnabled( getDoubleSlitPanel().isDoubleSlitEnabled() );
         setDisplayPhotonColor( super.getDisplayPhotonColor() );
         getIntensityDisplay().getDetectorSheet().getDetectorSheetPanel().setBrightness();
+
     }
 
     public IntensityScreenNode getIntensityScreenNode() {
@@ -73,8 +70,7 @@ public class IntensityPanel extends SchrodingerPanel {
     }
 
     protected HighIntensityGun createGun() {
-        HighIntensityGun gun = new HighIntensityGun( this );
-        return gun;
+        return new HighIntensityGun( this );
     }
 
     public SlitControlPanel getSlitControlPanel() {

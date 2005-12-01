@@ -111,8 +111,6 @@ public class SchrodingerControlPanel extends ControlPanel {
         VerticalLayoutPanel potentialPanel = createPotentialPanel( module );
         addControlFullWidth( potentialPanel );
 
-
-
 //        JButton addParticle = new JButton( "Add Particle" );
 //        addParticle.addActionListener( new ActionListener() {
 //            public void actionPerformed( ActionEvent e ) {
@@ -266,7 +264,6 @@ public class SchrodingerControlPanel extends ControlPanel {
             }
         } );
 
-
 //        final JCheckBox doubleSlit = new DoubleSlitCheckBox( "Double Slit", getDiscreteModel() );
 //        layoutPanel.add( doubleSlit );
 //        VerticalLayoutPanel configureDoubleSlit = new ConfigureHorizontalSlitPanel( getDiscreteModel().getDoubleSlitPotential() );
@@ -369,7 +366,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         addControl( reset );
     }
 
-    public void addSlitCheckbox() {
+    public void addSlitAbsorptionCheckbox() {
         final JCheckBox absorbtiveSlit = new JCheckBox( "Slit Absorption", getDiscreteModel().isSlitAbsorptive() );
         absorbtiveSlit.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -377,5 +374,10 @@ public class SchrodingerControlPanel extends ControlPanel {
             }
         } );
         addControl( absorbtiveSlit );
+    }
+
+    public void addSlitCheckbox() {
+        DoubleSlitCheckBox doubleSlitCheckBox = new DoubleSlitCheckBox( "Double Slit", getDiscreteModel() );
+        addControl( doubleSlitCheckBox );
     }
 }
