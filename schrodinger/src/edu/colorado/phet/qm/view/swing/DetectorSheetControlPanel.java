@@ -80,10 +80,12 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
         displayPanel.setBorder( BorderFactory.createTitledBorder( "Display" ) );
 
         ButtonGroup buttonGroup = new ButtonGroup();
-        JRadioButton showHits = new JRadioButton( "Hits", true );
-        JRadioButton showAverage = new JRadioButton( "Average Intensity" );
-        buttonGroup.add( showHits );
+        JRadioButton showHits = new JRadioButton( "Hits", !IntensityPanel.SMOOTH_SCREEN_DEFAULT );
+        JRadioButton showAverage = new JRadioButton( "Average Intensity", IntensityPanel.SMOOTH_SCREEN_DEFAULT );
+
         buttonGroup.add( showAverage );
+        buttonGroup.add( showHits );
+
 
         showHits.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -96,8 +98,9 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
             }
         } );
 
-        displayPanel.add( showHits );
         displayPanel.add( showAverage );
+        displayPanel.add( showHits );
+
 
         HorizontalLayoutPanel saveClear = new HorizontalLayoutPanel();
         saveClear.setBorder( BorderFactory.createTitledBorder( "Screen" ) );
@@ -108,6 +111,7 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
         add( saveClear );
         add( brightnessModelSlider );
         add( displayPanel );
+
 //
 //        brightnessModelSlider.setVisible( false );
 //        displayPanel.setVisible( false );

@@ -29,6 +29,7 @@ public class IntensityPanel extends SchrodingerPanel {
     private boolean smoothScreen = false;
     private SplitColorMap splitColorMap;
     private HighIntensityGun highIntensityGun;
+    public static final boolean SMOOTH_SCREEN_DEFAULT = true;
 
     public IntensityPanel( IntensityModule intensityModule ) {
         super( intensityModule );
@@ -39,7 +40,7 @@ public class IntensityPanel extends SchrodingerPanel {
 
         setNormalGraphics();
         smoothIntensityDisplay = new SmoothIntensityDisplay( getIntensityDisplay() );
-        setSmoothScreen( false );
+        setSmoothScreen( SMOOTH_SCREEN_DEFAULT );
 
 
         getDoubleSlitPanel().addDoubleSlitCheckBoxListener( new ActionListener() {
