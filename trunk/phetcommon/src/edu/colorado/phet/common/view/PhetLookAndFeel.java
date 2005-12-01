@@ -100,9 +100,9 @@ public class PhetLookAndFeel {
      * Sets the default values for the settable UI resources.
      */
     private void setDefaults() {
-        int fontSize = getFontSizeForScreen();
-        font = new Font( "Lucida Sans", Font.PLAIN, fontSize );
-        titledBorderFont = new Font( "Lucida Sans", Font.PLAIN, fontSize );
+//        int fontSize = getFontSizeForScreen();
+//        font = new Font( "Lucida Sans", Font.PLAIN, fontSize );
+//        titledBorderFont = new Font( "Lucida Sans", Font.PLAIN, fontSize );
         foregroundColor = Color.BLACK;
         backgroundColor = new Color( 200, 240, 200 );  // light green
         textFieldBackgroundColor = Color.WHITE;
