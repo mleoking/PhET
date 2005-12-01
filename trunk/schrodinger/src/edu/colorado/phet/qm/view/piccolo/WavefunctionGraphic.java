@@ -12,6 +12,7 @@ import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -72,10 +73,10 @@ public class WavefunctionGraphic extends PNode {
             }
         } );
 
-        setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF );
-        setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
-        imageGraphic.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF );
-        imageGraphic.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
+//        setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF );
+//        setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
+//        imageGraphic.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF );
+//        imageGraphic.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
 
         PropertyChangeListener pcl = new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
@@ -84,6 +85,24 @@ public class WavefunctionGraphic extends PNode {
         };
         imageGraphic.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, pcl );
         imageGraphic.addPropertyChangeListener( PNode.PROPERTY_BOUNDS, pcl );
+    }
+
+    public void fullPaint( PPaintContext paintContext ) {
+        Graphics2D g = paintContext.getGraphics();
+
+        Object origAnt = g.getRenderingHint( RenderingHints.KEY_ANTIALIASING );
+        Object origInt = g.getRenderingHint( RenderingHints.KEY_INTERPOLATION );
+        g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF );
+        g.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
+        super.fullPaint( paintContext );
+        if( origAnt == null ) {
+            origAnt = RenderingHints.VALUE_ANTIALIAS_DEFAULT;
+        }
+        if( origInt == null ) {
+            origInt = RenderingHints.VALUE_INTERPOLATION_BICUBIC;
+        }
+        g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, origAnt );
+        g.setRenderingHint( RenderingHints.KEY_INTERPOLATION, origInt );
     }
 
     public int getWaveformWidth() {

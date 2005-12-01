@@ -38,9 +38,6 @@ public class SchrodingerPanel extends PhetPCanvas {
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 setRenderingSize( 600, 600 );
-                //todo piccolo
-//                abstractGun.componentResized( e );
-
             }
         } );
 
@@ -50,9 +47,13 @@ public class SchrodingerPanel extends PhetPCanvas {
             }
         } );
         schrodingerScreenNode = createScreenNode( module );
-        setScreenNode( schrodingerScreenNode );
+        getPhetRootNode().setScreenNode( schrodingerScreenNode );
         setZoomEventHandler( new PZoomEventHandler() );
         setBackground( new Color( 170, 210, 255 ) );
+    }
+
+    private void setRenderingSize( int width, int height ) {
+        super.setTransformStrategy( new RenderingSizeStrategy( this, new Dimension( width,height ) ) );
     }
 
     protected SchrodingerScreenNode createScreenNode( SchrodingerModule module ) {
@@ -62,14 +63,6 @@ public class SchrodingerPanel extends PhetPCanvas {
     public DoubleSlitPanel getDoubleSlitPanel() {
         return schrodingerScreenNode.getDoubleSlitPanel();
     }
-
-//    private void addWorldGraphic( PNode graphic, double layer ) {
-//        addWorldGraphic( graphic );//todo layering
-//    }
-
-//    private void addWorldGraphic( PNode graphic ) {
-//        super.addWorldChild( graphic );
-//    }
 
     public PSwing getDoubleSlitPanelGraphic() {
         return schrodingerScreenNode.getDoubleSlitPanelGraphic();
@@ -109,10 +102,6 @@ public class SchrodingerPanel extends PhetPCanvas {
     public void clearPotential() {
         schrodingerScreenNode.clearPotential();
     }
-
-//    private void removeGraphic( PNode graphic ) {
-//        removeWorldChild( graphic );
-//    }
 
     public WavefunctionGraphic getWavefunctionGraphic() {
         return schrodingerScreenNode.getWavefunctionGraphic();
