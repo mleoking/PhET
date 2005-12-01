@@ -53,7 +53,7 @@ public class ConstrainedDragHandler extends PBasicInputEventHandler {
     /* should we treat the node as a point? */
     private boolean _treatAsPointEnabled;
     /* should we mark events as handled? */
-    private boolean _markAsHandledEnabled;
+    private boolean _markAsHandled;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -82,7 +82,7 @@ public class ConstrainedDragHandler extends PBasicInputEventHandler {
         _verticalLockEnabled = false;
         _horizontalLockEnabled = false;
         _treatAsPointEnabled = false;
-        _markAsHandledEnabled = false;
+        _markAsHandled = false;
     }
     
     //----------------------------------------------------------------------------
@@ -229,10 +229,10 @@ public class ConstrainedDragHandler extends PBasicInputEventHandler {
     /**
      * Determines whether processed events will be marked as handled.
      * 
-     * @param enabled true or false
+     * @param flag true or false
      */
-    public void setMarkAsHandledEnabled( boolean enabled ) {
-        _markAsHandledEnabled = enabled;
+    public void setMarkAsHandled( boolean flag ) {
+        _markAsHandled = flag;
     }
     
     /**
@@ -240,8 +240,8 @@ public class ConstrainedDragHandler extends PBasicInputEventHandler {
      * 
      * @return true or false
      */
-    public boolean isMarkAsHandledEnabled() {
-        return _markAsHandledEnabled;
+    public boolean getMarkAsHandled() {
+        return _markAsHandled;
     }
     
     //----------------------------------------------------------------------------
@@ -263,7 +263,7 @@ public class ConstrainedDragHandler extends PBasicInputEventHandler {
         double y = mousePosition.getY() - nodeBounds.getY();
         _pressedOffset.setLocation( x, y );
         
-        event.setHandled( _markAsHandledEnabled );
+        event.setHandled( _markAsHandled );
     }
     
     /*
@@ -280,7 +280,7 @@ public class ConstrainedDragHandler extends PBasicInputEventHandler {
                 dragConstrainBounds( event );
             }
         }
-        event.setHandled( _markAsHandledEnabled );
+        event.setHandled( _markAsHandled );
     }
         
     /*
