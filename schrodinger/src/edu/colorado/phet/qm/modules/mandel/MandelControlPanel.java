@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.mandel;
 
-import edu.colorado.phet.qm.modules.intensity.IntensityControlPanel;
+import edu.colorado.phet.qm.controls.SchrodingerControlPanel;
 
 /**
  * User: Sam Reid
@@ -10,9 +10,10 @@ import edu.colorado.phet.qm.modules.intensity.IntensityControlPanel;
  * Copyright (c) Jul 22, 2005 by Sam Reid
  */
 
-public class MandelControlPanel extends IntensityControlPanel {
+public class MandelControlPanel extends SchrodingerControlPanel {
     public MandelControlPanel( MandelModule mandelModule ) {
         super( mandelModule );
+        super.addResetButton();
 //        final ModelSlider modelSlider = new ModelSlider( "Wave Dist from wall.", "", 0, 50, DoublePhotonWave.insetX );
 //        modelSlider.addChangeListener( new ChangeListener() {
 //            public void stateChanged( ChangeEvent e ) {

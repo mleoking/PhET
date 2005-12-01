@@ -3,7 +3,6 @@ package edu.colorado.phet.qm.view.swing;
 
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
-import edu.colorado.phet.qm.controls.DoubleSlitCheckBox;
 import edu.colorado.phet.qm.controls.ResolutionControl;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
@@ -11,8 +10,6 @@ import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * User: Sam Reid
@@ -27,20 +24,20 @@ public class DoubleSlitPanel extends VerticalLayoutPanel {
     private JComponent slitSize;
     private JComponent slitSeparation;
     private JComponent verticalPosition;
-    private DoubleSlitCheckBox doubleSlitCheckBox;
+//    private DoubleSlitCheckBox doubleSlitCheckBox;
 
     public DoubleSlitPanel( final DiscreteModel discreteModel ) {
         this.discreteModel = discreteModel;
         this.horizontalDoubleSlit = discreteModel.getDoubleSlitPotential();
         setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Double Slit" ) );
 
-        doubleSlitCheckBox = new DoubleSlitCheckBox( "Enabled", getDiscreteModel() );
-        add( doubleSlitCheckBox );
-        doubleSlitCheckBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                setControlsEnabled( doubleSlitCheckBox.isSelected() );
-            }
-        } );
+//        doubleSlitCheckBox = new DoubleSlitCheckBox( "Enabled", getDiscreteModel() );
+//        add( doubleSlitCheckBox );
+//        doubleSlitCheckBox.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                setControlsEnabled( doubleSlitCheckBox.isSelected() );
+//            }
+//        } );
 
         verticalPosition = createComponent( "Vertical Position", new Setter() {
             public void valueChanged( double val ) {
@@ -105,7 +102,8 @@ public class DoubleSlitPanel extends VerticalLayoutPanel {
         add( slitSeparation );
         add( verticalPosition );
 
-        setControlsEnabled( doubleSlitCheckBox.isSelected() );
+//        setControlsEnabled( doubleSlitCheckBox.isSelected() );
+        setControlsEnabled( true );
     }
 
     private void setControlsEnabled( boolean selected ) {
@@ -133,13 +131,13 @@ public class DoubleSlitPanel extends VerticalLayoutPanel {
 //        return horizontalLayoutPanel;
     }
 
-    public void addDoubleSlitCheckBoxListener( ActionListener actionListener ) {
-        doubleSlitCheckBox.addActionListener( actionListener );
-    }
-
-    public boolean isDoubleSlitEnabled() {
-        return doubleSlitCheckBox.isSelected();
-    }
+//    public void addDoubleSlitCheckBoxListener( ActionListener actionListener ) {
+//        doubleSlitCheckBox.addActionListener( actionListener );
+//    }
+//
+//    public boolean isDoubleSlitEnabled() {
+//        return doubleSlitCheckBox.isSelected();
+//    }
 
     private static interface Setter {
         void valueChanged( double val );

@@ -3,10 +3,6 @@ package edu.colorado.phet.qm.modules.intensity;
 
 import edu.colorado.phet.qm.controls.SchrodingerControlPanel;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 /**
  * User: Sam Reid
  * Date: Jul 7, 2005
@@ -19,22 +15,23 @@ public class IntensityControlPanel extends SchrodingerControlPanel {
         super( intensityModule );
 //        SlitControlPanel slitControlPanel = new SlitControlPanel( intensityModule );
 //        addControl( slitControlPanel );
-
-        final JCheckBox smoothCCD = new JCheckBox( "Smooth Screen Display", intensityModule.getIntensityPanel().isSmoothScreen() );
-        smoothCCD.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                intensityModule.getIntensityPanel().setSmoothScreen( smoothCCD.isSelected() );
-            }
-        } );
+//
+//        final JCheckBox smoothCCD = new JCheckBox( "Smooth Screen Display", intensityModule.getIntensityPanel().isSmoothScreen() );
+//        smoothCCD.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                intensityModule.getIntensityPanel().setSmoothScreen( smoothCCD.isSelected() );
+//            }
+//        } );
 //        addControl( smoothCCD );
 
-        final JCheckBox fading = new JCheckBox( "Fade Smooth Screen", intensityModule.getIntensityPanel().getSmoothIntensityDisplay().isFadeEnabled() );
-        fading.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                intensityModule.getIntensityPanel().getSmoothIntensityDisplay().setFadeEnabled( fading.isSelected() );
-            }
-        } );
+//        final JCheckBox fading = new JCheckBox( "Fade Smooth Screen", intensityModule.getIntensityPanel().getSmoothIntensityDisplay().isFadeEnabled() );
+//        fading.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                intensityModule.getIntensityPanel().getSmoothIntensityDisplay().setFadeEnabled( fading.isSelected() );
+//            }
+//        } );
         super.addSlitCheckbox();
+        super.addSlitAbsorptionCheckbox();
         super.addResetButton();
 //        addControl( fading );
     }
