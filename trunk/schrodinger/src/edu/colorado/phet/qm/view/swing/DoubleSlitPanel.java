@@ -3,9 +3,12 @@ package edu.colorado.phet.qm.view.swing;
 
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.controls.ResolutionControl;
+import edu.colorado.phet.qm.controls.SlitDetectorPanel;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
+import edu.colorado.phet.qm.modules.intensity.IntensityModule;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -24,9 +27,10 @@ public class DoubleSlitPanel extends VerticalLayoutPanel {
     private JComponent slitSize;
     private JComponent slitSeparation;
     private JComponent verticalPosition;
+    private SlitDetectorPanel slitDetectorPanel;
 //    private DoubleSlitCheckBox doubleSlitCheckBox;
 
-    public DoubleSlitPanel( final DiscreteModel discreteModel ) {
+    public DoubleSlitPanel( final DiscreteModel discreteModel, SchrodingerModule intensityModule ) {
         this.discreteModel = discreteModel;
         this.horizontalDoubleSlit = discreteModel.getDoubleSlitPotential();
         setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Double Slit" ) );
@@ -102,8 +106,16 @@ public class DoubleSlitPanel extends VerticalLayoutPanel {
         add( slitSeparation );
         add( verticalPosition );
 
+        if( intensityModule instanceof IntensityModule ) {//todo use polymorphism here
+            slitDetectorPanel = new SlitDetectorPanel( (IntensityModule)intensityModule );
+            addFullWidth( slitDetectorPanel );
+        }
 //        setControlsEnabled( doubleSlitCheckBox.isSelected() );
         setControlsEnabled( true );
+    }
+
+    public SlitDetectorPanel getSlitDetectorPanel() {
+        return slitDetectorPanel;
     }
 
     private void setControlsEnabled( boolean selected ) {

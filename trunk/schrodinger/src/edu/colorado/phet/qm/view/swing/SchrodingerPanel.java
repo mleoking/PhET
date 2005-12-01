@@ -53,11 +53,11 @@ public class SchrodingerPanel extends PhetPCanvas {
     }
 
     private void setRenderingSize( int width, int height ) {
-        super.setTransformStrategy( new RenderingSizeStrategy( this, new Dimension( width,height ) ) );
+        super.setTransformStrategy( new RenderingSizeStrategy( this, new Dimension( width, height ) ) );
     }
 
     protected SchrodingerScreenNode createScreenNode( SchrodingerModule module ) {
-        return new SchrodingerScreenNode( this );
+        return new SchrodingerScreenNode( module, this );
     }
 
     public DoubleSlitPanel getDoubleSlitPanel() {
@@ -179,5 +179,11 @@ public class SchrodingerPanel extends PhetPCanvas {
 
     public SchrodingerScreenNode getSchrodingerScreenNode() {
         return schrodingerScreenNode;
+    }
+
+    public void setDoubleSlitControlPanelVisible( boolean selected ) {
+        getDoubleSlitPanelGraphic().setVisible( selected );
+        getDoubleSlitPanelGraphic().setChildrenPickable( selected );
+        getDoubleSlitPanelGraphic().setPickable( selected );
     }
 }
