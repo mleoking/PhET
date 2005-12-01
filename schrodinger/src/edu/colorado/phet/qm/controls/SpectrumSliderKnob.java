@@ -11,7 +11,6 @@
 
 package edu.colorado.phet.qm.controls;
 
-import edu.umd.cs.piccolo.PRenderingHints;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
@@ -49,20 +48,10 @@ public class SpectrumSliderKnob extends PPath {
      * @param angle     rotation angle, in radians
      */
     public SpectrumSliderKnob( Component component, Dimension size, double angle ) {
-
-        super();
-
-//        _location = new Point( 0, 0 );
         _size = new Dimension( size );
         _angle = angle;
 
-        //  Request antialiasing.
-//        RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-        PRenderingHints pRenderingHints = new PRenderingHints();
-        pRenderingHints.putRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-        super.setRenderingHints( pRenderingHints );
-
-        super.setPaint( Color.WHITE );
+       super.setPaint( Color.WHITE );
         super.setStroke( new BasicStroke( 1f ) );
         super.setStrokePaint( Color.BLACK );
 
