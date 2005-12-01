@@ -45,7 +45,7 @@ public class SRRWavelengthSlider extends PNode {
             g2.setColor( visibleColor );
             g2.fillRect( i, 0, 1, image.getHeight() );
         }
-        System.out.println( "image construction time= " + quickTimer );
+//        System.out.println( "image construction time= " + quickTimer );
         addChild( new PImage( image ) );
 
 

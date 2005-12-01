@@ -28,6 +28,7 @@ public class HorizontalDoubleSlit implements Potential {
     public void reset( int gridWidth, int gridHeight, int y, int height, int slitSize, int slitSeparation, double potential ) {
         this.gridWidth = gridWidth;
         this.gridHeight = gridHeight;
+        System.out.println( "reset, y=" + y );
         this.y = y;
         this.height = height;
         this.slitSize = slitSize;
@@ -44,6 +45,7 @@ public class HorizontalDoubleSlit implements Potential {
     private ArrayList listeners = new ArrayList();
 
     public HorizontalDoubleSlit( int gridWidth, int gridHeight, int y, int height, int slitSize, int slitSeparation, double potential ) {
+        System.out.println( "init: y=" + y );
         this.gridWidth = gridWidth;
         this.gridHeight = gridHeight;
         this.y = y;
@@ -82,6 +84,7 @@ public class HorizontalDoubleSlit implements Potential {
 
     public void setY( int y ) {
         this.y = y;
+        System.out.println( "changed: y=" + y );
         update();
     }
 
@@ -92,11 +95,13 @@ public class HorizontalDoubleSlit implements Potential {
 
     public void setSlitSize( int slitSize ) {
         this.slitSize = slitSize;
+        System.out.println( "slitSize = " + slitSize );
         update();
     }
 
     public void setSlitSeparation( int slitSeparation ) {
         this.slitSeparation = slitSeparation;
+        System.out.println( "slitSeparation = " + slitSeparation );
         update();
     }
 
@@ -112,12 +117,20 @@ public class HorizontalDoubleSlit implements Potential {
 
     private void createDoubleSlit( int gridWidth, int gridHeight,
                                    int y, int height, int slitSize, int slitSeparation, double potential ) {
+        if( slitSize % 2 == 1 ) {//to ensure same size
+            slitSize--;
+        }
+        if( slitSeparation % 2 == 1 ) {
+            slitSeparation--;
+        }
         CompositePotential compositePotential = new CompositePotential();
-        int barWidth = ( gridWidth - 2 * slitSize - slitSeparation ) / 2;
+        int leftSlitCenter = gridWidth / 2 - slitSeparation / 2;
+        int rightSlitCenter = gridWidth / 2 + slitSeparation / 2;
+        int barWidth = gridWidth / 2 - slitSeparation / 2 - slitSize / 2;
 
-        Rectangle leftBar = new Rectangle( 0, y, barWidth, height );
-        Rectangle midBar = new Rectangle( barWidth + slitSize, y, slitSeparation, height );
-        Rectangle rightBar = new Rectangle( barWidth + slitSize * 2 + slitSeparation, y, barWidth + 1, height );
+        Rectangle leftBar = new Rectangle( 0, y, leftSlitCenter - slitSize / 2, height );
+        Rectangle midBar = new Rectangle( leftSlitCenter + slitSize / 2, y, slitSeparation - slitSize, height );
+        Rectangle rightBar = new Rectangle( rightSlitCenter + slitSize / 2, y, barWidth, height );
 
         compositePotential.addPotential( new BarrierPotential( leftBar, potential ) );
         compositePotential.addPotential( new BarrierPotential( midBar, potential ) );

@@ -2,6 +2,8 @@
 package edu.colorado.phet.qm.view.swing;
 
 import edu.colorado.phet.common.math.Function;
+import edu.colorado.phet.common.model.clock.ClockTickEvent;
+import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.controls.ResolutionControl;
@@ -28,10 +30,12 @@ public class DoubleSlitPanel extends VerticalLayoutPanel {
     private JComponent slitSeparation;
     private JComponent verticalPosition;
     private SlitDetectorPanel slitDetectorPanel;
+    private SchrodingerModule module;
 //    private DoubleSlitCheckBox doubleSlitCheckBox;
 
     public DoubleSlitPanel( final DiscreteModel discreteModel, SchrodingerModule intensityModule ) {
         this.discreteModel = discreteModel;
+        this.module = intensityModule;
         this.horizontalDoubleSlit = discreteModel.getDoubleSlitPotential();
         setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Double Slit" ) );
 
@@ -45,14 +49,14 @@ public class DoubleSlitPanel extends VerticalLayoutPanel {
 
         verticalPosition = createComponent( "Vertical Position", new Setter() {
             public void valueChanged( double val ) {
-                int y = ResolutionControl.DEFAULT_WAVE_SIZE - (int)val;
-                System.out.println( "y = " + y );
-                horizontalDoubleSlit.setY( y );
-
+//                int y = (int)val;
+////                int y = ResolutionControl.DEFAULT_WAVE_SIZE - (int)val;
+//                System.out.println( "y = " + y );
+                horizontalDoubleSlit.setY( (int)val );
             }
 
             public double getValue( HorizontalDoubleSlit horizontalDoubleSlit ) {
-                return ResolutionControl.DEFAULT_WAVE_SIZE - horizontalDoubleSlit.getY();
+                return horizontalDoubleSlit.getY();
             }
 
             public double getMin() {
@@ -112,6 +116,7 @@ public class DoubleSlitPanel extends VerticalLayoutPanel {
         }
 //        setControlsEnabled( doubleSlitCheckBox.isSelected() );
         setControlsEnabled( true );
+
     }
 
     public SlitDetectorPanel getSlitDetectorPanel() {
@@ -125,12 +130,8 @@ public class DoubleSlitPanel extends VerticalLayoutPanel {
     }
 
     private JComponent createComponent( String title, final Setter setter ) {
-//        HorizontalLayoutPanel horizontalLayoutPanel = new HorizontalLayoutPanel();
-//        horizontalLayoutPanel.add( new JLabel( title ) );
-        double origValue = setter.getValue( horizontalDoubleSlit );
         final Function.LinearFunction linearFunction = new Function.LinearFunction( 0, 100, setter.getMin(), setter.getMax() );
-
-        final JSlider comp = new JSlider( 0, 100, (int)linearFunction.createInverse().evaluate( origValue ) );
+        final JSlider comp = new JSlider( 0, 100, (int)linearFunction.createInverse().evaluate( setter.getValue( horizontalDoubleSlit ) ) );
         comp.setBorder( BorderFactory.createTitledBorder( title ) );
         comp.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -138,18 +139,13 @@ public class DoubleSlitPanel extends VerticalLayoutPanel {
                 setter.valueChanged( v );
             }
         } );
-//        horizontalLayoutPanel.add( comp );
+        module.getClock().addClockTickListener( new ClockTickListener() {
+            public void clockTicked( ClockTickEvent event ) {
+                comp.setValue( (int)linearFunction.createInverse().evaluate( setter.getValue( horizontalDoubleSlit ) ) );
+            }
+        } );
         return comp;
-//        return horizontalLayoutPanel;
     }
-
-//    public void addDoubleSlitCheckBoxListener( ActionListener actionListener ) {
-//        doubleSlitCheckBox.addActionListener( actionListener );
-//    }
-//
-//    public boolean isDoubleSlitEnabled() {
-//        return doubleSlitCheckBox.isSelected();
-//    }
 
     private static interface Setter {
         void valueChanged( double val );

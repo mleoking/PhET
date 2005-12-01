@@ -150,7 +150,7 @@ public class WavefunctionGraphic extends PNode {
     private ColorGrid createColorGrid() {
         int cellWidth = 10;
         int cellHeight = 10;
-        System.out.println( "WavefunctionGraphic.createColorGrid" );
+//        System.out.println( "WavefunctionGraphic.createColorGrid" );
         return new ColorGrid( cellWidth, cellHeight, getDiscreteModel().getGridWidth(), getDiscreteModel().getGridHeight() );
     }
 

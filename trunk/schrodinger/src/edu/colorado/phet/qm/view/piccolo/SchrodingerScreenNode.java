@@ -205,7 +205,7 @@ public class SchrodingerScreenNode extends PNode {
 
             int screenWidth = schrodingerPanel.getWidth();
             if( schrodingerPanel.getWidth() > 0 && schrodingerPanel.getHeight() > 0 ) {
-                System.out.println( "screenWidth = " + screenWidth );
+//                System.out.println( "screenWidth = " + screenWidth );
                 Dimension dim = getCellDimensions();
                 wavefunctionGraphic.setCellDimensions( dim.width, dim.height );
 //            wavefunctionGraphic.setCellDimensions( 30,30);
