@@ -9,7 +9,7 @@ package edu.colorado.phet.qm.util;
  */
 
 public class QMLogger {
-    private static boolean debuggingEnabled = true;
+    private static boolean debuggingEnabled = false;
 
     public static void debug( String str ) {
         if( debuggingEnabled ) {

@@ -156,7 +156,8 @@ public class DiscreteModel implements ModelElement {
     }
 
     private void copySourceToActual( int x, int y ) {
-        if( getPropagator() instanceof ClassicalWavePropagator && sourcePropagator instanceof ClassicalWavePropagator ) {
+        if( getPropagator() instanceof ClassicalWavePropagator && sourcePropagator instanceof ClassicalWavePropagator )
+        {
             ClassicalWavePropagator classicalWavePropagator = (ClassicalWavePropagator)getPropagator();
             ClassicalWavePropagator classicalSource = (ClassicalWavePropagator)sourcePropagator;
             if( classicalWavePropagator.getLast() != null && classicalSource.getLast() != null ) {
@@ -172,10 +173,9 @@ public class DiscreteModel implements ModelElement {
     private HorizontalDoubleSlit createDoubleSlit() {
         double potentialValue = Double.MAX_VALUE / 1000;
         double width = getGridWidth();
-        HorizontalDoubleSlit doubleSlit = new HorizontalDoubleSlit( getGridWidth(),
-                                                                    getGridHeight(),
-                                                                    (int)( getGridHeight() * 0.4 ), 3, (int)( 8 * width / 100.0 ), (int)( 13 * width / 100.0 ), potentialValue );
-        return doubleSlit;
+        return new HorizontalDoubleSlit( getGridWidth(),
+                                         getGridHeight(),
+                                         (int)( getGridHeight() * 0.4 ), 3, (int)( 8 * width / 100.0 ), (int)( 13 * width / 100.0 ), potentialValue );
     }
 
     protected void beforeTimeStep() {
@@ -430,9 +430,10 @@ public class DiscreteModel implements ModelElement {
     public void setWaveSize( int width, int height ) {
         setGridSpacing( width, height );
         double potentialValue = Double.MAX_VALUE / 1000;
-        doubleSlitPotential.reset( getGridWidth(),
-                                   getGridHeight(),
-                                   (int)( getGridHeight() * 0.4 ), 3, (int)( 8 * width / 100.0 ), (int)( 13 * width / 100.0 ), potentialValue );
+        doubleSlitPotential.reset( getGridWidth(), getGridHeight(),
+                                   (int)( getGridHeight() * 0.4 ), 3,
+                                   8, 14,
+                                   potentialValue );
         clearWavefunction();
     }
 

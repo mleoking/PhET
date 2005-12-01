@@ -96,7 +96,7 @@ public class DetectorSheet extends PNode {
     }
 
     public void setBrightness( double value ) {
-        System.out.println( "brightness = " + value + ", opacity=" + toOpacity( value ) );
+//        System.out.println( "brightness = " + value + ", opacity=" + toOpacity( value ) );
         this.brightness = value;
         setOpacity( toOpacity( brightness ) );
     }
