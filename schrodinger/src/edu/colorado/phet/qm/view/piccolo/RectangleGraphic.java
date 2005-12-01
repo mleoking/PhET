@@ -12,6 +12,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
 /**
@@ -44,12 +45,17 @@ public class RectangleGraphic extends PNode {
         } ) );
         areaGraphic.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
 
-        resizeCorner = new PPath( new Rectangle( 0, 0, 10, 10 ) );
-        resizeCorner.setPaint( Color.yellow );
-        resizeCorner.setStroke( new BasicStroke( 1 ) );
+//        resizeCorner = new PPath( new Rectangle( 0, 0, 10, 10 ) );
+        GeneralPath path = new GeneralPath();
+        path.moveTo( 0, 10 );
+        path.lineTo( 10, 10 );
+        path.lineTo( 10, 0 );
+        resizeCorner = new PPath( path );
+//        resizeCorner.setPaint( new Color( 0, 0, 0, 0 ) );
+        resizeCorner.setStroke( new BasicStroke( 4 ) );
         resizeCorner.setStrokePaint( Color.green );
         resizeCorner.addInputEventListener( new CornerDrag() );
-        resizeCorner.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
+        resizeCorner.addInputEventListener( new CursorHandler( Cursor.SE_RESIZE_CURSOR ) );
 
         addChild( resizeCorner );
         rectangularObject.addObserver( new SimpleObserver() {
@@ -68,7 +74,9 @@ public class RectangleGraphic extends PNode {
         Rectangle modelRect = rectangularObject.getBounds();
         Rectangle viewRect = getViewRectangle( modelRect );
         areaGraphic.setPathTo( viewRect );
-        resizeCorner.setOffset( (int)viewRect.getMaxX() - resizeCorner.getWidth() / 2, (int)viewRect.getMaxY() - resizeCorner.getHeight() / 2 );
+//        resizeCorner.setOffset( (int)viewRect.getMaxX() - resizeCorner.getWidth() / 2, (int)viewRect.getMaxY() - resizeCorner.getHeight() / 2 );
+        resizeCorner.setOffset( (int)viewRect.getMaxX() - resizeCorner.getWidth() + 4, (int)viewRect.getMaxY() - resizeCorner.getHeight() + 4 );
+
     }
 
     protected ColorGrid getColorGrid() {
