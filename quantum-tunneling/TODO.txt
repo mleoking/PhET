@@ -63,6 +63,7 @@ JFREECHART:
 - XYTextAnnotation doesn't support HTML
 
 DONE:
+(12/1/05) - piccolo-phet: create PDebugKeyHandler for toggling Piccolo debug flags
 (11/30/05) - create horizontal and vertical drag handles
 (11/30/05) - create a generalized "constrained drag" handler
 (11/30/05) - hide logo in control panel, reduce vertical spacing so we don't get scrollbars
