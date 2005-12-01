@@ -77,8 +77,9 @@ public class PhetPCanvas extends PSwingCanvas {
         } );
     }
 
-    private void setTransformStrategy( TransformStrategy transformStrategy ) {
+    public void setTransformStrategy( TransformStrategy transformStrategy ) {
         this.transformStrategy = transformStrategy;
+        updateScale();
     }
 
     protected void updateScale() {
