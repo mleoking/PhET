@@ -398,6 +398,7 @@ public class ModelSlider extends JPanel {
     public void commitEdit() throws IllegalValueException {
         String text = ModelSlider.this.textField.getText();
         try {
+            text = text.replace( ',', '.' );//for languages in which 0,00 is written for 0.00
             double value = Double.parseDouble( text );
             if( value >= min && value <= max ) {
                 //still legal.
@@ -475,7 +476,7 @@ public class ModelSlider extends JPanel {
         }
         if( value >= min && value <= max ) {
             String string = textFieldFormat.format( value );
-
+            string = string.replace( ',', '.' );
             double newValue = Double.parseDouble( string );
             if( this.value == newValue ) {
                 return;
