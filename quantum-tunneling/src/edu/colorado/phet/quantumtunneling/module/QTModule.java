@@ -82,7 +82,6 @@ public class QTModule extends AbstractModule {
     private QTCombinedChart _chart;
     private DragHandle _horizontalDragger;
     private DragHandle _verticalDragger;
-    private PPath _debugBounds;
     
     // Control
     private PSwing _configureButton;
@@ -174,11 +173,6 @@ public class QTModule extends AbstractModule {
             _verticalDragger = new DragHandle( DragHandle.VERTICAL );
             _verticalDragger.translate( 200, 200 );
             _parentNode.addChild( _verticalDragger );
-            
-            _debugBounds = new PPath();
-            _debugBounds.setPaint( new Color( 0, 0, 255, 40 ) );
-            _debugBounds.setPickable( false );
-            _parentNode.addChild( _debugBounds );
         }
         
         //----------------------------------------------------------------------------
@@ -254,7 +248,6 @@ public class QTModule extends AbstractModule {
             energyPlotBounds = _chartNode.localToGlobal( energyPlotBounds );
             _horizontalDragger.setDragBounds( energyPlotBounds );
             _verticalDragger.setDragBounds( energyPlotBounds );
-            _debugBounds.setPathTo( energyPlotBounds );
         }
     }
     
