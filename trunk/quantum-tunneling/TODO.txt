@@ -6,7 +6,6 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- drag handles aren't constrained properly when main frame is resized
 - attach drag handles to energy plots
 - use setFixedLegendItems to control what's in the legend
 - use an IntervalMarker with a gradient paint for Total Energy of wave packet
@@ -63,6 +62,7 @@ JFREECHART:
 - XYTextAnnotation doesn't support HTML
 
 DONE:
+(12/1/05) - force update of ChartRenderingInfo before setting drag bounds
 (12/1/05) - piccolo-phet: create PDebugKeyHandler for toggling Piccolo debug flags
 (11/30/05) - create horizontal and vertical drag handles
 (11/30/05) - create a generalized "constrained drag" handler
