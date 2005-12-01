@@ -19,14 +19,14 @@ import edu.umd.cs.piccolo.util.PDebug;
 
 
 /**
- * PDebugKeyHandler is a key handler that allows you to 
- * toggles Piccolo's system-wide debugging flags (stored in PDebug)
+ * PDebugKeyHandler is a key handler that allows you to toggle
+ * Piccolo's system-wide debugging flags (found in PDebug)
  * using the keyboard.
  * <p>
  * The mapping between keystrokes and debug flags is:
  * <code>
  * CTRL-Shift-B - Bounds
- * CTRL-Shift-C - turn off (Clear) all debug flags
+ * CTRL-Shift-C - Clear (set to false) all debug flags
  * CTRL-Shift-D - region management
  * CTRL-Shift-F - Full bounds
  * CTRL-Shift-M - used Memory
