@@ -12,7 +12,7 @@
 package edu.colorado.phet.quantumtunneling.view;
 
 import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
@@ -37,7 +37,6 @@ public class ChartNode extends PNode implements ChartChangeListener {
     
     private JFreeChart _chart; // chart associated with the node
     private ChartRenderingInfo _info; // the chart's rendering info
-    private boolean _renderInfoValid; // is chart's render info valid?
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -53,7 +52,7 @@ public class ChartNode extends PNode implements ChartChangeListener {
         _info = new ChartRenderingInfo();
         _chart = chart;
         _chart.addChangeListener( this );
-        _renderInfoValid = false; // not valid until paint has been called
+        updateChartRenderingInfo();
     }
 
     //----------------------------------------------------------------------------
@@ -77,12 +76,18 @@ public class ChartNode extends PNode implements ChartChangeListener {
      * @return ChartRenderingInfo, possibly null
      */
     public ChartRenderingInfo getChartRenderingInfo() {
-        if ( _renderInfoValid ) {
-            return _info;
-        }
-        else {
-            return null;
-        }
+        return _info;
+    }
+    
+    /**
+     * Forces an update of the chart rendering info, which is normally
+     * not updated until the next call to paint.
+     */
+    public void updateChartRenderingInfo() {
+        BufferedImage image = new BufferedImage( 1, 1, BufferedImage.TYPE_INT_ARGB );
+        Graphics2D g2 = image.createGraphics();
+        PPaintContext paintContext = new PPaintContext( g2 );
+        paint( paintContext );
     }
     
     //----------------------------------------------------------------------------
@@ -98,7 +103,6 @@ public class ChartNode extends PNode implements ChartChangeListener {
     protected void paint( PPaintContext paintContext ) {
         Graphics2D g2 = paintContext.getGraphics();
         _chart.draw( g2, getBoundsReference(), _info );
-        _renderInfoValid = true;
     }
     
     //----------------------------------------------------------------------------

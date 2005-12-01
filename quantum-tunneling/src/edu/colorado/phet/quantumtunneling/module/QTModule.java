@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.quantumtunneling.module;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.*;
@@ -38,6 +39,7 @@ import edu.colorado.phet.quantumtunneling.view.DragHandle;
 import edu.colorado.phet.quantumtunneling.view.LegendItem;
 import edu.colorado.phet.quantumtunneling.view.QTCombinedChart;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 
 /**
@@ -80,6 +82,7 @@ public class QTModule extends AbstractModule {
     private QTCombinedChart _chart;
     private DragHandle _horizontalDragger;
     private DragHandle _verticalDragger;
+    private PPath _debugBounds;
     
     // Control
     private PSwing _configureButton;
@@ -162,7 +165,7 @@ public class QTModule extends AbstractModule {
             _canvas.addScreenChild( _parentNode );
         }       
         
-        // XXX EnergyManipulator tests
+        // XXX DragHandle tests
         {
             _horizontalDragger = new DragHandle( DragHandle.HORIZONTAL );
             _horizontalDragger.translate( 100, 100 );
@@ -171,6 +174,11 @@ public class QTModule extends AbstractModule {
             _verticalDragger = new DragHandle( DragHandle.VERTICAL );
             _verticalDragger.translate( 200, 200 );
             _parentNode.addChild( _verticalDragger );
+            
+            _debugBounds = new PPath();
+            _debugBounds.setPaint( new Color( 0, 0, 255, 40 ) );
+            _debugBounds.setPickable( false );
+            _parentNode.addChild( _debugBounds );
         }
         
         //----------------------------------------------------------------------------
@@ -228,23 +236,25 @@ public class QTModule extends AbstractModule {
             _configureButton.setTransform( configureTransform );
         }
         
-        // Combined chart
+        // Charts
         {
             _chartNode.setBounds( 0, 0, chartWidth, chartHeight );
             AffineTransform chartTransform = new AffineTransform();
             chartTransform.translate( X_MARGIN, Y_MARGIN + legendHeight + Y_SPACING );
             chartTransform.translate( 0, 0 ); // registration point @ upper left
             _chartNode.setTransform( chartTransform );
+            _chartNode.updateChartRenderingInfo();
         }
 
-        // Manipulators
-        ChartRenderingInfo chartInfo = _chartNode.getChartRenderingInfo();
-        if ( chartInfo != null ) {
+        // Drag handles
+        {
+            ChartRenderingInfo chartInfo = _chartNode.getChartRenderingInfo();
             PlotRenderingInfo plotInfo = chartInfo.getPlotInfo();
             Rectangle2D energyPlotBounds = plotInfo.getSubplotInfo( QTCombinedChart.ENERGY_PLOT_INDEX ).getDataArea();
             energyPlotBounds = _chartNode.localToGlobal( energyPlotBounds );
             _horizontalDragger.setDragBounds( energyPlotBounds );
             _verticalDragger.setDragBounds( energyPlotBounds );
+            _debugBounds.setPathTo( energyPlotBounds );
         }
     }
     
