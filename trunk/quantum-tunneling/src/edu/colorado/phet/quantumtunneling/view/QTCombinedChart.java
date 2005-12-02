@@ -35,7 +35,11 @@ import edu.colorado.phet.quantumtunneling.model.TotalEnergy;
 
 
 /**
- * QTCombinedChart
+ * QTCombinedChart is a "combined chart" (in JFreeChart terminology).
+ * It combines plots for "Energy", "Wave Function" and "Probability Density",
+ * and has them share a common x-axis for "Position".  This combined 
+ * chart also manages vertical region markers which indicate the
+ * boundaries between potential energy regions.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -70,6 +74,9 @@ public class QTCombinedChart extends JFreeChart implements Observer {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Sole constructor.
+     */
     public QTCombinedChart() {
         super( null, null, new CombinedDomainXYPlot(), CREATE_LEGEND );
         
