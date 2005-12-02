@@ -6,7 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- attach drag handles to energy plots
+- attach drag handles to potential energy regions
 - use setFixedLegendItems to control what's in the legend
 - use an IntervalMarker with a gradient paint for Total Energy of wave packet
 - how to keep markers behind data (Layer?)
