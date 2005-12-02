@@ -305,6 +305,7 @@ public class DiscreteModel implements ModelElement {
     public void setOneShotDetectors( boolean oneShotDetectors ) {
         this.oneShotDetectors = oneShotDetectors;
         detectorSet.setOneShotDetectors( oneShotDetectors );
+        enableAllDetectors();
     }
 
     public boolean isOneShotDetectors() {
