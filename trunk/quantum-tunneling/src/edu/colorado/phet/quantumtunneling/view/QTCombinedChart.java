@@ -170,9 +170,9 @@ public class QTCombinedChart extends JFreeChart implements Observer {
      */
     private void updateRegionMarkers() {
         clearRegionMarkers();
-        PotentialRegion[] regions = _potentialEnergy.getRegions();
-        for ( int i = 1; i < regions.length; i++ ) {
-            double start = regions[i].getStart();
+        int numberOfRegions = _potentialEnergy.getNumberOfRegions();
+        for ( int i = 1; i < numberOfRegions; i++ ) {
+            double start = _potentialEnergy.getStart( i );
             addRegionMarker( start );
         }
     }

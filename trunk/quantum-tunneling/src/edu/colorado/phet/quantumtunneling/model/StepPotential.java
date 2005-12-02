@@ -37,7 +37,7 @@ public class StepPotential extends AbstractPotentialSpace {
     public StepPotential() {
         super( 2 /* numberOfRegions */ );
         setRegion( 0, getMinPosition(), DEFAULT_STEP_POSITION, 0 );
-        setRegion( 1, getRegion( 0 ).getEnd(), getMaxPosition(), DEFAULT_STEP_ENERGY );
+        setRegion( 1, getEnd( 0 ), getMaxPosition(), DEFAULT_STEP_ENERGY );
     }
     
     /**
@@ -66,8 +66,8 @@ public class StepPotential extends AbstractPotentialSpace {
         }
         
         boolean success = false;
-        if ( position - getRegion( 0 ).getStart() >= getMinRegionWidth() &&
-                 getRegion( 1 ).getEnd() - position >= getMinRegionWidth() ) {
+        if ( position - getStart( 0 ) >= getMinRegionWidth() &&
+                 getEnd( 1 ) - position >= getMinRegionWidth() ) {
             setEnd( 0, position );
             setStart( 1, position );
             validateRegions();
@@ -82,6 +82,6 @@ public class StepPotential extends AbstractPotentialSpace {
      * @return position
      */
     public double getStepPosition() {
-        return getRegion( 1 ).getStart();
+        return getStart( 1 );
     }
 }

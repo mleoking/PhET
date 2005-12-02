@@ -110,9 +110,8 @@ public class PotentialEnergyDragHandle extends DragHandle implements Observer, P
             Rectangle2D energyPlotBounds = _chartNode.getEnergyPlotBounds();
 
             // Determine the region's drag bounds
-            PotentialRegion region = _potentialEnergy.getRegion( _regionIndex );
-            Point2D start = _chartNode.energyToNode( new Point2D.Double( region.getStart(), 0 ) );
-            Point2D end = _chartNode.energyToNode( new Point2D.Double( region.getEnd(), 0 ) );
+            Point2D start = _chartNode.energyToNode( new Point2D.Double( _potentialEnergy.getStart( _regionIndex ), 0 ) );
+            Point2D end = _chartNode.energyToNode( new Point2D.Double( _potentialEnergy.getEnd( _regionIndex ), 0 ) );
             double x = start.getX();
             double y = energyPlotBounds.getY();
             double w = end.getX() - start.getX();
@@ -133,9 +132,8 @@ public class PotentialEnergyDragHandle extends DragHandle implements Observer, P
      */
     private void updatePosition() {
         if ( _potentialEnergy != null ) {
-            PotentialRegion region = _potentialEnergy.getRegion( _regionIndex );
-            double position = region.getMiddle();
-            double energy = region.getEnergy();
+            double position = _potentialEnergy.getMiddle( _regionIndex );
+            double energy = _potentialEnergy.getEnergy( _regionIndex );
             Point2D chartPoint = new Point2D.Double( position, energy );
             Point2D localNodePoint = _chartNode.energyToNode( chartPoint );
             Point2D globalNodePoint = _chartNode.localToGlobal( localNodePoint );

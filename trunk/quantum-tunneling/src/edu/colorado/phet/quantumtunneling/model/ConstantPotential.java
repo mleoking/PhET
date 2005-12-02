@@ -66,6 +66,6 @@ public class ConstantPotential extends AbstractPotentialSpace {
      * @return energy
      */
     public double getEnergy() {
-        return getRegion( 0  ).getEnergy();
+        return getEnergy( 0 );
     }
 }

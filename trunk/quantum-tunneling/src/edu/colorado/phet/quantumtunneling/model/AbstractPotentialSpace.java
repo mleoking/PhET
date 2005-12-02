@@ -26,7 +26,7 @@ import edu.colorado.phet.quantumtunneling.QTConstants;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public abstract class AbstractPotentialSpace extends QTObservable implements IPotentialSpace {
+public abstract class AbstractPotentialSpace extends QTObservable {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -100,25 +100,80 @@ public abstract class AbstractPotentialSpace extends QTObservable implements IPo
     }
     
     //----------------------------------------------------------------------------
-    // IPotentialSpace implementation
+    // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Gets the number of regions in the potential space.
+     * 
+     * @return
+     */
     public int getNumberOfRegions() {
         return _regions.length;
     }
-
-    public PotentialRegion[] getRegions() {
-        return _regions;
+    
+    /**
+     * Gets the start position of a specified region.
+     * 
+     * @param regionIndex
+     * @return
+     */
+    public double getStart( int regionIndex ) {
+        return getRegion( regionIndex ).getStart();
     }
     
-    public PotentialRegion getRegion( int index ) {
-        validateRegionIndex( index );
-        return _regions[index];
+    /**
+     * Gets the end position of a specified region.
+     * 
+     * @param regionIndex
+     * @return
+     */
+    public double getEnd( int regionIndex ) {
+        return getRegion( regionIndex ).getEnd();
     }
     
-    //----------------------------------------------------------------------------
-    // Accessors
-    //----------------------------------------------------------------------------
+    /**
+     * Gets the middle position of a specified region.
+     * 
+     * @param regionIndex
+     * @return
+     */
+    public double getMiddle( int regionIndex ) {
+        return getRegion( regionIndex ).getMiddle();
+    }
+    
+    /**
+     * Gets the width of a specified region.
+     * 
+     * @param regionIndex
+     * @return
+     */
+    public double getWidth( int regionIndex ) {
+        return getRegion( regionIndex ).getWidth();
+    }
+    
+    /**
+     * Gets the energy of a specified region.
+     * 
+     * @param regionIndex
+     * @return
+     */
+    public double getEnergy( int regionIndex ) {
+        return getRegion( regionIndex ).getEnergy();
+    }
+    
+    /**
+     * Sets the potential energy of a specified region.
+     * 
+     * @param regionIndex
+     * @param energy
+     */
+    public void setEnergy( int regionIndex, double energy ) {
+        validateRegionIndex( regionIndex );
+        double start = getRegion( regionIndex ).getStart();
+        double end = getRegion( regionIndex ).getEnd();
+        setRegion( regionIndex, start, end, energy );
+    }
     
     /**
      * Gets the range of the space.
@@ -126,7 +181,8 @@ public abstract class AbstractPotentialSpace extends QTObservable implements IPo
      * @return
      */
     public Range getPositionRange() {
-        return QTConstants.POSITION_RANGE;
+        Range rangeRef = getPositionRangeReference();
+        return new Range( rangeRef.getLowerBound(), rangeRef.getUpperBound() );
     }
     
     /**
@@ -135,7 +191,7 @@ public abstract class AbstractPotentialSpace extends QTObservable implements IPo
      * @return
      */
     public double getMinPosition() {
-        return getPositionRange().getLowerBound();
+        return getPositionRangeReference().getLowerBound();
     }
     
     /**
@@ -144,7 +200,16 @@ public abstract class AbstractPotentialSpace extends QTObservable implements IPo
      * @return
      */
     public double getMaxPosition() {
-        return getPositionRange().getUpperBound();
+        return getPositionRangeReference().getUpperBound();
+    }
+    
+    /**
+     * Gets the minimum region width.
+     * 
+     * @return minimum gap size
+     */
+    public double getMinRegionWidth() {
+        return _minRegionWidth;
     }
     
     /**
@@ -161,17 +226,67 @@ public abstract class AbstractPotentialSpace extends QTObservable implements IPo
     }
     
     /**
-     * Gets the minimum region width.
+     * Gets the index of the region that contains a specified position.
+     * If the position is outside the space, -1 is returned.
+     * If the position falls on the boundary of two regions,
+     * the region whose end point matches the position is 
+     * returned.
      * 
-     * @return minimum gap size
+     * @param position
+     * @return the region (possibly null)
      */
-    public double getMinRegionWidth() {
-        return _minRegionWidth;
+    public int getRegionIndexAt( double position ) {
+        int regionIndex = -1;
+        for ( int i = 0; i < getNumberOfRegions() && regionIndex == -1; i++ ) {
+            double start = getRegion( i ).getStart();
+            double end = getRegion( i ).getEnd();
+            if ( position >= start && position <= end ) {
+                regionIndex = i;
+            }
+        }
+        return regionIndex;
+    }
+    
+    /**
+     * Gets the energy at a specified position.
+     * If the position is outside the space, 0 is returned.
+     * If the position falls on the boundary of two regions,
+     * the energy of the region whose end point matches the
+     * position is returned.
+     * 
+     * @param position
+     * @return energy
+     */
+    public double getEnergyAt( double position ) {
+        double energy = 0;
+        int regionIndex = getRegionIndexAt( position );
+        if ( regionIndex != -1 ) {
+            energy = getRegion( regionIndex ).getEnergy();
+        }
+        return energy;
+    }
+       
+    //----------------------------------------------------------------------------
+    // Private & protected accessors
+    //----------------------------------------------------------------------------
+ 
+    /*
+     * Gets a specified region.  This is private because clients and subclasses
+     * should not be accessing regions directly.  Use one of the many public
+     * accessor methods that have a regionIndex parameter.
+     * 
+     * @param index
+     * @return
+     */
+    private PotentialRegion getRegion( int index ) {
+        validateRegionIndex( index );
+        return _regions[index];
     }
     
     /*
      * Not accessible to clients because we don't want them 
-     * to be creating gaps between regions.
+     * to be creating gaps between regions. Subclasses should
+     * call validateRegions after adjusting all regions.
      */
     protected void setRegion( int index, double start, double end, double energy ) {
         validateRegionIndex( index );
@@ -181,7 +296,8 @@ public abstract class AbstractPotentialSpace extends QTObservable implements IPo
     
     /*
      * Not accessible to clients because we don't want them 
-     * to be creating gaps between regions.
+     * to be creating gaps between regions. Subclasses should
+     * call validateRegions after adjusting all regions.
      */
     protected void setRegion( int index, double start, double end ) {
         validateRegionIndex( index );
@@ -191,7 +307,8 @@ public abstract class AbstractPotentialSpace extends QTObservable implements IPo
    
     /*
      * Not accessible to clients because we don't want them 
-     * to be creating gaps between regions.
+     * to be creating gaps between regions. Subclasses should
+     * call validateRegions after adjusting all regions.
      */
     protected void setStart( int regionIndex, double start ) {
         validateRegionIndex( regionIndex );
@@ -209,62 +326,18 @@ public abstract class AbstractPotentialSpace extends QTObservable implements IPo
         double start = getRegion( regionIndex ).getStart();
         double energy = getRegion( regionIndex ).getEnergy();
         setRegion( regionIndex, start, end, energy );  
+    } 
+    
+    /*
+     * Gets a direct reference to the range of the space.
+     * The returned value must not be modified!
+     * 
+     * @return
+     */
+    private Range getPositionRangeReference() {
+        return QTConstants.POSITION_RANGE;
     }
     
-    /**
-     * Sets the potential energy of a specified region.
-     * 
-     * @param regionIndex
-     * @param energy
-     */
-    public void setEnergy( int regionIndex, double energy ) {
-        validateRegionIndex( regionIndex );
-        double start = getRegion( regionIndex ).getStart();
-        double end = getRegion( regionIndex ).getEnd();
-        setRegion( regionIndex, start, end, energy );
-    }
-    
-    /**
-     * Gets the region that contains a specified position.
-     * If the position is outside the space, null is returned.
-     * If the position falls on the boundary of two regions,
-     * the region whose end point matches the position is 
-     * returned.
-     * 
-     * @param position
-     * @return the region (possibly null)
-     */
-    public PotentialRegion getRegionAt( double position ) {
-        PotentialRegion region = null;
-        for ( int i = 0; i < getNumberOfRegions() && region == null; i++ ) {
-            double start = getRegion( i ).getStart();
-            double end = getRegion( i ).getEnd();
-            if ( position >= start && position <= end ) {
-                region = getRegion( i );
-            }
-        }
-        return region;
-    }
-    
-    /**
-     * Gets the energy at a specified position.
-     * If the position is outside the space, 0 is returned.
-     * If the position falls on the boundary of two regions,
-     * the energy of the region whose end point matches the
-     * position is returned.
-     * 
-     * @param position
-     * @return energy
-     */
-    public double getEnergyAt( double position ) {
-        double energy = 0;
-        PotentialRegion region = getRegionAt( position );
-        if ( region != null ) {
-            energy = region.getEnergy();
-        }
-        return energy;
-    }
-       
     //----------------------------------------------------------------------------
     // Validation
     //----------------------------------------------------------------------------
@@ -279,18 +352,22 @@ public abstract class AbstractPotentialSpace extends QTObservable implements IPo
     }
     
     /*
-     * Verifies that all regions are contiguous.
+     * Verifies that all regions are contiguous and have the correct minimum width.
      */
     protected void validateRegions() {
-        int gapCount = 0;
+        int errors = 0;
         for ( int i = 1; i < _regions.length - 1; i++ ) {
             if ( _regions[i].getEnd() != _regions[i+1].getStart() ) {
-                gapCount++;
-                System.err.println( "ERROR: regions " + i + " and " + ( i + 1 ) + " are not contiguous!" );
+                errors++;
+                System.err.println( "ERROR: regions " + i + " and " + ( i + 1 ) + " are not contiguous" );
+            }
+            if ( _regions[i].getWidth() < _minRegionWidth ) {
+                errors++;
+                System.err.println( "ERROR: region " + i + " is smaller than the minimum width" );
             }
         }
-        if ( gapCount != 0 ) {
-            throw new IllegalStateException( "all regions must be contiguous" );
+        if ( errors != 0 ) {
+            throw new IllegalStateException( "potential space is invalid" );
         }
     }
 }
