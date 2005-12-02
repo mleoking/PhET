@@ -15,7 +15,10 @@ import java.util.Observable;
 
 
 /**
- * QTObservable
+ * QTObservable is an extension of java.util.Observable that 
+ * allows you to temporarily disable notification.  This is 
+ * useful if you need to change a number of properties before
+ * notifying Observers.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
