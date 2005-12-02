@@ -76,6 +76,15 @@ public class PotentialRegion {
     }
     
     /**
+     * Gets the middle position of the region.
+     * 
+     * @return
+     */
+    public double getMiddle() {
+        return _start + ( getWidth() / 2 );
+    }
+    
+    /**
      * Gets the potential energy level in the region.
      * 
      * @return the energy

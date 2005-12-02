@@ -89,4 +89,17 @@ public class QTCombinedChartNode extends JFreeChartNode {
     public Point2D energyToNode( Point2D energyPoint ) {
         return subplotToNode( energyPoint, QTCombinedChart.ENERGY_PLOT_INDEX );
     }
+    
+    /**
+     * Converts a distance on the energy plot's position axis to 
+     * a distance in the node's local coordinate system.
+     * 
+     * @param distance
+     * @return
+     */
+    public double energyToNode( double distance ) {
+        Point2D origin = energyToNode( new Point2D.Double( 0, 0 ) );
+        Point2D position = energyToNode( new Point2D.Double( distance, 0 ) );
+        return position.getX() - origin.getX();
+    }
 }
