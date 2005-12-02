@@ -3,6 +3,8 @@ package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.qm.phetcommon.ImageComboBox;
 
+import java.awt.*;
+
 /**
  * User: Sam Reid
  * Date: Jul 8, 2005
@@ -61,4 +63,7 @@ public abstract class HighIntensityBeam extends ImageComboBox.Item {
         this.intensityScale = intensityScale;
     }
 
+    public Point getGunLocation() {
+        return new Point( -10, 35 );
+    }
 }

@@ -31,6 +31,7 @@ public abstract class AbstractGun extends PNode {
     private PImage gunImageGraphic;
     private ImagePComboBox comboBox;
     private PSwing comboBoxGraphic;
+    public static final int GUN_PARTICLE_OFFSET = 35;
 
     public AbstractGun( final SchrodingerPanel schrodingerPanel ) {
         super();
@@ -43,7 +44,7 @@ public abstract class AbstractGun extends PNode {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        initGunLocation();
+        updateGunLocation();
         addChild( gunImageGraphic );
         this.comboBox = initComboBox();
 
@@ -58,19 +59,15 @@ public abstract class AbstractGun extends PNode {
         comboBoxGraphic.setOffset( -100, 50 );
     }
 
-    protected void initGunLocation() {
-        gunImageGraphic.setOffset( getOrigGunLocation() );
+    protected void updateGunLocation() {
+        gunImageGraphic.setOffset( getGunLocation() );
     }
 
     protected String getGunImageResource() {
-//        String imageResourceName = "images/raygun3-200x160-scaled-matt.gif";
-        String imageResourceName = "images/raygun3-centerbarrel.gif";
-        return imageResourceName;
+        return "images/raygun3-centerbarrel.gif";
     }
 
-    protected Point getOrigGunLocation() {
-        return new Point( -10, 35 );
-    }
+    protected abstract Point getGunLocation();
 
     protected abstract ImagePComboBox initComboBox();
 
@@ -88,9 +85,6 @@ public abstract class AbstractGun extends PNode {
 
     public void setLocation( int x, int y ) {
         super.setOffset( x, y );
-//        double scaleX = schrodingerPanel.getGraphicTx().getScaleX();
-//        double scaleY = schrodingerPanel.getGraphicTx().getScaleY();
-        //todo piccolo
         double scaleX = 1.0;
         double scaleY = 1.0;
         comboBox.setBounds( (int)( ( x - comboBox.getPreferredSize().width - 2 ) * scaleX ), (int)( ( y + getControlOffsetY() ) * scaleY ),
@@ -102,11 +96,6 @@ public abstract class AbstractGun extends PNode {
         super.setVisible( visible );
         comboBox.setVisible( visible );
     }
-
-    //todo piccolo
-//    public void componentResized( ComponentEvent e ) {
-//        this.setLocation( getOffset());//to fix combobox
-//    }
 
     public PImage getGunImageGraphic() {
         return gunImageGraphic;
@@ -131,10 +120,6 @@ public abstract class AbstractGun extends PNode {
     public SchrodingerPanel getSchrodingerPanel() {
         return schrodingerPanel;
     }
-
-//    protected void setComboBox( JComboBox comboBox ) {
-//        this.comboBox = comboBox;
-//    }
 
     public PSwingCanvas getComponent() {
         return schrodingerPanel;
