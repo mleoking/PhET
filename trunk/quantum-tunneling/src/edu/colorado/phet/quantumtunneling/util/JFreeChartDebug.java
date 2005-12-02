@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.quantumtunneling.piccolo;
+package edu.colorado.phet.quantumtunneling.util;
 
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.plot.PlotRenderingInfo;
