@@ -1,6 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view.gun;
 
+import java.awt.*;
+
 /**
  * User: Sam Reid
  * Date: Jul 8, 2005
@@ -44,5 +46,11 @@ public class ParticleBeam extends HighIntensityBeam {
     private void autofire() {
         lastFireTime = time;
         getGunParticle().autofire();
+    }
+
+    public Point getGunLocation() {
+        Point p = super.getGunLocation();
+        p.y -= AbstractGun.GUN_PARTICLE_OFFSET;
+        return p;
     }
 }

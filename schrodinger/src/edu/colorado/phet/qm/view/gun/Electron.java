@@ -6,6 +6,7 @@ import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -58,4 +59,9 @@ public class Electron extends GunParticle {
 //        } );
 //    }
 
+    public Point getGunLocation() {
+        Point p = super.getGunLocation();
+        p.y -= 20;
+        return p;
+    }
 }

@@ -69,36 +69,27 @@ public class SingleParticleGun extends AbstractGun {
                 fireOne.setEnabled( false );
                 clearAndFire();
                 fireOne.setIcon( outIcon );
-                initGunLocation();
+                updateGunLocation();
                 getSchrodingerPanel().setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
             }
         } );
         fireOne.addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 if( fireButtonEnabled() ) {
-                    initGunLocation();
+                    updateGunLocation();
                     getGunImageGraphic().translate( 0, 10 );
                 }
             }
 
             public void mouseReleased( MouseEvent e ) {
                 if( fireButtonEnabled() ) {
-                    initGunLocation();
+                    updateGunLocation();
                 }
             }
         } );
         fireJC = new PSwing( schrodingerPanel, fireOne );
         fireJC.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         addChild( fireJC );
-
-        //todo piccolo
-//        final WiggleMe wiggleMe = new WiggleMe( getSchrodingerPanel(), getSchrodingerPanel().getSchrodingerModule().getModel(), "Push the Button", fireJC );
-//        schrodingerPanel.addWorldChild( wiggleMe, Double.POSITIVE_INFINITY );
-//        getSchrodingerPanel().addMouseListener( new MouseAdapter() {
-//            public void mousePressed( MouseEvent e ) {
-//                wiggleMe.setVisible( false );
-//            }
-//        } );
 
         setupObject( gunItems[0] );
         autoFire = new AutoFire( this, schrodingerPanel.getIntensityDisplay() );
@@ -114,6 +105,15 @@ public class SingleParticleGun extends AbstractGun {
         autoJC.setOffset( fireJC.getFullBounds().getX(), fireJC.getFullBounds().getMaxY() + 5 );
     }
 
+    protected Point getGunLocation() {
+        if( currentObject != null ) {
+            return currentObject.getGunLocation();
+        }
+        else {
+            return new Point();
+        }
+    }
+
     private boolean fireButtonEnabled() {
         return fireOne.isEnabled();
     }
@@ -125,18 +125,12 @@ public class SingleParticleGun extends AbstractGun {
                 if( magnitude <= AutoFire.THRESHOLD ) {
                     if( !fireButtonEnabled() ) {
                         fireOne.setEnabled( true );
-                        //todo piccolo
-//                        fireJC.setCursorHand();
                     }
-
                 }
                 else {
                     if( fireButtonEnabled() ) {
                         fireOne.setEnabled( false );
-                        //todo piccolo
-//                        fireJC.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
                     }
-
                 }
             }
         } );
@@ -177,6 +171,7 @@ public class SingleParticleGun extends AbstractGun {
             particle.setup( this );
             currentObject = particle;
         }
+        updateGunLocation();
     }
 
     protected ImagePComboBox initComboBox() {
@@ -185,21 +180,9 @@ public class SingleParticleGun extends AbstractGun {
         photonBeamParticle = new PhotonBeamParticle( this, "Photons", photonBeam );
 
         gunItems = new GunParticle[]{
-//            new Photon( this, "Photons", "images/photon-thumb.jpg" ),
-            photonBeamParticle,
-            new Electron( this, "Electrons", "images/electron-thumb.jpg" ),
-            new Atom( this, "Atoms", "images/atom-thumb.jpg" )};
-
-//        for( int i = 0; i < gunItems.length; i++ ) {
-//            GunParticle gunItem = gunItems[i];
-//            gunItem.addMomentumChangeListerner( new MomentumChangeListener() {
-//                public void momentumChanged( double val ) {
-//                    double lambda = Math.abs( 2 * Math.PI / val );
-//                    double meters = getDiscreteModel().getMeasurementScale().modelLengthToMeters( lambda );
-//                    System.out.println( "Wavelength: meters = " + meters );
-//                }
-//            } );
-//        }
+                photonBeamParticle,
+                new Electron( this, "Electrons", "images/electron-thumb.jpg" ),
+                new Atom( this, "Atoms", "images/atom-thumb.jpg" )};
 
         final ImagePComboBox imageComboBox = new ImagePComboBox( gunItems );
         imageComboBox.setBorder( BorderFactory.createTitledBorder( "Gun Type" ) );
@@ -209,8 +192,6 @@ public class SingleParticleGun extends AbstractGun {
                 setupObject( gunItems[index] );
             }
         } );
-
-//        setupObject( gunItems[0] );
         return imageComboBox;
     }
 
@@ -230,4 +211,5 @@ public class SingleParticleGun extends AbstractGun {
     public PNode getFireButtonGraphic() {
         return fireJC;
     }
+
 }

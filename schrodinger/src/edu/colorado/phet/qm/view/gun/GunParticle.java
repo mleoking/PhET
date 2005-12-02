@@ -141,6 +141,10 @@ public abstract class GunParticle extends ImageComboBox.Item {
 
     private ArrayList changeHandlers = new ArrayList();
 
+    public Point getGunLocation() {
+        return new Point( -10, 35 );
+    }
+
 //    protected void detachListener( AbstractGun.MomentumChangeListener listener ) {
 //        ArrayList toRemove = new ArrayList();
 //        for( int i = 0; i < changeHandlers.size(); i++ ) {

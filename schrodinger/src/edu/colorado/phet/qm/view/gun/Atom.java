@@ -5,6 +5,7 @@ import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -60,4 +61,9 @@ public class Atom extends GunParticle {
         velocity.addChangeListener( changeHandler );
     }
 
+    public Point getGunLocation() {
+        Point p = super.getGunLocation();
+        p.y -= AbstractGun.GUN_PARTICLE_OFFSET;
+        return p;
+    }
 }

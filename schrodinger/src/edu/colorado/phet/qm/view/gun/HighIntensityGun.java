@@ -12,6 +12,7 @@ import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -57,7 +58,6 @@ public class HighIntensityGun extends AbstractGun {
         addChild( onCheckboxGraphic );
         addChild( intensityGraphic );
 
-
         //todo piccolo
 //        final WiggleMe wiggleMe = new WiggleMe( getSchrodingerPanel(), getSchrodingerPanel().getSchrodingerModule().getModel(), "Increase the Intensity", intensityGraphic );
 //        schrodingerPanel.addWorldChild( wiggleMe, Double.POSITIVE_INFINITY );
@@ -83,6 +83,16 @@ public class HighIntensityGun extends AbstractGun {
         onCheckboxGraphic.setOffset( intensityGraphic.getFullBounds().getX() + intensityGraphic.getFullBounds().getWidth() / 2 - onCheckboxGraphic.getFullBounds().getWidth() / 2, intensityGraphic.getFullBounds().getMaxY() + 4 );
     }
 
+    protected Point getGunLocation() {
+        if( currentBeam != null ) {
+            return currentBeam.getGunLocation();
+        }
+        else {
+            return new Point();
+        }
+
+    }
+
     private void stepBeam() {
         currentBeam.stepBeam();
     }
@@ -93,9 +103,9 @@ public class HighIntensityGun extends AbstractGun {
         Atom atom = new Atom( this, "Atoms", "images/atom-thumb.jpg" );
 
         HighIntensityBeam[] mybeams = new HighIntensityBeam[]{
-            new PhotonBeam( this, photon ),
-            new ParticleBeam( e ),
-            new ParticleBeam( atom )};
+                new PhotonBeam( this, photon ),
+                new ParticleBeam( e ),
+                new ParticleBeam( atom )};
         setBeams( mybeams );
         final ImagePComboBox imageComboBox = new ImagePComboBox( beams );
         imageComboBox.setBorder( BorderFactory.createTitledBorder( "Gun Type" ) );
@@ -122,6 +132,7 @@ public class HighIntensityGun extends AbstractGun {
             currentBeam = beam;
             currentBeam.setHighIntensityModeOn( alwaysOnCheckBox.isSelected() );
         }
+        updateGunLocation();
     }
 
     private void updateIntensity() {
