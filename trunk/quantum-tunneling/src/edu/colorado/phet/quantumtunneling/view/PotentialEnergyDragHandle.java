@@ -88,15 +88,6 @@ public class PotentialEnergyDragHandle extends DragHandle implements Observer, P
         updatePosition();
     }
     
-    /**
-     * Sets the drag handle's position on the energy chart's x axis.
-     * @param value
-     */
-    private void setXAxisPosition( double value ) {
-        _xAxisPosition = value;
-        updatePosition();
-    }
-    
     //----------------------------------------------------------------------------
     // Updaters
     //----------------------------------------------------------------------------
