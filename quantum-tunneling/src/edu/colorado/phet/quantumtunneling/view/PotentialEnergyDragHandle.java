@@ -24,7 +24,9 @@ import edu.umd.cs.piccolo.PNode;
 
 
 /**
- * PotentialEnergyDragHandler
+ * PotentialEnergyDragHandler is a drag handle used to control potential energy
+ * of a single region. It is superimposed on top of a QTCombinedChartNode, which
+ * manages rendering of the energy chart.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
