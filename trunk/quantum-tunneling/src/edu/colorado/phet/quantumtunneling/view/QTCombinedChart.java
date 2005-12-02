@@ -54,7 +54,6 @@ public class QTCombinedChart extends JFreeChart implements Observer {
     public static final int PROBABILIT_DENSITY_PLOT_INDEX = 2;
         
     private static final boolean CREATE_LEGEND = false;
-    private static final Font AXIS_LABEL_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 16 );
     private static final double CHART_SPACING = 15.0;
 
     //----------------------------------------------------------------------------
@@ -64,6 +63,8 @@ public class QTCombinedChart extends JFreeChart implements Observer {
     private AbstractPotentialEnergy _potentialEnergy;
     
     private EnergyPlot _energyPlot;
+    private WaveFunctionPlot _waveFunctionPlot;
+    private ProbabilityDensityPlot _probabilityDensityPlot;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -74,50 +75,21 @@ public class QTCombinedChart extends JFreeChart implements Observer {
         
         setBackgroundPaint( QTConstants.CHART_BACKGROUND );
         
-        // Labels (localized)
-        String waveFunctionLabel = SimStrings.get( "axis.waveFunction" );
-        String probabilityDensityLabel = SimStrings.get( "axis.probabilityDensity" );
-        String positionLabel = SimStrings.get( "axis.position" ) + " (" + SimStrings.get( "units.position" ) + ")";
-        
         // Energy plot...
         _energyPlot = new EnergyPlot();
 
         // Wave Function plot...
-        XYPlot waveFunctionPlot = null;
-        {
-            XYSeriesCollection data = new XYSeriesCollection();
-            XYItemRenderer renderer = new StandardXYItemRenderer();
-            NumberAxis yAxis = new NumberAxis( waveFunctionLabel );
-            yAxis.setLabelFont( AXIS_LABEL_FONT );
-            yAxis.setRange( QTConstants.WAVE_FUNCTION_RANGE );
-            waveFunctionPlot = new XYPlot( data, null, yAxis, renderer );
-            waveFunctionPlot.setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
-            waveFunctionPlot.setBackgroundPaint( QTConstants.PLOT_BACKGROUND );
-        }
+        _waveFunctionPlot = new WaveFunctionPlot();
 
         // Probability Density plot...
-        XYPlot probabilityDensityPlot = null;
-        {
-            XYSeriesCollection data = new XYSeriesCollection();
-            XYItemRenderer renderer = new StandardXYItemRenderer();
-            renderer.setSeriesPaint( 0, QTConstants.PROBABILITY_DENSITY_COLOR );
-            renderer.setSeriesStroke( 0, QTConstants.PROBABILITY_DENSITY_STROKE );
-            NumberAxis yAxis = new NumberAxis( probabilityDensityLabel );
-            yAxis.setLabelFont( AXIS_LABEL_FONT );
-            yAxis.setRange( QTConstants.PROBABILITY_DENSITY_RANGE );
-            probabilityDensityPlot = new XYPlot( data, null, yAxis, renderer );
-            probabilityDensityPlot.setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
-            probabilityDensityPlot.setBackgroundPaint( QTConstants.PLOT_BACKGROUND );
-        }
-        
+        _probabilityDensityPlot = new ProbabilityDensityPlot();
+
         // Parent plot configuration...
         {
             CombinedDomainXYPlot plot = (CombinedDomainXYPlot) getPlot();
             
             // Common x axis...
-            NumberAxis positionAxis = new NumberAxis( positionLabel );
-            positionAxis.setLabelFont( AXIS_LABEL_FONT );
-            positionAxis.setRange( QTConstants.POSITION_RANGE );
+            PositionAxis positionAxis = new PositionAxis();
             plot.setDomainAxis( positionAxis );
             
             // Misc properties
@@ -127,8 +99,8 @@ public class QTCombinedChart extends JFreeChart implements Observer {
             // Add the subplots, weights all the same
             final int weight = 1;
             plot.add( _energyPlot, weight );
-            plot.add( waveFunctionPlot, weight );
-            plot.add( probabilityDensityPlot, weight );
+            plot.add( _waveFunctionPlot, weight );
+            plot.add( _probabilityDensityPlot, weight );
         }
     }
     
@@ -165,12 +137,21 @@ public class QTCombinedChart extends JFreeChart implements Observer {
     }
     
     /**
-     * Gets a reference to the energy plot.
+     * Gets a reference to the Energy plot.
      * 
      * @return
      */
     public EnergyPlot getEnergyPlot() {
         return _energyPlot;
+    }
+    
+    /**
+     * Gets a reference to the Wave Function plot.
+     *
+     * @return
+     */
+    public WaveFunctionPlot getWaveFunctionPlot() {
+        return _waveFunctionPlot;
     }
     
     //----------------------------------------------------------------------------
