@@ -54,10 +54,10 @@ public class BarrierPotential extends AbstractPotentialSpace {
                 setRegion( i, getMinPosition(), DEFAULT_BARRIER_POSITION, 0 );
             }
             else if ( i == getNumberOfRegions() - 1 ) {
-                setRegion( i, getRegion( i-1 ).getEnd(), getMaxPosition(), 0 );    
+                setRegion( i, getEnd( i-1 ), getMaxPosition(), 0 );    
             }
             else {
-                double start = getRegion( i-1 ).getEnd();
+                double start = getEnd( i-1 );
                 double end = start + DEFAULT_BARRIER_WIDTH;
                 double energy = isaBarrier( i ) ? DEFAULT_BARRIER_ENERGY : 0;
                 setRegion( i, start, end, energy );
@@ -102,19 +102,16 @@ public class BarrierPotential extends AbstractPotentialSpace {
         boolean success = false;
         
         final int regionIndex = toRegionIndex( barrierIndex );
-        PotentialRegion barrier = getRegion( regionIndex );
-        PotentialRegion left = getRegion( regionIndex - 1 );
-        PotentialRegion right = getRegion( regionIndex + 1 );
         final double minRegionWidth = getMinRegionWidth();
         
-        if ( position - minRegionWidth >= left.getStart() &&
-             position + barrier.getWidth() + minRegionWidth <= right.getEnd() )
+        if ( position - minRegionWidth >= getStart( regionIndex - 1 ) &&
+             position + getWidth( regionIndex ) + minRegionWidth <= getEnd( regionIndex + 1 ) )
         {
             setNotifyEnabled( false );
             
             // move the barrier
             final double start = position;
-            final double end = position + barrier.getWidth();
+            final double end = position + getWidth( regionIndex );
             setRegion( regionIndex, start, end );
            
             // move the end point of the region to the left of the barrier
@@ -143,7 +140,7 @@ public class BarrierPotential extends AbstractPotentialSpace {
             throw new IllegalArgumentException( "barrierIndex out of range: " + barrierIndex );
         }
         int regionIndex = toRegionIndex( barrierIndex );
-        return getRegion( regionIndex ).getStart();
+        return getStart( regionIndex );
     }
     
     /**
@@ -160,18 +157,17 @@ public class BarrierPotential extends AbstractPotentialSpace {
         }
         
         boolean success = false;
+        
         final int regionIndex = toRegionIndex( barrierIndex );
-        PotentialRegion barrier = getRegion( regionIndex );
-        PotentialRegion right = getRegion( regionIndex + 1 );
         final double minRegionWidth = getMinRegionWidth();
         
         if ( width >= minRegionWidth && 
-            barrier.getStart() + width + minRegionWidth <= right.getEnd() ) {
+            getStart( regionIndex ) + width + minRegionWidth <= getEnd( regionIndex + 1 ) ) {
             
             setNotifyEnabled( false );
             
             // move the end of the barrier's region
-            final double end = barrier.getStart() + width;
+            final double end = getStart( regionIndex ) + width;
             setEnd( regionIndex, end );
             
             // move the start point of the region to the right of the barrier
@@ -197,7 +193,7 @@ public class BarrierPotential extends AbstractPotentialSpace {
             throw new IllegalArgumentException( "barrierIndex out of range: " + barrierIndex );
         }
         final int regionIndex = toRegionIndex( barrierIndex );
-        return getRegion( regionIndex ).getWidth();
+        return getWidth( regionIndex );
     }
     
     //----------------------------------------------------------------------------

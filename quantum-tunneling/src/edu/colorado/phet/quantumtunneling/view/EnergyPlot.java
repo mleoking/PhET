@@ -184,11 +184,11 @@ public class EnergyPlot extends XYPlot implements Observer {
      */
     private void updatePotentialEnergy() {
         _potentialEnergySeries.clear();
-        PotentialRegion[] regions = _potentialEnergy.getRegions();
-        for ( int i = 0; i < regions.length; i++ ) {
-            double start = regions[i].getStart();
-            double end = regions[i].getEnd();
-            double energy = regions[i].getEnergy();
+        int numberOfRegions = _potentialEnergy.getNumberOfRegions();
+        for ( int i = 0; i < numberOfRegions; i++ ) {
+            double start = _potentialEnergy.getStart( i );
+            double end = _potentialEnergy.getEnd( i );
+            double energy = _potentialEnergy.getEnergy( i );
             _potentialEnergySeries.add( start, energy );
             _potentialEnergySeries.add( end, energy );
         }

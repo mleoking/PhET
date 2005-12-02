@@ -444,14 +444,14 @@ public class ConfigureEnergyDialog extends JDialog {
         
         // Potential Energy per region
         for ( int i = 0; i < _peSpinners.size(); i++ ) {
-            double pe = _potentialEnergy.getRegion(i).getEnergy();
+            double pe = _potentialEnergy.getEnergy( i );
             JSpinner peSpinner = (JSpinner) _peSpinners.get( i );
             peSpinner.setValue( new Double( pe ) );
         }
         
         // Step 
         if ( _stepSpinner != null ) {
-            double position = _potentialEnergy.getRegion( 1 ).getStart();
+            double position = _potentialEnergy.getStart( 1 );
             _stepSpinner.setValue( new Double( position ) );
         }
         
@@ -460,7 +460,7 @@ public class ConfigureEnergyDialog extends JDialog {
             for ( int i = 0; i < _widthSpinners.size(); i++ ) {
                 JSpinner widthSpinner = (JSpinner) _widthSpinners.get( i );
                 int regionIndex = BarrierPotential.toRegionIndex( i );
-                double width = ( (BarrierPotential) _potentialEnergy ).getRegion( regionIndex ).getWidth();
+                double width = ( (BarrierPotential) _potentialEnergy ).getWidth( regionIndex );
                 widthSpinner.setValue( new Double( width ) );
             }
         }
@@ -470,7 +470,7 @@ public class ConfigureEnergyDialog extends JDialog {
             for ( int i = 0; i < _positionSpinners.size(); i++ ) {
                 JSpinner positionSpinner = (JSpinner) _positionSpinners.get( i );
                 int regionIndex = BarrierPotential.toRegionIndex( i );
-                double position = ( (BarrierPotential) _potentialEnergy ).getRegion( regionIndex ).getStart();
+                double position = ( (BarrierPotential) _potentialEnergy ).getStart( regionIndex );
                 positionSpinner.setValue( new Double( position ) );
             }
         }
@@ -511,12 +511,12 @@ public class ConfigureEnergyDialog extends JDialog {
         renderer.removeAnnotations();
         _energyPlot.clearDomainMarkers();
         
-        PotentialRegion[] regions = _potentialEnergy.getRegions();
-        for ( int i = 0; i < regions.length; i++ ) {
+        int numberOfRegions = _potentialEnergy.getNumberOfRegions();
+        for ( int i = 0; i < numberOfRegions; i++ ) {
             
             // Marker
             if ( i != 0 ) {
-                double x = regions[i].getStart();
+                double x = _potentialEnergy.getStart( i );
                 Marker marker = new ValueMarker( x );
                 marker.setPaint( QTConstants.REGION_MARKER_COLOR );
                 marker.setStroke( QTConstants.REGION_MARKER_STROKE );
@@ -527,7 +527,7 @@ public class ConfigureEnergyDialog extends JDialog {
             {
                 // Region annotation
                 String text = "R" + ( i + 1 );
-                double x = regions[i].getStart() + ( ( regions[i].getEnd() - regions[i].getStart() ) / 2 );
+                double x = _potentialEnergy.getMiddle( i );
                 double y = maxY - ANNOTATION_MARGIN;
                 XYTextAnnotation annotation = new XYTextAnnotation( text, x, y );
                 annotation.setFont( ANNOTATION_FONT );
@@ -703,7 +703,7 @@ public class ConfigureEnergyDialog extends JDialog {
         }
         else {
             warnInvalidInput();
-            energy = _potentialEnergy.getRegion( regionIndex ).getEnergy();
+            energy = _potentialEnergy.getEnergy( regionIndex );
             peSpinner.setValue( new Double( energy ) );
         }
     }
