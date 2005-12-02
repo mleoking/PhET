@@ -64,7 +64,7 @@ JFREECHART:
 - XYTextAnnotation doesn't support HTML
 
 DONE:
-(12/2/05) - add position range to IPotentialSpace interface so that it's clear that space is finite
+(12/2/05) - add range methods to AbstractPotentialSpace interface so that it's clear that space is finite
 (12/2/05) - add validation of regions to make sure they remain contiguous
 (12/2/05) - factor out WaveFunctionPlot and ProbabilityDensityPlot classes
 (12/2/05) - factor out PositionAxis into one class used by all plots
