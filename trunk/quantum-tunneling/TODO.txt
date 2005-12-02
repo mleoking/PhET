@@ -64,6 +64,8 @@ JFREECHART:
 - XYTextAnnotation doesn't support HTML
 
 DONE:
+
+(12/2/05) - generalize and move coordinate transform code into JFreeChartNode
 (12/1/05) - create a drag handle that controls the total energy
 (12/1/05) - move piccolo stuff that's not QT-specific into quantum-tunneling.piccolo package
 (12/1/05) - force update of ChartRenderingInfo before setting drag bounds
