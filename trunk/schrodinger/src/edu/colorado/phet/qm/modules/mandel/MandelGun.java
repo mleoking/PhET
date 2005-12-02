@@ -1,14 +1,18 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.mandel;
 
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
 import edu.colorado.phet.qm.view.gun.HighIntensityBeam;
 import edu.colorado.phet.qm.view.gun.HighIntensityGun;
 import edu.colorado.phet.qm.view.gun.Photon;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -22,17 +26,33 @@ public class MandelGun extends HighIntensityGun {
     public MandelGun( MandelPanel mandelPanel ) {
         super( mandelPanel );
         //todo piccolo
-//        Point origGunLoc = getOrigGunLocation();
+        Point origGunLoc = getGunLocation();
 ////        getGunImageGraphic().setLocation( origGunLoc.x-50,origGunLoc.y);
-//        int dx = 80;
-//        getGunImageGraphic().setVisible( false );
+        int dx = 112;
+        getGunImageGraphic().setVisible( false );
+        PImage leftGun = null;
+        PImage rightGun = null;
+        try {
+            leftGun = new PImage( ImageLoader.loadBufferedImage( GUN_RESOURCE ) );
+            leftGun.setPickable( false );
+            leftGun.setChildrenPickable( false );
+            rightGun = new PImage( ImageLoader.loadBufferedImage( "images/gun2-ii.gif" ) );
+            rightGun.setPickable( false );
+            rightGun.setChildrenPickable( false );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+
+        addChild( 0, leftGun );
+        addChild( 0, rightGun );
 //        PhetImageGraphic gunGraphicLeft = new PhetImageGraphic( getSchrodingerPanel(), getGunImageResource() );
 //        PhetImageGraphic gunGraphicRight = new PhetImageGraphic( getSchrodingerPanel(), getGunImageResource() );
 //        addGraphic( gunGraphicLeft, Double.NEGATIVE_INFINITY );
 //        addGraphic( gunGraphicRight, Double.NEGATIVE_INFINITY );
 //
-//        gunGraphicLeft.setLocation( new Point( origGunLoc.x - dx, origGunLoc.y ) );
-//        gunGraphicRight.setLocation( new Point( origGunLoc.x + dx, origGunLoc.y ) );
+        leftGun.setOffset( new Point( origGunLoc.x - dx, origGunLoc.y ) );
+        rightGun.setOffset( new Point( origGunLoc.x + dx, origGunLoc.y ) );
     }
 
     public int getFireButtonInsetDX() {
@@ -45,7 +65,7 @@ public class MandelGun extends HighIntensityGun {
 //        Atom atom = new Atom( this, "Atoms", "images/atom-thumb.jpg" );
 
         final HighIntensityBeam[] beams = new HighIntensityBeam[]{
-            new PhotonMandelBeam( this, photon )
+                new PhotonMandelBeam( this, photon )
         };
         setBeams( beams );
 
