@@ -20,7 +20,7 @@ import java.awt.geom.Point2D;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BarrierPotential extends AbstractPotentialEnergy {
+public class BarrierPotential extends AbstractPotentialSpace {
     
     //----------------------------------------------------------------------------
     // Class data

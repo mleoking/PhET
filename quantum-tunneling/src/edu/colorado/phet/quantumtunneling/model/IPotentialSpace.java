@@ -13,12 +13,12 @@ package edu.colorado.phet.quantumtunneling.model;
 
 
 /**
- * IPotential is the interface for implementing as "potential space".
+ * IPotentialSpace is the interface for implementing as "potential space".
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public interface IPotentialEnergy {
+public interface IPotentialSpace {
    
     public int getNumberOfRegions();
     

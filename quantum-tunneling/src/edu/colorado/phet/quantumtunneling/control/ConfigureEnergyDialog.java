@@ -81,7 +81,7 @@ public class ConfigureEnergyDialog extends JDialog {
 
     // Model
     private TotalEnergy _totalEnergy;
-    private AbstractPotentialEnergy _potentialEnergy;
+    private AbstractPotentialSpace _potentialEnergy;
     
     // Chart area
     private EnergyPlot _energyPlot;
@@ -116,7 +116,7 @@ public class ConfigureEnergyDialog extends JDialog {
      * @param totalEnergy
      * @param potentialEnergy
      */
-    public ConfigureEnergyDialog( Frame parent, QTModule module, TotalEnergy totalEnergy, AbstractPotentialEnergy potentialEnergy ) {
+    public ConfigureEnergyDialog( Frame parent, QTModule module, TotalEnergy totalEnergy, AbstractPotentialSpace potentialEnergy ) {
         super( parent );
 
         setTitle( SimStrings.get( "title.configureEnergy" ) );
@@ -646,7 +646,7 @@ public class ConfigureEnergyDialog extends JDialog {
      * Handles selection in the "Potential" combo box.
      */
     private void handlePotentialTypeChange() {
-        AbstractPotentialEnergy potentialEnergy = null;
+        AbstractPotentialSpace potentialEnergy = null;
         
         Object o = _potentialComboBox.getSelectedItem();
         if ( o == _constantItem ) {
@@ -776,8 +776,8 @@ public class ConfigureEnergyDialog extends JDialog {
     /*
      * Clones a potential energy object. 
      */
-    private AbstractPotentialEnergy clonePotentialEnergy( AbstractPotentialEnergy pe ) {
-        AbstractPotentialEnergy peNew = null;
+    private AbstractPotentialSpace clonePotentialEnergy( AbstractPotentialSpace pe ) {
+        AbstractPotentialSpace peNew = null;
         if ( pe instanceof ConstantPotential ) {
             peNew = new ConstantPotential( (ConstantPotential) pe );
         }

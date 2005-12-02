@@ -27,7 +27,7 @@ import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.control.ConfigureEnergyDialog;
 import edu.colorado.phet.quantumtunneling.control.QTControlPanel;
-import edu.colorado.phet.quantumtunneling.model.AbstractPotentialEnergy;
+import edu.colorado.phet.quantumtunneling.model.AbstractPotentialSpace;
 import edu.colorado.phet.quantumtunneling.model.BarrierPotential;
 import edu.colorado.phet.quantumtunneling.model.TotalEnergy;
 import edu.colorado.phet.quantumtunneling.view.*;
@@ -64,7 +64,7 @@ public class QTModule extends AbstractModule {
     
     // Model
     private TotalEnergy _totalEnergy;
-    private AbstractPotentialEnergy _potentialEnergy;
+    private AbstractPotentialSpace _potentialEnergy;
     
     // View
     private PhetPCanvas _canvas;
@@ -297,7 +297,7 @@ public class QTModule extends AbstractModule {
         }
     }
     
-    public void setPotentialEnergy( AbstractPotentialEnergy potentialEnergy ) {
+    public void setPotentialEnergy( AbstractPotentialSpace potentialEnergy ) {
         _potentialEnergy = potentialEnergy;
         _chart.setPotentialEnergy( _potentialEnergy );
         if ( _controlPanel != null ) {

@@ -16,12 +16,12 @@ import edu.colorado.phet.quantumtunneling.QTConstants;
 
 
 /**
- * AbstactPotential is the abstrat base class for all types of potential spaces.
+ * AbstractPotentialSpace is the abstrat base class for all types of potential spaces.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public abstract class AbstractPotentialEnergy extends QTObservable implements IPotentialEnergy {
+public abstract class AbstractPotentialSpace extends QTObservable implements IPotentialSpace {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -36,7 +36,7 @@ public abstract class AbstractPotentialEnergy extends QTObservable implements IP
     // Instance data
     //----------------------------------------------------------------------------
     
-    private PotentialRegion[] _regions; // array of Point2D
+    private PotentialRegion[] _regions;
     
     /* minimum region width */
     private double _minRegionWidth;
@@ -45,7 +45,7 @@ public abstract class AbstractPotentialEnergy extends QTObservable implements IP
     // Constructors
     //----------------------------------------------------------------------------
     
-    protected AbstractPotentialEnergy( int numberOfRegions ) {
+    protected AbstractPotentialSpace( int numberOfRegions ) {
         super();
         
         if ( numberOfRegions <= 0 ) {
@@ -78,7 +78,7 @@ public abstract class AbstractPotentialEnergy extends QTObservable implements IP
      * 
      * @param potential
      */
-    protected AbstractPotentialEnergy( AbstractPotentialEnergy potential ) {
+    protected AbstractPotentialSpace( AbstractPotentialSpace potential ) {
         super();
         
         _regions = new PotentialRegion[ potential.getNumberOfRegions() ];
