@@ -76,17 +76,7 @@ public class QTCombinedChartNode extends JFreeChartNode {
      * @return
      */
     public Point2D nodeToEnergy( Point2D screenPoint ) {
-        
-        QTCombinedChart chart = (QTCombinedChart) getChart();
-
-        // Convert the local node coordinates to axis coordinates... 
-        EnergyPlot plot = chart.getEnergyPlot();
-        Rectangle2D dataArea = getEnergyPlotBounds();
-        double x = plot.getDomainAxis().java2DToValue( screenPoint.getX(), dataArea, plot.getDomainAxisEdge() );
-        double y = plot.getRangeAxis().java2DToValue( screenPoint.getY(), dataArea, plot.getRangeAxisEdge() );
-        Point2D chartPoint = new Point2D.Double( x, y );
-        
-        return chartPoint;
+        return nodeToSubplot( screenPoint, QTCombinedChart.ENERGY_PLOT_INDEX );
     }
     
     /**
@@ -96,17 +86,7 @@ public class QTCombinedChartNode extends JFreeChartNode {
      * @param screenPoint
      * @return
      */
-    public Point2D energyToNode( Point2D chartPoint ) {
-        
-        QTCombinedChart chart = (QTCombinedChart) getChart();
-        
-        // Convert the axis coordinates to local node coordinates...
-        EnergyPlot plot = chart.getEnergyPlot();
-        Rectangle2D dataArea = getEnergyPlotBounds();
-        double x = plot.getDomainAxis().valueToJava2D( chartPoint.getX(), dataArea, plot.getDomainAxisEdge() );
-        double y = plot.getRangeAxis().valueToJava2D( chartPoint.getY(), dataArea, plot.getRangeAxisEdge() );
-        Point2D nodePoint = new Point2D.Double( x, y );
-        
-        return nodePoint;
+    public Point2D energyToNode( Point2D energyPoint ) {
+        return subplotToNode( energyPoint, QTCombinedChart.ENERGY_PLOT_INDEX );
     }
 }
