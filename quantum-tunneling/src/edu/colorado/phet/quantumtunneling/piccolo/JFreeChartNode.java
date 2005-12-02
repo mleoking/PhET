@@ -51,7 +51,7 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     //----------------------------------------------------------------------------
     
     /**
-     * Sole constructor.
+     * Constructs a node that displays the specified chart.
      * 
      * @param chart
      */
@@ -189,7 +189,7 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     }
     
     //----------------------------------------------------------------------------
-    // Cooridinate transforms
+    // Coordinate transforms
     //----------------------------------------------------------------------------
     
     /**
