@@ -13,7 +13,7 @@ package edu.colorado.phet.quantumtunneling.model;
 
 
 /**
- * ConstantPotential
+ * ConstantPotential describes a potential space that has constant potential.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -35,7 +35,7 @@ public class ConstantPotential extends AbstractPotentialSpace {
      */
     public ConstantPotential() {
         super( 1 /* numberOfRegions */ );
-        setRegion( 0, MIN_POSITION, MAX_POSITION, DEFAULT_ENERGY );
+        setRegion( 0, getMinPosition(), getMaxPosition(), DEFAULT_ENERGY );
     }
     
     /**
