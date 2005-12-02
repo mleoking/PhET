@@ -146,7 +146,7 @@ public class QTModule extends AbstractModule {
         // Drag handles
         {
             _totalEnergyControl = new TotalEnergyDragHandle( _chartNode );
-            _totalEnergyControl.setXAxisPosition( 3 );
+            _totalEnergyControl.setXAxisPosition( QTConstants.POSITION_RANGE.getUpperBound() - 1 );
             
             _potentialEnergyControls = new PotentialEnergyControls( _chartNode );
         }

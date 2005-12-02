@@ -90,10 +90,11 @@ public class TotalEnergyDragHandle extends DragHandle implements Observer, Prope
     
     /**
      * Sets the drag handle's position on the energy chart's x axis.
-     * @param value
+     * 
+     * @param position position, in chart coordinates
      */
-    public void setXAxisPosition( double value ) {
-        _xAxisPosition = value;
+    public void setXAxisPosition( double position ) {
+        _xAxisPosition = position;
         updatePosition();
     }
     
