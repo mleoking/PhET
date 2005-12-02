@@ -78,7 +78,7 @@ public class QTModule extends AbstractModule {
     private QTControlPanel _controlPanel;
     private ConfigureEnergyDialog _configureEnergyDialog;
     private TotalEnergyDragHandle _totalEnergyControl;
-    private PotentialEnergyDragHandle _potentialEnergyControl;
+    private PotentialEnergyControls _potentialEnergyControls;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -148,7 +148,7 @@ public class QTModule extends AbstractModule {
             _totalEnergyControl = new TotalEnergyDragHandle( _chartNode );
             _totalEnergyControl.setXAxisPosition( 3 );
             
-            _potentialEnergyControl = new PotentialEnergyDragHandle( _chartNode );
+            _potentialEnergyControls = new PotentialEnergyControls( _chartNode );
         }
         
         // Add all the nodes to one parent node.
@@ -159,7 +159,7 @@ public class QTModule extends AbstractModule {
             _parentNode.addChild( _legend );
             _parentNode.addChild( _chartNode );
             _parentNode.addChild( _totalEnergyControl );
-            _parentNode.addChild( _potentialEnergyControl );
+            _parentNode.addChild( _potentialEnergyControls );
 
             _canvas.addScreenChild( _parentNode );
         }       
@@ -232,7 +232,7 @@ public class QTModule extends AbstractModule {
         // Drag handles
         {
             _totalEnergyControl.updateDragBounds();
-            _potentialEnergyControl.updateDragBounds();
+            _potentialEnergyControls.updateDragBounds();
         }
     }
     
@@ -252,11 +252,6 @@ public class QTModule extends AbstractModule {
         setPotentialEnergy( _potentialEnergy );
         
         _controlPanel.reset();
-    }
-    
-    //XXX hack, remove this!
-    public boolean hasHelp() {
-        return true;
     }
     
     //----------------------------------------------------------------------------
@@ -308,7 +303,7 @@ public class QTModule extends AbstractModule {
         if ( _controlPanel != null ) {
             _controlPanel.setPotentialEnergy( _potentialEnergy );
         }
-        _potentialEnergyControl.setPotentialEnergy( _potentialEnergy, 0 );
+        _potentialEnergyControls.setPotentialEnergy( _potentialEnergy );
     }
     
     public void setTotalEnergy( TotalEnergy totalEnergy ) {

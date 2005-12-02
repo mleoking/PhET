@@ -64,7 +64,7 @@ JFREECHART:
 - XYTextAnnotation doesn't support HTML
 
 DONE:
-(12/2/05) - attach a drag handle to potential energy of region 0
+(12/2/05) - attach a vertical drag handles to potential energy levels
 (12/2/05) - add range methods to AbstractPotentialSpace interface so that it's clear that space is finite
 (12/2/05) - add validation of regions to make sure they remain contiguous
 (12/2/05) - factor out WaveFunctionPlot and ProbabilityDensityPlot classes
