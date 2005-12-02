@@ -72,14 +72,12 @@ public class QTModule extends AbstractModule {
     private PNode _legend;
     private QTCombinedChartNode _chartNode;
     private QTCombinedChart _chart;
-    private DragHandle _horizontalDragger;
-    private DragHandle _verticalDragger;
-    private TotalEnergyDragHandle _totalEnergyControl;
     
     // Control
     private PSwing _configureButton;
     private QTControlPanel _controlPanel;
     private ConfigureEnergyDialog _configureEnergyDialog;
+    private TotalEnergyDragHandle _totalEnergyControl;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -144,6 +142,12 @@ public class QTModule extends AbstractModule {
             _chartNode = new QTCombinedChartNode( _chart );
         }
         
+        // Drag handles
+        {
+            _totalEnergyControl = new TotalEnergyDragHandle( _chartNode );
+            _totalEnergyControl.setXAxisPosition( 3 );
+        }
+        
         // Add all the nodes to one parent node.
         {
             _parentNode = new PNode();
@@ -151,24 +155,10 @@ public class QTModule extends AbstractModule {
             _parentNode.addChild( _configureButton );
             _parentNode.addChild( _legend );
             _parentNode.addChild( _chartNode );
+            _parentNode.addChild( _totalEnergyControl );
 
             _canvas.addScreenChild( _parentNode );
         }       
-        
-        // XXX DragHandle tests
-        {
-            _horizontalDragger = new DragHandle( DragHandle.HORIZONTAL );
-            _horizontalDragger.translate( 100, 100 );
-            _parentNode.addChild( _horizontalDragger );
-            
-            _verticalDragger = new DragHandle( DragHandle.VERTICAL );
-            _verticalDragger.translate( 200, 200 );
-//            _parentNode.addChild( _verticalDragger );
-            
-            _totalEnergyControl = new TotalEnergyDragHandle( _chartNode );
-            _totalEnergyControl.setXAxisPosition( 5 );
-            _parentNode.addChild( _totalEnergyControl );
-        }
         
         //----------------------------------------------------------------------------
         // Control
@@ -237,11 +227,6 @@ public class QTModule extends AbstractModule {
 
         // Drag handles
         {
-            Rectangle2D energyPlotBounds = _chartNode.getEnergyPlotBounds();
-            energyPlotBounds = _chartNode.localToGlobal( energyPlotBounds );
-            _horizontalDragger.setDragBounds( energyPlotBounds );
-            _verticalDragger.setDragBounds( energyPlotBounds );
-            
             _totalEnergyControl.updateDragBounds();
         }
     }
