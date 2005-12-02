@@ -13,7 +13,7 @@ package edu.colorado.phet.quantumtunneling.model;
 
 
 /**
- * IPotentialSpace is the interface for implementing as "potential space".
+ * IPotentialSpace is the interface for implementing a "potential space".
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
