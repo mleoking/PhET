@@ -20,7 +20,15 @@ package edu.colorado.phet.quantumtunneling.model;
  */
 public class TotalEnergy extends QTObservable {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private double _energy;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public TotalEnergy() {
         this( 0 );
@@ -38,6 +46,10 @@ public class TotalEnergy extends QTObservable {
     public TotalEnergy( final TotalEnergy totalEnergy ) {
         _energy = totalEnergy.getEnergy();
     }
+    
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
     
     public void setEnergy( final double energy ) {
         if ( energy != _energy ) {

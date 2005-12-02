@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.quantumtunneling.view;
+package edu.colorado.phet.quantumtunneling.piccolo;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -29,7 +29,7 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ChartNode extends PNode implements ChartChangeListener {
+public class JFreeChartNode extends PNode implements ChartChangeListener {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -47,7 +47,7 @@ public class ChartNode extends PNode implements ChartChangeListener {
      * 
      * @param chart
      */
-    public ChartNode( JFreeChart chart ) {
+    public JFreeChartNode( JFreeChart chart ) {
         super();
         _info = new ChartRenderingInfo();
         _chart = chart;

@@ -164,6 +164,15 @@ public class QTCombinedChart extends JFreeChart implements Observer {
         updateRegionMarkers();
     }
     
+    /**
+     * Gets a reference to the energy plot.
+     * 
+     * @return
+     */
+    public EnergyPlot getEnergyPlot() {
+        return _energyPlot;
+    }
+    
     //----------------------------------------------------------------------------
     // Markers
     //----------------------------------------------------------------------------

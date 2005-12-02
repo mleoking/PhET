@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.quantumtunneling.view;
+package edu.colorado.phet.quantumtunneling.piccolo;
 
 import java.awt.Image;
 import java.awt.Toolkit;

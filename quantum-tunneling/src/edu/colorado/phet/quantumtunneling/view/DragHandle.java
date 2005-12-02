@@ -11,10 +11,13 @@
 
 package edu.colorado.phet.quantumtunneling.view;
 
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.quantumtunneling.QTConstants;
+import edu.colorado.phet.quantumtunneling.piccolo.ConstrainedDragHandler;
+import edu.colorado.phet.quantumtunneling.piccolo.ImageNode;
 
 
 /**
@@ -37,6 +40,7 @@ public class DragHandle extends ImageNode {
     //----------------------------------------------------------------------------
     
     private int _orientation;
+    private Point2D _registrationPoint;
     private ConstrainedDragHandler _dragHandler;
     
     //----------------------------------------------------------------------------
@@ -66,10 +70,9 @@ public class DragHandle extends ImageNode {
         }
         
         // registration point @ center
-        double rx = getWidth()/2;
-        double ry = getHeight()/2;
+        _registrationPoint = new Point2D.Double( getWidth() / 2, getHeight() / 2 );
         
-        translate( -rx, -ry );
+        translate( -_registrationPoint.getX(), -_registrationPoint.getY() );
         
         addInputEventListener( new CursorHandler() );
         _dragHandler = new ConstrainedDragHandler();
@@ -77,7 +80,7 @@ public class DragHandle extends ImageNode {
         
         // Configure the drag handler...
         _dragHandler.setTreatAsPointEnabled( true );
-        _dragHandler.setNodeCenter( rx, ry );
+        _dragHandler.setNodeCenter( _registrationPoint.getX(), _registrationPoint.getY() );
         if ( orientation == HORIZONTAL ) {
             _dragHandler.setVerticalLockEnabled( true );
         }
@@ -106,5 +109,29 @@ public class DragHandle extends ImageNode {
      */
     public void setDragBounds( Rectangle2D bounds ) {
         _dragHandler.setDragBounds( bounds );
+    }
+    
+    /**
+     * Sets the position of the node, in the global coordinate system.
+     * 
+     * @param globalPoint
+     */
+    public void setGlobalPosition( Point2D globalPoint ) {
+        Point2D currentGlobalPosition = getGlobalPosition();
+        double deltaX = globalPoint.getX() - currentGlobalPosition.getX();
+        double deltaY = globalPoint.getY() - currentGlobalPosition.getY();
+        translate( deltaX, deltaY );
+    }
+    
+    /**
+     * Gets the position of the node, in the global coordinate system.
+     * 
+     * @return
+     */
+    public Point2D getGlobalPosition() {
+        Rectangle2D bounds = getGlobalBounds();
+        double x = bounds.getX() + _registrationPoint.getX();
+        double y = bounds.getY() + _registrationPoint.getY();
+        return new Point2D.Double( x, y );          
     }
 }
