@@ -27,7 +27,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
-import edu.colorado.phet.quantumtunneling.model.AbstractPotentialEnergy;
+import edu.colorado.phet.quantumtunneling.model.AbstractPotentialSpace;
 import edu.colorado.phet.quantumtunneling.model.PotentialRegion;
 import edu.colorado.phet.quantumtunneling.model.TotalEnergy;
 
@@ -52,7 +52,7 @@ public class EnergyPlot extends XYPlot implements Observer {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private AbstractPotentialEnergy _potentialEnergy;
+    private AbstractPotentialSpace _potentialEnergy;
     private TotalEnergy  _totalEnergy;
     
     private XYSeries _totalEnergySeries;
@@ -127,7 +127,7 @@ public class EnergyPlot extends XYPlot implements Observer {
      * 
      * @param potential
      */
-    public void setPotentialEnergy( AbstractPotentialEnergy potential ) {
+    public void setPotentialEnergy( AbstractPotentialSpace potential ) {
         if ( _potentialEnergy != null ) {
             _potentialEnergy.deleteObserver( this );
         }

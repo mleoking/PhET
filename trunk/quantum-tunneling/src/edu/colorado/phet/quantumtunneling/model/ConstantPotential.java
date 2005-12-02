@@ -18,7 +18,7 @@ package edu.colorado.phet.quantumtunneling.model;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ConstantPotential extends AbstractPotentialEnergy {
+public class ConstantPotential extends AbstractPotentialSpace {
     
     //----------------------------------------------------------------------------
     // Class data
