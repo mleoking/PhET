@@ -13,7 +13,7 @@ package edu.colorado.phet.quantumtunneling.model;
 
 
 /**
- * StepPotential
+ * StepPotential describes a potential space that contains a single step.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -36,8 +36,8 @@ public class StepPotential extends AbstractPotentialSpace {
      */
     public StepPotential() {
         super( 2 /* numberOfRegions */ );
-        setRegion( 0, MIN_POSITION, DEFAULT_STEP_POSITION, 0 );
-        setRegion( 1, getRegion( 0 ).getEnd(), MAX_POSITION, DEFAULT_STEP_ENERGY );
+        setRegion( 0, getMinPosition(), DEFAULT_STEP_POSITION, 0 );
+        setRegion( 1, getRegion( 0 ).getEnd(), getMaxPosition(), DEFAULT_STEP_ENERGY );
     }
     
     /**
@@ -61,16 +61,17 @@ public class StepPotential extends AbstractPotentialSpace {
      * @return true or false
      */
     public boolean setStepPosition( final double position ) {
-        if ( position == MIN_POSITION || position == MAX_POSITION ) {
+        if ( position == getMinPosition() || position == getMaxPosition() ) {
             throw new IllegalArgumentException( "position cannot be at min or max range" );
         }
         
         boolean success = false;
         if ( position - getRegion( 0 ).getStart() >= getMinRegionWidth() &&
-             getRegion( 1 ).getEnd() - position >= getMinRegionWidth() ) {
-            success = true;
+                 getRegion( 1 ).getEnd() - position >= getMinRegionWidth() ) {
             setEnd( 0, position );
             setStart( 1, position );
+            validateRegions();
+            success = true;
         }
         return success;
     }

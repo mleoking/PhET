@@ -15,7 +15,8 @@ import java.awt.geom.Point2D;
 
 
 /**
- * BarrierPotential creates a potential space with a specified number of barriers.
+ * BarrierPotential describes a potential space that contains 
+ * one or more barriers or wells.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -50,10 +51,10 @@ public class BarrierPotential extends AbstractPotentialSpace {
         super( ( numberOfBarriers * 2 ) + 1 /* number of regions */ );
         for ( int i = 0; i < getNumberOfRegions(); i++ ) {
             if ( i == 0 ) {
-                setRegion( i, MIN_POSITION, DEFAULT_BARRIER_POSITION, 0 );
+                setRegion( i, getMinPosition(), DEFAULT_BARRIER_POSITION, 0 );
             }
             else if ( i == getNumberOfRegions() - 1 ) {
-                setRegion( i, getRegion( i-1 ).getEnd(), MAX_POSITION, 0 );    
+                setRegion( i, getRegion( i-1 ).getEnd(), getMaxPosition(), 0 );    
             }
             else {
                 double start = getRegion( i-1 ).getEnd();
@@ -62,6 +63,7 @@ public class BarrierPotential extends AbstractPotentialSpace {
                 setRegion( i, start, end, energy );
             }
         }
+        validateRegions();
     }
     
     /**
@@ -123,8 +125,10 @@ public class BarrierPotential extends AbstractPotentialSpace {
             
             setNotifyEnabled( true );
             
+            validateRegions();
             success = true;
         }
+
         return success;
     }
     
@@ -175,6 +179,7 @@ public class BarrierPotential extends AbstractPotentialSpace {
             
             setNotifyEnabled( true );
             
+            validateRegions();
             success = true;
         }
         
