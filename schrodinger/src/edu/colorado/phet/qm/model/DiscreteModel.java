@@ -31,7 +31,7 @@ public class DiscreteModel implements ModelElement {
     private ArrayList listeners = new ArrayList();
     private DetectorSet detectorSet;
     private boolean detectionCausesCollapse = true;
-    private boolean oneShotDetectors = true;
+    private boolean oneShotDetectors = false;
     private Damping damping;
     private boolean paused = false;
     private WaveSetup initter;
@@ -58,6 +58,7 @@ public class DiscreteModel implements ModelElement {
         wavefunction = new Wavefunction( width, height );
         sourceWave = new Wavefunction( width, height );
         detectorSet = new DetectorSet( wavefunction );
+        detectorSet.setOneShotDetectors( oneShotDetectors );
         initter = new WaveSetup( wave );
         initter.initialize( wavefunction );
         propagator = new ModifiedRichardsonPropagator( this, deltaTime, wave, compositePotential );

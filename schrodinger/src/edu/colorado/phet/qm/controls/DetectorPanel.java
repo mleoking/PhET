@@ -31,14 +31,6 @@ public class DetectorPanel extends VerticalLayoutPanel {
         } );
         add( newDetector );
 
-//        final JCheckBox causeCollapse = new JCheckBox( "Causes Collapse", true );
-//        causeCollapse.addChangeListener( new ChangeListener() {
-//            public void stateChanged( ChangeEvent e ) {
-//                getDiscreteModel().setDetectionCausesCollapse( causeCollapse.isSelected() );
-//            }
-//        } );
-//        add( causeCollapse );
-
         final JCheckBox oneShot = new JCheckBox( "One-Shot" );
         oneShot.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
