@@ -16,8 +16,6 @@ import org.jfree.data.Range;
 
 /**
  * IPotentialSpace is the interface for implementing a "potential space".
- * A potential space begins and ends at some postions in space, and consists
- * of a number of contiguous regions.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -47,11 +45,4 @@ public interface IPotentialSpace {
      * @return
      */
     public PotentialRegion getRegion( final int index );  
-    
-    /**
-     * Gets the range of the space.
-     * 
-     * @return
-     */
-    public Range getPositionRange();
 }

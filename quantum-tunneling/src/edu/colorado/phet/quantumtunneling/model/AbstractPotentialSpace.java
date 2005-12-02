@@ -19,7 +19,8 @@ import edu.colorado.phet.quantumtunneling.QTConstants;
 
 /**
  * AbstractPotentialSpace is the abstract base class for all potential spaces.
- * The regions in this space are guaranteed to be contiguous; there are no gaps
+ * The space is finite; it has non-infinite beginning and end positions.
+ * The regions in the space are guaranteed to be contiguous; there are no gaps
  * between the regions, and the regions do not overlap.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -115,13 +116,18 @@ public abstract class AbstractPotentialSpace extends QTObservable implements IPo
         return _regions[index];
     }
     
-    public Range getPositionRange() {
-        return QTConstants.POSITION_RANGE;
-    }
-
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
+    
+    /**
+     * Gets the range of the space.
+     * 
+     * @return
+     */
+    public Range getPositionRange() {
+        return QTConstants.POSITION_RANGE;
+    }
     
     /**
      * Gets the position where the space begins.
@@ -205,6 +211,12 @@ public abstract class AbstractPotentialSpace extends QTObservable implements IPo
         setRegion( regionIndex, start, end, energy );  
     }
     
+    /**
+     * Sets the potential energy of a specified region.
+     * 
+     * @param regionIndex
+     * @param energy
+     */
     public void setEnergy( int regionIndex, double energy ) {
         validateRegionIndex( regionIndex );
         double start = getRegion( regionIndex ).getStart();
@@ -212,6 +224,16 @@ public abstract class AbstractPotentialSpace extends QTObservable implements IPo
         setRegion( regionIndex, start, end, energy );
     }
     
+    /**
+     * Gets the region that contains a specified position.
+     * If the position is outside the space, null is returned.
+     * If the position falls on the boundary of two regions,
+     * the region whose end point matches the position is 
+     * returned.
+     * 
+     * @param position
+     * @return the region (possibly null)
+     */
     public PotentialRegion getRegionAt( double position ) {
         PotentialRegion region = null;
         for ( int i = 0; i < getNumberOfRegions() && region == null; i++ ) {
@@ -221,14 +243,26 @@ public abstract class AbstractPotentialSpace extends QTObservable implements IPo
                 region = getRegion( i );
             }
         }
-        if ( region == null ) {
-            throw new NullPointerException( "region should not be null here!" );
-        }
         return region;
     }
     
+    /**
+     * Gets the energy at a specified position.
+     * If the position is outside the space, 0 is returned.
+     * If the position falls on the boundary of two regions,
+     * the energy of the region whose end point matches the
+     * position is returned.
+     * 
+     * @param position
+     * @return energy
+     */
     public double getEnergyAt( double position ) {
-        return getRegionAt( position ).getEnergy();
+        double energy = 0;
+        PotentialRegion region = getRegionAt( position );
+        if ( region != null ) {
+            energy = region.getEnergy();
+        }
+        return energy;
     }
        
     //----------------------------------------------------------------------------
