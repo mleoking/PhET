@@ -32,13 +32,14 @@ public abstract class AbstractGun extends PNode {
     private ImagePComboBox comboBox;
     private PSwing comboBoxGraphic;
     public static final int GUN_PARTICLE_OFFSET = 35;
+    protected final String GUN_RESOURCE = "images/raygun3-centerbarrel.gif";
+    ;
 
     public AbstractGun( final SchrodingerPanel schrodingerPanel ) {
         super();
         this.schrodingerPanel = schrodingerPanel;
-        String imageResourceName = getGunImageResource();
         try {
-            BufferedImage image = ImageLoader.loadBufferedImage( imageResourceName );
+            BufferedImage image = ImageLoader.loadBufferedImage( GUN_RESOURCE );
             gunImageGraphic = new PImage( image );
         }
         catch( IOException e ) {
@@ -63,9 +64,10 @@ public abstract class AbstractGun extends PNode {
         gunImageGraphic.setOffset( getGunLocation() );
     }
 
-    protected String getGunImageResource() {
-        return "images/raygun3-centerbarrel.gif";
-    }
+//    protected String getGunImageResource() {
+////        return "images/raygun3-centerbarrel.gif";
+//        return "images/gun2-ii.gif";
+//    }
 
     protected abstract Point getGunLocation();
 
