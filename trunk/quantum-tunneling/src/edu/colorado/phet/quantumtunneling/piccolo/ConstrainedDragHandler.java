@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.quantumtunneling.view;
+package edu.colorado.phet.quantumtunneling.piccolo;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
