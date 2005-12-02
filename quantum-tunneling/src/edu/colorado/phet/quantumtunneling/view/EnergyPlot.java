@@ -33,13 +33,21 @@ import edu.colorado.phet.quantumtunneling.model.TotalEnergy;
 
 
 /**
- * EnergyPlot
+ * EnergyPlot is the plot that displays total and potential energy.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class EnergyPlot extends XYPlot implements Observer {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    // Indicies are determined by the order that series are added to XYSeriesCollection
+    public static final int POTENTIAL_ENERGY_SERIES_INDEX = 0;
+    public static final int TOTAL_ENERGY_SERIES_INDEX = 1;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -59,7 +67,6 @@ public class EnergyPlot extends XYPlot implements Observer {
         
         // Labels (localized)
         String energyLabel = SimStrings.get( "axis.energy" ) + " (" + SimStrings.get( "units.energy" ) + ")";
-        String positionLabel = SimStrings.get( "axis.position" ) + " (" + SimStrings.get( "units.position" ) + ")";
         String potentialEnergyLabel = SimStrings.get( "legend.potentialEnergy" );
         String totalEnergyLabel = SimStrings.get( "legend.totalEnergy" );
         
@@ -74,17 +81,13 @@ public class EnergyPlot extends XYPlot implements Observer {
         
         // Renderer
         XYItemRenderer renderer = new StandardXYItemRenderer();
-        renderer.setSeriesPaint( 0, QTConstants.POTENTIAL_ENERGY_COLOR );
-        renderer.setSeriesStroke( 0, QTConstants.POTENTIAL_ENERGY_STROKE );
-        renderer.setSeriesPaint( 1, QTConstants.TOTAL_ENERGY_COLOR );
-        renderer.setSeriesStroke( 1, QTConstants.TOTAL_ENERGY_STROKE );
+        renderer.setSeriesPaint( POTENTIAL_ENERGY_SERIES_INDEX, QTConstants.POTENTIAL_ENERGY_COLOR );
+        renderer.setSeriesStroke( POTENTIAL_ENERGY_SERIES_INDEX, QTConstants.POTENTIAL_ENERGY_STROKE );
+        renderer.setSeriesPaint( TOTAL_ENERGY_SERIES_INDEX, QTConstants.TOTAL_ENERGY_COLOR );
+        renderer.setSeriesStroke( TOTAL_ENERGY_SERIES_INDEX, QTConstants.TOTAL_ENERGY_STROKE );
         
         // X axis 
-        NumberAxis xAxis = new NumberAxis( positionLabel );
-        xAxis.setLabelFont( QTConstants.AXIS_LABEL_FONT );
-        xAxis.setRange( QTConstants.POSITION_RANGE );
-        TickUnits xUnits = (TickUnits) NumberAxis.createIntegerTickUnits();
-        xAxis.setStandardTickUnits( xUnits );
+        PositionAxis xAxis = new PositionAxis();
         
         // Y axis
         NumberAxis yAxis = new NumberAxis( energyLabel );
