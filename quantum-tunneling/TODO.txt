@@ -7,7 +7,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - use a wide stroke with gradient paint for Total Energy of wave packet
-- use JFreeChart legend feature, use setFixedLegendItems to control what's in the legend
 - add "Restart" button to clock controls
 - add time display to lower left of PhetFrame
 
@@ -146,6 +145,7 @@ DONE:
 
 
 REJECTED:
+(12/3/05) - use JFreeChart legend feature, use setFixedLegendItems to control what's in the legend (my legend is fine)
 (11/15/05) - is it OK that barrier width value is not displayed anywhere? (add Configure dialog)
 (11/15/05) - do we need to show value as drag handles are moved? (no, add Configure dialog)
 (11/15/05) - do we need a way to relocate barriers without moving each edge individually? (yes, in Configure dialog)
