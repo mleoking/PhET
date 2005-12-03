@@ -50,7 +50,7 @@ public class ParticleBeam extends HighIntensityBeam {
 
     public Point getGunLocation() {
         Point p = super.getGunLocation();
-        p.y -= AbstractGun.GUN_PARTICLE_OFFSET;
+        p.y -= AbstractGunGraphic.GUN_PARTICLE_OFFSET;
         return p;
     }
 }

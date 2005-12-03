@@ -21,7 +21,7 @@ import java.io.IOException;
  * Copyright (c) Jun 23, 2005 by Sam Reid
  */
 
-public class SingleParticleGun extends AbstractGun {
+public class SingleParticleGunGraphic extends AbstractGunGraphic {
     private JButton fireOne;
     private GunParticle currentObject;
     private GunParticle[] gunItems;
@@ -32,7 +32,7 @@ public class SingleParticleGun extends AbstractGun {
     private PSwing fireJC;
     private PSwing autoJC;
 
-    public SingleParticleGun( final SchrodingerPanel schrodingerPanel ) {
+    public SingleParticleGunGraphic( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
         fireOne = new JButton( "Fire" );
         fireOne.setFont( new Font( "Lucida Sans", Font.BOLD, 18 ) );

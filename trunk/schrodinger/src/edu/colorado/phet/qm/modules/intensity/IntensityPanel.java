@@ -5,7 +5,7 @@ import edu.colorado.phet.qm.controls.SlitDetectorPanel;
 import edu.colorado.phet.qm.view.colormaps.ColorMap;
 import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
 import edu.colorado.phet.qm.view.colormaps.SplitColorMap;
-import edu.colorado.phet.qm.view.gun.HighIntensityGun;
+import edu.colorado.phet.qm.view.gun.HighIntensityGunGraphic;
 import edu.colorado.phet.qm.view.gun.Photon;
 import edu.colorado.phet.qm.view.piccolo.SmoothIntensityDisplay;
 import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
@@ -22,7 +22,7 @@ public class IntensityPanel extends SchrodingerPanel {
     private SmoothIntensityDisplay smoothIntensityDisplay;
     private boolean smoothScreen = false;
     private SplitColorMap splitColorMap;
-    private HighIntensityGun highIntensityGun;
+    private HighIntensityGunGraphic highIntensityGun;
     public static final boolean SMOOTH_SCREEN_DEFAULT = true;
 
     public IntensityPanel( IntensityModule intensityModule ) {
@@ -66,8 +66,8 @@ public class IntensityPanel extends SchrodingerPanel {
         getSlitDetectorPanel().setEnabled( doubleSlitEnabled );
     }
 
-    protected HighIntensityGun createGun() {
-        return new HighIntensityGun( this );
+    protected HighIntensityGunGraphic createGun() {
+        return new HighIntensityGunGraphic( this );
     }
 
     public SlitDetectorPanel getSlitDetectorPanel() {

@@ -92,7 +92,7 @@ public class DetectorSet {
             }
         }
 //        else {
-//            if( oneShotDetectors ) {
+//            if( oneShotDetectors ) {//todo what was this for?
 //                for( int i = 0; i < detectors.size(); i++ ) {
 //                    Detector detector = (Detector)detectors.get( i );
 //                    detector.setEnabled( false );

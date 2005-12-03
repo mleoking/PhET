@@ -98,7 +98,7 @@ public class SchrodingerModule extends PiccoloModule {
 
     protected void resetViewTransform() {
         getSchrodingerPanel().getCamera().setViewTransform( new AffineTransform() );
-        getSchrodingerPanel().getSchrodingerScreenNode().animateViewToCenter();
+//        getSchrodingerPanel().getSchrodingerScreenNode().animateViewToCenter();
     }
 
     public void fireParticle( WaveSetup waveSetup ) {

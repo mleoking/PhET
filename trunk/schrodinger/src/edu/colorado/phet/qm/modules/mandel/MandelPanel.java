@@ -2,7 +2,7 @@
 package edu.colorado.phet.qm.modules.mandel;
 
 import edu.colorado.phet.qm.modules.intensity.IntensityPanel;
-import edu.colorado.phet.qm.view.gun.HighIntensityGun;
+import edu.colorado.phet.qm.view.gun.HighIntensityGunGraphic;
 
 /**
  * User: Sam Reid
@@ -20,7 +20,7 @@ public class MandelPanel extends IntensityPanel {
         getDoubleSlitPanelGraphic().setVisible( false );
     }
 
-    protected HighIntensityGun createGun() {
-        return new MandelGun( this );
+    protected HighIntensityGunGraphic createGun() {
+        return new MandelGunGraphic( this );
     }
 }

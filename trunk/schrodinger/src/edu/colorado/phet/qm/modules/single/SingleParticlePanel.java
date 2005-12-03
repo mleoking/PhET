@@ -2,7 +2,7 @@
 package edu.colorado.phet.qm.modules.single;
 
 import edu.colorado.phet.qm.SchrodingerModule;
-import edu.colorado.phet.qm.view.gun.SingleParticleGun;
+import edu.colorado.phet.qm.view.gun.SingleParticleGunGraphic;
 import edu.colorado.phet.qm.view.piccolo.IntensityGraphic;
 import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 
@@ -14,11 +14,11 @@ import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
  */
 
 public class SingleParticlePanel extends SchrodingerPanel {
-    private SingleParticleGun abstractGun;
+    private SingleParticleGunGraphic abstractGun;
 
     public SingleParticlePanel( final SchrodingerModule module ) {
         super( module );
-        abstractGun = new SingleParticleGun( this );
+        abstractGun = new SingleParticleGunGraphic( this );
         setGunGraphic( abstractGun );
         getIntensityDisplay().setMultiplier( 1 );
         getIntensityDisplay().setProbabilityScaleFudgeFactor( 5 );
@@ -42,7 +42,7 @@ public class SingleParticlePanel extends SchrodingerPanel {
         abstractGun.reset();
     }
 
-    public SingleParticleGun getAbstractGun() {
+    public SingleParticleGunGraphic getAbstractGun() {
         return abstractGun;
     }
 }

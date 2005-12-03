@@ -8,10 +8,9 @@ import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.phetcommon.RulerGraphic;
-import edu.colorado.phet.qm.view.gun.AbstractGun;
+import edu.colorado.phet.qm.view.gun.AbstractGunGraphic;
 import edu.colorado.phet.qm.view.gun.Photon;
 import edu.colorado.phet.qm.view.piccolo.*;
-import edu.umd.cs.piccolo.event.PZoomEventHandler;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -46,18 +45,14 @@ public class SchrodingerPanel extends PhetPCanvas {
                 updateScreen();
             }
         } );
-        schrodingerScreenNode = createScreenNode( module );
+        schrodingerScreenNode = new SchrodingerScreenNode( module, this );
         getPhetRootNode().setScreenNode( schrodingerScreenNode );
-        setZoomEventHandler( new PZoomEventHandler() );
+//        setZoomEventHandler( new PZoomEventHandler() );
         setBackground( new Color( 170, 210, 255 ) );
     }
 
     private void setRenderingSize( int width, int height ) {
         super.setTransformStrategy( new RenderingSizeStrategy( this, new Dimension( width, height ) ) );
-    }
-
-    protected SchrodingerScreenNode createScreenNode( SchrodingerModule module ) {
-        return new SchrodingerScreenNode( module, this );
     }
 
     public DoubleSlitPanel getDoubleSlitPanel() {
@@ -72,8 +67,8 @@ public class SchrodingerPanel extends PhetPCanvas {
         getIntensityDisplay().tryDetecting();
     }
 
-    protected void setGunGraphic( AbstractGun abstractGun ) {
-        schrodingerScreenNode.setGunGraphic( abstractGun );
+    protected void setGunGraphic( AbstractGunGraphic abstractGunGraphic ) {
+        schrodingerScreenNode.setGunGraphic( abstractGunGraphic );
     }
 
     public void setRulerVisible( boolean rulerVisible ) {
@@ -119,7 +114,7 @@ public class SchrodingerPanel extends PhetPCanvas {
         return schrodingerScreenNode.getRulerGraphic();
     }
 
-    public AbstractGun getGunGraphic() {
+    public AbstractGunGraphic getGunGraphic() {
         return schrodingerScreenNode.getGunGraphic();
     }
 

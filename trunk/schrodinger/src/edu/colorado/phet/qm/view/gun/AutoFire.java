@@ -12,14 +12,14 @@ import edu.colorado.phet.qm.view.piccolo.IntensityGraphic;
  */
 
 public class AutoFire implements IntensityGraphic.Listener {
-    private SingleParticleGun gunGraphic;
+    private SingleParticleGunGraphic gunGraphic;
     private IntensityGraphic intensityGraphic;
     private boolean autoFire = false;
     private ModelElement element;
     public static final double THRESHOLD = 0.015;
     private long lastFire = 0;
 
-    public AutoFire( SingleParticleGun gunGraphic, IntensityGraphic intensityGraphic ) {
+    public AutoFire( SingleParticleGunGraphic gunGraphic, IntensityGraphic intensityGraphic ) {
         this.gunGraphic = gunGraphic;
         this.intensityGraphic = intensityGraphic;
         intensityGraphic.addListener( this );

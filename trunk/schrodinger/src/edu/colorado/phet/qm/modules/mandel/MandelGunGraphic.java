@@ -4,7 +4,7 @@ package edu.colorado.phet.qm.modules.mandel;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
 import edu.colorado.phet.qm.view.gun.HighIntensityBeam;
-import edu.colorado.phet.qm.view.gun.HighIntensityGun;
+import edu.colorado.phet.qm.view.gun.HighIntensityGunGraphic;
 import edu.colorado.phet.qm.view.gun.Photon;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -21,9 +21,9 @@ import java.io.IOException;
  * Copyright (c) Jul 22, 2005 by Sam Reid
  */
 
-public class MandelGun extends HighIntensityGun {
+public class MandelGunGraphic extends HighIntensityGunGraphic {
 
-    public MandelGun( MandelPanel mandelPanel ) {
+    public MandelGunGraphic( MandelPanel mandelPanel ) {
         super( mandelPanel );
         Point origGunLoc = getGunLocation();
         int dx = 112;
