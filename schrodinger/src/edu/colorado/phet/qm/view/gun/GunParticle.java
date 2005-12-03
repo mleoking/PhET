@@ -18,23 +18,23 @@ import java.util.ArrayList;
  * Copyright (c) Jul 8, 2005 by Sam Reid
  */
 public abstract class GunParticle extends ImageComboBox.Item {
-    private AbstractGun gun;
+    private AbstractGunGraphic gunGraphic;
     private ArrayList momentumChangeListeners = new ArrayList();
     private double intensityScale = 1.0;
     protected static final double minWavelength = 8;
     protected static final double maxWavelength = 30;
 
-    public GunParticle( final AbstractGun gun, String label, String imageLocation ) {
+    public GunParticle( final AbstractGunGraphic gunGraphic, String label, String imageLocation ) {
         super( label, imageLocation );
-        this.gun = gun;
+        this.gunGraphic = gunGraphic;
     }
 
-    public abstract void setup( AbstractGun abstractGun );
+    public abstract void setup( AbstractGunGraphic abstractGunGraphic );
 
-    public abstract void deactivate( AbstractGun abstractGun );
+    public abstract void deactivate( AbstractGunGraphic abstractGunGraphic );
 
-    public AbstractGun getGunGraphic() {
-        return gun;
+    public AbstractGunGraphic getGunGraphic() {
+        return gunGraphic;
     }
 
     public abstract double getStartPy();
@@ -126,7 +126,7 @@ public abstract class GunParticle extends ImageComboBox.Item {
     }
 
     SchrodingerModule getSchrodingerModule() {
-        return gun.getSchrodingerModule();
+        return gunGraphic.getSchrodingerModule();
     }
 
     protected DiscreteModel getDiscreteModel() {
@@ -162,9 +162,9 @@ public abstract class GunParticle extends ImageComboBox.Item {
 //    }
 
     class ChangeHandler implements ChangeListener {
-        private AbstractGun.MomentumChangeListener momentumChangeListener;
+        private AbstractGunGraphic.MomentumChangeListener momentumChangeListener;
 
-        public ChangeHandler( AbstractGun.MomentumChangeListener momentumChangeListener ) {
+        public ChangeHandler( AbstractGunGraphic.MomentumChangeListener momentumChangeListener ) {
             this.momentumChangeListener = momentumChangeListener;
         }
 
@@ -173,14 +173,14 @@ public abstract class GunParticle extends ImageComboBox.Item {
         }
     }
 
-    public void addMomentumChangeListerner( AbstractGun.MomentumChangeListener momentumChangeListener ) {
+    public void addMomentumChangeListerner( AbstractGunGraphic.MomentumChangeListener momentumChangeListener ) {
         momentumChangeListeners.add( momentumChangeListener );
         ChangeHandler changeHandler = new ChangeHandler( momentumChangeListener );
         changeHandlers.add( changeHandler );
         hookupListener( changeHandler );
     }
 
-    public void removeMomentumChangeListener( AbstractGun.MomentumChangeListener listener ) {
+    public void removeMomentumChangeListener( AbstractGunGraphic.MomentumChangeListener listener ) {
         momentumChangeListeners.remove( listener );
 
         ArrayList toRemove = new ArrayList();
@@ -207,7 +207,7 @@ public abstract class GunParticle extends ImageComboBox.Item {
     protected void notifyMomentumChanged() {
         double momentum = getStartPy();
         for( int i = 0; i < momentumChangeListeners.size(); i++ ) {
-            AbstractGun.MomentumChangeListener momentumChangeListener = (AbstractGun.MomentumChangeListener)momentumChangeListeners.get( i );
+            AbstractGunGraphic.MomentumChangeListener momentumChangeListener = (AbstractGunGraphic.MomentumChangeListener)momentumChangeListeners.get( i );
             momentumChangeListener.momentumChanged( momentum );
         }
     }

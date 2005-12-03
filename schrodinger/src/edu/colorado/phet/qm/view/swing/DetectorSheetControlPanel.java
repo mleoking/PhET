@@ -104,10 +104,9 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
 
         HorizontalLayoutPanel saveClear = new HorizontalLayoutPanel();
         saveClear.setBorder( BorderFactory.createTitledBorder( "Screen" ) );
-        saveClear.add( saveScreenJButton );
-        saveClear.add( clearButton );
-
         saveClear.add( fadeEnabled );
+        saveClear.add( clearButton );
+        saveClear.add( saveScreenJButton );
         add( saveClear );
         add( brightnessModelSlider );
         add( displayPanel );

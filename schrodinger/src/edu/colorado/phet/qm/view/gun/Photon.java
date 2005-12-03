@@ -20,21 +20,21 @@ public class Photon extends GunParticle {
     private SRRWavelengthSlider wavelengthSliderGraphic;
     private double hbar = 1.0;
 
-    public Photon( AbstractGun abstractGun, String label, String imageLocation ) {
-        super( abstractGun, label, imageLocation );
-        wavelengthSliderGraphic = new SRRWavelengthSlider( abstractGun.getSchrodingerPanel() );
+    public Photon( AbstractGunGraphic abstractGunGraphic, String label, String imageLocation ) {
+        super( abstractGunGraphic, label, imageLocation );
+        wavelengthSliderGraphic = new SRRWavelengthSlider( abstractGunGraphic.getSchrodingerPanel() );
     }
 
-    public void setup( AbstractGun abstractGun ) {
+    public void setup( AbstractGunGraphic abstractGunGraphic ) {
         getGunGraphic().getSchrodingerPanel().setDisplayPhotonColor( this );
-        abstractGun.getSchrodingerModule().getDiscreteModel().setPropagatorClassical();
-        abstractGun.addChild( wavelengthSliderGraphic );
+        abstractGunGraphic.getSchrodingerModule().getDiscreteModel().setPropagatorClassical();
+        abstractGunGraphic.addChild( wavelengthSliderGraphic );
         wavelengthSliderGraphic.setOffset( -wavelengthSliderGraphic.getFullBounds().getWidth() - 2,
-                                           abstractGun.getControlOffsetY() + abstractGun.getComboBox().getPreferredSize().height + 2 + 20 );
+                                           abstractGunGraphic.getControlOffsetY() + abstractGunGraphic.getComboBox().getPreferredSize().height + 2 + 20 );
     }
 
-    public void deactivate( AbstractGun abstractGun ) {
-        abstractGun.removeChild( wavelengthSliderGraphic );
+    public void deactivate( AbstractGunGraphic abstractGunGraphic ) {
+        abstractGunGraphic.removeChild( wavelengthSliderGraphic );
 //        abstractGun.getSchrodingerModule().getSchrodingerPanel().setDisplayPhotonColor(null);
     }
 

@@ -36,12 +36,12 @@ public abstract class HighIntensityBeam extends ImageComboBox.Item {
         return intensity;
     }
 
-    public void deactivate( HighIntensityGun highIntensityGun ) {
+    public void deactivate( HighIntensityGunGraphic highIntensityGun ) {
         setHighIntensityModeOn( false );
         gunParticle.deactivate( highIntensityGun );
     }
 
-    public void activate( HighIntensityGun gun ) {
+    public void activate( HighIntensityGunGraphic gun ) {
         gunParticle.setup( gun );
     }
 

@@ -17,8 +17,8 @@ public class PhotonBeamParticle extends GunParticle {
     private ModelElement rampDown;
     private Pauser pauser;
 
-    public PhotonBeamParticle( AbstractGun gun, String label, final PhotonBeam photonBeam ) {
-        super( gun, label, photonBeam.getImageLocation() );
+    public PhotonBeamParticle( AbstractGunGraphic gunGraphic, String label, final PhotonBeam photonBeam ) {
+        super( gunGraphic, label, photonBeam.getImageLocation() );
         this.photonBeam = photonBeam;
         rampUp = new RampUp();
         rampDown = new RampDown();
@@ -117,12 +117,12 @@ public class PhotonBeamParticle extends GunParticle {
         removeModelElement( pauser );
     }
 
-    public void setup( AbstractGun abstractGun ) {
-        photonBeam.getPhoton().setup( abstractGun );
+    public void setup( AbstractGunGraphic abstractGunGraphic ) {
+        photonBeam.getPhoton().setup( abstractGunGraphic );
     }
 
-    public void deactivate( AbstractGun abstractGun ) {
-        photonBeam.getPhoton().deactivate( abstractGun );
+    public void deactivate( AbstractGunGraphic abstractGunGraphic ) {
+        photonBeam.getPhoton().deactivate( abstractGunGraphic );
         getGunGraphic().getSchrodingerPanel().setDisplayPhotonColor( null );
     }
 

@@ -19,30 +19,30 @@ public class Atom extends GunParticle {
     private JSlider velocity;
     private PSwing velocityGraphic;
 
-    public Atom( AbstractGun gun, String label, String imageLocation ) {
-        super( gun, label, imageLocation );
+    public Atom( AbstractGunGraphic gunGraphic, String label, String imageLocation ) {
+        super( gunGraphic, label, imageLocation );
         mass = new JSlider( JSlider.HORIZONTAL, 0, 1000, 1000 / 2 );
         mass.setBorder( BorderFactory.createTitledBorder( "Mass" ) );
-        massGraphic = new PSwing( gun.getComponent(), mass );
+        massGraphic = new PSwing( gunGraphic.getComponent(), mass );
 
         velocity = new JSlider( JSlider.HORIZONTAL, 0, 1000, 1000 / 2 );
         velocity.setBorder( BorderFactory.createTitledBorder( "Velocity" ) );
-        velocityGraphic = new PSwing( gun.getComponent(), velocity );
+        velocityGraphic = new PSwing( gunGraphic.getComponent(), velocity );
     }
 
-    public void setup( AbstractGun gun ) {
-        gun.getSchrodingerModule().getDiscreteModel().setPropagatorModifiedRichardson();
+    public void setup( AbstractGunGraphic gunGraphic ) {
+        gunGraphic.getSchrodingerModule().getDiscreteModel().setPropagatorModifiedRichardson();
 
-        gun.addChild( massGraphic );
-        massGraphic.setOffset( -massGraphic.getWidth() - 2, gun.getComboBoxGraphic().getFullBounds().getMaxY() );
+        gunGraphic.addChild( massGraphic );
+        massGraphic.setOffset( -massGraphic.getWidth() - 2, gunGraphic.getComboBoxGraphic().getFullBounds().getMaxY() );
 
-        gun.addChild( velocityGraphic );
+        gunGraphic.addChild( velocityGraphic );
         velocityGraphic.setOffset( -velocityGraphic.getWidth() - 2, massGraphic.getFullBounds().getMaxY() );
     }
 
-    public void deactivate( AbstractGun abstractGun ) {
-        abstractGun.removeChild( massGraphic );
-        abstractGun.removeChild( velocityGraphic );
+    public void deactivate( AbstractGunGraphic abstractGunGraphic ) {
+        abstractGunGraphic.removeChild( massGraphic );
+        abstractGunGraphic.removeChild( velocityGraphic );
     }
 
     public double getStartPy() {
@@ -63,7 +63,7 @@ public class Atom extends GunParticle {
 
     public Point getGunLocation() {
         Point p = super.getGunLocation();
-        p.y -= AbstractGun.GUN_PARTICLE_OFFSET;
+        p.y -= AbstractGunGraphic.GUN_PARTICLE_OFFSET;
         return p;
     }
 }

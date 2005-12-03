@@ -26,7 +26,7 @@ import java.text.DecimalFormat;
  * Copyright (c) Jun 23, 2005 by Sam Reid
  */
 
-public class HighIntensityGun extends AbstractGun {
+public class HighIntensityGunGraphic extends AbstractGunGraphic {
     private JCheckBox alwaysOnCheckBox;
     private ModelSlider intensitySlider;
     private boolean on = false;
@@ -37,7 +37,7 @@ public class HighIntensityGun extends AbstractGun {
     private PSwing intensityGraphic;
     private PSwing onCheckboxGraphic;
 
-    public HighIntensityGun( final SchrodingerPanel schrodingerPanel ) {
+    public HighIntensityGunGraphic( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
         alwaysOnCheckBox = new JCheckBox( "On", true );
         alwaysOnCheckBox.addActionListener( new ActionListener() {

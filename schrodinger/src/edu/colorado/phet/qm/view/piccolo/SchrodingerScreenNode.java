@@ -6,10 +6,9 @@ import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.phetcommon.RulerGraphic;
-import edu.colorado.phet.qm.view.gun.AbstractGun;
+import edu.colorado.phet.qm.view.gun.AbstractGunGraphic;
 import edu.colorado.phet.qm.view.swing.DoubleSlitPanel;
 import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
-import edu.umd.cs.piccolo.PCamera;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 
@@ -19,7 +18,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 /**
@@ -35,7 +33,7 @@ public class SchrodingerScreenNode extends PNode {
 
     private WavefunctionGraphic wavefunctionGraphic;
     private ArrayList rectanglePotentialGraphics = new ArrayList();
-    private AbstractGun abstractGun;
+    private AbstractGunGraphic abstractGunGraphic;
     private IntensityGraphic intensityGraphic;
     private RulerGraphic rulerGraphic;
     private ArrayList detectorGraphics = new ArrayList();
@@ -58,11 +56,6 @@ public class SchrodingerScreenNode extends PNode {
 
         doubleSlitPanel = new DoubleSlitPanel( getDiscreteModel(), module );
         doubleSlitPanelGraphic = new PSwing( schrodingerPanel, doubleSlitPanel );
-//        doubleSlitPanelGraphic.setOffset( getWavefunctionGraphic().getX() + getWavefunctionGraphic().getWidth() - 40,
-//                                          getWavefunctionGraphic().getY() + getWavefunctionGraphic().getHeight() / 2 - doubleSlitPanelGraphic.getHeight() / 2 + 35 );
-        doubleSlitPanelGraphic.setOffset( getWavefunctionGraphic().getX() + getWavefunctionGraphic().getWidth() - 40,
-//                                           intensityGraphic.getDetectorSheet().getDetectorSheetPanel().getFullBounds().getY());
-0 );
         addChild( intensityGraphic );
         addChild( doubleSlitPanelGraphic );
         addChild( wavefunctionGraphic );
@@ -71,7 +64,7 @@ public class SchrodingerScreenNode extends PNode {
             public void componentResized( ComponentEvent e ) {
                 invalidateFullBounds();
                 repaint();
-                animateViewToCenter();
+//                animateViewToCenter();
             }
 
             public void componentShown( ComponentEvent e ) {
@@ -90,16 +83,16 @@ public class SchrodingerScreenNode extends PNode {
                 schrodingerPanel.clearWavefunction();
             }
         } );
+        layoutChildren();
 
+//        PNode debugNode = new PText( "Debug Node" );
+//        addChild( debugNode );
+//        debugNode.setOffset( 0, 0 );
     }
 
-    public void animateViewToCenter() {
-        getCamera().animateViewToCenterBounds( this.getGlobalFullBounds(), false, 0 );
-    }
-
-    private PCamera getCamera() {
-        return getSchrodingerModule().getSchrodingerPanel().getCamera();
-    }
+//    private PCamera getCamera() {
+//        return getSchrodingerModule().getSchrodingerPanel().getCamera();
+//    }
 
     public WavefunctionGraphic getWavefunctionGraphic() {
         return wavefunctionGraphic;
@@ -121,14 +114,14 @@ public class SchrodingerScreenNode extends PNode {
         return doubleSlitPanelGraphic;
     }
 
-    public void setGunGraphic( AbstractGun abstractGun ) {
-        if( abstractGun != null ) {
-            if( getChildrenReference().contains( abstractGun ) ) {
-                removeChild( abstractGun );
+    public void setGunGraphic( AbstractGunGraphic abstractGunGraphic ) {
+        if( abstractGunGraphic != null ) {
+            if( getChildrenReference().contains( abstractGunGraphic ) ) {
+                removeChild( abstractGunGraphic );
             }
         }
-        this.abstractGun = abstractGun;
-        addChild( abstractGun );
+        this.abstractGunGraphic = abstractGunGraphic;
+        addChild( abstractGunGraphic );
 
         invalidateLayout();
         repaint();
@@ -170,8 +163,8 @@ public class SchrodingerScreenNode extends PNode {
         return rulerGraphic;
     }
 
-    public AbstractGun getGunGraphic() {
-        return abstractGun;
+    public AbstractGunGraphic getGunGraphic() {
+        return abstractGunGraphic;
     }
 
     public void removeDetectorGraphic( DetectorGraphic detectorGraphic ) {
@@ -192,52 +185,42 @@ public class SchrodingerScreenNode extends PNode {
 
     public void setWaveSize( int width, int height ) {
         wavefunctionGraphic.setWaveSize( width, height );
-//        intensityDisplay.setWaveSize( width, height );
     }
-
 
     protected void layoutChildren() {
         if( lastLayoutSize == null || !lastLayoutSize.equals( schrodingerPanel.getSize() ) ) {
             lastLayoutSize = new Dimension( schrodingerPanel.getSize() );
             super.layoutChildren();
 
-            int screenWidth = schrodingerPanel.getWidth();
+            double slitPanelInsetX = 5;
+            double slitPanelWidth = doubleSlitPanelGraphic.getFullBounds().getWidth();
+            double waveAreaX = slitPanelInsetX * 2 + slitPanelWidth;
+
             if( schrodingerPanel.getWidth() > 0 && schrodingerPanel.getHeight() > 0 ) {
-//                System.out.println( "screenWidth = " + screenWidth );
                 Dimension dim = getCellDimensions();
                 wavefunctionGraphic.setCellDimensions( dim.width, dim.height );
-//            wavefunctionGraphic.setCellDimensions( 30,30);
-                //todo working here
-//            wavefunctionGraphic.getColorGrid().setMaxSize( (int)( screenWidth * 0.6 ), (int)( screenWidth * 0.6 ) );
-                wavefunctionGraphic.setTransform( new AffineTransform() );
-                wavefunctionGraphic.setOffset( 50, 50 );
+                wavefunctionGraphic.setOffset( waveAreaX, 50 );
                 intensityGraphic.setOffset( wavefunctionGraphic.getFullBounds().getX(),
                                             wavefunctionGraphic.getFullBounds().getY() - intensityGraphic.getFullBounds().getHeight() / 2 );
-                abstractGun.setOffset( wavefunctionGraphic.getFullBounds().getCenterX() - abstractGun.getGunWidth() / 2 + 10,
-                                       wavefunctionGraphic.getFullBounds().getMaxY() - getGunGraphicOffsetY() );
-//                doubleSlitPanelGraphic.setOffset( wavefunctionGraphic.getFullBounds().getMaxX(),
-//                                                  wavefunctionGraphic.getFullBounds().getCenterY() );
+                abstractGunGraphic.setOffset( wavefunctionGraphic.getFullBounds().getCenterX() - abstractGunGraphic.getGunWidth() / 2 + 10,
+                                              wavefunctionGraphic.getFullBounds().getMaxY() - getGunGraphicOffsetY() );
 
-                PBounds bounds = intensityGraphic.getDetectorSheet().getDetectorSheetPanel().getGlobalFullBounds();
-                globalToLocal( bounds );
-                doubleSlitPanelGraphic.setOffset( //                        getWavefunctionGraphic().getFullBounds().getMaxX(),
-                                                  bounds.getX(),
-                                                  bounds.getMaxY() );
-//                                           0);
+                PBounds detectorSheetBounds = intensityGraphic.getDetectorSheet().getDetectorSheetPanel().getGlobalFullBounds();
+                globalToLocal( detectorSheetBounds );
+                doubleSlitPanelGraphic.setOffset( slitPanelInsetX, wavefunctionGraphic.getFullBounds().getCenterY() - doubleSlitPanelGraphic.getFullBounds().getHeight() / 2 );
                 clearButton.setOffset( wavefunctionGraphic.getFullBounds().getX() - clearButton.getFullBounds().getWidth(),
                                        wavefunctionGraphic.getFullBounds().getHeight() - clearButton.getHeight() );
             }
         }
-
     }
 
-    private Dimension getCellDimensions() {
+    private Dimension getCellDimensions() {//todo rewrite getCellDimensions to ensure everything fits
         Dimension availableSize = schrodingerPanel.getSize();
         availableSize.width -= clearButton.getFullBounds().getWidth();
         availableSize.width -= doubleSlitPanelGraphic.getFullBounds().getWidth();
         availableSize.width -= 30;
 
-        availableSize.height -= abstractGun.getFullBounds().getHeight();
+        availableSize.height -= abstractGunGraphic.getFullBounds().getHeight();
         availableSize.height -= 20;
 //        availableSize.height -= intensityGraphic.getDetectorSheet().getFullBounds().getHeight()*0.6;
 

@@ -25,7 +25,7 @@ import java.io.IOException;
  * Copyright (c) Jun 23, 2005 by Sam Reid
  */
 
-public abstract class AbstractGun extends PNode {
+public abstract class AbstractGunGraphic extends PNode {
     private SchrodingerPanel schrodingerPanel;
 
     private PImage gunImageGraphic;
@@ -34,8 +34,7 @@ public abstract class AbstractGun extends PNode {
     public static final int GUN_PARTICLE_OFFSET = 35;
     protected final String GUN_RESOURCE = "images/raygun3-centerbarrel.gif";
 
-    public AbstractGun( final SchrodingerPanel schrodingerPanel ) {
-        super();
+    public AbstractGunGraphic( final SchrodingerPanel schrodingerPanel ) {
         this.schrodingerPanel = schrodingerPanel;
         try {
             BufferedImage image = ImageLoader.loadBufferedImage( GUN_RESOURCE );
@@ -62,11 +61,6 @@ public abstract class AbstractGun extends PNode {
     protected void updateGunLocation() {
         gunImageGraphic.setOffset( getGunLocation() );
     }
-
-//    protected String getGunImageResource() {
-////        return "images/raygun3-centerbarrel.gif";
-//        return "images/gun2-ii.gif";
-//    }
 
     protected abstract Point getGunLocation();
 
@@ -110,8 +104,8 @@ public abstract class AbstractGun extends PNode {
         return comboBox;
     }
 
-    static Potential getPotential( AbstractGun abstractGun ) {
-        return abstractGun.schrodingerPanel.getDiscreteModel().getPotential();
+    static Potential getPotential( AbstractGunGraphic abstractGunGraphic ) {
+        return abstractGunGraphic.schrodingerPanel.getDiscreteModel().getPotential();
     }
 
     public int getGunWidth() {
