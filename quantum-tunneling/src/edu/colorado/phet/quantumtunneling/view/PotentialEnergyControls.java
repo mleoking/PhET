@@ -32,6 +32,7 @@ public class PotentialEnergyControls extends PNode {
     
     private QTCombinedChartNode _chartNode;
     private ArrayList _energyDragHandles; // array of PotentialEnergyDragHandle
+    private ArrayList _boundaryDragHandles; // array of RegionBoundaryDragHandle
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -40,6 +41,7 @@ public class PotentialEnergyControls extends PNode {
     public PotentialEnergyControls( QTCombinedChartNode chartNode ) {
         _chartNode = chartNode;
         _energyDragHandles = new ArrayList();
+        _boundaryDragHandles = new ArrayList();
     }
     
     //----------------------------------------------------------------------------
@@ -47,6 +49,7 @@ public class PotentialEnergyControls extends PNode {
     //----------------------------------------------------------------------------
     
     public void setPotentialEnergy( AbstractPotentialSpace potentialEnergy ) {
+        
         // Dispose of existing drag handles.
         removeAllChildren();
         for ( int i = 0; i < _energyDragHandles.size(); i++ ) {
@@ -54,13 +57,28 @@ public class PotentialEnergyControls extends PNode {
             energyDragHandle.cleanup();
         }
         _energyDragHandles.clear();
+        for ( int i = 0; i < _boundaryDragHandles.size(); i++ ) {
+            RegionBoundaryDragHandle boundaryDragHandle = (RegionBoundaryDragHandle) _boundaryDragHandles.get( i );
+            boundaryDragHandle.cleanup();
+        }
+        _boundaryDragHandles.clear();
 
         // Create new drag handles.
-        for ( int i = 0; i < potentialEnergy.getNumberOfRegions(); i++ ) {
+        int numberOfRegions = potentialEnergy.getNumberOfRegions();
+        for ( int i = 0; i < numberOfRegions; i++ ) {
+
             PotentialEnergyDragHandle energyDragHandle = new PotentialEnergyDragHandle( _chartNode );
             energyDragHandle.setPotentialEnergy( potentialEnergy, i );
             _energyDragHandles.add( energyDragHandle );
             addChild( energyDragHandle );
+            
+            // the last region has no boundary handle
+            if ( i < numberOfRegions - 1 ) {
+                RegionBoundaryDragHandle boundaryDragHandle = new RegionBoundaryDragHandle( _chartNode );
+                boundaryDragHandle.setPotentialEnergy( potentialEnergy, i );
+                _boundaryDragHandles.add( boundaryDragHandle );
+                addChild( boundaryDragHandle );
+            }
         }
         
         updateDragBounds();
@@ -71,9 +89,16 @@ public class PotentialEnergyControls extends PNode {
     //----------------------------------------------------------------------------
     
     public void updateDragBounds() {
+        // update the energy drag handles
         for ( int i = 0; i < _energyDragHandles.size(); i++ ) {
             PotentialEnergyDragHandle energyDragHandle = (PotentialEnergyDragHandle) _energyDragHandles.get( i );
             energyDragHandle.updateDragBounds();
+        }
+        
+        // update the boundary drag handles
+        for ( int i = 0; i < _boundaryDragHandles.size(); i++ ) {
+            RegionBoundaryDragHandle boundaryDragHandle = (RegionBoundaryDragHandle) _boundaryDragHandles.get( i );
+            boundaryDragHandle.updateDragBounds();
         }
     }
 }

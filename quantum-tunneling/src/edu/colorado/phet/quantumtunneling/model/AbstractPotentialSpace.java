@@ -265,6 +265,40 @@ public abstract class AbstractPotentialSpace extends QTObservable {
         }
         return energy;
     }
+    
+    /**
+     * Adjusts the boundary between two regions.
+     * The boundary is adjusted only if doing so doesn't violate the
+     * minimum region width.
+     * 
+     * @param leftRegionIndex
+     * @param position
+     * @return true or false
+     */
+    public boolean adjustBoundary( int leftRegionIndex, double position ) {
+        validateRegionIndex( leftRegionIndex );
+        
+        if ( getNumberOfRegions() == 1 ) {
+            // there are no boundaries in a single-region space
+            return false;
+        }
+        if ( leftRegionIndex == getNumberOfRegions() - 1 ) {
+            // can't adjust the right edge of the rightmost region
+            return false;
+        }
+        
+        boolean success = false;
+        
+        double width1 = position - getStart( leftRegionIndex );
+        double width2 = getEnd( leftRegionIndex + 1 ) - position;
+        if ( width1 >= _minRegionWidth && width2 >= _minRegionWidth ) {
+            setEnd( leftRegionIndex, position );
+            setStart( leftRegionIndex + 1, position );
+            validateRegions();
+            success = true;
+        }
+        return success;
+    }
        
     //----------------------------------------------------------------------------
     // Private & protected accessors
