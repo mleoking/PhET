@@ -126,4 +126,9 @@ public class QTConstants {
     public static final Range WAVE_FUNCTION_RANGE = new Range( -2, 2 );
     public static final Range PROBABILITY_DENSITY_RANGE = new Range( 0, 4 );
     
+    //----------------------------------------------------------------------------
+    // Drag Handles
+    //----------------------------------------------------------------------------
+    
+    public static final boolean DRAG_HANDLES_SHOW_VALUES = true;
 }

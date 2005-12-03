@@ -84,6 +84,7 @@ public class PotentialEnergyDragHandle extends DragHandle implements Observer, P
         _potentialEnergy = potentialEnergy;
         _potentialEnergy.addObserver( this );
         updatePosition();
+        updateText();
     }
     
     //----------------------------------------------------------------------------
@@ -147,6 +148,18 @@ public class PotentialEnergyDragHandle extends DragHandle implements Observer, P
     }
     
     //----------------------------------------------------------------------------
+    // DragHandle implementation
+    //----------------------------------------------------------------------------
+    
+    public double getModelValue() {
+        double energy = 0;
+        if ( _potentialEnergy != null ) {
+            energy = _potentialEnergy.getEnergy( _regionIndex );
+        }
+        return energy;
+    }
+    
+    //----------------------------------------------------------------------------
     // PropertChangeListener implementation
     //----------------------------------------------------------------------------
     
@@ -159,6 +172,7 @@ public class PotentialEnergyDragHandle extends DragHandle implements Observer, P
         if ( event.getSource() == this ) {
             if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) ) {
                 updatePotentialEnergy();
+                updateText();
             }
         }
     }
@@ -177,6 +191,7 @@ public class PotentialEnergyDragHandle extends DragHandle implements Observer, P
     public void update( Observable o, Object arg ) {
         if ( o == _potentialEnergy ) {
             updateDragBounds();
+            updateText();
         }
     }
 }

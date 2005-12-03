@@ -13,6 +13,7 @@ package edu.colorado.phet.quantumtunneling.view;
 
 import java.util.ArrayList;
 
+import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotentialSpace;
 import edu.umd.cs.piccolo.PNode;
 
@@ -33,6 +34,7 @@ public class PotentialEnergyControls extends PNode {
     private QTCombinedChartNode _chartNode;
     private ArrayList _energyDragHandles; // array of PotentialEnergyDragHandle
     private ArrayList _boundaryDragHandles; // array of RegionBoundaryDragHandle
+    private boolean _textEnabled;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -42,6 +44,7 @@ public class PotentialEnergyControls extends PNode {
         _chartNode = chartNode;
         _energyDragHandles = new ArrayList();
         _boundaryDragHandles = new ArrayList();
+        _textEnabled = false;
     }
     
     //----------------------------------------------------------------------------
@@ -69,6 +72,7 @@ public class PotentialEnergyControls extends PNode {
 
             PotentialEnergyDragHandle energyDragHandle = new PotentialEnergyDragHandle( _chartNode );
             energyDragHandle.setPotentialEnergy( potentialEnergy, i );
+            energyDragHandle.setTextEnabled( _textEnabled );
             _energyDragHandles.add( energyDragHandle );
             addChild( energyDragHandle );
             
@@ -76,12 +80,32 @@ public class PotentialEnergyControls extends PNode {
             if ( i < numberOfRegions - 1 ) {
                 RegionBoundaryDragHandle boundaryDragHandle = new RegionBoundaryDragHandle( _chartNode );
                 boundaryDragHandle.setPotentialEnergy( potentialEnergy, i );
+                boundaryDragHandle.setTextEnabled( _textEnabled );
                 _boundaryDragHandles.add( boundaryDragHandle );
                 addChild( boundaryDragHandle );
             }
         }
         
         updateDragBounds();
+    }
+    
+    /**
+     * Enables or disables the text value shown on the drag handles.
+     * 
+     * @param enabled true or false
+     */
+    public void setTextEnabled( boolean enabled ) {
+        if ( enabled != _textEnabled ) {
+            _textEnabled = enabled;
+            for ( int i = 0; i < _energyDragHandles.size(); i++ ) {
+                PotentialEnergyDragHandle energyDragHandle = (PotentialEnergyDragHandle) _energyDragHandles.get( i );
+                energyDragHandle.setTextEnabled( _textEnabled );
+            }
+            for ( int i = 0; i < _boundaryDragHandles.size(); i++ ) {
+                RegionBoundaryDragHandle boundaryDragHandle = (RegionBoundaryDragHandle) _boundaryDragHandles.get( i );
+                boundaryDragHandle.setTextEnabled( _textEnabled );
+            }
+        }
     }
     
     //----------------------------------------------------------------------------
