@@ -28,9 +28,6 @@ public class SingleParticleControlPanel extends SchrodingerControlPanel {
         VerticalLayoutPanel detectorPanel = new DetectorPanel( singleParticleModule );
         addControlFullWidth( detectorPanel );
 
-//        VerticalLayoutPanel exp = createExpectationPanel();
-//        addControlFullWidth( exp );
-
         JButton createDetectorArray = new JButton( "Create Detector Array" );
         createDetectorArray.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -52,7 +49,6 @@ public class SingleParticleControlPanel extends SchrodingerControlPanel {
         addControlFullWidth( colorPanel );
 
         super.addSlitCheckbox();
-//        addControl( getSlitAbsorptionCheckbox() );
         super.addResetButton();
     }
 

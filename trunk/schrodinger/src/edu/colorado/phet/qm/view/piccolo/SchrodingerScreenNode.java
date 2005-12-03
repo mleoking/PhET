@@ -42,6 +42,7 @@ public class SchrodingerScreenNode extends PNode {
     private PSwing doubleSlitPanelGraphic;
     private DoubleSlitPanel doubleSlitPanel;
     private PSwing clearButton;
+    private Dimension lastLayoutSize = null;
 
     public SchrodingerScreenNode( SchrodingerModule module, final SchrodingerPanel schrodingerPanel ) {
         this.module = module;
@@ -194,7 +195,6 @@ public class SchrodingerScreenNode extends PNode {
 //        intensityDisplay.setWaveSize( width, height );
     }
 
-    Dimension lastLayoutSize = null;
 
     protected void layoutChildren() {
         if( lastLayoutSize == null || !lastLayoutSize.equals( schrodingerPanel.getSize() ) ) {

@@ -91,14 +91,14 @@ public class DetectorSet {
                 }
             }
         }
-        else {
-            if( oneShotDetectors ) {
-                for( int i = 0; i < detectors.size(); i++ ) {
-                    Detector detector = (Detector)detectors.get( i );
-                    detector.setEnabled( false );
-                }
-            }
-        }
+//        else {
+//            if( oneShotDetectors ) {
+//                for( int i = 0; i < detectors.size(); i++ ) {
+//                    Detector detector = (Detector)detectors.get( i );
+//                    detector.setEnabled( false );
+//                }
+//            }
+//        }
 
     }
 
