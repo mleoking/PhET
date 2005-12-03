@@ -39,7 +39,7 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
     private JButton _playButton;
     private JButton _pauseButton;
     private JButton _stepButton;
-    private JButton _loopButton;
+    private JToggleButton _loopButton;
     private JTextField _timeTextField;
     private JLabel _timeUnitsLabel;
     
@@ -73,6 +73,7 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
         Icon stepIcon = null;
         _loopOnIcon = null;
         _loopOffIcon = null;
+        Icon clockIcon = null;
         try {
             restartIcon = new ImageIcon( ImageLoader.loadBufferedImage( QTConstants.IMAGE_RESTART ) );
             playIcon = new ImageIcon( ImageLoader.loadBufferedImage( QTConstants.IMAGE_PLAY ) );
@@ -80,6 +81,7 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
             stepIcon = new ImageIcon( ImageLoader.loadBufferedImage( QTConstants.IMAGE_STEP ) );
             _loopOnIcon = new ImageIcon( ImageLoader.loadBufferedImage( QTConstants.IMAGE_LOOP_ON ) );
             _loopOffIcon = new ImageIcon( ImageLoader.loadBufferedImage( QTConstants.IMAGE_LOOP_OFF ) );
+            clockIcon = new ImageIcon( ImageLoader.loadBufferedImage( QTConstants.IMAGE_CLOCK ) );
         }
         catch ( IOException e ) {
             // TODO Auto-generated catch block
@@ -91,7 +93,8 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
         _playButton = new JButton( playLabel, playIcon );
         _pauseButton = new JButton( pauseLabel, pauseIcon );
         _stepButton = new JButton( stepLabel, stepIcon );
-        _loopButton = new JButton( loopLabel, _loopOffIcon );
+        _loopButton = new JToggleButton( loopLabel, _loopOffIcon );
+        JLabel clockLabel = new JLabel( clockIcon );
         _timeTextField = new JTextField( "0000000000");
         _timeTextField.setPreferredSize( _timeTextField.getPreferredSize() );
         _timeTextField.setText( "0" );
@@ -107,6 +110,8 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
         buttonPanel.add( _pauseButton );
         buttonPanel.add( _stepButton );
         buttonPanel.add( _loopButton );
+        buttonPanel.add( new JLabel( "        " ) ); // space
+        buttonPanel.add( clockLabel );
         buttonPanel.add( _timeTextField );
         buttonPanel.add( _timeUnitsLabel );
         this.add( buttonPanel, BorderLayout.CENTER );
