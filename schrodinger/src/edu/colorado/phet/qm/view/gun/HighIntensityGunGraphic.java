@@ -110,12 +110,12 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic {
 
     protected ImagePComboBox initComboBox() {
         photon = new Photon( this, "Photons", "images/photon-thumb.jpg" );
-        Electron e = new Electron( this, "Electrons", "images/electron-thumb.jpg" );
-        Atom atom = new Atom( this, "Atoms", "images/atom-thumb.jpg" );
+        DefaultGunParticle electron = new DefaultGunParticle( this, "Electrons", "images/electron-thumb.jpg", 1.0 );
+        DefaultGunParticle atom = new DefaultGunParticle( this, "Atoms", "images/atom-thumb.jpg" );
 
         HighIntensityBeam[] mybeams = new HighIntensityBeam[]{
                 new PhotonBeam( this, photon ),
-                new ParticleBeam( e ),
+                new ParticleBeam( electron ),
                 new ParticleBeam( atom )};
         setBeams( mybeams );
         final ImagePComboBox imageComboBox = new ImagePComboBox( beams );

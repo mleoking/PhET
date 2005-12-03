@@ -28,8 +28,6 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
     private ImageIcon outIcon;
     private ImageIcon inIcon;
     private PhotonBeamParticle photonBeamParticle;
-//    private PSwing fireJC;
-//    private PSwing autoJC;
     protected final JCheckBox autoFireJCheckBox;
     private PSwing gunControlPSwing;
 
@@ -171,6 +169,7 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
 
     public void fireParticle() {
         currentObject.fireParticle();
+
     }
 
     public GunParticle getCurrentObject() {
@@ -203,8 +202,8 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
 
         gunItems = new GunParticle[]{
                 photonBeamParticle,
-                new Electron( this, "Electrons", "images/electron-thumb.jpg" ),
-                new Atom( this, "Atoms", "images/atom-thumb.jpg" )};
+                new DefaultGunParticle( this, "Electrons", "images/electron-thumb.jpg", 1.0 ),
+                new DefaultGunParticle( this, "Atoms", "images/atom-thumb.jpg" )};
 
         final ImagePComboBox imageComboBox = new ImagePComboBox( gunItems );
         imageComboBox.setBorder( BorderFactory.createTitledBorder( "Gun Type" ) );

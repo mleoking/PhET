@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view.piccolo;
 
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
@@ -39,8 +40,10 @@ public class SchrodingerScreenNode extends PNode {
     private ArrayList detectorGraphics = new ArrayList();
     private PSwing doubleSlitPanelGraphic;
     private DoubleSlitPanel doubleSlitPanel;
-    private PSwing clearButton;
+    private PSwing clearButtonNode;
     private Dimension lastLayoutSize = null;
+    private static final int WAVE_AREA_LAYOUT_INSET_X = 20;
+    private static final int WAVE_AREA_LAYOUT_INSET_Y = 20;
 
     public SchrodingerScreenNode( SchrodingerModule module, final SchrodingerPanel schrodingerPanel ) {
         this.module = module;
@@ -64,7 +67,6 @@ public class SchrodingerScreenNode extends PNode {
             public void componentResized( ComponentEvent e ) {
                 invalidateFullBounds();
                 repaint();
-//                animateViewToCenter();
             }
 
             public void componentShown( ComponentEvent e ) {
@@ -73,10 +75,15 @@ public class SchrodingerScreenNode extends PNode {
             }
         } );
 
-        JButton clear = new JButton( "<html>Clear<br>Wave</html>" );
+        JButton clear = new JButton( "<html>Clear<br>Wave</html>" ) {
+            protected void paintComponent( Graphics g ) {
+                GraphicsUtil.setAntiAliasingOn( (Graphics2D)g );
+                super.paintComponent( g );
+            }
+        };
         clear.setMargin( new Insets( 2, 2, 2, 2 ) );
-        clearButton = new PSwing( schrodingerPanel, clear );
-        addChild( clearButton );
+        clearButtonNode = new PSwing( schrodingerPanel, clear );
+        addChild( clearButtonNode );
         clear.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
         clear.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -84,15 +91,7 @@ public class SchrodingerScreenNode extends PNode {
             }
         } );
         layoutChildren();
-
-//        PNode debugNode = new PText( "Debug Node" );
-//        addChild( debugNode );
-//        debugNode.setOffset( 0, 0 );
     }
-
-//    private PCamera getCamera() {
-//        return getSchrodingerModule().getSchrodingerPanel().getCamera();
-//    }
 
     public WavefunctionGraphic getWavefunctionGraphic() {
         return wavefunctionGraphic;
@@ -208,21 +207,20 @@ public class SchrodingerScreenNode extends PNode {
                 PBounds detectorSheetBounds = intensityGraphic.getDetectorSheet().getDetectorSheetPanel().getGlobalFullBounds();
                 globalToLocal( detectorSheetBounds );
                 doubleSlitPanelGraphic.setOffset( slitPanelInsetX, wavefunctionGraphic.getFullBounds().getCenterY() - doubleSlitPanelGraphic.getFullBounds().getHeight() / 2 );
-                clearButton.setOffset( wavefunctionGraphic.getFullBounds().getX() - clearButton.getFullBounds().getWidth(),
-                                       wavefunctionGraphic.getFullBounds().getHeight() - clearButton.getHeight() );
+                clearButtonNode.setOffset( wavefunctionGraphic.getFullBounds().getX() - clearButtonNode.getFullBounds().getWidth(),
+                                           wavefunctionGraphic.getFullBounds().getMaxY() - clearButtonNode.getHeight() );
             }
         }
     }
 
     private Dimension getCellDimensions() {//todo rewrite getCellDimensions to ensure everything fits
         Dimension availableSize = schrodingerPanel.getSize();
-        availableSize.width -= clearButton.getFullBounds().getWidth();
+        availableSize.width -= getDetectorSheetControlPanelNode().getFullBounds().getWidth();
         availableSize.width -= doubleSlitPanelGraphic.getFullBounds().getWidth();
-        availableSize.width -= 30;
+        availableSize.width -= WAVE_AREA_LAYOUT_INSET_X;
 
         availableSize.height -= abstractGunGraphic.getFullBounds().getHeight();
-        availableSize.height -= 20;
-//        availableSize.height -= intensityGraphic.getDetectorSheet().getFullBounds().getHeight()*0.6;
+        availableSize.height -= WAVE_AREA_LAYOUT_INSET_Y;
 
         Dimension availableAreaForWaveform = new Dimension( availableSize.width, availableSize.height );
         int nx = schrodingerPanel.getDiscreteModel().getGridWidth();
@@ -231,6 +229,10 @@ public class SchrodingerScreenNode extends PNode {
         int cellHeight = availableAreaForWaveform.height / ny;
         int min = Math.min( cellWidth, cellHeight );
         return new Dimension( min, min );
+    }
+
+    private PNode getDetectorSheetControlPanelNode() {
+        return intensityGraphic.getDetectorSheet().getDetectorSheetPanel();
     }
 
     public void removePotentialGraphic( RectangularPotentialGraphic rectangularPotentialGraphic ) {
