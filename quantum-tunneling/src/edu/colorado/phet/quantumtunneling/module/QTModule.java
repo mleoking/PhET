@@ -146,11 +146,11 @@ public class QTModule extends AbstractModule {
         // Drag handles
         {
             _totalEnergyControl = new TotalEnergyDragHandle( _chartNode );
-            _totalEnergyControl.setTextEnabled( QTConstants.DRAG_HANDLES_SHOW_VALUES );
+            _totalEnergyControl.setShowValueEnabled( QTConstants.DRAG_HANDLES_SHOW_VALUES );
             _totalEnergyControl.setXAxisPosition( QTConstants.POSITION_RANGE.getUpperBound() - 1 );
             
             _potentialEnergyControls = new PotentialEnergyControls( _chartNode );
-            _potentialEnergyControls.setTextEnabled( QTConstants.DRAG_HANDLES_SHOW_VALUES );
+            _potentialEnergyControls.setShowValuesEnabled( QTConstants.DRAG_HANDLES_SHOW_VALUES );
         }
         
         // Add all the nodes to one parent node.
@@ -299,6 +299,10 @@ public class QTModule extends AbstractModule {
         }
     }
     
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
     public void setPotentialEnergy( AbstractPotentialSpace potentialEnergy ) {
         _potentialEnergy = potentialEnergy;
         _chart.setPotentialEnergy( _potentialEnergy );
@@ -315,11 +319,11 @@ public class QTModule extends AbstractModule {
     }
     
     public void setShowValuesEnabled( boolean enabled ) {
-        _totalEnergyControl.setTextEnabled( enabled );
-        _potentialEnergyControls.setTextEnabled( enabled );
+        _totalEnergyControl.setShowValueEnabled( enabled );
+        _potentialEnergyControls.setShowValuesEnabled( enabled );
     }
     
     public boolean isShowValuesEnabled() {
-        return _totalEnergyControl.isTextEnabled();
+        return _totalEnergyControl.isShowValueEnabled();
     }
 }

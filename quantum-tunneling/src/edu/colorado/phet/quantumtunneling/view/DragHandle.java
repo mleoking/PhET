@@ -110,7 +110,13 @@ public abstract class DragHandle extends ImageNode {
     // Accessors
     //----------------------------------------------------------------------------
     
-    public void setTextEnabled( boolean enabled ) {
+    /**
+     * Toggles the display of the value that corresponds to the
+     * drag handles position.
+     * 
+     * @param enabled true or false 
+     */
+    public void setShowValueEnabled( boolean enabled ) {
         if ( enabled && _textNode == null ) {
             _textNode = new PText();
             addChild( _textNode );
@@ -133,7 +139,12 @@ public abstract class DragHandle extends ImageNode {
         }
     }
     
-    public boolean isTextEnabled() {
+    /**
+     * Is the value displayed?
+     * 
+     * @return true or false
+     */
+    public boolean isShowValueEnabled() {
         return ( _textNode != null );
     }
     
