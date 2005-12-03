@@ -52,7 +52,7 @@ public abstract class AbstractPotentialSpace extends QTObservable {
      * 
      * @param numberOfRegions
      */
-    protected AbstractPotentialSpace( int numberOfRegions ) {
+    protected AbstractPotentialSpace( final int numberOfRegions ) {
         super();
         
         if ( numberOfRegions <= 0 ) {
@@ -118,7 +118,7 @@ public abstract class AbstractPotentialSpace extends QTObservable {
      * @param regionIndex
      * @return
      */
-    public double getStart( int regionIndex ) {
+    public double getStart( final int regionIndex ) {
         return getRegion( regionIndex ).getStart();
     }
     
@@ -128,7 +128,7 @@ public abstract class AbstractPotentialSpace extends QTObservable {
      * @param regionIndex
      * @return
      */
-    public double getEnd( int regionIndex ) {
+    public double getEnd( final int regionIndex ) {
         return getRegion( regionIndex ).getEnd();
     }
     
@@ -138,7 +138,7 @@ public abstract class AbstractPotentialSpace extends QTObservable {
      * @param regionIndex
      * @return
      */
-    public double getMiddle( int regionIndex ) {
+    public double getMiddle( final int regionIndex ) {
         return getRegion( regionIndex ).getMiddle();
     }
     
@@ -148,7 +148,7 @@ public abstract class AbstractPotentialSpace extends QTObservable {
      * @param regionIndex
      * @return
      */
-    public double getWidth( int regionIndex ) {
+    public double getWidth( final int regionIndex ) {
         return getRegion( regionIndex ).getWidth();
     }
     
@@ -158,7 +158,7 @@ public abstract class AbstractPotentialSpace extends QTObservable {
      * @param regionIndex
      * @return
      */
-    public double getEnergy( int regionIndex ) {
+    public double getEnergy( final int regionIndex ) {
         return getRegion( regionIndex ).getEnergy();
     }
     
@@ -168,10 +168,10 @@ public abstract class AbstractPotentialSpace extends QTObservable {
      * @param regionIndex
      * @param energy
      */
-    public void setEnergy( int regionIndex, double energy ) {
+    public void setEnergy( final int regionIndex, final double energy ) {
         validateRegionIndex( regionIndex );
-        double start = getRegion( regionIndex ).getStart();
-        double end = getRegion( regionIndex ).getEnd();
+        final double start = getRegion( regionIndex ).getStart();
+        final double end = getRegion( regionIndex ).getEnd();
         setRegion( regionIndex, start, end, energy );
     }
     
@@ -217,7 +217,7 @@ public abstract class AbstractPotentialSpace extends QTObservable {
      * 
      * @param minRegionWidth
      */
-    public void setMinRegionWidth( double minRegionWidth ) {
+    public void setMinRegionWidth( final double minRegionWidth ) {
         if ( minRegionWidth <= 0 ) {
             throw new IllegalArgumentException( "minRegionWidth must be > 0" );
         }
@@ -235,11 +235,11 @@ public abstract class AbstractPotentialSpace extends QTObservable {
      * @param position
      * @return the region (possibly null)
      */
-    public int getRegionIndexAt( double position ) {
+    public int getRegionIndexAt( final double position ) {
         int regionIndex = -1;
         for ( int i = 0; i < getNumberOfRegions() && regionIndex == -1; i++ ) {
-            double start = getRegion( i ).getStart();
-            double end = getRegion( i ).getEnd();
+            final double start = getRegion( i ).getStart();
+            final double end = getRegion( i ).getEnd();
             if ( position >= start && position <= end ) {
                 regionIndex = i;
             }
@@ -257,9 +257,9 @@ public abstract class AbstractPotentialSpace extends QTObservable {
      * @param position
      * @return energy
      */
-    public double getEnergyAt( double position ) {
+    public double getEnergyAt( final double position ) {
         double energy = 0;
-        int regionIndex = getRegionIndexAt( position );
+        final int regionIndex = getRegionIndexAt( position );
         if ( regionIndex != -1 ) {
             energy = getRegion( regionIndex ).getEnergy();
         }
@@ -275,7 +275,7 @@ public abstract class AbstractPotentialSpace extends QTObservable {
      * @param position
      * @return true or false
      */
-    public boolean adjustBoundary( int leftRegionIndex, double position ) {
+    public boolean adjustBoundary( final int leftRegionIndex, final double position ) {
         validateRegionIndex( leftRegionIndex );
         
         if ( getNumberOfRegions() == 1 ) {
@@ -289,11 +289,13 @@ public abstract class AbstractPotentialSpace extends QTObservable {
         
         boolean success = false;
         
-        double width1 = position - getStart( leftRegionIndex );
-        double width2 = getEnd( leftRegionIndex + 1 ) - position;
+        final double width1 = position - getStart( leftRegionIndex );
+        final double width2 = getEnd( leftRegionIndex + 1 ) - position;
         if ( width1 >= _minRegionWidth && width2 >= _minRegionWidth ) {
+            setNotifyEnabled( false );
             setEnd( leftRegionIndex, position );
             setStart( leftRegionIndex + 1, position );
+            setNotifyEnabled( true );
             validateRegions();
             success = true;
         }
@@ -312,7 +314,7 @@ public abstract class AbstractPotentialSpace extends QTObservable {
      * @param index
      * @return
      */
-    private PotentialRegion getRegion( int index ) {
+    private PotentialRegion getRegion( final int index ) {
         validateRegionIndex( index );
         return _regions[index];
     }
@@ -322,7 +324,7 @@ public abstract class AbstractPotentialSpace extends QTObservable {
      * to be creating gaps between regions. Subclasses should
      * call validateRegions after adjusting all regions.
      */
-    protected void setRegion( int index, double start, double end, double energy ) {
+    protected void setRegion( final int index, final double start, final double end, final double energy ) {
         validateRegionIndex( index );
         _regions[ index ] = new PotentialRegion( start, end, energy );
         notifyObservers();
@@ -333,9 +335,9 @@ public abstract class AbstractPotentialSpace extends QTObservable {
      * to be creating gaps between regions. Subclasses should
      * call validateRegions after adjusting all regions.
      */
-    protected void setRegion( int index, double start, double end ) {
+    protected void setRegion( final int index, final double start, final double end ) {
         validateRegionIndex( index );
-        double energy = getRegion( index ).getEnergy();
+        final double energy = getRegion( index ).getEnergy();
         setRegion( index, start, end, energy );
     }
    
@@ -344,10 +346,10 @@ public abstract class AbstractPotentialSpace extends QTObservable {
      * to be creating gaps between regions. Subclasses should
      * call validateRegions after adjusting all regions.
      */
-    protected void setStart( int regionIndex, double start ) {
+    protected void setStart( final int regionIndex, final double start ) {
         validateRegionIndex( regionIndex );
-        double end = getRegion( regionIndex ).getEnd();
-        double energy = getRegion( regionIndex ).getEnergy();
+        final double end = getRegion( regionIndex ).getEnd();
+        final double energy = getRegion( regionIndex ).getEnergy();
         setRegion( regionIndex, start, end, energy ); 
     }
     
@@ -355,10 +357,10 @@ public abstract class AbstractPotentialSpace extends QTObservable {
      * Not accessible to clients because we don't want them 
      * to be creating gaps between regions.
      */
-    protected void setEnd( int regionIndex, double end ) {
+    protected void setEnd( final int regionIndex, final double end ) {
         validateRegionIndex( regionIndex );
-        double start = getRegion( regionIndex ).getStart();
-        double energy = getRegion( regionIndex ).getEnergy();
+        final double start = getRegion( regionIndex ).getStart();
+        final double energy = getRegion( regionIndex ).getEnergy();
         setRegion( regionIndex, start, end, energy );  
     } 
     
@@ -379,7 +381,7 @@ public abstract class AbstractPotentialSpace extends QTObservable {
     /*
      * Verifies that a region index is valid.
      */
-    private void validateRegionIndex( int regionIndex ) {
+    private void validateRegionIndex( final int regionIndex ) {
         if ( regionIndex < 0 || regionIndex > _regions.length - 1 ) {
             throw new IndexOutOfBoundsException( "regionIndex out of bounds: " + regionIndex );
         }
@@ -393,11 +395,15 @@ public abstract class AbstractPotentialSpace extends QTObservable {
         for ( int i = 1; i < _regions.length - 1; i++ ) {
             if ( _regions[i].getEnd() != _regions[i+1].getStart() ) {
                 errors++;
-                System.err.println( "ERROR: regions " + i + " and " + ( i + 1 ) + " are not contiguous" );
+                String s = "ERROR: regions " + i + " and " + ( i + 1 ) + " are not contiguous: " +
+                           _regions[i].getEnd() + " != " + _regions[i+1].getStart();
+                System.err.println( s );
             }
             if ( _regions[i].getWidth() < _minRegionWidth ) {
                 errors++;
-                System.err.println( "ERROR: region " + i + " is smaller than the minimum width" );
+                String s = "ERROR: region " + i + " is smaller than the minimum width: " +
+                           _regions[i].getWidth() + " < " + _minRegionWidth;
+                System.err.println( s );
             }
         }
         if ( errors != 0 ) {
