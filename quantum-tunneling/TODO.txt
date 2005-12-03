@@ -62,6 +62,7 @@ JFREECHART:
 - XYTextAnnotation doesn't support HTML
 
 DONE:
+0.0.1 ...
 (12/2/05) - add Options>ShowValues
 (12/2/05) - add stubs for File>Save and File>Load
 (12/2/05) - optionally show values on drag handles
