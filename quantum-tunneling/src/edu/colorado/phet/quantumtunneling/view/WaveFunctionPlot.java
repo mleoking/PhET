@@ -65,9 +65,15 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
         NumberAxis yAxis = new NumberAxis( waveFunctionLabel );
         yAxis.setLabelFont( QTConstants.AXIS_LABEL_FONT );
         yAxis.setRange( QTConstants.WAVE_FUNCTION_RANGE );
+        TickUnits yUnits = (TickUnits) NumberAxis.createIntegerTickUnits();
+        yAxis.setStandardTickUnits( yUnits );
+        yAxis.setTickLabelPaint( QTConstants.TICK_LABEL_COLOR );
+        yAxis.setTickMarkPaint( QTConstants.TICK_MARK_COLOR );
         
         setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
         setBackgroundPaint( QTConstants.PLOT_BACKGROUND );
+        setDomainGridlinesVisible( QTConstants.SHOW_VERTICAL_GRIDLINES );
+        setRangeGridlinesVisible( QTConstants.SHOW_HORIZONTAL_GRIDLINES );
         setDataset( data );
         setRenderer( renderer );
         setDomainAxis( xAxis );

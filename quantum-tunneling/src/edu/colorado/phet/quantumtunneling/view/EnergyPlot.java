@@ -95,9 +95,13 @@ public class EnergyPlot extends XYPlot implements Observer {
         yAxis.setRange( QTConstants.ENERGY_RANGE );
         TickUnits yUnits = (TickUnits) NumberAxis.createIntegerTickUnits();
         yAxis.setStandardTickUnits( yUnits );
+        yAxis.setTickLabelPaint( QTConstants.TICK_LABEL_COLOR );
+        yAxis.setTickMarkPaint( QTConstants.TICK_MARK_COLOR );
 
         setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
         setBackgroundPaint( QTConstants.PLOT_BACKGROUND );
+        setDomainGridlinesVisible( QTConstants.SHOW_VERTICAL_GRIDLINES );
+        setRangeGridlinesVisible( QTConstants.SHOW_HORIZONTAL_GRIDLINES );
         setDataset( data );
         setRenderer( renderer );
         setDomainAxis( xAxis );
