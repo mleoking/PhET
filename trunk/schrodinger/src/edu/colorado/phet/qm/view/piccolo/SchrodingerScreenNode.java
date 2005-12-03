@@ -156,11 +156,9 @@ public class SchrodingerScreenNode extends PNode {
     }
 
     public void clearPotential() {
-        for( int i = 0; i < rectanglePotentialGraphics.size(); i++ ) {
-            RectangularPotentialGraphic rectangularPotentialGraphic = (RectangularPotentialGraphic)rectanglePotentialGraphics.get( i );
-            removeChild( rectangularPotentialGraphic );
+        while( rectanglePotentialGraphics.size() > 0 ) {
+            removePotentialGraphic( (RectangularPotentialGraphic)rectanglePotentialGraphics.get( 0 ) );
         }
-        rectanglePotentialGraphics.clear();
     }
 
     public IntensityGraphic getIntensityDisplay() {
@@ -254,5 +252,6 @@ public class SchrodingerScreenNode extends PNode {
 
     public void removePotentialGraphic( RectangularPotentialGraphic rectangularPotentialGraphic ) {
         removeChild( rectangularPotentialGraphic );
+        rectanglePotentialGraphics.remove( rectangularPotentialGraphic );
     }
 }
