@@ -7,12 +7,12 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - use a wide stroke with gradient paint for Total Energy of wave packet
+- use JFreeChart legend feature, use setFixedLegendItems to control what's in the legend
 - add "Restart" button to clock controls
 - add time display to lower left of PhetFrame
 
 MEDIUM PRIORITY:
 - will it be possible to drag multiple drag handles at the same time since events aren't marked as handled?
-- use setFixedLegendItems to control what's in the legend
 - how to keep markers behind data (Layer?)
 - implement PotentialsEnum
 - resolve several phetcommon/Piccolo integration issues
@@ -58,6 +58,7 @@ JFREECHART:
 
 
 DONE:
+(12/3/05) - make a legend class, put a border around legend, make it smaller
 (12/3/05) - don't enable Apply button in Configure dialog until something has changed
 (12/3/05) - set spinner editor in Configure dialog to show 1 decimal place
 (12/3/05) - add tick mark/label color to QTConstants

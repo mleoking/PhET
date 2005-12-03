@@ -13,6 +13,7 @@ package edu.colorado.phet.quantumtunneling.view;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -36,7 +37,7 @@ public class LegendItem extends PNode {
     private static final Color DEFAULT_TEXT_COLOR = Color.BLACK;
     private static final Font DEFAULT_FONT = new Font( "Lucida Sans", Font.PLAIN, 12 );
     private static final Stroke DEFAULT_LINE_STROKE = new BasicStroke( 3f );
-    private static final float DEFAUT_LINE_LENGTH = 10f;
+    private static final float DEFAUT_LINE_LENGTH = 15f;
     
     private static final double INTERNAL_SPACING = 4;
     

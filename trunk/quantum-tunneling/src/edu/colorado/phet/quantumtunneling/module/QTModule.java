@@ -15,7 +15,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 
 import javax.swing.JButton;
 
@@ -55,7 +54,7 @@ public class QTModule extends AbstractModule {
     private static final int Y_SPACING = 10; // vertical space between nodes
     private static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1000, 1000 );
     private static final int CANVAS_BOUNDARY_STROKE_WIDTH = 1;
-    private static final double LEGEND_SCALE = 1.2;
+    private static final double LEGEND_SCALE = 1;
     private static final double CONFIGURE_BUTTON_SCALE = 1;
     
     //----------------------------------------------------------------------------
@@ -69,7 +68,7 @@ public class QTModule extends AbstractModule {
     // View
     private PhetPCanvas _canvas;
     private PNode _parentNode;
-    private PNode _legend;
+    private EnergyLegend _legend;
     private QTCombinedChartNode _chartNode;
     private QTCombinedChart _chart;
     
@@ -124,17 +123,7 @@ public class QTModule extends AbstractModule {
         
         // Energy graph legend
         { 
-            LegendItem totalEnergyItem = 
-                new LegendItem( SimStrings.get( "legend.totalEnergy" ), QTConstants.TOTAL_ENERGY_COLOR );
-            
-            LegendItem potentialEnergyItem = 
-                new LegendItem( SimStrings.get( "legend.potentialEnergy" ), QTConstants.POTENTIAL_ENERGY_COLOR );
-            potentialEnergyItem.translate( totalEnergyItem.getFullBounds().getWidth() + 20, 0 );
-
-            _legend = new PNode();
-            _legend.scale( LEGEND_SCALE );
-            _legend.addChild( totalEnergyItem );
-            _legend.addChild( potentialEnergyItem );
+            _legend = new EnergyLegend();
         }
         
         // Combined chart
@@ -196,7 +185,7 @@ public class QTModule extends AbstractModule {
      */
     private void layoutCanvas() {
         
-        // Height of the legend along the top edge
+        // Height of the legend
         double legendHeight = _legend.getFullBounds().getHeight();
         
         // Location and dimensions of charts
@@ -206,7 +195,7 @@ public class QTModule extends AbstractModule {
         // Legend
         {
             AffineTransform legendTransform = new AffineTransform();
-            legendTransform.translate( X_MARGIN + 100, Y_MARGIN );
+            legendTransform.translate( X_MARGIN + 55, Y_MARGIN );
             legendTransform.scale( LEGEND_SCALE, LEGEND_SCALE );
             legendTransform.translate( 0, 0 ); // upper left
             _legend.setTransform( legendTransform );
