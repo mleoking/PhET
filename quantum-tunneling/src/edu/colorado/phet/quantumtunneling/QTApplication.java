@@ -22,10 +22,12 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.util.DebugMenu;
+import edu.colorado.phet.common.view.ContentPanel;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.components.menu.HelpMenu;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.quantumtunneling.control.QTClockControls;
 import edu.colorado.phet.quantumtunneling.module.QTModule;
 
 
@@ -68,11 +70,12 @@ public class QTApplication extends PhetApplication {
     {
         super( args, title, description, version, clock, useClockControlPanel, frameSetup );
         initModules( clock );  
+        initClockControls( clock );
         initMenubar();
     }
     
     //----------------------------------------------------------------------------
-    // Modules
+    // Initialization
     //----------------------------------------------------------------------------
     
     /*
@@ -85,10 +88,6 @@ public class QTApplication extends PhetApplication {
         setModules( new Module[] { _module } );
         setInitialModule( _module );
     }
-    
-    //----------------------------------------------------------------------------
-    // Menubar
-    //----------------------------------------------------------------------------
     
     /*
      * Initializes the menubar.
@@ -137,6 +136,17 @@ public class QTApplication extends PhetApplication {
         }
     }
     
+    /**
+     * Initializes the clock controls.
+     * 
+     * @param clock
+     */
+    private void initClockControls( AbstractClock clock ) {
+        ContentPanel contentPanel = getPhetFrame().getContentPanel();
+        QTClockControls clockControls = new QTClockControls( clock );
+        contentPanel.setAppControlPanel( clockControls );
+    }
+    
     //----------------------------------------------------------------------------
     // main
     //----------------------------------------------------------------------------
@@ -174,5 +184,6 @@ public class QTApplication extends PhetApplication {
         
         // Start the application.
         app.startApplication();
+        clock.setPaused( true );
     }
 }
