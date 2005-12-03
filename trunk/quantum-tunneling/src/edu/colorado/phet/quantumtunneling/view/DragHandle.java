@@ -123,7 +123,7 @@ public abstract class DragHandle extends ImageNode {
                 _textNode.translate( dragHandleBounds.getX() + dragHandleBounds.getWidth() + 1, 0 );
             }
             else {
-                _textNode.translate( 0, dragHandleBounds.getY() - ( _textNode.getHeight() + 1 ) );
+                _textNode.translate( 0, dragHandleBounds.getY() + dragHandleBounds.getHeight() + 1 );
             }
             updateText();
         }
