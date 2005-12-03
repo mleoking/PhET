@@ -20,7 +20,8 @@ import edu.umd.cs.piccolo.PNode;
 
 /**
  * PotentialEnergyControls is the parent node that manages all of the
- * drag handles attached to a potential energy space.
+ * drag handles attached to a potential energy space. The drag handles
+ * are superimposed on top of an energy chart.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -40,6 +41,11 @@ public class PotentialEnergyControls extends PNode {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Sole constructor.
+     * 
+     * @param chartNode the chart that the drag handles will be drawn on top of
+     */
     public PotentialEnergyControls( QTCombinedChartNode chartNode ) {
         _chartNode = chartNode;
         _energyDragHandles = new ArrayList();
@@ -51,6 +57,11 @@ public class PotentialEnergyControls extends PNode {
     // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Sets the potential energy associated with this set of drag handles.
+     * 
+     * @param potentialEnergy
+     */
     public void setPotentialEnergy( AbstractPotentialSpace potentialEnergy ) {
         
         // Dispose of existing drag handles.
@@ -72,7 +83,7 @@ public class PotentialEnergyControls extends PNode {
 
             PotentialEnergyDragHandle energyDragHandle = new PotentialEnergyDragHandle( _chartNode );
             energyDragHandle.setPotentialEnergy( potentialEnergy, i );
-            energyDragHandle.setTextEnabled( _textEnabled );
+            energyDragHandle.setShowValueEnabled( _textEnabled );
             _energyDragHandles.add( energyDragHandle );
             addChild( energyDragHandle );
             
@@ -80,7 +91,7 @@ public class PotentialEnergyControls extends PNode {
             if ( i < numberOfRegions - 1 ) {
                 RegionBoundaryDragHandle boundaryDragHandle = new RegionBoundaryDragHandle( _chartNode );
                 boundaryDragHandle.setPotentialEnergy( potentialEnergy, i );
-                boundaryDragHandle.setTextEnabled( _textEnabled );
+                boundaryDragHandle.setShowValueEnabled( _textEnabled );
                 _boundaryDragHandles.add( boundaryDragHandle );
                 addChild( boundaryDragHandle );
             }
@@ -90,22 +101,31 @@ public class PotentialEnergyControls extends PNode {
     }
     
     /**
-     * Enables or disables the text value shown on the drag handles.
+     * Enables or disables the value shown on the drag handles.
      * 
      * @param enabled true or false
      */
-    public void setTextEnabled( boolean enabled ) {
+    public void setShowValuesEnabled( boolean enabled ) {
         if ( enabled != _textEnabled ) {
             _textEnabled = enabled;
             for ( int i = 0; i < _energyDragHandles.size(); i++ ) {
                 PotentialEnergyDragHandle energyDragHandle = (PotentialEnergyDragHandle) _energyDragHandles.get( i );
-                energyDragHandle.setTextEnabled( _textEnabled );
+                energyDragHandle.setShowValueEnabled( _textEnabled );
             }
             for ( int i = 0; i < _boundaryDragHandles.size(); i++ ) {
                 RegionBoundaryDragHandle boundaryDragHandle = (RegionBoundaryDragHandle) _boundaryDragHandles.get( i );
-                boundaryDragHandle.setTextEnabled( _textEnabled );
+                boundaryDragHandle.setShowValueEnabled( _textEnabled );
             }
         }
+    }
+    
+    /**
+     * Is the value shown on drag handles?
+     * 
+     * @return true or false
+     */
+    public boolean isShowValuesEnabled() {
+        return ( (PotentialEnergyDragHandle) _energyDragHandles.get( 0 ) ).isShowValueEnabled();
     }
     
     //----------------------------------------------------------------------------
