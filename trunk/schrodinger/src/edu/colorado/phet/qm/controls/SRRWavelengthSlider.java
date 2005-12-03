@@ -9,8 +9,10 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
@@ -67,6 +69,12 @@ public class SRRWavelengthSlider extends PNode {
 
         colorBackgroundNode.setOffset( 0, getTextOffsetY() );
         spectrumSliderKnob.setOffset( image.getWidth() / 2, image.getHeight() + getTextOffsetY() );
+
+        layoutChildren();
+        PPath boundGraphic = new PPath( getFullBounds() );
+        boundGraphic.setPaint( new JLabel().getBackground() );
+        boundGraphic.setStrokePaint( null );
+        addChild( 0, boundGraphic );
         dragPointChanged();
     }
 
