@@ -18,6 +18,7 @@ import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.AffineTransform;
+import java.util.Random;
 
 /**
  * User: Sam Reid
@@ -115,7 +116,10 @@ public class SchrodingerModule extends PiccoloModule {
     }
 
     public void addDetector() {
-        Detector detector = new Detector( getDiscreteModel(), 5, 5, 10, 10 );
+        int x = random.nextInt( getDiscreteModel().getWavefunction().getWidth() - 10 );
+        int y = random.nextInt( getDiscreteModel().getWavefunction().getHeight() - 10 );
+
+        Detector detector = new Detector( getDiscreteModel(), x, y, 10, 10 );
         addDetector( detector );
     }
 
@@ -124,8 +128,12 @@ public class SchrodingerModule extends PiccoloModule {
         schrodingerPanel.addDetectorGraphic( detector );
     }
 
+    static final Random random = new Random( 0 );
+
     public void addPotential() {
-        RectangularPotential rectangularPotential = new RectangularPotential( 5, 20, 10, 10 );
+        int x = random.nextInt( getDiscreteModel().getWavefunction().getWidth() - 10 );
+        int y = random.nextInt( getDiscreteModel().getWavefunction().getHeight() - 10 );
+        RectangularPotential rectangularPotential = new RectangularPotential( x, y, 10, 10 );
         rectangularPotential.setPotential( Double.MAX_VALUE / 100.0 );
         discreteModel.addPotential( rectangularPotential );//todo should be a composite.
         RectangularPotentialGraphic rectangularPotentialGraphic = new RectangularPotentialGraphic( getSchrodingerPanel(), rectangularPotential );
