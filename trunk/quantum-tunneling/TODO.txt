@@ -6,7 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- Configure dialog shows Total Energy with 3 decimal places, should be 1 decimal place
+- don't enable Apply button in Configure dialog until something has changed
 - use an IntervalMarker with a gradient paint for Total Energy of wave packet
 - add "Restart" button to clock controls
 - add time display to lower left of PhetFrame
@@ -59,6 +59,7 @@ JFREECHART:
 
 
 DONE:
+(12/3/05) - set spinner editor in Configure dialog to show 1 decimal place
 (12/3/05) - add tick mark/label color to QTConstants
 (12/3/05) - make all axes show integer tick marks
 (12/3/05) - hide vertical gridlines on all graphs
