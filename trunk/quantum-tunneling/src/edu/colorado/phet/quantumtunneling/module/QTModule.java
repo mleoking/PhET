@@ -313,4 +313,13 @@ public class QTModule extends AbstractModule {
         _chart.setTotalEnergy( _totalEnergy );
         _totalEnergyControl.setTotalEnergy( _totalEnergy );
     }
+    
+    public void setShowValuesEnabled( boolean enabled ) {
+        _totalEnergyControl.setTextEnabled( enabled );
+        _potentialEnergyControls.setTextEnabled( enabled );
+    }
+    
+    public boolean isShowValuesEnabled() {
+        return _totalEnergyControl.isTextEnabled();
+    }
 }
