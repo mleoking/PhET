@@ -33,7 +33,6 @@ public abstract class AbstractGun extends PNode {
     private PSwing comboBoxGraphic;
     public static final int GUN_PARTICLE_OFFSET = 35;
     protected final String GUN_RESOURCE = "images/raygun3-centerbarrel.gif";
-    ;
 
     public AbstractGun( final SchrodingerPanel schrodingerPanel ) {
         super();

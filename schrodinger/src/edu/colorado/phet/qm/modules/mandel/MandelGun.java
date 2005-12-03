@@ -25,9 +25,7 @@ public class MandelGun extends HighIntensityGun {
 
     public MandelGun( MandelPanel mandelPanel ) {
         super( mandelPanel );
-        //todo piccolo
         Point origGunLoc = getGunLocation();
-////        getGunImageGraphic().setLocation( origGunLoc.x-50,origGunLoc.y);
         int dx = 112;
         getGunImageGraphic().setVisible( false );
         PImage leftGun = null;
@@ -46,13 +44,9 @@ public class MandelGun extends HighIntensityGun {
 
         addChild( 0, leftGun );
         addChild( 0, rightGun );
-//        PhetImageGraphic gunGraphicLeft = new PhetImageGraphic( getSchrodingerPanel(), getGunImageResource() );
-//        PhetImageGraphic gunGraphicRight = new PhetImageGraphic( getSchrodingerPanel(), getGunImageResource() );
-//        addGraphic( gunGraphicLeft, Double.NEGATIVE_INFINITY );
-//        addGraphic( gunGraphicRight, Double.NEGATIVE_INFINITY );
-//
         leftGun.setOffset( new Point( origGunLoc.x - dx, origGunLoc.y ) );
         rightGun.setOffset( new Point( origGunLoc.x + dx, origGunLoc.y ) );
+        getComboBoxGraphic().setVisible( false );
     }
 
     public int getFireButtonInsetDX() {
@@ -61,16 +55,12 @@ public class MandelGun extends HighIntensityGun {
 
     protected ImagePComboBox initComboBox() {
         Photon photon = new Photon( this, "Photons", "images/photon-thumb.jpg" );
-//        Electron e = new Electron( this, "Electrons", "images/electron-thumb.jpg" );
-//        Atom atom = new Atom( this, "Atoms", "images/atom-thumb.jpg" );
 
         final HighIntensityBeam[] beams = new HighIntensityBeam[]{
                 new PhotonMandelBeam( this, photon )
         };
         setBeams( beams );
 
-//            new ParticleBeam( e ),
-//            new ParticleBeam( atom )};
         final ImagePComboBox imageComboBox = new ImagePComboBox( beams );
         imageComboBox.setBorder( BorderFactory.createTitledBorder( "Gun Type" ) );
         imageComboBox.addItemListener( new ItemListener() {
@@ -85,7 +75,7 @@ public class MandelGun extends HighIntensityGun {
 
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
-        getComboBox().setVisible( false );
+        getComboBoxGraphic().setVisible( false );
     }
 
 }
