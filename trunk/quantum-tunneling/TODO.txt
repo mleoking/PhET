@@ -7,8 +7,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - use a wide stroke with gradient paint for Total Energy of wave packet
-- add "Restart" button to clock controls
-- add time display to lower left of PhetFrame
 
 MEDIUM PRIORITY:
 - will it be possible to drag multiple drag handles at the same time since events aren't marked as handled?
@@ -57,6 +55,7 @@ JFREECHART:
 
 
 DONE:
+(12/3/05) - implement my own clock control panel
 (12/3/05) - make a legend class, put a border around legend, make it smaller
 (12/3/05) - don't enable Apply button in Configure dialog until something has changed
 (12/3/05) - set spinner editor in Configure dialog to show 1 decimal place

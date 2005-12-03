@@ -104,6 +104,12 @@ public class QTConstants {
     public static final String IMAGE_ARROW_R2L = IMAGES_DIRECTORY + "arrowR2L.png";
     public static final String IMAGE_DRAG_HANDLE_HORIZONTAL = IMAGES_DIRECTORY + "dragHandleHorizontal.png";
     public static final String IMAGE_DRAG_HANDLE_VERTICAL = IMAGES_DIRECTORY + "dragHandleVertical.png";
+    public static final String IMAGE_LOOP_OFF = IMAGES_DIRECTORY + "loopOffButton.gif";
+    public static final String IMAGE_LOOP_ON = IMAGES_DIRECTORY + "loopOnButton.gif";
+    public static final String IMAGE_PAUSE = IMAGES_DIRECTORY + "pauseButton.gif";
+    public static final String IMAGE_PLAY = IMAGES_DIRECTORY + "playButton.gif";
+    public static final String IMAGE_RESTART = IMAGES_DIRECTORY + "restartButton.gif";
+    public static final String IMAGE_STEP = IMAGES_DIRECTORY + "stepButton.gif";
     
     //----------------------------------------------------------------------------
     // Wave Packet
