@@ -6,7 +6,6 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- create RegionBoundaryDragHandle for setting regionv boundaries, incorporate into PotentialEnergyControls
 - Configure dialog shows Total Energy with 3 decimal places
 - will it be possible to drag multiple drag handles at the same time since events aren't marked as handled?
 - use setFixedLegendItems to control what's in the legend
@@ -64,6 +63,7 @@ JFREECHART:
 - XYTextAnnotation doesn't support HTML
 
 DONE:
+(12/2/05) - create RegionBoundaryDragHandle for setting region boundaries, incorporate into PotentialEnergyControls
 (12/2/05) - fix AbstractPotentialSpace interface so that regions can never be directly accessed
 (12/2/05) - attach vertical drag handles to potential energy levels
 (12/2/05) - add range methods to AbstractPotentialSpace interface so that it's clear that space is finite
