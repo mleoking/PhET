@@ -6,26 +6,25 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- Configure dialog shows Total Energy with 3 decimal places
-- will it be possible to drag multiple drag handles at the same time since events aren't marked as handled?
-- use setFixedLegendItems to control what's in the legend
+- Configure dialog shows Total Energy with 3 decimal places, show be 1 decimal place
 - use an IntervalMarker with a gradient paint for Total Energy of wave packet
-- how to keep markers behind data (Layer?)
-- implement PotentialsEnum
 - add "Restart" button to clock controls
 - add time display to lower left of PhetFrame
-- design and implement the model
+
+MEDIUM PRIORITY:
+- will it be possible to drag multiple drag handles at the same time since events aren't marked as handled?
+- use setFixedLegendItems to control what's in the legend
+- how to keep markers behind data (Layer?)
+- implement PotentialsEnum
 - resolve several phetcommon/Piccolo integration issues
 - add support for complex numbers
 - implement Schrodinger's equation for 1 dimension
 
-MEDIUM PRIORITY:
+LOW PRIORITY:
 - select entire spinner value when it gets focus
 - fix tab order in Configure dialog
 - add application description to SimStrings files
 - Save/Load
-
-LOW PRIORITY:
 - Help items
 - Wiggle Me
 - change time to ns when the time values grows too large to display fs
