@@ -2,12 +2,11 @@
 package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
 import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
-import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,8 +28,10 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
     private ImageIcon outIcon;
     private ImageIcon inIcon;
     private PhotonBeamParticle photonBeamParticle;
-    private PSwing fireJC;
-    private PSwing autoJC;
+//    private PSwing fireJC;
+//    private PSwing autoJC;
+    protected final JCheckBox autoFireJCheckBox;
+    private PSwing gunControlPSwing;
 
     public SingleParticleGunGraphic( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
@@ -87,22 +88,43 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
                 }
             }
         } );
-        fireJC = new PSwing( schrodingerPanel, fireOne );
-        fireJC.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
-        addChild( fireJC );
+//        fireJC = new PSwing( schrodingerPanel, fireOne );
+//        fireJC.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
+//        addChild( fireJC );
+
+
+        autoFire = new AutoFire( this, schrodingerPanel.getIntensityDisplay() );
+        autoFireJCheckBox = new AutoFireCheckBox( autoFire );
+//        autoJC = new PSwing( schrodingerPanel, autoFireJCheckBox );
+//        addChild( autoJC );
+//        autoJC.setOffset( fireJC.getX(), fireJC.getY() + fireJC.getHeight() + 5 );
+
+
+        JPanel gunControlPanel = createGunControlPanel();
+        gunControlPSwing = new PSwing( schrodingerPanel, gunControlPanel );
+        addChild( gunControlPSwing );
 
         setupObject( gunItems[0] );
-        autoFire = new AutoFire( this, schrodingerPanel.getIntensityDisplay() );
-        JCheckBox jcb = new AutoFireCheckBox( autoFire );
-        autoJC = new PSwing( schrodingerPanel, jcb );
-        addChild( autoJC );
-        autoJC.setOffset( fireJC.getX(), fireJC.getY() + fireJC.getHeight() + 5 );
+    }
+
+    private JPanel createGunControlPanel() {
+        JPanel gunControlPanel = new VerticalLayoutPanel();
+        gunControlPanel.setBorder( BorderFactory.createTitledBorder( "Gun" ) );
+        gunControlPanel.add( fireOne );
+        gunControlPanel.add( autoFireJCheckBox );
+
+        return gunControlPanel;
     }
 
     protected void layoutChildren() {
         super.layoutChildren();
-        fireJC.setOffset( getGunImageGraphic().getWidth() + 2 + getFireButtonInsetDX(), getControlOffsetY() + 0 );
-        autoJC.setOffset( fireJC.getFullBounds().getX(), fireJC.getFullBounds().getMaxY() + 5 );
+        gunControlPSwing.setOffset( getGunImageGraphic().getWidth() - 10, getControlOffsetY() );
+        getComboBoxGraphic().setOffset( gunControlPSwing.getFullBounds().getMaxX(), gunControlPSwing.getFullBounds().getY() );
+        if( getGunControls() != null ) {
+            getGunControls().setOffset( getComboBoxGraphic().getFullBounds().getX(), getComboBoxGraphic().getFullBounds().getMaxY() );
+        }
+//        fireJC.setOffset( getGunImageGraphic().getWidth() + 2 + getFireButtonInsetDX(), getControlOffsetY() + 0 );
+//        autoJC.setOffset( fireJC.getFullBounds().getX(), fireJC.getFullBounds().getMaxY() + 5 );
     }
 
     protected Point getGunLocation() {
@@ -206,10 +228,6 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
 
     public void reset() {
         photonBeamParticle.reset();
-    }
-
-    public PNode getFireButtonGraphic() {
-        return fireJC;
     }
 
 }

@@ -28,7 +28,6 @@ public class ParticleBeam extends HighIntensityBeam {
     }
 
     private boolean isTimeToFire() {
-//        if( alwaysOnCheckBox.isSelected() && intensitySlider.getValue() != 0 ) {
         if( isHighIntensityModeOn() ) {
             int numStepsBetweenFire = getNumStepsBetweenFire();
             return time >= numStepsBetweenFire + lastFireTime;
@@ -38,9 +37,6 @@ public class ParticleBeam extends HighIntensityBeam {
 
     private int getNumStepsBetweenFire() {
         return numStepsBetweenFire;
-//        double frac = intensitySlider.getValue() / ( (double)intensitySlider.getMaximum() );
-//        Function.LinearFunction linearFunction = new Function.LinearFunction( 0, 1, 20, 1 );
-//        return (int)linearFunction.evaluate( frac );
     }
 
     private void autofire() {

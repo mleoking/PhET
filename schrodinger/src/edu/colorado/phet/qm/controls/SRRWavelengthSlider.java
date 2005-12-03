@@ -3,7 +3,6 @@ package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.math.MathUtil;
-import edu.colorado.phet.common.util.QuickTimer;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.piccolo.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
@@ -29,14 +28,14 @@ import java.util.ArrayList;
 public class SRRWavelengthSlider extends PNode {
     private SpectrumSliderKnob spectrumSliderKnob;
     private Function.LinearFunction linearFunction;
+    protected final PImage colorBackgroundNode;
+    protected final PText phetTextGraphic;
 
     public SRRWavelengthSlider( Component component ) {
-        super();
         double minWavelength = VisibleColor.MIN_WAVELENGTH;
         double maxWavelength = VisibleColor.MAX_WAVELENGTH;
 
-        QuickTimer quickTimer = new QuickTimer();
-        final BufferedImage image = new BufferedImage( 200, 10, BufferedImage.TYPE_INT_RGB );
+        final BufferedImage image = new BufferedImage( 175, 10, BufferedImage.TYPE_INT_RGB );
         Graphics2D g2 = image.createGraphics();
         linearFunction = new Function.LinearFunction( 0, image.getWidth(), minWavelength, maxWavelength );
         for( int i = 0; i < image.getWidth(); i++ ) {
@@ -45,106 +44,38 @@ public class SRRWavelengthSlider extends PNode {
             g2.setColor( visibleColor );
             g2.fillRect( i, 0, 1, image.getHeight() );
         }
-//        System.out.println( "image construction time= " + quickTimer );
-        addChild( new PImage( image ) );
-
-
+        colorBackgroundNode = new PImage( image );
+        addChild( colorBackgroundNode );
         spectrumSliderKnob = new SpectrumSliderKnob( component, new Dimension( 20, 20 ), 0 );
         addChild( spectrumSliderKnob );
         spectrumSliderKnob.setOffset( 0, image.getHeight() );
         spectrumSliderKnob.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
-        //todo piccolo
         spectrumSliderKnob.addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
                 super.mouseDragged( event );
                 Point2D pt = event.getPositionRelativeTo( SRRWavelengthSlider.this );
                 double newX = (int)MathUtil.clamp( 0, pt.getX(), image.getWidth() );
-                spectrumSliderKnob.setOffset( new Point2D.Double( newX, image.getHeight() ) );
-//                double dx = event.getDeltaRelativeTo( SRRWavelengthSlider.this ).getWidth();
-//                System.out.println( "dx = " + dx );
-//                double newX = spectrumSliderKnob.getFullBounds().getX() + dx;
-
-//                System.out.println( "newX = " + newX );
-//                spectrumSliderKnob.setOffset( new Point2D.Double( newX, image.getHeight() ) );
+                spectrumSliderKnob.setOffset( new Point2D.Double( newX, image.getHeight() + getTextOffsetY() ) );
                 dragPointChanged();
             }
         } );
-//        spectrumSliderKnob.addTranslationListener( new TranslationListener() {
-//            public void translationOccurred( TranslationEvent translationEvent ) {
-//                int dx = translationEvent.getDx();
-//                int newX = spectrumSliderKnob.getX() + dx;
-//                newX = (int)MathUtil.clamp( 0, newX, image.getWidth() );
-//                spectrumSliderKnob.setLocation( newX, image.getHeight() );
-//                dragPointChanged();
-//            }
-//        } );
 
-        PText phetTextGraphic = new PText( "Wavelength" );
+        phetTextGraphic = new PText( "Wavelength" );
         addChild( phetTextGraphic );
-        //todo piccolo
-//        phetTextGraphic.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-        phetTextGraphic.setOffset( 0, -phetTextGraphic.getHeight() - 5 );
-//        spectrumSliderKnob.addMouseInputListener( new MouseInputAdapter() {
-//            boolean dragging = false;
-//            Point startPoint = null;
-//            int startX = 0;
-//
-//            // implements java.awt.event.MouseMotionListener
-//            public void mouseDragged( MouseEvent e ) {
-//                if( !dragging ) {
-//                    startDrag( e );
-//                }
-//                else {
-//                    Point curPt = e.getPoint();
-//                    int dx = curPt.x - startX-startPoint.x;
-////                    int x = spectrumSliderKnob.getX();
-//                    int newX = startX + dx;
-//                    newX = (int)MathUtil.clamp( 0, newX, image.getWidth() );
-//                    System.out.println( "newX = " + newX );
-//                    spectrumSliderKnob.setLocation( newX, image.getHeight() );
-//                    dragPointChanged();
-////                    startPoint = e.getPoint();
-//                }
-//            }
-//
-//            // implements java.awt.event.MouseListener
-//            public void mouseExited( MouseEvent e ) {
-//                endDrag();
-//            }
-//
-//            // implements java.awt.event.MouseMotionListener
-//            public void mouseMoved( MouseEvent e ) {
-//                endDrag();
-//            }
-//
-//            // implements java.awt.event.MouseListener
-//            public void mousePressed( MouseEvent e ) {
-//                startDrag( e );
-//            }
-//
-//            // implements java.awt.event.MouseListener
-//            public void mouseReleased( MouseEvent e ) {
-//                endDrag();
-//            }
-//
-//            private void endDrag() {
-//                dragging = false;
-//                startPoint = null;
-//            }
-//
-//            private void startDrag( MouseEvent event ) {
-//                dragging = true;
-//                startPoint = event.getPoint();
-//                startX = spectrumSliderKnob.getX();
-//            }
-//        } );
-        spectrumSliderKnob.setOffset( image.getWidth() / 2, image.getHeight() );
+//        phetTextGraphic.setOffset( 0, -phetTextGraphic.getHeight() - 5 );
+//        phetTextGraphic.setOffset( 0, 0 );
+
+        colorBackgroundNode.setOffset( 0, getTextOffsetY() );
+        spectrumSliderKnob.setOffset( image.getWidth() / 2, image.getHeight() + getTextOffsetY() );
         dragPointChanged();
+    }
+
+    private double getTextOffsetY() {
+        return phetTextGraphic.getHeight() + 5;
     }
 
     private void dragPointChanged() {
         double wavelength = getWavelength();
-//        System.out.println( "x = " + x + ", wav=" + wavelength );
         spectrumSliderKnob.setPaint( new VisibleColor( wavelength ) );
         ChangeEvent e = new ChangeEvent( this );
         for( int i = 0; i < listeners.size(); i++ ) {
@@ -154,10 +85,8 @@ public class SRRWavelengthSlider extends PNode {
     }
 
     public double getWavelength() {
-//        double x = spectrumSliderKnob.getX();
         double x = spectrumSliderKnob.getOffset().getX();
-        double wavelength = linearFunction.evaluate( x );
-        return wavelength;
+        return linearFunction.evaluate( x );
     }
 
     private ArrayList listeners = new ArrayList();
