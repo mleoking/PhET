@@ -171,8 +171,8 @@ public class QTModule extends AbstractModule {
         // Initialze the module state
         //----------------------------------------------------------------------------
         
-        layoutCanvas();
         reset();
+        layoutCanvas();
     }
 
     //----------------------------------------------------------------------------
