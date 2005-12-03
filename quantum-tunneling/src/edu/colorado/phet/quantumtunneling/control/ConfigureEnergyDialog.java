@@ -53,6 +53,8 @@ public class ConfigureEnergyDialog extends JDialog {
 
     private static final Dimension CHART_SIZE = new Dimension( 450, 150 );
     
+    private static final String POSITION_FORMAT = "0.0";
+    private static final String ENERGY_FORMAT = "0.0";
     private static final double POSITION_STEP = 0.1;
     private static final double ENERGY_STEP = 0.1;
     private static final double MIN_ENERGY = QTConstants.ENERGY_RANGE.getLowerBound();
@@ -258,11 +260,8 @@ public class ConfigureEnergyDialog extends JDialog {
             {
                 JLabel teLabel = new JLabel( SimStrings.get( "label.totalEnergy" ) );
                 teLabel.setForeground( new Color( 16, 159, 33 ) ); // dark green
-                SpinnerModel model = new SpinnerNumberModel( 0, -SPINNER_MAX, SPINNER_MAX, ENERGY_STEP );
-                _teSpinner = new JSpinner( model );
+                _teSpinner = new CommonSpinner( 0, -SPINNER_MAX, SPINNER_MAX, ENERGY_STEP, ENERGY_FORMAT );
                 _teSpinner.addChangeListener( _listener );
-                _teSpinner.setPreferredSize( SPINNER_SIZE );
-                _teSpinner.setMinimumSize( SPINNER_SIZE );
                 JLabel teUnits = new JLabel( SimStrings.get( "units.energy" ) );
                 inputPanelLayout.addAnchoredComponent( teLabel, row, 0, 2, 1, GridBagConstraints.EAST );
                 inputPanelLayout.addComponent( _teSpinner, row, 2 );
@@ -281,11 +280,8 @@ public class ConfigureEnergyDialog extends JDialog {
                 for ( int i = 0; i < numberOfRegions; i++ ) {
                     JLabel peLabel = new JLabel( "R" + ( i + 1 ) + ":" );
                     peLabel.setForeground( QTConstants.POTENTIAL_ENERGY_COLOR );
-                    SpinnerModel model = new SpinnerNumberModel( 0, -SPINNER_MAX, SPINNER_MAX, ENERGY_STEP );
-                    JSpinner peSpinner = new JSpinner( model );
+                    JSpinner peSpinner = new CommonSpinner( 0, -SPINNER_MAX, SPINNER_MAX, ENERGY_STEP, ENERGY_FORMAT );
                     peSpinner.addChangeListener( _listener );
-                    peSpinner.setPreferredSize( SPINNER_SIZE );
-                    peSpinner.setMinimumSize( SPINNER_SIZE );
                     _peSpinners.add( peSpinner );
                     JLabel peUnits = new JLabel( SimStrings.get( "units.energy" ) );
                     inputPanelLayout.addAnchoredComponent( peLabel, row, 1, GridBagConstraints.EAST );
@@ -300,11 +296,8 @@ public class ConfigureEnergyDialog extends JDialog {
             if ( _potentialEnergy instanceof StepPotential ) {
                 JLabel stepLabel = new JLabel( SimStrings.get( "label.stepPosition" ) );
                 stepLabel.setForeground( Color.BLACK );
-                SpinnerModel model = new SpinnerNumberModel( 0, -SPINNER_MAX, SPINNER_MAX, POSITION_STEP );
-                _stepSpinner = new JSpinner( model );
+                _stepSpinner = new CommonSpinner( 0, -SPINNER_MAX, SPINNER_MAX, POSITION_STEP, POSITION_FORMAT );
                 _stepSpinner.addChangeListener( _listener );
-                _stepSpinner.setPreferredSize( SPINNER_SIZE );
-                _stepSpinner.setMinimumSize( SPINNER_SIZE );
                 JLabel stepUnits = new JLabel( SimStrings.get( "units.position" ) );
                 inputPanelLayout.addAnchoredComponent( stepLabel, row, 0, 2, 1, GridBagConstraints.EAST );
                 inputPanelLayout.addComponent( _stepSpinner, row, 2 );
@@ -332,11 +325,8 @@ public class ConfigureEnergyDialog extends JDialog {
                 for ( int i = 0; i < numberOfBarriers; i++ ) {
                     JLabel widthLabel = new JLabel( "B" + ( i + 1 ) + ":" );
                     widthLabel.setForeground( BARRIER_PROPERTIES_COLOR );
-                    SpinnerModel widthModel = new SpinnerNumberModel( 0, -SPINNER_MAX, SPINNER_MAX, POSITION_STEP );
-                    JSpinner widthSpinner = new JSpinner( widthModel );
+                    JSpinner widthSpinner = new CommonSpinner( 0, -SPINNER_MAX, SPINNER_MAX, POSITION_STEP, POSITION_FORMAT );
                     widthSpinner.addChangeListener( _listener );
-                    widthSpinner.setPreferredSize( SPINNER_SIZE );
-                    widthSpinner.setMinimumSize( SPINNER_SIZE );
                     _widthSpinners.add( widthSpinner );
                     JLabel widthUnits = new JLabel( SimStrings.get( "units.position" ) );
                     inputPanelLayout.addAnchoredComponent( widthLabel, row, column, GridBagConstraints.EAST );
@@ -356,11 +346,8 @@ public class ConfigureEnergyDialog extends JDialog {
                 for ( int i = 0; i < numberOfBarriers; i++ ) {
                     JLabel positionLabel = new JLabel( "B" + ( i + 1 ) + ":" );
                     positionLabel.setForeground( BARRIER_PROPERTIES_COLOR );
-                    SpinnerModel positionModel = new SpinnerNumberModel( 0, -SPINNER_MAX, SPINNER_MAX, POSITION_STEP );
-                    JSpinner positionSpinner = new JSpinner( positionModel );
+                    JSpinner positionSpinner = new CommonSpinner( 0, -SPINNER_MAX, SPINNER_MAX, POSITION_STEP, POSITION_FORMAT );
                     positionSpinner.addChangeListener( _listener );
-                    positionSpinner.setPreferredSize( SPINNER_SIZE );
-                    positionSpinner.setMinimumSize( SPINNER_SIZE );
                     _positionSpinners.add( positionSpinner );
                     JLabel positionUnits = new JLabel( SimStrings.get( "units.position" ) );
                     inputPanelLayout.addAnchoredComponent( positionLabel, row, column, GridBagConstraints.EAST );
@@ -798,5 +785,19 @@ public class ConfigureEnergyDialog extends JDialog {
      */
     private void warnInvalidInput() {
         Toolkit.getDefaultToolkit().beep();
+    }
+    
+    /*
+     * Common spinner used in this dialog.
+     */
+    private static class CommonSpinner extends JSpinner {
+        public CommonSpinner( double value, double min, double max, double step, String format ) {
+            super( );
+            SpinnerNumberModel model = new SpinnerNumberModel( value, min, max, step );
+            setModel( model );
+            setEditor( new JSpinner.NumberEditor( this, format ) );
+            setPreferredSize( SPINNER_SIZE );
+            setMinimumSize( SPINNER_SIZE );
+        }
     }
 }
