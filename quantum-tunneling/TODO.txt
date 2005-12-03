@@ -56,6 +56,7 @@ JFREECHART:
 
 
 DONE:
+(12/3/05) - create loop button icons
 (12/3/05) - implement my own clock control panel
 (12/3/05) - make a legend class, put a border around legend, make it smaller
 (12/3/05) - don't enable Apply button in Configure dialog until something has changed
