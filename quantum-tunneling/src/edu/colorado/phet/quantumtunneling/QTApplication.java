@@ -22,6 +22,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.util.DebugMenu;
+import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.components.menu.HelpMenu;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -92,6 +93,31 @@ public class QTApplication extends PhetApplication {
      */
     private void initMenubar() {
      
+        PhetFrame frame = getPhetFrame();
+        
+        // File menu
+        {
+            JMenuItem saveItem = new JMenuItem( SimStrings.get( "menu.file.save" ) );
+            saveItem.setMnemonic( SimStrings.get( "menu.file.save.mnemonic" ).charAt(0) );
+            saveItem.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+//                    _persistenceManager.save();
+                }
+            } );
+            
+            JMenuItem loadItem = new JMenuItem( SimStrings.get( "menu.file.load" ) );
+            loadItem.setMnemonic( SimStrings.get( "menu.file.load.mnemonic" ).charAt(0) );
+            loadItem.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+//                    _persistenceManager.load();
+                }
+            } );
+
+            frame.addFileMenuItem( saveItem );
+            frame.addFileMenuItem( loadItem );
+            frame.addFileMenuSeparator();
+        }
+        
         // Debug menu extensions
         DebugMenu debugMenu = getPhetFrame().getDebugMenu();
         if ( debugMenu != null ) {
