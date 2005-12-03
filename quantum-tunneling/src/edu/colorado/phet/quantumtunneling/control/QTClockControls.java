@@ -105,15 +105,16 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
         // Layout
         setLayout( new BorderLayout() );
         JPanel buttonPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
+        buttonPanel.add( clockLabel );
+        buttonPanel.add( _timeTextField );
+        buttonPanel.add( _timeUnitsLabel );
+        buttonPanel.add( new JLabel( "        " ) ); // space
         buttonPanel.add( _restartButton );
         buttonPanel.add( _playButton );
         buttonPanel.add( _pauseButton );
         buttonPanel.add( _stepButton );
         buttonPanel.add( _loopButton );
-        buttonPanel.add( new JLabel( "        " ) ); // space
-        buttonPanel.add( clockLabel );
-        buttonPanel.add( _timeTextField );
-        buttonPanel.add( _timeUnitsLabel );
+
         this.add( buttonPanel, BorderLayout.CENTER );
         
         // Interactivity
