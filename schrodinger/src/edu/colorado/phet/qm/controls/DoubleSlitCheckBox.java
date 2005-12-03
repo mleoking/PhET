@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.qm.model.DiscreteModel;
+import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -17,7 +18,7 @@ import java.awt.event.ActionListener;
 public class DoubleSlitCheckBox extends JCheckBox {
     private DiscreteModel discreteModel;
 
-    public DoubleSlitCheckBox( String title, final DiscreteModel discreteModel ) {
+    public DoubleSlitCheckBox( String title, final DiscreteModel discreteModel, final SchrodingerPanel schrodingerPanel ) {
         super( title, discreteModel.isDoubleSlitEnabled() );
         this.discreteModel = discreteModel;
 
@@ -34,6 +35,12 @@ public class DoubleSlitCheckBox extends JCheckBox {
         discreteModel.addListener( new DiscreteModel.Adapter() {
             public void doubleSlitVisibilityChanged() {
                 setSelected( discreteModel.isDoubleSlitEnabled() );
+            }
+        } );
+
+        addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                schrodingerPanel.setDoubleSlitControlPanelVisible( isSelected() );
             }
         } );
     }

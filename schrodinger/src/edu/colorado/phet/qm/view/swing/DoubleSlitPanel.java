@@ -39,7 +39,8 @@ public class DoubleSlitPanel extends VerticalLayoutPanel {
         this.discreteModel = discreteModel;
         this.module = intensityModule;
         this.horizontalDoubleSlit = discreteModel.getDoubleSlitPotential();
-        setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Double Slit" ) );
+//        setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Double Slit" ) );
+        setBorder( BorderFactory.createRaisedBevelBorder() );
 
 //        doubleSlitCheckBox = new DoubleSlitCheckBox( "Enabled", getDiscreteModel() );
 //        add( doubleSlitCheckBox );

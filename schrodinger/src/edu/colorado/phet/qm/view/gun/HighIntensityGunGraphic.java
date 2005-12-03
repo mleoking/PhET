@@ -36,8 +36,6 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic {
     private Photon photon;
     private static final double MAX_INTENSITY_READOUT = 40;
     protected final PSwing gunControlPSwing;
-//    private PSwing intensityGraphic;
-//    private PSwing onCheckboxGraphic;
 
     public HighIntensityGunGraphic( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
@@ -54,11 +52,6 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic {
                 updateIntensity();
             }
         } );
-//        intensityGraphic = new PSwing( schrodingerPanel, intensitySlider );
-//        onCheckboxGraphic = new PSwing( schrodingerPanel, alwaysOnCheckBox );
-
-//        addChild( onCheckboxGraphic );
-//        addChild( intensityGraphic );
         schrodingerPanel.getSchrodingerModule().getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 stepBeam();

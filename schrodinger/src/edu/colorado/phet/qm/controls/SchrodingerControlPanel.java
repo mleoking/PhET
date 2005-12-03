@@ -376,14 +376,9 @@ public class SchrodingerControlPanel extends ControlPanel {
         return absorbtiveSlit;
     }
 
-    public void addSlitCheckbox() {
-        final DoubleSlitCheckBox doubleSlitCheckBox = new DoubleSlitCheckBox( "Double Slit", getDiscreteModel() );
-        addControl( doubleSlitCheckBox );
-        doubleSlitCheckBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                getSchrodingerPanel().setDoubleSlitControlPanelVisible( doubleSlitCheckBox.isSelected() );
-            }
-        } );
-        getSchrodingerPanel().setDoubleSlitControlPanelVisible( doubleSlitCheckBox.isSelected() );
-    }
+//    public void addSlitCheckbox() {
+//        final DoubleSlitCheckBox doubleSlitCheckBox = new DoubleSlitCheckBox( "Double Slit", getDiscreteModel(), getSchrodingerPanel() );
+//        addControl( doubleSlitCheckBox );
+////        getSchrodingerPanel().setDoubleSlitControlPanelVisible( doubleSlitCheckBox.isSelected() );
+//    }
 }
