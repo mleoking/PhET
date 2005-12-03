@@ -6,7 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- Configure dialog shows Total Energy with 3 decimal places, show be 1 decimal place
+- Configure dialog shows Total Energy with 3 decimal places, should be 1 decimal place
 - use an IntervalMarker with a gradient paint for Total Energy of wave packet
 - add "Restart" button to clock controls
 - add time display to lower left of PhetFrame
@@ -32,14 +32,10 @@ LOW PRIORITY:
 - add PhET logo to "About" dialog
 - translate Yes/No/Cancel on JOptionPane.showConfirmMessage
 
-
-NEW FEATURES:
-
-
 OPTIMIZATIONS:
+- disable chart gridlines to improve drag handle responsiveness
 - flatten static elements
 - setIgnoreMouse
-
 
 CLEANUP:
 - javadoc all code
@@ -50,7 +46,6 @@ CLEANUP:
 - save all images using Photoshop's "Save for Web" feature
 - fix all javadoc warnings and errors
 
-
 PHETCOMMON:
 - create a piccolo version of HelpManager
 - factor an interface out of Module and PiccoloModule
@@ -59,9 +54,14 @@ PHETCOMMON:
 
 JFREECHART:
 - CombinedDomainXYPlot.addDomainMarker doesn't do anything
+- ChartRenderingInfo.setDataArea and getArea are obsolete
 - XYTextAnnotation doesn't support HTML
 
+
 DONE:
+(12/3/05) - add tick mark/label color to QTConstants
+(12/3/05) - make all axes show integer tick marks
+(12/3/05) - hide vertical gridlines on all graphs
 0.0.1 ...
 (12/2/05) - add Options>ShowValues
 (12/2/05) - add stubs for File>Save and File>Load

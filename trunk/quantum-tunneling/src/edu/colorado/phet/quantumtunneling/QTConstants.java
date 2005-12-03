@@ -84,6 +84,8 @@ public class QTConstants {
     public static final Color TRANSMITTED_WAVE_COLOR = Color.RED;
     public static final Color PROBABILITY_DENSITY_COLOR = Color.BLACK;
     public static final Color REGION_MARKER_COLOR = Color.BLACK;
+    public static final Color TICK_LABEL_COLOR = Color.BLACK;
+    public static final Color TICK_MARK_COLOR = Color.BLACK;
     
     //----------------------------------------------------------------------------
     // Cursors
@@ -126,9 +128,12 @@ public class QTConstants {
     public static final Range WAVE_FUNCTION_RANGE = new Range( -2, 2 );
     public static final Range PROBABILITY_DENSITY_RANGE = new Range( 0, 4 );
     
+    public static final boolean SHOW_VERTICAL_GRIDLINES = false;
+    public static final boolean SHOW_HORIZONTAL_GRIDLINES = true;
+    
     //----------------------------------------------------------------------------
     // Drag Handles
     //----------------------------------------------------------------------------
     
-    public static final boolean DRAG_HANDLES_SHOW_VALUES = true;
+    public static final boolean SHOW_ENERGY_VALUES = true;
 }
