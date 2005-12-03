@@ -84,6 +84,19 @@ public class RegionBoundaryDragHandle extends DragHandle implements Observer, Pr
         _potentialEnergy = potentialEnergy;
         _potentialEnergy.addObserver( this );
         updatePosition();
+        updateText();
+    }
+    
+    //----------------------------------------------------------------------------
+    // DragHandle implementation
+    //----------------------------------------------------------------------------
+    
+    public double getModelValue() {
+        double position = 0;
+        if ( _potentialEnergy != null ) {
+            position = _potentialEnergy.getEnd( _regionIndex );
+        }
+        return position;
     }
     
     //----------------------------------------------------------------------------
@@ -99,6 +112,7 @@ public class RegionBoundaryDragHandle extends DragHandle implements Observer, Pr
         if ( event.getSource() == this ) {
             if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) ) {
                 updatePotentialEnergy();
+                updateText();
             }
         }
     }
@@ -193,6 +207,7 @@ public class RegionBoundaryDragHandle extends DragHandle implements Observer, Pr
     public void update( Observable o, Object arg ) {
         if ( o == _potentialEnergy ) {
             updateDragBounds();
+            updateText();
         }
     }
 }

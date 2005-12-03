@@ -86,6 +86,7 @@ public class TotalEnergyDragHandle extends DragHandle implements Observer, Prope
         _totalEnergy = totalEnergy;
         _totalEnergy.addObserver( this );
         updatePosition();
+        updateText();
     }
     
     /**
@@ -141,6 +142,18 @@ public class TotalEnergyDragHandle extends DragHandle implements Observer, Prope
     }
 
     //----------------------------------------------------------------------------
+    // DragHandle implementation
+    //----------------------------------------------------------------------------
+    
+    public double getModelValue() {
+        double energy = 0;
+        if ( _totalEnergy != null ) {
+            energy = _totalEnergy.getEnergy();
+        }
+        return energy;
+    }
+    
+    //----------------------------------------------------------------------------
     // PropertChangeListener implementation
     //----------------------------------------------------------------------------
     
@@ -153,6 +166,7 @@ public class TotalEnergyDragHandle extends DragHandle implements Observer, Prope
         if ( event.getSource() == this ) {
             if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) ) {
                 updateTotalEnergy();
+                updateText();
             }
         }
     }
@@ -170,6 +184,7 @@ public class TotalEnergyDragHandle extends DragHandle implements Observer, Prope
     public void update( Observable o, Object arg ) {
         if ( o == _totalEnergy ) {
             updatePosition();
+            updateText();
         }
     }
 }

@@ -256,7 +256,7 @@ public class ConstrainedDragHandler extends PBasicInputEventHandler {
         
         Point2D mousePosition = event.getPosition();
         PNode node = event.getPickedNode();
-        Rectangle2D nodeBounds = node.getGlobalFullBounds();
+        Rectangle2D nodeBounds = getNodeBounds( node );
         
         // Determine where we pressed relative to the node's upper left corner.
         double x = mousePosition.getX() - nodeBounds.getX();
@@ -291,7 +291,7 @@ public class ConstrainedDragHandler extends PBasicInputEventHandler {
             
         Point2D mousePosition = event.getPosition();
         PNode node = event.getPickedNode();
-        Rectangle2D nodeBounds = node.getGlobalFullBounds();
+        Rectangle2D nodeBounds = getNodeBounds( node );
 
         /*
          * Adjust the mouse location to account for where we clicked 
@@ -352,7 +352,7 @@ public class ConstrainedDragHandler extends PBasicInputEventHandler {
         
         Point2D mousePosition = event.getPosition();
         PNode node = event.getPickedNode();
-        Rectangle2D nodeBounds = node.getGlobalFullBounds();
+        Rectangle2D nodeBounds = getNodeBounds( node );
         
         /*
          * Adjust the mouse location to account for where we clicked 
@@ -402,5 +402,12 @@ public class ConstrainedDragHandler extends PBasicInputEventHandler {
         if ( dx != 0 || dy != 0 ) {
             node.translate( dx, dy );
         }
+    }
+    
+    /*
+     * Use the same bounds everywhere.
+     */
+    private Rectangle2D getNodeBounds( PNode node ) {
+        return node.getGlobalBounds();
     }
 }
