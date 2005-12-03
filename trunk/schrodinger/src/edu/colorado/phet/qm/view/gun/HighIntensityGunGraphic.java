@@ -4,6 +4,7 @@ package edu.colorado.phet.qm.view.gun;
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.components.ModelSlider;
+import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
 import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
@@ -34,8 +35,9 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic {
     private HighIntensityBeam currentBeam;
     private Photon photon;
     private static final double MAX_INTENSITY_READOUT = 40;
-    private PSwing intensityGraphic;
-    private PSwing onCheckboxGraphic;
+    protected final PSwing gunControlPSwing;
+//    private PSwing intensityGraphic;
+//    private PSwing onCheckboxGraphic;
 
     public HighIntensityGunGraphic( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
@@ -52,35 +54,45 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic {
                 updateIntensity();
             }
         } );
-        intensityGraphic = new PSwing( schrodingerPanel, intensitySlider );
-        onCheckboxGraphic = new PSwing( schrodingerPanel, alwaysOnCheckBox );
+//        intensityGraphic = new PSwing( schrodingerPanel, intensitySlider );
+//        onCheckboxGraphic = new PSwing( schrodingerPanel, alwaysOnCheckBox );
 
-        addChild( onCheckboxGraphic );
-        addChild( intensityGraphic );
-
-        //todo piccolo
-//        final WiggleMe wiggleMe = new WiggleMe( getSchrodingerPanel(), getSchrodingerPanel().getSchrodingerModule().getModel(), "Increase the Intensity", intensityGraphic );
-//        schrodingerPanel.addWorldChild( wiggleMe, Double.POSITIVE_INFINITY );
-//        getSchrodingerPanel().addMouseListener( new MouseAdapter() {
-//            public void mousePressed( MouseEvent e ) {
-//                wiggleMe.setVisible( false );
-//            }
-//        } );
-
-
+//        addChild( onCheckboxGraphic );
+//        addChild( intensityGraphic );
         schrodingerPanel.getSchrodingerModule().getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 stepBeam();
             }
         } );
+
+        JPanel gunControlPanel = createGunControlPanel();
+        gunControlPSwing = new PSwing( schrodingerPanel, gunControlPanel );
+        addChild( gunControlPSwing );
+
         setupObject( beams[0] );
         setOn( true );
     }
 
+    private JPanel createGunControlPanel() {
+        JPanel gunControlPanel = new VerticalLayoutPanel();
+        gunControlPanel.setBorder( BorderFactory.createTitledBorder( "Gun" ) );
+        gunControlPanel.add( intensitySlider );
+        gunControlPanel.add( alwaysOnCheckBox );
+        return gunControlPanel;
+    }
+
     protected void layoutChildren() {
         super.layoutChildren();
-        intensityGraphic.setOffset( getGunImageGraphic().getFullBounds().getWidth() + 2 + getFireButtonInsetDX(), 0 + getControlOffsetY() );
-        onCheckboxGraphic.setOffset( intensityGraphic.getFullBounds().getX() + intensityGraphic.getFullBounds().getWidth() / 2 - onCheckboxGraphic.getFullBounds().getWidth() / 2, intensityGraphic.getFullBounds().getMaxY() + 4 );
+        double layoutX = getRelLayoutX();
+        gunControlPSwing.setOffset( layoutX, getControlOffsetY() );
+        getComboBoxGraphic().setOffset( gunControlPSwing.getFullBounds().getMaxX(), gunControlPSwing.getFullBounds().getY() );
+        if( getGunControls() != null ) {
+            getGunControls().setOffset( getComboBoxGraphic().getFullBounds().getX(), getComboBoxGraphic().getFullBounds().getMaxY() );
+        }
+    }
+
+    protected double getRelLayoutX() {
+        return getGunImageGraphic().getFullBounds().getWidth() - 40;
     }
 
     protected Point getGunLocation() {
@@ -90,7 +102,6 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic {
         else {
             return new Point();
         }
-
     }
 
     private void stepBeam() {

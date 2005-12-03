@@ -15,7 +15,7 @@ import java.awt.*;
  * Copyright (c) Jul 8, 2005 by Sam Reid
  */
 public class Electron extends GunParticle {
-    private PNode graphic;
+    private PNode velocityControlPSwing;
     private JSlider velocity;
     private double electronMass = 1.0;
 
@@ -23,19 +23,20 @@ public class Electron extends GunParticle {
         super( abstractGunGraphic, label, imageLocation );
         velocity = new JSlider( JSlider.HORIZONTAL, 0, 1000, 1000 / 2 );
         velocity.setBorder( BorderFactory.createTitledBorder( "Velocity" ) );
-        graphic = new PSwing( abstractGunGraphic.getSchrodingerPanel(), velocity );
+        velocityControlPSwing = new PSwing( abstractGunGraphic.getSchrodingerPanel(), velocity );
     }
 
     public void setup( AbstractGunGraphic abstractGunGraphic ) {
         abstractGunGraphic.getSchrodingerModule().getDiscreteModel().setPropagatorModifiedRichardson();
-
-        abstractGunGraphic.addChild( graphic );
-        graphic.setOffset( -graphic.getWidth() - 2, abstractGunGraphic.getComboBox().getHeight() + 2 + abstractGunGraphic.getControlOffsetY() );
+        abstractGunGraphic.setGunControls( velocityControlPSwing );
+//        abstractGunGraphic.addChild( velocityControlPSwing );
+//        velocityControlPSwing.setOffset( -velocityControlPSwing.getWidth() - 2, abstractGunGraphic.getComboBox().getHeight() + 2 + abstractGunGraphic.getControlOffsetY() );
     }
 
 
     public void deactivate( AbstractGunGraphic abstractGunGraphic ) {
-        abstractGunGraphic.removeChild( graphic );
+        abstractGunGraphic.removeGunControls();
+//        abstractGunGraphic.removeChild( velocityControlPSwing );
     }
 
     public double getStartPy() {

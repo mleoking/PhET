@@ -33,6 +33,7 @@ public abstract class AbstractGunGraphic extends PNode {
     private PSwing comboBoxGraphic;
     public static final int GUN_PARTICLE_OFFSET = 35;
     protected final String GUN_RESOURCE = "images/raygun3-centerbarrel.gif";
+    private PNode gunControls;
 
     public AbstractGunGraphic( final SchrodingerPanel schrodingerPanel ) {
         this.schrodingerPanel = schrodingerPanel;
@@ -55,7 +56,7 @@ public abstract class AbstractGunGraphic extends PNode {
 
     protected void layoutChildren() {
         super.layoutChildren();
-        comboBoxGraphic.setOffset( -100, 50 );
+        comboBoxGraphic.setOffset( 0, -comboBoxGraphic.getFullBounds().getHeight() );
     }
 
     protected void updateGunLocation() {
@@ -118,6 +119,23 @@ public abstract class AbstractGunGraphic extends PNode {
 
     public PSwingCanvas getComponent() {
         return schrodingerPanel;
+    }
+
+    public void setGunControls( PNode gunControls ) {
+        this.gunControls = gunControls;
+        addChild( gunControls );
+        layoutChildren();
+    }
+
+    public PNode getGunControls() {
+        return gunControls;
+    }
+
+    public void removeGunControls() {
+        if( gunControls != null ) {
+            removeChild( gunControls );
+            gunControls = null;
+        }
     }
 
     public static interface MomentumChangeListener {

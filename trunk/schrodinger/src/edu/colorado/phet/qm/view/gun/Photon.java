@@ -28,14 +28,15 @@ public class Photon extends GunParticle {
     public void setup( AbstractGunGraphic abstractGunGraphic ) {
         getGunGraphic().getSchrodingerPanel().setDisplayPhotonColor( this );
         abstractGunGraphic.getSchrodingerModule().getDiscreteModel().setPropagatorClassical();
-        abstractGunGraphic.addChild( wavelengthSliderGraphic );
-        wavelengthSliderGraphic.setOffset( -wavelengthSliderGraphic.getFullBounds().getWidth() - 2,
-                                           abstractGunGraphic.getControlOffsetY() + abstractGunGraphic.getComboBox().getPreferredSize().height + 2 + 20 );
+//        abstractGunGraphic.setGunTypeControl(wavelengthSliderGraphic);
+        abstractGunGraphic.setGunControls( wavelengthSliderGraphic );
+//        wavelengthSliderGraphic.setOffset( -wavelengthSliderGraphic.getFullBounds().getWidth() - 2,
+//                                           abstractGunGraphic.getControlOffsetY() + abstractGunGraphic.getComboBox().getPreferredSize().height + 2 + 20 );
     }
 
     public void deactivate( AbstractGunGraphic abstractGunGraphic ) {
-        abstractGunGraphic.removeChild( wavelengthSliderGraphic );
-//        abstractGun.getSchrodingerModule().getSchrodingerPanel().setDisplayPhotonColor(null);
+        abstractGunGraphic.removeGunControls();
+//        abstractGunGraphic.removeChild( wavelengthSliderGraphic );
     }
 
     public void fireParticle() {
@@ -56,9 +57,8 @@ public class Photon extends GunParticle {
 
     public double getStartPy() {
         double wavelengthValue = getWavelength();
-        double momentum = -hbar * 2 * Math.PI / wavelengthValue;
 //            System.out.println( "wavelengthValue = " + wavelengthValue + ", momentum=" + momentum );
-        return momentum;
+        return -hbar * 2 * Math.PI / wavelengthValue;
     }
 
     public double getWavelengthNM() {
@@ -67,10 +67,9 @@ public class Photon extends GunParticle {
 
     private double getWavelength() {
         double val = wavelengthSliderGraphic.getWavelength();
-        double wavelengthValue = new Function.LinearFunction( VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH,
-                                                              minWavelength, maxWavelength ).evaluate( val );
 //                                                              8, 45).evaluate( val );
-        return wavelengthValue;
+        return new Function.LinearFunction( VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH,
+                                            minWavelength, maxWavelength ).evaluate( val );
     }
 
     protected void detachListener( ChangeHandler changeHandler ) {
