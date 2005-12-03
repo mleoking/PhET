@@ -63,6 +63,7 @@ JFREECHART:
 - XYTextAnnotation doesn't support HTML
 
 DONE:
+(12/2/05) - add stubs for File>Save and File>Load
 (12/2/05) - optionally show values on drag handles
 (12/2/05) - create RegionBoundaryDragHandle for setting region boundaries, incorporate into PotentialEnergyControls
 (12/2/05) - fix AbstractPotentialSpace interface so that regions can never be directly accessed
