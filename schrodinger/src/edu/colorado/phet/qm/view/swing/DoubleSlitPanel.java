@@ -15,6 +15,8 @@ import edu.colorado.phet.qm.modules.intensity.IntensityModule;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * User: Sam Reid
@@ -104,6 +106,14 @@ public class DoubleSlitPanel extends VerticalLayoutPanel {
                 return 100;
             }
         } );
+
+        final JCheckBox absorbtiveSlit = new JCheckBox( "Slit Absorption", getDiscreteModel().isSlitAbsorptive() );
+        absorbtiveSlit.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                getDiscreteModel().setSlitAbsorptive( absorbtiveSlit.isSelected() );
+            }
+        } );
+        add( absorbtiveSlit );
 
 
         add( slitSize );

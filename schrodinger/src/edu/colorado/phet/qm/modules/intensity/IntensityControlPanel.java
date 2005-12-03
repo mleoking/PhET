@@ -31,7 +31,7 @@ public class IntensityControlPanel extends SchrodingerControlPanel {
 //            }
 //        } );
         super.addSlitCheckbox();
-        super.addSlitAbsorptionCheckbox();
+//        addControl( getSlitAbsorptionCheckbox() );
         super.addResetButton();
 //        addControl( fading );
     }

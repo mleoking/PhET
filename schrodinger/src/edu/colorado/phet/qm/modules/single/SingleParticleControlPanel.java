@@ -52,7 +52,7 @@ public class SingleParticleControlPanel extends SchrodingerControlPanel {
         addControlFullWidth( colorPanel );
 
         super.addSlitCheckbox();
-        super.addSlitAbsorptionCheckbox();
+//        addControl( getSlitAbsorptionCheckbox() );
         super.addResetButton();
     }
 
