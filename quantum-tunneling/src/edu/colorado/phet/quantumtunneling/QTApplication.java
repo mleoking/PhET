@@ -45,6 +45,8 @@ public class QTApplication extends PhetApplication {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private QTModule _module;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -79,9 +81,9 @@ public class QTApplication extends PhetApplication {
      * @param clock
      */
     private void initModules( AbstractClock clock ) {
-        QTModule module = new QTModule( clock );
-        setModules( new Module[] { module } );
-        setInitialModule( module );
+        _module = new QTModule( clock );
+        setModules( new Module[] { _module } );
+        setInitialModule( _module );
     }
     
     //----------------------------------------------------------------------------
@@ -117,6 +119,10 @@ public class QTApplication extends PhetApplication {
             frame.addFileMenuItem( loadItem );
             frame.addFileMenuSeparator();
         }
+        
+        // Options menu
+        OptionsMenu optionsMenu = new OptionsMenu( _module );
+        getPhetFrame().addMenu( optionsMenu );
         
         // Debug menu extensions
         DebugMenu debugMenu = getPhetFrame().getDebugMenu();
