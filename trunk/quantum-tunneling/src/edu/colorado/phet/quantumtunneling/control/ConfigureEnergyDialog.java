@@ -138,7 +138,11 @@ public class ConfigureEnergyDialog extends JDialog {
         
         setLocationRelativeTo( parent );
         
-        _teChanged = _peChanged = false; // do this after creating the UI!
+        // do this after creating the UI!
+        {
+            _teChanged = _peChanged = false;
+            _applyButton.setEnabled( false ); // disabled until something is changed
+        }
     }
 
     /**
@@ -464,9 +468,9 @@ public class ConfigureEnergyDialog extends JDialog {
     }
     
     /*
-     * Rebuilds the user interface when the type of potential changes.
+     * Rebuilds the input panel when the type of potential changes.
      */
-    private void rebuildUI() {
+    private void rebuildInputPanel() {
         boolean visible = isVisible();
         if ( visible ) {
             setVisible( false );
@@ -603,6 +607,7 @@ public class ConfigureEnergyDialog extends JDialog {
             _module.setPotentialEnergy( clonePotentialEnergy( _potentialEnergy ) ); 
             _peChanged = false;
         }
+        _applyButton.setEnabled( false );
     }
 
     /*
@@ -655,7 +660,8 @@ public class ConfigureEnergyDialog extends JDialog {
         if ( potentialEnergy != _potentialEnergy ) {
             _potentialEnergy = potentialEnergy;
             _peChanged = true;
-            rebuildUI();
+            _applyButton.setEnabled( true );
+            rebuildInputPanel();
         }
     }
     
@@ -668,6 +674,7 @@ public class ConfigureEnergyDialog extends JDialog {
         if ( energy >= MIN_ENERGY && energy <= MAX_ENERGY ) {
             _totalEnergy.setEnergy( energy );
             _teChanged = true;
+            _applyButton.setEnabled( true );
         }
         else {
             warnInvalidInput();
@@ -687,6 +694,7 @@ public class ConfigureEnergyDialog extends JDialog {
             _potentialEnergy.setEnergy( regionIndex, value.doubleValue() );
             updateMarkersAndAnnotations();
             _peChanged = true;
+            _applyButton.setEnabled( true );
         }
         else {
             warnInvalidInput();
@@ -707,6 +715,7 @@ public class ConfigureEnergyDialog extends JDialog {
             if ( success ) {
                 updateMarkersAndAnnotations();
                 _peChanged = true;
+                _applyButton.setEnabled( true );
             }
             else {
                 warnInvalidInput();
@@ -729,6 +738,7 @@ public class ConfigureEnergyDialog extends JDialog {
             if ( success ) {
                 updateMarkersAndAnnotations();
                 _peChanged = true;
+                _applyButton.setEnabled( true );
             }
             else {
                 warnInvalidInput();
@@ -751,6 +761,7 @@ public class ConfigureEnergyDialog extends JDialog {
             if ( success ) {
                 updateMarkersAndAnnotations();
                 _peChanged = true;
+                _applyButton.setEnabled( true );
             }
             else {
                 warnInvalidInput();
