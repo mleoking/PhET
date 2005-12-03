@@ -55,7 +55,7 @@ public class QTCombinedChart extends JFreeChart implements Observer {
      */
     public static final int ENERGY_PLOT_INDEX = 0;
     public static final int WAVE_FUNCTION_PLOT_INDEX = 1;
-    public static final int PROBABILIT_DENSITY_PLOT_INDEX = 2;
+    public static final int PROBABILITY_DENSITY_PLOT_INDEX = 2;
         
     private static final boolean CREATE_LEGEND = false;
     private static final double CHART_SPACING = 15.0;
