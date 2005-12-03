@@ -13,28 +13,7 @@ import edu.colorado.phet.qm.controls.SchrodingerControlPanel;
 public class IntensityControlPanel extends SchrodingerControlPanel {
     public IntensityControlPanel( final IntensityModule intensityModule ) {
         super( intensityModule );
-//        SlitControlPanel slitControlPanel = new SlitControlPanel( intensityModule );
-//        addControl( slitControlPanel );
-//
-//        final JCheckBox smoothCCD = new JCheckBox( "Smooth Screen Display", intensityModule.getIntensityPanel().isSmoothScreen() );
-//        smoothCCD.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                intensityModule.getIntensityPanel().setSmoothScreen( smoothCCD.isSelected() );
-//            }
-//        } );
-//        addControl( smoothCCD );
-
-//        final JCheckBox fading = new JCheckBox( "Fade Smooth Screen", intensityModule.getIntensityPanel().getSmoothIntensityDisplay().isFadeEnabled() );
-//        fading.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                intensityModule.getIntensityPanel().getSmoothIntensityDisplay().setFadeEnabled( fading.isSelected() );
-//            }
-//        } );
         super.addSlitCheckbox();
-//        addControl( getSlitAbsorptionCheckbox() );
         super.addResetButton();
-//        addControl( fading );
     }
-
-
 }

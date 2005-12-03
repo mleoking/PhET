@@ -66,10 +66,9 @@ public class DiscreteModel implements ModelElement {
         addListener( detectorSet.getListener() );
 
         damping = new Damping();
-//        addListener( damping );
-
         doubleSlitPotential = createDoubleSlit();
         measurementScale = new MeasurementScale( getGridWidth(), 1.0 );
+
     }
 
     public MeasurementScale getMeasurementScale() {
