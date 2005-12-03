@@ -48,7 +48,7 @@ public class SingleParticleControlPanel extends SchrodingerControlPanel {
         VerticalLayoutPanel colorPanel = createVisualizationPanel();
         addControlFullWidth( colorPanel );
 
-        super.addSlitCheckbox();
+//        super.addSlitCheckbox();
         super.addResetButton();
     }
 

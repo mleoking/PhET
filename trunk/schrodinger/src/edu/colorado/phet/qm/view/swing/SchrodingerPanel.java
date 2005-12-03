@@ -11,6 +11,7 @@ import edu.colorado.phet.qm.phetcommon.RulerGraphic;
 import edu.colorado.phet.qm.view.gun.AbstractGunGraphic;
 import edu.colorado.phet.qm.view.gun.Photon;
 import edu.colorado.phet.qm.view.piccolo.*;
+import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -49,6 +50,7 @@ public class SchrodingerPanel extends PhetPCanvas {
         getPhetRootNode().setScreenNode( schrodingerScreenNode );
 //        setZoomEventHandler( new PZoomEventHandler() );
         setBackground( new Color( 170, 210, 255 ) );
+        setDoubleSlitControlPanelVisible( false );
     }
 
     private void setRenderingSize( int width, int height ) {
@@ -61,6 +63,10 @@ public class SchrodingerPanel extends PhetPCanvas {
 
     public PSwing getDoubleSlitPanelGraphic() {
         return schrodingerScreenNode.getDoubleSlitPanelGraphic();
+    }
+
+    private PNode getDoubleSlitPanelButton() {
+        return schrodingerScreenNode.getDoubleSlitPanelButton();
     }
 
     protected void updateScreen() {
@@ -180,5 +186,10 @@ public class SchrodingerPanel extends PhetPCanvas {
         getDoubleSlitPanelGraphic().setVisible( selected );
         getDoubleSlitPanelGraphic().setChildrenPickable( selected );
         getDoubleSlitPanelGraphic().setPickable( selected );
+//        getDoubleSlitPanelButton().setVisible( !selected );
+//        getDoubleSlitPanelButton().setChildrenPickable( !selected );
+//        getDoubleSlitPanelButton().setPickable( !selected );
     }
+
+
 }

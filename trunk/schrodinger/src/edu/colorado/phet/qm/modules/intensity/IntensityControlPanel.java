@@ -13,7 +13,7 @@ import edu.colorado.phet.qm.controls.SchrodingerControlPanel;
 public class IntensityControlPanel extends SchrodingerControlPanel {
     public IntensityControlPanel( final IntensityModule intensityModule ) {
         super( intensityModule );
-        super.addSlitCheckbox();
+//        super.addSlitCheckbox();
         super.addResetButton();
     }
 }
