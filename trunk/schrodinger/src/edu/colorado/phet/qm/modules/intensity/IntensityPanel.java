@@ -35,35 +35,9 @@ public class IntensityPanel extends SchrodingerPanel {
         setNormalGraphics();
         smoothIntensityDisplay = new SmoothIntensityDisplay( getIntensityDisplay() );
         setSmoothScreen( SMOOTH_SCREEN_DEFAULT );
-
-//        getDoubleSlitPanel().addDoubleSlitCheckBoxListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                setControlsEnabled( getDoubleSlitPanel().isDoubleSlitEnabled() );
-//            }
-//        } );
-
-
         splitColorMap = new SplitColorMap( intensityModule.getSplitModel(), this );//this.intensityModule.getSplitModel() );
-//        setControlsEnabled( getDoubleSlitPanel().isDoubleSlitEnabled() );
         setDisplayPhotonColor( super.getDisplayPhotonColor() );
         getIntensityDisplay().getDetectorSheet().getDetectorSheetPanel().setBrightness();
-
-    }
-
-//    public IntensityScreenNode getIntensityScreenNode() {
-//        return (IntensityScreenNode)super.getScreenNode();
-//    }
-
-//    protected SchrodingerScreenNode createScreenNode( SchrodingerModule module ) {
-//        return new IntensityScreenNode( module, this );
-//    }
-
-//    public PSwing getSlitControlGraphic() {
-//        return getIntensityScreenNode().getSlitControlGraphic();
-//    }
-
-    private void setControlsEnabled( boolean doubleSlitEnabled ) {
-        getSlitDetectorPanel().setEnabled( doubleSlitEnabled );
     }
 
     protected HighIntensityGunGraphic createGun() {
