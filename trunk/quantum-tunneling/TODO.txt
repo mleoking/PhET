@@ -6,6 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- loop button should be disabled for plane wave
 - use a wide stroke with gradient paint for Total Energy of wave packet
 
 MEDIUM PRIORITY:
@@ -30,6 +31,7 @@ LOW PRIORITY:
 
 OPTIMIZATIONS:
 - disable chart gridlines to improve drag handle responsiveness
+- draw chart backgrounds into an image using JFreeChart, the render dynamic stuff using JFreeChart with no decorations
 - flatten static elements
 - setIgnoreMouse
 
