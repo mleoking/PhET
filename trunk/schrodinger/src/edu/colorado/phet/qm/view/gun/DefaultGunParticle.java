@@ -70,7 +70,9 @@ public class DefaultGunParticle extends GunParticle {
             return mass;
         }
         else {
-            return new Function.LinearFunction( 0, 1000, 0, 1 ).evaluate( massSlider.getValue() );
+            double mass = new Function.LinearFunction( 0, 1000, 0, 2.5 ).evaluate( massSlider.getValue() );
+            System.out.println( "mass = " + mass );
+            return mass;
         }
     }
 
@@ -88,5 +90,21 @@ public class DefaultGunParticle extends GunParticle {
         Point p = super.getGunLocation();
         p.y -= AbstractGunGraphic.GUN_PARTICLE_OFFSET;
         return p;
+    }
+
+    public static DefaultGunParticle createElectron( AbstractGunGraphic gun ) {
+        return new DefaultGunParticle( gun, "Electrons", "images/electron-thumb.jpg", 0.2 );
+    }
+
+    public static DefaultGunParticle createHelium( AbstractGunGraphic gun ) {
+        return new DefaultGunParticle( gun, "Helium Atoms", "images/atom-thumb.jpg", 2.25 );
+    }
+
+    public static DefaultGunParticle createNeutron( AbstractGunGraphic gun ) {
+        return new DefaultGunParticle( gun, "Neutrons", "images/neutron-thumb.gif", 2.0 );
+    }
+
+    public static DefaultGunParticle createCustomAtom( AbstractGunGraphic gun ) {
+        return new DefaultGunParticle( gun, "Custom Atoms", "images/atom-thumb.jpg" );
     }
 }

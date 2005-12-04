@@ -202,8 +202,12 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
 
         gunItems = new GunParticle[]{
                 photonBeamParticle,
-                new DefaultGunParticle( this, "Electrons", "images/electron-thumb.jpg", 1.0 ),
-                new DefaultGunParticle( this, "Atoms", "images/atom-thumb.jpg" )};
+                DefaultGunParticle.createElectron( this ),
+                DefaultGunParticle.createNeutron( this ),
+                DefaultGunParticle.createHelium( this ),
+                DefaultGunParticle.createCustomAtom( this )};
+//                new DefaultGunParticle( this, "Electrons", "images/electron-thumb.jpg", 1.0 ),
+//                new DefaultGunParticle( this, "Atoms", "images/atom-thumb.jpg" )};
 
         final ImagePComboBox imageComboBox = new ImagePComboBox( gunItems );
         imageComboBox.setBorder( BorderFactory.createTitledBorder( "Gun Type" ) );
