@@ -3,7 +3,11 @@ package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.qm.SchrodingerModule;
-import edu.colorado.phet.qm.model.*;
+import edu.colorado.phet.qm.model.Complex;
+import edu.colorado.phet.qm.model.DiscreteModel;
+import edu.colorado.phet.qm.model.WaveSetup;
+import edu.colorado.phet.qm.model.Wavefunction;
+import edu.colorado.phet.qm.model.waves.GaussianWave2D;
 import edu.colorado.phet.qm.phetcommon.ImageComboBox;
 
 import javax.swing.event.ChangeEvent;

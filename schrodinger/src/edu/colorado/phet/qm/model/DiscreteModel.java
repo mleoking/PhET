@@ -7,6 +7,7 @@ import edu.colorado.phet.qm.model.potentials.ConstantPotential;
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
 import edu.colorado.phet.qm.model.propagators.ClassicalWavePropagator;
 import edu.colorado.phet.qm.model.propagators.ModifiedRichardsonPropagator;
+import edu.colorado.phet.qm.model.waves.ZeroWave;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -68,7 +69,6 @@ public class DiscreteModel implements ModelElement {
         damping = new Damping();
         doubleSlitPotential = createDoubleSlit();
         measurementScale = new MeasurementScale( getGridWidth(), 1.0 );
-
     }
 
     public MeasurementScale getMeasurementScale() {

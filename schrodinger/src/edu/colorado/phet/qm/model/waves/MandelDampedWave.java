@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.modules.mandel;
+package edu.colorado.phet.qm.model.waves;
 
 import edu.colorado.phet.qm.model.Complex;
 import edu.colorado.phet.qm.model.Wave;

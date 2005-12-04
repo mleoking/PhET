@@ -75,8 +75,7 @@ public class WaveSplitStrategy {
 
     protected Rectangle getLRWaveSouthClearArea() {
         int topYClear = (int)getDoubleSlitPotential().getSlitAreas()[0].getMaxY();
-        Rectangle rectangle = new Rectangle( 0, topYClear, getLeftWavefunction().getWidth(), getLeftWavefunction().getHeight() );
-        return rectangle;
+        return new Rectangle( 0, topYClear, getLeftWavefunction().getWidth(), getLeftWavefunction().getHeight() );
     }
 
     protected Wavefunction getLeftWavefunction() {
@@ -90,8 +89,7 @@ public class WaveSplitStrategy {
     }
 
     protected int getTopYClear() {
-        int topYClear = (int)getDoubleSlitPotential().getSlitAreas()[0].getMinY();
-        return topYClear;
+        return (int)getDoubleSlitPotential().getSlitAreas()[0].getMinY();
     }
 
     protected Wavefunction getWavefunction() {
