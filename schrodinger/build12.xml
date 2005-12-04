@@ -33,21 +33,21 @@
     </target>
 
     <target name="Clean"
-        description="clean up">
+            description="clean up">
         <delete dir="${ant.classes}"/>
         <delete dir="${ant.jars}"/>
     </target>
 
     <target name="Compile" depends="init, Clean"
-        description="compile the source ">
+            description="compile the source ">
         <mkdir dir="${ant.classes}"/>
         <javac srcdir="${src}:
         piccolo/src:
-        piccolo/phet-src:
+        piccolo-phet/src:
         piccolo/extras:
         phetcommon/src"
-            excludes="edu/umd/cs/piccolox/swt/*.java"
-            destdir="${ant.classes}"/>
+               excludes="edu/umd/cs/piccolox/swt/*.java"
+               destdir="${ant.classes}"/>
         <!--    Uncomment the following line to add test classes to the output jar.    -->
         <!--        <javac srcdir="${tests-src}" destdir="${classes}"/>-->
     </target>
@@ -61,7 +61,7 @@
     </target>
 
     <target name="Generate Jar" depends="Compile"
-        description="generate the distribution">
+            description="generate the distribution">
         <!-- Create the distribution directory -->
         <delete dir="${ant.jars}"/>
         <mkdir dir="${ant.jars}"/>
@@ -79,7 +79,7 @@
     </target>
 
     <target name="Publish Executables" depends="Generate Jar"
-        description="generate executables, jar files, lib files, a batchfile">
+            description="generate executables, jar files, lib files, a batchfile">
         <mkdir dir="${releases}"/>
         <property file="${build.number.txt}"/>
         <property name="destdir" value="${releases}\${distname}${version}_exec-build-${build.number}"/>
