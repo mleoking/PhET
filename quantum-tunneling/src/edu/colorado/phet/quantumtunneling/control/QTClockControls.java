@@ -26,12 +26,17 @@ import edu.colorado.phet.quantumtunneling.QTConstants;
 
 
 /**
- * QTClockControls
+ * QTClockControls is a custom clock control panel.
+ * In addition to a couple of new buttons, it has a time display.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class QTClockControls extends JPanel implements ClockStateListener, ClockTickListener {
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
     private AbstractClock _clock;
     
@@ -50,6 +55,15 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
     private double _timeScale;
     private boolean _loopEnabled;
 
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sole constructor.
+     * 
+     * @param clock
+     */
     public QTClockControls( AbstractClock clock ) {
         super();
         
@@ -84,16 +98,10 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
             clockIcon = new ImageIcon( ImageLoader.loadBufferedImage( QTConstants.IMAGE_CLOCK ) );
         }
         catch ( IOException e ) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
-        // Controls
-        _restartButton = new JButton( restartLabel, restartIcon );
-        _playButton = new JButton( playLabel, playIcon );
-        _pauseButton = new JButton( pauseLabel, pauseIcon );
-        _stepButton = new JButton( stepLabel, stepIcon );
-        _loopButton = new JToggleButton( loopLabel, _loopOffIcon );
+        // Time display
         JLabel clockLabel = new JLabel( clockIcon );
         _timeTextField = new JTextField( "0000000000");
         _timeTextField.setPreferredSize( _timeTextField.getPreferredSize() );
@@ -101,6 +109,13 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
         _timeTextField.setEditable( false );
         _timeTextField.setHorizontalAlignment( JTextField.RIGHT );
         _timeUnitsLabel = new JLabel( timeUnitsLabel );
+        
+        // Clock control buttons
+        _restartButton = new JButton( restartLabel, restartIcon );
+        _playButton = new JButton( playLabel, playIcon );
+        _pauseButton = new JButton( pauseLabel, pauseIcon );
+        _stepButton = new JButton( stepLabel, stepIcon );
+        _loopButton = new JToggleButton( loopLabel, _loopOffIcon );
         
         // Layout
         setLayout( new BorderLayout() );
@@ -140,7 +155,7 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
         } );
         _loopButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
-                handleLoop();
+                handleLoopToggled();
             }
         } );
         
@@ -151,6 +166,44 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
         updateButtonState();
     }
     
+    /**
+     * Call this method before releasing all references to this object.
+     */
+    public void cleanup() {
+        _clock.removeClockStateListener( this );
+        _clock.removeClockTickListener( this );
+        _clock = null;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Gets the clock associated with this control panel.
+     * 
+     * @return the clock
+     */
+    public AbstractClock getClock() {
+        return _clock;
+    }
+    
+    /**
+     * Gets the number of clock ticks since the last time the Restart
+     * button was pressed.
+     * 
+     * @return 
+     */
+    public double getTimeValue() {
+        return _timeValue;
+    }
+    
+    /**
+     * Sets the scaling factor used to display time.
+     * The time display normally displays clock ticks.
+     * 
+     * @param timeScale
+     */
     public void setTimeScale( double timeScale ) {
         if ( timeScale <= 0 ) {
             throw new IllegalArgumentException( "timeScale must be > 0: " + timeScale );
@@ -158,9 +211,55 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
         _timeScale = timeScale;
     }
     
-    public void setTimeUnits( String units ) {
-        _timeUnitsLabel.setText( units );
+    /**
+     * Gets the time scale.
+     * 
+     * @return
+     */
+    public double getTimeScale() {
+        return _timeScale;
     }
+    
+    /**
+     * Sets the time units label.
+     * 
+     * @param label
+     */
+    public void setTimeUnitsLabel( String label ) {
+        _timeUnitsLabel.setText( label );
+    }
+    
+    /**
+     * Turns looping on and off.
+     * 
+     * @param true or false
+     */
+    public void setLoopEnabled( boolean enabled ) {
+        _loopEnabled = !enabled;
+        handleLoopToggled();
+    }
+    
+    /**
+     * Is looping enabled?
+     *
+     * @return true or false
+     */
+    public boolean isLoopEnabled() {
+        return _loopEnabled;
+    }
+    
+    /**
+     * Shows or hides the loop button.
+     * 
+     * @param true or false
+     */
+    public void setLoopVisible( boolean visible ) {
+        _loopButton.setVisible( false );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Event handlers
+    //----------------------------------------------------------------------------
     
     private void handleRestart() {
         _timeValue = 0;
@@ -179,7 +278,7 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
         _clock.tickOnce();
     }
     
-    private void handleLoop() {
+    private void handleLoopToggled() {
         _loopEnabled = !_loopEnabled;
         if ( _loopEnabled ) {
             _loopButton.setIcon( _loopOnIcon );
@@ -189,6 +288,13 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
         } 
     }
    
+    //----------------------------------------------------------------------------
+    // Updaters
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Updates the state of the buttons to match the state of the clock.
+     */
     private void updateButtonState() {
         boolean isPaused = _clock.isPaused();
         _playButton.setEnabled( isPaused );
@@ -196,16 +302,37 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
         _stepButton.setEnabled( isPaused );
     }
     
+    /*
+     * Updates the time display.
+     */
     private void updateTimeDisplay() {
         int iValue = (int) ( _timeScale * _timeValue );
         String sValue = String.valueOf( iValue );
         _timeTextField.setText( sValue );
     }
     
+    //----------------------------------------------------------------------------
+    // ClockStateListener implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Updates the state of the buttons whenever the clock state changes.
+     * 
+     * @param event
+     */
     public void stateChanged( ClockStateEvent event ) {
         updateButtonState();
     }
 
+    //----------------------------------------------------------------------------
+    // ClockTickListener implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Updates the time display whenever the clock ticks.
+     * 
+     * @param event
+     */
     public void clockTicked( ClockTickEvent event ) {
         double dt = event.getDt();
         _timeValue += dt;
