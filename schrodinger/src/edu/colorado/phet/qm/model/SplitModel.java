@@ -164,7 +164,6 @@ public class SplitModel extends DiscreteModel {
         }
 
         public void step() {
-
             beforeTimeStep();
             getPropagator().propagate( getWavefunction() );
             //copy slit regions to left & right sides
@@ -180,8 +179,6 @@ public class SplitModel extends DiscreteModel {
             incrementTimeStep();
             finishedTimeStep();
         }
-
-
     }
 
     public static Wavefunction sumMagnitudes( Wavefunction leftRegion, Wavefunction rightRegion ) {

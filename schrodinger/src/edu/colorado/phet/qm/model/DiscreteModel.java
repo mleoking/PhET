@@ -43,6 +43,7 @@ public class DiscreteModel implements ModelElement {
 
     public static final int DEFAULT_WIDTH = 100;
     private boolean slitAbsorptive = true;
+    public final double DEFAULT_POTENTIAL_BARRIER_VALUE = Double.MAX_VALUE / 1000;
 
     public DiscreteModel() {
         this( DEFAULT_WIDTH, DEFAULT_WIDTH );
@@ -147,7 +148,6 @@ public class DiscreteModel implements ModelElement {
 
     private void copySourceToActual() {
         int maxy = getDoubleSlitPotential().getY() + getDoubleSlitPotential().getHeight();
-//        int maxy = getDoubleSlitPotential().getY();
         for( int y = maxy; y < sourceWave.getHeight(); y++ ) {
             for( int x = 0; x < sourceWave.getWidth(); x++ ) {
                 copySourceToActual( x, y );
@@ -171,11 +171,9 @@ public class DiscreteModel implements ModelElement {
     }
 
     private HorizontalDoubleSlit createDoubleSlit() {
-        double potentialValue = Double.MAX_VALUE / 1000;
-        double width = getGridWidth();
         return new HorizontalDoubleSlit( getGridWidth(),
                                          getGridHeight(),
-                                         (int)( getGridHeight() * 0.4 ), 3, (int)( 8 * width / 100.0 ), (int)( 13 * width / 100.0 ), potentialValue );
+                                         (int)( getGridHeight() * 0.4 ), 3, (int)( 8 * getGridWidth() / 100.0 ), (int)( 13 * getGridWidth() / 100.0 ), DEFAULT_POTENTIAL_BARRIER_VALUE );
     }
 
     protected void beforeTimeStep() {
@@ -430,11 +428,10 @@ public class DiscreteModel implements ModelElement {
 
     public void setWaveSize( int width, int height ) {
         setGridSpacing( width, height );
-        double potentialValue = Double.MAX_VALUE / 1000;
         doubleSlitPotential.reset( getGridWidth(), getGridHeight(),
                                    (int)( getGridHeight() * 0.4 ), 3,
                                    8, 14,
-                                   potentialValue );
+                                   DEFAULT_POTENTIAL_BARRIER_VALUE );
         clearWavefunction();
     }
 
