@@ -108,7 +108,6 @@ public class DiscreteModel implements ModelElement {
     }
 
     class ReflectivePropagate implements PropagationStrategy {
-
         public void step() {
             if( getWavefunction().getMagnitude() > 0 ) {
                 getPropagator().propagate( getWavefunction() );
@@ -123,7 +122,7 @@ public class DiscreteModel implements ModelElement {
             getWavefunction().setMagnitudeDirty();
             if( getWavefunction().getMagnitude() > 0 ) {
                 sourcePropagator.propagate( sourceWave );
-                copySourceToActual();
+                copySourceToActualSouthArea();
                 getPropagator().propagate( getWavefunction() );
 
                 getWavefunction().setMagnitudeDirty();
@@ -146,7 +145,7 @@ public class DiscreteModel implements ModelElement {
         }
     }
 
-    private void copySourceToActual() {
+    private void copySourceToActualSouthArea() {
         int maxy = getDoubleSlitPotential().getY() + getDoubleSlitPotential().getHeight();
         for( int y = maxy; y < sourceWave.getHeight(); y++ ) {
             for( int x = 0; x < sourceWave.getWidth(); x++ ) {
