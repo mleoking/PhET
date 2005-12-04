@@ -3,6 +3,8 @@ package edu.colorado.phet.qm.model;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.model.waves.FlatDampedWave;
+import edu.colorado.phet.qm.model.waves.PlaneWave;
 import edu.colorado.phet.qm.util.QMLogger;
 
 import java.awt.*;
@@ -26,6 +28,7 @@ public class PhotonWave {
     private double intensityScale = 0.75;
     private int waveSourceHeight = 2;
     private ModelElement phaseUpdate;
+    private DiscreteModel.Adapter waveSourceBoundaryConditionSetter;
 
     public PhotonWave( SchrodingerModule module, DiscreteModel discreteModel ) {
         this.module = module;
@@ -34,6 +37,11 @@ public class PhotonWave {
         phaseUpdate = new ModelElement() {
             public void stepInTime( double dt ) {
                 updatePhase();
+            }
+        };
+        waveSourceBoundaryConditionSetter = new DiscreteModel.Adapter() {
+            public void beforeTimeStep( DiscreteModel discreteModel ) {
+                waveSource.updateBoundaryConditions( discreteModel );
             }
         };
     }
@@ -51,8 +59,8 @@ public class PhotonWave {
     }
 
     private void clearElements() {
-        while( getDiscreteModel().containsListener( waveSource ) ) {
-            getDiscreteModel().removeListener( waveSource );
+        while( getDiscreteModel().containsListener( waveSourceBoundaryConditionSetter ) ) {
+            getDiscreteModel().removeListener( waveSourceBoundaryConditionSetter );
         }
         while( module.getModel().containsModelElement( phaseUpdate ) ) {
             module.getModel().removeModelElement( phaseUpdate );
@@ -62,7 +70,7 @@ public class PhotonWave {
     public void setOn() {
         clearElements();
         waveSource.setRegion( createRectRegionForCylinder() );
-        getDiscreteModel().addListener( waveSource );
+        getDiscreteModel().addListener( waveSourceBoundaryConditionSetter );
         module.getModel().addModelElement( phaseUpdate );
     }
 
@@ -83,9 +91,8 @@ public class PhotonWave {
     }
 
     private Rectangle createRectRegionForCylinder() {
-        Rectangle rectangle = new Rectangle( 0, getWavefunction().getHeight() - waveSourceHeight,
-                                             getWavefunction().getWidth(), waveSourceHeight );
-        return rectangle;
+        return new Rectangle( 0, getWavefunction().getHeight() - waveSourceHeight,
+                              getWavefunction().getWidth(), waveSourceHeight );
     }
 
     private Wavefunction getWavefunction() {

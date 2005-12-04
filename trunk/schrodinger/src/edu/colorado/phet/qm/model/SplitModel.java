@@ -160,8 +160,7 @@ public class SplitModel extends DiscreteModel {
 
             Wavefunction leftRegion = leftWavefunction.copyRegion( 0, detectionY, width, h );
             Wavefunction rightRegion = rightWavefunction.copyRegion( 0, detectionY, width, h );
-            Wavefunction sumMagnitudes = sumMagnitudes( leftRegion, rightRegion );
-            return sumMagnitudes;
+            return sumMagnitudes( leftRegion, rightRegion );
         }
 
         public void step() {
@@ -202,8 +201,7 @@ public class SplitModel extends DiscreteModel {
     public static double sumMagnitudes( Complex left, Complex right ) {
         double lhs = left.abs();
         double rhs = right.abs();
-        double both = lhs + rhs;
-        return both;
+        return lhs + rhs;
     }
 
     public void setWaveSize( int width, int height ) {

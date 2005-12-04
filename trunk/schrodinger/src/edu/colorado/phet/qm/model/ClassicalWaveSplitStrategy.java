@@ -36,18 +36,15 @@ public class ClassicalWaveSplitStrategy extends WaveSplitStrategy {
     }
 
     private ClassicalWavePropagator getRightClassicalPropagator() {
-        ClassicalWavePropagator rightProp = (ClassicalWavePropagator)super.getRightPropagator();
-        return rightProp;
+        return (ClassicalWavePropagator)super.getRightPropagator();
     }
 
     private ClassicalWavePropagator getLeftClassicalPropagator() {
-        ClassicalWavePropagator leftProp = (ClassicalWavePropagator)super.getLeftPropagator();
-        return leftProp;
+        return (ClassicalWavePropagator)super.getLeftPropagator();
     }
 
     private ClassicalWavePropagator getMainPropagator() {
-        ClassicalWavePropagator mainPropagator = (ClassicalWavePropagator)super.getPropagator();
-        return mainPropagator;
+        return (ClassicalWavePropagator)super.getPropagator();
     }
 
     public void clearEntrantWaveNorthArea() {

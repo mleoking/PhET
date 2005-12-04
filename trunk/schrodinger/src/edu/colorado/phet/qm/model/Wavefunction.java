@@ -2,7 +2,6 @@
 package edu.colorado.phet.qm.model;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 
@@ -15,8 +14,6 @@ import java.util.Arrays;
 
 public class Wavefunction {
     private Complex[][] wavefunction;
-
-    private ArrayList listeners = new ArrayList();
     private double magnitude = 0.0;
     private boolean magnitudeDirty = true;
 
@@ -28,13 +25,6 @@ public class Wavefunction {
         void cleared();
 
         void scaled( double scale );
-    }
-
-    private void notifyCleared() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
-            listener.cleared();
-        }
     }
 
     public Wavefunction( int width, int height ) {
@@ -178,7 +168,7 @@ public class Wavefunction {
             }
         }
         setMagnitudeDirty();
-        notifyCleared();
+//        notifyCleared();
     }
 
     public void setMagnitudeDirty() {

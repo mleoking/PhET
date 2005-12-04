@@ -5,11 +5,11 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.qm.model.DiscreteModel;
-import edu.colorado.phet.qm.model.GaussianWave2D;
 import edu.colorado.phet.qm.model.WaveSetup;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.model.operators.YValue;
 import edu.colorado.phet.qm.model.propagators.ClassicalWavePropagator;
+import edu.colorado.phet.qm.model.waves.GaussianWave2D;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
