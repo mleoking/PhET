@@ -11,9 +11,8 @@
 
 package edu.colorado.phet.quantumtunneling.view;
 
+import java.awt.BasicStroke;
 import java.awt.Font;
-import java.awt.Paint;
-import java.awt.Stroke;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -29,6 +28,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
+import edu.colorado.phet.quantumtunneling.enum.WaveType;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotentialSpace;
 import edu.colorado.phet.quantumtunneling.model.TotalEnergy;
 
@@ -46,8 +46,9 @@ public class EnergyPlot extends XYPlot implements Observer {
     //----------------------------------------------------------------------------
     
     // Indicies are determined by the order that renderers are added to this XYPlot
-    private static final int POTENTIAL_ENERGY_RENDERER_INDEX = 0;
-    private static final int TOTAL_ENERGY_RENDERER_INDEX = 1;
+    private static final int PE_RENDERER_INDEX = 0;
+    private static final int TE_PLANE_RENDERER_INDEX = 1;
+    private static final int TE_PACKET_RENDERER_INDEX = 2;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -79,8 +80,8 @@ public class EnergyPlot extends XYPlot implements Observer {
             XYItemRenderer renderer = new StandardXYItemRenderer();
             renderer.setPaint( QTConstants.POTENTIAL_ENERGY_COLOR );
             renderer.setStroke( QTConstants.POTENTIAL_ENERGY_STROKE );
-            setDataset( POTENTIAL_ENERGY_RENDERER_INDEX, data );
-            setRenderer( POTENTIAL_ENERGY_RENDERER_INDEX, renderer );
+            setDataset( PE_RENDERER_INDEX, data );
+            setRenderer( PE_RENDERER_INDEX, renderer );
         }
         
         // Total Energy series
@@ -88,12 +89,22 @@ public class EnergyPlot extends XYPlot implements Observer {
         {
             XYSeriesCollection data = new XYSeriesCollection();
             data.addSeries( _totalEnergySeries );
-            XYItemRenderer renderer = new StandardXYItemRenderer();
-            renderer.setPaint( QTConstants.TOTAL_ENERGY_COLOR );
-            renderer.setStroke( QTConstants.TOTAL_ENERGY_STROKE );
-            setDataset( TOTAL_ENERGY_RENDERER_INDEX, data );
-            setRenderer( TOTAL_ENERGY_RENDERER_INDEX, renderer );
+            
+            // Renderer for plane wave
+            XYItemRenderer planeRenderer = new StandardXYItemRenderer();
+            planeRenderer.setPaint( QTConstants.TOTAL_ENERGY_COLOR );
+            planeRenderer.setStroke( QTConstants.TOTAL_ENERGY_STROKE );
+            setDataset( TE_PLANE_RENDERER_INDEX, data );
+            setRenderer( TE_PLANE_RENDERER_INDEX, planeRenderer );
+            
+            // Renderer for wave packet
+            XYItemRenderer packetRenderer = new StandardXYItemRenderer();
+            packetRenderer.setPaint( QTConstants.TOTAL_ENERGY_COLOR );
+            packetRenderer.setStroke( new BasicStroke( 50f ) );
+            setDataset( TE_PACKET_RENDERER_INDEX, data );
+            setRenderer( TE_PACKET_RENDERER_INDEX, packetRenderer );
         }
+        setWaveType( WaveType.PLANE );
         
         // X axis 
         PositionAxis xAxis = new PositionAxis();
@@ -118,6 +129,17 @@ public class EnergyPlot extends XYPlot implements Observer {
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the wave type, which determines how total energy is displayed.
+     * 
+     * @param true or false
+     */
+    public void setWaveType( WaveType waveType ) {
+        boolean isPlane = ( waveType == WaveType.PLANE );
+        getRenderer( TE_PLANE_RENDERER_INDEX ).setSeriesVisible( new Boolean( isPlane ) );
+        getRenderer( TE_PACKET_RENDERER_INDEX ).setSeriesVisible( new Boolean( !isPlane ) );
+    }
     
     /**
      * Sets the total energy model that is displayed.

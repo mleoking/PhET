@@ -26,6 +26,7 @@ import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.control.ConfigureEnergyDialog;
 import edu.colorado.phet.quantumtunneling.control.QTControlPanel;
+import edu.colorado.phet.quantumtunneling.enum.WaveType;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotentialSpace;
 import edu.colorado.phet.quantumtunneling.model.BarrierPotential;
 import edu.colorado.phet.quantumtunneling.model.TotalEnergy;
@@ -131,7 +132,7 @@ public class QTModule extends AbstractModule {
             _chart = new QTCombinedChart();         
             _chartNode = new QTCombinedChartNode( _chart );
         }
-        
+
         // Drag handles
         {
             _totalEnergyControl = new TotalEnergyDragHandle( _chartNode );
@@ -314,5 +315,9 @@ public class QTModule extends AbstractModule {
     
     public boolean isShowValuesEnabled() {
         return _totalEnergyControl.isShowValueEnabled();
+    }
+    
+    public void setWaveType( WaveType waveType ) {
+        _chart.getEnergyPlot().setWaveType( waveType );
     }
 }
