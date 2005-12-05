@@ -12,6 +12,8 @@
 package edu.colorado.phet.quantumtunneling.view;
 
 import java.awt.Font;
+import java.awt.Paint;
+import java.awt.Stroke;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -28,7 +30,6 @@ import org.jfree.data.xy.XYSeriesCollection;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotentialSpace;
-import edu.colorado.phet.quantumtunneling.model.PotentialRegion;
 import edu.colorado.phet.quantumtunneling.model.TotalEnergy;
 
 
@@ -44,9 +45,9 @@ public class EnergyPlot extends XYPlot implements Observer {
     // Class data
     //----------------------------------------------------------------------------
     
-    // Indicies are determined by the order that series are added to XYSeriesCollection
-    public static final int POTENTIAL_ENERGY_SERIES_INDEX = 0;
-    public static final int TOTAL_ENERGY_SERIES_INDEX = 1;
+    // Indicies are determined by the order that renderers are added to this XYPlot
+    private static final int POTENTIAL_ENERGY_RENDERER_INDEX = 0;
+    private static final int TOTAL_ENERGY_RENDERER_INDEX = 1;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -70,21 +71,29 @@ public class EnergyPlot extends XYPlot implements Observer {
         String potentialEnergyLabel = SimStrings.get( "legend.potentialEnergy" );
         String totalEnergyLabel = SimStrings.get( "legend.totalEnergy" );
         
-        // Data series
-        _totalEnergySeries = new XYSeries( totalEnergyLabel );
+        // Potential Energy series
         _potentialEnergySeries = new XYSeries( potentialEnergyLabel );
+        {
+            XYSeriesCollection data = new XYSeriesCollection();
+            data.addSeries( _potentialEnergySeries );
+            XYItemRenderer renderer = new StandardXYItemRenderer();
+            renderer.setPaint( QTConstants.POTENTIAL_ENERGY_COLOR );
+            renderer.setStroke( QTConstants.POTENTIAL_ENERGY_STROKE );
+            setDataset( POTENTIAL_ENERGY_RENDERER_INDEX, data );
+            setRenderer( POTENTIAL_ENERGY_RENDERER_INDEX, renderer );
+        }
         
-        // Dataset
-        XYSeriesCollection data = new XYSeriesCollection();
-        data.addSeries( _potentialEnergySeries );
-        data.addSeries( _totalEnergySeries );
-        
-        // Renderer
-        XYItemRenderer renderer = new StandardXYItemRenderer();
-        renderer.setSeriesPaint( POTENTIAL_ENERGY_SERIES_INDEX, QTConstants.POTENTIAL_ENERGY_COLOR );
-        renderer.setSeriesStroke( POTENTIAL_ENERGY_SERIES_INDEX, QTConstants.POTENTIAL_ENERGY_STROKE );
-        renderer.setSeriesPaint( TOTAL_ENERGY_SERIES_INDEX, QTConstants.TOTAL_ENERGY_COLOR );
-        renderer.setSeriesStroke( TOTAL_ENERGY_SERIES_INDEX, QTConstants.TOTAL_ENERGY_STROKE );
+        // Total Energy series
+        _totalEnergySeries = new XYSeries( totalEnergyLabel );
+        {
+            XYSeriesCollection data = new XYSeriesCollection();
+            data.addSeries( _totalEnergySeries );
+            XYItemRenderer renderer = new StandardXYItemRenderer();
+            renderer.setPaint( QTConstants.TOTAL_ENERGY_COLOR );
+            renderer.setStroke( QTConstants.TOTAL_ENERGY_STROKE );
+            setDataset( TOTAL_ENERGY_RENDERER_INDEX, data );
+            setRenderer( TOTAL_ENERGY_RENDERER_INDEX, renderer );
+        }
         
         // X axis 
         PositionAxis xAxis = new PositionAxis();
@@ -102,10 +111,8 @@ public class EnergyPlot extends XYPlot implements Observer {
         setBackgroundPaint( QTConstants.PLOT_BACKGROUND );
         setDomainGridlinesVisible( QTConstants.SHOW_VERTICAL_GRIDLINES );
         setRangeGridlinesVisible( QTConstants.SHOW_HORIZONTAL_GRIDLINES );
-        setDataset( data );
-        setRenderer( renderer );
         setDomainAxis( xAxis );
-        setRangeAxis( yAxis );
+        setRangeAxis( yAxis ); 
     }
     
     //----------------------------------------------------------------------------
