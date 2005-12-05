@@ -7,10 +7,12 @@
 package edu.colorado.phet.microwave.view;
 
 import edu.colorado.phet.common.view.graphics.ModelViewTransform2D;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.coreadditions.TxObservingGraphic;
 import edu.colorado.phet.microwave.model.WaterMolecule;
 
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 import java.awt.image.ImageObserver;
 import java.util.Observable;
 
@@ -28,8 +30,7 @@ public class WaterMoleculeGraphic extends TxObservingGraphic implements ImageObs
     private Point oxygenCenter = new Point();
     private Point hydrogenCenter1 = new Point();
     private Point hydrogenCenter2 = new Point();
-    private int viewOxygenRad;
-    private int viewHydrogenRad;
+    private Ellipse2D atomGraphic = new Ellipse2D.Double();
 
     public WaterMoleculeGraphic( WaterMolecule molecule, ModelViewTransform2D tx ) {
         super( tx );
@@ -40,39 +41,23 @@ public class WaterMoleculeGraphic extends TxObservingGraphic implements ImageObs
 
     public void paint( Graphics2D g ) {
         if( hydrogenCenter1 != null ) {
-            g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-            g.setStroke( moleculeStroke );
-            g.setColor( Color.RED );
-            g.fillOval( hydrogenCenter1.x - (int)WaterMolecule.s_hydrogenRadius,
-                        hydrogenCenter1.y - (int)WaterMolecule.s_hydrogenRadius,
-                        (int)WaterMolecule.s_hydrogenRadius * 2,
-                        (int)WaterMolecule.s_hydrogenRadius * 2 );
-            g.setColor( Color.BLACK );
-            g.drawOval( hydrogenCenter1.x - (int)WaterMolecule.s_hydrogenRadius,
-                        hydrogenCenter1.y - (int)WaterMolecule.s_hydrogenRadius,
-                        (int)WaterMolecule.s_hydrogenRadius * 2,
-                        (int)WaterMolecule.s_hydrogenRadius * 2 );
-            g.setColor( Color.RED );
-            g.fillOval( hydrogenCenter2.x - (int)WaterMolecule.s_hydrogenRadius,
-                        hydrogenCenter2.y - (int)WaterMolecule.s_hydrogenRadius,
-                        (int)WaterMolecule.s_hydrogenRadius * 2,
-                        (int)WaterMolecule.s_hydrogenRadius * 2 );
-            g.setColor( Color.BLACK );
-            g.drawOval( hydrogenCenter2.x - (int)WaterMolecule.s_hydrogenRadius,
-                        hydrogenCenter2.y - (int)WaterMolecule.s_hydrogenRadius,
-                        (int)WaterMolecule.s_hydrogenRadius * 2,
-                        (int)WaterMolecule.s_hydrogenRadius * 2 );
-            g.setColor( Color.BLUE );
-            g.fillOval( oxygenCenter.x - (int)WaterMolecule.s_oxygenRadius,
-                        oxygenCenter.y - (int)WaterMolecule.s_oxygenRadius,
-                        (int)WaterMolecule.s_oxygenRadius * 2,
-                        (int)WaterMolecule.s_oxygenRadius * 2 );
-            g.setColor( Color.BLACK );
-            g.drawOval( oxygenCenter.x - (int)WaterMolecule.s_oxygenRadius,
-                        oxygenCenter.y - (int)WaterMolecule.s_oxygenRadius,
-                        (int)WaterMolecule.s_oxygenRadius * 2,
-                        (int)WaterMolecule.s_oxygenRadius * 2 );
+            drawAtom( g, hydrogenCenter1.x, hydrogenCenter1.y, WaterMolecule.s_hydrogenRadius, Color.red );
+            drawAtom( g, hydrogenCenter2.x, hydrogenCenter2.y, WaterMolecule.s_hydrogenRadius, Color.red );
+            drawAtom( g, oxygenCenter.x, oxygenCenter.y, WaterMolecule.s_oxygenRadius, Color.blue );
         }
+    }
+
+    private void drawAtom( Graphics2D g, double x, double y, double radius, Color color ) {
+        atomGraphic.setFrameFromCenter( x, y,
+                                        x + radius,
+                                        y + radius);
+        g.setColor( color );
+        g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF );
+        g.fill( atomGraphic );
+        g.setStroke( moleculeStroke );
+        g.setColor( Color.BLACK );
+        g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+        g.draw( atomGraphic );
     }
 
     public void update( Observable o, Object arg ) {

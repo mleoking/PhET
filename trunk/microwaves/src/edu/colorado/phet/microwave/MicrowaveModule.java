@@ -90,7 +90,12 @@ public abstract class MicrowaveModule extends Module {
         microwaveModel.clear();
         getApparatusPanel().removeAllGraphics();
         isMicrowaveOn = false;
-        init();
+        try {
+            init();
+        }
+        catch( OutOfMemoryError e ) {
+            System.out.println( "e = " + e );
+        }
     }
 
     private void createApparatusPanel() {
@@ -121,14 +126,18 @@ public abstract class MicrowaveModule extends Module {
     private void createFieldView() {
         WaveMedium waveMedium = getMicrowaveModel().getWaveMedium();
         FieldVector.setLength( latticeSpace - 5 );
-        fieldLattiveView = new FieldLatticeView( waveMedium,
-                                                 new Point2D.Double( oven.getMinX() + latticeSpace,
-                                                                     oven.getMinY() + latticeSpace ),
-                                                 oven.getMaxX() - oven.getMinX() - latticeSpace,
-                                                 oven.getMaxY() - oven.getMinY() - latticeSpace,
-                                                 latticeSpace, latticeSpace,
-                                                 getApparatusPanel(),
-                                                 getModelViewTransform() );
+        // If we try to instantiate a new FieldLatticeView on every reset, we run out of memory. I haven't
+        // debugged that, but this works.
+        if( fieldLattiveView == null ) {
+            fieldLattiveView = new FieldLatticeView( waveMedium,
+                                                     new Point2D.Double( oven.getMinX() + latticeSpace,
+                                                                         oven.getMinY() + latticeSpace ),
+                                                     oven.getMaxX() - oven.getMinX() - latticeSpace,
+                                                     oven.getMaxY() - oven.getMinY() - latticeSpace,
+                                                     latticeSpace, latticeSpace,
+                                                     getApparatusPanel(),
+                                                     getModelViewTransform() );
+        }
         getApparatusPanel().addGraphic( fieldLattiveView, 5.0 );
     }
 

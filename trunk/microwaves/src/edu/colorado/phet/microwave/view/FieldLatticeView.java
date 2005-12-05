@@ -35,18 +35,9 @@ public class FieldLatticeView extends TxObservingGraphic {
     private int numLatticePtsX;
     private int numLatticePtsY;
     private Vector2D[][] latticePts;
-//    private boolean fieldCurvesEnabled;
     private CubicSpline spline = new CubicSpline();
     private boolean autoscaleEnabled = false;
-    private BufferedImage buffImg;
-    private ImageObserver imgObserver = new ImageObserver() {
-        public boolean imageUpdate( Image img, int infoflags,
-                                    int x, int y, int width, int height ) {
-            return false;
-        }
-    };
     private WaveMedium waveMedium;
-    private Graphics2D g2DBuffImg;
     private int latticeViewSpacingY;
     private int latticeViewSpacingX;
     private Point originView = new Point();
@@ -82,16 +73,11 @@ public class FieldLatticeView extends TxObservingGraphic {
         this.waveMedium = waveMedium;
         waveMedium.addObserver( this );
 
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsDevice gs = ge.getDefaultScreenDevice();
-        GraphicsConfiguration gc = gs.getDefaultConfiguration();
-        buffImg = gc.createCompatibleImage( 800, 800, Transparency.TRANSLUCENT );
-        g2DBuffImg = buffImg.createGraphics();
         update( null, null );
     }
 
     public synchronized void paint( Graphics2D g2 ) {
-
+        
         if( viewType != VIEW_NONE ) {
             g2.setColor( Color.BLUE );
 
@@ -111,12 +97,10 @@ public class FieldLatticeView extends TxObservingGraphic {
                 }
 
                 for( int j = 0; j < numLatticePtsX; j++ ) {
-//                    if( !fieldCurvesEnabled || atXAxis ) {
                     if( viewType == VIEW_FULL || ( viewType == VIEW_SINGLE && atXAxis ) ) {
 
                         int x = originView.x + j * latticeViewSpacingX - 1;
                         int y = originView.y + i * latticeViewSpacingY - 1;
-//                    g2.drawImage( s_latticePtImg, x - 1, y - 1, imgObserver );
 
                         // Get the components of the arrow. Note that we flip the sign of the y component
                         // because we need to work to view coordinates
@@ -128,7 +112,6 @@ public class FieldLatticeView extends TxObservingGraphic {
                         double l = Math.sqrt( fx * fx + fy * fy );
                         l = Math.min( l, Math.min( this.latticeViewSpacingX, Math.abs( this.latticeViewSpacingY ) ) );
 
-                        double theta = Math.atan2( fy, fx );
                         if( viewType == VIEW_FULL ) {
                             int arrowWidthSave = arrowWidth;
                             int headWidthSave = arrowHeadWidth;
@@ -141,13 +124,6 @@ public class FieldLatticeView extends TxObservingGraphic {
                             g2.setComposite( orgComposite );
                             arrowWidth = arrowWidthSave;
                             arrowHeadWidth = headWidthSave;
-//                            BufferedImage bi = FieldVector.getGraphic( l, theta );
-//                            if( bi != null ) {
-//
-//                                // todo: this is the bottleneck for full field view.
-//                                // try drawing to an offscreen buffer
-//                                g2.drawImage( bi, x - ( bi.getWidth() / 2 ), y - ( bi.getHeight() / 2 ), panel );
-//                            }
                         }
                         if( viewType == VIEW_SINGLE ) {
                             drawHollowArrow( g2, x, y, x, y + fy );
@@ -166,7 +142,6 @@ public class FieldLatticeView extends TxObservingGraphic {
                     spline.paint( g2 );
                 }
             }
-//        g2.drawImage( buffImg, nopAT, null );
         }
 
     }
@@ -210,7 +185,6 @@ public class FieldLatticeView extends TxObservingGraphic {
 
     private  void drawHollowArrow( Graphics2D g2, int x1, int y1, int x2, int y2 ) {
         if( x1 != x2 || y1 != y2 ) {
-
             g2.setColor( arrowColor );
 
             g2.setStroke( new BasicStroke( 1f ) );

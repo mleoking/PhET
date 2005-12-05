@@ -11,6 +11,7 @@ import edu.colorado.phet.common.model.ModelElement;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Observer;
 
 /**
  * This class represents a medium through which an arbitrary number of
@@ -35,22 +36,12 @@ public class WaveMedium extends ModelElement {
         notifyObservers();
     }
 
-    /**
-     *
-     * @param observer
-     */
-//    public WaveMedium( Observer observer ) {
-//        super( observer );
-//    }
-
     public void addWavefront( Wave wavefront ) {
         this.wavefronts.add( wavefront );
-//        super.addModelElement( wavefront );
     }
 
     public void removeWavefront( Wave wavefront ) {
         this.wavefronts.remove( wavefront );
-//        super.removeModelElement( wavefront );
     }
 
     /**

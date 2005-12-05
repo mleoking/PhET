@@ -8,6 +8,8 @@ package edu.colorado.phet.waves.model;
 
 import edu.colorado.phet.common.model.ModelElement;
 
+import java.util.Observer;
+
 /**
  *
  * <p>
