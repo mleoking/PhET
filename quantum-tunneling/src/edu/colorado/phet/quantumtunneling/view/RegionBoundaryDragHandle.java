@@ -88,36 +88,6 @@ public class RegionBoundaryDragHandle extends DragHandle implements Observer, Pr
     }
     
     //----------------------------------------------------------------------------
-    // DragHandle implementation
-    //----------------------------------------------------------------------------
-    
-    public double getModelValue() {
-        double position = 0;
-        if ( _potentialEnergy != null ) {
-            position = _potentialEnergy.getEnd( _regionIndex );
-        }
-        return position;
-    }
-    
-    //----------------------------------------------------------------------------
-    // PropertChangeListener implementation
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Updates the region's potential energy whenever the drag handle is moved.
-     * 
-     * @param event
-     */
-    public void propertyChange( PropertyChangeEvent event ) {
-        if ( event.getSource() == this ) {
-            if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) ) {
-                updatePotentialEnergy();
-                updateText();
-            }
-        }
-    }
-    
-    //----------------------------------------------------------------------------
     // Updaters
     //----------------------------------------------------------------------------
     
@@ -188,11 +158,50 @@ public class RegionBoundaryDragHandle extends DragHandle implements Observer, Pr
             Point2D globalNodePoint = getGlobalPosition();
             Point2D localNodePoint = _chartNode.globalToLocal( globalNodePoint );
             Point2D chartPoint = _chartNode.nodeToEnergy( localNodePoint );
-            _potentialEnergy.adjustBoundary( _regionIndex, chartPoint.getX() );
+            double position = chartPoint.getX();
+            // WORKAROUND: compensate for double precision errors at left edge.
+            if ( position < _potentialEnergy.getMinRegionWidth() ) {
+                position = _potentialEnergy.getMinRegionWidth();
+            }
+            boolean success = _potentialEnergy.adjustBoundary( _regionIndex, position );
+            if ( !success ) {
+                System.out.println( "WARNINING: RegionBoundaryDragHandle.updatePotentialEnergy failed, " +
+                        "regionIndex=" + _regionIndex + " position=" + position );
+            }
             _potentialEnergy.addObserver( this );
         }
     }
-
+    
+    //----------------------------------------------------------------------------
+    // DragHandle implementation
+    //----------------------------------------------------------------------------
+    
+    public double getModelValue() {
+        double position = 0;
+        if ( _potentialEnergy != null ) {
+            position = _potentialEnergy.getEnd( _regionIndex );
+        }
+        return position;
+    }
+    
+    //----------------------------------------------------------------------------
+    // PropertChangeListener implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Updates the region's potential energy whenever the drag handle is moved.
+     * 
+     * @param event
+     */
+    public void propertyChange( PropertyChangeEvent event ) {
+        if ( event.getSource() == this ) {
+            if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) ) {
+                updatePotentialEnergy();
+                updateText();
+            }
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
