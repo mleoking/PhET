@@ -27,6 +27,7 @@ import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
+import edu.colorado.phet.quantumtunneling.enum.WaveType;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotentialSpace;
 import edu.colorado.phet.quantumtunneling.model.BarrierPotential;
 import edu.colorado.phet.quantumtunneling.model.ConstantPotential;
@@ -59,6 +60,7 @@ public class QTControlPanel extends AbstractControlPanel {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private QTModule _module;
     private JComboBox _potentialComboBox;
     private JCheckBox _realCheckBox, _imaginaryCheckBox, _magnitudeCheckBox, _phaseCheckBox;
     private Object _constantItem, _stepItem, _barrierItem, _doubleBarrierItem;
@@ -83,6 +85,8 @@ public class QTControlPanel extends AbstractControlPanel {
      */
     public QTControlPanel( QTModule module ) {
         super( module );
+        
+        _module = module;
         
         // Set the control panel's minimum width.
         String widthString = SimStrings.get( "width.controlPanel" );
@@ -518,14 +522,16 @@ public class QTControlPanel extends AbstractControlPanel {
             _propertiesPanel.setVisible( false );
             _propertiesButton.setEnabled( false );
             _propertiesButton.setText( _sPropertiesExpand );
+            _module.setWaveType( WaveType.PLANE );
         }
-        else {
+        else { /* wave packet */
             _sumRadioButton.setEnabled( false );
             _separateRadioButton.setEnabled( false );
             _sumRadioButton.setSelected( true );
             handleSumSelection();
             _propertiesButton.setEnabled( true );
             _propertiesPanel.setVisible( false );
+            _module.setWaveType( WaveType.PACKET );
         }
     }
     
