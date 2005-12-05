@@ -11,20 +11,19 @@
 
 package edu.colorado.phet.quantumtunneling.view;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.piccolo.ConstrainedDragHandler;
-import edu.colorado.phet.quantumtunneling.piccolo.ImageNode;
-import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
 
@@ -34,7 +33,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public abstract class DragHandle extends ImageNode {
+public abstract class DragHandle extends PPath {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -42,6 +41,11 @@ public abstract class DragHandle extends ImageNode {
     
     public static final int HORIZONTAL = 0;
     public static final int VERTICAL = 1;
+    
+    public static final Shape HANDLE_SHAPE = new Rectangle2D.Double( 0, 0, 7, 7 );
+    public static final Color HANDLE_FILL_COLOR = new Color( 0, 0, 0, 0 ); // transparent
+    public static final Stroke HANDLE_STROKE = new BasicStroke( 1f );
+    public static final Color HANDLE_STROKE_COLOR = new Color( 0, 0, 0, 175 );
     
     private static final Font TEXT_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 );
     private static final Color TEXT_COLOR = Color.BLACK;
@@ -75,24 +79,39 @@ public abstract class DragHandle extends ImageNode {
         }
         _orientation = orientation;
         
-        // Set the image...
-        if ( orientation == HORIZONTAL ) {
-            setImageByResourceName( QTConstants.IMAGE_DRAG_HANDLE_HORIZONTAL );
-        }
-        else {
-            setImageByResourceName( QTConstants.IMAGE_DRAG_HANDLE_VERTICAL );
-        }
+        // Visual representation
+        setPathTo( HANDLE_SHAPE );
+        setPaint( HANDLE_FILL_COLOR );
+        setStroke( HANDLE_STROKE );
+        setStrokePaint( HANDLE_STROKE_COLOR );
         
         // registration point @ center
         _registrationPoint = new Point2D.Double( getWidth() / 2, getHeight() / 2 );
-        
         translate( -_registrationPoint.getX(), -_registrationPoint.getY() );
         
-        addInputEventListener( new CursorHandler() );
+        // Custom cursor to indicate drag direction
+        try {
+            String cursorResourceName = null;
+            if ( orientation == HORIZONTAL ) {
+                cursorResourceName = QTConstants.IMAGE_DRAG_CURSOR_HORIZONTAL;
+            }
+            else {
+                cursorResourceName = QTConstants.IMAGE_DRAG_CURSOR_VERTICAL;
+            }
+            BufferedImage cursorImage = ImageLoader.loadBufferedImage( cursorResourceName );
+            int hotX = cursorImage.getWidth() / 2;
+            int hotY = cursorImage.getHeight() / 2;
+            Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor( cursorImage, new Point( hotX, hotY ), "DragHandleCursor" );
+            addInputEventListener( new CursorHandler( cursor ) );
+        }
+        catch ( IOException e ) {
+            addInputEventListener( new CursorHandler() );
+            e.printStackTrace();
+        }
+
+        // Drag handler
         _dragHandler = new ConstrainedDragHandler();
         addInputEventListener( _dragHandler );
-        
-        // Configure the drag handler...
         _dragHandler.setTreatAsPointEnabled( true );
         _dragHandler.setNodeCenter( _registrationPoint.getX(), _registrationPoint.getY() );
         if ( orientation == HORIZONTAL ) {
@@ -102,6 +121,7 @@ public abstract class DragHandle extends ImageNode {
             _dragHandler.setHorizontalLockEnabled( true );
         }
         
+        // Value display
         _textNode = null;
         _textFormat = DEFAULT_TEXT_FORMAT;
     }
@@ -125,12 +145,9 @@ public abstract class DragHandle extends ImageNode {
             _textNode.setTextPaint( TEXT_COLOR );
             _textNode.setText( "0.0" );
             Rectangle2D dragHandleBounds = getBounds();
-            if ( _orientation == HORIZONTAL ) {
-                _textNode.translate( dragHandleBounds.getX() + dragHandleBounds.getWidth() + 1, 0 );
-            }
-            else {
-                _textNode.translate( 0, dragHandleBounds.getY() + dragHandleBounds.getHeight() + 1 );
-            }
+            double x = dragHandleBounds.getX() + dragHandleBounds.getWidth() + 3;
+            double y = dragHandleBounds.getY() - _textNode.getHeight();
+            _textNode.translate( x, y );
             updateText();
         }
         else if ( !enabled && _textNode != null ) {
