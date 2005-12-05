@@ -26,6 +26,7 @@ public class CoffeeModule extends MicrowaveModule {
     private PowerManager powerManager;
     private boolean ovenOn;
     private double powerLevel;
+    private CoffeeControlPanel coffeeControlPanel;
 
     public CoffeeModule() {
         super( SimStrings.get( "ModuleTitle.CoffeeModule" ) );
@@ -55,12 +56,12 @@ public class CoffeeModule extends MicrowaveModule {
             WaterMolecule molecule = new WaterMolecule();
             double x = -1;
             while( x < oven.getMinX() + WaterMolecule.s_hydrogenOxygenDist + WaterMolecule.s_hydrogenRadius * 2
-                    || x > oven.getMaxX() - ( WaterMolecule.s_hydrogenOxygenDist + WaterMolecule.s_hydrogenRadius * 2 ) ) {
+                   || x > oven.getMaxX() - ( WaterMolecule.s_hydrogenOxygenDist + WaterMolecule.s_hydrogenRadius * 2 ) ) {
                 x = Math.random() * oven.getMaxX();
             }
             double y = -1;
             while( y < oven.getMinY() + WaterMolecule.s_hydrogenOxygenDist + WaterMolecule.s_hydrogenRadius * 2
-                    || y > oven.getMaxY() - ( WaterMolecule.s_hydrogenOxygenDist + WaterMolecule.s_hydrogenRadius * 2 ) ) {
+                   || y > oven.getMaxY() - ( WaterMolecule.s_hydrogenOxygenDist + WaterMolecule.s_hydrogenRadius * 2 ) ) {
                 y = Math.random() * oven.getMaxY();
             }
             molecule.setLocation( x, y );
@@ -75,7 +76,11 @@ public class CoffeeModule extends MicrowaveModule {
         }
 
         powerManager = new PowerManager( powerLevel );
-        setControlPanel( new CoffeeControlPanel( this, getMicrowaveModel() ) );
+        coffeeControlPanel = new CoffeeControlPanel( this, getMicrowaveModel() );
+        setControlPanel( coffeeControlPanel );
+
+        // Set initial conditions
+        ovenOn = false;
     }
 
     public void activate( PhetApplication phetApplication ) {
@@ -101,7 +106,6 @@ public class CoffeeModule extends MicrowaveModule {
     public synchronized void toggleMicrowave() {
         ovenOn = !ovenOn;
     }
-
 
     //
     // Inner classes
