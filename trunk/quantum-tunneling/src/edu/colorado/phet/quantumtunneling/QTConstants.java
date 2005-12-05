@@ -103,8 +103,6 @@ public class QTConstants {
     public static final String IMAGE_ARROW_L2R = IMAGES_DIRECTORY + "arrowL2R.png";
     public static final String IMAGE_ARROW_R2L = IMAGES_DIRECTORY + "arrowR2L.png";
     public static final String IMAGE_CLOCK = IMAGES_DIRECTORY + "clock.png";
-    public static final String IMAGE_DRAG_CURSOR_HORIZONTAL = IMAGES_DIRECTORY + "dragCursorHorizontal.png";
-    public static final String IMAGE_DRAG_CURSOR_VERTICAL = IMAGES_DIRECTORY + "dragCursorVertical.png";
     public static final String IMAGE_LOOP_OFF = IMAGES_DIRECTORY + "loopOffButton.png";
     public static final String IMAGE_LOOP_ON = IMAGES_DIRECTORY + "loopOnButton.png";
     public static final String IMAGE_PAUSE = IMAGES_DIRECTORY + "pauseButton.gif";

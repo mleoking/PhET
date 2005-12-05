@@ -58,6 +58,8 @@ JFREECHART:
 
 
 DONE:
+(12/5/05) - create custom arrow cursor using shapes instead of images
+(12/5/05) - make drag handles support 2 looks: control point, double arrow
 (12/5/05) - make drag handles look more like control points, change cursor to indicate drag direction
 (12/3/05) - add clock icon next to time display
 (12/3/05) - create loop button icons

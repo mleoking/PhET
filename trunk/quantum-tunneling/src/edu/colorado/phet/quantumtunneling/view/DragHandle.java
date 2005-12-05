@@ -12,6 +12,8 @@
 package edu.colorado.phet.quantumtunneling.view;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -29,6 +31,12 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * DragHandle is the abstract base class for all drag handles.
+ * <p>
+ * There are two "looks" supported by this class.
+ * The drag handles can either look like standard control points,
+ * or they can look like arrows.  If controls points are used,
+ * then the cursor changes to arrows to indicate the drag 
+ * direction.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -36,26 +44,44 @@ import edu.umd.cs.piccolo.nodes.PText;
 public abstract class DragHandle extends PPath {
 
     //----------------------------------------------------------------------------
-    // Class data
+    // Public class data
     //----------------------------------------------------------------------------
     
+    /* Specifies a horizontal drag handle */
     public static final int HORIZONTAL = 0;
+    
+    /* Specified a vertical drag handle */
     public static final int VERTICAL = 1;
     
-    public static final Shape HANDLE_SHAPE = new Rectangle2D.Double( 0, 0, 7, 7 );
-    public static final Color HANDLE_FILL_COLOR = new Color( 0, 0, 0, 0 ); // transparent
-    public static final Stroke HANDLE_STROKE = new BasicStroke( 1f );
-    public static final Color HANDLE_STROKE_COLOR = new Color( 0, 0, 0, 175 );
+    /* Drag handle will look like a control point */
+    public static final int LOOK_CONTROL_POINT = 2;
+    
+    /* Drag handle will look like an arrow */
+    public static final int LOOK_ARROW = 3;
+    
+    //----------------------------------------------------------------------------
+    // Private class data
+    //----------------------------------------------------------------------------
+    
+    private static final int DEFAULT_LOOK = LOOK_ARROW;
+    
+    private static final Color HANDLE_FILL_COLOR = new Color( 0, 0, 0, 0 ); // transparent
+    private static final Stroke HANDLE_STROKE = new BasicStroke( 1f );
+    private static final Color HANDLE_STROKE_COLOR = new Color( 0, 0, 0, 140 );
     
     private static final Font TEXT_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 );
     private static final Color TEXT_COLOR = Color.BLACK;
     private static final NumberFormat DEFAULT_TEXT_FORMAT = new DecimalFormat( "0.0" );
+    
+    private static final float HANDLE_ARROW_SCALE = 24f;
+    private static final float CURSOR_ARROW_SCALE = 18f;
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private int _orientation;
+    private int _look;
     private Point2D _registrationPoint;
     private ConstrainedDragHandler _dragHandler;
     private PText _textNode;
@@ -64,14 +90,23 @@ public abstract class DragHandle extends PPath {
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
+   
+    /**
+     * Creates a drag handle with a sepecified orientation and default look.
+     * 
+     * @param orientation
+     */
+    public DragHandle( int orientation ) {
+        this( orientation, DEFAULT_LOOK );
+    }
     
     /**
-     * Sole constructor.
+     * Creates a drag handle with a specified orientation and look.
      * 
      * @param orientation HORIZONTAL or VERTICAL
      * @throws IllegalArgumentException
      */
-    public DragHandle( int orientation ) {
+    public DragHandle( int orientation, int look ) {
         super();
         
         if ( orientation != HORIZONTAL && orientation != VERTICAL ) {
@@ -79,8 +114,20 @@ public abstract class DragHandle extends PPath {
         }
         _orientation = orientation;
         
+        if ( look != LOOK_CONTROL_POINT && look != LOOK_ARROW ) {
+            throw new IllegalArgumentException( "invalid look: " + look );
+        }
+        _look = look;
+        
         // Visual representation
-        setPathTo( HANDLE_SHAPE );
+        Shape shape = null;
+        if ( _look == LOOK_CONTROL_POINT ) {
+            shape = getControlPointShape( orientation );
+        }
+        else {
+            shape = getArrowShape( orientation );
+        }
+        setPathTo( shape );
         setPaint( HANDLE_FILL_COLOR );
         setStroke( HANDLE_STROKE );
         setStrokePaint( HANDLE_STROKE_COLOR );
@@ -90,23 +137,14 @@ public abstract class DragHandle extends PPath {
         translate( -_registrationPoint.getX(), -_registrationPoint.getY() );
         
         // Custom cursor to indicate drag direction
-        try {
-            String cursorResourceName = null;
-            if ( orientation == HORIZONTAL ) {
-                cursorResourceName = QTConstants.IMAGE_DRAG_CURSOR_HORIZONTAL;
-            }
-            else {
-                cursorResourceName = QTConstants.IMAGE_DRAG_CURSOR_VERTICAL;
-            }
-            BufferedImage cursorImage = ImageLoader.loadBufferedImage( cursorResourceName );
-            int hotX = cursorImage.getWidth() / 2;
-            int hotY = cursorImage.getHeight() / 2;
-            Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor( cursorImage, new Point( hotX, hotY ), "DragHandleCursor" );
+        if ( _look == LOOK_CONTROL_POINT ) {
+            // if the handle is not an arrow, use the cursor to indicate drag direction
+            Cursor cursor = getArrowCursor( orientation );
             addInputEventListener( new CursorHandler( cursor ) );
         }
-        catch ( IOException e ) {
+        else {
+            // if the handle is an arrow, use the default cursor
             addInputEventListener( new CursorHandler() );
-            e.printStackTrace();
         }
 
         // Drag handler
@@ -145,8 +183,16 @@ public abstract class DragHandle extends PPath {
             _textNode.setTextPaint( TEXT_COLOR );
             _textNode.setText( "0.0" );
             Rectangle2D dragHandleBounds = getBounds();
-            double x = dragHandleBounds.getX() + dragHandleBounds.getWidth() + 3;
-            double y = dragHandleBounds.getY() - _textNode.getHeight();
+            double x = 0;
+            double y = 0;
+            if ( _look == LOOK_CONTROL_POINT ) {
+                x = dragHandleBounds.getX() + dragHandleBounds.getWidth() + 3;
+                y = dragHandleBounds.getY() - _textNode.getHeight();
+            }
+            else {
+                x = dragHandleBounds.getX() + dragHandleBounds.getWidth();
+                y = dragHandleBounds.getY() - _textNode.getHeight() + 3;
+            }
             _textNode.translate( x, y );
             updateText();
         }
@@ -225,5 +271,96 @@ public abstract class DragHandle extends PPath {
             String text = _textFormat.format( value );
             _textNode.setText( text );
         }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Various shapes for the drag handle and cursor.
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Gets the shape for a "control point" drag handle.
+     * 
+     * @param orientation
+     * @return
+     */
+    private Shape getControlPointShape( int orientation ) {
+        return new Rectangle2D.Double( 0, 0, 7, 7 );
+    }
+    
+    /*
+     * Gets the shape for an "arrow" drag handle.
+     * 
+     * @param orientation
+     * @return
+     */
+    private Shape getArrowShape( int orientation ) {
+        return getArrowShape( orientation, HANDLE_ARROW_SCALE );
+    }
+    
+    /*
+     * Gets the shape for an "arrow" drag handles,
+     * with a specified orientation and scale.
+     * A scale of 1 will provide an arrow who largest
+     * dimension is 1.
+     * 
+     * @param orientation
+     * @param scale
+     * @return
+     */
+    private Shape getArrowShape( int orientation, float scale ) {
+        
+        Shape shape = null;
+        
+        GeneralPath path = new GeneralPath();
+        path.moveTo( 0, 0 );
+        path.lineTo( .25f * scale, .33f * scale );
+        path.lineTo( .08f * scale, .33f * scale );
+        path.lineTo( .08f * scale, .67f * scale );
+        path.lineTo( .25f * scale, .67f * scale );
+        path.lineTo( 0 * scale, 1 * scale );
+        path.lineTo( -.25f * scale, .67f * scale );
+        path.lineTo( -.08f * scale, .67f * scale );
+        path.lineTo( -.08f * scale, .33f * scale );
+        path.lineTo( -.25f * scale, .33f * scale );
+        path.closePath();
+        
+        if ( orientation == VERTICAL ) {
+            shape = path;
+        }
+        else {
+            // Convert to a horizontal arrow
+            AffineTransform transform = new AffineTransform();
+            transform.rotate( Math.toRadians( 90 ) );
+            shape = transform.createTransformedShape( path );
+        }
+        
+        return shape;
+    }
+    
+    /*
+     * Gets an arrow cursor, to indicate drag direction.
+     * 
+     * @param orientation
+     * @return
+     */
+    private Cursor getArrowCursor( int orientation ) {
+        
+        // Get the arrow shape
+        Shape shape = getArrowShape( orientation, CURSOR_ARROW_SCALE );
+
+        // Draw the shape to an image
+        Rectangle bounds = shape.getBounds();
+        BufferedImage image = new BufferedImage( bounds.width, bounds.height, BufferedImage.TYPE_INT_ARGB );
+        Graphics2D g2 = image.createGraphics();
+        g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+        g2.translate( -bounds.x, -bounds.y );
+        g2.setPaint( Color.BLACK );
+        g2.fill( shape );
+        
+        // Use the image to create a cursor
+        Point hotSpot = new Point( image.getWidth() / 2, image.getHeight() / 2 );
+        String name = "DragHandleCursor";
+        Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor( image, hotSpot, name );
+        return cursor;
     }
 }
