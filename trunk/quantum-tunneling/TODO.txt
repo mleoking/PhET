@@ -58,6 +58,7 @@ JFREECHART:
 
 
 DONE:
+(12/5/05) - make drag handles look more like control points, change cursor to indicate drag direction
 (12/3/05) - add clock icon next to time display
 (12/3/05) - create loop button icons
 (12/3/05) - implement my own clock control panel

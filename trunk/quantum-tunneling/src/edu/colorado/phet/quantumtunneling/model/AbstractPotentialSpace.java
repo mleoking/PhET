@@ -295,10 +295,11 @@ public abstract class AbstractPotentialSpace extends QTObservable {
             setNotifyEnabled( false );
             setEnd( leftRegionIndex, position );
             setStart( leftRegionIndex + 1, position );
-            setNotifyEnabled( true );
             validateRegions();
+            setNotifyEnabled( true );
             success = true;
         }
+
         return success;
     }
        
