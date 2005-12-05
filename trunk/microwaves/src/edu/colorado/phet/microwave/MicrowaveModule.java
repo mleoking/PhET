@@ -90,12 +90,7 @@ public abstract class MicrowaveModule extends Module {
         microwaveModel.clear();
         getApparatusPanel().removeAllGraphics();
         isMicrowaveOn = false;
-        try {
-            init();
-        }
-        catch( OutOfMemoryError e ) {
-            System.out.println( "e = " + e );
-        }
+        init();
     }
 
     private void createApparatusPanel() {
@@ -103,10 +98,8 @@ public abstract class MicrowaveModule extends Module {
         viewBounds = new Rectangle( 0, 0, 600, 500 );
         modelViewTransform = new ModelViewTransform2D( modelBounds, viewBounds );
         setApparatusPanel( new BufferedApparatusPanel( new FlipperAffineTransformFactory( modelBounds ) ) );
-//        setApparatusPanel( new ApparatusPanel( new FlipperAffineTransformFactory( modelBounds ) ) );
         getApparatusPanel().addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-//                modelViewTransform.setViewBounds( getApparatusPanel().getBounds() );
             }
         } );
 

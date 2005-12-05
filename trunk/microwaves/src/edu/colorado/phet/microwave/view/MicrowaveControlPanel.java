@@ -104,10 +104,7 @@ public class MicrowaveControlPanel extends JPanel {
         fieldViewBtnGrp.add( noFieldViewRB );
 
         // Set the initial condition of the radio buttons
-        splineViewRB.setSelected( true );
-//        fullViewRB.setSelected( true );
-        fieldViewActionListener.actionPerformed( null );
-
+        setDefaults();
 
         JPanel fieldViewRBPane = new JPanel( new GridBagLayout() );
         int rowIdx2 = 0;
@@ -147,6 +144,7 @@ public class MicrowaveControlPanel extends JPanel {
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.reset();
+                MicrowaveControlPanel.this.reset();
             }
         } );
 
@@ -203,6 +201,15 @@ public class MicrowaveControlPanel extends JPanel {
         catch( AWTException e ) {
             e.printStackTrace();
         }
+    }
+
+    private void reset() {
+        setDefaults();
+    }
+
+    protected void setDefaults() {
+        splineViewRB.setSelected( true );
+        fieldViewActionListener.actionPerformed( null );
     }
 
     private void displayFrequency( double freq ) {

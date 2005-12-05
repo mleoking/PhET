@@ -20,6 +20,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class CoffeeControlPanel extends JPanel {
+    static private double DEFAULT_FREQUENCY = 0.002;;
+    static private double DEFAULT_AMPLITUDE = 0.33;
 
     MicrowaveModel model;
     MicrowaveModule module;
@@ -34,9 +36,6 @@ public class CoffeeControlPanel extends JPanel {
     private JRadioButton pct50RB;
     private JRadioButton pct25RB;
     private ButtonGroup powerBtnGrp;
-//    private PowerManager powerManager;
-//    private boolean ovenOn;
-//    private boolean powerOn;
 
     public CoffeeControlPanel( MicrowaveModule module, MicrowaveModel model ) {
         this.module = module;
@@ -47,8 +46,9 @@ public class CoffeeControlPanel extends JPanel {
     private void layoutPanel() {
 
         // Create the controls
-        module.setMicrowaveFrequency( 0.002 );
-        module.setMicrowaveAmplitude( 0.33 );
+
+        module.setMicrowaveFrequency( DEFAULT_FREQUENCY );
+        module.setMicrowaveAmplitude( DEFAULT_AMPLITUDE );
 
         // Button to toggle the microwave
         JButton onOffBtn = new JButton( SimStrings.get( "CoffeeControlPanel.StartStopButton" ) );
@@ -160,9 +160,6 @@ public class CoffeeControlPanel extends JPanel {
             e.printStackTrace();
         }
 
-//        this.setPreferredSize( new Dimension( 150, 400 ));
-//
-
         // Set initial conditions
         fullViewRB.setSelected( true );
         setFieldView();
@@ -173,20 +170,6 @@ public class CoffeeControlPanel extends JPanel {
     private ActionListener fieldViewActionListener = new ActionListener() {
         public void actionPerformed( ActionEvent e ) {
             setFieldView();
-//            JRadioButton selection = GraphicsUtil.getSelection( fieldViewBtnGrp );
-//            if( selection == noFieldViewRB ) {
-//                module.setFieldViewOff();
-//            }
-//            if( selection == fullViewRB ) {
-//                module.setFieldViewFull();
-//            }
-//            if( selection == singleViewRB ) {
-//                module.setFieldViewSingle();
-//            }
-//            if( selection == splineViewRB ) {
-//                module.setFieldViewSingle();
-//                module.setFiledViewSpline();
-//            }
         }
     };
 
@@ -210,23 +193,11 @@ public class CoffeeControlPanel extends JPanel {
     private ActionListener powerBtnActionListener = new ActionListener() {
         public void actionPerformed( ActionEvent e ) {
             setPowerLevel();
-//            JRadioButton selection = GraphicsUtil.getSelection( powerBtnGrp );
-//            if( selection == pct100RB ) {
-//                ( (CoffeeModule)module ).setPowerLevel( 1.0 );
-//            }
-//            if( selection == pct75RB ) {
-//                ( (CoffeeModule)module ).setPowerLevel( 0.75 );
-//            }
-//            if( selection == pct50RB ) {
-//                ( (CoffeeModule)module ).setPowerLevel( 0.5 );
-//            }
-//            if( selection == pct25RB ) {
-//                ( (CoffeeModule)module ).setPowerLevel( 0.25 );
-//            }
         }
     };
 
     private void setPowerLevel() {
+
         JRadioButton selection = GraphicsUtil.getSelection( powerBtnGrp );
         if( selection == pct100RB ) {
             ( (CoffeeModule)module ).setPowerLevel( 1.0 );
