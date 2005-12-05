@@ -50,6 +50,18 @@ public class ElectronAtomCollisionExpert implements CollisionExpert {
         DischargeLampAtom atom = (DischargeLampAtom)classifiedBodies.get( DischargeLampAtom.class );
         Electron electron = (Electron)classifiedBodies.get( Electron.class );
         if( atom != null && electron != null ) {
+
+            // Do simple check
+            double prevDistSq = electron.getPositionPrev().distanceSq( atom.getPosition() );
+            double distSq = electron.getPosition().distanceSq( atom.getPosition() );
+            double atomRadSq = ( atom.getRadius() + electron.getRadius() ) * ( atom.getRadius() + electron.getRadius() );
+            if( distSq <= atomRadSq && prevDistSq > atomRadSq ) {
+                atom.collideWithElectron( electron );
+                return false;
+            }
+
+            // Do more complicated check that will detect if the electron passed through the atom during
+            // the time step, but isn't currently within the atom
             atomArea.setFrame( atom.getPosition().getX() - atom.getBaseRadius(),
                                atom.getPosition().getY() - atom.getBaseRadius(),
                                atom.getBaseRadius() * 2,
@@ -60,6 +72,7 @@ public class ElectronAtomCollisionExpert implements CollisionExpert {
                                   1 );
             if( atomArea.intersects( electronPath ) ) {
                 atom.collideWithElectron( electron );
+                return false;
             }
         }
         return false;
