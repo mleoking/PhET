@@ -29,6 +29,7 @@ import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.control.QTClockControls;
 import edu.colorado.phet.quantumtunneling.module.QTModule;
+import edu.colorado.phet.quantumtunneling.persistence.ConfigManager;
 
 
 /**
@@ -48,6 +49,9 @@ public class QTApplication extends PhetApplication {
     //----------------------------------------------------------------------------
     
     private QTModule _module;
+    
+    // PersistanceManager handles loading/saving application configurations.
+    private ConfigManager _persistenceManager;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -96,13 +100,17 @@ public class QTApplication extends PhetApplication {
      
         PhetFrame frame = getPhetFrame();
         
+        if ( _persistenceManager == null ) {
+            _persistenceManager = new ConfigManager( this );
+        }
+        
         // File menu
         {
             JMenuItem saveItem = new JMenuItem( SimStrings.get( "menu.file.save" ) );
             saveItem.setMnemonic( SimStrings.get( "menu.file.save.mnemonic" ).charAt(0) );
             saveItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-//                    _persistenceManager.save();
+                    _persistenceManager.save();
                 }
             } );
             
@@ -110,7 +118,7 @@ public class QTApplication extends PhetApplication {
             loadItem.setMnemonic( SimStrings.get( "menu.file.load.mnemonic" ).charAt(0) );
             loadItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-//                    _persistenceManager.load();
+                    _persistenceManager.load();
                 }
             } );
 
