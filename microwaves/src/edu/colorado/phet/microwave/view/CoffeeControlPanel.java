@@ -212,4 +212,11 @@ public class CoffeeControlPanel extends JPanel {
             ( (CoffeeModule)module ).setPowerLevel( 0.25 );
         }
     }
+
+    public void reset() {
+        fullViewRB.setSelected( true );
+        setFieldView();
+        pct100RB.setSelected( true );
+        setPowerLevel();
+    }
 }
