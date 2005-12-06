@@ -113,6 +113,13 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         model.getSeedBeam().addWavelengthChangeListener( this );
         model.getSeedBeam().addRateChangeListener( this );
 
+        // Add a listener to the model that will adjust the panel if energy states change
+        model.addLaserListener( new LaserModel.ChangeListenerAdapter() {
+            public void atomicStatesChanged( LaserModel.ChangeEvent event ) {
+                adjustPanel();
+            }
+        } );
+
         // Create the graphics and controls that represent the energy levels of the atoms
         createEnergyLevelReps();
 
