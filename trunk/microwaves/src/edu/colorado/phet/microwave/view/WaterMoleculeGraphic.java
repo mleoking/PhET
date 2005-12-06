@@ -18,7 +18,7 @@ import java.util.Observable;
 
 /**
  * ObservingGraphic for WaterMolecules.
- * <p>
+ * <p/>
  * The class uses a the Flyweight pattern to achieve acceptable performance.
  * The class keeps a static cache of images at different orientations so that
  * new BufferedImages don't have to be allocated for each WaterMolecule in the
@@ -48,16 +48,18 @@ public class WaterMoleculeGraphic extends TxObservingGraphic implements ImageObs
     }
 
     private void drawAtom( Graphics2D g, double x, double y, double radius, Color color ) {
+        RenderingHints orgRH = g.getRenderingHints();
         atomGraphic.setFrameFromCenter( x, y,
                                         x + radius,
-                                        y + radius);
+                                        y + radius );
         g.setColor( color );
-        g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF );
+        g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         g.fill( atomGraphic );
         g.setStroke( moleculeStroke );
         g.setColor( Color.BLACK );
-        g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         g.draw( atomGraphic );
+        g.setRenderingHints( orgRH );
+//        g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF );
     }
 
     public void update( Observable o, Object arg ) {

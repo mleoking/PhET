@@ -76,8 +76,10 @@ public class CoffeeModule extends MicrowaveModule {
         }
 
         powerManager = new PowerManager( powerLevel );
-        coffeeControlPanel = new CoffeeControlPanel( this, getMicrowaveModel() );
-        setControlPanel( coffeeControlPanel );
+        if( coffeeControlPanel == null ) {
+            coffeeControlPanel = new CoffeeControlPanel( this, getMicrowaveModel() );
+        }
+            setControlPanel( coffeeControlPanel );
 
         // Set initial conditions
         ovenOn = false;
@@ -105,6 +107,15 @@ public class CoffeeModule extends MicrowaveModule {
 
     public synchronized void toggleMicrowave() {
         ovenOn = !ovenOn;
+    }
+
+
+    public void reset() {
+        super.reset();
+        coffeeControlPanel.reset();
+//        coffeeControlPanel = new CoffeeControlPanel( this, getMicrowaveModel() );
+//        setControlPanel( coffeeControlPanel );
+//        PhetApplication.instance().getApplicationView().getBasicPhetPanel().setControlPanel( coffeeControlPanel );
     }
 
     //

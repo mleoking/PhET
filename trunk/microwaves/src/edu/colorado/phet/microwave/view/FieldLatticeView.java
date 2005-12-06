@@ -9,6 +9,7 @@ package edu.colorado.phet.microwave.view;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.graphics.ModelViewTransform2D;
 import edu.colorado.phet.coreadditions.TxObservingGraphic;
 import edu.colorado.phet.microwave.MicrowaveConfig;
@@ -31,7 +32,7 @@ public class FieldLatticeView extends TxObservingGraphic {
     private Point2D.Double origin;
     private double latticeSpacingX;
     private double latticeSpacingY;
-    private ApparatusPanel panel;
+//    private ApparatusPanel panel;
     private int numLatticePtsX;
     private int numLatticePtsY;
     private Vector2D[][] latticePts;
@@ -61,7 +62,7 @@ public class FieldLatticeView extends TxObservingGraphic {
         this.origin = origin;
         this.latticeSpacingX = latticeSpacingX;
         this.latticeSpacingY = latticeSpacingY;
-        this.panel = panel;
+//        this.panel = panel;
         numLatticePtsX = (int)( 1 + ( width - 1 ) / latticeSpacingX );
         numLatticePtsY = (int)( 1 + ( height - 1 ) / latticeSpacingY );
         latticePts = new Vector2D[numLatticePtsY][numLatticePtsX];
@@ -77,8 +78,10 @@ public class FieldLatticeView extends TxObservingGraphic {
     }
 
     public synchronized void paint( Graphics2D g2 ) {
-        
+
         if( viewType != VIEW_NONE ) {
+            RenderingHints orgRH = g2.getRenderingHints();
+            GraphicsUtil.setAntiAliasingOn( g2 );
             g2.setColor( Color.BLUE );
 
             float scaleFactor = 1.0f;
@@ -133,7 +136,7 @@ public class FieldLatticeView extends TxObservingGraphic {
                             spline.addPoint( x, y + fy );
                         }
                     }
-                }
+                } // for( int i = 0; i < numLatticePtsY; i++ )
 
                 // Draw the spline curve
                 if( splineVisible && atXAxis ) {
@@ -142,8 +145,8 @@ public class FieldLatticeView extends TxObservingGraphic {
                     spline.paint( g2 );
                 }
             }
-        }
-
+            g2.setRenderingHints( orgRH );
+        } // if( viewType != VIEW_NONE )
     }
 
     private float getAutoscaleFactor() {
