@@ -96,9 +96,13 @@ public class PacketTotalEnergyRenderer extends AbstractXYItemRenderer {
             int item, 
             CrosshairState crosshairState, 
             int pass ) {
-
-        // If this isn't the series we care about, or if the series is invisible...
-        if ( series != _series || !isSeriesVisible( series ) ) {
+        
+        /*
+         * We only care about the first data point (item == 0) in 
+         * the series that we're interested in, and only if that
+         * series is visible.  Otherwise, do nothing.
+         */
+        if ( series != _series || !isSeriesVisible( series ) || item != 0 ) {
             return;
         }
         
@@ -113,7 +117,7 @@ public class PacketTotalEnergyRenderer extends AbstractXYItemRenderer {
             
             // Axis (model) coordinates
             double aMinX = domainAxis.getLowerBound();
-            double aCenterY = dataset.getYValue( series, 0 ); // the total energy value
+            double aCenterY = dataset.getYValue( series, item ); // the total energy value
 
             // Java2D coordinates
             RectangleEdge domainAxisLocation = plot.getDomainAxisEdge();
@@ -148,7 +152,7 @@ public class PacketTotalEnergyRenderer extends AbstractXYItemRenderer {
         // Axis (model) coordinates
         double aMinX = domainAxis.getLowerBound();
         double aMaxX = domainAxis.getUpperBound();
-        double aCenterY = dataset.getYValue( series, 0 ); // the total energy value
+        double aCenterY = dataset.getYValue( series, item ); // the total energy value
         double aMinY = aCenterY - ( _bandHeight / 2 );
         double aMaxY = aCenterY + ( _bandHeight / 2 );
 
