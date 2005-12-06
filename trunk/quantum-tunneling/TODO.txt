@@ -58,6 +58,7 @@ JFREECHART:
 
 
 DONE:
+(12/5/05) - add custom renderer for wave packet total energy band
 (12/5/05) - create custom arrow cursor using shapes instead of images
 (12/5/05) - make drag handles support 2 looks: control point, double arrow
 (12/5/05) - make drag handles look more like control points, change cursor to indicate drag direction
