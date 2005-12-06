@@ -34,6 +34,7 @@ import org.jfree.ui.TextAnchor;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
+import edu.colorado.phet.quantumtunneling.enum.WaveType;
 import edu.colorado.phet.quantumtunneling.model.*;
 import edu.colorado.phet.quantumtunneling.module.QTModule;
 import edu.colorado.phet.quantumtunneling.view.EnergyPlot;
@@ -117,8 +118,9 @@ public class ConfigureEnergyDialog extends JDialog {
      * @param parent
      * @param totalEnergy
      * @param potentialEnergy
+     * @param waveType
      */
-    public ConfigureEnergyDialog( Frame parent, QTModule module, TotalEnergy totalEnergy, AbstractPotentialSpace potentialEnergy ) {
+    public ConfigureEnergyDialog( Frame parent, QTModule module, TotalEnergy totalEnergy, AbstractPotentialSpace potentialEnergy, WaveType waveType ) {
         super( parent );
 
         setTitle( SimStrings.get( "title.configureEnergy" ) );
@@ -133,7 +135,7 @@ public class ConfigureEnergyDialog extends JDialog {
         _totalEnergy = new TotalEnergy( totalEnergy );
         _potentialEnergy = clonePotentialEnergy( potentialEnergy );
 
-        createUI( parent );
+        createUI( parent, waveType );
         populateValues();
         
         setLocationRelativeTo( parent );
@@ -160,10 +162,11 @@ public class ConfigureEnergyDialog extends JDialog {
      * Creates the user interface for the dialog.
      * 
      * @param parent the parent Frame
+     * @param waveType the wave type
      */
-    private void createUI( Frame parent ) {
+    private void createUI( Frame parent, WaveType waveType ) {
         
-        JPanel chartPanel = createChartPanel();
+        JPanel chartPanel = createChartPanel( waveType );
         _inputPanel = new JPanel();
         _inputPanel.add( createInputPanel() );
         JPanel actionsPanel = createActionsPanel();
@@ -195,13 +198,15 @@ public class ConfigureEnergyDialog extends JDialog {
     /*
      * Creates the dialog's chart panel.
      * 
+     * @param waveType
      * @return the chart panel
      */
-    private JPanel createChartPanel() {
+    private JPanel createChartPanel( WaveType waveType ) {
 
         // Plot
         _energyPlot = new EnergyPlot();
         _energyPlot.setAxesFont( AXES_FONT );
+        _energyPlot.setWaveType( waveType );
         
         // Chart
         JFreeChart chart = new JFreeChart( null /*title*/, null /*font*/, _energyPlot, false /* createLegend */);
