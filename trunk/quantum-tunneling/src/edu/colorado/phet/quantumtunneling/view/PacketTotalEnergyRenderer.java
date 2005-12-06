@@ -29,14 +29,14 @@ import edu.colorado.phet.quantumtunneling.QTConstants;
 
 
 /**
- * GradientBandRenderer render the total energy of a wave packet 
+ * PacketTotalEnergyRenderer render the total energy of a wave packet 
  * as a gradient that represents the distribution of possible 
  * energy values.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class GradientBandRenderer extends AbstractXYItemRenderer {
+public class PacketTotalEnergyRenderer extends AbstractXYItemRenderer {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -67,7 +67,7 @@ public class GradientBandRenderer extends AbstractXYItemRenderer {
      * @param bandHeight the height of the band, in model coordinates
      * @param series the series that contains the total energy data
      */
-    public GradientBandRenderer( double bandHeight, int series ) {
+    public PacketTotalEnergyRenderer( double bandHeight, int series ) {
         super();
         if ( bandHeight <= 0 ) {
             throw new IllegalArgumentException( "bandWidth must be > 0: " + bandHeight );
