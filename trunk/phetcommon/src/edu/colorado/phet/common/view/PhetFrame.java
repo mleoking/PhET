@@ -39,7 +39,7 @@ public class PhetFrame extends JFrame {
     private boolean paused; // state of the clock prior to being iconified
     private PhetApplication application;
     private ClockControlPanel clockControlPanel;
-    private ContentPanel basicPhetPanel;
+    private ContentPanel contentPanel;
     private FrameSetup frameSetup;
     private DebugMenu debugMenu;
 
@@ -146,14 +146,14 @@ public class PhetFrame extends JFrame {
         if( model.getUseClockControlPanel() ) {
             clockControlPanel = new ClockControlPanel( model.getClock() );
         }
-        basicPhetPanel = new ContentPanel( apparatusPanelContainer, null, null, clockControlPanel );
-        setContentPane( basicPhetPanel );
+        contentPanel = new ContentPanel( apparatusPanelContainer, null, null, clockControlPanel );
+        setContentPane( contentPanel );
     }
 
     public void setModules( Module[] modules ) {
         JComponent apparatusPanelContainer = createApparatusPanelContainer( application, modules );
-        basicPhetPanel = new ContentPanel( apparatusPanelContainer, null, null, clockControlPanel );
-        setContentPane( basicPhetPanel );
+        contentPanel = new ContentPanel( apparatusPanelContainer, null, null, clockControlPanel );
+        setContentPane( contentPanel );
     }
 
     /**
@@ -199,10 +199,17 @@ public class PhetFrame extends JFrame {
         return apparatusPanelContainer;
     }
 
+    /**
+     * @deprecated use getContentPanel
+     */
     public ContentPanel getBasicPhetPanel() {
-        return basicPhetPanel;
+        return contentPanel;
     }
 
+    public ContentPanel getContentPanel() {
+        return contentPanel;
+    }
+    
     //----------------------------------------------------------------
     // Menu setup methods
     //----------------------------------------------------------------
