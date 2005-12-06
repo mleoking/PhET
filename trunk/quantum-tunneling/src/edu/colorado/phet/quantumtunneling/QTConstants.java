@@ -125,7 +125,7 @@ public class QTConstants {
     public static final double DEFAULT_PACKET_CENTER = 1.5; // nm
     
     // total energy
-    public static final double TOTAL_ENERGY_DEVIATION = 3.0; //  eV
+    public static final double TOTAL_ENERGY_DEVIATION = 3.8; //  eV
     
     //----------------------------------------------------------------------------
     // Charts

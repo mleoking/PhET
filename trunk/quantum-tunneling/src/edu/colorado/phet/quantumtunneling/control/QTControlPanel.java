@@ -401,6 +401,22 @@ public class QTControlPanel extends AbstractControlPanel {
         _potentialComboBox.addItemListener( _listener );
     }
     
+    /**
+     * Gets the current wave type selection.
+     * 
+     * @return
+     */
+    public WaveType getWaveType() {
+        WaveType waveType = null;
+        if ( _planeWaveRadioButton.isSelected() ) {
+            waveType = WaveType.PLANE;
+        }
+        else { /* wave packet */
+            waveType = WaveType.PACKET;
+        }
+        return waveType;
+    }
+    
     //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------

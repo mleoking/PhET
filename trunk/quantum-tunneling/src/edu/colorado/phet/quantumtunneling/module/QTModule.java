@@ -271,7 +271,8 @@ public class QTModule extends AbstractModule {
     private void handleConfigureButton() {
         if ( _configureEnergyDialog == null ) {
             setWaitCursorEnabled( true );
-            _configureEnergyDialog = new ConfigureEnergyDialog( getFrame(), this, _totalEnergy, _potentialEnergy );
+            WaveType waveType = _controlPanel.getWaveType();
+            _configureEnergyDialog = new ConfigureEnergyDialog( getFrame(), this, _totalEnergy, _potentialEnergy, waveType );
             _configureEnergyDialog.addWindowListener( new WindowAdapter() {
                 // User pressed the closed button in the window dressing
                 public void windowClosing( WindowEvent event ) {
