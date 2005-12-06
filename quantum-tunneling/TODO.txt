@@ -6,7 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- loop button should be disabled for plane wave
+- closed-form solution for plane wave
 
 MEDIUM PRIORITY:
 - add support for complex numbers
@@ -16,6 +16,7 @@ MEDIUM PRIORITY:
 - Help items
 
 LOW PRIORITY:
+- loop button should be disabled for plane wave
 - make Configure dialog smarter about enabling Apply button (compare with original model values)
 - select entire spinner value when it gets focus
 - fix tab order in Configure dialog
@@ -29,7 +30,7 @@ OPTIMIZATIONS:
 - disable chart gridlines to improve drag handle responsiveness
 - draw chart backgrounds into an image using JFreeChart, the render dynamic stuff using JFreeChart with no decorations
 - flatten static elements
-- setIgnoreMouse
+- setPickable(false) on non-interactive graphics
 
 CLEANUP:
 - javadoc all code
