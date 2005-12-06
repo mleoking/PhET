@@ -22,6 +22,7 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
+import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
 
 
 /**
@@ -68,6 +69,20 @@ public abstract class AbstractModule extends PiccoloModule {
      * Resets the module to its initial state.
      */
     public abstract void reset();
+    
+    /**
+     * Saves the module's configuration by writing it to a provided configuration object.
+     * 
+     * @param appConfig
+     */
+    public abstract void save( QTConfig appConfig );
+    
+    /**
+     * Loads the module's configuration by reading it from a provided configuration object.
+     * 
+     * @param appConfig
+     */
+    public abstract void load( QTConfig appConfig );
     
     //----------------------------------------------------------------------------
     // Accessors

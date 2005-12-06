@@ -9,20 +9,16 @@ HIGH PRIORITY:
 - loop button should be disabled for plane wave
 
 MEDIUM PRIORITY:
-- make Configure dialog smarter about enabling Apply button (compare with original model values)
-- will it be possible to drag multiple drag handles at the same time since events aren't marked as handled?
-- how to keep markers behind data (Layer?)
-- implement PotentialsEnum
-- resolve several phetcommon/Piccolo integration issues
 - add support for complex numbers
 - implement Schrodinger's equation for 1 dimension
-
-LOW PRIORITY:
-- select entire spinner value when it gets focus
-- fix tab order in Configure dialog
 - add application description to SimStrings files
 - Save/Load
 - Help items
+
+LOW PRIORITY:
+- make Configure dialog smarter about enabling Apply button (compare with original model values)
+- select entire spinner value when it gets focus
+- fix tab order in Configure dialog
 - Wiggle Me
 - change time to ns when the time values grows too large to display fs
 - add build number to "About" dialog
@@ -57,8 +53,9 @@ JFREECHART:
 
 
 DONE:
-(12/5/05) - make total energy band look more like an expotential distribution
-(12/5/05) - change min region width to 0.1
+(12/6/05) - hooked up Save & Load features (still need to fill in the config objects)
+(12/6/05) - make total energy band look more like an expotential distribution
+(12/6/05) - change min region width to 0.1
 0.0.2 ...
 (12/5/05) - add custom renderer for wave packet total energy band
 (12/5/05) - create custom arrow cursor using shapes instead of images
@@ -155,6 +152,8 @@ DONE:
 
 
 REJECTED:
+(12/6/05) - will it be possible to drag multiple drag handles at the same time since events aren't marked as handled? (not an issue)
+(12/6/05) - how to keep markers behind data (using Layers?) (hasn't been an issue)
 (12/3/05) - use JFreeChart legend feature, use setFixedLegendItems to control what's in the legend (my legend is fine)
 (11/15/05) - is it OK that barrier width value is not displayed anywhere? (add Configure dialog)
 (11/15/05) - do we need to show value as drag handles are moved? (no, add Configure dialog)

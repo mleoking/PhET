@@ -30,6 +30,7 @@ import edu.colorado.phet.quantumtunneling.enum.WaveType;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotentialSpace;
 import edu.colorado.phet.quantumtunneling.model.BarrierPotential;
 import edu.colorado.phet.quantumtunneling.model.TotalEnergy;
+import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
 import edu.colorado.phet.quantumtunneling.view.*;
 import edu.umd.cs.piccolo.PNode;
 
@@ -244,6 +245,30 @@ public class QTModule extends AbstractModule {
         setPotentialEnergy( _potentialEnergy );
         
         _controlPanel.reset();
+    }
+    
+    /**
+     * Saves the module's configuration by writing it to a provided configuration object.
+     * 
+     * @param appConfig
+     */
+    public void save( QTConfig appConfig ) {
+        QTConfig.ModuleConfig config = appConfig.getModuleConfig();
+        
+        // Read simulation state and write it to the config.
+        //XXX
+    }
+    
+    /**
+     * Loads the module's configuration by reading it from a provided configuration object.
+     * 
+     * @param appConfig
+     */
+    public void load( QTConfig appConfig ) {
+        QTConfig.ModuleConfig config = appConfig.getModuleConfig();
+        
+        // Read from the config and set simulations state.
+        //XXX
     }
     
     //----------------------------------------------------------------------------
