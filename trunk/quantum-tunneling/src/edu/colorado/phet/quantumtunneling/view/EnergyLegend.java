@@ -63,5 +63,8 @@ public class EnergyLegend extends PNode {
         totalEnergyItem.translate( MARGIN, MARGIN );
         potentialEnergyItem.translate( MARGIN, MARGIN );
         addChild( borderNode );
+        
+        setPickable( false );
+        setChildrenPickable( false );
     }
 }

@@ -41,6 +41,8 @@ public class QTCombinedChartNode extends JFreeChartNode {
      */
     public QTCombinedChartNode( QTCombinedChart chart ) {
         super( chart );
+        setPickable( false );
+        setChildrenPickable( false );
     }
     
     //----------------------------------------------------------------------------
