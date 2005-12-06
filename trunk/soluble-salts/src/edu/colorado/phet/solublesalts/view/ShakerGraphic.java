@@ -61,6 +61,10 @@ public class ShakerGraphic extends RegisterablePNode {
 
                 super.mouseDragged( event );
             }
+
+            public void mousePressed( PInputEvent event ) {
+                ShakerGraphic.this.shaker.reset();
+            }
         } );
     }
 }

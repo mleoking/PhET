@@ -33,6 +33,10 @@ import java.io.IOException;
  */
 public class IonGraphicManager implements IonListener {
 
+    //----------------------------------------------------------------
+    // Class data and methods
+    //----------------------------------------------------------------
+
     static private HashMap imageMap = new HashMap();
 
     static public BufferedImage getIonImage( Class ionClass ) {
@@ -41,11 +45,22 @@ public class IonGraphicManager implements IonListener {
 
     static {
         IonGraphic igNa = createPImage( new Sodium() );
-            imageMap.put( Sodium.class, igNa.getImage() );
-        IonGraphic igCl = createPImage( new Chloride( ));
-            imageMap.put( Chloride.class, igCl.getImage() );
+        imageMap.put( Sodium.class, igNa.getImage() );
+        IonGraphic igCl = createPImage( new Chloride() );
+        imageMap.put( Chloride.class, igCl.getImage() );
+        IonGraphic igPb = createPImage( new Lead() );
+        imageMap.put( Lead.class, igPb.getImage() );
     }
 
+    static private BufferedImage setColor( Color color, BufferedImage bImg ) {
+        MakeDuotoneImageOp op = new MakeDuotoneImageOp( color );
+        return op.filter( bImg, null );
+    }
+
+
+    //----------------------------------------------------------------
+    // Instance data and methods
+    //----------------------------------------------------------------
 
     private PNode graphicContainer;
     private HashMap ionToGraphicMap = new HashMap();
@@ -63,13 +78,25 @@ public class IonGraphicManager implements IonListener {
 
     static private IonGraphic createPImage( Ion ion ) {
         IonGraphic ig = new IonGraphic( ion, SolubleSaltsConfig.BLUE_ION_IMAGE_NAME );
+        boolean ionClassRecognized = false;
 
         if( ion instanceof Chloride ) {
             ig.setColor( new Color( 0, 100, 0 ) );
+            ionClassRecognized = true;
         }
         if( ion instanceof Sodium ) {
             ig.setColor( Color.orange );
             ig.setPolarityMarkerColor( Color.black );
+            ionClassRecognized = true;
+        }
+        if( ion instanceof Lead ) {
+            ig.setColor( Color.red );
+            ig.setPolarityMarkerColor( Color.black );
+            ionClassRecognized = true;
+        }
+
+        if( !ionClassRecognized ) {
+            throw new RuntimeException( "Ion class not recognized" );
         }
         return ig;
     }
@@ -78,10 +105,5 @@ public class IonGraphicManager implements IonListener {
         IonGraphic ig = (IonGraphic)ionToGraphicMap.get( event.getIon() );
         graphicContainer.removeChild( ig );
         ionToGraphicMap.remove( event.getIon() );
-    }
-
-    static private BufferedImage setColor( Color color, BufferedImage bImg ) {
-        MakeDuotoneImageOp op = new MakeDuotoneImageOp( color );
-        return op.filter( bImg, null );
     }
 }
