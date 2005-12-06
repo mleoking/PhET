@@ -98,7 +98,7 @@ public class EnergyPlot extends XYPlot implements Observer {
             setRenderer( TE_PLANE_RENDERER_INDEX, planeRenderer );
             
             // Renderer for wave packet
-            XYItemRenderer packetRenderer = new GradientBandRenderer( QTConstants.TOTAL_ENERGY_DEVIATION, 0 );
+            XYItemRenderer packetRenderer = new PacketTotalEnergyRenderer( QTConstants.TOTAL_ENERGY_DEVIATION, 0 );
             packetRenderer.setPaint( QTConstants.TOTAL_ENERGY_COLOR );
             packetRenderer.setStroke( new BasicStroke( 50f ) );
             setDataset( TE_PACKET_RENDERER_INDEX, data );
