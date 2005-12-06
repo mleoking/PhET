@@ -7,7 +7,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - loop button should be disabled for plane wave
-- use a wide stroke with gradient paint for Total Energy of wave packet
 
 MEDIUM PRIORITY:
 - make Configure dialog smarter about enabling Apply button (compare with original model values)
@@ -58,6 +57,7 @@ JFREECHART:
 
 
 DONE:
+0.0.2 ...
 (12/5/05) - add custom renderer for wave packet total energy band
 (12/5/05) - create custom arrow cursor using shapes instead of images
 (12/5/05) - make drag handles support 2 looks: control point, double arrow
