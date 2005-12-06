@@ -30,7 +30,7 @@ import edu.colorado.phet.quantumtunneling.QTConstants;
 
 /**
  * PacketTotalEnergyRenderer render the total energy of a wave packet 
- * as a gradient that represents the distribution of possible 
+ * as a gradient that represents the expotential distribution of possible 
  * energy values.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -43,10 +43,10 @@ public class PacketTotalEnergyRenderer extends AbstractXYItemRenderer {
     //----------------------------------------------------------------------------
     
     /* The minumum transparency value, at the top & bottom edges of the band */
-    private static final int MIN_ALPHA = 20;
+    private static final int INTERMEDIATE_ALPHA = 140;
     
     /* How far from the top (percentage wise) do we encounter the most transparent pixel? */
-    private static final double FADE_POINT = 0.15;
+    private static final double FADE_POINT = 0.25;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -135,10 +135,11 @@ public class PacketTotalEnergyRenderer extends AbstractXYItemRenderer {
 
     /*
      * Updates the band that represents the range of possible energy.
-     * This band is implemented as two rectangle, each with its own
+     * This band is implemented as 4 rectangle, each with its own
      * GradientPaint.  The rectangles and gradients are arranged such
      * that the darkest color at the total energy point, and the
-     * color fades out above and below.
+     * color fades out above and below.  There are 4 rectangles so
+     * that we can fake an expotential distribution.
      */
     private void updateBand(
             Rectangle2D dataArea,             
@@ -150,42 +151,54 @@ public class PacketTotalEnergyRenderer extends AbstractXYItemRenderer {
             int item ) {
 
         // Axis (model) coordinates
-        double aMinX = domainAxis.getLowerBound();
-        double aMaxX = domainAxis.getUpperBound();
-        double aCenterY = dataset.getYValue( series, item ); // the total energy value
-        double aMinY = aCenterY - ( _bandHeight / 2 );
-        double aMaxY = aCenterY + ( _bandHeight / 2 );
+        final double aMinX = domainAxis.getLowerBound();
+        final double aMaxX = domainAxis.getUpperBound();
+        final double aCenterY = dataset.getYValue( series, item ); // the total energy value
+        final double aMinY = aCenterY - ( _bandHeight / 2 );
+        final double aMaxY = aCenterY + ( _bandHeight / 2 );
 
         // Java2D coorinates
         RectangleEdge domainAxisLocation = plot.getDomainAxisEdge();
         RectangleEdge rangeAxisLocation = plot.getRangeAxisEdge();
-        double jMinX = domainAxis.valueToJava2D( aMinX, dataArea, domainAxisLocation );
-        double jMaxX = domainAxis.valueToJava2D( aMaxX, dataArea, domainAxisLocation );
-        double jMinY = rangeAxis.valueToJava2D( aMaxY, dataArea, rangeAxisLocation ); // +y is down
-        double jMaxY = rangeAxis.valueToJava2D( aMinY, dataArea, rangeAxisLocation ); // +y is down
-        double jWidth = jMaxX - jMinX;
-        double jHeight = jMaxY - jMinY;
+        final double jMinX = domainAxis.valueToJava2D( aMinX, dataArea, domainAxisLocation );
+        final double jMaxX = domainAxis.valueToJava2D( aMaxX, dataArea, domainAxisLocation );
+        final double jMinY = rangeAxis.valueToJava2D( aMaxY, dataArea, rangeAxisLocation ); // +y is down
+        final double jMaxY = rangeAxis.valueToJava2D( aMinY, dataArea, rangeAxisLocation ); // +y is down
+        final double jWidth = jMaxX - jMinX;
+        final double jHeight = jMaxY - jMinY;
        
         // Create the image of the band
         if ( jWidth > 0 && jHeight > 0 ) {
             
-            final double overlap = .05 * jHeight;
-            Shape shape1 = new Rectangle2D.Double( 0, 0, jWidth, ( jHeight / 2 ) + overlap );
-            Shape shape2 = new Rectangle2D.Double( 0, ( jHeight / 2 ) - overlap, jWidth, (jHeight / 2 ) + overlap );
+            final double overlap = .005 * jHeight; // amount the rectangles overlap vertically
+            final double topHeight = FADE_POINT * jHeight; // height of the top and bottom rectangles
+            final double middleHeight = ( jHeight / 2 ) - topHeight; // height of the middle rectangles
+            
+            Shape shape0 = new Rectangle2D.Double( 0, 0, jWidth, topHeight + overlap );
+            Shape shape1 = new Rectangle2D.Double( 0, topHeight - overlap, jWidth, middleHeight + ( 2 * overlap ) );
+            Shape shape2 = new Rectangle2D.Double( 0, ( jHeight / 2 ) - overlap, jWidth, middleHeight + ( 2 * overlap ) );
+            Shape shape3 = new Rectangle2D.Double( 0, jHeight - topHeight - overlap, jWidth, topHeight + overlap );
 
             Color color1 = QTConstants.TOTAL_ENERGY_COLOR;
-            Color color2 = new Color( color1.getRed(), color1.getGreen(), color1.getBlue(), MIN_ALPHA );
+            Color color2 = new Color( color1.getRed(), color1.getGreen(), color1.getBlue(), INTERMEDIATE_ALPHA );
+            Color color3 = new Color( color1.getRed(), color1.getGreen(), color1.getBlue(), 0 );
 
-            GradientPaint gradient1 = new GradientPaint( 0f, (float) ( FADE_POINT * jHeight ), color2, 0f, (float) jHeight / 2f, color1 );
-            GradientPaint gradient2 = new GradientPaint( 0f, (float) jHeight / 2, color1, 0f, (float) ( jHeight - ( FADE_POINT * jHeight ) ), color2 );
+            GradientPaint gradient0 = new GradientPaint( 0f, 0f, color3, 0f, (float)topHeight, color2 );
+            GradientPaint gradient1 = new GradientPaint( 0f, (float)topHeight, color2, 0f, (float)( jHeight / 2 ), color1 );
+            GradientPaint gradient2 = new GradientPaint( 0f, (float)( jHeight / 2 ), color1, 0f, (float) ( jHeight - topHeight ), color2 );
+            GradientPaint gradient3 = new GradientPaint( 0f, (float) ( jHeight - topHeight ), color2, 0f, (float) jHeight, color3 );
 
             _image = new BufferedImage( (int)jWidth, (int)jHeight, BufferedImage.TYPE_INT_ARGB );
             Graphics2D g2 = _image.createGraphics();
             g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+            g2.setPaint( gradient0 );
+            g2.fill( shape0 );
             g2.setPaint( gradient1 );
             g2.fill( shape1 );
             g2.setPaint( gradient2 );
             g2.fill( shape2 );
+            g2.setPaint( gradient3 );
+            g2.fill( shape3 );
         }
     }
 }

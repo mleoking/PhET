@@ -57,6 +57,8 @@ JFREECHART:
 
 
 DONE:
+(12/5/05) - make total energy band look more like an expotential distribution
+(12/5/05) - change min region width to 0.1
 0.0.2 ...
 (12/5/05) - add custom renderer for wave packet total energy band
 (12/5/05) - create custom arrow cursor using shapes instead of images
