@@ -22,11 +22,15 @@ import java.util.HashMap;
  */
 public class Salt {
     private Lattice lattice;
+    private Class anionClass;
+    private Class cationClass;
     private HashMap components;
 
-    protected Salt( HashMap components, Lattice lattice) {
+    protected Salt( HashMap components, Lattice lattice, Class anionClass, Class cationClass ) {
         this.components = components;
         this.lattice = lattice;
+        this.anionClass = anionClass;
+        this.cationClass = cationClass;
     }
 
     public HashMap getComponents() {
@@ -35,5 +39,13 @@ public class Salt {
 
     public Lattice getLattice() {
         return lattice;
+    }
+
+    public Class getAnionClass() {
+        return anionClass;
+    }
+
+    public Class getCationClass() {
+        return cationClass;
     }
 }

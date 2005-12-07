@@ -19,6 +19,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.control.SolubleSaltsControlPanel;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
+import edu.colorado.phet.solublesalts.model.salt.Salt;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -355,6 +356,14 @@ public class SolubleSaltsModel extends BaseModel {
 
     public void removeIonListener( IonListener listener ) {
         ionTracker.removeIonListener( listener );
+    }
+
+    public void setCurrentSalt( Salt salt ) {
+        shaker.setCurrentSalt( salt );
+    }
+
+    public Salt getCurrentSalt() {
+        return shaker.getCurrentSalt();
     }
 
     public class LatticeEvent extends EventObject {
