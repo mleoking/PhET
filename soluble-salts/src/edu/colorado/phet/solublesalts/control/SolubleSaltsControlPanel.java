@@ -49,7 +49,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
     private ModelSlider vesselIonStickSlider;
     private ModelSlider vesselIonReleaseSlider;
     private ModelSlider dissociationSlider;
-    private JPanel anionPanel;
+    private AnionPanel anionPanel;
     private JPanel cationPanel;
     private JLabel anionLabel;
     private JLabel cationLabel;
@@ -60,7 +60,8 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         final SolubleSaltsModel model = (SolubleSaltsModel)module.getModel();
 
         addControl( makeSaltSelectionPanel( model ) );
-        anionPanel = makeAnionPanel( model );
+        anionPanel = new AnionPanel( model );
+//        anionPanel = makeAnionPanel( model );
         addControl( anionPanel );
         cationPanel = makeCationPanel( model );
         addControl( cationPanel );
@@ -149,6 +150,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
                 if( anionClass == Lead.class ) {
                     anionName = "Lead";
                 }
+                anionPanel.trackIonClass( anionClass );
                 anionLabel.setText( anionName );
                 anionLabel.setIcon( new ImageIcon( IonGraphicManager.getIonImage( anionClass ) ) );
 
@@ -277,7 +279,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
      * @return
      */
     private JPanel makeAnionPanel( final SolubleSaltsModel model ) {
-        JPanel sodiumPanel = new JPanel( new GridBagLayout() );
+        JPanel anionPanel = new JPanel( new GridBagLayout() );
         GridBagConstraints gbc = new DefaultGridBagConstraints();
 
         // Get names of the anion
@@ -292,7 +294,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
 
         anionLabel = new JLabel( anionName, new ImageIcon( IonGraphicManager.getIonImage( anionClass ) ), JLabel.LEADING );
         gbc.anchor = GridBagConstraints.EAST;
-        sodiumPanel.add( anionLabel, gbc );
+        anionPanel.add( anionLabel, gbc );
 
         // Spinners for the number of ions
         final JSpinner spinner = new JSpinner( new SpinnerNumberModel( model.getNumIonsOfType( anionClass ),
@@ -302,7 +304,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         model.addIonListener( new IonCountSyncAgent( model, anionClass, spinner ) );
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.WEST;
-        sodiumPanel.add( spinner, gbc );
+        anionPanel.add( spinner, gbc );
 
         spinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -331,9 +333,9 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         JTextField ionCountTF = new JTextField( 4 );
         model.addIonListener( new FreeIonCountSyncAgent( model, anionClass, ionCountTF ) );
         gbc.gridx++;
-        sodiumPanel.add( ionCountTF, gbc );
+        anionPanel.add( ionCountTF, gbc );
 
-        return sodiumPanel;
+        return anionPanel;
     }
 
     /**
@@ -498,6 +500,92 @@ public class SolubleSaltsControlPanel extends ControlPanel {
             pack();
 //            setLocation( 100, 30);
             setLocationRelativeTo( PhetApplication.instance().getPhetFrame() );
+        }
+    }
+
+    //----------------------------------------------------------------
+    //----------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------
+    //----------------------------------------------------------------
+
+    private class AnionPanel extends JPanel {
+        private FreeIonCountSyncAgent freeIonCountSyncAgent;
+        private SolubleSaltsModel model;
+        private JTextField ionCountTF;
+        private JSpinner spinner;
+        private IonCountSyncAgent ionCountSyncAgent;
+
+        public AnionPanel( final SolubleSaltsModel model ) {
+            super( new GridBagLayout() );
+            this.model = model;
+            JPanel anionPanel = this;
+            GridBagConstraints gbc = new DefaultGridBagConstraints();
+
+            // Get names of the anion
+            final Class anionClass = model.getCurrentSalt().getAnionClass();
+            String anionName = null;
+            if( anionClass == Sodium.class ) {
+                anionName = "Sodium";
+            }
+            if( anionClass == Lead.class ) {
+                anionName = "Lead";
+            }
+
+            anionLabel = new JLabel( anionName, new ImageIcon( IonGraphicManager.getIonImage( anionClass ) ), JLabel.LEADING );
+            gbc.anchor = GridBagConstraints.EAST;
+            anionPanel.add( anionLabel, gbc );
+
+            // Spinners for the number of ions
+            spinner = new JSpinner( new SpinnerNumberModel( model.getNumIonsOfType( anionClass ),
+                                                                                       0,
+                                                                                       100,
+                                                                                       1 ) );
+            ionCountSyncAgent = new IonCountSyncAgent( model, anionClass, spinner );
+            model.addIonListener( ionCountSyncAgent );
+            gbc.gridx = 1;
+            gbc.anchor = GridBagConstraints.WEST;
+            anionPanel.add( spinner, gbc );
+
+            spinner.addChangeListener( new ChangeListener() {
+                public void stateChanged ( ChangeEvent e ) {
+                    int dIons = ( (Integer)spinner.getValue() ).intValue()
+                                - model.getNumIonsOfType( anionClass );
+                    if( dIons > 0 ) {
+                        IonFactory ionFactory = new IonFactory();
+                        for( int i = 0; i < dIons; i++ ) {
+                            Ion ion = ionFactory.create( anionClass );
+                            IonInitializer.initialize( ion, model );
+                            model.addModelElement( ion );
+                        }
+                    }
+                    if( dIons < 0 ) {
+                        for( int i = dIons; i < 0; i++ ) {
+                            List ions = model.getIonsOfType( Sodium.class );
+                            if( ions != null ) {
+                                Ion ion = (Ion)ions.get( 0 );
+                                model.removeModelElement( ion );
+                            }
+                        }
+                    }
+                }
+            } );
+
+            ionCountTF = new JTextField( 4 );
+            freeIonCountSyncAgent = new FreeIonCountSyncAgent( model, anionClass, ionCountTF );
+            model.addIonListener( freeIonCountSyncAgent );
+            gbc.gridx++;
+            anionPanel.add( ionCountTF, gbc );
+        }
+
+        void trackIonClass( Class anionClass ) {
+            model.removeIonListener( freeIonCountSyncAgent );
+            freeIonCountSyncAgent = new FreeIonCountSyncAgent( model, anionClass, ionCountTF );
+            model.addIonListener( freeIonCountSyncAgent );
+
+            model.removeIonListener( ionCountSyncAgent );
+            ionCountSyncAgent = new IonCountSyncAgent( model, anionClass, spinner );
+            model.addIonListener( ionCountSyncAgent );
         }
     }
 }
