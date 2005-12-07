@@ -33,6 +33,18 @@ public class IonFactory {
         if( ionClass == Lead.class ) {
             ion = new Lead();
         }
+        if( ionClass == Silver.class ) {
+            ion = new Silver();
+        }
+        if( ionClass == Iodine.class ) {
+            ion = new Iodine();
+        }
+        if( ionClass == Copper.class ) {
+            ion = new Copper();
+        }
+        if( ionClass == Hydroxide.class ) {
+            ion = new Hydroxide();
+        }
 
         if( ion == null ) {
             throw new RuntimeException( "Ion class not recognized ");

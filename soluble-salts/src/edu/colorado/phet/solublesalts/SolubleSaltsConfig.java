@@ -15,6 +15,8 @@ import edu.colorado.phet.solublesalts.model.crystal.TwoToOneLattice;
 import edu.colorado.phet.solublesalts.model.crystal.PlainCubicLattice;
 import edu.colorado.phet.solublesalts.model.Sodium;
 import edu.colorado.phet.solublesalts.model.Chloride;
+import edu.colorado.phet.solublesalts.model.salt.Salt;
+import edu.colorado.phet.solublesalts.model.salt.SodiumChloride;
 
 import java.awt.geom.Point2D;
 import java.awt.*;
@@ -37,6 +39,9 @@ public class SolubleSaltsConfig {
     public static final double DT = 1;
     public static final int FPS = 25;
 
+    // Defaults
+    public static final Salt DEFAULT_SALT = new SodiumChloride();
+
     // Physical things
     private static final double scale = 1;
 //    private static final double scale = 10;
@@ -54,7 +59,6 @@ public class SolubleSaltsConfig {
     public static final double DEFAULT_LATTICE_ACCELERATION = .2;
 //    public static final double DEFAULT_LATTICE_ACCELERATION = .5;
     public static final double MAX_SPIGOT_FLOW = 500;
-
 
     // Images
     public static final String IMAGE_PATH = "images/";
