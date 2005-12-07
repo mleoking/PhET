@@ -57,6 +57,10 @@ public class Shaker extends Particle {
         this.currentSalt = currentSalt;
     }
 
+    public Salt getCurrentSalt() {
+        return currentSalt;
+    }
+
     public void reset() {
         done = false;
     }

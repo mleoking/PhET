@@ -34,6 +34,6 @@ public class SodiumChloride extends Salt {
     }
 
     public SodiumChloride() {
-        super( components, lattice );
+        super( components, lattice, Sodium.class, Chloride.class );
     }
 }
