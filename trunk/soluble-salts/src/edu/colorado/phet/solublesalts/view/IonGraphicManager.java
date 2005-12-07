@@ -44,12 +44,18 @@ public class IonGraphicManager implements IonListener {
     }
 
     static {
-        IonGraphic igNa = createPImage( new Sodium() );
-        imageMap.put( Sodium.class, igNa.getImage() );
-        IonGraphic igCl = createPImage( new Chloride() );
-        imageMap.put( Chloride.class, igCl.getImage() );
-        IonGraphic igPb = createPImage( new Lead() );
-        imageMap.put( Lead.class, igPb.getImage() );
+        putImage( new Sodium() );
+        putImage( new Chloride() );
+        putImage( new Lead() );
+        putImage( new Silver() );
+        putImage( new Iodine() );
+        putImage( new Copper() );
+        putImage( new Hydroxide() );
+    }
+
+    static private void putImage( Ion ion ) {
+        IonGraphic ig = createPImage( ion );
+        imageMap.put( ion.getClass(), ig.getImage() );
     }
 
     static private BufferedImage setColor( Color color, BufferedImage bImg ) {
@@ -57,24 +63,6 @@ public class IonGraphicManager implements IonListener {
         return op.filter( bImg, null );
     }
 
-
-    //----------------------------------------------------------------
-    // Instance data and methods
-    //----------------------------------------------------------------
-
-    private PNode graphicContainer;
-    private HashMap ionToGraphicMap = new HashMap();
-
-    public IonGraphicManager( PNode graphicContainer ) {
-        this.graphicContainer = graphicContainer;
-    }
-
-    public void ionAdded( IonEvent event ) {
-        IonGraphic ig = createPImage( event.getIon() );
-
-        graphicContainer.addChild( ig );
-        ionToGraphicMap.put( event.getIon(), ig );
-    }
 
     static private IonGraphic createPImage( Ion ion ) {
         IonGraphic ig = new IonGraphic( ion, SolubleSaltsConfig.BLUE_ION_IMAGE_NAME );
@@ -94,11 +82,45 @@ public class IonGraphicManager implements IonListener {
             ig.setPolarityMarkerColor( Color.black );
             ionClassRecognized = true;
         }
+        if( ion instanceof Silver ) {
+            ig.setColor( Color.gray  );
+            ig.setPolarityMarkerColor( Color.black );
+            ionClassRecognized = true;
+        }
+        if( ion instanceof Iodine ) {
+            ig.setColor( Color.magenta );
+            ionClassRecognized = true;
+        }
+        if( ion instanceof Copper ) {
+            ig.setColor( Color.cyan );
+            ionClassRecognized = true;
+        }
+        if( ion instanceof Hydroxide ) {
+            ig.setColor( Color.orange );
+            ionClassRecognized = true;
+        }
 
         if( !ionClassRecognized ) {
             throw new RuntimeException( "Ion class not recognized" );
         }
         return ig;
+    }
+
+    //----------------------------------------------------------------
+    // Instance data and methods
+    //----------------------------------------------------------------
+
+    private PNode graphicContainer;
+    private HashMap ionToGraphicMap = new HashMap();
+
+    public IonGraphicManager( PNode graphicContainer ) {
+        this.graphicContainer = graphicContainer;
+    }
+
+    public void ionAdded( IonEvent event ) {
+        IonGraphic ig = createPImage( event.getIon() );
+        graphicContainer.addChild( ig );
+        ionToGraphicMap.put( event.getIon(), ig );
     }
 
     public void ionRemoved( IonEvent event ) {

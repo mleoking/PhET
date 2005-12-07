@@ -292,49 +292,34 @@ public class SolubleSaltsModel extends BaseModel {
         }
         return result;
     }
-//
-//    //----------------------------------------------------------------
-//    // Events and listeners for Ions
-//    //----------------------------------------------------------------
-//
-//    private EventChannel ionEventChannel = new EventChannel( IonListener.class );
-//    private IonListener ionListenerProxy = (IonListener)ionEventChannel.getListenerProxy();
-//
-//    public void addIonListener( IonListener listener ) {
-//        ionEventChannel.addListener( listener );
-//    }
-//
-//    public void removeIonListener( IonListener listener ) {
-//        ionEventChannel.removeListener( listener );
-//    }
-//
-//    public class IonEvent extends EventObject {
-//        public IonEvent( Object source ) {
-//            super( source );
-//            if( !( source instanceof Ion ) ) {
-//                throw new RuntimeException( "source of wrong type" );
-//            }
-//        }
-//
-//        public Ion getIon() {
-//            return (Ion)getSource();
-//        }
-//    }
-//
-//    public interface IonListener extends EventListener {
-//        void ionAdded( IonEvent event );
-//
-//        void ionRemoved( IonEvent event );
-//    }
-//
-//    public static class IonListenerAdapter implements IonListener {
-//        public void ionAdded( IonEvent event ) {
-//        }
-//
-//        public void ionRemoved( IonEvent event ) {
-//        }
-//
-//    }
+
+    //-----------------------------------------------------------------
+    // Change events and listeners
+    //-----------------------------------------------------------------
+    private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
+    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+
+    public void addChangeListener( ChangeListener listener ) {
+        changeEventChannel.addListener( listener );
+    }
+
+    public void removeChangeListener( ChangeListener listener ) {
+        changeEventChannel.removeListener( listener );
+    }
+
+    public class ChangeEvent extends EventObject  {
+        public ChangeEvent( Object source ) {
+            super( source );
+        }
+
+        public  SolubleSaltsModel getModel() {
+            return (SolubleSaltsModel)getSource();
+        }
+    }
+
+    public interface ChangeListener extends EventListener {
+        void stateChanged( ChangeEvent event );
+    }
 
     //----------------------------------------------------------------
     // Events and listeners for Lattices
@@ -360,6 +345,7 @@ public class SolubleSaltsModel extends BaseModel {
 
     public void setCurrentSalt( Salt salt ) {
         shaker.setCurrentSalt( salt );
+        changeListenerProxy.stateChanged( new ChangeEvent( this ) );
     }
 
     public Salt getCurrentSalt() {
