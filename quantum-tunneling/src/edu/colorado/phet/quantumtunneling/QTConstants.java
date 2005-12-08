@@ -65,7 +65,6 @@ public class QTConstants {
     public static final Stroke POTENTIAL_ENERGY_STROKE = new BasicStroke( 2f );
     public static final Stroke INCIDENT_WAVE_STROKE = new BasicStroke( 2f );
     public static final Stroke REFLECTED_WAVE_STROKE = new BasicStroke( 2f );
-    public static final Stroke TRANSMITTED_WAVE_STROKE = new BasicStroke( 2f );
     public static final Stroke PROBABILITY_DENSITY_STROKE = new BasicStroke( 2f );
     public static final Stroke REGION_MARKER_STROKE = 
         new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {5,5}, 0 );
@@ -80,8 +79,7 @@ public class QTConstants {
     public static final Color TOTAL_ENERGY_COLOR = Color.GREEN;
     public static final Color POTENTIAL_ENERGY_COLOR = new Color( 178, 25, 205 ); // purple
     public static final Color INCIDENT_WAVE_COLOR = Color.RED;
-    public static final Color REFLECTED_WAVE_COLOR = Color.RED;
-    public static final Color TRANSMITTED_WAVE_COLOR = Color.RED;
+    public static final Color REFLECTED_WAVE_COLOR = Color.BLUE;
     public static final Color PROBABILITY_DENSITY_COLOR = Color.BLACK;
     public static final Color REGION_MARKER_COLOR = Color.BLACK;
     public static final Color TICK_LABEL_COLOR = Color.BLACK;

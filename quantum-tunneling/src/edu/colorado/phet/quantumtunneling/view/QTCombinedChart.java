@@ -11,25 +11,16 @@
 
 package edu.colorado.phet.quantumtunneling.view;
 
-import java.awt.Font;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.AxisLocation;
-import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.*;
-import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
-import org.jfree.chart.renderer.xy.XYItemRenderer;
-import org.jfree.data.Range;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
 
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotentialSpace;
-import edu.colorado.phet.quantumtunneling.model.PotentialRegion;
+import edu.colorado.phet.quantumtunneling.model.PlaneWave;
 import edu.colorado.phet.quantumtunneling.model.TotalEnergy;
 
 
@@ -116,6 +107,33 @@ public class QTCombinedChart extends JFreeChart implements Observer {
     //----------------------------------------------------------------------------
     
     /**
+     * Gets a reference to the Energy plot.
+     * 
+     * @return
+     */
+    public EnergyPlot getEnergyPlot() {
+        return _energyPlot;
+    }
+    
+    /**
+     * Gets a reference to the Wave Function plot.
+     *
+     * @return
+     */
+    public WaveFunctionPlot getWaveFunctionPlot() {
+        return _waveFunctionPlot;
+    }
+    
+    /**
+     * Gets a reference to the Probability Density plot.
+     *
+     * @return
+     */
+    public ProbabilityDensityPlot getProbabilityDensityPlot() {
+        return _probabilityDensityPlot;
+    }
+    
+    /**
      * Set the total energy model that is displayd in the Energy chart.
      * 
      * @param totalEnergy
@@ -143,22 +161,8 @@ public class QTCombinedChart extends JFreeChart implements Observer {
         updateRegionMarkers();
     }
     
-    /**
-     * Gets a reference to the Energy plot.
-     * 
-     * @return
-     */
-    public EnergyPlot getEnergyPlot() {
-        return _energyPlot;
-    }
-    
-    /**
-     * Gets a reference to the Wave Function plot.
-     *
-     * @return
-     */
-    public WaveFunctionPlot getWaveFunctionPlot() {
-        return _waveFunctionPlot;
+    public void setPlaneWave( PlaneWave planeWave ) {
+        _waveFunctionPlot.setPlaneWave( planeWave );
     }
     
     //----------------------------------------------------------------------------
