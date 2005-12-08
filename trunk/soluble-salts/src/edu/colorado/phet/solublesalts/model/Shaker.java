@@ -82,10 +82,11 @@ public class Shaker extends Particle {
             double y = getPosition().getY() + l * Math.sin( orientation );
             Point2D p = new Point2D.Double( x, y );
 
-            int numLaticeUnits = random.nextInt( 8 );
+            int numLaticeUnits = random.nextInt( 10 );
 //            numLaticeUnits = 2;
 //            numLaticeUnits = 1;
-            numLaticeUnits = 8;
+//            numLaticeUnits = 8;
+//            numLaticeUnits = (int)dy;
 
             for( int j = 0; j < numLaticeUnits; j++ ) {
                 Salt.Component[] components = currentSalt.getComponents();

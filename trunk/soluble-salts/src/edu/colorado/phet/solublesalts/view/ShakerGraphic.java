@@ -56,10 +56,7 @@ public class ShakerGraphic extends RegisterablePNode {
                 double dy = event.getDelta().getHeight();
                 Point2D p = getOffset();
                 setOffset( p.getX(), p.getY() + dy );
-
                 ShakerGraphic.this.shaker.shake( dy );
-
-                super.mouseDragged( event );
             }
 
             public void mousePressed( PInputEvent event ) {

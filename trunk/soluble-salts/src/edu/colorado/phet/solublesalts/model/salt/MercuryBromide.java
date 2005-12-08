@@ -14,31 +14,29 @@ import edu.colorado.phet.solublesalts.model.crystal.Lattice;
 import edu.colorado.phet.solublesalts.model.crystal.PlainCubicLattice;
 import edu.colorado.phet.solublesalts.model.crystal.TwoToOneLattice;
 import edu.colorado.phet.solublesalts.model.*;
-import edu.colorado.phet.solublesalts.model.ion.Hydroxide;
-import edu.colorado.phet.solublesalts.model.ion.Copper;
+import edu.colorado.phet.solublesalts.model.ion.Bromine;
+import edu.colorado.phet.solublesalts.model.ion.Mercury;
 
 import java.util.HashMap;
 import java.util.ArrayList;
 
 /**
- * CopperHydroxide
+ * MercuryBromine
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class CopperHydroxide extends Salt {
+public class MercuryBromide extends Salt {
 
-    static private Lattice lattice = new TwoToOneLattice( Copper.class,
-                                                          Hydroxide.class,
-                                                          Copper.RADIUS + Hydroxide.RADIUS );
+    static private Lattice lattice = new PlainCubicLattice( Mercury.RADIUS + Bromine.RADIUS );
     static private ArrayList components = new ArrayList();
 
     static {
-        components.add( new Salt.Component( Copper.class, new Integer( 1 ) ));
-        components.add( new Salt.Component( Hydroxide.class, new Integer( 2 ) ));
+        components.add( new Component( Mercury.class, new Integer( 1 ) ));
+        components.add( new Component( Bromine.class, new Integer( 1 ) ));
     }
 
-    public CopperHydroxide() {
-        super( components, lattice, Copper.class, Hydroxide.class, 1.6E-19 );
+    public MercuryBromide() {
+        super( components, lattice, Mercury.class, Bromine.class, 1.3E-22 );
     }
 }

@@ -39,6 +39,6 @@ public class LeadChloride extends Salt {
     }
 
     public LeadChloride() {
-        super( components, lattice, Lead.class, Chlorine.class );
+        super( components, lattice, Lead.class, Chlorine.class, 1.6E-5 );
     }
 }

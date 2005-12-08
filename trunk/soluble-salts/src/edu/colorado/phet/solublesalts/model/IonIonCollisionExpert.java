@@ -10,11 +10,10 @@
  */
 package edu.colorado.phet.solublesalts.model;
 
-import edu.colorado.phet.collision.Collidable;
-import edu.colorado.phet.collision.CollisionExpert;
-import edu.colorado.phet.collision.SphereSphereContactDetector;
+import edu.colorado.phet.collision.*;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
+import edu.colorado.phet.solublesalts.model.ion.IonIonCollision;
 
 /**
  * IonIonCollisionExpert
@@ -46,18 +45,30 @@ public class IonIonCollisionExpert implements CollisionExpert {
                 && !( ionA.isBound() && ionB.isBound() ) ) {
 
                 if( ionA.isBound() ) {
-                	if( ionA.getBindingLattice().addIon( ionB ) ) {
-                		ionB.bindTo( ionA.getBindingLattice() );
-                	}
+                    if( ionA.getBindingLattice().addIon( ionB ) ) {
+                        ionB.bindTo( ionA.getBindingLattice() );
+                    }
 //                    ionA.getBindingLattice().addIon( ionB );
                 }
                 else if( ionB.isBound() ) {
-                    if(ionB.getBindingLattice().addIon( ionA )) {
-                        ionA.bindTo( ionB.getBindingLattice() );                    	
+                    if( ionB.getBindingLattice().addIon( ionA ) ) {
+                        ionA.bindTo( ionB.getBindingLattice() );
                     }
                 }
                 collisionOccured = true;
             }
+            // If the ions are of like charge, then they should do a
+            // hard-sphere collision
+//            if( contactDetector.areInContact( ionA, ionB )
+//                && ionA.getCharge() * ionB.getCharge() > 0
+//                && ( ionA.isBound() || ionB.isBound() )
+//                && !( ionA.isBound() && ionB.isBound() ) ) {
+//                IonIonCollision collision = new IonIonCollision( (SphericalBody)bodyA,
+//                                                                 (SphericalBody)bodyB );
+//                collision.collide();
+//                collisionOccured = true;
+//            }
+
         }
 
         return collisionOccured;

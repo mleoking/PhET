@@ -39,6 +39,6 @@ public class SilverIodide extends Salt {
     }
 
     public SilverIodide() {
-        super( components, lattice, Silver.class, Iodine.class );
+        super( components, lattice, Silver.class, Iodine.class, 1.5E-16 );
     }
 }
