@@ -64,6 +64,12 @@ public class IonFactory {
         if( ionClass == Phosphate.class ) {
             ion = new Phosphate();
         }
+        if( ionClass == Bromine.class ) {
+            ion = new Bromine();
+        }
+        if( ionClass == Mercury.class ) {
+            ion = new Mercury();
+        }
 
         if( ion == null ) {
             throw new RuntimeException( "Ion class not recognized " );

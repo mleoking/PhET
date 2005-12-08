@@ -14,12 +14,11 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
-import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
-import edu.colorado.phet.solublesalts.model.*;
-import edu.colorado.phet.solublesalts.model.ion.*;
+import edu.colorado.phet.solublesalts.model.IonInitializer;
+import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.affinity.RandomAffinity;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
-import edu.colorado.phet.solublesalts.model.crystal.Lattice;
+import edu.colorado.phet.solublesalts.model.ion.*;
 import edu.colorado.phet.solublesalts.model.salt.*;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.colorado.phet.solublesalts.util.DefaultGridBagConstraints;
@@ -45,8 +44,48 @@ import java.util.List;
  * @version $Revision$
  */
 public class SolubleSaltsControlPanel extends ControlPanel {
+
+    //----------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------
+
+    static private HashMap saltMap;
+
+    static {
+        saltMap = new HashMap();
+        saltMap.put( "Sodium Chloride", new SodiumChloride() );
+        saltMap.put( "Lead Chloride", new LeadChloride() );
+        saltMap.put( "Silver Iodide", new SilverIodide() );
+        saltMap.put( "Copper Hydroxide", new CopperHydroxide() );
+        saltMap.put( "Chromium Hydroxide", new ChromiumHydroxide() );
+        saltMap.put( "Strontium Phosphate", new StrontiumPhosphate() );
+        saltMap.put( "Mercury Bromide", new MercuryBromide() );
+    }
+
+    static private String defaultSalt = "Mercury Bromide";
+
+    static private HashMap ionClassToName = new HashMap();
+
+    static {
+        ionClassToName.put( Sodium.class, "Sodium" );
+        ionClassToName.put( Lead.class, "Lead" );
+        ionClassToName.put( Chromium.class, "Chromium" );
+        ionClassToName.put( Copper.class, "Copper" );
+        ionClassToName.put( Silver.class, "Silver" );
+        ionClassToName.put( Chlorine.class, "Chlorine" );
+        ionClassToName.put( Iodine.class, "Iodine" );
+        ionClassToName.put( Hydroxide.class, "Hydroxide" );
+        ionClassToName.put( Strontium.class, "Strontium" );
+        ionClassToName.put( Phosphate.class, "Phosphate" );
+        ionClassToName.put( Mercury.class, "Mercury" );
+        ionClassToName.put( Bromine.class, "Bromine" );
+    }
+
+    //----------------------------------------------------------------
+    // Instance data and methods
+    //----------------------------------------------------------------
+
     private ModelSlider vesselIonStickSlider;
-    private ModelSlider vesselIonReleaseSlider;
     private ModelSlider dissociationSlider;
     private AnionPanel anionPanel;
     private JPanel cationPanel;
@@ -58,15 +97,14 @@ public class SolubleSaltsControlPanel extends ControlPanel {
 
         anionPanel = new AnionPanel( model );
         cationPanel = new CationPanel( model );
-        JPanel saltPanel = new JPanel( new GridLayout( 3, 1));
-        saltPanel.setBorder( new EtchedBorder( ));
+        JPanel concentrationPanel = makeConcentrationPanel( model );
+        JPanel saltPanel = new JPanel( new GridLayout( 3, 1 ) );
+        saltPanel.setBorder( new EtchedBorder() );
         saltPanel.add( makeSaltSelectionPanel( model ) );
         saltPanel.add( anionPanel );
         saltPanel.add( cationPanel );
         addControlFullWidth( saltPanel );
-//        addControl( makeSaltSelectionPanel( model ) );
-//        addControl( anionPanel );
-//        addControl( cationPanel );
+        addControl( concentrationPanel );
 
         // Sliders for affinity adjustment
         vesselIonStickSlider = new ModelSlider( "Lattice stick likelihood",
@@ -99,19 +137,18 @@ public class SolubleSaltsControlPanel extends ControlPanel {
 
         addControl( vesselIonStickSlider );
         addControl( dissociationSlider );
-        addControl( makeConcentrationPanel( model ) );
         addControl( makeWaterLevelPanel( model ) );
 
         // Zoom button
-        final JToggleButton zoomButton = new JToggleButton( "Zoom" );
-        final ZoomDlg zoomDlg = new ZoomDlg();
-        zoomButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.setZoomEnabled( zoomButton.isSelected() );
-                zoomDlg.setVisible( zoomButton.isSelected() );
-            }
-        } );
-        addControl( zoomButton );
+//        final JToggleButton zoomButton = new JToggleButton( "Zoom" );
+//        final ZoomDlg zoomDlg = new ZoomDlg();
+//        zoomButton.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                module.setZoomEnabled( zoomButton.isSelected() );
+//                zoomDlg.setVisible( zoomButton.isSelected() );
+//            }
+//        } );
+//        addControl( zoomButton );
 
         // Reset button
         JButton resetBtn = new JButton( "Reset" );
@@ -127,29 +164,17 @@ public class SolubleSaltsControlPanel extends ControlPanel {
      *
      */
     private JPanel makeSaltSelectionPanel( final SolubleSaltsModel model ) {
-        String sodiumChlorideString = "Sodium Chloride";
-        String leadChlorideString = "Lead Chloride";
-        String silverIodideString = "Silver Iodide";
-        String copperHydroxideString = "Copper Hydroxide";
-        String chromiumHydroxideString = "Chromium Hydroxide";
-        String strontiumPhostphateString = "Strontium Phosphate";
-        final HashMap saltMap = new HashMap();
-        saltMap.put( sodiumChlorideString, new SodiumChloride() );
-        saltMap.put( leadChlorideString, new LeadChloride() );
-        saltMap.put( silverIodideString, new SilverIodide() );
-        saltMap.put( copperHydroxideString, new CopperHydroxide() );
-        saltMap.put( chromiumHydroxideString, new ChromiumHydroxide() );
-        saltMap.put( strontiumPhostphateString, new StrontiumPhosphate() );
 
         final JComboBox comboBox = new JComboBox( saltMap.keySet().toArray() );
         comboBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+//                model.reset();
                 Salt saltClass = (Salt)saltMap.get( comboBox.getSelectedItem() );
                 model.setCurrentSalt( saltClass );
                 model.reset();
             }
         } );
-        comboBox.setSelectedItem( chromiumHydroxideString );
+        comboBox.setSelectedItem( defaultSalt );
 
         JPanel panel = new JPanel( new GridBagLayout() );
         GridBagConstraints gbc = new DefaultGridBagConstraints();
@@ -166,7 +191,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
      * @return
      */
     private JPanel makeConcentrationPanel( final SolubleSaltsModel model ) {
-        final ModelSlider kspSlider = new ModelSlider( "Ksp", "", 0, 3E-4, 0 );
+        final ModelSlider kspSlider = new ModelSlider( "Ksp", "", 0, 3E-16, 0 );
         kspSlider.setSliderLabelFormat( new DecimalFormat( "0E00" ) );
         kspSlider.setTextFieldFormat( new DecimalFormat( "0E00" ) );
         kspSlider.setNumMajorTicks( 3 );
@@ -176,6 +201,14 @@ public class SolubleSaltsControlPanel extends ControlPanel {
             }
         } );
         model.setKsp( kspSlider.getValue() );
+
+        // Add a listener that will change the Ksp when the current salt changes
+        model.addChangeListener( new SolubleSaltsModel.ChangeListener() {
+            public void stateChanged( SolubleSaltsModel.ChangeEvent event ) {
+                double ksp = model.getCurrentSalt().getKsp();
+                kspSlider.setValue( ksp );
+            }
+        } );
 
         final JTextField concentrationTF = new JTextField( 8 );
         model.addModelElement( new ModelElement() {
@@ -371,7 +404,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
             this.model = model;
             model.addChangeListener( this );
             GridBagConstraints gbc = new DefaultGridBagConstraints();
-            gbc.insets = new Insets( 5, 0, 0, 0);
+            gbc.insets = new Insets( 5, 0, 0, 0 );
             gbc.gridwidth = 1;
 
             // Make a lable with the name of the ion and an icon that corresponds to the ion's graphic
@@ -426,41 +459,6 @@ public class SolubleSaltsControlPanel extends ControlPanel {
             add( ionCountTF, gbc );
         }
 
-        private String getIonName( Class ionClass ) {
-            String ionName = null;
-            if( ionClass == Sodium.class ) {
-                ionName = "Sodium";
-            }
-            if( ionClass == Lead.class ) {
-                ionName = "Lead";
-            }
-            if( ionClass == Chromium.class ) {
-                ionName = "Chromium";
-            }
-            if( ionClass == Copper.class ) {
-                ionName = "Copper";
-            }
-            if( ionClass == Silver.class ) {
-                ionName = "Silver";
-            }
-            if( ionClass == Chlorine.class ) {
-                ionName = "Chlorine";
-            }
-            if( ionClass == Iodine.class ) {
-                ionName = "Iodine";
-            }
-            if( ionClass == Hydroxide.class ) {
-                ionName = "Hydroxide";
-            }
-            if( ionClass == Strontium.class ) {
-                ionName = "Strontium";
-            }
-            if( ionClass == Phosphate.class ) {
-                ionName = "Phosphate";
-            }
-            return ionName;
-        }
-
         void trackIonClass( Class ionClass ) {
             if( ionClass != this.ionClass ) {
                 this.ionClass = ionClass;
@@ -474,11 +472,14 @@ public class SolubleSaltsControlPanel extends ControlPanel {
 
                 // Update the counter label
                 String ionName = getIonName( ionClass );
-//                ionLabel.setText( "foo" );
                 ionLabel.setText( ionName );
                 ionLabel.setIcon( new ImageIcon( IonGraphicManager.getIonImage( ionClass ) ) );
-//                ionLabel.setIcon( null );
             }
+        }
+
+        private String getIonName( Class ionClass ) {
+            String ionName = (String)ionClassToName.get( ionClass );
+            return ionName;
         }
     }
 }

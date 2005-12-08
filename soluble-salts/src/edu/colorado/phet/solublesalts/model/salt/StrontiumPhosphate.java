@@ -36,6 +36,6 @@ public class StrontiumPhosphate extends Salt {
     }
 
     public StrontiumPhosphate() {
-        super( components, lattice, Strontium.class, Phosphate.class );
+        super( components, lattice, Strontium.class, Phosphate.class, 1E-31 );
     }
 }

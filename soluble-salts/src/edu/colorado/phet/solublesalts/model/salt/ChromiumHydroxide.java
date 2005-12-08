@@ -40,6 +40,6 @@ public class ChromiumHydroxide extends Salt {
     }
 
     public ChromiumHydroxide() {
-        super( components, lattice, Chromium.class, Hydroxide.class );
+        super( components, lattice, Chromium.class, Hydroxide.class, 6.7E-31 );
     }
 }

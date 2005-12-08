@@ -21,15 +21,15 @@ import java.awt.geom.Point2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Chlorine extends Ion {
+public class Bromine extends Ion {
     public static final double RADIUS = 8;
-    private static IonProperties ionProperties = new IonProperties( 17, -1, RADIUS );
+    private static IonProperties ionProperties = new IonProperties( 35, -1, RADIUS );
 
-    public Chlorine() {
+    public Bromine() {
         super( ionProperties );
     }
 
-    public Chlorine( Point2D position, Vector2D velocity, Vector2D acceleration ) {
+    public Bromine( Point2D position, Vector2D velocity, Vector2D acceleration ) {
         super( position, velocity, acceleration, ionProperties );
     }
 }

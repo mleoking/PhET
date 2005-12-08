@@ -55,6 +55,8 @@ public class IonGraphicManager implements IonListener {
         putImage( new Chromium() );
         putImage( new Strontium() );
         putImage( new Phosphate() );
+        putImage( new Bromine() );
+        putImage( new Mercury() );
     }
 
     static private void putImage( Ion ion ) {
@@ -113,6 +115,14 @@ public class IonGraphicManager implements IonListener {
         }
         if( ion instanceof Phosphate ) {
             ig.setColor( new Color( 100, 200, 160 ) );
+            ionClassRecognized = true;
+        }
+        if( ion instanceof Mercury ) {
+            ig.setColor( new Color( 100, 100, 180 ) );
+            ionClassRecognized = true;
+        }
+        if( ion instanceof Bromine ) {
+            ig.setColor( new Color( 120, 100, 60 ) );
             ionClassRecognized = true;
         }
 

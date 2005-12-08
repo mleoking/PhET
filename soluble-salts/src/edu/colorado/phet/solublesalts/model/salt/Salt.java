@@ -25,8 +25,10 @@ public class Salt {
     private Class anionClass;
     private Class cationClass;
     private Component[] components;
+    private double ksp;
 
-    protected Salt( List components, Lattice lattice, Class anionClass, Class cationClass ) {
+    protected Salt( List components, Lattice lattice, Class anionClass, Class cationClass, double ksp ) {
+        this.ksp = ksp;
         this.components = new Component[components.size()];
         for( int i = 0; i < components.size(); i++ ) {
             Component component = (Component)components.get( i );
@@ -77,6 +79,10 @@ public class Salt {
         return cationClass;
     }
 
+    public double getKsp() {
+        return ksp;
+    }
+    
     //----------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------
