@@ -20,7 +20,20 @@ import edu.colorado.phet.quantumtunneling.util.MutableComplex;
 
 /**
  * AbstractSolver is the base class for a classes that implements 
- * closed-form solutions to Schrodinger's equation for a plane wave.
+ * closed-form solutions to the wave function equation for a plane wave.
+ * <p>
+ * Terms are defined as follows:
+ * <code>
+ * e = Euler's number
+ * E = total energy, in eV
+ * h = Planck's constant
+ * i = sqrt(-1)
+ * kn = wave number of region n, in 1/nm
+ * m = mass, in eV/c^2
+ * t = time, in fs
+ * Vn = potential energy of region n, in eV
+ * x = position, in nm
+ * </code>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -34,8 +47,11 @@ public abstract class AbstractSolver implements Observer {
     private AbstractPotentialSpace _pe;
     private Complex[] _k;
     
-    /*
+    /**
      * Constructor.
+     * 
+     * @param te
+     * @param pe
      */
     public AbstractSolver( TotalEnergy te, AbstractPotentialSpace pe ) {
         _te = te;
@@ -61,6 +77,12 @@ public abstract class AbstractSolver implements Observer {
         return _pe;
     }
     
+    /**
+     * Gets the k value for a specified region.
+     * 
+     * @param regionIndex
+     * @return
+     */
     public Complex getK( int regionIndex ) {
         if ( regionIndex > _k.length - 1  ) {
             throw new IndexOutOfBoundsException( "regionIndex out of range: " + regionIndex );
@@ -68,6 +90,13 @@ public abstract class AbstractSolver implements Observer {
         return _k[ regionIndex ];
     }
     
+    /**
+     * Solves the wave function.
+     * 
+     * @param x position, in nm
+     * @param t time, in fs
+     * @return
+     */
     public abstract Complex solve( final double x, final double t );
     
     /*
@@ -89,12 +118,6 @@ public abstract class AbstractSolver implements Observer {
      * Calculate the wave number, in units of 1/nm.
      * 
      * k = sqrt( 2m(E-V) / h^2 )
-     * 
-     * where:
-     * m = mass
-     * E = total energy
-     * V = potential energy
-     * h = Planck's constant
      * 
      * If E < V, the result is imaginary.
      *
@@ -120,10 +143,13 @@ public abstract class AbstractSolver implements Observer {
     
     /*
      * e^(ikx)
+     * 
+     * @param x position
+     * @param regionIndex region index
      */
-    protected Complex commonTerm1( final double x, int kIndex ) {
-        Complex k = getK( kIndex );
-        MutableComplex result = new MutableComplex( 0, 1 ); // i
+    protected Complex commonTerm1( final double x, int regionIndex ) {
+        Complex k = getK( regionIndex );
+        MutableComplex result = new MutableComplex( Complex.I ); // i
         result.multiply( k );
         result.multiply( x );
         result.exp();
@@ -132,10 +158,13 @@ public abstract class AbstractSolver implements Observer {
     
     /*
      * e^(-ikx)
+     * 
+     * @param x position
+     * @param regionIndex region index
      */
-    protected Complex commonTerm2( final double x, int kIndex ) {
-        Complex k = getK( kIndex );
-        MutableComplex result = new MutableComplex( 0, 1 ); // i
+    protected Complex commonTerm2( final double x, int regionIndex ) {
+        Complex k = getK( regionIndex );
+        MutableComplex result = new MutableComplex( Complex.I ); // i
         result.multiply( k );
         result.multiply( -x );
         result.exp();
@@ -143,23 +172,14 @@ public abstract class AbstractSolver implements Observer {
     }
     
     /*
-     * Common term used by all solutions.
-     * 
      * e^(-i*E*t/h)
      * 
-     * where:
-     * e = Euler's number
-     * i = sqrt(-1)
-     * E = total energy
-     * t = time
-     * h = Planck's constant
-     * 
-     * @param t 
-     * @param E
+     * @param t time 
+     * @param E total energy
      */
     protected static Complex commonTerm3( final double t, final double E ) {
         final double h = PLANCKS_CONSTANT;
-        MutableComplex c = new MutableComplex( 0, 1 );
+        MutableComplex c = new MutableComplex( Complex.I ); // i
         c.multiply( -1 * E * t / h );
         c.exp();
         return c;
