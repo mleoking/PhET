@@ -26,6 +26,7 @@ import edu.colorado.phet.solublesalts.util.DefaultGridBagConstraints;
 import edu.colorado.phet.solublesalts.view.IonGraphicManager;
 
 import javax.swing.*;
+import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
@@ -57,9 +58,15 @@ public class SolubleSaltsControlPanel extends ControlPanel {
 
         anionPanel = new AnionPanel( model );
         cationPanel = new CationPanel( model );
-        addControl( makeSaltSelectionPanel( model ) );
-        addControl( anionPanel );
-        addControl( cationPanel );
+        JPanel saltPanel = new JPanel( new GridLayout( 3, 1));
+        saltPanel.setBorder( new EtchedBorder( ));
+        saltPanel.add( makeSaltSelectionPanel( model ) );
+        saltPanel.add( anionPanel );
+        saltPanel.add( cationPanel );
+        addControlFullWidth( saltPanel );
+//        addControl( makeSaltSelectionPanel( model ) );
+//        addControl( anionPanel );
+//        addControl( cationPanel );
 
         // Sliders for affinity adjustment
         vesselIonStickSlider = new ModelSlider( "Lattice stick likelihood",
@@ -125,12 +132,14 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         String silverIodideString = "Silver Iodide";
         String copperHydroxideString = "Copper Hydroxide";
         String chromiumHydroxideString = "Chromium Hydroxide";
+        String strontiumPhostphateString = "Strontium Phosphate";
         final HashMap saltMap = new HashMap();
         saltMap.put( sodiumChlorideString, new SodiumChloride() );
         saltMap.put( leadChlorideString, new LeadChloride() );
         saltMap.put( silverIodideString, new SilverIodide() );
         saltMap.put( copperHydroxideString, new CopperHydroxide() );
         saltMap.put( chromiumHydroxideString, new ChromiumHydroxide() );
+        saltMap.put( strontiumPhostphateString, new StrontiumPhosphate() );
 
         final JComboBox comboBox = new JComboBox( saltMap.keySet().toArray() );
         comboBox.addActionListener( new ActionListener() {
@@ -144,44 +153,11 @@ public class SolubleSaltsControlPanel extends ControlPanel {
 
         JPanel panel = new JPanel( new GridBagLayout() );
         GridBagConstraints gbc = new DefaultGridBagConstraints();
-        gbc.anchor = GridBagConstraints.EAST;
-        panel.add( new JLabel( "Salt:" ), gbc );
+        gbc.anchor = GridBagConstraints.WEST;
+        panel.add( new JLabel( "Salt: " ), gbc );
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.WEST;
         panel.add( comboBox, gbc );
-        return panel;
-    }
-
-    /**
-     * @param model
-     * @return
-     */
-    private JPanel makeLatticePanel( final SolubleSaltsModel model ) {
-        String plainCubicStr = "Plain cubic";
-        String twoToOne = "Two-to-one";
-        String[] options = new String[]{
-            plainCubicStr,
-            twoToOne
-        };
-        final HashMap latticeMap = new HashMap();
-        latticeMap.put( plainCubicStr, SolubleSaltsConfig.oneToOneLattice );
-        latticeMap.put( twoToOne, SolubleSaltsConfig.twoToOneLattice );
-
-        final JComboBox latticeCBox = new JComboBox( options );
-        latticeCBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                Lattice lattice = (Lattice)latticeMap.get( latticeCBox.getSelectedItem() );
-                SolubleSaltsConfig.LATTICE = lattice;
-                model.reset();
-            }
-        } );
-        JPanel panel = new JPanel( new GridBagLayout() );
-        GridBagConstraints gbc = new DefaultGridBagConstraints();
-        gbc.anchor = GridBagConstraints.EAST;
-        panel.add( new JLabel( "Lattice:" ), gbc );
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.gridx = 1;
-        panel.add( latticeCBox );
         return panel;
     }
 
@@ -267,6 +243,14 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         return panel;
     }
 
+
+    //----------------------------------------------------------------
+    //----------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------
+    //----------------------------------------------------------------
+
+
     private class IonCountSyncAgent implements IonListener {
         private SolubleSaltsModel model;
         private Class ionClass;
@@ -351,12 +335,6 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         }
     }
 
-    //----------------------------------------------------------------
-    //----------------------------------------------------------------
-    // Inner classes
-    //----------------------------------------------------------------
-    //----------------------------------------------------------------
-
     private class AnionPanel extends IonPanel {
 
         public AnionPanel( final SolubleSaltsModel model ) {
@@ -393,24 +371,27 @@ public class SolubleSaltsControlPanel extends ControlPanel {
             this.model = model;
             model.addChangeListener( this );
             GridBagConstraints gbc = new DefaultGridBagConstraints();
+            gbc.insets = new Insets( 5, 0, 0, 0);
+            gbc.gridwidth = 1;
 
-            // Get name of the ion
+            // Make a lable with the name of the ion and an icon that corresponds to the ion's graphic
             ionClass = model.getCurrentSalt().getCationClass();
             String ionName = getIonName( ionClass );
-
             ionLabel = new JLabel( ionName, new ImageIcon( IonGraphicManager.getIonImage( ionClass ) ), JLabel.LEADING );
-            gbc.anchor = GridBagConstraints.EAST;
+            ionLabel.setPreferredSize( new Dimension( 100, 20 ) );
+            gbc.anchor = GridBagConstraints.WEST;
+//            gbc.anchor = GridBagConstraints.EAST;
             add( ionLabel, gbc );
 
-            // Spinners for the number of ions
+            // Spinner for the number of ions
             spinner = new JSpinner( new SpinnerNumberModel( model.getNumIonsOfType( ionClass ),
                                                             0,
                                                             100,
                                                             1 ) );
             ionCountSyncAgent = new IonCountSyncAgent( model, ionClass, spinner );
             model.addIonListener( ionCountSyncAgent );
-            gbc.gridx = 1;
-            gbc.anchor = GridBagConstraints.WEST;
+            gbc.gridx++;
+            gbc.anchor = GridBagConstraints.CENTER;
             add( spinner, gbc );
 
             spinner.addChangeListener( new ChangeListener() {
@@ -437,7 +418,8 @@ public class SolubleSaltsControlPanel extends ControlPanel {
                 }
             } );
 
-            ionCountTF = new JTextField( 4 );
+            // Text field that shows the number of free ions
+            ionCountTF = new JTextField( 3 );
             freeIonCountSyncAgent = new FreeIonCountSyncAgent( model, ionClass, ionCountTF );
             model.addIonListener( freeIonCountSyncAgent );
             gbc.gridx++;
@@ -470,6 +452,12 @@ public class SolubleSaltsControlPanel extends ControlPanel {
             if( ionClass == Hydroxide.class ) {
                 ionName = "Hydroxide";
             }
+            if( ionClass == Strontium.class ) {
+                ionName = "Strontium";
+            }
+            if( ionClass == Phosphate.class ) {
+                ionName = "Phosphate";
+            }
             return ionName;
         }
 
@@ -486,8 +474,10 @@ public class SolubleSaltsControlPanel extends ControlPanel {
 
                 // Update the counter label
                 String ionName = getIonName( ionClass );
+//                ionLabel.setText( "foo" );
                 ionLabel.setText( ionName );
                 ionLabel.setIcon( new ImageIcon( IonGraphicManager.getIonImage( ionClass ) ) );
+//                ionLabel.setIcon( null );
             }
         }
     }
