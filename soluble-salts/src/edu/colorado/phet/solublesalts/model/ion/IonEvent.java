@@ -8,7 +8,9 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.solublesalts.model;
+package edu.colorado.phet.solublesalts.model.ion;
+
+import edu.colorado.phet.solublesalts.model.ion.Ion;
 
 import java.util.EventObject;
 

@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.solublesalts.model.crystal;
 
-import edu.colorado.phet.solublesalts.model.Ion;
-import edu.colorado.phet.solublesalts.model.Sodium;
-import edu.colorado.phet.solublesalts.model.Chloride;
+import edu.colorado.phet.solublesalts.model.ion.Ion;
+import edu.colorado.phet.solublesalts.model.ion.Sodium;
+import edu.colorado.phet.solublesalts.model.ion.Chloride;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;

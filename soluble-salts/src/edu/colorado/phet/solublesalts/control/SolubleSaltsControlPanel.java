@@ -16,6 +16,7 @@ import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.*;
+import edu.colorado.phet.solublesalts.model.ion.*;
 import edu.colorado.phet.solublesalts.model.affinity.RandomAffinity;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
 import edu.colorado.phet.solublesalts.model.crystal.Lattice;
@@ -123,11 +124,13 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         String leadChlorideString = "Lead Chloride";
         String silverIodideString = "Silver Iodide";
         String copperHydroxideString = "Copper Hydroxide";
+        String chromiumHydroxideString = "Chromium Hydroxide";
         final HashMap saltMap = new HashMap();
         saltMap.put( sodiumChlorideString, new SodiumChloride() );
         saltMap.put( leadChlorideString, new LeadChloride() );
         saltMap.put( silverIodideString, new SilverIodide() );
         saltMap.put( copperHydroxideString, new CopperHydroxide() );
+        saltMap.put( chromiumHydroxideString, new ChromiumHydroxide() );
 
         final JComboBox comboBox = new JComboBox( saltMap.keySet().toArray() );
         comboBox.addActionListener( new ActionListener() {
@@ -137,7 +140,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
                 model.reset();
             }
         } );
-        comboBox.setSelectedIndex( 0 );
+        comboBox.setSelectedItem( chromiumHydroxideString );
 
         JPanel panel = new JPanel( new GridBagLayout() );
         GridBagConstraints gbc = new DefaultGridBagConstraints();
@@ -155,7 +158,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
      */
     private JPanel makeLatticePanel( final SolubleSaltsModel model ) {
         String plainCubicStr = "Plain cubic";
-        String twoToOne = "Tow-to-one";
+        String twoToOne = "Two-to-one";
         String[] options = new String[]{
             plainCubicStr,
             twoToOne
@@ -449,8 +452,23 @@ public class SolubleSaltsControlPanel extends ControlPanel {
             if( ionClass == Lead.class ) {
                 ionName = "Lead";
             }
+            if( ionClass == Chromium.class ) {
+                ionName = "Chromium";
+            }
+            if( ionClass == Copper.class ) {
+                ionName = "Copper";
+            }
+            if( ionClass == Silver.class ) {
+                ionName = "Silver";
+            }
             if( ionClass == Chloride.class ) {
                 ionName = "Chlorine";
+            }
+            if( ionClass == Iodine.class ) {
+                ionName = "Iodine";
+            }
+            if( ionClass == Hydroxide.class ) {
+                ionName = "Hydroxide";
             }
             return ionName;
         }

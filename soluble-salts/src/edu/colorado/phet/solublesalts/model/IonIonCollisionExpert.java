@@ -14,6 +14,7 @@ import edu.colorado.phet.collision.Collidable;
 import edu.colorado.phet.collision.CollisionExpert;
 import edu.colorado.phet.collision.SphereSphereContactDetector;
 import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.solublesalts.model.ion.Ion;
 
 /**
  * IonIonCollisionExpert

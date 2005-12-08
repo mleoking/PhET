@@ -12,12 +12,15 @@ package edu.colorado.phet.solublesalts.model.salt;
 
 import edu.colorado.phet.solublesalts.model.crystal.Lattice;
 import edu.colorado.phet.solublesalts.model.crystal.PlainCubicLattice;
-import edu.colorado.phet.solublesalts.model.Sodium;
-import edu.colorado.phet.solublesalts.model.Chloride;
-import edu.colorado.phet.solublesalts.model.Iodine;
-import edu.colorado.phet.solublesalts.model.Silver;
+import edu.colorado.phet.solublesalts.model.ion.Sodium;
+import edu.colorado.phet.solublesalts.model.ion.Chloride;
+import edu.colorado.phet.solublesalts.model.ion.Iodine;
+import edu.colorado.phet.solublesalts.model.ion.Silver;
+import edu.colorado.phet.solublesalts.model.ion.Iodine;
+import edu.colorado.phet.solublesalts.model.ion.Silver;
 
 import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  * SilverIodide
@@ -28,11 +31,11 @@ import java.util.HashMap;
 public class SilverIodide extends Salt {
 
     static private Lattice lattice = new PlainCubicLattice( Silver.RADIUS + Iodine.RADIUS );
-    static private HashMap components = new HashMap();
+    static private ArrayList components = new ArrayList();
 
     static {
-        components.put( Silver.class, new Integer( 1 ) );
-        components.put( Iodine.class, new Integer( 1 ) );
+        components.add( new Salt.Component( Silver.class, new Integer( 1 ) ));
+        components.add( new Salt.Component( Iodine.class, new Integer( 1 ) ));
     }
 
     public SilverIodide() {

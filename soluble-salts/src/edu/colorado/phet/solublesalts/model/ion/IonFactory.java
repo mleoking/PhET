@@ -8,9 +8,10 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.solublesalts.model;
+package edu.colorado.phet.solublesalts.model.ion;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.solublesalts.model.ion.*;
 
 import java.awt.geom.Point2D;
 
@@ -44,6 +45,9 @@ public class IonFactory {
         }
         if( ionClass == Hydroxide.class ) {
             ion = new Hydroxide();
+        }
+        if( ionClass == Chromium.class ) {
+            ion = new Chromium();
         }
 
         if( ion == null ) {
