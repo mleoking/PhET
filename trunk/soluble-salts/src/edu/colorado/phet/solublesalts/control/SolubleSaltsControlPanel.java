@@ -461,7 +461,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
             if( ionClass == Silver.class ) {
                 ionName = "Silver";
             }
-            if( ionClass == Chloride.class ) {
+            if( ionClass == Chlorine.class ) {
                 ionName = "Chlorine";
             }
             if( ionClass == Iodine.class ) {

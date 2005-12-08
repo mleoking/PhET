@@ -12,7 +12,7 @@ package edu.colorado.phet.solublesalts.model.crystal;
 
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.model.ion.Sodium;
-import edu.colorado.phet.solublesalts.model.ion.Chloride;
+import edu.colorado.phet.solublesalts.model.ion.Chlorine;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -57,12 +57,12 @@ public class PlainCubicLattice extends Lattice {
     public static void main( String[] args ) {
         Ion a = new Sodium();
         a.setPosition( 300, 400 );
-        Crystal l = new Crystal( a, new Rectangle2D.Double( 0, 0, 500, 500 ), new PlainCubicLattice( Sodium.RADIUS + Chloride.RADIUS ) );
-        Ion b = new Chloride();
+        Crystal l = new Crystal( a, new Rectangle2D.Double( 0, 0, 500, 500 ), new PlainCubicLattice( Sodium.RADIUS + Chlorine.RADIUS ) );
+        Ion b = new Chlorine();
         b.setPosition( new Point2D.Double( 290, 400 ) );
         l.addIon( b );
 
-        Ion b2 = new Chloride();
+        Ion b2 = new Chlorine();
         b2.setPosition( new Point2D.Double( 290, 400 ) );
         l.addIon( b2 );
 

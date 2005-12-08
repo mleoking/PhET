@@ -16,21 +16,20 @@ import edu.colorado.phet.solublesalts.model.ion.Ion;
 import java.awt.geom.Point2D;
 
 /**
- * Chloride
+ * Phosphate
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Chloride extends Ion {
+public class Phosphate extends Ion {
     public static final double RADIUS = 8;
-    private static IonProperties ionProperties = new IonProperties( 17, -1, RADIUS );
-//    private static IonProperties ionProperties = new IonProperties( 17, -1, 14 );
+    private static IonProperties ionProperties = new IonProperties( 23, -1, RADIUS );
 
-    public Chloride() {
+    public Phosphate() {
         super( ionProperties );
     }
 
-    public Chloride( Point2D position, Vector2D velocity, Vector2D acceleration ) {
+    public Phosphate( Point2D position, Vector2D velocity, Vector2D acceleration ) {
         super( position, velocity, acceleration, ionProperties );
     }
 }

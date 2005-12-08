@@ -13,7 +13,7 @@ package edu.colorado.phet.solublesalts.model.salt;
 import edu.colorado.phet.solublesalts.model.crystal.Lattice;
 import edu.colorado.phet.solublesalts.model.crystal.PlainCubicLattice;
 import edu.colorado.phet.solublesalts.model.ion.Sodium;
-import edu.colorado.phet.solublesalts.model.ion.Chloride;
+import edu.colorado.phet.solublesalts.model.ion.Chlorine;
 import edu.colorado.phet.solublesalts.model.ion.Iodine;
 import edu.colorado.phet.solublesalts.model.ion.Silver;
 import edu.colorado.phet.solublesalts.model.ion.Iodine;
