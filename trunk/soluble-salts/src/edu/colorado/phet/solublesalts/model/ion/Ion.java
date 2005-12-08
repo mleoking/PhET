@@ -8,11 +8,13 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.solublesalts.model;
+package edu.colorado.phet.solublesalts.model.ion;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
+import edu.colorado.phet.solublesalts.model.Atom;
+import edu.colorado.phet.solublesalts.model.Binder;
 
 import java.awt.geom.Point2D;
 import java.util.EventObject;

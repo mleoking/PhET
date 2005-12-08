@@ -8,9 +8,10 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.solublesalts.model;
+package edu.colorado.phet.solublesalts.model.ion;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.solublesalts.model.ion.Ion;
 
 import java.awt.geom.Point2D;
 

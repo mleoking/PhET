@@ -12,8 +12,10 @@ package edu.colorado.phet.solublesalts.view.charts;
 
 import ptolemy.plot.Plot;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
-import edu.colorado.phet.solublesalts.model.Sodium;
-import edu.colorado.phet.solublesalts.model.Chloride;
+import edu.colorado.phet.solublesalts.model.ion.Sodium;
+import edu.colorado.phet.solublesalts.model.ion.Chloride;
+import edu.colorado.phet.solublesalts.model.ion.Chloride;
+import edu.colorado.phet.solublesalts.model.ion.Sodium;
 import edu.colorado.phet.common.model.ModelElement;
 
 import javax.swing.*;

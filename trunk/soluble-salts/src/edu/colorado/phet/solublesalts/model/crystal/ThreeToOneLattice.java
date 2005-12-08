@@ -26,15 +26,15 @@ import java.util.ArrayList;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class TwoToOneLattice extends Lattice {
+public class ThreeToOneLattice extends Lattice {
 
     private Class oneIonClass;
-    private Class twoIonClass;
+    private Class threeIonClass;
     private double spacing;
 
-    public TwoToOneLattice( Class oneIonClass, Class twoIonClass, double spacing ) {
+    public ThreeToOneLattice( Class oneIonClass, Class threeIonClass, double spacing ) {
         this.oneIonClass = oneIonClass;
-        this.twoIonClass = twoIonClass;
+        this.threeIonClass = threeIonClass;
         this.spacing = spacing;
     }
 
@@ -42,9 +42,20 @@ public class TwoToOneLattice extends Lattice {
         List sites = new ArrayList();
         Point2D p = ion.getPosition();
 
-        for( int i = 0; i < 4; i++ ) {
-            double x = p.getX() + spacing * Math.cos( i * Math.PI / 2 + orientation );
-            double y = p.getY() + spacing * Math.sin( i * Math.PI / 2 + orientation );
+        // The cnt is the number of possible bonding sites for an ion of the
+        // parameter's class
+        int cnt = 0;
+        if( oneIonClass.isInstance( ion ) ) {
+            cnt = 6;
+        }
+        else {
+            cnt = 2;
+        }
+
+        // Determine the location of the possible bonding sites for the ion
+        for( int i = 0; i < cnt; i++ ) {
+            double x = p.getX() + spacing * Math.cos( i * Math.PI * 2 / cnt + orientation );
+            double y = p.getY() + spacing * Math.sin( i * Math.PI * 2 / cnt + orientation );
             Point2D pNew = new Point2D.Double( x, y );
             if( getBounds().contains( pNew ) ) {
                 sites.add( pNew );
@@ -68,9 +79,9 @@ public class TwoToOneLattice extends Lattice {
         List neighboringSites = getNeighboringSites( ion, orientation );
         List openSites = super.getOpenNeighboringSites( neighboringSites, ionsInLattice );
 
-        // If the parameter ion is an instance of the twoIonClass, and one of its neighboringSites
+        // If the parameter ion is an instance of the threeIonClass, and one of its neighboringSites
         // is occupied, the the only open site is the one opposite that occupied site
-        if( twoIonClass.isInstance( ion ) && openSites.size() != neighboringSites.size() ) {
+        if( threeIonClass.isInstance( ion ) && openSites.size() != neighboringSites.size() ) {
             // Do a sanity check to see that there aren't 2 or more neighboring sites occupied.
             int numOccupiedSites = neighboringSites.size() - openSites.size();
             if( numOccupiedSites > 2 ) {
@@ -97,7 +108,7 @@ public class TwoToOneLattice extends Lattice {
     public static void main( String[] args ) {
         Ion s1 = new Sodium();
         s1.setPosition( 0, 0 );
-        TwoToOneLattice l = new TwoToOneLattice( Chloride.class, Sodium.class, Sodium.RADIUS + Chloride.RADIUS );
+        ThreeToOneLattice l = new ThreeToOneLattice( Chloride.class, Sodium.class, Sodium.RADIUS + Chloride.RADIUS );
         Rectangle2D r = new Rectangle2D.Double( -1000, -1000, 2000, 2000 );
         Crystal c = new Crystal( s1, r, l );
         {

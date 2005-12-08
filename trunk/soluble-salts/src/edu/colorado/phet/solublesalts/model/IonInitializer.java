@@ -11,6 +11,7 @@
 package edu.colorado.phet.solublesalts.model;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.solublesalts.model.ion.Ion;
 
 import java.awt.geom.Point2D;
 import java.util.Random;

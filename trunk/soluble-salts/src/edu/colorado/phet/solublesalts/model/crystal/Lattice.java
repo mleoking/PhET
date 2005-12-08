@@ -10,7 +10,8 @@
  */
 package edu.colorado.phet.solublesalts.model.crystal;
 
-import edu.colorado.phet.solublesalts.model.Ion;
+import edu.colorado.phet.solublesalts.model.ion.Ion;
+import edu.colorado.phet.solublesalts.model.ion.Ion;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -81,8 +82,20 @@ public abstract class Lattice {
      * @return
      */
     public List getOpenNeighboringSites( Ion ion, List ionsInLattice, double orientation ) {
+                List neighboringSites = getNeighboringSites( ion, orientation );
+        return getOpenNeighboringSites( neighboringSites, ionsInLattice );
+    }
+
+    /**
+     * Returns a list of the lattice sites that are neighboring a specified ion that are
+     * not occupied.
+     *
+     * @param neighboringSites
+     * @param ionsInLattice
+     * @return
+     */
+    public List getOpenNeighboringSites( List neighboringSites, List ionsInLattice ) {
         List results = new ArrayList();
-        List neighboringSites = getNeighboringSites( ion, orientation );
         for( int i = 0; i < neighboringSites.size(); i++ ) {
             Point2D neighboringSite = (Point2D)neighboringSites.get( i );
             if( !isSiteOccupied( neighboringSite, ionsInLattice )) {
@@ -139,7 +152,6 @@ public abstract class Lattice {
             Ion testIon = (Ion)ionsInLattice.get( j );
             if( Math.abs( site.getX() - testIon.getPosition().getX() ) < SAME_POSITION_TOLERANCE
             && Math.abs( site.getY() - testIon.getPosition().getY() ) < SAME_POSITION_TOLERANCE ) {
-//            if( site.equals( testIon.getPosition() ) ) {
                 occupied = true;
             }
         }
@@ -183,14 +195,6 @@ public abstract class Lattice {
 
     protected Rectangle2D getBounds() {
         return bounds;
-    }
-
-
-    public static void main( String[] args ) {
-        List l = new ArrayList( );
-        l.add( new Point2D.Double( 5, 3));
-        boolean b = l.contains( new Point2D.Double( 5, 3) );
-        System.out.println( "b = " + b );
     }
 }
 

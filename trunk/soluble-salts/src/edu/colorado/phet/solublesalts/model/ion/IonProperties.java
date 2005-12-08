@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.solublesalts.model;
+package edu.colorado.phet.solublesalts.model.ion;
 
 /**
  * IonProperties

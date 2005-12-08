@@ -13,9 +13,11 @@ package edu.colorado.phet.solublesalts.model.salt;
 import edu.colorado.phet.solublesalts.model.crystal.Lattice;
 import edu.colorado.phet.solublesalts.model.crystal.PlainCubicLattice;
 import edu.colorado.phet.solublesalts.model.crystal.TwoToOneLattice;
+import edu.colorado.phet.solublesalts.model.crystal.ThreeToOneLattice;
 import edu.colorado.phet.solublesalts.model.*;
 import edu.colorado.phet.solublesalts.model.ion.Hydroxide;
 import edu.colorado.phet.solublesalts.model.ion.Copper;
+import edu.colorado.phet.solublesalts.model.ion.Chromium;
 
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -26,19 +28,18 @@ import java.util.ArrayList;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class CopperHydroxide extends Salt {
+public class ChromiumHydroxide extends Salt {
 
-    static private Lattice lattice = new TwoToOneLattice( Copper.class,
+    static private Lattice lattice = new ThreeToOneLattice( Chromium.class,
                                                           Hydroxide.class,
-                                                          Copper.RADIUS + Hydroxide.RADIUS );
+                                                          Chromium.RADIUS + Hydroxide.RADIUS );
     static private ArrayList components = new ArrayList();
-
     static {
-        components.add( new Salt.Component( Copper.class, new Integer( 1 ) ));
-        components.add( new Salt.Component( Hydroxide.class, new Integer( 2 ) ));
+        components.add( new Salt.Component(Chromium.class, new Integer( 1 ) ));
+        components.add( new Salt.Component( Hydroxide.class, new Integer( 3 ) ));
     }
 
-    public CopperHydroxide() {
-        super( components, lattice, Copper.class, Hydroxide.class );
+    public ChromiumHydroxide() {
+        super( components, lattice, Chromium.class, Hydroxide.class );
     }
 }

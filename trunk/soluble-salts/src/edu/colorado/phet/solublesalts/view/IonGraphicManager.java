@@ -13,6 +13,7 @@ package edu.colorado.phet.solublesalts.view;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.*;
+import edu.colorado.phet.solublesalts.model.ion.*;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.umd.cs.piccolo.PNode;
@@ -51,6 +52,7 @@ public class IonGraphicManager implements IonListener {
         putImage( new Iodine() );
         putImage( new Copper() );
         putImage( new Hydroxide() );
+        putImage( new Chromium() );
     }
 
     static private void putImage( Ion ion ) {
@@ -97,6 +99,10 @@ public class IonGraphicManager implements IonListener {
         }
         if( ion instanceof Hydroxide ) {
             ig.setColor( Color.orange );
+            ionClassRecognized = true;
+        }
+        if( ion instanceof Chromium ) {
+            ig.setColor( Color.black );
             ionClassRecognized = true;
         }
 

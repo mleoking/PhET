@@ -8,30 +8,28 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.solublesalts.model;
+package edu.colorado.phet.solublesalts.model.ion;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.solublesalts.model.ion.Ion;
 
 import java.awt.geom.Point2D;
 
 /**
- * Copper
+ * Iodine
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Copper extends Ion {
+public class Iodine extends Ion {
     public static final double RADIUS = 6;
-    private static IonProperties ionProperties = new IonProperties( 11, 1, RADIUS );
+    private static IonProperties ionProperties = new IonProperties( 17, -1, RADIUS );
 
-    public Copper() {
+    public Iodine() {
         super( ionProperties );
     }
 
-    public Copper( Point2D position, Vector2D velocity, Vector2D acceleration ) {
-        super( position,
-               velocity,
-               acceleration,
-               ionProperties );
+    public Iodine( Point2D position, Vector2D velocity, Vector2D acceleration ) {
+        super( position, velocity, acceleration, ionProperties );
     }
 }

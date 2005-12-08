@@ -15,6 +15,8 @@ import edu.colorado.phet.collision.CollisionExpert;
 import edu.colorado.phet.collision.ContactDetector;
 import edu.colorado.phet.collision.SphereBoxExpert;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.solublesalts.model.ion.Ion;
+import edu.colorado.phet.solublesalts.model.ion.Chloride;
 
 import java.awt.geom.Point2D;
 import java.util.List;

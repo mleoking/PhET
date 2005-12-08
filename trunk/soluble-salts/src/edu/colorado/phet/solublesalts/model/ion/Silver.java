@@ -8,27 +8,28 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.solublesalts.model;
+package edu.colorado.phet.solublesalts.model.ion;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.solublesalts.model.ion.Ion;
 
 import java.awt.geom.Point2D;
 
 /**
- * Sodium
+ * Silver
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Sodium extends Ion {
+public class Silver extends Ion {
     public static final double RADIUS = 4;
     private static IonProperties ionProperties = new IonProperties( 11, 1, RADIUS );
 
-    public Sodium() {
+    public Silver() {
         super( ionProperties );
     }
 
-    public Sodium( Point2D position, Vector2D velocity, Vector2D acceleration ) {
+    public Silver( Point2D position, Vector2D velocity, Vector2D acceleration ) {
         super( position,
                velocity,
                acceleration,
