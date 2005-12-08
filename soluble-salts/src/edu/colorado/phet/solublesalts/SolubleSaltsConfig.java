@@ -14,8 +14,8 @@ import edu.colorado.phet.solublesalts.model.crystal.Lattice;
 import edu.colorado.phet.solublesalts.model.crystal.TwoToOneLattice;
 import edu.colorado.phet.solublesalts.model.crystal.PlainCubicLattice;
 import edu.colorado.phet.solublesalts.model.ion.Sodium;
-import edu.colorado.phet.solublesalts.model.ion.Chloride;
-import edu.colorado.phet.solublesalts.model.ion.Chloride;
+import edu.colorado.phet.solublesalts.model.ion.Chlorine;
+import edu.colorado.phet.solublesalts.model.ion.Chlorine;
 import edu.colorado.phet.solublesalts.model.ion.Sodium;
 import edu.colorado.phet.solublesalts.model.salt.Salt;
 import edu.colorado.phet.solublesalts.model.salt.SodiumChloride;
@@ -80,9 +80,9 @@ public class SolubleSaltsConfig {
     public static final long RELEASE_ESCAPE_TIME = 2000;
 
     public static Lattice twoToOneLattice = new TwoToOneLattice( Sodium.class,
-                                                         Chloride.class,
-                                                         Sodium.RADIUS + Chloride.RADIUS );
-    public static Lattice oneToOneLattice = new PlainCubicLattice( Sodium.RADIUS + Chloride.RADIUS );
+                                                         Chlorine.class,
+                                                         Sodium.RADIUS + Chlorine.RADIUS );
+    public static Lattice oneToOneLattice = new PlainCubicLattice( Sodium.RADIUS + Chlorine.RADIUS );
 //    public static Lattice LATTICE = twoToOneLattice;
     public static Lattice LATTICE = oneToOneLattice;
 }

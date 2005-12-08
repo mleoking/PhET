@@ -28,8 +28,8 @@ public class IonFactory {
         if( ionClass == Sodium.class ) {
             ion = new Sodium();
         }
-        if( ionClass == Chloride.class ) {
-            ion = new Chloride();
+        if( ionClass == Chlorine.class ) {
+            ion = new Chlorine();
         }
         if( ionClass == Lead.class ) {
             ion = new Lead();

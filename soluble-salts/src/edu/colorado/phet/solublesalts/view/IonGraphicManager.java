@@ -46,7 +46,7 @@ public class IonGraphicManager implements IonListener {
 
     static {
         putImage( new Sodium() );
-        putImage( new Chloride() );
+        putImage( new Chlorine() );
         putImage( new Lead() );
         putImage( new Silver() );
         putImage( new Iodine() );
@@ -70,7 +70,7 @@ public class IonGraphicManager implements IonListener {
         IonGraphic ig = new IonGraphic( ion, SolubleSaltsConfig.BLUE_ION_IMAGE_NAME );
         boolean ionClassRecognized = false;
 
-        if( ion instanceof Chloride ) {
+        if( ion instanceof Chlorine ) {
             ig.setColor( new Color( 0, 100, 0 ) );
             ionClassRecognized = true;
         }

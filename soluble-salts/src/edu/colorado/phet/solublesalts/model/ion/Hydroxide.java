@@ -23,7 +23,7 @@ import java.awt.geom.Point2D;
  */
 public class Hydroxide extends Ion {
     public static final double RADIUS = 8;
-    private static IonProperties ionProperties = new IonProperties( 17, -1, RADIUS );
+    private static IonProperties ionProperties = new IonProperties( 9, -1, RADIUS );
 
     public Hydroxide() {
         super( ionProperties );

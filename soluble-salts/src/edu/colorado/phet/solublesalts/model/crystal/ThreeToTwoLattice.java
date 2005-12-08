@@ -26,14 +26,14 @@ import java.util.ArrayList;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ThreeToOneLattice extends Lattice {
+public class ThreeToTwoLattice extends Lattice {
 
-    private Class oneIonClass;
+    private Class twoIonClass;
     private Class threeIonClass;
     private double spacing;
 
-    public ThreeToOneLattice( Class oneIonClass, Class threeIonClass, double spacing ) {
-        this.oneIonClass = oneIonClass;
+    public ThreeToTwoLattice( Class twoIonClass, Class threeIonClass, double spacing ) {
+        this.twoIonClass = twoIonClass;
         this.threeIonClass = threeIonClass;
         this.spacing = spacing;
     }
@@ -45,8 +45,8 @@ public class ThreeToOneLattice extends Lattice {
         // The cnt is the number of possible bonding sites for an ion of the
         // parameter's class
         int cnt = 0;
-        if( oneIonClass.isInstance( ion ) ) {
-            cnt = 6;
+        if( twoIonClass.isInstance( ion ) ) {
+            cnt = 3;
         }
         else {
             cnt = 2;
@@ -108,7 +108,7 @@ public class ThreeToOneLattice extends Lattice {
     public static void main( String[] args ) {
         Ion s1 = new Sodium();
         s1.setPosition( 0, 0 );
-        ThreeToOneLattice l = new ThreeToOneLattice( Chlorine.class, Sodium.class, Sodium.RADIUS + Chlorine.RADIUS );
+        ThreeToTwoLattice l = new ThreeToTwoLattice( Chlorine.class, Sodium.class, Sodium.RADIUS + Chlorine.RADIUS );
         Rectangle2D r = new Rectangle2D.Double( -1000, -1000, 2000, 2000 );
         Crystal c = new Crystal( s1, r, l );
         {

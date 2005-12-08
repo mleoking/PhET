@@ -14,9 +14,9 @@ import edu.colorado.phet.solublesalts.model.crystal.Lattice;
 import edu.colorado.phet.solublesalts.model.crystal.PlainCubicLattice;
 import edu.colorado.phet.solublesalts.model.crystal.TwoToOneLattice;
 import edu.colorado.phet.solublesalts.model.ion.Sodium;
-import edu.colorado.phet.solublesalts.model.ion.Chloride;
+import edu.colorado.phet.solublesalts.model.ion.Chlorine;
 import edu.colorado.phet.solublesalts.model.ion.Lead;
-import edu.colorado.phet.solublesalts.model.ion.Chloride;
+import edu.colorado.phet.solublesalts.model.ion.Chlorine;
 import edu.colorado.phet.solublesalts.model.ion.Lead;
 
 import java.util.HashMap;
@@ -30,15 +30,15 @@ import java.util.ArrayList;
  */
 public class LeadChloride extends Salt {
 
-    static private Lattice lattice = new TwoToOneLattice( Chloride.class, Lead.class, Lead.RADIUS + Chloride.RADIUS );
+    static private Lattice lattice = new TwoToOneLattice( Chlorine.class, Lead.class, Lead.RADIUS + Chlorine.RADIUS );
     static private ArrayList components = new ArrayList();
 
     static {
         components.add( new Salt.Component( Lead.class, new Integer( 2 ) ));
-        components.add( new Salt.Component( Chloride.class, new Integer( 1 ) ));
+        components.add( new Salt.Component( Chlorine.class, new Integer( 1 ) ));
     }
 
     public LeadChloride() {
-        super( components, lattice, Lead.class, Chloride.class );
+        super( components, lattice, Lead.class, Chlorine.class );
     }
 }

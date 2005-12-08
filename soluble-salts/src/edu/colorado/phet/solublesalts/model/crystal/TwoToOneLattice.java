@@ -12,7 +12,7 @@ package edu.colorado.phet.solublesalts.model.crystal;
 
 import edu.colorado.phet.solublesalts.model.ion.Sodium;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
-import edu.colorado.phet.solublesalts.model.ion.Chloride;
+import edu.colorado.phet.solublesalts.model.ion.Chlorine;
 import edu.colorado.phet.solublesalts.model.ion.*;
 
 import java.awt.geom.Point2D;
@@ -97,11 +97,11 @@ public class TwoToOneLattice extends Lattice {
     public static void main( String[] args ) {
         Ion s1 = new Sodium();
         s1.setPosition( 0, 0 );
-        TwoToOneLattice l = new TwoToOneLattice( Chloride.class, Sodium.class, Sodium.RADIUS + Chloride.RADIUS );
+        TwoToOneLattice l = new TwoToOneLattice( Chlorine.class, Sodium.class, Sodium.RADIUS + Chlorine.RADIUS );
         Rectangle2D r = new Rectangle2D.Double( -1000, -1000, 2000, 2000 );
         Crystal c = new Crystal( s1, r, l );
         {
-            Chloride ion = new Chloride();
+            Chlorine ion = new Chlorine();
             ion.setPosition( 1, 0 );
             c.addIon( ion );
         }
@@ -116,22 +116,22 @@ public class TwoToOneLattice extends Lattice {
             c.addIon( ion );
         }
         {
-            Chloride ion = new Chloride();
+            Chlorine ion = new Chlorine();
             ion.setPosition( 15, 0 );
             c.addIon( ion );
         }
         {
-            Chloride ion = new Chloride();
+            Chlorine ion = new Chlorine();
             ion.setPosition( 15, 0 );
             c.addIon( ion );
         }
         {
-            Chloride ion = new Chloride();
+            Chlorine ion = new Chlorine();
             ion.setPosition( 15, 0 );
             c.addIon( ion );
         }
         {
-            Chloride ion = new Chloride();
+            Chlorine ion = new Chlorine();
             ion.setPosition( 15, 0 );
             c.addIon( ion );
         }

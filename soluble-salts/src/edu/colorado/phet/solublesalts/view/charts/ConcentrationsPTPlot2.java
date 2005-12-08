@@ -13,8 +13,8 @@ package edu.colorado.phet.solublesalts.view.charts;
 import ptolemy.plot.Plot;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.ion.Sodium;
-import edu.colorado.phet.solublesalts.model.ion.Chloride;
-import edu.colorado.phet.solublesalts.model.ion.Chloride;
+import edu.colorado.phet.solublesalts.model.ion.Chlorine;
+import edu.colorado.phet.solublesalts.model.ion.Chlorine;
 import edu.colorado.phet.solublesalts.model.ion.Sodium;
 import edu.colorado.phet.common.model.ModelElement;
 
@@ -64,7 +64,7 @@ public class ConcentrationsPTPlot2 implements ModelElement {
     public void stepInTime( double dt ) {
         time += dt;
         double concNa = model.getIonConcentration( Sodium.class );
-        double concCl = model.getIonConcentration( Chloride.class );
+        double concCl = model.getIonConcentration( Chlorine.class );
 
         dataCnt = Math.min( dataCnt + 1, numPts);
         if( dataCnt < numPts ) {

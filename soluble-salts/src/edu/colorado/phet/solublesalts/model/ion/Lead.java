@@ -23,7 +23,7 @@ import java.awt.geom.Point2D;
  */
 public class Lead extends Ion {
     public static final double RADIUS = 6;
-    private static IonProperties ionProperties = new IonProperties( 11, 1, RADIUS );
+    private static IonProperties ionProperties = new IonProperties( 82, 1, RADIUS );
 
     public Lead() {
         super( ionProperties );

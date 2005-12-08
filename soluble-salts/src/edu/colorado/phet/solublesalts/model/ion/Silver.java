@@ -23,7 +23,7 @@ import java.awt.geom.Point2D;
  */
 public class Silver extends Ion {
     public static final double RADIUS = 4;
-    private static IonProperties ionProperties = new IonProperties( 11, 1, RADIUS );
+    private static IonProperties ionProperties = new IonProperties( 47, 1, RADIUS );
 
     public Silver() {
         super( ionProperties );

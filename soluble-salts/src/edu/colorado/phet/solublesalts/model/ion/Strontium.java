@@ -15,21 +15,21 @@ import edu.colorado.phet.common.math.Vector2D;
 import java.awt.geom.Point2D;
 
 /**
- * Chromium
+ * Strontium
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Chromium extends Ion {
+public class Strontium extends Ion {
 
     public static final double RADIUS = 6;
-    private static IonProperties ionProperties = new IonProperties( 24, 1, RADIUS );
+    private static IonProperties ionProperties = new IonProperties( 38, 1, RADIUS );
 
-    public Chromium() {
+    public Strontium() {
         super( ionProperties );
     }
 
-    public Chromium( Point2D position, Vector2D velocity, Vector2D acceleration ) {
+    public Strontium( Point2D position, Vector2D velocity, Vector2D acceleration ) {
         super( position,
                velocity,
                acceleration,

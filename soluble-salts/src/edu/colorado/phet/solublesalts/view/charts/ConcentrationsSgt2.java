@@ -13,7 +13,7 @@ package edu.colorado.phet.solublesalts.view.charts;
 import ptolemy.plot.Plot;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.ion.Sodium;
-import edu.colorado.phet.solublesalts.model.ion.Chloride;
+import edu.colorado.phet.solublesalts.model.ion.Chlorine;
 import edu.colorado.phet.common.model.ModelElement;
 
 import javax.swing.*;
@@ -125,7 +125,7 @@ public class ConcentrationsSgt2 implements ModelElement {
         time += dt;
         tVals[tickCnt] = time;
         naVals[tickCnt] = model.getIonConcentration( Sodium.class );
-        clVals[tickCnt] = model.getIonConcentration( Chloride.class );
+        clVals[tickCnt] = model.getIonConcentration( Chlorine.class );
 
 //        SGTMetaData xMetaData = new SGTMetaData( "time", "ticks", false, false );
 //        SGTMetaData yMetaData = new SGTMetaData( "concentration", "???", false, false );
