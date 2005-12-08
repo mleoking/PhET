@@ -13,9 +13,9 @@ package edu.colorado.phet.quantumtunneling.util;
 
 
 /**
- * Complex numbers, immutable.
+ * Complex is an immutable complex number.
  * 
- * @author Chris Malley (based on code by Sam Reid)
+ * @author Chris Malley
  * @version $Revision$
  */
 
@@ -31,8 +31,8 @@ public class Complex {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private double _real;
-    private double _imaginary;
+    protected double _real;
+    protected double _imaginary;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -67,7 +67,7 @@ public class Complex {
         return _imaginary;
     }
 
-    public double getComplexPhase() {
+    public double getPhase() {
         return Math.atan2( _imaginary, _real );
     }
 
@@ -79,71 +79,87 @@ public class Complex {
     // Math
     //----------------------------------------------------------------------------
 
-    public Complex plus( Complex c ) {
-        return plus( c._real, c._imaginary );
+    public Complex getAdd( Complex c ) {
+        return getAdd( c._real, c._imaginary );
     }
     
-    public Complex plus( double real, double imaginary ) {
+    public Complex getAdd( double real, double imaginary ) {
         return new Complex( _real + real, _imaginary + imaginary );
     }
-
-    public Complex minus( Complex c ) {
-        return minus( c._real, c._imaginary );
+    
+    public Complex getAdd( double real ) {
+        return getAdd( real, 0 );
     }
     
-    public Complex minus( double real, double imaginary ) {
+    public Complex getSubtract( Complex c ) {
+        return getSubtract( c._real, c._imaginary );
+    }
+    
+    public Complex getSubtract( double real, double imaginary ) {
         return new Complex( _real - real, _imaginary - imaginary );
     }
+    
+    public Complex getSubtract( double real ) {
+        return getSubtract( real, 0 );
+    }
 
-    public Complex times( Complex c ) {
-        return times( c._real, c._imaginary );
+    public Complex getMultiply( Complex c ) {
+        return getMultiply( c._real, c._imaginary );
     }
     
-    public Complex times( double real, double imaginary ) {
+    public Complex getMultiply( double real, double imaginary ) {
         return new Complex( _real * real - _imaginary * imaginary, _real * imaginary + _imaginary * real );
     }
-
-    public Complex scale( double scale ) {
-        return new Complex( _real * scale, _imaginary * scale );
+    
+    public Complex getMultiply( double real ) {
+        return getMultiply( real, 0 );
     }
 
-    public Complex divideBy( Complex c ) {
-        return divideBy( c._real, c._imaginary );
+    public Complex getDivide( Complex c ) {
+        return getDivide( c._real, c._imaginary );
     }
     
-    public Complex divideBy( double real, double imaginary ) {
+    public Complex getDivide( double real, double imaginary ) {
         double q = real * real + imaginary * imaginary;
         double g = _real * real + _imaginary * imaginary;
         double h = _imaginary * real - _real * imaginary;
         return new Complex( g / q, h / q );
     }
     
-    public double abs() {
+    public Complex getDivide( double real ) {
+        return getDivide( real, 0 );
+    }
+
+    public Complex getScale( double scale ) {
+        return new Complex( _real * scale, _imaginary * scale );
+    }
+    
+    public double getAbs() {
         return ( Math.sqrt( ( _real * _real ) + ( _imaginary * _imaginary ) ) );
     }
     
-    public double modulus() {
-        return abs();
+    public double getModulus() {
+        return getAbs();
     }
     
-    public Complex opposite() {
+    public Complex getOpposite() {
         return new Complex( -_real, -_imaginary );
     }
     
-    public Complex complexConjugate() {
+    public Complex getComplexConjugate() {
         return new Complex( _real, -_imaginary );
     }
 
-    public static Complex exponentiateImaginary( double theta ) {
+    public static Complex getExponentiateImaginary( double theta ) {
         return new Complex( Math.cos( theta ), Math.sin( theta ) );
     }
     
-    public static Complex exp( Complex c ) {
-        return exp( c._real, c._imaginary );
+    public static Complex getExp( Complex c ) {
+        return getExp( c._real, c._imaginary );
     }
     
-    // e^(a+bi) = ( e^a )( cos(b) + i * sin(b) )
-    public static Complex exp( double real, double imaginary ) {
+    // e^(a+bi) = ( e^a ) * ( cos(b) + i * sin(b) )
+    public static Complex getExp( double real, double imaginary ) {
         double multiplier = Math.exp( real );
         return new Complex( multiplier * Math.cos( imaginary), multiplier * Math.sin( imaginary ) );
     }
@@ -162,6 +178,6 @@ public class Complex {
     }
 
     public String toString() {
-        return "[" + _real + "," + _imaginary + "]";
+        return "[" + _real + "+" + _imaginary + "i]";
     }
 }

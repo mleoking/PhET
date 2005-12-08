@@ -3,13 +3,12 @@
 ===============================================================================
 
 IN PROGRESS:
-
+- add support for complex numbers
 
 HIGH PRIORITY:
 - closed-form solution for plane wave
 
 MEDIUM PRIORITY:
-- add support for complex numbers
 - implement Schrodinger's equation for 1 dimension
 - add application description to SimStrings files
 - Save/Load
@@ -54,6 +53,9 @@ JFREECHART:
 
 
 DONE:
+(12/8/05) - made some progress the closed-form solution for constant & step potentials
+(12/8/05) - add PlaneWave model element
+(12/8/05) - add complex number support (mutable and immutable)
 (12/6/05) - hooked up Save & Load features (still need to fill in the config objects)
 (12/6/05) - make total energy band look more like an expotential distribution
 (12/6/05) - change min region width to 0.1

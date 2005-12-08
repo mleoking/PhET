@@ -28,7 +28,8 @@ import edu.colorado.phet.quantumtunneling.control.ConfigureEnergyDialog;
 import edu.colorado.phet.quantumtunneling.control.QTControlPanel;
 import edu.colorado.phet.quantumtunneling.enum.WaveType;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotentialSpace;
-import edu.colorado.phet.quantumtunneling.model.BarrierPotential;
+import edu.colorado.phet.quantumtunneling.model.ConstantPotential;
+import edu.colorado.phet.quantumtunneling.model.PlaneWave;
 import edu.colorado.phet.quantumtunneling.model.TotalEnergy;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
 import edu.colorado.phet.quantumtunneling.view.*;
@@ -66,6 +67,7 @@ public class QTModule extends AbstractModule {
     // Model
     private TotalEnergy _totalEnergy;
     private AbstractPotentialSpace _potentialEnergy;
+    private PlaneWave _planeWave;
     
     // View
     private PhetPCanvas _canvas;
@@ -101,6 +103,10 @@ public class QTModule extends AbstractModule {
         BaseModel model = new BaseModel();
         this.setModel( model );
         
+        // Plane wave
+        _planeWave = new PlaneWave();
+        model.addModelElement( _planeWave );
+        
         //----------------------------------------------------------------------------
         // View
         //----------------------------------------------------------------------------
@@ -130,7 +136,8 @@ public class QTModule extends AbstractModule {
         
         // Combined chart
         {
-            _chart = new QTCombinedChart();         
+            _chart = new QTCombinedChart();
+            _chart.setPlaneWave( _planeWave );
             _chartNode = new QTCombinedChartNode( _chart );
         }
 
@@ -239,10 +246,13 @@ public class QTModule extends AbstractModule {
     public void reset() {
         
         // Model
-        _totalEnergy = new TotalEnergy( 8 );
-        setTotalEnergy( _totalEnergy );
-        _potentialEnergy = new BarrierPotential();
-        setPotentialEnergy( _potentialEnergy );
+        {
+            _totalEnergy = new TotalEnergy( 8 );
+            setTotalEnergy( _totalEnergy );
+            
+            _potentialEnergy = new ConstantPotential();
+            setPotentialEnergy( _potentialEnergy );
+        }
         
         _controlPanel.reset();
     }
@@ -295,7 +305,7 @@ public class QTModule extends AbstractModule {
      */
     private void handleConfigureButton() {
         if ( _configureEnergyDialog == null ) {
-            setWaitCursorEnabled( true );
+//            setWaitCursorEnabled( true );
             WaveType waveType = _controlPanel.getWaveType();
             _configureEnergyDialog = new ConfigureEnergyDialog( getFrame(), this, _totalEnergy, _potentialEnergy, waveType );
             _configureEnergyDialog.addWindowListener( new WindowAdapter() {
@@ -311,7 +321,7 @@ public class QTModule extends AbstractModule {
                 }
             } );
             _configureEnergyDialog.show();
-            setWaitCursorEnabled( false );
+//            setWaitCursorEnabled( false );
         }
     }
     
@@ -326,12 +336,14 @@ public class QTModule extends AbstractModule {
             _controlPanel.setPotentialEnergy( _potentialEnergy );
         }
         _potentialEnergyControls.setPotentialEnergy( _potentialEnergy );
+        _planeWave.setPotentialEnergy( _potentialEnergy );
     }
     
     public void setTotalEnergy( TotalEnergy totalEnergy ) {
         _totalEnergy = totalEnergy;
         _chart.setTotalEnergy( _totalEnergy );
         _totalEnergyControl.setTotalEnergy( _totalEnergy );
+        _planeWave.setTotalEnergy( _totalEnergy );
     }
     
     public void setShowValuesEnabled( boolean enabled ) {
