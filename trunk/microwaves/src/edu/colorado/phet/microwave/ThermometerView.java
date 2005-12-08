@@ -9,6 +9,7 @@ package edu.colorado.phet.microwave;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.ModelViewTransform2D;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.coreadditions.graphics.ImageGraphic;
 
 import java.awt.*;
@@ -22,7 +23,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class ThermometerView implements Graphic, ImageObserver, Observer {
-//public class ThermometerView extends TxObservingGraphic implements ImageObserver {
 
     private BufferedImage thermometerBody;
     private BufferedImage thermometerBackground;
@@ -66,40 +66,9 @@ public class ThermometerView implements Graphic, ImageObserver, Observer {
         bodyGraphic.paint( graphics2D );
     }
 
-//    public void paint( Graphics2D graphics2D ) {
-//
-//        // Draw the background for the thermometer
-//        graphics2D.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1 ) );
-//        graphics2D.drawImage( thermometerBackground,
-//                              thermometerBackground.getWidth(),
-//                              thermometerBackground.getHeight(),
-//                              this );
-//
-//        // Draw the variable part of the thermometer: The red rectangle
-//        graphics2D.setColor( Color.RED );
-//        int tempHeight = Math.min( (int)temperature, 200 - 15 ); // 15 is the radius of the top of the thermometer
-//        graphics2D.fillRect( viewLocation.x + 10, viewLocation.y + 200 - tempHeight,
-//                             30, tempHeight );
-//
-//        // Draw the body of the thermometer
-//        graphics2D.drawImage( thermometerBody,
-//                              viewLocation.x,
-//                              viewLocation.y,
-//                              thermometerBody.getWidth(),
-//                              thermometerBody.getHeight(),
-//                              new ImageObserver() {
-//                                  public boolean imageUpdate( Image img, int infoflags,
-//                                                              int x, int y, int width, int height ) {
-//                                      return false;
-//                                  }
-//                              }
-//        );
-//    }
-
     public void update( Observable o, Object arg ) {
         if( o instanceof Thermometer ) {
             double totalKe = 0;
-//            for( int i = 0; i < keArray.length - 1; i++ ) {
             for( int i = keArray.length - 2; i >= 0; i-- ) {
                 double t = keArray[i];
                 totalKe += keArray[i];
@@ -110,13 +79,7 @@ public class ThermometerView implements Graphic, ImageObserver, Observer {
             keArray[0] = ( (Double)arg ).doubleValue() * 5;
             totalKe += keArray[0];
             temperature = totalKe / keArraySize;
-//            temperature = ( (Double)arg ).doubleValue() * 10;
         }
         viewLocation = modelLocation;
-//        viewLocation = modelToView( modelLocation );
-
-//        AffineTransformOp op = new AffineTransformOp( getTx().toAffineTransform(), AffineTransformOp.TYPE_BILINEAR );
-//        thermometerBody = op.filter( thermometerBody, null );
-//        thermometerBackground = op.filter( thermometerBackground, null );
     }
 }

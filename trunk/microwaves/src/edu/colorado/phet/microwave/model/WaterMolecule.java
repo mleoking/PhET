@@ -205,8 +205,11 @@ public class WaterMolecule extends PolarBody {
 
     // Critical parameter that specifies the response of the molecule to a changing
     // electrical field
-    public static double s_c = 1E-3;
-    public static double s_b = s_c * 5 ;
+    // Changed to values recommended by Trish Loeblien on 12/08/05
+    public static double s_c = 7E-4;
+    public static double s_b = 3E-4 ;
+//    public static double s_c = 1E-3;
+//    public static double s_b = s_c * 5 ;
 
     public static double getWidth() {
         return 40;
