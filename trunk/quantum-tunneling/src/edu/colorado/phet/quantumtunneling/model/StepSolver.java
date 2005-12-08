@@ -16,23 +16,14 @@ import edu.colorado.phet.quantumtunneling.util.MutableComplex;
 
 
 /**
- * StepSolver is a closed-form solution to the Schrodinger equation
+ * StepSolver is a closed-form solution to the wave function equation
  * for step potentials.  A step has 2 regions, region1 and region2.
- * The closed-form solution for each regions is:
+ * The closed-form solution for each region is:
  * <code>
  * Region1: psi(x,t) = e^(-i*E*t/h) * ( e^(i*k1*x) + ( B*e^(-i*k1*x) ) )
  * Region2: psi(x,t) = e^(-i*E*t/h) * ( C*e^(i*k2*x) )
  * 
  * where:
- * x = position
- * t = time
- * e = Euler's number
- * i = sqrt(-1)
- * E = total energy
- * Vn = potential energy of region n
- * kn = wave number of region n
- * h = Planck's constant
- * x1 = position of boundary between Region1 and Region2
  * B = ( e^(2*i*k1*x1) * (k1-k2) ) / (k1+k2)
  * C = ( 2 * e^(i*(k1-k2)*x1) * k1 ) / (k1+k2)
  *</code>
@@ -69,8 +60,8 @@ public class StepSolver extends AbstractSolver {
         int regionIndex = getPotentialEnergy().getRegionIndexAt( x );
         if ( regionIndex == 0 ) {
             
-            Complex term1 = commonTerm1( x, 0 ); // e^(ikx)
-            Complex term2 = commonTerm2( x, 0 ); // e^(-ikx)
+            Complex term1 = commonTerm1( x, regionIndex ); // e^(ikx)
+            Complex term2 = commonTerm2( x, regionIndex ); // e^(-ikx)
             Complex term3 = commonTerm3( t, E ); // e^(-i*E*t/h)
             
             MutableComplex B = new MutableComplex( 0, 1 ); // i
@@ -87,7 +78,7 @@ public class StepSolver extends AbstractSolver {
         }
         else if ( regionIndex == 1 ) { 
 
-            Complex term1 = commonTerm1( x, 1 ); // e^(ikx)
+            Complex term1 = commonTerm1( x, regionIndex ); // e^(ikx)
             Complex term3 = commonTerm3( t, E ); // e^(-i*E*t/h)
             
             MutableComplex C = new MutableComplex( 0, 1 ); // i

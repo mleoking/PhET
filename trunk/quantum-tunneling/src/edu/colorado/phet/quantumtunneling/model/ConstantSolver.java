@@ -19,21 +19,11 @@ import edu.colorado.phet.quantumtunneling.util.MutableComplex;
 
 
 /**
- * ConstantSolver is a closed-form solution to the Schrodinger equation
+ * ConstantSolver is a closed-form solution to the wave function equation
  * for constant potentials.  A step has 1 regions, region1.
- * The closed-form solution for each regions is:
+ * The closed-form solution:
  * <code>
  * region1: psi(x,t) = e^(-i*E*t/h) * e^(i*k1*x)
- * 
- * where:
- * x = position
- * t = time
- * e = Euler's number
- * i = sqrt(-1)
- * E = total energy
- * Vn = potential energy of region n
- * kn = wave number of region n
- * h = Planck's constant
  * </code>
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -59,7 +49,7 @@ public class ConstantSolver extends AbstractSolver implements Observer {
      */
     public Complex solve( final double x, final double t ) {       
         final double E = getTotalEnergy().getEnergy(); 
-        Complex term1 = commonTerm1( x, 0 /* k subscript */ );
+        Complex term1 = commonTerm1( x, 0 /* region index */ );
         Complex term3 = commonTerm3( t, E );
         Complex result = term1.getMultiply( term3 );
         return result;
