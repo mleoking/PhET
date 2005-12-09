@@ -19,7 +19,7 @@ import edu.colorado.phet.quantumtunneling.util.MutableComplex;
 
 
 /**
- * AbstractSolver is the base class for a classes that implements 
+ * AbstractSolver is the base class for all classes that implement
  * closed-form solutions to the wave function equation for a plane wave.
  * <p>
  * Terms are defined as follows:
@@ -117,7 +117,7 @@ public abstract class AbstractSolver implements Observer {
     /*
      * Calculate the wave number, in units of 1/nm.
      * 
-     * k = sqrt( 2m(E-V) / h^2 )
+     * k = sqrt( 2 * m * (E-V) / h^2 )
      * 
      * If E < V, the result is imaginary.
      *
@@ -149,11 +149,11 @@ public abstract class AbstractSolver implements Observer {
      */
     protected Complex commonTerm1( final double x, int regionIndex ) {
         Complex k = getK( regionIndex );
-        MutableComplex result = new MutableComplex( Complex.I ); // i
-        result.multiply( k );
-        result.multiply( x );
-        result.exp();
-        return result;
+        MutableComplex c = new MutableComplex( Complex.I ); // i
+        c.multiply( k );
+        c.multiply( x );
+        c.exp();
+        return c;
     }
     
     /*
@@ -164,11 +164,11 @@ public abstract class AbstractSolver implements Observer {
      */
     protected Complex commonTerm2( final double x, int regionIndex ) {
         Complex k = getK( regionIndex );
-        MutableComplex result = new MutableComplex( Complex.I ); // i
-        result.multiply( k );
-        result.multiply( -x );
-        result.exp();
-        return result;
+        MutableComplex c = new MutableComplex( Complex.I ); // i
+        c.multiply( k );
+        c.multiply( -x );
+        c.exp();
+        return c;
     }
     
     /*
