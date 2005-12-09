@@ -38,11 +38,6 @@ public class Wavefront extends SimpleObservable /*implements ModelElement*/ {
     private boolean enabled = true;
     private Point2D.Double origin;
 
-
-    //    public Wavefront( Point2D.Double origin ) {
-    //        this.origin = origin;
-    //    }
-
     public Point2D.Double getOrigin() {
         return origin;
     }
@@ -50,9 +45,6 @@ public class Wavefront extends SimpleObservable /*implements ModelElement*/ {
     public void setOrigin( Point2D.Double origin ) {
         this.origin = origin;
     }
-    //    public Wavefront( SoundModel model ) {
-    ////        this.model = model;
-    //    }
 
     public boolean isEnabled() {
         return enabled;

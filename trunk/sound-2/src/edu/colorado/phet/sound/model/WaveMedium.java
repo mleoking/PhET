@@ -95,4 +95,8 @@ public class WaveMedium extends SimpleObservable implements ModelElement {
     public void setAttenuationFunction( AttenuationFunction attenuationFunction ) {
         this.attenuationFunction = attenuationFunction;
     }
+
+    public void clear() {
+        
+    }
 }
