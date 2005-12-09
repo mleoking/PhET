@@ -49,8 +49,8 @@ public class ConstantSolver extends AbstractSolver implements Observer {
      */
     public Complex solve( final double x, final double t ) {       
         final double E = getTotalEnergy().getEnergy(); 
-        Complex term1 = commonTerm1( x, 0 /* region index */ );
-        Complex term3 = commonTerm3( t, E );
+        Complex term1 = commonTerm1( x, 0 /* region index */ );  // e^(ikx)
+        Complex term3 = commonTerm3( t, E ); // e^(-iEt/h)
         Complex result = term1.getMultiply( term3 );
         return result;
     }
