@@ -1,4 +1,13 @@
-/* Copyright 2004, Sam Reid */
+/* Copyright 2003-2005, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.math;
 
 import java.util.ArrayList;
@@ -35,7 +44,7 @@ public class ModelViewTransform1D {
     }
 
     public double viewToModelDifferential( int dView ) {
-        return viewToModel( dView ) - viewToModel( 0 );            
+        return viewToModel( dView ) - viewToModel( 0 );
     }
 
     public double viewToModel( int x ) {

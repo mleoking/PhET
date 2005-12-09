@@ -1,4 +1,13 @@
-/* Copyright 2004, Sam Reid */
+/* Copyright 2003-2005, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.tests.graphics;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -39,49 +48,49 @@ public class TestPhetGraphics extends JFrame {
         panel = new ApparatusPanel();
         panel.addGraphicsSetup( new BasicGraphicsSetup() );
         TestPhetGraphicSource[] graphics = new TestPhetGraphicSource[]{
-            new TestPhetGraphicSource() {
-                public PhetGraphic createGraphic( ApparatusPanel panel ) {
-                    return new PhetTextGraphic( panel, new Font( "Lucida Sans", Font.BOLD, 24 ), "PhetGraphic Test", Color.blue, 100, 100 );
-                }
-            },
-            new TestPhetGraphicSource() {
-                public PhetGraphic createGraphic( ApparatusPanel panel ) {
-                    return new PhetShapeGraphic( panel, new Rectangle( 50, 50, 50, 50 ), Color.green, new BasicStroke( 1 ), Color.black );
-                }
-            },
-            new TestPhetGraphicSource() {
-                public PhetGraphic createGraphic( ApparatusPanel panel ) {
-                    return new PhetImageGraphic( panel, "images/Phet-Flatirons-logo-3-small.gif" );
-                }
-            },
-            new TestPhetGraphicSource() {
-                public PhetGraphic createGraphic( ApparatusPanel panel ) {
-                    return new PhetMultiLineTextGraphic( panel, new Font( "dialog", 0, 28 ), new String[]{"PhET", "Multi-", "Line", "TextGraphic"}, Color.red, 1, 1, Color.yellow );
-                }
-            },
-            new TestPhetGraphicSource() {
-                public PhetGraphic createGraphic( ApparatusPanel panel ) {
-                    return new PhetShadowTextGraphic( panel, new Font( "dialog", Font.BOLD, 28 ), "Shadowed", Color.blue, 1, 1, Color.green );
-                }
-            },
-            new TestPhetGraphicSource() {
-                public PhetGraphic createGraphic( ApparatusPanel panel ) {
-                    CompositePhetGraphic cpg = new CompositePhetGraphic( panel );
-                    cpg.addGraphic( new PhetShapeGraphic( panel, new Ellipse2D.Double( 130, 30, 30, 30 ), Color.red ) );
-                    cpg.addGraphic( new PhetShapeGraphic( panel, new Ellipse2D.Double( 160, 30, 30, 30 ), Color.blue ) );
-                    cpg.addGraphic( new PhetShadowTextGraphic( panel, new Font( "Lucida Sans", 0, 12 ), "compositegraphic", Color.white, 1, 1, Color.black ) );
-                    return cpg;
-                }
-            },
-            new TestPhetGraphicSource() {
-                public PhetGraphic createGraphic( ApparatusPanel panel ) {
+                new TestPhetGraphicSource() {
+                    public PhetGraphic createGraphic( ApparatusPanel panel ) {
+                        return new PhetTextGraphic( panel, new Font( "Lucida Sans", Font.BOLD, 24 ), "PhetGraphic Test", Color.blue, 100, 100 );
+                    }
+                },
+                new TestPhetGraphicSource() {
+                    public PhetGraphic createGraphic( ApparatusPanel panel ) {
+                        return new PhetShapeGraphic( panel, new Rectangle( 50, 50, 50, 50 ), Color.green, new BasicStroke( 1 ), Color.black );
+                    }
+                },
+                new TestPhetGraphicSource() {
+                    public PhetGraphic createGraphic( ApparatusPanel panel ) {
+                        return new PhetImageGraphic( panel, "images/Phet-Flatirons-logo-3-small.gif" );
+                    }
+                },
+                new TestPhetGraphicSource() {
+                    public PhetGraphic createGraphic( ApparatusPanel panel ) {
+                        return new PhetMultiLineTextGraphic( panel, new Font( "dialog", 0, 28 ), new String[]{"PhET", "Multi-", "Line", "TextGraphic"}, Color.red, 1, 1, Color.yellow );
+                    }
+                },
+                new TestPhetGraphicSource() {
+                    public PhetGraphic createGraphic( ApparatusPanel panel ) {
+                        return new PhetShadowTextGraphic( panel, new Font( "dialog", Font.BOLD, 28 ), "Shadowed", Color.blue, 1, 1, Color.green );
+                    }
+                },
+                new TestPhetGraphicSource() {
+                    public PhetGraphic createGraphic( ApparatusPanel panel ) {
+                        CompositePhetGraphic cpg = new CompositePhetGraphic( panel );
+                        cpg.addGraphic( new PhetShapeGraphic( panel, new Ellipse2D.Double( 130, 30, 30, 30 ), Color.red ) );
+                        cpg.addGraphic( new PhetShapeGraphic( panel, new Ellipse2D.Double( 160, 30, 30, 30 ), Color.blue ) );
+                        cpg.addGraphic( new PhetShadowTextGraphic( panel, new Font( "Lucida Sans", 0, 12 ), "compositegraphic", Color.white, 1, 1, Color.black ) );
+                        return cpg;
+                    }
+                },
+                new TestPhetGraphicSource() {
+                    public PhetGraphic createGraphic( ApparatusPanel panel ) {
 //                    Stroke stroke = new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 4, new float[]{6, 6}, 0 );
-                    Stroke stroke = new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 2 );//, new float[]{6, 6}, 0 );
-                    final OutlineTextGraphic g = new OutlineTextGraphic( panel, "Outline Text", new Font( "Lucida Sans", Font.ITALIC, 68 ), 0, 0, Color.yellow, stroke, Color.black );
-                    g.setBorderPaint( new GradientPaint( 0, 0, Color.red, 300, 300, Color.blue ) );
-                    return g;
+                        Stroke stroke = new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 2 );//, new float[]{6, 6}, 0 );
+                        final OutlineTextGraphic g = new OutlineTextGraphic( panel, "Outline Text", new Font( "Lucida Sans", Font.ITALIC, 68 ), 0, 0, Color.yellow, stroke, Color.black );
+                        g.setBorderPaint( new GradientPaint( 0, 0, Color.red, 300, 300, Color.blue ) );
+                        return g;
+                    }
                 }
-            }
         };
         for( int i = 0; i < graphics.length; i++ ) {
             TestPhetGraphicSource graphic = graphics[i];

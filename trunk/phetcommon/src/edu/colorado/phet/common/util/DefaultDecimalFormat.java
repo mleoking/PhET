@@ -1,4 +1,13 @@
-/* Copyright 2004, Sam Reid */
+/* Copyright 2003-2005, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.util;
 
 import java.text.DecimalFormat;
@@ -23,7 +32,7 @@ public class DefaultDecimalFormat {
 
     public String format( double val ) {
         String str = decimalFormat.format( val );
-        str=str.replace( ',','.');
+        str = str.replace( ',', '.' );
         if( Double.parseDouble( str ) == 0 && str.indexOf( "-" ) >= 0 ) {
             return format( 0 );
         }
