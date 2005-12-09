@@ -23,9 +23,11 @@ public class DiscreteModel implements ModelElement {
     private Wavefunction sourceWave;
     private Propagator sourcePropagator;
 
-    private Wavefunction wavefunction;
     private CompositePotential compositePotential;
+
+    private Wavefunction wavefunction;
     private Propagator propagator;
+
     private int timeStep;
     private double deltaTime;
     private Wave wave;
@@ -70,6 +72,29 @@ public class DiscreteModel implements ModelElement {
         damping = new Damping();
         doubleSlitPotential = createDoubleSlit();
         measurementScale = new MeasurementScale( getGridWidth(), 1.0 );
+
+        final WaveDebugger sourceWaveDebugger = new WaveDebugger( "Source wave", sourceWave );
+        sourceWaveDebugger.setVisible( true );
+        addListener( new Adapter() {
+            public void finishedTimeStep( DiscreteModel model ) {
+                sourceWaveDebugger.update();
+            }
+        } );
+        final WaveDebugger waveDebugger = new WaveDebugger( "Main wave", wavefunction );
+        waveDebugger.setVisible( true );
+        addListener( new Adapter() {
+            public void finishedTimeStep( DiscreteModel model ) {
+                waveDebugger.update();
+            }
+        } );
+    }
+
+    public Propagator getSourcePropagator() {
+        return sourcePropagator;
+    }
+
+    public Wavefunction getSourceWave() {
+        return sourceWave;
     }
 
     public MeasurementScale getMeasurementScale() {

@@ -29,14 +29,12 @@ public class SchrodingerApplication extends PhetApplication {
 
     public SchrodingerApplication( String[] args ) {
         super( args, TITLE, DESCRIPTION, VERSION, createClock(), true, createFrameSetup() );
-//        SchrodingerModule singleParticleModel = new SingleParticleModule( this );
-//        setModules( new Module[]{singleParticleModel} );
 
-//        SchrodingerModule intensityModule = new IntensityModule( this );
-//        setModules( new Module[]{intensityModule} );
+//        SchrodingerModule intensityModule = new IntensityModule(this);
+//        setModules(new Module[]{intensityModule});
 
-        SchrodingerModule singleParticleModel = new SingleParticleModule( this );
         SchrodingerModule intensityModule = new IntensityModule( this );
+        SchrodingerModule singleParticleModel = new SingleParticleModule( this );
         SchrodingerModule mandelModule = new MandelModule( this );
         setModules( new Module[]{intensityModule, singleParticleModel, mandelModule} );
     }

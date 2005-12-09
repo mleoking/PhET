@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.intensity;
 
+import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.qm.controls.SchrodingerControlPanel;
 
 /**
@@ -13,7 +14,9 @@ import edu.colorado.phet.qm.controls.SchrodingerControlPanel;
 public class IntensityControlPanel extends SchrodingerControlPanel {
     public IntensityControlPanel( final IntensityModule intensityModule ) {
         super( intensityModule );
-//        super.addSlitCheckbox();
-        super.addResetButton();
+        addResetButton();
+        AdvancedPanel advancedPanel = new AdvancedPanel( "Advanced>>", "Hide Advanced<<" );
+        advancedPanel.addControlFullWidth( super.createPotentialPanel( getModule() ) );
+        addControlFullWidth( advancedPanel );
     }
 }

@@ -52,6 +52,9 @@ public class SchrodingerModule extends PiccoloModule {
                     System.out.println( "SingleParticleModule.keyPressed, I" );
                     resetViewTransform();
                 }
+//                if (e.getKeyCode()==KeyEvent.VK_D){
+//                    debug
+//                }
             }
 
             public void keyReleased( KeyEvent e ) {

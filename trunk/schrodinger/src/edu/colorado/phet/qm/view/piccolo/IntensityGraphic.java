@@ -25,7 +25,7 @@ public class IntensityGraphic extends PNode {
     private SchrodingerModule schrodingerModule;
     private SchrodingerPanel schrodingerPanel;
 
-    private DetectorSheet detectorSheet;
+    private DetectorSheetPNode detectorSheetPNode;
     private int detectorHeight;
     private Random random;
     private int h = 2;
@@ -40,9 +40,9 @@ public class IntensityGraphic extends PNode {
         this.schrodingerPanel = schrodingerPanel;
         this.detectorHeight = detectorHeight;
         this.random = new Random();
-        detectorSheet = new DetectorSheet( schrodingerPanel, wavefunctionGraphic, detectorHeight );
-        addChild( detectorSheet );
-        detectorSheet.setOffset( wavefunctionGraphic.getX(), 0 );
+        detectorSheetPNode = new DetectorSheetPNode( schrodingerPanel, wavefunctionGraphic, detectorHeight );
+        addChild( detectorSheetPNode );
+        detectorSheetPNode.setOffset( wavefunctionGraphic.getX(), 0 );
     }
 
     public void tryDetecting() {
@@ -59,7 +59,7 @@ public class IntensityGraphic extends PNode {
     }
 
     public void setDisplayPhotonColor( Photon photon ) {
-        detectorSheet.setDisplayPhotonColor( photon );
+        detectorSheetPNode.setDisplayPhotonColor( photon );
     }
 
     public void setHighIntensityMode() {
@@ -70,7 +70,7 @@ public class IntensityGraphic extends PNode {
     }
 
     public void setFadeEnabled( boolean selected ) {
-        detectorSheet.setFadeEnabled( selected );
+        detectorSheetPNode.setFadeEnabled( selected );
     }
 
     public static interface Listener {
@@ -105,7 +105,7 @@ public class IntensityGraphic extends PNode {
         x *= getWavePanelScale();
         int y = getDetectY();
 
-        detectorSheet.addDetectionEvent( x, y );
+        detectorSheetPNode.addDetectionEvent( x, y );
     }
 
     private double getWavePanelScale() {
@@ -115,7 +115,7 @@ public class IntensityGraphic extends PNode {
     public Function.LinearFunction getModelToViewTransform1d() {
         Function.LinearFunction linearFunction = new Function.LinearFunction( 0, getDiscreteModel().getGridWidth(),
 //                                                                              0, getFullBounds().getWidth() );
-                                                                              0, getDetectorSheet().getBufferedImage().getWidth() );
+0, getDetectorSheet().getBufferedImage().getWidth() );
         return linearFunction;
     }
 
@@ -159,7 +159,7 @@ public class IntensityGraphic extends PNode {
     }
 
     public void reset() {
-        detectorSheet.reset();
+        detectorSheetPNode.reset();
     }
 
     public double getProbabilityScaleFudgeFactor() {
@@ -186,16 +186,16 @@ public class IntensityGraphic extends PNode {
         this.multiplier = multiplier;
     }
 
-    public DetectorSheet getDetectorSheet() {
-        return detectorSheet;
+    public DetectorSheetPNode getDetectorSheet() {
+        return detectorSheetPNode;
     }
 
     public int getOpacity() {
-        return detectorSheet.getOpacity();
+        return detectorSheetPNode.getOpacity();
     }
 
     public void setOpacity( int opacity ) {
-        detectorSheet.setOpacity( opacity );
+        detectorSheetPNode.setOpacity( opacity );
     }
 
     public int getDetectorHeight() {
@@ -203,6 +203,6 @@ public class IntensityGraphic extends PNode {
     }
 
     public void clearScreen() {
-        detectorSheet.clearScreen();
+        detectorSheetPNode.clearScreen();
     }
 }

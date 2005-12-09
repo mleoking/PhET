@@ -2,7 +2,6 @@ package edu.colorado.phet.qm.model.propagators;
 
 import edu.colorado.phet.qm.model.*;
 
-
 /* Two-dimensional Time dependent Schrodinger Equation.  */
 /* Use Crank-Nicholson/Cayley algorithm...               */
 /* Stable, Norm Conserving.     Li Ju. May.3,1995        */

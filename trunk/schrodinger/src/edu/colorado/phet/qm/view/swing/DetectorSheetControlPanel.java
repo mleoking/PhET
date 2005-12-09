@@ -5,7 +5,7 @@ import edu.colorado.phet.common.view.components.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.qm.modules.intensity.IntensityPanel;
-import edu.colorado.phet.qm.view.piccolo.DetectorSheet;
+import edu.colorado.phet.qm.view.piccolo.DetectorSheetPNode;
 import edu.colorado.phet.qm.view.piccolo.SavedScreenGraphic;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -31,27 +31,27 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
     private JButton clearButton;
     private Insets buttonInsets = new Insets( 2, 2, 2, 2 );
     private Font buttonFont = new Font( "Lucida Sans", Font.BOLD, 10 );
-    private DetectorSheet detectorSheet;
+    private DetectorSheetPNode detectorSheetPNode;
     private JButton saveScreenJButton;
     private ModelSlider brightnessModelSlider;
     private JCheckBox fadeEnabled;
     private HorizontalLayoutPanel displayPanel;
 
-    public DetectorSheetControlPanel( final DetectorSheet detectorSheet ) {
-        this.detectorSheet = detectorSheet;
+    public DetectorSheetControlPanel( final DetectorSheetPNode detectorSheetPNode ) {
+        this.detectorSheetPNode = detectorSheetPNode;
         clearButton = new JButton( "Clear" );
         clearButton.setMargin( buttonInsets );
         clearButton.setFont( buttonFont );
         clearButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                detectorSheet.reset();
+                detectorSheetPNode.reset();
             }
         } );
 
         saveScreenJButton = new JButton( "Save" );
         saveScreenJButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                BufferedImage image = detectorSheet.copyScreen();
+                BufferedImage image = detectorSheetPNode.copyScreen();
                 SavedScreenGraphic savedScreenGraphic = new SavedScreenGraphic( getSchrodingerPanel(), image );
                 savedScreenGraphic.setOffset( 130, 130 );
                 getSchrodingerPanel().getScreenNode().addChild( savedScreenGraphic );
@@ -117,7 +117,7 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
     }
 
     public void setBrightness() {
-        detectorSheet.setBrightness( brightnessModelSlider.getValue() );
+        detectorSheetPNode.setBrightness( brightnessModelSlider.getValue() );
         if( getIntensityPanel() != null && getIntensityPanel().getSmoothIntensityDisplay() != null ) {
             getIntensityPanel().getSmoothIntensityDisplay().setBrightness( brightnessModelSlider.getValue() );
         }
@@ -130,8 +130,8 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
     }
 
     private IntensityPanel getIntensityPanel() {
-        if( detectorSheet.getSchrodingerPanel() instanceof IntensityPanel ) {
-            IntensityPanel intensityPanel = (IntensityPanel)detectorSheet.getSchrodingerPanel();
+        if( detectorSheetPNode.getSchrodingerPanel() instanceof IntensityPanel ) {
+            IntensityPanel intensityPanel = (IntensityPanel)detectorSheetPNode.getSchrodingerPanel();
             return intensityPanel;
         }
         return null;
@@ -143,7 +143,7 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
     }
 
     private SchrodingerPanel getSchrodingerPanel() {
-        return detectorSheet.getSchrodingerPanel();
+        return detectorSheetPNode.getSchrodingerPanel();
     }
 
     boolean contains( Component c ) {
