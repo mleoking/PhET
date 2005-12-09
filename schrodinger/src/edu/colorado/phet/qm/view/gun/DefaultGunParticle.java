@@ -93,7 +93,7 @@ public class DefaultGunParticle extends GunParticle {
     }
 
     public static DefaultGunParticle createElectron( AbstractGunGraphic gun ) {
-        return new DefaultGunParticle( gun, "Electrons", "images/electron-thumb.jpg", 0.2 );
+        return new DefaultGunParticle( gun, "Electrons", "images/electron-thumb.jpg", 1 );
     }
 
     public static DefaultGunParticle createHelium( AbstractGunGraphic gun ) {

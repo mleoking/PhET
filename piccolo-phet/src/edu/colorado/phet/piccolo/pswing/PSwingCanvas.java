@@ -1,4 +1,13 @@
-/* Copyright 2004, Sam Reid */
+/* Copyright 2003-2005, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.piccolo.pswing;
 
 import edu.umd.cs.piccolo.PCanvas;
