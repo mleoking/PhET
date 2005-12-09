@@ -58,13 +58,13 @@ public class BarrierSolver extends AbstractSolver {
      * Solves the wave function for a single barrier.
      */
     private Complex solveSingle( final double x, final double t ) {
-        return new Complex( -1, 0 ); //XXX
+        return null;//XXX
     }
     
     /*
      * Solves the wave function for a double barrier.
      */
     private Complex solveDouble( final double x, final double t ) {
-        return new Complex( 1, 0 ); //XXX
+        return null;//XXX
     }
 }

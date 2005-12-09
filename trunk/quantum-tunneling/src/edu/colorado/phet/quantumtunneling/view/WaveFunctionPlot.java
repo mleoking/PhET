@@ -45,8 +45,9 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final int INCIDENT_SERIES_INDEX = 0;
-    private static final int REFLECTED_SERIES_INDEX = 1;
+    private static final int INCIDENT_REAL_SERIES_INDEX = 0;
+    private static final int INCIDENT_IMAGINARY_SERIES_INDEX = 1;
+    private static final int INCIDENT_MAGNITUDE_SERIES_INDEX = 2;
     
     private static final double X_STEP = 0.02; // x step between data points
     
@@ -55,8 +56,9 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
     //----------------------------------------------------------------------------
     
     private PlaneWave _planeWave;
-    private XYSeries _incidentSeries;
-    private XYSeries _reflectedSeries;
+    private XYSeries _incidentRealSeries;
+    private XYSeries _incidentImaginarySeries;
+    private XYSeries _incidentMagnitudeSeries;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -69,20 +71,24 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
         String waveFunctionLabel = SimStrings.get( "axis.waveFunction" );
         
         // Series
-        _incidentSeries = new XYSeries( "incident series" );
-        _reflectedSeries = new XYSeries( "reflected series" );
+        _incidentRealSeries = new XYSeries( "incident real" );
+        _incidentImaginarySeries = new XYSeries( "incident imaginary" );
+        _incidentMagnitudeSeries = new XYSeries( "incident magnitude" );
         
         // Dataset
         XYSeriesCollection data = new XYSeriesCollection();
-        data.addSeries( _incidentSeries );
-        data.addSeries( _reflectedSeries );
+        data.addSeries( _incidentRealSeries );
+        data.addSeries( _incidentImaginarySeries );
+        data.addSeries( _incidentMagnitudeSeries );
         
         // Renderer
         XYItemRenderer renderer = new StandardXYItemRenderer();
-        renderer.setSeriesPaint( INCIDENT_SERIES_INDEX, QTConstants.INCIDENT_WAVE_COLOR );
-        renderer.setSeriesStroke( INCIDENT_SERIES_INDEX, QTConstants.INCIDENT_WAVE_STROKE );
-        renderer.setSeriesPaint( REFLECTED_SERIES_INDEX, QTConstants.REFLECTED_WAVE_COLOR );
-        renderer.setSeriesStroke( REFLECTED_SERIES_INDEX, QTConstants.REFLECTED_WAVE_STROKE );
+        renderer.setSeriesPaint( INCIDENT_REAL_SERIES_INDEX, QTConstants.INCIDENT_REAL_WAVE_COLOR );
+        renderer.setSeriesStroke( INCIDENT_REAL_SERIES_INDEX, QTConstants.INCIDENT_REAL_WAVE_STROKE );
+        renderer.setSeriesPaint( INCIDENT_IMAGINARY_SERIES_INDEX, QTConstants.INCIDENT_IMAGINARY_WAVE_COLOR );
+        renderer.setSeriesStroke( INCIDENT_IMAGINARY_SERIES_INDEX, QTConstants.INCIDENT_IMAGINARY_WAVE_STROKE );
+        renderer.setSeriesPaint( INCIDENT_MAGNITUDE_SERIES_INDEX, QTConstants.INCIDENT_MAGNITUDE_WAVE_COLOR );
+        renderer.setSeriesStroke( INCIDENT_MAGNITUDE_SERIES_INDEX, QTConstants.INCIDENT_MAGNITUDE_WAVE_STROKE );
         
         // X axis 
         PositionAxis xAxis = new PositionAxis();
@@ -120,6 +126,22 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
         _planeWave.addObserver( this );
     }
     
+    public void setRealVisible( boolean visible ) {
+        getRenderer().setSeriesVisible( INCIDENT_REAL_SERIES_INDEX, new Boolean( visible ) );
+    }
+    
+    public void setImaginaryVisible( boolean visible ) {
+        getRenderer().setSeriesVisible( INCIDENT_IMAGINARY_SERIES_INDEX, new Boolean( visible ) );
+    }
+    
+    public void setMagnitudeVisible( boolean visible ) {
+        getRenderer().setSeriesVisible( INCIDENT_MAGNITUDE_SERIES_INDEX, new Boolean( visible ) );
+    }
+    
+    public void setPhaseVisible( boolean visible ) {
+        //XXX
+    }
+    
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
@@ -142,7 +164,9 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
     
     private void updateDatasets() {
         
-        _incidentSeries.clear(); 
+        _incidentRealSeries.clear();
+        _incidentImaginarySeries.clear();
+        _incidentMagnitudeSeries.clear();
         
         AbstractSolver solver = _planeWave.getSolver();
         if ( solver != null ) {
@@ -156,7 +180,9 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
             for ( double x = minX; x < maxX; x += X_STEP ) {
                 Complex c = solver.solve( x, t );
                 if ( c != null ) {
-                    _incidentSeries.add( x, c.getReal() );
+                    _incidentRealSeries.add( x, -c.getReal() );
+                    _incidentImaginarySeries.add( x, -c.getImaginary() );
+                    _incidentMagnitudeSeries.add( x, -c.getAbs() );
                 }
             }
         }
