@@ -1,20 +1,26 @@
-/* Copyright 2004, Sam Reid */
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.qm.util;
 
 /**
- * User: Sam Reid
- * Date: Jul 25, 2005
- * Time: 11:04:07 AM
+ * User: Sam Reid *
+ * Date: Jul 25, 2005 *
+ * Time: 11:04:07 AM *
  * Copyright (c) Jul 25, 2005 by Sam Reid
  */
-
 public class QMLogger {
     private static boolean debuggingEnabled = false;
 
     public static void debug( String str ) {
-        if( debuggingEnabled ) {
-            System.out.println( str );
-        }
+        if( debuggingEnabled ) { System.out.println( str ); }
     }
 
     public static boolean isDebuggingEnabled() {
