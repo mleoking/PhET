@@ -50,21 +50,21 @@ public class SplitModel extends DiscreteModel {
         getDoubleSlitPotential().addListener( listener );
         synchronizeDetectorRegions();
 
-        final WaveDebugger leftWaveDebugger = new WaveDebugger( "Left", leftWavefunction );
-        leftWaveDebugger.setVisible( true );
-        addListener( new Adapter() {
-            public void finishedTimeStep( DiscreteModel model ) {
-                leftWaveDebugger.update();
-            }
-        } );
-
-        final WaveDebugger rightWaveDebugger = new WaveDebugger( "Right", rightWavefunction );
-        rightWaveDebugger.setVisible( true );
-        addListener( new Adapter() {
-            public void finishedTimeStep( DiscreteModel model ) {
-                rightWaveDebugger.update();
-            }
-        } );
+//        final WaveDebugger leftWaveDebugger = new WaveDebugger( "Left", leftWavefunction );
+//        leftWaveDebugger.setVisible( true );
+//        addListener( new Adapter() {
+//            public void finishedTimeStep( DiscreteModel model ) {
+//                leftWaveDebugger.update();
+//            }
+//        } );
+//
+//        final WaveDebugger rightWaveDebugger = new WaveDebugger( "Right", rightWavefunction );
+//        rightWaveDebugger.setVisible( true );
+//        addListener( new Adapter() {
+//            public void finishedTimeStep( DiscreteModel model ) {
+//                rightWaveDebugger.update();
+//            }
+//        } );
     }
 
     private void synchronizeDetectorRegions() {

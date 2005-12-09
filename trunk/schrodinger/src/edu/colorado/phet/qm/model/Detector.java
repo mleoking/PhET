@@ -131,9 +131,7 @@ public class Detector extends RectangularObject {
         double rand = random.nextDouble() * norm;//todo is this right?
         if( rand <= prob ) {
             grabWavefunction( wavefunction );
-            if( oneShotDetection ) {
-                setEnabled( false );
-            }
+            setEnabled( false );
         }
         else {
             expelWavefunction( wavefunction );
