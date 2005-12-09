@@ -1,4 +1,13 @@
-/* Copyright 2004, Sam Reid */
+/* Copyright 2003-2005, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.tests.graphics;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -44,20 +53,20 @@ public class TestSingleGraphicBuffer extends JFrame {
         panel = new ApparatusPanel();
         panel.addGraphicsSetup( new BasicGraphicsSetup() );
         TestPhetGraphicSource[] graphics = new TestPhetGraphicSource[]{
-            new TestPhetGraphicSource() {
-                public PhetGraphic createGraphic( ApparatusPanel panel ) {
-                    Stroke stroke = new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 4, new float[]{6, 6}, 0 );
-                    Font font = new Font( "Lucida Sans", Font.ITALIC, 68 );
-                    outlineTextGraphic = new OutlineTextGraphic( panel, "Outline Text", font, Color.yellow, stroke, Color.black );
-                    outlineTextGraphic.setBorderPaint( new GradientPaint( 0, 0, Color.red, 300, 300, Color.blue ) );
-                    return outlineTextGraphic;
+                new TestPhetGraphicSource() {
+                    public PhetGraphic createGraphic( ApparatusPanel panel ) {
+                        Stroke stroke = new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 4, new float[]{6, 6}, 0 );
+                        Font font = new Font( "Lucida Sans", Font.ITALIC, 68 );
+                        outlineTextGraphic = new OutlineTextGraphic( panel, "Outline Text", font, Color.yellow, stroke, Color.black );
+                        outlineTextGraphic.setBorderPaint( new GradientPaint( 0, 0, Color.red, 300, 300, Color.blue ) );
+                        return outlineTextGraphic;
+                    }
+                },
+                new TestSingleGraphicBuffer.TestPhetGraphicSource() {
+                    public PhetGraphic createGraphic( ApparatusPanel panel ) {
+                        return new PhetImageGraphic( panel, "images/Phet-Flatirons-logo-3-small.gif" );
+                    }
                 }
-            },
-            new TestSingleGraphicBuffer.TestPhetGraphicSource() {
-                public PhetGraphic createGraphic( ApparatusPanel panel ) {
-                    return new PhetImageGraphic( panel, "images/Phet-Flatirons-logo-3-small.gif" );
-                }
-            }
         };
 //        final BufferedPhetGraphic2 bufferedPhetGraphic = new BufferedPhetGraphic2( panel, Color.yellow );
         GraphicLayerSet gls = new GraphicLayerSet( panel );

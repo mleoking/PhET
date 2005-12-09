@@ -16,7 +16,7 @@ public class QueryReplace {
     }
 
     private void start() throws IOException {
-        File start = new File( "C:\\PhET\\projects-ii\\schrodinger\\piccolo-phet\\src" );
+        File start = new File( "C:\\PhET\\projects-ii\\schrodinger\\phetcommon" );
         queryReplace( start );
     }
 
