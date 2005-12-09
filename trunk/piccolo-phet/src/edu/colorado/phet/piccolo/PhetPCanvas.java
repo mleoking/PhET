@@ -1,4 +1,13 @@
-/* Copyright 2004, Sam Reid */
+/* Copyright 2003-2005, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.piccolo;
 
 import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
@@ -8,7 +17,10 @@ import edu.umd.cs.piccolo.util.PDebug;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
@@ -50,7 +62,7 @@ public class PhetPCanvas extends PSwingCanvas {
                 requestFocus();
             }
         } );
-        
+
         setBorder( BorderFactory.createLineBorder( Color.black ) );
         requestFocus();
     }
