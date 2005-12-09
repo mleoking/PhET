@@ -3,10 +3,10 @@
 ===============================================================================
 
 IN PROGRESS:
-- add support for complex numbers
 
 HIGH PRIORITY:
 - closed-form solution for plane wave
+- drag problem prevents being able to set interior regions to their min width
 
 MEDIUM PRIORITY:
 - implement Schrodinger's equation for 1 dimension
@@ -53,6 +53,8 @@ JFREECHART:
 
 
 DONE:
+(12/9/05) - sync with phetcommon and piccolo-phet
+(12/9/05) - hook up real, imaginary & magnitude checkboxes
 (12/8/05) - made some progress the closed-form solution for constant & step potentials
 (12/8/05) - add PlaneWave model element
 (12/8/05) - add complex number support (mutable and immutable)
