@@ -5,6 +5,7 @@ import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -20,6 +21,8 @@ public class DoubleSlitCheckBox extends JCheckBox {
 
     public DoubleSlitCheckBox( String title, final DiscreteModel discreteModel, final SchrodingerPanel schrodingerPanel ) {
         super( title, discreteModel.isDoubleSlitEnabled() );
+        setFont( new Font( "Lucida Sans", Font.BOLD, 22 ) );
+
         this.discreteModel = discreteModel;
 
         addActionListener( new ActionListener() {
@@ -43,6 +46,11 @@ public class DoubleSlitCheckBox extends JCheckBox {
                 schrodingerPanel.setDoubleSlitControlPanelVisible( isSelected() );
             }
         } );
+    }
+
+    public void setFont( Font font ) {
+        super.setFont( font );
+        System.out.println( "DoubleSlitCheckBox.setFont" );
     }
 
     private DiscreteModel getDiscreteModel() {
