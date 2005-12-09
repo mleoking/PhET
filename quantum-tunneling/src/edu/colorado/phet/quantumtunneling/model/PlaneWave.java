@@ -39,8 +39,8 @@ public class PlaneWave extends QTObservable implements ModelElement, Observer {
     
     public void cleanup() {
         if ( _solver != null ) {
-        _solver.cleanup();
-        _solver = null;
+            _solver.cleanup();
+            _solver = null;
         }
         if ( _te != null ) {
             _te.deleteObserver( this );

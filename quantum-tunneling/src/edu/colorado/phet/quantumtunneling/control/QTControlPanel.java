@@ -351,7 +351,7 @@ public class QTControlPanel extends AbstractControlPanel {
      * Resets the control panel to default (initial) values.
      */
     public void reset() {
-        _potentialComboBox.setSelectedItem( _barrierItem );
+        _potentialComboBox.setSelectedItem( _constantItem );
         handlePotentialSelection();
         _realCheckBox.setSelected( true );
         handleRealSelection();
@@ -369,6 +369,18 @@ public class QTControlPanel extends AbstractControlPanel {
         handleWaveTypeSelection();
         _widthSlider.setValue( QTConstants.DEFAULT_PACKET_WIDTH );
         _centerSlider.setValue( QTConstants.DEFAULT_PACKET_CENTER );
+        
+        // Disable stuff that's not implemented yet
+        {
+            _phaseCheckBox.setEnabled( false );
+            _sumRadioButton.setEnabled( false );
+            _separateRadioButton.setEnabled( false );
+            _leftToRightRadioButton.setEnabled( false );
+            _rightToLeftRadioButton.setEnabled( false );
+            _planeWaveRadioButton.setEnabled( false );
+            _packetWaveRadioButton.setEnabled( false );
+            _measureButton.setEnabled( false );
+        }
     }
 
     //----------------------------------------------------------------------------
@@ -504,23 +516,23 @@ public class QTControlPanel extends AbstractControlPanel {
         else {
             throw new IllegalStateException( "unsupported potential selection: " + o );
         }
-        ( (QTModule) getModule() ).setPotentialEnergy( pe );
+        _module.setPotentialEnergy( pe );
     }
 
     private void handleRealSelection() {
-        
+        _module.setRealVisible( _realCheckBox.isSelected() );
     }
     
     private void handleImaginarySelection() {
-        
+        _module.setImaginaryVisible( _imaginaryCheckBox.isSelected() );
     }
     
     private void handleMagnitudeSelection() {
-        
+        _module.setMagnitudeVisible( _magnitudeCheckBox.isSelected() );
     }
     
     private void handlePhaseSelection() {
-        
+        _module.setPhaseVisible( _magnitudeCheckBox.isSelected() );
     }
     
     private void handleSumSelection() {

@@ -249,9 +249,7 @@ public class QTModule extends AbstractModule {
         {
             _totalEnergy = new TotalEnergy( 8 );
             setTotalEnergy( _totalEnergy );
-            
-            _potentialEnergy = new ConstantPotential();
-            setPotentialEnergy( _potentialEnergy );
+            // potential energy is set by the control panel's reset method
         }
         
         _controlPanel.reset();
@@ -357,5 +355,21 @@ public class QTModule extends AbstractModule {
     
     public void setWaveType( WaveType waveType ) {
         _chart.getEnergyPlot().setWaveType( waveType );
+    }
+    
+    public void setRealVisible( boolean visible ) {
+        _chart.getWaveFunctionPlot().setRealVisible( visible );
+    }
+    
+    public void setImaginaryVisible( boolean visible ) {
+        _chart.getWaveFunctionPlot().setImaginaryVisible( visible );
+    }
+    
+    public void setMagnitudeVisible( boolean visible ) {
+        _chart.getWaveFunctionPlot().setMagnitudeVisible( visible );
+    }
+    
+    public void setPhaseVisible( boolean visible ) {
+        _chart.getWaveFunctionPlot().setPhaseVisible( visible );
     }
 }

@@ -113,6 +113,7 @@ public class QTApplication extends PhetApplication {
                     _persistenceManager.save();
                 }
             } );
+            saveItem.setEnabled( false );//XXX
             
             JMenuItem loadItem = new JMenuItem( SimStrings.get( "menu.file.load" ) );
             loadItem.setMnemonic( SimStrings.get( "menu.file.load.mnemonic" ).charAt(0) );
@@ -121,6 +122,7 @@ public class QTApplication extends PhetApplication {
                     _persistenceManager.load();
                 }
             } );
+            loadItem.setEnabled( false );//XXX
 
             frame.addFileMenuItem( saveItem );
             frame.addFileMenuItem( loadItem );
