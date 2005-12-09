@@ -11,6 +11,9 @@
 
 package edu.colorado.phet.quantumtunneling.model;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import edu.colorado.phet.common.model.ModelElement;
 
 
@@ -20,7 +23,7 @@ import edu.colorado.phet.common.model.ModelElement;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class PlaneWave extends QTObservable implements ModelElement {
+public class PlaneWave extends QTObservable implements ModelElement, Observer {
 
     private TotalEnergy _te;
     private AbstractPotentialSpace _pe;
@@ -35,12 +38,26 @@ public class PlaneWave extends QTObservable implements ModelElement {
     }
     
     public void cleanup() {
+        if ( _solver != null ) {
         _solver.cleanup();
         _solver = null;
+        }
+        if ( _te != null ) {
+            _te.deleteObserver( this );
+            _te = null;
+        }
+        if ( _pe != null ) {
+            _pe.deleteObserver( this );
+            _pe = null;
+        }
     }
     
     public void setTotalEnergy( TotalEnergy te ) {
+        if ( _te != null ) {
+            _te.deleteObserver( this );
+        }
         _te = te;
+        _te.addObserver( this );
         updateSolver();
         notifyObservers();
     }
@@ -50,7 +67,11 @@ public class PlaneWave extends QTObservable implements ModelElement {
     }
     
     public void setPotentialEnergy( AbstractPotentialSpace pe ) {
+        if ( _pe != null ) {
+            _pe.deleteObserver( this );
+        }
         _pe = pe;
+        _pe.addObserver( this );
         updateSolver();
         notifyObservers();
     }
@@ -80,6 +101,10 @@ public class PlaneWave extends QTObservable implements ModelElement {
         if ( _pe != null && _te != null ) {
             _solver = SolverFactory.createSolver( _te, _pe );
         }
+    }
+    
+    public void update( Observable observable, Object arg ) {
+        notifyObservers();
     }
     
     public void stepInTime( double dt ) {
