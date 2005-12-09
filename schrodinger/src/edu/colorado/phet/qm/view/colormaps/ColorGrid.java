@@ -17,16 +17,12 @@ public class ColorGrid {
     private int cellHeight;
     private int nx;
     private int ny;
-//    private int maxWidth;
-//    private int maxHeight;
 
     public ColorGrid( int cellWidth, int cellHeight, int nx, int ny ) {
         this.cellWidth = cellWidth;
         this.cellHeight = cellHeight;
         this.nx = nx;
         this.ny = ny;
-//        this.maxWidth = maxWidth;
-//        this.maxHeight = maxHeight;
         createImage();
     }
 
@@ -41,12 +37,6 @@ public class ColorGrid {
         }
         image = new BufferedImage( imageWidth, imageHeight, BufferedImage.TYPE_INT_RGB );
     }
-
-//    public void setMaxSize( int maxWidth, int maxHeight ) {
-//        this.maxWidth = maxWidth;
-//        this.maxHeight = maxHeight;
-//        createImage();
-//    }
 
     public void colorize( ColorMap colorMap ) {
         Graphics2D g2 = image.createGraphics();
@@ -68,19 +58,7 @@ public class ColorGrid {
                 g2.fillRect( i * blockWidth, k * blockHeight, blockWidth, blockHeight );
             }
         }
-//        g2.setColor( Color.red );
-//        g2.fillRect( 0,0,image.getWidth( ),image.getHeight( ) );
     }
-
-//    public int getBlockHeight() {
-//        int blockHeight = (int)( ( (double)maxHeight ) / ny );
-//        return blockHeight;
-//    }
-//
-//    public int getBlockWidth() {
-//        int blockWidth = (int)( ( (double)maxWidth ) / nx );
-//        return blockWidth;
-//    }
 
     public BufferedImage getBufferedImage() {
         return image;
@@ -122,9 +100,11 @@ public class ColorGrid {
     }
 
     public void setModelSize( int nx, int ny ) {
-        this.nx = nx;
-        this.ny = ny;
-        createImage();
+        if( this.nx != nx || this.ny != ny ) {
+            this.nx = nx;
+            this.ny = ny;
+            createImage();
+        }
     }
 
     public void setNx( int nx ) {

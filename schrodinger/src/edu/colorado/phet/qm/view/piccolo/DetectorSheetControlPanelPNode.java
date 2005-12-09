@@ -15,9 +15,9 @@ import edu.umd.cs.piccolo.PNode;
 public class DetectorSheetControlPanelPNode extends PNode {
     private DetectorSheetControlPanel detectorSheetControlPanel;
 
-    public DetectorSheetControlPanelPNode( final DetectorSheet detectorSheet ) {
-        this.detectorSheetControlPanel = new DetectorSheetControlPanel( detectorSheet );
-        PSwing pSwing = new PSwing( detectorSheet.getSchrodingerPanel(), detectorSheetControlPanel );
+    public DetectorSheetControlPanelPNode( final DetectorSheetPNode detectorSheetPNode ) {
+        this.detectorSheetControlPanel = new DetectorSheetControlPanel( detectorSheetPNode );
+        PSwing pSwing = new PSwing( detectorSheetPNode.getSchrodingerPanel(), detectorSheetControlPanel );
         addChild( pSwing );
     }
 

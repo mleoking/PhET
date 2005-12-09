@@ -85,7 +85,7 @@
 //
 //            }
 //        };
-//        colorGrid.colorize( colorMap );
+//        colorGrid.paint( colorMap );
 //        ImageDebugFrame frame = new ImageDebugFrame( colorGrid.getBufferedImage() );
 //        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 //        frame.setVisible( true );
@@ -93,7 +93,7 @@
 //        for( int i = 0; i <= Steps; i++ ) {
 ////            System.out.println( "Running to step: " + i );
 //            if( i % show == 0 ) {
-//                colorGrid.colorize( colorMap );
+//                colorGrid.paint( colorMap );
 ////                try {
 //////                    ImageIO.write( colorGrid.image, "png",new File("C:/image_"+i+".png"));
 ////                }

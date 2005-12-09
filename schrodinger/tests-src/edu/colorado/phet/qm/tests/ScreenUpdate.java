@@ -42,7 +42,7 @@
 //                return color;
 //            }
 //        };
-//        colorGrid.colorize( colorMap );
+//        colorGrid.paint( colorMap );
 //
 //        frame = new ImageDebugFrame( colorGrid.getBufferedImage() );
 //        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -51,7 +51,7 @@
 //
 //    public void finishedTimeStep( DiscreteModel model ) {
 //        if( model.getTimeStep() % numIterationsBetwenScreenUpdate == 0 ) {
-//            colorGrid.colorize( colorMap );
+//            colorGrid.paint( colorMap );
 //            frame.setImage( colorGrid.getBufferedImage() );
 //        }
 //    }

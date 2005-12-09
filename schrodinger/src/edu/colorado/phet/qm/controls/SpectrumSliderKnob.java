@@ -51,7 +51,7 @@ public class SpectrumSliderKnob extends PPath {
         _size = new Dimension( size );
         _angle = angle;
 
-       super.setPaint( Color.WHITE );
+        super.setPaint( Color.WHITE );
         super.setStroke( new BasicStroke( 1f ) );
         super.setStrokePaint( Color.BLACK );
 

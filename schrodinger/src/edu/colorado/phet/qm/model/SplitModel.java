@@ -16,15 +16,15 @@ import java.awt.*;
 
 public class SplitModel extends DiscreteModel {
     private Wavefunction rightWavefunction;
+    private Propagator rightPropagator;
+
     private Wavefunction leftWavefunction;
+    private Propagator leftPropagator;
 
     private Detector leftDetector;
     private Detector rightDetector;
     private Mode mode = new NormalMode();
     private HorizontalDoubleSlit.Listener listener;
-
-    private Propagator leftPropagator;
-    private Propagator rightPropagator;
 
     public SplitModel() {
         this( DiscreteModel.DEFAULT_WIDTH, DiscreteModel.DEFAULT_WIDTH );
@@ -49,6 +49,22 @@ public class SplitModel extends DiscreteModel {
         };
         getDoubleSlitPotential().addListener( listener );
         synchronizeDetectorRegions();
+
+        final WaveDebugger leftWaveDebugger = new WaveDebugger( "Left", leftWavefunction );
+        leftWaveDebugger.setVisible( true );
+        addListener( new Adapter() {
+            public void finishedTimeStep( DiscreteModel model ) {
+                leftWaveDebugger.update();
+            }
+        } );
+
+        final WaveDebugger rightWaveDebugger = new WaveDebugger( "Right", rightWavefunction );
+        rightWaveDebugger.setVisible( true );
+        addListener( new Adapter() {
+            public void finishedTimeStep( DiscreteModel model ) {
+                rightWaveDebugger.update();
+            }
+        } );
     }
 
     private void synchronizeDetectorRegions() {

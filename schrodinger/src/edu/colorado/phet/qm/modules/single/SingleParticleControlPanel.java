@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.single;
 
+import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.qm.controls.DetectorPanel;
@@ -25,8 +26,10 @@ import java.awt.event.ActionListener;
 public class SingleParticleControlPanel extends SchrodingerControlPanel {
     public SingleParticleControlPanel( SingleParticleModule singleParticleModule ) {
         super( singleParticleModule );
+        AdvancedPanel advancedPanel = new AdvancedPanel( "Advanced>>", "Hide Advanced<<" );
         VerticalLayoutPanel detectorPanel = new DetectorPanel( singleParticleModule );
-        addControlFullWidth( detectorPanel );
+        advancedPanel.addControlFullWidth( super.createPotentialPanel( singleParticleModule ) );
+        advancedPanel.addControlFullWidth( detectorPanel );
 
         JButton createDetectorArray = new JButton( "Create Detector Array" );
         createDetectorArray.addActionListener( new ActionListener() {
@@ -34,7 +37,6 @@ public class SingleParticleControlPanel extends SchrodingerControlPanel {
                 createDetectorArray();
             }
         } );
-        getAdvancedPanel().addControl( createDetectorArray );
 
         final ModelSlider modelSlider = new ModelSlider( "Dectector prob-scale", "", 0, 100, Detector.getProbabilityScaleFudgeFactor() );
         modelSlider.addChangeListener( new ChangeListener() {
@@ -43,6 +45,7 @@ public class SingleParticleControlPanel extends SchrodingerControlPanel {
             }
         } );
         modelSlider.setModelTicks( new double[]{0, 50, 100} );
+        getAdvancedPanel().addControl( createDetectorArray );
         getAdvancedPanel().addControlFullWidth( modelSlider );
 
         VerticalLayoutPanel colorPanel = createVisualizationPanel();
@@ -50,6 +53,7 @@ public class SingleParticleControlPanel extends SchrodingerControlPanel {
 
 //        super.addSlitCheckbox();
         super.addResetButton();
+        addControlFullWidth( advancedPanel );
     }
 
 

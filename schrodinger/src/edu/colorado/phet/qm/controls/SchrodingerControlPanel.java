@@ -73,69 +73,30 @@ public class SchrodingerControlPanel extends ControlPanel {
             ImageIcon icon = new ImageIcon( ImageLoader.loadBufferedImage( "images/ruler-thumb.jpg" ) );
             rulerPanel.add( ruler );
             rulerPanel.add( new JLabel( icon ) );
-            //TODO piccolo
-//            getSchrodingerPanel().getRulerGraphic().addPhetGraphicListener( new PhetGraphicListener() {
-//                public void phetGraphicChanged( PhetGraphic phetGraphic ) {
-//                }
-//
-//                public void phetGraphicVisibilityChanged( PhetGraphic phetGraphic ) {
-//                    ruler.setSelected( getSchrodingerPanel().getRulerGraphic().getVisible() );
-//                }
-//            } );
-
             ruler.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     getSchrodingerPanel().setRulerVisible( ruler.isSelected() );
                 }
             } );
-//            addControl( rulerPanel );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
 
         advancedPanel = new AdvancedPanel( "Advanced>>", "Hide Advanced<<" );
-//        addControlFullWidth( advancedPanel );
 
         VerticalLayoutPanel intensityScreen = new IntensityScreenPanel( this );
         AdvancedPanel advancedIntensityScreen = new AdvancedPanel( "Screen>>", "Screen<<" );
         advancedIntensityScreen.addControl( intensityScreen );
         advancedPanel.addControlFullWidth( advancedIntensityScreen );
 
-
         VerticalLayoutPanel simulationPanel = createSimulationPanel( module );
         AdvancedPanel advSim = new AdvancedPanel( "Simulation>>", "Hide Simulation<<" );
         advSim.addControlFullWidth( simulationPanel );
         advancedPanel.addControlFullWidth( advSim );
-//        addControlFullWidth( simulationPanel );
 
-        VerticalLayoutPanel potentialPanel = createPotentialPanel( module );
-        addControlFullWidth( potentialPanel );
-
-//        JButton addParticle = new JButton( "Add Particle" );
-//        addParticle.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                Wavefunction newParticle = new Wavefunction( module.getDiscreteModel().getWavefunction().getWidth(), module.getDiscreteModel().getWavefunction().getHeight() );
-//                Wave wave = new GaussianWave( new Point2D.Double( getDiscreteModel().getGridWidth() / 2,
-//                                                                  getDiscreteModel().getGridHeight() * 0.8 ),
-//                                              new Vector2D.Double( 0, -0.25 ), 4 );
-//                new WaveSetup( wave ).initialize( newParticle );
-//                module.getDiscreteModel().getWavefunction().add( newParticle );
-//            }
-//        } );
-//        addControl( addParticle );
-
-//        VerticalLayoutPanel boundaryPanel = createBoundaryPanel();
-//        addControlFullWidth( boundaryPanel );
-
-//        VerticalLayoutPanel propagatorPanel = createPropagatorPanel();
-//        AdvancedPanel advancedPropagatorPanel = new AdvancedPanel( "Propagators>>", "Hide Propagators<<" );
-//        advancedPropagatorPanel.addControlFullWidth( propagatorPanel );
-//        addControlFullWidth( advancedPropagatorPanel );
-
-//        ModelElement ap = new AddParticle( module, getWaveSetup() );
-
-//        particleFirer = new IntegralModelElement( ap, 32 );
+//        VerticalLayoutPanel potentialPanel = createPotentialPanel( module );
+//        addControlFullWidth( potentialPanel );
 
         final JSlider speed = new JSlider( JSlider.HORIZONTAL, 0, 1000, (int)( 1000 * 0.1 ) );
         speed.setBorder( BorderFactory.createTitledBorder( "Classical Wave speed" ) );
@@ -146,10 +107,6 @@ public class SchrodingerControlPanel extends ControlPanel {
                 classicalPropagator2ndOrder.setSpeed( x );
             }
         } );
-
-//        ResolutionControl resolutionControl = new ResolutionControl( this );
-//        addControl( resolutionControl );
-
 
     }
 
@@ -253,7 +210,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         return new InitialConditionPanel( this );
     }
 
-    private VerticalLayoutPanel createPotentialPanel( final SchrodingerModule module ) {
+    protected VerticalLayoutPanel createPotentialPanel( final SchrodingerModule module ) {
         VerticalLayoutPanel layoutPanel = new VerticalLayoutPanel();
         layoutPanel.setFillNone();
         layoutPanel.setBorder( BorderFactory.createTitledBorder( "Potential" ) );
@@ -264,19 +221,6 @@ public class SchrodingerControlPanel extends ControlPanel {
                 clearPotential();
             }
         } );
-
-//        final JCheckBox doubleSlit = new DoubleSlitCheckBox( "Double Slit", getDiscreteModel() );
-//        layoutPanel.add( doubleSlit );
-//        VerticalLayoutPanel configureDoubleSlit = new ConfigureHorizontalSlitPanel( getDiscreteModel().getDoubleSlitPotential() );
-//        layoutPanel.add( configureDoubleSlit );
-
-//        JButton slopingLeft = new JButton( "Add Slope" );
-//        slopingLeft.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                addPotential( createSlopingPotential() );
-//            }
-//        } );
-//        layoutPanel.add( slopingLeft );
 
         JButton newBarrier = new JButton( "Add Barrier" );
         newBarrier.addActionListener( new ActionListener() {
