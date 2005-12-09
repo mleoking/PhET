@@ -40,7 +40,7 @@ public class DetectorPanel extends VerticalLayoutPanel {
         oneShot.setSelected( getDiscreteModel().isOneShotDetectors() );
         add( oneShot );
 
-        final JCheckBox autodetect = new JCheckBox( "Autodetect", false );
+        final JCheckBox autodetect = new JCheckBox( "Autodetect", getDiscreteModel().isAutoDetect() );
         autodetect.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getDiscreteModel().setAutoDetect( autodetect.isSelected() );

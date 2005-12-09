@@ -50,7 +50,6 @@ public class DoubleSlitCheckBox extends JCheckBox {
 
     public void setFont( Font font ) {
         super.setFont( font );
-        System.out.println( "DoubleSlitCheckBox.setFont" );
     }
 
     private DiscreteModel getDiscreteModel() {

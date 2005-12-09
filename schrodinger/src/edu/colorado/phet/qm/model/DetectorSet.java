@@ -17,7 +17,7 @@ public class DetectorSet {
     private static final Random random = new Random();
     private DiscreteModel.Listener listener;
     private Wavefunction wavefunction;
-    private boolean autodetect = false;
+    private boolean autodetect = true;
     private boolean oneShotDetectors = true;
 
     public DetectorSet( Wavefunction wavefunction ) {
@@ -59,21 +59,21 @@ public class DetectorSet {
         }
     }
 
-    private static interface FireStrategy {
+    public boolean isAutoDetect() {
+        return autodetect;
+    }
 
+    private static interface FireStrategy {
         void fire( Detector detector, Wavefunction wavefunction, double norm );
     }
 
     private static class FireEnabled implements FireStrategy {
-
         public void fire( Detector detector, Wavefunction wavefunction, double norm ) {
-
             detector.fire( wavefunction, norm );
         }
     }
 
     private static class FireWhenReady implements FireStrategy {
-
         public void fire( Detector detector, Wavefunction wavefunction, double norm ) {
             if( detector.timeToFire() ) {
                 detector.fire( wavefunction, norm );

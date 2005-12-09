@@ -73,20 +73,20 @@ public class DiscreteModel implements ModelElement {
         doubleSlitPotential = createDoubleSlit();
         measurementScale = new MeasurementScale( getGridWidth(), 1.0 );
 
-        final WaveDebugger sourceWaveDebugger = new WaveDebugger( "Source wave", sourceWave );
-        sourceWaveDebugger.setVisible( true );
-        addListener( new Adapter() {
-            public void finishedTimeStep( DiscreteModel model ) {
-                sourceWaveDebugger.update();
-            }
-        } );
-        final WaveDebugger waveDebugger = new WaveDebugger( "Main wave", wavefunction );
-        waveDebugger.setVisible( true );
-        addListener( new Adapter() {
-            public void finishedTimeStep( DiscreteModel model ) {
-                waveDebugger.update();
-            }
-        } );
+//        final WaveDebugger sourceWaveDebugger = new WaveDebugger( "Source wave", sourceWave );
+//        sourceWaveDebugger.setVisible( true );
+//        addListener( new Adapter() {
+//            public void finishedTimeStep( DiscreteModel model ) {
+//                sourceWaveDebugger.update();
+//            }
+//        } );
+//        final WaveDebugger waveDebugger = new WaveDebugger( "Main wave", wavefunction );
+//        waveDebugger.setVisible( true );
+//        addListener( new Adapter() {
+//            public void finishedTimeStep( DiscreteModel model ) {
+//                waveDebugger.update();
+//            }
+//        } );
     }
 
     public Propagator getSourcePropagator() {
@@ -130,6 +130,10 @@ public class DiscreteModel implements ModelElement {
 
     public boolean isSlitAbsorptive() {
         return slitAbsorptive;
+    }
+
+    public boolean isAutoDetect() {
+        return detectorSet.isAutoDetect();
     }
 
     class ReflectivePropagate implements PropagationStrategy {
