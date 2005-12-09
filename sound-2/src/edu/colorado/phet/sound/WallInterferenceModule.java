@@ -11,6 +11,7 @@ import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.view.BufferedWaveMediumGraphic;
 import edu.colorado.phet.sound.view.ReflectingWallGraphic;
@@ -19,11 +20,14 @@ import edu.colorado.phet.sound.view.SoundControlPanel;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
+import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.awt.geom.Point2D;
 
 public class WallInterferenceModule extends SingleSourceModule {
@@ -41,14 +45,16 @@ public class WallInterferenceModule extends SingleSourceModule {
     private SoundModel soundModel;
     private ReflectingWallGraphic wallGraphic;
     private double wallAngle = s_initialWallAngle;
-    private BufferedWaveMediumGraphic interferringWaverfrontGraphic;
+    private BufferedWaveMediumGraphic interferringWavefrontGraphic;
     private Point2D.Double p;
     private Point2D.Double pp;
+    private AbstractClock clock;
 
     public WallInterferenceModule( ApplicationModel appModel ) {
         super( appModel, SimStrings.get( "ModuleTitle.WallInterference" ) );
 
         soundModel = (SoundModel)getModel();
+        clock = appModel.getClock();
 
         // Set up the wall
         wallGraphic = new ReflectingWallGraphic( getApparatusPanel(), Color.blue,
@@ -58,15 +64,16 @@ public class WallInterferenceModule extends SingleSourceModule {
                                                  s_wallHeight,
                                                  s_initialWallAngle );
 
-        DefaultInteractiveGraphic interactiveWallGraphic = new InteractiveWallGraphic( wallGraphic );
-        interactiveWallGraphic.addCursorHandBehavior();
-        interactiveWallGraphic.addTranslationBehavior( new WallTranslator( wallGraphic ) );
-        addGraphic( interactiveWallGraphic, 8 );
+//        DefaultInteractiveGraphic interactiveWallGraphic = new InteractiveWallGraphic( wallGraphic );
+//        interactiveWallGraphic.addCursorHandBehavior();
+//        interactiveWallGraphic.addTranslationBehavior( new WallTranslator( wallGraphic ) );
+//        addGraphic( interactiveWallGraphic, 8 );
+        addGraphic( wallGraphic, 8 );
 
         // Set up the interferring wavefront graphic
-        interferringWaverfrontGraphic = new BufferedWaveMediumGraphic( soundModel.getWaveMedium(),
-                                                                       getApparatusPanel() );
-        this.addGraphic( interferringWaverfrontGraphic, 7 );
+        interferringWavefrontGraphic = new BufferedWaveMediumGraphic( soundModel.getWaveMedium(),
+                                                                      getApparatusPanel() );
+        this.addGraphic( interferringWavefrontGraphic, 7 );
         positionInterferingWavefront();
 
         // Create a control panel element for the wall
@@ -75,11 +82,54 @@ public class WallInterferenceModule extends SingleSourceModule {
         panel.add( wallControlPanel );
         panel.add( new WallTranslateControlPanel() );
         ( (SoundControlPanel)getControlPanel() ).addPanel( panel );
-
         ( (SoundControlPanel)getControlPanel() ).setAmplitude( 1.0 );
+        ( (SoundControlPanel)getControlPanel() ).addPanel( new PulsePanel() );
+
         getApparatusPanel().invalidate();
         getApparatusPanel().repaint();
     }
+
+    /**
+     *
+     */
+    private void positionInterferingWavefront() {
+        // Set up the wavefront graphic for the reflected wave front. We make set its origin to be the apparent
+        // position of the real wavefront source's reflection in the wall. Note that the angle must be set negative
+        // because of the direction of the y axis in AWT.
+        p = new Point2D.Double( SoundConfig.s_wavefrontBaseX, SoundConfig.s_wavefrontBaseY );
+        Point2D pTest = MathUtil.reflectPointAcrossLine( p, new Point2D.Double( wallGraphic.getMidPoint().getX(),
+                                                                                wallGraphic.getMidPoint().getY() ),
+                                                         Math.toRadians( -wallAngle ) );
+        pp = (Point2D.Double)pTest;
+        interferringWavefrontGraphic.clear();
+        interferringWavefrontGraphic.initLayout( new Point2D.Double( pp.getX(), pp.getY() ),
+                                                 SoundConfig.s_wavefrontHeight,
+                                                 SoundConfig.s_wavefrontRadius,
+                                                 wallAngle * 2 );
+        interferringWavefrontGraphic.setOpacity( 0.5f );
+    }
+
+    /**
+     * @param theta
+     */
+    public void setWallAngle( float theta ) {
+        wallAngle = theta;
+        wallGraphic.setAngle( wallAngle );
+        positionInterferingWavefront();
+    }
+
+    /**
+     * @param x
+     */
+    public void setWallLocation( float x ) {
+        wallGraphic.setLocation( SoundConfig.s_wavefrontBaseX + x );
+        positionInterferingWavefront();
+    }
+
+
+    //----------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------
 
     private class InteractiveWallGraphic extends DefaultInteractiveGraphic {
         private ReflectingWallGraphic reflectingWallGraphic;
@@ -100,10 +150,6 @@ public class WallInterferenceModule extends SingleSourceModule {
                 savedCursor = getApparatusPanel().getCursor();
                 getApparatusPanel().setCursor( Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR ) );
             }
-            //            else {
-            //                savedCursor = getApparatusPanel().getCursor();
-            //                getApparatusPanel().setCursor( Cursor.getPredefinedCursor( Cursor.NE_RESIZE_CURSOR ));
-            //            }
         }
 
         public void mouseExited( MouseEvent e ) {
@@ -124,7 +170,7 @@ public class WallInterferenceModule extends SingleSourceModule {
             final JSlider wallAngleSlider = new JSlider( JSlider.VERTICAL,
                                                          10,
                                                          90,
-                                                         (int) s_initialWallAngle );
+                                                         (int)s_initialWallAngle );
             wallAngleSlider.setPreferredSize( new Dimension( 25, 100 ) );
             wallAngleSlider.setPaintTicks( true );
             wallAngleSlider.setMajorTickSpacing( 10 );
@@ -148,14 +194,14 @@ public class WallInterferenceModule extends SingleSourceModule {
             setLayout( new GridLayout( 1, 1 ) );
             setPreferredSize( new Dimension( 125, 70 ) );
 
-            final JSlider wallTranslationSlider = new JSlider( JSlider.VERTICAL,
+            final JSlider wallTranslationSlider = new JSlider( JSlider.HORIZONTAL,
                                                                0,
                                                                400,
-                                                               (int) s_wallOffsetX );
+                                                               (int)s_wallOffsetX );
             wallTranslationSlider.setPreferredSize( new Dimension( 25, 100 ) );
             wallTranslationSlider.setPaintTicks( true );
-            wallTranslationSlider.setMajorTickSpacing( 10 );
-            wallTranslationSlider.setMinorTickSpacing( 5 );
+            wallTranslationSlider.setMajorTickSpacing( 50 );
+            wallTranslationSlider.setMinorTickSpacing( 25 );
             wallTranslationSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     setWallLocation( wallTranslationSlider.getValue() );
@@ -177,61 +223,112 @@ public class WallInterferenceModule extends SingleSourceModule {
         }
 
         public void translate( double dx, double dy ) {
-            //            double beta = Math.atan2( dy, dx );
-            //            dx *= Math.sin( beta );
-            //            dx = Math.sqrt( dx*dx + dy*dy) * MathUtil.getSign( dx );
-
             dx -= SoundConfig.s_wavefrontBaseX;
             setWallLocation( (float)( wallGraphic.getLocation() + dx ) );
-
-            //            Point2D.Double mp = wallGraphic.getMidPoint();
-            //            double theta = Math.atan2( dy, dx );
-            //            System.out.println( "theta = " + theta );
-            //            setWallAngle( (float)Math.toDegrees( theta ));
-
-            //            WallInterferenceModule.this.setWallLocation( (float)( graphic.getPosition().getX() + dx ));
-
-            //            Point position = new Point( graphic.getPosition() );
-            //            graphic.setLocation( position.x + dx );
-            //            positionInterferingWavefront();
         }
     }
 
+    private class PulsePanel extends JPanel {
+        private JButton pulseBtn;
+        private Double savedAmplitude;
 
-    /**
-     *
-     */
-    private void positionInterferingWavefront() {
-        // Set up the wavefront graphic for the reflected wave front. We make set its origin to be the apparent
-        // position of the real wavefront source's reflection in the wall. Note that the angle must be set negative
-        // because of the direction of the y axis in AWT.
-        p = new Point2D.Double( SoundConfig.s_wavefrontBaseX, SoundConfig.s_wavefrontBaseY );
-        Point2D pTest = MathUtil.reflectPointAcrossLine( p, new Point2D.Double( wallGraphic.getMidPoint().getX(),
-                                                                                wallGraphic.getMidPoint().getY() ),
-                                                         Math.toRadians( -wallAngle ) );
-        pp = (Point2D.Double)pTest;
-        interferringWaverfrontGraphic.clear();
-        interferringWaverfrontGraphic.initLayout( new Point2D.Double( pp.getX(), pp.getY() ),
-                                                  SoundConfig.s_wavefrontHeight,
-                                                  SoundConfig.s_wavefrontRadius,
-                                                  wallAngle * 2 );
-        interferringWaverfrontGraphic.setOpacity( 0.5f );
-    }
+        public PulsePanel() {
+            super( new GridBagLayout() );
 
-    /**
-     * @param theta
-     */
-    public void setWallAngle( float theta ) {
-        wallAngle = theta;
-        wallGraphic.setAngle( wallAngle );
-        positionInterferingWavefront();
-    }
+            setBorder( BorderFactory.createTitledBorder( new EtchedBorder(),
+                                                         SimStrings.get( "WallInterferenceMode.modeCtrlTitle" ) ) );
 
-    /**
-     * @param x
-     */
-    public void setWallLocation( float x ) {
-        wallGraphic.setLocation( SoundConfig.s_wavefrontBaseX + x );
-        positionInterferingWavefront();
+            ButtonGroup btnGrp = new ButtonGroup();
+            final JRadioButton continuousModeBtn = new JRadioButton( SimStrings.get( "WallInterferenceMode.continuous" ) );
+            final JRadioButton pulseModeBtn = new JRadioButton( SimStrings.get( "WallInterferenceMode.pulse" ) );
+            btnGrp.add( continuousModeBtn );
+            btnGrp.add( pulseModeBtn );
+
+            JPanel buttonPanel = new JPanel( new GridBagLayout() );
+            buttonPanel.setBorder( BorderFactory.createTitledBorder( new EtchedBorder(),
+                                                                     SimStrings.get( "WallInterferenceMode.modeTitle" ) ) );
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.anchor = GridBagConstraints.WEST;
+            gbc.insets = new Insets( 0, 20, 0, 20 );
+            buttonPanel.add( continuousModeBtn, gbc );
+            gbc.gridx++;
+            buttonPanel.add( pulseModeBtn, gbc );
+
+            pulseBtn = new JButton( SimStrings.get( "WallInterferenceMode.fire" ) );
+            pulseBtn.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    producePulse();
+                }
+            } );
+
+            gbc.gridy++;
+            buttonPanel.add( pulseBtn, gbc );
+
+
+            gbc.insets = new Insets( 0, 0, 0, 0 );
+            gbc.gridx = 0;
+            gbc.fill = GridBagConstraints.HORIZONTAL;
+            add( buttonPanel, gbc );
+            gbc.gridy++;
+            gbc.fill = GridBagConstraints.NONE;
+            gbc.anchor = GridBagConstraints.CENTER;
+            add( pulseBtn, gbc );
+
+            continuousModeBtn.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    if( continuousModeBtn.isSelected() ) {
+                        setPulseMode( false );
+                    }
+                }
+            } );
+
+            pulseModeBtn.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    if( pulseModeBtn.isSelected() ) {
+                        setPulseMode( true );
+                    }
+                }
+            } );
+            setPulseMode( false );
+            continuousModeBtn.setSelected( true );
+        }
+
+        private void setPulseMode( boolean isEnabled ) {
+            pulseBtn.setEnabled( isEnabled );
+            if( isEnabled ) {
+                savedAmplitude = new Double( soundModel.getPrimaryWavefront().getMaxAmplitude() );
+                soundModel.getPrimaryWavefront().clear();
+                soundModel.getPrimaryWavefront().setMaxAmplitude( 0 );
+            }
+            else {
+                if( savedAmplitude != null ) {
+                    soundModel.getPrimaryWavefront().setMaxAmplitude( savedAmplitude.doubleValue() );
+                }
+            }
+        }
+
+        private void producePulse() {
+            Runnable pulser = new Runnable() {
+                public void run() {
+                    soundModel.getPrimaryWavefront().setMaxAmplitude( savedAmplitude.doubleValue() );
+                    double startTime = clock.getRunningTime();
+                    double cycleTime = 4 * 1 / soundModel.getPrimaryWavefront().getFrequency();
+                    soundModel.getPrimaryWavefront().getAmplitude();
+                    while( clock.getRunningTime() - startTime < cycleTime ) {
+                        System.out.println( "(clock.getRunningTime() - startTime) = " + ( clock.getRunningTime() - startTime ) );
+                        // wait loop
+                        try {
+                            Thread.sleep( 10 );
+                        }
+                        catch( InterruptedException e ) {
+                            e.printStackTrace();
+                        }
+                    }
+                    soundModel.getPrimaryWavefront().setMaxAmplitude( 0 );
+                }
+            };
+            Thread t = new Thread( pulser );
+            t.start();
+        }
     }
 }
