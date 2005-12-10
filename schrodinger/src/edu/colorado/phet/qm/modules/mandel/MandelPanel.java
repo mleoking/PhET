@@ -20,6 +20,10 @@ public class MandelPanel extends IntensityPanel {
         getDoubleSlitPanelGraphic().setVisible( false );
     }
 
+    protected MandelModule getMandelModule() {
+        return mandelModule;
+    }
+
     protected HighIntensityGunGraphic createGun() {
         return new MandelGunGraphic( this );
     }

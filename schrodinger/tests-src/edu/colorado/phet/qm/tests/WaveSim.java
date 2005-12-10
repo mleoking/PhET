@@ -79,6 +79,7 @@ public class WaveSim extends JApplet implements Runnable {
         vx = 0.25;
         dt = 0.8 * mass * dx * dx / hbar;
         epsilon = hbar * dt / ( mass * dx * dx );
+        System.out.println( "epsilon = " + epsilon );
         alpha = new Complex( 0.5 + 0.5 * Math.cos( epsilon / 2 ), -0.5 * Math.sin( epsilon / 2 ) );
         beta = new Complex( ( Math.sin( epsilon / 4 ) ) * Math.sin( epsilon / 4 ), 0.5 * Math.sin( epsilon / 2 ) );
         energy = 0.5 * mass * vx * vx;

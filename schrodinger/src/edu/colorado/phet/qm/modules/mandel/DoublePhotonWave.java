@@ -25,7 +25,12 @@ public class DoublePhotonWave extends PhotonWave {
 
     protected Wave createWave( double phase ) {
 //        System.out.println( "Creating mandel wave, momentum=" + getMomentum() );
-        double insetX = 30 * getDiscreteModel().getWavefunction().getWidth() / 100.0;
+
+        double insetX = getDiscreteModel().getWavefunction().getWidth() * getFractionalInset();
         return new MandelWave( (int)insetX, getMomentum(), phase, dPhase, getTotalWaveMagnitude(), getDiscreteModel().getWavefunction().getWidth() );
+    }
+
+    public static double getFractionalInset() {
+        return 0.3;
     }
 }
