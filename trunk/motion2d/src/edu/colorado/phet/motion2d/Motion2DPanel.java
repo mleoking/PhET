@@ -20,9 +20,9 @@ public class Motion2DPanel extends JPanel
     private int xAcc, yAcc;
     private boolean mouseVisible;
     private Color myGreen;
-    private int nAInit;		//position-averaging radius
-    private int nGroupInit;	//# of avg-positions averaged in computing v, a
-    private int timeStep;	//time step in millisec
+    private int nAInit;        //position-averaging radius
+    private int nGroupInit;    //# of avg-positions averaged in computing v, a
+    private int timeStep;    //time step in millisec
     private double velFactor;   //velocity vector multiplication factor
     private double accFactor;    //acceleration vector multiplication factor
     private int radius = 9; //Radius of ball
@@ -124,7 +124,7 @@ public class Motion2DPanel extends JPanel
         final SystemRunner sr = new SystemRunner();
 //        myThread = new Thread( new SystemRunner() );
 //        myThread.start();
-        timer = new Timer( 10, new ActionListener() {
+        timer = new Timer( 25, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 sr.step();
             }
@@ -135,7 +135,7 @@ public class Motion2DPanel extends JPanel
 
         Point pt = new Point( 20, yNow );
         wiggleMe = new WiggleMe( this, pt, new Vector2D.Double( 0, 1 ), 20, 5,
-                                    SimStrings.get( "Motion2DPanel.WiggleMeText" ) );
+                                 SimStrings.get( "Motion2DPanel.WiggleMeText" ) );
 //        pt = new Point( (int)( xNow - wiggleMe.getWidth() ), yNow );
 
         wiggleMe.setCenter( pt );
@@ -267,9 +267,13 @@ public class Motion2DPanel extends JPanel
         if( xNow != this.xNow || this.yNow != yNow ) {
             this.xNow = xNow;
             this.yNow = yNow;
-            repaint();
+//            repaint(getPlayRect());
         }
     }
+//
+//    private Rectangle getPlayRect() {
+//        return new Rectangle( 0,northPanel.getY()+northPanel.getHeight()+2,getWidth(),getHeight()-northPanel.getHeight()-southPanel.getHeight()-2);
+//    }
 
     public int getButtonFlag() {
         return this.buttonFlag;
