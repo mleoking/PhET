@@ -6,12 +6,12 @@ import java.awt.*;
 
 public class ArrowA {
 
-    protected double L;  	//length of arrow
-    protected int x0, y0;			//origin of arrow
-    protected int xFinal, yFinal;	//head of arrow
-    protected double w;		//width of arrow
-    protected double h;		//length of arrow head
-    protected int[] xInt = new int[8];	//positions of arrow corners for polygon()
+    protected double L;      //length of arrow
+    protected int x0, y0;            //origin of arrow
+    protected int xFinal, yFinal;    //head of arrow
+    protected double w;        //width of arrow
+    protected double h;        //length of arrow head
+    protected int[] xInt = new int[8];    //positions of arrow corners for polygon()
     protected int[] yInt = new int[8];
 
 
@@ -31,8 +31,8 @@ public class ArrowA {
     }
 
     public double getLength() {
-        double x1 = xFinal - x0;  	//x-component of arrow
-        double y1 = yFinal - y0;	//y-component of arrow
+        double x1 = xFinal - x0;      //x-component of arrow
+        double y1 = yFinal - y0;    //y-component of arrow
         this.L = Math.pow( ( x1 * x1 + y1 * y1 ), 0.5 );
         return this.L;
     }
@@ -42,30 +42,30 @@ public class ArrowA {
         this.y0 = y0;
         this.xFinal = xFinal;
         this.yFinal = yFinal;
-        double x1 = xFinal - x0;  	//x-component of arrow
-        double y1 = yFinal - y0;	//y-component of arrow
+        double x1 = xFinal - x0;      //x-component of arrow
+        double y1 = yFinal - y0;    //y-component of arrow
         this.L = Math.pow( ( x1 * x1 + y1 * y1 ), 0.5 );
         //this.thta = Math.asin((yFinal - y0)/L);  //not necessary
         this.w = this.computeWidth();
         this.h = 4 * w * Math.sqrt( 3 ) / 2.0;
 
         double[] x = new double[]{( w / 2 ) * ( -y1 / L ),
-                                  ( w / 2 ) * ( -y1 / L ) + ( L - h ) * ( x1 / L ),
-                                  ( w ) * ( -y1 / L ) + ( L - h ) * ( x1 / L ),
-                                  ( L ) * ( x1 / L ),
-                                  ( w ) * ( y1 / L ) + ( L - h ) * ( x1 / L ),
-                                  ( w / 2 ) * ( y1 / L ) + ( L - h ) * ( x1 / L ),
-                                  ( w / 2 ) * ( y1 / L ),
-                                  ( w / 2 ) * ( -y1 / L )};
+                ( w / 2 ) * ( -y1 / L ) + ( L - h ) * ( x1 / L ),
+                ( w ) * ( -y1 / L ) + ( L - h ) * ( x1 / L ),
+                ( L ) * ( x1 / L ),
+                ( w ) * ( y1 / L ) + ( L - h ) * ( x1 / L ),
+                ( w / 2 ) * ( y1 / L ) + ( L - h ) * ( x1 / L ),
+                ( w / 2 ) * ( y1 / L ),
+                ( w / 2 ) * ( -y1 / L )};
 
         double[] y = new double[]{( w / 2 ) * x1 / L,
-                                  ( w / 2 ) * ( x1 / L ) + ( L - h ) * ( y1 / L ),
-                                  ( w ) * ( x1 / L ) + ( L - h ) * ( y1 / L ),
-                                  ( L ) * ( y1 / L ),
-                                  ( w ) * ( -x1 / L ) + ( L - h ) * ( y1 / L ),
-                                  ( w / 2 ) * ( -x1 / L ) + ( L - h ) * ( y1 / L ),
-                                  ( w / 2 ) * ( -x1 / L ),
-                                  ( w / 2 ) * ( x1 / L )};
+                ( w / 2 ) * ( x1 / L ) + ( L - h ) * ( y1 / L ),
+                ( w ) * ( x1 / L ) + ( L - h ) * ( y1 / L ),
+                ( L ) * ( y1 / L ),
+                ( w ) * ( -x1 / L ) + ( L - h ) * ( y1 / L ),
+                ( w / 2 ) * ( -x1 / L ) + ( L - h ) * ( y1 / L ),
+                ( w / 2 ) * ( -x1 / L ),
+                ( w / 2 ) * ( x1 / L )};
 
         for( int i = 0; i < x.length; i++ ) {
             xInt[i] = x0 + (int)( x[i] );
@@ -76,6 +76,8 @@ public class ArrowA {
 
 
     public void paint( Graphics g ) {
+        Graphics2D g2 = (Graphics2D)g;
+        g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF );
         g.fillPolygon( xInt, yInt, xInt.length );
     }//end of paint method
 
