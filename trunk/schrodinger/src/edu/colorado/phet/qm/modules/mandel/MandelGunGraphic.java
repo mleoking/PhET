@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.mandel;
 
+import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
 import edu.colorado.phet.qm.view.gun.HighIntensityBeam;
@@ -9,9 +10,10 @@ import edu.colorado.phet.qm.view.gun.Photon;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
@@ -22,19 +24,19 @@ import java.io.IOException;
  */
 
 public class MandelGunGraphic extends HighIntensityGunGraphic {
+    public PImage leftGun;
+    public PImage rightGun;
 
     public MandelGunGraphic( MandelPanel mandelPanel ) {
         super( mandelPanel );
-        Point origGunLoc = getGunLocation();
-        int dx = 112;
         getGunImageGraphic().setVisible( false );
-        PImage leftGun = null;
-        PImage rightGun = null;
         try {
             leftGun = new PImage( ImageLoader.loadBufferedImage( GUN_RESOURCE ) );
             leftGun.setPickable( false );
             leftGun.setChildrenPickable( false );
-            rightGun = new PImage( ImageLoader.loadBufferedImage( "images/gun2-ii.gif" ) );
+            BufferedImage newImage = ImageLoader.loadBufferedImage( "images/gun2-ii.gif" );
+            newImage = BufferedImageUtils.flipX( newImage );
+            rightGun = new PImage( newImage );
             rightGun.setPickable( false );
             rightGun.setChildrenPickable( false );
         }
@@ -44,9 +46,40 @@ public class MandelGunGraphic extends HighIntensityGunGraphic {
 
         addChild( 0, leftGun );
         addChild( 0, rightGun );
-        leftGun.setOffset( new Point( origGunLoc.x - dx, origGunLoc.y ) );
-        rightGun.setOffset( new Point( origGunLoc.x + dx, origGunLoc.y ) );
+//        leftGun.setOffset( new Point2D.Double( origGunLoc.x - dx, origGunLoc.y ) );
+//        rightGun.setOffset( new Point2D.Double( origGunLoc.x + dx, origGunLoc.y ) );
         getComboBoxGraphic().setVisible( false );
+        layoutChildren();
+    }
+
+    protected void layoutChildren() {
+        super.layoutChildren();
+        Point2D origGunLoc = getGunLocation();
+        double dx = getGunOffsetDx();
+        if( leftGun != null && rightGun != null ) {
+            double dy = 5;
+            leftGun.setOffset( new Point2D.Double( origGunLoc.getX() - dx, origGunLoc.getY() - dy ) );
+            rightGun.setOffset( new Point2D.Double( origGunLoc.getX() + dx, origGunLoc.getY() - dy ) );
+        }
+        if( getGunControls() != null ) {
+            getGunControls().setOffset( getGunControlPSwing().getFullBounds().getX(), getGunControlPSwing().getFullBounds().getMaxY() );
+        }
+    }
+
+    protected double getControlOffsetX() {
+        if( rightGun != null ) {
+            return rightGun.getFullBounds().getMaxX();
+        }
+        else {
+            return 0;
+        }
+    }
+
+    private double getGunOffsetDx() {
+        double width = getSchrodingerPanel().getWavefunctionGraphic().getGlobalFullBounds().getWidth();
+        double dx = width / 2 - width * DoublePhotonWave.getFractionalInset();
+        System.out.println( "dx = " + dx );
+        return dx;
     }
 
     public int getFireButtonInsetDX() {

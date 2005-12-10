@@ -2,15 +2,6 @@ package edu.colorado.phet.qm.model.propagators;
 
 import edu.colorado.phet.qm.model.*;
 
-/*********************************************************/
-/* Two-dimensional Time dependent Schrodinger Equation.  */
-/* Use Crank-Nicholson/Cayley algorithm...               */
-/* Stable, Norm Conserving.     Li Ju. May.3,1995        */
-
-/**
- * *****************************************************
- */
-
 public class RichardsonPropagator extends Propagator {
     private double simulationTime;
 
@@ -36,8 +27,10 @@ public class RichardsonPropagator extends Propagator {
         timeStep = 0;
         hbar = 1;
         mass = 1;//0.0020;
+//        mass = 2;//0.0020;
 
         deltaTime = 0.8 * mass / hbar;
+//        deltaTime = 0.8 * 1.0 / hbar;
         betaeven = new Complex[0][0];
         betaodd = new Complex[0][0];
         update();

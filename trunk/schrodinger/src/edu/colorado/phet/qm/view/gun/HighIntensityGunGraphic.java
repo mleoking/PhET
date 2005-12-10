@@ -76,15 +76,18 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic {
 
     protected void layoutChildren() {
         super.layoutChildren();
-        double layoutX = getRelLayoutX();
-        gunControlPSwing.setOffset( layoutX, getControlOffsetY() );
+        gunControlPSwing.setOffset( getControlOffsetX(), getControlOffsetY() );
         getComboBoxGraphic().setOffset( gunControlPSwing.getFullBounds().getMaxX(), gunControlPSwing.getFullBounds().getY() );
         if( getGunControls() != null ) {
             getGunControls().setOffset( getComboBoxGraphic().getFullBounds().getX(), getComboBoxGraphic().getFullBounds().getMaxY() );
         }
     }
 
-    protected double getRelLayoutX() {
+    public PSwing getGunControlPSwing() {
+        return gunControlPSwing;
+    }
+
+    protected double getControlOffsetX() {
         return getGunImageGraphic().getFullBounds().getWidth() - 40;
     }
 
