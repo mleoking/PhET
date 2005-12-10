@@ -31,7 +31,7 @@ import java.awt.*;
  * This class encapsulates the parts of an application that make up
  * a complete virtual experiment. This includes, but is not limited to, the
  * on-screen controls and view elements that go along with the
- * experiment. Each module has its own model.
+ * experiment. Each module has its own model.aoeu
  *
  * @author ?
  * @version $Revision$
