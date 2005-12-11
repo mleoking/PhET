@@ -21,6 +21,36 @@ public class Wavefunction {
         this( wavefunction.wavefunction );
     }
 
+    public void clearRect( Rectangle rect ) {
+        for( int i = rect.x; i < rect.x + rect.width; i++ ) {
+            for( int j = rect.y; j < rect.y + rect.height; j++ ) {
+                //todo intersect rectangles to avoid contains call each time.
+                if( containsLocation( i, j ) ) {
+                    setValue( i, j, new Complex() );
+                }
+            }
+        }
+    }
+
+    public void splitWave( Rectangle region, Wavefunction a, Wavefunction b ) {
+        for( int i = region.x; i < region.x + region.width; i++ ) {
+            for( int j = region.y; j < region.y + region.height; j++ ) {
+                Complex v = valueAt( i, j );
+                a.setValue( i, j, v.times( 0.5 ) );
+                b.setValue( i, j, v.times( 0.5 ) );
+            }
+        }
+    }
+
+    public void combineWaves( Rectangle region, Wavefunction a, Wavefunction b ) {
+        for( int i = region.x; i < region.x + region.width; i++ ) {
+            for( int j = region.y; j < region.y + region.height; j++ ) {
+                double sum = SplitModel.sumMagnitudes( a.valueAt( i, j ), b.valueAt( i, j ) );
+                setValue( i, j, new Complex( sum, 0 ) );
+            }
+        }
+    }
+
     public static interface Listener {
         void cleared();
 

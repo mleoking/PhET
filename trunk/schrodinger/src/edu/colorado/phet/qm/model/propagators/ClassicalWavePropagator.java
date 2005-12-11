@@ -3,6 +3,8 @@ package edu.colorado.phet.qm.model.propagators;
 
 import edu.colorado.phet.qm.model.*;
 
+import java.awt.*;
+
 /**
  * See: http://www.mtnmath.com/whatth/node47.html
  */
@@ -183,6 +185,51 @@ public class ClassicalWavePropagator extends Propagator {
         }
         else {
             throw new RuntimeException( "Tried to copy Classical to wrong propagator type: " + dst.getClass().getName() );
+        }
+    }
+
+    public void clearWave( Rectangle rect ) {
+        super.clearWave( rect );
+        if( last2 != null ) {
+            last2.clearRect( rect );
+        }
+        if( last != null ) {
+            last.clearRect( rect );
+        }
+    }
+
+    public void splitWave( Rectangle region, Propagator a, Propagator b ) {
+        super.splitWave( region, a, b );
+
+        if( a instanceof ClassicalWavePropagator && b instanceof ClassicalWavePropagator ) {
+            ClassicalWavePropagator ca = (ClassicalWavePropagator)a;
+            ClassicalWavePropagator cb = (ClassicalWavePropagator)b;
+            if( last2 != null ) {
+                last2.splitWave( region, ca.last2, cb.last2 );
+            }
+            if( last != null ) {
+                last.splitWave( region, ca.last, cb.last );
+            }
+        }
+        else {
+            throw new RuntimeException( "Tried to split Classical to wrong propagator type: a=" + a.getClass().getName() + ", b=" + b.getClass().getName() );
+        }
+    }
+
+    public void combineWaves( Rectangle region, Propagator a, Propagator b ) {
+        super.combineWaves( region, a, b );
+        if( a instanceof ClassicalWavePropagator && b instanceof ClassicalWavePropagator ) {
+            ClassicalWavePropagator ca = (ClassicalWavePropagator)a;
+            ClassicalWavePropagator cb = (ClassicalWavePropagator)b;
+            if( last2 != null ) {
+                last2.combineWaves( region, ca.last2, cb.last2 );
+            }
+            if( last != null ) {
+                last.combineWaves( region, ca.last, cb.last );
+            }
+        }
+        else {
+            throw new RuntimeException( "Tried to combine Classical to wrong propagator type: a=" + a.getClass().getName() + ", b=" + b.getClass().getName() );
         }
     }
 }
