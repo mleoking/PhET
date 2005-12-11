@@ -166,4 +166,23 @@ public class ClassicalWavePropagator extends Propagator {
     public Wavefunction getLast2() {
         return last2;
     }
+
+    public void copyTo( int i, int j, Propagator dst ) {
+        super.copyTo( i, j, dst );
+
+        if( dst instanceof ClassicalWavePropagator ) {
+            ClassicalWavePropagator classicalDst = (ClassicalWavePropagator)dst;
+            if( last2 != null && classicalDst.last2 != null ) {
+                Complex val2 = last2.valueAt( i, j );
+                classicalDst.last2.setValue( i, j, val2 );
+            }
+            if( last != null && classicalDst.last != null ) {
+                Complex val = last.valueAt( i, j );
+                classicalDst.last.setValue( i, j, val );
+            }
+        }
+        else {
+            throw new RuntimeException( "Tried to copy Classical to wrong propagator type: " + dst.getClass().getName() );
+        }
+    }
 }

@@ -1,6 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.model;
 
+import java.awt.*;
+
 /**
  * User: Sam Reid
  * Date: Dec 10, 2005
@@ -42,5 +44,31 @@ public class WaveModel {
     public void setWavefunctionNorm( double norm ) {
         wavefunction.setMagnitude( norm );
         propagator.setWavefunctionNorm( norm );
+    }
+
+    public void setWaveSize( int width, int height ) {
+        wavefunction.setSize( width, height );
+        clear();
+    }
+
+    public void copyTo( Rectangle area, WaveModel dest ) {
+        for( int i = area.x; i < area.x + area.width; i++ ) {
+            for( int j = area.y; j < area.y + area.height; j++ ) {
+                //todo could clean up with a rectangle intersect instead of containsLocation.
+                if( wavefunction.containsLocation( i, j ) ) {
+                    copyTo( i, j, dest );
+                }
+            }
+        }
+    }
+
+    public void copyTo( int i, int j, WaveModel dest ) {
+        Complex value = wavefunction.valueAt( i, j );
+        dest.wavefunction.setValue( i, j, value );
+        propagator.copyTo( i, j, dest.propagator );
+    }
+
+    public void propagate() {
+        propagator.propagate( wavefunction );
     }
 }
