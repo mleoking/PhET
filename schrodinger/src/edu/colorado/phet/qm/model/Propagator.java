@@ -1,5 +1,7 @@
 package edu.colorado.phet.qm.model;
 
+import java.awt.*;
+
 /**
  * User: Sam Reid
  * Date: Jun 15, 2005
@@ -54,5 +56,15 @@ public abstract class Propagator {
     }
 
     public void copyTo( int i, int j, Propagator propagator ) {
+    }
+
+    public void clearWave( Rectangle rect ) {
+    }
+
+    public void splitWave( Rectangle region, Propagator a, Propagator b ) {
+    }
+
+
+    public void combineWaves( Rectangle region, Propagator a, Propagator b ) {
     }
 }

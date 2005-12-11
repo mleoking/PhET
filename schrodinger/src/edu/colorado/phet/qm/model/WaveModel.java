@@ -71,4 +71,19 @@ public class WaveModel {
     public void propagate() {
         propagator.propagate( wavefunction );
     }
+
+    public void clearWave( Rectangle rect ) {
+        wavefunction.clearRect( rect );
+        propagator.clearWave( rect );
+    }
+
+    public void splitWave( Rectangle region, WaveModel a, WaveModel b ) {
+        wavefunction.splitWave( region, a.wavefunction, b.wavefunction );
+        propagator.splitWave( region, a.propagator, b.propagator );
+    }
+
+    public void combineWaves( Rectangle region, WaveModel a, WaveModel b ) {
+        wavefunction.combineWaves( region, a.wavefunction, b.wavefunction );
+        propagator.combineWaves( region, a.propagator, b.propagator );
+    }
 }

@@ -3,7 +3,6 @@ package edu.colorado.phet.qm.model;
 
 import edu.colorado.phet.qm.model.potentials.ConstantPotential;
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
-import edu.colorado.phet.qm.model.propagators.ClassicalWavePropagator;
 
 import java.awt.*;
 
@@ -89,8 +88,6 @@ public class SplitModel extends DiscreteModel {
         super.reset();
         rightWaveModel.clear();
         leftWaveModel.clear();
-//        rightWavefunction.clear();
-//        leftWavefunction.clear();
     }
 
     public void clearWavefunction() {
@@ -118,11 +115,23 @@ public class SplitModel extends DiscreteModel {
     public void setSplitMode( boolean split ) {
         this.mode = split ? (Mode)new SplitMode() : new NormalMode();
         if( split ) {//copy wavefunction state for continuity.
-            getWaveSplitStrategy().copyNorthRegionToSplits();
+            copyNorthRegionToLR();
         }
         else {
-            getWaveSplitStrategy().copySplitsToNorthRegion();
+            copyLRToNorthRegion();
         }
+    }
+
+    private void copyLRToNorthRegion() {
+        getWaveModel().combineWaves( getNorthRegion(), leftWaveModel, rightWaveModel );
+    }
+
+    public Rectangle getNorthRegion() {
+        return new Rectangle( 0, 0, getLeftWavefunction().getWidth(), getDoubleSlitPotential().getY() );
+    }
+
+    private void copyNorthRegionToLR() {
+        getWaveModel().splitWave( getNorthRegion(), leftWaveModel, rightWaveModel );
     }
 
     public Propagator getLeftPropagator() {
@@ -135,15 +144,6 @@ public class SplitModel extends DiscreteModel {
 
     private Wavefunction superGetDetectionRegion( int height, int detectionY, int width, int h ) {
         return super.getDetectionRegion( height, detectionY, width, h );
-    }
-
-    private WaveSplitStrategy getWaveSplitStrategy() {
-        if( getPropagator() instanceof ClassicalWavePropagator ) {
-            return new ClassicalWaveSplitStrategy( this );
-        }
-        else {
-            return new WaveSplitStrategy( this );
-        }
     }
 
     private void superStep() {
@@ -184,9 +184,8 @@ public class SplitModel extends DiscreteModel {
             getWaveModel().copyTo( slits[0], leftWaveModel );//todo in the split model with absorption, this will be getSourceWaveModel.copyTo
             getWaveModel().copyTo( slits[1], rightWaveModel );
 
-//            getWaveSplitStrategy().copyDetectorAreasToWaves();
-            getWaveSplitStrategy().clearEntrantWaveNorthArea();
-            getWaveSplitStrategy().clearLRWavesSouthPart();
+            clearEntrantWavesNorthArea();
+            clearLRWavesSouthArea();
             rightWaveModel.propagate();
             leftWaveModel.propagate();
 
@@ -196,6 +195,26 @@ public class SplitModel extends DiscreteModel {
             incrementTimeStep();
             finishedTimeStep();
         }
+    }
+
+    private void clearLRWavesSouthArea() {
+        Rectangle rectangle = getLRWaveSouthClearArea();
+        leftWaveModel.clearWave( rectangle );
+        rightWaveModel.clearWave( rectangle );
+    }
+
+    protected Rectangle getLRWaveSouthClearArea() {
+        int topYClear = (int)getDoubleSlitPotential().getSlitAreas()[0].getMaxY();
+        return new Rectangle( 0, topYClear, getLeftWavefunction().getWidth(), getLeftWavefunction().getHeight() );
+    }
+
+    protected int getSlitTopY() {
+        return (int)getDoubleSlitPotential().getSlitAreas()[0].getMinY();
+    }
+
+    private void clearEntrantWavesNorthArea() {
+        Rectangle rect = new Rectangle( getWavefunction().getWidth(), getSlitTopY() );
+        getWaveModel().clearWave( rect );
     }
 
     public static Wavefunction sumMagnitudes( Wavefunction leftRegion, Wavefunction rightRegion ) {

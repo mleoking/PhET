@@ -41,14 +41,18 @@ public class WaveSplitStrategy {
         }
     }
 
+    public Rectangle getNorthRegion() {
+        Rectangle rect = new Rectangle( 0, 0, getLeftWavefunction().getWidth(), getDoubleSlitPotential().getY() );
+        return rect;
+    }
+
     public void copyNorthRegionToSplits() {
         int yMax = getDoubleSlitPotential().getY();
         for( int i = 0; i < getLeftWavefunction().getWidth(); i++ ) {
             for( int j = 0; j < yMax; j++ ) {
                 Complex v = getWavefunction().valueAt( i, j );
-                v.scale( 0.5 );
-                getLeftWavefunction().setValue( i, j, v );
-                getRightWavefunction().setValue( i, j, v );
+                getLeftWavefunction().setValue( i, j, v.times( 0.5 ) );
+                getRightWavefunction().setValue( i, j, v.times( 0.5 ) );
             }
         }
     }
