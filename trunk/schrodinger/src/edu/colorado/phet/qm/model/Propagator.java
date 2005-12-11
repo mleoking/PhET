@@ -53,4 +53,6 @@ public abstract class Propagator {
         return discreteModel;
     }
 
+    public void copyTo( int i, int j, Propagator propagator ) {
+    }
 }

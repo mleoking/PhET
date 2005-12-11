@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.model;
 
+import edu.colorado.phet.qm.model.potentials.ConstantPotential;
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
 import edu.colorado.phet.qm.model.propagators.ClassicalWavePropagator;
 
@@ -15,11 +16,8 @@ import java.awt.*;
  */
 
 public class SplitModel extends DiscreteModel {
-    private Wavefunction rightWavefunction;
-    private Propagator rightPropagator;
-
-    private Wavefunction leftWavefunction;
-    private Propagator leftPropagator;
+    private WaveModel rightWaveModel;
+    private WaveModel leftWaveModel;
 
     private Detector leftDetector;
     private Detector rightDetector;
@@ -36,8 +34,8 @@ public class SplitModel extends DiscreteModel {
 
     public SplitModel( int width, int height, double deltaTime, Wave wave ) {
         super( width, height, deltaTime, wave );
-        rightWavefunction = new Wavefunction( getGridWidth(), getGridHeight() );
-        leftWavefunction = new Wavefunction( getGridWidth(), getGridHeight() );
+        rightWaveModel = new WaveModel( new Wavefunction( getGridWidth(), getGridHeight() ), new NullPropagator( this, new ConstantPotential() ) );
+        leftWaveModel = new WaveModel( new Wavefunction( getGridWidth(), getGridHeight() ), new NullPropagator( this, new ConstantPotential() ) );
 
         leftDetector = new Detector( this, 0, 0, 0, 0 );
         rightDetector = new Detector( this, 0, 0, 0, 0 );
@@ -79,8 +77,8 @@ public class SplitModel extends DiscreteModel {
 
     public void setPropagator( Propagator propagator ) {
         super.setPropagator( propagator );
-        this.leftPropagator = propagator.copy();
-        this.rightPropagator = propagator.copy();
+        leftWaveModel.setPropagator( propagator.copy() );
+        rightWaveModel.setPropagator( propagator.copy() );
     }
 
     protected void step() {
@@ -89,26 +87,24 @@ public class SplitModel extends DiscreteModel {
 
     public void reset() {
         super.reset();
-        rightWavefunction.clear();
-        leftWavefunction.clear();
+        rightWaveModel.clear();
+        leftWaveModel.clear();
+//        rightWavefunction.clear();
+//        leftWavefunction.clear();
     }
 
     public void clearWavefunction() {
         super.clearWavefunction();
-        rightWavefunction.clear();
-        leftWavefunction.clear();
-        if( rightPropagator != null ) {
-            rightPropagator.reset();
-            leftPropagator.reset();
-        }
+        rightWaveModel.clear();
+        leftWaveModel.clear();
     }
 
     public Wavefunction getRightWavefunction() {
-        return rightWavefunction;
+        return rightWaveModel.getWavefunction();
     }
 
     public Wavefunction getLeftWavefunction() {
-        return leftWavefunction;
+        return leftWaveModel.getWavefunction();
     }
 
     public Detector getLeftDetector() {
@@ -130,11 +126,11 @@ public class SplitModel extends DiscreteModel {
     }
 
     public Propagator getLeftPropagator() {
-        return leftPropagator;
+        return leftWaveModel.getPropagator();
     }
 
     public Propagator getRightPropagator() {
-        return rightPropagator;
+        return rightWaveModel.getPropagator();
     }
 
     private Wavefunction superGetDetectionRegion( int height, int detectionY, int width, int h ) {
@@ -173,8 +169,8 @@ public class SplitModel extends DiscreteModel {
     class SplitMode implements Mode {
 
         public Wavefunction getDetectionRegion( int height, int detectionY, int width, int h ) {
-            Wavefunction leftRegion = leftWavefunction.copyRegion( 0, detectionY, width, h );
-            Wavefunction rightRegion = rightWavefunction.copyRegion( 0, detectionY, width, h );
+            Wavefunction leftRegion = getLeftWavefunction().copyRegion( 0, detectionY, width, h );
+            Wavefunction rightRegion = getRightWavefunction().copyRegion( 0, detectionY, width, h );
             return sumMagnitudes( leftRegion, rightRegion );
         }
 
@@ -182,36 +178,23 @@ public class SplitModel extends DiscreteModel {
 //            if( !SplitModel.this.isSlitAbsorptive() ) {
             beforeTimeStep();
             getPropagator().propagate( getWavefunction() );
+
             //copy slit regions to left & right sides
-            getWaveSplitStrategy().copyDetectorAreasToWaves();
+            Rectangle[] slits = getDoubleSlitPotential().getSlitAreas();
+            getWaveModel().copyTo( slits[0], leftWaveModel );//todo in the split model with absorption, this will be getSourceWaveModel.copyTo
+            getWaveModel().copyTo( slits[1], rightWaveModel );
+
+//            getWaveSplitStrategy().copyDetectorAreasToWaves();
             getWaveSplitStrategy().clearEntrantWaveNorthArea();
             getWaveSplitStrategy().clearLRWavesSouthPart();
-            rightPropagator.propagate( rightWavefunction );   //todo won't work for light, needs its own propagator.
-            leftPropagator.propagate( leftWavefunction );
+            rightWaveModel.propagate();
+            leftWaveModel.propagate();
 
-            getDamping().damp( rightWavefunction );
-            getDamping().damp( leftWavefunction );
+            getDamping().damp( getRightWavefunction() );
+            getDamping().damp( getLeftWavefunction() );
 
             incrementTimeStep();
             finishedTimeStep();
-//            }
-//            else {
-//                beforeTimeStep();
-//                new AbsorptivePropagate().step();
-//
-//                //copy slit regions to left & right sides
-//                getWaveSplitStrategy().copyDetectorAreasToWaves();
-//                getWaveSplitStrategy().clearEntrantWaveNorthArea();
-//                getWaveSplitStrategy().clearLRWavesSouthPart();
-//                rightPropagator.propagate( rightWavefunction );   //todo won't work for light, needs its own propagator.
-//                leftPropagator.propagate( leftWavefunction );
-//
-//                getDamping().damp( rightWavefunction );
-//                getDamping().damp( leftWavefunction );
-//
-//                incrementTimeStep();
-//                finishedTimeStep();
-//            }
         }
     }
 
@@ -237,9 +220,7 @@ public class SplitModel extends DiscreteModel {
 
     public void setWaveSize( int width, int height ) {
         super.setWaveSize( width, height );
-        leftWavefunction.setSize( width, height );
-        rightWavefunction.setSize( width, height );
-        leftPropagator.reset();
-        rightPropagator.reset();
+        rightWaveModel.setWaveSize( width, height );
+        leftWaveModel.setWaveSize( width, height );
     }
 }

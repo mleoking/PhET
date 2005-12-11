@@ -147,6 +147,10 @@ public class DiscreteModel implements ModelElement {
         waveModel.clear();
     }
 
+    public WaveModel getWaveModel() {
+        return waveModel;
+    }
+
     class DefaultPropagate implements PropagationStrategy {
         public void step() {
             if( getWavefunction().getMagnitude() > 0 ) {
