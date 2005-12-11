@@ -204,10 +204,10 @@ public class ClassicalWavePropagator extends Propagator {
         if( a instanceof ClassicalWavePropagator && b instanceof ClassicalWavePropagator ) {
             ClassicalWavePropagator ca = (ClassicalWavePropagator)a;
             ClassicalWavePropagator cb = (ClassicalWavePropagator)b;
-            if( last2 != null ) {
+            if( last2 != null && ca.last2 != null && cb.last2 != null ) {
                 last2.splitWave( region, ca.last2, cb.last2 );
             }
-            if( last != null ) {
+            if( last != null && ca.last != null && cb.last != null ) {
                 last.splitWave( region, ca.last, cb.last );
             }
         }
@@ -221,10 +221,10 @@ public class ClassicalWavePropagator extends Propagator {
         if( a instanceof ClassicalWavePropagator && b instanceof ClassicalWavePropagator ) {
             ClassicalWavePropagator ca = (ClassicalWavePropagator)a;
             ClassicalWavePropagator cb = (ClassicalWavePropagator)b;
-            if( last2 != null ) {
+            if( last2 != null && ca.last2 != null && cb.last2 != null ) {
                 last2.combineWaves( region, ca.last2, cb.last2 );
             }
-            if( last != null ) {
+            if( last != null && ca.last != null && cb.last != null ) {
                 last.combineWaves( region, ca.last, cb.last );
             }
         }

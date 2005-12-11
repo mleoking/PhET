@@ -70,6 +70,7 @@ public class WaveModel {
 
     public void propagate() {
         propagator.propagate( wavefunction );
+        wavefunction.setMagnitudeDirty();
     }
 
     public void clearWave( Rectangle rect ) {

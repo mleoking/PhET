@@ -175,25 +175,47 @@ public class SplitModel extends DiscreteModel {
         }
 
         public void step() {
-//            if( !SplitModel.this.isSlitAbsorptive() ) {
-            beforeTimeStep();
-            getPropagator().propagate( getWavefunction() );
+            if( !SplitModel.this.isSlitAbsorptive() ) {
+                beforeTimeStep();
+                getWaveModel().propagate();
 
-            //copy slit regions to left & right sides
-            Rectangle[] slits = getDoubleSlitPotential().getSlitAreas();
-            getWaveModel().copyTo( slits[0], leftWaveModel );//todo in the split model with absorption, this will be getSourceWaveModel.copyTo
-            getWaveModel().copyTo( slits[1], rightWaveModel );
+                //copy slit regions to left & right sides
+                Rectangle[] slits = getDoubleSlitPotential().getSlitAreas();
+                getWaveModel().copyTo( slits[0], leftWaveModel );//todo in the split model with absorption, this will be getSourceWaveModel.copyTo
+                getWaveModel().copyTo( slits[1], rightWaveModel );
 
-            clearEntrantWavesNorthArea();
-            clearLRWavesSouthArea();
-            rightWaveModel.propagate();
-            leftWaveModel.propagate();
+                clearEntrantWavesNorthArea();
+                clearLRWavesSouthArea();
+                rightWaveModel.propagate();
+                leftWaveModel.propagate();
 
-            getDamping().damp( getRightWavefunction() );
-            getDamping().damp( getLeftWavefunction() );
+                getDamping().damp( getRightWavefunction() );
+                getDamping().damp( getLeftWavefunction() );
 
-            incrementTimeStep();
-            finishedTimeStep();
+                incrementTimeStep();
+                finishedTimeStep();
+            }
+            else {
+                beforeTimeStep();
+                getSourceWaveModel().propagate();
+                getWaveModel().propagate();
+
+                //copy slit regions to left & right sides
+                Rectangle[] slits = getDoubleSlitPotential().getSlitAreas();
+                getWaveModel().copyTo( slits[0], leftWaveModel );//todo in the split model with absorption, this will be getSourceWaveModel.copyTo
+                getWaveModel().copyTo( slits[1], rightWaveModel );
+
+                clearEntrantWavesNorthArea();
+                clearLRWavesSouthArea();
+                rightWaveModel.propagate();
+                leftWaveModel.propagate();
+
+                getDamping().damp( getRightWavefunction() );
+                getDamping().damp( getLeftWavefunction() );
+
+                incrementTimeStep();
+                finishedTimeStep();
+            }
         }
     }
 

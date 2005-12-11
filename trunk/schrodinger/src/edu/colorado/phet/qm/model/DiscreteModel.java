@@ -22,7 +22,7 @@ public class DiscreteModel implements ModelElement {
     private WaveModel waveModel;
     private CompositePotential compositePotential;
 
-    private WaveModel source;
+    private WaveModel sourceWaveModel;
     private CompositePotential sourcePotential;
 
     private int timeStep;
@@ -64,7 +64,7 @@ public class DiscreteModel implements ModelElement {
         initter = new WaveSetup( wave );
         initter.initialize( getWavefunction() );
 
-        source = new WaveModel( new Wavefunction( width, height ), new ModifiedRichardsonPropagator( this, deltaTime, wave, sourcePotential ) );
+        sourceWaveModel = new WaveModel( new Wavefunction( width, height ), new ModifiedRichardsonPropagator( this, deltaTime, wave, sourcePotential ) );
         addListener( detectorSet.getListener() );
 
 //        final DetectorSet sourceDetectorSet = new DetectorSet( getSourceWave() );
@@ -96,11 +96,15 @@ public class DiscreteModel implements ModelElement {
     }
 
     public Propagator getSourcePropagator() {
-        return source.getPropagator();
+        return sourceWaveModel.getPropagator();
     }
 
     public Wavefunction getSourceWave() {
-        return source.getWavefunction();
+        return sourceWaveModel.getWavefunction();
+    }
+
+    public WaveModel getSourceWaveModel() {
+        return sourceWaveModel;
     }
 
     public MeasurementScale getMeasurementScale() {
@@ -143,7 +147,7 @@ public class DiscreteModel implements ModelElement {
     }
 
     public void clearAllWaves() {
-        source.clear();
+        sourceWaveModel.clear();
         waveModel.clear();
     }
 
@@ -154,8 +158,7 @@ public class DiscreteModel implements ModelElement {
     class DefaultPropagate implements PropagationStrategy {
         public void step() {
             if( getWavefunction().getMagnitude() > 0 ) {
-                getPropagator().propagate( getWavefunction() );
-                getWavefunction().setMagnitudeDirty();
+                getWaveModel().propagate();
                 damping.damp( getWavefunction() );
             }
         }
@@ -165,11 +168,9 @@ public class DiscreteModel implements ModelElement {
         public void step() {
             getWavefunction().setMagnitudeDirty();
             if( getWavefunction().getMagnitude() > 0 ) {
-                getSourcePropagator().propagate( getSourceWave() );
+                getSourceWaveModel().propagate();
                 copySourceToActualSouthArea();
-                getPropagator().propagate( getWavefunction() );
-
-                getWavefunction().setMagnitudeDirty();
+                getWaveModel().propagate();
                 damping.damp( getWavefunction() );
                 damping.damp( getSourceWave() );
             }
@@ -390,8 +391,8 @@ public class DiscreteModel implements ModelElement {
 
     public void setPropagator( Propagator propagator ) {
         this.waveModel.setPropagator( propagator );
-        source.setPropagator( propagator.copy() );
-        source.getPropagator().setPotential( sourcePotential );
+        sourceWaveModel.setPropagator( propagator.copy() );
+        sourceWaveModel.getPropagator().setPotential( sourcePotential );
     }
 
     public Propagator getPropagator() {
@@ -432,7 +433,7 @@ public class DiscreteModel implements ModelElement {
     }
 
     public void clearWavefunction() {
-        source.clear();
+        sourceWaveModel.clear();
         waveModel.clear();
     }
 
@@ -492,7 +493,7 @@ public class DiscreteModel implements ModelElement {
     }
 
     public void normalizeWavefunction() {
-        source.normalize();
+        sourceWaveModel.normalize();
         waveModel.normalize();
 //
 //        getWavefunction().normalize();
@@ -502,7 +503,7 @@ public class DiscreteModel implements ModelElement {
     }
 
     public void setWavefunctionNorm( double norm ) {
-        source.setWavefunctionNorm( norm );
+        sourceWaveModel.setWavefunctionNorm( norm );
         waveModel.setWavefunctionNorm( norm );
         //todo working here
 //        getWavefunction().setMagnitude( norm );
