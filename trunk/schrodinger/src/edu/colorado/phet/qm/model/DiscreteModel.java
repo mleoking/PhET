@@ -3,7 +3,6 @@ package edu.colorado.phet.qm.model;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.qm.model.potentials.CompositePotential;
-import edu.colorado.phet.qm.model.potentials.ConstantPotential;
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
 import edu.colorado.phet.qm.model.propagators.ClassicalWavePropagator;
 import edu.colorado.phet.qm.model.propagators.ModifiedRichardsonPropagator;
@@ -20,8 +19,7 @@ import java.util.ArrayList;
  */
 
 public class DiscreteModel implements ModelElement {
-    private Wavefunction sourceWave;
-    private Propagator sourcePropagator;
+    private WaveModel source;
 
     private CompositePotential compositePotential;
 
@@ -60,13 +58,15 @@ public class DiscreteModel implements ModelElement {
         this.deltaTime = deltaTime;
         this.wave = wave;
         wavefunction = new Wavefunction( width, height );
-        sourceWave = new Wavefunction( width, height );
+
         detectorSet = new DetectorSet( wavefunction );
         detectorSet.setOneShotDetectors( oneShotDetectors );
         initter = new WaveSetup( wave );
         initter.initialize( wavefunction );
         propagator = new ModifiedRichardsonPropagator( this, deltaTime, wave, compositePotential );
-        sourcePropagator = new ModifiedRichardsonPropagator( this, deltaTime, wave, compositePotential );
+        source = new WaveModel( new Wavefunction( width, height ), new ModifiedRichardsonPropagator( this, deltaTime, wave, compositePotential ) );
+//        sourceWave = new Wavefunction( width, height );
+//        sourcePropagator = new ModifiedRichardsonPropagator( this, deltaTime, wave, compositePotential );
         addListener( detectorSet.getListener() );
 
         damping = new Damping();
@@ -90,11 +90,11 @@ public class DiscreteModel implements ModelElement {
     }
 
     public Propagator getSourcePropagator() {
-        return sourcePropagator;
+        return source.getPropagator();
     }
 
     public Wavefunction getSourceWave() {
-        return sourceWave;
+        return source.getWavefunction();
     }
 
     public MeasurementScale getMeasurementScale() {
@@ -136,7 +136,7 @@ public class DiscreteModel implements ModelElement {
         return detectorSet.isAutoDetect();
     }
 
-    class ReflectivePropagate implements PropagationStrategy {
+    class DefaultPropagate implements PropagationStrategy {
         public void step() {
             if( getWavefunction().getMagnitude() > 0 ) {
                 getPropagator().propagate( getWavefunction() );
@@ -150,13 +150,13 @@ public class DiscreteModel implements ModelElement {
         public void step() {
             getWavefunction().setMagnitudeDirty();
             if( getWavefunction().getMagnitude() > 0 ) {
-                sourcePropagator.propagate( sourceWave );
+                getSourcePropagator().propagate( getSourceWave() );
                 copySourceToActualSouthArea();
                 getPropagator().propagate( getWavefunction() );
 
                 getWavefunction().setMagnitudeDirty();
                 damping.damp( wavefunction );
-                damping.damp( sourceWave );
+                damping.damp( getSourceWave() );
             }
         }
     }
@@ -170,24 +170,24 @@ public class DiscreteModel implements ModelElement {
             return new AbsorptivePropagate();
         }
         else {
-            return new ReflectivePropagate();
+            return new DefaultPropagate();
         }
     }
 
     private void copySourceToActualSouthArea() {
         int maxy = getDoubleSlitPotential().getY() + getDoubleSlitPotential().getHeight();
-        for( int y = maxy; y < sourceWave.getHeight(); y++ ) {
-            for( int x = 0; x < sourceWave.getWidth(); x++ ) {
+        for( int y = maxy; y < getSourceWave().getHeight(); y++ ) {
+            for( int x = 0; x < getSourceWave().getWidth(); x++ ) {
                 copySourceToActual( x, y );
             }
         }
     }
 
     private void copySourceToActual( int x, int y ) {
-        if( getPropagator() instanceof ClassicalWavePropagator && sourcePropagator instanceof ClassicalWavePropagator )
+        if( getPropagator() instanceof ClassicalWavePropagator && getSourcePropagator()instanceof ClassicalWavePropagator )
         {
             ClassicalWavePropagator classicalWavePropagator = (ClassicalWavePropagator)getPropagator();
-            ClassicalWavePropagator classicalSource = (ClassicalWavePropagator)sourcePropagator;
+            ClassicalWavePropagator classicalSource = (ClassicalWavePropagator)getSourcePropagator();
             if( classicalWavePropagator.getLast() != null && classicalSource.getLast() != null ) {
                 classicalWavePropagator.getLast().setValue( x, y, classicalSource.getLast().valueAt( x, y ) );
             }
@@ -195,7 +195,7 @@ public class DiscreteModel implements ModelElement {
                 classicalWavePropagator.getLast2().setValue( x, y, classicalSource.getLast2().valueAt( x, y ) );
             }
         }
-        wavefunction.setValue( x, y, sourceWave.valueAt( x, y ) );
+        wavefunction.setValue( x, y, getSourceWave().valueAt( x, y ) );
     }
 
     private HorizontalDoubleSlit createDoubleSlit() {
@@ -228,11 +228,11 @@ public class DiscreteModel implements ModelElement {
     }
 
     public void reset() {
-        sourceWave.clear();
+        getSourceWave().clear();
         wavefunction.clear();
         detectorSet.reset();
         propagator.reset();
-        sourcePropagator.reset();
+        getSourcePropagator().reset();
     }
 
     public int getGridWidth() {
@@ -265,7 +265,7 @@ public class DiscreteModel implements ModelElement {
         Wavefunction particle = new Wavefunction( getGridWidth(), getGridHeight() );
         waveSetup.initialize( particle );
         wavefunction.add( particle );
-        sourceWave.add( particle );
+        getSourceWave().add( particle );
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
             listener.particleFired( this );
@@ -275,7 +275,7 @@ public class DiscreteModel implements ModelElement {
     public void setGridSpacing( int nx, int ny ) {
         if( nx != getGridWidth() || ny != getGridHeight() ) {
             wavefunction.setSize( nx, ny );
-            sourceWave.setSize( nx, ny );
+            getSourceWave().setSize( nx, ny );
             initter.initialize( wavefunction );
             notifySizeChanged();
         }
@@ -295,7 +295,7 @@ public class DiscreteModel implements ModelElement {
     public void setDeltaTime( double t ) {
         this.deltaTime = t;
         propagator.setDeltaTime( deltaTime );
-        sourcePropagator.setDeltaTime( deltaTime );
+        getSourcePropagator().setDeltaTime( deltaTime );
     }
 
     public void addDetector( Detector detector ) {
@@ -339,8 +339,8 @@ public class DiscreteModel implements ModelElement {
 
     public void setPropagator( Propagator propagator ) {
         this.propagator = propagator;
-        sourcePropagator = propagator.copy();
-        sourcePropagator.setPotential( new ConstantPotential( 0 ) );
+        source.setPropagator( propagator.copy() );
+        source.getPropagator().setPotential( compositePotential );
     }
 
     public Propagator getPropagator() {
@@ -381,9 +381,9 @@ public class DiscreteModel implements ModelElement {
 
     public void clearWavefunction() {
         wavefunction.clear();
-        sourceWave.clear();
+        getSourceWave().clear();
         propagator.reset();
-        sourcePropagator.reset();
+        getSourcePropagator().reset();
     }
 
     public void reduceWavefunctionNorm( double normDecrement ) {
@@ -393,7 +393,7 @@ public class DiscreteModel implements ModelElement {
             double newMagnitude = magnitude - normDecrement;
             double scale = newMagnitude <= 0.0 ? 0.0 : newMagnitude / magnitude;
             wavefunction.scale( scale );
-            sourceWave.scale( scale );
+            getSourceWave().scale( scale );
             if( propagator instanceof ClassicalWavePropagator ) {
                 ClassicalWavePropagator classicalWavePropagator = (ClassicalWavePropagator)propagator;
                 classicalWavePropagator.scale( scale );
@@ -431,7 +431,7 @@ public class DiscreteModel implements ModelElement {
     public void setBoundaryCondition( int i, int k, Complex value ) {
         getWavefunction().setValue( i, k, value );
         propagator.setBoundaryCondition( i, k, value );
-        sourcePropagator.setBoundaryCondition( i, k, value );
+        getSourcePropagator().setBoundaryCondition( i, k, value );
     }
 
     public boolean containsListener( Listener listener ) {
@@ -444,13 +444,13 @@ public class DiscreteModel implements ModelElement {
 
     public void normalizeWavefunction() {
         wavefunction.normalize();
-        sourceWave.normalize();
+        getSourceWave().normalize();
         getPropagator().normalize();
     }
 
     public void setWavefunctionNorm( double norm ) {
         wavefunction.setMagnitude( norm );
-        sourceWave.setMagnitude( norm );
+        getSourceWave().setMagnitude( norm );
         getPropagator().setWavefunctionNorm( norm );
     }
 
