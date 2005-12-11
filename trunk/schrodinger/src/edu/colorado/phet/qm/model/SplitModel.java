@@ -119,7 +119,7 @@ public class SplitModel extends DiscreteModel {
         return rightDetector;
     }
 
-    public void setSplitModel( boolean split ) {
+    public void setSplitMode( boolean split ) {
         this.mode = split ? (Mode)new SplitMode() : new NormalMode();
         if( split ) {//copy wavefunction state for continuity.
             getWaveSplitStrategy().copyNorthRegionToSplits();
@@ -179,39 +179,39 @@ public class SplitModel extends DiscreteModel {
         }
 
         public void step() {
-            if( !SplitModel.this.isSlitAbsorptive() ) {
-                beforeTimeStep();
-                getPropagator().propagate( getWavefunction() );
-                //copy slit regions to left & right sides
-                getWaveSplitStrategy().copyDetectorAreasToWaves();
-                getWaveSplitStrategy().clearEntrantWaveNorthArea();
-                getWaveSplitStrategy().clearLRWavesSouthPart();
-                rightPropagator.propagate( rightWavefunction );   //todo won't work for light, needs its own propagator.
-                leftPropagator.propagate( leftWavefunction );
+//            if( !SplitModel.this.isSlitAbsorptive() ) {
+            beforeTimeStep();
+            getPropagator().propagate( getWavefunction() );
+            //copy slit regions to left & right sides
+            getWaveSplitStrategy().copyDetectorAreasToWaves();
+            getWaveSplitStrategy().clearEntrantWaveNorthArea();
+            getWaveSplitStrategy().clearLRWavesSouthPart();
+            rightPropagator.propagate( rightWavefunction );   //todo won't work for light, needs its own propagator.
+            leftPropagator.propagate( leftWavefunction );
 
-                getDamping().damp( rightWavefunction );
-                getDamping().damp( leftWavefunction );
+            getDamping().damp( rightWavefunction );
+            getDamping().damp( leftWavefunction );
 
-                incrementTimeStep();
-                finishedTimeStep();
-            }
-            else {
-                beforeTimeStep();
-                new AbsorptivePropagate().step();
-
-                //copy slit regions to left & right sides
-                getWaveSplitStrategy().copyDetectorAreasToWaves();
-                getWaveSplitStrategy().clearEntrantWaveNorthArea();
-                getWaveSplitStrategy().clearLRWavesSouthPart();
-                rightPropagator.propagate( rightWavefunction );   //todo won't work for light, needs its own propagator.
-                leftPropagator.propagate( leftWavefunction );
-
-                getDamping().damp( rightWavefunction );
-                getDamping().damp( leftWavefunction );
-
-                incrementTimeStep();
-                finishedTimeStep();
-            }
+            incrementTimeStep();
+            finishedTimeStep();
+//            }
+//            else {
+//                beforeTimeStep();
+//                new AbsorptivePropagate().step();
+//
+//                //copy slit regions to left & right sides
+//                getWaveSplitStrategy().copyDetectorAreasToWaves();
+//                getWaveSplitStrategy().clearEntrantWaveNorthArea();
+//                getWaveSplitStrategy().clearLRWavesSouthPart();
+//                rightPropagator.propagate( rightWavefunction );   //todo won't work for light, needs its own propagator.
+//                leftPropagator.propagate( leftWavefunction );
+//
+//                getDamping().damp( rightWavefunction );
+//                getDamping().damp( leftWavefunction );
+//
+//                incrementTimeStep();
+//                finishedTimeStep();
+//            }
         }
     }
 

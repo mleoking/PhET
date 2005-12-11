@@ -136,6 +136,7 @@ public class Detector extends RectangularObject {
         else {
             expelWavefunction( wavefunction );
         }
+        discreteModel.copyActualToSource();
         timeSinceLast = 0;
     }
 
