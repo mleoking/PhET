@@ -146,7 +146,7 @@ public class IntensityModule extends SchrodingerModule {
 
     private void synchronizeModel() {
         boolean splitMode = shouldBeSplitMode();
-        splitModel.setSplitModel( splitMode );
+        splitModel.setSplitMode( splitMode );
         intensityPanel.setSplitMode( splitMode );
     }
 

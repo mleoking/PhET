@@ -35,4 +35,12 @@ public class CompositePotential implements Potential {
     public void removePotential( Potential potential ) {
         p.remove( potential );
     }
+
+    public int numPotentials() {
+        return p.size();
+    }
+
+    public Potential potentialAt( int i ) {
+        return (Potential)p.get( i );
+    }
 }

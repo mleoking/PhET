@@ -28,4 +28,19 @@ public class WaveModel {
     public void setPropagator( Propagator propagator ) {
         this.propagator = propagator;
     }
+
+    public void clear() {
+        wavefunction.clear();
+        propagator.reset();
+    }
+
+    public void normalize() {
+        wavefunction.normalize();
+        propagator.normalize();
+    }
+
+    public void setWavefunctionNorm( double norm ) {
+        wavefunction.setMagnitude( norm );
+        propagator.setWavefunctionNorm( norm );
+    }
 }

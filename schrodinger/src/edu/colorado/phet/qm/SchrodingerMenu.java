@@ -20,7 +20,8 @@ public class SchrodingerMenu extends JMenu {
     private JDialog dialog;
 
     public SchrodingerMenu( final SchrodingerModule schrodingerModule ) {
-        super( "Schrodinger" );
+        super( "Options" );
+        setMnemonic( 'o' );
         this.schrodingerModule = schrodingerModule;
 //        JCheckBoxMenuItem jCheckBoxMenuItem = new JCheckBoxMenuItem();
 

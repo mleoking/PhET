@@ -19,8 +19,10 @@ public class DetectorSet {
     private Wavefunction wavefunction;
     private boolean autodetect = true;
     private boolean oneShotDetectors = true;
+//    private DiscreteModel discreteModel;
 
     public DetectorSet( Wavefunction wavefunction ) {
+//        this.discreteModel = discreteModel;
         this.wavefunction = wavefunction;
         listener = new DetectorSet.MyListener();
     }
@@ -63,6 +65,16 @@ public class DetectorSet {
         return autodetect;
     }
 
+//    public void setDetectors( DetectorSet detectorSet ) {
+//        while(detectors.size()>0){
+//            Detector det=(Detector)detectors.get(0);
+//            removeDetector( det );
+//        }
+//        for (int i=0;i<detectorSet.detectors.size();i++){
+//            addDetector( (Detector)detectorSet.detectors.get(0) );
+//        }
+//    }
+
     private static interface FireStrategy {
         void fire( Detector detector, Wavefunction wavefunction, double norm );
     }
@@ -83,7 +95,7 @@ public class DetectorSet {
 
     private void fireAllEnabledDetectors( FireStrategy fireStrategy ) {
         double norm = 1.0;
-        if( wavefunction.getMagnitude() > 0 ) {
+        if( getWavefunction().getMagnitude() > 0 ) {
             for( int i = 0; i < detectors.size(); i++ ) {
                 Detector detector = (Detector)detectors.get( i );
                 if( detector.isEnabled() ) {

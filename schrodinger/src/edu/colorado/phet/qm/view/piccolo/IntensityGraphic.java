@@ -132,7 +132,8 @@ public class IntensityGraphic extends PNode {
     }
 
     private void updateWavefunctionAfterDetection() {
-        getDiscreteModel().reduceWavefunctionNorm( normDecrement );
+        getDiscreteModel().clearAllWaves();
+//        getDiscreteModel().reduceWavefunctionNorm( normDecrement );//todo this used to work okay
     }
 
     public Wavefunction getDetectionRegion() {
@@ -154,8 +155,7 @@ public class IntensityGraphic extends PNode {
 
     private Point getCollapsePoint( Wavefunction sub ) {
         DetectorSet detectorSet = new DetectorSet( sub );
-        Point pt = detectorSet.getCollapsePoint();
-        return pt;
+        return detectorSet.getCollapsePoint();
     }
 
     public void reset() {
