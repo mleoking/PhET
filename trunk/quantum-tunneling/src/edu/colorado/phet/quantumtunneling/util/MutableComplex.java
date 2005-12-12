@@ -52,6 +52,10 @@ public class MutableComplex extends Complex {
         _real = real;
         _imaginary = imag;
     }
+    
+    public void setValue( double real ) {
+        setValue( real, 0 );
+    }
 
     //----------------------------------------------------------------------------
     // Math
