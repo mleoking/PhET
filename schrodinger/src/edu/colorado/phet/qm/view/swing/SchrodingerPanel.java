@@ -36,6 +36,7 @@ public class SchrodingerPanel extends PhetPCanvas {
     private SchrodingerScreenNode schrodingerScreenNode;
     private boolean fadeEnabled = true;
     private ArrayList listeners = new ArrayList();
+    private boolean inverseSlits = false;
 
     public SchrodingerPanel( SchrodingerModule module ) {
         setLayout( null );
@@ -58,6 +59,16 @@ public class SchrodingerPanel extends PhetPCanvas {
 //        setZoomEventHandler( new PZoomEventHandler() );
         setBackground( new Color( 170, 210, 255 ) );
         setDoubleSlitControlPanelVisible( false );
+        addListener( new Adapter() {
+            public void inverseSlitsChanged() {
+                synchronizeSlitInverse();
+            }
+        } );
+        synchronizeSlitInverse();
+    }
+
+    private void synchronizeSlitInverse() {
+        discreteModel.getDoubleSlitPotential().setInverseSlits( inverseSlits );
     }
 
     private void setRenderingSize( int width, int height ) {
@@ -202,7 +213,6 @@ public class SchrodingerPanel extends PhetPCanvas {
 //        getDoubleSlitPanelButton().setPickable( !selected );
     }
 
-
     public boolean isFadeEnabled() {
         return fadeEnabled;
     }
@@ -211,7 +221,29 @@ public class SchrodingerPanel extends PhetPCanvas {
         listeners.add( listener );
     }
 
+    public boolean isInverseSlits() {
+        return inverseSlits;
+    }
+
+    public void setInverseSlits( boolean inverseSlits ) {
+        this.inverseSlits = inverseSlits;
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.inverseSlitsChanged();
+        }
+    }
+
     public static interface Listener {
         public void fadeStateChanged();
+
+        public void inverseSlitsChanged();
+    }
+
+    public static class Adapter implements Listener {
+        public void fadeStateChanged() {
+        }
+
+        public void inverseSlitsChanged() {
+        }
     }
 }

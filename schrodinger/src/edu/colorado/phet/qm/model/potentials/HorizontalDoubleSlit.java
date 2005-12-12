@@ -24,25 +24,8 @@ public class HorizontalDoubleSlit implements Potential {
     private Potential potentialDelegate;
     private Rectangle leftSlit;
     private Rectangle rightSlit;
-
-    public void reset( int gridWidth, int gridHeight, int y, int height, int slitSize, int slitSeparation, double potential ) {
-        this.gridWidth = gridWidth;
-        this.gridHeight = gridHeight;
-        System.out.println( "reset, y=" + y );
-        this.y = y;
-        this.height = height;
-        this.slitSize = slitSize;
-        this.slitSeparation = slitSeparation;
-        this.potential = potential;
-        update();
-    }
-
-
-    public static interface Listener {
-        public void slitChanged();
-    }
-
     private ArrayList listeners = new ArrayList();
+    private boolean inverse = false;
 
     public HorizontalDoubleSlit( int gridWidth, int gridHeight, int y, int height, int slitSize, int slitSeparation, double potential ) {
         System.out.println( "init: y=" + y );
@@ -56,12 +39,52 @@ public class HorizontalDoubleSlit implements Potential {
         update();
     }
 
+    public void reset( int gridWidth, int gridHeight, int y, int height, int slitSize, int slitSeparation, double potential ) {
+        this.gridWidth = gridWidth;
+        this.gridHeight = gridHeight;
+        System.out.println( "reset, y=" + y );
+        this.y = y;
+        this.height = height;
+        this.slitSize = slitSize;
+        this.slitSeparation = slitSeparation;
+        this.potential = potential;
+        update();
+    }
+
     public void addListener( Listener listener ) {
         this.listeners.add( listener );
     }
 
     private void update() {
-        createDoubleSlit( gridWidth, gridHeight, y, height, slitSize, slitSeparation, potential );
+        if( slitSize % 2 == 1 ) {//to ensure same size
+            slitSize--;
+        }
+        if( slitSeparation % 2 == 1 ) {
+            slitSeparation--;
+        }
+
+        int leftSlitCenter = gridWidth / 2 - slitSeparation / 2;
+        int rightSlitCenter = gridWidth / 2 + slitSeparation / 2;
+        int barWidth = gridWidth / 2 - slitSeparation / 2 - slitSize / 2;
+
+        Rectangle leftBar = new Rectangle( 0, y, leftSlitCenter - slitSize / 2, height );
+        Rectangle midBar = new Rectangle( leftSlitCenter + slitSize / 2, y, slitSeparation - slitSize, height );
+        Rectangle rightBar = new Rectangle( rightSlitCenter + slitSize / 2, y, barWidth, height );
+
+        this.leftSlit = new Rectangle( (int)leftBar.getMaxX(), y, slitSize, height );
+        this.rightSlit = new Rectangle( (int)midBar.getMaxX(), y, slitSize, height );
+        CompositePotential compositePotential = new CompositePotential();
+        if( inverse ) {
+            compositePotential.addPotential( new BarrierPotential( leftSlit, potential ) );
+            compositePotential.addPotential( new BarrierPotential( rightSlit, potential ) );
+        }
+        else {
+            compositePotential.addPotential( new BarrierPotential( leftBar, potential ) );
+            compositePotential.addPotential( new BarrierPotential( midBar, potential ) );
+            compositePotential.addPotential( new BarrierPotential( rightBar, potential ) );
+        }
+        this.potentialDelegate = new PrecomputedPotential( compositePotential, gridWidth, gridHeight );
+
         notifyListeners();
     }
 
@@ -115,32 +138,6 @@ public class HorizontalDoubleSlit implements Potential {
         update();
     }
 
-    private void createDoubleSlit( int gridWidth, int gridHeight,
-                                   int y, int height, int slitSize, int slitSeparation, double potential ) {
-        if( slitSize % 2 == 1 ) {//to ensure same size
-            slitSize--;
-        }
-        if( slitSeparation % 2 == 1 ) {
-            slitSeparation--;
-        }
-        CompositePotential compositePotential = new CompositePotential();
-        int leftSlitCenter = gridWidth / 2 - slitSeparation / 2;
-        int rightSlitCenter = gridWidth / 2 + slitSeparation / 2;
-        int barWidth = gridWidth / 2 - slitSeparation / 2 - slitSize / 2;
-
-        Rectangle leftBar = new Rectangle( 0, y, leftSlitCenter - slitSize / 2, height );
-        Rectangle midBar = new Rectangle( leftSlitCenter + slitSize / 2, y, slitSeparation - slitSize, height );
-        Rectangle rightBar = new Rectangle( rightSlitCenter + slitSize / 2, y, barWidth, height );
-
-        compositePotential.addPotential( new BarrierPotential( leftBar, potential ) );
-        compositePotential.addPotential( new BarrierPotential( midBar, potential ) );
-        compositePotential.addPotential( new BarrierPotential( rightBar, potential ) );
-        this.potentialDelegate = new PrecomputedPotential( compositePotential, gridWidth, gridHeight );
-
-        this.leftSlit = new Rectangle( (int)leftBar.getMaxX(), y, slitSize, height );
-        this.rightSlit = new Rectangle( (int)midBar.getMaxX(), y, slitSize, height );
-    }
-
     public double getPotential( int x, int y, int timestep ) {
         return potentialDelegate.getPotential( x, y, timestep );
     }
@@ -184,5 +181,14 @@ public class HorizontalDoubleSlit implements Potential {
         Rectangle centerBlock = new Rectangle( leftSlit.x + leftSlit.width, y, rightSlit.x - leftSlit.x - leftSlit.width, height );
         Rectangle rightBlock = new Rectangle( rightSlit.x + rightSlit.width, y, gridWidth - rightSlit.x - rightSlit.width, height );
         return new Rectangle[]{leftBlock, centerBlock, rightBlock};
+    }
+
+    public void setInverseSlits( boolean inverseSlits ) {
+        this.inverse = inverseSlits;
+        update();
+    }
+
+    public static interface Listener {
+        public void slitChanged();
     }
 }

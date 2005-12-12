@@ -78,7 +78,7 @@ public class DetectorSheetPNode extends PNode {
         };
         wavefunctionGraphic.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, changeListener );
         wavefunctionGraphic.addPropertyChangeListener( PNode.PROPERTY_BOUNDS, changeListener );
-        schrodingerPanel.addListener( new SchrodingerPanel.Listener() {
+        schrodingerPanel.addListener( new SchrodingerPanel.Adapter() {
             public void fadeStateChanged() {
                 synchronizeFadeState();
             }

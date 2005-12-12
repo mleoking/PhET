@@ -5,6 +5,7 @@ import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.qm.controls.DetectorPanel;
+import edu.colorado.phet.qm.controls.InverseSlitsCheckbox;
 import edu.colorado.phet.qm.controls.SchrodingerControlPanel;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.view.colormaps.ColorMap;
@@ -30,6 +31,7 @@ public class SingleParticleControlPanel extends SchrodingerControlPanel {
         VerticalLayoutPanel detectorPanel = new DetectorPanel( singleParticleModule );
         advancedPanel.addControlFullWidth( super.createPotentialPanel( singleParticleModule ) );
         advancedPanel.addControlFullWidth( detectorPanel );
+        advancedPanel.addControlFullWidth( new InverseSlitsCheckbox( getSchrodingerPanel() ) );
 
         JButton createDetectorArray = new JButton( "Create Detector Array" );
         createDetectorArray.addActionListener( new ActionListener() {

@@ -75,7 +75,7 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
                 getSchrodingerPanel().setFadeEnabled( fadeCheckbox.isSelected() );
             }
         } );
-        getSchrodingerPanel().addListener( new SchrodingerPanel.Listener() {
+        getSchrodingerPanel().addListener( new SchrodingerPanel.Adapter() {
             public void fadeStateChanged() {
                 fadeCheckbox.setSelected( getSchrodingerPanel().isFadeEnabled() );
             }
