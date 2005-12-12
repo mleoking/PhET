@@ -93,7 +93,8 @@ public class WaveSim extends JApplet implements Runnable {
         for( int x = 0; x < nx; x++ ) {
             double xval = toXVal( x );
             double r = v( xval ) * dt / hbar;
-            potentialTerm[x] = new Complex( Math.cos( r ), -Math.sin( r ) );
+//            potentialTerm[x] = new Complex( Math.cos( r ), -Math.sin( r ) );
+            potentialTerm[x] = new Complex( Math.cos( r ) * Math.cos( r ) + Math.sin( r ) * Math.sin( r ), 0 );
         }
     }
 
