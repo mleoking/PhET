@@ -68,6 +68,8 @@ public abstract class Lattice {
             if( occupiedSiteRatio >= highestOccupiedSiteRatio ) {
                 candidateIons.add( ion );
                 highestOccupiedSiteRatio = occupiedSiteRatio;
+                System.out.println( "neighboringSites = " + neighboringSites.size() );
+                System.out.println( "openNeighboringSites = " + openNeighboringSites.size() );
             }
         }
 

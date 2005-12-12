@@ -89,8 +89,9 @@ public class SolubleSaltsModel extends BaseModel {
         // Add an agent that will track the ions of various classes
         ionTracker = new IonTracker();
 
-        // Add an agent that will track the lattices that come and go from the model
-        crystalTracker = new CrystalTracker();
+        // Add an agent that will track the crystals that come and go from the model
+        crystalTracker = new CrystalTracker( this );
+        Crystal.addInstanceLifetimeListener( crystalTracker );
 
         // Create a vessel
         vessel = new Vessel( vesselWidth, vesselDepth, vesselWallThickness, vesselLoc, this );
@@ -156,10 +157,6 @@ public class SolubleSaltsModel extends BaseModel {
             Ion ion = (Ion)modelElement;
             ionTracker.ionAdded( ion );
         }
-
-        if( modelElement instanceof Crystal ) {
-            crystalTracker.crystalAdded( (Crystal)modelElement );
-        }
     }
 
     /**
@@ -174,10 +171,6 @@ public class SolubleSaltsModel extends BaseModel {
             if( ion.isBound() ) {
                 ion.getBindingLattice().removeIon( ion );
             }
-        }
-
-        if( modelElement instanceof Crystal ) {
-            crystalTracker.crystalRemoved( (Crystal)modelElement );
         }
     }
 
@@ -412,7 +405,7 @@ public class SolubleSaltsModel extends BaseModel {
      * Turns nucleation on and off depending on the concentration of solutes and Ksp
      */
     private class NucleationMonitorAgent implements ModelElement, Crystal.InstanceLifetimeListener {
-        List lattices = new ArrayList();
+        List crystals = new ArrayList();
 
         public NucleationMonitorAgent() {
             Crystal.addInstanceLifetimeListener( this );
@@ -422,8 +415,8 @@ public class SolubleSaltsModel extends BaseModel {
             nucleationEnabled = getConcentration() > ksp;
 
             if( !nucleationEnabled ) {
-                while( !lattices.isEmpty() ) {
-                    Crystal crystal = (Crystal)lattices.get( 0 );
+                while( !crystals.isEmpty() ) {
+                    Crystal crystal = (Crystal)crystals.get( 0 );
                     List ions = crystal.getIons();
                     for( int i = 0; i < ions.size(); i++ ) {
                         Ion ion = (Ion)ions.get( i );
@@ -434,11 +427,13 @@ public class SolubleSaltsModel extends BaseModel {
         }
 
         public void instanceCreated( Crystal.InstanceLifetimeEvent event ) {
-            lattices.add( event.getInstance() );
+            crystals.add( event.getInstance() );
+//            addModelElement( event.getInstance() );
         }
 
         public void instanceDestroyed( Crystal.InstanceLifetimeEvent event ) {
-            lattices.remove( event.getInstance() );
+            crystals.remove( event.getInstance() );
+//            removeModelElement( event.getInstance() );
         }
     }
 }

@@ -21,27 +21,45 @@ import java.util.List;
 /**
  * CrystalTracker
  * <p/>
- * An agent that tracks the crystals in the model.
+ * An agent that tracks the creation and destruction of crystals, and informs the model when crystals
+ * enter and leave it.
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class CrystalTracker {
+public class CrystalTracker implements Crystal.InstanceLifetimeListener {
 
+    private SolubleSaltsModel model;
     private HashMap crystalMap = new HashMap();
 
-    public void crystalAdded( Crystal crystal ) {
+    public CrystalTracker( SolubleSaltsModel model ) {
+        this.model = model;
+    }
+
+    public void instanceCreated( Crystal.InstanceLifetimeEvent event ) {
+        crystalAdded( event.getInstance() );
+    }
+
+    public void instanceDestroyed( Crystal.InstanceLifetimeEvent event ) {
+        crystalRemoved( event.getInstance() );
+    }
+
+    private void crystalAdded( Crystal crystal ) {
         List crystalSet = (List)crystalMap.get( crystal.getClass() );
         if( crystalSet == null ) {
             crystalSet = new ArrayList();
             crystalMap.put( crystal.getClass(), crystalSet );
         }
         crystalSet.add( crystal );
+
+        model.addModelElement( crystal );
     }
 
-    public void crystalRemoved( Crystal crystal ) {
+    private void crystalRemoved( Crystal crystal ) {
         List crystalSet = (List)crystalMap.get( crystal.getClass() );
         crystalSet.remove( crystal );
+
+        model.removeModelElement( crystal );
     }
 
     public List getCrystals() {

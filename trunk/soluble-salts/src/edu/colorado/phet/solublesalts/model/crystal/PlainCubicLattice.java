@@ -57,7 +57,8 @@ public class PlainCubicLattice extends Lattice {
     public static void main( String[] args ) {
         Ion a = new Sodium();
         a.setPosition( 300, 400 );
-        Crystal l = new Crystal( a, new Rectangle2D.Double( 0, 0, 500, 500 ), new PlainCubicLattice( Sodium.RADIUS + Chlorine.RADIUS ) );
+        Crystal l = new Crystal( new Rectangle2D.Double( 0, 0, 500, 500 ), new PlainCubicLattice( Sodium.RADIUS + Chlorine.RADIUS ) );
+        l.addIon( a );
         Ion b = new Chlorine();
         b.setPosition( new Point2D.Double( 290, 400 ) );
         l.addIon( b );

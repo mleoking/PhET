@@ -110,7 +110,8 @@ public class ThreeToTwoLattice extends Lattice {
         s1.setPosition( 0, 0 );
         ThreeToTwoLattice l = new ThreeToTwoLattice( Chlorine.class, Sodium.class, Sodium.RADIUS + Chlorine.RADIUS );
         Rectangle2D r = new Rectangle2D.Double( -1000, -1000, 2000, 2000 );
-        Crystal c = new Crystal( s1, r, l );
+        Crystal c = new Crystal( r, l );
+        c.addIon( s1 );
         {
             Chlorine ion = new Chlorine();
             ion.setPosition( 1, 0 );

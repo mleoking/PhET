@@ -57,7 +57,7 @@ public class Shaker extends Particle {
     }
 
     /**
-     * Creates lattices and drops them into the water
+     * Creates crystals and drops them into the water
      *
      * @param dy
      */
@@ -96,11 +96,14 @@ public class Shaker extends Particle {
                         ion = ionFactory.create( component.getIonClass(), p, v, new Vector2D.Double() );
                         ions.add( ion );
                     }
+//                    break;
                 }
             }
+
             // When we create the lattice, give it the bounds of the entire model. That will allow all the
             // ions we produce for it to nucleate to it. We'll change the bounds before we exit
-            crystal = new Crystal( ion, model.getBounds(), currentSalt.getLattice() );
+            crystal = new Crystal( model.getBounds(), currentSalt.getLattice() );
+
             // Position the new ion so it isn't right on top of the seed, and so it's above the seed. This
             // will help when the lattice falls to the bottom of the vessel
             for( int i = 0; i < ions.size(); i++ ) {
@@ -115,7 +118,7 @@ public class Shaker extends Particle {
             // Before we leave, give the lattice the bounds of the water in the vessel, so it will behave properly once
             // it's out of the shaker
             crystal.setBounds( model.getVessel().getWater().getBounds() );
-            model.addModelElement( crystal );
+//            model.addModelElement( crystal );
         }
     }
 }
