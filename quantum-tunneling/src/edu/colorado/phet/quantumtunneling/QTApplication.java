@@ -154,6 +154,8 @@ public class QTApplication extends PhetApplication {
     private void initClockControls( AbstractClock clock ) {
         ContentPanel contentPanel = getPhetFrame().getContentPanel();
         QTClockControls clockControls = new QTClockControls( clock );
+        clockControls.setTimeScale( QTConstants.TIME_SCALE );
+        clockControls.setTimeFormat( QTConstants.TIME_FORMAT );
         contentPanel.setAppControlPanel( clockControls );
     }
     

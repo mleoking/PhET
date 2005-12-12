@@ -53,48 +53,57 @@ public class StepSolver extends AbstractSolver {
         Complex result = null;
         
         final double E = getTotalEnergy().getEnergy();
-        final double x1 = getPotentialEnergy().getEnd( 0 );  // boundary between regions
-        Complex k1 = getK( 0 );
-        Complex k2 = getK( 1 );
         
-        int regionIndex = getPotentialEnergy().getRegionIndexAt( x );
-        if ( regionIndex == 0 ) {
-            
-            Complex term1 = commonTerm1( x, regionIndex ); // e^(ikx)
-            Complex term2 = commonTerm2( x, regionIndex ); // e^(-ikx)
-            Complex term3 = commonTerm3( t, E ); // e^(-i*E*t/h)
-            
-            MutableComplex B = new MutableComplex( 0, 1 ); // i
-            B.multiply( 2 * x1 );
-            B.multiply( k1 );
-            B.exp();
-            B.multiply( k1.getSubtract( k2 ) );
-            B.divide( k1.getAdd( k2 ) );
-            
-            Complex rightMoving = term1.getMultiply( term3 );
-            Complex leftMoving = B.getMultiply( term2 ).getMultiply( term3 );
-            
-            result = rightMoving.getAdd( leftMoving );  
+        if ( isLeftToRight() && E < getPotentialEnergy().getEnergy( 0 ) ) {
+            result = new Complex( 0, 0 );
         }
-        else if ( regionIndex == 1 ) { 
-
-            Complex term1 = commonTerm1( x, regionIndex ); // e^(ikx)
-            Complex term3 = commonTerm3( t, E ); // e^(-i*E*t/h)
-            
-            MutableComplex C = new MutableComplex( 0, 1 ); // i
-            C.multiply( x1 );
-            C.multiply( k1.getSubtract( k2 ) );
-            C.exp();
-            C.multiply( 2 );
-            C.divide( k1.getAdd( k2 ) );
-            
-            Complex rightMoving = C.getMultiply( term1 );
-            result = rightMoving.getMultiply( term3 );
+        else if ( isRightToLeft() && E < getPotentialEnergy().getEnergy( 1 ) ) {
+            result = new Complex( 0, 0 );
         }
         else {
-            // outside of the potential energy space
+            final double x1 = getPotentialEnergy().getEnd( 0 ); // boundary between regions
+            Complex k1 = getK( 0 );
+            Complex k2 = getK( 1 );
+
+            int regionIndex = getPotentialEnergy().getRegionIndexAt( x );
+            if ( regionIndex == 0 ) {
+
+                Complex term1 = commonTerm1( x, regionIndex ); // e^(ikx)
+                Complex term2 = commonTerm2( x, regionIndex ); // e^(-ikx)
+                Complex term3 = commonTerm3( t, E ); // e^(-i*E*t/h)
+
+                MutableComplex B = new MutableComplex( 0, 1 ); // i
+                B.multiply( 2 * x1 );
+                B.multiply( k1 );
+                B.exp();
+                B.multiply( k1.getSubtract( k2 ) );
+                B.divide( k1.getAdd( k2 ) );
+
+                Complex rightMoving = term1.getMultiply( term3 );
+                Complex leftMoving = B.getMultiply( term2 ).getMultiply( term3 );
+
+                result = rightMoving.getAdd( leftMoving );
+            }
+            else if ( regionIndex == 1 ) {
+
+                Complex term1 = commonTerm1( x, regionIndex ); // e^(ikx)
+                Complex term3 = commonTerm3( t, E ); // e^(-i*E*t/h)
+
+                MutableComplex C = new MutableComplex( 0, 1 ); // i
+                C.multiply( x1 );
+                C.multiply( k1.getSubtract( k2 ) );
+                C.exp();
+                C.multiply( 2 );
+                C.divide( k1.getAdd( k2 ) );
+
+                Complex rightMoving = C.getMultiply( term1 );
+                result = rightMoving.getMultiply( term3 );
+            }
+            else {
+                // outside of the potential energy space
+            }
         }
-        
+
         return result;
     }
 }

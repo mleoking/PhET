@@ -16,6 +16,8 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 import javax.swing.*;
 
@@ -54,6 +56,7 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
     private double _timeValue;
     private double _timeScale;
     private boolean _loopEnabled;
+    private NumberFormat _timeFormat;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -109,6 +112,7 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
         _timeTextField.setEditable( false );
         _timeTextField.setHorizontalAlignment( JTextField.RIGHT );
         _timeUnitsLabel = new JLabel( timeUnitsLabel );
+        _timeFormat = new DecimalFormat( "0" );
         
         // Clock control buttons
         _restartButton = new JButton( restartLabel, restartIcon );
@@ -230,6 +234,15 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
     }
     
     /**
+     * Sets the formatter used to format the time display.
+     * 
+     * @param enabled
+     */
+    public void setTimeFormat( NumberFormat format ) {
+        _timeFormat = format;
+    }
+    
+    /**
      * Turns looping on and off.
      * 
      * @param true or false
@@ -306,8 +319,8 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
      * Updates the time display.
      */
     private void updateTimeDisplay() {
-        int iValue = (int) ( _timeScale * _timeValue );
-        String sValue = String.valueOf( iValue );
+        double scaledTime = _timeScale * _timeValue;
+        String sValue = _timeFormat.format( scaledTime );
         _timeTextField.setText( sValue );
     }
     

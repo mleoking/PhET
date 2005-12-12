@@ -26,9 +26,9 @@ import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.control.ConfigureEnergyDialog;
 import edu.colorado.phet.quantumtunneling.control.QTControlPanel;
+import edu.colorado.phet.quantumtunneling.enum.Direction;
 import edu.colorado.phet.quantumtunneling.enum.WaveType;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotentialSpace;
-import edu.colorado.phet.quantumtunneling.model.ConstantPotential;
 import edu.colorado.phet.quantumtunneling.model.PlaneWave;
 import edu.colorado.phet.quantumtunneling.model.TotalEnergy;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
@@ -371,5 +371,9 @@ public class QTModule extends AbstractModule {
     
     public void setPhaseVisible( boolean visible ) {
         _chart.getWaveFunctionPlot().setPhaseVisible( visible );
+    }
+    
+    public void setDirection( Direction direction ) {
+        _planeWave.setDirection( direction );
     }
 }

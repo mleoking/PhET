@@ -180,9 +180,9 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
             for ( double x = minX; x < maxX; x += X_STEP ) {
                 Complex c = solver.solve( x, t );
                 if ( c != null ) {
-                    _incidentRealSeries.add( x, -c.getReal() );
-                    _incidentImaginarySeries.add( x, -c.getImaginary() );
-                    _incidentMagnitudeSeries.add( x, -c.getAbs() );
+                    _incidentRealSeries.add( x, c.getReal() );
+                    _incidentImaginarySeries.add( x, c.getImaginary() );
+                    _incidentMagnitudeSeries.add( x, c.getAbs() );
                 }
             }
         }
