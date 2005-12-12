@@ -7,7 +7,7 @@ import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
 import edu.colorado.phet.qm.view.colormaps.SplitColorMap;
 import edu.colorado.phet.qm.view.gun.HighIntensityGunGraphic;
 import edu.colorado.phet.qm.view.gun.Photon;
-import edu.colorado.phet.qm.view.piccolo.SmoothIntensityDisplay;
+import edu.colorado.phet.qm.view.piccolo.detectorscreen.SmoothIntensityDisplay;
 import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 
 /**
@@ -33,7 +33,7 @@ public class IntensityPanel extends SchrodingerPanel {
         getIntensityDisplay().setHighIntensityMode();
 
         setNormalGraphics();
-        smoothIntensityDisplay = new SmoothIntensityDisplay( getIntensityDisplay() );
+        smoothIntensityDisplay = new SmoothIntensityDisplay( this, getIntensityDisplay() );
         setSmoothScreen( SMOOTH_SCREEN_DEFAULT );
         splitColorMap = new SplitColorMap( intensityModule.getSplitModel(), this );//this.intensityModule.getSplitModel() );
         setDisplayPhotonColor( super.getDisplayPhotonColor() );
@@ -112,11 +112,6 @@ public class IntensityPanel extends SchrodingerPanel {
 
     public PhotonColorMap.ColorData getRootColor() {
         return highIntensityGun.getRootColor();
-    }
-
-    public void setFadeEnabled( boolean selected ) {
-        super.setFadeEnabled( selected );
-        smoothIntensityDisplay.setFadeEnabled( selected );
     }
 
     public void setWaveSize( int width, int height ) {

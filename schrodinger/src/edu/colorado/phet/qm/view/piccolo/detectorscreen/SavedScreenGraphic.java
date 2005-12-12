@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.view.piccolo;
+package edu.colorado.phet.qm.view.piccolo.detectorscreen;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.CursorHandler;

@@ -5,8 +5,8 @@ import edu.colorado.phet.common.view.components.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.qm.modules.intensity.IntensityPanel;
-import edu.colorado.phet.qm.view.piccolo.DetectorSheetPNode;
-import edu.colorado.phet.qm.view.piccolo.SavedScreenGraphic;
+import edu.colorado.phet.qm.view.piccolo.detectorscreen.DetectorSheetPNode;
+import edu.colorado.phet.qm.view.piccolo.detectorscreen.SavedScreenGraphic;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 
@@ -34,7 +34,7 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
     private DetectorSheetPNode detectorSheetPNode;
     private JButton saveScreenJButton;
     private ModelSlider brightnessModelSlider;
-    private JCheckBox fadeEnabled;
+    private JCheckBox fadeCheckbox;
     private HorizontalLayoutPanel displayPanel;
 
     public DetectorSheetControlPanel( final DetectorSheetPNode detectorSheetPNode ) {
@@ -69,10 +69,15 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
         } );
         setBrightness();
 
-        fadeEnabled = new JCheckBox( "Fade", true );
-        fadeEnabled.addChangeListener( new ChangeListener() {
+        fadeCheckbox = new JCheckBox( "Fade", getSchrodingerPanel().isFadeEnabled() );
+        fadeCheckbox.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                getSchrodingerPanel().setFadeEnabled( fadeEnabled.isSelected() );
+                getSchrodingerPanel().setFadeEnabled( fadeCheckbox.isSelected() );
+            }
+        } );
+        getSchrodingerPanel().addListener( new SchrodingerPanel.Listener() {
+            public void fadeStateChanged() {
+                fadeCheckbox.setSelected( getSchrodingerPanel().isFadeEnabled() );
             }
         } );
 
@@ -85,7 +90,6 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
 
         buttonGroup.add( showAverage );
         buttonGroup.add( showHits );
-
 
         showHits.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -104,7 +108,7 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
 
         HorizontalLayoutPanel saveClear = new HorizontalLayoutPanel();
         saveClear.setBorder( BorderFactory.createTitledBorder( "Screen" ) );
-        saveClear.add( fadeEnabled );
+        saveClear.add( fadeCheckbox );
         saveClear.add( clearButton );
         saveClear.add( saveScreenJButton );
         add( saveClear );
@@ -175,7 +179,7 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
     }
 
     public void setFadeCheckBoxVisible( boolean b ) {
-        fadeEnabled.setVisible( b );
+        fadeCheckbox.setVisible( b );
     }
 
     private void supervalidate() {

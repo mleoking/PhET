@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.view.piccolo;
+package edu.colorado.phet.qm.view.piccolo.detectorscreen;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
@@ -13,7 +13,7 @@ import java.awt.image.WritableRaster;
 
 public class ImageFade {
 //    private double scaleFactor = 0.95;
-    private int dVal = -1;
+    private int dVal = -10;
 
     public ImageFade() {
         this( -1 );
