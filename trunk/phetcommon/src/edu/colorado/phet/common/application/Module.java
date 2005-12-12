@@ -1,14 +1,4 @@
-/* Copyright 2003-2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
+/* Copyright 2004, Sam Reid */
 package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.model.BaseModel;
@@ -16,88 +6,32 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.help.HelpItem;
-import edu.colorado.phet.common.view.help.HelpManager;
-import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
-import java.awt.*;
 
 /**
- * This class encapsulates the parts of an application that make up
- * a complete virtual experiment. This includes, but is not limited to, the
- * on-screen controls and view elements that go along with the
- * experiment. Each module has its own model.
- *
- * @author ?
- * @version $Revision$
+ * User: Sam Reid
+ * Date: Dec 12, 2005
+ * Time: 2:16:29 PM
+ * Copyright (c) Dec 12, 2005 by Sam Reid
  */
-public class Module implements ClockTickListener {
 
+public abstract class Module implements ClockTickListener {
     BaseModel model;
-    ApparatusPanel apparatusPanel;
     JPanel controlPanel;
     JPanel monitorPanel;
     String name;
-    private AbstractClock clock;
-    HelpManager helpManager;
-    private boolean helpEnabled;
+    protected AbstractClock clock;
+    protected boolean helpEnabled;
     private boolean isActive;
 
-    /**
-     * @param name
-     * @param clock
-     */
-    protected Module( String name, AbstractClock clock ) {
-        this.name = name;
-        this.clock = clock;
-        SimStrings.setStrings( "localization/CommonStrings" );
-        helpManager = new HelpManager();
+    public Module() {
         helpEnabled = false;
-        
-        // Handle redrawing while the clock is paused.
-        clock.addClockStateListener( new ClockPausedHandler( this ) );
     }
-
-    /**
-     * @param name
-     * @deprecated
-     */
-    protected Module( String name ) {
-        this( name, null );
-    }
-
-    protected void init( ApparatusPanel apparatusPanel, JPanel controlPanel, JPanel monitorPanel, BaseModel baseModel ) {
-        setApparatusPanel( apparatusPanel );
-        setControlPanel( controlPanel );
-        setMonitorPanel( monitorPanel );
-        setModel( baseModel );
-    }
-
-    //-----------------------------------------------------------------
-    // Setters and getters
-    //-----------------------------------------------------------------
 
     public AbstractClock getClock() {
         return clock;
-    }
-
-    public void setApparatusPanel( ApparatusPanel apparatusPanel ) {
-        this.apparatusPanel = apparatusPanel;
-        if( helpManager != null ) {
-            helpManager.setComponent( apparatusPanel );
-        }
-        else {
-            helpManager = new HelpManager( apparatusPanel );//TODO fix this.
-        }
-    }
-
-    public ApparatusPanel getApparatusPanel() {
-        return apparatusPanel;
     }
 
     public void setMonitorPanel( JPanel monitorPanel ) {
@@ -128,20 +62,6 @@ public class Module implements ClockTickListener {
         getModel().addModelElement( modelElement );
     }
 
-    public void addGraphic( PhetGraphic graphic, double layer ) {
-        getApparatusPanel().addGraphic( graphic, layer );
-    }
-
-    protected void add( ModelElement modelElement, PhetGraphic graphic, double layer ) {
-        this.addModelElement( modelElement );
-        this.addGraphic( graphic, layer );
-    }
-
-    protected void remove( ModelElement modelElement, PhetGraphic graphic ) {
-        getModel().removeModelElement( modelElement );
-        getApparatusPanel().removeGraphic( graphic );
-    }
-
     /**
      * Activates this Module, empty method here.  This method is provided so that subclasses
      * can override.
@@ -168,10 +88,10 @@ public class Module implements ClockTickListener {
         app.removeClockTickListener( this );
         isActive = false;
     }
-    
+
     /**
      * Is this module active?
-     * 
+     *
      * @return true or false
      */
     public boolean isActive() {
@@ -181,25 +101,21 @@ public class Module implements ClockTickListener {
     public boolean moduleIsWellFormed() {
         boolean result = true;
         result &= this.getModel() != null;
-        result &= this.getApparatusPanel() != null;
+        result &= this.getSimulationPanel() != null;
         return result;
     }
 
     public String toString() {
-        return "name=" + name + ", model=" + model + ", apparatusPanel=" + apparatusPanel + ", controlPanel=" + controlPanel + ", monitorPanel=" + monitorPanel;
+        return "name=" + name + ", model=" + model + ", simulationPanel=" + getSimulationPanel() + ", controlPanel=" + controlPanel + ", monitorPanel=" + monitorPanel;
     }
-
-    //-----------------------------------------------------------------
-    // Help-related methods
-    //-----------------------------------------------------------------
 
     /**
      * Tells whether this module has on-screen help
      *
-     * @return
+     * @return whether this module has on-screen help
      */
     public boolean hasHelp() {
-        return helpManager.getNumGraphics() > 0;
+        return false;
     }
 
     /**
@@ -209,44 +125,15 @@ public class Module implements ClockTickListener {
      */
     public void setHelpEnabled( boolean h ) {
         helpEnabled = h;
-        helpManager.setHelpEnabled( apparatusPanel, h );
-        if ( controlPanel instanceof ControlPanel ) {
-            // If our control panel is a Phet control panel, then change the 
+        if( controlPanel instanceof ControlPanel ) {
+            // If our control panel is a Phet control panel, then change the
             // state of its Help button.
-            ((ControlPanel)controlPanel).setHelpEnabled( h );
+            ( (ControlPanel)controlPanel ).setHelpEnabled( h );
         }
     }
 
     public boolean isHelpEnabled() {
         return helpEnabled;
-    }
-    
-    /**
-     * Adds an onscreen help item to the module
-     *
-     * @param helpItem
-     */
-    public void addHelpItem( PhetGraphic helpItem ) {
-        helpManager.addGraphic( helpItem );
-        if( controlPanel != null && controlPanel instanceof ControlPanel ) {
-            ( (ControlPanel)controlPanel ).setHelpPanelEnabled( true );
-        }
-    }
-
-    /**
-     * Removes an onscreen help item from the module
-     *
-     * @param helpItem
-     */
-    public void removeHelpItem( PhetGraphic helpItem ) {
-        helpManager.removeGraphic( helpItem );
-        if( controlPanel != null && controlPanel instanceof ControlPanel && helpManager.getNumHelpItems() == 0 ) {
-            ( (ControlPanel)controlPanel ).setHelpPanelEnabled( false );
-        }
-    }
-
-    public HelpManager getHelpManager() {
-        return helpManager;
     }
 
     /**
@@ -258,15 +145,11 @@ public class Module implements ClockTickListener {
     /**
      * This must be overriden by subclasses that have megahelp to return true
      *
-     * @return
+     * @return whether there is megahelp
      */
     public boolean hasMegaHelp() {
         return false;
     }
-
-    //----------------------------------------------------------------
-    // Rendering
-    //----------------------------------------------------------------
 
     /**
      * Any module that wants to do some graphics updating that isn't handled through
@@ -276,24 +159,17 @@ public class Module implements ClockTickListener {
      */
     public void updateGraphics( ClockTickEvent event ) {
         // noop
-        PhetJComponent.getRepaintManager().updateGraphics();
+
     }
 
     /**
      * Refreshes the Module.
-     * This is typically called by something else (eg, ClockPausedHandler) 
+     * This is typically called by something else (eg, ClockPausedHandler)
      * while the clock is paused.
      */
     public void refresh() {
-        // Repaint all dirty PhetJComponents
-        PhetJComponent.getRepaintManager().updateGraphics();
-        // Paint the apparatus panel
-        apparatusPanel.paint();
+
     }
-    
-    //----------------------------------------------------------------
-    // Main loop
-    //----------------------------------------------------------------
 
     public void clockTicked( ClockTickEvent event ) {
         handleUserInput();
@@ -303,70 +179,27 @@ public class Module implements ClockTickListener {
     }
 
     protected void handleUserInput() {
-        getApparatusPanel().handleUserInput();
     }
-
-    ////////////////////////////////////////////////////////////////
-    // Persistence
-    //
 
     public BaseModel getModel() {
         return model;
     }
-
-
-//    public void setState( StateDescriptor stateDescriptor ) {
-//        stateDescriptor.setState( this );
-////        restoreState( (ModuleStateDescriptor)stateDescriptor );
-//    }
 
     /**
      * Returns a ModuleStateDescriptor for this Module.
      * <p/>
      * This method should be extended by subclasses that have state attributes.
      *
-     * @return
+     * @return a ModuleStateDescriptor for this Module.
      */
     public ModuleStateDescriptor getState() {
         ModuleStateDescriptor sd = new ModuleStateDescriptor( this );
         return sd;
     }
 
-    /**
-     * Restores the state of this Module to that specificied in a ModuleStateDescriptor
-     *
-     * @param stateDescriptor
-     */
-//    private void restoreState( ModuleStateDescriptor stateDescriptor ) {
-//
-//        // Remove and clean up the current model
-//        AbstractClock clock = PhetApplication.instance().getApplicationModel().getClock();
-//        BaseModel oldModel = getModel();
-//        oldModel.removeAllModelElements();
-//        clock.removeClockTickListener( oldModel );
-//
-//        // Set up the restored model
-//        BaseModel newModel = sd.getModel();
-//        clock.addClockTickListener( newModel );
-//        setModel( newModel );
-//
-//        // Set up the restored graphics
-//        // Hook all the graphics up to the current apparatus panel
-//        MultiMap graphicsMap = sd.getGraphicMap();
-//        Iterator it = graphicsMap.iterator();
-//        while( it.hasNext() ) {
-//            Object obj = it.next();
-//            if( obj instanceof PhetGraphic ) {
-//                PhetGraphic phetGraphic = (PhetGraphic)obj;
-//                phetGraphic.setComponent( getApparatusPanel() );
-//            }
-//        }
-//        getApparatusPanel().getGraphic().setGraphicMap( sd.getGraphicMap() );
-//
-//        // Force a repaint on the apparatus panel
-//        getApparatusPanel().repaint();
-//    }
-    public JComponent getSimulationPanel() {
-        return getApparatusPanel();
+    public abstract JComponent getSimulationPanel();
+
+    public Class[] getTransientPropertySources() {
+        return new Class[0];
     }
 }

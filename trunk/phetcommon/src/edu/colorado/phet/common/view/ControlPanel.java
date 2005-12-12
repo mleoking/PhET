@@ -68,7 +68,6 @@ public class ControlPanel extends JPanel {
         horizontalScrollPane = new JScrollPane( JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
         horizontalScrollPane.setBorder( createBorder() );
 
-
         // The panel for the help button
         helpPanel = new HelpPanel( module );
         addToPanel( helpPanel );
@@ -159,6 +158,7 @@ public class ControlPanel extends JPanel {
 
     /**
      * Shows or hides the PhET logo at the top of the control panel
+     *
      * @param isVisible
      */
     public void setLogoVisible( boolean isVisible ) {
@@ -298,18 +298,18 @@ public class ControlPanel extends JPanel {
                     fixAll( c.getComponent( i ) );
                 }
             }
-            
+
             /*
-             * On Macintosh, JSliders do not appear when they are inside a JPanel.
-             * When JSlider is painted in internal frame, its preferred width and height
-             * sometimes has not calculated yet. The track rectangle has negative width that's
-             * why track is never painted.
-             * <br>
-             * An alternative fix was to call JSlider.updateUI.  This adversely
-             * affected slider responsiveness.
-             * <br>
-             * See http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4220108
-             */
+            * On Macintosh, JSliders do not appear when they are inside a JPanel.
+            * When JSlider is painted in internal frame, its preferred width and height
+            * sometimes has not calculated yet. The track rectangle has negative width that's
+            * why track is never painted.
+            * <br>
+            * An alternative fix was to call JSlider.updateUI.  This adversely
+            * affected slider responsiveness.
+            * <br>
+            * See http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4220108
+            */
             if( component instanceof JSlider ) {
                 JSlider slider = (JSlider)component;
                 Dimension dim = slider.getSize();
