@@ -4,6 +4,7 @@ package edu.colorado.phet.qm.view.piccolo.detectorscreen;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.qm.modules.intensity.IntensityPanel;
 import edu.colorado.phet.qm.phetcommon.IntegralModelElement;
 import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
 import edu.colorado.phet.qm.view.gun.Photon;
@@ -53,10 +54,18 @@ public class DetectorSheetPNode extends PNode {
         imageFade = new ImageFade();
         fadeElement = new IntegralModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
-                if( isFadeEnabled() ) {
+                if( isFadeEnabled() && !isSmoothScreen() ) {
                     imageFade.fade( getBufferedImage() );
                     screenGraphic.repaint();
                 }
+            }
+
+            private boolean isSmoothScreen() {
+                if( schrodingerPanel instanceof IntensityPanel ) {
+                    IntensityPanel ip = (IntensityPanel)schrodingerPanel;
+                    return ip.isSmoothScreen();
+                }
+                return false;
             }
         }, 10 );
         detectorSheetControlPanelPNode = new DetectorSheetControlPanelPNode( this );
