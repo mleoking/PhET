@@ -73,7 +73,7 @@ public class StepSolver extends AbstractSolver {
                 Complex term3 = commonTerm3( t, E ); // e^(-i*E*t/h)
 
                 // B = ( e^(2*i*k1*x1) * (k1 - k2) ) / (k1 + k2)
-                MutableComplex B = new MutableComplex( 0, 1 ); // i
+                MutableComplex B = new MutableComplex( Complex.I ); // i
                 B.multiply( 2 * x1 );
                 B.multiply( k1 );
                 B.exp();
@@ -91,7 +91,7 @@ public class StepSolver extends AbstractSolver {
                 Complex term3 = commonTerm3( t, E ); // e^(-i*E*t/h)
 
                 // C = ( 2 * e^(i*(k1 - k2)*x1) * k1 ) / (k1 + k2)
-                MutableComplex C = new MutableComplex( 0, 1 ); // i
+                MutableComplex C = new MutableComplex( Complex.I ); // i
                 C.multiply( x1 );
                 C.multiply( k1.getSubtract( k2 ) );
                 C.exp();
