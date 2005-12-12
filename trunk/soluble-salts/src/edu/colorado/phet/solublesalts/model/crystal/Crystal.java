@@ -80,7 +80,7 @@ public class Crystal extends Body implements Binder {
     private ArrayList ions = new ArrayList();
     // The angle that the lattice is oriented at, relative to the x axis
     private double orientation;
-    private Atom seed;
+//    private Atom seed;
     private Lattice lattice;
     // The list of ions that cannot be bound to this lattice at this time
     private Vector noBindList = new Vector();
@@ -103,7 +103,7 @@ public class Crystal extends Body implements Binder {
     }
 
     public Point2D getPosition() {
-        return seed.getPosition();
+        return lattice.getSeed().getPosition();
     }
 
     public void leaveModel() {
@@ -144,7 +144,11 @@ public class Crystal extends Body implements Binder {
     //----------------------------------------------------------------
 
     public Atom getSeed() {
-        return seed;
+        return lattice.getSeed();
+    }
+
+    public void setSeed( Ion ion ) {
+        lattice.setSeed( ion );
     }
 
     public ArrayList getIons() {
@@ -186,13 +190,12 @@ public class Crystal extends Body implements Binder {
         Point2D placeToPutIon = null;
         switch( getIons().size() ) {
             case 0:
-                seed = ion;
                 lattice.setSeed( ion );
                 placeToPutIon = ion.getPosition();
                 break;
             case 1:
-                orientation = Math.atan2( ion.getPosition().getY() - seed.getPosition().getY(),
-                                          ion.getPosition().getX() - seed.getPosition().getX() );
+                orientation = Math.atan2( ion.getPosition().getY() - lattice.getSeed().getPosition().getY(),
+                                          ion.getPosition().getX() - lattice.getSeed().getPosition().getX() );
                 placeToPutIon = lattice.getNearestOpenSite( ion, ions, orientation );
                 break;
             default:
@@ -211,14 +214,14 @@ public class Crystal extends Body implements Binder {
 
     /**
      * This method is only to be used when a client remves an ion from the
-     * lattice. It is not to be used when the lattice itself releases the ion
+     * crystal. It is not to be used when the crystal itself releases the ion
      *
      * @param ion
      */
     public void removeIon( Ion ion ) {
         getIons().remove( ion );
 
-        // If there aren't any ions left in the lattice, the lattice should be removed
+        // If there aren't any ions left in the crystal, the crystal should be removed
         // from the model
         if( getIons().size() == 0 ) {
             instanceLifetimeListenerProxy.instanceDestroyed( new InstanceLifetimeEvent( this ) );
@@ -246,6 +249,10 @@ public class Crystal extends Body implements Binder {
         removeIon( ionToRelease );
         ionToRelease.unbindFrom( this );
         ionToRelease.stepInTime( dt );
+
+        if( getIons().size() == 0 ) {
+            System.out.println( "Crystal.releaseIon" );
+        }
     }
 
     /**
@@ -327,7 +334,6 @@ public class Crystal extends Body implements Binder {
         }
         super.stepInTime( dt );
     }
-
 
     //================================================================
     // Inner classes
