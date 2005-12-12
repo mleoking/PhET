@@ -16,12 +16,12 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.help.HelpManager;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 
@@ -44,13 +44,8 @@ public class PhetGraphicsModule extends Module {
      * @param clock
      */
     protected PhetGraphicsModule( String name, AbstractClock clock ) {
-        this.name = name;
-        this.clock = clock;
-        SimStrings.setStrings( "localization/CommonStrings" );
+        super( name, clock );
         helpManager = new HelpManager();
-
-        // Handle redrawing while the clock is paused.
-        clock.addClockStateListener( new ClockPausedHandler( this ) );
     }
 
     /**
@@ -217,5 +212,16 @@ public class PhetGraphicsModule extends Module {
 
     public Class[] getTransientPropertySources() {
         return new Class[]{PhetImageGraphic.class};
+    }
+
+    public void setReferenceSize() {
+        JComponent panel = getSimulationPanel();
+        if( panel instanceof ApparatusPanel2 ) {
+            final ApparatusPanel2 apparatusPanel = (ApparatusPanel2)panel;
+
+            // Add the listener to the apparatus panel that will tell it to set its
+            // reference size
+            apparatusPanel.setReferenceSize();
+        }
     }
 }

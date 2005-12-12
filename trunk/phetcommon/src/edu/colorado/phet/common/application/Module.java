@@ -7,6 +7,7 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 
@@ -28,6 +29,16 @@ public abstract class Module implements ClockTickListener {
 
     public Module() {
         helpEnabled = false;
+    }
+
+    public Module( String name, AbstractClock clock ) {
+
+        this.name = name;
+        this.clock = clock;
+        SimStrings.setStrings( "localization/CommonStrings" );
+
+        // Handle redrawing while the clock is paused.
+        clock.addClockStateListener( new ClockPausedHandler( this ) );
     }
 
     public AbstractClock getClock() {
@@ -201,5 +212,8 @@ public abstract class Module implements ClockTickListener {
 
     public Class[] getTransientPropertySources() {
         return new Class[0];
+    }
+
+    public void setReferenceSize() {
     }
 }
