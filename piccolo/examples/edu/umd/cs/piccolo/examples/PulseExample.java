@@ -33,9 +33,9 @@ public class PulseExample extends PFrame {
 		PLayer layer = getCanvas().getLayer();
 		PActivityScheduler scheduler = root.getActivityScheduler();
 		
-		final PNode singlePulse = PPath.createRectangle(0, 0, 100, 80);;
-		final PPath repeatePulse = PPath.createRectangle(100, 80, 100, 80);;
-		final PNode repeateReversePulse = PPath.createRectangle(200, 160, 100, 80);;
+		final PNode singlePulse = PPath.createRectangle(0, 0, 100, 80);
+		final PPath repeatePulse = PPath.createRectangle(100, 80, 100, 80);
+		final PNode repeateReversePulse = PPath.createRectangle(200, 160, 100, 80);
 
 		layer.addChild(singlePulse);
 		layer.addChild(repeatePulse);

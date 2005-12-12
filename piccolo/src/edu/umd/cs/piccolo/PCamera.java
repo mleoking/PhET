@@ -409,6 +409,15 @@ public class PCamera extends PNode {
 	public PBounds getViewBounds() {
 		return (PBounds) localToView(getBounds());
 	}
+		 
+	/**
+	 * Translates and scales the camera's view transform so that the given bounds (in camera
+	 * layer's coordinate system)are centered withing the cameras view bounds. Use this method
+	 * to point the camera at a given location.
+	 */
+	public void setViewBounds(Rectangle2D centerBounds) {
+		animateViewToCenterBounds(centerBounds, true, 0);
+	}
 
 	/**
 	 * Return the scale applied by the view transform to the layers

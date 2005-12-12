@@ -43,7 +43,7 @@ public class GraphEditorExample extends PFrame {
 			float y = (float) (400. * rnd.nextDouble());
 			PPath path = PPath.createEllipse(x, y, 20, 20);
 			tmp = new ArrayList();
-			path.addClientProperty("edges", tmp);
+			path.addAttribute("edges", tmp);
 			nodeLayer.addChild(path);
 		}
 
@@ -62,15 +62,15 @@ public class GraphEditorExample extends PFrame {
 			edge.moveTo((float) bound1.getX(), (float) bound1.getY());
 			edge.lineTo((float) bound2.getX(), (float) bound2.getY());
 
-			tmp = (ArrayList) node1.getClientProperty("edges");
+			tmp = (ArrayList) node1.getAttribute("edges");
 			tmp.add(edge);
-			tmp = (ArrayList) node2.getClientProperty("edges");
+			tmp = (ArrayList) node2.getAttribute("edges");
 			tmp.add(edge);
 
 			tmp = new ArrayList();
 			tmp.add(node1);
 			tmp.add(node2);
-			edge.addClientProperty("nodes", tmp);
+			edge.addAttribute("nodes", tmp);
 
 			edgeLayer.addChild(edge);
 		}
@@ -112,12 +112,12 @@ public class GraphEditorExample extends PFrame {
 			PNode node = e.getPickedNode();
 			node.translate(e.getDelta().width, e.getDelta().height);
 
-			ArrayList edges = (ArrayList) e.getPickedNode().getClientProperty("edges");
+			ArrayList edges = (ArrayList) e.getPickedNode().getAttribute("edges");
 
 			int i;
 			for (i = 0; i < edges.size(); i++) {
 				PPath edge = (PPath) edges.get(i);
-				ArrayList nodes = (ArrayList) edge.getClientProperty("nodes");
+				ArrayList nodes = (ArrayList) edge.getAttribute("nodes");
 				PNode node1 = (PNode) nodes.get(0);
 				PNode node2 = (PNode) nodes.get(1);
 

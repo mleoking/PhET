@@ -17,8 +17,8 @@ public class PositionExample extends PFrame {
 	}
 	
 	public void initialize() {		
-		PNode n1 = PPath.createRectangle(0, 0, 100, 80);;
-		PNode n2 = PPath.createRectangle(0, 0, 100, 80);;
+		PNode n1 = PPath.createRectangle(0, 0, 100, 80);
+		PNode n2 = PPath.createRectangle(0, 0, 100, 80);
 		
 		getCanvas().getLayer().addChild(n1);
 		getCanvas().getLayer().addChild(n2);

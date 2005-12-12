@@ -17,7 +17,7 @@ public class StickyExample extends PFrame {
 	}
 	
 	public void initialize() {	
-		PPath sticky = PPath.createRectangle(0, 0, 50, 50);;
+		PPath sticky = PPath.createRectangle(0, 0, 50, 50);
 		sticky.setPaint(Color.YELLOW);
 		sticky.setStroke(null);
 		PBoundsHandle.addBoundsHandlesTo(sticky);

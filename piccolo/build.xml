@@ -73,7 +73,7 @@ Then try building.
     <tstamp/>
     <property name="Name" value="Piccolo"/>
     <property name="name" value="piccolo"/>
-    <property name="version" value="1.2.1"/>
+    <property name="version" value="1.2"/>
     <property name="year" value="2005"/>
 
     <echo message="----------- ${Name} ${version} [${year}] ------------"/>

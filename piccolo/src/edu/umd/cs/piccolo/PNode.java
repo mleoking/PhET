@@ -580,21 +580,21 @@ public class PNode implements Cloneable, Serializable, Printable {
     }
 
 	/**
-	 * @deprecate use getAttribute(Object key)instead.
+	 * @deprecated use getAttribute(Object key)instead.
 	 */
 	public Object getClientProperty(Object key) {
         return getAttribute(key);
 	}
 
 	/**
-	 * @deprecate use addAttribute(Object key, Object value)instead.
+	 * @deprecated use addAttribute(Object key, Object value)instead.
 	 */
 	public void addClientProperty(Object key, Object value) {
         addAttribute(key, value);
 	}
 
 	/**
-	 * @deprecate use getClientPropertyKeysEnumerator() instead.
+	 * @deprecated use getClientPropertyKeysEnumerator() instead.
 	 */
 	public Iterator getClientPropertyKeysIterator() {
 		final Enumeration enumeration = getClientPropertyKeysEnumeration();
@@ -1729,6 +1729,7 @@ public class PNode implements Cloneable, Serializable, Printable {
 	 * @param scale the scale to set the transform to
 	 */
 	public void setScale(double scale) {
+		if (scale == 0) throw new RuntimeException("Can't set scale to 0");
 		scale(scale / getScale());
 	}
 
@@ -2337,19 +2338,21 @@ public class PNode implements Cloneable, Serializable, Printable {
 	 * image will have transparent regions, else those regions will be filled
 	 * with the backgroundPaint.
 	 *	
+	 * @param width pixel width of the resulting image
+	 * @param height pixel height of the resulting image
 	 * @return a new image representing this node and its descendents
 	 */
 	public Image toImage(int width, int height, Paint backGroundPaint) {
-		PBounds bounds = getFullBounds();		
+		PBounds imageBounds = getFullBounds();		
 
-		bounds.expandNearestIntegerDimensions();	
+		imageBounds.expandNearestIntegerDimensions();	
 		
-		if(width / bounds.width < height / bounds.height) {
-			double scale = width / bounds.width;
-			height = (int) (bounds.height * scale);
+		if(width / imageBounds.width < height / imageBounds.height) {
+			double scale = width / imageBounds.width;
+			height = (int) (imageBounds.height * scale);
 		} else {
-			double scale = height / bounds.height;
-			width = (int) (bounds.width * scale);
+			double scale = height / imageBounds.height;
+			width = (int) (imageBounds.width * scale);
 		}
 
 		GraphicsConfiguration graphicsConfiguration = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
@@ -2423,21 +2426,21 @@ public class PNode implements Cloneable, Serializable, Printable {
 		}
 
 		Graphics2D g2 = (Graphics2D)graphics;
-		PBounds bounds = getFullBounds();
+		PBounds imageBounds = getFullBounds();
 
-		bounds.expandNearestIntegerDimensions();
+		imageBounds.expandNearestIntegerDimensions();
 		
 		g2.setClip(0, 0, (int)pageFormat.getWidth(), (int)pageFormat.getHeight());
 		g2.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
 
 		// scale the graphics so node's full bounds fit in the imageable bounds.
-		double scale = pageFormat.getImageableWidth() / bounds.getWidth();
-		if (pageFormat.getImageableHeight() / bounds.getHeight() < scale) {
-			scale = pageFormat.getImageableHeight() / bounds.getHeight();
+		double scale = pageFormat.getImageableWidth() / imageBounds.getWidth();
+		if (pageFormat.getImageableHeight() / imageBounds.getHeight() < scale) {
+			scale = pageFormat.getImageableHeight() / imageBounds.getHeight();
 		}
 		
 		g2.scale(scale, scale);
-		g2.translate(-bounds.x, -bounds.y);
+		g2.translate(-imageBounds.x, -imageBounds.y);
 		
 		PPaintContext pc = new PPaintContext(g2);
 		pc.setRenderQuality(PPaintContext.HIGH_QUALITY_RENDERING);
@@ -2580,16 +2583,16 @@ public class PNode implements Cloneable, Serializable, Printable {
 
 	public void findIntersectingNodes(Rectangle2D fullBounds, ArrayList results) {
 		if (fullIntersects(fullBounds)) {
-			Rectangle2D bounds = parentToLocal((Rectangle2D)fullBounds.clone());
+			Rectangle2D localBounds = parentToLocal((Rectangle2D)fullBounds.clone());
 
-			if (intersects(bounds)) {
+			if (intersects(localBounds)) {
 				results.add(this);
 			}
 
 			int count = getChildrenCount();
 			for (int i = count - 1; i >= 0; i--) {
 				PNode each = (PNode) children.get(i);
-				each.findIntersectingNodes(bounds, results);
+				each.findIntersectingNodes(localBounds, results);
 			}
 		}
 	}

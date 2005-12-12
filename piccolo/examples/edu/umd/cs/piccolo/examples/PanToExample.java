@@ -43,8 +43,7 @@ public class PanToExample extends PFrame {
 		
 		getCanvas().getCamera().addInputEventListener(new PBasicInputEventHandler() {
 			public void mousePressed(PInputEvent event) {
-				if (event.getPickedNode() instanceof PCamera) {
-				} else {
+				if (!(event.getPickedNode() instanceof PCamera)) {
 					event.setHandled(true);
 					getCanvas().getCamera().animateViewToPanToBounds(event.getPickedNode().getGlobalFullBounds(), 500);
 				}
