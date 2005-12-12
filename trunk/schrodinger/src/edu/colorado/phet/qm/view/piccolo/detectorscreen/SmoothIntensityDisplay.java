@@ -29,7 +29,7 @@ public class SmoothIntensityDisplay {
         this.schrodingerPanel = schrodingerPanel;
         this.intensityGraphic = intensityGraphic;
         histogram = new double[getWavefunction().getWidth()];
-        schrodingerPanel.addListener( new SchrodingerPanel.Listener() {
+        schrodingerPanel.addListener( new SchrodingerPanel.Adapter() {
             //really, this is unnecessary now.
             public void fadeStateChanged() {
                 synchronizeFadeState();
