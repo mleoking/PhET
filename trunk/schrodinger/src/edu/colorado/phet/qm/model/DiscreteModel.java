@@ -150,6 +150,10 @@ public class DiscreteModel implements ModelElement {
         return waveModel;
     }
 
+    public void updateWavefunctionAfterDetection() {
+        clearAllWaves();
+    }
+
     class DefaultPropagate implements PropagationStrategy {
         public void step() {
             defaultPropagate();
