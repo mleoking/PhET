@@ -10,15 +10,14 @@
  */
 package edu.colorado.phet.common.view.components.menu;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-
-import javax.swing.*;
-
 import edu.colorado.phet.common.application.*;
 import edu.colorado.phet.common.util.VersionUtils;
 import edu.colorado.phet.common.view.util.SimStrings;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 
 /**
  * HelpMenu
@@ -52,7 +51,7 @@ public class HelpMenu extends JMenu implements ModuleObserver {
         } );
         onscreenHelp.setEnabled( moduleManager.getActiveModule() != null && moduleManager.getActiveModule().hasHelp() );
         add( onscreenHelp );
-        
+
         //----------------------------------------------------------------------
         // "MegaHelp" menu item
         final JMenuItem megaHelpItem = new JMenuItem( SimStrings.get( "Common.HelpMenu.MegaHelp" ) );
@@ -85,7 +84,7 @@ public class HelpMenu extends JMenu implements ModuleObserver {
         //----------------------------------------------------------------------
         // Separator
         addSeparator();
-        
+
         //----------------------------------------------------------------------
         // "About" menu item
         final JMenuItem about = new JMenuItem( SimStrings.get( "Common.HelpMenu.About" ) );
@@ -106,7 +105,7 @@ public class HelpMenu extends JMenu implements ModuleObserver {
      * Sets the state of the Help menu item.
      * This is used to keep the menubar's Help menu item
      * in sync with the control panel's Help button.
-     * 
+     *
      * @param selected
      */
     public void setHelpSelected( boolean selected ) {
@@ -153,7 +152,7 @@ public class HelpMenu extends JMenu implements ModuleObserver {
 
     public void activeModuleChanged( ModuleEvent event ) {
         Module module = event.getModule();
-        if ( module != null ) {
+        if( module != null ) {
             onscreenHelp.setEnabled( module.hasHelp() );
             onscreenHelp.setSelected( module.isHelpEnabled() );
         }

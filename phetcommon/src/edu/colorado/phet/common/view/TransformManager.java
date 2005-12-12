@@ -31,7 +31,7 @@ public class TransformManager {
 
     // Bounds of the panel when scale is 1:1
     private Rectangle referenceBounds;
-    // Size of the canvas that PhetGraphics on this panel draw to
+    // Size of the canvas
     private Dimension canvasSize = new Dimension();
     private double scale = 1.0;
     private static final boolean DEBUG_OUTPUT_ENABLED = false;
@@ -58,8 +58,7 @@ public class TransformManager {
     public Rectangle transform( Rectangle r ) {
 
         if( graphicTx != null ) {
-            Rectangle r2 = graphicTx.createTransformedShape( r ).getBounds();//TODO I thought PhetGraphics should return their exact screen bounds on a call to phetGraphic.getBounds(), which are the x,y,width,height in this method.
-            //TODO maybe if we just change the transform on the GraphicLayerSet in this object, this would be automatic, and cleaner.
+            Rectangle r2 = graphicTx.createTransformedShape( r ).getBounds();
             return r2;
         }
         else {

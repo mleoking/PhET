@@ -15,9 +15,9 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.ModuleManager;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.util.DebugMenu;
 import edu.colorado.phet.common.view.components.menu.HelpMenu;
 import edu.colorado.phet.common.view.components.menu.PhetFileMenu;
+import edu.colorado.phet.common.view.util.DebugMenu;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SwingUtils;
 
@@ -209,7 +209,7 @@ public class PhetFrame extends JFrame {
     public ContentPanel getContentPanel() {
         return contentPanel;
     }
-    
+
     //----------------------------------------------------------------
     // Menu setup methods
     //----------------------------------------------------------------

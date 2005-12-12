@@ -12,7 +12,6 @@ package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.util.persistence.*;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,6 +37,7 @@ public class ModuleManager {
     private EventChannel moduleObserversChannel = new EventChannel( ModuleObserver.class );
     private ModuleObserver moduleObserverProxy = (ModuleObserver)moduleObserversChannel.getListenerProxy();
     private PhetApplication phetApplication;
+    private ArrayList transientPropertySourceClasses = new ArrayList();
 
     public ModuleManager() {
     }
@@ -145,13 +145,26 @@ public class ModuleManager {
         }
     }
 
+    public void addTransientPropertySource( Class sourceClass ) {
+        if( !transientPropertySourceClasses.contains( sourceClass ) ) {
+            transientPropertySourceClasses.add( sourceClass );
+        }
+    }
+
     /**
      * Saves the state of the active module.
      *
      * @param fileName
      */
     public void saveState( String fileName ) {
-
+        for( int i = 0; i < modules.size(); i++ ) {
+            Module module = (Module)modules.get( i );
+            Class[] transientPropertySources = module.getTransientPropertySources();
+            for( int j = 0; j < transientPropertySources.length; j++ ) {
+                Class transientPropertySource = transientPropertySources[j];
+                addTransientPropertySource( transientPropertySource );
+            }
+        }
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.showSaveDialog( phetApplication.getPhetFrame() );
         File file = fileChooser.getSelectedFile();
@@ -159,16 +172,20 @@ public class ModuleManager {
         if( file != null ) {
             XMLEncoder encoder = null;
             try {
-                // Prevent the component for a PhetGraphic from being persisted for now. This keeps
+                // Prevent the component for a graphic from being persisted for now. This keeps
                 // ApparatusPanel from being persisted, for now.
-                BeanInfo info = Introspector.getBeanInfo( PhetImageGraphic.class );
-                PropertyDescriptor[] propertyDescriptors = info.getPropertyDescriptors();
-                for( int i = 0; i < propertyDescriptors.length; i++ ) {
-                    PropertyDescriptor pd = propertyDescriptors[i];
-                    if( pd.getName().equals( "image" ) ) {
-                        pd.setValue( "transient", Boolean.TRUE );
+                for( int k = 0; k < transientPropertySourceClasses.size(); k++ ) {
+                    Class aClass = (Class)transientPropertySourceClasses.get( k );
+                    BeanInfo info = Introspector.getBeanInfo( aClass );
+                    PropertyDescriptor[] propertyDescriptors = info.getPropertyDescriptors();
+                    for( int i = 0; i < propertyDescriptors.length; i++ ) {
+                        PropertyDescriptor pd = propertyDescriptors[i];
+                        if( pd.getName().equals( "image" ) ) {
+                            pd.setValue( "transient", Boolean.TRUE );
+                        }
                     }
                 }
+
 
                 OutputStream outputStream = new BufferedOutputStream( new FileOutputStream( file ) );
                 if( USE_GZIP_STREAMS ) {
@@ -249,15 +266,14 @@ public class ModuleManager {
     }
 
     /**
-     * Returns the an array of the modules the module manager manages
+     * Returns the array of the modules the module manager manages
      *
-     * @return
+     * @return the array of the modules the module manager manages
      */
     public Module[] getModules() {
         Module[] moduleArray = new Module[this.modules.size()];
         for( int i = 0; i < modules.size(); i++ ) {
-            Module module = (Module)modules.get( i );
-            moduleArray[i] = module;
+            moduleArray[i] = (Module)modules.get( i );
         }
         return moduleArray;
     }

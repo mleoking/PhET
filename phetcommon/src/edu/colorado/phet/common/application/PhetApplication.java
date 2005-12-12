@@ -11,24 +11,22 @@
 
 package edu.colorado.phet.common.application;
 
-import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.text.MessageFormat;
-
-import javax.swing.*;
-
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.text.MessageFormat;
 
 /**
  * The top-level class for all PhET applications.
@@ -160,7 +158,7 @@ public class PhetApplication {
         s_instance = this;
 
         PhetJComponent.init( phetFrame );
-        
+
         // Handle command line arguments
         parseArgs( args );
     }
@@ -206,7 +204,7 @@ public class PhetApplication {
 
                 for( int i = 0; i < moduleManager.numModules(); i++ ) {
                     Module module = moduleManager.moduleAt( i );
-                    ApparatusPanel panel = module.getApparatusPanel();
+                    JComponent panel = module.getSimulationPanel();
                     if( panel instanceof ApparatusPanel2 ) {
                         final ApparatusPanel2 apparatusPanel = (ApparatusPanel2)panel;
 

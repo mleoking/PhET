@@ -10,7 +10,10 @@
  */
 package edu.colorado.phet.common.view;
 
-import edu.colorado.phet.common.application.*;
+import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.application.ModuleEvent;
+import edu.colorado.phet.common.application.ModuleObserver;
+import edu.colorado.phet.common.application.PhetApplication;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -45,7 +48,7 @@ public class TabbedApparatusPanelContainer extends JTabbedPane implements Module
     //----------------------------------------------------------------
 
     public void moduleRemoved( ModuleEvent event ) {
-        remove( event.getModule().getApparatusPanel() );
+        remove( event.getModule().getSimulationPanel() );
     }
 
     public void moduleAdded( ModuleEvent event ) {
