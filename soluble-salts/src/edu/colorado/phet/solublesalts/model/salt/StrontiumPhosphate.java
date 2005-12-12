@@ -25,14 +25,14 @@ import java.util.ArrayList;
  */
 public class StrontiumPhosphate extends Salt {
 
-    static private Lattice lattice = new ThreeToTwoLattice( Strontium.class,
-                                                            Phosphate.class,
+    static private Lattice lattice = new ThreeToTwoLattice( Phosphate.class,
+                                                            Strontium.class,
                                                             Strontium.RADIUS + Phosphate.RADIUS );
     static private ArrayList components = new ArrayList();
 
     static {
-        components.add( new Component( Strontium.class, new Integer( 2 ) ) );
-        components.add( new Component( Phosphate.class, new Integer( 3 ) ) );
+        components.add( new Component( Strontium.class, new Integer( 3 ) ) );
+        components.add( new Component( Phosphate.class, new Integer( 2 ) ) );
     }
 
     public StrontiumPhosphate() {
