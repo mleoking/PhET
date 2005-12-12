@@ -32,8 +32,9 @@ public class AutoFire implements IntensityGraphic.Listener {
     }
 
     private void checkDetection() {
-        System.out.println( "gunGraphic.getSchrodingerModule().getDiscreteModel().getWavefunction().getMagnitude() = " + gunGraphic.getSchrodingerModule().getDiscreteModel().getWavefunction().getMagnitude() );
-        if( gunGraphic.getSchrodingerModule().getDiscreteModel().getWavefunction().getMagnitude() < THRESHOLD ) {
+        double mag = gunGraphic.getSchrodingerModule().getDiscreteModel().getWavefunction().getMagnitude();
+        System.out.println( "mag = " + mag );
+        if( mag < THRESHOLD || Double.isNaN( mag ) ) {
             if( System.currentTimeMillis() - lastFire > 500 ) {
                 fire();
             }
