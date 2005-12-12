@@ -15,10 +15,12 @@ import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
 import edu.colorado.phet.solublesalts.model.Atom;
 import edu.colorado.phet.solublesalts.model.Binder;
+import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 
 import java.awt.geom.Point2D;
 import java.util.EventObject;
 import java.util.EventListener;
+import java.util.Random;
 
 
 /**
@@ -32,6 +34,8 @@ import java.util.EventListener;
  * @version $Revision$
  */
 public class Ion extends Atom {
+
+    private static Random random = new Random( );
 
     private IonProperties ionProperties;
     private Crystal bindingCrystal;
@@ -51,6 +55,12 @@ public class Ion extends Atom {
 
     public void stepInTime( double dt ) {
         if( !isBound() ) {
+
+            // Random walk
+            if( getVelocity().getMagnitude() != 0 && SolubleSaltsConfig.RANDOM_WALK) {
+                double theta = random.nextDouble() * Math.PI * 2;
+                setVelocity( getVelocity().rotate( theta ));
+            }
             super.stepInTime( dt );
         }
         else {

@@ -50,21 +50,28 @@ public class SolubleSaltsApplication extends PhetApplication {
         Module module = new SolubleSaltsModule( CLOCK );
         setModules( new Module[]{module} );
 
-        setUpDebugMenu();
+        setUpOptionsMenu();
     }
 
-    private void setUpDebugMenu() {
-        DebugMenu debugMenu = getPhetFrame().getDebugMenu();
-        if( debugMenu != null ) {
-            final JCheckBoxMenuItem showBondIndicatorMI = new JCheckBoxMenuItem( "Show bond indicators" );
-            debugMenu.add( showBondIndicatorMI );
-            showBondIndicatorMI.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    IonGraphic.showBondIndicators( showBondIndicatorMI.isSelected() );
-                }
-            } );
-        }
+    private void setUpOptionsMenu() {
+        JMenu optionsMenu = new JMenu( "Options" );
+        optionsMenu.setMnemonic( 'O' );
+        final JCheckBoxMenuItem showBondIndicatorMI = new JCheckBoxMenuItem( "Show bond indicators" );
+        optionsMenu.add( showBondIndicatorMI );
+        showBondIndicatorMI.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                IonGraphic.showBondIndicators( showBondIndicatorMI.isSelected() );
+            }
+        } );
 
+        final JCheckBoxMenuItem randomWalkMI = new JCheckBoxMenuItem( "Random walk" );
+        optionsMenu.add( randomWalkMI );
+        randomWalkMI.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                SolubleSaltsConfig.RANDOM_WALK = randomWalkMI.isSelected();
+            }
+        } );
+        this.getPhetFrame().addMenu( optionsMenu );
     }
 
     public static void main( String[] args ) {
@@ -82,10 +89,10 @@ public class SolubleSaltsApplication extends PhetApplication {
 //                    simPanel.addWorldChild( mouseTracker );
                 }
             }
-            if( arg.equals( "-b" )) {
+            if( arg.equals( "-b" ) ) {
                 IonGraphic.showBondIndicators( true );
             }
-            if( arg.equals( "-t" )) {
+            if( arg.equals( "-t" ) ) {
                 SolubleSaltsConfig.LATTICE = SolubleSaltsConfig.twoToOneLattice;
             }
         }
