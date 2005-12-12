@@ -83,6 +83,7 @@ public class IonVesselCollisionExpert implements CollisionExpert, ContactDetecto
             // todo: if this works, rewrite the logic in the above if()
             else if( ion.isBound() && areInContact( ion, vessel.getWater() )) {
                 ion.getBindingLattice().setVelocity( 0,0 );
+                ion.getBindingLattice().setSeed( ion );
             }
         }
         return false;

@@ -76,7 +76,7 @@ public class SolubleSaltsModel extends BaseModel {
     private HeatSource heatSource;
     private boolean nucleationEnabled;
     private Shaker shaker;
-    private LatticeTracker latticeTracker;
+    private CrystalTracker crystalTracker;
     private Vector2D accelerationOutOfWater = new Vector2D.Double( 0, SolubleSaltsConfig.DEFAULT_LATTICE_ACCELERATION );
     private Vector2D accelerationInWater = new Vector2D.Double();
 
@@ -88,14 +88,9 @@ public class SolubleSaltsModel extends BaseModel {
 
         // Add an agent that will track the ions of various classes
         ionTracker = new IonTracker();
-//        addIonListener( ionTracker );
 
         // Add an agent that will track the lattices that come and go from the model
-        latticeTracker = new LatticeTracker();
-        addLatticeListener( latticeTracker );
-
-        // Add an agent that will track the creation and destruction of salt lattices
-        Crystal.addInstanceLifetimeListener( new LatticeLifetimeTracker() );
+        crystalTracker = new CrystalTracker();
 
         // Create a vessel
         vessel = new Vessel( vesselWidth, vesselDepth, vesselWallThickness, vesselLoc, this );
@@ -136,7 +131,7 @@ public class SolubleSaltsModel extends BaseModel {
 
         // If a lattice is not in the water, it accelerates downward. If it's in the water, it moves
         // at a constant speed
-        List lattices = latticeTracker.getLattices();
+        List lattices = crystalTracker.getCrystals();
         for( int i = 0; i < lattices.size(); i++ ) {
             Crystal crystal = (Crystal)lattices.get( i );
             if( !vessel.getWater().getBounds().contains( crystal.getPosition() ) &&
@@ -163,7 +158,7 @@ public class SolubleSaltsModel extends BaseModel {
         }
 
         if( modelElement instanceof Crystal ) {
-            latticeListenerProxy.latticeAdded( new LatticeEvent( modelElement ) );
+            crystalTracker.crystalAdded( (Crystal)modelElement );
         }
     }
 
@@ -182,7 +177,7 @@ public class SolubleSaltsModel extends BaseModel {
         }
 
         if( modelElement instanceof Crystal ) {
-            latticeListenerProxy.latticeRemoved( new LatticeEvent( modelElement ) );
+            crystalTracker.crystalRemoved( (Crystal)modelElement );
         }
     }
 
