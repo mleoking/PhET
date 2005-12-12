@@ -126,19 +126,19 @@ public class PPositionPathActivity extends PPathActivity {
 		}
 		
 		int size = points.size();
-		Point2D positions[] = new Point2D[size];
-		float knots[] = new float[size];
+		Point2D newPositions[] = new Point2D[size];
+		float newKnots[] = new float[size];
 		
 		for (int i = 0; i < size; i++) {
-			positions[i] = (Point2D) points.get(i);
+			newPositions[i] = (Point2D) points.get(i);
 			if (i > 0) {
-				float dist = (float) positions[i - 1].distance(positions[i]);
-				knots[i] = knots[i - 1] + (dist / distanceSum);
+				float dist = (float) positions[i - 1].distance(newPositions[i]);
+				newKnots[i] = newKnots[i - 1] + (dist / distanceSum);
 			}
 		}
 		
-		setPositions(positions);
-		setKnots(knots);
+		setPositions(newPositions);
+		setKnots(newKnots);
 	}
 	
 	public void setRelativeTargetValue(float zeroToOne, int startKnot, int endKnot) {

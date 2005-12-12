@@ -93,8 +93,8 @@ public class PStyledTextEventHandler extends PBasicInputEventHandler {
 		initEditor(editor);
 	}
 
-	protected void initEditor(JTextComponent editor) {
-		this.editor = editor;
+	protected void initEditor(JTextComponent newEditor) {
+		editor = newEditor;
 		
 		canvas.setLayout(null);
 		canvas.add(editor);

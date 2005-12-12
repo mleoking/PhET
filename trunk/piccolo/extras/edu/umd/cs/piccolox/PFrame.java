@@ -196,7 +196,7 @@ public class PFrame extends JFrame {
 		result.add(new DisplayMode(640, 480, 8, 0));*/
 		
 		return result;
-	};	 
+	}
 
 	/**
 	 * This method adds a key listener that will take this PFrame out of full

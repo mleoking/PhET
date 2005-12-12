@@ -1,8 +1,14 @@
-Piccolo 1.2.1
+Piccolo 1.2 ChangeLog
+------------------
 
 piccolo/src
 
+	- changed eclipse project compiler settings to not display serization warnings.
+
 PNode
+	- animate methods will now run immediatly if started with zero duration.	
+	- added check for set Scale when Scale is 0
+	- added animateTransformToBounds method
 	- Replaced client properties with a mutable attribute set
 	- Replaced addClientProperty with addAttribute
 	- Replaced removeClientProperty with removeAttribute
@@ -29,6 +35,10 @@ PPath
 PInputEvent
 	- added getModifiersEx accessor
 
+PActivity
+
+	- Added new terminate method that allow you to specify the terminate behavior.
+
 PInterpolatingActivity
 	- in activityFinished now set final target value before calling activity finished on delegate.
 
@@ -53,7 +63,8 @@ piccolo/extras
 	- fixed picking of PFixedWidthStrokes
 	- added getConsumer() method to PFixedWidthStroke's FillAdapter for jdk 1.5 compatibility.
 	- many enhancements to PStyledText
-	
+	- added PApplet class
+
 PSelectionEventHandler
 	- fixed coord system bug in updateMarquee
 	- fixed bug in computeMarqueeSelection where collection was modified as it continued to be iterated
@@ -70,13 +81,6 @@ PFrame
 PApplet
 	- added initialize method that's called on event dispatch thread
 	- added beforeInitilize method called on constructor thread
-	
-Piccolo 1.2 ChangeLog
-------------------
-
-piccolo/extras
-
-- added PApplet class
 
 Piccolo 1.1 ChangeLog
 ------------------

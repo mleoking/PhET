@@ -30,8 +30,8 @@ public class TooltipExample extends PFrame {
 		PNode n1 = PPath.createEllipse(0, 0, 100, 100);
 		PNode n2 = PPath.createRectangle(300, 200, 100, 100);
 		
-		n1.addClientProperty("tooltip", "node 1");
-		n2.addClientProperty("tooltip", "node 2");
+		n1.addAttribute("tooltip", "node 1");
+		n2.addAttribute("tooltip", "node 2");
 		getCanvas().getLayer().addChild(n1);
 		getCanvas().getLayer().addChild(n2);
 		
@@ -52,7 +52,7 @@ public class TooltipExample extends PFrame {
 
 			public void updateToolTip(PInputEvent event) {
 				PNode n = event.getInputManager().getMouseOver().getPickedNode();
-				String tooltipString = (String) n.getClientProperty("tooltip");
+				String tooltipString = (String) n.getAttribute("tooltip");
 				Point2D p = event.getCanvasPosition();
 				
 				event.getPath().canvasToLocal(p, camera);

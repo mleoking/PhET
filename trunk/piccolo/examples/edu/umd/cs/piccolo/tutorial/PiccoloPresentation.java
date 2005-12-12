@@ -60,14 +60,14 @@ public class PiccoloPresentation extends PFrame {
 
 	public void goToSlide(PNode slide) {
 		if (currentSlide != null) {
-			currentSlide.animateToTransform((AffineTransform)currentSlide.getClientProperty("small"), 1000);
+			currentSlide.animateToTransform((AffineTransform)currentSlide.getAttribute("small"), 1000);
 		}
 		
 		currentSlide = slide;
 		
 		if (currentSlide != null) {
 			currentSlide.moveToFront();
-			currentSlide.animateToTransform((AffineTransform)currentSlide.getClientProperty("large"), 1000);
+			currentSlide.animateToTransform((AffineTransform)currentSlide.getAttribute("large"), 1000);
 		}
 	}
 		
@@ -86,12 +86,12 @@ public class PiccoloPresentation extends PFrame {
 				slide = new PImage(slide.toImage(getWidth(), getHeight() - 100, null));
 			}
 			slide.offset((getWidth() - slide.getWidth()) / 2, - (getHeight() - 100));
-			slide.addClientProperty("large", slide.getTransform());
+			slide.addAttribute("large", slide.getTransform());
 
 			slide.setTransform(new AffineTransform());
 			slide.scale((100 - 20) / slide.getHeight());
 			slide.offset(i * (slide.getFullBoundsReference().getWidth() + 10) + 10, 10);
-			slide.addClientProperty("small", slide.getTransform());
+			slide.addAttribute("small", slide.getTransform());
 
 			slideBar.addChild(slide);
 			slides.add(slide);

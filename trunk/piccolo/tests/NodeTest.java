@@ -32,12 +32,12 @@ public class NodeTest extends TestCase {
 	public void testClientProperties() {
 		PNode n = new PNode();
 		
-		assertNull(n.getClientProperty(null));
-		n.addClientProperty("a", "b");
-		assertEquals(n.getClientProperty("a"), "b");
-		assertNull(n.getClientProperty(null));
-		n.addClientProperty("a", null);
-		assertNull(n.getClientProperty("a"));
+		assertNull(n.getAttribute(null));
+		n.addAttribute("a", "b");
+		assertEquals(n.getAttribute("a"), "b");
+		assertNull(n.getAttribute(null));
+		n.addAttribute("a", null);
+		assertNull(n.getAttribute("a"));
 	}
 	
 	public void testFullScale() {
