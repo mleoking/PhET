@@ -15,6 +15,8 @@ import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.quantumtunneling.QTConstants;
+import edu.colorado.phet.quantumtunneling.enum.Direction;
 
 
 /**
@@ -28,13 +30,15 @@ public class PlaneWave extends QTObservable implements ModelElement, Observer {
     private TotalEnergy _te;
     private AbstractPotentialSpace _pe;
     private AbstractSolver _solver;
-    private double _t;
+    private double _t;  // time, in fs
+    private Direction _direction;
     
     public PlaneWave() {
         _te = null;
         _pe = null;
         _solver = null;
         _t = 0;
+        _direction = Direction.LEFT_TO_RIGHT;
     }
     
     public void cleanup() {
@@ -80,8 +84,15 @@ public class PlaneWave extends QTObservable implements ModelElement, Observer {
         return _pe;
     }
     
+    public void setDirection( Direction direction ) {
+        _direction = direction;
+        if ( _solver != null ) {
+            _solver.setDirection( direction );
+        }
+    }
+    
     public double getTime() {
-        return _t;
+        return _t * QTConstants.TIME_SCALE;
     }
     
     public void resetTime() {
@@ -100,6 +111,7 @@ public class PlaneWave extends QTObservable implements ModelElement, Observer {
         }
         if ( _pe != null && _te != null ) {
             _solver = SolverFactory.createSolver( _te, _pe );
+            _solver.setDirection( _direction );
         }
     }
     

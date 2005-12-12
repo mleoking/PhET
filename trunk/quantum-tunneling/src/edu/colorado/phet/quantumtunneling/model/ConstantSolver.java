@@ -47,11 +47,17 @@ public class ConstantSolver extends AbstractSolver implements Observer {
      * @param x position, in nm
      * @param t time, in fs
      */
-    public Complex solve( final double x, final double t ) {       
-        final double E = getTotalEnergy().getEnergy(); 
-        Complex term1 = commonTerm1( x, 0 /* region index */ );  // e^(ikx)
-        Complex term3 = commonTerm3( t, E ); // e^(-iEt/h)
-        Complex result = term1.getMultiply( term3 );
-        return result;
+    public Complex solve( final double x, final double t ) { 
+        Complex c = null;
+        final double E = getTotalEnergy().getEnergy();
+        if ( E < getPotentialEnergy().getEnergy( 0 ) ) {
+            c = new Complex( 0, 0 );
+        }
+        else {
+            Complex term1 = commonTerm1( x, 0 /* region index */); // e^(ikx)
+            Complex term3 = commonTerm3( t, E ); // e^(-iEt/h)
+            c = term1.getMultiply( term3 );
+        }
+        return c;
     }
 }

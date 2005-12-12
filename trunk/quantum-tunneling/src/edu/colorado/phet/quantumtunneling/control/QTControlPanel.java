@@ -27,6 +27,7 @@ import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
+import edu.colorado.phet.quantumtunneling.enum.Direction;
 import edu.colorado.phet.quantumtunneling.enum.WaveType;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotentialSpace;
 import edu.colorado.phet.quantumtunneling.model.BarrierPotential;
@@ -375,8 +376,6 @@ public class QTControlPanel extends AbstractControlPanel {
             _phaseCheckBox.setEnabled( false );
             _sumRadioButton.setEnabled( false );
             _separateRadioButton.setEnabled( false );
-            _leftToRightRadioButton.setEnabled( false );
-            _rightToLeftRadioButton.setEnabled( false );
             _planeWaveRadioButton.setEnabled( false );
             _packetWaveRadioButton.setEnabled( false );
             _measureButton.setEnabled( false );
@@ -540,7 +539,12 @@ public class QTControlPanel extends AbstractControlPanel {
     }
     
     private void handleDirectionSelection() {
-        
+        if ( _leftToRightRadioButton.isSelected() ) {
+            _module.setDirection( Direction.LEFT_TO_RIGHT );
+        }
+        else {
+            _module.setDirection( Direction.RIGHT_TO_LEFT );
+        }
     }
     
     private void handleWaveTypeSelection() {

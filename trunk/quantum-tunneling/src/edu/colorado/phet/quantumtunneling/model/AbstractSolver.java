@@ -14,6 +14,7 @@ package edu.colorado.phet.quantumtunneling.model;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.colorado.phet.quantumtunneling.enum.Direction;
 import edu.colorado.phet.quantumtunneling.util.Complex;
 import edu.colorado.phet.quantumtunneling.util.MutableComplex;
 
@@ -40,12 +41,17 @@ import edu.colorado.phet.quantumtunneling.util.MutableComplex;
  */
 public abstract class AbstractSolver implements Observer {
     
+    // Direction of motion
+    public static final int LEFT_TO_RIGHT = 0;
+    public static final int RIGHT_TO_LEFT = 1;
+    
     protected static final double PLANCKS_CONSTANT = 0.658;  // Planck's constant, in eV fs
     protected static final double ELECTRON_MASS = 5.7;  // mass, in eV/c^2
 
     private TotalEnergy _te;
     private AbstractPotentialSpace _pe;
     private Complex[] _k;
+    private Direction _direction;
     
     /**
      * Constructor.
@@ -59,6 +65,7 @@ public abstract class AbstractSolver implements Observer {
         _pe = pe;
         _pe.addObserver( this );
         _k = new Complex[ pe.getNumberOfRegions() ];
+        _direction = Direction.LEFT_TO_RIGHT;
         updateK();
     }
     
@@ -75,6 +82,23 @@ public abstract class AbstractSolver implements Observer {
     
     public AbstractPotentialSpace getPotentialEnergy() {
         return _pe;
+    }
+    
+    public void setDirection( Direction direction ) {
+        _direction = direction;
+        updateK();
+    }
+    
+    public Direction getDirection() {
+        return _direction;
+    }
+    
+    public boolean isLeftToRight() {
+        return ( _direction == Direction.LEFT_TO_RIGHT );
+    }
+    
+    public boolean isRightToLeft() {
+        return ( _direction == Direction.RIGHT_TO_LEFT );
     }
     
     /**
@@ -110,7 +134,7 @@ public abstract class AbstractSolver implements Observer {
         final double E = getTotalEnergy().getEnergy();
         final int numberOfRegions = getPotentialEnergy().getNumberOfRegions();
         for ( int i = 0; i < numberOfRegions; i++ ) {
-            _k[i] = solveK( E, getPotentialEnergy().getEnergy( i ) );    
+            _k[i] = solveK( E, getPotentialEnergy().getEnergy( i ) );
         }
     }
     
@@ -119,13 +143,14 @@ public abstract class AbstractSolver implements Observer {
      * 
      * k = sqrt( 2 * m * (E-V) / h^2 )
      * 
+     * If direction is right-to-left, multiply k by -1.
      * If E < V, the result is imaginary.
      *
      * @param E total energy, in eV
      * @param V potential energy, in eV
      * @return
      */
-    private static Complex solveK( final double E, final double V ) {
+    private Complex solveK( final double E, final double V ) {
         final double m = ELECTRON_MASS;
         final double h = PLANCKS_CONSTANT;
         final double value = Math.sqrt( 2 * m * Math.abs( E - V ) / ( h * h ) );
@@ -136,6 +161,10 @@ public abstract class AbstractSolver implements Observer {
         }
         else {
             imag = value;
+        }
+        if ( isRightToLeft() ) {
+            real *= -1;
+            imag *= -1;
         }
         return new Complex( real, imag );
     }

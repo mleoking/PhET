@@ -12,6 +12,7 @@
 package edu.colorado.phet.quantumtunneling;
 
 import java.awt.*;
+import java.text.DecimalFormat;
 
 import org.jfree.data.Range;
 
@@ -49,6 +50,9 @@ public class QTConstants {
     public static final int CLOCK_FRAME_RATE = 25;  // frames per second
     public static final boolean CLOCK_TIME_STEP_IS_CONSTANT = true;
     public static final boolean CLOCK_ENABLE_CONTROLS = true;
+    
+    public static final double TIME_SCALE = 0.1;
+    public static final DecimalFormat TIME_FORMAT = new DecimalFormat( "0.0" );
     
     //----------------------------------------------------------------------------
     // Fonts
