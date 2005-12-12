@@ -17,7 +17,6 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.components.menu.HelpMenu;
 import edu.colorado.phet.common.view.components.menu.PhetFileMenu;
-import edu.colorado.phet.common.view.util.DebugMenu;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SwingUtils;
 
@@ -41,7 +40,7 @@ public class PhetFrame extends JFrame {
     private ClockControlPanel clockControlPanel;
     private ContentPanel contentPanel;
     private FrameSetup frameSetup;
-    private DebugMenu debugMenu;
+//    private DebugMenu debugMenu;
 
     /**
      * todo: make clock control panel useage module-specific
@@ -181,7 +180,7 @@ public class PhetFrame extends JFrame {
      *
      * @param application
      * @param modules
-     * @return
+     * @return the container
      */
     private JComponent createApparatusPanelContainer( PhetApplication application, Module[] modules ) {
         JComponent apparatusPanelContainer = null;
@@ -302,7 +301,7 @@ public class PhetFrame extends JFrame {
     /**
      * Returns the leftmost menu on the menu bar
      *
-     * @return
+     * @return the leftmost menu on the menu bar
      */
     private PhetFileMenu getFileMenu() {
         JMenu testMenu = getJMenuBar().getMenu( 0 );
@@ -319,23 +318,22 @@ public class PhetFrame extends JFrame {
     /**
      * Adds the "Debug" menu to the menu bar.
      */
-    public void addDebugMenu() {
-        if( debugMenu == null ) {
-            debugMenu = new DebugMenu( application );
-            addMenu( debugMenu );
-        }
-    }
+//    public void addDebugMenu() {
+//        if( debugMenu == null ) {
+//            debugMenu = new DebugMenu( application );
+//            addMenu( debugMenu );
+//        }
+//    }
 
-    /**
-     * Gets the debug menu.
-     * Clients can use this to add new items to the menu.
-     *
-     * @return DebugMenu
-     */
-    public DebugMenu getDebugMenu() {
-        return debugMenu;
-    }
-
+//    /**
+//     * Gets the debug menu.
+//     * Clients can use this to add new items to the menu.
+//     *
+//     * @return DebugMenu
+//     */
+//    public DebugMenu getDebugMenu() {
+//        return debugMenu;
+//    }
     public void removeMenu( JMenu menu ) {
         getJMenuBar().remove( menu );
     }

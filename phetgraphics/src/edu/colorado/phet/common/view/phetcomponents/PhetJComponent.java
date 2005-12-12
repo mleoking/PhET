@@ -1,5 +1,7 @@
 package edu.colorado.phet.common.view.phetcomponents;
 
+import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphics2D;
@@ -44,6 +46,11 @@ public class PhetJComponent extends PhetGraphic {
 
     static {
         getManager().addListener( new PJCFocusManager() );
+        PhetApplication.addListener( new PhetApplication.Listener() {
+            public void frameCreated( PhetFrame frame ) {
+                init( frame );
+            }
+        } );
     }
 
     public static PhetJComponentRepaintManager getRepaintManager() {

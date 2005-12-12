@@ -13,9 +13,7 @@ package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.PhetFrame;
-import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -27,6 +25,7 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 
 /**
  * The top-level class for all PhET applications.
@@ -58,6 +57,7 @@ public class PhetApplication {
     //----------------------------------------------------------------
     private static final String DEBUG_MENU_ARG = "-d";
     private static PhetApplication s_instance = null;
+    private static ArrayList listeners = new ArrayList();
 
     public static PhetApplication instance() {
         return s_instance;
@@ -148,6 +148,7 @@ public class PhetApplication {
         this.applicationModel = descriptor;
         try {
             phetFrame = new PhetFrame( this );
+
         }
         catch( IOException e ) {
             throw new RuntimeException( "IOException on PhetFrame create.", e );
@@ -157,7 +158,7 @@ public class PhetApplication {
 
         s_instance = this;
 
-        PhetJComponent.init( phetFrame );
+        notifyFrameCreation();
 
         // Handle command line arguments
         parseArgs( args );
@@ -172,7 +173,8 @@ public class PhetApplication {
         for( int i = 0; args != null && i < args.length; i++ ) {
             String arg = args[i];
             if( arg.equals( DEBUG_MENU_ARG ) ) {
-                phetFrame.addDebugMenu();
+//                phetFrame.addDebugMenu();
+                //todo generalize debug menu
             }
         }
     }
@@ -204,14 +206,7 @@ public class PhetApplication {
 
                 for( int i = 0; i < moduleManager.numModules(); i++ ) {
                     Module module = moduleManager.moduleAt( i );
-                    JComponent panel = module.getSimulationPanel();
-                    if( panel instanceof ApparatusPanel2 ) {
-                        final ApparatusPanel2 apparatusPanel = (ApparatusPanel2)panel;
-
-                        // Add the listener to the apparatus panel that will tell it to set its
-                        // reference size
-                        apparatusPanel.setReferenceSize();
-                    }
+                    module.setReferenceSize();
                 }
                 phetFrame.removeWindowFocusListener( this );
             }
@@ -233,7 +228,23 @@ public class PhetApplication {
             frameSetup = new FrameSetup.CenteredWithSize( screenSize.width, screenSize.height - 50 );
         }
         phetFrame = new PhetFrame( this, title, clock, frameSetup, useClockControlPanel, moduleManager, description, version );
-        PhetJComponent.init( phetFrame );
+        notifyFrameCreation();
+    }
+
+    private void notifyFrameCreation() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.frameCreated( phetFrame );
+        }
+    }
+
+
+    public static void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public static interface Listener {
+        void frameCreated( PhetFrame frame );
     }
 
     public PhetFrame getPhetFrame() {
