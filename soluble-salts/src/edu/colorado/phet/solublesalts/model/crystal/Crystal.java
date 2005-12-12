@@ -90,15 +90,14 @@ public class Crystal extends Body implements Binder {
     //----------------------------------------------------------------
 
     /**
-     * @param ion    The ion that seeds the lattice
-     * @param bounds Growth bounds for the lattice
+     *
+     * @param bounds
+     * @param lattice
      */
-    public Crystal( Ion ion, Rectangle2D bounds, Lattice lattice ) {
+    public Crystal( Rectangle2D bounds, Lattice lattice ) {
         this.bounds = bounds;
         this.lattice = lattice;
         lattice.setBounds( bounds );
-        addIon( ion );
-        updateCm();
         instanceLifetimeListenerProxy.instanceCreated( new InstanceLifetimeEvent( this ) );
     }
 
@@ -137,40 +136,6 @@ public class Crystal extends Body implements Binder {
             sb.append( s2 );
         }
         return sb.toString();
-    }
-
-    //----------------------------------------------------------------
-    // Getters and setters
-    //----------------------------------------------------------------
-
-    public Atom getSeed() {
-        return lattice.getSeed();
-    }
-
-    public void setSeed( Ion ion ) {
-        lattice.setSeed( ion );
-    }
-
-    public ArrayList getIons() {
-        return ions;
-    }
-
-    public double getDissociationLikelihood() {
-        return dissociationLikelihood;
-    }
-
-    public List getOccupiedSites() {
-        List l = new ArrayList();
-        for( int i = 0; i < ions.size(); i++ ) {
-            Atom atom = (Atom)ions.get( i );
-            l.add( atom.getPosition() );
-        }
-        return l;
-    }
-
-    public void setBounds( Rectangle2D bounds ) {
-        this.bounds = bounds;
-        lattice.setBounds( bounds );
     }
 
     //----------------------------------------------------------------
@@ -238,6 +203,7 @@ public class Crystal extends Body implements Binder {
 
         if( ionToRelease == null ) {
             System.out.println( "No ion found to release!!!!!" );
+            System.out.println( "ions.size() = " + ions.size() );
             return;
         }
 
@@ -248,10 +214,13 @@ public class Crystal extends Body implements Binder {
         ionToRelease.setVelocity( v );
         removeIon( ionToRelease );
         ionToRelease.unbindFrom( this );
+
+        // Give the ion a step so that it isn't in contact with the crystal
         ionToRelease.stepInTime( dt );
 
+        // If there aren't any ions left in the crystal, remove it from the model
         if( getIons().size() == 0 ) {
-            System.out.println( "Crystal.releaseIon" );
+            leaveModel();
         }
     }
 
@@ -314,6 +283,40 @@ public class Crystal extends Body implements Binder {
         double angle = random.nextDouble() * ( maxAngle - minAngle ) + minAngle;
         Vector2D releaseVelocity = new Vector2D.Double( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
         return releaseVelocity;
+    }
+
+    //----------------------------------------------------------------
+    // Getters and setters
+    //----------------------------------------------------------------
+
+    public Atom getSeed() {
+        return lattice.getSeed();
+    }
+
+    public void setSeed( Ion ion ) {
+        lattice.setSeed( ion );
+    }
+
+    public ArrayList getIons() {
+        return ions;
+    }
+
+    public double getDissociationLikelihood() {
+        return dissociationLikelihood;
+    }
+
+    public List getOccupiedSites() {
+        List l = new ArrayList();
+        for( int i = 0; i < ions.size(); i++ ) {
+            Atom atom = (Atom)ions.get( i );
+            l.add( atom.getPosition() );
+        }
+        return l;
+    }
+
+    public void setBounds( Rectangle2D bounds ) {
+        this.bounds = bounds;
+        lattice.setBounds( bounds );
     }
 
     //----------------------------------------------------------------
