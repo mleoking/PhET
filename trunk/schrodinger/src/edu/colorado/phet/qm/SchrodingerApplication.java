@@ -8,8 +8,6 @@ import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.qm.modules.intensity.IntensityModule;
-import edu.colorado.phet.qm.modules.mandel.MandelModule;
-import edu.colorado.phet.qm.modules.single.SingleParticleModule;
 
 /**
  * User: Sam Reid
@@ -33,13 +31,13 @@ public class SchrodingerApplication extends PhetApplication {
 //        SchrodingerModule singleParticleModel = new SingleParticleModule( this );
 //        setModules( new Module[]{singleParticleModel} );
 
-//        SchrodingerModule intensityModule = new IntensityModule(this);
-//        setModules(new Module[]{intensityModule});
-
         SchrodingerModule intensityModule = new IntensityModule( this );
-        SchrodingerModule singleParticleModel = new SingleParticleModule( this );
-        SchrodingerModule mandelModule = new MandelModule( this );
-        setModules( new Module[]{intensityModule, singleParticleModel, mandelModule} );
+        setModules( new Module[]{intensityModule} );
+
+//        SchrodingerModule intensityModule = new IntensityModule( this );
+//        SchrodingerModule singleParticleModel = new SingleParticleModule( this );
+//        SchrodingerModule mandelModule = new MandelModule( this );
+//        setModules( new Module[]{intensityModule, singleParticleModel, mandelModule} );
     }
 
     private static AbstractClock createClock() {

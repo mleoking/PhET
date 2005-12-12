@@ -27,12 +27,21 @@ public class SplitColorMap implements ColorMap {
     public Paint getColor( int i, int k ) {
         Rectangle[] areas = splitModel.getDoubleSlitPotential().getSlitAreas();
         double abs = 0;
-        if( !contains( areas, i, k ) ) {
-            Wavefunction wavefunction = splitModel.getWavefunction();
-            abs += getValue( wavefunction, i, k );
+        if( contains( areas, i, k ) ) {
+            abs += getValue( splitModel.getLeftWavefunction(), i, k );
+            abs += getValue( splitModel.getRightWavefunction(), i, k );
         }
-        abs += getValue( splitModel.getLeftWavefunction(), i, k );
-        abs += getValue( splitModel.getRightWavefunction(), i, k );
+        else {
+            abs += getValue( splitModel.getLeftWavefunction(), i, k );
+            abs += getValue( splitModel.getRightWavefunction(), i, k );
+            abs += getValue( splitModel.getWavefunction(), i, k );       //relying on code elsewhere to zero out the other complementary parts of these waves
+        }
+//        if( !contains( areas, i, k ) ) {
+//            Wavefunction wavefunction = splitModel.getWavefunction();
+//            abs += getValue( wavefunction, i, k );
+//        }
+//        abs += getValue( splitModel.getLeftWavefunction(), i, k );
+//        abs += getValue( splitModel.getRightWavefunction(), i, k );
         if( abs > 1 ) {
             abs = 1;
         }
@@ -56,8 +65,7 @@ public class SplitColorMap implements ColorMap {
 
     private double getValue( Wavefunction wavefunction, int i, int k ) {
         if( wavefunction.containsLocation( i, k ) ) {
-            double abs = wavefunction.valueAt( i, k ).abs() * intensityScale;
-            return abs;
+            return wavefunction.valueAt( i, k ).abs() * intensityScale;
         }
         else {
             return 0;

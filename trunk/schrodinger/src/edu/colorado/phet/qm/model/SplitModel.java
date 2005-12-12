@@ -47,21 +47,26 @@ public class SplitModel extends DiscreteModel {
         getDoubleSlitPotential().addListener( listener );
         synchronizeDetectorRegions();
 
-//        final WaveDebugger leftWaveDebugger = new WaveDebugger( "Left", leftWavefunction );
-//        leftWaveDebugger.setVisible( true );
-//        addListener( new Adapter() {
-//            public void finishedTimeStep( DiscreteModel model ) {
-//                leftWaveDebugger.update();
-//            }
-//        } );
-//
-//        final WaveDebugger rightWaveDebugger = new WaveDebugger( "Right", rightWavefunction );
-//        rightWaveDebugger.setVisible( true );
-//        addListener( new Adapter() {
-//            public void finishedTimeStep( DiscreteModel model ) {
-//                rightWaveDebugger.update();
-//            }
-//        } );
+        setDetectionCausesCollapse( false );//since it's a split model
+
+        if( DEBUG_WAVES ) {
+            final WaveDebugger leftWaveDebugger = new WaveDebugger( "Left", getLeftWavefunction() );
+            leftWaveDebugger.setVisible( true );
+            addListener( new Adapter() {
+                public void finishedTimeStep( DiscreteModel model ) {
+                    leftWaveDebugger.update();
+                }
+            } );
+
+            final WaveDebugger rightWaveDebugger = new WaveDebugger( "Right", getRightWavefunction() );
+            rightWaveDebugger.setVisible( true );
+            addListener( new Adapter() {
+                public void finishedTimeStep( DiscreteModel model ) {
+                    rightWaveDebugger.update();
+                }
+            } );
+        }
+
     }
 
     private void synchronizeDetectorRegions() {
@@ -175,48 +180,48 @@ public class SplitModel extends DiscreteModel {
         }
 
         public void step() {
-            if( !SplitModel.this.isSlitAbsorptive() ) {
+            if( isSlitAbsorptive() ) {
                 beforeTimeStep();
-                getWaveModel().propagate();
+                getPropagationStrategy().step();
 
                 //copy slit regions to left & right sides
                 Rectangle[] slits = getDoubleSlitPotential().getSlitAreas();
-                getWaveModel().copyTo( slits[0], leftWaveModel );//todo in the split model with absorption, this will be getSourceWaveModel.copyTo
-                getWaveModel().copyTo( slits[1], rightWaveModel );
+                getSourceWaveModel().copyTo( deepen( slits[0] ), leftWaveModel );
+                getSourceWaveModel().copyTo( deepen( slits[1] ), rightWaveModel );
 
-                clearEntrantWavesNorthArea();
-                clearLRWavesSouthArea();
-                rightWaveModel.propagate();
-                leftWaveModel.propagate();
-
-                getDamping().damp( getRightWavefunction() );
-                getDamping().damp( getLeftWavefunction() );
-
-                incrementTimeStep();
-                finishedTimeStep();
+                finishStep();
             }
             else {
                 beforeTimeStep();
-                getSourceWaveModel().propagate();
-                getWaveModel().propagate();
+                getPropagationStrategy().step();
 
                 //copy slit regions to left & right sides
                 Rectangle[] slits = getDoubleSlitPotential().getSlitAreas();
                 getWaveModel().copyTo( slits[0], leftWaveModel );//todo in the split model with absorption, this will be getSourceWaveModel.copyTo
                 getWaveModel().copyTo( slits[1], rightWaveModel );
 
-                clearEntrantWavesNorthArea();
-                clearLRWavesSouthArea();
-                rightWaveModel.propagate();
-                leftWaveModel.propagate();
-
-                getDamping().damp( getRightWavefunction() );
-                getDamping().damp( getLeftWavefunction() );
-
-                incrementTimeStep();
-                finishedTimeStep();
+                finishStep();
             }
         }
+
+        private Rectangle deepen( Rectangle slit ) {
+            return new Rectangle( slit.x, slit.y, slit.width, slit.height + 2 );//todo this is a hack to make the slits look correct
+        }
+
+        private void finishStep() {
+            getWaveModel().clearWave( new Rectangle( getWavefunction().getWidth(), getSlitTopY() ) );
+
+            rightWaveModel.propagate();
+            leftWaveModel.propagate();
+            getDamping().damp( getRightWavefunction() );
+            getDamping().damp( getLeftWavefunction() );
+
+            clearLRWavesSouthArea();
+
+            incrementTimeStep();
+            finishedTimeStep();
+        }
+
     }
 
     private void clearLRWavesSouthArea() {
@@ -232,11 +237,6 @@ public class SplitModel extends DiscreteModel {
 
     protected int getSlitTopY() {
         return (int)getDoubleSlitPotential().getSlitAreas()[0].getMinY();
-    }
-
-    private void clearEntrantWavesNorthArea() {
-        Rectangle rect = new Rectangle( getWavefunction().getWidth(), getSlitTopY() );
-        getWaveModel().clearWave( rect );
     }
 
     public static Wavefunction sumMagnitudes( Wavefunction leftRegion, Wavefunction rightRegion ) {
