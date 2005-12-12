@@ -85,4 +85,6 @@ public class SolubleSaltsConfig {
     public static Lattice oneToOneLattice = new PlainCubicLattice( Sodium.RADIUS + Chlorine.RADIUS );
 //    public static Lattice LATTICE = twoToOneLattice;
     public static Lattice LATTICE = oneToOneLattice;
+
+    public static boolean RANDOM_WALK = false;
 }
