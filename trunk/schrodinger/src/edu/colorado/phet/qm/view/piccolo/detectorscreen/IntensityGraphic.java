@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.view.piccolo;
+package edu.colorado.phet.qm.view.piccolo.detectorscreen;
 
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.qm.SchrodingerModule;
@@ -7,6 +7,7 @@ import edu.colorado.phet.qm.model.DetectorSet;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.view.gun.Photon;
+import edu.colorado.phet.qm.view.piccolo.WavefunctionGraphic;
 import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 import edu.umd.cs.piccolo.PNode;
 
@@ -69,8 +70,8 @@ public class IntensityGraphic extends PNode {
         getDetectorSheet().setHighIntensityMode();
     }
 
-    public void setFadeEnabled( boolean selected ) {
-        detectorSheetPNode.setFadeEnabled( selected );
+    public boolean isFadeEnabled() {
+        return detectorSheetPNode.isFadeEnabled();
     }
 
     public static interface Listener {
@@ -113,15 +114,12 @@ public class IntensityGraphic extends PNode {
     }
 
     public Function.LinearFunction getModelToViewTransform1d() {
-        Function.LinearFunction linearFunction = new Function.LinearFunction( 0, getDiscreteModel().getGridWidth(),
-//                                                                              0, getFullBounds().getWidth() );
-0, getDetectorSheet().getBufferedImage().getWidth() );
-        return linearFunction;
+        return new Function.LinearFunction( 0, getDiscreteModel().getGridWidth(),
+                                            0, getDetectorSheet().getBufferedImage().getWidth() );
     }
 
     private int getDetectY() {
-        int y = (int)( random.nextDouble() * detectorHeight * 0.5 );
-        return y;
+        return (int)( random.nextDouble() * detectorHeight * 0.5 );
     }
 
     private int getYGaussian() {

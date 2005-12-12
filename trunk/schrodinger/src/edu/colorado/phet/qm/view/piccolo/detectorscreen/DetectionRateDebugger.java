@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.view.piccolo;
+package edu.colorado.phet.qm.view.piccolo.detectorscreen;
 
 /**
  * User: Sam Reid
@@ -8,7 +8,7 @@ package edu.colorado.phet.qm.view.piccolo;
  * Copyright (c) Jul 29, 2005 by Sam Reid
  */
 
-public class DetectionIntensityCounter {
+public class DetectionRateDebugger {
     long startTime = -1;
     int numCounts = 0;
 

@@ -43,7 +43,7 @@ public class DiscreteModel implements ModelElement {
     public static final int DEFAULT_WIDTH = 100;
     private boolean slitAbsorptive = true;
     public final double DEFAULT_POTENTIAL_BARRIER_VALUE = Double.MAX_VALUE / 1000;
-    protected final boolean DEBUG_WAVES = true;
+    protected static final boolean DEBUG_WAVES = false;
 
     public DiscreteModel() {
         this( DEFAULT_WIDTH, DEFAULT_WIDTH );

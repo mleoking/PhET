@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.view.piccolo;
+package edu.colorado.phet.qm.view.piccolo.detectorscreen;
 
 import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
 import edu.umd.cs.piccolo.PNode;
@@ -15,17 +15,19 @@ import java.awt.geom.Ellipse2D;
  * Copyright (c) Jun 23, 2005 by Sam Reid
  */
 
-public class ColoredDetectionGraphic extends PNode {
+public class HitGraphic extends PNode {
 
-    public ColoredDetectionGraphic( int x, int y, int opacity, PhotonColorMap.ColorData rootColor ) {
+    public HitGraphic( int x, int y, int opacity ) {
+        this( x, y, opacity, new Color( 235, 230, 255 ) );
+    }
+
+    public HitGraphic( int x, int y, int opacity, PhotonColorMap.ColorData rootColor ) {
         this( x, y, opacity, rootColor.toColor( 1.0 ) );
     }
 
-    public ColoredDetectionGraphic( int x, int y, int opacity, Color sourceColor ) {
+    public HitGraphic( int x, int y, int opacity, Color sourceColor ) {
         int width = 6;
         int height = width;
-//        Color sourceColor = rootColor.toColor( 1.0 );
-//        System.out.println( "opacity = " + opacity );
         Color fill = new Color( sourceColor.getRed(), sourceColor.getGreen(), sourceColor.getBlue(), opacity );
         //50 per time step at transparency 4 looks good
         PPath pt = new PPath( new Ellipse2D.Double( -width / 2, -height / 2, width, height ) );

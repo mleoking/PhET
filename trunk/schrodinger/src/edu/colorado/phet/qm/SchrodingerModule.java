@@ -11,8 +11,8 @@ import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.WaveSetup;
 import edu.colorado.phet.qm.model.potentials.RectangularPotential;
-import edu.colorado.phet.qm.view.piccolo.IntensityGraphic;
 import edu.colorado.phet.qm.view.piccolo.RectangularPotentialGraphic;
+import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityGraphic;
 import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 
 import java.awt.event.KeyEvent;

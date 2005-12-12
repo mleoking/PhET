@@ -3,7 +3,7 @@ package edu.colorado.phet.qm.model;
 
 import edu.colorado.phet.qm.model.potentials.ConstantPotential;
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
-import edu.colorado.phet.qm.view.piccolo.IntensityGraphic;
+import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityGraphic;
 
 import java.awt.*;
 
@@ -50,6 +50,7 @@ public class SplitModel extends DiscreteModel {
 
         setDetectionCausesCollapse( false );//since it's a split model
 
+        System.out.println( "DEBUG_WAVES = " + DEBUG_WAVES );
         if( DEBUG_WAVES ) {
             final WaveDebugger leftWaveDebugger = new WaveDebugger( "Left", getLeftWavefunction() );
             leftWaveDebugger.setVisible( true );

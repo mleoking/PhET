@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.view.piccolo;
+package edu.colorado.phet.qm.view.piccolo.detectorscreen;
 
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.math.MathUtil;
@@ -19,15 +19,26 @@ import java.awt.image.BufferedImage;
  */
 
 public class SmoothIntensityDisplay {
+    private SchrodingerPanel schrodingerPanel;
     private IntensityGraphic intensityGraphic;
     private double[] histogram;
-    private boolean fadeEnabled = true;
     private Photon photon;
     private double brightness = 1.0f;
 
-    public SmoothIntensityDisplay( IntensityGraphic intensityGraphic ) {
+    public SmoothIntensityDisplay( SchrodingerPanel schrodingerPanel, IntensityGraphic intensityGraphic ) {
+        this.schrodingerPanel = schrodingerPanel;
         this.intensityGraphic = intensityGraphic;
         histogram = new double[getWavefunction().getWidth()];
+        schrodingerPanel.addListener( new SchrodingerPanel.Listener() {
+            //really, this is unnecessary now.
+            public void fadeStateChanged() {
+                synchronizeFadeState();
+            }
+        } );
+    }
+
+    private void synchronizeFadeState() {
+
     }
 
     private Wavefunction getWavefunction() {
@@ -60,7 +71,7 @@ public class SmoothIntensityDisplay {
         sheetGraphics.setColor( Color.white );
         sheetGraphics.fillRect( 0, 0, 1000, 1000 );
         Function.LinearFunction modelViewTx = intensityGraphic.getModelToViewTransform1d();
-        if( fadeEnabled ) {
+        if( isFadeEnabled() ) {
             fadeHistogram();
         }
         for( int i = 0; i < histogram.length; i++ ) {
@@ -73,6 +84,10 @@ public class SmoothIntensityDisplay {
         intensityGraphic.getDetectorSheet().repaint();
     }
 
+    private boolean isFadeEnabled() {
+        return getSchrodingerPanel().isFadeEnabled();
+    }
+
     private double getWaveImageScaleX() {
         return getSchrodingerPanel().getWavefunctionGraphic().getWaveImageScaleX();
     }
@@ -82,20 +97,17 @@ public class SmoothIntensityDisplay {
         v *= brightness;
         v = (float)MathUtil.clamp( 0, v, 1.0 );
         if( photon == null ) {
-            Color color = new Color( v * 0.8f, v * 0.8f, v );
-            return color;
+            return new Color( v * 0.8f, v * 0.8f, v );
         }
         else {
-            Color root = photon.getRootColor().toColor( v );
-            return root;
+            return photon.getRootColor().toColor( v );
         }
     }
 
     private Color toColorLightBackground( double x ) {
         float v = (float)( x / 10.0 );
         v = (float)MathUtil.clamp( 0, v, 1.0 );
-        Color color = new Color( 1 - v, 1 - v, 1.0f );
-        return color;
+        return new Color( 1 - v, 1 - v, 1.0f );
     }
 
     private void fadeHistogram() {
@@ -129,14 +141,6 @@ public class SmoothIntensityDisplay {
             histogram[i] = 0.0;
         }
         paintSheet();
-    }
-
-    public boolean isFadeEnabled() {
-        return fadeEnabled;
-    }
-
-    public void setFadeEnabled( boolean fadeEnabled ) {
-        this.fadeEnabled = fadeEnabled;
     }
 
     public void setPhotonColor( Photon photon ) {

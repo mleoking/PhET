@@ -1,11 +1,13 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.view.piccolo;
+package edu.colorado.phet.qm.view.piccolo.detectorscreen;
 
+import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.qm.phetcommon.IntegralModelElement;
 import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
 import edu.colorado.phet.qm.view.gun.Photon;
+import edu.colorado.phet.qm.view.piccolo.WavefunctionGraphic;
 import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -34,9 +36,8 @@ public class DetectorSheetPNode extends PNode {
     private IntegralModelElement fadeElement;
     private PhotonColorMap.ColorData rootColor = new PhotonColorMap.ColorData( VisibleColor.MIN_WAVELENGTH );
     private ImageFade imageFade;
-    private boolean fadeEnabled = true;
     private DetectorSheetControlPanelPNode detectorSheetControlPanelPNode;
-    private DetectionIntensityCounter detectionIntensityCounter = new DetectionIntensityCounter();
+    private DetectionRateDebugger detectionRateDebugger = new DetectionRateDebugger();
     private WavefunctionGraphic wavefunctionGraphic;
     private int detectorSheetHeight;
 
@@ -52,12 +53,12 @@ public class DetectorSheetPNode extends PNode {
         imageFade = new ImageFade();
         fadeElement = new IntegralModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
-                if( fadeEnabled ) {
+                if( isFadeEnabled() ) {
                     imageFade.fade( getBufferedImage() );
                     screenGraphic.repaint();
                 }
             }
-        }, 1 );
+        }, 10 );
         detectorSheetControlPanelPNode = new DetectorSheetControlPanelPNode( this );
         addChild( detectorSheetControlPanelPNode );
         PropertyChangeListener changeListener = new PropertyChangeListener() {
@@ -68,6 +69,12 @@ public class DetectorSheetPNode extends PNode {
         };
         wavefunctionGraphic.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, changeListener );
         wavefunctionGraphic.addPropertyChangeListener( PNode.PROPERTY_BOUNDS, changeListener );
+        schrodingerPanel.addListener( new SchrodingerPanel.Listener() {
+            public void fadeStateChanged() {
+                synchronizeFadeState();
+            }
+        } );
+        synchronizeFadeState();
     }
 
     private WavefunctionGraphic getWavefunctionGraphic() {
@@ -83,16 +90,23 @@ public class DetectorSheetPNode extends PNode {
         detectorSheetControlPanelPNode.setOffset( screenGraphic.getFullBounds().getWidth(), screenGraphic.getFullBounds().getY() );
     }
 
-    public void setFadeEnabled( boolean fade ) {
-        if( fade ) {
-            schrodingerPanel.getSchrodingerModule().getModel().addModelElement( fadeElement );
+    public void synchronizeFadeState() {
+        if( schrodingerPanel.isFadeEnabled() ) {
+            getBaseModel().addModelElement( fadeElement );
         }
         else {
-            while( schrodingerPanel.getSchrodingerModule().getModel().containsModelElement( fadeElement ) ) {
-                schrodingerPanel.getSchrodingerModule().getModel().removeModelElement( fadeElement );
+            while( getBaseModel().containsModelElement( fadeElement ) ) {
+                getBaseModel().removeModelElement( fadeElement );
             }
         }
-        this.fadeEnabled = fade;
+    }
+
+    private BaseModel getBaseModel() {
+        return schrodingerPanel.getSchrodingerModule().getModel();
+    }
+
+    public boolean isFadeEnabled() {
+        return schrodingerPanel.isFadeEnabled();
     }
 
     public void setBrightness( double value ) {
@@ -114,8 +128,8 @@ public class DetectorSheetPNode extends PNode {
     }
 
     public void addDetectionEvent( int x, int y ) {
-        if( detectionIntensityCounter != null ) {
-            detectionIntensityCounter.addDetectionEvent();
+        if( detectionRateDebugger != null ) {
+            detectionRateDebugger.addDetectionEvent();
         }
 //        System.out.println( "add detect, x="+x+", y="+y+", opacity = " + opacity );
         detectorSheetControlPanelPNode.setClearButtonVisible( true );
@@ -130,10 +144,10 @@ public class DetectorSheetPNode extends PNode {
 
     private PNode createDetectionGraphic( int x, int y, int opacity ) {
         if( rootColor != null ) {
-            return new ColoredDetectionGraphic( x, y, opacity, rootColor );
+            return new HitGraphic( x, y, opacity, rootColor );
         }
         else {
-            return new DetectionGraphic( x, y, opacity );
+            return new HitGraphic( x, y, opacity );
         }
     }
 

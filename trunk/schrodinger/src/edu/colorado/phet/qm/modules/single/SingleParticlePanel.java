@@ -3,7 +3,7 @@ package edu.colorado.phet.qm.modules.single;
 
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.view.gun.SingleParticleGunGraphic;
-import edu.colorado.phet.qm.view.piccolo.IntensityGraphic;
+import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityGraphic;
 import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 
 /**

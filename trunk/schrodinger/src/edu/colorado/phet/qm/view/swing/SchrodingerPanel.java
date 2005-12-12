@@ -10,12 +10,17 @@ import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.phetcommon.RulerGraphic;
 import edu.colorado.phet.qm.view.gun.AbstractGunGraphic;
 import edu.colorado.phet.qm.view.gun.Photon;
-import edu.colorado.phet.qm.view.piccolo.*;
+import edu.colorado.phet.qm.view.piccolo.DetectorGraphic;
+import edu.colorado.phet.qm.view.piccolo.RectangularPotentialGraphic;
+import edu.colorado.phet.qm.view.piccolo.SchrodingerScreenNode;
+import edu.colorado.phet.qm.view.piccolo.WavefunctionGraphic;
+import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityGraphic;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -29,6 +34,8 @@ public class SchrodingerPanel extends PhetPCanvas {
     private SchrodingerModule module;
     private Photon photon;
     private SchrodingerScreenNode schrodingerScreenNode;
+    private boolean fadeEnabled = false;
+    private ArrayList listeners = new ArrayList();
 
     public SchrodingerPanel( SchrodingerModule module ) {
         setLayout( null );
@@ -154,7 +161,11 @@ public class SchrodingerPanel extends PhetPCanvas {
     }
 
     public void setFadeEnabled( boolean selected ) {
-        getIntensityDisplay().setFadeEnabled( selected );
+        this.fadeEnabled = selected;
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.fadeStateChanged();
+        }
     }
 
     public Photon getDisplayPhotonColor() {
@@ -192,4 +203,15 @@ public class SchrodingerPanel extends PhetPCanvas {
     }
 
 
+    public boolean isFadeEnabled() {
+        return fadeEnabled;
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public static interface Listener {
+        public void fadeStateChanged();
+    }
 }
