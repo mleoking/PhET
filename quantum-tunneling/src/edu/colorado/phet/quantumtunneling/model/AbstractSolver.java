@@ -47,6 +47,9 @@ public abstract class AbstractSolver implements Observer {
     
     protected static final double PLANCKS_CONSTANT = 0.658;  // Planck's constant, in eV fs
     protected static final double ELECTRON_MASS = 5.7;  // mass, in eV/c^2
+    
+    // Static term used to calculate k:  2 * m / h^2
+    private static final double K_COMMON = ( 2 * ELECTRON_MASS ) / ( PLANCKS_CONSTANT * PLANCKS_CONSTANT );
 
     private TotalEnergy _te;
     private AbstractPotentialSpace _pe;
@@ -107,7 +110,7 @@ public abstract class AbstractSolver implements Observer {
      * @param regionIndex
      * @return
      */
-    public Complex getK( int regionIndex ) {
+    public Complex getK( final int regionIndex ) {
         if ( regionIndex > _k.length - 1  ) {
             throw new IndexOutOfBoundsException( "regionIndex out of range: " + regionIndex );
         }
@@ -151,9 +154,7 @@ public abstract class AbstractSolver implements Observer {
      * @return
      */
     private Complex solveK( final double E, final double V ) {
-        final double m = ELECTRON_MASS;
-        final double h = PLANCKS_CONSTANT;
-        final double value = Math.sqrt( 2 * m * Math.abs( E - V ) / ( h * h ) );
+        final double value = Math.sqrt( K_COMMON * Math.abs( E - V ) );
         double real = 0;
         double imag = 0;
         if ( E >= V  ) {
@@ -176,7 +177,7 @@ public abstract class AbstractSolver implements Observer {
      * @param x position
      * @param regionIndex region index
      */
-    protected Complex commonTerm1( final double x, int regionIndex ) {
+    protected Complex commonTerm1( final double x, final int regionIndex ) {
         Complex k = getK( regionIndex );
         MutableComplex c = new MutableComplex( Complex.I ); // i
         c.multiply( k );
@@ -191,7 +192,7 @@ public abstract class AbstractSolver implements Observer {
      * @param x position
      * @param regionIndex region index
      */
-    protected Complex commonTerm2( final double x, int regionIndex ) {
+    protected Complex commonTerm2( final double x, final int regionIndex ) {
         Complex k = getK( regionIndex );
         MutableComplex c = new MutableComplex( Complex.I ); // i
         c.multiply( k );
