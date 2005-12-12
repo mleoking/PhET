@@ -80,9 +80,9 @@ public class StepSolver extends AbstractSolver {
                 B.multiply( k1.getSubtract( k2 ) );
                 B.divide( k1.getAdd( k2 ) );
 
+                // psi1(x,t)
                 Complex rightMoving = term1.getMultiply( term3 );
                 Complex leftMoving = B.getMultiply( term2 ).getMultiply( term3 );
-
                 result = rightMoving.getAdd( leftMoving );
             }
             else if ( regionIndex == 1 ) {
@@ -99,6 +99,7 @@ public class StepSolver extends AbstractSolver {
                 C.multiply( k1 );
                 C.divide( k1.getAdd( k2 ) );
 
+                // psi2(x,t)
                 Complex rightMoving = C.getMultiply( term1 );
                 result = rightMoving.getMultiply( term3 );
             }
