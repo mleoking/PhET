@@ -43,6 +43,7 @@ public class DiscreteModel implements ModelElement {
     public static final int DEFAULT_WIDTH = 100;
     private boolean slitAbsorptive = true;
     public final double DEFAULT_POTENTIAL_BARRIER_VALUE = Double.MAX_VALUE / 1000;
+    protected final boolean DEBUG_WAVES = true;
 
     public DiscreteModel() {
         this( DEFAULT_WIDTH, DEFAULT_WIDTH );
@@ -67,32 +68,26 @@ public class DiscreteModel implements ModelElement {
         sourceWaveModel = new WaveModel( new Wavefunction( width, height ), new ModifiedRichardsonPropagator( this, deltaTime, wave, sourcePotential ) );
         addListener( detectorSet.getListener() );
 
-//        final DetectorSet sourceDetectorSet = new DetectorSet( getSourceWave() );
-//        addListener( new Adapter() {
-//            public void finishedTimeStep( DiscreteModel model ) {
-//                sourceDetectorSet.setDetectors(detectorSet);
-//                sourceDetectorSet.getListener() .finishedTimeStep( model );
-//            }
-//        } );
-
         damping = new Damping();
         doubleSlitPotential = createDoubleSlit();
         measurementScale = new MeasurementScale( getGridWidth(), 1.0 );
 
-//        final WaveDebugger sourceWaveDebugger = new WaveDebugger( "Source wave", getSourceWave() );
-//        sourceWaveDebugger.setVisible( true );
-//        addListener( new Adapter() {
-//            public void finishedTimeStep( DiscreteModel model ) {
-//                sourceWaveDebugger.update();
-//            }
-//        } );
-//        final WaveDebugger waveDebugger = new WaveDebugger( "Main wave", getWavefunction() );
-//        waveDebugger.setVisible( true );
-//        addListener( new Adapter() {
-//            public void finishedTimeStep( DiscreteModel model ) {
-//                waveDebugger.update();
-//            }
-//        } );
+        if( DEBUG_WAVES ) {
+            final WaveDebugger sourceWaveDebugger = new WaveDebugger( "Source wave", getSourceWave() );
+            sourceWaveDebugger.setVisible( true );
+            addListener( new Adapter() {
+                public void finishedTimeStep( DiscreteModel model ) {
+                    sourceWaveDebugger.update();
+                }
+            } );
+            final WaveDebugger waveDebugger = new WaveDebugger( "Main wave", getWavefunction() );
+            waveDebugger.setVisible( true );
+            addListener( new Adapter() {
+                public void finishedTimeStep( DiscreteModel model ) {
+                    waveDebugger.update();
+                }
+            } );
+        }
     }
 
     public Propagator getSourcePropagator() {
@@ -157,23 +152,31 @@ public class DiscreteModel implements ModelElement {
 
     class DefaultPropagate implements PropagationStrategy {
         public void step() {
-            if( getWavefunction().getMagnitude() > 0 ) {
-                getWaveModel().propagate();
-                damping.damp( getWavefunction() );
-            }
+            defaultPropagate();
         }
     }
 
     class AbsorptivePropagate implements PropagationStrategy {
         public void step() {
-            getWavefunction().setMagnitudeDirty();
-            if( getWavefunction().getMagnitude() > 0 ) {
-                getSourceWaveModel().propagate();
-                copySourceToActualSouthArea();
-                getWaveModel().propagate();
-                damping.damp( getWavefunction() );
-                damping.damp( getSourceWave() );
-            }
+            absorptivePropagate();
+        }
+    }
+
+    protected void defaultPropagate() {
+        if( getWavefunction().getMagnitude() > 0 ) {
+            getWaveModel().propagate();
+            damping.damp( getWavefunction() );
+        }
+    }
+
+    protected void absorptivePropagate() {
+        getWavefunction().setMagnitudeDirty();
+        if( getWavefunction().getMagnitude() > 0 ) {
+            getSourceWaveModel().propagate();
+            copySourceToActualSouthArea();
+            getWaveModel().propagate();
+            damping.damp( getWavefunction() );
+            damping.damp( getSourceWave() );
         }
     }
 
@@ -181,7 +184,7 @@ public class DiscreteModel implements ModelElement {
         void step();
     }
 
-    private PropagationStrategy getPropagationStrategy() {
+    protected PropagationStrategy getPropagationStrategy() {
         if( slitAbsorptive ) {
             return new AbsorptivePropagate();
         }
@@ -199,6 +202,7 @@ public class DiscreteModel implements ModelElement {
         }
     }
 
+    //todo refactor using WaveModel
     private void copyActualToSource( int x, int y ) {
         if( getPropagator() instanceof ClassicalWavePropagator && getSourcePropagator()instanceof ClassicalWavePropagator )
         {
@@ -214,7 +218,7 @@ public class DiscreteModel implements ModelElement {
         getSourceWave().setValue( x, y, getWavefunction().valueAt( x, y ) );
     }
 
-    private void copySourceToActualSouthArea() {
+    protected void copySourceToActualSouthArea() {
         int maxy = getDoubleSlitPotential().getY() + getDoubleSlitPotential().getHeight();
         for( int y = maxy; y < getSourceWave().getHeight(); y++ ) {
             for( int x = 0; x < getSourceWave().getWidth(); x++ ) {
@@ -495,11 +499,6 @@ public class DiscreteModel implements ModelElement {
     public void normalizeWavefunction() {
         sourceWaveModel.normalize();
         waveModel.normalize();
-//
-//        getWavefunction().normalize();
-//        getSourceWave().normalize();
-//        getPropagator().normalize();
-
     }
 
     public void setWavefunctionNorm( double norm ) {

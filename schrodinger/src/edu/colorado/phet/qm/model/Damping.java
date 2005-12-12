@@ -48,13 +48,13 @@ public class Damping extends DiscreteModel.Adapter {
     }
 
     public void damp( Wavefunction wavefunction ) {
-        leftWall( wavefunction );
-        rightWall( wavefunction );
-        topWall( wavefunction );
-        bottomWall( wavefunction );
+        dampLeft( wavefunction );
+        dampRight( wavefunction );
+        dampTop( wavefunction );
+        dampBottom( wavefunction );
     }
 
-    private void bottomWall( Wavefunction wavefunction ) {
+    private void dampBottom( Wavefunction wavefunction ) {
         for( int depth = 0; depth < damp.length; depth++ ) {
             double scale = getScaleFactor( depth );
             int j = wavefunction.getHeight() - damp.length + depth;
@@ -64,7 +64,7 @@ public class Damping extends DiscreteModel.Adapter {
         }
     }
 
-    private void topWall( Wavefunction wavefunction ) {
+    private void dampTop( Wavefunction wavefunction ) {
         for( int depth = 0; depth < damp.length; depth++ ) {
             double scale = getScaleFactor( depth );
             int j = damp.length - depth - 1;
@@ -74,7 +74,7 @@ public class Damping extends DiscreteModel.Adapter {
         }
     }
 
-    private void rightWall( Wavefunction wavefunction ) {
+    private void dampRight( Wavefunction wavefunction ) {
         for( int depth = 0; depth < damp.length; depth++ ) {
             double scale = getScaleFactor( depth );
             int i = wavefunction.getWidth() - damp.length + depth;
@@ -85,7 +85,7 @@ public class Damping extends DiscreteModel.Adapter {
     }
 
 
-    private void leftWall( Wavefunction wavefunction ) {
+    private void dampLeft( Wavefunction wavefunction ) {
         for( int depth = 0; depth < damp.length; depth++ ) {
             double scale = getScaleFactor( depth );
             int i = damp.length - depth - 1;
