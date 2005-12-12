@@ -47,14 +47,16 @@ public class Vessel implements ModelElement, Collidable, Binder {
     private ArrayList boundIons = new ArrayList();
     private Affinity ionReleaseAffinity = new RandomAffinity( 1E-3 );
     private Affinity ionStickAffinity = new RandomAffinity( .2 );
+    private SolubleSaltsModel model;
 
 
-    public Vessel( double width, double depth, double wallThickness ) {
-        this( width, depth, wallThickness, new Point2D.Double() );
+    public Vessel( double width, double depth, double wallThickness, SolubleSaltsModel model ) {
+        this( width, depth, wallThickness, new Point2D.Double(), model );
     }
 
-    public Vessel( double width, double depth, double wallThickness, Point2D location ) {
+    public Vessel( double width, double depth, double wallThickness, Point2D location, SolubleSaltsModel model ) {
         this.wallThickness = wallThickness;
+        this.model = model;
         shape = new Rectangle2D.Double( location.getX(), location.getY(), width, depth );
         this.location = location;
         waterLevel = depth;
@@ -87,7 +89,7 @@ public class Vessel implements ModelElement, Collidable, Binder {
      */
     public void bind( Ion ion ) {
         Crystal crystal = new Crystal( ion, collisionBox.getBounds(),
-                                       SolubleSaltsConfig.LATTICE );
+                                       model.getCurrentSalt().getLattice() );
         ion.bindTo( crystal );
     }
 

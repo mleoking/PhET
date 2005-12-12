@@ -17,6 +17,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Lattice
@@ -27,13 +28,16 @@ import java.util.ArrayList;
 public abstract class Lattice {
 
     private static final double SAME_POSITION_TOLERANCE = 1;
+    private static Random random = new Random();
 
     private Ion seed;
     private Rectangle2D bounds;
 
     /**
-     * Returns the ion with the greatest number of unoccupied neighboring lattice sites. The
-     * seed ion is not eligible for consideration.
+     * Returns an ion with the greates "least bound" characteristic. This characteristic is
+     * defined as the ratio of unoccupied neighboring lattice sites divided by the total
+     * number of neighboring sites. If more than one ion in the lattice has this same
+     * characteristic value, one of them is chosen at random.
      *
      * @param ionsInLattice
      * @param orientation
@@ -45,6 +49,7 @@ public abstract class Lattice {
         // sites that would be outside the bounds of the vessel
         Ion leastBoundIon = null;
         double highestOccupiedSiteRatio = 0;
+        ArrayList candidateIons = new ArrayList();
         for( int i = 0; i < ionsInLattice.size(); i++ ) {
             Ion ion = (Ion)ionsInLattice.get( i );
 
@@ -53,17 +58,22 @@ public abstract class Lattice {
                 continue;
             }
 
-            List ns = getNeighboringSites( ion, orientation );
-            if( ns.size() == 0 ) {
-                System.out.println( "ns = " + ns );
+            List neighboringSites = getNeighboringSites( ion, orientation );
+            if( neighboringSites.size() == 0 ) {
+                System.out.println( "neighboringSites = " + neighboringSites );
                 getNeighboringSites( ion, orientation );
             }
-            List ons = getOpenNeighboringSites( ion, ionsInLattice, orientation );
-            double occupiedSiteRatio = (double)ons.size()/ ns.size();
+            List openNeighboringSites = getOpenNeighboringSites( ion, ionsInLattice, orientation );
+            double occupiedSiteRatio = (double)openNeighboringSites.size()/ neighboringSites.size();
             if( occupiedSiteRatio >= highestOccupiedSiteRatio ) {
-                leastBoundIon = ion;
+                candidateIons.add( ion );
                 highestOccupiedSiteRatio = occupiedSiteRatio;
             }
+        }
+
+        // Of the ions that have the same "least bound" characteristic, choose one randomly
+        if( candidateIons.size() > 0 ) {
+            leastBoundIon = (Ion)candidateIons.get( random.nextInt( candidateIons.size()) );
         }
 
         if( leastBoundIon == null ) {

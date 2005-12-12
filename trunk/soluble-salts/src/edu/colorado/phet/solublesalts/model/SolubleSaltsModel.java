@@ -98,7 +98,7 @@ public class SolubleSaltsModel extends BaseModel {
         Crystal.addInstanceLifetimeListener( new LatticeLifetimeTracker() );
 
         // Create a vessel
-        vessel = new Vessel( vesselWidth, vesselDepth, vesselWallThickness, vesselLoc );
+        vessel = new Vessel( vesselWidth, vesselDepth, vesselWallThickness, vesselLoc, this );
         vessel.setWaterLevel( SolubleSaltsConfig.DEFAULT_WATER_LEVEL * scale );
         addModelElement( vessel );
 
