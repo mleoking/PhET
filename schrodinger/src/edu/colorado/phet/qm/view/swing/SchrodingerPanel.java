@@ -34,7 +34,7 @@ public class SchrodingerPanel extends PhetPCanvas {
     private SchrodingerModule module;
     private Photon photon;
     private SchrodingerScreenNode schrodingerScreenNode;
-    private boolean fadeEnabled = false;
+    private boolean fadeEnabled = true;
     private ArrayList listeners = new ArrayList();
 
     public SchrodingerPanel( SchrodingerModule module ) {

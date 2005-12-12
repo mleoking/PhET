@@ -38,7 +38,6 @@ public class SmoothIntensityDisplay {
     }
 
     private void synchronizeFadeState() {
-
     }
 
     private Wavefunction getWavefunction() {
