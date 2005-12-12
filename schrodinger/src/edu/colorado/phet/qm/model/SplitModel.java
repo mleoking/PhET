@@ -3,6 +3,7 @@ package edu.colorado.phet.qm.model;
 
 import edu.colorado.phet.qm.model.potentials.ConstantPotential;
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
+import edu.colorado.phet.qm.view.piccolo.IntensityGraphic;
 
 import java.awt.*;
 
@@ -257,6 +258,10 @@ public class SplitModel extends DiscreteModel {
         double lhs = left.abs();
         double rhs = right.abs();
         return lhs + rhs;
+    }
+
+    public void updateWavefunctionAfterDetection() {
+        reduceWavefunctionNorm( IntensityGraphic.NORM_DECREMENT );//todo this used to work okay
     }
 
     public void setWaveSize( int width, int height ) {

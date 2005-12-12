@@ -31,7 +31,7 @@ public class IntensityGraphic extends PNode {
     private int h = 2;
     private int y = 2;
     private double probabilityScaleFudgeFactor = 1.0;
-    private double normDecrement = 1.0;
+    public static double NORM_DECREMENT = 1.0;
     private int multiplier = 1;
     private ArrayList listeners = new ArrayList();
 
@@ -132,8 +132,7 @@ public class IntensityGraphic extends PNode {
     }
 
     private void updateWavefunctionAfterDetection() {
-        getDiscreteModel().clearAllWaves();
-//        getDiscreteModel().reduceWavefunctionNorm( normDecrement );//todo this used to work okay
+        getDiscreteModel().updateWavefunctionAfterDetection();
     }
 
     public Wavefunction getDetectionRegion() {
@@ -171,11 +170,11 @@ public class IntensityGraphic extends PNode {
     }
 
     public double getNormDecrement() {
-        return normDecrement;
+        return NORM_DECREMENT;
     }
 
     public void setNormDecrement( double normDecrement ) {
-        this.normDecrement = normDecrement;
+        this.NORM_DECREMENT = normDecrement;
     }
 
     public int getMultiplier() {
