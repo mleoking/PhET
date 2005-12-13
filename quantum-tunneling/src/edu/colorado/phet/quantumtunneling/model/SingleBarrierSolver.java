@@ -53,7 +53,7 @@ public class SingleBarrierSolver extends AbstractSolver {
         if ( isLeftToRight() && E < getPotentialEnergy().getEnergy( 0 ) ) {
             result = new Complex( 0, 0 );
         }
-        else if ( isRightToLeft() && E < getPotentialEnergy().getEnergy( 1 ) ) {
+        else if ( isRightToLeft() && E < getPotentialEnergy().getEnergy( 2 ) ) {
             result = new Complex( 0, 0 );
         }
         else {
