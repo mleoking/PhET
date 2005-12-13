@@ -46,11 +46,6 @@ public class PhetJComponent extends PhetGraphic {
 
     static {
         getManager().addListener( new PJCFocusManager() );
-        PhetApplication.addListener( new PhetApplication.Listener() {
-            public void frameCreated( PhetFrame frame ) {
-                init( frame );
-            }
-        } );
     }
 
     public static PhetJComponentRepaintManager getRepaintManager() {
@@ -63,8 +58,7 @@ public class PhetJComponent extends PhetGraphic {
 
     private static PhetGraphic newInstance( Component apparatusPanel, JComponent jComponent, boolean topLevel ) {
         if( !inited ) {
-            init( null );
-//            new RuntimeException( "Focus traversal requires PhetJComponent.init(Window)" ).printStackTrace();
+            init( PhetApplication.instance().getPhetFrame()  );
         }
 
         if( topLevel ) {

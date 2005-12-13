@@ -148,7 +148,6 @@ public class PhetApplication {
         this.applicationModel = descriptor;
         try {
             phetFrame = new PhetFrame( this );
-
         }
         catch( IOException e ) {
             throw new RuntimeException( "IOException on PhetFrame create.", e );
@@ -158,7 +157,7 @@ public class PhetApplication {
 
         s_instance = this;
 
-        notifyFrameCreation();
+
 
         // Handle command line arguments
         parseArgs( args );
@@ -228,23 +227,6 @@ public class PhetApplication {
             frameSetup = new FrameSetup.CenteredWithSize( screenSize.width, screenSize.height - 50 );
         }
         phetFrame = new PhetFrame( this, title, clock, frameSetup, useClockControlPanel, moduleManager, description, version );
-        notifyFrameCreation();
-    }
-
-    private void notifyFrameCreation() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
-            listener.frameCreated( phetFrame );
-        }
-    }
-
-
-    public static void addListener( Listener listener ) {
-        listeners.add( listener );
-    }
-
-    public static interface Listener {
-        void frameCreated( PhetFrame frame );
     }
 
     public PhetFrame getPhetFrame() {
