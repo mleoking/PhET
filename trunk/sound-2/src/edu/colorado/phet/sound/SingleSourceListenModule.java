@@ -92,6 +92,10 @@ public class SingleSourceListenModule extends SingleSourceModule {
         return listenerGraphic;
     }
 
+    protected Listener getSpeakerListener() {
+        return speakerListener;
+    }
+
     protected AudioControlPanel getAudioControlPanel() {
         return audioControlPanel;
     }

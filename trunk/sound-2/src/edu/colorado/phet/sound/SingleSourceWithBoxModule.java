@@ -27,6 +27,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D;
 
 public class SingleSourceWithBoxModule extends SingleSourceListenModule {
     private AirBoxGraphic boxInteriorGraphic;
@@ -43,6 +44,11 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
 
     private void init() {
 
+        // Move the speaker listener out in front of the speaker a bit so it
+        // it gets an attenuated wavefront. If we leave it at (0,0), the sound
+        // is never attenuated
+        getSpeakerListener().setLocation( new Point2D.Double( 10, 0 ) );
+
         // Add a pressure pressureGauge
         airDensityObservable = new ScalarObservable() {
             public double getValue() {
@@ -53,8 +59,8 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
         double y = 80;
         double diam = 100;
         pressureGauge = new DialGauge( airDensityObservable, getApparatusPanel(), x, y, diam, 0, 1,
-                                        SimStrings.get( "SingleSourceWithBoxModule.Pressure" ),
-                                        SimStrings.get( "SingleSourceWithBoxModule.ATM" ) );
+                                       SimStrings.get( "SingleSourceWithBoxModule.Pressure" ),
+                                       SimStrings.get( "SingleSourceWithBoxModule.ATM" ) );
         Rectangle2D.Double gaugeStem = new Rectangle2D.Double( x - 5, y + diam / 2, 10, 20 );
         pressureGauge.addGraphic( new ShapeGraphic( gaugeStem, Color.black ), 6 );
 
@@ -62,18 +68,24 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
         WaveMedium waveMedium = soundModel.getWaveMedium();
 
         Shape box = createBox();
+
         VariableWaveMediumAttenuationFunction attenuationFunction = new VariableWaveMediumAttenuationFunction();
         attenuationFunction.setVariableRegion( box );
         waveMedium.setAttenuationFunction( attenuationFunction );
         boxGraphic = new PhetShapeGraphic( getApparatusPanel(), box, new BasicStroke( 8f ), new Color( 124, 80, 10 ) );
         boxInteriorGraphic = new AirBoxGraphic( getApparatusPanel(), box );
 
+        getApparatusPanel().addGraphic( boxGraphic, 8 );
+        getApparatusPanel().addGraphic( boxInteriorGraphic, 6 );
+        getApparatusPanel().addGraphic( pressureGauge, 5 );
+
+        // Control Panel
         SoundControlPanel controlPanel = (SoundControlPanel)getControlPanel();
         controlPanel.addPanel( new BoxAirDensityControlPanel( attenuationFunction ) );
 
         // Make the listener the audio source
         getAudioControlPanel().setAudioSource( SoundApparatusPanel.LISTENER_SOURCE );
-        getAudioControlPanel().setSpeakerRBEnabled( false );
+//        getAudioControlPanel().setSpeakerRBEnabled( false );
 
         // Make the ListenerGraphic non-movable
         getListenerGraphic().setMovable( false );
@@ -118,7 +130,24 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
         super.setAudioSource( source );
     }
 
-    static class AirBoxGraphic extends PhetShapeGraphic {
+    private void showBoxAndGauge( boolean show ) {
+        if( show ) {
+            getApparatusPanel().addGraphic( boxGraphic, 8 );
+            getApparatusPanel().addGraphic( boxInteriorGraphic, 6 );
+            getApparatusPanel().addGraphic( pressureGauge, 5 );
+        }
+        else {
+            getApparatusPanel().removeGraphic( boxGraphic );
+            getApparatusPanel().removeGraphic( boxInteriorGraphic );
+            getApparatusPanel().removeGraphic( pressureGauge );
+        }
+    }
+
+    //----------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------
+
+    private static class AirBoxGraphic extends PhetShapeGraphic {
         static Color[] grayLevels = new Color[256];
         private int grayLevel;
 
@@ -142,7 +171,7 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
         }
     }
 
-    class BoxAirDensityControlPanel extends JPanel {
+    private class BoxAirDensityControlPanel extends JPanel {
         VariableWaveMediumAttenuationFunction attenuationFunction;
         String evacuateLabel = SimStrings.get( "SingleSourceWithBoxModule.RemoveAir" );
         String addLabel = SimStrings.get( "SingleSourceWithBoxModule.AddAir" );
@@ -205,18 +234,6 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
                     Color buttonBackground = airButton.getBackground();
                     airButton.setBackground( Color.gray );
 
-                    // If we're removing air, display box
-                    if( evacuateToggle ) {
-                        SwingUtilities.invokeLater( new Runnable() {
-                            public void run() {
-                                getApparatusPanel().addGraphic( boxGraphic, 8 );
-                                getApparatusPanel().addGraphic( boxInteriorGraphic, 6 );
-                                getApparatusPanel().addGraphic( pressureGauge, 5 );
-                            }
-                        } );
-                    }
-                    Thread.sleep( 3000 );
-
                     // Pump air out or in
                     int incr = evacuateToggle ? -1 : 1;
                     int value = evacuateToggle ? maxValue : minValue;
@@ -226,18 +243,6 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
                         densitySlider.setValue( value );
                         setAirDensity( value, maxValue, attenuationFunction );
                         Thread.sleep( 100 );
-                    }
-
-                    // If we're adding air, hide box
-                    Thread.sleep( 3000 );
-                    if( !evacuateToggle ) {
-                        SwingUtilities.invokeLater( new Runnable() {
-                            public void run() {
-                                getApparatusPanel().removeGraphic( boxGraphic );
-                                getApparatusPanel().removeGraphic( boxInteriorGraphic );
-                                getApparatusPanel().removeGraphic( pressureGauge );
-                            }
-                        } );
                     }
 
                     // Enable the button and set its text
@@ -269,7 +274,7 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
 
     }
 
-    class VariableWaveMediumAttenuationFunction implements AttenuationFunction {
+    private class VariableWaveMediumAttenuationFunction implements AttenuationFunction {
         private Shape variableRegion;
         private double variableRegionAttenuation = 1;
 
