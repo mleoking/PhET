@@ -69,7 +69,7 @@ public abstract class AbstractSolver implements Observer {
         _pe.addObserver( this );
         _k = new Complex[ pe.getNumberOfRegions() ];
         _direction = Direction.LEFT_TO_RIGHT;
-        updateK();
+        update();
     }
     
     public void cleanup() {
@@ -89,7 +89,7 @@ public abstract class AbstractSolver implements Observer {
     
     public void setDirection( Direction direction ) {
         _direction = direction;
-        updateK();
+        update();
     }
     
     public Direction getDirection() {
@@ -127,12 +127,23 @@ public abstract class AbstractSolver implements Observer {
     public abstract Complex solve( final double x, final double t );
     
     /*
-     * Updates k values whenever the total or potential energy changes.
+     * Updates the solver whenever the total or potential energy changes.
      */
     public void update( Observable o, Object arg ) {
-        updateK();
+        update();
     }
     
+    /*
+     * Updates everything.
+     */
+    private void update() {
+        updateK();
+        updateCoefficients();
+    }
+    
+    /*
+     * Updates the k values.
+     */
     private void updateK() {
         final double E = getTotalEnergy().getEnergy();
         final int numberOfRegions = getPotentialEnergy().getNumberOfRegions();
@@ -140,6 +151,11 @@ public abstract class AbstractSolver implements Observer {
             _k[i] = solveK( E, getPotentialEnergy().getEnergy( i ) );
         }
     }
+    
+    /*
+     * Updates the coeffiecients.
+     */
+    protected abstract void updateCoefficients();
     
     /*
      * Calculate the wave number, in units of 1/nm.
@@ -170,16 +186,15 @@ public abstract class AbstractSolver implements Observer {
         return new Complex( real, imag );
     }
     
-    
     /*
      * e^(ikx)
      * 
      * @param x position
-     * @param regionIndex region index
+     * @param k
      */
-    protected Complex commonTerm1( final double x, final int regionIndex ) {
-        Complex k = getK( regionIndex );
-        MutableComplex c = new MutableComplex( Complex.I ); // i
+    protected static Complex commonTerm1( final double x, Complex k ) {
+        MutableComplex c = new MutableComplex();
+        c.setValue( Complex.I );
         c.multiply( k );
         c.multiply( x );
         c.exp();
@@ -192,9 +207,9 @@ public abstract class AbstractSolver implements Observer {
      * @param x position
      * @param regionIndex region index
      */
-    protected Complex commonTerm2( final double x, final int regionIndex ) {
-        Complex k = getK( regionIndex );
-        MutableComplex c = new MutableComplex( Complex.I ); // i
+    protected static Complex commonTerm2( final double x, Complex k ) {
+        MutableComplex c = new MutableComplex();
+        c.setValue( Complex.I );
         c.multiply( k );
         c.multiply( -x );
         c.exp();
@@ -209,7 +224,8 @@ public abstract class AbstractSolver implements Observer {
      */
     protected static Complex commonTerm3( final double t, final double E ) {
         final double h = PLANCKS_CONSTANT;
-        MutableComplex c = new MutableComplex( Complex.I ); // i
+        MutableComplex c = new MutableComplex();
+        c.setValue( Complex.I );
         c.multiply( -1 * E * t / h );
         c.exp();
         return c;

@@ -16,23 +16,17 @@ import edu.colorado.phet.quantumtunneling.util.MutableComplex;
 
 
 /**
- * StepSolver is a closed-form solution to the wave function equation
- * for step potentials.  A step has 2 regions, region1 and region2.
- * The closed-form solution for each region is:
- * <code>
- * Region1: psi(x,t) = e^(-i*E*t/h) * ( e^(i*k1*x) + ( B*e^(-i*k1*x) ) )
- * Region2: psi(x,t) = e^(-i*E*t/h) * ( C*e^(i*k2*x) )
- * 
- * where:
- * B = ( e^(2*i*k1*x1) * (k1-k2) ) / (k1+k2)
- * C = ( 2 * e^(i*(k1-k2)*x1) * k1 ) / (k1+k2)
- *</code>
+ * StepSolver is a closed-form solution to the 
+ * wave function equation for step potentials.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class StepSolver extends AbstractSolver {
 
+    // coefficients
+    private MutableComplex _B, _C;
+    
     /**
      * Constructor.
      * 
@@ -61,47 +55,12 @@ public class StepSolver extends AbstractSolver {
             result = new Complex( 0, 0 );
         }
         else {
-            final double x1 = getPotentialEnergy().getEnd( 0 ); // boundary between regions
-            Complex k1 = getK( 0 );
-            Complex k2 = getK( 1 );
-
             int regionIndex = getPotentialEnergy().getRegionIndexAt( x );
             if ( regionIndex == 0 ) {
-
-                Complex term1 = commonTerm1( x, regionIndex ); // e^(ikx)
-                Complex term2 = commonTerm2( x, regionIndex ); // e^(-ikx)
-                Complex term3 = commonTerm3( t, E ); // e^(-i*E*t/h)
-
-                // B = ( e^(2*i*k1*x1) * (k1 - k2) ) / (k1 + k2)
-                MutableComplex B = new MutableComplex( Complex.I ); // i
-                B.multiply( 2 * x1 );
-                B.multiply( k1 );
-                B.exp();
-                B.multiply( k1.getSubtract( k2 ) );
-                B.divide( k1.getAdd( k2 ) );
-
-                // psi1(x,t)
-                Complex rightMoving = term1.getMultiply( term3 );
-                Complex leftMoving = B.getMultiply( term2 ).getMultiply( term3 );
-                result = rightMoving.getAdd( leftMoving );
+                result = solveRegion1( x, t );
             }
             else if ( regionIndex == 1 ) {
-
-                Complex term1 = commonTerm1( x, regionIndex ); // e^(ikx)
-                Complex term3 = commonTerm3( t, E ); // e^(-i*E*t/h)
-
-                // C = ( 2 * e^(i*(k1 - k2)*x1) * k1 ) / (k1 + k2)
-                MutableComplex C = new MutableComplex( Complex.I ); // i
-                C.multiply( x1 );
-                C.multiply( k1.getSubtract( k2 ) );
-                C.exp();
-                C.multiply( 2 );
-                C.multiply( k1 );
-                C.divide( k1.getAdd( k2 ) );
-
-                // psi2(x,t)
-                Complex rightMoving = C.getMultiply( term1 );
-                result = rightMoving.getMultiply( term3 );
+                result = solveRegion2( x, t );
             }
             else {
                 // outside of the potential energy space
@@ -109,5 +68,92 @@ public class StepSolver extends AbstractSolver {
         }
 
         return result;
+    }
+    
+    /* 
+     * Region1: psi(x,t) = ( e^(i*k1*x) + ( B*e^(-i*k1*x) ) ) * e^(-i*E*t/h)
+     */
+    private Complex solveRegion1( final double x, final double t ) {        
+        final int regionIndex = 0;
+        final double E = getTotalEnergy().getEnergy();
+        Complex k1 = getK( 0 );
+        Complex term1 = commonTerm1( x, k1 ); // e^(ikx)
+        Complex term2 = commonTerm2( x, k1 ); // e^(-ikx)
+        Complex term3 = commonTerm3( t, E ); // e^(-i*E*t/h)
+        Complex rightMoving = term1.getMultiply( term3 );
+        Complex leftMoving = _B.getMultiply( term2 ).getMultiply( term3 );
+        Complex result = rightMoving.getAdd( leftMoving );       
+        return result;
+    }
+    
+    /* 
+     * Region2: psi(x,t) = ( C*e^(i*k2*x) ) * e^(-i*E*t/h)
+     */
+    private Complex solveRegion2( final double x, final double t ) {
+        final double E = getTotalEnergy().getEnergy();
+        Complex k2 = getK( 1 );
+        Complex term1 = commonTerm1( x, k2 ); // e^(ikx)
+        Complex term3 = commonTerm3( t, E ); // e^(-i*E*t/h)
+        Complex rightMoving = _C.getMultiply( term1 ).getMultiply( term3 );
+        Complex result = rightMoving;
+        return result;
+    }
+    
+    /*
+     * Updates the coeffiecients.
+     */
+    protected void updateCoefficients() {
+        
+        // boundary between regions
+        final double x1 = getPotentialEnergy().getEnd( 0 );
+        
+        // k values
+        Complex k1 = getK( 0 );
+        Complex k2 = getK( 1 );
+        
+        // Common denominator
+        Complex denominator = getDenominator( k1, k2 );
+        
+        // Coefficients
+        updateB( x1, k1, k2, denominator );
+        updateC( x1, k1, k2, denominator );
+    }
+    
+    /*
+     * B = (Power(E,2*i*k1*x1)*(k1 - k2)) / (k1 + k2)
+     */
+    private void updateB( double x1, Complex k1, Complex k2, Complex denominator ) {
+        if ( _B == null ) {
+            _B = new MutableComplex();
+        }
+        _B.setValue( Complex.I );
+        _B.multiply( 2 * x1 );
+        _B.multiply( k1 );
+        _B.exp();
+        _B.multiply( k1.getSubtract( k2 ) );
+        _B.divide( denominator );
+    }
+    
+    /*
+     * C = (2*Power(E,i*(k1 - k2)*x1)*k1) / (k1 + k2)
+     */
+    private void updateC( double x1, Complex k1, Complex k2, Complex denominator ) {
+        if ( _C == null ) {
+            _C = new MutableComplex();
+        }
+        _C.setValue( Complex.I );
+        _C.multiply( x1 );
+        _C.multiply( k1.getSubtract( k2 ) );
+        _C.exp();
+        _C.multiply( 2 );
+        _C.multiply( k1 );
+        _C.divide( denominator );
+    }
+    
+    /*
+     * All coeffiecients have this denominator: (k1 + k2)
+     */
+    private static Complex getDenominator( Complex k1, Complex k2 ) {
+        return k1.getAdd( k2 );
     }
 }
