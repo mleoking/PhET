@@ -5,8 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- closed-form solution for plane wave
-- fix closed-form for step potential
+- debug closed-form solutions
 - drag problem prevents being able to set interior regions to their min width
 - process regions in reverse order when direction is right-to-left
 - set layering order to real,img,mag,phase (front to back)
@@ -29,6 +28,7 @@ LOW PRIORITY:
 - translate Yes/No/Cancel on JOptionPane.showConfirmMessage
 
 OPTIMIZATIONS:
+- convert JFreeCharts to static images and implement custom plotting on top images
 - reduce the range of energy; smaller (E-V) means we can use a larger x-axis step
 - disable chart gridlines to improve drag handle responsiveness
 - draw chart backgrounds into an image using JFreeChart, the render dynamic stuff using JFreeChart with no decorations
