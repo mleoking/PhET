@@ -55,7 +55,7 @@ public class DoubleBarrierSolver extends AbstractSolver {
         if ( isLeftToRight() && E < getPotentialEnergy().getEnergy( 0 ) ) {
             result = new Complex( 0, 0 );
         }
-        else if ( isRightToLeft() && E < getPotentialEnergy().getEnergy( 1 ) ) {
+        else if ( isRightToLeft() && E < getPotentialEnergy().getEnergy( 4 ) ) {
             result = new Complex( 0, 0 );
         }
         else {
@@ -192,7 +192,8 @@ public class DoubleBarrierSolver extends AbstractSolver {
     
     /*
      * B = 
-     * (Power(E,2*I*k1*x1)*(Power(E,2*I*((k2 + k3)*x2 + k4*x4))*(k1 + k2)*(k2 - k3)*(k3 - k4)*(k4 - k5) -
+     * (Power(E,2*I*k1*x1)*
+     *  (Power(E,2*I*((k2 + k3)*x2 + k4*x4))*(k1 + k2)*(k2 - k3)*(k3 - k4)*(k4 - k5) -
      *   Power(E,2*I*(k2*x1 + k3*x2 + k4*x4))*(-k1 + k2)*(k2 + k3)*(k3 - k4)*(k4 - k5) -
      *   Power(E,2*I*(k2*x1 + k3*x3 + k4*x4))*(-k1 + k2)*(k2 - k3)*(k3 + k4)*(k4 - k5) +
      *   Power(E,2*I*(k2*x2 + k3*x3 + k4*x4))*(k1 + k2)*(k2 + k3)*(k3 + k4)*(k4 - k5) -
@@ -332,8 +333,10 @@ public class DoubleBarrierSolver extends AbstractSolver {
     
     /*
      * C = 
-     * (2*Power(E,I*(k1 + k2)*x1)*k1*(Power(E,2*I*(k3*x2 + k4*x4))*(k2 + k3)*(k3 - k4)*(k4 - k5) -
-     *   Power(E,2*I*(k3*x3 + k4*x4))*(-k2 + k3)*(k3 + k4)*(k4 - k5) - Power(E,2*I*(k3 + k4)*x3)*(-k2 + k3)*(k3 - k4)*(k4 + k5) +
+     * (2*Power(E,I*(k1 + k2)*x1)*k1*
+     *   (Power(E,2*I*(k3*x2 + k4*x4))*(k2 + k3)*(k3 - k4)*(k4 - k5) -
+     *   Power(E,2*I*(k3*x3 + k4*x4))*(-k2 + k3)*(k3 + k4)*(k4 - k5) - 
+     *   Power(E,2*I*(k3 + k4)*x3)*(-k2 + k3)*(k3 - k4)*(k4 + k5) +
      *   Power(E,2*I*(k3*x2 + k4*x3))*(k2 + k3)*(k3 + k4)*(k4 + k5))) /
      *   denominator
      */
@@ -343,7 +346,7 @@ public class DoubleBarrierSolver extends AbstractSolver {
         // 2*Power(E,I*(k1 + k2)*x1)*k1
         MutableComplex t1 = new MutableComplex();
         t1.setValue( Complex.I );
-        t1.multiply( k1.getMultiply( k2 ) );
+        t1.multiply( k1.getAdd( k2 ) );
         t1.multiply( x1 );
         t1.exp();
         t1.multiply( 2 );
@@ -406,8 +409,10 @@ public class DoubleBarrierSolver extends AbstractSolver {
     
     /*
      * D = 
-     * (-2*Power(E,I*((k1 + k2)*x1 + 2*k2*x2))*k1*(-(Power(E,2*I*(k3*x2 + k4*x4))*(-k2 + k3)*(k3 - k4)*(k4 - k5)) +
-     *   Power(E,2*I*(k3*x3 + k4*x4))*(k2 + k3)*(k3 + k4)*(k4 - k5) + Power(E,2*I*(k3 + k4)*x3)*(k2 + k3)*(k3 - k4)*(k4 + k5) -
+     * (-2*Power(E,I*((k1 + k2)*x1 + 2*k2*x2))*k1*
+     *  (-(Power(E,2*I*(k3*x2 + k4*x4))*(-k2 + k3)*(k3 - k4)*(k4 - k5)) +
+     *   Power(E,2*I*(k3*x3 + k4*x4))*(k2 + k3)*(k3 + k4)*(k4 - k5) + 
+     *   Power(E,2*I*(k3 + k4)*x3)*(k2 + k3)*(k3 - k4)*(k4 + k5) -
      *   Power(E,2*I*(k3*x2 + k4*x3))*(-k2 + k3)*(k3 + k4)*(k4 + k5))) /
      * denominator
      */
@@ -416,10 +421,10 @@ public class DoubleBarrierSolver extends AbstractSolver {
         
         // -2*Power(E,I*((k1 + k2)*x1 + 2*k2*x2))*k1
         MutableComplex t1 = new MutableComplex();
-        t1.setValue( Complex.I );
-        t1.multiply( k1.getAdd( k2 ) );
+        t1.setValue( k1.getAdd( k2 ) );
         t1.multiply( x1 );
         t1.add( k2.getAdd( 2 * x2 ) );
+        t1.multiply( Complex.I );
         t1.exp();
         t1.multiply( -2 );
         t1.multiply( k1 );
@@ -434,6 +439,7 @@ public class DoubleBarrierSolver extends AbstractSolver {
         t2.multiply( k2.getMultiply( -1 ).getAdd( k3 ) );
         t2.multiply( k3.getSubtract( k4 ) );
         t2.multiply( k4.getSubtract( k5 ) );
+        t2.multiply( -1 );
         
         // Power(E,2*I*(k3*x3 + k4*x4))*(k2 + k3)*(k3 + k4)*(k4 - k5)
         MutableComplex t3 = new MutableComplex();
@@ -482,7 +488,8 @@ public class DoubleBarrierSolver extends AbstractSolver {
     /*
      * F = 
      * (4*Power(E,I*((k1 + k2)*x1 + (k2 + k3)*x2))*k1*k2*
-     * (-(Power(E,2*I*k4*x4)*(-k3 + k4)*(k4 - k5)) + Power(E,2*I*k4*x3)*(k3 + k4)*(k4 + k5))) /
+     *   (-(Power(E,2*I*k4*x4)*(-k3 + k4)*(k4 - k5)) + 
+     *    Power(E,2*I*k4*x3)*(k3 + k4)*(k4 + k5))) /
      * denominator
      */
     private void updateF( double x1, double x2, double x3, double x4,
@@ -500,9 +507,10 @@ public class DoubleBarrierSolver extends AbstractSolver {
            
         // -(Power(E,2*I*k4*x4)*(-k3 + k4)*(k4 - k5))
         MutableComplex t2 = new MutableComplex();
-        t2.setValue( Complex.I );
+        t2.setValue( 2 );
+        t2.multiply( Complex.I );
         t2.multiply( k4 );
-        t2.multiply( 2 * x4 );
+        t2.multiply( x4 );
         t2.exp();
         t2.multiply( k3.getMultiply( -1 ).getAdd( k4 ) );
         t2.multiply( k4.getSubtract( k5 ) );
@@ -510,9 +518,10 @@ public class DoubleBarrierSolver extends AbstractSolver {
         
         // Power(E,2*I*k4*x3)*(k3 + k4)*(k4 + k5)
         MutableComplex t3 = new MutableComplex();
-        t3.setValue( Complex.I );
+        t3.setValue( 2 );
+        t3.multiply( Complex.I );
         t3.multiply( k4 );
-        t3.multiply( 2 * x3 );
+        t3.multiply( x3 );
         t3.exp();
         t3.multiply( k3.getAdd( k4 ) );
         t3.multiply( k4.getAdd( k5 ) );
@@ -529,7 +538,8 @@ public class DoubleBarrierSolver extends AbstractSolver {
     /*
      * G =
      * (4*Power(E,I*(k1*x1 + k2*(x1 + x2) + k3*(x2 + 2*x3)))*k1*k2*
-     * (Power(E,2*I*k4*x4)*(k3 + k4)*(k4 - k5) - Power(E,2*I*k4*x3)*(-k3 + k4)*(k4 + k5))) /
+     * (Power(E,2*I*k4*x4)*(k3 + k4)*(k4 - k5) - 
+     * Power(E,2*I*k4*x3)*(-k3 + k4)*(k4 + k5))) /
      * denominator
      */
     private void updateG( double x1, double x2, double x3, double x4,
@@ -548,18 +558,20 @@ public class DoubleBarrierSolver extends AbstractSolver {
         
         // Power(E,2*I*k4*x4)*(k3 + k4)*(k4 - k5)
         MutableComplex t2 = new MutableComplex();
-        t2.setValue( Complex.I );
+        t2.setValue( 2 );
+        t2.multiply( Complex.I );
         t2.multiply( k4 );
-        t2.multiply( 2 * x4 );
+        t2.multiply( x4 );
         t2.exp();
         t2.multiply( k3.getAdd( k4 ) );
         t2.multiply( k4.getSubtract( k5 ) );
         
         // Power(E,2*I*k4*x3)*(-k3 + k4)*(k4 + k5)
         MutableComplex t3 = new MutableComplex();
-        t3.setValue( Complex.I );
+        t3.setValue( 2 );
+        t3.multiply( Complex.I );
         t3.multiply( k4 );
-        t3.multiply( 2 * x3 );
+        t3.multiply( x3 );
         t3.exp();
         t3.multiply( k3.getMultiply( -1 ).getAdd( k4 ) );
         t3.multiply( k4.getAdd( k5 ) );
@@ -757,7 +769,7 @@ public class DoubleBarrierSolver extends AbstractSolver {
         // Power(E,2*I*(k2*x1 + k3*x2 + k4*x3))*(k1 + k2)*(k2 + k3)*(k3 + k4)*(k4 + k5)
         MutableComplex t8 = new MutableComplex();
         t8.setValue( k2.getMultiply( x1 ) );
-        t8.add( k3.getMultiply( x3 ) );
+        t8.add( k3.getMultiply( x2 ) );
         t8.add( k4.getMultiply( x3 ) );
         t8.multiply( Complex.I );
         t8.multiply( 2 );
