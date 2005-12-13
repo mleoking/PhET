@@ -146,6 +146,9 @@ piccolo piccolo
 #Piccolo-phet
 piccolo-phet piccolo-phet &phetcommon &piccolo
 
+# Phetgraphics
+phetgraphics phetgraphics &phetcommon
+
 # Soluble Salts
 soluble-salts soluble-salts &phetcommon &piccolo-phet &piccolo &mechanics &collision
 
