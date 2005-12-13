@@ -101,13 +101,15 @@ public class SolubleSaltsModel extends BaseModel {
         // Create the faucet and drain
         waterSource = new WaterSource( this );
         waterSource.setPosition( vessel.getLocation().getX() + 35, vessel.getLocation().getY() - 10 );
-//        waterSource.setPosition( vessel.getLocation().getX() + 350, vessel.getLocation().getY() - 100 );
         addModelElement( waterSource );
         drain = new Drain( this );
         drain.setPosition( vessel.getLocation().getX() - vessel.getWallThickness(),
                            vessel.getLocation().getY() + vessel.getDepth() - 50 );
-//                           vessel.getLocation().getY() + vessel.getDepth() - 500 );
         addModelElement( drain );
+
+        // Create an agent that will manage the flow of ions toward the drain when water is
+        // flowing out of the vessel
+        IonFlowManager ionFlowManager = new IonFlowManager( this );
 
         // Add a model element that will handle collisions between ions and the vessel
         addModelElement( new IonVesselCollisionAgent() );
