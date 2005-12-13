@@ -312,7 +312,8 @@ public class WallInterferenceModule extends SingleSourceModule {
                 public void run() {
                     soundModel.getPrimaryWavefront().setMaxAmplitude( savedAmplitude.doubleValue() );
                     double startTime = clock.getRunningTime();
-                    double cycleTime = 4 * 1 / soundModel.getPrimaryWavefront().getFrequency();
+                    double cycleTime = 6 * 1 / soundModel.getPrimaryWavefront().getFrequency();
+//                    double cycleTime = 4 * 1 / soundModel.getPrimaryWavefront().getFrequency();
                     soundModel.getPrimaryWavefront().getAmplitude();
                     while( clock.getRunningTime() - startTime < cycleTime ) {
                         System.out.println( "(clock.getRunningTime() - startTime) = " + ( clock.getRunningTime() - startTime ) );
