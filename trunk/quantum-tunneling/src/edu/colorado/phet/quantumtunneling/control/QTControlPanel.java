@@ -376,6 +376,8 @@ public class QTControlPanel extends AbstractControlPanel {
             _phaseCheckBox.setEnabled( false );
             _sumRadioButton.setEnabled( false );
             _separateRadioButton.setEnabled( false );
+            _leftToRightRadioButton.setEnabled( false );
+            _rightToLeftRadioButton.setEnabled( false );
             _planeWaveRadioButton.setEnabled( false );
             _packetWaveRadioButton.setEnabled( false );
             _measureButton.setEnabled( false );
