@@ -51,8 +51,8 @@ public class QTConstants {
     public static final boolean CLOCK_TIME_STEP_IS_CONSTANT = true;
     public static final boolean CLOCK_ENABLE_CONTROLS = true;
     
-    public static final double TIME_SCALE = 0.1;
-    public static final DecimalFormat TIME_FORMAT = new DecimalFormat( "0.0" );
+    public static final double TIME_SCALE = 0.01;  // must be a 1/(power of 10)
+    public static final DecimalFormat TIME_FORMAT = new DecimalFormat( "0.00" );
     
     //----------------------------------------------------------------------------
     // Fonts
