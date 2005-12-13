@@ -25,21 +25,21 @@ import java.util.Random;
 
 /**
  * Ion
- * <p>
+ * <p/>
  * Ions can be bound or not. When they are not bound, they move like normal Atoms, but can bind if they
  * come into contact with an ion of a different polarity. When an Ion is bound, it moves with the velocity of
- * the lattice in which it is bound.
+ * the crystal in which it is bound.
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
 public class Ion extends Atom {
 
-    private static Random random = new Random( );
+    private static Random random = new Random();
 
     private IonProperties ionProperties;
     private Crystal bindingCrystal;
-    private Vector2D vSaveUtil = new Vector2D.Double( );
+    private Vector2D vSaveUtil = new Vector2D.Double();
 
     public Ion( IonProperties ionProperties ) {
         this( new Point2D.Double(),
@@ -53,13 +53,15 @@ public class Ion extends Atom {
         this.ionProperties = ionProperties;
     }
 
+    int cnt = 0;
+
     public void stepInTime( double dt ) {
         if( !isBound() ) {
 
             // Random walk
-            if( getVelocity().getMagnitude() != 0 && SolubleSaltsConfig.RANDOM_WALK) {
+            if( getVelocity().getMagnitude() != 0 && SolubleSaltsConfig.RANDOM_WALK ) {
                 double theta = random.nextDouble() * Math.PI * 2;
-                setVelocity( getVelocity().rotate( theta ));
+                setVelocity( getVelocity().rotate( theta ) );
             }
             super.stepInTime( dt );
         }
@@ -82,7 +84,7 @@ public class Ion extends Atom {
     public void unbindFrom( Binder binder ) {
         if( binder instanceof Crystal ) {
             bindingCrystal = null;
-            ((Crystal)binder).removeIon( this );
+            ( (Crystal)binder ).removeIon( this );
         }
         changeListenerProxy.stateChanged( new ChangeEvent( this ) );
         super.unbindFrom( binder );
@@ -122,6 +124,7 @@ public class Ion extends Atom {
         public ChangeEvent( Object source ) {
             super( source );
         }
+
         public Ion getIon() {
             return (Ion)getSource();
         }
