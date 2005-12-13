@@ -19,11 +19,10 @@ import edu.colorado.phet.quantumtunneling.util.MutableComplex;
 
 
 /**
- * ConstantSolver is a closed-form solution to the wave function equation
- * for constant potentials.  A step has 1 regions, region1.
- * The closed-form solution:
- * <code>
- * region1: psi(x,t) = e^(-i*E*t/h) * e^(i*k1*x)
+ * ConstantSolver is a closed-form solution to the 
+ * wave function equation for constant potentials.
+ * <p>
+
  * </code>
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -43,21 +42,34 @@ public class ConstantSolver extends AbstractSolver implements Observer {
     
     /**
      * Solves the wave function.
+     * <p>
+     * The closed-form solution is:
+     * <code>
+     * region1: psi(x,t) = e^(i*k1*x) * e^(-i*E*t/h)
+     * </code>
      * 
      * @param x position, in nm
      * @param t time, in fs
      */
     public Complex solve( final double x, final double t ) { 
-        Complex c = null;
+        Complex result = null;
         final double E = getTotalEnergy().getEnergy();
         if ( E < getPotentialEnergy().getEnergy( 0 ) ) {
-            c = new Complex( 0, 0 );
+            result = new Complex( 0, 0 );
         }
         else {
-            Complex term1 = commonTerm1( x, 0 /* region index */); // e^(ikx)
+            Complex k1 = getK( 0 );
+            Complex term1 = commonTerm1( x, k1 ); // e^(ikx)
             Complex term3 = commonTerm3( t, E ); // e^(-iEt/h)
-            c = term1.getMultiply( term3 );
+            result = term1.getMultiply( term3 );
         }
-        return c;
+        return result;
+    }
+
+    /*
+     * Updates the coeffiecients.
+     */
+    protected void updateCoefficients() {
+        // constant solution has no coefficients      
     }
 }
