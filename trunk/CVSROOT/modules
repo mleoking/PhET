@@ -87,7 +87,7 @@ moving-man movingman &phetcommon &charts
 lasers lasers &phetcommon &collision &controls &mechanics
 
 # Color Vision
-color-vision colorvision3 &phetcommon
+color-vision colorvision3 phetcommon
 
 # Signal Circuit
 signal-circuit signalcircuit
@@ -99,10 +99,10 @@ greenhouse-effect greenhouse
 forces1d forces1d &phetcommon &charts
 
 # Faraday's Law
-faradays-law faraday &phetcommon
+faradays-law faraday phetcommon phetgraphics
 
 # Fourier Transforms
-fourier fourier &phetcommon &charts
+fourier fourier phetcommon phetgraphics charts
 
 # Radio Waves
 radio-waves emf &phetcommon
@@ -153,7 +153,7 @@ phetgraphics phetgraphics &phetcommon
 soluble-salts soluble-salts &phetcommon &piccolo-phet &piccolo &mechanics &collision
 
 #Optical Pulse Shaper
-shaper shaper &phetcommon &charts
+shaper shaper phetcommon phetgraphics charts
 
 #Quantum Tunneling
 quantum-tunneling quantum-tunneling phetcommon piccolo piccolo-phet jfreechart
