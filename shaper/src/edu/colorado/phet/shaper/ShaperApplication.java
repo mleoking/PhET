@@ -97,12 +97,6 @@ public class ShaperApplication extends PhetApplication {
      * Initializes the menubar.
      */
     private void initMenubar() {
-     
-        // Debug menu extensions
-        DebugMenu debugMenu = getPhetFrame().getDebugMenu();
-        if ( debugMenu != null ) {
-            //XXX Add debug menu items here.
-        }
         
         // Help menu extensions
         HelpMenu helpMenu = getPhetFrame().getHelpMenu();

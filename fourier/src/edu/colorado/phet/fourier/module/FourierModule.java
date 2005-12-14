@@ -13,8 +13,8 @@ package edu.colorado.phet.fourier.module;
 
 import java.awt.Color;
 
-import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
@@ -29,7 +29,7 @@ import edu.colorado.phet.fourier.view.BoundsDebugger;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public abstract class FourierModule extends Module {
+public abstract class FourierModule extends PhetGraphicsModule {
 
     //----------------------------------------------------------------------------
     // Class data
