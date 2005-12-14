@@ -37,6 +37,13 @@ public abstract class AbstractPotentialSpace extends QTObservable {
      */
     private static final double DEFAULT_MIN_REGION_WIDTH = 0.1;
     
+    /*
+     * Double precision numbers have some problems representing
+     * numbers like 0.1.  This value show how close we have to
+     * be to DEFAULT_MIN_REGION_WIDTH to be considered equal.
+     */
+    private static final double ACCEPTABLE_WIDTH_ERROR = 0.001;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -292,8 +299,8 @@ public abstract class AbstractPotentialSpace extends QTObservable {
         
         boolean success = false;
         
-        final double width1 = position - getStart( leftRegionIndex );
-        final double width2 = getEnd( leftRegionIndex + 1 ) - position;
+        final double width1 = position - getStart( leftRegionIndex ) + ACCEPTABLE_WIDTH_ERROR;
+        final double width2 = getEnd( leftRegionIndex + 1 ) - position + ACCEPTABLE_WIDTH_ERROR;
         if ( width1 >= _minRegionWidth && width2 >= _minRegionWidth ) {
             setNotifyEnabled( false );
             setEnd( leftRegionIndex, position );
@@ -403,7 +410,7 @@ public abstract class AbstractPotentialSpace extends QTObservable {
                            _regions[i].getEnd() + " != " + _regions[i+1].getStart();
                 System.err.println( s );
             }
-            if ( _regions[i].getWidth() < _minRegionWidth ) {
+            if ( _regions[i].getWidth() + ACCEPTABLE_WIDTH_ERROR < _minRegionWidth ) {
                 errors++;
                 String s = "ERROR: region " + i + " is smaller than the minimum width: " +
                            _regions[i].getWidth() + " < " + _minRegionWidth;
@@ -411,7 +418,8 @@ public abstract class AbstractPotentialSpace extends QTObservable {
             }
         }
         if ( errors != 0 ) {
-            throw new IllegalStateException( "potential space is invalid" );
+            Exception e = new IllegalStateException( "potential space is invalid" );
+            e.printStackTrace();
         }
     }
 }

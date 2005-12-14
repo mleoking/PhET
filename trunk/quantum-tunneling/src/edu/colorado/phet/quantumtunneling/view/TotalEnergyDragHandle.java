@@ -30,7 +30,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class TotalEnergyDragHandle extends AbstractDragHandle implements Observer, PropertyChangeListener {
+public class TotalEnergyDragHandle extends AbstractDragHandle implements Observer {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -127,10 +127,28 @@ public class TotalEnergyDragHandle extends AbstractDragHandle implements Observe
         }
     }
 
+    //----------------------------------------------------------------------------
+    // AbstractDragHandle implementation
+    //----------------------------------------------------------------------------
+
+    /*
+     * Gets the value, in model coordinates, that is represented by
+     * the drag handle's current location.
+     * 
+     * @return
+     */
+    protected double getModelValue() {
+        double energy = 0;
+        if ( _totalEnergy != null ) {
+            energy = _totalEnergy.getEnergy();
+        }
+        return energy;
+    }
+    
     /*
      * Updates the total energy based on the drag handle's position.
      */
-    private void updateTotalEnergy() {
+    protected void updateModel() {
         if ( _totalEnergy != null ) {
             _totalEnergy.deleteObserver( this );
             Point2D globalNodePoint = getGlobalPosition();
@@ -140,37 +158,7 @@ public class TotalEnergyDragHandle extends AbstractDragHandle implements Observe
             _totalEnergy.addObserver( this );
         }
     }
-
-    //----------------------------------------------------------------------------
-    // DragHandle implementation
-    //----------------------------------------------------------------------------
     
-    public double getModelValue() {
-        double energy = 0;
-        if ( _totalEnergy != null ) {
-            energy = _totalEnergy.getEnergy();
-        }
-        return energy;
-    }
-    
-    //----------------------------------------------------------------------------
-    // PropertChangeListener implementation
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Updates the total energy whenever the drag handle is moved.
-     * 
-     * @param event
-     */
-    public void propertyChange( PropertyChangeEvent event ) {
-        if ( event.getSource() == this ) {
-            if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) ) {
-                updateTotalEnergy();
-                updateText();
-            }
-        }
-    }
-
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------

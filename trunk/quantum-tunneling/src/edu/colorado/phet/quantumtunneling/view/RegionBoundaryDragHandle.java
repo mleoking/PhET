@@ -31,7 +31,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class RegionBoundaryDragHandle extends AbstractDragHandle implements Observer, PropertyChangeListener {
+public class RegionBoundaryDragHandle extends AbstractDragHandle implements Observer {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -149,20 +149,35 @@ public class RegionBoundaryDragHandle extends AbstractDragHandle implements Obse
         }
     }
     
+    //----------------------------------------------------------------------------
+    // AbstractDragHandle implementation
+    //----------------------------------------------------------------------------
+    
     /*
-     * Updates the region boundary based on the drag handle's position.
+     * Gets the value, in model coordinates, that is represented by
+     * the drag handle's current location.
+     * 
+     * @return
      */
-    private void updatePotentialEnergy() {
+    protected double getModelValue() {
+        double position = 0;
+        if ( _potentialEnergy != null ) {
+            position = _potentialEnergy.getEnd( _regionIndex );
+        }
+        return position;
+    }
+    
+    /*
+     * Updates the region's boundary based on the drag handle's position.
+     */
+    protected void updateModel() {
         if ( _potentialEnergy != null ) {
             _potentialEnergy.deleteObserver( this );
             Point2D globalNodePoint = getGlobalPosition();
             Point2D localNodePoint = _chartNode.globalToLocal( globalNodePoint );
             Point2D chartPoint = _chartNode.nodeToEnergy( localNodePoint );
             double position = chartPoint.getX();
-            // WORKAROUND: compensate for double precision errors at left edge.
-            if ( position < _potentialEnergy.getMinRegionWidth() ) {
-                position = _potentialEnergy.getMinRegionWidth();
-            }
+
             boolean success = _potentialEnergy.adjustBoundary( _regionIndex, position );
             if ( !success ) {
                 System.out.println( "WARNINING: RegionBoundaryDragHandle.updatePotentialEnergy failed, " +
@@ -171,37 +186,7 @@ public class RegionBoundaryDragHandle extends AbstractDragHandle implements Obse
             _potentialEnergy.addObserver( this );
         }
     }
-    
-    //----------------------------------------------------------------------------
-    // DragHandle implementation
-    //----------------------------------------------------------------------------
-    
-    public double getModelValue() {
-        double position = 0;
-        if ( _potentialEnergy != null ) {
-            position = _potentialEnergy.getEnd( _regionIndex );
-        }
-        return position;
-    }
-    
-    //----------------------------------------------------------------------------
-    // PropertChangeListener implementation
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Updates the region's potential energy whenever the drag handle is moved.
-     * 
-     * @param event
-     */
-    public void propertyChange( PropertyChangeEvent event ) {
-        if ( event.getSource() == this ) {
-            if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) ) {
-                updatePotentialEnergy();
-                updateText();
-            }
-        }
-    }
-    
+
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------

@@ -17,6 +17,8 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -25,6 +27,7 @@ import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.piccolo.ConstrainedDragHandler;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -41,7 +44,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public abstract class AbstractDragHandle extends PPath {
+public abstract class AbstractDragHandle extends PPath implements PropertyChangeListener {
 
     //----------------------------------------------------------------------------
     // Public class data
@@ -253,17 +256,22 @@ public abstract class AbstractDragHandle extends PPath {
         return new Point2D.Double( x, y );          
     }
     
-    /**
+    /*
      * Gets the value, in model coordinates, that is represented by
-     * the drag handles current location.
+     * the drag handle's current location.
      * 
      * @return
      */
-    public abstract double getModelValue();
+    protected abstract double getModelValue();
     
     //----------------------------------------------------------------------------
     // Updaters
     //----------------------------------------------------------------------------
+    
+    /*
+     * Updates the model to match the drag handle's position.
+     */
+    protected abstract void updateModel();
     
     /*
      * Updates the value display.
@@ -277,6 +285,24 @@ public abstract class AbstractDragHandle extends PPath {
     }
     
     //----------------------------------------------------------------------------
+    // PropertChangeListener implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Updates the model and value display whenever the drag handle is moved.
+     * 
+     * @param event
+     */
+    public void propertyChange( PropertyChangeEvent event ) {
+        if ( event.getSource() == this ) {
+            if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) ) {
+                updateModel();
+                updateText();
+            }
+        }
+    }
+    
+    //----------------------------------------------------------------------------
     // Various shapes for the drag handle and cursor.
     //----------------------------------------------------------------------------
     
@@ -286,7 +312,7 @@ public abstract class AbstractDragHandle extends PPath {
      * @param orientation
      * @return
      */
-    private Shape getControlPointShape( int orientation ) {
+    private static Shape getControlPointShape( int orientation ) {
         return new Rectangle2D.Double( 0, 0, 7, 7 );
     }
     
@@ -296,7 +322,7 @@ public abstract class AbstractDragHandle extends PPath {
      * @param orientation
      * @return
      */
-    private Shape getArrowShape( int orientation ) {
+    private static Shape getArrowShape( int orientation ) {
         return getArrowShape( orientation, HANDLE_ARROW_SCALE );
     }
     
@@ -310,7 +336,7 @@ public abstract class AbstractDragHandle extends PPath {
      * @param scale
      * @return
      */
-    private Shape getArrowShape( int orientation, float scale ) {
+    private static Shape getArrowShape( int orientation, float scale ) {
         
         Shape shape = null;
         
@@ -346,7 +372,7 @@ public abstract class AbstractDragHandle extends PPath {
      * @param orientation
      * @return
      */
-    private Cursor getArrowCursor( int orientation ) {
+    private static Cursor getArrowCursor( int orientation ) {
         
         // Get the arrow shape
         Shape shape = getArrowShape( orientation, CURSOR_ARROW_SCALE );

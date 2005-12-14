@@ -6,8 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - debug closed-form solutions
-- drag problem prevents being able to set interior regions to their min width
-- dragging fast can cause horizontal drag handle to separate from what it's dragging
 - process regions in reverse order when direction is right-to-left
 - set layering order to real,img,mag,phase (front to back)
 
@@ -58,6 +56,10 @@ JFREECHART:
 
 
 DONE:
+(12/13/05) - bugfix: drag problem prevents being able to set interior regions to their min width
+(12/13/05) - bugfix: dragging fast can cause horizontal drag handle to separate from what it's dragging
+(12/13/05) - moved more stuff out of subclasses and into AbstractDragHandle
+(12/13/05) - renamed DragHandle to AbstractDragHandle
 (12/12/05) - implement single & double barrier solvers
 (12/12/05) - calc coefficients only when TE or PE changes
 (12/12/05) - restructure closed-form solvers
