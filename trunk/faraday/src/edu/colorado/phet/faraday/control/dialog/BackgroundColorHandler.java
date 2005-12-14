@@ -55,7 +55,7 @@ public class BackgroundColorHandler implements ColorChooserFactory.Listener {
         Component parent = app.getPhetFrame();
         
         // Start with the active module's background color.
-        Color initialColor = app.getModuleManager().getActiveModule().getApparatusPanel().getBackground();
+        Color initialColor = app.getModuleManager().getActiveModule().getSimulationPanel().getBackground();
         
         _dialog = ColorChooserFactory.createDialog( title, parent, initialColor, this );
     }
@@ -114,7 +114,7 @@ public class BackgroundColorHandler implements ColorChooserFactory.Listener {
         int numberOfModules = moduleManager.numModules();
         for ( int i = 0; i < numberOfModules; i++ ) {
             Module module = moduleManager.moduleAt( i );
-            moduleManager.moduleAt( i ).getApparatusPanel().setBackground( color );
+            moduleManager.moduleAt( i ).getSimulationPanel().setBackground( color );
             if ( module instanceof ICompassGridModule ) {
                 ( (ICompassGridModule) module ).setGridBackground( color );
             }
