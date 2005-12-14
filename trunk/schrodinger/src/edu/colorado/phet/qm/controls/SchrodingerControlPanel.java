@@ -266,7 +266,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         simulationPanel.addFullWidth( gridWidth );
 
         final double origDT = getDiscreteModel().getDeltaTime();
-        System.out.println( "origDT = " + origDT );
+//        System.out.println( "origDT = " + origDT );
         final JSpinner timeStep = new JSpinner( new SpinnerNumberModel( 0.8, 0, 2, 0.1 ) );
         timeStep.setBorder( BorderFactory.createTitledBorder( "DT" ) );
 

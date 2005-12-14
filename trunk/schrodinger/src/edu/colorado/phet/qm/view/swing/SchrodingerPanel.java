@@ -46,6 +46,7 @@ public class SchrodingerPanel extends PhetPCanvas {
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 setRenderingSize( 600, 600 );
+                schrodingerScreenNode.relayout();
             }
         } );
 

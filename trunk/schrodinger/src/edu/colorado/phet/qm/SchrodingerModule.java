@@ -3,6 +3,7 @@ package edu.colorado.phet.qm;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.piccolo.PiccoloModule;
@@ -175,8 +176,22 @@ public class SchrodingerModule extends PiccoloModule {
         getSchrodingerPanel().clearPotential();
     }
 
-    public void setWaveSize( int size ) {
-        getDiscreteModel().setWaveSize( size, size );
-        getSchrodingerPanel().setWaveSize( size, size );
+    public void setWaveSize( final int size ) {
+        System.out.println( "Request to set size: " + size );
+        Command cmd = new Command() {
+            public void doIt() {
+                System.out.println( "Setting size = " + size );
+                getDiscreteModel().setWaveSize( size, size );
+                getSchrodingerPanel().setWaveSize( size, size );
+            }
+        };
+        if( !getClock().isPaused() ) {
+            getModel().execute( cmd );
+            System.out.println( "resizing in model thread" );
+        }
+        else {
+            System.out.println( "Resizing immedialely." );
+            cmd.doIt();
+        }
     }
 }
