@@ -80,7 +80,6 @@ public class Crystal extends Body implements Binder {
     private ArrayList ions = new ArrayList();
     // The angle that the lattice is oriented at, relative to the x axis
     private double orientation;
-//    private Atom seed;
     private Lattice lattice;
     // The list of ions that cannot be bound to this lattice at this time
     private Vector noBindList = new Vector();
@@ -331,9 +330,16 @@ public class Crystal extends Body implements Binder {
      */
     public void stepInTime( double dt ) {
 
+        if( getVelocity().getY() == 0.2 ) {
+            System.out.println( "Crystal.stepInTime" );
+        }
+
         // Only dissociate if the lattice is in the water
         if( bounds.contains( getPosition() ) && random.nextDouble() < dissociationLikelihood ) {
             releaseIon( dt );
+            if( getVelocity().getY() == 0.2 ) {
+                System.out.println( "Crystal.stepInTime" );
+            }
         }
         super.stepInTime( dt );
     }

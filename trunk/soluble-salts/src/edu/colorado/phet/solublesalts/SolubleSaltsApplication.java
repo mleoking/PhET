@@ -75,6 +75,23 @@ public class SolubleSaltsApplication extends PhetApplication {
     }
 
     public static void main( String[] args ) {
+
+        for( int i = 0; i < args.length; i++ ) {
+            String arg = args[i];
+            if( arg.equals( "-b" ) ) {
+                IonGraphic.showBondIndicators( true );
+            }
+            if( arg.equals( "-t" ) ) {
+                SolubleSaltsConfig.LATTICE = SolubleSaltsConfig.twoToOneLattice;
+            }
+            if( arg.startsWith( "-w" )) {
+                int d = Integer.parseInt( arg.substring( 3 ) );
+                SolubleSaltsConfig.DEFAULT_WATER_LEVEL = d;
+            }
+        }
+
+
+
         SimStrings.init( args, SolubleSaltsConfig.STRINGS_BUNDLE_NAME );
         PhetApplication app = new SolubleSaltsApplication( args );
         app.startApplication();
@@ -88,12 +105,6 @@ public class SolubleSaltsApplication extends PhetApplication {
 //                    PMouseTracker mouseTracker = new PMouseTracker( simPanel );
 //                    simPanel.addWorldChild( mouseTracker );
                 }
-            }
-            if( arg.equals( "-b" ) ) {
-                IonGraphic.showBondIndicators( true );
-            }
-            if( arg.equals( "-t" ) ) {
-                SolubleSaltsConfig.LATTICE = SolubleSaltsConfig.twoToOneLattice;
             }
         }
 
