@@ -374,8 +374,6 @@ public class QTControlPanel extends AbstractControlPanel {
         // Disable stuff that's not implemented yet
         {
             _phaseCheckBox.setEnabled( false );
-            _sumRadioButton.setEnabled( false );
-            _separateRadioButton.setEnabled( false );
             _leftToRightRadioButton.setEnabled( false );
             _rightToLeftRadioButton.setEnabled( false );
             _planeWaveRadioButton.setEnabled( false );
@@ -537,7 +535,7 @@ public class QTControlPanel extends AbstractControlPanel {
     }
     
     private void handleSumSelection() {
-        
+        _module.setViewSeparateEnabled( _separateRadioButton.isSelected() );
     }
     
     private void handleDirectionSelection() {

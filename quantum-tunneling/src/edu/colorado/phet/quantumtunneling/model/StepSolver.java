@@ -17,15 +17,23 @@ import edu.colorado.phet.quantumtunneling.util.MutableComplex;
 
 /**
  * StepSolver is a closed-form solution to the 
- * wave function equation for step potentials.
+ * wave function equation for plane waves with step potentials.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class StepSolver extends AbstractSolver {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     // coefficients
     private MutableComplex _B, _C;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     /**
      * Constructor.
@@ -37,22 +45,26 @@ public class StepSolver extends AbstractSolver {
         super( te, pe );
     }
     
+    //----------------------------------------------------------------------------
+    // AbstractSolver implementation
+    //----------------------------------------------------------------------------
+    
     /**
      * Solves the wave function.
      * 
      * @param x position, in nm
      * @param t time, in fs
      */
-    public Complex solve( final double x, final double t ) {
-        Complex result = null;
+    public WaveFunctionSolution solve( final double x, final double t ) {
+        WaveFunctionSolution result = null;
         
         final double E = getTotalEnergy().getEnergy();
         
         if ( isLeftToRight() && E < getPotentialEnergy().getEnergy( 0 ) ) {
-            result = new Complex( 0, 0 );
+            result = new WaveFunctionSolution( x, t );
         }
         else if ( isRightToLeft() && E < getPotentialEnergy().getEnergy( 1 ) ) {
-            result = new Complex( 0, 0 );
+            result = new WaveFunctionSolution( x, t );
         }
         else {
             int regionIndex = getPotentialEnergy().getRegionIndexAt( x );
@@ -73,29 +85,29 @@ public class StepSolver extends AbstractSolver {
     /* 
      * Region1: psi(x,t) = ( e^(i*k1*x) + ( B*e^(-i*k1*x) ) ) * e^(-i*E*t/h)
      */
-    private Complex solveRegion1( final double x, final double t ) {        
+    private WaveFunctionSolution solveRegion1( final double x, final double t ) {        
         final int regionIndex = 0;
         final double E = getTotalEnergy().getEnergy();
         Complex k1 = getK( 0 );
         Complex term1 = commonTerm1( x, k1 ); // e^(ikx)
         Complex term2 = commonTerm2( x, k1 ); // e^(-ikx)
         Complex term3 = commonTerm3( t, E ); // e^(-i*E*t/h)
-        Complex rightMoving = term1.getMultiply( term3 );
-        Complex leftMoving = _B.getMultiply( term2 ).getMultiply( term3 );
-        Complex result = rightMoving.getAdd( leftMoving );       
+        Complex incidentPart = term1.getMultiply( term3 );
+        Complex reflectedPart = _B.getMultiply( term2 ).getMultiply( term3 );
+        WaveFunctionSolution result = new WaveFunctionSolution( x, t, incidentPart, reflectedPart );       
         return result;
     }
     
     /* 
      * Region2: psi(x,t) = ( C*e^(i*k2*x) ) * e^(-i*E*t/h)
      */
-    private Complex solveRegion2( final double x, final double t ) {
+    private WaveFunctionSolution solveRegion2( final double x, final double t ) {
         final double E = getTotalEnergy().getEnergy();
         Complex k2 = getK( 1 );
         Complex term1 = commonTerm1( x, k2 ); // e^(ikx)
         Complex term3 = commonTerm3( t, E ); // e^(-i*E*t/h)
-        Complex rightMoving = _C.getMultiply( term1 ).getMultiply( term3 );
-        Complex result = rightMoving;
+        Complex incidentPart = _C.getMultiply( term1 ).getMultiply( term3 );
+        WaveFunctionSolution result = new WaveFunctionSolution( x, t, incidentPart );
         return result;
     }
     

@@ -70,7 +70,11 @@ public class QTConstants {
     public static final Stroke INCIDENT_REAL_WAVE_STROKE = new BasicStroke( 1f );
     public static final Stroke INCIDENT_IMAGINARY_WAVE_STROKE = new BasicStroke( 1f );
     public static final Stroke INCIDENT_MAGNITUDE_WAVE_STROKE = new BasicStroke( 1f );
-    public static final Stroke REFLECTED_WAVE_STROKE = new BasicStroke( 1f );
+    public static final Stroke INCIDENT_PHASE_WAVE_STROKE = new BasicStroke( 1f );
+    public static final Stroke REFLECTED_REAL_WAVE_STROKE = INCIDENT_REAL_WAVE_STROKE;
+    public static final Stroke REFLECTED_IMAGINARY_WAVE_STROKE = INCIDENT_IMAGINARY_WAVE_STROKE;
+    public static final Stroke REFLECTED_MAGNITUDE_WAVE_STROKE = INCIDENT_MAGNITUDE_WAVE_STROKE;
+    public static final Stroke REFLECTED_PHASE_WAVE_STROKE = INCIDENT_PHASE_WAVE_STROKE;
     public static final Stroke PROBABILITY_DENSITY_STROKE = new BasicStroke( 1f );
     public static final Stroke REGION_MARKER_STROKE = 
         new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {5,5}, 0 );
@@ -87,7 +91,11 @@ public class QTConstants {
     public static final Color INCIDENT_REAL_WAVE_COLOR = Color.RED;
     public static final Color INCIDENT_IMAGINARY_WAVE_COLOR = Color.BLUE;
     public static final Color INCIDENT_MAGNITUDE_WAVE_COLOR = Color.BLACK;
-    public static final Color REFLECTED_WAVE_COLOR = Color.BLUE;
+    public static final Color INCIDENT_PHASE_WAVE_COLOR = Color.BLACK;
+    public static final Color REFLECTED_REAL_WAVE_COLOR = INCIDENT_REAL_WAVE_COLOR;
+    public static final Color REFLECTED_IMAGINARY_WAVE_COLOR = INCIDENT_IMAGINARY_WAVE_COLOR;
+    public static final Color REFLECTED_MAGNITUDE_WAVE_COLOR = INCIDENT_MAGNITUDE_WAVE_COLOR;
+    public static final Color REFLECTED_PHASE_WAVE_COLOR = INCIDENT_PHASE_WAVE_COLOR;
     public static final Color PROBABILITY_DENSITY_COLOR = Color.BLACK;
     public static final Color REGION_MARKER_COLOR = Color.BLACK;
     public static final Color TICK_LABEL_COLOR = Color.BLACK;

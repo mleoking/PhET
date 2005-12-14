@@ -17,6 +17,7 @@ import java.util.Observer;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.*;
+import org.jfree.data.xy.XYSeries;
 
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotentialSpace;
@@ -80,8 +81,8 @@ public class QTCombinedChart extends JFreeChart implements Observer {
         _waveFunctionPlot = new WaveFunctionPlot();
 
         // Probability Density plot...
-        _probabilityDensityPlot = new ProbabilityDensityPlot();
-        _waveFunctionPlot.setProbabilityDensitySeries( _probabilityDensityPlot.getProbabilityDensitySeries() );
+        XYSeries probabilityDensitySeries = _waveFunctionPlot.getProbabilityDensitySeries();
+        _probabilityDensityPlot = new ProbabilityDensityPlot( probabilityDensitySeries );
 
         // Parent plot configuration...
         {

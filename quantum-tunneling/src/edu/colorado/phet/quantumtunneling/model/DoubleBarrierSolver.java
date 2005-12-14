@@ -20,15 +20,23 @@ import edu.colorado.phet.quantumtunneling.util.MutableComplex;
 
 /**
  * DoubleBarrierSolver is a closed-form solution to the 
- * wave function equation for double-barrier potentials.
+ * wave function equation for plane waves with double-barrier potentials.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class DoubleBarrierSolver extends AbstractSolver {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     // coefficients
     private MutableComplex _B, _C, _D, _F, _G, _H, _I, _J;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     /**
      * Constructor.
@@ -41,22 +49,27 @@ public class DoubleBarrierSolver extends AbstractSolver {
         assert ( pe.getNumberOfBarriers() == 2 );
     }
 
+    //----------------------------------------------------------------------------
+    // AbstractSolver implementation
+    //----------------------------------------------------------------------------
+    
     /**
      * Solves the wave function.
      * 
      * @param x position, in nm
      * @param t time, in fs
      */
-    public Complex solve( final double x, final double t ) {
-        Complex result = null;
+    public WaveFunctionSolution solve( final double x, final double t ) {
+        
+        WaveFunctionSolution result = null;
         
         final double E = getTotalEnergy().getEnergy();
 
         if ( isLeftToRight() && E < getPotentialEnergy().getEnergy( 0 ) ) {
-            result = new Complex( 0, 0 );
+            result = new WaveFunctionSolution( x, t );
         }
         else if ( isRightToLeft() && E < getPotentialEnergy().getEnergy( 4 ) ) {
-            result = new Complex( 0, 0 );
+            result = new WaveFunctionSolution( x, t );
         }
         else {
             int regionIndex = getPotentialEnergy().getRegionIndexAt( x );
@@ -88,73 +101,73 @@ public class DoubleBarrierSolver extends AbstractSolver {
     /* 
      * Region1: psi(x,t) = ( e^(i*k1*x) + B * e^(-i*k1*x) ) * e^(-i*E*t/h)
      */
-    private Complex solveRegion1( final double x, final double t ) {
+    private WaveFunctionSolution solveRegion1( final double x, final double t ) {
         final double E = getTotalEnergy().getEnergy();
         Complex k1 = getK( 0 );
         Complex term1 = commonTerm1( x, k1 ); // e^(ikx)
         Complex term2 = commonTerm2( x, k1 ); // e^(-ikx)
         Complex term3 = commonTerm3( t, E ); // e^(-i*E*t/h)
-        Complex rightMoving = term1.getMultiply( term3 );
-        Complex leftMoving = _B.getMultiply( term2 ).getMultiply( term3 );
-        Complex result = rightMoving.getAdd( leftMoving );
+        Complex incidentPart = term1.getMultiply( term3 );
+        Complex reflectedPart = _B.getMultiply( term2 ).getMultiply( term3 );
+        WaveFunctionSolution result = new WaveFunctionSolution( x, t, incidentPart, reflectedPart );
         return result;
     }
     
     /* 
      * Region2: psi(x,t) = ( C * e^(i*k2*x) + D * e^(-i*k2*x) ) * e^(-i*E*t/h) 
      */
-    private Complex solveRegion2( final double x, final double t ) {
+    private WaveFunctionSolution solveRegion2( final double x, final double t ) {
         final double E = getTotalEnergy().getEnergy();
         Complex k2 = getK( 1 );
         Complex term1 = commonTerm1( x, k2 ); // e^(ikx)
         Complex term2 = commonTerm2( x, k2 ); // e^(-ikx)
         Complex term3 = commonTerm3( t, E ); // e^(-i*E*t/h)
-        Complex rightMoving = _C.getMultiply( term1 ).getMultiply( term3 );
-        Complex leftMoving = _D.getMultiply( term2 ).getMultiply( term3 );
-        Complex result = rightMoving.getAdd( leftMoving );
+        Complex incidentPart = _C.getMultiply( term1 ).getMultiply( term3 );
+        Complex reflectedPart = _D.getMultiply( term2 ).getMultiply( term3 );
+        WaveFunctionSolution result = new WaveFunctionSolution( x, t, incidentPart, reflectedPart );;
         return result;
     }
     
     /* 
      * Region3: psi(x,t) = ( F * e^(i*k3*x) + G * e^(-i*k3*x) ) * e^(-i*E*t/h)
      */
-    private Complex solveRegion3( final double x, final double t ) {
+    private WaveFunctionSolution solveRegion3( final double x, final double t ) {
         final double E = getTotalEnergy().getEnergy();
         Complex k3 = getK( 2 );
         Complex term1 = commonTerm1( x, k3 ); // e^(ikx)
         Complex term2 = commonTerm2( x, k3 ); // e^(-ikx)
         Complex term3 = commonTerm3( t, E ); // e^(-i*E*t/h)
-        Complex rightMoving = _F.getMultiply( term1 ).getMultiply( term3 );
-        Complex leftMoving = _G.getMultiply( term2 ).getMultiply( term3 );
-        Complex result = rightMoving.getAdd( leftMoving );
+        Complex incidentPart = _F.getMultiply( term1 ).getMultiply( term3 );
+        Complex reflectedPart = _G.getMultiply( term2 ).getMultiply( term3 );
+        WaveFunctionSolution result = new WaveFunctionSolution( x, t, incidentPart, reflectedPart );
         return result;
     }
     
     /* 
      * Region4: psi(x,t) = ( H * e^(i*k4*x) + I * e^(-i*k4*x) ) * e^(-i*E*t/h)
      */
-    private Complex solveRegion4( final double x, final double t ) {
+    private WaveFunctionSolution solveRegion4( final double x, final double t ) {
         final double E = getTotalEnergy().getEnergy();
         Complex k4 = getK( 3 );
         Complex term1 = commonTerm1( x, k4 ); // e^(ikx)
         Complex term2 = commonTerm2( x, k4 ); // e^(-ikx)
         Complex term3 = commonTerm3( t, E ); // e^(-i*E*t/h)
-        Complex rightMoving = _H.getMultiply( term1 ).getMultiply( term3 );
-        Complex leftMoving = _I.getMultiply( term2 ).getMultiply( term3 );
-        Complex result = rightMoving.getAdd( leftMoving );
+        Complex incidentPart = _H.getMultiply( term1 ).getMultiply( term3 );
+        Complex reflectedPart = _I.getMultiply( term2 ).getMultiply( term3 );
+        WaveFunctionSolution result = new WaveFunctionSolution( x, t, incidentPart, reflectedPart );
         return result;
     }
     
     /* 
      * Region5: psi(x,t) = ( J * e^(i*k5*x) ) * e^(-i*E*t/h)
      */
-    private Complex solveRegion5( final double x, final double t ) {
+    private WaveFunctionSolution solveRegion5( final double x, final double t ) {
         final double E = getTotalEnergy().getEnergy();
         Complex k5 = getK( 4 );
         Complex term1 = commonTerm1( x, k5 ); // e^(ikx)
         Complex term3 = commonTerm3( t, E ); // e^(-i*E*t/h)
-        Complex rightMoving = _J.getMultiply( term1 ).getMultiply( term3 );
-        Complex result = rightMoving;
+        Complex incidentPart = _J.getMultiply( term1 ).getMultiply( term3 );
+        WaveFunctionSolution result = new WaveFunctionSolution( x, t, incidentPart );
         return result;
     }
     

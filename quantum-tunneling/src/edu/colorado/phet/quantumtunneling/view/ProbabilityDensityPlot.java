@@ -34,33 +34,20 @@ import edu.colorado.phet.quantumtunneling.QTConstants;
  * @version $Revision$
  */
 public class ProbabilityDensityPlot extends XYPlot {
-
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-    
-    private XYSeries _probabilityDensitySeries;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public ProbabilityDensityPlot() {
+    public ProbabilityDensityPlot( XYSeries probabilityDensitySeries ) {
         super();
         
         // Labels (localized)
         String probabilityDensityLabel = SimStrings.get( "axis.probabilityDensity" );
         
-        // Series
-        _probabilityDensitySeries = new XYSeries( "probability density" );
-        
         // Dataset
         XYSeriesCollection data = new XYSeriesCollection();
-        data.addSeries( _probabilityDensitySeries );
+        data.addSeries( probabilityDensitySeries );
         
         // Renderer
         XYItemRenderer renderer = new StandardXYItemRenderer();
@@ -87,13 +74,5 @@ public class ProbabilityDensityPlot extends XYPlot {
         setRenderer( renderer );
         setDomainAxis( xAxis );
         setRangeAxis( yAxis );
-    }
-    
-    //----------------------------------------------------------------------------
-    // Accessors
-    //----------------------------------------------------------------------------
-    
-    public XYSeries getProbabilityDensitySeries() {
-        return _probabilityDensitySeries;
     }
 }

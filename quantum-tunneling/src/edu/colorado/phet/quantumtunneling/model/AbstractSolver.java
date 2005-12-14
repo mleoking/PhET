@@ -124,7 +124,7 @@ public abstract class AbstractSolver implements Observer {
      * @param t time, in fs
      * @return
      */
-    public abstract Complex solve( final double x, final double t );
+    public abstract WaveFunctionSolution solve( final double x, final double t );
     
     /*
      * Updates the solver whenever the total or potential energy changes.
