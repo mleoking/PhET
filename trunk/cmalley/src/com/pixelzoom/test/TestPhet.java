@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
@@ -50,7 +51,7 @@ public class TestPhet {
         app.startApplication();
     }
 
-    private class TestModule extends Module {
+    private class TestModule extends PhetGraphicsModule {
 
         public TestModule( AbstractClock clock ) {
             super( "TestModule", clock );
