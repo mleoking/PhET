@@ -11,5 +11,6 @@
     <selectedElements exportClassFiles="false" exportOutputFolder="true" exportJavaFiles="false">
         <javaElement handleIdentifier="=faraday"/>
         <javaElement handleIdentifier="=phetcommon"/>
+        <javaElement handleIdentifier="=phetgraphics"/>
     </selectedElements>
 </jardesc>
