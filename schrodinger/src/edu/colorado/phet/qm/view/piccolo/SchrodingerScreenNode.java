@@ -191,11 +191,25 @@ public class SchrodingerScreenNode extends PNode {
 
     public void setWaveSize( int width, int height ) {
         wavefunctionGraphic.setWaveSize( width, height );
+        relayout();
+    }
+
+    public void relayout() {
+        layoutChildren( true );
     }
 
     protected void layoutChildren() {
-        if( lastLayoutSize == null || !lastLayoutSize.equals( schrodingerPanel.getSize() ) ) {
+        layoutChildren( false );
+    }
+
+    protected void layoutChildren( boolean forceLayout ) {
+        boolean sizeChanged = lastLayoutSize == null || !lastLayoutSize.equals( schrodingerPanel.getSize() );
+        if( sizeChanged || forceLayout ) {
+
+
             lastLayoutSize = new Dimension( schrodingerPanel.getSize() );
+
+            System.out.println( "System.currentTimeMillis() = " + System.currentTimeMillis() );
             super.layoutChildren();
 
             double slitPanelInsetX = 5;

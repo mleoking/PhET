@@ -53,7 +53,11 @@ public class SmoothIntensityDisplay {
     }
 
     public void updateValues() {
+
         Wavefunction sub = intensityGraphic.getDetectionRegion();
+        if( histogram.length != sub.getWidth() ) {
+            histogram = new double[sub.getWidth()];
+        }
         for( int i = 0; i < sub.getWidth(); i++ ) {
             double sum = 0.0;
             for( int j = 0; j < sub.getHeight(); j++ ) {

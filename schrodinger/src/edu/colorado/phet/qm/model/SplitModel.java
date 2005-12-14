@@ -50,7 +50,7 @@ public class SplitModel extends DiscreteModel {
 
         setDetectionCausesCollapse( false );//since it's a split model
 
-        System.out.println( "DEBUG_WAVES = " + DEBUG_WAVES );
+//        System.out.println( "DEBUG_WAVES = " + DEBUG_WAVES );
         if( DEBUG_WAVES ) {
             final WaveDebugger leftWaveDebugger = new WaveDebugger( "Left", getLeftWavefunction() );
             leftWaveDebugger.setVisible( true );
