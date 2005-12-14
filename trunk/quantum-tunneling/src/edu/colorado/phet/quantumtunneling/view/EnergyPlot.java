@@ -46,7 +46,7 @@ public class EnergyPlot extends XYPlot implements Observer {
     //----------------------------------------------------------------------------
     
     // Indicies are determined by the order that renderers are added to this XYPlot
-    private static final int PE_RENDERER_INDEX = 0;
+    private static final int PE_RENDERER_INDEX = 0; // front-most
     private static final int TE_PLANE_RENDERER_INDEX = 1;
     private static final int TE_PACKET_RENDERER_INDEX = 2;
     
