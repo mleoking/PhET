@@ -28,7 +28,7 @@ import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotentialSpace;
 import edu.colorado.phet.quantumtunneling.model.AbstractSolver;
 import edu.colorado.phet.quantumtunneling.model.PlaneWave;
-import edu.colorado.phet.quantumtunneling.model.TotalEnergy;
+import edu.colorado.phet.quantumtunneling.model.WaveFunctionSolution;
 import edu.colorado.phet.quantumtunneling.util.Complex;
 
 
@@ -49,6 +49,9 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
     private static final int INCIDENT_REAL_SERIES_INDEX = 0;  // front-most
     private static final int INCIDENT_IMAGINARY_SERIES_INDEX = 1;
     private static final int INCIDENT_MAGNITUDE_SERIES_INDEX = 2;
+    private static final int REFLECTED_REAL_SERIES_INDEX = 3;
+    private static final int REFLECTED_IMAGINARY_SERIES_INDEX = 4;
+    private static final int REFLECTED_MAGNITUDE_SERIES_INDEX = 5;
     
     private static final double X_STEP = 0.02; // x step between data points
     
@@ -57,11 +60,16 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
     //----------------------------------------------------------------------------
     
     private PlaneWave _planeWave;
+    
     private XYSeries _incidentRealSeries;
     private XYSeries _incidentImaginarySeries;
     private XYSeries _incidentMagnitudeSeries;
-    
+    private XYSeries _reflectedRealSeries;
+    private XYSeries _reflectedImaginarySeries;
+    private XYSeries _reflectedMagnitudeSeries;
     private XYSeries _probabilityDensitySeries;
+    
+    private boolean _viewSeparateEnabled;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -77,12 +85,20 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
         _incidentRealSeries = new XYSeries( "incident real" );
         _incidentImaginarySeries = new XYSeries( "incident imaginary" );
         _incidentMagnitudeSeries = new XYSeries( "incident magnitude" );
+        _reflectedRealSeries = new XYSeries( "reflected real" );
+        _reflectedImaginarySeries = new XYSeries( "reflected imaginary" );
+        _reflectedMagnitudeSeries = new XYSeries( "reflected magnitude" );
+        _probabilityDensitySeries = new XYSeries( "probability density" );
         
         // Dataset
         XYSeriesCollection data = new XYSeriesCollection();
         data.addSeries( _incidentRealSeries );
         data.addSeries( _incidentImaginarySeries );
         data.addSeries( _incidentMagnitudeSeries );
+        data.addSeries( _reflectedRealSeries );
+        data.addSeries( _reflectedImaginarySeries );
+        data.addSeries( _reflectedMagnitudeSeries );
+        // do not add _probabilityDensitySeries, it is displayed by ProbabilityDensityPlot
         
         // Renderer
         XYItemRenderer renderer = new StandardXYItemRenderer();
@@ -92,6 +108,12 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
         renderer.setSeriesStroke( INCIDENT_IMAGINARY_SERIES_INDEX, QTConstants.INCIDENT_IMAGINARY_WAVE_STROKE );
         renderer.setSeriesPaint( INCIDENT_MAGNITUDE_SERIES_INDEX, QTConstants.INCIDENT_MAGNITUDE_WAVE_COLOR );
         renderer.setSeriesStroke( INCIDENT_MAGNITUDE_SERIES_INDEX, QTConstants.INCIDENT_MAGNITUDE_WAVE_STROKE );
+        renderer.setSeriesPaint( REFLECTED_REAL_SERIES_INDEX, QTConstants.REFLECTED_REAL_WAVE_COLOR );
+        renderer.setSeriesStroke( REFLECTED_REAL_SERIES_INDEX, QTConstants.REFLECTED_REAL_WAVE_STROKE );
+        renderer.setSeriesPaint( REFLECTED_IMAGINARY_SERIES_INDEX, QTConstants.REFLECTED_IMAGINARY_WAVE_COLOR );
+        renderer.setSeriesStroke( REFLECTED_IMAGINARY_SERIES_INDEX, QTConstants.REFLECTED_IMAGINARY_WAVE_STROKE );
+        renderer.setSeriesPaint( REFLECTED_MAGNITUDE_SERIES_INDEX, QTConstants.REFLECTED_MAGNITUDE_WAVE_COLOR );
+        renderer.setSeriesStroke( REFLECTED_MAGNITUDE_SERIES_INDEX, QTConstants.REFLECTED_MAGNITUDE_WAVE_STROKE );
         
         // X axis 
         PositionAxis xAxis = new PositionAxis();
@@ -115,12 +137,16 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
         setRangeAxis( yAxis );
         
         _planeWave = null;
-        _probabilityDensitySeries = null;
+        _viewSeparateEnabled = false;
     }
     
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
+    
+    public XYSeries getProbabilityDensitySeries() {
+        return _probabilityDensitySeries;
+    }
     
     public void setPlaneWave( PlaneWave planeWave ) {
         if ( _planeWave != null ) {
@@ -128,26 +154,31 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
         }
         _planeWave = planeWave;
         _planeWave.addObserver( this );
-    }
-    
-    public void setProbabilityDensitySeries( XYSeries probabilityDensitySeries ) {
-        _probabilityDensitySeries = probabilityDensitySeries;
+        updateDatasets();
     }
     
     public void setRealVisible( boolean visible ) {
         getRenderer().setSeriesVisible( INCIDENT_REAL_SERIES_INDEX, new Boolean( visible ) );
+        getRenderer().setSeriesVisible( REFLECTED_REAL_SERIES_INDEX, new Boolean( visible ) );
     }
     
     public void setImaginaryVisible( boolean visible ) {
         getRenderer().setSeriesVisible( INCIDENT_IMAGINARY_SERIES_INDEX, new Boolean( visible ) );
+        getRenderer().setSeriesVisible( REFLECTED_IMAGINARY_SERIES_INDEX, new Boolean( visible ) );
     }
     
     public void setMagnitudeVisible( boolean visible ) {
         getRenderer().setSeriesVisible( INCIDENT_MAGNITUDE_SERIES_INDEX, new Boolean( visible ) );
+        getRenderer().setSeriesVisible( REFLECTED_MAGNITUDE_SERIES_INDEX, new Boolean( visible ) );
     }
     
     public void setPhaseVisible( boolean visible ) {
         //XXX
+    }
+    
+    public void setViewSeparateEnabled( boolean enabled ) {
+        _viewSeparateEnabled = enabled;
+        updateDatasets();
     }
     
     //----------------------------------------------------------------------------
@@ -172,12 +203,7 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
     
     private void updateDatasets() {
         
-        _incidentRealSeries.clear();
-        _incidentImaginarySeries.clear();
-        _incidentMagnitudeSeries.clear();
-        if ( _probabilityDensitySeries != null ) {
-            _probabilityDensitySeries.clear();
-        }
+        clearAllSeries();
         
         AbstractSolver solver = _planeWave.getSolver();
         if ( solver != null ) {
@@ -189,17 +215,54 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
             final double t = _planeWave.getTime();
 
             for ( double x = minX; x < maxX; x += X_STEP ) {
-                Complex c = solver.solve( x, t );
-                if ( c != null ) {
-                    _incidentRealSeries.add( x, c.getReal() );
-                    _incidentImaginarySeries.add( x, c.getImaginary() );
-                    _incidentMagnitudeSeries.add( x, c.getAbs() );
-                    
-                    if ( _probabilityDensitySeries != null ) {
-                        _probabilityDensitySeries.add( x, c.getAbs() * c.getAbs() );
+                WaveFunctionSolution p = solver.solve( x, t );
+                if ( p != null ) {
+                    if ( _viewSeparateEnabled ) {
+                        // Display the incident and reflected waves separately.
+                        Complex incidentPart = p.getIncidentPart();
+                        if ( incidentPart != null ) {
+                            _incidentRealSeries.add( x, incidentPart.getReal() );
+                            _incidentImaginarySeries.add( x, incidentPart.getImaginary() );
+                            _incidentMagnitudeSeries.add( x, incidentPart.getAbs() );
+                        }
+                        
+                        Complex reflectedPart = p.getReflectedPart();
+                        if ( reflectedPart != null ) {
+                            _reflectedRealSeries.add( x, reflectedPart.getReal() );
+                            _reflectedImaginarySeries.add( x, reflectedPart.getImaginary() );
+                            _reflectedMagnitudeSeries.add( x, reflectedPart.getAbs() );
+                        }
+                        
+                        Complex sum = p.getSum();
+                        if ( sum != null ) {
+                            _probabilityDensitySeries.add( x, sum.getAbs() * sum.getAbs() );
+                        }
+                    }
+                    else {
+                        // Display the sum
+                        Complex sum = p.getSum();
+                        if ( sum != null ) {
+                            _incidentRealSeries.add( x, sum.getReal() );
+                            _incidentImaginarySeries.add( x, sum.getImaginary() );
+                            _incidentMagnitudeSeries.add( x, sum.getAbs() );
+                            _probabilityDensitySeries.add( x, sum.getAbs() * sum.getAbs() );
+                        }
                     }
                 }
             }
         }
+    }
+    
+    /*
+     * Clears the data from all series.
+     */
+    private void clearAllSeries() {
+        _incidentRealSeries.clear();
+        _incidentImaginarySeries.clear();
+        _incidentMagnitudeSeries.clear();
+        _reflectedRealSeries.clear();
+        _reflectedImaginarySeries.clear();
+        _reflectedMagnitudeSeries.clear();
+        _probabilityDensitySeries.clear();
     }
 }

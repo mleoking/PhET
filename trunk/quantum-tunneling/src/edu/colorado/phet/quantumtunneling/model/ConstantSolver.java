@@ -20,15 +20,16 @@ import edu.colorado.phet.quantumtunneling.util.MutableComplex;
 
 /**
  * ConstantSolver is a closed-form solution to the 
- * wave function equation for constant potentials.
- * <p>
-
- * </code>
+ * wave function equation for plane waves with constant potentials.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class ConstantSolver extends AbstractSolver implements Observer {
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     /**
      * Constructor.
@@ -39,6 +40,10 @@ public class ConstantSolver extends AbstractSolver implements Observer {
     public ConstantSolver( TotalEnergy te, ConstantPotential pe ) {
         super( te, pe );
     }
+    
+    //----------------------------------------------------------------------------
+    // AbstractSolver implementation
+    //----------------------------------------------------------------------------
     
     /**
      * Solves the wave function.
@@ -51,17 +56,18 @@ public class ConstantSolver extends AbstractSolver implements Observer {
      * @param x position, in nm
      * @param t time, in fs
      */
-    public Complex solve( final double x, final double t ) { 
-        Complex result = null;
+    public WaveFunctionSolution solve( final double x, final double t ) { 
+        WaveFunctionSolution result = null;
         final double E = getTotalEnergy().getEnergy();
         if ( E < getPotentialEnergy().getEnergy( 0 ) ) {
-            result = new Complex( 0, 0 );
+            result = new WaveFunctionSolution( x, t );
         }
         else {
             Complex k1 = getK( 0 );
             Complex term1 = commonTerm1( x, k1 ); // e^(ikx)
             Complex term3 = commonTerm3( t, E ); // e^(-iEt/h)
-            result = term1.getMultiply( term3 );
+            Complex incidentPart = term1.getMultiply( term3 );
+            result = new WaveFunctionSolution( x, t, incidentPart );
         }
         return result;
     }

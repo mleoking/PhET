@@ -376,4 +376,8 @@ public class QTModule extends AbstractModule {
     public void setDirection( Direction direction ) {
         _planeWave.setDirection( direction );
     }
+    
+    public void setViewSeparateEnabled( boolean enabled ) {
+        _chart.getWaveFunctionPlot().setViewSeparateEnabled( enabled );
+    }
 }
