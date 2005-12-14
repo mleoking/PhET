@@ -81,6 +81,7 @@ public class QTCombinedChart extends JFreeChart implements Observer {
 
         // Probability Density plot...
         _probabilityDensityPlot = new ProbabilityDensityPlot();
+        _waveFunctionPlot.setProbabilityDensitySeries( _probabilityDensityPlot.getProbabilityDensitySeries() );
 
         // Parent plot configuration...
         {
