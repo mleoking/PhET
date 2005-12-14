@@ -133,25 +133,17 @@ public class PotentialEnergyDragHandle extends AbstractDragHandle implements Obs
         }
     }
     
+    //----------------------------------------------------------------------------
+    // AbstractDragHandle implementation
+    //----------------------------------------------------------------------------
+    
     /*
-     * Updates the region's potential energy based on the drag handle's position.
+     * Gets the value, in model coordinates, that is represented by
+     * the drag handle's current location.
+     * 
+     * @return
      */
-    private void updatePotentialEnergy() {
-        if ( _potentialEnergy != null ) {
-            _potentialEnergy.deleteObserver( this );
-            Point2D globalNodePoint = getGlobalPosition();
-            Point2D localNodePoint = _chartNode.globalToLocal( globalNodePoint );
-            Point2D chartPoint = _chartNode.nodeToEnergy( localNodePoint );
-            _potentialEnergy.setEnergy( _regionIndex, chartPoint.getY() );
-            _potentialEnergy.addObserver( this );
-        }
-    }
-    
-    //----------------------------------------------------------------------------
-    // DragHandle implementation
-    //----------------------------------------------------------------------------
-    
-    public double getModelValue() {
+    protected double getModelValue() {
         double energy = 0;
         if ( _potentialEnergy != null ) {
             energy = _potentialEnergy.getEnergy( _regionIndex );
@@ -159,21 +151,17 @@ public class PotentialEnergyDragHandle extends AbstractDragHandle implements Obs
         return energy;
     }
     
-    //----------------------------------------------------------------------------
-    // PropertChangeListener implementation
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Updates the region's potential energy whenever the drag handle is moved.
-     * 
-     * @param event
+    /*
+     * Updates the region's potential energy based on the drag handle's position.
      */
-    public void propertyChange( PropertyChangeEvent event ) {
-        if ( event.getSource() == this ) {
-            if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) ) {
-                updatePotentialEnergy();
-                updateText();
-            }
+    protected void updateModel() {
+        if ( _potentialEnergy != null ) {
+            _potentialEnergy.deleteObserver( this );
+            Point2D globalNodePoint = getGlobalPosition();
+            Point2D localNodePoint = _chartNode.globalToLocal( globalNodePoint );
+            Point2D chartPoint = _chartNode.nodeToEnergy( localNodePoint );
+            _potentialEnergy.setEnergy( _regionIndex, chartPoint.getY() );
+            _potentialEnergy.addObserver( this );
         }
     }
 
