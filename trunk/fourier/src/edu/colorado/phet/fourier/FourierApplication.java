@@ -144,12 +144,6 @@ public class FourierApplication extends PhetApplication {
         // Options menu
         OptionsMenu optionsMenu = new OptionsMenu( this );
         getPhetFrame().addMenu( optionsMenu );
-        
-        // Debug menu extensions
-        DebugMenu debugMenu = frame.getDebugMenu();
-        if ( debugMenu != null ) {
-            //XXX Add debug menu items here.
-        }
     }
 
     //----------------------------------------------------------------------------
