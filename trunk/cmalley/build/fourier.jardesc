@@ -12,5 +12,6 @@
         <javaElement handleIdentifier="=fourier"/>
         <javaElement handleIdentifier="=charts"/>
         <javaElement handleIdentifier="=phetcommon"/>
+        <javaElement handleIdentifier="=phetgraphics"/>
     </selectedElements>
 </jardesc>
