@@ -38,8 +38,6 @@ public class Partial implements ReflectionStrategy {
     }
 
     public boolean reflects( Photon photon ) {
-        if( reflectivity < 1 ) {
-        }
         boolean result = false;
         if( reflectivity == 0.0 ) {
             result = false;
