@@ -5,6 +5,7 @@ import java.io.IOException;
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
 
@@ -26,8 +27,9 @@ public class TestApplication extends PhetApplication {
             super( "Test Location", "Tests changes to semantics of PhetGraphic location", "0.1" );
             FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
             setFrameSetup( frameSetup );
-            setClock( new SwingTimerClock( 1, 16 ) );
-            TestModule module = new TestModule( this );
+            AbstractClock clock = new SwingTimerClock( 1, 16 );
+            setClock( clock );
+            TestModule module = new TestModule( this, clock );
             setModules( new Module[] { module } );
             setInitialModule( module );
         }
