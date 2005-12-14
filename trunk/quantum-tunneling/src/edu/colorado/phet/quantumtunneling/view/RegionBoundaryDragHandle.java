@@ -31,7 +31,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class RegionBoundaryDragHandle extends DragHandle implements Observer, PropertyChangeListener {
+public class RegionBoundaryDragHandle extends AbstractDragHandle implements Observer, PropertyChangeListener {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -46,7 +46,7 @@ public class RegionBoundaryDragHandle extends DragHandle implements Observer, Pr
     //----------------------------------------------------------------------------
     
     public RegionBoundaryDragHandle( QTCombinedChartNode chartNode ) {
-        super( DragHandle.HORIZONTAL );
+        super( AbstractDragHandle.HORIZONTAL );
         
         _potentialEnergy = null;
         _regionIndex = -1;

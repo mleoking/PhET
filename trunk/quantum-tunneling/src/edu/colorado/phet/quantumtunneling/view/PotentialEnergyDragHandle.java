@@ -31,7 +31,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class PotentialEnergyDragHandle extends DragHandle implements Observer, PropertyChangeListener {
+public class PotentialEnergyDragHandle extends AbstractDragHandle implements Observer, PropertyChangeListener {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -46,7 +46,7 @@ public class PotentialEnergyDragHandle extends DragHandle implements Observer, P
     //----------------------------------------------------------------------------
     
     public PotentialEnergyDragHandle( QTCombinedChartNode chartNode ) {
-        super( DragHandle.VERTICAL );
+        super( AbstractDragHandle.VERTICAL );
         
         _potentialEnergy = null;
         _regionIndex = -1;

@@ -30,7 +30,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 
 /**
- * DragHandle is the abstract base class for all drag handles.
+ * AbstractDragHandle is the abstract base class for all drag handles.
  * <p>
  * There are two "looks" supported by this class.
  * The drag handles can either look like standard control points,
@@ -41,7 +41,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public abstract class DragHandle extends PPath {
+public abstract class AbstractDragHandle extends PPath {
 
     //----------------------------------------------------------------------------
     // Public class data
@@ -96,7 +96,7 @@ public abstract class DragHandle extends PPath {
      * 
      * @param orientation
      */
-    public DragHandle( int orientation ) {
+    public AbstractDragHandle( int orientation ) {
         this( orientation, DEFAULT_LOOK );
     }
     
@@ -106,7 +106,7 @@ public abstract class DragHandle extends PPath {
      * @param orientation HORIZONTAL or VERTICAL
      * @throws IllegalArgumentException
      */
-    public DragHandle( int orientation, int look ) {
+    public AbstractDragHandle( int orientation, int look ) {
         super();
         
         if ( orientation != HORIZONTAL && orientation != VERTICAL ) {
@@ -265,6 +265,9 @@ public abstract class DragHandle extends PPath {
     // Updaters
     //----------------------------------------------------------------------------
     
+    /*
+     * Updates the value display.
+     */
     protected void updateText() {
         if ( _textNode != null ) {
             double value = getModelValue();

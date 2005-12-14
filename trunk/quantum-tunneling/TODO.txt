@@ -7,6 +7,7 @@ IN PROGRESS:
 HIGH PRIORITY:
 - debug closed-form solutions
 - drag problem prevents being able to set interior regions to their min width
+- dragging fast can cause horizontal drag handle to separate from what it's dragging
 - process regions in reverse order when direction is right-to-left
 - set layering order to real,img,mag,phase (front to back)
 
