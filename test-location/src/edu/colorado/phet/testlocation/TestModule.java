@@ -5,7 +5,7 @@ import java.awt.Font;
 import java.awt.RenderingHints;
 
 import edu.colorado.phet.common.application.ApplicationModel;
-import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
@@ -23,7 +23,7 @@ import edu.colorado.phet.testlocation.view.*;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class TestModule extends Module {
+public class TestModule extends PhetGraphicsModule {
  
     private static final double CAR_LAYER = 1;
     private static final double WINDMILL_LAYER = 2;
@@ -31,16 +31,13 @@ public class TestModule extends Module {
     private static final double DEBUG_LAYER = 4;
     private static final double HELP_LAYER = Double.MAX_VALUE;
     
-    public TestModule( ApplicationModel appModel ) {
+    public TestModule( ApplicationModel appModel, AbstractClock clock ) {
 
-        super( "Test Location" );
+        super( "Test Location", clock );
 
         //----------------------------------------------------------------------------
         // Model
         //----------------------------------------------------------------------------
-
-        // Clock
-        AbstractClock clock = appModel.getClock();
 
         // Module model
         BaseModel model = new BaseModel();
