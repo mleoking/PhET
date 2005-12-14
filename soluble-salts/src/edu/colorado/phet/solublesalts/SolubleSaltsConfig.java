@@ -54,7 +54,7 @@ public class SolubleSaltsConfig {
 //    public static final Dimension VESSEL_SIZE = new Dimension( 700, 500 );
 //    public static final double VESSEL_WALL_THICKNESS = 20;
 //    public static final double DEFAULT_WATER_LEVEL = VESSEL_SIZE.getHeight() * 0.1;
-    public static final double DEFAULT_WATER_LEVEL = VESSEL_SIZE.getHeight() * 0.7;
+    public static double DEFAULT_WATER_LEVEL = VESSEL_SIZE.getHeight() * 0.7;
     public static final double DEFAULT_LATTICE_SPEED = 3;
 //    public static final double DEFAULT_LATTICE_SPEED = 5;
     // Acceleration of lattices when they come out of the shaker

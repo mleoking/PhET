@@ -132,17 +132,17 @@ public class SolubleSaltsModel extends BaseModel {
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
 
-        // If a lattice is not in the water, it accelerates downward. If it's in the water, it moves
+        // If a crystal is not in the water, it accelerates downward. If it's in the water, it moves
         // at a constant speed
-        List lattices = crystalTracker.getCrystals();
-        for( int i = 0; i < lattices.size(); i++ ) {
-            Crystal crystal = (Crystal)lattices.get( i );
+        List crystals = crystalTracker.getCrystals();
+        for( int i = 0; i < crystals.size(); i++ ) {
+            Crystal crystal = (Crystal)crystals.get( i );
             if( !vessel.getWater().getBounds().contains( crystal.getPosition() ) &&
-                !crystal.getAcceleration().equals( accelerationOutOfWater )) {
+                !crystal.getAcceleration().equals( accelerationOutOfWater ) ) {
                 crystal.setAcceleration( accelerationOutOfWater );
             }
             else if( vessel.getWater().getBounds().contains( crystal.getPosition() ) &&
-                !crystal.getAcceleration().equals( accelerationInWater )) {
+                     !crystal.getAcceleration().equals( accelerationInWater ) ) {
                 crystal.setAcceleration( accelerationInWater );
                 crystal.setVelocity( 0, SolubleSaltsConfig.DEFAULT_LATTICE_SPEED );
             }
@@ -299,12 +299,12 @@ public class SolubleSaltsModel extends BaseModel {
         changeEventChannel.removeListener( listener );
     }
 
-    public class ChangeEvent extends EventObject  {
+    public class ChangeEvent extends EventObject {
         public ChangeEvent( Object source ) {
             super( source );
         }
 
-        public  SolubleSaltsModel getModel() {
+        public SolubleSaltsModel getModel() {
             return (SolubleSaltsModel)getSource();
         }
     }
@@ -376,7 +376,7 @@ public class SolubleSaltsModel extends BaseModel {
             for( int i = 0; i < numModelElements(); i++ ) {
                 if( modelElementAt( i ) instanceof Ion ) {
                     Ion ion = (Ion)modelElementAt( i );
-                    ionVesselCollisionExpert.detectAndDoCollision( ion, vessel );
+                    boolean b = ionVesselCollisionExpert.detectAndDoCollision( ion, vessel );
 
                     for( int j = 0; j < numModelElements(); j++ ) {
                         if( modelElementAt( i ) != modelElementAt( j )
@@ -430,12 +430,10 @@ public class SolubleSaltsModel extends BaseModel {
 
         public void instanceCreated( Crystal.InstanceLifetimeEvent event ) {
             crystals.add( event.getInstance() );
-//            addModelElement( event.getInstance() );
         }
 
         public void instanceDestroyed( Crystal.InstanceLifetimeEvent event ) {
             crystals.remove( event.getInstance() );
-//            removeModelElement( event.getInstance() );
         }
     }
 }

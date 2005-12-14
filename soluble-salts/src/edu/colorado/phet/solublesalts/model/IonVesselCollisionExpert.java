@@ -19,6 +19,7 @@ import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.model.ion.Chlorine;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.List;
 
 /**
@@ -55,35 +56,42 @@ public class IonVesselCollisionExpert implements CollisionExpert, ContactDetecto
         if( applies( bodyA, bodyB ) ) {
             ion = (Ion)( bodyA instanceof Ion ? bodyA : bodyB );
             vessel = (Vessel)( bodyA instanceof Vessel ? bodyA : bodyB );
-            if( !ion.isBound() && areInContact( ion, vessel.getWater() ) ) {
+            if( areInContact( ion, vessel.getWater() )
+                || areInContact( ion, vessel ) ) {
 
-                // Check that nucleation is enabled in the model
-                boolean canBind = model.isNucleationEnabled();
+                // If the ion isn't bound to a crystal, then create a new crystal, if all other
+                // conditions are met
+                if( !ion.isBound() ) {
+                    // Check that nucleation is enabled in the model
+                    boolean canBind = model.isNucleationEnabled();
 
-                // Make sure the ion isn't too close to another ion of the same polarity
-                double minDist = minDistToLikeIon;
-                List otherIons = model.getIons();
-                for( int i = 0; i < otherIons.size() && canBind; i++ ) {
-                    Ion testIon = (Ion)otherIons.get( i );
-                    if( testIon.isBound()
-                        && testIon.getPosition().distance( ion.getPosition() ) < minDist ) {
-                        canBind = false;
+                    // Make sure the ion isn't too close to another ion of the same polarity
+                    double minDist = minDistToLikeIon;
+                    List otherIons = model.getIons();
+                    for( int i = 0; i < otherIons.size() && canBind; i++ ) {
+                        Ion testIon = (Ion)otherIons.get( i );
+                        if( testIon.isBound()
+                            && testIon.getPosition().distance( ion.getPosition() ) < minDist ) {
+                            canBind = false;
+                        }
                     }
+
+                    if( canBind && vessel.getIonStickAffinity().stick( ion, vessel ) ) {
+                        vessel.bind( ion );
+                    }
+
+                    // Perform the collision, even if we bind, so when the ion is
+                    // released it moves properly
+                    sphereBoxExpert.detectAndDoCollision( ion, vessel.getWater() );
                 }
 
-                if( canBind && vessel.getIonStickAffinity().stick( ion, vessel ) ) {
-                    vessel.bind( ion );
+                // If the ion is bound, then its crystal has hit the vessel. Set its velocity
+                // to zero and make this ion its seed
+                else {
+                    ion.getBindingLattice().setVelocity( 0, 0 );
+                    ion.getBindingLattice().setAcceleration( 0, 0 );
+                    ion.getBindingLattice().setSeed( ion );
                 }
-
-                // Perform the collision, even if we bind, so when the ion is
-                // released it moves properly
-                sphereBoxExpert.detectAndDoCollision( ion, vessel.getWater() );
-            }
-
-            // todo: if this works, rewrite the logic in the above if()
-            else if( ion.isBound() && areInContact( ion, vessel.getWater() )) {
-                ion.getBindingLattice().setVelocity( 0,0 );
-                ion.getBindingLattice().setSeed( ion );
             }
         }
         return false;
@@ -91,6 +99,19 @@ public class IonVesselCollisionExpert implements CollisionExpert, ContactDetecto
 
     public boolean areInContact( Collidable bodyA, Collidable bodyB ) {
         return sphereBoxExpert.areInContact( bodyA, bodyB );
+    }
+
+    private boolean areInContact( Ion ion, Vessel vessel ) {
+        Rectangle2D v = vessel.getShape();
+        Point2D i = ion.getPosition();
+        double r = ion.getRadius();
+        boolean b = i.getX() + r >= v.getMaxX()
+                    || i.getX() - r <= v.getMinX()
+                    || i.getY() + r >= v.getMaxY();
+        if( b ) {
+            System.out.println( "IonVesselCollisionExpert.areInContact" );
+        }
+        return b;
     }
 
     public boolean applies( Collidable bodyA, Collidable bodyB ) {
