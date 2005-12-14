@@ -45,7 +45,8 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final int INCIDENT_REAL_SERIES_INDEX = 0;
+    // Indicies are determined by the order that renderers are added to this XYPlot
+    private static final int INCIDENT_REAL_SERIES_INDEX = 0;  // front-most
     private static final int INCIDENT_IMAGINARY_SERIES_INDEX = 1;
     private static final int INCIDENT_MAGNITUDE_SERIES_INDEX = 2;
     
@@ -59,6 +60,8 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
     private XYSeries _incidentRealSeries;
     private XYSeries _incidentImaginarySeries;
     private XYSeries _incidentMagnitudeSeries;
+    
+    private XYSeries _probabilityDensitySeries;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -112,6 +115,7 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
         setRangeAxis( yAxis );
         
         _planeWave = null;
+        _probabilityDensitySeries = null;
     }
     
     //----------------------------------------------------------------------------
@@ -124,6 +128,10 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
         }
         _planeWave = planeWave;
         _planeWave.addObserver( this );
+    }
+    
+    public void setProbabilityDensitySeries( XYSeries probabilityDensitySeries ) {
+        _probabilityDensitySeries = probabilityDensitySeries;
     }
     
     public void setRealVisible( boolean visible ) {
@@ -167,6 +175,9 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
         _incidentRealSeries.clear();
         _incidentImaginarySeries.clear();
         _incidentMagnitudeSeries.clear();
+        if ( _probabilityDensitySeries != null ) {
+            _probabilityDensitySeries.clear();
+        }
         
         AbstractSolver solver = _planeWave.getSolver();
         if ( solver != null ) {
@@ -183,6 +194,10 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
                     _incidentRealSeries.add( x, c.getReal() );
                     _incidentImaginarySeries.add( x, c.getImaginary() );
                     _incidentMagnitudeSeries.add( x, c.getAbs() );
+                    
+                    if ( _probabilityDensitySeries != null ) {
+                        _probabilityDensitySeries.add( x, c.getAbs() * c.getAbs() );
+                    }
                 }
             }
         }

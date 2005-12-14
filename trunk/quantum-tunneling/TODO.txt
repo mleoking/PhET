@@ -7,7 +7,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 - debug closed-form solutions
 - process regions in reverse order when direction is right-to-left
-- set layering order to real,img,mag,phase (front to back)
 
 MEDIUM PRIORITY:
 - implement Schrodinger's equation for 1 dimension
@@ -56,6 +55,7 @@ JFREECHART:
 
 
 DONE:
+(12/13/05) - add data to Probability Density chart
 (12/13/05) - bugfix: drag problem prevents being able to set interior regions to their min width
 (12/13/05) - bugfix: dragging fast can cause horizontal drag handle to separate from what it's dragging
 (12/13/05) - moved more stuff out of subclasses and into AbstractDragHandle

@@ -20,6 +20,7 @@ import org.jfree.chart.axis.TickUnits;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
+import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -32,7 +33,7 @@ import edu.colorado.phet.quantumtunneling.QTConstants;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ProbabilityDensityPlot extends XYPlot implements Observer {
+public class ProbabilityDensityPlot extends XYPlot {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -41,6 +42,8 @@ public class ProbabilityDensityPlot extends XYPlot implements Observer {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
+    
+    private XYSeries _probabilityDensitySeries;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -52,8 +55,12 @@ public class ProbabilityDensityPlot extends XYPlot implements Observer {
         // Labels (localized)
         String probabilityDensityLabel = SimStrings.get( "axis.probabilityDensity" );
         
+        // Series
+        _probabilityDensitySeries = new XYSeries( "probability density" );
+        
         // Dataset
         XYSeriesCollection data = new XYSeriesCollection();
+        data.addSeries( _probabilityDensitySeries );
         
         // Renderer
         XYItemRenderer renderer = new StandardXYItemRenderer();
@@ -86,18 +93,7 @@ public class ProbabilityDensityPlot extends XYPlot implements Observer {
     // Accessors
     //----------------------------------------------------------------------------
     
-    //----------------------------------------------------------------------------
-    // Observer implementation
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Updates the view to match the model.
-     * 
-     * @param observable
-     * @param arg
-     */
-    public void update( Observable observable, Object arg ) {
-        //XXX
+    public XYSeries getProbabilityDensitySeries() {
+        return _probabilityDensitySeries;
     }
-
 }
