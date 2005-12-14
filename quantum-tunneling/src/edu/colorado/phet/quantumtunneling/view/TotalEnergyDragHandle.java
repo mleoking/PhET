@@ -30,7 +30,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class TotalEnergyDragHandle extends DragHandle implements Observer, PropertyChangeListener {
+public class TotalEnergyDragHandle extends AbstractDragHandle implements Observer, PropertyChangeListener {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -50,7 +50,7 @@ public class TotalEnergyDragHandle extends DragHandle implements Observer, Prope
      * @param chartNode the chart node that contains the energy chart
      */
     public TotalEnergyDragHandle( QTCombinedChartNode chartNode ) {
-        super( DragHandle.VERTICAL );
+        super( AbstractDragHandle.VERTICAL );
         
         _totalEnergy = null;
         _chartNode = chartNode;
