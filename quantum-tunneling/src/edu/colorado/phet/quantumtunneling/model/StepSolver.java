@@ -68,6 +68,9 @@ public class StepSolver extends AbstractSolver {
         }
         else {
             int regionIndex = getPotentialEnergy().getRegionIndexAt( x );
+            if ( isRightToLeft() ) {
+                regionIndex = getPotentialEnergy().getNumberOfRegions() - 1 - regionIndex;
+            }
             if ( regionIndex == 0 ) {
                 result = solveRegion1( x, t );
             }
@@ -117,7 +120,7 @@ public class StepSolver extends AbstractSolver {
     protected void updateCoefficients() {
         
         // boundary between regions
-        final double x1 = getPotentialEnergy().getEnd( 0 );
+        final double x1 = getBoundary( 0, 1 );
         
         // k values
         Complex k1 = getK( 0 );

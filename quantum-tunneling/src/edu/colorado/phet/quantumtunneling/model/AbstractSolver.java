@@ -14,6 +14,8 @@ package edu.colorado.phet.quantumtunneling.model;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.omg.CORBA._PolicyStub;
+
 import edu.colorado.phet.quantumtunneling.enum.Direction;
 import edu.colorado.phet.quantumtunneling.util.Complex;
 import edu.colorado.phet.quantumtunneling.util.MutableComplex;
@@ -79,11 +81,11 @@ public abstract class AbstractSolver implements Observer {
         _pe = null;
     }
     
-    public TotalEnergy getTotalEnergy() {
+    protected TotalEnergy getTotalEnergy() {
         return _te;
     }
     
-    public AbstractPotentialSpace getPotentialEnergy() {
+    protected AbstractPotentialSpace getPotentialEnergy() {
         return _pe;
     }
     
@@ -104,14 +106,33 @@ public abstract class AbstractSolver implements Observer {
         return ( _direction == Direction.RIGHT_TO_LEFT );
     }
     
-    /**
+    /*
+     * Gets the boundary position between two regions.
+     * 
+     * @param regionIndex1 smaller index
+     * @param regionIndex2 larger index
+     * @return
+     */
+    protected double getBoundary( final int regionIndex1, final int regionIndex2 ) {
+        if ( regionIndex1 + 1 != regionIndex2 ) {
+            throw new IllegalArgumentException( "regionIndex1 + 1 != regionIndex2" );
+        }
+        if ( isLeftToRight() ) {
+            return _pe.getEnd( regionIndex1 );
+        }
+        else {
+            return _pe.getStart( _pe.getNumberOfRegions() - 1 - regionIndex1 );
+        }
+    }
+    
+    /*
      * Gets the k value for a specified region.
      * 
      * @param regionIndex
      * @return
      */
-    public Complex getK( final int regionIndex ) {
-        if ( regionIndex > _k.length - 1  ) {
+    protected Complex getK( final int regionIndex ) {
+        if ( regionIndex < 0 || regionIndex > _k.length - 1  ) {
             throw new IndexOutOfBoundsException( "regionIndex out of range: " + regionIndex );
         }
         return _k[ regionIndex ];
@@ -138,7 +159,7 @@ public abstract class AbstractSolver implements Observer {
      */
     private void update() {
         updateK();
-        updateCoefficients();
+        updateCoefficients(); // update coefficients after updating k values!
     }
     
     /*
@@ -148,7 +169,12 @@ public abstract class AbstractSolver implements Observer {
         final double E = getTotalEnergy().getEnergy();
         final int numberOfRegions = getPotentialEnergy().getNumberOfRegions();
         for ( int i = 0; i < numberOfRegions; i++ ) {
-            _k[i] = solveK( E, getPotentialEnergy().getEnergy( i ) );
+            if ( isLeftToRight() ) {
+                _k[i] = solveK( E, getPotentialEnergy().getEnergy( i ) );
+            }
+            else {
+                _k[i] = solveK( E, getPotentialEnergy().getEnergy( numberOfRegions - 1 - i ) );
+            }
         }
     }
     

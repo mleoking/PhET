@@ -70,6 +70,9 @@ public class SingleBarrierSolver extends AbstractSolver {
         }
         else {
             int regionIndex = getPotentialEnergy().getRegionIndexAt( x );
+            if ( isRightToLeft() ) {
+                regionIndex = getPotentialEnergy().getNumberOfRegions() - 1 - regionIndex;
+            }
             switch ( regionIndex ) {
             case 0:
                 result = solveRegion1( x, t );
@@ -138,8 +141,8 @@ public class SingleBarrierSolver extends AbstractSolver {
     protected void updateCoefficients() {
         
         // boundaries between regions
-        final double x1 = getPotentialEnergy().getEnd( 0 );
-        final double x2 = getPotentialEnergy().getEnd( 1 );
+        final double x1 = getBoundary( 0, 1 );
+        final double x2 = getBoundary( 1, 2 );
 
         // k values
         Complex k1 = getK( 0 );

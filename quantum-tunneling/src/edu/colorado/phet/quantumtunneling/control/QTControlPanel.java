@@ -374,8 +374,6 @@ public class QTControlPanel extends AbstractControlPanel {
         // Disable stuff that's not implemented yet
         {
             _phaseCheckBox.setEnabled( false );
-            _leftToRightRadioButton.setEnabled( false );
-            _rightToLeftRadioButton.setEnabled( false );
             _planeWaveRadioButton.setEnabled( false );
             _packetWaveRadioButton.setEnabled( false );
             _measureButton.setEnabled( false );
