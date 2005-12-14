@@ -73,6 +73,9 @@ public class DoubleBarrierSolver extends AbstractSolver {
         }
         else {
             int regionIndex = getPotentialEnergy().getRegionIndexAt( x );
+            if ( isRightToLeft() ) {
+                regionIndex = getPotentialEnergy().getNumberOfRegions() - 1 - regionIndex;
+            }
             switch ( regionIndex ) {
             case 0:
                 result = solveRegion1( x, t );
@@ -177,10 +180,10 @@ public class DoubleBarrierSolver extends AbstractSolver {
     protected void updateCoefficients() {
 
         // boundaries between regions
-        final double x1 = getPotentialEnergy().getEnd( 0 );
-        final double x2 = getPotentialEnergy().getEnd( 1 );
-        final double x3 = getPotentialEnergy().getEnd( 2 );
-        final double x4 = getPotentialEnergy().getEnd( 3 );
+        final double x1 = getBoundary( 0, 1 );
+        final double x2 = getBoundary( 1, 2 );
+        final double x3 = getBoundary( 2, 3 );
+        final double x4 = getBoundary( 3, 4 );
 
         // k values
         Complex k1 = getK( 0 );

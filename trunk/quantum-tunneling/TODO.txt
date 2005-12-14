@@ -6,7 +6,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - debug closed-form solutions
-- process regions in reverse order when direction is right-to-left
+- implement phase view
 
 MEDIUM PRIORITY:
 - implement Schrodinger's equation for 1 dimension
@@ -56,6 +56,7 @@ JFREECHART:
 
 
 DONE:
+(12/14/05) - implement left/right wave direction feature
 (12/14/05) - implement sum/separate feature
 (12/14/05) - create WaveFunctionSolution class that provides the solution in incident/reflect/sum forms
 (12/14/05) - minor changes to support separation of phetcommon and phetgraphics into separate CVS projects
