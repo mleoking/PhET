@@ -14,12 +14,8 @@ package edu.colorado.phet.quantumtunneling.module;
 import java.awt.Cursor;
 import java.awt.Frame;
 
-import javax.naming.OperationNotSupportedException;
-
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
@@ -36,9 +32,6 @@ public abstract class AbstractModule extends PiccoloModule {
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-
-    public static final double HELP_LAYER = ApparatusPanel.LAYER_TOP;
-    public static final double DEBUG_LAYER = HELP_LAYER - 1;
     
     public static final Cursor DEFAULT_CURSOR = Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR );
     public static final Cursor WAIT_CURSOR = Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR );
@@ -116,20 +109,5 @@ public abstract class AbstractModule extends PiccoloModule {
      */
     public Frame getFrame() {
         return PhetApplication.instance().getPhetFrame();
-    }
-    
-    //----------------------------------------------------------------------------
-    // Debugging
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Causes the graphic's location and bounds to be rendered.
-     * 
-     * @param graphic the graphic
-     * @throws OperationNotSupportedException
-     */
-    protected void drawBounds( PhetGraphic graphic ) throws OperationNotSupportedException {
-        //XXX this needs to be rewritten for Piccolo
-        throw new OperationNotSupportedException();
     }
 }

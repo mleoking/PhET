@@ -21,7 +21,6 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.util.DebugMenu;
 import edu.colorado.phet.common.view.ContentPanel;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.components.menu.HelpMenu;
@@ -132,12 +131,6 @@ public class QTApplication extends PhetApplication {
         // Options menu
         OptionsMenu optionsMenu = new OptionsMenu( _module );
         getPhetFrame().addMenu( optionsMenu );
-        
-        // Debug menu extensions
-        DebugMenu debugMenu = getPhetFrame().getDebugMenu();
-        if ( debugMenu != null ) {
-            //XXX Add debug menu items here.
-        }
         
         // Help menu extensions
         HelpMenu helpMenu = getPhetFrame().getHelpMenu();
