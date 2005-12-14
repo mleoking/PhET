@@ -26,6 +26,7 @@ LOW PRIORITY:
 - translate Yes/No/Cancel on JOptionPane.showConfirmMessage
 
 OPTIMIZATIONS:
+- remove test-src
 - convert JFreeCharts to static images and implement custom plotting on top images
 - reduce the range of energy; smaller (E-V) means we can use a larger x-axis step
 - disable chart gridlines to improve drag handle responsiveness
@@ -55,6 +56,8 @@ JFREECHART:
 
 
 DONE:
+(12/14/05) - minor changes to support separation of phetcommon and phetgraphics into separate CVS projects
+(12/14/05) - sync with phetcommon
 (12/13/05) - add data to Probability Density chart
 (12/13/05) - bugfix: drag problem prevents being able to set interior regions to their min width
 (12/13/05) - bugfix: dragging fast can cause horizontal drag handle to separate from what it's dragging
