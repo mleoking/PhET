@@ -38,7 +38,7 @@ antutil antutil
 phetcommon phetcommon
 
 # Phetgraphics
-phetgraphics phetgraphics phetcommon
+phetgraphics phetgraphics &phetcommon
 
 # Piccolo-phet
 piccolo-phet piccolo-phet phetcommon piccolo
@@ -132,7 +132,7 @@ schrodinger schrodinger &phetcommon
 mazegame mazegame
 
 # Microwaves
-microwaves microwaves 
+microwaves microwaves
 
 # Motion 2D
 motion2d motion2d
