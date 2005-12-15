@@ -16,6 +16,9 @@ import java.util.Observer;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.quantumtunneling.QTConstants;
+import edu.colorado.phet.quantumtunneling.clock.QTClock;
+import edu.colorado.phet.quantumtunneling.clock.QTClock.QTClockChangeEvent;
+import edu.colorado.phet.quantumtunneling.clock.QTClock.QTClockChangeListener;
 import edu.colorado.phet.quantumtunneling.enum.Direction;
 
 
@@ -25,23 +28,26 @@ import edu.colorado.phet.quantumtunneling.enum.Direction;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class PlaneWave extends QTObservable implements ModelElement, Observer {
+public class PlaneWave extends QTObservable implements ModelElement, Observer, QTClockChangeListener {
 
+    private QTClock _clock;
     private TotalEnergy _te;
     private AbstractPotentialSpace _pe;
     private AbstractSolver _solver;
-    private double _t;  // time, in fs
     private Direction _direction;
     
-    public PlaneWave() {
+    public PlaneWave( QTClock clock ) {
+        _clock = clock;
+        _clock.addChangeListener( this );
         _te = null;
         _pe = null;
         _solver = null;
-        _t = 0;
         _direction = Direction.LEFT_TO_RIGHT;
     }
     
     public void cleanup() {
+        _clock.removeChangeListener( this );
+        _clock = null;
         if ( _solver != null ) {
             _solver.cleanup();
             _solver = null;
@@ -92,12 +98,7 @@ public class PlaneWave extends QTObservable implements ModelElement, Observer {
     }
     
     public double getTime() {
-        return _t * QTConstants.TIME_SCALE;
-    }
-    
-    public void resetTime() {
-        _t = 0;
-        notifyObservers();
+        return _clock.getRunningTime() * QTConstants.TIME_SCALE;
     }
     
     public AbstractSolver getSolver() {
@@ -119,9 +120,14 @@ public class PlaneWave extends QTObservable implements ModelElement, Observer {
         notifyObservers();
     }
     
+    public void clockReset( QTClockChangeEvent event ) {
+        if ( _te != null && _pe != null ) {
+            notifyObservers();
+        }
+    }
+    
     public void stepInTime( double dt ) {
         if ( _te != null && _pe != null ) {
-            _t += dt;
             notifyObservers();
         }
     }

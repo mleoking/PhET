@@ -19,11 +19,11 @@ import java.awt.geom.AffineTransform;
 import javax.swing.JButton;
 
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.quantumtunneling.QTConstants;
+import edu.colorado.phet.quantumtunneling.clock.QTClock;
 import edu.colorado.phet.quantumtunneling.control.ConfigureEnergyDialog;
 import edu.colorado.phet.quantumtunneling.control.QTControlPanel;
 import edu.colorado.phet.quantumtunneling.enum.Direction;
@@ -92,7 +92,7 @@ public class QTModule extends AbstractModule {
      * 
      * @param clock
      */
-    public QTModule( AbstractClock clock ) {
+    public QTModule( QTClock clock ) {
         super( SimStrings.get( "title.quantumTunneling" ), clock );
         
         //----------------------------------------------------------------------------
@@ -104,7 +104,7 @@ public class QTModule extends AbstractModule {
         this.setModel( model );
         
         // Plane wave
-        _planeWave = new PlaneWave();
+        _planeWave = new PlaneWave( clock );
         model.addModelElement( _planeWave );
         
         //----------------------------------------------------------------------------

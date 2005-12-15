@@ -6,6 +6,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - debug closed-form solutions
+- hook up Restart button
 - implement phase view
 
 MEDIUM PRIORITY:
@@ -13,6 +14,7 @@ MEDIUM PRIORITY:
 - add application description to SimStrings files
 - Save/Load
 - Help items
+- hook up Loop button
 
 LOW PRIORITY:
 - loop button should be disabled for plane wave
@@ -56,6 +58,8 @@ JFREECHART:
 
 
 DONE:
+(12/15/05) - implement clock Restart button
+(12/15/05) - extend clock to support notification when running time is reset
 (12/14/05) - implement left/right wave direction feature
 (12/14/05) - implement sum/separate feature
 (12/14/05) - create WaveFunctionSolution class that provides the solution in incident/reflect/sum forms
