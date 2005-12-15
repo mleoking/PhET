@@ -38,7 +38,7 @@ antutil antutil
 phetcommon phetcommon
 
 # Phetgraphics
-#phetgraphics phetgraphics phetcommon
+phetgraphics phetgraphics phetcommon
 
 # Piccolo
 piccolo piccolo
