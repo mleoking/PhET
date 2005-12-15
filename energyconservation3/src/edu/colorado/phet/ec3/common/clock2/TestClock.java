@@ -14,28 +14,29 @@ public class TestClock {
     public TestClock() {
         swingClock = new SwingClock( 1000, new ConstantTimeConverter( 1.0 ) );
         swingClock.addClockListener( new ClockAdapter() {
-            public void clockTicked( Clock clock ) {
-                System.out.println( "TestClock.clockTicked" );
+            public void clockTicked( ClockEvent clock ) {
+                System.out.println( "TestClockEvent.clockTicked" );
                 System.out.println( "swingClock.getWallTime() = " + swingClock.getWallTime() );
-                System.out.println( "swingClock.getWallTimeChangeMillis() = " + swingClock.getWallTimeChangeMillis() );
+                System.out.println( "swingClockt.getWallTimeChangeMillis() = " + swingClock.getWallTimeChangeMillis() );
             }
 
-            public void clockStarted( Clock clock ) {
+            public void clockStarted( ClockEvent clock ) {
                 System.out.println( "TestClock.clockStarted" );
             }
 
-            public void clockPaused( Clock clock ) {
+            public void clockPaused( ClockEvent clock ) {
                 System.out.println( "TestClock.clockPaused" );
             }
 
-            public void simulationTimeChanged( Clock clock ) {
-                System.out.println( "TestClock.simulationTimeChanged" );
+            public void simulationTimeChanged( ClockEvent clock ) {
+                System.out.println( "TestClockt.simulationTimeChanged" );
                 System.out.println( "swingClock.getSimulationTimeChange() = " + swingClock.getSimulationTimeChange() );
             }
 
-            public void clockReset( Clock clock ) {
-                System.out.println( "TestClock.clockReset" );
+            public void clockReset( ClockEvent clock ) {
+                System.out.println( "TestClockEvent.clockReset" );
             }
+
         } );
     }
 

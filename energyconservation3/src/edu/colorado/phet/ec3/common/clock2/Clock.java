@@ -19,7 +19,7 @@ public abstract class Clock implements IClock {
     private long wallTime = 0;
 
     protected Clock() {
-        this( new IdentityTimeConverter() );
+        this( new TimeConverter.Identity() );
     }
 
     public Clock( TimeConverter timeConverter ) {

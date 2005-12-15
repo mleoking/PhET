@@ -9,13 +9,13 @@ package edu.colorado.phet.ec3.common.clock2;
  */
 
 public interface ClockListener {
-    void clockTicked( Clock clock );
+    void clockTicked( ClockEvent clockEvent );
 
-    void clockStarted( Clock clock );
+    void clockStarted( ClockEvent clockEvent );
 
-    void clockPaused( Clock clock );
+    void clockPaused( ClockEvent clockEvent );
 
-    void simulationTimeChanged( Clock clock );
+    void simulationTimeChanged( ClockEvent clockEvent );
 
-    void clockReset( Clock clock );
+    void clockReset( ClockEvent clockEvent );
 }
