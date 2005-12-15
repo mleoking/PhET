@@ -39,7 +39,7 @@ public class GraphPanel2 extends JPanel {
         super( new GridBagLayout() );
         PhotoelectricModel model = (PhotoelectricModel)module.getModel();
         controlPanel = (ControlPanel)module.getControlPanel();
-        Insets graphInsets = new Insets( 5, 15, 20, 10 );
+        Insets graphInsets = new Insets( 5, 15, 20, 20 );
 
         GraphPanel cvgPanel2 = new GraphPanel( module.getClock() );
         cvgPanel2.setGraph( new CurrentVsVoltageGraph( cvgPanel2, model ), graphInsets );
