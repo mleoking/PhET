@@ -32,8 +32,8 @@ public class SolverFactory {
      * @param pe
      * @return
      */
-    public static AbstractSolver createSolver( TotalEnergy te, AbstractPotential pe, Direction direction ) {
-        AbstractSolver solver = null;
+    public static AbstractPlaneSolver createSolver( TotalEnergy te, AbstractPotential pe, Direction direction ) {
+        AbstractPlaneSolver solver = null;
         if ( pe instanceof ConstantPotential ) {
             solver = new ConstantSolver( te, (ConstantPotential) pe, direction );
         }

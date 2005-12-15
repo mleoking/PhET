@@ -37,7 +37,7 @@ public class PlaneWave extends AbstractWave implements ModelElement, Observer, Q
     private QTClock _clock;
     private TotalEnergy _te;
     private AbstractPotential _pe;
-    private AbstractSolver _solver;
+    private AbstractPlaneSolver _solver;
     private Direction _direction;
     private boolean _enabled;
     
