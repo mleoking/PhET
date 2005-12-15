@@ -20,15 +20,16 @@ import edu.colorado.phet.quantumtunneling.clock.QTClock;
 import edu.colorado.phet.quantumtunneling.clock.QTClockChangeEvent;
 import edu.colorado.phet.quantumtunneling.clock.QTClockChangeListener;
 import edu.colorado.phet.quantumtunneling.enum.Direction;
+import edu.colorado.phet.quantumtunneling.util.Complex;
 
 
 /**
- * PlaneWave is the model of a plane wave.
+ * WavePacket
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class PlaneWave extends AbstractWave implements ModelElement, Observer, QTClockChangeListener {
+public class WavePacket extends AbstractWave implements ModelElement, Observer, QTClockChangeListener {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -37,7 +38,6 @@ public class PlaneWave extends AbstractWave implements ModelElement, Observer, Q
     private QTClock _clock;
     private TotalEnergy _te;
     private AbstractPotentialSpace _pe;
-    private AbstractSolver _solver;
     private Direction _direction;
     private boolean _enabled;
     
@@ -45,12 +45,12 @@ public class PlaneWave extends AbstractWave implements ModelElement, Observer, Q
     // Constructors
     //----------------------------------------------------------------------------
     
-    public PlaneWave( QTClock clock ) {
+    public WavePacket( QTClock clock ) {
+        super();
         _clock = clock;
         _clock.addChangeListener( this );
         _te = null;
         _pe = null;
-        _solver = null;
         _direction = Direction.LEFT_TO_RIGHT;
         _enabled = true;
     }
@@ -68,6 +68,10 @@ public class PlaneWave extends AbstractWave implements ModelElement, Observer, Q
         }
     }
     
+    private double getTime() {
+        return _clock.getRunningTime() * QTConstants.TIME_SCALE;
+    }
+    
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
@@ -75,17 +79,12 @@ public class PlaneWave extends AbstractWave implements ModelElement, Observer, Q
     public void setEnabled( boolean enabled ) {
         if ( enabled != _enabled ) {
             _enabled = enabled;
-            updateSolver();
-            notifyObservers();
+            //XXX
         }
     }
-    
+
     public boolean isEnabled() {
         return _enabled;
-    }
-    
-    private double getTime() {
-        return _clock.getRunningTime() * QTConstants.TIME_SCALE;
     }
     
     //----------------------------------------------------------------------------
@@ -98,52 +97,43 @@ public class PlaneWave extends AbstractWave implements ModelElement, Observer, Q
         }
         _te = te;
         _te.addObserver( this );
-        updateSolver();
+        //XXX
         notifyObservers();
     }
-    
-    public TotalEnergy getTotalEnergy() { 
+
+    public TotalEnergy getTotalEnergy() {
         return _te;
     }
-    
+
     public void setPotentialEnergy( AbstractPotentialSpace pe ) {
         if ( _pe != null ) {
             _pe.deleteObserver( this );
         }
         _pe = pe;
         _pe.addObserver( this );
-        updateSolver();
+        //XXX
         notifyObservers();
     }
-    
+
     public AbstractPotentialSpace getPotentialEnergy() {
         return _pe;
     }
-    
+
     public void setDirection( Direction direction ) {
         _direction = direction;
-        if ( _solver != null ) {
-            _solver.setDirection( direction );
-        }
+        // TODO Auto-generated method stub   
     }
 
     public Direction getDirection() {
         return _direction;
     }
-    
+
     public WaveFunctionSolution solveWaveFunction( double x ) {
+        // TODO Auto-generated method stub
         WaveFunctionSolution solution = null;
-        if ( _solver != null ) {
-            double t = getTime();
-            solution = _solver.solve( x, t );
-        }
+        double t = getTime();
+        solution = new WaveFunctionSolution( x, t, new Complex(0,0), new Complex(0,0) );
         return solution;
-    }
-    
-    private void updateSolver() {
-        if ( _enabled && _pe != null && _te != null ) {
-            _solver = SolverFactory.createSolver( _te, _pe, _direction );
-        }
     }
     
     //----------------------------------------------------------------------------
@@ -151,29 +141,23 @@ public class PlaneWave extends AbstractWave implements ModelElement, Observer, Q
     //----------------------------------------------------------------------------
     
     public void stepInTime( double dt ) {
-        if ( _enabled && _te != null && _pe != null ) {
-            notifyObservers();
-        }
+        // TODO Auto-generated method stub    
     }
-    
+
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
     
-    public void update( Observable observable, Object arg ) {
-        if ( _enabled ) {
-            _solver.update();
-            notifyObservers();
-        }
+    public void update( Observable o, Object arg ) {
+        // TODO Auto-generated method stub    
     }
-    
+
     //----------------------------------------------------------------------------
     // QTClockListener implementation
     //----------------------------------------------------------------------------
     
     public void clockReset( QTClockChangeEvent event ) {
-        if ( _enabled && _te != null && _pe != null ) {
-            notifyObservers();
-        }
+        // TODO Auto-generated method stub
     }
+
 }

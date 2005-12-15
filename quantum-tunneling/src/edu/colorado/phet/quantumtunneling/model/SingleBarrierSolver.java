@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.quantumtunneling.model;
 
+import edu.colorado.phet.quantumtunneling.enum.Direction;
 import edu.colorado.phet.quantumtunneling.util.Complex;
 import edu.colorado.phet.quantumtunneling.util.MutableComplex;
 
@@ -40,9 +41,10 @@ public class SingleBarrierSolver extends AbstractSolver {
      * 
      * @param te
      * @param pe
+     * @param direction
      */
-    public SingleBarrierSolver( TotalEnergy te, BarrierPotential pe ) {
-        super( te, pe );
+    public SingleBarrierSolver( TotalEnergy te, BarrierPotential pe, Direction direction ) {
+        super( te, pe, direction );
         assert ( pe.getNumberOfBarriers() == 1 );
     }
     

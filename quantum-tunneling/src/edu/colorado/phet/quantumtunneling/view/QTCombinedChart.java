@@ -21,7 +21,7 @@ import org.jfree.data.xy.XYSeries;
 
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotentialSpace;
-import edu.colorado.phet.quantumtunneling.model.PlaneWave;
+import edu.colorado.phet.quantumtunneling.model.AbstractWave;
 import edu.colorado.phet.quantumtunneling.model.TotalEnergy;
 
 
@@ -161,10 +161,6 @@ public class QTCombinedChart extends JFreeChart implements Observer {
         _potentialEnergy = potentialEnergy;
         _potentialEnergy.addObserver( this );
         updateRegionMarkers();
-    }
-    
-    public void setPlaneWave( PlaneWave planeWave ) {
-        _waveFunctionPlot.setPlaneWave( planeWave );
     }
     
     //----------------------------------------------------------------------------
