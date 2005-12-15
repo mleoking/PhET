@@ -31,6 +31,7 @@ import edu.colorado.phet.quantumtunneling.enum.WaveType;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotentialSpace;
 import edu.colorado.phet.quantumtunneling.model.PlaneWave;
 import edu.colorado.phet.quantumtunneling.model.TotalEnergy;
+import edu.colorado.phet.quantumtunneling.model.WavePacket;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
 import edu.colorado.phet.quantumtunneling.view.*;
 import edu.umd.cs.piccolo.PNode;
@@ -60,6 +61,9 @@ public class QTModule extends AbstractModule {
     private static final double LEGEND_SCALE = 1;
     private static final double CONFIGURE_BUTTON_SCALE = 1;
     
+    // Model parameters
+    private static final double DEFAULT_TOTAL_ENERGY = 8; // eV
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -68,6 +72,7 @@ public class QTModule extends AbstractModule {
     private TotalEnergy _totalEnergy;
     private AbstractPotentialSpace _potentialEnergy;
     private PlaneWave _planeWave;
+    private WavePacket _wavePacket;
     
     // View
     private PhetPCanvas _canvas;
@@ -105,7 +110,13 @@ public class QTModule extends AbstractModule {
         
         // Plane wave
         _planeWave = new PlaneWave( clock );
+        _planeWave.setEnabled( false );
         model.addModelElement( _planeWave );
+        
+        // Packet wave
+        _wavePacket = new WavePacket( clock );
+        _wavePacket.setEnabled( false );
+        model.addModelElement( _wavePacket );
         
         //----------------------------------------------------------------------------
         // View
@@ -137,7 +148,6 @@ public class QTModule extends AbstractModule {
         // Combined chart
         {
             _chart = new QTCombinedChart();
-            _chart.setPlaneWave( _planeWave );
             _chartNode = new QTCombinedChartNode( _chart );
         }
 
@@ -247,7 +257,7 @@ public class QTModule extends AbstractModule {
         
         // Model
         {
-            _totalEnergy = new TotalEnergy( 8 );
+            _totalEnergy = new TotalEnergy( DEFAULT_TOTAL_ENERGY );
             setTotalEnergy( _totalEnergy );
             // potential energy is set by the control panel's reset method
         }
@@ -335,6 +345,7 @@ public class QTModule extends AbstractModule {
         }
         _potentialEnergyControls.setPotentialEnergy( _potentialEnergy );
         _planeWave.setPotentialEnergy( _potentialEnergy );
+        _wavePacket.setPotentialEnergy( potentialEnergy );
     }
     
     public void setTotalEnergy( TotalEnergy totalEnergy ) {
@@ -342,6 +353,7 @@ public class QTModule extends AbstractModule {
         _chart.setTotalEnergy( _totalEnergy );
         _totalEnergyControl.setTotalEnergy( _totalEnergy );
         _planeWave.setTotalEnergy( _totalEnergy );
+        _wavePacket.setTotalEnergy( totalEnergy );
     }
     
     public void setShowValuesEnabled( boolean enabled ) {
@@ -355,6 +367,16 @@ public class QTModule extends AbstractModule {
     
     public void setWaveType( WaveType waveType ) {
         _chart.getEnergyPlot().setWaveType( waveType );
+        if ( waveType == WaveType.PLANE ) {
+            _planeWave.setEnabled( true );
+            _wavePacket.setEnabled( false );
+            _chart.getWaveFunctionPlot().setWave( _planeWave );
+        }
+        else {
+            _planeWave.setEnabled( false );
+            _wavePacket.setEnabled( true );
+            _chart.getWaveFunctionPlot().setWave( _wavePacket );
+        }
     }
     
     public void setRealVisible( boolean visible ) {
@@ -375,6 +397,7 @@ public class QTModule extends AbstractModule {
     
     public void setDirection( Direction direction ) {
         _planeWave.setDirection( direction );
+        _wavePacket.setDirection( direction );
     }
     
     public void setViewSeparateEnabled( boolean enabled ) {

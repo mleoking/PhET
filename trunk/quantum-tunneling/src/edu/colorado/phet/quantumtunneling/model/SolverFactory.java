@@ -11,6 +11,8 @@
 
 package edu.colorado.phet.quantumtunneling.model;
 
+import edu.colorado.phet.quantumtunneling.enum.Direction;
+
 
 /**
  * SolverFactory
@@ -30,22 +32,22 @@ public class SolverFactory {
      * @param pe
      * @return
      */
-    public static AbstractSolver createSolver( TotalEnergy te, AbstractPotentialSpace pe ) {
+    public static AbstractSolver createSolver( TotalEnergy te, AbstractPotentialSpace pe, Direction direction ) {
         AbstractSolver solver = null;
         if ( pe instanceof ConstantPotential ) {
-            solver = new ConstantSolver( te, (ConstantPotential) pe );
+            solver = new ConstantSolver( te, (ConstantPotential) pe, direction );
         }
         else if ( pe instanceof StepPotential ) {
-            solver = new StepSolver( te, (StepPotential) pe );
+            solver = new StepSolver( te, (StepPotential) pe, direction );
         }
         else if ( pe instanceof BarrierPotential ) {
             BarrierPotential barrier = (BarrierPotential) pe;
             int numberOfBarriers = barrier.getNumberOfBarriers();
             if ( numberOfBarriers == 1 ) {
-                solver = new SingleBarrierSolver( te, barrier );
+                solver = new SingleBarrierSolver( te, barrier, direction );
             }
             else if ( numberOfBarriers == 2 ) {
-                solver = new DoubleBarrierSolver( te, barrier );
+                solver = new DoubleBarrierSolver( te, barrier, direction );
             }
             else {
                 throw new IllegalStateException( "no solution for " + numberOfBarriers + " barriers" );

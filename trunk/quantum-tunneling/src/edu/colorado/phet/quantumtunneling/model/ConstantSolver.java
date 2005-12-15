@@ -11,11 +11,10 @@
 
 package edu.colorado.phet.quantumtunneling.model;
 
-import java.util.Observable;
 import java.util.Observer;
 
+import edu.colorado.phet.quantumtunneling.enum.Direction;
 import edu.colorado.phet.quantumtunneling.util.Complex;
-import edu.colorado.phet.quantumtunneling.util.MutableComplex;
 
 
 /**
@@ -25,7 +24,7 @@ import edu.colorado.phet.quantumtunneling.util.MutableComplex;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ConstantSolver extends AbstractSolver implements Observer {
+public class ConstantSolver extends AbstractSolver {
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -36,9 +35,10 @@ public class ConstantSolver extends AbstractSolver implements Observer {
      * 
      * @param te
      * @param pe
+     * @param direction
      */
-    public ConstantSolver( TotalEnergy te, ConstantPotential pe ) {
-        super( te, pe );
+    public ConstantSolver( TotalEnergy te, ConstantPotential pe, Direction direction ) {
+        super( te, pe, direction );
     }
     
     //----------------------------------------------------------------------------

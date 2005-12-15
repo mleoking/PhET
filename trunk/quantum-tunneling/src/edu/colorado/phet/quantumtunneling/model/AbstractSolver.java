@@ -11,11 +11,6 @@
 
 package edu.colorado.phet.quantumtunneling.model;
 
-import java.util.Observable;
-import java.util.Observer;
-
-import org.omg.CORBA._PolicyStub;
-
 import edu.colorado.phet.quantumtunneling.enum.Direction;
 import edu.colorado.phet.quantumtunneling.util.Complex;
 import edu.colorado.phet.quantumtunneling.util.MutableComplex;
@@ -41,7 +36,7 @@ import edu.colorado.phet.quantumtunneling.util.MutableComplex;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public abstract class AbstractSolver implements Observer {
+public abstract class AbstractSolver implements IWaveFunctionSolver {
     
     // Direction of motion
     public static final int LEFT_TO_RIGHT = 0;
@@ -55,8 +50,9 @@ public abstract class AbstractSolver implements Observer {
 
     private TotalEnergy _te;
     private AbstractPotentialSpace _pe;
-    private Complex[] _k;
     private Direction _direction;
+    
+    private Complex[] _k;
     
     /**
      * Constructor.
@@ -64,21 +60,12 @@ public abstract class AbstractSolver implements Observer {
      * @param te
      * @param pe
      */
-    public AbstractSolver( TotalEnergy te, AbstractPotentialSpace pe ) {
+    public AbstractSolver( TotalEnergy te, AbstractPotentialSpace pe, Direction direction ) {
         _te = te;
-        _te.addObserver( this );
         _pe = pe;
-        _pe.addObserver( this );
+        _direction = direction;
         _k = new Complex[ pe.getNumberOfRegions() ];
-        _direction = Direction.LEFT_TO_RIGHT;
         update();
-    }
-    
-    public void cleanup() {
-        _te.deleteObserver( this );
-        _te = null;
-        _pe.deleteObserver( this );
-        _pe = null;
     }
     
     protected TotalEnergy getTotalEnergy() {
@@ -98,11 +85,11 @@ public abstract class AbstractSolver implements Observer {
         return _direction;
     }
     
-    public boolean isLeftToRight() {
+    protected boolean isLeftToRight() {
         return ( _direction == Direction.LEFT_TO_RIGHT );
     }
     
-    public boolean isRightToLeft() {
+    protected boolean isRightToLeft() {
         return ( _direction == Direction.RIGHT_TO_LEFT );
     }
     
@@ -139,25 +126,9 @@ public abstract class AbstractSolver implements Observer {
     }
     
     /**
-     * Solves the wave function.
-     * 
-     * @param x position, in nm
-     * @param t time, in fs
-     * @return
+     * Updates the solver to match it's model.
      */
-    public abstract WaveFunctionSolution solve( final double x, final double t );
-    
-    /*
-     * Updates the solver whenever the total or potential energy changes.
-     */
-    public void update( Observable o, Object arg ) {
-        update();
-    }
-    
-    /*
-     * Updates everything.
-     */
-    private void update() {
+    public void update() {
         updateK();
         updateCoefficients(); // update coefficients after updating k values!
     }

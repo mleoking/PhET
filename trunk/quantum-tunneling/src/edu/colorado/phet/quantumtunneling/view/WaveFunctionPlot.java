@@ -26,8 +26,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotentialSpace;
-import edu.colorado.phet.quantumtunneling.model.AbstractSolver;
-import edu.colorado.phet.quantumtunneling.model.PlaneWave;
+import edu.colorado.phet.quantumtunneling.model.AbstractWave;
 import edu.colorado.phet.quantumtunneling.model.WaveFunctionSolution;
 import edu.colorado.phet.quantumtunneling.util.Complex;
 
@@ -59,7 +58,7 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private PlaneWave _planeWave;
+    private AbstractWave _wave;
     
     private XYSeries _incidentRealSeries;
     private XYSeries _incidentImaginarySeries;
@@ -136,7 +135,7 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
         setDomainAxis( xAxis );
         setRangeAxis( yAxis );
         
-        _planeWave = null;
+        _wave = null;
         _viewSeparateEnabled = false;
     }
     
@@ -148,12 +147,12 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
         return _probabilityDensitySeries;
     }
     
-    public void setPlaneWave( PlaneWave planeWave ) {
-        if ( _planeWave != null ) {
-            _planeWave.deleteObserver( this );
+    public void setWave( AbstractWave planeWave ) {
+        if ( _wave != null ) {
+            _wave.deleteObserver( this );
         }
-        _planeWave = planeWave;
-        _planeWave.addObserver( this );
+        _wave = planeWave;
+        _wave.addObserver( this );
         updateDatasets();
     }
     
@@ -192,7 +191,7 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
      * @param arg
      */
     public void update( Observable observable, Object arg ) {
-        if ( observable == _planeWave && _planeWave != null ) {
+        if ( observable == _wave && _wave != null ) {
             updateDatasets();
         }
     }
@@ -202,51 +201,56 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
     //----------------------------------------------------------------------------
     
     private void updateDatasets() {
-        
+
         clearAllSeries();
+
+        if ( _wave == null ) {
+            // wave hasn't been set yet
+            return;
+        }
         
-        AbstractSolver solver = _planeWave.getSolver();
-        if ( solver != null ) {
+        AbstractPotentialSpace pe = _wave.getPotentialEnergy();
+        if ( pe == null ) {
+            // wave is not initialized yet.
+            return;
+        }
+        
+        final int numberOfRegions = pe.getNumberOfRegions();
+        final double minX = pe.getStart( 0 );
+        final double maxX = pe.getEnd( numberOfRegions - 1 ) + X_STEP;
 
-            AbstractPotentialSpace pe = _planeWave.getPotentialEnergy();
-            final int numberOfRegions = pe.getNumberOfRegions();
-            final double minX = pe.getStart( 0 );
-            final double maxX = pe.getEnd( numberOfRegions - 1 ) + X_STEP;
-            final double t = _planeWave.getTime();
-
-            for ( double x = minX; x < maxX; x += X_STEP ) {
-                WaveFunctionSolution p = solver.solve( x, t );
-                if ( p != null ) {
-                    if ( _viewSeparateEnabled ) {
-                        // Display the incident and reflected waves separately.
-                        Complex incidentPart = p.getIncidentPart();
-                        if ( incidentPart != null ) {
-                            _incidentRealSeries.add( x, incidentPart.getReal() );
-                            _incidentImaginarySeries.add( x, incidentPart.getImaginary() );
-                            _incidentMagnitudeSeries.add( x, incidentPart.getAbs() );
-                        }
-                        
-                        Complex reflectedPart = p.getReflectedPart();
-                        if ( reflectedPart != null ) {
-                            _reflectedRealSeries.add( x, reflectedPart.getReal() );
-                            _reflectedImaginarySeries.add( x, reflectedPart.getImaginary() );
-                            _reflectedMagnitudeSeries.add( x, reflectedPart.getAbs() );
-                        }
-                        
-                        Complex sum = p.getSum();
-                        if ( sum != null ) {
-                            _probabilityDensitySeries.add( x, sum.getAbs() * sum.getAbs() );
-                        }
+        for ( double x = minX; x < maxX; x += X_STEP ) {
+            WaveFunctionSolution solution = _wave.solveWaveFunction( x );
+            if ( solution != null ) {
+                if ( _viewSeparateEnabled ) {
+                    // Display the incident and reflected waves separately.
+                    Complex incidentPart = solution.getIncidentPart();
+                    if ( incidentPart != null ) {
+                        _incidentRealSeries.add( x, incidentPart.getReal() );
+                        _incidentImaginarySeries.add( x, incidentPart.getImaginary() );
+                        _incidentMagnitudeSeries.add( x, incidentPart.getAbs() );
                     }
-                    else {
-                        // Display the sum
-                        Complex sum = p.getSum();
-                        if ( sum != null ) {
-                            _incidentRealSeries.add( x, sum.getReal() );
-                            _incidentImaginarySeries.add( x, sum.getImaginary() );
-                            _incidentMagnitudeSeries.add( x, sum.getAbs() );
-                            _probabilityDensitySeries.add( x, sum.getAbs() * sum.getAbs() );
-                        }
+
+                    Complex reflectedPart = solution.getReflectedPart();
+                    if ( reflectedPart != null ) {
+                        _reflectedRealSeries.add( x, reflectedPart.getReal() );
+                        _reflectedImaginarySeries.add( x, reflectedPart.getImaginary() );
+                        _reflectedMagnitudeSeries.add( x, reflectedPart.getAbs() );
+                    }
+
+                    Complex sum = solution.getSum();
+                    if ( sum != null ) {
+                        _probabilityDensitySeries.add( x, sum.getAbs() * sum.getAbs() );
+                    }
+                }
+                else {
+                    // Display the sum
+                    Complex sum = solution.getSum();
+                    if ( sum != null ) {
+                        _incidentRealSeries.add( x, sum.getReal() );
+                        _incidentImaginarySeries.add( x, sum.getImaginary() );
+                        _incidentMagnitudeSeries.add( x, sum.getAbs() );
+                        _probabilityDensitySeries.add( x, sum.getAbs() * sum.getAbs() );
                     }
                 }
             }

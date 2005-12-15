@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.quantumtunneling.model;
 
+import edu.colorado.phet.quantumtunneling.enum.Direction;
 import edu.colorado.phet.quantumtunneling.util.Complex;
 import edu.colorado.phet.quantumtunneling.util.MutableComplex;
 
@@ -40,9 +41,10 @@ public class StepSolver extends AbstractSolver {
      * 
      * @param te
      * @param pe
+     * @param direction
      */
-    public StepSolver( TotalEnergy te, StepPotential pe ) {
-        super( te, pe );
+    public StepSolver( TotalEnergy te, StepPotential pe, Direction direction ) {
+        super( te, pe, direction );
     }
     
     //----------------------------------------------------------------------------

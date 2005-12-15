@@ -11,9 +11,7 @@
 
 package edu.colorado.phet.quantumtunneling.model;
 
-import com.sun.rsasign.g;
-import com.sun.rsasign.t;
-
+import edu.colorado.phet.quantumtunneling.enum.Direction;
 import edu.colorado.phet.quantumtunneling.util.Complex;
 import edu.colorado.phet.quantumtunneling.util.MutableComplex;
 
@@ -43,9 +41,10 @@ public class DoubleBarrierSolver extends AbstractSolver {
      * 
      * @param te
      * @param pe
+     * @param direction
      */
-    public DoubleBarrierSolver( TotalEnergy te, BarrierPotential pe ) {
-        super( te, pe );
+    public DoubleBarrierSolver( TotalEnergy te, BarrierPotential pe, Direction direction ) {
+        super( te, pe, direction );
         assert ( pe.getNumberOfBarriers() == 2 );
     }
 
