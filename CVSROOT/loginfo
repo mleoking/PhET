@@ -36,15 +36,20 @@
 #
 #######################################################################################################
 
+# Third-party packages
+^jfreechart\(/\|$\) mail -s "CVS commit: jfreechart" ronlemaster cmalley samreid
+^piccolo\(/\|$\) mail -s "CVS commit: piccolo" ronlemaster cmalley samreid
+
 # Common libraries
 ^charts\(/\|$\) mail -s "CVS commit: charts" ronlemaster cmalley samreid
 ^collision\(/\|$\) mail -s "CVS commit: collision" ronlemaster cmalley samreid
-^jfreechart\(/\|$\) mail -s "CVS commit: jfreechart" ronlemaster cmalley samreid
+^controls\(/\|$\) mail -s "CVS commit: controls" ronlemaster cmalley samreid
 ^jfreechart-phet\(/\|$\) mail -s "CVS commit: jfreechart-phet" ronlemaster cmalley samreid
 ^mechanics\(/\|$\) mail -s "CVS commit: mechanics" ronlemaster cmalley samreid
 ^phetcommon\(/\|$\) mail -s "CVS commit: phetcommon" ronlemaster cmalley samreid
-^piccolo\(/\|$\) mail -s "CVS commit: piccolo" ronlemaster cmalley samreid
+^phetgraphics\(/\|$\) mail -s "CVS commit: phetgraphics" ronlemaster cmalley samreid
 ^piccolo-phet\(/\|$\) mail -s "CVS commit: piccolo-phet" ronlemaster cmalley samreid
+^stripchart\(/\|$\) mail -s "CVS commit: stripchart" ronlemaster cmalley samreid
 
 # Simulations
 ^colorvision3\(/\|$\) mail -s "CVS commit: colorvision3" cmalley
