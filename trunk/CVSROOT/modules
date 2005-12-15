@@ -31,7 +31,7 @@ antutil antutil
 
 
 #============================================================================
-# Common framework
+# Third party packages
 #============================================================================
 
 # Piccolo
@@ -40,8 +40,9 @@ piccolo piccolo
 # JFreeChart
 jfreechart jfreechart
 
-# JFreeChart-phet
-jfreechart-phet jfreechart-phet
+#============================================================================
+# Common framework
+#============================================================================
 
 # Phet common code 
 phetcommon phetcommon
@@ -51,6 +52,9 @@ phetgraphics phetgraphics &phetcommon
 
 # Piccolo-phet
 piccolo-phet piccolo-phet &phetcommon &piccolo
+
+# JFreeChart-phet
+jfreechart-phet jfreechart-phet
 
 # Miscellaneous controls
 controls controls
