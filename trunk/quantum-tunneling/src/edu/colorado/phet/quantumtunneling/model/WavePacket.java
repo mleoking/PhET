@@ -37,7 +37,7 @@ public class WavePacket extends AbstractWave implements ModelElement, Observer, 
     
     private QTClock _clock;
     private TotalEnergy _te;
-    private AbstractPotentialSpace _pe;
+    private AbstractPotential _pe;
     private Direction _direction;
     private boolean _enabled;
     
@@ -105,7 +105,7 @@ public class WavePacket extends AbstractWave implements ModelElement, Observer, 
         return _te;
     }
 
-    public void setPotentialEnergy( AbstractPotentialSpace pe ) {
+    public void setPotentialEnergy( AbstractPotential pe ) {
         if ( _pe != null ) {
             _pe.deleteObserver( this );
         }
@@ -115,7 +115,7 @@ public class WavePacket extends AbstractWave implements ModelElement, Observer, 
         notifyObservers();
     }
 
-    public AbstractPotentialSpace getPotentialEnergy() {
+    public AbstractPotential getPotentialEnergy() {
         return _pe;
     }
 

@@ -18,7 +18,7 @@ package edu.colorado.phet.quantumtunneling.model;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class StepPotential extends AbstractPotentialSpace {
+public class StepPotential extends AbstractPotential {
 
     //----------------------------------------------------------------------------
     // Class data

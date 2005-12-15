@@ -18,7 +18,7 @@ import java.beans.PropertyChangeListener;
 import java.util.Observable;
 import java.util.Observer;
 
-import edu.colorado.phet.quantumtunneling.model.AbstractPotentialSpace;
+import edu.colorado.phet.quantumtunneling.model.AbstractPotential;
 import edu.colorado.phet.quantumtunneling.model.PotentialRegion;
 import edu.umd.cs.piccolo.PNode;
 
@@ -37,7 +37,7 @@ public class PotentialEnergyDragHandle extends AbstractDragHandle implements Obs
     // Instance data
     //----------------------------------------------------------------------------
     
-    private AbstractPotentialSpace _potentialEnergy;
+    private AbstractPotential _potentialEnergy;
     private int _regionIndex;
     private QTCombinedChartNode _chartNode;
     
@@ -76,7 +76,7 @@ public class PotentialEnergyDragHandle extends AbstractDragHandle implements Obs
      * @param potentialEnergy
      * @param regionIndex
      */
-    public void setPotentialEnergy( AbstractPotentialSpace potentialEnergy, int regionIndex ) {
+    public void setPotentialEnergy( AbstractPotential potentialEnergy, int regionIndex ) {
         if ( _potentialEnergy != null ) {
             _potentialEnergy.deleteObserver( this );
         }

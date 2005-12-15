@@ -49,7 +49,7 @@ public abstract class AbstractSolver implements IWaveFunctionSolver {
     private static final double K_COMMON = ( 2 * ELECTRON_MASS ) / ( PLANCKS_CONSTANT * PLANCKS_CONSTANT );
 
     private TotalEnergy _te;
-    private AbstractPotentialSpace _pe;
+    private AbstractPotential _pe;
     private Direction _direction;
     
     private Complex[] _k;
@@ -60,7 +60,7 @@ public abstract class AbstractSolver implements IWaveFunctionSolver {
      * @param te
      * @param pe
      */
-    public AbstractSolver( TotalEnergy te, AbstractPotentialSpace pe, Direction direction ) {
+    public AbstractSolver( TotalEnergy te, AbstractPotential pe, Direction direction ) {
         _te = te;
         _pe = pe;
         _direction = direction;
@@ -72,7 +72,7 @@ public abstract class AbstractSolver implements IWaveFunctionSolver {
         return _te;
     }
     
-    protected AbstractPotentialSpace getPotentialEnergy() {
+    protected AbstractPotential getPotentialEnergy() {
         return _pe;
     }
     
