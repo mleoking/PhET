@@ -34,20 +34,29 @@ antutil antutil
 # Common framework
 #============================================================================
 
+# Piccolo
+piccolo piccolo
+
+# JFreeChart
+jfreechart jfreechart
+
+# JFreeChart-phet
+jfreechart-phet jfreechart-phet
+
 # Phet common code 
 phetcommon phetcommon
 
 # Phetgraphics
-phetgraphics phetgraphics ../phetcommon
+phetgraphics phetgraphics &phetcommon
 
 # Piccolo-phet
-piccolo-phet piccolo-phet phetcommon piccolo
+piccolo-phet piccolo-phet &phetcommon &piccolo
 
 # Miscellaneous controls
 controls controls
 
 # Charts
-charts charts phetcommon phetgraphics
+charts charts &phetgraphics
 
 # Strip chart
 stripchart stripchart
@@ -57,15 +66,6 @@ collision collision
 
 # Mechanics 
 mechanics mechanics
-
-# Piccolo
-piccolo piccolo
-
-# JFreeChart
-jfreechart jfreechart
-
-# JFreeChart-phet
-jfreechart-phet jfreechart-phet
 
 #============================================================================
 # Simulations
@@ -102,7 +102,7 @@ moving-man movingman &phetcommon &charts
 lasers lasers &phetcommon &collision &controls &mechanics
 
 # Color Vision
-color-vision colorvision3 phetcommon
+color-vision colorvision3 &phetcommon
 
 # Signal Circuit
 signal-circuit signalcircuit
@@ -114,10 +114,10 @@ greenhouse-effect greenhouse
 forces1d forces1d &phetcommon &charts
 
 # Faraday's Law
-faradays-law faraday phetcommon phetgraphics
+faradays-law faraday &phetgraphics
 
 # Fourier Transforms
-fourier fourier phetcommon phetgraphics charts
+fourier fourier &charts
 
 # Radio Waves
 radio-waves emf &phetcommon
@@ -159,10 +159,10 @@ dischargelamps fluorescent-lights &phetcommon &mechanics &collision &lasers &con
 soluble-salts soluble-salts &phetcommon &piccolo-phet &piccolo &mechanics &collision
 
 # Optical Pulse Shaper
-shaper shaper phetcommon phetgraphics charts
+shaper shaper &charts
 
 # Quantum Tunneling
-quantum-tunneling quantum-tunneling phetcommon piccolo piccolo-phet jfreechart
+quantum-tunneling quantum-tunneling &piccolo-phet &jfreechart
 
 # Energy Conservation 3 (2nd draft).
-energyconservation3 energyconservation3 phetcommon piccolo &piccolo-phet jfreechart jfreechart-phet
+energyconservation3 energyconservation3 &phetcommon &piccolo &piccolo-phet &jfreechart &jfreechart-phet
