@@ -9,18 +9,19 @@ package edu.colorado.phet.ec3.common.clock2;
  */
 
 public class ClockAdapter implements ClockListener {
-    public void clockTicked( Clock clock ) {
+
+    public void clockTicked( ClockEvent clockEvent ) {
     }
 
-    public void clockStarted( Clock clock ) {
+    public void clockStarted( ClockEvent clockEvent ) {
     }
 
-    public void clockPaused( Clock clock ) {
+    public void clockPaused( ClockEvent clockEvent ) {
     }
 
-    public void simulationTimeChanged( Clock clock ) {
+    public void simulationTimeChanged( ClockEvent clockEvent ) {
     }
 
-    public void clockReset( Clock clock ) {
+    public void clockReset( ClockEvent clockEvent ) {
     }
 }
