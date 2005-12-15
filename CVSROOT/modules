@@ -35,41 +35,60 @@ antutil antutil
 #============================================================================
 
 # Piccolo
-piccolo piccolo
+piccolo-module piccolo
 
 # JFreeChart
-jfreechart jfreechart
+jfreechart-module jfreechart
 
 #============================================================================
-# Common framework
+# Common PhET framework
 #============================================================================
 
 # Phet common code 
-phetcommon phetcommon
+phetcommon-module phetcommon
 
 # Phetgraphics
-phetgraphics phetgraphics &phetcommon
+phetgraphics-module phetgraphics &phetcommon-module
 
 # Piccolo-phet
-piccolo-phet piccolo-phet &phetcommon &piccolo
+piccolo-phet-module piccolo-phet &phetcommon-module &piccolo-module
 
 # JFreeChart-phet
-jfreechart-phet jfreechart-phet
+jfreechart-phet-module jfreechart-phet &jfreechart-module
 
 # Miscellaneous controls
-controls controls
+controls-module controls
 
 # Charts
-charts charts &phetgraphics
+charts-module charts &phetgraphics-module
 
 # Strip chart
-stripchart stripchart
+stripchart-module stripchart
 
 # Collisions
-collision collision
+collision-module collision
 
 # Mechanics 
-mechanics mechanics
+mechanics-module mechanics
+
+#============================================================================
+# Chris Malley's simulations
+#============================================================================
+
+# Color Vision
+color-vision-module colorvision3 &phetcommon-module
+
+# Faraday's Law
+faraday-module faraday &phetgraphics-module
+
+# Fourier Transforms
+fourier-module fourier &charts-module
+
+# Optical Pulse Shaper
+shaper-module shaper &charts-module
+
+# Quantum Tunneling
+quantum-tunneling-module quantum-tunneling &piccolo-phet-module &jfreechart-module
 
 #============================================================================
 # Simulations
@@ -79,34 +98,31 @@ mechanics mechanics
 bernoulli bernoulli
 
 # Circuit construction kit
-cck cck3 &phetcommon
+cck cck3 &phetcommon-module
 
 # Battery-voltage
 battery-voltage batteryvoltage
 
 # Balloons
-balloons balloons
+balloons-module balloons
 
 # Ideal gas 
-ideal-gas ideal-gas-v3 &phetcommon &mechanics
+ideal-gas ideal-gas-v3 &phetcommon-module &mechanics-module
 
 # Nuclear physics 
-nuclear-physics nuclearphysics &phetcommon &mechanics
+nuclear-physics nuclearphysics &phetcommon-module &mechanics-module
 
 # Sound
-sound sound-2 &phetcommon
+sound sound-2 &phetcommon-module
 
 # John Travoltage
 john-travoltage travoltage
 
 # Moving man
-moving-man movingman &phetcommon &charts
+moving-man movingman &phetcommon-module &charts-0module
 
 # Lasers
-lasers lasers &phetcommon &collision &controls &mechanics
-
-# Color Vision
-color-vision colorvision3 &phetcommon
+lasers lasers &phetcommon-module &collision-module &controls-module &mechanics-module
 
 # Signal Circuit
 signal-circuit signalcircuit
@@ -115,22 +131,16 @@ signal-circuit signalcircuit
 greenhouse-effect greenhouse
 
 # Forces 1D
-forces1d forces1d &phetcommon &charts
-
-# Faraday's Law
-faradays-law faraday &phetgraphics
-
-# Fourier Transforms
-fourier fourier &charts
+forces1d forces1d &phetcommon-module &charts-module
 
 # Radio Waves
-radio-waves emf &phetcommon
+radio-waves emf &phetcommon-module
 
 # The Ramp
-theramp theramp &phetcommon &charts
+theramp theramp &phetcommon-module &charts-module
 
 # Schrodinger
-schrodinger schrodinger &phetcommon
+schrodinger schrodinger &phetcommon-module
 
 # Maze Game
 mazegame mazegame
@@ -154,25 +164,13 @@ semiconductor semiconductor
 energyconservation energyconservation
 
 # Photoelectric effect
-photoelectric photoelectric &dischargelamps &charts
+photoelectric photoelectric &dischargelamps &charts-module
 
 # Discharge lamps
-dischargelamps fluorescent-lights &phetcommon &mechanics &collision &lasers &controls
+dischargelamps fluorescent-lights &phetcommon-module &mechanics-module &collision-module &lasers &controls-module
 
 # Soluble Salts
-soluble-salts soluble-salts &phetcommon &piccolo-phet &piccolo &mechanics &collision
-
-# Optical Pulse Shaper
-shaper shaper &charts
-
-# Quantum Tunneling
-quantum-tunneling quantum-tunneling &piccolo-phet &jfreechart
-
-# QT module
-qt-module -a quantum-tunneling phetcommon piccolo piccolo-phet jfreechart
-
-# Quantum Tunneling
-qt-module quantum-tunneling &piccolo-phet &jfreechart
+soluble-salts soluble-salts &piccolo-phet-module &mechanics-module &collision-module
 
 # Energy Conservation 3 (2nd draft).
-energyconservation3 energyconservation3 &phetcommon &piccolo &piccolo-phet &jfreechart &jfreechart-phet
+energyconservation3 energyconservation3 &piccolo-phet-module &jfreechart-phet-module
