@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.quantumtunneling.control;
+package edu.colorado.phet.quantumtunneling.clock;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -53,7 +53,6 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
     private Icon _loopOnIcon;
     private Icon _loopOffIcon;
     
-    private double _timeValue;
     private double _timeScale;
     private boolean _loopEnabled;
     private NumberFormat _timeFormat;
@@ -164,7 +163,6 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
         } );
         
         // Inital state
-        _timeValue = 0;
         _timeScale = 1;
         updateTimeDisplay();
         updateButtonState();
@@ -190,16 +188,6 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
      */
     public AbstractClock getClock() {
         return _clock;
-    }
-    
-    /**
-     * Gets the number of clock ticks since the last time the Restart
-     * button was pressed.
-     * 
-     * @return 
-     */
-    public double getTimeValue() {
-        return _timeValue;
     }
     
     /**
@@ -275,7 +263,7 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
     //----------------------------------------------------------------------------
     
     private void handleRestart() {
-        _timeValue = 0;
+        _clock.resetRunningTime();
         updateTimeDisplay();
     }
     
@@ -319,7 +307,7 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
      * Updates the time display.
      */
     private void updateTimeDisplay() {
-        double scaledTime = _timeScale * _timeValue;
+        double scaledTime = _timeScale * _clock.getRunningTime();
         String sValue = _timeFormat.format( scaledTime );
         _timeTextField.setText( sValue );
     }
@@ -347,8 +335,6 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
      * @param event
      */
     public void clockTicked( ClockTickEvent event ) {
-        double dt = event.getDt();
-        _timeValue += dt;
         updateTimeDisplay();
     }
 }

@@ -20,13 +20,13 @@ import javax.swing.JMenuItem;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ContentPanel;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.components.menu.HelpMenu;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.quantumtunneling.control.QTClockControls;
+import edu.colorado.phet.quantumtunneling.clock.QTClock;
+import edu.colorado.phet.quantumtunneling.clock.QTClockControls;
 import edu.colorado.phet.quantumtunneling.module.QTModule;
 import edu.colorado.phet.quantumtunneling.persistence.ConfigManager;
 
@@ -68,7 +68,7 @@ public class QTApplication extends PhetApplication {
      * @param frameSetup
      */
     public QTApplication( String[] args, 
-            String title, String description, String version, AbstractClock clock,
+            String title, String description, String version, QTClock clock,
             boolean useClockControlPanel, FrameSetup frameSetup )
     {
         super( args, title, description, version, clock, useClockControlPanel, frameSetup );
@@ -86,7 +86,7 @@ public class QTApplication extends PhetApplication {
      * 
      * @param clock
      */
-    private void initModules( AbstractClock clock ) {
+    private void initModules( QTClock clock ) {
         _module = new QTModule( clock );
         setModules( new Module[] { _module } );
         setInitialModule( _module );
@@ -175,7 +175,7 @@ public class QTApplication extends PhetApplication {
         double timeStep = QTConstants.CLOCK_TIME_STEP;
         int waitTime = ( 1000 / QTConstants.CLOCK_FRAME_RATE ); // milliseconds
         boolean isFixed = QTConstants.CLOCK_TIME_STEP_IS_CONSTANT;
-        AbstractClock clock = new SwingTimerClock( timeStep, waitTime, isFixed );
+        QTClock clock = new QTClock( timeStep, waitTime, isFixed );
         boolean useClockControlPanel = true;
         
         // Frame setup
