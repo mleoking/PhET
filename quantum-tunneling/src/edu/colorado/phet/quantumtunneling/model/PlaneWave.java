@@ -17,8 +17,8 @@ import java.util.Observer;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.clock.QTClock;
-import edu.colorado.phet.quantumtunneling.clock.QTClock.QTClockChangeEvent;
-import edu.colorado.phet.quantumtunneling.clock.QTClock.QTClockChangeListener;
+import edu.colorado.phet.quantumtunneling.clock.QTClockChangeEvent;
+import edu.colorado.phet.quantumtunneling.clock.QTClockChangeListener;
 import edu.colorado.phet.quantumtunneling.enum.Direction;
 
 
