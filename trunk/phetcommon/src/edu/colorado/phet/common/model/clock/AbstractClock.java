@@ -162,7 +162,6 @@ public abstract class AbstractClock {
 
     public void resetRunningTime() {
         this.runningTime = 0;
-        clockTicked( 0 );
     }
 
     protected void clockTicked( double dt ) {
@@ -177,7 +176,6 @@ public abstract class AbstractClock {
 
     protected void setRunningTime( double runningTime ) {
         this.runningTime = runningTime;
-        clockTicked( 0 );
     }
 
     protected double getSimulationTime( long actualDelay ) {
