@@ -58,6 +58,7 @@ JFREECHART:
 
 
 DONE:
+(12/15/05) - rename AbstractPotentialSpace -> AbstractPotential
 (12/15/05) - create a wave type hierarchy, so that we can switch between plane & packet
 (12/15/05) - implement clock Restart button
 (12/15/05) - extend clock to support notification when running time is reset

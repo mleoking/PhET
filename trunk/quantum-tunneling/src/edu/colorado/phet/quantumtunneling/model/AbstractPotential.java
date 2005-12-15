@@ -18,7 +18,7 @@ import edu.colorado.phet.quantumtunneling.QTConstants;
 
 
 /**
- * AbstractPotentialSpace is the abstract base class for all potential spaces.
+ * AbstractPotential is the abstract base class for all potential spaces.
  * The space is finite; it has non-infinite beginning and end positions.
  * The regions in the space are guaranteed to be contiguous; there are no gaps
  * between the regions, and the regions do not overlap.
