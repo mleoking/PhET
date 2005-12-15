@@ -164,5 +164,8 @@ shaper shaper &charts
 # Quantum Tunneling
 quantum-tunneling quantum-tunneling &piccolo-phet &jfreechart
 
+# Quantum Tunneling
+qt-module quantum-tunneling &piccolo-phet &jfreechart
+
 # Energy Conservation 3 (2nd draft).
 energyconservation3 energyconservation3 &phetcommon &piccolo &piccolo-phet &jfreechart &jfreechart-phet
