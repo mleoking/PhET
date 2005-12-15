@@ -577,14 +577,16 @@ public class QTControlPanel extends AbstractControlPanel {
     }
     
     private void handleWidthSlider() {
-       
+        double width = _widthSlider.getValue();
+       _module.setWavePacketWidth( width );
     }
     
     private void handleCenterSlider() {
-        
+        double center = _centerSlider.getValue();
+        _module.setWavePacketCenter( center );
     }
     
     private void handleMeasure() {
-        
+        _module.measure();
     }
 }
