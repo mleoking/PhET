@@ -1,4 +1,3 @@
-/* Copyright 2004, Sam Reid */
 package edu.colorado.phet.jfreechart.tests;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
@@ -76,14 +75,14 @@ public class TestSplitRendering {
         final JCheckBox backOff = new JCheckBox( "Quick Render" );
         backOff.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                p.renderBackground=!backOff.isSelected();
+                p.renderBackground = !backOff.isSelected();
             }
         } );
-        controlPanel.add(backOff);
+        controlPanel.add( backOff );
         controlFrame.setContentPane( controlPanel );
         controlFrame.pack();
         controlFrame.setVisible( true );
-        controlFrame.setLocation( 0,chartFrame.getY()+chartFrame.getHeight());
+        controlFrame.setLocation( 0, chartFrame.getY() + chartFrame.getHeight() );
     }
 
     double startTime = System.currentTimeMillis() / 1000.0;
