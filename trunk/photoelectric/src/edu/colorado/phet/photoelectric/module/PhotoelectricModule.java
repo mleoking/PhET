@@ -46,8 +46,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.geom.*;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -169,12 +167,6 @@ public class PhotoelectricModule extends BaseLaserModule {
                                                              getApparatusPanel().getBackground() );
         getApparatusPanel().addGraphic( maskGraphic, PhotoelectricConfig.BEAM_LAYER + 1 );
 
-        // Create current vs voltage graph
-//        GraphWindow graphWindow = new GraphWindow( application.getPhetFrame(),
-//                                                   clock,
-//                                                   getPhotoelectricModel() );
-//        graphWindow.setVisible( false );
-
         // Add a listener to the model that will flip the battery image when the voltage
         // changes sign
         model.addChangeListener( new BatteryImageFlipper() );
@@ -185,12 +177,11 @@ public class PhotoelectricModule extends BaseLaserModule {
 
         // Set up the control panel
         new PhotoelectricControlPanel( this );
-//        new PhotoelectricControlPanel( this, graphWindow );
 
         // Add a slider for the battery
         addGraphicBatteryControls();
         BeamControl beamControl = new BeamControl( getApparatusPanel(),
-                                                   new Point( 460, 20 ),
+                                                   DischargeLampsConfig.BEAM_CONTROL_LOCATION,
                                                    model.getBeam(),
                                                    model.getBeam().getMaxPhotonsPerSecond() );
         getApparatusPanel().addGraphic( beamControl, PhotoelectricConfig.BEAM_LAYER + 1 );
@@ -199,12 +190,12 @@ public class PhotoelectricModule extends BaseLaserModule {
         // Total hack to get beam to look right when things come up. This should
         // be removed when BeamCurtainGraphic.update() is fixed
         //----------------------------------------------------------------
-        getApparatusPanel().addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-                Beam beam = getPhotoelectricModel().getBeam();
-                beam.setPhotonsPerSecond( beam.getPhotonsPerSecond() );
-            }
-        } );
+//        getApparatusPanel().addComponentListener( new ComponentAdapter() {
+//            public void componentResized( ComponentEvent e ) {
+//                Beam beam = getPhotoelectricModel().getBeam();
+//                beam.setPhotonsPerSecond( beam.getPhotonsPerSecond() );
+//            }
+//        } );
 
         //----------------------------------------------------------------
         // Debug
@@ -505,6 +496,7 @@ public class PhotoelectricModule extends BaseLaserModule {
     public boolean hasHelp() {
         return false;
     }
+
     //----------------------------------------------------------------
     // State/mode setters and getters
     //----------------------------------------------------------------
