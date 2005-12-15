@@ -17,7 +17,7 @@ import edu.colorado.phet.quantumtunneling.util.MutableComplex;
 
 
 /**
- * AbstractSolver is the base class for all classes that implement
+ * AbstractPlaneSolver is the base class for all classes that implement
  * closed-form solutions to the wave function equation for a plane wave.
  * <p>
  * Terms are defined as follows:
@@ -36,7 +36,7 @@ import edu.colorado.phet.quantumtunneling.util.MutableComplex;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public abstract class AbstractSolver implements IWaveFunctionSolver {
+public abstract class AbstractPlaneSolver implements IWaveFunctionSolver {
     
     // Direction of motion
     public static final int LEFT_TO_RIGHT = 0;
@@ -60,7 +60,7 @@ public abstract class AbstractSolver implements IWaveFunctionSolver {
      * @param te
      * @param pe
      */
-    public AbstractSolver( TotalEnergy te, AbstractPotential pe, Direction direction ) {
+    public AbstractPlaneSolver( TotalEnergy te, AbstractPotential pe, Direction direction ) {
         _te = te;
         _pe = pe;
         _direction = direction;

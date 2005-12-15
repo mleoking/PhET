@@ -24,7 +24,7 @@ import edu.colorado.phet.quantumtunneling.util.Complex;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ConstantSolver extends AbstractSolver {
+public class ConstantSolver extends AbstractPlaneSolver {
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -42,7 +42,7 @@ public class ConstantSolver extends AbstractSolver {
     }
     
     //----------------------------------------------------------------------------
-    // AbstractSolver implementation
+    // AbstractPlaneSolver implementation
     //----------------------------------------------------------------------------
     
     /**
