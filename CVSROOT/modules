@@ -38,7 +38,7 @@ antutil antutil
 phetcommon phetcommon
 
 # Phetgraphics
-phetgraphics phetgraphics phetcommon
+phetgraphics-module phetgraphics phetcommon
 
 # Piccolo-phet
 piccolo-phet piccolo-phet phetcommon piccolo
@@ -58,6 +58,14 @@ collision collision
 # Mechanics 
 mechanics mechanics
 
+# Piccolo
+piccolo piccolo
+
+# JFreeChart
+jfreechart jfreechart
+
+# JFreeChart-phet
+jfreechart-phet jfreechart-phet
 
 #============================================================================
 # Simulations
@@ -158,4 +166,3 @@ quantum-tunneling quantum-tunneling phetcommon piccolo piccolo-phet jfreechart
 
 # Energy Conservation 3 (2nd draft).
 energyconservation3 energyconservation3 phetcommon piccolo &piccolo-phet jfreechart jfreechart-phet
-
