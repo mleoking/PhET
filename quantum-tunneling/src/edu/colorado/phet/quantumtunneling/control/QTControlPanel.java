@@ -29,7 +29,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.enum.Direction;
 import edu.colorado.phet.quantumtunneling.enum.WaveType;
-import edu.colorado.phet.quantumtunneling.model.AbstractPotentialSpace;
+import edu.colorado.phet.quantumtunneling.model.AbstractPotential;
 import edu.colorado.phet.quantumtunneling.model.BarrierPotential;
 import edu.colorado.phet.quantumtunneling.model.ConstantPotential;
 import edu.colorado.phet.quantumtunneling.model.StepPotential;
@@ -384,7 +384,7 @@ public class QTControlPanel extends AbstractControlPanel {
     // Accessors
     //----------------------------------------------------------------------------
     
-    public void setPotentialEnergy( AbstractPotentialSpace pe ) {
+    public void setPotentialEnergy( AbstractPotential pe ) {
         _potentialComboBox.removeItemListener( _listener );
         if ( pe instanceof ConstantPotential ) {
             _potentialComboBox.setSelectedItem( _constantItem );
@@ -496,7 +496,7 @@ public class QTControlPanel extends AbstractControlPanel {
     }
     
     private void handlePotentialSelection() {
-        AbstractPotentialSpace pe = null;
+        AbstractPotential pe = null;
         Object o = _potentialComboBox.getSelectedItem();
         if ( o == _constantItem ) {
             pe = new ConstantPotential();

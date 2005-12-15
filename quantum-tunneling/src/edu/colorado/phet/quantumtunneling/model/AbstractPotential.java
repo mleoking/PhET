@@ -26,7 +26,7 @@ import edu.colorado.phet.quantumtunneling.QTConstants;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public abstract class AbstractPotentialSpace extends QTObservable {
+public abstract class AbstractPotential extends QTObservable {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -62,7 +62,7 @@ public abstract class AbstractPotentialSpace extends QTObservable {
      * 
      * @param numberOfRegions
      */
-    protected AbstractPotentialSpace( final int numberOfRegions ) {
+    protected AbstractPotential( final int numberOfRegions ) {
         super();
         
         if ( numberOfRegions <= 0 ) {
@@ -95,7 +95,7 @@ public abstract class AbstractPotentialSpace extends QTObservable {
      * 
      * @param potential
      */
-    protected AbstractPotentialSpace( AbstractPotentialSpace potential ) {
+    protected AbstractPotential( AbstractPotential potential ) {
         super();
         
         _regions = new PotentialRegion[ potential.getNumberOfRegions() ];

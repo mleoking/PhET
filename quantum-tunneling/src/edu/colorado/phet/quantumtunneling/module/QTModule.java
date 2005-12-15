@@ -28,7 +28,7 @@ import edu.colorado.phet.quantumtunneling.control.ConfigureEnergyDialog;
 import edu.colorado.phet.quantumtunneling.control.QTControlPanel;
 import edu.colorado.phet.quantumtunneling.enum.Direction;
 import edu.colorado.phet.quantumtunneling.enum.WaveType;
-import edu.colorado.phet.quantumtunneling.model.AbstractPotentialSpace;
+import edu.colorado.phet.quantumtunneling.model.AbstractPotential;
 import edu.colorado.phet.quantumtunneling.model.PlaneWave;
 import edu.colorado.phet.quantumtunneling.model.TotalEnergy;
 import edu.colorado.phet.quantumtunneling.model.WavePacket;
@@ -70,7 +70,7 @@ public class QTModule extends AbstractModule {
     
     // Model
     private TotalEnergy _totalEnergy;
-    private AbstractPotentialSpace _potentialEnergy;
+    private AbstractPotential _potentialEnergy;
     private PlaneWave _planeWave;
     private WavePacket _wavePacket;
     
@@ -337,7 +337,7 @@ public class QTModule extends AbstractModule {
     // Accessors
     //----------------------------------------------------------------------------
     
-    public void setPotentialEnergy( AbstractPotentialSpace potentialEnergy ) {
+    public void setPotentialEnergy( AbstractPotential potentialEnergy ) {
         _potentialEnergy = potentialEnergy;
         _chart.setPotentialEnergy( _potentialEnergy );
         if ( _controlPanel != null ) {

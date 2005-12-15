@@ -26,9 +26,9 @@ public interface IWave {
     
     public TotalEnergy getTotalEnergy();
     
-    public void setPotentialEnergy( AbstractPotentialSpace pe );
+    public void setPotentialEnergy( AbstractPotential pe );
     
-    public AbstractPotentialSpace getPotentialEnergy();
+    public AbstractPotential getPotentialEnergy();
     
     public void setDirection( Direction direction );
     

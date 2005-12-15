@@ -14,7 +14,7 @@ package edu.colorado.phet.quantumtunneling.view;
 import java.util.ArrayList;
 
 import edu.colorado.phet.quantumtunneling.QTConstants;
-import edu.colorado.phet.quantumtunneling.model.AbstractPotentialSpace;
+import edu.colorado.phet.quantumtunneling.model.AbstractPotential;
 import edu.umd.cs.piccolo.PNode;
 
 
@@ -62,7 +62,7 @@ public class PotentialEnergyControls extends PNode {
      * 
      * @param potentialEnergy
      */
-    public void setPotentialEnergy( AbstractPotentialSpace potentialEnergy ) {
+    public void setPotentialEnergy( AbstractPotential potentialEnergy ) {
         
         // Dispose of existing drag handles.
         removeAllChildren();

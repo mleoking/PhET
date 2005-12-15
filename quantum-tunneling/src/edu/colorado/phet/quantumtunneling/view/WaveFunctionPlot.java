@@ -25,7 +25,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
-import edu.colorado.phet.quantumtunneling.model.AbstractPotentialSpace;
+import edu.colorado.phet.quantumtunneling.model.AbstractPotential;
 import edu.colorado.phet.quantumtunneling.model.AbstractWave;
 import edu.colorado.phet.quantumtunneling.model.WaveFunctionSolution;
 import edu.colorado.phet.quantumtunneling.util.Complex;
@@ -209,7 +209,7 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
             return;
         }
         
-        AbstractPotentialSpace pe = _wave.getPotentialEnergy();
+        AbstractPotential pe = _wave.getPotentialEnergy();
         if ( pe == null ) {
             // wave is not initialized yet.
             return;

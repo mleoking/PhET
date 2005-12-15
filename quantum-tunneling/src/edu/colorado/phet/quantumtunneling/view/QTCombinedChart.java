@@ -20,7 +20,7 @@ import org.jfree.chart.plot.*;
 import org.jfree.data.xy.XYSeries;
 
 import edu.colorado.phet.quantumtunneling.QTConstants;
-import edu.colorado.phet.quantumtunneling.model.AbstractPotentialSpace;
+import edu.colorado.phet.quantumtunneling.model.AbstractPotential;
 import edu.colorado.phet.quantumtunneling.model.AbstractWave;
 import edu.colorado.phet.quantumtunneling.model.TotalEnergy;
 
@@ -56,7 +56,7 @@ public class QTCombinedChart extends JFreeChart implements Observer {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private AbstractPotentialSpace _potentialEnergy;
+    private AbstractPotential _potentialEnergy;
     
     private EnergyPlot _energyPlot;
     private WaveFunctionPlot _waveFunctionPlot;
@@ -150,7 +150,7 @@ public class QTCombinedChart extends JFreeChart implements Observer {
      * 
      * @param potentialEnergy
      */
-    public void setPotentialEnergy( AbstractPotentialSpace potentialEnergy ) {
+    public void setPotentialEnergy( AbstractPotential potentialEnergy ) {
         // Delegate to the energy plot...
         _energyPlot.setPotentialEnergy( potentialEnergy );
         
