@@ -38,19 +38,19 @@ antutil antutil
 phetcommon phetcommon
 
 # Phetgraphics
-phetgraphics phetgraphics &phetcommon
+phetgraphics phetgraphics phetcommon
 
 # Piccolo
 piccolo piccolo
 
 # Piccolo-phet
-piccolo-phet piccolo-phet &phetcommon &piccolo
+piccolo-phet piccolo-phet phetcommon piccolo
 
 # Miscellaneous controls
 controls controls
 
 # Charts
-charts charts &phetcommon
+charts charts phetcommon phetgraphics
 
 # Strip chart
 stripchart stripchart
