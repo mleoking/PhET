@@ -30,31 +30,41 @@
 antutil antutil
 
 
-#
-# Common framework modules
-#
+#============================================================================
+# Common framework
+#============================================================================
+
+# Phet common code 
+phetcommon phetcommon
+
+# Phetgraphics
+phetgraphics phetgraphics &phetcommon
+
+# Piccolo
+piccolo piccolo
+
+# Piccolo-phet
+piccolo-phet piccolo-phet &phetcommon &piccolo
+
+# Miscellaneous controls
+controls controls
 
 # Charts
 charts charts &phetcommon
 
-# Collisions 
+# Strip chart
+stripchart stripchart
+
+# Collisions
 collision collision
 
 # Mechanics 
 mechanics mechanics
 
-# Phet common code 
-phetcommon phetcommon
 
-# Miscellaneous controls
-controls controls
-
-# Strip chart
-stripchart stripchart
-
-#
+#============================================================================
 # Simulations
-#
+#============================================================================
 
 # Bernoulli
 bernoulli bernoulli
@@ -137,26 +147,18 @@ energyconservation energyconservation
 # Photoelectric effect
 photoelectric photoelectric &dischargelamps &charts
 
-#Discharge lamps
+# Discharge lamps
 dischargelamps fluorescent-lights &phetcommon &mechanics &collision &lasers &controls
-
-#Piccolo
-piccolo piccolo
-
-#Piccolo-phet
-piccolo-phet piccolo-phet &phetcommon &piccolo
-
-# Phetgraphics
-phetgraphics phetgraphics &phetcommon
 
 # Soluble Salts
 soluble-salts soluble-salts &phetcommon &piccolo-phet &piccolo &mechanics &collision
 
-#Optical Pulse Shaper
+# Optical Pulse Shaper
 shaper shaper phetcommon phetgraphics charts
 
-#Quantum Tunneling
+# Quantum Tunneling
 quantum-tunneling quantum-tunneling phetcommon piccolo piccolo-phet jfreechart
 
-#Energy Conservation 3 (2nd draft).
+# Energy Conservation 3 (2nd draft).
 energyconservation3 energyconservation3 &phetcommon &piccolo &piccolo-phet &jfreechart &jfreechart-phet
+
