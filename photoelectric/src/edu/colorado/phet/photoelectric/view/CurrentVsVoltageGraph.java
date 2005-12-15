@@ -36,7 +36,6 @@ public class CurrentVsVoltageGraph extends Chart {
                                                 PhotoelectricModel.MAX_VOLTAGE,
                                                 PhotoelectricModel.MAX_CURRENT );
     static private Dimension chartSize = PhotoelectricConfig.CHART_SIZE;
-//    static private Dimension CHART_SIZE = new Dimension( 200, 150 );
     static private Font titleFont = new Font( "Lucida Sans", Font.BOLD, 14 );
     private static final double PLOT_LAYER = 1E15;
 
@@ -46,9 +45,7 @@ public class CurrentVsVoltageGraph extends Chart {
 
     private DataSet dotDataSet = new DataSet();
     private DataSet lineDataSet = new DataSet();
-    private double stoppingVoltage;
     private double lastVoltageRecorded;
-    private double lastCurrentRecorded;
 
     //-----------------------------------------------------------------
     // Instance methods
@@ -56,6 +53,9 @@ public class CurrentVsVoltageGraph extends Chart {
 
     public CurrentVsVoltageGraph( Component component, final PhotoelectricModel model ) {
         super( component, range, chartSize, 2, 2, 2, 2 );
+
+//        PhetTextGraphic yLabel = new PhetTextGraphic( component, titleFont, "Current", Color.black );
+//        setYAxisTitle( yLabel );
 
         GridLineSet horizontalGls = this.getHorizonalGridlines();
         horizontalGls.setMajorGridlinesColor( new Color( 200, 200, 200 ) );
@@ -79,13 +79,11 @@ public class CurrentVsVoltageGraph extends Chart {
             }
 
             public void voltageChanged( PhotoelectricModel.ChangeEvent event ) {
-                stoppingVoltage = model.getStoppingVoltage();
                 addDotDataPoint( model.getVoltage(), model.getCurrent() );
                 addLineDataPoint( model.getVoltage(), model.getCurrent(), model );
             }
 
             public void wavelengthChanged( PhotoelectricModel.ChangeEvent event ) {
-                stoppingVoltage = model.getStoppingVoltage();
                 lineDataSet.clear();
                 addDotDataPoint( model.getVoltage(), model.getCurrent() );
             }
@@ -95,7 +93,6 @@ public class CurrentVsVoltageGraph extends Chart {
             }
 
             public void targetMaterialChanged( PhotoelectricModel.ChangeEvent event ) {
-                stoppingVoltage = model.getStoppingVoltage();
                 lineDataSet.clear();
             }
         } );
@@ -126,7 +123,6 @@ public class CurrentVsVoltageGraph extends Chart {
         }
         lineDataSet.addPoint( voltage, current );
         lastVoltageRecorded = voltage;
-        lastCurrentRecorded = current;
     }
 
     /**
