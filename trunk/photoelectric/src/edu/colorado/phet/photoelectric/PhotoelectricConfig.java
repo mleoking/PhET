@@ -32,5 +32,5 @@ public class PhotoelectricConfig {
     public static final double BEAM_LAYER = 900;
     public static final double ELECTRON_LAYER = 900;
 
-    public static final Dimension CHART_SIZE = new Dimension( 180, 100 );
+    public static final Dimension CHART_SIZE = new Dimension( 170, 100 );
 }
