@@ -96,36 +96,5 @@ public class QTClock extends SwingTimerClock {
                 listener.clockReset( event );
             }
         }
-    }
-    
-    //----------------------------------------------------------------------------
-    // Event & listener
-    //----------------------------------------------------------------------------
-    
-    /**
-     * QTClockChangeListener listens for changes that are specific to QTClock.
-     */
-    public interface QTClockChangeListener extends EventListener {
-        
-        /**
-         * Called when the clock's running time has been reset.
-         * 
-         * @param event
-         */
-        public void clockReset( QTClockChangeEvent event );
-    }
-    
-    /**
-     * QTClockChangeEvent indicates changes that are specific to QTClock.
-     */
-    public static class QTClockChangeEvent extends EventObject {
-        
-        public QTClockChangeEvent( QTClock clock ) {
-            super( clock );
-        }
-        
-        public QTClock getClock() {
-            return (QTClock) getSource();
-        }
     } 
 }
