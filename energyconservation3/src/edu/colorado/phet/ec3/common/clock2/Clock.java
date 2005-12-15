@@ -26,6 +26,14 @@ public abstract class Clock {
         this.timeConverter = timeConverter;
     }
 
+    public abstract void start();
+
+    public abstract void pause();
+
+    public abstract boolean isPaused();
+
+    public abstract boolean isRunning();
+
     public void addClockListener( ClockListener clockListener ) {
         listeners.add( clockListener );
     }

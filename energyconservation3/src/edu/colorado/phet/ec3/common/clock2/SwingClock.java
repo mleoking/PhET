@@ -39,4 +39,8 @@ public class SwingClock extends Clock {
         return !timer.isRunning();
     }
 
+    public boolean isRunning() {
+        return timer.isRunning();
+    }
+
 }
