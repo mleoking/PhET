@@ -336,7 +336,7 @@ public class PSwingEventHandler implements PInputEventListener {
             dispatchEvent( buttonData.getFocusedComponent(), e1 );
         }
 
-        buttonData.getPSwing().repaint();
+        //buttonData.getPSwing().repaint();  //Experiment with SliderExample (from Martin) suggests this line is unnecessary, and a serious problem in performance.
 
         e1.consume();
 
