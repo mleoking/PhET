@@ -24,13 +24,13 @@ import edu.colorado.phet.quantumtunneling.util.Complex;
 
 
 /**
- * WavePacket
+ * WavePacket is the model of a wave packet.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class WavePacket extends AbstractWave implements ModelElement, Observer, QTClockChangeListener {
-
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -40,6 +40,8 @@ public class WavePacket extends AbstractWave implements ModelElement, Observer, 
     private AbstractPotential _pe;
     private Direction _direction;
     private boolean _enabled;
+    private double _width;
+    private double _center;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -53,6 +55,8 @@ public class WavePacket extends AbstractWave implements ModelElement, Observer, 
         _pe = null;
         _direction = Direction.LEFT_TO_RIGHT;
         _enabled = true;
+        _width = QTConstants.DEFAULT_PACKET_WIDTH;
+        _center = QTConstants.DEFAULT_PACKET_CENTER;
     }
     
     public void cleanup() {
@@ -85,6 +89,33 @@ public class WavePacket extends AbstractWave implements ModelElement, Observer, 
 
     public boolean isEnabled() {
         return _enabled;
+    }
+    
+    public void setWidth( double width ) {
+        if ( width <= 0 ) {
+            throw new IllegalArgumentException( "width must be > 0: " + width );
+        }
+        if ( width != _width ) {
+            _width = width;
+            //XXX
+            notifyObservers();
+        }
+    }
+    
+    public double getWidth() {
+        return _width;
+    }
+    
+    public void setCenter( double center ) {
+        if ( center != _center ) {
+            _center = center;
+            //XXX
+            notifyObservers();
+        }
+    }
+    
+    public double getCenter() {
+        return _center;
     }
     
     //----------------------------------------------------------------------------
@@ -121,7 +152,7 @@ public class WavePacket extends AbstractWave implements ModelElement, Observer, 
 
     public void setDirection( Direction direction ) {
         _direction = direction;
-        // TODO Auto-generated method stub   
+        //XXX
     }
 
     public Direction getDirection() {
@@ -129,10 +160,10 @@ public class WavePacket extends AbstractWave implements ModelElement, Observer, 
     }
 
     public WaveFunctionSolution solveWaveFunction( double x ) {
-        // TODO Auto-generated method stub
         WaveFunctionSolution solution = null;
         double t = getTime();
-        solution = new WaveFunctionSolution( x, t, new Complex(0,0), new Complex(0,0) );
+        solution = new WaveFunctionSolution( x, t, new Complex(0,0), new Complex(0,0) );//XXX HACK
+        //XXX
         return solution;
     }
     
@@ -141,7 +172,9 @@ public class WavePacket extends AbstractWave implements ModelElement, Observer, 
     //----------------------------------------------------------------------------
     
     public void stepInTime( double dt ) {
-        // TODO Auto-generated method stub    
+        if ( _enabled ) {
+            //XXX    
+        }
     }
 
     //----------------------------------------------------------------------------
@@ -149,7 +182,9 @@ public class WavePacket extends AbstractWave implements ModelElement, Observer, 
     //----------------------------------------------------------------------------
     
     public void update( Observable o, Object arg ) {
-        // TODO Auto-generated method stub    
+        if ( _enabled ) {
+            //XXX    
+        }   
     }
 
     //----------------------------------------------------------------------------
@@ -157,7 +192,9 @@ public class WavePacket extends AbstractWave implements ModelElement, Observer, 
     //----------------------------------------------------------------------------
     
     public void clockReset( QTClockChangeEvent event ) {
-        // TODO Auto-generated method stub
+        if ( _enabled ) {
+            //XXX    
+        }
     }
 
 }

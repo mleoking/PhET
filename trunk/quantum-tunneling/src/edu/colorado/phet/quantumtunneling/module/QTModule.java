@@ -403,4 +403,16 @@ public class QTModule extends AbstractModule {
     public void setViewSeparateEnabled( boolean enabled ) {
         _chart.getWaveFunctionPlot().setViewSeparateEnabled( enabled );
     }
+    
+    public void setWavePacketWidth( double width ) {
+        _wavePacket.setWidth( width );
+    }
+    
+    public void setWavePacketCenter( double center ) {
+        _wavePacket.setCenter( center );
+    }
+    
+    public void measure() {
+        //XXX
+    }
 }
