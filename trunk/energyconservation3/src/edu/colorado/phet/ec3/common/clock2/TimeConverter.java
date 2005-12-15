@@ -8,4 +8,34 @@ package edu.colorado.phet.ec3.common.clock2;
  */
 public interface TimeConverter {
     double getSimulationTimeChange( Clock clock );
+
+    public static class Constant implements TimeConverter {
+        private double simulationTimeChange;
+
+        public Constant( double simulationTimeChange ) {
+            this.simulationTimeChange = simulationTimeChange;
+        }
+
+        public double getSimulationTimeChange( Clock clock ) {
+            return simulationTimeChange;
+        }
+    }
+
+    public static class Identity implements TimeConverter {
+        public double getSimulationTimeChange( Clock clock ) {
+            return clock.getWallTimeChangeMillis() / 1000.0;
+        }
+    }
+
+    public static class Scaled implements TimeConverter {
+        private double scale;
+
+        public Scaled( double scale ) {
+            this.scale = scale;
+        }
+
+        public double getSimulationTimeChange( Clock clock ) {
+            return clock.getWallTimeChangeMillis() * scale / 1000.0;
+        }
+    }
 }
