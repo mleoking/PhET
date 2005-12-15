@@ -20,7 +20,7 @@ import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.mirror.Mirror;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
-import java.awt.geom.Point2D;
+import java.awt.geom.Line2D;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,14 +42,18 @@ public class PhotonMirrorCollisonExpert implements CollisionExpert {
             Mirror mirror = (Mirror)classifiedBodies.get( Mirror.class );
             Photon photon = (Photon)classifiedBodies.get( Photon.class );
             if( mirror != null && photon != null ) {
-                Point2D photonPositionPrev = photon.getPositionPrev();
-                Point2D photonPositionCurr = photon.getPosition();
-
-                // Note: This test is very simple-minded. It assumes a vertical mirror that
-                // is infinitely tall.
-                if( ( photonPositionCurr.getX() - mirror.getPosition().getX() )
-                    * ( photonPositionPrev.getX() - mirror.getPosition().getX() ) <= 0 && mirror.reflects( photon ) ) {
-                    doCollision( photon, mirror );
+                boolean photonPathIntersectsMirror = Line2D.linesIntersect( photon.getPositionPrev().getX(),
+                                                                            photon.getPositionPrev().getY(),
+                                                                            photon.getPosition().getX(),
+                                                                            photon.getPosition().getY(),
+                                                                            mirror.getPosition().getX(),
+                                                                            mirror.getBounds().getMinY(),
+                                                                            mirror.getPosition().getX(),
+                                                                            mirror.getBounds().getMaxY() );
+                if( photonPathIntersectsMirror && mirror.reflects( photon ) ) {
+                    if( mirror.reflects( photon ) ) {
+                        doCollision( photon, mirror );
+                    }
                 }
             }
         }
@@ -65,7 +69,6 @@ public class PhotonMirrorCollisonExpert implements CollisionExpert {
      */
     private void doCollision( Photon photon, Mirror mirror ) {
         double cheatFactor = Math.toRadians( LaserConfig.PHOTON_CHEAT_ANGLE );
-        //        double cheatFactor = Math.toRadians( 60 );
         double dx = photon.getPosition().getX() - mirror.getPosition().getX();
         photon.setPosition( mirror.getPosition().getX() - dx, photon.getPosition().getY() );
         double vx = 0;
@@ -79,6 +82,5 @@ public class PhotonMirrorCollisonExpert implements CollisionExpert {
             vy = photon.getVelocity().getY();
         }
         photon.setVelocity( vx, vy );
-        //        photon.setVelocity( -photon.getVelocity().getX(), photon.getVelocity().getY() );
     }
 }
