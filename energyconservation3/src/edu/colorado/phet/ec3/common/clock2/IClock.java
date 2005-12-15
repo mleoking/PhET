@@ -21,13 +21,13 @@ public interface IClock {
 
     void resetSimulationTime();
 
+    long getWallTime();
+
     long getWallTimeChangeMillis();
 
     double getSimulationTimeChange();
 
     double getSimulationTime();
-
-    long getWallTime();
 
     void setSimulationTime( double simulationTime );
 }
