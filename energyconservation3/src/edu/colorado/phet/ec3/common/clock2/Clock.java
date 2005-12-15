@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * Copyright (c) Dec 15, 2005 by Sam Reid
  */
 
-public abstract class Clock {
+public abstract class Clock implements IClock {
     private ArrayList listeners = new ArrayList();
     private TimeConverter timeConverter;
     private double lastSimulationTime = 0.0;
@@ -26,54 +26,51 @@ public abstract class Clock {
         this.timeConverter = timeConverter;
     }
 
-    public abstract void start();
-
-    public abstract void pause();
-
-    public abstract boolean isPaused();
-
-    public abstract boolean isRunning();
-
     public void addClockListener( ClockListener clockListener ) {
         listeners.add( clockListener );
     }
 
-    public void removeListener( ClockListener clockListener ) {
+    public void removeClockListener( ClockListener clockListener ) {
         listeners.add( clockListener );
     }
 
     protected void notifyTicked() {
+        ClockEvent clockEvent = new ClockEvent( this );
         for( int i = 0; i < listeners.size(); i++ ) {
             ClockListener clockListener = (ClockListener)listeners.get( i );
-            clockListener.clockTicked( this );
+            clockListener.clockTicked( clockEvent );
         }
     }
 
     protected void notifyClockPaused() {
+        ClockEvent clockEvent = new ClockEvent( this );
         for( int i = 0; i < listeners.size(); i++ ) {
             ClockListener clockListener = (ClockListener)listeners.get( i );
-            clockListener.clockPaused( this );
+            clockListener.clockPaused( clockEvent );
         }
     }
 
     protected void notifyClockStarted() {
+        ClockEvent clockEvent = new ClockEvent( this );
         for( int i = 0; i < listeners.size(); i++ ) {
             ClockListener clockListener = (ClockListener)listeners.get( i );
-            clockListener.clockStarted( this );
+            clockListener.clockStarted( clockEvent );
         }
     }
 
     protected void notifyClockReset() {
+        ClockEvent clockEvent = new ClockEvent( this );
         for( int i = 0; i < listeners.size(); i++ ) {
             ClockListener clockListener = (ClockListener)listeners.get( i );
-            clockListener.clockReset( this );
+            clockListener.clockReset( clockEvent );
         }
     }
 
     protected void notifySimulationTimeChanged() {
+        ClockEvent clockEvent = new ClockEvent( this );
         for( int i = 0; i < listeners.size(); i++ ) {
             ClockListener clockListener = (ClockListener)listeners.get( i );
-            clockListener.simulationTimeChanged( this );
+            clockListener.simulationTimeChanged( clockEvent );
         }
     }
 
@@ -88,24 +85,26 @@ public abstract class Clock {
     public void resetSimulationTime() {
         setSimulationTime( 0.0 );
         notifyClockReset();
-        if( getSimulationTimeChange() != 0.0 ) {
-            notifySimulationTimeChanged();
-        }
+        testNotifySimulationTimeChange();
     }
 
     protected void doTick() {
         lastWallTime = wallTime;
         wallTime = System.currentTimeMillis();
 
-        setSimulationTime( simulationTime + timeConverter.getSimulationTimeChange( this ) );
+        setSimulationTimeNoUpdate( simulationTime + timeConverter.getSimulationTimeChange( this ) );
 
         notifyTicked();
+        testNotifySimulationTimeChange();
+    }
+
+    private void testNotifySimulationTimeChange() {
         if( getSimulationTimeChange() != 0.0 ) {
             notifySimulationTimeChanged();
         }
     }
 
-    private void setSimulationTime( double simulationTime ) {
+    private void setSimulationTimeNoUpdate( double simulationTime ) {
         lastSimulationTime = this.simulationTime;
         this.simulationTime = simulationTime;
     }
@@ -125,4 +124,10 @@ public abstract class Clock {
     public long getWallTime() {
         return wallTime;
     }
+
+    public void setSimulationTime( double simulationTime ) {
+        setSimulationTimeNoUpdate( simulationTime );
+        testNotifySimulationTimeChange();
+    }
+
 }
