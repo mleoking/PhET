@@ -29,7 +29,9 @@ import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.mirror.BandPass;
+import edu.colorado.phet.lasers.model.mirror.LeftReflecting;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
+import edu.colorado.phet.lasers.model.mirror.RightReflecting;
 import edu.colorado.phet.lasers.model.photon.*;
 import edu.colorado.phet.lasers.view.*;
 
@@ -72,6 +74,9 @@ public class BaseLaserModule extends Module {
     private BeamCurtainGraphic beamCurtainGraphic;
     private LaserWaveGraphic waveGraphic;
     private LampGraphic pumpLampGraphic;
+
+    // Part of hack to address leaking through mirrors
+//    private ArrayList photons = new ArrayList();
 
     private int numPhotons;
     private boolean displayHighLevelEmissions;
@@ -125,7 +130,34 @@ public class BaseLaserModule extends Module {
 
         // Set up help
         createHelp();
+
+//        addLeakHack();
     }
+
+//    private void addLeakHack() {
+//        laserModel.addModelElement( new ModelElement() {
+//            public void stepInTime( double dt ) {
+//                for( int i = 0; i < photons.size(); i++ ) {
+//                    Photon photon = (Photon)photons.get( i );
+//                    if( photon.getPositionPrev().getX() < leftMirror.getPosition().getX()
+//                        && photon.getPosition().getY() > leftMirror.getBounds().getMinY()
+//                        && photon.getPosition().getY() < leftMirror.getBounds().getMaxY()
+//                        && photon.getWavelength() == seedBeam.getWavelength() ) {
+////                        photon.removeFromSystem();
+////                        laserModel.removeModelElement( this );
+//                    }
+//                    if( photon.getPositionPrev().getX() > rightMirror.getPosition().getX()
+//                        && rightMirror.getReflectivity() == 1.0
+//                        && photon.getPosition().getY() > rightMirror.getBounds().getMinY()
+//                        && photon.getPosition().getY() < rightMirror.getBounds().getMaxY()
+//                        && photon.getWavelength() == seedBeam.getWavelength() ) {
+////                        photon.removeFromSystem();
+////                        laserModel.removeModelElement( this );
+//                    }
+//                }
+//            }
+//        } );
+//    }
 
     /**
      * @param app
@@ -223,9 +255,9 @@ public class BaseLaserModule extends Module {
         rightMirror = new PartialMirror( p1, p2 );
         BandPass bandPass = new BandPass( LaserConfig.MIN_WAVELENGTH, LaserConfig.MAX_WAVELENGTH );
         rightMirror.addReflectionStrategy( bandPass );
-
-//        rightMirror.addReflectionStrategy( new LeftReflecting() );
+        rightMirror.addReflectionStrategy( new LeftReflecting() );
         rightMirrorGraphic = new MirrorGraphic( getApparatusPanel(), rightMirror, MirrorGraphic.LEFT_FACING );
+
         // The left mirror is 100% reflecting
         Point2D p3 = new Point2D.Double( cavity.getPosition().getX(),
                                          cavity.getPosition().getY() );
@@ -233,6 +265,7 @@ public class BaseLaserModule extends Module {
                                          cavity.getPosition().getY() + cavity.getHeight() );
         leftMirror = new PartialMirror( p3, p4 );
         leftMirror.addReflectionStrategy( bandPass );
+        leftMirror.addReflectionStrategy( new RightReflecting() );
         leftMirror.setReflectivity( 1.0 );
         leftMirrorGraphic = new MirrorGraphic( getApparatusPanel(), leftMirror, MirrorGraphic.RIGHT_FACING );
 
@@ -543,7 +576,7 @@ public class BaseLaserModule extends Module {
 
             // Track the number of photons
             BaseLaserModule.this.numPhotons++;
-            Photon photon = event.getPhoton();
+            final Photon photon = event.getPhoton();
             getModel().addModelElement( photon );
             boolean isPhotonGraphicVisible = true;
 
@@ -576,7 +609,7 @@ public class BaseLaserModule extends Module {
             // Create a photon graphic, add it to the appratus panel and attach a
             // listener to the photon that will remove the graphic if and when the
             // photon goes away. Set it's visibility based on the state of the simulation
-            PhotonGraphic pg = PhotonGraphic.getInstance( getApparatusPanel(), photon );
+            final PhotonGraphic pg = PhotonGraphic.getInstance( getApparatusPanel(), photon );
             pg.setVisible( isPhotonGraphicVisible );
             addGraphic( pg, LaserConfig.PHOTON_LAYER );
             photon.addLeftSystemListener( new PhotonLeftSystemListener( photon, pg ) );

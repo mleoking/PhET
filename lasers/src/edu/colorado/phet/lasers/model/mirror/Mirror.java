@@ -21,7 +21,8 @@ import java.util.ArrayList;
 /**
  * This class represents various sorts of mirrors. The mirror is conditioned
  * by ReflectionStrategies that are added to it that determine whether the
- * mirror will reflect a particular photon.
+ * mirror will reflect a particular photon. A Mirror treats ReflectionStrategies
+ * conjunctively. I.e., all have to be true for the mirror to reflect a photon.
  * <p/>
  * Examples of ReflectionStrategies are
  * <ul>
@@ -31,7 +32,7 @@ import java.util.ArrayList;
  * </ul>
  */
 public class Mirror extends Wall {
-    // Implementation of specific reflection behaviors
+
     protected ArrayList reflectionStrategies = new ArrayList();
 
     public Mirror( Point2D end1, Point2D end2 ) {
@@ -47,7 +48,8 @@ public class Mirror extends Wall {
 
     /**
      * Tells if the mirror reflects a specified photon, based on the mirror's
-     * ReflectionStrategies.
+     * ReflectionStrategies. All strategies must return true to their reflects( photon )
+     * method for the mirror to return true.
      *
      * @param photon
      * @return
