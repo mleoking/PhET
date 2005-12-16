@@ -5,8 +5,13 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- debug closed-form solutions
+- debug closed-form solutions for barrier potentials
 - implement phase view
+- automatically restart clock when energies change
+- automatically restart clock when direction changes
+- automatically restart clock when wave function form changes
+- automatically restart clock when wave packet properties change
+- should wave packet width & center sliders only update model when slider is released?
 
 MEDIUM PRIORITY:
 - implement Schrodinger's equation for 1 dimension
