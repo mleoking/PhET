@@ -418,9 +418,13 @@ public class QTModule extends AbstractModule implements Observer {
     }
     
     public void setDirection( Direction direction ) {
-        restartClock();
+        _planeWave.setNotifyEnabled( false );
+        _wavePacket.setNotifyEnabled( false );
         _planeWave.setDirection( direction );
         _wavePacket.setDirection( direction );
+        restartClock();
+        _planeWave.setNotifyEnabled( true );
+        _wavePacket.setNotifyEnabled( true );
     }
     
     public void setViewSeparateEnabled( boolean enabled ) {
