@@ -10,23 +10,26 @@
  */
 package edu.colorado.phet.common.application;
 
-import java.util.EventObject;
-
 /**
  * ModuleEvent
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ModuleEvent extends EventObject {
+public class ModuleEvent {
+    private PhetApplication phetApplication;
     private Module module;
 
-    public ModuleEvent( Object source, Module module ) {
-        super( source );
+    public ModuleEvent( PhetApplication phetApplication, Module module ) {
+        this.phetApplication = phetApplication;
         this.module = module;
     }
 
     public Module getModule() {
         return module;
+    }
+
+    public PhetApplication getPhetApplication() {
+        return phetApplication;
     }
 }

@@ -35,7 +35,7 @@ public class TabbedModulePane extends JTabbedPane implements ModuleObserver {
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 int selectedIdx = getSelectedIndex();
-                if( selectedIdx >= 0 && application.getModuleManager().numModules() > 0 ) {
+                if( selectedIdx >= 0 && application.numModules() > 0 ) {
                     current = application.moduleAt( selectedIdx );
                     application.setActiveModule( selectedIdx );
                 }

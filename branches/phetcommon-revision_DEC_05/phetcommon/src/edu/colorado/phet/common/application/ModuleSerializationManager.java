@@ -145,4 +145,15 @@ public class ModuleSerializationManager {
         }
     }
 
+    //////////////////////////////////////////////////////////////////////////////
+    // Save/restore methods
+    //
+    public void saveStateToConsole( ModuleManager moduleManager ) {
+        Module[]modules = moduleManager.getModules();
+        for( int i = 0; i < modules.length; i++ ) {
+            XMLEncoder encoder = new XMLEncoder( System.out );
+            encoder.writeObject( modules[i] );
+            encoder.close();
+        }
+    }
 }

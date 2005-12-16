@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.common.application;
 
-import java.beans.XMLEncoder;
 import java.util.ArrayList;
 
 /**
@@ -19,40 +18,40 @@ import java.util.ArrayList;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ModuleManager {
+class ModuleManager {
 
     private ArrayList modules = new ArrayList();
     private Module activeModule;
     private PhetApplication phetApplication;
     private ArrayList moduleObservers = new ArrayList();
 
-    public ModuleManager( PhetApplication phetApplication ) {
+    ModuleManager( PhetApplication phetApplication ) {
         this.phetApplication = phetApplication;
     }
 
-    public Module moduleAt( int i ) {
+    Module moduleAt( int i ) {
         return (Module)modules.get( i );
     }
 
-    public Module getActiveModule() {
+    Module getActiveModule() {
         return activeModule;
     }
 
-    public int numModules() {
+    int numModules() {
         return modules.size();
     }
 
-    public void addModule( Module module ) {
+    void addModule( Module module ) {
         // Check that the module is well-formed
         if( !moduleIsWellFormed( module ) ) {
             throw new RuntimeException( "Module is missing something." );
         }
 
         modules.add( module );
-        notifyModuleAdded( new ModuleEvent( this, module ) );
+        notifyModuleAdded( new ModuleEvent( getPhetApplication(), module ) );
     }
 
-    public boolean moduleIsWellFormed( Module module ) {
+    boolean moduleIsWellFormed( Module module ) {
         return module.moduleIsWellFormed();
     }
 
@@ -63,7 +62,7 @@ public class ModuleManager {
         }
     }
 
-    public void removeModule( Module module ) {
+    void removeModule( Module module ) {
         modules.remove( module );
 
         // If the module we are removing is the active module, we need to
@@ -72,7 +71,7 @@ public class ModuleManager {
             setActiveModule( modules.size() == 0 ? null : (Module)modules.get( 0 ) );
         }
         // Notifiy listeners
-        notifyModuleRemoved( new ModuleEvent( this, module ) );
+        notifyModuleRemoved( new ModuleEvent( getPhetApplication(), module ) );
     }
 
     private void notifyModuleRemoved( ModuleEvent event ) {
@@ -82,11 +81,11 @@ public class ModuleManager {
         }
     }
 
-    public void setActiveModule( int i ) {
+    void setActiveModule( int i ) {
         setActiveModule( moduleAt( i ) );
     }
 
-    public void setActiveModule( Module module ) {
+    void setActiveModule( Module module ) {
         if( activeModule != module ) {
             forceSetActiveModule( module );
         }
@@ -95,7 +94,7 @@ public class ModuleManager {
     void forceSetActiveModule( Module module ) {
         deactivateCurrentModule();
         activate( module );
-        notifyActiveModuleChanged( new ModuleEvent( this, module ) );
+        notifyActiveModuleChanged( new ModuleEvent( getPhetApplication(), module ) );
     }
 
     private void notifyActiveModuleChanged( ModuleEvent event ) {
@@ -113,35 +112,23 @@ public class ModuleManager {
         }
     }
 
-    public void deactivateCurrentModule() {
+    void deactivateCurrentModule() {
         if( activeModule != null ) {
             activeModule.deactivate();
         }
     }
 
-    public void addModuleObserver( ModuleObserver observer ) {
+    void addModuleObserver( ModuleObserver observer ) {
         moduleObservers.add( observer );
     }
 
-    public int indexOf( Module m ) {
+    int indexOf( Module m ) {
         return modules.indexOf( m );
     }
 
-    public void addAllModules( Module[] modules ) {
+    void addAllModules( Module[] modules ) {
         for( int i = 0; i < modules.length; i++ ) {
             addModule( modules[i] );
-        }
-    }
-
-    //////////////////////////////////////////////////////////////////////////////
-    // Save/restore methods
-    //
-    public void saveStateToConsole() {
-        for( int i = 0; i < modules.size(); i++ ) {
-            Module module = (Module)modules.get( i );
-            XMLEncoder encoder = new XMLEncoder( System.out );
-            encoder.writeObject( module );
-            encoder.close();
         }
     }
 
@@ -150,7 +137,7 @@ public class ModuleManager {
      *
      * @return the array of the modules the module manager manages
      */
-    public Module[] getModules() {
+    Module[] getModules() {
         Module[] moduleArray = new Module[this.modules.size()];
         for( int i = 0; i < modules.size(); i++ ) {
             moduleArray[i] = (Module)modules.get( i );
@@ -158,15 +145,15 @@ public class ModuleManager {
         return moduleArray;
     }
 
-    public void pause() {
+    void pause() {
         getActiveModule().deactivate();
     }
 
-    public void resume() {
+    void resume() {
         getActiveModule().activate();
     }
 
-    public PhetApplication getPhetApplication() {
+    PhetApplication getPhetApplication() {
         return phetApplication;
     }
 }

@@ -10,7 +10,10 @@
  */
 package edu.colorado.phet.common.view.components.menu;
 
-import edu.colorado.phet.common.application.*;
+import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.application.ModuleEvent;
+import edu.colorado.phet.common.application.ModuleObserver;
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.util.VersionUtils;
 import edu.colorado.phet.common.view.util.SimStrings;
 
@@ -30,12 +33,12 @@ public class HelpMenu extends JMenu implements ModuleObserver {
     private JMenuItem onscreenHelp;
 
     public HelpMenu( PhetApplication application ) {
-        this( application.getModuleManager(), application.getTitle(),
+        this( application, application.getTitle(),
               application.getDescription(), application.getVersion() );
     }
 
-    public HelpMenu( final ModuleManager moduleManager, final String title,
-                     String description, String version ) {
+    private HelpMenu( final PhetApplication moduleManager, final String title,
+                      String description, String version ) {
         super( SimStrings.get( "Common.HelpMenu.Title" ) );
         this.setMnemonic( SimStrings.get( "Common.HelpMenu.TitleMnemonic" ).charAt( 0 ) );
         moduleManager.addModuleObserver( this );

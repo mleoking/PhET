@@ -11,11 +11,9 @@
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.ModuleManager;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.components.menu.HelpMenu;
 import edu.colorado.phet.common.view.components.menu.PhetFileMenu;
-import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SwingUtils;
 
 import javax.swing.*;
@@ -33,46 +31,36 @@ public class PhetFrame extends JFrame {
     private HelpMenu helpMenu;
     private JMenu defaultFileMenu;
     private PhetApplication application;
-    private FrameSetup frameSetup;
 
     /**
      * todo: make clock control panel useage module-specific
      *
-     * @param title
-     * @param frameSetup
      * @throws HeadlessException
      */
-    public PhetFrame( PhetApplication application, String title, FrameSetup frameSetup,
-                      final ModuleManager moduleManager,
-                      String description, String version ) throws HeadlessException {
-        super( title + " (" + version + ")" );
+    public PhetFrame( final PhetApplication application ) throws HeadlessException {
+        super( application.getTitle() + " (" + application.getVersion() + ")" );
         this.application = application;
-        this.frameSetup = frameSetup;
 
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         this.addWindowListener( new WindowAdapter() {
 
             // Pause the clock if the simulation window is iconified.
             public void windowIconified( WindowEvent e ) {
-                moduleManager.pause();
+                application.pause();
             }
 
             // Restore the clock state if the simulation window is deiconified.
             public void windowDeiconified( WindowEvent e ) {
-                moduleManager.resume();
+                application.resume();
             }
         } );
 
         JMenuBar menuBar = new JMenuBar();
-        this.helpMenu = new HelpMenu( moduleManager, title, description, version );
+        this.helpMenu = new HelpMenu( application );
         defaultFileMenu = new PhetFileMenu();
         menuBar.add( defaultFileMenu );
         menuBar.add( helpMenu );
         setJMenuBar( menuBar );
-
-        if( frameSetup != null ) {
-            frameSetup.initialize( this );
-        }
 
     }
 
@@ -80,15 +68,6 @@ public class PhetFrame extends JFrame {
         JComponent contentPane = createContentPane( application, modules );
 //        modulePanel = new ModulePanel( apparatusPanelContainer, null, null, null );
         setContentPane( contentPane );
-    }
-
-    /**
-     * If we have a frame setup, we should not pack the frame
-     */
-    public void pack() {
-        if( frameSetup == null ) {
-            super.pack();
-        }
     }
 
     public PhetApplication getApplication() {
@@ -222,25 +201,6 @@ public class PhetFrame extends JFrame {
         return helpMenu;
     }
 
-    /**
-     * Adds the "Debug" menu to the menu bar.
-     */
-//    public void addDebugMenu() {
-//        if( debugMenu == null ) {
-//            debugMenu = new DebugMenu( application );
-//            addMenu( debugMenu );
-//        }
-//    }
-
-//    /**
-//     * Gets the debug menu.
-//     * Clients can use this to add new items to the menu.
-//     *
-//     * @return DebugMenu
-//     */
-//    public DebugMenu getDebugMenu() {
-//        return debugMenu;
-//    }
     public void removeMenu( JMenu menu ) {
         getJMenuBar().remove( menu );
     }

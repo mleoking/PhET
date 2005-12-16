@@ -64,11 +64,13 @@ public class PhetApplication {
     // Instance data and methods
     //----------------------------------------------------------------
 
-    private PhetFrame phetFrame;
-    private ModuleManager moduleManager;
     private String title;
     private String description;
     private String version;
+
+    private PhetFrame phetFrame;
+    private ModuleManager moduleManager;
+
     private JDialog startupDlg;
 
     /**
@@ -97,7 +99,10 @@ public class PhetApplication {
         this.version = version;
 
         this.moduleManager = new ModuleManager( this );
-        phetFrame = new PhetFrame( this, title, frameSetup, moduleManager, description, version );
+        phetFrame = new PhetFrame( this );
+        if( frameSetup != null ) {
+            frameSetup.initialize( phetFrame );
+        }
 
         // Put up a dialog that lets the user know that the simulation is starting up
         startupDlg = new StartupDialog( getPhetFrame(), title );
@@ -135,18 +140,19 @@ public class PhetApplication {
         if( moduleManager.numModules() == 0 ) {
             throw new RuntimeException( "No modules in module manager" );
         }
-        phetFrame.setModules( moduleManager.getModules() );//todo is this redundant
+        phetFrame.setModules( moduleManager.getModules() );//todo is this redundant?
+
         // Set up a mechanism that will set the reference sizes of all ApparatusPanel2 instances
-        // after the PhetFrame has been set to its startup size. We have to do this with a strange
-        // looking "inner listener". When the outer WindowAdapter gets called, the PhetFrame is
+        // after the PhetFrame has been set to its startup size.
+        // When the outer WindowAdapter gets called, the PhetFrame is
         // at the proper size, but the ApparatusPanel2 has not yet gotten its resize event.
         phetFrame.addWindowFocusListener( new WindowAdapter() {
             public void windowGainedFocus( WindowEvent e ) {
-                // Get rid of the startup dialog and set the cursor to its normal form
+                // Get rid of the startup dialog
                 if( startupDlg != null ) {
                     startupDlg.setVisible( false );
-                    // To make sure the garbage collector will clean up the dialog. I'm
-                    // not sure this is necessary, but it can't hurt.
+                    // To make sure the garbage collector will clean up the dialog. This is necessary
+                    startupDlg.dispose();
                     startupDlg = null;
                 }
 
@@ -247,4 +253,21 @@ public class PhetApplication {
             addModule( module );
         }
     }
+
+    public void saveState( String s ) {
+        new ModuleSerializationManager().saveState( getModuleManager(), s );
+    }
+
+    public void restoreState( String s ) {
+        new ModuleSerializationManager().restoreState( getModuleManager(), s );
+    }
+
+    public void pause() {
+        moduleManager.pause();
+    }
+
+    public void resume() {
+        moduleManager.resume();
+    }
+
 }
