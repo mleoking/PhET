@@ -39,6 +39,10 @@ public class ThreeToTwoLattice extends Lattice {
         this.spacing = spacing;
     }
 
+    public Object clone() {
+        return new ThreeToTwoLattice( twoIonClass, threeIonClass, spacing );
+    }
+
     protected List getNeighboringSites( Ion ion, double orientation ) {
         List sites = new ArrayList();
         Point2D p = ion.getPosition();

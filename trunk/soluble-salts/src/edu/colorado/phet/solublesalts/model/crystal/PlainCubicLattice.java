@@ -41,6 +41,10 @@ public class PlainCubicLattice extends Lattice {
         this.spacing = spacing;
     }
 
+    public Object clone() {
+        return new PlainCubicLattice( this.spacing );
+    }
+
     protected List getNeighboringSites( Ion ion, double orientation ) {
         Point2D p = ion.getPosition();
         List sites = new ArrayList();
