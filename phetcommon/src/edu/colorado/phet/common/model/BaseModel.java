@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.common.model;
 
-import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.common.model.clock.ClockListener;
+import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.model.clock.ClockTickEvent;
 
 /**
  * This class is encompasses all the model elements in a physical system. It provides
@@ -20,11 +20,11 @@ import edu.colorado.phet.common.model.clock.ClockListener;
  * Typically, each Module in an application will have its own instance of this
  * class, or a subclass. The application's single ApplicationModel instance will
  * be told which BaseModel is active when Modules are activated.
- *
+ * 
  * @author ?
  * @version $Revision$
  */
-public class BaseModel extends CompositeModelElement implements ClockListener {
+public class BaseModel extends CompositeModelElement implements ClockTickListener {
 
     private CommandQueue commandList = new CommandQueue();
 
@@ -43,20 +43,7 @@ public class BaseModel extends CompositeModelElement implements ClockListener {
         commandList.addCommand( cmd );
     }
 
-    public void clockTicked( ClockEvent clockEvent ) {
-        stepInTime( clockEvent.getSimulationTimeChange() );
-    }
-
-    public void clockStarted( ClockEvent clockEvent ) {
-    }
-
-    public void clockPaused( ClockEvent clockEvent ) {
-    }
-
-    public void simulationTimeChanged( ClockEvent clockEvent ) {
-        stepInTime( clockEvent.getSimulationTimeChange() );
-    }
-
-    public void clockReset( ClockEvent clockEvent ) {
+    public void clockTicked( ClockTickEvent event ) {
+        stepInTime( event.getDt() );
     }
 }

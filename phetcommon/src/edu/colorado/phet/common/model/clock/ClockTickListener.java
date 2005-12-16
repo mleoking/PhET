@@ -1,10 +1,25 @@
-/* Copyright 2004, Sam Reid */
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.model.clock;
 
-/**
- * @deprecated
- */
+import java.util.EventListener;
 
-public interface ClockTickListener {
-    void clockTicked( ClockTickEvent event );
+
+/**
+ * ClockTickListener
+ *
+ * @author ?
+ * @version $Revision$
+ */
+public interface ClockTickListener extends EventListener {
+
+    public void clockTicked( ClockTickEvent event );
 }

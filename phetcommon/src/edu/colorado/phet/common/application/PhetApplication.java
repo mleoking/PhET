@@ -12,7 +12,7 @@
 package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockListener;
+import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.ImageLoader;
@@ -58,7 +58,6 @@ public class PhetApplication {
     private static final String DEBUG_MENU_ARG = "-d";
     private static PhetApplication s_instance = null;
     private static ArrayList listeners = new ArrayList();
-    private double singleTickDT = 1.0;
 
     public static PhetApplication instance() {
         return s_instance;
@@ -158,6 +157,8 @@ public class PhetApplication {
 
         s_instance = this;
 
+
+
         // Handle command line arguments
         parseArgs( args );
     }
@@ -236,12 +237,12 @@ public class PhetApplication {
         return clock;
     }
 
-    public void addClockListener( ClockListener clockTickListener ) {
-        clock.addClockListener( clockTickListener );
+    public void addClockTickListener( ClockTickListener clockTickListener ) {
+        clock.addClockTickListener( clockTickListener );
     }
 
-    public void removeClockListener( ClockListener clockTickListener ) {
-        clock.removeClockListener( clockTickListener );
+    public void removeClockTickListener( ClockTickListener clockTickListener ) {
+        clock.removeClockTickListener( clockTickListener );
     }
 
     //----------------------------------------------------------------
