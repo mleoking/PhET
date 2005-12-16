@@ -10,7 +10,9 @@
  */
 package edu.colorado.phet.common.view.components.clockgui;
 
-import edu.colorado.phet.common.model.clock.*;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.ClockListener;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.EventChannel;
 
 import javax.swing.*;
@@ -24,21 +26,21 @@ import java.util.EventObject;
 
 /**
  * StopwatchPanel
- * <p>
- * A panel that simulates a stopwatch on a specified AbstractClock.
- * <p>
+ * <p/>
+ * A panel that simulates a stopwatch on a specified IClock.
+ * <p/>
  * Here is an example of adding it to the PhetFrame to the left of the the simulation's
  * play/pause/step controls:
  * <code>
- *       PhetFrame frame = PhetApplication.instance().getPhetFrame();
- *       StopwatchPanel stopwatchPanel = new StopwatchPanel( clock, "psec", 1E3, new DecimalFormat( "#0.00" );
- *       frame.getClockControlPanel().add( stopwatchPanel, BorderLayout.WEST );
+ * PhetFrame frame = PhetApplication.instance().getPhetFrame();
+ * StopwatchPanel stopwatchPanel = new StopwatchPanel( clock, "psec", 1E3, new DecimalFormat( "#0.00" );
+ * frame.getClockControlPanel().add( stopwatchPanel, BorderLayout.WEST );
  * </code>
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class StopwatchPanel extends JPanel implements ClockTickListener, ClockStateListener {
+public class StopwatchPanel extends JPanel implements ClockListener {
 
     private JTextField clockTF = new JTextField();
     private NumberFormat clockFormat;
@@ -59,19 +61,19 @@ public class StopwatchPanel extends JPanel implements ClockTickListener, ClockSt
     /**
      * @param clock
      */
-    public StopwatchPanel( AbstractClock clock ) {
-        this( clock, "", 1, new DecimalFormat( "0.00" ));
+    public StopwatchPanel( IClock clock ) {
+        this( clock, "", 1, new DecimalFormat( "0.00" ) );
     }
 
     /**
      * @param clock
-     * @param timeUnits     Gets printed on the panel
-     * @param scaleFactor   Time scale factor
-     * @param timeFormat    The format that the panel is to show
+     * @param timeUnits   Gets printed on the panel
+     * @param scaleFactor Time scale factor
+     * @param timeFormat  The format that the panel is to show
      */
-    public StopwatchPanel( AbstractClock clock, String timeUnits, double scaleFactor, DecimalFormat timeFormat ) {
+    public StopwatchPanel( IClock clock, String timeUnits, double scaleFactor, DecimalFormat timeFormat ) {
 
-        clock.addClockTickListener( this );
+        clock.addClockListener( this );
         setBackground( new Color( 237, 225, 113 ) );
 
         this.scaleFactor = scaleFactor;
@@ -201,8 +203,8 @@ public class StopwatchPanel extends JPanel implements ClockTickListener, ClockSt
      *
      * @param event
      */
-    public void stateChanged( ClockStateEvent event ) {
-        if( event.getIsPaused() ) {
+    public void stateChanged( ClockEvent event ) {
+        if( event.getClock().isPaused() ) {
             savedResetState = resetBtn.isEnabled();
             resetBtn.setEnabled( true );
         }
@@ -216,11 +218,23 @@ public class StopwatchPanel extends JPanel implements ClockTickListener, ClockSt
      *
      * @param event
      */
-    public void clockTicked( ClockTickEvent event ) {
+    public void clockTicked( ClockEvent event ) {
         if( isRunning ) {
-            runningTime += event.getDt();
+            runningTime += event.getSimulationTimeChange();
             displayRunningTime();
         }
+    }
+
+    public void clockStarted( ClockEvent clockEvent ) {
+    }
+
+    public void clockPaused( ClockEvent clockEvent ) {
+    }
+
+    public void simulationTimeChanged( ClockEvent clockEvent ) {
+    }
+
+    public void clockReset( ClockEvent clockEvent ) {
     }
 
     //-----------------------------------------------------------------

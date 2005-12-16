@@ -11,8 +11,8 @@
 
 package edu.colorado.phet.common.application;
 
-import edu.colorado.phet.common.model.clock.ClockStateEvent;
-import edu.colorado.phet.common.model.clock.ClockStateListener;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -44,7 +44,7 @@ import java.awt.event.ActionListener;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-class ClockPausedHandler implements ClockStateListener, ActionListener {
+class ClockPausedHandler extends ClockAdapter implements ActionListener {
 
     private static int DEFAULT_DELAY = 500; // time between refreshes, in milliseconds
 
@@ -71,19 +71,17 @@ class ClockPausedHandler implements ClockStateListener, ActionListener {
         timer = new Timer( delay, this );
     }
 
+
     /**
      * ClockStateListener implementation.
      * Starts and stops the timer when the state of the clock changes.
      */
-    public void stateChanged( ClockStateEvent event ) {
-        if( event.getIsPaused() ) {
-            // Start the timer while the clock is paused.
-            timer.start();
-        }
-        else {
-            // Stop the timer while the clock is running.
-            timer.stop();
-        }
+    public void clockStarted( ClockEvent clockEvent ) {
+        timer.stop();
+    }
+
+    public void clockPaused( ClockEvent clockEvent ) {
+        timer.start();
     }
 
     /**

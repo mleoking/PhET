@@ -1,11 +1,20 @@
-/* Copyright 2004, Sam Reid */
+/* Copyright 2003-2005, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.ClockListener;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 
@@ -18,12 +27,12 @@ import javax.swing.*;
  * Copyright (c) Dec 12, 2005 by Sam Reid
  */
 
-public abstract class Module implements ClockTickListener {
+public abstract class Module implements ClockListener {
     BaseModel model;
     JPanel controlPanel;
     JPanel monitorPanel;
     String name;
-    protected AbstractClock clock;
+    protected IClock clock;
     protected boolean helpEnabled;
     private boolean isActive;
 
@@ -31,17 +40,17 @@ public abstract class Module implements ClockTickListener {
         helpEnabled = false;
     }
 
-    public Module( String name, AbstractClock clock ) {
+    public Module( String name, IClock clock ) {
 
         this.name = name;
         this.clock = clock;
         SimStrings.setStrings( "localization/CommonStrings" );
 
         // Handle redrawing while the clock is paused.
-        clock.addClockStateListener( new ClockPausedHandler( this ) );
+        clock.addClockListener( new ClockPausedHandler( this ) );
     }
 
-    public AbstractClock getClock() {
+    public IClock getClock() {
         return clock;
     }
 
@@ -85,7 +94,7 @@ public abstract class Module implements ClockTickListener {
         }
         app.getPhetFrame().getBasicPhetPanel().setControlPanel( this.getControlPanel() );
         app.getPhetFrame().getBasicPhetPanel().setMonitorPanel( this.getMonitorPanel() );
-        app.addClockTickListener( this );
+        app.addClockListener( this );
         isActive = true;
     }
 
@@ -96,7 +105,7 @@ public abstract class Module implements ClockTickListener {
      * @param app
      */
     public void deactivate( PhetApplication app ) {
-        app.removeClockTickListener( this );
+        app.removeClockListener( this );
         isActive = false;
     }
 
@@ -168,7 +177,7 @@ public abstract class Module implements ClockTickListener {
      *
      * @param event
      */
-    public void updateGraphics( ClockTickEvent event ) {
+    public void updateGraphics( ClockEvent event ) {
         // noop
 
     }
@@ -182,7 +191,19 @@ public abstract class Module implements ClockTickListener {
 
     }
 
-    public void clockTicked( ClockTickEvent event ) {
+    public void clockStarted( ClockEvent clockEvent ) {
+    }
+
+    public void clockPaused( ClockEvent clockEvent ) {
+    }
+
+    public void simulationTimeChanged( ClockEvent clockEvent ) {
+    }
+
+    public void clockReset( ClockEvent clockEvent ) {
+    }
+
+    public void clockTicked( ClockEvent event ) {
         handleUserInput();
         model.clockTicked( event );
         updateGraphics( event );
