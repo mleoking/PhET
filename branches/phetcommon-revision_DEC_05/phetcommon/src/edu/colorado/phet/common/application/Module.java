@@ -6,11 +6,13 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.view.ClockControlPanel;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.ModulePanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
+import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -39,7 +41,14 @@ public abstract class Module implements ClockListener {
 
         // Handle redrawing while the clock is paused.
         clock.addClockListener( new ClockPausedHandler( this ) );
+
         this.modulePanel = new ModulePanel( null, null, null, null );
+        try {
+            modulePanel.setClockControlPanel( new ClockControlPanel( clock ) );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
     }
 
     public IClock getClock() {
@@ -47,7 +56,11 @@ public abstract class Module implements ClockListener {
     }
 
     public void setModel( BaseModel model ) {
+        if( this.model != null ) {
+            getClock().removeClockListener( this.model );
+        }
         this.model = model;
+        getClock().addClockListener( this.model );
     }
 
     public String getName() {

@@ -20,11 +20,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 /**
- * An on-screen container for the modules in an application. It displays the
- * modules' apparatus panels in tabbed panes. It is only used for applications
+ * An on-screen container for the modules in an application.  It is only used for applications
  * that have more than one module.
  *
- * @author ?
+ * @author Sam and Ron
  * @version $Revision$
  */
 public class TabbedModulePane extends JTabbedPane implements ModuleObserver {

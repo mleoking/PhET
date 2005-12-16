@@ -24,7 +24,7 @@ import java.io.IOException;
  * The content pane for the JFrame of a PhetApplication. It holds the apparatus panel container (a tabbed pane
  * container that holds all the apparatus panels), the control panel, and the simulation clock control panel.
  *
- * @author ?
+ * @author Ron & Sam
  * @version $Revision$
  */
 public class ModulePanel extends JPanel {
@@ -84,7 +84,7 @@ public class ModulePanel extends JPanel {
 
         setSimulationPanel( simulationPanel );
         setMonitorPanel( monitorPanel );
-        setAppControlPanel( appControl );
+        setClockControlPanel( appControl );
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 relayoutContentPanel();
@@ -118,9 +118,6 @@ public class ModulePanel extends JPanel {
     }
 
     public void setControlPanel( ControlPanel panel ) {
-//        if( panel != null ) {
-//            appCtrlPane.setRightComponent( panel );
-//        }
         if( controlPanel != null ) {
             remove( controlPanel );
         }
@@ -142,14 +139,6 @@ public class ModulePanel extends JPanel {
         }
         apparatusPanel = panel;
         setPanel( panel, apparatusPanelGbc );
-    }
-
-    public void setAppControlPanel( JComponent panel ) {
-        if( clockControlPanel != null ) {
-            remove( clockControlPanel );
-        }
-        clockControlPanel = panel;
-        setPanel( clockControlPanel, clockControlPanelGbc );
     }
 
     private void setPanel( JComponent component, GridBagConstraints gridBagConstraints ) {
@@ -224,5 +213,13 @@ public class ModulePanel extends JPanel {
 
     public ControlPanel getControlPanel() {
         return controlPanel;
+    }
+
+    public void setClockControlPanel( JComponent clockControlPanel ) {
+        if( clockControlPanel != null ) {
+            remove( clockControlPanel );
+        }
+        this.clockControlPanel = clockControlPanel;
+        setPanel( clockControlPanel, clockControlPanelGbc );
     }
 }
