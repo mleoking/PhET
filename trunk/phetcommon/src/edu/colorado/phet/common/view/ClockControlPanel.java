@@ -11,8 +11,8 @@
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.common.model.clock.ClockListener;
+import edu.colorado.phet.common.model.clock.ClockStateEvent;
+import edu.colorado.phet.common.model.clock.ClockStateListener;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 
@@ -29,7 +29,7 @@ import java.io.IOException;
  * @author ?
  * @version $Revision$
  */
-public class ClockControlPanel extends JPanel implements ClockListener {
+public class ClockControlPanel extends JPanel implements ClockStateListener {
     private JButton play;
     private JButton pause;
     private JButton step;
@@ -37,7 +37,7 @@ public class ClockControlPanel extends JPanel implements ClockListener {
 
     public ClockControlPanel( final AbstractClock clock ) throws IOException {
         this.clock = clock;
-        clock.addClockListener( this );
+        clock.addClockStateListener( this );
         if( clock == null ) {
             throw new RuntimeException( "Cannot have a control panel for a null clock." );
         }
@@ -57,7 +57,7 @@ public class ClockControlPanel extends JPanel implements ClockListener {
 
         play.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                clock.start();
+                clock.setPaused( false );
                 play.setEnabled( false );
                 pause.setEnabled( true );
                 step.setEnabled( false );
@@ -65,7 +65,7 @@ public class ClockControlPanel extends JPanel implements ClockListener {
         } );
         pause.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                clock.pause();
+                clock.setPaused( true );
                 play.setEnabled( true );
                 pause.setEnabled( false );
                 step.setEnabled( true );
@@ -88,12 +88,12 @@ public class ClockControlPanel extends JPanel implements ClockListener {
         play.setEnabled( false );
         pause.setEnabled( true );
     }
-
+    
     /**
      * Enables or disables the clock control panel.
      * When disabled, all buttons (play/pause/step) are also disabled.
      * When enabled, the buttons are enabled to correspond to the clock state.
-     *
+     * 
      * @param enabled true or false
      */
     public void setEnabled( boolean enabled ) {
@@ -107,33 +107,10 @@ public class ClockControlPanel extends JPanel implements ClockListener {
     ////////////////////////////////////////////////////////////////////////////
     // Event handlers
     //
-    public void stateChanged( ClockEvent event ) {
-        boolean isPaused = event.getClock().isPaused();
+    public void stateChanged( ClockStateEvent event ) {
+        boolean isPaused = event.getIsPaused();
         play.setEnabled( isPaused );
         pause.setEnabled( !isPaused );
         step.setEnabled( isPaused );
-    }
-
-    public void clockTicked( ClockEvent clockEvent ) {
-    }
-
-    public void clockStarted( ClockEvent clockEvent ) {
-        boolean isPaused = false;
-        play.setEnabled( isPaused );
-        pause.setEnabled( !isPaused );
-        step.setEnabled( isPaused );
-    }
-
-    public void clockPaused( ClockEvent clockEvent ) {
-        boolean isPaused = true;
-        play.setEnabled( isPaused );
-        pause.setEnabled( !isPaused );
-        step.setEnabled( isPaused );
-    }
-
-    public void simulationTimeChanged( ClockEvent clockEvent ) {
-    }
-
-    public void clockReset( ClockEvent clockEvent ) {
     }
 }

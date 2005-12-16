@@ -54,11 +54,11 @@ public class ModuleStateDescriptor {
         AbstractClock clock = PhetApplication.instance().getApplicationModel().getClock();
         BaseModel oldModel = module.getModel();
         oldModel.removeAllModelElements();
-        clock.removeClockListener( oldModel );
+        clock.removeClockTickListener( oldModel );
 
         // Set up the restored model
         BaseModel newModel = this.getModel();
-        clock.addClockListener( newModel );
+        clock.addClockTickListener( newModel );
         module.setModel( newModel );
     }
 }

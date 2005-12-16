@@ -11,8 +11,8 @@
 package edu.colorado.phet.common.util;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockAdapter;
-import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.ClockTickEvent;
+import edu.colorado.phet.common.model.clock.ClockTickListener;
 
 /**
  * FrameRateReporter
@@ -30,12 +30,12 @@ public class FrameRateReporter {
      * @param clock The clock that is driving the simulation you want to monitor
      */
     public FrameRateReporter( AbstractClock clock ) {
-        clock.addClockListener( new ClockAdapter() {
+        clock.addClockTickListener( new ClockTickListener() {
             int frameCnt = 0;
             long lastTickTime = System.currentTimeMillis();
             long averagingTime = 1000;
 
-            public void clockTicked( ClockEvent event ) {
+            public void clockTicked( ClockTickEvent event ) {
                 frameCnt++;
                 long currTime = System.currentTimeMillis();
                 if( currTime - lastTickTime > averagingTime ) {

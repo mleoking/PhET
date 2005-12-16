@@ -68,7 +68,7 @@ public class PhetFrame extends JFrame {
                 super.windowIconified( e );
                 paused = clock.isPaused(); // save clock state
                 if( !paused ) {
-                    clock.pause();
+                    clock.setPaused( true );
                 }
             }
 
@@ -76,7 +76,7 @@ public class PhetFrame extends JFrame {
             public void windowDeiconified( WindowEvent e ) {
                 super.windowDeiconified( e );
                 if( !paused ) {
-                    clock.start();
+                    clock.setPaused( false );
                 }
             }
         } );
@@ -120,7 +120,7 @@ public class PhetFrame extends JFrame {
                 super.windowIconified( e );
                 paused = model.getClock().isPaused(); // save clock state
                 if( !paused ) {
-                    model.getClock().pause();
+                    model.getClock().setPaused( true );
                 }
             }
 
@@ -128,7 +128,7 @@ public class PhetFrame extends JFrame {
             public void windowDeiconified( WindowEvent e ) {
                 super.windowDeiconified( e );
                 if( !paused ) {
-                    model.getClock().start();
+                    model.getClock().setPaused( false );
                 }
             }
         } );
