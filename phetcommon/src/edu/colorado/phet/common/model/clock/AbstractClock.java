@@ -44,4 +44,14 @@ public interface AbstractClock {
     void tickOnce();
 
     void setDelay( int delay );
+
+    /**
+     * @deprecated use pause() and start()
+     */
+    void setPaused( boolean b );
+
+    /**
+     * @deprecated
+     */
+    void addClockTickListener( ClockTickListener clockListener );
 }

@@ -154,4 +154,27 @@ public abstract class Clock implements AbstractClock {
     public void setTickOnceTimeChange( double tickOnceTimeChange ) {
         this.tickOnceTimeChange = tickOnceTimeChange;
     }
+
+    /**
+     * @deprecated
+     */
+    public void setPaused( boolean b ) {
+        if( b ) {
+            pause();
+        }
+        else {
+            start();
+        }
+    }
+
+    /**
+     * @deprecated
+     */
+    public void addClockTickListener( final ClockTickListener clockListener ) {
+        addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent clockEvent ) {
+                clockListener.clockTicked( new ClockTickEvent( Clock.this ) );
+            }
+        } );
+    }
 }

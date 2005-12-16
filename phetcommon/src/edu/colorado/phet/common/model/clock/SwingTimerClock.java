@@ -70,4 +70,5 @@ public class SwingTimerClock extends Clock {
     public void setDelay( int delay ) {
         timer.setDelay( delay );
     }
+
 }
