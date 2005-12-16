@@ -38,8 +38,6 @@ public class FullPhetJComponentFocusTest {
         frame = new JFrame( "Frame" );
 
         JPanel contentPanel = new JPanel( new BorderLayout() );
-
-
         PhetJComponent.init( frame );//todo integrate into PhetFrame.
 
         SwingClock swingClock = new SwingClock( 30, 1.0 );

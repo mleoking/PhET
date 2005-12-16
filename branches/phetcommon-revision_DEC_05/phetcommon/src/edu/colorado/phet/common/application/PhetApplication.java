@@ -49,6 +49,7 @@ public class PhetApplication {
     private static final String DEBUG_MENU_ARG = "-d";
     private static PhetApplication latestInstance = null;
     private static ArrayList phetApplications = new ArrayList();
+    private boolean started = false;
 
     public static PhetApplication instance() {
         return latestInstance;
@@ -138,7 +139,7 @@ public class PhetApplication {
         if( moduleManager.numModules() == 0 ) {
             throw new RuntimeException( "No modules in module manager" );
         }
-        phetFrame.setModules( moduleManager.getModules() );//todo is this redundant?
+        phetFrame.setModules( moduleManager.getModules() );
 
         // Set up a mechanism that will set the reference sizes of all ApparatusPanel2 instances
         // after the PhetFrame has been set to its startup size.
@@ -164,6 +165,7 @@ public class PhetApplication {
 
         moduleManager.setActiveModule( moduleManager.moduleAt( 0 ) );
         phetFrame.setVisible( true );
+        this.started = true;
     }
 
     public PhetFrame getPhetFrame() {
@@ -187,7 +189,9 @@ public class PhetApplication {
             moduleManager.removeModule( module );
         }
         // Add the new modules
-        phetFrame.setModules( modules );
+        if( started ) {
+            phetFrame.setModules( modules );//recreate the frame if already running.
+        }
         moduleManager.addAllModules( modules );
 //        phetFrame.pack();
     }
