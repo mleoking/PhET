@@ -1,4 +1,4 @@
-/* Copyright 2003-2004, University of Colorado */
+/* Copyright 2003-2005, University of Colorado */
 
 /*
  * CVS Info -
@@ -10,249 +10,63 @@
  */
 package edu.colorado.phet.common.model.clock;
 
-import edu.colorado.phet.common.util.EventChannel;
-
 /**
- * AbstractClock
- *
- * @author ?
- * @version $Revision$
+ * User: Sam Reid
+ * Date: Dec 15, 2005
+ * Time: 1:28:36 PM
+ * Copyright (c) Dec 15, 2005 by Sam Reid
  */
-public abstract class AbstractClock {
+public interface AbstractClock {
+    void start();
 
-    static public final int MILLISECONDS_PER_TICK = 0;
-    static public final int FRAMES_PER_SECOND = 1;
+    void pause();
 
-    private double runningTime;
-    private TickConverter tickConverter;
-    private int delay;
-    private static final int NOT_STARTED = 1;
-    private static final int RUNNING = 1;
-    private static final int PAUSED = 2;
-    private static final int DEAD = 3;
-    private int executionState = NOT_STARTED;
-    private double dt;
-    private EventChannel clockStateEventChannel = new EventChannel( ClockStateListener.class );
-    private ClockStateListener clockStateListenerProxy = (ClockStateListener)clockStateEventChannel.getListenerProxy();
-    private CompositeClockTickListener tickHandler = new CompositeClockTickListener();
+    boolean isPaused();
 
-    /**
-     * Constructor that allows tick to be specified either in milliseconds between ticks,
-     * or frames-per-second
-     *
-     * @param dt           The simulation time between ticks
-     * @param tickSpec     Either the milliseconds to wait between simulation ticks, or the
-     *                     frames-per-second, depending on the tickSpecType
-     * @param tickSpecType If == 0, FPS is wait time in millisecond, if == 1, FPS is
-     *                     frames-per-second
-     * @param isFixed      Specifies if the simulation time reported at each tick is always
-     *                     DT, or is scaled according to the desired tick spacing and the actual time between ticks.
-     */
-    public AbstractClock( double dt, int tickSpec, int tickSpecType, boolean isFixed ) {
-        if( isFixed ) {
-            tickConverter = new Static();
-        }
-        else {
-            tickConverter = new TimeScaling();
-        }
-        switch( tickSpecType ) {
-            case FRAMES_PER_SECOND:
-                this.delay = 1000 / tickSpec;
-                break;
-            case MILLISECONDS_PER_TICK:
-                this.delay = tickSpec;
-                break;
-            default:
-                throw new RuntimeException( "Invalid tick type" );
-        }
-        this.dt = dt;
-    }
+    boolean isRunning();
 
-    public AbstractClock( double dt, int delay, boolean isFixed ) {
-        if( isFixed ) {
-            tickConverter = new Static();
-        }
-        else {
-            tickConverter = new TimeScaling();
-        }
-        this.delay = delay;
-        this.dt = dt;
-    }
+    void addClockListener( ClockListener clockListener );
 
-    public boolean isDead() {
-        return executionState == DEAD;
-    }
+    void removeClockListener( ClockListener clockListener );
 
-    public boolean isRunning() {
-        return executionState == RUNNING;
-    }
+    void resetSimulationTime();
 
-    public double getFramesPerSecond() {
-        return 1000d / delay;
-    }
+    long getWallTime();
 
-    public double getDt() {
-        return dt;
-    }
+    long getWallTimeChangeMillis();
 
-    public boolean isPaused() {
-        return executionState == PAUSED;
-    }
+    double getSimulationTimeChange();
 
-    public boolean hasStarted() {
-        return executionState != NOT_STARTED;
-    }
+    double getSimulationTime();
 
-    public double getRunningTime() {
-        return runningTime;
-    }
+    void setSimulationTime( double simulationTime );
 
-    public synchronized void start() {
-        if( executionState == NOT_STARTED || executionState == DEAD ) {
-            doStart();
-            setRunningTime( 0 );
-            this.executionState = RUNNING;
-        }
-        else {
-            throw new RuntimeException( "Clock cannot be started twice." );
-        }
-    }
+    void tickOnce();
 
-    public void setPaused( boolean paused ) {
-        if( paused ) {
-            if( executionState == RUNNING ) {
-                this.executionState = PAUSED;
-                doPause();
-            }
-            else {
-//                throw new RuntimeException( "Only running clocks can be paused." );
-            }
-        }
-        else {
-            if( executionState == PAUSED ) {
-                this.executionState = RUNNING;
-                doUnpause();
-            }
-            else {
-//                throw new RuntimeException( "Only paused clocks can be unpaused." );
-            }
-        }
-        clockStateListenerProxy.stateChanged( new ClockStateEvent( this ) );
-    }
+    void setDelay( int delay );
 
     /**
-     * The clock must be running and paused to do tickOnce().
+     * @deprecated use pause() and start()
      */
-    public void tickOnce() {
-        clockTicked( getSimulationTime( delay ) );
-    }
+    void setPaused( boolean b );
 
-    protected abstract void doPause();
+    /**
+     * @deprecated
+     */
+    void addClockTickListener( ClockTickListener clockListener );
 
-    protected abstract void doUnpause();
+    /**
+     * @deprecated
+     */
+    double getDt();
 
-    protected abstract void doStart();
+    /**
+     * @deprecated
+     */
+    double getDelay();
 
-    protected abstract void doStop();
-
-    public void stop() {
-        this.executionState = DEAD;
-        doStop();
-    }
-
-    public void resetRunningTime() {
-        this.runningTime = 0;
-        clockTicked( 0 );
-    }
-
-    protected void clockTicked( double dt ) {
-        runningTime += dt;
-        ClockTickEvent event = new ClockTickEvent( this, dt );
-        tickHandler.clockTicked( event );
-    }
-
-    public String toString() {
-        return getClass().getName() + ", time=" + this.getRunningTime();
-    }
-
-    protected void setRunningTime( double runningTime ) {
-        this.runningTime = runningTime;
-        clockTicked( 0 );
-    }
-
-    protected double getSimulationTime( long actualDelay ) {
-        return tickConverter.getSimulationTime( actualDelay );
-    }
-
-    public long getDelay() {
-        return delay;
-    }
-
-    public void setDt( double dt ) {
-        this.dt = dt;
-        clockStateListenerProxy.stateChanged( new ClockStateEvent( this ) );
-    }
-
-    public void setDelay( int delay ) {
-        this.delay = delay;
-        clockStateListenerProxy.stateChanged( new ClockStateEvent( this ) );
-    }
-
-    public void removeClockTickListener( ClockTickListener listener ) {
-        tickHandler.removeClockTickListener( listener );
-    }
-
-    public void addClockTickListener( ClockTickListener tickListener ) {
-        tickHandler.addClockTickListener( tickListener );
-    }
-
-    public void addClockStateListener( ClockStateListener csl ) {
-        clockStateEventChannel.addListener( csl );
-    }
-
-    public void removeClockStateListener( ClockStateListener csl ) {
-        clockStateEventChannel.removeListener( csl );
-    }
-
-    public boolean containsClockTickListener( ClockTickListener tickListener ) {
-        return tickHandler.containsClockTickListener( tickListener );
-    }
-
-    public void setStaticTickConverter() {
-        setTickConverter( new Static() );
-    }
-
-    public void setTimeScalingConverter() {
-        setTickConverter( new TimeScaling() );
-    }
-
-    public void setTickConverter( TickConverter tickConverter ) {
-        this.tickConverter = tickConverter;
-    }
-
-    ///////////////////////////////////////////////////////////////////////
-    // Inner classes
-    //
-
-    public interface TickConverter {
-        double getSimulationTime( long wallTimeSinceLastTick );
-    }
-
-    public class Static implements TickConverter {
-        public double getSimulationTime( long wallTimeSinceLastTick ) {
-            return dt;
-        }
-    }
-
-    public static class RealTime implements TickConverter {
-        public double getSimulationTime( long wallTimeSinceLastTick ) {
-            return wallTimeSinceLastTick / 1000.0;
-        }
-    }
-
-    public class TimeScaling implements TickConverter {
-        public double getSimulationTime( long wallTimeSinceLastTick ) {
-            return dt / delay * wallTimeSinceLastTick;
-        }
-    }
+    /**
+     * @deprecated
+     */
+    double getRunningTime();
 }

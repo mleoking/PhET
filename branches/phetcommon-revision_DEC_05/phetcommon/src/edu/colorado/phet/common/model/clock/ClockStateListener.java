@@ -1,25 +1,8 @@
-/* Copyright 2003-2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004, Sam Reid */
 package edu.colorado.phet.common.model.clock;
 
-import java.util.EventListener;
-
-
 /**
- * ClockStateListener
- *
- * @author Ron LeMaster
- * @version $Revision$
+ * @deprecated
  */
-public interface ClockStateListener extends EventListener {
-
-    void stateChanged( ClockStateEvent event );
+public interface ClockStateListener {
 }

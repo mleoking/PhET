@@ -1,34 +1,26 @@
-/**
- * Class: ClockTickEvent
- * Package: edu.colorado.phet.common.model.clock
- * Original Author: Ron LeMaster
- * Creation Date: Dec 12, 2004
- * Creation Time: 4:01:52 PM
- * Latest Change:
- *      $Author$
- *      $Date$
- *      $Name$
- *      $Revision$
- */
+/* Copyright 2004, Sam Reid */
 package edu.colorado.phet.common.model.clock;
 
-import java.util.EventObject;
+/**
+ * @deprecated
+ */
+public class ClockTickEvent extends ClockEvent {
 
-public class ClockTickEvent extends EventObject {
-    private double dt;
-    private AbstractClock clock;
-
-    public ClockTickEvent( AbstractClock source, double dt ) {
-        super( source );
-        this.clock = source;
-        this.dt = dt;
+    public ClockTickEvent( AbstractClock clock ) {
+        super( clock );
     }
 
+    /**
+     * @deprecated
+     */
     public double getDt() {
-        return dt;
+        return super.getSimulationTimeChange();
     }
 
-    public AbstractClock getClock() {
-        return clock;
+    /**
+     * @deprecated
+     */
+    public AbstractClock getSource() {
+        return super.getClock();
     }
 }
