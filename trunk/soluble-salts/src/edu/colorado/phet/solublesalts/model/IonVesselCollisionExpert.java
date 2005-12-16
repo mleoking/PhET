@@ -23,11 +23,13 @@ import java.awt.geom.Rectangle2D;
 import java.util.List;
 
 /**
- * IonVesselCollisionExpert <p/> Has the same behavior as a SphereBoxExpert,
+ * IonVesselCollisionExpert
+ * <p/>
+ * Has the same behavior as a SphereBoxExpert,
  * with the additional behavior that on some collisions, the ion may stick to
  * the vessel, based on an "affinity" between the two. The affinity is
- * determined by a strategy plugged into the collision expert. <p/> Will not let
- * two ions of the same type bind within one diameter of each other
+ * determined by a strategy plugged into the collision expert.
+ * <p/> Will not let two ions of the same type bind within one diameter of each other
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -51,6 +53,7 @@ public class IonVesselCollisionExpert implements CollisionExpert, ContactDetecto
     }
 
     public boolean detectAndDoCollision( Collidable bodyA, Collidable bodyB ) {
+        boolean collisionOccurred = false;
         Ion ion = null;
         Vessel vessel = null;
         if( applies( bodyA, bodyB ) ) {
@@ -82,19 +85,27 @@ public class IonVesselCollisionExpert implements CollisionExpert, ContactDetecto
 
                     // Perform the collision, even if we bind, so when the ion is
                     // released it moves properly
-                    sphereBoxExpert.detectAndDoCollision( ion, vessel.getWater() );
+                    collisionOccurred = sphereBoxExpert.detectAndDoCollision( ion, vessel.getWater() );
                 }
 
                 // If the ion is bound, then its crystal has hit the vessel. Set its velocity
-                // to zero and make this ion its seed
+                // to zero and make this ion its seed. Since it probably penetrated the wall of the
+                // vessel during the last time step, we must reposition it so it is just contacting
+                // the vessel
                 else {
-                    ion.getBindingLattice().setVelocity( 0, 0 );
-                    ion.getBindingLattice().setAcceleration( 0, 0 );
-                    ion.getBindingLattice().setSeed( ion );
+                    ion.getBindingCrystal().setVelocity( 0, 0 );
+                    ion.getBindingCrystal().setAcceleration( 0, 0 );
+                    ion.getBindingCrystal().setSeed( ion );
+                    if( ion.getPosition().getY() + ion.getRadius() > vessel.getLocation().getY() + vessel.getDepth() ) {
+                        double dy = ( vessel.getLocation().getY() + vessel.getDepth() ) -
+                                    ( ion.getPosition().getY() + ion.getRadius() );
+                        ion.getBindingCrystal().translate( 0, dy );
+                    }
+                    collisionOccurred = true;
                 }
             }
         }
-        return false;
+        return collisionOccurred;
     }
 
     public boolean areInContact( Collidable bodyA, Collidable bodyB ) {
@@ -109,7 +120,7 @@ public class IonVesselCollisionExpert implements CollisionExpert, ContactDetecto
                     || i.getX() - r <= v.getMinX()
                     || i.getY() + r >= v.getMaxY();
         if( b ) {
-            System.out.println( "IonVesselCollisionExpert.areInContact" );
+            System.out.println( "IonVesselCollisionExpert.areInContact B" );
         }
         return b;
     }

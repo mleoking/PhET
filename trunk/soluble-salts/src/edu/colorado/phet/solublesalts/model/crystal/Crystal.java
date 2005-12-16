@@ -23,10 +23,21 @@ import java.util.*;
 
 /**
  * Lattice
- * <p>
+ * <p/>
  * A lattice is a crystal of ions. It has a Form that defines how it is constructed.
- * <p>
+ * <p/>
  * The lattice has a seed ion. The lattice's position is that of it's seed ion.
+ * <p/>
+ * At each time step, a crystal determines if it should release an ion. The determination is
+ * based on the following factors
+ * <ul>
+ * <li>Is the crystal in water?
+ * <li>Is a random number between 0 and 1 less than the crystal's dissociationLikelihood?
+ * </ul>
+ * <p/>
+ * To know if and how it can release an ion, the crystal must know whether or not it is in
+ * the water. Currently, the crystal has knowledge of the vessel. This is not a very good
+ * design, and should be changed.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -42,7 +53,8 @@ public class Crystal extends Body implements Binder {
             (InstanceLifetimeListener)instanceLifetimeEventChannel.getListenerProxy();
     private static Random random = new Random( System.currentTimeMillis() );
     private static double dissociationLikelihood;
-    private Rectangle2D bounds;
+//    private SolubleSaltsModel model;
+    private Rectangle2D waterBounds;
 
     public static void setDissociationLikelihood( double dissociationLikelihood ) {
         Crystal.dissociationLikelihood = dissociationLikelihood;
@@ -88,16 +100,42 @@ public class Crystal extends Body implements Binder {
     // Lifecycle
     //----------------------------------------------------------------
 
+    public Crystal( SolubleSaltsModel model, Lattice lattice, List ions ) {
+        this.lattice = lattice;
+
+        // Open up the bounds to include the whole model so we can make lattice
+        lattice.setBounds( model.getBounds() );
+        for( int i = 0; i < ions.size(); i++ ) {
+            Ion ion = (Ion)ions.get( i );
+            addIon( ion );
+        }
+
+        model.getVessel().addChangeListener( new Vessel.ChangeListener() {
+            public void stateChanged( Vessel.ChangeEvent event ) {
+                setWaterBounds( event.getVessel() );
+            }
+        } );
+        setWaterBounds( model.getVessel() );
+        instanceLifetimeListenerProxy.instanceCreated( new InstanceLifetimeEvent( this ) );
+    }
+
     /**
-     *
-     * @param bounds
      * @param lattice
      */
-    public Crystal( Rectangle2D bounds, Lattice lattice ) {
-        this.bounds = bounds;
+    public Crystal( SolubleSaltsModel model, Lattice lattice ) {
         this.lattice = lattice;
-        lattice.setBounds( bounds );
+        model.getVessel().addChangeListener( new Vessel.ChangeListener() {
+            public void stateChanged( Vessel.ChangeEvent event ) {
+                setWaterBounds( event.getVessel() );
+            }
+        } );
+        setWaterBounds( model.getVessel() );
         instanceLifetimeListenerProxy.instanceCreated( new InstanceLifetimeEvent( this ) );
+    }
+
+    void setWaterBounds( Vessel vessel ) {
+        waterBounds = vessel.getWater().getBounds();
+        lattice.setBounds( waterBounds );
     }
 
     public Point2D getPosition() {
@@ -131,7 +169,7 @@ public class Crystal extends Body implements Binder {
         StringBuffer sb = new StringBuffer();
         for( int i = 0; i < ions.size(); i++ ) {
             Ion ion = (Ion)ions.get( i );
-            String s2 = new String("ion: type = " + ion.getClass() + "  position = " + ion.getPosition() + "\n" );
+            String s2 = new String( "ion: type = " + ion.getClass() + "  position = " + ion.getPosition() + "\n" );
             sb.append( s2 );
         }
         return sb.toString();
@@ -284,6 +322,20 @@ public class Crystal extends Body implements Binder {
         return releaseVelocity;
     }
 
+    /**
+     * If the crystal is translated, all its ions must be translated, too
+     *
+     * @param dx
+     * @param dy
+     */
+    public void translate( double dx, double dy ) {
+        for( int i = 0; i < ions.size(); i++ ) {
+            Ion ion = (Ion)ions.get( i );
+            ion.translate( dx, dy );
+        }
+        super.translate( dx, dy );
+    }
+
     //----------------------------------------------------------------
     // Getters and setters
     //----------------------------------------------------------------
@@ -313,8 +365,11 @@ public class Crystal extends Body implements Binder {
         return l;
     }
 
+    /**
+     * Sets the bounds of the model. I don't know if this is used anymore or not
+     * @param bounds
+     */
     public void setBounds( Rectangle2D bounds ) {
-        this.bounds = bounds;
         lattice.setBounds( bounds );
     }
 
@@ -335,11 +390,8 @@ public class Crystal extends Body implements Binder {
         }
 
         // Only dissociate if the lattice is in the water
-        if( bounds.contains( getPosition() ) && random.nextDouble() < dissociationLikelihood ) {
+        if( waterBounds.contains( getPosition() ) && random.nextDouble() < dissociationLikelihood ) {
             releaseIon( dt );
-            if( getVelocity().getY() == 0.2 ) {
-                System.out.println( "Crystal.stepInTime" );
-            }
         }
         super.stepInTime( dt );
     }

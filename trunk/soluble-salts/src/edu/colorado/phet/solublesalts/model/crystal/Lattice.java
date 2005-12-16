@@ -59,12 +59,14 @@ public abstract class Lattice {
             }
 
             List neighboringSites = getNeighboringSites( ion, orientation );
+
+            // DEBUG
             if( neighboringSites.size() == 0 ) {
                 System.out.println( "neighboringSites = " + neighboringSites );
                 getNeighboringSites( ion, orientation );
             }
             List openNeighboringSites = getOpenNeighboringSites( ion, ionsInLattice, orientation );
-            double occupiedSiteRatio = (double)openNeighboringSites.size()/ neighboringSites.size();
+            double occupiedSiteRatio = (double)openNeighboringSites.size() / neighboringSites.size();
             if( occupiedSiteRatio >= highestOccupiedSiteRatio ) {
                 candidateIons.add( ion );
                 highestOccupiedSiteRatio = occupiedSiteRatio;
@@ -75,7 +77,7 @@ public abstract class Lattice {
 
         // Of the ions that have the same "least bound" characteristic, choose one randomly
         if( candidateIons.size() > 0 ) {
-            leastBoundIon = (Ion)candidateIons.get( random.nextInt( candidateIons.size()) );
+            leastBoundIon = (Ion)candidateIons.get( random.nextInt( candidateIons.size() ) );
         }
 
         if( leastBoundIon == null ) {
@@ -94,7 +96,7 @@ public abstract class Lattice {
      * @return
      */
     public List getOpenNeighboringSites( Ion ion, List ionsInLattice, double orientation ) {
-                List neighboringSites = getNeighboringSites( ion, orientation );
+        List neighboringSites = getNeighboringSites( ion, orientation );
         return getOpenNeighboringSites( neighboringSites, ionsInLattice );
     }
 
@@ -110,7 +112,7 @@ public abstract class Lattice {
         List results = new ArrayList();
         for( int i = 0; i < neighboringSites.size(); i++ ) {
             Point2D neighboringSite = (Point2D)neighboringSites.get( i );
-            if( !isSiteOccupied( neighboringSite, ionsInLattice )) {
+            if( !isSiteOccupied( neighboringSite, ionsInLattice ) ) {
                 results.add( neighboringSite );
             }
         }
@@ -154,6 +156,7 @@ public abstract class Lattice {
 
     /**
      * Tells if a site in the lattice is occupied
+     *
      * @param site
      * @param ionsInLattice
      * @return
@@ -163,7 +166,7 @@ public abstract class Lattice {
         for( int j = 0; j < ionsInLattice.size() && !occupied; j++ ) {
             Ion testIon = (Ion)ionsInLattice.get( j );
             if( Math.abs( site.getX() - testIon.getPosition().getX() ) < SAME_POSITION_TOLERANCE
-            && Math.abs( site.getY() - testIon.getPosition().getY() ) < SAME_POSITION_TOLERANCE ) {
+                && Math.abs( site.getY() - testIon.getPosition().getY() ) < SAME_POSITION_TOLERANCE ) {
                 occupied = true;
             }
         }
@@ -176,6 +179,7 @@ public abstract class Lattice {
 
     /**
      * Returns the positions of all sites, occupied or not, in the lattice neighboring a specified Ion.
+     *
      * @param ion
      * @param orientation
      * @return

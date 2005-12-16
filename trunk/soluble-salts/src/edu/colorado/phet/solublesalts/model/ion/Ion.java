@@ -102,7 +102,7 @@ public class Ion extends Atom {
         return ionProperties.getCharge();
     }
 
-    public Crystal getBindingLattice() {
+    public Crystal getBindingCrystal() {
         return bindingCrystal;
     }
 

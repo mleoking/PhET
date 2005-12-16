@@ -84,7 +84,7 @@ public class Shaker extends Particle {
 
             int numLaticeUnits = random.nextInt( 10 );
 //            numLaticeUnits = 2;
-//            numLaticeUnits = 1;
+            numLaticeUnits = 1;
 //            numLaticeUnits = 8;
 //            numLaticeUnits = (int)dy;
 
@@ -100,25 +100,17 @@ public class Shaker extends Particle {
                 }
             }
 
-            // When we create the lattice, give it the bounds of the entire model. That will allow all the
-            // ions we produce for it to nucleate to it. We'll change the bounds before we exit
-            crystal = new Crystal( model.getBounds(), currentSalt.getLattice() );
-
-            // Position the new ion so it isn't right on top of the seed, and so it's above the seed. This
-            // will help when the lattice falls to the bottom of the vessel
+            // Position the ions
             for( int i = 0; i < ions.size(); i++ ) {
                 Ion ion1 = (Ion)ions.get( i );
                 ion1.setPosition( this.getPosition().getX() + ion.getRadius() * random.nextDouble() * ( random.nextBoolean() ? 1 : -1 ),
                                   this.getPosition().getY() - ion.getRadius() * ( random.nextDouble() + 0.001 ) );
-                crystal.addIon( ion1 );
                 model.addModelElement( ion1 );
             }
-            crystal.setVelocity( v );
 
-            // Before we leave, give the lattice the bounds of the water in the vessel, so it will behave properly once
-            // it's out of the shaker
-            crystal.setBounds( model.getVessel().getWater().getBounds() );
-//            model.addModelElement( crystal );
+            // Create the crystal
+            crystal = new Crystal( model, currentSalt.getLattice(), ions );
+            crystal.setVelocity( v );
         }
     }
 }
