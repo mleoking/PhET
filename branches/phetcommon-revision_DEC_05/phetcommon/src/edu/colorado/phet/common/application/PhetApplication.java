@@ -18,6 +18,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 /**
  * The top-level class for all PhET applications.
@@ -48,10 +49,15 @@ public class PhetApplication {
     // Class data
     //----------------------------------------------------------------
     private static final String DEBUG_MENU_ARG = "-d";
-    private static PhetApplication s_instance = null;
+    private static PhetApplication latestInstance = null;
+    private static ArrayList phetApplications = new ArrayList();
 
     public static PhetApplication instance() {
-        return s_instance;
+        return latestInstance;
+    }
+
+    public static PhetApplication[] instances() {
+        return (PhetApplication[])phetApplications.toArray( new PhetApplication[0] );
     }
 
     //----------------------------------------------------------------
@@ -61,7 +67,6 @@ public class PhetApplication {
     private PhetFrame phetFrame;
     private ModuleManager moduleManager;
     private String title;
-//    private Module initialModule;
     private String description;
     private String version;
     private JDialog startupDlg;
@@ -76,10 +81,6 @@ public class PhetApplication {
         this( args, title, description, version, new FrameSetup.CenteredWithSize( getScreenSize().width, getScreenSize().height - 50 ) );
     }
 
-    private static Dimension getScreenSize() {
-        return Toolkit.getDefaultToolkit().getScreenSize();
-    }
-
     /**
      * @param args        Command line args
      * @param title       Title that appears in the frame and the About dialog
@@ -88,11 +89,14 @@ public class PhetApplication {
      * @param frameSetup  Defines the size and location of the frame
      */
     public PhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup ) {
-        s_instance = this;
-        this.moduleManager = new ModuleManager( this );
+        latestInstance = this;
+        phetApplications.add( this );
+
         this.title = title;
         this.description = description;
         this.version = version;
+
+        this.moduleManager = new ModuleManager( this );
         phetFrame = new PhetFrame( this, title, frameSetup, moduleManager, description, version );
 
         // Put up a dialog that lets the user know that the simulation is starting up
@@ -101,6 +105,10 @@ public class PhetApplication {
 
         // Handle command line arguments
         parseArgs( args );
+    }
+
+    private static Dimension getScreenSize() {
+        return Toolkit.getDefaultToolkit().getScreenSize();
     }
 
     /**

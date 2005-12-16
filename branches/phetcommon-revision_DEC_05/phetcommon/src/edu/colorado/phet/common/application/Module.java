@@ -27,9 +27,11 @@ public abstract class Module implements ClockListener {
     private BaseModel model;
     private ModulePanel modulePanel;
     private IClock clock;
-    private boolean helpEnabled = false;
+
     private boolean active = false;
     private boolean clockRunningWhenActive = true;
+
+    private boolean helpEnabled = false;
 
     protected Module() {
     }

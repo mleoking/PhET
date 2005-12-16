@@ -100,33 +100,12 @@ public class ControlPanel extends JPanel {
     }
 
     /**
-     * Called when a control is added to the control panel. Forces the ScrollPaneManager
-     * to recompute its prefered and minimum sizes.
-     *
-     * @deprecated
-     */
-    public void resizeControlPane() {
-        ControlPanel.this.revalidate();
-    }
-
-    /**
      * Helper function so clients can safely use add(Component) to add to the control section.
      *
      * @param component
      */
     private void addToPanel( Component component ) {
         super.add( component );
-    }
-
-    /**
-     * Adds a component to the control area.
-     *
-     * @param comp
-     * @return
-     * @deprecated Use addControl instead
-     */
-    public Component add( Component comp ) {
-        return addControl( comp );
     }
 
     /**
@@ -169,7 +148,7 @@ public class ControlPanel extends JPanel {
      * Adds a component to the control area.
      *
      * @param component
-     * @return
+     * @return the component argument
      */
     public Component addControl( Component component ) {
         return controlPane.add( component );
@@ -188,7 +167,7 @@ public class ControlPanel extends JPanel {
      * Adds a component to the control area, to fill the width.
      *
      * @param component
-     * @return
+     * @return the component argument
      */
     public Component addFullWidth( Component component ) {
         return controlPane.addFullWidth( component );
@@ -266,20 +245,17 @@ public class ControlPanel extends JPanel {
         private int getAvailableHeight() {
             int controlTop = getControlTop();
             int controlBottom = getControlBottom();
-            int remainingHeight = controlBottom - controlTop;
-            return remainingHeight;
+            return controlBottom - controlTop;
         }
 
         private int getControlTop() {
-            int controlTop = getLogoBottom() + paddingDY;
-            return controlTop;
+            return getLogoBottom() + paddingDY;
         }
 
         private boolean isMacOSX() {
             String lcOSName = System.getProperty( "os.name" ).toLowerCase();
-            boolean MAC_OS_X = lcOSName.startsWith( "mac os x" );
 //            System.out.println( "MAC_OS_X = " + MAC_OS_X );
-            return MAC_OS_X;
+            return lcOSName.startsWith( "mac os x" );
         }
 
         /**
@@ -326,7 +302,7 @@ public class ControlPanel extends JPanel {
          * Determine what x will center the specified component in this.
          *
          * @param component
-         * @return
+         * @return the centering x-value
          */
         private int getPositionToCenter( Component component ) {
             int availWidth = getWidth() - component.getWidth();
@@ -341,7 +317,7 @@ public class ControlPanel extends JPanel {
         /**
          * Find the top of the south (help) panel.
          *
-         * @return
+         * @return the top
          */
         private int getHelpTop() {
             if( helpPanel.isVisible() && containsComponent( helpPanel ) ) {
@@ -355,7 +331,7 @@ public class ControlPanel extends JPanel {
         /**
          * Find the bottom of the north (logo) panel.
          *
-         * @return
+         * @return the bottom
          */
         private int getLogoBottom() {
             if( northPanel.isVisible() && containsComponent( northPanel ) ) {
@@ -370,7 +346,7 @@ public class ControlPanel extends JPanel {
          * Determine whether this container contains the specified component.
          *
          * @param component
-         * @return
+         * @return true if the container contains the component
          */
         private boolean containsComponent( Component component ) {
             return Arrays.asList( getComponents() ).contains( component );
@@ -392,7 +368,7 @@ public class ControlPanel extends JPanel {
          * Computes the preferred width of the control panel.
          * If we anticipate scrollbars, we widen to accomodate.
          *
-         * @return
+         * @return the minimum preferred width for the control panel
          */
         private int getMinWidth() {
             int width = 0;
@@ -418,7 +394,7 @@ public class ControlPanel extends JPanel {
         /**
          * Determine whether we anticipate using vertical scrollbars.
          *
-         * @return
+         * @return should scrollbars be used
          */
         private boolean getLayoutRequiresScrollPane() {
             return getAvailableHeight() < controlPane.getPreferredSize().height;

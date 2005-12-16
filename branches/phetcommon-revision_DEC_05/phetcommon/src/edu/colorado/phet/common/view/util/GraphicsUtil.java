@@ -38,7 +38,6 @@ public class GraphicsUtil {
      * @param x
      * @param y
      * @return the scaled transform.
-     * @deprecated
      */
     public static AffineTransform scaleInPlaceTx( double scale, double x, double y ) {
         AffineTransform atx = new AffineTransform();
