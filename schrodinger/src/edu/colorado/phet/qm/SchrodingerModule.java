@@ -42,8 +42,6 @@ public class SchrodingerModule extends PiccoloModule {
         super( name, clock );
         this.schrodingerApplication = schrodingerApplication;
         setModel( new BaseModel() );
-
-
     }
 
     protected void finishInit() {
@@ -53,9 +51,6 @@ public class SchrodingerModule extends PiccoloModule {
                     System.out.println( "SingleParticleModule.keyPressed, I" );
                     resetViewTransform();
                 }
-//                if (e.getKeyCode()==KeyEvent.VK_D){
-//                    debug
-//                }
             }
 
             public void keyReleased( KeyEvent e ) {
@@ -102,7 +97,6 @@ public class SchrodingerModule extends PiccoloModule {
 
     protected void resetViewTransform() {
         getSchrodingerPanel().getCamera().setViewTransform( new AffineTransform() );
-//        getSchrodingerPanel().getSchrodingerScreenNode().animateViewToCenter();
     }
 
     public void fireParticle( WaveSetup waveSetup ) {
