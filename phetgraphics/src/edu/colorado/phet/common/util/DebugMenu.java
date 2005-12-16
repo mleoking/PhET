@@ -14,9 +14,7 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.ModuleManager;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.application.PhetGraphicsModule;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.model.clock.*;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.LineGrid;
@@ -175,12 +173,12 @@ public class DebugMenu extends JMenu {
         }
 
         void startRecording( AbstractClock clock, final JTextArea textArea ) {
-            clock.addClockTickListener( new ClockTickListener() {
+            clock.addClockListener( new ClockAdapter() {
                 int frameCnt = 0;
                 long lastTickTime = System.currentTimeMillis();
                 long averagingTime = 1000;
 
-                public void clockTicked( ClockTickEvent event ) {
+                public void clockTicked( ClockEvent event ) {
                     frameCnt++;
                     long currTime = System.currentTimeMillis();
                     if( currTime - lastTickTime > averagingTime ) {
