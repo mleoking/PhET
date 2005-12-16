@@ -32,9 +32,7 @@ import java.awt.event.WindowEvent;
 public class PhetFrame extends JFrame {
     private HelpMenu helpMenu;
     private JMenu defaultFileMenu;
-//    private boolean paused; // state of the clock prior to being iconified
     private PhetApplication application;
-    private ModulePanel modulePanel;
     private FrameSetup frameSetup;
 
     /**
@@ -79,9 +77,9 @@ public class PhetFrame extends JFrame {
     }
 
     public void setModules( Module[] modules ) {
-        JComponent apparatusPanelContainer = createApparatusPanelContainer( application, modules );
-        modulePanel = new ModulePanel( apparatusPanelContainer, null, null, null );
-        setContentPane( modulePanel );
+        JComponent contentPane = createContentPane( application, modules );
+//        modulePanel = new ModulePanel( apparatusPanelContainer, null, null, null );
+        setContentPane( contentPane );
     }
 
     /**
@@ -107,31 +105,15 @@ public class PhetFrame extends JFrame {
      * @param modules
      * @return the container
      */
-    private JComponent createApparatusPanelContainer( PhetApplication application, Module[] modules ) {
+    private JComponent createContentPane( PhetApplication application, Module[] modules ) {
         JComponent apparatusPanelContainer = null;
         if( modules.length == 1 ) {
-            apparatusPanelContainer = new JPanel();
-            apparatusPanelContainer.setLayout( new GridLayout( 1, 1 ) );
-            if( modules[0].getSimulationPanel() == null ) {
-                throw new RuntimeException( "Null Apparatus Panel in Module: " + modules[0].getName() );
-            }
-            apparatusPanelContainer.add( modules[0].getSimulationPanel() );
+            return modules[0].getModulePanel();
         }
         else {
-            apparatusPanelContainer = new TabbedApparatusPanelContainer( application );
+            apparatusPanelContainer = new TabbedModulePane( application, modules );
         }
         return apparatusPanelContainer;
-    }
-
-    /**
-     * @deprecated use getContentPanel
-     */
-    public ModulePanel getBasicPhetPanel() {
-        return modulePanel;
-    }
-
-    public ModulePanel getContentPanel() {
-        return modulePanel;
     }
 
     //----------------------------------------------------------------

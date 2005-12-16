@@ -18,8 +18,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * The top-level class for all PhET applications.
@@ -63,7 +61,7 @@ public class PhetApplication {
     private PhetFrame phetFrame;
     private ModuleManager moduleManager;
     private String title;
-    private Module initialModule;
+//    private Module initialModule;
     private String description;
     private String version;
     private JDialog startupDlg;
@@ -126,10 +124,7 @@ public class PhetApplication {
      * Sets up the mechanism that sets the reference sizes of all ApparatusPanel2 instances.
      */
     public void startApplication() {
-        if( initialModule == null ) {
-            throw new RuntimeException( "Initial module not specified." );
-        }
-
+        phetFrame.setModules( moduleManager.getModules() );//todo is this redundant
         // Set up a mechanism that will set the reference sizes of all ApparatusPanel2 instances
         // after the PhetFrame has been set to its startup size. We have to do this with a strange
         // looking "inner listener". When the outer WindowAdapter gets called, the PhetFrame is
@@ -152,7 +147,7 @@ public class PhetApplication {
             }
         } );
 
-        moduleManager.setActiveModule( initialModule );
+        moduleManager.setActiveModule( moduleManager.moduleAt( 0 ) );
         phetFrame.setVisible( true );
     }
 
@@ -170,6 +165,7 @@ public class PhetApplication {
      * @param modules
      */
     public void setModules( Module[] modules ) {
+//        moduleManager.setModules(modules);
         // Remove any modules that may currently be in the module manager
         while( moduleManager.numModules() > 0 ) {
             Module module = moduleManager.moduleAt( 0 );
@@ -179,26 +175,11 @@ public class PhetApplication {
         phetFrame.setModules( modules );
         moduleManager.addAllModules( modules );
         phetFrame.pack();
-
-        // Set the default initial module
-        setInitialModule( modules[0] );
     }
 
 
     public void addModule( Module module ) {
-        ArrayList list = new ArrayList( Arrays.asList( moduleManager.getModules() ) );
-        list.add( module );
-        setModules( (Module[])list.toArray( new Module[0] ) );
-    }
-
-    /**
-     * Specifies the module that will be activated when the application starts. If
-     * this method is never called, the first module in the modules array is used.
-     *
-     * @param module
-     */
-    public void setInitialModule( Module module ) {
-        this.initialModule = module;
+        moduleManager.addModule( module );
     }
 
     public ModuleManager getModuleManager() {

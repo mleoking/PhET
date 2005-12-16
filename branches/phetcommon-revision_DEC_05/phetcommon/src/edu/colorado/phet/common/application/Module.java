@@ -219,4 +219,8 @@ public abstract class Module implements ClockListener {
     public void setControlPanel( ControlPanel controlPanel ) {
         modulePanel.setControlPanel( controlPanel );
     }
+
+    public ModulePanel getModulePanel() {
+        return modulePanel;
+    }
 }

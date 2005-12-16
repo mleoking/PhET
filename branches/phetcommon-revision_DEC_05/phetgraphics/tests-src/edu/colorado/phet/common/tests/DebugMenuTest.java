@@ -38,7 +38,6 @@ public class DebugMenuTest {
         PhetApplication app = new PhetApplication( args, "title", "desc", "version" );
         DebugMenuTestModule debugMenuTestModule = new DebugMenuTestModule( clock );
         app.addModule( debugMenuTestModule );
-        app.setInitialModule( debugMenuTestModule );
         app.startApplication();
     }
 

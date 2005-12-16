@@ -57,25 +57,17 @@ public class ModuleManager {
     }
 
     public void addModule( Module module ) {
-        addModule( module, false );
-    }
-
-    public boolean moduleIsWellFormed( Module module ) {
-        return module.moduleIsWellFormed();
-    }
-
-    public void addModule( Module module, boolean isActive ) {
-
         // Check that the module is well-formed
         if( !moduleIsWellFormed( module ) ) {
             throw new RuntimeException( "Module is missing something." );
         }
 
         modules.add( module );
-        if( isActive ) {
-            setActiveModule( module );
-        }
         notifyModuleAdded( new ModuleEvent( this, module ) );
+    }
+
+    public boolean moduleIsWellFormed( Module module ) {
+        return module.moduleIsWellFormed();
     }
 
     private void notifyModuleAdded( ModuleEvent event ) {
@@ -90,8 +82,8 @@ public class ModuleManager {
 
         // If the module we are removing is the active module, we need to
         // set another one active
-        if( getActiveModule() == module && numModules() > 0 ) {
-            setActiveModule( (Module)modules.get( 0 ) );
+        if( getActiveModule() == module ) {
+            setActiveModule( modules.size() == 0 ? null : (Module)modules.get( 0 ) );
         }
         // Notifiy listeners
         notifyModuleRemoved( new ModuleEvent( this, module ) );
@@ -129,8 +121,10 @@ public class ModuleManager {
 
     private void activate( Module module ) {
         activeModule = module;
-        module.activate();
-        phetApplication.setActiveModule( module );
+        if( module != null ) {
+            module.activate();
+            phetApplication.setActiveModule( module );
+        }
     }
 
     public void deactivateCurrentModule() {

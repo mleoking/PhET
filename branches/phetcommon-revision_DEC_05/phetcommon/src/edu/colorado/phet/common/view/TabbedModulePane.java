@@ -27,11 +27,11 @@ import javax.swing.event.ChangeListener;
  * @author ?
  * @version $Revision$
  */
-public class TabbedApparatusPanelContainer extends JTabbedPane implements ModuleObserver {
-    Module current;
+public class TabbedModulePane extends JTabbedPane implements ModuleObserver {
+    private Module current;
     private PhetApplication application;
 
-    public TabbedApparatusPanelContainer( final PhetApplication application ) {
+    public TabbedModulePane( final PhetApplication application, final Module[] modules ) {
         this.application = application;
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -43,14 +43,15 @@ public class TabbedApparatusPanelContainer extends JTabbedPane implements Module
             }
         } );
         application.addModuleObserver( this );
+        for( int i = 0; i < modules.length; i++ ) {
+            Module module = modules[i];
+            addTab( module.getName(), module.getModulePanel() );
+        }
+        setOpaque( true );
     }
 
-    //----------------------------------------------------------------
-    // ModuleObserver implementation
-    //----------------------------------------------------------------
-
     public void moduleRemoved( ModuleEvent event ) {
-        remove( event.getModule().getSimulationPanel() );
+        remove( event.getModule().getModulePanel() );
     }
 
     public void moduleAdded( ModuleEvent event ) {
