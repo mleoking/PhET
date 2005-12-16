@@ -120,6 +120,7 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
         _pauseButton = new JButton( pauseLabel, pauseIcon );
         _stepButton = new JButton( stepLabel, stepIcon );
         _loopButton = new JToggleButton( loopLabel, _loopOffIcon );
+        _loopButton.setEnabled( false );//XXX
         
         // Layout
         setLayout( new BorderLayout() );
