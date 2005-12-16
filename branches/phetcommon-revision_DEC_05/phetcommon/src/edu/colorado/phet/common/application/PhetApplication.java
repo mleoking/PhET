@@ -11,20 +11,15 @@
 
 package edu.colorado.phet.common.application;
 
-import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * The top-level class for all PhET applications.
@@ -56,7 +51,6 @@ public class PhetApplication {
     //----------------------------------------------------------------
     private static final String DEBUG_MENU_ARG = "-d";
     private static PhetApplication s_instance = null;
-    private static ArrayList listeners = new ArrayList();
 
     public static PhetApplication instance() {
         return s_instance;
@@ -67,94 +61,45 @@ public class PhetApplication {
     //----------------------------------------------------------------
 
     private PhetFrame phetFrame;
-    private ApplicationModel applicationModel;
     private ModuleManager moduleManager;
     private String title;
     private Module initialModule;
-//    private IClock clock;
     private String description;
     private String version;
-    private boolean useClockControlPanel;
     private JDialog startupDlg;
 
     /**
-     * @param args                 Command line args
-     * @param title                Title that appears in the frame and the About dialog
-     * @param description          Appears in the About dialog
-     * @param version              Appears in the About dialog
-     * @param clock                Simulation clock
-     * @param useClockControlPanel Whether clock control panel appears at bottom of window
-     * @param frameSetup           Defines the size and location of the frame
+     * @param args        Command line args
+     * @param title       Title that appears in the frame and the About dialog
+     * @param description Appears in the About dialog
+     * @param version     Appears in the About dialog
      */
-    public PhetApplication( String[] args, String title, String description, String version, IClock clock,
-                            boolean useClockControlPanel, FrameSetup frameSetup ) {
+    public PhetApplication( String[] args, String title, String description, String version ) {
+        this( args, title, description, version, new FrameSetup.CenteredWithSize( getScreenSize().width, getScreenSize().height - 50 ) );
+    }
 
+    private static Dimension getScreenSize() {
+        return Toolkit.getDefaultToolkit().getScreenSize();
+    }
 
+    /**
+     * @param args        Command line args
+     * @param title       Title that appears in the frame and the About dialog
+     * @param description Appears in the About dialog
+     * @param version     Appears in the About dialog
+     * @param frameSetup  Defines the size and location of the frame
+     */
+    public PhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup ) {
         s_instance = this;
         this.moduleManager = new ModuleManager( this );
         this.title = title;
-//        this.clock = clock;
         this.description = description;
         this.version = version;
-        this.useClockControlPanel = useClockControlPanel;
-        createPhetFrame( frameSetup );
+        phetFrame = new PhetFrame( this, title, frameSetup, moduleManager, description, version );
 
         // Put up a dialog that lets the user know that the simulation is starting up
         startupDlg = new StartupDialog( getPhetFrame(), title );
         startupDlg.setVisible( true );
-
-        // Handle command line arguments
-        parseArgs( args );
-    }
-
-    /**
-     * @param args                 Command line args
-     * @param title                Title that appears in the frame and the About dialog
-     * @param description          Appears in the About dialog
-     * @param version              Appears in the About dialog
-     * @param clock                Simulation clock
-     * @param useClockControlPanel Whether clock control panel appears at bottom of window
-     */
-    public PhetApplication( String[] args, String title, String description, String version, IClock clock,
-                            boolean useClockControlPanel ) {
-        this( args, title, description, version, clock, useClockControlPanel, null );
-    }
-
-    /**
-     * @param descriptor
-     * @deprecated, clients should pass in their String[] args.
-     * @deprecated
-     */
-    public PhetApplication( ApplicationModel descriptor ) {
-        this( descriptor, new String[0] );
-    }
-
-    /**
-     * @param descriptor
-     * @param args
-     * @deprecated
-     */
-    public PhetApplication( ApplicationModel descriptor, String args[] ) {
-        moduleManager = new ModuleManager( this );
-//        clock = descriptor.getClock();
-
-        if( descriptor.getModules() == null ) {
-            throw new RuntimeException( "Module(s) not specified in ApplicationModel" );
-        }
-        if( descriptor.getClock() == null ) {
-            throw new RuntimeException( "Clock not specified in ApplicationModel" );
-        }
-        this.applicationModel = descriptor;
-        try {
-            phetFrame = new PhetFrame( this );
-        }
-        catch( IOException e ) {
-            throw new RuntimeException( "IOException on PhetFrame create.", e );
-        }
-        moduleManager.addAllModules( descriptor.getModules() );
-        setInitialModule( descriptor.getInitialModule() );
-
-        s_instance = this;
 
         // Handle command line arguments
         parseArgs( args );
@@ -191,7 +136,6 @@ public class PhetApplication {
         // at the proper size, but the ApparatusPanel2 has not yet gotten its resize event.
         phetFrame.addWindowFocusListener( new WindowAdapter() {
             public void windowGainedFocus( WindowEvent e ) {
-
                 // Get rid of the startup dialog and set the cursor to its normal form
                 if( startupDlg != null ) {
                     startupDlg.setVisible( false );
@@ -209,21 +153,7 @@ public class PhetApplication {
         } );
 
         moduleManager.setActiveModule( initialModule );
-//        clock.start();
         phetFrame.setVisible( true );
-    }
-
-    /**
-     * Sets the FrameSetup the application is to use, and initialized the PhetJComponent factory.
-     *
-     * @param frameSetup
-     */
-    public void createPhetFrame( FrameSetup frameSetup ) {
-        if( frameSetup == null ) {
-            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            frameSetup = new FrameSetup.CenteredWithSize( screenSize.width, screenSize.height - 50 );
-        }
-        phetFrame = new PhetFrame( this, title, frameSetup, useClockControlPanel, moduleManager, description, version );
     }
 
     public PhetFrame getPhetFrame() {
@@ -254,6 +184,13 @@ public class PhetApplication {
         setInitialModule( modules[0] );
     }
 
+
+    public void addModule( Module module ) {
+        ArrayList list = new ArrayList( Arrays.asList( moduleManager.getModules() ) );
+        list.add( module );
+        setModules( (Module[])list.toArray( new Module[0] ) );
+    }
+
     /**
      * Specifies the module that will be activated when the application starts. If
      * this method is never called, the first module in the modules array is used.
@@ -266,10 +203,6 @@ public class PhetApplication {
 
     public ModuleManager getModuleManager() {
         return moduleManager;
-    }
-
-    public ApplicationModel getApplicationModel() {
-        return this.applicationModel;
     }
 
     public Module moduleAt( int i ) {
@@ -304,52 +237,16 @@ public class PhetApplication {
     // Inner classes
     //-----------------------------------------------------------------
 
-    /**
-     * A dialog that lets the user know "something is happening" while the
-     * application gets itself started.
-     */
-    private static class StartupDialog extends JDialog {
-        private JLabel label;
-
-        public StartupDialog( Frame owner, String title ) throws HeadlessException {
-            super( owner, "Startup", false );
-            setUndecorated( true );
-            getRootPane().setWindowDecorationStyle( JRootPane.INFORMATION_DIALOG );
-            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
-            String labelFormat = SimStrings.get( "PhetApplication.StartupDialog.message" );
-            Object[] args = {title};
-            String labelString = MessageFormat.format( labelFormat, args );
-            label = new JLabel( labelString );
-
-            JProgressBar progressBar = new JProgressBar();
-            progressBar.setIndeterminate( true );
-            BufferedImage image = null;
-            try {
-                image = ImageLoader.loadBufferedImage( "images/Phet-Flatirons-logo-3-small.gif" );
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-            }
-            ImageIcon logo = new ImageIcon( image );
-
-            getContentPane().setLayout( new GridBagLayout() );
-            final GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-                                                                   GridBagConstraints.CENTER,
-                                                                   GridBagConstraints.NONE,
-                                                                   new Insets( 0, 20, 0, 10 ), 0, 0 );
-            gbc.gridheight = 2;
-            getContentPane().add( new JLabel( logo ), gbc );
-            gbc.gridx = 1;
-            gbc.gridheight = 1;
-            gbc.insets = new Insets( 20, 10, 10, 20 );
-            getContentPane().add( label, gbc );
-            gbc.gridy++;
-            gbc.insets = new Insets( 10, 10, 20, 20 );
-            getContentPane().add( progressBar, gbc );
-            pack();
-            setLocation( (int)( screenSize.getWidth() / 2 - getWidth() / 2 ),
-                         (int)( screenSize.getHeight() / 2 - getHeight() / 2 ) );
-        }
+    public String getTitle() {
+        return title;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
 }

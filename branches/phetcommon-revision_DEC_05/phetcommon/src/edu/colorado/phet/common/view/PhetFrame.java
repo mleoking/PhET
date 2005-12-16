@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.common.view;
 
-import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.ModuleManager;
 import edu.colorado.phet.common.application.PhetApplication;
@@ -23,7 +22,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
 
 /**
  * PhetFrame
@@ -34,9 +32,8 @@ import java.io.IOException;
 public class PhetFrame extends JFrame {
     private HelpMenu helpMenu;
     private JMenu defaultFileMenu;
-    private boolean paused; // state of the clock prior to being iconified
+//    private boolean paused; // state of the clock prior to being iconified
     private PhetApplication application;
-//    private ClockControlPanel clockControlPanel;
     private ModulePanel modulePanel;
     private FrameSetup frameSetup;
 
@@ -45,11 +42,10 @@ public class PhetFrame extends JFrame {
      *
      * @param title
      * @param frameSetup
-     * @param useClockControlPanel
      * @throws HeadlessException
      */
     public PhetFrame( PhetApplication application, String title, FrameSetup frameSetup,
-                      boolean useClockControlPanel, final ModuleManager moduleManager,
+                      final ModuleManager moduleManager,
                       String description, String version ) throws HeadlessException {
         super( title + " (" + version + ")" );
         this.application = application;
@@ -80,50 +76,6 @@ public class PhetFrame extends JFrame {
             frameSetup.initialize( this );
         }
 
-    }
-
-    /**
-     * @param application
-     * @throws IOException
-     */
-    public PhetFrame( PhetApplication application ) throws IOException {
-        super( application.getApplicationModel().getWindowTitle() );
-        this.application = application;
-        final ApplicationModel model = application.getApplicationModel();
-        this.addWindowListener( new WindowAdapter() {
-            public void windowClosing( WindowEvent e ) {
-                System.exit( 0 );
-            }
-
-            // Pause the clock if the simulation window is iconified.
-            public void windowIconified( WindowEvent e ) {
-                super.windowIconified( e );
-                paused = model.getClock().isPaused(); // save clock state
-                if( !paused ) {
-                    model.getClock().pause();
-                }
-            }
-
-            // Restore the clock state if the simulation window is deiconified.
-            public void windowDeiconified( WindowEvent e ) {
-                super.windowDeiconified( e );
-                if( !paused ) {
-                    model.getClock().start();
-                }
-            }
-        } );
-        JMenuBar menuBar = new JMenuBar();
-        this.helpMenu = new HelpMenu( application );
-        defaultFileMenu = new PhetFileMenu();
-        menuBar.add( defaultFileMenu );
-        menuBar.add( helpMenu );
-        setJMenuBar( menuBar );
-        model.getFrameSetup().initialize( this );
-
-        JComponent apparatusPanelContainer = createApparatusPanelContainer( application, model.getModules() );
-
-        modulePanel = new ModulePanel( apparatusPanelContainer, null, null, null );
-        setContentPane( modulePanel );
     }
 
     public void setModules( Module[] modules ) {

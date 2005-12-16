@@ -75,6 +75,7 @@ public class PhetGraphicsModule extends Module {
         else {
             helpManager = new HelpManager( apparatusPanel );//TODO fix this.
         }
+        super.setSimulationPanel( apparatusPanel );
     }
 
     public ApparatusPanel getApparatusPanel() {

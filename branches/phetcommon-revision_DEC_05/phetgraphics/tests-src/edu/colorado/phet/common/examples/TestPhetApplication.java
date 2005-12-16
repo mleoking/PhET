@@ -6,7 +6,6 @@
  */
 package edu.colorado.phet.common.examples;
 
-import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.model.BaseModel;
@@ -171,14 +170,14 @@ public class TestPhetApplication {
 
         PhetGraphicsModule[] m = new PhetGraphicsModule[]{module, module2, module3, modulePhotons};
 
-        ApplicationModel applicationModel = new ApplicationModel( "Test app", "My Test", ".10" );
-        applicationModel.setName( "phetcommon" );
-        applicationModel.setClock( clock );
-        applicationModel.setModules( m );
-        applicationModel.setInitialModule( module );
-        applicationModel.setUseClockControlPanel( true );
+//        ApplicationModel applicationModel = new ApplicationModel( "Test app", "My Test", ".10" );
+//        applicationModel.setName( "phetcommon" );
+//        applicationModel.setClock( clock );
+//        applicationModel.setModules( m );
+//        applicationModel.setInitialModule( module );
+//        applicationModel.setUseClockControlPanel( true );
 
-        PhetApplication app = new PhetApplication( applicationModel, args );
+        PhetApplication app = new PhetApplication( args, "title", "description", "version" );
         app.startApplication();
 
     }

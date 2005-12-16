@@ -54,7 +54,7 @@ public class TestManyPhetJComponents extends PhetGraphicsModule {
     public static void main( String[] args ) {
         QuickTimer main = new QuickTimer();
         SwingClock clock = new SwingClock( 30, 1.0 );
-        PhetApplication phetApplication = new PhetApplication( args, "title", "desc", "version", clock, true, new FrameSetup.CenteredWithSize( 600, 600 ) );
+        PhetApplication phetApplication = new PhetApplication( args, "title", "desc", "version", new FrameSetup.CenteredWithSize( 600, 600 ) );
         TestManyPhetJComponents module = new TestManyPhetJComponents( "name", clock );
         phetApplication.setModules( new PhetGraphicsModule[]{module} );
         phetApplication.startApplication();

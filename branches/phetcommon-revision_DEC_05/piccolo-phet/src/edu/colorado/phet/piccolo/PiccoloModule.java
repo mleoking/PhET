@@ -39,6 +39,7 @@ public class PiccoloModule extends Module {
 
     public void setPhetPCanvas( PhetPCanvas phetPCanvas ) {
         this.phetPCanvas = phetPCanvas;
+        super.setSimulationPanel( phetPCanvas );
     }
 
     public boolean moduleIsWellFormed() {
@@ -56,7 +57,4 @@ public class PiccoloModule extends Module {
         return getPhetPCanvas();
     }
 
-    public void refresh() {
-//        super.refresh();
-    }
 }

@@ -11,7 +11,6 @@
 
 package edu.colorado.phet.common.tests;
 
-import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.model.BaseModel;
@@ -54,11 +53,11 @@ public class TestMouseHandling {
         FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 300, 300 );
         IClock clock = new SwingClock( 40, 1 );
         PhetGraphicsModule module = new TestModule( clock );
-        ApplicationModel appModel =
-                new ApplicationModel( title, description, version, frameSetup, module, clock );
+//        ApplicationModel appModel =
+//                new ApplicationModel( title, description, version, frameSetup, module, clock );
 
         // Create and start the application.
-        PhetApplication app = new PhetApplication( appModel, args );
+        PhetApplication app = new PhetApplication( args, "title", "description", "version" );
         app.startApplication();
     }
 

@@ -27,20 +27,19 @@ public abstract class Module implements ClockListener {
     private IClock clock;
     private boolean helpEnabled = false;
     private boolean active = false;
-    private boolean clockRunning = false;
+    private boolean clockRunningWhenActive = true;
 
-    public Module() {
-        helpEnabled = false;
+    protected Module() {
     }
 
     public Module( String name, IClock clock ) {
-
         this.name = name;
         this.clock = clock;
         SimStrings.setStrings( "localization/CommonStrings" );
 
         // Handle redrawing while the clock is paused.
         clock.addClockListener( new ClockPausedHandler( this ) );
+        this.modulePanel = new ModulePanel( null, null, null, null );
     }
 
     public IClock getClock() {
@@ -66,7 +65,7 @@ public abstract class Module implements ClockListener {
         if( !moduleIsWellFormed() ) {
             throw new RuntimeException( "Module missing important data, module=" + this );
         }
-        if( clockRunning ) {
+        if( clockRunningWhenActive ) {
             clock.start();
         }
         active = true;
@@ -77,13 +76,9 @@ public abstract class Module implements ClockListener {
      * can override.
      */
     public void deactivate() {
-        this.clockRunning = getClock().isRunning();
+        this.clockRunningWhenActive = getClock().isRunning();
         clock.pause();
         active = false;
-    }
-
-    public void setControlPanel( ControlPanel controlPanel ) {
-        modulePanel.setControlPanel( controlPanel );
     }
 
     /**
@@ -157,8 +152,6 @@ public abstract class Module implements ClockListener {
      * @param event
      */
     public void updateGraphics( ClockEvent event ) {
-        // noop
-
     }
 
     /**
@@ -167,14 +160,12 @@ public abstract class Module implements ClockListener {
      * while the clock is paused.
      */
     public void refresh() {
-
     }
 
     public void clockTicked( ClockEvent event ) {
         handleUserInput();
         model.clockTicked( event );
         updateGraphics( event );
-//        getApparatusPanel().paint();
     }
 
     protected void handleUserInput() {
@@ -217,8 +208,15 @@ public abstract class Module implements ClockListener {
     public void clockReset( ClockEvent clockEvent ) {
     }
 
-
     public void setMonitorPanel( JPanel monitorPanel ) {
         modulePanel.setMonitorPanel( monitorPanel );
+    }
+
+    protected void setSimulationPanel( JComponent simulationPanel ) {
+        modulePanel.setSimulationPanel( simulationPanel );
+    }
+
+    public void setControlPanel( ControlPanel controlPanel ) {
+        modulePanel.setControlPanel( controlPanel );
     }
 }

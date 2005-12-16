@@ -45,7 +45,7 @@ public class TestPhetTextGraphic2 {
         FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
 
         PhetApplication app = new PhetApplication( args,
-                                                   title, description, version, clock, useClockControlPanel, frameSetup );
+                                                   title, description, version, frameSetup );
 
         PhetGraphicsModule module = new TestModule( clock );
 

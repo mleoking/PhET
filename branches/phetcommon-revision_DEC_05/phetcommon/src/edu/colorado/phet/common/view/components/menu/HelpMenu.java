@@ -30,8 +30,8 @@ public class HelpMenu extends JMenu implements ModuleObserver {
     private JMenuItem onscreenHelp;
 
     public HelpMenu( PhetApplication application ) {
-        this( application.getModuleManager(), application.getApplicationModel().getName(),
-              application.getApplicationModel().getDescription(), application.getApplicationModel().getVersion() );
+        this( application.getModuleManager(), application.getTitle(),
+              application.getDescription(), application.getVersion() );
     }
 
     public HelpMenu( final ModuleManager moduleManager, final String title,
