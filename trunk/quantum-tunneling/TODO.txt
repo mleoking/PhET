@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- sync with piccolo
 - debug closed-form solutions for barrier potentials
 - implement phase view
 - should wave packet width & center sliders only update model when slider is released?
