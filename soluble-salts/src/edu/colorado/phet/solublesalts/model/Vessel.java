@@ -88,9 +88,8 @@ public class Vessel implements ModelElement, Collidable, Binder {
      * @param ion
      */
     public void bind( Ion ion ) {
-        Crystal crystal = new Crystal( collisionBox.getBounds(),
-//        Crystal crystal = new Crystal( ion, collisionBox.getBounds(),
-                                       model.getCurrentSalt().getLattice() );
+        // todo: combine these lines into a single constructor
+        Crystal crystal = new Crystal( model, model.getCurrentSalt().getLattice() );
         crystal.addIon( ion );
         ion.bindTo( crystal );
     }

@@ -383,11 +383,7 @@ public class SolubleSaltsModel extends BaseModel {
             for( int i = 0; i < numModelElements(); i++ ) {
                 if( modelElementAt( i ) instanceof Ion ) {
                     Ion ion = (Ion)modelElementAt( i );
-                    boolean b = ionVesselCollisionExpert.detectAndDoCollision( ion, vessel );
-                    if( b ) {
-                        System.out.println( "SolubleSaltsModel$IonVesselCollisionAgent.stepInTime" );
-                    }
-
+                    ionVesselCollisionExpert.detectAndDoCollision( ion, vessel );
                     for( int j = 0; j < numModelElements(); j++ ) {
                         if( modelElementAt( i ) != modelElementAt( j )
                             && modelElementAt( j ) instanceof Ion ) {
