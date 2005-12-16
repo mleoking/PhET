@@ -20,17 +20,16 @@ package edu.colorado.phet.common.util;
  * System.out.println("paintTime="+paintTime);
  */
 
-public class QuickTimer {
+public class QuickProfiler {
     private long startTime;
 
-    public QuickTimer() {
+    public QuickProfiler() {
         this.startTime = System.currentTimeMillis();
     }
 
     public long getTime() {
         long now = System.currentTimeMillis();
-        long dt = now - startTime;
-        return dt;
+        return now - startTime;
     }
 
     public String toString() {

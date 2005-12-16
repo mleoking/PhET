@@ -195,8 +195,7 @@ public abstract class Module {
      * @return a ModuleStateDescriptor for this Module.
      */
     public ModuleStateDescriptor getState() {
-        ModuleStateDescriptor sd = new ModuleStateDescriptor( this );
-        return sd;
+        return new ModuleStateDescriptor( this );
     }
 
     public abstract JComponent getSimulationPanel();
