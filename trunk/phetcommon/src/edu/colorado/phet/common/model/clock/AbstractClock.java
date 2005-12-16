@@ -54,4 +54,19 @@ public interface AbstractClock {
      * @deprecated
      */
     void addClockTickListener( ClockTickListener clockListener );
+
+    /**
+     * @deprecated
+     */
+    double getDt();
+
+    /**
+     * @deprecated
+     */
+    double getDelay();
+
+    /**
+     * @deprecated
+     */
+    double getRunningTime();
 }

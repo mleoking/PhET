@@ -42,7 +42,9 @@ public class SwingTimerClock extends Clock {
         super( timeConverter, tickOnceTimeChange );
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                doTick();
+                if( !isPaused() ) {
+                    doTick();
+                }
             }
         };
         timer = new Timer( delay, actionListener );
@@ -69,6 +71,10 @@ public class SwingTimerClock extends Clock {
 
     public void setDelay( int delay ) {
         timer.setDelay( delay );
+    }
+
+    public double getDelay() {
+        return timer.getDelay();
     }
 
 }
