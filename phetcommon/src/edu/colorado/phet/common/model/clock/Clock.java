@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * Copyright (c) Dec 15, 2005 by Sam Reid
  */
 
-public abstract class Clock implements IClock {
+public abstract class Clock implements AbstractClock {
     private ArrayList listeners = new ArrayList();
     private TimeConverter timeConverter;
     private double lastSimulationTime = 0.0;

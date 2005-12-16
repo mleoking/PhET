@@ -18,15 +18,15 @@ package edu.colorado.phet.common.model.clock;
  */
 
 public class TestClock {
-    private SwingClock swingClock;
+    private SwingTimerClock swingTimerClock;
 
     public TestClock() {
-        swingClock = new SwingClock( 1000, new TimeConverter.Constant( 1.0 ), 1.0 );
-        swingClock.addClockListener( new ClockAdapter() {
+        swingTimerClock = new SwingTimerClock( 1000, new TimeConverter.Constant( 1.0 ), 1.0 );
+        swingTimerClock.addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent clock ) {
                 System.out.println( "TestClockEvent.clockTicked" );
-                System.out.println( "swingClock.getWallTime() = " + swingClock.getWallTime() );
-                System.out.println( "swingClockt.getWallTimeChangeMillis() = " + swingClock.getWallTimeChangeMillis() );
+                System.out.println( "swingClock.getWallTime() = " + swingTimerClock.getWallTime() );
+                System.out.println( "swingClockt.getWallTimeChangeMillis() = " + swingTimerClock.getWallTimeChangeMillis() );
             }
 
             public void clockStarted( ClockEvent clock ) {
@@ -39,7 +39,7 @@ public class TestClock {
 
             public void simulationTimeChanged( ClockEvent clock ) {
                 System.out.println( "TestClockt.simulationTimeChanged" );
-                System.out.println( "swingClock.getSimulationTimeChange() = " + swingClock.getSimulationTimeChange() );
+                System.out.println( "swingClock.getSimulationTimeChange() = " + swingTimerClock.getSimulationTimeChange() );
             }
 
             public void clockReset( ClockEvent clock ) {
@@ -54,9 +54,9 @@ public class TestClock {
     }
 
     private void start() throws InterruptedException {
-        swingClock.start();
+        swingTimerClock.start();
         Thread.sleep( 5000 );
-        swingClock.pause();
+        swingTimerClock.pause();
         Thread.sleep( 5000 );
     }
 }

@@ -11,7 +11,7 @@
 
 package edu.colorado.phet.common.application;
 
-import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.VersionUtils;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -33,7 +33,7 @@ public class ApplicationModel {
     private FrameSetup frameSetup;
     private Module[] modules;
     private Module initialModule;
-    private IClock clock;
+    private AbstractClock clock;
     boolean useClockControlPanel = true;
 
     public ApplicationModel( String windowTitle, String description, String version ) {
@@ -49,14 +49,14 @@ public class ApplicationModel {
         SimStrings.setStrings( "localization/CommonStrings" );
     }
 
-    public ApplicationModel( String windowTitle, String description, String version, FrameSetup frameSetup, Module[] m, IClock clock ) {
+    public ApplicationModel( String windowTitle, String description, String version, FrameSetup frameSetup, Module[] m, AbstractClock clock ) {
         this( windowTitle, description, version, frameSetup );
         setClock( clock );
         setModules( m );
         setInitialModule( m[0] );
     }
 
-    public ApplicationModel( String windowTitle, String description, String version, FrameSetup frameSetup, Module m, IClock clock ) {
+    public ApplicationModel( String windowTitle, String description, String version, FrameSetup frameSetup, Module m, AbstractClock clock ) {
         this( windowTitle, description, version, frameSetup );
         setClock( clock );
         setModule( m );
@@ -125,11 +125,11 @@ public class ApplicationModel {
         return initialModule;
     }
 
-    public IClock getClock() {
+    public AbstractClock getClock() {
         return clock;
     }
 
-    public void setClock( IClock clock ) {
+    public void setClock( AbstractClock clock ) {
         this.clock = clock;
     }
 

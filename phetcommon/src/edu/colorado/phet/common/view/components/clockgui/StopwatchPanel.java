@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.common.view.components.clockgui;
 
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
-import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.EventChannel;
 
 import javax.swing.*;
@@ -61,7 +61,7 @@ public class StopwatchPanel extends JPanel implements ClockListener {
     /**
      * @param clock
      */
-    public StopwatchPanel( IClock clock ) {
+    public StopwatchPanel( AbstractClock clock ) {
         this( clock, "", 1, new DecimalFormat( "0.00" ) );
     }
 
@@ -71,7 +71,7 @@ public class StopwatchPanel extends JPanel implements ClockListener {
      * @param scaleFactor Time scale factor
      * @param timeFormat  The format that the panel is to show
      */
-    public StopwatchPanel( IClock clock, String timeUnits, double scaleFactor, DecimalFormat timeFormat ) {
+    public StopwatchPanel( AbstractClock clock, String timeUnits, double scaleFactor, DecimalFormat timeFormat ) {
 
         clock.addClockListener( this );
         setBackground( new Color( 237, 225, 113 ) );

@@ -14,7 +14,7 @@ import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.ModuleManager;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.components.menu.HelpMenu;
 import edu.colorado.phet.common.view.components.menu.PhetFileMenu;
 import edu.colorado.phet.common.view.util.FrameSetup;
@@ -51,7 +51,7 @@ public class PhetFrame extends JFrame {
      * @param useClockControlPanel
      * @throws HeadlessException
      */
-    public PhetFrame( PhetApplication application, String title, final IClock clock, FrameSetup frameSetup,
+    public PhetFrame( PhetApplication application, String title, final AbstractClock clock, FrameSetup frameSetup,
                       boolean useClockControlPanel, ModuleManager moduleManager,
                       String description, String version ) throws HeadlessException {
         super( title + " (" + version + ")" );
