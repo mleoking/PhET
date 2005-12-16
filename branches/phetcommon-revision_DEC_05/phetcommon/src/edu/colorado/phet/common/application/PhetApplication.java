@@ -132,6 +132,9 @@ public class PhetApplication {
      * Sets up the mechanism that sets the reference sizes of all ApparatusPanel2 instances.
      */
     public void startApplication() {
+        if( moduleManager.numModules() == 0 ) {
+            throw new RuntimeException( "No modules in module manager" );
+        }
         phetFrame.setModules( moduleManager.getModules() );//todo is this redundant
         // Set up a mechanism that will set the reference sizes of all ApparatusPanel2 instances
         // after the PhetFrame has been set to its startup size. We have to do this with a strange
@@ -238,4 +241,10 @@ public class PhetApplication {
         return version;
     }
 
+    public void addAllModules( Module[] m ) {
+        for( int i = 0; i < m.length; i++ ) {
+            Module module = m[i];
+            addModule( module );
+        }
+    }
 }

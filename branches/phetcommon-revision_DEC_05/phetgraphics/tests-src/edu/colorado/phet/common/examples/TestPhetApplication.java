@@ -159,27 +159,17 @@ public class TestPhetApplication {
     }
 
     public static void main( String[] args ) {
-
         SwingClock clock = new SwingClock( 30, 1.0 );
         PhetGraphicsModule module = new MyModule( "Testing", clock, Color.blue );
         PhetGraphicsModule module2 = new MyModule( "1ntht", clock, Color.red );
         PhetGraphicsModule module3 = new MyModule2( "Button", clock, Color.red );
 
         MyModule3 modulePhotons = new MyModule3( clock );
-
-
         PhetGraphicsModule[] m = new PhetGraphicsModule[]{module, module2, module3, modulePhotons};
 
-//        ApplicationModel applicationModel = new ApplicationModel( "Test app", "My Test", ".10" );
-//        applicationModel.setName( "phetcommon" );
-//        applicationModel.setClock( clock );
-//        applicationModel.setModules( m );
-//        applicationModel.setInitialModule( module );
-//        applicationModel.setUseClockControlPanel( true );
-
         PhetApplication app = new PhetApplication( args, "title", "description", "version" );
+        app.addAllModules( m );
         app.startApplication();
-
     }
 
 }
