@@ -18,7 +18,6 @@ MEDIUM PRIORITY:
 - hook up Loop button
 
 LOW PRIORITY:
-- when clock is running and you change something that causes autorestart, 0.01 (not 0.00) is the first clock time you see
 - loop button should be disabled for plane wave
 - make Configure dialog smarter about enabling Apply button (compare with original model values)
 - select entire spinner value when it gets focus
