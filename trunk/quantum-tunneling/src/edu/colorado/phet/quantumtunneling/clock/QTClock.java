@@ -70,7 +70,7 @@ public class QTClock extends SwingTimerClock {
      * 
      * @param listener
      */
-    public void addChangeListener( QTClockChangeListener listener ) {
+    public void addQTClockChangeListener( QTClockChangeListener listener ) {
         _listenerList.add( QTClockChangeListener.class, listener );
     }
   
@@ -79,7 +79,7 @@ public class QTClock extends SwingTimerClock {
      * 
      * @param listener
      */
-    public void removeChangeListener( QTClockChangeListener listener ) {
+    public void removeQTClockChangeListener( QTClockChangeListener listener ) {
         _listenerList.remove( QTClockChangeListener.class, listener );
     }
     

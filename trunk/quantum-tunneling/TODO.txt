@@ -7,10 +7,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 - debug closed-form solutions for barrier potentials
 - implement phase view
-- automatically restart clock when energies change
-- automatically restart clock when direction changes
-- automatically restart clock when wave function form changes
-- automatically restart clock when wave packet properties change
 - should wave packet width & center sliders only update model when slider is released?
 
 MEDIUM PRIORITY:
@@ -21,6 +17,7 @@ MEDIUM PRIORITY:
 - hook up Loop button
 
 LOW PRIORITY:
+- when clock is running and you change something that causes autorestart, 0.01 (not 0.00) is the first clock time you see
 - loop button should be disabled for plane wave
 - make Configure dialog smarter about enabling Apply button (compare with original model values)
 - select entire spinner value when it gets focus
@@ -62,6 +59,7 @@ JFREECHART:
 
 
 DONE:
+(12/15/05) - automatically restart clock when energies, direction, wave function form or wave packet properties change
 (12/15/05) - add width and center properties to WavePacket model, connect to controls
 (12/15/05) - rename AbstractSolver -> AbstractPlaneSolver
 (12/15/05) - rename AbstractPotentialSpace -> AbstractPotential

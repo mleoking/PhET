@@ -34,13 +34,13 @@ import edu.colorado.phet.quantumtunneling.QTConstants;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class QTClockControls extends JPanel implements ClockStateListener, ClockTickListener {
+public class QTClockControls extends JPanel implements ClockStateListener, ClockTickListener, QTClockChangeListener {
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private AbstractClock _clock;
+    private QTClock _clock;
     
     private JButton _restartButton;
     private JButton _playButton;
@@ -66,13 +66,14 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
      * 
      * @param clock
      */
-    public QTClockControls( AbstractClock clock ) {
+    public QTClockControls( QTClock clock ) {
         super();
         
         // Clock
         _clock = clock;
         _clock.addClockStateListener( this );
         _clock.addClockTickListener( this );
+        _clock.addQTClockChangeListener( this );
         
         // Labels
         String restartLabel = SimStrings.get( "button.restart" );
@@ -174,6 +175,7 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
     public void cleanup() {
         _clock.removeClockStateListener( this );
         _clock.removeClockTickListener( this );
+        _clock.removeQTClockChangeListener( this );
         _clock = null;
     }
     
@@ -335,6 +337,17 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
      * @param event
      */
     public void clockTicked( ClockTickEvent event ) {
+        updateTimeDisplay();
+    }
+
+    //----------------------------------------------------------------------------
+    // QTClockChangeListener implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Updates the time display when the clock running time is reset.
+     */
+    public void clockReset( QTClockChangeEvent event ) {
         updateTimeDisplay();
     }
 }
