@@ -7,8 +7,6 @@ import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.qm.modules.intensity.IntensityModule;
-import edu.colorado.phet.qm.modules.mandel.MandelModule;
 import edu.colorado.phet.qm.modules.single.SingleParticleModule;
 
 /**
@@ -28,18 +26,18 @@ public class SchrodingerApplication extends PhetApplication {
     }
 
     public SchrodingerApplication( String[] args ) {
-        super( args, TITLE, DESCRIPTION, VERSION, createClock(), true, createFrameSetup() );
+        super( args, TITLE, DESCRIPTION, VERSION, createFrameSetup() );
 
-//        SchrodingerModule singleParticleModel = new SingleParticleModule( this );
-//        setModules( new Module[]{singleParticleModel} );
+        SchrodingerModule singleParticleModel = new SingleParticleModule( this, createClock() );
+        setModules( new Module[]{singleParticleModel} );
 //
 //        SchrodingerModule intensityModule = new IntensityModule( this );
 //        setModules( new Module[]{intensityModule} );
 
-        SchrodingerModule intensityModule = new IntensityModule( this, createClock() );
-        SchrodingerModule singleParticleModel = new SingleParticleModule( this, createClock() );
-        SchrodingerModule mandelModule = new MandelModule( this, createClock() );
-        setModules( new Module[]{intensityModule, singleParticleModel, mandelModule} );
+//        SchrodingerModule intensityModule = new IntensityModule( this, createClock() );
+//        SchrodingerModule singleParticleModel = new SingleParticleModule( this, createClock() );
+//        SchrodingerModule mandelModule = new MandelModule( this, createClock() );
+//        setModules( new Module[]{intensityModule, singleParticleModel, mandelModule} );
     }
 
     private static IClock createClock() {
@@ -55,6 +53,7 @@ public class SchrodingerApplication extends PhetApplication {
         new PhetLookAndFeel().apply();
         SchrodingerApplication schrodingerApplication = new SchrodingerApplication( args );
         schrodingerApplication.startApplication();
+        System.out.println( "SchrodingerApplication.main" );
     }
 
 }
