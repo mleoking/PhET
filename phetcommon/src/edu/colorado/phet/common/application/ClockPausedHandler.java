@@ -81,6 +81,7 @@ class ClockPausedHandler extends ClockAdapter implements ActionListener {
     }
 
     public void clockPaused( ClockEvent clockEvent ) {
+        actionPerformed( new ActionEvent( timer, 0, "refresh" ) );
         timer.start();
     }
 
