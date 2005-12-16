@@ -1,6 +1,8 @@
 package edu.colorado.phet.common.tests.graphics;
 
 import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
@@ -23,7 +25,7 @@ import java.awt.event.ActionListener;
 public class TestApparatusPanel2Resize {
     public static void main( String[] args ) {
         JFrame frame = new JFrame( "Test AP2" );
-        BaseModel model = new BaseModel();
+        final BaseModel model = new BaseModel();
         SwingClock clock = new SwingClock( 30, 1.0 );
         ApparatusPanel2 panel = new ApparatusPanel2( clock );
         JLabel comp = new JLabel( "Label" );
@@ -62,7 +64,11 @@ public class TestApparatusPanel2Resize {
 
 
         phetShapeGraphic.setCursorHand();
-        clock.addClockListener( model );
+        clock.addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent clockEvent ) {
+                model.clockTicked( clockEvent );
+            }
+        } );
         clock.start();
     }
 }

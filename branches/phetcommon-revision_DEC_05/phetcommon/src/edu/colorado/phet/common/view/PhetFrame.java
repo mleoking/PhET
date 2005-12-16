@@ -65,9 +65,7 @@ public class PhetFrame extends JFrame {
     }
 
     public void setModules( Module[] modules ) {
-        JComponent contentPane = createContentPane( application, modules );
-//        modulePanel = new ModulePanel( apparatusPanelContainer, null, null, null );
-        setContentPane( contentPane );
+        setContentPane( createContentPane( application, modules ) );
     }
 
     public PhetApplication getApplication() {

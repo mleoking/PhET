@@ -3,8 +3,8 @@ package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ClockControlPanel;
 import edu.colorado.phet.common.view.ControlPanel;
@@ -12,7 +12,6 @@ import edu.colorado.phet.common.view.ModulePanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
-import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -21,7 +20,7 @@ import java.io.IOException;
  * Copyright (c) Dec 12, 2005 by Sam Reid
  */
 
-public abstract class Module implements ClockListener {
+public abstract class Module {
     private String name;
 
     private BaseModel model;
@@ -32,6 +31,7 @@ public abstract class Module implements ClockListener {
     private boolean clockRunningWhenActive = true;
 
     private boolean helpEnabled = false;
+    private ClockAdapter moduleRunner;
 
     protected Module() {
     }
@@ -45,12 +45,13 @@ public abstract class Module implements ClockListener {
         clock.addClockListener( new ClockPausedHandler( this ) );
 
         this.modulePanel = new ModulePanel( null, null, null, null );
-        try {
-            modulePanel.setClockControlPanel( new ClockControlPanel( clock ) );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        modulePanel.setClockControlPanel( new ClockControlPanel( clock ) );
+        moduleRunner = new ClockAdapter() {
+            public void clockTicked( ClockEvent clockEvent ) {
+                handleClockTick( clockEvent );
+            }
+        };
+        clock.addClockListener( moduleRunner );
     }
 
     public IClock getClock() {
@@ -58,11 +59,7 @@ public abstract class Module implements ClockListener {
     }
 
     public void setModel( BaseModel model ) {
-        if( this.model != null ) {
-            getClock().removeClockListener( this.model );
-        }
         this.model = model;
-        getClock().addClockListener( this.model );
     }
 
     public String getName() {
@@ -177,7 +174,7 @@ public abstract class Module implements ClockListener {
     public void refresh() {
     }
 
-    public void clockTicked( ClockEvent event ) {
+    protected void handleClockTick( ClockEvent event ) {
         handleUserInput();
         model.clockTicked( event );
         updateGraphics( event );
@@ -209,18 +206,6 @@ public abstract class Module implements ClockListener {
     }
 
     public void setReferenceSize() {
-    }
-
-    public void clockStarted( ClockEvent clockEvent ) {
-    }
-
-    public void clockPaused( ClockEvent clockEvent ) {
-    }
-
-    public void simulationTimeChanged( ClockEvent clockEvent ) {
-    }
-
-    public void clockReset( ClockEvent clockEvent ) {
     }
 
     public void setMonitorPanel( JPanel monitorPanel ) {

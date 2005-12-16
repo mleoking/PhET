@@ -11,7 +11,8 @@
 package edu.colorado.phet.common.model;
 
 import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.common.model.clock.ClockListener;
+
+import java.util.ArrayList;
 
 /**
  * This class is encompasses all the model elements in a physical system. It provides
@@ -24,14 +25,41 @@ import edu.colorado.phet.common.model.clock.ClockListener;
  * @author ?
  * @version $Revision$
  */
-public class BaseModel extends CompositeModelElement implements ClockListener {
+public class BaseModel {
 
     private CommandQueue commandList = new CommandQueue();
+    private ArrayList modelElements = new ArrayList();
+
+    public void addModelElement( ModelElement aps ) {
+        modelElements.add( aps );
+    }
+
+    public ModelElement modelElementAt( int i ) {
+        return (ModelElement)modelElements.get( i );
+    }
+
+    public boolean containsModelElement( ModelElement modelElement ) {
+        return modelElements.contains( modelElement );
+    }
+
+    public int numModelElements() {
+        return modelElements.size();
+    }
+
+    public void removeModelElement( ModelElement m ) {
+        modelElements.remove( m );
+    }
+
+    public void removeAllModelElements() {
+        modelElements.clear();
+    }
 
     //Not allowed to mess with the way we call our abstract method.
     public void stepInTime( double dt ) {
         commandList.doIt();
-        super.stepInTime( dt );
+        for( int i = 0; i < numModelElements(); i++ ) {
+            modelElementAt( i ).stepInTime( dt );
+        }
     }
 
     /**
@@ -47,15 +75,4 @@ public class BaseModel extends CompositeModelElement implements ClockListener {
         stepInTime( event.getSimulationTimeChange() );
     }
 
-    public void clockStarted( ClockEvent clockEvent ) {
-    }
-
-    public void clockPaused( ClockEvent clockEvent ) {
-    }
-
-    public void simulationTimeChanged( ClockEvent clockEvent ) {
-    }
-
-    public void clockReset( ClockEvent clockEvent ) {
-    }
 }

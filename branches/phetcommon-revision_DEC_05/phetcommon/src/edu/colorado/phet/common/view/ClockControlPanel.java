@@ -35,18 +35,17 @@ public class ClockControlPanel extends JPanel implements ClockListener {
     private JButton step;
     private IClock clock;
 
-    public ClockControlPanel( final IClock clock ) throws IOException {
+    public ClockControlPanel( final IClock clock ) {
         this.clock = clock;
         clock.addClockListener( this );
         if( clock == null ) {
             throw new RuntimeException( "Cannot have a control panel for a null clock." );
         }
-        ImageLoader cil = new ImageLoader();
 
         String root = "images/icons/java/media/";
-        BufferedImage playU = cil.loadImage( root + "Play24.gif" );
-        BufferedImage pauseU = cil.loadImage( root + "Pause24.gif" );
-        BufferedImage stepU = cil.loadImage( root + "StepForward24.gif" );
+        BufferedImage playU = loadImage( root + "Play24.gif" );
+        BufferedImage pauseU = loadImage( root + "Pause24.gif" );
+        BufferedImage stepU = loadImage( root + "StepForward24.gif" );
         ImageIcon playIcon = new ImageIcon( playU );
         ImageIcon pauseIcon = new ImageIcon( pauseU );
         ImageIcon stepIcon = new ImageIcon( stepU );
@@ -87,6 +86,16 @@ public class ClockControlPanel extends JPanel implements ClockListener {
 
         play.setEnabled( false );
         pause.setEnabled( true );
+    }
+
+    private BufferedImage loadImage( String s ) {
+        try {
+            return ImageLoader.loadBufferedImage( s );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+            throw new RuntimeException( e );
+        }
     }
 
     /**

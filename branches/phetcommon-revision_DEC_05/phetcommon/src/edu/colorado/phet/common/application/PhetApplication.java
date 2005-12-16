@@ -37,8 +37,6 @@ import java.util.ArrayList;
  * A FrameSetup can either be specified in the constructor
  * or later, in a call to createPhetFrame().
  * <p/>
- * If no initial module is specified, the module with index 0 in the array sent
- * to setModules() is used.
  *
  * @author ?
  * @version $Revision$
@@ -191,7 +189,7 @@ public class PhetApplication {
         // Add the new modules
         phetFrame.setModules( modules );
         moduleManager.addAllModules( modules );
-        phetFrame.pack();
+//        phetFrame.pack();
     }
 
 
