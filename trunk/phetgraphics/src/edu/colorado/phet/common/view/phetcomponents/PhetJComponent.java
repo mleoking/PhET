@@ -1,7 +1,6 @@
 package edu.colorado.phet.common.view.phetcomponents;
 
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphics2D;
@@ -58,7 +57,7 @@ public class PhetJComponent extends PhetGraphic {
 
     private static PhetGraphic newInstance( Component apparatusPanel, JComponent jComponent, boolean topLevel ) {
         if( !inited ) {
-            init( PhetApplication.instance().getPhetFrame()  );
+            init( PhetApplication.instance().getPhetFrame() );
         }
 
         if( topLevel ) {
