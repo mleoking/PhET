@@ -11,8 +11,8 @@
 package edu.colorado.phet.common.view.phetgraphics;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.view.ApparatusPanel;
 
 import java.awt.*;
@@ -28,7 +28,7 @@ import java.awt.geom.AffineTransform;
  * @author ?
  * @version $Revision$
  */
-public class RepaintDebugGraphic extends PhetGraphic implements ClockTickListener {
+public class RepaintDebugGraphic extends PhetGraphic implements ClockListener {
     private int r = 255;
     private int g = 255;
     private int b = 255;
@@ -65,10 +65,22 @@ public class RepaintDebugGraphic extends PhetGraphic implements ClockTickListene
         }
     }
 
-    public void clockTicked( ClockTickEvent event ) {
+    public void clockTicked( ClockEvent event ) {
         r = ( r - 1 + 255 ) % 255;
         g = ( g - 2 + 255 ) % 255;
         b = ( b - 3 + 255 ) % 255;
+    }
+
+    public void clockStarted( ClockEvent clockEvent ) {
+    }
+
+    public void clockPaused( ClockEvent clockEvent ) {
+    }
+
+    public void simulationTimeChanged( ClockEvent clockEvent ) {
+    }
+
+    public void clockReset( ClockEvent clockEvent ) {
     }
 
     public void setActive( boolean active ) {
@@ -78,10 +90,10 @@ public class RepaintDebugGraphic extends PhetGraphic implements ClockTickListene
         }
         this.active = active;
         if( active ) {
-            clock.addClockTickListener( this );
+            clock.addClockListener( this );
         }
         else {
-            clock.removeClockTickListener( this );
+            clock.removeClockListener( this );
         }
 
     }
