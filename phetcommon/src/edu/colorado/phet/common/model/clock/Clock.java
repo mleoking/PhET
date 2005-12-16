@@ -177,4 +177,15 @@ public abstract class Clock implements AbstractClock {
             }
         } );
     }
+
+    /**
+     * @deprecated
+     */
+    public double getDt() {
+        return tickOnceTimeChange;
+    }
+
+    public double getRunningTime() {
+        return getSimulationTime();
+    }
 }

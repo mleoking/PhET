@@ -16,4 +16,11 @@ public class ClockTickEvent extends ClockEvent {
     public double getDt() {
         return super.getSimulationTimeChange();
     }
+
+    /**
+     * @deprecated
+     */
+    public AbstractClock getSource() {
+        return super.getClock();
+    }
 }
