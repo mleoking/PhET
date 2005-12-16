@@ -15,7 +15,7 @@ import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.SwingClock;
-import edu.colorado.phet.common.util.QuickTimer;
+import edu.colorado.phet.common.util.QuickProfiler;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
@@ -52,7 +52,7 @@ public class TestManyPhetJComponents extends PhetGraphicsModule {
     }
 
     public static void main( String[] args ) {
-        QuickTimer main = new QuickTimer();
+        QuickProfiler main = new QuickProfiler();
         SwingClock clock = new SwingClock( 30, 1.0 );
         PhetApplication phetApplication = new PhetApplication( args, "title", "desc", "version", new FrameSetup.CenteredWithSize( 600, 600 ) );
         TestManyPhetJComponents module = new TestManyPhetJComponents( "name", clock );
@@ -60,7 +60,7 @@ public class TestManyPhetJComponents extends PhetGraphicsModule {
         phetApplication.startApplication();
         System.out.println( "time to make & display " + numComponents + ", phetJComponents= " + main + " ms" );
 
-        QuickTimer swing = new QuickTimer();
+        QuickProfiler swing = new QuickProfiler();
         JFrame f = new JFrame();
         JPanel conten = new JPanel();
         conten.setLayout( null );

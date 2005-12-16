@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.view.phetgraphics;
+package edu.colorado.phet.common.view.util;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

@@ -12,10 +12,7 @@ package edu.colorado.phet.common.view.phetgraphics;
 
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationHandler;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
-import edu.colorado.phet.common.view.util.CompositeMouseInputListener;
-import edu.colorado.phet.common.view.util.CursorControl;
-import edu.colorado.phet.common.view.util.GraphicsState;
-import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.common.view.util.*;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
