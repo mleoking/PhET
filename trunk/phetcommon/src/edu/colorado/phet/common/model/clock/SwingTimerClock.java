@@ -25,9 +25,13 @@ public class SwingTimerClock extends Clock {
     private Timer timer;
 
     /**
-     * @param timeStep
-     * @param delay
-     * @param isFixed
+     * @deprecated
+     */
+    public SwingTimerClock( double timeStep, int delay ) {
+        this( timeStep, delay, true );
+    }
+
+    /**
      * @deprecated
      */
     public SwingTimerClock( double timeStep, int delay, boolean isFixed ) {
@@ -43,6 +47,7 @@ public class SwingTimerClock extends Clock {
         };
         timer = new Timer( delay, actionListener );
     }
+
 
     public void start() {
         timer.start();

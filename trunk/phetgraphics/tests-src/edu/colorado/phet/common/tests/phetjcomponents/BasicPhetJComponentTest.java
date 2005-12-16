@@ -1,7 +1,7 @@
 package edu.colorado.phet.common.tests.phetjcomponents;
 
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
@@ -34,8 +34,8 @@ public class BasicPhetJComponentTest {
         frame.setContentPane( ap );
         frame.setSize( 600, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        swingTimerClock.addClockTickListener( new ClockTickListener() {
-            public void clockTicked( ClockTickEvent event ) {
+        swingTimerClock.addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent event ) {
                 ap.handleUserInput();
                 ap.paint();
             }

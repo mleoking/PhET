@@ -1,7 +1,7 @@
 package edu.colorado.phet.common.tests.phetjcomponents;
 
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
@@ -91,8 +91,8 @@ public class FullPhetJComponentTest {
 
         buttonPhetJ.setLocation( 100, 100 );
         this.swingTimerClock = swingTimerClock;
-        this.swingTimerClock.addClockTickListener( new ClockTickListener() {
-            public void clockTicked( ClockTickEvent event ) {
+        this.swingTimerClock.addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent event ) {
                 ap.handleUserInput();
 //                ap.paintImmediately( new Rectangle( 0, 0, ap.getWidth(), ap.getLength() ) );
                 PhetJComponent.getRepaintManager().updateGraphics();
