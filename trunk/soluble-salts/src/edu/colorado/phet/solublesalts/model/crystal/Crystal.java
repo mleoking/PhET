@@ -53,7 +53,6 @@ public class Crystal extends Body implements Binder {
             (InstanceLifetimeListener)instanceLifetimeEventChannel.getListenerProxy();
     private static Random random = new Random( System.currentTimeMillis() );
     private static double dissociationLikelihood;
-//    private SolubleSaltsModel model;
     private Rectangle2D waterBounds;
 
     public static void setDissociationLikelihood( double dissociationLikelihood ) {
@@ -100,6 +99,20 @@ public class Crystal extends Body implements Binder {
     // Lifecycle
     //----------------------------------------------------------------
 
+    /**
+     * @param model
+     * @param lattice
+     */
+    public Crystal( SolubleSaltsModel model, Lattice lattice ) {
+        this( model, lattice, new ArrayList() );
+    }
+
+    /**
+     *
+     * @param model
+     * @param lattice
+     * @param ions
+     */
     public Crystal( SolubleSaltsModel model, Lattice lattice, List ions ) {
         this.lattice = lattice;
 
@@ -110,20 +123,6 @@ public class Crystal extends Body implements Binder {
             addIon( ion );
         }
 
-        model.getVessel().addChangeListener( new Vessel.ChangeListener() {
-            public void stateChanged( Vessel.ChangeEvent event ) {
-                setWaterBounds( event.getVessel() );
-            }
-        } );
-        setWaterBounds( model.getVessel() );
-        instanceLifetimeListenerProxy.instanceCreated( new InstanceLifetimeEvent( this ) );
-    }
-
-    /**
-     * @param lattice
-     */
-    public Crystal( SolubleSaltsModel model, Lattice lattice ) {
-        this.lattice = lattice;
         model.getVessel().addChangeListener( new Vessel.ChangeListener() {
             public void stateChanged( Vessel.ChangeEvent event ) {
                 setWaterBounds( event.getVessel() );
