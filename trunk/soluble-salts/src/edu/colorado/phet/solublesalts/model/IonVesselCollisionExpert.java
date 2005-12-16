@@ -119,9 +119,6 @@ public class IonVesselCollisionExpert implements CollisionExpert, ContactDetecto
         boolean b = i.getX() + r >= v.getMaxX()
                     || i.getX() - r <= v.getMinX()
                     || i.getY() + r >= v.getMaxY();
-        if( b ) {
-            System.out.println( "IonVesselCollisionExpert.areInContact B" );
-        }
         return b;
     }
 
