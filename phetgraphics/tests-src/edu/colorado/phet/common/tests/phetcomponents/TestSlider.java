@@ -12,8 +12,8 @@ package edu.colorado.phet.common.tests.phetcomponents;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockAdapter;
-import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.ClockTickEvent;
+import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
@@ -56,9 +56,9 @@ public class TestSlider {
                 System.out.println( "Changed,  value=" + phetSlider.getValue() );
             }
         } );
-        clock.addClockListener( new ClockAdapter() {
-            public void clockTicked( ClockEvent event ) {
-                model.stepInTime( event.getSimulationTimeChange() );
+        clock.addClockTickListener( new ClockTickListener() {
+            public void clockTicked( ClockTickEvent event ) {
+                model.stepInTime( event.getDt() );
             }
         } );
         clock.start();

@@ -171,7 +171,7 @@ public class CollisionTest {
         jf.setContentPane( module.getApparatusPanel() );
         jf.setVisible( true );
         jf.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        clock.addClockListener( module );
+        clock.addClockTickListener( module );
 
         clock.start();
     }
