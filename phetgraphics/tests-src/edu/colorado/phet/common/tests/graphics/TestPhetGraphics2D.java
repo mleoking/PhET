@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.common.tests.graphics;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
@@ -30,9 +29,9 @@ public class TestPhetGraphics2D {
     public static void main( String[] args ) {
         JFrame frame = new JFrame( "Test PhetGraphics2D" );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        SwingTimerClock clock = new SwingTimerClock( 1, 25, AbstractClock.FRAMES_PER_SECOND );
+        SwingTimerClock clock = new SwingTimerClock( 1, 25 );
         ApparatusPanel ap2 = new ApparatusPanel2( clock );
-        clock.doStart();
+        clock.start();
         ap2.setPreferredSize( new Dimension( 400, 300 ) );
         frame.setContentPane( ap2 );
         frame.pack();

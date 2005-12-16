@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.common.tests.graphics;
 
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
@@ -64,7 +64,7 @@ public class TestArrows {
 //            }
 //        };
 //        clock.addClockTickListener( tickListener );
-        clock.addClockTickListener( new MyListener() );
+        clock.addClockListener( new MyListener() );
         shapeGraphic.setCursorHand();
         shapeGraphic.addTranslationListener( new TranslationListener() {
             public void translationOccurred( TranslationEvent translationEvent ) {
@@ -85,9 +85,9 @@ public class TestArrows {
         clock.start();
     }
 
-    public static class MyListener implements ClockTickListener {
+    public static class MyListener extends ClockAdapter {
 
-        public void clockTicked( ClockTickEvent event ) {
+        public void clockTicked( ClockEvent event ) {
             theta += Math.PI / 128;
 //            System.out.println( "event = " + event );
             double x = x0 + r * Math.cos( theta );
