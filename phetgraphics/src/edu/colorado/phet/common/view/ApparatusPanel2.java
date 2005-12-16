@@ -12,8 +12,8 @@ package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphics2D;
@@ -51,7 +51,7 @@ import java.util.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ApparatusPanel2 extends ApparatusPanel implements ClockTickListener {
+public class ApparatusPanel2 extends ApparatusPanel implements ClockListener {
 
     //----------------------------------------------------------------
     // Class data
@@ -119,7 +119,7 @@ public class ApparatusPanel2 extends ApparatusPanel implements ClockTickListener
     protected void init( AbstractClock clock ) {
         // Attach ourself to the clock
         this.clock = clock;
-        clock.addClockTickListener( this );
+        clock.addClockListener( this );
 
         // The following lines use a mouse processor in the model loop
         mouseProcessor = new MouseProcessor( getGraphic(), clock );
@@ -149,7 +149,7 @@ public class ApparatusPanel2 extends ApparatusPanel implements ClockTickListener
     /**
      * Returns the AffineTransform used by the apparatus panel to size and place graphics
      *
-     * @return
+     * @return the Graphics
      */
     public AffineTransform getGraphicTx() {
         return transformManager.getGraphicTx();
@@ -206,7 +206,7 @@ public class ApparatusPanel2 extends ApparatusPanel implements ClockTickListener
     /**
      * Tells if we are using an offscreen buffer or dirty rectangles
      *
-     * @return
+     * @return the boolean
      */
     public boolean isUseOffscreenBuffer() {
         return paintStrategy instanceof OffscreenBufferStrategy;
@@ -575,8 +575,20 @@ public class ApparatusPanel2 extends ApparatusPanel implements ClockTickListener
     // Implementation of ClockTickListener
     //----------------------------------------------------------------
 
-    public void clockTicked( ClockTickEvent event ) {
+    public void clockTicked( ClockEvent event ) {
         paint();
+    }
+
+    public void clockStarted( ClockEvent clockEvent ) {
+    }
+
+    public void clockPaused( ClockEvent clockEvent ) {
+    }
+
+    public void simulationTimeChanged( ClockEvent clockEvent ) {
+    }
+
+    public void clockReset( ClockEvent clockEvent ) {
     }
 
     //-----------------------------------------------------------------
