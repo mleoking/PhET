@@ -59,6 +59,7 @@ JFREECHART:
 
 
 DONE:
+0.0.3 ...
 (12/15/05) - temporarily disable the Loop button
 (12/15/05) - automatically restart clock when energies, direction, wave function form or wave packet properties change
 (12/15/05) - add width and center properties to WavePacket model, connect to controls
