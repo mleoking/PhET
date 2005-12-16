@@ -51,9 +51,8 @@ public class SolubleSaltsModel extends BaseModel {
 
     // The world bounds of the model
     private double scale = 1;
-//    Rectangle2D bounds = new Rectangle2D.Double( 0, 0, 9000, 6000 );
-    Rectangle2D bounds = new Rectangle2D.Double( 0, 0, 900, 600 );
-
+    // Bounds for the entire model
+    Rectangle2D bounds = new Rectangle2D.Double( 0, 0, 1024, 768 );
     // Ksp for the model
     double ksp;
 
@@ -171,7 +170,7 @@ public class SolubleSaltsModel extends BaseModel {
             Ion ion = (Ion)modelElement;
             ionTracker.ionRemoved( ion );
             if( ion.isBound() ) {
-                ion.getBindingLattice().removeIon( ion );
+                ion.getBindingCrystal().removeIon( ion );
             }
         }
     }
@@ -299,6 +298,14 @@ public class SolubleSaltsModel extends BaseModel {
         changeEventChannel.removeListener( listener );
     }
 
+    /**
+     * Returns the bounds of the water in the vessel
+     * @return
+     */
+    public Rectangle2D getWaterBounds() {
+        return vessel.getWater().getBounds();
+    }
+
     public class ChangeEvent extends EventObject {
         public ChangeEvent( Object source ) {
             super( source );
@@ -377,6 +384,9 @@ public class SolubleSaltsModel extends BaseModel {
                 if( modelElementAt( i ) instanceof Ion ) {
                     Ion ion = (Ion)modelElementAt( i );
                     boolean b = ionVesselCollisionExpert.detectAndDoCollision( ion, vessel );
+                    if( b ) {
+                        System.out.println( "SolubleSaltsModel$IonVesselCollisionAgent.stepInTime" );
+                    }
 
                     for( int j = 0; j < numModelElements(); j++ ) {
                         if( modelElementAt( i ) != modelElementAt( j )
