@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.common.view;
 
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
-import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 
@@ -33,9 +33,9 @@ public class ClockControlPanel extends JPanel implements ClockListener {
     private JButton play;
     private JButton pause;
     private JButton step;
-    private IClock clock;
+    private AbstractClock clock;
 
-    public ClockControlPanel( final IClock clock ) throws IOException {
+    public ClockControlPanel( final AbstractClock clock ) throws IOException {
         this.clock = clock;
         clock.addClockListener( this );
         if( clock == null ) {

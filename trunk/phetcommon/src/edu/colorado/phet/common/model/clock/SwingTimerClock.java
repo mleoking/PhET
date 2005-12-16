@@ -21,10 +21,20 @@ import java.awt.event.ActionListener;
  * Copyright (c) Dec 15, 2005 by Sam Reid
  */
 
-public class SwingClock extends Clock {
+public class SwingTimerClock extends Clock {
     private Timer timer;
 
-    public SwingClock( int delay, TimeConverter timeConverter, double tickOnceTimeChange ) {
+    /**
+     * @param timeStep
+     * @param delay
+     * @param isFixed
+     * @deprecated
+     */
+    public SwingTimerClock( double timeStep, int delay, boolean isFixed ) {
+        this( delay, new TimeConverter.Constant( timeStep ), timeStep );
+    }
+
+    public SwingTimerClock( int delay, TimeConverter timeConverter, double tickOnceTimeChange ) {
         super( timeConverter, tickOnceTimeChange );
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

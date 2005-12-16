@@ -11,8 +11,8 @@
 
 package edu.colorado.phet.common.application;
 
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockListener;
-import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.ImageLoader;
@@ -73,7 +73,7 @@ public class PhetApplication {
     private ModuleManager moduleManager;
     private String title;
     private Module initialModule;
-    private IClock clock;
+    private AbstractClock clock;
     private String description;
     private String version;
     private boolean useClockControlPanel;
@@ -88,7 +88,7 @@ public class PhetApplication {
      * @param useClockControlPanel Whether clock control panel appears at bottom of window
      * @param frameSetup           Defines the size and location of the frame
      */
-    public PhetApplication( String[] args, String title, String description, String version, IClock clock,
+    public PhetApplication( String[] args, String title, String description, String version, AbstractClock clock,
                             boolean useClockControlPanel, FrameSetup frameSetup ) {
 
 
@@ -117,7 +117,7 @@ public class PhetApplication {
      * @param clock                Simulation clock
      * @param useClockControlPanel Whether clock control panel appears at bottom of window
      */
-    public PhetApplication( String[] args, String title, String description, String version, IClock clock,
+    public PhetApplication( String[] args, String title, String description, String version, AbstractClock clock,
                             boolean useClockControlPanel ) {
         this( args, title, description, version, clock, useClockControlPanel, null );
     }
@@ -232,7 +232,7 @@ public class PhetApplication {
         return phetFrame;
     }
 
-    public IClock getClock() {
+    public AbstractClock getClock() {
         return clock;
     }
 

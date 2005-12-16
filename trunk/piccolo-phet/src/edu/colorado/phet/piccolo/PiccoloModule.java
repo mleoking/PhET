@@ -11,7 +11,7 @@
 package edu.colorado.phet.piccolo;
 
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.AbstractClock;
 
 import javax.swing.*;
 
@@ -29,7 +29,7 @@ public class PiccoloModule extends Module {
      * @param name
      * @param clock
      */
-    public PiccoloModule( String name, IClock clock ) {
+    public PiccoloModule( String name, AbstractClock clock ) {
         super( name, clock );
     }
 

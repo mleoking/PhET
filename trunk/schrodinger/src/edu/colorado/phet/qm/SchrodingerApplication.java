@@ -3,8 +3,8 @@ package edu.colorado.phet.qm;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.model.clock.TimeConverter;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
@@ -43,8 +43,8 @@ public class SchrodingerApplication extends PhetApplication {
         setModules( new Module[]{intensityModule, singleParticleModel, mandelModule} );
     }
 
-    private static IClock createClock() {
-        return new SwingClock( 30, new TimeConverter.Constant( 1.0 ), 1.0 );
+    private static AbstractClock createClock() {
+        return new SwingTimerClock( 30, new TimeConverter.Constant( 1.0 ), 1.0 );
     }
 
     private static FrameSetup createFrameSetup() {

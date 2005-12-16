@@ -12,9 +12,9 @@ package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
-import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 
@@ -32,7 +32,7 @@ public abstract class Module implements ClockListener {
     JPanel controlPanel;
     JPanel monitorPanel;
     String name;
-    protected IClock clock;
+    protected AbstractClock clock;
     protected boolean helpEnabled;
     private boolean isActive;
 
@@ -40,7 +40,7 @@ public abstract class Module implements ClockListener {
         helpEnabled = false;
     }
 
-    public Module( String name, IClock clock ) {
+    public Module( String name, AbstractClock clock ) {
 
         this.name = name;
         this.clock = clock;
@@ -50,7 +50,7 @@ public abstract class Module implements ClockListener {
         clock.addClockListener( new ClockPausedHandler( this ) );
     }
 
-    public IClock getClock() {
+    public AbstractClock getClock() {
         return clock;
     }
 
