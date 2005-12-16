@@ -58,8 +58,8 @@ public class TestPhetApplication {
             } );
         }
 
-        public void activate( PhetApplication app ) {
-            super.activate( app );
+        public void activate() {
+            super.activate();
         }
     }
 
@@ -70,19 +70,17 @@ public class TestPhetApplication {
             setApparatusPanel( new ApparatusPanel() );
             setModel( new BaseModel() );
             JButton ctrl = new JButton( "Click Me" );
-            JPanel controls = new JPanel();
+            ControlPanel controls = new ControlPanel( this );
             controls.add( ctrl );
             getApparatusPanel().addGraphic( new PhetShapeGraphic( getApparatusPanel(), new Rectangle( 200, 100, 300, 100 ), color ) );
             setControlPanel( controls );
             JPanel monitorPanel = new JPanel();
             monitorPanel.add( new JCheckBox( "yes/no" ) );
             setMonitorPanel( monitorPanel );
-
-
         }
 
-        public void activate( PhetApplication app ) {
-            super.activate( app );
+        public void activate() {
+            super.activate();
         }
     }
 

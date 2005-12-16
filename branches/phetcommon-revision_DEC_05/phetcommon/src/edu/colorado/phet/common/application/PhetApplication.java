@@ -11,7 +11,6 @@
 
 package edu.colorado.phet.common.application;
 
-import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.FrameSetup;
@@ -72,7 +71,7 @@ public class PhetApplication {
     private ModuleManager moduleManager;
     private String title;
     private Module initialModule;
-    private IClock clock;
+//    private IClock clock;
     private String description;
     private String version;
     private boolean useClockControlPanel;
@@ -94,7 +93,7 @@ public class PhetApplication {
         s_instance = this;
         this.moduleManager = new ModuleManager( this );
         this.title = title;
-        this.clock = clock;
+//        this.clock = clock;
         this.description = description;
         this.version = version;
         this.useClockControlPanel = useClockControlPanel;
@@ -137,7 +136,7 @@ public class PhetApplication {
      */
     public PhetApplication( ApplicationModel descriptor, String args[] ) {
         moduleManager = new ModuleManager( this );
-        clock = descriptor.getClock();
+//        clock = descriptor.getClock();
 
         if( descriptor.getModules() == null ) {
             throw new RuntimeException( "Module(s) not specified in ApplicationModel" );
@@ -210,7 +209,7 @@ public class PhetApplication {
         } );
 
         moduleManager.setActiveModule( initialModule );
-        clock.start();
+//        clock.start();
         phetFrame.setVisible( true );
     }
 
@@ -224,23 +223,11 @@ public class PhetApplication {
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
             frameSetup = new FrameSetup.CenteredWithSize( screenSize.width, screenSize.height - 50 );
         }
-        phetFrame = new PhetFrame( this, title, clock, frameSetup, useClockControlPanel, moduleManager, description, version );
+        phetFrame = new PhetFrame( this, title, frameSetup, useClockControlPanel, moduleManager, description, version );
     }
 
     public PhetFrame getPhetFrame() {
         return phetFrame;
-    }
-
-    public IClock getClock() {
-        return clock;
-    }
-
-    public void addClockListener( ClockListener clockTickListener ) {
-        clock.addClockListener( clockTickListener );
-    }
-
-    public void removeClockListener( ClockListener clockTickListener ) {
-        clock.removeClockListener( clockTickListener );
     }
 
     //----------------------------------------------------------------
@@ -307,6 +294,10 @@ public class PhetApplication {
 
     public int numModules() {
         return moduleManager.numModules();
+    }
+
+    public Module getActiveModule() {
+        return moduleManager.getActiveModule();
     }
 
     //-----------------------------------------------------------------

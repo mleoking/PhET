@@ -14,7 +14,7 @@ import javax.swing.*;
 
 /**
  * A subclass of JSpinner that moves up and down through orders of magnitude
- * 
+ *
  * @author ?
  * @version $Revision$
  */

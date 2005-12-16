@@ -1,10 +1,10 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm;
 
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.qm.controls.SchrodingerControlPanel;
@@ -38,8 +38,8 @@ public class SchrodingerModule extends PiccoloModule {
     /**
      * @param schrodingerApplication
      */
-    public SchrodingerModule( String name, SchrodingerApplication schrodingerApplication ) {
-        super( name, schrodingerApplication.getClock() );
+    public SchrodingerModule( String name, SchrodingerApplication schrodingerApplication, IClock clock ) {
+        super( name, clock );
         this.schrodingerApplication = schrodingerApplication;
         setModel( new BaseModel() );
 
@@ -67,14 +67,14 @@ public class SchrodingerModule extends PiccoloModule {
         menu = new SchrodingerMenu( this );
     }
 
-    public void activate( PhetApplication app ) {
-        super.activate( app );
-        app.getPhetFrame().addMenu( menu );
+    public void activate() {
+        super.activate();
+        schrodingerApplication.getPhetFrame().addMenu( menu );
     }
 
-    public void deactivate( PhetApplication app ) {
-        super.deactivate( app );
-        app.getPhetFrame().removeMenu( menu );
+    public void deactivate() {
+        super.deactivate();
+        schrodingerApplication.getPhetFrame().removeMenu( menu );
     }
 
     protected void setDiscreteModel( DiscreteModel model ) {

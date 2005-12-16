@@ -14,7 +14,6 @@ import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.ModuleManager;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.components.menu.HelpMenu;
 import edu.colorado.phet.common.view.components.menu.PhetFileMenu;
 import edu.colorado.phet.common.view.util.FrameSetup;
@@ -37,47 +36,36 @@ public class PhetFrame extends JFrame {
     private JMenu defaultFileMenu;
     private boolean paused; // state of the clock prior to being iconified
     private PhetApplication application;
-    private ClockControlPanel clockControlPanel;
-    private ContentPanel contentPanel;
+//    private ClockControlPanel clockControlPanel;
+    private ModulePanel modulePanel;
     private FrameSetup frameSetup;
-//    private DebugMenu debugMenu;
 
     /**
      * todo: make clock control panel useage module-specific
      *
      * @param title
-     * @param clock
      * @param frameSetup
      * @param useClockControlPanel
      * @throws HeadlessException
      */
-    public PhetFrame( PhetApplication application, String title, final IClock clock, FrameSetup frameSetup,
-                      boolean useClockControlPanel, ModuleManager moduleManager,
+    public PhetFrame( PhetApplication application, String title, FrameSetup frameSetup,
+                      boolean useClockControlPanel, final ModuleManager moduleManager,
                       String description, String version ) throws HeadlessException {
         super( title + " (" + version + ")" );
         this.application = application;
         this.frameSetup = frameSetup;
 
+        setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         this.addWindowListener( new WindowAdapter() {
-            public void windowClosing( WindowEvent e ) {
-                System.exit( 0 );
-            }
 
             // Pause the clock if the simulation window is iconified.
             public void windowIconified( WindowEvent e ) {
-                super.windowIconified( e );
-                paused = clock.isPaused(); // save clock state
-                if( !paused ) {
-                    clock.pause();
-                }
+                moduleManager.pause();
             }
 
             // Restore the clock state if the simulation window is deiconified.
             public void windowDeiconified( WindowEvent e ) {
-                super.windowDeiconified( e );
-                if( !paused ) {
-                    clock.start();
-                }
+                moduleManager.resume();
             }
         } );
 
@@ -92,14 +80,6 @@ public class PhetFrame extends JFrame {
             frameSetup.initialize( this );
         }
 
-        if( useClockControlPanel ) {
-            try {
-                clockControlPanel = new ClockControlPanel( clock );
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-            }
-        }
     }
 
     /**
@@ -142,17 +122,14 @@ public class PhetFrame extends JFrame {
 
         JComponent apparatusPanelContainer = createApparatusPanelContainer( application, model.getModules() );
 
-        if( model.getUseClockControlPanel() ) {
-            clockControlPanel = new ClockControlPanel( model.getClock() );
-        }
-        contentPanel = new ContentPanel( apparatusPanelContainer, null, null, clockControlPanel );
-        setContentPane( contentPanel );
+        modulePanel = new ModulePanel( apparatusPanelContainer, null, null, null );
+        setContentPane( modulePanel );
     }
 
     public void setModules( Module[] modules ) {
         JComponent apparatusPanelContainer = createApparatusPanelContainer( application, modules );
-        contentPanel = new ContentPanel( apparatusPanelContainer, null, null, clockControlPanel );
-        setContentPane( contentPanel );
+        modulePanel = new ModulePanel( apparatusPanelContainer, null, null, null );
+        setContentPane( modulePanel );
     }
 
     /**
@@ -166,10 +143,6 @@ public class PhetFrame extends JFrame {
 
     public PhetApplication getApplication() {
         return application;
-    }
-
-    public ClockControlPanel getClockControlPanel() {
-        return clockControlPanel;
     }
 
     /**
@@ -201,12 +174,12 @@ public class PhetFrame extends JFrame {
     /**
      * @deprecated use getContentPanel
      */
-    public ContentPanel getBasicPhetPanel() {
-        return contentPanel;
+    public ModulePanel getBasicPhetPanel() {
+        return modulePanel;
     }
 
-    public ContentPanel getContentPanel() {
-        return contentPanel;
+    public ModulePanel getContentPanel() {
+        return modulePanel;
     }
 
     //----------------------------------------------------------------

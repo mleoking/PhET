@@ -26,6 +26,7 @@ public class MathUtil {
 
     /**
      * Returns a pseudo-randomly distributed +1 or -1
+     *
      * @return
      */
     public static int nextRandomSign() {
@@ -433,7 +434,6 @@ public class MathUtil {
     }
 
 
-
     /**
      * This class manages a running average.
      */
@@ -480,4 +480,5 @@ public class MathUtil {
             sum = 0;
             num = 0;
         }
-    }}
+    }
+}

@@ -103,19 +103,20 @@ public class ModuleManager {
     }
 
     private void forceSetActiveModule( Module module ) {
-        deactivate();
+        deactivateCurrentModule();
         activate( module );
         moduleObserverProxy.activeModuleChanged( new ModuleEvent( this, module ) );
     }
 
     private void activate( Module module ) {
         activeModule = module;
-        module.activate( phetApplication );
+        module.activate();
+        phetApplication.setActiveModule( module );
     }
 
-    private void deactivate() {
+    public void deactivateCurrentModule() {
         if( activeModule != null ) {
-            activeModule.deactivate( phetApplication );
+            activeModule.deactivate();
         }
     }
 
@@ -276,6 +277,14 @@ public class ModuleManager {
             moduleArray[i] = (Module)modules.get( i );
         }
         return moduleArray;
+    }
+
+    public void pause() {
+        getActiveModule().deactivate();
+    }
+
+    public void resume() {
+        getActiveModule().activate();
     }
 
     /**

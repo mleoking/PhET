@@ -7,6 +7,7 @@ import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.view.ModulePanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
@@ -19,13 +20,14 @@ import javax.swing.*;
  */
 
 public abstract class Module implements ClockListener {
-    BaseModel model;
-    JPanel controlPanel;
-    JPanel monitorPanel;
-    String name;
-    protected IClock clock;
-    protected boolean helpEnabled;
-    private boolean isActive;
+    private String name;
+
+    private BaseModel model;
+    private ModulePanel modulePanel;
+    private IClock clock;
+    private boolean helpEnabled = false;
+    private boolean active = false;
+    private boolean clockRunning = false;
 
     public Module() {
         helpEnabled = false;
@@ -45,24 +47,8 @@ public abstract class Module implements ClockListener {
         return clock;
     }
 
-    public void setMonitorPanel( JPanel monitorPanel ) {
-        this.monitorPanel = monitorPanel;
-    }
-
     public void setModel( BaseModel model ) {
         this.model = model;
-    }
-
-    public void setControlPanel( JPanel controlPanel ) {
-        this.controlPanel = controlPanel;
-    }
-
-    public JPanel getControlPanel() {
-        return controlPanel;
-    }
-
-    public JPanel getMonitorPanel() {
-        return monitorPanel;
     }
 
     public String getName() {
@@ -74,30 +60,30 @@ public abstract class Module implements ClockListener {
     }
 
     /**
-     * Activates this Module, empty method here.  This method is provided so that subclasses
-     * can override.
-     *
-     * @param app
+     * Activates this Module.
      */
-    public void activate( PhetApplication app ) {
+    public void activate() {
         if( !moduleIsWellFormed() ) {
             throw new RuntimeException( "Module missing important data, module=" + this );
         }
-        app.getPhetFrame().getBasicPhetPanel().setControlPanel( this.getControlPanel() );
-        app.getPhetFrame().getBasicPhetPanel().setMonitorPanel( this.getMonitorPanel() );
-        app.addClockListener( this );
-        isActive = true;
+        if( clockRunning ) {
+            clock.start();
+        }
+        active = true;
     }
 
     /**
      * Deactivates this Module, empty method here.  This method is provided so that subclasses
      * can override.
-     *
-     * @param app
      */
-    public void deactivate( PhetApplication app ) {
-        app.removeClockListener( this );
-        isActive = false;
+    public void deactivate() {
+        this.clockRunning = getClock().isRunning();
+        clock.pause();
+        active = false;
+    }
+
+    public void setControlPanel( ControlPanel controlPanel ) {
+        modulePanel.setControlPanel( controlPanel );
     }
 
     /**
@@ -106,7 +92,7 @@ public abstract class Module implements ClockListener {
      * @return true or false
      */
     public boolean isActive() {
-        return isActive;
+        return active;
     }
 
     public boolean moduleIsWellFormed() {
@@ -117,7 +103,7 @@ public abstract class Module implements ClockListener {
     }
 
     public String toString() {
-        return "name=" + name + ", model=" + model + ", simulationPanel=" + getSimulationPanel() + ", controlPanel=" + controlPanel + ", monitorPanel=" + monitorPanel;
+        return "name=" + name + ", model=" + model + ", simulationPanel=" + getSimulationPanel();
     }
 
     /**
@@ -136,11 +122,13 @@ public abstract class Module implements ClockListener {
      */
     public void setHelpEnabled( boolean h ) {
         helpEnabled = h;
-        if( controlPanel instanceof ControlPanel ) {
-            // If our control panel is a Phet control panel, then change the
-            // state of its Help button.
-            ( (ControlPanel)controlPanel ).setHelpEnabled( h );
-        }
+        // If our control panel is a Phet control panel, then change the
+        // state of its Help button.
+        getControlPanel().setHelpEnabled( h );
+    }
+
+    public ControlPanel getControlPanel() {
+        return modulePanel.getControlPanel();
     }
 
     public boolean isHelpEnabled() {
@@ -227,5 +215,10 @@ public abstract class Module implements ClockListener {
     }
 
     public void clockReset( ClockEvent clockEvent ) {
+    }
+
+
+    public void setMonitorPanel( JPanel monitorPanel ) {
+        modulePanel.setMonitorPanel( monitorPanel );
     }
 }

@@ -86,7 +86,7 @@ public class Arrow {
         if( tailLocation.equals( tipLocation ) ) {
             return;
         }
-        
+
         AbstractVector2D.Double tailPt = new ImmutableVector2D.Double( tailLocation );
         AbstractVector2D.Double tipPt = new ImmutableVector2D.Double( tipLocation );
         direction = tipPt.getSubtractedInstance( tailPt ).getNormalizedInstance();

@@ -56,7 +56,7 @@ public class PhetGraphicsModule extends Module {
         this( name, null );
     }
 
-    protected void init( ApparatusPanel apparatusPanel, JPanel controlPanel, JPanel monitorPanel, BaseModel baseModel ) {
+    protected void init( ApparatusPanel apparatusPanel, ControlPanel controlPanel, JPanel monitorPanel, BaseModel baseModel ) {
         setApparatusPanel( apparatusPanel );
         setControlPanel( controlPanel );
         setMonitorPanel( monitorPanel );
@@ -106,8 +106,8 @@ public class PhetGraphicsModule extends Module {
      */
     public void addHelpItem( PhetGraphic helpItem ) {
         helpManager.addGraphic( helpItem );
-        if( controlPanel != null && controlPanel instanceof ControlPanel ) {
-            ( (ControlPanel)controlPanel ).setHelpPanelEnabled( true );
+        if( getControlPanel() != null && getControlPanel() instanceof ControlPanel ) {
+            ( (ControlPanel)getControlPanel() ).setHelpPanelEnabled( true );
         }
     }
 
@@ -118,8 +118,9 @@ public class PhetGraphicsModule extends Module {
      */
     public void removeHelpItem( PhetGraphic helpItem ) {
         helpManager.removeGraphic( helpItem );
-        if( controlPanel != null && controlPanel instanceof ControlPanel && helpManager.getNumHelpItems() == 0 ) {
-            ( (ControlPanel)controlPanel ).setHelpPanelEnabled( false );
+        if( getControlPanel() != null && getControlPanel()instanceof ControlPanel && helpManager.getNumHelpItems() == 0 )
+        {
+            ( (ControlPanel)getControlPanel() ).setHelpPanelEnabled( false );
         }
     }
 
@@ -224,4 +225,5 @@ public class PhetGraphicsModule extends Module {
             apparatusPanel.setReferenceSize();
         }
     }
+
 }

@@ -168,6 +168,7 @@ public interface AbstractVector2D {
 
         /**
          * Returns the angle of the vector. The angle will be between -pi and pi.
+         *
          * @return
          */
         public double getAngle() {

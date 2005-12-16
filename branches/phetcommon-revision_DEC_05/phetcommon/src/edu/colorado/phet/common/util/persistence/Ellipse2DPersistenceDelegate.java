@@ -28,8 +28,8 @@ public class Ellipse2DPersistenceDelegate extends DefaultPersistenceDelegate {
         out.writeStatement( new Statement( oldInstance,
                                            "setFrame",
                                            new Object[]{new Double( ellipse.getX() ),
-                                                        new Double( ellipse.getY() ),
-                                                        new Double( ellipse.getWidth() ),
-                                                        new Double( ellipse.getHeight() )} ) );
+                                                   new Double( ellipse.getY() ),
+                                                   new Double( ellipse.getWidth() ),
+                                                   new Double( ellipse.getHeight() )} ) );
     }
 }

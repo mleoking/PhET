@@ -14,7 +14,7 @@ import java.awt.*;
 
 /**
  * Convenience class for common rendering options.
- * 
+ *
  * @author ?
  * @version $Revision$
  */

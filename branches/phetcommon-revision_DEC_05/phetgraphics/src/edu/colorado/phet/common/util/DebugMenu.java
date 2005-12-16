@@ -170,7 +170,7 @@ public class DebugMenu extends JMenu {
                 }
             } );
 
-            startRecording( app.getClock(), textArea );
+            startRecording( app.getActiveModule().getClock(), textArea );
         }
 
         void startRecording( IClock clock, final JTextArea textArea ) {

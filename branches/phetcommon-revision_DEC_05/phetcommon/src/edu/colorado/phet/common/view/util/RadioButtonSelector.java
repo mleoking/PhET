@@ -16,19 +16,20 @@ import java.util.Enumeration;
 
 /**
  * RadioButtonSelector
- * <p>
+ * <p/>
  * Returns a reference to the JRadioButton or JRadioButtonMenuItem in a ButtonGroup
- * that is currently selected. This is useful for 
+ * that is currently selected. This is useful for
  */
 public class RadioButtonSelector {
 
     // This method returns the selected radio button in a button group
-    public static JRadioButton getSelection(ButtonGroup group) {
-        for (Enumeration e=group.getElements(); e.hasMoreElements(); ) {
+    public static JRadioButton getSelection( ButtonGroup group ) {
+        for( Enumeration e = group.getElements(); e.hasMoreElements(); ) {
             JRadioButton b = (JRadioButton)e.nextElement();
-            if (b.getModel() == group.getSelection()) {
+            if( b.getModel() == group.getSelection() ) {
                 return b;
             }
         }
         return null;
-    }}
+    }
+}

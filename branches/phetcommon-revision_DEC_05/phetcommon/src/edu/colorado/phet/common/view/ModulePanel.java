@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.common.view;
 
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 
@@ -28,7 +27,7 @@ import java.io.IOException;
  * @author ?
  * @version $Revision$
  */
-public class ContentPanel extends JPanel {
+public class ModulePanel extends JPanel {
 
     private static Image phetLogo;
 
@@ -42,7 +41,7 @@ public class ContentPanel extends JPanel {
     }
 
     private JComponent apparatusPanel;
-    private JComponent controlPanel;
+    private ControlPanel controlPanel;
     private JComponent monitorPanel;
     private JComponent clockControlPanel;
     private JDialog buttonDlg;
@@ -69,13 +68,13 @@ public class ContentPanel extends JPanel {
 
 
     /**
-     * @param apparatusPanelContainer
+     * @param simulationPanel
      * @param controlPanel
      * @param monitorPanel
      * @param appControl
      */
-    public ContentPanel( JComponent apparatusPanelContainer, JComponent controlPanel,
-                         JComponent monitorPanel, JComponent appControl ) {
+    public ModulePanel( JComponent simulationPanel, JComponent controlPanel,
+                        JComponent monitorPanel, JComponent appControl ) {
         setLayout( new GridBagLayout() );
 
         // Use this code to put the apparatus panel and control panel in split panes
@@ -83,7 +82,7 @@ public class ContentPanel extends JPanel {
 //        add( appCtrlPane, appCtrlGbc );
 //        appCtrlPane.setResizeWeight( 1 );
 
-        setApparatusPanelContainer( apparatusPanelContainer );
+        setSimulationPanel( simulationPanel );
         setMonitorPanel( monitorPanel );
         setAppControlPanel( appControl );
         addComponentListener( new ComponentAdapter() {
@@ -114,21 +113,11 @@ public class ContentPanel extends JPanel {
         repaint();
     }
 
-    /**
-     * @param clockControlPanel
-     */
-    public ContentPanel( PhetApplication application, JComponent clockControlPanel ) {
-        setLayout( new GridBagLayout() );
-        JComponent apparatusPanelContainer = createApparatusPanelContainer( application );
-        setApparatusPanelContainer( apparatusPanelContainer );
-        setAppControlPanel( clockControlPanel );
-    }
-
     public JComponent getApparatusPanelContainer() {
         return apparatusPanel;
     }
 
-    public void setControlPanel( JComponent panel ) {
+    public void setControlPanel( ControlPanel panel ) {
 //        if( panel != null ) {
 //            appCtrlPane.setRightComponent( panel );
 //        }
@@ -147,7 +136,7 @@ public class ContentPanel extends JPanel {
         setPanel( panel, monitorPanelGbc );
     }
 
-    public void setApparatusPanelContainer( JComponent panel ) {
+    public void setSimulationPanel( JComponent panel ) {
         if( apparatusPanel != null ) {
             remove( apparatusPanel );
         }
@@ -233,26 +222,7 @@ public class ContentPanel extends JPanel {
         return fullScreen;
     }
 
-    /**
-     * This method is used in the older mechanism for application startup that used a public ApplicationModel
-     *
-     * @param application
-     * @return
-     * @deprecated
-     */
-    private JComponent createApparatusPanelContainer( PhetApplication application ) {
-        if( application.numModules() == 1 ) {
-            JPanel apparatusPanelContainer = new JPanel();
-            apparatusPanelContainer.setLayout( new GridLayout( 1, 1 ) );
-            if( application.moduleAt( 0 ).getSimulationPanel() == null ) {
-                throw new RuntimeException( "Null Simulation Panel in Module: " + application.moduleAt( 0 ).getName() );
-            }
-            apparatusPanelContainer.add( application.moduleAt( 0 ).getSimulationPanel() );
-            return apparatusPanelContainer;
-        }
-        else {
-            JComponent apparatusPanelContainer = new TabbedApparatusPanelContainer( application );
-            return apparatusPanelContainer;
-        }
+    public ControlPanel getControlPanel() {
+        return controlPanel;
     }
 }

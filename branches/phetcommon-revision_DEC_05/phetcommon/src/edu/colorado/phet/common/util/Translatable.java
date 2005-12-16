@@ -10,12 +10,11 @@
  */
 package edu.colorado.phet.common.util;
 
-import edu.colorado.phet.common.math.AbstractVector2D;
-
 /**
  * Translatable
- * <p>
+ * <p/>
  * An interface provided primarilly so controllers can move model elements
+ *
  * @author Ron LeMaster
  * @version $Revision$
  */
