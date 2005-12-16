@@ -26,7 +26,7 @@ public abstract class Clock implements AbstractClock {
     private double simulationTime = 0.0;
     private long lastWallTime = 0;
     private long wallTime = 0;
-    private double tickOnceTimeChange;
+    private double tickOnceTimeChange;//only used when someone calls tickOnce()
 
     public Clock( TimeConverter timeConverter, double tickOnceTimeChange ) {
         this.timeConverter = timeConverter;
