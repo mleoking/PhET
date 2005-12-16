@@ -101,7 +101,7 @@ public class Crystal extends Body implements Binder {
 
     /**
      * @param model
-     * @param lattice
+     * @param lattice   Prototype lattice. A clone is created for this crystal
      */
     public Crystal( SolubleSaltsModel model, Lattice lattice ) {
         this( model, lattice, new ArrayList() );
@@ -110,14 +110,14 @@ public class Crystal extends Body implements Binder {
     /**
      *
      * @param model
-     * @param lattice
+     * @param lattice   Prototype lattice. A clone is created for this crystal
      * @param ions
      */
     public Crystal( SolubleSaltsModel model, Lattice lattice, List ions ) {
-        this.lattice = lattice;
+        this.lattice = (Lattice)lattice.clone();
 
         // Open up the bounds to include the whole model so we can make lattice
-        lattice.setBounds( model.getBounds() );
+        this.lattice.setBounds( model.getBounds() );
         for( int i = 0; i < ions.size(); i++ ) {
             Ion ion = (Ion)ions.get( i );
             addIon( ion );
@@ -196,6 +196,7 @@ public class Crystal extends Body implements Binder {
                 // dissolves before another ion attaches.
                 orientation = ion.getVelocity().getAngle();
                 placeToPutIon = ion.getPosition();
+                setPosition( placeToPutIon );
                 break;
             case 1:
                 orientation = Math.atan2( ion.getPosition().getY() - lattice.getSeed().getPosition().getY(),

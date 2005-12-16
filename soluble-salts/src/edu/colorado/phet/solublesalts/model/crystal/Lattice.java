@@ -186,6 +186,11 @@ public abstract class Lattice {
      */
     abstract protected List getNeighboringSites( Ion ion, double orientation );
 
+    /**
+     * All concrete subclasses are required to implement clone() 
+     * @return
+     */
+    abstract public Object clone();
 
     //----------------------------------------------------------------
     // Getters and setters

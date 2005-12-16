@@ -39,6 +39,10 @@ public class TwoToOneLattice extends Lattice {
         this.spacing = spacing;
     }
 
+    public Object clone() {
+        return new TwoToOneLattice( oneIonClass, twoIonClass, spacing );
+    }
+
     protected List getNeighboringSites( Ion ion, double orientation ) {
         List sites = new ArrayList();
         Point2D p = ion.getPosition();

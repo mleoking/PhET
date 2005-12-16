@@ -15,6 +15,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
+import edu.colorado.phet.solublesalts.model.crystal.Lattice;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.model.ion.IonFactory;
 import edu.colorado.phet.solublesalts.model.salt.Salt;
@@ -109,7 +110,7 @@ public class Shaker extends Particle {
             }
 
             // Create the crystal
-            crystal = new Crystal( model, currentSalt.getLattice(), ions );
+            crystal = new Crystal( model, (Lattice)currentSalt.getLattice(), ions );
             crystal.setVelocity( v );
         }
     }
