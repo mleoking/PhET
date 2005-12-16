@@ -63,7 +63,7 @@
     </target>
 
     <target name="Clean"
-        description="clean up">
+            description="clean up">
         <delete dir="${ant.classes}"/>
         <delete dir="${ant.jars}"/>
         <delete dir="${ant.javadoc}"/>
@@ -71,7 +71,7 @@
     </target>
 
     <target name="Compile" depends="init, Clean"
-        description="compile the source ">
+            description="compile the source ">
         <delete dir="${ant.classes}"/>
         <mkdir dir="${ant.classes}"/>
         <!--     To compile, put all the dependency jars where you need them.  Then you can build.   -->
@@ -89,7 +89,7 @@
     </target>
 
     <target name="Generate Jar" depends="Compile"
-        description="generate the distribution">
+            description="generate the distribution">
         <!-- Create the distribution directory -->
         <delete dir="${ant.jars}"/>
         <mkdir dir="${ant.jars}"/>
@@ -116,7 +116,7 @@
 
 
     <target name="Publish Executables" depends="Generate Jar"
-        description="generate executables, jar files, lib files, a batchfile">
+            description="generate executables, jar files, lib files, a batchfile">
         <mkdir dir="${releases}"/>
         <property file="${build.number.txt}"/>
         <property name="destdir" value="${releases}\${distname}${version}_exec-build-${build.number}"/>
