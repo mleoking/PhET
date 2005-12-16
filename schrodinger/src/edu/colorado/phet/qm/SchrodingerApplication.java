@@ -5,7 +5,6 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.model.clock.TimeConverter;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.qm.modules.intensity.IntensityModule;
@@ -44,7 +43,8 @@ public class SchrodingerApplication extends PhetApplication {
     }
 
     private static AbstractClock createClock() {
-        return new SwingTimerClock( 30, new TimeConverter.Constant( 1.0 ), 1.0 );
+//        return new SwingTimerClock( 30, new TimeConverter.Constant( 1.0 ), 1.0 );
+        return new SwingTimerClock( 1.0, 30, true );
     }
 
     private static FrameSetup createFrameSetup() {
