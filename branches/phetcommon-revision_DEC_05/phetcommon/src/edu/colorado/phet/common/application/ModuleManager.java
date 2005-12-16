@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.common.application;
 
-import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.util.persistence.*;
 
 import javax.swing.*;
@@ -34,10 +33,9 @@ public class ModuleManager {
 
     private ArrayList modules = new ArrayList();
     private Module activeModule;
-    private EventChannel moduleObserversChannel = new EventChannel( ModuleObserver.class );
-    private ModuleObserver moduleObserverProxy = (ModuleObserver)moduleObserversChannel.getListenerProxy();
     private PhetApplication phetApplication;
     private ArrayList transientPropertySourceClasses = new ArrayList();
+    private ArrayList moduleObservers = new ArrayList();
 
     public ModuleManager() {
     }
@@ -77,7 +75,14 @@ public class ModuleManager {
         if( isActive ) {
             setActiveModule( module );
         }
-        moduleObserverProxy.moduleAdded( new ModuleEvent( this, module ) );
+        notifyModuleAdded( new ModuleEvent( this, module ) );
+    }
+
+    private void notifyModuleAdded( ModuleEvent event ) {
+        for( int i = 0; i < moduleObservers.size(); i++ ) {
+            ModuleObserver moduleObserver = (ModuleObserver)moduleObservers.get( i );
+            moduleObserver.moduleAdded( event );
+        }
     }
 
     public void removeModule( Module module ) {
@@ -85,11 +90,18 @@ public class ModuleManager {
 
         // If the module we are removing is the active module, we need to
         // set another one active
-        if( getActiveModule() == module ) {
+        if( getActiveModule() == module && numModules() > 0 ) {
             setActiveModule( (Module)modules.get( 0 ) );
         }
         // Notifiy listeners
-        moduleObserverProxy.moduleRemoved( new ModuleEvent( this, module ) );
+        notifyModuleRemoved( new ModuleEvent( this, module ) );
+    }
+
+    private void notifyModuleRemoved( ModuleEvent event ) {
+        for( int i = 0; i < moduleObservers.size(); i++ ) {
+            ModuleObserver moduleObserver = (ModuleObserver)moduleObservers.get( i );
+            moduleObserver.moduleRemoved( event );
+        }
     }
 
     public void setActiveModule( int i ) {
@@ -105,7 +117,14 @@ public class ModuleManager {
     private void forceSetActiveModule( Module module ) {
         deactivateCurrentModule();
         activate( module );
-        moduleObserverProxy.activeModuleChanged( new ModuleEvent( this, module ) );
+        notifyActiveModuleChanged( new ModuleEvent( this, module ) );
+    }
+
+    private void notifyActiveModuleChanged( ModuleEvent event ) {
+        for( int i = 0; i < moduleObservers.size(); i++ ) {
+            ModuleObserver moduleObserver = (ModuleObserver)moduleObservers.get( i );
+            moduleObserver.activeModuleChanged( event );
+        }
     }
 
     private void activate( Module module ) {
@@ -121,7 +140,7 @@ public class ModuleManager {
     }
 
     public void addModuleObserver( ModuleObserver observer ) {
-        moduleObserversChannel.addListener( observer );
+        moduleObservers.add( observer );
     }
 
     public int indexOf( Module m ) {
@@ -287,17 +306,4 @@ public class ModuleManager {
         getActiveModule().activate();
     }
 
-    /**
-     * File filter for *.pst files
-     */
-    private class PstFilter extends javax.swing.filechooser.FileFilter {
-        public boolean accept( File file ) {
-            String filename = file.getName();
-            return filename.endsWith( ".pst" ) || file.isDirectory();
-        }
-
-        public String getDescription() {
-            return "*.pst";
-        }
-    }
 }

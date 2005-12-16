@@ -36,8 +36,10 @@ public class TabbedApparatusPanelContainer extends JTabbedPane implements Module
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 int selectedIdx = getSelectedIndex();
-                current = application.moduleAt( selectedIdx );
-                application.setActiveModule( selectedIdx );
+                if( selectedIdx >= 0 ) {
+                    current = application.moduleAt( selectedIdx );
+                    application.setActiveModule( selectedIdx );
+                }
             }
         } );
         application.addModuleObserver( this );
