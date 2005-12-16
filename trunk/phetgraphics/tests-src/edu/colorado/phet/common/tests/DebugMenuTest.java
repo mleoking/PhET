@@ -28,7 +28,7 @@ import java.awt.*;
 public class DebugMenuTest {
 
     public static void main( String[] args ) {
-        SwingTimerClock clock = new SwingTimerClock( 1, 25 );
+        SwingTimerClock clock = new SwingTimerClock( 1, 25, AbstractClock.FRAMES_PER_SECOND );
         ApplicationModel am = new ApplicationModel( "Debug Test", "", "" );
         am.setClock( clock );
         DebugMenuTestModule debugMenuTestModule = new DebugMenuTestModule( am.getClock() );

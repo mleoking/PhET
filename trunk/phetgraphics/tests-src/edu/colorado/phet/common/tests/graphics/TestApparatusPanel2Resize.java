@@ -62,7 +62,7 @@ public class TestApparatusPanel2Resize {
 
 
         phetShapeGraphic.setCursorHand();
-        clock.addClockListener( model );
+        clock.addClockTickListener( model );
         clock.start();
     }
 }
