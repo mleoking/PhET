@@ -14,6 +14,7 @@ import edu.colorado.phet.solublesalts.model.ion.Sodium;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.model.ion.Chlorine;
 import edu.colorado.phet.solublesalts.model.ion.*;
+import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -99,7 +100,7 @@ public class TwoToOneLattice extends Lattice {
         s1.setPosition( 0, 0 );
         TwoToOneLattice l = new TwoToOneLattice( Chlorine.class, Sodium.class, Sodium.RADIUS + Chlorine.RADIUS );
         Rectangle2D r = new Rectangle2D.Double( -1000, -1000, 2000, 2000 );
-        Crystal c = new Crystal( r, l );
+        Crystal c = new Crystal( new SolubleSaltsModel(), l );
         c.addIon( s1 );
         {
             Chlorine ion = new Chlorine();
