@@ -192,6 +192,9 @@ public class Crystal extends Body implements Binder {
         switch( getIons().size() ) {
             case 0:
                 lattice.setSeed( ion );
+                // Give the crystal an orientation that will allow the seed ion to move if the crystal
+                // dissolves before another ion attaches.
+                orientation = ion.getVelocity().getAngle();
                 placeToPutIon = ion.getPosition();
                 break;
             case 1:
