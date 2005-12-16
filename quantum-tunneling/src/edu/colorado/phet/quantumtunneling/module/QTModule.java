@@ -15,6 +15,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JButton;
 
@@ -43,7 +45,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class QTModule extends AbstractModule {
+public class QTModule extends AbstractModule implements Observer {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -69,6 +71,7 @@ public class QTModule extends AbstractModule {
     //----------------------------------------------------------------------------
     
     // Model
+    private QTClock _clock;
     private TotalEnergy _totalEnergy;
     private AbstractPotential _potentialEnergy;
     private PlaneWave _planeWave;
@@ -103,6 +106,8 @@ public class QTModule extends AbstractModule {
         //----------------------------------------------------------------------------
         // Model
         //----------------------------------------------------------------------------
+        
+        _clock = clock;
         
         // Module model
         BaseModel model = new BaseModel();
@@ -257,8 +262,8 @@ public class QTModule extends AbstractModule {
         
         // Model
         {
-            _totalEnergy = new TotalEnergy( DEFAULT_TOTAL_ENERGY );
-            setTotalEnergy( _totalEnergy );
+            TotalEnergy totalEnergy = new TotalEnergy( DEFAULT_TOTAL_ENERGY );
+            setTotalEnergy( totalEnergy );
             // potential energy is set by the control panel's reset method
         }
         
@@ -338,7 +343,15 @@ public class QTModule extends AbstractModule {
     //----------------------------------------------------------------------------
     
     public void setPotentialEnergy( AbstractPotential potentialEnergy ) {
+        
+        if ( _potentialEnergy != null ) {
+            _potentialEnergy.deleteObserver( this );
+        }
         _potentialEnergy = potentialEnergy;
+        _potentialEnergy.addObserver( this );
+        
+        restartClock();
+        
         _chart.setPotentialEnergy( _potentialEnergy );
         if ( _controlPanel != null ) {
             _controlPanel.setPotentialEnergy( _potentialEnergy );
@@ -349,7 +362,15 @@ public class QTModule extends AbstractModule {
     }
     
     public void setTotalEnergy( TotalEnergy totalEnergy ) {
+        
+        if ( _totalEnergy != null ) {
+            _totalEnergy.deleteObserver( this );
+        }
         _totalEnergy = totalEnergy;
+        _totalEnergy.addObserver( this );
+        
+        restartClock();
+
         _chart.setTotalEnergy( _totalEnergy );
         _totalEnergyControl.setTotalEnergy( _totalEnergy );
         _planeWave.setTotalEnergy( _totalEnergy );
@@ -366,6 +387,7 @@ public class QTModule extends AbstractModule {
     }
     
     public void setWaveType( WaveType waveType ) {
+        restartClock();
         _chart.getEnergyPlot().setWaveType( waveType );
         if ( waveType == WaveType.PLANE ) {
             _planeWave.setEnabled( true );
@@ -396,6 +418,7 @@ public class QTModule extends AbstractModule {
     }
     
     public void setDirection( Direction direction ) {
+        restartClock();
         _planeWave.setDirection( direction );
         _wavePacket.setDirection( direction );
     }
@@ -405,14 +428,34 @@ public class QTModule extends AbstractModule {
     }
     
     public void setWavePacketWidth( double width ) {
+        restartClock();
         _wavePacket.setWidth( width );
     }
     
     public void setWavePacketCenter( double center ) {
+        restartClock();
         _wavePacket.setCenter( center );
     }
     
     public void measure() {
         //XXX
     }
+    
+    private void restartClock() {
+        _clock.resetRunningTime();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Restarts the clock when energies change.
+     */
+    public void update( Observable o, Object arg ) {
+        if ( o == _potentialEnergy || o == _totalEnergy ) {
+            restartClock();
+        }     
+    }
+
 }

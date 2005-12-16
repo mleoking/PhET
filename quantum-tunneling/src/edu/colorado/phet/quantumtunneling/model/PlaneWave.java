@@ -47,7 +47,7 @@ public class PlaneWave extends AbstractWave implements ModelElement, Observer, Q
     
     public PlaneWave( QTClock clock ) {
         _clock = clock;
-        _clock.addChangeListener( this );
+        _clock.addQTClockChangeListener( this );
         _te = null;
         _pe = null;
         _solver = null;
@@ -56,7 +56,7 @@ public class PlaneWave extends AbstractWave implements ModelElement, Observer, Q
     }
     
     public void cleanup() {
-        _clock.removeChangeListener( this );
+        _clock.removeQTClockChangeListener( this );
         _clock = null;
         if ( _te != null ) {
             _te.deleteObserver( this );

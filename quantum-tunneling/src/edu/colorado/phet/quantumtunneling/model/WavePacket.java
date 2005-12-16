@@ -50,7 +50,7 @@ public class WavePacket extends AbstractWave implements ModelElement, Observer, 
     public WavePacket( QTClock clock ) {
         super();
         _clock = clock;
-        _clock.addChangeListener( this );
+        _clock.addQTClockChangeListener( this );
         _te = null;
         _pe = null;
         _direction = Direction.LEFT_TO_RIGHT;
@@ -60,7 +60,7 @@ public class WavePacket extends AbstractWave implements ModelElement, Observer, 
     }
     
     public void cleanup() {
-        _clock.removeChangeListener( this );
+        _clock.removeQTClockChangeListener( this );
         _clock = null;
         if ( _te != null ) {
             _te.deleteObserver( this );
