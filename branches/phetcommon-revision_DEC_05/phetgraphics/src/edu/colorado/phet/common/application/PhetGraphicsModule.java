@@ -13,8 +13,8 @@ package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
@@ -43,7 +43,7 @@ public class PhetGraphicsModule extends Module {
      * @param name
      * @param clock
      */
-    protected PhetGraphicsModule( String name, AbstractClock clock ) {
+    protected PhetGraphicsModule( String name, IClock clock ) {
         super( name, clock );
         helpManager = new HelpManager();
     }
@@ -179,7 +179,7 @@ public class PhetGraphicsModule extends Module {
 //        getApparatusPanel().repaint();
 //    }
 
-    public void updateGraphics( ClockTickEvent event ) {
+    public void updateGraphics( ClockEvent event ) {
         super.updateGraphics( event );
         PhetJComponent.getRepaintManager().updateGraphics();
     }

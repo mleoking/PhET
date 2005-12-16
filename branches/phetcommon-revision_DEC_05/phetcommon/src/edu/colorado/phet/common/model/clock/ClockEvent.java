@@ -18,13 +18,13 @@ package edu.colorado.phet.common.model.clock;
  */
 
 public class ClockEvent {
-    private AbstractClock clock;
+    private IClock clock;
 
-    public ClockEvent( AbstractClock clock ) {
+    public ClockEvent( IClock clock ) {
         this.clock = clock;
     }
 
-    public AbstractClock getClock() {
+    public IClock getClock() {
         return clock;
     }
 

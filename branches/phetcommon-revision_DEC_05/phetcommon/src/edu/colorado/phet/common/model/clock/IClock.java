@@ -16,7 +16,7 @@ package edu.colorado.phet.common.model.clock;
  * Time: 1:28:36 PM
  * Copyright (c) Dec 15, 2005 by Sam Reid
  */
-public interface AbstractClock {
+public interface IClock {
     void start();
 
     void pause();
@@ -45,28 +45,5 @@ public interface AbstractClock {
 
     void setDelay( int delay );
 
-    /**
-     * @deprecated use pause() and start()
-     */
-    void setPaused( boolean b );
-
-    /**
-     * @deprecated
-     */
-    void addClockTickListener( ClockTickListener clockListener );
-
-    /**
-     * @deprecated
-     */
-    double getDt();
-
-    /**
-     * @deprecated
-     */
-    double getDelay();
-
-    /**
-     * @deprecated
-     */
-    double getRunningTime();
+    int getDelay();
 }

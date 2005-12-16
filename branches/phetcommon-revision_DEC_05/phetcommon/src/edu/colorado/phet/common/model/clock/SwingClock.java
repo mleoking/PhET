@@ -21,24 +21,14 @@ import java.awt.event.ActionListener;
  * Copyright (c) Dec 15, 2005 by Sam Reid
  */
 
-public class SwingTimerClock extends Clock {
+public class SwingClock extends Clock {
     private Timer timer;
 
-    /**
-     * @deprecated
-     */
-    public SwingTimerClock( double timeStep, int delay ) {
-        this( timeStep, delay, true );
+    public SwingClock( int delay, double constantTimeChange ) {
+        this( delay, new TimeConverter.Constant( constantTimeChange ), constantTimeChange );
     }
 
-    /**
-     * @deprecated
-     */
-    public SwingTimerClock( double timeStep, int delay, boolean isFixed ) {
-        this( delay, new TimeConverter.Constant( timeStep ), timeStep );
-    }
-
-    public SwingTimerClock( int delay, TimeConverter timeConverter, double tickOnceTimeChange ) {
+    public SwingClock( int delay, TimeConverter timeConverter, double tickOnceTimeChange ) {
         super( timeConverter, tickOnceTimeChange );
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -49,7 +39,6 @@ public class SwingTimerClock extends Clock {
         };
         timer = new Timer( delay, actionListener );
     }
-
 
     public void start() {
         timer.start();
@@ -73,7 +62,7 @@ public class SwingTimerClock extends Clock {
         timer.setDelay( delay );
     }
 
-    public double getDelay() {
+    public int getDelay() {
         return timer.getDelay();
     }
 

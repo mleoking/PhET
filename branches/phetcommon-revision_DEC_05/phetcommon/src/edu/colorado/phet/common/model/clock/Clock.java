@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * Copyright (c) Dec 15, 2005 by Sam Reid
  */
 
-public abstract class Clock implements AbstractClock {
+public abstract class Clock implements IClock {
     private ArrayList listeners = new ArrayList();
     private TimeConverter timeConverter;
     private double lastSimulationTime = 0.0;
@@ -155,37 +155,4 @@ public abstract class Clock implements AbstractClock {
         this.tickOnceTimeChange = tickOnceTimeChange;
     }
 
-    /**
-     * @deprecated
-     */
-    public void setPaused( boolean b ) {
-        if( b ) {
-            pause();
-        }
-        else {
-            start();
-        }
-    }
-
-    /**
-     * @deprecated
-     */
-    public void addClockTickListener( final ClockTickListener clockListener ) {
-        addClockListener( new ClockAdapter() {
-            public void clockTicked( ClockEvent clockEvent ) {
-                clockListener.clockTicked( new ClockTickEvent( Clock.this ) );
-            }
-        } );
-    }
-
-    /**
-     * @deprecated
-     */
-    public double getDt() {
-        return tickOnceTimeChange;
-    }
-
-    public double getRunningTime() {
-        return getSimulationTime();
-    }
 }

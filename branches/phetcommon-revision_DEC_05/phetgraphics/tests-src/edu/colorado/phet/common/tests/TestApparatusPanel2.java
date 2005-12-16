@@ -4,8 +4,8 @@ import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
@@ -34,7 +34,7 @@ public class TestApparatusPanel2 {
     static class TestAppModel extends ApplicationModel {
         public TestAppModel() {
             super( "", "", "" );
-            this.setClock( new SwingTimerClock( 10, 40, true ) );
+            this.setClock( new SwingClock( 30, 10.0 ) );
             TestModule module = new TestModule( this, getClock() );
             setModule( module );
             setFrameCenteredSize( 400, 300 );
@@ -44,7 +44,7 @@ public class TestApparatusPanel2 {
 
     static class TestModule extends PhetGraphicsModule {
 
-        protected TestModule( TestAppModel model, AbstractClock clock ) {
+        protected TestModule( TestAppModel model, IClock clock ) {
             super( "ApparatusPanel2 Test", clock );
 
 //            BaseModel model = new BaseModel();
