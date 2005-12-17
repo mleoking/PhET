@@ -73,7 +73,7 @@ public abstract class Clock implements IClock {
         lastWallTime = wallTime;
         wallTime = System.currentTimeMillis();
 
-        setSimulationTimeNoUpdate( simulationTime + timeConverter.getSimulationTimeChange( this ) );
+        setSimulationTimeNoUpdate( simulationTime + timeConverter.getSimulationTimeChange( lastWallTime, wallTime ) );
 
         notifyClockTicked();
         testNotifySimulationTimeChange();
