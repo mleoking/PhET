@@ -100,17 +100,4 @@ public interface IClock {
      */
     void tickOnce();
 
-    /**
-     * Set the requested delay between clock ticks in wall time.
-     *
-     * @param delay
-     */
-    void setDelay( int delay );
-
-    /**
-     * Get the requested delay between clock ticks in wall time.
-     *
-     * @return the requested delay between clock ticks in wall time.
-     */
-    int getDelay();
 }
