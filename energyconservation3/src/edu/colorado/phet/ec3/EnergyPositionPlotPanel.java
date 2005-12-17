@@ -225,6 +225,8 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
     }
 
     public Point2D toImageLocation( double x, double y ) {
+        info.getPlotArea();
+        System.err.println( "Working here..?" );
         Rectangle2D dataArea = info.getPlotInfo().getDataArea();
         if( dataArea == null ) {
             throw new RuntimeException( "Null data area" );
