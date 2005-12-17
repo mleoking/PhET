@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.controls;
 
-import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.qm.modules.intensity.IntensityModule;
 import edu.colorado.phet.qm.modules.intensity.IntensityPanel;
 

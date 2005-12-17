@@ -2,7 +2,7 @@
 package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.math.Function;
-import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 
 import javax.swing.*;

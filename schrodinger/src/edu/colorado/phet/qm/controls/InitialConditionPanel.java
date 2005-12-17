@@ -2,8 +2,8 @@
 package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.view.components.ModelSlider;
-import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.WaveSetup;
 import edu.colorado.phet.qm.model.Wavefunction;

@@ -2,8 +2,8 @@
 package edu.colorado.phet.qm.modules.single;
 
 import edu.colorado.phet.common.view.AdvancedPanel;
-import edu.colorado.phet.common.view.components.ModelSlider;
-import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.qm.controls.DetectorPanel;
 import edu.colorado.phet.qm.controls.InverseSlitsCheckbox;
 import edu.colorado.phet.qm.controls.SchrodingerControlPanel;

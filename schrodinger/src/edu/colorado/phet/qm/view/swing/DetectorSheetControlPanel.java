@@ -1,9 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view.swing;
 
-import edu.colorado.phet.common.view.components.HorizontalLayoutPanel;
-import edu.colorado.phet.common.view.components.ModelSlider;
-import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.common.view.HorizontalLayoutPanel;
+import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.qm.modules.intensity.IntensityPanel;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.DetectorSheetPNode;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.SavedScreenGraphic;

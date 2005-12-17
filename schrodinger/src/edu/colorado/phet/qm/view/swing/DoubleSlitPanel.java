@@ -4,7 +4,7 @@ package edu.colorado.phet.qm.view.swing;
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.controls.ResolutionControl;
 import edu.colorado.phet.qm.controls.SlitDetectorPanel;
