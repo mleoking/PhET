@@ -108,7 +108,7 @@ public abstract class AbstractPlaneSolver implements IWaveFunctionSolver {
             return _pe.getEnd( regionIndex1 );
         }
         else {
-            return _pe.getStart( _pe.getNumberOfRegions() - 1 - regionIndex1 );
+            return _pe.getStart( flipRegionIndex( regionIndex1 ) );
         }
     }
     
@@ -140,12 +140,14 @@ public abstract class AbstractPlaneSolver implements IWaveFunctionSolver {
         final double E = getTotalEnergy().getEnergy();
         final int numberOfRegions = getPotentialEnergy().getNumberOfRegions();
         for ( int i = 0; i < numberOfRegions; i++ ) {
+            double V = 0;
             if ( isLeftToRight() ) {
-                _k[i] = solveK( E, getPotentialEnergy().getEnergy( i ) );
+                V = getPotentialEnergy().getEnergy( i );
             }
             else {
-                _k[i] = solveK( E, getPotentialEnergy().getEnergy( numberOfRegions - 1 - i ) );
+                V = getPotentialEnergy().getEnergy( flipRegionIndex( i ) );
             }
+            _k[i] = solveK( E, V );
         }
     }
     
@@ -226,5 +228,10 @@ public abstract class AbstractPlaneSolver implements IWaveFunctionSolver {
         c.multiply( -1 * E * t / h );
         c.exp();
         return c;
+    }
+    
+    protected int flipRegionIndex( int regionIndex ) {
+        // OK if region index is out of bounds!
+        return getPotentialEnergy().getNumberOfRegions() - 1 - regionIndex;
     }
 }
