@@ -25,13 +25,6 @@ public class ViewMenu extends JMenu {
     public ViewMenu() {
         super( SimStrings.get( "Common.ViewMenu.Title" ) );
         this.setMnemonic( SimStrings.get( "Common.ViewMenu.TitleMnemonic" ).charAt( 0 ) );
-        //        JMenuItem menuItem = new JMenuItem( "Look and Feel" );
-        //        menuItem.setMnemonic( 'L' );
-        //        menuItem.addActionListener( new ActionListener() {
-        //            public void actionPerformed( ActionEvent e ) {
-        //                new LookAndFeelMenu.
-        //            }
-        //        } );
         JMenu subMenu = new JMenu();
         subMenu.setText( SimStrings.get( "Common.ViewMenu.LookandFeel" ) );
         subMenu.setMnemonic( SimStrings.get( "Common.ViewMenu.LookandFeelMnemonic" ).charAt( 0 ) );

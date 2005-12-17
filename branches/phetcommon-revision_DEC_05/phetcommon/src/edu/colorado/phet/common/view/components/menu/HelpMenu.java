@@ -32,16 +32,10 @@ public class HelpMenu extends JMenu implements ModuleObserver {
     private ImageIcon icon;
     private JMenuItem onscreenHelp;
 
-    public HelpMenu( PhetApplication application ) {
-        this( application, application.getTitle(),
-              application.getDescription(), application.getVersion() );
-    }
-
-    private HelpMenu( final PhetApplication moduleManager, final String title,
-                      String description, String version ) {
+    public HelpMenu( final PhetApplication phetApplication ) {
         super( SimStrings.get( "Common.HelpMenu.Title" ) );
         this.setMnemonic( SimStrings.get( "Common.HelpMenu.TitleMnemonic" ).charAt( 0 ) );
-        moduleManager.addModuleObserver( this );
+        phetApplication.addModuleObserver( this );
 
         //----------------------------------------------------------------------
         // "Help" menu item
@@ -49,10 +43,10 @@ public class HelpMenu extends JMenu implements ModuleObserver {
         onscreenHelp.setMnemonic( SimStrings.get( "Common.HelpMenu.HelpMnemonic" ).charAt( 0 ) );
         onscreenHelp.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                moduleManager.getActiveModule().setHelpEnabled( onscreenHelp.isSelected() );
+                phetApplication.getActiveModule().setHelpEnabled( onscreenHelp.isSelected() );
             }
         } );
-        onscreenHelp.setEnabled( moduleManager.getActiveModule() != null && moduleManager.getActiveModule().hasHelp() );
+        onscreenHelp.setEnabled( phetApplication.getActiveModule() != null && phetApplication.getActiveModule().hasHelp() );
         add( onscreenHelp );
 
         //----------------------------------------------------------------------
@@ -61,8 +55,8 @@ public class HelpMenu extends JMenu implements ModuleObserver {
         megaHelpItem.setMnemonic( SimStrings.get( "Common.HelpMenu.MegaHelpMnemonic" ).charAt( 0 ) );
         megaHelpItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if( moduleManager.getActiveModule().hasMegaHelp() ) {
-                    moduleManager.getActiveModule().showMegaHelp();
+                if( phetApplication.getActiveModule().hasMegaHelp() ) {
+                    phetApplication.getActiveModule().showMegaHelp();
                 }
                 else {
                     JOptionPane.showMessageDialog( PhetApplication.instance().getPhetFrame(),
@@ -70,7 +64,7 @@ public class HelpMenu extends JMenu implements ModuleObserver {
                 }
             }
         } );
-        moduleManager.addModuleObserver( new ModuleObserver() {
+        phetApplication.addModuleObserver( new ModuleObserver() {
             public void moduleAdded( ModuleEvent event ) {
             }
 
@@ -81,7 +75,7 @@ public class HelpMenu extends JMenu implements ModuleObserver {
             public void moduleRemoved( ModuleEvent event ) {
             }
         } );
-        megaHelpItem.setVisible( moduleManager.getActiveModule() != null && moduleManager.getActiveModule().hasMegaHelp() );
+        megaHelpItem.setVisible( phetApplication.getActiveModule() != null && phetApplication.getActiveModule().hasMegaHelp() );
         add( megaHelpItem );
 
         //----------------------------------------------------------------------
@@ -94,11 +88,10 @@ public class HelpMenu extends JMenu implements ModuleObserver {
 
         String javaVersion = SimStrings.get( "Common.HelpMenu.JavaVersion" ) + ": " + System.getProperty( "java.version" );
         about.setMnemonic( SimStrings.get( "Common.HelpMenu.AboutMnemonic" ).charAt( 0 ) );
-        String message = title + "\n" + description + "\n" + SimStrings.get( "Common.HelpMenu.VersionLabel" ) + ": " + version + "\n\n" + javaVersion + "\n";
-        final String msg = message;
+        final String msg = phetApplication.getTitle() + "\n" + phetApplication.getDescription() + "\n" + SimStrings.get( "Common.HelpMenu.VersionLabel" ) + ": " + phetApplication.getVersion() + "\n\n" + javaVersion + "\n";
         about.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                JOptionPane.showMessageDialog( about, msg, SimStrings.get( "Common.HelpMenu.AboutTitle" ) + " " + title, JOptionPane.INFORMATION_MESSAGE, icon );
+                JOptionPane.showMessageDialog( about, msg, SimStrings.get( "Common.HelpMenu.AboutTitle" ) + " " + phetApplication.getTitle(), JOptionPane.INFORMATION_MESSAGE, icon );
             }
         } );
         add( about );
@@ -141,8 +134,7 @@ public class HelpMenu extends JMenu implements ModuleObserver {
             return new VersionUtils.VersionInfo[0];
         }
         else {
-            VersionUtils.VersionInfo[] versionInfos = VersionUtils.readVersionInfo( title );
-            return versionInfos;
+            return VersionUtils.readVersionInfo( title );
         }
     }
 
