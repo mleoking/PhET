@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.common.view.components.clockgui;
+package edu.colorado.phet.common.view.clock;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 

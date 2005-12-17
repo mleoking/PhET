@@ -14,8 +14,8 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.ModuleEvent;
 import edu.colorado.phet.common.application.ModuleObserver;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.components.menu.HelpMenu;
-import edu.colorado.phet.common.view.components.menu.PhetFileMenu;
+import edu.colorado.phet.common.view.menu.HelpMenu;
+import edu.colorado.phet.common.view.menu.PhetFileMenu;
 import edu.colorado.phet.common.view.util.SwingUtils;
 
 import javax.swing.*;

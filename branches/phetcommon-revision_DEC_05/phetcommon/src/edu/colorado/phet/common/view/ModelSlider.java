@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.common.view.components;
+package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
 import edu.colorado.phet.common.view.util.SimStrings;

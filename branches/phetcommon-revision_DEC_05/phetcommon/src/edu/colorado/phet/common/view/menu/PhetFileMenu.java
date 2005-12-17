@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.common.view.components.menu;
+package edu.colorado.phet.common.view.menu;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 

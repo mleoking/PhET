@@ -11,7 +11,6 @@
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
