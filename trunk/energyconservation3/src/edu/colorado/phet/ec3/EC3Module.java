@@ -1,9 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3;
 
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
@@ -45,14 +44,16 @@ public class EC3Module extends PiccoloModule {
     private Point2D.Double defaultBodyPosition = new Point2D.Double( 5, 5 );
     private JDialog energyPositionPlotFrame;
     private EnergyPositionPlotPanel energyPositionPanel;
+    private PhetFrame phetFrame;
 
     /**
      * @param name
      * @param clock
      * @param phetFrame
      */
-    public EC3Module( String name, AbstractClock clock, PhetFrame phetFrame ) {
+    public EC3Module( String name, IClock clock, PhetFrame phetFrame ) {
         super( name, clock );
+        this.phetFrame = phetFrame;
 //        clock.setTimeScalingConverter();
         energyModel = new EnergyConservationModel( floorY );
         CubicSpline floorSpline = new CubicSpline( 4 );
@@ -70,7 +71,7 @@ public class EC3Module extends PiccoloModule {
         setModel( new BaseModel() );
 
         energyTimeSeriesModel = new EC3TimeSeriesModel( this );
-        clock.addClockTickListener( energyTimeSeriesModel );
+        clock.addClockListener( energyTimeSeriesModel );
 
         energyCanvas = new EC3Canvas( this );
         setPhetPCanvas( energyCanvas );
@@ -98,6 +99,7 @@ public class EC3Module extends PiccoloModule {
         energyPositionPlotFrame.setSize( 400, 400 );
 
 //        new AutoPan( energyCanvas, this );
+        getModulePanel().setClockControlPanel( timeSeriesPlaybackPanel );
     }
 
     private void setDefaults() {
@@ -109,19 +111,23 @@ public class EC3Module extends PiccoloModule {
         energyModel.stepInTime( dt );
     }
 
-    public void activate( PhetApplication app ) {
-        super.activate( app );
+    public void activate() {
+        super.activate();
         barChartFrame.setVisible( true );
         chartFrame.setVisible( true );
-        app.getPhetFrame().getBasicPhetPanel().setAppControlPanel( timeSeriesPlaybackPanel );
+//        getPhetFrame().getBasicPhetPanel().setAppControlPanel( timeSeriesPlaybackPanel );
         setDefaults();
     }
 
-    public void deactivate( PhetApplication app ) {
-        super.deactivate( app );
+    public void deactivate() {
+        super.deactivate();
         barChartFrame.setVisible( false );
         chartFrame.setVisible( false );
-        app.getPhetFrame().getBasicPhetPanel().setAppControlPanel( new JLabel( "This space for rent." ) );
+//        getPhetFrame().getBasicPhetPanel().setAppControlPanel( new JLabel( "This space for rent." ) );
+    }
+
+    private PhetFrame getPhetFrame() {
+        return phetFrame;
     }
 
     public EnergyConservationModel getEnergyConservationModel() {

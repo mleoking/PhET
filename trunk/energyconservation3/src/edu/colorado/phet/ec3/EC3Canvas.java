@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3;
 
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
@@ -57,8 +57,8 @@ public class EC3Canvas extends PhetPCanvas {
     }
 
     private void addGraphicsUpdate( EC3Module ec3Module ) {
-        ec3Module.getClock().addClockTickListener( new ClockTickListener() {
-            public void clockTicked( ClockTickEvent event ) {
+        ec3Module.getClock().addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent event ) {
                 updateWorldGraphics();
             }
         } );

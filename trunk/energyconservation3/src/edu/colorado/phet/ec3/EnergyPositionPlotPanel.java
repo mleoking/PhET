@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3;
 
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.plots.Range2D;
 import edu.colorado.phet.piccolo.PhetPCanvas;
@@ -55,8 +55,8 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
     public EnergyPositionPlotPanel( EC3Module ec3Module ) {
         super( new Dimension( 100, 100 ) );
         this.module = ec3Module;
-        ec3Module.getClock().addClockTickListener( new ClockTickListener() {
-            public void clockTicked( ClockTickEvent event ) {
+        ec3Module.getClock().addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent event ) {
                 update();
             }
         } );

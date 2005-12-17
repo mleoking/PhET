@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3;
 
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
 
@@ -35,8 +35,8 @@ public class GravitySlider extends ModelSlider {
                 module.getEnergyConservationModel().setGravity( -getValue() );
             }
         } );
-        module.getClock().addClockTickListener( new ClockTickListener() {
-            public void clockTicked( ClockTickEvent event ) {
+        module.getClock().addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent event ) {
                 double val = module.getEnergyConservationModel().getGravity();
                 setValue( -val );
             }

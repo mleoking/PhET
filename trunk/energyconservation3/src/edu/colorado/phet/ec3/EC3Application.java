@@ -3,7 +3,7 @@ package edu.colorado.phet.ec3;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
 
 import javax.swing.*;
@@ -23,17 +23,18 @@ public class EC3Application extends PhetApplication {
     public EC3Application( String[] args ) {
         super( args, "nRg Sk8r", "Energy Conservation", "0.1",
 //               new SwingTimerClock( 0.2, 30 ), true, new FrameSetup() {
-new SwingTimerClock( 0.03, 30 ), true, new FrameSetup() {
+new FrameSetup() {
 //               new SwingTimerClock( 0.2/5, 30 ), true, new FrameSetup() {
 
-            public void initialize( JFrame frame ) {
-                frame.setSize( Toolkit.getDefaultToolkit().getScreenSize().width - EC3Module.energyFrameWidth,
-                               Toolkit.getDefaultToolkit().getScreenSize().height - 100 - EC3Module.chartFrameHeight //for debug
-                );
-                frame.setLocation( 0, 0 );
-            }
-        } );
-        module = new EC3Module( "Module", getClock(), getPhetFrame() );
+    public void initialize( JFrame frame ) {
+        frame.setSize( Toolkit.getDefaultToolkit().getScreenSize().width - EC3Module.energyFrameWidth,
+                       Toolkit.getDefaultToolkit().getScreenSize().height - 100 - EC3Module.chartFrameHeight //for debug
+        );
+        frame.setLocation( 0, 0 );
+    }
+} );
+
+        module = new EC3Module( "Module", new SwingClock( 30, 0.03 ), getPhetFrame() );
         setModules( new Module[]{module} );
     }
 

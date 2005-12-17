@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3;
 
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
+import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
 
@@ -33,7 +33,7 @@ public class EC3TimeSeriesModel extends TimeSeriesModel {
         return module.getModelState();
     }
 
-    public void updateModel( ClockTickEvent clockEvent ) {
-        module.stepModel( clockEvent.getDt() );
+    public void updateModel( ClockEvent clockEvent ) {
+        module.stepModel( clockEvent.getSimulationTimeChange() );
     }
 }

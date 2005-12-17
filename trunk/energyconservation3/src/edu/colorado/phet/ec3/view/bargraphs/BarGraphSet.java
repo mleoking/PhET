@@ -2,8 +2,9 @@
 package edu.colorado.phet.ec3.view.bargraphs;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.ec3.EC3Canvas;
@@ -234,8 +235,8 @@ public class BarGraphSet extends PNode {
             final BarGraphic2D barGraphic = new BarGraphic2D( accessor.getName(), transform1D,
                                                               accessor.getValue( rampPhysicalModel ), (int)( i * sep + dw ), (int)barWidth,
                                                               (int)barChartHeight, dx, dy, accessor.getColor(), new Font( "Lucida Sans", Font.BOLD, 14 ) );
-            addClockTickListener( new ClockTickListener() {
-                public void clockTicked( ClockTickEvent event ) {
+            addClockListener( new ClockAdapter() {
+                public void clockTicked( ClockEvent event ) {
                     barGraphic.setValue( accessor.getValue( rampPhysicalModel ) );
                 }
             } );
@@ -247,7 +248,7 @@ public class BarGraphSet extends PNode {
         addMinimizeButton();
     }
 
-    protected void addClockTickListener( ClockTickListener clockTickListener ) {
-        rampPanel.getEnergyConservationModule().getClock().addClockTickListener( clockTickListener );
+    protected void addClockListener( ClockListener ClockListener ) {
+        rampPanel.getEnergyConservationModule().getClock().addClockListener( ClockListener );
     }
 }

@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.timeseries;
 
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.ClockListener;
 
 import java.util.ArrayList;
 
@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Copyright (c) Mar 24, 2005 by Sam Reid
  */
 
-public abstract class TimeSeriesModel implements ClockTickListener {
+public abstract class TimeSeriesModel implements ClockListener {
     private ArrayList listeners = new ArrayList();
     private boolean paused = false;
 
@@ -233,7 +233,7 @@ public abstract class TimeSeriesModel implements ClockTickListener {
         return mode == recordMode && !isPaused();
     }
 
-    public abstract void updateModel( ClockTickEvent clockEvent );
+    public abstract void updateModel( ClockEvent clockEvent );
 
     public abstract Object getModelState();
 
@@ -286,7 +286,7 @@ public abstract class TimeSeriesModel implements ClockTickListener {
         public void timeChanged();
     }
 
-    public void clockTicked( ClockTickEvent event ) {
+    public void clockTicked( ClockEvent event ) {
         if( mode != null ) {
             mode.clockTicked( event );
         }
@@ -294,5 +294,17 @@ public abstract class TimeSeriesModel implements ClockTickListener {
 
     public void setPlaybackMode() {
         setMode( getPlaybackMode() );
+    }
+
+    public void clockStarted( ClockEvent clockEvent ) {
+    }
+
+    public void clockPaused( ClockEvent clockEvent ) {
+    }
+
+    public void simulationTimeChanged( ClockEvent clockEvent ) {
+    }
+
+    public void simulationTimeReset( ClockEvent clockEvent ) {
     }
 }
