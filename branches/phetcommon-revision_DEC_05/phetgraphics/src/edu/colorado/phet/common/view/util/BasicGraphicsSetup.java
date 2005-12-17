@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.common.view;
+package edu.colorado.phet.common.view.util;
 
 import java.awt.*;
 

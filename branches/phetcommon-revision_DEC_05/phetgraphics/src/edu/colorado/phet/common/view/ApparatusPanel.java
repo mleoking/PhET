@@ -14,6 +14,7 @@ import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
+import edu.colorado.phet.common.view.util.GraphicsSetup;
 import edu.colorado.phet.common.view.util.GraphicsState;
 
 import javax.swing.*;
