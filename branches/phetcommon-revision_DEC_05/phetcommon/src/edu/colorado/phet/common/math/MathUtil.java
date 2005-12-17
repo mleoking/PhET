@@ -16,7 +16,7 @@ import java.awt.geom.Point2D;
 import java.util.Random;
 
 /**
- * A class of static general purpose math utilities
+ * A class of static general purpose math utilities.
  *
  * @author Ron LeMaster
  * @version $Revision$

@@ -16,7 +16,7 @@ import edu.colorado.phet.common.util.SimpleObservable;
 import java.awt.geom.Point2D;
 
 /**
- * Particle
+ * Default newtonian particle implementation (with Euler update).
  *
  * @author Ron LeMaster
  * @version $Revision$

@@ -12,7 +12,7 @@ package edu.colorado.phet.common.model;
 
 
 /**
- * ModelElement
+ * An element of the BaseModel, notified when the simulation time changes.
  *
  * @author ?
  * @version $Revision$

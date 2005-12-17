@@ -18,7 +18,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * VersionUtils
+ * Utilities for reading, storing and displaying the version of a PhetApplication.
  *
  * @author ?
  * @version $Revision$

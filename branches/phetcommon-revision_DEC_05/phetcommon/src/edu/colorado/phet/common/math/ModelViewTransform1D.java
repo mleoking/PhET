@@ -13,12 +13,8 @@ package edu.colorado.phet.common.math;
 import java.util.ArrayList;
 
 /**
- * User: Sam Reid
- * Date: Dec 14, 2004
- * Time: 8:22:30 PM
- * Copyright (c) Dec 14, 2004 by Sam Reid
+ * Performs a linear transform between model and view coordinates.
  */
-
 public class ModelViewTransform1D {
     private Function.LinearFunction modelToView;
     private ArrayList transformListeners = new ArrayList();

@@ -14,7 +14,7 @@ package edu.colorado.phet.common.math;
 import java.awt.geom.Point2D;
 
 /**
- * ImmutableVector2D
+ * This Vector2D implementation is immutable.
  *
  * @author Ron LeMaster
  * @version $Revision$

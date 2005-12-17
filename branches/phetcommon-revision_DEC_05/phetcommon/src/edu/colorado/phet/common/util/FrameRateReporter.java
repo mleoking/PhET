@@ -15,7 +15,6 @@ import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.IClock;
 
 /**
- * FrameRateReporter
  * A utility that prints, to the console, the number of rames per second an AbstractClock is ticking off. Useful
  * for monitoring the performance of simulations.
  * <p/>
@@ -27,6 +26,8 @@ import edu.colorado.phet.common.model.clock.IClock;
 public class FrameRateReporter {
 
     /**
+     * Constructs and starts the FrameRateReporter.
+     *
      * @param clock The clock that is driving the simulation you want to monitor
      */
     public FrameRateReporter( IClock clock ) {

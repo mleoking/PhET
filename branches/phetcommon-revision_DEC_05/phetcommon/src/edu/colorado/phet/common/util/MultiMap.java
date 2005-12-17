@@ -13,7 +13,7 @@ package edu.colorado.phet.common.util;
 import java.util.*;
 
 /**
- * MultiMap
+ * Map implementation that maintains a list of values for each key.
  *
  * @author Ron LeMaster
  * @version $Revision$

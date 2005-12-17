@@ -13,7 +13,7 @@ package edu.colorado.phet.common.math;
 import java.awt.geom.Point2D;
 
 /**
- * A class for 2-dimensional points expressed in polar coordinates
+ * A class for 2-dimensional points expressed in polar coordinates.
  */
 public class Point2DPolar {
     private double r;

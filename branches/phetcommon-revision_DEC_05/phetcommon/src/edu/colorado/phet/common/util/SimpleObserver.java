@@ -11,7 +11,7 @@
 package edu.colorado.phet.common.util;
 
 /**
- * SimpleObserver
+ * Listener interface for SimpleObservable instances.
  *
  * @author ?
  * @version $Revision$
