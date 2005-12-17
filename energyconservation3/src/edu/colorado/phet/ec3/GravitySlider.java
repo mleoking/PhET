@@ -3,7 +3,7 @@ package edu.colorado.phet.ec3;
 
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.common.view.components.ModelSlider;
+import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
 
 import javax.swing.*;
@@ -20,7 +20,6 @@ import java.util.Hashtable;
  */
 
 public class GravitySlider extends ModelSlider {
-
 
     public GravitySlider( final EC3Module module ) {
         super( "Gravity", "N/kg", 0, -EnergyConservationModel.G_JUPITER * 1.2, -EnergyConservationModel.G_EARTH, new DecimalFormat( "0.00" ) );
