@@ -18,9 +18,8 @@ import java.io.IOException;
 import java.net.URL;
 
 /**
- * User: University of Colorado, PhET
- * Date: Apr 16, 2003
- * Time: 9:34:20 AM
+ * Utility class for loading images.
+ * <p/>
  * Copyright (c) Apr 16, 2003 by University of Colorado, PhET
  * This level of granularity is required because different loaders return different
  * pixel data, and the final result is highly dependent on that
