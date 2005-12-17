@@ -13,10 +13,8 @@ package edu.colorado.phet.common.model.clock;
 import java.util.ArrayList;
 
 /**
- * User: Sam Reid
- * Date: Dec 15, 2005
- * Time: 12:02:55 PM
- * Copyright (c) Dec 15, 2005 by Sam Reid
+ * This default clock implementation handles ClockListeners
+ * and time conversion through an abstraction.
  */
 
 public abstract class Clock implements IClock {
@@ -28,25 +26,49 @@ public abstract class Clock implements IClock {
     private long wallTime = 0;
     private double tickOnceTimeChange;//only used when someone calls tickOnce()
 
+    /**
+     * Construct a Clock to use the specified conversion between Wall and Simulation time,
+     * with the specified single-tick simulation time change (for tickOnce()).
+     *
+     * @param timeConverter
+     * @param tickOnceTimeChange
+     */
     public Clock( TimeConverter timeConverter, double tickOnceTimeChange ) {
         this.timeConverter = timeConverter;
         this.tickOnceTimeChange = tickOnceTimeChange;
     }
 
+    /**
+     * Add a ClockListener to this Clock.
+     *
+     * @param clockListener
+     */
     public void addClockListener( ClockListener clockListener ) {
         listeners.add( clockListener );
     }
 
+    /**
+     * Remove a ClockListener from this Clock.
+     *
+     * @param clockListener
+     */
     public void removeClockListener( ClockListener clockListener ) {
         listeners.remove( clockListener );
     }
 
+    /**
+     * Set the simulation time to zero.
+     * This may fire a simulation time change (if the time was nonzero).
+     */
     public void resetSimulationTime() {
         setSimulationTime( 0.0 );
-        notifyClockReset();
+        notifySimulationTimeReset();
         testNotifySimulationTimeChange();
     }
 
+    /**
+     * Update the clock, updating wall time and possibly simulation time.
+     */
     protected void doTick() {
         lastWallTime = wallTime;
         wallTime = System.currentTimeMillis();
@@ -57,6 +79,9 @@ public abstract class Clock implements IClock {
         testNotifySimulationTimeChange();
     }
 
+    /**
+     * Advance the clock by one tick.
+     */
     public void tickOnce() {
         lastWallTime = wallTime;
         wallTime = System.currentTimeMillis();
@@ -78,35 +103,73 @@ public abstract class Clock implements IClock {
         this.simulationTime = simulationTime;
     }
 
-    public long getWallTimeChangeMillis() {
+    /**
+     * Determine how much wall-time changed since the previous tick.
+     *
+     * @return how much wall-time changed since the previous tick.
+     */
+    public long getWallTimeChange() {
         return wallTime - lastWallTime;
     }
 
+    /**
+     * Get the time change in simulation time units.
+     *
+     * @return the time change in simulation time units.
+     */
     public double getSimulationTimeChange() {
         return simulationTime - lastSimulationTime;
     }
 
+    /**
+     * Get the current running time of the simulation.
+     *
+     * @return the current running time of the simulation.
+     */
     public double getSimulationTime() {
         return simulationTime;
     }
 
+    /**
+     * Determine the last read wall-clock time.
+     *
+     * @return the last read wall-clock time.
+     */
     public long getWallTime() {
         return wallTime;
     }
 
+    /**
+     * Specify an exact simulation time.  This may fire a simulation time change event.
+     *
+     * @param simulationTime
+     */
     public void setSimulationTime( double simulationTime ) {
         setSimulationTimeNoUpdate( simulationTime );
         testNotifySimulationTimeChange();
     }
 
+    /**
+     * Gets the TimeConverter, responsible for converting wall to simulation time.
+     *
+     * @return the TimeConverter
+     */
     public TimeConverter getTimeConverter() {
         return timeConverter;
     }
 
+    /**
+     * Sets the TimeConverter, responsible for converting wall to simulation time.
+     *
+     * @param timeConverter
+     */
     public void setTimeConverter( TimeConverter timeConverter ) {
         this.timeConverter = timeConverter;
     }
 
+    /**
+     * Sends out notification that the clock ticked.
+     */
     protected void notifyClockTicked() {
         ClockEvent clockEvent = new ClockEvent( this );
         for( int i = 0; i < listeners.size(); i++ ) {
@@ -115,6 +178,9 @@ public abstract class Clock implements IClock {
         }
     }
 
+    /**
+     * Sends out notification that the clock was paused.
+     */
     protected void notifyClockPaused() {
         ClockEvent clockEvent = new ClockEvent( this );
         for( int i = 0; i < listeners.size(); i++ ) {
@@ -123,6 +189,9 @@ public abstract class Clock implements IClock {
         }
     }
 
+    /**
+     * Sends out notification that the clock was started.
+     */
     protected void notifyClockStarted() {
         ClockEvent clockEvent = new ClockEvent( this );
         for( int i = 0; i < listeners.size(); i++ ) {
@@ -131,14 +200,20 @@ public abstract class Clock implements IClock {
         }
     }
 
-    protected void notifyClockReset() {
+    /**
+     * Sends out notification that the clock was reset.
+     */
+    protected void notifySimulationTimeReset() {
         ClockEvent clockEvent = new ClockEvent( this );
         for( int i = 0; i < listeners.size(); i++ ) {
             ClockListener clockListener = (ClockListener)listeners.get( i );
-            clockListener.clockReset( clockEvent );
+            clockListener.simulationTimeReset( clockEvent );
         }
     }
 
+    /**
+     * Sends notification the simulation time changed.
+     */
     protected void notifySimulationTimeChanged() {
         ClockEvent clockEvent = new ClockEvent( this );
         for( int i = 0; i < listeners.size(); i++ ) {
@@ -147,10 +222,20 @@ public abstract class Clock implements IClock {
         }
     }
 
+    /**
+     * Get the simulation time to pass during tickOnce().
+     *
+     * @return the simulation time to pass during tickOnce().
+     */
     public double getTickOnceTimeChange() {
         return tickOnceTimeChange;
     }
 
+    /**
+     * Specifies the simulation time to pass during tickOnce().
+     *
+     * @param tickOnceTimeChange the simulation time to pass during tickOnce().
+     */
     public void setTickOnceTimeChange( double tickOnceTimeChange ) {
         this.tickOnceTimeChange = tickOnceTimeChange;
     }

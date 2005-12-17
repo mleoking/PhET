@@ -33,7 +33,7 @@ public interface TimeConverter {
 
     public static class Identity implements TimeConverter {
         public double getSimulationTimeChange( Clock clock ) {
-            return clock.getWallTimeChangeMillis() / 1000.0;
+            return clock.getWallTimeChange() / 1000.0;
         }
     }
 
@@ -45,7 +45,7 @@ public interface TimeConverter {
         }
 
         public double getSimulationTimeChange( Clock clock ) {
-            return clock.getWallTimeChangeMillis() * scale / 1000.0;
+            return clock.getWallTimeChange() * scale / 1000.0;
         }
     }
 }

@@ -588,7 +588,7 @@ public class ApparatusPanel2 extends ApparatusPanel implements ClockListener {
     public void simulationTimeChanged( ClockEvent clockEvent ) {
     }
 
-    public void clockReset( ClockEvent clockEvent ) {
+    public void simulationTimeReset( ClockEvent clockEvent ) {
     }
 
     //-----------------------------------------------------------------

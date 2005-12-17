@@ -224,7 +224,7 @@ public class StopwatchPanel extends JPanel implements ClockListener {
     public void simulationTimeChanged( ClockEvent clockEvent ) {
     }
 
-    public void clockReset( ClockEvent clockEvent ) {
+    public void simulationTimeReset( ClockEvent clockEvent ) {
     }
 
     /**

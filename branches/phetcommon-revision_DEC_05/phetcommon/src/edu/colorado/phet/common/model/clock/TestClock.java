@@ -26,7 +26,7 @@ public class TestClock {
             public void clockTicked( ClockEvent clock ) {
                 System.out.println( "TestClockEvent.clockTicked" );
                 System.out.println( "swingClock.getWallTime() = " + swingClock.getWallTime() );
-                System.out.println( "swingClockt.getWallTimeChangeMillis() = " + swingClock.getWallTimeChangeMillis() );
+                System.out.println( "swingClockt.getWallTimeChangeMillis() = " + swingClock.getWallTimeChange() );
             }
 
             public void clockStarted( ClockEvent clock ) {
@@ -42,7 +42,7 @@ public class TestClock {
                 System.out.println( "swingClock.getSimulationTimeChange() = " + swingClock.getSimulationTimeChange() );
             }
 
-            public void clockReset( ClockEvent clock ) {
+            public void simulationTimeReset( ClockEvent clock ) {
                 System.out.println( "TestClockEvent.clockReset" );
             }
 

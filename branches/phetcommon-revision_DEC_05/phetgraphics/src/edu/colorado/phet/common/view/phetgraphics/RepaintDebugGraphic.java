@@ -80,7 +80,7 @@ public class RepaintDebugGraphic extends PhetGraphic implements ClockListener {
     public void simulationTimeChanged( ClockEvent clockEvent ) {
     }
 
-    public void clockReset( ClockEvent clockEvent ) {
+    public void simulationTimeReset( ClockEvent clockEvent ) {
     }
 
     public void setActive( boolean active ) {
