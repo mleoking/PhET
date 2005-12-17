@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.common.view.graphics.mousecontrols;
+package edu.colorado.phet.common.view.graphics.mousecontrols.translation;
 
 import java.awt.event.MouseEvent;
 import java.util.EventObject;

@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.common.view.graphics.shapes;
+package edu.colorado.phet.common.view.graphics;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;

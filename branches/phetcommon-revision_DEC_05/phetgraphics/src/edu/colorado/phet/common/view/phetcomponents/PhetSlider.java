@@ -11,8 +11,8 @@
 package edu.colorado.phet.common.view.phetcomponents;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationEvent;
+import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.util.ImageLoader;
 

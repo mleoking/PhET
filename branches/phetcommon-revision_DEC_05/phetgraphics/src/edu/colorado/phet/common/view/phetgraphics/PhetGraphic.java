@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.common.view.phetgraphics;
 
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationHandler;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationHandler;
+import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.view.util.*;
 
 import javax.swing.*;

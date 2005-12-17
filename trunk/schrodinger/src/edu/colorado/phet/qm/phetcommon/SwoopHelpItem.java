@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.phetcommon;
 
-import edu.colorado.phet.common.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.piccolo.BoundGraphic;
 import edu.colorado.phet.piccolo.HTMLGraphic;
 import edu.colorado.phet.piccolo.PhetPCanvas;
