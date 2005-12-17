@@ -65,10 +65,10 @@ public class SingleBarrierSolver extends AbstractPlaneSolver {
         final double E = getTotalEnergy().getEnergy();
 
         if ( isLeftToRight() && E < getPotentialEnergy().getEnergy( 0 ) ) {
-            result = new WaveFunctionSolution( x, t );
+            result = new WaveFunctionSolution( x, t, new Complex( 0, 0 ), new Complex( 0, 0 )  );
         }
         else if ( isRightToLeft() && E < getPotentialEnergy().getEnergy( 2 ) ) {
-            result = new WaveFunctionSolution( x, t );
+            result = new WaveFunctionSolution( x, t, new Complex( 0, 0 ), new Complex( 0, 0 )  );
         }
         else {
             int regionIndex = getPotentialEnergy().getRegionIndexAt( x );
@@ -177,35 +177,26 @@ public class SingleBarrierSolver extends AbstractPlaneSolver {
             t1.multiply( k1 );
             t1.exp();
 
-            // Power(E,2*i*k2*x2)
+            // Power(E,2*i*k2*x2)*(k1 + k2)*(k2 - k3)
             MutableComplex t2 = new MutableComplex();
             t2.setValue( Complex.I );
             t2.multiply( 2 * x2 );
             t2.multiply( k2 );
-            t2.multiply( t1 );
             t2.exp();
+            t2.multiply( k1.getAdd( k2 ) );
+            t2.multiply( k2.getSubtract( k3 ) );
 
-            // Power(E,2*i*k2*x1)
+            // Power(E,2*i*k2*x1)*(-k1 + k2)*(k2 + k3)
             MutableComplex t3 = new MutableComplex();
             t3.setValue( Complex.I );
             t3.multiply( 2 * x1 );
             t3.multiply( k2 );
             t3.exp();
+            t3.multiply( k1.getMultiply( -1 ).getAdd( k2 ) );
+            t3.multiply( k2.getAdd( k3 ) );
 
-            // Power(E,2*i*k2*x2)*(k1 + k2)*(k2 - k3)
-            MutableComplex t4 = new MutableComplex();
-            t4.setValue( t2 );
-            t4.multiply( k1.getAdd( k2 ) );
-            t4.multiply( k2.getSubtract( k3 ) );
-
-            // Power(E,2*i*k2*x1)*(-k1 + k2)*(k2 + k3)
-            MutableComplex t5 = new MutableComplex();
-            t5.setValue( t3 );
-            t5.multiply( k1.getMultiply( -1 ).getAdd( k2 ) );
-            t5.multiply( k2.getAdd( k3 ) );
-
-            numerator.setValue( t4 );
-            numerator.subtract( t5 );
+            numerator.setValue( t2 );
+            numerator.subtract( t3 );
             numerator.multiply( t1 );
         }
 
@@ -297,7 +288,8 @@ public class SingleBarrierSolver extends AbstractPlaneSolver {
     private static Complex getDenominator( final double x1, final double x2, Complex k1, Complex k2, Complex k3 ) {
 
         // -(Power(E,2*I*k2*x2)*(-k1 + k2)*(k2 - k3))
-        MutableComplex t1 = new MutableComplex( Complex.I );
+        MutableComplex t1 = new MutableComplex();
+        t1.setValue( Complex.I );
         t1.multiply( 2 * x2 );
         t1.multiply( k2 );
         t1.exp();
@@ -306,7 +298,8 @@ public class SingleBarrierSolver extends AbstractPlaneSolver {
         t1.multiply( -1 );
 
         // Power(E,2*I*k2*x1)*(k1 + k2)*(k2 + k3)
-        MutableComplex t2 = new MutableComplex( Complex.I );
+        MutableComplex t2 = new MutableComplex();
+        t2.setValue( Complex.I );
         t2.multiply( 2 * x1 );
         t2.multiply( k2 );
         t2.exp();

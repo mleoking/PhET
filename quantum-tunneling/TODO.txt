@@ -58,6 +58,8 @@ JFREECHART:
 
 
 DONE:
+(12/17/05) - bugfix: set wave function to zero when TE<PE
+(12/17/05) - fix bugs in SingleBarrierSolver
 (12/17/05) - sync with piccolo
 (12/17/05) - remove piccolo config files from CVS repository
 0.0.3 ...
