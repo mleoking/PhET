@@ -60,7 +60,7 @@ public abstract class Module {
         // Handle redrawing while the clock is paused.
         clock.addClockListener( new ClockPausedHandler( this ) );
 
-        this.modulePanel = new ModulePanel( null, null, null, null );
+        this.modulePanel = new ModulePanel();
         modulePanel.setClockControlPanel( new ClockControlPanel( clock ) );
         moduleRunner = new ClockAdapter() {
             public void clockTicked( ClockEvent clockEvent ) {

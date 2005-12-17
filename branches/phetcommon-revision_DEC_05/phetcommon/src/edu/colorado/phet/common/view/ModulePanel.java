@@ -21,60 +21,77 @@ import java.io.IOException;
 /**
  * ContentPanel
  * <p/>
- * The content pane for the JFrame of a PhetApplication. It holds the apparatus panel container (a tabbed pane
- * container that holds all the apparatus panels), the control panel, and the simulation clock control panel.
+ * The Swing panel for a Module in a PhetApplication. It holds
+ * the control panel, the simulation panel, the clock control panel, and a monitor panel.
+ * <p/>
+ * All panels are optional (can be null).
  *
  * @author Ron & Sam
  * @version $Revision$
  */
 public class ModulePanel extends JPanel {
 
-    private static Image phetLogo;
+    /* Static Data*/
+    private static Image phetLogo = loadPhetLogo();
 
-    static {
+    private static Image loadPhetLogo() {
         try {
-            phetLogo = new ImageLoader().loadImage( "images/Phet-logo-48x48.gif" );
+            return ImageLoader.loadBufferedImage( "images/Phet-logo-48x48.gif" );
         }
         catch( IOException e ) {
             e.printStackTrace();
+            throw new RuntimeException( e );
         }
     }
 
-    private JComponent apparatusPanel;
+    /* Instance Data*/
+    private JComponent simulationPanel;
     private ControlPanel controlPanel;
     private JComponent monitorPanel;
     private JComponent clockControlPanel;
     private JDialog buttonDlg;
     private boolean fullScreen = false;
 
-    private GridBagConstraints apparatusPanelGbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
-                                                                           GridBagConstraints.WEST,
-                                                                           GridBagConstraints.BOTH,
-                                                                           new Insets( 0, 0, 0, 0 ), 0, 0 );
+    static Insets createInsets() {
+        return new Insets( 0, 0, 0, 0 );
+    }
+
+    private GridBagConstraints apparatusPanelConstraints = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
+                                                                                   GridBagConstraints.WEST,
+                                                                                   GridBagConstraints.BOTH,
+                                                                                   createInsets(), 0, 0 );
     // The control panel has a gridheight of 2 so the Help button comes up at the same level as the
     // simulation clock control buttons
-    private GridBagConstraints controlPanelGbc = new GridBagConstraints( 1, 1, 1, 2, 0, 1000,
-                                                                         GridBagConstraints.NORTH,
-                                                                         GridBagConstraints.BOTH,
-                                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
-    private GridBagConstraints clockControlPanelGbc = new GridBagConstraints( 0, 2, 1, 1, 1, 0,
-                                                                              GridBagConstraints.SOUTH,
-                                                                              GridBagConstraints.HORIZONTAL,
-                                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
+    private GridBagConstraints controlPanelConstraints = new GridBagConstraints( 1, 1, 1, 2, 0, 1000,
+                                                                                 GridBagConstraints.NORTH,
+                                                                                 GridBagConstraints.BOTH,
+                                                                                 createInsets(), 0, 0 );
+    private GridBagConstraints clockPanelConstraints = new GridBagConstraints( 0, 2, 1, 1, 1, 0,
+                                                                               GridBagConstraints.SOUTH,
+                                                                               GridBagConstraints.HORIZONTAL,
+                                                                               createInsets(), 0, 0 );
     private GridBagConstraints monitorPanelGbc = new GridBagConstraints( 0, 1, 1, 1, 0, 0,
                                                                          GridBagConstraints.PAGE_END,
                                                                          GridBagConstraints.NONE,
-                                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
-
+                                                                         createInsets(), 0, 0 );
 
     /**
+     * Constructs a new ModulePanel with null contents.
+     */
+    public ModulePanel() {
+        this( null, null, null, null );
+    }
+
+    /**
+     * Constructs a new ModulePanel with the specified contents (which may be null).
+     *
      * @param simulationPanel
      * @param controlPanel
      * @param monitorPanel
-     * @param appControl
+     * @param clockControlPanel
      */
-    public ModulePanel( JComponent simulationPanel, JComponent controlPanel,
-                        JComponent monitorPanel, JComponent appControl ) {
+    public ModulePanel( JComponent simulationPanel, ControlPanel controlPanel,
+                        JComponent monitorPanel, JComponent clockControlPanel ) {
         setLayout( new GridBagLayout() );
 
         // Use this code to put the apparatus panel and control panel in split panes
@@ -84,47 +101,57 @@ public class ModulePanel extends JPanel {
 
         setSimulationPanel( simulationPanel );
         setMonitorPanel( monitorPanel );
-        setClockControlPanel( appControl );
+        setClockControlPanel( clockControlPanel );
+        setControlPanel( controlPanel );
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                relayoutContentPanel();
+                relayoutAll();
             }
 
             public void componentShown( ComponentEvent e ) {
-                relayoutContentPanel();
+                relayoutAll();
             }
         } );
-        relayoutContentPanel();
         addContainerListener( new ContainerListener() {
             public void componentAdded( ContainerEvent e ) {
-                relayoutContentPanel();
+                relayoutAll();
             }
 
             public void componentRemoved( ContainerEvent e ) {
-                relayoutContentPanel();
+                relayoutAll();
             }
         } );
+        relayoutAll();
     }
 
-    private void relayoutContentPanel() {
+    /**
+     * Relayout, revalidate and repaint this ModulePanel.
+     */
+    protected void relayoutAll() {
         invalidate();
         validateTree();
         doLayout();
         repaint();
     }
 
-    public JComponent getApparatusPanelContainer() {
-        return apparatusPanel;
-    }
-
+    /**
+     * Set the ControlPanel of this ModulePanel.
+     *
+     * @param panel
+     */
     public void setControlPanel( ControlPanel panel ) {
         if( controlPanel != null ) {
             remove( controlPanel );
         }
         controlPanel = panel;
-        setPanel( panel, controlPanelGbc );
+        setPanel( panel, controlPanelConstraints );
     }
 
+    /**
+     * Set the monitor panel of this ModulePanel.
+     *
+     * @param panel
+     */
     public void setMonitorPanel( JComponent panel ) {
         if( monitorPanel != null ) {
             remove( monitorPanel );
@@ -133,12 +160,30 @@ public class ModulePanel extends JPanel {
         setPanel( panel, monitorPanelGbc );
     }
 
+    /**
+     * Set the simulation panel of this ModulePanel.
+     *
+     * @param panel
+     */
     public void setSimulationPanel( JComponent panel ) {
-        if( apparatusPanel != null ) {
-            remove( apparatusPanel );
+        if( simulationPanel != null ) {
+            remove( simulationPanel );
         }
-        apparatusPanel = panel;
-        setPanel( panel, apparatusPanelGbc );
+        simulationPanel = panel;
+        setPanel( panel, apparatusPanelConstraints );
+    }
+
+    /**
+     * Sets the clock control panel for the Module.
+     *
+     * @param clockControlPanel
+     */
+    public void setClockControlPanel( JComponent clockControlPanel ) {
+        if( this.clockControlPanel != null ) {
+            remove( this.clockControlPanel );
+        }
+        this.clockControlPanel = clockControlPanel;
+        setPanel( clockControlPanel, clockPanelConstraints );
     }
 
     private void setPanel( JComponent component, GridBagConstraints gridBagConstraints ) {
@@ -149,6 +194,11 @@ public class ModulePanel extends JPanel {
         repaint();
     }
 
+    /**
+     * Hide everything but the SimulationPanel.
+     *
+     * @param fullScreen
+     */
     public void setFullScreen( boolean fullScreen ) {
         if( fullScreen && !isFullScreen() ) {
             activateFullScreen();
@@ -159,28 +209,16 @@ public class ModulePanel extends JPanel {
     }
 
     private void deactivateFullScreen() {
-        if( controlPanel != null ) {
-            controlPanel.setVisible( true );
-        }
-        if( monitorPanel != null ) {
-            monitorPanel.setVisible( true );
-        }
-        if( clockControlPanel != null ) {
-            clockControlPanel.setVisible( true );
-        }
+        setVisible( controlPanel, true );
+        setVisible( monitorPanel, true );
+        setVisible( clockControlPanel, true );
         this.fullScreen = false;
     }
 
     private void activateFullScreen() {
-        if( controlPanel != null ) {
-            controlPanel.setVisible( false );
-        }
-        if( monitorPanel != null ) {
-            monitorPanel.setVisible( false );
-        }
-        if( clockControlPanel != null ) {
-            clockControlPanel.setVisible( false );
-        }
+        setVisible( controlPanel, false );
+        setVisible( monitorPanel, false );
+        setVisible( clockControlPanel, false );
 
         if( buttonDlg == null ) {
             buttonDlg = new JDialog();
@@ -207,19 +245,50 @@ public class ModulePanel extends JPanel {
         this.fullScreen = true;
     }
 
+    private void setVisible( JComponent component, boolean visible ) {
+        if( component != null ) {
+            component.setVisible( visible );
+        }
+    }
+
     private boolean isFullScreen() {
         return fullScreen;
     }
 
+    /**
+     * Gets the monitor panel.
+     *
+     * @return the monitor panel.
+     */
+    public JComponent getMonitorPanel() {
+        return monitorPanel;
+    }
+
+    /**
+     * Gets the clock control panel.
+     *
+     * @return the clock control panel.
+     */
+    public JComponent getClockControlPanel() {
+        return clockControlPanel;
+    }
+
+    /**
+     * Gets the simulation panel.
+     *
+     * @return the simulation panel.
+     */
+    public JComponent getSimulationPanel() {
+        return simulationPanel;
+    }
+
+    /**
+     * Gets the ControlPanel.
+     *
+     * @return the ControlPanel.
+     */
     public ControlPanel getControlPanel() {
         return controlPanel;
     }
 
-    public void setClockControlPanel( JComponent clockControlPanel ) {
-        if( this.clockControlPanel != null ) {
-            remove( this.clockControlPanel );
-        }
-        this.clockControlPanel = clockControlPanel;
-        setPanel( clockControlPanel, clockControlPanelGbc );
-    }
 }
