@@ -60,7 +60,7 @@ public class ConstantSolver extends AbstractPlaneSolver {
         WaveFunctionSolution result = null;
         final double E = getTotalEnergy().getEnergy();
         if ( E < getPotentialEnergy().getEnergy( 0 ) ) {
-            result = new WaveFunctionSolution( x, t );
+            result = new WaveFunctionSolution( x, t, new Complex( 0, 0 ), new Complex( 0, 0 )  );
         }
         else {
             Complex k1 = getK( 0 );
