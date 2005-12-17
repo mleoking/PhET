@@ -249,7 +249,7 @@ public abstract class Module {
      */
     protected void handleClockTick( ClockEvent event ) {
         handleUserInput();
-        model.clockTicked( event );
+        model.update( event );
         updateGraphics( event );
     }
 

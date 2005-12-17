@@ -66,7 +66,7 @@ public class TestApparatusPanel2Resize {
         phetShapeGraphic.setCursorHand();
         clock.addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent clockEvent ) {
-                model.clockTicked( clockEvent );
+                model.update( clockEvent );
             }
         } );
         clock.start();
