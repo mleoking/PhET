@@ -27,7 +27,7 @@ import java.util.Random;
  */
 public abstract class Lattice {
 
-    private static final double SAME_POSITION_TOLERANCE = 1;
+    private static final double SAME_POSITION_TOLERANCE = 3;
     private static Random random = new Random();
 
     private Ion seed;
@@ -44,6 +44,12 @@ public abstract class Lattice {
      * @return
      */
     public Ion getLeastBoundIon( List ionsInLattice, double orientation ) {
+
+        // Sanity check
+        if( getSeed() == null ) {
+            throw new RuntimeException( "getSeed() == null" );
+        }
+
         // Go through all the ionsInLattice, looking for the one with the highest ratio of
         // occupied neighboring sites to possible neighboring sites (which does not include
         // sites that would be outside the bounds of the vessel
@@ -62,16 +68,16 @@ public abstract class Lattice {
 
             // DEBUG
             if( neighboringSites.size() == 0 ) {
-                System.out.println( "neighboringSites = " + neighboringSites );
-                getNeighboringSites( ion, orientation );
+//                throw new RuntimeException( "neighboringSites.size() == 0");
+//                getNeighboringSites( ion, orientation );
+                System.out.println( "Lattice.getLeastBoundIon: neighboringSites.size() == 0" );
+                continue;
             }
             List openNeighboringSites = getOpenNeighboringSites( ion, ionsInLattice, orientation );
             double occupiedSiteRatio = (double)openNeighboringSites.size() / neighboringSites.size();
             if( occupiedSiteRatio >= highestOccupiedSiteRatio ) {
                 candidateIons.add( ion );
                 highestOccupiedSiteRatio = occupiedSiteRatio;
-                System.out.println( "neighboringSites = " + neighboringSites.size() );
-                System.out.println( "openNeighboringSites = " + openNeighboringSites.size() );
             }
         }
 
@@ -80,8 +86,9 @@ public abstract class Lattice {
             leastBoundIon = (Ion)candidateIons.get( random.nextInt( candidateIons.size() ) );
         }
 
+        // Sanity check
         if( leastBoundIon == null ) {
-//            	throw new RuntimeException("leastBoundIon == null");
+            throw new RuntimeException( "leastBoundIon == null" );
         }
         return leastBoundIon;
     }
@@ -155,7 +162,7 @@ public abstract class Lattice {
     }
 
     /**
-     * Tells if a site in the lattice is occupied
+     * Tells if a site in the lattice is occupied.
      *
      * @param site
      * @param ionsInLattice
@@ -187,7 +194,8 @@ public abstract class Lattice {
     abstract protected List getNeighboringSites( Ion ion, double orientation );
 
     /**
-     * All concrete subclasses are required to implement clone() 
+     * All concrete subclasses are required to implement clone()
+     *
      * @return
      */
     abstract public Object clone();
@@ -200,7 +208,18 @@ public abstract class Lattice {
      * @param seedIon
      */
     void setSeed( Ion seedIon ) {
+        // Sanity check
+        Ion oldSeed = null;
+        if( seed != null && seed != seedIon ) {
+            System.out.println( "seed != null");
+            oldSeed = seed;
+//            throw new RuntimeException( "seed != null");
+        }
         seed = seedIon;
+        seed.notifyObservers();
+        if( oldSeed != null ) {
+            oldSeed.notifyObservers();
+        }
     }
 
     protected Ion getSeed() {

@@ -85,7 +85,7 @@ public class Shaker extends Particle {
 
             int numLaticeUnits = random.nextInt( 10 );
 //            numLaticeUnits = 2;
-            numLaticeUnits = 1;
+//            numLaticeUnits = 1;
 //            numLaticeUnits = 8;
 //            numLaticeUnits = (int)dy;
 

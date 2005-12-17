@@ -31,7 +31,6 @@ public class PlainCubicLattice extends Lattice {
     private static final Random random = new Random( System.currentTimeMillis() );
 
     private double spacing;
-    private Point2D pUtil = new Point2D.Double();
 
     /**
      *
@@ -51,9 +50,8 @@ public class PlainCubicLattice extends Lattice {
         for( int i = 0; i < 4; i++ ) {
             double x = p.getX() + spacing * Math.cos( i * Math.PI / 2 + orientation );
             double y = p.getY() + spacing * Math.sin( i * Math.PI / 2 + orientation );
-            pUtil.setLocation( x, y );
-            if( getBounds().contains( pUtil ) ) {
-                sites.add( pUtil );
+            if( getBounds().contains( x, y ) ) {
+                sites.add( new Point2D.Double( x, y ));
             }
         }
         return sites;
