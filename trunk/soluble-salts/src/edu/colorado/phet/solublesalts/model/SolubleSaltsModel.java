@@ -75,7 +75,8 @@ public class SolubleSaltsModel extends BaseModel {
     private HeatSource heatSource;
     private boolean nucleationEnabled;
     private Shaker shaker;
-    private CrystalTracker crystalTracker;
+    public CrystalTracker crystalTracker;
+//    private CrystalTracker crystalTracker;
     private Vector2D accelerationOutOfWater = new Vector2D.Double( 0, SolubleSaltsConfig.DEFAULT_LATTICE_ACCELERATION );
     private Vector2D accelerationInWater = new Vector2D.Double();
 

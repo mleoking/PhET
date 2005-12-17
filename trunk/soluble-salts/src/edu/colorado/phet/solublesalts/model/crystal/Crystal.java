@@ -209,6 +209,14 @@ public class Crystal extends Body implements Binder {
 
         if( placeToPutIon != null ) {
             ion.setPosition( placeToPutIon );
+
+            // Sanity check
+            for( int i = 0; i < ions.size(); i++ ) {
+                Ion testIon = (Ion)ions.get( i );
+                if( testIon.getPosition() == placeToPutIon ) {
+                    throw new RuntimeException( "duplicate location");
+                }
+            }
             ions.add( ion );
             ion.bindTo( this );
             updateCm();
@@ -241,10 +249,14 @@ public class Crystal extends Body implements Binder {
     private void releaseIon( double dt ) {
         Ion ionToRelease = lattice.getLeastBoundIon( getIons(), orientation );
 
+        // Sanity check
+        if( ionToRelease == getSeed() && ions.size() > 1 ) {
+            throw new RuntimeException( "ionToRelease == getSeed() && ions.size() > 1");
+        }
+
+        // Sanity check
         if( ionToRelease == null ) {
-            System.out.println( "No ion found to release!!!!!" );
-            System.out.println( "ions.size() = " + ions.size() );
-            return;
+            throw new RuntimeException( "no ion found to release" );
         }
 
         Thread t = new Thread( new NoBindTimer( ionToRelease ) );
@@ -322,6 +334,9 @@ public class Crystal extends Body implements Binder {
 
         double angle = random.nextDouble() * ( maxAngle - minAngle ) + minAngle;
         Vector2D releaseVelocity = new Vector2D.Double( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
+        if( releaseVelocity.getMagnitude() < 0.001 ) {
+            throw new RuntimeException( "releaseVelocity.getMagnitude() < 0.001");
+        }
         return releaseVelocity;
     }
 
@@ -387,10 +402,6 @@ public class Crystal extends Body implements Binder {
      * @param dt
      */
     public void stepInTime( double dt ) {
-
-        if( getVelocity().getY() == 0.2 ) {
-            System.out.println( "Crystal.stepInTime" );
-        }
 
         // Only dissociate if the lattice is in the water
         if( waterBounds.contains( getPosition() ) && random.nextDouble() < dissociationLikelihood ) {

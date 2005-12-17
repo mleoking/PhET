@@ -31,7 +31,7 @@ import java.awt.geom.Ellipse2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class IonGraphic extends PNode implements SimpleObserver {
+public class IonGraphic extends PNode implements SimpleObserver /*, Ion.ChangeListener */ {
 
     private static boolean showBondIndicators = false;
 
@@ -59,6 +59,7 @@ public class IonGraphic extends PNode implements SimpleObserver {
     private void init( Ion ion ) {
         this.ion = ion;
         ion.addObserver( this );
+//        ion.addChangeListener( this );
         this.addChild( pImage );
 
         String text = ion.getCharge() < 0 ? "-" : ( ion.getCharge() > 0 ? "+" : "0" );
@@ -66,9 +67,9 @@ public class IonGraphic extends PNode implements SimpleObserver {
         pText.setTextPaint( Color.white );
         pText.setTextPaint( Color.black );
         Font font = pText.getFont();
-        Font newFont = new Font( font.getName(), font.getStyle(), font.getSize() + 2);
+        Font newFont = new Font( font.getName(), font.getStyle(), font.getSize() + 2 );
         pText.setFont( newFont );
-        pText.setX( pImage.getWidth() * 1 / 2  - font.getSize() / 2);
+        pText.setX( pImage.getWidth() * 1 / 2 - font.getSize() / 2 );
 //        this.addChild( pText );
         update();
     }
@@ -83,8 +84,12 @@ public class IonGraphic extends PNode implements SimpleObserver {
                                                           ( pImage.getHeight() / 2 ) - 2,
                                                           4,
                                                           4 ) );
-            pDebugPath.setPaint( Color.red );
-            pDebugPath.setStrokePaint( Color.red );
+            Color color = Color.red;
+            if( ion.getBindingCrystal().getSeed() == ion ) {
+                color = Color.green;
+            }
+            pDebugPath.setPaint( color );
+            pDebugPath.setStrokePaint( color );
             addChild( pDebugPath );
         }
         else if( !ion.isBound() && pDebugPath != null ) {
@@ -95,7 +100,7 @@ public class IonGraphic extends PNode implements SimpleObserver {
 
     public void setColor( Color color ) {
         MakeDuotoneImageOp op = new MakeDuotoneImageOp( color );
-        pImage.setImage( op.filter( (BufferedImage)pImage.getImage(), null ));
+        pImage.setImage( op.filter( (BufferedImage)pImage.getImage(), null ) );
     }
 
     public void setPolarityMarkerColor( Color color ) {
@@ -105,4 +110,13 @@ public class IonGraphic extends PNode implements SimpleObserver {
     public Image getImage() {
         return pImage.getImage();
     }
+
+    //----------------------------------------------------------------
+    // Implementation of Ion.ChangeListener
+    //----------------------------------------------------------------
+
+//    public void stateChanged( Ion.ChangeEvent event ) {
+//        System.out.println( "IonGraphic.stateChanged" );
+//        update();
+//    }
 }
