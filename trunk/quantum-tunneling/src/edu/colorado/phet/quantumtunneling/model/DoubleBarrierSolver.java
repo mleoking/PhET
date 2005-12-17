@@ -284,7 +284,7 @@ public class DoubleBarrierSolver extends AbstractPlaneSolver {
         // Power(E,2*I*(k2*x1 + (k3 + k4)*x3))*(-k1 + k2)*(k2 - k3)*(k3 - k4)*(k4 + k5)
         MutableComplex t6 = new MutableComplex();
         t6.setValue( k2.getMultiply( x1 ) );
-        t6.add( k1.getAdd( k4 ).getMultiply( x3 ) );
+        t6.add( k3.getAdd( k4 ).getMultiply( x3 ) );
         t6.multiply( Complex.I );
         t6.multiply( 2 );
         t6.exp();
