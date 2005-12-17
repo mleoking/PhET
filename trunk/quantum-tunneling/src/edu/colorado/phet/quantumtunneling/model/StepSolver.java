@@ -137,7 +137,7 @@ public class StepSolver extends AbstractPlaneSolver {
     }
     
     /*
-     * B = (Power(E,2*i*k1*x1)*(k1 - k2)) / (k1 + k2)
+     * B = (Power(E,2*i*k1*x1)*(k1 - k2)) / denominator
      */
     private void updateB( double x1, Complex k1, Complex k2, Complex denominator ) {
         if ( _B == null ) {
@@ -152,7 +152,7 @@ public class StepSolver extends AbstractPlaneSolver {
     }
     
     /*
-     * C = (2*Power(E,i*(k1 - k2)*x1)*k1) / (k1 + k2)
+     * C = (2*Power(E,i*(k1 - k2)*x1)*k1) / denominator
      */
     private void updateC( double x1, Complex k1, Complex k2, Complex denominator ) {
         if ( _C == null ) {

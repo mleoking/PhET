@@ -164,7 +164,7 @@ public class SingleBarrierSolver extends AbstractPlaneSolver {
     /*
      * B = 
      * (Power(E,2*i*k1*x1)* (Power(E,2*i*k2*x2)*(k1 + k2)*(k2 - k3) - Power(E,2*i*k2*x1)*(-k1 + k2)*(k2 + k3))) /
-     * (-(Power(E,2*i*k2*x2)*(-k1 + k2)*(k2 - k3)) + Power(E,2*i*k2*x1)*(k1 + k2)*(k2 + k3))
+     * denominator
      */
     private void updateB( double x1, double x2, Complex k1, Complex k2, Complex k3, Complex denominator ) {
         // Numerator
@@ -210,7 +210,7 @@ public class SingleBarrierSolver extends AbstractPlaneSolver {
     /*
      * C = 
      * (2*Power(E,i*(k1 + k2)*x1)*k1*(k2 + k3)) /
-     * (-(Power(E,2*i*k2*x2)*(-k1 + k2)*(k2 - k3)) + Power(E,2*i*k2*x1)*(k1 + k2)*(k2 + k3))
+     * denominator
      */
     private void updateC( double x1, double x2, Complex k1, Complex k2, Complex k3, Complex denominator ) {
 
@@ -234,7 +234,7 @@ public class SingleBarrierSolver extends AbstractPlaneSolver {
     /*
      * D = 
      * (2*Power(E,i*((k1 + k2)*x1 + 2*k2*x2))*k1*(k2 - k3))/
-     * (-(Power(E,2*i*k2*x2)*(-k1 + k2)*(k2 - k3)) + Power(E,2*i*k2*x1)*(k1 + k2)*(k2 + k3))
+     * denominator
      */
     private void updateD( double x1, double x2, Complex k1, Complex k2, Complex k3, Complex denominator ) {
 
@@ -259,7 +259,7 @@ public class SingleBarrierSolver extends AbstractPlaneSolver {
     /*
      * F =
      * (4*Power(E,i*(k1*x1 - k3*x2 + k2*(x1 + x2)))*k1*k2) /
-     * (-(Power(E,2*i*k2*x2)*(-k1 + k2)*(k2 - k3)) + Power(E,2*i*k2*x1)*(k1 + k2)*(k2 + k3))
+     * denominator
      */
     private void updateF( double x1, double x2, Complex k1, Complex k2, Complex k3, Complex denominator ) {
 
