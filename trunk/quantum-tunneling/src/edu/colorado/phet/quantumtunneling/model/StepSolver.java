@@ -143,9 +143,10 @@ public class StepSolver extends AbstractPlaneSolver {
         if ( _B == null ) {
             _B = new MutableComplex();
         }
-        _B.setValue( Complex.I );
-        _B.multiply( 2 * x1 );
+        _B.setValue( 2 );
+        _B.multiply( Complex.I );
         _B.multiply( k1 );
+        _B.multiply( x1 );
         _B.exp();
         _B.multiply( k1.getSubtract( k2 ) );
         _B.divide( denominator );
@@ -159,8 +160,8 @@ public class StepSolver extends AbstractPlaneSolver {
             _C = new MutableComplex();
         }
         _C.setValue( Complex.I );
-        _C.multiply( x1 );
         _C.multiply( k1.getSubtract( k2 ) );
+        _C.multiply( x1 );
         _C.exp();
         _C.multiply( 2 );
         _C.multiply( k1 );
