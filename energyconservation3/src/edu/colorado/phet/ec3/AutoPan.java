@@ -1,9 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.ec3.view.BodyGraphic;
 import edu.umd.cs.piccolo.util.PBounds;
 
@@ -19,8 +19,8 @@ public class AutoPan {
 
     public AutoPan( final EC3Canvas energyCanvas, EC3Module module ) {
         this.module = module;
-        getClock().addClockTickListener( new ClockTickListener() {
-            public void clockTicked( ClockTickEvent event ) {
+        getClock().addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent event ) {
                 //set zoom related to speed
                 //set center on player.
                 EC3RootNode rootNode = energyCanvas.getRootNode();
@@ -34,7 +34,7 @@ public class AutoPan {
         } );
     }
 
-    private AbstractClock getClock() {
+    private IClock getClock() {
         return module.getClock();
     }
 }

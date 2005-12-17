@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.timeseries;
 
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
+import edu.colorado.phet.common.model.clock.ClockEvent;
 
 
 /**
@@ -32,9 +32,9 @@ public class RecordMode extends Mode {
         return timer;
     }
 
-    public void clockTicked( ClockTickEvent event ) {
+    public void clockTicked( ClockEvent event ) {
         TimeSeriesModel timeSeriesModel = getTimeSeriesModel();
-        double dt = event.getDt();
+        double dt = event.getSimulationTimeChange();
         double recorderTime = timer.getTime();
         double maxTime = timeSeriesModel.getMaxAllowedTime();
         if( !timeSeriesModel.isPaused() ) {

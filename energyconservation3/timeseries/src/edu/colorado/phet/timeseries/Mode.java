@@ -2,7 +2,8 @@
 package edu.colorado.phet.timeseries;
 
 
-import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.ClockListener;
 
 /**
  * User: Sam Reid
@@ -10,7 +11,7 @@ import edu.colorado.phet.common.model.clock.ClockTickListener;
  * Time: 1:12:18 PM
  * Copyright (c) Jul 1, 2003 by Sam Reid
  */
-public abstract class Mode implements ClockTickListener {
+public abstract class Mode implements ClockListener {
     private String name;
     private TimeSeriesModel timeSeriesModel;
 
@@ -27,5 +28,17 @@ public abstract class Mode implements ClockTickListener {
 
     public TimeSeriesModel getTimeSeriesModel() {
         return timeSeriesModel;
+    }
+
+    public void clockStarted( ClockEvent clockEvent ) {
+    }
+
+    public void clockPaused( ClockEvent clockEvent ) {
+    }
+
+    public void simulationTimeChanged( ClockEvent clockEvent ) {
+    }
+
+    public void simulationTimeReset( ClockEvent clockEvent ) {
     }
 }

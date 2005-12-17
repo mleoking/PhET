@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.timeseries;
 
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
+import edu.colorado.phet.common.model.clock.ClockEvent;
 
 
 /**
@@ -32,9 +32,9 @@ public class PlaybackMode extends Mode {
     public void initialize() {
     }
 
-    public void clockTicked( ClockTickEvent event ) {
+    public void clockTicked( ClockEvent event ) {
 //        System.out.println( "PlaybackMode.clockTicked" );
-        double dt = event.getDt();
+        double dt = event.getSimulationTimeChange();
         if( !timeSeriesModel.isPaused() ) {
             timeSeriesModel.getPlaybackTimer().stepInTime( dt * playbackSpeed, timeSeriesModel.getRecordTimer().getTime() );
             double playTime = timeSeriesModel.getPlaybackTimer().getTime();

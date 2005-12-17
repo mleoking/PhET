@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3;
 
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
@@ -126,8 +126,8 @@ public class EnergyPanel extends ControlPanel {
                 module.setCoefficientOfFriction( modelSlider.getValue() );
             }
         } );
-        module.getClock().addClockTickListener( new ClockTickListener() {
-            public void clockTicked( ClockTickEvent event ) {
+        module.getClock().addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent event ) {
                 if( module.getEnergyConservationModel().numBodies() > 0 ) {
                     modelSlider.setValue( module.getEnergyConservationModel().bodyAt( 0 ).getFrictionCoefficient() );
                 }
@@ -147,8 +147,8 @@ public class EnergyPanel extends ControlPanel {
         AdvancedPanel editSkaterPanel = new AdvancedPanel( "Edit Skater >>", "Hide Skater Properties<<" );
         final ModelSlider restitution = new ModelSlider( "Coeff. of Restitution", "", 0, 1.0, 1.0 );
         restitution.setModelTicks( new double[]{0, 0.5, 1} );
-        module.getClock().addClockTickListener( new ClockTickListener() {
-            public void clockTicked( ClockTickEvent event ) {
+        module.getClock().addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent event ) {
                 double rest = restitution.getValue();
                 module.setCoefficientOfRestitution( rest );
             }
@@ -157,8 +157,8 @@ public class EnergyPanel extends ControlPanel {
 
         final ModelSlider mass = new ModelSlider( "Mass", "kg", 0, 200, 75 );
         mass.setModelTicks( new double[]{0, 75, 200} );
-        module.getClock().addClockTickListener( new ClockTickListener() {
-            public void clockTicked( ClockTickEvent event ) {
+        module.getClock().addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent event ) {
                 EnergyConservationModel model = module.getEnergyConservationModel();
                 for( int i = 0; i < model.numBodies(); i++ ) {
                     Body b = model.bodyAt( i );
@@ -196,8 +196,8 @@ public class EnergyPanel extends ControlPanel {
         verticalLayoutPanel.addFullWidth( gravitySlider );
 
 
-        module.getClock().addClockTickListener( new ClockTickListener() {
-            public void clockTicked( ClockTickEvent event ) {
+        module.getClock().addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent event ) {
                 synchronizePlanet();
             }
 

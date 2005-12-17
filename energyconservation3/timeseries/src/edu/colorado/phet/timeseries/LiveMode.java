@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.timeseries;
 
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
+import edu.colorado.phet.common.model.clock.ClockEvent;
 
 /**
  * User: Sam Reid
@@ -18,7 +18,7 @@ public class LiveMode extends Mode {
     public void initialize() {
     }
 
-    public void clockTicked( ClockTickEvent event ) {
+    public void clockTicked( ClockEvent event ) {
         TimeSeriesModel timeSeriesModel = getTimeSeriesModel();
         if( !timeSeriesModel.isPaused() ) {
             timeSeriesModel.updateModel( event );
