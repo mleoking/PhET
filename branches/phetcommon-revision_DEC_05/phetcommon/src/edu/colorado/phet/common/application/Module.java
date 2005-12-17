@@ -14,10 +14,8 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import javax.swing.*;
 
 /**
- * User: Sam Reid
- * Date: Dec 12, 2005
- * Time: 2:16:29 PM
- * Copyright (c) Dec 12, 2005 by Sam Reid
+ * The Module is the fundamental unit of a phet simulation.
+ * It entails graphics, controls and a model.
  */
 
 public abstract class Module {

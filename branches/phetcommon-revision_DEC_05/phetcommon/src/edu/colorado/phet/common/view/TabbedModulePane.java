@@ -49,12 +49,20 @@ public class TabbedModulePane extends JTabbedPane implements ModuleObserver {
         setOpaque( true );
     }
 
-    public void moduleRemoved( ModuleEvent event ) {
-        remove( event.getModule().getModulePanel() );
+    public void addTab( Module module ) {
+        addTab( module.getName(), module.getModulePanel() );
     }
 
     public void moduleAdded( ModuleEvent event ) {
-        addTab( event.getModule().getName(), event.getModule().getSimulationPanel() );
+    }
+
+    public void removeTab( Module module ) {
+        for( int i = 0; i < getTabCount(); i++ ) {
+            if( getTitleAt( i ).equals( module.getName() ) && getComponent( i ).equals( module.getModulePanel() ) ) {
+                removeTabAt( i );
+                break;
+            }
+        }
     }
 
     public void activeModuleChanged( ModuleEvent event ) {
@@ -70,6 +78,12 @@ public class TabbedModulePane extends JTabbedPane implements ModuleObserver {
         }
     }
 
+    public void moduleRemoved( ModuleEvent event ) {
+    }
+
+    public ModulePanel getModulePanel( int i ) {
+        return (ModulePanel)getComponent( i );
+    }
 }
 
 

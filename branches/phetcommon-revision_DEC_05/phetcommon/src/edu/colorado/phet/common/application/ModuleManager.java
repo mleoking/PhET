@@ -156,4 +156,12 @@ class ModuleManager {
     PhetApplication getPhetApplication() {
         return phetApplication;
     }
+
+    public void setModules( Module[] modules ) {
+        while( numModules() > 0 ) {
+            Module module = moduleAt( 0 );
+            removeModule( module );
+        }
+        addAllModules( modules );
+    }
 }

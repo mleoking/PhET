@@ -62,7 +62,7 @@ public class Point2DPolar {
 
     /**
      * @param polarOrigin
-     * @return
+     * @return the point2D
      */
     public Point2D.Double toPoint2D( Point2D polarOrigin ) {
         double x = polarOrigin.getX() + getR() * Math.cos( getTheta() );
@@ -71,7 +71,7 @@ public class Point2DPolar {
     }
 
     /**
-     * @return
+     * @return the distance from the origin
      */
     public double getR() {
         return r;
@@ -85,7 +85,7 @@ public class Point2DPolar {
     }
 
     /**
-     * @return
+     * @return the angle
      */
     public double getTheta() {
         return theta;

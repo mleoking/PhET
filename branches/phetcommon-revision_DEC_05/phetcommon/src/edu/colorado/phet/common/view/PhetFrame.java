@@ -11,6 +11,8 @@
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.application.ModuleEvent;
+import edu.colorado.phet.common.application.ModuleObserver;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.components.menu.HelpMenu;
 import edu.colorado.phet.common.view.components.menu.PhetFileMenu;
@@ -31,6 +33,8 @@ public class PhetFrame extends JFrame {
     private HelpMenu helpMenu;
     private JMenu defaultFileMenu;
     private PhetApplication application;
+    private Container contentPanel;
+    private Module lastAdded;
 
     /**
      * todo: make clock control panel useage module-specific
@@ -62,36 +66,96 @@ public class PhetFrame extends JFrame {
         menuBar.add( helpMenu );
         setJMenuBar( menuBar );
 
+        application.addModuleObserver( new ModuleObserver() {
+            public void moduleAdded( ModuleEvent event ) {
+                addModule( event.getModule() );
+            }
+
+            public void activeModuleChanged( ModuleEvent event ) {
+            }
+
+            public void moduleRemoved( ModuleEvent event ) {
+                removeModule( event.getModule() );
+            }
+
+        } );
     }
 
-    public void setModules( Module[] modules ) {
-        setContentPane( createContentPane( application, modules ) );
+    public void setContentPane( Container contentPane ) {
+        super.setContentPane( contentPane );
+        this.contentPanel = contentPane;
+    }
+
+    private void addModule( Module module ) {
+        setContentPane( addToContentPane( module ) );
+        this.lastAdded = module;
+    }
+
+    private Container addToContentPane( Module module ) {
+        if( contentPanel == null ) {
+            return module.getModulePanel();
+        }
+        else if( contentPanel instanceof ModulePanel ) {
+            return new TabbedModulePane( application, new Module[]{lastAdded, module} );
+        }
+        else if( contentPanel instanceof TabbedModulePane ) {
+            TabbedModulePane tabbedModulePane = (TabbedModulePane)contentPanel;
+            tabbedModulePane.addTab( module );
+            return tabbedModulePane;
+        }
+        else {
+            throw new RuntimeException( "Illegal type for content pane: " + contentPanel );
+        }
+    }
+
+    private void removeModule( Module module ) {
+        setContentPane( removeFromContentPane( module ) );
+    }
+
+    private Container removeFromContentPane( Module module ) {
+        if( contentPanel == null ) {
+            throw new RuntimeException( "Cannot remove module: " + module + ", from contentPane=" + contentPanel );
+        }
+        else if( contentPanel == module.getModulePanel() ) {
+            return new JLabel( "No modules" );
+        }
+        else if( contentPanel instanceof TabbedModulePane ) {
+            TabbedModulePane tabbedModulePane = (TabbedModulePane)contentPanel;
+            tabbedModulePane.removeTab( module );
+            if( tabbedModulePane.getTabCount() > 1 ) {
+                return tabbedModulePane;
+            }
+            else if( tabbedModulePane.getTabCount() == 1 ) {
+                return tabbedModulePane.getModulePanel( 0 );
+            }
+        }
+        throw new RuntimeException( "Illegal module/tab state" );
     }
 
     public PhetApplication getApplication() {
         return application;
     }
 
-    /**
-     * Creates the JContainer that holds the apparatus panel(s) for the application. If the application
-     * has only one module, the JContainer is a JPanel. If there is more than one, it is an instance
-     * of a class in PhetCommon that manages a JTabbedPane and the appartus panels for the various
-     * modules.
-     *
-     * @param application
-     * @param modules
-     * @return the container
-     */
-    private JComponent createContentPane( PhetApplication application, Module[] modules ) {
-        JComponent apparatusPanelContainer = null;
-        if( modules.length == 1 ) {
-            return modules[0].getModulePanel();
-        }
-        else {
-            apparatusPanelContainer = new TabbedModulePane( application, modules );
-        }
-        return apparatusPanelContainer;
-    }
+//    /**
+//     * Creates the JContainer that holds the apparatus panel(s) for the application. If the application
+//     * has only one module, the JContainer is a JPanel. If there is more than one, it is an instance
+//     * of a class in PhetCommon that manages a JTabbedPane and the appartus panels for the various
+//     * modules.
+//     *
+//     * @param application
+//     * @param modules
+//     * @return the container
+//     */
+//    private JComponent createContentPane( PhetApplication application, Module[] modules ) {
+//        JComponent apparatusPanelContainer = null;
+//        if( modules.length == 1 ) {
+//            return modules[0].getModulePanel();
+//        }
+//        else {
+//            apparatusPanelContainer = new TabbedModulePane( application, modules );
+//        }
+//        return apparatusPanelContainer;
+//    }
 
     //----------------------------------------------------------------
     // Menu setup methods
@@ -202,4 +266,13 @@ public class PhetFrame extends JFrame {
     public void removeMenu( JMenu menu ) {
         getJMenuBar().remove( menu );
     }
+
+    static interface ContentPaneState {
+        ContentPaneState addModule( Module module );
+
+        Container getContentPane();
+
+        ContentPaneState removeModule( Module module );
+    }
+
 }

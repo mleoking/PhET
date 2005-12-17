@@ -79,7 +79,7 @@ public class PhetApplication {
      * @param version     Appears in the About dialog
      */
     public PhetApplication( String[] args, String title, String description, String version ) {
-        this( args, title, description, version, new FrameSetup.CenteredWithSize( getScreenSize().width, getScreenSize().height - 50 ) );
+        this( args, title, description, version, new FrameSetup.CenteredWithSize( getScreenSize().width, getScreenSize().height - 150 ) );
     }
 
     /**
@@ -90,6 +90,9 @@ public class PhetApplication {
      * @param frameSetup  Defines the size and location of the frame
      */
     public PhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup ) {
+        // Put up a dialog that lets the user know that the simulation is starting up
+        showSplashScreen( title );
+
         latestInstance = this;
         phetApplications.add( this );
 
@@ -99,16 +102,15 @@ public class PhetApplication {
 
         this.moduleManager = new ModuleManager( this );
         phetFrame = new PhetFrame( this );
-        if( frameSetup != null ) {
-            frameSetup.initialize( phetFrame );
-        }
-
-        // Put up a dialog that lets the user know that the simulation is starting up
-        startupDlg = new StartupDialog( getPhetFrame(), title );
-        startupDlg.setVisible( true );
+        frameSetup.initialize( phetFrame );
 
         // Handle command line arguments
         parseArgs( args );
+    }
+
+    private void showSplashScreen( String title ) {
+        startupDlg = new StartupDialog( getPhetFrame(), title );
+        startupDlg.setVisible( true );
     }
 
     private static Dimension getScreenSize() {
@@ -139,7 +141,6 @@ public class PhetApplication {
         if( moduleManager.numModules() == 0 ) {
             throw new RuntimeException( "No modules in module manager" );
         }
-        phetFrame.setModules( moduleManager.getModules() );
 
         // Set up a mechanism that will set the reference sizes of all ApparatusPanel2 instances
         // after the PhetFrame has been set to its startup size.
@@ -147,18 +148,8 @@ public class PhetApplication {
         // at the proper size, but the ApparatusPanel2 has not yet gotten its resize event.
         phetFrame.addWindowFocusListener( new WindowAdapter() {
             public void windowGainedFocus( WindowEvent e ) {
-                // Get rid of the startup dialog
-                if( startupDlg != null ) {
-                    startupDlg.setVisible( false );
-                    // To make sure the garbage collector will clean up the dialog. This is necessary
-                    startupDlg.dispose();
-                    startupDlg = null;
-                }
-
-                for( int i = 0; i < moduleManager.numModules(); i++ ) {
-                    Module module = moduleManager.moduleAt( i );
-                    module.setReferenceSize();
-                }
+                disableSplashWindow();
+                initializeModuleReferenceSizes();
                 phetFrame.removeWindowFocusListener( this );
             }
         } );
@@ -166,6 +157,21 @@ public class PhetApplication {
         moduleManager.setActiveModule( moduleManager.moduleAt( 0 ) );
         phetFrame.setVisible( true );
         this.started = true;
+    }
+
+    private void initializeModuleReferenceSizes() {
+        for( int i = 0; i < moduleManager.numModules(); i++ ) {
+            Module module = moduleManager.moduleAt( i );
+            module.setReferenceSize();
+        }
+    }
+
+    private void disableSplashWindow() {
+        if( startupDlg != null ) {
+            startupDlg.setVisible( false );
+            startupDlg.dispose();
+            startupDlg = null;
+        }
     }
 
     public PhetFrame getPhetFrame() {
@@ -182,18 +188,7 @@ public class PhetApplication {
      * @param modules
      */
     public void setModules( Module[] modules ) {
-//        moduleManager.setModules(modules);
-        // Remove any modules that may currently be in the module manager
-        while( moduleManager.numModules() > 0 ) {
-            Module module = moduleManager.moduleAt( 0 );
-            moduleManager.removeModule( module );
-        }
-        // Add the new modules
-        if( started ) {
-            phetFrame.setModules( modules );//recreate the frame if already running.
-        }
-        moduleManager.addAllModules( modules );
-//        phetFrame.pack();
+        moduleManager.setModules( modules );
     }
 
 

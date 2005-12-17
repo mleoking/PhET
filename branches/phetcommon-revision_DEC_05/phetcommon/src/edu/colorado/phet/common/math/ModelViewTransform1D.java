@@ -22,8 +22,6 @@ import java.util.ArrayList;
 public class ModelViewTransform1D {
     private Function.LinearFunction modelToView;
     private ArrayList transformListeners = new ArrayList();
-//    private double minModel;
-//    private double maxModel;
 
     public interface Observer {
         void transformChanged( ModelViewTransform1D transform );
@@ -31,8 +29,6 @@ public class ModelViewTransform1D {
 
     public ModelViewTransform1D( double minModel, double maxModel, int minView, int maxView ) {
         this.modelToView = new Function.LinearFunction( minModel, maxModel, minView, maxView );
-//        this.minModel = minModel;
-//        this.maxModel = maxModel;
     }
 
     public int modelToView( double x ) {

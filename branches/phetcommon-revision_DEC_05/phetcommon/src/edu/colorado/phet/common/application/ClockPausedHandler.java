@@ -44,7 +44,7 @@ import java.awt.event.ActionListener;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-class ClockPausedHandler extends ClockAdapter implements ActionListener {
+class ClockPausedHandler extends ClockAdapter {
 
     private static int DEFAULT_DELAY = 500; // time between refreshes, in milliseconds
 
@@ -68,7 +68,22 @@ class ClockPausedHandler extends ClockAdapter implements ActionListener {
      */
     public ClockPausedHandler( Module module, int delay ) {
         this.module = module;
-        timer = new Timer( delay, this );
+        timer = new Timer( delay, new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                refresh( event );
+            }
+        } );
+    }
+
+    /**
+     * ActionListener implementation.
+     * Anything that needs to be refreshed should be done here.
+     * The module will be refreshed only while it is active.
+     */
+    private void refresh( ActionEvent event ) {
+        if( event.getSource() == timer && this.module.isActive() ) {
+            this.module.refresh();
+        }
     }
 
     public void clockPaused( ClockEvent clockEvent ) {
@@ -79,14 +94,4 @@ class ClockPausedHandler extends ClockAdapter implements ActionListener {
         timer.stop();
     }
 
-    /**
-     * ActionListener implementation.
-     * Anything that needs to be refreshed should be done here.
-     * The module will be refreshed only while it is active.
-     */
-    public void actionPerformed( ActionEvent event ) {
-        if( event.getSource() == timer && module.isActive() ) {
-            module.refresh();
-        }
-    }
 }
