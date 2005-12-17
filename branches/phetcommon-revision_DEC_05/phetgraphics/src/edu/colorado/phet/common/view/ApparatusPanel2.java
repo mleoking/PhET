@@ -19,6 +19,7 @@ import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphics2D;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.common.view.util.TransformManager;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
