@@ -50,7 +50,7 @@ public class TestButton {
         jf.show();
         clock.addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent event ) {
-                model.stepInTime( event.getSimulationTimeChange() );
+                model.update( event );
             }
         } );
         clock.start();
