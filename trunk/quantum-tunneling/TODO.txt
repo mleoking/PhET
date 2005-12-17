@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- sync with piccolo
 - debug closed-form solutions for barrier potentials
 - implement phase view
 - should wave packet width & center sliders only update model when slider is released?
@@ -59,6 +58,8 @@ JFREECHART:
 
 
 DONE:
+(12/17/05) - sync with piccolo
+(12/17/05) - remove piccolo config files from CVS repository
 0.0.3 ...
 (12/15/05) - temporarily disable the Loop button
 (12/15/05) - automatically restart clock when energies, direction, wave function form or wave packet properties change
