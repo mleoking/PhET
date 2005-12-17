@@ -40,9 +40,18 @@ public abstract class Module {
     private boolean helpEnabled = false;
     private ClockAdapter moduleRunner;
 
+    /**
+     * Initialize an emtpy module.  This is for subclasses who intend something rather different than the norm.
+     */
     protected Module() {
     }
 
+    /**
+     * Initialize a Module.
+     *
+     * @param name  the name for this Module
+     * @param clock a clock to model passage of time for this Module.  Should be unique to this module (non-shared).
+     */
     public Module( String name, IClock clock ) {
         this.name = name;
         this.clock = clock;
@@ -61,24 +70,89 @@ public abstract class Module {
         clock.addClockListener( moduleRunner );
     }
 
+    /**
+     * Get the clock associated with this Module.
+     *
+     * @return the clock
+     */
     public IClock getClock() {
         return clock;
     }
 
+    /**
+     * Set the BaseModel for this Module.
+     *
+     * @param model
+     */
     public void setModel( BaseModel model ) {
         this.model = model;
     }
 
+    /**
+     * Get the name of the Module.
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Get the base model.
+     *
+     * @return the model
+     */
+    public BaseModel getModel() {
+        return model;
+    }
+
+    /**
+     * Set the monitor panel, can be null.
+     *
+     * @param monitorPanel
+     */
+    public void setMonitorPanel( JPanel monitorPanel ) {
+        modulePanel.setMonitorPanel( monitorPanel );
+    }
+
+    /**
+     * Set the SimulationPanel.
+     *
+     * @param simulationPanel
+     */
+    protected void setSimulationPanel( JComponent simulationPanel ) {
+        modulePanel.setSimulationPanel( simulationPanel );
+    }
+
+    /**
+     * Set the ControlPanel for this Module.
+     *
+     * @param controlPanel
+     */
+    public void setControlPanel( ControlPanel controlPanel ) {
+        modulePanel.setControlPanel( controlPanel );
+    }
+
+    /**
+     * Get the ModulePanel, which contains everything required for this Module.
+     *
+     * @return the ModulePanel.
+     */
+    public ModulePanel getModulePanel() {
+        return modulePanel;
+    }
+
+    /**
+     * Adds a ModelElement to the BaseModel of this Module.
+     *
+     * @param modelElement
+     */
     protected void addModelElement( ModelElement modelElement ) {
         getModel().addModelElement( modelElement );
     }
 
     /**
-     * Activates this Module.
+     * Activates the Module, starting it, if necessary.
      */
     public void activate() {
         if( !moduleIsWellFormed() ) {
@@ -91,8 +165,7 @@ public abstract class Module {
     }
 
     /**
-     * Deactivates this Module, empty method here.  This method is provided so that subclasses
-     * can override.
+     * Deactivates this Module (pausing it).
      */
     public void deactivate() {
         this.clockRunningWhenActive = getClock().isRunning();
@@ -101,7 +174,7 @@ public abstract class Module {
     }
 
     /**
-     * Is this module active?
+     * Determine if the Module is currently an active module.
      *
      * @return true or false
      */
@@ -109,6 +182,11 @@ public abstract class Module {
         return active;
     }
 
+    /**
+     * Determine whether the Module has all the necessary information to run.
+     *
+     * @return true if the Module is ready to run.
+     */
     public boolean moduleIsWellFormed() {
         boolean result = true;
         result &= this.getModel() != null;
@@ -116,6 +194,11 @@ public abstract class Module {
         return result;
     }
 
+    /**
+     * Returns a String to represent the Module.
+     *
+     * @return a string
+     */
     public String toString() {
         return "name=" + name + ", model=" + model + ", simulationPanel=" + getSimulationPanel();
     }
@@ -141,12 +224,72 @@ public abstract class Module {
         getControlPanel().setHelpEnabled( h );
     }
 
+    /**
+     * Gets the ControlPanel for this Module.
+     *
+     * @return the ControlPanel
+     */
     public ControlPanel getControlPanel() {
         return modulePanel.getControlPanel();
     }
 
+    /**
+     * Gets whether help is currently enabled (active) for this Module.
+     *
+     * @return help
+     */
     public boolean isHelpEnabled() {
         return helpEnabled;
+    }
+
+    /**
+     * During a clock tick, the Module will handle user input, step the model, and update the graphics.
+     *
+     * @param event
+     */
+    protected void handleClockTick( ClockEvent event ) {
+        handleUserInput();
+        model.clockTicked( event );
+        updateGraphics( event );
+    }
+
+    /**
+     * Returns a ModuleStateDescriptor for this Module.
+     * <p/>
+     * This method should be extended by subclasses that have state attributes.
+     *
+     * @return a ModuleStateDescriptor for this Module.
+     */
+    public ModuleStateDescriptor getState() {
+        return new ModuleStateDescriptor( this );
+    }
+
+    /**
+     * Get the SimulationPanel, the play area for this simulation.
+     *
+     * @return the SimulationPanel
+     */
+    public abstract JComponent getSimulationPanel();
+
+    /**
+     * Get any help for persistence.
+     *
+     * @return an array of Classes which can be used as transient property sources.
+     */
+    public Class[] getTransientPropertySources() {
+        return new Class[0];
+    }
+
+    /**
+     * Notifies the Module that this is the reference (default) size for rendering.
+     */
+    public void setReferenceSize() {
+    }
+
+    /**
+     * Any specific user input code may go here (no-op in base class).
+     */
+    protected void handleUserInput() {
     }
 
     /**
@@ -174,59 +317,8 @@ public abstract class Module {
     }
 
     /**
-     * Refreshes the Module.
-     * This is typically called by something else (eg, ClockPausedHandler)
-     * while the clock is paused.
+     * Refreshes the Module, redrawing it while its clock is paused.
      */
     public void refresh() {
-    }
-
-    protected void handleClockTick( ClockEvent event ) {
-        handleUserInput();
-        model.clockTicked( event );
-        updateGraphics( event );
-    }
-
-    protected void handleUserInput() {
-    }
-
-    public BaseModel getModel() {
-        return model;
-    }
-
-    /**
-     * Returns a ModuleStateDescriptor for this Module.
-     * <p/>
-     * This method should be extended by subclasses that have state attributes.
-     *
-     * @return a ModuleStateDescriptor for this Module.
-     */
-    public ModuleStateDescriptor getState() {
-        return new ModuleStateDescriptor( this );
-    }
-
-    public abstract JComponent getSimulationPanel();
-
-    public Class[] getTransientPropertySources() {
-        return new Class[0];
-    }
-
-    public void setReferenceSize() {
-    }
-
-    public void setMonitorPanel( JPanel monitorPanel ) {
-        modulePanel.setMonitorPanel( monitorPanel );
-    }
-
-    protected void setSimulationPanel( JComponent simulationPanel ) {
-        modulePanel.setSimulationPanel( simulationPanel );
-    }
-
-    public void setControlPanel( ControlPanel controlPanel ) {
-        modulePanel.setControlPanel( controlPanel );
-    }
-
-    public ModulePanel getModulePanel() {
-        return modulePanel;
     }
 }
