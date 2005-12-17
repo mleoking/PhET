@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- debug closed-form solutions for barrier potentials
+- debug closed-form solutions for double barrier potentials
 - implement phase view
 - should wave packet width & center sliders only update model when slider is released?
 
