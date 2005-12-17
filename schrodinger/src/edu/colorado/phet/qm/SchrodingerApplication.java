@@ -7,7 +7,10 @@ import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.qm.modules.intensity.IntensityModule;
+import edu.colorado.phet.qm.modules.mandel.MandelModule;
 import edu.colorado.phet.qm.modules.single.SingleParticleModule;
+
+import javax.swing.*;
 
 /**
  * User: Sam Reid
@@ -35,6 +38,30 @@ public class SchrodingerApplication extends PhetApplication {
         SchrodingerModule singleParticleModel = new SingleParticleModule( this, createClock() );
         addModule( singleParticleModel );
 //
+
+        new Thread( new Runnable() {
+            public void run() {
+                try {
+                    for( int x = 0; x < 5; x++ ) {
+
+                        Thread.sleep( 3000 );
+
+                        SwingUtilities.invokeLater( new Runnable() {
+                            public void run() {
+
+                                SchrodingerModule mandelModule = new MandelModule( SchrodingerApplication.this, createClock() );
+                                addModule( mandelModule );
+                            }
+                        } );
+                    }
+
+                }
+                catch( InterruptedException e ) {
+                    e.printStackTrace();
+                }
+            }
+        } ).start();
+
 //        SchrodingerModule mandelModule = new MandelModule( this, createClock() );
 //        addModule( mandelModule );
     }
