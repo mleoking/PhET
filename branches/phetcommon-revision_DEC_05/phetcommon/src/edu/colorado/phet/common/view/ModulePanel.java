@@ -216,8 +216,8 @@ public class ModulePanel extends JPanel {
     }
 
     public void setClockControlPanel( JComponent clockControlPanel ) {
-        if( clockControlPanel != null ) {
-            remove( clockControlPanel );
+        if( this.clockControlPanel != null ) {
+            remove( this.clockControlPanel );
         }
         this.clockControlPanel = clockControlPanel;
         setPanel( clockControlPanel, clockControlPanelGbc );
