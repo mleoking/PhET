@@ -191,6 +191,9 @@ public class PhetApplication {
         moduleManager.setModules( modules );
     }
 
+    public void removeModule( Module module ) {
+        moduleManager.removeModule( module );
+    }
 
     public void addModule( Module module ) {
         moduleManager.addModule( module );

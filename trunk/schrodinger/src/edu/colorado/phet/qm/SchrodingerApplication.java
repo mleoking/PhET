@@ -10,8 +10,6 @@ import edu.colorado.phet.qm.modules.intensity.IntensityModule;
 import edu.colorado.phet.qm.modules.mandel.MandelModule;
 import edu.colorado.phet.qm.modules.single.SingleParticleModule;
 
-import javax.swing.*;
-
 /**
  * User: Sam Reid
  * Date: Jun 10, 2005
@@ -31,43 +29,17 @@ public class SchrodingerApplication extends PhetApplication {
     public SchrodingerApplication( String[] args ) {
         super( args, TITLE, DESCRIPTION, VERSION, createFrameSetup() );
 
-
         SchrodingerModule intensityModule = new IntensityModule( this, createClock() );
         addModule( intensityModule );
 
         SchrodingerModule singleParticleModel = new SingleParticleModule( this, createClock() );
         addModule( singleParticleModel );
-//
 
-        new Thread( new Runnable() {
-            public void run() {
-                try {
-                    for( int x = 0; x < 5; x++ ) {
-
-                        Thread.sleep( 3000 );
-
-                        SwingUtilities.invokeLater( new Runnable() {
-                            public void run() {
-
-                                SchrodingerModule mandelModule = new MandelModule( SchrodingerApplication.this, createClock() );
-                                addModule( mandelModule );
-                            }
-                        } );
-                    }
-
-                }
-                catch( InterruptedException e ) {
-                    e.printStackTrace();
-                }
-            }
-        } ).start();
-
-//        SchrodingerModule mandelModule = new MandelModule( this, createClock() );
-//        addModule( mandelModule );
+        SchrodingerModule mandelModule = new MandelModule( this, createClock() );
+        addModule( mandelModule );
     }
 
     private static IClock createClock() {
-//        return new SwingTimerClock( 30, new TimeConverter.Constant( 1.0 ), 1.0 );
         return new SwingClock( 30, 1 );
     }
 
