@@ -41,8 +41,8 @@ public class ModuleSerializationManager {
      *
      * @param fileName
      */
-    public void saveState( ModuleManager moduleManager, String fileName ) {
-        Module[]modules = moduleManager.getModules();
+    public void saveState( PhetApplication phetApplication, String fileName ) {
+        Module[]modules = phetApplication.getModules();
         for( int i = 0; i < modules.length; i++ ) {
             Module module = modules[i];
             Class[] transientPropertySources = module.getTransientPropertySources();
@@ -52,7 +52,7 @@ public class ModuleSerializationManager {
             }
         }
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.showSaveDialog( moduleManager.getPhetApplication().getPhetFrame() );
+        fileChooser.showSaveDialog( phetApplication.getPhetFrame() );
         File file = fileChooser.getSelectedFile();
 
         if( file != null ) {
@@ -94,7 +94,7 @@ public class ModuleSerializationManager {
             catch( Exception ex ) {
                 ex.printStackTrace();
             }
-            Module module = moduleManager.getActiveModule();
+            Module module = phetApplication.getActiveModule();
             ModuleStateDescriptor sd = module.getState();
             encoder.writeObject( sd );
             encoder.close();
@@ -107,10 +107,10 @@ public class ModuleSerializationManager {
      *
      * @param fileName
      */
-    public void restoreState( ModuleManager moduleManager, String fileName ) {
+    public void restoreState( PhetApplication phetApplication, String fileName ) {
 
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.showOpenDialog( moduleManager.getPhetApplication().getPhetFrame() );
+        fileChooser.showOpenDialog( phetApplication.getPhetFrame() );
         File file = fileChooser.getSelectedFile();
 
         if( file != null ) {
@@ -141,12 +141,12 @@ public class ModuleSerializationManager {
             // Find the module that is of the same class as the one that we're
             // restoring. Set it to be the active module, and tell it to
             // restore itself from the saved state
-            Module[]modules = moduleManager.getModules();
+            Module[]modules = phetApplication.getModules();
             for( int i = 0; i < modules.length; i++ ) {
                 Module module = modules[i];
                 if( module.getClass().getName().equals( sd.getModuleClassName() ) ) {
                     sd.setModuleState( module );
-                    moduleManager.forceSetActiveModule( module );
+                    phetApplication.setActiveModule( module );
                 }
             }
         }
@@ -155,8 +155,8 @@ public class ModuleSerializationManager {
     //////////////////////////////////////////////////////////////////////////////
     // Save/restore methods
     //
-    public void saveStateToConsole( ModuleManager moduleManager ) {
-        Module[]modules = moduleManager.getModules();
+    public void saveStateToConsole( PhetApplication phetApplication ) {
+        Module[]modules = phetApplication.getModules();
         for( int i = 0; i < modules.length; i++ ) {
             XMLEncoder encoder = new XMLEncoder( System.out );
             encoder.writeObject( modules[i] );

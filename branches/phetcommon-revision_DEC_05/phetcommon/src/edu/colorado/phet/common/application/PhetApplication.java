@@ -283,9 +283,9 @@ public class PhetApplication {
     }
 
     /**
-     * Get the Module that is currently active.
+     * Returns the active Module, or null if no module has been activated yet.
      *
-     * @return the Module that is currently active.
+     * @return the active Module, or null if no module has been activated yet.
      */
     public Module getActiveModule() {
         return moduleManager.getActiveModule();
@@ -340,7 +340,7 @@ public class PhetApplication {
      * @param filename
      */
     public void saveState( String filename ) {
-        new ModuleSerializationManager().saveState( getModuleManager(), filename );
+        new ModuleSerializationManager().saveState( this, filename );
     }
 
     /**
@@ -349,21 +349,29 @@ public class PhetApplication {
      * @param filename
      */
     public void restoreState( String filename ) {
-        new ModuleSerializationManager().restoreState( getModuleManager(), filename );
+        new ModuleSerializationManager().restoreState( this, filename );
     }
 
     /**
      * Pauses the PhetApplication (including any Modules that are active).
      */
     public void pause() {
-        moduleManager.pause();
+        getActiveModule().deactivate();
     }
 
     /**
      * Resumes progress of the PhetApplication (including any Modules that are active).
      */
     public void resume() {
-        moduleManager.resume();
+        getActiveModule().activate();
     }
 
+    /**
+     * Returns all the Modules registered with this PhetApplication.
+     *
+     * @return all the Modules registered with this PhetApplication.
+     */
+    public Module[] getModules() {
+        return moduleManager.getModules();
+    }
 }

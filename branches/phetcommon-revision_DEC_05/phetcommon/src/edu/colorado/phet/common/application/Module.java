@@ -155,7 +155,7 @@ public abstract class Module {
      * Activates the Module, starting it, if necessary.
      */
     public void activate() {
-        if( !moduleIsWellFormed() ) {
+        if( !isWellFormed() ) {
             throw new RuntimeException( "Module missing important data, module=" + this );
         }
         if( clockRunningWhenActive ) {
@@ -187,7 +187,7 @@ public abstract class Module {
      *
      * @return true if the Module is ready to run.
      */
-    public boolean moduleIsWellFormed() {
+    public boolean isWellFormed() {
         boolean result = true;
         result &= this.getModel() != null;
         result &= this.getSimulationPanel() != null;

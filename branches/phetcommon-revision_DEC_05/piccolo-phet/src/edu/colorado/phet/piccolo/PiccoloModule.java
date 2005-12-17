@@ -42,7 +42,7 @@ public class PiccoloModule extends Module {
         super.setSimulationPanel( phetPCanvas );
     }
 
-    public boolean moduleIsWellFormed() {
+    public boolean isWellFormed() {
         boolean result = true;
         result &= this.getModel() != null;
         result &= this.getPhetPCanvas() != null;
