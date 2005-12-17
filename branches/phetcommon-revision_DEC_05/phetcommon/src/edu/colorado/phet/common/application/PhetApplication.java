@@ -21,21 +21,17 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 /**
- * The top-level class for all PhET applications.
+ * The top-level class for PhET applications.
  * <p/>
  * The prefered method of creating and starting a PhetApplication is shown here:
  * <code>
- * PhetApplication myApp = new PhetApplication( args, "Title", "Description", "Version,
- * clock, useClockControlPanel, frameSetup );
- * myApp.setModules( new Module[] { modA, modB };
- * myApp.startApplication();
+ * <br>
+ * PhetApplication myApp = new PhetApplication( args, "Title", "Description", "Version, frameSetup );<br>
+ * myApp.addModule(module1);<br>
+ * myApp.addModule(module2);<br>
+ * myApp.addModule(module3);<br>
+ * myApp.startApplication();<br>
  * </code>
- * <p/>
- * The application's PhetFrame is created by the constructor, and a new one will be created
- * if createPhetFrame() is called later.
- * <p/>
- * A FrameSetup can either be specified in the constructor
- * or later, in a call to createPhetFrame().
  * <p/>
  *
  * @author ?
@@ -49,12 +45,21 @@ public class PhetApplication {
     private static final String DEBUG_MENU_ARG = "-d";
     private static PhetApplication latestInstance = null;
     private static ArrayList phetApplications = new ArrayList();
-    private boolean started = false;
 
+    /**
+     * Get the last created PhetApplication.
+     *
+     * @return last created PhetApplication.
+     */
     public static PhetApplication instance() {
         return latestInstance;
     }
 
+    /**
+     * Get all created PhetApplications.
+     *
+     * @return all created PhetApplications.
+     */
     public static PhetApplication[] instances() {
         return (PhetApplication[])phetApplications.toArray( new PhetApplication[0] );
     }
@@ -73,6 +78,8 @@ public class PhetApplication {
     private JDialog startupDlg;
 
     /**
+     * Initialize a PhetApplication with a default FrameSetup.
+     *
      * @param args        Command line args
      * @param title       Title that appears in the frame and the About dialog
      * @param description Appears in the About dialog
@@ -83,6 +90,8 @@ public class PhetApplication {
     }
 
     /**
+     * Initialize a PhetApplication.
+     *
      * @param args        Command line args
      * @param title       Title that appears in the frame and the About dialog
      * @param description Appears in the About dialog
@@ -111,6 +120,14 @@ public class PhetApplication {
     private void showSplashScreen( String title ) {
         startupDlg = new StartupDialog( getPhetFrame(), title );
         startupDlg.setVisible( true );
+    }
+
+    private void disableSplashWindow() {
+        if( startupDlg != null ) {
+            startupDlg.setVisible( false );
+            startupDlg.dispose();
+            startupDlg = null;
+        }
     }
 
     private static Dimension getScreenSize() {
@@ -156,7 +173,6 @@ public class PhetApplication {
 
         moduleManager.setActiveModule( moduleManager.moduleAt( 0 ) );
         phetFrame.setVisible( true );
-        this.started = true;
     }
 
     private void initializeModuleReferenceSizes() {
@@ -166,14 +182,11 @@ public class PhetApplication {
         }
     }
 
-    private void disableSplashWindow() {
-        if( startupDlg != null ) {
-            startupDlg.setVisible( false );
-            startupDlg.dispose();
-            startupDlg = null;
-        }
-    }
-
+    /**
+     * Get the PhetFrame for this Application.
+     *
+     * @return the PhetFrame for this Application.
+     */
     public PhetFrame getPhetFrame() {
         return phetFrame;
     }
@@ -191,42 +204,89 @@ public class PhetApplication {
         moduleManager.setModules( modules );
     }
 
+    /**
+     * Remove a Module from this PhetApplication.
+     *
+     * @param module the Module to remove.
+     */
     public void removeModule( Module module ) {
         moduleManager.removeModule( module );
     }
 
+    /**
+     * Add one Module to this PhetApplication.
+     *
+     * @param module the Module to add.
+     */
     public void addModule( Module module ) {
         moduleManager.addModule( module );
     }
 
-    public ModuleManager getModuleManager() {
+    private ModuleManager getModuleManager() {
         return moduleManager;
     }
 
+    /**
+     * Get the specified Module.
+     *
+     * @param i the Module index
+     * @return the Module.
+     */
     public Module moduleAt( int i ) {
         return moduleManager.moduleAt( i );
     }
 
+    /**
+     * Set the specified Module to be active.
+     *
+     * @param module the module to activate.
+     */
     public void setActiveModule( Module module ) {
         moduleManager.setActiveModule( module );
     }
 
+    /**
+     * Set the specified Module to be active.
+     *
+     * @param i the module index to activate.
+     */
     public void setActiveModule( int i ) {
         moduleManager.setActiveModule( i );
     }
 
+    /**
+     * Add a ModuleObserver to this PhetApplication to observe changes in the list of Modules, and which Module is active.
+     *
+     * @param moduleObserver
+     */
     public void addModuleObserver( ModuleObserver moduleObserver ) {
         moduleManager.addModuleObserver( moduleObserver );
     }
 
+    /**
+     * Get the index of the specified Module.
+     *
+     * @param m
+     * @return the index of the specified Module.
+     */
     public int indexOf( Module m ) {
         return moduleManager.indexOf( m );
     }
 
+    /**
+     * Get the number of modules.
+     *
+     * @return the number of modules.
+     */
     public int numModules() {
         return moduleManager.numModules();
     }
 
+    /**
+     * Get the Module that is currently active.
+     *
+     * @return the Module that is currently active.
+     */
     public Module getActiveModule() {
         return moduleManager.getActiveModule();
     }
@@ -235,18 +295,38 @@ public class PhetApplication {
     // Inner classes
     //-----------------------------------------------------------------
 
+    /**
+     * Get the title for this PhetApplication.
+     *
+     * @return the title.
+     */
     public String getTitle() {
         return title;
     }
 
+    /**
+     * Get the description for this PhetApplication.
+     *
+     * @return the description.
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Get the version string for this PhetApplication.
+     *
+     * @return the version string.
+     */
     public String getVersion() {
         return version;
     }
 
+    /**
+     * Add all specified modules.
+     *
+     * @param m the array of modules to add
+     */
     public void addAllModules( Module[] m ) {
         for( int i = 0; i < m.length; i++ ) {
             Module module = m[i];
@@ -254,18 +334,34 @@ public class PhetApplication {
         }
     }
 
-    public void saveState( String s ) {
-        new ModuleSerializationManager().saveState( getModuleManager(), s );
+    /**
+     * Save the set of modules to the specified location.
+     *
+     * @param filename
+     */
+    public void saveState( String filename ) {
+        new ModuleSerializationManager().saveState( getModuleManager(), filename );
     }
 
-    public void restoreState( String s ) {
-        new ModuleSerializationManager().restoreState( getModuleManager(), s );
+    /**
+     * Restore the module states specified in the file.
+     *
+     * @param filename
+     */
+    public void restoreState( String filename ) {
+        new ModuleSerializationManager().restoreState( getModuleManager(), filename );
     }
 
+    /**
+     * Pauses the PhetApplication (including any Modules that are active).
+     */
     public void pause() {
         moduleManager.pause();
     }
 
+    /**
+     * Resumes progress of the PhetApplication (including any Modules that are active).
+     */
     public void resume() {
         moduleManager.resume();
     }

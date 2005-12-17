@@ -20,9 +20,24 @@ import java.util.EventListener;
  * @version $Revision$
  */
 public interface ModuleObserver extends EventListener {
+    /**
+     * Notification when a Module is added to a PhetApplication.
+     *
+     * @param event
+     */
     public void moduleAdded( ModuleEvent event );
 
+    /**
+     * Notification when the active Module changed..
+     *
+     * @param event
+     */
     public void activeModuleChanged( ModuleEvent event );
 
+    /**
+     * Notification when a Module is removed from the PhetApplication.
+     *
+     * @param event
+     */
     public void moduleRemoved( ModuleEvent event );
 }
