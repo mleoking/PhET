@@ -52,7 +52,7 @@ public class TestManyPhetJComponents extends PhetGraphicsModule {
     }
 
     public static void main( String[] args ) {
-        QuickProfiler main = new QuickProfiler();
+        QuickProfiler main = new QuickProfiler( "main" );
         SwingClock clock = new SwingClock( 30, 1.0 );
         PhetApplication phetApplication = new PhetApplication( args, "title", "desc", "version", new FrameSetup.CenteredWithSize( 600, 600 ) );
         TestManyPhetJComponents module = new TestManyPhetJComponents( "name", clock );
@@ -60,7 +60,7 @@ public class TestManyPhetJComponents extends PhetGraphicsModule {
         phetApplication.startApplication();
         System.out.println( "time to make & display " + numComponents + ", phetJComponents= " + main + " ms" );
 
-        QuickProfiler swing = new QuickProfiler();
+        QuickProfiler swing = new QuickProfiler( "frame" );
         JFrame f = new JFrame();
         JPanel conten = new JPanel();
         conten.setLayout( null );
