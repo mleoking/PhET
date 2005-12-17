@@ -74,7 +74,7 @@ public class SimpleObservable {
     /**
      * Getter for Java Bean conformance
      *
-     * @return
+     * @return a reference to the list of observers.
      */
     public ArrayList getObserverList() {
         return observers;

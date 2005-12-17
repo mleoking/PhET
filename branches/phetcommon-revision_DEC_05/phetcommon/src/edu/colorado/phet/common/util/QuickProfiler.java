@@ -11,19 +11,15 @@
 package edu.colorado.phet.common.util;
 
 /**
- * Utility class for timing activity:
- * <p/>
- * Sample usage:
- * <p/>
- * QuickTimer paintTime=new QuickTimer();
- * paintComponent(g2d);
- * System.out.println("paintTime="+paintTime);
+ * Utility class for timing activity.
  */
 
 public class QuickProfiler {
     private long startTime;
+    private String name;
 
-    public QuickProfiler() {
+    public QuickProfiler( String name ) {
+        this.name = name;
         this.startTime = System.currentTimeMillis();
     }
 
@@ -32,7 +28,11 @@ public class QuickProfiler {
         return now - startTime;
     }
 
+    public void println() {
+        System.out.println( toString() );
+    }
+
     public String toString() {
-        return String.valueOf( getTime() );
+        return name + ": " + getTime() + " (ms)";
     }
 }

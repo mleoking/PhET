@@ -19,11 +19,8 @@ import java.awt.event.*;
 import java.io.IOException;
 
 /**
- * ContentPanel
- * <p/>
  * The Swing panel for a Module in a PhetApplication. It holds
  * the control panel, the simulation panel, the clock control panel, and a monitor panel.
- * <p/>
  * All panels are optional (can be null).
  *
  * @author Ron & Sam

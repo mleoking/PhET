@@ -22,12 +22,10 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 /**
- * User: Sam Reid
- * Date: Dec 16, 2005
- * Time: 12:32:58 PM
- * Copyright (c) Dec 16, 2005 by Sam Reid
+ * This class handles serialization of sets of modules.
+ *
+ * @author Ron Lemaster, Sam Reid
  */
-
 public class ModuleSerializationManager {
     public static boolean USE_GZIP_STREAMS = true;
     private ArrayList transientPropertySourceClasses = new ArrayList();

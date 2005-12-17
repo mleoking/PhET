@@ -15,11 +15,10 @@ import edu.colorado.phet.common.model.clock.ClockEvent;
 import java.util.ArrayList;
 
 /**
- * This class encompasses model elements in a physical system.<br>
- * It also executing commands in the model thread.
+ * This class encompasses model elements in a physical system.
+ * It also executes commands in the model thread.
  * <p/>
- * Typically, each Module in a PhetApplication will have its own instance of this
- * type.
+ * Typically, each Module in a PhetApplication will have its own instance of this type.
  *
  * @author Sam and Ron
  * @version $Revision$

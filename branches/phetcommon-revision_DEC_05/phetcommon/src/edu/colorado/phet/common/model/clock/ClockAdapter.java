@@ -11,10 +11,9 @@
 package edu.colorado.phet.common.model.clock;
 
 /**
- * User: Sam Reid
- * Date: Dec 15, 2005
- * Time: 12:39:58 PM
- * Copyright (c) Dec 15, 2005 by Sam Reid
+ * Implements the ClockListener interface with empty implementations for convenience.
+ *
+ * @author Sam Reid
  */
 
 public class ClockAdapter implements ClockListener {

@@ -24,7 +24,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 /**
- * PhetFrame
+ * The PhetFrame is the JFrame for the PhetApplication.
  *
  * @author ?
  * @version $Revision$
@@ -37,9 +37,7 @@ public class PhetFrame extends JFrame {
     private Module lastAdded;
 
     /**
-     * todo: make clock control panel useage module-specific
-     *
-     * @throws HeadlessException
+     * Constructs a PhetFrame for the specified PhetApplication.
      */
     public PhetFrame( final PhetApplication application ) throws HeadlessException {
         super( application.getTitle() + " (" + application.getVersion() + ")" );
@@ -81,6 +79,13 @@ public class PhetFrame extends JFrame {
         } );
     }
 
+    /**
+     * Sets the <code>contentPane</code> property.
+     *
+     * @param contentPane the <code>contentPane</code> object for this frame
+     * @throws java.awt.IllegalComponentStateException
+     *          (a runtime exception) if the content pane parameter is <code>null</code>
+     */
     public void setContentPane( Container contentPane ) {
         super.setContentPane( contentPane );
         this.contentPanel = contentPane;
@@ -132,30 +137,14 @@ public class PhetFrame extends JFrame {
         throw new RuntimeException( "Illegal module/tab state" );
     }
 
+    /**
+     * Gets the PhetApplication associated with this PhetFrame.
+     *
+     * @return the PhetApplication associated with this PhetFrame.
+     */
     public PhetApplication getApplication() {
         return application;
     }
-
-//    /**
-//     * Creates the JContainer that holds the apparatus panel(s) for the application. If the application
-//     * has only one module, the JContainer is a JPanel. If there is more than one, it is an instance
-//     * of a class in PhetCommon that manages a JTabbedPane and the appartus panels for the various
-//     * modules.
-//     *
-//     * @param application
-//     * @param modules
-//     * @return the container
-//     */
-//    private JComponent createContentPane( PhetApplication application, Module[] modules ) {
-//        JComponent apparatusPanelContainer = null;
-//        if( modules.length == 1 ) {
-//            return modules[0].getModulePanel();
-//        }
-//        else {
-//            apparatusPanelContainer = new TabbedModulePane( application, modules );
-//        }
-//        return apparatusPanelContainer;
-//    }
 
     //----------------------------------------------------------------
     // Menu setup methods
@@ -259,20 +248,22 @@ public class PhetFrame extends JFrame {
         return null;
     }
 
+    /**
+     * Gets the HelpMenu for this PhetFrame.
+     *
+     * @return the HelpMenu for this PhetFrame.
+     */
     public HelpMenu getHelpMenu() {
         return helpMenu;
     }
 
+    /**
+     * Removes the specified JMenu from the JMenuBar.
+     *
+     * @param menu
+     */
     public void removeMenu( JMenu menu ) {
         getJMenuBar().remove( menu );
-    }
-
-    static interface ContentPaneState {
-        ContentPaneState addModule( Module module );
-
-        Container getContentPane();
-
-        ContentPaneState removeModule( Module module );
     }
 
 }

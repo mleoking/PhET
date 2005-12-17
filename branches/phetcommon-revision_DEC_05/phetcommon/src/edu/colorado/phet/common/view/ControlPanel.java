@@ -25,12 +25,8 @@ import java.net.URL;
 import java.util.Arrays;
 
 /**
- * ControlPanel
- * <p/>
  * The panel that sits on the right side of the frame and contains the controls for the simulation.
- * <p/>
  * By default, the panel has the PhET logo at the top. This can be over-ridden with removeTitle().
- * <p/>
  * A panel with a button for showing/hiding help cna be displayed with setHelpPanelEnabled().
  *
  * @author Ron LeMaster
