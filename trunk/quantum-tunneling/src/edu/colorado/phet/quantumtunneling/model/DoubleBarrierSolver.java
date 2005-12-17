@@ -73,7 +73,7 @@ public class DoubleBarrierSolver extends AbstractPlaneSolver {
         else {
             int regionIndex = getPotentialEnergy().getRegionIndexAt( x );
             if ( isRightToLeft() ) {
-                regionIndex = getPotentialEnergy().getNumberOfRegions() - 1 - regionIndex;
+                regionIndex = flipRegionIndex( regionIndex );
             }
             switch ( regionIndex ) {
             case 0:

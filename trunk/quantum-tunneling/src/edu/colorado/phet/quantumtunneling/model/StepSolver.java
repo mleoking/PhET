@@ -71,7 +71,7 @@ public class StepSolver extends AbstractPlaneSolver {
         else {
             int regionIndex = getPotentialEnergy().getRegionIndexAt( x );
             if ( isRightToLeft() ) {
-                regionIndex = getPotentialEnergy().getNumberOfRegions() - 1 - regionIndex;
+                regionIndex = flipRegionIndex( regionIndex );
             }
             if ( regionIndex == 0 ) {
                 result = solveRegion1( x, t );

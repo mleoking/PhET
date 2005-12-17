@@ -58,6 +58,7 @@ JFREECHART:
 
 
 DONE:
+(12/17/05) - encapsulate method of flipping region index for right-to-left waves
 (12/17/05) - bugfix: set wave function to zero when TE<PE
 (12/17/05) - fix bugs in SingleBarrierSolver
 (12/17/05) - sync with piccolo
