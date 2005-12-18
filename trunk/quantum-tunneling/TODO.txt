@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- debug closed-form solutions for double barrier potentials
+- compare behavior of plane wave to Mathematic output
 - implement phase view
 - should wave packet width & center sliders only update model when slider is released?
 
@@ -58,6 +58,7 @@ JFREECHART:
 
 
 DONE:
+(12/17/05) - debug DoubleBarrierSolver
 (12/17/05) - encapsulate method of flipping region index for right-to-left waves
 (12/17/05) - bugfix: set wave function to zero when TE<PE
 (12/17/05) - fix bugs in SingleBarrierSolver
