@@ -107,7 +107,7 @@ public class PSwingRepaintManager extends RepaintManager {
         // we will want to capture that repaint.  However, we also will
         // need to translate the repaint request since the component may
         // be offset inside another component.
-        for( Component comp = c; comp != null && isLightweight( comp ) && !captureRepaint; comp = comp.getParent() ) {
+        for( Component comp = c; comp != null && comp.isLightweight() && !captureRepaint; comp = comp.getParent() ) {
 
 //                if( comp.getParent() == swingWrapper ) {
             if( swingWrappers.contains( comp.getParent() ) ) {
@@ -141,16 +141,11 @@ public class PSwingRepaintManager extends RepaintManager {
                     };
                     SwingUtilities.invokeLater( repainter );
                 }
-
             }
         }
         else {
             super.addDirtyRegion( c, x, y, w, h );
         }
-    }
-
-    private boolean isLightweight( Component comp ) {
-        return comp.getPeer() == null || comp.isLightweight();
     }
 
     /**
