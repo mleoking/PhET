@@ -22,7 +22,6 @@ import edu.colorado.phet.qm.view.piccolo.RectangularPotentialGraphic;
 import edu.colorado.phet.qm.view.piccolo.SchrodingerScreenNode;
 import edu.colorado.phet.qm.view.piccolo.WavefunctionGraphic;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityGraphic;
-import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -91,10 +90,6 @@ public class SchrodingerPanel extends PhetPCanvas {
 
     public PSwing getDoubleSlitPanelGraphic() {
         return schrodingerScreenNode.getDoubleSlitPanelGraphic();
-    }
-
-    private PNode getDoubleSlitPanelButton() {
-        return schrodingerScreenNode.getDoubleSlitPanelButton();
     }
 
     protected void updateScreen() {

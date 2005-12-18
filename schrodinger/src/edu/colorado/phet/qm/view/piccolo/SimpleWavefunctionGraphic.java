@@ -89,7 +89,6 @@ public class SimpleWavefunctionGraphic extends PNode {
     }
 
     protected void decorateBuffer() {
-
     }
 
     public Wavefunction getWavefunction() {
