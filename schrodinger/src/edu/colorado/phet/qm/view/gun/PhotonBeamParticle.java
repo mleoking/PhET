@@ -103,7 +103,7 @@ public class PhotonBeamParticle extends GunParticle {
     }
 
     public void fireParticle() {
-        getGunGraphic().getSchrodingerPanel().setDisplayPhotonColor( photonBeam.getPhoton() );
+        getGunGraphic().getSchrodingerPanel().setPhoton( photonBeam.getPhoton() );
         clearModelElements();
         photonBeam.setHighIntensityModeOn( true );
         photonBeam.setIntensity( 0 );
@@ -123,7 +123,7 @@ public class PhotonBeamParticle extends GunParticle {
 
     public void deactivate( AbstractGunGraphic abstractGunGraphic ) {
         photonBeam.getPhoton().deactivate( abstractGunGraphic );
-        getGunGraphic().getSchrodingerPanel().setDisplayPhotonColor( null );
+        getGunGraphic().getSchrodingerPanel().setPhoton( null );
     }
 
     public double getStartPy() {

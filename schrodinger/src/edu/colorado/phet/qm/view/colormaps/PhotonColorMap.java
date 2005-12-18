@@ -42,6 +42,9 @@ public class PhotonColorMap implements ColorMap {
     }
 
     public PhotonColorMap( SchrodingerPanel schrodingerPanel, final Photon photon, WaveValueAccessor waveValueAccessor ) {
+        if( waveValueAccessor == null ) {
+            throw new RuntimeException( "Null waveValueAccessor" );
+        }
         this.schrodingerPanel = schrodingerPanel;
         this.photon = photon;
         this.waveValueAccessor = waveValueAccessor;
@@ -54,8 +57,7 @@ public class PhotonColorMap implements ColorMap {
         if( abs > 1 ) {
             abs = 1;
         }
-        Color color = rootColor.toColor( abs );
-        return color;
+        return rootColor.toColor( abs );
     }
 
     protected double getBrightness( double x ) {

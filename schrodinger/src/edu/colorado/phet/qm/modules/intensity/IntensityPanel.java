@@ -37,7 +37,7 @@ public class IntensityPanel extends SchrodingerPanel {
         smoothIntensityDisplay = new SmoothIntensityDisplay( this, getIntensityDisplay() );
         setSmoothScreen( SMOOTH_SCREEN_DEFAULT );
         splitColorMap = new SplitColorMap( intensityModule.getSplitModel(), this );//this.intensityModule.getSplitModel() );
-        setDisplayPhotonColor( super.getDisplayPhotonColor() );
+        setPhoton( super.getDisplayPhotonColor() );
         getIntensityDisplay().getDetectorSheet().getDetectorSheetPanel().setBrightness();
     }
 
@@ -101,8 +101,8 @@ public class IntensityPanel extends SchrodingerPanel {
         return splitColorMap;
     }
 
-    public void setDisplayPhotonColor( Photon photon ) {
-        super.setDisplayPhotonColor( photon );
+    public void setPhoton( Photon photon ) {
+        super.setPhoton( photon );
         if( splitColorMap != null ) {
             splitColorMap.setRootColor( photon == null ? null : new PhotonColorMap.ColorData( photon.getWavelengthNM() ) );
         }

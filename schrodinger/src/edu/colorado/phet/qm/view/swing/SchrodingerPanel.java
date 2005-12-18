@@ -8,6 +8,13 @@ import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.phetcommon.RulerGraphic;
+import edu.colorado.phet.qm.view.colormaps.ColorMap;
+import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
+import edu.colorado.phet.qm.view.colormaps.WaveValueAccessor;
+import edu.colorado.phet.qm.view.complexcolormaps.ComplexColorMap;
+import edu.colorado.phet.qm.view.complexcolormaps.ComplexColorMapAdapter;
+import edu.colorado.phet.qm.view.complexcolormaps.MagnitudeInGrayscale3;
+import edu.colorado.phet.qm.view.complexcolormaps.VisualColorMap3;
 import edu.colorado.phet.qm.view.gun.AbstractGunGraphic;
 import edu.colorado.phet.qm.view.gun.Photon;
 import edu.colorado.phet.qm.view.piccolo.DetectorGraphic;
@@ -37,6 +44,8 @@ public class SchrodingerPanel extends PhetPCanvas {
     private boolean fadeEnabled = true;
     private ArrayList listeners = new ArrayList();
     private boolean inverseSlits = false;
+    private ComplexColorMap complexColorMap = new MagnitudeInGrayscale3();
+    private WaveValueAccessor waveValueAccessor = new WaveValueAccessor.Magnitude();
 
     public SchrodingerPanel( SchrodingerModule module ) {
         setLayout( null );
@@ -161,11 +170,34 @@ public class SchrodingerPanel extends PhetPCanvas {
         removeDetectorGraphic( detectorGraphic );
     }
 
-    public void setDisplayPhotonColor( Photon photon ) {
+    public void setPhoton( Photon photon ) {
         this.photon = photon;
-//        getWavefunctionGraphic().setPhoton( photon );
-//        getWavefunctionGraphic().getMagnitudeColorMap().setPhoton( photon );
+
         getIntensityDisplay().setDisplayPhotonColor( photon );
+        updateWavefunctionGraphic();
+    }
+
+    private void updateWavefunctionGraphic() {
+        getWavefunctionGraphic().setColorMap( createColorMap() );
+    }
+
+    public void setVisualizationStyle( ComplexColorMap colorMap, WaveValueAccessor waveValueAccessor ) {
+        this.complexColorMap = colorMap;
+        this.waveValueAccessor = waveValueAccessor;
+        updateWavefunctionGraphic();
+    }
+
+    private WaveValueAccessor getWaveValueAccessor() {
+        return waveValueAccessor;
+    }
+
+    private ColorMap createColorMap() {
+        if( photon != null && !( complexColorMap instanceof VisualColorMap3 ) ) {
+            return new PhotonColorMap( this, photon, getWaveValueAccessor() );
+        }
+        else {
+            return new ComplexColorMapAdapter( getDiscreteModel().getWavefunction(), complexColorMap );
+        }
     }
 
     public void clearWavefunction() {
@@ -193,8 +225,6 @@ public class SchrodingerPanel extends PhetPCanvas {
         getWavefunctionGraphic().localToGlobal( gridRect );
         getLayer().globalToLocal( gridRect );
         return gridRect;
-//        Rectangle screenRect = wavefunctionGraphic.getNetTransform().createTransformedShape( gridRect ).getBounds();
-//        return screenRect;
     }
 
     public void removePotentialGraphic( RectangularPotentialGraphic rectangularPotentialGraphic ) {

@@ -44,7 +44,7 @@ public class PhotonBeam extends HighIntensityBeam {
 
     private void handleColorChange() {
         getGunGraphic().getSchrodingerModule().getDiscreteModel().clearWavefunction();
-        getGunGraphic().getSchrodingerPanel().setDisplayPhotonColor( getPhoton() );
+        getGunGraphic().getSchrodingerPanel().setPhoton( getPhoton() );
     }
 
     public AbstractGunGraphic.MomentumChangeListener getColorChangeHandler() {
@@ -59,7 +59,7 @@ public class PhotonBeam extends HighIntensityBeam {
         super.setHighIntensityModeOn( on );
         if( on ) {
             photonWave.setOn();
-            getGunGraphic().getSchrodingerPanel().setDisplayPhotonColor( getPhoton() );
+            getGunGraphic().getSchrodingerPanel().setPhoton( getPhoton() );
         }
         else {
             photonWave.setOff();
@@ -82,12 +82,12 @@ public class PhotonBeam extends HighIntensityBeam {
 
     public void activate( HighIntensityGunGraphic gun ) {
         super.activate( gun );
-        getGunGraphic().getSchrodingerPanel().setDisplayPhotonColor( getPhoton() );
+        getGunGraphic().getSchrodingerPanel().setPhoton( getPhoton() );
     }
 
     public void deactivate( HighIntensityGunGraphic highIntensityGun ) {
         super.deactivate( highIntensityGun );
-        getGunGraphic().getSchrodingerPanel().setDisplayPhotonColor( null );
+        getGunGraphic().getSchrodingerPanel().setPhoton( null );
     }
 
 }
