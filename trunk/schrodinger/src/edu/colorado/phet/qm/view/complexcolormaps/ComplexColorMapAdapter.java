@@ -1,4 +1,4 @@
-package edu.colorado.phet.qm.view.colormaps3;
+package edu.colorado.phet.qm.view.complexcolormaps;
 
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.view.colormaps.ColorMap;
@@ -13,8 +13,8 @@ import java.awt.*;
  * To change this template use File | Settings | File Templates.
  */
 public class ComplexColorMapAdapter implements ColorMap {
-    Wavefunction wavefunction;
-    ComplexColorMap complexColorMap;
+    private Wavefunction wavefunction;
+    private ComplexColorMap complexColorMap;
 
     public ComplexColorMapAdapter( Wavefunction wavefunction, ComplexColorMap complexColorMap ) {
         this.wavefunction = wavefunction;

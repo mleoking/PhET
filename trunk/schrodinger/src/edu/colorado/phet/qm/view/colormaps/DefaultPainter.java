@@ -43,11 +43,6 @@ public class DefaultPainter implements ColorMap {
             r = Math.min( r, 1.0 );
             paint = new Color( (int)( r * 255 ), color.getGreen(), color.getBlue() );
         }
-//        Damping damping = schrodingerPanel.getDiscreteModel().getDamping();
-//        double val = damping.getDamping( schrodingerPanel.getDiscreteModel().getWavefunction(), i, k );
-//        if( val > 0 ) {
-//            paint = new Color( 255, 255, 255 );
-//        }
         return paint;
     }
 
@@ -60,8 +55,7 @@ public class DefaultPainter implements ColorMap {
                                                     new AffineTransform(), null );
         Raster raster = context.getRaster( 0, 0, 1, 1 );
         int[] co = raster.getPixel( 0, 0, (int[])null );
-        Color color = new Color( co[0], co[1], co[2] );
-        return color;
+        return new Color( co[0], co[1], co[2] );
     }
 
     private Potential getPotential() {

@@ -13,7 +13,7 @@ import javax.swing.*;
  * To change this template use File | Settings | File Templates.
  */
 public class WaveDebugger {
-    Wavefunction wavefunction;
+    private Wavefunction wavefunction;
     private JFrame frame;
     private PhetPCanvas phetPCanvas;
     private SimpleWavefunctionGraphic simpleWavefunctionGraphic;
@@ -23,7 +23,7 @@ public class WaveDebugger {
         frame = new JFrame( name );
         phetPCanvas = new PhetPCanvas();
         frame.setContentPane( phetPCanvas );
-        simpleWavefunctionGraphic = new SimpleWavefunctionGraphic( phetPCanvas, wavefunction );
+        simpleWavefunctionGraphic = new SimpleWavefunctionGraphic( wavefunction );
         phetPCanvas.addScreenChild( simpleWavefunctionGraphic );
         frame.setSize( 400, 400 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );

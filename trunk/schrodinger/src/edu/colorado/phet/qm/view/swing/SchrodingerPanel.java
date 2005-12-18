@@ -163,7 +163,7 @@ public class SchrodingerPanel extends PhetPCanvas {
 
     public void setDisplayPhotonColor( Photon photon ) {
         this.photon = photon;
-        getWavefunctionGraphic().setPhoton( photon );
+//        getWavefunctionGraphic().setPhoton( photon );
 //        getWavefunctionGraphic().getMagnitudeColorMap().setPhoton( photon );
         getIntensityDisplay().setDisplayPhotonColor( photon );
     }

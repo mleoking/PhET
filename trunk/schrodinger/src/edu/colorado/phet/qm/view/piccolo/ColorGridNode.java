@@ -4,6 +4,8 @@ import edu.colorado.phet.qm.view.colormaps.ColorGrid;
 import edu.colorado.phet.qm.view.colormaps.ColorMap;
 import edu.umd.cs.piccolo.nodes.PImage;
 
+import java.awt.image.BufferedImage;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Sam
@@ -26,5 +28,25 @@ public class ColorGridNode extends PImage {
         colorGrid.colorize( colorMap );
         setImage( colorGrid.getBufferedImage() );
         repaint();
+    }
+
+    public BufferedImage getBufferedImage() {
+        return colorGrid.getBufferedImage();
+    }
+
+    public int getCellWidth() {
+        return colorGrid.getCellWidth();
+    }
+
+    public int getCellHeight() {
+        return colorGrid.getCellHeight();
+    }
+
+    public ColorGrid getColorGrid() {
+        return colorGrid;
+    }
+
+    public void setCellDimensions( int dx, int dy ) {
+        colorGrid.setCellDimensions( dx, dy );
     }
 }

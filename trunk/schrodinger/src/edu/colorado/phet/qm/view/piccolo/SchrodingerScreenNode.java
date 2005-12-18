@@ -47,11 +47,19 @@ public class SchrodingerScreenNode extends PNode {
     private static final int WAVE_AREA_LAYOUT_INSET_X = 20;
     private static final int WAVE_AREA_LAYOUT_INSET_Y = 20;
     private PSwing doubleSlitPanelButton;
+    private int numIterationsBetwenScreenUpdate = 2;
 
     public SchrodingerScreenNode( SchrodingerModule module, final SchrodingerPanel schrodingerPanel ) {
         this.module = module;
         this.schrodingerPanel = schrodingerPanel;
-        wavefunctionGraphic = new WavefunctionGraphic( schrodingerPanel );
+        wavefunctionGraphic = new WavefunctionGraphic( schrodingerPanel, module.getDiscreteModel().getWavefunction() );
+        getDiscreteModel().addListener( new DiscreteModel.Adapter() {
+            public void finishedTimeStep( DiscreteModel model ) {
+                if( model.getTimeStep() % numIterationsBetwenScreenUpdate == 0 ) {
+                    wavefunctionGraphic.update();
+                }
+            }
+        } );
         wavefunctionGraphic.setOffset( 100, 50 );
 
         rulerGraphic = new RulerGraphic( schrodingerPanel );
@@ -190,7 +198,7 @@ public class SchrodingerScreenNode extends PNode {
     }
 
     public void setWaveSize( int width, int height ) {
-        wavefunctionGraphic.setWaveSize( width, height );
+        wavefunctionGraphic.setGridDimensions( width, height );
         relayout();
     }
 

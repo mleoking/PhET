@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.view.colormaps3;
+package edu.colorado.phet.qm.view.complexcolormaps;
 
 import edu.colorado.phet.qm.model.Complex;
 

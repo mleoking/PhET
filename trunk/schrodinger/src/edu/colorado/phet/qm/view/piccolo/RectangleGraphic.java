@@ -80,8 +80,7 @@ public class RectangleGraphic extends PNode {
     }
 
     protected ColorGrid getColorGrid() {
-        ColorGrid grid = schrodingerPanel.getWavefunctionGraphic().getColorGrid();
-        return grid;
+        return schrodingerPanel.getWavefunctionGraphic().getColorGrid();
     }
 
     public PPath getAreaGraphic() {
