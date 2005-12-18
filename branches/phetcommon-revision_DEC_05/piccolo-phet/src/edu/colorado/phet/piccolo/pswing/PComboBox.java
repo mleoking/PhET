@@ -14,6 +14,7 @@ import java.io.Serializable;
 import java.util.Vector;
 
 /**
+ * The <b>PComboBox</b> is used instead of a JComboBox in a Piccolo scene graph.
  * This PComboBox won't work properly if it is located in an abnormal hierarchy of Cameras.
  * Support is provided for only one (or zero) view transforms.
  * <p/>
@@ -32,8 +33,8 @@ import java.util.Vector;
  * focus through 'tab' focus traversal and the keyboard is used to interact
  * with the ComboBox, there may be unexpected results.
  * <p/>
- * <P>
- * <b>Warning:</b> Serialized and ZSerialized objects of this class will not be
+ * <p/>
+ * <b>Warning:</b> Serialized objects of this class will not be
  * compatible with future Piccolo releases. The current serialization support is
  * appropriate for short term storage or RMI between applications running the
  * same version of Piccolo. A future release of Piccolo will provide support for long
@@ -43,12 +44,11 @@ import java.util.Vector;
  */
 public class PComboBox extends JComboBox implements Serializable {
 
-//    private MouseEvent currentEvent;
     private PSwing pSwing;
     private PSwingCanvas canvas;
 
     /**
-     * Creates a ZComboBox that takes its items from an existing ComboBoxModel.
+     * Creates a PComboBox that takes its items from an existing ComboBoxModel.
      *
      * @param model The ComboBoxModel from which the list will be created
      */
@@ -58,9 +58,9 @@ public class PComboBox extends JComboBox implements Serializable {
     }
 
     /**
-     * Creates a ZComboBox that contains the elements in the specified array.
+     * Creates a PComboBox that contains the elements in the specified array.
      *
-     * @param items The items to populate the ZComboBox list
+     * @param items The items to populate the PComboBox list
      */
     public PComboBox( final Object items[] ) {
         super( items );
@@ -68,9 +68,9 @@ public class PComboBox extends JComboBox implements Serializable {
     }
 
     /**
-     * Creates a ZComboBox that contains the elements in the specified Vector.
+     * Creates a PComboBox that contains the elements in the specified Vector.
      *
-     * @param items The items to populate the ZComboBox list
+     * @param items The items to populate the PComboBox list
      */
     public PComboBox( Vector items ) {
         super( items );
@@ -78,7 +78,7 @@ public class PComboBox extends JComboBox implements Serializable {
     }
 
     /**
-     * Create an empty ZComboBox
+     * Create an empty PComboBox
      */
     public PComboBox() {
         super();
@@ -86,12 +86,18 @@ public class PComboBox extends JComboBox implements Serializable {
     }
 
     /**
-     * Substitue our look and feel for the default
+     * Substitue our UI for the default
      */
     private void init() {
         setUI( new PBasicComboBoxUI() );
     }
 
+    /**
+     * Clients must set the PSwing and PSwingCanvas environment for this PComboBox to work properly.
+     *
+     * @param pSwing
+     * @param canvas
+     */
     public void setEnvironment( PSwing pSwing, PSwingCanvas canvas ) {
         this.pSwing = pSwing;
         this.canvas = canvas;
@@ -116,7 +122,7 @@ public class PComboBox extends JComboBox implements Serializable {
 
     /**
      * The substitute ComboPopupMenu that places itself correctly
-     * for Piccolo
+     * in Piccolo.
      */
     protected class PBasicComboPopup extends BasicComboPopup {
 
@@ -130,7 +136,7 @@ public class PComboBox extends JComboBox implements Serializable {
 
         /**
          * Computes the bounds for the Popup in Piccolo if a
-         * ZMouseEvent has been received.  Otherwise, it uses the
+         * PMouseEvent has been received.  Otherwise, it uses the
          * default algorithm for placing the popup.
          *
          * @param px corresponds to the x coordinate of the popup
