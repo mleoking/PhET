@@ -3,7 +3,7 @@ package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.qm.SchrodingerModule;
-import edu.colorado.phet.qm.view.piccolo.WavefunctionGraphic;
+import edu.colorado.phet.qm.view.piccolo.SchrodingerScreenNode;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -41,18 +41,14 @@ public class ResolutionControl extends AdvancedPanel {
 
         JLabel numSkip = new JLabel( "Time Step" );
         addControl( numSkip );
-        final JSpinner frameSkip = new JSpinner( new SpinnerNumberModel( WavefunctionGraphic.numIterationsBetwenScreenUpdate, 1, 20, 1 ) );
+        final JSpinner frameSkip = new JSpinner( new SpinnerNumberModel( SchrodingerScreenNode.numIterationsBetwenScreenUpdate, 1, 20, 1 ) );
         frameSkip.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 Integer val = (Integer)frameSkip.getValue();
-                WavefunctionGraphic.numIterationsBetwenScreenUpdate = val.intValue();
+                SchrodingerScreenNode.numIterationsBetwenScreenUpdate = val.intValue();
             }
         } );
         addControl( frameSkip );
-    }
-
-    private int getWaveWidth() {
-        return getSchrodingerModule().getDiscreteModel().getGridWidth();
     }
 
     private SchrodingerModule getSchrodingerModule() {

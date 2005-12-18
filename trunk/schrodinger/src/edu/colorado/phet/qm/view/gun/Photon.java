@@ -26,7 +26,7 @@ public class Photon extends GunParticle {
     }
 
     public void setup( AbstractGunGraphic abstractGunGraphic ) {
-        getGunGraphic().getSchrodingerPanel().setDisplayPhotonColor( this );
+        getGunGraphic().getSchrodingerPanel().setPhoton( this );
         abstractGunGraphic.getSchrodingerModule().getDiscreteModel().setPropagatorClassical();
 //        abstractGunGraphic.setGunTypeControl(wavelengthSliderGraphic);
         abstractGunGraphic.setGunControls( wavelengthSliderGraphic );

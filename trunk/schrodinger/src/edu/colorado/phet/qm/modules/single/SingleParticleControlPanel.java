@@ -8,7 +8,7 @@ import edu.colorado.phet.qm.controls.DetectorPanel;
 import edu.colorado.phet.qm.controls.InverseSlitsCheckbox;
 import edu.colorado.phet.qm.controls.SchrodingerControlPanel;
 import edu.colorado.phet.qm.model.Detector;
-import edu.colorado.phet.qm.view.complexcolormaps.*;
+import edu.colorado.phet.qm.view.swing.VisualizationPanel;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -49,47 +49,13 @@ public class SingleParticleControlPanel extends SchrodingerControlPanel {
         getAdvancedPanel().addControl( createDetectorArray );
         getAdvancedPanel().addControlFullWidth( modelSlider );
 
-        VerticalLayoutPanel colorPanel = createVisualizationPanel();
+        VerticalLayoutPanel colorPanel = new VisualizationPanel( getSchrodingerPanel() );
         addControlFullWidth( colorPanel );
 
 //        super.addSlitCheckbox();
         super.addResetButton();
         addControlFullWidth( advancedPanel );
     }
-
-
-    private VerticalLayoutPanel createVisualizationPanel() {
-        VerticalLayoutPanel colorPanel = new VerticalLayoutPanel();
-        colorPanel.setBorder( BorderFactory.createTitledBorder( "Wave Function Display" ) );
-        ButtonGroup buttonGroup = new ButtonGroup();
-
-        JRadioButton grayMag = createVisualizationButton( "Magnitude", new MagnitudeInGrayscale3(), true, buttonGroup );
-        colorPanel.addFullWidth( grayMag );
-
-        JRadioButton realGray = createVisualizationButton( "Real Part", new RealGrayscale3(), false, buttonGroup );
-        colorPanel.addFullWidth( realGray );
-
-        JRadioButton complexGray = createVisualizationButton( "Imaginary Part        ", new ImagGrayscale3(), false, buttonGroup );
-        colorPanel.addFullWidth( complexGray );
-
-        JRadioButton visualTM = createVisualizationButton( "Phase Color", new VisualColorMap3(), false, buttonGroup );
-        colorPanel.addFullWidth( visualTM );
-
-        return colorPanel;
-    }
-
-    private JRadioButton createVisualizationButton( String s, final ComplexColorMap colorMap, boolean b, ButtonGroup buttonGroup ) {
-        JRadioButton radioButton = new JRadioButton( s );
-        radioButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                getSchrodingerPanel().getWavefunctionGraphic().setComplexColorMap( colorMap );
-            }
-        } );
-        buttonGroup.add( radioButton );
-        radioButton.setSelected( b );
-        return radioButton;
-    }
-
 
     private void createDetectorArray() {
         createDetectorArray( 20 );
