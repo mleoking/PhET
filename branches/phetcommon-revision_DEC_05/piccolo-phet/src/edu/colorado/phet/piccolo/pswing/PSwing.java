@@ -154,7 +154,7 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
      * Used as a hashtable key for this object in the Swing component's
      * client properties.
      */
-    public static final String VISUAL_COMPONENT_KEY = "PSwing";
+    public static final String PSWING_PROPERTY = "PSwing";
     private static final AffineTransform IDENTITY_TRANSFORM = new AffineTransform();
     private static PBounds TEMP_REPAINT_BOUNDS2 = new PBounds();
     private static boolean highQualityRender = false;
@@ -162,13 +162,13 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
     /**
      * The cutoff at which the Swing component is rendered greek
      */
-    protected double renderCutoff = 0.3;
-    protected JComponent component = null;
-    protected double minFontSize = Double.MAX_VALUE;
-    protected transient Stroke defaultStroke = new BasicStroke();
-    protected Font defaultFont = new Font( "Serif", Font.PLAIN, 12 );
+    private double renderCutoff = 0.3;
+    private JComponent component = null;
+    private double minFontSize = Double.MAX_VALUE;
+    private Stroke defaultStroke = new BasicStroke();
+    private Font defaultFont = new Font( "Serif", Font.PLAIN, 12 );
     private BufferedImage buffer;
-    private PSwingCanvas PSwingCanvas;
+    private PSwingCanvas pSwingCanvas;
 
     /**
      * Constructs a new visual component wrapper for the Swing component
@@ -180,11 +180,11 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
      * @param component The swing component to be wrapped
      */
     public PSwing( PSwingCanvas canvas, JComponent component ) {
-        this.PSwingCanvas = canvas;
+        this.pSwingCanvas = canvas;
         this.component = component;
-        component.putClientProperty( VISUAL_COMPONENT_KEY, this );
+        component.putClientProperty( PSWING_PROPERTY, this );
         init( component );
-        this.PSwingCanvas.getSwingWrapper().add( component );
+        this.pSwingCanvas.getSwingWrapper().add( component );
         component.revalidate();
         reshape();
     }
@@ -224,7 +224,7 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
         g2.setFont( defaultFont );
 
         if( component.getParent() == null ) {
-            PSwingCanvas.getSwingWrapper().add( component );
+            pSwingCanvas.getSwingWrapper().add( component );
             component.revalidate();
         }
 
@@ -238,7 +238,7 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
     }
 
     protected boolean shouldRenderGreek( PPaintContext renderContext ) {
-        return ( renderContext.getScale() < renderCutoff && PSwingCanvas.getInteracting() ) ||
+        return ( renderContext.getScale() < renderCutoff && pSwingCanvas.getInteracting() ) ||
                minFontSize * renderContext.getScale() < 0.5;
     }
 

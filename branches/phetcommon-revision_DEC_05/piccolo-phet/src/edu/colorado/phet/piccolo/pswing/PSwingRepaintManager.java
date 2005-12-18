@@ -131,7 +131,7 @@ public class PSwingRepaintManager extends RepaintManager {
         // accordingly
         if( captureRepaint ) {
             if( !isPainting( capturedComponent ) ) {
-                final PSwing vis = (PSwing)capturedComponent.getClientProperty( PSwing.VISUAL_COMPONENT_KEY );
+                final PSwing vis = (PSwing)capturedComponent.getClientProperty( PSwing.PSWING_PROPERTY );
                 if( vis != null ) {
                     final int repaintX = captureX;
                     final int repaintY = captureY;
@@ -169,7 +169,7 @@ public class PSwingRepaintManager extends RepaintManager {
             Runnable validater = new Runnable() {
                 public void run() {
                     capturedComponent.validate();
-                    PSwing swing = (PSwing)capturedComponent.getClientProperty( PSwing.VISUAL_COMPONENT_KEY );
+                    PSwing swing = (PSwing)capturedComponent.getClientProperty( PSwing.PSWING_PROPERTY );
                     swing.reshape();
                 }
             };
