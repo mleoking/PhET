@@ -234,8 +234,8 @@ public class DoubleBarrierSolver extends AbstractPlaneSolver {
         t2.setValue( k2.getAdd( k3 ) );
         t2.multiply( x2 );
         t2.add( k4.getMultiply( x4 ) );
-        t2.multiply( Complex.I );
         t2.multiply( 2 );
+        t2.multiply( Complex.I );
         t2.exp();
         t2.multiply( k1.getAdd( k2 ) );
         t2.multiply( k2.getSubtract( k3 ) );
@@ -247,8 +247,8 @@ public class DoubleBarrierSolver extends AbstractPlaneSolver {
         t3.setValue( k2.getMultiply( x1 ) );
         t3.add( k3.getMultiply( x2 ) );
         t3.add( k4.getMultiply( x4 ) );
-        t3.multiply( Complex.I );
         t3.multiply( 2 );
+        t3.multiply( Complex.I );
         t3.exp();
         t3.multiply( k1.getMultiply( -1 ).getAdd( k2 ) );
         t3.multiply( k2.getAdd( k3 ) );
@@ -260,8 +260,8 @@ public class DoubleBarrierSolver extends AbstractPlaneSolver {
         t4.setValue( k2.getMultiply( x1 ) );
         t4.add( k3.getMultiply( x3 ) );
         t4.add( k4.getMultiply( x4 ) );
-        t4.multiply( Complex.I );
         t4.multiply( 2 );
+        t4.multiply( Complex.I );
         t4.exp();
         t4.multiply( k1.getMultiply( -1 ).getAdd( k2 ) );
         t4.multiply( k2.getSubtract( k3 ) );
@@ -273,8 +273,8 @@ public class DoubleBarrierSolver extends AbstractPlaneSolver {
         t5.setValue( k2.getMultiply( x2 ) );
         t5.add( k3.getMultiply( x3 ) );
         t5.add( k4.getMultiply( x4 ) );
-        t5.multiply( Complex.I );
         t5.multiply( 2 );
+        t5.multiply( Complex.I );
         t5.exp();
         t5.multiply( k1.getAdd( k2 ) );
         t5.multiply( k2.getAdd( k3 ) );
@@ -285,8 +285,8 @@ public class DoubleBarrierSolver extends AbstractPlaneSolver {
         MutableComplex t6 = new MutableComplex();
         t6.setValue( k2.getMultiply( x1 ) );
         t6.add( k3.getAdd( k4 ).getMultiply( x3 ) );
-        t6.multiply( Complex.I );
         t6.multiply( 2 );
+        t6.multiply( Complex.I );
         t6.exp();
         t6.multiply( k1.getMultiply( -1 ).getAdd( k2 ) );
         t6.multiply( k2.getSubtract( k3 ) );
@@ -297,8 +297,8 @@ public class DoubleBarrierSolver extends AbstractPlaneSolver {
         MutableComplex t7 = new MutableComplex();
         t7.setValue( k2.getMultiply( x2 ) );
         t7.add( k3.getAdd( k4 ).getMultiply( x3 ) );
-        t7.multiply( Complex.I );
         t7.multiply( 2 );
+        t7.multiply( Complex.I );
         t7.exp();
         t7.multiply( k1.getAdd( k2 ) );
         t7.multiply( k2.getAdd( k3 ) );
@@ -310,8 +310,8 @@ public class DoubleBarrierSolver extends AbstractPlaneSolver {
         t8.setValue( k2.getAdd( k3 ) );
         t8.multiply( x2 );
         t8.add( k4.getMultiply( x3 ) );
-        t8.multiply( Complex.I );
         t8.multiply( 2 );
+        t8.multiply( Complex.I );
         t8.exp();
         t8.multiply( k1.getAdd( k2 ) );
         t8.multiply( k2.getSubtract( k3 ) );
@@ -323,8 +323,8 @@ public class DoubleBarrierSolver extends AbstractPlaneSolver {
         t9.setValue( k2.getMultiply( x1 ) );
         t9.add( k3.getMultiply( x2 ) );
         t9.add( k4.getMultiply( x3 ) );
-        t9.multiply( Complex.I );
         t9.multiply( 2 );
+        t9.multiply( Complex.I );
         t9.exp();
         t9.multiply( k1.getMultiply( -1 ).getAdd( k2 ) );
         t9.multiply( k2.getAdd( k3 ) );
@@ -438,7 +438,7 @@ public class DoubleBarrierSolver extends AbstractPlaneSolver {
         MutableComplex t1 = new MutableComplex();
         t1.setValue( k1.getAdd( k2 ) );
         t1.multiply( x1 );
-        t1.add( k2.getAdd( 2 * x2 ) );
+        t1.add( k2.getMultiply( 2 * x2 ) );
         t1.multiply( Complex.I );
         t1.exp();
         t1.multiply( -2 );
@@ -564,7 +564,7 @@ public class DoubleBarrierSolver extends AbstractPlaneSolver {
         MutableComplex t1 = new MutableComplex();
         t1.setValue( k1.getMultiply( x1 ) );
         t1.add( k2.getMultiply( x1 + x2 ) );
-        t1.add( k3.getMultiply( x2 + 2 * x3 ) );
+        t1.add( k3.getMultiply( x2 + ( 2 * x3 ) ) );
         t1.multiply( Complex.I );
         t1.exp();
         t1.multiply( 4 );
@@ -666,7 +666,7 @@ public class DoubleBarrierSolver extends AbstractPlaneSolver {
         _J.add( k3.getMultiply( x3 ) );
         _J.add( k4.getMultiply( x3 ) );
         _J.add( k4.getMultiply( x4 ) );
-        _J.add( k5.getMultiply( x4 ) );
+        _J.subtract( k5.getMultiply( x4 ) );
         _J.multiply( Complex.I );
         _J.exp();
         _J.multiply( 16 );
@@ -697,8 +697,8 @@ public class DoubleBarrierSolver extends AbstractPlaneSolver {
         t1.setValue( k2.getAdd( k3 ) );
         t1.multiply( x2 );
         t1.add( k4.getMultiply( x4 ) );
-        t1.multiply( Complex.I );
         t1.multiply( 2 );
+        t1.multiply( Complex.I );
         t1.exp();
         t1.multiply( k1.getMultiply( -1 ).getAdd( k2 ) );
         t1.multiply( k2.getSubtract( k3 ) );
@@ -711,8 +711,8 @@ public class DoubleBarrierSolver extends AbstractPlaneSolver {
         t2.setValue( k2.getMultiply( x1 ) );
         t2.add( k3.getMultiply( x2 ) );
         t2.add( k4.getMultiply( x4 ) );
-        t2.multiply( Complex.I );
         t2.multiply( 2 );
+        t2.multiply( Complex.I );
         t2.exp();
         t2.multiply( k1.getAdd( k2 ) );
         t2.multiply( k2.getAdd( k3 ) );
@@ -724,8 +724,8 @@ public class DoubleBarrierSolver extends AbstractPlaneSolver {
         t3.setValue( k2.getMultiply( x1 ) );
         t3.add( k3.getMultiply( x3 ) );
         t3.add( k4.getMultiply( x4 ) );
-        t3.multiply( Complex.I );
         t3.multiply( 2 );
+        t3.multiply( Complex.I );
         t3.exp();
         t3.multiply( k1.getAdd( k2 ) );
         t3.multiply( k2.getSubtract( k3 ) );
@@ -737,8 +737,8 @@ public class DoubleBarrierSolver extends AbstractPlaneSolver {
         t4.setValue( k2.getMultiply( x2 ) );
         t4.add( k3.getMultiply( x3 ) );
         t4.add( k4.getMultiply( x4 ) );
-        t4.multiply( Complex.I );
         t4.multiply( 2 );
+        t4.multiply( Complex.I );
         t4.exp();
         t4.multiply( k1.getMultiply( -1 ).getAdd( k2 ) );
         t4.multiply( k2.getAdd( k3 ) );
@@ -749,8 +749,8 @@ public class DoubleBarrierSolver extends AbstractPlaneSolver {
         MutableComplex t5 = new MutableComplex();
         t5.setValue( k2.getMultiply( x1 ) );
         t5.add( k3.getAdd( x4 ).getMultiply( x3 ) );
-        t5.multiply( Complex.I );
         t5.multiply( 2 );
+        t5.multiply( Complex.I );
         t5.exp();
         t5.multiply( k1.getAdd( k2 ) );
         t5.multiply( k2.getSubtract( k3 ) );
@@ -761,8 +761,8 @@ public class DoubleBarrierSolver extends AbstractPlaneSolver {
         MutableComplex t6 = new MutableComplex();
         t6.setValue( k2.getMultiply( x2 ) );
         t6.add( k3.getAdd( x4 ).getMultiply( x3 ) );
-        t6.multiply( Complex.I );
         t6.multiply( 2 );
+        t6.multiply( Complex.I );
         t6.exp();
         t6.multiply( k1.getMultiply( -1 ).getAdd( k2 ) );
         t6.multiply( k2.getAdd( k3 ) );
@@ -773,8 +773,8 @@ public class DoubleBarrierSolver extends AbstractPlaneSolver {
         MutableComplex t7 = new MutableComplex();
         t7.setValue( k2.getAdd( k3 ).getMultiply( x2 ) );
         t7.add( k4.getMultiply( x3 ) );
-        t7.multiply( Complex.I );
         t7.multiply( 2 );
+        t7.multiply( Complex.I );
         t7.exp();
         t7.multiply( k1.getMultiply( -1 ).getAdd( k2 ) );
         t7.multiply( k2.getSubtract( k3 ) );
@@ -786,8 +786,8 @@ public class DoubleBarrierSolver extends AbstractPlaneSolver {
         t8.setValue( k2.getMultiply( x1 ) );
         t8.add( k3.getMultiply( x2 ) );
         t8.add( k4.getMultiply( x3 ) );
-        t8.multiply( Complex.I );
         t8.multiply( 2 );
+        t8.multiply( Complex.I );
         t8.exp();
         t8.multiply( k1.getAdd( k2 ) );
         t8.multiply( k2.getAdd( k3 ) );
