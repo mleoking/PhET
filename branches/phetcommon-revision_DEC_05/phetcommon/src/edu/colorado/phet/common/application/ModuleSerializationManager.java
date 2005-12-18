@@ -95,7 +95,7 @@ public class ModuleSerializationManager {
                 ex.printStackTrace();
             }
             Module module = phetApplication.getActiveModule();
-            ModuleStateDescriptor sd = module.getState();
+            ModuleStateDescriptor sd = module.getModuleStateDescriptor();
             encoder.writeObject( sd );
             encoder.close();
         }

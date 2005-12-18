@@ -11,7 +11,7 @@
 package edu.colorado.phet.common.application;
 
 /**
- * ModuleEvent
+ * An event class sent to ModuleObservers.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -20,15 +20,31 @@ public class ModuleEvent {
     private PhetApplication phetApplication;
     private Module module;
 
+    /**
+     * Constructs a new ModuleEvent.
+     *
+     * @param phetApplication
+     * @param module
+     */
     public ModuleEvent( PhetApplication phetApplication, Module module ) {
         this.phetApplication = phetApplication;
         this.module = module;
     }
 
+    /**
+     * Gets the module associated with this ModuleEvent.
+     *
+     * @return the module associated with this ModuleEvent.
+     */
     public Module getModule() {
         return module;
     }
 
+    /**
+     * Gets the PhetApplication associated with this ModuleEvent.
+     *
+     * @return the PhetApplication associated with this ModuleEvent.
+     */
     public PhetApplication getPhetApplication() {
         return phetApplication;
     }

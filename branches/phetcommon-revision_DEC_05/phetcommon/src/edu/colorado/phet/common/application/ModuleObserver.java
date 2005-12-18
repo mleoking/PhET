@@ -21,21 +21,21 @@ import java.util.EventListener;
  */
 public interface ModuleObserver extends EventListener {
     /**
-     * Notification when a Module is added to a PhetApplication.
+     * Invoked when a Module is added to a PhetApplication.
      *
      * @param event
      */
     public void moduleAdded( ModuleEvent event );
 
     /**
-     * Notification when the active Module changed..
+     * Invoked when the active Module changed..
      *
      * @param event
      */
     public void activeModuleChanged( ModuleEvent event );
 
     /**
-     * Notification when a Module is removed from the PhetApplication.
+     * Invoked when a Module is removed from the PhetApplication.
      *
      * @param event
      */

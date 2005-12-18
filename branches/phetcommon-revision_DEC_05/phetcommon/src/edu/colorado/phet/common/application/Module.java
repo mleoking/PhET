@@ -257,7 +257,7 @@ public abstract class Module {
      *
      * @return a ModuleStateDescriptor for this Module.
      */
-    public ModuleStateDescriptor getState() {
+    public ModuleStateDescriptor getModuleStateDescriptor() {
         return new ModuleStateDescriptor( this );
     }
 

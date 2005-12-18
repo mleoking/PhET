@@ -22,10 +22,10 @@ public class ModuleStateDescriptor {
     private BaseModel model;
     private String moduleClassName;
 
-    public ModuleStateDescriptor() {
+    protected ModuleStateDescriptor() {
     }
 
-    protected ModuleStateDescriptor( Module module ) {
+    public ModuleStateDescriptor( Module module ) {
         setModel( module.getModel() );
         setModuleClassName( module.getClass().getName() );
     }
