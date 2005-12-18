@@ -1,4 +1,3 @@
-/* Copyright 2004, Sam Reid */
 package edu.colorado.phet.tests.piccolo.pswing;
 
 import edu.colorado.phet.piccolo.pswing.PSwing;
