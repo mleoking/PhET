@@ -52,7 +52,7 @@ public class SchrodingerScreenNode extends PNode {
     public SchrodingerScreenNode( SchrodingerModule module, final SchrodingerPanel schrodingerPanel ) {
         this.module = module;
         this.schrodingerPanel = schrodingerPanel;
-        wavefunctionGraphic = new WavefunctionGraphic( module.getDiscreteModel().getWavefunction() );
+        wavefunctionGraphic = new WavefunctionGraphic( getDiscreteModel(), module.getDiscreteModel().getWavefunction() );
         getDiscreteModel().addListener( new DiscreteModel.Adapter() {
             public void finishedTimeStep( DiscreteModel model ) {
                 if( model.getTimeStep() % numIterationsBetwenScreenUpdate == 0 ) {

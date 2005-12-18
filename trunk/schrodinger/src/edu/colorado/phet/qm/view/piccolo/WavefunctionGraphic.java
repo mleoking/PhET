@@ -1,10 +1,13 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view.piccolo;
 
+import edu.colorado.phet.qm.model.DiscreteModel;
+import edu.colorado.phet.qm.model.Potential;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.model.operators.PxValue;
 import edu.colorado.phet.qm.model.operators.XValue;
 import edu.colorado.phet.qm.model.operators.YValue;
+import edu.colorado.phet.qm.view.colormaps.ColorMap;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -21,9 +24,11 @@ public class WavefunctionGraphic extends SimpleWavefunctionGraphic {
     private boolean displayYExpectation;
     private boolean displayCollapsePoint;
     private boolean displayPyExpectation = false;
+    private DiscreteModel discreteModel;
 
-    public WavefunctionGraphic( Wavefunction wavefunction ) {
+    public WavefunctionGraphic( DiscreteModel discreteModel, Wavefunction wavefunction ) {
         super( wavefunction );
+        this.discreteModel = discreteModel;
     }
 
     public void setDisplayXExpectation( boolean displayXExpectation ) {
@@ -84,4 +89,26 @@ public class WavefunctionGraphic extends SimpleWavefunctionGraphic {
         return getColorGrid().getWidth();
     }
 
+    static class ColorMapWithPotential implements ColorMap {
+        private ColorMap delegate;
+        private Potential potential;
+
+        public ColorMapWithPotential( ColorMap delegate, Potential potential ) {
+            this.delegate = delegate;
+            this.potential = potential;
+        }
+
+        public Paint getColor( int i, int k ) {
+            if( potential.getPotential( i, k, 0 ) != 0 ) {
+                return Color.red;
+            }
+            else {
+                return delegate.getColor( i, k );
+            }
+        }
+    }
+
+    public void setColorMap( ColorMap colorMap ) {
+        super.setColorMap( new ColorMapWithPotential( colorMap, discreteModel.getPotential() ) );
+    }
 }
