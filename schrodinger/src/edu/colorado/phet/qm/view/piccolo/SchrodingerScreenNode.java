@@ -1,7 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view.piccolo;
 
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.controls.DoubleSlitCheckBox;
@@ -92,7 +91,7 @@ public class SchrodingerScreenNode extends PNode {
 
         JButton clear = new JButton( "<html>Clear<br>Wave</html>" ) {
             protected void paintComponent( Graphics g ) {
-                GraphicsUtil.setAntiAliasingOn( (Graphics2D)g );
+                ( (Graphics2D)g ).setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
                 super.paintComponent( g );
             }
         };
