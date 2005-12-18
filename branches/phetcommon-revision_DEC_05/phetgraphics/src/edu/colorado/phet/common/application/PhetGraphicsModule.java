@@ -36,8 +36,16 @@ import javax.swing.*;
  */
 public class PhetGraphicsModule extends Module {
 
-    ApparatusPanel apparatusPanel;
-    HelpManager helpManager;
+    private ApparatusPanel apparatusPanel;
+    private HelpManager helpManager;
+
+    /**
+     * @param name
+     * @deprecated
+     */
+    protected PhetGraphicsModule( String name ) {
+        this( name, null );
+    }
 
     /**
      * @param name
@@ -46,14 +54,9 @@ public class PhetGraphicsModule extends Module {
     protected PhetGraphicsModule( String name, IClock clock ) {
         super( name, clock );
         helpManager = new HelpManager();
-    }
 
-    /**
-     * @param name
-     * @deprecated
-     */
-    protected PhetGraphicsModule( String name ) {
-        this( name, null );
+        // Handle redrawing while the clock is paused.
+        clock.addClockListener( new ClockPausedHandler( this ) );
     }
 
     protected void init( ApparatusPanel apparatusPanel, ControlPanel controlPanel, JPanel monitorPanel, BaseModel baseModel ) {
@@ -195,8 +198,10 @@ public class PhetGraphicsModule extends Module {
         helpManager.setHelpEnabled( apparatusPanel, h );
     }
 
+    /**
+     * Refreshes the Module, redrawing it while its clock is paused.
+     */
     public void refresh() {
-        super.refresh();
         // Repaint all dirty PhetJComponents
         PhetJComponent.getRepaintManager().updateGraphics();
         // Paint the apparatus panel
@@ -226,5 +231,4 @@ public class PhetGraphicsModule extends Module {
             apparatusPanel.setReferenceSize();
         }
     }
-
 }

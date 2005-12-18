@@ -57,9 +57,6 @@ public abstract class Module {
         this.clock = clock;
         SimStrings.setStrings( "localization/CommonStrings" );
 
-        // Handle redrawing while the clock is paused.
-        clock.addClockListener( new ClockPausedHandler( this ) );
-
         this.modulePanel = new ModulePanel();
         modulePanel.setClockControlPanel( new ClockControlPanel( clock ) );
         moduleRunner = new ClockAdapter() {
@@ -316,9 +313,4 @@ public abstract class Module {
     public void updateGraphics( ClockEvent event ) {
     }
 
-    /**
-     * Refreshes the Module, redrawing it while its clock is paused.
-     */
-    public void refresh() {
-    }
 }

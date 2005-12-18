@@ -48,7 +48,7 @@ class ClockPausedHandler extends ClockAdapter {
 
     private static int DEFAULT_DELAY = 500; // time between refreshes, in milliseconds
 
-    private Module module; // the Module that we're associated with
+    private PhetGraphicsModule module; // the Module that we're associated with
     private Timer timer;
 
     /**
@@ -56,7 +56,7 @@ class ClockPausedHandler extends ClockAdapter {
      *
      * @param module
      */
-    public ClockPausedHandler( Module module ) {
+    public ClockPausedHandler( PhetGraphicsModule module ) {
         this( module, DEFAULT_DELAY );
     }
 
@@ -66,7 +66,7 @@ class ClockPausedHandler extends ClockAdapter {
      * @param module
      * @param delay  the delay, in milliseconds
      */
-    public ClockPausedHandler( Module module, int delay ) {
+    public ClockPausedHandler( PhetGraphicsModule module, int delay ) {
         this.module = module;
         timer = new Timer( delay, new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
