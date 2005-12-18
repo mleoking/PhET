@@ -32,7 +32,7 @@ public class TestPSwingFull extends JFrame {
         PSwingCanvas canvas;
 
         // Set up basic frame
-        setBounds( 100, 100, 400, 400 );
+        setBounds( 50, 50, 750, 750 );
         setResizable( true );
         setBackground( null );
         setVisible( true );
@@ -396,6 +396,12 @@ public class TestPSwingFull extends JFrame {
         // Revalidate and repaint
         canvas.revalidate();
         canvas.repaint();
+
+        PSwing message = new PSwing( canvas, new JTextArea( "Click-drag to zoom in and out." ) );
+        message.translate( 0, -50 );
+        canvas.getLayer().addChild( message );
+
+        canvas.getCamera().animateViewToCenterBounds( message.getFullBounds(), false, 1200 );
     }
 
     public static void main( String[] args ) {

@@ -12,6 +12,8 @@ import java.awt.event.ActionListener;
 
 
 /**
+ * Tests a set of Sliders and Checkboxes in panels.
+ *
  * @author Martin Clifford
  */
 public class SliderExample extends JFrame {

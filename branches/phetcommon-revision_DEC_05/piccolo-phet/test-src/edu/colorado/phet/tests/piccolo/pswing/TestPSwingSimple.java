@@ -23,7 +23,7 @@ import java.awt.event.ActionListener;
  * Copyright (c) Jul 11, 2005 by Sam Reid
  */
 
-public class TestPSwing {
+public class TestPSwingSimple {
     public static void main( String[] args ) {
         PSwingCanvas pCanvas = new PSwingCanvas();
         final PText pText = new PText( "PText" );
