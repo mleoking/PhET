@@ -92,7 +92,7 @@ public class SmoothIntensityDisplay {
     }
 
     private double getWaveImageScaleX() {
-        return getSchrodingerPanel().getWavefunctionGraphic().getWaveImageScaleX();
+        return 1.0;//getSchrodingerPanel().getWavefunctionGraphic().getWaveImageScaleX();
     }
 
     private Color toColorBlackBackground( double x ) {

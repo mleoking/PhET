@@ -1,11 +1,12 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view.piccolo;
 
-import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.view.colormaps.ColorGrid;
-import edu.colorado.phet.qm.view.colormaps3.ComplexColorMapAdapter;
-import edu.colorado.phet.qm.view.colormaps3.MagnitudeInGrayscale3;
+import edu.colorado.phet.qm.view.colormaps.ColorMap;
+import edu.colorado.phet.qm.view.complexcolormaps.ComplexColorMap;
+import edu.colorado.phet.qm.view.complexcolormaps.ComplexColorMapAdapter;
+import edu.colorado.phet.qm.view.complexcolormaps.MagnitudeInGrayscale3;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PPaintContext;
@@ -22,21 +23,18 @@ import java.beans.PropertyChangeListener;
  */
 
 public class SimpleWavefunctionGraphic extends PNode {
-    private PhetPCanvas phetPCanvas;
     private ColorGridNode colorGridNode;
     private PPath borderGraphic;
     private Wavefunction wavefunction;
-    private ComplexColorMapAdapter complexColorMapAdapter;
+    private ColorMap colorMap;
 
-    public SimpleWavefunctionGraphic( final PhetPCanvas canvas, Wavefunction wavefunction ) {
-        this.phetPCanvas = canvas;
+    public SimpleWavefunctionGraphic( Wavefunction wavefunction ) {
         this.wavefunction = wavefunction;
-        ColorGrid colorGrid = new ColorGrid( 4, 4, wavefunction.getWidth(), wavefunction.getHeight() );//todo support for change of size
+        ColorGrid colorGrid = new ColorGrid( 4, 4, wavefunction.getWidth(), wavefunction.getHeight() );
         colorGridNode = new ColorGridNode( colorGrid );
-        complexColorMapAdapter = new ComplexColorMapAdapter( wavefunction, new MagnitudeInGrayscale3() );
-
+        this.colorMap = new ComplexColorMapAdapter( wavefunction, new MagnitudeInGrayscale3() );
         addChild( colorGridNode );
-        update();
+
         borderGraphic = new PPath( colorGridNode.getFullBounds() );
         borderGraphic.setStroke( new BasicStroke( 2 ) );
         borderGraphic.setStrokePaint( Color.white );
@@ -49,6 +47,16 @@ public class SimpleWavefunctionGraphic extends PNode {
         };
         colorGridNode.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, pcl );
         colorGridNode.addPropertyChangeListener( PNode.PROPERTY_BOUNDS, pcl );
+        update();
+    }
+
+    public void setComplexColorMap( ComplexColorMap complexColorMap ) {
+        setColorMap( new ComplexColorMapAdapter( getWavefunction(), complexColorMap ) );
+        update();
+    }
+
+    public void setColorMap( ColorMap colorMap ) {
+        this.colorMap = colorMap;
     }
 
     public void fullPaint( PPaintContext paintContext ) {
@@ -71,7 +79,34 @@ public class SimpleWavefunctionGraphic extends PNode {
 
     public void update() {
         colorGridNode.setGridDimensions( wavefunction.getWidth(), wavefunction.getHeight() );
-        colorGridNode.paint( complexColorMapAdapter );
+        colorGridNode.paint( colorMap );
+        decorateBuffer();
+        repaint();
     }
 
+    public ColorGridNode getColorGridNode() {
+        return colorGridNode;
+    }
+
+    protected void decorateBuffer() {
+
+    }
+
+    public Wavefunction getWavefunction() {
+        return wavefunction;
+    }
+
+    public ColorGrid getColorGrid() {
+        return getColorGridNode().getColorGrid();
+    }
+
+    public void setCellDimensions( int dx, int dy ) {
+        colorGridNode.setCellDimensions( dx, dy );
+        update();
+    }
+
+    public void setGridDimensions( int width, int height ) {
+        colorGridNode.setGridDimensions( width, height );
+        update();
+    }
 }

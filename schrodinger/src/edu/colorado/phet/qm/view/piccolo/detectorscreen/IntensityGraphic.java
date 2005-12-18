@@ -103,15 +103,15 @@ public class IntensityGraphic extends PNode {
         }
 
         int x = (int)( getModelToViewTransform1d().evaluate( pt.x ) + randOffsetX );
-        x *= getWavePanelScale();
+        x *= 1.0;//getWavePanelScale();
         int y = getDetectY();
 
         detectorSheetPNode.addDetectionEvent( x, y );
     }
 
-    private double getWavePanelScale() {
-        return getSchrodingerPanel().getWavefunctionGraphic().getWaveImageScaleX();
-    }
+//    private double getWavePanelScale() {
+//        return 1.0;
+//    }
 
     public Function.LinearFunction getModelToViewTransform1d() {
         return new Function.LinearFunction( 0, getDiscreteModel().getGridWidth(),
