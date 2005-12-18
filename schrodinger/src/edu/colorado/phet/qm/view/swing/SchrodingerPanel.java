@@ -187,11 +187,15 @@ public class SchrodingerPanel extends PhetPCanvas {
         updateWavefunctionGraphic();
     }
 
-    private WaveValueAccessor getWaveValueAccessor() {
+    protected WaveValueAccessor getWaveValueAccessor() {
         return waveValueAccessor;
     }
 
-    private ColorMap createColorMap() {
+    protected ComplexColorMap getComplexColorMap() {
+        return complexColorMap;
+    }
+
+    protected ColorMap createColorMap() {
         if( photon != null && !( complexColorMap instanceof VisualColorMap3 ) ) {
             return new PhotonColorMap( this, photon, getWaveValueAccessor() );
         }

@@ -2,10 +2,8 @@
 package edu.colorado.phet.qm.modules.intensity;
 
 import edu.colorado.phet.qm.controls.SlitDetectorPanel;
-import edu.colorado.phet.qm.view.colormaps.ColorMap;
 import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
 import edu.colorado.phet.qm.view.colormaps.SplitColorMap;
-import edu.colorado.phet.qm.view.complexcolormaps.MagnitudeInGrayscale3;
 import edu.colorado.phet.qm.view.gun.HighIntensityGunGraphic;
 import edu.colorado.phet.qm.view.gun.Photon;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.SmoothIntensityDisplay;
@@ -78,15 +76,11 @@ public class IntensityPanel extends SchrodingerPanel {
     }
 
     public void setSplitGraphics() {
-        setColorMap( splitColorMap );
-    }
-
-    private void setColorMap( ColorMap colorMap ) {
-        getWavefunctionGraphic().setColorMap( colorMap );
+        getWavefunctionGraphic().setColorMap( splitColorMap );
     }
 
     public void setNormalGraphics() {
-        getWavefunctionGraphic().setComplexColorMap( new MagnitudeInGrayscale3() );
+        setVisualizationStyle( getComplexColorMap(), getWaveValueAccessor() );
     }
 
     public boolean isSmoothScreen() {
