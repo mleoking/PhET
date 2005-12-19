@@ -16,6 +16,7 @@ import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.*;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
+import edu.colorado.phet.solublesalts.model.ion.Mercury;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -57,6 +58,10 @@ public class Crystal extends Body implements Binder {
 
     public static void setDissociationLikelihood( double dissociationLikelihood ) {
         Crystal.dissociationLikelihood = dissociationLikelihood;
+    }
+
+    public void releaseIonTemp( double dt ) {
+        releaseIon( dt );
     }
 
     public static class InstanceLifetimeEvent extends EventObject {
@@ -101,16 +106,17 @@ public class Crystal extends Body implements Binder {
 
     /**
      * @param model
-     * @param lattice   Prototype lattice. A clone is created for this crystal
+     * @param lattice Prototype lattice. A clone is created for this crystal
      */
     public Crystal( SolubleSaltsModel model, Lattice lattice ) {
         this( model, lattice, new ArrayList() );
     }
 
     /**
+     * Creates a crystal from a list of ions. The first ion in the list is the seed
      *
      * @param model
-     * @param lattice   Prototype lattice. A clone is created for this crystal
+     * @param lattice Prototype lattice. A clone is created for this crystal
      * @param ions
      */
     public Crystal( SolubleSaltsModel model, Lattice lattice, List ions ) {
@@ -129,7 +135,34 @@ public class Crystal extends Body implements Binder {
             }
         } );
         setWaterBounds( model.getVessel() );
+
         instanceLifetimeListenerProxy.instanceCreated( new InstanceLifetimeEvent( this ) );
+    }
+
+    /**
+     * Sets the seed to be the ion closest to the bottom of the vessel
+     * todo: This is the wrong way to to this!!!!
+     *
+     * @param model
+     * @param lattice
+     * @param ions
+     * @param seed
+     */
+    public Crystal( SolubleSaltsModel model, Lattice lattice, List ions, Ion seed ) {
+        this( model, lattice, ions );
+        seed = null;
+        double maxY =  Double.MIN_VALUE;
+        for( int i = 0; i < ions.size(); i++ ) {
+            Ion testIon = (Ion)ions.get( i );
+            if( testIon.getPosition().getY() + testIon.getRadius() > maxY ) {
+                maxY = testIon.getPosition().getY() + testIon.getRadius() ;
+                seed = testIon;
+            }
+        }
+        if( seed == null ) {
+            throw new RuntimeException( "seed == null" );
+        }
+        setSeed( seed );
     }
 
     void setWaterBounds( Vessel vessel ) {
@@ -214,7 +247,7 @@ public class Crystal extends Body implements Binder {
             for( int i = 0; i < ions.size(); i++ ) {
                 Ion testIon = (Ion)ions.get( i );
                 if( testIon.getPosition() == placeToPutIon ) {
-                    throw new RuntimeException( "duplicate location");
+                    throw new RuntimeException( "duplicate location" );
                 }
             }
             ions.add( ion );
@@ -251,7 +284,7 @@ public class Crystal extends Body implements Binder {
 
         // Sanity check
         if( ionToRelease == getSeed() && ions.size() > 1 ) {
-            throw new RuntimeException( "ionToRelease == getSeed() && ions.size() > 1");
+            throw new RuntimeException( "ionToRelease == getSeed() && ions.size() > 1" );
         }
 
         // Sanity check
@@ -335,7 +368,7 @@ public class Crystal extends Body implements Binder {
         double angle = random.nextDouble() * ( maxAngle - minAngle ) + minAngle;
         Vector2D releaseVelocity = new Vector2D.Double( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
         if( releaseVelocity.getMagnitude() < 0.001 ) {
-            throw new RuntimeException( "releaseVelocity.getMagnitude() < 0.001");
+            throw new RuntimeException( "releaseVelocity.getMagnitude() < 0.001" );
         }
         return releaseVelocity;
     }
@@ -385,6 +418,7 @@ public class Crystal extends Body implements Binder {
 
     /**
      * Sets the bounds of the model. I don't know if this is used anymore or not
+     *
      * @param bounds
      */
     public void setBounds( Rectangle2D bounds ) {
@@ -402,7 +436,6 @@ public class Crystal extends Body implements Binder {
      * @param dt
      */
     public void stepInTime( double dt ) {
-
         // Only dissociate if the lattice is in the water
         if( waterBounds.contains( getPosition() ) && random.nextDouble() < dissociationLikelihood ) {
             releaseIon( dt );

@@ -89,7 +89,8 @@ public class Vessel implements ModelElement, Collidable, Binder {
      * @param ion
      */
     public void bind( Ion ion ) {
-        if( model.crystalTracker.getCrystals().size() == 0 ) {
+
+        if( !SolubleSaltsConfig.ONE_CRYSTAL_ONLY || model.crystalTracker.getCrystals().size() == 0 ) {
             // todo: combine these lines into a single constructor
             Crystal crystal = new Crystal( model, model.getCurrentSalt().getLattice() );
             crystal.addIon( ion );

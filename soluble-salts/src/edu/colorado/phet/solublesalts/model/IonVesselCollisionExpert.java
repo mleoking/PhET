@@ -93,15 +93,20 @@ public class IonVesselCollisionExpert implements CollisionExpert, ContactDetecto
                 // vessel during the last time step, we must reposition it so it is just contacting
                 // the vessel
                 else {
+                    // todo: need something here for setting the seed on a crystal that comes out of the shaker. Mayeb
+                    // have it set the one with maxY as the seed.
                     ion.getBindingCrystal().setVelocity( 0, 0 );
                     ion.getBindingCrystal().setAcceleration( 0, 0 );
-                    ion.getBindingCrystal().setSeed( ion );
-                    if( ion.getPosition().getY() + ion.getRadius() > vessel.getLocation().getY() + vessel.getDepth() ) {
-                        double dy = ( vessel.getLocation().getY() + vessel.getDepth() ) -
-                                    ( ion.getPosition().getY() + ion.getRadius() );
-                        ion.getBindingCrystal().translate( 0, dy );
-                    }
-                    collisionOccurred = true;
+
+//                    if( ion.getBindingCrystal().getSeed() != ion ) {
+//                        ion.getBindingCrystal().setSeed( ion );
+//                    }
+//                    if( ion.getPosition().getY() + ion.getRadius() > vessel.getLocation().getY() + vessel.getDepth() ) {
+//                        double dy = ( vessel.getLocation().getY() + vessel.getDepth() ) -
+//                                    ( ion.getPosition().getY() + ion.getRadius() );
+//                        ion.getBindingCrystal().translate( 0, dy );
+//                    }
+//                    collisionOccurred = true;
                 }
             }
         }

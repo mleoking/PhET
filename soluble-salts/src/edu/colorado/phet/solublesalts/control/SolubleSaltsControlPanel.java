@@ -158,6 +158,21 @@ public class SolubleSaltsControlPanel extends ControlPanel {
             }
         } );
         addControl( resetBtn );
+
+        //-----------------------------------------------------------------
+        // DEBUG
+        //-----------------------------------------------------------------
+        JButton releaseButton = new JButton( "Release ion");
+        releaseButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                List crystals = model.crystalTracker.getCrystals();
+                for( int i = 0; i < crystals.size(); i++ ) {
+                    Crystal crystal = (Crystal)crystals.get( i );
+                    crystal.releaseIonTemp(module.getClock().getDt());
+                }
+            }
+        } );
+        addControl( releaseButton );
     }
 
     /**
