@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.model.operators;
+package edu.colorado.phet.qm.model.expectations;
 
-import edu.colorado.phet.qm.model.Complex;
 import edu.colorado.phet.qm.model.Wavefunction;
+import edu.colorado.phet.qm.model.math.Complex;
 
 
 /**
@@ -12,8 +12,9 @@ import edu.colorado.phet.qm.model.Wavefunction;
  * Copyright (c) Jun 10, 2005 by Sam Reid
  */
 
-public class PyValue {
+public class PxValue {
     public double compute( Wavefunction w ) {
+//        double mag = w.getMagnitude();
         Complex sum = new Complex();
         for( int i = 1; i < w.getWidth() - 1; i++ ) {
             for( int j = 1; j < w.getHeight() - 1; j++ ) {
@@ -30,11 +31,9 @@ public class PyValue {
     }
 
     private Complex getOpPsi( Wavefunction w, int i, int j ) {
-        Complex top = w.valueAt( i, j + 1 );
-        Complex bottom = w.valueAt( i, j - 1 );
+        Complex left = w.valueAt( i + 1, j );
+        Complex right = w.valueAt( i - 1, j );
 
-        Complex num = top.minus( bottom );
-        num.scale( 1 / 2.0 );
-        return num;
+        return left.minus( right ).times( 0.5 );
     }
 }

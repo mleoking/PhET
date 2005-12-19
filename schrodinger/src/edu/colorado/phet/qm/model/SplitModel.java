@@ -1,8 +1,10 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.model;
 
+import edu.colorado.phet.qm.model.math.Complex;
 import edu.colorado.phet.qm.model.potentials.ConstantPotential;
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
+import edu.colorado.phet.qm.model.propagators.NullPropagator;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityGraphic;
 
 import java.awt.*;

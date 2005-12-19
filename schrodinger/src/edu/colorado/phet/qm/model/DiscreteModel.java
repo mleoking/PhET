@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.model;
 
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.qm.model.math.Complex;
 import edu.colorado.phet.qm.model.potentials.CompositePotential;
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
 import edu.colorado.phet.qm.model.propagators.ClassicalWavePropagator;
@@ -508,10 +509,6 @@ public class DiscreteModel implements ModelElement {
     public void setWavefunctionNorm( double norm ) {
         sourceWaveModel.setWavefunctionNorm( norm );
         waveModel.setWavefunctionNorm( norm );
-        //todo working here
-//        getWavefunction().setMagnitude( norm );
-//        getSourceWave().setMagnitude( norm );
-//        getPropagator().setWavefunctionNorm( norm );
     }
 
     public void setWaveSize( int width, int height ) {

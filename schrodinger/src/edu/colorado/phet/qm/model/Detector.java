@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.model;
 
+import edu.colorado.phet.qm.model.math.Complex;
 import edu.colorado.phet.qm.model.propagators.ClassicalWavePropagator;
 
 import java.awt.*;

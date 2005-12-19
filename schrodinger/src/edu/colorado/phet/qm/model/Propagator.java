@@ -1,5 +1,7 @@
 package edu.colorado.phet.qm.model;
 
+import edu.colorado.phet.qm.model.math.Complex;
+
 import java.awt.*;
 
 /**

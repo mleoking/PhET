@@ -1,6 +1,7 @@
 package edu.colorado.phet.qm.model.propagators;
 
 import edu.colorado.phet.qm.model.*;
+import edu.colorado.phet.qm.model.math.Complex;
 
 /*********************************************************/
 /* Two-dimensional Time dependent Schrodinger Equation.  */
