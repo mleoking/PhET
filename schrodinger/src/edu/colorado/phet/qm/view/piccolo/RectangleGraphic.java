@@ -4,7 +4,7 @@ package edu.colorado.phet.qm.view.piccolo;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.qm.model.RectangularObject;
-import edu.colorado.phet.qm.view.colormaps.ColorGrid;
+import edu.colorado.phet.qm.view.colorgrid.ColorGrid;
 import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;

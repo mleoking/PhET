@@ -1,7 +1,7 @@
 package edu.colorado.phet.qm.view.complexcolormaps;
 
 import edu.colorado.phet.qm.model.Wavefunction;
-import edu.colorado.phet.qm.view.colormaps.ColorMap;
+import edu.colorado.phet.qm.view.colorgrid.ColorMap;
 
 import java.awt.*;
 

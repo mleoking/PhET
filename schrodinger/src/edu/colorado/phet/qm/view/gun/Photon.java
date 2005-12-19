@@ -8,7 +8,7 @@ import edu.colorado.phet.qm.model.Propagator;
 import edu.colorado.phet.qm.model.WaveSetup;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.model.propagators.ClassicalWavePropagator;
-import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
+import edu.colorado.phet.qm.view.colormaps.ColorData;
 
 /**
  * User: Sam Reid
@@ -84,7 +84,7 @@ public class Photon extends GunParticle {
         //no-op for cylindersource
     }
 
-    public PhotonColorMap.ColorData getRootColor() {
-        return new PhotonColorMap.ColorData( getWavelengthNM() );
+    public ColorData getRootColor() {
+        return new ColorData( getWavelengthNM() );
     }
 }

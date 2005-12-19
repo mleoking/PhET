@@ -3,7 +3,10 @@ package edu.colorado.phet.qm.view.swing;
 
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.qm.view.colormaps.WaveValueAccessor;
-import edu.colorado.phet.qm.view.complexcolormaps.*;
+import edu.colorado.phet.qm.view.complexcolormaps.ComplexColorMap;
+import edu.colorado.phet.qm.view.complexcolormaps.GrayscaleColorMap;
+import edu.colorado.phet.qm.view.complexcolormaps.MagnitudeColorMap;
+import edu.colorado.phet.qm.view.complexcolormaps.VisualColorMap3;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -25,13 +28,13 @@ public class VisualizationPanel extends VerticalLayoutPanel {
         setBorder( BorderFactory.createTitledBorder( "Wave Function Display" ) );
         ButtonGroup buttonGroup = new ButtonGroup();
 
-        JRadioButton grayMag = createVisualizationButton( "Magnitude", new MagnitudeInGrayscale3(), new WaveValueAccessor.Magnitude(), true, buttonGroup );
+        JRadioButton grayMag = createVisualizationButton( "Magnitude", new MagnitudeColorMap(), new WaveValueAccessor.Magnitude(), true, buttonGroup );
         addFullWidth( grayMag );
 
-        JRadioButton realGray = createVisualizationButton( "Real Part", new RealGrayscale3(), new WaveValueAccessor.Real(), false, buttonGroup );
+        JRadioButton realGray = createVisualizationButton( "Real Part", new GrayscaleColorMap.Real(), new WaveValueAccessor.Real(), false, buttonGroup );
         addFullWidth( realGray );
 
-        JRadioButton complexGray = createVisualizationButton( "Imaginary Part        ", new ImagGrayscale3(), new WaveValueAccessor.Imag(), false, buttonGroup );
+        JRadioButton complexGray = createVisualizationButton( "Imaginary Part        ", new GrayscaleColorMap.Imaginary(), new WaveValueAccessor.Imag(), false, buttonGroup );
         addFullWidth( complexGray );
 
         JRadioButton visualTM = createVisualizationButton( "Phase Color", new VisualColorMap3(), new WaveValueAccessor.Magnitude(), false, buttonGroup );

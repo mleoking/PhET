@@ -1,4 +1,4 @@
-package edu.colorado.phet.qm.view.colormaps;
+package edu.colorado.phet.qm.view.colorgrid;
 
 import java.awt.*;
 

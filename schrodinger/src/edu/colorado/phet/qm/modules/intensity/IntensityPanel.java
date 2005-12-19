@@ -2,7 +2,7 @@
 package edu.colorado.phet.qm.modules.intensity;
 
 import edu.colorado.phet.qm.controls.SlitDetectorPanel;
-import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
+import edu.colorado.phet.qm.view.colormaps.ColorData;
 import edu.colorado.phet.qm.view.colormaps.SplitColorMap;
 import edu.colorado.phet.qm.view.gun.HighIntensityGunGraphic;
 import edu.colorado.phet.qm.view.gun.Photon;
@@ -98,14 +98,14 @@ public class IntensityPanel extends SchrodingerPanel {
     public void setPhoton( Photon photon ) {
         super.setPhoton( photon );
         if( splitColorMap != null ) {
-            splitColorMap.setRootColor( photon == null ? null : new PhotonColorMap.ColorData( photon.getWavelengthNM() ) );
+            splitColorMap.setRootColor( photon == null ? null : new ColorData( photon.getWavelengthNM() ) );
         }
         if( smoothIntensityDisplay != null ) {
             smoothIntensityDisplay.setPhotonColor( photon );
         }
     }
 
-    public PhotonColorMap.ColorData getRootColor() {
+    public ColorData getRootColor() {
         return highIntensityGun.getRootColor();
     }
 

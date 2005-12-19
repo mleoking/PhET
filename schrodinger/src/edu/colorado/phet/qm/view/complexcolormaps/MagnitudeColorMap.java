@@ -11,7 +11,7 @@ import java.awt.*;
  * Time: 2:04:07 PM
  * Copyright (c) Jun 11, 2005 by Sam Reid
  */
-public class MagnitudeInGrayscale3 implements ComplexColorMap {
+public class MagnitudeColorMap implements ComplexColorMap {
     private double intensityScale = 20;
 
     public Paint getColor( Complex value ) {

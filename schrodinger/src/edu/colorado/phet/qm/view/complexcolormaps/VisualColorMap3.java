@@ -10,6 +10,9 @@ import java.awt.*;
  * Date: Dec 17, 2005
  * Time: 5:32:34 PM
  * Copyright (c) Dec 17, 2005 by Sam Reid
+ * <p/>
+ * <p/>
+ * From http://www.physics.brocku.ca/www/faculty/sternin/teaching/mirrors/qm/packet/WaveMap.java
  */
 
 public class VisualColorMap3 implements ComplexColorMap {

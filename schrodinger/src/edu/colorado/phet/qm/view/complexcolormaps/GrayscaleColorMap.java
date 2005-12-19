@@ -12,14 +12,14 @@ import java.awt.*;
  * Copyright (c) Dec 17, 2005 by Sam Reid
  */
 
-public abstract class ComponentGrayscale3 implements ComplexColorMap {
+public abstract class GrayscaleColorMap implements ComplexColorMap {
     private double colorScale;
 
-    public ComponentGrayscale3() {
+    public GrayscaleColorMap() {
         this( 12.0 );
     }
 
-    public ComponentGrayscale3( double colorScale ) {
+    public GrayscaleColorMap( double colorScale ) {
         this.colorScale = colorScale;
     }
 
@@ -49,4 +49,15 @@ public abstract class ComponentGrayscale3 implements ComplexColorMap {
         return f;
     }
 
+    public static class Imaginary extends GrayscaleColorMap {
+        protected double getComponent( Complex value ) {
+            return value.getImaginary();
+        }
+    }
+
+    public static class Real extends GrayscaleColorMap {
+        protected double getComponent( Complex value ) {
+            return value.getReal();
+        }
+    }
 }
