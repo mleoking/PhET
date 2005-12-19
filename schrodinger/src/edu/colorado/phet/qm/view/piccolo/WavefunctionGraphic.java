@@ -79,12 +79,6 @@ public class WavefunctionGraphic extends SimpleWavefunctionGraphic {
         return getColorGridNode().getCellWidth();
     }
 
-//    public void setPhoton( Photon photon ) {
-//        magnitudeColorMap.setPhoton( photon );
-//        realColorMap.setPhoton( photon );
-//        imagColorMap.setPhoton( photon );
-//    }
-
     public int getWavefunctionGraphicWidth() {
         return getColorGrid().getWidth();
     }

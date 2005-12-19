@@ -2,7 +2,6 @@
 package edu.colorado.phet.qm.modules.single;
 
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.qm.ModelDebugger;
 import edu.colorado.phet.qm.SchrodingerApplication;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.DiscreteModel;
@@ -21,7 +20,6 @@ public class SingleParticleModule extends SchrodingerModule {
         final SingleParticlePanel schrodingerPanel = new SingleParticlePanel( this );
         setSchrodingerPanel( schrodingerPanel );
         setSchrodingerControlPanel( new SingleParticleControlPanel( this ) );
-        getModel().addModelElement( new ModelDebugger( getClass() ) );
         getSchrodingerPanel().getIntensityDisplay().getDetectorSheet().getDetectorSheetPanel().setBrightnessSliderVisible( false );
         getSchrodingerPanel().getIntensityDisplay().getDetectorSheet().getDetectorSheetPanel().setFadeCheckBoxVisible( false );
         getSchrodingerPanel().getIntensityDisplay().getDetectorSheet().getDetectorSheetPanel().setTypeControlVisible( false );

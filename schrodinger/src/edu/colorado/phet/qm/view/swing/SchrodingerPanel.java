@@ -17,10 +17,7 @@ import edu.colorado.phet.qm.view.complexcolormaps.MagnitudeColorMap;
 import edu.colorado.phet.qm.view.complexcolormaps.VisualColorMap3;
 import edu.colorado.phet.qm.view.gun.AbstractGunGraphic;
 import edu.colorado.phet.qm.view.gun.Photon;
-import edu.colorado.phet.qm.view.piccolo.DetectorGraphic;
-import edu.colorado.phet.qm.view.piccolo.RectangularPotentialGraphic;
-import edu.colorado.phet.qm.view.piccolo.SchrodingerScreenNode;
-import edu.colorado.phet.qm.view.piccolo.WavefunctionGraphic;
+import edu.colorado.phet.qm.view.piccolo.*;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityGraphic;
 
 import java.awt.*;
@@ -74,6 +71,9 @@ public class SchrodingerPanel extends PhetPCanvas {
             }
         } );
         synchronizeSlitInverse();
+
+        IntensityReader intensityReader = new IntensityReader( getWavefunctionGraphic() );
+        schrodingerScreenNode.addChild( intensityReader );
     }
 
     private void synchronizeSlitInverse() {
