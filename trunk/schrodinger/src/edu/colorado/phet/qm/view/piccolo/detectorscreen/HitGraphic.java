@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view.piccolo.detectorscreen;
 
-import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
+import edu.colorado.phet.qm.view.colormaps.ColorData;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -21,7 +21,7 @@ public class HitGraphic extends PNode {
         this( x, y, opacity, new Color( 235, 230, 255 ) );
     }
 
-    public HitGraphic( int x, int y, int opacity, PhotonColorMap.ColorData rootColor ) {
+    public HitGraphic( int x, int y, int opacity, ColorData rootColor ) {
         this( x, y, opacity, rootColor.toColor( 1.0 ) );
     }
 

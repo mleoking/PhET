@@ -6,7 +6,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.qm.modules.intensity.IntensityPanel;
 import edu.colorado.phet.qm.phetcommon.IntegralModelElement;
-import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
+import edu.colorado.phet.qm.view.colormaps.ColorData;
 import edu.colorado.phet.qm.view.gun.Photon;
 import edu.colorado.phet.qm.view.piccolo.WavefunctionGraphic;
 import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
@@ -35,7 +35,7 @@ public class DetectorSheetPNode extends PNode {
     private int opacity = 255;
     private double brightness;
     private IntegralModelElement fadeElement;
-    private PhotonColorMap.ColorData rootColor = new PhotonColorMap.ColorData( VisibleColor.MIN_WAVELENGTH );
+    private ColorData rootColor = new ColorData( VisibleColor.MIN_WAVELENGTH );
     private ImageFade imageFade;
     private DetectorSheetControlPanelPNode detectorSheetControlPanelPNode;
     private DetectionRateDebugger detectionRateDebugger = new DetectionRateDebugger();
@@ -187,7 +187,7 @@ public class DetectorSheetPNode extends PNode {
     }
 
     public void setDisplayPhotonColor( Photon photon ) {
-        this.rootColor = photon == null ? null : new PhotonColorMap.ColorData( photon.getWavelengthNM() );
+        this.rootColor = photon == null ? null : new ColorData( photon.getWavelengthNM() );
     }
 
     public SchrodingerPanel getSchrodingerPanel() {

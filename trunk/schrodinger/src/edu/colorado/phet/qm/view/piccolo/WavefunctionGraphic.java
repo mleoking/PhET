@@ -7,7 +7,7 @@ import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.model.operators.PxValue;
 import edu.colorado.phet.qm.model.operators.XValue;
 import edu.colorado.phet.qm.model.operators.YValue;
-import edu.colorado.phet.qm.view.colormaps.ColorMap;
+import edu.colorado.phet.qm.view.colorgrid.ColorMap;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

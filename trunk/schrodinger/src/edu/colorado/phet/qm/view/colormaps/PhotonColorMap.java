@@ -1,9 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view.colormaps;
 
-import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.qm.model.Potential;
 import edu.colorado.phet.qm.model.Wavefunction;
+import edu.colorado.phet.qm.view.colorgrid.ColorMap;
 import edu.colorado.phet.qm.view.gun.Photon;
 import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 
@@ -22,24 +22,6 @@ public class PhotonColorMap implements ColorMap {
     private WaveValueAccessor waveValueAccessor;
     private double intensityScale = 20;
     private ColorData rootColor;
-
-    public static class ColorData {
-        private float r;
-        private float g;
-        private float b;
-
-        public ColorData( double wavelength ) {
-            VisibleColor c = new VisibleColor( wavelength );
-            this.r = c.getRed() / 255.0f;
-            this.g = c.getGreen() / 255.0f;
-            this.b = c.getBlue() / 255.0f;
-        }
-
-        public Color toColor( double abs ) {
-            Color color = new Color( (float)abs * r, (float)abs * g, (float)abs * b );
-            return color;
-        }
-    }
 
     public PhotonColorMap( SchrodingerPanel schrodingerPanel, final Photon photon, WaveValueAccessor waveValueAccessor ) {
         if( waveValueAccessor == null ) {

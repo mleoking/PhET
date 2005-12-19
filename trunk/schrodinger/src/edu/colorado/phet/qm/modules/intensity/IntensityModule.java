@@ -8,7 +8,7 @@ import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.SplitModel;
-import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
+import edu.colorado.phet.qm.view.colormaps.ColorData;
 import edu.colorado.phet.qm.view.piccolo.DetectorGraphic;
 import edu.colorado.phet.qm.view.piccolo.RestrictedDetectorGraphic;
 
@@ -97,7 +97,7 @@ public class IntensityModule extends SchrodingerModule {
         }
     }
 
-    public PhotonColorMap.ColorData getRootColor() {
+    public ColorData getRootColor() {
         return intensityPanel.getRootColor();
     }
 

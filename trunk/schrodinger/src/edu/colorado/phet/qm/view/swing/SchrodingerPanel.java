@@ -8,12 +8,12 @@ import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.phetcommon.RulerGraphic;
-import edu.colorado.phet.qm.view.colormaps.ColorMap;
+import edu.colorado.phet.qm.view.colorgrid.ColorMap;
 import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
 import edu.colorado.phet.qm.view.colormaps.WaveValueAccessor;
 import edu.colorado.phet.qm.view.complexcolormaps.ComplexColorMap;
 import edu.colorado.phet.qm.view.complexcolormaps.ComplexColorMapAdapter;
-import edu.colorado.phet.qm.view.complexcolormaps.MagnitudeInGrayscale3;
+import edu.colorado.phet.qm.view.complexcolormaps.MagnitudeColorMap;
 import edu.colorado.phet.qm.view.complexcolormaps.VisualColorMap3;
 import edu.colorado.phet.qm.view.gun.AbstractGunGraphic;
 import edu.colorado.phet.qm.view.gun.Photon;
@@ -43,7 +43,7 @@ public class SchrodingerPanel extends PhetPCanvas {
     private boolean fadeEnabled = true;
     private ArrayList listeners = new ArrayList();
     private boolean inverseSlits = false;
-    private ComplexColorMap complexColorMap = new MagnitudeInGrayscale3();
+    private ComplexColorMap complexColorMap = new MagnitudeColorMap();
     private WaveValueAccessor waveValueAccessor = new WaveValueAccessor.Magnitude();
 
     public SchrodingerPanel( SchrodingerModule module ) {

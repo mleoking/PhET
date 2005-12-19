@@ -2,11 +2,11 @@
 package edu.colorado.phet.qm.view.piccolo;
 
 import edu.colorado.phet.qm.model.Wavefunction;
-import edu.colorado.phet.qm.view.colormaps.ColorGrid;
-import edu.colorado.phet.qm.view.colormaps.ColorMap;
+import edu.colorado.phet.qm.view.colorgrid.ColorGrid;
+import edu.colorado.phet.qm.view.colorgrid.ColorMap;
 import edu.colorado.phet.qm.view.complexcolormaps.ComplexColorMap;
 import edu.colorado.phet.qm.view.complexcolormaps.ComplexColorMapAdapter;
-import edu.colorado.phet.qm.view.complexcolormaps.MagnitudeInGrayscale3;
+import edu.colorado.phet.qm.view.complexcolormaps.MagnitudeColorMap;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PPaintContext;
@@ -32,7 +32,7 @@ public class SimpleWavefunctionGraphic extends PNode {
         this.wavefunction = wavefunction;
         ColorGrid colorGrid = new ColorGrid( 4, 4, wavefunction.getWidth(), wavefunction.getHeight() );
         colorGridNode = new ColorGridNode( colorGrid );
-        this.colorMap = new ComplexColorMapAdapter( wavefunction, new MagnitudeInGrayscale3() );
+        this.colorMap = new ComplexColorMapAdapter( wavefunction, new MagnitudeColorMap() );
         addChild( colorGridNode );
 
         borderGraphic = new PPath( colorGridNode.getFullBounds() );

@@ -7,7 +7,7 @@ import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
-import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
+import edu.colorado.phet.qm.view.colormaps.ColorData;
 import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 
 import javax.swing.*;
@@ -159,7 +159,7 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic {
         return on;
     }
 
-    public PhotonColorMap.ColorData getRootColor() {
+    public ColorData getRootColor() {
         return photon == null ? null : photon.getRootColor();
     }
 }

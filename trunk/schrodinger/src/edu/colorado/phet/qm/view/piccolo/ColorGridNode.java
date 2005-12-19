@@ -1,7 +1,7 @@
 package edu.colorado.phet.qm.view.piccolo;
 
-import edu.colorado.phet.qm.view.colormaps.ColorGrid;
-import edu.colorado.phet.qm.view.colormaps.ColorMap;
+import edu.colorado.phet.qm.view.colorgrid.ColorGrid;
+import edu.colorado.phet.qm.view.colorgrid.ColorMap;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import java.awt.image.BufferedImage;
