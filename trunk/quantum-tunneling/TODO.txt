@@ -58,6 +58,7 @@ JFREECHART:
 
 
 DONE:
+(12/19/05) - fix sign of denominator in D coefficient for double barriers
 (12/17/05) - debug DoubleBarrierSolver
 (12/17/05) - encapsulate method of flipping region index for right-to-left waves
 (12/17/05) - bugfix: set wave function to zero when TE<PE
