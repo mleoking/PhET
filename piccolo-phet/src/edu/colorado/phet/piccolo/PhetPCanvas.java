@@ -186,29 +186,17 @@ public class PhetPCanvas extends PSwingCanvas {
         }
 
         public AffineTransform getWorldTransform() {
-            if( renderingSize == null ) {
-                if( phetPCanvas.isVisible() ) {
-                    setRenderingSize();
-                }
-                else {
-                    return new AffineTransform();
-                }
+            if( renderingSize == null && phetPCanvas.isVisible() ) {
+                setRenderingSize();
             }
             double sx = getScaleX();
             double sy = getScaleY();
 
             //use the smaller
-            double scale = sx < sy ? sx : sy;
-            if( scale < 0 ) {
-                System.err.println( this.getClass().getName() + ": Warning: Sometimes in 1.5, sometimes getWidth() and getHeight() return negative values, causing troubles for this layout code." );
-            }
-            if( scale != 0.0 ) {
-                return AffineTransform.getScaleInstance( scale, scale );
-            }
-            else {
-                System.err.println( this.getClass().getName() + ": scale evaluated to zero!" );
-                return new AffineTransform();
-            }
+            double scale = ( sx < sy ) ? sx : sy;
+            scale = ( scale <= 0 ) ? 1.0 : scale; //if scale is negative or zero, just use scale=1
+            
+            return AffineTransform.getScaleInstance( scale, scale );
         }
 
         private void setRenderingSize() {
