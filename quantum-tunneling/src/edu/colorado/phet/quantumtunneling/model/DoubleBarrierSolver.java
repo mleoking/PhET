@@ -429,7 +429,7 @@ public class DoubleBarrierSolver extends AbstractPlaneSolver {
      *   Power(E,2*I*(k3*x3 + k4*x4))*(k2 + k3)*(k3 + k4)*(k4 - k5) + 
      *   Power(E,2*I*(k3 + k4)*x3)*(k2 + k3)*(k3 - k4)*(k4 + k5) -
      *   Power(E,2*I*(k3*x2 + k4*x3))*(-k2 + k3)*(k3 + k4)*(k4 + k5))) /
-     * denominator
+     * -1 * denominator
      */
     private void updateD( double x1, double x2, double x3, double x4,
             Complex k1, Complex k2, Complex k3, Complex k4, Complex k5, Complex denominator ) {
@@ -497,7 +497,7 @@ public class DoubleBarrierSolver extends AbstractPlaneSolver {
         _D.add( t4 );
         _D.subtract( t5 );
         _D.multiply( t1 );
-        _D.divide( denominator );
+        _D.divide( denominator.getMultiply( -1 ) );
     }
     
     /*
