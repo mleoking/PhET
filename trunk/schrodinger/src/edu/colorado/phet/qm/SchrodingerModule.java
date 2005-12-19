@@ -33,7 +33,7 @@ public class SchrodingerModule extends PiccoloModule {
     private DiscreteModel discreteModel;
     private SchrodingerControlPanel schrodingerControlPanel;
     private SchrodingerApplication schrodingerApplication;
-    private SchrodingerMenu menu;
+    private SchrodingerOptionsMenu optionsMenu;
 
     /**
      * @param schrodingerApplication
@@ -59,17 +59,17 @@ public class SchrodingerModule extends PiccoloModule {
             public void keyTyped( KeyEvent e ) {
             }
         } );
-        menu = new SchrodingerMenu( this );
+        optionsMenu = new SchrodingerOptionsMenu( this );
     }
 
     public void activate() {
         super.activate();
-        schrodingerApplication.getPhetFrame().addMenu( menu );
+        schrodingerApplication.getPhetFrame().addMenu( optionsMenu );
     }
 
     public void deactivate() {
         super.deactivate();
-        schrodingerApplication.getPhetFrame().removeMenu( menu );
+        schrodingerApplication.getPhetFrame().removeMenu( optionsMenu );
     }
 
     protected void setDiscreteModel( DiscreteModel model ) {

@@ -15,11 +15,11 @@ import java.awt.event.ActionListener;
  * Copyright (c) Jul 27, 2005 by Sam Reid
  */
 
-public class SchrodingerMenu extends JMenu {
+public class SchrodingerOptionsMenu extends JMenu {
     private SchrodingerModule schrodingerModule;
     private JDialog dialog;
 
-    public SchrodingerMenu( final SchrodingerModule schrodingerModule ) {
+    public SchrodingerOptionsMenu( final SchrodingerModule schrodingerModule ) {
         super( "Options" );
         setMnemonic( 'o' );
         this.schrodingerModule = schrodingerModule;

@@ -15,7 +15,7 @@ import edu.colorado.phet.qm.model.math.Complex;
  */
 
 public class NullPropagator extends Propagator {
-    protected NullPropagator( DiscreteModel discreteModel, Potential potential ) {
+    public NullPropagator( DiscreteModel discreteModel, Potential potential ) {
         super( discreteModel, potential );
     }
 

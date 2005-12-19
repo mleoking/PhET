@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view.piccolo;
 
+import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.view.colorgrid.ColorGrid;
 import edu.colorado.phet.qm.view.colorgrid.ColorMap;
@@ -12,6 +13,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -107,5 +110,16 @@ public class SimpleWavefunctionGraphic extends PNode {
     public void setGridDimensions( int width, int height ) {
         colorGridNode.setGridDimensions( width, height );
         update();
+    }
+
+    public Point getGridCoordinates( Point2D localLocation ) {
+        ModelViewTransform2D modelViewTransform2D = new ModelViewTransform2D( new Rectangle2D.Double( 0, 0, wavefunction.getWidth(), wavefunction.getHeight() ),
+                                                                              new Rectangle2D.Double( 0, 0, getFullBounds().getWidth(), getFullBounds().getHeight() ) );
+        Point2D val = modelViewTransform2D.viewToModel( localLocation );
+        return new Point( (int)val.getX(), (int)val.getY() );
+    }
+
+    public Dimension getCellDimensions() {
+        return new Dimension( colorGridNode.getCellWidth(), colorGridNode.getCellHeight() );
     }
 }

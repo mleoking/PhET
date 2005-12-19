@@ -8,7 +8,6 @@ import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Potential;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
-import edu.colorado.phet.qm.util.QMLogger;
 import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -85,7 +84,6 @@ public abstract class AbstractGunGraphic extends PNode {
         double scaleY = 1.0;
         comboBox.setBounds( (int)( ( x - comboBox.getPreferredSize().width - 2 ) * scaleX ), (int)( ( y + getControlOffsetY() ) * scaleY ),
                             comboBox.getPreferredSize().width, comboBox.getPreferredSize().height );
-        QMLogger.debug( "comboBox.getLocation() = " + comboBox.getLocation() );
     }
 
     public void setVisible( boolean visible ) {

@@ -5,7 +5,6 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.waves.FlatDampedWave;
 import edu.colorado.phet.qm.model.waves.PlaneWave;
-import edu.colorado.phet.qm.util.QMLogger;
 
 import java.awt.*;
 
@@ -49,8 +48,6 @@ public class PhotonWave {
     public void setMomentum( double momentum ) {
         this.momentum = momentum;
         dPhase = Math.abs( momentum );
-        QMLogger.debug( "momentum = " + momentum + ", dPhase=" + dPhase );
-
         updateWaveSource();
     }
 
