@@ -163,7 +163,9 @@ public class SingleBarrierSolver extends AbstractPlaneSolver {
 
     /*
      * B = 
-     * (Power(E,2*i*k1*x1)* (Power(E,2*i*k2*x2)*(k1 + k2)*(k2 - k3) - Power(E,2*i*k2*x1)*(-k1 + k2)*(k2 + k3))) /
+     * (Power(E,2*i*k1*x1)* 
+     *   (Power(E,2*i*k2*x2)*(k1 + k2)*(k2 - k3) - 
+     *    Power(E,2*i*k2*x1)*(-k1 + k2)*(k2 + k3))) /
      * denominator
      */
     private void updateB( double x1, double x2, Complex k1, Complex k2, Complex k3, Complex denominator ) {
