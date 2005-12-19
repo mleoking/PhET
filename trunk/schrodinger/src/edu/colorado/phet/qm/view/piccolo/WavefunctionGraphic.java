@@ -4,9 +4,9 @@ package edu.colorado.phet.qm.view.piccolo;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Potential;
 import edu.colorado.phet.qm.model.Wavefunction;
-import edu.colorado.phet.qm.model.operators.PxValue;
-import edu.colorado.phet.qm.model.operators.XValue;
-import edu.colorado.phet.qm.model.operators.YValue;
+import edu.colorado.phet.qm.model.expectations.PxValue;
+import edu.colorado.phet.qm.model.expectations.XValue;
+import edu.colorado.phet.qm.model.expectations.YValue;
 import edu.colorado.phet.qm.view.colorgrid.ColorMap;
 
 import java.awt.*;

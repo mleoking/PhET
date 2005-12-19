@@ -7,7 +7,7 @@ import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.WaveSetup;
 import edu.colorado.phet.qm.model.Wavefunction;
-import edu.colorado.phet.qm.model.operators.YValue;
+import edu.colorado.phet.qm.model.expectations.YValue;
 import edu.colorado.phet.qm.model.propagators.ClassicalWavePropagator;
 import edu.colorado.phet.qm.model.waves.GaussianWave2D;
 

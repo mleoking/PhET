@@ -1,6 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.model;
 
+import edu.colorado.phet.qm.model.math.Complex;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;

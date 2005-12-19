@@ -1,6 +1,6 @@
 package edu.colorado.phet.qm.util;
 
-import edu.colorado.phet.qm.model.Complex;
+import edu.colorado.phet.qm.model.math.Complex;
 
 /**
  * **********************************************************************
