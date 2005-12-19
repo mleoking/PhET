@@ -79,8 +79,7 @@ public class ColorGrid {
     public Rectangle getViewRectangle( Rectangle modelRect ) {
         int w = getCellWidth();
         int h = getCellHeight();
-        Rectangle out = new Rectangle( modelRect.x * w, modelRect.y * h, modelRect.width * w, modelRect.height * h );
-        return out;
+        return new Rectangle( modelRect.x * w, modelRect.y * h, modelRect.width * w, modelRect.height * h );
     }
 
     public int getWidth() {

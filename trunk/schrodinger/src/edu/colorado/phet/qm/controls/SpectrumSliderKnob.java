@@ -119,9 +119,8 @@ public class SpectrumSliderKnob extends PPath {
         path.lineTo( 0.5f * _size.width, 1f * _size.height );
         path.lineTo( 0.5f * _size.width, 0.3f * _size.height );
         path.closePath();
-        Shape shape = path;
 
-        super.setPathTo( shape );
+        super.setPathTo( path );
     }
 
 }

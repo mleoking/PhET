@@ -24,7 +24,6 @@ public class ColorData {
     }
 
     public Color toColor( double abs ) {
-        Color color = new Color( (float)abs * r, (float)abs * g, (float)abs * b );
-        return color;
+        return new Color( (float)abs * r, (float)abs * g, (float)abs * b );
     }
 }
