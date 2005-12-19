@@ -28,6 +28,7 @@ import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.enum.Direction;
+import edu.colorado.phet.quantumtunneling.enum.PotentialType;
 import edu.colorado.phet.quantumtunneling.enum.WaveType;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotential;
 import edu.colorado.phet.quantumtunneling.model.BarrierPotential;
@@ -64,7 +65,7 @@ public class QTControlPanel extends AbstractControlPanel {
     private QTModule _module;
     private JComboBox _potentialComboBox;
     private JCheckBox _realCheckBox, _imaginaryCheckBox, _magnitudeCheckBox, _phaseCheckBox;
-    private Object _constantItem, _stepItem, _barrierItem, _doubleBarrierItem;
+    private Object _constantItem, _stepItem, _singleBarrierItem, _doubleBarrierItem;
     private JRadioButton _separateRadioButton, _sumRadioButton;
     private JRadioButton _leftToRightRadioButton, _rightToLeftRadioButton;
     private JRadioButton _planeWaveRadioButton, _packetWaveRadioButton;
@@ -103,10 +104,10 @@ public class QTControlPanel extends AbstractControlPanel {
             
             _constantItem = SimStrings.get( "choice.potential.constant" );
             _stepItem = SimStrings.get( "choice.potential.step" );
-            _barrierItem = SimStrings.get( "choice.potential.barrier" );
+            _singleBarrierItem = SimStrings.get( "choice.potential.barrier" );
             _doubleBarrierItem = SimStrings.get( "choice.potential.double" );
             
-            Object[] items = { _constantItem, _stepItem, _barrierItem, _doubleBarrierItem };
+            Object[] items = { _constantItem, _stepItem, _singleBarrierItem, _doubleBarrierItem };
             _potentialComboBox = new JComboBox( items );
             
             // Layout
@@ -363,7 +364,7 @@ public class QTControlPanel extends AbstractControlPanel {
         _phaseCheckBox.setSelected( false );
         handlePhaseSelection();
         _sumRadioButton.setSelected( true );
-        handleSumSelection();
+        handleSeparateSelection();
         _leftToRightRadioButton.setSelected( true );
         handleDirectionSelection();
         _planeWaveRadioButton.setSelected( true );
@@ -395,7 +396,7 @@ public class QTControlPanel extends AbstractControlPanel {
         else if ( pe instanceof BarrierPotential ) {
             int numberOfBarriers = ( (BarrierPotential) pe ).getNumberOfBarriers();
             if ( numberOfBarriers == 1 ) {
-                _potentialComboBox.setSelectedItem( _barrierItem );
+                _potentialComboBox.setSelectedItem( _singleBarrierItem );
             }
             else if ( numberOfBarriers == 2 ) {
                 _potentialComboBox.setSelectedItem( _doubleBarrierItem );
@@ -408,6 +409,129 @@ public class QTControlPanel extends AbstractControlPanel {
             throw new IllegalStateException( "unsupported potential type: " + pe.getClass().getName() );
         }
         _potentialComboBox.addItemListener( _listener );
+    }
+    
+    /**
+     * Sets the potential type.
+     * 
+     * @param potentialType
+     */
+    public void setPotentialType( PotentialType potentialType ) {
+        if ( potentialType == PotentialType.CONSTANT ) {
+            _potentialComboBox.setSelectedItem( _constantItem );
+        }
+        else if ( potentialType == PotentialType.STEP ) {
+            _potentialComboBox.setSelectedItem( _stepItem );
+        }
+        else if ( potentialType == PotentialType.SINGLE_BARRIER ) {
+            _potentialComboBox.setSelectedItem( _singleBarrierItem );
+        }
+        else if ( potentialType == PotentialType.DOUBLE_BARRIER ) {
+            _potentialComboBox.setSelectedItem( _doubleBarrierItem );
+        }
+        handlePotentialSelection();
+    }
+    
+    /**
+     * Gets the potential type selection.
+     * 
+     * @return
+     */
+    private PotentialType getPotentialType() {
+        PotentialType potentialType = null;
+        Object selection = _potentialComboBox.getSelectedItem();
+        if ( selection == _constantItem ) {
+            potentialType = PotentialType.CONSTANT;
+        }
+        else if ( selection == _stepItem ) {
+            potentialType = PotentialType.STEP;
+        }
+        else if ( selection == _singleBarrierItem ) {
+            potentialType = PotentialType.SINGLE_BARRIER;
+        }
+        else if ( selection == _doubleBarrierItem ) {
+            potentialType = PotentialType.DOUBLE_BARRIER;
+        }
+        return potentialType;
+    }
+    
+    public void setRealSelected( boolean selected ) {
+        _realCheckBox.setSelected( selected );
+        handleRealSelection();
+    }
+    
+    public boolean isRealSelected() {
+        return _realCheckBox.isSelected();
+    }
+    
+    public void setImaginarySelected( boolean selected ) {
+        _imaginaryCheckBox.setSelected( selected );
+        handleImaginarySelection();
+    }
+    
+    public boolean isImaginarySelected() {
+        return _imaginaryCheckBox.isSelected();
+    }
+    
+    public void setMagnitudeSelected( boolean selected ) {
+        _magnitudeCheckBox.setSelected( selected );
+        handleMagnitudeSelection();
+    }
+    
+    public boolean isMagnitudeSelected( boolean selected ) {
+        return _magnitudeCheckBox.isSelected();
+    }
+    
+    public void setPhaseSelected( boolean selected ) {
+        _phaseCheckBox.setSelected( selected );
+        handlePhaseSelection();
+    }
+    
+    public boolean isPhaseSelected() {
+        return _phaseCheckBox.isSelected();
+    }
+    
+    /**
+     * Enables or disabled the "separate" view.
+     * 
+     * @param enabled
+     */
+    public void setSeparateSelected( boolean selected ) {
+        _separateRadioButton.setSelected( selected );
+        handleSeparateSelection();
+    }
+    
+    /**
+     * Are we in "separate" view?
+     * 
+     * @return
+     */
+    private boolean isSeparateSelected() {
+        return _separateRadioButton.isSelected();
+    }
+    
+    public void setLeftToRightSelected( boolean selected ) {
+        _leftToRightRadioButton.setSelected( selected );
+        handleDirectionSelection();
+    }
+    
+    public boolean isLeftToRightSelected() {
+        return _leftToRightRadioButton.isSelected();
+    }
+    
+    /**
+     * Sets the wave type selection.
+     * 
+     * @param waveType
+     */
+    public void setWaveType( WaveType waveType ) {
+        if ( waveType == WaveType.PLANE ) {
+            _planeWaveRadioButton.setSelected( true );
+        }
+        else {
+            _packetWaveRadioButton.setSelected( true );
+        }
+        handleWaveTypeSelection();
     }
     
     /**
@@ -424,6 +548,29 @@ public class QTControlPanel extends AbstractControlPanel {
             waveType = WaveType.PACKET;
         }
         return waveType;
+    }
+    
+    public void setPropertiesVisible( boolean visible ) {
+        _propertiesPanel.setVisible( !visible );
+        handlePropertiesButton();
+    }
+    
+    public boolean isPropertiesVisible() {
+        return _propertiesPanel.isVisible();
+    }
+    
+    public void setPacketWidth( double width ) {
+        _widthSlider.setValue( width );
+        handleWidthSlider();
+    }
+    
+    public double getPacketWidth() {
+        return _widthSlider.getValue();
+    }
+    
+    public void setPacketCenter( double center ) {
+        _centerSlider.setValue( center );
+        handleCenterSlider();
     }
     
     //----------------------------------------------------------------------------
@@ -452,7 +599,7 @@ public class QTControlPanel extends AbstractControlPanel {
                 handlePhaseSelection();
             }
             else if ( event.getSource() == _separateRadioButton || event.getSource() == _sumRadioButton ) {
-                handleSumSelection();
+                handleSeparateSelection();
             }
             else if ( event.getSource() == _leftToRightRadioButton || event.getSource() == _rightToLeftRadioButton ) {
                 handleDirectionSelection();
@@ -504,7 +651,7 @@ public class QTControlPanel extends AbstractControlPanel {
         else if ( o == _stepItem ) {
             pe = new StepPotential();
         }
-        else if ( o == _barrierItem ) {
+        else if ( o == _singleBarrierItem ) {
             pe = new BarrierPotential();
         }
         else if ( o == _doubleBarrierItem ) {
@@ -532,8 +679,8 @@ public class QTControlPanel extends AbstractControlPanel {
         _module.setPhaseVisible( _magnitudeCheckBox.isSelected() );
     }
     
-    private void handleSumSelection() {
-        _module.setViewSeparateEnabled( _separateRadioButton.isSelected() );
+    private void handleSeparateSelection() {
+        _module.setViewSeparateSelected( _separateRadioButton.isSelected() );
     }
     
     private void handleDirectionSelection() {
@@ -558,7 +705,7 @@ public class QTControlPanel extends AbstractControlPanel {
             _sumRadioButton.setEnabled( false );
             _separateRadioButton.setEnabled( false );
             _sumRadioButton.setSelected( true );
-            handleSumSelection();
+            handleSeparateSelection();
             _propertiesButton.setEnabled( true );
             _propertiesPanel.setVisible( false );
             _module.setWaveType( WaveType.PACKET );
