@@ -50,9 +50,9 @@ public class PlainCubicLattice extends Lattice {
         for( int i = 0; i < 4; i++ ) {
             double x = p.getX() + spacing * Math.cos( i * Math.PI / 2 + orientation );
             double y = p.getY() + spacing * Math.sin( i * Math.PI / 2 + orientation );
-            if( getBounds().contains( x, y ) ) {
+//            if( getBounds().contains( x, y ) ) {
                 sites.add( new Point2D.Double( x, y ));
-            }
+//            }
         }
         return sites;
     }

@@ -46,20 +46,13 @@ public class SolubleSaltsConfig {
 
     // Physical things
     private static final double scale = 1;
-//    private static final double scale = 10;
     public static final Point2D VESSEL_ULC = new Point2D.Double( 150 * scale, 150 * scale ); // upper-left corner of vessel
     public static final Dimension VESSEL_SIZE = new Dimension( (int)( 700 * scale ), (int)( 500 * scale ) );
     public static final double VESSEL_WALL_THICKNESS = 20 * scale;
-//    public static final Point2D VESSEL_ULC = new Point2D.Double( 150, 150 ); // upper-left corner of vessel
-//    public static final Dimension VESSEL_SIZE = new Dimension( 700, 500 );
-//    public static final double VESSEL_WALL_THICKNESS = 20;
-//    public static final double DEFAULT_WATER_LEVEL = VESSEL_SIZE.getHeight() * 0.1;
     public static double DEFAULT_WATER_LEVEL = VESSEL_SIZE.getHeight() * 0.7;
     public static final double DEFAULT_LATTICE_SPEED = 3;
-//    public static final double DEFAULT_LATTICE_SPEED = 5;
     // Acceleration of lattices when they come out of the shaker
     public static final double DEFAULT_LATTICE_ACCELERATION = .2;
-//    public static final double DEFAULT_LATTICE_ACCELERATION = .5;
     public static final double MAX_SPIGOT_FLOW = 500;
 
     // Images
@@ -79,12 +72,8 @@ public class SolubleSaltsConfig {
     // be bound to that lattice again
     public static final long RELEASE_ESCAPE_TIME = 2000;
 
-    public static Lattice twoToOneLattice = new TwoToOneLattice( Sodium.class,
-                                                         Chlorine.class,
-                                                         Sodium.RADIUS + Chlorine.RADIUS );
-    public static Lattice oneToOneLattice = new PlainCubicLattice( Sodium.RADIUS + Chlorine.RADIUS );
-//    public static Lattice LATTICE = twoToOneLattice;
-    public static Lattice LATTICE = oneToOneLattice;
 
+    // Debug flags
     public static boolean RANDOM_WALK = false;
+    public static boolean ONE_CRYSTAL_ONLY = false;
 }

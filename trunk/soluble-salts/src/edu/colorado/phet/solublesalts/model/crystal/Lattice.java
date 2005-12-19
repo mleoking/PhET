@@ -32,9 +32,10 @@ public abstract class Lattice {
 
     private Ion seed;
     private Rectangle2D bounds;
+    private ArrayList utilRemoveList = new ArrayList();
 
     /**
-     * Returns an ion with the greates "least bound" characteristic. This characteristic is
+     * Returns an ion with the greatest "least bound" characteristic. This characteristic is
      * defined as the ratio of unoccupied neighboring lattice sites divided by the total
      * number of neighboring sites. If more than one ion in the lattice has this same
      * characteristic value, one of them is chosen at random.
@@ -74,10 +75,17 @@ public abstract class Lattice {
                 continue;
             }
             List openNeighboringSites = getOpenNeighboringSites( ion, ionsInLattice, orientation );
-            double occupiedSiteRatio = (double)openNeighboringSites.size() / neighboringSites.size();
-            if( occupiedSiteRatio >= highestOccupiedSiteRatio ) {
+            double unoccupiedSiteRatio = (double)openNeighboringSites.size() / neighboringSites.size();
+
+            // If this ion has as good an unoccupied site ratio as any other, add it to the candidate list.
+            // If its ratio is better than any other ion's, clear the list and make this the only candidate
+            // so far
+            if( unoccupiedSiteRatio >= highestOccupiedSiteRatio ) {
+                if( unoccupiedSiteRatio > highestOccupiedSiteRatio ) {
+                    candidateIons.clear();
+                    highestOccupiedSiteRatio = unoccupiedSiteRatio;
+                }
                 candidateIons.add( ion );
-                highestOccupiedSiteRatio = occupiedSiteRatio;
             }
         }
 
@@ -92,6 +100,23 @@ public abstract class Lattice {
         }
         return leastBoundIon;
     }
+
+    private List getOccupiedNeighboringSites( Ion ion, List ionsInLattice, double orientation ) {
+        List neighboringSites = getNeighboringSites( ion, orientation );
+        return getOccupiedNeighboringSites( neighboringSites, ionsInLattice );
+    }
+
+    public List getOccupiedNeighboringSites( List neighboringSites, List ionsInLattice ) {
+        List results = new ArrayList();
+        for( int i = 0; i < neighboringSites.size(); i++ ) {
+            Point2D neighboringSite = (Point2D)neighboringSites.get( i );
+            if( isSiteOccupied( neighboringSite, ionsInLattice ) ) {
+                results.add( neighboringSite );
+            }
+        }
+        return results;
+    }
+
 
     /**
      * Returns a list of the lattice sites that are neighboring a specified ion that are
@@ -146,6 +171,19 @@ public abstract class Lattice {
                 openSites.addAll( ns );
             }
         }
+
+        // Remove sites from the list that would put the ion outside the water
+        utilRemoveList.clear();
+        for( int i = 0; i < openSites.size(); i++ ) {
+            Point2D testPt = (Point2D)openSites.get( i );
+            if( testPt.getX() + ion.getRadius() > bounds.getMaxX()
+                || testPt.getX() - ion.getRadius() < bounds.getMinX()
+                || testPt.getY() + ion.getRadius() > bounds.getMaxY()
+                || testPt.getY() - ion.getRadius() < bounds.getMinY() ) {
+                utilRemoveList.add( testPt );
+            }
+        }
+        openSites.removeAll( utilRemoveList );
 
         // Find the nearest of the open sites to the input parameter point
         double dMin = Double.MAX_VALUE;
@@ -211,9 +249,7 @@ public abstract class Lattice {
         // Sanity check
         Ion oldSeed = null;
         if( seed != null && seed != seedIon ) {
-            System.out.println( "seed != null");
             oldSeed = seed;
-//            throw new RuntimeException( "seed != null");
         }
         seed = seedIon;
         seed.notifyObservers();

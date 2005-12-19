@@ -11,6 +11,7 @@
 package edu.colorado.phet.solublesalts.model.ion;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
 import edu.colorado.phet.solublesalts.model.Atom;
@@ -36,6 +37,7 @@ import java.util.Random;
 public class Ion extends Atom {
 
     private static Random random = new Random();
+    public static double randomWalkTheta = 45;
 
     private IonProperties ionProperties;
     private Crystal bindingCrystal;
@@ -60,7 +62,8 @@ public class Ion extends Atom {
 
             // Random walk
             if( getVelocity().getMagnitude() != 0 && SolubleSaltsConfig.RANDOM_WALK ) {
-                double theta = random.nextDouble() * Math.PI * 2;
+                double theta = random.nextDouble() * Math.toRadians( randomWalkTheta ) * MathUtil.nextRandomSign();
+//                double theta = random.nextDouble() * Math.PI * 2;
                 setVelocity( getVelocity().rotate( theta ) );
             }
             super.stepInTime( dt );

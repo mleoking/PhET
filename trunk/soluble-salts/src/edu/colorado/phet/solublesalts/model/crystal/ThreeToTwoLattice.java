@@ -62,9 +62,9 @@ public class ThreeToTwoLattice extends Lattice {
             double x = p.getX() + spacing * Math.cos( i * Math.PI * 2 / cnt + orientation );
             double y = p.getY() + spacing * Math.sin( i * Math.PI * 2 / cnt + orientation );
             Point2D pNew = new Point2D.Double( x, y );
-            if( getBounds().contains( pNew ) ) {
+//            if( getBounds().contains( pNew ) ) {
                 sites.add( pNew );
-            }
+//            }
         }
         return sites;
     }

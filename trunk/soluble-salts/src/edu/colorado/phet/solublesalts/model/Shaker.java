@@ -18,6 +18,8 @@ import edu.colorado.phet.solublesalts.model.crystal.Crystal;
 import edu.colorado.phet.solublesalts.model.crystal.Lattice;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.model.ion.IonFactory;
+import edu.colorado.phet.solublesalts.model.ion.Bromine;
+import edu.colorado.phet.solublesalts.model.ion.Mercury;
 import edu.colorado.phet.solublesalts.model.salt.Salt;
 
 import java.awt.geom.Point2D;
@@ -83,7 +85,9 @@ public class Shaker extends Particle {
             double y = getPosition().getY() + l * Math.sin( orientation );
             Point2D p = new Point2D.Double( x, y );
 
-            int numLaticeUnits = random.nextInt( 10 );
+            int minUnits = 3;
+            int maxUnits = 10;
+            int numLaticeUnits = random.nextInt( maxUnits - minUnits ) + minUnits ;
 //            numLaticeUnits = 2;
 //            numLaticeUnits = 1;
 //            numLaticeUnits = 8;
@@ -101,6 +105,15 @@ public class Shaker extends Particle {
                 }
             }
 
+            // DEBUG: code for creating custom crystals
+//            ions.clear();
+//            ion = ionFactory.create( Bromine.class, p, v, new Vector2D.Double() );
+//            ions.add( ion );
+//            ion = ionFactory.create( Mercury.class, p, v, new Vector2D.Double() );
+//            ions.add( ion );
+//            ion = ionFactory.create( Bromine.class, p, v, new Vector2D.Double() );
+//            ions.add( ion );
+
             // Position the ions
             for( int i = 0; i < ions.size(); i++ ) {
                 Ion ion1 = (Ion)ions.get( i );
@@ -110,7 +123,8 @@ public class Shaker extends Particle {
             }
 
             // Create the crystal
-            crystal = new Crystal( model, (Lattice)currentSalt.getLattice(), ions );
+//            crystal = new Crystal( model, (Lattice)currentSalt.getLattice(), finalList );
+            crystal = new Crystal( model, (Lattice)currentSalt.getLattice(), ions, null );
             crystal.setVelocity( v );
         }
     }

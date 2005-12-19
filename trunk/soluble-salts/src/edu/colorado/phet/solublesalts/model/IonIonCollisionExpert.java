@@ -13,7 +13,6 @@ package edu.colorado.phet.solublesalts.model;
 import edu.colorado.phet.collision.*;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
-import edu.colorado.phet.solublesalts.model.ion.IonIonCollision;
 
 /**
  * IonIonCollisionExpert
@@ -48,7 +47,6 @@ public class IonIonCollisionExpert implements CollisionExpert {
                     if( ionA.getBindingCrystal().addIon( ionB ) ) {
                         ionB.bindTo( ionA.getBindingCrystal() );
                     }
-//                    ionA.getBindingCrystal().addIon( ionB );
                 }
                 else if( ionB.isBound() ) {
                     if( ionB.getBindingCrystal().addIon( ionA ) ) {
