@@ -427,7 +427,7 @@ public class QTModule extends AbstractModule implements Observer {
         _wavePacket.setNotifyEnabled( true );
     }
     
-    public void setViewSeparateEnabled( boolean enabled ) {
+    public void setViewSeparateSelected( boolean enabled ) {
         _chart.getWaveFunctionPlot().setViewSeparateEnabled( enabled );
     }
     

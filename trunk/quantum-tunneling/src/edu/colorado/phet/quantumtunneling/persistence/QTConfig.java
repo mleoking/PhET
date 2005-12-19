@@ -11,8 +11,10 @@
 
 package edu.colorado.phet.quantumtunneling.persistence;
 
-import java.awt.Color;
 import java.io.Serializable;
+
+import edu.colorado.phet.quantumtunneling.enum.PotentialType;
+import edu.colorado.phet.quantumtunneling.enum.WaveType;
 
 
 /**
@@ -101,10 +103,128 @@ public class QTConfig implements Serializable {
     
     public class ModuleConfig implements Serializable {
         
+        private double _te;
+        
+        private PotentialType _potentialType;
+        private double[] _pes;
+        private double[] _positions;
+ 
+        private boolean _realSelected;
+        private boolean _imaginarySelected;
+        private boolean _magnitudeSelected;
+        private boolean _phaseSelected;
+        private boolean _separateSelected;
+        private boolean _leftToRightSelected;
+        private WaveType _waveType;
+        private double _packetWidth;
+        private double _packetCenter;
+        
         /**
          * Zero-argument constructor for Java Bean compliance.
          */
         public ModuleConfig() {}
         
+        public boolean isImaginarySelected() {
+            return _imaginarySelected;
+        }
+        
+        public void setImaginarySelected( boolean imaginarySelected ) {
+            _imaginarySelected = imaginarySelected;
+        }
+        public boolean isLeftToRightSelected() {
+            return _leftToRightSelected;
+        }
+        
+        public void setLeftToRightSelected( boolean leftToRightSelected ) {
+            _leftToRightSelected = leftToRightSelected;
+        }
+        
+        public boolean isMagnitudeSelected() {
+            return _magnitudeSelected;
+        }
+        
+        public void setMagnitudeSelected( boolean magnitudeSelected ) {
+            _magnitudeSelected = magnitudeSelected;
+        }
+        
+        public double getPacketCenter() {
+            return _packetCenter;
+        }
+        
+        public void setPacketCenter( double packetCenter ) {
+            _packetCenter = packetCenter;
+        }
+        
+        public double getPacketWidth() {
+            return _packetWidth;
+        }
+        
+        public void setPacketWidth( double packetWidth ) {
+            _packetWidth = packetWidth;
+        }
+        
+        public double[] getPes() { 
+            return _pes;
+        }
+        
+        public void setPes( double[] pes ) {
+            _pes = pes;
+        }
+        
+        public boolean isPhaseSelected() {
+            return _phaseSelected;
+        }
+        
+        public void setPhaseSelected( boolean phaseSelected ) {
+            _phaseSelected = phaseSelected;
+        }
+        
+        public double[] getPositions() {
+            return _positions;
+        }
+        
+        public void setPositions( double[] positions ) {
+            _positions = positions;
+        }
+        
+        public boolean isRealSelected() {
+            return _realSelected;
+        }
+        
+        public void setRealSelected( boolean realSelected ) {
+            _realSelected = realSelected;
+        }
+        
+        public boolean isSeparateSelected() {
+            return _separateSelected;
+        }
+        
+        public void setSeparateSelected( boolean separateSelected ) {
+            _separateSelected = separateSelected;
+        }
+        
+        public double getTe() {
+            return _te;
+        }
+        
+        public void setTe( double te ) {
+            _te = te;
+        }
+        
+        public WaveType getWaveType() {
+            return _waveType;
+        }
+        
+        public void setWaveType( WaveType waveType ) {
+            _waveType = waveType;
+        }
+        
+        public PotentialType getPotentialType() {
+            return _potentialType;
+        }
+        
+        public void setPotentialType( PotentialType potentialType ) {
+            _potentialType = potentialType;
+        }
     }
 }
