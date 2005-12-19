@@ -125,8 +125,7 @@ public class IntensityGraphic extends PNode {
     private int getYGaussian() {
         double scale = detectorHeight / 8;
         double offset = detectorHeight / 2;
-        int y = (int)( random.nextGaussian() * scale + offset );
-        return y;
+        return (int)( random.nextGaussian() * scale + offset );
     }
 
     private void updateWavefunctionAfterDetection() {

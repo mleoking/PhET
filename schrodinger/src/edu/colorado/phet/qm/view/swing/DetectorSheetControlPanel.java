@@ -135,8 +135,7 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
 
     private IntensityPanel getIntensityPanel() {
         if( detectorSheetPNode.getSchrodingerPanel() instanceof IntensityPanel ) {
-            IntensityPanel intensityPanel = (IntensityPanel)detectorSheetPNode.getSchrodingerPanel();
-            return intensityPanel;
+            return (IntensityPanel)detectorSheetPNode.getSchrodingerPanel();
         }
         return null;
     }

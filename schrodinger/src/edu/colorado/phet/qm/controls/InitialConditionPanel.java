@@ -91,9 +91,8 @@ public class InitialConditionPanel extends VerticalLayoutPanel {
         double px = getStartPx();
         double py = getStartPy();
         double dxLattice = getStartDxLattice();
-        WaveSetup waveSetup = new GaussianWave2D( new Point( (int)x, (int)y ),
-                                                  new Vector2D.Double( px, py ), dxLattice );
-        return waveSetup;
+        return new GaussianWave2D( new Point( (int)x, (int)y ),
+                                   new Vector2D.Double( px, py ), dxLattice );
     }
 
     public void initClassicalWave( ClassicalWavePropagator propagator2ndOrder ) {

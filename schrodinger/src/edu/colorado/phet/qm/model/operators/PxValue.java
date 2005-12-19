@@ -34,7 +34,6 @@ public class PxValue {
         Complex left = w.valueAt( i + 1, j );
         Complex right = w.valueAt( i - 1, j );
 
-        Complex diff = left.minus( right ).times( 0.5 );
-        return diff;
+        return left.minus( right ).times( 0.5 );
     }
 }

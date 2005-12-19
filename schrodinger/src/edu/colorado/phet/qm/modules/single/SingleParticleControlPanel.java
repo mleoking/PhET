@@ -78,7 +78,6 @@ public class SingleParticleControlPanel extends SchrodingerControlPanel {
     }
 
     private VerticalLayoutPanel createExpectationPanel() {
-        VerticalLayoutPanel lay = new ObservablePanel( getSchrodingerPanel() );
-        return lay;
+        return new ObservablePanel( getSchrodingerPanel() );
     }
 }

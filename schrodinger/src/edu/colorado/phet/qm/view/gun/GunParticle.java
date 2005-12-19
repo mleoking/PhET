@@ -75,10 +75,7 @@ public abstract class GunParticle extends ImageComboBox.Item {
     }
 
     protected double getStartY() {
-//        double y = getDiscreteModel().getGridHeight() * 0.8;
-        double y = getDiscreteModel().getGridHeight() * 0.85;
-//        double y = getDiscreteModel().getGridHeight() * 0.7;
-        return y;
+        return getDiscreteModel().getGridHeight() * 0.85;
     }
 
     private WaveSetup getInitialWavefunctionVerifyCorrect( Wavefunction currentWave ) {
@@ -138,9 +135,7 @@ public abstract class GunParticle extends ImageComboBox.Item {
     }
 
     protected double getStartDxLattice() {
-//            double dxLattice = 0.04 * getDiscreteModel().getGridWidth();
-        double dxLattice = 0.06 * getDiscreteModel().getGridWidth();
-        return dxLattice;
+        return 0.06 * getDiscreteModel().getGridWidth();
     }
 
     private ArrayList changeHandlers = new ArrayList();

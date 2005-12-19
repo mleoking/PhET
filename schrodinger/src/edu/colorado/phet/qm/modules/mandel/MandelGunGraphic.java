@@ -77,9 +77,7 @@ public class MandelGunGraphic extends HighIntensityGunGraphic {
 
     private double getGunOffsetDx() {
         double width = getSchrodingerPanel().getWavefunctionGraphic().getGlobalFullBounds().getWidth();
-        double dx = width / 2 - width * DoublePhotonWave.getFractionalInset();
-//        System.out.println( "dx = " + dx );
-        return dx;
+        return width / 2 - width * DoublePhotonWave.getFractionalInset();
     }
 
     public int getFireButtonInsetDX() {
