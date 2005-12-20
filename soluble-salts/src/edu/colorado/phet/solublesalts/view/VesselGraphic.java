@@ -12,6 +12,7 @@ package edu.colorado.phet.solublesalts.view;
 
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 import edu.colorado.phet.solublesalts.model.Vessel;
+import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.piccolo.DefaultDragHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -38,7 +39,8 @@ public class VesselGraphic extends PNode {
 
     private PPath shape;
     private PPath water;
-    private Color waterColor = new Color( 161, 197, 234 );
+//    private Color waterColor = new Color( 191, 207, 234 );
+    private Color waterColor = SolubleSaltsConfig.WATER_COLOR;
 
     public VesselGraphic( Vessel vessel ) {
 

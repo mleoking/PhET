@@ -64,6 +64,7 @@ public class SolubleSaltsConfig {
     public static final String ICE_IMAGE_FILE = IMAGE_PATH + "ice.gif";
     public static final String FAUCET_IMAGE = IMAGE_PATH + "faucet-gold-rt.gif";
 //    public static final String FAUCET_IMAGE = IMAGE_PATH + "faucet.png";
+    public static final Color WATER_COLOR = new Color( 194, 234, 255, 180 );
 
     // Misc
     public static final String STRINGS_BUNDLE_NAME = "localization/SolubleSaltsStrings";
@@ -76,4 +77,7 @@ public class SolubleSaltsConfig {
     // Debug flags
     public static boolean RANDOM_WALK = false;
     public static boolean ONE_CRYSTAL_ONLY = false;
+    // An ion will bind to another if it is within a distance of the open binding site that is less than or
+    // equal to this many times the free ion's radius
+    public static double BINDING_DISTANCE_FACTOR = 2;
 }

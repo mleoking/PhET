@@ -44,12 +44,12 @@ public class IonIonCollisionExpert implements CollisionExpert {
                 && !( ionA.isBound() && ionB.isBound() ) ) {
 
                 if( ionA.isBound() ) {
-                    if( ionA.getBindingCrystal().addIon( ionB ) ) {
+                    if( ionA.getBindingCrystal().addIon( ionB, ionA ) ) {
                         ionB.bindTo( ionA.getBindingCrystal() );
                     }
                 }
                 else if( ionB.isBound() ) {
-                    if( ionB.getBindingCrystal().addIon( ionA ) ) {
+                    if( ionB.getBindingCrystal().addIon( ionA, ionB ) ) {
                         ionA.bindTo( ionB.getBindingCrystal() );
                     }
                 }
