@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.text.DecimalFormat;
 
 /**
  * User: Sam Reid
@@ -29,6 +30,8 @@ public class IntensityReader extends PComposite {
     private PComposite crosshairs;
     private PText readout;
     private PPath textBackground;
+    private StripChartJFCNode stripChartJFCNode;
+    private int time = 100;
 
     public IntensityReader( SimpleWavefunctionGraphic simpleWavefunctionGraphic ) {
         this.simpleWavefunctionGraphic = simpleWavefunctionGraphic;
@@ -60,16 +63,24 @@ public class IntensityReader extends PComposite {
         addChild( readout );
         readout.setOffset( 0, crosshairs.getHeight() + 5 );
 
-        update();
-        new Timer( 30, new ActionListener() {
+        stripChartJFCNode = new StripChartJFCNode( 200, 200 );
+        addChild( stripChartJFCNode );
+
+        updateTextBackground();
+        Timer timer = new Timer( 300, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 update();
             }
-        } ).start();
-        crosshairs.translate( 0, textBackground.getFullBounds().getHeight() + crosshairs.getFullBounds().getHeight() / 2 );
+        } );
+        timer.start();
 
+        crosshairs.translate( 0, textBackground.getFullBounds().getHeight() + crosshairs.getFullBounds().getHeight() / 2 );
+        stripChartJFCNode.translate( crosshairs.getFullBounds().getMaxX() + 5, textBackground.getFullBounds().getMaxY() );
         CursorHandler cursorHandler = new CursorHandler( Cursor.HAND_CURSOR );
         addInputEventListener( cursorHandler );
+
+
+        update();
     }
 
     private void update() {
@@ -93,15 +104,21 @@ public class IntensityReader extends PComposite {
         if( simpleWavefunctionGraphic.getWavefunction().containsLocation( cellLocation.x, cellLocation.y ) ) {
             Complex value = simpleWavefunctionGraphic.getWavefunction().valueAt( cellLocation.x, cellLocation.y );
 //        readout.setText( "Location=" + location + ", bounds=" + simpleWavefunctionGraphic.getFullBounds() );
-            readout.setText( "Magnitude=" + value.abs() );
+            readout.setText( "Magnitude=" + new DecimalFormat( "0.00" ).format( value.abs() ) );
+            stripChartJFCNode.addValue( time++, value.abs() );
         }
         else {
             readout.setText( "Location=" + cellLocation );
         }
 
 //        textBackground.setPathTo( new Rectangle2D.Double( 0,0,readout.getFullBounds().getWidth(), readout.getFullBounds().getHeight() ) );
-        textBackground.setPathTo( RectangleUtils.expand( readout.getFullBounds(), 10, 10 ) );
-        System.out.println( "readout.getFullBounds() = " + readout.getFullBounds() );
+        updateTextBackground();
+//        System.out.println( "readout.getFullBounds() = " + readout.getFullBounds() );
+
 //        double valueAtCursor = simpleWavefunctionGraphic.getWavefunction().
+    }
+
+    private void updateTextBackground() {
+        textBackground.setPathTo( RectangleUtils.expand( readout.getFullBounds(), 10, 10 ) );
     }
 }
