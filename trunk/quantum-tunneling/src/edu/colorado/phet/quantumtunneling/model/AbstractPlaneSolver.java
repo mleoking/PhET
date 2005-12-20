@@ -216,7 +216,7 @@ public abstract class AbstractPlaneSolver implements IWaveFunctionSolver {
      * @param x position
      * @param k
      */
-    protected static Complex commonTerm1( final double x, Complex k ) {
+    protected static Complex commonTerm1( Complex k, final double x ) {
         MutableComplex c = new MutableComplex();
         c.setValue( Complex.I );
         c.multiply( k );
@@ -231,7 +231,7 @@ public abstract class AbstractPlaneSolver implements IWaveFunctionSolver {
      * @param x position
      * @param regionIndex region index
      */
-    protected static Complex commonTerm2( final double x, Complex k ) {
+    protected static Complex commonTerm2( Complex k, final double x ) {
         MutableComplex c = new MutableComplex();
         c.setValue( Complex.I );
         c.multiply( k );
@@ -246,8 +246,9 @@ public abstract class AbstractPlaneSolver implements IWaveFunctionSolver {
      * @param t time 
      * @param E total energy
      */
-    protected static Complex commonTerm3( final double t, final double E ) {
+    protected static Complex commonTerm3( final TotalEnergy te, final double t ) {
         final double h = PLANCKS_CONSTANT;
+        final double E = te.getEnergy();
         MutableComplex c = new MutableComplex();
         c.setValue( Complex.I );
         c.multiply( -1 * E * t / h );

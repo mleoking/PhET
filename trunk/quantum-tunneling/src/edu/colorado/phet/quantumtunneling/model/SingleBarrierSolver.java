@@ -92,12 +92,11 @@ public class SingleBarrierSolver extends AbstractPlaneSolver {
     /* 
      * Region1: psi(x,t) = ( e^(i*k1*x) + B * e^(-i*k1*x) ) * e^(-i*E*t/h)
      */
-    private WaveFunctionSolution solveRegion1( final double x, final double t ) {       
-        final double E = getTotalEnergy().getEnergy();
+    private WaveFunctionSolution solveRegion1( final double x, final double t ) {
         Complex k1 = getK( 0 );
-        Complex term1 = commonTerm1( x, k1 ); // e^(ikx)
-        Complex term2 = commonTerm2( x, k1 ); // e^(-ikx)
-        Complex term3 = commonTerm3( t, E ); // e^(-i*E*t/h)
+        Complex term1 = commonTerm1( k1, x ); // e^(ikx)
+        Complex term2 = commonTerm2( k1, x ); // e^(-ikx)
+        Complex term3 = commonTerm3( getTotalEnergy(), t ); // e^(-i*E*t/h)
         Complex incidentPart = term1.getMultiply( term3 );
         Complex reflectedPart = _B.getMultiply( term2 ).getMultiply( term3 );
         WaveFunctionSolution result = new WaveFunctionSolution( x, t, incidentPart, reflectedPart );
@@ -108,11 +107,10 @@ public class SingleBarrierSolver extends AbstractPlaneSolver {
      * Region2: psi(x,t) = ( C * e^(i*k2*x) + D * e^(-i*k2*x) ) * e^(-i*E*t/h)
      */
     private WaveFunctionSolution solveRegion2( final double x, final double t ) {
-        final double E = getTotalEnergy().getEnergy();
         Complex k2 = getK( 1 );
-        Complex term1 = commonTerm1( x, k2 ); // e^(ikx)
-        Complex term2 = commonTerm2( x, k2 ); // e^(-ikx)
-        Complex term3 = commonTerm3( t, E ); // e^(-i*E*t/h)
+        Complex term1 = commonTerm1( k2, x ); // e^(ikx)
+        Complex term2 = commonTerm2( k2, x ); // e^(-ikx)
+        Complex term3 = commonTerm3( getTotalEnergy(), t ); // e^(-i*E*t/h)
         Complex incidentPart = _C.getMultiply( term1 ).getMultiply( term3 );
         Complex reflectedPart = _D.getMultiply( term2 ).getMultiply( term3 );
         WaveFunctionSolution result = new WaveFunctionSolution( x, t, incidentPart, reflectedPart );
@@ -123,10 +121,9 @@ public class SingleBarrierSolver extends AbstractPlaneSolver {
      * Region3: psi(x,t) = ( F * e^(i*k3*x) ) * e^(-i*E*t/h) 
      */
     private WaveFunctionSolution solveRegion3( final double x, final double t ) {
-        final double E = getTotalEnergy().getEnergy();
         Complex k3 = getK( 2 );
-        Complex term1 = commonTerm1( x, k3 ); // e^(ikx)
-        Complex term3 = commonTerm3( t, E ); // e^(-i*E*t/h)
+        Complex term1 = commonTerm1( k3, x ); // e^(ikx)
+        Complex term3 = commonTerm3( getTotalEnergy(), t ); // e^(-i*E*t/h)
         Complex incidentPart = _F.getMultiply( term1 ).getMultiply( term3 );
         WaveFunctionSolution result = new WaveFunctionSolution( x, t, incidentPart );
         return result;
