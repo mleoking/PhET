@@ -60,10 +60,6 @@ public class Crystal extends Body implements Binder {
         Crystal.dissociationLikelihood = dissociationLikelihood;
     }
 
-    public void releaseIonTemp( double dt ) {
-        releaseIon( dt );
-    }
-
     public static class InstanceLifetimeEvent extends EventObject {
         public InstanceLifetimeEvent( Object source ) {
             super( source );
@@ -151,11 +147,11 @@ public class Crystal extends Body implements Binder {
     public Crystal( SolubleSaltsModel model, Lattice lattice, List ions, Ion seed ) {
         this( model, lattice, ions );
         seed = null;
-        double maxY =  Double.MIN_VALUE;
+        double maxY = Double.MIN_VALUE;
         for( int i = 0; i < ions.size(); i++ ) {
             Ion testIon = (Ion)ions.get( i );
             if( testIon.getPosition().getY() + testIon.getRadius() > maxY ) {
-                maxY = testIon.getPosition().getY() + testIon.getRadius() ;
+                maxY = testIon.getPosition().getY() + testIon.getRadius();
                 seed = testIon;
             }
         }
@@ -210,6 +206,51 @@ public class Crystal extends Body implements Binder {
     //----------------------------------------------------------------
     // Lattice building
     //----------------------------------------------------------------
+
+    /**
+     * Add and ion to the crystal in a site adjacent to another ion
+     *
+     * @param ionA The ion to be added
+     * @param ionB The ion next to which the other ion should be placed
+     * @return
+     */
+    public boolean addIon( Ion ionA, Ion ionB ) {
+
+        if( noBindList.contains( ionB ) ) {
+            return false;
+        }
+
+        Point2D placeToPutIon = null;
+        switch( getIons().size() ) {
+            case 0:
+                throw new RuntimeException( "Crystal contains no ions" );
+            case 1:
+                orientation = Math.atan2( ionA.getPosition().getY() - lattice.getSeed().getPosition().getY(),
+                                          ionA.getPosition().getX() - lattice.getSeed().getPosition().getX() );
+                placeToPutIon = lattice.getNearestOpenSite( ionA, ions, orientation );
+                break;
+            default:
+                placeToPutIon = lattice.getNearestOpenSite( ionA, ionB, ions, orientation );
+        }
+
+        if( placeToPutIon != null ) {
+            ionA.setPosition( placeToPutIon );
+
+            // Sanity check
+            for( int i = 0; i < ions.size(); i++ ) {
+                Ion testIon = (Ion)ions.get( i );
+                if( testIon.getPosition() == placeToPutIon ) {
+                    throw new RuntimeException( "duplicate location" );
+                }
+            }
+            ions.add( ionA );
+            ionA.bindTo( this );
+            updateCm();
+        }
+
+        return placeToPutIon != null;
+    }
+
 
     /**
      * Returns true if the ion was added. If there wasn't a place to put it in
@@ -309,6 +350,11 @@ public class Crystal extends Body implements Binder {
         }
     }
 
+
+    public void releaseIonDebug( double dt ) {
+        releaseIon( dt );
+    }
+
     /**
      * Determine the velocity an ion that is about to be release should have
      *
@@ -316,6 +362,12 @@ public class Crystal extends Body implements Binder {
      * @return
      */
     private Vector2D determineReleaseVelocity( Ion ionToRelease ) {
+
+        // If this is the seed ion, then just send it off with the velocity it had before it seeded the
+        // crystal. This prevents odd looking behavior if the ion is released soon after it nucleates.
+        if( ionToRelease == this.getSeed() ) {
+            return ionToRelease.getVelocity();
+        }
 
         // Get the unoccupied sites around the ion being release
         List openSites = lattice.getOpenNeighboringSites( ionToRelease, ions, orientation );
@@ -356,16 +408,16 @@ public class Crystal extends Body implements Binder {
             return releaseVelocity;
         }
 
-        for( int i = 0; i < openSites.size(); i++ ) {
-            Point2D point2D = (Point2D)openSites.get( i );
-            Vector2D.Double v = new Vector2D.Double( point2D.getX() - ionToRelease.getPosition().getX(),
-                                                     point2D.getY() - ionToRelease.getPosition().getY() );
-            double angle = ( v.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
-            maxAngle = angle > maxAngle ? angle : maxAngle;
-            minAngle = angle < minAngle ? angle : minAngle;
-        }
+        // If we get here, there is only one open site adjacent to the ion being released
+        System.out.println( "openSites.size() = " + openSites.size() );
+        Point2D point2D = (Point2D)openSites.get( 0 );
+        Vector2D.Double v = new Vector2D.Double( point2D.getX() - ionToRelease.getPosition().getX(),
+                                                 point2D.getY() - ionToRelease.getPosition().getY() );
+        double angle = ( v.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
+        maxAngle = angle > maxAngle ? angle : maxAngle;
+        minAngle = angle < minAngle ? angle : minAngle;
 
-        double angle = random.nextDouble() * ( maxAngle - minAngle ) + minAngle;
+        angle = random.nextDouble() * ( maxAngle - minAngle ) + minAngle;
         Vector2D releaseVelocity = new Vector2D.Double( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
         if( releaseVelocity.getMagnitude() < 0.001 ) {
             throw new RuntimeException( "releaseVelocity.getMagnitude() < 0.001" );

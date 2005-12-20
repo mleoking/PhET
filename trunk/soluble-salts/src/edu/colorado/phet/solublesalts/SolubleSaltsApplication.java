@@ -19,6 +19,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.colorado.phet.solublesalts.view.IonGraphic;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
+import edu.colorado.phet.solublesalts.control.OptionsMenu;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.util.PMouseTracker;
 //import edu.colorado.phet.piccolo.PhetPCanvas;
@@ -58,64 +59,65 @@ public class SolubleSaltsApplication extends PhetApplication {
     }
 
     private void setUpOptionsMenu() {
-        JMenu optionsMenu = new JMenu( "Options" );
-        optionsMenu.setMnemonic( 'O' );
-        final JCheckBoxMenuItem showBondIndicatorMI = new JCheckBoxMenuItem( "Show bond indicators" );
-        optionsMenu.add( showBondIndicatorMI );
-        showBondIndicatorMI.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                IonGraphic.showBondIndicators( showBondIndicatorMI.isSelected() );
-            }
-        } );
-
-        final JCheckBoxMenuItem randomWalkMI = new JCheckBoxMenuItem( "Random walk" );
-        optionsMenu.add( randomWalkMI );
-        randomWalkMI.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                SolubleSaltsConfig.RANDOM_WALK = randomWalkMI.isSelected();
-            }
-        } );
-
-        final JCheckBoxMenuItem oneCrystalMI = new JCheckBoxMenuItem( "One crystal only" );
-        optionsMenu.add(  oneCrystalMI );
-        oneCrystalMI.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                SolubleSaltsConfig.ONE_CRYSTAL_ONLY = oneCrystalMI.isSelected();
-            }
-        } );
-
-        final JMenuItem randomWaltkThetaMI = new JMenuItem( "Adjust random walk...");
-        randomWaltkThetaMI.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                final JDialog dlg = new JDialog( getPhetFrame(), "Random Walk  Adjusment", false );
-                dlg.getContentPane().setLayout( new BorderLayout() );
-                final JSlider sldr = new JSlider( 0, 360, (int)Ion.randomWalkTheta );
-                sldr.setMajorTickSpacing( 45 );
-                sldr.setMinorTickSpacing( 15 );
-                sldr.setPaintTicks( true );
-                sldr.setPaintLabels( true );
-                sldr.addChangeListener( new ChangeListener() {
-                    public void stateChanged( ChangeEvent e ) {
-                        Ion.randomWalkTheta = sldr.getValue();
-                    }
-                } );
-                dlg.getContentPane().add( sldr );
-                JButton btn = new JButton( "Close" );
-                btn.addActionListener( new ActionListener() {
-                    public void actionPerformed( ActionEvent e ) {
-                        dlg.setVisible( false );
-                    }
-                } );
-                JPanel btnPnl = new JPanel( );
-                btnPnl.add( btn );
-                dlg.getContentPane().add( btnPnl, BorderLayout.SOUTH );
-                dlg.pack();
-                dlg.setVisible( true );
-            }
-        } );
-        optionsMenu.add( randomWaltkThetaMI );
-
-        this.getPhetFrame().addMenu( optionsMenu );
+//        JMenu optionsMenu = new JMenu( "Options" );
+//        optionsMenu.setMnemonic( 'O' );
+//        final JCheckBoxMenuItem showBondIndicatorMI = new JCheckBoxMenuItem( "Show bond indicators" );
+//        optionsMenu.add( showBondIndicatorMI );
+//        showBondIndicatorMI.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                IonGraphic.showBondIndicators( showBondIndicatorMI.isSelected() );
+//            }
+//        } );
+//
+//        final JCheckBoxMenuItem randomWalkMI = new JCheckBoxMenuItem( "Random walk" );
+//        optionsMenu.add( randomWalkMI );
+//        randomWalkMI.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                SolubleSaltsConfig.RANDOM_WALK = randomWalkMI.isSelected();
+//            }
+//        } );
+//
+//        final JCheckBoxMenuItem oneCrystalMI = new JCheckBoxMenuItem( "One crystal only" );
+//        optionsMenu.add(  oneCrystalMI );
+//        oneCrystalMI.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                SolubleSaltsConfig.ONE_CRYSTAL_ONLY = oneCrystalMI.isSelected();
+//            }
+//        } );
+//
+//        final JMenuItem randomWaltkThetaMI = new JMenuItem( "Adjust random walk...");
+//        randomWaltkThetaMI.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                final JDialog dlg = new JDialog( getPhetFrame(), "Random Walk  Adjusment", false );
+//                dlg.getContentPane().setLayout( new BorderLayout() );
+//                final JSlider sldr = new JSlider( 0, 360, (int)Ion.randomWalkTheta );
+//                sldr.setMajorTickSpacing( 45 );
+//                sldr.setMinorTickSpacing( 15 );
+//                sldr.setPaintTicks( true );
+//                sldr.setPaintLabels( true );
+//                sldr.addChangeListener( new ChangeListener() {
+//                    public void stateChanged( ChangeEvent e ) {
+//                        Ion.randomWalkTheta = sldr.getValue();
+//                    }
+//                } );
+//                dlg.getContentPane().add( sldr );
+//                JButton btn = new JButton( "Close" );
+//                btn.addActionListener( new ActionListener() {
+//                    public void actionPerformed( ActionEvent e ) {
+//                        dlg.setVisible( false );
+//                    }
+//                } );
+//                JPanel btnPnl = new JPanel( );
+//                btnPnl.add( btn );
+//                dlg.getContentPane().add( btnPnl, BorderLayout.SOUTH );
+//                dlg.pack();
+//                dlg.setVisible( true );
+//            }
+//        } );
+//        optionsMenu.add( randomWaltkThetaMI );
+//
+//        this.getPhetFrame().addMenu( optionsMenu );
+        this.getPhetFrame().addMenu( new OptionsMenu( getPhetFrame() ));
     }
 
     public static void main( String[] args ) {

@@ -52,8 +52,9 @@ public class FaucetGraphic extends RegisterablePNode implements WaterSource.Chan
     // Registrations
     public static final int WALL_ATTACHMENT = 1, SPOUT = 2;
     private static final double MAX_WATER_WIDTH = 20.0;
-    private static final Color WATER_COLOR = new Color( 194, 234, 255, 180 );
-    
+//    private static final Color WATER_COLOR = new Color( 194, 234, 255, 180 );
+    private static final Color WATER_COLOR =  SolubleSaltsConfig.WATER_COLOR;
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------

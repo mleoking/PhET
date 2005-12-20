@@ -53,8 +53,8 @@ public class SolubleSaltsControlPanel extends ControlPanel {
 
     static {
         saltMap = new HashMap();
-        saltMap.put( "Sodium Chloride", new SodiumChloride() );
-        saltMap.put( "Lead Chloride", new LeadChloride() );
+//        saltMap.put( "Sodium Chloride", new SodiumChloride() );
+//        saltMap.put( "Lead Chloride", new LeadChloride() );
         saltMap.put( "Silver Iodide", new SilverIodide() );
         saltMap.put( "Copper Hydroxide", new CopperHydroxide() );
         saltMap.put( "Chromium Hydroxide", new ChromiumHydroxide() );
@@ -168,7 +168,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
                 List crystals = model.crystalTracker.getCrystals();
                 for( int i = 0; i < crystals.size(); i++ ) {
                     Crystal crystal = (Crystal)crystals.get( i );
-                    crystal.releaseIonTemp(module.getClock().getDt());
+                    crystal.releaseIonDebug(module.getClock().getDt());
                 }
             }
         } );

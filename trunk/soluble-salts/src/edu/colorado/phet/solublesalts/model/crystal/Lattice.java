@@ -12,6 +12,7 @@ package edu.colorado.phet.solublesalts.model.crystal;
 
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
+import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -149,6 +150,37 @@ public abstract class Lattice {
             }
         }
         return results;
+    }
+
+
+    public Point2D getNearestOpenSite( Ion ionA, Ion ionB, ArrayList ions, double orientation ) {
+        List openSites = getOpenNeighboringSites( ionB, ions, orientation );
+
+        // Remove sites from the list that would put the ion outside the water
+        utilRemoveList.clear();
+        for( int i = 0; i < openSites.size(); i++ ) {
+            Point2D testPt = (Point2D)openSites.get( i );
+            if( testPt.getX() + ionA.getRadius() > bounds.getMaxX()
+                || testPt.getX() - ionA.getRadius() < bounds.getMinX()
+                || testPt.getY() + ionA.getRadius() > bounds.getMaxY()
+                || testPt.getY() - ionA.getRadius() < bounds.getMinY() ) {
+                utilRemoveList.add( testPt );
+            }
+        }
+        openSites.removeAll( utilRemoveList );
+
+        // Find the nearest of the open sites to the input parameter point
+        double dMin = Double.MAX_VALUE;
+        Point2D closestPt = null;
+        for( int i = 0; i < openSites.size(); i++ ) {
+            Point2D testPt = (Point2D)openSites.get( i );
+            double d = ionA.getPosition().distance( testPt );
+            if( d < dMin && d < SolubleSaltsConfig.BINDING_DISTANCE_FACTOR * ionA.getRadius() ) {
+                closestPt = testPt;
+                dMin = d;
+            }
+        }
+        return closestPt;
     }
 
     /**
