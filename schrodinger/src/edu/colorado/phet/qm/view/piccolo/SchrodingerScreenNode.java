@@ -224,8 +224,8 @@ public class SchrodingerScreenNode extends PNode {
             if( schrodingerPanel.getWidth() > 0 && schrodingerPanel.getHeight() > 0 ) {
                 Dimension dim = getCellDimensions();
                 wavefunctionGraphic.setCellDimensions( dim.width, dim.height );
-//                wavefunctionGraphic.setOffset( waveAreaX, 50 );
-                wavefunctionGraphic.setOffset( 0, 0 );
+                wavefunctionGraphic.setOffset( waveAreaX, 50 );
+//                wavefunctionGraphic.setOffset( 0, 0 );
                 intensityGraphic.setOffset( wavefunctionGraphic.getFullBounds().getX(),
                                             wavefunctionGraphic.getFullBounds().getY() - intensityGraphic.getFullBounds().getHeight() / 2 );
                 abstractGunGraphic.setOffset( wavefunctionGraphic.getFullBounds().getCenterX() - abstractGunGraphic.getGunWidth() / 2 + 10,
