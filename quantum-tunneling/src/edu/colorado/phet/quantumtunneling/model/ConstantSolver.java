@@ -58,11 +58,11 @@ public class ConstantSolver extends AbstractPlaneSolver {
      */
     public WaveFunctionSolution solve( final double x, final double t ) { 
         WaveFunctionSolution result = null;
-        final double E = getTotalEnergy().getEnergy();
-        if ( E < getPotentialEnergy().getEnergy( 0 ) ) {
-            result = new WaveFunctionSolution( x, t, new Complex( 0, 0 ), new Complex( 0, 0 )  );
+        if ( isSolutionZero() ) {
+            result = new WaveFunctionSolution( x, t, new Complex( 0, 0 ), new Complex( 0, 0 ) );
         }
         else {
+            final double E = getTotalEnergy().getEnergy();
             Complex k1 = getK( 0 );
             Complex term1 = commonTerm1( x, k1 ); // e^(ikx)
             Complex term3 = commonTerm3( t, E ); // e^(-iEt/h)

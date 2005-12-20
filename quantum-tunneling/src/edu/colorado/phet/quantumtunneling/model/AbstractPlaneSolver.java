@@ -161,6 +161,31 @@ public abstract class AbstractPlaneSolver implements IWaveFunctionSolver {
     protected abstract void updateCoefficients();
     
     /*
+     * The wave function solution should be zero if the first 
+     * region encountered by the wave (dependent on direction)
+     * has E < V. (where E=total energy, V=potential energy)
+     * 
+     * @return true or false
+     */
+    protected boolean isSolutionZero() {
+        
+        boolean isZero = false;
+        
+        final double E = getTotalEnergy().getEnergy();
+        final int firstRegionIndex = 0;
+        final int lastRegionIndex = getPotentialEnergy().getNumberOfRegions() - 1;
+        
+        if ( isLeftToRight() && E < getPotentialEnergy().getEnergy( firstRegionIndex ) ) {
+            isZero = true;
+        }
+        else if ( isRightToLeft() && E < getPotentialEnergy().getEnergy( lastRegionIndex ) ) {
+            isZero = true;
+        }
+        
+        return isZero;
+    }
+    
+    /*
      * Calculate the wave number, in units of 1/nm.
      * 
      * k = sqrt( 2 * m * (E-V) / h^2 )

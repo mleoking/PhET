@@ -57,6 +57,7 @@ JFREECHART:
 
 
 DONE:
+(12/20/05) - move common code for determining if solution is 0 to AbstractPlaneSolver.isSolutionZero
 (12/20/05) - handle right-to-left in getters, not in private methods that populate values
 (12/20/05) - remove calls to jfree.chart.ChartRenderingInfo.getPlotArea, method was removed!
 (12/20/05) - sync with jfreechart_1.0.0
