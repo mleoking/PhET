@@ -325,7 +325,7 @@ public class PhetApplication {
         public StartupDialog( Frame owner, String title ) throws HeadlessException {
             super( owner, "Startup", false );
             setUndecorated( true );
-            getRootPane().setBorder( BorderFactory.createLineBorder( Color.BLACK, 2 ) );
+            getRootPane().setBorder( BorderFactory.createLineBorder( Color.BLACK, 1 ) );
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
             String labelFormat = SimStrings.get( "PhetApplication.StartupDialog.message" );
