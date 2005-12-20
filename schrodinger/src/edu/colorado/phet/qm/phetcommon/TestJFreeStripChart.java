@@ -23,43 +23,67 @@ import java.text.SimpleDateFormat;
  */
 
 public class TestJFreeStripChart {
-    public static void main( String[] args ) {
+    private XYSeries series;
+    private JFreeChart jFreeChart;
+    private Timer timer;
+    private ChartFrame chartFrame;
+
+    public TestJFreeStripChart() {
 
         XYSeriesCollection xyDataset = new XYSeriesCollection();
-        final XYSeries series = new XYSeries( "0" );
+        series = new XYSeries( "0" );
         xyDataset.addSeries( series );
         for( int i = 0; i < 100; i++ ) {
             series.add( i, Math.sin( i / 100.0 * Math.PI * 2 ) );
         }
 //        categoryDataset.
-        JFreeChart plot = createChart( xyDataset );
-        ChartFrame chartFrame = new ChartFrame( "ChartFrame", plot, false );
+        jFreeChart = createChart( xyDataset );
+        chartFrame = new ChartFrame( "ChartFrame", jFreeChart, false );
 
         chartFrame.pack();
-        chartFrame.setVisible( true );
 
 
-        Timer timer = new Timer( 30, new ActionListener() {
+        timer = new Timer( 30, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 series.add( i, Math.sin( i / 100.0 * Math.PI * 2 ) );
                 i++;
                 series.remove( 0 );
             }
         } );
+    }
+
+    public static void main( String[] args ) {
+        new TestJFreeStripChart().start();
+    }
+
+    public void start() {
+        chartFrame.setVisible( true );
         timer.start();
     }
 
-    static int i = 100;
+    int i = 100;
 
-    private static JFreeChart createChart( XYDataset dataset ) {
+    public XYSeries getSeries() {
+        return series;
+    }
+
+    public JFreeChart getjFreeChart() {
+        return jFreeChart;
+    }
+
+    public Timer getTimer() {
+        return timer;
+    }
+
+    public static JFreeChart createChart( XYDataset dataset ) {
 
         JFreeChart chart = ChartFactory.createTimeSeriesChart(
-                "Legal & General Unit Trust Prices",  // title
-                "Date",             // x-axis label
-                "Price Per Unit",   // y-axis label
+                "",  // title
+                "x-axis",             // x-axis label
+                "y-axis",   // y-axis label
                 dataset,            // data
-                true,               // create legend?
-                true,               // generate tooltips?
+                false,               // create legend?
+                false,               // generate tooltips?
                 false               // generate URLs?
         );
 
@@ -67,8 +91,8 @@ public class TestJFreeStripChart {
         DateAxis axis = (DateAxis)plot.getDomainAxis();
 //        axis.setDateFormatOverride( new SimpleDateFormat( "MMM-yyyy" ) );
         axis.setDateFormatOverride( new SimpleDateFormat( "ssss" ) );
-        plot.setRangeGridlinesVisible( false );
-        plot.setDomainGridlinesVisible( false );
+//        plot.setRangeGridlinesVisible( false );
+//        plot.setDomainGridlinesVisible( false );
         return chart;
     }
 }
