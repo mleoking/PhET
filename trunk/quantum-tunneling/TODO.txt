@@ -58,6 +58,9 @@ JFREECHART:
 
 
 DONE:
+(12/20/05) - remove calls to ChartRenderingInfo.getPlotArea, method was removed!
+(12/20/05) - sync with jfreechart_1.0.0
+(12/19/05) - phetcommon: in StartupDialog, replace metal window decoration with a black border
 0.0.4 ...
 (12/19/05) - add all configurable items to QTConfig
 (12/19/05) - add accessors for all settings in control panel

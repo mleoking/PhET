@@ -42,7 +42,6 @@ public class JFreeChartDebug {
         else {
             System.out.println( "ChartRenderingInfo:" );
             System.out.println( "  chartArea = " + info.getChartArea() );
-            System.out.println( "  plotArea = " + info.getPlotArea() );
             print( info.getPlotInfo() ); 
         }
     }

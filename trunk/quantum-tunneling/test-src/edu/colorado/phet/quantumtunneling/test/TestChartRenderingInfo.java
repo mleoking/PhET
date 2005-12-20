@@ -85,7 +85,6 @@ public class TestChartRenderingInfo extends ApplicationFrame {
         System.out.println( "********************************************" );
         System.out.println( "ChartRenderingInfo:" );
         System.out.println( "  chartArea = " + chartInfo.getChartArea() );
-        System.out.println( "  plotArea = " + chartInfo.getPlotArea() );
         printPlotRenderingInfo( 0 /* depth */, 0 /* index */, chartInfo.getPlotInfo() );
         System.out.println( "********************************************" );
     }
