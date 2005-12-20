@@ -60,13 +60,8 @@ public class StepSolver extends AbstractPlaneSolver {
     public WaveFunctionSolution solve( final double x, final double t ) {
         WaveFunctionSolution result = null;
         
-        final double E = getTotalEnergy().getEnergy();
-        
-        if ( isLeftToRight() && E < getPotentialEnergy().getEnergy( 0 ) ) {
-            result = new WaveFunctionSolution( x, t, new Complex( 0, 0 ), new Complex( 0, 0 )  );
-        }
-        else if ( isRightToLeft() && E < getPotentialEnergy().getEnergy( 1 ) ) {
-            result = new WaveFunctionSolution( x, t, new Complex( 0, 0 ), new Complex( 0, 0 )  );
+        if ( isSolutionZero() ) {
+            result = new WaveFunctionSolution( x, t, new Complex( 0, 0 ), new Complex( 0, 0 ) );
         }
         else {
             int regionIndex = getPotentialEnergy().getRegionIndexAt( x );
