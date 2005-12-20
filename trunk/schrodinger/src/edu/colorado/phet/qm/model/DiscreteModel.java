@@ -125,7 +125,7 @@ public class DiscreteModel implements ModelElement {
 
     protected void step() {
         beforeTimeStep();
-        getPropagationStrategy().step();
+        getPropagationStrategy().step();//disable this for DebugIntensityReader to work
         incrementTimeStep();
         finishedTimeStep();
     }
