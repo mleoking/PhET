@@ -95,6 +95,8 @@ public abstract class AbstractPlaneSolver implements IWaveFunctionSolver {
     
     /*
      * Gets the boundary position between two regions.
+     * <p>
+     * If the wave direction is right-to-left, flip the region indicies.
      * 
      * @param regionIndex1 smaller index
      * @param regionIndex2 larger index
@@ -114,6 +116,9 @@ public abstract class AbstractPlaneSolver implements IWaveFunctionSolver {
     
     /*
      * Gets the k value for a specified region.
+     * <p>
+     * If the wave direction is right-to-left, then flip the region
+     * index and multiply the k value by -1.
      * 
      * @param regionIndex
      * @return
@@ -122,7 +127,12 @@ public abstract class AbstractPlaneSolver implements IWaveFunctionSolver {
         if ( regionIndex < 0 || regionIndex > _k.length - 1  ) {
             throw new IndexOutOfBoundsException( "regionIndex out of range: " + regionIndex );
         }
-        return _k[ regionIndex ];
+        if ( isLeftToRight() ) {
+            return _k[regionIndex];
+        }
+        else {
+            return _k[flipRegionIndex( regionIndex )].getMultiply( -1 );
+        }
     }
     
     /**
@@ -134,19 +144,13 @@ public abstract class AbstractPlaneSolver implements IWaveFunctionSolver {
     }
     
     /*
-     * Updates the k values.
+     * Updates the k values. 
      */
     private void updateK() {
         final double E = getTotalEnergy().getEnergy();
         final int numberOfRegions = getPotentialEnergy().getNumberOfRegions();
         for ( int i = 0; i < numberOfRegions; i++ ) {
-            double V = 0;
-            if ( isLeftToRight() ) {
-                V = getPotentialEnergy().getEnergy( i );
-            }
-            else {
-                V = getPotentialEnergy().getEnergy( flipRegionIndex( i ) );
-            }
+            double V = getPotentialEnergy().getEnergy( i );
             _k[i] = solveK( E, V );
         }
     }
@@ -177,10 +181,6 @@ public abstract class AbstractPlaneSolver implements IWaveFunctionSolver {
         }
         else {
             imag = value;
-        }
-        if ( isRightToLeft() ) {
-            real *= -1;
-            imag *= -1;
         }
         return new Complex( real, imag );
     }

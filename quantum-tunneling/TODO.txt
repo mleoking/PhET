@@ -53,12 +53,12 @@ PHETCOMMON:
 
 JFREECHART:
 - CombinedDomainXYPlot.addDomainMarker doesn't do anything
-- ChartRenderingInfo.setDataArea and getArea are obsolete
 - XYTextAnnotation doesn't support HTML
 
 
 DONE:
-(12/20/05) - remove calls to ChartRenderingInfo.getPlotArea, method was removed!
+(12/20/05) - handle right-to-left in getters, not in private methods that populate values
+(12/20/05) - remove calls to jfree.chart.ChartRenderingInfo.getPlotArea, method was removed!
 (12/20/05) - sync with jfreechart_1.0.0
 (12/19/05) - phetcommon: in StartupDialog, replace metal window decoration with a black border
 0.0.4 ...
