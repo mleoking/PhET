@@ -505,6 +505,7 @@ public class CCK3ControlPanel extends ControlPanel {
 
         public AdvancedControlPanel( final CCK3Module module ) {
             super( SimStrings.get( "CCK3ControlPanel.Enable" ), SimStrings.get( "CCK3ControlPanel.Disable" ) );
+
             addListener( new Listener() {
                 public void advancedPanelHidden( AdvancedPanel advancedPanel ) {
                     module.setAdvancedEnabled( false );
