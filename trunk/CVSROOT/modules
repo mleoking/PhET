@@ -122,7 +122,7 @@ john-travoltage travoltage
 moving-man movingman &phetcommon-module &charts-0module
 
 # Lasers
-lasers lasers &phetcommon-module &collision-module &controls-module &mechanics-module
+lasers lasers &phetgraphics-module &collision-module &controls-module &mechanics-module
 
 # Signal Circuit
 signal-circuit signalcircuit
@@ -167,7 +167,8 @@ energyconservation energyconservation
 photoelectric photoelectric &dischargelamps &charts-module
 
 # Discharge lamps
-dischargelamps fluorescent-lights &phetcommon-module &mechanics-module &collision-module &lasers &controls-module
+#dischargelamps fluorescent-lights &phetcommon-module &mechanics-module &collision-module &lasers &controls-module
+dischargelamps fluorescent-lights &lasers
 
 # Soluble Salts
 soluble-salts soluble-salts &piccolo-phet-module &mechanics-module &collision-module
