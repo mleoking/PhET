@@ -155,16 +155,16 @@ public class SingleBarrierSolver extends AbstractPlaneSolver {
 
     /*
      * B = 
-     * (Power(E,2*i*k1*x1)* 
-     *   (Power(E,2*i*k2*x2)*(k1 + k2)*(k2 - k3) - 
-     *    Power(E,2*i*k2*x1)*(-k1 + k2)*(k2 + k3))) /
+     * (Power(E,2*I*k1*x1)*
+     *   (Power(E,2*I*k2*x2)*(k1 + k2)*(k2 - k3) - 
+     *    Power(E,2*I*k2*x1)*(-k1 + k2)*(k2 + k3))) /
      * denominator
      */
     private void updateB( double x1, double x2, Complex k1, Complex k2, Complex k3, Complex denominator ) {
         // Numerator
         MutableComplex numerator = new MutableComplex();
         {
-            // Power(E,2*i*k1*x1)
+            // Power(E,2*I*k1*x1)
             MutableComplex t1 = new MutableComplex();
             t1.setValue( 2 );
             t1.multiply( Complex.I );
@@ -172,7 +172,7 @@ public class SingleBarrierSolver extends AbstractPlaneSolver {
             t1.multiply( x1 );
             t1.exp();
 
-            // Power(E,2*i*k2*x2)*(k1 + k2)*(k2 - k3)
+            // Power(E,2*I*k2*x2)*(k1 + k2)*(k2 - k3)
             MutableComplex t2 = new MutableComplex();
             t2.setValue( 2 );
             t2.multiply( Complex.I );
@@ -182,7 +182,7 @@ public class SingleBarrierSolver extends AbstractPlaneSolver {
             t2.multiply( k1.getAdd( k2 ) );
             t2.multiply( k2.getSubtract( k3 ) );
 
-            // Power(E,2*i*k2*x1)*(-k1 + k2)*(k2 + k3)
+            // Power(E,2*I*k2*x1)*(-k1 + k2)*(k2 + k3)
             MutableComplex t3 = new MutableComplex();
             t3.setValue( 2 );
             t3.multiply( Complex.I );
@@ -205,8 +205,8 @@ public class SingleBarrierSolver extends AbstractPlaneSolver {
     }
 
     /*
-     * C = 
-     * (2*Power(E,i*(k1 + k2)*x1)*k1*(k2 + k3)) /
+     * C =
+     * (2*Power(E,I*(k1 + k2)*x1)*k1*(k2 + k3)) /
      * denominator
      */
     private void updateC( double x1, double x2, Complex k1, Complex k2, Complex k3, Complex denominator ) {
@@ -230,7 +230,7 @@ public class SingleBarrierSolver extends AbstractPlaneSolver {
 
     /*
      * D = 
-     * (2*Power(E,i*((k1 + k2)*x1 + 2*k2*x2))*k1*(k2 - k3))/
+     * (2*Power(E,I*((k1 + k2)*x1 + 2*k2*x2))*k1*(k2 - k3)) /
      * denominator
      */
     private void updateD( double x1, double x2, Complex k1, Complex k2, Complex k3, Complex denominator ) {
@@ -255,7 +255,7 @@ public class SingleBarrierSolver extends AbstractPlaneSolver {
 
     /*
      * F =
-     * (4*Power(E,i*(k1*x1 - k3*x2 + k2*(x1 + x2)))*k1*k2) /
+     * (4*Power(E,I*(k1*x1 - k3*x2 + k2*(x1 + x2)))*k1*k2) /
      * denominator
      */
     private void updateF( double x1, double x2, Complex k1, Complex k2, Complex k3, Complex denominator ) {
@@ -287,7 +287,7 @@ public class SingleBarrierSolver extends AbstractPlaneSolver {
         // -(Power(E,2*I*k2*x2)*(-k1 + k2)*(k2 - k3))
         MutableComplex t1 = new MutableComplex();
         t1.setValue( 2 );
-        t1.setValue( Complex.I );
+        t1.multiply( Complex.I );
         t1.multiply( k2 );
         t1.multiply( x2 );
         t1.exp();
