@@ -518,7 +518,7 @@ public class CCK3ControlPanel extends ControlPanel {
                 }
             } );
             this.module = module;
-            setLayout( new GridBagLayout() );
+//            setLayout( new GridBagLayout() );
             resistivitySlider = new PhetSlider( SimStrings.get( "CCK3ControlPanel.WireResistivitySlider" ),
                                                 SimStrings.get( "CCK3ControlPanel.WireResistivitySliderMeasure" ),
                                                 CCK3Module.ResistivityManager.DEFAULT_RESISTIVITY, 1, module.getResistivityManager().getResistivity(),

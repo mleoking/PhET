@@ -24,8 +24,7 @@ public class VerticalLayoutPanel extends JPanel {
 
     public VerticalLayoutPanel() {
         setLayout( new GridBagLayout() );
-        gridBagConstraints = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets( 0, 0, 0, 0 ), 0, 0 );
-        gridBagConstraints.weighty = 0.5;
+        gridBagConstraints = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets( 0, 0, 0, 0 ), 0, 0 );
     }
 
     public GridBagConstraints getGridBagConstraints() {
@@ -72,5 +71,14 @@ public class VerticalLayoutPanel extends JPanel {
         Component c = add( component );
         setFill( fill );
         return c;
+    }
+
+    public static void main( String[] args ) {
+        JFrame frame = new JFrame();
+        VerticalLayoutPanel contentPane = new VerticalLayoutPanel();
+        contentPane.addFullWidth( new JButton( "a" ) );
+        contentPane.addFullWidth( new JButton( "b" ) );
+        frame.setContentPane( contentPane );
+        frame.setVisible( true );
     }
 }

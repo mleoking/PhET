@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 public class AdvancedPanel extends VerticalLayoutPanel {
 
-    private JButton advanced;
+    private JButton showButton;
     private JButton hideButton;
     private VerticalLayoutPanel controls;
 
@@ -42,11 +42,13 @@ public class AdvancedPanel extends VerticalLayoutPanel {
      * @param hide
      */
     public AdvancedPanel( String show, String hide ) {
+//        addFullWidth( new JButton("a"));
+//        addFullWidth( new JButton("b"));
         controls = new VerticalLayoutPanel();
         controls.setFillNone();
 
-        advanced = new JButton( show );
-        advanced.addActionListener( new ActionListener() {
+        showButton = new JButton( show );
+        showButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 showAdvanced();
             }
@@ -58,8 +60,14 @@ public class AdvancedPanel extends VerticalLayoutPanel {
                 hideAdvanced();
             }
         } );
-        setFill( GridBagConstraints.NONE );
-        add( advanced );
+        setFillNone();
+        add( showButton );
+        add( hideButton );
+        setFillHorizontal();
+        add( controls );
+//
+        controls.setVisible( false );
+        hideButton.setVisible( false );
     }
 
     /**
@@ -81,11 +89,9 @@ public class AdvancedPanel extends VerticalLayoutPanel {
     }
 
     private void showAdvanced() {
-        controls.updateUI();
-        remove( advanced );
-        add( hideButton );
-        add( controls );
-        controls.updateUI();
+        showButton.setVisible( false );
+        controls.setVisible( true );
+        hideButton.setVisible( true );
         validateAll();
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
@@ -114,9 +120,9 @@ public class AdvancedPanel extends VerticalLayoutPanel {
     }
 
     private void hideAdvanced() {
-        remove( hideButton );
-        remove( controls );
-        add( advanced );
+        hideButton.setVisible( false );
+        controls.setVisible( false );
+        showButton.setVisible( true );
         validateAll();
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
