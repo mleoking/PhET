@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- compare behavior of plane wave to Mathematic output
+- make direction selection more obvious (select arrows, hilite arrows)
 - implement phase view
 - should wave packet width & center sliders only update model when slider is released?
 
