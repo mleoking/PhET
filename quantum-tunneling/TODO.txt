@@ -57,7 +57,8 @@ JFREECHART:
 
 
 DONE:
-(12/21/05) - fixed bug in denominator of SingleBarrierSolver
+(12/21/05) - fixed 2 bugs in denominator of DoubleBarrierSolver
+(12/21/05) - fixed 1 bug in denominator of SingleBarrierSolver
 (12/20/05) - change order of args for common term methods in AbsractPlaneSolver to match equations
 (12/20/05) - move common code for determining if solution is 0 to AbstractPlaneSolver.isSolutionZero
 (12/20/05) - handle right-to-left in getters, not in private methods that populate values

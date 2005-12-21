@@ -414,24 +414,30 @@ public class DoubleBarrierSolver extends AbstractPlaneSolver {
     
     /*
      * D = 
-     * (-2*Power(E,I*((k1 + k2)*x1 + 2*k2*x2))*k1*
+     * (2*Power(E,I*((k1 + k2)*x1 + 2*k2*x2))*k1*
      *  (-(Power(E,2*I*(k3*x2 + k4*x4))*(-k2 + k3)*(k3 - k4)*(k4 - k5)) +
      *   Power(E,2*I*(k3*x3 + k4*x4))*(k2 + k3)*(k3 + k4)*(k4 - k5) + 
      *   Power(E,2*I*(k3 + k4)*x3)*(k2 + k3)*(k3 - k4)*(k4 + k5) -
      *   Power(E,2*I*(k3*x2 + k4*x3))*(-k2 + k3)*(k3 + k4)*(k4 + k5))) /
-     * -1 * denominator
+     * denominator
+     * 
+     * NOTE: The above equation is slightly different than the Mathematic
+     * output that I was provided. Mathematic generated a denominator for
+     * D that differed from the denominator of all the other coefficients.
+     * The D denominator was multiplied by -1. I multiplied the D numerator 
+     * by -1 so that the same denominator is identical for all coefficients.
      */
     private void updateD( double x1, double x2, double x3, double x4,
             Complex k1, Complex k2, Complex k3, Complex k4, Complex k5, Complex denominator ) {
         
-        // -2*Power(E,I*((k1 + k2)*x1 + 2*k2*x2))*k1
+        // 2*Power(E,I*((k1 + k2)*x1 + 2*k2*x2))*k1
         MutableComplex t1 = new MutableComplex();
         t1.setValue( k1.getAdd( k2 ) );
         t1.multiply( x1 );
         t1.add( k2.getMultiply( 2 * x2 ) );
         t1.multiply( Complex.I );
         t1.exp();
-        t1.multiply( -2 );
+        t1.multiply( 2 );
         t1.multiply( k1 );
         
         // -(Power(E,2*I*(k3*x2 + k4*x4))*(-k2 + k3)*(k3 - k4)*(k4 - k5))
@@ -487,7 +493,7 @@ public class DoubleBarrierSolver extends AbstractPlaneSolver {
         _D.add( t4 );
         _D.subtract( t5 );
         _D.multiply( t1 );
-        _D.divide( denominator.getMultiply( -1 ) );
+        _D.divide( denominator );
     }
     
     /*
@@ -738,7 +744,7 @@ public class DoubleBarrierSolver extends AbstractPlaneSolver {
         // Power(E,2*I*(k2*x1 + (k3 + k4)*x3))*(k1 + k2)*(k2 - k3)*(k3 - k4)*(k4 + k5)
         MutableComplex t5 = new MutableComplex();
         t5.setValue( k2.getMultiply( x1 ) );
-        t5.add( k3.getAdd( x4 ).getMultiply( x3 ) );
+        t5.add( k3.getAdd( k4 ).getMultiply( x3 ) );
         t5.multiply( 2 );
         t5.multiply( Complex.I );
         t5.exp();
@@ -750,7 +756,7 @@ public class DoubleBarrierSolver extends AbstractPlaneSolver {
         // Power(E,2*I*(k2*x2 + (k3 + k4)*x3))*(-k1 + k2)*(k2 + k3)*(k3 - k4)*(k4 + k5)
         MutableComplex t6 = new MutableComplex();
         t6.setValue( k2.getMultiply( x2 ) );
-        t6.add( k3.getAdd( x4 ).getMultiply( x3 ) );
+        t6.add( k3.getAdd( k4 ).getMultiply( x3 ) );
         t6.multiply( 2 );
         t6.multiply( Complex.I );
         t6.exp();
