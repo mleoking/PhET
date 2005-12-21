@@ -23,7 +23,6 @@ import edu.colorado.phet.lasers.controller.PhotoWindow;
 import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
 import edu.colorado.phet.lasers.controller.module.SingleAtomModule;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
-import edu.colorado.phet.lasers.model.atom.GroundState;
 import edu.colorado.phet.lasers.view.AtomGraphic;
 
 import javax.swing.*;
@@ -128,46 +127,46 @@ public class LaserSimulation extends PhetApplication {
         } );
 
         // Additions to the debug menu
-        JMenu debugMenu = getPhetFrame().getDebugMenu();
-        if( debugMenu != null ) {
-            final JRadioButtonMenuItem grayErgyRepStrategy = new JRadioButtonMenuItem( "Gray energy levels" );
-            grayErgyRepStrategy.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    if( grayErgyRepStrategy.isSelected() ) {
-                        AtomGraphic.setEnergyRepColorStrategy( new AtomGraphic.GrayScaleStrategy() );
-                    }
-                }
-            } );
-            colorEnergyRepStrategy.setSelected( true );
-            ButtonGroup energyRegBG = new ButtonGroup();
-            energyRegBG.add( colorEnergyRepStrategy );
-            energyRegBG.add( grayErgyRepStrategy );
-
-            debugMenu.addSeparator();
-            debugMenu.add( colorEnergyRepStrategy );
-            debugMenu.add( grayErgyRepStrategy );
-            debugMenu.addSeparator();
-
-            JMenuItem groundStateMinLifetimeMI = new JMenuItem( "Adjust minimum ground state lifetime..." );
-            debugMenu.add( groundStateMinLifetimeMI );
-            groundStateMinLifetimeMI.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    final JSlider gstSlider = new JSlider( 0, 1000, 0 );
-                    gstSlider.setMajorTickSpacing( 200 );
-                    gstSlider.setPaintTicks( true );
-                    gstSlider.setPaintLabels( true );
-                    gstSlider.addChangeListener( new ChangeListener() {
-                        public void stateChanged( ChangeEvent e ) {
-                            GroundState.setMinLifetime( gstSlider.getValue() );
-                        }
-                    } );
-                    gstSlider.setValue( (int)GroundState.getMinLifetime() );
-                    JPanel jp = new JPanel();
-                    jp.add( gstSlider );
-                    JOptionPane.showMessageDialog( getPhetFrame(), jp );
-                }
-            } );
-        }
+//        JMenu debugMenu = getPhetFrame().getDebugMenu();
+//        if( debugMenu != null ) {
+//            final JRadioButtonMenuItem grayErgyRepStrategy = new JRadioButtonMenuItem( "Gray energy levels" );
+//            grayErgyRepStrategy.addActionListener( new ActionListener() {
+//                public void actionPerformed( ActionEvent e ) {
+//                    if( grayErgyRepStrategy.isSelected() ) {
+//                        AtomGraphic.setEnergyRepColorStrategy( new AtomGraphic.GrayScaleStrategy() );
+//                    }
+//                }
+//            } );
+//            colorEnergyRepStrategy.setSelected( true );
+//            ButtonGroup energyRegBG = new ButtonGroup();
+//            energyRegBG.add( colorEnergyRepStrategy );
+//            energyRegBG.add( grayErgyRepStrategy );
+//
+//            debugMenu.addSeparator();
+//            debugMenu.add( colorEnergyRepStrategy );
+//            debugMenu.add( grayErgyRepStrategy );
+//            debugMenu.addSeparator();
+//
+//            JMenuItem groundStateMinLifetimeMI = new JMenuItem( "Adjust minimum ground state lifetime..." );
+//            debugMenu.add( groundStateMinLifetimeMI );
+//            groundStateMinLifetimeMI.addActionListener( new ActionListener() {
+//                public void actionPerformed( ActionEvent e ) {
+//                    final JSlider gstSlider = new JSlider( 0, 1000, 0 );
+//                    gstSlider.setMajorTickSpacing( 200 );
+//                    gstSlider.setPaintTicks( true );
+//                    gstSlider.setPaintLabels( true );
+//                    gstSlider.addChangeListener( new ChangeListener() {
+//                        public void stateChanged( ChangeEvent e ) {
+//                            GroundState.setMinLifetime( gstSlider.getValue() );
+//                        }
+//                    } );
+//                    gstSlider.setValue( (int)GroundState.getMinLifetime() );
+//                    JPanel jp = new JPanel();
+//                    jp.add( gstSlider );
+//                    JOptionPane.showMessageDialog( getPhetFrame(), jp );
+//                }
+//            } );
+//        }
     }
 
     public void displayHighToMidEmission( boolean selected ) {

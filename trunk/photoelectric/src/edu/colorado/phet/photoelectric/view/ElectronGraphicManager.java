@@ -11,9 +11,9 @@
 package edu.colorado.phet.photoelectric.view;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.dischargelamps.model.Electron;
 import edu.colorado.phet.dischargelamps.model.ElectronSource;
 import edu.colorado.phet.dischargelamps.view.ElectronGraphic;
-import edu.colorado.phet.lasers.model.Electron;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
 

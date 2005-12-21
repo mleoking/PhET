@@ -13,11 +13,7 @@ package edu.colorado.phet.photoelectric.model;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
-import edu.colorado.phet.dischargelamps.model.ElectronSource;
-import edu.colorado.phet.dischargelamps.model.Plate;
-import edu.colorado.phet.lasers.model.Electron;
-import edu.colorado.phet.lasers.model.atom.ElementProperties;
+import edu.colorado.phet.dischargelamps.model.*;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.geom.Line2D;
@@ -47,11 +43,11 @@ public class PhotoelectricTarget extends Plate {
     static private final double SPEED_SCALE_FACTOR = 5E-16;
     static private final double MINIMUM_SPEED = 0.1;
 
-    static public final ElementProperties ZINC = new Zinc();
-    static public final ElementProperties COPPER = new Copper();
-    static public final ElementProperties SODIUM = new Sodium();
-    static public final ElementProperties PLATINUM = new Platinum();
-    static public final ElementProperties MAGNESIUM = new Magnesium();
+    static public final DischargeLampElementProperties ZINC = new Zinc();
+    static public final DischargeLampElementProperties COPPER = new Copper();
+    static public final DischargeLampElementProperties SODIUM = new Sodium();
+    static public final DischargeLampElementProperties PLATINUM = new Platinum();
+    static public final DischargeLampElementProperties MAGNESIUM = new Magnesium();
     static public final ArrayList TARGET_MATERIALS = new ArrayList();
 
     static {
@@ -70,7 +66,7 @@ public class PhotoelectricTarget extends Plate {
     // The line segment defined by the target
     private Line2D line;
     // The target material
-    private ElementProperties targetMaterial;
+    private DischargeLampElementProperties targetMaterial;
     // The strategy that determines the speed of emitted electrons
     private InitialElectronSpeedStrategy initialElectronSpeedStrategy = new
             InitialElectronSpeedStrategy.Uniform( SPEED_SCALE_FACTOR );
@@ -165,7 +161,7 @@ public class PhotoelectricTarget extends Plate {
     // Setters and getters
     //----------------------------------------------------------------
 
-    public void setTargetMaterial( ElementProperties material ) {
+    public void setTargetMaterial( DischargeLampElementProperties material ) {
         this.targetMaterial = material;
         if( !TARGET_MATERIALS.contains( material ) ) {
             throw new RuntimeException( "Invalid parameter" );
@@ -173,7 +169,7 @@ public class PhotoelectricTarget extends Plate {
         materialChangeListenerProxy.materialChanged( new MaterialChangeEvent( this ) );
     }
 
-    public ElementProperties getMaterial() {
+    public DischargeLampElementProperties getMaterial() {
         return targetMaterial;
     }
 

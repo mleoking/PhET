@@ -11,8 +11,8 @@
 
 package edu.colorado.phet.lasers.controller.module;
 
-import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
@@ -46,7 +46,7 @@ import java.awt.geom.Rectangle2D;
 /**
  * 
  */
-public class BaseLaserModule extends Module {
+public class BaseLaserModule extends PhetGraphicsModule {
 
     static protected final Point2D s_origin = LaserConfig.ORIGIN;
     static protected final double s_boxHeight = 120;

@@ -15,7 +15,6 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.*;
-import edu.colorado.phet.lasers.model.Electron;
 import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.lasers.model.photon.*;
 import edu.colorado.phet.photoelectric.model.util.BeamIntensityMeter;
