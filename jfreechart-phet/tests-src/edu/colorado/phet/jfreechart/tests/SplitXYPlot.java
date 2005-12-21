@@ -20,6 +20,7 @@ import java.awt.image.BufferedImage;
 
 /**
  * 'Split' refers to the ability to draw just the chart, just the data or both.
+ * 
  */
 public class SplitXYPlot extends XYPlot {
     private boolean renderData = true;
