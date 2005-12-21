@@ -92,11 +92,12 @@ ignorepath      (those elements of the ant classpath that should not be
         <javac srcdir="${src}" destdir="${classes}">
             <src path="${project_home}/dischargelamps/src"/>
             <src path="${project_home}/dischargelamps/lasers/src"/>
-            <src path="${project_home}/dischargelamps/phetcommon/src"/>
-            <src path="${project_home}/dischargelamps/mechanics/src"/>
-            <src path="${project_home}/dischargelamps/collision/src"/>
-            <src path="${project_home}/dischargelamps/controls/src"/>
-            <src path="${project_home}/charts/src"/>
+            <src path="${project_home}/dischargelamps/lasers/phetgraphics-module/src"/>
+            <src path="${project_home}/dischargelamps/lasers/phetgraphics-module/phetcommon-module/src"/>
+            <src path="${project_home}/dischargelamps/lasers/mechanics-module/src"/>
+            <src path="${project_home}/dischargelamps/lasers/collision-module/src"/>
+            <src path="${project_home}/dischargelamps/lasers/controls-module/src"/>
+            <src path="${project_home}/charts-module/src"/>
         </javac>
     </target>
 
@@ -112,8 +113,8 @@ ignorepath      (those elements of the ant classpath that should not be
             <fileset dir="${data}"/>
             <fileset dir="${project_home}/dischargelamps/data"/>
             <fileset dir="${project_home}/dischargelamps/lasers/data"/>
-            <fileset dir="${project_home}/dischargelamps/phetcommon/data"/>
-            <fileset dir="${project_home}/dischargelamps/controls/data"/>
+            <fileset dir="${project_home}/dischargelamps/lasers/phetgraphics-module/phetcommon-module//data"/>
+            <fileset dir="${project_home}/dischargelamps/lasers/controls-module/data"/>
             <manifest>
                 <attribute name="Built-By" value="${user.name}"/>
                 <attribute name="version" value="${version}"/>
