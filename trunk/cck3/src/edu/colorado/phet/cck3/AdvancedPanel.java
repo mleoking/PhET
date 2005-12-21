@@ -81,9 +81,11 @@ public class AdvancedPanel extends VerticalLayoutPanel {
     }
 
     private void showAdvanced() {
+        controls.updateUI();
         remove( advanced );
         add( hideButton );
         add( controls );
+        controls.updateUI();
         validateAll();
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );

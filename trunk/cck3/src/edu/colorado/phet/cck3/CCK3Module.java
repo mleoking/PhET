@@ -663,7 +663,8 @@ public class CCK3Module extends Module {
     public static void main( String[] args ) throws IOException, UnsupportedLookAndFeelException {
 
         SimStrings.init( args, localizedStringsPath );
-
+        CCKLookAndFeel cckLookAndFeel = new CCKLookAndFeel();
+        UIManager.installLookAndFeel( "CCK Default", cckLookAndFeel.getClass().getName() );
         //        SwingTimerClock clock = new SwingTimerClock( 1, 30, false );
         final SwingTimerClock clock = new SwingTimerClock( 1, 30, false );
 
@@ -694,8 +695,6 @@ public class CCK3Module extends Module {
         model.setUseClockControlPanel( false );
         final PhetApplication app = new PhetApplication( model );
 
-        CCKLookAndFeel cckLookAndFeel = new CCKLookAndFeel();
-        UIManager.installLookAndFeel( "CCK Default", cckLookAndFeel.getClass().getName() );
 
         JMenu laf = new JMenu( SimStrings.get( "ViewMenu.Title" ) );
         laf.setMnemonic( SimStrings.get( "ViewMenu.TitleMnemonic" ).charAt( 0 ) );
