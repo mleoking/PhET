@@ -38,7 +38,7 @@ public class RotatedTextLabel extends JPanel {
 
     private String label;
     private int x = 15;
-    private int y = 70;
+    private int y = 90;
 
     public RotatedTextLabel( String label ) {
         super( null );

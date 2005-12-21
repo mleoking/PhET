@@ -30,7 +30,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.*;
 
-public class LaserModel extends BaseModel implements Photon.LeftSystemEventListener {
+public class  LaserModel extends BaseModel implements Photon.LeftSystemEventListener {
 
     static public Point2D ORIGIN = new Point2D.Double( 100, 300 );
     static private int width = 800;

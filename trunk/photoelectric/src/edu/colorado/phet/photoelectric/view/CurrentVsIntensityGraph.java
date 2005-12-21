@@ -65,6 +65,14 @@ public class CurrentVsIntensityGraph extends Chart {
         lines.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         this.addDataSetGraphic( lines, PLOT_LAYER );
 
+        // Turn off axis labels
+        getXAxis().setMajorTickLabelsVisible( false );
+        getVerticalTicks().setMajorTickLabelsVisible( false );
+        getVerticalTicks().setMinorTickLabelsVisible( false );
+        getYAxis().setMajorTickLabelsVisible( false );
+        getHorizontalTicks().setMajorTickLabelsVisible( false );
+        getHorizontalTicks().setMinorTickLabelsVisible( false );
+
         ScatterPlot points = new ScatterPlot( getComponent(), this, dotDataSet, color, PhotoelectricConfig.GRAPH_DOT_RADIUS );
         this.addDataSetGraphic( points, PLOT_LAYER + 1 );
 

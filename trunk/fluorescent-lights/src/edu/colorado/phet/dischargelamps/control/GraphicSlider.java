@@ -454,7 +454,6 @@ public class GraphicSlider extends GraphicLayerSet {
             
             // Constrain the knob position to the drag boundaries.
             double dx = mouseX - _dragStartPoint.getX();
-            System.out.println( "dx = " + dx );
             double knobX = _knobStartPoint.getX() + dx;
             double x = Math.max( _dragBounds.x, Math.min( _dragBounds.x + _dragBounds.width, knobX ) );
 
