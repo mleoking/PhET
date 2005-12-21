@@ -45,12 +45,10 @@ public class CCK3ControlPanel extends ControlPanel {
     private JCheckBox seriesAmmeter;
     private AdvancedControlPanel advancedControlPanel;
     private GrabBagButton grabBagButton;
-    private boolean useAdvancedControlPanel;
-    private JPanel circuitPanel;
+    private JPanel advancedPanel;
 
     public CCK3ControlPanel( final CCK3Module module ) {
         super( module );
-        useAdvancedControlPanel = module.getParameters().getUseAdvancedControlPanel();
 
         advancedControlPanel = new AdvancedControlPanel( module );
         advancedControlPanel.setBorder( null );
@@ -65,8 +63,8 @@ public class CCK3ControlPanel extends ControlPanel {
         } );
         this.module = module;
         JPanel filePanel = makeFilePanel();
-        if( useAdvancedControlPanel ) {
-            circuitPanel = makeAdvancedPanel();
+        if( useAdvanced() ) {
+            advancedPanel = makeAdvancedPanel();
         }
 
         JPanel visualPanel = makeVisualPanel();
@@ -130,13 +128,17 @@ public class CCK3ControlPanel extends ControlPanel {
         add( toolPanel );
         add( sizePanel );
 
-        if( useAdvancedControlPanel ) {
-            add( circuitPanel );
+        if( useAdvanced() ) {
+            add( advancedPanel );
         }
 
         if( module.getParameters().showGrabBag() ) {
             addGrabBag();
         }
+    }
+
+    private boolean useAdvanced() {
+        return module.getParameters().getUseAdvancedControlPanel();
     }
 
     private void addGrabBag() {
@@ -213,7 +215,7 @@ public class CCK3ControlPanel extends ControlPanel {
         zoomPanel.add( large );
         zoomPanel.add( medium );
         zoomPanel.add( small );
-        return placeInPanel( SimStrings.get( "CCK3ControlPanel.SizePanelBorder" ), zoomPanel, BASIC_INSETS, GridBagConstraints.WEST );
+        return addBorder( SimStrings.get( "CCK3ControlPanel.SizePanelBorder" ), zoomPanel );
     }
 
     private JPanel makeToolPanel() {
@@ -264,7 +266,7 @@ public class CCK3ControlPanel extends ControlPanel {
         if( module.getParameters().useNonContactAmmeter() ) {
             toolPanel.add( new JLabel( nonContactAmmIcon ), lhs );
         }
-        return placeInPanel( SimStrings.get( "CCK3ControlPanel.ToolsPanelBorder" ), toolPanel, BASIC_INSETS, GridBagConstraints.WEST );
+        return addBorder( SimStrings.get( "CCK3ControlPanel.ToolsPanelBorder" ), toolPanel );
     }
 
     private JPanel makeVisualPanel() {
@@ -300,7 +302,7 @@ public class CCK3ControlPanel extends ControlPanel {
         if( module.getParameters().allowShowReadouts() ) {
             visualizationPanel.add( showReadouts );
         }
-        return placeInPanel( SimStrings.get( "CCK3ControlPanel.VisualPanelBorder" ), visualizationPanel, BASIC_INSETS, GridBagConstraints.WEST );
+        return addBorder( SimStrings.get( "CCK3ControlPanel.VisualPanelBorder" ), visualizationPanel );
     }
 
     private void load() throws IOException, XMLException {
@@ -473,11 +475,10 @@ public class CCK3ControlPanel extends ControlPanel {
         filePanelContents.add( clear );
         filePanelContents.add( save );
         filePanelContents.add( load );
-        return placeInPanel( SimStrings.get( "CCK3ControlPanel.FilePanelBorder" ),
-                             filePanelContents, new Insets( 0, 10, 0, 10 ), GridBagConstraints.CENTER );
+        return addBorder( SimStrings.get( "CCK3ControlPanel.FilePanelBorder" ), filePanelContents );
     }
 
-    private static JPanel placeInPanel( String title, JPanel contents, Insets insets, int anchor ) {
+    private static JPanel addBorder( String title, JPanel contents ) {
         contents.setBorder( new TitledBorder( BorderFactory.createRaisedBevelBorder(), title ) {
             public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
                 Graphics2D g2 = (Graphics2D)g;
@@ -489,56 +490,38 @@ public class CCK3ControlPanel extends ControlPanel {
     }
 
     private JPanel makeAdvancedPanel() {
-        VerticalLayoutPanel circuitPanel = new VerticalLayoutPanel();
-        circuitPanel.setFill( GridBagConstraints.NONE );
-        final String enable = SimStrings.get( "CCK3ControlPanel.Enable" );
-        final String disable = SimStrings.get( "CCK3ControlPanel.Disable" );
-        final JButton expand = new JButton( enable );
-        expand.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                if( expand.getText().equals( enable ) ) {
-                    advancedControlPanel.setVisible( true );
-                    expand.setText( disable );
-                    module.setAdvancedEnabled( true );
-                }
-                else {
-                    advancedControlPanel.setVisible( false );
-                    expand.setText( enable );
-                    module.setAdvancedEnabled( false );
-                }
-            }
-        } );
-
-        advancedControlPanel.setVisible( false );
-        circuitPanel.add( expand );
-        circuitPanel.add( advancedControlPanel );
-
-        return placeInPanel( SimStrings.get( "CCK3ControlPanel.AdvancedPanelBorder" ),
-                             circuitPanel, BASIC_INSETS, GridBagConstraints.WEST );
+        AdvancedControlPanel advancedControlPanel = new AdvancedControlPanel( module );
+        return addBorder( SimStrings.get( "CCK3ControlPanel.AdvancedPanelBorder" ), advancedControlPanel );
     }
 
     public boolean isSeriesAmmeterSelected() {
         return seriesAmmeter.isSelected();
     }
 
-    static Insets BASIC_INSETS = new Insets( 0, 0, 0, 0 );
-
-    static class AdvancedControlPanel extends JPanel {
+    static class AdvancedControlPanel extends AdvancedPanel {
         private CCK3Module module;
         private JDialog dialog;
         private PhetSlider resistivitySlider;
-        private GridBagConstraints constraints;
         private JCheckBox hideElectrons;
 
         void addMe( Component component ) {
-            add( component, constraints );
-            constraints.gridy++;
+            addControl( (JComponent)component );
         }
 
         public AdvancedControlPanel( final CCK3Module module ) {
+            super( SimStrings.get( "CCK3ControlPanel.Enable" ), SimStrings.get( "CCK3ControlPanel.Disable" ) );
+            addListener( new Listener() {
+                public void advancedPanelHidden( AdvancedPanel advancedPanel ) {
+                    module.setAdvancedEnabled( false );
+                    System.out.println( "CCK3ControlPanel$AdvancedControlPanel.advancedPanelHidden" );
+                }
+
+                public void advancedPanelShown( AdvancedPanel advancedPanel ) {
+                    module.setAdvancedEnabled( true );
+                    System.out.println( "CCK3ControlPanel$AdvancedControlPanel.advancedPanelShown" );
+                }
+            } );
             this.module = module;
-            Insets insets = new Insets( 0, 0, 0, 0 );
-            constraints = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0 );
             setLayout( new GridBagLayout() );
             resistivitySlider = new PhetSlider( SimStrings.get( "CCK3ControlPanel.WireResistivitySlider" ),
                                                 SimStrings.get( "CCK3ControlPanel.WireResistivitySliderMeasure" ),
@@ -559,9 +542,10 @@ public class CCK3ControlPanel extends ControlPanel {
             resistivitySlider.getTextField().setVisible( false );
             resistivitySlider.getUnitsReadout().setVisible( false );
 
-            constraints.fill = GridBagConstraints.HORIZONTAL;
+//            constraints.fill = GridBagConstraints.HORIZONTAL;
             addMe( resistivitySlider );
-            constraints.fill = GridBagConstraints.NONE;
+
+//            constraints.fill = GridBagConstraints.NONE;
             resistivitySlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     double value = resistivitySlider.getValue();
