@@ -33,8 +33,9 @@ public class EnergyVsFrequencyGraph extends Chart {
     // Class data
     //-----------------------------------------------------------------
     static private double PLOT_LAYER = 1E9;
+    static private double freqMultiplier = 1E-15;
     static private Range2D range = new Range2D( 0, 0,
-                                                PhysicsUtil.wavelengthToFrequency( PhotoelectricModel.MIN_WAVELENGTH ),
+                                                PhysicsUtil.wavelengthToFrequency( PhotoelectricModel.MIN_WAVELENGTH ) * freqMultiplier,
                                                 PhysicsUtil.wavelengthToEnergy( PhotoelectricModel.MIN_WAVELENGTH ) );
     static private double xSpacing = ( range.getMaxX() - range.getMinX() ) / 4;
     static private Dimension chartSize = PhotoelectricConfig.CHART_SIZE;
@@ -61,9 +62,9 @@ public class EnergyVsFrequencyGraph extends Chart {
         GridLineSet verticalGls = this.getVerticalGridlines();
         verticalGls.setMajorGridlinesColor( new Color( 200, 200, 200 ) );
 
-        getHorizontalTicks().setMajorNumberFormat( new DecimalFormat( "0.#E0" ) );
+        getHorizontalTicks().setMajorNumberFormat( new DecimalFormat( "0.00" ) );
 
-        this.getXAxis().setNumberFormat( new DecimalFormat( "0.#E0" ) );
+        this.getXAxis().setNumberFormat( new DecimalFormat( "0.00" ) );
 
         Color color = Color.blue;
         Color lineColor = new Color( color.getRed(), color.getGreen(), color.getBlue(), 80 );
@@ -76,13 +77,13 @@ public class EnergyVsFrequencyGraph extends Chart {
 
         model.addChangeListener( new PhotoelectricModel.ChangeListenerAdapter() {
             public void targetMaterialChanged( PhotoelectricModel.ChangeEvent event ) {
-                kneeFrequency = determineKneeFrequency( model );
+                kneeFrequency = determineKneeFrequency( model ) * freqMultiplier;
                 lineDataSet.clear();
                 updateGraph( model );
             }
 
             public void voltageChanged( PhotoelectricModel.ChangeEvent event ) {
-                kneeFrequency = determineKneeFrequency( model );
+                kneeFrequency = determineKneeFrequency( model ) * freqMultiplier;
                 updateGraph( model );
             }
 
@@ -109,7 +110,10 @@ public class EnergyVsFrequencyGraph extends Chart {
      * @param frequency
      * @param energy
      */
-    public void addDataPoint( double frequency, double energy ) {
+    private void addDataPoint( double frequency, double energy ) {
+
+        frequency *= freqMultiplier;
+
         dotDataSet.clear();
         dotDataSet.addPoint( frequency, energy );
 

@@ -39,7 +39,7 @@ public class GraphPanel2 extends JPanel {
         super( new GridBagLayout() );
         PhotoelectricModel model = (PhotoelectricModel)module.getModel();
         controlPanel = (ControlPanel)module.getControlPanel();
-        Insets graphInsets = new Insets( 0, 15, 17, 20 );
+        Insets graphInsets = new Insets( 5, 20, 17, 15 );
 
         GraphPanel cvgPanel2 = new GraphPanel( module.getClock() );
         cvgPanel2.setGraph( new CurrentVsVoltageGraph( cvgPanel2, model ), graphInsets );
@@ -59,8 +59,8 @@ public class GraphPanel2 extends JPanel {
         panel3.setGraph( new EnergyVsFrequencyGraph( panel2, model ), graphInsets );
         addGraph( "<html>Electron energy vs light frequency</html>",
                   panel3,
-                  "Frequency",
-                  "Energy" );
+                  "Frequency (x10^15 Hz)",
+                  "Energy (mJ)" );
 
         setBorder( new TitledBorder( "Graphs" ) );
     }

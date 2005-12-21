@@ -114,10 +114,9 @@ public class PhotoelectricTarget extends Plate {
             Point2D p = MathUtil.getLineSegmentsIntersection( line.getP1(), line.getP2(),
                                                               photon.getPosition(), photon.getPositionPrev() );
             Electron electron = new Electron();
-            // Offset the electron to the right of the plate. This does two things. 1) It keeps the plate from
-            // thinking the electron hit it in the electron's first time step, and keeps multiple electrons
-            // emitted in a single time step from lining up vertically, which doesn't look right
-            double offset = 1 + random.nextDouble() * electron.getRadius() * 8;
+            // Offset the electron to the right of the plate. Ths keeps the plate from
+            // thinking the electron hit it in the electron's first time step.
+            double offset = 1;
             electron.setPosition( p.getX() + offset, p.getY() );
 
             // Determine the speed of the new electron

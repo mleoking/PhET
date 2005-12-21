@@ -121,6 +121,7 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
                 beam.setPhotonsPerSecond( intensitySlider.getValue() );
             }
         } );
+        beam.setPhotonsPerSecond( intensitySlider.getValue() );
         beam.addWavelengthChangeListener( new WavelengthChangeListener( intensitySlider ) );
     }
 

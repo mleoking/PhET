@@ -63,6 +63,9 @@ public class CurrentVsVoltageGraph extends Chart {
         GridLineSet verticalGls = this.getVerticalGridlines();
         verticalGls.setMajorGridlinesColor( new Color( 200, 200, 200 ) );
 
+        // Turn off axis labels
+        getVerticalTicks().setMajorTickLabelsVisible( false );
+        getVerticalTicks().setMinorTickLabelsVisible( false );
         getYAxis().setMajorTickLabelsVisible( false );
 
         Color color = Color.red;

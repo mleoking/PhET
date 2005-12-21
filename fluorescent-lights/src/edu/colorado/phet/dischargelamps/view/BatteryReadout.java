@@ -77,7 +77,7 @@ public class BatteryReadout extends GraphicLayerSet {
     }
 
     private void updateText( double voltage ) {
-        DecimalFormat voltageFormat = new DecimalFormat( "#0.0" );
+        DecimalFormat voltageFormat = new DecimalFormat( "#0.00" );
         Object[] args = {voltageFormat.format( voltage )};
         String text = MessageFormat.format( SimStrings.get( "BatteryGraphic.voltage" ), args );
         readout.setText( text );
