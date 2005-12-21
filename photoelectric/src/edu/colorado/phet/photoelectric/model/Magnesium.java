@@ -11,8 +11,8 @@
 package edu.colorado.phet.photoelectric.model;
 
 import edu.colorado.phet.dischargelamps.model.DefaultEnergyEmissionStrategy;
-import edu.colorado.phet.lasers.model.atom.ElementProperties;
-import edu.colorado.phet.lasers.model.atom.EnergyAbsorptionStrategy;
+import edu.colorado.phet.dischargelamps.model.DischargeLampElementProperties;
+import edu.colorado.phet.dischargelamps.model.EnergyAbsorptionStrategy;
 import edu.colorado.phet.lasers.model.atom.EnergyEmissionStrategy;
 
 /**
@@ -21,7 +21,7 @@ import edu.colorado.phet.lasers.model.atom.EnergyEmissionStrategy;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Magnesium extends ElementProperties {
+public class Magnesium extends DischargeLampElementProperties {
     private static final String NAME = "Magnesium";
     private static final double[] ENERGY_LEVELS = new double[]{-13.6};
     private static final EnergyEmissionStrategy ENERGY_EMISSION_STRATEGY = new DefaultEnergyEmissionStrategy();

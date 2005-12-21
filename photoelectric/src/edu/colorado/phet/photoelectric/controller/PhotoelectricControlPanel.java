@@ -11,16 +11,14 @@
 package edu.colorado.phet.photoelectric.controller;
 
 import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.util.EasyGridBagLayout;
-import edu.colorado.phet.dischargelamps.model.FiftyPercentAbsorptionStrategy;
-import edu.colorado.phet.lasers.model.atom.ElementProperties;
-import edu.colorado.phet.lasers.model.atom.EnergyAbsorptionStrategy;
-import edu.colorado.phet.lasers.model.photon.Beam;
+import edu.colorado.phet.dischargelamps.model.DischargeLampElementProperties;
+import edu.colorado.phet.dischargelamps.model.EnergyAbsorptionStrategy;
 import edu.colorado.phet.photoelectric.model.MetalEnergyAbsorptionStrategy;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 import edu.colorado.phet.photoelectric.model.PhotoelectricTarget;
+import edu.colorado.phet.photoelectric.model.SimpleEnergyAbsorptionStrategy;
 import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
-import edu.colorado.phet.photoelectric.view.GraphWindow;
+import edu.colorado.phet.photoelectric.view.GraphPanel2;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -43,17 +41,16 @@ public class PhotoelectricControlPanel {
 
     private Collection targetMaterials;
 
-    public PhotoelectricControlPanel( final PhotoelectricModule module, final GraphWindow graphWindow ) {
+    public PhotoelectricControlPanel( final PhotoelectricModule module ) {
         final PhotoelectricModel model = (PhotoelectricModel)module.getModel();
-        final Beam beam = model.getBeam();
 
-        ControlPanel controlPanel = (ControlPanel)module.getControlPanel();
+        final ControlPanel controlPanel = (ControlPanel)module.getControlPanel();
 
         //----------------------------------------------------------------
         // Target controls
         //----------------------------------------------------------------
         {
-            JPanel targetControlPnl = new JPanel( new GridLayout( 1, 1 ) );
+            JPanel targetControlPnl = new JPanel( new GridBagLayout() );
             targetControlPnl.setBorder( new TitledBorder( "Target" ) );
             controlPanel.addFullWidth( targetControlPnl );
 
@@ -71,14 +68,16 @@ public class PhotoelectricControlPanel {
             selectionList.add( PhotoelectricTarget.MAGNESIUM );
 
             final JComboBox targetMaterial = new JComboBox( selectionList.toArray() );
-            targetControlPnl.add( targetMaterial );
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.anchor = GridBagConstraints.CENTER;
+            targetControlPnl.add( targetMaterial, gbc );
             final PhotoelectricTarget target = model.getTarget();
             targetMaterial.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    target.setTargetMaterial( (ElementProperties)targetMaterial.getSelectedItem() );
+                    target.setTargetMaterial( (DischargeLampElementProperties)targetMaterial.getSelectedItem() );
                 }
             } );
-            target.setTargetMaterial( (ElementProperties)targetMaterial.getSelectedItem() );
+            target.setTargetMaterial( (DischargeLampElementProperties)targetMaterial.getSelectedItem() );
         }
 
         //----------------------------------------------------------------
@@ -86,78 +85,32 @@ public class PhotoelectricControlPanel {
         //----------------------------------------------------------------
         {
             JPanel electronModelPanel = new JPanel( new GridBagLayout() );
-            electronModelPanel.setBorder( new TitledBorder( "Electron model" ) );
-            GridBagConstraints gbc = new GridBagConstraints( GridBagConstraints.RELATIVE, 0, 1, 1, 1, 1,
+            electronModelPanel.setBorder( new TitledBorder( "" ) );
+            GridBagConstraints gbc = new GridBagConstraints( GridBagConstraints.RELATIVE, 0,
+                                                             1, 1, 1, 1,
                                                              GridBagConstraints.CENTER,
                                                              GridBagConstraints.NONE,
                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
-            JRadioButton simpleRB = new JRadioButton( "Simple" );
-            simpleRB.addActionListener( new ActionListener() {
+
+            final JCheckBox electronModelCB = new JCheckBox( "Show only highest energy electrons" );
+            electronModelCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    setElectronModel( PhotoelectricModel.ELECTRON_MODEL_SIMPLE );
+                    if( electronModelCB.isSelected() ) {
+                        setElectronModel( PhotoelectricModel.ELECTRON_MODEL_SIMPLE );
+                    }
+                    else {
+                        setElectronModel( PhotoelectricModel.ELECTRON_MODEL_REALISTIC );
+                    }
                 }
             } );
-            JRadioButton realisticRB = new JRadioButton( "Realistic", true );
-            realisticRB.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    setElectronModel( PhotoelectricModel.ELECTRON_MODEL_REALISTIC );
-                }
-            } );
-            ButtonGroup rbg = new ButtonGroup();
-            rbg.add( simpleRB );
-            rbg.add( realisticRB );
-            JPanel rbPanel = new JPanel( new GridLayout( 2, 1 ) );
-            rbPanel.add( simpleRB, gbc );
-            rbPanel.add( realisticRB, gbc );
-            electronModelPanel.add( rbPanel, gbc );
+            electronModelPanel.add( electronModelCB, gbc );
             controlPanel.addFullWidth( electronModelPanel );
         }
 
         //----------------------------------------------------------------
         // Graph options
         //----------------------------------------------------------------
-        {
-            final JCheckBox currentVsVoltageCB = new JCheckBox( "<html>Current vs<br>battery voltage</html>" );
-            final JCheckBox currentVsIntensityCB = new JCheckBox( "<html>Current vs<br>light intensity</html>" );
-            final JCheckBox energyVsFrequencyCB = new JCheckBox( "<html>Electron energy vs<br>light frequency</html>" );
-            currentVsVoltageCB.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    graphWindow.clearCurrentVsVoltage();
-                    graphWindow.setCurrentVsVoltageVisible( currentVsVoltageCB.isSelected() );
-                    graphWindow.setVisible( currentVsVoltageCB.isSelected()
-                                            || currentVsIntensityCB.isSelected()
-                                            || energyVsFrequencyCB.isSelected() );
-                }
-            } );
-            currentVsIntensityCB.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    graphWindow.clearCurrentVsIntensity();
-                    graphWindow.setCurrentVsIntensityVisible( currentVsIntensityCB.isSelected() );
-                    graphWindow.setVisible( currentVsVoltageCB.isSelected()
-                                            || currentVsIntensityCB.isSelected()
-                                            || energyVsFrequencyCB.isSelected() );
-                }
-            } );
-            energyVsFrequencyCB.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    graphWindow.clearEnergyVsFrequency();
-                    graphWindow.setEnergyVsFrequency( energyVsFrequencyCB.isSelected() );
-                    graphWindow.setVisible( currentVsVoltageCB.isSelected()
-                                            || currentVsIntensityCB.isSelected()
-                                            || energyVsFrequencyCB.isSelected() );
-                }
-            } );
-
-            JPanel graphOptionsPanel = new JPanel();
-            graphOptionsPanel.setBorder( new TitledBorder( "Graphs" ) );
-            EasyGridBagLayout layout = new EasyGridBagLayout( graphOptionsPanel );
-            graphOptionsPanel.setLayout( layout );
-            layout.addComponent( currentVsVoltageCB, 0, 0 );
-            layout.addComponent( currentVsIntensityCB, 1, 0 );
-            layout.addComponent( energyVsFrequencyCB, 2, 0 );
-            controlPanel.addControlFullWidth( graphOptionsPanel );
-        }
-
+        controlPanel.addControlFullWidth( new GraphPanel2( module ) );
     }
 
     /**
@@ -169,15 +122,16 @@ public class PhotoelectricControlPanel {
         EnergyAbsorptionStrategy energyAbsorptionStrategy = null;
         switch( electronModelType ) {
             case ELECTRON_MODEL_SIMPLE:
-                energyAbsorptionStrategy = new FiftyPercentAbsorptionStrategy();
+//                energyAbsorptionStrategy = new FiftyPercentAbsorptionStrategy();
                 for( Iterator iterator = targetMaterials.iterator(); iterator.hasNext(); ) {
-                    ElementProperties targetProperties = (ElementProperties)iterator.next();
+                    DischargeLampElementProperties targetProperties = (DischargeLampElementProperties)iterator.next();
+                    energyAbsorptionStrategy = new SimpleEnergyAbsorptionStrategy( targetProperties.getWorkFunction() );
                     targetProperties.setEnergyAbsorptionStrategy( energyAbsorptionStrategy );
                 }
                 break;
             case ELECTRON_MODEL_REALISTIC:
                 for( Iterator iterator = targetMaterials.iterator(); iterator.hasNext(); ) {
-                    ElementProperties targetProperties = (ElementProperties)iterator.next();
+                    DischargeLampElementProperties targetProperties = (DischargeLampElementProperties)iterator.next();
                     energyAbsorptionStrategy = new MetalEnergyAbsorptionStrategy( targetProperties.getWorkFunction() );
                     targetProperties.setEnergyAbsorptionStrategy( energyAbsorptionStrategy );
                 }
