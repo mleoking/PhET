@@ -8,7 +8,6 @@ import edu.colorado.phet.cck3.grabbag.GrabBagButton;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.view.components.PhetSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
-import edu.colorado.phet.common.view.help.HelpPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
@@ -41,7 +40,7 @@ import java.util.Random;
  * Time: 11:03:06 AM
  * Copyright (c) Jun 1, 2004 by Sam Reid
  */
-public class CCK3ControlPanel extends JPanel {
+public class CCK3ControlPanel extends ControlPanel {
     private CCK3Module module;
     private JCheckBox seriesAmmeter;
     private AdvancedControlPanel advancedControlPanel;
@@ -50,6 +49,7 @@ public class CCK3ControlPanel extends JPanel {
     private JPanel circuitPanel;
 
     public CCK3ControlPanel( final CCK3Module module ) {
+        super( module );
         useAdvancedControlPanel = module.getParameters().getUseAdvancedControlPanel();
 
         advancedControlPanel = new AdvancedControlPanel( module );
@@ -86,8 +86,6 @@ public class CCK3ControlPanel extends JPanel {
             }
         } );
 
-        HelpPanel hp = new HelpPanel( module );
-
         JButton xml = new JButton( SimStrings.get( "CCK3ControlPanel.ShowXMLButton" ) );
         xml.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -122,35 +120,20 @@ public class CCK3ControlPanel extends JPanel {
             }
         } );
 
-        this.setLayout( new BorderLayout() );
         JPanel titlePanel = new JPanel();
         titlePanel.add( titleLabel );
-        add( titlePanel, BorderLayout.NORTH );
-        JPanel controlPanel = new JPanel( new GridBagLayout() );
-
-        GridBagConstraints constraints = new GridBagConstraints( 0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets( 0, 0, 0, 0 ), 0, 0 );
-        controlPanel.add( filePanel, constraints );
-        constraints.gridy++;
+        add( titlePanel );
+        add( filePanel );
         if( module.getParameters().isUseVisualControlPanel() ) {
-            controlPanel.add( visualPanel, constraints );
-            constraints.gridy++;
+            add( visualPanel );
         }
-        controlPanel.add( toolPanel, constraints );
-        constraints.gridy++;
-        controlPanel.add( sizePanel, constraints );
-        constraints.gridy++;
+        add( toolPanel );
+        add( sizePanel );
 
         if( useAdvancedControlPanel ) {
-            controlPanel.add( circuitPanel, constraints );
-            constraints.gridy++;
+            add( circuitPanel );
         }
 
-        add( controlPanel, BorderLayout.CENTER );
-        JPanel helpPanel = new JPanel( new GridBagLayout() );
-        GridBagConstraints helpPanelConstraints = new GridBagConstraints( 0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.VERTICAL, new Insets( 0, 0, 0, 0 ), 0, 0 );
-        helpPanel.add( hp, helpPanelConstraints );
-
-        this.add( helpPanel, BorderLayout.SOUTH );
         if( module.getParameters().showGrabBag() ) {
             addGrabBag();
         }
@@ -320,11 +303,6 @@ public class CCK3ControlPanel extends JPanel {
         return placeInPanel( SimStrings.get( "CCK3ControlPanel.VisualPanelBorder" ), visualizationPanel, BASIC_INSETS, GridBagConstraints.WEST );
     }
 
-    public class GridBagLayoutHelper extends GridBagConstraints {
-        public GridBagLayoutHelper() {
-        }
-    }
-
     private void load() throws IOException, XMLException {
         ServiceSource ss = new ServiceSource();
         FileOpenService fos = ss.getFileOpenService( module.getApparatusPanel() );
@@ -412,7 +390,7 @@ public class CCK3ControlPanel extends JPanel {
         module.setZoom( scale );
     }
 
-    private void printEm() {
+    private static void printEm( CCK3Module module ) {
         KirkhoffSolver ks = new KirkhoffSolver();
         Circuit circuit = module.getCircuit();
         KirkhoffSolver.MatrixTable mt = new KirkhoffSolver.MatrixTable( circuit );
@@ -545,7 +523,7 @@ public class CCK3ControlPanel extends JPanel {
 
     static Insets BASIC_INSETS = new Insets( 0, 0, 0, 0 );
 
-    class AdvancedControlPanel extends JPanel {
+    static class AdvancedControlPanel extends JPanel {
         private CCK3Module module;
         private JDialog dialog;
         private PhetSlider resistivitySlider;
@@ -597,7 +575,7 @@ public class CCK3ControlPanel extends JPanel {
             JButton printKirkhoffsLaws = new JButton( SimStrings.get( "CCK3ControlPanel.ShowEquationsButton" ) );
             printKirkhoffsLaws.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    printEm();
+                    printEm( module );
                 }
             } );
             addMe( printKirkhoffsLaws );
