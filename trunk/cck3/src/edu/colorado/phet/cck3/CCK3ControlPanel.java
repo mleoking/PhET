@@ -362,7 +362,6 @@ public class CCK3ControlPanel extends ControlPanel {
     }
 
     public void showHelpImage() {
-
         final JFrame imageFrame = new JFrame();
         try {
             BufferedImage image = ImageLoader.loadBufferedImage( "images/cck-help.gif" );
@@ -504,10 +503,6 @@ public class CCK3ControlPanel extends ControlPanel {
         private PhetSlider resistivitySlider;
         private JCheckBox hideElectrons;
 
-        void addMe( Component component ) {
-            addControl( (JComponent)component );
-        }
-
         public AdvancedControlPanel( final CCK3Module module ) {
             super( SimStrings.get( "CCK3ControlPanel.Enable" ), SimStrings.get( "CCK3ControlPanel.Disable" ) );
             addListener( new Listener() {
@@ -542,10 +537,7 @@ public class CCK3ControlPanel extends ControlPanel {
             resistivitySlider.getTextField().setVisible( false );
             resistivitySlider.getUnitsReadout().setVisible( false );
 
-//            constraints.fill = GridBagConstraints.HORIZONTAL;
-            addMe( resistivitySlider );
-
-//            constraints.fill = GridBagConstraints.NONE;
+            addControl( resistivitySlider );
             resistivitySlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     double value = resistivitySlider.getValue();
@@ -562,7 +554,7 @@ public class CCK3ControlPanel extends ControlPanel {
                     printEm( module );
                 }
             } );
-            addMe( printKirkhoffsLaws );
+            addControl( printKirkhoffsLaws );
 
             hideElectrons = new JCheckBox( SimStrings.get( "CCK3ControlPanel.HideElectronsCheckBox" ),
                                            !module.isElectronsVisible() );
@@ -571,7 +563,7 @@ public class CCK3ControlPanel extends ControlPanel {
                     module.setElectronsVisible( !hideElectrons.isSelected() );
                 }
             } );
-            addMe( hideElectrons );
+            addControl( hideElectrons );
             JButton close = new JButton( SimStrings.get( "CCK3ControlPanel.CloseButton" ) );
             close.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
