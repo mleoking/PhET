@@ -1,25 +1,6 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3;
 
-import edu.colorado.phet.cck3.circuit.Circuit;
-import edu.colorado.phet.cck3.circuit.components.Battery;
-import edu.colorado.phet.cck3.circuit.kirkhoff.KirkhoffSolver;
-import edu.colorado.phet.cck3.grabbag.GrabBagButton;
-import edu.colorado.phet.common.math.ImmutableVector2D;
-import edu.colorado.phet.common.view.components.PhetSlider;
-import edu.colorado.phet.common.view.help.HelpPanel;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.SwingUtils;
-import net.n3.nanoxml.*;
-import org.srr.localjnlp.ServiceSource;
-import org.srr.localjnlp.local.InputStreamFileContents;
-
-import javax.jnlp.*;
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Point2D;
@@ -30,6 +11,29 @@ import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Random;
+
+import javax.jnlp.*;
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import net.n3.nanoxml.*;
+
+import org.srr.localjnlp.ServiceSource;
+import org.srr.localjnlp.local.InputStreamFileContents;
+
+import edu.colorado.phet.cck3.circuit.Circuit;
+import edu.colorado.phet.cck3.circuit.components.Battery;
+import edu.colorado.phet.cck3.circuit.kirkhoff.KirkhoffSolver;
+import edu.colorado.phet.cck3.grabbag.GrabBagButton;
+import edu.colorado.phet.common.math.ImmutableVector2D;
+import edu.colorado.phet.common.view.components.PhetSlider;
+import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.common.view.help.HelpPanel;
+import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.SwingUtils;
 
 /**
  * User: Sam Reid
@@ -208,8 +212,8 @@ public class CCK3ControlPanel extends JPanel {
         zoom.setPreferredSize( new Dimension( 50, zoom.getPreferredSize().height ) );
 //                add( zoom );
 
-        JPanel zoomPanel = new JPanel();
-        zoomPanel.setLayout( new BoxLayout( zoomPanel, BoxLayout.Y_AXIS ) );
+        JPanel zoomPanel = new VerticalLayoutPanel();
+//        zoomPanel.setLayout( new BoxLayout( zoomPanel, BoxLayout.Y_AXIS ) );
 //        zoomPanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Size" ) );
         ButtonGroup zoomGroup = new ButtonGroup();
         JRadioButton small = new JRadioButton( SimStrings.get( "CCK3ControlPanel.SmallRadioButton" ) );
@@ -329,9 +333,9 @@ public class CCK3ControlPanel extends JPanel {
             }
         } );
 
-        JPanel visualizationPanel = new JPanel();
+        JPanel visualizationPanel = new VerticalLayoutPanel();
 //        visualizationPanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Visual" ) );
-        visualizationPanel.setLayout( new BoxLayout( visualizationPanel, BoxLayout.Y_AXIS ) );
+//        visualizationPanel.setLayout( new BoxLayout( visualizationPanel, BoxLayout.Y_AXIS ) );
 
         visualizationPanel.add( lifelike );
         if( module.getParameters().allowSchematicMode() ) {
@@ -607,30 +611,42 @@ public class CCK3ControlPanel extends JPanel {
 //        return placeInPanel( SimStrings.get( "CCK3ControlPanel.FilePanelBorder" ), filePanelContents, BASIC_INSETS, GridBagConstraints.WEST );
     }
 
+//    private static JPanel placeInPanel( String title, JPanel contents, Insets insets, int anchor ) {
+//        GridBagConstraints constraints = new GridBagConstraints( 0, 0, 1, 1, 0, 0, anchor, GridBagConstraints.NONE, insets, 10, 0 );
+//        JPanel panel = new JPanel( new GridBagLayout() );
+////        panel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), title ) );
+//        panel.setBorder( new TitledBorder( BorderFactory.createRaisedBevelBorder(), title ) {
+//            public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
+//                Graphics2D g2 = (Graphics2D)g;
+//                g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+//                super.paintBorder( c, g, x, y, width, height );
+//            }
+//        } );
+//        panel.add( Box.createRigidArea( new Dimension( 10, 0 ) ), constraints );
+//        constraints.gridx++;
+//        panel.add( contents, constraints );
+//        constraints.weightx = 1;
+//        constraints.gridx++;
+//        panel.add( Box.createRigidArea( new Dimension( 1, 0 ) ), constraints );
+//        return panel;
+//    }
+
     private static JPanel placeInPanel( String title, JPanel contents, Insets insets, int anchor ) {
-        GridBagConstraints constraints = new GridBagConstraints( 0, 0, 1, 1, 0, 0, anchor, GridBagConstraints.NONE, insets, 10, 0 );
-        JPanel panel = new JPanel( new GridBagLayout() );
-//        panel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), title ) );
-        panel.setBorder( new TitledBorder( BorderFactory.createRaisedBevelBorder(), title ) {
+        contents.setBorder( new TitledBorder( BorderFactory.createRaisedBevelBorder(), title ) {
             public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
-                Graphics2D g2 = (Graphics2D)g;
+                Graphics2D g2 = (Graphics2D) g;
                 g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
                 super.paintBorder( c, g, x, y, width, height );
             }
         } );
-        panel.add( Box.createRigidArea( new Dimension( 10, 0 ) ), constraints );
-        constraints.gridx++;
-        panel.add( contents, constraints );
-        constraints.weightx = 1;
-        constraints.gridx++;
-        panel.add( Box.createRigidArea( new Dimension( 1, 0 ) ), constraints );
-        return panel;
+        return contents;
     }
-
+    
     private JPanel makeAdvancedPanel() {
-        JPanel circuitPanel = new JPanel();
-
-        circuitPanel.setLayout( new BoxLayout( circuitPanel, BoxLayout.Y_AXIS ) );
+        VerticalLayoutPanel circuitPanel = new VerticalLayoutPanel();
+        circuitPanel.setFill( GridBagConstraints.NONE );
+        
+//        circuitPanel.setLayout( new BoxLayout( circuitPanel, BoxLayout.Y_AXIS ) );
 //        circuitPanel.add( advanced );
         final String enable = SimStrings.get( "CCK3ControlPanel.Enable" );
         final String disable = SimStrings.get( "CCK3ControlPanel.Disable" );
