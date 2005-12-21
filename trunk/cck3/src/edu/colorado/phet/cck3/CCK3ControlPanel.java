@@ -1,28 +1,6 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.DecimalFormat;
-import java.util.Arrays;
-import java.util.Random;
-
-import javax.jnlp.*;
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import net.n3.nanoxml.*;
-
-import org.srr.localjnlp.ServiceSource;
-import org.srr.localjnlp.local.InputStreamFileContents;
-
 import edu.colorado.phet.cck3.circuit.Circuit;
 import edu.colorado.phet.cck3.circuit.components.Battery;
 import edu.colorado.phet.cck3.circuit.kirkhoff.KirkhoffSolver;
@@ -34,6 +12,28 @@ import edu.colorado.phet.common.view.help.HelpPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
+import net.n3.nanoxml.*;
+import org.srr.localjnlp.ServiceSource;
+import org.srr.localjnlp.local.InputStreamFileContents;
+
+import javax.jnlp.BasicService;
+import javax.jnlp.FileContents;
+import javax.jnlp.FileOpenService;
+import javax.jnlp.FileSaveService;
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.text.DecimalFormat;
+import java.util.Arrays;
+import java.util.Random;
 
 /**
  * User: Sam Reid
@@ -50,8 +50,6 @@ public class CCK3ControlPanel extends JPanel {
     private JPanel circuitPanel;
 
     public CCK3ControlPanel( final CCK3Module module ) {
-//        module.
-//        useAdvancedControlPanel = !CCK3Module.SHOW_GRAB_BAG;
         useAdvancedControlPanel = module.getParameters().getUseAdvancedControlPanel();
 
         advancedControlPanel = new AdvancedControlPanel( module );
@@ -96,7 +94,6 @@ public class CCK3ControlPanel extends JPanel {
                 module.getCircuit().toXML();
             }
         } );
-        //        add( xml );
 
         JButton changeBunch = new JButton( SimStrings.get( "CCK3ControlPanel.ChangeViewButton" ) );
         changeBunch.addActionListener( new ActionListener() {
@@ -108,7 +105,6 @@ public class CCK3ControlPanel extends JPanel {
                 }
             }
         } );
-        //        add( changeBunch );
         JButton manyComp = new JButton( SimStrings.get( "CCK3ControlPanel.AddBatteriesButton" ) );
         final Random rand = new Random( 0 );
         manyComp.addActionListener( new ActionListener() {
@@ -125,7 +121,6 @@ public class CCK3ControlPanel extends JPanel {
                 module.relayout( module.getCircuit().getBranches() );
             }
         } );
-//                add( manyComp );
 
         this.setLayout( new BorderLayout() );
         JPanel titlePanel = new JPanel();
@@ -156,9 +151,6 @@ public class CCK3ControlPanel extends JPanel {
         helpPanel.add( hp, helpPanelConstraints );
 
         this.add( helpPanel, BorderLayout.SOUTH );
-//        if( CCK3Module.SHOW_GRAB_BAG ) {
-//            addGrabBag();
-//        }
         if( module.getParameters().showGrabBag() ) {
             addGrabBag();
         }
@@ -210,11 +202,8 @@ public class CCK3ControlPanel extends JPanel {
         } );
         zoom.setSize( 50, zoom.getPreferredSize().height );
         zoom.setPreferredSize( new Dimension( 50, zoom.getPreferredSize().height ) );
-//                add( zoom );
 
         JPanel zoomPanel = new VerticalLayoutPanel();
-//        zoomPanel.setLayout( new BoxLayout( zoomPanel, BoxLayout.Y_AXIS ) );
-//        zoomPanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Size" ) );
         ButtonGroup zoomGroup = new ButtonGroup();
         JRadioButton small = new JRadioButton( SimStrings.get( "CCK3ControlPanel.SmallRadioButton" ) );
         small.addActionListener( new ActionListener() {
@@ -241,15 +230,11 @@ public class CCK3ControlPanel extends JPanel {
         zoomPanel.add( large );
         zoomPanel.add( medium );
         zoomPanel.add( small );
-//        return placeInPanel( SimStrings.get( "CCK3ControlPanel.SizePanelBorder" ), zoomPanel, new Insets( 0, 10, 0, 10 ) );
         return placeInPanel( SimStrings.get( "CCK3ControlPanel.SizePanelBorder" ), zoomPanel, BASIC_INSETS, GridBagConstraints.WEST );
     }
 
     private JPanel makeToolPanel() {
-
-        //        add( virtualAmmeter );
         JPanel toolPanel = new JPanel();
-        //        toolPanel.setLayout( new BoxLayout( toolPanel, BoxLayout.Y_AXIS ) );
         toolPanel.setLayout( new GridBagLayout() );
         GridBagConstraints lhs = new GridBagConstraints( 1, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
         GridBagConstraints rhs = new GridBagConstraints( 0, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
@@ -288,23 +273,14 @@ public class CCK3ControlPanel extends JPanel {
         if( module.getParameters().useNonContactAmmeter() ) {
             toolPanel.add( virtualAmmeter, rhs );
         }
-//        if( !module.isVirtualLabMode() && module.getParameters().useNonContactAmmeter() ) {
-//            toolPanel.add( virtualAmmeter, rhs );
-//        }
         lhs.gridy = 0;
         toolPanel.add( new JLabel( voltIcon ), lhs );
         lhs.gridy++;
         toolPanel.add( new JLabel( ammIcon ), lhs );
         lhs.gridy++;
-//        if( !module.isVirtualLabMode() && module.getParameters().useNonContactAmmeter() ) {
-//            toolPanel.add( new JLabel( nonContactAmmIcon ), lhs );
-//        }
         if( module.getParameters().useNonContactAmmeter() ) {
             toolPanel.add( new JLabel( nonContactAmmIcon ), lhs );
         }
-
-//        toolPanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), SimStrings.get( "CCK3ControlPanel.ToolsPanelBorder" ) ) );
-//        return placeInPanel( SimStrings.get( "CCK3ControlPanel.ToolsPanelBorder" ), toolPanel, new Insets( 0, 10, 0, 10 ) );
         return placeInPanel( SimStrings.get( "CCK3ControlPanel.ToolsPanelBorder" ), toolPanel, BASIC_INSETS, GridBagConstraints.WEST );
     }
 
@@ -334,9 +310,6 @@ public class CCK3ControlPanel extends JPanel {
         } );
 
         JPanel visualizationPanel = new VerticalLayoutPanel();
-//        visualizationPanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Visual" ) );
-//        visualizationPanel.setLayout( new BoxLayout( visualizationPanel, BoxLayout.Y_AXIS ) );
-
         visualizationPanel.add( lifelike );
         if( module.getParameters().allowSchematicMode() ) {
             visualizationPanel.add( schematic );
@@ -344,10 +317,6 @@ public class CCK3ControlPanel extends JPanel {
         if( module.getParameters().allowShowReadouts() ) {
             visualizationPanel.add( showReadouts );
         }
-//        if( !module.isVirtualLabMode() || CCK3Module.SHOW_GRAB_BAG ) {
-//            visualizationPanel.add( showReadouts );
-//        }
-//        return placeInPanel( SimStrings.get( "CCK3ControlPanel.VisualPanelBorder" ), visualizationPanel, new Insets( 0, 10, 0, 10 ) );
         return placeInPanel( SimStrings.get( "CCK3ControlPanel.VisualPanelBorder" ), visualizationPanel, BASIC_INSETS, GridBagConstraints.WEST );
     }
 
@@ -401,10 +370,8 @@ public class CCK3ControlPanel extends JPanel {
     public void showHelpGIF() {
         ServiceSource ss = new ServiceSource();
         BasicService bs = ss.getBasicService();
-        //        URL url=getClass().getClassLoader().getResource( "cck.pdf");
         URL url = null;
         try {
-            //            url = new URL( "http://www.colorado.edu/physics/phet/projects/cck/cck.pdf" );
             url = new URL( SimStrings.get( "CCK3ControlPanel.CCKHelpGifURL" ) );
             System.out.println( "url = " + url );
             bs.showDocument( url );
@@ -412,65 +379,6 @@ public class CCK3ControlPanel extends JPanel {
         catch( MalformedURLException e ) {
             e.printStackTrace();
         }
-    }
-
-    private void download() {
-        DownloadService ds = null;
-        try {
-            ds = (DownloadService)ServiceManager.lookup( SimStrings.get( "CCK3ControlPanel.JnlpDownloadService" ) );
-        }
-        catch( UnavailableServiceException e ) {
-            ds = null;
-        }
-
-        if( ds != null ) {
-
-            try {
-
-                // determine if a particular resource is cached
-                final URL url =
-                        new URL( SimStrings.get( "CCK3ControlPanel.CCKHelpJarURL" ) );
-                //                        new URL( "http://www.colorado.edu/physics/phet/projects/cck/v8/help.jar" );
-                boolean cached = ds.isResourceCached( url, "1.0" );
-                System.out.println( "cached = " + cached );
-                // remove the resource from the cache
-                if( cached ) {
-                    System.out.println( "Removing." );
-                    ds.removeResource( url, "1.0" );
-                }
-                // reload the resource into the cache
-
-                final DownloadServiceListener dsl = ds.getDefaultProgressWindow();
-                DownloadServiceListener mydsl = new DownloadServiceListener() {
-                    public void downloadFailed( URL url, String s ) {
-                        dsl.downloadFailed( url, s );
-                        System.out.println( "Failed." );
-                    }
-
-                    public void progress( URL url, String s, long l, long l1, int i ) {
-                        dsl.progress( url, s, l, l1, i );
-                        System.out.println( "progress" );
-                    }
-
-                    public void upgradingArchive( URL url, String s, int i, int i1 ) {
-                        dsl.upgradingArchive( url, s, i, i1 );
-                        System.out.println( "upgrading" );
-                    }
-
-                    public void validating( URL url, String s, long l, long l1, int i ) {
-                        dsl.validating( url, s, l, l1, i );
-                        System.out.println( "validating." );
-                    }
-                };
-                System.out.println( "Calling loadResource" );
-                ds.loadResource( url, "1.0", mydsl );
-                System.out.println( "Finished calling loadresource." );
-            }
-            catch( Exception e ) {
-                e.printStackTrace();
-            }
-        }
-        //        }
     }
 
     public void showHelpImage() {
@@ -498,7 +406,6 @@ public class CCK3ControlPanel extends JPanel {
             JOptionPane.showMessageDialog( module.getApparatusPanel(), sw.getBuffer().toString(),
                                            SimStrings.get( "CCK3ControlPanel.ErrorLoadingHelpDialog" ), JOptionPane.ERROR_MESSAGE );
         }
-
     }
 
     private void zoom( double scale ) {
@@ -530,14 +437,6 @@ public class CCK3ControlPanel extends JPanel {
                 super.paintComponent( g );
             }
         };
-
-//        String html = toHTML( plainText );
-//        JEditorPane jta = new JEditorPane( "text/html", html ) {
-//            protected void paintComponent( Graphics g ) {
-//                SwingUtils.setAntiAliasingOn( (Graphics2D)g );
-//                super.paintComponent( g );
-//            }
-//        };
         jta.setEditable( false );
         String[] names = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
         if( Arrays.asList( names ).contains( "Courier New" ) ) {
@@ -578,8 +477,6 @@ public class CCK3ControlPanel extends JPanel {
                 }
             }
         } );
-        //        filePanel.add( save );
-        //        filePanel.add( load );
 
         JButton clear = new JButton( SimStrings.get( "CCK3ControlPanel.ClearButton" ) );
         clear.addActionListener( new ActionListener() {
@@ -598,56 +495,24 @@ public class CCK3ControlPanel extends JPanel {
         filePanelContents.add( clear );
         filePanelContents.add( save );
         filePanelContents.add( load );
-
-        //        JPanel filePanel = createJPanel( SimStrings.get( "CCK3ControlPanel.FilePanelBorder" ), filePanelContents );
-        //        filePanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), SimStrings.get( "CCK3ControlPanel.FilePanelBorder" ) ) );
-        //        filePanel.setLayout( new GridBagLayout() );
-        //                SwingUtils.addGridBagComponent( filePanel, Box.createRigidArea( new Dimension( ) ), );
-        //        Insets insets = new Insets( 0, 10, 0, 10 );
-
-        //        SwingUtils.addGridBagComponent( filePanel, filePanelContents, 0, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.CENTER, insets );
         return placeInPanel( SimStrings.get( "CCK3ControlPanel.FilePanelBorder" ),
                              filePanelContents, new Insets( 0, 10, 0, 10 ), GridBagConstraints.CENTER );
-//        return placeInPanel( SimStrings.get( "CCK3ControlPanel.FilePanelBorder" ), filePanelContents, BASIC_INSETS, GridBagConstraints.WEST );
     }
-
-//    private static JPanel placeInPanel( String title, JPanel contents, Insets insets, int anchor ) {
-//        GridBagConstraints constraints = new GridBagConstraints( 0, 0, 1, 1, 0, 0, anchor, GridBagConstraints.NONE, insets, 10, 0 );
-//        JPanel panel = new JPanel( new GridBagLayout() );
-////        panel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), title ) );
-//        panel.setBorder( new TitledBorder( BorderFactory.createRaisedBevelBorder(), title ) {
-//            public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
-//                Graphics2D g2 = (Graphics2D)g;
-//                g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-//                super.paintBorder( c, g, x, y, width, height );
-//            }
-//        } );
-//        panel.add( Box.createRigidArea( new Dimension( 10, 0 ) ), constraints );
-//        constraints.gridx++;
-//        panel.add( contents, constraints );
-//        constraints.weightx = 1;
-//        constraints.gridx++;
-//        panel.add( Box.createRigidArea( new Dimension( 1, 0 ) ), constraints );
-//        return panel;
-//    }
 
     private static JPanel placeInPanel( String title, JPanel contents, Insets insets, int anchor ) {
         contents.setBorder( new TitledBorder( BorderFactory.createRaisedBevelBorder(), title ) {
             public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
-                Graphics2D g2 = (Graphics2D) g;
+                Graphics2D g2 = (Graphics2D)g;
                 g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
                 super.paintBorder( c, g, x, y, width, height );
             }
         } );
         return contents;
     }
-    
+
     private JPanel makeAdvancedPanel() {
         VerticalLayoutPanel circuitPanel = new VerticalLayoutPanel();
         circuitPanel.setFill( GridBagConstraints.NONE );
-        
-//        circuitPanel.setLayout( new BoxLayout( circuitPanel, BoxLayout.Y_AXIS ) );
-//        circuitPanel.add( advanced );
         final String enable = SimStrings.get( "CCK3ControlPanel.Enable" );
         final String disable = SimStrings.get( "CCK3ControlPanel.Disable" );
         final JButton expand = new JButton( enable );
@@ -663,7 +528,6 @@ public class CCK3ControlPanel extends JPanel {
                     expand.setText( enable );
                     module.setAdvancedEnabled( false );
                 }
-//                module.regainFocus();
             }
         } );
 
@@ -686,7 +550,6 @@ public class CCK3ControlPanel extends JPanel {
         private JDialog dialog;
         private PhetSlider resistivitySlider;
         private GridBagConstraints constraints;
-//        private JCheckBox internalResistanceEnabled;
         private JCheckBox hideElectrons;
 
         void addMe( Component component ) {
@@ -699,8 +562,6 @@ public class CCK3ControlPanel extends JPanel {
             Insets insets = new Insets( 0, 0, 0, 0 );
             constraints = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0 );
             setLayout( new GridBagLayout() );
-//            double minResistivitySliderValue = 0.01;
-//            double minResistivitySliderValue = 0.01;
             resistivitySlider = new PhetSlider( SimStrings.get( "CCK3ControlPanel.WireResistivitySlider" ),
                                                 SimStrings.get( "CCK3ControlPanel.WireResistivitySliderMeasure" ),
                                                 CCK3Module.ResistivityManager.DEFAULT_RESISTIVITY, 1, module.getResistivityManager().getResistivity(),
@@ -732,15 +593,6 @@ public class CCK3ControlPanel extends JPanel {
                     module.getResistivityManager().setResistivity( value );
                 }
             } );
-
-//            internalResistanceEnabled = new JCheckBox( SimStrings.get( "CCK3ControlPanel.InternalResistanceCheckBox" ),
-//                                                       module.isInternalResistanceOn() );
-//            internalResistanceEnabled.addActionListener( new ActionListener() {
-//                public void actionPerformed( ActionEvent e ) {
-//                    module.setInternalResistanceOn( internalResistanceEnabled.isSelected() );
-//                }
-//            } );
-//            addMe( internalResistanceEnabled );
 
             JButton printKirkhoffsLaws = new JButton( SimStrings.get( "CCK3ControlPanel.ShowEquationsButton" ) );
             printKirkhoffsLaws.addActionListener( new ActionListener() {
@@ -793,22 +645,4 @@ public class CCK3ControlPanel extends JPanel {
         }
     }
 
-//    public boolean isInternalResistanceEnabled() {
-//        return advancedControlPanel.internalResistanceEnabled.isSelected();
-//    }
 }
-
-//        super.showMegaHelp();
-//        ServiceSource ss = new ServiceSource();
-//        BasicService bs = ss.getBasicService();
-////        URL url=getClass().getClassLoader().getResource( "cck.pdf");
-//        URL url = null;
-//        try {
-//            url = new URL( "http://www.colorado.edu/physics/phet/projects/cck/cck.pdf" );
-////            url = new URL( "http://www.colorado.edu/physics/phet/projects/cck/cck-help.gif" );
-//            System.out.println( "url = " + url );
-//            bs.showDocument( url );
-//        }
-//        catch( MalformedURLException e ) {
-//            e.printStackTrace();
-//        }
