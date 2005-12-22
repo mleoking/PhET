@@ -297,18 +297,11 @@ public class QTConfig implements Serializable {
             else if ( potentialEnergy instanceof StepPotential ) {
                 potentialType = PotentialType.STEP;
             }
-            else if ( potentialEnergy instanceof BarrierPotential ) {
-                BarrierPotential barrier = (BarrierPotential) potentialEnergy;
-                int numberOfBarriers = barrier.getNumberOfBarriers();
-                if ( numberOfBarriers == 1 ) {
-                    potentialType = PotentialType.SINGLE_BARRIER;
-                }
-                else if ( numberOfBarriers == 2 ) {
-                    potentialType = PotentialType.DOUBLE_BARRIER;
-                }
-                else {
-                    throw new IllegalArgumentException( "unsupported number of barriers: " + numberOfBarriers );
-                }
+            else if ( potentialEnergy instanceof SingleBarrierPotential ) {
+                potentialType = PotentialType.SINGLE_BARRIER;
+            }
+            else if ( potentialEnergy instanceof DoubleBarrierPotential ) {
+                potentialType = PotentialType.DOUBLE_BARRIER;
             }
             else {
                 throw new IllegalArgumentException( "unsupported potential type: " + potentialEnergy.getClass().getName() );
@@ -347,10 +340,10 @@ public class QTConfig implements Serializable {
                 pe = new StepPotential();
             }
             else if ( potentialType == PotentialType.SINGLE_BARRIER ) {
-                pe = new BarrierPotential( 1 );
+                pe = new SingleBarrierPotential();
             }
             else if ( potentialType == PotentialType.DOUBLE_BARRIER ) {
-                pe = new BarrierPotential( 2 );
+                pe = new DoubleBarrierPotential();
             }
             else {
                 throw new IllegalArgumentException( "unsupported potential type: " + _potentialTypeName );

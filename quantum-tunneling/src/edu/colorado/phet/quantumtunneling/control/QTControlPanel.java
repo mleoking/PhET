@@ -30,10 +30,7 @@ import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.enum.Direction;
 import edu.colorado.phet.quantumtunneling.enum.PotentialType;
 import edu.colorado.phet.quantumtunneling.enum.WaveType;
-import edu.colorado.phet.quantumtunneling.model.AbstractPotential;
-import edu.colorado.phet.quantumtunneling.model.BarrierPotential;
-import edu.colorado.phet.quantumtunneling.model.ConstantPotential;
-import edu.colorado.phet.quantumtunneling.model.StepPotential;
+import edu.colorado.phet.quantumtunneling.model.*;
 import edu.colorado.phet.quantumtunneling.module.QTModule;
 
 
@@ -389,17 +386,11 @@ public class QTControlPanel extends AbstractControlPanel {
         else if ( pe instanceof StepPotential ) {
             _potentialComboBox.setSelectedItem( _stepItem );
         }
-        else if ( pe instanceof BarrierPotential ) {
-            int numberOfBarriers = ( (BarrierPotential) pe ).getNumberOfBarriers();
-            if ( numberOfBarriers == 1 ) {
-                _potentialComboBox.setSelectedItem( _singleBarrierItem );
-            }
-            else if ( numberOfBarriers == 2 ) {
-                _potentialComboBox.setSelectedItem( _doubleBarrierItem );
-            }
-            else {
-                throw new IllegalStateException( "unsupported number of barriers: " + numberOfBarriers );
-            }
+        else if ( pe instanceof SingleBarrierPotential ) {
+            _potentialComboBox.setSelectedItem( _singleBarrierItem );
+        }
+        else if ( pe instanceof DoubleBarrierPotential ) {
+            _potentialComboBox.setSelectedItem( _doubleBarrierItem );
         }
         else {
             throw new IllegalStateException( "unsupported potential type: " + pe.getClass().getName() );
@@ -652,10 +643,10 @@ public class QTControlPanel extends AbstractControlPanel {
             pe = new StepPotential();
         }
         else if ( o == _singleBarrierItem ) {
-            pe = new BarrierPotential();
+            pe = new SingleBarrierPotential();
         }
         else if ( o == _doubleBarrierItem ) {
-            pe = new BarrierPotential( 2 );
+            pe = new DoubleBarrierPotential();
         }
         else {
             throw new IllegalStateException( "unsupported potential selection: " + o );

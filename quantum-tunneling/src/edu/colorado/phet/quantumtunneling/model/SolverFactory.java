@@ -40,18 +40,11 @@ public class SolverFactory {
         else if ( pe instanceof StepPotential ) {
             solver = new StepSolver( te, (StepPotential) pe, direction );
         }
-        else if ( pe instanceof BarrierPotential ) {
-            BarrierPotential barrier = (BarrierPotential) pe;
-            int numberOfBarriers = barrier.getNumberOfBarriers();
-            if ( numberOfBarriers == 1 ) {
-                solver = new SingleBarrierSolver( te, barrier, direction );
-            }
-            else if ( numberOfBarriers == 2 ) {
-                solver = new DoubleBarrierSolver( te, barrier, direction );
-            }
-            else {
-                throw new IllegalStateException( "no solution for " + numberOfBarriers + " barriers" );
-            }
+        else if ( pe instanceof SingleBarrierPotential ) {
+            solver = new SingleBarrierSolver( te, (SingleBarrierPotential) pe, direction );
+        }
+        else if ( pe instanceof DoubleBarrierPotential ) {
+            solver = new DoubleBarrierSolver( te, (DoubleBarrierPotential) pe, direction );
         }
         else {
             throw new IllegalArgumentException( "unsupported potential type: " + pe.getClass().getName() );
