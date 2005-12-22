@@ -175,10 +175,10 @@ public abstract class AbstractDragHandle extends PPath implements PropertyChange
      * Toggles the display of the value that corresponds to the
      * drag handles position.
      * 
-     * @param enabled true or false 
+     * @param visible true or false 
      */
-    public void setShowValueEnabled( boolean enabled ) {
-        if ( enabled && _textNode == null ) {
+    public void setValueVisible( boolean visible ) {
+        if ( visible && _textNode == null ) {
             _textNode = new PText();
             addChild( _textNode );
             _textNode.setPickable( false );
@@ -199,7 +199,7 @@ public abstract class AbstractDragHandle extends PPath implements PropertyChange
             _textNode.translate( x, y );
             updateText();
         }
-        else if ( !enabled && _textNode != null ) {
+        else if ( !visible && _textNode != null ) {
             removeChild( _textNode );
             _textNode = null;
         }
@@ -210,7 +210,7 @@ public abstract class AbstractDragHandle extends PPath implements PropertyChange
      * 
      * @return true or false
      */
-    public boolean isShowValueEnabled() {
+    public boolean isValueVisible() {
         return ( _textNode != null );
     }
     

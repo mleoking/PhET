@@ -73,6 +73,10 @@ public class QTModule extends AbstractModule implements Observer {
     private QTClock _clock;
     private TotalEnergy _totalEnergy;
     private AbstractPotential _potentialEnergy;
+    private ConstantPotential _constantPotential;
+    private StepPotential _stepPotential;
+    private SingleBarrierPotential _singleBarrierPotential;
+    private DoubleBarrierPotential _doubleBarrierPotential;
     private PlaneWave _planeWave;
     private WavePacket _wavePacket;
     
@@ -158,11 +162,11 @@ public class QTModule extends AbstractModule implements Observer {
         // Drag handles
         {
             _totalEnergyControl = new TotalEnergyDragHandle( _chartNode );
-            _totalEnergyControl.setShowValueEnabled( QTConstants.SHOW_ENERGY_VALUES );
+            _totalEnergyControl.setValueVisible( QTConstants.SHOW_ENERGY_VALUES );
             _totalEnergyControl.setXAxisPosition( QTConstants.POSITION_RANGE.getUpperBound() - 1 );
             
             _potentialEnergyControls = new PotentialEnergyControls( _chartNode );
-            _potentialEnergyControls.setShowValuesEnabled( QTConstants.SHOW_ENERGY_VALUES );
+            _potentialEnergyControls.setValuesVisible( QTConstants.SHOW_ENERGY_VALUES );
         }
         
         // Add all the nodes to one parent node.
@@ -263,10 +267,26 @@ public class QTModule extends AbstractModule implements Observer {
         {
             TotalEnergy totalEnergy = new TotalEnergy( DEFAULT_TOTAL_ENERGY );
             setTotalEnergy( totalEnergy );
-            // potential energy is set by the control panel's reset method
+            
+            _constantPotential = new ConstantPotential();
+            _stepPotential = new StepPotential();
+            _singleBarrierPotential = new SingleBarrierPotential();
+            _doubleBarrierPotential = new DoubleBarrierPotential();
         }
         
-        _controlPanel.reset();
+        // Controls
+        {
+            _controlPanel.setPotentialType( PotentialType.SINGLE_BARRIER );
+            _controlPanel.setRealSelected( true );
+            _controlPanel.setImaginarySelected( false );
+            _controlPanel.setMagnitudeSelected( false );
+            _controlPanel.setPhaseSelected( false );
+            _controlPanel.setIRView( IRView.SUM );
+            _controlPanel.setDirection( Direction.LEFT_TO_RIGHT );
+            _controlPanel.setWaveType( WaveType.PLANE );
+            _controlPanel.setPacketWidth( QTConstants.DEFAULT_PACKET_WIDTH );
+            _controlPanel.setPacketCenter( QTConstants.DEFAULT_PACKET_CENTER );
+        }
     }
     
     /**
@@ -278,7 +298,7 @@ public class QTModule extends AbstractModule implements Observer {
         QTConfig.ModuleConfig config = appConfig.getModuleConfig();
         
         // Model
-        config.setTotalEnergy( _totalEnergy.getEnergy() );
+        config.saveTotalEnergy( _totalEnergy );
         config.savePotentialEnergy( _potentialEnergy );
         
         // Control panel
@@ -301,6 +321,10 @@ public class QTModule extends AbstractModule implements Observer {
     public void load( QTConfig appConfig ) {
         QTConfig.ModuleConfig config = appConfig.getModuleConfig();
         
+        // Model
+        setTotalEnergy( config.loadTotalEnergy() );
+        setPotentialEnergy( config.loadPotentialEnergy() );
+        
         // Control panel
         _controlPanel.setPotentialType( config.loadPotentialType() );
         _controlPanel.setRealSelected( config.isRealSelected() );
@@ -312,10 +336,6 @@ public class QTModule extends AbstractModule implements Observer {
         _controlPanel.setWaveType( config.loadWaveType() );
         _controlPanel.setPacketWidth( config.getPacketWidth() );
         _controlPanel.setPacketCenter( config.getPacketCenter() );
-        
-        // Model
-        _totalEnergy.setEnergy( config.getTotalEnergy() );
-        setPotentialEnergy( config.loadPotentialEnergy() );
     }
     
     //----------------------------------------------------------------------------
@@ -369,16 +389,16 @@ public class QTModule extends AbstractModule implements Observer {
     public void setPotentialType( PotentialType potentialType ) {
         AbstractPotential pe = null;
         if ( potentialType == PotentialType.CONSTANT ) {
-            pe = new ConstantPotential();
+            pe = _constantPotential;
         }
         else if (  potentialType == PotentialType.STEP ) {
-            pe = new StepPotential();
+            pe = _stepPotential;
         }
         else if (  potentialType == PotentialType.SINGLE_BARRIER ) {
-            pe = new SingleBarrierPotential();
+            pe = _singleBarrierPotential;
         }
         else if (  potentialType == PotentialType.DOUBLE_BARRIER ) {
-            pe = new DoubleBarrierPotential();
+            pe = _doubleBarrierPotential;
         }
         else {
             throw new IllegalStateException( "unsupported potential type: " + potentialType );
@@ -388,21 +408,39 @@ public class QTModule extends AbstractModule implements Observer {
     
     public void setPotentialEnergy( AbstractPotential potentialEnergy ) {
         
-        if ( _potentialEnergy != null ) {
-            _potentialEnergy.deleteObserver( this );
+        // Replace one of the model elements.
+        if ( potentialEnergy instanceof ConstantPotential ) {
+            _constantPotential = (ConstantPotential) potentialEnergy;
         }
-        _potentialEnergy = potentialEnergy;
-        _potentialEnergy.addObserver( this );
+        else if ( potentialEnergy instanceof StepPotential ) {
+            _stepPotential = (StepPotential) potentialEnergy;
+        }
+        else if ( potentialEnergy instanceof SingleBarrierPotential ) {
+            _singleBarrierPotential = (SingleBarrierPotential) potentialEnergy;
+        }
+        else if ( potentialEnergy instanceof DoubleBarrierPotential ) {
+            _doubleBarrierPotential = (DoubleBarrierPotential) potentialEnergy;
+        }
+        else {
+            throw new IllegalArgumentException( "unsupported potential type: " + potentialEnergy.getClass().getName() );
+        }
+            
+        // Wire up the potential so that it's the one displayed.
+        {
+            if ( _potentialEnergy != null ) {
+                _potentialEnergy.deleteObserver( this );
+            }
+            _potentialEnergy = potentialEnergy;
+            _potentialEnergy.addObserver( this );
+
+            _chart.setPotentialEnergy( _potentialEnergy );
+            _controlPanel.setPotentialEnergy( _potentialEnergy );
+            _potentialEnergyControls.setPotentialEnergy( _potentialEnergy );
+            _planeWave.setPotentialEnergy( _potentialEnergy );
+            _wavePacket.setPotentialEnergy( potentialEnergy );
+        }
         
         restartClock();
-        
-        _chart.setPotentialEnergy( _potentialEnergy );
-        if ( _controlPanel != null ) {
-            _controlPanel.setPotentialEnergy( _potentialEnergy );
-        }
-        _potentialEnergyControls.setPotentialEnergy( _potentialEnergy );
-        _planeWave.setPotentialEnergy( _potentialEnergy );
-        _wavePacket.setPotentialEnergy( potentialEnergy );
     }
     
     public void setTotalEnergy( TotalEnergy totalEnergy ) {
@@ -421,13 +459,13 @@ public class QTModule extends AbstractModule implements Observer {
         _wavePacket.setTotalEnergy( totalEnergy );
     }
     
-    public void setShowValuesEnabled( boolean enabled ) {
-        _totalEnergyControl.setShowValueEnabled( enabled );
-        _potentialEnergyControls.setShowValuesEnabled( enabled );
+    public void setValuesVisible( boolean visible ) {
+        _totalEnergyControl.setValueVisible( visible );
+        _potentialEnergyControls.setValuesVisible( visible );
     }
     
-    public boolean isShowValuesEnabled() {
-        return _totalEnergyControl.isShowValueEnabled();
+    public boolean isValuesVisible() {
+        return _totalEnergyControl.isValueVisible();
     }
     
     public void setWaveType( WaveType waveType ) {

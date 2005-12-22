@@ -56,6 +56,8 @@ JFREECHART:
 
 
 DONE:
+(12/22/05) - change a bunch of set*Enabled methods to set*Visible
+(12/22/05) - retain state of potential types when switching between potential types
 (12/22/05) - use Direction enum throughout instead of booleans in some places
 (12/22/05) - create IRView enum for separate & sum views
 (12/22/05) - create convenience classes for single & double barriers
