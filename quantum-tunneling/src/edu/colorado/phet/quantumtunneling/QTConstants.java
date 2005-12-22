@@ -173,6 +173,8 @@ public class QTConstants {
     public static final boolean SHOW_VERTICAL_GRIDLINES = false;
     public static final boolean SHOW_HORIZONTAL_GRIDLINES = true;
     
+    public static final boolean USE_INTEGER_ENERGY_TICKS = false;
+    
     //----------------------------------------------------------------------------
     // Drag Handles
     //----------------------------------------------------------------------------

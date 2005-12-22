@@ -54,6 +54,7 @@ JFREECHART:
 
 
 DONE:
+(12/22/05) - turn off integer ticks on energy graph
 (12/22/05) - change energy range to -1...+1, energy precision to 0.01, clock precision to 0.1
 (12/22/05) - don't update until wave packet width & center sliders are released
 (12/22/05) - save/load all 4 potential configs
