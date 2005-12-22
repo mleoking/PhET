@@ -13,6 +13,8 @@ package edu.colorado.phet.quantumtunneling.persistence;
 
 import java.io.Serializable;
 
+import edu.colorado.phet.quantumtunneling.enum.Direction;
+import edu.colorado.phet.quantumtunneling.enum.IRView;
 import edu.colorado.phet.quantumtunneling.enum.PotentialType;
 import edu.colorado.phet.quantumtunneling.enum.WaveType;
 import edu.colorado.phet.quantumtunneling.model.*;
@@ -138,8 +140,8 @@ public class QTConfig implements Serializable {
         private boolean _imaginarySelected;
         private boolean _magnitudeSelected;
         private boolean _phaseSelected;
-        private boolean _separateSelected;
-        private boolean _leftToRightSelected;
+        private String _irViewName;
+        private String _directionName;
         private String _waveTypeName;
         private double _packetWidth;
         private double _packetCenter;
@@ -173,12 +175,12 @@ public class QTConfig implements Serializable {
             _imaginarySelected = imaginarySelected;
         }
         
-        public boolean isLeftToRightSelected() {
-            return _leftToRightSelected;
+        public String getDirectionName() {
+            return _directionName;
         }
         
-        public void setLeftToRightSelected( boolean leftToRightSelected ) {
-            _leftToRightSelected = leftToRightSelected;
+        public void setDirectionName( String directionName ) {
+            _directionName = directionName;
         }
         
         public boolean isMagnitudeSelected() {
@@ -221,12 +223,12 @@ public class QTConfig implements Serializable {
             _realSelected = realSelected;
         }
         
-        public boolean isSeparateSelected() {
-            return _separateSelected;
+        public String getIRViewName() {
+            return _irViewName;
         }
         
-        public void setSeparateSelected( boolean separateSelected ) {
-            _separateSelected = separateSelected;
+        public void setIRViewName( String irViewName ) {
+            _irViewName = irViewName;
         }
         
         public double getTotalEnergy() {
@@ -271,6 +273,22 @@ public class QTConfig implements Serializable {
         
         public PotentialType loadPotentialType() {
             return PotentialType.getByName( getPotentialTypeName() );
+        }
+        
+        public void saveIRView( IRView irView ) {
+            setIRViewName( irView.getName() );
+        }
+        
+        public IRView loadIRView() {
+            return IRView.getByName( getIRViewName() );
+        }
+        
+        public void saveDirection( Direction direction ) {
+            setDirectionName( direction.getName() );
+        }
+        
+        public Direction loadDirection() {
+            return Direction.getByName( getDirectionName() );
         }
         
         public void saveWaveType( WaveType waveType ) {

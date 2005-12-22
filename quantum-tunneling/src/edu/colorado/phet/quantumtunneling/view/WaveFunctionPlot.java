@@ -25,6 +25,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
+import edu.colorado.phet.quantumtunneling.enum.IRView;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotential;
 import edu.colorado.phet.quantumtunneling.model.AbstractWave;
 import edu.colorado.phet.quantumtunneling.model.WaveFunctionSolution;
@@ -68,7 +69,7 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
     private XYSeries _reflectedMagnitudeSeries;
     private XYSeries _probabilityDensitySeries;
     
-    private boolean _viewSeparateEnabled;
+    private IRView _irView;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -136,7 +137,7 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
         setRangeAxis( yAxis );
         
         _wave = null;
-        _viewSeparateEnabled = false;
+        _irView = IRView.SUM;
     }
     
     //----------------------------------------------------------------------------
@@ -175,8 +176,8 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
         //XXX
     }
     
-    public void setViewSeparateEnabled( boolean enabled ) {
-        _viewSeparateEnabled = enabled;
+    public void setIRView( IRView irView ) {
+        _irView = irView;
         updateDatasets();
     }
     
@@ -222,7 +223,7 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
         for ( double x = minX; x < maxX; x += X_STEP ) {
             WaveFunctionSolution solution = _wave.solveWaveFunction( x );
             if ( solution != null ) {
-                if ( _viewSeparateEnabled ) {
+                if ( _irView == IRView.SEPARATE ) {
                     // Display the incident and reflected waves separately.
                     Complex incidentPart = solution.getIncidentPart();
                     if ( incidentPart != null ) {
