@@ -299,9 +299,14 @@ public class QTModule extends AbstractModule implements Observer {
         
         // Model
         config.saveTotalEnergy( _totalEnergy );
-        config.savePotentialEnergy( _potentialEnergy );
+        config.setMinRegionWidth( _constantPotential.getMinRegionWidth() ); // assume the same for all potentials!
+        config.saveConstantPotential( _constantPotential );
+        config.saveStepPotential( _stepPotential );
+        config.saveSingleBarrierPotential( _singleBarrierPotential );
+        config.saveDoubleBarrierPotential( _doubleBarrierPotential );
         
         // Control panel
+        config.savePotentialType( _controlPanel.getPotentialType() );
         config.setRealSelected( _controlPanel.isRealSelected() );
         config.setImaginarySelected( _controlPanel.isImaginarySelected() );
         config.setMagnitudeSelected( _controlPanel.isMagnitudeSelected( ) );
@@ -323,7 +328,10 @@ public class QTModule extends AbstractModule implements Observer {
         
         // Model
         setTotalEnergy( config.loadTotalEnergy() );
-        setPotentialEnergy( config.loadPotentialEnergy() );
+        setConstantPotential( config.loadConstantPotential() );
+        setStepPotential( config.loadStepPotential() );
+        setSingleBarrierPotential( config.loadSingleBarrierPotential() );
+        setDoubleBarrierPotential( config.loadDoubleBarrierPotential() );
         
         // Control panel
         _controlPanel.setPotentialType( config.loadPotentialType() );
@@ -441,6 +449,42 @@ public class QTModule extends AbstractModule implements Observer {
         }
         
         restartClock();
+    }
+    
+    public void setConstantPotential( ConstantPotential potential ) {
+        if ( _potentialEnergy == _constantPotential ) {
+            setPotentialEnergy( potential );
+        }
+        else {
+            _constantPotential = potential;
+        }
+    }
+    
+    public void setStepPotential( StepPotential potential ) {
+        if ( _potentialEnergy == _stepPotential ) {
+            setPotentialEnergy( potential );
+        }
+        else {
+            _stepPotential = potential;
+        }
+    }
+    
+    public void setSingleBarrierPotential( SingleBarrierPotential potential ) {
+        if ( _potentialEnergy == _singleBarrierPotential ) {
+            setPotentialEnergy( potential );
+        }
+        else {
+            _singleBarrierPotential = potential;
+        }
+    }
+    
+    public void setDoubleBarrierPotential( DoubleBarrierPotential potential ) {
+        if ( _potentialEnergy == _doubleBarrierPotential ) {
+            setPotentialEnergy( potential );
+        }
+        else {
+            _doubleBarrierPotential = potential;
+        }
     }
     
     public void setTotalEnergy( TotalEnergy totalEnergy ) {
