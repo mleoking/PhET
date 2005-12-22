@@ -278,8 +278,20 @@ public class QTModule extends AbstractModule implements Observer {
     public void save( QTConfig appConfig ) {
         QTConfig.ModuleConfig config = appConfig.getModuleConfig();
         
-        // Read simulation state and write it to the config.
-        //XXX
+        // Model
+        config.setTotalEnergy( _totalEnergy.getEnergy() );
+        config.savePotentialEnergy( _potentialEnergy );
+        
+        // Control panel
+        config.setRealSelected( _controlPanel.isRealSelected() );
+        config.setImaginarySelected( _controlPanel.isImaginarySelected() );
+        config.setMagnitudeSelected( _controlPanel.isMagnitudeSelected( ) );
+        config.setPhaseSelected( _controlPanel.isPhaseSelected() );
+        config.setSeparateSelected( _controlPanel.isSeparateSelected() );
+        config.setLeftToRightSelected( _controlPanel.isLeftToRightSelected() );
+        config.saveWaveType( _controlPanel.getWaveType() );
+        config.setPacketWidth( _controlPanel.getPacketWidth() );
+        config.setPacketCenter( _controlPanel.getPacketCenter() );
     }
     
     /**
@@ -290,8 +302,21 @@ public class QTModule extends AbstractModule implements Observer {
     public void load( QTConfig appConfig ) {
         QTConfig.ModuleConfig config = appConfig.getModuleConfig();
         
-        // Read from the config and set simulations state.
-        //XXX
+        // Control panel
+        _controlPanel.setPotentialType( config.loadPotentialType() );
+        _controlPanel.setRealSelected( config.isRealSelected() );
+        _controlPanel.setImaginarySelected( config.isImaginarySelected() );
+        _controlPanel.setMagnitudeSelected( config.isMagnitudeSelected() );
+        _controlPanel.setPhaseSelected( config.isPhaseSelected() );
+        _controlPanel.setSeparateSelected( config.isSeparateSelected() );
+        _controlPanel.setLeftToRightSelected( config.isLeftToRightSelected() );
+        _controlPanel.setWaveType( config.loadWaveType() );
+        _controlPanel.setPacketWidth( config.getPacketWidth() );
+        _controlPanel.setPacketCenter( config.getPacketCenter() );
+        
+        // Model
+        _totalEnergy.setEnergy( config.getTotalEnergy() );
+        setPotentialEnergy( config.loadPotentialEnergy() );
     }
     
     //----------------------------------------------------------------------------

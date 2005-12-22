@@ -474,7 +474,7 @@ public class QTControlPanel extends AbstractControlPanel {
         handleMagnitudeSelection();
     }
     
-    public boolean isMagnitudeSelected( boolean selected ) {
+    public boolean isMagnitudeSelected() {
         return _magnitudeCheckBox.isSelected();
     }
     
@@ -502,7 +502,7 @@ public class QTControlPanel extends AbstractControlPanel {
      * 
      * @return
      */
-    private boolean isSeparateSelected() {
+    public boolean isSeparateSelected() {
         return _separateRadioButton.isSelected();
     }
     
@@ -567,6 +567,10 @@ public class QTControlPanel extends AbstractControlPanel {
     public void setPacketCenter( double center ) {
         _centerSlider.setValue( center );
         handleCenterSlider();
+    }
+    
+    public double getPacketCenter() {
+        return _centerSlider.getValue();
     }
     
     //----------------------------------------------------------------------------

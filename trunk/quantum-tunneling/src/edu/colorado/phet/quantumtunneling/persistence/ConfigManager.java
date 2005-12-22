@@ -65,24 +65,15 @@ public class ConfigManager {
         // Save the application's configuration
         QTConfig config = new QTConfig();
         {
+            // Globals 
+            _app.save( config );
+            
             // Modules
             Module[] modules = _app.getModuleManager().getModules();
             for ( int i = 0; i < modules.length; i++ ) {
                 if ( modules[i] instanceof AbstractModule ) {
                     ( (AbstractModule) modules[i] ).save( config );
                 }
-            }
-
-            // Globals
-            {
-                QTConfig.GlobalConfig globalConfig = config.getGlobalConfig();
-                
-                // Version & build info
-                globalConfig.setVersionNumber( Version.NUMBER );
-                globalConfig.setCvsTag( Version.CVS_TAG );
-
-                // Show Values flag
-                //XXX
             }
         }
         
@@ -133,18 +124,15 @@ public class ConfigManager {
         JFrame frame = _app.getPhetFrame();
         frame.setCursor( QTConstants.WAIT_CURSOR );
         {
+            // Global
+            _app.load( config );
+            
             // Modules
             Module[] modules = _app.getModuleManager().getModules();
             for ( int i = 0; i < modules.length; i++ ) {
                 if ( modules[i] instanceof AbstractModule ) {
                     ( (AbstractModule) modules[i] ).load( config );
                 }
-            }
-
-            // Globals
-            {
-                // Show Values flag
-                //XXX
             }
         }
         frame.setCursor( QTConstants.DEFAULT_CURSOR );
@@ -355,7 +343,7 @@ public class ConfigManager {
      */
     public void showError( String format, String errorMessage ) {
         JFrame frame = _app.getPhetFrame();
-        String title = SimStrings.get( "error.title" );
+        String title = SimStrings.get( "title.error" );
         Object[] args = { errorMessage };
         String message = MessageFormat.format( format, args );
         JOptionPane.showMessageDialog( frame, message, title, JOptionPane.ERROR_MESSAGE );

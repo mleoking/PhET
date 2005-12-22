@@ -3,6 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
+- Save/Load
 
 HIGH PRIORITY:
 - implement phase view
@@ -11,7 +12,6 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 - implement Schrodinger's equation for 1 dimension
 - add application description to SimStrings files
-- Save/Load
 - Help items
 - hook up Loop button
 
@@ -56,6 +56,7 @@ JFREECHART:
 
 
 DONE:
+(12/22/05) - flesh out save/load feature
 (12/21/05) - put barrier positions above widths in Configure dialog
 (12/21/05) - make direction selection more obvious (select arrows, hilite arrows)
 (12/21/05) - fixed 2 bugs in denominator of DoubleBarrierSolver

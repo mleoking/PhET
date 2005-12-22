@@ -67,6 +67,18 @@ public class OptionsMenu extends JMenu {
     }
 
     //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    public void setShowValuesSelected( boolean selected ) {
+        _showValuesMenuItem.setSelected( selected );
+    }
+    
+    public boolean getShowValuesSelected() {
+        return _showValuesMenuItem.isSelected();
+    }
+    
+    //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------
     
