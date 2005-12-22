@@ -69,7 +69,7 @@ public class PhotoelectricApplication extends PhetApplication {
         setModules( new Module[]{photoelectricModule} );
 
         // Add an option to show photons
-        final JCheckBoxMenuItem photonMI = new JCheckBoxMenuItem( "Show photons" );
+        final JCheckBoxMenuItem photonMI = new JCheckBoxMenuItem( SimStrings.get( "Menu.PhotonView" ));
         photonMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 photoelectricModule.setPhotonViewEnabled( photonMI.isSelected() );

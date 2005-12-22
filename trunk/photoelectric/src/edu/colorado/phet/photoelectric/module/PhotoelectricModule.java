@@ -20,6 +20,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.control.BatterySlider;
 import edu.colorado.phet.dischargelamps.model.Battery;
@@ -107,7 +108,7 @@ public class PhotoelectricModule extends BaseLaserModule {
      * @param application
      */
     public PhotoelectricModule( PhotoelectricApplication application ) {
-        super( "Photoelectric Effect", application.getClock() );
+        super( SimStrings.get( "ModuleTitle.PhotoelectricEfect" ), application.getClock() );
 
         // Set up the basic stuff
         AbstractClock clock = application.getClock();
