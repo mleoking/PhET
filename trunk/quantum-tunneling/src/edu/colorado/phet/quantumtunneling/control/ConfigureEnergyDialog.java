@@ -92,7 +92,7 @@ public class ConfigureEnergyDialog extends JDialog {
     // Input area
     private JPanel _inputPanel;
     private JComboBox _potentialComboBox;
-    private Object _constantItem, _stepItem, _barrierItem, _doubleBarrierItem; // potential choices
+    private Object _constantItem, _stepItem, _singleBarrierItem, _doubleBarrierItem; // potential choices
     private JSpinner _teSpinner;
     private ArrayList _peSpinners; // array of JSpinner
     private JSpinner _stepSpinner;
@@ -236,11 +236,11 @@ public class ConfigureEnergyDialog extends JDialog {
             JLabel potentialLabel = new JLabel( SimStrings.get( "label.potential" ) );
             _constantItem = SimStrings.get( "choice.potential.constant" );
             _stepItem = SimStrings.get( "choice.potential.step" );
-            _barrierItem = SimStrings.get( "choice.potential.barrier" );
+            _singleBarrierItem = SimStrings.get( "choice.potential.barrier" );
             _doubleBarrierItem = SimStrings.get( "choice.potential.double" );
             
             // Potential menu...
-            Object[] items = { _constantItem, _stepItem, _barrierItem, _doubleBarrierItem };
+            Object[] items = { _constantItem, _stepItem, _singleBarrierItem, _doubleBarrierItem };
             _potentialComboBox = new JComboBox( items );
             _potentialComboBox.addItemListener( _listener );
 
@@ -417,17 +417,11 @@ public class ConfigureEnergyDialog extends JDialog {
         else if ( _potentialEnergy instanceof StepPotential ) {
             _potentialComboBox.setSelectedItem( _stepItem );
         }
-        else if ( _potentialEnergy instanceof BarrierPotential ) {
-            int numberOfBarriers = ( (BarrierPotential) _potentialEnergy).getNumberOfBarriers();
-            if ( numberOfBarriers == 1 ) {
-                _potentialComboBox.setSelectedItem( _barrierItem );
-            }
-            else if ( numberOfBarriers == 2 ) {
-                _potentialComboBox.setSelectedItem( _doubleBarrierItem );
-            }
-            else {
-                throw new IllegalStateException( "unsupported number of barriers: " + numberOfBarriers );
-            }
+        else if ( _potentialEnergy instanceof SingleBarrierPotential ) {
+            _potentialComboBox.setSelectedItem( _singleBarrierItem );
+        }
+        else if ( _potentialEnergy instanceof DoubleBarrierPotential ) {
+            _potentialComboBox.setSelectedItem( _doubleBarrierItem );
         }
         else {
             throw new IllegalStateException( "unsupported potential type: " + _potentialEnergy.getClass().getName() );
@@ -652,11 +646,11 @@ public class ConfigureEnergyDialog extends JDialog {
         else if ( o == _stepItem ) {
             potentialEnergy = new StepPotential();
         }
-        else if ( o == _barrierItem ) {
-            potentialEnergy = new BarrierPotential();
+        else if ( o == _singleBarrierItem ) {
+            potentialEnergy = new SingleBarrierPotential();
         }
         else if ( o == _doubleBarrierItem ) {
-            potentialEnergy = new BarrierPotential( 2 );
+            potentialEnergy = new DoubleBarrierPotential();
         }
         else {
             throw new IllegalStateException( "unsupported potential selection: " + o );
@@ -787,8 +781,11 @@ public class ConfigureEnergyDialog extends JDialog {
         else if ( pe instanceof StepPotential ) {
             peNew = new StepPotential( (StepPotential) pe );
         }
+        else if ( pe instanceof SingleBarrierPotential ) {
+            peNew = new SingleBarrierPotential( (SingleBarrierPotential) pe );
+        }
         else if ( pe instanceof BarrierPotential ) {
-            peNew = new BarrierPotential( (BarrierPotential) pe );
+            peNew = new DoubleBarrierPotential( (DoubleBarrierPotential) pe );
         }
         else {
             throw new IllegalStateException( "unsupported potential type: " + pe.getClass().getName() );

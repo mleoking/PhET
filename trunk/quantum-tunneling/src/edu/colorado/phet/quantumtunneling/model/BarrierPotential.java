@@ -36,19 +36,17 @@ public class BarrierPotential extends AbstractPotential {
     //----------------------------------------------------------------------------
     
     /**
-     * Creates a single barrier,.
-     */
-    public BarrierPotential() {
-        this( 1 );
-    }
-    
-    /**
      * Creates a specified number of barriers.
      * 
      * @param numberOfBarriers
      */
     public BarrierPotential( final int numberOfBarriers ) {
         super( ( numberOfBarriers * 2 ) + 1 /* number of regions */ );
+        
+        if ( numberOfBarriers <= 0 ) {
+            throw new IllegalArgumentException( "numberOfBarriers must be > 0: " + numberOfBarriers );
+        }
+        
         for ( int i = 0; i < getNumberOfRegions(); i++ ) {
             if ( i == 0 ) {
                 setRegion( i, getMinPosition(), DEFAULT_BARRIER_POSITION, 0 );
