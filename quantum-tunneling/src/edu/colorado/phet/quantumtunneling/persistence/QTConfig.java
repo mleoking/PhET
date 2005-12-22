@@ -72,6 +72,10 @@ public class QTConfig implements Serializable {
     // Global-level configuration, applies to all modules
     //----------------------------------------------------------------------------
 
+    /**
+     * GlobalConfig is a JavaBean-compliant data structure that stores
+     * global configuration information.
+     */
     public class GlobalConfig implements Serializable {
 
         //----------------------------------------------------------------------------
@@ -124,6 +128,10 @@ public class QTConfig implements Serializable {
     // Module configuration, for the sole module
     //----------------------------------------------------------------------------
     
+    /**
+     * ModuleConfig is a JavaBean-compliant data structure that stores
+     * module configuration information.
+     */
     public class ModuleConfig implements Serializable {
         
         //----------------------------------------------------------------------------
@@ -133,7 +141,10 @@ public class QTConfig implements Serializable {
         private double _totalEnergy;
         
         private double _minRegionWidth;
-        private Region[] _regions;
+        private Region[] _constantRegions;
+        private Region[] _stepRegions;
+        private Region[] _singleBarrierRegions;
+        private Region[] _doubleBarrierRegions;
  
         private String _potentialTypeName;
         private boolean _realSelected;
@@ -159,12 +170,36 @@ public class QTConfig implements Serializable {
         // Accessors
         //----------------------------------------------------------------------------
         
-        public Region[] getRegions() { 
-            return _regions;
+        public Region[] getConstantRegions() {
+            return _constantRegions;
         }
         
-        public void setRegions( Region[] regions ) {
-            _regions = regions;
+        public void setConstantRegions( Region[] constantRegions ) {
+            _constantRegions = constantRegions;
+        }
+        
+        public Region[] getDoubleBarrierRegions() {
+            return _doubleBarrierRegions;
+        }
+        
+        public void setDoubleBarrierRegions( Region[] doubleBarrierRegions ) {
+            _doubleBarrierRegions = doubleBarrierRegions;
+        }
+        
+        public Region[] getSingleBarrierRegions() {
+            return _singleBarrierRegions;
+        }
+        
+        public void setSingleBarrierRegions( Region[] singleBarrierRegions ) {
+            _singleBarrierRegions = singleBarrierRegions;
+        }
+        
+        public Region[] getStepRegions() {
+            return _stepRegions;
+        }
+        
+        public void setStepRegions( Region[] stepRegions ) {
+            _stepRegions = stepRegions;
         }
         
         public boolean isImaginarySelected() {
@@ -223,11 +258,11 @@ public class QTConfig implements Serializable {
             _realSelected = realSelected;
         }
         
-        public String getIRViewName() {
+        public String getIrViewName() {
             return _irViewName;
         }
         
-        public void setIRViewName( String irViewName ) {
+        public void setIrViewName( String irViewName ) {
             _irViewName = irViewName;
         }
         
@@ -276,11 +311,11 @@ public class QTConfig implements Serializable {
         }
         
         public void saveIRView( IRView irView ) {
-            setIRViewName( irView.getName() );
+            setIrViewName( irView.getName() );
         }
         
         public IRView loadIRView() {
-            return IRView.getByName( getIRViewName() );
+            return IRView.getByName( getIrViewName() );
         }
         
         public void saveDirection( Direction direction ) {
@@ -307,87 +342,66 @@ public class QTConfig implements Serializable {
             return new TotalEnergy( getTotalEnergy() );
         }
         
-        /**
-         * Breaks an AbstractPotential into the pieces that we need to save
-         * (potential type, min region width, regions).
-         * 
-         * @param pe
-         */
-        public void savePotentialEnergy( AbstractPotential pe ) {
-            
-            // Potential type
-            PotentialType potentialType = null;
-            if ( pe instanceof ConstantPotential ) {
-                potentialType = PotentialType.CONSTANT;
-            }
-            else if ( pe instanceof StepPotential ) {
-                potentialType = PotentialType.STEP;
-            }
-            else if ( pe instanceof SingleBarrierPotential ) {
-                potentialType = PotentialType.SINGLE_BARRIER;
-            }
-            else if ( pe instanceof DoubleBarrierPotential ) {
-                potentialType = PotentialType.DOUBLE_BARRIER;
-            }
-            else {
-                throw new IllegalArgumentException( "unsupported potential type: " + pe.getClass().getName() );
-            }
-            savePotentialType( potentialType );
-            
-            // Min region width 
-            _minRegionWidth = pe.getMinRegionWidth();
-            
-            // Regions
-            PotentialRegion[] potentialRegions = pe.getRegions();
+        public void saveConstantPotential( ConstantPotential pe ) {
+            setConstantRegions( toRegions( pe.getRegions() ) );
+        }
+        
+        public ConstantPotential loadConstantPotential() {
+            ConstantPotential pe = new ConstantPotential();
+            pe.setMinRegionWidth( _minRegionWidth );
+            pe.setRegions( toPotentialRegions( _constantRegions ) );
+            return pe;
+        }
+        
+        public void saveStepPotential( StepPotential pe ) {
+            setStepRegions( toRegions( pe.getRegions() ) );
+        }
+        
+        public StepPotential loadStepPotential() {
+            StepPotential pe = new StepPotential();
+            pe.setMinRegionWidth( _minRegionWidth );
+            pe.setRegions( toPotentialRegions( _stepRegions ) );
+            return pe;
+        }
+        
+        public void saveSingleBarrierPotential( SingleBarrierPotential pe ) {
+            setSingleBarrierRegions( toRegions( pe.getRegions() ) );
+        }
+        
+        public SingleBarrierPotential loadSingleBarrierPotential() {
+            SingleBarrierPotential pe = new SingleBarrierPotential();
+            pe.setMinRegionWidth( _minRegionWidth );
+            pe.setRegions( toPotentialRegions( _singleBarrierRegions ) );
+            return pe;
+        }
+        
+        public void saveDoubleBarrierPotential( DoubleBarrierPotential pe ) {
+            setDoubleBarrierRegions( toRegions( pe.getRegions() ) );
+        }
+        
+        public DoubleBarrierPotential loadDoubleBarrierPotential() {
+            DoubleBarrierPotential pe = new DoubleBarrierPotential();
+            pe.setMinRegionWidth( _minRegionWidth );
+            pe.setRegions( toPotentialRegions( _doubleBarrierRegions ) );
+            return pe;
+        }
+        
+        private Region[] toRegions( PotentialRegion[] potentialRegions ) {
             Region[] regions = new Region[ potentialRegions.length ];
             for ( int i = 0; i < potentialRegions.length; i++ ) {
                 Region region = new Region( potentialRegions[i] );
                 regions[i] = region;
             }
-            setRegions( regions );
+            return regions;
         }
         
-        /**
-         * Creates an AbstractPotential from the pieces that we saved
-         * (potential type, min region width, regions).
-         * 
-         * @param potentialEnergy
-         */
-        public AbstractPotential loadPotentialEnergy() {
-            
-            AbstractPotential pe = null;
-            
-            // Potential type
-            PotentialType potentialType = loadPotentialType();
-            if ( potentialType == PotentialType.CONSTANT ) {
-                pe = new ConstantPotential();
+        private PotentialRegion[] toPotentialRegions( Region[] regions ) {
+            PotentialRegion[] potentialRegions = new PotentialRegion[ regions.length ];
+            for ( int i = 0; i < regions.length; i++ ) {
+                potentialRegions[i] = regions[i].toPotentialRegion();
             }
-            else if ( potentialType == PotentialType.STEP ) {
-                pe = new StepPotential();
-            }
-            else if ( potentialType == PotentialType.SINGLE_BARRIER ) {
-                pe = new SingleBarrierPotential();
-            }
-            else if ( potentialType == PotentialType.DOUBLE_BARRIER ) {
-                pe = new DoubleBarrierPotential();
-            }
-            else {
-                throw new IllegalArgumentException( "unsupported potential type: " + _potentialTypeName );
-            }
-            
-            // Min region width
-            pe.setMinRegionWidth( _minRegionWidth );
-            
-            // Regions
-            PotentialRegion[] potentialRegions = new PotentialRegion[ _regions.length ];
-            for ( int i = 0; i < _regions.length; i++ ) {
-                potentialRegions[i] = _regions[i].toPotentialRegion();
-            }
-            pe.setRegions( potentialRegions );
-            
-            return pe;
+            return potentialRegions;
         }
-
     }
     
     //----------------------------------------------------------------------------
@@ -395,7 +409,7 @@ public class QTConfig implements Serializable {
     //----------------------------------------------------------------------------
     
     /**
-     * A simplified data structure for saving region information.
+     * A JavaBean-compliant data structure for saving region information.
      */
     public static class Region {
         private double _start;
