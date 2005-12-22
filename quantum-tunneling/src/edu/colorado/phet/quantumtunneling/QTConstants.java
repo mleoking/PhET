@@ -115,7 +115,9 @@ public class QTConstants {
 
     public static final String IMAGES_DIRECTORY = "images/";
     public static final String IMAGE_ARROW_L2R = IMAGES_DIRECTORY + "arrowL2R.png";
+    public static final String IMAGE_ARROW_L2R_SELECTED = IMAGES_DIRECTORY + "arrowL2RSelected.png";
     public static final String IMAGE_ARROW_R2L = IMAGES_DIRECTORY + "arrowR2L.png";
+    public static final String IMAGE_ARROW_R2L_SELECTED = IMAGES_DIRECTORY + "arrowR2LSelected.png";
     public static final String IMAGE_CLOCK = IMAGES_DIRECTORY + "clock.png";
     public static final String IMAGE_LOOP_OFF = IMAGES_DIRECTORY + "loopOffButton.png";
     public static final String IMAGE_LOOP_ON = IMAGES_DIRECTORY + "loopOnButton.png";
