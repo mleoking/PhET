@@ -13,7 +13,7 @@ package edu.colorado.phet.quantumtunneling.enum;
 
 
 /**
- * IRView determines how the "incident and reflected" waves 
+ * IRView indicates how the "incident and reflected" waves 
  * will be viewed.  They can be viewed either separately or
  * as a sum.
  *
