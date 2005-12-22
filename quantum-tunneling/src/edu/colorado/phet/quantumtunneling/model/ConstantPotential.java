@@ -34,17 +34,21 @@ public class ConstantPotential extends AbstractPotential {
      * Constructor.
      */
     public ConstantPotential() {
-        super( 1 /* numberOfRegions */ );
-        setRegion( 0, getMinPosition(), getMaxPosition(), DEFAULT_ENERGY );
+        this( DEFAULT_ENERGY );
+    }
+    
+    public ConstantPotential( double energy ) {
+        super( 1 /* numberOfRegions*/ );
+        setRegion( 0, getMinPosition(), getMaxPosition(), energy );
     }
     
     /**
      * Copy constructor.
      * 
-     * @param step
+     * @param constantPotential
      */
-    public ConstantPotential( final ConstantPotential step ) {
-        super( step );
+    public ConstantPotential( final ConstantPotential constantPotential ) {
+        super( constantPotential );
     }
     
     //----------------------------------------------------------------------------

@@ -114,6 +114,27 @@ public abstract class AbstractPotential extends QTObservable {
     //----------------------------------------------------------------------------
     
     /**
+     * This method should be used only by persistence code, 
+     * to restore the regions.
+     * 
+     * @param regions
+     */
+    public void setRegions( PotentialRegion[] regions ) {
+        _regions = regions;
+        validateRegions();
+    }
+    
+    /**
+     * This method should be used only by persistence code,
+     * to save the regions.
+     * 
+     * @return
+     */
+    public PotentialRegion[] getRegions() {
+        return _regions;
+    }
+    
+    /**
      * Gets the number of regions in the potential space.
      * 
      * @return
@@ -316,7 +337,7 @@ public abstract class AbstractPotential extends QTObservable {
     //----------------------------------------------------------------------------
     // Private & protected accessors
     //----------------------------------------------------------------------------
- 
+    
     /*
      * Gets a specified region.  This is private because clients and subclasses
      * should not be accessing regions directly.  Use one of the many public

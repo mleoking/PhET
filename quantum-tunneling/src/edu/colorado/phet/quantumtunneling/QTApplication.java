@@ -19,7 +19,6 @@ import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ContentPanel;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.components.menu.HelpMenu;
@@ -29,6 +28,7 @@ import edu.colorado.phet.quantumtunneling.clock.QTClock;
 import edu.colorado.phet.quantumtunneling.clock.QTClockControls;
 import edu.colorado.phet.quantumtunneling.module.QTModule;
 import edu.colorado.phet.quantumtunneling.persistence.ConfigManager;
+import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
 
 
 /**
@@ -48,6 +48,7 @@ public class QTApplication extends PhetApplication {
     //----------------------------------------------------------------------------
     
     private QTModule _module;
+    private OptionsMenu _optionsMenu;
     
     // PersistanceManager handles loading/saving application configurations.
     private ConfigManager _persistenceManager;
@@ -112,7 +113,6 @@ public class QTApplication extends PhetApplication {
                     _persistenceManager.save();
                 }
             } );
-            saveItem.setEnabled( false );//XXX
             
             JMenuItem loadItem = new JMenuItem( SimStrings.get( "menu.file.load" ) );
             loadItem.setMnemonic( SimStrings.get( "menu.file.load.mnemonic" ).charAt(0) );
@@ -121,7 +121,6 @@ public class QTApplication extends PhetApplication {
                     _persistenceManager.load();
                 }
             } );
-            loadItem.setEnabled( false );//XXX
 
             frame.addFileMenuItem( saveItem );
             frame.addFileMenuItem( loadItem );
@@ -129,8 +128,8 @@ public class QTApplication extends PhetApplication {
         }
         
         // Options menu
-        OptionsMenu optionsMenu = new OptionsMenu( _module );
-        getPhetFrame().addMenu( optionsMenu );
+        _optionsMenu = new OptionsMenu( _module );
+        getPhetFrame().addMenu( _optionsMenu );
         
         // Help menu extensions
         HelpMenu helpMenu = getPhetFrame().getHelpMenu();
@@ -152,6 +151,22 @@ public class QTApplication extends PhetApplication {
         contentPanel.setAppControlPanel( clockControls );
     }
     
+    //----------------------------------------------------------------------------
+    // Persistence
+    //----------------------------------------------------------------------------
+
+    public void save( QTConfig appConfig ) {
+        QTConfig.GlobalConfig config = appConfig.getGlobalConfig();
+        config.setCvsTag( Version.CVS_TAG );
+        config.setVersionNumber( Version.NUMBER );
+        config.setShowValues( _optionsMenu.getShowValuesSelected() );
+    }
+
+    public void load( QTConfig appConfig ) {
+        QTConfig.GlobalConfig config = appConfig.getGlobalConfig();
+        _optionsMenu.setShowValuesSelected( config.getShowValues() );
+    }
+
     //----------------------------------------------------------------------------
     // main
     //----------------------------------------------------------------------------
