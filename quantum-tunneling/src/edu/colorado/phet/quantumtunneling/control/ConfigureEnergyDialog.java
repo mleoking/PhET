@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -54,10 +55,10 @@ public class ConfigureEnergyDialog extends JDialog {
 
     private static final Dimension CHART_SIZE = new Dimension( 450, 150 );
     
-    private static final String POSITION_FORMAT = "0.0";
-    private static final String ENERGY_FORMAT = "0.0";
-    private static final double POSITION_STEP = 0.1;
-    private static final double ENERGY_STEP = 0.1;
+    private static final String POSITION_FORMAT = QTConstants.POSITION_FORMAT;
+    private static final String ENERGY_FORMAT = QTConstants.ENERGY_FORMAT;
+    private static final double POSITION_STEP = QTConstants.POSITION_STEP;
+    private static final double ENERGY_STEP = QTConstants.ENERGY_STEP;
     private static final double MIN_ENERGY = QTConstants.ENERGY_RANGE.getLowerBound();
     private static final double MAX_ENERGY = QTConstants.ENERGY_RANGE.getUpperBound();
     private static final double MIN_POSITION = QTConstants.POSITION_RANGE.getLowerBound();

@@ -74,7 +74,7 @@ public abstract class AbstractDragHandle extends PPath implements PropertyChange
     
     private static final Font TEXT_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 );
     private static final Color TEXT_COLOR = Color.BLACK;
-    private static final NumberFormat DEFAULT_TEXT_FORMAT = new DecimalFormat( "0.0" );
+    private static final NumberFormat DEFAULT_VALUE_FORMAT = new DecimalFormat( "0.0" );
     
     private static final float HANDLE_ARROW_SCALE = 24f;
     private static final float CURSOR_ARROW_SCALE = 18f;
@@ -88,7 +88,7 @@ public abstract class AbstractDragHandle extends PPath implements PropertyChange
     private Point2D _registrationPoint;
     private ConstrainedDragHandler _dragHandler;
     private PText _textNode;
-    private NumberFormat _textFormat;
+    private NumberFormat _valueFormat;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -164,7 +164,7 @@ public abstract class AbstractDragHandle extends PPath implements PropertyChange
         
         // Value display
         _textNode = null;
-        _textFormat = DEFAULT_TEXT_FORMAT;
+        _valueFormat = DEFAULT_VALUE_FORMAT;
     }
     
     //----------------------------------------------------------------------------
@@ -224,6 +224,15 @@ public abstract class AbstractDragHandle extends PPath implements PropertyChange
     }
     
     /**
+     * Sets the format of the value display.
+     * @param format
+     */
+    public void setValueFormat( String format ) {
+        _valueFormat = new DecimalFormat( format );
+        updateText();
+    }
+    
+    /**
      * Sets the drag bounds.
      * 
      * @param bounds
@@ -279,7 +288,7 @@ public abstract class AbstractDragHandle extends PPath implements PropertyChange
     protected void updateText() {
         if ( _textNode != null ) {
             double value = getModelValue();
-            String text = _textFormat.format( value );
+            String text = _valueFormat.format( value );
             _textNode.setText( text );
         }
     }

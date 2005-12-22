@@ -62,9 +62,6 @@ public class QTModule extends AbstractModule implements Observer {
     private static final double LEGEND_SCALE = 1;
     private static final double CONFIGURE_BUTTON_SCALE = 1;
     
-    // Model parameters
-    private static final double DEFAULT_TOTAL_ENERGY = 8; // eV
-    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -265,7 +262,7 @@ public class QTModule extends AbstractModule implements Observer {
         
         // Model
         {
-            TotalEnergy totalEnergy = new TotalEnergy( DEFAULT_TOTAL_ENERGY );
+            TotalEnergy totalEnergy = new TotalEnergy( QTConstants.DEFAULT_TOTAL_ENERGY );
             setTotalEnergy( totalEnergy );
             
             _constantPotential = new ConstantPotential();

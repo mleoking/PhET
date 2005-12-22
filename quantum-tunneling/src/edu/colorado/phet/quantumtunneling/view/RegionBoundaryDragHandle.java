@@ -47,6 +47,7 @@ public class RegionBoundaryDragHandle extends AbstractDragHandle implements Obse
     
     public RegionBoundaryDragHandle( QTCombinedChartNode chartNode ) {
         super( AbstractDragHandle.HORIZONTAL );
+        setValueFormat( QTConstants.POSITION_FORMAT );
         
         _potentialEnergy = null;
         _regionIndex = -1;

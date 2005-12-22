@@ -11,7 +11,7 @@
 
 package edu.colorado.phet.quantumtunneling.model;
 
-import java.awt.geom.Point2D;
+import edu.colorado.phet.quantumtunneling.QTConstants;
 
 
 /**
@@ -29,7 +29,7 @@ public class BarrierPotential extends AbstractPotential {
     
     private static final double DEFAULT_BARRIER_POSITION = 5;
     private static final double DEFAULT_BARRIER_WIDTH = 3;
-    private static final double DEFAULT_BARRIER_ENERGY = 5;
+    private static final double DEFAULT_BARRIER_ENERGY = QTConstants.DEFAULT_POTENTIAL_ENERGY;
     
     //----------------------------------------------------------------------------
     // Constructors
