@@ -324,27 +324,6 @@ public class ConfigureEnergyDialog extends JDialog {
 
                 int numberOfBarriers = ( (BarrierPotential) _potentialEnergy ).getNumberOfBarriers();
 
-                // Barrier Widths...
-                _widthSpinners = new ArrayList();
-                JLabel widthTitle = new JLabel( SimStrings.get( "label.barrierWidth" ) );
-                widthTitle.setForeground( BARRIER_PROPERTIES_COLOR );
-                inputPanelLayout.addAnchoredComponent( widthTitle, row, column, 4, 1, GridBagConstraints.WEST );
-                row++;
-                column++;
-                for ( int i = 0; i < numberOfBarriers; i++ ) {
-                    JLabel widthLabel = new JLabel( "B" + ( i + 1 ) + ":" );
-                    widthLabel.setForeground( BARRIER_PROPERTIES_COLOR );
-                    JSpinner widthSpinner = new CommonSpinner( 0, -SPINNER_MAX, SPINNER_MAX, POSITION_STEP, POSITION_FORMAT );
-                    widthSpinner.addChangeListener( _listener );
-                    _widthSpinners.add( widthSpinner );
-                    JLabel widthUnits = new JLabel( SimStrings.get( "units.position" ) );
-                    inputPanelLayout.addAnchoredComponent( widthLabel, row, column, GridBagConstraints.EAST );
-                    inputPanelLayout.addAnchoredComponent( widthSpinner, row, column + 1, GridBagConstraints.EAST );
-                    inputPanelLayout.addAnchoredComponent( widthUnits, row, column + 2, GridBagConstraints.WEST );
-                    row++;
-                }
-                column--;
-
                 // Barrier Positions...
                 _positionSpinners = new ArrayList();
                 JLabel positionTitle = new JLabel( SimStrings.get( "label.barrierPosition" ) );
@@ -362,6 +341,27 @@ public class ConfigureEnergyDialog extends JDialog {
                     inputPanelLayout.addAnchoredComponent( positionLabel, row, column, GridBagConstraints.EAST );
                     inputPanelLayout.addAnchoredComponent( positionSpinner, row, column + 1, GridBagConstraints.EAST );
                     inputPanelLayout.addAnchoredComponent( positionUnits, row, column + 2, GridBagConstraints.WEST );
+                    row++;
+                }
+                column--;
+                
+                // Barrier Widths...
+                _widthSpinners = new ArrayList();
+                JLabel widthTitle = new JLabel( SimStrings.get( "label.barrierWidth" ) );
+                widthTitle.setForeground( BARRIER_PROPERTIES_COLOR );
+                inputPanelLayout.addAnchoredComponent( widthTitle, row, column, 4, 1, GridBagConstraints.WEST );
+                row++;
+                column++;
+                for ( int i = 0; i < numberOfBarriers; i++ ) {
+                    JLabel widthLabel = new JLabel( "B" + ( i + 1 ) + ":" );
+                    widthLabel.setForeground( BARRIER_PROPERTIES_COLOR );
+                    JSpinner widthSpinner = new CommonSpinner( 0, -SPINNER_MAX, SPINNER_MAX, POSITION_STEP, POSITION_FORMAT );
+                    widthSpinner.addChangeListener( _listener );
+                    _widthSpinners.add( widthSpinner );
+                    JLabel widthUnits = new JLabel( SimStrings.get( "units.position" ) );
+                    inputPanelLayout.addAnchoredComponent( widthLabel, row, column, GridBagConstraints.EAST );
+                    inputPanelLayout.addAnchoredComponent( widthSpinner, row, column + 1, GridBagConstraints.EAST );
+                    inputPanelLayout.addAnchoredComponent( widthUnits, row, column + 2, GridBagConstraints.WEST );
                     row++;
                 }
             }
