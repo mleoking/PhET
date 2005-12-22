@@ -138,14 +138,15 @@ public class QTConfig implements Serializable {
         // Instance data
         //----------------------------------------------------------------------------
         
+        // Model properties
         private double _totalEnergy;
-        
         private double _minRegionWidth;
-        private Region[] _constantRegions;
-        private Region[] _stepRegions;
-        private Region[] _singleBarrierRegions;
-        private Region[] _doubleBarrierRegions;
+        private RegionConfig[] _constantRegions;
+        private RegionConfig[] _stepRegions;
+        private RegionConfig[] _singleBarrierRegions;
+        private RegionConfig[] _doubleBarrierRegions;
  
+        // Control properties
         private String _potentialTypeName;
         private boolean _realSelected;
         private boolean _imaginarySelected;
@@ -170,35 +171,35 @@ public class QTConfig implements Serializable {
         // Accessors
         //----------------------------------------------------------------------------
         
-        public Region[] getConstantRegions() {
+        public RegionConfig[] getConstantRegions() {
             return _constantRegions;
         }
         
-        public void setConstantRegions( Region[] constantRegions ) {
+        public void setConstantRegions( RegionConfig[] constantRegions ) {
             _constantRegions = constantRegions;
         }
         
-        public Region[] getDoubleBarrierRegions() {
+        public RegionConfig[] getDoubleBarrierRegions() {
             return _doubleBarrierRegions;
         }
         
-        public void setDoubleBarrierRegions( Region[] doubleBarrierRegions ) {
+        public void setDoubleBarrierRegions( RegionConfig[] doubleBarrierRegions ) {
             _doubleBarrierRegions = doubleBarrierRegions;
         }
         
-        public Region[] getSingleBarrierRegions() {
+        public RegionConfig[] getSingleBarrierRegions() {
             return _singleBarrierRegions;
         }
         
-        public void setSingleBarrierRegions( Region[] singleBarrierRegions ) {
+        public void setSingleBarrierRegions( RegionConfig[] singleBarrierRegions ) {
             _singleBarrierRegions = singleBarrierRegions;
         }
         
-        public Region[] getStepRegions() {
+        public RegionConfig[] getStepRegions() {
             return _stepRegions;
         }
         
-        public void setStepRegions( Region[] stepRegions ) {
+        public void setStepRegions( RegionConfig[] stepRegions ) {
             _stepRegions = stepRegions;
         }
         
@@ -343,7 +344,7 @@ public class QTConfig implements Serializable {
         }
         
         public void saveConstantPotential( ConstantPotential pe ) {
-            setConstantRegions( toRegions( pe.getRegions() ) );
+            setConstantRegions( toRegionConfigs( pe.getRegions() ) );
         }
         
         public ConstantPotential loadConstantPotential() {
@@ -354,7 +355,7 @@ public class QTConfig implements Serializable {
         }
         
         public void saveStepPotential( StepPotential pe ) {
-            setStepRegions( toRegions( pe.getRegions() ) );
+            setStepRegions( toRegionConfigs( pe.getRegions() ) );
         }
         
         public StepPotential loadStepPotential() {
@@ -365,7 +366,7 @@ public class QTConfig implements Serializable {
         }
         
         public void saveSingleBarrierPotential( SingleBarrierPotential pe ) {
-            setSingleBarrierRegions( toRegions( pe.getRegions() ) );
+            setSingleBarrierRegions( toRegionConfigs( pe.getRegions() ) );
         }
         
         public SingleBarrierPotential loadSingleBarrierPotential() {
@@ -376,7 +377,7 @@ public class QTConfig implements Serializable {
         }
         
         public void saveDoubleBarrierPotential( DoubleBarrierPotential pe ) {
-            setDoubleBarrierRegions( toRegions( pe.getRegions() ) );
+            setDoubleBarrierRegions( toRegionConfigs( pe.getRegions() ) );
         }
         
         public DoubleBarrierPotential loadDoubleBarrierPotential() {
@@ -386,19 +387,19 @@ public class QTConfig implements Serializable {
             return pe;
         }
         
-        private Region[] toRegions( PotentialRegion[] potentialRegions ) {
-            Region[] regions = new Region[ potentialRegions.length ];
+        private RegionConfig[] toRegionConfigs( PotentialRegion[] potentialRegions ) {
+            RegionConfig[] regionConfigs = new RegionConfig[ potentialRegions.length ];
             for ( int i = 0; i < potentialRegions.length; i++ ) {
-                Region region = new Region( potentialRegions[i] );
-                regions[i] = region;
+                RegionConfig region = new RegionConfig( potentialRegions[i] );
+                regionConfigs[i] = region;
             }
-            return regions;
+            return regionConfigs;
         }
         
-        private PotentialRegion[] toPotentialRegions( Region[] regions ) {
-            PotentialRegion[] potentialRegions = new PotentialRegion[ regions.length ];
-            for ( int i = 0; i < regions.length; i++ ) {
-                potentialRegions[i] = regions[i].toPotentialRegion();
+        private PotentialRegion[] toPotentialRegions( RegionConfig[] regionConfigs ) {
+            PotentialRegion[] potentialRegions = new PotentialRegion[ regionConfigs.length ];
+            for ( int i = 0; i < regionConfigs.length; i++ ) {
+                potentialRegions[i] = regionConfigs[i].toPotentialRegion();
             }
             return potentialRegions;
         }
@@ -411,22 +412,22 @@ public class QTConfig implements Serializable {
     /**
      * A JavaBean-compliant data structure for saving region information.
      */
-    public static class Region {
+    public static class RegionConfig {
         private double _start;
         private double _end;
         private double _energy;
         
-        public Region() {
+        public RegionConfig() {
             this( 0, 0, 0 );
         }
           
-        public Region( double start, double end, double energy ) {
+        public RegionConfig( double start, double end, double energy ) {
             _start = start;
             _end = end;
             _energy = energy;
         }
         
-        public Region( PotentialRegion region ) {
+        public RegionConfig( PotentialRegion region ) {
             this( region.getStart(), region.getEnd(), region.getEnergy() );
         }
         
@@ -444,10 +445,6 @@ public class QTConfig implements Serializable {
         
         public void setEnd( double end ) {
             _end = end;
-        }
-        
-        public double getWidth() {
-            return _end - _start;
         }
         
         public double getEnergy() {
