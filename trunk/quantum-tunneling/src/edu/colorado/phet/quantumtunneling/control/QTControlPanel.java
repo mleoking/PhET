@@ -28,6 +28,7 @@ import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.enum.Direction;
+import edu.colorado.phet.quantumtunneling.enum.IRView;
 import edu.colorado.phet.quantumtunneling.enum.PotentialType;
 import edu.colorado.phet.quantumtunneling.enum.WaveType;
 import edu.colorado.phet.quantumtunneling.model.*;
@@ -357,7 +358,7 @@ public class QTControlPanel extends AbstractControlPanel {
         _phaseCheckBox.setSelected( false );
         handlePhaseSelection();
         _sumRadioButton.setSelected( true );
-        handleSeparateSelection();
+        handleIRViewSelection();
         _leftToRightRadioButton.setSelected( true );
         handleDirectionSelection();
         _planeWaveRadioButton.setSelected( true );
@@ -424,7 +425,7 @@ public class QTControlPanel extends AbstractControlPanel {
      * 
      * @return
      */
-    private PotentialType getPotentialType() {
+    public PotentialType getPotentialType() {
         PotentialType potentialType = null;
         Object selection = _potentialComboBox.getSelectedItem();
         if ( selection == _constantItem ) {
@@ -478,32 +479,34 @@ public class QTControlPanel extends AbstractControlPanel {
         return _phaseCheckBox.isSelected();
     }
     
-    /**
-     * Enables or disabled the "separate" view.
-     * 
-     * @param enabled
-     */
-    public void setSeparateSelected( boolean selected ) {
-        _separateRadioButton.setSelected( selected );
-        handleSeparateSelection();
+    public void setIRView( IRView irView ) {
+        _separateRadioButton.setSelected( irView == IRView.SEPARATE );
+        _sumRadioButton.setSelected( irView == IRView.SUM );
+        handleIRViewSelection();
     }
     
-    /**
-     * Are we in "separate" view?
-     * 
-     * @return
-     */
-    public boolean isSeparateSelected() {
-        return _separateRadioButton.isSelected();
+    public IRView getIRView() {
+        if ( _separateRadioButton.isSelected() ) {
+            return IRView.SEPARATE;
+        }
+        else {
+            return IRView.SUM;
+        }
     }
     
-    public void setLeftToRightSelected( boolean selected ) {
-        _leftToRightRadioButton.setSelected( selected );
+    public void setDirection( Direction direction ) {
+        _leftToRightRadioButton.setSelected( direction == Direction.LEFT_TO_RIGHT );
+        _rightToLeftRadioButton.setSelected( direction == Direction.RIGHT_TO_LEFT );
         handleDirectionSelection();
     }
     
-    public boolean isLeftToRightSelected() {
-        return _leftToRightRadioButton.isSelected();
+    public Direction getDirection() {
+        if ( _leftToRightRadioButton.isSelected() ) {
+            return Direction.LEFT_TO_RIGHT;
+        }
+        else {
+            return Direction.RIGHT_TO_LEFT;
+        }
     }
     
     /**
@@ -512,12 +515,8 @@ public class QTControlPanel extends AbstractControlPanel {
      * @param waveType
      */
     public void setWaveType( WaveType waveType ) {
-        if ( waveType == WaveType.PLANE ) {
-            _planeWaveRadioButton.setSelected( true );
-        }
-        else {
-            _packetWaveRadioButton.setSelected( true );
-        }
+        _planeWaveRadioButton.setSelected( waveType == WaveType.PLANE );
+        _packetWaveRadioButton.setSelected( waveType == WaveType.PACKET );
         handleWaveTypeSelection();
     }
     
@@ -527,14 +526,12 @@ public class QTControlPanel extends AbstractControlPanel {
      * @return
      */
     public WaveType getWaveType() {
-        WaveType waveType = null;
         if ( _planeWaveRadioButton.isSelected() ) {
-            waveType = WaveType.PLANE;
+            return WaveType.PLANE;
         }
-        else { /* wave packet */
-            waveType = WaveType.PACKET;
+        else {
+            return WaveType.PACKET;
         }
-        return waveType;
     }
     
     public void setPropertiesVisible( boolean visible ) {
@@ -590,7 +587,7 @@ public class QTControlPanel extends AbstractControlPanel {
                 handlePhaseSelection();
             }
             else if ( event.getSource() == _separateRadioButton || event.getSource() == _sumRadioButton ) {
-                handleSeparateSelection();
+                handleIRViewSelection();
             }
             else if ( event.getSource() == _leftToRightRadioButton || event.getSource() == _rightToLeftRadioButton ) {
                 handleDirectionSelection();
@@ -634,24 +631,7 @@ public class QTControlPanel extends AbstractControlPanel {
     }
     
     private void handlePotentialSelection() {
-        AbstractPotential pe = null;
-        Object o = _potentialComboBox.getSelectedItem();
-        if ( o == _constantItem ) {
-            pe = new ConstantPotential();
-        }
-        else if ( o == _stepItem ) {
-            pe = new StepPotential();
-        }
-        else if ( o == _singleBarrierItem ) {
-            pe = new SingleBarrierPotential();
-        }
-        else if ( o == _doubleBarrierItem ) {
-            pe = new DoubleBarrierPotential();
-        }
-        else {
-            throw new IllegalStateException( "unsupported potential selection: " + o );
-        }
-        _module.setPotentialEnergy( pe );
+        _module.setPotentialType( getPotentialType() );
     }
 
     private void handleRealSelection() {
@@ -670,21 +650,16 @@ public class QTControlPanel extends AbstractControlPanel {
         _module.setPhaseVisible( _magnitudeCheckBox.isSelected() );
     }
     
-    private void handleSeparateSelection() {
-        _module.setViewSeparateSelected( _separateRadioButton.isSelected() );
+    private void handleIRViewSelection() {
+        _module.setIRView( getIRView() );
     }
     
     private void handleDirectionSelection() {
-        if ( _leftToRightRadioButton.isSelected() ) {
-            _module.setDirection( Direction.LEFT_TO_RIGHT );
-        }
-        else {
-            _module.setDirection( Direction.RIGHT_TO_LEFT );
-        }
+        _module.setDirection( getDirection() );
     }
     
     private void handleWaveTypeSelection() {
-        if ( _planeWaveRadioButton.isSelected() ) {
+        if ( getWaveType() == WaveType.PLANE ) {
             _sumRadioButton.setEnabled( true );
             _separateRadioButton.setEnabled( true );
             _propertiesPanel.setVisible( false );
@@ -696,7 +671,7 @@ public class QTControlPanel extends AbstractControlPanel {
             _sumRadioButton.setEnabled( false );
             _separateRadioButton.setEnabled( false );
             _sumRadioButton.setSelected( true );
-            handleSeparateSelection();
+            handleIRViewSelection();
             _propertiesButton.setEnabled( true );
             _propertiesPanel.setVisible( false );
             _module.setWaveType( WaveType.PACKET );

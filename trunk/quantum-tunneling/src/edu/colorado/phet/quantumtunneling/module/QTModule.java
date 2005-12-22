@@ -29,11 +29,10 @@ import edu.colorado.phet.quantumtunneling.clock.QTClock;
 import edu.colorado.phet.quantumtunneling.control.ConfigureEnergyDialog;
 import edu.colorado.phet.quantumtunneling.control.QTControlPanel;
 import edu.colorado.phet.quantumtunneling.enum.Direction;
+import edu.colorado.phet.quantumtunneling.enum.IRView;
+import edu.colorado.phet.quantumtunneling.enum.PotentialType;
 import edu.colorado.phet.quantumtunneling.enum.WaveType;
-import edu.colorado.phet.quantumtunneling.model.AbstractPotential;
-import edu.colorado.phet.quantumtunneling.model.PlaneWave;
-import edu.colorado.phet.quantumtunneling.model.TotalEnergy;
-import edu.colorado.phet.quantumtunneling.model.WavePacket;
+import edu.colorado.phet.quantumtunneling.model.*;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
 import edu.colorado.phet.quantumtunneling.view.*;
 import edu.umd.cs.piccolo.PNode;
@@ -287,8 +286,8 @@ public class QTModule extends AbstractModule implements Observer {
         config.setImaginarySelected( _controlPanel.isImaginarySelected() );
         config.setMagnitudeSelected( _controlPanel.isMagnitudeSelected( ) );
         config.setPhaseSelected( _controlPanel.isPhaseSelected() );
-        config.setSeparateSelected( _controlPanel.isSeparateSelected() );
-        config.setLeftToRightSelected( _controlPanel.isLeftToRightSelected() );
+        config.saveIRView( _controlPanel.getIRView() );
+        config.saveDirection( _controlPanel.getDirection() );
         config.saveWaveType( _controlPanel.getWaveType() );
         config.setPacketWidth( _controlPanel.getPacketWidth() );
         config.setPacketCenter( _controlPanel.getPacketCenter() );
@@ -308,8 +307,8 @@ public class QTModule extends AbstractModule implements Observer {
         _controlPanel.setImaginarySelected( config.isImaginarySelected() );
         _controlPanel.setMagnitudeSelected( config.isMagnitudeSelected() );
         _controlPanel.setPhaseSelected( config.isPhaseSelected() );
-        _controlPanel.setSeparateSelected( config.isSeparateSelected() );
-        _controlPanel.setLeftToRightSelected( config.isLeftToRightSelected() );
+        _controlPanel.setIRView( config.loadIRView() );
+        _controlPanel.setDirection( config.loadDirection() );
         _controlPanel.setWaveType( config.loadWaveType() );
         _controlPanel.setPacketWidth( config.getPacketWidth() );
         _controlPanel.setPacketCenter( config.getPacketCenter() );
@@ -366,6 +365,26 @@ public class QTModule extends AbstractModule implements Observer {
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
+    
+    public void setPotentialType( PotentialType potentialType ) {
+        AbstractPotential pe = null;
+        if ( potentialType == PotentialType.CONSTANT ) {
+            pe = new ConstantPotential();
+        }
+        else if (  potentialType == PotentialType.STEP ) {
+            pe = new StepPotential();
+        }
+        else if (  potentialType == PotentialType.SINGLE_BARRIER ) {
+            pe = new SingleBarrierPotential();
+        }
+        else if (  potentialType == PotentialType.DOUBLE_BARRIER ) {
+            pe = new DoubleBarrierPotential();
+        }
+        else {
+            throw new IllegalStateException( "unsupported potential type: " + potentialType );
+        }
+        setPotentialEnergy( pe );
+    }
     
     public void setPotentialEnergy( AbstractPotential potentialEnergy ) {
         
@@ -452,8 +471,8 @@ public class QTModule extends AbstractModule implements Observer {
         _wavePacket.setNotifyEnabled( true );
     }
     
-    public void setViewSeparateSelected( boolean enabled ) {
-        _chart.getWaveFunctionPlot().setViewSeparateEnabled( enabled );
+    public void setIRView( IRView irView ) {
+        _chart.getWaveFunctionPlot().setIRView( irView );
     }
     
     public void setWavePacketWidth( double width ) {

@@ -56,6 +56,8 @@ JFREECHART:
 
 
 DONE:
+(12/22/05) - use Direction enum throughout instead of booleans in some places
+(12/22/05) - create IRView enum for separate & sum views
 (12/22/05) - create convenience classes for single & double barriers
 (12/22/05) - flesh out save/load feature
 (12/21/05) - put barrier positions above widths in Configure dialog
