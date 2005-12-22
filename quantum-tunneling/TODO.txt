@@ -7,7 +7,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 - implement Schrodinger's equation for 1 dimension
 - implement phase view
-- don't update until wave packet width & center sliders are released
 
 MEDIUM PRIORITY:
 - add application description to SimStrings files
@@ -55,6 +54,7 @@ JFREECHART:
 
 
 DONE:
+(12/22/05) - don't update until wave packet width & center sliders are released
 (12/22/05) - save/load all 4 potential configs
 (12/22/05) - change a bunch of set*Enabled methods to set*Visible
 (12/22/05) - retain state of potential types when switching between potential types
