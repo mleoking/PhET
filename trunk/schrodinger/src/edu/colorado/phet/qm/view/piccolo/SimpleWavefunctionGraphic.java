@@ -33,10 +33,11 @@ public class SimpleWavefunctionGraphic extends PNode {
 
     public SimpleWavefunctionGraphic( Wavefunction wavefunction ) {
         this.wavefunction = wavefunction;
-        ColorGrid colorGrid = new ColorGrid( 4, 4, wavefunction.getWidth(), wavefunction.getHeight() );
+        ColorGrid colorGrid = new ColorGrid( 10, 10, wavefunction.getWidth(), wavefunction.getHeight() );
         colorGridNode = new ColorGridNode( colorGrid );
-        this.colorMap = new ComplexColorMapAdapter( wavefunction, new MagnitudeColorMap() );
         addChild( colorGridNode );
+
+        this.colorMap = new ComplexColorMapAdapter( wavefunction, new MagnitudeColorMap() );
 
         borderGraphic = new PPath( colorGridNode.getFullBounds() );
         borderGraphic.setStroke( new BasicStroke( 2 ) );
@@ -55,11 +56,11 @@ public class SimpleWavefunctionGraphic extends PNode {
 
     public void setComplexColorMap( ComplexColorMap complexColorMap ) {
         setColorMap( new ComplexColorMapAdapter( getWavefunction(), complexColorMap ) );
-        update();
     }
 
     public void setColorMap( ColorMap colorMap ) {
         this.colorMap = colorMap;
+        update();
     }
 
     public void fullPaint( PPaintContext paintContext ) {

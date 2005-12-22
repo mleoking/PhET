@@ -16,7 +16,6 @@ public class GaussianWave1D {
     private double momentum;
     private double x0;
     private double dxLattice;
-    private double phase = 0.0;
 
     public GaussianWave1D( double momentum, double x0, double dxLattice ) {
         this.momentum = momentum;
@@ -24,15 +23,11 @@ public class GaussianWave1D {
         this.dxLattice = dxLattice;
     }
 
-    public Complex getValue( int i ) {
+    public Complex getValue( double x ) {
         double norm = Math.pow( Math.PI * dxLattice * dxLattice, -1.0 / 4.0 );
-        double space = Math.exp( -( i - x0 ) * ( i - x0 ) / 4 / dxLattice / dxLattice );
-        Complex momentumTerm = Complex.exponentiateImaginary( momentum * ( i ) + phase );
+        double space = Math.exp( -( x - x0 ) * ( x - x0 ) / 2 / dxLattice / dxLattice );
+        Complex momentumTerm = Complex.exponentiateImaginary( momentum * x );
         momentumTerm.scale( norm * space );
         return momentumTerm;
-    }
-
-    public void setPhase( double phase ) {
-        this.phase = phase;
     }
 }

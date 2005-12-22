@@ -11,6 +11,8 @@ import edu.colorado.phet.qm.model.waves.ZeroWave;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * User: Sam Reid
@@ -153,6 +155,14 @@ public class DiscreteModel implements ModelElement {
 
     public void updateWavefunctionAfterDetection() {
         clearAllWaves();
+    }
+
+    public Map getModelParameters() {
+        Map modelParameters = new HashMap();
+        modelParameters.put( "lattice width", "" + getWavefunction().getWidth() );
+        modelParameters.put( "lattice height", "" + getWavefunction().getWidth() );
+        modelParameters.putAll( getPropagator().getModelParameters() );
+        return modelParameters;
     }
 
     class DefaultPropagate implements PropagationStrategy {

@@ -14,6 +14,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * User: Sam Reid
@@ -135,13 +137,21 @@ public abstract class GunParticle extends ImageComboBox.Item {
     }
 
     protected double getStartDxLattice() {
+//        return 1.0;
         return 0.06 * getDiscreteModel().getGridWidth();
+//        return 0.06 * getDiscreteModel().getGridWidth();
     }
 
     private ArrayList changeHandlers = new ArrayList();
 
     public Point getGunLocation() {
         return new Point( -10, 35 );
+    }
+
+    public Map getModelParameters() {
+        HashMap map = new HashMap();
+        map.put( "startDXLattice", "" + getStartDxLattice() );
+        return map;
     }
 
 //    protected void detachListener( AbstractGun.MomentumChangeListener listener ) {

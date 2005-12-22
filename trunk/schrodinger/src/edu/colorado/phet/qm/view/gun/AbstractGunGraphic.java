@@ -16,6 +16,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * User: Sam Reid
@@ -25,13 +27,13 @@ import java.io.IOException;
  */
 
 public abstract class AbstractGunGraphic extends PNode {
-    private SchrodingerPanel schrodingerPanel;
+    protected static final String GUN_RESOURCE = "images/raygun3-centerbarrel.gif";
+    public static final int GUN_PARTICLE_OFFSET = 35;
 
+    private SchrodingerPanel schrodingerPanel;
     private PImage gunImageGraphic;
     private ImagePComboBox comboBox;
     private PSwing comboBoxGraphic;
-    public static final int GUN_PARTICLE_OFFSET = 35;
-    protected final String GUN_RESOURCE = "images/raygun3-centerbarrel.gif";
     private PNode gunControls;
 
     public AbstractGunGraphic( final SchrodingerPanel schrodingerPanel ) {
@@ -134,6 +136,10 @@ public abstract class AbstractGunGraphic extends PNode {
             removeChild( gunControls );
             gunControls = null;
         }
+    }
+
+    public Map getModelParameters() {
+        return new HashMap();
     }
 
     public static interface MomentumChangeListener {
