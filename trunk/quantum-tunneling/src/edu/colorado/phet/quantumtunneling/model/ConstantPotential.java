@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.quantumtunneling.model;
 
+import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.enum.PotentialType;
 
 
@@ -21,12 +22,6 @@ import edu.colorado.phet.quantumtunneling.enum.PotentialType;
  * @version $Revision$
  */
 public class ConstantPotential extends AbstractPotential {
-    
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final double DEFAULT_ENERGY = 5;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -36,7 +31,7 @@ public class ConstantPotential extends AbstractPotential {
      * Constructor.
      */
     public ConstantPotential() {
-        this( DEFAULT_ENERGY );
+        this( QTConstants.DEFAULT_POTENTIAL_ENERGY );
     }
     
     public ConstantPotential( double energy ) {

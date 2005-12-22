@@ -13,14 +13,13 @@ package edu.colorado.phet.quantumtunneling.view;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.DecimalFormat;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotential;
-import edu.colorado.phet.quantumtunneling.model.PotentialRegion;
-import edu.umd.cs.piccolo.PNode;
 
 
 /**
@@ -47,6 +46,7 @@ public class PotentialEnergyDragHandle extends AbstractDragHandle implements Obs
     
     public PotentialEnergyDragHandle( QTCombinedChartNode chartNode ) {
         super( AbstractDragHandle.VERTICAL );
+        setValueFormat( QTConstants.ENERGY_FORMAT );
         
         _potentialEnergy = null;
         _regionIndex = -1;

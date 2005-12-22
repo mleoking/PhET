@@ -13,6 +13,7 @@ package edu.colorado.phet.quantumtunneling;
 
 import java.awt.*;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 import org.jfree.data.Range;
 
@@ -51,8 +52,8 @@ public class QTConstants {
     public static final boolean CLOCK_TIME_STEP_IS_CONSTANT = true;
     public static final boolean CLOCK_ENABLE_CONTROLS = true;
     
-    public static final double TIME_SCALE = 0.01;  // must be a 1/(power of 10)
-    public static final DecimalFormat TIME_FORMAT = new DecimalFormat( "0.00" );
+    public static final double TIME_SCALE = 0.1;  // must be a 1/(power of 10)
+    public static final DecimalFormat TIME_FORMAT = new DecimalFormat( "0.0" );
     
     //----------------------------------------------------------------------------
     // Fonts
@@ -127,6 +128,16 @@ public class QTConstants {
     public static final String IMAGE_STEP = IMAGES_DIRECTORY + "stepButton.gif";
     
     //----------------------------------------------------------------------------
+    // Formats
+    //----------------------------------------------------------------------------
+    
+    public static final double POSITION_STEP = 0.1;
+    public static final String POSITION_FORMAT = "0.0";
+    
+    public static final double ENERGY_STEP = 0.01; 
+    public static final String ENERGY_FORMAT = "0.00";
+   
+    //----------------------------------------------------------------------------
     // Wave Packet
     //----------------------------------------------------------------------------
     
@@ -140,15 +151,22 @@ public class QTConstants {
     public static final double MAX_PACKET_CENTER = 20.0; // nm
     public static final double DEFAULT_PACKET_CENTER = 1.5; // nm
     
-    // total energy
-    public static final double TOTAL_ENERGY_DEVIATION = 3.8; //  eV
+    //----------------------------------------------------------------------------
+    // Energies
+    //----------------------------------------------------------------------------
+    
+    public static final double DEFAULT_TOTAL_ENERGY = .8; // eV
+    public static final double DEFAULT_POTENTIAL_ENERGY = .5; // eV
+    
+    /* used to draw the total energy "band" */
+    public static final double TOTAL_ENERGY_DEVIATION = .38; //  eV
     
     //----------------------------------------------------------------------------
     // Charts
     //----------------------------------------------------------------------------
     
     public static final Range POSITION_RANGE = new Range( 0, 20 ); // nm
-    public static final Range ENERGY_RANGE = new Range( -1, 10 ); // eV
+    public static final Range ENERGY_RANGE = new Range( -1, 1 ); // eV
     public static final Range WAVE_FUNCTION_RANGE = new Range( -2, 2 );
     public static final Range PROBABILITY_DENSITY_RANGE = new Range( 0, 4 );
     

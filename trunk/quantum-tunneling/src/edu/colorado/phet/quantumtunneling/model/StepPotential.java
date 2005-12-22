@@ -11,6 +11,8 @@
 
 package edu.colorado.phet.quantumtunneling.model;
 
+import edu.colorado.phet.quantumtunneling.QTConstants;
+
 
 /**
  * StepPotential describes a potential space that contains a single step.
@@ -25,7 +27,7 @@ public class StepPotential extends AbstractPotential {
     //----------------------------------------------------------------------------
     
     private static final double DEFAULT_STEP_POSITION = 5;
-    private static final double DEFAULT_STEP_ENERGY = 5;
+    private static final double DEFAULT_STEP_ENERGY = QTConstants.DEFAULT_POTENTIAL_ENERGY;
     
     //----------------------------------------------------------------------------
     // Constructors

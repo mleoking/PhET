@@ -13,13 +13,11 @@ package edu.colorado.phet.quantumtunneling.view;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.model.TotalEnergy;
-import edu.umd.cs.piccolo.PNode;
 
 
 /**
@@ -51,6 +49,7 @@ public class TotalEnergyDragHandle extends AbstractDragHandle implements Observe
      */
     public TotalEnergyDragHandle( QTCombinedChartNode chartNode ) {
         super( AbstractDragHandle.VERTICAL );
+        setValueFormat( QTConstants.ENERGY_FORMAT );
         
         _totalEnergy = null;
         _chartNode = chartNode;
