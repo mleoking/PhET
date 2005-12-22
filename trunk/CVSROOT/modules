@@ -44,7 +44,7 @@ jfreechart-module jfreechart
 # Common PhET framework
 #============================================================================
 
-# Phet common code 
+# Phet common code
 phetcommon-module phetcommon
 
 # Phetgraphics
@@ -68,7 +68,7 @@ stripchart-module stripchart
 # Collisions
 collision-module collision
 
-# Mechanics 
+# Mechanics
 mechanics-module mechanics
 
 #============================================================================
@@ -97,8 +97,8 @@ quantum-tunneling-module quantum-tunneling &piccolo-phet-module &jfreechart-modu
 # Bernoulli
 bernoulli bernoulli
 
-# Circuit construction kit
-cck cck3 &phetcommon-module
+# Circuit construction kit, phetcommon has been bundled in cck3/ directory, so we don't depend on being in a (very old) branch.
+cck cck3
 
 # Battery-voltage
 battery-voltage batteryvoltage
@@ -106,10 +106,10 @@ battery-voltage batteryvoltage
 # Balloons
 balloons-module balloons
 
-# Ideal gas 
+# Ideal gas
 ideal-gas ideal-gas-v3 &phetcommon-module &mechanics-module
 
-# Nuclear physics 
+# Nuclear physics
 nuclear-physics nuclearphysics &phetcommon-module &mechanics-module
 
 # Sound
