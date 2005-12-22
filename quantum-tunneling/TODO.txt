@@ -3,14 +3,13 @@
 ===============================================================================
 
 IN PROGRESS:
-- Save/Load
 
 HIGH PRIORITY:
+- implement Schrodinger's equation for 1 dimension
 - implement phase view
-- should wave packet width & center sliders only update model when slider is released?
+- don't update until wave packet width & center sliders are released
 
 MEDIUM PRIORITY:
-- implement Schrodinger's equation for 1 dimension
 - add application description to SimStrings files
 - Help items
 - hook up Loop button
