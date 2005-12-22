@@ -62,8 +62,8 @@ public class QTControlPanel extends AbstractControlPanel {
     
     private QTModule _module;
     private JComboBox _potentialComboBox;
-    private JCheckBox _realCheckBox, _imaginaryCheckBox, _magnitudeCheckBox, _phaseCheckBox;
     private Object _constantItem, _stepItem, _singleBarrierItem, _doubleBarrierItem;
+    private JCheckBox _realCheckBox, _imaginaryCheckBox, _magnitudeCheckBox, _phaseCheckBox;
     private JRadioButton _separateRadioButton, _sumRadioButton;
     private JRadioButton _leftToRightRadioButton, _rightToLeftRadioButton;
     private JRadioButton _planeWaveRadioButton, _packetWaveRadioButton;
@@ -144,7 +144,7 @@ public class QTControlPanel extends AbstractControlPanel {
             viewPanel.add( innerPanel, BorderLayout.WEST );
         }
         
-        // Incident/Reflected waves
+        // Incident/Reflected view
         JPanel irPanel = new JPanel();
         {
             JLabel label = new JLabel( SimStrings.get( "label.ir" ) );
@@ -335,36 +335,6 @@ public class QTControlPanel extends AbstractControlPanel {
             _centerSlider.addChangeListener( _listener );
             _measureButton.addActionListener( _listener );
         }
-        
-        reset();
-    }
-
-    //----------------------------------------------------------------------------
-    // AbstractControlPanel implementation
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Resets the control panel to default (initial) values.
-     */
-    public void reset() {
-        _potentialComboBox.setSelectedItem( _constantItem );
-        handlePotentialSelection();
-        _realCheckBox.setSelected( true );
-        handleRealSelection();
-        _imaginaryCheckBox.setSelected( false );
-        handleImaginarySelection();
-        _magnitudeCheckBox.setSelected( false );
-        handleMagnitudeSelection();
-        _phaseCheckBox.setSelected( false );
-        handlePhaseSelection();
-        _sumRadioButton.setSelected( true );
-        handleIRViewSelection();
-        _leftToRightRadioButton.setSelected( true );
-        handleDirectionSelection();
-        _planeWaveRadioButton.setSelected( true );
-        handleWaveTypeSelection();
-        _widthSlider.setValue( QTConstants.DEFAULT_PACKET_WIDTH );
-        _centerSlider.setValue( QTConstants.DEFAULT_PACKET_CENTER );
         
         // Disable stuff that's not implemented yet
         {

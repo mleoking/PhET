@@ -159,12 +159,12 @@ public class QTApplication extends PhetApplication {
         QTConfig.GlobalConfig config = appConfig.getGlobalConfig();
         config.setCvsTag( Version.CVS_TAG );
         config.setVersionNumber( Version.NUMBER );
-        config.setShowValues( _optionsMenu.getShowValuesSelected() );
+        config.setValuesVisible( _optionsMenu.getShowValuesSelected() );
     }
 
     public void load( QTConfig appConfig ) {
         QTConfig.GlobalConfig config = appConfig.getGlobalConfig();
-        _optionsMenu.setShowValuesSelected( config.getShowValues() );
+        _optionsMenu.setShowValuesSelected( config.isValuesVisible() );
     }
 
     //----------------------------------------------------------------------------

@@ -80,7 +80,7 @@ public class QTConfig implements Serializable {
         
         private String _versionNumber;
         private String _cvsTag;
-        private boolean _showValues;
+        private boolean _valuesVisible;
 
         //----------------------------------------------------------------------------
         // Constructors
@@ -111,12 +111,12 @@ public class QTConfig implements Serializable {
             _cvsTag = buildNumber;
         }
            
-        public boolean getShowValues() {
-            return _showValues;
+        public boolean isValuesVisible() {
+            return _valuesVisible;
         }
         
-        public void setShowValues( boolean showValues ) {
-            _showValues = showValues;
+        public void setValuesVisible( boolean visible ) {
+            _valuesVisible = visible;
         }
     }
     
@@ -132,10 +132,10 @@ public class QTConfig implements Serializable {
         
         private double _totalEnergy;
         
-        private String _potentialTypeName;
         private double _minRegionWidth;
         private Region[] _regions;
  
+        private String _potentialTypeName;
         private boolean _realSelected;
         private boolean _imaginarySelected;
         private boolean _magnitudeSelected;
@@ -299,38 +299,46 @@ public class QTConfig implements Serializable {
             return WaveType.getByName( getWaveTypeName() );
         }
         
+        public void saveTotalEnergy( TotalEnergy te ) {
+            setTotalEnergy( te.getEnergy() );
+        }
+        
+        public TotalEnergy loadTotalEnergy() {
+            return new TotalEnergy( getTotalEnergy() );
+        }
+        
         /**
          * Breaks an AbstractPotential into the pieces that we need to save
          * (potential type, min region width, regions).
          * 
-         * @param potentialEnergy
+         * @param pe
          */
-        public void savePotentialEnergy( AbstractPotential potentialEnergy ) {
+        public void savePotentialEnergy( AbstractPotential pe ) {
             
             // Potential type
             PotentialType potentialType = null;
-            if ( potentialEnergy instanceof ConstantPotential ) {
+            if ( pe instanceof ConstantPotential ) {
                 potentialType = PotentialType.CONSTANT;
             }
-            else if ( potentialEnergy instanceof StepPotential ) {
+            else if ( pe instanceof StepPotential ) {
                 potentialType = PotentialType.STEP;
             }
-            else if ( potentialEnergy instanceof SingleBarrierPotential ) {
+            else if ( pe instanceof SingleBarrierPotential ) {
                 potentialType = PotentialType.SINGLE_BARRIER;
             }
-            else if ( potentialEnergy instanceof DoubleBarrierPotential ) {
+            else if ( pe instanceof DoubleBarrierPotential ) {
                 potentialType = PotentialType.DOUBLE_BARRIER;
             }
             else {
-                throw new IllegalArgumentException( "unsupported potential type: " + potentialEnergy.getClass().getName() );
+                throw new IllegalArgumentException( "unsupported potential type: " + pe.getClass().getName() );
             }
             savePotentialType( potentialType );
             
             // Min region width 
-            _minRegionWidth = potentialEnergy.getMinRegionWidth();
+            _minRegionWidth = pe.getMinRegionWidth();
             
             // Regions
-            PotentialRegion[] potentialRegions = potentialEnergy.getRegions();
+            PotentialRegion[] potentialRegions = pe.getRegions();
             Region[] regions = new Region[ potentialRegions.length ];
             for ( int i = 0; i < potentialRegions.length; i++ ) {
                 Region region = new Region( potentialRegions[i] );

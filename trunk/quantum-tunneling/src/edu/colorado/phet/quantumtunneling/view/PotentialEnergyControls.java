@@ -35,7 +35,7 @@ public class PotentialEnergyControls extends PNode {
     private QTCombinedChartNode _chartNode;
     private ArrayList _energyDragHandles; // array of PotentialEnergyDragHandle
     private ArrayList _boundaryDragHandles; // array of RegionBoundaryDragHandle
-    private boolean _textEnabled;
+    private boolean _valueVisible;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -50,7 +50,7 @@ public class PotentialEnergyControls extends PNode {
         _chartNode = chartNode;
         _energyDragHandles = new ArrayList();
         _boundaryDragHandles = new ArrayList();
-        _textEnabled = false;
+        _valueVisible = false;
     }
     
     //----------------------------------------------------------------------------
@@ -83,7 +83,7 @@ public class PotentialEnergyControls extends PNode {
 
             PotentialEnergyDragHandle energyDragHandle = new PotentialEnergyDragHandle( _chartNode );
             energyDragHandle.setPotentialEnergy( potentialEnergy, i );
-            energyDragHandle.setShowValueEnabled( _textEnabled );
+            energyDragHandle.setValueVisible( _valueVisible );
             _energyDragHandles.add( energyDragHandle );
             addChild( energyDragHandle );
             
@@ -91,7 +91,7 @@ public class PotentialEnergyControls extends PNode {
             if ( i < numberOfRegions - 1 ) {
                 RegionBoundaryDragHandle boundaryDragHandle = new RegionBoundaryDragHandle( _chartNode );
                 boundaryDragHandle.setPotentialEnergy( potentialEnergy, i );
-                boundaryDragHandle.setShowValueEnabled( _textEnabled );
+                boundaryDragHandle.setValueVisible( _valueVisible );
                 _boundaryDragHandles.add( boundaryDragHandle );
                 addChild( boundaryDragHandle );
             }
@@ -101,31 +101,31 @@ public class PotentialEnergyControls extends PNode {
     }
     
     /**
-     * Enables or disables the value shown on the drag handles.
+     * Shows/hides the values shown on the drag handles.
      * 
-     * @param enabled true or false
+     * @param visible true or false
      */
-    public void setShowValuesEnabled( boolean enabled ) {
-        if ( enabled != _textEnabled ) {
-            _textEnabled = enabled;
+    public void setValuesVisible( boolean visible ) {
+        if ( visible != _valueVisible ) {
+            _valueVisible = visible;
             for ( int i = 0; i < _energyDragHandles.size(); i++ ) {
                 PotentialEnergyDragHandle energyDragHandle = (PotentialEnergyDragHandle) _energyDragHandles.get( i );
-                energyDragHandle.setShowValueEnabled( _textEnabled );
+                energyDragHandle.setValueVisible( _valueVisible );
             }
             for ( int i = 0; i < _boundaryDragHandles.size(); i++ ) {
                 RegionBoundaryDragHandle boundaryDragHandle = (RegionBoundaryDragHandle) _boundaryDragHandles.get( i );
-                boundaryDragHandle.setShowValueEnabled( _textEnabled );
+                boundaryDragHandle.setValueVisible( _valueVisible );
             }
         }
     }
     
     /**
-     * Is the value shown on drag handles?
+     * Are the values shown on drag handles?
      * 
      * @return true or false
      */
-    public boolean isShowValuesEnabled() {
-        return ( (PotentialEnergyDragHandle) _energyDragHandles.get( 0 ) ).isShowValueEnabled();
+    public boolean isValuesVisible() {
+        return ( (PotentialEnergyDragHandle) _energyDragHandles.get( 0 ) ).isValueVisible();
     }
     
     //----------------------------------------------------------------------------

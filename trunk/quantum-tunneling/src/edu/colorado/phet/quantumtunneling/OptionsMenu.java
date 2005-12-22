@@ -56,7 +56,7 @@ public class OptionsMenu extends JMenu {
 
         // Background Color menu item
         _showValuesMenuItem = new JCheckBoxMenuItem( SimStrings.get( "menu.options.showValues" ) );
-        _showValuesMenuItem.setSelected( _module.isShowValuesEnabled() );
+        _showValuesMenuItem.setSelected( _module.isValuesVisible() );
         _showValuesMenuItem.setMnemonic( SimStrings.get( "menu.options.showValues.mnemonic" ).charAt( 0 ) );
         _showValuesMenuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
@@ -87,6 +87,6 @@ public class OptionsMenu extends JMenu {
      */
     public void handleShowValues() {
         boolean enabled = _showValuesMenuItem.isSelected();
-        _module.setShowValuesEnabled( enabled );
+        _module.setValuesVisible( enabled );
     }
 }
