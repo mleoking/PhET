@@ -578,10 +578,16 @@ public class QTControlPanel extends AbstractControlPanel {
 
         public void stateChanged( ChangeEvent event ) {
             if ( event.getSource() == _widthSlider ) {
-                handleWidthSlider();
+                if ( !_widthSlider.isAdjusting() ) {
+                    // when the user lets go of the slider...
+                    handleWidthSlider();
+                }
             }
             else if ( event.getSource() == _centerSlider ) {
-                handleCenterSlider();
+                if ( !_centerSlider.isAdjusting() ) {
+                    // when the user lets go of the slider...
+                    handleCenterSlider();
+                }
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + event );
