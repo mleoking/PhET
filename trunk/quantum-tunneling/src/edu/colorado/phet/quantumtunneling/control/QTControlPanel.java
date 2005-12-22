@@ -182,38 +182,34 @@ public class QTControlPanel extends AbstractControlPanel {
         {
             JLabel label = new JLabel( SimStrings.get( "label.direction" ) );
             
-            JLabel l2rLabel = null;
-            JLabel r2lLabel = null;
             try {
                 // Pretty icons to indicate direction
                 ImageIcon l2rIcon = new ImageIcon( ImageLoader.loadBufferedImage( QTConstants.IMAGE_ARROW_L2R ) );
-                l2rLabel = new JLabel( l2rIcon );
                 ImageIcon r2lIcon = new ImageIcon( ImageLoader.loadBufferedImage( QTConstants.IMAGE_ARROW_R2L ) );
-                r2lLabel = new JLabel( r2lIcon );
+                ImageIcon l2rIconSelected = new ImageIcon( ImageLoader.loadBufferedImage( QTConstants.IMAGE_ARROW_L2R_SELECTED ) );
+                ImageIcon r2lIconSelected = new ImageIcon( ImageLoader.loadBufferedImage( QTConstants.IMAGE_ARROW_R2L_SELECTED ) );
+                _leftToRightRadioButton = new JRadioButton( l2rIcon );
+                _leftToRightRadioButton.setSelectedIcon( l2rIconSelected );
+                _rightToLeftRadioButton = new JRadioButton( r2lIcon );
+                _rightToLeftRadioButton.setSelectedIcon( r2lIconSelected );
             }
             catch ( IOException e ) {
                 // Fallback to crude arrows if we can't load icons
-                l2rLabel = new JLabel( "-->" );
-                r2lLabel = new JLabel( "<--" );
+                _leftToRightRadioButton = new JRadioButton( "-->" );
+                _rightToLeftRadioButton = new JRadioButton( "<--" );
                 e.printStackTrace();
             }
 
-            _leftToRightRadioButton = new JRadioButton();
-            _rightToLeftRadioButton = new JRadioButton();
             ButtonGroup buttonGroup = new ButtonGroup();
             buttonGroup.add( _leftToRightRadioButton );
             buttonGroup.add( _rightToLeftRadioButton );
             
-            int horizontalSpaceBetweenButtons = 20;
             JPanel buttonPanel = new JPanel();
             EasyGridBagLayout buttonLayout = new EasyGridBagLayout( buttonPanel );
             buttonPanel.setLayout( buttonLayout );
             buttonLayout.setAnchor( GridBagConstraints.WEST );
-            buttonLayout.setMinimumWidth( 2, horizontalSpaceBetweenButtons );
             buttonLayout.addComponent( _leftToRightRadioButton, 0, 0 );
-            buttonLayout.addComponent( l2rLabel, 0, 1 );
-            buttonLayout.addComponent( _rightToLeftRadioButton, 0, 3 );
-            buttonLayout.addComponent( r2lLabel, 0, 4 );
+            buttonLayout.addComponent( _rightToLeftRadioButton, 0, 1 );
             
             // Layout
             JPanel innerPanel = new JPanel();
