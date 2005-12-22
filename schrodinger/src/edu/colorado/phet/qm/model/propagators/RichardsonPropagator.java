@@ -3,10 +3,13 @@ package edu.colorado.phet.qm.model.propagators;
 import edu.colorado.phet.qm.model.*;
 import edu.colorado.phet.qm.model.math.Complex;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class RichardsonPropagator extends Propagator {
     private double simulationTime;
 
-    private double deltaTime;
+//    private double deltaTime;
     private int timeStep;
 
     private Wave wave;
@@ -21,7 +24,8 @@ public class RichardsonPropagator extends Propagator {
 
     public RichardsonPropagator( DiscreteModel discreteModel, double TAU, Wave wave, Potential potential ) {
         super( discreteModel, potential );
-        this.deltaTime = TAU;
+        setDeltaTime( TAU );
+//        this.deltaTime = TAU;
         this.wave = wave;
         setPotential( potential );
         simulationTime = 0.0;
@@ -30,19 +34,31 @@ public class RichardsonPropagator extends Propagator {
         mass = 1;//0.0020;
 //        mass = 2;//0.0020;
 
-        deltaTime = 0.8 * mass / hbar;
+        setDeltaTime( 0.8 * mass / hbar );
+//        deltaTime = 0.8 * mass / hbar;
 //        deltaTime = 0.8 * 1.0 / hbar;
         betaeven = new Complex[0][0];
         betaodd = new Complex[0][0];
         update();
     }
 
+    public Map getModelParameters() {
+        Map map = new HashMap();
+        map.put( "deltaTime", "" + getDeltaTime() );
+        map.put( "propagator_mass", "" + mass );
+        map.put( "hbar", "" + hbar );
+        return map;
+    }
+
     public void update() {
 
-        epsilon = toEpsilon( deltaTime );
+        epsilon = toEpsilon( getDeltaTime() );
 
         alpha = createAlpha();
         beta = createBeta();
+        if( betaeven == null ) {
+            return;
+        }
         for( int i = 0; i < betaeven.length; i++ ) {
             for( int j = 0; j < betaeven[i].length; j++ ) {
                 betaeven[i][j] = new Complex();
@@ -83,7 +99,7 @@ public class RichardsonPropagator extends Propagator {
         }
 
         prop2D( w );
-        simulationTime += deltaTime;
+        simulationTime += getDeltaTime();
         timeStep++;
     }
 
@@ -154,7 +170,7 @@ public class RichardsonPropagator extends Propagator {
         for( int i = 1; i < w.getWidth() - 1; i++ ) {
             for( int j = 1; j < w.getHeight() - 1; j++ ) {
                 double pot = getPotential().getPotential( i, j, timeStep );
-                potTemp.setValue( Math.cos( pot * deltaTime / hbar ), -Math.sin( pot * deltaTime / hbar ) );
+                potTemp.setValue( Math.cos( pot * getDeltaTime() / hbar ), -Math.sin( pot * getDeltaTime() / hbar ) );
                 waveTemp.setValue( w.valueAt( i, j ) );
                 w.valueAt( i, j ).setToProduct( waveTemp, potTemp );
             }
@@ -162,7 +178,7 @@ public class RichardsonPropagator extends Propagator {
     }
 
     public void setDeltaTime( double deltaTime ) {
-        this.deltaTime = deltaTime;
+        super.setDeltaTime( deltaTime );
         update();
     }
 
@@ -177,7 +193,7 @@ public class RichardsonPropagator extends Propagator {
     }
 
     public Propagator copy() {
-        return new RichardsonPropagator( getDiscreteModel(), deltaTime, wave, getPotential() );
+        return new RichardsonPropagator( getDiscreteModel(), getDeltaTime(), wave, getPotential() );
     }
 
     public void normalize() {
@@ -193,5 +209,6 @@ public class RichardsonPropagator extends Propagator {
     public Wave getWave() {
         return wave;
     }
+
 
 }

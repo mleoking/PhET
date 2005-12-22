@@ -12,6 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * User: Sam Reid
@@ -233,4 +234,9 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
         photonBeamParticle.reset();
     }
 
+    public Map getModelParameters() {
+        Map sup = super.getModelParameters();
+        sup.putAll( currentObject.getModelParameters() );
+        return sup;
+    }
 }

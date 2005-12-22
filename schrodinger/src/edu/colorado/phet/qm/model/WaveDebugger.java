@@ -1,6 +1,9 @@
 package edu.colorado.phet.qm.model;
 
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.qm.view.colorgrid.ColorMap;
+import edu.colorado.phet.qm.view.complexcolormaps.ComplexColorMap;
+import edu.colorado.phet.qm.view.complexcolormaps.GrayscaleColorMap;
 import edu.colorado.phet.qm.view.piccolo.SimpleWavefunctionGraphic;
 
 import javax.swing.*;
@@ -24,18 +27,20 @@ public class WaveDebugger {
         phetPCanvas = new PhetPCanvas();
         frame.setContentPane( phetPCanvas );
         simpleWavefunctionGraphic = new SimpleWavefunctionGraphic( wavefunction );
+        simpleWavefunctionGraphic.setComplexColorMap( new GrayscaleColorMap.Real() );
         phetPCanvas.addScreenChild( simpleWavefunctionGraphic );
         frame.setSize( 400, 400 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
     }
 
-    public static void main( String[] args ) {
-        Wavefunction wavefunction = new Wavefunction( 100, 100 );
-        wavefunction.setValue( 10, 10, 1.0, 0 );
-//        Wave wave = new GaussianWave2D(new Point2D.Double(50, 50), new Vector2D.Double(0, 0), 1);
-//        new WaveSetup(wave).initialize(wavefunction);
-        WaveDebugger waveDebugger = new WaveDebugger( "Test", wavefunction );
-        waveDebugger.setVisible( true );
+    public void setColorMap( ColorMap colorMap ) {
+        simpleWavefunctionGraphic.setColorMap( colorMap );
+        update();
+    }
+
+    public void setComplexColorMap( ComplexColorMap complexColorMap ) {
+        simpleWavefunctionGraphic.setComplexColorMap( complexColorMap );
+        update();
     }
 
     public void setVisible( boolean b ) {

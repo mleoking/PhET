@@ -7,6 +7,7 @@ import edu.colorado.phet.piccolo.pswing.PSwing;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Map;
 
 /**
  * User: Sam Reid
@@ -106,5 +107,15 @@ public class DefaultGunParticle extends GunParticle {
 
     public static DefaultGunParticle createCustomAtom( AbstractGunGraphic gun ) {
         return new DefaultGunParticle( gun, "Custom Atoms", "images/atom-thumb.jpg" );
+    }
+
+    public Map getModelParameters() {
+        Map map = super.getModelParameters();
+        map.put( "init_mass", "" + getMass() );
+        map.put( "init_vel", "" + getVelocity() );
+        map.put( "init_momentum", "" + getStartPy() );
+        map.put( "start_y", "" + getStartY() );
+        map.put( "initial_dx_lattice", "" + getStartDxLattice() );
+        return map;
     }
 }

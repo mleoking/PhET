@@ -3,6 +3,8 @@ package edu.colorado.phet.qm.model;
 import edu.colorado.phet.qm.model.math.Complex;
 
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * User: Sam Reid
@@ -68,5 +70,9 @@ public abstract class Propagator {
 
 
     public void combineWaves( Rectangle region, Propagator a, Propagator b ) {
+    }
+
+    public Map getModelParameters() {
+        return new HashMap();
     }
 }

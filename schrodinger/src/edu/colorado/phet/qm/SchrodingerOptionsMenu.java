@@ -7,6 +7,8 @@ import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * User: Sam Reid
@@ -55,6 +57,35 @@ public class SchrodingerOptionsMenu extends JMenu {
             }
         } );
         add( item );
+
+        JMenuItem printModelParameters = new JMenuItem( "Print Model Parameter" );
+        printModelParameters.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                printModelParameters();
+            }
+
+        } );
+        add( printModelParameters );
+    }
+
+    private void printModelParameters() {
+        Map modelParams = schrodingerModule.getModelParameters();
+        String text = toText( modelParams );
+        JOptionPane.showMessageDialog( this, text );
+    }
+
+    private String toText( Map modelParams ) {
+        Iterator iterator = modelParams.keySet().iterator();
+        String text = new String();
+        while( iterator.hasNext() ) {
+            Object key = (Object)iterator.next();
+            Object value = modelParams.get( key );
+            text += key + " = " + value;
+            if( iterator.hasNext() ) {
+                text += System.getProperty( "line.separator" );
+            }
+        }
+        return text;
     }
 
     private SchrodingerPanel getSchrodingerPanel() {
