@@ -12,6 +12,7 @@ package edu.colorado.phet.photoelectric.view;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 import edu.colorado.phet.photoelectric.view.util.RotatedTextLabel;
 
@@ -43,24 +44,24 @@ public class GraphPanel2 extends JPanel {
 
         GraphPanel cvgPanel2 = new GraphPanel( module.getClock() );
         cvgPanel2.setGraph( new CurrentVsVoltageGraph( cvgPanel2, model ), graphInsets );
-        addGraph( "<html>Current vs battery voltage</html>",
+        addGraph( SimStrings.get( "GraphTitle.CurrentVsVoltage" ),
                   cvgPanel2,
-                  "Voltage",
-                  "Current" );
+                  SimStrings.get( "Voltage" ),
+                  SimStrings.get( "Current" ));
 
         GraphPanel panel2 = new GraphPanel( module.getClock() );
         panel2.setGraph( new CurrentVsIntensityGraph( panel2, model ), graphInsets );
-        addGraph( "<html>Current vs light intensity</html>",
+        addGraph( SimStrings.get( "GraphTitle.CurrentVsIntensity" ),
                   panel2,
-                  "Intensity",
-                  "Current" );
+                  SimStrings.get( "GraphLabel.Intensity" ),
+                  SimStrings.get( "GraphLabel.Current" ) );
 
         GraphPanel panel3 = new GraphPanel( module.getClock() );
         panel3.setGraph( new EnergyVsFrequencyGraph( panel2, model ), graphInsets );
-        addGraph( "<html>Electron energy vs light frequency</html>",
+        addGraph( SimStrings.get( "GraphTitle.EnergyVsFrequency" ),
                   panel3,
-                  "Frequency (x10^15 Hz)",
-                  "Energy (mJ)" );
+                  SimStrings.get( "GraphLabel.Frequency"),
+                  SimStrings.get( "GraphLabel.Energy" ));
 
         setBorder( new TitledBorder( "Graphs" ) );
     }

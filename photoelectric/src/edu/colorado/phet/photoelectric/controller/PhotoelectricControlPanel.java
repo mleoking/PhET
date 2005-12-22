@@ -11,6 +11,7 @@
 package edu.colorado.phet.photoelectric.controller;
 
 import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.model.DischargeLampElementProperties;
 import edu.colorado.phet.dischargelamps.model.EnergyAbsorptionStrategy;
 import edu.colorado.phet.photoelectric.model.MetalEnergyAbsorptionStrategy;
@@ -51,7 +52,7 @@ public class PhotoelectricControlPanel {
         //----------------------------------------------------------------
         {
             JPanel targetControlPnl = new JPanel( new GridBagLayout() );
-            targetControlPnl.setBorder( new TitledBorder( "Target" ) );
+            targetControlPnl.setBorder( new TitledBorder( SimStrings.get( "Target" ) ));
             controlPanel.addFullWidth( targetControlPnl );
 
             // Put the targetMaterials in the desired order. Sodium should be at the top, and the "mystery material",
@@ -92,7 +93,7 @@ public class PhotoelectricControlPanel {
                                                              GridBagConstraints.NONE,
                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
 
-            final JCheckBox electronModelCB = new JCheckBox( "Show only highest energy electrons" );
+            final JCheckBox electronModelCB = new JCheckBox( SimStrings.get( "ControlPanel.SimpleMode" ));
             electronModelCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if( electronModelCB.isSelected() ) {

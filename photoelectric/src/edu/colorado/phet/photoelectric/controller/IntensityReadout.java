@@ -14,6 +14,7 @@ import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.model.photon.Beam;
 
 import javax.swing.*;
@@ -77,12 +78,11 @@ public class IntensityReadout extends GraphicLayerSet implements Beam.RateChange
             text = nmLoc >= 0 ? readout.getText().substring( 0, nmLoc ) : text;
             double percent = MathUtil.clamp( 0, Double.parseDouble( text ), 100 );
             photonsPerSecond = percent / 100 * this.beam.getMaxPhotonsPerSecond();
-            System.out.println( "photonsPerSecond = " + photonsPerSecond );
             this.beam.setPhotonsPerSecond( photonsPerSecond );
             update( photonsPerSecond );
         }
         catch( NumberFormatException e1 ) {
-            JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ), "Wavelength must be numeric, or a number followed by \"%\"" );
+            JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ), SimStrings.get( "Intensity.message" ));
             readout.setText( format.format( beam.getPhotonsPerSecond() / beam.getMaxPhotonsPerSecond() ) );
         }
     }

@@ -14,6 +14,7 @@ import edu.colorado.phet.dischargelamps.model.DefaultEnergyEmissionStrategy;
 import edu.colorado.phet.dischargelamps.model.DischargeLampElementProperties;
 import edu.colorado.phet.dischargelamps.model.EnergyAbsorptionStrategy;
 import edu.colorado.phet.lasers.model.atom.EnergyEmissionStrategy;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
  * Zinc
@@ -22,7 +23,7 @@ import edu.colorado.phet.lasers.model.atom.EnergyEmissionStrategy;
  * @version $Revision$
  */
 public class Copper extends DischargeLampElementProperties {
-    private static final String NAME = "Copper";
+    private static final String NAME = SimStrings.get("Element.Copper");
     private static final double[] ENERGY_LEVELS = new double[]{-13.6};
     private static final EnergyEmissionStrategy ENERGY_EMISSION_STRATEGY = new DefaultEnergyEmissionStrategy();
     private static final double WORK_FUNCTION = 4.7;

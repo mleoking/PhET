@@ -11,6 +11,7 @@
 package edu.colorado.phet.photoelectric.controller;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
@@ -127,7 +128,7 @@ public class SpectrumSliderWithReadout extends SpectrumSliderWithSquareCursor {
             }
             catch( NumberFormatException e1 ) {
                 JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ),
-                                               "Wavelength must be numeric, or a number followed by \"nm\"" );
+                                               SimStrings.get( "Wavelength.message"));
                 setText( beam.getWavelength() );
             }
         }
