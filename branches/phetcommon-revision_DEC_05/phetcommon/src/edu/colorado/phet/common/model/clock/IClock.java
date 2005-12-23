@@ -18,12 +18,17 @@ package edu.colorado.phet.common.model.clock;
  */
 public interface IClock {
     /**
-     * Starts the clock (puts it in the running state).
+     * Starts the clock (puts it in the running state).  If the clock was already running, nothing happens,
+     * otherwise the clock starts.  It is legal to call start on an already running clock.
+     * Fires a clockStarted event.
      */
     void start();
 
     /**
-     * Pauses the clock (puts it in the paused state).
+     * Pauses the clock (puts it in the paused state).  If the clock was already paused, nothing happens,
+     * otherwise the clock is newly paused.  It is legal to call pause on an already paused clock.
+     * <p/>
+     * Fires a clockPaused event.
      */
     void pause();
 
@@ -57,6 +62,8 @@ public interface IClock {
 
     /**
      * Set the simulation time to zero.  This may fire a simulation time change (if the time was nonzero).
+     * This method fires a simulationTimeReset, and may fire a simulationTimeChange (if there was a change
+     * in the corresponding simulation time.
      */
     void resetSimulationTime();
 
@@ -97,6 +104,8 @@ public interface IClock {
 
     /**
      * Advance the clock by one tick.
+     * This fires a clockTicked, and may also fire a simulationTimeChange event,
+     * if indeed the simulation time changed.
      */
     void tickOnce();
 
