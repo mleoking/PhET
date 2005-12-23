@@ -22,7 +22,7 @@ public class PieChartPanel extends VerticalLayoutPanel {
     public PieChartPanel( final EC3Module module, EnergyPanel energyPanel ) {
         this.module = module;
         this.energyPanel = energyPanel;
-        setBorder( BorderFactory.createTitledBorder( "Pie Chart" ) );
+        setBorder( BorderFactory.createTitledBorder( "Energy Pie Chart" ) );
         final JCheckBox pieChart = new JCheckBox( "Show", module.isPieChartVisible() );
         pieChart.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
