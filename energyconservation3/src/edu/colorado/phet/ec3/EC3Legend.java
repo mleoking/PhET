@@ -20,4 +20,5 @@ public class EC3Legend extends Legend {
         addEntry( "Thermal Energy", ec3Module.getEnergyLookAndFeel().getThermalEnergyColor() );
         addEntry( "Total Energy", ec3Module.getEnergyLookAndFeel().getTotalEnergyColor() );
     }
+
 }

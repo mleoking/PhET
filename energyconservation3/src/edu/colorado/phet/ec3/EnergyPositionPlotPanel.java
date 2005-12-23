@@ -3,6 +3,7 @@ package edu.colorado.phet.ec3;
 
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.ec3.common.LucidaSansFont;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.plots.Range2D;
 import edu.colorado.phet.piccolo.PhetPCanvas;
@@ -52,6 +53,8 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
     private PPath verticalBar = new PPath( new Line2D.Double( 0, 0, 0, 500 ) );
     private static final int COUNT_MOD = 10;
 
+    private EC3Legend legend;
+
     public EnergyPositionPlotPanel( EC3Module ec3Module ) {
         super( new Dimension( 100, 100 ) );
         this.module = ec3Module;
@@ -78,26 +81,33 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
 
         image = new PImage( new BufferedImage( 10, 10, BufferedImage.TYPE_INT_RGB ) );
         addScreenChild( image );
-        updateImage();
+
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                updateImage();
+                updateGraphics();
             }
 
             public void componentShown( ComponentEvent e ) {
-                updateImage();
+                updateGraphics();
             }
         } );
         verticalBar.setStroke( new BasicStroke( 1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1, new float[]{10, 3}, 0 ) );
         verticalBar.setStrokePaint( Color.black );
         addScreenChild( verticalBar );
+        legend = new EC3Legend( ec3Module );
+        legend.setFont( new LucidaSansFont( 12 ) );
+        addScreenChild( legend );
+
+
+        updateGraphics();
     }
 
-    private void updateImage() {
+    private void updateGraphics() {
         if( getWidth() > 0 && getHeight() > 0 ) {
             image.setImage( chart.createBufferedImage( getWidth(), getHeight(), info ) );
         }
         reset();
+        legend.setOffset( getWidth() - legend.getFullBounds().getWidth() - 5, 5 + toImageLocation( 0, chart.getXYPlot().getRangeAxis().getRange().getUpperBound() ).getY() );
     }
 
     private static JFreeChart createChart( Range2D range, XYDataset dataset, String title ) {
@@ -128,6 +138,7 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
         getScreenNode().removeAllChildren();
         addScreenChild( image );
         addScreenChild( verticalBar );
+        addScreenChild( legend );
         peDots.clear();
     }
 
