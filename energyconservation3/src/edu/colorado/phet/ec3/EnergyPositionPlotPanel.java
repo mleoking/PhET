@@ -2,10 +2,12 @@
 package edu.colorado.phet.ec3;
 
 import edu.colorado.phet.ec3.common.LucidaSansFont;
+import edu.colorado.phet.ec3.common.SavedGraph;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
 import edu.colorado.phet.ec3.plots.Range2D;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import org.jfree.chart.ChartFactory;
@@ -74,13 +76,28 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
         peSeries = new XYSeries( "Potential" );
         keSeries = new XYSeries( "Kinetic" );
         totSeries = new XYSeries( "Total" );
+
+        JPanel southPanel = new JPanel();
+
         JButton clear = new JButton( "Clear" );
         clear.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 reset();
             }
         } );
-        add( clear, BorderLayout.SOUTH );
+
+
+        JButton copy = new JButton( "Copy" );
+        copy.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                copyChart();
+            }
+
+        } );
+        southPanel.add( copy );
+        southPanel.add( clear );
+
+        add( southPanel, BorderLayout.SOUTH );
         chart.setAntiAlias( true );
 
         image = new PImage( new BufferedImage( 10, 10, BufferedImage.TYPE_INT_RGB ) );
@@ -103,6 +120,15 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
         addScreenChild( legend );
 
         updateGraphics();
+    }
+
+    int saveCount = 1;
+
+    private void copyChart() {
+        Image image = super.getLayer().toImage( getWidth(), getHeight(), Color.white );
+        SavedGraph savedGraph = new SavedGraph( "Energy vs. Position (save #" + saveCount + ")", image );
+        savedGraph.setVisible( true );
+        saveCount++;
     }
 
     private void updateGraphics() {
@@ -138,10 +164,17 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
         peSeries.clear();
         keSeries.clear();
         totSeries.clear();
-        getScreenNode().removeAllChildren();
-        addScreenChild( image );
-        addScreenChild( verticalBar );
-        addScreenChild( legend );
+        for( int i = 0; i < getScreenNode().getChildrenCount(); i++ ) {
+            PNode child = getScreenNode().getChild( i );
+            if( child instanceof FadeDot ) {
+                getScreenNode().removeChild( child );
+                i--;
+            }
+        }
+//        getScreenNode().removeAllChildren();
+//        addScreenChild( image );
+//        addScreenChild( verticalBar );
+//        addScreenChild( legend );
         peDots.clear();
     }
 
