@@ -1,10 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3;
 
-import edu.colorado.phet.common.model.clock.ClockAdapter;
-import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.ec3.common.LucidaSansFont;
 import edu.colorado.phet.ec3.model.Body;
+import edu.colorado.phet.ec3.model.EnergyConservationModel;
 import edu.colorado.phet.ec3.plots.Range2D;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -58,11 +57,16 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
     public EnergyPositionPlotPanel( EC3Module ec3Module ) {
         super( new Dimension( 100, 100 ) );
         this.module = ec3Module;
-        ec3Module.getClock().addClockListener( new ClockAdapter() {
-            public void clockTicked( ClockEvent event ) {
+        ec3Module.getEnergyConservationModel().addEnergyModelListener( new EnergyConservationModel.EnergyModelListener() {
+            public void preStep( double dt ) {
                 update();
             }
         } );
+//        ec3Module.getClock().addClockListener( new ClockAdapter() {
+//            public void clockTicked( ClockEvent event ) {
+//                update();
+//            }
+//        } );
         dataset = createDataset();
 //        chart = createChart( new Range2D( -50, -25000, 1250, 400000 * 1.25 ), dataset, "Energy vs. Position" );
         chart = createChart( new Range2D( -2, -7000 / 10.0, 17, 7000 ), dataset, "Energy vs. Position" );
@@ -97,7 +101,6 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
         legend = new EC3Legend( ec3Module );
         legend.setFont( new LucidaSansFont( 12 ) );
         addScreenChild( legend );
-
 
         updateGraphics();
     }

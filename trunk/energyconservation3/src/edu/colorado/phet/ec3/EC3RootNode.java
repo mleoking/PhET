@@ -322,11 +322,11 @@ public class EC3RootNode extends PhetRootPNode {
     protected void layoutChildren() {
         super.layoutChildren();
         pauseIndicator.relayout();
-        double insetX = 5;
-        double insetyY = 10;
-        legend.invalidateLayout();
-        legend.validateFullPaint();
-        legend.setOffset( getEC3Panel().getWidth() - legend.getFullBounds().getWidth() - insetX, insetyY );
+        double insetX = 10;
+        double insetY = 10;
+//        legend.invalidateLayout();
+//        legend.validateFullPaint();
+        legend.setOffset( getEC3Panel().getWidth() - legend.getFullBounds().getWidth() - insetX, insetY );
     }
 
     private EC3Canvas getEC3Panel() {

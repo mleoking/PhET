@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 public class Legend extends PNode {
     private ArrayList list = new ArrayList();
-    private double insetY = 2;
+    private double padY = 2;
     private PPath background;
 
     public Legend() {
@@ -61,15 +61,25 @@ public class Legend extends PNode {
     protected void layoutChildren() {
         super.layoutChildren();
         if( list.size() > 0 ) {
-            Rectangle2D bounds = new PBounds( ( (PNode)list.get( 0 ) ).getFullBounds() );
+            Entry first = (Entry)list.get( 0 );
+            first.setOffset( 0, 5 );
+            Rectangle2D bounds = new PBounds( first.getFullBounds() );
             for( int i = 1; i < list.size(); i++ ) {
                 Entry prev = (Entry)list.get( i - 1 );
                 Entry entry = (Entry)list.get( i );
-                entry.setOffset( prev.getFullBounds().getX(), prev.getFullBounds().getMaxY() + insetY );
+                entry.setOffset( prev.getFullBounds().getX(), prev.getFullBounds().getMaxY() + padY );
                 bounds = bounds.createUnion( entry.getFullBounds() );
             }
             background.setPathTo( RectangleUtils.expand( bounds, 5, 5 ) );
+            double dy = background.getFullBounds().getY();
+            for( int i = 0; i < getChildrenCount(); i++ ) {
+                getChild( i ).translate( 0, -dy );
+            }
+
+//            background.setOffset( -5, -5 );
         }
+
+
     }
 
     private static class SquareColor extends PPath {
