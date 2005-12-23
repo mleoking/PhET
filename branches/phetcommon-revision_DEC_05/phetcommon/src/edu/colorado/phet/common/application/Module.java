@@ -229,6 +229,24 @@ public abstract class Module {
     public ControlPanel getControlPanel() {
         return modulePanel.getControlPanel();
     }
+     
+    /**
+     * Sets the clock control panel for this module.
+     * 
+     * @param clockContronPanel
+     */
+    protected void setClockControlPanel( JComponent clockContronPanel ) {
+        modulePanel.setClockControlPanel( clockContronPanel );
+    }
+    
+    /**
+     * Gets the clock control panel for this module.
+     * 
+     * @return the clock control panel
+     */
+    public JComponent getClockControlPanel() {
+        return modulePanel.getClockControlPanel();
+    }
 
     /**
      * Gets whether help is currently enabled (active) for this Module.
