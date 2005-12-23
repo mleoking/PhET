@@ -173,16 +173,16 @@ public class EnergyPanel extends ControlPanel {
     }
 
     private VerticalLayoutPanel getLocationPanel( EC3Module module ) {
-        ButtonGroup location = new ButtonGroup();
+//        ButtonGroup location = new ButtonGroup();
         PlanetButton space = new PlanetButton( module, new Planet.Space(), false );
         PlanetButton moon = new PlanetButton( module, new Planet.Moon(), false );
         PlanetButton earth = new PlanetButton( module, new Planet.Earth(), true );
         PlanetButton jupiter = new PlanetButton( module, new Planet.Jupiter(), false );
         planetButtons = new PlanetButton[]{space, moon, earth, jupiter};
-        location.add( space );
-        location.add( moon );
-        location.add( earth );
-        location.add( jupiter );
+//        location.add( space );
+//        location.add( moon );
+//        location.add( earth );
+//        location.add( jupiter );
         VerticalLayoutPanel verticalLayoutPanel = new VerticalLayoutPanel();
         verticalLayoutPanel.setBorder( BorderFactory.createTitledBorder( "Location" ) );
         verticalLayoutPanel.setFillHorizontal();
@@ -217,9 +217,10 @@ public class EnergyPanel extends ControlPanel {
             if( module.getEnergyConservationModel().getGravity() == planet.getGravity() ) {
                 planet.apply( module );
                 matched = true;
-
             }
-            planetButtons[i].setSelected( module.getEnergyConservationModel().getGravity() == planet.getGravity() );
+//            planetButtons[i].setSelected( module.getEnergyConservationModel().getGravity() == planet.getGravity() );
+            boolean match = module.getEnergyConservationModel().getGravity() == planet.getGravity();
+            planetButtons[i].setSelected( match );
         }
         if( !matched ) {
             module.getEnergyConservationCanvas().getRootNode().clearBackground();
