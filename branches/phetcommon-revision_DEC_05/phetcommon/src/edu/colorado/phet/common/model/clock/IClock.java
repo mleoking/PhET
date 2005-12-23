@@ -18,12 +18,12 @@ package edu.colorado.phet.common.model.clock;
  */
 public interface IClock {
     /**
-     * Starts the clock.
+     * Starts the clock (puts it in the running state).
      */
     void start();
 
     /**
-     * Stops the clock.
+     * Pauses the clock (puts it in the paused state).
      */
     void pause();
 
