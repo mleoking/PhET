@@ -45,9 +45,6 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
     private XYSeriesCollection dataset;
     private EC3Module module;
 
-    private XYSeries peSeries;
-    private XYSeries keSeries;
-    private XYSeries totSeries;
     private PImage image;
     private ChartRenderingInfo info = new ChartRenderingInfo();
 
@@ -55,29 +52,90 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
     private static final int COUNT_MOD = 10;
 
     private EC3Legend legend;
+    private int saveCount = 1;
+
+    private EnergyType ke;
+    private EnergyType pe;
+    private EnergyType thermal;
+    private EnergyType total;
+    private JPanel southPanel;
+
+    static abstract class EnergyType {
+        private EC3Module module;
+        String name;
+        private Color color;
+        boolean visible;
+
+        public EnergyType( EC3Module module, String name, Color color ) {
+            this.module = module;
+            this.name = name;
+            this.color = color;
+        }
+
+        public JCheckBox createCheckBox() {
+            final JCheckBox checkBox = new JCheckBox( name, true );
+            checkBox.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    visible = checkBox.isSelected();
+                }
+            } );
+            return checkBox;
+        }
+
+        public abstract double getValue();
+
+        public Body getBody() {
+            return module.getEnergyConservationModel().bodyAt( 0 );
+        }
+
+        public EnergyConservationModel getModel() {
+            return module.getEnergyConservationModel();
+        }
+
+        public Color getColor() {
+            return color;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
 
     public EnergyPositionPlotPanel( EC3Module ec3Module ) {
         super( new Dimension( 100, 100 ) );
         this.module = ec3Module;
+        ke = new EnergyType( module, "Kinetic", module.getEnergyLookAndFeel().getKEColor() ) {
+            public double getValue() {
+                return getBody().getKineticEnergy();
+            }
+        };
+        pe = new EnergyType( module, "Potential", module.getEnergyLookAndFeel().getPEColor() ) {
+            public double getValue() {
+                return super.getModel().getPotentialEnergy( getBody() );
+            }
+        };
+        thermal = new EnergyType( module, "Thermal", module.getEnergyLookAndFeel().getThermalEnergyColor() ) {
+            public double getValue() {
+                return getModel().getThermalEnergy();
+            }
+        };
+        total = new EnergyType( ec3Module, "Total", module.getEnergyLookAndFeel().getTotalEnergyColor() ) {
+            public double getValue() {
+                return getModel().getTotalEnergy( getBody() );
+            }
+        };
+
+
         ec3Module.getEnergyConservationModel().addEnergyModelListener( new EnergyConservationModel.EnergyModelListener() {
             public void preStep( double dt ) {
                 update();
             }
         } );
-//        ec3Module.getClock().addClockListener( new ClockAdapter() {
-//            public void clockTicked( ClockEvent event ) {
-//                update();
-//            }
-//        } );
         dataset = createDataset();
-//        chart = createChart( new Range2D( -50, -25000, 1250, 400000 * 1.25 ), dataset, "Energy vs. Position" );
         chart = createChart( new Range2D( -2, -7000 / 10.0, 17, 7000 ), dataset, "Energy vs. Position" );
         setLayout( new BorderLayout() );
-        peSeries = new XYSeries( "Potential" );
-        keSeries = new XYSeries( "Kinetic" );
-        totSeries = new XYSeries( "Total" );
 
-        JPanel southPanel = new JPanel();
+        southPanel = new JPanel();
 
         JButton clear = new JButton( "Clear" );
         clear.addActionListener( new ActionListener() {
@@ -92,10 +150,17 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
             public void actionPerformed( ActionEvent e ) {
                 copyChart();
             }
-
         } );
+
+        JPanel showPanel = new JPanel( new GridLayout( 2, 2 ) );
+        showPanel.add( ke.createCheckBox() );
+        showPanel.add( pe.createCheckBox() );
+        showPanel.add( thermal.createCheckBox() );
+        showPanel.add( total.createCheckBox() );
+
         southPanel.add( copy );
         southPanel.add( clear );
+        southPanel.add( showPanel );
 
         add( southPanel, BorderLayout.SOUTH );
         chart.setAntiAlias( true );
@@ -122,28 +187,31 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
         updateGraphics();
     }
 
-    int saveCount = 1;
 
     private void copyChart() {
-        Image image = super.getLayer().toImage( getWidth(), getHeight(), Color.white );
-        SavedGraph savedGraph = new SavedGraph( "Energy vs. Position (save #" + saveCount + ")", image );
+        Image copy = super.getLayer().toImage( image.getImage().getWidth( null ), image.getImage().getHeight( null ), Color.white );
+        SavedGraph savedGraph = new SavedGraph( "Energy vs. Position (save #" + saveCount + ")", copy );
         savedGraph.setVisible( true );
         saveCount++;
     }
 
     private void updateGraphics() {
         if( getWidth() > 0 && getHeight() > 0 ) {
-            image.setImage( chart.createBufferedImage( getWidth(), getHeight(), info ) );
+            image.setImage( chart.createBufferedImage( getWidth(), getChartHeight(), info ) );
         }
         reset();
         legend.setOffset( getWidth() - legend.getFullBounds().getWidth() - 5, 5 + toImageLocation( 0, chart.getXYPlot().getRangeAxis().getRange().getUpperBound() ).getY() );
+    }
+
+    private int getChartHeight() {
+        return getHeight() - southPanel.getHeight();
     }
 
     private static JFreeChart createChart( Range2D range, XYDataset dataset, String title ) {
         JFreeChart chart = ChartFactory.createScatterPlot( title,
                                                            "Position", // x-axis label
                                                            "Energy", // y-axis label
-                                                           dataset, PlotOrientation.VERTICAL, true, true, false );
+                                                           dataset, PlotOrientation.VERTICAL, false, true, false );
         chart.setBackgroundPaint( new Color( 240, 220, 210 ) );
 
         XYPlot plot = chart.getXYPlot();
@@ -151,7 +219,6 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
         plot.getDomainAxis().setRange( range.getMinX(), range.getMaxX() );
         plot.getRangeAxis().setRange( range.getMinY(), range.getMaxY() );
         plot.setRangeCrosshairVisible( true );
-
         return chart;
     }
 
@@ -161,9 +228,6 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
     }
 
     public void reset() {
-        peSeries.clear();
-        keSeries.clear();
-        totSeries.clear();
         for( int i = 0; i < getScreenNode().getChildrenCount(); i++ ) {
             PNode child = getScreenNode().getChild( i );
             if( child instanceof FadeDot ) {
@@ -171,10 +235,6 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
                 i--;
             }
         }
-//        getScreenNode().removeAllChildren();
-//        addScreenChild( image );
-//        addScreenChild( verticalBar );
-//        addScreenChild( legend );
         peDots.clear();
     }
 
@@ -190,16 +250,10 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
             double x = toImageLocation( body.getX(), 0 ).getX();
             verticalBar.setPathTo( new Line2D.Double( x, 0, x, getHeight() ) );
 
-            double potentialEnergy = module.getEnergyConservationModel().getPotentialEnergy( body );
-//            double potentialEnergy = body.getAttachPoint().getY()*1000/2.0;
-//            addFadeDot( body.getX(), potentialEnergy, module.getEnergyLookAndFeel().getPEColor() );
-//            addFadeDot( body.getAttachPoint().getX(), body.getAttachPoint().getY() * 500, Color.black );
-            addFadeDot( body.getX(), module.getEnergyConservationModel().getThermalEnergy(), module.getEnergyLookAndFeel().getThermalEnergyColor() );
-            addFadeDot( body.getX(), potentialEnergy, module.getEnergyLookAndFeel().getPEColor() );
-            addFadeDot( body.getX(), module.getEnergyConservationModel().getTotalEnergy( body ), module.getEnergyLookAndFeel().getTotalEnergyColor() );
-            addFadeDot( body.getX(), body.getKineticEnergy(), module.getEnergyLookAndFeel().getKEColor() );
-
-//            module.getEnergyConservationModel().getTotalEnergy( body )
+            addFadeDot( body.getX(), thermal );
+            addFadeDot( body.getX(), pe );
+            addFadeDot( body.getX(), total );
+            addFadeDot( body.getX(), ke );
         }
         if( count % COUNT_MOD == 0 ) {
             fadeDots();
@@ -223,8 +277,8 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
         return SwingUtilities.getWindowAncestor( this ) != null && SwingUtilities.getWindowAncestor( this ).isVisible();
     }
 
-    private void addFadeDot( double x, double y, Color peColor ) {
-        FadeDot path = new FadeDot( peColor, toImageLocation( x, y ) );
+    private void addFadeDot( double x, EnergyType energyType ) {
+        FadeDot path = new FadeDot( energyType, toImageLocation( x, energyType.getValue() ) );
         addScreenChild( path );
         peDots.add( path );
     }
@@ -234,25 +288,23 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
         private double age;
         private double dAge = 1.3 * COUNT_MOD;
         private Color fadeColor;
+        private String name;
 
-        public FadeDot( Color color, Point2D loc ) {
+        public FadeDot( EnergyType energyType, Point2D loc ) {
             super( new Ellipse2D.Double( -3, -3, 6, 6 ), null );
-            setPaint( color );
+            this.name = energyType.getName();
+            setPaint( energyType.getColor() );
             setOffset( loc );
-            this.origColor = color;
+            this.origColor = energyType.getColor();
+        }
+
+        public String getName() {
+            return name;
         }
 
         public void fade() {
             age += dAge;
             int fadeAlpha = (int)( 255 - age );
-//            if (age>){
-//                fadeAlpha=128;
-//            }
-//            if( age > 200 ) {
-//                fadeAlpha = 0;
-//            }
-
-//
             if( fadeAlpha < 0 ) {
                 fadeAlpha = 0;
             }
@@ -272,8 +324,6 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
     }
 
     public Point2D toImageLocation( double x, double y ) {
-//        info.getChartArea();
-//        System.err.println( "Working here..?" );
         Rectangle2D dataArea = info.getPlotInfo().getDataArea();
         if( dataArea == null ) {
             throw new RuntimeException( "Null data area" );
@@ -281,7 +331,6 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
 
         double transX1 = chart.getXYPlot().getDomainAxisForDataset( 0 ).valueToJava2D( x, dataArea, chart.getXYPlot().getDomainAxisEdge() );
         double transY1 = chart.getXYPlot().getRangeAxisForDataset( 0 ).valueToJava2D( y, dataArea, chart.getXYPlot().getRangeAxisEdge() );
-        Point2D.Double pt = new Point2D.Double( transX1, transY1 );
-        return pt;
+        return new Point2D.Double( transX1, transY1 );
     }
 }
