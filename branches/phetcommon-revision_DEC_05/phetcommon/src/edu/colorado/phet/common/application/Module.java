@@ -53,6 +53,10 @@ public abstract class Module {
      * @param clock a clock to model passage of time for this Module.  Should be unique to this module (non-shared).
      */
     public Module( String name, IClock clock ) {
+        this( name, clock, false );
+    }
+
+    public Module( String name, IClock clock, boolean startsPaused ) {
         this.name = name;
         this.clock = clock;
         setModel( new BaseModel() );
@@ -66,6 +70,7 @@ public abstract class Module {
             }
         };
         clock.addClockListener( moduleRunner );
+        this.clockRunningWhenActive = !startsPaused;
     }
 
     /**
@@ -146,7 +151,7 @@ public abstract class Module {
      * @param modelElement
      */
     protected void addModelElement( final ModelElement modelElement ) {
-        getClock().addClockListener( new ClockAdapter(){
+        getClock().addClockListener( new ClockAdapter() {
             public void simulationTimeChanged( ClockEvent clockEvent ) {
                 modelElement.stepInTime( clockEvent.getSimulationTimeChange() );
             }
@@ -235,19 +240,19 @@ public abstract class Module {
     public ControlPanel getControlPanel() {
         return modulePanel.getControlPanel();
     }
-     
+
     /**
      * Sets the clock control panel for this module.
-     * 
+     *
      * @param clockContronPanel
      */
     protected void setClockControlPanel( JComponent clockContronPanel ) {
         modulePanel.setClockControlPanel( clockContronPanel );
     }
-    
+
     /**
      * Gets the clock control panel for this module.
-     * 
+     *
      * @return the clock control panel
      */
     public JComponent getClockControlPanel() {
