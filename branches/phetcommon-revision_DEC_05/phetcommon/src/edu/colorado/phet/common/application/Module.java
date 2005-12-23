@@ -151,12 +151,12 @@ public abstract class Module {
      * @param modelElement
      */
     protected void addModelElement( final ModelElement modelElement ) {
-        getClock().addClockListener( new ClockAdapter() {
-            public void simulationTimeChanged( ClockEvent clockEvent ) {
-                modelElement.stepInTime( clockEvent.getSimulationTimeChange() );
-            }
-        } );
-//        getModel().addModelElement( modelElement );
+//        getClock().addClockListener( new ClockAdapter() {
+//            public void simulationTimeChanged( ClockEvent clockEvent ) {
+//                modelElement.stepInTime( clockEvent.getSimulationTimeChange() );
+//            }
+//        } );
+        getModel().addModelElement( modelElement );
     }
 
     /**
