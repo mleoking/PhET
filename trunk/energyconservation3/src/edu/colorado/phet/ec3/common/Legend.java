@@ -38,12 +38,17 @@ public class Legend extends PNode {
             this.text = text;
             this.node = node;
             textNode = new ShadowPText( text );
+            textNode.setShadowOffset( 1, 1 );
             textNode.setFont( new LucidaSansFont( 16, false, true ) );
             textNode.setShadowColor( Color.black );
             textNode.setTextPaint( textColor );
             addChild( textNode );
             addChild( node );
             textNode.setOffset( node.getFullBounds().getMaxX() + 2, node.getFullBounds().getY() );
+        }
+
+        public void setFont( Font font ) {
+            textNode.setFont( font );
         }
     }
 
@@ -71,6 +76,13 @@ public class Legend extends PNode {
         public SquareColor( Color color ) {
             setPathTo( new Rectangle( 0, 0, 10, 10 ) );
             setPaint( color );
+        }
+    }
+
+    public void setFont( Font font ) {
+        for( int i = 0; i < list.size(); i++ ) {
+            Entry entry = (Entry)list.get( i );
+            entry.setFont( font );
         }
     }
 }
