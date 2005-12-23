@@ -10,33 +10,36 @@
  */
 package edu.colorado.phet.common.application;
 
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.text.MessageFormat;
 
+import javax.swing.*;
+
+import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
+
 /**
- * A dialog that lets the user know "something is happening" while the
- * application gets itself started.
+ * SplashWindow is an undecorated window that appears 
+ * while the application is starting up.
  */
-public class StartupDialog extends JDialog {
+public class SplashWindow extends JWindow {
     private JLabel label;
 
-    public StartupDialog( Frame owner, String title ) throws HeadlessException {
-        super( owner, "Startup", false );
-        setUndecorated( true );
-        getRootPane().setWindowDecorationStyle( JRootPane.INFORMATION_DIALOG );
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    public SplashWindow( Frame owner, String title ) throws HeadlessException {
+        super( owner );
 
+        // Put a border around the window.
+        getRootPane().setBorder( BorderFactory.createLineBorder( Color.BLACK, 1 ) );
+
+        // Format a localized startup message.
         String labelFormat = SimStrings.get( "PhetApplication.StartupDialog.message" );
         Object[] args = {title};
         String labelString = MessageFormat.format( labelFormat, args );
         label = new JLabel( labelString );
 
+        // Add an indeterminate progress bar.
         JProgressBar progressBar = new JProgressBar();
         progressBar.setIndeterminate( true );
         BufferedImage image = null;
@@ -48,6 +51,7 @@ public class StartupDialog extends JDialog {
         }
         ImageIcon logo = new ImageIcon( image );
 
+        // Layout
         getContentPane().setLayout( new GridBagLayout() );
         final GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                                GridBagConstraints.CENTER,
@@ -63,6 +67,9 @@ public class StartupDialog extends JDialog {
         gbc.insets = new Insets( 10, 10, 20, 20 );
         getContentPane().add( progressBar, gbc );
         pack();
+        
+        // Center the window on the screen.
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation( (int)( screenSize.getWidth() / 2 - getWidth() / 2 ),
                      (int)( screenSize.getHeight() / 2 - getHeight() / 2 ) );
     }

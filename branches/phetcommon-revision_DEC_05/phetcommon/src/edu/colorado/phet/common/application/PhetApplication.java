@@ -11,14 +11,16 @@
 
 package edu.colorado.phet.common.application;
 
-import edu.colorado.phet.common.view.PhetFrame;
-import edu.colorado.phet.common.view.util.FrameSetup;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+
+import javax.swing.JWindow;
+
+import edu.colorado.phet.common.view.PhetFrame;
+import edu.colorado.phet.common.view.util.FrameSetup;
 
 /**
  * The top-level class for PhET applications.
@@ -75,7 +77,7 @@ public class PhetApplication {
     private PhetFrame phetFrame;
     private ModuleManager moduleManager;
 
-    private JDialog startupDlg;
+    private JWindow splashWindow;
 
     /**
      * Initialize a PhetApplication with a default FrameSetup.
@@ -100,7 +102,7 @@ public class PhetApplication {
      */
     public PhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup ) {
         // Put up a dialog that lets the user know that the simulation is starting up
-        showSplashScreen( title );
+        showSplashWindow( title );
 
         latestInstance = this;
         phetApplications.add( this );
@@ -117,16 +119,16 @@ public class PhetApplication {
         parseArgs( args );
     }
 
-    private void showSplashScreen( String title ) {
-        startupDlg = new StartupDialog( getPhetFrame(), title );
-        startupDlg.setVisible( true );
+    private void showSplashWindow( String title ) {
+        splashWindow = new SplashWindow( getPhetFrame(), title );
+        splashWindow.setVisible( true );
     }
 
     private void disableSplashWindow() {
-        if( startupDlg != null ) {
-            startupDlg.setVisible( false );
-            startupDlg.dispose();
-            startupDlg = null;
+        if( splashWindow != null ) {
+            splashWindow.setVisible( false );
+            splashWindow.dispose();
+            splashWindow = null;
         }
     }
 
