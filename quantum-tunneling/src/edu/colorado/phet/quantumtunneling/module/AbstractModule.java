@@ -15,7 +15,7 @@ import java.awt.Cursor;
 import java.awt.Frame;
 
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
@@ -50,7 +50,7 @@ public abstract class AbstractModule extends PiccoloModule {
      * @param title the module title
      * @param clock the simulation clock
      */
-    public AbstractModule( String title, AbstractClock clock ) {
+    public AbstractModule( String title, IClock clock ) {
         super( title, clock );
     }
     

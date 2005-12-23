@@ -49,7 +49,6 @@ public class QTConstants {
     
     public static final double CLOCK_TIME_STEP = 1;
     public static final int CLOCK_FRAME_RATE = 25;  // frames per second
-    public static final boolean CLOCK_TIME_STEP_IS_CONSTANT = true;
     public static final boolean CLOCK_ENABLE_CONTROLS = true;
     
     public static final double TIME_SCALE = 0.1;  // must be a 1/(power of 10)

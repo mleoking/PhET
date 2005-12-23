@@ -15,10 +15,10 @@ import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.quantumtunneling.QTConstants;
-import edu.colorado.phet.quantumtunneling.clock.QTClock;
-import edu.colorado.phet.quantumtunneling.clock.QTClockChangeEvent;
-import edu.colorado.phet.quantumtunneling.clock.QTClockChangeListener;
 import edu.colorado.phet.quantumtunneling.enum.Direction;
 import edu.colorado.phet.quantumtunneling.util.Complex;
 
@@ -29,28 +29,30 @@ import edu.colorado.phet.quantumtunneling.util.Complex;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class WavePacket extends AbstractWave implements ModelElement, Observer, QTClockChangeListener {
+public class WavePacket extends AbstractWave implements ModelElement, Observer {
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private QTClock _clock;
+    private IClock _clock;
     private TotalEnergy _te;
     private AbstractPotential _pe;
     private Direction _direction;
     private boolean _enabled;
     private double _width;
     private double _center;
+    private SimulationTimeChangeListener _timeChangeListener;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public WavePacket( QTClock clock ) {
+    public WavePacket( IClock clock ) {
         super();
+        _timeChangeListener = new SimulationTimeChangeListener();
         _clock = clock;
-        _clock.addQTClockChangeListener( this );
+        _clock.addClockListener( _timeChangeListener );
         _te = null;
         _pe = null;
         _direction = Direction.LEFT_TO_RIGHT;
@@ -60,7 +62,7 @@ public class WavePacket extends AbstractWave implements ModelElement, Observer, 
     }
     
     public void cleanup() {
-        _clock.removeQTClockChangeListener( this );
+        _clock.removeClockListener( _timeChangeListener );
         _clock = null;
         if ( _te != null ) {
             _te.deleteObserver( this );
@@ -73,7 +75,7 @@ public class WavePacket extends AbstractWave implements ModelElement, Observer, 
     }
     
     private double getTime() {
-        return _clock.getRunningTime() * QTConstants.TIME_SCALE;
+        return _clock.getSimulationTime() * QTConstants.TIME_SCALE;
     }
     
     //----------------------------------------------------------------------------
@@ -188,12 +190,21 @@ public class WavePacket extends AbstractWave implements ModelElement, Observer, 
     }
 
     //----------------------------------------------------------------------------
-    // QTClockListener implementation
+    // ClockListener
     //----------------------------------------------------------------------------
     
-    public void clockReset( QTClockChangeEvent event ) {
-        if ( _enabled ) {
-            //XXX    
+    private class SimulationTimeChangeListener extends ClockAdapter {
+
+        public void simulationTimeChanged( ClockEvent clockEvent ) {
+            if ( _enabled && _te != null && _pe != null ) {
+                notifyObservers();
+            }
+        }
+
+        public void simulationTimeReset( ClockEvent clockEvent ) {
+            if ( _enabled && _te != null && _pe != null ) {
+                notifyObservers();
+            }
         }
     }
 
