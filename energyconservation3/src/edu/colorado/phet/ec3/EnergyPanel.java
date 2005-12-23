@@ -145,20 +145,35 @@ public class EnergyPanel extends ControlPanel {
         addControl( clearHeat );
 
         AdvancedPanel editSkaterPanel = new AdvancedPanel( "Edit Skater >>", "Hide Skater Properties<<" );
-        final ModelSlider restitution = new ModelSlider( "Coeff. of Restitution", "", 0, 1.0, 1.0 );
+//        final ModelSlider restitution = new ModelSlider( "Coeff. of Restitution", "", 0, 1.0, 1.0 );
+        final ModelSlider restitution = new ModelSlider( "Bounciness", "", 0, 1.0, 1.0 );
         restitution.setModelTicks( new double[]{0, 0.5, 1} );
-        module.getClock().addClockListener( new ClockAdapter() {
-            public void clockTicked( ClockEvent event ) {
+        restitution.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
                 double rest = restitution.getValue();
                 module.setCoefficientOfRestitution( rest );
             }
         } );
+//        module.getClock().addClockListener( new ClockAdapter() {
+//            public void clockTicked( ClockEvent event ) {
+//                double rest = restitution.getValue();
+//                module.setCoefficientOfRestitution( rest );
+//            }
+//        } );
+        module.getClock().addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent event ) {
+                if( module.getEnergyConservationModel().numBodies() > 0 ) {
+                    restitution.setValue( module.getEnergyConservationModel().bodyAt( 0 ).getCoefficientOfRestitution() );
+                }
+            }
+        } );
+
         editSkaterPanel.addControl( restitution );
 
         final ModelSlider mass = new ModelSlider( "Mass", "kg", 0, 200, 75 );
         mass.setModelTicks( new double[]{0, 75, 200} );
-        module.getClock().addClockListener( new ClockAdapter() {
-            public void clockTicked( ClockEvent event ) {
+        mass.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
                 EnergyConservationModel model = module.getEnergyConservationModel();
                 for( int i = 0; i < model.numBodies(); i++ ) {
                     Body b = model.bodyAt( i );
@@ -166,6 +181,23 @@ public class EnergyPanel extends ControlPanel {
                 }
             }
         } );
+//        module.getClock().addClockListener( new ClockAdapter() {
+//            public void clockTicked( ClockEvent event ) {
+//                EnergyConservationModel model = module.getEnergyConservationModel();
+//                for( int i = 0; i < model.numBodies(); i++ ) {
+//                    Body b = model.bodyAt( i );
+//                    b.setMass( mass.getValue() );
+//                }
+//            }
+//        } );
+        module.getClock().addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent event ) {
+                if( module.getEnergyConservationModel().numBodies() > 0 ) {
+                    mass.setValue( module.getEnergyConservationModel().bodyAt( 0 ).getMass() );
+                }
+            }
+        } );
+
         editSkaterPanel.addControl( mass );
         addControl( editSkaterPanel );
 
