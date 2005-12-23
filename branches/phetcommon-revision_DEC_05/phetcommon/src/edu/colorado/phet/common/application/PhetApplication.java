@@ -124,7 +124,7 @@ public class PhetApplication {
         splashWindow.setVisible( true );
     }
 
-    private void disableSplashWindow() {
+    private void disposeSplashWindow() {
         if( splashWindow != null ) {
             splashWindow.setVisible( false );
             splashWindow.dispose();
@@ -167,7 +167,7 @@ public class PhetApplication {
         // at the proper size, but the ApparatusPanel2 has not yet gotten its resize event.
         phetFrame.addWindowFocusListener( new WindowAdapter() {
             public void windowGainedFocus( WindowEvent e ) {
-                disableSplashWindow();
+                disposeSplashWindow();
                 initializeModuleReferenceSizes();
                 phetFrame.removeWindowFocusListener( this );
             }
