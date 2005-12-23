@@ -104,7 +104,7 @@ public class EC3Module extends PiccoloModule {
 
     private void setDefaults() {
         setBarChartVisible( DEFAULT_BAR_CHARTS_VISIBLE );
-        setPlotVisible( DEFAULT_PLOT_VISIBLE );
+        setEnergyTimePlotVisible( DEFAULT_PLOT_VISIBLE );
     }
 
     public void stepModel( double dt ) {
@@ -239,8 +239,11 @@ public class EC3Module extends PiccoloModule {
         this.getEnergyConservationModel().clearPaths();
     }
 
-    public void setPlotVisible( boolean b ) {
+    public void setEnergyTimePlotVisible( boolean b ) {
         chartFrame.setVisible( b );
+        if( b ) {
+            getTimeSeriesModel().startRecording();
+        }
     }
 
     public void setBarChartVisible( boolean b ) {

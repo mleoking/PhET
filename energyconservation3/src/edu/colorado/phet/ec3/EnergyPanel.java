@@ -93,7 +93,7 @@ public class EnergyPanel extends ControlPanel {
         final JButton showChart = new JButton( "Energy vs. Time" );
         showChart.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.setPlotVisible( true );
+                module.setEnergyTimePlotVisible( true );
             }
         } );
         chartPanel.add( showChart );
