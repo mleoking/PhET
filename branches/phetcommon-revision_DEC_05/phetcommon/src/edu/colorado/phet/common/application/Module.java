@@ -55,6 +55,7 @@ public abstract class Module {
     public Module( String name, IClock clock ) {
         this.name = name;
         this.clock = clock;
+        setModel( new BaseModel() );
         SimStrings.setStrings( "localization/CommonStrings" );
 
         this.modulePanel = new ModulePanel();
@@ -144,8 +145,13 @@ public abstract class Module {
      *
      * @param modelElement
      */
-    protected void addModelElement( ModelElement modelElement ) {
-        getModel().addModelElement( modelElement );
+    protected void addModelElement( final ModelElement modelElement ) {
+        getClock().addClockListener( new ClockAdapter(){
+            public void simulationTimeChanged( ClockEvent clockEvent ) {
+                modelElement.stepInTime( clockEvent.getSimulationTimeChange() );
+            }
+        } );
+//        getModel().addModelElement( modelElement );
     }
 
     /**
