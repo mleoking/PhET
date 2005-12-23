@@ -2,6 +2,7 @@
 package edu.colorado.phet.ec3;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.ec3.common.Legend;
 import edu.colorado.phet.ec3.common.MeasuringTape;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
 import edu.colorado.phet.ec3.model.Floor;
@@ -42,6 +43,7 @@ public class EC3RootNode extends PhetRootPNode {
     private boolean ignoreThermal = true;
     private PImage ec3Background;
     private PauseIndicator pauseIndicator;
+    private Legend legend;
 
     public EC3RootNode( EC3Module ec3Module, EC3Canvas ec3Canvas ) {
         this.ec3Module = ec3Module;
@@ -69,7 +71,7 @@ public class EC3RootNode extends PhetRootPNode {
         layerAt( 1 ).getScreenNode().addChild( measuringTape );
 
         layerAt( 1 ).addChild( pieCharts );
-        resetDefaults();
+
 //        offscreenManIndicator = new OffscreenManIndicator( ec3Module );
 //        layerAt( 1 ).addChild( offscreenManIndicator );
 
@@ -78,6 +80,12 @@ public class EC3RootNode extends PhetRootPNode {
         layerAt( 0 ).getWorldNode().addChild( ec3Background );
         pauseIndicator = new PauseIndicator( ec3Module, ec3Canvas, this );
         layerAt( 1 ).getScreenNode().addChild( pauseIndicator );
+
+        legend = new EC3Legend( ec3Module );
+        layerAt( 1 ).getScreenNode().addChild( legend );
+//        legend.addEntry( "");
+
+        resetDefaults();
     }
 
     public PNode getBackground() {
@@ -288,8 +296,8 @@ public class EC3RootNode extends PhetRootPNode {
 
     public void setPieChartVisible( boolean selected ) {
         pieCharts.setVisible( selected );
+        legend.setVisible( selected );
     }
-
 
     public boolean getIgnoreThermal() {
         return ignoreThermal;
@@ -314,5 +322,14 @@ public class EC3RootNode extends PhetRootPNode {
     protected void layoutChildren() {
         super.layoutChildren();
         pauseIndicator.relayout();
+        double insetX = 5;
+        double insetyY = 10;
+        legend.invalidateLayout();
+        legend.validateFullPaint();
+        legend.setOffset( getEC3Panel().getWidth() - legend.getFullBounds().getWidth() - insetX, insetyY );
+    }
+
+    private EC3Canvas getEC3Panel() {
+        return ec3Canvas;
     }
 }
