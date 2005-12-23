@@ -33,6 +33,10 @@ public class PiccoloModule extends Module {
         super( name, clock );
     }
 
+    public PiccoloModule( String name, IClock clock, boolean startsPaused ) {
+        super( name, clock, startsPaused );
+    }
+
     public PhetPCanvas getPhetPCanvas() {
         return phetPCanvas;
     }
