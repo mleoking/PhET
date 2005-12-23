@@ -12,7 +12,7 @@ import edu.colorado.phet.common.model.clock.ClockEvent;
 
 public class LiveMode extends Mode {
     public LiveMode( TimeSeriesModel timeSeriesModel ) {
-        super( timeSeriesModel, "Live" );
+        super( timeSeriesModel, "Play" );
     }
 
     public void initialize() {
