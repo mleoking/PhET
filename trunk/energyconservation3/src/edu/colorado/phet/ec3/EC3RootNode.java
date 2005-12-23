@@ -41,6 +41,7 @@ public class EC3RootNode extends PhetRootPNode {
     private OffscreenManIndicator offscreenManIndicator;
     private boolean ignoreThermal = true;
     private PImage ec3Background;
+    private PauseIndicator pauseIndicator;
 
     public EC3RootNode( EC3Module ec3Module, EC3Canvas ec3Canvas ) {
         this.ec3Module = ec3Module;
@@ -75,7 +76,8 @@ public class EC3RootNode extends PhetRootPNode {
         ec3Background = new PImage();
 //        ec3Background.scale( 1.3);
         layerAt( 0 ).getWorldNode().addChild( ec3Background );
-
+        pauseIndicator = new PauseIndicator( ec3Module, ec3Canvas, this );
+        layerAt( 1 ).getScreenNode().addChild( pauseIndicator );
     }
 
     public PNode getBackground() {
@@ -307,5 +309,10 @@ public class EC3RootNode extends PhetRootPNode {
         g2.setColor( new Color( 0, 0, 0, 255 ) );
         g2.fillRect( 0, 0, 1, 1 );
         setBackground( image, 0.000000001, Math.PI, null );
+    }
+
+    protected void layoutChildren() {
+        super.layoutChildren();
+        pauseIndicator.relayout();
     }
 }
