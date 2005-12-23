@@ -55,16 +55,20 @@ public class SwingClock extends Clock {
      * Starts the Clock.
      */
     public void start() {
-        timer.start();
-        super.notifyClockStarted();
+        if( isPaused() ) {
+            timer.start();
+            super.notifyClockStarted();
+        }
     }
 
     /**
      * Stops the Clock.
      */
     public void pause() {
-        timer.stop();
-        super.notifyClockPaused();
+        if( isRunning() ) {
+            timer.stop();
+            super.notifyClockPaused();
+        }
     }
 
     /**
