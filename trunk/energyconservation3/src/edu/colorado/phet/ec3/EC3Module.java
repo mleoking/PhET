@@ -149,6 +149,7 @@ public class EC3Module extends PiccoloModule {
         energyTimeSeriesModel.setLiveMode();
         chartCanvas.reset();
         init();
+        energyTimeSeriesModel.startLiveMode();
     }
 
 
