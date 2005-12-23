@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.quantumtunneling.clock;
+package edu.colorado.phet.quantumtunneling.control;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -21,7 +21,9 @@ import java.text.NumberFormat;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.model.clock.*;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.ClockListener;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
@@ -34,13 +36,13 @@ import edu.colorado.phet.quantumtunneling.QTConstants;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class QTClockControls extends JPanel implements ClockStateListener, ClockTickListener, QTClockChangeListener {
+public class QTClockControls extends JPanel implements ClockListener {
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private QTClock _clock;
+    private IClock _clock;
     
     private JButton _restartButton;
     private JButton _playButton;
@@ -66,14 +68,12 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
      * 
      * @param clock
      */
-    public QTClockControls( QTClock clock ) {
+    public QTClockControls( IClock clock ) {
         super();
         
         // Clock
         _clock = clock;
-        _clock.addClockStateListener( this );
-        _clock.addClockTickListener( this );
-        _clock.addQTClockChangeListener( this );
+        _clock.addClockListener( this );
         
         // Labels
         String restartLabel = SimStrings.get( "button.restart" );
@@ -174,9 +174,7 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
      * Call this method before releasing all references to this object.
      */
     public void cleanup() {
-        _clock.removeClockStateListener( this );
-        _clock.removeClockTickListener( this );
-        _clock.removeQTClockChangeListener( this );
+        _clock.removeClockListener( this );
         _clock = null;
     }
     
@@ -189,7 +187,7 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
      * 
      * @return the clock
      */
-    public AbstractClock getClock() {
+    public IClock getClock() {
         return _clock;
     }
     
@@ -266,16 +264,16 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
     //----------------------------------------------------------------------------
     
     private void handleRestart() {
-        _clock.resetRunningTime();
+        _clock.resetSimulationTime();
         updateTimeDisplay();
     }
     
     private void handlePlay() {
-        _clock.setPaused( false );
+        _clock.start();
     }
     
     private void handlePause() {
-        _clock.setPaused( true );
+        _clock.pause();
     }
     
     private void handleStep() {
@@ -310,45 +308,32 @@ public class QTClockControls extends JPanel implements ClockStateListener, Clock
      * Updates the time display.
      */
     private void updateTimeDisplay() {
-        double scaledTime = _timeScale * _clock.getRunningTime();
+        double scaledTime = _timeScale * _clock.getSimulationTime();
         String sValue = _timeFormat.format( scaledTime );
         _timeTextField.setText( sValue );
     }
     
     //----------------------------------------------------------------------------
-    // ClockStateListener implementation
+    // ClockListener implementation
     //----------------------------------------------------------------------------
     
-    /**
-     * Updates the state of the buttons whenever the clock state changes.
-     * 
-     * @param event
-     */
-    public void stateChanged( ClockStateEvent event ) {
-        updateButtonState();
-    }
-
-    //----------------------------------------------------------------------------
-    // ClockTickListener implementation
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Updates the time display whenever the clock ticks.
-     * 
-     * @param event
-     */
-    public void clockTicked( ClockTickEvent event ) {
+    public void clockTicked( ClockEvent clockEvent ) {
         updateTimeDisplay();
     }
 
-    //----------------------------------------------------------------------------
-    // QTClockChangeListener implementation
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Updates the time display when the clock running time is reset.
-     */
-    public void clockReset( QTClockChangeEvent event ) {
+    public void clockStarted( ClockEvent clockEvent ) {
+        updateButtonState();
+    }
+
+    public void clockPaused( ClockEvent clockEvent ) {
+        updateButtonState();
+    }
+
+    public void simulationTimeChanged( ClockEvent clockEvent ) {
+        updateTimeDisplay();
+    }
+
+    public void simulationTimeReset( ClockEvent clockEvent ) {
         updateTimeDisplay();
     }
 }

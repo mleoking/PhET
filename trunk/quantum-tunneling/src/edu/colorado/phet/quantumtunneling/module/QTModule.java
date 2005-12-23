@@ -20,13 +20,16 @@ import java.util.Observer;
 
 import javax.swing.JButton;
 
+import com.sun.corba.se.ActivationIDL._InitialNameServiceImplBase;
+
 import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.quantumtunneling.QTConstants;
-import edu.colorado.phet.quantumtunneling.clock.QTClock;
 import edu.colorado.phet.quantumtunneling.control.ConfigureEnergyDialog;
+import edu.colorado.phet.quantumtunneling.control.QTClockControls;
 import edu.colorado.phet.quantumtunneling.control.QTControlPanel;
 import edu.colorado.phet.quantumtunneling.enum.Direction;
 import edu.colorado.phet.quantumtunneling.enum.IRView;
@@ -65,9 +68,8 @@ public class QTModule extends AbstractModule implements Observer {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     // Model
-    private QTClock _clock;
     private TotalEnergy _totalEnergy;
     private AbstractPotential _potentialEnergy;
     private ConstantPotential _constantPotential;
@@ -100,26 +102,24 @@ public class QTModule extends AbstractModule implements Observer {
      * 
      * @param clock
      */
-    public QTModule( QTClock clock ) {
-        super( SimStrings.get( "title.quantumTunneling" ), clock );
-        
+    public QTModule() {
+        super( SimStrings.get( "title.quantumTunneling" ), new QTClock() );
+
         //----------------------------------------------------------------------------
         // Model
         //----------------------------------------------------------------------------
-        
-        _clock = clock;
         
         // Module model
         BaseModel model = new BaseModel();
         this.setModel( model );
         
         // Plane wave
-        _planeWave = new PlaneWave( clock );
+        _planeWave = new PlaneWave( getClock() );
         _planeWave.setEnabled( false );
         model.addModelElement( _planeWave );
         
         // Packet wave
-        _wavePacket = new WavePacket( clock );
+        _wavePacket = new WavePacket( getClock() );
         _wavePacket.setEnabled( false );
         model.addModelElement( _wavePacket );
         
@@ -187,6 +187,12 @@ public class QTModule extends AbstractModule implements Observer {
         _controlPanel = new QTControlPanel( this );
         setControlPanel( _controlPanel );
         
+        // Clock Controls
+        QTClockControls clockControls = new QTClockControls( getClock() );
+        clockControls.setTimeScale( QTConstants.TIME_SCALE );
+        clockControls.setTimeFormat( QTConstants.TIME_FORMAT );
+        setClockControlPanel( clockControls );
+        
         //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------
@@ -198,7 +204,7 @@ public class QTModule extends AbstractModule implements Observer {
         reset();
         layoutCanvas();
     }
-
+    
     //----------------------------------------------------------------------------
     // Canvas layout
     //----------------------------------------------------------------------------
@@ -569,7 +575,7 @@ public class QTModule extends AbstractModule implements Observer {
     }
     
     private void restartClock() {
-        _clock.resetRunningTime();
+        getClock().resetSimulationTime();
     }
     
     //----------------------------------------------------------------------------

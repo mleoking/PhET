@@ -27,7 +27,6 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTApplication;
 import edu.colorado.phet.quantumtunneling.QTConstants;
-import edu.colorado.phet.quantumtunneling.Version;
 import edu.colorado.phet.quantumtunneling.module.AbstractModule;
 
 
@@ -69,7 +68,7 @@ public class ConfigManager {
             _app.save( config );
             
             // Modules
-            Module[] modules = _app.getModuleManager().getModules();
+            Module[] modules = _app.getModules();
             for ( int i = 0; i < modules.length; i++ ) {
                 if ( modules[i] instanceof AbstractModule ) {
                     ( (AbstractModule) modules[i] ).save( config );
@@ -128,7 +127,7 @@ public class ConfigManager {
             _app.load( config );
             
             // Modules
-            Module[] modules = _app.getModuleManager().getModules();
+            Module[] modules = _app.getModules();
             for ( int i = 0; i < modules.length; i++ ) {
                 if ( modules[i] instanceof AbstractModule ) {
                     ( (AbstractModule) modules[i] ).load( config );
