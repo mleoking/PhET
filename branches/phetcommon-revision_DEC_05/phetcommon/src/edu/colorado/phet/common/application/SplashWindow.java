@@ -25,7 +25,6 @@ import edu.colorado.phet.common.view.util.SimStrings;
  * while the application is starting up.
  */
 public class SplashWindow extends JWindow {
-    private JLabel label;
 
     public SplashWindow( Frame owner, String title ) throws HeadlessException {
         super( owner );
@@ -37,7 +36,7 @@ public class SplashWindow extends JWindow {
         String labelFormat = SimStrings.get( "PhetApplication.StartupDialog.message" );
         Object[] args = {title};
         String labelString = MessageFormat.format( labelFormat, args );
-        label = new JLabel( labelString );
+        JLabel label = new JLabel( labelString );
 
         // Add an indeterminate progress bar.
         JProgressBar progressBar = new JProgressBar();
