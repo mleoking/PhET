@@ -176,7 +176,7 @@ class ModuleManager {
         activeModule = module;
         if( module != null ) {
             module.activate();
-            phetApplication.setActiveModule( module );
+            this.setActiveModule( module );
         }
     }
 
