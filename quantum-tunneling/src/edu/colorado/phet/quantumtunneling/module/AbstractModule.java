@@ -49,9 +49,10 @@ public abstract class AbstractModule extends PiccoloModule {
      * 
      * @param title the module title
      * @param clock the simulation clock
+     * @param startsPaused initial clock state
      */
-    public AbstractModule( String title, IClock clock ) {
-        super( title, clock );
+    public AbstractModule( String title, IClock clock, boolean startsPaused ) {
+        super( title, clock, startsPaused );
     }
     
     //----------------------------------------------------------------------------

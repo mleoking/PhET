@@ -103,7 +103,7 @@ public class QTModule extends AbstractModule implements Observer {
      * @param clock
      */
     public QTModule() {
-        super( SimStrings.get( "title.quantumTunneling" ), new QTClock() );
+        super( SimStrings.get( "title.quantumTunneling" ), new QTClock(), true /* startsPaused */ );
 
         //----------------------------------------------------------------------------
         // Model
