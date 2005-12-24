@@ -94,7 +94,7 @@ public class CursorHandler extends PBasicInputEventHandler {
     public void mouseEntered( PInputEvent event ) {
         mouseInside = true;
         if( !mousePressed ) {
-            restoreCursor = getComponent( event ).getCursor();
+            restoreCursor = Cursor.getDefaultCursor();
             getComponent( event ).setCursor( cursor );
         }
     }
@@ -113,7 +113,7 @@ public class CursorHandler extends PBasicInputEventHandler {
     public void mousePressed( PInputEvent event ) {
         mousePressed = true;
         if( !mouseInside ) {
-            restoreCursor = getComponent( event ).getCursor();
+            restoreCursor = Cursor.getDefaultCursor();
             getComponent( event ).setCursor( cursor );
         }
     }
