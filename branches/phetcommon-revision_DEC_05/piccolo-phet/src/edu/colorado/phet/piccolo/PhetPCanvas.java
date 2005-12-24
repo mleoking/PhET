@@ -76,14 +76,6 @@ public class PhetPCanvas extends PSwingCanvas {
         phetRootNode.setWorldTransform( transformStrategy.getWorldTransform() );
     }
 
-    public PNode getWorldNode() {
-        return phetRootNode.getWorldNode();
-    }
-
-    public PNode getScreenNode() {
-        return phetRootNode.getScreenNode();
-    }
-
     protected class ResizeAdapter extends ComponentAdapter {
         public void componentResized( ComponentEvent e ) {
             updateScale();
@@ -115,15 +107,25 @@ public class PhetPCanvas extends PSwingCanvas {
     }
 
     public void removeScreenChild( PNode node ) {
-        phetRootNode.removeScreenChild( node );
+        phetRootNode.removeChild( node );
     }
 
+    /**
+     * This may become deprecated (just use phetRootNode.removeChild)
+     *
+     * @param graphic
+     */
     public void addWorldChild( PNode graphic ) {
         phetRootNode.addWorldChild( graphic );
     }
 
+    /**
+     * This may become deprecated (just use phetRootNode.removeChild)
+     *
+     * @param graphic
+     */
     public void removeWorldChild( PNode graphic ) {
-        phetRootNode.removeWorldChild( graphic );
+        phetRootNode.removeChild( graphic );
     }
 
     /*

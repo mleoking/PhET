@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.piccolo;
 
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 
 import java.awt.event.KeyEvent;
@@ -136,10 +135,10 @@ public class PanZoomWorldKeyHandler implements KeyListener {
     }
 
     private void zoomWorld( double scale ) {
-        PNode worldNode = phetPCanvas.getWorldNode();
+        //todo zooming is disabled
         Point2D point = phetPCanvas.getCamera().getBounds().getCenter2D();
         phetPCanvas.getCamera().localToGlobal( point );
-        worldNode.globalToLocal( point );
+        phetPCanvas.getPhetRootNode().globalToWorld( point );
         phetPCanvas.getPhetRootNode().scaleWorldAboutPoint( scale, point );
     }
 
