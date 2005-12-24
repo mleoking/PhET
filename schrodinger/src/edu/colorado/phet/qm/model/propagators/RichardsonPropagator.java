@@ -34,7 +34,8 @@ public class RichardsonPropagator extends Propagator {
         mass = 1;//0.0020;
 //        mass = 2;//0.0020;
 
-        setDeltaTime( 0.8 * mass / hbar );
+//        setDeltaTime( 0.8 * mass / hbar );
+        setDeltaTime( 1.0 * mass / hbar );
 //        deltaTime = 0.8 * mass / hbar;
 //        deltaTime = 0.8 * 1.0 / hbar;
         betaeven = new Complex[0][0];

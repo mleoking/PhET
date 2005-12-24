@@ -54,7 +54,7 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
                 BufferedImage image = detectorSheetPNode.copyScreen();
                 SavedScreenGraphic savedScreenGraphic = new SavedScreenGraphic( getSchrodingerPanel(), image );
                 savedScreenGraphic.setOffset( 130, 130 );
-                getSchrodingerPanel().getScreenNode().addChild( savedScreenGraphic );
+                getSchrodingerPanel().getSchrodingerScreenNode().addChild( savedScreenGraphic );
             }
         } );
         saveScreenJButton.setMargin( buttonInsets );

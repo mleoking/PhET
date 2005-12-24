@@ -61,7 +61,7 @@ public class SchrodingerPanel extends PhetPCanvas {
             }
         } );
         schrodingerScreenNode = new SchrodingerScreenNode( module, this );
-        getPhetRootNode().setScreenNode( schrodingerScreenNode );
+        getPhetRootNode().addScreenChild( schrodingerScreenNode );
 //        setZoomEventHandler( new PZoomEventHandler() );
         setBackground( new Color( 170, 210, 255 ) );
         setDoubleSlitControlPanelVisible( false );
