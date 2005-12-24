@@ -25,10 +25,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -189,8 +186,11 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
 
 
     private void copyChart() {
-        Image copy = super.getLayer().toImage( image.getImage().getWidth( null ), image.getImage().getHeight( null ), Color.white );
-        SavedGraph savedGraph = new SavedGraph( "Energy vs. Position (save #" + saveCount + ")", copy );
+//        Image copy = super.getLayer().toImage( image.getImage().getWidth( null ), image.getImage().getHeight( null ), Color.white );
+        Image copy = super.getLayer().toImage();
+        BufferedImage c2 = new BufferedImage( copy.getWidth( null ), copy.getHeight( null ) - southPanel.getHeight(), BufferedImage.TYPE_INT_RGB );//trim the south part.
+        c2.createGraphics().drawImage( copy, new AffineTransform(), null );
+        SavedGraph savedGraph = new SavedGraph( "Energy vs. Position (save #" + saveCount + ")", c2 );
         savedGraph.setVisible( true );
         saveCount++;
     }
