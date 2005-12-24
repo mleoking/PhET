@@ -133,7 +133,6 @@ public class QTModule extends AbstractModule implements Observer {
         {
             _canvas = new PhetPCanvas( CANVAS_RENDERING_SIZE );
             _canvas.setBackground( QTConstants.CANVAS_BACKGROUND );
-            _canvas.addComponentListener( listener );
             setCanvas( _canvas );
         }
         
@@ -200,9 +199,10 @@ public class QTModule extends AbstractModule implements Observer {
         //----------------------------------------------------------------------------
         // Initialze the module state
         //----------------------------------------------------------------------------
-        
+       
         reset();
         layoutCanvas();
+        _canvas.addComponentListener( listener );
     }
     
     //----------------------------------------------------------------------------
