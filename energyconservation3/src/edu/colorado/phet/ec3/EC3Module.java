@@ -56,15 +56,9 @@ public class EC3Module extends PiccoloModule {
         this.phetFrame = phetFrame;
 //        clock.setTimeScalingConverter();
         energyModel = new EnergyConservationModel( floorY );
-        CubicSpline floorSpline = new CubicSpline( 4 );
-        floorSpline.addControlPoint( -1000, 0 );
-        floorSpline.addControlPoint( 1000, 0 );
-//        floorSpline.addControlPoint( -1000, -AbstractSpline.SPLINE_THICKNESS/2+AbstractSpline.SPLINE_THICKNESS/10 );
-//        floorSpline.addControlPoint( 1000, -AbstractSpline.SPLINE_THICKNESS/2+AbstractSpline.SPLINE_THICKNESS/10 );
 
-        SplineSurface splineSurface = new SplineSurface( floorSpline );
-        splineSurface.setInteractive( false );
-        energyModel.addSplineSurface( splineSurface );
+        addFloorSpline();
+
 
         Floor floor = new Floor( getEnergyConservationModel(), energyModel.getZeroPointPotentialY() - AbstractSpline.SPLINE_THICKNESS );
         energyModel.addFloor( floor );
@@ -100,6 +94,18 @@ public class EC3Module extends PiccoloModule {
 
 //        new AutoPan( energyCanvas, this );
         getModulePanel().setClockControlPanel( timeSeriesPlaybackPanel );
+    }
+
+    private void addFloorSpline() {
+        CubicSpline floorSpline = new CubicSpline( 4 );
+        floorSpline.addControlPoint( -1000, 0 );
+        floorSpline.addControlPoint( 1000, 0 );
+//        floorSpline.addControlPoint( -1000, -AbstractSpline.SPLINE_THICKNESS/2+AbstractSpline.SPLINE_THICKNESS/10 );
+//        floorSpline.addControlPoint( 1000, -AbstractSpline.SPLINE_THICKNESS/2+AbstractSpline.SPLINE_THICKNESS/10 );
+
+        SplineSurface splineSurface = new SplineSurface( floorSpline );
+        splineSurface.setInteractive( false );
+        energyModel.addSplineSurface( splineSurface );
     }
 
     private void setDefaults() {
@@ -149,7 +155,9 @@ public class EC3Module extends PiccoloModule {
         energyTimeSeriesModel.setLiveMode();
         chartCanvas.reset();
         init();
+        addFloorSpline();
         energyTimeSeriesModel.startLiveMode();
+
     }
 
 
