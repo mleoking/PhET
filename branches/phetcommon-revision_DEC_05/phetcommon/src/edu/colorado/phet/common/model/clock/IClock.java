@@ -11,24 +11,30 @@
 package edu.colorado.phet.common.model.clock;
 
 /**
- * The IClock models passage of time through a Module in a PhetApplication.  <br>
- * IClocks are always in one of two states, running or paused.  All clocks may have listeners attached,
- * to receive notification of state changes or time changes.  <br><br>
- * The IClock maintains a separation between wall time and simulation time.
+ * IClock models passage of time through a Module in a PhetApplication.
+ * <p>
+ * IClocks are always in one of two states: running or paused.
+ * All clocks may have listeners attached, to receive notification 
+ * of state changes or time changes.
+ * <p>
+ * IClock maintains a separation between wall time and simulation time.
  */
 public interface IClock {
     /**
-     * Starts the clock (puts it in the running state).  If the clock was already running, nothing happens,
-     * otherwise the clock starts.  It is legal to call start on an already running clock.
-     * Fires a clockStarted event.
+     * Starts the clock (puts it in the running state). 
+     * If the clock was already running, nothing happens.
+     * <p>
+     * ClockListeners will have their clockStarted method called
+     * if the clock's state changes.
      */
     void start();
 
     /**
-     * Pauses the clock (puts it in the paused state).  If the clock was already paused, nothing happens,
-     * otherwise the clock is newly paused.  It is legal to call pause on an already paused clock.
+     * Pauses the clock (puts it in the paused state).  
+     * If the clock was already paused, nothing happens.
      * <p/>
-     * Fires a clockPaused event.
+     * ClockListeners will have their clockPaused method called
+     * if the clock's state changes.
      */
     void pause();
 
@@ -47,65 +53,72 @@ public interface IClock {
     boolean isRunning();
 
     /**
-     * Add a ClockListener to this IClock.
+     * Adds a ClockListener to this IClock.
      *
      * @param clockListener
      */
     void addClockListener( ClockListener clockListener );
 
     /**
-     * Remove a ClockListener from this IClock.
+     * Removes a ClockListener from this IClock.
      *
      * @param clockListener
      */
     void removeClockListener( ClockListener clockListener );
 
     /**
-     * Set the simulation time to zero.  This may fire a simulation time change (if the time was nonzero).
-     * This method fires a simulationTimeReset, and may fire a simulationTimeChange (if there was a change
-     * in the corresponding simulation time.
+     * Sets the simulation time to zero.
+     * <p>
+     * ClockListeners will have their simulationTimeReset method called.
+     * If the simulation time actually changes, the ClockListeners will
+     * also have their simulationTimeChanged method called.
      */
     void resetSimulationTime();
 
     /**
-     * Determine the last read wall-clock time.
+     * Determines the last read wall-clock time.
      *
      * @return the last read wall-clock time.
      */
     long getWallTime();
 
     /**
-     * Determine how many milliseconds passed since the previous tick.
+     * Determines how many milliseconds passed since the previous tick.
      *
      * @return how many milliseconds of wall-time passed since the previous tick.
      */
     long getWallTimeChange();
 
     /**
-     * Get the time change in simulation time units.
+     * Gets the time change in simulation time units.
      *
      * @return the time change in simulation time units.
      */
     double getSimulationTimeChange();
 
     /**
-     * Get the current running time of the simulation.
+     * Gets the current running time of the simulation.
      *
      * @return the current running time of the simulation.
      */
     double getSimulationTime();
 
     /**
-     * Specify an exact simulation time.  This may fire a simulation time change event.
+     * Specifies an exact simulation time.
+     * <p>
+     * If the simulation time actually changes, then ClockListeners 
+     * will have their simulationTimeChanged method called.
      *
      * @param simulationTime
      */
     void setSimulationTime( double simulationTime );
 
     /**
-     * Advance the clock by one tick.
-     * This fires a clockTicked, and may also fire a simulationTimeChange event,
-     * if indeed the simulation time changed.
+     * Advances the clock by one tick.
+     * <p>
+     * ClockListeners will have their clockTicked method called.
+     * If the simulation time changes, then ClockListeners will
+     * also have their simulationTimeChanged method called.
      */
     void tickOnce();
 
