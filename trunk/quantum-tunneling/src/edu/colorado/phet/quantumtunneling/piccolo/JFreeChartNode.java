@@ -23,6 +23,7 @@ import org.jfree.chart.event.ChartChangeEvent;
 import org.jfree.chart.event.ChartChangeListener;
 import org.jfree.chart.plot.*;
 
+import edu.colorado.phet.quantumtunneling.util.JFreeChartDebug;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
@@ -90,14 +91,13 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     }
     
     /**
-     * Forces an update of the chart rendering info, which is normally
-     * not updated until the next call to paint.
+     * Forces an update of the chart rendering info,
+     * normally not updated until the next call to paint.
      */
     public void updateChartRenderingInfo() {
         BufferedImage image = new BufferedImage( 1, 1, BufferedImage.TYPE_INT_ARGB );
         Graphics2D g2 = image.createGraphics();
-        PPaintContext paintContext = new PPaintContext( g2 );
-        paint( paintContext );
+        _chart.draw( g2, getBounds(), _info );
     }
     
     /**
