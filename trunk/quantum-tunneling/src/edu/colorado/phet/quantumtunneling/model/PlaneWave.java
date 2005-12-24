@@ -29,7 +29,7 @@ import edu.colorado.phet.quantumtunneling.enum.Direction;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class PlaneWave extends AbstractWave implements ModelElement, Observer, ClockListener {
+public class PlaneWave extends AbstractWave implements Observer, ClockListener {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -142,16 +142,6 @@ public class PlaneWave extends AbstractWave implements ModelElement, Observer, C
     private void updateSolver() {
         if ( _enabled && _pe != null && _te != null ) {
             _solver = SolverFactory.createSolver( _te, _pe, _direction );
-        }
-    }
-    
-    //----------------------------------------------------------------------------
-    // ModelElement implementation
-    //----------------------------------------------------------------------------
-    
-    public void stepInTime( double dt ) {
-        if ( _enabled && _te != null && _pe != null ) {
-            notifyObservers();
         }
     }
     

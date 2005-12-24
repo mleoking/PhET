@@ -55,7 +55,7 @@ JFREECHART:
 
 
 DONE:
-(12/23/05) - convert PlaneWave and WavePacket to ClockListeners
+(12/23/05) - convert PlaneWave and WavePacket from ModelElements to ClockListeners
 (12/23/05) - remove BaseModel from QTModule, obsolete for this sim
 (12/23/05) - fix startup race condition related to componentResized events
 (12/23/05) - work on moving to phetcommon branch with new Module and Clock, stuck on a race condition

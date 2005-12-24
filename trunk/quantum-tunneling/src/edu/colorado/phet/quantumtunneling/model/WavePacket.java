@@ -29,7 +29,7 @@ import edu.colorado.phet.quantumtunneling.util.Complex;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class WavePacket extends AbstractWave implements ModelElement, Observer, ClockListener {
+public class WavePacket extends AbstractWave implements Observer, ClockListener {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -164,16 +164,6 @@ public class WavePacket extends AbstractWave implements ModelElement, Observer, 
         return solution;
     }
     
-    //----------------------------------------------------------------------------
-    // ModelElement implementation
-    //----------------------------------------------------------------------------
-    
-    public void stepInTime( double dt ) {
-        if ( _enabled ) {
-            //XXX    
-        }
-    }
-
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
