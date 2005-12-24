@@ -14,11 +14,11 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 /**
  * User: Sam Reid
@@ -51,15 +51,11 @@ public class SplineToolbox extends PNode {
         addChild( textGraphic );
         addToRoot( splineGraphic );
 
-        PropertyChangeListener listener = new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent evt ) {
+        ec3Canvas.addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
                 centerTheNode();
             }
-        };
-        ec3RootNode.getWorldNode().addPropertyChangeListener( PNode.PROPERTY_TRANSFORM, listener );
-        ec3RootNode.getWorldNode().addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, listener );
-        ec3RootNode.getWorldNode().addPropertyChangeListener( PNode.PROPERTY_BOUNDS, listener );
-        ec3RootNode.getWorldNode().addPropertyChangeListener( PNode.PROPERTY_CLIENT_PROPERTIES, listener );
+        } );
         centerTheNode();
     }
 
@@ -77,11 +73,11 @@ public class SplineToolbox extends PNode {
     }
 
     private void addToRoot( SplineGraphic splineGraphic ) {
-        ec3RootNode.layerAt( 1 ).getWorldNode().addChild( splineGraphic );
+        ec3RootNode.getToolboxPlaceholder().addChild( splineGraphic );
     }
 
     private void removeFromRoot( SplineGraphic splineGraphic ) {
-        ec3RootNode.layerAt( 1 ).getWorldNode().removeChild( splineGraphic );
+        ec3RootNode.getToolboxPlaceholder().removeChild( splineGraphic );
     }
 
     private SplineGraphic createSpline() {

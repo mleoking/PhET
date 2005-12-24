@@ -1,6 +1,7 @@
 package edu.colorado.phet.ec3;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
 
 import java.awt.image.BufferedImage;
@@ -48,12 +49,13 @@ public abstract class Planet {
         protected void setupImage( EC3Module module ) {
             BufferedImage image = null;
             try {
-                image = ImageLoader.loadBufferedImage( "images/space.jpg" );
+//                image = ImageLoader.loadBufferedImage( "images/space.jpg" );
+                image = ImageLoader.loadBufferedImage( "images/blackhole_large_2.jpg" );
             }
             catch( IOException e ) {
                 e.printStackTrace();
             }
-            module.getEnergyConservationCanvas().getRootNode().setBackground( image, 0.02, Math.PI, this );
+            module.getEnergyConservationCanvas().getRootNode().setBackground( image, 0.025, Math.PI, this );
         }
     }
 
@@ -70,7 +72,7 @@ public abstract class Planet {
             catch( IOException e ) {
                 e.printStackTrace();
             }
-            module.getEnergyConservationCanvas().getRootNode().setBackground( image, 0.02, Math.PI, this );
+            module.getEnergyConservationCanvas().getRootNode().setBackground( image, 0.025, Math.PI, this );
         }
     }
 

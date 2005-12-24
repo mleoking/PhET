@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3;
 
+import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.ec3.common.Legend;
 import edu.colorado.phet.ec3.common.MeasuringTape;
@@ -13,10 +14,13 @@ import edu.colorado.phet.ec3.view.SplineGraphic;
 import edu.colorado.phet.piccolo.PhetRootPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -41,9 +45,14 @@ public class EC3RootNode extends PhetRootPNode {
     private PNode pieCharts = new PNode();
     private OffscreenManIndicator offscreenManIndicator;
     private boolean ignoreThermal = true;
-    private PImage ec3Background;
     private PauseIndicator pauseIndicator;
     private Legend legend;
+    private PNode screenBackground;
+    private Image backgroundImage;
+    private SplineToolbox splineToolbox;
+    private PNode toolboxPlaceholder;
+    private Planet lastPlanet = null;
+    private FloorGraphic floorGraphic;
 
     public EC3RootNode( EC3Module ec3Module, EC3Canvas ec3Canvas ) {
         this.ec3Module = ec3Module;
@@ -51,57 +60,74 @@ public class EC3RootNode extends PhetRootPNode {
         EnergyConservationModel ec3Model = getModel();
         Floor floor = ec3Model.floorAt( 0 );
 
-        addLayer();
-        addLayer();
         ec3Canvas.setBackground( new Color( 170, 200, 220 ) );
-//        layerAt( 0 ).getWorldNode().addChild( new SkyGraphic( floor.getY() ) );
-//        layerAt( 0 ).getScreenNode().addChild( new SkyGraphic( floor.getY() ) );
-        layerAt( 0 ).getWorldNode().addChild( new FloorGraphic( floor ) );
+        toolboxPlaceholder = new PNode();
+        screenBackground = new PNode();
+        screenBackground.addChild( new PPath( new Ellipse2D.Double( 50, 50, 300, 300 ) ) );
+        splineToolbox = new SplineToolbox( ec3Canvas, this );
 
-        final SplineToolbox splineToolbox = new SplineToolbox( ec3Canvas, this );
-        layerAt( 0 ).getScreenNode().addChild( splineToolbox );
-
-        layerAt( 1 ).getWorldNode().addChild( splineGraphics );
-        layerAt( 1 ).getWorldNode().addChild( bodyGraphics );
-        layerAt( 1 ).getWorldNode().addChild( historyGraphics );
-
-//        double coordScale = 1.0 / 55.0;
         double coordScale = 1.0 / 1.0;
-        measuringTape = new MeasuringTape( coordScale, new Point2D.Double( 100, 100 ), getWorldNode() );
-        layerAt( 1 ).getScreenNode().addChild( measuringTape );
-
-        layerAt( 1 ).addChild( pieCharts );
-
-//        offscreenManIndicator = new OffscreenManIndicator( ec3Module );
-//        layerAt( 1 ).addChild( offscreenManIndicator );
-
-        ec3Background = new PImage();
-//        ec3Background.scale( 1.3);
-        layerAt( 0 ).getWorldNode().addChild( ec3Background );
+        measuringTape = new MeasuringTape( coordScale, new Point2D.Double( 100, 100 ), bodyGraphics );//any world node should do here, no?
         pauseIndicator = new PauseIndicator( ec3Module, ec3Canvas, this );
-        layerAt( 1 ).getScreenNode().addChild( pauseIndicator );
-
         legend = new EC3Legend( ec3Module );
-        layerAt( 1 ).getScreenNode().addChild( legend );
-//        legend.addEntry( "");
+        floorGraphic = new FloorGraphic( floor );
+
+        addScreenChild( screenBackground );
+        addScreenChild( splineToolbox );
+        addWorldChild( floorGraphic );
+        addWorldChild( splineGraphics );
+        addWorldChild( bodyGraphics );
+        addWorldChild( historyGraphics );
+        addScreenChild( measuringTape );
+        addScreenChild( pieCharts );
+        addScreenChild( pauseIndicator );
+        addScreenChild( legend );
+        addWorldChild( toolboxPlaceholder );
 
         resetDefaults();
+        ec3Canvas.addComponentListener( new ComponentListener() {
+            public void componentHidden( ComponentEvent e ) {
+            }
+
+            public void componentMoved( ComponentEvent e ) {
+            }
+
+            public void componentResized( ComponentEvent e ) {
+                updateImage();
+            }
+
+            public void componentShown( ComponentEvent e ) {
+            }
+        } );
     }
+
+    public PNode getToolboxPlaceholder() {
+        return toolboxPlaceholder;
+    }
+
 
     public PNode getBackground() {
-        return ec3Background;
+        return screenBackground;
     }
 
-    Planet lastPlanet = null;
-
     public void setBackground( Image image, double scale, double pi, Planet planet ) {
-        if( lastPlanet != planet ) {
-            ec3Background.setImage( image );
-            ec3Background.setTransform( new AffineTransform() );
-            ec3Background.scale( scale );
-            getBackground().rotateInPlace( Math.PI );
-            lastPlanet = planet;
+        if( this.backgroundImage != image ) {
+            this.backgroundImage = image;
+            updateImage();
         }
+    }
+
+    private void updateImage() {
+        BufferedImage i2 = BufferedImageUtils.toBufferedImage( backgroundImage );
+        if( ec3Canvas.getHeight() > 0 && ec3Canvas.getWidth() > 0 ) {
+//            i2 = BufferedImageUtils.rescaleYMaintainAspectRatio( i2, ec3Canvas.getHeight() );
+            i2 = BufferedImageUtils.rescaleYMaintainAspectRatio( i2, ec3Canvas.getHeight() );
+            System.out.println( "i2.getHeight( ) = " + i2.getHeight() + ", canvasHeight=" + ec3Canvas.getHeight() );
+        }
+        screenBackground.removeAllChildren();
+        PImage child = new PImage( i2 );
+//        double overshootY = ec3Canvas.getHeight() - child.getFullBounds().getHeight();
+        screenBackground.addChild( child );
     }
 
     private void resetDefaults() {
@@ -116,8 +142,7 @@ public class EC3RootNode extends PhetRootPNode {
     }
 
     private EnergyConservationModel getModel() {
-        EnergyConservationModel ec3Model = ec3Module.getEnergyConservationModel();
-        return ec3Model;
+        return ec3Module.getEnergyConservationModel();
     }
 
     protected void paint( PPaintContext paintContext ) {
@@ -127,7 +152,7 @@ public class EC3RootNode extends PhetRootPNode {
     public void clearBuses() {
         if( buses != null ) {
             buses.removeAllChildren();
-            removeWorldChild( buses );
+            removeChild( buses );
             buses = null;
         }
     }
@@ -332,4 +357,5 @@ public class EC3RootNode extends PhetRootPNode {
     private EC3Canvas getEC3Panel() {
         return ec3Canvas;
     }
+
 }

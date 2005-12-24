@@ -228,10 +228,10 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
     }
 
     public void reset() {
-        for( int i = 0; i < getScreenNode().getChildrenCount(); i++ ) {
-            PNode child = getScreenNode().getChild( i );
+        for( int i = 0; i < getPhetRootNode().getChildrenCount(); i++ ) {
+            PNode child = getPhetRootNode().getChild( i );
             if( child instanceof FadeDot ) {
-                getScreenNode().removeChild( child );
+                getPhetRootNode().removeChild( child );
                 i--;
             }
         }
@@ -267,7 +267,7 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
             fadeDot.fade();
             if( fadeDot.isFullyFaded() ) {
                 peDots.remove( i );
-                getScreenNode().removeChild( fadeDot );
+                getPhetRootNode().removeChild( fadeDot );
                 i--;
             }
         }
