@@ -15,6 +15,7 @@ import java.awt.Cursor;
 import java.awt.Frame;
 
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
@@ -110,5 +111,23 @@ public abstract class AbstractModule extends PiccoloModule {
      */
     public Frame getFrame() {
         return PhetApplication.instance().getPhetFrame();
+    }
+    
+    /**
+     * Adds a listener to the module's clock.
+     * 
+     * @param listener
+     */
+    public void addClockListener( ClockListener listener ) {
+        getClock().addClockListener( listener );
+    }
+    
+    /**
+     * Removes a listener from the module's clock.
+     * 
+     * @param listener
+     */
+    public void removeClockListener( ClockListener listener ) {
+        getClock().removeClockListener( listener );
     }
 }
