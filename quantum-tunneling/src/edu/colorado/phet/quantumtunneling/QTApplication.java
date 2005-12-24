@@ -159,27 +159,23 @@ public class QTApplication extends PhetApplication {
      */
     public static void main( final String[] args ) throws IOException {
 
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                // Initialize localization.
-                SimStrings.init( args, QTConstants.LOCALIZATION_BUNDLE_BASENAME );
-                
-                // Title, etc.
-                String title = SimStrings.get( "title.quantumTunneling" );
-                String description = SimStrings.get( "QTApplication.description" );
-                String version = Version.NUMBER;
-                
-                // Frame setup
-                int width = QTConstants.APP_FRAME_WIDTH;
-                int height = QTConstants.APP_FRAME_HEIGHT;
-                FrameSetup frameSetup = new FrameSetup.CenteredWithSize( width, height );
-                
-                // Create the application.
-                QTApplication app = new QTApplication( args, title, description, version, frameSetup );
-                
-                // Start the application.
-                app.startApplication();
-            }
-        } );
+        // Initialize localization.
+        SimStrings.init( args, QTConstants.LOCALIZATION_BUNDLE_BASENAME );
+
+        // Title, etc.
+        String title = SimStrings.get( "title.quantumTunneling" );
+        String description = SimStrings.get( "QTApplication.description" );
+        String version = Version.NUMBER;
+
+        // Frame setup
+        int width = QTConstants.APP_FRAME_WIDTH;
+        int height = QTConstants.APP_FRAME_HEIGHT;
+        FrameSetup frameSetup = new FrameSetup.CenteredWithSize( width, height );
+
+        // Create the application.
+        QTApplication app = new QTApplication( args, title, description, version, frameSetup );
+
+        // Start the application.
+        app.startApplication();
     }
 }
