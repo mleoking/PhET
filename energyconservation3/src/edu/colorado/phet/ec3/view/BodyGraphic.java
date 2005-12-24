@@ -45,6 +45,7 @@ public class BodyGraphic extends PNode {
     private PImage flameGraphic;
     private final BufferedImage[] flames = new BufferedImage[3];
     private int flameFrame = 0;
+    private boolean debugCenter=false;
 
     public BodyGraphic( EC3Module ec3Module, Body body ) {
         this.ec3Module = ec3Module;
@@ -63,7 +64,9 @@ public class BodyGraphic extends PNode {
             centerDebugger = new PPath();
             centerDebugger.setStroke( null );
             centerDebugger.setPaint( Color.red );
+            if (debugCenter){
             addChild( centerDebugger );
+            }
         }
         catch( IOException e ) {
             e.printStackTrace();
