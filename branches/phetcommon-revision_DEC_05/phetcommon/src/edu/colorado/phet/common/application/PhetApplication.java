@@ -11,16 +11,13 @@
 
 package edu.colorado.phet.common.application;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import edu.colorado.phet.common.view.PhetFrame;
+import edu.colorado.phet.common.view.util.FrameSetup;
+
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-
-import javax.swing.JWindow;
-
-import edu.colorado.phet.common.view.PhetFrame;
-import edu.colorado.phet.common.view.util.FrameSetup;
 
 /**
  * The top-level class for PhET applications.
@@ -77,7 +74,7 @@ public class PhetApplication {
     private PhetFrame phetFrame;
     private ModuleManager moduleManager;
 
-    private JWindow splashWindow;
+    private SplashWindow splashWindow;
 
     /**
      * Initialize a PhetApplication with a default FrameSetup.

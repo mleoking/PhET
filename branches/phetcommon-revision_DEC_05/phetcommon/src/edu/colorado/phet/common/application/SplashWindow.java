@@ -10,25 +10,25 @@
  */
 package edu.colorado.phet.common.application;
 
+import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
+
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.text.MessageFormat;
 
-import javax.swing.*;
-
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
-
 /**
- * SplashWindow is an undecorated window that appears 
+ * SplashWindow is an undecorated window that appears
  * while the application is starting up.
  */
-public class SplashWindow extends JWindow {
+public class SplashWindow extends JDialog {
 
     public SplashWindow( Frame owner, String title ) throws HeadlessException {
         super( owner );
 
+        setUndecorated( true );
         // Put a border around the window.
         getRootPane().setBorder( BorderFactory.createLineBorder( Color.BLACK, 1 ) );
 
@@ -66,7 +66,7 @@ public class SplashWindow extends JWindow {
         gbc.insets = new Insets( 10, 10, 20, 20 );
         getContentPane().add( progressBar, gbc );
         pack();
-        
+
         // Center the window on the screen.
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation( (int)( screenSize.getWidth() / 2 - getWidth() / 2 ),
