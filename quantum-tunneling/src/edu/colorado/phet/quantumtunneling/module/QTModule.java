@@ -109,19 +109,17 @@ public class QTModule extends AbstractModule implements Observer {
         // Model
         //----------------------------------------------------------------------------
         
-        // Module model
-        BaseModel model = new BaseModel();
-        this.setModel( model );
-        
         // Plane wave
-        _planeWave = new PlaneWave( getClock() );
+        _planeWave = new PlaneWave();
         _planeWave.setEnabled( false );
-        model.addModelElement( _planeWave );
+        addClockListener( _planeWave );
         
         // Packet wave
-        _wavePacket = new WavePacket( getClock() );
+        _wavePacket = new WavePacket();
         _wavePacket.setEnabled( false );
-        model.addModelElement( _wavePacket );
+        addClockListener( _wavePacket );
+        
+        // Energy model is created in reset method!
         
         //----------------------------------------------------------------------------
         // View
