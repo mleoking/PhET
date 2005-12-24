@@ -46,7 +46,8 @@
         <mkdir dir="${ant.classes}"/>
         <javac srcdir="${src}:timeseries/src:piccolo/src:piccolo-phet/src:piccolo/extras:phetcommon/src"
                excludes="edu/umd/cs/piccolox/swt/*.java,edu/colorado/phet/timeseries/plot/*.java"
-               classpath="jfreechart/lib/jfreechart-1.0.0-rc1.jar:jfreechart/lib/jcommon-1.0.0-rc1.jar:jfreechart/lib/gnujaxp.jar:jfreechart/lib/junit.jar:jfreechart/lib/servlet.jar"
+               classpath="jfreechart/lib/jfreechart-1.0.0.jar:jfreechart/lib/jcommon-1.0.0.jar:
+               jfreechart/lib/gnujaxp.jar:jfreechart/lib/junit.jar:jfreechart/lib/servlet.jar"
                destdir="${ant.classes}"/>
         <!--    Uncomment the following line to add test classes to the output jar.    -->
         <!--        <javac srcdir="${tests-src}" destdir="${classes}"/>-->
