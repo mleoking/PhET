@@ -234,6 +234,17 @@ public class PhetApplication {
     public Module moduleAt( int i ) {
         return moduleManager.moduleAt( i );
     }
+    
+    /**
+     * Gets a module based on its index.
+     * (This is a more common name for the moduleAt method.)
+     * 
+     * @param i
+     * @return
+     */
+    public Module getModule( int i ) {
+        return moduleAt( i );
+    }
 
     /**
      * Set the specified Module to be active.
@@ -322,11 +333,11 @@ public class PhetApplication {
     }
 
     /**
-     * Add all specified modules.
+     * Adds modules.
      *
      * @param m the array of modules to add
      */
-    public void addAllModules( Module[] m ) {
+    public void addModules( Module[] m ) {
         for( int i = 0; i < m.length; i++ ) {
             Module module = m[i];
             addModule( module );
