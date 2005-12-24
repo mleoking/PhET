@@ -168,7 +168,7 @@ public class TestPhetApplication {
         PhetGraphicsModule[] m = new PhetGraphicsModule[]{module, module2, module3, modulePhotons};
 
         PhetApplication app = new PhetApplication( args, "title", "description", "version" );
-        app.addAllModules( m );
+        app.addModules( m );
         app.startApplication();
     }
 

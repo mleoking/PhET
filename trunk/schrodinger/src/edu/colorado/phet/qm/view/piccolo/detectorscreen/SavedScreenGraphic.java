@@ -51,7 +51,7 @@ public class SavedScreenGraphic extends PNode {
             button.setOffset( -button.getWidth() - 2, 0 );
             closeButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    schrodingerPanel.getScreenNode().removeChild( SavedScreenGraphic.this );
+                    schrodingerPanel.getSchrodingerScreenNode().removeChild( SavedScreenGraphic.this );
                 }
             } );
         }
