@@ -62,7 +62,7 @@ public class SwingClock extends Clock {
     }
 
     /**
-     * Stops the Clock.
+     * Pauses the Clock.
      */
     public void pause() {
         if( isRunning() ) {
