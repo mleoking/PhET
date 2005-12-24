@@ -30,6 +30,14 @@ import java.awt.event.MouseEvent;
  * so this hanlder can co-exist with other event handlers.  Other event
  * handlers should be careful not to mark events as "handled" that this
  * handler needs to see.
+ * <p/>
+ * Using restoreCursor=getComponent(event).getCursor() is problematic
+ * because if the mouse moves from a Hand area to another Hand area,
+ * then off of that area, then the restoreCursor for the second will be a Hand,
+ * and moving off that area won't restore the correct cursor.
+ * I chose the system default cursor instead.
+ * <p/>
+ * A future version could add which cursor to switch back to after usage.
  */
 
 public class CursorHandler extends PBasicInputEventHandler {
