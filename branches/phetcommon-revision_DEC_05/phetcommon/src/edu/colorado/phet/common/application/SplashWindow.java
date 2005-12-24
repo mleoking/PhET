@@ -29,18 +29,21 @@ public class SplashWindow extends JDialog {
         super( owner );
 
         setUndecorated( true );
+        
         // Put a border around the window.
         getRootPane().setBorder( BorderFactory.createLineBorder( Color.BLACK, 1 ) );
 
-        // Format a localized startup message.
+        // Splash message
         String labelFormat = SimStrings.get( "PhetApplication.StartupDialog.message" );
         Object[] args = {title};
         String labelString = MessageFormat.format( labelFormat, args );
         JLabel label = new JLabel( labelString );
 
-        // Add an indeterminate progress bar.
+        // Indeterminate progress bar
         JProgressBar progressBar = new JProgressBar();
         progressBar.setIndeterminate( true );
+        
+        // Phet logo
         BufferedImage image = null;
         try {
             image = ImageLoader.loadBufferedImage( "images/Phet-Flatirons-logo-3-small.gif" );
