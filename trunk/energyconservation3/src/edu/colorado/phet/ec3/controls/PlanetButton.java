@@ -1,5 +1,8 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.ec3;
+package edu.colorado.phet.ec3.controls;
+
+import edu.colorado.phet.ec3.EC3Module;
+import edu.colorado.phet.ec3.Planet;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

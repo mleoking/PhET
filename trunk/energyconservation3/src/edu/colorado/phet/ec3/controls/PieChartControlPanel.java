@@ -1,7 +1,9 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.ec3;
+package edu.colorado.phet.ec3.controls;
 
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
+import edu.colorado.phet.ec3.EC3Module;
+import edu.colorado.phet.ec3.EnergyPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -14,12 +16,12 @@ import java.awt.event.ActionListener;
  * Copyright (c) Oct 31, 2005 by Sam Reid
  */
 
-public class PieChartPanel extends VerticalLayoutPanel {
+public class PieChartControlPanel extends VerticalLayoutPanel {
     private EC3Module module;
     private EnergyPanel energyPanel;
     private JCheckBox mechOnly;
 
-    public PieChartPanel( final EC3Module module, EnergyPanel energyPanel ) {
+    public PieChartControlPanel( final EC3Module module, EnergyPanel energyPanel ) {
         this.module = module;
         this.energyPanel = energyPanel;
         setBorder( BorderFactory.createTitledBorder( "Energy Pie Chart" ) );

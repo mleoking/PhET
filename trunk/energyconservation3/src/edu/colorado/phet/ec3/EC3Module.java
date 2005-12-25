@@ -10,6 +10,8 @@ import edu.colorado.phet.ec3.model.Floor;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.CubicSpline;
 import edu.colorado.phet.ec3.model.spline.SplineSurface;
+import edu.colorado.phet.ec3.plots.BarGraphCanvas;
+import edu.colorado.phet.ec3.plots.ChartCanvas;
 import edu.colorado.phet.ec3.view.BodyGraphic;
 import edu.colorado.phet.ec3.view.SplineGraphic;
 import edu.colorado.phet.piccolo.PiccoloModule;

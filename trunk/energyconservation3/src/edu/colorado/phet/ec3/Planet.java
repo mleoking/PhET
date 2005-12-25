@@ -1,7 +1,6 @@
 package edu.colorado.phet.ec3;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
 
 import java.awt.image.BufferedImage;
@@ -22,7 +21,7 @@ public abstract class Planet {
         this.name = name;
     }
 
-    String getName() {
+    public String getName() {
         return name;
     }
 

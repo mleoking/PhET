@@ -1,9 +1,10 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.ec3;
+package edu.colorado.phet.ec3.controls;
 
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.ec3.EC3Module;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
 
 import javax.swing.*;

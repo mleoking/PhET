@@ -7,6 +7,9 @@ import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
+import edu.colorado.phet.ec3.controls.GravitySlider;
+import edu.colorado.phet.ec3.controls.PieChartControlPanel;
+import edu.colorado.phet.ec3.controls.PlanetButton;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
 
@@ -82,7 +85,7 @@ public class EnergyPanel extends ControlPanel {
 //        getControlPane().setAnchor( GridBagConstraints.CENTER );
 //        getControlPane().setFillNone();
 
-        final JPanel piePanel = new PieChartPanel( module, this );
+        final JPanel piePanel = new PieChartControlPanel( module, this );
         addControlFullWidth( piePanel );
 
         final VerticalLayoutPanel chartPanel = new VerticalLayoutPanel();

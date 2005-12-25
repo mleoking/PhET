@@ -1,10 +1,10 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.ec3;
+package edu.colorado.phet.ec3.plots;
 
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.ec3.EC3Module;
 import edu.colorado.phet.ec3.model.Body;
-import edu.colorado.phet.ec3.plots.*;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.timeseries.TimeSeriesModelListenerAdapter;
 

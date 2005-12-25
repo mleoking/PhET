@@ -1,6 +1,9 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.ec3;
+package edu.colorado.phet.ec3.view;
 
+import edu.colorado.phet.ec3.EC3Canvas;
+import edu.colorado.phet.ec3.EC3Module;
+import edu.colorado.phet.ec3.EC3RootNode;
 import edu.colorado.phet.piccolo.PImageFactory;
 import edu.colorado.phet.piccolo.ShadowPText;
 import edu.colorado.phet.piccolo.pswing.PSwing;
