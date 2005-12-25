@@ -89,11 +89,7 @@ public class PhetRootPNode extends PNode {
      */
     public void translateWorld( double dx, double dy ) {
         worldNode.translate( dx, dy );
-        ArrayList worldChildren = getWorldChildren();
-        for( int i = 0; i < worldChildren.size(); i++ ) {
-            PNode node = (PNode)worldChildren.get( i );
-            node.translate( dx, dy );
-        }
+        updateWorldNodes();
     }
 
     /**
@@ -104,11 +100,7 @@ public class PhetRootPNode extends PNode {
      */
     public void scaleWorldAboutPoint( double scale, Point2D point ) {
         worldNode.scaleAboutPoint( scale, point );
-        ArrayList worldChildren = getWorldChildren();
-        for( int i = 0; i < worldChildren.size(); i++ ) {
-            PNode node = (PNode)worldChildren.get( i );
-            node.scaleAboutPoint( scale, point );
-        }
+        updateWorldNodes();
     }
 
     private ArrayList getWorldChildren() {
@@ -122,10 +114,14 @@ public class PhetRootPNode extends PNode {
      */
     public void setWorldTransform( AffineTransform worldTransform ) {
         worldNode.setTransform( worldTransform );
+        updateWorldNodes();
+    }
+
+    protected void updateWorldNodes() {
         ArrayList worldChildren = getWorldChildren();
         for( int i = 0; i < worldChildren.size(); i++ ) {
             PNode node = (PNode)worldChildren.get( i );
-            node.setTransform( worldTransform );
+            node.setTransform( worldNode.getTransformReference( true ) );
         }
     }
 
