@@ -90,7 +90,7 @@ public class EC3RootNode extends PhetRootPNode {
             }
 
             public void componentResized( ComponentEvent e ) {
-                updateImage();
+                updateBackgroundImage();
             }
 
             public void componentShown( ComponentEvent e ) {
@@ -107,23 +107,28 @@ public class EC3RootNode extends PhetRootPNode {
         return screenBackground;
     }
 
-    public void setBackground( Image image, double scale, double pi, Planet planet ) {
+    public void setBackground( Image image ) {
         if( this.backgroundImage != image ) {
             this.backgroundImage = image;
-            updateImage();
+            updateBackgroundImage();
         }
     }
 
-    private void updateImage() {
+    private void updateBackgroundImage() {
         BufferedImage i2 = BufferedImageUtils.toBufferedImage( backgroundImage );
         if( ec3Canvas.getHeight() > 0 && ec3Canvas.getWidth() > 0 ) {
-//            i2 = BufferedImageUtils.rescaleYMaintainAspectRatio( i2, ec3Canvas.getHeight() );
             i2 = BufferedImageUtils.rescaleYMaintainAspectRatio( i2, ec3Canvas.getHeight() );
             System.out.println( "i2.getHeight( ) = " + i2.getHeight() + ", canvasHeight=" + ec3Canvas.getHeight() );
         }
         screenBackground.removeAllChildren();
         PImage child = new PImage( i2 );
 //        double overshootY = ec3Canvas.getHeight() - child.getFullBounds().getHeight();
+        double maxY = floorGraphic.getGlobalFullBounds().getMinY();
+        Point2D.Double loc = new Point2D.Double( 0, maxY );
+        screenBackground.globalToLocal( loc );
+//        child.translate( 0, -loc.y + getEC3Panel().getHeight() );
+        double dy = child.getFullBounds().getHeight() - maxY;
+        child.translate( 0, -dy );
         screenBackground.addChild( child );
     }
 
@@ -338,7 +343,7 @@ public class EC3RootNode extends PhetRootPNode {
         Graphics2D g2 = image.createGraphics();
         g2.setColor( new Color( 0, 0, 0, 255 ) );
         g2.fillRect( 0, 0, 1, 1 );
-        setBackground( image, 0.000000001, Math.PI, null );
+        setBackground( image );
     }
 
     protected void layoutChildren() {
