@@ -54,7 +54,7 @@ public abstract class Planet {
             catch( IOException e ) {
                 e.printStackTrace();
             }
-            module.getEnergyConservationCanvas().getRootNode().setBackground( image, 0.025, Math.PI, this );
+            module.getEnergyConservationCanvas().getRootNode().setBackground( image );
         }
     }
 
@@ -66,12 +66,13 @@ public abstract class Planet {
         protected void setupImage( EC3Module module ) {
             BufferedImage image = null;
             try {
-                image = ImageLoader.loadBufferedImage( "images/background-gif.gif" );
+//                image = ImageLoader.loadBufferedImage( "images/background-gif.gif" );
+                image = ImageLoader.loadBufferedImage( "images/earth3.gif" );
             }
             catch( IOException e ) {
                 e.printStackTrace();
             }
-            module.getEnergyConservationCanvas().getRootNode().setBackground( image, 0.025, Math.PI, this );
+            module.getEnergyConservationCanvas().getRootNode().setBackground( image );
         }
     }
 
@@ -88,7 +89,7 @@ public abstract class Planet {
             catch( IOException e ) {
                 e.printStackTrace();
             }
-            module.getEnergyConservationCanvas().getRootNode().setBackground( image, 0.02, Math.PI, this );
+            module.getEnergyConservationCanvas().getRootNode().setBackground( image );
         }
     }
 
@@ -100,7 +101,7 @@ public abstract class Planet {
         protected void setupImage( EC3Module module ) {
             try {
                 BufferedImage image = ImageLoader.loadBufferedImage( "images/jupiter4.jpg" );
-                module.getEnergyConservationCanvas().getRootNode().setBackground( image, 0.018, Math.PI, this );
+                module.getEnergyConservationCanvas().getRootNode().setBackground( image );
             }
             catch( IOException e1 ) {
                 e1.printStackTrace();

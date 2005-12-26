@@ -221,7 +221,7 @@ public class EnergyPanel extends ControlPanel {
         VerticalLayoutPanel verticalLayoutPanel = new VerticalLayoutPanel();
         verticalLayoutPanel.setBorder( BorderFactory.createTitledBorder( "Location" ) );
         verticalLayoutPanel.setFillHorizontal();
-        showBackgroundCheckbox = new JCheckBox( "Show Background", false );
+        showBackgroundCheckbox = new JCheckBox( "Show Background", true );
         verticalLayoutPanel.add( showBackgroundCheckbox );
         verticalLayoutPanel.add( space );
         verticalLayoutPanel.add( moon );
