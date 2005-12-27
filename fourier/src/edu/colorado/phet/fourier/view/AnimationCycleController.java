@@ -16,8 +16,8 @@ import java.util.EventObject;
 
 import javax.swing.event.EventListenerList;
 
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
 
 
 /**
@@ -32,7 +32,7 @@ import edu.colorado.phet.common.model.clock.ClockTickListener;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class AnimationCycleController implements ClockTickListener {
+public class AnimationCycleController extends ClockAdapter {
 
     //----------------------------------------------------------------------------
     // Related interfaces & classes
@@ -186,7 +186,7 @@ public class AnimationCycleController implements ClockTickListener {
     }
     
     //----------------------------------------------------------------------------
-    // ClockTickListener implementation
+    // ClockAdapter overrides
     //----------------------------------------------------------------------------
     
     /**
@@ -194,9 +194,9 @@ public class AnimationCycleController implements ClockTickListener {
      * 
      * @param event
      */
-    public void clockTicked( ClockTickEvent event ) {
+    public void clockTicked( ClockEvent event ) {
         if ( _enabled ) {
-            double newCyclePoint = ( _cyclePoint + ( event.getDt() / _ticksPerCycle ) ) % 1.0;
+            double newCyclePoint = ( _cyclePoint + ( event.getSimulationTimeChange() / _ticksPerCycle ) ) % 1.0;
             double delta = newCyclePoint - _cyclePoint;
             _cyclePoint = newCyclePoint;
             fireAnimationCycleEvent( _cyclePoint, delta );

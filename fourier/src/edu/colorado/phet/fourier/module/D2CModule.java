@@ -20,7 +20,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -92,12 +91,10 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
     
     /**
      * Sole constructor.
-     * 
-     * @param clock the simulation clock
      */
-    public D2CModule( AbstractClock clock ) {
+    public D2CModule() {
         
-        super( SimStrings.get( "D2CModule.title" ), clock );
+        super( SimStrings.get( "D2CModule.title" ) );
 
         //----------------------------------------------------------------------------
         // Model
@@ -117,7 +114,7 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         //----------------------------------------------------------------------------
 
         // Apparatus Panel
-        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
+        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( getClock() );
         _canvasSize = apparatusPanel.getSize();
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         setApparatusPanel( apparatusPanel );
@@ -165,7 +162,7 @@ public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeLi
         // Control
         //----------------------------------------------------------------------------
 
-        setClockControlsEnabled( false );
+        getClockControlPanel().setEnabled( false );
         
         // Control Panel
         _controlPanel = new D2CControlPanel( this, _wavePacket, 

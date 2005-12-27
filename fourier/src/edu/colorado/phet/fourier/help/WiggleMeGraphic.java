@@ -14,10 +14,10 @@ package edu.colorado.phet.fourier.help;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.ClockListener;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
@@ -35,7 +35,7 @@ import edu.colorado.phet.fourier.util.Vector2D;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class WiggleMeGraphic extends GraphicLayerSet implements ClockTickListener {
+public class WiggleMeGraphic extends GraphicLayerSet implements ClockListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -82,7 +82,7 @@ public class WiggleMeGraphic extends GraphicLayerSet implements ClockTickListene
     //----------------------------------------------------------------------------
     
     // Clock for animation
-    private AbstractClock _clock;
+    private IClock _clock;
     // The text
     private HTMLGraphic _textGraphic;
     // The width and height that the wiggle will travel.
@@ -105,7 +105,7 @@ public class WiggleMeGraphic extends GraphicLayerSet implements ClockTickListene
     /**
      * Sole constructor.
      */
-    public WiggleMeGraphic( Component component, AbstractClock clock ) {
+    public WiggleMeGraphic( Component component, IClock clock ) {
         super( component );
         
         RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
@@ -135,10 +135,10 @@ public class WiggleMeGraphic extends GraphicLayerSet implements ClockTickListene
             _enabled = enabled;
             setVisible( _enabled );
             if ( _enabled ) {
-                _clock.addClockTickListener( this );
+                _clock.addClockListener( this );
             }
             else {
-                _clock.addClockTickListener( this );
+                _clock.addClockListener( this );
             }
         }
     }
@@ -312,14 +312,14 @@ public class WiggleMeGraphic extends GraphicLayerSet implements ClockTickListene
     }
     
     //----------------------------------------------------------------------------
-    // ClockTickListener implementation
+    // ClockListener implementation
     //----------------------------------------------------------------------------
     
     /*
      * Steps the graphic through its wiggle cycle.
      */
-    public void clockTicked( ClockTickEvent event ) {
-        double dt = event.getDt();
+    public void clockTicked( ClockEvent event ) {
+        double dt = event.getSimulationTimeChange();
         double delta = dt / _cycleDuration;
         if ( _direction == CLOCKWISE ) {
             _cycles += delta;
@@ -332,4 +332,12 @@ public class WiggleMeGraphic extends GraphicLayerSet implements ClockTickListene
         super.setLocation( x, y );
         repaint();
     }
+
+    public void clockStarted( ClockEvent clockEvent ) {}
+
+    public void clockPaused( ClockEvent clockEvent ) {}
+
+    public void simulationTimeChanged( ClockEvent clockEvent ) {}
+
+    public void simulationTimeReset( ClockEvent clockEvent ) {}
 }
