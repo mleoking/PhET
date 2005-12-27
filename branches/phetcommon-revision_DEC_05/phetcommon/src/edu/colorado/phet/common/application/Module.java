@@ -229,7 +229,10 @@ public abstract class Module {
         helpEnabled = h;
         // If our control panel is a Phet control panel, then change the
         // state of its Help button.
-        getControlPanel().setHelpEnabled( h );
+        ControlPanel controlPanel = getControlPanel();
+        if ( controlPanel != null ) {
+            controlPanel.setHelpEnabled( h );
+        }
     }
 
     /**
