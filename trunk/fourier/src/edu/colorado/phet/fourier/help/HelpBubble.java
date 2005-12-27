@@ -14,9 +14,8 @@ package edu.colorado.phet.fourier.help;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 
-import edu.colorado.phet.common.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.*;
-import edu.colorado.phet.common.view.util.RectangleUtils;
 
 /**
  * HelpBubble puts some text in a bubble, with an optional arrow.

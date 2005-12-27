@@ -72,7 +72,7 @@ public class ConfigManager {
         FourierConfig config = new FourierConfig();
         {
             // Modules
-            Module[] modules = _app.getModuleManager().getModules();
+            Module[] modules = _app.getModules();
             for ( int i = 0; i < modules.length; i++ ) {
                 if ( modules[i] instanceof FourierModule ) {
                     ( (FourierModule) modules[i] ).save( config );
@@ -151,7 +151,7 @@ public class ConfigManager {
         frame.setCursor( FourierConstants.WAIT_CURSOR );
         {
             // Modules
-            Module[] modules = _app.getModuleManager().getModules();
+            Module[] modules = _app.getModules();
             for ( int i = 0; i < modules.length; i++ ) {
                 if ( modules[i] instanceof FourierModule ) {
                     ( (FourierModule) modules[i] ).load( config );

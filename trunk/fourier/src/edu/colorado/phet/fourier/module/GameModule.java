@@ -14,6 +14,8 @@ package edu.colorado.phet.fourier.module;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JOptionPane;
@@ -21,7 +23,6 @@ import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -80,7 +81,6 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
     private GameControlPanel _controlPanel;
     private Dimension _canvasSize;
     private GameManager _gameManager;
-    private boolean _instructionsHaveBeenDisplayed;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -88,13 +88,13 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
     
     /**
      * Sole constructor.
-     * 
-     * @param clock the simulation clock
      */
-    public GameModule( AbstractClock clock ) {
+    public GameModule() {
         
-        super( SimStrings.get( "GameModule.title" ), clock );
+        super( SimStrings.get( "GameModule.title" ) );
 
+        getModulePanel().addComponentListener( new ModuleVisibleListener() );
+        
         //----------------------------------------------------------------------------
         // Model
         //----------------------------------------------------------------------------
@@ -119,7 +119,7 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
         //----------------------------------------------------------------------------
 
         // Apparatus Panel
-        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
+        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( getClock() );
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         setApparatusPanel( apparatusPanel );
         apparatusPanel.addChangeListener( this );
@@ -150,7 +150,7 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
         // Control
         //----------------------------------------------------------------------------
 
-        setClockControlsEnabled( false );
+        getClockControlPanel().setEnabled( false );
         
         _gameManager = new GameManager( _userFourierSeries, _randomFourierSeries, _amplitudesView );
         apparatusPanel.addMouseListener( _gameManager );
@@ -287,6 +287,22 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
     }
     
     //----------------------------------------------------------------------------
+    // ComponentAdapter
+    //----------------------------------------------------------------------------
+    
+    private static class ModuleVisibleListener extends ComponentAdapter {
+        boolean _instructionsHaveBeenDisplayed = false;
+        public void componentShown( ComponentEvent event ) {
+            if ( ! _instructionsHaveBeenDisplayed  ) {
+                _instructionsHaveBeenDisplayed = true;
+                String message = SimStrings.get( "GameInstructionsDialog.message" );
+                String title = SimStrings.get( "GameInstructionsDialog.title" );
+                JOptionPane.showMessageDialog( PhetApplication.instance().getPhetFrame(), message, title, JOptionPane.PLAIN_MESSAGE );
+            }
+        }
+    }
+    
+    //----------------------------------------------------------------------------
     // ApparatusPanel2.ChangeListener implementation
     //----------------------------------------------------------------------------
     
@@ -296,25 +312,6 @@ public class GameModule extends FourierModule implements ApparatusPanel2.ChangeL
     public void canvasSizeChanged( ChangeEvent event ) {
         _canvasSize.setSize( event.getCanvasSize() );
         layoutViews();
-    }
-
-    //----------------------------------------------------------------------------
-    // Module overrides
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Restore the state of sound when switching to this module.
-     * 
-     * @param app
-     */
-    public void activate( PhetApplication app ) {
-        super.activate( app );
-        if ( ! _instructionsHaveBeenDisplayed  ) {
-            _instructionsHaveBeenDisplayed = true;
-            String message = SimStrings.get( "GameInstructionsDialog.message" );
-            String title = SimStrings.get( "GameInstructionsDialog.title" );
-            JOptionPane.showMessageDialog( app.getPhetFrame(), message, title, JOptionPane.PLAIN_MESSAGE );
-        }
     }
     
     //----------------------------------------------------------------------------

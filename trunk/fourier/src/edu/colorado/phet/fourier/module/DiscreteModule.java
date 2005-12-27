@@ -19,9 +19,8 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.event.MouseInputAdapter;
 
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
@@ -105,12 +104,10 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
     
     /**
      * Sole constructor.
-     * 
-     * @param clock the simulation clock
      */
-    public DiscreteModule( AbstractClock clock ) {
+    public DiscreteModule() {
         
-        super( SimStrings.get( "DiscreteModule.title" ), clock );
+        super( SimStrings.get( "DiscreteModule.title" ) );
 
         //----------------------------------------------------------------------------
         // Model
@@ -128,7 +125,7 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         //----------------------------------------------------------------------------
 
         // Apparatus Panel
-        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
+        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( getClock() );
         _canvasSize = apparatusPanel.getSize();
         apparatusPanel.setBackground( APPARATUS_PANEL_BACKGROUND );
         setApparatusPanel( apparatusPanel );
@@ -174,7 +171,7 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         
         // Animation controller
         _animationCycleController = new AnimationCycleController( FourierConstants.ANIMATION_STEPS_PER_CYCLE );
-        clock.addClockTickListener( _animationCycleController );
+        getClock().addClockListener( _animationCycleController );
         _animationCycleController.addAnimationCycleListener( _harmonicsView );
         _animationCycleController.addAnimationCycleListener( _sumView );
         _animationCycleController.addAnimationCycleListener( _periodDisplay );
@@ -253,7 +250,7 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
         //----------------------------------------------------------------------------
         
         // Wiggle Me
-        ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, clock );
+        ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, getClock() );
         wiggleMe.setLocation( WIGGLE_ME_LOCATION );
         apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
         wiggleMe.setEnabled( true );
@@ -396,25 +393,21 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
     
     /**
      * Restore the state of sound when switching to this module.
-     * 
-     * @param app
      */
-    public void activate( PhetApplication app ) {
-        super.activate( app );
+    public void activate() {
+        super.activate();
         _controlPanel.setSoundEnabled( _soundEnabled );
     }
     
     /**
      * Mute the sound when switching to another module.
-     * 
-     * @param app
      */
-    public void deactivate( PhetApplication app ) {
-        super.deactivate( app );
+    public void deactivate() {
+        super.deactivate();
         _soundEnabled = _controlPanel.isSoundEnabled();
         _controlPanel.setSoundEnabled( false );
     }
-    
+
     //----------------------------------------------------------------------------
     // Save & Load configurations
     //----------------------------------------------------------------------------
@@ -505,7 +498,7 @@ public class DiscreteModule extends FourierModule implements ApparatusPanel2.Cha
          * @param component
          * @param model
          */
-        public ThisWiggleMeGraphic( Component component, AbstractClock clock ) {
+        public ThisWiggleMeGraphic( Component component, IClock clock ) {
             super( component, clock );
 
             setText( SimStrings.get( "DiscreteModule.wiggleMe" ), WIGGLE_ME_COLOR );

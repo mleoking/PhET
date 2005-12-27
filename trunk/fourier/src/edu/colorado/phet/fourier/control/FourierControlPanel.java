@@ -67,6 +67,7 @@ public abstract class FourierControlPanel extends ControlPanel {
      */
     public FourierControlPanel( FourierModule module ) {
         super( module );
+        setLogoVisible( false );
         getControlPane().setInsets( new Insets( 0, 3, 0, 3 ) );
         _module = module;
     }

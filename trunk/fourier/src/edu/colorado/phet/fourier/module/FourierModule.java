@@ -13,9 +13,8 @@ package edu.colorado.phet.fourier.module;
 
 import java.awt.Color;
 
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.application.PhetGraphicsModule;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.fourier.FourierConstants;
@@ -42,8 +41,6 @@ public abstract class FourierModule extends PhetGraphicsModule {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private boolean _clockControlPanelEnabled;
-    private boolean _clockWasPaused;
     private BoundsDebugger _debuggerGraphic;
     
     //----------------------------------------------------------------------------
@@ -54,12 +51,9 @@ public abstract class FourierModule extends PhetGraphicsModule {
      * Sole constructor.
      * 
      * @param title the module title
-     * @param clock the simulation clock
      */
-    public FourierModule( String title, AbstractClock clock ) {
-        super( title, clock );
-        _clockControlPanelEnabled = true;
-        _clockWasPaused = false;
+    public FourierModule( String title ) {
+        super( title, new SwingClock( FourierConstants.CLOCK_DELAY, FourierConstants.CLOCK_STEP ) );
     }
     
     //----------------------------------------------------------------------------
@@ -90,24 +84,6 @@ public abstract class FourierModule extends PhetGraphicsModule {
     //----------------------------------------------------------------------------
     
     /**
-     * Enables or disables the clock controls.
-     * 
-     * @param enabled true or false
-     */
-    public void setClockControlsEnabled( boolean enabled ) {
-        _clockControlPanelEnabled = enabled;
-    }
-    
-    /**
-     * Determines if the clock controls are enabled.
-     *
-     * @return true or false
-     */
-    public boolean isClockControlsEnabled() {
-        return _clockControlPanelEnabled;
-    }
-    
-    /**
      * Turns the wait cursor on and off.
      * 
      * @param enabled true or false
@@ -133,40 +109,6 @@ public abstract class FourierModule extends PhetGraphicsModule {
      */
     public boolean hasMegaHelp() {
         return false;
-    }
-    
-    /**
-     * Called when this module becomes active.
-     * 
-     * @param app
-     */
-    public void activate( PhetApplication app ) {
-        super.activate( app );
-        // Should we disable the clock controls?
-        if ( !_clockControlPanelEnabled ) {
-            // Save the state of the clock
-            _clockWasPaused = getClock().isPaused();
-            // Un-paused the clock
-            getClock().setPaused( false );
-            // Disable the clock controls
-            PhetApplication.instance().getPhetFrame().getClockControlPanel().setEnabled( false );
-        }
-    }
-    
-    /**
-     * Called when we switch to some other module.
-     * 
-     * @param app
-     */
-    public void deactivate( PhetApplication app ) {
-        super.deactivate( app );
-        // Should we restore the clock controls?
-        if ( !_clockControlPanelEnabled ) {
-            // Restore the state of the clock
-            getClock().setPaused( _clockWasPaused );
-            // Enable the state of the clock controls
-            PhetApplication.instance().getPhetFrame().getClockControlPanel().setEnabled( true );
-        }
     }
     
     //----------------------------------------------------------------------------

@@ -17,11 +17,7 @@ import java.io.IOException;
 
 import javax.swing.JMenuItem;
 
-import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.util.DebugMenu;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -70,11 +66,10 @@ public class FourierApplication extends PhetApplication {
      * @param frameSetup
      */
     public FourierApplication( String[] args, 
-            String title, String description, String version, AbstractClock clock,
-            boolean useClockControlPanel, FrameSetup frameSetup )
+            String title, String description, String version, FrameSetup frameSetup )
     {
-        super( args, title, description, version, clock, useClockControlPanel, frameSetup );
-        initModules( clock );  
+        super( args, title, description, version, frameSetup );
+        initModules();  
         initMenubar();
     }
     
@@ -87,20 +82,13 @@ public class FourierApplication extends PhetApplication {
      * 
      * @param clock
      */
-    private void initModules( AbstractClock clock ) {
-        if ( TEST_ONE_MODULE ) {
-            Module module = new GameModule( clock );
-            setModules( new Module[] { module } );
-            setInitialModule( module );
-        }
-        else {
-            DiscreteModule discreteModule = new DiscreteModule( clock );
-            GameModule gameModule = new GameModule( clock );
-            D2CModule d2cModule = new D2CModule( clock );
-
-            setModules( new Module[] { discreteModule, gameModule, d2cModule } );
-            setInitialModule( discreteModule );
-        }
+    private void initModules() {
+        DiscreteModule discreteModule = new DiscreteModule();
+        addModule( discreteModule );
+        GameModule gameModule = new GameModule();
+        addModule( gameModule );
+        D2CModule d2cModule = new D2CModule();
+        addModule( d2cModule );
     }
     
     //----------------------------------------------------------------------------
@@ -165,21 +153,13 @@ public class FourierApplication extends PhetApplication {
         String description = SimStrings.get( "FourierApplication.description" );
         String version = Version.NUMBER;
         
-        // Clock
-        double timeStep = FourierConstants.CLOCK_TIME_STEP;
-        int waitTime = ( 1000 / FourierConstants.CLOCK_FRAME_RATE ); // milliseconds
-        boolean isFixed = FourierConstants.CLOCK_TIME_STEP_IS_CONSTANT;
-        AbstractClock clock = new SwingTimerClock( timeStep, waitTime, isFixed );
-        boolean useClockControlPanel = true;
-        
         // Frame setup
         int width = FourierConstants.APP_FRAME_WIDTH;
         int height = FourierConstants.APP_FRAME_HEIGHT;
         FrameSetup frameSetup = new FrameSetup.CenteredWithSize( width, height );
         
         // Create the application.
-        FourierApplication app = new FourierApplication( args,
-                 title, description, version, clock, useClockControlPanel, frameSetup );
+        FourierApplication app = new FourierApplication( args, title, description, version, frameSetup );
         
         // Start the application.
         app.startApplication();
