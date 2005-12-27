@@ -6,9 +6,10 @@ import edu.colorado.phet.chart.SinePlot;
 import edu.colorado.phet.chart.StringLabelTable;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.PhetFrame;
@@ -89,12 +90,12 @@ public class TestSinePlotPerformance {
     public TestSinePlotPerformance( String[] args ) throws IOException {
 
         String title = "Test SinePlot Performance";
-        AbstractClock clock = new SwingTimerClock( 1, 40 );
+        IClock clock = new SwingClock( 1, 40 );
         boolean useClockControlPanel = false;
         FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
 
         PhetApplication app = new PhetApplication( args,
-                                                   title, "", "", clock, useClockControlPanel, frameSetup );
+                                                   title, "", "", frameSetup );
 
         Module module = new TestModule( clock );
         app.setModules( new Module[]{module} );
@@ -102,24 +103,22 @@ public class TestSinePlotPerformance {
         app.startApplication();
     }
 
-    private class TestModule extends Module {
+    private class TestModule extends PhetGraphicsModule {
 
         private Chart _chart;
         private SinePlot[] _sinePlots;
         private JLabel _label;
         private JSlider _slider;
-        private JButton _zoomInButton
-        ,
-        _zoomOutButton;
+        private JButton _zoomInButton,
+                _zoomOutButton;
         private int _zoomLevel;
         private Cursor _saveCursor;
         private PhetFrame _phetFrame;
-        private JRadioButton _colorButton
-        ,
-        _grayscaleButton;
+        private JRadioButton _colorButton,
+                _grayscaleButton;
         private boolean _colorEnabled;
 
-        public TestModule( AbstractClock clock ) {
+        public TestModule( IClock clock ) {
             super( "Test Module", clock );
 
             _zoomLevel = 0;
@@ -380,8 +379,6 @@ public class TestSinePlotPerformance {
 
         /**
          * Handles zoom in.
-         *
-         * @param event
          */
         private void handleZoomIn() {
             setWaitCursorEnabled( true );
@@ -402,8 +399,6 @@ public class TestSinePlotPerformance {
 
         /**
          * Handles zoom out.
-         *
-         * @param event
          */
         private void handleZoomOut() {
             setWaitCursorEnabled( true );
@@ -424,8 +419,6 @@ public class TestSinePlotPerformance {
 
         /**
          * Handles the color radio button.
-         *
-         * @param event
          */
         private void handleColor() {
             setWaitCursorEnabled( true );
@@ -436,8 +429,6 @@ public class TestSinePlotPerformance {
 
         /**
          * Handles the grayscale radio button.
-         *
-         * @param event
          */
         private void handleGrayscale() {
             setWaitCursorEnabled( true );

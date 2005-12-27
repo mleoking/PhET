@@ -4,8 +4,8 @@ package edu.colorado.phet.chart.test;
 import edu.colorado.phet.chart.*;
 import edu.colorado.phet.chart.controllers.ChartCursor;
 import edu.colorado.phet.chart.controllers.VerticalChartSlider;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 
@@ -58,7 +58,7 @@ public class CursorTest {
         jFrame.setSize( 600, 600 );
         jFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         jFrame.setVisible( true );
-        AbstractClock clock = new SwingTimerClock( 1, 30 );
+        IClock clock = new SwingClock( 1, 30 );
         clock.start();
         RepaintDebugGraphic.enable( apparatusPanel, clock );
     }

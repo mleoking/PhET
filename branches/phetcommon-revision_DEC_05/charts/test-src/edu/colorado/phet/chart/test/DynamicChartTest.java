@@ -7,14 +7,14 @@
 package edu.colorado.phet.chart.test;
 
 import edu.colorado.phet.chart.*;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.BasicGraphicsSetup;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationEvent;
+import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationListener;
+import edu.colorado.phet.common.view.util.BasicGraphicsSetup;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +26,7 @@ public class DynamicChartTest {
     private static double x = -5;
 
     public static void main( String[] args ) {
-        AbstractClock clock = new SwingTimerClock( 1, 30 );
+        IClock clock = new SwingClock( 1, 30 );
         final ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
         BasicGraphicsSetup gs = new BasicGraphicsSetup();
         apparatusPanel.addGraphicsSetup( gs );
@@ -72,8 +72,8 @@ public class DynamicChartTest {
         DataSetGraphic sinGraphic3 = new ScatterPlot( apparatusPanel, chart, dataSet2, scatterPaintFactory );
         chart.addDataSetGraphic( sinGraphic3 );
 
-        clock.addClockTickListener( new ClockTickListener() {
-            public void clockTicked( ClockTickEvent event ) {
+        clock.addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent event ) {
                 apparatusPanel.handleUserInput();
                 x = step( x, dataSet1, dataSet2, chart, apparatusPanel );
                 apparatusPanel.paint();

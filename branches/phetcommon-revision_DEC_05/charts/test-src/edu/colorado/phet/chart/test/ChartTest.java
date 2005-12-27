@@ -8,7 +8,7 @@ package edu.colorado.phet.chart.test;
 
 import edu.colorado.phet.chart.*;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.BasicGraphicsSetup;
+import edu.colorado.phet.common.view.util.BasicGraphicsSetup;
 
 import javax.swing.*;
 import java.awt.*;

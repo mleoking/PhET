@@ -4,10 +4,10 @@ package edu.colorado.phet.chart.test;
 import edu.colorado.phet.chart.*;
 import edu.colorado.phet.chart.controllers.ChartCursor;
 import edu.colorado.phet.chart.controllers.VerticalChartSlider;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 
@@ -41,7 +41,7 @@ public class CursorRectangleTest {
                 super.repaint( x, y, width, height );
             }
         };
-        AbstractClock clock = new SwingTimerClock( 1, 50, true );
+        IClock clock = new SwingClock( 50, 1 );
         RepaintDebugGraphic repaintDebugGraphic = new RepaintDebugGraphic( apparatusPanel, clock );
         repaintDebugGraphic.setTransparency( 200 );
         clock.start();
@@ -80,8 +80,8 @@ public class CursorRectangleTest {
         jFrame.setSize( 600, 600 );
         jFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         jFrame.setVisible( true );
-        clock.addClockTickListener( new ClockTickListener() {
-            public void clockTicked( ClockTickEvent cte ) {
+        clock.addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent cte ) {
                 ds.addPoint( x, 10 * Math.sin( x / 3 ) );
                 x += 0.07;
                 if( x > ch.getRange().getMaxX() ) {
