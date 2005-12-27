@@ -52,8 +52,9 @@ public class FaradayConfig {
     // Clock parameters
     //----------------------------------------------------------------------------
     
-    public static final double CLOCK_TIME_STEP = 1; // clock ticks
+    public static final double CLOCK_STEP = 1; // clock ticks
     public static final int CLOCK_FRAME_RATE = 25;  // frames per second
+    public static final int CLOCK_DELAY = ( 1000 / FaradayConfig.CLOCK_FRAME_RATE ); // milliseconds
     public static final boolean CLOCK_TIME_STEP_IS_CONSTANT = true;
     public static final boolean CLOCK_ENABLE_CONTROLS = true;
     

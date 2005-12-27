@@ -17,7 +17,6 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -80,13 +79,11 @@ public class BarMagnetModule extends FaradayModule {
     
     /**
      * Sole constructor.
-     * 
-     * @param clock the simulation clock
      */
-    public BarMagnetModule( AbstractClock clock ) {
+    public BarMagnetModule() {
         
-        super( SimStrings.get( "BarMagnetModule.title" ), clock );
-
+        super( SimStrings.get( "BarMagnetModule.title" ) );
+        
         //----------------------------------------------------------------------------
         // Model
         //----------------------------------------------------------------------------
@@ -120,7 +117,7 @@ public class BarMagnetModule extends FaradayModule {
         //----------------------------------------------------------------------------
 
         // Apparatus Panel
-        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
+        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( getClock() );
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         this.setApparatusPanel( apparatusPanel );
         
@@ -157,6 +154,9 @@ public class BarMagnetModule extends FaradayModule {
         // Control
         //----------------------------------------------------------------------------
 
+        // Disable clock controls
+        getClockControlPanel().setEnabled( false );
+        
         // Control Panel
         {
             FaradayControlPanel controlPanel = new FaradayControlPanel( this );

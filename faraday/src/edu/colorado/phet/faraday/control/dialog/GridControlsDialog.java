@@ -21,7 +21,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.ModuleManager;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
@@ -77,12 +76,11 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
      */
     private void initValues() {
         // Find the first module that has a grid and use its values.
-        ModuleManager moduleManager = _app.getModuleManager();
-        Module module = moduleManager.getActiveModule();
+        Module module = _app.getActiveModule();
         if ( ! ( module instanceof ICompassGridModule ) ) {
-            int numberOfModules = moduleManager.numModules();
+            int numberOfModules = _app.numModules();
             for ( int i = 0; i < numberOfModules; i++ ) {
-                module = moduleManager.moduleAt( i );
+                module = _app.getModule( i );
                 if ( module instanceof ICompassGridModule ) {
                     break;
                 }
@@ -256,10 +254,9 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
      * @param needleSize needle size, in pixels
      */
     private void setAllGrids( int xSpacing, int ySpacing, Dimension needleSize ) {
-        ModuleManager moduleManager = _app.getModuleManager();
-        int numberOfModules = moduleManager.numModules();
+        int numberOfModules = _app.numModules();
         for ( int i = 0; i < numberOfModules; i++ ) {
-            Module module = moduleManager.moduleAt( i );
+            Module module = _app.getModule( i );
             if ( module instanceof ICompassGridModule ) {
                 ( (ICompassGridModule) module ).setGridSpacing( xSpacing, ySpacing );
                 ( (ICompassGridModule) module ).setGridNeedleSize( needleSize );

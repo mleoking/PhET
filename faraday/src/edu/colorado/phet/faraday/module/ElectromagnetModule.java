@@ -17,7 +17,6 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -90,12 +89,10 @@ public class ElectromagnetModule extends FaradayModule {
     
     /**
      * Sole constructor.
-     * 
-     * @param clock the simulation clock
      */
-    public ElectromagnetModule( AbstractClock clock ) {
+    public ElectromagnetModule() {
 
-        super( SimStrings.get( "ElectromagnetModule.title" ), clock );
+        super( SimStrings.get( "ElectromagnetModule.title" ) );
 
         //----------------------------------------------------------------------------
         // Model
@@ -157,7 +154,7 @@ public class ElectromagnetModule extends FaradayModule {
         //----------------------------------------------------------------------------
 
         // Apparatus Panel
-        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
+        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( getClock() );
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         this.setApparatusPanel( apparatusPanel );
         

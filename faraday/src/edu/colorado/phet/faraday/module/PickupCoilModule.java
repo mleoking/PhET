@@ -17,7 +17,6 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -97,12 +96,10 @@ public class PickupCoilModule extends FaradayModule {
     
     /**
      * Sole constructor.
-     * 
-     * @param clock the simulation clock
      */
-    public PickupCoilModule( AbstractClock clock ) {
+    public PickupCoilModule() {
 
-        super( SimStrings.get( "PickupCoilModule.title" ), clock );
+        super( SimStrings.get( "PickupCoilModule.title" ) );
         
         //----------------------------------------------------------------------------
         // Model
@@ -158,7 +155,7 @@ public class PickupCoilModule extends FaradayModule {
         //----------------------------------------------------------------------------
 
         // Apparatus Panel
-        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
+        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( getClock() );
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         this.setApparatusPanel( apparatusPanel );
 
@@ -208,6 +205,9 @@ public class PickupCoilModule extends FaradayModule {
         //----------------------------------------------------------------------------
         // Control
         //----------------------------------------------------------------------------
+        
+        // Disable clock controls
+        getClockControlPanel().setEnabled( false );
         
         // Control Panel
         {

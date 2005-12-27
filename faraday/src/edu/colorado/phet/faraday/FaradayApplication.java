@@ -11,15 +11,14 @@
 
 package edu.colorado.phet.faraday;
 
-import java.awt.Color;
 import java.io.IOException;
 
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.control.menu.DeveloperMenu;
 import edu.colorado.phet.faraday.control.menu.OptionsMenu;
+import edu.colorado.phet.faraday.module.*;
 
 /**
  * FaradayApplication is the main application for the PhET
@@ -37,18 +36,32 @@ public class FaradayApplication extends PhetApplication {
     /**
      * Sole constructor.
      * 
-     * @param appModel the application model
-     * @throws IOException
+     * @param args command line arguments
+     * @param title
+     * @param description
+     * @param version
+     * @param clock
+     * @param useClockControlPanel
+     * @param frameSetup
      */
-    public FaradayApplication( FaradayApplicationModel appModel, String[] args ) throws IOException {
-        super( appModel, args );
-        assert( appModel != null );
+    public FaradayApplication( String[] args, String title, String description, String version, FrameSetup frameSetup ) {
+        super( args, title, description, version, frameSetup );
+        initModules();
         initMenubar();
     }
 
-    //----------------------------------------------------------------------------
-    // Menubar
-    //----------------------------------------------------------------------------
+    private void initModules() {
+        BarMagnetModule barMagnetModule = new BarMagnetModule();
+        addModule( barMagnetModule );
+        PickupCoilModule pickupCoilModule = new PickupCoilModule();
+        addModule( pickupCoilModule );
+        ElectromagnetModule electromagnetModule = new ElectromagnetModule();
+        addModule( electromagnetModule );
+        TransformerModule transformerModule = new TransformerModule();
+        addModule( transformerModule );
+        GeneratorModule generatorModule = new GeneratorModule();
+        addModule( generatorModule );
+    }
     
     /**
      * Initializes the menubar.
@@ -79,12 +92,7 @@ public class FaradayApplication extends PhetApplication {
         
         // Initialize localization.
         SimStrings.init( args, FaradayConfig.LOCALIZATION_BUNDLE_BASENAME );
-        
-        // Initialize Look-&-Feel
-//        PhetLookAndFeel.setLookAndFeel();
-//        PhetLookAndFeel laf = new PhetLookAndFeel();
-//        laf.apply();
-        
+
         // Get stuff needed to initialize the application model.
         String title = SimStrings.get( "FaradayApplication.title" );
         String description = SimStrings.get( "FaradayApplication.description" );
@@ -93,11 +101,8 @@ public class FaradayApplication extends PhetApplication {
         int height = FaradayConfig.APP_FRAME_HEIGHT;
         FrameSetup frameSetup = new FrameSetup.CenteredWithSize( width, height );
 
-        // Create the application model.
-        FaradayApplicationModel appModel = new FaradayApplicationModel( title, description, version, frameSetup );
-
         // Create the application.
-        PhetApplication app = new FaradayApplication( appModel, args );
+        PhetApplication app = new FaradayApplication( args, title, description, version, frameSetup );
         
         // Start the application.
         app.startApplication();
