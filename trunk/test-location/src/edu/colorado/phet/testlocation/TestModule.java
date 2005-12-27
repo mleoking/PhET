@@ -4,10 +4,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.RenderingHints;
 
-import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetgraphics.PhetMultiLineTextGraphic;
@@ -31,9 +30,9 @@ public class TestModule extends PhetGraphicsModule {
     private static final double DEBUG_LAYER = 4;
     private static final double HELP_LAYER = Double.MAX_VALUE;
     
-    public TestModule( ApplicationModel appModel, AbstractClock clock ) {
+    public TestModule() {
 
-        super( "Test Location", clock );
+        super( "Test Location", new SwingClock( 1, 16 ) );
 
         //----------------------------------------------------------------------------
         // Model
@@ -68,7 +67,7 @@ public class TestModule extends PhetGraphicsModule {
         //----------------------------------------------------------------------------
 
         // Apparatus Panel
-        ApparatusPanel apparatusPanel = new ApparatusPanel2( model, clock );
+        ApparatusPanel apparatusPanel = new ApparatusPanel2( getClock() );
         apparatusPanel.setBackground( Color.DARK_GRAY );
         setApparatusPanel( apparatusPanel );
         
