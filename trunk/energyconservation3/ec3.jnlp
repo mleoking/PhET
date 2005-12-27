@@ -15,11 +15,11 @@ information.
 
 -->
 <jnlp
-    spec="1.0+"
-    codebase="http://www.colorado.edu/physics/phet/"
-    href="dev/ec3/0.01/ec3.jnlp">
+        spec="1.0+"
+        codebase="http://www.colorado.edu/physics/phet/"
+        href="dev/ec3/@VERSION@/ec3.jnlp">
     <information>
-        <title>Energy Conservation</title>
+        <title>Energy Sk8r</title>
         <vendor>PhET(tm)</vendor>
         <homepage href="http://www.colorado.edu/physics/phet/"/>
         <description>Energy Conservation in 2D</description>
@@ -28,12 +28,10 @@ information.
         <icon kind="splash" href="../Design/Assets/images/Phet-Kavli-logo.jpg"/>
         <offline-allowed/>
     </information>
-    <security>
-    </security>
 
     <resources>
         <j2se version="1.4+"/>
-        <jar href="dev/ec3/0.01/ec3.jar"/>
+        <jar href="dev/ec3/@VERSION@/ec3-pro.jar"/>
     </resources>
     <application-desc main-class="edu.colorado.phet.ec3.EC3Application"/>
 </jnlp>
