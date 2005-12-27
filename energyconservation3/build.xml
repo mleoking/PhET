@@ -23,7 +23,7 @@
     <property name="build.number.txt" value="${data}/${distname}.build.number"/>
     <property name="timestamp.name" value="${data}/${distname}.build.time.stamp"/>
 
-    <property name="proguard-file" value="proguard-ec3/ec3.pro"/>
+    <property name="proguard-file" value="ec3.pro"/>
 
     <taskdef resource="proguard/ant/task.properties"
              classpath="proguard3.4/lib/proguard.jar"/>
@@ -108,4 +108,46 @@
         <proguard configuration="${proguard-file}"/>
     </target>
 
+    <taskdef name="maverick-ssh"
+             classname="com.sshtools.ant.Ssh"
+             classpath="maverick-ant/maverick/lib/maverick-ant.jar"/>
+
+    <property name="phet-root" value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet"/>
+    <property name="dev-dir" value="${phet-root}/${dev-path}/${dev-version}"/>
+
+    <target name="Test SSH">
+        <maverick-ssh host="${ssh-host}"
+                      username="${username}"
+                      password="${password}"
+                      version="2">
+            <sftp action="mkdir"
+                  remotedir="${dev-dir}"/>
+            <sftp action="put" remotedir="${dev-dir}" verbose="true">
+                <fileset file="ant_output/jars/ec3.jar"/>
+            </sftp>
+        </maverick-ssh>
+    </target>
+
+    <target name="Update JNLP">
+        <copy todir="ant_output/jnlp">
+            <fileset file="ec3.jnlp"/>
+            <filterset>
+                <filter token="VERSION" value="${dev-version}"/>
+            </filterset>
+        </copy>
+    </target>
+
+    <target name="Post dev">
+        <maverick-ssh host="${ssh-host}"
+                      username="${username}"
+                      password="${password}"
+                      version="2">
+            <sftp action="mkdir"
+                  remotedir="${dev-dir}"/>
+            <sftp action="put" remotedir="${dev-dir}" verbose="true">
+                <fileset file="ant_output/jars/ec3-pro.jar"/>
+                <fileset file="ant_output/jnlp/ec3.jnlp"/>
+            </sftp>
+        </maverick-ssh>
+    </target>
 </project>
