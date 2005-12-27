@@ -357,6 +357,7 @@ public class EC3RootNode extends PhetRootPNode {
         double insetY = 10;
 //        legend.invalidateLayout();
 //        legend.validateFullPaint();
+
         legend.setOffset( getEC3Panel().getWidth() - legend.getFullBounds().getWidth() - insetX, insetY );
     }
 

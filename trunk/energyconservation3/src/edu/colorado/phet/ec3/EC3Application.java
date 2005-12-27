@@ -72,5 +72,6 @@ new FrameSetup() {
                 return false;
             }
         } );
+//        PDebug.debugRegionManagement=true;
     }
 }
