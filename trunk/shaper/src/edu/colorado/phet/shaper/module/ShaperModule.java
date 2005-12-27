@@ -23,9 +23,9 @@ import java.util.Random;
 import javax.swing.JButton;
 
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
@@ -82,9 +82,9 @@ public class ShaperModule extends AbstractModule implements ActionListener {
      * 
      * @param clock the simulation clock
      */
-    public ShaperModule( AbstractClock clock ) {
+    public ShaperModule() {
         
-        super( SimStrings.get( "ShaperModule.title" ), clock );
+        super( SimStrings.get( "ShaperModule.title" ), new SwingClock(  ShaperConstants.CLOCK_DELAY, ShaperConstants.CLOCK_STEP ) );
 
         //----------------------------------------------------------------------------
         // Model
@@ -111,7 +111,7 @@ public class ShaperModule extends AbstractModule implements ActionListener {
         //----------------------------------------------------------------------------
 
         // Apparatus Panel
-        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
+        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( getClock() );
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         setApparatusPanel( apparatusPanel );
         
@@ -279,6 +279,9 @@ public class ShaperModule extends AbstractModule implements ActionListener {
         //----------------------------------------------------------------------------
         
         // no control panel in this simulation
+        
+        // hide the clock controls
+        getClockControlPanel().setVisible( false );
         
         //----------------------------------------------------------------------------
         // Help

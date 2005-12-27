@@ -14,7 +14,7 @@ package edu.colorado.phet.shaper.help;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 
-import edu.colorado.phet.common.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.*;
 
 /**
