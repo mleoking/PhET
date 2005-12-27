@@ -1,9 +1,9 @@
--injars 'C:\PhET\projects-ii\ant_output-ec3\jars\ec3.jar'
--injars 'C:\PhET\projects-ii\energyconservation3\jfreechart\lib\gnujaxp.jar'
--injars 'C:\PhET\projects-ii\energyconservation3\jfreechart\lib\jcommon-1.0.0-rc1.jar'
--injars 'C:\PhET\projects-ii\energyconservation3\jfreechart\lib\jfreechart-1.0.0-rc1.jar'
--injars 'C:\PhET\projects-ii\energyconservation3\jfreechart\lib\junit.jar'
--injars 'C:\PhET\projects-ii\energyconservation3\jfreechart\lib\servlet.jar'
+-injars '..\ant_output\jars\ec3.jar'
+-injars '..\jfreechart\lib\gnujaxp.jar'
+-injars '..\jfreechart\lib\jcommon-1.0.0.jar'
+-injars '..\jfreechart\lib\jfreechart-1.0.0.jar'
+-injars '..\jfreechart\lib\junit.jar'
+-injars '..\jfreechart\lib\servlet.jar'
 -outjars ec3-pro.jar
 
 -libraryjars 'C:\j2sdk1.4.2_05\jre\lib\rt.jar'

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <jnlp
-    spec="1.0+"
-    codebase="http://www.colorado.edu/physics/phet/simulations/"
-    href="energyconservation/energyconservation_es.jnlp">
+        spec="1.0+"
+        codebase="http://www.colorado.edu/physics/phet/simulations/"
+        href="energyconservation/energyconservation_es.jnlp">
     <information>
         <title>Energy Conservation Toolkit</title>
         <vendor>PhET</vendor>
@@ -19,6 +19,6 @@
         <jar href="energyconservation/EnergyConservationStrings_sp.jar"/>
     </resources>
     <application-desc main-class="edu.colorado.phet.ec3.EC3Application">
-        <argument>user.language=sp</argument>	
+        <argument>user.language=sp</argument>
     </application-desc>
 </jnlp>
