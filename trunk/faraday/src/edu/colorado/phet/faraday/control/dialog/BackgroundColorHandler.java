@@ -17,7 +17,6 @@ import java.awt.Component;
 import javax.swing.JDialog;
 
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.ModuleManager;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.module.ICompassGridModule;
@@ -55,7 +54,7 @@ public class BackgroundColorHandler implements ColorChooserFactory.Listener {
         Component parent = app.getPhetFrame();
         
         // Start with the active module's background color.
-        Color initialColor = app.getModuleManager().getActiveModule().getSimulationPanel().getBackground();
+        Color initialColor = app.getActiveModule().getSimulationPanel().getBackground();
         
         _dialog = ColorChooserFactory.createDialog( title, parent, initialColor, this );
     }
@@ -110,11 +109,10 @@ public class BackgroundColorHandler implements ColorChooserFactory.Listener {
      * @param color the color
      */
     private void handleColorChange( Color color ) {
-        ModuleManager moduleManager = _app.getModuleManager();
-        int numberOfModules = moduleManager.numModules();
+        int numberOfModules = _app.numModules();
         for ( int i = 0; i < numberOfModules; i++ ) {
-            Module module = moduleManager.moduleAt( i );
-            moduleManager.moduleAt( i ).getSimulationPanel().setBackground( color );
+            Module module = _app.getModule( i );
+            module.getSimulationPanel().setBackground( color );
             if ( module instanceof ICompassGridModule ) {
                 ( (ICompassGridModule) module ).setGridBackground( color );
             }

@@ -16,7 +16,6 @@ import java.awt.Component;
 import java.awt.Point;
 
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -96,12 +95,10 @@ public class GeneratorModule extends FaradayModule {
     
     /**
      * Sole constructor.
-     * 
-     * @param clock the simulation clock
      */
-    public GeneratorModule( AbstractClock clock ) {
+    public GeneratorModule() {
 
-        super( SimStrings.get( "GeneratorModule.title" ), clock );
+        super( SimStrings.get( "GeneratorModule.title" ) );
 
         //----------------------------------------------------------------------------
         // Model
@@ -160,7 +157,7 @@ public class GeneratorModule extends FaradayModule {
         //----------------------------------------------------------------------------
 
         // Apparatus Panel
-        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
+        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( getClock() );
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         this.setApparatusPanel( apparatusPanel );
 

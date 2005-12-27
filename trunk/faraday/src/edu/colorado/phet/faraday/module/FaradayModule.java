@@ -15,9 +15,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import edu.colorado.phet.common.application.PhetGraphicsModule;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.view.CompassGridGraphic;
 import edu.colorado.phet.faraday.view.DebuggerGraphic;
 
@@ -53,10 +54,9 @@ public abstract class FaradayModule extends PhetGraphicsModule implements ICompa
      * Sole constructor.
      * 
      * @param title the module title
-     * @param clock the simulation clock
      */
-    public FaradayModule( String title, AbstractClock clock ) {
-        super( title, clock );
+    public FaradayModule( String title ) {
+        super( title, new SwingClock( FaradayConfig.CLOCK_DELAY, FaradayConfig.CLOCK_STEP ) );
     }
     
     //----------------------------------------------------------------------------
