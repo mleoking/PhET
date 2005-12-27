@@ -107,20 +107,22 @@ public class ClockControlPanel extends JPanel implements ClockListener {
      */
     public void setEnabled( boolean enabled ) {
         super.setEnabled( enabled );
-        boolean isPaused = clock.isPaused();
-        play.setEnabled( enabled && isPaused );
-        pause.setEnabled( enabled && !isPaused );
-        step.setEnabled( enabled && isPaused );
+        stateChanged( clock.isPaused() );
     }
 
     ////////////////////////////////////////////////////////////////////////////
     // Event handlers
     //
-    public void stateChanged( boolean isPaused ) {
-//        boolean isPaused = event.getClock().isPaused();
-        play.setEnabled( isPaused );
-        pause.setEnabled( !isPaused );
-        step.setEnabled( isPaused );
+    
+    /*
+     * Updates the state of the buttons to correspond to
+     * the state of the clock and the control panel.
+     */
+    private void stateChanged( boolean isPaused ) {
+        boolean enabled = isEnabled();
+        play.setEnabled( enabled && isPaused );
+        pause.setEnabled( enabled && !isPaused );
+        step.setEnabled( enabled && isPaused );
     }
 
     public void clockTicked( ClockEvent clockEvent ) {
