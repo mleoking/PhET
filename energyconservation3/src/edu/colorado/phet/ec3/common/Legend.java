@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * Copyright (c) Dec 22, 2005 by Sam Reid
  */
 
-public class Legend extends PNode {
+public class Legend extends PhetPNode {
     private ArrayList list = new ArrayList();
     private double padY = 2;
     private PPath background;
