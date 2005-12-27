@@ -10,11 +10,14 @@
  */
 package edu.colorado.phet.piccolo;
 
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.EventQueue;
+import java.awt.event.MouseEvent;
+
+import edu.umd.cs.piccolo.PComponent;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-
-import java.awt.*;
-import java.awt.event.MouseEvent;
 
 /**
  * CursorHandler handles cursor behavior for interactive PNodes.
@@ -27,17 +30,9 @@ import java.awt.event.MouseEvent;
  * own cursor in one of the constructors.
  * <p/>
  * None of the events received by this handler are marked as "handled",
- * so this hanlder can co-exist with other event handlers.  Other event
+ * so this handler can co-exist with other event handlers.  Other event
  * handlers should be careful not to mark events as "handled" that this
  * handler needs to see.
- * <p/>
- * Using restoreCursor=getComponent(event).getCursor() is problematic
- * because if the mouse moves from a Hand area to another Hand area,
- * then off of that area, then the restoreCursor for the second will be a Hand,
- * and moving off that area won't restore the correct cursor.
- * I chose the system default cursor instead.
- * <p/>
- * A future version could add which cursor to switch back to after usage.
  */
 
 public class CursorHandler extends PBasicInputEventHandler {
@@ -102,45 +97,28 @@ public class CursorHandler extends PBasicInputEventHandler {
     public void mouseEntered( PInputEvent event ) {
         mouseInside = true;
         if( !mousePressed ) {
-            restoreCursor = Cursor.getDefaultCursor();
-            getComponent( event ).setCursor( cursor );
+            event.getComponent().pushCursor( cursor );
         }
     }
 
     public void mouseExited( PInputEvent event ) {
         mouseInside = false;
         if( !mousePressed ) {
-            restoreCursor( event );
+            event.getComponent().popCursor();
         }
-    }
-
-    protected void restoreCursor( PInputEvent event ) {
-        getComponent( event ).setCursor( restoreCursor );
     }
 
     public void mousePressed( PInputEvent event ) {
         mousePressed = true;
         if( !mouseInside ) {
-            restoreCursor = Cursor.getDefaultCursor();
-            getComponent( event ).setCursor( cursor );
+            event.getComponent().pushCursor( cursor );
         }
     }
 
     public void mouseReleased( PInputEvent event ) {
         mousePressed = false;
         if( !mouseInside ) {
-            restoreCursor( event );
+            event.getComponent().popCursor();
         }
-    }
-
-    /*
-     * Workaround for a Piccolo problem.
-     */
-    private Component getComponent( PInputEvent aEvent ) {
-        if( !( EventQueue.getCurrentEvent() instanceof MouseEvent ) ) {
-            new Exception( "EventQueue.getCurrentEvent was not a MouseEvent, consider making PInputEvent.getSourceSwingEvent public.  Actual event: " + aEvent + ", class=" + aEvent.getClass().getName() ).printStackTrace();
-        }
-        MouseEvent mouseEvent = (MouseEvent)EventQueue.getCurrentEvent();
-        return mouseEvent.getComponent();
     }
 }
