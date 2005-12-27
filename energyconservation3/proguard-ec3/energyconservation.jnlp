@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <jnlp
-    spec="1.0+"
-    codebase="http://www.colorado.edu/physics/phet/simulations/"
-    href="energyconservation/energyconservation.jnlp">
+        spec="1.0+"
+        codebase="http://www.colorado.edu/physics/phet/simulations/"
+        href="energyconservation/energyconservation.jnlp">
     <information>
         <title>Energy Conservation Toolkit</title>
         <vendor>PhET</vendor>

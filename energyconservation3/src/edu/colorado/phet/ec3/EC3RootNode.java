@@ -11,13 +11,11 @@ import edu.colorado.phet.ec3.view.*;
 import edu.colorado.phet.piccolo.PhetRootPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
 import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -60,7 +58,7 @@ public class EC3RootNode extends PhetRootPNode {
         ec3Canvas.setBackground( new Color( 170, 200, 220 ) );
         toolboxPlaceholder = new PNode();
         screenBackground = new PNode();
-        screenBackground.addChild( new PPath( new Ellipse2D.Double( 50, 50, 300, 300 ) ) );
+//        screenBackground.addChild( new PPath( new Ellipse2D.Double( 50, 50, 300, 300 ) ) );
         splineToolbox = new SplineToolbox( ec3Canvas, this );
 
         double coordScale = 1.0 / 1.0;
@@ -115,21 +113,27 @@ public class EC3RootNode extends PhetRootPNode {
     }
 
     private void updateBackgroundImage() {
-        BufferedImage i2 = BufferedImageUtils.toBufferedImage( backgroundImage );
-        if( ec3Canvas.getHeight() > 0 && ec3Canvas.getWidth() > 0 ) {
-            i2 = BufferedImageUtils.rescaleYMaintainAspectRatio( i2, ec3Canvas.getHeight() );
-            System.out.println( "i2.getHeight( ) = " + i2.getHeight() + ", canvasHeight=" + ec3Canvas.getHeight() );
+        if( backgroundImage == null ) {
+            screenBackground.removeAllChildren();
         }
-        screenBackground.removeAllChildren();
-        PImage child = new PImage( i2 );
+        else {
+            System.out.println( "EC3RootNode.updateBackgroundImage@" + System.currentTimeMillis() );
+            BufferedImage i2 = BufferedImageUtils.toBufferedImage( backgroundImage );
+            if( ec3Canvas.getHeight() > 0 && ec3Canvas.getWidth() > 0 ) {
+                i2 = BufferedImageUtils.rescaleYMaintainAspectRatio( i2, ec3Canvas.getHeight() );
+                System.out.println( "i2.getHeight( ) = " + i2.getHeight() + ", canvasHeight=" + ec3Canvas.getHeight() );
+            }
+            screenBackground.removeAllChildren();
+            PImage child = new PImage( i2 );
 //        double overshootY = ec3Canvas.getHeight() - child.getFullBounds().getHeight();
-        double maxY = floorGraphic.getGlobalFullBounds().getMinY();
-        Point2D.Double loc = new Point2D.Double( 0, maxY );
-        screenBackground.globalToLocal( loc );
+            double maxY = floorGraphic.getGlobalFullBounds().getMinY();
+            Point2D.Double loc = new Point2D.Double( 0, maxY );
+            screenBackground.globalToLocal( loc );
 //        child.translate( 0, -loc.y + getEC3Panel().getHeight() );
-        double dy = child.getFullBounds().getHeight() - maxY;
-        child.translate( 0, -dy );
-        screenBackground.addChild( child );
+            double dy = child.getFullBounds().getHeight() - maxY;
+            child.translate( 0, -dy );
+            screenBackground.addChild( child );
+        }
     }
 
     private void resetDefaults() {
@@ -343,7 +347,7 @@ public class EC3RootNode extends PhetRootPNode {
         Graphics2D g2 = image.createGraphics();
         g2.setColor( new Color( 0, 0, 0, 255 ) );
         g2.fillRect( 0, 0, 1, 1 );
-        setBackground( image );
+        setBackground( null );
     }
 
     protected void layoutChildren() {
