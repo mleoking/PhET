@@ -25,8 +25,15 @@
 
     <property name="proguard-file" value="ec3.pro"/>
 
+    <property name="phet-root" value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet"/>
+    <property name="dev-dir" value="${phet-root}/${dev-path}/${dev-version}"/>
+
     <taskdef resource="proguard/ant/task.properties"
              classpath="proguard3.4/lib/proguard.jar"/>
+
+    <taskdef name="maverick-ssh"
+             classname="com.sshtools.ant.Ssh"
+             classpath="maverick-ant/maverick/lib/maverick-ant.jar"/>
 
     <description>
         PhET Build File.
@@ -108,26 +115,6 @@
         <proguard configuration="${proguard-file}"/>
     </target>
 
-    <taskdef name="maverick-ssh"
-             classname="com.sshtools.ant.Ssh"
-             classpath="maverick-ant/maverick/lib/maverick-ant.jar"/>
-
-    <property name="phet-root" value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet"/>
-    <property name="dev-dir" value="${phet-root}/${dev-path}/${dev-version}"/>
-
-    <target name="Test SSH">
-        <maverick-ssh host="${ssh-host}"
-                      username="${username}"
-                      password="${password}"
-                      version="2">
-            <sftp action="mkdir"
-                  remotedir="${dev-dir}"/>
-            <sftp action="put" remotedir="${dev-dir}" verbose="true">
-                <fileset file="ant_output/jars/ec3.jar"/>
-            </sftp>
-        </maverick-ssh>
-    </target>
-
     <target name="Update JNLP">
         <copy todir="ant_output/jnlp">
             <fileset file="ec3.jnlp"/>
@@ -137,7 +124,7 @@
         </copy>
     </target>
 
-    <target name="Post dev">
+    <target name="Post Dev">
         <maverick-ssh host="${ssh-host}"
                       username="${username}"
                       password="${password}"
@@ -150,4 +137,6 @@
             </sftp>
         </maverick-ssh>
     </target>
+
+    <target name="Build and Deploy" depends="ProGuard,Update JNLP,Post Dev"/>
 </project>
