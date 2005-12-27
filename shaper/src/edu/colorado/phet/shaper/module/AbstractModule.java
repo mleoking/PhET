@@ -14,7 +14,7 @@ package edu.colorado.phet.shaper.module;
 import java.awt.Color;
 
 import edu.colorado.phet.common.application.PhetGraphicsModule;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.shaper.ShaperConstants;
@@ -52,7 +52,7 @@ public abstract class AbstractModule extends PhetGraphicsModule {
      * @param title the module title
      * @param clock the simulation clock
      */
-    public AbstractModule( String title, AbstractClock clock ) {
+    public AbstractModule( String title, IClock clock ) {
         super( title, clock );
     }
     

@@ -18,12 +18,8 @@ import java.io.IOException;
 import javax.swing.JDialog;
 import javax.swing.JMenuItem;
 
-import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.util.DebugMenu;
-import edu.colorado.phet.common.view.components.menu.HelpMenu;
+import edu.colorado.phet.common.view.menu.HelpMenu;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.shaper.help.ExplanationDialog;
@@ -66,11 +62,10 @@ public class ShaperApplication extends PhetApplication {
      * @param frameSetup
      */
     public ShaperApplication( String[] args, 
-            String title, String description, String version, AbstractClock clock,
-            boolean useClockControlPanel, FrameSetup frameSetup )
+            String title, String description, String version, FrameSetup frameSetup )
     {
-        super( args, title, description, version, clock, useClockControlPanel, frameSetup );
-        initModules( clock );  
+        super( args, title, description, version, frameSetup );
+        initModules();  
         initMenubar();
     }
     
@@ -83,10 +78,9 @@ public class ShaperApplication extends PhetApplication {
      * 
      * @param clock
      */
-    private void initModules( AbstractClock clock ) {
-        _shaperModule = new ShaperModule( clock );
-        setModules( new Module[] { _shaperModule } );
-        setInitialModule( _shaperModule );
+    private void initModules() {
+        _shaperModule = new ShaperModule();
+        addModule( _shaperModule );
     }
     
     //----------------------------------------------------------------------------
@@ -144,21 +138,13 @@ public class ShaperApplication extends PhetApplication {
         String description = SimStrings.get( "ShaperApplication.description" );
         String version = Version.NUMBER;
         
-        // Clock
-        double timeStep = ShaperConstants.CLOCK_TIME_STEP;
-        int waitTime = ( 1000 / ShaperConstants.CLOCK_FRAME_RATE ); // milliseconds
-        boolean isFixed = ShaperConstants.CLOCK_TIME_STEP_IS_CONSTANT;
-        AbstractClock clock = new SwingTimerClock( timeStep, waitTime, isFixed );
-        boolean useClockControlPanel = false;
-        
         // Frame setup
         int width = ShaperConstants.APP_FRAME_WIDTH;
         int height = ShaperConstants.APP_FRAME_HEIGHT;
         FrameSetup frameSetup = new FrameSetup.CenteredWithSize( width, height );
         
         // Create the application.
-        ShaperApplication app = new ShaperApplication( args,
-                 title, description, version, clock, useClockControlPanel, frameSetup );
+        ShaperApplication app = new ShaperApplication( args, title, description, version, frameSetup );
         
         // Start the application.
         app.startApplication();

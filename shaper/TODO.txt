@@ -40,6 +40,7 @@ PHETCOMMON:
 
 
 DONE:
+(12/27/05) - changes to support phetcommon's new Module and Clock architecture
 (12/14/05) - minor changes to support separation of phetcommon and phetgraphics into separate CVS projects
 1.0 ...
 (11/8/05) - change Explanation image file from PNG to JPG format to reduce JAR size
