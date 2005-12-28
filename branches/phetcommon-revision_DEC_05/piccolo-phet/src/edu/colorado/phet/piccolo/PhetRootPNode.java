@@ -13,6 +13,7 @@ package edu.colorado.phet.piccolo;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -33,15 +34,15 @@ public class PhetRootPNode extends PNode {
      * @return the index.
      */
     public int indexOfChild( PNode child ) {
-        int index = indexOfChild( child );
+        int index = super.indexOfChild( child );
         if( index >= 0 ) {
             return index;
         }
-        index = indexOfChild( new WorldChild( child ) );
+        index = super.indexOfChild( new WorldChild( child ) );
         if( index >= 0 ) {
             return index;
         }
-        index = indexOfChild( new ScreenChild( child ) );
+        index = super.indexOfChild( new ScreenChild( child ) );
         if( index >= 0 ) {
             return index;
         }
@@ -132,6 +133,16 @@ public class PhetRootPNode extends PNode {
      */
     public void globalToWorld( Point2D point ) {
         worldNode.globalToLocal( point );
+    }
+
+    public void worldToScreen( Point2D pt ) {
+        worldNode.localToGlobal( pt );
+        screenNode.globalToLocal( pt );
+    }
+
+    public void screenToWorld( Dimension2D dim ) {
+        screenNode.localToGlobal( dim );
+        worldNode.globalToLocal( dim );
     }
 
     private static class WrapperNode extends PNode {
