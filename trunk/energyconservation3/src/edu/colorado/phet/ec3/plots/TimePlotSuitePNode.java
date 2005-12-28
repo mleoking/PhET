@@ -472,7 +472,7 @@ public class TimePlotSuitePNode extends PNode {
         setHasChild( !minimized, chartGraphic );
         setHasChild( !minimized, cursorPNode );
         setHasChild( minimized, maxButNode );
-        setHasChild( !minimized, minButNode );
+        setHasChild( !minimized && useMinButton, minButNode );
         setHasChild( !minimized, zoomInGraphic );
         setHasChild( !minimized, zoomOutGraphic );
 //        if( slider != null ) {

@@ -8,7 +8,6 @@ import edu.colorado.phet.ec3.common.SavedGraph;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import org.jfree.chart.ChartFactory;
@@ -62,12 +61,14 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
         private EC3Module module;
         String name;
         private Color color;
-        boolean visible;
+        private EnergyPositionPlotCanvas energyPositionPlotCanvas;
+        boolean visible = true;
 
-        public EnergyType( EC3Module module, String name, Color color ) {
+        public EnergyType( EC3Module module, String name, Color color, EnergyPositionPlotCanvas energyPositionPlotCanvas ) {
             this.module = module;
             this.name = name;
             this.color = color;
+            this.energyPositionPlotCanvas = energyPositionPlotCanvas;
         }
 
         public JCheckBox createCheckBox() {
@@ -75,6 +76,7 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
             checkBox.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     visible = checkBox.isSelected();
+                    energyPositionPlotCanvas.reset();
                 }
             } );
             return checkBox;
@@ -97,27 +99,31 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
         public String getName() {
             return name;
         }
+
+        public boolean isVisible() {
+            return visible;
+        }
     }
 
     public EnergyPositionPlotCanvas( EC3Module ec3Module ) {
         super( new Dimension( 100, 100 ) );
         this.module = ec3Module;
-        ke = new EnergyType( module, "Kinetic", module.getEnergyLookAndFeel().getKEColor() ) {
+        ke = new EnergyType( module, "Kinetic", module.getEnergyLookAndFeel().getKEColor(), this ) {
             public double getValue() {
                 return getBody().getKineticEnergy();
             }
         };
-        pe = new EnergyType( module, "Potential", module.getEnergyLookAndFeel().getPEColor() ) {
+        pe = new EnergyType( module, "Potential", module.getEnergyLookAndFeel().getPEColor(), this ) {
             public double getValue() {
                 return super.getModel().getPotentialEnergy( getBody() );
             }
         };
-        thermal = new EnergyType( module, "Thermal", module.getEnergyLookAndFeel().getThermalEnergyColor() ) {
+        thermal = new EnergyType( module, "Thermal", module.getEnergyLookAndFeel().getThermalEnergyColor(), this ) {
             public double getValue() {
                 return getModel().getThermalEnergy();
             }
         };
-        total = new EnergyType( ec3Module, "Total", module.getEnergyLookAndFeel().getTotalEnergyColor() ) {
+        total = new EnergyType( ec3Module, "Total", module.getEnergyLookAndFeel().getTotalEnergyColor(), this ) {
             public double getValue() {
                 return getModel().getTotalEnergy( getBody() );
             }
@@ -229,14 +235,27 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
     }
 
     public void reset() {
-        for( int i = 0; i < getPhetRootNode().getChildrenCount(); i++ ) {
-            PNode child = getPhetRootNode().getChild( i );
-            if( child instanceof FadeDot ) {
-                getPhetRootNode().removeChild( child );
-                i--;
-            }
+        while( peDots.size() > 0 ) {
+            FadeDot fadeDot = (FadeDot)peDots.get( 0 );
+            removeFadeDot( fadeDot );
         }
-        peDots.clear();
+//        for( int i = 0; i < peDots.size(); i++ ) {
+//
+//
+//        }
+//        for( int i = 0; i < getPhetRootNode().getChildrenCount(); i++ ) {
+//            PNode child = getPhetRootNode().getChild( i );
+//            if( child instanceof FadeDot ) {
+//                getPhetRootNode().removeChild( child );
+//                i--;
+//            }
+//        }
+//        peDots.clear();
+    }
+
+    private void removeFadeDot( FadeDot fadeDot ) {
+        peDots.remove( fadeDot );
+        getPhetRootNode().removeChild( fadeDot );
     }
 
     int count = 0;
@@ -279,9 +298,11 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
     }
 
     private void addFadeDot( double x, EnergyType energyType ) {
-        FadeDot path = new FadeDot( energyType, toImageLocation( x, energyType.getValue() ) );
-        addScreenChild( path );
-        peDots.add( path );
+        if( energyType.isVisible() ) {
+            FadeDot path = new FadeDot( energyType, toImageLocation( x, energyType.getValue() ) );
+            addScreenChild( path );
+            peDots.add( path );
+        }
     }
 
     static class FadeDot extends PPath {

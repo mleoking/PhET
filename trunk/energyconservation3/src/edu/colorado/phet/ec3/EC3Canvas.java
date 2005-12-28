@@ -11,14 +11,12 @@ import edu.colorado.phet.ec3.model.spline.SplineSurface;
 import edu.colorado.phet.ec3.view.BodyGraphic;
 import edu.colorado.phet.ec3.view.SplineGraphic;
 import edu.colorado.phet.ec3.view.SplineMatch;
+import edu.colorado.phet.piccolo.PDebugKeyHandler;
 import edu.colorado.phet.piccolo.PanZoomWorldKeyHandler;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -54,6 +52,24 @@ public class EC3Canvas extends PhetPCanvas {
         addKeyListener( new PanZoomWorldKeyHandler( this ) );
         addThrust();
         addGraphicsUpdate( ec3Module );
+        addKeyListener( new PDebugKeyHandler() );
+        addMouseListener( new MouseListener() {
+            public void mouseClicked( MouseEvent e ) {
+            }
+
+            public void mouseEntered( MouseEvent e ) {
+            }
+
+            public void mouseExited( MouseEvent e ) {
+            }
+
+            public void mousePressed( MouseEvent e ) {
+                requestFocus();
+            }
+
+            public void mouseReleased( MouseEvent e ) {
+            }
+        } );
     }
 
     private void addGraphicsUpdate( EC3Module ec3Module ) {

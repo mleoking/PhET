@@ -88,35 +88,35 @@
         </jar>
     </target>
 
-    <target name="Publish Executables" depends="Generate Jar"
-            description="generate executables, jar files, lib files, a batchfile">
-        <mkdir dir="${releases}"/>
-        <property file="${build.number.txt}"/>
-        <property name="destdir" value="${releases}\${distname}${version}_exec-build-${build.number}"/>
-        <mkdir dir="${destdir}"/>
-        <copy todir="${destdir}">
-            <fileset dir="${ant.jars}"/>
-        </copy>
-        <copy todir="${destdir}">
-            <fileset dir="." casesensitive="yes">
-                <include name="*.jnlp"/>
-            </fileset>
-        </copy>
-        <mkdir dir="${destdir}/lib"/>
-        <copy todir="${destdir}/lib">
-            <fileset dir="jfreechart/lib"/>
-        </copy>
-        <exec dir="${destdir}" executable="${explorer}">
-            <arg line="${destdir}"/>
-        </exec>
-    </target>
+    <!--<target name="Publish Executables" depends="Generate Jar"-->
+    <!--description="generate executables, jar files, lib files, a batchfile">-->
+    <!--<mkdir dir="${releases}"/>-->
+    <!--<property file="${build.number.txt}"/>-->
+    <!--<property name="destdir" value="${releases}\${distname}${version}_exec-build-${build.number}"/>-->
+    <!--<mkdir dir="${destdir}"/>-->
+    <!--<copy todir="${destdir}">-->
+    <!--<fileset dir="${ant.jars}"/>-->
+    <!--</copy>-->
+    <!--<copy todir="${destdir}">-->
+    <!--<fileset dir="." casesensitive="yes">-->
+    <!--<include name="*.jnlp"/>-->
+    <!--</fileset>-->
+    <!--</copy>-->
+    <!--<mkdir dir="${destdir}/lib"/>-->
+    <!--<copy todir="${destdir}/lib">-->
+    <!--<fileset dir="jfreechart/lib"/>-->
+    <!--</copy>-->
+    <!--<exec dir="${destdir}" executable="${explorer}">-->
+    <!--<arg line="${destdir}"/>-->
+    <!--</exec>-->
+    <!--</target>-->
 
-    <target name="ProGuard" depends="Publish Executables">
+    <target name="ProGuard" depends="Generate Jar">
         <proguard configuration="${proguard-file}"/>
     </target>
 
     <target name="Update JNLP">
-        <copy todir="ant_output/jnlp">
+        <copy todir="ant_output/jnlp" overwrite="yes">
             <fileset file="ec3.jnlp"/>
             <filterset>
                 <filter token="VERSION" value="${dev-version}"/>
