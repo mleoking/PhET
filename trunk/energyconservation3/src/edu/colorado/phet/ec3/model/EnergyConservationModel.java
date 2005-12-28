@@ -72,6 +72,7 @@ public class EnergyConservationModel {
         this.gravity = value;
     }
 
+
     static interface EnergyConservationModelListener {
         public void numBodiesChanged();
 
@@ -294,6 +295,14 @@ public class EnergyConservationModel {
         return zeroPointPotentialY;
     }
 
+    public void setZeroPointPotentialY( double zeroPointPotentialY ) {
+        this.zeroPointPotentialY = zeroPointPotentialY;
+    }
+
+    public void translateZeroPointPotentialY( double dy ) {
+        setZeroPointPotentialY( getZeroPointPotentialY() + dy );
+    }
+
     public double getThermalEnergy() {
         return thermalEnergy;
     }
@@ -304,6 +313,7 @@ public class EnergyConservationModel {
         history.clear();
         gravity = G_EARTH;
         thermalEnergy = 0.0;
+        zeroPointPotentialY = 0.0;
     }
 
     public void addThermalEnergy( double dE ) {

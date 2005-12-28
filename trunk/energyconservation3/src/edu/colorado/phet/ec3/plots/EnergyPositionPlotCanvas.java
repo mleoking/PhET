@@ -1,11 +1,12 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.ec3;
+package edu.colorado.phet.ec3.plots;
 
+import edu.colorado.phet.ec3.EC3Legend;
+import edu.colorado.phet.ec3.EC3Module;
 import edu.colorado.phet.ec3.common.LucidaSansFont;
 import edu.colorado.phet.ec3.common.SavedGraph;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
-import edu.colorado.phet.ec3.plots.Range2D;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -36,7 +37,7 @@ import java.util.ArrayList;
  * Copyright (c) Nov 6, 2005 by Sam Reid
  */
 
-public class EnergyPositionPlotPanel extends PhetPCanvas {
+public class EnergyPositionPlotCanvas extends PhetPCanvas {
     private JFreeChart chart;
     private ArrayList peDots = new ArrayList();
     private XYSeriesCollection dataset;
@@ -98,7 +99,7 @@ public class EnergyPositionPlotPanel extends PhetPCanvas {
         }
     }
 
-    public EnergyPositionPlotPanel( EC3Module ec3Module ) {
+    public EnergyPositionPlotCanvas( EC3Module ec3Module ) {
         super( new Dimension( 100, 100 ) );
         this.module = ec3Module;
         ke = new EnergyType( module, "Kinetic", module.getEnergyLookAndFeel().getKEColor() ) {

@@ -11,6 +11,7 @@ import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.CubicSpline;
 import edu.colorado.phet.ec3.model.spline.SplineSurface;
 import edu.colorado.phet.ec3.plots.BarGraphCanvas;
+import edu.colorado.phet.ec3.plots.EnergyPositionPlotCanvas;
 import edu.colorado.phet.ec3.plots.EnergyTimePlotCanvas;
 import edu.colorado.phet.ec3.view.BodyGraphic;
 import edu.colorado.phet.ec3.view.SplineGraphic;
@@ -45,7 +46,7 @@ public class EC3Module extends PiccoloModule {
     private static final boolean DEFAULT_PLOT_VISIBLE = false;
     private Point2D.Double defaultBodyPosition = new Point2D.Double( 5, 5 );
     private JDialog energyPositionPlotFrame;
-    private EnergyPositionPlotPanel energyPositionPanel;
+    private EnergyPositionPlotCanvas energyPositionCanvas;
     private PhetFrame phetFrame;
 
     /**
@@ -90,8 +91,8 @@ public class EC3Module extends PiccoloModule {
         init();
         timeSeriesPlaybackPanel = new TimeSeriesPlaybackPanel( energyTimeSeriesModel );
         energyPositionPlotFrame = new JDialog( phetFrame, "Energy vs. Position", false );
-        energyPositionPanel = new EnergyPositionPlotPanel( this );
-        energyPositionPlotFrame.setContentPane( energyPositionPanel );
+        energyPositionCanvas = new EnergyPositionPlotCanvas( this );
+        energyPositionPlotFrame.setContentPane( energyPositionCanvas );
         energyPositionPlotFrame.setSize( 400, 400 );
 
 //        new AutoPan( energyCanvas, this );
@@ -273,7 +274,7 @@ public class EC3Module extends PiccoloModule {
     }
 
     public void setEnergyPositionPlotVisible( boolean b ) {
-        energyPositionPanel.reset();
+        energyPositionCanvas.reset();
         energyPositionPlotFrame.setVisible( b );
     }
 
