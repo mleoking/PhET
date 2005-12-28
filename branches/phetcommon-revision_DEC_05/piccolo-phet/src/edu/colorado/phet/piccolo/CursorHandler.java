@@ -54,10 +54,6 @@ public class CursorHandler extends PBasicInputEventHandler {
     private Cursor cursor;
     /* cursor to restore */
     private Cursor restoreCursor;
-    /* is the mouse pressed? */
-    private boolean mousePressed;
-    /* Is the mouse inside the node? */
-    private boolean mouseInside;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -86,8 +82,6 @@ public class CursorHandler extends PBasicInputEventHandler {
      */
     public CursorHandler( Cursor cursor ) {
         this.cursor = cursor;
-        mousePressed = false;
-        mouseInside = false;
     }
 
     //----------------------------------------------------------------------------
@@ -95,30 +89,18 @@ public class CursorHandler extends PBasicInputEventHandler {
     //----------------------------------------------------------------------------
 
     public void mouseEntered( PInputEvent event ) {
-        mouseInside = true;
-        if( !mousePressed ) {
-            event.getComponent().pushCursor( cursor );
-        }
+        event.getComponent().pushCursor( cursor );
     }
 
     public void mouseExited( PInputEvent event ) {
-        mouseInside = false;
-        if( !mousePressed ) {
-            event.getComponent().popCursor();
-        }
+        event.getComponent().popCursor();
     }
 
     public void mousePressed( PInputEvent event ) {
-        mousePressed = true;
-        if( !mouseInside ) {
-            event.getComponent().pushCursor( cursor );
-        }
+        event.getComponent().pushCursor( cursor );
     }
 
     public void mouseReleased( PInputEvent event ) {
-        mousePressed = false;
-        if( !mouseInside ) {
-            event.getComponent().popCursor();
-        }
+        event.getComponent().popCursor();
     }
 }
