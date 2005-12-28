@@ -82,6 +82,20 @@ public class EC3ControlPanel extends ControlPanel {
         } );
         addControl( measuringTape );
 
+        final JCheckBox zeroPointPotential = new JCheckBox( "Potential Energy Reference" );
+        zeroPointPotential.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.getEnergyConservationCanvas().setZeroPointVisible( zeroPointPotential.isSelected() );
+            }
+        } );
+        module.getClock().addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent event ) {
+                zeroPointPotential.setSelected( module.getEnergyConservationCanvas().isZeroPointVisible() );
+            }
+        } );
+
+        addControl( zeroPointPotential );
+
 //        getControlPane().setAnchor( GridBagConstraints.CENTER );
 //        getControlPane().setFillNone();
 
