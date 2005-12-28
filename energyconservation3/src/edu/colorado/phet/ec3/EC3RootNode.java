@@ -48,6 +48,7 @@ public class EC3RootNode extends PhetRootPNode {
     private PNode toolboxPlaceholder;
     private Planet lastPlanet = null;
     private FloorGraphic floorGraphic;
+    private ZeroPointPotentialGraphic zeroPointPotentialGraphic;
 
     public EC3RootNode( EC3Module ec3Module, EC3Canvas ec3Canvas ) {
         this.ec3Module = ec3Module;
@@ -66,6 +67,7 @@ public class EC3RootNode extends PhetRootPNode {
         pauseIndicator = new PauseIndicator( ec3Module, ec3Canvas, this );
         legend = new EC3Legend( ec3Module );
         floorGraphic = new FloorGraphic( floor );
+        zeroPointPotentialGraphic = new ZeroPointPotentialGraphic( ec3Canvas );
 
         addScreenChild( screenBackground );
         addScreenChild( splineToolbox );
@@ -78,6 +80,7 @@ public class EC3RootNode extends PhetRootPNode {
         addScreenChild( pauseIndicator );
         addScreenChild( legend );
         addWorldChild( toolboxPlaceholder );
+        addScreenChild( zeroPointPotentialGraphic );
 
         resetDefaults();
         ec3Canvas.addComponentListener( new ComponentListener() {
@@ -230,7 +233,12 @@ public class EC3RootNode extends PhetRootPNode {
         updateBodies();
         updateHistory();
         updatePieChart();
+        updateZeroPotential();
 //        updateOffscreenManIndicator();
+    }
+
+    private void updateZeroPotential() {
+        zeroPointPotentialGraphic.setZeroPointPotential( getModel().getZeroPointPotentialY() );
     }
 
 //    private void updateOffscreenManIndicator() {
