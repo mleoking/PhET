@@ -377,8 +377,6 @@ public class EC3RootNode extends PhetRootPNode {
 
     public void setZeroPointVisible( boolean selected ) {
         zeroPointPotentialGraphic.setVisible( selected );
-        zeroPointPotentialGraphic.setPickable( selected );
-        zeroPointPotentialGraphic.setChildrenPickable( selected );
     }
 
     public boolean isZeroPointVisible() {
