@@ -65,7 +65,7 @@ public class PauseIndicator extends PNode {
             }
         } );
 
-        JButton record = new JButton( "Play" );
+        JButton record = new JButton( "Go" );
         record.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.getTimeSeriesModel().startLiveMode();

@@ -97,6 +97,7 @@ public class EC3RootNode extends PhetRootPNode {
             public void componentShown( ComponentEvent e ) {
             }
         } );
+        setZeroPointVisible( false );
     }
 
     public PNode getToolboxPlaceholder() {
@@ -199,6 +200,7 @@ public class EC3RootNode extends PhetRootPNode {
         splineGraphics.removeAllChildren();
         clearBuses();
         pieCharts.removeAllChildren();
+        setZeroPointVisible( false );
 //        resetDefaults();//needs MVC update before this will work.
     }
 
@@ -373,4 +375,13 @@ public class EC3RootNode extends PhetRootPNode {
         return ec3Canvas;
     }
 
+    public void setZeroPointVisible( boolean selected ) {
+        zeroPointPotentialGraphic.setVisible( selected );
+        zeroPointPotentialGraphic.setPickable( selected );
+        zeroPointPotentialGraphic.setChildrenPickable( selected );
+    }
+
+    public boolean isZeroPointVisible() {
+        return zeroPointPotentialGraphic.getVisible();
+    }
 }
