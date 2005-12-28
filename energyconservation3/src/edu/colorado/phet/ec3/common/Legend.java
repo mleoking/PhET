@@ -95,4 +95,5 @@ public class Legend extends PhetPNode {
             entry.setFont( font );
         }
     }
+
 }

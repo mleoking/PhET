@@ -25,4 +25,9 @@ public class PhetPNode extends PNode {
         }
     }
 
+    public void setVisible( boolean isVisible ) {
+        super.setVisible( isVisible );
+        setPickable( isVisible );
+        setChildrenPickable( isVisible );
+    }
 }
