@@ -73,6 +73,7 @@ public class TimePlotSuitePNode extends PNode {
     private String units;
     private static final int MAX_TIME = 40;
     private ChartRenderingInfo info = new ChartRenderingInfo();
+    private boolean useMinButton = false;
 
     public TimePlotSuitePNode( PSwingCanvas pCanvas, Range2D range, String name,
                                String units, final TimeSeriesModel timeSeriesModel, int height, boolean useSlider ) {
@@ -174,7 +175,9 @@ public class TimePlotSuitePNode extends PNode {
             minBut.setMargin( new Insets( 2, 2, 2, 2 ) );
             minButNode = new PSwing( pCanvas, minBut );
             minButNode.setOffset( 1, 1 );
-            addChild( minButNode );
+            if( useMinButton ) {
+                addChild( minButNode );
+            }
         }
         catch( IOException e ) {
             e.printStackTrace();

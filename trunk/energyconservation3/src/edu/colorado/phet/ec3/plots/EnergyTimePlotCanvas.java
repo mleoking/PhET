@@ -6,8 +6,14 @@ import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.ec3.EC3Module;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.timeseries.TimeSeriesModelListenerAdapter;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 
 /**
@@ -17,15 +23,16 @@ import java.util.ArrayList;
  * Copyright (c) Oct 23, 2005 by Sam Reid
  */
 
-public class ChartCanvas extends PhetPCanvas {
+public class EnergyTimePlotCanvas extends PhetPCanvas {
     private EC3Module ec3Module;
     private ArrayList units = new ArrayList();
     private TimePlotSuitePNode plot;
     private TimeSeriesPNode keSeries;
     private TimeSeriesPNode peSeries;
     private TimeSeriesPNode heatSeries;
+    private PSwing clearButtonNode;
 
-    public ChartCanvas( final EC3Module ec3Module ) {
+    public EnergyTimePlotCanvas( final EC3Module ec3Module ) {
         this.ec3Module = ec3Module;
         plot = new TimePlotSuitePNode( this,
                                        new Range2D( 0, -7000 / 10.0, 40, 7000 ), "Energy",
@@ -83,9 +90,28 @@ public class ChartCanvas extends PhetPCanvas {
         } );
         ec3Module.getTimeSeriesModel().addListener( new TimeSeriesModelListenerAdapter() {
             public void reset() {
-                ChartCanvas.this.reset();
+                EnergyTimePlotCanvas.this.reset();
             }
         } );
+
+        JButton clear = new JButton( "Clear" );
+        clear.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                ec3Module.getTimeSeriesModel().reset();
+            }
+        } );
+        clearButtonNode = new PSwing( this, clear );
+        addScreenChild( clearButtonNode );
+        layoutNodes();
+        addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                layoutNodes();
+            }
+        } );
+    }
+
+    private void layoutNodes() {
+        clearButtonNode.setOffset( getWidth() - clearButtonNode.getFullBounds().width - 2, 2 );
     }
 
     public void reset() {
