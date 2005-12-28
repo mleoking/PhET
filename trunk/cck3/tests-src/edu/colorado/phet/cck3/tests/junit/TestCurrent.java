@@ -11,7 +11,7 @@ import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import junit.framework.TestCase;
+import junit.framework.TestCase;/*Test CVS Commit on mac*/
 
 /**
  * User: Sam Reid
