@@ -1,237 +1,180 @@
-/*
- * Integrating the Schrodinger Wave Equation
- * John L. Richardson
- * jlr@sgi.com
- * December 1995
- * http://www.neti.no/java/sgi_java/WaveSim.html
- */
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
-public class WaveSim extends java.applet.Applet implements Runnable {
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 
-    int wx, wy, yoff, xpts[], ypts[], nx;
-    double x0, xmin, xmax, dx, ymin, ymax, dy, xscale, yscale, tmin, t, dt;
-    double hbar, mass, epsilon, width, vx, vwidth, energy, energyScale;
-    complex Psi[], EtoV[], alpha, beta;
-    Thread kicker = null;
-    Button Restart = new Button( "Restart" );
-    Button Pause = new Button( "Pause" );
-    Button Stop = new Button( "Stop" );
-    Choice C = new Choice();
+/**
+ * Integrating the Schrodinger Wave Equation.
+ * <br>
+ * http://www.neti.no/java/sgi_java/WaveSim.html
+ * 
+ * @author John L. Richardson (jlr@sgi.com)
+ * @version December 1995
+ */
+public class WaveSim extends java.applet.Applet implements ActionListener, ComponentListener, Runnable {
 
+    //----------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------
+    
+    // User interface
+    private static final Dimension APP_SIZE = new Dimension( 400, 400 );
+    private static final String PLAY_LABEL = "Play";
+    private static final String PAUSE_LABEL = "Pause";
+    private static final String STOP_LABEL = "Stop";
+    private static final String RESTART_LABEL = "Restart";
+    private static final BarrierChoice CHOICE1 = new BarrierChoice( "Barrier V = 2*E", 2 );
+    private static final BarrierChoice CHOICE2 = new BarrierChoice( "Barrier V = E", 1 );
+    private static final BarrierChoice CHOICE3 = new BarrierChoice( "Barrier V = E/2", 0.5 );
+    private static final BarrierChoice CHOICE4 = new BarrierChoice( "No Barrier", 0 );
+    private static final BarrierChoice CHOICE5 = new BarrierChoice( "Well V = -E/2", -0.5 );
+    private static final BarrierChoice CHOICE6 = new BarrierChoice( "Well V = -E", -1 );
+    private static final BarrierChoice CHOICE7 = new BarrierChoice( "Well V = -2*E", -2 );
+    
+    // Graphics
+    private static final int Y_OFF = 50;
+    private static final Color BARRIER_COLOR = Color.RED;
+    private static final Color REAL_COLOR = Color.BLUE;
+    private static final Color IMAGINARY_COLOR = Color.GREEN;
+    private static final Color MAGNITUDE_COLOR = Color.BLACK;
+    
+    // Physics
+    private static final double X0 = -2;  // initial position of the wave packet's center
+    private static final double X_MIN = -3; // min position
+    private static final double X_MAX = +3; // max position
+    private static final double Y_MIN = -1.5; // min energy
+    private static final double Y_MAX = +1.5; // max energy
+    private static final double T_MIN = 0; // min time
+    private static final double HBAR = 1; // Planck's constant
+    private static final double MASS = 100; // mass
+    private static final double WIDTH = 0.50; // sqrt(2) * (initial width of wave packet)
+    private static final double VWIDTH = WIDTH / 2; // half the width
+    private static final double VX = 0.25; // velocity = sqrt(2*E/mass)
+    
+    //----------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------
+    
+    private int wx, wy, nx, xpts[], ypts[];
+    private double t, dt, dx, dy, xscale, yscale;
+    private double epsilon, energy, energyScale;
+    private Complex Psi[], EtoV[], alpha, beta;
+    
+    private JButton playPauseButton;
+    private JButton restartButton;
+    private JButton stopButton;
+    private JComboBox barrierComboBox;
 
-    public void init() {
-
-        setSize( 400, 400 );
-        wx = getSize().width;
-        wy = getSize().height;
-        resize( wx, wy );
+    private Thread thread;
+    
+    //----------------------------------------------------------------------
+    // Initialization
+    //----------------------------------------------------------------------
+    
+    public void init() {      
+        thread = null;
+        energyScale = 1;   
         setBackground( Color.white );
-        nx = wx / 2;
-        yoff = 50;
-        wy -= yoff;
-        xpts = new int[nx];
-        ypts = new int[nx];
-        Psi = new complex[nx];
-        EtoV = new complex[nx];
-        energyScale = 1;
+        setSize( APP_SIZE );
+    
         initPhysics();
-        Panel p = new Panel();
-        p.setLayout( new FlowLayout() );
-        p.add( Pause );
-        p.add( Restart );
-        p.add( Stop );
-        C.addItem( "Barrier V = 2*E" );
-        C.addItem( "Barrier V = E" );
-        C.addItem( "Barrier V = E/2" );
-        C.addItem( "No Barrier" );
-        C.addItem( "Well V = -E/2" );
-        C.addItem( "Well V = -E" );
-        C.addItem( "Well V = -2*E" );
-        C.select( "Barrier V = E" );
-        p.add( C );
-        add( "North", p );
-        Restart.setEnabled( false );
-        C.setEnabled( false );
+        initUI(); 
+    }
+    
+    //----------------------------------------------------------------------
+    // User Interface
+    //----------------------------------------------------------------------
+    
+    private void initUI() {
+        
+        playPauseButton = new JButton( PAUSE_LABEL );
+        playPauseButton.setOpaque( false );
+        playPauseButton.addActionListener( this );
+        
+        restartButton = new JButton( RESTART_LABEL );
+        restartButton.setOpaque( false );
+        restartButton.addActionListener( this );
+        
+        stopButton = new JButton( STOP_LABEL );
+        stopButton.setOpaque( false );
+        stopButton.addActionListener( this );
+        
+        barrierComboBox = new JComboBox();
+        barrierComboBox.setOpaque( false );
+        barrierComboBox.addItem( CHOICE1 );
+        barrierComboBox.addItem( CHOICE2 );
+        barrierComboBox.addItem( CHOICE3 );
+        barrierComboBox.addItem( CHOICE4 );
+        barrierComboBox.addItem( CHOICE5 );
+        barrierComboBox.addItem( CHOICE6 );
+        barrierComboBox.addItem( CHOICE7 );
+        barrierComboBox.addActionListener( this );
+        barrierComboBox.setSelectedItem( CHOICE2 );
+        
+        Panel buttonPanel = new Panel();
+        buttonPanel.setLayout( new FlowLayout() );
+        buttonPanel.add( playPauseButton );
+        buttonPanel.add( restartButton );
+        buttonPanel.add( stopButton );
+        buttonPanel.add( barrierComboBox );
+        add( "North", buttonPanel );
+        
+        restartButton.setEnabled( false );
+        barrierComboBox.setEnabled( false );
+        
+        addComponentListener( this );
     }
 
-    public void initPhysics() {
-        x0 = -2;
-        xmin = -3;
-        xmax = 3;
-        dx = ( xmax - xmin ) / ( nx - 1 );
-        xscale = ( wx - 0.5 ) / ( xmax - xmin );
-        ymin = -1.5;
-        ymax = 1.5;
-        dy = ( ymax - ymin ) / ( wy - 1 );
-        yscale = ( wy - 0.5 ) / ( ymax - ymin );
-        tmin = 0;
-        t = tmin;
-        hbar = 1;
-        mass = 100;
-        width = 0.50;
-        vwidth = 0.25;
-        vx = 0.25;
-        dt = 0.8 * mass * dx * dx / hbar;
-        epsilon = hbar * dt / ( mass * dx * dx );
-        alpha = new complex( 0.5 * ( 1.0 + Math.cos( epsilon / 2 ) ), -0.5 * Math.sin( epsilon / 2 ) );
-        beta = new complex( ( Math.sin( epsilon / 4 ) ) * Math.sin( epsilon / 4 ), 0.5 * Math.sin( epsilon / 2 ) );
-        energy = 0.5 * mass * vx * vx;
+    //----------------------------------------------------------------------
+    // Physics
+    //----------------------------------------------------------------------
+    
+    private void initPhysics() {
+        wx = getSize().width;
+        wy = getSize().height - Y_OFF;
+        nx = wx / 2;
+
+        xpts = new int[nx];
+        ypts = new int[nx];
+        Psi = new Complex[nx];
+        EtoV = new Complex[nx];
+        
+        dx = ( X_MAX - X_MIN ) / ( nx - 1 );
+        xscale = ( wx - 0.5 ) / ( X_MAX - X_MIN );
+        dy = ( Y_MAX - Y_MIN ) / ( wy - 1 );
+        yscale = ( wy - 0.5 ) / ( Y_MAX - Y_MIN );
+        t = T_MIN;
+        dt = 0.8 * MASS * dx * dx / HBAR;
+        epsilon = HBAR * dt / ( MASS * dx * dx );
+        alpha = new Complex( 0.5 * ( 1.0 + Math.cos( epsilon / 2 ) ), -0.5 * Math.sin( epsilon / 2 ) );
+        beta = new Complex( ( Math.sin( epsilon / 4 ) ) * Math.sin( epsilon / 4 ), 0.5 * Math.sin( epsilon / 2 ) );
+        energy = 0.5 * MASS * VX * VX;
 
         for ( int x = 0; x < nx; x++ ) {
             double r, xval;
-            xval = xmin + dx * x;
-            xpts[x] = (int) ( xscale * ( xval - xmin ) );
-            r = Math.exp( -( ( xval - x0 ) / width ) * ( ( xval - x0 ) / width ) );
-            Psi[x] = new complex( r * Math.cos( mass * vx * xval / hbar ), r * Math.sin( mass * vx * xval / hbar ) );
-            r = v( xval ) * dt / hbar;
-            EtoV[x] = new complex( Math.cos( r ), -Math.sin( r ) );
+            xval = X_MIN + dx * x;
+            xpts[x] = (int) ( xscale * ( xval - X_MIN ) );
+            r = Math.exp( -( ( xval - X0 ) / WIDTH ) * ( ( xval - X0 ) / WIDTH ) );
+            Psi[x] = new Complex( r * Math.cos( MASS * VX * xval / HBAR ), r * Math.sin( MASS * VX * xval / HBAR ) );
+            r = v( xval ) * dt / HBAR;
+            EtoV[x] = new Complex( Math.cos( r ), -Math.sin( r ) );
         }
     }
 
-
-    double v( double x ) {
-        return ( Math.abs( x ) < vwidth ) ? ( energy * energyScale ) : 0;
+    private double v( double x ) {
+        return ( Math.abs( x ) < VWIDTH ) ? ( energy * energyScale ) : 0;
     }
 
-
-    public void paint( Graphics g ) {
-        MakeGraph( g );
-    }
-
-    public void MakeGraph( Graphics g ) {
-        int ix, iy;
-        int jx, jy;
-
-        //g.setColor(Color.black);
-        //g.drawRect(0,yoff,wx-1,wy-1);
-
-        g.setColor( Color.red );
-        ix = (int) ( xscale * 0.5 * ( xmax - xmin - 2 * vwidth ) );
-        jx = (int) ( xscale * 0.5 * ( xmax - xmin + 2 * vwidth ) );
-        iy = (int) ( wy - 1 - yscale * ( 0.5 * ymax * energyScale - ymin ) );
-        jy = (int) ( wy - 1 - yscale * ( 0 - ymin ) );
-
-        g.drawLine( ix, yoff + iy, ix, yoff + jy );
-        g.drawLine( jx, yoff + iy, jx, yoff + jy );
-        g.drawLine( ix, yoff + iy, jx, yoff + iy );
-
-        g.setColor( Color.blue );
-
-        for ( int x = 0; x < nx; x++ )
-            ypts[x] = yoff + (int) ( wy - 1 - yscale * ( Psi[x].re - ymin ) );
-        for ( int x = 0; x < nx - 1; x++ )
-            g.drawLine( xpts[x], ypts[x], xpts[x + 1], ypts[x + 1] );
-
-        g.setColor( Color.green );
-
-        for ( int x = 0; x < nx; x++ )
-            ypts[x] = yoff + (int) ( wy - 1 - yscale * ( Psi[x].im - ymin ) );
-        for ( int x = 0; x < nx - 1; x++ )
-            g.drawLine( xpts[x], ypts[x], xpts[x + 1], ypts[x + 1] );
-
-        g.setColor( Color.black );
-
-        for ( int x = 0; x < nx; x++ )
-            ypts[x] = yoff + (int) ( wy - 1 - yscale * ( Psi[x].re * Psi[x].re + Psi[x].im * Psi[x].im - ymin ) );
-        for ( int x = 0; x < nx - 1; x++ )
-            g.drawLine( xpts[x], ypts[x], xpts[x + 1], ypts[x + 1] );
-    }
-
-    public void run() {
-        while ( kicker != null ) {
-            step();
-            step();
-            step();
-            t += dt;
-            repaint();
-            try {
-                Thread.sleep( 60 );
-            }
-            catch ( InterruptedException e ) {
-                break;
-            }
-        }
-    }
-
-    /**
-     * Start the applet by forking an animation thread.
-     */
-    public void start() {
-        if ( kicker == null ) {
-            kicker = new Thread( this );
-            kicker.start();
-        }
-    }
-
-    /**
-     * Stop the applet. The thread will exit because kicker is set to null.
-     */
-    public void stop() {
-        if ( kicker != null ) {
-            kicker = null;
-        }
-    }
-
-    public boolean action( Event evt, Object arg ) {
-        if ( evt.target instanceof Choice ) {
-            if ( "Barrier V = E".equals( arg ) ) {
-                energyScale = 1;
-            }
-            else if ( "Barrier V = E/2".equals( arg ) ) {
-                energyScale = 0.5;
-            }
-            else if ( "Barrier V = 2*E".equals( arg ) ) {
-                energyScale = 2;
-            }
-            else if ( "Well V = -2*E".equals( arg ) ) {
-                energyScale = -2;
-            }
-            else if ( "Well V = -E".equals( arg ) ) {
-                energyScale = -1;
-            }
-            else if ( "Well V = -E/2".equals( arg ) ) {
-                energyScale = -0.5;
-            }
-            else if ( "No Barrier".equals( arg ) ) {
-                energyScale = 0;
-            }
-        }
-        else {
-            if ( "Stop".equals( arg ) ) {
-                stop();
-                Stop.setEnabled( false );
-                Restart.setEnabled( true );
-                C.setEnabled( true );
-                Pause.setEnabled( false );
-            }
-            else if ( "Restart".equals( arg ) ) {
-                Stop.setEnabled( true );
-                Restart.setEnabled( false );
-                C.setEnabled( false );
-                Pause.setEnabled( true );
-                Pause.setLabel( "Pause" );
-                initPhysics();
-                start();
-            }
-            else if ( "Pause".equals( arg ) ) {
-                stop();
-                Pause.setLabel( "Resume" );
-            }
-            else if ( "Resume".equals( arg ) ) {
-                start();
-                Pause.setLabel( "Pause" );
-            }
-        }
-        return true;
-    }
-
-    public void step() {
-        complex x = new complex( 0, 0 );
-        complex y = new complex( 0, 0 );
-        complex w = new complex( 0, 0 );
-        complex z = new complex( 0, 0 );
+    private void step() {
+        Complex x = new Complex( 0, 0 );
+        Complex y = new Complex( 0, 0 );
+        Complex w = new Complex( 0, 0 );
+        Complex z = new Complex( 0, 0 );
 
         /*
          * The time stepping algorithm used here is described in:
@@ -308,29 +251,187 @@ public class WaveSim extends java.applet.Applet implements Runnable {
             Psi[i + 1].add( w, z );
         }
     }
-}
+    
+    //----------------------------------------------------------------------
+    // Graphics
+    //----------------------------------------------------------------------
+    
+    private void drawPlots( Graphics g ) {
+        int ix, iy;
+        int jx, jy;
 
-class complex {
+        g.setColor( BARRIER_COLOR );
+        ix = (int) ( xscale * 0.5 * ( X_MAX - X_MIN - 2 * VWIDTH ) );
+        jx = (int) ( xscale * 0.5 * ( X_MAX - X_MIN + 2 * VWIDTH ) );
+        iy = (int) ( wy - 1 - yscale * ( 0.5 * Y_MAX * energyScale - Y_MIN ) );
+        jy = (int) ( wy - 1 - yscale * ( 0 - Y_MIN ) );
+        g.drawLine( ix, Y_OFF + iy, ix, Y_OFF + jy );
+        g.drawLine( jx, Y_OFF + iy, jx, Y_OFF + jy );
+        g.drawLine( ix, Y_OFF + iy, jx, Y_OFF + iy );
 
-    double re, im;
+        g.setColor( REAL_COLOR );
+        for ( int x = 0; x < nx; x++ )
+            ypts[x] = Y_OFF + (int) ( wy - 1 - yscale * ( Psi[x].re - Y_MIN ) );
+        for ( int x = 0; x < nx - 1; x++ )
+            g.drawLine( xpts[x], ypts[x], xpts[x + 1], ypts[x + 1] );
 
-    complex( double x, double y ) {
-        re = x;
-        im = y;
+        g.setColor( IMAGINARY_COLOR );
+        for ( int x = 0; x < nx; x++ )
+            ypts[x] = Y_OFF + (int) ( wy - 1 - yscale * ( Psi[x].im - Y_MIN ) );
+        for ( int x = 0; x < nx - 1; x++ )
+            g.drawLine( xpts[x], ypts[x], xpts[x + 1], ypts[x + 1] );
+
+        g.setColor( MAGNITUDE_COLOR );
+        for ( int x = 0; x < nx; x++ )
+            ypts[x] = Y_OFF + (int) ( wy - 1 - yscale * ( Psi[x].re * Psi[x].re + Psi[x].im * Psi[x].im - Y_MIN ) );
+        for ( int x = 0; x < nx - 1; x++ )
+            g.drawLine( xpts[x], ypts[x], xpts[x + 1], ypts[x + 1] );
+    }
+    
+    //----------------------------------------------------------------------
+    // Applet overrides
+    //----------------------------------------------------------------------
+    
+    public void paint( Graphics g ) {
+        drawPlots( g );
+    }
+    
+    /**
+     * Start the applet by forking an animation thread.
+     */
+    public void start() {
+        if ( thread == null ) {
+            thread = new Thread( this );
+            thread.start();
+        }
     }
 
-    public void add( complex a, complex b ) {
-        re = a.re + b.re;
-        im = a.im + b.im;
+    /**
+     * Stop the applet. The thread will exit because kicker is set to null.
+     */
+    public void stop() {
+        if ( thread != null ) {
+            thread = null;
+        }
+    }
+    
+    //----------------------------------------------------------------------
+    // ActionListener implementation
+    //----------------------------------------------------------------------
+    
+    public void actionPerformed( ActionEvent event ) {
+        Object source = event.getSource();
+        if ( source == barrierComboBox ) {
+            BarrierChoice choice = (BarrierChoice) barrierComboBox.getSelectedItem();
+            energyScale = choice.getEnergyScale();
+        }
+        else if ( source == playPauseButton ) {
+            if ( PAUSE_LABEL.equals( playPauseButton.getText() ) ) {
+                stop();
+                playPauseButton.setText( PLAY_LABEL );
+            }
+            else {
+                start();
+                playPauseButton.setText( PAUSE_LABEL );
+            }
+        }
+        else if ( source == restartButton ) {
+            stopButton.setEnabled( true );
+            restartButton.setEnabled( false );
+            barrierComboBox.setEnabled( false );
+            playPauseButton.setEnabled( true );
+            playPauseButton.setText( PAUSE_LABEL );
+            initPhysics();
+            start();
+        }
+        else if ( source == stopButton ) {
+            stop();
+            stopButton.setEnabled( false );
+            restartButton.setEnabled( true );
+            barrierComboBox.setEnabled( true );
+            playPauseButton.setEnabled( false );
+        }
+    }
+   
+    //----------------------------------------------------------------------
+    // ComponentListener implementation
+    //----------------------------------------------------------------------
+
+    public void componentResized( ComponentEvent e ) {
+        initPhysics();
     }
 
-    public void mult( complex a, complex b ) {
-        re = a.re * b.re - a.im * b.im;
-        im = a.re * b.im + a.im * b.re;
+    public void componentMoved( ComponentEvent e ) {}
+
+    public void componentShown( ComponentEvent e ) {}
+
+    public void componentHidden( ComponentEvent e ) {}
+    
+    //----------------------------------------------------------------------
+    // Runnable implementation
+    //----------------------------------------------------------------------
+
+    public void run() {
+        while ( thread != null ) {
+            step();
+            step();
+            step();
+            t += dt;
+            repaint();
+            try {
+                Thread.sleep( 60 );
+            }
+            catch ( InterruptedException e ) {
+                break;
+            }
+        }
+    }
+    
+    //----------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------
+    
+    private static class BarrierChoice {
+
+        private String label;
+        private double energyScale;
+
+        public BarrierChoice( String label, double energyScale ) {
+            this.label = label;
+            this.energyScale = energyScale;
+        }
+
+        public double getEnergyScale() {
+            return energyScale;
+        }
+
+        public String toString() {
+            return label;
+        }
     }
 
-    public void set( complex a ) {
-        re = a.re;
-        im = a.im;
+    private static class Complex {
+
+        private double re, im;
+
+        Complex( double x, double y ) {
+            re = x;
+            im = y;
+        }
+
+        public void add( Complex a, Complex b ) {
+            re = a.re + b.re;
+            im = a.im + b.im;
+        }
+
+        public void mult( Complex a, Complex b ) {
+            re = a.re * b.re - a.im * b.im;
+            im = a.re * b.im + a.im * b.re;
+        }
+
+        public void set( Complex a ) {
+            re = a.re;
+            im = a.im;
+        }
     }
 }
