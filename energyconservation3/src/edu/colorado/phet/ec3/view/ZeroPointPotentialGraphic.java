@@ -3,8 +3,8 @@ package edu.colorado.phet.ec3.view;
 
 import edu.colorado.phet.ec3.EC3Canvas;
 import edu.colorado.phet.ec3.common.LucidaSansFont;
+import edu.colorado.phet.ec3.common.PhetPNode;
 import edu.colorado.phet.piccolo.CursorHandler;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -22,7 +22,7 @@ import java.awt.geom.Point2D;
  * Copyright (c) Dec 27, 2005 by Sam Reid
  */
 
-public class ZeroPointPotentialGraphic extends PNode {
+public class ZeroPointPotentialGraphic extends PhetPNode {
     private EC3Canvas canvas;
 
     public ZeroPointPotentialGraphic( final EC3Canvas canvas ) {
