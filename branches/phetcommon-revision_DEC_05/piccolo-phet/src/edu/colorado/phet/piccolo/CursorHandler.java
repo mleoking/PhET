@@ -10,14 +10,10 @@
  */
 package edu.colorado.phet.piccolo;
 
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.EventQueue;
-import java.awt.event.MouseEvent;
-
-import edu.umd.cs.piccolo.PComponent;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+
+import java.awt.*;
 
 /**
  * CursorHandler handles cursor behavior for interactive PNodes.
@@ -52,8 +48,6 @@ public class CursorHandler extends PBasicInputEventHandler {
 
     /* cursor to change to */
     private Cursor cursor;
-    /* cursor to restore */
-    private Cursor restoreCursor;
 
     //----------------------------------------------------------------------------
     // Constructors
