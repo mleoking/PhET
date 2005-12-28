@@ -73,8 +73,8 @@ public class EC3Module extends PiccoloModule {
         energyCanvas = new EC3Canvas( this );
         setPhetPCanvas( energyCanvas );
 
-        EnergyPanel energyPanel = new EnergyPanel( this );
-        setControlPanel( energyPanel );
+        EC3ControlPanel EC3ControlPanel = new EC3ControlPanel( this );
+        setControlPanel( EC3ControlPanel );
 
         barChartFrame = new JDialog( phetFrame, "Bar Charts", false );
         barChartFrame.setContentPane( new BarGraphCanvas( this ) );
