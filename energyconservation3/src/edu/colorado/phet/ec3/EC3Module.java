@@ -11,7 +11,7 @@ import edu.colorado.phet.ec3.model.spline.AbstractSpline;
 import edu.colorado.phet.ec3.model.spline.CubicSpline;
 import edu.colorado.phet.ec3.model.spline.SplineSurface;
 import edu.colorado.phet.ec3.plots.BarGraphCanvas;
-import edu.colorado.phet.ec3.plots.ChartCanvas;
+import edu.colorado.phet.ec3.plots.EnergyTimePlotCanvas;
 import edu.colorado.phet.ec3.view.BodyGraphic;
 import edu.colorado.phet.ec3.view.SplineGraphic;
 import edu.colorado.phet.piccolo.PiccoloModule;
@@ -38,7 +38,7 @@ public class EC3Module extends PiccoloModule {
     private TimeSeriesPlaybackPanel timeSeriesPlaybackPanel;
     private EC3TimeSeriesModel energyTimeSeriesModel;
     private JDialog chartFrame;
-    private ChartCanvas chartCanvas;
+    private EnergyTimePlotCanvas energyTimePlotCanvas;
     public static final int energyFrameWidth = 200;
     public static final int chartFrameHeight = 200;
     private static final boolean DEFAULT_BAR_CHARTS_VISIBLE = false;
@@ -82,8 +82,8 @@ public class EC3Module extends PiccoloModule {
         barChartFrame.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width - energyFrameWidth, 0 );
 
         chartFrame = new JDialog( phetFrame, "Energy vs. Time", false );
-        chartCanvas = new ChartCanvas( this );
-        chartFrame.setContentPane( chartCanvas );
+        energyTimePlotCanvas = new EnergyTimePlotCanvas( this );
+        chartFrame.setContentPane( energyTimePlotCanvas );
         chartFrame.setSize( 800, chartFrameHeight );
         chartFrame.setLocation( 0, Toolkit.getDefaultToolkit().getScreenSize().height - chartFrame.getHeight() - 100 );
 
@@ -155,7 +155,7 @@ public class EC3Module extends PiccoloModule {
         energyCanvas.reset();
         energyTimeSeriesModel.reset();
         energyTimeSeriesModel.setLiveMode();
-        chartCanvas.reset();
+        energyTimePlotCanvas.reset();
         init();
         addFloorSpline();
         energyTimeSeriesModel.startLiveMode();

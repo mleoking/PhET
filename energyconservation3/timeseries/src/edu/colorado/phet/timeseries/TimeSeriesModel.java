@@ -165,12 +165,22 @@ public abstract class TimeSeriesModel implements ClockListener {
         }
     }
 
-    public void reset() {
+    public void resetOrig() {
         setPaused( true );
         recordMode.reset();
         playbackMode.reset();
         series.reset();
         fireReset();
+    }
+
+    public void reset() {
+        boolean origPauseState = isPaused();
+        setPaused( true );
+        recordMode.reset();
+        playbackMode.reset();
+        series.reset();
+        fireReset();
+        setPaused( origPauseState );
     }
 
     public int getTimeIndex( double requestedTime ) {
