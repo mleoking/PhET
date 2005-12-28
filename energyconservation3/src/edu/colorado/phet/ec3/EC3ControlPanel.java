@@ -28,12 +28,12 @@ import java.text.DecimalFormat;
  * Copyright (c) Sep 30, 2005 by Sam Reid
  */
 
-public class EnergyPanel extends ControlPanel {
+public class EC3ControlPanel extends ControlPanel {
     private EC3Module module;
     private JCheckBox showBackgroundCheckbox;
     private PlanetButton[] planetButtons;
 
-    public EnergyPanel( final EC3Module module ) {
+    public EC3ControlPanel( final EC3Module module ) {
         super( module );
         super.removeTitle();
         this.module = module;
