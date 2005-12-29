@@ -15,12 +15,13 @@ public class CCKLookAndFeel extends SmoothLookAndFeel {
     private static Color backgroundColor;
 
     private String[] types = new String[]{
-        "Button", "MenuItem", "Panel", "Dialog",
-        "CheckBox", "RadioButton", "ComboBox",
-        "Menu", "MenuItem", "MenuBar",
-        "Slider", "CheckBoxMenuItem", "RadioButtonMenuItem",
-        "TextField",
-        "TextArea", "Label"
+            "Button", "MenuItem", "Panel", "Dialog",
+            "CheckBox", "RadioButton", "ComboBox",
+            "Menu", "MenuItem", "MenuBar",
+            "Slider", "CheckBoxMenuItem", "RadioButtonMenuItem",
+            "TextField",
+            "TextArea", "Label",
+            "ScrollBar", "Viewport"
     };
 
     public static Font getFont() {

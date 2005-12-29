@@ -666,6 +666,7 @@ public class CCK3Module extends Module {
         SimStrings.init( args, localizedStringsPath );
         CCKLookAndFeel cckLookAndFeel = new CCKLookAndFeel();
         UIManager.installLookAndFeel( "CCK Default", cckLookAndFeel.getClass().getName() );
+        UIManager.setLookAndFeel( cckLookAndFeel );
         //        SwingTimerClock clock = new SwingTimerClock( 1, 30, false );
         final SwingTimerClock clock = new SwingTimerClock( 1, 30, false );
 
