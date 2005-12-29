@@ -6,6 +6,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 
 /**
@@ -22,12 +23,37 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     // Class data
     //----------------------------------------------------------------------
     
-    // User interface
-    private static final Dimension APP_SIZE = new Dimension( 500, 400 );
+    // Thread
+    private static final long THREAD_SLEEP_TIME = 60; // milliseconds
+    
+    // Model (all values are in model coordinates)
+    private static final double X0 = -2;  // initial position of the wave packet's center
+    private static final double MIN_POSITION = -3; // min position
+    private static final double MAX_POSITION = +3; // max position
+    private static final double MIN_ENERGY = -1.5; // min energy
+    private static final double MAX_ENERGY = +1.5; // max energy
+    private static final double MIN_TIME = 0; // min time
+    private static final double HBAR = 1; // Planck's constant
+    private static final double MASS = 100; // mass
+    private static final double WIDTH = 0.50; // sqrt(2) * (initial width of wave packet)
+    private static final double VWIDTH = WIDTH / 2; // half the width
+    private static final double VX = 0.25; // velocity = sqrt(2*E/mass)
+    
+    // View
+    private static final Dimension APP_SIZE = new Dimension( 600, 400 ); // pixels
+    private static final int CONTROL_PANEL_HEIGHT = 50; // pixels
+    private static final int STEPS_PER_FRAME = 3;
+    private static final Color BARRIER_COLOR = Color.RED;
+    private static final Color REAL_COLOR = Color.BLUE;
+    private static final Color IMAGINARY_COLOR = Color.GREEN;
+    private static final Color PROBABILITY_DENSITY_COLOR = Color.BLACK;
+    
+    // Controls
     private static final String PLAY_LABEL = "Play >";
     private static final String PAUSE_LABEL = "Pause ||";
     private static final String RESTART_LABEL = "<< Restart";
     private static final String STEP_LABEL = "Step >";
+    private static final String ANTIALIASING_LABEL = "antialiasing";
     private static final BarrierChoice CHOICE1 = new BarrierChoice( "Barrier V = 2*E", 2 );
     private static final BarrierChoice CHOICE2 = new BarrierChoice( "Barrier V = E", 1 );
     private static final BarrierChoice CHOICE3 = new BarrierChoice( "Barrier V = E/2", 0.5 );
@@ -36,47 +62,40 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     private static final BarrierChoice CHOICE6 = new BarrierChoice( "Well V = -E", -1 );
     private static final BarrierChoice CHOICE7 = new BarrierChoice( "Well V = -2*E", -2 );
     
-    // Thread
-    private static final long THREAD_SLEEP_TIME = 60; // milliseconds
-    // Graphics
-    private static final boolean ANTI_ALIAS = true;
-    private static final int STEPS_PER_FRAME = 3;
-    private static final int CONTROL_PANEL_HEIGHT = 50;
-    private static final Color BARRIER_COLOR = Color.RED;
-    private static final Color REAL_COLOR = Color.BLUE;
-    private static final Color IMAGINARY_COLOR = Color.GREEN;
-    private static final Color PROBABILITY_DENSITY_COLOR = Color.BLACK;
-    
-    // Physics
-    private static final double X0 = -2;  // initial position of the wave packet's center
-    private static final double X_MIN = -3; // min position
-    private static final double X_MAX = +3; // max position
-    private static final double Y_MIN = -1.5; // min energy
-    private static final double Y_MAX = +1.5; // max energy
-    private static final double T_MIN = 0; // min time
-    private static final double HBAR = 1; // Planck's constant
-    private static final double MASS = 100; // mass
-    private static final double WIDTH = 0.50; // sqrt(2) * (initial width of wave packet)
-    private static final double VWIDTH = WIDTH / 2; // half the width
-    private static final double VX = 0.25; // velocity = sqrt(2*E/mass)
-    
     //----------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------
+
+    private Thread thread;
     
-    private int screenWidth, screenHeight, numberOfPoints, xpts[], ypts[];
-    private double t, dt, dx, dy, xscale, yscale;
-    private double epsilon, energy, energyScale;
-    private Complex Psi[], EtoV[], alpha, beta;
+    // Model
+    private int numberOfPoints;
+    private double t;
+    private double dt;
+    private double dx;
+    private double dy;
+    private double epsilon;
+    private double energy;
+    private double energyScale;
+    private Complex Psi[];
+    private Complex EtoV[];
+    private Complex alpha;
+    private Complex beta;
     
+    // View
+    private int screenWidth, screenHeight;
+    private int xpts[], ypts[];
+    private double xscale, yscale;
+    private boolean antialiasing;
+    
+    // Controls
     private JButton restartButton;
     private JButton playButton;
     private JButton pauseButton;
     private JButton stepButton;
     private JComboBox barrierComboBox;
+    private JCheckBox antialiasingCheckBox;
 
-    private Thread thread;
-    
     //----------------------------------------------------------------------
     // Initialization
     //----------------------------------------------------------------------
@@ -102,11 +121,11 @@ public class WaveSim extends java.applet.Applet implements Runnable {
         Psi = new Complex[numberOfPoints];
         EtoV = new Complex[numberOfPoints];
         
-        dx = ( X_MAX - X_MIN ) / ( numberOfPoints - 1 );
-        xscale = ( screenWidth - 0.5 ) / ( X_MAX - X_MIN );
-        dy = ( Y_MAX - Y_MIN ) / ( screenHeight - 1 );
-        yscale = ( screenHeight - 0.5 ) / ( Y_MAX - Y_MIN );
-        t = T_MIN;
+        dx = ( MAX_POSITION - MIN_POSITION ) / ( numberOfPoints - 1 );
+        xscale = ( screenWidth - 0.5 ) / ( MAX_POSITION - MIN_POSITION );
+        dy = ( MAX_ENERGY - MIN_ENERGY ) / ( screenHeight - 1 );
+        yscale = ( screenHeight - 0.5 ) / ( MAX_ENERGY - MIN_ENERGY );
+        t = MIN_TIME;
         dt = 0.8 * MASS * dx * dx / HBAR;
         epsilon = HBAR * dt / ( MASS * dx * dx );
         alpha = new Complex( 0.5 * ( 1.0 + Math.cos( epsilon / 2 ) ), -0.5 * Math.sin( epsilon / 2 ) );
@@ -115,8 +134,8 @@ public class WaveSim extends java.applet.Applet implements Runnable {
 
         for ( int x = 0; x < numberOfPoints; x++ ) {
             double r, xval;
-            xval = X_MIN + dx * x;
-            xpts[x] = (int) ( xscale * ( xval - X_MIN ) );
+            xval = MIN_POSITION + dx * x;
+            xpts[x] = (int) ( xscale * ( xval - MIN_POSITION ) );
             r = Math.exp( -( ( xval - X0 ) / WIDTH ) * ( ( xval - X0 ) / WIDTH ) );
             Psi[x] = new Complex( r * Math.cos( MASS * VX * xval / HBAR ), r * Math.sin( MASS * VX * xval / HBAR ) );
             r = v( xval ) * dt / HBAR;
@@ -243,6 +262,10 @@ public class WaveSim extends java.applet.Applet implements Runnable {
         barrierComboBox.setSelectedItem( CHOICE2 );
         selectBarrier();
         
+        antialiasingCheckBox = new JCheckBox( ANTIALIASING_LABEL );
+        antialiasingCheckBox.setOpaque( false );
+        selectAntialiasing();
+        
         Panel buttonPanel = new Panel();
         buttonPanel.setLayout( new FlowLayout() );
         buttonPanel.add( restartButton );
@@ -250,6 +273,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
         buttonPanel.add( pauseButton );
         buttonPanel.add( stepButton );
         buttonPanel.add( barrierComboBox );
+        buttonPanel.add( antialiasingCheckBox );
         add( "North", buttonPanel );
         
         restartButton.addActionListener( new ActionListener() {
@@ -277,6 +301,11 @@ public class WaveSim extends java.applet.Applet implements Runnable {
                 selectBarrier();
             }
         } );
+        antialiasingCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                selectAntialiasing();
+            }
+        } );
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent event ) {
                 restart();
@@ -288,22 +317,22 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     }
     
     /*
-     * Converts the data to screen coordinates and
+     * Converts the model data to view coordinates and
      * draws it as a set of connected line segments.
      */
     private void drawPlots( Graphics g ) {
 
-        if ( ANTI_ALIAS && g instanceof Graphics2D ) {
+        if ( antialiasing && g instanceof Graphics2D ) {
             Graphics2D g2 = (Graphics2D) g;
             g2.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         }
 
         // Barrier
         g.setColor( BARRIER_COLOR );
-        int ix = (int) ( xscale * 0.5 * ( X_MAX - X_MIN - 2 * VWIDTH ) );
-        int jx = (int) ( xscale * 0.5 * ( X_MAX - X_MIN + 2 * VWIDTH ) );
-        int iy = (int) ( screenHeight - 1 - yscale * ( 0.5 * Y_MAX * energyScale - Y_MIN ) ) + CONTROL_PANEL_HEIGHT;
-        int jy = (int) ( screenHeight - 1 - yscale * ( 0 - Y_MIN ) ) + CONTROL_PANEL_HEIGHT;
+        int ix = (int) ( xscale * 0.5 * ( MAX_POSITION - MIN_POSITION - 2 * VWIDTH ) );
+        int jx = (int) ( xscale * 0.5 * ( MAX_POSITION - MIN_POSITION + 2 * VWIDTH ) );
+        int iy = (int) ( screenHeight - 1 - yscale * ( 0.5 * MAX_ENERGY * energyScale - MIN_ENERGY ) ) + CONTROL_PANEL_HEIGHT;
+        int jy = (int) ( screenHeight - 1 - yscale * ( 0 - MIN_ENERGY ) ) + CONTROL_PANEL_HEIGHT;
         g.drawLine( ix, iy, ix, jy );
         g.drawLine( jx, iy, jx, jy );
         g.drawLine( ix, iy, jx, iy );
@@ -311,7 +340,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
         // Real part
         g.setColor( REAL_COLOR );
         for ( int x = 0; x < numberOfPoints; x++ ) {
-            ypts[x] = CONTROL_PANEL_HEIGHT + (int) ( screenHeight - 1 - yscale * ( Psi[x].re - Y_MIN ) );
+            ypts[x] = CONTROL_PANEL_HEIGHT + (int) ( screenHeight - 1 - yscale * ( Psi[x].re - MIN_ENERGY ) );
             if ( x > 0 ) {
                 g.drawLine( xpts[x - 1], ypts[x - 1], xpts[x], ypts[x] );
             }
@@ -320,7 +349,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
         // Imaginary part
         g.setColor( IMAGINARY_COLOR );
         for ( int x = 0; x < numberOfPoints; x++ ) {
-            ypts[x] = CONTROL_PANEL_HEIGHT + (int) ( screenHeight - 1 - yscale * ( Psi[x].im - Y_MIN ) );
+            ypts[x] = CONTROL_PANEL_HEIGHT + (int) ( screenHeight - 1 - yscale * ( Psi[x].im - MIN_ENERGY ) );
             if ( x > 0 ) {
                 g.drawLine( xpts[x - 1], ypts[x - 1], xpts[x], ypts[x] );
             }
@@ -329,7 +358,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
         // Probability Density (abs^2)
         g.setColor( PROBABILITY_DENSITY_COLOR );
         for ( int x = 0; x < numberOfPoints; x++ ) {
-            ypts[x] = CONTROL_PANEL_HEIGHT + (int) ( screenHeight - 1 - yscale * ( Math.pow( Psi[x].abs(), 2 ) - Y_MIN ) );
+            ypts[x] = CONTROL_PANEL_HEIGHT + (int) ( screenHeight - 1 - yscale * ( Math.pow( Psi[x].abs(), 2 ) - MIN_ENERGY ) );
             if ( x > 0 ) {
                 g.drawLine( xpts[x - 1], ypts[x - 1], xpts[x], ypts[x] );
             }
@@ -382,6 +411,11 @@ public class WaveSim extends java.applet.Applet implements Runnable {
         BarrierChoice choice = (BarrierChoice) barrierComboBox.getSelectedItem();
         energyScale = choice.getEnergyScale();
         restart();
+    }
+    
+    private void selectAntialiasing() {
+        antialiasing = antialiasingCheckBox.isSelected();
+        repaint();
     }
     
     //----------------------------------------------------------------------
