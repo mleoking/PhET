@@ -2,8 +2,8 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -16,14 +16,14 @@ import javax.swing.JComboBox;
  * @author John L. Richardson (jlr@sgi.com)
  * @version December 1995
  */
-public class WaveSim extends java.applet.Applet implements ActionListener, ComponentListener, Runnable {
+public class WaveSim extends java.applet.Applet implements Runnable {
 
     //----------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------
     
     // User interface
-    private static final Dimension APP_SIZE = new Dimension( 400, 400 );
+    private static final Dimension APP_SIZE = new Dimension( 500, 400 );
     private static final String PLAY_LABEL = "Play >";
     private static final String PAUSE_LABEL = "Pause ||";
     private static final String RESTART_LABEL = "<< Restart";
@@ -37,7 +37,9 @@ public class WaveSim extends java.applet.Applet implements ActionListener, Compo
     private static final BarrierChoice CHOICE7 = new BarrierChoice( "Well V = -2*E", -2 );
     
     // Graphics
-    private static final int Y_OFF = 50;
+    private static final boolean ANTI_ALIAS = true;
+    private static final int STEPS_PER_FRAME = 3;
+    private static final int Y_OFFSET = 50;
     private static final Color BARRIER_COLOR = Color.RED;
     private static final Color REAL_COLOR = Color.BLUE;
     private static final Color IMAGINARY_COLOR = Color.GREEN;
@@ -66,7 +68,8 @@ public class WaveSim extends java.applet.Applet implements ActionListener, Compo
     private Complex Psi[], EtoV[], alpha, beta;
     
     private JButton restartButton;
-    private JButton playPauseButton;
+    private JButton playButton;
+    private JButton pauseButton;
     private JButton stepButton;
     private JComboBox barrierComboBox;
 
@@ -78,64 +81,18 @@ public class WaveSim extends java.applet.Applet implements ActionListener, Compo
     
     public void init() {      
         thread = null;
-        energyScale = 1;   
-        setBackground( Color.white );
-        setSize( APP_SIZE );
-    
-        initPhysics();
-        initUI(); 
+        initUI();
+        restart();
+        play();
     }
     
-    //----------------------------------------------------------------------
-    // User Interface
-    //----------------------------------------------------------------------
-    
-    private void initUI() {
-        
-        restartButton = new JButton( RESTART_LABEL );
-        restartButton.setOpaque( false );
-        restartButton.addActionListener( this );
-        
-        playPauseButton = new JButton( PAUSE_LABEL );
-        playPauseButton.setOpaque( false );
-        playPauseButton.addActionListener( this );
-        
-        stepButton = new JButton( STEP_LABEL );
-        stepButton.setOpaque( false );
-        stepButton.addActionListener( this );
-        
-        barrierComboBox = new JComboBox();
-        barrierComboBox.setOpaque( false );
-        barrierComboBox.addItem( CHOICE1 );
-        barrierComboBox.addItem( CHOICE2 );
-        barrierComboBox.addItem( CHOICE3 );
-        barrierComboBox.addItem( CHOICE4 );
-        barrierComboBox.addItem( CHOICE5 );
-        barrierComboBox.addItem( CHOICE6 );
-        barrierComboBox.addItem( CHOICE7 );
-        barrierComboBox.addActionListener( this );
-        barrierComboBox.setSelectedItem( CHOICE2 );
-        
-        Panel buttonPanel = new Panel();
-        buttonPanel.setLayout( new FlowLayout() );
-        buttonPanel.add( restartButton );
-        buttonPanel.add( playPauseButton );
-        buttonPanel.add( stepButton );
-        buttonPanel.add( barrierComboBox );
-        add( "North", buttonPanel );
-        
-        stepButton.setEnabled( false );
-        
-        addComponentListener( this );
-    }
-
     //----------------------------------------------------------------------
     // Physics
     //----------------------------------------------------------------------
     
     private void initPhysics() {
         wx = getSize().width;
-        wy = getSize().height - Y_OFF;
+        wy = getSize().height - Y_OFFSET;
         nx = wx / 2;
 
         xpts = new int[nx];
@@ -169,7 +126,7 @@ public class WaveSim extends java.applet.Applet implements ActionListener, Compo
         return ( Math.abs( x ) < VWIDTH ) ? ( energy * energyScale ) : 0;
     }
 
-    private void step() {
+    private void stepPhysics() {
         Complex x = new Complex( 0, 0 );
         Complex y = new Complex( 0, 0 );
         Complex w = new Complex( 0, 0 );
@@ -252,39 +209,130 @@ public class WaveSim extends java.applet.Applet implements ActionListener, Compo
     }
     
     //----------------------------------------------------------------------
+    // User Interface
+    //----------------------------------------------------------------------
+    
+    private void initUI() {
+        
+        restartButton = new JButton( RESTART_LABEL );
+        restartButton.setOpaque( false );
+        
+        playButton = new JButton( PLAY_LABEL );
+        playButton.setOpaque( false );
+        
+        pauseButton = new JButton( PAUSE_LABEL );
+        pauseButton.setOpaque( false );
+        
+        stepButton = new JButton( STEP_LABEL );
+        stepButton.setOpaque( false );
+        
+        barrierComboBox = new JComboBox();
+        barrierComboBox.setOpaque( false );
+        barrierComboBox.addItem( CHOICE1 );
+        barrierComboBox.addItem( CHOICE2 );
+        barrierComboBox.addItem( CHOICE3 );
+        barrierComboBox.addItem( CHOICE4 );
+        barrierComboBox.addItem( CHOICE5 );
+        barrierComboBox.addItem( CHOICE6 );
+        barrierComboBox.addItem( CHOICE7 );
+        barrierComboBox.setSelectedItem( CHOICE2 );
+        selectBarrier();
+        
+        Panel buttonPanel = new Panel();
+        buttonPanel.setLayout( new FlowLayout() );
+        buttonPanel.add( restartButton );
+        buttonPanel.add( playButton );
+        buttonPanel.add( pauseButton );
+        buttonPanel.add( stepButton );
+        buttonPanel.add( barrierComboBox );
+        add( "North", buttonPanel );
+        
+        playButton.setEnabled( false );
+        pauseButton.setEnabled( true );
+        stepButton.setEnabled( false );
+        
+        restartButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                restart();
+            }
+        } );
+        playButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                play();
+            }
+        } );
+        pauseButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                pause();
+            }
+        } );
+        stepButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                step();
+            }
+        } );
+        barrierComboBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                selectBarrier();
+            }
+        } );
+        addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent event ) {
+                restart();
+            }
+        });
+        
+        setBackground( Color.WHITE );
+        setSize( APP_SIZE ); // do this last
+    }
+
+    //----------------------------------------------------------------------
     // Graphics
     //----------------------------------------------------------------------
     
     private void drawPlots( Graphics g ) {
+        
+        Graphics2D g2 = (Graphics2D)g;
+        
         int ix, iy;
         int jx, jy;
 
-        g.setColor( BARRIER_COLOR );
+        if ( ANTI_ALIAS ) {
+            g2.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+        }
+        
+        g2.setColor( BARRIER_COLOR );
         ix = (int) ( xscale * 0.5 * ( X_MAX - X_MIN - 2 * VWIDTH ) );
         jx = (int) ( xscale * 0.5 * ( X_MAX - X_MIN + 2 * VWIDTH ) );
         iy = (int) ( wy - 1 - yscale * ( 0.5 * Y_MAX * energyScale - Y_MIN ) );
         jy = (int) ( wy - 1 - yscale * ( 0 - Y_MIN ) );
-        g.drawLine( ix, Y_OFF + iy, ix, Y_OFF + jy );
-        g.drawLine( jx, Y_OFF + iy, jx, Y_OFF + jy );
-        g.drawLine( ix, Y_OFF + iy, jx, Y_OFF + iy );
+        g2.drawLine( ix, Y_OFFSET + iy, ix, Y_OFFSET + jy );
+        g2.drawLine( jx, Y_OFFSET + iy, jx, Y_OFFSET + jy );
+        g2.drawLine( ix, Y_OFFSET + iy, jx, Y_OFFSET + iy );
 
-        g.setColor( REAL_COLOR );
-        for ( int x = 0; x < nx; x++ )
-            ypts[x] = Y_OFF + (int) ( wy - 1 - yscale * ( Psi[x].re - Y_MIN ) );
-        for ( int x = 0; x < nx - 1; x++ )
-            g.drawLine( xpts[x], ypts[x], xpts[x + 1], ypts[x + 1] );
+        g2.setColor( REAL_COLOR );
+        for ( int x = 0; x < nx; x++ ) {
+            ypts[x] = Y_OFFSET + (int) ( wy - 1 - yscale * ( Psi[x].re - Y_MIN ) );
+        }
+        for ( int x = 0; x < nx - 1; x++ ) {
+            g2.drawLine( xpts[x], ypts[x], xpts[x + 1], ypts[x + 1] );
+        }
 
-        g.setColor( IMAGINARY_COLOR );
-        for ( int x = 0; x < nx; x++ )
-            ypts[x] = Y_OFF + (int) ( wy - 1 - yscale * ( Psi[x].im - Y_MIN ) );
-        for ( int x = 0; x < nx - 1; x++ )
-            g.drawLine( xpts[x], ypts[x], xpts[x + 1], ypts[x + 1] );
+        g2.setColor( IMAGINARY_COLOR );
+        for ( int x = 0; x < nx; x++ ) {
+            ypts[x] = Y_OFFSET + (int) ( wy - 1 - yscale * ( Psi[x].im - Y_MIN ) );
+        }
+        for ( int x = 0; x < nx - 1; x++ ) {
+            g2.drawLine( xpts[x], ypts[x], xpts[x + 1], ypts[x + 1] );
+        }
 
-        g.setColor( MAGNITUDE_COLOR );
-        for ( int x = 0; x < nx; x++ )
-            ypts[x] = Y_OFF + (int) ( wy - 1 - yscale * ( Psi[x].re * Psi[x].re + Psi[x].im * Psi[x].im - Y_MIN ) );
-        for ( int x = 0; x < nx - 1; x++ )
-            g.drawLine( xpts[x], ypts[x], xpts[x + 1], ypts[x + 1] );
+        g2.setColor( MAGNITUDE_COLOR );
+        for ( int x = 0; x < nx; x++ ) {
+            ypts[x] = Y_OFFSET + (int) ( wy - 1 - yscale * ( Psi[x].re * Psi[x].re + Psi[x].im * Psi[x].im - Y_MIN ) );
+        }
+        for ( int x = 0; x < nx - 1; x++ ) {
+            g2.drawLine( xpts[x], ypts[x], xpts[x + 1], ypts[x + 1] );
+        }
     }
     
     //----------------------------------------------------------------------
@@ -295,71 +343,44 @@ public class WaveSim extends java.applet.Applet implements ActionListener, Compo
         drawPlots( g );
     }
     
-    /**
-     * Start the applet by forking an animation thread.
-     */
-    public void start() {
-        if ( thread == null ) {
-            thread = new Thread( this );
-            thread.start();
-        }
-    }
-
-    /**
-     * Stop the applet. The thread will exit because kicker is set to null.
-     */
-    public void stop() {
-        if ( thread != null ) {
-            thread = null;
-        }
-    }
-    
     //----------------------------------------------------------------------
-    // ActionListener implementation
+    // Event handling methods
     //----------------------------------------------------------------------
     
-    public void actionPerformed( ActionEvent event ) {
-        Object source = event.getSource();
-        if ( source == barrierComboBox ) {
-            BarrierChoice choice = (BarrierChoice) barrierComboBox.getSelectedItem();
-            energyScale = choice.getEnergyScale();
-            initPhysics();
-            repaint();
-        }
-        else if ( source == playPauseButton ) {
-            if ( PAUSE_LABEL.equals( playPauseButton.getText() ) ) {
-                stop();
-                playPauseButton.setText( PLAY_LABEL );
-                stepButton.setEnabled( true );
-            }
-            else {
-                start();
-                playPauseButton.setText( PAUSE_LABEL );
-                stepButton.setEnabled( false );
-            }
-        }
-        else if ( source == restartButton ) {
-            initPhysics();
-            repaint();
-        }
-        else if ( source == stepButton ) {
-            nextFrame();
-        }
+    private void restart() {
+        initPhysics();
+        repaint();  
+    }
+    
+    private void play() {
+        start();
+        playButton.setEnabled( false );
+        pauseButton.setEnabled( true );
+        stepButton.setEnabled( false );
+        thread = new Thread( this );
+        thread.start();
+    }
+    
+    private void pause() {
+        playButton.setEnabled( true );
+        pauseButton.setEnabled( false );
+        stepButton.setEnabled( true );
+        thread = null;
     }
    
-    //----------------------------------------------------------------------
-    // ComponentListener implementation
-    //----------------------------------------------------------------------
-
-    public void componentResized( ComponentEvent e ) {
-        initPhysics();
+    private synchronized void step() {
+        for ( int i = 0; i < STEPS_PER_FRAME; i++ ) {
+            stepPhysics();
+        }
+        t += dt;
+        repaint();
     }
-
-    public void componentMoved( ComponentEvent e ) {}
-
-    public void componentShown( ComponentEvent e ) {}
-
-    public void componentHidden( ComponentEvent e ) {}
+    
+    private void selectBarrier() {
+        BarrierChoice choice = (BarrierChoice) barrierComboBox.getSelectedItem();
+        energyScale = choice.getEnergyScale();
+        restart();
+    }
     
     //----------------------------------------------------------------------
     // Runnable implementation
@@ -367,7 +388,7 @@ public class WaveSim extends java.applet.Applet implements ActionListener, Compo
 
     public void run() {
         while ( thread != null ) {
-            nextFrame();
+            step();
             try {
                 Thread.sleep( 60 );
             }
@@ -375,14 +396,6 @@ public class WaveSim extends java.applet.Applet implements ActionListener, Compo
                 break;
             }
         }
-    }
-    
-    private void nextFrame() {
-        step();
-        step();
-        step();
-        t += dt;
-        repaint();
     }
     
     //----------------------------------------------------------------------
