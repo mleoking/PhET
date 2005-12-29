@@ -15,100 +15,50 @@ import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.help.HelpPanel;
 
 import javax.swing.*;
-import javax.swing.border.EtchedBorder;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ContainerAdapter;
-import java.awt.event.ContainerEvent;
-import java.net.URL;
-import java.util.Arrays;
 
 /**
- * The panel that sits on the right side of the frame and contains the controls for the simulation.
- * By default, the panel has the PhET logo at the top. This can be over-ridden with removeTitle().
- * A panel with a button for showing/hiding help cna be displayed with setHelpPanelEnabled().
+ * The panel that contains the controls for the simulation, normally on the right side of a PhetFrame.
+ * By default, the panel has the PhET logo at the top. This can be over-ridden with setTitleVisible(false);
+ * A panel with a button for showing/hiding help can be displayed with setHelpPanelEnabled().
+ * <p/>
+ * This class no longer extends JComponent, since it is too easy to abuse the interface.
+ * To get the associated swing component, use getComponent().
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ControlPanel extends JPanel {
-
-    private ControlPanel.ContentPanel controlPane = new ContentPanel();
-    private ImageIcon imageIcon;
-    private JLabel titleLabel;
-    private JScrollPane verticalScrollPane;
+public class ControlPanel {
+    private JScrollPane scrollPane;
+    private ContentPane controlPane;
+    private TitlePanel titlePanel;
     private HelpPanel helpPanel;
-    private JPanel northPanel;
-    private int paddingDY = 5;
-    private JScrollPane horizontalScrollPane;
-
-    public ContentPanel getControlPane() {
-        return controlPane;
-    }
-
-    public ControlPanel( Module module ) {
-        setLayout( new ControlPanel.Layout() );
-        // The panel with the logo
-        URL resource = getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" );
-        imageIcon = new ImageIcon( resource );
-        titleLabel = ( new JLabel( imageIcon ) );
-        northPanel = new JPanel();
-//        northPanel.add( titleLabel );
-        addToPanel( northPanel );
-
-        // The panel where the simulation-specific controls go
-        verticalScrollPane = new JScrollPane( JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-        verticalScrollPane.setBorder( createBorder() );
-
-        horizontalScrollPane = new JScrollPane( JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
-        horizontalScrollPane.setBorder( createBorder() );
-
-        // The panel for the help button
-        helpPanel = new HelpPanel( module );
-        addToPanel( helpPanel );
-        setHelpPanelEnabled( true );
-
-        addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-                relayoutControlPanel();
-            }
-
-            public void componentShown( ComponentEvent e ) {
-                relayoutControlPanel();
-            }
-        } );
-
-        addContainerListener( new ContainerAdapter() {
-            public void componentAdded( ContainerEvent e ) {
-                relayoutControlPanel();
-            }
-
-            public void componentRemoved( ContainerEvent e ) {
-                relayoutControlPanel();
-            }
-        } );
-        relayoutControlPanel();
-    }
-
-    private EtchedBorder createBorder() {
-        return new EtchedBorder( new Color( 220, 200, 255 ), Color.gray );
-    }
+    private Scrollable scrollPolicy;
 
     /**
-     * Helper function so clients can safely use add(Component) to add to the control section.
+     * Constructs a ControlPanel for the specified module.
      *
-     * @param component
+     * @param module
      */
-    private void addToPanel( Component component ) {
-        super.add( component );
+    public ControlPanel( Module module ) {
+        controlPane = new ContentPane();
+        scrollPolicy = new DefaultScrollPolicy( controlPane );
+        controlPane.setFillNone();
+        scrollPane = new JScrollPane( controlPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                                      JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+        helpPanel = new HelpPanel( module );
+        setHelpPanelEnabled( true );
+        titlePanel = new TitlePanel();
+        addControlFullWidth( titlePanel );
     }
 
     /**
-     * Removes the logo from the control panel
+     * Returns the component for embedding in a swing panel.
+     *
+     * @return the component for embedding in a swing panel.
      */
-    public void removeTitle() {
-        northPanel.remove( titleLabel );
+    public JComponent getComponent() {
+        return scrollPane;
     }
 
     /**
@@ -120,9 +70,15 @@ public class ControlPanel extends JPanel {
         helpPanel.setVisible( isEnabled );
     }
 
-    public Component add( Component comp ) {
-        addControlFullWidth( (JComponent)comp );
-        return comp;
+    /**
+     * Sets the state of the Help button in the control panel.
+     * This is used to keep the menubar's Help menu item
+     * in sync with the control panel's Help button.
+     *
+     * @param enabled
+     */
+    public void setHelpEnabled( boolean enabled ) {
+        helpPanel.setVisible( enabled );
     }
 
     /**
@@ -130,8 +86,8 @@ public class ControlPanel extends JPanel {
      *
      * @param isVisible
      */
-    public void setLogoVisible( boolean isVisible ) {
-        northPanel.setVisible( isVisible );
+    public void setTitleVisible( boolean isVisible ) {
+        titlePanel.setVisible( isVisible );
     }
 
     /**
@@ -154,13 +110,12 @@ public class ControlPanel extends JPanel {
     }
 
     /**
-     * Adds a component to the control area, to fill the width.
+     * Sets a new scroll policy for the JComponent in this ControlPanel.
      *
-     * @param component
-     * @return the component argument
+     * @param scrollPolicy
      */
-    public Component addFullWidth( Component component ) {
-        return controlPane.addFullWidth( component );
+    public void setScrollPolicy( Scrollable scrollPolicy ) {
+        this.scrollPolicy = scrollPolicy;
     }
 
     /**
@@ -172,237 +127,88 @@ public class ControlPanel extends JPanel {
         controlPane.addFullWidth( component );
     }
 
-    private void relayoutControlPanel() {
-        revalidate();
-        repaint();
+    private int getVisibleScrollBarWidth() {
+        return scrollBarVisible() ? scrollBarWidth() : 0;
     }
 
-    //----------------------------------------------------------------
-    // Inner classes
-    //----------------------------------------------------------------
+    private int scrollBarWidth() {
+        return scrollPane.getVerticalScrollBar().getPreferredSize().width;
+    }
+
+    private boolean scrollBarVisible() {
+        return scrollPane.getVerticalScrollBar().isVisible();
+    }
 
     /**
-     * Layout manager for the panel
+     * This class represents the logo at the top of the ControlPanel.
      */
-    public class Layout implements LayoutManager {
+    private static class TitlePanel extends JPanel {
+        private ImageIcon imageIcon;
+        private JLabel titleLabel;
 
-        public void removeLayoutComponent( Component comp ) {
-        }
-
-        /**
-         * Determines whether a vertical scroll bar is needed, and sizes the panel appropriately
-         *
-         * @param parent
-         */
-        public void layoutContainer( Container parent ) {
-            northPanel.setBounds( getPositionToCenter( northPanel ), 0, northPanel.getPreferredSize().width, northPanel.getPreferredSize().height );
-            helpPanel.setBounds( getPositionToCenter( helpPanel ), getHeight() - helpPanel.getPreferredSize().height, helpPanel.getPreferredSize().width, helpPanel.getPreferredSize().height );
-
-            remove( verticalScrollPane );
-            remove( horizontalScrollPane );
-            remove( controlPane );
-            verticalScrollPane.setViewportView( null );
-            horizontalScrollPane.setViewportView( null );
-
-            if( getAvailableHeight() <= 0 ) {
-                //no room for controls, sorry.
-            }
-            else if( requiresVerticalScrollbars() ) {
-                //not enough room for all controls, so use vertical scrolling.
-                controlPane.setLocation( 0, 0 );
-                verticalScrollPane.setViewportView( controlPane );
-                addToPanel( verticalScrollPane );
-
-                verticalScrollPane.setLocation( 0, getControlTop() );
-                verticalScrollPane.setSize( new Dimension( controlPane.getPreferredSize().width + getScrollBarWidth(), getAvailableHeight() ) );
-
-                verticalScrollPane.revalidate();
-            }
-            else {
-                //controls will fit without scrollpane.
-                addToPanel( controlPane );
-                controlPane.setBounds( 0, getControlTop(), controlPane.getPreferredSize().width, controlPane.getPreferredSize().height );
-            }
-            if( isMacOSX() ) {
-                fixAll( controlPane );
-            }
-        }
-
-        private boolean requiresVerticalScrollbars() {
-            return controlPane.getPreferredSize().height > getAvailableHeight();
-        }
-
-        private int getAvailableHeight() {
-            int controlTop = getControlTop();
-            int controlBottom = getControlBottom();
-            return controlBottom - controlTop;
-        }
-
-        private int getControlTop() {
-            return getLogoBottom() + paddingDY;
-        }
-
-        private boolean isMacOSX() {
-            String lcOSName = System.getProperty( "os.name" ).toLowerCase();
-//            System.out.println( "MAC_OS_X = " + MAC_OS_X );
-            return lcOSName.startsWith( "mac os x" );
-        }
-
-        /**
-         * On a Mac, setBounds and repaint seem to be necessary to ensure visibility of all descendants.
-         *
-         * @param component
-         */
-        public void fixAll( Component component ) {
-            Dimension d = component.getPreferredSize();
-
-            component.setBounds( component.getX(), component.getY(), d.width, d.height );
-            component.repaint();
-            if( component instanceof Container ) {
-                Container c = (Container)component;
-                for( int i = 0; i < c.getComponentCount(); i++ ) {
-                    fixAll( c.getComponent( i ) );
-                }
-            }
-
-            /*
-            * On Macintosh, JSliders do not appear when they are inside a JPanel.
-            * When JSlider is painted in internal frame, its preferred width and height
-            * sometimes has not calculated yet. The track rectangle has negative width that's
-            * why track is never painted.
-            * <br>
-            * An alternative fix was to call JSlider.updateUI.  This adversely
-            * affected slider responsiveness.
-            * <br>
-            * See http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4220108
-            */
-            if( component instanceof JSlider ) {
-                JSlider slider = (JSlider)component;
-                Dimension dim = slider.getSize();
-                dim.height += 1;
-                slider.setSize( dim );
-                slider.repaint();
-                dim.height -= 1;
-                slider.setSize( dim );
-                slider.repaint();
-            }
-        }
-
-        /**
-         * Determine what x will center the specified component in this.
-         *
-         * @param component
-         * @return the centering x-value
-         */
-        private int getPositionToCenter( Component component ) {
-            int availWidth = getWidth() - component.getWidth();
-            if( availWidth <= 0 ) {
-                return 0;
-            }
-            else {
-                return availWidth / 2;
-            }
-        }
-
-        /**
-         * Find the top of the south (help) panel.
-         *
-         * @return the top
-         */
-        private int getHelpTop() {
-            if( helpPanel.isVisible() && containsComponent( helpPanel ) ) {
-                return helpPanel.getY();
-            }
-            else {
-                return getHeight();
-            }
-        }
-
-        /**
-         * Find the bottom of the north (logo) panel.
-         *
-         * @return the bottom
-         */
-        private int getLogoBottom() {
-            if( northPanel.isVisible() && containsComponent( northPanel ) ) {
-                return northPanel.getY() + northPanel.getHeight();
-            }
-            else {
-                return 0;
-            }
-        }
-
-        /**
-         * Determine whether this container contains the specified component.
-         *
-         * @param component
-         * @return true if the container contains the component
-         */
-        private boolean containsComponent( Component component ) {
-            return Arrays.asList( getComponents() ).contains( component );
-        }
-
-        public void addLayoutComponent( String name, Component comp ) {
-        }
-
-        public Dimension minimumLayoutSize( Container parent ) {
-            return preferredLayoutSize( parent );
-        }
-
-        public Dimension preferredLayoutSize( Container parent ) {
-            int minWidth = getMinWidth();
-            return new Dimension( minWidth, parent.getHeight() );
-        }
-
-        /**
-         * Computes the preferred width of the control panel.
-         * If we anticipate scrollbars, we widen to accomodate.
-         *
-         * @return the minimum preferred width for the control panel
-         */
-        private int getMinWidth() {
-            int width = 0;
-            if( northPanel.isVisible() ) {
-                width = Math.max( width, northPanel.getPreferredSize().width );
-            }
-            if( controlPane.isVisible() ) {
-                width = Math.max( width, controlPane.getPreferredSize().width );
-            }
-            if( helpPanel.isVisible() ) {
-                width = Math.max( width, helpPanel.getPreferredSize().width );
-            }
-            if( getLayoutRequiresScrollPane() ) {
-                width += getScrollBarWidth();
-            }
-            return width;
-        }
-
-        private int getScrollBarWidth() {
-            return verticalScrollPane.getVerticalScrollBar().getPreferredSize().width;
-        }
-
-        /**
-         * Determine whether we anticipate using vertical scrollbars.
-         *
-         * @return should scrollbars be used
-         */
-        private boolean getLayoutRequiresScrollPane() {
-            return getAvailableHeight() < controlPane.getPreferredSize().height;
-        }
-
-        private int getControlBottom() {
-            int controlBottom = getHelpTop() - paddingDY;
-            return controlBottom;
+        public TitlePanel() {
+            imageIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" ) );
+            titleLabel = ( new JLabel( imageIcon ) );
+            titleLabel.setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
+            add( titleLabel );
         }
     }
 
     /**
-     * Class of panel for holding simulation-specific controls
+     * The DefaultScrollPolicy uses the preferred size of the component, adding on the width of the visible scroll bars
+     * in the ControlPanel.
      */
-    public class ContentPanel extends VerticalLayoutPanel {
-        public ContentPanel() {
-            setFill( GridBagConstraints.NONE );
+    public class DefaultScrollPolicy implements Scrollable {
+        JComponent component;
+
+        public DefaultScrollPolicy( JComponent component ) {
+            this.component = component;
         }
 
+        public boolean getScrollableTracksViewportHeight() {
+            return false;
+        }
+
+        public boolean getScrollableTracksViewportWidth() {
+            return false;
+        }
+
+        public Dimension getPreferredScrollableViewportSize() {
+            return new Dimension( component.getPreferredSize().width + getVisibleScrollBarWidth(), component.getPreferredSize().height );
+        }
+
+        public int getScrollableBlockIncrement( Rectangle visibleRect, int orientation, int direction ) {
+            return 10;
+        }
+
+        public int getScrollableUnitIncrement( Rectangle visibleRect, int orientation, int direction ) {
+            return 10;
+        }
+    }
+
+    /**
+     * This is where the controls go in the ControlPanel.  It delegates its Scrollable interface to
+     */
+    private class ContentPane extends VerticalLayoutPanel implements Scrollable {
+
+        public boolean getScrollableTracksViewportHeight() {
+            return scrollPolicy.getScrollableTracksViewportHeight();
+        }
+
+        public boolean getScrollableTracksViewportWidth() {
+            return scrollPolicy.getScrollableTracksViewportWidth();
+        }
+
+        public Dimension getPreferredScrollableViewportSize() {
+            return scrollPolicy.getPreferredScrollableViewportSize();
+        }
+
+        public int getScrollableBlockIncrement( Rectangle visibleRect, int orientation, int direction ) {
+            return scrollPolicy.getScrollableBlockIncrement( visibleRect, orientation, direction );
+        }
+
+        public int getScrollableUnitIncrement( Rectangle visibleRect, int orientation, int direction ) {
+            return scrollPolicy.getScrollableUnitIncrement( visibleRect, orientation, direction );
+        }
     }
 }

@@ -49,7 +49,7 @@ public class CCK3ControlPanel extends ControlPanel {
 
     public CCK3ControlPanel( final CCK3Module module ) {
         super( module );
-
+        setTitleVisible( false );
         advancedControlPanel = new AdvancedControlPanel( module );
         advancedControlPanel.setBorder( null );
         JLabel titleLabel = new JLabel( new ImageIcon( getClass().getClassLoader().getResource( "images/phet-cck-small.gif" ) ) );
@@ -135,6 +135,10 @@ public class CCK3ControlPanel extends ControlPanel {
         if( module.getParameters().showGrabBag() ) {
             addGrabBag();
         }
+    }
+
+    private void add( JComponent component ) {
+        addControlFullWidth( component );
     }
 
     private boolean useAdvanced() {
