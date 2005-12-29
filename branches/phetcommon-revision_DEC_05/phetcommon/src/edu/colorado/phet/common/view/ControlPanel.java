@@ -134,7 +134,7 @@ public class ControlPanel {
             // The panel with the logo
             imageIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" ) );
             titleLabel = ( new JLabel( imageIcon ) );
-            titleLabel.setBorder( BorderFactory.createLineBorder( Color.black,1) );
+            titleLabel.setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
             add( titleLabel );
 
         }
@@ -161,11 +161,11 @@ public class ControlPanel {
         }
 
         public int getScrollableBlockIncrement( Rectangle visibleRect, int orientation, int direction ) {
-            return 1;
+            return 10;
         }
 
         public int getScrollableUnitIncrement( Rectangle visibleRect, int orientation, int direction ) {
-            return 1;
+            return 10;
         }
     }
 
