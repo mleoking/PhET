@@ -39,6 +39,7 @@ public abstract class Module {
 
     private boolean helpEnabled = false;
     private ClockAdapter moduleRunner;
+    private ControlPanel controlPanel;
 
     /**
      * Initialize an emtpy module.  This is for subclasses who intend something rather different than the norm.
@@ -133,7 +134,8 @@ public abstract class Module {
      * @param controlPanel
      */
     public void setControlPanel( ControlPanel controlPanel ) {
-        modulePanel.setControlPanel( controlPanel );
+        this.controlPanel=controlPanel;
+        modulePanel.setControlPanel( controlPanel.getComponent()  );
     }
 
     /**
@@ -238,7 +240,7 @@ public abstract class Module {
      * @return the ControlPanel
      */
     public ControlPanel getControlPanel() {
-        return modulePanel.getControlPanel();
+        return controlPanel;
     }
 
     /**

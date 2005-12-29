@@ -10,13 +10,11 @@
  */
 package edu.colorado.phet.common.view;
 
-import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
 
 /**
  * The Swing panel for a Module in a PhetApplication. It holds
@@ -28,49 +26,13 @@ import java.io.IOException;
  */
 public class ModulePanel extends JPanel {
 
-    /* Static Data*/
-    private static Image phetLogo = loadPhetLogo();
-
-    private static Image loadPhetLogo() {
-        try {
-            return ImageLoader.loadBufferedImage( "images/Phet-logo-48x48.gif" );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-            throw new RuntimeException( e );
-        }
-    }
-
     /* Instance Data*/
     private JComponent simulationPanel;
-    private ControlPanel controlPanel;
+    private JComponent controlPanel;
     private JComponent monitorPanel;
     private JComponent clockControlPanel;
+    private boolean fullScreen=false;
     private JDialog buttonDlg;
-    private boolean fullScreen = false;
-
-    static Insets createInsets() {
-        return new Insets( 0, 0, 0, 0 );
-    }
-
-    private GridBagConstraints apparatusPanelConstraints = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
-                                                                                   GridBagConstraints.WEST,
-                                                                                   GridBagConstraints.BOTH,
-                                                                                   createInsets(), 0, 0 );
-    // The control panel has a gridheight of 2 so the Help button comes up at the same level as the
-    // simulation clock control buttons
-    private GridBagConstraints controlPanelConstraints = new GridBagConstraints( 1, 1, 1, 2, 0, 1000,
-                                                                                 GridBagConstraints.NORTH,
-                                                                                 GridBagConstraints.BOTH,
-                                                                                 createInsets(), 0, 0 );
-    private GridBagConstraints clockPanelConstraints = new GridBagConstraints( 0, 2, 1, 1, 1, 0,
-                                                                               GridBagConstraints.SOUTH,
-                                                                               GridBagConstraints.HORIZONTAL,
-                                                                               createInsets(), 0, 0 );
-    private GridBagConstraints monitorPanelGbc = new GridBagConstraints( 0, 1, 1, 1, 0, 0,
-                                                                         GridBagConstraints.PAGE_END,
-                                                                         GridBagConstraints.NONE,
-                                                                         createInsets(), 0, 0 );
 
     /**
      * Constructs a new ModulePanel with null contents.
@@ -87,14 +49,9 @@ public class ModulePanel extends JPanel {
      * @param monitorPanel
      * @param clockControlPanel
      */
-    public ModulePanel( JComponent simulationPanel, ControlPanel controlPanel,
+    public ModulePanel( JComponent simulationPanel, JComponent controlPanel,
                         JComponent monitorPanel, JComponent clockControlPanel ) {
-        setLayout( new GridBagLayout() );
-
-        // Use this code to put the apparatus panel and control panel in split panes
-//        appCtrlPane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, apparatusPanelContainer, controlPanel );
-//        add( appCtrlPane, appCtrlGbc );
-//        appCtrlPane.setResizeWeight( 1 );
+        setLayout( new BorderLayout() );
 
         setSimulationPanel( simulationPanel );
         setMonitorPanel( monitorPanel );
@@ -136,12 +93,12 @@ public class ModulePanel extends JPanel {
      *
      * @param panel
      */
-    public void setControlPanel( ControlPanel panel ) {
+    public void setControlPanel( JComponent panel ) {
         if( controlPanel != null ) {
             remove( controlPanel );
         }
         controlPanel = panel;
-        setPanel( panel, controlPanelConstraints );
+        setPanel( controlPanel, BorderLayout.EAST );
     }
 
     /**
@@ -154,7 +111,7 @@ public class ModulePanel extends JPanel {
             remove( monitorPanel );
         }
         monitorPanel = panel;
-        setPanel( panel, monitorPanelGbc );
+        setPanel( monitorPanel, BorderLayout.NORTH );
     }
 
     /**
@@ -167,7 +124,13 @@ public class ModulePanel extends JPanel {
             remove( simulationPanel );
         }
         simulationPanel = panel;
-        setPanel( panel, apparatusPanelConstraints );
+        setPanel( simulationPanel, BorderLayout.CENTER );
+    }
+
+    private void setPanel( JComponent panel, String location ) {
+        if( panel != null ) {
+            add( panel, location );
+        }
     }
 
     /**
@@ -180,15 +143,7 @@ public class ModulePanel extends JPanel {
             remove( this.clockControlPanel );
         }
         this.clockControlPanel = clockControlPanel;
-        setPanel( clockControlPanel, clockPanelConstraints );
-    }
-
-    private void setPanel( JComponent component, GridBagConstraints gridBagConstraints ) {
-        if( component != null ) {
-            add( component, gridBagConstraints );
-        }
-        revalidate();
-        repaint();
+        setPanel( clockControlPanel, BorderLayout.SOUTH );
     }
 
     /**
@@ -211,7 +166,7 @@ public class ModulePanel extends JPanel {
         setVisible( clockControlPanel, true );
         this.fullScreen = false;
     }
-
+//
     private void activateFullScreen() {
         setVisible( controlPanel, false );
         setVisible( monitorPanel, false );
@@ -221,7 +176,7 @@ public class ModulePanel extends JPanel {
             buttonDlg = new JDialog();
             buttonDlg.setTitle( SimStrings.get( "Common.BasicPhetPanel.Title" ) );
             buttonDlg.setDefaultCloseOperation( JDialog.DO_NOTHING_ON_CLOSE );
-            ImageIcon logo = new ImageIcon( phetLogo );
+            ImageIcon logo = new ImageIcon( getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" ) );
             JButton logoButton = new JButton( logo );
             logoButton.setPreferredSize( new Dimension( logo.getIconWidth() + 12, logo.getIconHeight() + 12 ) );
             logoButton.addActionListener( new ActionListener() {
@@ -248,7 +203,7 @@ public class ModulePanel extends JPanel {
         }
     }
 
-    private boolean isFullScreen() {
+    public boolean isFullScreen() {
         return fullScreen;
     }
 
@@ -284,7 +239,7 @@ public class ModulePanel extends JPanel {
      *
      * @return the ControlPanel.
      */
-    public ControlPanel getControlPanel() {
+    public JComponent getControlPanel() {
         return controlPanel;
     }
 

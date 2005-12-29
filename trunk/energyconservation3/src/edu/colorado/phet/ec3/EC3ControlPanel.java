@@ -35,10 +35,10 @@ public class EC3ControlPanel extends ControlPanel {
 
     public EC3ControlPanel( final EC3Module module ) {
         super( module );
-        super.removeTitle();
+        super.setTitleVisible( false );
         this.module = module;
-        getControlPane().setAnchor( GridBagConstraints.WEST );
-        getControlPane().setFillNone();
+//        getControlPane().setAnchor( GridBagConstraints.WEST );
+//        getControlPane().setFillNone();
         JButton reset = new JButton( "Reset" );
         reset.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -243,7 +243,6 @@ public class EC3ControlPanel extends ControlPanel {
         verticalLayoutPanel.add( jupiter );
         final JComponent gravitySlider = new GravitySlider( module );
         verticalLayoutPanel.addFullWidth( gravitySlider );
-
 
         module.getClock().addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent event ) {
