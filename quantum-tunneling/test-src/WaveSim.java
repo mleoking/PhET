@@ -24,10 +24,10 @@ public class WaveSim extends java.applet.Applet implements ActionListener, Compo
     
     // User interface
     private static final Dimension APP_SIZE = new Dimension( 400, 400 );
-    private static final String PLAY_LABEL = "Play";
-    private static final String PAUSE_LABEL = "Pause";
-    private static final String STOP_LABEL = "Stop";
-    private static final String RESTART_LABEL = "Restart";
+    private static final String PLAY_LABEL = "Play >";
+    private static final String PAUSE_LABEL = "Pause ||";
+    private static final String RESTART_LABEL = "<< Restart";
+    private static final String STEP_LABEL = "Step >";
     private static final BarrierChoice CHOICE1 = new BarrierChoice( "Barrier V = 2*E", 2 );
     private static final BarrierChoice CHOICE2 = new BarrierChoice( "Barrier V = E", 1 );
     private static final BarrierChoice CHOICE3 = new BarrierChoice( "Barrier V = E/2", 0.5 );
@@ -65,9 +65,9 @@ public class WaveSim extends java.applet.Applet implements ActionListener, Compo
     private double epsilon, energy, energyScale;
     private Complex Psi[], EtoV[], alpha, beta;
     
-    private JButton playPauseButton;
     private JButton restartButton;
-    private JButton stopButton;
+    private JButton playPauseButton;
+    private JButton stepButton;
     private JComboBox barrierComboBox;
 
     private Thread thread;
@@ -92,17 +92,17 @@ public class WaveSim extends java.applet.Applet implements ActionListener, Compo
     
     private void initUI() {
         
-        playPauseButton = new JButton( PAUSE_LABEL );
-        playPauseButton.setOpaque( false );
-        playPauseButton.addActionListener( this );
-        
         restartButton = new JButton( RESTART_LABEL );
         restartButton.setOpaque( false );
         restartButton.addActionListener( this );
         
-        stopButton = new JButton( STOP_LABEL );
-        stopButton.setOpaque( false );
-        stopButton.addActionListener( this );
+        playPauseButton = new JButton( PAUSE_LABEL );
+        playPauseButton.setOpaque( false );
+        playPauseButton.addActionListener( this );
+        
+        stepButton = new JButton( STEP_LABEL );
+        stepButton.setOpaque( false );
+        stepButton.addActionListener( this );
         
         barrierComboBox = new JComboBox();
         barrierComboBox.setOpaque( false );
@@ -118,14 +118,13 @@ public class WaveSim extends java.applet.Applet implements ActionListener, Compo
         
         Panel buttonPanel = new Panel();
         buttonPanel.setLayout( new FlowLayout() );
-        buttonPanel.add( playPauseButton );
         buttonPanel.add( restartButton );
-        buttonPanel.add( stopButton );
+        buttonPanel.add( playPauseButton );
+        buttonPanel.add( stepButton );
         buttonPanel.add( barrierComboBox );
         add( "North", buttonPanel );
         
-        restartButton.setEnabled( false );
-        barrierComboBox.setEnabled( false );
+        stepButton.setEnabled( false );
         
         addComponentListener( this );
     }
@@ -324,32 +323,27 @@ public class WaveSim extends java.applet.Applet implements ActionListener, Compo
         if ( source == barrierComboBox ) {
             BarrierChoice choice = (BarrierChoice) barrierComboBox.getSelectedItem();
             energyScale = choice.getEnergyScale();
+            initPhysics();
+            repaint();
         }
         else if ( source == playPauseButton ) {
             if ( PAUSE_LABEL.equals( playPauseButton.getText() ) ) {
                 stop();
                 playPauseButton.setText( PLAY_LABEL );
+                stepButton.setEnabled( true );
             }
             else {
                 start();
                 playPauseButton.setText( PAUSE_LABEL );
+                stepButton.setEnabled( false );
             }
         }
         else if ( source == restartButton ) {
-            stopButton.setEnabled( true );
-            restartButton.setEnabled( false );
-            barrierComboBox.setEnabled( false );
-            playPauseButton.setEnabled( true );
-            playPauseButton.setText( PAUSE_LABEL );
             initPhysics();
-            start();
+            repaint();
         }
-        else if ( source == stopButton ) {
-            stop();
-            stopButton.setEnabled( false );
-            restartButton.setEnabled( true );
-            barrierComboBox.setEnabled( true );
-            playPauseButton.setEnabled( false );
+        else if ( source == stepButton ) {
+            nextFrame();
         }
     }
    
@@ -373,11 +367,7 @@ public class WaveSim extends java.applet.Applet implements ActionListener, Compo
 
     public void run() {
         while ( thread != null ) {
-            step();
-            step();
-            step();
-            t += dt;
-            repaint();
+            nextFrame();
             try {
                 Thread.sleep( 60 );
             }
@@ -385,6 +375,14 @@ public class WaveSim extends java.applet.Applet implements ActionListener, Compo
                 break;
             }
         }
+    }
+    
+    private void nextFrame() {
+        step();
+        step();
+        step();
+        t += dt;
+        repaint();
     }
     
     //----------------------------------------------------------------------
