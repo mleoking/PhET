@@ -20,7 +20,7 @@ import java.awt.*;
  * By default, the panel has the PhET logo at the top. This can be over-ridden with setTitleVisible(false);
  * A panel with a button for showing/hiding help can be displayed with setHelpPanelEnabled().
  * <p/>
- * This class no longer extends JComponent, since it was too easy to abuse the interface.
+ * This class no longer extends JComponent, since it is too easy to abuse the interface.
  * To get the associated swing component, use getComponent().
  *
  * @author Ron LeMaster
