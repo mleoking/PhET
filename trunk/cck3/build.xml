@@ -16,7 +16,7 @@
     <property name="tests-src" location="test-src"/>
     <property name="data" location="data"/>
 
-    <property file="build.properties"/>
+    <property file="build2.properties"/>
     <property file="local.properties"/>
     <property file="build.time.stamp" location="${data}"/>
 
