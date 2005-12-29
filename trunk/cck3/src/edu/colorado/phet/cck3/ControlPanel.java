@@ -46,6 +46,7 @@ public class ControlPanel {
         controlPane.setFillNone();
         scrollPane = new JScrollPane( controlPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                                       JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+        scrollPane.setBackground( Color.blue);
         helpPanel = new HelpPanel( module );
         setHelpPanelEnabled( true );
         titlePanel = new TitlePanel();

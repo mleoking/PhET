@@ -98,6 +98,8 @@ public class AdvancedPanel extends VerticalLayoutPanel {
             listener.advancedPanelShown( this );
         }
         setBorder( BorderFactory.createRaisedBevelBorder() );
+        validateAll();
+        validateTree();
     }
 
     private void validateAll() {
@@ -111,12 +113,9 @@ public class AdvancedPanel extends VerticalLayoutPanel {
             }
         }
         Window parent = SwingUtilities.getWindowAncestor( this );
-//        if( parent instanceof JFrame ) {
-//            JFrame parent = (JFrame)SwingUtilities.getWindowAncestor( this );
         parent.invalidate();
         parent.validate();
         parent.repaint();
-//        }
     }
 
     private void hideAdvanced() {
@@ -129,6 +128,8 @@ public class AdvancedPanel extends VerticalLayoutPanel {
             listener.advancedPanelHidden( this );
         }
         setBorder( null );
+        validateAll();
+        validateTree();
     }
 
     ArrayList listeners = new ArrayList();
