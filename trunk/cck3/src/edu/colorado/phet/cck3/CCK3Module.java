@@ -667,6 +667,7 @@ public class CCK3Module extends Module {
         CCKLookAndFeel cckLookAndFeel = new CCKLookAndFeel();
         UIManager.installLookAndFeel( "CCK Default", cckLookAndFeel.getClass().getName() );
         UIManager.setLookAndFeel( cckLookAndFeel );
+        UIManager.getLookAndFeelDefaults().put( "ClassLoader", CCK3Module.class.getClassLoader() );
         //        SwingTimerClock clock = new SwingTimerClock( 1, 30, false );
         final SwingTimerClock clock = new SwingTimerClock( 1, 30, false );
 
