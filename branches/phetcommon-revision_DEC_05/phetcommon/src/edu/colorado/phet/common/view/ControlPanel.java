@@ -16,9 +16,12 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * The panel that sits on the right side of the frame and contains the controls for the simulation.
- * By default, the panel has the PhET logo at the top. This can be over-ridden with removeTitle().
- * A panel with a button for showing/hiding help cna be displayed with setHelpPanelEnabled().
+ * The panel that contains the controls for the simulation, normally on the right side of a PhetFrame.
+ * By default, the panel has the PhET logo at the top. This can be over-ridden with setTitleVisible(false);
+ * A panel with a button for showing/hiding help can be displayed with setHelpPanelEnabled().
+ * <p/>
+ * This class no longer extends JComponent, since it was too easy to abuse the interface.
+ * To get the associated swing component, use getComponent().
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -30,37 +33,30 @@ public class ControlPanel {
     private HelpPanel helpPanel;
     private Scrollable scrollPolicy;
 
+    /**
+     * Constructs a ControlPanel for the specified module.
+     *
+     * @param module
+     */
     public ControlPanel( Module module ) {
         controlPane = new ContentPane();
         scrollPolicy = new DefaultScrollPolicy( controlPane );
         controlPane.setFillNone();
-        scrollPane = new JScrollPane( controlPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-        System.out.println( "scrollPane.getVerticalScrollBar().getPreferredSize() = " + scrollPane.getVerticalScrollBar().getPreferredSize() );
-        System.out.println( "scrollPane.getVerticalScrollBar().getSize()= " + scrollPane.getVerticalScrollBar().getSize() );
+        scrollPane = new JScrollPane( controlPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                                      JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
         helpPanel = new HelpPanel( module );
         setHelpPanelEnabled( module.hasHelp() );
         titlePanel = new TitlePanel();
         addControlFullWidth( titlePanel );
     }
 
-    public int getScrollBarWidth() {
-        return scrollBarVisible() ? scrollBarWidth() : 0;
-    }
-
-    private int scrollBarWidth() {
-        return scrollPane.getVerticalScrollBar().getPreferredSize().width;
-    }
-
-    private boolean scrollBarVisible() {
-        return scrollPane.getVerticalScrollBar().isVisible();
-    }
-
+    /**
+     * Returns the component for embedding in a swing panel.
+     *
+     * @return the component for embedding in a swing panel.
+     */
     public JComponent getComponent() {
         return scrollPane;
-    }
-
-    public void setTitleVisible( boolean visible ) {
-        titlePanel.setVisible( visible );
     }
 
     /**
@@ -88,7 +84,7 @@ public class ControlPanel {
      *
      * @param isVisible
      */
-    public void setLogoVisible( boolean isVisible ) {
+    public void setTitleVisible( boolean isVisible ) {
         titlePanel.setVisible( isVisible );
     }
 
@@ -112,6 +108,15 @@ public class ControlPanel {
     }
 
     /**
+     * Sets a new scroll policy for the JComponent in this ControlPanel.
+     *
+     * @param scrollPolicy
+     */
+    public void setScrollPolicy( Scrollable scrollPolicy ) {
+        this.scrollPolicy = scrollPolicy;
+    }
+
+    /**
      * Adds a component to the control area, to fill the width.
      *
      * @param component
@@ -120,23 +125,38 @@ public class ControlPanel {
         controlPane.addFullWidth( component );
     }
 
+    private int getVisibleScrollBarWidth() {
+        return scrollBarVisible() ? scrollBarWidth() : 0;
+    }
+
+    private int scrollBarWidth() {
+        return scrollPane.getVerticalScrollBar().getPreferredSize().width;
+    }
+
+    private boolean scrollBarVisible() {
+        return scrollPane.getVerticalScrollBar().isVisible();
+    }
+
+    /**
+     * This class represents the logo at the top of the ControlPanel.
+     */
     private static class TitlePanel extends JPanel {
         private ImageIcon imageIcon;
         private JLabel titleLabel;
-//        private JPanel titlePanel;
 
         public TitlePanel() {
-            // The panel with the logo
             imageIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" ) );
             titleLabel = ( new JLabel( imageIcon ) );
             titleLabel.setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
             add( titleLabel );
-
         }
     }
 
-
-    class DefaultScrollPolicy implements Scrollable {
+    /**
+     * The DefaultScrollPolicy uses the preferred size of the component, adding on the width of the visible scroll bars
+     * in the ControlPanel.
+     */
+    public class DefaultScrollPolicy implements Scrollable {
         JComponent component;
 
         public DefaultScrollPolicy( JComponent component ) {
@@ -152,7 +172,7 @@ public class ControlPanel {
         }
 
         public Dimension getPreferredScrollableViewportSize() {
-            return new Dimension( component.getPreferredSize().width + getScrollBarWidth(), component.getPreferredSize().height );
+            return new Dimension( component.getPreferredSize().width + getVisibleScrollBarWidth(), component.getPreferredSize().height );
         }
 
         public int getScrollableBlockIncrement( Rectangle visibleRect, int orientation, int direction ) {
@@ -164,7 +184,10 @@ public class ControlPanel {
         }
     }
 
-    class ContentPane extends VerticalLayoutPanel implements Scrollable {
+    /**
+     * This is where the controls go in the ControlPanel.  It delegates its Scrollable interface to
+     */
+    private class ContentPane extends VerticalLayoutPanel implements Scrollable {
 
         public boolean getScrollableTracksViewportHeight() {
             return scrollPolicy.getScrollableTracksViewportHeight();

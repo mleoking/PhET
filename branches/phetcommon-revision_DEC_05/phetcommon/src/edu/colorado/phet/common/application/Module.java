@@ -134,8 +134,8 @@ public abstract class Module {
      * @param controlPanel
      */
     public void setControlPanel( ControlPanel controlPanel ) {
-        this.controlPanel=controlPanel;
-        modulePanel.setControlPanel( controlPanel.getComponent()  );
+        this.controlPanel = controlPanel;
+        modulePanel.setControlPanel( controlPanel.getComponent() );
     }
 
     /**
