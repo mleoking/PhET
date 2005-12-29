@@ -36,14 +36,16 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     private static final BarrierChoice CHOICE6 = new BarrierChoice( "Well V = -E", -1 );
     private static final BarrierChoice CHOICE7 = new BarrierChoice( "Well V = -2*E", -2 );
     
+    // Thread
+    private static final long THREAD_SLEEP_TIME = 60; // milliseconds
     // Graphics
     private static final boolean ANTI_ALIAS = true;
     private static final int STEPS_PER_FRAME = 3;
-    private static final int Y_OFFSET = 50;
+    private static final int CONTROL_PANEL_HEIGHT = 50;
     private static final Color BARRIER_COLOR = Color.RED;
     private static final Color REAL_COLOR = Color.BLUE;
     private static final Color IMAGINARY_COLOR = Color.GREEN;
-    private static final Color MAGNITUDE_COLOR = Color.BLACK;
+    private static final Color PROBABILITY_DENSITY_COLOR = Color.BLACK;
     
     // Physics
     private static final double X0 = -2;  // initial position of the wave packet's center
@@ -62,7 +64,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     // Instance data
     //----------------------------------------------------------------------
     
-    private int wx, wy, nx, xpts[], ypts[];
+    private int screenWidth, screenHeight, numberOfPoints, xpts[], ypts[];
     private double t, dt, dx, dy, xscale, yscale;
     private double epsilon, energy, energyScale;
     private Complex Psi[], EtoV[], alpha, beta;
@@ -81,7 +83,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     
     public void init() {      
         thread = null;
-        initUI();
+        createUI();
         restart();
         play();
     }
@@ -91,19 +93,19 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     //----------------------------------------------------------------------
     
     private void initPhysics() {
-        wx = getSize().width;
-        wy = getSize().height - Y_OFFSET;
-        nx = wx / 2;
+        screenWidth = getSize().width;
+        screenHeight = getSize().height - CONTROL_PANEL_HEIGHT;
+        numberOfPoints = screenWidth / 2;
 
-        xpts = new int[nx];
-        ypts = new int[nx];
-        Psi = new Complex[nx];
-        EtoV = new Complex[nx];
+        xpts = new int[numberOfPoints];
+        ypts = new int[numberOfPoints];
+        Psi = new Complex[numberOfPoints];
+        EtoV = new Complex[numberOfPoints];
         
-        dx = ( X_MAX - X_MIN ) / ( nx - 1 );
-        xscale = ( wx - 0.5 ) / ( X_MAX - X_MIN );
-        dy = ( Y_MAX - Y_MIN ) / ( wy - 1 );
-        yscale = ( wy - 0.5 ) / ( Y_MAX - Y_MIN );
+        dx = ( X_MAX - X_MIN ) / ( numberOfPoints - 1 );
+        xscale = ( screenWidth - 0.5 ) / ( X_MAX - X_MIN );
+        dy = ( Y_MAX - Y_MIN ) / ( screenHeight - 1 );
+        yscale = ( screenHeight - 0.5 ) / ( Y_MAX - Y_MIN );
         t = T_MIN;
         dt = 0.8 * MASS * dx * dx / HBAR;
         epsilon = HBAR * dt / ( MASS * dx * dx );
@@ -111,7 +113,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
         beta = new Complex( ( Math.sin( epsilon / 4 ) ) * Math.sin( epsilon / 4 ), 0.5 * Math.sin( epsilon / 2 ) );
         energy = 0.5 * MASS * VX * VX;
 
-        for ( int x = 0; x < nx; x++ ) {
+        for ( int x = 0; x < numberOfPoints; x++ ) {
             double r, xval;
             xval = X_MIN + dx * x;
             xpts[x] = (int) ( xscale * ( xval - X_MIN ) );
@@ -140,7 +142,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
          * Computer Physics Communications 63 (1991) pp 84-94 
          */
 
-        for ( int i = 0; i < nx - 1; i += 2 ) {
+        for ( int i = 0; i < numberOfPoints - 1; i += 2 ) {
             x.set( Psi[i] );
             y.set( Psi[i + 1] );
             w.mult( alpha, x );
@@ -151,7 +153,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
             Psi[i + 1].add( w, z );
         }
 
-        for ( int i = 1; i < nx - 1; i += 2 ) {
+        for ( int i = 1; i < numberOfPoints - 1; i += 2 ) {
             x.set( Psi[i] );
             y.set( Psi[i + 1] );
             w.mult( alpha, x );
@@ -162,30 +164,30 @@ public class WaveSim extends java.applet.Applet implements Runnable {
             Psi[i + 1].add( w, z );
         }
 
-        x.set( Psi[nx - 1] );
+        x.set( Psi[numberOfPoints - 1] );
         y.set( Psi[0] );
         w.mult( alpha, x );
         z.mult( beta, y );
-        Psi[nx - 1].add( w, z );
+        Psi[numberOfPoints - 1].add( w, z );
         w.mult( alpha, y );
         z.mult( beta, x );
         Psi[0].add( w, z );
 
-        for ( int i = 0; i < nx; i++ ) {
+        for ( int i = 0; i < numberOfPoints; i++ ) {
             x.set( Psi[i] );
             Psi[i].mult( x, EtoV[i] );
         }
 
-        x.set( Psi[nx - 1] );
+        x.set( Psi[numberOfPoints - 1] );
         y.set( Psi[0] );
         w.mult( alpha, x );
         z.mult( beta, y );
-        Psi[nx - 1].add( w, z );
+        Psi[numberOfPoints - 1].add( w, z );
         w.mult( alpha, y );
         z.mult( beta, x );
         Psi[0].add( w, z );
 
-        for ( int i = 1; i < nx - 1; i += 2 ) {
+        for ( int i = 1; i < numberOfPoints - 1; i += 2 ) {
             x.set( Psi[i] );
             y.set( Psi[i + 1] );
             w.mult( alpha, x );
@@ -196,7 +198,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
             Psi[i + 1].add( w, z );
         }
 
-        for ( int i = 0; i < nx - 1; i += 2 ) {
+        for ( int i = 0; i < numberOfPoints - 1; i += 2 ) {
             x.set( Psi[i] );
             y.set( Psi[i + 1] );
             w.mult( alpha, x );
@@ -212,7 +214,10 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     // User Interface
     //----------------------------------------------------------------------
     
-    private void initUI() {
+    /*
+     * Creates the user interface.
+     */
+    private void createUI() {
         
         restartButton = new JButton( RESTART_LABEL );
         restartButton.setOpaque( false );
@@ -246,10 +251,6 @@ public class WaveSim extends java.applet.Applet implements Runnable {
         buttonPanel.add( stepButton );
         buttonPanel.add( barrierComboBox );
         add( "North", buttonPanel );
-        
-        playButton.setEnabled( false );
-        pauseButton.setEnabled( true );
-        stepButton.setEnabled( false );
         
         restartButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
@@ -285,53 +286,53 @@ public class WaveSim extends java.applet.Applet implements Runnable {
         setBackground( Color.WHITE );
         setSize( APP_SIZE ); // do this last
     }
-
-    //----------------------------------------------------------------------
-    // Graphics
-    //----------------------------------------------------------------------
     
+    /*
+     * Converts the data to screen coordinates and
+     * draws it as a set of connected line segments.
+     */
     private void drawPlots( Graphics g ) {
-        
-        Graphics2D g2 = (Graphics2D)g;
-        
-        int ix, iy;
-        int jx, jy;
 
-        if ( ANTI_ALIAS ) {
+        if ( ANTI_ALIAS && g instanceof Graphics2D ) {
+            Graphics2D g2 = (Graphics2D) g;
             g2.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         }
-        
-        g2.setColor( BARRIER_COLOR );
-        ix = (int) ( xscale * 0.5 * ( X_MAX - X_MIN - 2 * VWIDTH ) );
-        jx = (int) ( xscale * 0.5 * ( X_MAX - X_MIN + 2 * VWIDTH ) );
-        iy = (int) ( wy - 1 - yscale * ( 0.5 * Y_MAX * energyScale - Y_MIN ) );
-        jy = (int) ( wy - 1 - yscale * ( 0 - Y_MIN ) );
-        g2.drawLine( ix, Y_OFFSET + iy, ix, Y_OFFSET + jy );
-        g2.drawLine( jx, Y_OFFSET + iy, jx, Y_OFFSET + jy );
-        g2.drawLine( ix, Y_OFFSET + iy, jx, Y_OFFSET + iy );
 
-        g2.setColor( REAL_COLOR );
-        for ( int x = 0; x < nx; x++ ) {
-            ypts[x] = Y_OFFSET + (int) ( wy - 1 - yscale * ( Psi[x].re - Y_MIN ) );
-        }
-        for ( int x = 0; x < nx - 1; x++ ) {
-            g2.drawLine( xpts[x], ypts[x], xpts[x + 1], ypts[x + 1] );
-        }
+        // Barrier
+        g.setColor( BARRIER_COLOR );
+        int ix = (int) ( xscale * 0.5 * ( X_MAX - X_MIN - 2 * VWIDTH ) );
+        int jx = (int) ( xscale * 0.5 * ( X_MAX - X_MIN + 2 * VWIDTH ) );
+        int iy = (int) ( screenHeight - 1 - yscale * ( 0.5 * Y_MAX * energyScale - Y_MIN ) ) + CONTROL_PANEL_HEIGHT;
+        int jy = (int) ( screenHeight - 1 - yscale * ( 0 - Y_MIN ) ) + CONTROL_PANEL_HEIGHT;
+        g.drawLine( ix, iy, ix, jy );
+        g.drawLine( jx, iy, jx, jy );
+        g.drawLine( ix, iy, jx, iy );
 
-        g2.setColor( IMAGINARY_COLOR );
-        for ( int x = 0; x < nx; x++ ) {
-            ypts[x] = Y_OFFSET + (int) ( wy - 1 - yscale * ( Psi[x].im - Y_MIN ) );
-        }
-        for ( int x = 0; x < nx - 1; x++ ) {
-            g2.drawLine( xpts[x], ypts[x], xpts[x + 1], ypts[x + 1] );
+        // Real part
+        g.setColor( REAL_COLOR );
+        for ( int x = 0; x < numberOfPoints; x++ ) {
+            ypts[x] = CONTROL_PANEL_HEIGHT + (int) ( screenHeight - 1 - yscale * ( Psi[x].re - Y_MIN ) );
+            if ( x > 0 ) {
+                g.drawLine( xpts[x - 1], ypts[x - 1], xpts[x], ypts[x] );
+            }
         }
 
-        g2.setColor( MAGNITUDE_COLOR );
-        for ( int x = 0; x < nx; x++ ) {
-            ypts[x] = Y_OFFSET + (int) ( wy - 1 - yscale * ( Psi[x].re * Psi[x].re + Psi[x].im * Psi[x].im - Y_MIN ) );
+        // Imaginary part
+        g.setColor( IMAGINARY_COLOR );
+        for ( int x = 0; x < numberOfPoints; x++ ) {
+            ypts[x] = CONTROL_PANEL_HEIGHT + (int) ( screenHeight - 1 - yscale * ( Psi[x].im - Y_MIN ) );
+            if ( x > 0 ) {
+                g.drawLine( xpts[x - 1], ypts[x - 1], xpts[x], ypts[x] );
+            }
         }
-        for ( int x = 0; x < nx - 1; x++ ) {
-            g2.drawLine( xpts[x], ypts[x], xpts[x + 1], ypts[x + 1] );
+
+        // Probability Density (abs^2)
+        g.setColor( PROBABILITY_DENSITY_COLOR );
+        for ( int x = 0; x < numberOfPoints; x++ ) {
+            ypts[x] = CONTROL_PANEL_HEIGHT + (int) ( screenHeight - 1 - yscale * ( Math.pow( Psi[x].abs(), 2 ) - Y_MIN ) );
+            if ( x > 0 ) {
+                g.drawLine( xpts[x - 1], ypts[x - 1], xpts[x], ypts[x] );
+            }
         }
     }
     
@@ -340,6 +341,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     //----------------------------------------------------------------------
     
     public void paint( Graphics g ) {
+        super.paint( g );
         drawPlots( g );
     }
     
@@ -390,7 +392,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
         while ( thread != null ) {
             step();
             try {
-                Thread.sleep( 60 );
+                Thread.sleep( THREAD_SLEEP_TIME );
             }
             catch ( InterruptedException e ) {
                 break;
@@ -402,6 +404,9 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     // Inner classes
     //----------------------------------------------------------------------
     
+    /*
+     * Choices that appear in the barrier/well combo box.
+     */
     private static class BarrierChoice {
 
         private String label;
@@ -421,6 +426,9 @@ public class WaveSim extends java.applet.Applet implements Runnable {
         }
     }
 
+    /*
+     * Very basic support for complex numbers.
+     */
     private static class Complex {
 
         private double re, im;
@@ -430,6 +438,11 @@ public class WaveSim extends java.applet.Applet implements Runnable {
             im = y;
         }
 
+        public void set( Complex a ) {
+            re = a.re;
+            im = a.im;
+        }
+        
         public void add( Complex a, Complex b ) {
             re = a.re + b.re;
             im = a.im + b.im;
@@ -440,9 +453,8 @@ public class WaveSim extends java.applet.Applet implements Runnable {
             im = a.re * b.im + a.im * b.re;
         }
 
-        public void set( Complex a ) {
-            re = a.re;
-            im = a.im;
+        public double abs() {
+            return Math.sqrt( re * re + im * im );
         }
     }
 }
