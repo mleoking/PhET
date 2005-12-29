@@ -53,6 +53,19 @@ public class EC3Canvas extends PhetPCanvas {
         addThrust();
         addGraphicsUpdate( ec3Module );
         addKeyListener( new PDebugKeyHandler() );
+        addKeyListener( new KeyListener() {
+            public void keyPressed( KeyEvent e ) {
+                if( e.getKeyCode() == KeyEvent.VK_F ) {
+                    toggleFullScreen();
+                }
+            }
+
+            public void keyReleased( KeyEvent e ) {
+            }
+
+            public void keyTyped( KeyEvent e ) {
+            }
+        } );
         addMouseListener( new MouseListener() {
             public void mouseClicked( MouseEvent e ) {
             }
@@ -78,6 +91,10 @@ public class EC3Canvas extends PhetPCanvas {
                 updateWorldGraphics();
             }
         } );
+    }
+
+    private void toggleFullScreen() {
+        getEnergyConservationModule().getModulePanel().setFullScreen( !getEnergyConservationModule().getModulePanel().isFullScreen() );
     }
 
     private void addFocusRequest() {
