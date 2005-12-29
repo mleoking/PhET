@@ -46,31 +46,39 @@ jfreechart-module jfreechart
 
 # Phet common code
 phetcommon-module phetcommon
+phetcommon-dir phetcommon
 
 # Phetgraphics
 phetgraphics-module phetgraphics &phetcommon-module
+phetgraphics-dir phetgraphics
 
 # Piccolo-phet
 piccolo-phet-module piccolo-phet &phetcommon-module &piccolo-module
+piccolo-phet-dir piccolo-phet
 
 # JFreeChart-phet
 jfreechart-phet-module jfreechart-phet &jfreechart-module
+jfreechart-phet-dir jfreechart-phet
 
 # Miscellaneous controls
 controls-module controls
+controls-dir controls
 
 # Charts
 charts-module charts &phetgraphics-module
+charts-dir charts
 
 # Strip chart
 stripchart-module stripchart
+stripchart-dir stripchart
 
 # Collisions
 collision-module collision
+collision-dir collision
 
 # Mechanics
 mechanics-module mechanics
-
+mechnics-dir mechanics
 #============================================================================
 # Chris Malley's simulations
 #============================================================================
@@ -174,4 +182,4 @@ dischargelamps fluorescent-lights &lasers
 soluble-salts soluble-salts &piccolo-phet-module &mechanics-module &collision-module
 
 # Energy Conservation 3 (2nd draft).
-energyconservation3 energyconservation3 &piccolo-phet-module &jfreechart-phet-module
+energyconservation3 energyconservation3 &piccolo-phet-dir &jfreechart-phet-dir &piccolo-module &jfreechart-module &phetcommon-dir
