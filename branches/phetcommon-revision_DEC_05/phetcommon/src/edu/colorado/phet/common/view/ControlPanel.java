@@ -34,12 +34,7 @@ public class ControlPanel {
         controlPane = new ContentPane();
         scrollPolicy = new DefaultScrollPolicy( controlPane );
         controlPane.setFillNone();
-        scrollPane = new JScrollPane( controlPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ) {
-            public Dimension getPreferredSize() {
-//                return new Dimension( );
-                return super.getPreferredSize();
-            }
-        };
+        scrollPane = new JScrollPane( controlPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
         System.out.println( "scrollPane.getVerticalScrollBar().getPreferredSize() = " + scrollPane.getVerticalScrollBar().getPreferredSize() );
         System.out.println( "scrollPane.getVerticalScrollBar().getSize()= " + scrollPane.getVerticalScrollBar().getSize() );
         helpPanel = new HelpPanel( module );
