@@ -17,9 +17,7 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -164,14 +162,31 @@ public class RampPanel extends PhetPCanvas {
         goPauseClear = new PSwing( this, new GoPauseClearPanel( module.getTimeSeriesModel() ) );
         addScreenChild( goPauseClear );
 
-        layoutChildren();
-        rampPlotSet.addListener( new RampPlotSet.Listener() {
-            public void layoutChanged() {
-                layoutChildren();
+        layoutAll();
+        addComponentListener( new ComponentListener() {
+            public void componentHidden( ComponentEvent e ) {
             }
+
+            public void componentMoved( ComponentEvent e ) {
+            }
+
+            public void componentResized( ComponentEvent e ) {
+                layoutAll();
+            }
+
+            public void componentShown( ComponentEvent e ) {
+                layoutAll();
+            }
+
         } );
         setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
         setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
+    }
+
+    private void layoutAll() {
+        layoutChildren();
+        rampPlotSet.layoutChildren();
+        layoutChildren();
     }
 
     public double getOverheatEnergy() {
@@ -181,8 +196,7 @@ public class RampPanel extends PhetPCanvas {
     private void layoutChildren() {
         if( !recursing ) {
             recursing = true;
-            //todo is this running continuously?
-            System.out.println( System.currentTimeMillis() + ": RampPanel.relayoutChildren" );
+            System.out.println( System.currentTimeMillis() + ": RampPanel.layoutChildren" );
             double yOrig = rampPlotSet.getFullBounds().getY() - goPauseClear.getFullBounds().getHeight() - 2;
 //            System.out.println( "yOrig = " + yOrig );
             double gopY = getChartTopY() - goPauseClear.getFullBounds().getHeight() - 2;
@@ -211,7 +225,6 @@ public class RampPanel extends PhetPCanvas {
             catch( RuntimeException r ) {
                 r.printStackTrace();//todo sometimes fails drawing arrow.
             }
-
             rampPlotSet.layoutChildren();
             recursing = false;
         }

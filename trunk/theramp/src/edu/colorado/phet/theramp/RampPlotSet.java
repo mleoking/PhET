@@ -192,19 +192,31 @@ public class RampPlotSet extends PNode {
         }
     }
 
+    double layoutY = -1;
+    double layoutHeight = -1;
+    int layoutWidth = -1;
+
     public void layoutChildren() {
         super.layoutChildren();
         LayoutSet layoutSet = new LayoutSet();
 
         int availableWidth = (int)getAvailableWidth();
         if( availableWidth > 0 ) {
+            if( layoutY != getLayoutStartY() || layoutHeight != getAvailableHeight() || layoutWidth != availableWidth )
+//            if( true )
+            {
+                layoutSet.addItem( toPlotLayoutItem( availableWidth, parallelForcePlot ) );
+                layoutSet.addItem( toPlotLayoutItem( availableWidth, energyPlot ) );
+                layoutSet.addItem( toPlotLayoutItem( availableWidth, workPlot ) );
+                layoutSet.layout( getLayoutStartY(), getAvailableHeight() );
 
-            layoutSet.addItem( toPlotLayoutItem( availableWidth, parallelForcePlot ) );
-            layoutSet.addItem( toPlotLayoutItem( availableWidth, energyPlot ) );
-            layoutSet.addItem( toPlotLayoutItem( availableWidth, workPlot ) );
-            layoutSet.layout( getLayoutStartY(), getAvailableHeight() );
+                layoutY = getLayoutStartY();
+                layoutHeight = getAvailableHeight();
+                layoutWidth = availableWidth;
+            }
         }
         notifyLayedOutChildren();
+
     }
 
     ArrayList listeners = new ArrayList();
