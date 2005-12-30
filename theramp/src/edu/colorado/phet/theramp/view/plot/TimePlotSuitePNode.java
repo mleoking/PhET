@@ -84,6 +84,7 @@ public class TimePlotSuitePNode extends PNode {
     private String units;
     private Rectangle2D savedDataArea;
     private boolean dataAreaDirty = true;
+    private boolean layoutDirty = true;
 
     public TimePlotSuitePNode( RampModule module, PSwingCanvas pCanvas, Range2D range, String name,
                                String units, final TimeSeriesModel timeSeriesModel, int height, boolean useSlider ) {
@@ -152,7 +153,6 @@ public class TimePlotSuitePNode extends PNode {
 
         cursorPNode.addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
-//                double viewTime = event.getPosition().getX();
                 double viewTime = event.getPositionRelativeTo( TimePlotSuitePNode.this ).getX();
                 Point2D out = toLinearFunction().getInverseTransform().transform( new Point2D.Double( viewTime, 0 ), null );
 
@@ -165,15 +165,10 @@ public class TimePlotSuitePNode extends PNode {
                 }
                 timeSeriesModel.setReplayTime( t );
                 System.out.println( "out = " + out );
-//                double dx = event.getDelta().getWidth();
-
             }
         } );
-//        cursor.setStroke( new BasicStroke( 1,BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER,1.0f,new float[]{8,4},0) );
         cursorPNode.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         addChild( cursorPNode );
-
-//        JButton minBut = new JButton( "Minimize" );
         JButton minBut = null;
         try {
             minBut = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "images/min15.jpg" ) ) );
@@ -234,8 +229,6 @@ public class TimePlotSuitePNode extends PNode {
                     zoomOut.setValue( rangeY );
                 }
             } );
-//            this.zoomInButton.setOffset( getDataArea().getX(), getDataArea().getY() );
-//            this.zoomOutGraphic.setOffset( zoomInButton.getOffset().getX(), zoomInButton.getOffset().getY() + zoomInButton.getFullBounds().getHeight() );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -245,8 +238,6 @@ public class TimePlotSuitePNode extends PNode {
             slider = createSlider();
         }
         invalidateLayout();
-
-//        maxButNode.setVisible( false );
         setMinimizedState( false );
     }
 
@@ -254,8 +245,6 @@ public class TimePlotSuitePNode extends PNode {
         Point2D loc = isMinimized() ? maxButNode.getGlobalFullBounds().getOrigin() :
                       chartGraphic.getGlobalFullBounds().getOrigin();
         pCanvas.getCamera().globalToLocal( loc );
-//        pCanvas.getCamera().localToParent( loc );
-
         return loc.getY();
     }
 
@@ -290,21 +279,15 @@ public class TimePlotSuitePNode extends PNode {
         private BorderPNode track;
 
         public SliderGraphic( Rectangle2D.Double dataArea, TimePlotSuitePNode timePlotSuitePNode ) {
-//            background = new PPath( dataArea );
-
             background = new BorderPNode( timePlotSuitePNode.pCanvas,
                                           BorderFactory.createLoweredBevelBorder(),
                                           RectangleUtils.toRectangle( dataArea ) );
-//            addChild( background );
-
             Rectangle center = createCenter( dataArea );
 
             track = new BorderPNode( timePlotSuitePNode.pCanvas,
                                      BorderFactory.createRaisedBevelBorder(),
                                      center );
             addChild( track );
-
-//            background.setPaint( new Color( 0, 0, 255, 75 ) );
             this.rect = dataArea;
             timePlotSuitePNode.getRampModule().getRampPhysicalModel().addListener( new RampPhysicalModel.Adapter() {
                 public void appliedForceChanged() {
@@ -346,9 +329,6 @@ public class TimePlotSuitePNode extends PNode {
 
             public void mouseReleased( PInputEvent event ) {
                 super.mouseReleased( event );
-//                if( sliderGraphic.timePlotSuitePNode.getRampModule().isRecording() ) {
-//                    sliderGraphic.timePlotSuitePNode.getRampModule().getRampPhysicalModel().setAppliedForce( 0.0 );
-//                }
             }
 
             public void mouseDragged( PInputEvent event ) {
@@ -390,15 +370,12 @@ public class TimePlotSuitePNode extends PNode {
                 rect = new Rectangle2D.Double( insetX - sliderOffsetDX, area.getY(), width, area.getHeight() );
                 background.setBorderRectangle( RectangleUtils.toRectangle( rect ) );
                 track.setBorderRectangle( createCenter( rect ) );
-//                background.setPathTo( rect );
-//            thumb.setOffset( rect.getX(), rect.getY() + rect.getHeight() / 2 );
                 update();
             }
         }
     }
 
     private SliderGraphic createSlider() {
-//        return new PPath(new Rectangle(0,0,50,200));
         Rectangle2D dataArea = getDataArea( plot );
         Rectangle2D.Double d = new Rectangle2D.Double( dataArea.getX(), dataArea.getY(), dataArea.getWidth(), dataArea.getHeight() );
         SliderGraphic pPath = new SliderGraphic( d, this );
@@ -434,27 +411,18 @@ public class TimePlotSuitePNode extends PNode {
     }
 
     private void updateGridlines() {
-
         plot.clearDomainMarkers();
         plot.addDomainMarker( new ValueMarker( 5, Color.lightGray, new BasicStroke( 1 ) ) );
         plot.addDomainMarker( new ValueMarker( 10, Color.lightGray, new BasicStroke( 1 ) ) );
         plot.addDomainMarker( new ValueMarker( 15, Color.lightGray, new BasicStroke( 1 ) ) );
         plot.addDomainMarker( new ValueMarker( 20, Color.lightGray, new BasicStroke( 1 ) ) );
         plot.addDomainMarker( new ValueMarker( 25, Color.lightGray, new BasicStroke( 1 ) ) );
-
-//        double maxY = defaultMaxY;
         for( double y = defaultMaxY / 4; y < plot.getRangeAxis().getRange().getUpperBound(); y += defaultMaxY / 4 ) {
             plot.addRangeMarker( new ValueMarker( y, Color.lightGray, new BasicStroke( 1 ) ) );
         }
         for( double y = -defaultMaxY / 4; y > plot.getRangeAxis().getRange().getLowerBound(); y -= defaultMaxY / 4 ) {
             plot.addRangeMarker( new ValueMarker( y, Color.lightGray, new BasicStroke( 1 ) ) );
         }
-//        plot.addRangeMarker( new ValueMarker( maxY * 0.75, Color.lightGray, new BasicStroke( 1 ) ) );
-//        plot.addRangeMarker( new ValueMarker( maxY * 0.5, Color.lightGray, new BasicStroke( 1 ) ) );
-//        plot.addRangeMarker( new ValueMarker( maxY * 0.25, Color.lightGray, new BasicStroke( 1 ) ) );
-//        plot.addRangeMarker( new ValueMarker( maxY * -0.25, Color.lightGray, new BasicStroke( 1 ) ) );
-//        plot.addRangeMarker( new ValueMarker( maxY * -0.5, Color.lightGray, new BasicStroke( 1 ) ) );
-//        plot.addRangeMarker( new ValueMarker( maxY * -0.75, Color.lightGray, new BasicStroke( 1 ) ) );
     }
 
     private void updateCursorLocation() {
@@ -486,7 +454,6 @@ public class TimePlotSuitePNode extends PNode {
     }
 
     private void setMinimizedState( boolean minimized ) {
-
         setHasChild( !minimized, chartGraphic );
         setHasChild( !minimized, cursorPNode );
         setHasChild( minimized, maxButNode );
@@ -533,6 +500,7 @@ public class TimePlotSuitePNode extends PNode {
         }
         if( this.chartWidth != chartWidth || this.chartHeight != chartHeight ) {
             this.dataAreaDirty = true;
+            this.layoutDirty = true;
             this.chartWidth = chartWidth;
             this.chartHeight = chartHeight;
             repaintAll();
@@ -542,39 +510,40 @@ public class TimePlotSuitePNode extends PNode {
     }
 
     protected void layoutChildren() {
-        super.layoutChildren();
+        if( layoutDirty ) {
+            super.layoutChildren();
+            dataAreaDirty = true;
+            for( int i = 0; i < series.size() / 2; i++ ) {
+                TimeSeriesPNode timeSeriesPNode = (TimeSeriesPNode)series.get( i );
+                PNode readoutGraphic = timeSeriesPNode.getReadoutGraphic();
+                double readoutDY = -2;
+                readoutGraphic.setOffset( getDataArea().getX() + 5,
+                                          getDataArea().getY() + 4 + ( readoutGraphic.getFullBounds().getHeight() + readoutDY ) * i );
+            }
 
-        for( int i = 0; i < series.size() / 2; i++ ) {
-            TimeSeriesPNode timeSeriesPNode = (TimeSeriesPNode)series.get( i );
-            PNode readoutGraphic = timeSeriesPNode.getReadoutGraphic();
-//            readoutGraphic.setOffset( getDataArea().getX() + 5, getDataArea().getY() + getDataArea().getHeight() / 2.0 + ( readoutGraphic.getFullBounds().getHeight() + 1 ) * i );
-            double readoutDY = -2;
-            readoutGraphic.setOffset( getDataArea().getX() + 5,
-                                      getDataArea().getY() + 4 + ( readoutGraphic.getFullBounds().getHeight() + readoutDY ) * i );
-        }
+            for( int i = series.size() / 2; i < series.size(); i++ ) {
+                TimeSeriesPNode timeSeriesPNode = (TimeSeriesPNode)series.get( i );
+                PNode readoutGraphic = timeSeriesPNode.getReadoutGraphic();
+                double readoutDY = -2;
+                int index = i - series.size() / 2;
+                readoutGraphic.setOffset( getDataArea().getX() + getDataArea().getWidth() / 2 + 5,
+                                          getDataArea().getY() + 4 + ( readoutGraphic.getFullBounds().getHeight() + readoutDY ) * index );
+            }
 
-        for( int i = series.size() / 2; i < series.size(); i++ ) {
-            TimeSeriesPNode timeSeriesPNode = (TimeSeriesPNode)series.get( i );
-            PNode readoutGraphic = timeSeriesPNode.getReadoutGraphic();
-//            readoutGraphic.setOffset( getDataArea().getX() + 5, getDataArea().getY() + getDataArea().getHeight() / 2.0 + ( readoutGraphic.getFullBounds().getHeight() + 1 ) * i );
-            double readoutDY = -2;
-            int index = i - series.size() / 2;
-            readoutGraphic.setOffset( getDataArea().getX() + getDataArea().getWidth() / 2 + 5,
-                                      getDataArea().getY() + 4 + ( readoutGraphic.getFullBounds().getHeight() + readoutDY ) * index );
-        }
-
-        zoomInGraphic.setOffset( 5 + getDataArea().getX(), getDataArea().getMaxY() - zoomOutGraphic.getFullBounds().getHeight() - zoomInGraphic.getFullBounds().getHeight() - 2 );
-        zoomOutGraphic.setOffset( zoomInGraphic.getOffset().getX(), zoomInGraphic.getOffset().getY() + zoomInGraphic.getFullBounds().getHeight() );
+            zoomInGraphic.setOffset( 5 + getDataArea().getX(), getDataArea().getMaxY() - zoomOutGraphic.getFullBounds().getHeight() - zoomInGraphic.getFullBounds().getHeight() - 2 );
+            zoomOutGraphic.setOffset( zoomInGraphic.getOffset().getX(), zoomInGraphic.getOffset().getY() + zoomInGraphic.getFullBounds().getHeight() );
 
 //        System.out.println( System.currentTimeMillis() + ", Layout Children" );
-        layoutCount++;
-        if( layoutCount > 100 ) {
-            System.out.println( "layoutCount = " + layoutCount );
+            layoutCount++;
+            if( layoutCount > 100 ) {
+                System.out.println( "layoutCount = " + layoutCount );
+            }
+            if( slider != null ) {
+                slider.dataAreaChanged( getDataArea() );
+            }
+            minButNode.setOffset( getDataArea().getMaxX() - minButNode.getFullBounds().getWidth() - 2, 0 + 2 );
+            layoutDirty = false;
         }
-        if( slider != null ) {
-            slider.dataAreaChanged( getDataArea() );
-        }
-        minButNode.setOffset( getDataArea().getMaxX() - minButNode.getFullBounds().getWidth() - 2, 0 + 2 );
     }
 
     private void updateCursor() {
@@ -589,17 +558,12 @@ public class TimePlotSuitePNode extends PNode {
     }
 
     private void updateChartBuffer() {
+        this.layoutDirty = true;
         updateGridlines();
-
         if( chartWidth < 2000 && chartHeight < 2000 ) {
-
             bufferedImage = chart.createBufferedImage( chartWidth, chartHeight );
-
             System.out.println( "TimePlotSuitePNode.updateChartBuffer@" + System.currentTimeMillis() );
-//        bufferedImage = new BufferedImage( 50,50,BufferedImage.TYPE_INT_RGB);
             decorateBuffer();
-
-
             chartGraphic.setImage( bufferedImage );
         }
         else {
@@ -610,7 +574,6 @@ public class TimePlotSuitePNode extends PNode {
 
     private void decorateBuffer() {
         drawInPlotAxis();
-//        drawBorder( bufferedImage );
     }
 
     private void drawInPlotAxis() {
@@ -624,13 +587,6 @@ public class TimePlotSuitePNode extends PNode {
         }
     }
 
-    private void drawBorder( BufferedImage bufferedImage ) {
-        Graphics2D graphics2D = bufferedImage.createGraphics();
-        graphics2D.setStroke( new BasicStroke() );
-        graphics2D.setColor( Color.black );
-        graphics2D.drawRect( 0, 0, bufferedImage.getWidth() - 1, bufferedImage.getHeight() - 1 );
-    }
-
     private static JFreeChart createChart( Range2D range, XYDataset dataset, String title ) {
         JFreeChart chart = ChartFactory.createXYLineChart( "",
                                                            "", // x-axis label
@@ -641,29 +597,19 @@ public class TimePlotSuitePNode extends PNode {
 
         XYPlot plot = (XYPlot)chart.getPlot();
         plot.setBackgroundPaint( Color.white );
-//        plot.setDomainGridlinePaint( Color.gray );
         plot.setDomainGridlinesVisible( false );
-//        plot.setDomainTickBandPaint( Color.black );
-//        plot.setDomainAxes( new ValueAxis[]{new NumberAxis( )} );
-//        plot.setDomainAxes( new ValueAxis[]{new NumberAxis( )} );
-
-//        plot.setRangeGridlinePaint( Color.gray );
         plot.setRangeGridlinesVisible( false );
-//        plot.setAxisOffset( new RectangleInsets( 5.0, 5.0, 5.0, 5.0 ) );
 
         NumberAxis xAxis = new NumberAxis();
         xAxis.setAutoRange( false );
         xAxis.setRange( range.getMinX(), range.getMaxX() );
         xAxis.setTickLabelsVisible( false );
-//        xAxis.setTickMarksVisible( false );
         xAxis.setTickMarksVisible( true );
         plot.setDomainAxis( xAxis );
 
         NumberAxis yAxis = new NumberAxis( title );
-//        NumberAxis yAxis = new NumberAxis( "<html>html<sub>2</html>");
         yAxis.setAutoRange( false );
         yAxis.setRange( range.getMinY(), range.getMaxY() );
-//        yAxis.setLabelFont( new Font( "Times New Roman",Font.PLAIN, 12) );
         yAxis.setLabelFont( new Font( "Lucida Sans", Font.PLAIN, 11 ) );
         plot.setRangeAxis( yAxis );
 
@@ -681,7 +627,6 @@ public class TimePlotSuitePNode extends PNode {
 
     public void addTimeSeries( TimeSeriesPNode timeSeriesPNode ) {
         PNode readoutGraphic = timeSeriesPNode.getReadoutGraphic();
-//        readoutGraphic.setOffset( getDataArea().getX() + 5, getDataArea().getY() + getDataArea().getHeight() / 2.0 + ( readoutGraphic.getHeight() + 1 ) * series.size() + 5 );
         series.add( timeSeriesPNode );
         addChild( readoutGraphic );
         invalidateLayout();
@@ -689,7 +634,6 @@ public class TimePlotSuitePNode extends PNode {
 
     public void reset() {
         updateChartBuffer();
-//        System.out.println( "reset image" );
     }
 
     public BufferedImage getChartImage() {
@@ -697,14 +641,7 @@ public class TimePlotSuitePNode extends PNode {
     }
 
     public Rectangle2D getDataArea() {
-
-        Rectangle2D r = getDataArea( plot );
-        if( r == null ) {
-            throw new RuntimeException( "Null data area." );
-        }
-        else {
-            return r;
-        }
+        return getDataArea( plot );
     }
 
     private Rectangle2D getDataArea( XYPlot plot ) {
@@ -712,7 +649,7 @@ public class TimePlotSuitePNode extends PNode {
             BufferedImage image = new BufferedImage( 2, 2, BufferedImage.TYPE_INT_RGB );
             ChartRenderingInfo chartRenderingInfo = new ChartRenderingInfo();
             chart.draw( image.createGraphics(), new Rectangle2D.Double( 0, 0, chartWidth, chartHeight ), chartRenderingInfo );
-            Rectangle2D r = chartRenderingInfo.getChartArea();
+            Rectangle2D r = chartRenderingInfo.getPlotInfo().getDataArea();
             savedDataArea = new Rectangle2D.Double( r.getX(), r.getY(), r.getWidth(), r.getHeight() );
             dataAreaDirty = false;
         }
@@ -735,8 +672,7 @@ public class TimePlotSuitePNode extends PNode {
 
         double transX1 = plot.getDomainAxisForDataset( 0 ).valueToJava2D( x, dataArea, plot.getDomainAxisEdge() );
         double transY1 = plot.getRangeAxisForDataset( 0 ).valueToJava2D( y, dataArea, plot.getRangeAxisEdge() );
-        Point2D.Double pt = new Point2D.Double( transX1, transY1 );
-        return pt;
+        return new Point2D.Double( transX1, transY1 );
     }
 
     public void repaintImage( Rectangle2D bounds ) {
@@ -768,7 +704,6 @@ public class TimePlotSuitePNode extends PNode {
         else {
             return getFullBounds().getHeight();
         }
-
     }
 
     public static interface Listener {

@@ -143,11 +143,11 @@ public class JSAudioPlayer {
         playNoBlock( url );
     }
 
-    public static void playNoBlock( final URL preyURL ) {
+    public static void playNoBlock( final URL url ) {
         Thread t = new Thread( new Runnable() {
             public void run() {
                 try {
-                    play( preyURL );
+                    play( url );
                 }
                 catch( IOException e ) {
                     e.printStackTrace();
