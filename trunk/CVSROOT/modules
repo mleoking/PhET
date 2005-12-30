@@ -147,7 +147,7 @@ forces1d forces1d &phetcommon-module &charts-module
 radio-waves emf &phetcommon-module
 
 # The Ramp
-theramp theramp &phetcommon-dir &jfreechart-dir &piccolo-dir &piccolo-phet-dir &jfreechart-phet-dir
+theramp theramp &jfreechart-dir &jfreechart-phet-dir &piccolo-dir &piccolo-phet-dir &phetcommon-dir 
 
 # Schrodinger
 schrodinger schrodinger &phetcommon-module
