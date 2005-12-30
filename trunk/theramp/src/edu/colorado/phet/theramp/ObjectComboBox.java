@@ -22,7 +22,7 @@ import java.io.IOException;
 
 public class ObjectComboBox extends JComboBox {
     private AdvancedRampControlPanel controlPanel;
-    private static Font font = new Font( "Lucida Sans", Font.BOLD, 10 );
+//    private static Font font = new Font( "Lucida Sans", Font.BOLD, 10 );
 
     public ObjectComboBox( final RampObject[] rampObjects, final AdvancedRampControlPanel controlPanel ) {
         super( toLabelArray( rampObjects, controlPanel.getComponent() ) );
@@ -35,7 +35,7 @@ public class ObjectComboBox extends JComboBox {
                 controlPanel.setup( rampObjects[index] );
             }
         } );
-        setFont( font );
+//        setFont( font );
     }
 
     private Border createBorder( String s ) {
@@ -58,7 +58,7 @@ public class ObjectComboBox extends JComboBox {
         return lab;
     }
 
-    public static class ComboBoxRenderer extends JLabel implements ListCellRenderer {
+    public static class ComboBoxRenderer extends DefaultListCellRenderer {
         public ComboBoxRenderer() {
             setOpaque( true );
             setHorizontalAlignment( CENTER );
@@ -70,20 +70,13 @@ public class ObjectComboBox extends JComboBox {
                                                        int index,
                                                        boolean isSelected,
                                                        boolean cellHasFocus ) {
-            if( isSelected ) {
-                setBackground( list.getSelectionBackground() );
-                setForeground( list.getSelectionForeground() );
-            }
-            else {
-                setBackground( list.getBackground() );
-                setForeground( list.getForeground() );
-            }
+            DefaultListCellRenderer component = (DefaultListCellRenderer)super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
 
             ImageIcon icon = (ImageIcon)value;
             setText( icon.getDescription() );
             setIcon( icon );
-            setFont( font );
-            return this;
+//            setFont( font );
+            return component;
         }
     }
 }
