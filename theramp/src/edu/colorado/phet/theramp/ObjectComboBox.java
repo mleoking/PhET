@@ -28,7 +28,7 @@ public class ObjectComboBox extends JComboBox {
         super( toLabelArray( rampObjects, controlPanel.getComponent() ) );
         setRenderer( new ComboBoxRenderer() );
         this.controlPanel = controlPanel;
-        setBorder( createBorder( "Choose Object" ) );
+        //setBorder( createBorder( "Choose Object" ) );
         addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {
                 int index = getSelectedIndex();
