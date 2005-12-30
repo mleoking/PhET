@@ -76,6 +76,10 @@ public class PhetPCanvas extends PSwingCanvas {
         phetRootNode.setWorldTransform( transformStrategy.getWorldTransform() );
     }
 
+    public void setWorldScale( double scale ) {
+        phetRootNode.setWorldScale(scale);
+    }
+
     protected class ResizeAdapter extends ComponentAdapter {
         public void componentResized( ComponentEvent e ) {
             updateScale();
