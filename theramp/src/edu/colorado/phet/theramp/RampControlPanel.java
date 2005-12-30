@@ -2,8 +2,8 @@
 package edu.colorado.phet.theramp;
 
 import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.components.ModelSlider;
-import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.view.GoPauseClearPanel;
 
@@ -151,6 +151,7 @@ public class RampControlPanel extends ControlPanel {
                 getModule().getRampPanel().setWorkBarsVisible( workBars.isSelected() );
             }
         } );
+
         VerticalLayoutPanel verticalLayoutPanel = new VerticalLayoutPanel();
         verticalLayoutPanel.add( workBars );
         verticalLayoutPanel.add( energyBars );

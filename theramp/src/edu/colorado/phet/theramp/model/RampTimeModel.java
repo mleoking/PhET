@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.model;
 
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.ClockListener;
 
 import java.util.ArrayList;
 
@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Copyright (c) May 10, 2005 by Sam Reid
  */
 
-public class RampTimeModel implements ClockTickListener {
+public class RampTimeModel implements ClockListener {
     private ArrayList timeSlices = new ArrayList();
     private Mode recordMode = new Record();
     private Mode ignoreMode = new Ignore();
@@ -26,17 +26,40 @@ public class RampTimeModel implements ClockTickListener {
         mode = ignoreMode;
     }
 
-    public void clockTicked( ClockTickEvent event ) {
+    public void clockTicked( ClockEvent event ) {
         mode.clockTicked( event );
     }
 
-    abstract class Mode implements ClockTickListener {
+    public void clockStarted( ClockEvent clockEvent ) {
+    }
+
+    public void clockPaused( ClockEvent clockEvent ) {
+    }
+
+    public void simulationTimeChanged( ClockEvent clockEvent ) {
+    }
+
+    public void simulationTimeReset( ClockEvent clockEvent ) {
+    }
+
+    abstract class Mode implements ClockListener {
+        public void clockStarted( ClockEvent clockEvent ) {
+        }
+
+        public void clockPaused( ClockEvent clockEvent ) {
+        }
+
+        public void simulationTimeChanged( ClockEvent clockEvent ) {
+        }
+
+        public void simulationTimeReset( ClockEvent clockEvent ) {
+        }
     }
 
     class Record extends Mode {
 
-        public void clockTicked( ClockTickEvent event ) {
-            physicalModel.stepInTime( event.getDt() );
+        public void clockTicked( ClockEvent event ) {
+            physicalModel.stepInTime( event.getSimulationTimeChange() );
             RampPhysicalModel state = physicalModel.getState();
             timeSlices.add( state );
             System.out.println( "timeSlices.size() = " + timeSlices.size() );
@@ -46,7 +69,7 @@ public class RampTimeModel implements ClockTickListener {
     class Playback extends Mode {
         int index = 0;
 
-        public void clockTicked( ClockTickEvent event ) {
+        public void clockTicked( ClockEvent event ) {
             if( index >= timeSlices.size() ) {
                 index = 0;
             }
@@ -62,8 +85,8 @@ public class RampTimeModel implements ClockTickListener {
 
     class Ignore extends Mode {
 
-        public void clockTicked( ClockTickEvent event ) {
-            physicalModel.stepInTime( event.getDt() );
+        public void clockTicked( ClockEvent event ) {
+            physicalModel.stepInTime( event.getSimulationTimeChange() );
         }
     }
 

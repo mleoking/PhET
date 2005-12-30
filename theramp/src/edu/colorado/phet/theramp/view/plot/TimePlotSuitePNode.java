@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.view.plot;
 
-import edu.colorado.phet.common.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.graphics.transforms.LinearTransform2D;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
@@ -28,6 +28,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PPaintContext;
 import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
@@ -95,7 +96,7 @@ public class TimePlotSuitePNode extends PNode {
         chart = createChart( range, dataset, name + " (" + units + ")" );
         this.plot = (XYPlot)chart.getPlot();
         chartGraphic = new PImage();
-        chartGraphic.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
+//        chartGraphic.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );//DEC_05
         updateChartBuffer();
 
         addChild( chartGraphic );
@@ -396,7 +397,7 @@ public class TimePlotSuitePNode extends PNode {
 
     private SliderGraphic createSlider() {
 //        return new PPath(new Rectangle(0,0,50,200));
-        Rectangle2D.Double dataArea = plot.getDataArea();
+        Rectangle2D.Double dataArea = getDataArea( plot );
         SliderGraphic pPath = new SliderGraphic( dataArea, this );
 
         return pPath;
@@ -691,13 +692,22 @@ public class TimePlotSuitePNode extends PNode {
     }
 
     public Rectangle2D getDataArea() {
-        Rectangle2D r = plot.getDataArea();
+
+        Rectangle2D r = getDataArea( plot );
         if( r == null ) {
             throw new RuntimeException( "Null data area." );
         }
         else {
             return r;
         }
+    }
+
+    private Rectangle2D.Double getDataArea( XYPlot plot ) {
+        BufferedImage image = new BufferedImage( 2, 2, BufferedImage.TYPE_INT_RGB );
+        ChartRenderingInfo chartRenderingInfo = new ChartRenderingInfo();
+        chart.draw( image.createGraphics(), new Rectangle2D.Double( 0, 0, chartWidth, chartHeight ), chartRenderingInfo );
+        Rectangle2D r = chartRenderingInfo.getChartArea();
+        return new Rectangle2D.Double( r.getX(), r.getY(), r.getWidth(), r.getHeight() );
     }
 
     public LinearTransform2D toLinearFunction() {
@@ -709,7 +719,7 @@ public class TimePlotSuitePNode extends PNode {
     }
 
     public Point2D toImageLocation( double x, double y ) {
-        Rectangle2D dataArea = plot.getDataArea();
+        Rectangle2D dataArea = getDataArea( plot );
         if( dataArea == null ) {
             throw new RuntimeException( "Null data area" );
         }

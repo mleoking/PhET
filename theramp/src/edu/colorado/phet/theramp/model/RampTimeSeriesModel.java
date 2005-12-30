@@ -1,8 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.model;
 
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.timeseries.ObjectTimePoint;
 import edu.colorado.phet.timeseries.ObjectTimeSeries;
@@ -31,8 +30,8 @@ public class RampTimeSeriesModel extends TimeSeriesModel {
         rampModule.repaintBackground();
     }
 
-    public void updateModel( ClockTickEvent clockEvent ) {
-        rampModule.updateModel( clockEvent.getDt() );
+    public void updateModel( ClockEvent clockEvent ) {
+        rampModule.updateModel( clockEvent.getSimulationTimeChange() );
 
 //        timeSeries.addPoint( state, time );
         if( getRecordTime() <= RampModule.MAX_TIME && !recordedLastTime ) {
@@ -48,6 +47,15 @@ public class RampTimeSeriesModel extends TimeSeriesModel {
             rampModule.updateReadouts();
         }
 //        System.out.println( "series.numPoints() = " + series.numPoints() + ", running Time=" + clockEvent.getClock().getRunningTime() );
+    }
+
+    public Object getModelState() {
+        RampPhysicalModel state = rampModule.getRampPhysicalModel().getState();
+        return state;
+    }
+
+    protected void setModelState( Object v ) {
+        rampModule.getRampPhysicalModel().setState( (RampPhysicalModel)v );
     }
 
     public void setReplayTime( double requestedTime ) {
@@ -72,22 +80,25 @@ public class RampTimeSeriesModel extends TimeSeriesModel {
         rampModule.clearHeatSansFiredog();
     }
 
-    protected ApparatusPanel getApparatusPanel() {
-        return rampModule.getApparatusPanel();
-    }
+//    protected ApparatusPanel getApparatusPanel() {
+//        return rampModule.getApparatusPanel();
+//    }
 
     protected boolean confirmReset() {
 //        return rampModule.resetDialogOk();
-        int answer = JOptionPane.showConfirmDialog( getApparatusPanel(), "Are you sure you'd like to clear the graphs?", "Confirm Clear", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE );
+        int answer = JOptionPane.showConfirmDialog( getSimulationPanel(), "Are you sure you'd like to clear the graphs?", "Confirm Clear", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE );
         return answer == JOptionPane.OK_OPTION;
     }
 
+    public JComponent getSimulationPanel() {
+        return rampModule.getSimulationPanel();
+    }
 
     public RampModule getRampModule() {
         return rampModule;
     }
 
-    public void clockTicked( ClockTickEvent event ) {
+    public void clockTicked( ClockEvent event ) {
         super.clockTicked( event );
         if( isPaused() ) {
             rampModule.updateReadouts();

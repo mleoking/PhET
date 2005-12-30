@@ -2,9 +2,10 @@
 package edu.colorado.phet.theramp.view.bars;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.ClockListener;
+import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.ShadowHTMLGraphic;
 import edu.colorado.phet.piccolo.pswing.PSwing;
@@ -201,8 +202,8 @@ public class BarGraphSet extends PNode {
         return Math.abs( transform1D.viewToModelDifferential( (int)( barChartHeight - topY ) ) );
     }
 
-    protected void addClockTickListener( ClockTickListener clockTickListener ) {
-        rampPanel.getRampModule().getClock().addClockTickListener( clockTickListener );
+    protected void addClockListener( ClockListener clockTickListener ) {
+        rampPanel.getRampModule().getClock().addClockListener( clockTickListener );
     }
 
     protected void finishInit( ValueAccessor[] workAccess ) {
@@ -223,8 +224,8 @@ public class BarGraphSet extends PNode {
             final BarGraphic2D barGraphic = new BarGraphic2D( accessor.getName(), transform1D,
                                                               accessor.getValue( rampPhysicalModel ), (int)( i * sep + dw ), (int)barWidth,
                                                               (int)barChartHeight, dx, dy, accessor.getColor() );
-            addClockTickListener( new ClockTickListener() {
-                public void clockTicked( ClockTickEvent event ) {
+            addClockListener( new ClockAdapter() {
+                public void clockTicked( ClockEvent event ) {
                     barGraphic.setValue( accessor.getValue( rampPhysicalModel ) );
                 }
             } );

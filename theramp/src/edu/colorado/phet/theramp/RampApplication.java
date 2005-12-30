@@ -3,8 +3,8 @@ package edu.colorado.phet.theramp;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 
@@ -28,8 +28,8 @@ public class RampApplication extends PhetApplication {
     private RampModule advancedFeatureModule;
 //    private static PhetStartupWindow startupWindow;
 
-    public RampApplication( String[] args, AbstractClock clock, FrameSetup frameSetup ) {
-        super( args, TITLE, DESCRIPTION, VERSION, clock, false, frameSetup );
+    public RampApplication( String[] args, IClock clock, FrameSetup frameSetup ) {
+        super( args, TITLE, DESCRIPTION, VERSION, frameSetup );
         simpleRampModule = new SimpleRampModule( getPhetFrame(), clock );
         advancedFeatureModule = new RampModule( getPhetFrame(), clock );
         setModules( new Module[]{simpleRampModule, advancedFeatureModule} );
@@ -37,9 +37,8 @@ public class RampApplication extends PhetApplication {
 //        simpleRampModule = new SimpleRampModule( getPhetFrame(), clock );
 //        setModules( new Module[]{simpleRampModule} );
 
-
 //        addClockTickListener( new ClockTickListener() {
-//            public void clockTicked( ClockTickEvent event ) {
+//            public void clockTicked( ClockEvent event ) {
 //                System.out.println( "surfaceType=: " + simpleRampModule.getRampPhysicalModel().getBlock().getSurface().getName()+", surfaceOffset="+simpleRampModule.getRampPhysicalModel().getBlock().getSurface().getDistanceOffset()+", distInSurface="+simpleRampModule.getRampPhysicalModel().getBlock().getPositionInSurface()+", totalDist="+simpleRampModule.getRampPhysicalModel().getBlock().getPosition());
 ////                System.out.println( "RampApplication.clockTicked: " + simpleRampModule.getRampPhysicalModel().getBlock().getPosition() );
 //            }
@@ -51,7 +50,7 @@ public class RampApplication extends PhetApplication {
         PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
         phetLookAndFeel.apply();
         PhetLookAndFeel.setLookAndFeel();//todo this misses the better l&f in 1.5
-        final SwingTimerClock clock = new SwingTimerClock( 1.0 / 30.0, 30 );
+        final SwingClock clock = new SwingClock( 30, 1.0 / 30.0 );
         final FrameSetup frameSetup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 800, 600 ) );
         final RampApplication application = new RampApplication( args, clock, frameSetup );
         try {

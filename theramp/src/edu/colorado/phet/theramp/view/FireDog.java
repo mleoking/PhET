@@ -10,7 +10,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -148,7 +147,7 @@ public class FireDog extends PNode {
 
         public WalkAway() {
             super( 6000 );
-            image.setImage( BufferedImageUtils.flipXMacFriendly( (BufferedImage)image.getImage() ) );
+            image.setImage( BufferedImageUtils.flipX( (BufferedImage)image.getImage() ) );
         }
 
         protected void activityStep( long elapsedTime ) {
@@ -190,7 +189,7 @@ public class FireDog extends PNode {
             double dy = random.nextGaussian() * 20;
             particle.setVelocity( 200.0 + dx, -120 - dy );
             particle.setAcceleration( 0, 200 );
-            setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
+//            setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );//DEC_05
         }
 
         public void finishInit() {

@@ -2,8 +2,8 @@
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.components.ModelSlider;
-import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
