@@ -36,9 +36,11 @@ antutil antutil
 
 # Piccolo
 piccolo-module piccolo
+piccolo-dir piccolo
 
 # JFreeChart
 jfreechart-module jfreechart
+jfreechart-dir jfreechart
 
 #============================================================================
 # Common PhET framework
@@ -145,7 +147,7 @@ forces1d forces1d &phetcommon-module &charts-module
 radio-waves emf &phetcommon-module
 
 # The Ramp
-theramp theramp &phetcommon-dir &jfreechart-module &piccolo-module &piccolo-phet-dir &jfreechart-phet-dir
+theramp theramp &phetcommon-dir &jfreechart-dir &piccolo-dir &piccolo-phet-dir &jfreechart-phet-dir
 
 # Schrodinger
 schrodinger schrodinger &phetcommon-module
@@ -182,4 +184,4 @@ dischargelamps fluorescent-lights &lasers
 soluble-salts soluble-salts &piccolo-phet-module &mechanics-module &collision-module
 
 # Energy Conservation 3 (2nd draft).
-energyconservation3 energyconservation3 &piccolo-phet-dir &jfreechart-phet-dir &piccolo-module &jfreechart-module &phetcommon-dir
+energyconservation3 energyconservation3 &piccolo-phet-dir &jfreechart-phet-dir &piccolo-dir &jfreechart-dir &phetcommon-dir
