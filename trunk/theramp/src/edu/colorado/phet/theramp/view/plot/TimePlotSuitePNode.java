@@ -82,6 +82,8 @@ public class TimePlotSuitePNode extends PNode {
     private int layoutCount = 0;
     private double defaultMaxY;
     private String units;
+    private Rectangle2D savedDataArea;
+    private boolean dataAreaDirty = true;
 
     public TimePlotSuitePNode( RampModule module, PSwingCanvas pCanvas, Range2D range, String name,
                                String units, final TimeSeriesModel timeSeriesModel, int height, boolean useSlider ) {
@@ -397,8 +399,9 @@ public class TimePlotSuitePNode extends PNode {
 
     private SliderGraphic createSlider() {
 //        return new PPath(new Rectangle(0,0,50,200));
-        Rectangle2D.Double dataArea = getDataArea( plot );
-        SliderGraphic pPath = new SliderGraphic( dataArea, this );
+        Rectangle2D dataArea = getDataArea( plot );
+        Rectangle2D.Double d = new Rectangle2D.Double( dataArea.getX(), dataArea.getY(), dataArea.getWidth(), dataArea.getHeight() );
+        SliderGraphic pPath = new SliderGraphic( d, this );
 
         return pPath;
     }
@@ -524,10 +527,12 @@ public class TimePlotSuitePNode extends PNode {
     }
 
     public void setChartSize( int chartWidth, int chartHeight ) {
+
         if( !( chartWidth > 0 && chartHeight > 0 ) ) {
             throw new RuntimeException( "Illegal chart dimensions: " + chartWidth + ", " + chartHeight );
         }
         if( this.chartWidth != chartWidth || this.chartHeight != chartHeight ) {
+            this.dataAreaDirty = true;
             this.chartWidth = chartWidth;
             this.chartHeight = chartHeight;
             repaintAll();
@@ -702,12 +707,16 @@ public class TimePlotSuitePNode extends PNode {
         }
     }
 
-    private Rectangle2D.Double getDataArea( XYPlot plot ) {
-        BufferedImage image = new BufferedImage( 2, 2, BufferedImage.TYPE_INT_RGB );
-        ChartRenderingInfo chartRenderingInfo = new ChartRenderingInfo();
-        chart.draw( image.createGraphics(), new Rectangle2D.Double( 0, 0, chartWidth, chartHeight ), chartRenderingInfo );
-        Rectangle2D r = chartRenderingInfo.getChartArea();
-        return new Rectangle2D.Double( r.getX(), r.getY(), r.getWidth(), r.getHeight() );
+    private Rectangle2D getDataArea( XYPlot plot ) {
+        if( savedDataArea == null || dataAreaDirty ) {
+            BufferedImage image = new BufferedImage( 2, 2, BufferedImage.TYPE_INT_RGB );
+            ChartRenderingInfo chartRenderingInfo = new ChartRenderingInfo();
+            chart.draw( image.createGraphics(), new Rectangle2D.Double( 0, 0, chartWidth, chartHeight ), chartRenderingInfo );
+            Rectangle2D r = chartRenderingInfo.getChartArea();
+            savedDataArea = new Rectangle2D.Double( r.getX(), r.getY(), r.getWidth(), r.getHeight() );
+            dataAreaDirty = false;
+        }
+        return savedDataArea;
     }
 
     public LinearTransform2D toLinearFunction() {
