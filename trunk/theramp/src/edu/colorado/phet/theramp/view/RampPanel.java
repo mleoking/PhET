@@ -2,7 +2,6 @@
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.piccolo.PhetRootPNode;
 import edu.colorado.phet.piccolo.TargetedWiggleMe;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.theramp.RampModule;
@@ -54,7 +53,7 @@ public class RampPanel extends PhetPCanvas {
     }
 
     public RampPanel( RampModule module ) {
-        setRenderingSize( getDefaultRenderingSize() );
+//        setRenderingSize( getDefaultRenderingSize() );//DEC_05
         addMouseListener( new MouseListener() {
             public void mouseClicked( MouseEvent e ) {
             }
@@ -112,8 +111,8 @@ public class RampPanel extends PhetPCanvas {
             }
         } );
 
-        PhetRootPNode.Layer layer = getPhetRootNode().addLayer();
-        layer.getScreenNode().addChild( new OverheatButton( this, module.getRampPhysicalModel(), module ) );
+//        PhetRootPNode.Layer layer = getPhetRootNode().addLayer();
+        addScreenChild( new OverheatButton( this, module.getRampPhysicalModel(), module ) );
 
         timeGraphic = new TimeGraphic( module.getTimeSeriesModel() );
         timeGraphic.setOffset( 60, 60 );
@@ -155,7 +154,7 @@ public class RampPanel extends PhetPCanvas {
 //        getCamera().setViewScale( 1.0 );
 //        getCamera().setViewOffset( 23.0, -21.0 );
 
-        getLayer().setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+//        getLayer().setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );//DEC_05
 
         rampPlotSet = new RampPlotSet( module, this );
         addScreenChild( rampPlotSet );
@@ -409,7 +408,8 @@ public class RampPanel extends PhetPCanvas {
     }
 
     public void graphLayoutChanged() {
-        if( Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 && RampModule.MINIMIZE_READOUT_TEXT_FOR_SMALL_SCREEN ) {
+        if( Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 && RampModule.MINIMIZE_READOUT_TEXT_FOR_SMALL_SCREEN )
+        {
             if( allThreeGraphsUp() ) {
                 rampPlotSet.setTimeSeriesPlotFont( new LucidaSansFont( 9, true, false ) );
                 rampPlotSet.setTimeSeriesPlotShadow( 0, 0 );
@@ -430,7 +430,7 @@ public class RampPanel extends PhetPCanvas {
         return barGraphSuite;
     }
 
-    protected void setWorldScale( double scale ) {
+    public void setWorldScale( double scale ) {
         if( scale > 0 ) {
             super.setWorldScale( scale );
         }

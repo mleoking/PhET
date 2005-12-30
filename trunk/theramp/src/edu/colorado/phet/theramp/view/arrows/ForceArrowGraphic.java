@@ -4,14 +4,14 @@ package edu.colorado.phet.theramp.view.arrows;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.piccolo.BoundGraphic;
 import edu.colorado.phet.piccolo.HTMLGraphic;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.view.BlockGraphic;
+import edu.colorado.phet.theramp.view.RampFontSet;
 import edu.colorado.phet.theramp.view.RampWorld;
 import edu.colorado.phet.theramp.view.SurfaceGraphic;
-import edu.colorado.phet.theramp.view.RampFontSet;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -45,10 +45,10 @@ public class ForceArrowGraphic extends PNode {
     private Color baseColor;
     private double verticalOffset = 0;
 //    private int textOffset=42;
-    private int textOffset=30;
-    private int boundGraphicInsetX=2;
+    private int textOffset = 30;
+    private int boundGraphicInsetX = 2;
 //    private double boundGraphicInsetY=0.5;
-    private double boundGraphicInsetY=0;
+    private double boundGraphicInsetY = 0;
 
     public ForceArrowGraphic( Component component, String name, Color color,
                               int dy, AbstractArrowSet.ForceComponent forceComponent,
@@ -77,7 +77,7 @@ public class ForceArrowGraphic extends PNode {
         this.dy = dy;
         this.forceComponent = forceComponent;
         textGraphic = new HTMLGraphic( name );
-        textGraphic.setFont( font);
+        textGraphic.setFont( font );
         textGraphic.setColor( Color.black );
 
         shapeGraphic = new PPath( null );
@@ -85,7 +85,7 @@ public class ForceArrowGraphic extends PNode {
 
         addChild( shapeGraphic );
 
-        BoundGraphic boundGraphic = new BoundGraphic( textGraphic, boundGraphicInsetX,boundGraphicInsetY);
+        BoundGraphic boundGraphic = new BoundGraphic( textGraphic, boundGraphicInsetX, boundGraphicInsetY );
         boundGraphic.setPaint( Color.white );
         addChild( boundGraphic );
         addChild( textGraphic );

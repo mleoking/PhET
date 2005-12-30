@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.model;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
 
@@ -16,11 +16,11 @@ public class RampModel {
     private RampPhysicalModel rampPhysicalModel;
     private RampTimeSeriesModel rampTimeSeriesModel;
 
-    public RampModel( RampModule rampModule, AbstractClock clock ) {
+    public RampModel( RampModule rampModule, IClock clock ) {
         rampPhysicalModel = new RampPhysicalModel();
         rampPhysicalModel.reset();
         rampTimeSeriesModel = new RampTimeSeriesModel( rampModule );
-        clock.addClockTickListener( rampTimeSeriesModel );
+        clock.addClockListener( rampTimeSeriesModel );
     }
 
     public TimeSeriesModel getRampTimeSeriesModel() {

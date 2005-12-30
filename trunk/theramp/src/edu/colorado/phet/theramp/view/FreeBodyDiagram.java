@@ -4,7 +4,7 @@ package edu.colorado.phet.theramp.view;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.CursorHandler;

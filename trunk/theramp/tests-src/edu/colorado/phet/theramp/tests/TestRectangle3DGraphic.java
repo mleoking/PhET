@@ -1,9 +1,9 @@
 ///* Copyright 2004, Sam Reid */
 //package edu.colorado.phet.theramp.tests;
 //
-//import edu.colorado.phet.common.model.clock.ClockTickEvent;
+//import edu.colorado.phet.common.model.clock.ClockEvent;
 //import edu.colorado.phet.common.model.clock.ClockTickListener;
-//import edu.colorado.phet.common.model.clock.SwingTimerClock;
+//import edu.colorado.phet.common.model.clock.SwingClock;
 //import edu.colorado.phet.common.view.ApparatusPanel;
 //import edu.colorado.phet.common.view.BasicGraphicsSetup;
 //import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
@@ -45,10 +45,10 @@
 //        final VerticalTextGraphic vtg = new VerticalTextGraphic( ap, new Font( "Lucida Sans", 0, 24 ), "Hello", Color.black, Color.black );
 //        vtg.setLocation( 5 + (int)rectangle3DGraphic.getRectangle().getX(), -5 + (int)rectangle3DGraphic.getRectangle().getMaxY() );
 //        ap.addGraphic( vtg );
-//        SwingTimerClock clock = new SwingTimerClock( 1, 30 );
+//        SwingClock clock = new SwingClock( 1, 30 );
 //        clock.start();
-//        clock.addClockTickListener( new ClockTickListener() {
-//            public void clockTicked( ClockTickEvent event ) {
+//        clock.addClockListener( new ClockAdapter() {
+//            public void clockTicked( ClockEvent event ) {
 ////                int height = Math.abs( (int)( 300 * Math.sin( .001 * System.currentTimeMillis() ) + 30 ) );
 //                int height = ( (int)( 300 * Math.sin( .001 * System.currentTimeMillis() ) + 30 ) );
 //                int y0 = 400;

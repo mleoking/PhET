@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.theramp.view.RampPanel;
 
@@ -13,8 +13,8 @@ import edu.colorado.phet.theramp.view.RampPanel;
  */
 
 public class SimpleRampModule extends RampModule {
-    public SimpleRampModule( PhetFrame phetFrame, AbstractClock clock ) {
-        super( "Introduction",phetFrame, clock );
+    public SimpleRampModule( PhetFrame phetFrame, IClock clock ) {
+        super( "Introduction", phetFrame, clock );
     }
 
     protected RampControlPanel createRampControlPanel() {

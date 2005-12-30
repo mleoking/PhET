@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.view;
 
-import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.theramp.model.RampTimeSeriesModel;
@@ -133,7 +133,8 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
         clearButton.repaint( 0, 0, clearButton.getWidth(), clearButton.getHeight() );
         if( module instanceof RampTimeSeriesModel ) {
             RampTimeSeriesModel rampTimeSeriesModel = (RampTimeSeriesModel)module;
-            if( rampTimeSeriesModel.getRampModule() != null && rampTimeSeriesModel.getRampModule().getRampPanel() != null ) {
+            if( rampTimeSeriesModel.getRampModule() != null && rampTimeSeriesModel.getRampModule().getRampPanel() != null )
+            {
                 System.out.println( "rampTimeSeriesModel = " + rampTimeSeriesModel );
                 rampTimeSeriesModel.getRampModule().getRampPanel().repaint();
             }

@@ -1,10 +1,10 @@
 ///* Copyright 2004, Sam Reid */
 //package edu.colorado.phet.theramp.tests;
 //
-//import edu.colorado.phet.common.model.clock.AbstractClock;
-//import edu.colorado.phet.common.model.clock.ClockTickEvent;
+//import edu.colorado.phet.common.model.clock.IClock;
+//import edu.colorado.phet.common.model.clock.ClockEvent;
 //import edu.colorado.phet.common.model.clock.ClockTickListener;
-//import edu.colorado.phet.common.model.clock.SwingTimerClock;
+//import edu.colorado.phet.common.model.clock.SwingClock;
 //import edu.colorado.phet.common.view.ApparatusPanel2;
 //import edu.colorado.phet.common.view.BasicGraphicsSetup;
 //
@@ -19,10 +19,10 @@
 //
 //public class TestMeasuringTape {
 //    public static void main( String[] args ) {
-//        AbstractClock clock = new SwingTimerClock( 1, 30 );
+//        IClock clock = new SwingClock( 1, 30 );
 //        final ApparatusPanel2 apparatusPanel2 = new ApparatusPanel2( clock );
-//        clock.addClockTickListener( new ClockTickListener() {
-//            public void clockTicked( ClockTickEvent event ) {
+//        clock.addClockListener( new ClockAdapter() {
+//            public void clockTicked( ClockEvent event ) {
 //                apparatusPanel2.handleUserInput();
 //                apparatusPanel2.paint();
 //            }

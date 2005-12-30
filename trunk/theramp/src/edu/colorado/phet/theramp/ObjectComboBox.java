@@ -25,7 +25,7 @@ public class ObjectComboBox extends JComboBox {
     private static Font font = new Font( "Lucida Sans", Font.BOLD, 10 );
 
     public ObjectComboBox( final RampObject[] rampObjects, final AdvancedRampControlPanel controlPanel ) {
-        super( toLabelArray( rampObjects, controlPanel ) );
+        super( toLabelArray( rampObjects, controlPanel.getComponent() ) );
         setRenderer( new ComboBoxRenderer() );
         this.controlPanel = controlPanel;
         setBorder( createBorder( "Choose Object" ) );

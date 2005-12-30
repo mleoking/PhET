@@ -1,11 +1,10 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp;
 
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.theramp.model.Block;
@@ -49,21 +48,21 @@ public class RampModule extends PiccoloModule {
     public static final boolean MINIMIZE_READOUT_TEXT_FOR_SMALL_SCREEN = false;
 //    private Timer timer;
 
-    public RampModule( PhetFrame frame, AbstractClock clock ) {
+    public RampModule( PhetFrame frame, IClock clock ) {
         this( "More Features", frame, clock );
     }
 
-    public RampModule( String name, PhetFrame phetFrame, final AbstractClock clock ) {
+    public RampModule( String name, PhetFrame phetFrame, final IClock clock ) {
         super( name, clock );
         this.phetFrame = phetFrame;
         setModel( new BaseModel() );
         rampModel = new RampModel( this, clock );
         rampObjects = new RampObject[]{
-            new RampObject( "images/cabinet.gif", "File Cabinet", 0.8, 100, 0.3, 0.3, 0.4 ),
-            new RampObject( "images/fridge.gif", "Refrigerator", 0.35, 175, 0.5, 0.5, 0.4 ),
-            new RampObject( "images/piano.png", "Piano", 0.8, 225, 0.4, 0.4, 0.6, 20 ),
-            new RampObject( "images/crate.gif", "Crate", 0.8, 300, 0.7, 0.7, 0.3 ),
-            new RampObject( "images/ollie.gif", "Sleepy Dog", 0.8, 15, 0.1, 0.1, 0.30, 5 ),
+                new RampObject( "images/cabinet.gif", "File Cabinet", 0.8, 100, 0.3, 0.3, 0.4 ),
+                new RampObject( "images/fridge.gif", "Refrigerator", 0.35, 175, 0.5, 0.5, 0.4 ),
+                new RampObject( "images/piano.png", "Piano", 0.8, 225, 0.4, 0.4, 0.6, 20 ),
+                new RampObject( "images/crate.gif", "Crate", 0.8, 300, 0.7, 0.7, 0.3 ),
+                new RampObject( "images/ollie.gif", "Sleepy Dog", 0.8, 15, 0.1, 0.1, 0.30, 5 ),
         };
 //        sort( rampObjects );
 
@@ -75,13 +74,14 @@ public class RampModule extends PiccoloModule {
         setObject( rampObjects[0] );
 
         rampMediaPanel = new TimeSeriesPlaybackPanel( getRampTimeSeriesModel() );
-        clock.addClockTickListener( new ClockTickListener() {
-            public void clockTicked( ClockTickEvent event ) {
+        clock.addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent event ) {
                 getRampPhysicalModel().setupForces();
                 updateGraphics( event );
             }
         } );
 
+        setClockControlPanel( rampMediaPanel );
         rampModel.getBlock().addListener( new CollisionHandler( this ) );
         doReset();
 //        timer = new Timer( 30, new ActionListener() {
@@ -115,22 +115,23 @@ public class RampModule extends PiccoloModule {
         return rampModel.getRampTimeSeriesModel();
     }
 
-    public void activate( PhetApplication app ) {
-        super.activate( app );
-        getPhetFrame().getBasicPhetPanel().setAppControlPanel( rampMediaPanel );
+    public void activate() {
+        super.activate();
+//        setClockControlPanel( rampMediaPanel );
+//        getPhetFrame().getBasicPhetPanel().setAppControlPanel( rampMediaPanel );
     }
 
     public PhetFrame getPhetFrame() {
         return phetFrame;
     }
 
-    public void deactivate( PhetApplication app ) {
-        super.deactivate( app );
-        getPhetFrame().getBasicPhetPanel().setAppControlPanel( new JLabel( "This space for rent." ) );
+    public void deactivate() {
+        super.deactivate();
+//        getPhetFrame().getBasicPhetPanel().setAppControlPanel( new JLabel( "This space for rent." ) );
 //        timer.stop();
     }
 
-    public void updateGraphics( ClockTickEvent event ) {
+    public void updateGraphics( ClockEvent event ) {
         super.updateGraphics( event );
         rampPanel.updateGraphics();
 //        timer.start();

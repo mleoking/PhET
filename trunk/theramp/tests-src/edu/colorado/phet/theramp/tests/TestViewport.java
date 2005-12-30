@@ -2,10 +2,10 @@
 package edu.colorado.phet.theramp.tests;
 
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
@@ -30,7 +30,7 @@ public class TestViewport {
     private long startTime;
     private Viewport viewport;
 
-    public TestViewport( AbstractClock clock ) {
+    public TestViewport( IClock clock ) {
 //        transform2D = new ModelViewTransform2D( new Rectangle2D.Double( 0, 0, 1000, 1000 ), new Rectangle( 0, 0, 600, 600 ) );
         apparatusPanel2 = new ApparatusPanel2( baseModel, clock );
         Rectangle rectangle = new Rectangle( 0, 0, 100, 100 );
@@ -41,8 +41,8 @@ public class TestViewport {
 //        apparatusPanel2.getTransformManager().setScale( 0.5 );
         apparatusPanel2.setGraphic( viewport );
 //        apparatusPanel2.addGraphic( phetShapeGraphic );
-        clock.addClockTickListener( new ClockTickListener() {
-            public void clockTicked( ClockTickEvent event ) {
+        clock.addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent event ) {
                 baseModel.clockTicked( event );
             }
         } );
@@ -56,15 +56,15 @@ public class TestViewport {
 //        apparatusPanel2.addGraphic( landscape );
         viewport.addGraphic( landscape );
         apparatusPanel2.addGraphicsSetup( new BasicGraphicsSetup() );
-//        clock.addClockTickListener( new ClockTickListener() {
-//            public void clockTicked( ClockTickEvent event ) {
+//        clock.addClockListener( new ClockAdapter() {
+//            public void clockTicked( ClockEvent event ) {
 //                apparatusPanel2.setScale( 0.2);
 //            }
 //        } );
     }
 
     public static void main( String[] args ) {
-        AbstractClock clock = new SwingTimerClock( 1, 20 );
+        IClock clock = new SwingClock( 1, 20 );
         clock.start();
         new TestViewport( clock ).start();
 
