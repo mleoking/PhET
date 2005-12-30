@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.view;
 
+import edu.colorado.phet.piccolo.PDebugKeyHandler;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.TargetedWiggleMe;
 import edu.colorado.phet.piccolo.pswing.PSwing;
@@ -17,7 +18,10 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -52,23 +56,13 @@ public class RampPanel extends PhetPCanvas {
 
     public RampPanel( RampModule module ) {
 //        setRenderingSize( getDefaultRenderingSize() );//DEC_05
-        addMouseListener( new MouseListener() {
-            public void mouseClicked( MouseEvent e ) {
-            }
-
-            public void mouseEntered( MouseEvent e ) {
-            }
-
-            public void mouseExited( MouseEvent e ) {
-            }
-
+        addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
+                requestFocus();
                 System.out.println( "getSize( ) = " + getSize() );
             }
-
-            public void mouseReleased( MouseEvent e ) {
-            }
         } );
+        addKeyListener( new PDebugKeyHandler() );
         this.module = module;
         rampLookAndFeel = new RampLookAndFeel();
         rampWorld = new RampWorld( module, this );
@@ -421,6 +415,7 @@ public class RampPanel extends PhetPCanvas {
     }
 
     public void graphLayoutChanged() {
+        layoutAll();
         if( Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 && RampModule.MINIMIZE_READOUT_TEXT_FOR_SMALL_SCREEN )
         {
             if( allThreeGraphsUp() ) {

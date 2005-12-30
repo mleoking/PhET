@@ -202,9 +202,8 @@ public class RampPlotSet extends PNode {
 
         int availableWidth = (int)getAvailableWidth();
         if( availableWidth > 0 ) {
-            if( layoutY != getLayoutStartY() || layoutHeight != getAvailableHeight() || layoutWidth != availableWidth )
-//            if( true )
-            {
+//            if( layoutY != getLayoutStartY() || layoutHeight != getAvailableHeight() || layoutWidth != availableWidth )
+            if( true ) {
                 layoutSet.addItem( toPlotLayoutItem( availableWidth, parallelForcePlot ) );
                 layoutSet.addItem( toPlotLayoutItem( availableWidth, energyPlot ) );
                 layoutSet.addItem( toPlotLayoutItem( availableWidth, workPlot ) );
