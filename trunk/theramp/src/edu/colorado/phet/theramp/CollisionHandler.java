@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp;
 
-import edu.colorado.phet.theramp.common.PhETAudioClip;
+import edu.colorado.phet.theramp.common.PhetAudioClip;
 import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.model.Collision;
 
@@ -17,15 +17,15 @@ public class CollisionHandler extends Block.Adapter {
 //    private URL url0;
 //    private URL url1;
 //    private URL url2;
-    private PhETAudioClip smash0;
-    private PhETAudioClip smash1;
-    private PhETAudioClip smash2;
+    private PhetAudioClip smash0;
+    private PhetAudioClip smash1;
+    private PhetAudioClip smash2;
 
     public CollisionHandler( RampModule rampModule ) {
         this.rampModule = rampModule;
-        smash0 = new PhETAudioClip( "audio/smash0.wav" );
-        smash1 = new PhETAudioClip( "audio/smash1.wav" );
-        smash2 = new PhETAudioClip( "audio/smash2.wav" );
+        smash0 = new PhetAudioClip( "audio/smash0.wav" );
+        smash1 = new PhetAudioClip( "audio/smash1.wav" );
+        smash2 = new PhetAudioClip( "audio/smash2.wav" );
 //        url0 = RampModule.class.getClassLoader().getResource( "audio/smash0.wav" );
 //        url1 = RampModule.class.getClassLoader().getResource( "audio/smash1.wav" );
 //        url2 = RampModule.class.getClassLoader().getResource( "audio/smash2.wav" );
