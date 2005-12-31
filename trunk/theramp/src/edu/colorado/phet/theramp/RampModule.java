@@ -7,12 +7,12 @@ import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.piccolo.PiccoloModule;
+import edu.colorado.phet.theramp.common.AudioSourceDataLinePlayer;
 import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.model.RampModel;
 import edu.colorado.phet.theramp.model.RampObject;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.view.FireDog;
-import edu.colorado.phet.theramp.view.JSAudioPlayer;
 import edu.colorado.phet.theramp.view.RampPanel;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
 import edu.colorado.phet.timeseries.TimeSeriesPlaybackPanel;
@@ -245,7 +245,7 @@ public class RampModule extends PiccoloModule {
     }
 
     public void setAudioEnabled( boolean enabled ) {
-        JSAudioPlayer.setAudioEnabled( enabled );
+        AudioSourceDataLinePlayer.setAudioEnabled( enabled );
     }
 
     public int numMaximizedBarGraphs() {

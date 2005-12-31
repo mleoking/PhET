@@ -1,5 +1,5 @@
 /** Sam Reid*/
-package edu.colorado.phet.theramp.view;
+package edu.colorado.phet.theramp.common;
 
 import javax.sound.sampled.*;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * Time: 1:13:42 AM
  * Copyright (c) Apr 2, 2004 by Sam Reid
  */
-public class JSAudioPlayer {
+public class AudioSourceDataLinePlayer {
 //    private static final int EXTERNAL_BUFFER_SIZE = 128000;
     private static final int EXTERNAL_BUFFER_SIZE = 4000;
     private static boolean audioEnabled = true;
@@ -31,7 +31,7 @@ public class JSAudioPlayer {
     }
 
     public static void setAudioEnabled( boolean audioEnabled ) {
-        JSAudioPlayer.audioEnabled = audioEnabled;
+        AudioSourceDataLinePlayer.audioEnabled = audioEnabled;
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
             listener.propertyChanged();
@@ -136,7 +136,7 @@ public class JSAudioPlayer {
     }
 
     public static void playNoBlock( final String preyURL ) {
-        URL url = JSAudioPlayer.class.getResource( preyURL );
+        URL url = AudioSourceDataLinePlayer.class.getResource( preyURL );
         if( url == null ) {
             throw new RuntimeException( "No url for name=" + preyURL );
         }

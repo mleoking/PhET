@@ -29,9 +29,7 @@ import java.text.DecimalFormat;
 
 public class AdvancedRampControlPanel extends RampControlPanel {
     private RampModule module;
-//    private ModelSlider frictionSlider;
     private ModelSlider massSlider;
-//    private JCheckBox frictionlessCheckbox;
 
     /**
      * @param module
@@ -175,58 +173,12 @@ public class AdvancedRampControlPanel extends RampControlPanel {
             controlPanelFBD.addWorldChild( freeBodyDiagram );
 
             AdvancedPanel advancedFBDPanel = new AdvancedPanel( "Free Body Diagram>>", "Free Body Diagram<<" );
-//        FBDPanel fbdContent = new FBDPanel( freeBodyDiagram );
             advancedFBDPanel.addControlFullWidth( controlPanelFBD );
             addControlFullWidth( advancedFBDPanel );
         }
-
-//        {
-//            final JDialog dialog = new JDialog( module.getPhetFrame(), false );
-//            PhetPCanvas dialogPanelFBD = new PhetPCanvas();
-//            dialogPanelFBD.setPreferredSize( new Dimension( 200, 200 ) );
-//            FreeBodyDiagram freeBodyDiagram = new FreeBodyDiagram( rampPanel, module, dialogPanelFBD );
-//            dialogPanelFBD.addChild( freeBodyDiagram );
-//            dialog.setContentPane( dialogPanelFBD );
-//            dialog.pack();
-//            dialog.show();
-//        }
-
-//
-
-//
-//        PNode windowizeButton = new PPath( new Rectangle( 0, 0, 50, 50 ) );
-//        windowizeButton.setPaint( Color.red );
-//        windowizeButton.addInputEventListener( new PBasicInputEventHandler() {
-//            public void mouseReleased( PInputEvent event ) {
-//                super.mouseReleased( event );
-//                dialog.setVisible( !dialog.isVisible() );
-////                if (dialog.isVisible()){
-////                    dialog.hide();
-////                }else{
-////
-////                }
-//            }
-//        } );
-//        freeBodyDiagram.addChild( windowizeButton );
-//        dialog.show();
-//        fbdPanel2.setDebugRegionManagement( true );
-////        fbdPanel2.setDebugRegionManagement( true );
-//        Timer timer=new Timer( 30,new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-////                fbdPanel2.paintImmediately( 0,0,fbdPanel2.getWidth(), fbdPanel2.getHeight() );
-////                fbdPanel2.repaint();// 0,0,fbdPanel2.getWidth(), fbdPanel2.getHeight() );
-//            }
-//        } );
-//        timer.start();
         finishInit();
     }
 
-//    static class FBDPanel extends PhetPCanvas {
-//        public FBDPanel( FreeBodyDiagram freeBodyDiagram ) {
-//            setPreferredSize( new Dimension( 200, 200 ) );
-//            addChild( freeBodyDiagram );
-//        }
-//    }
 
     private void addAdvancedControl( JPanel panel, String name ) {
         AdvancedPanel advancedPanel = new AdvancedPanel( name + ">>", name + "<<" );
