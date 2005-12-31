@@ -7,6 +7,7 @@ import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.piccolo.CursorHandler;
+import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
 import edu.colorado.phet.theramp.RampModule;
@@ -56,7 +57,7 @@ import java.util.ArrayList;
  * Copyright (c) Aug 2, 2005 by Sam Reid
  */
 
-public class TimePlotSuitePNode extends {
+public class TimePlotSuitePNode extends PhetPNode {
     private RampModule module;
     private PSwingCanvas pCanvas;
     private Range2D range;
