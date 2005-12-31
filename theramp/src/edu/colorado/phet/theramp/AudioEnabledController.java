@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp;
 
-import edu.colorado.phet.theramp.view.JSAudioPlayer;
+import edu.colorado.phet.theramp.common.AudioSourceDataLinePlayer;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -23,12 +23,12 @@ public class AudioEnabledController {
         checkBox = new JCheckBox( "Sound", true );
         checkBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                JSAudioPlayer.setAudioEnabled( checkBox.isSelected() );
+                AudioSourceDataLinePlayer.setAudioEnabled( checkBox.isSelected() );
             }
         } );
-        JSAudioPlayer.addListener( new JSAudioPlayer.Listener() {
+        AudioSourceDataLinePlayer.addListener( new AudioSourceDataLinePlayer.Listener() {
             public void propertyChanged() {
-                checkBox.setSelected( JSAudioPlayer.isAudioEnabled() );
+                checkBox.setSelected( AudioSourceDataLinePlayer.isAudioEnabled() );
             }
         } );
     }

@@ -7,6 +7,7 @@ import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.FrameSequence;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.theramp.RampModule;
+import edu.colorado.phet.theramp.common.AudioSourceDataLinePlayer;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -127,7 +128,7 @@ public class PusherGraphic extends PImage {
         url0 = RampModule.class.getClassLoader().getResource( "audio/slapooh.wav" );
 //        url1 = RampModule.class.getClassLoader().getResource( "audio/smash0.wav" );
         //http://www.gratisnette.com/bruitages/hommes/cris/
-        JSAudioPlayer.playNoBlock( url0 );
+        AudioSourceDataLinePlayer.playNoBlock( url0 );
 //        JSAudioPlayer.playNoBlock( url1 );
 
     }

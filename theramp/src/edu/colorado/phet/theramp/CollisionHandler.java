@@ -1,11 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp;
 
+import edu.colorado.phet.theramp.common.PhETAudioClip;
 import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.model.Collision;
-import edu.colorado.phet.theramp.view.JSAudioPlayer;
-
-import java.net.URL;
 
 /**
  * User: Sam Reid
@@ -16,15 +14,21 @@ import java.net.URL;
 
 public class CollisionHandler extends Block.Adapter {
     private RampModule rampModule;
-    private URL url0;
-    private URL url1;
-    private URL url2;
+//    private URL url0;
+//    private URL url1;
+//    private URL url2;
+    private PhETAudioClip smash0;
+    private PhETAudioClip smash1;
+    private PhETAudioClip smash2;
 
     public CollisionHandler( RampModule rampModule ) {
         this.rampModule = rampModule;
-        url0 = RampModule.class.getClassLoader().getResource( "audio/smash0.wav" );
-        url1 = RampModule.class.getClassLoader().getResource( "audio/smash1.wav" );
-        url2 = RampModule.class.getClassLoader().getResource( "audio/smash2.wav" );
+        smash0 = new PhETAudioClip( "audio/smash0.wav" );
+        smash1 = new PhETAudioClip( "audio/smash1.wav" );
+        smash2 = new PhETAudioClip( "audio/smash2.wav" );
+//        url0 = RampModule.class.getClassLoader().getResource( "audio/smash0.wav" );
+//        url1 = RampModule.class.getClassLoader().getResource( "audio/smash1.wav" );
+//        url2 = RampModule.class.getClassLoader().getResource( "audio/smash2.wav" );
     }
 
     public void collisionOccurred( Collision collision ) {
@@ -39,13 +43,16 @@ public class CollisionHandler extends Block.Adapter {
             //no audio for soft touches.
         }
         else if( mom < 2000 ) {
-            JSAudioPlayer.playNoBlock( url0 );
+            smash0.play();
+//            AudioSourceDataLinePlayer.playNoBlock( url0 );
         }
         else if( mom < 4000 ) {
-            JSAudioPlayer.playNoBlock( url1 );
+            smash1.play();
+//            AudioSourceDataLinePlayer.playNoBlock( url1 );
         }
         else {
-            JSAudioPlayer.playNoBlock( url2 );
+            smash2.play();
+//            AudioSourceDataLinePlayer.playNoBlock( url2 );
         }
     }
 }
