@@ -56,6 +56,7 @@ public class RampPanel extends PhetPCanvas {
 
     public RampPanel( RampModule module ) {
 //        setRenderingSize( getDefaultRenderingSize() );//DEC_05
+        super(getDefaultRenderSize() );
         addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 requestFocus();

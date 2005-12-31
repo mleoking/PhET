@@ -148,6 +148,8 @@ public class AdvancedRampControlPanel extends RampControlPanel {
         addControlFullWidth( advancedPanel );
 
         ObjectComboBox ocb = new ObjectComboBox( module.getRampObjects(), this );
+        JLabel label = new JLabel( "Choose Object:" );
+        addControlFullWidth( label );
         addControl( ocb );
 
         addControl( super.getFrictionSlider() );
