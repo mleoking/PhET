@@ -56,7 +56,7 @@ import java.util.ArrayList;
  * Copyright (c) Aug 2, 2005 by Sam Reid
  */
 
-public class TimePlotSuitePNode extends PNode {
+public class TimePlotSuitePNode extends {
     private RampModule module;
     private PSwingCanvas pCanvas;
     private Range2D range;

@@ -7,7 +7,7 @@ import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.FrameSequence;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.theramp.RampModule;
-import edu.colorado.phet.theramp.common.PhETAudioClip;
+import edu.colorado.phet.theramp.common.PhetAudioClip;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -41,7 +41,7 @@ public class PusherGraphic extends PImage {
     private BufferedImage crushedManImage;
     private static final long CRUSH_TIME = 1000;
     private double lastAppliedForce = 0;
-    private PhETAudioClip slapSound;
+    private PhetAudioClip slapSound;
 //    private URL url0;
 //    private URL url1;
 
@@ -91,7 +91,7 @@ public class PusherGraphic extends PImage {
         lastDX = getBlockDx();
 
         modelLocation = getSurfaceGraphic().getSurface().getLength() / 2.0;
-        slapSound = new PhETAudioClip( "audio/slapooh.wav" );
+        slapSound = new PhetAudioClip( "audio/slapooh.wav" );
     }
 
 
