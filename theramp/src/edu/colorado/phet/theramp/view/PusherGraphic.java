@@ -7,7 +7,7 @@ import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.FrameSequence;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.theramp.RampModule;
-import edu.colorado.phet.theramp.common.AudioSourceDataLinePlayer;
+import edu.colorado.phet.theramp.common.PhETAudioClip;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -16,7 +16,6 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.URL;
 
 /**
  * User: Sam Reid
@@ -42,7 +41,8 @@ public class PusherGraphic extends PImage {
     private BufferedImage crushedManImage;
     private static final long CRUSH_TIME = 1000;
     private double lastAppliedForce = 0;
-    private URL url0;
+    private PhETAudioClip slapSound;
+//    private URL url0;
 //    private URL url1;
 
     public PusherGraphic( final RampPanel rampPanel, final PNode target, RampWorld rampWorld ) throws IOException {
@@ -91,6 +91,7 @@ public class PusherGraphic extends PImage {
         lastDX = getBlockDx();
 
         modelLocation = getSurfaceGraphic().getSurface().getLength() / 2.0;
+        slapSound = new PhETAudioClip( "audio/slapooh.wav" );
     }
 
 
@@ -122,13 +123,9 @@ public class PusherGraphic extends PImage {
         crushed = true;
         crushTime = System.currentTimeMillis();
         setImage( getCrushedManImage() );
-
-//        url0 = RampModule.class.getClassLoader().getResource( "audio/smash0.wav" );
-//        url0 = RampModule.class.getClassLoader().getResource( "audio/stooge05-1.wav" );
-        url0 = RampModule.class.getClassLoader().getResource( "audio/slapooh.wav" );
-//        url1 = RampModule.class.getClassLoader().getResource( "audio/smash0.wav" );
         //http://www.gratisnette.com/bruitages/hommes/cris/
-        AudioSourceDataLinePlayer.playNoBlock( url0 );
+        slapSound.play();
+//        AudioSourceDataLinePlayer.playNoBlock( url0 );
 //        JSAudioPlayer.playNoBlock( url1 );
 
     }
